@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimage.php,v 1.79 2001/09/06 09:32:46 ce Exp $
+// $Id: ezimage.php,v 1.80 2001/09/12 09:28:04 ce Exp $
 //
 // Definition of eZImage class
 //
@@ -406,7 +406,7 @@ class eZImage
 
       The images are returned as an array of eZImage objects.
      */
-    function getUnassigned( $offset = -1, $limit = -1 )
+    function &getUnassigned( $offset = -1, $limit = -1 )
     {
         $db =& eZDB::globalDatabase();
         if ( $offset > 0 || $limit > 0 )
@@ -430,7 +430,7 @@ class eZImage
     /*!
       Get the total count of all the unassigned images.
      */
-    function countUnassigned()
+    function &countUnassigned()
     {
         $db =& eZDB::globalDatabase();
 

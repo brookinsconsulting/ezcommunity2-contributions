@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unassigned.php,v 1.8 2001/09/06 09:32:46 ce Exp $
+// $Id: unassigned.php,v 1.9 2001/09/12 09:28:04 ce Exp $
 //
 // Created on: <26-Oct-2000 19:40:18 bf>
 //
@@ -66,10 +66,12 @@ $t->set_var( "delete_categories_button" , "" );
 $t->set_var( "default_new" , "" );
 $t->set_var( "default_delete" , "" );
 
+
 if ( !( $Offset > 0 ) )
     $Offset = 0;
 if ( !( $Limit > 0 ) )
     $Limit = $ini->read_var( "eZImageCatalogueMain", "ListImagesPerPage" );
+
 
 if ( isSet( $Update ) )
 {
@@ -84,15 +86,23 @@ if ( isSet( $Update ) )
     }
 }
 
+
 $t->set_var( "offset", $Offset );
 $t->set_var( "limit", $Limit );
 
+
 // Print out all the images
+
 $imageList =& eZImage::getUnassigned( $Offset, $Limit );
+
+
 if ( $imageList )
     $imageCount =& eZImage::countUnassigned();
 else
+
+
 $imageCount = 0;
+
 
 $t->set_var( "limit", $Limit );
 if ( $Offset > 0 )
@@ -122,6 +132,7 @@ else
 
 $i = 0;
 $counter = 0;
+
 if ( count ( $imageList ) > 0 )
 {
     foreach ( $imageList as $image )
@@ -204,6 +215,8 @@ if ( count ( $imageList ) > 0 )
     }
 }
 
+
+
 if ( count( $imageList ) > 0 )
 {
     $t->parse( "image_list", "image_list_tpl" );
@@ -237,6 +250,7 @@ foreach ( $categoryList as $categoryItem )
 }
 
 $t->set_var( "image_dir", $ImageDir );
+
 
 $t->pparse( "output", "image_list_page_tpl" );
 
