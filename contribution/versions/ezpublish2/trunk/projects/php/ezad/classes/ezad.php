@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezad.php,v 1.10 2001/01/22 14:42:59 jb Exp $
+// $Id: ezad.php,v 1.11 2001/01/23 13:43:54 bf Exp $
 //
 // Definition of eZAd class
 //
@@ -84,7 +84,9 @@ class eZAd
                                  ViewStopDate='$this->ViewStopDate',
                                  ClickPrice='$this->ClickPrice',
                                  ViewPrice='$this->ViewPrice',
-                                 ViewRule='$this->ViewRule'
+                                 ViewRule='$this->ViewRule',
+                                 HTMLBanner='$this->HTMLBanner',
+                                 UseHTML='$this->UseHTML'
                                  " );
 
             $this->ID = mysql_insert_id();
@@ -103,7 +105,9 @@ class eZAd
                                  ViewStopDate='$this->ViewStopDate',
                                  ClickPrice='$this->ClickPrice',
                                  ViewPrice='$this->ViewPrice',
-                                 ViewRule='$this->ViewRule'
+                                 ViewRule='$this->ViewRule',
+                                 HTMLBanner='$this->HTMLBanner',
+                                 UseHTML='$this->UseHTML'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -141,6 +145,9 @@ class eZAd
                 $this->ViewPrice =& $ad_array[0][ "ViewPrice" ];
                 $this->ClickPrice =& $ad_array[0][ "ClickPrice" ];
                 $this->ViewRule =& $ad_array[0][ "ViewRule" ];
+
+                $this->HTMLBanner =& $ad_array[0][ "HTMLBanner" ];
+                $this->UseHTML =& $ad_array[0][ "UseHTML" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -238,7 +245,28 @@ class eZAd
        }
        return $ret;
     }
-    
+
+    /*!
+      Returns true if the ad is set to use HTML banners.
+    */
+    function useHTML()
+    {
+       $ret = false;
+       
+       if ( $this->UseHTML == 1 )
+       {
+           $ret = true;
+       }
+       return $ret;
+    }
+
+    /*!
+      Returns the ad's HTML banner.
+    */
+    function &htmlBanner()
+    {
+        return $this->HTMLBanner;
+    }    
     
     /*!
       Returns the view start date.
@@ -316,6 +344,29 @@ class eZAd
        else
        {
            $this->IsActive = "false";           
+       }
+    }
+
+    /*!
+      Sets the HTML banner code.
+    */
+    function setHTMLBanner( $value )
+    {
+        $this->HTMLBanner = $value;
+    }
+
+    /*!
+     Sets the ad to use html banner or not.
+    */
+    function setUseHTML( $value )
+    {
+       if ( $value == true )
+       {
+           $this->UseHTML = 1;
+       }
+       else
+       {
+           $this->UseHTML = 0;
        }
     }
     
@@ -497,6 +548,9 @@ class eZAd
     var $ViewStartDate;
     var $ClickPrice;
     var $ViewPrice;
+
+    var $HTMLBanner;
+    var $UseHTML;
 
     /// Indicates if the banner is active or not
     var $IsActive;

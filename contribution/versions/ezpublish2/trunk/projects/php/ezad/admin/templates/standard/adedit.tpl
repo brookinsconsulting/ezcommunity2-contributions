@@ -29,12 +29,23 @@
 <p class="boxtext">{intl-ad_view_price}:</p>
 <input type="text" size="40" name="ViewPrice" value="{ad_view_price_value}"/>
 
+
+<br />
+<input type="checkbox" name="UseHTML" {use_html} />
+<span class="boxtext">{intl-use_html}</span><br /><br />
+
+<p class="boxtext">{intl-html_banner}:</p>
+<textarea cols="40" rows="5" wrap="soft" name="HTMLBanner">{html_banner}</textarea>
+
+
 <p class="boxtext">{intl-ad_image}:</p>
 <input size="40" name="AdImage" type="file" />
+
 
 <!-- BEGIN image_tpl -->
 <img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
 <!-- END image_tpl -->
+
 
 
 <br /><br />

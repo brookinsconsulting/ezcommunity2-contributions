@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adedit.php,v 1.11 2001/01/23 13:16:57 jb Exp $
+// $Id: adedit.php,v 1.12 2001/01/23 13:43:54 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -126,6 +126,17 @@ if ( $Action == "Update" )
         $ad->setIsActive( false );
     }
 
+    if ( $UseHTML == "on" )
+    {
+        $ad->setUseHTML( true );
+    }
+    else
+    {
+        $ad->setUseHTML( false );
+    }
+
+    $ad->setHTMLBanner( $HTMLBanner );    
+    
     $ad->setURL( $AdURL );
 
     $ad->setClickPrice( $ClickPrice );
@@ -204,6 +215,8 @@ $t->set_var( "ad_click_price_value", "" );
 $t->set_var( "ad_view_price_value", "" );
 $t->set_var( "ad_id", "" );
 $t->set_var( "image", "" );
+$t->set_var( "html_banner", "" );
+$t->set_var( "use_html", "" );
 
 if ( $Action == "Edit" )
 {
@@ -217,6 +230,9 @@ if ( $Action == "Edit" )
 
     $t->set_var( "ad_click_price_value", $ad->clickPrice() );
     $t->set_var( "ad_view_price_value", $ad->viewPrice() );
+
+    $t->set_var( "html_banner", $ad->htmlBanner() );
+
     
     if ( $ad->isActive() == true )
     {
@@ -227,6 +243,15 @@ if ( $Action == "Edit" )
         $t->set_var( "ad_is_active", "" );
     }
 
+    if ( $ad->useHTML() == true )
+    {
+        $t->set_var( "use_html", "checked" );
+    }
+    else
+    {
+        $t->set_var( "use_html", "" );
+    }
+    
     $image = $ad->image();
 
     if ( $image )

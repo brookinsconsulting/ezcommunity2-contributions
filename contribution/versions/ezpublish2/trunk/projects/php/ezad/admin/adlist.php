@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: adlist.php,v 1.5 2001/01/22 14:42:59 jb Exp $
+// $Id: adlist.php,v 1.6 2001/01/23 13:43:54 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Nov-2000 21:08:34 bf>
@@ -82,6 +82,7 @@ foreach ( $pathArray as $path )
 $categoryList = $category->getByParent( $category, true );
 
 
+
 // categories
 $i=0;
 $t->set_var( "category_list", "" );
@@ -118,6 +119,8 @@ else
 
 // ads
 $adList = $category->ads( "time", true );
+
+print( count( $adList ) );
 
 $locale = new eZLocale( $Language );
 $i=0;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.26 2001/01/23 11:52:10 jb Exp $
+// $Id: ezsession.php,v 1.27 2001/01/23 13:43:54 bf Exp $
 //
 // Definition of eZSession class
 //
@@ -89,14 +89,14 @@ class eZSession
 //          $HTTP_SESSION_VARS["eZSession"] = $this->Hash;
 //          print( "new session" );
 
-//          session_start();
-        
-//          session_register( "eZSessionSession" );
-        
-//          $GLOBALS["eZSessionSession"] = $this->Hash;
 
-        setcookie ( "eZSession", $this->Hash, 0, "/",  "", 0 )
-            or die( "Error: could not set cookie." );        
+        session_start();        
+        session_register( "eZSession" );
+        
+        $GLOBALS["eZSession"] =& $this->Hash;
+
+//          setcookie ( "eZSession", $this->Hash, 0, "/",  "", 0 )
+//              or die( "Error: could not set cookie." );        
 
         $remoteIP = $GLOBALS["REMOTE_ADDR"];
         
@@ -176,18 +176,21 @@ class eZSession
             $db =& eZDB::globalDatabase();
             $ret = false;
 
-//          if ( session_is_registered("eZSession") )
-//          {
-//              print("variable registered" );
-//          }
-//          else
-//          {
-//              print("variable not registered" );
-//          }
-//          $hash = $HTTP_SESSION_VARS["eZSession"];
+//              if ( session_is_registered("eZSession") )
+//              {
+//                  print("variable registered" );
+//              }
+//              else
+//              {
+//                  print("variable not registered" );
+//              }
+            
+//              $hash = $HTTP_SESSION_VARS["eZSession"];
+
+            $hash = $GLOBALS["eZSession"];
             
         
-            $hash = $GLOBALS["eZSession"];
+//              $hash = $GLOBALS["eZSession"];
             
             $db->array_query( $session_array, "SELECT ID
                                       FROM eZSession_Session

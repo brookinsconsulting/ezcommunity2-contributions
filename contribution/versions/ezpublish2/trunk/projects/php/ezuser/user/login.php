@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.20 2001/01/23 13:16:58 jb Exp $
+// $Id: login.php,v 1.21 2001/01/23 13:43:54 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -38,6 +38,7 @@ include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezmodule.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezsession/classes/ezsession.php" );
+
 
 if ( isSet( $Forgot ) )
 {

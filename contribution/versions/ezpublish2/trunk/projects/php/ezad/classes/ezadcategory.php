@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezadcategory.php,v 1.8 2001/01/22 14:42:59 jb Exp $
+// $Id: ezadcategory.php,v 1.9 2001/01/23 13:43:54 bf Exp $
 //
 // Definition of eZAdCategory class
 //
@@ -429,16 +429,14 @@ class eZAdCategory
            $fetchActiveSQL = "AND eZAd_Ad.IsActive = 'true'";
        }
 
-       $orderBySQL = "eZAd_Ad.Name DESC";
-       $orderBySQL = "Count";
+       $orderBySQL = "eZAd_Ad.Name ASC";
+//         $orderBySQL = "Count DESC";
            
        $this->Database->array_query( $ad_array, "
                 SELECT eZAd_Ad.ID AS AdID, eZAd_Ad.Name, eZAd_Category.ID, eZAd_Category.Name, Count(*) AS Count
                 FROM eZAd_Ad, eZAd_Category, eZAd_AdCategoryLink, eZAd_View
                 WHERE 
                 eZAd_AdCategoryLink.AdID = eZAd_Ad.ID
-                AND
-                eZAd_View.AdID=eZAd_Ad.ID
                 AND
                 eZAd_Category.ID = eZAd_AdCategoryLink.CategoryID
                 $fetchActiveSQL
@@ -450,7 +448,7 @@ class eZAdCategory
 
        for ( $i=0; $i<count($ad_array); $i++ )
        {
-//             print( $ad_array[$i]["Count"] );
+           print( $ad_array[$i]["Count"] . "<br>" );
            $return_array[$i] = new eZAd( $ad_array[$i]["AdID"], false );
        }
        

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: usercheck.php,v 1.5 2001/01/23 13:16:58 jb Exp $
+// $Id: usercheck.php,v 1.6 2001/01/23 13:43:54 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:11:17 ce>
@@ -32,7 +32,7 @@ $ini =& $GLOBALS["GlobalSiteIni"];
 
 if ( $ini->read_var( "eZUserMain", "RequireUserLogin" ) == "enabled" )
 {
-    $user = eZUser::currentUser();
+    $user =& eZUser::currentUser();
     if ( !$user )
     {
         eZHTTPTool::header( "Location: /" );

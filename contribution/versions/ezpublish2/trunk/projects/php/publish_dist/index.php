@@ -6,8 +6,8 @@ header("Pragma: no-cache");
 
 // turn on output buffering
 ob_start();
-
-
+// start session handling
+session_start();
 
 include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );

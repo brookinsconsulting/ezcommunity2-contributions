@@ -7,6 +7,9 @@ header("Pragma: no-cache");
 // start the buffer cache
 ob_start();
 
+// start session handling
+session_start();
+
 include_once( "classes/ezdb.php" );
 include_once( "classes/INIFile.php" );
 include_once( "classes/template.inc" );

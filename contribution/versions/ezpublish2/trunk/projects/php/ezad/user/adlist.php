@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: adlist.php,v 1.11 2001/01/22 14:42:59 jb Exp $
+// $Id: adlist.php,v 1.12 2001/01/23 13:43:54 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <25-Nov-2000 15:44:37 bf>
@@ -60,7 +60,14 @@ foreach ( $adList as $ad )
 
     $ad->addPageView( $GlobalPageView );
 
-	print( "<a target=\"_blank\" href=\"/ad/goto/$adID/\"><img src=\"$imgSRC\" width=\"$imgWidth\" height=\"$imgHeight\" border=\"0\" alt=\"\" /></a><br />" );
+    if ( $ad->useHTML() )
+    {
+        print( $ad->htmlBanner() );
+    }
+    else
+    {
+        print( "<a target=\"_blank\" href=\"/ad/goto/$adID/\"><img src=\"$imgSRC\" width=\"$imgWidth\" height=\"$imgHeight\" border=\"0\" alt=\"\" /></a><br />" );
+    }
 }
 
 

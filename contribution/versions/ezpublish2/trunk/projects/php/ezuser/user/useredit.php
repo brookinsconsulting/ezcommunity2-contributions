@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.15 2001/01/23 13:16:58 jb Exp $
+// $Id: useredit.php,v 1.16 2001/01/23 13:43:54 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 12:52:42 bf>
@@ -39,7 +39,7 @@ $AnonymousUserGroup = $ini->read_var( "eZUserMain", "AnonymousUserGroup" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 if ( $Action == "Insert" )
 {
@@ -183,7 +183,7 @@ $actionValue = "insert";
 
 if ( $Action == "Edit" )
 {
-    $user = eZUser::currentuser();
+    $user =& eZUser::currentuser();
     if ( !$user )
     {
         eZHTTPTool::header( "Location: /" );
@@ -191,7 +191,7 @@ if ( $Action == "Edit" )
     }
     if ( !$UserID )
     {
-        $getUser = eZUser::currentUser();
+        $getUser =& eZUser::currentUser();
         if ( !$getUser )
         {
             eZHTTPTool::header( "Location: /user/login" );

@@ -89,3 +89,6 @@ CREATE TABLE eZAd_View (
 #
 # Dumping data for table 'eZAd_View'
 #
+
+alter table eZAd_Ad add HTMLBanner text not null;
+alter table eZAd_Ad add UseHTML int not null default 0;
