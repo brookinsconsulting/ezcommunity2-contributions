@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.75 2001/04/27 14:03:18 bf Exp $
+// $Id: ezarticle.php,v 1.76 2001/04/30 10:44:59 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -131,7 +131,6 @@ class eZArticle
                                  IsPublished='$this->IsPublished',
                                  Keywords='$keywords',
                                  Discuss='$this->Discuss',
-                                 Content='$this->ShortContent',
                                  Modified=now(),
                                  Published=now(),
                                  Created=now()
@@ -158,7 +157,6 @@ class eZArticle
                                  IsPublished='$this->IsPublished',
                                  Keywords='$keywords',
                                  Discuss='$this->Discuss',
-                                 Content='$this->ShortContent',
                                  Published=now(),
                                  Modified=now()
                                  WHERE ID='$this->ID'
@@ -177,7 +175,6 @@ class eZArticle
                                  IsPublished='$this->IsPublished',
                                  Keywords='$keywords',
                                  Discuss='$this->Discuss',
-                                 Content='$this->ShortContent',
                                  Modified=now()
                                  WHERE ID='$this->ID'
                                  " );
@@ -220,7 +217,6 @@ class eZArticle
                 $this->IsPublished =& $article_array[0][ "IsPublished" ];
                 $this->Keywords =& $article_array[0][ "Keywords" ];
                 $this->Discuss =& $article_array[0][ "Discuss" ];
-                $this->ShortContent =& $article_array[0][ "Content" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -629,39 +625,6 @@ class eZArticle
     }
 
     /*!
-      Sets the short content of the article.
-    */
-    function setShortContent( $content )
-    {
-        $this->ShortContent = $content;
-    }
-
-    /*!
-      Returns the short content of the article.
-    */
-    function shortContent()
-    {
-        return $this->ShortContent;
-    }
-
-    /*!
-      \static
-      Returns an array of short contents found in the articles.
-    */
-    function &shortContents()
-    {
-        $db =& eZDB::globalDatabase();
-        $db->array_query( $contents, "SELECT Content FROM eZArticle_Article
-                                      GROUP BY Content HAVING Content!='' ORDER BY Content" );
-        $ret = array();
-        foreach( $contents as $content )
-        {
-            $ret[] = $content["Content"];
-        }
-        return $ret;
-    }
-
-    /*!
       \static
       Returns an array of articles which match short contents and the keywords.
     */
@@ -669,10 +632,6 @@ class eZArticle
     {
         $db =& eZDB::globalDatabase();
         $content_sql = "";
-        if ( $short_content != "" )
-        {
-            $content_sql = "Article.Content='$short_content'";
-        }
         $keyword_sql = "";
         if ( count( $keywords ) > 0 )
         {
