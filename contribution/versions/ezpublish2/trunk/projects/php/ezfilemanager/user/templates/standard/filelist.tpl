@@ -1,6 +1,6 @@
 <form method="post" action="/filemanager/new/" enctype="multipart/form-data">
 
-<h1>Filer</h1>
+<h1>{intl-files}</h1>
 
 <!-- BEGIN current_folder_tpl -->
 <!--
