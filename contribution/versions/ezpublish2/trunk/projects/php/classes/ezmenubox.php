@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmenubox.php,v 1.6 2001/01/24 10:29:22 jb Exp $
+// $Id: ezmenubox.php,v 1.7 2001/01/24 10:49:54 jb Exp $
 //
 // Definition of eZMenuBox class
 //
@@ -90,11 +90,6 @@ class eZMenuBox
         $t = new eZTemplate( "templates/" . $SiteStyle,
                              $module_dir . "/$place/intl", $Language, "menubox.php",
                              $SiteStyle, $module_dir . "/$place", $menuStatus );
-        $t->set_file( array(
-            "menu_box_tpl" => "menubox.tpl"
-            ) );
-
-        $t->setAllStrings();
 
         if ( $menuStatus == "open" )
         {
@@ -117,8 +112,7 @@ class eZMenuBox
             $uri = "/";
             $uri =& eZHTTPTool::addVariable( $uri, "ToggleMenu", $module_dir );
             $t->set_var( "request_uri", $uri );
-            
-            
+
             $t->set_var( "site_style", $SiteStyle );
             $t->set_var( "module_dir", $module_dir );
             
@@ -130,7 +124,7 @@ class eZMenuBox
                 if ( is_array( $menuItem ) )
                 {
                     $t->set_var( "target_url", $menuItem[0]  );
-                    $t->set_var( "name", $t->translate( $menuItem[1] ) );
+                    $t->set_var( "name", $menuItem[1] );
 
                     $t->parse( "menu_item_link", "menu_item_link_tpl", true );
                 }
@@ -184,6 +178,7 @@ class eZMenuBox
             $uri =& eZHTTPTool::addVariable( $uri, "ToggleMenu", $module_dir );
             $t->set_var( "request_uri", $uri );
         }
+        $t->setAllStrings();
 
         return $t->storeCache( "output", "menu_box_tpl", $print );
     }
