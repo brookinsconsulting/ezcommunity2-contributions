@@ -23,6 +23,7 @@ Changes from 2.2.7 to 2.2.8
 * Fixed bug in eZ form. Language was not set to the template, when sending a form.
 * Fixed security bug in articleheaderlist with the variable CategoryID.
 * Fixed permissions in eZ article (articleuncached).
+* Fixed permission bug with upload of files in eZ imagecatalogue.
 
 Changes from 2.2.6 to 2.2.7
 ---------------------------
