@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newslist.php,v 1.3 2000/11/28 16:26:05 bf-cvs Exp $
+// $Id: newslist.php,v 1.4 2000/11/29 11:04:01 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 11:52:01 bf>
@@ -35,34 +35,47 @@ $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZNewsFeedMain", "Language" );
 
 $t = new eZTemplate( "eznewsfeed/user/" . $ini->read_var( "eZNewsFeedMain", "TemplateDir" ),
-                     "eznewsfeed/user/intl/", $Language, "newslist.php" );
+                     "eznewsfeed/user/intl/", $Language, "search.php" );
 
 $t->setAllStrings();
 
 $t->set_file( array(
-    "news_archive_page_tpl" => "newslist.tpl"
+    "news_search_page_tpl" => "search.tpl"
     ) );
 
 
 // news
-$t->set_block( "news_archive_page_tpl", "news_list_tpl", "news_list" );
+$t->set_block( "news_search_page_tpl", "news_list_tpl", "news_list" );
 $t->set_block( "news_list_tpl", "news_item_tpl", "news_item" );
 
-$category = new eZNewsCategory( $CategoryID );
+$news = new eZNews();
 
 
-// newss
-$newsList = $category->newsList( "time", "no", 0, 5 );
+// news
+
+// fetch the n next news items
+$newsList = $news->search( $SearchText );
 
 $locale = new eZLocale( $Language );
 $i=0;
 $t->set_var( "news_list", "" );
+
+
 foreach ( $newsList as $news )
 {
-    if ( $news->name() == "" )
-        $t->set_var( "news_name", "&nbsp;" );
+    if ( ( $i % 2 ) == 0 )
+    {
+        $t->set_var( "starttr", "<tr>" );
+        $t->set_var( "endtr", "" );        
+    }
     else
-        $t->set_var( "news_name", $news->name() );
+    {
+        $t->set_var( "starttr", "" );
+        $t->set_var( "endtr", "</tr>" );
+    }
+    
+    
+    $t->set_var( "news_name", $news->name() );
 
     $t->set_var( "news_intro", $news->intro() );
     $t->set_var( "news_url", $news->url() );
@@ -84,6 +97,6 @@ if ( count( $newsList ) > 0 )
 else
     $t->set_var( "news_list", "" );
 
-$t->pparse( "output", "news_archive_page_tpl" );
+$t->pparse( "output", "news_search_page_tpl" );
 
 ?>

@@ -11,6 +11,12 @@ switch ( $url_array[2] )
         include( "eznewsfeed/user/newslist.php" );
     }
     break;
+
+    case "search":
+    {
+        include( "eznewsfeed/user/search.php" );
+    }
+    break;
 }
 
 ?>
