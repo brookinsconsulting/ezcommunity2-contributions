@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezezrenderer.php,v 1.3 2000/10/26 16:58:55 bf-cvs Exp $
+// $Id: ezezrenderer.php,v 1.4 2000/10/28 12:52:24 bf-cvs Exp $
 //
 // Definition of eZEzRenderer class
 //
@@ -264,7 +264,7 @@ class eZEzRenderer
                         
                         $pageContent .= "
                                        <img align=\"baseline\" src=\"/images/pil-space.gif\" width=\"50\" height=\"10\" border=\"0\" hspace=\"0\"><a href=\"http://$href\">"
-                             . $text . "</a><br />";
+                             . $text . "</a>";
                     }
                     
 
