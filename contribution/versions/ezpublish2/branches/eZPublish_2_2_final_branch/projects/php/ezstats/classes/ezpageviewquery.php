@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpageviewquery.php,v 1.21.2.1 2001/11/02 06:46:24 br Exp $
+// $Id: ezpageviewquery.php,v 1.21.2.2 2001/11/02 08:40:50 ce Exp $
 //
 // Definition of eZPageViewQuery class
 //
@@ -55,10 +55,11 @@ class eZPageViewQuery
     {
         $db =& eZDB::globalDatabase();
 
+        $db->array_query( $pageview, "SELECT SUM(Count) AS Count FROM eZStats_Archive_PageView" );
+        $ret = $pageview[0][$db->fieldName( "Count" )];
         $db->array_query( $pageview_array, "SELECT COUNT(ID) AS Count FROM eZStats_PageView" );
-        $ret = $pageview_array[0][$db->fieldName( "Count" )];
-        $db->array_query( $pageview_array, "SELECT COUNT(ID) AS Count FROM eZStats_Archive_PageView" );
-        $ret = $ret + $pageview_array[0][$db->fieldName( "Count" )];
+        $ret += $pageview_array[0][$db->fieldName( "Count" )];
+
         return $ret;
     }
 
@@ -95,13 +96,13 @@ class eZPageViewQuery
             "' AND Date < '" . $endStamp->timeStamp() . "' ");
             
             $ret = $pageview_array[0][$db->fieldName( "Count" )];
-
+            
             $db->array_query( $pageview_array,
-            "SELECT count(ID) AS Count
+            "SELECT SUM(Count) as Count
              FROM eZStats_Archive_PageView
              WHERE Hour > '" . $dateStamp->timeStamp() .
             "' AND Hour < '" . $endStamp->timeStamp() . "' ");
-            
+
             $ret = $ret + $pageview_array[0][$db->fieldName( "Count" )];
         }
 
@@ -143,7 +144,7 @@ class eZPageViewQuery
             $ret = $pageview_array[0][$db->fieldName( "Count" )];
 
             $db->array_query( $pageview_array,
-            "SELECT COUNT(ID) AS Count
+            "SELECT SUM(Count) AS Count
              FROM eZStats_Archive_PageView
              WHERE Hour > '" . $dateStamp->timeStamp() .
             "' AND Hour < '" . $endDate->timeStamp() . "'");
