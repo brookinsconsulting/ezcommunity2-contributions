@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.38 2001/02/22 12:50:22 fh Exp $
+// $Id: ezarticle.php,v 1.39 2001/02/22 13:25:46 pkej Exp $
 //
 // Definition of eZArticle class
 //
@@ -852,7 +852,7 @@ class eZArticle
     
     
     /*!
-      Returns true if the product is assigned to the category given
+      Returns true if the article is assigned to the category given
       as argument. False if not.
      */
     function existsInCategory( $category )
@@ -1099,6 +1099,26 @@ class eZArticle
 
 
        return $forum;
+    }
+
+    /*!
+      Returns the article which a forum is connected to.
+     */
+    function articleIDFromForum( $ForumID )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $ArticleID = 0;
+        
+        $db->array_query( $result, "SELECT DISTINCT ArticleID FROM
+                                    eZArticle_ArticleForumLink
+                                    WHERE ForumID='$ForumID'" );
+        if( count( $result ) > 0 )
+        {
+            $ArticleID = $result[0]["ArticleID"];
+        }
+
+        return $ArticleID;
     }
 
     /*!
