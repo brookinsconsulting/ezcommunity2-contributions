@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.58 2001/10/31 12:25:19 bf Exp $
+// $Id: datasupplier.php,v 1.59 2002/04/10 13:57:18 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -31,11 +31,8 @@ include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "classes/ezdatetime.php" );
 
-#echo " " . $url_array[2] . " " . $url_array[3] . " " . $url_array[4] . " " . $url_array[5];
-#exit();
-
 $user =& eZUser::currentUser();
-if( eZPermission::checkPermission( $user, "eZArticle", "ModuleEdit" ) == false )
+if ( eZPermission::checkPermission( $user, "eZArticle", "ModuleEdit" ) == false )
 {
     eZHTTPTool::header( "Location: /error/403" );
     exit();
@@ -173,7 +170,7 @@ switch ( $url_array[2] )
         if ( !isset( $PageNumber ) || ( $PageNumber == "" ) )
             $PageNumber= 1;
 
-        if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'r' ) || eZArticle::isAuthor( $user, $ArticleID ) )
+        if ( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'r' ) || eZArticle::isAuthor( $user, $ArticleID ) )
             include( "ezarticle/admin/articlepreview.php" );
     }
     break;
@@ -181,8 +178,8 @@ switch ( $url_array[2] )
     case "articlelog" :
     {
         $ArticleID = $url_array[3];
-        if( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' )
-            || eZArticle::isAuthor( $user, $ArticleID ) )
+        if ( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' ) ||
+             eZArticle::isAuthor( $user, $ArticleID ) )
             include( "ezarticle/admin/articlelog.php" );
     }
     break;
@@ -190,7 +187,7 @@ switch ( $url_array[2] )
 // FIXME: test for writeable categories!!!    
     case "articleedit":
     {
-        if(  eZObjectPermission::getObjects( "article_category", 'w', true ) < 1 )
+        if ( eZObjectPermission::getObjects( "article_category", 'w', true ) < 1 )
         {
             $text = "You do not have write permission to any categories";
             $info = urlencode( $text );
@@ -220,8 +217,8 @@ switch ( $url_array[2] )
                 $Action = "Update";
                 $ArticleID = $url_array[4];
 
-                if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
-                    || eZArticle::isAuthor( $user, $ArticleID ) )
+                if ( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' ) ||
+                     eZArticle::isAuthor( $user, $ArticleID ) )
                     include( "ezarticle/admin/articleedit.php" );
             }
             break;
@@ -231,8 +228,8 @@ switch ( $url_array[2] )
                 $Action = "Cancel";
                 $ArticleID = $url_array[4];
 
-                if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
-                    || eZArticle::isAuthor( $user, $ArticleID ) )
+                if ( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' ) ||
+                     eZArticle::isAuthor( $user, $ArticleID ) )
                     include( "ezarticle/admin/articleedit.php" );
             }
             break;
@@ -242,8 +239,8 @@ switch ( $url_array[2] )
                 $Action = "Edit";
                 $ArticleID = $url_array[4];
 
-                if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
-                    || eZArticle::isAuthor( $user, $ArticleID ) )
+                if ( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' ) ||
+                     eZArticle::isAuthor( $user, $ArticleID ) )
                     include( "ezarticle/admin/articleedit.php" );
                 else
                     print("Not allowed");
@@ -255,8 +252,8 @@ switch ( $url_array[2] )
                 $Action = "Delete";
                 $ArticleID = $url_array[4];
 
-                if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
-                    || eZArticle::isAuthor( $user , $ArticleID ) )
+                if ( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' ) ||
+                     eZArticle::isAuthor( $user , $ArticleID ) )
                     include( "ezarticle/admin/articleedit.php" );
             }
             break;
@@ -264,8 +261,8 @@ switch ( $url_array[2] )
             case "imagelist" :
             {
                 $ArticleID = $url_array[4];
-                if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
-                    || eZArticle::isAuthor( $user, $ArticleID ) )
+                if ( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' ) ||
+                     eZArticle::isAuthor( $user, $ArticleID ) )
                     include( "ezarticle/admin/imagelist.php" );
             }
             break;
@@ -273,8 +270,8 @@ switch ( $url_array[2] )
             case "medialist" :
             {
                 $ArticleID = $url_array[4];
-                if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
-                    || eZArticle::isAuthor( $user, $ArticleID ) )
+                if ( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' ) ||
+                     eZArticle::isAuthor( $user, $ArticleID ) )
                     include( "ezarticle/admin/medialist.php" );
             }
             break;
@@ -282,8 +279,8 @@ switch ( $url_array[2] )
             case "filelist" :
             {
                 $ArticleID = $url_array[4];
-                if( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' )
-                    || eZArticle::isAuthor( $user, $ArticleID ) )
+                if ( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' ) ||
+                     eZArticle::isAuthor( $user, $ArticleID ) )
                     include( "ezarticle/admin/filelist.php" );
             }
             break;
@@ -297,8 +294,8 @@ switch ( $url_array[2] )
                         $ArticleID = $url_array[6];
                         $ImageID = $url_array[5];
                         $Action = "Edit";
-                        if( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' )
-                            || eZArticle::isAuthor( $user, $ArticleID ) )
+                        if ( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' ) ||
+                             eZArticle::isAuthor( $user, $ArticleID ) )
                             include( "ezarticle/admin/imagemap.php" );
                     }
                     break;
@@ -308,8 +305,8 @@ switch ( $url_array[2] )
                         $ArticleID = $url_array[6];
                         $ImageID = $url_array[5];
                         $Action = "Store";
-                        if( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' )
-                            || eZArticle::isAuthor( $user, $ArticleID ) )
+                        if ( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' ) ||
+                             eZArticle::isAuthor( $user, $ArticleID ) )
                             include( "ezarticle/admin/imagemap.php" );
                     }
                     break;
@@ -320,8 +317,8 @@ switch ( $url_array[2] )
             case "attributelist" :
             {
                 $ArticleID = $url_array[4];
-                if( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' )
-                    || eZArticle::isAuthor( $user, $ArticleID ) )
+                if ( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' ) ||
+                     eZArticle::isAuthor( $user, $ArticleID ) )
                     include( "ezarticle/admin/attributelist.php" );
             }
             break;
@@ -331,8 +328,8 @@ switch ( $url_array[2] )
                 $Action = $url_array[4];
                 if( !isset( $TypeID ) ) 
                     $TypeID = $url_array[5];
-                if( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' )
-                    || eZArticle::isAuthor( $user, $ArticleID ) )
+                if ( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' ) ||
+                     eZArticle::isAuthor( $user, $ArticleID ) )
                     include( "ezarticle/admin/attributeedit.php" );
             }
             break;
@@ -341,8 +338,8 @@ switch ( $url_array[2] )
             case "formlist" :
             {
                 $ArticleID = $url_array[4];
-                if( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' )
-                    || eZArticle::isAuthor( $user, $ArticleID ) )
+                if ( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' ) ||
+                     eZArticle::isAuthor( $user, $ArticleID ) )
                     include( "ezarticle/admin/formlist.php" );
             }
             break;
@@ -350,9 +347,9 @@ switch ( $url_array[2] )
             
             case "imageedit" :
             {
-                if ( isSet ( $Browse ) )
+                if ( isSet( $Browse ) )
                 {
-                    include ( "ezimagecatalogue/admin/browse.php" );
+                    include( "ezimagecatalogue/admin/browse.php" );
                     break;
                 }
                 switch ( $url_array[4] )
@@ -361,8 +358,8 @@ switch ( $url_array[2] )
                     {
                         $Action = "New";
                         $ArticleID = $url_array[5];
-                        if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
-                            || eZArticle::isAuthor( $user, $ArticleID ) )
+                        if ( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' ) ||
+                             eZArticle::isAuthor( $user, $ArticleID ) )
                             include( "ezarticle/admin/imageedit.php" );
                     }
                     break;
@@ -372,8 +369,8 @@ switch ( $url_array[2] )
                         $Action = "Edit";
                         $ArticleID = $url_array[6];
                         $ImageID = $url_array[5];
-                        if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
-                            || eZArticle::isAuthor( $user, $ArticleID ) )
+                        if ( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' ) ||
+                             eZArticle::isAuthor( $user, $ArticleID ) )
                             include( "ezarticle/admin/imageedit.php" );
                     }
                     break;
@@ -384,16 +381,16 @@ switch ( $url_array[2] )
                         if ( isset( $DeleteSelected ) )
                             $Action = "Delete";
                         $ArticleID = $url_array[5];
-                        if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
-                            || eZArticle::isAuthor( $user, $ArticleID ) )
+                        if ( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' ) ||
+                             eZArticle::isAuthor( $user, $ArticleID ) )
                             include( "ezarticle/admin/imageedit.php" );
                     }
                     break;
 
                     default :
                     {
-                        if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
-                            || eZArticle::isAuthor( $user, $ArticleID ) )
+                        if ( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' ) ||
+                             eZArticle::isAuthor( $user, $ArticleID ) )
                             include( "ezarticle/admin/imageedit.php" );
                     }
                 }
@@ -402,24 +399,24 @@ switch ( $url_array[2] )
 
             case "mediaedit" :
             {
-                if ( isSet ( $Browse ) )
+                if ( isSet( $Browse ) )
                 {
                     include ( "ezmediacatalogue/admin/browse.php" );
                     break;
                 }
                 $ArticleID = $url_array[4];
                 $MediaID = $url_array[5];
-                if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
-                    || eZArticle::isAuthor( $user, $ArticleID ) )
+                if ( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' ) ||
+                     eZArticle::isAuthor( $user, $ArticleID ) )
                     include( "ezarticle/admin/mediaedit.php" );
             }
             break;
 
             case "fileedit" :
             {
-                if ( isSet ( $Browse ) )
+                if ( isSet( $Browse ) )
                 {
-                    include ( "ezfilemanager/admin/browse.php" );
+                    include( "ezfilemanager/admin/browse.php" );
                     break;
                 }
                 switch ( $url_array[4] )
@@ -428,8 +425,8 @@ switch ( $url_array[2] )
                     {
                         $Action = "New";
                         $ArticleID = $url_array[5];
-                        if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
-                            || eZArticle::isAuthor( $user, $ArticleID ) )
+                        if ( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' ) ||
+                             eZArticle::isAuthor( $user, $ArticleID ) )
                             include( "ezarticle/admin/fileedit.php" );
                     }
                     break;
@@ -439,8 +436,8 @@ switch ( $url_array[2] )
                         $Action = "Edit";
                         $ArticleID = $url_array[6];
                         $FileID = $url_array[5];
-                        if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
-                            || eZArticle::isAuthor( $user, $ArticleID ) )
+                        if ( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' ) ||
+                             eZArticle::isAuthor( $user, $ArticleID ) )
                             include( "ezarticle/admin/fileedit.php" );
                     }
                     break;
@@ -450,21 +447,19 @@ switch ( $url_array[2] )
                         $Action = "Delete";
                         $ArticleID = $url_array[6];
                         $FileID = $url_array[5];
-                        if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
-                            || eZArticle::isAuthor( $user, $ArticleID ) )
+                        if ( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' ) ||
+                             eZArticle::isAuthor( $user, $ArticleID ) )
                             include( "ezarticle/admin/fileedit.php" );
                     }
                     break;
                     
                     default :
                     {
-                        if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' )
-                            || eZArticle::isAuthor( $user, $ArticleID ) )
+                        if ( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'w' ) ||
+                             eZArticle::isAuthor( $user, $ArticleID ) )
                             include( "ezarticle/admin/fileedit.php" );
                     }
-                    
                 }
-            
             }
             break;
         }
@@ -497,16 +492,16 @@ switch ( $url_array[2] )
         {
             $CategoryID = $url_array[4];
             $Action = "update";
-            if( eZObjectPermission::hasPermission( $CategoryID, "article_category", 'w' )
-                || eZArticleCategory::isOwner( $user, $CategoryID) )
+            if ( eZObjectPermission::hasPermission( $CategoryID, "article_category", 'w' ) ||
+                 eZArticleCategory::isOwner( $user, $CategoryID) )
                 include( "ezarticle/admin/categoryedit.php" );
         }
         if ( $url_array[3] == "delete" )
         {
             $CategoryID = $url_array[4];
             $Action = "delete";
-            if( eZObjectPermission::hasPermission( $CategoryID, "article_category", 'w' )  ||
-                eZArticleCategory::isOwner( $user, $CategoryID) )
+            if ( eZObjectPermission::hasPermission( $CategoryID, "article_category", 'w' )  ||
+                 eZArticleCategory::isOwner( $user, $CategoryID) )
                 include( "ezarticle/admin/categoryedit.php" );
         }
         if ( $url_array[3] == "edit" )
