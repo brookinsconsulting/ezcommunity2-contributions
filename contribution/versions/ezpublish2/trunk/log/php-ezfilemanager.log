@@ -789,3 +789,11 @@ Maintainer(s) : jhe@ez.no
 
     * user/filedownload.php: uncommented filepermissions.
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2003-03-25  Bjoern Reiten  <br@ez.no>
+
+    * user/folderedit.php: removed debug.
+

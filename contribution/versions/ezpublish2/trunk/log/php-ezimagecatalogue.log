@@ -1151,3 +1151,13 @@ Maintainer(s) : br@ez.no
 
     * user/Attic/searchsupplier.php: added image search in ez search
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2003-03-25  Bjoern Reiten  <br@ez.no>
+
+    * admin/imageedit.php
+      classes/ezimagecategory.php:
+    fixed bugs with upload of images for non-administrators.
+
