@@ -1290,3 +1290,12 @@ Maintainer(s) : pkej@ez.no
 
     * classes/ezformreportelement.php: fixed bug in list
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-02-04  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/templates/standard/viewreport.tpl
+      user/viewreport.php: fixed printable url
+

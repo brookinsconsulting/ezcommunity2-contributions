@@ -673,3 +673,12 @@ Maintainer(s) : jhe@ez.no
 
     * user/filelist.php: Fixes
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2002-02-04  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/folderedit.php
+      classes/ezvirtualfolder.php: fixed problem with permissions
+

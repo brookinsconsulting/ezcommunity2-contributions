@@ -3141,3 +3141,27 @@ Maintainer(s) : ce@ez.no
     * admin/orderedit.php
       admin/templates/standard/orderedit.tpl: removed code for edate.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-02-04  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezcartitem.php
+      classes/ezproduct.php
+      classes/ezshippingtype.php
+      user/cart.php
+      user/checkout.php
+      user/payment.php
+      classes/ezcart.php: fix for prices in eZTrade_OrderItem.
+    added redirection to / if referer is from checkout or cart.
+    changed NoUserShowVAT: If enabled, set true instead of false in vatType.
+
+    * classes/ezproduct.php: set setType to update instead of delete each row.
+
+    * classes/ezproduct.php: Updated setType: Update if the product exists.
+
+2002-02-04  ceaker  <ceaker@zev.ez.no>
+
+    * user/productlist.php: *** empty log message ***
+

@@ -1021,3 +1021,11 @@ Maintainer(s) : bf@ez.no
     * classes/ezuser.php
       user/userwithaddress.php: Fixed a bug
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-02-04  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezobjectpermission.php: fixed problem with permissions
+

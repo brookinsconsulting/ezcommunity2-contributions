@@ -1023,3 +1023,12 @@ Maintainer(s) : jhe@ez.no
 
     * user/intl/no_NO/messagesimplelist.php.ini: Layout
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-02-04  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezforummessage.php:
+    deleting from word list when deleting messages
+

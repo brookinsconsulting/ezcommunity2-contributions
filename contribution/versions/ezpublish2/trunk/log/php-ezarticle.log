@@ -2761,3 +2761,18 @@ Maintainer(s) : bf@ez.no
       classes/ezqdomrenderer.php
       user/articleview.php: Fixes
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-02-04  Baard Farstad  <bf@ez.no>
+
+    * classes/ezarticletool.php
+      user/headlines.php
+      user/menubox.php: Cache fix.
+
+2002-02-04  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/eztechrenderer.php:
+    small bug with empty articles (foreach error)
+
