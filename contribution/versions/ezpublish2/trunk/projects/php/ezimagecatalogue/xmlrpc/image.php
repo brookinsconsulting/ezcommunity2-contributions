@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: image.php,v 1.13 2001/09/17 15:19:43 jb Exp $
+// $Id: image.php,v 1.14 2001/09/20 14:57:16 jb Exp $
 //
 // Created on: <14-Jun-2001 13:18:27 amos>
 //
@@ -68,6 +68,8 @@ if( $Command == "data" ) // Dump image info!
                 $size = eZFile::filesize( $imagePath );
                 $user = $image->user();
                 $user_id = get_class( $user ) == "ezuser" ? $user->id() : 0;
+                $cat_def = $image->categoryDefinition();
+                $cat_def_id = get_class( $cat_def ) == "ezimagecategory" ? $cat_def->id() : 0;
 
                 $ret = array( 
                     "Name" => new eZXMLRPCString( $image->name( false ) ),
@@ -81,6 +83,7 @@ if( $Command == "data" ) // Dump image info!
                     "ReadGroups" => new eZXMLRPCArray( $rgp ),
                     "WriteGroups" => new eZXMLRPCArray( $wgp ),
                     "Categories" => new eZXMLRPCArray( $image->categories(), "integer" ),
+                    "Category" => new eZXMLRPCInt( $cat_def_id ),
                     "WebURL" => new eZXMLRPCString( "/" . $variation->imagePath() ),
                     "Size" => createSizeStruct( $variation->width(), $variation->height() ),
                     "RequestSize" => createSizeStruct( $width, $height )
@@ -111,6 +114,7 @@ else if ( $Command == "storedata" )
         $photographer = $Data["PhotographerID"]->value();
         $readgroups = $Data["ReadGroups"]->value();
         $writegroups = $Data["WriteGroups"]->value();
+        $category_id = $Data["Category"]->value();
         $categories = $Data["Categories"]->value();
         $image = new eZImage();
         if ( $ID != 0 )
@@ -140,6 +144,9 @@ else if ( $Command == "storedata" )
             {
                 $image->store();
 
+                $category = new eZImageCategory( $category_id );
+                $image->setCategoryDefinition( $category );
+
                 // categories...
                 $old_categories =& $image->categories();
                 if ( is_bool( $old_categories ) )
@@ -149,6 +156,8 @@ else if ( $Command == "storedata" )
                 {
                     $new_categories[] = $cat->value();
                 }
+                if ( $category_id > 0 )
+                    $new_categories = array_unique( array_merge( $new_categories, $category_id ) );
                 $remove_categories = array_diff( $old_categories, $new_categories );
                 $add_categories = array_diff( $new_categories, $old_categories );
 
