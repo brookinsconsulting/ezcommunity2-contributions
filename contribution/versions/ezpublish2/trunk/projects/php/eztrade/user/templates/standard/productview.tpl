@@ -119,16 +119,21 @@
 <!-- BEGIN attribute_list_tpl -->
 <table width="60%" cellspacing="0" cellpadding="2" border="0" align="center">
 <!-- BEGIN attribute_tpl -->
-<tr>
-	<th>
-	{attribute_name}: 
-	</td>
-	<td align="right">
-	{attribute_value}
-	</td>
-</tr>
 
 <!-- END attribute_tpl -->
+
+<!-- BEGIN attribute_value_tpl -->
+<tr> 
+	<td>{attribute_name}:</td>
+	<td align="right">{attribute_value} {attribute_unit}</td>
+</tr>
+<!-- END attribute_value_tpl -->
+<!-- BEGIN attribute_header_tpl -->
+<tr> 
+	<th colspan="2">{attribute_name}:</th>
+</tr>
+<!-- END attribute_header_tpl -->
+
 </table>
 <!-- END attribute_list_tpl -->
 

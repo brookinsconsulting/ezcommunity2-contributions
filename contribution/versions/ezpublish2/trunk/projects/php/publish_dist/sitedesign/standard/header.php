@@ -54,6 +54,10 @@
 	?>
 	
 	<?
+	include( "ezmail/user/menubox.php" );
+	?>
+	
+	<?
 	include( "ezforum/user/menubox.php" );
 	?>
 	
