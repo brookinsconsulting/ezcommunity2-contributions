@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.2 2000/07/24 14:24:14 lw Exp $
+    $Id: category.php,v 1.3 2000/07/24 14:33:13 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -8,54 +8,65 @@
     
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
-    include( 'ezforum/dbsettings.php' );
-    include( 'template.inc' );
-    include( "$DOCROOT/classes/ezforumforum.php" );
+include( "ezforum/dbsettings.php" );
+include( "template.inc" );
+include( "$DOCROOT/classes/ezforumforum.php" );
+include( "$DOCROOT/classes/ezsession.php" );
+include( "$DOCROOT/classes/ezuser.php" );
 
-    $forum = new eZforumForum;
+openDB();
 
-    openDB();
-
-    $t = new Template(".");
+$session = new eZSession;
+$forum = new eZforumForum;
+$t = new Template(".");
     
-    $t->set_file( array("category" => "$DOCROOT/templates/category.tpl",
-                        "elements" => "$DOCROOT/templates/category-elements.tpl",
-                        "navigation" => "$DOCROOT/templates/navigation.tpl"
-                       )
-                );
+$t->set_file( array("category" => "$DOCROOT/templates/category.tpl",
+                    "elements" => "$DOCROOT/templates/category-elements.tpl",
+                    "navigation" => "$DOCROOT/templates/navigation.tpl"
+                    )
+              );
 
-    $t->set_var( "docroot", $DOCROOT);
+$t->set_var( "docroot", $DOCROOT);
             
-    $t->parse( "navigation-bar", "navigation", true);
+if ( $session->get( $AuthenticatedSession ) == 0 )
+{
+   $t->set_var( "user", eZUser::resolveUser( $session->UserID() ) );
+}
+else
+{
+   $t->set_var( "user", "Anonym" );
+}
+$t->parse( "navigation-bar", "navigation", true);
 
-    $forums = $forum->getAllForums($category_id);
+$forums = $forum->getAllForums($category_id);
         
-    for ($i = 0; $i < count($forums); $i++)
-    {
-        $Id = $forums[$i]["Id"];
-        $Name = $forums[$i]["Name"];
-        $Description = $forums[$i]["Description"];
+for ($i = 0; $i < count($forums); $i++)
+{
+    $Id = $forums[$i]["Id"];
+    $Name = $forums[$i]["Name"];
+    $Description = $forums[$i]["Description"];
+    
+    $query_id = mysql_query("SELECT COUNT(Id) AS Messages FROM MessageTable WHERE ForumId='$Id' AND Parent IS NULL")
+         or die("");
         
-        $query_id = mysql_query("SELECT COUNT(Id) AS Messages FROM MessageTable WHERE ForumId='$Id' AND Parent IS NULL")
-        or die("");
-        
-        $Messages = mysql_result($query_id,0,"Messages");
-  
-        $t->set_var( "forum_id", $Id);
-        $t->set_var( "category_id", $category_id);
-        $t->set_var( "link", $link);
-        $t->set_var( "name", $Name);
-        $t->set_var( "description", $Description);
-        $t->set_var( "messages",$Messages);
+    $Messages = mysql_result($query_id,0,"Messages");
+    
+    $t->set_var( "forum_id", $Id);
+    $t->set_var( "category_id", $category_id);
+    $t->set_var( "link", $link);
+    $t->set_var( "name", $Name);
+    $t->set_var( "description", $Description);
+    $t->set_var( "messages",$Messages);
  
-        if ( ($i % 2) != 0)
-            $t->set_var( "color", "#eeeeee");
-        else
-            $t->set_var( "color", "#bbbbbb");
-        
-        $t->parse("forums","elements",true);
+    if ( ($i % 2) != 0)
+        $t->set_var( "color", "#eeeeee");
+    else
+        $t->set_var( "color", "#bbbbbb");
+    
+    $t->parse("forums","elements",true);
     }
-    if ( count( $forums) == 0 )
-        $t->set_var( "forums", "<tr><td colspan=\"3\"><b>Ingen tilgjengelige forum</td></tr></b>");
-    $t->pparse("output","category");
+if ( count( $forums) == 0 )
+    $t->set_var( "forums", "<tr><td colspan=\"3\"><b>Ingen tilgjengelige forum</td></tr></b>");
+
+$t->pparse("output","category");
 ?>

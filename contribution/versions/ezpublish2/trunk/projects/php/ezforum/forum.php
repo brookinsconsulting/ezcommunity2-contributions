@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.7 2000/07/20 19:44:36 lw Exp $
+    $Id: forum.php,v 1.8 2000/07/24 14:33:13 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -21,7 +21,8 @@ $t = new Template(".");
 
 $t->set_file( Array("forum" => "$DOCROOT/templates/forum.tpl",
                     "elements" => "$DOCROOT/templates/forum-elements.tpl",
-                    "preview" => "$DOCROOT/templates/forum-preview.tpl"
+                    "preview" => "$DOCROOT/templates/forum-preview.tpl",
+                    "navigation" => "$DOCROOT/templates/navigation.tpl"
                    )
             );
 
@@ -29,17 +30,24 @@ $t->set_var( "docroot", $DOCROOT );
 $t->set_var( "category_id", $category_id );
 $t->set_var( "forum_id", $forum_id );
 
-if ($AuthenticatedSession)
+//navbar setup
+if ( $AuthenticatedSession )
 {
     $session = new eZSession();
     $session->get( $AuthenticatedSession );
     $UserID = $session->UserID();
+
+    $t->set_var( "user", eZUser::resolveUser( $session->UserID() ) );
 }
 else
 {
     $UserID = 0;
+    $t->set_var( "user", "Anonym" );
 }
+$t->parse( "navigation-bar", "navigation", true);
 
+
+// new posting
 if ( $post )
 {
     $msg->newMessage();
@@ -52,7 +60,8 @@ if ( $post )
         $msg->disableEmailNotice();
     $msg->store();
 }
-    
+
+// reply
 if ( $reply )
 {
     $msg->newMessage();    
@@ -67,6 +76,7 @@ if ( $reply )
     $msg->store();
 }
 
+// preview message
 if ( $preview )
 {
     $t->set_var( "topic", $Topic );
