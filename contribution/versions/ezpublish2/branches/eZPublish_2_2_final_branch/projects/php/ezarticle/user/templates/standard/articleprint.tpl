@@ -105,7 +105,7 @@
 </table>
 <!-- END attached_file_list_tpl -->
 
-<form method="post" action="{www_dir}{index}/article/mailtofriend/{article_id}">
+<form method="post" action="{www_dir}{index}/article/mailtofriend/{article_id}/1/{category_id}/">
 <table width="100%" cellpadding="5" cellspacing="0" border="0">
 <tr>
     <td>
@@ -133,32 +133,33 @@
 
 <div align="center">
 <!-- BEGIN prev_page_link_tpl -->
-<a class="path" href="{www_dir}{index}/article/articleview/{article_id}/{prev_page_number}/">&lt;&lt; {intl-prev_page}</a>
+<a class="path" href="{www_dir}{index}/article/articleview/{article_id}/{prev_page_number}/{category_id}/">&lt;&lt; {intl-prev_page}
+</a>
 <!-- END prev_page_link_tpl -->
 
 <!-- BEGIN page_link_tpl -->
-| <a class="path" href="{www_dir}{index}/article/articleview/{article_id}/{page_number}/">{page_number}</a>	
+| <a class="path" href="{www_dir}{index}/article/articleview/{article_id}/{page_number}/{category_id}/">{page_number}</a>
 <!-- END page_link_tpl -->
 
 <!-- BEGIN current_page_link_tpl -->
 | <span class="p"> &lt;&nbsp;{page_number}&nbsp;&gt; </span>
 <!-- END current_page_link_tpl -->
-
-
+     
 <!-- BEGIN next_page_link_tpl -->
-| <a class="path" href="{www_dir}{index}/article/articleview/{article_id}/{next_page_number}/">{intl-next_page} &gt;&gt;</a>
+| <a class="path" href="{www_dir}{index}/article/articleview/{article_id}/{next_page_number}/{category_id}/">{intl-next_page} &gt;&g
+t;</a>
 <!-- END next_page_link_tpl -->
 
 <br /><br />
 
 <!-- BEGIN numbered_page_link_tpl -->
-| <a class="path" href="{www_dir}{index}/article/articleview/{article_id}/0/">{intl-numbered_page}</a>
+| <a class="path" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{intl-numbered_page}</a>
 <!-- END numbered_page_link_tpl -->
-
+     
 <!-- BEGIN print_page_link_tpl -->
-| <a class="path" href="{www_dir}{index}/article/articleprint/{article_id}/">{intl-print_page}</a>
+| <a class="path" href="{www_dir}{index}/article/articleprint/{article_id}/-1/{category_id}/">{intl-print_page}</a>
 <!-- END print_page_link_tpl -->
 
-| <a class="path" href="{www_dir}{index}/article/mailtofriend/{article_id}/">{intl-send_mailtofriend}</a> |
+| <a class="path" href="{www_dir}{index}/article/mailtofriend/{article_id}/1/{category_id}/">{intl-send_mailtofriend}</a> |
 
 </div>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: mailtofriend.php,v 1.6 2001/09/13 14:12:23 nca Exp $
+// $Id: mailtofriend.php,v 1.6.2.1 2001/10/30 19:34:26 master Exp $
 //
 // Created on: <18-Jun-2001 16:37:47 br>
 //
@@ -36,6 +36,22 @@ $Language = $ini->read_var( "eZArticleMain", "Language" );
 $Sender = $ini->read_var( "ezArticleMain", "MailToFriendSender" );
 $tpl = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                        "ezarticle/user/" . "intl", $Language, "mailtofriend.php" );
+
+// sections
+include_once( "ezsitemanager/classes/ezsection.php" );
+
+$CategoryID = $url_array[5];
+
+// tempo fix for admin users - maybe in the future must be changed
+if ( ($CategoryID != 0) )
+{
+    $GlobalSectionID = eZArticleCategory::sectionIDstatic ( $CategoryID );
+}
+	
+// init the section
+$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+$sectionObject->setOverrideVariables();
+
 $tpl->set_file( "mailtofriend_tpl" ,"mailtofriend.tpl" );
 $tpl->setAllStrings();
 
@@ -54,6 +70,7 @@ $tpl->set_block( "mailtofriend_tpl", "success_tpl", "success" );
 $tpl->set_block( "success_tpl", "user_comment_tpl", "user_comment" );
 
 $tpl->set_var( "section_id", $GlobalSectionID );
+//$tpl->set_var( "category_id", $CategoryID );
 
 // Own eZTemplate object for create the mail.message to send.
 
@@ -102,18 +119,18 @@ if ( isset( $Submit ) || isset( $RealName ) ||  isset( $SendTo  ) || isset( $Fro
         $errorArr["from"] = true;
 
     if ( $errorArr )
-        errorMsg( $ArticleID, $tpl, $RealName, $SendTo, $From, $Textarea, $errorArr );
+        errorMsg( $ArticleID, $CategoryID, $tpl, $RealName, $SendTo, $From, $Textarea, $errorArr );
     else
-        sendmail( $ArticleID, $tpl, $sendmail_tpl, $RealName, $SendTo, $From, $Textarea, $Sender );
+        sendmail( $ArticleID, $CategoryID, $tpl, $sendmail_tpl, $RealName, $SendTo, $From, $Textarea, $Sender );
 } else
 {
-    printForm( $ArticleID, $tpl );
+    printForm( $ArticleID, $CategoryID, $tpl );
 }
 
 /*!
   build up the mail to send.
  */
-function sendmail ( $article_id, $tpl, $sendmail_tpl, $real_name, $to_name, $from_name, $text, $Sender )
+function sendmail ( $article_id, $CategoryID, $tpl, $sendmail_tpl, $real_name, $to_name, $from_name, $text, $Sender )
 {
     $article = getArticle( $article_id );
     $renderer = new eZArticleRenderer( $article );
@@ -144,6 +161,7 @@ function sendmail ( $article_id, $tpl, $sendmail_tpl, $real_name, $to_name, $fro
     $sendmail_tpl->set_var( "real_name", $real_name );
     $sendmail_tpl->set_var( "site_url", $site_url );
     $sendmail_tpl->set_var( "art_id", $article_id );
+    $sendmail_tpl->set_var( "category_id", $CategoryID );
     $mail_body .= $sendmail_tpl->parse( "article_url", "article_url_tpl" );
 
 // Send the mail.
@@ -169,12 +187,14 @@ function sendmail ( $article_id, $tpl, $sendmail_tpl, $real_name, $to_name, $fro
     $tpl->set_var( "intro_text", $intro );
     $tpl->set_var( "site_url", $site_url );
     $tpl->set_var( "art_id", $article->id() );
-    $category = $article->categoryDefinition();
-    if ( $category )
-    {
-        $tpl->set_var( "category_name", $category->name() );
-        $tpl->set_var( "category_id", $category->id() );
-    }
+    $tpl->set_var( "category_id", $CategoryID );    
+
+//    $category = $article->categoryDefinition();
+//    if ( $category )
+//    {
+//        $tpl->set_var( "category_name", $category->name() );
+//        $tpl->set_var( "category_id", $category->id() );
+//    }
     $tpl->parse( "success", "success_tpl" );
     $tpl->pparse( "output", "mailtofriend_tpl" );
 }
@@ -184,7 +204,7 @@ function sendmail ( $article_id, $tpl, $sendmail_tpl, $real_name, $to_name, $fro
 /*!
   Print an error msg if wrong input from the form.
  */
-function errorMsg ( $article_id, $tpl, $real_name, $send_to, $from, $textarea, $error )
+function errorMsg ( $article_id, $CategoryID, $tpl, $real_name, $send_to, $from, $textarea, $error )
 {
     $tpl->parse( "err_msg", "err_msg_tpl" );
 
@@ -200,7 +220,8 @@ function errorMsg ( $article_id, $tpl, $real_name, $send_to, $from, $textarea, $
     {
         $tpl->parse( "err_from", "err_from_tpl" );
     }
-    printForm( $article_id, $tpl,  $real_name, $send_to, $from, $textarea );
+    
+    printForm( $article_id, $CategoryID, $tpl,  $real_name, $send_to, $from, $textarea );
 }
 
 /*!
@@ -222,20 +243,23 @@ function getArticle ( $ArticleID )
 /*!
   print the first page.
  */
-function printForm ( $ArticleID, $tpl, $real_name="", $send_to="", $from="", $textarea="" )
+function printForm ( $ArticleID, $CategoryID, $tpl, $real_name="", $send_to="", $from="", $textarea="" )
 {
+
     $article = getArticle( $ArticleID );
     $renderer = new eZArticleRenderer( $article );
     
     $name = $article->name( );
     $intro = strip_tags( $renderer->renderIntro( ) );
 
-    $category = $article->categoryDefinition();
-    if ( $category )
-    {
-        $tpl->set_var( "category_name", $category->name() );
-        $tpl->set_var( "category_id", $category->id() );
-    }
+//    $category = $article->categoryDefinition();
+//    if ( $category )
+//    {
+//        $tpl->set_var( "category_name", $category->name() );
+//	$tpl->set_var( "category_id", $category->id() );
+//    }
+    
+    $tpl->set_var( "category_id", $CategoryID );
     
     $tpl->set_var( "Topic", $name );
     $tpl->set_var( "Intro", $intro );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.28 2001/10/17 15:25:19 bf Exp $
+// $Id: frontpage.php,v 1.28.2.1 2001/10/30 19:34:55 master Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -37,6 +37,10 @@ include_once( "ezsitemanager/classes/ezsection.php" );
 include_once( "ezad/classes/ezadcategory.php" );
 include_once( "ezad/classes/ezad.php" );
 
+
+$CategoryID = $url_array[3];
+
+print ($CategoryID);
 
 $ini =& INIFile::globalINI();
 
@@ -273,11 +277,11 @@ $t->set_var( "element_list", $pageContents );
 
 function &renderFrontpageArticle( &$t, &$locale, &$article )
 {
-    global $ini;
+    global $ini, $CategoryID;
 	
-	$DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
+    $DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
     
-	$aid = $article->id();
+    $aid = $article->id();
 
     if ( $CategoryID == 0 )
     {
@@ -357,13 +361,19 @@ function &renderFrontpageArticle( &$t, &$locale, &$article )
 
 function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
 {
-    global $ini;
+    global $ini, $CategoryID;
     $aid = $article1->id();
 	
-	$DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
+    $DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
 	
-    $category =& $article1->categoryDefinition();
-    $CategoryID = $category->id();
+//    $category =& $article1->categoryDefinition();
+//    $CategoryID = $category->id();
+
+    if ( $CategoryID == 0 )                  
+    {                                        
+	$category =& $article1->categoryDefinition();
+	$CategoryID = $category->id();
+    }
 
     $t->set_var( "category_id", $CategoryID );
     
@@ -431,9 +441,15 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
 
     $t->parse( "left_article", "left_article_tpl"  );
     $aid = $article2->id();
+    
+    if ( $CategoryID == 0 )
+    {
+        $category =& $articl21->categoryDefinition();
+        $CategoryID = $category->id();
+    }
 
-    $category =& $article2->categoryDefinition();
-    $CategoryID = $category->id();
+//    $category =& $article2->categoryDefinition();
+//    $CategoryID = $category->id();
         
     $t->set_var( "category_id", $CategoryID );
 
@@ -506,7 +522,7 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
 
 function &renderShortSingleArticle( &$t, &$locale, &$article )
 {
-    global $ini;
+    global $ini, $CategoryID;
 
     $aid = $article->id();
 	

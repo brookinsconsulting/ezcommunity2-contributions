@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sitemap.php,v 1.9 2001/09/29 08:20:15 kaid Exp $
+// $Id: sitemap.php,v 1.9.2.1 2001/10/30 19:34:45 master Exp $
 //
 // Created on: <06-Jun-2001 17:05:38 bf>
 //
@@ -38,19 +38,19 @@ include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlegenerator.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
 
-
 // sections
 include_once( "ezsitemanager/classes/ezsection.php" );
 
+// tempo fix for admin users - maybe in the future must be changed
 if ( ($CategoryID != 0) )
 {
     $GlobalSectionID = eZArticleCategory::sectionIDstatic ( $CategoryID );
 }
-	
+    
 // init the section
 $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
 $sectionObject->setOverrideVariables();
-    
+
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
@@ -68,21 +68,6 @@ $tree = new eZArticleCategory();
 $treeArray =& $tree->getTree( $CategoryID );
 $user =& eZUser::currentUser();
 
-
-// sections
-include_once( "ezsitemanager/classes/ezsection.php" );
-
-// tempo fix for admin users - maybe in the future must be changed
-if ( ($CategoryID != 0) )
-{
-    $GlobalSectionID = eZArticleCategory::sectionIDstatic ( $CategoryID );
-    }
-    
-// init the section
-$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
-$sectionObject->setOverrideVariables();
-
-
 $t->set_var( "category_value", "" );
 $t->set_var( "article_value", "" );
 
@@ -94,9 +79,10 @@ foreach ( $treeArray as $catItem )
     {    
 
         $category = new eZArticleCategory( $catItem[0]->id() );
-
+	
         if ( $category->excludeFromSearch() == false )
         {
+
             $option_level = str_repeat( "&nbsp;&nbsp;&nbsp;&nbsp;", $catItem[1] );
 
             $t->set_var( "option_value", $catItem[0]->id() );
@@ -118,8 +104,10 @@ foreach ( $treeArray as $catItem )
             
             $articleList =& $category->articles( 1, false, true, 0, 50 );
             $itemCount++;
+
             foreach ( $articleList as $article )
             {
+
                 if ( ( $itemCount % 2 ) == 0 )
                 {
                     $t->set_var( "td_alt", "1" );
@@ -135,6 +123,7 @@ foreach ( $treeArray as $catItem )
                 
                 $t->set_var( "option_value", $article->id() );
                 $t->set_var( "option_name", $article->name() );
+		$t->set_var( "category_id", $category->id() );
                 $t->parse( "value", "article_value_tpl", true );
                 $itemCount++;
             }

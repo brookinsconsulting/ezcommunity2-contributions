@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: headlines.php,v 1.18 2001/08/31 09:21:59 th Exp $
+// $Id: headlines.php,v 1.18.2.1 2001/10/30 19:34:18 master Exp $
 //
 // Created on: <30-Nov-2000 14:35:24 bf>
 //
@@ -91,6 +91,8 @@ $i=0;
 $t->set_var( "article_list", "" );
 foreach ( $articleList as $article )
 {
+    $t->set_var( "category_id", $CategoryID );
+  
     $t->set_var( "article_id", $article->id() );
     $t->set_var( "article_name", $article->name() );
 

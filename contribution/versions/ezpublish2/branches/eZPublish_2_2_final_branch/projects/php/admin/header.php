@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: header.php,v 1.40 2001/10/17 14:55:26 virt Exp $
+// $Id: header.php,v 1.40.2.1 2001/10/30 19:37:46 master Exp $
 //
 // Created on: <23-Jan-2001 16:06:07 bf>
 //
@@ -189,6 +189,7 @@ $t->setAllStrings();
 
 $t->set_var( "module_count", count ( $modules ) );
 $t->set_var( "ezpublish_version", eZPublish::version() );
+$t->set_var( "ip_address", $GLOBALS["REMOTE_ADDR"]);
 
 $t->set_var( "menu_item", "" );
 

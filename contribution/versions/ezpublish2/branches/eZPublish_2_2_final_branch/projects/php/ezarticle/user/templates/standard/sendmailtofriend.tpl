@@ -21,6 +21,6 @@
 <!-- END mail_comment_tpl -->
 {intl-url}:
 <!-- BEGIN article_url_tpl -->
-http://{site_url}/article/view/{art_id}
+http://{site_url}/article/view/{art_id}/1/{category_id}/
 <!-- END article_url_tpl -->
 <!-- END mail_body_tpl -->

@@ -33,7 +33,7 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="{www_dir}{index}/article/articleview/{article_id}/">{article_name}</a>
+	<a href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}">{article_name}</a>
 	</td>
 	<td class="{td_class}">
 	<a href="{www_dir}{index}/article/archive/{category_id}/">{article_category}</a>

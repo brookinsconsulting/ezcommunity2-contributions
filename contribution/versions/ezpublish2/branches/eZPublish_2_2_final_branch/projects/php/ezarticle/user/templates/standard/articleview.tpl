@@ -126,7 +126,7 @@
 <!-- END attached_file_list_tpl -->
 
 <br clear="all" />
-<form method="post" action="{www_dir}{index}/article/mailtofriend/{article_id}">
+<form method="post" action="{www_dir}{index}/article/mailtofriend/{article_id}/1/{category_id}/">
 
 <p class="boxtext">{intl-send_to}:</p>
 <input type="text" class="box" size="40" name="SendTo" value="{send_to}" />
@@ -169,6 +169,6 @@
 | <a class="path" href="{www_dir}{index}/article/articleprint/{article_id}/-1/{category_id}/">{intl-print_page}</a>
 <!-- END print_page_link_tpl -->
 
-| <a class="path" href="{www_dir}{index}/article/mailtofriend/{article_id}/">{intl-send_mailtofriend}</a> |
+| <a class="path" href="{www_dir}{index}/article/mailtofriend/{article_id}/1/{category_id}/">{intl-send_mailtofriend}</a> |
 
 </div>

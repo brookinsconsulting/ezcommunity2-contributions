@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallarticlelist.php,v 1.11.2.1 2001/10/23 07:22:48 th Exp $
+// $Id: smallarticlelist.php,v 1.11.2.2 2001/10/30 19:34:36 master Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -101,8 +101,14 @@ function createSmallArticleList( $generateStaticPage = false )
 
         $t->set_var( "article_id", $article->id() );
         $t->set_var( "article_name", $article->name() );
-    
+
         $renderer = new eZArticleRenderer( $article );
+
+        $published = $article->published();
+        
+        $t->set_var( "article_published", $locale->format( $published ) );
+
+        $t->set_var( "category_id", $CategoryID );
 
         $t->set_var( "article_intro", $renderer->renderIntro(  ) );
 

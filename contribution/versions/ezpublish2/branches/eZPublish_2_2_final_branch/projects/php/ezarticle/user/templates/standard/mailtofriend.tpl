@@ -71,7 +71,8 @@
 <!-- END user_comment_tpl -->
 
 <p class="boxtext">{intl-url}:</p>
-<a href="http://{site_url}/article/view/{art_id}">http://{site_url}/article/view/{art_id}</a><br />
+<a href="http://{site_url}/article/view/{art_id}/1/{category_id}/">http://{site_url}/article/view/{art_id}/1/{category_id}/</a><br />
 <br />
-<a class="path" href="http://{site_url}/article/mailtofriend/{art_id}">&lt;&lt;&nbsp;back</a>
+<a class="path" href="http://{site_url}/article/mailtofriend/{art_id}/1/{category_id}/">&lt;&lt;&nbsp;back</a>
+
 <!-- END success_tpl -->
