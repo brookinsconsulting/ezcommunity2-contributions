@@ -1,5 +1,7 @@
 <h1>{article_name}</h1>
 
+<hr noshade="noshade" size="4" />
+
 <br />
 
 <!-- BEGIN article_header_tpl -->
