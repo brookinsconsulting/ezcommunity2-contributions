@@ -19,7 +19,7 @@
 	<table border="0" cellspacing="3" cellpadding="3">
 	  <tr>
 	    <td>
-	      <p class="boxtext">{intl-group}:</p>
+	      <p class="gcalBoxText">{intl-group}:</p>
 		<select name="GetByGroupID">
 		<option value="0">{intl-default}</option>
 		<!-- BEGIN group_item_tpl -->
@@ -28,7 +28,7 @@
 		</select>
              </td>
 	     <td>
-		<p class="boxtext">{intl-type}:</p>
+		<p class="gcalBoxText">{intl-type}:</p>
 		<select name="GetByTypeID">
 		<option value="0">{intl-default_type}</option>
 		<!-- BEGIN type_item_tpl -->
@@ -55,10 +55,10 @@
 </form>
 <br />
 <!-- BEGIN month_tpl -->
-<table width="100%" border="0" cellspacing="3" cellpadding="2">
+<table width="100%" border="0" cellspacing="0" cellpadding="2">
 <tr>
 <!-- BEGIN week_day_tpl -->
-	<th width="14%" class='tablehead'>
+	<th width="14%" class='tablehead' style="border: #929292 solid 1px;">
 	{week_day_name}
 	</th>
 <!-- END week_day_tpl -->
@@ -68,12 +68,12 @@
 <tr>
 
 <!-- BEGIN day_tpl -->
-<td class="{td_class}" valign="top" >
+<td class="{td_class}" valign="top" style="height: 100px; border: #929292 solid 1px;">
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td>
-      <a class="boxtext" href="/groupeventcalendar/dayview/{year_number}/{month_number_p}/{day_number}/{selected_group_id}/">{day_number}</a>
+      <a class="gcalBoxText" style="margin-left: 5px 5px 5px 5px;" href="/groupeventcalendar/dayview/{year_number}/{month_number_p}/{day_number}/{selected_group_id}/">{day_number}</a>
     </td>
     <td>
      <!-- BEGIN new_event_link_tpl -->
