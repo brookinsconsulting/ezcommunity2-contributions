@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.21 2001/05/29 11:59:19 ce Exp $
+// $Id: categoryedit.php,v 1.22 2001/06/27 08:15:30 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -183,6 +183,7 @@ if ( $Action == "insert" && !$error )
         exit();
     }
 
+    die();
     eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
     exit();
 }

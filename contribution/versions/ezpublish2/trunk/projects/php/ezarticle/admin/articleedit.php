@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.92 2001/06/15 12:38:13 pkej Exp $
+// $Id: articleedit.php,v 1.93 2001/06/27 08:15:30 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -50,7 +50,7 @@ $ini =& INIFile::globalINI();
 
 if ( $Action == "Insert" )
 {
-    $user = eZUser::currentUser();
+    $user =& eZUser::currentUser();
         
     $article = new eZArticle( );
     $article->setName( $Name );
@@ -207,7 +207,6 @@ if ( $Action == "Insert" )
         }
 
         $article->store();
-
 
         // clear the cache files.
         eZArticleTool::deleteCache( $ArticleID, $CategoryID, $CategoryArray );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticletype.php,v 1.5 2001/06/22 14:47:59 pkej Exp $
+// $Id: ezarticletype.php,v 1.6 2001/06/27 08:15:30 bf Exp $
 //
 // Definition of eZArticleType class
 //
@@ -47,24 +47,12 @@ class eZArticleType
       Constructs a new eZArticleType object. Retrieves the data from the database
       if a valid id is given as an argument.
     */
-    function eZArticleType( $id=-1, $fetch=true )
+    function eZArticleType( $id=-1 )
     {
-        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -75,20 +63,35 @@ class eZArticleType
     {
         $db =& eZDB::globalDatabase();
 
+        $db->begin( );
+        
+        $name = $db->escapeString( $this->Name );
+             
         if ( !isset( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZArticle_Type SET
-		                         Name='" . addslashes( $this->Name ) . "'" );
+            $db->lock( "eZArticle_Type" );
+
+            $nextID = $db->nextID( "eZArticle_Type", "ID" );
+
+            $res = $db->query( "INSERT INTO eZArticle_Type
+                         ( ID, Name )
+                         VALUES
+                         ( '$nextID', '$name' )" );
         
-			$this->ID = $db->insertID();
-            $this->State_ = "Coherent";
+			$this->ID = $nextID;
         }
         else
         {
-            $db->query( "UPDATE eZArticle_Type SET
-		                         Name='" . addslashes( $this->Name ) . "' WHERE ID='$this->ID'" );
-            $this->State_ = "Coherent";
+            $res = $db->query( "UPDATE eZArticle_Type SET
+		                         Name='$name' WHERE ID='$this->ID'" );
         }
+
+        $db->unlock();
+    
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();        
         
         return true;
     }
@@ -111,18 +114,12 @@ class eZArticleType
             }
             else if( count( $type_array ) == 1 )
             {
-                $this->ID =& $type_array[0][ "ID" ];
-                $this->Name =& $type_array[0][ "Name" ];
+                $this->ID =& $type_array[0][$db->fieldName("ID")];
+                $this->Name =& $type_array[0][$db->fieldName("Name")];
                 
-                $this->State_ = "Coherent";
                 $ret = true;
             }
         }
-        else
-        {
-            $this->State_ = "Dirty";
-        }
-        
         return $ret;
     }
     
@@ -138,15 +135,15 @@ class eZArticleType
 
         $type =& new eZArticleType();
 
-        $name = addslashes( $name );
+        $name = $db->escapeString( $name );
 
         if ( $name != ""  )
         {
             $db->array_query( $type_array, "SELECT * FROM eZArticle_Type WHERE Name='$name'" );
             
-            if( count( $type_array ) == 1 )
+            if ( count( $type_array ) == 1 )
             {
-                $type =& new eZArticleType($type_array[0][ "ID" ]);
+                $type =& new eZArticleType($type_array[0][$db->fieldName("ID")]);
             }
         }
         
@@ -159,16 +156,15 @@ class eZArticleType
     function &getAll()
     {
         $db =& eZDB::globalDatabase();
-
         
         $return_array = array();
         $type_array = array();
         
-        $db->array_query( $type_array, "SELECT ID FROM eZArticle_Type ORDER BY Name" );
+        $db->array_query( $type_array, "SELECT ID, Name FROM eZArticle_Type ORDER BY Name" );
         
         for ( $i=0; $i<count($type_array); $i++ )
         {
-            $return_array[$i] = new eZArticleType( $type_array[$i]["ID"], 0 );
+            $return_array[$i] = new eZArticleType( $type_array[$i][$db->fieldName("ID")], 0 );
         }
         
         return $return_array;
@@ -197,9 +193,6 @@ class eZArticleType
     */
     function id()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
        return $this->ID;
     }
 
@@ -208,9 +201,6 @@ class eZArticleType
     */
     function name()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
- 
         return $this->Name;
     }
 
@@ -219,9 +209,6 @@ class eZArticleType
     */
     function setName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Name = $value;
     }
 
@@ -231,9 +218,6 @@ class eZArticleType
     */
     function attributes( )
     {
-        if ( $this->State_ == "Dirty" )
-                $this->get( $this->ID );
-
         $db =& eZDB::globalDatabase();
        
         $return_array = array();
@@ -245,7 +229,7 @@ class eZArticleType
 
         for ( $i=0; $i<count($attribute_array); $i++ )
         {
-            $return_array[$i] = new eZArticleAttribute( $attribute_array[$i]["ID"], false );
+            $return_array[$i] = new eZArticleAttribute( $attribute_array[$i][$db->fieldName("ID")], false );
         }
        
         return $return_array;       
@@ -258,12 +242,8 @@ class eZArticleType
     {
         $ret = false;
 
-
         if ( get_class( $article ) == "ezarticle" )
         {
-            if ( $this->State_ == "Dirty" )
-                $this->get( $this->ID );
-
             $db =& eZDB::globalDatabase();
             
             $articleID = $article->id();
@@ -284,7 +264,7 @@ class eZArticleType
 
             for ( $i=0; $i < count( $attribute_array ); $i++ )
             {
-                $return_array[$i] = new eZArticleAttribute( $attribute_array[$i]["AttributeID"], false );
+                $return_array[$i] = new eZArticleAttribute( $attribute_array[$i][$db->fieldName("AttributeID")] );
             }
             
             $ret = true;
@@ -294,14 +274,6 @@ class eZArticleType
 
     var $ID;
     var $Name;
-
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztopic.php,v 1.3 2001/06/22 14:47:59 pkej Exp $
+// $Id: eztopic.php,v 1.4 2001/06/27 08:15:30 bf Exp $
 //
 // Definition of eZTopic class
 //
@@ -56,27 +56,46 @@ class eZTopic
     {
         $db =& eZDB::globalDatabase();
 
-        $name = addslashes( $this->Name );
-        $description = addslashes( $this->Description );
+        $db->begin( );
+        
+        $name = $db->escapeString( $this->Name );
+        $description = $db->escapeString( $this->Description );
 
         if ( !isset( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZArticle_Topic SET
-		                 Name='$name',
-                         Created=now(),
-                         Description='$description'
+            $db->lock( "eZArticle_Topic" );
+
+            $nextID = $db->nextID( "eZArticle_Topic", "ID" );
+
+            $timeStamp =& eZDateTime::timeStamp( true );            
+            
+            $res = $db->query( "INSERT INTO eZArticle_Topic
+                         ( ID, Name, Created, Description )
+                         VALUES
+                         ( '$nextID',
+		                   '$name',
+                           '$timeStamp',
+                           '$description' )
                        " );
-			$this->ID = $db->insertID();
+            
+			$this->ID = $nextID;
         }
         else
         {
-            $db->query( "UPDATE eZArticle_Topic SET
+            $res = $db->query( "UPDATE eZArticle_Topic SET
 		                 Name='$name',
                          Created=Created, 
                          Description='$description'
                         WHERE ID='$this->ID'" );
         }
 
+        $db->unlock();
+    
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
+        
         return true;
     }
 
@@ -110,9 +129,9 @@ class eZTopic
             $db->array_query( $author_array, "SELECT * FROM eZArticle_Topic WHERE ID='$id'" );
             if( count( $author_array ) == 1 )
             {
-                $this->ID =& $author_array[0][ "ID" ];
-                $this->Name =& $author_array[0][ "Name" ];
-                $this->Description =& $author_array[0][ "Description" ];
+                $this->ID =& $author_array[0][$db->fieldName("ID")];
+                $this->Name =& $author_array[0][$db->fieldName("Name")];
+                $this->Description =& $author_array[0][$db->fieldName("Description")];
                 $ret = true;
             }
             elseif( count( $author_array ) == 1 )
@@ -137,7 +156,7 @@ class eZTopic
         
         $topic =& new eZTopic();
 
-        $name = addslashes( $name );
+        $name = $db->fieldName( $name );
 
         if( $name != "" )
         {
@@ -145,7 +164,7 @@ class eZTopic
 
             if( count( $author_array ) == 1 )
             {
-                $topic =& new eZTopic( $author_array[0][ "ID" ] );
+                $topic =& new eZTopic( $author_array[0][$db->fieldName("ID")] );
             }
         }
         

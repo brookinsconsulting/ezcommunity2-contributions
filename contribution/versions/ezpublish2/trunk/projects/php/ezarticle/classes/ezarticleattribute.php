@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticleattribute.php,v 1.4 2001/06/22 14:47:59 pkej Exp $
+// $Id: ezarticleattribute.php,v 1.5 2001/06/27 08:15:30 bf Exp $
 //
 // Definition of eZArticleAttribute class
 //
@@ -50,24 +50,12 @@ class eZArticleAttribute
       Constructs a new eZArticleAttribute object. Retrieves the data from the database
       if a valid id is given as an argument.
     */
-    function eZArticleAttribute( $id=-1, $fetch=true )
+    function eZArticleAttribute( $id=-1 )
     {
-        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -76,38 +64,54 @@ class eZArticleAttribute
     */
     function store()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
+        $db->begin( );
+
+        $name = $db->escapeString( $this->Name );
+        
         if ( !isset( $this->ID ) )
         {
 
-            $this->Database->array_query( $attribute_array, "SELECT Placement FROM eZArticle_Attribute" );
+            $db->lock( "eZArticle_Attribute" );
+
+            $nextID = $db->nextID( "eZArticle_Attribute", "ID" );
+            $timeStamp =& eZDateTime::timeStamp( true );            
+            
+            $db->array_query( $attribute_array, "SELECT Placement FROM eZArticle_Attribute" );
 
             if ( count ( $attribute_array ) > 0 )
             {
                 $place = max( $attribute_array );
-                $place = $place["Placement"];
+                $place = $place[$db->fieldName("Placement")];
                 $place++;
             }
             
-            $this->Database->query( "INSERT INTO eZArticle_Attribute SET
-		                         Name='" . addslashes( $this->Name )  . "',
-		                         TypeID='$this->TypeID',
-		                         Placement='$place',
-		                         Created=now()" );
+            $res = $db->query( "INSERT INTO eZArticle_Attribute 
+                         ( ID, Name, TypeID, Placement, Created )
+                         VALUES
+                         ( '$nextID',
+                          '$name',
+		                  '$this->TypeID',
+		                  '$place',
+                          '$timeStamp' )" );
         
-			$this->ID = $this->Database->insertID();
-            $this->State_ = "Coherent";
+			$this->ID = $nextID;
         }
         else
         {
-            $this->Database->query( "UPDATE eZArticle_Attribute SET
-		                         Name='" . addslashes( $this->Name ) . "',
-		                         Created=Created,
-		                         TypeID='$this->TypeID' WHERE ID='$this->ID'" );
-
-            $this->State_ = "Coherent";
+            $res = $db->query( "UPDATE eZArticle_Attribute SET
+		                        Name='$name',
+		                        TypeID='$this->TypeID' WHERE ID='$this->ID'" );
         }
+
+
+        $db->unlock();
+    
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
         
         return true;
     }
@@ -117,11 +121,11 @@ class eZArticleAttribute
     */
     function get( $id=-1 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         if ( $id != -1  )
         {
-            $this->Database->array_query( $attribute_array, "SELECT * FROM eZArticle_Attribute WHERE ID='$id'" );
+            $db->array_query( $attribute_array, "SELECT * FROM eZArticle_Attribute WHERE ID='$id'" );
             
             if ( count( $attribute_array ) > 1 )
             {
@@ -129,17 +133,11 @@ class eZArticleAttribute
             }
             else if( count( $attribute_array ) == 1 )
             {
-                $this->ID =& $attribute_array[0][ "ID" ];
-                $this->Name =& $attribute_array[0][ "Name" ];
-                $this->TypeID =& $attribute_array[0][ "TypeID" ];
-                $this->Placement =& $attribute_array[0][ "Placement" ];
-                
-                $this->State_ = "Coherent";                
+                $this->ID =& $attribute_array[0][$db->fieldName("ID")];
+                $this->Name =& $attribute_array[0][$db->fieldName("Name")];
+                $this->TypeID =& $attribute_array[0][$db->fieldName("TypeID")];
+                $this->Placement =& $attribute_array[0][$db->fieldName("Placement")];
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
     }
 
@@ -148,16 +146,16 @@ class eZArticleAttribute
     */
     function &getAll()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         $return_array = array();
         $attribute_array = array();
         
-        $this->Database->array_query( $attribute_array, "SELECT ID FROM eZArticle_Attribute ORDER BY Created" );
+        $db->array_query( $attribute_array, "SELECT ID FROM eZArticle_Attribute ORDER BY Created" );
         
         for ( $i=0; $i<count($attribute_array); $i++ )
         {
-            $return_array[$i] = new eZArticleAttribute( $attribute_array[$i]["ID"], 0 );
+            $return_array[$i] = new eZArticleAttribute( $attribute_array[$i][$db->fieldName("ID")] );
         }
         
         return $return_array;
@@ -175,15 +173,15 @@ class eZArticleAttribute
         
         $topic =& new eZArticleAttribute();
         
-        $name = addslashes( $name );
+        $name = $db->escapeString( $name );
 
-        if( $name != "" )
+        if ( $name != "" )
         {
             $db->array_query( $author_array, "SELECT * FROM eZArticle_Attribute WHERE Name='$name'" );
 
             if( count( $author_array ) == 1 )
             {
-                $topic =& new eZArticleAttribute( $author_array[0][ "ID" ] );
+                $topic =& new eZArticleAttribute( $author_array[0][$db->fieldName("ID")] );
             }
         }
         
@@ -196,11 +194,10 @@ class eZArticleAttribute
     */
     function delete()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-        $this->Database->query( "DELETE FROM eZArticle_AttributeValue WHERE AttributeID='$this->ID'" );
-        
-        $this->Database->query( "DELETE FROM eZArticle_Attribute WHERE ID='$this->ID'" );
+        $db->query( "DELETE FROM eZArticle_AttributeValue WHERE AttributeID='$this->ID'" );        
+        $db->query( "DELETE FROM eZArticle_Attribute WHERE ID='$this->ID'" );
     }
 
     /*!
@@ -208,9 +205,6 @@ class eZArticleAttribute
     */
     function id()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
        return $this->ID;
     }
 
@@ -219,9 +213,6 @@ class eZArticleAttribute
     */
     function name()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
- 
         return $this->Name;
     }
 
@@ -230,9 +221,6 @@ class eZArticleAttribute
     */
     function type()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $type = new eZArticleType( $this->TypeID );
  
        return $type;
@@ -244,9 +232,6 @@ class eZArticleAttribute
     */
     function setName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Name = $value;
     }
 
@@ -255,9 +240,6 @@ class eZArticleAttribute
     */
     function setType( $type )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $type ) == "ezarticletype" )
        {
            $this->TypeID = $type->id();
@@ -270,32 +252,52 @@ class eZArticleAttribute
     */
     function setValue( $article, $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $article ) == "ezarticle" )
        {
+           $db =& eZDB::globalDatabase();
+
+           $db->begin( );
+           
            $articleID = $article->id();
 
            // check if the attribute is already set, if so update
-           $this->Database->array_query( $value_array,
+           $db->array_query( $value_array,
            "SELECT ID FROM eZArticle_AttributeValue WHERE ArticleID='$articleID' AND AttributeID='$this->ID'" );
+
+           $value = $db->escapeString( $value );
 
            if ( count( $value_array ) > 0 )
            {
-               $valueID = $value_array[0]["ID"];
+               $valueID = $value_array[0][$db->fieldName("ID")];
+
                
-               $this->Database->query( "UPDATE eZArticle_AttributeValue SET
-                                 Value='" . addslashes( $value ) . "'
-                                 WHERE ID='$valueID'" );
+               $res = $db->query( "UPDATE eZArticle_AttributeValue SET
+                                   Value='$value'
+                                   WHERE ID='$valueID'" );
            }
            else
            {
-               $this->Database->query( "INSERT INTO eZArticle_AttributeValue SET
-		                         ArticleID='$articleID',
-                                 AttributeID='$this->ID',
-                                 Value='" . addslashes( $value ) . "'" );
+
+               $db->lock( "eZArticle_AttributeValue" );
+
+               $nextID = $db->nextID( "eZArticle_Topic", "ID" );
+               
+               $res = $db->query( "INSERT INTO eZArticle_AttributeValue
+                                   ( ID, ArticleID, AttributeID, Value )
+                                   VALUES
+                                   ( '$nextID',
+                                      ArticleID='$articleID',
+                                      AttributeID='$this->ID',
+                                      Value='$value' )" );
            }
+
+           $db->unlock();
+    
+           if ( $res == false )
+               $db->rollback( );
+           else
+               $db->commit();
+           
        }
     }
 
@@ -304,22 +306,21 @@ class eZArticleAttribute
     */
     function value( $article )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = "";
        if ( get_class( $article ) == "ezarticle" )
        {
+           $db =& eZDB::globalDatabase();
+           
            $articleID = $article->id();
 
            // check if the attribute is already set, if so update
-           $this->Database->array_query( $value_array,
+           $db->array_query( $value_array,
            "SELECT Value FROM eZArticle_AttributeValue WHERE ArticleID='$articleID'
            AND AttributeID='$this->ID'" );
 
            if ( count( $value_array ) > 0 )
            {
-               $ret = $value_array[0]["Value"];
+               $ret = $value_array[0][$db->fieldName("Value")];
            }    
        }
        return $ret;
@@ -330,37 +331,33 @@ class eZArticleAttribute
     */
     function moveUp()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT ID, Placement FROM eZArticle_Attribute
                                   WHERE Placement<'$this->Placement' AND TypeID = '$this->TypeID' ORDER BY Placement DESC LIMIT 1" );
 
-        $listorder = $qry["Placement"];
-        $listid = $qry["ID"];
+        $listorder = $qry[$db->fieldName("Placement")];
+        $listid = $qry[$db->fieldName("ID")];
 
 
 
         $db->query_single( $qry, "SELECT min( Placement ) as Min FROM eZArticle_Attribute
-                                  WHERE TypeID = '$this->TypeID'  ORDER BY Placement ASC LIMIT 1" );
-        $min = $qry["Min"];
+                                  WHERE TypeID = '$this->TypeID'  ORDER BY Placement" );
+        $min = $qry[$db->fieldName("Min")];
         
         
         if( $min == $this->Placement )
         {
             $db->query_single( $qry, "SELECT max( Placement ) as Max FROM eZArticle_Attribute
-                                  WHERE TypeID = '$this->TypeID'  ORDER BY Placement ASC LIMIT 1" );
+                                  WHERE TypeID = '$this->TypeID'  ORDER BY Placement ASC" );
             
-            $max = $qry["Max"];
+            $max = $qry[$db->fieldName("Max")];
             
             $db->query_single( $qry, "SELECT ID, Placement FROM eZArticle_Attribute
-                                  WHERE Placement = '$max' AND TypeID = '$this->TypeID'  ORDER BY Placement ASC LIMIT 1" );
+                                  WHERE Placement = '$max' AND TypeID = '$this->TypeID'  ORDER BY Placement ASC" );
             
-            $listorder = $qry["Placement"];
-            $listid = $qry["ID"];
+            $listorder = $qry[$db->fieldName("Placement")];
+            $listid = $qry[$db->fieldName("ID")];
         }
-
-
 
         $db->query( "UPDATE eZArticle_Attribute SET Placement='$listorder' WHERE ID='$this->ID'" );
         $db->query( "UPDATE eZArticle_Attribute SET Placement='$this->Placement' WHERE ID='$listid'" );
@@ -371,63 +368,41 @@ class eZArticleAttribute
     */
     function moveDown()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
+        
         $db->query_single( $qry, "SELECT ID, Placement FROM eZArticle_Attribute
-                                  WHERE Placement>'$this->Placement' AND TypeID = '$this->TypeID'  ORDER BY Placement ASC LIMIT 1" );
-        $listorder = $qry["Placement"];
-        $listid = $qry["ID"];
+                                  WHERE Placement>'$this->Placement' AND TypeID = '$this->TypeID'  ORDER BY Placement ASC" );
+        $listorder = $qry[$db->fieldName("Placement")];
+        $listid = $qry[$db->fieldName("ID")];
         
         $db->query_single( $qry, "SELECT max( Placement ) as Max FROM eZArticle_Attribute
-                                  WHERE TypeID = '$this->TypeID'  ORDER BY Placement ASC LIMIT 1" );
-        $max = $qry["Max"];
+                                  WHERE TypeID = '$this->TypeID'  ORDER BY Placement ASC" );
+        $max = $qry[$db->fieldName("Max")];
         
         
         if( $max == $this->Placement )
         {
             $db->query_single( $qry, "SELECT min( Placement ) as Min FROM eZArticle_Attribute
-                                  WHERE TypeID = '$this->TypeID'  ORDER BY Placement ASC LIMIT 1" );
+                                  WHERE TypeID = '$this->TypeID'  ORDER BY Placement ASC" );
             
-            $min = $qry["Min"];
+            $min = $qry[$db->fieldName("Min")];
             
             $db->query_single( $qry, "SELECT ID, Placement FROM eZArticle_Attribute
-                                  WHERE Placement = '$min' AND TypeID = '$this->TypeID'  ORDER BY Placement ASC LIMIT 1" );
+                                  WHERE Placement = '$min' AND TypeID = '$this->TypeID'  ORDER BY Placement ASC" );
             
-            $listorder = $qry["Placement"];
-            $listid = $qry["ID"];
+            $listorder = $qry[$db->fieldName("Placement")];
+            $listid = $qry[$db->fieldName("ID")];
         }
         
         $db->query( "UPDATE eZArticle_Attribute SET Placement='$listorder' WHERE ID='$this->ID'" );
         $db->query( "UPDATE eZArticle_Attribute SET Placement='$this->Placement' WHERE ID='$listid'" );
     }
 
-    
-    /*!
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
 
     var $ID;
     var $TypeID;
     var $Name;
     var $Placement;
-
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>
