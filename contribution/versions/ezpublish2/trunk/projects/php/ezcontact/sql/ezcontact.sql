@@ -29,7 +29,21 @@ CREATE TABLE eZContact_AddressType (
 );
 
 #
-# Dumping data for table 'eZContact_AddressType'
+# Dumping data for table 'eZContact_AddressDefinition'
+#
+
+#
+# Table structure for table 'eZContact_AddressDefinition'
+#
+DROP TABLE IF EXISTS eZContact_AddressDefinition;
+CREATE TABLE eZContact_AddressDefinition (
+  UserID int(11) DEFAULT '0' NOT NULL,
+  AddressID int(11),
+  PRIMARY KEY (UserID)
+);
+
+#
+# Dumping data for table 'eZContact_AddressDefinition'
 #
 
 #

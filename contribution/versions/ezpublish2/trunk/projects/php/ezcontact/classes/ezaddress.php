@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezaddress.php,v 1.25 2001/01/19 12:15:26 jb Exp $
+// $Id: ezaddress.php,v 1.26 2001/01/19 15:50:26 ce Exp $
 //
 // Definition of eZAddress class
 //
@@ -231,6 +231,66 @@ class eZAddress
         {
             $this->AddressTypeID = $value->id();
         }
+    }
+
+    /*!
+      Sets the main address
+    */
+    function setMainAddress( $mainAddress, $user )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        if ( ( get_class ( $user ) == "ezuser" ) && ( get_class( $mainAddress ) == "ezaddress" ) )
+        {
+            $this->dbInit();
+
+            $userID = $user->id();
+            $addressID = $mainAddress->id();
+
+            $this->Database->array_query( $checkForAddress, "SELECT UserID FROM eZContact_AddressDefinition
+                                     WHERE UserID='$userID'" );
+
+            if ( count ( $checkForAddress ) != 0 )
+            {
+                $this->Database->query( "UPDATE eZContact_AddressDefinition SET
+                                         AddressID='$addressID',
+                                         UserID='$userID'" );
+            }
+            else
+            {
+                $this->Database->query( "INSERT INTO eZContact_AddressDefinition SET
+                                         AddressID='$addressID',
+                                         UserID='$userID'", true );
+            }
+        }
+    }
+    
+    /*!
+      Returns the main address
+    */
+    function mainAddress( $user )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $return_array = false;
+        
+        if ( get_class ( $user ) == "ezuser" )
+        {
+            $this->dbInit();
+
+            $userID = $user->id();
+
+            $this->Database->array_query( $addressArray, "SELECT AddressID FROM eZContact_AddressDefinition
+                                     WHERE UserID='$userID'" );
+
+            foreach( $addressArray as $address )
+            {
+                $return_array[] = new eZAddress( $address["AddressID"] );
+            }
+        }
+        return $return_array;
     }
 
     /*!
