@@ -1,6 +1,6 @@
 <?
 //
-// $Id: groupedit.php,v 1.31 2000/11/22 12:11:06 bf-cvs Exp $
+// $Id: groupedit.php,v 1.32 2000/12/15 11:45:30 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:57:28 ce>
@@ -29,7 +29,7 @@
 */
 
 include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
+// $ini = new INIFile( "site.ini" );
 
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 $error = new INIFIle( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", false );
@@ -104,6 +104,7 @@ if ( $Action == "update" )
             $group = new eZLinkGroup();
             $group->get ( $LinkGroupID );
             $group->setTitle ( $Title );
+            $group->setParent( $ParentCategory );
             $group->update();
             Header( "Location: /link/group/" );
             exit();
@@ -127,13 +128,13 @@ $t->set_file( array(
     "group_edit" => "groupedit.tpl"
     ));
 
-$ini = new INIFIle( "ezlink/admin/intl/" . $Language . "/groupedit.php.ini", false );
-$headline = $ini->read_var( "strings", "headline_insert" );
+$languageIni = new INIFIle( "ezlink/admin/intl/" . $Language . "/groupedit.php.ini", false );
+$headline = $languageIni->read_var( "strings", "headline_insert" );
 
 $t->set_block( "group_edit", "parent_category_tpl", "parent_category" );
 
 $groupselect = new eZLinkGroup();
-$groupLinkList = $groupselect->getAll( );
+$groupLinkList = $groupselect->getTree( );
 
 if ( $Action == "new" )
 {
@@ -148,8 +149,8 @@ if ( $Action == "new" )
 // Modifing a group.
 if ( $Action == "edit" )
 {
-    $ini = new INIFIle( "ezlink/admin/intl/" . $Language . "/groupedit.php.ini", false );
-    $headline = $ini->read_var( "strings", "headline_edit" );
+    $languageIni = new INIFIle( "ezlink/admin/intl/" . $Language . "/groupedit.php.ini", false );
+    $headline = $languageIni->read_var( "strings", "headline_edit" );
 
     if ( !eZPermission::checkPermission( $user, "eZLink", "LinkGroupModify" ) )
     {
@@ -176,20 +177,29 @@ if ( $Action == "edit" )
 $group_select_dict = "";
 foreach( $groupLinkList as $groupLinkItem )
 {
-    $t->set_var( "grouplink_id", $groupLinkItem->id() );
-    $t->set_var( "grouplink_title", $groupLinkItem->title() );
-    $t->set_var( "grouplink_parent", $groupLinkItem->parent() );
+    $t->set_var( "grouplink_id", $groupLinkItem[0]->id() );
+    $t->set_var( "grouplink_title", $groupLinkItem[0]->title() );
+    $t->set_var( "grouplink_parent", $groupLinkItem[0]->parent() );
 
-    if ( $GroupLink == $groupLinkItem->id() )
+    if ( $editlinkgroup )
     {
-        $t->set_var( "is_selected", "selected" );
+        if ( $editlinkgroup->id() == $groupLinkItem[0]->id() )
+        {
+            $t->set_var( "is_selected", "selected" );
+        }
+        else
+        {
+            $t->set_var( "is_selected", "" );
+        }
     }
+
+    if ( $groupLinkItem[1] > 0 )
+        $t->set_var( "option_level", str_repeat( "&nbsp;", $groupLinkItem[1] ) );
     else
-    {
-        $t->set_var( "is_selected", "" );
-    }
+        $t->set_var( "option_level", "" );
 
-    $group_select_dict[ $groupLinkItem->id() ] = $i;
+    
+    $group_select_dict[ $groupLinkItem[0]->id() ] = $i;
 
     $t->parse( "parent_category", "parent_category_tpl", true );
 }

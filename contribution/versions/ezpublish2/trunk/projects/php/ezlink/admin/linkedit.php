@@ -1,5 +1,5 @@
 <?
-// $Id: linkedit.php,v 1.37 2000/11/23 09:36:36 ce-cvs Exp $
+// $Id: linkedit.php,v 1.38 2000/12/15 11:45:30 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -28,7 +28,7 @@
 
 include_once( "classes/INIFile.php" );
 
-$ini = new INIFile( "site.ini" );
+// $ini = new INIFile( "site.ini" );
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 $error = new INIFIle( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", false );
 
@@ -41,6 +41,7 @@ include( "ezlink/classes/ezhit.php" );
 include_once( "ezlink/classes/ezmeta.php" );
 
 require( "ezuser/admin/admincheck.php" );
+
 
 if ( isSet( $Delete ) )
 {
@@ -100,7 +101,10 @@ if ( $GetSite )
         $turl = $Url;
 
     }
-    $Action = "";
+
+    $action_value = "insert";
+    $Action = "new";
+
 }
 
 // Update a link.
@@ -169,13 +173,17 @@ if ( $Action == "delete" )
 // Insert a link.
 if ( $Action == "insert" )
 {
+
     if ( eZPermission::checkPermission( $user, "eZLink", "LinkAdd") )
     {
+
         if ( $Title != "" &&
         $LinkGroupID != "" &&
         $Accepted != "" &&
         $Url != "" )
         {
+
+
             $link = new eZLink();
 
             $link->setTitle( $Title );
@@ -192,7 +200,8 @@ if ( $Action == "insert" )
                 $tkeywords = $Keywords;
                 $tdescription = $Description;
             }
-    
+
+            print( $link->title() );
             $link->store();
             
             Header( "Location: /link/group/$LinkGroupID" );
@@ -223,16 +232,18 @@ $t->set_file( array(
 
 $t->set_block( "link_edit", "link_group_tpl", "link_group" );
 
-$ini = new INIFIle( "ezlink/admin/intl/" . $Language . "/linkedit.php.ini", false );
-$headline = $ini->read_var( "strings", "headline_insert" );
+$languageIni = new INIFIle( "ezlink/admin/intl/" . $Language . "/linkedit.php.ini", false );
+$headline = $languageIni->read_var( "strings", "headline_insert" );
 
 $linkselect = new eZLinkGroup();
-$linkGroupList = $linkselect->getAll();
+
+$linkGroupList = $linkselect->getTree();
 
 // Template variabler
 $message = "Legg til link";
 $submit = "Legg til";
-$action = "update";
+
+$action_value = "update";
 
 if ( $Action == "new" )
 {
@@ -241,7 +252,7 @@ if ( $Action == "new" )
         Header( "Location: /link/norights" );
     }
 
-    $action = "insert";
+    $action_value = "insert";
 }
 
 // setter akseptert link som default.
@@ -251,8 +262,9 @@ $no_selected = "";
 // editere
 if ( $Action == "edit" )
 {
-    $ini = new INIFIle( "ezlink/admin/intl/" . $Language . "/linkedit.php.ini", false );
-    $headline =  $ini->read_var( "strings", "headline_edit" );
+
+    $languageIni = new INIFIle( "ezlink/admin/intl/" . $Language . "/linkedit.php.ini", false );
+    $headline =  $languageIni->read_var( "strings", "headline_edit" );
 
     if ( !eZPermission::checkPermission( $user, "eZLink", "LinkModify" ) )
     {
@@ -274,7 +286,7 @@ if ( $Action == "edit" )
         $accepted = $editlink->accepted();
         $url = $editlink->url();
 
-        $action = "update";
+        $action_value = "update";
         $message = "Rediger link";
         $submit = "Rediger";
               
@@ -302,10 +314,10 @@ $link_select_dict = "";
 
 foreach( $linkGroupList as $linkGroupItem )
 {
-    $t->set_var("link_group_id", $linkGroupItem->id() );
-    $t->set_var("link_group_title", $linkGroupItem->title() );
+    $t->set_var("link_group_id", $linkGroupItem[0]->id() );
+    $t->set_var("link_group_title", $linkGroupItem[0]->title() );
 
-    if ( $LinkGroupID == $linkGroupItem->id() )
+    if ( $LinkGroupID == $linkGroupItem[0]->id() )
     {
         $t->set_var( "is_selected", "selected" );
     }
@@ -314,7 +326,13 @@ foreach( $linkGroupList as $linkGroupItem )
         $t->set_var( "is_selected", "" );
     }
 
-    $link_select_dict[ $linkGroupItem->id() ] = $i;
+    if ( $linkGroupItem[1] > 0 )
+        $t->set_var( "option_level", str_repeat( "&nbsp;", $linkGroupItem[1] ) );
+    else
+        $t->set_var( "option_level", "" );
+
+
+    $link_select_dict[ $linkGroupItem[0]->id() ] = $i;
 
     $t->parse( "link_group", "link_group_tpl", true );
 }
@@ -324,7 +342,7 @@ $t->set_var( "yes_selected", $yes_selected );
 $t->set_var( "no_selected", $no_selected );
 
 $t->set_var( "submit_text", $submit );
-$t->set_var( "action_value", $action );
+$t->set_var( "action_value", $action_value );
 $t->set_var( "message", $message );
 
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.38 2000/11/01 11:04:50 ce-cvs Exp $
+// $Id: ezlinkgroup.php,v 1.39 2000/12/15 11:45:30 ce Exp $
 //
 // Definition of eZLinkGroup class
 //
@@ -172,8 +172,13 @@ class eZLinkGroup
     /*!
       Fetch out parent.
     */
-    function &getByParent( $id )
+    function &getByParent( $value )
     {
+        if ( get_class ( $value ) )
+            $id = $value->id();
+        else
+            $id = $value;
+        
         $this->dbInit();
         $parent_array = array();
         $return_array = array();
@@ -262,7 +267,6 @@ class eZLinkGroup
     function getAll()
     {
         $this->dbInit();
-        
         $parnet_array = array();
         $return_array = array();
 
@@ -275,6 +279,35 @@ class eZLinkGroup
 
         return $return_array;
     }
+
+
+
+    /*!
+      Fetch everything and return the result in a tree.
+    */
+    function getTree( $parentID=0, $level=0 )
+    {
+        $category = new eZLinkGroup( $parentID );
+
+        $categoryList = $category->getByParent( $category, true );
+        
+        $tree = array();
+        $level++;
+        foreach ( $categoryList as $category )
+        {
+            array_push( $tree, array( $return_array[] = new eZLinkGroup( $category->id() ), $level ) );
+            
+            if ( $category != 0 )
+            {
+                $tree = array_merge( $tree, $this->getTree( $category->id(), $level ) );
+            }
+            
+        }
+
+        return $tree;
+    }
+
+    
 
     /*!
       Return the id of the group.

@@ -1,5 +1,5 @@
 <?
-// $Id: linkgrouplist.php,v 1.7 2000/11/23 09:36:36 ce-cvs Exp $
+// $Id: linkgrouplist.php,v 1.8 2000/12/15 11:45:30 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:55:24 ce>
@@ -25,7 +25,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 
-$ini = new INIFile( "site.ini" );
+//  $ini = new INIFile( "site.ini" );
 
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
@@ -60,6 +60,7 @@ $t->set_block( "link_page_tpl", "path_item_tpl", "path_item" );
 
 // Lister alle kategorier
 $linkGroup = new eZLinkGroup();
+
 $linkGroup->get ( $LinkGroupID );
 
 // path

@@ -26,7 +26,7 @@
 <!-- {intl-choosegroup} -->
 <select name="LinkGroupID">
 	<!-- BEGIN link_group_tpl -->
-	<option {is_selected} value="{link_group_id}">{link_group_title}</option>
+	<option {is_selected} value="{link_group_id}">{option_level}{link_group_title}</option>
 	<!-- END link_group_tpl -->
 </select>
 
