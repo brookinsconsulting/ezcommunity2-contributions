@@ -61,6 +61,8 @@ Kommentar:<br>
 </form>
 
 	</td>
+<tr>
+</tr>
 	<td valign="top"  bgcolor="#ddeeee">
 
 <form method="post"  name="CompanyAddressEdit" action="index.php4?page={document_root}personedit.php4">
@@ -95,6 +97,8 @@ Postnummer:<br>
 </form>
 
 	</td>
+<tr>
+</tr>
 	<td valign="top" bgcolor="#eeeeee">
 
 <form method="post" name="CompanyPhoneEdit" action="index.php4?page={document_root}personedit.php4">
