@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imageedit.php,v 1.36 2001/07/11 14:12:40 jhe Exp $
+// $Id: imageedit.php,v 1.37 2001/07/15 16:55:09 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -101,8 +101,8 @@ $t->set_var( "caption_value", "$Caption" );
 
 $error = false;
 $nameCheck = true;
-$captionCheck = true;
-$descriptionCheck = true;
+$captionCheck = false;
+$descriptionCheck = false;
 $fileCheck = true;
 $permissionCheck = false;
 

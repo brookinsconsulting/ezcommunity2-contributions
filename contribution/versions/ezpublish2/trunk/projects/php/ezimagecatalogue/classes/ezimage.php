@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimage.php,v 1.66 2001/07/12 14:20:51 jhe Exp $
+// $Id: ezimage.php,v 1.67 2001/07/15 16:55:09 bf Exp $
 //
 // Definition of eZImage class
 //
@@ -142,7 +142,7 @@ class eZImage
                                              '$this->ReadPermission',
                                              '$originalfilename',
                                              '$this->PhotographerID',
-                                             '$timestamp' )");
+                                             '$timeStamp' )");
             $db->unlock();
         }
         else
@@ -632,6 +632,14 @@ class eZImage
        }
        return $path;
     }
+
+    /*!
+      Same as filePath()
+     */
+    function &imagePath( $relative=false )
+    {
+        return $this->filePath( $relative );
+    }    
 
     /*!
       Returns the eZImageVariation object to a scaled version of the image.

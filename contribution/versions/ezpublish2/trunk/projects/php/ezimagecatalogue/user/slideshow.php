@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: slideshow.php,v 1.4 2001/07/09 10:55:31 jhe Exp $
+// $Id: slideshow.php,v 1.5 2001/07/15 16:55:09 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -32,6 +32,15 @@ include_once( "ezimagecatalogue/classes/ezslideshow.php" );
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZImageCatalogueMain", "Language" );
 
+$SlideShowHeaderFooter = $ini->read_var( "eZImageCatalogueMain", "SlideShowHeaderFooter" );
+$SlideShowOriginalImage = $ini->read_var( "eZImageCatalogueMain", "SlideShowOriginalImage" );
+
+if ( $SlideShowHeaderFooter == "disabled" )
+{
+    $PrintableVersion = "enabled";
+}
+
+
 $t = new eZTemplate( "ezimagecatalogue/user/" . $ini->read_var( "eZImageCatalogueMain", "TemplateDir" ),
                      "ezimagecatalogue/user/intl/", $Language, "slideshow.php" );
 
@@ -56,10 +65,19 @@ if ( !$image )
 }
 else
 {
-    $variation =& $image->requestImageVariation( $ini->read_var( "eZImageCatalogueMain", "ImageViewWidth" ),
-    $ini->read_var( "eZImageCatalogueMain", "ImageViewHeight" ) );
+    if ( $SlideShowOriginalImage == "enabled" )
+    {    
+        $variation = $image;
+    }
+    else
+    {        
+        $variation =& $image->requestImageVariation( $ini->read_var( "eZImageCatalogueMain", "ImageViewWidth" ),
+        $ini->read_var( "eZImageCatalogueMain", "ImageViewHeight" ) );
+    }
+        
 
-    $t->set_var( "image_uri", "/" . $variation->imagePath() );
+
+    $t->set_var( "image_uri", "/" . $variation->imagePath( true ) );
     $t->set_var( "image_width", $variation->width() );
     $t->set_var( "image_height", $variation->height() );
     
@@ -76,6 +94,7 @@ if ( $current > 0 )
 }
 else
 {
+    $t->set_var( "prev_image", $current );
     $t->set_var( "previous", "" );
 } 
 
@@ -91,6 +110,7 @@ if ( $current < ( $slideshow->size() - 1 ) )
 }
 else
 {
+    $t->set_var( "next_image", $current );
     $t->set_var( "next", "" );
 }
 
