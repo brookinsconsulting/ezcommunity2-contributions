@@ -1,6 +1,8 @@
 <?
 
 include_once( "ezarticle/classes/ezarticle.php" );
+include_once( "ezarticle/classes/ezarticlecategory.php" );
+
 include_once( "ezuser/classes/ezuser.php" );
 
 $PageCaching = $ini->read_var( "eZArticleMain", "PageCaching" );

@@ -1,5 +1,5 @@
 <?
-// $Id: todolist.php,v 1.7 2001/01/23 13:16:58 jb Exp $
+// $Id: todolist.php,v 1.8 2001/02/23 09:08:06 ce Exp $
 //
 // Definition of todo list.
 //
@@ -79,7 +79,12 @@ else
     $todo_array = $todo->getByUserID( $currentUserID );
 }
 
+$showID = $session->variable( "ShowTodoID" );
 
+if ( isSet( "SortBy" ) )
+{
+    
+}
     
 // User selector.
 $user = new eZUser();

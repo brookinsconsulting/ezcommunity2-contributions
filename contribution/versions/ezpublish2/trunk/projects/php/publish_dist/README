@@ -386,6 +386,11 @@ CREATE TABLE eZBug_BugImageLink (
   Created timestamp(14),
   PRIMARY KEY (ID)
 );
+<<<<<<< README
+
+# Set the remote ID.
+alter table eZTrade_Category add RemoteID varchar(100);  
+alter table eZTrade_Product add RemoteID varchar(100);  =======
 
 
 #
