@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: singlelist.php,v 1.5 2001/07/19 12:36:31 jakobn Exp $
+// $Id: singlelist.php,v 1.5.2.1 2001/10/31 11:31:49 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -31,8 +31,7 @@ include_once( "ezuser/classes/ezuser.php" );
 $ini =& $GLOBALS["GlobalSiteIni"];
 $Language = $ini->read_var( "eZBulkMailMain", "Language" );
 $languageIni = new INIFIle( "ezbulkmail/user/intl/" . $Language . "/subscriptionlogin.php.ini", false );
-$categoryName = $ini->read_var( "eZBulkMailMain", "SingleListLogon" );
-$category = eZBulkMailCategory::getByName( $categoryName );
+$category = eZBulkMailCategory::singleList();
 
 if( isset( $Hash ) && is_object( $category ) )
 {

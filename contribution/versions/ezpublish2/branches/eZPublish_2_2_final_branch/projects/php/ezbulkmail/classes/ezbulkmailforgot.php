@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailforgot.php,v 1.10 2001/08/17 13:35:58 jhe Exp $
+// $Id: ezbulkmailforgot.php,v 1.10.2.1 2001/10/31 11:31:48 fh Exp $
 //
 // Created on: <20-Apr-2001 13:32:11 fh>
 //
@@ -98,7 +98,7 @@ class eZBulkMailForgot
         }
         else
         {
-            $this->Database->query( "UPDATE eZBulkMail_Forgot SET
+            $db->query( "UPDATE eZBulkMail_Forgot SET
                                  Mail='$this->Mail',
                                  Password='$password',
                                  Hash='$this->Hash'
