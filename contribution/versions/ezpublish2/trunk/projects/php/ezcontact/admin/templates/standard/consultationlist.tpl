@@ -94,3 +94,7 @@
 <!-- END person_item_tpl -->
 </table>
 <!-- END person_table_item_tpl -->
+
+<form method="post" action="/contact/consultation/new">
+<input class="okbutton" type="submit" value="{intl-new_consultation}">
+</form>
