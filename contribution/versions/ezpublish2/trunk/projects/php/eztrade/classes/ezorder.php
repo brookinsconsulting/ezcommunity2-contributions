@@ -1,14 +1,14 @@
-<?
+<?php
 // 
-// $Id: ezorder.php,v 1.35 2001/07/06 11:17:00 jhe Exp $
+// $Id: ezorder.php,v 1.36 2001/07/20 11:42:01 jakobn Exp $
 //
 // Definition of eZOrder class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 16:40:01 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

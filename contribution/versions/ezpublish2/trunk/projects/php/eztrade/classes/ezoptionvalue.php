@@ -1,16 +1,14 @@
-<?
+<?php
 // 
-// $Id: ezoptionvalue.php,v 1.27 2001/05/31 13:44:45 ce Exp $
+// $Id: ezoptionvalue.php,v 1.28 2001/07/20 11:42:01 jakobn Exp $
 //
 // Definition of eZOptionValue class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <12-Sep-2000 15:52:19 bf>
 //
-// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
-//
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: mastercard.php,v 1.2 2001/03/13 13:24:45 bf Exp $
+// $Id: mastercard.php,v 1.3 2001/07/20 11:42:02 jakobn Exp $
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 17:42:45 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

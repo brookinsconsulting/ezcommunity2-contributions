@@ -1,12 +1,12 @@
 <?php
 // 
-// $Id: linklist.php,v 1.3 2001/05/03 14:24:24 jb Exp $
+// $Id: linklist.php,v 1.4 2001/07/20 11:42:01 jakobn Exp $
 //
-// Jan Borsodi <jb@ez.no>
 // Created on: <16-Mar-2001 14:41:10 amos>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

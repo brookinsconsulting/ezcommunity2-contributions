@@ -1,14 +1,14 @@
 <?php
 // 
-// $Id: ezwishlistoptionvalue.php,v 1.7 2001/07/19 12:44:26 ce Exp $
+// $Id: ezwishlistoptionvalue.php,v 1.8 2001/07/20 11:42:02 jakobn Exp $
 //
 // Definition of eZWishListOptionValue class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <21-Oct-2000 18:08:22 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

@@ -1,12 +1,12 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.29 2001/07/06 08:14:49 jhe Exp $
+// $Id: ordersendt.php,v 1.30 2001/07/20 11:42:02 jakobn Exp $
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

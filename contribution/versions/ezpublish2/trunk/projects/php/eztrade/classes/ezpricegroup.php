@@ -1,14 +1,14 @@
 <?php
 // 
-// $Id: ezpricegroup.php,v 1.8 2001/06/28 08:14:54 bf Exp $
+// $Id: ezpricegroup.php,v 1.9 2001/07/20 11:42:01 jakobn Exp $
 //
 // Definition of eZPriceGroup class
 //
-// Jan Borsodi <jb@ez.no>
 // Created on: <23-Feb-2001 12:57:01 amos>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
