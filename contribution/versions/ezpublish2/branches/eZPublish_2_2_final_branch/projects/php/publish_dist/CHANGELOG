@@ -4,14 +4,15 @@ Changes from 2.2.8 to 2.2.9
 ---------------------------
 * Fixed security bug with variable check in eZ article.
 * Fixed security bug with session variable.
-* Fixed bug with permission when non logged in users had write access to the image catalogue
-* Fixed bug with section override templates in article view
-* Fixed typo in section edit
-* Fixed cache bugs in headline view
-* Fixed bug with addresses
-* Improved MySQL 4 support in eZ trade
-* Added missing SQL queries for permission system
-* Removed link to Entry/exit pages report in eZ stats
+* Fixed bug with permission when non logged in users had write access to the image catalogue.
+* Fixed bug with section override templates in article view.
+* Fixed typo in section edit.
+* Fixed cache bugs in headline view.
+* Fixed bug with addresses.
+* Improved MySQL 4 support in eZ trade.
+* Added missing SQL queries for permission system.
+* Removed link to Entry/exit pages report in eZ stats.
+* Fixed security bug with variable check in messagebody in eZ forum.
 
 Changes from 2.2.7 to 2.2.8
 ---------------------------
