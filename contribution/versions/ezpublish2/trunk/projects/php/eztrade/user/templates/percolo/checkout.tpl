@@ -83,9 +83,9 @@
 	</td>
 </tr>
 <tr>
-	<td colspan="1" align="right"><span class="boxtext">{intl-vat}:</span></td>
+	<td colspan="1" align="right"><span class="boxtext"><i>Herav {intl-vat}:</i></span></td>
 	<td align="right">
-	{cart_vat_sum}
+	<i>{cart_vat_sum}</i>
 	</td>
 </tr>
 <tr>

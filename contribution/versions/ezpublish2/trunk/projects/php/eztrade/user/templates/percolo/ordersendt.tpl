@@ -90,8 +90,8 @@
 </tr>
 <tr>
 	<td>&nbsp;</td>
-	<td align="right" colspan="2" class="boxtext">{intl-vat}:</td>
-	<td align="right">{order_vat_sum}</td>
+	<td align="right" colspan="2" class="boxtext"><i>Herav {intl-vat}:</i></td>
+	<td align="right"><i>{order_vat_sum}</i></td>
 </tr>
 <tr>
 	<td>&nbsp;</td>

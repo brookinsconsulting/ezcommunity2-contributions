@@ -180,8 +180,10 @@
 
 <br /><br />
 
+<!-- BEGIN address_actions_tpl -->
 <input class="stdbutton" type="submit" value="{intl-new_address}" name="NewAddress" />
 <input class="stdbutton" type="submit" value="{intl-delete_address}" name="DeleteAddress" />
+<!-- END address_actions_tpl -->
 
 <br /><br />
 
