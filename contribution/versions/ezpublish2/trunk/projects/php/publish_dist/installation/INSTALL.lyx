@@ -354,21 +354,6 @@ A database.
  or later and PostgreSQL (http://www.postgresql.org) version 7.1.3 or later.
 \layout Itemize
 
-libXml2 (http://xmlsoft.org/#Downloads) version 2.4.1 is recommended but versions
- as old as 2.2.9 is known to work.
- (Needed by eZ article.
- If you wish to use the default article renderer you need libXml2 installed.
- You can create your own renderers if you don't want to use the default.)
-\layout Itemize
-
-libQdom (http://www.trolltech.com) is a part of QT, you need version 2.2.3 or
- later.
- (Needed by eZ news feed's parsers.
- If you wish to include headlines from external sites (example developer.ez.no
- or slashdot.org) then you need this installed.
- You can create your own parsers if you don't want to use the default.)
-\layout Itemize
-
 ImageMagick (http://www.imagemagick.org/) newest version (Needed by eZ article,
  eZ image catalogue, and all modules using images.
  You need only the command line version.)
@@ -407,6 +392,18 @@ er.ez.no.
 \layout Standard
 
 You should also find a list of RPMs at http://www.brandish.co.uk/phprpm
+\layout Standard
+
+
+\series bold 
+Important release note:
+\layout Standard
+
+eZ publish version 2.2.2 does not require neither QDom or libxml as previosly
+ releases did.
+ In this release, eZ publish uses it own xml parser : eZxml.
+ Optioninal support for libxml will probably be reintroduced in a future
+ version of eZ publish
 \layout Subsection
 
 Which Software is Already Installed?
@@ -589,31 +586,6 @@ libxmld-1.8.7-80
 \SpecialChar ~
 \SpecialChar ~
 /usr/share/doc/packages/libxml/TODO
-\layout Subsection
-
-FreeBSD
-\layout Standard
-
-When installing and compiling PHP on a FreeBSD system you might encounter
- an error when using --with-dom which says you have a conifgure error on
- the lib.
- It turns out that the current port of libxml installs itself as /usr/local/lib/
-libxml2.a|so and it goes unrecognised by configure.
- You can easily get around this problem by linking the libs to libxml.a|so.
-\layout Standard
-
-You also have to add another link for the include files (which are in a
- quite strange place) : ln -s /usr/local/include/libxml2/libxml /usr/local/inclu
-de/libxml
-\layout Standard
-
-If people want to setup PHP4 by the ports, they also will have to modify
- the Makefile of the port to add the missing (from the port GUI) options
- which are --disable-magic-quotes and --with-qtdom.
- The other options are available from the port GUI.
-\layout Standard
-
-Thanks to David Touitou for pointing this out.
 \layout Subsection
 
 Mandrake
@@ -888,18 +860,6 @@ es
 )
 \layout Description
 
---with-dom This configures PHP to include libxml.
- 
-\size footnotesize 
-
-\newline 
-(http://www.php.net/manual/en/install.configure.php#install.configure.with-dom)
-\layout Description
-
---with-qtdom This configures PHP to include libqdom.
- It isn't up on the PHP site with a link, but it works as --with-dom.
-\layout Description
-
 --with-imap This configures PHP to include imap support.
  This is used by eZ mail module.
  This parameters require ssl support.
@@ -971,7 +931,7 @@ Now you just have to run the
 \begin_inset Quotes erd
 \end_inset 
 
- program with the apropriate configuration directives which we discussed
+ program with the appropriate configuration directives which we discussed
  in the preceeding sections, for an apache module you'd do the following:
 \newline 
 
@@ -983,21 +943,14 @@ Now you just have to run the
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-# ./configure --enable-trans-sid --with-mysql
+# ./configure --enable-trans-sid --with-mysql --enable-trans-sid --disable-magic-
+quotes --with-imap --with-openssl
 \newline 
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
 --with-apxs
-\family default 
-\size default 
-\lang english
- 
-\family typewriter 
-\size footnotesize 
-\lang british
---with-dom --with-qtdom
 \newline 
 
 \layout Standard
@@ -1015,13 +968,14 @@ Remember that to compile a script/cgi version you'd need to change that
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-# ./configure --enable-trans-sid --with-mysql
+# ./configure --enable-trans-sid --with-mysql --enable-trans-sid --disable-magic-
+quotes --with-imap --with-openssl
 \newline 
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
---with-dom --with-qtdom
+
 \layout Subsubsection
 
 Compilation
@@ -1128,11 +1082,11 @@ Run the configure script:
 
 \family typewriter 
 \size footnotesize 
-$ ./configure --with-apxs=/usr/sbin/apxs --enable-ftp --with-xml --with-dom
- --enable-trans-sid --with-config-file-path=/etc/httpd --with-mysql=/usr
- --with-pgsql=/usr --enable-inline-optimization --with-ttf --with-qtdom
- --with-gd --enable-gd-native-ttf --with-imap --includedir=/usr --with-openssl=/
-usr --with-zlib-dir=/usr --with-openssl=shared,/usr
+$ ./configure --with-apxs=/usr/sbin/apxs --enable-ftp --enable-trans-sid
+ --with-config-file-path=/etc/httpd --with-mysql=/usr --with-pgsql=/usr
+ --enable-inline-optimization --with-ttf --with-gd --enable-gd-native-ttf
+ --with-imap --includedir=/usr --with-openssl=/usr --with-zlib-dir=/usr
+ --with-openssl=shared,/usr
 \newline 
 
 \layout Standard
@@ -2719,14 +2673,6 @@ Troubleshooting
 Problems During Installation
 \layout Subsubsection
 
-FreeBSD 4.2 and libxml2
-\layout Standard
-
-The current version (2.2.11) installs itself as /usr/local/lib/libxml2.a|so
- and goes unrecognized by configure (PHP).
- Link the files to /usr/local/lib/libxml.a|so.
-\layout Subsubsection
-
 Missing Compiler/Can not Compile (C++/C)
 \layout Standard
 
@@ -3344,7 +3290,7 @@ First remove any cache:
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-#./configure --with-xml --with-mysql 
+#./configure --with-mysql 
 \backslash 
 
 \layout Standard
@@ -3453,18 +3399,6 @@ First remove any cache:
 \SpecialChar ~
 \SpecialChar ~
 --with-exec-dir=/usr/sbin/httpd 
-\backslash 
-
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
---with-dom 
 \backslash 
 
 \layout Standard
@@ -4447,15 +4381,6 @@ Note that this installation was done on a windows 98 second edition system
  I'm using this just for development purposes on my laptop.
 \layout Standard
 
-Also note, that you will 
-\series bold 
-not
-\series default 
- be able to use the news feed module with this setup, as I did not find
- a windows binary for the Qdom library.
- The news feed module is used to include headlines from external sites.
-\layout Standard
-
 I will describe the installation steps and show some small tests to see
  if all went fine.
  Of course you will need (root) access to the system if you need to install
@@ -4708,12 +4633,6 @@ extensions\SpecialChar ~
 
 \family typewriter 
 \size footnotesize 
-extension=php_domxml.dll
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
 session.save_path\SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
@@ -4735,7 +4654,6 @@ temp
 \layout Standard
 
 Magic Quotes must be off for ezPublish 2.1.
- You need to set the extension_dir in order to find the php_domxml.dll library.
  You also must enable this libary by removing the comment sign '#' in its
  line.
  The savepath must be set to some local directory for temporary files.
@@ -5859,18 +5777,6 @@ PostgreSQL (
 
 The following software is optional, but required for some modules of eZ
  publish:
-\layout Itemize
-
-libQdom (
-\begin_inset LatexCommand \url{http://www.trolltech.com}
-
-\end_inset 
-
-) is a part of QT, you need version 2.2.3 or later.
- (Needed by eZ news feed's parsers.
- If you wish to include headlines from external sites (example developer.ez.no
- or slashdot.org) then you need this installed.
- You can create your own parsers if you don't want to use the default.)
 \layout Itemize
 
 ImageMagick (
