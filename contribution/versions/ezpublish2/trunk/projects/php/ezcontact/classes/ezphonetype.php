@@ -20,7 +20,6 @@ class eZPhoneType
             $this->ID = $id;
             if ( $fetch == true )
             {
-                
                 $this->get( $this->ID );
             }
             else
@@ -54,6 +53,11 @@ class eZPhoneType
                 $this->ID = $phone_type_array[ 0 ][ "ID" ];
                 $this->Name = $phone_type_array[ 0 ][ "Name" ];
             }
+            else
+            {
+                $this->ID = "";
+                $this->State_ = "New";
+            }
         }
     }
 
@@ -71,7 +75,7 @@ class eZPhoneType
 
         foreach( $phone_type_array as $phoneTypeItem )
         {
-            $return_array[] = new eZPhoneType( $phone_type_array["ID"] );
+            $return_array[] = new eZPhoneType( $phoneTypeItem["ID"] );
         }
         return $return_array;
     }
@@ -116,16 +120,15 @@ class eZPhoneType
 
     function setName( $value )
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
         $this->Name = $value;
     }
 
-    function setID( $value )
-    {
-        $this->ID = $value;
-    }
-    
     function name(  )
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
         return $this->Name;
     }  
 

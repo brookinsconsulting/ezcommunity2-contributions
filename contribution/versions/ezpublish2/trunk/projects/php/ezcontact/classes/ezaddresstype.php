@@ -88,6 +88,11 @@ class eZAddressType
                 $this->ID = $address_type_array[ 0 ][ "ID" ];
                 $this->Name = $address_type_array[ 0 ][ "Name" ];
             }
+            else
+            {
+                $this->ID = "";
+                $this->State_ = "New";
+            }
         }
     }
 
