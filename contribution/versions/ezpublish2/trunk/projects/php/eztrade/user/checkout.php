@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.53 2001/03/15 14:31:11 bf Exp $
+// $Id: checkout.php,v 1.54 2001/03/15 17:18:16 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -48,9 +48,7 @@ include_once( "eztrade/classes/ezoptionvalue.php" );
 include_once( "eztrade/classes/ezcart.php" );
 include_once( "eztrade/classes/ezcartitem.php" );
 include_once( "eztrade/classes/ezcartoptionvalue.php" );
-include_once( "eztrade/classes/ezorder.php" );
-include_once( "eztrade/classes/ezorderitem.php" );
-include_once( "eztrade/classes/ezorderoptionvalue.php" );
+include_once( "eztrade/classes/ezpreorder.php" );
 include_once( "eztrade/classes/ezwishlist.php" );
 
 // shipping
@@ -129,7 +127,12 @@ if ( isset( $SendOrder ) )
 {
     // set the variables as session variables and make sure that it is not read by
     // the HTTP GET variables for security.
+
+    $preOrder = new eZPreOrder();
+    $preOrder->store();
     
+    $session->setVariable( "PreOrderID", $preOrder->id() );
+
     $session->setVariable( "ShippingAddressID", eZHTTPTool::getVar( "ShippingAddressID", true ) );
     $session->setVariable( "BillingAddressID", eZHTTPTool::getVar( "BillingAddressID", true ) );
 
@@ -140,12 +143,10 @@ if ( isset( $SendOrder ) )
     $session->setVariable( "ShippingVAT", eZHTTPTool::getVar( "ShippingVAT", true ) );
 
     $session->setVariable( "ShippingTypeID", eZHTTPTool::getVar( "ShippingTypeID", true ) );
-    
 
     eZHTTPTool::header( "Location: /trade/payment/" );
     exit();
 }
-
 
 
 // show the shipping types

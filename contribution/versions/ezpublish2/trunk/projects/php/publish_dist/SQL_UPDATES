@@ -624,3 +624,5 @@ INSERT INTO eZTrade_QuantityRange VALUES ('',NULL,'Available');
 INSERT INTO eZTrade_QuantityRange VALUES ('',-1,'Not applicable);
 
 ALTER TABLE eZTrade_OptionValue MODIFY Price float(10,2);
+
+create table eZTrade_PreOrder( ID int primary key auto_increment, Created timestamp );
