@@ -5,6 +5,10 @@
 <hr noshade="noshade" size="4" />
 <br />
 
+<!-- BEGIN error_permission_tpl -->
+<p class="error">{intl-permission_error}</p>
+<!-- END error_permission_tpl -->
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>

@@ -58,3 +58,5 @@ ALTER TABLE eZSession_Preferences ADD INDEX (GroupName,Name);
 alter table eZTrade_CartOptionValue add RemoteID varchar(100);
 
 ALTER TABLE eZTrade_Product MODIFY Price float(10,5);  
+
+insert into eZUser_Permission set ModuleID='12', Name='WriteToRoot';

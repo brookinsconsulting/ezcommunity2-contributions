@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.15 2001/04/30 12:10:33 fh Exp $
+// $Id: categoryedit.php,v 1.16 2001/05/08 14:44:16 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -43,8 +43,19 @@ $Language = $ini->read_var( "eZArticleMain", "Language" );
 
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 
+$error = false;
+$permssionError = false;
+if ( ( $Action == "insert" ) || ( $Action == "update" ) )
+{
+    if ( ( $ParentID == 0 ) && ( eZPermission::checkPermission( $user, "eZArticle", "WriteToRoot" ) == false ) )
+    {
+        $permissionError = true;
+        $error = true;
+    }
+}
+
 // Direct actions
-if ( $Action == "insert" )
+if ( $Action == "insert" && !$error )
 {
     // clear the menu cache
     $files = eZCacheFile::files( "ezarticle/cache/",
@@ -140,7 +151,7 @@ if ( $Action == "insert" )
     exit();
 }
 
-if ( $Action == "update" )
+if ( $Action == "update" && !$error )
 {
     // clear the menu cache
     $files = eZCacheFile::files( "ezarticle/cache/",
@@ -282,13 +293,14 @@ $t->set_block( "category_edit_tpl", "value_tpl", "value" );
 $t->set_block( "category_edit_tpl", "category_owner_tpl", "category_owner" );
 $t->set_block( "category_edit_tpl", "group_item_tpl", "group_item" );
 $t->set_block( "category_edit_tpl", "bulkmail_category_item_tpl", "bulkmail_category_item" );
+$t->set_block( "category_edit_tpl", "error_permission_tpl", "error_permission" );
 
 $category = new eZArticleCategory();
 
 $categoryArray = $category->getAll( );
 
-$t->set_var( "description_value", "" );
-$t->set_var( "name_value", "" );
+$t->set_var( "description_value", "$Description" );
+$t->set_var( "name_value", "$Name" );
 $t->set_var( "action_value", "insert" );
 $t->set_var( "exclude_checked", "" );
 $t->set_var( "all_selected", "selected" );
@@ -299,6 +311,10 @@ $t->set_var( "no_bulkmail_selected", "selected" );
 $writeGroupsID = array(); 
 $readGroupsID = array(); 
 
+if ( $permissionError )
+    $t->parse( "error_permission", "error_permission_tpl" );
+else
+$t->set_var( "error_permission", "" );
 
 $t->set_var( "1_selected", "" );
 $t->set_var( "2_selected", "" );
