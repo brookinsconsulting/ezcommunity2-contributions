@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.43 2001/02/22 18:40:29 jb Exp $
+// $Id: ezarticle.php,v 1.44 2001/02/23 10:21:36 fh Exp $
 //
 // Definition of eZArticle class
 //
@@ -1146,6 +1146,7 @@ class eZArticle
     /*!
       \static
       Returns true if the user has permission to view this article.
+      $user is of type eZUser, $articleID is of type int
      */
     function hasReadPermission( $user, $articleID )
     {
@@ -1185,6 +1186,31 @@ class eZArticle
        return false; 
     }
     
+    /*!
+      \static
+      Returns true if the user has write permission for this article
+     */
+    function hasWritePermission( $user, $articleID )
+    {
+        if( get_class( $user ) != "ezuser" )
+            return false;
+
+        // check if owner
+        $database =& eZDB::globalDatabase();
+        $database->query_single( $res, "SELECT AuthorID from eZArticle_Article WHERE ID='$articleID'");
+        $authorID = $res[ "AuthorID" ];
+        if( $authorID == $user->id() )
+            return true;
+
+        // check if group
+        $database->query_single( $res, "SELECT OwnerGroupID from eZArticle_Article WHERE ID='$articleID'");
+        $ownerGroupID = $res[ "OwnerGroupID" ];
+        $userGroups = $user->groups( true );
+        if( in_array( $ownerGroupID, $userGroups ) || $ownerGroupID == 0)
+            return true;
+
+        return false;
+    }
     
     /*!
       Returns the article which a forum is connected to.

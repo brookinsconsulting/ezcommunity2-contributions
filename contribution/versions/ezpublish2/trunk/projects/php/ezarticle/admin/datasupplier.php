@@ -1,6 +1,11 @@
 <?
 
 include_once( "classes/ezhttptool.php" );
+include_once( "ezarticle/classes/ezarticle.php" );
+include_once( "ezarticle/classes/ezarticlecategory.php" );
+include_once( "ezuser/classes/ezuser.php" );
+
+$user = eZUser::currentUser();
 
 switch ( $url_array[2] )
 {
@@ -10,7 +15,8 @@ switch ( $url_array[2] )
         if  ( !isset( $CategoryID ) || ( $CategoryID == "" ) )
             $CategoryID = 0;
 
-        include( "ezarticle/admin/articlelist.php" );
+        if( $CategoryID == 0 || eZArticleCategory::hasReadPermission( $user, $CategoryID ) )
+            include( "ezarticle/admin/articlelist.php" );
     }
     break;
 
@@ -20,7 +26,8 @@ switch ( $url_array[2] )
         if  ( !isset( $CategoryID ) || ( $CategoryID == "" ) )
             $CategoryID = 0;
 
-        include( "ezarticle/admin/unpublishedlist.php" );
+        if( $CategoryID != 0 && eZArticleCategory::hasReadPermission( $user, $CategoryID ) )
+            include( "ezarticle/admin/unpublishedlist.php" );
     }
     break;
 
@@ -39,7 +46,8 @@ switch ( $url_array[2] )
         if ( !isset( $PageNumber ) || ( $PageNumber == "" ) )
             $PageNumber= 1;
 
-        include( "ezarticle/admin/articlepreview.php" );
+        if( eZArticle::hasReadPermission( $user, $ArticleID ) )
+            include( "ezarticle/admin/articlepreview.php" );
     }
     break;
 
@@ -55,11 +63,20 @@ switch ( $url_array[2] )
             }
             break;
 
+            case "new" :
+            {
+                $Action = "New";
+                include( "ezarticle/admin/articleedit.php" );
+            }
+            break;
+
             case "update" :
             {
                 $Action = "Update";
                 $ArticleID = $url_array[4];
-                include( "ezarticle/admin/articleedit.php" );
+
+                if( eZArticle::hasWritePermission( $user, $ArticleID ) )
+                    include( "ezarticle/admin/articleedit.php" );
             }
             break;
 
@@ -67,22 +84,19 @@ switch ( $url_array[2] )
             {
                 $Action = "Cancel";
                 $ArticleID = $url_array[4];
-                include( "ezarticle/admin/articleedit.php" );
+
+                if( eZArticle::hasWritePermission( $user, $ArticleID ) )
+                    include( "ezarticle/admin/articleedit.php" );
             }
             break;
-            
-            case "new" :
-            {
-                $Action = "New";
-                include( "ezarticle/admin/articleedit.php" );
-            }
-            break;
-            
+                        
             case "edit" :
             {
                 $Action = "Edit";
                 $ArticleID = $url_array[4];
-                include( "ezarticle/admin/articleedit.php" );
+
+                if( eZArticle::hasWritePermission( $user, $ArticleID ) )
+                    include( "ezarticle/admin/articleedit.php" );
             }
             break;
 
@@ -90,21 +104,25 @@ switch ( $url_array[2] )
             {
                 $Action = "Delete";
                 $ArticleID = $url_array[4];
-                include( "ezarticle/admin/articleedit.php" );
+
+                if( eZArticle::hasWritePermission( $user, $ArticleID ) )
+                    include( "ezarticle/admin/articleedit.php" );
             }
             break;
 
             case "imagelist" :
             {
                 $ArticleID = $url_array[4];
-                include( "ezarticle/admin/imagelist.php" );
+                if( eZArticle::hasWritePermission( $user, $ArticleID ) )
+                    include( "ezarticle/admin/imagelist.php" );
             }
             break;
 
             case "filelist" :
             {
                 $ArticleID = $url_array[4];
-                include( "ezarticle/admin/filelist.php" );
+                if( eZArticle::hasWritePermission( $user, $ArticleID ) )
+                    include( "ezarticle/admin/filelist.php" );
             }
             break;
             
@@ -116,7 +134,8 @@ switch ( $url_array[2] )
                     {
                         $Action = "New";
                         $ArticleID = $url_array[5];
-                        include( "ezarticle/admin/imageedit.php" );
+                        if( eZArticle::hasWritePermission( $user, $ArticleID ) )
+                            include( "ezarticle/admin/imageedit.php" );
                     }
                     break;
 
@@ -125,7 +144,8 @@ switch ( $url_array[2] )
                         $Action = "Edit";
                         $ArticleID = $url_array[6];
                         $ImageID = $url_array[5];
-                        include( "ezarticle/admin/imageedit.php" );
+                        if( eZArticle::hasWritePermission( $user, $ArticleID ) )
+                            include( "ezarticle/admin/imageedit.php" );
                     }
                     break;
 
@@ -135,13 +155,15 @@ switch ( $url_array[2] )
                         if ( isset( $DeleteSelected ) )
                             $Action = "Delete";
                         $ArticleID = $url_array[5];
-                        include( "ezarticle/admin/imageedit.php" );
+                        if( eZArticle::hasWritePermission( $user, $ArticleID ) )
+                            include( "ezarticle/admin/imageedit.php" );
                     }
                     break;
 
                     default :
                     {
-                        include( "ezarticle/admin/imageedit.php" );
+                        if( eZArticle::hasWritePermission( $user, $ArticleID ) )
+                            include( "ezarticle/admin/imageedit.php" );
                     }
                     
                 }
@@ -157,7 +179,8 @@ switch ( $url_array[2] )
                     {
                         $Action = "New";
                         $ArticleID = $url_array[5];
-                        include( "ezarticle/admin/fileedit.php" );
+                        if( eZArticle::hasWritePermission( $user, $ArticleID ) )
+                            include( "ezarticle/admin/fileedit.php" );
                     }
                     break;
 
@@ -166,7 +189,8 @@ switch ( $url_array[2] )
                         $Action = "Edit";
                         $ArticleID = $url_array[6];
                         $FileID = $url_array[5];
-                        include( "ezarticle/admin/fileedit.php" );
+                        if( eZArticle::hasWritePermission( $user, $ArticleID ) )
+                            include( "ezarticle/admin/fileedit.php" );
                     }
                     break;
 
@@ -175,13 +199,15 @@ switch ( $url_array[2] )
                         $Action = "Delete";
                         $ArticleID = $url_array[6];
                         $FileID = $url_array[5];
-                        include( "ezarticle/admin/fileedit.php" );
+                        if( eZArticle::hasWritePermission( $user, $ArticleID ) )
+                            include( "ezarticle/admin/fileedit.php" );
                     }
                     break;
                     
                     default :
                     {
-                        include( "ezarticle/admin/fileedit.php" );
+                        if( eZArticle::hasWritePermission( $user, $ArticleID ) )
+                            include( "ezarticle/admin/fileedit.php" );
                     }
                     
                 }
@@ -209,7 +235,8 @@ switch ( $url_array[2] )
         if ( $url_array[3] == "insert" )
         {
             $Action = "insert";
-            include( "ezarticle/admin/categoryedit.php" );
+            if( eZArticleCategory::hasWritePermission( $user, $ArticleID ) )
+                include( "ezarticle/admin/categoryedit.php" );
         }
         if ( $url_array[3] == "new" )
         {
@@ -220,24 +247,30 @@ switch ( $url_array[2] )
         {
             $CategoryID = $url_array[4];
             $Action = "update";
-            include( "ezarticle/admin/categoryedit.php" );
+            if( eZArticleCategory::hasWritePermission( $user, $ArticleID ) )
+                include( "ezarticle/admin/categoryedit.php" );
         }
         if ( $url_array[3] == "delete" )
         {
             $CategoryID = $url_array[4];
             $Action = "delete";
-            include( "ezarticle/admin/categoryedit.php" );
+            if( eZArticleCategory::hasWritePermission( $user, $ArticleID ) )
+                include( "ezarticle/admin/categoryedit.php" );
         }
         if ( $url_array[3] == "edit" )
         {
             $CategoryID = $url_array[4];
             $Action = "edit";
-            include( "ezarticle/admin/categoryedit.php" );
+            if( eZArticleCategory::hasWritePermission( $user, $ArticleID ) )
+                include( "ezarticle/admin/categoryedit.php" );
         }
 
     }
     break;
-        
+
 }
+
+// display a page with error msg
+        
 
 ?>
