@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsgroup.php,v 1.2 2001/08/23 15:06:05 ce Exp $
+// $Id: newsgroup.php,v 1.3 2001/08/23 18:04:52 bf Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -44,16 +44,13 @@ $GrayScaleImageList = $ini->read_var( "eZArticleMain", "GrayScaleImageList" );
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", $Language, "newsgroup.php" );
 
-$limit = 4;
+$articleLimit = 2;
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "news_group_tpl" => "newsgroup.tpl"
-    ) );
+$t->set_file( "news_group_tpl", "newsgroup.tpl" );
 
 $t->set_block( "news_group_tpl", "category_item_tpl", "category_item" );
-
 
 $t->set_block( "category_item_tpl", "article_item_tpl", "article_item" );
 
@@ -66,33 +63,40 @@ $t->set_block( "category_item_tpl", "end_without_break_tpl", "end_without_break"
 $t->set_block( "article_item_tpl", "article_image_tpl", "article_image" );
 $t->set_block( "article_item_tpl", "no_image_tpl", "no_image" );
 
+
+
 // image dir
 $t->set_var( "image_dir", $ImageDir );
 
-$category = new eZArticleCategory( 0 );
+$category = new eZArticleCategory( $CategoryID );
 
-$categoryList =& $category->getByParent( $category, true, "placement" );
+$categoryList =& $category->getByParent( $category, true, "placement", 0, 4 );
 
-print( count ( $categoryList ) );
+$locale = new eZLocale( $Language );
+
 $i = 0;
 foreach( $categoryList as $category )
 {
-    if ( ( $i % 2 ) == 0 )
+    $t->set_var( "start_with_break", "" );
+    $t->set_var( "start_without_break", "" );
+    $t->set_var( "end_with_break", "" );
+    $t->set_var( "end_without_break", "" );
+
+    if ( $i%2 == 0 )
     {
-        $t->parse( "start_with_break", "start_with_break_tpl" );
-        $t->parse( "end_without_break", "end_without_break_tpl" );
+        $t->parse( "start_with_break", "start_with_break_tpl");
+        $t->parse( "end_without_break", "end_without_break_tpl");        
     }
     else
     {
-        $t->parse( "start_without_break", "start_without_break_tpl" );
-        $t->parse( "end_with_break", "end_with_break_tpl" );
+        $t->parse( "end_with_break", "end_with_break_tpl");
+        $t->parse( "start_without_break", "start_without_break_tpl");
     }
-
+    
     $t->set_var( "category_id", $category->id() );
     $t->set_var( "category_name", $category->name() );
 
-
-    $articles = $category->articles( "time", false, true, 0, $limit );
+    $articles =& $category->articles( "time", false, true, 0, $articleLimit );
 
     $t->set_var( "article_item", "" );
     $j=0;
@@ -101,9 +105,14 @@ foreach( $categoryList as $category )
         $t->set_var( "article_name", $article->name() );
         $t->set_var( "article_id", $article->id() );
 
+        $published =& $article->published();
+        $published =& $published->date();        
+
+        $t->set_var( "article_published", $locale->format( $published ) );
+        
         $t->set_var( "article_image", "" );
         $t->set_var( "no_image", "" );    
-        if ( $i == 0 )
+        if ( $j == 0 )
         {
             // preview image
             $thumbnailImage =& $article->thumbnailImage();
@@ -123,6 +132,10 @@ foreach( $categoryList as $category )
                 $t->set_var( "thumbnail_image_caption", $thumbnailImage->caption() );
                 
                 $t->parse( "article_image", "article_image_tpl" );
+            }
+            else
+            {
+                $t->parse( "no_image", "no_image_tpl" );
             }
         }
         else

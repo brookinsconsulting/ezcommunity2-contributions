@@ -26,10 +26,10 @@
 <!-- BEGIN category_item_tpl -->
 
 <!-- BEGIN start_with_break_tpl -->
-<tr><td >
+<tr><td  valign="top" width="50%">
 <!-- END start_with_break_tpl -->
 <!-- BEGIN start_without_break_tpl -->
-<td >
+<td valign="top"  width="50%">
 <!-- END start_without_break_tpl -->
 
 
@@ -42,7 +42,7 @@
 	<!-- BEGIN article_image_tpl -->
 	<table width="100%" cellspacing="0" cellpadding="2" border="0">
 	<tr>
-		<td rowspan="2">
+		<td rowspan="2" width="50%">
 		<a href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/"><img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" /></a>
 		</td>
 		<td >
@@ -50,8 +50,9 @@
 		</td>
 	</tr>
 	<tr>
-		<td >
+		<td  width="50%">
 		<p>{article_intro}</p>
+		( {article_published} )
 		</td>
 
         </tr>
@@ -61,13 +62,19 @@
 	<!-- BEGIN no_image_tpl -->
 	<table width="100%" cellspacing="0" cellpadding="2" border="0">
 	<tr>
-		<td>
+		<td  width="50%">
+		</td>
+
+		<td  width="50%">
 		<a href="/article/articleview/{article_id}"><b>{article_name}<b/></a>
 		</td>
        </tr>		
        <tr>		
-		<td >
+		<td  width="50%">
+		</td>
+		<td  width="50%">
 		<p>{article_intro}</p>
+		( {article_published} )
 		</td>
 
         </tr>

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.78 2001/08/23 15:00:05 ce Exp $
+// $Id: datasupplier.php,v 1.79 2001/08/23 18:04:52 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -61,6 +61,11 @@ switch ( $url_array[2] )
 
     case "newsgroup":
     {
+        if ( isset( $url_array[3] ) )
+            $CategoryID = $url_array[3];
+        else
+            $CategoryID = "";
+
         include( "ezarticle/user/newsgroup.php" );        
     }
     break;
