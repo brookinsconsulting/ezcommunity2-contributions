@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.115 2001/09/15 09:55:00 bf Exp $
+// $Id: articleedit.php,v 1.116 2001/09/15 13:20:26 bf Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -100,12 +100,7 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
 
         $article->setName( $Name );
 
-        $author = new eZAuthor( $ContentsWriterID );
-        $article->setContentsWriter( $author );
-
-        if ( trim( $NewAuthorName ) != "" &&
-             trim( $NewAuthorEmail ) != ""
-             )
+        if ( trim( $NewAuthorName ) != "" )
         {
             $author = new eZAuthor( );
             $author->setName( $NewAuthorName );
