@@ -159,7 +159,7 @@ class eZNewsCategoryViewer
 			switch ($this->Item->ID())
 			{
 				case "8":
-					$template->set_var( "category_info", "Begravelser er en tung stund for familien.");
+					$template->set_var( "category_info", "Begravelser er en tung stund for familien. Vi kan bistå med de fleste tjenester i denne sammenhengen, i hvert fall hvis det gjelder blomster!");
             		$template->set_var( "category_name", "Begravelser");
 					break;
 				case "7":
@@ -167,7 +167,7 @@ class eZNewsCategoryViewer
             		$template->set_var( "category_name", "Buketter");
 					break;
 				case "3":
-					$template->set_var( "category_info", "Blomster er morsomme.");
+					$template->set_var( "category_info", "Blomster er morsomme, men ikke så gøy som et nesehorn i en glassmagasin. Her er uansett noen av ukas tilbud!");
             		$template->set_var( "category_name", "Blomster");
 					break;
 				case "5":
