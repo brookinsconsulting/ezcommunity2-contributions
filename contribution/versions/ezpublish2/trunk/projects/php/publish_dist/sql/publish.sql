@@ -1182,10 +1182,10 @@ CREATE TABLE eZContact_CompanyView (
 
 
 #
-# Table structure for table 'eZContact_ConsultationCompanyDict'
+# Table structure for table 'eZContact_ConsulationCompanyDict'
 #
 
-CREATE TABLE eZContact_ConsultationCompanyDict (
+CREATE TABLE eZContact_ConsulationCompanyDict (
   ConsultationID int(11) NOT NULL default '0',
   CompanyID int(11) NOT NULL default '0',
   PRIMARY KEY (ConsultationID,CompanyID)
@@ -3125,13 +3125,10 @@ CREATE TABLE eZTrade_WishListOptionValue (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-ALTER TABLE eZTrade_Cart ADD PersonID int;
-ALTER TABLE eZTrade_Cart ADD CompanyID int;
+#
+# Dumping data for table 'eZTrade_WishListOptionValue'
+#
 
-ALTER TABLE eZTrade_Order ADD PersonID int;
-ALTER TABLE eZTrade_Order ADD CompanyID int;
-
-ALTER TABLE eZTrade_OrderItem ADD ExpiryDate int;
 
 #
 # Table structure for table 'eZUser_Cookie'
@@ -3392,14 +3389,6 @@ CREATE TABLE eZUser_UserGroupLink (
 #
 
 INSERT INTO eZUser_UserGroupLink VALUES (1,1,1);
-
-
-CREATE TABLE eZUser_Trustees (
-  ID int(11) NOT NULL auto_increment,
-  OwnerID int(11) NOT NULL,
-  UserID int(11) NOT NULL,
-  PRIMARY KEY (ID)
-) TYPE=MyISAM;
 
 
 create table eZURLTranslator_URL( ID int primary key auto_increment, Source char(200), Dest char(200) );
