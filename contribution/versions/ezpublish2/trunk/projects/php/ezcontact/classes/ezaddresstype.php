@@ -53,7 +53,7 @@ class eZAddressType
         }
         else
         {
-            $this->Database->query( "UPDATE eZContact_AddressType set Name='$this->Name' WHERE ID='$this->ID'" );
+            $this->Database->query( "UPDATE eZContact_AddressType set Name='$this->Name', ListOrder='$this->ListOrder' WHERE ID='$this->ID'" );
 
             $this->State_ = "Coherent";
             $ret = true;
@@ -87,6 +87,7 @@ class eZAddressType
             {
                 $this->ID = $address_type_array[ 0 ][ "ID" ];
                 $this->Name = $address_type_array[ 0 ][ "Name" ];
+                $this->ListOrder = $address_type_array[ 0 ][ "ListOrder" ];
             }
             else
             {
@@ -107,7 +108,7 @@ class eZAddressType
         $address_type_array = array();
         $return_array = array();
     
-        $this->Database->array_query( $address_type_array, "SELECT ID FROM eZContact_AddressType" );
+        $this->Database->array_query( $address_type_array, "SELECT ID FROM eZContact_AddressType ORDER BY ListOrder" );
 
         foreach( $address_type_array as $addressTypeItem )
         {
@@ -142,6 +143,40 @@ class eZAddressType
     }
     
     /*!
+      Moves this item up one step in the order list, this means that it will swap place with the item above.
+    */
+
+    function moveUp()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        $db = eZDB::globalDatabase();
+        $db->query_single( $qry, "SELECT ID, ListOrder FROM eZContact_AddressType
+                                  WHERE ListOrder<'$this->ListOrder' ORDER BY ListOrder DESC LIMIT 1" );
+        $listorder = $qry["ListOrder"];
+        $listid = $qry["ID"];
+        $db->query( "UPDATE eZContact_AddressType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
+        $db->query( "UPDATE eZContact_AddressType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
+    }
+
+    /*!
+      Moves this item down one step in the order list, this means that it will swap place with the item below.
+    */
+
+    function moveDown()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        $db = eZDB::globalDatabase();
+        $db->query_single( $qry, "SELECT ID, ListOrder FROM eZContact_AddressType
+                                  WHERE ListOrder>'$this->ListOrder' ORDER BY ListOrder ASC LIMIT 1" );
+        $listorder = $qry["ListOrder"];
+        $listid = $qry["ID"];
+        $db->query( "UPDATE eZContact_AddressType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
+        $db->query( "UPDATE eZContact_AddressType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
+    }
+
+    /*!
       \private
       Open the database.
     */
@@ -156,6 +191,7 @@ class eZAddressType
 
     var $ID;
     var $Name;
+    var $ListOrder;
 
     ///  Variable for keeping the database connection.
     var $Database;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezonlinetype.php,v 1.4 2000/12/15 17:06:38 pkej Exp $
+// $Id: ezonlinetype.php,v 1.5 2001/01/11 21:41:40 jb Exp $
 //
 // Definition of eZOnline class
 //
@@ -91,6 +91,7 @@ class eZOnlineType
         {
             $this->Database->query( "UPDATE eZContact_OnlineType set
                                      Name='$this->Name'
+                                     ListOrder='$this->ListOrder'
                                      WHERE ID='$this->ID'" );
 
             $this->State_ = "Coherent";
@@ -125,6 +126,7 @@ class eZOnlineType
             {
                 $this->ID = $online_type_array[ 0 ][ "ID" ];
                 $this->Name = $online_type_array[ 0 ][ "Name" ];
+                $this->ListOrder = $online_type_array[ 0 ][ "ListOrder" ];
             }
             else
             {
@@ -145,7 +147,7 @@ class eZOnlineType
         $online_type_array = array();
         $return_array = array();
     
-        $this->Database->array_query( $online_type_array, "SELECT ID FROM eZContact_OnlineType" );
+        $this->Database->array_query( $online_type_array, "SELECT ID FROM eZContact_OnlineType ORDER BY ListOrder" );
 
         foreach ( $online_type_array as $onlineTypeItem )
         {
@@ -180,6 +182,54 @@ class eZOnlineType
     }
     
     /*!
+      Returns the number of external items using this item.
+    */
+
+    function count()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        $db = eZDB::globalDatabase();
+        $db->query_single( $company_qry, "SELECT count( CompanyID ) as Count FROM eZContact_CompanyOnlineDict WHERE OnlineID='$this->ID'" );
+        $db->query_single( $person_qry, "SELECT count( PersonID ) as Count FROM eZContact_PersonOnlineDict WHERE OnlineID='$this->ID'" );
+        return $company_qry["Count"] + $person_qry["Count"];
+    }
+
+    /*!
+      Moves this item up one step in the order list, this means that it will swap place with the item above.
+    */
+
+    function moveUp()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        $db = eZDB::globalDatabase();
+        $db->query_single( $qry, "SELECT ID, ListOrder FROM eZContact_OnlineType
+                                  WHERE ListOrder<'$this->ListOrder' ORDER BY ListOrder DESC LIMIT 1" );
+        $listorder = $qry["ListOrder"];
+        $listid = $qry["ID"];
+        $db->query( "UPDATE eZContact_OnlineType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
+        $db->query( "UPDATE eZContact_OnlineType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
+    }
+
+    /*!
+      Moves this item down one step in the order list, this means that it will swap place with the item below.
+    */
+
+    function moveDown()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        $db = eZDB::globalDatabase();
+        $db->query_single( $qry, "SELECT ID, ListOrder FROM eZContact_OnlineType
+                                  WHERE ListOrder>'$this->ListOrder' ORDER BY ListOrder ASC LIMIT 1" );
+        $listorder = $qry["ListOrder"];
+        $listid = $qry["ID"];
+        $db->query( "UPDATE eZContact_OnlineType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
+        $db->query( "UPDATE eZContact_OnlineType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
+    }
+
+    /*!
       \private
       Open the database.
     */
@@ -194,6 +244,7 @@ class eZOnlineType
 
     var $ID;
     var $Name;
+    var $ListOrder;
 
     ///  Variable for keeping the database connection.
     var $Database;
