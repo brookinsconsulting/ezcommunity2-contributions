@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.95 2001/09/11 10:28:13 jhe Exp $
+// $Id: ezarticlecategory.php,v 1.96 2001/09/20 14:18:27 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -1109,15 +1109,12 @@ class eZArticleCategory
        {
            $groups =& $user->groups( true );
            
-           $i = 0;
            foreach ( $groups as $group )
            {
-               if ( $i == 0 )
-                   $groupSQL .= "( Permission.GroupID=$group AND CategoryPermission.GroupID=$group ) OR";
-               else
-                   $groupSQL .= " ( Permission.GroupID=$group AND CategoryPermission.GroupID=$group ) OR";
-               
-               $i++;
+               $groupSQL .= " ( Permission.GroupID='$group' AND CategoryPermission.GroupID='$group' ) OR
+                              ( Permission.GroupID='$group' AND CategoryPermission.GroupID='-1' ) OR
+                              ( Permission.GroupID='-1' AND CategoryPermission.GroupID='$group' ) OR
+                            ";
            }
            $currentUserID = $user->id();
            $loggedInSQL = "Article.AuthorID=$currentUserID OR";
@@ -1127,7 +1124,9 @@ class eZArticleCategory
        }
 
        if ( $usePermission )
-           $permissionSQL = "( ( $loggedInSQL ($groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1') ) ";
+           $permissionSQL = "( $loggedInSQL ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' )
+                                               AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1'
+                             ) ";
        else
            $permissionSQL = "";
        
