@@ -186,6 +186,16 @@ CREATE TABLE eZArticle_ArticleWordLink
 );
 
 
+DROP TABLE IF EXISTS eZArticle_ArticleMediaLink;
+CREATE TABLE eZArticle_ArticleMediaLink (
+  ID int(11) NOT NULL auto_increment,
+  ArticleID int(11) NOT NULL default '0',
+  MediaID int(11) NOT NULL default '0',
+  Created int(11) default NULL,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+
 CREATE INDEX ArticleWord_Word ON eZArticle_Word (Word);
 CREATE INDEX ArticleWordLink_ArticleID ON eZArticle_ArticleWordLink (ArticleID);
 CREATE INDEX ArticleWordLink_WordID ON eZArticle_ArticleWordLink (WordID);

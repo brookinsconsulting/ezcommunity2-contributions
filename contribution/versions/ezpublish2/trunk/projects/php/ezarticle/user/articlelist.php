@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.56 2001/08/06 14:28:22 jhe Exp $
+// $Id: articlelist.php,v 1.57 2001/08/07 08:22:24 bf Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -285,13 +285,16 @@ foreach ( $articleList as $article )
     if( eZObjectPermission::hasPermission( $aid, "article_article", 'r' )  ||
          eZArticle::isAuthor( eZUser::currentUser(), $article->id() ) )
     {
+        $categoryDef =& $article->categoryDefinition();
         if ( $CategoryID == 0 )
         {
-            $category =& $article->categoryDefinition();
-            $CategoryID = $category->id();
+            $CategoryID = $categoryDef->id();
         }
         
         $t->set_var( "category_id", $CategoryID );
+
+        $t->set_var( "category_def_name", $categoryDef->name() );
+        $t->set_var( "category_def_id", $categoryDef->id() );
     
         $t->set_var( "article_id", $article->id() );
         $t->set_var( "article_name", $article->name() );
