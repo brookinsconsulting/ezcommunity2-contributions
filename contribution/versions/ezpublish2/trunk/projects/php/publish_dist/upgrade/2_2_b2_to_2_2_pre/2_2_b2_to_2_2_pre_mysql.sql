@@ -44,3 +44,16 @@ INSERT INTO eZSiteManager_SectionFrontPageSetting VALUES (3,'1short');
 INSERT INTO eZSiteManager_SectionFrontPageSetting VALUES (4,'1columnProduct');
 INSERT INTO eZSiteManager_SectionFrontPageSetting VALUES (5,'2columnProduct');
 INSERT INTO eZSiteManager_SectionFrontPageSetting VALUES (6,'ad');
+
+CREATE TABLE eZForm_FormElementFixedValues (
+  ID int(11) NOT NULL default '0',
+  Value varchar(80) default NULL,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+ 
+CREATE TABLE eZForm_FormElementFixedValueLink (
+  ID int(11) NOT NULL default '0',
+  ElementID int(11) default '0',
+  FixedValueID int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
