@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezform.php,v 1.11 2001/12/17 11:30:42 jhe Exp $
+// $Id: ezform.php,v 1.12 2001/12/17 18:45:25 jhe Exp $
 //
 // ezform class
 //
@@ -392,11 +392,13 @@ class eZForm
     }
 
     /*!
-      Return the the pages for the form.
+      Return the the number of pages for the form.
      */
     function pages()
     {
         $db =& eZDB::globalDatabase();
+        $db->query_single( $pages, "SELECT Count(ID) as Count FROM eZForm_FormPage WHERE FormID='$this->ID'" );
+        return $pages[$db->fieldName( "Count" )];
     }
     
     /*!

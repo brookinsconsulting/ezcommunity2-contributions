@@ -35,7 +35,7 @@
 <!-- END checkbox_item_tpl -->
 
 <!-- BEGIN table_item_tpl -->
-<table border="0" cellspacing="0" cellpadding="0">
+<table cellspacing="0" cellpadding="0" border="0">
 <!-- BEGIN table_item_sub_item_tpl -->
 <tr>
 <!-- BEGIN table_item_cell_tpl -->
@@ -95,7 +95,16 @@
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top">
+<!-- BEGIN previous_button_tpl -->
+	<input class="okbutton" type="submit" name="Previous" value="{intl-prev}" />
+<!-- END previous_button_tpl -->
+<!-- BEGIN ok_button_tpl -->
 	<input class="okbutton" type="submit" name="OK" value="{intl-ok}" />
+<!-- END ok_button_tpl -->
+<!-- BEGIN next_button_tpl -->
+	<input class="okbutton" type="submit" name="Next" value="{intl-next}" />
+<!-- END next_button_tpl -->
+
 	</td>
 </tr>
 </table>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.22 2001/12/17 13:47:54 jhe Exp $
+// $Id: ezformrenderer.php,v 1.23 2001/12/17 18:45:25 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -90,6 +90,10 @@ class eZFormRenderer
         $this->Template->set_block( "form_list_tpl", "form_start_tag_tpl", "form_start_tag" );
         $this->Template->set_block( "form_list_tpl", "form_end_tag_tpl", "form_end_tag" );
         $this->Template->set_block( "form_list_tpl", "form_buttons_tpl", "form_buttons" );
+        $this->Template->set_block( "form_buttons_tpl", "previous_button_tpl", "previous_button" );
+        $this->Template->set_block( "form_buttons_tpl", "ok_button_tpl", "ok_button" );
+        $this->Template->set_block( "form_buttons_tpl", "next_button_tpl", "next_button" );
+        
         $this->Template->set_block( "form_list_tpl", "form_sender_tpl", "form_sender" );
         $this->Template->set_block( "form_list_tpl", "form_instructions_tpl", "form_instructions" );
         $this->Template->set_block( "form_renderer_page_tpl", "error_list_tpl", "error_list" );
@@ -101,6 +105,9 @@ class eZFormRenderer
         $this->Template->set_var( "form_sender", "" );
         $this->Template->set_var( "form_end_tag", "" );
         $this->Template->set_var( "form_buttons", "" );
+        $this->Template->set_var( "previous_button", "" );
+        $this->Template->set_var( "ok_button", "" );
+        $this->Template->set_var( "next_button", "" );
         $this->Template->set_var( "form_list", "" );
         $this->Template->set_var( "form_item", "" );
         $this->Template->set_var( "text_field_item", "" );
@@ -282,9 +289,9 @@ class eZFormRenderer
                     
                     $this->Template->set_var( "element", $tableString );
                     $this->Template->set_var( "element_name", $element->name() );
-                    $this->Template->set_var( "colspan", " colspan=\"1\"" );
-                    $this->Template->set_var( "break", "" );
-
+                    $this->Template->set_var( "colspan", " colspan=\"$maxBreakCount\"" );
+                    
+                    $this->Template->parse( "break", "break_tpl" );
                     $this->Template->parse( "form_item", "form_item_tpl", true );
                 }
                 else
@@ -343,10 +350,29 @@ class eZFormRenderer
                     $this->Template->parse( "form_end_tag", "form_end_tag_tpl" );
                 }
 
-                if ( $addButtons == true )
+                if ( $this->Page == -1 )
                 {
-                    $this->Template->parse( "form_buttons", "form_buttons_tpl" );
+                    if ( $this->Form->pages() > 1 )
+                    {
+                        $this->Template->parse( "next_button", "next_button_tpl" );
+                        $this->Template->set_var( "ok_button", "" );
+                    }
+                    else
+                    {
+                        $this->Template->parse( "ok_button", "ok_button_tpl" );
+                        $this->Template->set_var( "next_button", "" );
+                    }
+                    $this->Template->set_var( "previous_button", "" );
                 }
+                else
+                {
+                    $this->Template->parse( "previous_button", "previous_button_tpl" );
+                    $this->Template->parse( "next_button", "next_button_tpl" );
+                    $this->Template->set_var( "ok_button", "" );
+                }
+                    
+                
+                $this->Template->parse( "form_buttons", "form_buttons_tpl" );
                 $output = $this->Template->parse( $target, "form_list_tpl" );
             }
         }

@@ -11,6 +11,15 @@ CREATE TABLE eZForm_Form (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
+CREATE TABLE eZForm_FormContition (
+  ID int(11) NOT NULL,
+  ElementID int(11) NOT NULL,
+  PageID int(11) NOT NULL,
+  Max int(11) default '0',
+  Min int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
 CREATE TABLE eZForm_FormPage (
   ID int(11) NOT NULL,
   Name varchar(255) default NULL,
