@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.96.2.1 2001/11/01 13:26:59 ce Exp $
+// $Id: checkout.php,v 1.96.2.2 2001/11/13 09:20:59 br Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -154,6 +154,7 @@ $t->set_var( "show_payment", "" );
 $t->set_var( "price_ex_vat", "" );
 $t->set_var( "price_inc_vat", "" );
 $t->set_var( "cart_item", "" );
+$t->set_var(  "wish_user", "" );
 $t->set_var( "pay_with_voucher", "false" );
 
 if ( isSet ( $RemoveVoucher ) )
