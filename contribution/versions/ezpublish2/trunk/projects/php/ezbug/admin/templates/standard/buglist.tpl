@@ -1,4 +1,3 @@
-<form method="post" action="/bug/archive/{current_module_id}/">
 
 <table width="100%" border="0">
 <tr>
@@ -18,6 +17,7 @@
 </table>
 
 <hr noshade="noshade" size="4" />
+<form method="post" action="/bug/archive/{current_module_id}/">
 
 <!-- BEGIN path_tpl -->
 
