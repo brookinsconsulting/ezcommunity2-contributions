@@ -163,3 +163,35 @@ Maintainer(s) : jhe@ez.no
     * user/fileupload.php
       user/folderedit.php: small code standard fix
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-09-25  fh  <fh@zev.ez.no>
+
+    * user/fileupload.php: Filemanager: Removed unused stuff
+    Imagecatalogue: Set correct permissions on stuff uploaded/moved into a upload folder..
+    Imagecatalouge moving into upload is still a bit experimental... wondering if it might be better to allow UPLOAD only into a upload folder and
+    no moving... (this sure what make a few things easier...)
+
+    * user/menubox.php: Show write menu in menubox when upload allowed
+
+2001-09-25  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/intl/en_GB/fileview.php.ini
+      user/intl/no_NO/fileview.php.ini
+      user/templates/standard/fileview.tpl: added search field in fileview
+
+    * user/intl/en_GB/search.php.ini
+      user/intl/no_NO/search.php.ini
+      user/templates/standard/search.tpl
+      classes/ezvirtualfile.php
+      user/search.php: fixed search in filemanager
+
+    * sql/mysql/ezfilemanager.sql
+      sql/postgresql/ezfilemanager.sql: updated sql schemas
+
+    * admin/cron.php
+      classes/ezvirtualfile.php
+      classes/ezvirtualfolder.php: small speed fixes
+

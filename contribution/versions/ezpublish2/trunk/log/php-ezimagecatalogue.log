@@ -252,3 +252,29 @@ Maintainer(s) : br@ez.no
 
     * xmlrpc/datasupplier.php: Bugfixes to data, and storedata commands.
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-09-25  fh  <fh@zev.ez.no>
+
+    * user/categoryedit.php
+      user/imageedit.php
+      user/menubox.php: Filemanager: Removed unused stuff
+    Imagecatalogue: Set correct permissions on stuff uploaded/moved into a upload folder..
+    Imagecatalouge moving into upload is still a bit experimental... wondering if it might be better to allow UPLOAD only into a upload folder and
+    no moving... (this sure what make a few things easier...)
+
+2001-09-25  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/category.php:
+    Bugfix: The delete() function of eZImageCategory is not called directly but by
+    using an object.
+
+    * xmlrpc/category.php: New file for handling image categories.
+
+    * xmlrpc/image.php:
+    Bugfix: When an image is stored for the first time the ID is fetched from
+    the object before being used further. This fixes the problem where the
+    permissions would not be set the first time an image was inserted.
+

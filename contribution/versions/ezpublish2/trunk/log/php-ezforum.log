@@ -245,3 +245,24 @@ Maintainer(s) : jhe@ez.no
       user/userlogin.php:
     fixed problems with special characters, html-content and php-content
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-09-25  Baard Farstad  <bf@ez.no>
+
+    * classes/ezforum.php
+      user/search.php: Added fulltext search in forum.
+
+    * classes/ezforummessage.php: Added fulltext word indexing on forum.
+
+2001-09-25  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezforum.php
+      user/intl/no_NO/search.php.ini
+      user/search.php
+      user/templates/standard/search.tpl: fixed searching in forum
+
+    * sql/mysql/ezforum.sql
+      sql/postgresql/ezforum.sql: updated sql schemas
+

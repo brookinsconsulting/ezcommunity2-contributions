@@ -555,3 +555,11 @@ Maintainer(s) : ce@ez.no
       admin/customerview.php:
     Fixed showing multiple addresses in customer view.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-09-25  Baard Farstad  <bf@ez.no>
+
+    * admin/productedit.php: Fixed checking of input.
+

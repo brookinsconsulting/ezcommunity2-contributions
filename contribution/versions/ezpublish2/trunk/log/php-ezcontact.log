@@ -203,3 +203,11 @@ Maintainer(s) : jhe@ez.no
 
     * admin/intl/fr_FR/companytype.php.ini: removed decapricated intl lines
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-09-25  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/folder.php: small speed improvment
+

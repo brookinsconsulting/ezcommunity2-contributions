@@ -125,3 +125,13 @@ Maintainer(s) : jhe@ez.no
 
     * user/dayview.php: small code standard fix
 
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@ez.no
+2001-09-25  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/typeedit.php
+      admin/typelist.php
+      classes/ezappointmenttype.php: small speed improvement
+

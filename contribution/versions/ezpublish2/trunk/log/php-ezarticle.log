@@ -931,3 +931,38 @@ Maintainer(s) : bf@ez.no
     Current user in getByParent can now be supplied as a parameter instead of
     being taken from eZUser::currentUser().
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-09-25  Baard Farstad  <bf@ez.no>
+
+    * classes/ezarticle.php
+      user/frontpage.php:
+    Fixed an include and fixed searching in keywords in article.
+
+    * classes/ezqdomgenerator.php
+      user/templates/standard/articletags_tex.tpl
+      user/templates/standard/tex.tpl
+      admin/export.php: Fixed popuplink compatibility.
+
+2001-09-25  Unknown  <master@open.lv>
+
+    * user/sitemap.php: section anabling
+
+2001-09-25  Baard Farstad  <bf@ez.no>
+
+    * user/templates/standard/articletags_tex.tpl
+      user/templates/standard/tex.tpl: New tempaltes for LaTeX.
+
+    * admin/intl/en_GB/menubox.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      user/frontpage.php:
+    Added translation and fixed section information on frontpage.
+
+    * admin/articlepreview.php
+      classes/ezqdomgenerator.php
+      user/datasupplier.php
+      user/frontpage.php:
+    Made it possible to choose which ID to show on the frontpage.
+

@@ -100,3 +100,11 @@ Maintainer(s) : bf@ez.no
 
     * eztexttool.php: Fixed export of eZ article articles to latex.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-09-25  Baard Farstad  <bf@ez.no>
+
+    * eztemplate.php: Removed debug output if debug is disabled.
+
