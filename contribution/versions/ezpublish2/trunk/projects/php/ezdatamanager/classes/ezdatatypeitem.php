@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdatatypeitem.php,v 1.4 2002/02/09 15:06:29 br Exp $
+// $Id: ezdatatypeitem.php,v 1.5 2002/02/09 15:24:05 bf Exp $
 //
 // Definition of eZDataTypeItem class
 //
@@ -129,6 +129,39 @@ class eZDataTypeItem
     }
 
     /*!
+      Returns all tye data items with the given ID, if ID is false all items are returned.
+    */
+    function &getAll( $id = false )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $returnArray = array();
+        $typeItemArray = array();
+
+        if ( is_numeric( $id ) )
+        {
+            $db->array_query( $typeItemArray, "SELECT ID
+                                          FROM eZDataManager_DataTypeItem WHERE DataTypeItemID='$id'
+                                          " );
+        }
+        else
+        {
+            $db->array_query( $typeItemArray, "SELECT ID
+                                          FROM eZDataManager_DataTypeItem
+                                          " );
+        }
+        
+
+        for ( $i=0; $i < count($typeItemArray); $i++ )
+        {
+            $returnArray[$i] = new eZDataTypeItem( $typeItemArray[$i][$db->fieldName("ID")] );
+        }
+
+        return $returnArray;
+    }
+    
+
+    /*!
       Deletes a data type item from the database.
     */
     function delete()
@@ -239,10 +272,10 @@ class eZDataTypeItem
     {
         $db =& eZDB::globalDatabase();
 
-        $db->array_query( $relation_array, "SELECT ID FROM eZDataManager_RelationDefinition
+        $db->array_query( $relation_array, "SELECT DataTypeRelationID FROM eZDataManager_RelationDefinition
                                             WHERE DataTypeItemID='" . $this->ID . "'" );
 
-        return $relation_array[0][$db->fieldName( "ID" )];
+        return $relation_array[0][$db->fieldName( "DataTypeRelationID" )];
     }
     
     

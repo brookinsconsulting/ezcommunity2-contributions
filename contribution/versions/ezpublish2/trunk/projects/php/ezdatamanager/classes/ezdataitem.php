@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdataitem.php,v 1.5 2002/02/08 16:29:05 bf Exp $
+// $Id: ezdataitem.php,v 1.6 2002/02/09 15:24:05 bf Exp $
 //
 // Definition of eZDataItem class
 //
@@ -117,6 +117,39 @@ class eZDataItem
         }
     }
 
+    /*!
+      \static
+      Returns all data items with the given ID, if ID is false all items are returned.
+    */
+    function &getAll( $id = false )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $returnArray = array();
+        $typeItemArray = array();
+
+        if ( is_numeric( $id ) )
+        {
+            $db->array_query( $typeItemArray, "SELECT ID
+                                          FROM eZDataManager_Item WHERE DataTypeID='$id'
+                                          " );
+        }
+        else
+        {
+            $db->array_query( $typeItemArray, "SELECT ID
+                                          FROM eZDataManager_Item
+                                          " );
+        }
+        
+
+        for ( $i=0; $i < count($typeItemArray); $i++ )
+        {
+            $returnArray[$i] = new eZDataItem( $typeItemArray[$i][$db->fieldName("ID")] );
+        }
+
+        return $returnArray;
+    }
+    
     /*!
       Deletes a data type with all items from the database.
     */

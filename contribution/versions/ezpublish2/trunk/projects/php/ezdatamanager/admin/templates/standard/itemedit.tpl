@@ -37,9 +37,20 @@
 </tr>
 <!-- BEGIN item_value_tpl -->
 <tr>
-	<td class="{td_class}">
+	<td class="{td_class}">	
 	<b>{data_type_name}</b><br />
+	<!-- BEGIN text_item_tpl -->
 	<textarea class="box" name="ItemValueArray[{data_type_id}]" cols="40" rows="5" wrap="soft">{data_type_value}</textarea>
+	<!-- END text_item_tpl -->
+
+	<!-- BEGIN relation_item_tpl -->
+	<select name="ItemValueArray[{data_type_id}]" >
+	<!-- BEGIN relation_item_value_tpl -->
+	<option {selected} value="{relation_type_id}">{relation_type_name}</option>
+	<!-- END relation_item_value_tpl -->
+	</select>
+	<!-- END relation_item_tpl -->
+
 	</td>
 </tr>
 <!-- END item_value_tpl -->

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: itemedit.php,v 1.2 2002/02/08 16:13:37 bf Exp $
+// $Id: itemedit.php,v 1.3 2002/02/09 15:24:05 bf Exp $
 //
 // Created on: <20-Nov-2001 17:23:58 bf>
 //
@@ -95,6 +95,10 @@ $t->set_block( "item_edit_tpl", "item_owner_group_tpl", "item_owner_group" );
 $t->set_block( "item_edit_tpl", "item_value_list_tpl", "item_value_list" );
 $t->set_block( "item_value_list_tpl", "item_value_tpl", "item_value" );
 
+$t->set_block( "item_value_tpl", "text_item_tpl", "text_item" );
+$t->set_block( "item_value_tpl", "relation_item_tpl", "relation_item" );
+$t->set_block( "relation_item_tpl", "relation_item_value_tpl", "relation_item_value" );
+
 
 $t->setAllStrings();
 
@@ -168,15 +172,50 @@ if ( $ItemID > 0 )
 
     foreach ( $dataTypeItems as $dataTypeItem )
     {
-        if ( trim( $item->itemValue( $dataTypeItem ) ) != "" )
-            $contentsArray = $generator->decodeXML( $item->itemValue( $dataTypeItem ) );
-        else
-            $contentsArray[] = "";
+        $t->set_var( "text_item", "" );
+        $t->set_var( "relation_item", "" );
+        switch ( $dataTypeItem->itemType() )
+        {
+            case "1" :
+            {
+                if ( trim( $item->itemValue( $dataTypeItem ) ) != "" )
+                    $contentsArray = $generator->decodeXML( $item->itemValue( $dataTypeItem ) );
+                else
+                    $contentsArray[] = "";
             
-        $t->set_var( "data_type_value", $contentsArray[0] );
+                $t->set_var( "data_type_value", $contentsArray[0] );
+                $t->set_var( "data_type_name", $dataTypeItem->name() );
+                $t->set_var( "data_type_id", $dataTypeItem->id() );
 
-        $t->set_var( "data_type_name", $dataTypeItem->name() );
-        $t->set_var( "data_type_id", $dataTypeItem->id() );
+                $t->parse( "text_item", "text_item_tpl" );
+
+            }break;
+
+            case "2" :
+            {
+                $t->set_var( "data_type_name", $dataTypeItem->name() );
+                $t->set_var( "data_type_value", $contentsArray[0] );
+                $t->set_var( "data_type_id", $dataTypeItem->id() );
+
+                
+                $dataItems = eZDataItem::getAll( $dataTypeItem->relationID() );
+
+                $t->set_var( "relation_item_value", "" );
+                foreach ( $dataItems as $item )
+                {
+                    $t->set_var( "relation_type_id", $item->id() );                    
+                    $t->set_var( "relation_type_name", $item->name() );
+
+                    $t->parse( "relation_item_value", "relation_item_value_tpl", true);                    
+                }
+
+                $t->parse( "relation_item", "relation_item_tpl" );
+
+            }break;
+
+
+            
+        }
 
         $t->parse( "item_value", "item_value_tpl", true );
     }
