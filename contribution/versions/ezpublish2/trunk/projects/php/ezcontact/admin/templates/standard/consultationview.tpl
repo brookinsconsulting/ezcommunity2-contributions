@@ -1,4 +1,4 @@
-<h1>{intl-edit_headline}</h1>
+<h1>{intl-consultation_headline}</h1>
 
 <hr noshade="noshade" size="4" />
 
@@ -12,7 +12,7 @@
 <!-- END person_contact_item_tpl -->
 
 <!-- BEGIN consultation_item_tpl -->
-<h2>{intl-consultation_headline}</h2>
+
 <!-- BEGIN consultation_date_item_tpl -->
 <p class="boxtext">{intl-date}:</p>
 {consultation_date}
@@ -21,18 +21,18 @@
     <tr>
 	    <td width="50%">
 	    <p class="boxtext">{intl-shortdescription}:</p>
-	    {short_description}
+	    {short_description}<br /><br />
 	    </td>
 
 	    <td width="50%">
 	    <p class="boxtext">{intl-status}:</p>
-	    {status_name}
+	    {status_name}<br /><br />
 	    </td>
     </tr>
     <tr>
 	    <td width="50%" rowspan="2" valign="top">
 	    <p class="boxtext">{intl-description}:</p>
-	    {description}
+	    {description}<br />
 	    </td>
 
 	    <td>
@@ -43,19 +43,19 @@
 	    <!-- BEGIN no_group_notice_tpl -->
 	    {intl-no_group_notice}
 	    <!-- END no_group_notice_tpl -->
+		<br />
 	    <td>
     </tr>
-    <tr>
-	    <td width="50%">
-	    <p class="boxtext">{intl-email_notice}:</p>
-	    {email_notification}
-	    </td>
-    </tr>
 </table>
+
+<p class="boxtext">{intl-email_notice}:</p>
+<div class="p">{email_notification}</div>
+
 <!-- END consultation_item_tpl -->
 
 
-<br />
+<br /><br />
+
 
 <hr noshade="noshade" size="4" />
 

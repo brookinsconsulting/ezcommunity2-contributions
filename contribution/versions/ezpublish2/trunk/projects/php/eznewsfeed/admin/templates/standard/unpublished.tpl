@@ -1,7 +1,7 @@
 <table width="100%" border="0">
 <tr>
 	<td valign="bottom">
-	<h1>{intl-head_line} - {current_category_name}</h1>
+	<h1>{intl-head_line}<!-- - {current_category_name} --></h1>
 	</td>
 	<td rowspan="2" align="right">
 	<form action="/newsfeed/search/" method="post">
@@ -68,12 +68,11 @@
 <!-- BEGIN news_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>{intl-news}:</th>
-	<th>{intl-news_origin}:</th>
-	<th>{intl-news_date}:</th>
-	<th>{intl-publish}:</th>
-	<th>{intl-delete}:</th>
-	<th colspan="2">&nbsp;</th>
+	<th width="50%">{intl-news}:</th>
+	<th width="47%">{intl-news_origin}:</th>
+	<th width="1%">{intl-news_date}:</th>
+	<th width="1%">{intl-publish}:</th>
+	<th width="1%" colspan="2">&nbsp;</th>
 </tr>
 
 <!-- BEGIN news_item_tpl -->
@@ -87,23 +86,19 @@
 	<td class="{td_class}">
 	{news_origin}&nbsp;
 	</td>
-	<td class="{td_class}">
-	{news_date}&nbsp;
+	<td width="1%" class="{td_class}">
+	<span class="small">{news_date}&nbsp;</span>
 	</td>
 
-	<td class="{td_class}">
+	<td width="1%" class="{td_class}">
 	<input type="checkbox" name="NewsPublishIDArray[]" value="{news_id}" />
-	</td>
-
-	<td class="{td_class}">
-	<input type="checkbox" name="NewsDeleteIDArray[]" value="{news_id}" />
 	</td>
 
 	<td width="1%" class="{td_class}">
 	<a href="/newsfeed/news/edit/{news_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{news_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezaa{news_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="#" onClick="verify( '{intl-delete}', '/newsfeed/unpublished/{current_category_id}/delete/{news_id}/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{news_id}-slett','','/images/{site_style}/slettminimrk.gif',1)"><img name="ezaa{news_id}-slett" border="0" src="/images/{site_style}/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
+	<input type="checkbox" name="NewsDeleteIDArray[]" value="{news_id}" />
 	</td>
 </tr>
 <!-- END news_item_tpl -->

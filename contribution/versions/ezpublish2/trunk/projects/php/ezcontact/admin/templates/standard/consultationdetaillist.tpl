@@ -9,7 +9,7 @@
 <!-- BEGIN consultation_table_item_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>{intl-consultation_date}:</th>
+	<th width="30%">{intl-consultation_date}:</th>
 	<th>{intl-consultation_short_description}:</th>
 	<th>{intl-consultation_status}:</th>
 	<th colspan="2">&nbsp;</th>
@@ -17,7 +17,7 @@
 
 <!-- BEGIN consultation_item_tpl -->
 <tr class="{bg_color}">
-	<td>
+	<td class="small">
         {consultation_date}
 	</td>
 	<td>
@@ -39,6 +39,8 @@
 <!-- END consultation_item_tpl -->
 </table>
 
+<hr noshade="noshade" size="4" />
+
 <table>
 <tr>
 <td>
@@ -48,7 +50,7 @@
 <!-- BEGIN new_company_consultation_item_tpl -->
 <form method="post" action="/contact/consultation/company/new/{company_id}">
 <!-- END new_company_consultation_item_tpl -->
-<input class="okbutton" type="submit" value="{intl-new_consultation}">
+<input class="stdbutton" type="submit" value="{intl-new_consultation}">
 </form>
 </td>
 <td>
