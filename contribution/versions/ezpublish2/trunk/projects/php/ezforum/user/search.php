@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.12 2001/07/19 13:17:55 jakobn Exp $
+// $Id: search.php,v 1.13 2001/09/10 06:37:15 jhe Exp $
 //
 // Created on: <12-Oct-2000 20:33:02 bf>
 //
@@ -24,11 +24,12 @@
 //
 
 include_once( "classes/INIFile.php" );
-include_once( "ezforum/classes/ezforum.php" );
-
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "classes/ezlist.php" );
+include_once( "classes/eztemplate.php" );
+
+include_once( "ezforum/classes/ezforum.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
@@ -36,8 +37,6 @@ $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
 $Limit = $ini->read_var( "eZForumMain", "SearchUserLimit" );
-
-include_once( "classes/eztemplate.php" );
 
 
 $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
@@ -55,7 +54,7 @@ $t->set_block( "search_tpl", "search_result_tpl", "search_result" );
 $t->set_block( "message_tpl", "new_icon_tpl", "new_icon" );
 $t->set_block( "message_tpl", "old_icon_tpl", "old_icon" );
 
-if( !isset ( $Offset ) )
+if ( !isSet ( $Offset ) )
     $Offset = 0;
 
 $t->set_var( "url_text", "" );
@@ -63,7 +62,7 @@ $t->set_var( "search_result", "" );
 
 if ( $QueryString != "" )
 {
-    $t->set_var( "url_text", urldecode(urlencode( $QueryString ) ));
+    $t->set_var( "url_text", $QueryString );
 
     $forum = new eZForum();
     
@@ -84,9 +83,7 @@ if ( $QueryString != "" )
             $t->set_var( "td_class", "bgdark" );
     
         $t->set_var( "message_topic", $message->topic() );
-        
         $t->set_var( "postingtime", $locale->format( $message->postingTime() ) );
-
         $t->set_var( "message_id", $message->id() );
 
         $messageAge = round( $message->age() / ( 60 * 60 * 24 ) );
@@ -103,7 +100,7 @@ if ( $QueryString != "" )
         
         $user = $message->user();
 
-        if( $user->id() == 0 )
+        if ( $user->id() == 0 )
         {
             $t->set_var( "user", $ini->read_var( "eZForumMain", "AnonymousPoster" ) );
         }
