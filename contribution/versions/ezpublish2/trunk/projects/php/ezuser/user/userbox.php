@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userbox.php,v 1.16 2000/12/21 10:46:54 ce Exp $
+// $Id: userbox.php,v 1.17 2001/01/11 13:51:05 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -62,8 +62,16 @@ if ( !$user )
         $t->set_var( "user_edit_url", "/user/user/new/" );
     }
 
-    
-    $t->set_var( "redirect_url", $REQUEST_URI );
+
+    if ( preg_match( "#^/user/user/login.*#", $REQUEST_URI  ) )
+    {
+        $t->set_var( "redirect_url", "/" );
+        
+    }
+    else
+    {
+        $t->set_var( "redirect_url", $REQUEST_URI );
+    }
    
     $t->set_var( "action_value", "login" );
     $t->pparse( "output", "login" );

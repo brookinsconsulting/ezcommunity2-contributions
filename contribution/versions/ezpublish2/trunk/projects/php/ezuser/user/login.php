@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.16 2001/01/11 11:48:19 ce Exp $
+// $Id: login.php,v 1.17 2001/01/11 13:51:05 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -73,7 +73,6 @@ if ( $Action == "login" )
 
     if ( $user )
     {
-
         eZLog::writeNotice( "User login: $Username from IP: $REMOTE_ADDR" );
         
         eZUser::loginUser( $user );
@@ -89,6 +88,11 @@ if ( $Action == "login" )
             }
             else
             {
+                if ( $RedirectURL == "" )
+                {
+                    $RedirectURL = "/";
+                }
+
                 Header( "Location: $RedirectURL" );
                 exit();
             }
@@ -108,6 +112,10 @@ if ( $Action == "login" )
         exit();
     }
     
+}
+else
+{
+    print( "logger ikke inn <br>" );
 }
 
 if ( $Action == "logout" )

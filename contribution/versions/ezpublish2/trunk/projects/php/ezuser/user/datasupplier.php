@@ -2,6 +2,7 @@
 
 switch ( $url_array[2] )
 {
+
     case "login" :
     {
         $Action = $url_array[3];
@@ -92,12 +93,20 @@ switch ( $url_array[2] )
         include( "ezuser/user/addressedit.php" );
     }
     break;
-    
+
     case "logout" :
     {
         $Action = $url_array[2];
         include( "ezuser/user/login.php" );
     }
     break;
+
+    default :
+    {
+        include( "ezuser/user/login.php" );
+    }
+    break;
+
+
 }
 ?>
