@@ -162,9 +162,6 @@ CREATE TABLE eZContact_ContactType (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Name char(50) NOT NULL,
   Description text,
-  ParentID int(11) DEFAULT '0' NOT NULL,
-  INDEX (ParentID),
-  INDEX (Name),
   PRIMARY KEY (ID)
 );
 
@@ -178,8 +175,11 @@ CREATE TABLE eZContact_ContactType (
 DROP TABLE IF EXISTS eZContact_CompanyType;
 CREATE TABLE eZContact_CompanyType (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
-  Name char(50),
+  Name char(50) NOT NULL,
   Description text,
+  ParentID int(11) DEFAULT '0' NOT NULL,
+  INDEX (ParentID),
+  INDEX (Name),
   PRIMARY KEY (ID)
 );
 
