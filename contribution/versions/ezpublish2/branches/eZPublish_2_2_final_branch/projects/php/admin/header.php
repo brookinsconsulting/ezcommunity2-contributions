@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: header.php,v 1.40.2.5 2002/04/26 14:56:44 jb Exp $
+// $Id: header.php,v 1.40.2.6 2002/07/24 07:19:45 bf Exp $
 //
 // Created on: <23-Jan-2001 16:06:07 bf>
 //
@@ -84,8 +84,11 @@ else if ( $url_array[2] == "image" && ( $url_array[3] == "list" || $url_array[3]
     {
         include_once( "ezimagecatalogue/classes/ezimage.php" );
         $img = new eZImage( $CategoryID );
-        $CategoryID = $img->categoryDefinition();
-        $CategoryID = $CategoryID->id();
+        $Category = $img->categoryDefinition();
+        if ( get_class( $Category ) == "ezimagecategory" )
+        {
+            $CategoryID = $Category->id();
+        }
     }
 
     include_once( "ezimagecatalogue/classes/ezimagecategory.php" );
