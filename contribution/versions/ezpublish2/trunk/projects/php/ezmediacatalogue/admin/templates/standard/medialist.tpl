@@ -23,7 +23,7 @@
 <div class="spacer"><div class="p">{current_category_description}</div></div>
 
 <!-- BEGIN category_list_tpl -->
-<table width="100%" border="0" cellspacing="0" cellpadding="4" >
+<table class="list" width="100%" border="0" cellspacing="0" cellpadding="4" >
 
 <!-- BEGIN category_tpl -->
 <tr>
@@ -40,7 +40,7 @@
         <!-- END category_read_tpl -->
         <!-- BEGIN category_write_tpl -->
 	<td class="{td_class}" width="1%">
-	<a href="/mediacatalogue/category/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapMedia('ezim{category_id}-red','','/media/redigerminimrk.gif',1)"><img name="ezim{category_id}-red" border="0" src="/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="/mediacatalogue/media/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezmc{category_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezmc{category_id}-red" border="0" src="/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%">
 	<input type="checkbox" name="CategoryArrayID[]" value="{category_id}" />
@@ -53,7 +53,7 @@
 <!-- END category_list_tpl -->
 
 <!-- BEGIN media_list_tpl -->
-<table width="100%" border="0" cellspacing="0" cellpadding="4" >
+<table class="list" width="100%" border="0" cellspacing="0" cellpadding="4" >
 <!-- BEGIN media_tpl -->
 <tr>
 	<!-- BEGIN read_tpl -->
@@ -69,7 +69,7 @@
 	<!-- END read_tpl -->
 	<!-- BEGIN write_tpl -->
 	<td class="{td_class}" width="1%">
-	<a href="/mediacatalogue/media/edit/{media_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{file_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezf{file_id}-red" border="0" src="/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a><br />
+	<a href="/mediacatalogue/media/edit/{media_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezmc{media_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezmc{media_id}-red" border="0" src="/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a><br />
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="MediaArrayID[]" value="{file_id}">
