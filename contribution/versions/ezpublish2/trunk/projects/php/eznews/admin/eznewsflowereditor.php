@@ -334,9 +334,6 @@ EOD;
         
         $cat->getByName( "Heistad Hagesenter" );
         
-        #$cat->objectHeader();
-        #$cat->objectInfo();
-        #$cat->objectFooter();
         
         $categories = $cat->getAllChildrenCategories();
 
@@ -344,9 +341,6 @@ EOD;
                         
         foreach( $categories as $category )
         {
-            echo $category->objectHeader();
-            echo $category->objectInfo();
-            echo $category->objectFooter();
             
             $t->set_var( "ID", $category->ID() );
             $t->set_var( "Name", $category->Name() );
