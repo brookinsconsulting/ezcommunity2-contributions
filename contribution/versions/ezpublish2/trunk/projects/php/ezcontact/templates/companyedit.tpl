@@ -24,6 +24,11 @@ Kontakt firma type:
 Firmanavn:<br>
 <input type="text" name="CompanyName" value="{company_name}"><br>
 
+
+<table  border="0">
+<tr>
+	<td bgcolor="#eeeedd">
+
 Adresse type:
 <br>
 <select name="AddressType">
@@ -37,7 +42,11 @@ Adresse:<br>
 Postnummer:<br>
 <input type="text" name="Zip" value="{zip_code}"><br>
 
-<table>
+       </td>
+</tr>
+</table>
+
+<table  border="0">
 <tr>
 	<td bgcolor="#eeeeee">
 Telefon:<br>
@@ -48,13 +57,14 @@ Telefon:<br>
 <input type="text" name="PhoneNumber" value="{phone_edit_number}">
 <input type="hidden" name="PhoneID" value="{phone_edit_id}">
 <input type="hidden" name="PhoneAction" value="{phone_action}">
-<input type="submit" value="{phone_action_value}">
+<input type="{phone_action_type}" value="{phone_action_value}">
 <br>
-
-	<table width="100%">
+	<center>
+	<table width="80%" cellspacing="0" cellpadding="3" border="0">
 	{phone_list}
 	</table>
-	</td>
+	</center>
+	</td>	
 </tr>
 </table>
 

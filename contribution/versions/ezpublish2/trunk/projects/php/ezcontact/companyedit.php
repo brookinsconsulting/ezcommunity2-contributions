@@ -18,33 +18,44 @@ require $DOCUMENTROOT . "classes/ezcompanyphonedict.php";
 
 if ( $Action == "insert" )
 {
-  $newCompany = new eZCompany();
-  $newCompany->setName( $CompanyName );  
-  $newCompany->setContactType( $CompanyType );
+    $newCompany = new eZCompany();
+    $newCompany->setName( $CompanyName );  
+    $newCompany->setContactType( $CompanyType );
 
-  $newCompany->setComment( $Comment );
+    $newCompany->setComment( $Comment );
 
-  { // hente ut gjeldene bruker
-    $session = new eZSession();
-    $session->get( $AuthenticatedSession ); 
-    $usr = new eZUser();
-    $usr->get( $session->userID() );
-  }
-  $newCompany->setOwner( $usr->id() );
-  $cid = $newCompany->store();
+    { // hente ut gjeldene bruker
+        $session = new eZSession();
+        $session->get( $AuthenticatedSession ); 
+        $usr = new eZUser();
+        $usr->get( $session->userID() );
+    }
+    $newCompany->setOwner( $usr->id() );
+    $cid = $newCompany->store();
     
-  $newAddress = new eZAddress();
-  $newAddress->setStreet1( $Street1 );
-  $newAddress->setStreet2( $Street2 );
-  $newAddress->setZip( $Zip );
-  $aid = $newAddress->store();
+    $newAddress = new eZAddress();
+    $newAddress->setStreet1( $Street1 );
+    $newAddress->setStreet2( $Street2 );
+    $newAddress->setZip( $Zip );
+    $aid = $newAddress->store();
 
-  $dict = new eZCompanyAddressDict( );
-  $dict->setCompanyID( $cid );
-  $dict->setAddressID( $aid );
-  $dict->store();
+    $dict = new eZCompanyAddressDict( );
+    $dict->setCompanyID( $cid );
+    $dict->setAddressID( $aid );
+    $dict->store();
 
-  $phone = new eZPhone();
+
+    // telefonnummer
+    $phone = new eZPhone( );
+    $phone->setNumber( $PhoneNumber );
+    $phone->setType( $PhoneType );
+    $pid = $phone->store();    
+  
+    $dict = new eZCompanyPhoneDict();
+  
+    $dict->setCompanyID( $cid );
+    $dict->setPhoneID( $pid );
+    $dict->store();  
 }
 
 if ( $PhoneAction == "AddPhone" )
@@ -92,17 +103,17 @@ if ( $Action == "delete" )
 
 // sjekke session
 {
-  include( $DOCUMENTROOT . "checksession.php" );
+    include( $DOCUMENTROOT . "checksession.php" );
 }
 
 $t = new Template( "." );
 $t->set_file( array(                    
-                    "company_edit" => $DOCUMENTROOT . "templates/companyedit.tpl",
-                    "company_type_select" => $DOCUMENTROOT . "templates/companytypeselect.tpl",
-                    "address_type_select" => $DOCUMENTROOT . "templates/addresstypeselect.tpl",
-                    "phone_type_select" => $DOCUMENTROOT . "templates/phonetypeselect.tpl",
-                    "phone_item" => $DOCUMENTROOT . "templates/phoneitem.tpl"
-                    ) );
+    "company_edit" => $DOCUMENTROOT . "templates/companyedit.tpl",
+    "company_type_select" => $DOCUMENTROOT . "templates/companytypeselect.tpl",
+    "address_type_select" => $DOCUMENTROOT . "templates/addresstypeselect.tpl",
+    "phone_type_select" => $DOCUMENTROOT . "templates/phonetypeselect.tpl",
+    "phone_item" => $DOCUMENTROOT . "templates/phoneitem.tpl"
+    ) );
 
 if ( !isset( $Action ) )
     $Action = "insert";
@@ -117,67 +128,7 @@ $company_type_array = $companyType->getAll( );
 $address_type_array = $addressType->getAll( );
 $phone_type_array = $phoneType->getAll();
 
-// company type selector
-for ( $i=0; $i<count( $company_type_array ); $i++ )
-{
-  $t->set_var( "company_type_id", $company_type_array[$i][ "ID" ] );
-  $t->set_var( "company_type_name", $company_type_array[$i][ "Name" ] );
-  
-  if ( $CompanyType == $company_type_array[$i][ "ID" ] )
-  {
-    $t->set_var( "is_selected", "selected" );
-  }
-  else
-  {
-    $t->set_var( "is_selected", "" );    
-  }
-  
-  $t->parse( "company_type", "company_type_select", true );
-}
-
-
-  $t->set_var( "first_name", $FirstName );
-  $t->set_var( "last_name", $LastName );
-
-// address type selector
-for ( $i=0; $i<count( $address_type_array ); $i++ )
-{
-  $t->set_var( "address_type_id", $address_type_array[$i][ "ID" ] );
-  $t->set_var( "address_type_name", $address_type_array[$i][ "Name" ] );
-  
-  if ( $Address_Type == $address_type_array[$i][ "ID" ] )
-  {
-    $t->set_var( "is_selected", "selected" );
-  }
-  else
-  {
-    $t->set_var( "is_selected", "" );    
-  }
-  
-  $t->parse( "address_type", "address_type_select", true );
-}
-
-$phone_select_dict = "";
-// telefon type selector
-for ( $i=0; $i<count( $phone_type_array ); $i++ )
-{
-  $t->set_var( "phone_type_id", $phone_type_array[$i][ "ID" ] );
-  $t->set_var( "phone_type_name", $phone_type_array[$i][ "Name" ] );
-  
-  if ( $Phone_Type == $phone_type_array[$i][ "ID" ] )
-  {
-    $t->set_var( "is_selected", "selected" );
-  }
-  else
-  {
-    $t->set_var( "is_selected", "" );    
-  }
-
-  $phone_select_dict[ $phone_type_array[$i][ "ID" ] ] = $i;
-  
-  $t->parse( "phone_type", "phone_type_select", true );
-}
-
+$t->set_var( "phone_action_type", "hidden" );
 
 
 // redigering av firma
@@ -185,6 +136,8 @@ if ( $Action == "edit" )
 {
     $company = new eZCompany();
     $company->get( $CID );
+
+    $CompanyName = $company->name();
 
     $phone = new eZPhone( );
     
@@ -208,10 +161,78 @@ if ( $Action == "edit" )
 
     $t->set_var( "phone_action", "AddPhone" );
     $t->set_var( "phone_edit_id", "-1" );
-    $t->set_var( "phone_action_value", "Legg til" );    
+    $t->set_var( "phone_action_value", "Legg til" );
+    $t->set_var( "phone_action_type", "submit" );
 }
 
 
+// company type selector
+for ( $i=0; $i<count( $company_type_array ); $i++ )
+{
+    $t->set_var( "company_type_id", $company_type_array[$i][ "ID" ] );
+    $t->set_var( "company_type_name", $company_type_array[$i][ "Name" ] );
+  
+    if ( $CompanyType == $company_type_array[$i][ "ID" ] )
+    {
+        $t->set_var( "is_selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "is_selected", "" );    
+    }
+  
+    $t->parse( "company_type", "company_type_select", true );
+}
+
+
+$t->set_var( "first_name", $FirstName );
+$t->set_var( "last_name", $LastName );
+
+// address type selector
+for ( $i=0; $i<count( $address_type_array ); $i++ )
+{
+    $t->set_var( "address_type_id", $address_type_array[$i][ "ID" ] );
+    $t->set_var( "address_type_name", $address_type_array[$i][ "Name" ] );
+  
+    if ( $Address_Type == $address_type_array[$i][ "ID" ] )
+    {
+        $t->set_var( "is_selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "is_selected", "" );    
+    }
+  
+    $t->parse( "address_type", "address_type_select", true );
+}
+
+$phone_select_dict = "";
+// telefon type selector
+for ( $i=0; $i<count( $phone_type_array ); $i++ )
+{
+    $t->set_var( "phone_type_id", $phone_type_array[$i][ "ID" ] );
+    $t->set_var( "phone_type_name", $phone_type_array[$i][ "Name" ] );
+  
+    if ( $Phone_Type == $phone_type_array[$i][ "ID" ] )
+    {
+        $t->set_var( "is_selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "is_selected", "" );    
+    }
+
+    $phone_select_dict[ $phone_type_array[$i][ "ID" ] ] = $i;
+  
+    $t->parse( "phone_type", "phone_type_select", true );
+}
+
+
+
+
+
+
+$t->set_var( "company_name", $CompanyName );
 
 $t->set_var( "comment", $Comment );
 
