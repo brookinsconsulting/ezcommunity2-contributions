@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezhttptool.php,v 1.8 2001/03/07 15:52:18 bf Exp $
+// $Id: ezhttptool.php,v 1.9 2001/03/09 20:48:59 pkej Exp $
 //
 // Definition of eZTextTool class
 //
@@ -34,6 +34,16 @@
 
 class eZHTTPTool
 {
+    /*!
+      Initialization of object;
+      */
+    function eZHTTPTool()
+    {
+        global $REQUEST_URI;
+ 
+        $this->url_array =& explode( "/", $REQUEST_URI );
+        $this->url_array_length = count( $this->url_array );
+    }
 
     /*!
       \static
@@ -135,6 +145,174 @@ class eZHTTPTool
 
         return $url;
     }
+    
+    /*!
+      This function will assign dates and times to the variables
+      named $prefix . unit $postfix in the global scope, where
+      unit is [Year|Month|Day|Hour|Minute|Second]. It will try
+      to fill in as many as possible.
+      
+     */
+    function assignDate( $start, $prefix = "", $postfix = "" )
+    {
+        $url_array_length = $this->url_array_length;
+        $url_array =& $this->url_array;
+
+        $variableName = $prefix . "Year" . $postfix;
+        if( is_numeric( $url_array[ $start ] ) )
+        {
+            global $$variableName;
+            $$variableName = $url_array[ $start ];
+            $start++;
+            $year = true;
+        }
+
+        $variableName = $prefix . "Month" . $postfix;
+        if( is_numeric( $url_array[ $start ] ) && $year )
+        {
+            global $$variableName;
+            $$variableName = $url_array[ $start ];
+            $start++;
+            $month = true;
+        }
+
+        $variableName = $prefix . "Day" . $postfix;
+        if( is_numeric( $url_array[ $start ] ) && $month )
+        {
+            global $$variableName;
+            $$variableName = $url_array[ $start ];
+            $start++;
+            $day = true;
+        }
+
+        $variableName = $prefix . "Hour" . $postfix;
+        if( is_numeric( $url_array[ $start ] ) && $day && $url_array[ $start ] >= 0 && $url_array[ $start ] <= 23  )
+        {
+            global $$variableName;
+            $$variableName = $url_array[ $start ];
+            $start++;
+            $hour = true;
+        }
+
+        $variableName = $prefix . "Minute" . $postfix;
+        if( is_numeric( $url_array[ $start ] ) && $hour && $url_array[ $start ] >= 0 && $url_array[ $start ] <= 59  )
+        {
+            global $$variableName;
+            $$variableName = $url_array[ $start ];
+            $start++;
+            $minute = true;
+        }
+
+        $variableName = $prefix . "Second" . $postfix;
+        if( is_numeric( $url_array[ $start ] ) && $minute && $url_array[ $start ] >= 0 && $url_array[ $start ] <= 59 )
+        {
+            global $$variableName;
+            $$variableName = $url_array[ $start ];
+            $start++;
+        }
+
+        $end = $start;
+
+        return $end;
+    }
+
+
+    /*!
+      This function will assign values to variables and name them
+      named $prefix . unit $postfix in the global scope. It will
+      only assign values to variables with names. It will also
+      try to assign dates/times to any variables where the names
+      in the url is called [start|begin|from|until|stop|end]
+
+      This function will parse the following url values, regardless
+      of where they are in the url:
+      
+      [start|begin|from|stop|end|until]/$year[/$month[/$day[/$hour[/$minute[/$second]]]]]
+      
+      Any url part on the form:
+      
+      string/value
+      
+      will be parsed into a global variable called $prefix[string]$postfix
+     */
+    function assignValues( $position, $prefix = "", $postfix = "" )
+    {
+        $url_array_length = $this->url_array_length;
+        $url_array =& $this->url_array;
+
+        $i = $position;
+        $j = $i + 1;
+
+        for( $i; $j < $url_array_length; $i++, $j++ )
+        {
+            $arg = $url_array[$i];
+            $var = $url_array[$j];
+
+            if( is_string( $arg ) )
+            {
+                if( is_numeric( $var ) )
+                {
+                    switch( $arg )
+                    {
+                        case "start":
+                        case "begin":
+                        case "from":
+                        {
+                            $i = $this->assignDate( $j, $prefix . ucfirst( $arg ) );
+                        }
+                        break;
+
+                        case "end":
+                        case "stop":
+                        case "until":
+                        {
+                            $i = $this->assignDate( $j, $prefix . ucfirst( $arg ) );
+                        }
+                        break;
+
+                        default:
+                        {
+                            $variableName = $prefix . ucfirst( $arg ) . $postfix;
+                            global $$variableName;
+                            $$variableName = $var;
+                        }
+                        break;
+                    }
+                }
+                else
+                {
+                    $variableName = $prefix . ucfirst( $arg ) . $postfix;
+                    global $$variableName;
+                    $$variableName = $var;
+                }
+            }
+        }
+    }
+
+    /*!
+      \static
+      Initalizes the global object, and static variables.
+     */
+    function globaleZHTTPTool()
+    {
+        global $eZHTTPToolObject;
+        
+        if ( get_class( $eZHTTPToolObject ) != "ezhttptool" )
+        {
+            $eZHTTPToolObject = new eZHTTPTool();
+        }
+        return $eZHTTPToolObject;
+    }
+    
+    /*!
+      The global url exploded into an array.
+    */
+    var $url_array = array();
+
+    /*!
+      The number of elements in the global url array.
+    */
+    var $url_array_length = 0;
 }
 
 ?>
