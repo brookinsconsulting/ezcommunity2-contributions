@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: exportform.php,v 1.3 2002/01/09 11:54:01 jhe Exp $
+// $Id: exportform.php,v 1.4 2002/01/09 11:56:47 jhe Exp $
 //
 // Created on: <07-Jan-2002 12:54:53 jhe>
 //
@@ -26,12 +26,13 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/INIFile.php" );
 include_once( "ezform/classes/ezform.php" );
 include_once( "ezform/classes/ezformelement.php" );
+include_once( "ezform/classes/ezformtable.php" );
 
 ob_end_clean();
 
 $form = new eZForm( $FormID );
 
-$filename = $form->name() . ".xls";
+$filename = $form->name() . ".txt";
 
 header( "Cache-Control:" );
 header( "Content-disposition: attachment; filename=$filename" );
