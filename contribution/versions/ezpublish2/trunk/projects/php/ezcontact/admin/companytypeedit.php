@@ -10,6 +10,7 @@ $Language = $ini->read_var( "eZContactMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
 include_once( "ezcontact/classes/ezcompanytype.php" );
+include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "classes/ezimagefile.php" );
 //include_once( "");
 
