@@ -13,6 +13,17 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "news":
+    {
+        if ( $url_array[2]  == "new" )
+        {
+            $Action == "New";
+        }
+            
+        include( "eznewsfeed/admin/newsedit.php" );
+    }
+    break;
+    
 }
 
 ?>

@@ -1,9 +1,9 @@
 <?php
 // 
-// $Id: newsarchive.php,v 1.4 2000/11/16 12:13:32 bf-cvs Exp $
+// $Id: newsedit.php,v 1.1 2000/11/16 12:13:32 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
-// Created on: <13-Nov-2000 16:56:48 bf>
+// Created on: <16-Nov-2000 13:02:32 bf>
 //
 // This source file is part of eZ publish, publishing software.
 // Copyright (C) 1999-2000 eZ systems as
@@ -23,38 +23,38 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+include_once( "classes/INIFile.php" );
+include_once( "classes/eztemplate.php" );
+include_once( "classes/ezlocale.php" );
+
 include_once( "eznewsfeed/classes/eznews.php" );
-include_once( "eznewsfeed/classes/eznewsimporter.php" );
 
 include_once( "classes/ezdatetime.php" );
 
+include_once( "eznewsfeed/classes/eznews.php" );
+
 $news = new eZNews( );
 
-$news->setName( "News item" );
-$news->setIntro( "more text" );
-$news->setIsPublished( true );
+$ini = new INIFIle( "site.ini" );
 
-$news->setKeywords( "one two" );
-$news->setOrigin( "from here" );
-$news->setURL( "http://ez.no" );
-$dateTime = new eZDateTime( 2000, 11, 13, 14, 0, 15 );
-$news->setOriginalPublishingDate( $dateTime );
+$Language = $ini->read_var( "eZNewsFeedMain", "Language" );
+$ImageDir = $ini->read_var( "eZNewsFeedMain", "ImageDir" );
 
-//  $news->store();
+$t = new eZTemplate( "eznewsfeed/admin/" . $ini->read_var( "eZNewsFeedMain", "AdminTemplateDir" ),
+                     "eznewsfeed/admin/intl/", $Language, "newsedit.php" );
+
+$t->setAllStrings();
+
+$t->set_file( array(
+    "news_edit_page_tpl" => "newsedit.tpl"
+    ) );
+
+//  $t->set_block( "news_edit_page_tpl", "news_edit_tpl", "head_line" );
 
 $newsList = $news->newsList();
 
-foreach ( $newsList as $newsItem )
-{
-    $intro = $newsItem->intro();
-    
-    print( "<h2>". $newsItem->name() . "</h2><p>" . $newsItem->intro() . "</p>" );
-}
 
-//  $newsImporter = new eZNewsImporter( "nyheter.no" );
-//  $newsImporter->importNews();
+$t->pparse( "output", "news_edit_page_tpl" );
 
-//  $newsImporter = new eZNewsImporter( "freshmeat.net" );
-//  $newsImporter->importNews();
 
 ?>

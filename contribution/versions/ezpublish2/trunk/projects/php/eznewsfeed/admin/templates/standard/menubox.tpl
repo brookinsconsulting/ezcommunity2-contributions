@@ -4,6 +4,7 @@
 <tr> 
     <td class="repeaty" background="/images/{site_style}/menu-m.gif">
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/newsfeed/archive/">{intl-news_archive}</a><br>
+    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/newsfeed/news/new">{intl-news_new}</a><br>
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/newsfeed/importnews/">{intl-fetch_news}</a><br>
     </td>
 </tr>
