@@ -8,15 +8,15 @@
 </tr>
 <tr>
 	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
-	<td width="99%"><a class="menu" href="/exchange/quote/list">{intl-quote_list}</a></td>
+	<td width="99%"><a class="menu" href="/exchange/product/quote/list">{intl-quote_list}</a></td>
 </tr>
 <tr>
 	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
-	<td width="99%"><a class="menu" href="/exchange/rfq/list">{intl-rfq_list}</a></td>
+	<td width="99%"><a class="menu" href="/exchange/product/rfq/list">{intl-rfq_list}</a></td>
 </tr>
 <tr>
 	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
-	<td width="99%"><a class="menu" href="/exchange/offer/list">{intl-offer_list}</a></td>
+	<td width="99%"><a class="menu" href="/exchange/product/offer/list">{intl-offer_list}</a></td>
 </tr>
 <tr>
 	<td class="menuspacer">&nbsp;</td>
