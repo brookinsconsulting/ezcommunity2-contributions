@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.24 2000/08/28 16:39:44 bf-cvs Exp $
+    $Id: forum.php,v 1.25 2000/08/29 07:56:31 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -52,9 +52,16 @@ $category = new eZForumCategory( );
 $category->get( $category_id );
 $t->set_var( "current_forum", "/ " . $category->name() );
 
+$category = new eZForumCategory( );
+$category->get( $category_id );
+$forumPath = "/ <a href=\"index.php?page=" . $DOC_ROOT .  "category.php&category_id=" . $category_id . "\">" . $category->name() . "</a>";
+
 $forum = new eZForumForum( );
 $forum->get( $forum_id );
-$t->set_var( "current_forum_category", "/ " . $forum->name() );
+$forumPath .= "/ <a href=\"index.php?page=" . $DOC_ROOT .  "forum.php&forum_id=" . $forum_id . "&category_id=" . $category_id . "\">" . $forum->name() . "</a>";
+
+$t->set_var( "forum_path", $forumPath );
+
 
 
 //navbar setup

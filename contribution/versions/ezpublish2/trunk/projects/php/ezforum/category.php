@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.21 2000/08/28 16:39:44 bf-cvs Exp $
+    $Id: category.php,v 1.22 2000/08/29 07:56:31 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -41,9 +41,14 @@ $t->set_file( array("category" => "category.tpl",
 $t->set_var( "docroot", $DOC_ROOT);
 $t->set_var( "category_id", $category_id );
 
+//  	<a href="index.php?page=ezforum/category.php">
+
+//  	</a>
+
 $category = new eZForumCategory( );
 $category->get( $category_id );
-$t->set_var( "current_forum", $category->name() );
+$forumPath = "/ <a href=\"index.php?page=" . $DOC_ROOT .  "category.php&category_id=" . $category_id . "\">" . $category->name() . "</a>";
+$t->set_var( "forum_path", $forumPath );
 
 if ( $session->get( $AuthenticatedSession ) == 0 )
 {

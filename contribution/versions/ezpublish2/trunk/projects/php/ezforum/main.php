@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: main.php,v 1.27 2000/08/28 16:39:44 bf-cvs Exp $
+    $Id: main.php,v 1.28 2000/08/29 07:56:31 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -49,10 +49,7 @@ $t->set_var( "docroot", $DOC_ROOT);
 $category = new eZForumCategory();
 $categories = $category->getAllCategories();
 
-
-$t->set_var( "current_forum", "" );
-$t->set_var( "current_forum_category", "" );
-
+$t->set_var( "forum_path", "" );
 
 if ( $session->get( $AuthenticatedSession ) == 0 )
 {
