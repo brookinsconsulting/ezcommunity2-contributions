@@ -1,0 +1,12 @@
+eZ xmlrpc version 1.0 beta 1
+----------------------------
+
+eZ xmlrpc is an implementation of the XML-RPC found at:
+
+   http://www.xmlrpc.com/spec
+
+More information about XMP-RPC is found at: http://www.xmlrpc.com/
+
+eZ xmlrpc uses the qdom xml parser functionality found in PHP version 4.0.4 and
+later. For further information about the qdom parser and how to compile it 
+consult the INSTALL file.
