@@ -26,20 +26,13 @@ if ( isset( $MetaRedirectLocation ) && isset( $MetaRedirectTimer ) )
 ?>
 
 <style type="text/css">
-<? /*
-@import url(/design/ezno/stylesheets/core.css);
-@import url(/design/ezno/stylesheets/ezmain.css);
-@import url(/design/ezno/stylesheets/ezsystems.css);
-
-@import url(/ezgroupeventcalendar/user/templates/standard/style/style.css);
-
-*/ ?>
 @import url(/design/<? print ($GlobalSiteDesign); ?>/main.css);
 
+/* Add this line for eZ Group Event Calendar : Module Style CSS */
 @import url(/ezgroupeventcalendar/user/templates/standard/style/style.css);
-
 </style>
 <?
+// dom-drag / overlib js if-statement work around (See: doc/BUGS for description)
 if ($url_array[1] == "groupeventcalendar"){
 ?>
 <script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/js/dom-drag.js"></script>
@@ -47,22 +40,13 @@ if ($url_array[1] == "groupeventcalendar"){
 <?
 }
 ?>
-
-<? /*
-<!--
-<link rel="stylesheet" type="text/css" href="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/style.css" />
--->
-*/ ?>
-
 <?
+
+/* Previous I.E. PNG-Alpha & PNG-Alpha Background Image page (90% implimented, incomplete) */
 /*
 <script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/js/ypSlideOutMenusC.js"></script>
-
 <script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/js/main.js"></script>
-
-
 <script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/js/browserdetect_lite.js"></script>
-
 <script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/js/opacity.js"></script>
 
 <script type="text/javascript">
@@ -79,10 +63,14 @@ function init() {
   }
 }
 </script>
-
 */
 ?>
 
+<?
+/*
+  These Javascript functions are stock from eZ publish 2 and are required for the eZ GroupEventCalendar's Editor Mode
+*/
+?>
 <script language="JavaScript1.2" type="text/javascript">
 <!--//
 
@@ -159,40 +147,17 @@ else
 <meta name="generator" content="eZ publish" />
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
-
+<? /* part of ie alpha-png fix */ ?>
 <!--[if gte IE 5.5000]>
 <script type="text/javascript" src="/design/ezc_developer/pngfix.js"></script>
 <![endif]-->
 
-<? /*
-xxx
-*/ ?>
-
 <?
-/*
-<!-- ################################################## -->
-
-<!-- eZGroupEventCalendar:jscalendar style dependancies -->
-<!--
-<link rel="alternate stylesheet" type="text/css" media="all" href="http://ezcommunity.net/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-blue.css" title="winter" />
-<link rel="alternate stylesheet" type="text/css" media="all" href="http://ezcommunity.net/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-blue2.css" title="blue" />
-
-<link rel="alternate stylesheet" type="text/css" media="all" href="http://ezcommunity.net/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-brown.css" title="summer" />
-<link rel="alternate stylesheet" type="text/css" media="all" href="http://ezcommunity.net/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-green.css" title="green" />
-
-<link rel="stylesheet" type="text/css" media="all" href="http://ezcommunity.net/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-win2k-1.css" title="win2k-1" />
-<link rel="alternate stylesheet" type="text/css" media="all" href="http://ezcommunity.net/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-win2k-2.css" title="win2k-2" />
-
-<link rel="alternate stylesheet" type="text/css" media="all" href="http://ezcommunity.net/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-win2k-cold-1.css" title="win2k-cold-1" />
-<link rel="alternate stylesheet" type="text/css" media="all" href="http://ezcommunity.net/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-win2k-cold-2.css" title="win2k-cold-2" />
--->
-*/
+// dom-drag / overlib js if-statement work around (See: doc/BUGS for description)
 ?>
-
 <?
 if ($url_array[1] == "groupeventcalendar" && $url_array[2] == "eventedit" ){
 ?>
-
     <link rel="alternate stylesheet" type="text/css" media="all" href="http://ezcommunity.net/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-system.css" title="system" />
 
     <!-- eZGroupEventCalendar:jscalendar script dependancies -->
