@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.69 2001/04/26 11:54:04 ce Exp $
+// $Id: ezarticle.php,v 1.70 2001/04/26 13:35:23 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -115,8 +115,8 @@ class eZArticle
         $contents = addslashes( $this->Contents );
         $authortext = addslashes( $this->AuthorText );
         $linktext = addslashes( $this->LinkText );
-        $keywords = addslashes( $this->KeyWords );
-        
+        $keywords = addslashes( $this->Keywords );
+
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZArticle_Article SET
