@@ -278,3 +278,8 @@ CREATE TABLE eZTrade_AttributeValue (
   Value char(200),
   PRIMARY KEY (ID)
 );
+
+
+### BETA 1- BETA 2
+
+alter table eZTrade_Order add IsExported int not null default 0;    
