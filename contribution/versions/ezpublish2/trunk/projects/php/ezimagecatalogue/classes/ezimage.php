@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.1 2000/09/21 12:42:23 bf-cvs Exp $
+// $Id: ezimage.php,v 1.2 2000/09/21 15:47:57 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -16,6 +16,8 @@
 //!! eZImageCatalogue
 //! The eZImage class hadles images in the image catalogue.
 /*!
+
+
   
 */
 
@@ -29,9 +31,11 @@ class eZImage
     function eZImage( $id="", $fetch=true )
     {
         $this->IsConnected = false;
+        $this->IsConnected = false;
 
         if ( $id != "" )
         {
+
             $this->ID = $id;
             if ( $fetch == true )
             {
@@ -43,6 +47,11 @@ class eZImage
                 $this->State_ = "Dirty";
                 
             }
+        }
+        else
+        {
+            $this->State_ = "New";
+        }
     }
 
     /*!
@@ -57,16 +66,66 @@ class eZImage
                                  Caption='$this->Caption',
                                  Description='$this->Description',
                                  FileName='$this->FileName',
+                                 OriginalFileName='$this->OriginalFileName'
                                  " );
+        $this->ID = mysql_insert_id();
 
         $this->State_ = "Coherent";
     }
 
     /*!
+      Fetches the object information from the database.
+    */
+    function get( $id="" )
+    {
+        $this->dbInit();
+        
+        if ( $id != "" )
+        {
+            $this->Database->array_query( $image_array, "SELECT * FROM eZImageCatalogue_Image WHERE ID='$id'" );
+            if ( count( $image_array ) > 1 )
+            {
+                die( "Error: Image's with the same ID was found in the database. This shouldent happen." );
+            }
+            else if( count( $image_array ) == 1 )
+            {
+                $this->ID = $image_array[0][ "ID" ];
+                $this->Name = $image_array[0][ "Name" ];
+                $this->Caption = $image_array[0][ "Caption" ];
+                $this->Description = $image_array[0][ "Description" ];
+                $this->FileName = $image_array[0][ "FileName" ];
+                $this->OriginalFileName = $image_array[0][ "OriginalFileName" ];
+
+                $this->State_ = "Coherent";
+            }
+        }
+        else
+        {
+            $this->State_ = "Dirty";
+        }
+    }
+    
+    /*!
+      Returns the id of the image.
+    */
+    function id()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        return $this->ID;
+    }
+
+    
+    
+    /*!
       Returns the name of the image.
     */
     function name()
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
         return $this->Name;
     }
 
@@ -75,6 +134,9 @@ class eZImage
     */
     function caption()
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
         return $this->Caption;
     }
 
@@ -83,6 +145,9 @@ class eZImage
     */
     function description()
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
         return $this->Description;
     }    
 
@@ -91,14 +156,46 @@ class eZImage
     */
     function fileName()
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
         return $this->FileName;
     }
 
+    /*!
+      Returns the path and filename to the original image.
+    */
+    function filePath()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        return "/ezimagecatalogue/catalogue/" .$this->FileName;
+    }
+
+    /*!
+      Returns the path to a scaled version of the image. If the scaled version
+      does not exist it is created.
+
+      The path to the file is returned.
+    */
+    function requestImageVariation( $width, $height )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       
+        return "/ezimagecatalogue/catalogue/variations/" .$this->FileName;
+    }    
+    
     /*!
       Sets the image name.
     */
     function setName( $value )
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
         $this->Name = $value;
     }
 
@@ -107,6 +204,9 @@ class eZImage
     */
     function setCaption( $value )
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
         $this->Caption = $value;
     }
 
@@ -115,15 +215,53 @@ class eZImage
     */
     function setDescription( $value )
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
         $this->Description = $value;
     }
 
     /*!
-      Sets the image file name.
+      Sets the original imagename.
     */
-    function setFileName( $value )
+    function setOriginalFileName( $value )
     {
-        $this->FileName = $value;
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $this->OriginalFileName = $value;
+    }
+    
+    /*!
+      Makes a copy of the image and stores the image in the catalogue.
+      
+      If the image is not of the type .jpg the image is converted.
+    */
+    function setImage( $file )
+    {
+       if ( $this->State_ == "Dirty" )
+           $this->get( $this->ID );
+        
+       if ( get_class( $file ) == "ezimagefile" )
+       {
+           print( "storing image" );
+
+           $this->OriginalFileName = $file->name();
+           
+           // the path to the catalogue
+           $file->convertCopy( "ezimagecatalogue/catalogue/" . basename( $file->tmpName() ) . ".jpg" );
+
+           $this->FileName = basename( $file->tmpName() ) . ".jpg";
+
+           $name = $file->name();
+
+           ereg( "([^.]+)\(.*)", $name, $regs );
+           
+           $name = $regs[0] . "jpg";
+           
+           $this->OriginalFileName = $name;
+           
+       }
     }
     
     /*!
@@ -144,6 +282,7 @@ class eZImage
     var $Caption;
     var $Description;
     var $FileName;
+    var $OriginalFileName;
 }
 
-?
+?>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagefile.php,v 1.1 2000/09/21 12:42:23 bf-cvs Exp $
+// $Id: ezimagefile.php,v 1.2 2000/09/21 15:47:57 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -82,6 +82,7 @@ class eZImageFile extends eZFile
         return $ret;
     }
 
+
     /*!
       Makes a copy of the image if and scales the copy according
       to the parameters $width and $height. If $aspectScale is true
@@ -105,6 +106,26 @@ class eZImageFile extends eZFile
         
         return $ret;
     }
+
+    /*!
+      Makes a copy of the image if and converts it to the correct image type.
+
+    */
+    function convertCopy( $dest )
+    {
+        $ret = false;
+        if ( $this->isImage() )
+        {
+        
+          $execstr = "convert -quality 95 " . $this->TmpFileName . " " . $dest;
+
+          $err = system( $execstr );
+          $ret = true;
+        }
+        
+        return $ret;
+    }
+    
 }
 
 ?>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.1 2000/09/21 12:42:24 bf-cvs Exp $
+// $Id: imagelist.php,v 1.2 2000/09/21 15:47:57 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -40,6 +40,32 @@ $t->set_file( array(
 $product = new eZProduct( $ProductID );
     
 $t->set_var( "product_name", $product->name() );
+
+$images = $product->images();
+
+$i=0;
+foreach ( $images as $image )
+{
+    if ( ( $i % 2 ) == 0 )
+    {
+        $t->set_var( "td_class", "bglight" );
+    }
+    else
+    {
+        $t->set_var( "td_class", "bgdark" );
+    }
+    
+    $t->set_var( "image_name", $image->name() );
+    $t->set_var( "image_id", $image->id() );
+    $t->set_var( "product_id", $ProductID );
+    $t->set_var( "image_url", $image->filePath() );
+
+    $t->parse( "image_list", "image_item", true );
+    
+    $i++;
+}
+
+$t->set_var( "product_id", $product->id() );
 
 
 $t->pparse( "output", "image_list_page" );

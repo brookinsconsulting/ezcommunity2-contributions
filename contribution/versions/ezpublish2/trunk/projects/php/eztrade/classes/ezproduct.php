@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.4 2000/09/21 12:42:24 bf-cvs Exp $
+// $Id: ezproduct.php,v 1.5 2000/09/21 15:47:57 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -36,6 +36,7 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "ezimagecatalogue/classes/ezimage.php" );
 
 class eZProduct
 {
@@ -491,6 +492,68 @@ class eZProduct
        return $return_array;
     }
 
+    /*!
+      Adds an image to the product.
+    */
+    function addImage( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        if ( get_class( $value ) == "ezimage" )
+        {
+            $this->dbInit();
+
+            $imageID = $value->id();
+            
+            $this->Database->query( "INSERT INTO eZTrade_ProductImageLink SET ProductID='$this->ID', ImageID='$imageID'" );
+        }
+    }
+
+    /*!
+      Deletes an image from the product.
+
+      NOTE: the image does not get deleted from the image catalogue.
+    */
+    function deleteImage( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        if ( get_class( $value ) == "ezimage" )
+        {
+            $this->dbInit();
+
+            $imageID = $value->id();
+            
+            $this->Database->query( "DELETE FROM eZTrade_ProductImageLink WHERE ProductID='$this->ID' AND ImageID='$imageID'" );
+        }
+    }
+    
+    /*!
+      Returns every image to a product as a array of eZImage objects.
+    */
+    function images()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+       
+       $return_array = array();
+       $image_array = array();
+       
+       $this->Database->array_query( $image_array, "SELECT ImageID FROM eZTrade_ProductImageLink WHERE ProductID='$this->ID'" );
+       
+       for ( $i=0; $i<count($image_array); $i++ )
+       {
+           $return_array[$i] = new eZImage( $image_array[$i]["ImageID"], false );
+       }
+       
+       return $return_array;
+    }
+
+    
     
     /*!
       Private function.

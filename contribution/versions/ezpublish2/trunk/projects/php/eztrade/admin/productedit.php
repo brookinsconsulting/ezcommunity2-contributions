@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productedit.php,v 1.3 2000/09/21 12:42:24 bf-cvs Exp $
+// $Id: productedit.php,v 1.4 2000/09/21 15:47:57 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -72,6 +72,7 @@ if ( $Action == "Insert" )
     $parentCategory->addProduct( $product );
 
     $productID = $product->id();
+    
     // add options
     if ( isset( $Option ) )
     {
@@ -135,6 +136,7 @@ if ( $Action == "Update" )
     $product->store();
 
     $productID = $product->id();
+    
     // add options
     if ( isset( $Option ) )
     {
@@ -148,7 +150,6 @@ if ( $Action == "Update" )
         Header( "Location: /trade/productedit/imagelist/$productID/" );
         exit();
     }
-    
     
     Header( "Location: /trade/categorylist/" );
     exit();

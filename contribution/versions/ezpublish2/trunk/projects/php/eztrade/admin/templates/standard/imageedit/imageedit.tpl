@@ -2,7 +2,6 @@
 
 <form method="post" action="/trade/productedit/imageedit/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
-<input type="hidden" name="docp" value="TRUE">
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>

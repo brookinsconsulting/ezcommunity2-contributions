@@ -1,11 +1,12 @@
 <tr>
-	<td>
-	{option_name}
+	<td class="{td_class}">
+	{image_name}
+	<img src="{image_url}" border="2" />
 	</td>
-	<td>
-	<a href="/trade/productedit/optionedit/edit/{option_id}/{product_id}/">[ Rediger ]</a>
+	<td class="{td_class}">
+	<a href="/trade/productedit/imageedit/edit/{image_id}/{product_id}/">[ Rediger ]</a>
 	</td>
-	<td>
-	<a href="/trade/productedit/optionedit/delete/{option_id}/{product_id}/">[ Slett ]</a>
+	<td class="{td_class}">
+	<a href="/trade/productedit/imageedit/delete/{image_id}/{product_id}/">[ Slett ]</a>
 	</td>	
 </tr>

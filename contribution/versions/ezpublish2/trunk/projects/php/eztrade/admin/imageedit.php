@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.1 2000/09/21 12:42:24 bf-cvs Exp $
+// $Id: imageedit.php,v 1.2 2000/09/21 15:47:57 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -21,7 +21,7 @@ include_once( "classes/ezcurrency.php" );
 // include_once( "classes/ezfile.php" );
 include_once( "classes/ezimagefile.php" );
 
-include_once( "ezimagecatalogue/ezimage.php" );
+include_once( "ezimagecatalogue/classes/ezimage.php" );
 
 $ini = new INIFIle( "site.ini" );
 
@@ -38,15 +38,35 @@ if ( $Action == "Insert" )
 
     if ( $file->getFile( $HTTP_POST_FILES['userfile'] ) )
     { 
-        $file->scaleCopy( "tmp/" . $file->name(), 320, 200 );
+        $product = new eZProduct( $ProductID );
+        $image = new eZImage();
+        $image->setName( $Name );
+        $image->setCaption( $Caption );
+
+        $image->setImage( $file );
         
+        $image->store();
         
-        print( "\n<img src=\"/tmp/" . $file->name() . "\" border=\"2\" alt=\"image\" nosave />\n" );
+        $product->addImage( $image );
     }
     else
     {
         print( $file->name() . " not uploaded successfully" );
     }
+
+    header( "Location: /trade/productedit/imagelist/" . $ProductID . "/" );
+    exit();
+}
+
+
+if ( $Action == "Delete" )
+{
+    $product = new eZProduct( $ProductID );
+    $image = new eZImage( $ImageID );
+        
+    $product->deleteImage( $image );
+    
+    header( "Location: /trade/productedit/imagelist/" . $ProductID . "/" );
 }
 
 $t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/imageedit/",
@@ -67,6 +87,8 @@ $t->set_var( "option_id", "" );
 $product = new eZProduct( $ProductID );
     
 $t->set_var( "product_name", $product->name() );
+$t->set_var( "product_id", $product->id() );
+
 
 
 $t->pparse( "output", "image_edit_page" );
