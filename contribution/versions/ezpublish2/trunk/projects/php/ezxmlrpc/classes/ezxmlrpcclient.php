@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcclient.php,v 1.14 2001/04/17 14:26:02 ce Exp $
+// $Id: ezxmlrpcclient.php,v 1.15 2001/05/10 13:16:47 bf Exp $
 //
 // Definition of eZXMLRPCClient class
 //
@@ -67,6 +67,27 @@ class eZXMLRPCClient
         $this->Server = $server;
         $this->Path = $path;
         $this->Port = $port;
+        $this->Debug = false;
+    }
+
+    /*!
+      Turns on or off debug.
+    */
+    function setDebug( $debug )
+    {
+        if ( $debug == true )            
+            $this->Debug = true;
+        else
+            $this->Debug = false;
+            
+    }
+
+    /*!
+      Returns the debug value.
+    */
+    function debug()
+    {
+        return $this->Debug;
     }
 
     /*!
@@ -85,7 +106,7 @@ class eZXMLRPCClient
     {
         return $this->TimeOut;
     }
-
+    
     /*!
       Returns the error string.
     */
@@ -155,10 +176,12 @@ class eZXMLRPCClient
                 $rawResponse .= $data;
             }
 
-            print( $rawResponse );            
-//            print( "<pre>" );
-//            print( nl2br ( htmlspecialchars( $rawResponse )  ) );
-//            print( "</pre>" );
+            if ( $this->Debug == true )
+            {
+                print( "<pre>" );
+                print( nl2br ( htmlspecialchars( $rawResponse )  ) );
+                print( "</pre>" );
+            }
             
             // close the socket
             fclose( $fp );
@@ -226,7 +249,10 @@ class eZXMLRPCClient
     var $ErrorString;
 
     /// The error number
-    var $ErrorNumber;    
+    var $ErrorNumber;
+
+    /// true if debug output should be shown
+    var $Debug;
 }
 
 
