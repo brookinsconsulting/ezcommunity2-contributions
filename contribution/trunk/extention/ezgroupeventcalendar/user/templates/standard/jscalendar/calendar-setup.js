@@ -59,7 +59,7 @@
  *  pass none of "inputField", "displayArea" or "button" you'll get a warning
  *  saying "nothing to setup".
  */
-Calendar.setup = function (params) {
+ Calendar.setup = function (params) {
 	function param_default(pname, def) { if (typeof params[pname] == "undefined") { params[pname] = def; } };
 
 	param_default("inputField",     null);

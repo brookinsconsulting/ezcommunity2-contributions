@@ -72,7 +72,7 @@ else if ( isSet( $GoWeek ) )
   if ( $date->daysInMonth() < $day )
     $day = $date->daysInMonth();
 
-  eZHTTPTool::header( "Location: /groupeventcalendar/dayview/$year/$month/$day/" );
+  eZHTTPTool::header( "Location: /groupeventcalendar/weekview/$year/$month/$day/" );
   exit();
 }
 else if ( isSet( $GoMonth ) )
@@ -345,7 +345,7 @@ if ( ($Action == "New" || $Action == "Insert" || $Action == "Update" || $Action 
 
 		if( $Action == "Edit" )
 		{
-		  // kracker: add support for event->groupID == 0 
+		  // kracker: add support for event->groupID == 0
 			if( $event->groupID() == 0 && $editor == true || $event->groupID() == $groups->id() && $editor == true  )
 			{
 				$groupError = false;
@@ -465,7 +465,7 @@ $Day = $dateArr[2];
     if ( $user )
     {
         $type = new eZGroupEventType( $TypeID );
-     
+
         if ( $Action == "Update" )
             $event = new eZGroupEvent( $EventID );
         else
@@ -482,7 +482,7 @@ $Day = $dateArr[2];
 
         $event->setPriority( $Priority );
         $event->setStatus( $Status );
-	
+
 
 	if ( $IsPrivate == "on" )
             $event->setIsPrivate( true );
@@ -546,7 +546,7 @@ $Day = $dateArr[2];
 
         if ( $IsAllDay == "on" )
         {
-            $starthour = $dayStartArray[2];
+        $starthour = $dayStartArray[2];
 	    $startmin  = $dayStartArray[3];
 	    $stophour  = $dayStopArray[2];
 	    $stopmin   = $dayStopArray[3];
@@ -580,10 +580,11 @@ $Day = $dateArr[2];
 			if ( $Stop_Hour != '' && $Stop_Minute != '')
 			{
 				$hour = $Stop_Hour;
+
 				$hour = convertToTwentyFour( $hour, $Stop_AM_PM );
 				settype( $hour, "integer" );
-				
-				if( $hour > $startHour )
+
+				if( $hour >= $startHour )
 				{
 					$stopTime->setHour( $hour );
 
@@ -600,7 +601,6 @@ $Day = $dateArr[2];
 				$StopTimeError = true;
 			}
 		}
-
 	$pStartTimeHour = $startTime->hour();
 	$pStartTimeMinute = addZero( $startTime->minute() );
 
@@ -676,12 +676,11 @@ $Day = $dateArr[2];
         {
             $resultz = $event->store();
             //exec("secure_clearcache.sh");
-	    $year = addZero( $datetime->year() );
+            $year = addZero( $datetime->year() );
             $month = addZero( $datetime->month() );
             $day = addZero( $datetime->day() );
             deleteCache( "default", $Language, $year, $month, $day, $groupID );
             eZHTTPTool::header( "Location: /groupeventcalendar/dayview/$year/$month/$day/" );
-            die();
         }
         else
         {

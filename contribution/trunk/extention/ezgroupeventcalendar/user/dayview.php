@@ -227,6 +227,9 @@ if( $user )
     $t->set_block( "week_tpl", "empty_day_tpl", "empty_day" );
     $t->set_block( "day_view_page_tpl", "day_links_tpl", "day_links" );
     $t->set_block( "day_view_page_tpl", "all_day_event_tpl", "all_day_event");
+    $t->set_block( "time_table_tpl", "fifteen_event_tpl", "fifteen_event" );
+    $t->set_block( "fifteen_event_tpl", "fifteen_delete_check_tpl", "fifteen_delete_check" );
+    $t->set_block( "fifteen_event_tpl", "fifteen_no_delete_check_tpl", "fifteen_no_delete_check" );
 
     $t->set_var( "sitedesign", $SiteDesign );
 	$t->set_var( "month_number", $Month );
@@ -236,7 +239,7 @@ if( $user )
     $t->set_var( "year_cur", $curYear);
     $t->set_var( "month_cur", $curMonth);
     $t->set_var( "day_cur", $curDay);
-    
+
 	if ( $tmpGroup->id() != 0 )
 	{
 		$t->set_var( "group_print_name", $tmpGroup->name() );
@@ -543,6 +546,7 @@ if (isset($allDayEvents))
 
         $drawnColumn = array();
 
+        $t->set_var( "fifteen_event", "" );
         $t->set_var( "public_event", "" );
         $t->set_var( "private_event", "" );
         $t->set_var( "no_event", "" );
@@ -598,6 +602,8 @@ if (isset($allDayEvents))
                 // a public event or a private event that a non group member can read
                 elseif( $event->isPrivate() == false || ( $event->isPrivate() == true && eZPermission::checkPermission( $user, "eZGroupEventCalendar", "Read" ) ) )
                 {
+                	echo 'once';
+
                     $t->set_var( "td_class", "bgdark" );
                     $t->set_var( "rowspan_value", $tableCellsRowSpan[$row][$col] );
                     $t->set_var( "event_id", $event->id() );
@@ -607,18 +613,44 @@ if (isset($allDayEvents))
                     $eventDivHeight = getEventHeight( $event );
                     $t->set_var( "event_div_height", $eventDivHeight );
 					$permission = new eZGroupEditor();
-					if( $event_editor == true )
-					{
+
+	                $evStart = $event->startTime();
+	                $evStop = $event->stopTime();
+	                $evStopStr = $evStop->hour()  . addZero( $evStop->minute() );
+	                $evStartStr = $evStart->hour()  . addZero( $evStart->minute() );
+					if ($evStopStr - $evStartStr == 15)
+			        {
+
+                    $t->set_var( "public_event", "" );
+                    
+                    if( $event_editor == true )
+					 {
+						$t->parse( "fifteen_delete_check", "fifteen_delete_check_tpl" );
+						$t->set_var( "fifteen_no_delete_check", "" );
+					 }
+					else
+					 {
+						$t->parse( "fifteen_no_delete_check", "fifteen_no_delete_check_tpl" );
+						$t->set_var( "fifteen_delete_check", "" );
+					 }
+                    $t->parse("fifteen_event", "fifteen_event_tpl", true);
+                    }
+                    else
+                    {
+                     if( $event_editor == true )
+					 {
 						$t->parse( "delete_check", "delete_check_tpl" );
 						$t->set_var( "no_delete_check", "" );
-					}
-					else
-					{
-						$t->parse( "no_delete_check", "no_delete_check_tpl" );
-						$t->set_var( "delete_check", "" );
-					}
+					 }
+					 else
+					 {
+					  	 $t->parse( "no_delete_check", "no_delete_check_tpl" );
+						 $t->set_var( "delete_check", "" );
+					 }
+                     $t->set_var( "fifteen_event", "" );
 
-                    $t->parse( "public_event", "public_event_tpl", true );
+                     $t->parse( "public_event", "public_event_tpl", true );
+                    }
                 }
             }
 

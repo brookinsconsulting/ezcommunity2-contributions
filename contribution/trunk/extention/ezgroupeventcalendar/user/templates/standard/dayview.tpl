@@ -2,7 +2,7 @@
 <form method="post" action="{www_dir}{index}/groupeventcalendar/dayview/">
  <table border="0" cellspacing="0" cellpadding="0" id="gcalDayViewSortBy">
  <tr>
-  <td id="gcalDayViewSortByHeader"><img src="{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalX.png" style="margin-right:7px;"  alt="close"
+  <td id="gcalDayViewSortByHeader"><img src="{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalX.png" style="z-index: 1001; margin-right:7px;"  alt="close"
     onclick="document.getElementById('gcalDayViewSortBy').style.visibility = 'hidden';" />
  </td>
  </tr>
@@ -38,7 +38,7 @@
 	<tr><td colspan=7 id="gcalDayViewMonthTableHeader" 
     style="height: 12px;
     background: no-repeat url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalDayViewMonthTableHeader.png');
-    font-size: 2px;"><img src="{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalX.png" style="margin-right:7px;"  alt="close"
+    font-size: 2px;"><img src="{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalX.png" style="z-index: 1001; margin-right:7px;"  alt="close"
     onclick="document.getElementById('gcalDayViewMonthTable').style.visibility = 'hidden';" /></td>
 
 </tr></td></tr>
@@ -147,7 +147,7 @@
 <td width="90%" colspan=7
 onclick="location.href = '{www_dir}{index}/groupeventcalendar/eventview/{all_day_id}/'"
 style="cursor: pointer; background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalAllDayEvent.png') repeat;">
-<a class="gcalAllDay" href="{www_dir}{index}/groupeventcalendar/eventview/{all_day_id}/" 
+<a class="gcalAllDay" href="{www_dir}{index}/groupeventcalendar/eventview/{all_day_id}/"
 onmouseover="return overlib('<div class=\'olWrapAllDay\'><div class=\'olListAllDay\'>Name</div>{all_day_name}<div class=\'olListAllDay\'>Time</div> {all_day_start} - {all_day_stop}<div class=\'olListAllDay\'>Description </div>{all_day_desc}</div>');"
 onmouseout="return nd();">{all_day_name}</a></td>
 <td width="5%" class="gcalDayViewTopBar" style="cursor: default; font-size: 8px;">All Day</td></tr>
@@ -168,7 +168,7 @@ onmouseout="return nd();">{all_day_name}</a></td>
 
 	<!-- BEGIN no_new_event_link_tpl -->
 	<td class="{td_class}" width="100%"
-    style="text-align: center; height: 58px; border: 1px solid gray; border-right: 2px solid gray;  font-size: 10px;
+    style="text-align: center; height: 60px; border: 1px solid gray; border-right: 2px solid gray;  font-size: 10px;
     background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalShortTimeBg.png') repeat;" >{short_time}</td>
 	<!-- END no_new_event_link_tpl -->
 	</tr>
@@ -177,8 +177,36 @@ onmouseout="return nd();">{all_day_name}</a></td>
 <td width="95%" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
 <!-- BEGIN time_table_tpl -->
 <tr><td style="height: 15px; width:0px; overflow: hidden;"></td>
+<!-- BEGIN fifteen_event_tpl -->
+ <td class="{td_class}" valign="top" style="border: 1px solid black; overflow: hidden;
+    background-color: #6699CC; background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalEventTransBg.png') repeat;">
+ 	<table width="100%" cellspacing="0" cellpadding="0" border="0">
+	<tr>
+		<td width="98%" nowrap valign="top" class="gcalEventTopBar" style="overflow: hidden; height: 15px;">
+		<a class='gcalDayEventText' href="{www_dir}{index}/groupeventcalendar/eventview/{event_id}/" onmouseover="">&nbsp;{event_name}&nbsp;</a><br />
+
+		</td>
+
+		<!-- BEGIN fifteen_delete_check_tpl -->
+		<td width="1%" valign="top" align="right" class="gcalEventTopBar">
+		  <a href="{www_dir}{index}/groupeventcalendar/eventedit/edit/{event_id}/">
+          <img name="ezcal{event_id}-red" border="0" src="/images/redigermini.gif" width="12" height="12" align="top" alt="Edit" /></a>
+		</td>
+		<td width="1%" valign="top" align="right" class="gcalEventTopBar">
+		  <input type="checkbox" name="eventArrayID[]" value={event_id}>
+		</td>
+		<!-- END fifteen_delete_check_tpl -->
+
+		<!-- BEGIN fifteen_no_delete_check_tpl -->
+		<td width="1%" valign="top" align="right" class="gcalEventTopBar">&nbsp;</td>
+		<td width="1%" valign="top" align="right" class="gcalEventTopBar">&nbsp;</td>
+		<!-- END fifteen_no_delete_check_tpl -->
+	</tr>
+	</table>
+	</td>
+<!-- END fifteen_event_tpl -->
    <!-- BEGIN public_event_tpl -->
-	<td class="{td_class}" valign="top" rowspan="{rowspan_value}" style="border: 1px solid black; overflow: hidden;
+    <td class="{td_class}" valign="top" rowspan="{rowspan_value}" style="border: 1px solid black; overflow: hidden;
     background-color: #6699CC; background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalEventTransBg.png') repeat;">
 	<table width="100%" cellspacing="0" cellpadding="0" border="0">
 	<tr>

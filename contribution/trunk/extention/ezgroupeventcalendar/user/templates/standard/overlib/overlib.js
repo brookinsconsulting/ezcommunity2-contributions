@@ -869,10 +869,12 @@ function showObject(obj) {
 }
 
 // Hides an object
-function hideObject(obj) {
-	runHook("hideObject", FBEFORE);
+function hideObject(obj) 
+{
+    runHook("hideObject", FBEFORE );
 
 	var theObj=(olNs4 ? obj : obj.style);
+
 	if (olNs6 && olShowId>0) { clearTimeout(olShowId); olShowId=0; }
 	theObj.visibility = 'hidden';
 
@@ -1100,8 +1102,8 @@ function registerHook(fnHookTo, fnRef, hookType, optPm) {
 
 	if (hookType != null) {
 		if (hookType == FREPLACE) {
-			hookPt.ovload = fnRef;  // replace normal overlib routine
-			if (fnHookTo.indexOf('ol_content_') > -1) hookPt.alt[pms[CSSOFF-1-pmStart]]=fnRef; 
+            hookPt.ovload = fnRef;  // replace normal overlib routine
+			if (fnHookTo.indexOf('ol_content_') > -1) hookPt.alt[pms[CSSOFF-1-pmStart]]=fnRef;
 
 		} else if (hookType == FBEFORE || hookType == FAFTER) {
 			var hookPt=(hookType == 1 ? hookPt.before : hookPt.after);

@@ -230,7 +230,7 @@ else
        $t->parse("recurring_days_week", "recurring_days_week_tpl");
       } else {  
        $t->set_var( "recur_days_week", '');
-       $t->parse("recurring_days_week", "recurring_days_week_tpl");
+       $t->set_var( "recurring_days_week_tpl", '');
       }
      if ($event->recurType() == 'month') {
       if ($event->recurMonthlyType() == 'numdayname') 
@@ -286,7 +286,7 @@ else
     $t->set_var( "until_date", "" );
     $t->set_var( "num_times", "" );
     $t->set_var( "recur_exception", "" );
-    $t->parse( "recurring_event", "recurring_event_tpl" );
+    $t->set_var( "recurring_event", '');
     }
     $groupID = $event->groupID();
 
