@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.18 2000/08/29 12:43:27 bf-cvs Exp $
+    $Id: message.php,v 1.19 2000/08/29 14:31:23 th-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -52,11 +52,11 @@ $category_id = $forum->categoryID();
 
 $category = new eZForumCategory( );
 $category->get( $category_id );
-$forumPath = "/ <a href=\"index.php?page=" . $DOC_ROOT .  "category.php&category_id=" . $category_id . "\">" . $category->name() . "</a> ";
+$forumPath = "<img src=\"ezforum/images/pil.gif\" width=\"10\" height=\"10\" border=\"0\"> <a href=\"index.php?page=" . $DOC_ROOT .  "category.php&category_id=" . $category_id . "\">" . $category->name() . "</a> ";
 
-$forumPath .= "/ <a href=\"index.php?page=" . $DOC_ROOT .  "forum.php&forum_id=" . $forum_id . "&category_id=" . $category_id . "\">" . $forum->name() . "</a> ";
+$forumPath .= "<img src=\"ezforum/images/pil.gif\" width=\"10\" height=\"10\" border=\"0\"> <a href=\"index.php?page=" . $DOC_ROOT .  "forum.php&forum_id=" . $forum_id . "&category_id=" . $category_id . "\">" . $forum->name() . "</a> ";
 
-$forumPath .= "/ <a href=\"index.php?page=" . $DOC_ROOT .  "message.php&forum_id=" . $forum_id . "&category_id=" . $category_id . "&message_id=" . $message_id . "\">" . $message->topic() . "</a>";
+$forumPath .= "<img src=\"ezforum/images/pil.gif\" width=\"10\" height=\"10\" border=\"0\"> <a href=\"index.php?page=" . $DOC_ROOT .  "message.php&forum_id=" . $forum_id . "&category_id=" . $category_id . "&message_id=" . $message_id . "\">" . $message->topic() . "</a>";
 
 $t->set_var( "forum_path", $forumPath );
 
