@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileview.php,v 1.16.2.2 2002/04/22 08:35:46 jhe Exp $
+// $Id: fileview.php,v 1.16.2.3 2002/04/30 13:51:15 br Exp $
 //
 // Created on: <04-Jan-2001 16:47:23 ce>
 //
@@ -77,15 +77,21 @@ if ( $FileID != 0 )
     include_once( "ezsitemanager/classes/ezsection.php" );
 
     $parent_folder = $file->folder();
-
-    $t->set_var( "folder_name", $parent_folder->name() );
-    
-    // tempo fix for admin users - maybe in the future must be changed
-    if ( $parent_folder != 0 && ! eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
+    if ( $parent_folder )
     {
-        $GlobalSectionID = eZVirtualFolder::sectionIDstatic ( $parent_folder->id() );
-    }
+        $t->set_var( "folder_name", $parent_folder->name() );
     
+        // tempo fix for admin users - maybe in the future must be changed
+        if ( $parent_folder != 0 && ! eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
+        {
+            $GlobalSectionID = eZVirtualFolder::sectionIDstatic ( $parent_folder->id() );
+        }
+    }
+    else
+    {
+        $t->set_var( "folder_name", "" );
+    }
+
     // init the section
     $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
     $sectionObject->setOverrideVariables();
@@ -117,7 +123,13 @@ if ( $FileID != 0 )
     $fileOwner = $file->user();
 
     if ( $fileOwner )
+    {
         $t->set_var( "file_owner", $fileOwner->firstName() . " " . $fileOwner->lastName() );
+    }
+    else
+    {
+        $t->set_var( "file_owner", "" );
+    }
 
     $t->parse( "view", "view_tpl" );
 }
