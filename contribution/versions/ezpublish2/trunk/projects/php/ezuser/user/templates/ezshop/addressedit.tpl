@@ -1,8 +1,14 @@
 <form method="post" action="/user/userwithaddress/{action_value}/{user_id}/">
 
-<h1>Registrer ny bruker</h1>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td bgcolor="#f08c00">
+	<div class="headline">Registrer ny bruker</div>
+	</td>
+</tr>
+</table>
 
-<hr noshade="noshade" size="4" />
+<br />
 
 <!-- BEGIN required_fields_error_tpl -->
 <h3 class="error" >{intl-required_fields_error}</h3>

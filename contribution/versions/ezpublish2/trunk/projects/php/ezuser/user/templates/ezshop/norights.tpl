@@ -1,11 +1,11 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <td align="left" valign="bottom">
-        <h1>{intl-headline}</h1>
-     </td>
+	<td bgcolor="#f08c00">
+	<div class="headline">{intl-head_line}</div>
+	</td>
 </tr>
 </table>
 
-<hr noshade="noshade" size="4" />
+<br />
 
 <p class="error">{error_msg}</p>

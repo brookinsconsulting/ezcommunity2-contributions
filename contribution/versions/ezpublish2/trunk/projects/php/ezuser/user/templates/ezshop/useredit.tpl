@@ -1,6 +1,6 @@
-<form method="post" action="/user/user/{action_value}/{user_id}/">
+<form method="post" action="/{module}/{user_new}/{action_value}/{user_id}/">
 
-<h1>Registrer ny bruker</h1>
+<h1>{head_line}</h1>
 
 <hr noshade="noshade" size="4" />
 
@@ -25,46 +25,57 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	{intl-firstname}:
+	<p class="boxtext">{intl-firstname}:</p>
 	<input type="text" size="20" name="FirstName" value="{first_name_value}"/>
 	</td>
+
 	<td>
-	{intl-lastname}:
+	<p class="boxtext">{intl-lastname}:</p>
 	<input type="text" size="20" name="LastName" value="{last_name_value}"/>
 	</td>
 </tr>
 </table>
 
 <p class="boxtext">{intl-login}:</p>
-<input type="text" size="20" name="Login" value="{login_value}"/>
+<input tabindex="3" type="text" {read_only} size="20" name="Login" value="{login_value}"/>
 
 <p class="boxtext">{intl-email}:</p>
-<input type="text" size="20" name="Email" value="{email_value}"/>
+<input tabindex="4" type="text" size="20" name="Email" value="{email_value}"/>
 
 <br /><br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td>
-	{intl-password}:
+	<td width="50%">
+	<p class="boxtext">{intl-password}:</p>
 	<input type="password" size="20" name="Password" value="{password_value}"/>
 	</td>
 	<td>
-	{intl-verifypassword}:
+	<p class="boxtext">{intl-verifypassword}:</p>
 	<input type="password" size="20" name="VerifyPassword" value="{verify_password_value}"/>
 	</td>
 </tr>
 </table>
 
 <br />
+<div class="p"><input {info_subscription} type="checkbox" name="InfoSubscription" />&nbsp;{intl-infosubscription}</div>
+<br />
 
 <hr noshade="noshade" size="4" />
 
-<input type="hidden" name="UserID" value="{user_id}" />
-<input type="submit" value="OK" />
-
-<input type="hidden" name="RedirectURL" value="{redirect_url}" />
-</form>
-
-
-
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	<input type="hidden" name="UserID" value="{user_id}" />
+	<input class="okbutton" type="submit" value="OK" />
+	<input type="hidden" name="RedirectURL" value="{redirect_url}" />
+	</form>
+	</td>
+	<td>&nbsp;</td>
+	<td>
+	<form action="/">
+	<input class="okbutton" type="submit" value="{intl-abort}">
+	</form>
+	</td>
+</tr>
+</table>
