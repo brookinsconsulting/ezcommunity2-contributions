@@ -70,3 +70,13 @@ Maintainer(s) : br@ez.no
       admin/intl/he_IL/menubox.php.ini
       user/intl/he_IL/adlist.php.ini: Added he_IL (Hebrew) translation
 
+
+Module : ezad
+Repository path : /home/cvsroot/projects/php/ezad
+Maintainer(s) : br@ez.no
+2001-10-02  Bjoern Reiten  <br@ez.no>
+
+    * user/queuedadlist.php:
+    added queuedadlist.php: Can read all ads to a category the first time
+    and print one ad each time you include this file in a script.
+

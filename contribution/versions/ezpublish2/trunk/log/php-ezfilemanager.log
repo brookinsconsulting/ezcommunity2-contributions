@@ -267,3 +267,13 @@ Maintainer(s) : jhe@ez.no
       user/intl/he_IL/menubox.php.ini
       user/intl/he_IL/search.php.ini: Added he_IL (Hebrew) translation
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-10-02  Bjoern Reiten  <br@ez.no>
+
+    * user/folderedit.php
+      user/filelist.php
+      user/fileupload.php: Fixed permission bugs.
+

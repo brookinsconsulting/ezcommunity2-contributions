@@ -1131,3 +1131,27 @@ Maintainer(s) : bf@ez.no
       user/intl/he_IL/smallarticlelist.php.ini
       user/intl/he_IL/urlsupplier.php.ini: Added he_IL (Hebrew) translation
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-10-02  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * user/frontpage.php: *** empty log message ***
+
+    * user/frontpage.php:
+    Fixed the database lookup to use the correct sorting of the category.
+
+2001-10-02  Christoffer Elo  <ce@ez.no>
+
+    * user/frontpage.php: added eztrade to frontpage
+
+    * classes/ezarticlecategory.php
+      user/datasupplier.php
+      user/frontpage.php: Added a new ezsection/frontpage feature:
+    this will make it easier to build up a frontpage from the admin interface.
+
+    * user/frontpage.php: added categoryid
+
+    * user/frontpage.php: Added dobule products on frontpage
+

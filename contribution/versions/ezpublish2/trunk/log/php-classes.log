@@ -176,3 +176,12 @@ Maintainer(s) : bf@ez.no
     * admin/intl/he_IL/linklist.php.ini
       admin/intl/he_IL/linkselect.php.ini: Added he_IL (Hebrew) translation
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-10-02  Christoffer Elo  <ce@ez.no>
+
+    * ezdb.php: Added a new ezsection/frontpage feature:
+    this will make it easier to build up a frontpage from the admin interface.
+

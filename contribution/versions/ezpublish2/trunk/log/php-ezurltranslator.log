@@ -39,3 +39,14 @@ Maintainer(s) : vl@ez.no
     * admin/intl/he_IL/menubox.php.ini
       admin/intl/he_IL/urledit.php.ini: Added he_IL (Hebrew) translation
 
+
+Module : ezurltranslator
+Repository path : /home/cvsroot/projects/php/ezurltranslator
+Maintainer(s) : vl@ez.no
+2001-10-02  Vidar Langseid  <vl@ez.no>
+
+    * classes/ezurltranslator.php:
+    Now a trailing slash in the URI make no difference.
+    ie both : http://ezsystems.vl.dvh1.ez.no/shop/software/
+    and http://ezsystems.vl.dvh1.ez.no/shop/software will work
+

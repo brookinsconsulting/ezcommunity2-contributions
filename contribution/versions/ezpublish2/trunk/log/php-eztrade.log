@@ -944,3 +944,32 @@ Maintainer(s) : ce@ez.no
       user/intl/he_IL/wishlist.php.ini
       user/intl/he_IL/wishlistmail.php.ini: Added he_IL (Hebrew) translation
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-10-02  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * classes/ezproductcategory.php: *** empty log message ***
+
+2001-10-02  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezproductcategory.php: added eztrade to frontpage
+
+2001-10-02  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * admin/intl/en_US/categorylist.php.ini
+      admin/intl/en_US/menubox.php.ini
+      admin/intl/en_US/productedit.php.ini
+      admin/intl/en_US/productpreview.php.ini
+      admin/intl/en_US/shippingtypes.php.ini
+      admin/intl/en_US/vattypes.php.ini: Newest translations.
+
+2001-10-02  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezcart.php
+      classes/ezproduct.php
+      classes/ezshippingtype.php
+      classes/ezvattype.php
+      user/cart.php: Fixed VAT from other countires
+

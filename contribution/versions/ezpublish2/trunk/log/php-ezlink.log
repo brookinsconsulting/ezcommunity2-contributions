@@ -129,3 +129,11 @@ Maintainer(s) : br@ez.no
       user/intl/he_IL/success.php.ini
       user/intl/he_IL/suggestlink.php.ini: Added he_IL (Hebrew) translation
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-10-02  Bjoern Reiten  <br@ez.no>
+
+    * admin/categoryedit.php: fixed session bug.
+

@@ -127,3 +127,26 @@ Maintainer(s) : vl@ez.no
       admin/intl/he_IL/sectionedit.php.ini
       admin/intl/he_IL/sectionlist.php.ini: Added he_IL (Hebrew) translation
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-10-02  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * admin/templates/standard/sectionedit.tpl:
+    Moved some buttons to make them appear.
+
+2001-10-02  Christoffer Elo  <ce@ez.no>
+
+    * admin/intl/en_GB/sectionedit.php.ini
+      admin/sectionedit.php
+      admin/templates/standard/sectionedit.tpl: added eztrade to frontpage
+
+    * admin/datasupplier.php
+      admin/intl/en_GB/sectionedit.php.ini
+      admin/sectionedit.php
+      admin/templates/standard/sectionedit.tpl
+      classes/ezsection.php
+      classes/ezsectionfrontpage.php: Added a new ezsection/frontpage feature:
+    this will make it easier to build up a frontpage from the admin interface.
+
