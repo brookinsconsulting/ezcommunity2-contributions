@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsgroup.php,v 1.8 2001/09/12 11:28:22 bf Exp $
+// $Id: newsgroup.php,v 1.9 2001/09/13 14:45:41 bf Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -87,8 +87,6 @@ $t->set_var( "image_dir", $ImageDir );
 $category = new eZArticleCategory( $CategoryID );
 
 $categoryList =& $category->getByParent( $category, true, "placement", 0, 4 );
-
-$categoryList = array( $category );
 
 $locale = new eZLocale( $Language );
 
