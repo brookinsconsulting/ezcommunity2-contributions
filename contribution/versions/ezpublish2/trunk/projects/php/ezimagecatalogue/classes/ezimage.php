@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.42 2001/03/13 14:04:57 ce Exp $
+// $Id: ezimage.php,v 1.43 2001/03/26 18:38:41 jb Exp $
 //
 // Definition of eZImage class
 //
@@ -199,12 +199,12 @@ class eZImage
         if ( $id != "" )
         {
             $this->Database->array_query( $image_array, "SELECT * FROM eZImageCatalogue_Image WHERE ID='$id'" );
-            if ( count( $image_array ) > 1 )
+            if( count( $image_array ) > 0 )
             {
-                die( "Error: Image's with the same ID was found in the database. This shouldent happen." );
-            }
-            else if( count( $image_array ) == 1 )
-            {
+                if ( count( $image_array ) > 1 )
+                {
+                    print( "<br /><b>Error: Image's with the same ID was found in the database. This shouldent happen.</b><br />" );
+                }
                 $this->ID =& $image_array[0][ "ID" ];
                 $this->Name =& $image_array[0][ "Name" ];
                 $this->Caption =& $image_array[0][ "Caption" ];
@@ -219,7 +219,7 @@ class eZImage
                 $ret = true;
 
             }
-            else if( count( $image_array ) < 1 )
+            else
             {
                 $this->State_ = "Dirty";
             }
