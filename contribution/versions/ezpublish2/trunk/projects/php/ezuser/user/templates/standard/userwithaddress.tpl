@@ -4,21 +4,77 @@
 
 <hr noshade="noshade" size="4" />
 
-<!-- BEGIN required_fields_error_tpl -->
-<h3 class="error" >{intl-required_fields_error}</h3>
-<!-- END required_fields_error_tpl -->
+<!-- BEGIN errors_item_tpl -->
+<h3 class="error">{intl-error_headline}</h3>
+<ul>
+    <!-- BEGIN error_login_tpl -->
+    <li>{intl-error_login}
+    <!-- END error_login_tpl -->
 
-<!-- BEGIN user_exists_error_tpl -->
-<h3 class="error" >{intl-user_exists_error}</h3>
-<!-- END user_exists_error_tpl -->
+    <!-- BEGIN error_login_exists_tpl -->
+    <li>{intl-error_login_exists}
+    <!-- END error_login_exists_tpl -->
 
-<!-- BEGIN password_error_tpl -->
-<h3 class="error" >{intl-password_error}</h3>
-<!-- END password_error_tpl -->
+    <!-- BEGIN error_first_name_tpl -->
+    <li>{intl-error_first_name}
+    <!-- END error_first_name_tpl -->
 
-<!-- BEGIN missing_address_error_tpl -->
-<h3 class="error" >{intl-missing_address_error}</h3>
-<!-- END missing_address_error_tpl -->
+    <!-- BEGIN error_last_name_tpl -->
+    <li>{intl-error_last_name}
+    <!-- END error_last_name_tpl -->
+
+    <!-- BEGIN error_email_tpl -->
+    <li>{intl-error_email}
+    <!-- END error_email_tpl -->
+
+    <!-- BEGIN error_email_not_valid_item_tpl -->
+    <li>{intl-error_email_not_valid}
+    <!-- END error_email_not_valid_item_tpl -->
+
+    <!-- BEGIN error_password_tpl -->
+    <li>{intl-error_password}
+    <!-- END error_password_tpl -->
+
+    <!-- BEGIN error_password_too_short_item_tpl -->
+    <li>{intl-error_password_too_short}
+    <!-- END error_password_too_short_item_tpl -->
+
+    <!-- BEGIN error_passwordrepeat_item_tpl -->
+    <li>{intl-error_passwordrepeat_item}
+    <!-- END error_passwordrepeat_item_tpl -->
+
+    <!-- BEGIN error_passwordmatch_item_tpl -->
+    <li>{intl-error_passwordmatch_item}
+    <!-- END error_passwordmatch_item_tpl -->
+
+    <!-- BEGIN error_loginname_item_tpl -->
+    <li>{intl-error_loginname}
+    <!-- END error_loginname_item_tpl -->
+
+    <!-- BEGIN error_address_street1_tpl -->
+    <li>{intl-error_street1}
+    <!-- END error_address_street1_tpl -->
+
+    <!-- BEGIN error_address_street2_tpl -->
+    <li>{intl-error_street2}
+    <!-- END error_address_street2_tpl -->
+
+    <!-- BEGIN error_address_zip_tpl -->
+    <li>{intl-error_zip}
+    <!-- END error_address_zip_tpl -->
+
+    <!-- BEGIN error_address_place_tpl -->
+    <li>{intl-error_place}
+    <!-- END error_address_place_tpl -->
+
+
+
+</ul>
+
+<hr noshade size="4"/>
+
+<br />
+<!-- END errors_item_tpl -->
 
 <br />
 
@@ -101,6 +157,8 @@
 <input class="okbutton" type="submit" value="OK" />
 
 <input type="hidden" name="RedirectURL" value="{redirect_url}" />
+
+<input type="hidden" name="test" value="1">
 </form>
 
 
