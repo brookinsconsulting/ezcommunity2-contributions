@@ -1,9 +1,10 @@
+<h1>{intl-head_line}</h1>
 
 <!-- BEGIN result_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="3" border="0">
 <tr>
 	<td>
-	<h2>{head_line}</h2>
+	<h2>{poll_name}</h2>
 	</td>
 </tr>
 <!-- BEGIN result_item_tpl -->

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: result.php,v 1.3 2000/10/03 09:45:17 bf-cvs Exp $
+// $Id: result.php,v 1.4 2000/10/03 12:28:55 bf-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -27,7 +27,7 @@ include_once( $DOC_ROOT . "/classes/ezpollchoice.php" );
 
 
 $t = new eZTemplate( $DOC_ROOT . $ini->read_var( "eZPollMain", "TemplateDir" ) . "/polllist/",
-                     $DOC_ROOT . "/intl/", $Language, "polllist.php" );
+                     $DOC_ROOT . "/intl/", $Language, "result.php" );
 
 $t->setAllStrings();
 
@@ -52,7 +52,7 @@ else
 
 foreach ( $pollArray as $poll )
 {
-    $t->set_var( "head_line", $poll->name() );
+    $t->set_var( "poll_name", $poll->name() );
 
     $pollchoice = new eZPollChoice();
     $choiceList = $pollchoice->getAll( $poll->id() );
@@ -64,42 +64,47 @@ foreach ( $pollArray as $poll )
     setType( $total, "double" );
 
     $i=1;
-    $t->set_var( "result_item", "" );
-    foreach( $choiceList as $choiceItem )
+
+    if ( $poll->showResult() )
     {
-        $value = 0;
-        $t->set_var( "choice_name", $choiceItem->name() );
-        $t->set_var( "choice_id", $choiceItem->id() );
-
-        $t->set_var( "choice_vote", $choiceItem->voteCount() );
-        $t->set_var( "choice_number", $i );
-
-        if ( $total != 0 )
+        $t->set_var( "result_item", "" );        
+        foreach( $choiceList as $choiceItem )
         {
-            $percent = ( ( $choiceItem->voteCount() / $total ) * 100 );
-            setType( $percent, "integer" );
-            $t->set_var( "choice_percent", $percent );
-            $t->set_var( "choice_inverted_percent", 100 - $percent );
+            $value = 0;
+            $t->set_var( "choice_name", $choiceItem->name() );
+            $t->set_var( "choice_id", $choiceItem->id() );
+
+            $t->set_var( "choice_vote", $choiceItem->voteCount() );
+            $t->set_var( "choice_number", $i );
+
+            if ( $total != 0 )
+            {
+                $percent = ( ( $choiceItem->voteCount() / $total ) * 100 );
+                setType( $percent, "integer" );
+                $t->set_var( "choice_percent", $percent );
+                $t->set_var( "choice_inverted_percent", 100 - $percent );
         
+            }
+            else
+            {
+                $t->set_var( "choice_percent", 0 );
+                $t->set_var( "choice_inverted_percent", 100 );
+            }
+    
+            $value = $choiceItem->voteCount();
+    
+            setType( $value, "double" );
+            setType( $total, "double" );
+    
+            $t->parse( "result_item", "result_item_tpl", true );
+            $i++;    
         }
-        else
-        {
-            $t->set_var( "choice_percent", 0 );
-            $t->set_var( "choice_inverted_percent", 100 );
-        }
-    
-        $value = $choiceItem->voteCount();
-    
-        setType( $value, "double" );
-        setType( $total, "double" );
-    
-        $t->parse( "result_item", "result_item_tpl", true );
-        $i++;    
-    }
 
-    $t->set_var( "total_votes", $poll->totalVotes() );
- 
-    $t->parse( "result_list", "result_list_tpl", true );
+
+        $t->set_var( "total_votes", $poll->totalVotes() );
+        
+        $t->parse( "result_list", "result_list_tpl", true );
+    }        
 }
 
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpoll.php,v 1.3 2000/10/02 11:58:15 bf-cvs Exp $
+// $Id: ezpoll.php,v 1.4 2000/10/03 12:28:55 bf-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -86,6 +86,7 @@ class eZPoll
                                  Name='$this->Name',
                                  Description='$this->Description',
                                  IsEnabled='$this->IsEnabled',
+                                 ShowResult='$this->ShowResult',
                                  IsClosed='$this->IsClosed' ");
 
             $this->ID = mysql_insert_id();
@@ -98,6 +99,7 @@ class eZPoll
                                  Name='$this->Name',
                                  Description='$this->Description',
                                  IsEnabled='$this->IsEnabled',
+                                 ShowResult='$this->ShowResult',
                                  IsClosed='$this->IsClosed' WHERE ID='$this->ID'" );
 
             $this->State_ = "Coherent";    
@@ -142,8 +144,21 @@ class eZPoll
                 $this->ID = $poll_array[0][ "ID" ];
                 $this->Name = $poll_array[0][ "Name" ];
                 $this->Description = $poll_array[0][ "Description" ];
-                $this->IsEnabled = $poll_array[0][ "IsEnabled" ];
-                $this->IsClosed = $poll_array[0][ "IsClosed" ];
+                
+                if ( $poll_array[0][ "IsEnabled" ] == "true" )
+                    $this->IsEnabled = true;
+                else
+                    $this->IsEnabled = false;
+
+                if ( $poll_array[0][ "IsClosed" ] == "true" )
+                    $this->IsClosed = true;
+                else
+                    $this->IsClosed = false;
+
+                if ( $poll_array[0][ "ShowResult" ] == "true" )
+                    $this->ShowResult = true;
+                else
+                    $this->ShowResult = false;
             }
         }
     }
@@ -205,7 +220,6 @@ class eZPoll
     /*!
       Returns the isEnabled.
     */
-
     function isEnabled()
     {
         if ( $this->State_ == "Dirty" )
@@ -217,13 +231,23 @@ class eZPoll
     /*!
       Returns the isClosed.
     */
-
     function isClosed()
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
         return $this->IsClosed;
+    }
+
+    /*!
+      Returns the ShowResult.
+    */
+    function showResult()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return $this->ShowResult;
     }
 
     /*!
@@ -255,8 +279,11 @@ class eZPoll
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        $this->IsEnabled = $value;
+
+        if ( $value  )
+            $this->IsEnabled = "true";
+        else
+            $this->IsEnabled = "false";
     }
     
     /*!
@@ -266,8 +293,25 @@ class eZPoll
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        $this->IsClosed = $value;
+
+        if ( $value  )
+            $this->IsClosed = "true";
+        else
+            $this->IsClosed = "false";
+    }
+
+    /*!
+      Sets the showresult of the poll.
+    */
+    function setShowResult( $value )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        if ( $value )
+            $this->ShowResult = "true";
+        else
+            $this->ShowResult = "false";
     }
 
     /*!
@@ -300,4 +344,5 @@ class eZPoll
     var $Description;
     var $IsEnabled;
     var $IsClosed;
+    var $ShowResult;
 }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: polledit.php,v 1.2 2000/10/02 11:58:14 bf-cvs Exp $
+// $Id: polledit.php,v 1.3 2000/10/03 12:28:55 bf-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -33,29 +33,31 @@ if ( $Action == "Insert" )
     $poll = new eZPoll();
     if ( $IsEnabled == "on" )
     {
-        $poll->setIsEnabled ( "true" );
+        $poll->setIsEnabled ( true );
     }
     else
     {
-        $poll->setIsEnabled ( "false" );
+        $poll->setIsEnabled ( false );
     }
 
     if ( $IsClosed == "on" )
     {
-        $poll->setIsClosed ( "true" );
+        $poll->setIsClosed ( true );
     }
-//      else
-//      {
-//          $poll->setIsClosed ( "false" );
-//      }
+    else
+    {
+        $poll->setIsClosed ( false );
+    }
 
-
-
-
-//      if ( $ShowResult == "on" )
-//      {
-//          $poll->setIsClosed ( "true" );
-//      }
+    if ( $ShowResult == "on" )
+    {
+        $poll->setShowResult ( true );
+    }
+    else
+    {
+        $poll->setShowResult ( false );
+    }
+    
 //      else
 //      {
 //          $poll->setIsClosed ( "false" );
@@ -114,20 +116,29 @@ if ( $Action == "Update" )
 
     if ( $IsEnabled == "on" )
     {
-        $poll->setIsEnabled ( "true" );
+        $poll->setIsEnabled ( true );
     }
     else
     {
-        $poll->setIsEnabled ( "false" );
+        $poll->setIsEnabled ( false );
     }
-    
+
     if ( $IsClosed == "on" )
     {
-        $poll->setIsClosed ( "true" );
+        $poll->setIsClosed ( true );
     }
     else
     {
-        $poll->setIsClosed ( "false" );
+        $poll->setIsClosed ( false );
+    }
+
+    if ( $ShowResult == "on" )
+    {
+        $poll->setShowResult ( true );
+    }
+    else
+    {
+        $poll->setShowResult ( false );
     }
 
     $poll->setName( $Name );
@@ -178,16 +189,21 @@ if ( $Action == "Edit" )
     $Name = $poll->name();
     $Description = $poll->description();
 
-    if ( $poll->isEnabled() == "true" )
+    if ( $poll->isEnabled() == true )
     {
         $IsEnabled = "checked";
     }
 
-    if ( $poll->isClosed() == "true" )
+    if ( $poll->isClosed() == true )
     {
         $IsClosed = "checked";
     }
 
+    if ( $poll->showResult() == true )
+    {
+        $ShowResult = "checked";
+    }
+    
     $Action_value = "update";
     $ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/polledit.php.ini", false );
     $headline =  $ini->read_var( "strings", "head_line_edit" );
@@ -216,6 +232,8 @@ $t->set_var( "name_value", $Name );
 $t->set_var( "description_value", $Description );
 $t->set_var( "is_enabled", $IsEnabled );
 $t->set_var( "is_closed", $IsClosed );
+$t->set_var( "show_result", $ShowResult );
+
 $t->set_var( "document_root", $DOC_ROOT );
 $t->set_var( "action_value", $Action_value );
 if ( !isset ( $headline ) )
