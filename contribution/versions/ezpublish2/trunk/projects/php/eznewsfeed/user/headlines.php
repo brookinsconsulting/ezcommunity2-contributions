@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: headlines.php,v 1.2 2000/11/16 15:53:21 bf-cvs Exp $
+// $Id: headlines.php,v 1.3 2000/11/25 15:57:33 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 10:51:34 bf>
@@ -51,12 +51,19 @@ $t->set_block( "headlines_page_tpl", "head_line_item_tpl", "head_line_item" );
 
 $newsList = $news->newsList();
 
+$locale = new eZLocale();
 
 foreach ( $newsList as $newsItem )
 {
     $t->set_var( "head_line", $newsItem->name() );
     $t->set_var( "head_line_url", $newsItem->url() );
-    
+
+    $t->set_var( "head_line_origin", $newsItem->origin() );
+    $published = $newsItem->originalPublishingDate();
+
+    $t->set_var( "head_line_date", $locale->format( $published ) );
+
+
     $t->parse( "head_line_item", "head_line_item_tpl", true );
 }
 

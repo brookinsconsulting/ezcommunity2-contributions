@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezad.php,v 1.1 2000/11/25 11:40:52 bf-cvs Exp $
+// $Id: ezad.php,v 1.2 2000/11/25 15:57:33 bf-cvs Exp $
 //
 // Definition of eZAd class
 //
@@ -86,7 +86,10 @@ class eZAd
         {
             $this->Database->query( "INSERT INTO eZAd_Ad SET
 		                         Name='$this->Name',
+		                         Description='$this->Description',
                                  ImageID='$this->ImageID',
+                                 IsActive='$this->IsActive',
+                                 URL='$this->URL',
                                  ViewStartDate='$this->ViewStartDate',
                                  ViewStopDate='$this->ViewStopDate',
                                  ViewRule='$this->ViewRule'
@@ -100,7 +103,10 @@ class eZAd
         {
             $this->Database->query( "UPDATE eZAd_Ad SET
 		                         Name='$this->Name',
+		                         Description='$this->Description',
                                  ImageID='$this->ImageID',
+                                 IsActive='$this->IsActive',
+                                 URL='$this->URL',
                                  ViewStartDate='$this->ViewStartDate',
                                  ViewStopDate='$this->ViewStopDate',
                                  ViewRule='$this->ViewRule'
@@ -132,6 +138,9 @@ class eZAd
             {
                 $this->ID =& $ad_array[0][ "ID" ];
                 $this->Name =& $ad_array[0][ "Name" ];
+                $this->Description =& $ad_array[0][ "Description" ];
+                $this->IsActive =& $ad_array[0][ "IsActive" ];
+                $this->URL =& $ad_array[0][ "URL" ];
                 $this->ImageID =& $ad_array[0][ "ImageID" ];
                 $this->ViewStartDate =& $ad_array[0][ "ViewStartDate" ];
                 $this->ViewStopDate =& $ad_array[0][ "ViewStopDate" ];
@@ -183,6 +192,45 @@ class eZAd
     }
 
     /*!
+      Returns the ad's description.
+    */
+    function &description()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return htmlspecialchars( $this->Description );
+    }
+
+    /*!
+      Returns the ad's url.
+    */
+    function &url()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return htmlspecialchars( $this->URL );
+    }
+    
+    /*!
+      Returns true if the ad is active false if not.
+    */
+    function isActive()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = false;
+       if ( $this->IsActive == "true" )
+       {
+           $ret = true;
+       }
+       return $ret;
+    }
+    
+    
+    /*!
       Returns the view start date.
     */
     function &viewStartDate()
@@ -222,6 +270,46 @@ class eZAd
     }
 
     /*!
+      Sets the ad's description.
+    */
+    function setDescription( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->Description = $value;
+    }
+
+    /*!
+      Sets the URL which the ad should link to.
+    */
+    function setURL( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->URL = $value;
+    }
+    
+    /*!
+     Sets the ad to active or not. 
+    */
+    function setIsActive( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( $value == true )
+       {
+           $this->IsActive = "true";
+       }
+       else
+       {
+           $this->IsActive = "false";           
+       }
+    }
+    
+    /*!
       Returns the categrories an ad is assigned to.
 
       The categories are returned as an array of eZAdCategory objects.
@@ -239,7 +327,7 @@ class eZAd
                                                        WHERE AdID='$this->ID'" );
 
        foreach ( $category_array as $category )
-       {
+       {           
            $ret[] = new eZAdCategory( $category["CategoryID"] );
        }
 
@@ -307,10 +395,17 @@ class eZAd
 
        $this->dbInit();
        
-       $ret = new eZImage( $this->ImageID );
+       $ret = false;
+       $img = new eZImage( );
+       
+       if ( $img->get( $this->ImageID ) )
+       {           
+           $ret = $img;
+       }
        
        return $ret;
     }
+
     
     /*!
       \private
@@ -328,8 +423,13 @@ class eZAd
     
     var $ID;
     var $Name;
+    var $Description;
     var $ImageID;
+    var $URL;
     var $ViewStartDate;
+
+    /// Indicates if the banner is active or not
+    var $IsActive;
 
     /// Indicates if the banner should be viewed by date or by clicks.
     var $ViewRule;

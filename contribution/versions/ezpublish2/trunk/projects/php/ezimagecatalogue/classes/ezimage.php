@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.21 2000/11/23 16:55:42 bf-cvs Exp $
+// $Id: ezimage.php,v 1.22 2000/11/25 15:57:33 bf-cvs Exp $
 //
 // Definition of eZImage class
 //
@@ -152,7 +152,8 @@ class eZImage
     function get( $id="" )
     {
         $this->dbInit();
-        
+
+        $ret = false;
         if ( $id != "" )
         {
             $this->Database->array_query( $image_array, "SELECT * FROM eZImageCatalogue_Image WHERE ID='$id'" );
@@ -170,6 +171,7 @@ class eZImage
                 $this->OriginalFileName =& $image_array[0][ "OriginalFileName" ];
 
                 $this->State_ = "Coherent";
+                $ret = true;
 
             }
             else if( count( $image_array ) < 1 )
@@ -181,6 +183,8 @@ class eZImage
         {
             $this->State_ = "Dirty";
         }
+
+        return $ret;
     }
     
     /*!

@@ -1,9 +1,9 @@
 <?
 // 
-// $Id: adlist.php,v 1.2 2000/11/25 15:57:33 bf-cvs Exp $
+// $Id: adlist.php,v 1.1 2000/11/25 15:57:33 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
-// Created on: <22-Nov-2000 21:08:34 bf>
+// Created on: <25-Nov-2000 15:44:37 bf>
 //
 // This source file is part of eZ publish, publishing software.
 // Copyright (C) 1999-2000 eZ systems as
@@ -34,8 +34,8 @@ $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZAdMain", "Language" );
 
-$t = new eZTemplate( "ezad/admin/" . $ini->read_var( "eZAdMain", "AdminTemplateDir" ),
-                     "ezad/admin/intl/", $Language, "adlist.php" );
+$t = new eZTemplate( "ezad/user/" . $ini->read_var( "eZAdMain", "TemplateDir" ),
+                     "ezad/user/intl/", $Language, "adlist.php" );
 
 $t->setAllStrings();
 
@@ -44,18 +44,10 @@ $t->set_file( array(
     ) );
 
 
-// path
-$t->set_block( "ad_list_page_tpl", "path_item_tpl", "path_item" );
-
-// category
-$t->set_block( "ad_list_page_tpl", "category_list_tpl", "category_list" );
-$t->set_block( "category_list_tpl", "category_item_tpl", "category_item" );
-
 // ad
 $t->set_block( "ad_list_page_tpl", "ad_list_tpl", "ad_list" );
 $t->set_block( "ad_list_tpl", "ad_item_tpl", "ad_item" );
-$t->set_block( "ad_item_tpl", "ad_is_active_tpl", "ad_is_active" );
-$t->set_block( "ad_item_tpl", "ad_not_active_tpl", "ad_not_active" );
+
 
 $category = new eZAdCategory( $CategoryID );
 
@@ -63,58 +55,13 @@ $t->set_var( "current_category_id", $category->id() );
 $t->set_var( "current_category_name", $category->name() );
 $t->set_var( "current_category_description", $category->description() );
 
-// path
-$pathArray = $category->path();
-
-$t->set_var( "path_item", "" );
-foreach ( $pathArray as $path )
-{
-    $t->set_var( "category_id", $path[0] );
-
-    $t->set_var( "category_name", $path[1] );
-    
-    $t->parse( "path_item", "path_item_tpl", true );
-}
 
 $categoryList = $category->getByParent( $category, true );
 
 
-// categories
-$i=0;
-$t->set_var( "category_list", "" );
-
-foreach ( $categoryList as $categoryItem )
-{
-    $t->set_var( "category_id", $categoryItem->id() );
-
-    $t->set_var( "category_name", $categoryItem->name() );
-
-    $parent = $categoryItem->parent();
-    
-
-    if ( ( $i % 2 ) == 0 )
-    {
-        $t->set_var( "td_class", "bglight" );
-    }
-    else
-    {
-        $t->set_var( "td_class", "bgdark" );
-    }
-    
-    $t->set_var( "category_description", $categoryItem->description() );
-
-    $t->parse( "category_item", "category_item_tpl", true );
-    $i++;
-}
-
-if ( count( $categoryList ) > 0 )    
-    $t->parse( "category_list", "category_list_tpl" );
-else
-    $t->set_var( "category_list", "" );
-
 
 // ads
-$adList = $category->ads( "time"  );
+$adList = $category->ads( "time" );
 
 $locale = new eZLocale( $Language );
 $i=0;
@@ -128,26 +75,14 @@ foreach ( $adList as $ad )
 
     $t->set_var( "ad_id", $ad->id() );
 
-    if ( $ad->isActive() == true )
-    {
-        $t->parse( "ad_is_active", "ad_is_active_tpl" );
-        $t->set_var( "ad_not_active", "" );        
-    }
-    else
-    {
-        $t->set_var( "ad_is_active", "" );
-        $t->parse( "ad_not_active", "ad_not_active_tpl" );
-    }
+    $image = $ad->image();
 
-    if ( ( $i % 2 ) == 0 )
-    {
-        $t->set_var( "td_class", "bglight" );
-    }
-    else
-    {
-        $t->set_var( "td_class", "bgdark" );
-    }
-
+    // ad image
+    $t->set_var( "image_src",  $image->filePath() );
+    $t->set_var( "image_width", $image->width() );
+    $t->set_var( "image_height", $image->height() );
+    $t->set_var( "image_file_name", $image->originalFileName() );
+        
     $t->parse( "ad_item", "ad_item_tpl", true );
     $i++;
 }

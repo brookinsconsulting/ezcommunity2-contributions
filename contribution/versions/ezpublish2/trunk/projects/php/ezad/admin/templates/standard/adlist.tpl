@@ -86,10 +86,10 @@
 	{category_description}&nbsp;
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/ad/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','/ezad/admin/images/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="/ezad/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="/ad/category/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','/ezad/admin/images/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="/ezad/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="#" onClick="verify( '{intl-delete}', '/ad/categoryedit/delete/{category_id}/'); return false;" 
+	<a href="#" onClick="verify( '{intl-delete}', '/ad/category/delete/{category_id}/'); return false;" 
 onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-slett','','/ezad/admin/images/slettminimrk.gif',1)"><img name="ezac{category_id}-slett" border="0" src="/ezad/admin/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
 </tr>
@@ -103,7 +103,7 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-sl
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-ad}:</th>
-	<th>{intl-published}:</th>
+	<th>{intl-active}:</th>
 	<th colspan="2">&nbsp;</th>
 </tr>
 
@@ -115,19 +115,19 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-sl
 	</a>
 	</td>
 	<td class="{td_class}">
-	<!-- BEGIN ad_is_published_tpl -->
-	{intl-is_published}
-	<!-- END ad_is_published_tpl -->
-	<!-- BEGIN ad_not_published_tpl -->
-	{intl-not_published}
-	<!-- END ad_not_published_tpl -->
+	<!-- BEGIN ad_is_active_tpl -->
+	{intl-is_active}
+	<!-- END ad_is_active_tpl -->
+	<!-- BEGIN ad_not_active_tpl -->
+	{intl-not_active}
+	<!-- END ad_not_active_tpl -->
 	&nbsp;
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/ad/adedit/edit/{ad_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{ad_id}-red','','/ezad/admin/images/redigerminimrk.gif',1)"><img name="ezaa{ad_id}-red" border="0" src="/ezad/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="/ad/ad/edit/{ad_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{ad_id}-red','','/ezad/admin/images/redigerminimrk.gif',1)"><img name="ezaa{ad_id}-red" border="0" src="/ezad/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="#" onClick="verify( '{intl-delete}', '/ad/adedit/delete/{ad_id}/'); return false;"
+	<a href="#" onClick="verify( '{intl-delete}', '/ad/ad/delete/{ad_id}/'); return false;"
 onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{ad_id}-slett','','/ezad/admin/images/slettminimrk.gif',1)"><img name="ezaa{ad_id}-slett" border="0" src="/ezad/admin/images/slettmini.gif" width="16" height="16" align="top"></a>
 
 	</td>
