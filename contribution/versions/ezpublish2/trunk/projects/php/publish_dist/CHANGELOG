@@ -1,6 +1,11 @@
 eZ publish changelog:
 ---------------------
 
+Changes from 2.2 Beta 1 to 2.2 Beta 2
+-----------------------------------
+* Added image caption override tag
+* Added better search in eZ article. Now handles stop words and word freqyency.
+
 Changes from 2.2 Alpha to 2.2 Beta 1
 -----------------------------------
 * Added display of which articles/products an image is used in
