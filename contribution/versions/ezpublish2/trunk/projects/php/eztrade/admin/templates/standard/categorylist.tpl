@@ -129,7 +129,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/trade/categorylist/parent/{category_id}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;|
+	<a class="path" href="/trade/categorylist/parent/{category_id}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -143,13 +143,13 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	&nbsp;<a class="path" href="/trade/categorylist/parent/{category_id}/{item_index}">{type_item_name}</a>&nbsp;|
+	|&nbsp;<a class="path" href="/trade/categorylist/parent/{category_id}/{item_index}">{type_item_name}</a>&nbsp;
 	</td>
 	<!-- END type_list_item_tpl -->
 
 	<!-- BEGIN type_list_inactive_item_tpl -->
 	<td>
-	&nbsp;&lt;{type_item_name}&gt;&nbsp;|
+	|&nbsp;&lt;&nbsp;{type_item_name}&nbsp;&gt;&nbsp;
 	</td>
 	<!-- END type_list_inactive_item_tpl -->
 
@@ -157,13 +157,13 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	&nbsp;<a class="path" href="/trade/categorylist/parent/{category_id}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	|&nbsp;<a class="path" href="/trade/categorylist/parent/{category_id}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 
 	<!-- BEGIN type_list_next_inactive_tpl -->
 	<td>
-	{intl-next}
+	|&nbsp;
 	</td>
 	<!-- END type_list_next_inactive_tpl -->
 
