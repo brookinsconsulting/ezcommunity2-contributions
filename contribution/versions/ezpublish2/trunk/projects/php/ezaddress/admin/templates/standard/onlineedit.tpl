@@ -15,13 +15,13 @@
 	<p class="boxtext">{intl-name}:</p>
 	<input type="text" size="40" name="ItemName" value="{item_name}"/><br>
 	</td>
-
+	<td rowspan="2">&nbsp;</td>
 	<td rowspan="2">
-	<p class="boxtext">{intl-options}:</p>
+	<div class="checkhead">{intl-options}:</div>
 	<input type="checkbox" name="PrefixLink" value="checked" {prefix_link_checked} />
-	<span class="boxtext">{intl-prefix_link}</span><br />
+	<span class="check">{intl-prefix_link}</span><br />
 	<input type="checkbox" name="PrefixVisual" value="checked" {prefix_visual_checked} />
-	<span class="boxtext">{intl-prefix_visual}</span><br />
+	<span class="check">{intl-prefix_visual}</span><br />
 	</td>
 
 </tr>
@@ -35,6 +35,7 @@
 
 <input type="hidden" name="ItemID" value="{item_id}">
 <input type="hidden" name="BackUrl" value="{back_url}">
+<br />
 
 <hr noshade="noshade" size="4" />
 
@@ -84,9 +85,9 @@
 
 <p>{intl-confirm_text}</p>
 <p class="boxtext">{intl-confirm_item}:</p>
-{confirm_item}
+<div class="p">{confirm_item}</div>
 <p class="boxtext">{intl-confirm_count}:</p>
-{item_count}
+<div class="p">{item_count}</div>
 <br />
 
 <input type="hidden" name="TypeCount" value="{item_count}">
