@@ -101,3 +101,10 @@ CREATE INDEX eZStats_Archive_RefererURLMonth ON eZStats_Archive_RefererURL (Mont
 CREATE INDEX eZStats_Archive_RemoteHostIP ON eZStats_Archive_RemoteHost (IP);
 CREATE INDEX eZStats_Archive_PageViewHour ON eZStats_Archive_PageView (Hour);
 
+CREATE INDEX eZStats_PageViewDate ON eZStats_PageView(Date);
+CREATE INDEX eZStats_Archive_RefererURLURI ON eZStats_Archive_RefererURL(URI);
+CREATE INDEX eZStats_Archive_RefererURLDomain ON eZStats_Archive_RefererURL(Domain);
+CREATE INDEX eZStats_Archive_RemoteHostHostName ON eZStats_Archive_RemoteHost(HostName);
+CREATE INDEX eZStats_Archive_UsersUserID ON eZStats_Archive_Users(UserID);
+CREATE INDEX eZStats_Archive_UsersMonth ON eZStats_Archive_Users(Month);
+CREATE INDEX eZStats_Archive_BrowserTypeBrowser ON eZStats_Archive_BrowserType(Browser);
