@@ -8,9 +8,9 @@ include_once( "template.inc" );
 require "ezlink/dbsettings.php";
 include_once( "ezphputils.php" );
 
-require $DOCUMENTROOT . "classes/ezlinkgroup.php";
-require $DOCUMENTROOT . "classes/ezlink.php";
-require $DOCUMENTROOT . "classes/ezhit.php";
+include_once( "/" . $DOCUMENTROOT . "classes/ezlinkgroup.php" );
+include_once( "/" . $DOCUMENTROOT . "classes/ezlink.php" );
+include_once( "/"  . $DOCUMENTROOT . "classes/ezhit.php" );
 
 // Oppdatere
 if ( $Action == "update" )

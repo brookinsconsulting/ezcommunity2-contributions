@@ -10,9 +10,9 @@ include_once( "template.inc" );
 require "ezlink/dbsettings.php";
 include_once( "ezphputils.php" );
 
-include_once( $DOCUMENTROOT . "classes/ezlinkgroup.php" );
-include_once( $DOCUMENTROOT . "classes/ezlink.php" );
-include_once( $DOCUMENTROOT . "classes/ezhit.php" );
+include_once( "/" . $DOCUMENTROOT . "classes/ezlinkgroup.php" );
+include_once( "/" . $DOCUMENTROOT . "classes/ezlink.php" );
+include_once("/"  . $DOCUMENTROOT . "classes/ezhit.php" );
 
 // setter template filer
 $t = new Template( "." );
