@@ -118,3 +118,24 @@ Maintainer(s) : fh@ez.no
     * sql/Attic/ezbulkmail.sql
       sql/mysql/ezbulkmail.sql: SQL updates.
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2001-10-01  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/he_IL/categoryedit.php.ini
+      admin/intl/he_IL/categorylist.php.ini
+      admin/intl/he_IL/mailedit.php.ini
+      admin/intl/he_IL/maillist.php.ini
+      admin/intl/he_IL/mailview.php.ini
+      admin/intl/he_IL/masssubscribe.php.ini
+      admin/intl/he_IL/menubox.php.ini
+      admin/intl/he_IL/sendmail.php.ini
+      admin/intl/he_IL/templateedit.php.ini
+      admin/intl/he_IL/templatelist.php.ini
+      user/intl/he_IL/menubox.php.ini
+      user/intl/he_IL/subscriptionlist.php.ini
+      user/intl/he_IL/subscriptionlogin.php.ini
+      user/intl/he_IL/usermessages.php.ini: Added he_IL (Hebrew) translation
+

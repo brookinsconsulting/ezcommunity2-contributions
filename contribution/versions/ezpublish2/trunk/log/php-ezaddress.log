@@ -31,3 +31,15 @@ Maintainer(s) : ce@ez.no
 
     * classes/ezaddress.php: Added english output error
 
+
+Module : ezaddress
+Repository path : /home/cvsroot/projects/php/ezaddress
+Maintainer(s) : ce@ez.no
+2001-10-01  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/he_IL/addresstype.php.ini
+      admin/intl/he_IL/country.php.ini
+      admin/intl/he_IL/menubox.php.ini
+      admin/intl/he_IL/onlinetype.php.ini
+      admin/intl/he_IL/phonetype.php.ini: Added he_IL (Hebrew) translation
+

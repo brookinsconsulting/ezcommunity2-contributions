@@ -46,3 +46,14 @@ Maintainer(s) : bf@ez.no
 
     * templates/ezpublish/loginheader.tpl: fixed title to english
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2001-10-01  Gunnstein Lye  <gl@ez.no>
+
+    * intl/he_IL/error.ini
+      intl/he_IL/header.php.ini
+      intl/he_IL/help_header.php.ini
+      intl/he_IL/print_header.php.ini: Added he_IL (Hebrew) translation
+

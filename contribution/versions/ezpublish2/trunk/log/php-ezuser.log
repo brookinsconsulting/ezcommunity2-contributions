@@ -238,3 +238,29 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezobjectpermission.php: fixed small bug
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-10-01  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/he_IL/groupedit.php.ini
+      admin/intl/he_IL/grouplist.php.ini
+      admin/intl/he_IL/login.php.ini
+      admin/intl/he_IL/menubox.php.ini
+      admin/intl/he_IL/passwordchange.php.ini
+      admin/intl/he_IL/sessioninfo.php.ini
+      admin/intl/he_IL/settings.php.ini
+      admin/intl/he_IL/useredit.php.ini
+      admin/intl/he_IL/userlist.php.ini
+      admin/intl/he_IL/welcome.php.ini
+      user/intl/he_IL/addressedit.php.ini
+      user/intl/he_IL/forgot.php.ini
+      user/intl/he_IL/forgotmessage.php.ini
+      user/intl/he_IL/login.php.ini
+      user/intl/he_IL/norights.php.ini
+      user/intl/he_IL/userbox.php.ini
+      user/intl/he_IL/useredit.php.ini
+      user/intl/he_IL/userwithaddress.php.ini:
+    Added he_IL (Hebrew) translation
+

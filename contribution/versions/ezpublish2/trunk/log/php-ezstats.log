@@ -75,3 +75,22 @@ Maintainer(s) : br@ez.no
       admin/intl/no_NO/yearreport.php.ini
       admin/intl/zh_TW/yearreport.php.ini: fixed bug "wrong intl key"
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2001-10-01  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/he_IL/browserlist.php.ini
+      admin/intl/he_IL/dayreport.php.ini
+      admin/intl/he_IL/entryexitpages.php.ini
+      admin/intl/he_IL/menubox.php.ini
+      admin/intl/he_IL/monthreport.php.ini
+      admin/intl/he_IL/overview.php.ini
+      admin/intl/he_IL/pageviewlist.php.ini
+      admin/intl/he_IL/productreport.php.ini
+      admin/intl/he_IL/refererlist.php.ini
+      admin/intl/he_IL/requestpagelist.php.ini
+      admin/intl/he_IL/visitorlist.php.ini
+      admin/intl/he_IL/yearreport.php.ini: Added he_IL (Hebrew) translation
+

@@ -117,3 +117,13 @@ Maintainer(s) : vl@ez.no
       admin/templates/standard/menulist.tpl
       classes/ezmenu.php: added menu
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-10-01  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/he_IL/menubox.php.ini
+      admin/intl/he_IL/sectionedit.php.ini
+      admin/intl/he_IL/sectionlist.php.ini: Added he_IL (Hebrew) translation
+

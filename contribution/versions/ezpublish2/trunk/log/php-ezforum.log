@@ -320,3 +320,35 @@ Maintainer(s) : jhe@ez.no
     * user/intl/en_GB/menuforumlist.php.ini
       user/menuforumlist.php: Menu forum list.
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-10-01  Bjoern Reiten  <br@ez.no>
+
+    * user/searchsupplier.php: fixed search.
+
+2001-10-01  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/he_IL/categoryedit.php.ini
+      admin/intl/he_IL/categorylist.php.ini
+      admin/intl/he_IL/forumedit.php.ini
+      admin/intl/he_IL/forumlist.php.ini
+      admin/intl/he_IL/mailreject.php.ini
+      admin/intl/he_IL/menubox.php.ini
+      admin/intl/he_IL/message.php.ini
+      admin/intl/he_IL/messageedit.php.ini
+      admin/intl/he_IL/messagelist.php.ini
+      admin/intl/he_IL/noright.php.ini
+      admin/intl/he_IL/search.php.ini
+      admin/intl/he_IL/unapprovedlist.php.ini
+      user/intl/he_IL/categorylist.php.ini
+      user/intl/he_IL/forumlist.php.ini
+      user/intl/he_IL/mailreply.php.ini
+      user/intl/he_IL/menubox.php.ini
+      user/intl/he_IL/message.php.ini
+      user/intl/he_IL/messagelist.php.ini
+      user/intl/he_IL/messagesimplelist.php.ini
+      user/intl/he_IL/search.php.ini
+      user/intl/he_IL/userlogin.php.ini: Added he_IL (Hebrew) translation
+

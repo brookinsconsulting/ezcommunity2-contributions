@@ -48,3 +48,25 @@ Maintainer(s) : br@ez.no
     * user/adlist.php:
     $index and $wwwDir go to $GlobalSiteIni->Index and $GlobalSiteIni->WWWDir. Fixes namespace problems.
 
+
+Module : ezad
+Repository path : /home/cvsroot/projects/php/ezad
+Maintainer(s) : br@ez.no
+2001-10-01  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezad.php
+      classes/ezadcategory.php:
+    fixed offset for images and date when inserting an image.
+    Images is now ordered by ViewOffsetCount instead of ViewCount.
+    and all ViewOffsetCount values is set to 1 when inserting a
+    new image.
+
+2001-10-01  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/he_IL/adedit.php.ini
+      admin/intl/he_IL/adlist.php.ini
+      admin/intl/he_IL/adstatistics.php.ini
+      admin/intl/he_IL/categoryedit.php.ini
+      admin/intl/he_IL/menubox.php.ini
+      user/intl/he_IL/adlist.php.ini: Added he_IL (Hebrew) translation
+

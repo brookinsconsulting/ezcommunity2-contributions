@@ -30,3 +30,12 @@ Maintainer(s) : vl@ez.no
     * admin/intl/fr_FR/menubox.php.ini
       admin/intl/fr_FR/urledit.php.ini: updated fr_FR
 
+
+Module : ezurltranslator
+Repository path : /home/cvsroot/projects/php/ezurltranslator
+Maintainer(s) : vl@ez.no
+2001-10-01  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/he_IL/menubox.php.ini
+      admin/intl/he_IL/urledit.php.ini: Added he_IL (Hebrew) translation
+

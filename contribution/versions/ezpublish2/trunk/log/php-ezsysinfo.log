@@ -22,3 +22,16 @@ Maintainer(s) : vl@ez.no
       admin/intl/fr_FR/netinfo.php.ini
       admin/intl/fr_FR/sysinfo.php.ini: updated fr_FR
 
+
+Module : ezsysinfo
+Repository path : /home/cvsroot/projects/php/ezsysinfo
+Maintainer(s) : vl@ez.no
+2001-10-01  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/he_IL/fileinfo.php.ini
+      admin/intl/he_IL/hwinfo.php.ini
+      admin/intl/he_IL/meminfo.php.ini
+      admin/intl/he_IL/menubox.php.ini
+      admin/intl/he_IL/netinfo.php.ini
+      admin/intl/he_IL/sysinfo.php.ini: Added he_IL (Hebrew) translation
+

@@ -43,3 +43,20 @@ Maintainer(s) : fh@ez.no
     * user/mailview.php:
     $index and $wwwDir go to $GlobalSiteIni->Index and $GlobalSiteIni->WWWDir. Fixes namespace problems.
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2001-10-01  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/he_IL/accountedit.php.ini
+      user/intl/he_IL/configure.php.ini
+      user/intl/he_IL/fileedit.php.ini
+      user/intl/he_IL/filteredit.php.ini
+      user/intl/he_IL/folderedit.php.ini
+      user/intl/he_IL/folderlist.php.ini
+      user/intl/he_IL/mailedit.php.ini
+      user/intl/he_IL/maillist.php.ini
+      user/intl/he_IL/mailview.php.ini
+      user/intl/he_IL/menubox.php.ini: Added he_IL (Hebrew) translation
+

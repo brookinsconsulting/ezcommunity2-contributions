@@ -253,3 +253,17 @@ Maintainer(s) : jhe@ez.no
     * user/intl/en_GB/menufolderlist.php.ini
       user/menufolderlist.php: Added menu folder list script.
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-10-01  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/he_IL/menubox.php.ini
+      user/intl/he_IL/filelist.php.ini
+      user/intl/he_IL/fileupload.php.ini
+      user/intl/he_IL/fileview.php.ini
+      user/intl/he_IL/folderedit.php.ini
+      user/intl/he_IL/menubox.php.ini
+      user/intl/he_IL/search.php.ini: Added he_IL (Hebrew) translation
+

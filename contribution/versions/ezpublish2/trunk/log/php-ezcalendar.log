@@ -162,3 +162,19 @@ Maintainer(s) : jhe@ez.no
 
     * user/trustees.php: fixed bug
 
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@ez.no
+2001-10-01  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/he_IL/menubox.php.ini
+      admin/intl/he_IL/typeedit.php.ini
+      admin/intl/he_IL/typelist.php.ini
+      user/intl/he_IL/appointmentedit.php.ini
+      user/intl/he_IL/appointmentview.php.ini
+      user/intl/he_IL/dayview.php.ini
+      user/intl/he_IL/menubox.php.ini
+      user/intl/he_IL/monthview.php.ini
+      user/intl/he_IL/yearview.php.ini: Added he_IL (Hebrew) translation
+

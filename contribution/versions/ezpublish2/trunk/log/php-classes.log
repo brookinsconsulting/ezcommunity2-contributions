@@ -167,3 +167,12 @@ Maintainer(s) : bf@ez.no
 
     * ezpublish.php: Changed version info.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-10-01  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/he_IL/linklist.php.ini
+      admin/intl/he_IL/linkselect.php.ini: Added he_IL (Hebrew) translation
+

@@ -814,3 +814,133 @@ Maintainer(s) : ce@ez.no
     * admin/optionedit.php:
     $index and $wwwDir go to $GlobalSiteIni->Index and $GlobalSiteIni->WWWDir. Fixes namespace problems.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-10-01  Baard Farstad  <bf@ez.no>
+
+    * user/datasupplier.php: FIxed default sectionID.
+
+2001-10-01  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * user/intl/en_US/cart.php.ini
+      user/intl/en_US/checkout.php.ini
+      user/intl/en_US/mailorder.php.ini
+      user/intl/en_US/ordersendt.php.ini
+      user/intl/en_US/smallcart.php.ini
+      user/intl/en_US/vouchermail.php: VAT = tax in US.
+
+2001-10-01  Baard Farstad  <bf@ez.no>
+
+    * admin/intl/en_US/customerlist.php.ini
+      admin/intl/en_US/customerview.php.ini
+      admin/intl/en_US/linklist.php.ini
+      admin/intl/en_US/linkselect.php.ini
+      admin/intl/en_US/productexpire.php.ini
+      admin/intl/en_US/voucheredit.php.ini
+      admin/intl/en_US/voucherlist.php.ini
+      user/intl/en_US/menubox.php.ini
+      user/intl/en_US/orderlist.php.ini
+      user/intl/en_US/orderview.php.ini
+      user/intl/en_US/precheckout.php.ini
+      user/intl/en_US/voucher.php.ini
+      user/intl/en_US/voucheremail.php.ini
+      user/intl/en_US/voucherinformation.php.ini
+      user/intl/en_US/voucherview.php.ini: New translations.
+
+    * admin/intl/en_US/categoryedit.php.ini
+      admin/intl/en_US/categorylist.php.ini
+      admin/intl/en_US/formlist.php.ini
+      admin/intl/en_US/imagelist.php.ini
+      admin/intl/en_US/menubox.php.ini
+      admin/intl/en_US/orderedit.php.ini
+      admin/intl/en_US/orderlist.php.ini
+      admin/intl/en_US/productpreview.php.ini
+      admin/intl/en_US/productsearch.php.ini
+      admin/intl/en_US/shippingtypes.php.ini
+      admin/intl/en_US/typeedit.php.ini
+      admin/intl/en_US/vattypes.php.ini
+      user/intl/en_US/cart.php.ini
+      user/intl/en_US/categorylist.php.ini
+      user/intl/en_US/checkout.php.ini
+      user/intl/en_US/extendedsearch.php.ini
+      user/intl/en_US/mailorder.php.ini
+      user/intl/en_US/ordersendt.php.ini
+      user/intl/en_US/productsearch.php.ini
+      user/intl/en_US/productview.php.ini
+      user/intl/en_US/smallcart.php.ini
+      user/intl/en_US/wishlist.php.ini: Added translation files.
+
+2001-10-01  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezproduct.php: added productr
+
+2001-10-01  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * admin/intl/en_US/formlist.php.ini
+      admin/intl/en_US/productedit.php.ini
+      admin/intl/no_NO/formlist.php.ini
+      admin/intl/no_NO/productedit.php.ini
+      admin/templates/standard/formlist.tpl
+      admin/templates/standard/productedit.tpl
+      classes/ezproductform.php
+      admin/datasupplier.php
+      admin/formlist.php
+      admin/intl/en_GB/formlist.php.ini
+      admin/intl/en_GB/productedit.php.ini
+      admin/productedit.php:
+    Added support for forms in the xml of the products.
+
+    * classes/ezproduct.php
+      classes/ezproductform.php
+      sql/mysql/eztrade.sql
+      sql/postgresql/eztrade.sql: Added eZForm association.
+
+2001-10-01  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/he_IL/attributeedit.php.ini
+      admin/intl/he_IL/categoryedit.php.ini
+      admin/intl/he_IL/categorylist.php.ini
+      admin/intl/he_IL/currency.php.ini
+      admin/intl/he_IL/imageedit.php.ini
+      admin/intl/he_IL/imagelist.php.ini
+      admin/intl/he_IL/linklist.php.ini
+      admin/intl/he_IL/linkselect.php.ini
+      admin/intl/he_IL/menubox.php.ini
+      admin/intl/he_IL/optionedit.php.ini
+      admin/intl/he_IL/optionlist.php.ini
+      admin/intl/he_IL/orderedit.php.ini
+      admin/intl/he_IL/orderlist.php.ini
+      admin/intl/he_IL/pricegroupedit.php.ini
+      admin/intl/he_IL/pricegroups.php.ini
+      admin/intl/he_IL/productedit.php.ini
+      admin/intl/he_IL/productpreview.php.ini
+      admin/intl/he_IL/productsearch.php.ini
+      admin/intl/he_IL/shippingtypes.php.ini
+      admin/intl/he_IL/typeedit.php.ini
+      admin/intl/he_IL/typelist.php.ini
+      admin/intl/he_IL/vattypes.php.ini
+      user/intl/he_IL/cart.php.ini
+      user/intl/he_IL/categorylist.php.ini
+      user/intl/he_IL/categorytreelist.php.ini
+      user/intl/he_IL/checkout.php.ini
+      user/intl/he_IL/customerlogin.php.ini
+      user/intl/he_IL/extendedsearch.php.ini
+      user/intl/he_IL/findwishlist.php.ini
+      user/intl/he_IL/hotdealslist.php.ini
+      user/intl/he_IL/mailorder.php.ini
+      user/intl/he_IL/mastercard.php.ini
+      user/intl/he_IL/menubox.php.ini
+      user/intl/he_IL/ordersendt.php.ini
+      user/intl/he_IL/precheckout.php.ini
+      user/intl/he_IL/productlist.php.ini
+      user/intl/he_IL/productsearch.php.ini
+      user/intl/he_IL/productview.php.ini
+      user/intl/he_IL/sendwishlist.php.ini
+      user/intl/he_IL/smallcart.php.ini
+      user/intl/he_IL/viewwishlist.php.ini
+      user/intl/he_IL/visa.php.ini
+      user/intl/he_IL/wishlist.php.ini
+      user/intl/he_IL/wishlistmail.php.ini: Added he_IL (Hebrew) translation
+

@@ -378,3 +378,23 @@ Maintainer(s) : br@ez.no
     * user/intl/en_GB/menucategorylist.php.ini
       user/menucategorylist.php: Added menu categorylist.
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-10-01  Bjoern Reiten  <br@ez.no>
+
+    * user/categoryedit.php: just added some formating.
+
+2001-10-01  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/he_IL/browse.php.ini
+      admin/intl/he_IL/imageview.php.ini
+      admin/intl/he_IL/menubox.php.ini
+      admin/intl/he_IL/unassigned.php.ini
+      user/intl/he_IL/categoryedit.php.ini
+      user/intl/he_IL/imageedit.php.ini
+      user/intl/he_IL/imagelist.php.ini
+      user/intl/he_IL/imageview.php.ini
+      user/intl/he_IL/menubox.php.ini: Added he_IL (Hebrew) translation
+

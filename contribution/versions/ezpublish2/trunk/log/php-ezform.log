@@ -44,3 +44,22 @@ Maintainer(s) : pkej@ez.no
     This fixes the problem of missing the element names in front of the form
     elements.
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-10-01  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * classes/ezformrenderer.php:
+    Added cc of the form to the writer of the form.
+
+    * classes/ezformrenderer.php:
+    Added the URL of the page with the form to the e-mail. Thus, if the same
+    form is used several places the urls will help decide where the form was
+    sent from.
+
+    * classes/ezform.php
+      classes/ezformrenderer.php:
+    A bug in the sendForm() function where the form element names were printed
+    at the top of the e-mail and not in front of the data of each element.
+

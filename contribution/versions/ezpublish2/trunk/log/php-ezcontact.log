@@ -211,3 +211,27 @@ Maintainer(s) : jhe@ez.no
 
     * admin/folder.php: small speed improvment
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-10-01  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/he_IL/menubox.php.ini
+      user/intl/he_IL/urlsupplier.php.ini
+      admin/intl/he_IL/companyedit.php.ini
+      admin/intl/he_IL/companystats.php.ini
+      admin/intl/he_IL/companytype.php.ini
+      admin/intl/he_IL/companyview.php.ini
+      admin/intl/he_IL/consultationdetaillist.php.ini
+      admin/intl/he_IL/consultationedit.php.ini
+      admin/intl/he_IL/consultationlist.php.ini
+      admin/intl/he_IL/consultationmail.ini
+      admin/intl/he_IL/consultationtype.php.ini
+      admin/intl/he_IL/error.php.ini
+      admin/intl/he_IL/menubox.php.ini
+      admin/intl/he_IL/nopermission.php.ini
+      admin/intl/he_IL/personedit.php.ini
+      admin/intl/he_IL/personview.php.ini
+      admin/intl/he_IL/projecttype.php.ini: Added he_IL (Hebrew) translation
+

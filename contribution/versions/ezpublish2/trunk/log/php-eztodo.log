@@ -73,3 +73,25 @@ Maintainer(s) : ce@ez.no
     * sql/mysql/eztodo.sql
       sql/postgresql/eztodo.sql: Added missing SQL tables/fields.
 
+
+Module : eztodo
+Repository path : /home/cvsroot/projects/php/eztodo
+Maintainer(s) : ce@ez.no
+2001-10-01  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/he_IL/maillog.php.ini
+      user/intl/he_IL/menubox.php.ini
+      user/intl/he_IL/sendmail.php.ini
+      user/intl/he_IL/todoedit.php.ini
+      user/intl/he_IL/todolist.php.ini
+      user/intl/he_IL/todomenulist.php.ini
+      user/intl/he_IL/todoview.php.ini
+      admin/intl/he_IL/categorytypeedit.php.ini
+      admin/intl/he_IL/categorytypelist.php.ini
+      admin/intl/he_IL/menubox.php.ini
+      admin/intl/he_IL/prioritytypeedit.php.ini
+      admin/intl/he_IL/prioritytypelist.php.ini
+      admin/intl/he_IL/statustypeedit.php.ini
+      admin/intl/he_IL/statustypelist.php.ini:
+    Added he_IL (Hebrew) translation
+

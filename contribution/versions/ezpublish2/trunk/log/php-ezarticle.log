@@ -1053,3 +1053,81 @@ Maintainer(s) : bf@ez.no
     * classes/ezqdomrenderer.php
       classes/eztechrenderer.php: Fixed bugs.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-10-01  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezarticle.php: removed debuginfo.
+
+    * user/searchsupplier.php: fixed search in user/searchsupplier.php
+
+2001-10-01  Kai Duebbert  <kai@duebbert.de>
+
+    * user/intl/de_DE/fileedit.php.ini
+      user/intl/de_DE/filelist.php.ini
+      user/intl/de_DE/frontpage.php.ini
+      user/intl/de_DE/imageedit.php.ini
+      user/intl/de_DE/imagelist.php.ini
+      user/intl/de_DE/mailtofriend.php.ini
+      user/intl/de_DE/menumaker.php.ini
+      user/intl/de_DE/newsgroup.php.ini
+      user/intl/de_DE/searchform.php.ini
+      user/intl/de_DE/sendmailtofriend.php.ini
+      user/intl/de_DE/sitemap.php.ini
+      user/intl/de_DE/topiclist.php.ini:
+    created missing translations, fixed wrong translations
+
+    * user/intl/de_DE/articleedit.php.ini
+      user/intl/de_DE/articleheaderlist.php.ini
+      user/intl/de_DE/articlelinks.php.ini
+      user/intl/de_DE/articlelist.php.ini
+      user/intl/de_DE/articleview.php.ini
+      user/intl/de_DE/authorlist.php.ini
+      user/intl/de_DE/authorview.php.ini
+      user/intl/de_DE/extendedsearch.php.ini
+      user/intl/de_DE/headlines.php.ini
+      user/intl/de_DE/index.php.ini
+      user/intl/de_DE/menubox.php.ini
+      user/intl/de_DE/search.php.ini
+      user/intl/de_DE/urlsupplier.php.ini:
+    fixed translation errors, missing translations
+
+    * user/search.php:
+    fixed bug and deleted unnecessary initialization of $ini
+
+2001-10-01  Christoffer Elo  <ce@ez.no>
+
+    * user/frontpage.php: added productr
+
+2001-10-01  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/he_IL/articleedit.php.ini
+      admin/intl/he_IL/articlelist.php.ini
+      admin/intl/he_IL/articlepreview.php.ini
+      admin/intl/he_IL/categoryedit.php.ini
+      admin/intl/he_IL/fileedit.php.ini
+      admin/intl/he_IL/filelist.php.ini
+      admin/intl/he_IL/imageedit.php.ini
+      admin/intl/he_IL/imagelist.php.ini
+      admin/intl/he_IL/mailtemplate.php.ini
+      admin/intl/he_IL/menubox.php.ini
+      admin/intl/he_IL/search.php.ini
+      admin/intl/he_IL/sitemap.php.ini
+      admin/intl/he_IL/unpublishedlist.php.ini
+      user/intl/he_IL/articleedit.php.ini
+      user/intl/he_IL/articleheaderlist.php.ini
+      user/intl/he_IL/articlelinks.php.ini
+      user/intl/he_IL/articlelist.php.ini
+      user/intl/he_IL/articleview.php.ini
+      user/intl/he_IL/authorlist.php.ini
+      user/intl/he_IL/authorview.php.ini
+      user/intl/he_IL/extendedsearch.php.ini
+      user/intl/he_IL/headlines.php.ini
+      user/intl/he_IL/index.php.ini
+      user/intl/he_IL/menubox.php.ini
+      user/intl/he_IL/search.php.ini
+      user/intl/he_IL/smallarticlelist.php.ini
+      user/intl/he_IL/urlsupplier.php.ini: Added he_IL (Hebrew) translation
+

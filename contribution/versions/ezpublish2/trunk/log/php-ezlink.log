@@ -108,3 +108,24 @@ Maintainer(s) : br@ez.no
     * admin/intl/tr_TR/menubox.php:
     $index and $wwwDir go to $GlobalSiteIni->Index and $GlobalSiteIni->WWWDir. Fixes namespace problems.
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-10-01  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/he_IL/groupedit.php.ini
+      admin/intl/he_IL/grouplist.php.ini
+      admin/intl/he_IL/linkedit.php.ini
+      admin/intl/he_IL/linkgrouplist.php.ini
+      admin/intl/he_IL/menubox.php.ini
+      admin/intl/he_IL/noright.php.ini
+      admin/intl/he_IL/search.php.ini
+      admin/intl/he_IL/unacceptedlist.php.ini
+      user/intl/he_IL/categorylist.php.ini
+      user/intl/he_IL/linkgrouplist.php.ini
+      user/intl/he_IL/linklist.php.ini
+      user/intl/he_IL/search.php.ini
+      user/intl/he_IL/success.php.ini
+      user/intl/he_IL/suggestlink.php.ini: Added he_IL (Hebrew) translation
+

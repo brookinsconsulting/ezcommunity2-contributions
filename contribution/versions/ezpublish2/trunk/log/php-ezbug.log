@@ -88,3 +88,33 @@ Maintainer(s) : vl@ez.no
     * user/intl/en_GB/menumodulelist.php.ini
       user/menumodulelist.php: New menu module list.
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-10-01  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/he_IL/bugedit.php.ini
+      admin/intl/he_IL/buglist.php.ini
+      admin/intl/he_IL/bugpreview.php.ini
+      admin/intl/he_IL/categorylist.php.ini
+      admin/intl/he_IL/mailgotbug.php.ini
+      admin/intl/he_IL/mailreply.php.ini
+      admin/intl/he_IL/menubox.php.ini
+      admin/intl/he_IL/moduleedit.php.ini
+      admin/intl/he_IL/modulelist.php.ini
+      admin/intl/he_IL/prioritylist.php.ini
+      admin/intl/he_IL/search.php.ini
+      admin/intl/he_IL/statuslist.php.ini
+      admin/intl/he_IL/unhandledbugs.php.ini
+      user/intl/he_IL/buglist.php.ini
+      user/intl/he_IL/bugreport.php.ini
+      user/intl/he_IL/bugview.php.ini
+      user/intl/he_IL/fileedit.php.ini
+      user/intl/he_IL/imageedit.php.ini
+      user/intl/he_IL/mailnewbug.php.ini
+      user/intl/he_IL/menubox.php.ini
+      user/intl/he_IL/reportsuccess.php.ini
+      user/intl/he_IL/search.php.ini
+      user/intl/he_IL/unhandledbugs.php.ini: Added he_IL (Hebrew) translation
+
