@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.28 2001/02/26 11:57:24 bf Exp $
+// $Id: ezlocale.php,v 1.29 2001/02/28 18:56:51 gl Exp $
 //
 // Definition of eZLocale class
 //
@@ -184,16 +184,18 @@ class eZLocale
                     $date =& str_replace( "%d", "" . $obj->day() . "", $date );
 
                     // D - day of the week, textual, 3 letters; i.e. "Fri"
-                    $date =& str_replace( "%D", "" . $this->dayName( $obj->dayName( $this->mondayFirst() ) ) . "", $date );
+                    $date =& str_replace( "%D", "" . $this->dayName( $obj->dayName(
+                        $this->mondayFirst() ) ) . "", $date );
 
                     // E - day of the week, textual, long; i.e. "Friday"
-                    $date =& str_replace( "%E", "" . $this->dayName( $obj->dayName( $this->mondayFirst() ), false ) . "", $date );
+                    $date =& str_replace( "%E", "" . $this->dayName( $obj->dayName(
+                        $this->mondayFirst() ), false ) . "", $date );
 
                     // F - month, textual, long; i.e. "January"
-                    $date =& str_replace( "%F", "" . $this->monthName( $obj->monthName(), false ) . "", $date );
+                    $date =& str_replace( "%F", "" . $this->monthName( $obj->month(), false ) . "", $date );
 
                     // M - month, textual, 3 letters; i.e. "Jan"
-                    $date =& str_replace( "%M", "" . $this->monthName( $obj->monthName() ) . "", $date );
+                    $date =& str_replace( "%M", "" . $this->monthName( $obj->month() ) . "", $date );
 
                     // m - month; i.e. "01" to "12" 
                     $date =& str_replace( "%m", "" . $obj->month(), $date );
@@ -303,25 +305,93 @@ class eZLocale
     /*!
       Returns the month name, translated to the local language.
 
+      $month must either be a number from 1-12, or the three first letters of the month
+      name in English, lowercase.
+
       If isShort is set to false then the complete version of the name is used,
       otherwise a three letter version is used.
     */
     function &monthName( $month, $isShort=true )
     {
-        if ( $month == "unknown" )
-            return false;
-
         $errorString = "<b>Locale error</b>: unknown month name";
         $name = "";
 
+        if ( $month == "unknown" )
+            return $errorString;
+
         if ( $isShort )
-        {
-            $name =& $this->$LocaleIni->read_var( "RegionalSettings", $month );
-        }
+            $long = "long";
         else
+            $long = "";
+
+        if ( is_numeric( $month ) == true )
         {
-            $name =& $this->$LocaleIni->read_var( "RegionalSettings", "long" . $month );
+            switch ( $month )
+            {
+                case "1" :
+                {
+                    $month = "jan";
+                    break;
+                }
+                case "2" :
+                {
+                    $month = "feb";
+                    break;
+                }
+                case "3" :
+                {
+                    $month = "mar";
+                    break;
+                }
+                case "4" :
+                {
+                    $month = "apr";
+                    break;
+                }
+                case "5" :
+                {
+                    $month = "may";
+                    break;
+                }
+                case "6" :
+                {
+                    $month = "jun";
+                    break;
+                }
+                case "7" :
+                {
+                    $month = "jul";
+                    break;
+                }
+                case "8" :
+                {
+                    $month = "aug";
+                    break;
+                }
+                case "9" :
+                {
+                    $month = "sep";
+                    break;
+                }
+                case "10" :
+                {
+                    $month = "oct";
+                    break;
+                }
+                case "11" :
+                {
+                    $month = "nov";
+                    break;
+                }
+                case "12" :
+                {
+                    $month = "dec";
+                    break;
+                }
+            }
         }
+
+        $name =& $this->$LocaleIni->read_var( "RegionalSettings", $long . $month );
 
         if ( $name == false )
         {
