@@ -3,12 +3,23 @@ eZ publish changelog:
 
 Changes from version 2.0 beta 2
 -------------------------------
-
+* More cleanup of templates and internationalization
+* Privilege based bug editing
+* Assign owners to bug modules
+* Unhadled bugs informs user of module they belong to.
+* Auto redirect URL hackers in bugs to default page.
+* Added banner ads in templates
+* Removed some status/type admin pages, added buttons in listings instead
+* Changed over to use mass update forms for category types and similar short lists with litle information
+* Deletion isn't done on an item to item basis, but with a select items then select delete functionality
+* Fixed bugs
 
 Changes from version 2.0 beta 1
 -------------------------------
-* Forums can be assigned to certain user groups for posting and reading.
-* Templates changed.
+* Forums can be assigned to certain user groups for posting and reading
+* Templates changed
+* Small article list.
+* Fixed bugs
 
 
 Changes from version 1.0.5
