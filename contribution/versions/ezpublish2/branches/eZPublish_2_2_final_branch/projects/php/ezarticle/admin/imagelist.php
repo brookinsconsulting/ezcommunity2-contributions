@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imagelist.php,v 1.20 2001/08/17 12:57:42 bf Exp $
+// $Id: imagelist.php,v 1.20.2.1 2003/01/07 13:46:19 br Exp $
 //
 // Created on: <21-Sep-2000 10:32:19 bf>
 //
@@ -28,11 +28,13 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
 
+
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
+include_once( "ezarticle/classes/ezarticletool.php" );
 
 
 $t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
@@ -71,7 +73,26 @@ if ( isSet( $AddImages ) )
     }
 }
 
-$images = $article->images();
+$images = $article->images( true, "Placement" );
+// Start Add By kadooz !
+
+/** move article pics up/down **/
+if ( is_numeric( $MoveImageUp ) || is_numeric( $MoveImageDown ) )
+{
+    if ( is_numeric( $MoveImageUp ) )
+    {
+        $article->moveImageUp( $MoveImageUp );
+    }
+
+    if ( is_numeric( $MoveImageDown ) )
+    {
+        $article->moveImageDown( $MoveImageDown );
+    }
+    eZHTTPTool::header( "Location: /article/articleedit/imagelist/$ArticleID/" );
+    exit();
+}
+
+// End Add By kadooz !
 
 if ( count( $images ) == 0 )
 {

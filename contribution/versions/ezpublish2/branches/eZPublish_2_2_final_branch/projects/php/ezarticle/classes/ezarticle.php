@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezarticle.php,v 1.183.2.21 2002/08/15 10:27:45 gl Exp $
+// $Id: ezarticle.php,v 1.183.2.22 2003/01/07 13:46:20 br Exp $
 //
 // Definition of eZArticle class
 //
@@ -1381,14 +1381,14 @@ class eZArticle
     /*!
       Returns every image to a article as a array of eZImage objects.
     */
-    function images( $asObject = true )
+    function images( $asObject = true, $OrderBy ="Created" )
     {
         $db =& eZDB::globalDatabase();
 
         $return_array = array();
         $image_array = array();
 
-        $db->array_query( $image_array, "SELECT ID, ImageID, Placement, Created FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' ORDER BY Created" );
+        $db->array_query( $image_array, "SELECT ID, ImageID, Placement, Created FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' ORDER BY $OrderBy" );
 
         // convert the database if placement is not set
         if ( count( $image_array ) > 0 )
@@ -1414,6 +1414,79 @@ class eZArticle
         }
 
         return $return_array;
+    }
+
+
+
+    /*!
+      Moves the image placement with the given ID up.
+    */
+    function moveImageUp( $id )
+    {
+        $db =& eZDB::globalDatabase();
+
+	$db->query_single( $qry, "SELECT * FROM eZArticle_ArticleImageLink
+				  WHERE ArticleID='$this->ID' AND ImageID='$id'" );
+      
+       if ( is_numeric( $qry[$db->fieldName("ID")] ) )
+       {
+           $linkID = $qry[$db->fieldName("ID")];
+           
+           $placement = $qry[$db->fieldName("Placement")];
+           
+           $db->query_single( $qry, "SELECT ID, Placement FROM eZArticle_ArticleImageLink
+                                    WHERE Placement<'$placement' AND ArticleID='$this->ID'
+                                    ORDER BY Placement DESC" );
+
+           $newPlacement = $qry[$db->fieldName("Placement")];
+           $listid = $qry[$db->fieldName("ID")];
+
+           if ( $newPlacement == $placement )
+           {
+               $placement += 1;
+           }
+
+           if ( is_numeric( $listid ) )
+           {           
+               $db->query( "UPDATE eZArticle_ArticleImageLink SET Placement='$newPlacement' WHERE ID='$linkID'" );
+               $db->query( "UPDATE eZArticle_ArticleImageLink SET Placement='$placement' WHERE ID='$listid'" );
+           } 
+       } 
+    }
+
+    /*!
+      Moves the Image placement with the given ID down.
+    */
+    function moveImageDown( $id )
+    {
+       $db =& eZDB::globalDatabase();
+
+       $db->query_single( $qry, "SELECT * FROM eZArticle_ArticleImageLink
+                                  WHERE ArticleID='$this->ID' AND ImageID='$id'" );
+
+       if ( is_numeric( $qry[$db->fieldName("ID")] ) )
+       {
+           $linkID = $qry[$db->fieldName("ID")];
+           
+           $placement = $qry[$db->fieldName("Placement")];
+           
+           $db->query_single( $qry, "SELECT ID, Placement FROM eZArticle_ArticleImageLink
+                                    WHERE Placement>'$placement' AND ArticleID='$this->ID' ORDER BY Placement ASC" );
+
+           $newPlacement = $qry[$db->fieldName("Placement")];
+           $listid = $qry[$db->fieldName("ID")];
+
+           if ( $newPlacement == $placement )
+           {
+               $newPlacement += 1;
+           }           
+
+           if ( is_numeric( $listid ) )
+           {
+               $db->query( "UPDATE eZArticle_ArticleImageLink SET Placement='$newPlacement' WHERE ID='$linkID'" );
+               $db->query( "UPDATE eZArticle_ArticleImageLink SET Placement='$placement' WHERE ID='$listid'" );
+           }
+       }
     }
 
     /*!

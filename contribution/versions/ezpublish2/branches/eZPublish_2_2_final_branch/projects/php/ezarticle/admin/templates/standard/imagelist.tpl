@@ -16,6 +16,9 @@
 	<th>{intl-image_preview}:</th>
 	<th>{intl-image_mini}:</th>
 	<th>&nbsp;</th>
+	<th>&nbsp;</th>
+	<th>&nbsp;</th>
+	<th>&nbsp;</th>
 </tr>
 
 <!-- BEGIN image_tpl -->
@@ -32,6 +35,13 @@
 	<td width="1%" class="{td_class}">
 	<input type="radio" {thumbnail_image_checked} name="ThumbnailImageID" value="{image_id}" />
 	</td>
+	<td width="1%" class="{td_class}">
+	<a href="{www_dir}{index}/article/articleedit/imagelist/{article_id}/?MoveImageDown={image_id}"><img src="{www_dir}/admin/images/{site_style}/move-down.gif" height="12" width="12" border="0" alt="Down" /></a>
+	</td>
+	<td width="1%" class="{td_class}">
+	<a href="{www_dir}{index}/article/articleedit/imagelist/{article_id}/?MoveImageUp={image_id}"><img src="{www_dir}/admin/images/{site_style}/move-up.gif" height="12" width="12" border="0" alt="Up" /></a>
+	</td>
+
 	<td width="1%" class="{td_class}">
 	<a href="{www_dir}{index}/article/articleedit/imageedit/edit/{image_id}/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{image_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="eztp{image_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
@@ -93,4 +103,3 @@
 	</td>
 </tr>
 </table>
-
