@@ -85,6 +85,11 @@
 	<!-- END valid_editor_tpl -->
 	</td>
 </tr>
+</table>
+
+<br />
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
 <!-- BEGIN day_view_long_date_header_tpl -->
 <tr>
 	<td id="gcalDayViewLongDateHeader" colspan="10"><span class="gcalDayViewLongDateHeader"><a style="font-size: large; text-decoration: none;" href="{www_dir}{index}/groupeventcalendar/monthview/{year_number}/{month_number}/{group_print_id}/">{long_date}</a></span></td> 
