@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezarticle.php,v 1.183.2.14 2002/04/02 18:21:34 bf Exp $
+// $Id: ezarticle.php,v 1.183.2.15 2002/04/03 13:01:20 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -2093,6 +2093,8 @@ class eZArticle
         $return_array = array();
         $article_array = array();
 
+        $usePermission = true;
+        
         $user =& eZUser::currentUser();
         $currentUserSQL = "";
         $groupSQL = "";
