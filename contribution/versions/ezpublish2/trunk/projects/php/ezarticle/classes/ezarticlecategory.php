@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.100 2001/09/24 12:36:05 jb Exp $
+// $Id: ezarticlecategory.php,v 1.101 2001/09/27 13:31:17 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -1185,7 +1185,7 @@ class eZArticleCategory
        {
            $db->array_query( $article_array, $query, array( "Limit" => $limit, "Offset" => $offset ) );
        }
- 
+       
        for ( $i=0; $i < count( $article_array ); $i++ )
        {
            $return_array[$i] = new eZArticle( $article_array[$i][$db->fieldName( "ArticleID" )] );

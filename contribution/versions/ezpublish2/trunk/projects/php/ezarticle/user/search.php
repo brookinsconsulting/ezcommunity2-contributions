@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.16 2001/09/16 18:37:39 bf Exp $
+// $Id: search.php,v 1.17 2001/09/27 13:31:17 bf Exp $
 //
 // Created on: <28-Oct-2000 15:56:58 bf>
 //
@@ -170,7 +170,10 @@ if ( count( $articleList ) > 0 )
 else
 $t->set_var( "article_list", "" );
 
-$t->set_var( "article_start", $Offset + 1 );
+if ( $totalCount == 0 )
+    $t->set_var( "article_start", 0 );
+else
+    $t->set_var( "article_start", $Offset + 1 );
 $t->set_var( "article_end", min( $Offset + $Limit, $totalCount ) );
 $t->set_var( "article_total", $totalCount );
 

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.89 2001/09/25 11:50:50 bf Exp $
+// $Id: datasupplier.php,v 1.90 2001/09/27 13:31:17 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -301,7 +301,7 @@ switch ( $url_array[2] )
             {
                 include( $cachedFile );
             }
-            else if( eZObjectPermission::hasPermissionWithDefinition( $ArticleID, "article_article", 'r', false, $definition )
+            else if ( eZObjectPermission::hasPermissionWithDefinition( $ArticleID, "article_article", 'r', false, $definition )
                      || eZArticle::isAuthor( $user, $ArticleID ) )
             {
                 $GenerateStaticPage = "true";
@@ -314,7 +314,7 @@ switch ( $url_array[2] )
         {
             include( "ezarticle/user/articleview.php" );
         }
-
+        
         /* Should there be permissions here? */
         if  ( ( $PrintableVersion != "enabled" ) && ( $UserComments == "enabled" ) )
         {
