@@ -68,6 +68,9 @@
 	<td>
 	<input class="stdbutton" type="submit" name="NoMiniImage" value="{intl-image_no_mini}" />
 	</td>
+	<td>
+	<input class="stdbutton" type="submit" name="Browse" value="{intl-browse}" />
+	</td>
 </tr>
 </table>
 

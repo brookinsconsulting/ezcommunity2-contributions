@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.12 2001/03/01 14:06:26 jb Exp $
+// $Id: imagelist.php,v 1.13 2001/05/16 09:26:40 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Sep-2000 10:32:19 bf>
@@ -52,11 +52,27 @@ $t->set_var( "site_style", $SiteStyle );
 
 $product = new eZProduct( $ProductID );
 
+$session = new eZSession();
+$session->setVariable( "ImageListReturnTo", $REQUEST_URI );
+$session->setVariable( "SelectImages", "multi" );
 
 $thumbnail = $product->thumbnailImage();
 $main = $product->mainImage();
 
 $t->set_var( "product_name", $product->name() );
+
+if ( isSet ( $AddImages ) )
+{
+    if ( count ( $ImageArrayID ) > 0 )
+    {
+        foreach( $ImageArrayID as $imageID )
+        {
+            $image = new eZImage( $imageID );
+            $product->addImage( $image );
+        }
+    }
+    
+}
 
 $images = $product->images();
 if ( count( $images ) == 0 )

@@ -117,6 +117,11 @@ switch ( $url_array[2] )
                 break;
 
             case "imageedit" :
+                if ( isSet ( $Browse ) )
+                {
+                    include ( "ezimagecatalogue/admin/browse.php" );
+                    break;
+                }
                 if ( $url_array[4] == "edit" )
                 {
                     $Action = "Edit";
