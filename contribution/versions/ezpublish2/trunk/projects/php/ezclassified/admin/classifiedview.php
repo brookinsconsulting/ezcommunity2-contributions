@@ -42,7 +42,9 @@ $t->set_block( "company_view_tpl", "no_logo_tpl", "no_logo" );
 
 $position = new eZPosition( $ClassifiedID );
 
-$t->set_var( "classified_name", $position->name() );
+$t->set_var( "classified_title", $position->title() );
+$t->set_var( "classified_position_type", positionTypeName( $position->positionType() ) );
+$t->set_var( "classified_initiate_type", initiateTypeName( $position->initiateType() ) );
 $t->set_var( "classified_id", $position->id() );
 $t->set_var( "classified_description", $position->description() );
 $t->set_var( "classified_contact_person", $position->contactPerson() );
