@@ -18,7 +18,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <!-- BEGIN customer_item_tpl -->
 <tr>
-	<td>
+	<td class="{td_class}">
 	<a href="/trade/customerview/{customer_id}">{customer_first_name} {customer_last_name}</a>
 	</td>
 </tr>

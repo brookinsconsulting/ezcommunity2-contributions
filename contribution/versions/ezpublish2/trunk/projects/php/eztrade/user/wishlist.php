@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: wishlist.php,v 1.19 2001/08/17 13:36:01 jhe Exp $
+// $Id: wishlist.php,v 1.20 2001/09/26 07:09:33 ce Exp $
 //
 // Created on: <21-Oct-2000 18:09:45 bf>
 //
@@ -88,11 +88,11 @@ if ( $Action == "AddToBasket" )
     $productAddedToWishlist = false;
     {
         // fetch the cart items
-        $items = $wishlist->items( );
+        $items =& $wishlist->items( );
 
         foreach ( $items as $item )
         {
-            $productItem =  $item->product();
+            $productItem =& $item->product();
             // the same product
             if ( ( $ProductID == $productItem->id() ) && ( $productAddedToWishlist == false ) )
             {
@@ -325,11 +325,11 @@ foreach ( $items as $item )
 {
     $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
 
-    $product = $item->product();
+    $product =& $item->product();
 
     $t->set_var( "wishlist_item_id", $item->id() );
 
-    $image = $product->thumbnailImage();
+    $image =& $product->thumbnailImage();
 
     if ( $image )
     {
@@ -357,7 +357,6 @@ foreach ( $items as $item )
         $t->parse( "is_not_bought", "is_not_bought_tpl" );
     }
     
-
     // product price
     $price = $item->price();    
     $currency->setValue( $price );

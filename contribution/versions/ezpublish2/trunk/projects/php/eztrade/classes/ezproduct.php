@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.100 2001/09/21 14:28:49 jhe Exp $
+// $Id: ezproduct.php,v 1.101 2001/09/26 07:09:32 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -493,7 +493,7 @@ class eZProduct
        
        $vatType =& $this->vatType();
 
-        if ( $this->hasVAT() )
+       if ( $this->hasVAT() )
         {
            $vat = 0;
 

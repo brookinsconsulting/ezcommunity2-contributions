@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezwishlistitem.php,v 1.14 2001/08/17 13:36:00 jhe Exp $
+// $Id: ezwishlistitem.php,v 1.15 2001/09/26 07:09:33 ce Exp $
 //
 // Definition of eZWishItem class
 //
@@ -176,7 +176,7 @@ class eZWishListItem
       Returns the product to the wishlist item as an eZProduct object.
 
     */
-    function product()
+    function &product()
     {
        $ret = false;
 
@@ -192,7 +192,7 @@ class eZWishListItem
     /*!
       Returns the wishlist.
     */
-    function wishlist()
+    function &wishlist()
     {
        $ret = false;
 
@@ -272,7 +272,7 @@ class eZWishListItem
 
       An empty array is returned if none exists.
     */
-    function optionValues( )
+    function &optionValues( )
     {
        $return_array = array();
        $db =& eZDB::globalDatabase();

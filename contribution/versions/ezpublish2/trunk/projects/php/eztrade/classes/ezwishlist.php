@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezwishlist.php,v 1.9 2001/07/31 11:33:11 jhe Exp $
+// $Id: ezwishlist.php,v 1.10 2001/09/26 07:09:33 ce Exp $
 //
 // Definition of eZWishList class
 //
@@ -260,7 +260,7 @@ class eZWishList
 
       An array of eZWishlistItem objects are retunred if successful, an empty array.
     */
-    function items( )
+    function &items( )
     {
        $ret = array();
        
@@ -275,9 +275,8 @@ class eZWishList
            $return_array = array();
            foreach ( $wishlist_array as $item )
            {
-               $return_array[] = new eZWishlistItem( $item[$db->fieldName( "ID" )] );               
+               $ret[] = new eZWishlistItem( $item[$db->fieldName( "ID" )] );               
            }
-           $ret = $return_array;
        }
 
        return $ret;       

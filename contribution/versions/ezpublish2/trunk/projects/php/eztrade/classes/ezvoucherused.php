@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucherused.php,v 1.1 2001/09/10 12:39:28 ce Exp $
+// $Id: ezvoucherused.php,v 1.2 2001/09/26 07:09:33 ce Exp $
 //
 // eZVoucherUsed class
 //
@@ -82,13 +82,14 @@ class eZVoucherUsed
             $password = md5( $this->Password );
 
             $res = $db->query( "INSERT INTO eZTrade_VoucherUsed
-                      ( ID, Used, Price, VoucherID, OrderID )
+                      ( ID, Used, Price, VoucherID, OrderID, UserID )
                       VALUES
                       ( '$nextID',
                         '$timeStamp',
                         '$this->Price',
                         '$this->VoucherID',
-                        '$this->OrderID'
+                        '$this->OrderID',
+                        '$this->UserID'
                             )" );
 
 			$this->ID = $nextID;
@@ -99,7 +100,8 @@ class eZVoucherUsed
                                      Used=Used,
                                      Price='$this->Price',
                                      VoucherID='$this->VoucherID',
-                                     OrderID='$this->OrderID'
+                                     OrderID='$this->OrderID',
+                                     UserID='$this->UserID'
                                      WHERE ID='$this->ID'" );
         }
         $db->unlock();
@@ -168,6 +170,7 @@ class eZVoucherUsed
         $this->Price =& $voucherArray[ "Price" ];
         $this->VoucherID =& $voucherArray[ "VoucherID" ];
         $this->OrderID =& $voucherArray[ "OrderID" ];
+        $this->UserID =& $voucherArray[ "UserID" ];
     }
 
     /*!
@@ -187,7 +190,6 @@ class eZVoucherUsed
             $db->array_query( $voucherArray, "SELECT ID
                                            FROM eZTrade_VoucherUsed
                                            " );
-
         }
         else
         {
@@ -247,9 +249,20 @@ class eZVoucherUsed
     }
 
     /*!
+      Sets the user for this object.
+    */
+    function setUser( &$value )
+    {
+        if ( get_class ( $value ) )
+            $this->UserID = $value->id();
+        else if ( is_numeric ( $value ) )
+            $this->UserID = $value;
+    }
+
+    /*!
       Sets the voucher for this object.
     */
-    function setVoucher( $value )
+    function setVoucher( &$value )
     {
         if ( get_class ( $value ) )
         {
@@ -264,7 +277,7 @@ class eZVoucherUsed
     /*!
       Sets the order for this object.
     */
-    function setOrder( $value )
+    function setOrder( &$value )
     {
         if ( get_class ( $value ) )
         {
@@ -279,7 +292,7 @@ class eZVoucherUsed
     /*!
       Returns the voucher of this object.
     */
-    function voucher( $asObjcet=true )
+    function &voucher( $asObject=true )
     {
         if ( $asObject )
         {
@@ -295,7 +308,7 @@ class eZVoucherUsed
     /*!
       Returns the order of this object.
     */
-    function order( $asObject=true )
+    function &order( $asObject=true )
     {
         if ( $asObject )
         {
@@ -309,12 +322,49 @@ class eZVoucherUsed
     }
     
     /*!
+      Returns the user of this object.
+    */
+    function &user( $asObject=true )
+    {
+        if ( $asObject )
+        {
+            $ret = new eZUser( $this->UserID );
+        }
+        else
+        {
+            $ret = $this->UserID;
+        }
+        return $ret;
+    }
+
+    /*!
       Returns the price of the voucher.
     */
     function &price( )
     {
         return $this->Price;
     }
+
+    /*!
+      Get the used voucher for a user.
+    */
+    function getByUser( &$user )
+    {
+        $db =& eZDB::globalDatabase();
+        $ret = array();
+
+        $userID = $user->id();
+
+        $db->array_query( $res, "SELECT ID FROM eZTrade_VoucherUsed WHERE UserID='$userID' ORDER By Used DESC " );
+
+        foreach( $res as $result )
+        {
+            $ret[] = new eZVoucherUsed( $result["ID"] );
+        }
+
+        return $ret;
+    }
+
 
 
     var $ID;

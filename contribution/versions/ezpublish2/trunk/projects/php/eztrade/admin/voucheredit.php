@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucheredit.php,v 1.3 2001/09/24 10:19:15 ce Exp $
+// $Id: voucheredit.php,v 1.4 2001/09/26 07:09:32 ce Exp $
 //
 // Created on: <20-Dec-2000 18:24:06 bf>
 //
@@ -100,7 +100,7 @@ if ( $Action == "Edit" )
     $t->set_var( "action_value", "Update" );
     $t->set_var( "voucher_id", $voucher->id() );
 
-    $usedList = $voucher->usedList();
+    $usedList =& $voucher->usedList();
 
     $count = count ( $usedList );
 
@@ -134,7 +134,12 @@ if ( $Action == "Edit" )
         $t->set_var( "used_price", $locale->format( $currency ) );
         $t->set_var( "used_used", $locale->format( $used->used() ) );
 
-        $order = $used->order();
+        $localUser =& $used->user();
+
+        $t->set_var( "user_name", $localUser->firstName() . " " . $localUser->lastName() );
+        $t->set_var( "user_id", $localUser->id() );
+
+        $order =& $used->order();
 
         $t->set_var( "voucher_order_id", $order->id() );
         $t->parse( "used_item", "used_item_tpl", true );

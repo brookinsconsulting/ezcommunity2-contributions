@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.74 2001/09/21 09:53:02 ce Exp $
+// $Id: payment.php,v 1.75 2001/09/26 07:09:33 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -879,6 +879,8 @@ if ( $PaymentSuccess == "true" )
             deleteCache( $product, false, false, false );
         }
 
+        $user =& eZUser::currenctUser();
+        
         // Create vouchers
         $voucherInfo =& $item->voucherInformation();
         if ( $item->voucherInformation() )
@@ -927,6 +929,7 @@ if ( $PaymentSuccess == "true" )
             $voucherUsed->setVoucher( $voucher );
             $voucherUsed->setPrice( $price );
             $voucherUsed->setOrder( $order );
+            $voucherUsed->setUser( $user );
             $voucherUsed->store();
             
         }

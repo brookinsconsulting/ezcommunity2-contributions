@@ -8,7 +8,7 @@
 <input type="text" size="8" name="Price" value="{voucher_price}"/>
 
 <p class="boxtext">{intl-available}:</p>
-<input type="checkbox"  name="Available"  {is_checked} "/>
+<input type="checkbox"  name="Available"  {is_checked} />
 
 <p class="boxtext">{intl-created}:</p>
 {voucher_created}
@@ -40,6 +40,9 @@
 	{intl-used}:
 	</th>
 	<th>
+	{intl-used_by}:
+	</th>
+	<th>
 	{intl-used_price}:
 	</th>
 	<th>
@@ -50,6 +53,9 @@
 <tr>
        <td class="{td_class}">
        {used_used}       
+       </td>
+       <td class="{td_class}">
+       <a href="/trade/customerview/{user_id}/">{user_name}</a>
        </td>
        <td class="{td_class}">
        {used_price}       

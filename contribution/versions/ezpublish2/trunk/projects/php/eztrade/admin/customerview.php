@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: customerview.php,v 1.2 2001/09/24 09:27:10 bf Exp $
+// $Id: customerview.php,v 1.3 2001/09/26 07:09:32 ce Exp $
 //
 // Created on: <21-Sep-2001 16:06:44 bf>
 //
@@ -30,6 +30,9 @@ include_once( "classes/ezcurrency.php" );
 include_once( "classes/ezlist.php" );
 
 include_once( "eztrade/classes/ezorder.php" );
+include_once( "eztrade/classes/ezwishlist.php" );
+include_once( "eztrade/classes/ezvoucher.php" );
+include_once( "eztrade/classes/ezvoucherused.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
 $ini =& INIFile::globalINI();
@@ -37,6 +40,8 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 
 $t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ),
                      "eztrade/admin/intl/", $Language, "customerview.php" );
+
+$languageINI = new INIFile( "eztrade/admin/intl/" . $Language . "/customerview.php.ini", false );
 
 $t->set_file( "customer_view_tpl", "customerview.tpl" );
 
@@ -47,6 +52,18 @@ $t->set_block( "address_list_tpl", "address_item_tpl", "address_item" );
 // order
 $t->set_block( "customer_view_tpl", "order_list_tpl", "order_list" );
 $t->set_block( "order_list_tpl", "order_item_tpl", "order_item" );
+
+// wish list
+$t->set_block( "customer_view_tpl", "wish_list_tpl", "wish_list" );
+$t->set_block( "wish_list_tpl", "wishlist_image_tpl", "wishlist_image" );
+$t->set_block( "wish_list_tpl", "wishlist_item_tpl", "wishlist_item" );
+$t->set_block( "wishlist_item_tpl", "is_bought_tpl", "is_bought" );
+$t->set_block( "wishlist_item_tpl", "is_not_bought_tpl", "is_not_bought" );
+$t->set_block( "wishlist_item_tpl", "wishlist_item_option_tpl", "wishlist_item_option" );
+
+// vouchers
+$t->set_block( "customer_view_tpl", "voucher_list_tpl", "voucher_list" );
+$t->set_block( "voucher_list_tpl", "used_item_tpl", "used_item" );
 
 $t->setAllStrings();
 
@@ -64,7 +81,7 @@ $currency = new eZCurrency();
 
 // address list
 
-$addressArray = $customer->addresses();
+$addressArray =& $customer->addresses();
 
 foreach ( $addressArray as $address )
 {    
@@ -83,18 +100,158 @@ $t->parse( "address_list", "address_list_tpl" );
 
 // order list
 $t->set_var( "order_count", count( $orders ) );
+$t->set_var( "wish_count", "" );
+$u=0;
 foreach ( $orders as $order )
 {
+    if ( ( $i % 2 ) == 0 )
+        $t->set_var( "td_class", "bgdark" );
+    else
+        $t->set_var( "td_class", "bglight" );
+
     $t->set_var( "order_id", $order->id() );
     $t->set_var( "order_date", $order->id() );
 
-    if ( $order->isVATInc() == true )
-        $currency->setValue( $order->totalPriceIncVAT() + $order->shippingCharge());
-    else
-        $currency->setValue( $order->totalPrice() + $order->shippingCharge() );
+    $status = $order->initialStatus( );
+    $dateTime = $status->altered();
+    $t->set_var( "order_date", $locale->format( $dateTime ) );
+
+    $statusType = $status->type();
+    $statusName = preg_replace( "#intl-#", "", $statusType->name() );
+    $statusName =  $languageINI->read_var( "strings", $statusName );
+    $t->set_var( "order_status", $statusName );
+
+
+
+    $currency->setValue( $order->totalPrice() );
     $t->set_var( "order_price", $locale->format( $currency ) );
 
+    $i++;
     $t->parse( "order_item",  "order_item_tpl", true );    
+}
+
+$wishlist =& eZWishList::getByUser( $customer );
+
+if ( $wishlist )
+{
+    $items =& $wishlist->items();
+    $count = count ( $items );
+    $i=0;
+    if ( $count > 0 )
+    {
+        foreach ( $items as $item )
+        {
+            $product =& $item->product();
+            if ( $product )
+            {
+                if ( ( $i % 2 ) == 0 )
+                    $t->set_var( "td_class", "bgdark" );
+                else
+                    $t->set_var( "td_class", "bglight" );
+                
+                $image =& $product->thumbnailImage();
+                
+                $t->set_var( "product_id", $product->id() );
+                $t->set_var( "product_name", $product->name() );
+                
+                $t->set_var( "wishlist_item_id", $item->id() );
+                
+                if ( $image )
+                {
+                    $thumbnail =& $image->requestImageVariation( 35, 35 );
+                    
+                    $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
+                    $t->set_var( "product_image_width", $thumbnail->width() );
+                    $t->set_var( "product_image_height", $thumbnail->height() );
+                    $t->set_var( "product_image_caption", $image->caption() );
+                    $t->parse( "wishlist_image", "wishlist_image_tpl" );
+                }
+                else
+                {
+                    $t->set_var( "wishlist_image", "&nbsp;" );
+                }
+
+                if ( $item->isBought() )
+                {
+                    $t->set_var( "is_not_bought", "" );
+                    $t->parse( "is_bought", "is_bought_tpl" );
+                }
+                else
+                {
+                    $t->set_var( "is_bought", "" );
+                    $t->parse( "is_not_bought", "is_not_bought_tpl" );
+                }
+    
+                // product price
+                $price = $item->price();    
+                $currency->setValue( $price );
+                $sum += $price;
+
+                $t->set_var( "product_price", $locale->format( $currency ) );
+
+                $t->set_var( "wishlist_item_count", $item->count() );
+    
+                $t->set_var( "product_price", $locale->format( $currency ) );
+
+                $t->set_var( "wishlist_item_option", "" );
+
+                $optionValues =& $item->optionValues();
+
+                foreach ( $optionValues as $optionValue )
+                {
+                    $option =& $optionValue->option();
+                    $value =& $optionValue->optionValue();
+                        
+                    $t->set_var( "option_name", $option->name() );
+                        
+                    $descriptions =& $value->descriptions();
+                    $t->set_var( "option_value", $descriptions[0] );
+                        
+                    $t->parse( "wishlist_item_option", "wishlist_item_option_tpl", true );
+                }
+                    
+                $i++;
+                $t->parse( "wishlist_item", "wishlist_item_tpl", true );
+            }
+        }
+        $t->set_var( "wish_count", $count );
+        $t->parse( "wish_list", "wish_list_tpl" );
+    }
+}
+
+$t->set_var( "voucher_list", "" );
+$vouchers =& eZVoucherUsed::getByUser( $customer );
+$count = count ( $vouchers );
+$t->set_var( "voucher_count", $count );
+if ( $count > 0 )
+{
+    $i=0;
+    foreach ( $vouchers as $used )
+    {
+        if ( ( $i % 2 ) == 0 )
+            $t->set_var( "td_class", "bgdark" );
+        else
+            $t->set_var( "td_class", "bglight" );
+
+        $currency->setValue( $used->price() );
+        $t->set_var( "used_price", $locale->format( $currency ) );
+        $t->set_var( "used_used", $locale->format( $used->used() ) );
+
+        $localUser =& $used->user();
+
+        $t->set_var( "user_name", $localUser->firstName() . " " . $localUser->lastName() );
+        $t->set_var( "user_id", $localUser->id() );
+
+        $order =& $used->order();
+        $voucher =& $used->voucher( false );
+        $t->set_var( "voucher_id", $voucher );
+
+        $t->set_var( "order_id", $order->id() );
+        $t->parse( "used_item", "used_item_tpl", true );
+        $i++;
+    }
+    $t->parse( "voucher_list", "voucher_list_tpl" );
+    
 }
 
 if ( count( $orders ) > 0 )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: customerlist.php,v 1.1 2001/09/21 15:11:24 bf Exp $
+// $Id: customerlist.php,v 1.2 2001/09/26 07:09:32 ce Exp $
 //
 // Created on: <21-Sep-2001 16:06:44 bf>
 //
@@ -47,12 +47,19 @@ $t->set_block( "customer_item_list_tpl", "customer_item_tpl", "customer_item" );
 
 $customers =& eZOrder::customers();
 
+$i=0;
 foreach ( $customers as $customer )
 {
+    if ( ( $i % 2 ) == 0 )
+        $t->set_var( "td_class", "bglight" );
+    else
+        $t->set_var( "td_class", "bgdark" );
+
     $t->set_var( "customer_id", $customer->id() );
     $t->set_var( "customer_first_name", $customer->firstName() );
     $t->set_var( "customer_last_name", $customer->lastName() );
 
+    $i++;
     $t->parse( "customer_item", "customer_item_tpl", true );
 }
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderedit.php,v 1.28 2001/09/21 14:28:49 jhe Exp $
+// $Id: orderedit.php,v 1.29 2001/09/26 07:09:32 ce Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -112,7 +112,8 @@ if ( $user )
 {
     if ( $order->personID() == 0 && $order->companyID() == 0 )
     {
-        $t->set_var( "customer_email", $user->email() );    
+        $t->set_var( "customer_email", $user->email() );
+        $t->set_var( "customer_id", $user->id() );    
         $t->set_var( "customer_first_name", $user->firstName() );
         $t->set_var( "customer_last_name", $user->lastName() );
     }

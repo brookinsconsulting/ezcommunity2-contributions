@@ -21,7 +21,8 @@
       <hr noshade size="4" />
       <!-- BEGIN empty_wishlist_tpl -->
       <h2>{intl-empty_wishlist}</h2>
-      <!-- END empty_wishlist_tpl --> <!-- BEGIN wishlist_item_list_tpl -->
+      <!-- END empty_wishlist_tpl --> 
+      <!-- BEGIN wishlist_item_list_tpl -->
       <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 		<tr> 
 		  <th>&nbsp;</th>

@@ -1,12 +1,12 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.5 2001/08/01 15:15:48 ce Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.6 2001/09/26 07:09:32 ce Exp $ -->
 
 <h1>{intl-head_line}</h1>
 
 <hr noshade="noshade" size="4" />
 
 <p class="boxtext">{intl-customer_email}:</p>
-<div class="p"><a href="mailto:{customer_email}">{customer_email}</a></div>
+<div class="p"><a href="mailto:{customer_email}">{customer_email}</a> <a href="/trade/customerview/{customer_id}/" >( {intl-view_customer} )</a></div>
 <br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">

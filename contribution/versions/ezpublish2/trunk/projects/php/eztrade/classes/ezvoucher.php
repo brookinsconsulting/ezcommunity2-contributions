@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucher.php,v 1.10 2001/09/24 10:19:16 ce Exp $
+// $Id: ezvoucher.php,v 1.11 2001/09/26 07:09:33 ce Exp $
 //
 // eZVoucher class
 //
@@ -204,7 +204,7 @@ class eZVoucher
         else
         {
             $db->array_query( $voucherArray, "SELECT ID
-                                           FROM eZTrade_Voucher
+                                           FROM eZTrade_Voucher ORDER BY Created DESC
                                            ", array( "Limit" => $limit, "Offset" => $offset ) );
         }
 
@@ -417,6 +417,29 @@ class eZVoucher
         if ( $res["ID"] )
         {
             $ret = new eZVoucher( $res["ID"] );
+        }
+
+        return $ret;
+    }
+
+    /*!
+      Get a voucher from a key number.
+    */
+    function getByUser( &$user, $available=true )
+    {
+        $db =& eZDB::globalDatabase();
+        $ret = array();
+
+        $userID = $user->id();
+
+        if ( $available )
+            $db->array_query( $res, "SELECT ID FROM eZTrade_Voucher WHERE UserID='$userID' AND Available='1' ORDER By Created DESC" );
+        else
+            $db->array_query( $res, "SELECT ID FROM eZTrade_Voucher WHERE UserID='$userID' ORDER By Created DESC " );
+
+        foreach( $res as $result )
+        {
+            $ret[] = new eZVoucher( $result["ID"] );
         }
 
         return $ret;
