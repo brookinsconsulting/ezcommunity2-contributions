@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.22 2001/04/05 08:52:44 fh Exp $
+// $Id: useredit.php,v 1.23 2001/05/14 15:31:15 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -32,7 +32,7 @@ $Language = $ini->read_var( "eZUserMain", "Language" );
 
 $error = new INIFIle( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", false );
 
-include_once( "classes/ezmail.php" );
+include_once( "ezmail/classes/ezmail.php" );
 include_once( "classes/ezlog.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: findwishlist.php,v 1.2 2001/03/01 14:06:26 jb Exp $
+// $Id: findwishlist.php,v 1.3 2001/05/14 15:31:15 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <15-Jan-2001 16:46:13 bf>
@@ -35,7 +35,7 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 
 include_once( "eztrade/classes/ezwishlist.php" );
 include_once( "ezsession/classes/ezsession.php" );
-include_once( "classes/ezmail.php" );
+include_once( "ezmail/classes/ezmail.php" );
 
 
 

@@ -1,5 +1,5 @@
 <?
-// $Id: unapprovededit.php,v 1.6 2001/05/08 11:51:45 ce Exp $
+// $Id: unapprovededit.php,v 1.7 2001/05/14 15:31:15 fh Exp $
 //
 // Author: Bård Farstad <bf@ez.no>
 // Created on: <21-Jan-2001 13:34:48 bf>
@@ -33,7 +33,7 @@ include_once( "classes/ezlocale.php" );
 
 include_once( "ezforum/classes/ezforum.php" );
 include_once( "ezforum/classes/ezforummessage.php" );
-include_once( "classes/ezmail.php" );
+include_once( "ezmail/classes/ezmail.php" );
 
 $locale = new eZLocale( $Language );
 

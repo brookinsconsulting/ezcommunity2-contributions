@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.61 2001/05/05 11:29:47 bf Exp $
+// $Id: checkout.php,v 1.62 2001/05/14 15:31:15 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -61,7 +61,7 @@ include_once( "eztrade/classes/ezcheckout.php" );
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
-include_once( "classes/ezmail.php" );
+include_once( "ezmail/classes/ezmail.php" );
 
 $cart = new eZCart();
 $session = new eZSession();

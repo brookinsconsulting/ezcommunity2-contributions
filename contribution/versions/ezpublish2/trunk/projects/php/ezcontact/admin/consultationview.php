@@ -28,7 +28,7 @@ if ( !eZPermission::checkPermission( $user, "eZContact", "Consultation" ) )
     exit();
 }
 
-include_once( "classes/ezmail.php" );
+include_once( "ezmail/classes/ezmail.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdatetime.php" );
 include_once( "ezcontact/classes/ezconsultation.php" );

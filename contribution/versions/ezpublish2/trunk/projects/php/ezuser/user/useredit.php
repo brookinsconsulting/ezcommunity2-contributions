@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.19 2001/03/01 14:06:26 jb Exp $
+// $Id: useredit.php,v 1.20 2001/05/14 15:31:15 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 12:52:42 bf>
@@ -27,7 +27,7 @@ require( "ezuser/user/usercheck.php" );
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
-include_once( "classes/ezmail.php" );
+include_once( "ezmail/classes/ezmail.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/ezhttptool.php" );
 

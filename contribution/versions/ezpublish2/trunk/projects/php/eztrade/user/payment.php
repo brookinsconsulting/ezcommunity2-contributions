@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.45 2001/05/04 15:12:55 ce Exp $
+// $Id: payment.php,v 1.46 2001/05/14 15:31:15 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -50,7 +50,7 @@ include_once( "eztrade/classes/ezcheckout.php" );
 
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezuser/classes/ezuser.php" );
-include_once( "classes/ezmail.php" );
+include_once( "ezmail/classes/ezmail.php" );
 include_once( "classes/ezgpg.php" );
 
 $ini =& INIFile::globalINI();

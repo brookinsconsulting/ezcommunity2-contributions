@@ -6,7 +6,7 @@ $ini = new INIFile( "site.ini" );
 $GlobalSiteIni =& $ini;
 
 // fetch the latest newsheadlines.
-include_once( "classes/ezmail.php" );
+include_once( "ezmail/classes/ezmail.php" );
 
 include( "eznewsfeed/admin/cron.php" );
 

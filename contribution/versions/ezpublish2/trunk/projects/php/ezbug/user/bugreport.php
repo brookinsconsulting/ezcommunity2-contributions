@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugreport.php,v 1.24 2001/04/27 15:28:39 fh Exp $
+// $Id: bugreport.php,v 1.25 2001/05/14 15:31:15 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 20:31:00 bf>
@@ -23,7 +23,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-include_once( "classes/ezmail.php" );
+include_once( "ezmail/classes/ezmail.php" );
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );

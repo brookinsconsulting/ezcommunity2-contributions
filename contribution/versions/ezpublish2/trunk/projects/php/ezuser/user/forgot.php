@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forgot.php,v 1.14 2001/03/02 09:45:14 ce Exp $
+// $Id: forgot.php,v 1.15 2001/05/14 15:31:15 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -30,7 +30,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezhttptool.php" );
 
 include_once( "ezuser/classes/ezforgot.php" );
-include_once( "classes/ezmail.php" );
+include_once( "ezmail/classes/ezmail.php" );
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZUserMain", "Language" );

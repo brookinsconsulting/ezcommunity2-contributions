@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.52 2001/05/10 10:14:12 ce Exp $
+// $Id: userwithaddress.php,v 1.53 2001/05/14 15:31:15 fh Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
@@ -39,7 +39,7 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezaddress/classes/ezaddress.php" );
 include_once( "ezaddress/classes/ezcountry.php" );
-include_once( "classes/ezmail.php" );
+include_once( "ezmail/classes/ezmail.php" );
 
 $t = new eZTemplate( "ezuser/user/" . $ini->read_var( "eZUserMain", "TemplateDir" ),
                      "ezuser/user/intl/", $Language, "userwithaddress.php" );

@@ -1,7 +1,7 @@
 <?
 include_once( "ezbulkmail/classes/ezbulkmailsubscriptionaddress.php" );
 include_once( "ezbulkmail/classes/ezbulkmailforgot.php" );
-include_once( "classes/ezmail.php" );
+include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/eztemplate.php" );
 

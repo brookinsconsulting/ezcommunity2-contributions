@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbug.php,v 1.26 2001/05/07 11:08:40 ce Exp $
+// $Id: ezbug.php,v 1.27 2001/05/14 15:31:15 fh Exp $
 //
 // Definition of eZBug class
 //
@@ -66,7 +66,7 @@
 */
 
 include_once( "classes/ezdb.php" );
-include_once( "classes/ezmail.php" );
+include_once( "ezmail/classes/ezmail.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.45 2001/05/08 09:55:04 ce Exp $
+// $Id: messageedit.php,v 1.46 2001/05/14 15:31:15 fh Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -263,7 +263,7 @@ switch( $Action )
 
             if ( $moderator )
             {
-                include_once( "classes/ezmail.php" );
+                include_once( "ezmail/classes/ezmail.php" );
                 $mail = new eZMail();
 
                 $locale = new eZLocale( $Language );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagereply.php,v 1.36 2001/04/23 12:23:16 fh Exp $
+// $Id: messagereply.php,v 1.37 2001/05/14 15:31:15 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -22,7 +22,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-include_once( "classes/ezmail.php" );
+include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
 if ( $StartAction == "reply" )

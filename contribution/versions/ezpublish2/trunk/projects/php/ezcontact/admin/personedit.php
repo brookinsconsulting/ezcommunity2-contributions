@@ -8,7 +8,7 @@ include_once( "classes/INIFile.php" );
 $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZContactMain", "Language" );
 
-include_once( "classes/ezmail.php" );
+include_once( "ezmail/classes/ezmail.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/eztexttool.php" );
