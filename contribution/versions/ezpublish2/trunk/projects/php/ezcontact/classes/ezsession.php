@@ -25,6 +25,11 @@ class eZSession
         return mysql_insert_id();
     }
 
+    function delete( )
+    {
+        query( "DELETE FROM Session WHERE SID='$this->Hash'" );
+    }
+
 
     /*!
       Henter ut en session dersom $AuthenticatedSession er satt og
