@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoptionvalue.php,v 1.19 2001/03/12 14:13:30 jb Exp $
+// $Id: ezoptionvalue.php,v 1.20 2001/03/13 16:11:34 ce Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -243,6 +243,27 @@ class eZOptionValue
         $db->array_query( $option_array, "DELETE FROM eZTrade_OptionValueContent
                                                       WHERE ValueID='$id'" );
     }
+
+    /*!
+      Check if there are a value where RemoteID == $id. Return the value if true.
+    */
+    function getByRemoteID( $id )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $value = false;
+        
+        $db->array_query( $res, "SELECT ID FROM
+                                            eZTrade_OptionValue
+                                            WHERE RemoteID='$id'" );
+        if ( count( $res ) == 1 )
+        {
+            $value = new eZOptionValue( $res[0]["ID"] );
+        }
+        
+        return $value;
+    }
+
 
     /*!
       Returns the id of the optionvalue.
