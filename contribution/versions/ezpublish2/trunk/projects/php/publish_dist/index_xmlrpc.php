@@ -20,6 +20,12 @@ $GlobalSiteIni =& $ini;
 
 define( "EZPUBLISH_SERVER_VERSION", 0.2 );
 
+// Error codes
+define( "EZERROR_BAD_LOGIN", 1 );
+define( "EZERROR_INVALID_FUNCTION", 2 );
+define( "EZERROR_NO_RETURN_DATA", 4 );
+define( "EZERROR_NONEXISTING_OBJECT", 5 );
+
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezlog.php" );
 
@@ -32,13 +38,13 @@ include_once( "ezuser/classes/ezpermission.php" );
 
 
 
-eZLog::writeNotice( "XML-RPC connect." );
+//  eZLog::writeNotice( "XML-RPC connect." );
 
 $server = new eZXMLRPCServer( );
 
 
 // Register server function
-$server->registerFunction( "Call", new eZXMLRPCStruct( ) );
+$server->registerFunction( "Call", array( new eZXMLRPCStruct( ) ) );
 
 // process the server requests
 $server->processRequest();
@@ -49,39 +55,50 @@ $server->processRequest();
 */
 function Call( $args )
 {
-    eZLog::writeNotice( "XML-RPC call." );
+//      eZLog::writeNotice( "XML-RPC call." );
     $call = $args[0]->value();
 
+    $GLOBALS["login"] =& $login;
     $login = $call["User"]->value();
+    $GLOBALS["password"] =& $Password;
     $password = $call["Password"]->value();
 
+    $GLOBALS["User"] =& $User;
     $User = new eZUser();
     $User = $User->validateUser( $login, $password );
         
     if ( ( get_class( $User ) == "ezuser" ) and eZPermission::checkPermission( $User, "eZUser", "AdminLogin" ) )
     {
-        eZLog::writeNotice( "XML-RPC logged in." );
+//          eZLog::writeNotice( "XML-RPC logged in." );
+        $GLOBALS["version"] =& $version;
         $version = $call["Version"]->value();
 
         // Get caller ID if any
+        $GLOBALS["caller"] =& $caller;
         $caller = false;
         if ( is_object( $call["Caller"] ) )
             $caller = $call["Caller"];
 
+        $GLOBALS["RefID"] =& $RefID;
         $RefID = false;
         if ( is_object( $call["RefID"] ) )
             $RefID = $call["RefID"];
 
         // decode URL
         $REQUEST_URI = $call["URL"]->value();
+        $GLOBALS["Module"] =& $Module;
         $Module = $REQUEST_URI["Module"]->value();
+        $GLOBALS["RequestType"] =& $RequestType;
         $RequestType = $REQUEST_URI["Type"]->value();
+        $GLOBALS["ID"] =& $ID;
         if( is_object( $REQUEST_URI["ID"] ) )
             $ID = $REQUEST_URI["ID"]->value();
         else
             $ID = 0;
         
+        $GLOBALS["Data"] =& $Data;
         $Data = $call["Data"]->value();
+        $GLOBALS["Command"] =& $Command;
         $Command = $call["Command"]->value();
 
         $ReturnData = array();
@@ -113,13 +130,13 @@ function Call( $args )
                     }
                 }
 
-                eZLog::writeNotice( "XML-RPC returning modules." );
+//                  eZLog::writeNotice( "XML-RPC returning modules." );
                 $ReturnData = $modules;
 
             }
             else
             {
-                eZLog::writeNotice( "XML-RPC returning standard data." );
+//                  eZLog::writeNotice( "XML-RPC returning standard data." );
                 include( $datasupplier );
 
             }
@@ -131,12 +148,9 @@ function Call( $args )
 
             if ( $Error )
             {
-                $ret = new eZXMLRPCResponse( );
-                if ( $ID > 0 )
-                    $id_text = $ID;
-                $ret->setError( 2, "Server function \"$Command\" for URL \"$Module:/$RequestType/$id_text\" not found." );
+                $ret =& createErrorMessage( EZERROR_INVALID_FUNCTION );
             }
-            else
+            else if ( isset( $ReturnData ) and is_object( $ReturnData ) )
             {
                 // create the return struct...
                 $ret_arr = array( "Version" => new eZXMLRPCDouble( EZPUBLISH_SERVER_VERSION ),
@@ -149,6 +163,10 @@ function Call( $args )
                     $ret_arr["Caller"] = $caller;
                 $ret = new eZXMLRPCStruct( $ret_arr );
             }
+            else
+            {
+                $ret =& createErrorMessage( EZERROR_NO_RETURN_DATA );
+            }
 
             if ( get_class( $Error ) == "ezxmlrpcresponse" )
             {                
@@ -157,21 +175,60 @@ function Call( $args )
         }
         else
         {
-            $ret = new eZXMLRPCResponse( );
-            if ( $ID > 0 )
-                $id_text = $ID;
-            $ret->setError( 2, "Server function \"$Command\" for URL \"$Module:/$RequestType/$id_text\" not found." );
+            $ret =& createErrorMessage( EZERROR_INVALID_FUNCTION );
         }
 
-        eZLog::writeNotice( "XML-RPC returning  data." );
+//          eZLog::writeNotice( "XML-RPC returning  data." );
         return $ret;
     }
     else
     {
-        $ret = new eZXMLRPCResponse( );
-        $ret->setError( 1, "Login denied, please try again." );
-        return $ret;
+        $ret =& createErrorMessage( EZERROR_BAD_LOGIN );
     }
+}
+
+function &createErrorMessage( $error_id, $error_msg = false )
+{
+    global $ID;
+    global $Command;
+    global $Module;
+    global $RequestType;
+    $ret = new eZXMLRPCResponse( );
+    switch( $error_id )
+    {
+        case EZERROR_BAD_LOGIN:
+        {
+            $error_text = "Login denied, please try again.";
+            break;
+        }
+        case EZERROR_INVALID_FUNCTION:
+        {
+            if ( $ID > 0 )
+                $id_text = $ID;
+            $error_text = "Server function \"$Command\" for URL \"$Module:/$RequestType/$id_text\" not found.";
+            break;
+        }
+        case EZERROR_NO_RETURN_DATA:
+        {
+            if ( $ID > 0 )
+                $id_text = $ID;
+            $error_text = "No return data while processing \"$Command\" for URL \"$Module:/$RequestType/$id_text\".";
+            break;
+        }
+        case EZERROR_NONEXISTING_OBJECT:
+        {
+            if ( $ID > 0 )
+                $id_text = $ID;
+            $error_text = "Object does not exist, used command \"$Command\" for URL \"$Module:/$RequestType/$id_text\".";
+            break;
+        }
+        default:
+        {
+            $error_text = "Unknown error";
+        }
+    }
+    $ret->setError( $error_id, $error_text );
+    return $ret;
 }
 
 function createURLStruct( $module, $type , $id = 0 )
@@ -189,6 +246,32 @@ function createURLStruct( $module, $type , $id = 0 )
                                           "Module" => new eZXMLRPCString( $module ) )
                             );
     }
+    return $ret;
+}
+
+function createSizeStruct( $width, $height )
+{
+    $ret = new eZXMLRPCStruct( array( "Width" => new eZXMLRPCInt( $width ),
+                                      "Height" => new eZXMLRPCInt( $height ) ) );
+    return $ret;
+}
+
+function createDateStruct( $date )
+{
+    $ret = new eZXMLRPCStruct( array( "Year" => new eZXMLRPCInt( $date->year() ),
+                                      "Month" => new eZXMLRPCInt( $date->month() ),
+                                      "Day" => new eZXMLRPCInt( $date->day() ) ) );
+    return $ret;
+}
+
+function createDateTimeStruct( $datetime )
+{
+    $ret = new eZXMLRPCStruct( array( "Year" => new eZXMLRPCInt( $datetime->year() ),
+                                      "Month" => new eZXMLRPCInt( $datetime->month() ),
+                                      "Day" => new eZXMLRPCInt( $datetime->day() ),
+                                      "Hour" => new eZXMLRPCInt( $datetime->hour() ),
+                                      "Minute" => new eZXMLRPCInt( $datetime->minute() ),
+                                      "Second" => new eZXMLRPCInt( $datetime->second() ) ) );
     return $ret;
 }
 
