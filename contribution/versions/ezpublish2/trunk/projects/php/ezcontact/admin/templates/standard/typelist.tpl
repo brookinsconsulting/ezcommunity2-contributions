@@ -30,9 +30,24 @@
 	
 //-->
 </SCRIPT> 
-<h1>{intl-list_headline}</h1>
+
+<table width="100%" border="0">
+<tr>
+	<td valign="bottom">
+		<h1>{intl-list_headline}</h1>
+	</td>
+	<!-- BEGIN search_item_tpl -->
+	<td rowspan="2" align="right">
+	    <form action="/contact/{type}/search/" method="post">
+	    	<input type="text" name="SearchText" size="12" value="{search_form_text}" />
+		<input type="submit" value="{intl-search}" />
+	    </form>
+	</td>
+	<!-- END search_item_tpl -->
+</tr>
+</table>
+
 <hr noshade="noshade" size="4" />
-<br />
 <!-- BEGIN list_item_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -85,6 +100,44 @@
 <!-- END line_item_tpl -->
 </table>
 <!-- END list_item_tpl -->
+
+<!-- BEGIN type_list_tpl -->
+<table>
+<tr>
+	<!-- BEGIN type_list_previous_tpl -->
+	<td>
+	<a href="/contact/{type}/{action}/{item_previous_index}/{search_text}">{intl-previous}</a>
+	</td>
+	<!-- END type_list_previous_tpl -->
+
+	<!-- BEGIN type_list_previous_inactive_tpl -->
+	<td>
+	{intl-previous}
+	</td>
+	<!-- END type_list_previous_inactive_tpl -->
+
+	<!-- BEGIN type_list_item_tpl -->
+	<td>
+	<a href="/contact/{type}/{action}/{item_index}/{search_text}">{type_item_name}</a>
+	</td>
+	<!-- END type_list_item_tpl -->
+
+	<!-- BEGIN type_list_next_tpl -->
+	<td>
+	<a href="/contact/{type}/{action}/{item_next_index}/{search_text}">{intl-next}</a>
+	</td>
+	<!-- END type_list_next_tpl -->
+
+	<!-- BEGIN type_list_next_inactive_tpl -->
+	<td>
+	{intl-next}
+	</td>
+	<!-- END type_list_next_inactive_tpl -->
+
+</tr>
+</table>
+<!-- END type_list_tpl -->
+
 
 <!-- BEGIN no_line_item_tpl -->
 <p class="boxtext">{intl-no_item}</p>

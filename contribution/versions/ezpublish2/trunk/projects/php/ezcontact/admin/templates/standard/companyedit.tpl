@@ -176,7 +176,7 @@
 <h2>{intl-project_headline}</h2>
 <table width="100%" cellpadding="0" cellspacing="5" border="0">
     <tr>
-	    <td width="1%" valign="top">
+	    <td width="1%" valign="top" rowspan="2">
 	            <p class="boxtext">{intl-contact}:</p>
 		    <select size="10" name="ContactID" />
 		    <!-- BEGIN contact_item_select_tpl -->
@@ -186,17 +186,19 @@
 	    </td>
 	    <td width="1%" valign="top">
 	            <p class="boxtext">{intl-contact_group}:</p>
-		    <p>
 		    <select name="ContactGroupID" />
-		    <option value="-1">{intl-group_all}</option>
+		    <option value="-2" {none_selected}>{intl-group_none}</option>
+		    <option value="-1" {all_selected}>{intl-group_all}</option>
 		    <!-- BEGIN contact_group_item_select_tpl -->
 		    <option value="{type_id}" {selected}>{type_name}</option>
 		    <!-- END contact_group_item_select_tpl -->
 		    </select>
-		    </p>
+		    <input type="text" name="UserSearch" value="{user_search}">
 		    <input type="submit" name="RefreshUsers" value="{intl-refresh}">
 	    </td>
+    </tr>
 
+    <tr>
 	    <td width="1%" valign="top">
 	            <p class="boxtext">{intl-state}:</p>
 		    <select name="ProjectID" />
@@ -210,65 +212,50 @@
 	    </td>
     </tr>
 </table>
-
 <!-- END project_item_tpl -->
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td valign="top">
 	<h2>{intl-logo}</h2>
-<!-- BEGIN logo_add_tpl -->
-	<p class="boxtext">{intl-logo}:</p>
-	<input size="20" name="logo" type="file" />
-<!-- END logo_add_tpl -->
-
-<!-- BEGIN logo_edit_tpl -->
-<br />
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-<!--       <p class="boxtext">{logo_name}:</p> -->
-    <td>
-    <img src="{logo_image_src}" width="{logo_image_width}" height="{logo_image_height}" border="0" alt="{image_alt}" />
-    <p class="boxtext">{intl-delete}: <input name="DeleteLogo" type="checkbox" /></p>
-    <p class="boxtext">{intl-logo}:</p>
-    <br /><br />
-    <input size="20" name="logo" type="file" />
-    <input type="hidden" name="LogoImageID" value="{logo_id}">
-    <br /><br />
     </td>
-<tr>
-</table>
-<!-- END logo_edit_tpl -->
-
-	</td>
-	<td valign="top">
+    <td valign="top">
 	<h2>{intl-image}</h2>
+    </td>
+</tr>
 
-<!-- BEGIN image_add_tpl -->
-	<p class="boxtext">{intl-image}:</p>
-	<input size="20" name="image" type="file" />
-<!-- END image_add_tpl -->
-
-<!-- BEGIN image_edit_tpl -->
-<br />
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-<!--       <p class="boxtext">{image_name}:</p> -->
     <td>
-    <img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /><br /><br />
+        <!-- BEGIN logo_item_tpl -->
+        <img src="{logo_image_src}" width="{logo_image_width}" height="{logo_image_height}" border="0" alt="{image_alt}" />
+	<input name="DeleteLogo" type="checkbox" />
+	<span class="boxtext">{intl-delete}</span>
+        <!-- END logo_item_tpl -->
+    </td>
+
+    <td>
+        <!-- BEGIN image_item_tpl -->
+        <img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
+	<input name="DeleteImage" type="checkbox" />
+	<span class="boxtext">{intl-delete}</span>
+        <!-- END image_item_tpl -->
+    </td>
+
+</tr>
+
+<tr>
+    <td valign="top">
+        <p class="boxtext">{intl-logo}:</p>
+	<input size="20" name="logo" type="file" />
+	<input type="hidden" name="LogoImageID" value="{logo_id}">
+    </td>
+
+    <td>
   	<p class="boxtext">{intl-image}:</p>
 	<input size="20" name="image" type="file" />
 	<input type="hidden" name="CompanyImageID" value="{image_id}">
-	<br /><br />
-	<p class="boxtext">{intl-delete}: <input name="DeleteImage" type="checkbox" /></p>
     </td>
 <tr>
-</table>
-
-<!-- END image_edit_tpl -->
-
-	</td>
-</tr>
 </table>
 
 <br />

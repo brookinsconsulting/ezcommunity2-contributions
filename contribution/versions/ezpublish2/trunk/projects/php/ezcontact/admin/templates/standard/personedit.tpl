@@ -200,9 +200,9 @@
 
 <!-- BEGIN project_item_tpl -->
 <h2>{intl-project_headline}</h2>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<table width="100%" cellpadding="0" cellspacing="5" border="0">
     <tr>
-	    <td width="1%" valign="top">
+	    <td width="1%" valign="top" rowspan="2">
 	            <p class="boxtext">{intl-contact}:</p>
 		    <select size="10" name="ContactID" />
 		    <!-- BEGIN contact_item_select_tpl -->
@@ -212,17 +212,19 @@
 	    </td>
 	    <td width="1%" valign="top">
 	            <p class="boxtext">{intl-contact_group}:</p>
-		    <p>
 		    <select name="ContactGroupID" />
-		    <option value="-1">{intl-group_all}</option>
+		    <option value="-2" {none_selected}>{intl-group_none}</option>
+		    <option value="-1" {all_selected}>{intl-group_all}</option>
 		    <!-- BEGIN contact_group_item_select_tpl -->
 		    <option value="{type_id}" {selected}>{type_name}</option>
 		    <!-- END contact_group_item_select_tpl -->
 		    </select>
-		    </p>
+		    <input type="text" name="UserSearch" value="{user_search}">
 		    <input type="submit" name="RefreshUsers" value="{intl-refresh}">
 	    </td>
+    </tr>
 
+    <tr>
 	    <td width="1%" valign="top">
 	            <p class="boxtext">{intl-state}:</p>
 		    <select name="ProjectID" />
@@ -232,9 +234,10 @@
 		    <!-- END project_item_select_tpl -->
 		    </select>
 	    </td>
+	    <td width="*" valign="top">
+	    </td>
     </tr>
 </table>
-
 <!-- END project_item_tpl -->
 
 <input type="hidden" name="PersonID" value="{person_id}">
