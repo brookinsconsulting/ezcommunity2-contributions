@@ -110,7 +110,7 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-sl
 <!-- BEGIN ad_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/ad/adpreview/{ad_id}/">
+	<a href="/ad/statistics/{ad_id}/">
 	{ad_name}
 	</a>
 	</td>

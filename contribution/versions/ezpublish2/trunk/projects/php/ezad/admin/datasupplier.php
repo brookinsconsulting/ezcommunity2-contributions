@@ -10,6 +10,14 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "statistics" :
+    {
+        $AdID = $url_array[3];
+        
+        include( "ezad/admin/adstatistics.php" );        
+    }
+    break;
+
     case "ad" :
     {
         if ( $url_array[3] == "new" )

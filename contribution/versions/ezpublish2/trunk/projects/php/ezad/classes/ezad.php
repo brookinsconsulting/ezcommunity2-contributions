@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezad.php,v 1.2 2000/11/25 15:57:33 bf-cvs Exp $
+// $Id: ezad.php,v 1.3 2000/11/26 11:18:56 bf-cvs Exp $
 //
 // Definition of eZAd class
 //
@@ -406,6 +406,22 @@ class eZAd
        return $ret;
     }
 
+    /*!
+      Returns the total number of times the banner has been clicked.
+    */
+    function clickCount( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $this->dbInit();
+
+       $this->Database->array_query( $click_result, "SELECT count(*) AS Count FROM
+                                                       eZAd_Click
+                                                       WHERE AdID='$this->ID'" );
+
+       return $click_result[0]["Count"];
+    }
     
     /*!
       \private
