@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: wishlist.php,v 1.20.4.4 2001/11/21 15:01:14 ce Exp $
+// $Id: wishlist.php,v 1.20.4.5 2001/11/22 12:39:38 ce Exp $
 //
 // Created on: <21-Oct-2000 18:09:45 bf>
 //
@@ -83,7 +83,7 @@ if ( !$user )
 
 $wishlist = $wishlist->getByUser( $user );
 
-if ( isSet ( $Refresh ) )
+if ( isSet ( $Refresh ) or ( isSet ( $IsPublicButton ) ) or ( isSet ( $IsNotPublic ) ) )
     $Action = "Refresh";
 
 
@@ -232,13 +232,19 @@ if ( $Action == "Refresh" )
         $i++;
     }
 
+
     if ( isset( $IsPublicButton ) )
     {
         $wishlist->setIsPublic( !$wishlist->isPublic() );
         $wishlist->store();
     }
+    elseif( isset( $IsNotPublic ) )
+    {
+        $wishlist->setIsPublic( false );
+        $wishlist->store();
+    }
     else
-    {        
+    {
         // set public/private
         if ( $IsPublic != "" )
         {
@@ -296,10 +302,10 @@ $t->set_file( array(
 
 $t->set_block( "wishlist_page_tpl", "full_wishlist_tpl", "full_wishlist" );
 
-$t->set_block( "full_wishlist_tpl", "public_wishlist_tpl", "public_wishlist" );
-$t->set_block( "full_wishlist_tpl", "non_public_wishlist_tpl", "non_public_wishlist" );
+$t->set_block( "wishlist_page_tpl", "public_wishlist_tpl", "public_wishlist" );
+$t->set_block( "wishlist_page_tpl", "non_public_wishlist_tpl", "non_public_wishlist" );
 
-$t->set_block( "full_wishlist_tpl", "empty_wishlist_tpl", "empty_wishlist" );
+$t->set_block( "wishlist_page_tpl", "empty_wishlist_tpl", "empty_wishlist" );
 
 $t->set_block( "full_wishlist_tpl", "wishlist_image_tpl", "wishlist_image" );
 
@@ -637,7 +643,7 @@ if ( $ShowWishlist == true )
     
     $t->set_var( "totals_span_size", $ColSpanSizeTotals );
     $t->parse( "wishlist_item_list", "wishlist_item_list_tpl" );
-    $t->parse( "full_wishlist", "full_wishlist_tpl" );
+
 
     $currency->setValue( $total["tax"] );
     $t->set_var( "tax", $locale->format( $currency ) );
