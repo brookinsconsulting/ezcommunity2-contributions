@@ -130,69 +130,100 @@ if ( $Action == "update" )
   include(  $DOCUMENTROOT . "checksession.php" );
 }
 
-$t = new Template( "." );
-$t->set_file( array( "user_page" =>  $DOCUMENTROOT . "templates/usergroupedit.tpl" ) );   
 
-$t->set_var( "submit_text", "Legg til" );
-$t->set_var( "action_value", "insert" );
-$t->set_var( "user_group_id", "" );
+// hente ut rettigheter
+{    
+    $session = new eZSession();
+    
+    if ( !$session->get( $AuthenticatedSession ) )
+    {
+        die( "Du må logge deg på." );    
+    }        
+    
+    $usr = new eZUser();
+    $usr->get( $session->userID() );
 
-
-if ( $Action == "edit" )
-{
-  $group = new eZUserGroup();
-  $group->get( $UGID );
-
-  $Name = $group->Name();
-  $Description = $group->Description();
-
-  if ( $group->userAdmin() == "Y" )
-  {
-    $UserAdmin = "checked";
-  }
-
-  if ( $group->userGroupAdmin() == "Y" )
-  {
-    $UserGroupAdmin = "checked";
-  }
-
-  if ( $group->personTypeAdmin() == "Y" )
-  {
-    $PersonTypeAdmin = "checked";
-  }
-
-  if ( $group->companyTypeAdmin() == "Y" )
-  {
-    $CompanyTypeAdmin = "checked";
-  }
-
-  if ( $group->phoneTypeAdmin() == "Y" )
-  {
-    $PhoneTypeAdmin = "checked";
-  }
-  
-  if ( $group->addressTypeAdmin() == "Y" )
-  {
-    $AddressTypeAdmin = "checked";
-  }
-  
-  $t->set_var( "submit_text", "Lagre endringer" );  
-  $t->set_var( "action_value", "update" );
-  $t->set_var( "user_group_id", $UGID  );  
+    $usrGroup = new eZUserGroup();
+    $usrGroup->get( $usr->group() );
 }
 
+// vise feilmelding dersom brukeren ikke har rettigheter.
+if ( $usrGroup->userGroupAdmin() == 'N' )
+{    
+    $t = new Template( "." );
+    $t->set_file( array(
+        "error_page" => $DOCUMENTROOT . "templates/errorpage.tpl"
+        ) );
 
-$t->set_var( "user_group_name", $Name );
-$t->set_var( "user_group_description", $Description );
+    $t->set_var( "error_message", "Du har ikke rettiheter til dette." );
+    $t->pparse( "output", "error_page" );
+}
+else
+{
+    $t = new Template( "." );
+    $t->set_file( array( "user_page" =>  $DOCUMENTROOT . "templates/usergroupedit.tpl" ) );   
 
-$t->set_var( "user_checked", $UserAdmin );
-$t->set_var( "user_group_checked", $UserGroupAdmin );
-$t->set_var( "person_type_checked", $PersonTypeAdmin );
-$t->set_var( "company_type_checked", $CompanyTypeAdmin );
+    $t->set_var( "submit_text", "Legg til" );
+    $t->set_var( "action_value", "insert" );
+    $t->set_var( "user_group_id", "" );
 
-$t->set_var( "phone_type_checked", $PhoneTypeAdmin );
-$t->set_var( "address_type_checked", $AddressTypeAdmin );
 
-$t->set_var( "document_root", $DOCUMENTROOT );
-$t->pparse( "output", "user_page" );
+    if ( $Action == "edit" )
+    {
+        $group = new eZUserGroup();
+        $group->get( $UGID );
+
+        $Name = $group->Name();
+        $Description = $group->Description();
+
+        if ( $group->userAdmin() == "Y" )
+        {
+            $UserAdmin = "checked";
+        }
+
+        if ( $group->userGroupAdmin() == "Y" )
+        {
+            $UserGroupAdmin = "checked";
+        }
+
+        if ( $group->personTypeAdmin() == "Y" )
+        {
+            $PersonTypeAdmin = "checked";
+        }
+
+        if ( $group->companyTypeAdmin() == "Y" )
+        {
+            $CompanyTypeAdmin = "checked";
+        }
+
+        if ( $group->phoneTypeAdmin() == "Y" )
+        {
+            $PhoneTypeAdmin = "checked";
+        }
+  
+        if ( $group->addressTypeAdmin() == "Y" )
+        {
+            $AddressTypeAdmin = "checked";
+        }
+  
+        $t->set_var( "submit_text", "Lagre endringer" );  
+        $t->set_var( "action_value", "update" );
+        $t->set_var( "user_group_id", $UGID  );  
+    }
+
+
+    $t->set_var( "user_group_name", $Name );
+    $t->set_var( "user_group_description", $Description );
+
+    $t->set_var( "user_checked", $UserAdmin );
+    $t->set_var( "user_group_checked", $UserGroupAdmin );
+    $t->set_var( "person_type_checked", $PersonTypeAdmin );
+    $t->set_var( "company_type_checked", $CompanyTypeAdmin );
+
+    $t->set_var( "phone_type_checked", $PhoneTypeAdmin );
+    $t->set_var( "address_type_checked", $AddressTypeAdmin );
+
+    $t->set_var( "document_root", $DOCUMENTROOT );
+    $t->pparse( "output", "user_page" );
+}
 ?>

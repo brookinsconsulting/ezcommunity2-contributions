@@ -12,32 +12,63 @@ require $DOCUMENTROOT . "classes/ezaddresstype.php";
   include( $DOCUMENTROOT . "checksession.php" );
 }
 
-$menuTemplate = new Template( "." );
-$menuTemplate->set_file( array(
-                               "address_type_page" => $DOCUMENTROOT . "templates/addresstypelist.tpl",
-                               "address_type_item" => $DOCUMENTROOT . "templates/addresstypeitem.tpl"
-                               ) );
+// hente ut rettigheter
+{    
+    $session = new eZSession();
+    
+    if ( !$session->get( $AuthenticatedSession ) )
+    {
+        die( "Du må logge deg på." );    
+    }        
+    
+    $usr = new eZUser();
+    $usr->get( $session->userID() );
 
-$address_type = new eZAddressType();
-$address_type_array = $address_type->getAll();
+    $usrGroup = new eZUserGroup();
+    $usrGroup->get( $usr->group() );
+}
 
-for ( $i=0; $i<count( $address_type_array ); $i++ )
+// vise feilmelding dersom brukeren ikke har rettigheter.
+if ( $usrGroup->addressTypeAdmin() == 'N' )
+{    
+    $t = new Template( "." );
+    $t->set_file( array(
+        "error_page" => $DOCUMENTROOT . "templates/errorpage.tpl"
+        ) );
+
+    $t->set_var( "error_message", "Du har ikke rettiheter til dette." );
+    $t->pparse( "output", "error_page" );
+}
+else
 {
-  if ( ( $i % 2 ) == 0 )
-  {
-    $menuTemplate->set_var( "bg_color", "#eeeeee" );
-  }
-  else
-  {
-    $menuTemplate->set_var( "bg_color", "#dddddd" );
-  }  
 
-  $menuTemplate->set_var( "address_type_id", $address_type_array[$i][ "ID" ] );
-  $menuTemplate->set_var( "address_type_name", $address_type_array[$i][ "Name" ] );
+    $menuTemplate = new Template( "." );
+    $menuTemplate->set_file( array(
+        "address_type_page" => $DOCUMENTROOT . "templates/addresstypelist.tpl",
+        "address_type_item" => $DOCUMENTROOT . "templates/addresstypeitem.tpl"
+        ) );
 
-  $menuTemplate->parse( "address_type_list", "address_type_item", true );
-} 
+    $address_type = new eZAddressType();
+    $address_type_array = $address_type->getAll();
 
-$menuTemplate->set_var( "document_root", $DOCUMENTROOT );
-$menuTemplate->pparse( "output", "address_type_page" );
+    for ( $i=0; $i<count( $address_type_array ); $i++ )
+    {
+        if ( ( $i % 2 ) == 0 )
+        {
+            $menuTemplate->set_var( "bg_color", "#eeeeee" );
+        }
+        else
+        {
+            $menuTemplate->set_var( "bg_color", "#dddddd" );
+        }  
+
+        $menuTemplate->set_var( "address_type_id", $address_type_array[$i][ "ID" ] );
+        $menuTemplate->set_var( "address_type_name", $address_type_array[$i][ "Name" ] );
+
+        $menuTemplate->parse( "address_type_list", "address_type_item", true );
+    } 
+
+    $menuTemplate->set_var( "document_root", $DOCUMENTROOT );
+    $menuTemplate->pparse( "output", "address_type_page" );
+}
 ?>
