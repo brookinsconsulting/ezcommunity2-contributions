@@ -1,7 +1,7 @@
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 	<tr> 
-		<td width="80%"> 
+		<td> 
 			<h1>{intl-productlist}</h1>
 		</td>
 		<td align="right"> 
