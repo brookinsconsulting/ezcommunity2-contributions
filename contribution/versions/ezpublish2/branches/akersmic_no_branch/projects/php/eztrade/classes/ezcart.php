@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezcart.php,v 1.36.8.2 2002/01/31 09:38:37 ce Exp $
+// $Id: ezcart.php,v 1.36.8.3 2002/02/01 11:09:59 ce Exp $
 //
 // Definition of eZCart class
 //
@@ -362,6 +362,10 @@ class eZCart
                             elseif ( ( $paymentMethod == 1 ) and $totalPrice <= 1000 ) // Kredittkort
                             {
                                 $this->ShippingType->get( 1 );
+                            }
+                            elseif( $totalPrice >= 1000 )
+                            {
+                                $this->ShippingType->get( 3 );
                             }
                             $continue = true;
                         }

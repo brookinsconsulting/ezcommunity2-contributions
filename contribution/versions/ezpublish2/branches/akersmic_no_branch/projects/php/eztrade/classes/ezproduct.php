@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.29 2002/01/31 14:52:11 bf Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.30 2002/02/01 11:09:59 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -123,7 +123,6 @@ class eZProduct
         {
             $price = "NULL";
         }
-
         $name = $db->escapeString( $this->Name );
         $brief = $db->escapeString( $this->Brief );
         $description = $db->escapeString( $this->Description );
@@ -249,7 +248,7 @@ class eZProduct
                 $contents .= " " . strtolower( $value );
             }
         }
-        
+
         $contents = str_replace ("\n", "", $contents );
         $contents = str_replace ("\r", "", $contents );
         $contents = str_replace ("(", " ", $contents );
@@ -261,7 +260,7 @@ class eZProduct
         $contents = preg_replace ("#(([^\s]+)/([^\s]+))#", "\\1 \\2 \\3", $contents );
         $contents = preg_replace ("#(([^\s]+).([^\s]+))#", "\\1 \\2 \\3", $contents );
         $contents = preg_replace ("#(([^\s]+)-([^\s]+))#", "\\1 \\2 \\3", $contents );
-        
+
 //        $contents = str_replace (".", " ", $contents );
 //        $contents = str_replace ("/", " ", $contents );
 //        $contents = str_replace ("-", " ", $contents );
@@ -316,7 +315,7 @@ class eZProduct
         }
         $contents_array = array_merge( $contents_array, $norwegianWordArray );
 
-        
+
         $totalWordCount = count( $contents_array );
         $wordCount = array_count_values( $contents_array );
 
@@ -1666,7 +1665,7 @@ class eZProduct
         $albumTitle = $params["AlbumTitle"];
         $artist = $params["Artist"];
         $recording = $params["Recording"];
-             
+
         $dvdTitle = $params["DVDTitle"];
         $dvdActor = $params["DVDActor"];
 

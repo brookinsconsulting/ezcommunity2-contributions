@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productlist.php,v 1.41.8.14 2002/01/31 10:05:33 bf Exp $
+// $Id: productlist.php,v 1.41.8.15 2002/02/01 11:10:00 ce Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -193,7 +193,7 @@ foreach ( $productList as $product )
                                      WHERE
                                      ProductID='" . $product["ID"] . "'
                                    " );
-    
+
     if ( count( $res_array ) == 1 )
     {
         if ( is_numeric( $res_array[0][$db->fieldName( "ThumbnailImageID" )] ) )
@@ -201,7 +201,7 @@ foreach ( $productList as $product )
             $thumbnailImage = new eZImage( $res_array[0][$db->fieldName( "ThumbnailImageID" )], false );
         }
     }
-    
+
     // preview image
 
     if ( $thumbnailImage )
@@ -255,6 +255,11 @@ if ( count( $productList ) > 0 )
 else
 {
     $t->set_var( "product_list", "" );
+}
+
+if ( count ( $productList == 0 ) and count ( $categoryList == 0 ) )
+{
+    eZList::drawNavigator( $t, 0, 0, 0, "product_list_page_tpl" );
 }
 
 $SimilarCategoryID = 28;
