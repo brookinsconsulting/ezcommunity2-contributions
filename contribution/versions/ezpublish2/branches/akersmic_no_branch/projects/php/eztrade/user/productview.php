@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productview.php,v 1.77.2.2.4.1 2002/01/16 10:19:34 ce Exp $
+// $Id: productview.php,v 1.77.2.2.4.2 2002/01/16 17:17:19 bf Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -41,6 +41,9 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezmodulelink.php" );
 include_once( "classes/ezlinksection.php" );
 include_once( "classes/ezlinkitem.php" );
+
+
+
 
 $ini =& INIFile::globalINI();
 
@@ -481,12 +484,17 @@ foreach ( $sections as $section )
     $t->parse( "section_item", "section_item_tpl", true );
 }
 
-// attribute list
-$type = $product->type();
-if ( $type )
+// attribute list, optimized
+$db =& eZDB::globalDatabase();
+
+$db->array_query( $attribute_value_array, "SELECT A.ID, A.TypeID, A.Name, AV.Value, A.URL, A.Unit FROM eZTrade_Product as P, eZTrade_Attribute AS A, eZTrade_AttributeValue AS AV, eZTrade_ProductTypeLink AS TL 
+WHERE
+A.TypeID=TL.TypeID AND P.ID=TL.ProductID AND AV.AttributeID=A.ID  AND AV.ProductID=P.ID
+AND P.ID='" . $product->id() .  "'" );
+
+if ( count( $attribute_value_array ) > 0 )
 {
-    $attributes = $type->attributes();
-    for ( $i = 0; $i < count( $attributes ); $i++ )
+    foreach ( $attribute_value_array as $attributeValue )
     {
         if ( ( $i % 2 ) == 0 )
         {
@@ -499,17 +507,16 @@ if ( $type )
             $t->set_var( "end_tr", "</tr>" );
         }
 
-        $value =& $attributes[$i]->value( $product );
-        $t->set_var( "attribute_id", $attributes[$i]->id( ) );
-        $t->set_var( "attribute_name", $attributes[$i]->name( ) );
-        $t->set_var( "attribute_unit", $attributes[$i]->unit( ) );
-        $t->set_var( "attribute_value_var", $value );
+        $value =& $attributeValue["Value"];
+        $t->set_var( "attribute_id", $attributeValue["Name"] );
+        $t->set_var( "attribute_name", $attributeValue["Name"] );
+        $t->set_var( "attribute_unit", $attributeValue["Unit"] );
+        $t->set_var( "attribute_value_var", $attributeValue["Value"] );
 
-        $attributeURL =& $attributes[$i]->url();
-        if ( $attributeURL )
+        if ( $attributeValue["URL"] != "" )
         {
             $t->set_var( "attribute_non_url_item", "" );
-            $t->set_var( "attribute_url", $attributeURL );
+            $t->set_var( "attribute_url", $attributeValue["URL"] );
             $t->parse( "attribute_url_item", "attribute_url_item_tpl" );
         }
         else
@@ -518,34 +525,16 @@ if ( $type )
             $t->set_var( "attribute_url_item", "" );
         }
 
-        if ( $attributes[$i]->attributeType() == 1 )
+        // don''t show empty attributes or attributes == 0.0
+        if ( ( is_numeric( $value ) and ( $value > 0 ) ) || ( !is_numeric( $value ) and $value != "" ) )
         {
-            // don''t who empty attributes or attributes == 0.0
-            if ( ( is_numeric( $value ) and ( $value > 0 ) ) || ( !is_numeric( $value ) and $value != "" ) )
-            {
-                $t->parse( "attribute", "attribute_value_tpl", true );
-            }
+            $t->parse( "attribute", "attribute_value_tpl", true );
         }
-        else if ( $attributes[$i]->attributeType() == 2 )
-        {
-            $j = $i;
-            $header = false;
-            for ( $j++; $j < count( $attributes ); $j++ )
-            {
-                if ( $attributes[$j]->attributeType() == 2 )
-                    break;
-                $value =& $attributes[$j]->value( $product );
-                if ( ( is_numeric( $value ) and ( $value > 0 ) ) || ( !is_numeric( $value ) and $value != "" ) )
-                {
-                    $t->parse( "attribute", "attribute_header_tpl", true );
-                    break;
-                }
-            }
-        }
+ 
     }
 }
 
-if ( count( $attributes ) > 0 )
+if ( count( $attribute_value_array ) > 0 )
 {
     $t->parse( "attribute_list", "attribute_list_tpl" );
 }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.41.8.5 2002/01/15 15:39:24 bf Exp $
+// $Id: productlist.php,v 1.41.8.6 2002/01/16 17:17:19 bf Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -47,7 +47,6 @@ if ( $CategoryID != 0 )
 // init the section
 $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
 $sectionObject->setOverrideVariables();
-
 
 $ini =& INIFile::globalINI();
 
@@ -100,6 +99,7 @@ $t->setAllStrings();
 $category = new eZProductCategory();
 $category->get( $CategoryID );
 $t->set_var( "main_category_id", $CategoryID );
+$t->set_var( "main_category_name", $category->name() );
 
 // path
 $pathArray = $category->path();

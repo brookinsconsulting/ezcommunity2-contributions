@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.4 2002/01/16 12:18:03 bf Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.5 2002/01/16 17:17:18 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -1590,7 +1590,13 @@ class eZProduct
         $db =& eZDB::globalDatabase();
 
         $queryText = $db->escapeString( $queryText );
-        
+
+        $productTypeID = $params["ProductType"];
+
+        if ( !is_numeric( $productTypeID ) )
+            $productTypeID = 0;
+            
+             
         // Build the ORDER BY
         $OrderBy = "eZTrade_ProductWordLink.Frequency DESC";
         switch( $sortMode )
@@ -1636,16 +1642,39 @@ class eZProduct
 
                 $searchSQL = " ( eZTrade_Word.Word = '$queryWord' AND eZTrade_Word.Frequency < '$StopWordFrequency' ) ";
                 
+
+                if ( $productTypeID != 0 )
+                {
+                    $typeTables = ",
+                      eZTrade_ProductTypeLink,
+                      eZTrade_Type";
+                    
+                    $typeSQL = "                         AND
+                         eZTrade_Product.ID=eZTrade_ProductTypeLink.ProductID
+                         AND
+                         eZTrade_ProductTypeLink.TypeID=eZTrade_Type.ID
+                         AND
+                         eZTrade_Type.ID='$productTypeID'";
+                }
+                else
+                {
+                    $typeTables = "";
+                    $typeSQL = "";
+                }
+
+                     
                 $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID ) SELECT DISTINCT eZTrade_Product.ID AS ProductID
                  FROM eZTrade_Product,
                       eZTrade_ProductWordLink,
                       eZTrade_Word
+                      $typeTables
                  WHERE
                        $searchSQL
                        AND
                        ( eZTrade_Product.ID=eZTrade_ProductWordLink.ProductID
                          AND
                          eZTrade_ProductWordLink.WordID=eZTrade_Word.ID
+                         $typeSQL
                         )
                        ORDER BY $OrderBy";
 

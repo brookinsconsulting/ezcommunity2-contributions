@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.20.8.1 2002/01/15 15:39:24 bf Exp $
+// $Id: productsearch.php,v 1.20.8.2 2002/01/16 17:17:19 bf Exp $
 //
 // Created on: <10-Oct-2000 17:49:05 bf>
 //
@@ -96,7 +96,7 @@ if ( isset( $URLQueryString ) )
 
 if ( $Query )
 {
-    $productList =& $product->search( $Query, $Offset, $Limit, array(), $total_count );
+    $productList =& $product->search( $Query, $Offset, $Limit, array( "ProductType" => $Type ), $total_count );
 } 
 
 $t->set_var( "url_text", urlencode( $Query ) );
@@ -191,10 +191,12 @@ if ( isSet( $Query ) && ( count ( $productList ) > 0 ) )
 
         if ( ( $i % 2 ) == 0 )
         {
+            $t->set_var( "td_var", "1" );
             $t->set_var( "td_class", "bglight" );
         }
         else
         {
+            $t->set_var( "td_var", "2" );
             $t->set_var( "td_class", "bgdark" );
         }
 
