@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: header.php,v 1.40.2.2 2002/02/19 18:24:30 master Exp $
+// $Id: header.php,v 1.40.2.3 2002/04/23 07:34:14 jhe Exp $
 //
 // Created on: <23-Jan-2001 16:06:07 bf>
 //
@@ -185,7 +185,7 @@ if ( $ModuleTab == true )
             $moduleSettingName = $site_module . "Main";
             $moduleLanguage = $ini->read_var( $moduleSettingName, "Language" );
             if ( !$moduleLanguage )
-                $moduleLanguage = $Lanugage;
+                $moduleLanguage = $Language;
             $lang_file = new INIFile( "$module/admin/intl/$moduleLanguage/menubox.php.ini" );
             $mod_name = $lang_file->read_var( "strings", "module_name" );
             $t->set_var( "module_name", $mod_name );
