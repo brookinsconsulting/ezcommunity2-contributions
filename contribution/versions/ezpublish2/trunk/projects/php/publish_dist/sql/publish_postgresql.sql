@@ -206,6 +206,7 @@ CREATE TABLE eZSiteManager_Section (
   Created int NOT NULL,
   Description varchar(255),
   SiteDesign varchar(30) default NULL,
+  TemplateStyle varchar(30) default NULL,
   PRIMARY KEY (ID)
 );
 
@@ -347,10 +348,6 @@ CREATE TABLE eZAd_View (
   PRIMARY KEY (ID)
 );
 
-drop table eZImageCatalogue_Category;
-drop table eZImageCatalogue_CategoryPermission;
-drop table eZImageCatalogue_Image;
-drop table eZImageCatalogue_ImageVariation;
 
 CREATE TABLE eZImageCatalogue_Category (
   ID int NOT NULL,
@@ -385,6 +382,7 @@ CREATE TABLE eZImageCatalogue_Image (
   ReadPermission int default '1',
   WritePermission int default '1',
   UserID int default NULL,
+  Keywords varchar(255) default NULL,
   PRIMARY KEY (ID)
 );
 

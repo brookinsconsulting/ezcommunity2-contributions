@@ -1,7 +1,3 @@
-drop table eZImageCatalogue_Category;
-drop table eZImageCatalogue_CategoryPermission;
-drop table eZImageCatalogue_Image;
-drop table eZImageCatalogue_ImageVariation;
 
 CREATE TABLE eZImageCatalogue_Category (
   ID int NOT NULL,
