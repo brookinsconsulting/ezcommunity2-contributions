@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugview.php,v 1.7 2001/02/23 13:42:01 fh Exp $
+// $Id: bugview.php,v 1.8 2001/03/06 12:40:04 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <04-Dec-2000 11:44:31 bf>
@@ -94,8 +94,8 @@ else
     $t->set_var( "reporter_name_value", "Unknown" );
 }
 
-$tmp =  eZTextTool::nl2br( $bug->description() );
-$t->set_var( "description_value", htmlspecialchars( $tmp ) );
+$tmp = eZTextTool::htmlspecialchars( $bug->description() );
+$t->set_var( "description_value", eZTextTool::nl2br( $tmp ) );
 $t->set_var( "action_value", "Update" );
 
 $date =& $bug->created();

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugpreview.php,v 1.3 2001/01/30 10:15:00 bf Exp $
+// $Id: bugpreview.php,v 1.4 2001/03/06 12:40:04 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Dec-2000 18:56:58 bf>
@@ -58,8 +58,8 @@ $locale = new eZLocale( $Language );
 $bug = new eZBug( $BugID );
 
 $t->set_var( "bug_id", $bug->id() );
-$t->set_var( "name_value", $bug->name() );
-$t->set_var( "description_value", eZTextTool::nl2br( $bug->description() ) );
+$t->set_var( "name_value", htmlspecialchars( $bug->name() ) );
+$t->set_var( "description_value", eZTextTool::nl2br( htmlspecialchars( $bug->description() ) ) );
 $t->set_var( "action_value", "Update" );
 
 $date =& $bug->created();
@@ -121,17 +121,23 @@ else
 
 $bugLog = new eZBugLog();
 $logList = $bugLog->getByBug( $bug );
-
-foreach ( $logList as $log )
+if( count( $logList ) > 0 )
 {
-    $date =& $log->created();
+    foreach ( $logList as $log )
+    {
+        $date =& $log->created();
     
-    $t->set_var( "log_date", $locale->format( $date ) );
+        $t->set_var( "log_date", $locale->format( $date ) );
     
     
-    $t->set_var( "log_description", $log->description() );
+        $t->set_var( "log_description", $log->description() );
     
-    $t->parse( "log_item", "log_item_tpl", true );
+        $t->parse( "log_item", "log_item_tpl", true );
+    }
+}
+else
+{
+    $t->set_var( "log_item", "" );
 }
 
 $t->pparse( "output", "bug_edit_tpl" );
