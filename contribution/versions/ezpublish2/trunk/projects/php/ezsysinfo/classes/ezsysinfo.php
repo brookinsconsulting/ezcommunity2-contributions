@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsysinfo.php,v 1.1 2001/04/22 12:32:11 bf Exp $
+// $Id: ezsysinfo.php,v 1.2 2001/04/22 15:36:19 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Apr-2001 12:11:59 bf>
@@ -471,7 +471,8 @@ class eZSysinfo
             while ( $buf = fgets( $fd, 4096 ) )
             {
                 list($key, $value) = preg_split("/\s+:\s+/", trim($buf), 2);
-	
+
+
                 // All of the tags here are highly architecture dependant.
                 // the only way I could reconstruct them for machines I don't
                 // have is to browse the kernel source.  So if your arch isn't
