@@ -3596,3 +3596,14 @@ Maintainer(s) : bf@ez.no
     * classes/ezqdomgenerator.php:
     handles especial html tags in the url of a link
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2003-03-24  Bjoern Reiten  <br@ez.no>
+
+    * user/datasupplier.php: Fixed bug with permissions in eZ article.
+
+    * user/articleheaderlist.php:
+    Fixed security bug with the variable $CategoryID.
+
