@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: linklist.php,v 1.6 2000/10/27 12:02:03 ce-cvs Exp $
+// $Id: linklist.php,v 1.7 2000/10/28 16:11:52 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:02:09 ce>
@@ -102,10 +102,6 @@ $link = new eZLink();
 if ( $Action == "search" )
 {
     $link_array = $link->getQuery( $QueryText );    
-}
-else if ( $LGID == "incoming" )
-{
-    $link_array = $link->getNotAccepted( $LGID );
 }
 else
 {
