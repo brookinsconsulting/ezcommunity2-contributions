@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezonline.php,v 1.3 2001/02/14 10:30:38 bf Exp $
+// $Id: ezonline.php,v 1.4 2001/04/05 09:12:15 fh Exp $
 //
 // Definition of eZOnline class
 //
@@ -69,11 +69,11 @@ class eZOnline
         $db =& eZDB::globalDatabase();
 
         $ret = false;
-        
+        $url = addslashes( $this->URL );
         if ( !isset( $this->ID ) )
         {
             $db->query( "INSERT INTO eZAddress_Online SET
-                    URL='$this->URL',
+                    URL='$url',
                     OnlineTypeID='$this->OnlineTypeID'" );
 
             $this->ID = mysql_insert_id();
@@ -83,7 +83,7 @@ class eZOnline
         else
         {
             $db->query( "UPDATE eZAddress_Online SET
-                    URL='$this->URL',
+                    URL='$url',
                     OnlineTypeID='$this->OnlineTypeID'
                     WHERE ID='$this->ID'" );            
 

@@ -128,6 +128,7 @@ class eZPhoneType
     {
         $db =& eZDB::globalDatabase();
 
+        $name = addslashes( $this->Name );
         $ret = false;
         if ( !isSet( $this->ID ) )
         {
@@ -135,7 +136,7 @@ class eZPhoneType
             $listorder = $qry["ListOrder"] + 1;
             $this->ListOrder = $listorder;
 
-            $db->query( "INSERT INTO eZAddress_PhoneType set Name='$this->Name', ListOrder='$this->ListOrder'" );
+            $db->query( "INSERT INTO eZAddress_PhoneType set Name='$name', ListOrder='$this->ListOrder'" );
             
             $this->ID = mysql_insert_id();
 
@@ -143,7 +144,7 @@ class eZPhoneType
         }
         else
         {
-            $db->query( "UPDATE eZAddress_PhoneType set Name='$this->Name', ListOrder='$this->ListOrder' WHERE ID='$this->ID'" );
+            $db->query( "UPDATE eZAddress_PhoneType set Name='$name', ListOrder='$this->ListOrder' WHERE ID='$this->ID'" );
             
             $ret = true;
         }

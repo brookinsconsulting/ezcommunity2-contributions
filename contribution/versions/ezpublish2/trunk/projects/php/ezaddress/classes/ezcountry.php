@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcountry.php,v 1.2 2001/02/03 18:39:10 jb Exp $
+// $Id: ezcountry.php,v 1.3 2001/04/05 09:12:15 fh Exp $
 //
 // Definition of eZCountry class
 //
@@ -64,12 +64,12 @@ class eZCountry
         $db =& eZDB::globalDatabase();
 
         $ret = false;
-        
+        $name = addslashes( $this->Name );
         if ( !isset( $this->ID ) )
         {
             $db->query( "INSERT INTO eZAddress_Country
                     SET ISO='$this->ISO',
-                    Name='$this->Name'" );            
+                    Name='$name'" );            
 
             $this->ID = mysql_insert_id();
 
@@ -79,7 +79,7 @@ class eZCountry
         {
             $db->query( "UPDATE eZAddress_Country
                     SET ISO='$this->ISO',
-                    Name='$this->Name'
+                    Name='$name'
                     WHERE ID='$this->ID'" );            
 
             $ret = true;            

@@ -1,5 +1,5 @@
 <?
-// $Id: ezaddress.php,v 1.6 2001/02/19 15:18:22 jb Exp $
+// $Id: ezaddress.php,v 1.7 2001/04/05 09:12:15 fh Exp $
 //
 // Definition of eZAddress class
 //
@@ -66,13 +66,17 @@ class eZAddress
             $country_id = "NULL";
         else
             $country_id = "'$this->CountryID'";
+
+        $street1 = addslashes( $this->Street1 );
+        $street2 = addslashes( $this->Street2 );
+        $place = addslashes( $this->Place );
         if ( !isset( $this->ID ) )
         {
             $db->query( "INSERT INTO eZAddress_Address
-                    SET Street1='$this->Street1',
-                    Street2='$this->Street2',
+                    SET Street1='$street1',
+                    Street2='$street2',
                     Zip='$this->Zip',
-                    Place='$this->Place',
+                    Place='$place',
                     CountryID=$country_id,
                     AddressTypeID='$this->AddressTypeID'" );
 
@@ -83,10 +87,10 @@ class eZAddress
         else
         {
             $db->query( "UPDATE eZAddress_Address
-                    SET Street1='$this->Street1',
-                    Street2='$this->Street2',
+                    SET Street1='$street1',
+                    Street2='$street2',
                     Zip='$this->Zip',
-                    Place='$this->Place',
+                    Place='$place',
                     AddressTypeID='$this->AddressTypeID',
                     CountryID=$country_id
                     WHERE ID='$this->ID'" );            

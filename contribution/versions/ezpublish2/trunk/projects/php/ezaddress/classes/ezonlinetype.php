@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezonlinetype.php,v 1.1 2001/01/25 17:05:23 jb Exp $
+// $Id: ezonlinetype.php,v 1.2 2001/04/05 09:12:15 fh Exp $
 //
 // Definition of eZOnline class
 //
@@ -71,6 +71,8 @@ class eZOnlineType
         $db =& eZDB::globalDatabase();
 
         $ret = false;
+
+        $name = addslashes( $this->Name );
         if ( !isSet( $this->ID ) )
         {
             $db->query_single( $qry, "SELECT ListOrder from eZAddress_OnlineType ORDER BY ListOrder DESC LIMIT 1" );
@@ -78,7 +80,7 @@ class eZOnlineType
             $this->ListOrder = $listorder;
 
             $db->query( "INSERT INTO eZAddress_OnlineType SET
-                         Name='$this->Name',
+                         Name='$name',
                          ListOrder='$this->ListOrder',
                          URLPrefix='$this->URLPrefix',
                          PrefixLink='$this->PrefixLink',
@@ -91,7 +93,7 @@ class eZOnlineType
         else
         {
             $db->query( "UPDATE eZAddress_OnlineType set
-                                     Name='$this->Name',
+                                     Name='$name',
                                      ListOrder='$this->ListOrder',
                                      URLPrefix='$this->URLPrefix',
                                      PrefixLink='$this->PrefixLink',

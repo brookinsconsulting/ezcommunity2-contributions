@@ -38,20 +38,21 @@ class eZAddressType
         $db =& eZDB::globalDatabase();
 
         $ret = false;
+        $name = addslashes( $this->Name );
         if ( !isSet( $this->ID ) )
         {
             $db->query_single( $qry, "SELECT ListOrder from eZAddress_AddressType ORDER BY ListOrder DESC LIMIT 1" );
             $listorder = $qry["ListOrder"] + 1;
             $this->ListOrder = $listorder;
 
-            $db->query( "INSERT INTO eZAddress_AddressType set Name='$this->Name', ListOrder='$this->ListOrder'" );
+            $db->query( "INSERT INTO eZAddress_AddressType set Name='$name', ListOrder='$this->ListOrder'" );
             $this->ID = mysql_insert_id();
 
             $ret = true;
         }
         else
         {
-            $db->query( "UPDATE eZAddress_AddressType set Name='$this->Name', ListOrder='$this->ListOrder' WHERE ID='$this->ID'" );
+            $db->query( "UPDATE eZAddress_AddressType set Name='$name', ListOrder='$this->ListOrder' WHERE ID='$this->ID'" );
 
             $ret = true;
         }
