@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.16 2001/10/02 14:03:27 ce Exp $
+// $Id: frontpage.php,v 1.17 2001/10/02 14:39:51 ce Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -125,33 +125,34 @@ if ( is_array ( $rows ) and count ( $rows ) > 0 )
     foreach ( $rows as $row )    
     {
         $value = $row->settingByID( $row->settingID() );
-        if( $value == "1column" || $value == "2column" || $value == "1short" )
+        if ( $value == "2column" )
         {
-            if ( $value == "2column" )
-            {
-                $articleList =& array_merge( $articleList, eZArticleCategory::articles( "time", false, true, $offsetArray[$row->categoryID()], 2, $row->categoryID() ) );
-                $offsetArray[$row->categoryID()] = $offsetArray[$row->categoryID()] + 2;
-            }
-            else
-            {
-                $articleList =& array_merge( $articleList, eZArticleCategory::articles( "time", false, true, $offsetArray[$row->categoryID()], 1, $row->categoryID() ) );
-                $offsetArray[$row->categoryID()] = $offsetArray[$row->categoryID()] + 1;
-            }
-            
-            if ( $value == "ad"  )
-                $adCount++;
-            if ( $value == "1columnProduct" || $value =="2columnProduct" )
-            {
-                if ( $value == "2columnProduct" )
-                    $productCount++;
-                $productCount++;
-            }
+            $articleList =& array_merge( $articleList, eZArticleCategory::articles( "time", false, true, $offsetArticleArray[$row->categoryID()], 2, $row->categoryID() ) );
+            $offsetArticleArray[$row->categoryID()] = $offsetArticleArray[$row->categoryID()] + 2;
         }
-
+        if ( $value == "1column" || $value == "1short" )
+        {
+            $articleList =& array_merge( $articleList, eZArticleCategory::articles( "time", false, true, $offsetArticleArray[$row->categoryID()], 1, $row->categoryID() ) );
+            $offsetArticleArray[$row->categoryID()] = $offsetArticleArray[$row->categoryID()] + 1;
+        }
+            
+        if ( $value == "ad"  )
+        {
+            $adCount++;
+        }
+        if ( $value == "1columnProduct" )
+        {
+            $productList =& array_merge( $productList, eZProductCategory::products( "time", false, $offsetProductArray[$row->categoryID()], 1, false, $row->categoryID() ) );
+            $offsetProductArray[$row->categoryID()] = $offsetProductArray[$row->categoryID()] + 1;
+        }
+        if ( $value == "2columnProduct" )
+        {
+            $productList =& array_merge( $productList, eZProductCategory::products( "time", false, $offsetProductArray[$row->categoryID()], 2, false, $row->categoryID() ) );
+            $offsetProductArray[$row->categoryID()] = $offsetProductArray[$row->categoryID()] + 2;
+        }
         $page_elements[] = $value;
     }
 }
-
 
 $category = new eZArticleCategory( $FrontPageCategory );
 $productCategory = new eZProductCategory( $FrontPageProductCategory );
@@ -180,12 +181,14 @@ if ( $FrontPageProductCategory == 0 )
     // do not set offset for the main page news
     // always sort by publishing date is the merged category
     $product = new eZProduct();
-    $productList =& $product->hotDealProducts( $productCount );
+    if ( !$productList )
+        $productList =& $product->hotDealProducts( $productCount );
     $productCount = $productCount;
 }
 else if ( $FrontPageProductCategory != -1 )
 {
-    $productList =& $productCategory->products( $category->sortMode(), false, true, 0, $productCount );
+    if ( !$productList )
+        $productList =& $productCategory->products( $category->sortMode(), false, true, 0, $productCount );
     $articleCount = $articleCount;
 }
 

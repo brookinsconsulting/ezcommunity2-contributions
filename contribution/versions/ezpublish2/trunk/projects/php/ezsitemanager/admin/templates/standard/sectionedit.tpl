@@ -48,6 +48,14 @@
 	<!-- END article_category_item_tpl -->
         </select>
 	<!-- END article_category_list_tpl -->
+	<!-- BEGIN product_category_list_tpl -->
+        <select Name="CategoryID[]">
+	<!-- BEGIN product_category_item_tpl -->
+	<option value="{option_value}" {selected}>{option_level}{option_name}</option>
+	<!-- END product_category_item_tpl -->
+        </select>
+	<!-- END product_category_list_tpl -->
+
 	&nbsp;
         </td>
 
