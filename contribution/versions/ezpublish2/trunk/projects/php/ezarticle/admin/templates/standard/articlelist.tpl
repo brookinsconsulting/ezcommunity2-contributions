@@ -32,7 +32,21 @@
 
 <div onLoad="MM_preloadImages('/ezarticle/admin/images/redigerminimrk.gif','/ezarticle/admin/images/slettminimrk.gif')"></div>
 
-<h1>{intl-head_line} - {current_category_name}</h1>
+asdfafsd
+
+<table width="100%" border="0">
+<tr>
+	<td>
+	<h1>{intl-head_line} - {current_category_name}</h1>
+	</td>
+	<td align="right">
+	<form action="/article/search/" method="post">
+	<input type="text" name="SearchText" size="5" />	
+	<input type="submit" value="{intl-search}" />
+	</form>	
+	</td>
+</tr>
+</table>
 
 <p>
 {current_category_description}
