@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.53 2001/02/08 13:51:59 th Exp $
+// $Id: eztechrenderer.php,v 1.54 2001/02/12 08:57:29 bf Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -1136,6 +1136,7 @@ class eZTechRenderer
         
         return $string;
     }
+    
     var $Article;
     var $PrevTag;
 }
