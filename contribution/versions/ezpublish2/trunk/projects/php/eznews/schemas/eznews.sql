@@ -1,5 +1,5 @@
 #
-# $Id: eznews.sql,v 1.9 2000/10/10 19:05:23 pkej-cvs Exp $
+# $Id: eznews.sql,v 1.10 2000/10/11 19:59:19 pkej-cvs Exp $
 #
 # eZNews database schema.
 #
@@ -96,7 +96,7 @@ CREATE TABLE eZNews_Item
     CreatedAt   timestamp DEFAULT 'now()' NOT NULL,
 
     # User ID of the creator.
-    CreatedBy   int(11) DEFAULT '0' NOT NULL REFERENCES ezCommon_User(ID),
+    CreatedBy   int(11) DEFAULT '1' NOT NULL REFERENCES ezCommon_User(ID),
 
     # IP address of the creator.
     CreationIP  char(50),
@@ -375,15 +375,15 @@ CREATE TABLE eZNews_Category
 
 
 INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Root', 'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'create' AND Type.Name = 'category';
-INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Heistad Hagesenter',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'category';
-INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Blomster',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'category';
-INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Hagesenter',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'category';
-INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Hage artikler',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'category';
-INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Buketter',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'category';
-INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Planter',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'category';
-INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Begravelse',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'category';
-INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Euro3Plast',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'category';
-INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Hundehus',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'category';
+#INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Heistad Hagesenter',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'category';
+#INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Blomster',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'category';
+#INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Hagesenter',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'category';
+#INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Hage artikler',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'category';
+#INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Buketter',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'category';
+#INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Planter',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'category';
+#INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Begravelse',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'category';
+#INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Euro3Plast',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'category';
+#INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Hundehus',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'category';
 
 INSERT INTO eZNews_Hiearchy (ItemID, ParentID, isCanonical) SELECT DISTINCT Item.ID, '0', 'Y' FROM eZNews_Item AS Item, eZNews_Item AS Parent WHERE Item.Name = 'Root';
 INSERT INTO eZNews_Hiearchy (ItemID, ParentID, isCanonical) SELECT DISTINCT Item.ID, Parent.ID, 'Y' FROM eZNews_Item AS Item, eZNews_Item AS Parent WHERE Item.Name = 'Heistad Hagesenter' AND Parent.Name = 'Root';

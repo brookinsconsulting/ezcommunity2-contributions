@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewscommand.php,v 1.9 2000/10/10 15:01:35 pkej-cvs Exp $
+// $Id: eznewscommand.php,v 1.10 2000/10/11 19:59:19 pkej-cvs Exp $
 //
 // Definition of eZNewsCommand class
 //
@@ -41,15 +41,16 @@
     </dl>
  */
  
+include_once( "classes/ezurl.php" );
+include_once( "classes/INIFile.php" );        
+include_once( "eznews/classes/eznewsitemviewer.php" );  
+
 class eZNewsCommand
 {
     function eZNewsCommand()
     {
-        include_once( "classes/ezquery.php" );
-        include_once( "classes/INIFile.php" );        
-
         $this->Ini = new INIFile( "site.ini" );
-        $this->Query = new eZQuery();
+        $this->Query = new eZURL();
         
         $this->decodeTopLevel(  );
     }
@@ -60,35 +61,25 @@ class eZNewsCommand
         global $REQUEST_URI;
         
         $this->Customer = $this->Ini->read_var( "eZNewsMain", "Customer" );
-        $this->Adminsite = $this->Ini->read_var( "eZNewsAdmin", "Adminsite" );
 
-        include_once( "eznews/classes/eznewsitemviewer.php" );  
+        $this->AI = new eZNewsItemViewer( $this->Query, "site.ini" );
+        $this->AI->doActions();
         
-        if( ereg( $this->Adminsite, $SERVER_NAME ) || ereg( $this->Adminsite, $REQUEST_URI ) )
+        if( $this->Customer == "false" )
         {
-            $this->AI = new eZNewsItemViewer( $this->Ini, $this->Query, "admin" );
-        }
-        else
-        {        
-            include_once( "eznews/classes/eznewsitemviewer.php" );  
-            $this->AI = new eZNewsItemViewer( $this->Ini, $this->Query, "normal" );
+            $this->CustomerName = $this->Ini->read_var( "eZNewsCustomer", "Name" );
+            $CustomerClass = $this->Ini->read_var( "eZNewsCustomer", "Class" );
 
-            if( $this->Customer == "false" )
+            $path = "eznews/classes/" . strtolower( $CustomerClass ) .".php";
+
+            if( include_once( $path ) )
             {
-                $this->CustomerName = $this->Ini->read_var( "eZNewsCustomer", "Name" );
-                $CustomerClass = $this->Ini->read_var( "eZNewsCustomer", "Class" );
+                $customer = new $CustomerClass( $this->URLArray );
 
-                $path = "eznews/classes/" . strtolower( $CustomerClass ) .".php";
-
-                if( include_once( $path ) )
-                {
-                    $customer = new $CustomerClass( $this->URLArray );
-
-                }
-                else
-                {
-                    echo "The customer " . $this->CustomerName . " has no class defined.";
-                }
+            }
+            else
+            {
+                echo "The customer " . $this->CustomerName . " has no class defined.";
             }
         }
     }

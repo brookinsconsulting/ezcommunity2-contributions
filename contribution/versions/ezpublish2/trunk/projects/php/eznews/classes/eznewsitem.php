@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.31 2000/10/11 16:20:22 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.32 2000/10/11 19:59:19 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -127,7 +127,7 @@ class eZNewsItem extends eZNewsUtility
     */
     function eZNewsItem( $inData = "", $fetch = true )
     {
-        #echo "eZNewsItem::eZNewsItem( \$inData = $inData \$fetch = $fetch )<br>";
+        #echo "eZNewsItem::eZNewsItem( \$inData = $inData \$fetch = $fetch )<br>\n";
         
         $this->CreatedAt = $this->createTimeStamp();
         $this->CreationIP = $this->createIP();
@@ -196,15 +196,14 @@ class eZNewsItem extends eZNewsUtility
     */
     function getThis( &$outID, &$inData )
     {
+        #echo "eZNewsItem::getThis( \$outID=$outID, \$inData=$inData )<br>\n";
         $value = false;
         $itemArray = array();
         $outID = array();
         
-        $query = "";
-
         if( is_numeric( $inData ) )
         {
-            $query = "
+            $itemByIDQuery = "
                 SELECT
                     *
                 FROM
@@ -212,11 +211,11 @@ class eZNewsItem extends eZNewsUtility
                 WHERE ID = %s
             ";
             
-            $query = sprintf( $query, $inData );
+            $query = sprintf( $itemByIDQuery, $inData );
         }
         else
         {
-            $query = "
+            $itemByNameQuery = "
                 SELECT
                     *
                 FROM
@@ -224,12 +223,15 @@ class eZNewsItem extends eZNewsUtility
                 WHERE Name = '%s'
             ";
             
-            $query = sprintf( $query, $inData );
+            $query = sprintf( $itemByNameQuery, $inData );
         }
+
 
         $this->Database->array_query( $itemArray, $query );
         $count = count( $itemArray );
         
+    #echo $query . "<br>";
+    #echo $count . "<br>";
         switch( $count )
         {
             case 0:
@@ -286,7 +288,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function createLogItem( $changeText, $changeType  )
     {
-        #echo "eZNewsItem::createLogItem( \$changeText = $changeText \$changeType = $changeType )<br>";
+        #echo "eZNewsItem::createLogItem( \$changeText = $changeText \$changeType = $changeType )<br>\n";
         
         $value = false;
         $doIt = false;
@@ -464,7 +466,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function setLog( $ChangeTicketID )
     {
-        #echo "eZNewsItem::setLog( \$ChangeTicketID = $ChangeTicketID )<br>";
+        #echo "eZNewsItem::setLog( \$ChangeTicketID = $ChangeTicketID )<br>\n";
         $value = true;
         if( !$this->isDirty() )
         {
@@ -504,7 +506,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function printLogs()
     {
-        echo "eZNewsItem::printLogs()<br>";
+        echo "eZNewsItem::printLogs()<br>\n";
         if( $this->ChangeTicketID )
         {
             echo "Log items belonging to: " . $this->ID . " " . $this->Name . "<br>";
@@ -522,7 +524,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function printParents()
     {
-        echo "eZNewsItem::printParents()<br>";
+        echo "eZNewsItem::printParents()<br>\n";
         if( $this->ParentID )
         {
             echo "Parent items belonging to: " . $this->ID . " " . $this->Name . "<br>";
@@ -540,7 +542,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function printFiles()
     {
-        echo "eZNewsItem::printFiles()<br>";
+        echo "eZNewsItem::printFiles()<br>\n";
         if( $this->FileID )
         {
             echo "File items belonging to: " . $this->ID . " " . $this->Name . "<br>";
@@ -558,7 +560,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function printImages()
     {
-        echo "eZNewsItem::printImages()<br>";
+        echo "eZNewsItem::printImages()<br>\n";
         if( $this->ImageID )
         {
             echo "Image items belonging to: " . $this->ID . " " . $this->Name . "<br>";
@@ -592,7 +594,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function setParent( $ParentID, $isCanonical = false )
     {
-        #echo "eZNewsItem::setParent( \$ParentID = $ParentID, \$isCanonical = $isCanonical )<br>";
+        #echo "eZNewsItem::setParent( \$ParentID = $ParentID, \$isCanonical = $isCanonical )<br>\n";
         $value = true;
         
         if( !$this->isDirty() )
@@ -743,7 +745,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function storeLogs()
     {
-        #echo "eZNewsItem::storeLogs()<br>";
+        #echo "eZNewsItem::storeLogs()<br>\n";
         
         #$this->printLogs();
 
@@ -780,7 +782,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function updateLogs()
     {
-        #echo "eZNewsItem::updateLogs()<br>";
+        #echo "eZNewsItem::updateLogs()<br>\n";
         $query =
         "
             DELETE FROM
@@ -863,7 +865,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function storeParents()
     {
-        #echo "eZNewsItem::storeParents()<br>";
+        #echo "eZNewsItem::storeParents()<br>\n";
         $this->dbInit();
 
         $nonCanonicalQuery =
@@ -921,7 +923,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function updateParents()
     {
-        #echo "eZNewsItem::updateParents()<br>";
+        #echo "eZNewsItem::updateParents()<br>\n";
         $this->dbInit();
 
         $query =
@@ -955,7 +957,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function storeThis( &$outID )
     {
-        #echo "eZNewsItem::storeThis( \$outID )<br>";
+        #echo "eZNewsItem::storeThis( \$outID )<br>\n";
         
         $value = false;
         
@@ -1028,7 +1030,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function updateThis( &$outID )
     {
-        #echo "eZNewsItem::updateThis( \$outID )<br>";
+        #echo "eZNewsItem::updateThis( \$outID )<br>\n";
         
         $value = false;
         
@@ -1093,7 +1095,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function delete()
     {
-        #echo "eZNewsItem::delete()<br>";
+        #echo "eZNewsItem::delete()<br>\n";
         $value = false;
         $this->dbInit();
         
@@ -1123,11 +1125,9 @@ class eZNewsItem extends eZNewsUtility
             $this->isFrontImage = 0;
 
             $this->alterState();
-            
-            #echo $type->name() . "<br>";
-            #echo $type->ID() . "<br>";
-            $this->printErrors();
-            $this->printParents();
+                        
+            #$this->printObject();
+
             $this->store( $outID );
         }
         
@@ -1926,7 +1926,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function isChangeType( $changeType )
     {
-        #echo "eZNewsItem::isChangeType( \$changeType = $changeType )<br>";
+        #echo "eZNewsItem::isChangeType( \$changeType = $changeType )<br>\n";
 
         $value = false;
         
@@ -2255,6 +2255,38 @@ class eZNewsItem extends eZNewsUtility
 
 
 
+    /*!
+        Print all the info in the object.
+     */
+    function printObject()
+    {
+        echo "eZNewsUtility::printObject()<br>\n";
+        echo "ID = " . $this->ID . " \n";
+        echo "Name = " . $this->Name . " \n";
+        echo "ItemTypeID = " . $this->ItemTypeID . " \n";
+        echo "Status = " . $this->Status . " \n";
+        echo "CreationIP = " . $this->CreationIP . " \n";
+        echo "CreatedAt = " . $this->CreatedAt . " \n";
+        echo "CreatedBy = " . $this->CreatedBy . " \n";
+        
+        echo "isCanonical = " . $this->isCanonical . " \n";
+        echo "isFrontImage = " . $this->isFrontImage . " \n";
+        echo "doStoreCheck = " . $this->doStoreCheck . " \n";
+        echo "State_ = " . $this->State_ . " \n";
+        echo "hasChanged = " . $this->hasChanged . " \n";       
+        echo "checkCreator = " . $this->checkCreator . " \n";       
+        echo "isLogging = " . $this->isLogging . " \n";       
+        echo "<br>\n";
+        
+        $this->printParents();
+        $this->printLogs();
+        $this->printImages();
+        $this->printFiles();
+        $this->printErrors();
+    }
+    
+    
+    
     // The data members
     
     /// The object''s ItemTypeID

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewscategory.php,v 1.5 2000/10/11 16:20:22 pkej-cvs Exp $
+// $Id: eznewscategory.php,v 1.6 2000/10/11 19:59:19 pkej-cvs Exp $
 //
 // Definition of eZNewsCategory class
 //
@@ -31,7 +31,7 @@ class eZNewsCategory extends eZNewsItem
      */
     function eZNewsCategory( $inData = "", $fetch = true )
     {
-        #echo "eZNewsCategory::eZNewsCategory( \$inData = $inData, \$fetch = $fetch )";
+        #echo "eZNewsCategory::eZNewsCategory( \$inData = $inData, \$fetch = $fetch )<br>\n";
 
         eZNewsItem::eZNewsItem( $inData, $fetch );
     }
@@ -50,7 +50,7 @@ class eZNewsCategory extends eZNewsItem
     */
     function storeThis( &$outID )
     {
-        #echo "eZNewsCategory::storeThis( \$outID=$outID )<br>";
+        #echo "eZNewsCategory::storeThis( \$outID=$outID )<br>\n";
         $value = false;
         
         eZNewsItem::storeThis( $outID );
@@ -96,7 +96,7 @@ class eZNewsCategory extends eZNewsItem
      */
     function updateThis( &$outID )
     {
-        #echo "eZNewsCategory::updateThis( \$outID=$outID )<br>";
+        #echo "eZNewsCategory::updateThis( \$outID=$outID )<br>\n";
     
         $value = false;
         
@@ -145,7 +145,7 @@ class eZNewsCategory extends eZNewsItem
      */
     function getThis( &$outID, $inData )
     {
-        #echo "eZNewsCategory::getThis( \$outID=$outID, \$inData=$inData )<br>";
+        #echo "eZNewsCategory::getThis( \$outID=$outID, \$inData=$inData )<br>\n";
         $value = false;
         
         eZNewsItem::getThis( $outID, $inData );
@@ -154,7 +154,7 @@ class eZNewsCategory extends eZNewsItem
         
         if( $thisID )
         {
-            $query =
+            $categoryQuery =
             "
                 SELECT
                     *
@@ -164,7 +164,7 @@ class eZNewsCategory extends eZNewsItem
                     ID = '%s'
             ";
 
-            $query = sprintf( $query, $thisID );            
+            $query = sprintf( $categoryQuery, $thisID );            
             $this->Database->array_query( $articleArray, $query );
             $rowsFound = count( $articleArray );
 

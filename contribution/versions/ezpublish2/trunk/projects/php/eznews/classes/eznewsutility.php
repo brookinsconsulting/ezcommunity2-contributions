@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsutility.php,v 1.12 2000/10/11 16:02:37 pkej-cvs Exp $
+// $Id: eznewsutility.php,v 1.13 2000/10/11 19:59:19 pkej-cvs Exp $
 //
 // Definition of eZNewsUtility class
 //
@@ -62,7 +62,7 @@ class eZNewsUtility
      */
     function eZNewsUtility( $inData = "", $fetch = true )
     {
-        #echo "eZNewsUtility::eZNewsUtility( \$inData = $inData, \$fetch = $fetch )<br>";
+        #echo "eZNewsUtility::eZNewsUtility( \$inData = $inData, \$fetch = $fetch )<br>\n";
         
         $this->dbInit();        
         $this->State_ = "new";
@@ -107,7 +107,7 @@ class eZNewsUtility
     */
     function store( &$outID, $copy = false )
     {
-        echo "eZNewsUtility::store( \$outID = $outID )<br>";
+        #echo "eZNewsUtility::store( \$outID = $outID )<br>\n";
         $this->dbInit();
         
         $value = false;
@@ -134,17 +134,15 @@ class eZNewsUtility
             if( $this->hasChanged() )
             {
                 $stored = $this->updateThis( $outID );
-                echo "has changed<br>";
             }
             else
             {
                 $stored = $this->storeThis( $outID );
-                echo "hasn't changed<br>";
             }
         }
         else
         {
-                echo "wtf?<br>";
+            $this->printObject();
         }
         
         if( $stored )
@@ -244,7 +242,7 @@ class eZNewsUtility
      */
     function createOrderBy( $inOrderBy, $direction )
     {
-        #echo "eZNewsUtility::createOrderBy( \$inOrderBy = $inOrderBy \$direction = $direction )<br>";
+        #echo "eZNewsUtility::createOrderBy( \$inOrderBy = $inOrderBy \$direction = $direction )<br>\n";
         unset( $returnString );
         
         if( !empty( $inOrderBy ) )
@@ -274,7 +272,7 @@ class eZNewsUtility
      */
     function createLimit( $startAt, $noOfResults )
     {
-        #echo "eznewsutility::createLimit( \$startAt = $startAt, \$noOfResults = $noOfResults )<br>";
+        #echo "eznewsutility::createLimit( \$startAt = $startAt, \$noOfResults = $noOfResults )<br>\n";
         unset( $returnString );
         
         if( $startAt >= 0 && !empty( $noOfResults ) )
@@ -301,7 +299,7 @@ class eZNewsUtility
      */
     function createIP()
     {
-        #echo "eZNewsUtility::createIP()<br>";
+        #echo "eZNewsUtility::createIP()<br>\n";
         return $GLOBALS[ "REMOTE_ADDR" ] . "/" .$GLOBALS[ "REMOTE_PORT" ];
     }
 
@@ -318,7 +316,7 @@ class eZNewsUtility
      */
     function createTimeStamp( )
     {
-        #echo "eZNewsUtility::createTimeStamp()<br>";
+        #echo "eZNewsUtility::createTimeStamp()<br>\n";
         return gmdate( "YmdHis", time());
     }
 
@@ -332,7 +330,7 @@ class eZNewsUtility
      */
     function dirtyUpdate()
     {
-        #echo "eZNewsUtility::dirtyUpdate()<br>";
+        #echo "eZNewsUtility::dirtyUpdate()<br>\n";
         if( !strcmp( $this->State_, "dirty" ) )
         {
             if( is_numeric( $this->ID ) )
@@ -360,7 +358,7 @@ class eZNewsUtility
      */
     function alterState()
     {
-        #echo "eZNewsUtility::alterState()<br>";
+        #echo "eZNewsUtility::alterState()<br>\n";
         $value = false;
         
         switch( $this->State_ )
@@ -398,7 +396,7 @@ class eZNewsUtility
      */
     function hasChanged()
     {
-        #echo "eZNewsUtility::hasChanged()<br>";
+        #echo "eZNewsUtility::hasChanged()<br>\n";
         $value = false;
         
         if( $this->hasChanged == true )
@@ -422,7 +420,7 @@ class eZNewsUtility
      */
     function isNew()
     {
-        #echo "eZNewsUtility::isNew()<br>";
+        #echo "eZNewsUtility::isNew()<br>\n";
         $value = false;
         
         if( !strcmp( $this->State_, "new" ) )
@@ -707,7 +705,7 @@ class eZNewsUtility
     */
     function name()
     {
-        #echo "eZNewsUtility::name()<br>";
+        #echo "eZNewsUtility::name()<br>\n";
         $this->dirtyUpdate();
         
         return $this->Name;
@@ -725,7 +723,7 @@ class eZNewsUtility
     */
     function setName( $inName )
     {
-        #echo "eZNewsUtility::setName( \$inName = $inName )<br>";
+        #echo "eZNewsUtility::setName( \$inName = $inName )<br>\n";
         $this->dirtyUpdate();
         
         $this->Name = $inName;
@@ -768,7 +766,7 @@ class eZNewsUtility
      */
     function invariantCheck()
     {
-        #echo "eZNewsUtility::invariantCheck()<br>";
+        #echo "eZNewsUtility::invariantCheck()<br>\n";
         $value = false;
 
         if( empty( $this->Name ) )
@@ -794,9 +792,10 @@ class eZNewsUtility
      */
     function printErrors()
     {
-        echo "eZNewsUtility::printErrors()<br>";
+        #echo "eZNewsUtility::printErrors()<br>\n";
         if( $this->Errors )
         {
+            echo "Errors belonging to: " . $this->ID . "<br>";
             foreach( $this->Errors as $error )
             {
                 echo $error . "<br>";
@@ -810,10 +809,31 @@ class eZNewsUtility
      */
     function printSQLErrors()
     {
-        foreach( $this->SQLErrors as $error )
+        #echo "eZNewsUtility::printSQLErrors()<br>\n";
+        if( $this->SQLErrors )
         {
-            echo $error . "<br>";
+            echo "SQLErrors belonging to: " . $this->ID . "<br>";
+            foreach( $this->SQLErrors as $error )
+            {
+                echo $error . "<br>";
+            }
         }
+    }
+    
+    
+    
+    /*!
+        Print all the info in the object.
+     */
+    function printObject()
+    {
+        echo "eZNewsUtility::printObject()<br>\n";
+        echo "ID = " . $this->ID . " \n";
+        echo "Name = " . $this->Name . " \n";
+        echo "doStoreCheck = " . $this->doStoreCheck . " \n";
+        echo "State_ = " . $this->State_ . " \n";
+        echo "hasChanged = " . $this->hasChanged . " \n";       
+        echo "<br>\n";
     }
 
 
