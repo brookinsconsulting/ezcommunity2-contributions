@@ -1,4 +1,5 @@
 <!-- BEGIN header_item_tpl -->
+<!--
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="bottom">
@@ -12,14 +13,15 @@
 	</td>
 </tr>
 </table>
-
+-->
 <!-- END header_item_tpl -->
 
 <!-- BEGIN path_item_tpl -->
 
 <!-- END path_item_tpl -->
 
-<hr noshade="noshade" size="4" />
+<hr noshade="noshade" size="2" />
+<br />
 
 <!-- BEGIN category_list_tpl -->
 

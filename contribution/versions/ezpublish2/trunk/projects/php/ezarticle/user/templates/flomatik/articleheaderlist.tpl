@@ -7,7 +7,7 @@
 	<td align="right">
 	<form action="/article/search/" method="post">
 	<input type="text" name="SearchText" size="12" />	
-	<input type="submit" value="{intl-search}" />
+	<input class="stdbutton" type="submit" value="{intl-search}" />
 	</form>	
 	</td>
 </tr>
@@ -41,13 +41,13 @@
 </tr>
 <!-- BEGIN article_item_tpl -->
 <tr>
-	<td>
+	<td class="{td_class}">
 	<a href="/article/articleview/{article_id}/">
 	{article_name}
 	</a>
 	</td>
-	<td align="right">
-	{article_published}
+	<td align="right" class="{td_class}">
+	<span class="small">{article_published}</span>
 	</td>
 </tr>
 <!-- END article_item_tpl -->
