@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezoptionvalue.php,v 1.39.2.2 2001/11/22 12:31:59 pkej Exp $
+// $Id: ezoptionvalue.php,v 1.39.2.3 2001/11/22 14:27:02 pkej Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -428,7 +428,7 @@ class eZOptionValue
 
         if ( get_class( $inUser ) == "ezuser" )
         {
-            $groups = $inUser->groups( false );
+            $groups = eZPriceGroup::priceGroups( $inUser, false );
 
             $price = eZPriceGroup::correctPrice( $inProduct->id(), $groups, $this->OptionID, $this->ID );
         }
@@ -485,7 +485,7 @@ class eZOptionValue
 
         if ( get_class( $inUser ) == "ezuser" )
         {
-            $groups = $inUser->groups( false );
+            $groups = eZPriceGroup::priceGroups( $inUser, false );
 
             $price = eZPriceGroup::correctPrice( $inProduct->id(), $groups, $this->OptionID, $this->ID );
         }

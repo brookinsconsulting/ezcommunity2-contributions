@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpricegroup.php,v 1.17 2001/10/16 09:21:04 ce Exp $
+// $Id: ezpricegroup.php,v 1.17.2.1 2001/11/22 14:27:02 pkej Exp $
 //
 // Definition of eZPriceGroup class
 //
@@ -150,6 +150,46 @@ class eZPriceGroup
         foreach( $array as $row )
         {
             $ret[] = $as_object ? new eZUserGroup( $row[$db->fieldName("ID")] ) : $row[$db->fieldName("ID")];
+        }
+        return $ret;
+    }
+
+    /*!
+      Returns all price groups which are connected to a user through the user's user groups.
+    */
+    function &priceGroups( $inUser, $as_object = true )
+    {
+        if ( get_class( $inUser ) == "ezuser" )
+        {
+            $user =& $inUser;
+        }
+        else if ( is_numeric( $inUser ) )
+        {
+            $user = new eZUser( $inUser );
+        }
+    
+        $groups = $user->groups( false );
+        $i = 0;
+        foreach( $groups as $group )
+        {
+            if ( $i == 0 )
+            {
+                $group_string = "GroupID=$group";
+            }
+            else
+            {
+                $group_string = $group_string . " OR GroupID=$group";
+            }
+            $i++;
+       }
+         
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $array, "SELECT PriceID AS ID FROM eZTrade_GroupPriceLink
+                                   WHERE $group_string" );
+        $ret = array();
+        foreach( $array as $row )
+        {
+            $ret[] = $as_object ? new eZPriceGroup( $row[$db->fieldName("ID")] ) : $row[$db->fieldName("ID")];
         }
         return $ret;
     }
