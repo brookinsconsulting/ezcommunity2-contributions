@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.15 2002/01/24 08:49:04 jhe Exp $
+// $Id: ezformreportelement.php,v 1.16 2002/01/24 17:10:05 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -164,8 +164,25 @@ class eZFormReportElement
         $this->StatisticsType = $value;
     }
 
-    function analyze( &$template )
+    function analyze( &$template, $resultArray = false )
     {
+        $resultString = "";
+        if ( $resultArray )
+        {
+            $i = 0;
+            foreach ( $resultArray as $result )
+            {
+                if ( $i == 0 )
+                    $resultString .= " AND (";
+                else
+                    $resultString .= " OR ";
+                $resultString .= "eZForm_FormElementResult.ResultID=$result";
+                $i++;
+                if ( $i == count( $resultArray ) )
+                    $resultString .= ")";
+            }
+        }
+        
         $name = $this->types( $this->StatisticsType );
         switch ( $name["Name"] )
         {
@@ -177,73 +194,73 @@ class eZFormReportElement
 
             case "Frequency":
             {
-                return $this->statFrequency( &$template );
+                return $this->statFrequency( &$template, $resultString );
             }
             break;
 
             case "Count":
             {
-                return $this->statCount( &$template );
+                return $this->statCount( &$template, $resultString );
             }
             break;
 
             case "Sum":
             {
-                return $this->statSum( &$template );
+                return $this->statSum( &$template, $resultString );
             }
             break;
 
             case "Average":
             {
-                return $this->statAverage( &$template );
+                return $this->statAverage( &$template, $resultString );
             }
             break;
 
             case "Min":
             {
-                return $this->statMin( &$template );
+                return $this->statMin( &$template, $resultString );
             }
             break;
 
             case "Max":
             {
-                return $this->statMax( &$template );
+                return $this->statMax( &$template, $resultString );
             }
             break;
 
             case "Median":
             {
-                return $this->statMedian( &$template );
+                return $this->statMedian( &$template, $resultString );
             }
             break;
 
             case "25percentile":
             {
-                return $this->statPercentile( &$template, 25 );
+                return $this->statPercentile( &$template, 25, $resultString );
             }
             break;
 
             case "75percentile":
             {
-                return $this->statPercentile( &$template, 75 );
+                return $this->statPercentile( &$template, 75, $resultString );
             }
             break;
 
             case "Cross-reference":
             {
-                return $this->statCrossTable( &$template );
+                return $this->statCrossTable( &$template, $resultString );
             }
             break;
 
             case "Graph":
             {
-                return $this->statGraph( &$template );
+                return $this->statGraph( &$template, $resultString );
             }
             break;
         }
     }
 
-    function statFrequency( &$t )
+    function statFrequency( &$t, $resultString )
     {
         $t->set_var( "frequency_element", "" );
         $res = array();
@@ -261,6 +278,7 @@ class eZFormReportElement
                                          eZForm_FormElementFixedValues.ID = eZForm_FormElementFixedValueLink.FixedValueID AND
                                          eZForm_FormElementResult.ElementID='" . $element->id() . "' AND
                                          eZForm_FormElementResult.Result LIKE '%" . $fElement->value( false ) . "%'
+                                         $resultString
                                          GROUP BY eZForm_FormElementResult.ID " );
                 $t->set_var( "result", $fElement->value() );
                 $t->set_var( "count", count( $res ) );
@@ -271,6 +289,7 @@ class eZFormReportElement
         {
             $db->array_query( $res, "SELECT Result, Count(Result) AS Count
                                      FROM eZForm_FormElementResult WHERE ElementID='$this->ElementID'
+                                     $resultString
                                      GROUP BY TRIM(Result) ORDER BY Result" );
             foreach ( $res as $result )
             {
@@ -284,73 +303,78 @@ class eZFormReportElement
         return $output;
     }
 
-    function statCount( &$t )
+    function statCount( &$t, $resultString )
     {
         $t->set_var( "count", "" );
         $res = array();
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT Count(Result) AS Count
                                  FROM eZForm_FormElementResult
-                                 WHERE ElementID='$this->ElementID' AND
+                                 WHERE ElementID='$this->ElementID'
+                                 $resultString AND
                                  Result != ''" );
         $t->set_var( "count", $res[$db->fieldName( "Count" )] );
         $output = $t->parse( $target, "count_tpl" );
         return $output;        
     }
 
-    function statSum( &$t )
+    function statSum( &$t, $resultString )
     {
         $t->set_var( "sum", "" );
         $res = array();
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT SUM(REPLACE((TRIM(eZForm_FormElementResult.Result)), char(160), '')) as Sum
                                   FROM eZForm_FormElementResult
-                                  WHERE ElementID='$this->ElementID'" );
+                                  WHERE ElementID='$this->ElementID'
+                                  $resultString" );
         $t->set_var( "sum", $res[$db->fieldName( "Sum" )] );
         $output = $t->parse( $target, "sum_tpl" );
         return $output;        
     }
 
-    function statAverage( &$t )
+    function statAverage( &$t, $resultString )
     {
         $t->set_var( "average" );
         $res = array();
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT AVG(REPLACE((TRIM(eZForm_FormElementResult.Result)), char(160), '')) as Avg
                                   FROM eZForm_FormElementResult
-                                  WHERE ElementID='$this->ElementID'" );
+                                  WHERE ElementID='$this->ElementID'
+                                  $resultString" );
         $t->set_var( "average", $res[$db->fieldName( "Avg" )] );
         $output = $t->parse( $target, "average_tpl" );
         return $output;
     }
 
-    function statMin( &$t )
+    function statMin( &$t, $resultString )
     {
         $t->set_var( "min" );
         $res = array();
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT MIN(REPLACE((TRIM(eZForm_FormElementResult.Result)), char(160), '')+0) as Min
                                   FROM eZForm_FormElementResult
-                                  WHERE ElementID='$this->ElementID'" );
+                                  WHERE ElementID='$this->ElementID'
+                                  $resultString" );
         $t->set_var( "min", $res[$db->fieldName( "Min" )] );
         $output = $t->parse( $target, "min_tpl" );
         return $output;
     }
     
-    function statMax( &$t )
+    function statMax( &$t, $resultString )
     {
         $t->set_var( "max" );
         $res = array();
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT MAX(REPLACE((TRIM(eZForm_FormElementResult.Result)), char(160), '')+0) as Max
                                   FROM eZForm_FormElementResult
-                                  WHERE ElementID='$this->ElementID'" );
+                                  WHERE ElementID='$this->ElementID'
+                                  $resultString" );
         $t->set_var( "max", $res[$db->fieldName( "Max" )] );
         $output = $t->parse( $target, "max_tpl" );
         return $output;
     }
 
-    function statMedian( &$t )
+    function statMedian( &$t, $resultString )
     {
         $t->set_var( "median", "" );
         $res = array();
@@ -358,6 +382,7 @@ class eZFormReportElement
         $db->array_query( $res, "SELECT (REPLACE((TRIM(Result)), char(160), '')+0) AS Result
                                  FROM eZForm_FormElementResult
                                  WHERE ElementID='$this->ElementID'
+                                 $resultString
                                  ORDER BY Result" );
         if ( count( $res ) == 0 )
         {
@@ -379,7 +404,7 @@ class eZFormReportElement
         return $output;
     }
 
-    function statPercentile( &$t, $percentile )
+    function statPercentile( &$t, $percentile, $resultString )
     {
         $t->set_var( "percentile", "" );
         $res = array();
@@ -387,6 +412,7 @@ class eZFormReportElement
         $db->array_query( $res, "SELECT (REPLACE((TRIM(Result)), char(160), '')+0) AS Result
                                  FROM eZForm_FormElementResult
                                  WHERE ElementID='$this->ElementID'
+                                 $resultString
                                  ORDER BY Result" );
 
         $pos = round( ( count( $res ) / 100 ) * $percentile );
@@ -396,9 +422,11 @@ class eZFormReportElement
         return $output;
     }
 
-    function statCrossTable( &$t )
+    function statCrossTable( &$t, $resultString )
     {
         $t->set_var( "cross_table", "" );
+        $resultString = ereg_replace( "eZForm_FormElementResult", "a", $resultString ) .
+                        ereg_replace( "eZForm_FormElementResult", "b", $resultString );
         $res = array();
         $db =& eZDB::globalDatabase();
         $element = $this->element();
@@ -407,10 +435,10 @@ class eZFormReportElement
                                  FROM eZForm_FormElementResult as a, eZForm_FormElementResult as b
                                  WHERE a.ElementID='" . $reference->id() . "' AND b.ElementID='" . $element->id() . "' AND
                                  a.ResultID=b.ResultID AND a.Result != '' AND b.Result != ''
+                                 $resultString
                                  GROUP BY a.Result, b.Result ORDER BY a.Result, b.Result" );
         $elementValues = $element->fixedValues();
         $referenceValues = $reference->fixedValues();
-
         
         foreach ( $elementValues as $elementItem )
         {
@@ -443,7 +471,7 @@ class eZFormReportElement
         return $output;
     }
 
-    function statGraph( &$t )
+    function statGraph( &$t, $resultString )
     {
         $renderer = new eZFormRenderer();
         $t->set_var( "graph", "" );
@@ -454,6 +482,7 @@ class eZFormReportElement
                                   eZForm_FormTableElementDict, eZForm_FormElementResult WHERE
                                   eZForm_FormTableElementDict.TableID='" . $elementID . "' AND
                                   eZForm_FormElementResult.ElementID=eZForm_FormTableElementDict.ElementID
+                                  $resultString
                                   GROUP BY eZForm_FormTableElementDict.ElementID
                                   ORDER BY Count desc" );
         $max = $res[$db->fieldName( "Count" )];
@@ -461,8 +490,9 @@ class eZFormReportElement
         $db->array_query( $res, "SELECT eZForm_FormElementResult.ElementID, COUNT(eZForm_FormElementResult.Result) as Count FROM
                                  eZForm_FormTableElementDict, eZForm_FormElementResult WHERE
                                  eZForm_FormTableElementDict.TableID='" . $elementID . "' AND
-                                 eZForm_FormElementResult.ElementID=eZForm_FormTableElementDict.ElementID AND
-                                 eZForm_FormElementResult.Result != ''
+                                 eZForm_FormElementResult.ElementID=eZForm_FormTableElementDict.ElementID
+                                 eZForm_FormElementResult.Result != '' AND
+                                 $resultString
                                  GROUP BY eZForm_FormTableElementDict.ElementID" );
         $i = 0;
         $i2 = 0;

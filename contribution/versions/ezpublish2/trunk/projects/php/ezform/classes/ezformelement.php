@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.34 2002/01/17 08:19:33 jhe Exp $
+// $Id: ezformelement.php,v 1.35 2002/01/24 17:10:05 jhe Exp $
 //
 // ezformelement class
 //
@@ -477,8 +477,6 @@ class eZFormElement
                      ElementID='$this->ID' AND Min='$min' AND Max='$max'" );
 
         return $pageID[$db->fieldName( "PageID" )];
-        
-        
     }
     
     function elementInCondition()

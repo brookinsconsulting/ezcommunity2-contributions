@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.60 2002/01/24 10:27:37 jhe Exp $
+// $Id: ezformrenderer.php,v 1.61 2002/01/24 17:10:05 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -193,7 +193,7 @@ class eZFormRenderer
     /*!
         Renders the element which are given as an argument based on its type.
      */
-    function &renderElement( $element, $setSize = true, $header = true, $result = false, $resultID = false, $report = false )
+    function &renderElement( $element, $setSize = true, $header = true, $result = false, $resultID = false, $report = false, $resultArray = false )
     {
         $output = "";
         if ( get_class( $element ) == "ezformelement" )
@@ -241,7 +241,7 @@ class eZFormRenderer
                     $reportElement = new eZFormReportElement( $element->id(), $resultID );
                     if ( $reportElement->statisticsType( false ) == "Hide" )
                         return "";
-                    $elementValue = $reportElement->analyze( $this->Template );
+                    $elementValue = $reportElement->analyze( $this->Template, $resultArray );
                     if ( $reportElement->statisticsType( false ) == "Graph" )
                     {
                         return $elementValue;
@@ -367,8 +367,57 @@ class eZFormRenderer
     /*!
       Renders form for viewing of results
     */
-    function &renderResult( $resultID, $result = true, $report = false )
+    function &renderResult( $resultID, $result = true, $report = false, $elementID = false, $operator = false, $searchString = false )
     {
+        $db =& eZDB::globalDatabase();
+
+        $resultArray = false;
+        if ( $elementID )
+        {
+            $resultArray = array();
+            $whereStr = "";
+            switch ( $operator )
+            {
+                case "equal":
+                {
+                    $whereStr = "Result = '$searchString'";
+                }
+                break;
+                
+                case "substring":
+                {
+                    $whereStr = "Result LIKE '%$searchString%'";
+                }
+                break;
+                
+                case "not":
+                {
+                    $whereStr = "Result != '$searchString'";
+                }
+                break;
+                
+                case "greater":
+                {
+                    $whereStr = "Result > $searchString";
+                }
+                break;
+                
+                case "less":
+                {
+                    $whereStr = "Result < $searchString";
+                }
+                break;
+            }
+            
+            $db->array_query( $qa, "SELECT ResultID FROM eZForm_FormElementResult
+                                    WHERE ElementID='$elementID'
+                                    AND $whereStr ORDER BY ResultID" );
+            foreach ( $qa as $q )
+            {
+                $resultArray[] = $q[$db->fieldName( "ResultID" )];
+            }
+        }
+        
         $elements = $this->Form->formElements();
         $elementCounter = 0;
         
@@ -428,8 +477,6 @@ class eZFormRenderer
                 if ( $repElement->statisticsType( false ) == "Hide" )
                 {
                     $hide = true;
-//                    $this->Template->set_var( "form_item", "" );
-//                    $this->Template->set_var( "break", "" );
                 }
             }
             
@@ -437,7 +484,7 @@ class eZFormRenderer
             {
                 if ( $table && $repElement->statisticsType( false ) == "Graph" )
                 {
-                    $output = $this->renderElement( $element, true, true, $result, $resultID, $report );
+                    $output = $this->renderElement( $element, true, true, $result, $resultID, $report, $resultArray );
                     $this->Template->set_var( "element", $output );
                     $this->Template->parse( "form_item", "form_item_tpl", true );
                 }
@@ -478,7 +525,7 @@ class eZFormRenderer
                                 else
                                     $this->Template->set_var( "colspan", "" );
                                 
-                                $output = $this->renderElement( $tableElements[$i], true, false, $result, $resultID, $report );
+                                $output = $this->renderElement( $tableElements[$i], true, false, $result, $resultID, $report, $resultArray );
                                 
                                 $this->Template->set_var( "element", $output );
                                 
@@ -510,7 +557,7 @@ class eZFormRenderer
                     }
                     else
                     {
-                        $output = $this->renderElement( $element, true, true, $result, $resultID, $report );
+                        $output = $this->renderElement( $element, true, true, $result, $resultID, $report, $resultArray );
                         
                         $this->Template->set_var( "element", $output );
                         
