@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucherinformation.php,v 1.8.4.9 2001/11/05 08:31:09 ce Exp $
+// $Id: ezvoucherinformation.php,v 1.8.4.10 2001/11/08 12:46:46 ce Exp $
 //
 // eZVoucherInformation class
 //
@@ -637,6 +637,7 @@ class eZVoucherInformation
         $voucher =& $this->voucher();
 
         $Language = $ini->read_var( "eZTradeMain", "Language" );
+        $locale = new eZLocale( $Language );
         
         $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                              "eztrade/user/intl/", $Language, "vouchersmail.php" );
@@ -657,8 +658,25 @@ class eZVoucherInformation
         $t->set_var( "to_address_street2", $toAddress->street1() );
         $t->set_var( "to_address_street1", $toAddress->street1() );
 
-        $cmd = "latex < " . $t->parse( "dummy", "vouchersmail" ) ;
+        $currency = new eZCurrency();
+        $currency->setValue( $voucher->price() );
+        $t->set_var( "voucher_value", $locale->format( $currency, true, false ) );
+        
 
+        $cachedFile = "" . $this->ID . "_voucher.tex";
+        $cachedFileDvi = "" . $this->ID . "_voucher.dvi";
+        $fp = fopen ( "vouchers/" . $cachedFile, "w+");
+        
+        $output = str_replace ( "ß", "\"s",  $t->parse( "output", "vouchersmail" ) );
+        // $output = $t->parse( "output", "order_tpl" );
+        // print the output the first time while printing the cache file.
+        //      print( $output );
+        fwrite ( $fp, $output );
+        fclose( $fp );
+        
+        // working print / latex converting line
+ 
+        print( system( "cd vouchers/ && latex -interaction=batchmode $cachedFile | exit && dvips -b 2 $cachedFileDvi && cd .." ) );
     }
 
     var $ID;
