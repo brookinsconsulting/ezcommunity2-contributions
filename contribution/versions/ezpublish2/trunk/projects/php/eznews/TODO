@@ -1,6 +1,35 @@
 General:
 * Add templates for html.
 * Add general handlers.
+* Add caching
+* Add cvs
+
+URL commands:
+* article/# gives you a specific article by number
+* author/# gives you articles from one author
+* author/[firstname lastname¦lastname, firstname] gives you articles
+  from that author, or more
+  information about all the authors matching the search.
+* category/# gives you a listing of a specific category.
+* category/name gives you a listing of a specific category, if a perfect
+  match, or a list of categories to select from.
+* category/path gives you a listing of a specific category, if a perfect
+  match, or a list of categories to select from. Will try out different
+  spelling methods if possible, or return hits to parts of the path, if
+  a perfect match isn't possible (perhaps due to one or more spelling
+  errors in the path.
+* date/YYYY[/MM[/DD[/HH[/MM[/SS]]]]]/ gives you a listing of articles
+  from that year, month, day hour etc.
+* last/X gives you the X last articles.
+* first/X gives you the X first articles.
+* by_author orders articles by author.
+* by_name orders articles by name.
+* by_date orders articles by date.
+* by_hits orders articles by how many have read them.
+* by_rating orders articles by how good an article is.
+* by_value orders articles by their value.
+* reverse reverses the order of articles.
+* method/[plain|rss|rdf|html|nitf]
 
 In all classes:
 * function store()
