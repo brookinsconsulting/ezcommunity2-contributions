@@ -1,6 +1,11 @@
 eZ publish changelog:
 ---------------------
 
+Changes from 2.1.0B2 to 2.1.0B2
+-------------------------------
+* Fixed reply all/forward buttons in ezmail
+* Navigation buttons in the maillist in ezmail
+
 Changes from 2.1.0B1 to 2.1.0B2
 -------------------------------
 * Added new template for static pages.
