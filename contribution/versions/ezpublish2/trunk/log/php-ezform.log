@@ -562,3 +562,196 @@ Maintainer(s) : pkej@ez.no
       admin/templates/standard/pagelist.tpl
       classes/ezformpage.php: added updates.
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-12-18  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezform.php
+      classes/ezformelement.php
+      classes/ezformpage.php
+      classes/ezformrenderer.php
+      sql/mysql/ezform.sql
+      user/formview.php
+      admin/templates/standard/formrenderer.tpl: several fixes
+
+2001-12-18  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * admin/intl/en_GB/form.php.ini
+      admin/numericaledit.php
+      admin/templates/standard/formrenderer.tpl
+      classes/ezformrenderer.php
+      sql/mysql/ezform.sql
+      sql/postgresql/ezform.sql:
+    Made the form sender a free element, not a fixed element\nat the top of the page
+
+    * admin/intl/en_GB/form.php.ini
+      admin/templates/standard/formedit.tpl
+      admin/templates/standard/formrenderer.tpl
+      classes/ezform.php
+      classes/ezformrenderer.php
+      sql/mysql/ezform.sql
+      sql/postgresql/ezform.sql
+      admin/formedit.php: Added instruction page name into the form.
+
+2001-12-18  Bjoern Reiten  <br@ez.no>
+
+    * admin/intl/en_GB/pageedit.php.ini
+      admin/pageedit.php
+      admin/templates/standard/pageedit.tpl
+      classes/ezformpage.php: added updates ...
+
+2001-12-18  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * admin/templates/standard/formrenderer.tpl
+      classes/ezformrenderer.php: Added correct rendering of text element.
+
+    * classes/ezformelementnumerical.php
+      classes/ezformelementtext.php
+      sql/mysql/ezform.sql
+      sql/postgresql/ezform.sql
+      admin/datasupplier.php
+      admin/intl/en_GB/form.php.ini
+      admin/numericaledit.php
+      admin/pageedit.php
+      admin/templates/standard/elementlist.tpl
+      admin/templates/standard/numericaledit.tpl
+      admin/templates/standard/textedit.tpl
+      admin/textedit.php: Added new elements and their support tables.
+
+    * admin/formedit.php
+      admin/intl/en_GB/form.php.ini:
+     Fixed some more logical errors in error checks.
+
+    * admin/formedit.php: Fixed bugs in storage and retreival of data.
+
+    * admin/formedit.php:
+    Removed Element handling since there are no elements, just pages, in this
+    page.
+
+    * admin/formedit.php:
+    Fixed some reference errors in some setX() functions.
+
+    * admin/templates/standard/formedit.tpl: A small spelling error in a tag.
+
+    * sql/mysql/ezform.sql
+      sql/postgresql/ezform.sql
+      admin/formedit.php
+      admin/intl/en_GB/form.php.ini
+      admin/templates/standard/formedit.tpl
+      classes/ezform.php: Added new functions and cleaned up admin.
+
+    * admin/intl/en_GB/form.php.ini
+      admin/pageedit.php
+      admin/tableedit.php
+      admin/templates/standard/formrenderer.tpl
+      classes/ezformrenderer.php
+      sql/mysql/ezform.sql
+      sql/postgresql/ezform.sql: Added new elements.
+
+    * admin/intl/en_GB/form.php.ini
+      admin/templates/standard/formrenderer.tpl
+      classes/ezformrenderer.php
+      sql/mysql/ezform.sql
+      sql/postgresql/ezform.sql: Added new form elements.
+
+2001-12-18  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/formview.php
+      admin/templates/standard/formrenderer.tpl
+      classes/ezform.php
+      classes/ezformpage.php
+      classes/ezformrenderer.php
+      classes/ezformtable.php
+      user/formview.php: jumping works
+
+2001-12-18  Bjoern Reiten  <br@ez.no>
+
+    * admin/fixedvalues.php
+      admin/intl/en_GB/pageedit.php.ini
+      admin/pageedit.php
+      admin/templates/standard/fixedvalues.tpl
+      admin/templates/standard/pageedit.tpl
+      classes/ezformelement.php: added updates.
+
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-12-19  Bjoern Reiten  <br@ez.no>
+
+    * admin/pageedit.php: fix.
+
+2001-12-19  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/pageedit.php
+      admin/tableedit.php
+      admin/templates/standard/formrenderer.tpl
+      classes/ezformrenderer.php: fixed small bugs
+
+2001-12-19  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * admin/datasupplier.php
+      admin/numericaledit.php
+      admin/pageedit.php
+      admin/tableedit.php
+      admin/templates/standard/elementlist.tpl
+      admin/templates/standard/numericaledit.tpl
+      admin/templates/standard/textedit.tpl
+      admin/textedit.php
+      classes/ezformrenderer.php:
+    Fixed back from numerical edit and text edit.
+
+2001-12-19  Bjoern Reiten  <br@ez.no>
+
+    * admin/pageedit.php
+      classes/ezformpage.php: fixes.
+
+    * admin/intl/en_GB/form.php.ini
+      admin/pageedit.php
+      admin/templates/standard/elementlist.tpl: added fix.
+
+2001-12-19  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/mysql/ezform.sql: small fixes
+
+2001-12-19  Bjoern Reiten  <br@ez.no>
+
+    * admin/pageedit.php: added fix for fields.
+
+    * admin/pageedit.php
+      classes/ezformelement.php: added updates.
+
+2001-12-19  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * admin/intl/en_GB/form.php.ini: Fixed a string.
+
+    * admin/tableedit.php: Fixed links to numerical and text editing.
+
+2001-12-19  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/intl/en_GB/form.php.ini
+      admin/intl/en_GB/pageedit.php.ini
+      admin/intl/en_GB/table.php.ini
+      admin/intl/no_NO/form.php.ini
+      admin/intl/no_NO/pageedit.php.ini
+      admin/intl/no_NO/table.php.ini
+      user/formview.php: fixed language
+
+    * admin/formedit.php
+      admin/tableedit.php
+      admin/templates/standard/formrenderer.tpl
+      admin/templates/standard/tableedit.tpl
+      classes/ezform.php
+      classes/ezformelement.php
+      classes/ezformrenderer.php
+      user/formview.php: jumping is done
+
+2001-12-19  Bjoern Reiten  <br@ez.no>
+
+    * admin/intl/en_GB/pageedit.php.ini
+      admin/pageedit.php
+      admin/templates/standard/pageedit.tpl
+      classes/ezformelement.php: added updates
+

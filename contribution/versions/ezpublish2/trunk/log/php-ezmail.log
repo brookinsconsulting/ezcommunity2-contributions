@@ -384,3 +384,42 @@ Maintainer(s) : fh@ez.no
     a mail is possible (not accessible yet though)
     Several minor bugfixes.
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2001-12-18  fh  <fh@zev.ez.no>
+
+    * classes/ezimapmailfolder.php
+      user/datasupplier.php
+      user/maillist.php
+      user/menubox.php
+      user/templates/standard/maillist.tpl
+      user/templates/standard/menubox.tpl:
+    Changed angel of attach. We're doing everything (almost) in
+    the classes now.This lets use both the same templates and php
+    files in the user section. No functionality changes.
+
+    * user/maillist.php
+      user/mailview.php: Cleanups be ezpublish syntax complient
+
+    * classes/ezmail.php
+      classes/ezmailfolder.php
+      classes/imapfunctions.php: Cleanups, be compliant with rest of ezpublish
+
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2001-12-19  fh  <fh@zev.ez.no>
+
+    * classes/ezimapmail.php
+      classes/ezimapmailfolder.php
+      classes/ezmail.php
+      classes/ezmaildefines.php
+      classes/ezmailfolder.php
+      classes/imapfunctions.php
+      user/datasupplier.php
+      user/mailview.php
+      user/menubox.php: Some restructuring, you can now read your IMAP mail.
+
