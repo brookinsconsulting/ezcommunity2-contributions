@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: datasupplier.php,v 1.33 2001/07/20 11:42:01 jakobn Exp $
+// $Id: datasupplier.php,v 1.34 2001/07/27 08:11:06 ce Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
@@ -23,7 +23,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//print $REQUEST_URI;
 include_once( "classes/ezhttptool.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 

@@ -1,5 +1,5 @@
 <form method="post" action="/trade/categoryedit/{action_value}/" enctype="multipart/form-data">
-<input type="hidden" name="max_file_size" value="3000000">
+<input type="hidden" name="max_file_size" value="3000000" />
 
 <h1>{head_line}</h1>
 
