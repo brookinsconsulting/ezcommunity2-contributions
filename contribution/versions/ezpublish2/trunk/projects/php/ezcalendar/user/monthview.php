@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.30 2001/09/03 11:27:52 jhe Exp $
+// $Id: monthview.php,v 1.31 2001/09/03 12:24:15 jhe Exp $
 //
 // Created on: <27-Dec-2000 14:09:56 bf>
 //
@@ -48,18 +48,18 @@ if ( $user == false )
 else
     $userID = $user->id();
 
-if ( isSet( $GetByUserID ) )
+if ( isSet( $GetByUser ) )
 {
     $userID = $GetByUserID;
 }
 
-if ( $session->variable( "ShowOtherCalenderUsers" ) == false )
+if ( $session->variable( "ShowOtherCalendarUsers" ) == false || isSet( $GetByUser ) )
 {
-    $session->setVariable( "ShowOtherCalenderUsers", $userID );
+    $session->setVariable( "ShowOtherCalendarUsers", $userID );
 }
 else
 {
-    $userID = $session->variable( "ShowOtherCalenderUsers" );
+    $userID = $session->variable( "ShowOtherCalendarUsers" );
 }
 
 $appOwnerUser = new eZUser( $userID );
@@ -216,7 +216,7 @@ $t->set_file( "month_view_page_tpl", "monthview.tpl" );
                       }
                       }
                       }
-                      /*
+*/
                     // fetch todos for today
                     if ( !$userID )
                         $todos = array();

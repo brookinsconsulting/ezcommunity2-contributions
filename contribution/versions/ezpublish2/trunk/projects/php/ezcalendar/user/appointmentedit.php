@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: appointmentedit.php,v 1.45 2001/09/03 11:27:51 jhe Exp $
+// $Id: appointmentedit.php,v 1.46 2001/09/03 12:24:15 jhe Exp $
 //
 // Created on: <03-Jan-2001 12:47:22 bf>
 //
@@ -110,7 +110,6 @@ if ( isSet( $TrusteeUser ) )
 }
 
 $user =& eZUser::currentUser();
-
 if ( $user == false )
     $userID = false;
 else
@@ -159,7 +158,7 @@ if ( isSet( $ChangeView ) || $ViewType == "multiple" )
 else
 {
     $t->set_var( "select_multiple", "" );
-    if ( count( $user->trustees() ) > 0 )
+    if ( $user && count( $user->trustees() ) > 0 )
         $t->parse( "multiple_view", "multiple_view_tpl" );
     else
         $t->set_var( "multiple_view", "" );
