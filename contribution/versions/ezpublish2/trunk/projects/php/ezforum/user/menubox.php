@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.12 2001/07/19 13:17:55 jakobn Exp $
+// $Id: menubox.php,v 1.13 2001/08/30 08:34:09 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -69,9 +69,7 @@ function createPage( $menuCacheFile = false )
 
     $t->setAllStrings();
 
-    $t->set_file( array(
-        "menu_box_tpl" => "menubox.tpl"
-        ) );
+    $t->set_file( "menu_box_tpl", "menubox.tpl" );
     
 //      $t = new Template( "." );
 
@@ -84,7 +82,7 @@ function createPage( $menuCacheFile = false )
 
     if ( !$categories )
     {
-        if ( isset( $GLOBALS["SiteIni"] ) )
+        if ( isSet( $GLOBALS["SiteIni"] ) )
         {
             $ini =& $GLOBALS["SiteIni"];
         }
@@ -100,10 +98,10 @@ function createPage( $menuCacheFile = false )
     }
     else
     {
-        foreach( $categories as $category )
+        foreach ( $categories as $category )
         {
-            $t->set_var("id", $category->id() );
-            $t->set_var("name", $category->name() );
+            $t->set_var( "id", $category->id() );
+            $t->set_var( "name", $category->name() );
         
             $t->parse( "category", "category_tpl", true);
         }
@@ -122,7 +120,6 @@ function createPage( $menuCacheFile = false )
     {
 		$t->pparse( "output", "menu_box_tpl" );
     }
-    
 }
 
 ?>

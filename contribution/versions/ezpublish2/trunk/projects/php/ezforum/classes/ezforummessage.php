@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezforummessage.php,v 1.95 2001/07/19 13:17:54 jakobn Exp $
+// $Id: ezforummessage.php,v 1.96 2001/08/30 08:34:09 jhe Exp $
 //
 // Definition of eZForumMessage class
 //
@@ -723,14 +723,33 @@ class eZForumMessage
       The returned array has the following values
       array( "ID" => $id, "Topic" => $topic );
     */
-    function &lastMessages( $limit )
+    function &lastMessages( $limit, $user = false )
     {
         $db =& eZDB::globalDatabase();
 
+        if ( !$user )
+            $user =& eZUser::currentUser();
+
+        $query_string = "AND ( f.GroupID='0' ";
+        if ( $user )
+        {
+            $groups = $user->groups( true );
+            foreach ( $groups as $group )
+            {
+                $query_string .= "OR f.GroupID='$group' ";
+            }
+        }
+        $query_string .= ")";
+        
         $ret = array();
 
-        $db->array_query( $message_array, "SELECT ID, ForumID, Topic, PostingTime FROM eZForum_Message
-         WHERE IsTemporary='0' AND Depth='0' ORDER BY PostingTime DESC", array( "Limit" => $limit ) );
+        $db->array_query( $message_array, "SELECT m.ID as ID, m.ForumID, m.Topic, m.PostingTime, l.ForumID,
+                                           f.ID as FID, f.GroupID
+                                           FROM eZForum_Message as m, eZForum_ForumCategoryLink as l,
+                                           eZForum_Forum as f
+                                           WHERE IsTemporary='0' AND Depth='0' AND l.ForumID=m.ForumID
+                                           AND f.ID=l.ForumID $query_string
+                                           ORDER BY m.PostingTime DESC", array( "Limit" => $limit ) );
 
         return $message_array;
     }

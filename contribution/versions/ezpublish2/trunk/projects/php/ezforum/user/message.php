@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: message.php,v 1.27 2001/08/29 14:18:07 jhe Exp $
+// $Id: message.php,v 1.28 2001/08/30 08:34:09 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -83,17 +83,15 @@ else
     $readPermission = true;
 }
 
-if ( $group )
-{
-    $categories = $forum->categories();
+$categories = $forum->categories();
 
-    if ( count( $categories ) > 0 )
-    {
-        $category = new eZForumCategory( $categories[0]->id() );
-        
-        $t->set_var( "category_id", $category->id() );
-        $t->set_var( "category_name", $category->name() );
-    }
+if ( count( $categories ) > 0 )
+{
+    $category = new eZForumCategory( $categories[0]->id() );
+    
+    $t->set_var( "category_id", $category->id() );
+    $t->set_var( "category_name", $category->name() );
+
     $t->parse( "header_list", "header_list_tpl" );
 }
 
@@ -118,9 +116,7 @@ else
     $MessageAuthor = $user->firstName() . " " . $user->lastName();
 }
 
-
 $t->set_var( "main-user", $MessageAuthor );
-
 $t->set_var( "topic", $message->topic() );
 
 $time = $message->postingTime();
@@ -129,7 +125,6 @@ $t->set_var( "main-postingtime", $locale->format( $time  ));
 $t->set_var( "body", eZTextTool::nl2br( $message->body( true ) ) );
 
 $t->set_var( "reply_id", $message->id() );
-
 $t->set_var( "forum_id", $forum->id() );
 
 if ( get_class( $viewer ) == "ezuser" )
@@ -162,8 +157,8 @@ foreach ( $messages as $message )
     }
     else
     {
-        $t->set_var( "td_alt", "2" );
         $t->set_var( "td_class", "bgdark" );
+        $t->set_var( "td_alt", "2" );
     }
     
     $level = $message->depth();

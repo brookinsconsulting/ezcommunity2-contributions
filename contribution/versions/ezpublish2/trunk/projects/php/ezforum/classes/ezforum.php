@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezforum.php,v 1.43 2001/08/29 14:18:06 jhe Exp $
+// $Id: ezforum.php,v 1.44 2001/08/30 08:34:09 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -44,7 +44,7 @@ class eZForum
     /*!
       Constructs a new eZForum object.
     */
-    function eZForum( $id="" )
+    function eZForum( $id = "" )
     {
         $this->IsModerated = 0;
         $this->IsAnonymous = 0;
@@ -165,20 +165,20 @@ class eZForum
             {
                 die( "Error: Forum's with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $forum_array ) == 1 )
+            else if ( count( $forum_array ) == 1 )
             {
-                $this->ID =& $forum_array[0][$db->fieldName("ID")];
-                $this->Name =& $forum_array[0][$db->fieldName("Name")];
-                $this->Description =& $forum_array[0][$db->fieldName("Description")];
-                $this->IsModerated =& $forum_array[0][$db->fieldName("IsModerated")];
-                $this->IsAnonymous =& $forum_array[0][$db->fieldName("IsAnonymous")];
-                $this->ModeratorID =& $forum_array[0][$db->fieldName("ModeratorID")];
-                $this->GroupID =& $forum_array[0][$db->fieldName("GroupID")];
-                $this->IsPrivate =& $forum_array[0][$db->fieldName("IsPrivate")];
+                $this->ID =& $forum_array[0][$db->fieldName( "ID" )];
+                $this->Name =& $forum_array[0][$db->fieldName( "Name" )];
+                $this->Description =& $forum_array[0][$db->fieldName( "Description" )];
+                $this->IsModerated =& $forum_array[0][$db->fieldName( "IsModerated" )];
+                $this->IsAnonymous =& $forum_array[0][$db->fieldName( "IsAnonymous" )];
+                $this->ModeratorID =& $forum_array[0][$db->fieldName( "ModeratorID" )];
+                $this->GroupID =& $forum_array[0][$db->fieldName( "GroupID" )];
+                $this->IsPrivate =& $forum_array[0][$db->fieldName( "IsPrivate" )];
 
                 $ret = true;
             }
-            else if( count( $category_array ) == 0 )
+            else if ( count( $category_array ) == 0 )
             {
                 $this->ID = 0;
             }
@@ -190,7 +190,7 @@ class eZForum
     /*!
       Returns every forum.
     */
-    function getAll( )
+    function getAll()
     {
 
     }
@@ -198,13 +198,14 @@ class eZForum
     /*!
       Returns the messages in a forum.
     */
-    function &messages( )
+    function &messages()
     {
        $db =& eZDB::globalDatabase();
 
        $db->array_query( $message_array, "SELECT ID, PostingTime FROM
                                           eZForum_Message
-                                          WHERE ForumID='$this->ID' AND IsTemporary='0' ORDER BY PostingTime DESC" );
+                                          WHERE ForumID='$this->ID' AND IsTemporary='0'
+                                          ORDER BY PostingTime DESC" );
 
        $ret = array();
 
@@ -234,7 +235,7 @@ class eZForum
 
        foreach ( $message_array as $message )
        {
-           $ret[] = new eZForumMessage( $message[$db->fieldName("ID")] );
+           $ret[] = new eZForumMessage( $message[$db->fieldName( "ID" )] );
        }
 
        return $ret;
@@ -333,7 +334,7 @@ class eZForum
                                           AND IsTemporary='0'
                                           $approvedCode
                                           ORDER BY TreeID DESC ",
-                       array( "Limit" => $limit, "Offset" => $offset ) );
+                             array( "Limit" => $limit, "Offset" => $offset ) );
        }
        return $message_array;
     }
@@ -394,7 +395,7 @@ class eZForum
 
        foreach ( $forum_array as $forum )
        {
-           $ret[] = new eZForumCategory( $forum[$db->fieldName("CategoryID")] );
+           $ret[] = new eZForumCategory( $forum[$db->fieldName( "CategoryID" )] );
        }
 
        return $ret;
@@ -412,7 +413,7 @@ class eZForum
     /*!
 
     */
-    function setName($newName)
+    function setName( $newName )
     {
         $this->Name = $newName;
     }
@@ -428,7 +429,7 @@ class eZForum
     /*!
 
     */
-    function setDescription($newDescription)
+    function setDescription( $newDescription )
     {
         $this->Description = $newDescription;
     }
@@ -548,7 +549,7 @@ class eZForum
     /*!
 
     */
-    function setPrivate($newPrivate)
+    function setPrivate( $newPrivate )
     {
 
         $this->IsPrivate = $newPrivate;
@@ -562,7 +563,7 @@ class eZForum
        $db =& eZDB::globalDatabase();
 
        $unapprovedSQL = "";
-       if( $countUnapproved == false )
+       if ( $countUnapproved == false )
            $unapprovedSQL = "AND IsApproved='1'";
 
        $db->array_query( $message_array, "SELECT Count(ID) AS Count FROM eZForum_Message
@@ -584,7 +585,7 @@ class eZForum
        $db =& eZDB::globalDatabase();
 
        $unapprovedSQL = "";
-       if( $countUnapproved == false )
+       if ( $countUnapproved == false )
            $unapprovedSQL = "AND IsApproved='1'";
 
        if ( $showReplies )

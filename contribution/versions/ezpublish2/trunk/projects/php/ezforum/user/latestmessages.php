@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: latestmessages.php,v 1.6 2001/07/19 13:17:55 jakobn Exp $
+// $Id: latestmessages.php,v 1.7 2001/08/30 08:34:09 jhe Exp $
 //
 // Created on: <02-Jul-2001 11:45:17 bf>
 //
@@ -50,7 +50,7 @@ $messages =& eZForumMessage::lastMessages( 5 );
 
 global $GlobalSiteDesign;
 
-$i=0;
+$i = 0;
 foreach ( $messages as $message )
 {
     $t->set_var( "sitedesign", $GlobalSiteDesign );
@@ -67,7 +67,5 @@ foreach ( $messages as $message )
     $i++;
 }
 $t->pparse( "output", "latest_messages_tpl" );
-
-
 
 ?>
