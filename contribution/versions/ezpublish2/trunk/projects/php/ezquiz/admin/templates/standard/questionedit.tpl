@@ -24,9 +24,14 @@
 <!-- BEGIN alternative_item_tpl -->
 <tr>
 	 <td>
-	 <input type="text" name="AlternativeArrayName[]" value="{alternative_name}" />&nbsp;
+	 <input type="text" name="AlternativeArrayName[]" value="{alternative_name}" />
+	 </td>
+	 <td width="50%">
 	 <input type="radio" name="IsCorrect" value="{alternative_id}" {is_selected} />
 	 <input type="hidden" name="AlternativeArrayID[]" value="{alternative_id}" />
+	 </td>
+         <td width="1%" align="center">
+	 <input type="checkbox" name="AlternativeDeleteArray[]" value="{alternative_id}">
 	 </td>
 </tr>
 <!-- END alternative_item_tpl -->
@@ -34,11 +39,12 @@
 </table>
 <!-- END alternative_list_tpl -->
 
-<hr noshade="noshade" size="4" />
+<br />
 
+<input type="submit" name="NewAlternative" value="{intl-new_alternative}" />&nbsp;
+<input type="submit" name="Delete" value="{intl-delete_alternatives}" />&nbsp;
+<hr noshade="noshade" size="4" />
 <input class="okbutton" type="submit" name="OK" value="{intl-ok}" />&nbsp;
-<input class="okbutton" type="submit" name="Update" value="{intl-update}" />&nbsp;
-<input class="okbutton" type="submit" name="NewAlternative" value="{intl-new_alternative}" />&nbsp;
 <input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />
 
 </form>

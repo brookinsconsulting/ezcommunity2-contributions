@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: questionedit.php,v 1.1 2001/05/25 12:54:42 ce Exp $
+// $Id: questionedit.php,v 1.2 2001/05/28 11:14:35 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <22-May-2001 16:17:22 ce>
@@ -36,8 +36,7 @@ if ( isSet ( $NewAlternative ) )
     $alternative = new eZQuizAlternative();
     $alternative->setquestion( &$question );
     $alternative->store();
-    eZHTTPTool::header( "Location: /quiz/game/questionedit/$QuestionID" );
-    exit();
+    $Action = "Update";
 }
 
 if ( isSet ( $OK ) )
@@ -53,6 +52,20 @@ if ( isSet ( $Cancel ) )
     eZHTTPTool::header( "Location: /quiz/game/edit/$gameID" );
     exit();
 }
+
+if ( isSet ( $Delete ) )
+{
+    if ( count ( $AlternativeDeleteArray ) > 0 )
+    {
+        foreach( $AlternativeDeleteArray as $AltID )
+        {
+            eZQuizAlternative::delete( $AltID );
+        }
+        unset ( $alternative );
+    }
+//    $Action = "Update";
+}
+
 
 
 $ini =& INIFile::globalINI();
@@ -72,7 +85,7 @@ $t->set_block( "alternative_list_tpl", "alternative_item_tpl", "alternative_item
 $t->set_var( "question_name", "$Name" );
 $t->set_var( "question_description", "$Description" );
 
-if ( ( isSet ( $Update ) ) || $Action == "Update" )
+if ( $Action == "Update" )
 {
     if ( is_numeric( $QuestionID ) )
         $question = new eZQuizQuestion( $QuestionID);
@@ -97,7 +110,7 @@ if ( ( isSet ( $Update ) ) || $Action == "Update" )
         unset( $alternative );
     }
 
-    if ( !isSet ( $Update ) )
+    if ( isSet ( $OK ) )
     {
         $game =& $question->game();
         $gameID = $game->id();
@@ -146,6 +159,8 @@ if ( count ( $alternativeList ) > 0 )
     }
     $t->parse( "alternative_list", "alternative_list_tpl", true );
 }
+else
+$t->set_var( "alternative_list", "" );
 
 
 $t->pparse( "output", "question_edit_page" );

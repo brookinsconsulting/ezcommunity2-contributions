@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizalternative.php,v 1.1 2001/05/25 12:54:42 ce Exp $
+// $Id: ezquizalternative.php,v 1.2 2001/05/28 11:14:35 ce Exp $
 //
 // eZQuizAlternative class
 //
@@ -103,7 +103,7 @@ class eZQuizAlternative
 
         $db =& eZDB::globalDatabase();
 
-        $db->query( "DELETE FROM eZQuiz_Alternative WHERE ID='$this->ID'" );
+        $db->query( "DELETE FROM eZQuiz_Alternative WHERE ID='$catID'" );
     }
 
     /*!
@@ -118,8 +118,10 @@ class eZQuizAlternative
         $ret = false;
         if ( $id != "" )
         {
+            $GLOBALS["DEBUG"] = true;
             $db->array_query( $alternativeArray, "SELECT * FROM eZQuiz_Alternative WHERE ID='$id'",
                               0, 1 );
+
             if( count( $alternativeArray ) == 1 )
             {
                 $this->fill( &$alternativeArray[0] );

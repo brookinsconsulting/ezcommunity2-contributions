@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: gameedit.php,v 1.1 2001/05/25 12:54:42 ce Exp $
+// $Id: gameedit.php,v 1.2 2001/05/28 11:14:35 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <22-May-2001 13:44:13 ce>
@@ -30,10 +30,6 @@ include_once( "classes/ezhttptool.php" );
 include_once( "ezquiz/classes/ezquizgame.php" );
 
 if ( isSet ( $OK ) )
-{
-    $Action = "Insert";
-}
-if ( isSet ( $Update ) )
 {
     $Action = "Update";
 }
@@ -76,9 +72,11 @@ $t->set_var( "game_description", "$Description" );
 
 $t->set_var( "start_month", "$StartMonth" );
 $t->set_var( "start_day", "$StartDay" );
+$t->set_var( "start_year", "$StartYear" );
 
 $t->set_var( "stop_month", "$StopMonth" );
 $t->set_var( "stop_day", "$StopDay" );
+$t->set_var( "stop_year", "$StopYear" );
 
 $t->set_var( "game_id", "$GameID" );
 
@@ -94,10 +92,12 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) && ( $user ) )
     $startDate = new eZDate();
     $startDate->setMonth( $StartMonth );
     $startDate->setDay( $StartDay );
+    $startDate->setYear( $StartYear );
 
     $stopDate = new eZDate();
     $stopDate->setMonth( $StopMonth );
     $stopDate->setDay( $StopDay );
+    $stopDate->setYear( $StopYear );
 
     $game->setStartDate( $startDate );
     $game->setStopDate( $stopDate );
@@ -116,7 +116,7 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) && ( $user ) )
     }
     
 
-    if ( !isSet ( $Update ) )
+    if ( isSet ( $OK ) )
     {
         eZHTTPTool::header( "Location: /quiz/game/list/" );
         exit();
@@ -145,24 +145,34 @@ if ( is_numeric( $GameID ) )
     $t->set_var( "game_name", $game->name() );
     $t->set_var( "game_description", $game->description() );
 
-    $questionList =& $game->questions();
+    $startDate =& $game->startDate();
+    $stopDate =& $game->stopDate();
 
-    print( count ( $questionList ) );
+    $t->set_var( "start_day", $startDate->day() );
+
+    $questionList =& $game->questions();
 }
 
 if ( count ( $questionList ) > 0 )
 {
+    $i=0;
     foreach( $questionList as $question )
     {
+        if ( ( $i %2 ) == 0 )
+            $t->set_var( "td_class", "bglight" );
+        else
+            $t->set_var( "td_class", "bgdark" );
+
         $t->set_var( "question_id", $question->id() );
         $t->set_var( "question_name", $question->name() );
         $t->set_var( "question_score", $question->score() );
 
+        $i++;
         $t->parse( "question_item", "question_item_tpl", true );
     }
     $t->parse( "question_list", "question_list_tpl", true );
 }
 
-
+$t->set_var( "site_style", $SiteStyle );
 $t->pparse( "output", "game_edit_page" );
 ?>
