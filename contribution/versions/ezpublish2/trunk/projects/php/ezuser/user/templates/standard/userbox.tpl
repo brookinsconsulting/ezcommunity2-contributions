@@ -20,7 +20,7 @@
 </tr>
 <tr>
 	<td class="menutext">
-	<a class="menu" href="/user/user/edit/{user_id}/">{intl-change_user_info}</a>  
+	<a class="menu" href="/user/userwithaddress/edit/{user_id}/">{intl-change_user_info}</a>  
 	</td>
 </tr>
 </table>
