@@ -185,3 +185,11 @@ Maintainer(s) : bf@ez.no
     * ezdb.php: Added a new ezsection/frontpage feature:
     this will make it easier to build up a frontpage from the admin interface.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-10-06  Baard Farstad  <bf@ez.no>
+
+    * ezcachefile.php: Fixed close file problem.
+

@@ -1044,3 +1044,13 @@ Maintainer(s) : ce@ez.no
     * admin/customerview.php
       admin/intl/en_US/customerview.php.ini: Added translation removed debug.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-10-06  Baard Farstad  <bf@ez.no>
+
+    * user/checkout.php
+      user/precheckout.php
+      user/searchsupplier.php: Fixed a path.
+

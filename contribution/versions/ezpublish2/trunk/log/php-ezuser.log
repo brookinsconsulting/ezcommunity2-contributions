@@ -294,3 +294,11 @@ Maintainer(s) : bf@ez.no
 
     * admin/useredit.php: Permission fix.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-10-06  Baard Farstad  <bf@ez.no>
+
+    * sql/mysql/ezuser.sql: Updated indeces.
+

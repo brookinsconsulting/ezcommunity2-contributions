@@ -1155,3 +1155,15 @@ Maintainer(s) : bf@ez.no
 
     * user/frontpage.php: Added dobule products on frontpage
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-10-06  Baard Farstad  <bf@ez.no>
+
+    * sql/mysql/ezarticle.sql
+      user/articlelist.php: Updated indeces.
+
+    * classes/Attic/ezflowergenerator.php
+      classes/Attic/ezflowerrenderer.php: Removed obsolete classes.
+
