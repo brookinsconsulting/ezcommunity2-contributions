@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.68 2002/02/06 12:44:03 jhe Exp $
+// $Id: ezformrenderer.php,v 1.69 2002/02/06 13:13:16 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -902,7 +902,6 @@ class eZFormRenderer
                     $element->setResult( $value, $result, true );
                 else
                     $element->setResult( $value );
-                }
             }
         }
     }
