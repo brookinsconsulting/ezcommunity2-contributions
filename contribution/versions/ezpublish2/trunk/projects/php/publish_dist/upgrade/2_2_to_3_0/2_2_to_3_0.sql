@@ -82,3 +82,4 @@ CREATE TABLE eZUser_AdditionalValue (
   PRIMARY KEY  (ID)
 ) TYPE=MyISAM;
 
+ALTER TABLE eZLink_Link CHANGE Url Url text default NULL;
