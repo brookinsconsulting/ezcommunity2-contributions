@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: cron.php,v 1.14.2.5 2002/01/08 08:07:15 kaid Exp $
+// $Id: cron.php,v 1.14.2.6 2002/01/08 08:28:19 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -24,7 +24,7 @@
 //
 
 // Tell PHP where it can find our files.
-if ( ereg( "(.*/)([^\/]+\.php)$", $PATH_TRANSLATED, $regs ) )
+if ( ereg( "(.*/)([^\/]+\.php)$", $SCRIPT_FILENAME, $regs ) )
     $siteDir = $regs[1];
 
 if ( substr( php_uname(), 0, 7) == "Windows" )
