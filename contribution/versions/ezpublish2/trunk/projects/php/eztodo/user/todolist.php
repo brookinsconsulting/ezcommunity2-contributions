@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: todolist.php,v 1.21 2001/09/13 11:39:08 jhe Exp $
+// $Id: todolist.php,v 1.22 2001/11/19 09:27:52 jhe Exp $
 //
 // Definition of todo list.
 //
@@ -200,7 +200,7 @@ $locale = new eZLocale( $Language );
 $i = 0;
 foreach ( $todo_array as $todoItem )
 {
-    if ( ( $i %2 ) == 0 )
+    if ( $i % 2 )
         $t->set_var( "td_class", "bgdark" );
     else
         $t->set_var( "td_class", "bglight" );
