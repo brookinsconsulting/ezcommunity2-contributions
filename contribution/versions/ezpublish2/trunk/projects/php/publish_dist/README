@@ -1,4 +1,3 @@
-
 NOTE: To upgrade the database from version 1.0.1 to 1.0.2 
       run the following SQL commands:
 
@@ -29,8 +28,12 @@ ALTER TABLE eZContact_Address ADD AddressTypeID int;
 NOTE: To upgrade the database from 1.0.5 and higher run the following SQL commands:
 
 
-NOTE: When upgradeing to 1.0.6, put this new template into ezarticle/user/templates/{your design}/articleview.tpl
+NOTE: Upgrading to 2.0beta is NOT recommened, put if you will give it a try, please follow the notes. And give feedback when updating.
+When releasing 2.0final it will be a complete file of changes
 
+Template updates
+----------------
+Put this new template into ezarticle/user/templates/{your design}/articleview.tpl
 <!-- BEGIN attached_file_list_tpl -->
 <h3>{intl-attached_files}:</h3>
 <!-- BEGIN attached_file_tpl -->
@@ -39,6 +42,116 @@ NOTE: When upgradeing to 1.0.6, put this new template into ezarticle/user/templa
 
 <!-- END attached_file_list_tpl -->
 
+
+Site.ini updates
+-----------------
+SiteURL=yoursite.com
+
+[eZContactMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=/images/standard/
+DocumentRoot=./ezcontact/
+Language=en_GB
+CategoryImageWidth=100
+CategoryImageHeight=100
+MaxPersonConsultationList=5
+MaxCompanyConsultationList=5
+MaxPersonList=10
+MaxCountryList=11
+LastConsultations=5
+AddressMinimum=1
+AddressWidth=1
+PhoneMinimum=3
+PhoneWidth=3
+OnlineMinimum=2
+OnlineWidth=3
+
+[eZBugMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=images/standard/
+Language=en_GB
+
+[eZAddressMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=/images/standard/
+DocumentRoot=./ezaddress/
+Language=en_GB
+MaxCountryList=11
+
+[eZArticleMain]
+ArticleListLimit=5
+AdminListLimit=5
+UserListLimit=5
+PublishNoticeReceiver=bf@ez.no
+PublishNoticeSender=bf@ez.no
+
+[eZImageCatalogueMain]
+ThumbnailViewWidth=150
+ThumbnailViewHight=150
+
+[eZAdMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=images/standard/
+Language=en_GB
+
+[eZCalendarMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=/images/standard/
+Language=en_GB
+DayStartTime=08:00
+DayStopTime=18:00
+DayInterval=00:30
+
+[eZStatsMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=/images/standard/
+Language=en_GB
+
+[eZTodoMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=/images/standard/
+Language=en_GB
+DocumentRoot=./eztodo/
+
+[eZFileManagerMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=images/standard/
+Language=en_GB
+
+[eZNewsFeedMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=images/standard/
+Language=en_GB
+PageCaching=disabled
+
+[eZTradeMain]
+MainImageWidth=300
+MainImageHeight=300
+SmallImageWidth=150
+SmallImageHeight=150
+ThumbnailImageWidth=240
+ThumbnailImageHeight=200
+ShowBillingAddress=enabled
+
+
+Changes this in your httpd configuration
+----------------
+RewriteRule     !\.(gif|css|jpg|png) /yoursite/index.php
+To
+RewriteRule     !\.(gif|css|jpg|png)$ /yoursite/index.php
+
+
+SQL updates
+-----------------
 CREATE TABLE eZArticle_ArticleFileLink (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   ArticleID int(11) DEFAULT '0' NOT NULL,
@@ -46,14 +159,6 @@ CREATE TABLE eZArticle_ArticleFileLink (
   Created timestamp(14),
   PRIMARY KEY (ID)
 );
-
-
-CHange from
-RewriteRule     !\.(gif|css|jpg|png) /home/ce/ez/projects/php/ezdeveloper/index.php
-To
-RewriteRule     !\.(gif|css|jpg|png)$ /home/ce/ez/projects/php/ezdeveloper/index.php
-
-
 
 #
 # Table structure for table 'eZContact_AddressDefinition'
@@ -93,9 +198,6 @@ update eZTrade_ProductCategoryLink set Placement=ProductID;
 # Dates for products
 alter table eZTrade_Product add Published timestamp; 
 alter table eZTrade_Product add Altered timestamp;    
-<<<<<<< README
-=======
-
 
 # Rigths to image and file:
 insert into eZUser_Module set Name='eZFileManager';
@@ -104,5 +206,3 @@ insert into eZUser_Permission set ModuleID='9', Name='WritePermission';
 insert into eZUser_Permission set ModuleID='10', Name='WritePermission';
 insert into eZUser_Permission set Name='WriteToRoot', ModuleID='9';
 insert into eZUser_Permission set Name='WriteToRoot', ModuleID='10';
-
->>>>>>> 1.16
