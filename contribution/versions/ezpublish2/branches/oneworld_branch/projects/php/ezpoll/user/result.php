@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: result.php,v 1.10 2001/10/14 21:33:08 fh Exp $
+// $Id: result.php,v 1.10.10.1 2002/05/22 12:52:10 pkej Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -61,7 +61,23 @@ else
 foreach ( $pollArray as $poll )
 {
     $t->set_var( "poll_name", $poll->name() );
-    $t->set_var( "description", $poll->description() );
+
+
+
+
+	include_once( "ezarticle/classes/ezarticlerenderer.php" );
+	include_once( "ezarticle/classes/ezarticle.php" );
+
+    $article = new eZArticle ();
+	$article->setContents ( $poll->description(false) );
+
+    $renderer = new eZArticleRenderer( $article );
+
+	$t->set_var( "description", $renderer->renderIntro() );
+
+
+
+
 	
     $pollchoice = new eZPollChoice();
     $choiceList = $pollchoice->getAll( $poll->id() );

@@ -84,7 +84,20 @@ else
 $poll = new eZPoll();
 $poll->get( $PollID );
 $t->set_var( "head_line", $poll->name() );
-$t->set_var( "description", $poll->description() );
+
+	include_once( "ezarticle/classes/ezarticlerenderer.php" );
+	include_once( "ezarticle/classes/ezarticle.php" );
+
+    $article = new eZArticle ();
+	$article->setContents ( $poll->description(false) );
+
+    $renderer = new eZArticleRenderer( $article );
+
+	$t->set_var( "description", $renderer->renderIntro() );
+
+
+
+
 $t->set_var( "poll_id", $PollID );
 
   

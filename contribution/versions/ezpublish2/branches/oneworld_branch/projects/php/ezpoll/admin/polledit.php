@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: polledit.php,v 1.28 2001/07/29 23:31:09 kaid Exp $
+// $Id: polledit.php,v 1.28.10.1 2002/05/22 12:52:10 pkej Exp $
 //
 // Created on: <21-Sep-2000 10:39:19 ce>
 //
@@ -36,7 +36,8 @@ $errorIni = new INIFIle( "ezpoll/admin/intl/" . $Language . "/polledit.php.ini",
 include_once( "ezpoll/classes/ezpoll.php" );
 include_once( "ezpoll/classes/ezpollchoice.php" );
 include_once( "ezpoll/classes/ezvote.php" );
- 
+include_once( "ezarticle/classes/ezarticlegenerator.php" );
+
 require( "ezuser/admin/admincheck.php" );
 
 if ( isSet( $Back ) )
@@ -94,7 +95,10 @@ if ( $Action == "Insert" )
         }
         
         $poll->setName( $Name );
-        $poll->setDescription( $Description );
+        $generator = new eZArticleGenerator();
+        $desc1 = array( $Description, "" );
+        $desc2 = $generator->generateXML( $desc1 ); 
+        $poll->setDescription( $desc2 );
         $poll->store();
         
         $PollID = $poll->id();
@@ -184,7 +188,10 @@ if ( $Action == "Update" )
     }
 
     $poll->setName( $Name );
-    $poll->setDescription( $Description );
+    $generator = new eZArticleGenerator();
+    $desc1 = array( $Description, "" );
+    $desc2 = $generator->generateXML( $desc1 ); 
+    $poll->setDescription( $desc2 );
     $poll->store();
 
     if( count( $PollChoiceID ) > 0 )
@@ -253,8 +260,12 @@ if ( $Action == "Edit" )
     $poll->get( $PollID );
 
     $Name = $poll->name();
-    $Description = $poll->description();
+    
+    $Description = $poll->description( false );
 
+    $generator = new eZArticleGenerator();
+    $desc1 = $generator->decodeXML( $Description );
+    $Description = $desc1[0];
     if ( $poll->isEnabled() == true )
     {
         $IsEnabled = "checked";

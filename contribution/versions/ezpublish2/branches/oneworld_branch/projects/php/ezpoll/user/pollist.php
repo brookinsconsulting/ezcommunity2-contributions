@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pollist.php,v 1.10 2001/07/20 11:22:30 jakobn Exp $
+// $Id: pollist.php,v 1.10.10.1 2002/05/22 12:52:10 pkej Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -31,6 +31,7 @@ $ini =& $GLOBALS["GlobalSiteIni"];
 $Language = $ini->read_var( "eZPollMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZPollMain", "DocumentRoot" );
 $errorIni = new INIFIle( "ezpoll/user/intl/" . $Language . "/pollist.php.ini", false );
+include_once( "ezarticle/classes/ezarticlegenerator.php" );
 
 $noItem = $errorIni->read_var( "strings", "noitem" );
 
@@ -74,7 +75,18 @@ foreach( $pollList as $pollItem )
 
     $t->set_var( "poll_id", $pollItem->id() );
     $t->set_var( "poll_name", $pollItem->name() );
-    $t->set_var( "poll_description", $pollItem->description() );
+    
+    
+	include_once( "ezarticle/classes/ezarticlerenderer.php" );
+	include_once( "ezarticle/classes/ezarticle.php" );
+
+    $article = new eZArticle ();
+	$article->setContents ( $pollItem->description(false) );
+
+    $renderer = new eZArticleRenderer( $article );
+
+	$t->set_var( "poll_description", $renderer->renderIntro() );
+
     if ( $pollItem->IsClosed() )
     {
         $t->set_var( "action", "result" );
