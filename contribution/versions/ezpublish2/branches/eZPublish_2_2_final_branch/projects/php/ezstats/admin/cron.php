@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: cron.php,v 1.1 2001/09/24 07:43:29 jhe Exp $
+// $Id: cron.php,v 1.1.2.1 2001/10/30 12:43:32 br Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -151,23 +151,23 @@ $db->array_query( $newelements, "SELECT Date, UserID FROM eZStats_PageView WHERE
 
 foreach ( $newelements as $element )
 {
-    $user = $element[$db->fieldName("UserID")];
+    $userID = $element[$db->fieldName("UserID")];
     $date = new eZDateTime();
     $date->setTimeStamp( $element[$db->fieldName("Date")] );
     $month = new eZDateTime( $date->year(), $date->month() );
-    $db->array_query( $oldelements, "SELECT * FROM eZStats_Archive_Users WHERE UserID='$user' AND Month='". $month->timeStamp() . "'" );
+    $db->array_query( $oldelements, "SELECT * FROM eZStats_Archive_Users WHERE UserID='$userID' AND Month='". $month->timeStamp() . "'" );
     
     if ( count( $oldelements ) == 0 )
     {
         $db->lock( "eZStats_Archive_Users" );
         $nextid = $db->nextID( "eZStats_Archive_Users", "ID" );
-        $res[] = $db->query( "INSERT INTO eZStats_Archive_Users (ID, UserID, Month, Count) VALUES ('$nextid', '$user', '" . $month->timeStamp() . "', '1')" );
+        $res[] = $db->query( "INSERT INTO eZStats_Archive_Users (ID, UserID, Month, Count) VALUES ('$nextid', '$userID', '" . $month->timeStamp() . "', '1')" );
         $db->unlock();
     }
     else
     {
         $count = $oldelements[0][$db->fieldName("Count")] + 1;
-        $res[] = $db->query( "UPDATE eZStats_Archive_Users SET Count='$count' WHERE UserID='$user' AND Month='" . $month->timeStamp() . "'" );
+        $res[] = $db->query( "UPDATE eZStats_Archive_Users SET Count='$count' WHERE UserID='$userID' AND Month='" . $month->timeStamp() . "'" );
     }
 }
 
