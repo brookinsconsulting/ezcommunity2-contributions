@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.66 2001/04/10 09:46:12 jb Exp $
+// $Id: articleedit.php,v 1.67 2001/04/17 13:24:38 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -100,7 +100,7 @@ function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
         }
         }*/
 
-    $files = eZCacheFile::files( "ezarticle/cache/",
+    $files =& eZCacheFile::files( "ezarticle/cache/",
                                  array( array( "articleprint", "articleview", "articlestatic", "static", "view", "print"  ),
                                         $ArticleID, NULL, NULL ), "cache", "," );
     foreach( $files as $file )
@@ -108,7 +108,7 @@ function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
         $file->delete();
     }
 
-    $files = eZCacheFile::files( "ezarticle/cache/",
+    $files =& eZCacheFile::files( "ezarticle/cache/",
                                  array( array( "articlelist", "list" ),
                                         array_merge( 0, $CategoryID, $CategoryArray ),
                                         NULL, array( "", NULL ) ),
@@ -628,7 +628,7 @@ if ( $Action == "Edit" )
     $t->set_var( "author_text", $article->authorText() );
     $t->set_var( "link_text", $article->linkText() );
 
-    print( $article->linkText() );
+//    print( $article->linkText() );
     
     $t->set_var( "action_value", "update" );
 
