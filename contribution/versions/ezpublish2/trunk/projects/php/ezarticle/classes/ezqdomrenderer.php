@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.21 2001/07/19 12:52:48 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.22 2001/07/19 13:02:55 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -677,10 +677,13 @@ class eZQDomrenderer
                         include_once( "ezform/classes/ezformrenderer.php" );
 
                         $forms = $this->Article->forms();
-                        $formRenderer = new eZFormRenderer();
-                        $output = $formRenderer->renderForm(  $forms[0] );
-
-                        $pageContent = $output;
+                        if ( count ($forms) == 1 )
+                        {
+                            $formRenderer = new eZFormRenderer();
+                            $output = $formRenderer->renderForm(  $forms[0] );
+                            
+                            $pageContent = $output;
+                        }
 
 
                     break;

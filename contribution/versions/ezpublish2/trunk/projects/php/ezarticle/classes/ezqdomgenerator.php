@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.16 2001/07/19 12:52:48 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.17 2001/07/19 13:02:55 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -491,7 +491,7 @@ class eZQDomGenerator
                 
                 $tmpContent .=  $content;
             }
-            
+
             switch ( $paragraph->name )
             {
                 case "bold" :
@@ -547,12 +547,20 @@ class eZQDomGenerator
                     $pageContent .= "<pre>" . $tmpContent . "</pre>";
                 }
                 break;
+
             }
 
         }
         else
         {
-            $pageContent = $paragraph->content;
+            if ( $paragraph->name ==  "form" )
+            {
+                $pageContent .= "<form>";
+            }
+            else
+            {            
+                $pageContent = $paragraph->content;
+            }
         
         }
         
