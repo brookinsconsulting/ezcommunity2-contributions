@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezwishlist.php,v 1.11 2001/10/16 10:08:45 ce Exp $
+// $Id: ezwishlist.php,v 1.11.2.1 2002/01/03 15:39:06 bf Exp $
 //
 // Definition of eZWishList class
 //
@@ -137,6 +137,7 @@ class eZWishList
                 $this->ID = $wishlist_array[0][$db->fieldName( "ID" )];
                 $this->UserID = $wishlist_array[0][$db->fieldName( "UserID" )];
                 $this->IsPublic = $wishlist_array[0][$db->fieldName( "IsPublic" )];
+                $ret = $this;
             }
         }
         return $ret;

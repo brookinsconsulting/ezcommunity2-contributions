@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.61 2001/10/17 12:06:48 ce Exp $
+// $Id: ezorder.php,v 1.61.2.1 2002/01/03 15:39:06 bf Exp $
 //
 // Definition of eZOrder class
 //
@@ -172,7 +172,7 @@ class eZOrder
             }
         }
         $ret[] = $db->query( "DELETE FROM eZTrade_OrderStatus WHERE OrderID='$this->ID'" );
-        $ret[] = $db->query( "DELETE FROM eZUser_UserShippingLink WHERE ShippingID='$this->ShippingAddressID'" );
+        $ret[] = $db->query( "DELETE FROM eZUser_UserShippingLink WHERE AddressID='$this->ShippingAddressID'" );
         $ret[] = $db->query( "DELETE FROM eZTrade_Order WHERE ID='$this->ID'" );
 
         eZDB::finish( $ret, $db );
@@ -1155,7 +1155,7 @@ class eZOrder
 
         if ( $shippingVAT && $shippingCost )
         {
-            $shippingVATPercentage = round( $shippingVAT / ( ( $shippingCost - $shippingVAT ) / 100 ), 0 );
+            $shippingVATPercentage = round( $shippingVAT / ( ( $shippingCost - $shippingVAT ) / 100 ), 2 );
         }
         else
             $shippingVATPercentage = 0;
