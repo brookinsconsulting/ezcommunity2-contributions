@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezinformixdb.php,v 1.8 2001/06/29 11:21:24 bf Exp $
+// $Id: ezinformixdb.php,v 1.9 2001/06/29 13:54:11 bf Exp $
 //
 // Definition of eZInformixDB class
 //
@@ -226,7 +226,8 @@ class eZInformixDB
     */
     function &escapeString( $str )
     {
-        return  $str;
+        $str = str_replace ("\r", "", $str );        
+        return $str;
     }
     
     /*!
