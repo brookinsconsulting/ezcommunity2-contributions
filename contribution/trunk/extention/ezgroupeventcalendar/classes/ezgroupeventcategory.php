@@ -2,8 +2,10 @@
 //
 // Definition of eZGroupEventCategory class
 //
-// Adam Fallert <FallertA@umsystem.edu>
+// Graham Brookins <info@brookinsconsulting.com>
 // Created on: <3-Oct-2001 14:36:00>
+// By: Adam Fallert <FallertA@umsystem.edu>
+// 
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
