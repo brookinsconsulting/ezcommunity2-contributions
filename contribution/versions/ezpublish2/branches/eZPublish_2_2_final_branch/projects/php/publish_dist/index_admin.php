@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index_admin.php,v 1.19.2.4 2002/01/04 12:06:34 kaid Exp $
+// $Id: index_admin.php,v 1.19.2.5 2002/01/04 15:57:09 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -52,8 +52,8 @@ ini_set( "include_path", $includePath );
 if ( ereg( "(.*)/([^\/]+\.php)$", $SCRIPT_NAME, $regs ) )
     $wwwDir = $regs[1];
 
-// Trick: Rewrite setup *does* redirect (for admins!), so we don't want an $index
-if ( isset( $REDIRECT_URL ) )
+// Trick: Rewrite setup doesn't have index_admin.php in $REQUEST_URI, so we don't want an $index
+if ( ! ereg( ".*index_admin\.php.*", $REQUEST_URI ) ) 
     $index = "";
 else 
 {
