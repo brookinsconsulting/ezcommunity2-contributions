@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.48 2001/02/23 13:20:12 ce Exp $
+// $Id: ezlinkgroup.php,v 1.49 2001/02/23 15:23:56 ce Exp $
 //
 // Definition of eZLinkGroup class
 //
@@ -427,6 +427,23 @@ class eZLinkGroup
         return $image;
     }
 
+    /*!
+      Delete the current image that belong to this eZLinkGroup object.
+    */
+    function deleteImage()
+    {
+        $this->dbInit();
+
+        $this->Database->array_query( $result, "SELECT ImageID FROM eZLink_LinkGroup WHERE ID='$this->ID'" );
+
+        foreach ( $result as $item )
+        {
+            $image = new eZImage( $item["ImageID"] );
+            $image->delete();
+        }
+        
+        $this->Database->query( "UPDATE eZLink_LinkGroup set ImageID='0' WHERE ID='$this->ID'" );
+    }
     
 	/*!
       Initializing the database.

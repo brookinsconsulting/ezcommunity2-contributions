@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.41 2001/02/23 13:20:11 ce Exp $
+// $Id: ezlink.php,v 1.42 2001/02/23 15:23:56 ce Exp $
 //
 // Definition of eZLink class
 //
@@ -114,6 +114,7 @@ class eZLink
     */
     function update()
     {
+        $GLOBALS["DEBUG"] = true;
         $this->dbInit();
         $this->Database->query( "UPDATE eZLink_Link SET
                 Title='$this->Title',
@@ -537,6 +538,25 @@ class eZLink
 
         return $ret;
     }
+
+    /*!
+      Delete the current image that belong to this eZLink object.
+    */
+    function deleteImage()
+    {
+        $this->dbInit();
+
+        $this->Database->array_query( $result, "SELECT ImageID FROM eZLink_Link WHERE ID='$this->ID'" );
+
+        foreach ( $result as $item )
+        {
+            $image = new eZImage( $item["ImageID"] );
+            $image->delete();
+        }
+        
+        $this->Database->query( "UPDATE eZLink_Link set ImageID='0' WHERE ID='$this->ID'" );
+    }
+
     
     /*!
       \private

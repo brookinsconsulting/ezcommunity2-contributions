@@ -1,6 +1,6 @@
 <?
 //
-// $Id: groupedit.php,v 1.40 2001/02/23 13:07:15 ce Exp $
+// $Id: groupedit.php,v 1.41 2001/02/23 15:23:56 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:57:28 ce>
@@ -171,8 +171,14 @@ if ( $Action == "update" )
                 
                 $group->setImage( $image );
             }
-            
+
             $group->update();
+
+            if ( $DeleteImage )
+            {
+                $group->deleteImage();
+            }
+
             eZHTTPTool::header( "Location: /link/group/$ParentCategory" );
             exit();
         }

@@ -83,6 +83,15 @@
 	<b><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}" target="_blank">{link_title}</a></b><br />
 	{link_description}
 	</td>
+        <td bgcolor="{bg_color}">
+	<!-- BEGIN image_item_tpl -->
+	<p><img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
+	</p>
+	<!-- END image_item_tpl -->
+	<!-- BEGIN no_image_tpl -->
+	&nbsp;
+	<!-- END no_image_tpl -->
+        </td>
 	<td class="{td_class}" width="80" align="right">
 	(Hits:&nbsp;{link_hits})
 	</td>

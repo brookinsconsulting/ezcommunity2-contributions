@@ -1,5 +1,5 @@
 <?
-// $Id: linkgrouplist.php,v 1.13 2001/02/23 13:07:15 ce Exp $
+// $Id: linkgrouplist.php,v 1.14 2001/02/23 15:23:56 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:55:24 ce>
@@ -60,6 +60,10 @@ $t->set_block( "group_item_tpl", "no_image_tpl", "no_image" );
 
 $t->set_block( "link_page_tpl", "link_list_tpl", "link_list" );
 $t->set_block( "link_list_tpl", "link_item_tpl", "link_item" );
+
+$t->set_block( "link_item_tpl", "image_item_tpl", "image_item" );
+$t->set_block( "link_item_tpl", "no_image_tpl", "no_image" );
+
 
 $t->set_block( "link_page_tpl", "path_item_tpl", "path_item" );
 
@@ -144,7 +148,6 @@ else
         else
         {
             $t->parse( "no_image", "no_image_tpl" );
-            $t->set_var( "image_item", "" );
         }
         
         $categories = $languageIni->read_var( "strings", "categories" );
@@ -190,6 +193,33 @@ else
         $t->set_var( "link_modified", $linkItem->modified() );
         $t->set_var( "link_accepted", $linkItem->id() );
         $t->set_var( "link_url", $linkItem->url() );
+
+        $image =& $linkItem->image();
+        
+        if ( $image->id() != 0 )
+        {
+            $imageWidth =& $ini->read_var( "eZLinkMain", "LinkImageWidth" );
+            $imageHeight =& $ini->read_var( "eZLinkMain", "LinkImageHeight" );
+            
+            $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
+            
+            $imageURL = "/" . $variation->imagePath();
+            $imageWidth =& $variation->width();
+            $imageHeight =& $variation->height();
+            $imageCaption =& $image->caption();
+            
+            $t->set_var( "image_width", $imageWidth );
+            $t->set_var( "image_height", $imageHeight );
+            $t->set_var( "image_url", $imageURL );
+            $t->set_var( "image_caption", $imageCaption );
+            $t->set_var( "no_image", "" );
+            $t->parse( "image_item", "image_item_tpl" );
+        }
+        else
+        {
+            $t->parse( "no_image", "no_image_tpl" );
+        }
+
         
         $hit = new eZHit();
         $hits = $hit->getLinkHits( $linkItem->id() );

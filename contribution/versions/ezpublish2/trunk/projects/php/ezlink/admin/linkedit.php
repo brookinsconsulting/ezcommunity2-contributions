@@ -1,5 +1,5 @@
 <?
-// $Id: linkedit.php,v 1.44 2001/02/23 13:20:11 ce Exp $
+// $Id: linkedit.php,v 1.45 2001/02/23 15:23:56 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -143,8 +143,14 @@ if ( $Action == "update" )
                 
                 $link->setImage( $image );
             }
-            
+
             $link->update();
+
+            if ( $DeleteImage )
+            {
+                $link->deleteImage();
+            }
+
             
             eZHTTPTool::header( "Location: /link/group/$LinkGroupID" );
             exit();
@@ -229,8 +235,6 @@ if ( $Action == "insert" )
             $link->setLinkGroupID( $LinkGroupID );
             $link->setKeyWords( $Keywords );
             $link->setAccepted( $Accepted );
-            print( $Accepted );
-            exit();
             $link->setUrl( $Url );
 
             $ttitle = $Title;
