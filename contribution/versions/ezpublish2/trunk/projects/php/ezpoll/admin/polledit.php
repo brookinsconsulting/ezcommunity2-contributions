@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: polledit.php,v 1.13 2000/11/01 12:03:15 bf-cvs Exp $
+// $Id: polledit.php,v 1.14 2000/11/02 12:10:24 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <21-Sep-2000 10:39:19 ce>
@@ -30,6 +30,7 @@ include_once( "classes/eztemplate.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZPollMain", "Language" );
+$errorIni = new INIFIle( "ezpoll/admin/intl/" . $Language . "/polledit.php.ini", false );
 
 include_once( "ezpoll/classes/ezpoll.php" );
 include_once( "ezpoll/classes/ezpollchoice.php" );
@@ -40,66 +41,73 @@ require( "ezuser/admin/admincheck.php" );
 // Insert
 if ( $Action == "Insert" )
 {
-    $poll = new eZPoll();
-    if ( $IsEnabled == "on" )
+    if ( $Name )
     {
-        $poll->setIsEnabled ( true );
-    }
-    else
-    {
-        $poll->setIsEnabled ( false );
-    }
+        $poll = new eZPoll();
+        if ( $IsEnabled == "on" )
+        {
+            $poll->setIsEnabled ( true );
+        }
+        else
+        {
+            $poll->setIsEnabled ( false );
+        }
 
-    if ( $IsClosed == "on" )
-    {
-        $poll->setIsClosed ( true );
-    }
-    else
-    {
-        $poll->setIsClosed ( false );
-    }
-
-    if ( $ShowResult == "on" )
-    {
-        $poll->setShowResult ( true );
-    }
-    else
-    {
-        $poll->setShowResult ( false );
-    }
-
-    if ( $Anonymous == "on" )
-    {
-        $poll->setAnonymous ( true );
-    }
-    else
-    {
+        if ( $IsClosed == "on" )
+        {
+            $poll->setIsClosed ( true );
+        }
+        else
+        {
+            $poll->setIsClosed ( false );
+        }
+        
+        if ( $ShowResult == "on" )
+        {
+            $poll->setShowResult ( true );
+        }
+        else
+        {
+            $poll->setShowResult ( false );
+        }
+        
+        if ( $Anonymous == "on" )
+        {
+            $poll->setAnonymous ( true );
+        }
+        else
+        {
         $poll->setAnonymous ( false );
-    }
-
-    if ( !$Description )
-    {
-        $ini = new INIFile( "ezpoll/admin/" . "intl/" . $Language . "/polledit.php.ini", false );
-        $Description =  $ini->read_var( "strings", "description_default" );
-    }
-
-    $poll->setName( $Name );
-    $poll->setDescription( $Description );
-    $poll->store();
-
-    $pollID = $poll->id();
-
-    // clear the menu cache
-    if ( file_exists("ezpoll/cache/menubox.cache" )  )
-        unlink( "ezpoll/cache/menubox.cache" );
-    
-    if ( isset ( $Choice ) )
-    {
-        Header( "Location: /poll/choiceedit/new/" . $pollID . "/" );
+        }
+        
+        if ( !$Description )
+        {
+            $ini = new INIFile( "ezpoll/admin/" . "intl/" . $Language . "/polledit.php.ini", false );
+            $Description =  $ini->read_var( "strings", "description_default" );
+        }
+        
+        $poll->setName( $Name );
+        $poll->setDescription( $Description );
+        $poll->store();
+        
+        $pollID = $poll->id();
+        
+        // clear the menu cache
+        if ( file_exists("ezpoll/cache/menubox.cache" )  )
+            unlink( "ezpoll/cache/menubox.cache" );
+        
+        if ( isset ( $Choice ) )
+        {
+            Header( "Location: /poll/choiceedit/new/" . $pollID . "/" );
+            exit();
+        }
+        Header( "Location: /poll/pollist/" );
         exit();
     }
-    Header( "Location: /poll/pollist/" );
-    exit();
+    else
+    {
+        $errorMsg = $errorIni->read_var( "strings", "noname" );
+    }
 }
 
 // Update
@@ -277,7 +285,7 @@ if ( !isset ( $headline ) )
     $headline =  $ini->read_var( "strings", "head_line_insert" );
 }
 $t->set_var( "head_line", $headline );
-
+$t->set_var( "error_msg", $errorMsg );
 
 $t->pparse( "output", "poll_edit_page" );
 ?>

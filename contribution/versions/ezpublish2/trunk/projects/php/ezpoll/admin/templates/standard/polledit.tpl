@@ -37,7 +37,7 @@
 <h1>{head_line}</h1>
 
 <hr noshade size="4"/>
-
+<p class="error">{error_msg}</p>
 <p class="boxtext">{intl-name}:</p>
 <input type="text" size="40" name="Name" value="{name_value}"/>
 

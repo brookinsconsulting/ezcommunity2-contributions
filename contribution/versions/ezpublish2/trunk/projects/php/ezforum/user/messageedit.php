@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.5 2000/10/26 13:23:25 ce-cvs Exp $
+// $Id: messageedit.php,v 1.6 2000/11/02 12:10:24 ce-cvs Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -123,19 +123,5 @@ $t->set_var( "category_id", $category->id() );
 $username = ( $user->firstName() . " " . $user->lastName() );
 $t->set_var( "user", $username );
 
-if ( $GenerateStaticPage == "true" )
-{
-    $fp = fopen ( $cachedFile, "w+");
-
-    $output = $t->parse( $target, "message_tpl" );
-    // print the output the first time while printing the cache file.
-    
-    print( $output );
-    fwrite ( $fp, $output );
-    fclose( $fp );
-}
-else
-{
-    $t->pparse( "output", "messagepost" );
-}
+$t->pparse( "output", "messagepost" );
 ?>
