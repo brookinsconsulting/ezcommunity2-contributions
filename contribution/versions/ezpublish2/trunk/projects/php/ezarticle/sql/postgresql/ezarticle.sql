@@ -176,10 +176,10 @@ CREATE TABLE eZArticle_Type (
 );
 
 CREATE TABLE eZArticle_ArticleMediaLink (
-  ID int(11) NOT NULL,
-  ArticleID int(11) NOT NULL default '0',
-  MediaID int(11) NOT NULL default '0',
-  Created int(11) default NULL,
+  ID int NOT NULL,
+  ArticleID int NOT NULL default '0',
+  MediaID int NOT NULL default '0',
+  Created int default NULL,
   PRIMARY KEY (ID)
 );
 
