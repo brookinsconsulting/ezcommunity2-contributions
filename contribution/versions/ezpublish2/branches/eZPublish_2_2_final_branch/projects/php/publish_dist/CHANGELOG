@@ -17,6 +17,9 @@ Changes from 2.2.2 to 2.2.3
 * Fixed wrong path in include_path on Windows servers
 * Fixed some bugs in detection of wwwDir and index
 * Added detection of siteDir -> sitedir.ini is obsolete now
+* Added new eztag: <ezarticle id text> links to article with "id" and linktext "text"
+* Added new eztag: <ezcategory id text> links to category with "id" and linktext "text"
+* Added new eztag: <ezstatic id text> links to static article with "id" and linktext "text"
 
 Changes from 2.2.1 final to 2.2.2
 ---------------------------------
