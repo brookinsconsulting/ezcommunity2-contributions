@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: typeedit.php,v 1.9 2001/07/20 11:42:01 jakobn Exp $
+// $Id: typeedit.php,v 1.10 2001/09/12 10:50:36 br Exp $
 //
 // Created on: <20-Dec-2000 18:24:06 bf>
 //
@@ -256,7 +256,7 @@ if ( $Action == "Edit" )
     }
     else
     {
-        $t->set_var( "attribute_list", "", true );
+        $t->set_var( "attribute_list", "" );
     }
     
 }
