@@ -49,9 +49,14 @@
 <a href="/calendar/dayview/{year_number}/{month_number}/{day_number}">{day_number}</a>
 <br />
 
-<!-- BEGIN appointment_tpl -->
-<a href="/calendar/appointmentview/{appointment_id}/">{start_time}</a><br />
-<!-- END appointment_tpl -->
+<!-- BEGIN private_appointment_tpl -->
+{start_time} - {stop_time}<br />
+<!-- END private_appointment_tpl -->
+
+<!-- BEGIN public_appointment_tpl -->
+<a href="/calendar/appointmentview/{appointment_id}/">{start_time} - {stop_time}</a><br />
+<!-- END public_appointment_tpl -->
+
 <br />
 <br />
 <div align="right"><a href="/calendar/appointmentedit/new/{year_number}/{month_number}/{day_number}">+</a></div>

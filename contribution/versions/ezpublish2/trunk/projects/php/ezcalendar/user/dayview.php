@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.29 2001/01/26 09:50:13 gl Exp $
+// $Id: dayview.php,v 1.30 2001/01/27 22:13:58 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -63,15 +63,6 @@ if ( ( $session->variable( "ShowOtherCalenderUsers" ) == false ) || ( isSet( $Ge
 
 $tmpUser = new eZUser( $session->variable( "ShowOtherCalenderUsers" ) );
 
-if ( $tmpUser->id() == $userID )
-{
-    $showPrivate = true;
-}
-else
-{
-    $showPrivate = false;
-}
-
 $date = new eZDate();
 
 if ( $Year != "" && $Month != "" && $Day != "" )
@@ -111,8 +102,10 @@ else
 
     $t->set_block( "day_view_page_tpl", "user_item_tpl", "user_item" );
     $t->set_block( "day_view_page_tpl", "time_table_tpl", "time_table" );
-    $t->set_block( "time_table_tpl", "appointment_tpl", "appointment" );
-    $t->set_block( "appointment_tpl", "delete_check_tpl", "delete_check" );
+    $t->set_block( "time_table_tpl", "no_appointment_tpl", "no_appointment" );
+    $t->set_block( "time_table_tpl", "private_appointment_tpl", "private_appointment" );
+    $t->set_block( "time_table_tpl", "public_appointment_tpl", "public_appointment" );
+    $t->set_block( "public_appointment_tpl", "delete_check_tpl", "delete_check" );
     $t->set_block( "day_view_page_tpl", "week_tpl", "week" );
     $t->set_block( "week_tpl", "day_tpl", "day" );
     $t->set_block( "week_tpl", "empty_day_tpl", "empty_day" );
@@ -128,7 +121,7 @@ else
     $tmpAppointment = new eZAppointment();
 
     // fetch the appointments for the selected day
-    $appointments =& $tmpAppointment->getByDate( $tmpDate, $tmpUser, $showPrivate );
+    $appointments =& $tmpAppointment->getByDate( $tmpDate, $tmpUser, true );
 
 
     // set start/stop and interval times
@@ -289,7 +282,11 @@ else
         $t->set_var( "start_time", addZero( $startTime->hour() ) . addZero( $startTime->minute() ) );
 
         $drawnColumn = array();
-        $t->set_var( "appointment", "" );
+
+        $t->set_var( "public_appointment", "" );
+        $t->set_var( "private_appointment", "" );
+        $t->set_var( "no_appointment", "" );
+        $t->set_var( "delete_check", "" );
 
         for ( $col=0; $col<$numCols; $col++ )
         {
@@ -300,15 +297,27 @@ else
             {
                 $appointment = new eZAppointment( $appointmentId );
 
-                $t->set_var( "td_class", "bgdark" );
-                $t->set_var( "rowspan_value", $tableCellsRowSpan[$row][$col] );
-                $t->set_var( "appointment_id", $appointment->id() );
-                $t->set_var( "appointment_name", $appointment->name() );
-                $t->set_var( "appointment_description", $appointment->description() );
-                $t->set_var( "edit_button", "Edit" );
+                // a private appointment
+                if ( $appointment->isPrivate() == true )
+                {
+                    $t->set_var( "td_class", "bgdark" );
+                    $t->set_var( "rowspan_value", $tableCellsRowSpan[$row][$col] );
 
-                $t->parse( "delete_check", "delete_check_tpl" );
-                $t->parse( "appointment", "appointment_tpl", true );
+                    $t->parse( "private_appointment", "private_appointment_tpl", true );
+                }
+                // a public appointment
+                else
+                {
+                    $t->set_var( "td_class", "bgdark" );
+                    $t->set_var( "rowspan_value", $tableCellsRowSpan[$row][$col] );
+                    $t->set_var( "appointment_id", $appointment->id() );
+                    $t->set_var( "appointment_name", $appointment->name() );
+                    $t->set_var( "appointment_description", $appointment->description() );
+                    $t->set_var( "edit_button", "Edit" );
+
+                    $t->parse( "delete_check", "delete_check_tpl" );
+                    $t->parse( "public_appointment", "public_appointment_tpl", true );
+                }
             }
 
             // an empty space
@@ -316,13 +325,8 @@ else
             {
                 $t->set_var( "td_class", "bglight" );
                 $t->set_var( "rowspan_value", $tableCellsRowSpan[$row][$col] );
-                $t->set_var( "appointment_id", "" );
-                $t->set_var( "appointment_name", "" );
-                $t->set_var( "appointment_description", "" );
-                $t->set_var( "edit_button", "" );
-                $t->set_var( "delete_check", "" );
 
-                $t->parse( "appointment", "appointment_tpl", true );
+                $t->parse( "no_appointment", "no_appointment_tpl", true );
             }
         }
 

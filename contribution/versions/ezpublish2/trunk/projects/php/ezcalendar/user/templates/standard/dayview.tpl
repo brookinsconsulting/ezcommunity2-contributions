@@ -59,7 +59,7 @@
 	<a href="/calendar/appointmentedit/new/{year_number}/{month_number}/{day_number}/{start_time}">{short_time}</a>
 	</td>
 
-	<!-- BEGIN appointment_tpl -->
+	<!-- BEGIN public_appointment_tpl -->
 	<td class="{td_class}" valign="top" rowspan="{rowspan_value}" >
 	<table width="100%" cellspacing="0" cellpadding="0" border="0" >
 	<tr>
@@ -80,8 +80,18 @@
 	</table>
 
 	</td>
+	<!-- END public_appointment_tpl -->
 
-	<!-- END appointment_tpl -->
+	<!-- BEGIN private_appointment_tpl -->
+	<td class="{td_class}" valign="top" rowspan="{rowspan_value}" >
+	({intl-private_appointment})
+	</td>
+	<!-- END private_appointment_tpl -->
+
+	<!-- BEGIN no_appointment_tpl -->
+	<td class="{td_class}" valign="top" rowspan="{rowspan_value}" >
+	</td>
+	<!-- END no_appointment_tpl -->
 
 </tr>
 <!-- END time_table_tpl -->

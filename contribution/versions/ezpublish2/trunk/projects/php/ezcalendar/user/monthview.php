@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.19 2001/01/26 09:50:13 gl Exp $
+// $Id: monthview.php,v 1.20 2001/01/27 22:13:58 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 14:09:56 bf>
@@ -57,16 +57,7 @@ if ( ( $session->variable( "ShowOtherCalenderUsers" ) == false ) || ( isSet( $Ge
     $session->setVariable( "ShowOtherCalenderUsers", $GetByUserID );
 }
 
-$tmpUser = new eZUser( $session->variable( "ShowOtherCalenderUsers" ) );
-
-if ( $tmpUser->id() == $userID )
-{
-    $showPrivate = true;
-}
-else
-{
-    $showPrivate = false;
-}
+$appOwnerUser = new eZUser( $session->variable( "ShowOtherCalenderUsers" ) );
 
 $date = new eZDate();
 
@@ -106,7 +97,8 @@ else
     $t->set_block( "month_tpl", "week_tpl", "week" );
     $t->set_block( "month_tpl", "week_day_tpl", "week_day" );
     $t->set_block( "week_tpl", "day_tpl", "day" );
-    $t->set_block( "day_tpl", "appointment_tpl", "appointment" );
+    $t->set_block( "day_tpl", "public_appointment_tpl", "public_appointment" );
+    $t->set_block( "day_tpl", "private_appointment_tpl", "private_appointment" );
 
     $t->set_var( "month_name", $Locale->monthName( $date->monthName(), false ) );
     $t->set_var( "month_number", $Month );
@@ -165,15 +157,24 @@ else
                     $tmpDate->setMonth( $date->month() );
                     $tmpDate->setDay( $date->day() );
 
-                    $appointments =& $tmpAppointment->getByDate( $tmpDate, $tmpUser, $showPrivate );
-                    $t->set_var( "appointment", "" );
+                    $appointments =& $tmpAppointment->getByDate( $tmpDate, $appOwnerUser, true );
+                    $t->set_var( "public_appointment", "" );
+                    $t->set_var( "private_appointment", "" );
+
                     foreach ( $appointments as $appointment )
                     {
-                        $start = $appointment->dateTime();
                         $t->set_var( "appointment_id", $appointment->id() );
-                        $t->set_var( "start_time", $Locale->format( $start->time(), true ) );
+                        $t->set_var( "start_time", $Locale->format( $appointment->startTime(), true ) );
+                        $t->set_var( "stop_time", $Locale->format( $appointment->stopTime(), true ) );
 
-                        $t->parse( "appointment", "appointment_tpl", true );
+                        if ( $appointment->isPrivate() == false || $userID == $appointment->userID() )
+                        {
+                            $t->parse( "public_appointment", "public_appointment_tpl", true );
+                        }
+                        else
+                        {
+                            $t->parse( "private_appointment", "private_appointment_tpl", true );
+                        }
                     }
 
                     // set special colours for today and weekend
@@ -277,7 +278,7 @@ else
         $t->set_var( "user_firstname", $userItem->firstName() );
         $t->set_var( "user_lastname", $userItem->lastName() );
 
-        if ( $tmpUser->id() == $userItem->id() )
+        if ( $appOwnerUser->id() == $userItem->id() )
         {
             $t->set_var( "user_is_selected", "selected" );
         }
