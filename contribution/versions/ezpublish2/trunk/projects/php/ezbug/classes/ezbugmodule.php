@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugmodule.php,v 1.7 2001/02/06 10:42:58 fh Exp $
+// $Id: ezbugmodule.php,v 1.8 2001/02/06 16:26:28 fh Exp $
 //
 // Definition of eZBugModule class
 //
@@ -135,7 +135,7 @@ class eZBugModule
             $this->Database->array_query( $module_array, "SELECT * FROM eZBug_Module WHERE ID='$id'" );
             if ( count( $module_array ) > 1 )
             {
-                die( "Error: Module's with the same ID was found in the database. This shouldent happen." );
+                die( "Error: Module's with the same ID was found in the database. This should not happen." );
             }
             else if( count( $module_array ) == 1 )
             {
@@ -416,8 +416,10 @@ class eZBugModule
       handled bugs are counted.
 
       If $excludeClosed == true the closed bugs does not get counted.
+
+      If $recursive == true it will also count the bug in the submodules.
     */
-    function countBugs( $countUnhandled=true, $excludeClosed=false )
+    function countBugs( $countUnhandled=true, $excludeClosed=false, $recursive=false )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -452,6 +454,23 @@ class eZBugModule
        $this->Database->array_query( $bug_array, $query );
        $ret =& $bug_array[0]["Count"];
 
+       if( $recursive == true )  // Count bugs in modules under this one.
+       {
+           $query = "
+                    SELECT ID
+                    FROM eZBug_Module
+                    WHERE
+                    eZBug_Module.ParentID = '$this->ID'
+                    ";
+           $this->Database->array_query( $modules, $query );
+           for ( $i=0; $i< count($modules); $i++ )
+           {
+               $mod = new eZBugModule( $modules[$i]["ID"] );
+               $ret += $mod->countBugs( $countUnhandled, $excludeClosed, true );
+           }
+       
+       }
+       
        return $ret;
     }
     
