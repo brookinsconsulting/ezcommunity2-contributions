@@ -1,5 +1,5 @@
 #
-# $Id: eznews.sql,v 1.18 2000/10/16 13:42:19 pkej-cvs Exp $
+# $Id: eznews.sql,v 1.19 2000/10/16 13:48:13 pkej-cvs Exp $
 #
 # eZNews database schema.
 #
@@ -23,13 +23,6 @@ CREATE TABLE eZNews_ItemType
     KEY (eZClass),
     KEY (eZTable)
 );
-<<<<<<< eznews.sql
-
-INSERT INTO eZNews_ItemType VALUES (1, 'category', 'eZNewsCategory', 'eZNews_Category');
-INSERT INTO eZNews_ItemType VALUES (2, 'article',  'eZNewsArticle',  'eZNews_Article');
-
-#Future extensions follow
-=======
 
 INSERT INTO eZNews_ItemType (ID, Name, eZClass, eZTable) VALUES ('1', 'undefined', '', '');
 INSERT INTO eZNews_ItemType (ID, Name, eZClass, eZTable) VALUES ('2', 'news', '', '');
@@ -54,16 +47,7 @@ INSERT INTO eZNews_ItemType (ID, ParentID, Name, eZClass, eZTable) VALUES ('15',
 
 
 
->>>>>>> 1.14
 
-<<<<<<< eznews.sql
-#INSERT INTO eZNews_ItemType VALUES (3, 'question', 'eZNewsQuestion', 'eZNews_Question');
-#INSERT INTO eZNews_ItemType VALUES (4, 'answer',   'eZNewsAnswer',   'eZNews_Answer');
-#INSERT INTO eZNews_ItemType VALUES (5, 'diary',    'eZNewsDiary',    'eZNews_Diary');
-
-
-
-=======
 DROP TABLE eZNews_ChangeType;
 
 CREATE TABLE eZNews_ChangeType
@@ -93,7 +77,6 @@ INSERT INTO eZNews_ChangeType (Description, Name) VALUES ('The item is a tempora
 INSERT INTO eZNews_ChangeType (Description, Name) VALUES ('The item is an administrative item',       'administrate'   );
 
 
->>>>>>> 1.14
 # This table keeps track of all items in the hiearcy,
 # from categories, to articles.
 #
@@ -176,42 +159,11 @@ CREATE TABLE eZNews_Hiearchy
 (
     ItemID      int(11) NOT NULL REFERENCES eZNews_Item(ID),
     ParentID    int(11) NOT NULL REFERENCES eZNews_Item(ID),
-<<<<<<< eznews.sql
-    isCanonical enum('Y', 'N') DEFAULT 'N' NOT NULL,
-    
-    PRIMARY KEY (ItemID, ParentID),
-    KEY (ID)
-);
-
-INSERT INTO eZNews_Hiearchy VALUES (1, 2, 1);
-
-
-
-CREATE TABLE eZNews_ChangeType
-(
-    ID              int(11) DEFAULT '0' NOT NULL AUTO_INCREMENT,
-    Name            varchar(255) NOT NULL,
-    
-    PRIMARY KEY (ID),
-    KEY (Name)
-=======
     isCanonical enum('Y', 'N') DEFAULT 'N' NOT NULL,
 
     PRIMARY KEY (ItemID, ParentID)
->>>>>>> 1.14
 );
 
-<<<<<<< eznews.sql
-INSERT INTO eZNews_ChangeType VALUES ('1', 'other');
-INSERT INTO eZNews_ChangeType VALUES ('2', 'created');
-INSERT INTO eZNews_ChangeType VALUES ('3', 'drafted');
-INSERT INTO eZNews_ChangeType VALUES ('4', 'refused');
-INSERT INTO eZNews_ChangeType VALUES ('5', 'published');
-INSERT INTO eZNews_ChangeType VALUES ('6', 'updated');
-INSERT INTO eZNews_ChangeType VALUES ('7', 'translated');
-INSERT INTO eZNews_ChangeType VALUES ('8', 'retracted');
-INSERT INTO eZNews_ChangeType VALUES ('9', 'deleted');
-=======
 #INSERT INTO eZNews_Hiearchy (ItemID, ParentID, isCanonical) SELECT DISTINCT Item.ID, '0', 'Y' FROM eZNews_Item AS Item, eZNews_Item AS Parent WHERE Item.Name = 'Root';
 #INSERT INTO eZNews_Hiearchy (ItemID, ParentID, isCanonical) SELECT DISTINCT Item.ID, Parent.ID, 'Y' FROM eZNews_Item AS Item, eZNews_Item AS Parent WHERE Item.Name = 'Help' AND Parent.Name = 'Root';
 #INSERT INTO eZNews_Hiearchy (ItemID, ParentID, isCanonical) SELECT DISTINCT Item.ID, Parent.ID, 'Y' FROM eZNews_Item AS Item, eZNews_Item AS Parent WHERE Item.Name = 'news' AND Parent.Name = 'Root';
@@ -241,32 +193,11 @@ INSERT INTO eZNews_ChangeType VALUES ('9', 'deleted');
 #INSERT INTO eZNews_Hiearchy (ItemID, ParentID, isCanonical) SELECT DISTINCT Item.ID, Parent.ID, 'N' FROM eZNews_Item AS Item, eZNews_Item AS Parent WHERE Item.Name = 'Summer Olympics 2000' AND Parent.Name = 'Feature';
 #INSERT INTO eZNews_Hiearchy (ItemID, ParentID, isCanonical) SELECT DISTINCT Item.ID, Parent.ID, 'Y' FROM eZNews_Item AS Item, eZNews_Item AS Parent WHERE Item.Name = 'Winter Olympics 2002' AND Parent.Name = 'Sports';
 #INSERT INTO eZNews_Hiearchy (ItemID, ParentID, isCanonical) SELECT DISTINCT Item.ID, Parent.ID, 'N' FROM eZNews_Item AS Item, eZNews_Item AS Parent WHERE Item.Name = 'Winter Olympics 2002' AND Parent.Name = 'Feature';
->>>>>>> 1.14
 
 #INSERT INTO eZNews_Hiearchy (ItemID, ParentID, isCanonical) SELECT DISTINCT Item.ID, Parent.ID, 'Y' FROM eZNews_Item AS Item, eZNews_Item AS Parent WHERE Item.Name = 'Technology' AND Parent.Name = 'news';
 
 
-<<<<<<< eznews.sql
-CREATE TABLE eZNews_ChangeTicket
-(
-    ID          int(11) DEFAULT '0' NOT NULL AUTO_INCREMENT,
-    ChangeInfo  int(11) DEFAULT '0' NOT NULL REFERENCES eZNews_Article(ID),
-    ChangeType  int(11) NOT NULL REFERENCES eZNews_ChangeType(ID),
-    ChangeText  varchar(255),
-    ChangedBy   int(11) NOT NULL REFERENCES ezCommon_User(ID),
-    ChangedAt   timestamp DEFAULT 'now()',    
-    PRIMARY KEY (ID),
-    KEY (ChangeInfo),
-    KEY (ChangedBy),
-    KEY (ChangedAt),
-    KEY (ChangeType)
-);
 
-
-
-=======
-
->>>>>>> 1.14
 # Changes to the items are logged.
 
 DROP TABLE eZNews_ItemLog;
@@ -283,47 +214,22 @@ CREATE TABLE eZNews_ItemLog
 
 
 
-<<<<<<< eznews.sql
-CREATE TABLE eZNews_ItemImage
-=======
 DROP TABLE eZNews_ItemFile;
 
 CREATE TABLE eZNews_ItemFile
->>>>>>> 1.14
 (
-<<<<<<< eznews.sql
-    ID      int(11) DEFAULT '0' NOT NULL AUTO_INCREMENT,
-    ItemID  int(11) NOT NULL REFERENCES eZNews_Item(ID),
-    ImageID int(11) NOT NULL REFERENCES eZCommon_Image(ID),
-    
-    PRIMARY KEY (ItemID, ImageID),
-    KEY (ID)
-=======
     ID      int(11) DEFAULT '0' NOT NULL AUTO_INCREMENT,
     ItemID  int(11) NOT NULL REFERENCES eZNews_Item(ID),
     FileID int(11) NOT NULL REFERENCES eZCommon_File(ID),
 
     PRIMARY KEY (ItemID, FileID),
     KEY (ID)
->>>>>>> 1.14
 );
 
 
 
-<<<<<<< eznews.sql
-CREATE TABLE eZNews_ItemImagePreference
-(
-    ID              int(11) NOT NULL REFERENCES eZNews_ItemImage(ID),    
-=======
 DROP TABLE eZNews_ItemImage;
->>>>>>> 1.14
 
-<<<<<<< eznews.sql
-    # Is this image the main thumbnail? (Ie. front page image.)
-    isFrontImage    enum('Y','N') DEFAULT 'N' NOT NULL,
-        
-    PRIMARY KEY (ID)
-=======
 CREATE TABLE eZNews_ItemImage
 (
     ID      int(11) DEFAULT '0' NOT NULL AUTO_INCREMENT,
@@ -348,16 +254,12 @@ CREATE TABLE eZNews_ItemImage
 
     PRIMARY KEY (ItemID, ImageID),
     KEY (ID)
->>>>>>> 1.14
 );
 
 
 
-<<<<<<< eznews.sql
-=======
 DROP TABLE eZNews_Article;
 
->>>>>>> 1.14
 CREATE TABLE eZNews_Article
 (
     ID              int(11) NOT NULL REFERENCES eZNews_Item(ID),
@@ -390,16 +292,10 @@ CREATE TABLE eZNews_Article
 );
 
 
-<<<<<<< eznews.sql
-
-<<<<<<< eznews.sql
-=======
-=======
 
 
 DROP TABLE eZNews_ChangeTicket;
 
->>>>>>> 1.14
 CREATE TABLE eZNews_ChangeTicket
 (
     ID              int(11) DEFAULT '0' NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -421,7 +317,6 @@ CREATE TABLE eZNews_ChangeTicket
 
 DROP TABLE eZNews_Category;
 
->>>>>>> 1.3
 CREATE TABLE eZNews_Category
 (
     ID                  int(11) NOT NULL REFERENCES eZNews_Item(ID),
@@ -491,8 +386,6 @@ INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT T
 INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Begravelse',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'flowercategory';
 INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Euro3Plast',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'flowercategory';
 INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Hundehus',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'flowercategory';
-INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Hundehus artikkel 1',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'flowerarticle';
-INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Hundehus artikkel 2',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'flowerarticle';
 
 INSERT INTO eZNews_Hiearchy (ItemID, ParentID, isCanonical) SELECT DISTINCT Item.ID, '0', 'Y' FROM eZNews_Item AS Item, eZNews_Item AS Parent WHERE Item.Name = 'Root';
 INSERT INTO eZNews_Hiearchy (ItemID, ParentID, isCanonical) SELECT DISTINCT Item.ID, Parent.ID, 'Y' FROM eZNews_Item AS Item, eZNews_Item AS Parent WHERE Item.Name = 'Heistad Hagesenter' AND Parent.Name = 'Root';
@@ -504,8 +397,6 @@ INSERT INTO eZNews_Hiearchy (ItemID, ParentID, isCanonical) SELECT DISTINCT Item
 INSERT INTO eZNews_Hiearchy (ItemID, ParentID, isCanonical) SELECT DISTINCT Item.ID, Parent.ID, 'Y' FROM eZNews_Item AS Item, eZNews_Item AS Parent WHERE Item.Name = 'Begravelse' AND Parent.Name = 'Heistad Hagesenter';
 INSERT INTO eZNews_Hiearchy (ItemID, ParentID, isCanonical) SELECT DISTINCT Item.ID, Parent.ID, 'Y' FROM eZNews_Item AS Item, eZNews_Item AS Parent WHERE Item.Name = 'Euro3Plast' AND Parent.Name = 'Heistad Hagesenter';
 INSERT INTO eZNews_Hiearchy (ItemID, ParentID, isCanonical) SELECT DISTINCT Item.ID, Parent.ID, 'Y' FROM eZNews_Item AS Item, eZNews_Item AS Parent WHERE Item.Name = 'Hundehus' AND Parent.Name = 'Heistad Hagesenter';
-INSERT INTO eZNews_Hiearchy (ItemID, ParentID, isCanonical) SELECT DISTINCT Item.ID, Parent.ID, 'Y' FROM eZNews_Item AS Item, eZNews_Item AS Parent WHERE Item.Name = 'Hundehus artikkel 1' AND Parent.Name = 'Hundehus';
-INSERT INTO eZNews_Hiearchy (ItemID, ParentID, isCanonical) SELECT DISTINCT Item.ID, Parent.ID, 'Y' FROM eZNews_Item AS Item, eZNews_Item AS Parent WHERE Item.Name = 'Hundehus artikkel 2' AND Parent.Name = 'Hundehus';
 
 INSERT INTO eZNews_Category (ID, PublicDescriptionID, PrivateDescriptionID ) SELECT DISTINCT ID,  '0', '0' FROM eZNews_Item AS Item WHERE Item.Name = 'Root';
 INSERT INTO eZNews_Category (ID, PublicDescriptionID, PrivateDescriptionID ) SELECT DISTINCT ID,  '0', '0' FROM eZNews_Item AS Item WHERE Item.Name = 'Heistad Hagesenter';
@@ -517,13 +408,6 @@ INSERT INTO eZNews_Category (ID, PublicDescriptionID, PrivateDescriptionID ) SEL
 INSERT INTO eZNews_Category (ID, PublicDescriptionID, PrivateDescriptionID ) SELECT DISTINCT ID,  '0', '0' FROM eZNews_Item AS Item WHERE Item.Name = 'Begravelse';
 INSERT INTO eZNews_Category (ID, PublicDescriptionID, PrivateDescriptionID ) SELECT DISTINCT ID,  '0', '0' FROM eZNews_Item AS Item WHERE Item.Name = 'Euro3Plast';
 INSERT INTO eZNews_Category (ID, PublicDescriptionID, PrivateDescriptionID ) SELECT DISTINCT ID,  '0', '0' FROM eZNews_Item AS Item WHERE Item.Name = 'Hundehus';
-<<<<<<< eznews.sql
-INSERT INTO eZNews_Category (ID, PublicDescriptionID, PrivateDescriptionID ) SELECT DISTINCT ID,  '0', '0' FROM eZNews_Item AS Item WHERE Item.Name = 'Hundehus2';
-=======
-
-INSERT INTO eZNews_Article (ID) SELECT DISTINCT ID FROM eZNews_Item AS Item WHERE Item.Name = 'Hundehus artikkel 1';
-INSERT INTO eZNews_Article (ID) SELECT DISTINCT ID FROM eZNews_Item AS Item WHERE Item.Name = 'Hundehus artikkel 2';
->>>>>>> 1.16
 
 
 DROP TABLE eZNews_ItemPosition;
