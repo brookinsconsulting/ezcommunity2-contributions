@@ -213,8 +213,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<input class="stdbutton" name="addcv" type="submit" value="{intl-add_cv}" />
-<input class="stdbutton" name="addimage" type="submit" value="{intl-add_image}" />
+<input class="stdbutton" name="AddCV" type="submit" value="{intl-add_cv}" />
 
 <hr noshade="noshade" size="4" />
 
