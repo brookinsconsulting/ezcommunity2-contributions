@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.12 2002/01/23 08:50:29 jhe Exp $
+// $Id: ezformreportelement.php,v 1.13 2002/01/23 08:51:32 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -247,8 +247,6 @@ class eZFormReportElement
         if ( $element->ElementType->name() == "checkbox_item" )
         {
             $fixedElements = $element->fixedValues();
-            print "<pre>";
-            print_r( $fixedElements );
             foreach ( $fixedElements as $fElement )
             {
                 $db->array_query( $res, "SELECT eZForm_FormElementResult.ID, eZForm_FormElementResult.Result FROM
