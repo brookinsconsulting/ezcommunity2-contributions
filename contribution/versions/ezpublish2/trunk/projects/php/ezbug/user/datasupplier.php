@@ -1,7 +1,25 @@
 <?
+include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/ezpermission.php" );
+include_once( "ezbug/classes/ezbugmodule.php" );
+include_once( "ezbug/classes/ezbug.php" );
 
 switch ( $url_array[2] )
 {
+    case "edit" :
+    {
+        $Action = "Edit";
+        $BugID = $url_array[3];
+
+        $user = eZUser::currentUser();
+        $bug = new eZBug( $BugID );
+        $module = $bug->module();
+        $ownerGroup = $module->ownerGroup();
+        if ( eZPermission::checkPermission( $user, "eZBug", "BugEdit" ) && get_class( $ownerGroup ) == "ezusergroup" && $ownerGroup->isMember( $user ) )
+            include( "ezbug/admin/bugedit.php" );
+    }
+    break;
+    
     case "archive" :        
     {
         $ModuleID = $url_array[3];
