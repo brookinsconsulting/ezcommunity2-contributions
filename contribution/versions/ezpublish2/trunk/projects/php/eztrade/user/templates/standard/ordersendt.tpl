@@ -52,10 +52,7 @@
 
 <h2>{intl-goods_list}:</h2>
 
-<!-- BEGIN full_cart_tpl -->
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
-
-<!-- BEGIN cart_item_list_tpl -->
+<!-- BEGIN full_cart_tpl --><table class="list" width="100%" cellspacing="0" cellpadding="4" border="0"><!-- BEGIN cart_item_list_tpl -->
 <tr>
     <th>&nbsp;</th>
 

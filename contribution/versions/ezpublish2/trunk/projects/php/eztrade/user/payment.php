@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.70 2001/09/15 15:53:02 pkej Exp $
+// $Id: payment.php,v 1.71 2001/09/17 09:26:02 pkej Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -65,9 +65,18 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 $OrderSenderEmail = $ini->read_var( "eZTradeMain", "OrderSenderEmail" );
 $OrderReceiverEmail = $ini->read_var( "eZTradeMain", "OrderReceiverEmail" );
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
+$PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" ) == "enabled" ? true : false;
+$ShowExTaxColumn = $ini->read_var( "eZTradeMain", "ShowExTaxColumn" ) == "enabled" ? true : false;
+$ShowIncTaxColumn = $ini->read_var( "eZTradeMain", "ShowIncTaxColumn" ) == "enabled" ? true : false;
+$ShowExTaxTotal = $ini->read_var( "eZTradeMain", "ShowExTaxTotal" ) == "enabled" ? true : false;
+$ColSpanSizeTotals = $ini->read_var( "eZTradeMain", "ColSpanSizeTotals" );
 $DiscontinueQuantityless = $ini->read_var( "eZTradeMain", "DiscontinueQuantityless" ) == "true";
 $SiteURL =  $ini->read_var( "site", "SiteURL" );
 $PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" );
+
+// Set some variables to defaults.
+$ShowCart = false;
+$ShowSavingsColumn = false;
 
 function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
 {
@@ -185,7 +194,7 @@ if ( $PaymentSuccess == "true" )
     $order->setPersonID( $cart->personID() );
     $order->setCompanyID( $cart->companyID() );
 
-    $order->setIsVATInc( $vat );
+    $order->setIsVATInc( false );
     
     $order->store();
 
@@ -196,6 +205,9 @@ if ( $PaymentSuccess == "true" )
 
     foreach ( $items as $item )
     {
+        $totalVAT=0.0;
+        $price=0.0;
+        $totalPrice=0.0;
         $product = $item->product();
 
             // product price
@@ -203,10 +215,11 @@ if ( $PaymentSuccess == "true" )
         $priceobj = new eZCurrency();
         
         if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser" ) and
-             $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
+             $ShowPrice and $product->showPrice() == true  )
         {
             $price = $item->correctPrice( false, true, false );
         }
+        
         
         $totalVAT = $item->correctPrice( false, true, true ) - $price;
         $currency->setValue( $price );
@@ -250,307 +263,518 @@ if ( $PaymentSuccess == "true" )
     }
     
     $cart->cartTotals( $tax, $total );
-    
-    
-    
+
     //
     // Send mail confirmation
     //  
     $locale = new eZLocale( $Language );
     $currency = new eZCurrency();
     
-    $user =& eZUser::currentUser();
-
-    // Setup the template for email
     $mailTemplate = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                                     "eztrade/user/intl", $Language, "mailorder.php" );
 
-    $mailTemplateIni = new INIFile( "eztrade/user/intl/" . $Language . "/mailorder.php.ini", false );
-    $mailTemplate->set_file( "mail_order_tpl", "mailorder.tpl" );
+    $mailTemplateIni = new INIFile( "eztrade/user/intl/" . $Language . "/ordersendt.php.ini", false );
+    $mailTemplate->set_file( "order_sendt_tpl", "mailorder.tpl" );
     $mailTemplate->setAllStrings();
 
-    // subject
-    $mailTemplate->set_block( "mail_order_tpl", "subject_admin_tpl", "subject_admin" );
-    $mailTemplate->set_block( "mail_order_tpl", "subject_user_tpl", "subject_user" );    
-    
-    $mailTemplate->set_block( "mail_order_tpl", "order_item_tpl", "order_item" );
-    $mailTemplate->set_block( "order_item_tpl", "option_item_tpl", "option_item" );
+    $mailTemplate->set_block( "order_sendt_tpl", "billing_address_tpl", "billing_address" );
+    $mailTemplate->set_block( "order_sendt_tpl", "shipping_address_tpl", "shipping_address" );
+    $mailTemplate->set_block( "order_sendt_tpl", "order_item_list_tpl", "order_item_list" );
 
-    $mailTemplate->set_block( "mail_order_tpl", "billing_address_tpl", "billing_address" );
-    $mailTemplate->set_block( "mail_order_tpl", "shipping_address_tpl", "shipping_address" );
-    
-    // fetch the cart items
-    $items = $order->items();
+    $mailTemplate->set_block( "order_sendt_tpl", "full_cart_tpl", "full_cart" );
+    $mailTemplate->set_block( "full_cart_tpl", "cart_item_list_tpl", "cart_item_list" );
 
-    // Get the strings for the headers
+    $mailTemplate->set_block( "cart_item_list_tpl", "cart_item_tpl", "cart_item" );
 
-    $headProduct = $mailTemplateIni->read_var( "strings", "product" );
-    $headProductNumber = $mailTemplateIni->read_var( "strings", "product_number" );
-    $headCount = $mailTemplateIni->read_var( "strings", "count" );
-    $headPrice = $mailTemplateIni->read_var( "strings", "price" );
-    $footTotal = $mailTemplateIni->read_var( "strings", "total" );
-    $footVAT = $mailTemplateIni->read_var( "strings", "vat" );
-    $footSandH = $mailTemplateIni->read_var( "strings", "ship_hand" );
-    $footSubT = $mailTemplateIni->read_var( "strings", "sub_total" );
+    $mailTemplate->set_block( "cart_item_tpl", "cart_item_option_tpl", "cart_item_option" );
 
-    $productString = substr( $headProduct, 0, 27 );
-    $productString = $productString . ": ";
-    $productString = str_pad( $productString, 29, " " );
-    
-    $productNumberString = substr( $headProductNumber, 0, 20 );
-    $productNumberString = $productNumberString . ": ";
-    $productNumberString = str_pad( $productNumberString, 22, " ", STR_PAD_LEFT );
-    
-    $countString = substr( $headCount, 0, 10 );
-    $countString = $countString . ": ";
-    $countString = str_pad( $countString, 12, " ", STR_PAD_LEFT );
-    
-    $priceString = substr( $headPrice, 0, 13 );
-    $priceString = $priceString . ": ";
-    $priceString = str_pad( $priceString, 15, " ", STR_PAD_LEFT );
+    $mailTemplate->set_block( "full_cart_tpl", "tax_specification_tpl", "tax_specification" );
+    $mailTemplate->set_block( "tax_specification_tpl", "tax_item_tpl", "tax_item" );
 
-    $VATString = substr( $footVAT, 0, 56 );
-    $VATString = $VATString . ": ";
-    $VATString = str_pad( $VATString, 58, " ", STR_PAD_LEFT );
-
-    $totalString = substr( $footTotal, 0, 56 );
-    $totalString = $totalString . ": ";
-    $totalString = str_pad( $totalString, 58, " ", STR_PAD_LEFT );
-
-    $tshString = substr( $footSandH, 0, 56 );
-    $tshString = $tshString . ": ";
-    $tshString = str_pad( $tshString, 58, " ", STR_PAD_LEFT );
-    
-    $subTotalString = substr( $footSubT, 0, 56 );
-    $subTotalString = $subTotalString . ": ";
-    $subTotalString = str_pad( $subTotalString, 58, " ", STR_PAD_LEFT );
-    
-    $lineString = str_pad( $lineString, 78, "-");
-    
-    $mailTemplate->set_var( "product_string", $productString );
-    $mailTemplate->set_var( "product_number_string", $productNumberString );
-    $mailTemplate->set_var( "count_string", $countString );
-    $mailTemplate->set_var( "price_string", $priceString );
-    $mailTemplate->set_var( "stringline", $lineString );
-    $mailTemplate->set_var( "product_total_string", $totalString );
-    $mailTemplate->set_var( "vat_total_string", $VATString );
-    $mailTemplate->set_var( "product_sub_total_string", $subTotalString );
-    $mailTemplate->set_var( "product_ship_hand_string", $tshString );
-    $mailTemplate->set_var( "site_url", $SiteURL );
-    
+    // get the customer
     $user = $order->user();
 
+    $currentUser =& eZUser::currentUser();
 
-    // name to ship to    
-    $mailTemplate->set_var( "customer_first_name", $user->firstName() );
-    $mailTemplate->set_var( "customer_last_name", $user->lastName() );
-
-    if ( $order->companyID() == 0 && $order->personID() == 0 )
+    // check if the user is logged in
+    if ( !( $currentUser && $user ) ) 
     {
-        $shippingUser = $order->shippingUser();
-    
-        if ( $shippingUser )
-        {
-            $mailTemplate->set_var( "shipping_customer_first_name", $shippingUser->firstName() );
-            $mailTemplate->set_var( "shipping_customer_last_name", $shippingUser->lastName() );
-        }
+        eZHTTPTool::header( "Location: /trade/cart/" );
+        exit();
     }
-    else
+
+    // check if the user owns the order
+    if ( $currentUser->id() != $user->id() )
     {
-        if ( $order->companyID() > 0 )
+        eZHTTPTool::header( "Location: /trade/cart/" );
+        exit();
+    }
+
+    if ( $user )
+    {
+        // print out the addresses
+        $billingAddress = $order->billingAddress();
+
+        if ( $order->personID() == 0 && $order->companyID() == 0 )
         {
-            $customer = new eZCompany( $order->companyID() );
-            $mailTemplate->set_var( "shipping_customer_first_name", $customer->name() );
-            $mailTemplate->set_var( "shipping_customer_last_name", "" );
+            $mailTemplate->set_var( "customer_first_name", $user->firstName() );
+            $mailTemplate->set_var( "customer_last_name", $user->lastName() );
         }
         else
         {
-            $customer = new eZPerson( $order->personID() );
-            $mailTemplate->set_var( "shipping_customer_first_name", $customer->firstName() );
-            $mailTemplate->set_var( "shipping_customer_last_name", $customer->lastName() );
+            if ( $order->personID() > 0 )
+            {
+                $customer = new eZPerson( $order->personID() );
+                $mailTemplate->set_var( "customer_first_name", $customer->firstName() );
+                $mailTemplate->set_var( "customer_last_name", $customer->lastName() );
+            }
+            else
+            {
+                $customer = new eZCompany( $order->companyID() );
+                $mailTemplate->set_var( "customer_first_name", $customer->name() );
+                $mailTemplate->set_var( "customer_last_name", "" );
+            }
+        }
+
+        $mailTemplate->set_var( "billing_street1", $billingAddress->street1() );
+        $mailTemplate->set_var( "billing_street2", $billingAddress->street2() );
+        $mailTemplate->set_var( "billing_zip", $billingAddress->zip() );
+        $mailTemplate->set_var( "billing_place", $billingAddress->place() );
+
+        $country = $billingAddress->country();
+
+        if ( $country )
+        {
+            if ( $ini->read_var( "eZUserMain", "SelectCountry" ) == "enabled" )
+                $mailTemplate->set_var( "billing_country", $country->name() );
+            else
+                $mailTemplate->set_var( "billing_country", "" );
+        }
+        else
+        {
+            $mailTemplate->set_var( "billing_country", "" );
+        }
+
+        if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) == "enabled" )
+            $mailTemplate->parse( "billing_address", "billing_address_tpl" );
+        else
+            $mailTemplate->set_var( "billing_address", "" );
+
+        if ( $order->personID() == 0 && $order->companyID() == 0 )
+        {
+            $shippingUser = $order->shippingUser();
+
+            if ( $shippingUser )
+            {
+                $mailTemplate->set_var( "shipping_first_name", $shippingUser->firstName() );
+                $mailTemplate->set_var( "shipping_last_name", $shippingUser->lastName() );
+            }
+        }
+        else
+        {
+            if ( $order->personID() > 0 )
+            {
+                $customer = new eZPerson( $order->personID() );
+                $mailTemplate->set_var( "shipping_first_name", $customer->firstName() );
+                $mailTemplate->set_var( "shipping_last_name", $customer->lastName() );
+            }
+            else
+            {
+                $customer = new eZCompany( $order->companyID() );
+                $mailTemplate->set_var( "shipping_first_name", $customer->name() );
+                $mailTemplate->set_var( "shipping_last_name", "" );
+            }
+        }
+
+        $shippingAddress = $order->shippingAddress();
+
+        $mailTemplate->set_var( "shipping_street1", $shippingAddress->street1() );
+        $mailTemplate->set_var( "shipping_street2", $shippingAddress->street2() );
+        $mailTemplate->set_var( "shipping_zip", $shippingAddress->zip() );
+        $mailTemplate->set_var( "shipping_place", $shippingAddress->place() );
+
+        $country = $shippingAddress->country();
+
+        if ( $country )
+        {
+            if ( $ini->read_var( "eZUserMain", "SelectCountry" ) == "enabled" )
+                $mailTemplate->set_var( "shipping_country", $country->name() );
+            else
+                $mailTemplate->set_var( "shipping_country", "" );
+        }
+        else
+        {
+            $mailTemplate->set_var( "shipping_country", "" );
+        }
+
+        $mailTemplate->parse( "shipping_address", "shipping_address_tpl" );
+    }
+
+
+    // fetch the order items
+    $items = $order->items( $OrderType );
+
+
+    $locale = new eZLocale( $Language );
+    $currency = new eZCurrency();
+
+    $i = 0;
+    $sum = 0.0;
+    $totalVAT = 0.0;
+
+    $locale = new eZLocale( $Language );
+    $currency = new eZCurrency();
+
+    $numberOfItems = 0;
+    $i = 0;
+
+    $search="/&nbsp;/";
+    $replace=" ";
+
+    // Add headers!
+
+    $productsForEmail[$i]["product_id"] = trim( $mailTemplateIni->read_var( "strings", "product_id" ) );
+    $productsForEmail[$i]["product_name"] = trim( $mailTemplateIni->read_var( "strings", "product_name" ) );
+    $productsForEmail[$i]["product_number"] = trim( $mailTemplateIni->read_var( "strings", "product_number" ) );
+    $productsForEmail[$i]["product_price"] = trim( $mailTemplateIni->read_var( "strings", "product_price" ) );
+    $productsForEmail[$i]["product_count"] = trim( $mailTemplateIni->read_var( "strings", "product_qty" ) );
+    $productsForEmail[$i]["product_savings"] = trim( $mailTemplateIni->read_var( "strings", "product_savings" ) );
+    $productsForEmail[$i]["product_total_ex_tax"] = trim( $mailTemplateIni->read_var( "strings", "product_total_ex_tax" ) );
+    $productsForEmail[$i]["product_total_inc_tax"] = trim( $mailTemplateIni->read_var( "strings", "product_total_inc_tax" ) );
+
+    foreach ( $items as $item )
+    {
+        $mailTemplate->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
+        $i++;
+        $mailTemplate->set_var( "cart_item_id", $item->id() );
+        $product =& $item->product();
+        $vatPercentage = $product->vatPercentage();
+        $productHasVAT = $product->priceIncVAT();
+
+        $productID = $product->id();
+
+        $productsForEmail[$i]["product_id"] = $productID;
+        $productsForEmail[$i]["product_name"] = trim( $product->name() );
+        $productsForEmail[$i]["product_number"] = trim( $product->productNumber() );
+        $productsForEmail[$i]["product_price"] = preg_replace( $search, $replace, $item->localePrice( false, true, $PricesIncludeVAT ) );
+        $productsForEmail[$i]["product_count"] = $item->count();
+        $productsForEmail[$i]["product_total_ex_tax"] = preg_replace( $search, $replace, $item->localePrice( true, true, false ) );
+        $productsForEmail[$i]["product_total_inc_tax"] = preg_replace( $search, $replace, $item->localePrice( true, true, true ) );
+        $productsForEmail[$i]["product_savings"] = "";
+
+        $numberOfItems++;
+
+        $numberOfOptions = 0;
+
+        $optionValues =& $item->optionValues();
+
+        foreach ( $optionValues as $optionValue )
+        {
+            $productOptions[$productID][$numberOfOptions]["option_id"] = "";
+            $productOptions[$productID][$numberOfOptions]["option_name"] = trim( $optionValue->valueName() );
+            $productOptions[$productID][$numberOfOptions]["option_value"] = trim( $optionValue->optionName() ) . ": ";
+            $productOptions[$productID][$numberOfOptions]["option_price"] = "";
+
+            $numberOfOptions++;
         }
     }
-    
-    // the shipping type text
+
+    $separateBy = 2;
+
+    $order->orderTotals( $tax, $total );
+
+    $locale = new eZLocale( $Language );
+    $currency = new eZCurrency();
+
+    $mailTemplate->set_var( "empty_cart", "" );
+
+    if ( $ShowExTaxColumn == true )
+    {
+        $currency->setValue( $total["subextax"] );
+        $subextax = $locale->format( $currency );
+        $subextax = preg_replace( $search, $replace, $subextax );
+
+        $currency->setValue( $total["extax"] );
+        $extax =  $locale->format( $currency );
+        $extax = preg_replace( $search, $replace, $extax );
+
+        $currency->setValue( $total["shipextax"] );
+        $shipextax =  $locale->format( $currency );
+        $shipextax = preg_replace( $search, $replace, $shipextax );
+
+        $len_product_total_ex_tax = strlen( $subextax ) > $len_product_total_ex_tax ? strlen( $subextax ) : $len_product_total_ex_tax;
+        $len_product_total_ex_tax = strlen( $extax ) > $len_product_total_ex_tax ? strlen( $extax ) : $len_product_total_ex_tax;
+        $len_product_total_ex_tax = strlen( $shipextax ) > $len_product_total_ex_tax ? strlen( $shipextax ) : $len_product_total_ex_tax;
+    }
+
+    if ( $ShowIncTaxColumn == true )
+    {
+        $currency->setValue( $total["subinctax"] );
+        $subinctax = $locale->format( $currency );
+        $subinctax = preg_replace( $search, $replace, $subinctax );
+
+        $currency->setValue( $total["inctax"] );
+        $inctax =  $locale->format( $currency );
+        $inctax = preg_replace( $search, $replace, $inctax );
+
+        $currency->setValue( $total["shipinctax"] );
+        $shipinctax =  $locale->format( $currency );
+        $shipinctax = preg_replace( $search, $replace, $shipinctax );
+
+        $len_product_total_inc_tax = strlen( $subinctax ) > $len_product_total_inc_tax ? strlen( $subinctax ) : $len_product_total_inc_tax;
+        $len_product_total_inc_tax = strlen( $inctax ) > $len_product_total_inc_tax ? strlen( $inctax ) : $len_product_total_inc_tax;
+        $len_product_total_inc_tax = strlen( $shipinctax ) > $len_product_total_inc_tax ? strlen( $shipinctax ) : $len_product_total_inc_tax;
+    }
+
+
+
+    foreach( $productOptions as $line )
+    {
+        $len_option_name = strlen( $line["option_name"] ) > $len_option_name ? strlen( $line["option_name"] ) : $len_option_name;
+        $len_option_value = strlen( $line["option_value"] ) > $len_option_value ? strlen( $line["option_value"] ) : $len_option_value;
+        $len_option_price = strlen( $line["option_price"] ) > $len_option_price ? strlen( $line["option_price"] ) : $len_option_price;
+    }
+
+    $len_option_name += $separateBy;
+    $len_option_value += $separateBy;
+    $len_option_price += $separateBy;
+
+    $optionLen = $len_option_name + $len_option_value;
+
+    $len_product_name = $optionLen;
+
+    foreach( $productsForEmail as $line )
+    {
+        $len_product_name = strlen( $line["product_name"] ) > $len_product_name ? strlen( $line["product_name"] ) : $len_product_name;
+        $len_product_number = strlen( $line["product_number"] ) > $len_product_number ? strlen( $line["product_number"] ) : $len_product_number;
+        $len_product_price = strlen( $line["product_price"] ) > $len_product_price ? strlen( $line["product_price"] ) : $len_product_price;
+        $len_product_count = strlen( $line["product_count"] ) > $len_product_count ? strlen( $line["product_count"] ) : $len_product_count;
+        $len_product_total_ex_tax = strlen( $line["product_total_ex_tax"] ) > $len_product_total_ex_tax ? strlen( $line["product_total_ex_tax"] ) : $len_product_total_ex_tax;
+        $len_product_total_inc_tax = strlen( $line["product_total_inc_tax"] ) > $len_product_total_inc_tax ? strlen( $line["product_total_inc_tax"] ) : $len_product_total_inc_tax;
+        $len_product_savings = strlen( $line["product_savings"] ) > $len_product_savings ? strlen( $line["product_savings"] ) : $len_product_savings;
+    }
+
+    $separateBy = 2;
+
+    $items = "";
+
+    $count = count( $productsForEmail );
+
+    $len_product_number += $separateBy;
+    $len_product_name += $separateBy;
+    $len_product_price += $separateBy;
+    $len_product_count += $separateBy;
+    $len_product_total_ex_tax += $separateBy;
+    $len_product_total_inc_tax += $separateBy;
+    $len_product_savings += $separateBy;
+
+    $lineFillLen = $len_product_number + $len_product_name + $len_product_price + $len_product_count;
+    $totalsLen = $len_product_number + $len_product_name + $len_product_price + $len_product_count;
+    $len_option_indent = $len_product_number;
+
+
+    $i = 0;
+
+    $headers = "";
+
+    $headers = $headers . str_pad( $productsForEmail[$i]["product_number"], $len_product_number, " ", STR_PAD_RIGHT );
+    $headers = $headers . str_pad( $productsForEmail[$i]["product_name"], $len_product_name, " ", STR_PAD_RIGHT );
+    $headers = $headers . str_pad( $productsForEmail[$i]["product_price"], $len_product_price, " ", STR_PAD_LEFT );
+    $headers = $headers . str_pad( $productsForEmail[$i]["product_count"], $len_product_count, " ", STR_PAD_LEFT );
+
+    if ( $ShowExTaxColumn == true )
+    {
+        $headers = $headers . str_pad( $productsForEmail[$i]["product_total_ex_tax"], $len_product_total_ex_tax , " ", STR_PAD_LEFT );
+        $lineFillLen += $len_product_total_ex_tax;
+    }
+
+    if ( $ShowIncTaxColumn == true )
+    {
+        $headers = $headers . str_pad( $productsForEmail[$i]["product_total_inc_tax"], $len_product_total_inc_tax, " ", STR_PAD_LEFT );
+        $lineFillLen += $len_product_total_inc_tax;
+    }
+
+    if ( $ShowSavingsColumn == true )
+    {
+        $headers = $headers . str_pad( $productsForEmail[$i]["product_savings"], $len_product_savings, " ", STR_PAD_LEFT );
+        $lineFillLen += $len_product_savings;
+    }
+
+    $mailTemplate->set_var( "headers", $headers );
+    $mailTemplate->set_var( "hyphen_line", str_pad( "", $lineFillLen, "-", STR_PAD_LEFT ) );
+    $mailTemplate->set_var( "equal_line", str_pad( "", $lineFillLen, "=", STR_PAD_LEFT ) );
+    $mailTemplate->set_var( "cart_item", "" );
+
+    for( $i = 1; $i < $count; $i++ )
+    {
+        $mailTemplate->set_var( "product_id", str_pad( $productsForEmail[$i]["product_id"], $len_product_id, " ", STR_PAD_RIGHT ) );
+        $mailTemplate->set_var( "product_number", str_pad( $productsForEmail[$i]["product_number"], $len_product_number, " ", STR_PAD_RIGHT ) );
+        $mailTemplate->set_var( "product_name", str_pad( $productsForEmail[$i]["product_name"], $len_product_name, " ", STR_PAD_RIGHT ) );
+        $mailTemplate->set_var( "product_price", str_pad( $productsForEmail[$i]["product_price"], $len_product_price, " ", STR_PAD_LEFT ) );
+        $mailTemplate->set_var( "product_count", str_pad( $productsForEmail[$i]["product_count"], $len_product_count, " ", STR_PAD_LEFT ) );
+
+        if ( $ShowExTaxColumn == true )
+            $mailTemplate->set_var( "product_total_ex_tax", str_pad( $productsForEmail[$i]["product_total_ex_tax"], $len_product_total_ex_tax, " ", STR_PAD_LEFT ) );
+        else
+            $mailTemplate->set_var( "product_total_ex_tax", "" );
+
+        if ( $ShowIncTaxColumn == true )
+            $mailTemplate->set_var( "product_total_inc_tax", str_pad( $productsForEmail[$i]["product_total_inc_tax"], $len_product_total_inc_tax, " ", STR_PAD_LEFT ) );
+        else
+            $mailTemplate->set_var( "product_total_inc_tax", "" );
+
+        if ( $ShowSavingsColumn == true )
+            $mailTemplate->set_var( "product_savings", str_pad( $productsForEmail[$i]["product_savings"], $len_product_savings, " ", STR_PAD_LEFT ) );
+        else
+            $mailTemplate->set_var( "product_savings", "" );
+
+        $productID = $productsForEmail[$i]["product_id"];
+
+        $mailTemplate->set_var( "cart_item_option", "" );
+
+        if( is_array( $productOptions[$productID] ) )
+        {
+            foreach( $productOptions[$productID] as $option )
+            {
+                $mailTemplate->set_var( "option_indent", str_pad( "", $len_option_indent, " ", STR_PAD_LEFT ) );
+                $mailTemplate->set_var( "option_id", str_pad( $option["option_id"], $len_option_id, " ", STR_PAD_LEFT ) );
+                $mailTemplate->set_var( "option_name", str_pad( $option["option_name"], $len_option_name, " ", STR_PAD_RIGHT ) );
+                $mailTemplate->set_var( "option_value", str_pad( $option["option_value"], $len_option_name, " ", STR_PAD_RIGHT ) );
+                $mailTemplate->set_var( "option_price", str_pad( $option["option_price"], $len_option_price, " ", STR_PAD_LEFT ) );
+
+                $mailTemplate->parse( "cart_item_option", "cart_item_option_tpl", true );
+            }
+        }
+
+        $mailTemplate->parse( "cart_item", "cart_item_tpl", true );
+    }
+
+    if ( $numberOfItems > 0 )
+    {
+        $ShowCart = true;
+    }
+
+    $mailTemplate->setAllStrings();
+
+    if ( $ShowCart == true )
+    {
+        if ( $ShowSavingsColumn == true )
+        {
+            $totalsLen += $len_product_savings;
+        }
+
+        $mailTemplate->set_var( "intl-confirming-order", trim( $mailTemplateIni->read_var( "strings", "confirming-order" ) ) );
+        $mailTemplate->set_var( "intl-thanks_for_shopping", trim( $mailTemplateIni->read_var( "strings", "thanks_for_shopping" ) ) );;
+        $mailTemplate->set_var( "intl-goods_list", trim( $mailTemplateIni->read_var( "strings", "goods_list" ) ) );;
+
+        $mailTemplate->set_var( "subtotal_inc_tax", str_pad( $subinctax, $len_product_total_inc_tax, " ", STR_PAD_LEFT ) );
+        $mailTemplate->set_var( "total_inc_tax", str_pad( $inctax, $len_product_total_inc_tax, " ", STR_PAD_LEFT ) );
+        $mailTemplate->set_var( "shipping_inc_tax", str_pad( $shipinctax, $len_product_total_inc_tax, " ", STR_PAD_LEFT ) );
+
+        $mailTemplate->set_var( "subtotal_ex_tax", str_pad( $subextax, $len_product_total_ex_tax, " ", STR_PAD_LEFT ) );
+        $mailTemplate->set_var( "total_ex_tax", str_pad( $extax, $len_product_total_ex_tax, " ", STR_PAD_LEFT ) );
+        $mailTemplate->set_var( "shipping_ex_tax", str_pad( $shipextax, $len_product_total_ex_tax, " ", STR_PAD_LEFT ) );
+
+        $mailTemplate->set_var( "intl-subtotal", str_pad( trim( $mailTemplateIni->read_var( "strings", "subtotal" ) ), $totalsLen , " ", STR_PAD_LEFT ) );
+        $mailTemplate->set_var( "intl-shipping", str_pad( trim( $mailTemplateIni->read_var( "strings", "shipping" ) ), $totalsLen , " ", STR_PAD_LEFT ) );
+        $mailTemplate->set_var( "intl-total", str_pad( trim( $mailTemplateIni->read_var( "strings", "total" ) ), $totalsLen , " ", STR_PAD_LEFT ) );
+
+        $mailTemplate->parse( "cart_item_list", "cart_item_list_tpl" );
+        $mailTemplate->parse( "full_cart", "full_cart_tpl" );
+
+        $taxBasisLen = strlen( trim( $mailTemplateIni->read_var( "strings", "tax_basis" ) ) );
+        $taxPercentageLen = strlen( trim( $mailTemplateIni->read_var( "strings", "tax_percentage" ) ) );
+        $taxLen = strlen( trim( $mailTemplateIni->read_var( "strings", "tax" ) ) );
+
+        $currency->setValue( $total["tax"] );    
+        $taxValue = preg_replace( $search, $replace, $locale->format( $currency ) );
+        $taxLen =  strlen( $taxValue ) > $taxLen ? strlen(  $taxValue ) : $taxLen;
+
+        foreach( $tax as $taxGroup )
+        {
+            $currency->setValue( $taxGroup["basis"] );
+            $subTaxBasis = trim( preg_replace( $search, $replace, $locale->format( $currency ) ) );
+            $taxBasisLen = strlen( $subTaxBasis ) > $taxBasisLen ? strlen(  $subTaxBasis ) : $taxBasisLen;
+
+            $currency->setValue( $taxGroup["tax"] );    
+            $subTax = trim( preg_replace( $search, $replace, $locale->format( $currency ) ) );
+            $taxLen = strlen( $subTax ) > $taxLen ? strlen(  $subTax ) : $taxLen;
+
+            $taxPercentageLen = strlen( trim( $taxGroup["sub_tax_percentage"] ) ) > $taxPercentageLen ? strlen(  trim( $taxGroup["sub_tax_percentage"] ) ) : $taxPercentageLen;
+        }
+
+        $taxPercentageLen += $separateBy;
+        $taxLen += $separateBy;
+        $taxBasisLen;
+
+        foreach( $tax as $taxGroup )
+        {
+            $currency->setValue( $taxGroup["basis"] );
+            $subTaxBasis = trim( preg_replace( $search, $replace, $locale->format( $currency ) ) );
+            $mailTemplate->set_var( "sub_tax_basis", str_pad( $subTaxBasis, $taxBasisLen, " ", STR_PAD_LEFT ) );
+
+            $mailTemplate->set_var( "sub_tax_percentage", str_pad( $taxGroup["percentage"], $taxPercentageLen, " ", STR_PAD_LEFT ) );
+
+            $currency->setValue( $taxGroup["tax"] );    
+            $subTax = trim( preg_replace( $search, $replace, $locale->format( $currency ) ) );
+            $mailTemplate->set_var( "sub_tax", str_pad( $subTax, $taxLen, " ", STR_PAD_LEFT ) );
+
+            $mailTemplate->parse( "tax_item", "tax_item_tpl", true );
+        }
+
+
+        $mailTemplate->set_var( "intl-tax_basis", str_pad( trim( $mailTemplateIni->read_var( "strings", "tax_basis" ) ), $taxBasisLen, " ", STR_PAD_RIGHT ) );;
+        $mailTemplate->set_var( "intl-tax_percentage", str_pad( trim( $mailTemplateIni->read_var( "strings", "tax_percentage" ) ), $taxPercentageLen, " ", STR_PAD_LEFT ) );;
+        $mailTemplate->set_var( "intl-tax", str_pad( trim( $mailTemplateIni->read_var( "strings", "tax" ) ), $taxLen, " ", STR_PAD_LEFT ) );;
+
+        $mailTemplate->set_var( "tax", str_pad( $taxValue, $taxBasisLen + $taxLen + $taxPercentageLen, " ", STR_PAD_LEFT ) );
+        $mailTemplate->set_var( "tax_hyphen_line", str_pad( "", $taxBasisLen + $taxLen + $taxPercentageLen, "-", STR_PAD_LEFT ) );
+        $mailTemplate->set_var( "tax_equal_line", str_pad( "", $taxBasisLen + $taxLen + $taxPercentageLen, "=", STR_PAD_LEFT ) );
+
+        $mailTemplate->parse( "tax_specification", "tax_specification_tpl" );
+    }
+
+        $mailBody = $mailTemplate->parse( "dummy", "full_cart_tpl" );
+        $subjectINI = new INIFile( "eztrade/user/intl/" . $Language . "/mailorder.php.ini", false );
+
+        $mailSubjectUser = $subjectINI->read_var( "strings", "mail_subject_user" ) . " " . $ini->read_var( "site", "SiteURL" );
+        $mailSubject = $subjectINI->read_var( "strings", "mail_subject_admin" ) . " " . $ini->read_var( "site", "SiteURL" );
+
+    $checkout = new eZCheckout();
+    $instance =& $checkout->instance();
+    $paymentMethod = $instance->paymentName( $order->paymentMethod() );
+
+    $mailTemplate->set_var( "payment_method", $paymentMethod );
+
+    $mailTemplate->set_var( "comment", $order->comment() );
+
     $shippingType = $order->shippingType();
     if ( $shippingType )
     {    
         $mailTemplate->set_var( "shipping_type", $shippingType->name() );
     }
 
+    $shippingCost = $order->shippingCharge();
 
-    // payment method text
-    $checkout = new eZCheckout();
-    $instance =& $checkout->instance();
-    $paymentMethod = $instance->paymentName( $order->paymentMethod() );
+    $shippingVAT = $order->shippingVAT();
 
-    $mailTemplate->set_var( "payment_method", $paymentMethod );
+    $currency->setValue( $shippingCost );
 
-    $mailTemplate->set_var( "comment", $Comment );
-        
-    // print out the addresses
-    $mailTemplate->set_var( "billing_street1", $billingAddress->street1() );
-    $mailTemplate->set_var( "billing_street2", $billingAddress->street2() );
-    $mailTemplate->set_var( "billing_zip", $billingAddress->zip() );
-    $mailTemplate->set_var( "billing_place", $billingAddress->place() );
-    
-    $country = $billingAddress->country();
+    $mailTemplate->set_var( "shipping_cost", $locale->format( $currency ) );
 
-    if ( ( get_class( $country ) == "ezcountry" ) )
-    {        
-        if ( $ini->read_var( "eZUserMain", "SelectCountry" ) == "enabled" )
-            $mailTemplate->set_var( "billing_country", $country->name() );
-        else
-            $mailTemplate->set_var( "billing_country", "" );
-    }
-        
-    if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) == "enabled" )
-        $mailTemplate->parse( "billing_address", "billing_address_tpl" );
-    else
-        $mailTemplate->set_var( "billing_address", "" );
+    $sum += $shippingCost;
+    $currency->setValue( $sum );
+    $mailTemplate->set_var( "order_sum", $locale->format( $currency ) );
 
-   
-    $mailTemplate->set_var( "shipping_street1", $shippingAddress->street1() );
-    $mailTemplate->set_var( "shipping_street2", $shippingAddress->street2() );
-    $mailTemplate->set_var( "shipping_zip", $shippingAddress->zip() );
-    $mailTemplate->set_var( "shipping_place", $shippingAddress->place() );
-    
-    $country = $shippingAddress->country();
+    $currency->setValue( $totalVAT + $shippingVAT );
+    $mailTemplate->set_var( "order_vat_sum", $locale->format( $currency ) );
 
-    if ( $country )
-    {
-        if ( $ini->read_var( "eZUserMain", "SelectCountry" ) == "enabled" )
-            $mailTemplate->set_var( "shipping_country", $country->name() );
-        else
-            $mailTemplate->set_var( "shipping_country", "" );
-    }
-        
-    $mailTemplate->parse( "shipping_address", "shipping_address_tpl" );
-
-
-    $totalPrice = 0;
-    foreach ( $items as $item )
-    {
-        $product = $item->product();
-
-        $priceobj = new eZCurrency();
-
-        if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser" ) and
-             $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
-        {
-            $price = $item->correctPrice( true, true, false );
-        }
-        
-        $search = '/&nbsp;/';
-        $replace = '';
-        
-        $totalVAT = $item->correctPrice( true, true, true ) - $price;
-        $currency->setValue( $price );
-        
-        $currency->setValue( $price );
-
-        $mailTemplate->set_var( "debug", $debug );
-        
-        $nameString = substr(  $product->name(), 0, 33 );
-        $nameString = str_pad( $nameString, 35, " " );
-
-        $numberString = substr(  $product->productNumber(), 0, 8 );
-        $numberString = str_pad( $numberString, 10, " " );
-
-        $countString = substr(  $item->count(), 0, 10 );
-        $countString = str_pad( $countString, 12, " ", STR_PAD_LEFT );
-        
-        $priceString = substr(  $locale->format( $currency ), 0, 21 );
-        $priceString = str_pad( $priceString, 23, " ", STR_PAD_LEFT );
-
-        $mailTemplate->set_var( "order", $nameString );
-        $mailTemplate->set_var( "number", $numberString );
-        $mailTemplate->set_var( "count", $countString );
-        $mailTemplate->set_var( "price", preg_replace( $search, $replace, $priceString ) );
-
-        $optionValues =& $item->optionValues();
-
-        $mailTemplate->set_var( "cart_item_option", "" );
-        $mailTemplate->set_var( "option_item", "" );
-
-        $optionNameLength = 0;
-
-        $optionValues =& $item->optionValues();
-        
-        foreach ( $optionValues as $optionValue )
-        {
-            $optionString = substr( $optionValue->optionName(), 0, 35 );
-            $optionString = str_pad( $optionString, 36, " ", STR_PAD_LEFT );
-            $valueString = substr( $optionValue->valueName(), 0, 38 );
-            $valueString = str_pad( $valueString, 39, " " );
-            
-            $mailTemplate->set_var( "name", $optionString );
-            $mailTemplate->set_var( "value", $valueString );
-            $mailTemplate->parse( "option_item", "option_item_tpl", true );
-        }
-
-        $mailTemplate->parse( "order_item", "order_item_tpl", true );
-    }
-
-//    $totalPrice = $order->totalPrice();
-
-    $currency->setValue( $totalPrice );
-        
-    $priceString = substr(  $locale->format( $currency ), 0, 13 );
-    $priceString = str_pad( $priceString, 15, " ", STR_PAD_LEFT );
-    $mailTemplate->set_var( "product_sub_total", preg_replace( $search, $replace, $priceString ) );
-
-    $shippinglPrice = $order->shippingCharge();
-    $currency->setValue( $shippinglPrice );
-    
-    $shippingPriceString = substr(  $locale->format( $currency ), 0, 13 );
-    $shippingPriceString = str_pad( $shippingPriceString, 15, " ", STR_PAD_LEFT );
-    $mailTemplate->set_var( "product_ship_hand", $shippingPriceString );
-
-    $grantVAT = $order->totalVAT();
-
-    $grandTotal = $order->totalPrice() + $order->shippingCharge();
-
-    $currency->setValue( $grandTotal );
-
-    $grandTotalString = substr(  $locale->format( $currency ), 0, 13 );
-    $grandTotalString = str_pad( $grandTotalString, 15, " ", STR_PAD_LEFT );
-    $mailTemplate->set_var( "product_total", $grandTotalString );
-
-    $currency->setValue( $grantVAT );
-
-    $grandVATTotalString = substr(  $locale->format( $currency ), 0, 13 );
-    $grandVATTotalString = str_pad( $grandVATTotalString, 15, " ", STR_PAD_LEFT );
-    $mailTemplate->set_var( "vat_total", $grandVATTotalString );
-
-    $mailTemplate->set_var( "order_number", $order->id() );
-
-    $checkout = new eZCheckout();
-    $instance =& $checkout->instance();
-    $paymentMethod = $instance->paymentName( $order->paymentMethod() );
-    
-    $mailTemplate->set_var( "payment_method", $paymentMethod );
-
-    // get the subjects
-    $mailSubjectUser = $mailTemplate->parse( "subject_user", "subject_user_tpl" );
-    $mailTemplate->set_var( "subject_user", "" );
-
-    $mailSubject = $mailTemplate->parse( "subject_admin", "subject_admin_tpl" );
-    $mailTemplate->set_var( "subject_admin", "" );
-
-
-    // payment method
-    $checkout = new eZCheckout();
-    $instance =& $checkout->instance();
-    $paymentMethod = $instance->paymentName( $order->paymentMethod() );
-    
-    $mailTemplate->set_var( "payment_method", $paymentMethod );
-    
+    $mailTemplate->set_var( "order_id", $OrderID );
     
     // Send E-mail    
     $mail = new eZMail();
     
-    $mailBody = $mailTemplate->parse( "dummy", "mail_order_tpl" );
+    $mailBody = $mailTemplate->parse( "dummy", "order_sendt_tpl" );
     $mail->setFrom( $OrderSenderEmail );
     
     $mail->setTo( $user->email() );
@@ -575,7 +799,7 @@ if ( $PaymentSuccess == "true" )
     	$mailTemplate->set_var( "cc_expiremonth", $ExpireMonth );
     	$mailTemplate->set_var( "cc_expireyear", $ExpireYear );
 
-	    $mailBody = $mailTemplate->parse( "dummy", "mail_order_tpl" );
+	    $mailBody = $mailTemplate->parse( "dummy", "order_sendt_tpl" );
     	// encrypt mailBody
 		$mytext = new ezgpg( $mailBody, $mailKeyname, $wwwUser );
 		$mailBody=($mytext->body);
