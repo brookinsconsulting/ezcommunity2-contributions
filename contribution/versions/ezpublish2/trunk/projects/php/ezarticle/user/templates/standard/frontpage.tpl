@@ -20,13 +20,12 @@
 
 <hr noshade="noshade" size="4" />
 
-
-
+<br />
 <!-- BEGIN article_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
 <!-- BEGIN article_item_tpl -->
 {start_tr}
-	<td valign="top">
+	<td valign="top" width="50%">
 	<div class="listheadline"><a class="listheadline" href="/article/articleview/{article_id}/1/{category_id}/">{article_name}</a></div>
 	<div class="small">( {article_published} )</div>
 
@@ -62,7 +61,7 @@
 
 
 <!-- BEGIN article_short_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
 <!-- BEGIN article_short_item_tpl -->
 <tr>
 	<td>
