@@ -1,5 +1,16 @@
-
-<h1>{intl-headline}</h1>
+<table width="100%" border="0">
+<tr>
+        <td valign="bottom">
+        <h1>{intl-headline}</h1>
+        </td>
+        <td rowspan="2" align="right">
+        <form action="/contact/search/company" method="post">
+        <input type="text" name="SearchText" size="12" />       
+        <input type="submit" value="{intl-search}" />
+        </form>
+        </td>
+</tr>
+</table>
 
 <hr noshade size="4"/>
 
