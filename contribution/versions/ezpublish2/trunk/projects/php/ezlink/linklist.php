@@ -31,7 +31,7 @@ $linkGroup_array = $linkGroup->getByParent( $LGID );
 
 if ( count( $linkGroup_array ) == 0 )
 {
-    $t->set_var( "group_list", "Ingen grupper funnet" );
+    $t->set_var( "group_list", "" );
 }
 else
 {
@@ -65,6 +65,7 @@ if ( ( $LGID == 0 ) && ( $LGID != "incoming" ) )
     $t->set_var( "linkgroup_title", "Innkommende linker" );
     $t->set_var( "linkgroup_parent", "" );
 
+    
     $total_sub_links = $linkGroup->getTotalIncomingLinks();
     
     $t->set_var( "total_links", $total_sub_links );
@@ -95,14 +96,14 @@ else
 
 if ( count( $link_array ) == 0 )
 {
-    $t->set_var( "link_list", "Ingen linker funnet" );
+    $t->set_var( "link_list", "" );
 }
 else
 {
     for ( $i=0; $i<count( $link_array ); $i++ )
     {
 
-        $t->set_var( "bg_color", "#eeddaa" );
+        $t->set_var( "bg_color", "#eeddbb" );
 
         $t->set_var( "link_id", $link_array[ $i ][ "ID" ] );
         $t->set_var( "link_title", $link_array[ $i ][ "Title" ] );
