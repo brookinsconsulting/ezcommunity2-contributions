@@ -78,6 +78,8 @@ Postnummer:<br>
 <input type="hidden" name="AddressAction" value="{address_action}">
 <input type="{address_action_type}" name="AddressSubmit" value="{address_action_value}">
 
+</td>
+<td>
 	<center>
 	<table width="80%" cellspacing="0" cellpadding="3" border="0">
 	{address_list}
@@ -105,6 +107,9 @@ Telefon:<br>
 <input type="hidden" name="PhoneID" value="{phone_edit_id}">
 <input type="hidden" name="PhoneAction" value="{phone_action}">
 <input type="{phone_action_type}" name="PhoneSubmit" value="{phone_action_value}">
+</td>
+<td>
+
 	<center>
 	<table width="80%" cellspacing="0" cellpadding="3" border="0">
 	{phone_list}
