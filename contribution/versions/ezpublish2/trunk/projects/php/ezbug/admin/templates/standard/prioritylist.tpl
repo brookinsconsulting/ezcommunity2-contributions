@@ -1,4 +1,4 @@
-<form action="/bug/priority/new/">
+<form action="/bug/priority/list/">
 
 <h1>{intl-headline}</h1>
 
@@ -8,13 +8,11 @@
 <!-- BEGIN priority_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	{priority_name}
+	  <input type="hidden" name="PriorityID[]" value="{priority_id}" />
+	  <input type="text" name="PriorityName[]" value="{priority_name}" />
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/bug/priority/edit/{priority_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('pt{priority_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="pt{priority_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
-	</td>
-	<td width="1%" class="{td_class}">
-	<a href="/bug/priority/delete/{priority_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('pt{priority_id}-slett','','/images/{site_style}/slettminimrk.gif',1)"><img name="pt{priority_id}-slett" border="0" src="/images/{site_style}/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
+	  <input type="checkbox" name="PriorityArrayID[]" value="{index_nr}">
 	</td>
 </tr>
 <!-- END priority_item_tpl -->
@@ -22,4 +20,15 @@
 
 <hr noshade size="4"/>
 
-<input class="okbutton" type="submit" value="{intl-newpriority}"></form>
+
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+  <td><input class="okbutton" type="submit" name="Ok" value="{intl-ok}"></td>
+  <td>&nbsp;</td>
+  <td><input type="submit" name="AddPriority" value="{intl-new_priority}"></td>
+  <td>&nbsp;</td>
+  <td><input type="submit" name="DeletePriorities" value="{intl-delete_priorities}"></td>
+</tr>
+</table>
+
+</form>
