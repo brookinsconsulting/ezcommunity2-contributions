@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: onepagelinklist.php,v 1.1 2001/09/03 08:17:33 br Exp $
+// $Id: onepagelinklist.php,v 1.2 2001/09/03 12:35:20 br Exp $
 //
 // Bjørn Reiten <br@ez.no>
 // Created on: Created on: <03-Sep-2001 11:09:42 br>
@@ -204,6 +204,47 @@ else
                 
                 $links = $languageIni->read_var( "strings", "links" );
                 $t->set_var( "links", $links );
+                        $t->set_var( "attribute", "" );
+                // attribute list
+                $type = $linkItem->type();
+                if ( $type )    
+                {
+                    $attributes = $type->attributes();
+                    for( $i2 = 0; $i2 < count( $attributes ); $i2++ )
+                    {
+                        if ( ( $i2 % 2 ) == 0 )
+                        {
+                            $t->set_var( "begin_tr", "<tr>" );
+                            $t->set_var( "end_tr", "" );        
+                        }
+                        else
+                        {
+                            $t->set_var( "begin_tr", "" );
+                            $t->set_var( "end_tr", "</tr>" );
+                        }
+                        
+                        $value =& $attributes[$i2]->value( $linkItem );
+                        $t->set_var( "attribute_id", $attributes[$i2]->id( ) );
+                        $t->set_var( "attribute_name", $attributes[$i2]->name( ) );
+                        $t->set_var( "attribute_unit", $attributes[$i2]->unit( ) );
+                        $t->set_var( "attribute_value_var", $value );
+                        
+                        if ( ( is_numeric( $value ) and ( $value > 0 ) ) || ( !is_numeric( $value ) and $value != "" ) )
+                        {
+                            $t->parse( "attribute", "attribute_value_tpl", true );
+                        }
+                    }
+                }
+                
+                if ( count( $attributes ) > 0 and $type )
+                {
+                    $t->parse( "attribute_list", "attribute_list_tpl" );
+                }
+                else
+                {
+                    $t->set_var( "attribute_list", "" );
+                }
+                
                 $t->parse( "link_item", "link_item_tpl", true );
                 $i++;
             }
@@ -216,7 +257,6 @@ else
         $t->set_var( "link_end", min( $Offset + $UserLimit, $linkCount ) );
         $t->set_var( "link_total", $linkCount );
         
-        $t->set_var( "linkcategory_id", $LinkCategorID );
         $i++;
         $t->parse( "category_item", "category_item_tpl", true );
 
