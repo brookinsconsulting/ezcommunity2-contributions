@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitemviewer.php,v 1.13 2000/10/12 15:09:18 pkej-cvs Exp $
+// $Id: eznewsitemviewer.php,v 1.14 2000/10/12 15:14:13 pkej-cvs Exp $
 //
 // Definition of eZNewsItemViewer class
 //
@@ -350,7 +350,20 @@ class eZNewsItemViewer
             }
         } 
         
-        if( $continue )
+         $this->URLObject->getQueries( $queries, "^create\+this" );
+        $count = count( $queries );
+        
+        if( $count && $continue )
+        {
+            $item = new eZNewsItemCreator( $this->inNewsConfigFileName, $itemNo );
+        
+            if( !$item->doAction( "create", "this" ) )
+            {
+                $continue = false;
+            }
+        } 
+        
+       if( $continue )
         {
             $value = $this->doAdminBrowse( $this->URLObject->getURLPart( 2 ) );
             $value = false;
