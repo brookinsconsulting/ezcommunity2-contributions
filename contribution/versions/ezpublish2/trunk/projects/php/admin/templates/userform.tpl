@@ -35,7 +35,7 @@
 
 <table width="100%" height="4" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td bgcolor="ffffff"><img src="../ezpublish/images/1x1.gif" width="1" height="4" border="0"></td>
+	<td bgcolor="ffffff"><img src="../images/1x1.gif" width="1" height="4" border="0"></td>
 </tr>
 </table>
 
@@ -71,7 +71,7 @@
 
 <table width="100%" height="4" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td bgcolor="ffffff"><img src="../ezpublish/images/1x1.gif" width="1" height="4" border="0"></td>
+	<td bgcolor="ffffff"><img src="../images/1x1.gif" width="1" height="4" border="0"></td>
 </tr>
 </table>
 
@@ -79,14 +79,14 @@
 <tr>
 	<td bgcolor="#3c3c3c">
 	<p class="white">
-	<b>Passord</b>
+	<b>Adgangskontroll</b>
 	</p>
 	</td>
 </tr>
 <tr>
 	<td bgcolor="#f0f0f0">
 	<br>
-	<p>Skriv inn ønsket passord:<br>
+	<p>Skriv inn ønsket passord (x-y tegn):<br>
 	<input type="password" name="Password1" value="{password}"><br>
 	</p>
 	<p>
