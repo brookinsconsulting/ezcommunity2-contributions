@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezconsultation.php,v 1.2 2001/01/12 17:51:39 jb Exp $
+// $Id: ezconsultation.php,v 1.3 2001/01/17 10:50:06 jb Exp $
 //
 // Definition of eZConsultation class
 //
@@ -470,6 +470,34 @@ class eZConsultation
         foreach ( $qry_array as $qry )
             {
                 $ret_array[] = new eZConsultation( $qry["ConsultationID"] );
+            }
+        return $ret_array;
+    }
+
+    /*!
+      \static
+      Finds the n latest consultations.
+    */
+
+    function findLatestConsultations( $user, $max )
+    {
+        $qry_array = array();
+        $db = eZDB::globalDatabase();
+        $db->array_query( $qry_array, "SELECT C.Date, C.ID
+                                          FROM eZContact_ConsultationPersonUserDict AS CPUD, eZContact_Consultation AS C
+                                           WHERE CPUD.UserID='$user' AND CPUD.ConsultationID = C.ID
+                                           ORDER BY C.Date DESC, C.ID DESC LIMIT $max" );
+        $db->array_query_append( $qry_array,
+                                          "SELECT C.Date, C.ID
+                                           FROM eZContact_ConsultationCompanyUserDict AS CPCD, eZContact_Consultation AS C
+                                           WHERE CPCD.UserID='$user' AND CPCD.ConsultationID = C.ID
+                                           ORDER BY C.Date DESC, C.ID DESC LIMIT $max" );
+        arsort( $qry_array );
+        $ret_array = array();
+        $qry_array = array_slice( $qry_array, 0, $max );
+        foreach ( $qry_array as $qry )
+            {
+                $ret_array[] = new eZConsultation( $qry["ID"] );
             }
         return $ret_array;
     }
