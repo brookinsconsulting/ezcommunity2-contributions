@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.53 2001/05/14 15:31:15 fh Exp $
+// $Id: userwithaddress.php,v 1.54 2001/05/25 13:36:14 ce Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
@@ -34,6 +34,9 @@ $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZUserMain", "Language" );
 $SelectCountry = $ini->read_var( "eZUserMain", "SelectCountry" );
 $AnonymousUserGroup = $ini->read_var( "eZUserMain", "AnonymousUserGroup" );
+
+$AutoCookieLogin = eZHTTPTool::getVar( "AutoCookieLogin" );
+
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
@@ -116,7 +119,9 @@ $t->set_var( "password_value", "$Password" );
 $t->set_var( "verify_password_value", "$VerifyPassword" );
 
 if ( $AutoCookieLogin == "on" )
+{
     $t->set_var( "is_cookie_selected", "checked" );
+}
 
 $user = eZUser::currentUser();
 
@@ -433,6 +438,7 @@ if ( get_class( $user ) == "ezuser" )
     if ( !isset( $LastName ) )
          $LastName = $user->LastName();
 
+    $cookieCheck = "";
     if ( $user->cookieLogin() == true )
         $cookieCheck = "checked";
     else
@@ -530,8 +536,6 @@ $t->set_var( "email_value", $Email );
 
 $t->set_var( "first_name_value", $FirstName );
 $t->set_var( "last_name_value", $LastName );
-
-$t->set_var( "is_cookie_selected", $cookieCheck );
 
 if ( get_class( $user ) == "ezuser" )
     $t->set_var( "readonly", "disabled" );
