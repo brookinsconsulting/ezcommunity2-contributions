@@ -28,6 +28,12 @@ switch( $url_array[2] )
             include( "ezmail/user/folderedit.php" );
         }
     break;
+
+    case "config" :
+    {
+        include( "ezmail/user/configure.php" );
+    }
+    break;
     
     default:
     {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: maillist.php,v 1.6 2001/03/24 21:25:33 fh Exp $
+// $Id: maillist.php,v 1.7 2001/03/25 12:35:31 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <19-Mar-2000 20:25:22 fh>
@@ -93,10 +93,10 @@ foreach( $mail as $mailItem )
     $t->set_var( "mail_sender", htmlspecialchars( $mailItem->sender() ) );
     $t->set_var( "mail_size" ,"" );
     $t->set_var( "mail_date", "" );
+    ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
     
     $t->parse( "mail_item", "mail_item_tpl", true );
 
-    ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
     $i++;
 }
 
