@@ -75,6 +75,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material )
 
         addProductToGroup( $productCategory, $product );
 
+        // 
         if ( $categoryCreated )
         {
             addProductToGroup( $parent, $product );
