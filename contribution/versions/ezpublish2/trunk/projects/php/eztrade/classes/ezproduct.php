@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.43 2001/03/12 10:46:55 bf Exp $
+// $Id: ezproduct.php,v 1.44 2001/03/13 09:58:25 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -1197,19 +1197,19 @@ class eZProduct
     function getByRemoteID( $id )
     {
         $this->dbInit();
-
+        
         $product = false;
-               
-       $this->Database->array_query( $res, "SELECT ID FROM
+        
+        $this->Database->array_query( $res, "SELECT ID FROM
                                             eZTrade_Product
                                             WHERE RemoteID='$id'" );
-
-       if ( count( $res ) == 1 )
-       {
-           $product = new eZProduct( $res[0]["ID"] );
-       }
-
-       return $product;
+        
+        if ( count( $res ) == 1 )
+        {
+            $product = new eZProduct( $res[0]["ID"] );
+        }
+        
+        return $product;
     }
 
     /*!

@@ -221,7 +221,11 @@ switch ( $url_array[2] )
     // XML rpc interface
     case "xmlrpcimport" :
     {
+        ob_end_clean();
+        ob_start();
         include( "eztrade/xmlrpc/xmlrpcserverimport.php" );
+        ob_end_flush();
+        exit();
     }
     break;
 
