@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.28.2.12 2002/02/28 13:40:23 master Exp $
+// $Id: frontpage.php,v 1.28.2.12.2.1 2002/06/03 07:27:14 pkej Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -64,8 +64,12 @@ $t->set_block( "article_list_page_tpl", "header_item_tpl", "header_item" );
 // one column article
 $t->set_block( "article_list_page_tpl", "element_list_tpl", "element_list" );
 $t->set_block( "article_list_page_tpl", "one_column_article_tpl", "one_column_article" );
+$t->set_block( "one_column_article_tpl", "one_column_header_tpl", "one_column_header" );
+$t->set_block( "one_column_article_tpl", "one_column_header_external_tpl", "one_column_header_external" );
 $t->set_block( "one_column_article_tpl", "one_column_article_image_tpl", "one_column_article_image" );
+$t->set_block( "one_column_article_tpl", "one_column_article_image_external_tpl", "one_column_article_image_external" );
 $t->set_block( "one_column_article_tpl", "one_column_read_more_tpl", "one_column_read_more" );
+$t->set_block( "one_column_article_tpl", "one_column_read_more_external_tpl", "one_column_read_more_external" );
 
 // one column product
 $t->set_block( "article_list_page_tpl", "one_column_product_tpl", "one_column_product" );
@@ -302,6 +306,7 @@ function &renderFrontpageArticle( &$t, &$locale, &$article )
     
     $t->set_var( "article_id", $article->id() );
     $t->set_var( "article_name", $article->name() );
+    $t->set_var( "link_url", $article->linkURL() );
 
     $t->set_var( "author_text", $article->authorText() );
 
@@ -327,11 +332,21 @@ function &renderFrontpageArticle( &$t, &$locale, &$article )
         $t->set_var( "thumbnail_image_height", $variation->height() );
         $t->set_var( "thumbnail_image_caption", $thumbnailImage->caption() );
 
-        $t->parse( "one_column_article_image", "one_column_article_image_tpl" );
+        if ( $article->linkURL() != "" )
+        {
+            $t->set_var( "one_column_article_image", "" );
+            $t->parse( "one_column_article_image_external", "one_column_article_image_external_tpl" );
+        }
+        else
+        {
+            $t->set_var( "one_column_article_image_external", "" );
+            $t->parse( "one_column_article_image", "one_column_article_image_tpl" );
+        }
     }
     else
     {
         $t->set_var( "one_column_article_image", "" );    
+            $t->set_var( "one_column_article_image_external", "" );
     }
     
     $published = $article->published();
@@ -362,13 +377,32 @@ function &renderFrontpageArticle( &$t, &$locale, &$article )
     // check if the article contains more than intro
     $contents =& $renderer->renderPage();
 
-    if ( trim( $contents[1] ) == "" )
+    if ( $article->linkURL() != "" )
     {
         $t->set_var( "one_column_read_more", "" );
+        $t->parse( "one_column_read_more_external", "one_column_read_more_external_tpl" );
+        
+    }
+    else if ( trim( $contents[1] ) == "" )
+    {
+        $t->set_var( "one_column_read_more", "" );
+        $t->set_var( "one_column_read_more_external", "" );
     }
     else
     {
         $t->parse( "one_column_read_more", "one_column_read_more_tpl" );
+        $t->set_var( "one_column_read_more_external", "" );
+    }
+
+    if ( $article->linkURL() != "" )
+    {
+        $t->set_var( "one_column_header", "" );
+        $t->parse( "one_column_header_external", "one_column_header_external_tpl" );
+     }
+    else
+    {
+        $t->set_var( "one_column_header_external", "" );
+        $t->parse( "one_column_header", "one_column_header_tpl" );
     }
 
 
@@ -383,6 +417,15 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
     $DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
 	
     $CategoryID = $rows[$counter]->CategoryID;
+    
+    if ( $article1->linkURL() != "" )
+    {
+        $t->set_var( "left_article_url", $article1->linkURL()  );
+    }
+    else
+    {
+        $t->set_var( "left_article_url", "/article/articleview/$aid/1/$CategoryID/" );
+    }
     
     if ( $CategoryID == 0 )                  
     {                            
@@ -452,7 +495,11 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
     // check if the article contains more than intro
     $contents =& $renderer->renderPage();
 
-    if ( trim( $contents[1] ) == "" )
+    if ( $article1->linkURL() != "" )
+    {
+        $t->parse( "left_read_more", "left_read_more_tpl" );
+    }
+    else if ( trim( $contents[1] ) == "" )
     {
         $t->set_var( "left_read_more", "" );
     }
@@ -481,6 +528,18 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
     $categoryDef =& $article2->categoryDefinition();	
     $t->set_var( "category_def_name", $categoryDef->name() );
     $t->set_var( "category_def_id", $categoryDef->id() );
+
+
+    if ( $article2->linkURL() != "" )
+    {
+        $t->set_var( "right_article_url", $article2->linkURL()  );
+    }
+    else
+    {
+        $t->set_var( "right_article_url", "/article/articleview/$aid/1/$CategoryID/" );
+    }
+    
+
     
     // preview image
     $thumbnailImage =& $article2->thumbnailImage();
@@ -534,7 +593,11 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
     // check if the article contains more than intro
     $contents =& $renderer->renderPage();
 
-    if ( trim( $contents[1] ) == "" )
+    if ( $article2->linkURL() != ""  )
+    {
+        $t->parse( "right_read_more", "right_read_more_tpl" );
+    }
+    else if ( trim( $contents[1] ) == "" )
     {
         $t->set_var( "right_read_more", "" );
     }

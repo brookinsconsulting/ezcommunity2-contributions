@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.81.2.6 2002/04/03 12:48:29 bf Exp $
+// $Id: articlelist.php,v 1.81.2.6.2.1 2002/06/03 07:27:14 pkej Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -106,9 +106,11 @@ $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
 
 $t->set_block( "article_item_tpl", "article_date_tpl", "article_date" );
 $t->set_block( "article_item_tpl", "headline_with_link_tpl", "headline_with_link" );
+$t->set_block( "article_item_tpl", "headline_with_external_link_tpl", "headline_with_external_link" );
 $t->set_block( "article_item_tpl", "headline_without_link_tpl", "headline_without_link" );
 
 $t->set_block( "article_item_tpl", "article_image_tpl", "article_image" );
+$t->set_block( "article_item_tpl", "read_more_external_tpl", "read_more_external" );
 $t->set_block( "article_item_tpl", "read_more_tpl", "read_more" );
 $t->set_block( "article_item_tpl", "article_topic_tpl", "article_topic" );
 
@@ -483,17 +485,30 @@ foreach ( $articleList as $article )
     // check if the article contains more than intro
     $contents =& $renderer->renderPage();
 
-    if ( trim( $contents[1] ) == "" && count( $article->attributes( false ) ) <= 0 )
+    if ( $article->linkURL() != "" )
+    {
+        $t->set_var( "link_url", $article->linkURL() );
+        $t->set_var( "read_more", "" );
+        $t->parse( "read_more_external", "read_more_external_tpl" );
+        $t->parse( "headline_with_external_link", "headline_with_external_link_tpl" );
+        $t->set_var( "headline_without_link", "" );
+        $t->set_var( "headline_with_link", "" );
+    }
+    else if ( trim( $contents[1] ) == "" && count( $article->attributes( false ) ) <= 0 )
     {
         $t->set_var( "read_more", "" );
+        $t->set_var( "read_more_external", "" );
         $t->parse( "headline_without_link", "headline_without_link_tpl" );
         $t->set_var( "headline_with_link", "" );
+        $t->set_var( "headline_with_external_link", "" );
     }
     else
     {
         $t->parse( "read_more", "read_more_tpl" );
         $t->parse( "headline_with_link", "headline_with_link_tpl" );
+        $t->set_var( "read_more_external", "" );
         $t->set_var( "headline_without_link", "" );
+        $t->set_var( "headline_with_external_link", "" );
     }
 
 

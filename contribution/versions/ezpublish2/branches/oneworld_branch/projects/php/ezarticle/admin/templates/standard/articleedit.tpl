@@ -152,6 +152,10 @@
 <input class="box" type="text" name="LinkText" size="20" value="{link_text}" />
 <br /><br />
 
+<p class="boxtext">{intl-link_url}:</p>
+<input class="box" type="text" name="LinkURL" size="20" value="{link_url}" />
+<br /><br />
+
 
 
 <table width="80%" cellpaddning="0" cellspacing="0" border="0">
@@ -310,6 +314,7 @@
         <option value="File">{intl-files}</option>
         <option value="Attribute">{intl-attributes}</option>
         <option value="Form">{intl-forms}</option>
+        <option value="Poll">{intl-polls}</option>
         </select>
     </td>
     <td>

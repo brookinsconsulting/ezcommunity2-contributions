@@ -17,6 +17,8 @@ CREATE TABLE eZArticle_Article (
   StopDate int NOT NULL,
   ImportID varchar(255) default NULL,
   Rating int default '0',
+  LinkURL text,
+  ExportedYahoo int default '0',
   PRIMARY KEY (ID)
 );
 
@@ -64,6 +66,13 @@ CREATE TABLE eZArticle_ArticleFormDict (
   ID int NOT NULL,
   ArticleID int default NULL,
   FormID int default NULL,
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZArticle_ArticlePollDict (
+  ID int NOT NULL,
+  ArticleID int default NULL,
+  PollID int default NULL,
   PRIMARY KEY (ID)
 );
 

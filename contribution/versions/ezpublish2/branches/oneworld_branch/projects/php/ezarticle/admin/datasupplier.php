@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.56.2.3 2002/04/23 08:25:40 jhe Exp $
+// $Id: datasupplier.php,v 1.56.2.3.2.1 2002/06/03 07:27:13 pkej Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -43,6 +43,12 @@ if ( eZPermission::checkPermission( $user, "eZArticle", "ModuleEdit" ) == false 
 
 switch ( $url_array[2] )
 {
+    case "export_yahoo":
+    {
+        include( "ezarticle/admin/cron_yahoo.php" );
+    }
+    break;
+
     case "export":
     {
         include( "ezarticle/admin/export.php" );
@@ -315,6 +321,16 @@ switch ( $url_array[2] )
                 if( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' ) ||
                     eZArticle::isAuthor( $user, $ArticleID ) )
                     include( "ezarticle/admin/formlist.php" );
+            }
+            break;
+
+            
+            case "pollist" :
+            {
+                $ArticleID = $url_array[4];
+                if( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' ) ||
+                    eZArticle::isAuthor( $user, $ArticleID ) )
+                    include( "ezarticle/admin/pollist.php" );
             }
             break;
 

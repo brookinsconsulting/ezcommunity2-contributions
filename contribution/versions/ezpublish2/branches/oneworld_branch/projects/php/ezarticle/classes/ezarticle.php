@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezarticle.php,v 1.183.2.19.2.1 2002/05/15 14:22:17 pkej Exp $
+// $Id: ezarticle.php,v 1.183.2.19.2.2 2002/06/03 07:27:14 pkej Exp $
 //
 // Definition of eZArticle class
 //
@@ -115,6 +115,12 @@ class eZArticle
         $linktext = $db->escapeString( $this->LinkText );
         $keywords = $db->escapeString( $this->Keywords );
         $importID = $db->escapeString( $this->ImportID );
+        $LinkURL = $db->escapeString( $this->LinkURL );
+
+        if ( is_object( $this->ExportedYahoo ) and $this->ExportedYahoo->isValid() )
+            $exportedYahoo = $this->ExportedYahoo->timeStamp();
+        else
+            $exportedYahoo = $this->ExportedYahoo;
 
         if ( is_object( $this->StartDate ) and $this->StartDate->isValid() )
             $startDate = $this->StartDate->timeStamp();
@@ -172,6 +178,8 @@ class eZArticle
                                  Published,
                                  Created,
                                  ImportID,
+                                 LinkURL,
+                                 ExportedYahoo,
                                  Ranking )
                                  VALUES
                                  ( '$nextID',
@@ -191,6 +199,8 @@ class eZArticle
                                    '$published',
                                    '$timeStamp',
                                    '$importID',
+                                   '$LinkURL',
+                                   '$exportedYahoo',
                                    '$this->Ranking' )
                                  " );
 
@@ -252,7 +262,9 @@ class eZArticle
                                  StopDate='$stopDate',
                                  Published='$published',
                                  Modified='$timeStamp',
+                                 ExportedYahoo='$exportedYahoo',
                                  ImportID='$importID',
+                                 LinkURL='$LinkURL',
                                  Ranking='$this->Ranking'
                                  WHERE ID='$this->ID'
                                  " );
@@ -280,6 +292,8 @@ class eZArticle
                                  StopDate='$stopDate',
                                  Modified='$timeStamp',
                                  ImportID='$importID',
+                                 LinkURL='$LinkURL',
+                                 ExportedYahoo='$exportedYahoo',
                                  Ranking='$this->Ranking'
                                  WHERE id='$this->ID'
                                  " );
@@ -332,10 +346,14 @@ class eZArticle
                 $this->Discuss =& $article_array[0][$db->fieldName("Discuss")];
                 $this->ContentsWriterID =& $article_array[0][$db->fieldName("ContentsWriterID")];
                 $this->TopicID =& $article_array[0][$db->fieldName("TopicID")];
+                $this->ExportedYahoo =& $article_array[0][$db->fieldName("ExportedYahoo")];
                 $this->StartDate =& $article_array[0][$db->fieldName("StartDate")];
                 $this->StopDate =& $article_array[0][$db->fieldName("StopDate")];
                 $this->ImportID =& $article_array[0][$db->fieldName("ImportID")];
+                $this->LinkURL =& $article_array[0][$db->fieldName("LinkURL")];
                 $this->Ranking =& $article_array[0][$db->fieldName("Ranking")];
+                if ( $this->ExportedYahoo == 0 )
+                    $this->ExportedYahoo = false;
                 if ( $this->StartDate == 0 )
                     $this->StartDate = false;
                 if ( $this->StopDate == 0 )
@@ -471,6 +489,39 @@ class eZArticle
     function &importID( )
     {
         return $this->ImportID;
+    }
+
+    /*!
+      Returns the article LinkURL.
+    */
+    function &linkURL( $asHTML = false )
+    {
+        if (  $this->LinkURL != "" ) 
+        {
+            $href = $this->LinkURL;
+            if ( !preg_match( "%^(([a-z]+://)|/|#)%", $href ) )
+                    $href = "http://" . $href;
+        }
+
+        if(  $asHTML )
+            return htmlspecialchars( $href );
+        return $href;
+    }
+
+
+    /*!
+      Returns true if the aritcle has an LinkURL.
+    */
+    function &hasLinkURL( )
+    {
+        $ret = true;
+        
+        if ( empty( $this->LinkURL ) || $this->LinkURL != "" )
+        {
+            $ret = false;
+        }
+        
+        return $ret;
     }
 
     /*!
@@ -653,6 +704,20 @@ class eZArticle
         else
             return $this->StartDate;
     }
+    /*!
+      Returns the Exported to Yahoo of the article.
+    */
+    function &exportedYahoo( $as_object=true )
+    {
+        if ( $as_object )
+        {
+            $ret = new eZDateTime();
+            $ret->setTimeStamp( $this->ExportedYahoo );
+            return $ret;
+        }
+        else
+            return $this->ExportedYahoo;
+    }
 
     /*!
       Returns the stop date of the article.
@@ -704,6 +769,14 @@ class eZArticle
     function setImportID( $value )
     {
         $this->ImportID = $value;
+    }
+
+    /*!
+      Sets the article LinkURL.
+    */
+    function setLinkURL( $value )
+    {
+        $this->LinkURL = $value;
     }
 
     /*!
@@ -1056,6 +1129,17 @@ class eZArticle
             $this->StopDate = $date;
         else
             $this->StopDate = 0;
+    }
+
+    /*!
+      Sets the Exported to Yahoo for the article.
+    */
+    function setExportedYahoo( &$date )
+    {
+        if ( get_class ( $date ) == "ezdatetime" )
+            $this->ExportedYahoo = $date;
+        else
+            $this->ExportedYahoo = 0;
     }
 
     /*!
@@ -2829,7 +2913,7 @@ eZUser_Author as Author
     }
 
     /*!
-      Adds a form to the article.
+      Deletes a form to the article.
     */
     function deleteForms()
     {
@@ -2842,6 +2926,58 @@ eZUser_Author as Author
                   ";
         $db->query( $query );
     }
+
+    /*!
+      Deletes a poll to the article.
+    */
+    function deletePolls()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $ArticleID = $this->ID;
+
+        $query = "DELETE FROM eZArticle_ArticlePollDict
+                  WHERE ArticleID=$ArticleID
+                  ";
+        $db->query( $query );
+    }
+
+
+    /*!
+      Adds a poll to the article.
+    */
+    function addPoll( $poll )
+    {
+        $db =& eZDB::globalDatabase();
+
+        if( get_class( $poll ) == "ezpoll" )
+        {
+            $ArticleID = $this->ID;
+            $PollID = $poll->id();
+
+            $db->begin( );
+
+            $db->lock( "eZArticle_ArticlePollDict" );
+
+            $nextID = $db->nextID( "eZArticle_ArticlePollDict", "ID" );
+
+            $query = "INSERT INTO eZArticle_ArticlePollDict
+                      ( ID, ArticleID, PollID )
+                      VALUES ( '$nextID', '$ArticleID', '$PollID' )
+                      ";
+            $res = $db->query( $query );
+
+            $db->unlock();
+
+            if ( $res == false )
+                $db->rollback( );
+            else
+                $db->commit();
+
+        }
+    }
+
+
 
 
     /*!
@@ -2901,6 +3037,32 @@ eZUser_Author as Author
         {
             $id = $ret_array[$i][$db->fieldName("FormID")];
             $return_array[] = $as_object ? new eZForm( $id ) : $id;
+        }
+        return $return_array;
+    }
+    /*!
+      Returns an array of the polls for the current article.
+    */
+    function polls( $as_object = true)
+    {
+        $db =& eZDB::globalDatabase();
+
+        include_once( "ezpoll/classes/ezpoll.php" );
+
+        $ArticleID = $this->ID;
+
+        $return_array = array();
+
+        $query = "SELECT PollID FROM eZArticle_ArticlePollDict
+                      WHERE ArticleID=$ArticleID
+                      ";
+
+        $db->array_query( $ret_array, $query );
+        $count = count( $ret_array );
+        for( $i = 0; $i < $count; $i++ )
+        {
+            $id = $ret_array[$i][$db->fieldName("PollID")];
+            $return_array[] = $as_object ? new eZPoll( $id ) : $id;
         }
         return $return_array;
     }
@@ -2977,6 +3139,74 @@ eZUser_Author as Author
                                           WHERE $published
                                           AND ( StartDate !='0' AND StartDate <= $now )
                                           AND ( StopDate ='0' OR StopDate >= $now )
+                                          ORDER BY ID
+                                          " );
+
+        for ( $i=0; $i < count($articleArray); $i++ )
+        {
+            $returnArray[$i] = new eZArticle( $articleArray[$i][$db->fieldName("ID")] );
+        }
+
+        return $returnArray;
+    }
+
+    /*!
+      Returns all the articles that has been Exported to Yahoo
+
+      The articles are returned as an array of eZArticle objects.
+    */
+    function &getAllExportedYahoo( $isPublished=false )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $returnArray = array();
+        $articleArray = array();
+
+        if ( !$isPublished )
+            $published = "  IsPublished='0' ";
+        else
+            $published = "  IsPublished='1' ";
+
+        $now =& eZDateTime::timeStamp( true );
+
+        $db->array_query( $articleArray, "SELECT ID
+                                          FROM eZArticle_Article
+                                          WHERE $published
+                                          AND ExportedYahoo !='0'
+                                          ORDER BY ID
+                                          " );
+
+        for ( $i=0; $i < count($articleArray); $i++ )
+        {
+            $returnArray[$i] = new eZArticle( $articleArray[$i][$db->fieldName("ID")] );
+        }
+
+        return $returnArray;
+    }
+
+    /*!
+      Returns all the articles that hasn't been Exported to Yahoo
+
+      The articles are returned as an array of eZArticle objects.
+    */
+    function &getAllNotExportedYahoo( $isPublished=false )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $returnArray = array();
+        $articleArray = array();
+
+        if ( !$isPublished )
+            $published = "  IsPublished='0' ";
+        else
+            $published = "  IsPublished='1' ";
+
+        $now =& eZDateTime::timeStamp( true );
+
+        $db->array_query( $articleArray, "SELECT ID
+                                          FROM eZArticle_Article
+                                          WHERE $published
+                                          AND ExportedYahoo ='0'
                                           ORDER BY ID
                                           " );
 
@@ -3080,7 +3310,9 @@ eZUser_Author as Author
     var $StartDate;
     var $StopDate;
     var $ImportID;
+    var $LinkURL;
     var $Ranking;
+    var $ExportedYahoo;
 
     // tell eZ publish to show the article to the public
     var $IsPublished;

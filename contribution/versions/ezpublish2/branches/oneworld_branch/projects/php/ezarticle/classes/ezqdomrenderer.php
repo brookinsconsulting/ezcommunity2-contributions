@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezqdomrenderer.php,v 1.55.2.16 2002/04/22 07:52:03 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.55.2.16.2.1 2002/06/03 07:27:14 pkej Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -994,6 +994,7 @@ class eZQDomrenderer
             case "pre" :
             case "html" :
             case "form" :
+            case "poll" :
             {
                 $tmpContent = "";
                 if ( count( $paragraph->children ) )
@@ -1063,6 +1064,20 @@ class eZQDomrenderer
                         {
                             $formRenderer = new eZFormRenderer();
                             $output = $formRenderer->renderForm(  $forms[0] );
+
+                            $pageContent = $output;
+                        }
+                    }
+                    break;
+                    case "poll" :
+                    {
+                        include_once( "ezpoll/classes/ezpollrenderer.php" );
+
+                        $polls = $this->Article->polls();
+                        if ( count ($polls) == 1 )
+                        {
+                            $pollRenderer = new eZPollRenderer();
+                            $output = $pollRenderer->renderPoll(  $polls[0] );
 
                             $pageContent = $output;
                         }

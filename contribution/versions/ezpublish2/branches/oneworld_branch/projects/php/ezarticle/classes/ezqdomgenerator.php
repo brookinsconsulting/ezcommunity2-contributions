@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.39.2.6 2002/01/15 10:12:34 kaid Exp $
+// $Id: ezqdomgenerator.php,v 1.39.2.6.2.1 2002/06/03 07:27:14 pkej Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -119,6 +119,7 @@ class eZQDomGenerator
         $tmpPage = $this->generateHTML( $tmpPage );
 
         $tmpPage = $this->generateForm( $tmpPage );
+        $tmpPage = $this->generatePoll( $tmpPage );
         
 //        $tmpPage = $this->generateModule( $tmpPage );
 
@@ -234,6 +235,17 @@ class eZQDomGenerator
     function &generateForm( $tmpPage )
     {
         $tmpPage = preg_replace( "/(<form\s*?>)/", "<form />", $tmpPage );
+        
+        return $tmpPage;
+    }
+    
+    /*!
+      \private
+       
+    */
+    function &generatePoll( $tmpPage )
+    {
+        $tmpPage = preg_replace( "/(<poll\s*?>)/", "<poll />", $tmpPage );
         
         return $tmpPage;
     }
@@ -1079,6 +1091,10 @@ class eZQDomGenerator
             if ( $paragraph->name ==  "form" )
             {
                 $pageContent .= "<form>";
+            }
+            else if ( $paragraph->name ==  "poll" )
+            {
+                $pageContent .= "<poll>";
             }
             else
             {            

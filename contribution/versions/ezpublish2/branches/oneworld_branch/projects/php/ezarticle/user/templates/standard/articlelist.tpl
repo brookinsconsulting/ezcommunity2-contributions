@@ -85,6 +85,9 @@
         <!-- BEGIN headline_with_link_tpl -->
         <div class="listheadline"><a class="listheadline" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_name}</a></div>
         <!-- END headline_with_link_tpl -->
+        <!-- BEGIN headline_with_external_link_tpl -->
+        <div class="listheadline"><a class="listheadline" href="{link_url}">{article_name}</a></div>
+        <!-- END headline_with_external_link_tpl -->
         <!-- BEGIN headline_without_link_tpl -->
         <div class="listheadline">{article_name} </div>
         <!-- END headline_without_link_tpl -->
@@ -117,6 +120,11 @@
 
 	| <a class="path" href="{www_dir}{index}/article/archive/{category_def_id}/">{category_def_name}</a>
         <!-- END read_more_tpl -->
+
+        <!-- BEGIN read_more_external_tpl -->
+	<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+	<a class="path" href="{link_url}">{article_link_text}</a>
+        <!-- END read_more_external_tpl -->
 
 	<!-- BEGIN article_topic_tpl -->
         | <a class="path" href="{www_dir}{index}/article/topiclist/{topic_id}">{topic_name}</a>

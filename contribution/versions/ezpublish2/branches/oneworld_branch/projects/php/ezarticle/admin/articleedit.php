@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.116.2.9.2.1 2002/05/15 14:22:17 pkej Exp $
+// $Id: articleedit.php,v 1.116.2.9.2.2 2002/06/03 07:27:13 pkej Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -133,6 +133,7 @@ if ( $Action == "Update" || ( $Action == "Insert" ) )
         $article->setAuthorText( $AuthorText );
         $article->setAuthorEmail( $AuthorEmail );
         $article->setLinkText( $LinkText );
+        $article->setLinkURL( $LinkURL );
         $article->setRanking( $RankingValue );
 
         if ( trim( $LogMessage ) != "" )
@@ -361,6 +362,14 @@ if ( $Action == "Update" || ( $Action == "Insert" ) )
                         exit();
                     }
                     break;
+
+                    case "Poll":
+                    {
+                        // add form
+                        eZHTTPTool::header( "Location: /article/articleedit/pollist/$ArticleID/" );
+                        exit();
+                    }
+                    break;
                 }
             }
 
@@ -473,6 +482,7 @@ $t->set_var( "article_contents_3", stripslashes( $Contents[3] ) );
 $t->set_var( "author_text", stripslashes( $AuthorText ) );
 $t->set_var( "author_email", stripslashes( $AuthorEmail ) );
 $t->set_var( "link_text", stripslashes( $LinkText ) );
+$t->set_var( "link_url", stripslashes( $LinkURL ) );
 $t->set_var( "ranking", stripslashes( $RankingValue ) );
 
 $t->set_var( "start_day", stripslashes( $StartDay ) );
@@ -636,6 +646,7 @@ if ( $Action == "Edit" )
     }
     
     $t->set_var( "link_text", $article->linkText() );
+    $t->set_var( "link_url", $article->linkURL() );
 
     $t->set_var( "action_value", "update" );
 

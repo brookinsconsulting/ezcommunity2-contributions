@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.95.2.10 2002/05/02 13:29:53 bf Exp $
+// $Id: datasupplier.php,v 1.95.2.10.2.1 2002/06/03 07:27:14 pkej Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -36,6 +36,12 @@ $GlobalSectionID = $ini->read_var( "eZArticleMain", "DefaultSection" );
 
 switch ( $url_array[2] )
 {
+    case "export_yahoo":
+    {
+        include( "ezarticle/admin/cron_yahoo.php" );
+    }
+    break;
+
     case "mailtofriend":
     {
         $ArticleID = $url_array[3];
@@ -198,6 +204,59 @@ switch ( $url_array[2] )
         || eZArticleCategory::isOwner( $user, $CategoryID ) )
         {
             include( "ezarticle/user/articlelist.php" );
+        }
+    }
+    break;
+
+    case "latest":
+    {
+        $CategoryID = 0;
+        if ( !isset( $CategoryID ) || ( $CategoryID == "" ) )
+            $CategoryID = 0;
+
+        $Offset = $url_array[3];
+        if ( !is_numeric( $Offset ) )
+            $Offset = 0;
+
+
+        // if file exists... evrything is ok..
+        // if not.. check permission, then run page if ok
+        $user =& eZUser::currentUser();
+        $groupstr = "";
+        if ( get_class( $user ) == "ezuser" )
+        {
+            $groupstr = $user->groupString();
+        }
+        else
+            $user = 0;
+
+
+        if ( $PageCaching == "enabled" )
+        {
+
+            include_once( "classes/ezcachefile.php" );
+            $file = new eZCacheFile( "ezarticle/cache/", array( "articlelist", $CategoryID, $Offset, $groupstr ),
+                                     "cache", "," );
+
+            $cachedFile = $file->filename( true );
+
+            if ( $file->exists() )
+            {
+                include( $cachedFile );
+            }
+            else if ( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' ) ||
+            eZArticleCategory::isOwner( $user, $CategoryID) )
+                // check if user really has permissions to browse this category
+            {
+                $GenerateStaticPage = "true";
+
+                include( "ezarticle/user/latest.php" );
+            }
+        }
+        else if ( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' )
+        || eZArticleCategory::isOwner( $user, $CategoryID ) )
+        {
+            include( "ezarticle/user/latest.php" );
         }
     }
     break;
