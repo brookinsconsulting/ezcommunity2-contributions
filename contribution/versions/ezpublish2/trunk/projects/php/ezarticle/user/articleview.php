@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.72 2001/08/24 13:07:47 bf Exp $
+// $Id: articleview.php,v 1.73 2001/08/29 12:39:20 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -131,14 +131,6 @@ $t->set_block( "attribute_list_tpl", "type_item_tpl", "type_item" );
 $t->set_block( "type_item_tpl", "attribute_item_tpl", "attribute_item" );
 
 
-if ( $StaticRendering == true )
-{
-    $t->set_var( "article_header", "" );
-}
-else
-{
-    $t->parse( "article_header", "article_header_tpl" );
-}
 
 $SiteURL = $ini->read_var( "site", "SiteURL" );
 
@@ -219,9 +211,17 @@ if ( $article->get( $ArticleID ) )
     }
     
     $t->set_var( "author_text", $article->authorText() );
-
-    
     $t->set_var( "author_id", $article->contentsWriter( false ) );
+
+    // check if author is "" or starts with -
+    $authorText = trim( $article->authorText() );
+    if ( $authorText == "" ||
+         $authorText[0] == "-"         
+         )
+    {
+        $ShowHeader = "hide";        
+    }
+
     
     $categoryDef =& $article->categoryDefinition();
 
@@ -322,6 +322,18 @@ else
     eZHTTPTool::header( "Location: /error/404" );
     exit();
 }
+
+
+
+if ( $StaticRendering == true  || $ShowHeader == "hide" )
+{
+    $t->set_var( "article_header", "" );
+}
+else
+{
+    $t->parse( "article_header", "article_header_tpl" );
+}
+
 
 // set the variables in the mail_to form
 if ( !isset( $SendTo ) )
