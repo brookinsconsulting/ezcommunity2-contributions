@@ -80,7 +80,7 @@
 <tr>
     	<td class="{td_class}">
 	   {spacer}
-	<a href="/forum/category/forum/message/{message_id}/{forum_id}/">
+	<a href="/forum/message/{message_id}/{forum_id}/">
 	{reply_topic}
 	</a>
 	</td>
