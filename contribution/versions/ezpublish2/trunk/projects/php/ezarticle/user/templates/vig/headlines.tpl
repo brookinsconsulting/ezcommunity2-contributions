@@ -1,6 +1,6 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td class="menuspacer"><br /><br /><br /><br /></td>
+	<td class="menuspacer">&nbsp;</td>
 </tr>
 <!-- BEGIN path_item_tpl -->
 
@@ -31,10 +31,16 @@
 	</td>
 </tr>
 <tr>
-	<td class="menuspacer"><br /><br /><br /><br /></td>
+	<td class="menuspacer">&nbsp;</td>
+</tr>
+<tr>
+	<td class="menuspacer">&nbsp;</td>
 </tr>
 <!-- END article_item_tpl -->
 <!-- END article_list_tpl -->
+<tr>
+	<td class="menuspacer">&nbsp;</td>
+</tr>
 <tr>
 	<td class="menuspacer">&nbsp;</td>
 </tr>

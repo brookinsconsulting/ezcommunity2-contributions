@@ -10,6 +10,9 @@
 	<td colspan="2" class="path">Nyhetsbrev fra ViG:</td>
 </tr>
 <tr>
+	<td class="menuspacer">&nbsp;</td>
+</tr>
+<tr>
 	<td colspan="2" class="small">Ønsker du å være oppdatert? Legg inn din e-postadresse i feltet nedenfor, og du vil få e-post med siste nytt fra ViG når siden oppdateres.</td>
 </tr>
 <tr>
