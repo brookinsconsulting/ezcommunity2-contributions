@@ -1,17 +1,4 @@
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-    <td align="left" valign="bottom">
-        <h1>{intl-preview_headline}</h1>
-    </td>
-    <td align="right">
-    <td align="right">
-	 <form action="/forum/search/" method="post">
-	       <input type="text" name="QueryString" size="12" />
-	       <input class="stdbutton" type="submit" name="search" value="{intl-search}" />
-         </form>
-     </td>
-</tr>
-</table>
+<h1>{intl-preview_headline}</h1>
 
 {message_path_file}
 

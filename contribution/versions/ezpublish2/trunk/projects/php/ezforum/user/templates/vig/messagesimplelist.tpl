@@ -14,7 +14,7 @@
 	<table width="100%" cellspacing="0" cellpadding="0" border="0">
 	<tr>
 		<td width="1%">{spacer}{spacer}</td>
-		<td width="99%"><a class="{link_color}" href="/forum/message/{message_id}/">{topic}</a></td>
+		<td width="99%">{topic}</td>
 	</tr>
 	</table>
 		</td>
@@ -30,11 +30,7 @@
     <div class="p">
     {body}
     </div>
-	<div class="spacer">
-	<form action="/forum/userlogin/replysimple/{forum_id}/{message_id}/?RedirectURL={redirect_url}">
-	<input class="stdbutton" type="submit" value="{intl-reply}" />
-	</form>
-	</div>
+	<br />
     </td>
     </tr>
     <!-- END message_item_tpl -->

@@ -50,7 +50,7 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>{intl-category}:</th>
+	<th colspan="2">{intl-category}:</th>
 	<th>{intl-description}:</th>
 	<th>&nbsp;</th>
 	<th>&nbsp;</th>
@@ -59,8 +59,10 @@
 	
 <!-- BEGIN category_item_tpl -->
 <tr>
+	<td width="1" class="{td_class}" valign="top">
+	<img src="/admin/images/folder.gif" height="16" width="16" border="0" alt="" align="top" />
+	</td>
 	<td class="{td_class}">
-	<img src="/admin/images/folder.gif" height="16" width="16" border="0" alt="" align="top" />&nbsp;
 	<a href="/article/archive/{category_id}/">{category_name}</a>&nbsp;
 	</td>
 	<td class="{td_class}">
@@ -98,7 +100,7 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>{intl-article}:</th>
+	<th colspan="2">{intl-article}:</th>
 	<th>{intl-published}:</th>
 	<th>{intl-published_date}:</th>
 
@@ -112,11 +114,13 @@
 
 <!-- BEGIN article_item_tpl -->
 <tr>
-	<td width="48%" class="{td_class}">
-	<img src="/admin/images/file.gif" height="16" width="16" border="0" alt="" align="top" />&nbsp;
+	<td width="1%" class="{td_class}" valign="top">
+	<img src="/admin/images/file.gif" height="16" width="16" border="0" alt="" align="top" />
+	</td>
+	<td width="74%" class="{td_class}">
 	<a href="/article/articlepreview/{article_id}/">{article_name}</a>
 	</td>
-	<td width="48%" class="{td_class}">
+	<td width="1%" class="{td_class}">
 	<!-- BEGIN article_is_published_tpl -->
 	{intl-is_published}
 	<!-- END article_is_published_tpl -->
@@ -125,8 +129,8 @@
 	<!-- END article_not_published_tpl -->
 	&nbsp;
 	</td>
-	<td width="48%" class="{td_class}">
-	{article_published_date}
+	<td width="20%" class="{td_class}">
+	<span class="small">{article_published_date}</span>
 	</td>
 	<!-- BEGIN absolute_placement_item_tpl -->
 	<td width="1%" class="{td_class}">
