@@ -50,7 +50,11 @@ CREATE TABLE eZTrade_VoucherInformation (
   Description text,
   PreOrderID int(11) default '0',
   Price int(11) default '0',
-  MailMethod int(11) default '1'
+  MailMethod int(11) default '1',
+  ToName varchar(80) default NULL,
+  FromName varchar(80) default NULL,
+  FromOnlineID int(11) default '0',
+  ProductID int(11) default '0'
 ) TYPE=MyISAM;
 
 CREATE TABLE eZTrade_VoucherUsed (
@@ -63,7 +67,7 @@ CREATE TABLE eZTrade_VoucherUsed (
 ) TYPE=MyISAM;
 
 alter table eZTrade_Voucher add VoucherInformationID int default 0;  
-
+alter table eZTrade_Voucher add TotalValue float default 0;  
 
 
 CREATE TABLE eZForum_MessageWordLink (

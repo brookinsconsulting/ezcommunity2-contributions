@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherinformation.php,v 1.9 2001/09/27 10:50:57 ce Exp $
+// $Id: voucherinformation.php,v 1.10 2001/09/28 11:35:03 ce Exp $
 //
 // Created on: <06-Aug-2001 13:02:18 ce>
 //
@@ -107,6 +107,7 @@ if ( $product && isSet( $OK ) )
     $voucherInfo->setFromName( $FromName );
     $voucherInfo->setFromName( $FromName );
     $voucherInfo->setToName( $ToName );
+    $voucherInfo->setProduct( $product );
     
     $voucherInfo->setDescription( $Description );
 
