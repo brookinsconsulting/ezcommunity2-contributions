@@ -246,13 +246,13 @@ to get information about where specific files are installed.
 
 \section{RAQ 3}
 
-There is a separate chapter (\ref{chptr: raq 3}) in this manual describing
+There is a separate chapter \ref{chptr: raq 3} in this manual describing
 installation on a RAQ 3 server. It was kindly provided by Chris Mason, 
 
 
 \section{Windows}
 
-Windows installation is described in its own chapter (\ref{chptr: windows}).
+Windows installation is described in its own chapter \ref{chptr: windows}.
 
 
 \section{Other Systems}
@@ -634,6 +634,59 @@ rule. Its slightly different to the line used in the httpd.conf method.
 \chapter{eZ publish Installation}
 
 
+\section{Program Files}
+
+The next step is to install the eZ publish package in your document
+root directory. First you need to unpack the software in a temporary
+directory:\\
+
+
+\texttt{\footnotesize ~~~~\# cd /tmp}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~\# tar zxvf /path/to/ezpublish-2.0.tar.gz}~\\
+{\footnotesize \par}
+
+The next step is to move the files to your document root:\\
+
+
+\texttt{\footnotesize ~~~~\# mv /tmp/publish\_dist /your/apache/documentroot}~\\
+{\footnotesize \par}
+
+When all this is done you need to tell eZ publish a little about the
+site you're running. You'll need to edit the {}``site.ini{}'' file
+which you will find in the document root:\\
+
+
+\texttt{\footnotesize ~~~~\# cd /your/apache/documentroot}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~\# vi site.ini}~\\
+{\footnotesize \par}
+
+Instead of vi you can use your preferred text editor. You'll need
+to add information about the username, hostname and password of your
+database. More information on what you can do with {}``site.ini{}''
+can be found in the {}``eZ publish Customisation Guide{}''.
+
+The next important step is to run the script modfix. This script will
+create symbolic links needed and set permissions.\\
+
+
+\texttt{\footnotesize ~~~~\# ./modfix\_secure.sh}~\\
+{\footnotesize \par}
+
+Then you need to create cache directories:\\
+
+
+\texttt{\footnotesize ~~~~\# su}~\\
+\texttt{\footnotesize ~~~~\# ./cachefix\_secure.sh {[}package\_user{]}
+{[}apache\_process\_group{]}}~\\
+{\footnotesize \par}
+
+Where \texttt{\footnotesize {[}package\_user{]}} is the web admin
+user and \texttt{\footnotesize {[}apache\_process\_group{]}} is the
+group of the running apache process.
+
+
 \section{Database}
 
 
@@ -691,7 +744,7 @@ Finally we run clearcache to make sure that everything presented is
 cached correctly:\\
 
 
-\texttt{\footnotesize ~~~~\# ./clearcache.sh}{\footnotesize \par}
+\texttt{\footnotesize ~~~~\# ./clearcache\_secure.sh}{\footnotesize \par}
 
 
 \subsection{Updating the Installation}
@@ -700,46 +753,6 @@ This section is for users who are updating from a previous version
 of eZ publish. There should be a file called SQL\_UPDATES in the distribution
 root. Run the commands in each section starting at the version after
 your current and for each version after that until the current version.
-
-
-\section{Program Files}
-
-The next step is to install the eZ publish package in your document
-root directory. First you need to unpack the software in a temporary
-directory:\\
-
-
-\texttt{\footnotesize ~~~~\# cd /tmp}{\footnotesize \par}
-
-\texttt{\footnotesize ~~~~\# tar zxvf /path/to/ezpublish-2.0.tar.gz}~\\
-{\footnotesize \par}
-
-The next step is to move the files to your document root:\\
-
-
-\texttt{\footnotesize ~~~~\# mv /tmp/publish\_dist /your/apache/documentroot}~\\
-{\footnotesize \par}
-
-When all this is done you need to tell eZ publish a little about the
-site you're running. You'll need to edit the {}``site.ini{}'' file
-which you will find in the document root:\\
-
-
-\texttt{\footnotesize ~~~~\# cd /your/apache/documentroot}{\footnotesize \par}
-
-\texttt{\footnotesize ~~~~\# vi site.ini}~\\
-{\footnotesize \par}
-
-Instead of vi you can use your preferred text editor. You'll need
-to add information about the username, hostname and password of your
-database. More information on what you can do with {}``site.ini{}''
-can be found in the {}``eZ publish Customisation Guide{}''.
-
-The next important step is to run the script modfix. This script will
-create symbolic links needed and set permissions.\\
-
-
-\texttt{\footnotesize ~~~~\# ./modfix.sh}{\footnotesize \par}
 
 
 \chapter{Now What?}

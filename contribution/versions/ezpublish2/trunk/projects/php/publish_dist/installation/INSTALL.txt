@@ -51,11 +51,11 @@ Chapter 4 Apache Configuration
             4.1.2.1 User Site
             4.1.2.2 Admin Site
 Chapter 5 eZ publish Installation
-    5.1 Database
-        5.1.1 First Time Installation
-            5.1.1.1 Adding Pre-Defined Data
-        5.1.2 Updating the Installation
-    5.2 Program Files
+    5.1 Program Files
+    5.2 Database
+        5.2.1 First Time Installation
+            5.2.1.1 Adding Pre-Defined Data
+        5.2.2 Updating the Installation
 Chapter 6 Now What?
     6.1 Post Install Checklist
 Chapter 7 Trouble Shooting
@@ -292,13 +292,13 @@ files are installed.
 
 2.7 RAQ 3
 
-There is a separate chapter ([chptr: raq 3])
+There is a separate chapter [chptr: raq 3]
 in this manual describing installation on a RAQ 3 server.
 It was kindly provided by Chris Mason, 
 
 2.8 Windows
 
-Windows installation is described in its own chapter ([chptr: windows]).
+Windows installation is described in its own chapter [chptr: windows].
 
 2.9 Other Systems
 
@@ -673,74 +673,7 @@ to the line used in the httpd.conf method.
 
 eZ publish Installation
 
-5.1 Database
-
-5.1.1 First Time Installation
-
-Now you need to create a database in MySQL, the default name
-we use is publish, but you can change that to whatever pleases
-you.
-
-
-    # mysqladmin create publish
-
-
-Add a publish user in MySQL. To add a user you can use the
-MySQL client to log on to mysql and then create the user:
-
-
-    # mysql > grant all on publish.* to publish@localhost
-
-    identified by "secret";
-
-
-where secret is your password. Then you need to add the default
-eZ publish data into your newly created database:
-
-
-    # mysql -uroot -p publish < sql/publish.sql
-
-5.1.1.1 Adding Pre-Defined Data
-
-If you want to add the pre-defined data of the distribution
-you shouldn't add any data manually to the site before executing
-these commands.
-
-First we need to add files and images which are needed by
-the database.
-
-
-    # tar zpxvf data.tar.gz
-
-
-Then we need to run modfix to make sure that everything is
-readable.
-
-
-    # ./modfix.sh
-
-
-Then we need to send the SQL data into the database:
-
-
-    # mysql -upublish -ppublish publish < sql/data.sql
-
-
-Finally we run clearcache to make sure that everything presented
-is cached correctly:
-
-
-    # ./clearcache.sh
-
-5.1.2 Updating the Installation
-
-This section is for users who are updating from a previous
-version of eZ publish. There should be a file called SQL_UPDATES
-in the distribution root. Run the commands in each section
-starting at the version after your current and for each
-version after that until the current version.
-
-5.2 Program Files
+5.1 Program Files
 
 The next step is to install the eZ publish package in your
 document root directory. First you need to unpack the software
@@ -779,7 +712,85 @@ The next important step is to run the script modfix. This
 script will create symbolic links needed and set permissions.
 
 
+    # ./modfix_secure.sh
+
+
+Then you need to create cache directories:
+
+
+    # su
+    # ./cachefix_secure.sh [package_user] [apache_process_group]
+
+
+Where [package_user] is the web admin user and [apache_process_group]
+is the group of the running apache process.
+
+5.2 Database
+
+5.2.1 First Time Installation
+
+Now you need to create a database in MySQL, the default name
+we use is publish, but you can change that to whatever pleases
+you.
+
+
+    # mysqladmin create publish
+
+
+Add a publish user in MySQL. To add a user you can use the
+MySQL client to log on to mysql and then create the user:
+
+
+    # mysql > grant all on publish.* to publish@localhost
+
+    identified by "secret";
+
+
+where secret is your password. Then you need to add the default
+eZ publish data into your newly created database:
+
+
+    # mysql -uroot -p publish < sql/publish.sql
+
+5.2.1.1 Adding Pre-Defined Data
+
+If you want to add the pre-defined data of the distribution
+you shouldn't add any data manually to the site before executing
+these commands.
+
+First we need to add files and images which are needed by
+the database.
+
+
+    # tar zpxvf data.tar.gz
+
+
+Then we need to run modfix to make sure that everything is
+readable.
+
+
     # ./modfix.sh
+
+
+Then we need to send the SQL data into the database:
+
+
+    # mysql -upublish -ppublish publish < sql/data.sql
+
+
+Finally we run clearcache to make sure that everything presented
+is cached correctly:
+
+
+    # ./clearcache_secure.sh
+
+5.2.2 Updating the Installation
+
+This section is for users who are updating from a previous
+version of eZ publish. There should be a file called SQL_UPDATES
+in the distribution root. Run the commands in each section
+starting at the version after your current and for each
+version after that until the current version.
 
 Now What?
 

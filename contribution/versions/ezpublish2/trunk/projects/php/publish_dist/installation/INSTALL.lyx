@@ -537,24 +537,24 @@ By accessing the software manager (you must be root) you can get a list
 RAQ 3
 \layout Standard
 
-There is a separate chapter (
+There is a separate chapter 
 \begin_inset LatexCommand \ref{chptr: raq 3}
 
 \end_inset 
 
-) in this manual describing installation on a RAQ 3 server.
+ in this manual describing installation on a RAQ 3 server.
  It was kindly provided by Chris Mason, 
 \layout Section
 
 Windows
 \layout Standard
 
-Windows installation is described in its own chapter (
+Windows installation is described in its own chapter 
 \begin_inset LatexCommand \ref{chptr: windows}
 
 \end_inset 
 
-).
+.
 \layout Section
 
 Other Systems
@@ -1718,6 +1718,170 @@ Note the extra "
 eZ publish Installation
 \layout Section
 
+Program Files
+\layout Standard
+
+The next step is to install the eZ publish package in your document root
+ directory.
+ First you need to unpack the software in a temporary directory:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# cd /tmp
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# tar zxvf /path/to/ezpublish-2.0.tar.gz
+\newline 
+
+\layout Standard
+
+The next step is to move the files to your document root:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# mv /tmp/publish_dist /your/apache/documentroot
+\newline 
+
+\layout Standard
+
+When all this is done you need to tell eZ publish a little about the site
+ you're running.
+ You'll need to edit the 
+\begin_inset Quotes eld
+\end_inset 
+
+site.ini
+\begin_inset Quotes erd
+\end_inset 
+
+ file which you will find in the document root:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# cd /your/apache/documentroot
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# vi site.ini
+\newline 
+
+\layout Standard
+
+Instead of vi you can use your preferred text editor.
+ You'll need to add information about the username, hostname and password
+ of your database.
+ More information on what you can do with 
+\begin_inset Quotes eld
+\end_inset 
+
+site.ini
+\begin_inset Quotes erd
+\end_inset 
+
+ can be found in the 
+\begin_inset Quotes eld
+\end_inset 
+
+eZ publish Customisation Guide
+\begin_inset Quotes erd
+\end_inset 
+
+.
+\layout Standard
+
+The next important step is to run the script modfix.
+ This script will create symbolic links needed and set permissions.
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# ./modfix_secure.sh
+\newline 
+
+\layout Standard
+
+Then you need to create cache directories:
+\newline 
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# su
+\newline 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# ./cachefix_secure.sh [package_user] [apache_process_group]
+\newline 
+
+\layout Standard
+
+Where 
+\family typewriter 
+\size footnotesize 
+[package_user]
+\family default 
+\size default 
+ is the web admin user and 
+\family typewriter 
+\size footnotesize 
+[apache_process_group]
+\family default 
+\size default 
+ is the group of the running apache process.
+\layout Section
+
 Database
 \layout Subsection
 
@@ -1861,7 +2025,7 @@ Finally we run clearcache to make sure that everything presented is cached
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-# ./clearcache.sh
+# ./clearcache_secure.sh
 \layout Subsection
 
 Updating the Installation
@@ -1872,130 +2036,6 @@ This section is for users who are updating from a previous version of eZ
  There should be a file called SQL_UPDATES in the distribution root.
  Run the commands in each section starting at the version after your current
  and for each version after that until the current version.
-\layout Section
-
-Program Files
-\layout Standard
-
-The next step is to install the eZ publish package in your document root
- directory.
- First you need to unpack the software in a temporary directory:
-\newline 
-
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-# cd /tmp
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-# tar zxvf /path/to/ezpublish-2.0.tar.gz
-\newline 
-
-\layout Standard
-
-The next step is to move the files to your document root:
-\newline 
-
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-# mv /tmp/publish_dist /your/apache/documentroot
-\newline 
-
-\layout Standard
-
-When all this is done you need to tell eZ publish a little about the site
- you're running.
- You'll need to edit the 
-\begin_inset Quotes eld
-\end_inset 
-
-site.ini
-\begin_inset Quotes erd
-\end_inset 
-
- file which you will find in the document root:
-\newline 
-
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-# cd /your/apache/documentroot
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-# vi site.ini
-\newline 
-
-\layout Standard
-
-Instead of vi you can use your preferred text editor.
- You'll need to add information about the username, hostname and password
- of your database.
- More information on what you can do with 
-\begin_inset Quotes eld
-\end_inset 
-
-site.ini
-\begin_inset Quotes erd
-\end_inset 
-
- can be found in the 
-\begin_inset Quotes eld
-\end_inset 
-
-eZ publish Customisation Guide
-\begin_inset Quotes erd
-\end_inset 
-
-.
-\layout Standard
-
-The next important step is to run the script modfix.
- This script will create symbolic links needed and set permissions.
-\newline 
-
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-# ./modfix.sh
 \layout Chapter
 
 Now What?
