@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: suggestlink.php,v 1.21 2001/10/31 08:48:59 jhe Exp $
+// $Id: suggestlink.php,v 1.22 2001/11/01 20:38:22 br Exp $
 //
 // Created on: <26-Oct-2000 14:58:57 ce>
 //
@@ -354,9 +354,6 @@ $linkselect = new eZLinkCategory();
 $linkCategoryList =& $linkselect->getTree();
 
 // Template variables.
-$message = "Legg til link";
-$submit = "Legg til";
-
 $action_value = "update";
 
 //if ( !eZPermission::checkPermission( $user, "eZLink", "LinkAdd" ) )
@@ -379,8 +376,6 @@ if ( $Action == "AttributeList" )
     $turl = $Url;
     
     $action_value = "update";
-    $message = "Rediger link";
-    $submit = "Rediger";
     
     $t->set_var( "image_item", "" );
     
@@ -500,10 +495,7 @@ else
 $t->set_var( "yes_selected", $yes_selected );
 $t->set_var( "no_selected", $no_selected );
 
-$t->set_var( "submit_text", $submit );
 $t->set_var( "action_value", $action_value );
-$t->set_var( "message", $message );
-
 
 $t->set_var( "name", $tname );
 $t->set_var( "url", $turl );
