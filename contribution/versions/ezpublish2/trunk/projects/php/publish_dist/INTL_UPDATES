@@ -3,6 +3,9 @@ Example:
 mod: bug/user, fileedit.php.ini
 change: added user_edit=Some text
 --------------------------------------------------------------------
+mod: ezforum/admin, forumedit.php.ini
+change: added forum_is_anonymous=Anonymous posting allowed
+
 mod: ezarticle/admin, categoryedit.php.ini
 change: added write_groups=Groups with write access
 
