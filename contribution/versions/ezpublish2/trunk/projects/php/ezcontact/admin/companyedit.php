@@ -103,7 +103,7 @@ $t->set_block( "company_edit", "image_edit_tpl", "image_edit" );
 $t->set_block( "company_edit", "company_type_select_tpl", "company_type_select" );
 
 $t->set_block( "company_edit", "errors_tpl", "errors_item" );
-$t->set_var( "errors_item", "" );
+$t->set_var( "errors_item", "&nbsp;" );
 $message = "Registrer nytt kontaktfirma";
 
 $Online[] = $OnlineWeb;
@@ -132,7 +132,7 @@ $t->set_var( "address_id", "$AddressID" );
 $t->set_var( "user_id", "$UserID" );
 
 $t->set_var( "address_action_type", "hidden" );
-$t->set_var( "address_list", "" );
+$t->set_var( "address_list", "&nbsp;" );
 
 $PHONE_TYPE_ID = 5;
 $FAX_TYPE_ID = 8;
@@ -161,8 +161,8 @@ if( $Action == "insert" || $Action == "update" )
     {
         $t->set_block( "errors_tpl", "error_email_item_tpl", "error_email_item" );
         $t->set_block( "errors_tpl", "error_email_not_valid_item_tpl", "error_email_not_valid_item" );
-        $t->set_var( "error_email_item", "" );
-        $t->set_var( "error_email_not_valid_item", "" );
+        $t->set_var( "error_email_item", "&nbsp;" );
+        $t->set_var( "error_email_not_valid_item", "&nbsp;" );
         
         if( empty( $OnlineEmail ) )
         {
@@ -183,10 +183,10 @@ if( $Action == "insert" || $Action == "update" )
     {
         $t->set_block( "errors_tpl", "error_password_item_tpl", "error_password_item" );
         $t->set_block( "errors_tpl", "error_password_too_short_item_tpl", "error_password_too_short_item" );
-        $t->set_var( "error_password_item", "" );
-        $t->set_var( "error_password_too_short_item", "" );
-        $t->set_var( "error_passwordrepeat_item", "" );
-        $t->set_var( "error_passwordmatch_item", "" );
+        $t->set_var( "error_password_item", "&nbsp;" );
+        $t->set_var( "error_password_too_short_item", "&nbsp;" );
+        $t->set_var( "error_passwordrepeat_item", "&nbsp;" );
+        $t->set_var( "error_passwordmatch_item", "&nbsp;" );
         
         if( empty( $Password ) && empty( $UserID ) )
         {
@@ -219,7 +219,7 @@ if( $Action == "insert" || $Action == "update" )
     if( $loginCheck )
     {
         $t->set_block( "errors_tpl", "error_loginname_item_tpl", "error_loginname_item" );
-        $t->set_var( "error_loginname_item", "" );
+        $t->set_var( "error_loginname_item", "&nbsp;" );
         
         if( empty( $LoginName ) && empty( $UserID ) )
         {
@@ -231,7 +231,7 @@ if( $Action == "insert" || $Action == "update" )
     if( $companyNoCheck )
     {
         $t->set_block( "errors_tpl", "error_companyno_item_tpl", "error_companyno_item" );
-        $t->set_var( "error_companyno_item", "" );
+        $t->set_var( "error_companyno_item", "&nbsp;" );
         
         if( empty( $CompanyNo ) )
         {
@@ -243,7 +243,7 @@ if( $Action == "insert" || $Action == "update" )
     if( $addressCheck )
     {
         $t->set_block( "errors_tpl", "error_address_item_tpl", "error_address_item" );
-        $t->set_var( "error_address_item", "" );
+        $t->set_var( "error_address_item", "&nbsp;" );
 
         if( empty( $Street1 ) || empty( $Place ) || empty( $Zip ) )
         {
@@ -255,7 +255,7 @@ if( $Action == "insert" || $Action == "update" )
     if( $nameCheck )
     {
         $t->set_block( "errors_tpl", "error_name_item_tpl", "error_name_item" );
-        $t->set_var( "error_name_item", "" );
+        $t->set_var( "error_name_item", "&nbsp;" );
         
         if( empty( $Name ) )
         {
@@ -558,8 +558,8 @@ if ( $Action == "new" || $error)
     $t->parse( "logo_add", "logo_add_tpl" );
     $t->parse( "image_add", "image_add_tpl" );
 
-    $t->set_var( "logo_edit", "" );
-    $t->set_var( "image_edit", "" );
+    $t->set_var( "logo_edit", "&nbsp;" );
+    $t->set_var( "image_edit", "&nbsp;" );
     $Action_value = "insert";
 
     $t->parse( "address_item", "address_item_tpl" );
@@ -592,12 +592,12 @@ if ( $Action == "edit" )
         $t->set_var( "logo_name", $logoImage->name() );
         $t->set_var( "logo_id", $logoImage->id() );
         
-        $t->set_var( "logo_add", "" );
+        $t->set_var( "logo_add", "&nbsp;" );
         $t->parse( "logo_edit", "logo_edit_tpl" );
     }
     else
     {
-        $t->set_var( "logo_edit", "" );
+        $t->set_var( "logo_edit", "&nbsp;" );
         $t->parse( "logo_add", "logo_add_tpl" );
     }
     
@@ -613,12 +613,12 @@ if ( $Action == "edit" )
         $t->set_var( "image_name", $companyImage->name() );
         $t->set_var( "image_id", $companyImage->id() );
         
-        $t->set_var( "image_add", "" );
+        $t->set_var( "image_add", "&nbsp;" );
         $t->parse( "image_edit", "image_edit_tpl" );
     }
     else
     {
-        $t->set_var( "image_edit", "" );
+        $t->set_var( "image_edit", "&nbsp;" );
         $t->parse( "image_add", "image_add_tpl" );
     }
 
@@ -632,12 +632,12 @@ if ( $Action == "edit" )
     {
         for( $i=0; $i<count ( $phoneList ); $i++ )
         {
-            if ( $phoneList[$i]->phoneTypeID() == 1 )
+            if ( $phoneList[$i]->phoneTypeID() == $PHONE_TYPE_ID )
             {
                 $t->set_var( "tele_phone_id", $phoneList[$i]->id() );
                 $t->set_var( "telephone", $phoneList[$i]->number() );
             }
-            if ( $phoneList[$i]->phoneTypeID() == 2 )
+            if ( $phoneList[$i]->phoneTypeID() == $FAX_TYPE_ID )
             {
                 $t->set_var( "fax_phone_id", $phoneList[$i]->id() );
                 $t->set_var( "fax", $phoneList[$i]->number() );
@@ -676,12 +676,12 @@ if ( $Action == "edit" )
     {
         for( $i=0; $i<count ( $onlineList ); $i++ )
         {
-            if ( $onlineList[$i]->onlineTypeID() == 1 )
+            if ( $onlineList[$i]->onlineTypeID() == $WEB_TYPE_ID )
             {
                 $t->set_var( "web_online_id", $onlineList[$i]->id() );
                 $t->set_var( "web", $onlineList[$i]->URL() );
             }
-            if ( $onlineList[$i]->onlineTypeID() == 2 )
+            if ( $onlineList[$i]->onlineTypeID() == $EMAIL_TYPE_ID )
             {
                 $t->set_var( "email_online_id", $onlineList[$i]->id() );
                 $t->set_var( "email", $onlineList[$i]->URL() );
