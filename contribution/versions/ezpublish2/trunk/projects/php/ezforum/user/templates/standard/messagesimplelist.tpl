@@ -1,5 +1,3 @@
-<form action="/forum/userlogin/newsimple/{forum_id}">
-
 <h2>{intl-headline}</h2>
 
 <hr noshade size="4" />
@@ -30,7 +28,9 @@
     <p>
     {body}
     </p>
-    <a class="path" href="/forum/userlogin/replysimple/{forum_id}/{message_id}/?RedirectURL={redirect_url}">[ {intl-reply} ]</a><br />
+	<form action="/forum/userlogin/replysimple/{forum_id}/{message_id}/?RedirectURL={redirect_url}">
+	<input class="stdbutton" type="submit" value="{intl-reply}" />
+	</form>
 	<br />
     </td>
     </tr>
@@ -53,6 +53,7 @@
 
 <hr noshade size="4" />
 
+<form action="/forum/userlogin/newsimple/{forum_id}">
 <input class="stdbutton" type="submit" value="{intl-new-posting}" />
 <input type="hidden" name="RedirectURL" value="{redirect_url}" />
 </form>
