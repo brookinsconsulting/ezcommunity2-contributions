@@ -6,7 +6,8 @@ Changes from version 1.0.4
 * Added Turkish translation
 * Speedup by 20-50%, due to more efficient ini file reading.
 * Fixed the article search.
-
+* Fixed a bug when changing the linkcatalog
+* Added tree list in linkedit and groupedit                              
 
 Changes from version 1.0.3
 --------------------------
