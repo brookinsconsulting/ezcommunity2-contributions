@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.9 2001/10/09 09:50:55 bf Exp $
+// $Id: ezformrenderer.php,v 1.10 2001/10/09 10:07:50 bf Exp $
 //
 // eZFormRenderer class
 //
@@ -234,7 +234,7 @@ class eZFormRenderer
 
         if(  $ini->read_var( "eZFormMain", "CreateEmailDefaults" ) != "enabled" )
         {
-            if( isset( $formSender ) )
+            if ( isset( $formSender ) )
             {
                 if( eZMail::validate( $formSender ) == false )
                 {
@@ -322,9 +322,15 @@ class eZFormRenderer
             global $$elementName;
             $value = $$elementName;
 
-            print_r( $value );
 
-                
+            // convert array to multiple textlines.
+            $tmpValue = "";
+            if ( is_array( $value ) )
+            {
+                foreach ( $value as $v )
+                    $tmpValue .=  $v . "\n";
+            }
+            $value = $tmpValue;
 
             if ( $emailDefaults == true )
             {
@@ -334,17 +340,15 @@ class eZFormRenderer
                 }
                 else
                 {
-                    $content = $element->name() . ": " . $content . "\n" . $value . "\n\n";
+                    $content .= $element->name() . ":\n " . $value . "\n\n";
                 }
             }
             else
             {
-                $content = $element->name() . ": " . $content . "\n" . $value . "\n\n";
+                $content .= $element->name() . ":\n " . $value . "\n\n";
             }
         }
 
-            die();
-        
             
         if ( $emailDefaults == false )
         {

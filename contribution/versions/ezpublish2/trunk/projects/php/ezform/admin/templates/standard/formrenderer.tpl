@@ -7,7 +7,7 @@
 <!-- END text_area_item_tpl -->
 
 <!-- BEGIN multiple_select_item_tpl -->
-<select name="{field_name}" multiple="multiple" >
+<select name="{field_name}[]" multiple="multiple" >
 <!-- BEGIN sub_item_tpl -->
 <option value="{sub_value}">{sub_value}</option>
 <!-- END sub_item_tpl -->
