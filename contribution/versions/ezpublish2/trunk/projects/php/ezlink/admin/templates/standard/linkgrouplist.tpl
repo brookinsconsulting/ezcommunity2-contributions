@@ -78,7 +78,7 @@
 <!-- BEGIN link_item_tpl -->
 <tr>
 	<td width="98%" class="{td_class}">
-	<a href="/link/gotolink/addhit/{link_id}/?Url={link_url}" target="_blank">{link_title}</a><br />
+	<b><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}" target="_blank">{link_title}</a></b><br />
 	{link_description}
 	</td>
 	<td class="{td_class}" width="80" align="right">
