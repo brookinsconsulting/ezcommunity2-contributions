@@ -13,6 +13,7 @@ Changes from 2.2.8 to 2.2.9
 * Added missing SQL queries for permission system.
 * Removed link to Entry/exit pages report in eZ stats.
 * Fixed security bug with variable check in messagebody in eZ forum.
+* Fixed security bug with variable check in search in eZ filemanager.
 
 Changes from 2.2.7 to 2.2.8
 ---------------------------
