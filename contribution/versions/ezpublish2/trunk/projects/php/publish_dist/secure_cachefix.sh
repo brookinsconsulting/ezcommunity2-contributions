@@ -11,10 +11,12 @@ echo "Creating symbolic links and setting permissions as needed."
 chown $1:$2 site.ini
 chmod 640 site.ini
 if [ -f "override/site.ini" ]; then
-    chmod 600 override/site.ini
+    chown $1:$2 override/site.ini
+    chmod 640 override/site.ini
 fi
 if [ -f "override/site.ini.append" ]; then
-    chmod 600 override/site.ini.append
+    chown $1:$2 override/site.ini.append
+    chmod 640 override/site.ini.append
 fi
 
 touch error.log
