@@ -1,7 +1,7 @@
 <h1>{intl-head_line}</h1>
 <hr noshade="noshade" size="1" />
 <!-- BEGIN product_search_form_tpl -->
-<form action="/trade/extendedsearch/" method="post">
+<form action="{www_dir}{index}/trade/extendedsearch/" method="post">
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
     <tr>
         <td>
@@ -83,7 +83,7 @@
   <!-- BEGIN product_tpl -->
   <tr> 
     <td colspan="2">
-      <a href="/trade/productview/{product_id}/{category_id}/"><h2>{product_name}</h2></a> 
+      <a href="{www_dir}{index}/trade/productview/{product_id}/{category_id}/"><h2>{product_name}</h2></a> 
     </td>
   </tr>
   <tr>
@@ -96,7 +96,7 @@
       <table>
         <tr>
           <td>
-            <img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
+            <img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
           </td>
 	</tr>
         <tr>

@@ -4,7 +4,7 @@
      	   <h1>{intl-head_line}</h1>
      	</td>
    		<td align="right">
-			<form action="/trade/search/" method="post">
+			<form action="{www_dir}{index}/trade/search/" method="post">
 	      		<input type="text" name="Query" />
 	      		<input class="okbutton" type="submit" name="search" value="{intl-search_button}" />
 	        </form>
@@ -23,7 +23,7 @@
   <tr>
     <td style="font-size: 10px; width="50%">
       Ist Ihnen das Ergebnis zu umfangreich oder wollen Sie weitere Suchoptionen nutzen Sie bitte unsere 
-      <a href="/trade/extendedsearch/">erweitert Suche</a>.
+      <a href="{www_dir}{index}/trade/extendedsearch/">erweitert Suche</a>.
     </td>
   </tr>
 </table>
@@ -34,7 +34,7 @@
   <!-- BEGIN product_tpl -->
   <tr>
     <td colspan="2">
-      <a href="/trade/productview/{product_id}/{category_id}/"><h2>{product_name}</h2></a><br />
+      <a href="{www_dir}{index}/trade/productview/{product_id}/{category_id}/"><h2>{product_name}</h2></a><br />
     </td>
   </tr>
   <tr>
@@ -49,7 +49,7 @@
       <table align="right">
         <tr>
           <td>
-	    <img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
+	    <img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
 	  </td>
 	</tr>
 	<tr>
@@ -99,7 +99,7 @@
 
 		    <!-- BEGIN type_list_item_tpl -->
 		    <td>
-			&nbsp;<a class="path" href="/trade/search/move/{url_text}/{item_index}">{type_item_name}</a>&nbsp;|
+			&nbsp;<a class="path" href="{www_dir}{index}/trade/search/move/{url_text}/{item_index}">{type_item_name}</a>&nbsp;|
 		    </td>
 		    <!-- END type_list_item_tpl -->
 

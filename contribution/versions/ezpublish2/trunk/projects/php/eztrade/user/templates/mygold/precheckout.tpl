@@ -1,4 +1,4 @@
-<form method="post" action="/trade/precheckout/">
+<form method="post" action="{www_dir}{index}/trade/precheckout/">
 <h1>Sicherheitsinformationen zur SSL Verschl&uuml;sselung</h1>
 <hr noshade="noshade" size="1" />
 <br />
@@ -22,7 +22,7 @@ Sie betreten in K&uuml;rze den gesicherten Bereich der MyGold.com Webseite. In d
  Probleme beschrieben und geben Ihnen Tips, wie Sie trotzdem problemlos bei
  uns einkaufen k&ouml;nnen.<br />
  Sollten Sie trotz der Anleitung Probleme haben, k&ouml;nnen Sie uns gerne
- <a href="/feedback/">kontaktieren</a>, wir stehen Ihnen gerne zur Seite.<br />
+ <a href="{www_dir}{index}/feedback/">kontaktieren</a>, wir stehen Ihnen gerne zur Seite.<br />
  <br />
 </p>
 

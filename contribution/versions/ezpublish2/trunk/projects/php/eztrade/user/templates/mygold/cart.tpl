@@ -30,7 +30,7 @@
   <tr valign="top">
     <td class="{td_class}" align="center">{product_count}</td>
     <td class="{td_class}"><nobr>&nbsp;&nbsp;{product_number}</nobr></td>
-    <td class="{td_class}">&nbsp;&nbsp;<a href="/trade/productview/{product_id}">{product_name}</a><br />
+    <td class="{td_class}">&nbsp;&nbsp;<a href="{www_dir}{index}/trade/productview/{product_id}">{product_name}</a><br />
       <!-- BEGIN cart_item_option_tpl -->
       &nbsp;&nbsp;<span class="small">Gr&ouml;&szlig;e {option_value}</span>
       <!-- BEGIN option_savings_item_tpl -->

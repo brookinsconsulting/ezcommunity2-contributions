@@ -1,11 +1,11 @@
-<form action="/{module}/{action_url}/{product_id}/" method="post">
+<form action="{www_dir}{index}/{module}/{action_url}/{product_id}/" method="post">
   <h1>{intl-head_line}</h1>
   <hr noshade="noshade" size="1"/>
   <img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" /> 
   <a class="path" href="/{module}/{module_list}/0/">{intl-top}</a> 
   <!-- BEGIN path_tpl -->
   <img src="/images/path-slash.gif" height="10" width="16" border="0" alt="" /> 
-  <a class="path" href="/{module}/{module_list}/{category_id}/">{category_name}</a> 
+  <a class="path" href="{www_dir}{index}/{module}/{module_list}/{category_id}/">{category_name}</a> 
   <!-- END path_tpl -->
   <hr noshade="noshade" size="1"/>
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -31,8 +31,8 @@
 	  <tr> 
 	    <td> 
 	      <div align="right">
-	        <a href="/imagecatalogue/imageview/{main_image_id}/?RefererURL=/{module}/{module_view}/{product_id}/"> 
-		  <img src="{main_image_uri}" border="0" width="{main_image_width}" height="{main_image_height}" alt=""/>
+	        <a href="{www_dir}{index}/imagecatalogue/imageview/{main_image_id}/?RefererURL=/{module}/{module_view}/{product_id}/"> 
+		  <img src="{www_dir}{main_image_uri}" border="0" width="{main_image_width}" height="{main_image_height}" alt=""/>
 		</a> 
 	      </div>
 	    </td>

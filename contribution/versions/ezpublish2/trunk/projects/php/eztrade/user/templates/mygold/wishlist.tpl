@@ -1,5 +1,5 @@
 <!-- wishlist.tpl -->
-<form action="/trade/wishlist/" method="post">
+<form action="{www_dir}{index}/trade/wishlist/" method="post">
 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
     <tr>
         <td>
@@ -41,11 +41,11 @@
 					<tr valign="middle"> 
 						<td class="{td_class}"> 
 							<!-- BEGIN wishlist_image_tpl -->
-							<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/> 
+							<img src="{www_dir}{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/> 
 							<!-- END wishlist_image_tpl -->
 						</td>
 						<td class="{td_class}">
-						    <a href="/trade/productview/{product_id}/">{product_name}</a> 
+						    <a href="{www_dir}{index}/trade/productview/{product_id}/">{product_name}</a> 
 						</td>
 						<td class="{td_class}"> 
 							<!-- BEGIN wishlist_item_option_tpl -->
@@ -92,7 +92,7 @@
 <hr noshade size="1" />
 
 <!-- BEGIN wishlist_checkout_tpl -->
-<form action="/trade/sendwishlist/" method="post">
+<form action="{www_dir}{index}/trade/sendwishlist/" method="post">
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
     <tr>
         <td>
