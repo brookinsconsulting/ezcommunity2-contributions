@@ -98,7 +98,7 @@
 	</td>
 	<!-- END product_inactive_item_tpl -->
 	<td class="{td_class}" align="right">
-	{product_price}
+	{product_price}&nbsp;
 	</td>
 	<td class="{td_class}" align="right">
 	<input type="text" name="Price[]" size="8" value="" />
@@ -119,13 +119,10 @@
 	</td>
 </tr>
 <!-- END product_item_tpl -->
-<tr>
-	<td>
-	{intl-price_note}
-	</td>
-</tr>
-<tr>
-	<td>
+</table>
+
+<p>{intl-price_note}</p>
+
 <!-- BEGIN type_list_tpl -->
 <br />
 <table cellpadding="0" cellspacing="0" border="0">
@@ -173,9 +170,6 @@
 </tr>
 </table>
 <!-- END type_list_tpl -->
-	</td>
-</tr>
-</table>
 <hr noshade="noshade" size="4" />
 <input type="hidden" name="CategoryID" value="{category_id}" />
 <input type="hidden" name="Offset" value="{offset}" />
