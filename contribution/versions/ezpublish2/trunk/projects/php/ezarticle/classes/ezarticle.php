@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.4 2000/10/20 10:07:49 bf-cvs Exp $
+// $Id: ezarticle.php,v 1.5 2000/10/20 12:48:17 bf-cvs Exp $
 //
 // Definition of eZArticle class
 //
@@ -363,7 +363,7 @@ class eZArticle
        $return_array = array();
        $image_array = array();
        
-       $this->Database->array_query( $image_array, "SELECT ImageID FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID'" );
+       $this->Database->array_query( $image_array, "SELECT ImageID FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' ORDER BY Created" );
        
        for ( $i=0; $i<count($image_array); $i++ )
        {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.3 2000/10/20 10:07:49 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.4 2000/10/20 12:48:17 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -26,6 +26,7 @@
 
 */
 include_once( "classes/eztexttool.php" );
+include_once( "classes/ezlog.php" );
 
 class eZTechRenderer
 {
@@ -98,6 +99,8 @@ class eZTechRenderer
                 }
             }
 
+            $articleImages = $this->Article->images();
+            $articleID = $this->Article->id();
             $pageArray = array();
             // loop on the pages
             foreach ( $body as $page )
@@ -116,6 +119,46 @@ class eZTechRenderer
                     if ( $paragraph->name == "php" )
                     {
                         $pageContent .= $this->phpHighlight( $paragraph->children[0]->content );
+                    }
+
+                    // image
+                    if ( $paragraph->name == "image" )
+                    {
+                        $imageID = $paragraph->children[0]->content;
+                        setType( $imageID, "integer" );
+                        
+                        $image = $articleImages[$imageID-1];
+
+                        // add image if a valid image was found, else report an error in the log.
+                        if ( get_class( $image ) == "ezimage" )
+                        {
+                            $variation =& $image->requestImageVariation( 250, 250 );
+
+                            $imageURL = "/" . $variation->imagePath();
+                            $imageWidth = $variation->width();
+                            $imageHeight = $variation->height();
+                            $imageCaption = $image->caption();
+                                 
+                            $imageTags = "<table align=\"right\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
+                                            <tr>
+                                            <td>
+                                                        <img src=\"$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" />
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                         <td>
+                                                         $imageCaption
+                                                         </td>
+                                                </tr>
+                                             </table>";
+
+                            $pageContent .=  $imageTags;
+                        }
+                        else
+                        {
+                            eZLog::writeError( "Image nr: $imageID not found in article: $articleID from IP: $REMOTE_ADDR" );        
+                        }
+
                     }
                 }
                 $pageArray[] = $pageContent;
