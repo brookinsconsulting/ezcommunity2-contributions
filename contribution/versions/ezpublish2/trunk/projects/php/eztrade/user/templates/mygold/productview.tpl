@@ -55,7 +55,7 @@
 	      <table cellspacing="0" cellpadding="0" border="0" width="100%">
 	        <tr> 
 		  <td colspan="2"> 
-		    <hr size="1" noshade />
+		    <hr size="1" noshade="noshade" />
 		  </td>
 		</tr>
 		<!-- BEGIN attribute_tpl -->
@@ -114,8 +114,10 @@
 		<!-- END value_tpl -->
 	      </select>
 	      <!-- END option_tpl -->
+	      &nbsp;
 	    </td>
 	    <td align="right" valign="bottom"> 
+    	      <table border="0"><tr><td align="left"> 
 	      <!-- BEGIN price_tpl -->
 	      {product_price}<br />
 	      <!-- BEGIN alternative_currency_list_tpl -->
@@ -124,35 +126,39 @@
 	      <!-- END alternative_currency_tpl -->
 	      <!-- END alternative_currency_list_tpl -->
 	      <!-- END price_tpl -->
-  
               <!-- BEGIN price_range_tpl -->
-              <p class="boxtext">{intl-price_range}:</p>
+              <b>{intl-price_range}:</b><br />
+              <input type="text" name="PriceRange" size="8" /><br />
 	      <!-- BEGIN price_range_min_unlimited_tpl -->
-              {intl-min}: {intl-unlimited}
+	      <table class="small">
+	      <tr>
+	      <td class="small">{intl-min}:</td><td class="small">{intl-unlimited}</td></tr>
               <!-- END price_range_min_unlimited_tpl -->
               <!-- BEGIN price_range_min_limited_tpl -->
-              {intl-min}: {price_min}
+	      <table class="small">
+	      <tr>
+              <td class="small">{intl-min}:</td><td class="small">{price_min}</td></tr>
               <!-- END price_range_min_limited_tpl -->
               <!-- BEGIN price_range_max_unlimited_tpl -->
-              {intl-max}: {intl-unlimited}
+              <tr><td class="small">{intl-max}:</td><td class="small">{intl-unlimited}</td></tr></table>
               <!-- END price_range_max_unlimited_tpl -->
               <!-- BEGIN price_range_max_limited_tpl -->
-              {intl-max}: {price_max}
+              <tr><td class="small">{intl-max}:</td><td class="small">{price_max}</td></tr></table>
               <!-- END price_range_max_limited_tpl -->
-              <input type="text" name="PriceRange" size="8" />
               <!-- END price_range_tpl -->
-	      
+	      &nbsp;
+	      </td></tr></table>	      
 	    </td>
 	  </tr>
-<tr>
-	<!-- BEGIN mail_method_tpl -->
-	<td>
-	<p class="boxtext">{intl-mail_method}:</p>
-	{intl-email}: <input type="radio" value="1" name="MailMethod" checked />&nbsp;
-	{intl-smail}: <input type="radio" value="2" name="MailMethod" />
-	</td>
-	<!-- END mail_method_tpl -->
-</tr>
+          <tr>
+            <!-- BEGIN mail_method_tpl -->
+            <td colspan="2">
+              <b>{intl-mail_method}:</b><br />
+              {intl-email}: <input type="radio" style="background-color: #ffffff" value="1" name="MailMethod" checked />&nbsp;
+	      {intl-smail}: <input type="radio" style="background-color: #ffffff" value="2" name="MailMethod" />
+            </td>
+            <!-- END mail_method_tpl -->
+          </tr>
 	</table>
       </td>
     </tr>
