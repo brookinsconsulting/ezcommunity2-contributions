@@ -1,4 +1,4 @@
-<tr>
+<tr bgcolor="{color}">
     <td>
         {list-Name}
     </td>
