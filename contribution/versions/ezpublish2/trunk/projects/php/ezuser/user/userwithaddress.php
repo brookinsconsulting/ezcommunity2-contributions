@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.22 2001/01/19 11:00:52 ce Exp $
+// $Id: userwithaddress.php,v 1.23 2001/01/19 15:49:37 ce Exp $
 //
 // 
 //
@@ -355,11 +355,16 @@ if ( $Action == "Insert" && $error == false )
     }
     
     $address->store();
+
     
     // add the address to the user.
     $user->addAddress( $address );
-    
+
     $user->loginUser( $user );
+
+    // Sets the main address
+    $mainAddress = new eZAddress( $MainAddressID );
+    $address->setMainAddress( $address, $user );
     
     if ( isSet( $RedirectURL )  && ( $RedirectURL != "" ) )
     {
@@ -397,7 +402,7 @@ if ( $Action == "Update" )
         $address->setStreet2( $Street2[$i] );
         $address->setZip( $Zip[$i] );
         $address->setPlace( $Place[$i] );
-                
+        
         if ( isset( $CountryID[$i] ) )
         {
             $country = new eZCountry( $CountryID[$i] );
@@ -405,9 +410,13 @@ if ( $Action == "Update" )
         }
                 
         $address->store();
+
     }
 
     $user->store();
+
+    $mainAddress = new eZAddress( $MainAddressID );
+    $address->setMainAddress( $mainAddress, $user );
 
 
     if ( isSet( $RedirectURL )  && ( $RedirectURL != "" ) )
@@ -528,7 +537,23 @@ if ( $Action == "Edit" )
             
         $t->set_var( "street1_value", $Street1 );
         $t->set_var( "street2_value", $Street2 );
+
+        $mainAddress = $address->mainAddress( $user );
+
+        if ( $mainAddress )
+        {
+            $mainAddressID = $mainAddress[0]->id();
             
+            if ( $address->id() == $mainAddressID )
+            {
+                $t->set_var( "is_checked", "checked" );
+            }
+            else
+            {
+                $t->set_var( "is_checked", "" );
+            }
+        }
+        
         $t->set_var( "zip_value", $Zip );
             
         $t->set_var( "place_value", $Place );
