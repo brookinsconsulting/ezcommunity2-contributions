@@ -12,13 +12,13 @@ require $DOCUMENTROOT . "classes/ezcompany.php";
 
 include( $DOCUMENTROOT . "checksession.php" );
 
-$t = new Template( ".");  
+$t = new Template( "." );  
 
 $t->set_file( array(
                    "contact_page" => $DOCUMENTROOT . "templates/contactpage.tpl",
                    "person_item" =>  $DOCUMENTROOT . "templates/personitem.tpl",
+                   "delete_person_item" =>  $DOCUMENTROOT . "templates/persondeleteitem.tpl",
                    "company_item" => $DOCUMENTROOT . "templates/companyitem.tpl" ) );
-
 
 $company = new eZCompany();
 
@@ -101,7 +101,9 @@ for ( $i=0; $i<count( $company_array ); $i++ )
           // utøve rettigheter
           if ( $usrGroup->personDelete() == 'Y' )
           {
-              $t->set_var( "delete_person", "<a href=\"#\" onClick=\"verify( 'Slette kontakt person?', 'index.php?prePage=" . $DOCUMENTROOT . "personedit.php&Action=delete&PID=" .  $person_array[$j][ "ID" ] . "'); return false;\"><img src=\"" . $DOCUMENTROOT ."images/slettmini.gif\" width=\"16\" height=\"16\"  border=\"0\"></a>" );
+              $t->parse( "delete_person", "delete_person_item" );
+//                $t->set_var( "delete_person",
+//                             "<a href=\"#\" onClick=\"verify( 'Slette kontakt person?', 'index.php?prePage=" . $DOCUMENTROOT . "personedit.php&Action=delete&PID=" .  $person_array[$j][ "ID" ] . "'); return false;\"><img src=\"" . $DOCUMENTROOT ."images/slettmini.gif\" width=\"16\" height=\"16\"  border=\"0\"></a>" );
           }
           else
           {
