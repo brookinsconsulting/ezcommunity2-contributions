@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.33 2001/03/13 08:55:18 bf Exp $
+// $Id: ezsession.php,v 1.34 2001/04/09 10:19:20 bf Exp $
 //
 // Definition of eZSession class
 //
@@ -112,6 +112,8 @@ class eZSession
 
             $this->setVariable( "SessionIP", $remoteIP );
             $this->HasRefreshed = true;
+
+            die( "insert" );
         }
         else
         {
@@ -125,6 +127,8 @@ class eZSession
             $this->HasRefreshed = true;
 
             $this->setVariable( "SessionIP", $remoteIP );
+
+            die( "update $this->ID" );
         }
         
         return true;
@@ -201,7 +205,7 @@ class eZSession
             $db->array_query( $session_array, "SELECT *
                                       FROM eZSession_Session
                                       WHERE Hash='$hash'" );
-            
+
             if ( count( $session_array ) == 1 )
             {
                 $ret = $this->get( $session_array[0] );

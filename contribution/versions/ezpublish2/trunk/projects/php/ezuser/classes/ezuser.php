@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.60 2001/04/05 08:52:44 fh Exp $
+// $Id: ezuser.php,v 1.61 2001/04/09 10:19:20 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -557,7 +557,7 @@ class eZUser
             }
             
             $session->refresh();
-            $session->refresh();
+//            $session->refresh();
             
             $session->setVariable( "AuthenticatedUser", $user->id() );
             $ret = true;            
@@ -640,11 +640,11 @@ class eZUser
     */
     function currentUsers()
     {
-        $session =& eZSession::globalSession();
+        $globalSession =& eZSession::globalSession();
 
         $ret = array();
 
-        $sessionIDArray =& $session->getByVariable( "AuthenticatedUser" );
+        $sessionIDArray =& $globalSession->getByVariable( "AuthenticatedUser" );
 
         foreach ( $sessionIDArray as $sessionID )
         {
@@ -661,9 +661,7 @@ class eZUser
             else            
             {
                 if ( ( $user->id() != 0 ) && ( $user->id() != "" ) )
-                {
-
-                    
+                {                    
                     $ret[] = array( $user, $session );
                 }
             }
@@ -677,7 +675,7 @@ class eZUser
     */
     function getLogins( $userId )
     {
-        $userSessionList = eZUser::currentUsers();
+        $userSessionList =& eZUser::currentUsers();
         $logins=0;
         foreach( $userSessionList as $userSessionItem )
         {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.25 2001/03/29 11:15:47 jakobn Exp $
+// $Id: login.php,v 1.26 2001/04/09 10:19:21 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -74,9 +74,9 @@ if ( $Action == "login" )
 
     if ( $user )
     {
-        if ( $user->get( $user->ID ) )
+        if ( $user->get( $user->id() ) )
         {
-            $logins = $user->getLogins( $user->ID );
+            $logins = $user->getLogins( $user->id() );
             $AllowSimultaneousLogins =  $ini->read_var( "eZUserMain", "SimultaneousLogins" );
 
             if ( $AllowSimultaneousLogins == "disabled" )
@@ -131,9 +131,9 @@ if ( $Action == "login" )
         }
         else
         {
-            ezLog::writeError( "Couldn't recieve userinformastion on : $Username from IP: $REMOTE_ADDR" );
+            eZLog::writeError( "Couldn't recieve userinformastion on : $Username from IP: $REMOTE_ADDR" );
 
-            ezHTTPTool::header( "Location: /user/norights/?Error=UnknownError&RedirectURL=$RedirectURL" );
+            eZHTTPTool::header( "Location: /user/norights/?Error=UnknownError&RedirectURL=$RedirectURL" );
             exit();
         }
     }
