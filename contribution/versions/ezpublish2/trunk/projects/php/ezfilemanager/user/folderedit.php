@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: folderedit.php,v 1.39 2001/10/04 09:09:50 fh Exp $
+// $Id: folderedit.php,v 1.40 2001/10/09 16:06:21 fh Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -130,7 +130,7 @@ if ( $Action == "Insert" || $Action == "Update" )
         else
         {
             $parentFolder = new eZVirtualFolder( $ParentID );
-        
+            // no write to parent.
             if ( $FolderID == 0 &&
               eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", "w" ) == false &&
               eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", 'u') == false )
@@ -428,6 +428,11 @@ else
 
 
 // Print out all the folders.
+if( $parentID == 0 || !isset( $parentID ) )
+    $t->set_var( "root_selected", "selected" );
+else
+    $t->set_var( "root_selected", "" );
+
 foreach ( $folderList as $folderItem )
 {
     if ( eZObjectPermission::hasPermission( $folderItem[0]->id(), "filemanager_folder", 'w' ) ||
@@ -450,7 +455,6 @@ foreach ( $folderList as $folderItem )
         }
 
         $selectFolderID = $folderItem[0]->id();
-
         if ( $parentID )
         {
             if ( $selectFolderID == $parentID )

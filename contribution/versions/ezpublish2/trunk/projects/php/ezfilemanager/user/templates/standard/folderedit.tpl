@@ -57,7 +57,7 @@
     <td width="99%">
     <p class="boxtext">{intl-folder}:</p>
     <select name="ParentID">
-    <option value="0" {selected}>{intl-top_folder}</option>
+    <option value="0" {root_selected}>{intl-top_folder}</option>
     <!-- BEGIN value_tpl -->
     <option value="{option_value}" {selected}>{option_level}{option_name}</option>
     <!-- END value_tpl -->
