@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userbox.php,v 1.34.2.2 2002/01/04 14:04:51 kaid Exp $
+// $Id: userbox.php,v 1.34.2.3 2002/01/04 14:14:01 kaid Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -71,10 +71,14 @@ if ( !$user )
     $t->set_block( "login", "standard_creation_tpl", "standard_creation" );
     $t->set_block( "login", "extra_creation_tpl", "extra_creation" );
 
+    if ( !isset( $GlobalSectionID ) )
+        $GlobalSectionID = "";
     $t->set_var( "section_id", $GlobalSectionID );
 
     $t->set_var( "standard_creation", "" );
     $t->set_var( "extra_creation", "" );
+    if ( !isset( $no_address ) )
+        $no_address = "";
     $t->set_var( "no_address", $no_address );
     
     if ( isset( $type_list ) )
@@ -109,7 +113,7 @@ if ( !$user )
    
     $t->set_var( "action_value", "login" );
 
-	$t->set_var( "sitedesign", $GlobalSiteDesign );
+    $t->set_var( "sitedesign", $GlobalSiteDesign );
 
     $t->pparse( "output", "login" );
     
@@ -124,19 +128,19 @@ else
         "userbox" => "userbox.tpl"
         ) );
 
-	if ( !isset( $GlobalSectionID ) )
-		$GlobalSectionID = "";
+    if ( !isset( $GlobalSectionID ) )
+        $GlobalSectionID = "";
     $t->set_var( "section_id", $GlobalSectionID );
     
     $t->set_var( "first_name", $user->firstName() );
     $t->set_var( "last_name", $user->lastName() );
     $t->set_var( "user_id", $user->id() );
-	if ( ! isset( $SiteStyle ) )
-		$SiteStyle = "";
+    if ( ! isset( $SiteStyle ) )
+        $SiteStyle = "";
     $t->set_var( "style", $SiteStyle );
     
-	if ( ! isset( $no_address ) )
-		$no_address = "";
+    if ( ! isset( $no_address ) )
+        $no_address = "";
     $t->set_var( "no_address", $no_address );
     
     if ( ! isset( $RedirectURL ) )
@@ -161,9 +165,9 @@ else
     }
     
 
-	$t->set_var( "sitedesign", $GlobalSiteDesign );
+    $t->set_var( "sitedesign", $GlobalSiteDesign );
     
-	$t->pparse( "output", "userbox" );
+    $t->pparse( "output", "userbox" );
 } 
 
 ?>
