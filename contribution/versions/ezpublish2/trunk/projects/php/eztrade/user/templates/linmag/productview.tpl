@@ -180,14 +180,17 @@
 	<select name="OptionValueArray[]">
 
 	<!-- BEGIN value_tpl -->
+
 	<!-- BEGIN value_description_tpl -->
 	<option value="{value_id}">{value_name}
 	<!-- END value_description_tpl -->
+
 	<!-- BEGIN value_price_item_tpl -->
 	{value_price}
 	<!-- END value_price_item_tpl -->
+
 	<!-- BEGIN value_availability_item_tpl -->
-	({value_availability})
+
 	<!-- END value_availability_item_tpl -->
 	 </option>
 
