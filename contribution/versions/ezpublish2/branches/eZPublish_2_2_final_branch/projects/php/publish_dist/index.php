@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.119.2.1 2001/10/31 13:48:21 bf Exp $
+// $Id: index.php,v 1.119.2.2 2001/11/09 10:02:10 jhe Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -159,7 +159,7 @@ if ( isSet( $HTTP_COOKIE_VARS["eZUser_AutoCookieLogin"] ) and $HTTP_COOKIE_VARS[
 $url_array = explode( "/", $REQUEST_URI );
 
 if ( ( $requireUserLogin == "disabled" ) ||
-    ( ( $requireUserLogin == "enabled" )   & ( get_class( $user ) == "ezuser" ) && ( $user->id() != 0 ) ) ) 
+    ( ( $requireUserLogin == "enabled" ) && ( get_class( $user ) == "ezuser" ) && ( $user->id() != 0 ) ) ) 
 {
 
     // do url translation if needed
@@ -170,8 +170,12 @@ if ( ( $requireUserLogin == "disabled" ) ||
     if ( in_array(  $url_array[1], $urlTranslatorArray ) )
     {
         include_once( "ezurltranslator/classes/ezurltranslator.php" );
-        $REQUEST_URI = eZURLTranslator::translate( $REQUEST_URI );
-        $url_array = explode( "/", $REQUEST_URI );
+        $translatedURL = eZURLTranslator::translate( $REQUEST_URI );
+        if ( $translatedURL )
+        {
+            $REQUESTED_URI = $translatedURL;
+            $url_array = explode( "/", $REQUEST_URI );
+        }
     }
 
     // if uri == / show default page or article list
