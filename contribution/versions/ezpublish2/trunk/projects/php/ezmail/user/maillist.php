@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: maillist.php,v 1.11 2001/03/27 15:12:45 fh Exp $
+// $Id: maillist.php,v 1.12 2001/03/27 18:15:25 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <19-Mar-2000 20:25:22 fh>
@@ -59,8 +59,11 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "mail_list_page_tpl", "mail_item_tpl", "mail_item" );
+$t->set_block( "mail_list_page_tpl", "mail_item_unread_tpl", "mail_item_unread" );
+$t->set_block( "mail_list_page_tpl", "mail_render_tpl", "mail_render" );
 $t->set_block( "mail_list_page_tpl", "folder_item_tpl", "folder_item" );
 $t->set_var( "mail_item", "" );
+$t->set_var( "mail_item_unread", "" );
 
 $folder = new eZMailFolder( $FolderID );
 $t->set_var( "current_folder_id", $FolderID );
@@ -73,12 +76,24 @@ foreach( $mail as $mailItem )
     $t->set_var( "mail_id", $mailItem->id() );
     $t->set_var( "mail_subject", htmlspecialchars( $mailItem->subject() ) );
     $t->set_var( "mail_sender", htmlspecialchars( $mailItem->sender() ) );
+
+    switch( $mailItem->status() )
+    {
+        case UNREAD : $t->set_var( "mail_status", 'U' ); break;
+        case READ : $t->set_var( "mail_status", '-' ); break;
+        case REPLIED : $t->set_var( "mail_status", 'R' ); break;
+        case FORWARDED : $t->set_var( "mail_status", 'F' ); break;
+    }
+    
     $siSize = $mailItem->siSize();
     $t->set_var( "mail_size" , $siSize["size-string"] . $siSize["unit"] );
     $t->set_var( "mail_date", date("D M d H:i Y ", $mailItem->uDate() ) );
     ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
     
-    $t->parse( "mail_item", "mail_item_tpl", true );
+    if( $mailItem->status() == UNREAD )
+        $t->parse( "mail_render", "mail_item_unread_tpl", true );
+    else
+        $t->parse( "mail_render", "mail_item_tpl", true );
 
     $i++;
 }

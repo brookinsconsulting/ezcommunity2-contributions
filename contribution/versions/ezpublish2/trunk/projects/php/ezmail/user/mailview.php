@@ -10,6 +10,7 @@ include_once( "ezmail/classes/ezmailfolder.php" );
 if( isset( $Reply ) )
 {
     $mail = new eZMail( $MailID );
+    $mail->setStatus( REPLIED, true );
     $reply = $mail->copyMail();
     $replyid = $reply->id();
 
@@ -49,6 +50,8 @@ $t->set_var( "cc_value", "" );
 $t->set_var( "bcc_value", "" );
 
 $mail = new eZMail( $MailID );
+if( $mail->status() == UNREAD )
+    $mail->setStatus( READ, true );
 $t->set_var( "current_mail_id", $MailID );
 
 $t->set_var( "to", htmlspecialchars( $mail->to() ) );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.14 2001/03/27 15:12:45 fh Exp $
+// $Id: ezmail.php,v 1.15 2001/03/27 18:15:25 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -38,6 +38,13 @@ Example code:
 include_once( "ezmail/classes/ezmailfolder.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
+
+/* DEFINES */
+define( "UNREAD", 0 );
+define( "READ", 1 );
+define( "REPLIED", 2 );
+define( "FORWARDED", 3 );
+
 
 class eZMail
 {
@@ -119,7 +126,7 @@ class eZMail
                                  ReplyTo='$this->ReplyTo',
                                  Subject='$this->Subject',
                                  BodyText='$this->BodyText',
-                                 IsRead='$this->IsRead',
+                                 Status='$this->Status',
                                  Size='$this->Size',
                                  UDate='$this->UDate'
                                  " );
@@ -141,7 +148,7 @@ class eZMail
                                  ReplyTo='$this->ReplyTo',
                                  Subject='$this->Subject',
                                  BodyText='$this->BodyText',
-                                 IsRead='$this->IsRead',
+                                 Status='$this->Status',
                                  Size='$this->Size',
                                  UDate='$this->UDate'
                                  WHERE ID='$this->ID'
@@ -182,7 +189,7 @@ class eZMail
                 $this->ReplyTo = $mail_array[0][ "ReplyTo" ];
                 $this->Subject = $mail_array[0][ "Subject" ];
                 $this->BodyText = $mail_array[0][ "BodyText" ];
-                $this->IsRead = $mail_array[0][ "IsRead" ];
+                $this->Status = $mail_array[0][ "Status" ];
                 $this->Size = $mail_array[0][ "Size" ];
                 $this->UDate = $mail_array[0][ "UDate" ];
                 
@@ -548,6 +555,40 @@ class eZMail
             $this->get( $this->ID );
         $this->UDate = $value;
     }
+
+    /*
+      Returns the status of this mail.
+      0 - UNREAD
+      1 - READ
+      2 - REPLIED
+      3 - FORWARDED
+    */
+    function status()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        return $this->Status;
+    }
+
+    /*!
+      Sets the status of this mail.
+     0 - UNREAD
+     1 - READ
+     2 - REPLIED
+     3 - FORWARDED
+     If direct write is set the data will be written directly to the database. No need for calling store() afterwords. In order to do this you must be sure that the object
+     is allready in the database.
+     */
+    function setStatus( $status, $directWrite = false )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $this->Status = $status;
+
+        if( $directWrite == true )
+            $this->Database->query( "UPDATE eZMail_Mail SET Status='$status' where ID='$this->ID'" );
+    }
     
     /*!
       \static
@@ -636,7 +677,7 @@ class eZMail
         $unreadOnlySQL = "";
         if( $onlyUnread == false )
         {
-            $unreadOnlySQL = "AND IsRead='0'";
+            $unreadOnlySQL = "AND Status='0'";
         }
         
         $return_array = array();
@@ -966,14 +1007,8 @@ class eZMail
 
     var $Size;
     var $UDate;
-    // we need a state so we can store if this mail is replyed/forwarded...
-    // I suggest
-    // 0 - Unread
-    // 1 - Read
-    // 2 - Replied
-    // 3 - Forwarded
     
-    var $IsRead;
+    var $Status;
     /* database specific variables */
     var $ID;
     var $UserID;

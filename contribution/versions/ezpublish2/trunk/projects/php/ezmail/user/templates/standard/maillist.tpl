@@ -5,8 +5,9 @@
 <form method="post" action="/mail/folder/{current_folder_id}" enctype="multipart/form-data" >
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
+        <th widht="1%">&nbsp;</th>
 	<th width="40%">{intl-subject}:</th>
-	<th width="30%">{intl-sender}:</th>
+	<th width="29%">{intl-sender}:</th>
 	<th width="5%">{intl-size}:</th>
 	<th width="24%">{intl-date}:</th>
 	<th width="1%">&nbsp;</th>
@@ -14,9 +15,11 @@
 <!-- BEGIN mail_item_tpl -->
 <tr>
 	<td class="{td_class}">
+	{mail_status}
+	</td>
+	<td class="{td_class}">
 	<a href="/mail/view/{mail_id}">{mail_subject}</a>
 	</td>
-
 	<td class="{td_class}">
 	{mail_sender}
 	</td>
@@ -31,6 +34,34 @@
 	</td>
 </tr>
 <!-- END mail_item_tpl -->
+<!-- BEGIN mail_item_unread_tpl -->
+<tr>
+	<td class="{td_class}">
+	<b>{mail_status}</b>
+	</td>
+	<td class="{td_class}">
+	<b><a href="/mail/view/{mail_id}">{mail_subject}</a></b>
+	</td>
+	<td class="{td_class}">
+	<b>{mail_sender}</b>
+	</td>
+	<td class="{td_class}">
+	<b>{mail_size}</b>
+	</td>
+	<td class="{td_class}">
+	<b>{mail_date}</b>
+	</td>
+	<td class="{td_class}">
+	<input type="checkbox" name="MailArrayID[]" value="{mail_id}" />
+	</td>
+</tr>
+<!-- END mail_item_unread_tpl -->
+
+<!-- BEGIN mail_render_tpl -->
+
+<!-- END mail_render_tpl -->
+
+
 </table>
 
 <hr noshade="noshade" size="4">
