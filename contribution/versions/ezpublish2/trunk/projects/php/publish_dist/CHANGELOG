@@ -10,6 +10,7 @@ Changes from 2.1.0B2 to 2.1.0B2
 * Navigation buttons in the maillist in ezmail
 * Added possibility to give a usergroup "root" access.
 * Generalized the module linkage system
+* You can restrict the access of admin users to only the modules you want
 
 Changes from 2.1.0B1 to 2.1.0B2
 -------------------------------
