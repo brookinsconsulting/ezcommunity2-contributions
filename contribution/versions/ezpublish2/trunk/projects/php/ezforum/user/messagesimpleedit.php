@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagesimpleedit.php,v 1.8 2001/01/23 13:16:57 jb Exp $
+// $Id: messagesimpleedit.php,v 1.9 2001/01/26 12:31:17 bf Exp $
 //
 // Bård Farstad
 // Created on: <21-Nov-2000 16:04:30 bf>
@@ -61,6 +61,7 @@ if ( $Action == "insert" )
     else
         $message->disableEmailNotice();
 
+    $message->setIsApproved( true  );    
     $message->store();
 
     // delete the cache file(s)

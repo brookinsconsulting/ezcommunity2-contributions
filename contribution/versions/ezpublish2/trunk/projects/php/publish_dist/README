@@ -28,8 +28,8 @@ ALTER TABLE eZContact_Address ADD AddressTypeID int;
 NOTE: To upgrade the database from 1.0.5 and higher run the following SQL commands:
 
 
-NOTE: Upgrading to 2.0beta is NOT recommened, put if you will give it a try, please follow the notes. And give feedback when updating.
-When releasing 2.0final it will be a complete file of changes
+NOTE: Upgrading to 2.0 beta 1 is NOT recommened, please follow the notes if you still want to upgrade. And give feedback when updating.
+
 
 Template updates
 ----------------
@@ -41,6 +41,18 @@ Put this new template into ezarticle/user/templates/{your design}/articleview.tp
 <!-- END attached_file_tpl -->
 
 <!-- END attached_file_list_tpl -->
+
+
+# A new block template in the wishlist.tpl file:
+
+		  <!-- BEGIN is_bought_tpl -->
+		  {intl-is_bought}
+		  <!-- END is_bought_tpl -->
+
+		  <!-- BEGIN is_not_bought_tpl -->
+		  {intl-is_not_bought}
+		  <!-- END is_not_bought_tpl -->
+
 
 
 Site.ini updates
@@ -206,3 +218,63 @@ insert into eZUser_Permission set ModuleID='9', Name='WritePermission';
 insert into eZUser_Permission set ModuleID='10', Name='WritePermission';
 insert into eZUser_Permission set Name='WriteToRoot', ModuleID='9';
 insert into eZUser_Permission set Name='WriteToRoot', ModuleID='10';
+
+
+# trade
+ALTER TABLE eZTrade_ProductImageLink add Created timestamp;
+alter table eZTrade_WishList add IsPublic int not null default 0;
+alter table eZTrade_CartItem add WishListItemID int not null default 0;
+alter table eZTrade_WishListItem add IsBought int not null default 0;
+
+# New ordering fields:
+alter table eZTrade_Order drop AddressID; 
+alter table eZTrade_Order add ShippingAddressID int;     
+alter table eZTrade_Order add BillingAddressID int;                       
+
+
+#
+# Table structure for table 'eZTrade_ProductTypeLink'
+#
+DROP TABLE IF EXISTS eZTrade_ProductTypeLink;
+CREATE TABLE eZTrade_ProductTypeLink (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  ProductID int(11),
+  TypeID int(11),
+  PRIMARY KEY (ID)
+);
+
+#
+# Table structure for table 'eZTrade_Type'
+#
+DROP TABLE IF EXISTS eZTrade_Type;
+CREATE TABLE eZTrade_Type (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  Name varchar(150),
+  Description text,
+  PRIMARY KEY (ID)
+);
+
+
+#
+# Table structure for table 'eZTrade_Attribute'
+#
+DROP TABLE IF EXISTS eZTrade_Attribute;
+CREATE TABLE eZTrade_Attribute (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  TypeID int(11),
+  Name char(150),
+  Created timestamp(14),
+  PRIMARY KEY (ID)
+);
+
+#
+# Table structure for table 'eZTrade_AttributeValue'
+#
+DROP TABLE IF EXISTS eZTrade_AttributeValue;
+CREATE TABLE eZTrade_AttributeValue (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  ProductID int(11),
+  AttributeID int(11),
+  Value char(200),
+  PRIMARY KEY (ID)
+);
