@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unassigned.php,v 1.11.2.1 2001/11/14 20:37:59 br Exp $
+// $Id: unassigned.php,v 1.11.2.2 2001/11/15 09:20:48 br Exp $
 //
 // Created on: <26-Oct-2000 19:40:18 bf>
 //
@@ -50,8 +50,6 @@ $t->setAllStrings();
 $user =& eZUser::currentUser();
 
 $t->set_block( "image_list_page_tpl", "image_list_tpl", "image_list" );
-$t->set_block( "image_list_page_tpl", "prev_link_tpl", "prev_link" );
-$t->set_block( "image_list_page_tpl", "next_link_tpl", "next_link" );
 
 $t->set_block( "image_list_tpl", "value_tpl", "value" );
 $t->set_block( "image_list_tpl", "detail_view_tpl", "detail_view" );
