@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.95 2001/10/16 16:17:26 ce Exp $
+// $Id: datasupplier.php,v 1.95.2.1 2001/10/31 14:53:49 master Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -402,6 +402,7 @@ switch ( $url_array[2] )
         $StaticRendering = false;
         $ArticleID = $url_array[3];
         $PageNumber= $url_array[4];
+        $CategoryID = $url_array[5];	
 
         // if file exists... evrything is ok..
         // if not.. check permission, then run page if ok
@@ -435,7 +436,7 @@ switch ( $url_array[2] )
         
         if ( $PageCaching == "enabled" )
         {
-            $cachedFile = "ezarticle/cache/articleprint," . $ArticleID . ",". $PageNumber . "," . $groupstr . ".cache";
+             $cachedFile = "ezarticle/cache/articleprint," . $ArticleID . ",". $PageNumber . "," . $CategoryID . "," . $groupstr  .".cache";
             if ( eZFile::file_exists( $cachedFile ) )
             {
                 include( $cachedFile );
@@ -497,7 +498,7 @@ switch ( $url_array[2] )
         
         if ( $PageCaching == "enabled" )
         {
-            $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber . "," . $groupstr .".cache";
+	    $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber . "," . $CategoryID . "," . $groupstr  .".cache";
             if ( eZFile::file_exists( $cachedFile ) )
             {
                 include( $cachedFile );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: mailtofriend.php,v 1.6.2.1 2001/10/30 19:34:26 master Exp $
+// $Id: mailtofriend.php,v 1.6.2.2 2001/10/31 14:52:28 master Exp $
 //
 // Created on: <18-Jun-2001 16:37:47 br>
 //
@@ -98,6 +98,9 @@ $tpl->set_var( "err_send_to", "" );
 $tpl->set_var( "err_from", "" );
 $tpl->set_var( "success", "" );
 $tpl->set_var( "user_comment", "" );
+
+$tpl->set_var( "site_url", $GLOBALS["HTTP_HOST"] );
+$tpl->set_var( "art_id", $ArticleID);
 
 $sendmail_tpl->set_var( "mail_subject", "" );
 $sendmail_tpl->set_var( "mail_body", "" );

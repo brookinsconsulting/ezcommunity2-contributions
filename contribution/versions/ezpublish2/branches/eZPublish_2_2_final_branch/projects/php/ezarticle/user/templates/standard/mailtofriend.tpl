@@ -51,6 +51,7 @@
 
 <input class="okbutton" type="submit" name="Submit" value="{intl-send}">
 <input class="okbutton" type="reset" name="Reset" value="{intl-reset}">
+&nbsp;<a class="path" href="http://{site_url}/article/articleview/{art_id}/1/{category_id}/">&lt;&lt;&nbsp;back</a>
 </form>
 
 <!-- END first_page_tpl -->
