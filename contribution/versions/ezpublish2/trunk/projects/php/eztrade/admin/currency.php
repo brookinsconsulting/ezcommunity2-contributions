@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: currency.php,v 1.2 2001/02/26 11:57:24 bf Exp $
+// $Id: currency.php,v 1.3 2001/02/27 10:46:22 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Feb-2001 16:27:56 bf>
@@ -27,6 +27,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezhttptool.php" );
+include_once( "classes/ezcachefile.php" );
 
 include_once( "eztrade/classes/ezproductcurrency.php" );
 
@@ -57,6 +58,13 @@ if ( $Action == "Store" )
         $i++;
     }
 
+    $files = eZCacheFile::files( "eztrade/cache/", array( array( "productview", "productprint" ),
+                                                          NULL, NULL ),
+                                 "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
 }
 
 if ( $Action == "AddCurrency" )
