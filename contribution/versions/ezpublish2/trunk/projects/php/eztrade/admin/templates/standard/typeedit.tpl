@@ -23,9 +23,6 @@
 	{intl-unit}:
 	</th>
 	<th>
-	{intl-delete}:
-	</th>
-	<th>
 	{intl-variable}:
 	</th>
 	<th>
@@ -35,20 +32,17 @@
 </tr>
 <!-- BEGIN attribute_tpl -->
 <tr class="{td_class}">
-	<td width="46%">
+	<td width="1%">
 	<input type="hidden" name="AttributeID[]" value="{attribute_id}" />
 	<input type="text" name="AttributeName[]" value="{attribute_name}" />
 	</td>
-	<td>
+	<td width="95%">
 	<input type="text" size="5" name="Unit[]" value="{attribute_unit}" />
 	</td>
-	<td>
-	<input type="checkbox" name="DeleteAttributes[]" value="{attribute_id}" />
-	</td>
-	<td width="25%">
+	<td width="1%">
 	<input {is_1_selected} type="radio" value="1" name="AttributeType[{counter}]" />
 	</td>
-	<td width="25%">
+	<td width="1%">
 	<input {is_2_selected} type="radio" value="2" name="AttributeType[{counter}]" />
 	</td>
 <!-- BEGIN item_move_down_tpl -->
@@ -72,6 +66,9 @@
 <!-- BEGIN no_item_move_up_tpl -->
 	<td width="1%"> &nbsp; </td>
 <!-- END no_item_move_up_tpl -->
+	<td>
+	<input type="checkbox" name="DeleteAttributes[]" value="{attribute_id}" />
+	</td>
 </tr>
 
 <!-- END attribute_tpl -->
