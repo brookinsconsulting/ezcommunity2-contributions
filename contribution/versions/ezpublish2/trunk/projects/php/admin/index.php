@@ -29,7 +29,7 @@ include_once( "ezuser/classes/ezpermission.php" );
 
 include_once( "classes/ezhttptool.php" );
 
-$ini = new INIFile( "site.ini" );
+$ini =& INIFile::globalINI();
 $GlobalSiteIni =& $ini;
 
 //  $session =& eZSession::globalSession();

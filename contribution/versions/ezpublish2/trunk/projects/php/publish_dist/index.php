@@ -20,7 +20,7 @@ ini_alter("session.entropy_length", "512");
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezdb.php" );
-$ini = new INIFile( "site.ini" );
+$ini =& INIFile::globalINI();
 $GlobalSiteIni =& $ini;
 
 // set character set
