@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.183.2.4 2001/12/12 14:57:53 br Exp $
+// $Id: ezarticle.php,v 1.183.2.5 2002/01/07 11:56:03 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -788,7 +788,7 @@ class eZArticle
         $db->array_query( $article_array, "SELECT COUNT(*) AS Count FROM eZArticle_Article" );
         $articleCount = $article_array[0][$db->fieldName( "Count" )];        
 
-                $db->begin( );
+        $db->begin( );
         
         foreach ( $contents_array as $word )
         {
@@ -852,8 +852,10 @@ class eZArticle
                 
                 }
             }
-        }
+        }        
         eZDB::finish( $ret, $db );
+
+        die( "DEBUG STOP");
     }
     
     /*!
@@ -1976,7 +1978,7 @@ class eZArticle
             }
             $count -= 1;
 
-            $queryString = "SELECT ArticleID, Count(*) AS Count FROM eZArticle_SearchTemp GROUP BY ArticleID HAVING Count='$count'";
+            $queryString = "SELECT ArticleID, Count(*) AS Count FROM eZArticle_SearchTemp GROUP BY ArticleID HAVING Count>='$count'";
 
             $db->array_query( $article_array, $queryString );
             
