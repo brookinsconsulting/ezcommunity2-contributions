@@ -1,10 +1,9 @@
 <?php
 //
-// $Id: ezdomnode.php,v 1.1 2001/11/16 14:42:30 bf Exp $
+// $Id: ezdomnode.php,v 1.2 2001/11/21 08:56:59 jhe Exp $
 //
 // Definition of eZDOMNode class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2001 12:11:43 bf>
 //
 // This source file is part of eZ publish, publishing software.

@@ -1,10 +1,9 @@
 <?php
 //
-// $Id: ezdomdocument.php,v 1.2 2001/11/19 15:31:06 bf Exp $
+// $Id: ezdomdocument.php,v 1.3 2001/11/21 08:56:59 jhe Exp $
 //
 // Definition of eZDOMDocument class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2001 12:18:23 bf>
 //
 // This source file is part of eZ publish, publishing software.

@@ -1,10 +1,9 @@
 <?php
 //
-// $Id: ezxml.php,v 1.11 2001/11/19 16:21:56 bf Exp $
+// $Id: ezxml.php,v 1.12 2001/11/21 08:56:59 jhe Exp $
 //
 // Definition of eZXML class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2001 11:26:01 bf>
 //
 // This source file is part of eZ publish, publishing software.
