@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherinformation.php,v 1.12 2001/10/10 12:30:18 ce Exp $
+// $Id: voucherinformation.php,v 1.12.2.1 2001/10/31 11:19:09 ce Exp $
 //
 // Created on: <06-Aug-2001 13:02:18 ce>
 //
@@ -134,7 +134,6 @@ if ( $product && isSet( $OK ) )
     $voucherInformationID = $voucherInfo->id();
 
     $session->setVariable( "VoucherInformationID", $voucherInformationID );
-
 
     if ( isSet ( $OK ) && $voucherInformationID )
     {

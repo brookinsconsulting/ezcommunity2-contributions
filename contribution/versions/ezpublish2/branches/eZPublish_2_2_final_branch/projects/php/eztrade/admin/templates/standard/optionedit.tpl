@@ -45,11 +45,11 @@
 <tr>
 	<th>
 	{intl-value} {value_pos}:<!-- {option_value_id} -->
-	<input type="hidden" name="OptionValueID[{value_index}]" value="{option_value_id}" />
+	<input type="hidden" name="OptionValueID[{number_run}]" value="{option_value_id}" />
 	</th>
 	<!-- BEGIN value_item_tpl -->
 	<td>
-	<input type="text" size="20" class="halfbox" name="OptionValue[{value_index}][]" value="{option_value}" />
+	<input type="text" size="20" class="halfbox" name="OptionValue[{number_run}][]" value="{option_value}" />
 	</td>
 	<!-- END value_item_tpl -->
 	<td>
@@ -57,16 +57,16 @@
 	</td>
 	<!-- BEGIN option_price_item_tpl -->
 	<td>
-	<input type="text" size="6" name="OptionPrice[{value_index}][{price_group}]" value="{price_value}" />
+	<input type="text" size="6" name="OptionPrice[{number_run}][{price_group}]" value="{price_value}" />
 	</td>
 	<!-- END option_price_item_tpl -->
 	<!-- BEGIN option_quantity_item_tpl -->
 	<td>
-	<input type="text" size="6" name="OptionQuantity[{value_index}]" value="{quantity_value}" />
+	<input type="text" size="6" name="OptionQuantity[{number_run}]" value="{quantity_value}" />
 	</td>
 	<!-- END option_quantity_item_tpl -->
 	<td>
-	<div class="check"><input type="checkbox" name="OptionDelete[]" value="{value_index}" />{intl-delete}</div>
+	<div class="check"><input type="checkbox" name="OptionDelete[]" value="{number_run}" />{intl-delete}</div>
 	</td>
 </tr>
 	<!-- END option_item_tpl -->
