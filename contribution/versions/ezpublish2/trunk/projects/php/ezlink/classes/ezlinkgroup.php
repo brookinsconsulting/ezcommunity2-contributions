@@ -78,7 +78,7 @@ class eZLinkGroup
         }
         else
         {
-            $path .= "<img src=\"ezlink/images/pil.gif\" border=\"0\" height=\"10\" width=\"10\"> <a href=\"index.php?page=$url&LGID=0\">" . "kategorier" . "</a>";
+            $path .= "<img src=\"ezlink/images/pil.gif\" border=\"0\" height=\"10\" width=\"10\"> <a href=\"index.php?page=$url&LGID=0\">" . "Kategorier" . "</a>";
         }
         $path .= " <img src=\"ezlink/images/pil.gif\" border=\"0\" height=\"10\" width=\"10\"> <a href=\"index.php?page=$url&LGID=$id\">" . $lg->title() . "</a>";
         return $path;

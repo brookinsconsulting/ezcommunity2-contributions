@@ -32,7 +32,7 @@ $linkGroup_array = $linkGroup->getByParent( $LGID );
 
 if ( ( count( $linkGroup_array ) == 0 ) || ( $LGID == "incoming" ) )
 {
-    $t->set_var( "group_list", "<p>Ingen grupper ble funne.</p>" );
+    $t->set_var( "group_list", "<p>Ingen kategorier ble funnet.</p>" );
 }
 else
 {
