@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileupload.php,v 1.42 2001/10/02 18:33:17 br Exp $
+// $Id: fileupload.php,v 1.43 2001/10/03 08:15:44 fh Exp $
 //
 // Created on: <10-Dec-2000 15:49:57 bf>
 //
@@ -115,6 +115,9 @@ $fileCheck = true;
 $t->set_block( "errors_tpl", "error_write_permission", "write_permission" );
 $t->set_var( "write_permission", "&nbsp;" );
 
+$t->set_block( "errors_tpl", "error_upload_permission", "upload_permission" );
+$t->set_var( "upload_permission", "&nbsp;" );
+
 $t->set_block( "errors_tpl", "error_name_tpl", "error_name" );
 $t->set_var( "error_name", "&nbsp;" );
 
@@ -136,14 +139,20 @@ if ( $Action == "Insert" || $Action == "Update" )
     // todo, in case of edit, check if the user has permission to edit the file.
     if ( $folderPermissionCheck )
     {
+        // if not write or upload to folder...
         $folder = new eZVirtualFolder( $FolderID );
-        
         if ( ( eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) == false &&
-               eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "u", $user ) == false ) ||
-             ( $Action == "Update" &&
-               eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) == false ) )
+               eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "u", $user ) == false ) )
         {
             $t->parse( "write_permission", "error_write_permission" ); 
+            $error = true;
+        }
+        // if update but not owner or write.
+        if( $Action == "Update" &&
+           eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) == false  &&
+           !eZVirtualFolder::isOwner( $user, $FolderID ) )
+        {
+            $t->parse( "upload_permission", "error_upload_permission" ); 
             $error = true;
         }
     }
@@ -230,20 +239,8 @@ if ( $Action == "Update" && $error == false )
     }    
 
     $uploadedFile->store();
-//    if ( eZObjectPermission::hasPermission( $FolderID, "filemanager_file", 'w' ) ) // user had write permission
-    if ( eZObjectPermission::hasPermission( $FolderID, "filemanager_folder", 'w' ) ) // user had write permission
-    {
-        changePermissions( $FileID, $ReadGroupArrayID, 'r' );
-        changePermissions( $FileID, $WriteGroupArrayID, 'w' );
-    }
-    else // user had upload permission only, change ownership, set special rights..
-    {
-        eZObjectPermission::removePermissions( $FileID, "filemanager_file", 'w' ); // no write
-        eZObjectPermission::removePermissions( $FileID, "filemanager_file", 'r' ); // all read
-        eZObjectPermission::setPermission( -1, $FileID, "filemanager_file", 'r' );
-        $uploadedFile->setUser( $folder->user() );
-        $uploadedFile->store();
-    }
+    changePermissions( $FileID, $ReadGroupArrayID, 'r' );
+    changePermissions( $FileID, $WriteGroupArrayID, 'w' );
 
     $folder = new eZVirtualFolder( $FolderID );
 

@@ -12,6 +12,10 @@
     <li>{intl-error_write_permission}
     <!-- END error_write_permission -->
 
+    <!-- BEGIN error_upload_permission -->
+    <li>{intl-error_upload_permission}
+    <!-- END error_upload_permission -->
+
     <!-- BEGIN error_name_tpl -->
     <li>{intl-error_name}
     <!-- END error_name_tpl -->
