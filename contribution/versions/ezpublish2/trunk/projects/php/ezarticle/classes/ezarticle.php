@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.107 2001/07/03 13:13:11 bf Exp $
+// $Id: ezarticle.php,v 1.108 2001/07/03 13:16:30 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1819,7 +1819,7 @@ class eZArticle
         $db =& eZDB::globalDatabase();
         
         $db->array_query( $qry_array, "SELECT count( eZArticle_Article.ID ) AS Count, eZUser_Author.Name AS ContentsWriter, eZUser_Author.ID AS ContentsWriterID
-                                       FROM eZArticle_Article, eZArticle_ArticleCategoryLink, eZUser_Author
+                                       FROM eZArticle_Article, eZArticle_ArticleCategoryDefinition, eZUser_Author
                                        WHERE IsPublished='1' AND eZArticle_Article.ID=ArticleID
                                        AND eZArticle_Article.ContentsWriterID=eZUser_Author.ID
                                        GROUP BY eZUser_Author.ID, eZUser_Author.Name $sort_text ",
