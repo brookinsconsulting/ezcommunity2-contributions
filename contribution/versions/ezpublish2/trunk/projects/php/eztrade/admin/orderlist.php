@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderlist.php,v 1.2 2000/10/03 09:45:18 bf-cvs Exp $
+// $Id: orderlist.php,v 1.3 2000/10/10 14:47:23 bf-cvs Exp $
 //
 // 
 //
@@ -45,6 +45,7 @@ $order = new eZOrder();
 $orderArray = $order->getAll();
 
 $locale = new eZLocale( $Language );
+$currency = new eZCurrency();
 $i=0;
 foreach ( $orderArray as $order )
 {
@@ -67,6 +68,9 @@ foreach ( $orderArray as $order )
     $statusType = $status->type();
     
     $t->set_var( "order_status", $statusType->name() );
+
+    $currency->setValue( $order->totalPrice()  );
+    $t->set_var( "order_price", $locale->format( $currency ) );
     
     
     $t->parse( "order_item", "order_item_tpl", true );

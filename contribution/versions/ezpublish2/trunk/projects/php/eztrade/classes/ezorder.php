@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.8 2000/10/10 14:04:10 bf-cvs Exp $
+// $Id: ezorder.php,v 1.9 2000/10/10 14:47:23 bf-cvs Exp $
 //
 // Definition of eZOrder class
 //
@@ -389,6 +389,34 @@ class eZOrder
        
     }
 
+
+    /*!
+      Returnerer den totale prisen på en ordre.
+    */
+    function totalPrice()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $retPrice = 0;
+       $this->dbInit();
+
+       $this->Database->array_query( $order_item_array, "SELECT Price, Count FROM
+                                                    eZTrade_OrderItem
+                                                    WHERE OrderID='$this->ID'" );
+
+       foreach ( $order_item_array as $item )
+       {
+           $price = $item["Price"];
+
+           $price = $price * $item["Count"];
+
+           $retPrice += $price;
+       }
+
+       $retPrice += $this->ShippingCharge;
+       return $retPrice;       
+    }
 
     /*!
       \private
