@@ -3511,3 +3511,20 @@ Maintainer(s) : bf@ez.no
 
     * user/articleview.php: Removed qdom from meta keywords.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-09-10  Bjoern Reiten  <br@ez.no>
+
+    * user/intl/no_NO/mailtofriend.php.ini: added translation on back link.
+
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-11-22  Baard Farstad  <bf@ez.no>
+
+    * user/articleview.php:
+    Made keywords available in articleview.tpl and as a variable which can be used in frame.php
+
