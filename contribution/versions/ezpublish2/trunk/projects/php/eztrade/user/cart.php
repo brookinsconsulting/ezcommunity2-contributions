@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.48 2001/08/30 10:26:23 br Exp $
+// $Id: cart.php,v 1.49 2001/08/30 10:58:29 ce Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -330,7 +330,6 @@ foreach ( $items as $item )
     // product options
     $optionValues =& $item->optionValues();
     
-    
     if ( !$product->hasPrice() )
     {
         $Quantity = 0;
@@ -408,7 +407,7 @@ foreach ( $items as $item )
                 else
                 {
                     $totalVAT = $product->extractVAT( $price );
-                    $price = $product->price();
+                    $price = $item->price();
                 }
                 
                 $found_price = true;
@@ -419,13 +418,13 @@ foreach ( $items as $item )
         {
             if ( $PricesIncludeVAT == "enabled" )
             {
-                $totalVAT = $product->addVAT( $product->price() );
-                $price = $product->price() + $totalVAT;
+                $totalVAT = $product->addVAT( $item->price() );
+                $price = $item->price() + $totalVAT;
             }
             else
             {
-                $totalVAT = $product->extractVAT( $product->price() );
-                $price = $product->price();
+                $totalVAT = $product->extractVAT( $item->price() );
+                $price = $item->price();
             }
             
             $priceobj->setValue( $price * $item->count() );
@@ -434,46 +433,20 @@ foreach ( $items as $item )
     }
     else
     {
-        $priceArray = "";
-        $options =& $product->options();
-        if ( count ( $options ) == 1 )
+        if ( $PricesIncludeVAT == "enabled" )
         {
-            $option = $options[0];
-            if ( get_class ( $option ) == "ezoption" )
-            {
-                $optionValues =& $option->values();
-                if ( count ( $optionValues ) > 1 )
-                {
-                    $i=0;
-                    foreach ( $optionValues as $optionValue )
-                    {
-                        $found_price = false;
-                        if ( $ShowPriceGroups and $PriceGroup > 0 )
-                        {
-                            $priceArray[$i] = eZPriceGroup::correctPrice( $product->id(), $PriceGroup, $option->id(), $optionValue->id() );
-                            if( $priceArray[$i] )
-                            {
-                                $found_price = true;
-                                $priceArray[$i] = $priceArray[$i];
-                            }
-                        }
-                        if ( !$found_price )
-                        {
-                            $priceArray[$i] = $optionValue->price();
-                        }
-                        $i++;
-                    }
-                    $high = new eZCurrency( max( $priceArray ) );
-                    $low = new eZCurrency( min( $priceArray ) );
-
-                    $t->set_var( "product_price", $locale->format( $low ) . " - " . $locale->format( $high ) );
-                }
-            }
+            $totalVAT = $product->addVAT( $item->price() );
+            $price = $item->price() + $totalVAT;
         }
         else
-            $t->set_var( "product_price", "" );
+        {
+            $totalVAT = $product->extractVAT( $item->price() );
+            $price = $item->price();
+        }
+        
+        $priceobj->setValue( $price * $item->count() );
     }
-    
+
     $price = $priceobj->value();
 
     $currency->setValue( $price );
