@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezoptionvalue.php,v 1.39.2.6 2001/11/29 11:02:24 bf Exp $
+//
+// $Id: ezoptionvalue.php,v 1.39.2.7 2002/02/26 14:41:12 ce Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -40,7 +40,7 @@
   $value->get( 2 );
 
   print( $value->name() );
-    
+
   \endcode
   \sa eZProductCategory eZOption
 */
@@ -72,7 +72,7 @@ class eZOptionValue
         $db->begin();
 
         $this->OptionID = $db->escapeString( $this->OptionID );
-        
+
         $price = $this->Price == "" ? "NULL" : "'$this->Price'";
 
         $GLOBALS["DEBUG"] = true;
@@ -92,7 +92,7 @@ class eZOptionValue
                                  OptionID )
                                VALUES
                                ( '$nextID',
-     	                          $price,
+	                          $price,
                                  '$placement',
                                  '$this->RemoteID',
                                  '$this->OptionID' )" );
@@ -109,7 +109,7 @@ class eZOptionValue
         }
 
         eZDB::finish( $ret, $db );
-        
+
         return true;
     }
 
@@ -147,15 +147,15 @@ class eZOptionValue
         $db =& eZDB::globalDatabase();
         $return_array = array();
         $optionValue_array = array();
-        
+
         $db->array_query( $optionValue_array, "SELECT ID FROM eZTrade_OptionValue
                                                            ORDER BY Placement ASC" );
 
-        for ( $i=0; $i < count($optionValue_array); $i++ )            
+        for ( $i=0; $i < count($optionValue_array); $i++ )
         {
-            $return_array[$i] = new eZOptionValue( $optionValue_array[$i][$db->fieldName("ID")], 0 );            
+            $return_array[$i] = new eZOptionValue( $optionValue_array[$i][$db->fieldName("ID")], 0 );
         }
-        
+
         return $return_array;
     }
 
@@ -167,7 +167,7 @@ class eZOptionValue
     function &getByOption( &$value, $as_object = true )
     {
         if ( get_class( $value ) == "ezoption" )
-        {        
+        {
             $db =& eZDB::globalDatabase();
 
             $return_array = array();
@@ -224,17 +224,17 @@ class eZOptionValue
                                       VALUES
                                       ('$nextID',
                                        '$quantity')" );
-        
+
         $q_id = $nextID;
 
-        $db->lock( "eZTrade_ValueQuantityDict" );   
+        $db->lock( "eZTrade_ValueQuantityDict" );
         $ret[] = $db->query( "INSERT INTO eZTrade_ValueQuantityDict
                                       ( ValueID,
                                         QuantityID )
                                       VALUES
                                       ('$id',
                                        '$q_id' )" );
-        
+
         $db->unlock();
         eZDB::finish( $ret, $db );
     }
@@ -347,7 +347,7 @@ class eZOptionValue
                                     '$placement')" );
             $placement++;
         }
-        
+
         $db->unlock();
         eZDB::finish( $ret, $db );
     }
@@ -378,9 +378,9 @@ class eZOptionValue
     function getByRemoteID( $id )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $value = false;
-        
+
         $db->array_query( $res, "SELECT ID FROM
                                             eZTrade_OptionValue
                                             WHERE RemoteID='$id'" );
@@ -388,7 +388,7 @@ class eZOptionValue
         {
             $value = new eZOptionValue( $res[0][$db->fieldName("ID")] );
         }
-        
+
         return $value;
     }
 
@@ -416,7 +416,7 @@ class eZOptionValue
     {
         $ini =& INIFile::globalINI();
         $inLanguage = $ini->read_var( "eZTradeMain", "Language" );
-        
+
         $locale = new eZLocale( $inLanguage );
         $currency = new eZCurrency();
 
@@ -424,7 +424,7 @@ class eZOptionValue
 
         $currency->setValue( $price );
         return $locale->format( $currency );
-    }    
+    }
 
     /*!
       Returns the correct price of the option value.
@@ -442,14 +442,14 @@ class eZOptionValue
             else
                 $groups = array();
 
-            $price = eZPriceGroup::correctPrice( $inProduct->id(), $groups, $this->OptionID, $this->ID );            
+            $price = eZPriceGroup::correctPrice( $inProduct->id(), $groups, $this->OptionID, $this->ID );
         }
-        
+
         if ( empty( $price ) )
         {
             $price = $this->Price;
         }
-        
+
         if ( $calcVAT == true )
         {
             if ( $productHasVAT == false )
@@ -467,7 +467,7 @@ class eZOptionValue
         }
         return $price;
     }
-    
+
     /*!
       Returns the correct localized savings of the product.
     */
@@ -475,7 +475,7 @@ class eZOptionValue
     {
         $ini =& INIFile::globalINI();
         $inLanguage = $ini->read_var( "eZTradeMain", "Language" );
-        
+
         $locale = new eZLocale( $inLanguage );
         $currency = new eZCurrency();
 
@@ -483,7 +483,7 @@ class eZOptionValue
 
         $currency->setValue( $price );
         return $locale->format( $currency );
-    }    
+    }
 
 
     /*!
@@ -501,17 +501,17 @@ class eZOptionValue
 
             $price = eZPriceGroup::correctPrice( $inProduct->id(), $groups, $this->OptionID, $this->ID );
         }
-        
+
         if ( empty( $price ) )
         {
             $price = $this->Price;
         }
-        
+
         if (  $maxPrice <= $price )
         {
             $maxPrice = $this->Price;
         }
-        
+
         if ( $maxPrice > $price )
         {
             $savings = $maxPrice - $price;
@@ -520,7 +520,7 @@ class eZOptionValue
         {
             $savings = 0;
         }
-        
+
         if ( $calcVAT == true )
         {
             if ( $productHasVAT == false )
@@ -546,7 +546,7 @@ class eZOptionValue
     {
         return $this->RemoteID;
     }
-    
+
     /*!
       Returns the option connected to the value.
     */
@@ -554,7 +554,7 @@ class eZOptionValue
     {
         return new eZOption( $this->OptionID );
     }
-    
+
     /*!
       Sets the price of the option value.
     */
@@ -570,16 +570,16 @@ class eZOptionValue
     {
         $this->RemoteID = $value;
     }
-    
+
     /*!
-      
+
     */
     function setOptionID( $value )
     {
-       $this->OptionID = $value;       
+       $this->OptionID = $value;
        setType( $this->OptionID, "integer" );
     }
-    
+
     var $ID;
     var $Price;
     var $RemoteID;
