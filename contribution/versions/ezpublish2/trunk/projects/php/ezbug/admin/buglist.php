@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: buglist.php,v 1.3 2000/12/03 16:31:33 bf-cvs Exp $
+// $Id: buglist.php,v 1.4 2001/02/01 13:03:04 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 19:06:23 bf>
@@ -58,6 +58,8 @@ $t->set_block( "bug_list_page_tpl", "bug_list_tpl", "bug_list" );
 $t->set_block( "bug_list_tpl", "bug_item_tpl", "bug_item" );
 $t->set_block( "bug_item_tpl", "bug_is_closed_tpl", "bug_is_closed" );
 $t->set_block( "bug_item_tpl", "bug_is_open_tpl", "bug_is_open" );
+
+$t->set_var( "site_style", $SiteStyle );
 
 $module = new eZBugModule( $ModuleID );
 

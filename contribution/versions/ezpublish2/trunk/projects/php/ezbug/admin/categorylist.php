@@ -20,6 +20,8 @@ $t->set_file( array(
 
 $t->set_block( "category_page", "category_item_tpl", "category_item" );
 
+$t->set_var( "site_style", $SiteStyle );
+
 $category = new eZBugCategory();
 $categoryList = $category->getAll();
 

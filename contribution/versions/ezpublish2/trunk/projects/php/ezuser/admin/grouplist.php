@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: grouplist.php,v 1.9 2001/01/22 14:43:02 jb Exp $
+// $Id: grouplist.php,v 1.10 2001/02/01 13:03:04 th Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -43,6 +43,8 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "group_list_page", "group_item_tpl", "group_item" );
+
+$t->set_var( "site_style", $SiteStyle );
 
 $group = new eZUserGroup();
 

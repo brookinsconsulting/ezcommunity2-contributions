@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unpublished.php,v 1.8 2001/01/30 19:05:10 pkej Exp $
+// $Id: unpublished.php,v 1.9 2001/02/01 13:03:04 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <29-Nov-2000 18:10:27 bf>
@@ -118,6 +118,8 @@ $t->set_block( "news_list_tpl", "news_item_tpl", "news_item" );
 
 $t->set_block( "news_unpublished_page_tpl", "previous_tpl", "previous" );
 $t->set_block( "news_unpublished_page_tpl", "next_tpl", "next" );
+
+$t->set_var( "site_style", $SiteStyle );
 
 $category = new eZNewsCategory( $CategoryID );
 

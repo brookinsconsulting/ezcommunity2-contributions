@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: importnews.php,v 1.7 2001/01/30 19:05:10 pkej Exp $
+// $Id: importnews.php,v 1.8 2001/02/01 13:03:04 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:19 bf>
@@ -81,6 +81,8 @@ $t->set_file( array(
 
 $t->set_block( "import_news_tpl", "source_site_list_tpl", "source_site_list" );
 $t->set_block( "source_site_list_tpl", "source_site_tpl", "source_site" );
+
+$t->set_var( "site_style", $SiteStyle );
 
 //  $newsCategory = new eZNewsCategory( 7 );
 

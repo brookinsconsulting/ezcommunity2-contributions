@@ -20,6 +20,8 @@ $t->set_file( array(
 
 $t->set_block( "status_page", "status_item_tpl", "status_item" );
 
+$t->set_var( "site_style", $SiteStyle );
+
 $status = new eZBugStatus();
 $statusList = $status->getAll();
 

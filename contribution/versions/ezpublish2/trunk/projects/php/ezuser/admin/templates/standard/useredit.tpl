@@ -2,69 +2,71 @@
 
 <h1>{head_line}</h1>
 
-<hr noshade size="4"/>
+<hr noshade size="4" />
 
-<br />
+<h3 class="error">{error}</h3>
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
-<h3 class="error">{error}</h3>
 <tr>
-	<td width="1%">
+	<td width="50%">
 	<p class="boxtext">{intl-firstname}:</p>
 	<input type="text" size="20" name="FirstName" value="{first_name_value}"/>
+	<br /><br />
 	</td>
 	<td>
 	<p class="boxtext">{intl-lastname}:</p>
 	<input type="text" size="20" name="LastName" value="{last_name_value}"/>
+	<br /><br />
 	</td>
 </tr>
 <tr>
 	<td colspan="2">
 	<p class="boxtext">{intl-email}:</p>
 	<input type="text" size="40" name="Email" value="{email_value}"/>
+	<br /><br />
 	</td>
 </tr>
-
 <tr>
-	<td rowspan="2" valign="top">
-	<p class="boxtext">{intl-signature}:</p>
-	<textarea name="Signature" cols="40" rows="9" wrap="soft">{signature}</textarea>
-	</td>
-
-	<td>
+	<td colspan="2">
 	<p class="boxtext">{intl-login}:</p>
 	<input type="text" {read_only} size="20" name="Login" value="{login_value}"/>
+	<br /><br />
 	</td>
 </tr>
-
 <tr>
-	<td>
+	<td colspan="2">
+	<p class="boxtext">{intl-signature}:</p>
+	<textarea name="Signature" cols="40" rows="9" wrap="soft">{signature}</textarea>
+	<br /><br />
+	</td>
+</tr>
+<tr>
+	<td colspan="2">
 	<p class="boxtext">{intl-groups}:</p>
 	<select name="GroupArray[]" multiple size="5">
 	<!-- BEGIN group_item_tpl -->
 	<option value="{group_id}" {selected}>{group_name}</option>
 	<!-- END group_item_tpl -->
 	</select>
+	<br /><br />
 	</td>
 </tr>
-
-<br />
-
 <tr>
 	<td>
 	<p class="boxtext">{intl-password}:</p>
 	<input type="password" size="20" name="Password" value="{password_value}"/>
+	<br /><br />
 	</td>
 	<td>
 	<p class="boxtext">{intl-verifypassword}:</p>
 	<input type="password" size="20" name="VerifyPassword" value="{verify_password_value}"/>
+	<br /><br />
 	</td>
 </tr>
 <tr>
-	<td>
-	<br />
-	<p class="boxtext">{intl-infosubscription}:</p>
+	<td colspan="2">
 	<input {info_subscription} type="checkbox" name="InfoSubscription" />
+	<span class="p">{intl-infosubscription}</span>
 	</td>
 </tr>
 

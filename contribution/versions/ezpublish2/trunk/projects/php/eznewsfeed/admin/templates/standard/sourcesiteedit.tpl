@@ -36,7 +36,6 @@
 </select>
 <br /><br />
 <hr noshade="noshade" size="4" />
-<br />
 <input type="submit" class="okbutton" value="{intl-ok}" />
 <input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />
 

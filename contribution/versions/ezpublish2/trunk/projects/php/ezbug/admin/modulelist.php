@@ -21,6 +21,8 @@ $t->set_file( array(
 $t->set_block( "module_page", "module_item_tpl", "module_item" );
 $t->set_block( "module_page", "path_item_tpl", "path_item" );
 
+$t->set_var( "site_style", $SiteStyle );
+
 $module = new eZBugModule( $ParentID );
 
 // path

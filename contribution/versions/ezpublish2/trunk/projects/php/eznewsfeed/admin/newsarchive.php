@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsarchive.php,v 1.12 2001/01/30 19:05:10 pkej Exp $
+// $Id: newsarchive.php,v 1.13 2001/02/01 13:03:04 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <13-Nov-2000 16:56:48 bf>
@@ -66,6 +66,8 @@ $category = new eZNewsCategory( $CategoryID );
 $t->set_var( "current_category_id", $category->id() );
 $t->set_var( "current_category_name", $category->name() );
 $t->set_var( "current_category_description", $category->description() );
+
+$t->set_var( "site_style", $SiteStyle );
 
 // path
 $pathArray = $category->path();

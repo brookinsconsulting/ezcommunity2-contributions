@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: unhandledbugs.php,v 1.3 2000/11/30 09:21:38 bf-cvs Exp $
+// $Id: unhandledbugs.php,v 1.4 2001/02/01 13:03:04 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 22:18:56 bf>
@@ -41,6 +41,8 @@ $t->set_file( array(
 $t->setAllStrings();
 
 $t->set_block( "unhandled_bugs_tpl", "bug_tpl", "bug" );
+
+$t->set_var( "site_style", $SiteStyle );
 
 $bug = new eZBug();
 
