@@ -657,7 +657,7 @@ User Site
 
       <Directory /your/apache/documentroot/publish_dist>
 
-        Options FollowSymLinks Indexes ExecCGI
+        Options FollowSymLinks
 
         AllowOverride None
 
@@ -702,7 +702,7 @@ Admin Site
 
     <Directory /your/apache/documentroot/publish_dist>
 
-      Options FollowSymLinks Indexes ExecCGI
+      Options FollowSymLinks
 
       AllowOverride None
 
@@ -714,7 +714,7 @@ Admin Site
 
     ServerAdmin your_mail@domain.no
 
-    DocumentRoot /your/apache/documentroot/admin
+    DocumentRoot /your/apache/documentroot/publish_dist
 
     ServerName admin.yourdomain.org
 
@@ -818,7 +818,7 @@ called ".htaccess" containing the following text:
 
     php_flag magic_quotes_gpc off
 
-    Options FollowSymLinks Indexes ExecCGI
+    Options FollowSymLinks
 
     RewriteEngine On 
 
@@ -1422,7 +1422,7 @@ For example:
 
       <Directory /your/site/root/>
 
-        Options FollowSymLinks Indexes ExecCGI
+        Options FollowSymLinks
 
         AllowOverride None
 
@@ -1445,7 +1445,7 @@ For example:
 
       <Directory /your/site/root/admin>
 
-        Options FollowSymLinks Indexes ExecCGI
+        Options FollowSymLinks
 
         AllowOverride None
 
@@ -1502,7 +1502,7 @@ this to the end of your extrasites.conf
         <Directory /home/sites/yoursite/web>
 
             Options
-FollowSymLinks Indexes ExecCGI
+FollowSymLinks
 
             AllowOverride
 None

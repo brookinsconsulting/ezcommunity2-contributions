@@ -623,7 +623,7 @@ online tool.
 
 \texttt{\scriptsize ~~~~~~<Directory~/your/apache/documentroot/publish\_dist>}{\scriptsize \par}
 
-\texttt{\scriptsize ~~~~~~~~Options~FollowSymLinks~Indexes~ExecCGI}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~~~Options~FollowSymLinks}{\scriptsize \par}
 
 \texttt{\scriptsize ~~~~~~~~AllowOverride None}{\scriptsize \par}
 
@@ -670,7 +670,7 @@ online tool.
 
 \texttt{\footnotesize ~~~~<Directory /your/apache/documentroot/publish\_dist>}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~~~Options FollowSymLinks Indexes ExecCGI}{\footnotesize \par}
+\texttt{\footnotesize ~~~~~~Options FollowSymLinks}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~~~AllowOverride None}{\footnotesize \par}
 
@@ -683,7 +683,7 @@ online tool.
 
 \texttt{\footnotesize ~~~~ServerAdmin your\_mail@domain.no}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~DocumentRoot /your/apache/documentroot/admin}{\footnotesize \par}
+\texttt{\footnotesize ~~~~DocumentRoot /your/apache/documentroot/publish\_dist}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~ServerName admin.yourdomain.org}{\footnotesize \par}
 
@@ -786,7 +786,7 @@ In your main directory (/path/to/index.php/) create a file called
 
 \texttt{\footnotesize ~~~~php\_flag magic\_quotes\_gpc off}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~Options FollowSymLinks Indexes ExecCGI}{\footnotesize \par}
+\texttt{\footnotesize ~~~~Options FollowSymLinks}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~RewriteEngine On} \foreignlanguage{english}{}
 
@@ -1389,7 +1389,7 @@ For example:\\
 
 \texttt{\footnotesize ~~~~~~<Directory /your/site/root/>}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~~~~~Options~FollowSymLinks~Indexes~ExecCGI}{\footnotesize \par}
+\texttt{\footnotesize ~~~~~~~~Options~FollowSymLinks}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~~~~~AllowOverride~None}{\footnotesize \par}
 
@@ -1413,7 +1413,7 @@ For example:\\
 
 \texttt{\footnotesize ~~~~~~<Directory /your/site/root/admin>}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~~~~~Options~FollowSymLinks~Indexes~ExecCGI}{\footnotesize \par}
+\texttt{\footnotesize ~~~~~~~~Options~FollowSymLinks}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~~~~~AllowOverride None}{\footnotesize \par}
 
@@ -1471,8 +1471,7 @@ your extrasites.conf
 
 \texttt{\footnotesize ~~~~~~~~<Directory /home/sites/yoursite/web>}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~~~~~~~~~Options FollowSymLinks
-Indexes ExecCGI}{\footnotesize \par}
+\texttt{\footnotesize ~~~~~~~~~~~~Options FollowSymLinks}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~~~~~~~~~AllowOverride None}{\footnotesize \par}
 

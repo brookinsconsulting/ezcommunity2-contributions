@@ -1389,9 +1389,7 @@ your.domain.com>
 \SpecialChar ~
 \SpecialChar ~
 Options\SpecialChar ~
-FollowSymLinks\SpecialChar ~
-Indexes\SpecialChar ~
-ExecCGI
+FollowSymLinks
 \layout Standard
 
 
@@ -1665,7 +1663,7 @@ Admin Site
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-Options FollowSymLinks Indexes ExecCGI
+Options FollowSymLinks
 \layout Standard
 
 
@@ -2032,7 +2030,7 @@ php_flag magic_quotes_gpc off
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-Options FollowSymLinks Indexes ExecCGI
+Options FollowSymLinks
 \layout Standard
 
 
@@ -3814,9 +3812,7 @@ ServerAlias www.yourdomain.org
 \SpecialChar ~
 \SpecialChar ~
 Options\SpecialChar ~
-FollowSymLinks\SpecialChar ~
-Indexes\SpecialChar ~
-ExecCGI
+FollowSymLinks
 \layout Standard
 
 
@@ -3952,9 +3948,7 @@ DocumentRoot /your/site/root/
 \SpecialChar ~
 \SpecialChar ~
 Options\SpecialChar ~
-FollowSymLinks\SpecialChar ~
-Indexes\SpecialChar ~
-ExecCGI
+FollowSymLinks
 \layout Standard
 
 
@@ -4208,7 +4202,7 @@ DocumentRoot /home/sites/yoursite/web
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-Options FollowSymLinks Indexes ExecCGI
+Options FollowSymLinks
 \layout Standard
 
 
