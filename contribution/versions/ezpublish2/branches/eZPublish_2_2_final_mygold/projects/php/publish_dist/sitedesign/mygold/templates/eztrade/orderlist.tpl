@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderlist.tpl,v 1.1.2.2 2001/10/22 11:22:36 ce Exp $ -->
+<!-- $Id: orderlist.tpl,v 1.1.2.3 2001/10/22 13:40:19 ce Exp $ -->
 
 <table width="100%" border="0">
 <tr>
@@ -10,6 +10,11 @@
 </table>
 
 <hr noshade="noshade" size="1" />
+
+<!-- BEGIN no_items_tpl -->
+<p class="error">{intl-no_items_found}</p>
+<!-- END no_items_tpl -->
+
 <!-- BEGIN order_item_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr align="left">

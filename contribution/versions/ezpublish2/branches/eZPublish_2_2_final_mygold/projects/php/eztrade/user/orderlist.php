@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderlist.php,v 1.2 2001/10/12 12:11:39 ce Exp $
+// $Id: orderlist.php,v 1.2.4.1 2001/10/22 13:40:19 ce Exp $
 //
 // Created on: <21-Sep-2001 17:41:07 ce>
 //
@@ -49,6 +49,7 @@ $t->setAllStrings();
 $t->set_file( "order_list_tpl", "orderlist.tpl" );
 
 $t->set_block( "order_list_tpl", "order_item_list_tpl", "order_item_list" );
+$t->set_block( "order_list_tpl", "no_items_tpl", "no_items" );
 $t->set_block( "order_item_list_tpl", "order_status_header_tpl", "order_status_header" );
 $t->set_block( "order_item_list_tpl", "order_item_tpl", "order_item" );
 
@@ -91,38 +92,47 @@ if ( $ShowOrderStatusToUser )
 else
 $t->set_var( "order_status_header" );
 
-foreach ( $orderArray as $order )
+if ( count ( $orderArray ) > 0 )
 {
-    if ( ( $i % 2 ) == 0 )
-        $t->set_var( "td_class", "bgdark" );
-    else
-        $t->set_var( "td_class", "bglight" );
-    
-    $t->set_var( "order_id", $order->id() );
-
-    $status = $order->initialStatus( );
-    $dateTime = $status->altered();
-    $t->set_var( "order_date", $locale->format( $dateTime ) );
-
-    if ( $ShowOrderStatusToUser )
+    foreach ( $orderArray as $order )
     {
-        $statusType = $status->type();
-        $statusName = preg_replace( "#intl-#", "", $statusType->name() );
-        $statusName =  $languageINI->read_var( "strings", $statusName );
-        $t->set_var( "order_status", $statusName );
-
-        $t->parse( "order_status", "order_status_tpl" );
-    }
-    else
-        $t->set_var( "order_status", "" );
+        if ( ( $i % 2 ) == 0 )
+            $t->set_var( "td_class", "bgdark" );
+        else
+            $t->set_var( "td_class", "bglight" );
         
-    $currency->setValue( $order->totalPrice() );
-
-    $t->set_var( "order_price", $locale->format( $currency ) );
-    
-    $t->parse( "order_item", "order_item_tpl", true );
-    $i++;
+        $t->set_var( "order_id", $order->id() );
+        
+        $status = $order->initialStatus( );
+        $dateTime = $status->altered();
+        $t->set_var( "order_date", $locale->format( $dateTime ) );
+        
+        if ( $ShowOrderStatusToUser )
+        {
+            $statusType = $status->type();
+            $statusName = preg_replace( "#intl-#", "", $statusType->name() );
+            $statusName =  $languageINI->read_var( "strings", $statusName );
+            $t->set_var( "order_status", $statusName );
+            
+            $t->parse( "order_status", "order_status_tpl" );
+        }
+        else
+            $t->set_var( "order_status", "" );
+        
+        $currency->setValue( $order->totalPrice() );
+        
+        $t->set_var( "order_price", $locale->format( $currency ) );
+        
+        $t->parse( "order_item", "order_item_tpl", true );
+        $i++;
+    }
+    $t->set_var( "no_items", "" );
 }
+else
+{
+    $t->parse( "no_items", "no_items_tpl" );
+}
+    
 
 eZList::drawNavigator( $t, $total_count, $Limit, $Offset, "order_list_tpl" );
 
