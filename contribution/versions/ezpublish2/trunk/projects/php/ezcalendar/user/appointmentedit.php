@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.26 2001/01/26 09:50:13 gl Exp $
+// $Id: appointmentedit.php,v 1.27 2001/01/29 18:10:37 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -113,8 +113,8 @@ if ( $Action == "New"  )
 else
     $app = new eZAppointment( $AppointmentID );
 
-// current user is not allowed to edit this appointment
-if ( ( $Action == "Edit" || $Action == "DeleteAppointment" ) && $app->userID() != $userID )
+// only the appointment owner is allowed to edit or delete an appointment
+if ( $Action == "Edit" && $app->userID() != $userID )
 {
     $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
                          "ezcalendar/user/intl/", $Language, "appointmentedit.php" );
@@ -134,10 +134,56 @@ if ( ( $Action == "Edit" || $Action == "DeleteAppointment" ) && $app->userID() !
 }
 
 
+if ( $Action == "DeleteAppointment" )
+{
+    if ( count ( $AppointmentArrayID ) != 0 )
+    {
+        $tmpAppointment = new eZAppointment( $AppointmentArrayID[0]);
+        $datetime = $tmpAppointment->dateTime();
+
+        if ( $tmpAppointment->userID() == $userID )
+        {
+            foreach( $AppointmentArrayID as $ID )
+            {
+                $appointment = new eZAppointment( $ID );
+                $appointment->delete();
+            }
+        }
+        // user not allowed to delete this appointment
+        else
+        {
+            $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
+                                 "ezcalendar/user/intl/", $Language, "appointmentedit.php" );
+
+            $t->set_file( "appointment_edit_tpl", "appointmentedit.tpl" );
+
+            $t->setAllStrings();
+
+            $t->set_block( "appointment_edit_tpl", "user_error_tpl", "user_error" );
+            $t->set_block( "appointment_edit_tpl", "no_user_error_tpl", "no_user_error" );
+
+            $t->set_var( "no_user_error", "" );
+            $t->parse( "user_error", "user_error_tpl" );
+            $t->pparse( "output", "appointment_edit_tpl" );
+
+            exit();
+        }
+    }
+
+    $year = addZero( $datetime->year() );
+    $month = addZero( $datetime->month() );
+    $day = addZero( $datetime->day() );
+    deleteCache( "default", $Language, $year, $month, $day, $userID );
+
+    eZHTTPTool::header( "Location: /calendar/dayview/$year/$month/$day/" );
+    exit();
+
+}
+
+
 // Allowed format for start and stop time:
 // 14 14:30 14:0 1430
 // the : can be replaced with any non number character
-
 if ( $Action == "Insert" || $Action == "Update" )
 {
     if ( isSet( $Cancel ) )
@@ -285,29 +331,6 @@ if ( $Action == "Insert" || $Action == "Update" )
             exit();
         }
     }
-}
-
-if ( $Action == "DeleteAppointment" )
-{
-    if ( count ( $AppointmentArrayID ) != 0 )
-    {
-        $tmpAppointment = new eZAppointment( $AppointmentArrayID[0]);
-        $datetime = $tmpAppointment->dateTime();
-        foreach( $AppointmentArrayID as $ID )
-        {
-            $appointment = new eZAppointment( $ID );
-            $appointment->delete();
-        }
-    }
-
-    $year = addZero( $datetime->year() );
-    $month = addZero( $datetime->month() );
-    $day = addZero( $datetime->day() );
-    deleteCache( "default", $Language, $year, $month, $day, $userID );
-
-    eZHTTPTool::header( "Location: /calendar/dayview/$year/$month/$day/" );
-    exit();
-
 }
 
 
