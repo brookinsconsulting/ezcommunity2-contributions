@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.120 2001/10/31 13:42:16 bf Exp $
+// $Id: index.php,v 1.121 2001/11/09 10:09:54 jhe Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -100,8 +100,8 @@ $GlobalSiteIni =& $ini;
 // Set the global nVH variables.
 $GlobalSiteIni->Index = $index;
 $GlobalSiteIni->WWWDir = $wwwDir;
-unset($index);
-unset($wwwDir);
+unset( $index );
+unset( $wwwDir );
 
 // Design
 include_once( "ezsession/classes/ezsession.php" );
@@ -119,7 +119,6 @@ $siteDesign =& $ini->read_var( "site", "SiteDesign" );
 
 // Store the site design in a global variable
 $GlobalSiteDesign = $siteDesign;
-
 
 $StoreStats = $ini->read_var( "eZStatsMain", "StoreStats" );
 
@@ -159,7 +158,7 @@ if ( isSet( $HTTP_COOKIE_VARS["eZUser_AutoCookieLogin"] ) and $HTTP_COOKIE_VARS[
 $url_array = explode( "/", $REQUEST_URI );
 
 if ( ( $requireUserLogin == "disabled" ) ||
-    ( ( $requireUserLogin == "enabled" )   & ( get_class( $user ) == "ezuser" ) && ( $user->id() != 0 ) ) ) 
+     ( ( $requireUserLogin == "enabled" ) && ( get_class( $user ) == "ezuser" ) && ( $user->id() != 0 ) ) ) 
 {
 
     // do url translation if needed
@@ -167,11 +166,15 @@ if ( ( $requireUserLogin == "disabled" ) ||
 
     $urlTranslatorArray = explode( ";", $URLTranslationKeyword );
     
-    if ( in_array(  $url_array[1], $urlTranslatorArray ) )
+    if ( in_array( $url_array[1], $urlTranslatorArray ) )
     {
         include_once( "ezurltranslator/classes/ezurltranslator.php" );
-        $REQUEST_URI = eZURLTranslator::translate( $REQUEST_URI );
-        $url_array = explode( "/", $REQUEST_URI );
+        $translatedURL = eZURLTranslator::translate( $REQUEST_URI );
+        if ( $translatedURL )
+        {
+            $REQUESTED_URI = $translatedURL;
+            $url_array = explode( "/", $REQUEST_URI );
+        }
     }
 
     // if uri == / show default page or article list
@@ -226,7 +229,7 @@ if ( ( $requireUserLogin == "disabled" ) ||
         {
             $timeout = $ini->read_var( "site", "SiteCacheTimeout" );
             $SiteCacheTime = eZFile::filemtime( $SiteCacheFile );
-            if ( ( time() - $SiteCacheTime ) < ( $timeout*60 ) )
+            if ( ( time() - $SiteCacheTime ) < ( $timeout * 60 ) )
             {
              // print( "valid cache" );
             }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezurltranslator.php,v 1.10 2001/10/02 09:26:48 vl Exp $
+// $Id: ezurltranslator.php,v 1.11 2001/11/09 10:09:54 jhe Exp $
 //
 // Definition of eZURLTranslator class
 //
@@ -52,22 +52,22 @@ class eZURLTranslator
     */
     function translate( $url )
     {
-        $ret = "/error/404";
+        $ret = false;
 
-	// Hack to delete a trailing slash
-	$url = preg_replace("'/$'", "", $url);
+        // Hack to delete a trailing slash
+        $url = preg_replace("'/$'", "", $url);
        
         $db =& eZDB::globalDatabase(); 
 
         $db->array_query( $url_array,
-            "SELECT Dest FROM eZURLTranslator_URL
-             WHERE Source='$url'" );
+             "SELECT Dest FROM eZURLTranslator_URL
+              WHERE Source='$url'" );
 	
-	$url = preg_replace("'/$'", "", $url);
+        $url = preg_replace("'/$'", "", $url);
 
         if ( count( $url_array ) > 0 )
         {                
-            $ret = $url_array[0][$db->fieldName("Dest")];
+            $ret = $url_array[0][$db->fieldName( "Dest" )];
         } 
         return $ret;
     }
@@ -81,7 +81,7 @@ class eZURLTranslator
 
         $db->begin( );
 
-        if ( !isset( $this->ID ) )
+        if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZURLTranslator_URL" );
 
@@ -119,11 +119,11 @@ class eZURLTranslator
     /*!
       Fetches the URL translation from the database.
     */
-    function get( $id=-1 )
+    function get( $id = -1 )
     {
         $db =& eZDB::globalDatabase();
         
-        if ( $id != -1  )
+        if ( $id != -1 )
         {
             $db->array_query( $url_array, "SELECT * FROM eZURLTranslator_URL WHERE ID='$id'" );
             
@@ -133,9 +133,9 @@ class eZURLTranslator
             }
             else if ( count( $url_array ) == 1 )
             {
-                $this->ID =& $url_array[0][$db->fieldName("ID")];
-                $this->Source =& $url_array[0][$db->fieldName("Source")];
-                $this->Dest =& $url_array[0][$db->fieldName("Dest")];
+                $this->ID =& $url_array[0][$db->fieldName( "ID" )];
+                $this->Source =& $url_array[0][$db->fieldName( "Source" )];
+                $this->Dest =& $url_array[0][$db->fieldName( "Dest" )];
             }
         }
     }
@@ -152,9 +152,9 @@ class eZURLTranslator
         
         $db->array_query( $url_array, "SELECT ID, Created FROM eZURLTranslator_URL ORDER BY Created" );
         
-        for ( $i=0; $i<count($url_array); $i++ )
-        {
-            $return_array[$i] = new eZURLTranslator( $url_array[$i][$db->fieldName("ID")], 0 );
+        for ( $i = 0; $i < count( $url_array ); $i++ )
+        { 
+            $return_array[$i] = new eZURLTranslator( $url_array[$i][$db->fieldName( "ID" )], 0 );
         }
         
         return $return_array;
