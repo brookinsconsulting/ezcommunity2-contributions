@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.119.2.16 2002/01/08 08:28:19 kaid Exp $
+// $Id: index.php,v 1.119.2.17 2002/01/08 09:59:34 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -28,18 +28,32 @@ header( "Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" );
 header( "Cache-Control: no-cache, must-revalidate" ); 
 header( "Pragma: no-cache" );
 
-// Tell PHP where it can find our files.
+// Find out, where our files are.
 if ( ereg( "(.*/)([^\/]+\.php)$", $SCRIPT_FILENAME, $regs ) )
 {
     $siteDir = $regs[1];
     $index = "/" . $regs[2];
 }
+elseif ( ereg( "(.*/)([^\/]+\.php)/?", $PHP_SELF, $regs ) )
+{
+	// Some people using CGI have their $SCRIPT_FILENAME not right... so we are trying this.
+    $siteDir = $DOCUMENT_ROOT . $regs[1];
+    $index = "/" . $regs[2];
+}
+else
+{
+	// Fallback... doesn't work with virtual-hosts, but better than nothing
+	$siteDir = "./";
+	$index = "/index.php";
+}
 
+// What OS-type are we using?
 if ( substr( php_uname(), 0, 7) == "Windows" )
     $separator = ";";
 else
     $separator = ":";
 
+// Setting the right include_path
 $includePath = ini_get( "include_path" );
 if ( trim( $includePath ) != "" )
     $includePath .= $separator . $siteDir;
@@ -47,14 +61,20 @@ else
     $includePath = $siteDir;
 ini_set( "include_path", $includePath );
 
+// Get the webdir.
 if ( ereg( "(.*)/([^\/]+\.php)$", $SCRIPT_NAME, $regs ) )
     $wwwDir = $regs[1];
+
+// Fallback... Finding the paths above failed, so $PHP_SELF is not set right.
+if ( $siteDir == "./" )
+	$PHP_SELF = $REQUEST_URI;
 
 // Trick: Rewrite setup doesn't have index.php in $PHP_SELF, so we don't want an $index
 if ( ! ereg( ".*index\.php.*", $PHP_SELF ) ) 
     $index = "";
 else 
 {
+	// Get the right $REQUEST_URI, when using nVH setup.
     if ( ereg( "^$wwwDir$index(.+)", $PHP_SELF, $req ) )
         $REQUEST_URI = $req[1];
     else

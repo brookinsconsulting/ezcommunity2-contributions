@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: cron.php,v 1.14.2.6 2002/01/08 08:28:19 kaid Exp $
+// $Id: cron.php,v 1.14.2.7 2002/01/08 09:59:34 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -23,9 +23,13 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-// Tell PHP where it can find our files.
+// Find out, where our files are.
 if ( ereg( "(.*/)([^\/]+\.php)$", $SCRIPT_FILENAME, $regs ) )
     $siteDir = $regs[1];
+elseif ( ereg( "(.*/)([^\/]+\.php)/?", $PHP_SELF, $regs ) )
+    $siteDir = $DOCUMENT_ROOT . $regs[1];
+else
+	$siteDir = "./";
 
 if ( substr( php_uname(), 0, 7) == "Windows" )
     $separator = ";";

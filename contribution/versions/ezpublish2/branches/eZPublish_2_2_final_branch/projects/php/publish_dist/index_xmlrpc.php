@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: index_xmlrpc.php,v 1.27.2.6 2002/01/08 08:28:19 kaid Exp $
+// $Id: index_xmlrpc.php,v 1.27.2.7 2002/01/08 09:59:34 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -24,18 +24,32 @@
 //
 
 
-// Tell PHP where it can find our files.
+// Find out, where our files are.
 if ( ereg( "(.*/)([^\/]+\.php)$", $SCRIPT_FILENAME, $regs ) )
 {
     $siteDir = $regs[1];
     $index = "/" . $regs[2];
 }
+elseif ( ereg( "(.*/)([^\/]+\.php)/?", $PHP_SELF, $regs ) )
+{
+	// Some people using CGI have their $SCRIPT_FILENAME not right... so we are trying this.
+    $siteDir = $DOCUMENT_ROOT . $regs[1];
+    $index = "/" . $regs[2];
+}
+else
+{
+	// Fallback... doesn't work with virtual-hosts, but better than nothing
+	$siteDir = "./";
+	$index = "/index_xmlrpc.php";
+}
 
+// What OS-type are we using?
 if ( substr( php_uname(), 0, 7) == "Windows" )
     $separator = ";";
 else
     $separator = ":";
 
+// Setting the right include_path
 $includePath = ini_get( "include_path" );
 if ( trim( $includePath ) != "" )
     $includePath .= $separator . $siteDir;
@@ -43,14 +57,20 @@ else
     $includePath = $siteDir;
 ini_set( "include_path", $includePath );
 
+// Get the webdir.
 if ( ereg( "(.*)/([^\/]+\.php)$", $SCRIPT_NAME, $regs ) )
     $wwwDir = $regs[1];
 
-// Trick: Rewrite setup doesn't have index.php in $REQUEST_URI, so we don't want an $index
+// Fallback... Finding the paths above failed, so $PHP_SELF is not set right.
+if ( $siteDir == "./" )
+	$PHP_SELF = $REQUEST_URI;
+
+// Trick: Rewrite setup doesn't have index.php in $PHP_SELF, so we don't want an $index
 if ( ! ereg( ".*index_xmlrpc\.php.*", $REQUEST_URI ) ) 
     $index = "";
 else 
 {
+	// Get the right $REQUEST_URI, when using nVH setup.
     if ( ereg( "^$wwwDir$index(.+)", $REQUEST_URI, $req ) )
         $REQUEST_URI = $req[1];
     else
