@@ -69,15 +69,9 @@ if ( $user )
 
         // set the module logo
         $moduleName =& $url_array[1];
-        
-        if( file_exists( "menu-" .$moduleName . ".gif" ) )
-        {
-            $ModuleLogo = "menu-" .$moduleName . ".gif";
-        }
-        else
-        {
-            $ModuleLogo = "menu-news.gif";
-        }
+
+        if ( $moduleName == "" )
+            $moduleName = "user";
     
         // break the column an draw a horizontal line
         include( "separator.php" );
@@ -93,17 +87,16 @@ if ( $user )
     }
     else
     { // show the help page
-
-        $ModuleLogo = "menu-user.gif";
-        
         include( "separator.php" );
-
+        
         include( "help/datasupplier.php" );
     }
 }
 else
 {
-    $ModuleLogo = "menu-user.gif";
+    if ( $moduleName == "" )
+        $moduleName = "user";
+
     $LoginSeparator = true;
 
     include( "separator.php" );
