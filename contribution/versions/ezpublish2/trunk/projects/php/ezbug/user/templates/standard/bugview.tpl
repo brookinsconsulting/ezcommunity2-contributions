@@ -85,7 +85,7 @@
 <!-- END no_tpl -->
 
 <!-- BEGIN screenshots_tpl -->
-<p class="boxtext">{intl-screenshots}:</p>
+<h2>{intl-screenshots}</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-image_id}:</th>
@@ -105,7 +105,7 @@
 <!-- END screenshots_tpl -->
 
 <!-- BEGIN patches_tpl -->
-<p class="boxtext">{intl-patches}:</p>
+<h2>{intl-patches}:</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-file_id}:</th>

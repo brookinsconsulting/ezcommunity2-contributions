@@ -112,6 +112,7 @@
 </table>
 <!-- END inserted_images_tpl -->
 
+<br />
 <!-- BEGIN delete_items_tpl -->
 <hr noshade="noshade" size="4">
 
