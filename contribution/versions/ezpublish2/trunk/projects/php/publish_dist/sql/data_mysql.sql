@@ -1302,46 +1302,6 @@ INSERT INTO eZImageCatalogue_ImagePermission VALUES (2,1,-1,1,1);
 INSERT INTO eZImageCatalogue_ImagePermission VALUES (3,3,-1,1,1);
 INSERT INTO eZImageCatalogue_ImagePermission VALUES (4,4,-1,1,1);
 
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (2,1,2,'ezimagecatalogue/catalogue/variations/1-400x500.jpg',300,225,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (1,1,1,'ezimagecatalogue/catalogue/variations/1-150x150.jpg',150,112,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (3,1,3,'ezimagecatalogue/catalogue/variations/1-200x200.jpg',200,150,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (4,2,1,'ezimagecatalogue/catalogue/variations/2-150x150.jpg',150,112,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (5,3,1,'ezimagecatalogue/catalogue/variations/3-150x150.jpg',150,112,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (6,4,1,'ezimagecatalogue/catalogue/variations/4-150x150.jpg',150,112,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (7,5,1,'ezimagecatalogue/catalogue/variations/5-150x150.jpg',150,112,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (8,5,2,'ezimagecatalogue/catalogue/variations/5-400x500.jpg',300,225,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (9,6,1,'ezimagecatalogue/catalogue/variations/6-150x150.jpg',150,112,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (10,7,1,'ezimagecatalogue/catalogue/variations/7-150x150.jpg',150,112,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (11,8,1,'ezimagecatalogue/catalogue/variations/8-150x150.jpg',150,112,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (12,9,1,'ezimagecatalogue/catalogue/variations/9-150x150.jpg',150,112,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (13,10,1,'ezimagecatalogue/catalogue/variations/10-150x150.jpg',150,112,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (14,5,3,'ezimagecatalogue/catalogue/variations/5-200x200.jpg',200,150,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (15,2,3,'ezimagecatalogue/catalogue/variations/2-200x200.jpg',200,150,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (16,6,3,'ezimagecatalogue/catalogue/variations/6-200x200.jpg',200,150,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (17,3,3,'ezimagecatalogue/catalogue/variations/3-200x200.jpg',200,150,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (18,4,3,'ezimagecatalogue/catalogue/variations/4-200x200.jpg',200,150,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (19,9,3,'ezimagecatalogue/catalogue/variations/9-200x200.jpg',200,150,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (20,3,4,'ezimagecatalogue/catalogue/variations/3-240x200.jpg',240,180,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (21,3,5,'ezimagecatalogue/catalogue/variations/3-300x300.jpg',300,225,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (22,3,6,'ezimagecatalogue/catalogue/variations/3-35x35.jpg',35,26,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (23,3,7,'ezimagecatalogue/catalogue/variations/3-140x140.jpg',140,105,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (24,3,8,'ezimagecatalogue/catalogue/variations/3-250x250.jpg',250,187,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (25,6,2,'ezimagecatalogue/catalogue/variations/6-400x500.jpg',300,225,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (26,6,9,'ezimagecatalogue/catalogue/variations/6-100x100.jpg',100,75,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (27,3,2,'ezimagecatalogue/catalogue/variations/3-400x500.jpg',300,225,'');
-INSERT INTO eZImageCatalogue_ImageVariation VALUES (28,3,10,'ezimagecatalogue/catalogue/variations/3-40x40.jpg',40,30,'');
-
-INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (1,150,150);
-INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (2,400,500);
-INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (3,200,200);
-INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (4,240,200);
-INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (5,300,300);
-INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (6,35,35);
-INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (7,140,140);
-INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (8,250,250);
-INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (9,100,100);
-INSERT INTO eZImageCatalogue_ImageVariationGroup VALUES (10,40,40);
-
 INSERT INTO eZLink_Category VALUES (1,0,'Links',0,'',1);
 
 INSERT INTO eZLink_Link VALUES (1,'eZ publish Content Management System','GPL CMS and E-commerce package.',NULL,'',1003329626,1,1003329626,'developer.ez.no',0);
