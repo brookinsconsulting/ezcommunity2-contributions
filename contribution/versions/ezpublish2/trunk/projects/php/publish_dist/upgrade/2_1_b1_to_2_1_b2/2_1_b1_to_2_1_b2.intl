@@ -3,6 +3,15 @@ Example:
 mod: bug/user, fileedit.php.ini
 change: added user_edit=Some text
 --------------------------------------------------------------------
+mod: ezbug/user bugreport.php.ini
+change: added program_version=Program version
+
+mod: ezbug/user bugview.php.ini
+change: added program_version=Program version
+
+mod: ezbug/admin bugedit.php.ini
+change: added program_version=Program version
+
 mod: ezerror/admin error.php.ini
 change: added file
 

@@ -13,3 +13,6 @@ ezarticle/user/templates/standard.index.tpl (new)
 ezarticle/user/templates/standard/menubox.tpl
 ezmail/user/templates/standard/mailedit.tpl
 ezerror/admin/templates/standard/error.tpl
+ezbug/user/templates/standard/bugreport.tpl (added Version text field)
+ezbug/user/templates/standard/bugview.tpl (added Version text field)
+ezbug/admin/templates/standard/bugedit.tpl (added Version text field)
