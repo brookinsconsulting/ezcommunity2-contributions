@@ -1,13 +1,15 @@
 #!/bin/sh
 # This script will create the publish MySQL database with all the patches applied.
-echo -n 'Mysql root password:'
+echo -n 'Name of Database to create: '
+read DBNAME
+echo -n 'Mysql root password: '
 read PASS
 if $PASS
 then
    echo "Blank Password"
    echo "Dropping database"
    
-   if  mysqladmin -u root drop publish 
+   if  mysqladmin -u root drop $DBNAME
    then
       echo "Dropping database"
    else
@@ -15,20 +17,20 @@ then
    fi
    
    echo "Creating database"
-   mysqladmin -u root create publish
+   mysqladmin -u root create $DBNAME
    echo "Adding Tables"
-   mysql -u root publish < sql/publish.sql 
+   mysql -u root $DBNAME < sql/publish.sql 
    echo "Adding Data"
-   mysql -u root publish < sql/data.sql 
+   mysql -u root $DBNAME < sql/data.sql 
    echo "Upgrading"
-   mysql -u root publish < upgrade/2_1_to_2_1_1/2_1_to_2_1_1.sql
-   mysql -u root -e"grant all on publish.* to publish@localhost identified by 'publish' "
+   mysql -u root $DBNAME < upgrade/2_1_to_2_1_1/2_1_to_2_1_1.sql
+   mysql -u root -e"grant all on $DBNAME.* to $DBNAME@localhost identified by '$DBNAME' "
    
 else
    echo "Password is $PASS"
    echo "Dropping database"
    
-      if  mysqladmin -u root -p'$PASS' drop publish 
+      if  mysqladmin -u root -p'$PASS' drop $DBNAME
       then
          echo "Dropping database"
       else
@@ -36,14 +38,14 @@ else
       fi
 
    echo "Creating database"
-   mysqladmin -u root -p'$PASS' create publish
+   mysqladmin -u root -p'$PASS' create $DBNAME
    echo "Adding Tables"
-   mysql -u root -p'$PASS' publish < sql/publish.sql 
+   mysql -u root -p'$PASS' $DBNAME < sql/publish.sql 
    echo "Adding Data"
-   mysql -u root -p'$PASS' publish < sql/data.sql 
+   mysql -u root -p'$PASS' $DBNAME < sql/data.sql 
    echo "Upgrading"
-   mysql -u root -p'$PASS' publish < upgrade/2_1_to_2_1_1/2_1_to_2_1_1.sql
-   mysql -u root -p'$PASS' -e"grant all on publish.* to publish@localhost identified by 'publish' " 
+   mysql -u root -p'$PASS' $DBNAME < upgrade/2_1_to_2_1_1/2_1_to_2_1_1.sql
+   mysql -u root -p'$PASS' -e"grant all on $DBNAME.* to $DBNAME@localhost identified by '$DBNAME' " 
 fi
 
 
