@@ -1,15 +1,8 @@
 <?
-//print $REQUEST_URI;
-
-$url_array = explode( "/", $REQUEST_URI );
+$PageCaching = $ini->read_var( "eZLinkMain", "PageCaching");
 
 switch ( $url_array[2] )
 {
-
-    case "" :
-        include( "ezlink/linklist.php" );        
-        break;
-
     case "gotolink" :
     {
         $Action = $url_array[3];
@@ -29,8 +22,35 @@ switch ( $url_array[2] )
 
     case "group" :
     {
-        $LGID = $url_array[3];
-        include( "ezlink/linklist.php" );
+
+        if ( $PageCaching == "enabled" )
+        {
+            print( "cached version<br>" );
+            
+            $LGID = $url_array[3];
+
+            $cachedFile = "ezlink/cache/linklist," .$LGID .".cache";
+            
+            if ( file_exists( $cachedFile ) )
+            {
+                print( "pure static" );
+                include( $cachedFile );
+            }
+            else
+            {
+                print( "first time generated" );                
+                $GenerateStaticPage = "true";
+                include( "ezlink/linklist.php" );                
+            }            
+        }
+        else
+        {
+            print( "uncached version" );
+            
+            $LGID = $url_array[3];
+            include( "ezlink/linklist.php" );
+        }
+        
     }
     break;
 

@@ -1,7 +1,4 @@
 <?
-//print $REQUEST_URI;
-
-$url_array = explode( "/", $REQUEST_URI );
 
 $PageCaching = $ini->read_var( "eZTradeMain", "PageCaching");
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.4 2000/10/13 15:10:31 bf-cvs Exp $
+// $Id: menubox.php,v 1.5 2000/10/17 11:52:58 bf-cvs Exp $
 //
 // 
 //
@@ -32,15 +32,15 @@ if ( $PageCaching == "enabled" )
     else
     {
         $GenerateStaticPage = "true";
-        createPage();
+        createForumMenu();
     }            
 }
 else
 {
-    createPage();
+    createForumMenu();
 }
 
-function createPage()
+function createForumMenu()
 {
     include_once( "classes/eztemplate.php" );
     include_once( "classes/ezdb.php" );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: linklist.php,v 1.35 2000/10/17 10:27:29 bf-cvs Exp $
+// $Id: linklist.php,v 1.36 2000/10/17 11:52:59 bf-cvs Exp $
 //
 // 
 //
@@ -33,11 +33,11 @@ $t = new eZTemplate( "ezlink/" . $ini->read_var( "eZLinkMain", "TemplateDir" ). 
 $t->setAllStrings();
 
 $t->set_file( array(
-    "link_page" => "linkpage.tpl"
+    "link_page_tpl" => "linkpage.tpl"
     ) );
 
-$t->set_block( "link_page", "group_list_tpl", "group_list" );
-$t->set_block( "link_page", "link_list_tpl", "link_list" );
+$t->set_block( "link_page_tpl", "group_list_tpl", "group_list" );
+$t->set_block( "link_page_tpl", "link_list_tpl", "link_list" );
 
 // List all the categorys
 $linkGroup = new eZLinkGroup();
@@ -151,7 +151,23 @@ else
 $t->set_var( "printpath", $linkGroup->printPath( $LGID, "ezlink/linklist.php" ) );
 
 $t->set_var( "linkgroup_id", $LGID );
-$t->set_var( "document_root", $DOC_ROOT );
                        
-$t->pparse( "output", "link_page" );
+
+if ( $GenerateStaticPage == "true" )
+{
+    $fp = fopen ( $cachedFile, "w+");
+
+    $output = $t->parse($target, "link_page_tpl" );
+    
+    // print the output the first time while printing the cache file.
+    print( $output );
+    fwrite ( $fp, $output );
+    fclose( $fp );
+}
+else
+{
+    $t->pparse( "output", "link_page_tpl" );    
+}
+
+
 ?>
