@@ -43,29 +43,33 @@
 <!-- END cart_item_tpl -->
 
 <tr>
-	<td colspan="3">&nbsp;</td>
-	<th>{intl-shipping_charges}:
-
+	<td colspan="2" rowspan="3" valign="top">
+	<div class="boxtext">{intl-shipping_method}:</div>
 	<select name="ShippingTypeID">
 	<!-- BEGIN shipping_type_tpl -->
 	<option value="{shipping_type_id}" {type_selected}>{shipping_type_name}</option>
 	<!-- END shipping_type_tpl -->
-	</th>
+	</select>
+	<input class="stdbutton" type="submit" name="Recalculate" value="{intl-recalculate}" />
+	</td>
+	<td align="right" colspan="2">
+	<span class="boxtext">{intl-shipping_charges}:</span>
+	</td>
 
 	<td align="right">
 	{shipping_cost}
 	</td>
 </tr>
 <tr>
-	<td colspan="3">&nbsp;</td>
-	<th>{intl-vat}:</th>
+	<td>&nbsp;</td>
+	<td align="right"><span class="boxtext">{intl-vat}:</span></td>
 	<td align="right">
 	{cart_vat_sum}
 	</td>
 </tr>
 <tr>
-	<td colspan="3">&nbsp;</td>
-	<th>{intl-total_cost_is}:</th>
+	<td>&nbsp;</td>
+	<td align="right"><span class="boxtext">{intl-total_cost_is}:</span></td>
 	<td align="right">
 	{cart_sum}
 	</td>
@@ -74,8 +78,7 @@
 <!-- END cart_item_list_tpl -->
 
 <!-- BEGIN billing_address_tpl -->
-<h2>{intl-billing_to}:</h2>
-<br />
+<p class="boxtext">{intl-billing_to}:</p>
 <select name="BillingAddressID">
 <!-- BEGIN billing_option_tpl -->
 <option value="{address_id}">{customer_first_name} {customer_last_name}, {street1}, {street2}, {zip} {place}, {country}</option>
@@ -83,7 +86,7 @@
 </select>
 <!-- END billing_address_tpl -->
 
-<h2>{intl-shipping_to}:</h2>
+<p class="boxtext">{intl-shipping_to}:</p>
 <select name="ShippingAddressID">
 <!-- BEGIN shipping_address_tpl -->
 <option value="{address_id}">{customer_first_name} {customer_last_name}, {street1}, {street2}, {zip} {place}, {country}</option>
@@ -106,11 +109,6 @@
 </select>
 
 <br /><br />
-
-
-<hr noshade="noshade" size="4" />
-
-<input type="submit" name="Recalculate" value="{intl-recalculate}" />
 
 <hr noshade="noshade" size="4" />
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.40 2001/02/15 10:42:27 bf Exp $
+// $Id: userwithaddress.php,v 1.41 2001/02/23 15:18:25 th Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
@@ -59,7 +59,7 @@ $t->set_block( "address_tpl", "country_tpl", "country" );
 $t->set_block( "country_tpl", "country_option_tpl", "country_option" );
 
 $t->set_block( "user_edit_tpl", "errors_item_tpl", "errors_item" );
-$t->set_var( "errors_item", "&nbsp;" );
+$t->set_var( "errors_item", "" );
 
 $t->set_block( "user_edit_tpl", "login_item_tpl", "login_item" );
 $t->set_block( "user_edit_tpl", "disabled_login_item_tpl", "disabled_login_item" );

@@ -45,7 +45,7 @@
 <tr>
 	<!-- BEGIN cart_checkout_tpl -->
 	<td colspan="2">
-	<input type="submit" name="DoCheckOut" value="{intl-checkout}" />
+	<input class="stdbutton" type="submit" name="DoCheckOut" value="{intl-checkout}" />
 	</td>
 </tr>
 <tr>
