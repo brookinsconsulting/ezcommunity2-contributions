@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.38 2002/01/28 09:45:30 jhe Exp $
+// $Id: ezformelement.php,v 1.39 2002/02/06 12:25:25 jhe Exp $
 //
 // ezformelement class
 //
@@ -35,6 +35,7 @@
 
 */
 
+include_once( "classes/ezlocale.php" );
 include_once( "ezform/classes/ezform.php" );
 include_once( "ezform/classes/ezformelementtype.php" );
 include_once( "ezform/classes/ezformelementfixedvalue.php" );
@@ -605,7 +606,7 @@ class eZFormElement
     }
 
 
-    function getThisUsersResults( $elements, $resultID )
+    function getThisUsersResults( $elements, $resultID, $format = false )
     {
         $result = array();
         $db =& eZDB::globalDatabase();
@@ -632,7 +633,26 @@ class eZFormElement
             }
             
             if ( $id > -1 )
-                $result[$i]["Result"] = $qa[$id][$db->fieldName( "Result" )];
+            {
+                if ( $format )
+                {
+                    if ( $this->ElementType->name() == "numerical_float_item" ||
+                         $this->ElementType->name() == "numerical_integer_item" )
+                    {
+                        $language =& $ini->read_var( "eZFormMain", "Language" );
+                        $locale = new eZLocale( $language );
+                        $result[$i] = $locale->formatNumber( $qa[$id][$db->fieldName( "Result" )] );
+                    }
+                    else
+                    {
+                        $result[$i]["Result"] = $qa[$id][$db->fieldName( "Result" )];
+                    }
+                }
+                else
+                {
+                    $result[$i]["Result"] = $qa[$id][$db->fieldName( "Result" )];
+                }
+            }
             else
                 $result[$i]["Result"] = "";
 
@@ -747,12 +767,31 @@ class eZFormElement
         return $result;
     }
 
-    function getResult( $resultID, $elementID )
+    function getResult( $resultID, $elementID, $format = false )
     {
         $result = array();
         $db =& eZDB::globalDatabase();
         $db->query_single( $q, "SELECT Result FROM eZForm_FormElementResult WHERE ElementID='$elementID' AND ResultID='$resultID'" );
-        return $q[$db->fieldName( "Result" )];
+        if ( $format )
+        {
+            if ( $this->ElementType->name() == "numerical_float_item" ||
+                 $this->ElementType->name() == "numerical_integer_item" )
+            {
+                $language =& $ini->read_var( "eZFormMain", "Language" );
+                $locale = new eZLocale( $language );
+                $res = $locale->formatNumber( $q[$db->fieldName( "Result" )] );
+            }
+            else
+            {
+                $res = $q[$db->fieldName( "Result" )];
+            }
+        }
+        else
+        {
+            $res = $q[$db->fieldName( "Result" )];
+        }
+        
+        return $res;
     }
     
     /*!

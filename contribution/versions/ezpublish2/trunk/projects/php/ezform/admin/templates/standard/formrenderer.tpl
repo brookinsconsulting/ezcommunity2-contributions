@@ -174,7 +174,7 @@
 
 <!-- BEGIN frequency_tpl -->
 <!-- BEGIN frequency_element_tpl -->
-{result}: {count}<br />
+{result}: {count},
 <!-- END frequency_element_tpl -->
 <!-- END frequency_tpl -->
 
@@ -235,7 +235,7 @@
 <!-- BEGIN bar_tpl -->
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
-<td bgcolor="#FFFF00" width="{width}%">&nbsp;</td>
+<td bgcolor="#0037FF" width="{width}%">&nbsp;</td>
 <td width="{leftover-width}%">&nbsp;</td>
 </tr>
 </table>

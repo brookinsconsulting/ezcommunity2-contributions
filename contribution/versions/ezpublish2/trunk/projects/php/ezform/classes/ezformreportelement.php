@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.25 2002/02/01 18:11:49 jhe Exp $
+// $Id: ezformreportelement.php,v 1.26 2002/02/06 12:25:26 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -284,6 +284,7 @@ class eZFormReportElement
 
     function statFrequency( &$t, $resultString )
     {
+        $ini =& INIFile::globalINI();
         $t->set_var( "frequency_element", "" );
         $res = array();
         $db =& eZDB::globalDatabase();
@@ -302,6 +303,7 @@ class eZFormReportElement
                                          eZForm_FormElementResult.Result LIKE '%" . $fElement->value( false ) . "%'
                                          $resultString
                                          GROUP BY eZForm_FormElementResult.ID " );
+
                 $t->set_var( "result", $fElement->value() );
                 $t->set_var( "count", count( $res ) );
                 $t->parse( "frequency_element", "frequency_element_tpl", true );
@@ -313,9 +315,18 @@ class eZFormReportElement
                                      FROM eZForm_FormElementResult WHERE ElementID='$this->ElementID'
                                      $resultString
                                      GROUP BY TRIM(Result) ORDER BY Result" );
+
+            $language =& $ini->read_var( "eZFormMain", "Language" );
+            $locale = new eZLocale( $language );
+            
             foreach ( $res as $result )
             {
-                $t->set_var( "result", $result[$db->fieldName( "Result" )] );
+                if ( $element->ElementType->name() == "numerical_float_item" ||
+                     $element->ElementType->name() == "numerical_integer_item" )
+                    $t->set_var( "result", $locale->formatNumber( $result[$db->fieldName( "Result" )] ) );
+                else
+                    $t->set_var( "result", $result[$db->fieldName( "Result" )] );
+                    
                 $t->set_var( "count", $result[$db->fieldName( "Count" )] );
                 $t->parse( "frequency_element", "frequency_element_tpl", true );
             }
@@ -327,6 +338,7 @@ class eZFormReportElement
 
     function statCount( &$t, $resultString )
     {
+        $ini =& INIFile::globalINI();
         $t->set_var( "count", "" );
         $res = array();
         $db =& eZDB::globalDatabase();
@@ -335,13 +347,24 @@ class eZFormReportElement
                                  WHERE ElementID='$this->ElementID'
                                  $resultString AND
                                  Result != ''" );
-        $t->set_var( "count", $res[$db->fieldName( "Count" )] );
+
+        $language =& $ini->read_var( "eZFormMain", "Language" );
+        $locale = new eZLocale( $language );
+
+        $element = new eZFormElement( $this->ElementID );
+        if ( $element->ElementType->name() == "numerical_float_item" ||
+             $element->ElementType->name() == "numerical_integer_item" )
+            $t->set_var( "count", $locale->formatNumber( $res[$db->fieldName( "Count" )] ) );
+        else
+            $t->set_var( "count", $res[$db->fieldName( "Count" )] );
+
         $output = $t->parse( $target, "count_tpl" );
         return $output;        
     }
 
     function statSum( &$t, $resultString )
     {
+        $ini =& INIFile::globalINI();
         $t->set_var( "sum", "" );
         $res = array();
         $db =& eZDB::globalDatabase();
@@ -349,13 +372,23 @@ class eZFormReportElement
                                   FROM eZForm_FormElementResult
                                   WHERE ElementID='$this->ElementID'
                                   $resultString" );
-        $t->set_var( "sum", $res[$db->fieldName( "Sum" )] );
+        $language =& $ini->read_var( "eZFormMain", "Language" );
+        $locale = new eZLocale( $language );
+
+        $element = new eZFormElement( $this->ElementID );
+        if ( $element->ElementType->name() == "numerical_float_item" ||
+             $element->ElementType->name() == "numerical_integer_item" )
+            $t->set_var( "sum", $locale->formatNumber( $res[$db->fieldName( "Sum" )] ) );
+        else
+            $t->set_var( "sum", $res[$db->fieldName( "Sum" )] );
+
         $output = $t->parse( $target, "sum_tpl" );
         return $output;        
     }
 
     function statAverage( &$t, $resultString )
     {
+        $ini =& INIFile::globalINI();
         $t->set_var( "average" );
         $res = array();
         $db =& eZDB::globalDatabase();
@@ -363,13 +396,24 @@ class eZFormReportElement
                                   FROM eZForm_FormElementResult
                                   WHERE ElementID='$this->ElementID'
                                   $resultString" );
-        $t->set_var( "average", $res[$db->fieldName( "Avg" )] );
+
+        $language =& $ini->read_var( "eZFormMain", "Language" );
+        $locale = new eZLocale( $language );
+
+        $element = new eZFormElement( $this->ElementID );
+        if ( $element->ElementType->name() == "numerical_float_item" ||
+             $element->ElementType->name() == "numerical_integer_item" )
+            $t->set_var( "average", $locale->formatNumber( $res[$db->fieldName( "Avg" )] ) );
+        else
+            $t->set_var( "average", $res[$db->fieldName( "Avg" )] );
+
         $output = $t->parse( $target, "average_tpl" );
         return $output;
     }
 
     function statMin( &$t, $resultString )
     {
+        $ini =& INIFile::globalINI();
         $t->set_var( "min" );
         $res = array();
         $db =& eZDB::globalDatabase();
@@ -377,13 +421,24 @@ class eZFormReportElement
                                   FROM eZForm_FormElementResult
                                   WHERE ElementID='$this->ElementID'
                                   $resultString" );
-        $t->set_var( "min", $res[$db->fieldName( "Min" )] );
+
+        $language =& $ini->read_var( "eZFormMain", "Language" );
+        $locale = new eZLocale( $language );
+
+        $element = new eZFormElement( $this->ElementID );
+        if ( $element->ElementType->name() == "numerical_float_item" ||
+             $element->ElementType->name() == "numerical_integer_item" )
+            $t->set_var( "min", $locale->formatNumber( $res[$db->fieldName( "Min" )] ) );
+        else
+            $t->set_var( "min", $res[$db->fieldName( "Min" )] );
+
         $output = $t->parse( $target, "min_tpl" );
         return $output;
     }
     
     function statMax( &$t, $resultString )
     {
+        $ini =& INIFile::globalINI();
         $t->set_var( "max" );
         $res = array();
         $db =& eZDB::globalDatabase();
@@ -391,7 +446,17 @@ class eZFormReportElement
                                   FROM eZForm_FormElementResult
                                   WHERE ElementID='$this->ElementID'
                                   $resultString" );
-        $t->set_var( "max", $res[$db->fieldName( "Max" )] );
+
+        $language =& $ini->read_var( "eZFormMain", "Language" );
+        $locale = new eZLocale( $language );
+
+        $element = new eZFormElement( $this->ElementID );
+        if ( $element->ElementType->name() == "numerical_float_item" ||
+             $element->ElementType->name() == "numerical_integer_item" )
+            $t->set_var( "max", $locale->formatNumber( $res[$db->fieldName( "Max" )] ) );
+        else
+            $t->set_var( "max", $res[$db->fieldName( "Max" )] );
+        
         $output = $t->parse( $target, "max_tpl" );
         return $output;
     }
