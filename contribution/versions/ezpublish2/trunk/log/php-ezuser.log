@@ -1475,3 +1475,11 @@ Maintainer(s) : bf@ez.no
     * classes/ezforgot.php
       user/forgot.php: Fixed sequrity bug with hash values.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2003-05-19  Bjoern Reiten  <br@ez.no>
+
+    * user/forgot.php: fixed bug with generating of body.
+
