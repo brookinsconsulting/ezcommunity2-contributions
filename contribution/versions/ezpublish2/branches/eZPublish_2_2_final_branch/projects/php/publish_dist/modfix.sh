@@ -34,6 +34,7 @@ ezimagecatalogue/catalogue
 ezimagecatalogue/catalogue/variations
 ezlink/admin/cache
 ezlink/cache
+ezmediacatalogue/catalogue
 eznewsfeed/admin/cache
 eznewsfeed/cache
 ezpoll/admin/cache
