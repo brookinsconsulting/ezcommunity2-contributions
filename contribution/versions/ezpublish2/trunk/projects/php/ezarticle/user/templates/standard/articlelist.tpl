@@ -75,7 +75,7 @@
 	<p>
 	{article_intro}
 	</p>
-	<img src="/ezarticle/images/path-arrow.gif" height="10" width="15" border="0" alt="">
+	<img src="/ezarticle/user/images/standard/path-arrow.gif" height="10" width="15" border="0" alt="">
 	<a class="path" href="/article/articleview/{article_id}/">
 	{article_link_text}
 	</a>
@@ -87,24 +87,3 @@
 <!-- END article_item_tpl -->
 </table>
 <!-- END article_list_tpl -->
-
-<p>
-<!-- BEGIN prev_page_link_tpl -->
-<a class="path" href="/article/articleview/{article_id}/{prev_page_number}/">&lt;&lt; {intl-prev_page}</a>
-<!-- END prev_page_link_tpl -->
-
-<!-- BEGIN page_link_tpl -->
-| <a class="path" href="/article/articleview/{article_id}/{page_number}/">{page_number}</a>	
-<!-- END page_link_tpl -->
-
-<!-- BEGIN current_page_link_tpl -->
-| < {page_number} >
-<!-- END current_page_link_tpl -->
-
-
-<!-- BEGIN next_page_link_tpl -->
-| <a class="path" href="/article/articleview/{article_id}/{next_page_number}/">{intl-next_page} &gt;&gt;</a>
-<!-- END next_page_link_tpl -->
-</p>
-
-
