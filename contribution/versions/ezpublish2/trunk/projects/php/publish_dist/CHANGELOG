@@ -3,6 +3,8 @@ eZ publish changelog:
 
 Changes from 2.1.0B1 to 2.1.0B2
 -------------------------------
+* Added user configurable selection of published/unpublished/all articles in articlelist.
+* Added flat unpublished articles list (unpublished articles from all categories).
 * Added new module eZ urltranslator, enabled creation of easy to remember urls (e.g. /home/company_info ).
 * Added new module eZ sysinfo
 * Fixed division-by-zero in eZ stats day/month/year view.
