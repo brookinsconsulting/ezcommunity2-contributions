@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sqlquery.php,v 1.3 2001/09/26 16:53:19 bf Exp $
+// $Id: sqlquery.php,v 1.4 2001/10/08 18:33:09 master Exp $
 //
 // Created on: <26-Sep-2001 19:23:56 bf>
 //
@@ -23,6 +23,21 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+// TODO
+//
+//  after testing it a bit; here is the features I think we should implement:
+//+ display number of rows in result
+//- use template on the table code
+//+ use intl strings on the error messages
+//+ save queries, mabye save it in the user preferences ( use the 
+//  eZPrefrerences class )
+//- Be able to reuse saved queries ( for quicker handling of multiple queries, 
+//  mabye a drop down selection of your saved queries )
+//- export the result to a comma separated file to open in excel etc.
+//- show errors in a friendly way ( both mysql and postgresql ) not a high pri.
+//
+
+
 include_once( "classes/ezdb.php" );
 
 $Language = $ini->read_var( "eZSiteManagerMain", "Language" );
@@ -33,6 +48,33 @@ $t = new eZTemplate( "ezsitemanager/admin/" . $ini->read_var( "eZSiteManagerMain
 $t->set_file( "sql_query_tpl", "sqlquery.tpl" );
 
 $t->setAllStrings();
+
+
+// include the code
+include_once( "ezsession/classes/ezpreferences.php" );
+$preferences = new eZPreferences();
+    	  
+// get the preferences
+$QueryPref =& $preferences->variableArray( "QueryPref" );
+
+if ( $Run2 )
+{
+    $QueryText = $QueryText2;    
+}
+
+if ( $QueryPref )
+{
+    $QueryText2 = "<select name=\"QueryText2\">";
+
+    while ( list( $key, $val ) = each ( $QueryPref ) )
+    {
+	$QueryText2 .= "<option>$val</option>";
+    }
+    
+    $QueryText2 .= "</select>";
+    
+}
+
 
 $db =& eZDB::globalDatabase();
 
@@ -47,7 +89,6 @@ else
 {
     $db->array_query( $return_array, $QueryText );
 
-    
     if ( $return_array )
     {
         $QueryRes .= "<table width=\"100%\" border=\"1\" >";
@@ -76,6 +117,19 @@ else
             $QueryRes .= "</tr>";
         }	
         $QueryRes .= "</table>";
+
+
+	// set the preferences
+
+	if ($QueryText <> $QueryPref[count ($QueryPref) - 1 ] )
+	{
+    	    $QueryPref = array_merge ( $QueryPref, array ( $QueryText) );
+	    $preferences->setVariable( "QueryPref", $QueryPref );
+	}
+	else
+	{
+	    $preferences->setVariable( "QueryPref", $QueryPref );	
+	}
 	
     }
     else
@@ -88,7 +142,10 @@ else
 }
 
 $t->set_var( "query_text",   $QueryText  );
+$t->set_var( "query_text2",   $QueryText2  );
 $t->set_var( "query_result", $QueryRes   );
+$t->set_var( "query_rows",   count ($return_array));
+
 $t->set_var( "error", 	     $QueryError );
 
 $t->pparse( "output", "sql_query_tpl" );
