@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index_admin.php,v 1.13 2001/07/29 23:30:57 kaid Exp $
+// $Id: index_admin.php,v 1.14 2001/07/31 19:55:51 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -29,6 +29,11 @@ header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
 
 // Tell PHP where it can find our files.
+if ( file_exists( "sitedir.ini" ) )
+{
+    include_once( "sitedir.ini" );
+}
+
 // TODO: This needs a better analysis
 if ( isset( $siteDir ) and $siteDir != "" )
 {
