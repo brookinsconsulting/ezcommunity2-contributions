@@ -39,7 +39,14 @@
 	</td>
 </tr>
 <tr>
-	<td>
+        <td colspan="2">
+	<p class="boxtext">{intl-replyto}:</p>
+	<input type="text" class="box" size="40" name="ReplyTo" value="{replyto}" />
+	<br /><br />
+	</td>
+</tr>
+<tr>
+	<td colspan="2">
 	<p class="boxtext">{intl-password}:</p>
 	<input type="password" class="box" size="20" name="Password" value="{password}" />
 	<br /><br />

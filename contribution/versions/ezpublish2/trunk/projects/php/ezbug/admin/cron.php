@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cron.php,v 1.6 2001/11/14 08:19:26 jhe Exp $
+// $Id: cron.php,v 1.7 2001/12/04 14:14:28 jhe Exp $
 //
 // Created on: <26-Oct-2001 15:57:39 jhe>
 //
@@ -55,6 +55,7 @@ $bugCategories = eZBugSupportCategory::getAll();
 foreach ( $bugCategories as $bugCategory )
 {
     $mailUser = $bugCategory->email();
+    $mailReplyTo = $bugCategory->replyTo();
     $mailAccount = substr( $mailUser, 0, strpos( $mailUser, "@" ) );
     $mailPassword = $bugCategory->password();
     $mailServer = $bugCategory->mailServer();
@@ -86,7 +87,7 @@ foreach ( $bugCategories as $bugCategory )
         
         $confmail = new eZMail();
         $confmail->setTo( $mail->replyTo() );
-        $confmail->setFrom( $mailUser );
+        $confmail->setFrom( $mailReplyTo );
         $confmail->setReplyTo( $mailUser );
         
         if ( $validUser )
@@ -143,7 +144,8 @@ foreach ( $bugCategories as $bugCategory )
             $mailSubject = $t->parse( "dummy", "refuse_subject_tpl" );
             $mailBody = $t->parse( "dummy", "refuse_mail_body_tpl" ) . $mail->body();
         }
-        
+
+        $mailBody = eregi_replace( "<br>", "\n", $mailBody );
         $confmail->setSubject( $mailSubject );
         $confmail->setBody( $mailBody );
         $confmail->send();

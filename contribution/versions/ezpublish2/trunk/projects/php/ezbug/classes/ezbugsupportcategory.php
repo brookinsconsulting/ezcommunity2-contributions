@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezbugsupportcategory.php,v 1.1 2001/11/06 12:33:54 jhe Exp $
+// $Id: ezbugsupportcategory.php,v 1.2 2001/12/04 14:14:28 jhe Exp $
 //
 // Definition of eZBugSupportCategory class
 //
@@ -51,6 +51,7 @@ class eZBugSupportCategory
         $this->Name = $support_array[$db->fieldName( "Name" )];
         $this->BugModuleID = $support_array[$db->fieldName( "BugModuleID" )];
         $this->Email = $support_array[$db->fieldName( "Email" )];
+        $this->ReplyTo = $support_array[$db->fieldName( "ReplyTo" )];
         $this->Password = $support_array[$db->fieldName( "Password" )];
         $this->MailServer = $support_array[$db->fieldName( "MailServer" )];
         $this->MailServerPort = $support_array[$db->fieldName( "MailServerPort" )];
@@ -64,6 +65,7 @@ class eZBugSupportCategory
         $email = $db->escapeString( $this->Email );
         $password = $db->escapeString( $this->Password );
         $mailserver = $db->escapeString( $this->MailServer );
+        $replyTo = $db->escapeString( $this->ReplyTo );
         $db->begin();
         if ( !isSet( $this->ID ) )
         {
@@ -75,6 +77,7 @@ class eZBugSupportCategory
                                              Name,
                                              BugModuleID,
                                              Email,
+                                             ReplyTo,
                                              Password,
                                              MailServer,
                                              MailServerPort,
@@ -84,6 +87,7 @@ class eZBugSupportCategory
                                              '$name',
                                              '$this->BugModuleID',
                                              '$email',
+                                             '$replyTo',
                                              '$password',
                                              '$mailserver',
                                              '$this->MailServerPort',
@@ -96,6 +100,7 @@ class eZBugSupportCategory
 		                        Name='$name',
                                 BugModuleID='$this->BugModuleID',
                                 Email='$this->Email',
+                                ReplyTo='$replyTo',
                                 Password='$password',
                                 MailServer='$mailserver',
                                 MailServerPort='$this->MailServerPort',
@@ -146,6 +151,7 @@ class eZBugSupportCategory
             $this->Name =& $module_array[0][$db->fieldName( "Name" )];
             $this->BugModuleID =& $module_array[0][$db->fieldName( "BugModuleID" )];
             $this->Email =& $module_array[0][$db->fieldName( "Email" )];
+            $this->ReplyTo =& $module_array[0][$db->fieldName( "ReplyTo" )];
             $this->Password =& $module_array[0][$db->fieldName( "Password" )];
             $this->MailServer =& $module_array[0][$db->fieldName( "MailServer" )];
             $this->MailServerPort =& $module_array[0][$db->fieldName( "MailServerPort" )];
@@ -265,6 +271,16 @@ class eZBugSupportCategory
             $this->SupportNo = 0;
     }
     
+    function replyTo()
+    {
+        return $this->ReplyTo;
+    }
+
+    function setReplyTo( $email )
+    {
+        $this->ReplyTo = $email;
+    }
+
     var $ID;
     var $Name;
     var $BugModuleID;
@@ -273,6 +289,7 @@ class eZBugSupportCategory
     var $MailServer;
     var $MailServerPort;
     var $SupportNo;    
+    var $ReplyTo;
 }
 
 ?>

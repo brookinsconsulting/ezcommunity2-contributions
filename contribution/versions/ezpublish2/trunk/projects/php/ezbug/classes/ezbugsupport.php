@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbugsupport.php,v 1.3 2001/11/06 12:33:54 jhe Exp $
+// $Id: ezbugsupport.php,v 1.4 2001/12/04 14:14:28 jhe Exp $
 //
 // Definition of eZBugSupport class
 //
@@ -60,7 +60,7 @@ class eZBugSupport
         
         $name = $db->escapeString( $this->Name );
         $email = $db->escapeString( $this->UserEmail );
-
+        
         $db->begin();
         
         $timeStamp = eZDate::timeStamp( true );
@@ -74,11 +74,13 @@ class eZBugSupport
                                             (ID,
                                              Name,
                                              Email,
+                                             ReplyTo,
                                              ExpiryDate)
                                         VALUES
                                             ('$this->ID',
                                              '$name',
                                              '$email',
+                                             '$replyTo',
                                              '$this->ExpiryDate')" );
             $db->unlock();
         }
@@ -87,7 +89,7 @@ class eZBugSupport
             $res = $db->query( "UPDATE eZBug_Support SET
 		                        Name='$name',
                                 Email='$email',
-                                ExpiryDate='$this->ExpiryDate'
+                                ExpiryDate='$this->ExpiryDate',
                                 WHERE ID='$this->ID'" );
         }
 

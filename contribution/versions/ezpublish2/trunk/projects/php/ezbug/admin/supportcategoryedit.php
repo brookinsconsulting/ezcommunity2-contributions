@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: supportcategoryedit.php,v 1.2 2001/11/08 13:24:56 jhe Exp $
+// $Id: supportcategoryedit.php,v 1.3 2001/12/04 14:14:28 jhe Exp $
 //
 // Created on: <05-Nov-2001 18:30:10 jhe>
 //
@@ -64,6 +64,7 @@ switch ( $Action )
         $t->set_var( "id", $supportCategory->id() );
         $t->set_var( "name", $supportCategory->name() );
         $t->set_var( "email", $supportCategory->email() );
+        $t->set_var( "replyto", $supportCategory->replyTo() );
         $t->set_var( "password", "dummy" );
         $t->set_var( "mailserver", $supportCategory->mailServer() );
         $t->set_var( "mailserverport", $supportCategory->mailServerPort() );
@@ -89,6 +90,7 @@ switch ( $Action )
         $t->set_var( "id", "" );
         $t->set_var( "name", "" );
         $t->set_var( "email", "" );
+        $t->set_var( "replyto", "" );
         $t->set_var( "password", "" );
         $t->set_var( "mailserver", "" );
         $t->set_var( "mailserverport", "110" );
@@ -141,6 +143,7 @@ if ( in_array( true, $error ) )
     $t->set_var( "id", $ID );
     $t->set_var( "name", $Name );
     $t->set_var( "email", $Email );
+    $t->set_var( "replyto", $ReplyTo );
     $t->set_var( "password", "" );
     $t->set_var( "mailserver", $MailServer );
     $t->set_var( "mailserverport", $MailServerPort );
@@ -165,6 +168,7 @@ if ( ( $Action == "update" || $Action == "insert" ) && !in_array( true, $error )
     $supportCategory->setName( $Name );
     $supportCategory->setBugModuleID( $BugModuleID );
     $supportCategory->setEmail( $Email );
+    $supportCategory->setReplyTo( $ReplyTo );
     if ( $Password != "dummy" )
         $supportCategory->setPassword( $Password );
     $supportCategory->setMailServer( $MailServer );
