@@ -1,9 +1,9 @@
 <?php
 //
-// $Id: ezexample.php,v 1.2 2001/07/19 12:48:35 jakobn Exp $
-//
-// Created on: <23-Oct-2000 17:53:46 bf>
-//
+// $id$
+// Bjørn Reiten <br@ez.no>
+// Created on: <15-Jun-2001 15:24:47 br>
+// 
 // This source file is part of eZ publish, publishing software.
 //
 // Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
@@ -25,11 +25,12 @@
 
 
 include_once( "classes/ezdb.php" );
+include_once( "classes/ezdatetime.php" );
 
 class eZExample
 {
     /*!
-
+      Constructs a new eZExample object
      */
     function eZExample( $id=-1 )
     {
@@ -46,7 +47,7 @@ class eZExample
     function get( $id=-1 )
     {
         $db =& eZDB::globalDatabase();
-        
+        $ret = false;
         if ( $id != -1  )
         {
             $db->array_query( $text_array, "SELECT * FROM eZExample_Test WHERE ID='$id'" );
@@ -57,12 +58,13 @@ class eZExample
             }
             else if ( count( $text_array ) == 1 )
             {
-                $this->ID =& $text_array[0][ "ID" ];
-                $this->Text =& $text_array[0][ "Text" ];
-                $this->Created =& $text_array[0][ "Created" ];
+                $this->ID =& $text_array[0][$db->fieldName("ID")];
+                $this->Text =& $text_array[0][$db->fieldName("Text")];
+                $this->Created =& $text_array[0][$db->fieldName("Created")];
+                $ret = true;
             }
         }
-        return true;
+        return $ret;
     }
 
     /*!
@@ -79,7 +81,7 @@ class eZExample
         
         for ( $i=0; $i<count($url_array); $i++ )
         {
-            $return_array[$i] = new eZExample( $url_array[$i]["ID"], 0 );
+            $return_array[$i] = new eZExample( $url_array[$i][$db->fieldName("ID")] );
         }
 
         return $return_array;
@@ -93,23 +95,42 @@ class eZExample
     {
         $db =& eZDB::globalDatabase();
 
+        
+        $text = $db->escapeString( $this->Text );
+        $timeStamp =& eZDateTime::timeStamp( true );
+
+        $db->begin();
+        $db->lock( "eZExample_Test" );
+        
+        $nextID = $db->nextID( "eZExample_Test", "ID" );
+
         if ( !isset( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZExample_Test SET
-                         Created=now(),
-		                 Text='$this->Text'
-                          " );
-			$this->ID = $db->insertID();
+            $ret = $db->query( "INSERT INTO eZExample_Test
+                       ( ID,
+                         Text, 
+                         Created )
+                       VALUES
+                       ( '$nextID',
+		                 '$text',
+                         '$timeStamp')
+                       " );
+			$this->ID = $nextID;
         }
         else
         {
-            $db->query( "UPDATE eZExample_Test SET
-		                 Text='$this->Text',
-                         Created=Created
+            $ret = $db->query( "UPDATE eZExample_Test SET
+		                 Text='$text'
                          WHERE ID='$this->ID'" );
         }
-        
-        return true;
+        $db->unlock();
+
+        if ( $ret == false )
+            $db->rollback();
+        else
+            $db->commit();
+
+        return $ret;
     }
 
     
@@ -118,12 +139,21 @@ class eZExample
     */
     function delete( $id )
     {
-        if ( is_numeric( $id ) )
-             $this->ID = $id;
-        
         $db =& eZDB::globalDatabase();
+        if ( is_numeric( $id ) )
+        {
+             $this->ID = $id;
+        }
+        
+        $db->begin();
+        $ret = $db->query( "DELETE FROM eZExample_Test WHERE ID='$this->ID'" );
 
-        $db->query( "DELETE FROM eZExample_Test WHERE ID='$this->ID'" );
+        if ( $ret == false )
+            $db->rollback( );
+        else
+            $db->commit( );
+
+        return $ret;
     }
 
     /*!
