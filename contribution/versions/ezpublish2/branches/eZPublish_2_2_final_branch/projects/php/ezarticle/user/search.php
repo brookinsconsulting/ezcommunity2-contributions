@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.18.2.1 2001/11/01 12:58:21 master Exp $
+// $Id: search.php,v 1.18.2.2 2001/11/01 13:12:03 master Exp $
 //
 // Created on: <28-Oct-2000 15:56:58 bf>
 //
@@ -178,13 +178,8 @@ else
 $t->set_var( "article_end", min( $Offset + $Limit, $totalCount ) );
 $t->set_var( "article_total", $totalCount );
 
-
+if ( isset ($SectionIDOverride) ) $t->set_var( "section_id", $SectionIDOverride );
 
 $t->pparse( "output", "article_list_page_tpl" );
-
-
-
-
-
 
 ?>

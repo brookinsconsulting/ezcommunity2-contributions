@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: searchform.php,v 1.1 2001/09/12 06:09:38 ce Exp $
+// $Id: searchform.php,v 1.1.2.1 2001/11/01 13:12:12 master Exp $
 //
 // Created on: <08-Sep-2001 10:32:19 fh>
 //
@@ -34,6 +34,15 @@ include_once( "ezuser/classes/ezauthor.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZArticleMain", "Language" );
+
+// init the section
+if ( isset ($SectionIDOverride) )
+{
+    include_once( "ezsitemanager/classes/ezsection.php" );
+    
+    $sectionObject =& eZSection::globalSectionObject( $SectionIDOverride );
+    $sectionObject->setOverrideVariables();
+}
 
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", $Language, "searchform.php" );
@@ -83,6 +92,8 @@ foreach ( $treeArray as $catItem )
         $t->parse( "category_item", "category_item_tpl", true );
     }
 }
+
+if ( isset ($SectionIDOverride) ) $t->set_var( "section_id", $SectionIDOverride );
 
 $t->pparse( "output", "search_form_tpl" );
 ?>
