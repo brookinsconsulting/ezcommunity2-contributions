@@ -1,5 +1,5 @@
 <?
-// $Id: todoedit.php,v 1.8 2001/01/16 09:47:41 ce Exp $
+// $Id: todoedit.php,v 1.9 2001/01/16 15:31:19 ce Exp $
 //
 // Definition of todo list.
 //
@@ -261,7 +261,7 @@ if ( $Action == "update" && $error == false )
     }
     $todo->store();
 
-    if ( ( $sendMail == true ) && ( $todo->status() == true ) && ( $todo->userID() == $todo->ownerID() ) )
+    if ( ( $sendMail == true ) && ( $todo->status() == true ) && ( $todo->userID() != $todo->ownerID() ) )
     {
         $mail = new eZMail();
         $owner = new eZUser( $todo->ownerID() );
