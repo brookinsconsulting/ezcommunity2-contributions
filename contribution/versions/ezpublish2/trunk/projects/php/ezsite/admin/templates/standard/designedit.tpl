@@ -3,15 +3,16 @@
 
 <h1>{intl-headline}</h1>
 
-<hr noshade size="4"/>
+<hr noshade="noshade" size="4" />
 
 <br />
 
-<p class="boxtext">{intl-logo}</p>
+<p class="boxtext">{intl-logo}:</p>
+
 <!-- BEGIN image_view_tpl -->
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table width="1%" cellspacing="4" cellpadding="0" border="0">
 <tr>
-    <td>
+    <td bgcolor="{color1}">
     <img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
     <input type="hidden" name="ImageID" value="{image_id}">
     </td>
@@ -28,9 +29,9 @@
 <br />
 <br />
 
-<table width="30%" cellspacing="0" cellpadding="0" border="0">
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <td>
+    <td colspan="4">
     <p class="boxtext">{intl-color1}</p>
     </td>
 </tr>
@@ -48,13 +49,13 @@
     </td>
 
     <td bgcolor="{color1}">
-    &nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     </td>
 
 </tr>
 
 <tr>
-    <td>
+    <td colspan="4">
     <p class="boxtext">{intl-color2}</p>
     </td>
 </tr>
@@ -73,12 +74,12 @@
     </td>
 
     <td bgcolor="{color2}">
-    &nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     </td>
 </tr>
 
 <tr>
-    <td>
+    <td colspan="4">
     <p class="boxtext">{intl-menytext}</p>
     </td>
 </tr>
@@ -97,7 +98,7 @@
     </td>
 
     <td bgcolor="{color3}">
-    &nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     </td>
 </tr>
 </table>

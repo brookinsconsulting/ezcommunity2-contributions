@@ -31,31 +31,26 @@
 </SCRIPT> 
 
 <h1>{intl-headline}</h1>
+
+<hr noshade="noshade" size="4" />
+<br />
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>
 	{intl-name}:
 	</th>
 
-	<th>
-	{intl-telephone}:
-	</th>
-
-	<th>
-	&nbsp;
-	</th>
-
-	<th>
-	&nbsp;
-	</th>
-
+	<td align="right">
+	<b>{intl-telephone}:</b>
+	</td>
 </tr>
 <!-- BEGIN company_item_tpl -->
 <tr>
 	<td class="{td_class}">
 	{company_name}
 	</td>
-	<td class="{td_class}">
+	<td align="right" class="{td_class}">
 	{telephone}
 	</td>
 </tr>
