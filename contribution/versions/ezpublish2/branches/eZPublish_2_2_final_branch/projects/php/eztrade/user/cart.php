@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.71 2001/10/17 12:06:48 ce Exp $
+// $Id: cart.php,v 1.71.2.1 2001/11/22 12:44:58 pkej Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -410,6 +410,14 @@ $i = 0;
 
 foreach ( $items as $item )
 {
+    if ( $item->correctSavings( false, true, $PricesIncludeVAT ) > 0 )
+    {
+        $ShowSavingsColumn = true;
+    }
+}
+
+foreach ( $items as $item )
+{
     $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
     $i++;
     $t->set_var( "cart_item_id", $item->id() );
@@ -452,6 +460,12 @@ foreach ( $items as $item )
     turnColumnsOnOff( "cart" );
     turnColumnsOnOff( "basis" );
     
+    if ( $ShowSavingsColumn == true )
+    {
+        turnColumnsOnOff( "savings" );
+        $t->set_var( "product_savings", $item->localeSavings( true, true, $PricesIncludeVAT ) );
+    }
+
     if ( $numberOfOptions ==  0 )
     {
         $t->set_var( "cart_item_option", "" );
