@@ -24,6 +24,28 @@
 <tr>
 </table>
 
+<!-- BEGIN inserted_attachments_tpl -->
+<h2>{intl-attachments}:</h2>
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+        <th>{intl-file_name}:</th>
+        <th>{intl-file_size}:</th>
+</tr>
+ 
+<!-- BEGIN attachment_tpl -->
+<tr>
+        <td width="90%" class="{td_class}">
+        {file_name}
+        </td>
+        <td width="10%" class="{td_class}">
+        {file_size}
+        </td>
+</tr>
+<!-- END attachment_tpl -->
+ 
+</table>
+<!-- END inserted_attachments_tpl --> 
+
 <hr noshade="noshade" size="4" />
 <table cellspace="0" cellpadding="0" border="0">
 <tr>

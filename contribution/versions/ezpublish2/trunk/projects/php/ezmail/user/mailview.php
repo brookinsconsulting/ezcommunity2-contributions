@@ -28,6 +28,9 @@ $t->set_file( array(
 
 $t->set_block( "mail_view_page_tpl", "cc_value_tpl", "cc_value" );
 $t->set_block( "mail_view_page_tpl", "bcc_value_tpl", "bcc_value" );
+$t->set_block( "mail_view_page_tpl", "inserted_attachments_tpl", "inserted_attachments" );
+$t->set_block( "inserted_attachments_tpl", "attachment_tpl", "attachment" );
+$t->set_var( "inserted_attachments", "" );
 $t->set_var( "cc_value", "" );
 $t->set_var( "bcc_value", "" );
 
@@ -51,6 +54,23 @@ if( $mail->bcc() != "" )
     $t->parse( "bcc_value", "bcc_value_tpl", false );
 }
 
+    $files = $mail->files();
+    $i = 0;
+    foreach( $files as $file )
+    {
+        $t->set_var( "file_name", "<a href=\"/filemanager/download/" . $file->id() . "/" . $file->originalFileName() . "\">" . htmlspecialchars( $file->originalFileName() ) . "</a>" );
+        $t->set_var( "file_id", $file->id() );
+
+        $size = $file->siFileSize();
+        $t->set_var( "file_size", $size["size-string"] . $size["unit"] );
+        
+        ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
+        
+        $t->parse( "attachment", "attachment_tpl", true );
+        $i++;
+    }
+    if( $i > 0 )
+        $t->parse( "inserted_attachments", "inserted_attachments_tpl", false );
 
 $t->pparse( "output", "mail_view_page_tpl" );
 ?>

@@ -27,17 +27,17 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
         <th>{intl-file_name}:</th>
-        <th>&nbsp;</th>
+        <th>{intl-file_size}:</th>
         <th>&nbsp;</th>
 </tr>
  
 <!-- BEGIN attachment_tpl -->
 <tr>
-        <td width="97%" class="{td_class}">
+        <td width="89%" class="{td_class}">
         {file_name}
         </td>
-        <td width="1%" class="{td_class}">
-        <a href="/mail/attachmentedit/{file_id}/{mail_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{file_number}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="eztp{file_number}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+        <td width="10%" class="{td_class}">
+        {file_size}
         </td>
         <td width="1%" class="{td_class}">
         <input type="checkbox" name="AttachmentArrayID[]" value="{file_id}" />
@@ -54,7 +54,9 @@
 <tr>
   <td><input class="stdbutton" type="submit" Name="AddAttachment" value="{intl-add_attachment}" /></td>
   <td>&nbsp;</td>
-  <td><input class="stdbutton" type="submit" Name="Preview" value="{intl-preview}" /></td>
+  <!-- BEGIN attachment_delete_tpl -->
+  <td><input class="stdbutton" type="submit" Name="DeleteAttachments" value="{intl-delete_attachments}" /></td>
+  <!-- END attachment_delete_tpl -->
 </tr>
 </table>
 
@@ -63,6 +65,8 @@
 <tr>
   <td><input class="stdbutton" type="submit" Name="Send" value="{intl-send}" /></td>
   <td>&nbsp;</td>
+  <td><input class="stdbutton" type="submit" Name="Preview" value="{intl-preview}" /></td>
+  <td>&nbsp;</td>  
   <td><input class="stdbutton" type="submit" Name="Save" value="{intl-save}" /></td>
   <td>&nbsp;</td>
   <td><input class="stdbutton" type="submit" Name="Cancel" value="{intl-cancel}" /></td>

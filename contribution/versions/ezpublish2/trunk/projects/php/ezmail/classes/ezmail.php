@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.9 2001/03/26 10:15:21 fh Exp $
+// $Id: ezmail.php,v 1.10 2001/03/26 14:13:42 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -694,6 +694,24 @@ class eZMail
        }
        return $return_array;
     } 
+
+    /*!
+      \static
+      
+      Returns true if the given account belongs to the given user.
+     */
+    function isOwner( $user, $mailID )
+    {
+        if( get_class( $user ) == "ezuser" )
+            $user = $user->id();
+        
+        $database =& eZDB::globalDatabase();
+        $database->query_single( $res, "SELECT UserID from eZMail_Mail WHERE ID='$mailID'" );
+        if( $res["UserID"] == $user )
+            return true;
+        
+        return false;
+    }
     
     /*!
       \private
