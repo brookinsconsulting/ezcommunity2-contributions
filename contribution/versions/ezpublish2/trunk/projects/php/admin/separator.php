@@ -1,11 +1,11 @@
 <?php
-if ( !$LoginSeparator )
-{
+//  if ( !$LoginSeparator )
+//  {
 ?>
     </table>
     </td>
 <?php
-}
+//  }
 ?>
           
 	<td width="99%" valign="top">

@@ -56,11 +56,11 @@ if ( $user )
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 <?php
-if ( !$LoginSeparator )
-{
+//    if ( !$LoginSeparator )
+//  {
 ?>
 	<td width="1%" valign="top">
     <table width="150" border="0" cellspacing="0" cellpadding="0">
 <?php
-}
+//    }
 ?>
