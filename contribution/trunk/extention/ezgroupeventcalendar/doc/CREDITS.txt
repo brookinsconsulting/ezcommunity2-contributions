@@ -6,6 +6,15 @@ Thank you to Brendan Pike for his generous funding, help, ideas and suggestions.
 A special thank you to Jo Henrik Endrerud for his generous help, ideas and 
 suggestions with eZ publish 2 eZDateTime Storage Implimentations.
 
+Special thanks to Dave Vignoni for the Nuvola icon which is used in our calendar module icon
+Name: Nuvola icon theme (Version 1.0)
+Creator: Dave Vignoni, http://www.icon-king.com/
+Licence: LGPL
+Files:
+ezgroupeventcalendar/admin/images/calendar.png
+ezgroupeventcalendar/admin/images/module_icon.png
+ezgroupeventcalendar/admin/images/module_icon.gif
+
 
 Releases:
 
