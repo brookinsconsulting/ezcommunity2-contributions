@@ -84,19 +84,17 @@
     <td width="50%" valign="bottom">
         <table cellpadding="0" cellspacing="0" border="0">
         <tr valign="bottom">
-            <td>
-                <p class="boxtext">{intl-year}:</p>
-                <input type="text" size="4" name="BirthYear" value="{birthyear}"/>
+            <td class="small">
+                {intl-year}:<br />
+                <input type="text" size="4" name="BirthYear" value="{birthyear}"/>&nbsp;&nbsp;
             </td>
-			<td>&nbsp;</td>
-            <td>
-                <p class="boxtext">{intl-month}: </p>
-                <input type="text" size="4" name="BirthMonth" value="{birthmonth}"/>
+            <td class="small">
+                {intl-month}:<br />
+                <input type="text" size="2" name="BirthMonth" value="{birthmonth}"/>&nbsp;&nbsp;
             </td>
-			<td>&nbsp;</td>
-            <td>
-                <p class="boxtext">{intl-day}: </p>
-                <input type="text" size="4" name="BirthDay" value="{birthday}"/>
+            <td class="small">
+                {intl-day}:<br />
+                <input type="text" size="2" name="BirthDay" value="{birthday}"/>&nbsp;&nbsp;
             </td>
         </tr>
         </table>
@@ -117,8 +115,8 @@
 <!-- BEGIN address_item_tpl -->
 <h2>{intl-address_headline}</h2>
 <p class="boxtext">{intl-address}:</p>
-<input type="text" size="20" name="Street1" value="{street1}"/><br>
-<input type="text" size="20" name="Street2" value="{street2}"/>
+<input type="text" size="40" name="Street1" value="{street1}"/><br>
+<input type="text" size="40" name="Street2" value="{street2}"/>
 
 <br /><br />
 

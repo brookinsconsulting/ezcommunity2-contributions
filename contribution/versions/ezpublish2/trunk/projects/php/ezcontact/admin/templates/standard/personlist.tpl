@@ -30,14 +30,12 @@
 //-->
 </SCRIPT> 
 <h1>{intl-person_list_headline}</h1>
+<hr noshade="noshade" size="4" />
+<br />
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td>
-	{intl-person_name}
-	</td>
-	<td colspan="2">
-	&nbsp;
-	</td>
+	<th>{intl-person_name}:</th>
+	<th colspan="2">&nbsp;</th>
 </tr>
 
 <!-- BEGIN person_item_tpl -->
@@ -48,11 +46,11 @@
 	</td>
 
 	<td width="1%">
-	<a href="/contact/person/edit/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{person_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezuser{person_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="/contact/person/edit/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{person_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezc{person_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 
 	<td width="1%">
-	<a href="/contact/person/delete/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{person_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezuser{person_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<a href="/contact/person/delete/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{person_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezc{person_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>	
 
 </tr>
