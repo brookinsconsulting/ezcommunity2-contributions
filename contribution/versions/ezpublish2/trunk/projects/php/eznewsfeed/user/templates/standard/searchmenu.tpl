@@ -6,7 +6,7 @@
 
 <center>
 <form action="/newsfeed/search/" method="post">
-<input type="text" name="SearchText" size="12" />	
+<input type="text" name="SearchText" size="20" />	
 <input type="submit" value="{intl-search}" />
 </form>	
 </center>
