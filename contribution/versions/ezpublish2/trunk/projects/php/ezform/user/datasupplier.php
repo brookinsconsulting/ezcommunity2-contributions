@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.5 2001/07/19 13:03:50 jakobn Exp $
+// $Id: datasupplier.php,v 1.6 2001/09/05 14:47:28 th Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -55,11 +55,11 @@ function &errorPage( $PrimaryName, $PrimaryURL, $type )
     return $error;
 }
 
-$mailSendTo = "";
-$mailSendFrom = "";
-$mailSubject = "";
-$mailMessage = "";
-$redirectTo = "";
+// $mailSendTo = "";
+// $mailSendFrom = "";
+// $mailSubject = "";
+// $mailMessage = "";
+// $redirectTo = "";
 
 function formProcess( $value, $key )
 {
