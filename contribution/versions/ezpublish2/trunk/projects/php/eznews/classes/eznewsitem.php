@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.40 2000/10/13 12:26:19 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.41 2000/10/13 12:28:28 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -109,6 +109,7 @@
 include_once( "eznews/classes/eznewsutility.php" );       
 include_once( "eznews/classes/eznewschangetype.php" );       
 include_once( "eznews/classes/eznewschangeticket.php" );
+include_once( "ezuser/classes/ezuser.php" );
 
 class eZNewsItem extends eZNewsUtility
 {
@@ -168,7 +169,6 @@ class eZNewsItem extends eZNewsUtility
 
         if( $this->checkCreator() )
         {
-            include_once( "ezsession/classes/ezuser.php" );
             $user = eZUser::currentUser();
             
             if( $user )
