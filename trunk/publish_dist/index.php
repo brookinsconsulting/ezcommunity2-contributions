@@ -369,11 +369,11 @@ if ( ( $requireUserLogin == "disabled" ) ||
         // include framework
         if ( isSet( $PrintableVersion ) and $PrintableVersion == "enabled" )
         {
-            include( "sitedesign/$siteDesign/simpleframe.php" );
+            include( "design/$siteDesign/simpleframe.php" );
         }
         else
         {
-            include( "sitedesign/$siteDesign/frame.php" );
+            include( "design/$siteDesign/frame.php" );
         }
 
         // store site cache
@@ -410,7 +410,7 @@ else
     ob_end_clean();
     ob_start();    
 
-    include( "sitedesign/$siteDesign/loginframe.php" );
+    include( "design/$siteDesign/loginframe.php" );
 }
 
 
