@@ -17,7 +17,7 @@
 	    <tr>
 	        <td>
 		<input type="checkbox" name="CurrentCategory" checked />
-		<span class="boxtext">{intl-only_current_category}</span>
+		<span class="smallbold">{intl-only_current_category}</span>
 	        </td>
 	    </tr>
 	    </table>
@@ -45,7 +45,7 @@
 <!-- END path_item_tpl -->
 
 <hr noshade="noshade" size="4" />
-
+<!--
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td align="right">
@@ -78,7 +78,7 @@
 	</td>
 </tr>
 </table>
-
+-->
 <!-- END path_tpl -->
 
 <!-- BEGIN current_type_tpl -->
