@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: groupedit.php,v 1.11 2000/12/12 11:06:40 ce Exp $
+// $Id: groupedit.php,v 1.12 2000/12/12 12:28:37 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -148,8 +148,10 @@ if ( $Action == "edit" )
     $t->set_var( "category_id", $category->id() );
     $parent = $category->parent();
 
-    $parentID = $parent->id();
-    
+    if( is_object( $parent ) )
+    {
+        $parentID = $parent->id();
+    }
 
     if ( $category->excludeFromSearch() == true )
     {
