@@ -107,6 +107,8 @@
 <!-- END payment_method_tpl -->
 </select>
 
+<a href="http://www.campaign.paybox.de/banner.php3?merchantPayboxNo=4900011161914"><img src="/images/paybox_logo.gif" />paybox - bezahlen Sie mit Ihrem Handy</a>
+
 <br /><br />
 
 <hr noshade="noshade" size="1" />
