@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: message.php,v 1.36.2.1 2002/02/05 10:39:07 jhe Exp $
+// $Id: message.php,v 1.36.2.2 2002/04/05 08:41:55 bf Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -190,9 +190,13 @@ foreach ( $messages as $threadmessage )
     else
         $t->set_var( "spacer", "" );
     
-    $t->set_var( "reply_topic", $threadmessage->topic() );
-    $t->set_var( "reply_body", $threadmessage->body() );
-
+    $t->set_var( "reply_id", $threadmessage->id() );
+    $t->set_var( "reply_topic", $threadmessage->topic() );
+    if ( $AllowHTML == "enabled" )
+        $t->set_var( "reply_body", eZTextTool::nl2br( $threadmessage->body( true ) ) );
+    else
+        $t->set_var( "reply_body", eZTextTool::nl2br( $threadmessage->body( false ) ) );
+    
     $messageAge = round( $threadmessage->age() / 86400 );
     if ( $messageAge <= $NewMessageLimit )
     {
