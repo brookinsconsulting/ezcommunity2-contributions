@@ -257,6 +257,31 @@
 <!-- END certificate_info_tpl -->
 
 
+<!-- BEGIN course_info_tpl -->
+<h2>{intl-th_course_list}</h2>
+<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <th>{intl-th_current_id}:</th>
+    <th>{intl-th_start}:</th>
+    <th>{intl-th_end}:</th>
+    <th>{intl-th_course_name}:</th>
+    <th>{intl-th_course_place}:</th>
+    <th colspan="2">&nbsp;</th>
+</tr>
+<!-- BEGIN course_item_tpl -->
+<tr class="{theme-type_class}">
+    <td>{course_id}&nbsp;</td>
+    <td class="small">{course_start}&nbsp;</td>
+    <td class="small">{course_end}&nbsp;</td>
+    <td>{course_name}&nbsp;</td>
+    <td>{course_place}&nbsp;</td>
+    <td width="1%"><a href="/cv/course/edit/{course_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezedu{course_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezedu{course_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a></td>
+    <td width="1%"><a href="/cv/course/delete/{course_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezedu{course_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezedu{course_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a></td>
+</tr>
+<!-- END course_item_tpl -->
+</table>
+<!-- END course_info_tpl -->
+
 <hr noshade="noshade" size="4" />
 
 <table cellpadding="0" cellspacing="0" border="0">
