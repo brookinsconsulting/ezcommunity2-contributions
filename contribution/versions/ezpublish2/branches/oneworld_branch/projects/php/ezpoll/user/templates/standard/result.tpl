@@ -8,6 +8,11 @@
 
 <h2>{poll_name}</h2>
 
+<!-- BEGIN article_link_item_tpl -->
+<div class="boxtext">( {intl-return_to_article}:
+<a class="boxtext" href="{link_url}">{article_name}</a> )</div>
+<!-- END article_link_item_tpl -->
+
 <p>{description}</p>
 
 <table width="100%" cellspacing="0" cellpadding="4" border="0">

@@ -54,6 +54,7 @@ $t->set_file( array(
 $t->set_block( "vote_box", "vote_item_tpl", "vote_item" );
 $t->set_block( "vote_box", "vote_buttons_tpl", "vote_buttons" );
 $t->set_block( "vote_box", "no_items_tpl", "no_items" );
+$t->set_block( "vote_box", "article_link_item_tpl", "article_link_item" );
 
 $choice = new eZPollChoice();
 
@@ -95,6 +96,37 @@ $t->set_var( "head_line", $poll->name() );
 
 	$t->set_var( "description", $renderer->renderIntro() );
 
+    $articles = $poll->articles();
+    $hasArticle = false;
+    
+    foreach( $articles as $article )
+    {
+
+        $ArticleID = $article->id();
+	    $articleCategory =& $article->categoryDefinition();
+	    $ArticleCategoryID = $articleCategory->id();
+        
+        $t->set_var( "article_name", $article->name()  );
+
+        if ( $article->linkURL() != "" )
+        {
+            $t->set_var( "link_url", $article->linkURL()  );
+        }
+        else
+        {
+            $t->set_var( "link_url", "/article/articleview/$ArticleID/1/$ArticleCategoryID/" );
+        }
+        $hasArticle = true;
+    }
+
+    if ( $hasArticle == true )
+    {
+	    $t->parse( "article_link_item", "article_link_item_tpl" );
+    }
+    else
+    {
+	    $t->set_var( "article_link_item", "" );
+    }
 
 
 

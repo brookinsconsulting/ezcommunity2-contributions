@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpoll.php,v 1.25.2.1.2.1 2002/05/22 13:51:03 pkej Exp $
+// $Id: ezpoll.php,v 1.25.2.1.2.2 2002/06/03 07:29:51 pkej Exp $
 //
 // Definition of eZPoll class
 //
@@ -468,6 +468,34 @@ class eZPoll
 
         return $forum;
     }
+
+    /*!
+      Returns an array of the articles for the current poll.
+    */
+    function articles( $as_object = true)
+    {
+        $db =& eZDB::globalDatabase();
+
+        include_once( "ezarticle/classes/ezarticle.php" );
+
+        $PollID = $this->ID;
+
+        $return_array = array();
+
+        $query = "SELECT ArticleID FROM eZArticle_ArticlePollDict
+                      WHERE PollID=$PollID
+                      ";
+
+        $db->array_query( $ret_array, $query );
+        $count = count( $ret_array );
+        for( $i = 0; $i < $count; $i++ )
+        {
+            $id = $ret_array[$i][$db->fieldName("ArticleID")];
+            $return_array[] = $as_object ? new eZArticle( $id ) : $id;
+        }
+        return $return_array;
+    }
+
     
     var $ID;
     var $Name;

@@ -5,6 +5,11 @@
 
 <p>{description}</p>
 
+<!-- BEGIN article_link_item_tpl -->
+<div class="boxtext">( {intl-return_to_article}:
+<a class="boxtext" href="{link_url}">{article_name}</a> )</div>
+<!-- END article_link_item_tpl -->
+
 <table cellspacing="0" cellpadding="2" border="0">
 <!-- BEGIN vote_item_tpl -->
 <tr>

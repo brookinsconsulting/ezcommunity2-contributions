@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: result.php,v 1.10.10.1 2002/05/22 12:52:10 pkej Exp $
+// $Id: result.php,v 1.10.10.2 2002/06/03 07:29:51 pkej Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -46,6 +46,7 @@ $t->set_file( array(
 
 $t->set_block( "result", "result_list_tpl", "result_list" );
 $t->set_block( "result_list_tpl", "result_item_tpl", "result_item" );
+$t->set_block( "result_list_tpl", "article_link_item_tpl", "article_link_item" );
 
 $poll = new eZPoll();
 if ( $Show == "all"  )
@@ -75,8 +76,37 @@ foreach ( $pollArray as $poll )
 
 	$t->set_var( "description", $renderer->renderIntro() );
 
+    $articles = $poll->articles();
+    $hasArticle = false;
+    
+    foreach( $articles as $article )
+    {
 
+        $ArticleID = $article->id();
+	    $articleCategory =& $article->categoryDefinition();
+	    $ArticleCategoryID = $articleCategory->id();
+        
+        $t->set_var( "article_name", $article->name()  );
 
+        if ( $article->linkURL() != "" )
+        {
+            $t->set_var( "link_url", $article->linkURL()  );
+        }
+        else
+        {
+            $t->set_var( "link_url", "/article/articleview/$ArticleID/1/$ArticleCategoryID/" );
+        }
+        $hasArticle = true;
+    }
+
+    if ( $hasArticle == true )
+    {
+	    $t->parse( "article_link_item", "article_link_item_tpl" );
+    }
+    else
+    {
+	    $t->set_var( "article_link_item", "" );
+    }
 
 	
     $pollchoice = new eZPollChoice();
