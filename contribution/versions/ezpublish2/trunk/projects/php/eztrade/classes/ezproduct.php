@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.117 2001/10/12 11:42:47 ce Exp $
+// $Id: ezproduct.php,v 1.118 2001/10/15 11:32:18 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -64,6 +64,7 @@ include_once( "eztrade/classes/ezvoucher.php" );
 include_once( "eztrade/classes/ezvoucherinformation.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezshippinggroup.php" );
+include_once( "eztrade/classes/ezproductpricerange.php" );
 
 
 class eZProduct
@@ -1959,8 +1960,8 @@ class eZProduct
         
         $db->query_single( $priceRange, "SELECT ID FROM eZTrade_ProductPriceRange WHERE ProductID='$id'" );
 
-        if ( is_numeric ( $priceRange["ID"] ) )
-            $ret = new eZProductPriceRange( $priceRange["ID"] );
+        if ( is_numeric ( $priceRange[$db->fieldName( "ID" )] ) )
+            $ret = new eZProductPriceRange( $priceRange[$db->fieldName( "ID" )] );
         else
             $ret = new eZProductPriceRange();
 

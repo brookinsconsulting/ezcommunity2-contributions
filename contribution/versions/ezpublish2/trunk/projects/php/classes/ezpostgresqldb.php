@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpostgresqldb.php,v 1.10 2001/10/15 05:53:30 ce Exp $
+// $Id: ezpostgresqldb.php,v 1.11 2001/10/15 11:32:17 ce Exp $
 //
 // Definition of eZPostgreSQLLDB class
 //
@@ -35,10 +35,15 @@ class eZPostgreSQLDB
 {
     function eZPostgreSQLDB( $server, $db, $user, $password  )
     {
-        $this->Database = @pg_pconnect( "host=$server dbname=$db user=$user password=$password" );
-        if ( $this->Database == false and $GLOBALS["DEBUG"] == true)
-        {        
-            print( "PostgreSQL error: could not connect to database." );
+        if ( $GLOBALS["DEBUG"] == true)
+        {
+            $this->Database = pg_pconnect( "host=$server dbname=$db user=$user password=$password" );
+            if ( !$this->Database )
+                print( "PostgreSQL error: could not connect to database." );
+        }
+        else
+        {
+            $this->Database = @pg_pconnect( "host=$server dbname=$db user=$user password=$password" );
         }
     }
 

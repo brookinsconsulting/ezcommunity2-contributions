@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categorylist.php,v 1.31 2001/09/19 12:58:00 ce Exp $
+// $Id: categorylist.php,v 1.32 2001/10/15 11:32:17 ce Exp $
 //
 // Created on: <13-Sep-2000 14:56:11 bf>
 //
@@ -227,6 +227,14 @@ foreach ( $productList as $product )
                     $t->set_var( "product_price", $locale->format( $low ) . " - " . $locale->format( $high ) );
                 }
             }
+        }
+        $range = $product->priceRange();
+        if ( $range )
+        {
+            $min = new eZCurrency( $range->min() );
+            $max = new eZCurrency( $range->max() );
+
+            $t->set_var( "product_price", $locale->format( $min ) . " - " . $locale->format( $max ) );
         }
     }
 

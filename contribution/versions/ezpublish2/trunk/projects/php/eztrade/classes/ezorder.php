@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.58 2001/10/15 06:22:27 ce Exp $
+// $Id: ezorder.php,v 1.59 2001/10/15 11:32:18 ce Exp $
 //
 // Definition of eZOrder class
 //
@@ -1238,7 +1238,7 @@ class eZOrder
 
         $db->array_query( $user_array, "SELECT eZTrade_Order.UserID, eZUser_User.FirstName FROM eZTrade_Order, eZUser_User
                                         WHERE eZTrade_Order.UserID=eZUser_User.ID
-                                        GROUP BY eZTrade_Order.UserID ORDER BY eZUser_User.FirstName " );
+                                        GROUP BY eZTrade_Order.UserID, eZUser_User.FirstName ORDER BY eZUser_User.FirstName " );
 
         for ( $i = 0; $i < count( $user_array ); $i++ )
         {

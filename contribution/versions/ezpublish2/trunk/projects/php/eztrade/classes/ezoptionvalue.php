@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezoptionvalue.php,v 1.38 2001/10/12 10:45:09 ce Exp $
+// $Id: ezoptionvalue.php,v 1.39 2001/10/15 11:32:17 ce Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -283,8 +283,8 @@ class eZOptionValue
         if ( !$id )
             $id = $this->ID;
         $db->array_query( $qry_array,
-                          "SELECT DISTINCT(Value) FROM eZTrade_OptionValueContent
-                           WHERE ValueID='$id' ORDER BY Placement ASC" );
+                          "SELECT eZTrade_OptionValueContent.Value FROM eZTrade_OptionValueContent
+                           WHERE ValueID='$id' GROUP By eZTrade_OptionValueContent.Value, eZTrade_OptionValueContent.Placement ORDER BY Placement ASC" );
         $ret = array();
         foreach( $qry_array as $row )
         {

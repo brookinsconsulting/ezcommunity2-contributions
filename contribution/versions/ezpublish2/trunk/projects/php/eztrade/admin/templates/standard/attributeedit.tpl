@@ -42,7 +42,7 @@
 <input type="hidden" name="ProductID" value="{product_id}" />
 <input type="hidden" name="Action" value="Update" />
 
-<input class="okbutton" type="submit" name="OK" value="{intl-ok}" />
+<input class="okbutton" type="submit" name="OK" value="{intl-ok}" />&nbsp;
 
 <input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: linkselect.php,v 1.10 2001/08/27 11:50:54 ce Exp $
+// $Id: linkselect.php,v 1.11 2001/10/15 11:32:17 ce Exp $
 //
 // Created on: <30-Apr-2001 18:33:53 amos>
 //
@@ -50,7 +50,6 @@ if ( isset( $Back ) )
     eZHTTPTool::header( sprintf( "Location: " . $URLS["back"], $ItemID ) );
     exit();
 }
-
 include_once( "classes/INIFile.php" );
 
 $ini =& INIFile::globalINI();
@@ -132,6 +131,8 @@ if ( isset( $NewSection ) or count( $sections ) == 0 )
     $section->store();
     $SectionID = $section->id();
     $module->addSection( $section );
+
+
     $Funcs["delete"]( $ItemID );
 
     if ( isset( $NewSection ) )
@@ -235,8 +236,11 @@ $t->set_var( "client_type", $ClientModuleType );
 include_once( "ezsession/classes/ezpreferences.php" );
 $preferences = new eZPreferences();
 $LinkType = $preferences->variable( $PreferencesSetting );
+
 if ( is_bool( $LinkType ) )
+{
     $LinkType = $ModuleType;
+}
 
 switch( $module )
 {

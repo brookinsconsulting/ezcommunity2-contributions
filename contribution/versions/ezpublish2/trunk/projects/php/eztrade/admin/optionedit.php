@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: optionedit.php,v 1.24 2001/09/29 12:35:15 kaid Exp $
+// $Id: optionedit.php,v 1.25 2001/10/15 11:32:17 ce Exp $
 //
 // Created on: <20-Sep-2000 10:18:33 bf>
 //
@@ -97,6 +97,7 @@ if ( isset( $Delete ) )
         }
     }
 }
+
 
 if ( isset( $Abort ) )
 {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlinksection.php,v 1.7 2001/07/19 11:33:57 jakobn Exp $
+// $Id: ezlinksection.php,v 1.8 2001/10/15 11:32:17 ce Exp $
 //
 // Definition of eZLinkSection class
 //
@@ -69,19 +69,31 @@ class eZLinkSection
     function store()
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
         $table_name = $this->Module . "_LinkSection";
         if ( is_numeric( $this->ID ) and $this->ID > 0 )
         {
             $qry_text = "UPDATE $table_name";
             $qry_where = "WHERE ID='$this->ID'";
+            $res = $db->query( "$qry_text
+                     SET Name='$this->Name' $qry_where" );
+            
         }
         else
         {
+            $db->lock( $table_name );
+            $nextID = $db->nextID( $table_name, "ID" );            
+
             $qry_text = "INSERT INTO $table_name";
+            $res = $db->query( "$qry_text
+                     (ID, Name) VALUES ( '$nextID', '$this->Name' )" );
+            $db->unlock();
+            $this->ID = $nextID;
         }
-        $db->query( "$qry_text
-                     SET Name='$this->Name' $qry_where" );
-        $this->ID = $db->insertID();
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
     }
 
     /*!
@@ -94,10 +106,15 @@ class eZLinkSection
         if ( !$module )
             $module = $this->Module;
         $db =& eZDB::globalDatabase();
+        $db->begin();
         $table_name = $module . "_Link";
-        $db->query( "DELETE FROM $table_name WHERE SectionID='$id'" );
+        $res[] = $db->query( "DELETE FROM $table_name WHERE SectionID='$id'" );
         $table_name = $module . "_LinkSection";
-        $db->query( "DELETE FROM $table_name WHERE ID='$id'" );
+        $res[] = $db->query( "DELETE FROM $table_name WHERE ID='$id'" );
+        if ( in_array( false, $res ) )
+            $db->rollback( );
+        else
+            $db->commit();            
     }
 
     /*!
@@ -105,7 +122,8 @@ class eZLinkSection
     */
     function fill( $row )
     {
-        $this->Name = $row["Name"];
+        $db =& eZDB::globalDatabase();
+        $this->Name = $row[$db->fieldName( "Name" )];
     }
 
     /*!
@@ -132,6 +150,7 @@ class eZLinkSection
     function moveUp( $objectid, $id, $module, $type )
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
         $link_table_name = $module . "_$type" . "SectionDict";
         $type_column = $type . "ID";
         $db->query_single( $placement, "SELECT Placement FROM $link_table_name
@@ -139,26 +158,30 @@ class eZLinkSection
         $db->array_query( $items, "SELECT SectionID, Placement
                                    FROM $link_table_name
                                    WHERE $type_column='$objectid' AND Placement<'$placement'
-                                   ORDER BY Placement DESC LIMIT 1", 0, 1 );
+                                   ORDER BY Placement DESC", array( "Limit" => 1 ) );
         if ( count( $items ) == 0 )
         {
             $db->array_query( $items, "SELECT SectionID, Placement
                                        FROM $link_table_name
                                        WHERE $type_column='$objectid' AND SectionID!='$id'
-                                       ORDER BY Placement DESC LIMIT 1", 0, 1 );
-            $swap_placement = $items[0]["Placement"] + 1;
-            $db->query( "UPDATE $link_table_name
+                                       ORDER BY Placement DESC", array( "Limit" => 1 ) );
+            $swap_placement = $items[0][$db->fieldName( "Placement" )] + 1;
+            $res[] = $db->query( "UPDATE $link_table_name
                          SET Placement=$swap_placement WHERE SectionID=$id" );
         }
         else
         {
-            $swap_id = $items[0]["SectionID"];
-            $swap_placement = $items[0]["Placement"];
-            $db->query( "UPDATE $link_table_name
+            $swap_id = $items[0][$db->fieldName( "SectionID" )];
+            $swap_placement = $items[0][$db->fieldName( "Placement" )];
+            $res[] = $db->query( "UPDATE $link_table_name
                          SET Placement=$swap_placement WHERE SectionID=$id" );
-            $db->query( "UPDATE $link_table_name
+            $res[] = $db->query( "UPDATE $link_table_name
                          SET Placement=$placement WHERE SectionID=$swap_id" );
         }
+        if ( in_array( false, $res ) )
+            $db->rollback( );
+        else
+            $db->commit();            
     }
 
     /*!
@@ -168,6 +191,7 @@ class eZLinkSection
     function moveDown( $objectid, $id, $module, $type )
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
         $link_table_name = $module . "_$type" . "SectionDict";
         $type_column = $type . "ID";
         $db->query_single( $placement, "SELECT Placement FROM $link_table_name
@@ -175,26 +199,30 @@ class eZLinkSection
         $db->array_query( $items, "SELECT SectionID, Placement
                                    FROM $link_table_name
                                    WHERE $type_column='$objectid' AND Placement>'$placement'
-                                   ORDER BY Placement ASC LIMIT 1", 0, 1 );
+                                   ORDER BY Placement ASC", array( "Limit" => 1 ) );
         if ( count( $items ) == 0 )
         {
             $db->array_query( $items, "SELECT SectionID, Placement
                                        FROM $link_table_name
                                        WHERE $type_column='$objectid' AND SectionID!='$id'
-                                       ORDER BY Placement ASC LIMIT 1", 0, 1 );
-            $swap_placement = $items[0]["Placement"] - 1;
-            $db->query( "UPDATE $link_table_name
+                                       ORDER BY Placement ASC", array( "Limit" => 1 ) );
+            $swap_placement = $items[0][$db->fieldName( "Placement" )] - 1;
+            $res[] = $db->query( "UPDATE $link_table_name
                          SET Placement=$swap_placement WHERE SectionID=$id" );
         }
         else
         {
-            $swap_id = $items[0]["SectionID"];
-            $swap_placement = $items[0]["Placement"];
-            $db->query( "UPDATE $link_table_name
+            $swap_id = $items[0][$db->fieldName( "SectionID" )];
+            $swap_placement = $items[0][$db->fieldName( "Placement" )];
+            $res[] = $db->query( "UPDATE $link_table_name
                          SET Placement=$swap_placement WHERE SectionID=$id" );
-            $db->query( "UPDATE $link_table_name
+            $res[] = $db->query( "UPDATE $link_table_name
                          SET Placement=$placement WHERE SectionID=$swap_id" );
         }
+        if ( in_array( false, $res ) )
+            $db->rollback( );
+        else
+            $db->commit();            
     }
 
     /*!

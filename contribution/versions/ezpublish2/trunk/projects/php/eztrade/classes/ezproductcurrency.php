@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproductcurrency.php,v 1.9 2001/08/23 10:38:05 pkej Exp $
+// $Id: ezproductcurrency.php,v 1.10 2001/10/15 11:32:18 ce Exp $
 //
 // Definition of eZProductCurrency class
 //
@@ -59,6 +59,11 @@ class eZProductCurrency
 
         $this->Name = $db->escapeString( $this->Name );
         $this->Sign = $db->escapeString( $this->Sign );
+
+        if ( $this->Value == "" )
+        {
+            $this->Value = 1;
+        }
         
         if ( !isset( $this->ID ) )
         {

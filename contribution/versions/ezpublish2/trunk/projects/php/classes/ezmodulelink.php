@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmodulelink.php,v 1.5 2001/07/19 11:33:57 jakobn Exp $
+// $Id: ezmodulelink.php,v 1.6 2001/10/15 11:32:17 ce Exp $
 //
 // Definition of eZModuleLink class
 //
@@ -90,7 +90,7 @@ class eZModuleLink
         $ret_array = array();
         foreach( $qry_array as $row )
         {
-            $id = $row["SectionID"];
+            $id = $row[$db->fieldName( "SectionID" )];
             $ret_array[] = $as_object ? new eZLinkSection( $id, $this->Module ) : $id;
         }
         return $ret_array;
@@ -108,7 +108,7 @@ class eZModuleLink
         $db->query_single( $row,
                            "SELECT count( Link.SectionID ) AS Count FROM $link_table_name AS Link, $table_name AS Section
                             WHERE Link.SectionID=Section.ID AND Link.$type_column=$this->ID" );
-        return $row["Count"];
+        return $row[$db->fieldName( "Count" )];
     }
 
     /*!
@@ -118,18 +118,27 @@ class eZModuleLink
     function addSection( $section )
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
         $link_table_name = $this->Module . "_$this->Type" . "SectionDict";
         $section_id = $section->id();
         $type_column = $this->Type . "ID";
         $db->array_query( $qry_array,
                           "SELECT Placement FROM $link_table_name
                            WHERE $type_column='$this->ID'
-                           ORDER BY Placement DESC LIMIT 1", 0, 1 );
-        $placement = count( $qry_array ) == 1 ? $qry_array[0]["Placement"] + 1 : 1;
-        $db->query( "INSERT INTO $link_table_name
-                     SET $type_column='$this->ID',
-                         SectionID='$section_id',
-                         Placement='$placement'" );
+                           ORDER BY Placement DESC", array( "Limit" => 1 ) );
+        $placement = count( $qry_array ) == 1 ? $qry_array[0][$db->fieldName( "Placement" )] + 1 : 1;
+
+        $db->lock( $link_table_name );
+        $nextID = $db->nextID( $link_table_name, "ID" );            
+
+        $res = $db->query( "INSERT INTO $link_table_name
+                     ( ID, SectionID, Placement, $type_column )
+                     VALUES ( '$nextID', '$section_id', '$placement', '$this->ID' )" );
+
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
     }
 
     /*!
@@ -143,9 +152,14 @@ class eZModuleLink
         else
             $id = $section;
         $db =& eZDB::globalDatabase();
+        $db->begin();
         $link_table_name = $this->Module . "_$this->Type" . "SectionDict";
-        $db->query( "DELETE FROM $link_table_name
+        $res = $db->query( "DELETE FROM $link_table_name
                      WHERE SectionID='$id'" );
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
     }
 
     var $Module;

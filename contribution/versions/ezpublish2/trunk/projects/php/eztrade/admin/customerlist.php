@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: customerlist.php,v 1.2 2001/09/26 07:09:32 ce Exp $
+// $Id: customerlist.php,v 1.3 2001/10/15 11:32:17 ce Exp $
 //
 // Created on: <21-Sep-2001 16:06:44 bf>
 //
@@ -44,6 +44,8 @@ $t->set_file( "customer_list_tpl", "customerlist.tpl" );
 
 $t->set_block( "customer_list_tpl", "customer_item_list_tpl", "customer_item_list" );
 $t->set_block( "customer_item_list_tpl", "customer_item_tpl", "customer_item" );
+
+$t->set_var( "customer_item", "" );
 
 $customers =& eZOrder::customers();
 

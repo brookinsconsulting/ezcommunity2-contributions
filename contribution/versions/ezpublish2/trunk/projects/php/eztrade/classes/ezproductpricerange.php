@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductpricerange.php,v 1.2 2001/09/17 13:23:00 ce Exp $
+// $Id: ezproductpricerange.php,v 1.3 2001/10/15 11:32:18 ce Exp $
 //
 // eZProductPricerange class
 //
@@ -160,10 +160,11 @@ class eZProductPriceRange
     */
     function fill( &$productArray )
     {
-        $this->ID =& $productArray[ "ID" ];
-        $this->Min =& $productArray[ "Min" ];
-        $this->Max =& $productArray[ "Max" ];
-        $this->ProductID =& $productArray[ "ProductID" ];
+        $db =& eZDB::globalDatabase();
+        $this->ID =& $productArray[$db->fieldName( "ID" )];
+        $this->Min =& $productArray[$db->fieldName( "Min" )];
+        $this->Max =& $productArray[$db->fieldName( "Max" )];
+        $this->ProductID =& $productArray[$db->fieldName( "ProductID" )];
     }
 
     /*!

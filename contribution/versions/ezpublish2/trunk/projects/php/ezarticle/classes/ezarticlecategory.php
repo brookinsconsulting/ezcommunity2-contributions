@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.102 2001/10/02 14:03:27 ce Exp $
+// $Id: ezarticlecategory.php,v 1.103 2001/10/15 11:32:17 ce Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -393,6 +393,7 @@ class eZArticleCategory
             else
                 $permissionSQL = "";
 
+
             $query = "SELECT Category.ID 
                       FROM eZArticle_Category as Category,
                            eZArticle_CategoryPermission as Permission
@@ -400,11 +401,11 @@ class eZArticleCategory
                             ParentID='$parentID'
                             AND Permission.ObjectID=Category.ID
                             $show_str
-                      GROUP BY Category.ID, Category.Placement
+                      GROUP BY Category.ID, Category.Placement, Category.Name
                       ORDER BY $sortbySQL";
 
+            
             $db->array_query( $category_array, $query, array( "Limit" => $max, "Offset" => $offset ) );
-
             for ( $i=0; $i < count($category_array); $i++ )
             {
                 $return_array[$i] = new eZArticleCategory( $category_array[$i][$db->fieldName("ID")] );
@@ -1074,36 +1075,42 @@ class eZArticleCategory
        {
            case "time" :
            {
+               $GroupBy = "Article.Published";
                $OrderBy = "Article.Published DESC";
            }
            break;
 
            case "alpha" :
            {
+               $GroupBy = "Article.Name";
                $OrderBy = "Article.Name ASC";
            }
            break;
 
            case "alphadesc" :
            {
+               $GroupBy = "Article.Name";
                $OrderBy = "Article.Name DESC";
            }
            break;
 
            case "absolute_placement" :
            {
+               $GroupBy = "Link.Placement";
                $OrderBy = "Link.Placement ASC";
            }
            break;
 
            case "modification" :
            {
+               $GroupBy = "Article.Modified";
                $OrderBy = "Article.Modified DESC";
            }
            break;
            
            default :
            {
+               $GroupBy = "Article.Published";
                $OrderBy = "Article.Published DESC";
            }
        }
@@ -1183,9 +1190,8 @@ class eZArticleCategory
                         AND Link.ArticleID=Article.ID
                         AND Definition.ArticleID=Article.ID
                         AND CategoryPermission.ObjectID=Definition.CategoryID
-                 GROUP BY Article.ID, Article.Published
+                 GROUP BY Article.ID, Article.Published, $GroupBy
                  ORDER BY $OrderBy";
-
 
        if ( $limit == -1 )
        {
@@ -1195,7 +1201,6 @@ class eZArticleCategory
        {
            $db->array_query( $article_array, $query, array( "Limit" => $limit, "Offset" => $offset ) );
        }
-       
        for ( $i=0; $i < count( $article_array ); $i++ )
        {
            $return_array[$i] = new eZArticle( $article_array[$i][$db->fieldName( "ArticleID" )] );

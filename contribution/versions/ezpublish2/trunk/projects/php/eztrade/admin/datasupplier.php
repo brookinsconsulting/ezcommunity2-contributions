@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: datasupplier.php,v 1.41 2001/10/01 10:27:11 pkej Exp $
+// $Id: datasupplier.php,v 1.42 2001/10/15 11:32:17 ce Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
@@ -25,6 +25,7 @@
 
 include_once( "classes/ezhttptool.php" );
 include_once( "ezuser/classes/ezpermission.php" );
+include_once( "eztrade/classes/ezproducttool.php" );
 
 $user =& eZUser::currentUser();
 if( eZPermission::checkPermission( $user, "eZTrade", "ModuleEdit" ) == false )
@@ -283,7 +284,7 @@ switch ( $url_array[2] )
                     {
                         eZProductTool::deleteCache( $ProductID );
                     }
-
+                
                 switch( $url_array[4] )
                 {
                     case "list":
@@ -305,6 +306,7 @@ switch ( $url_array[2] )
                             $Offset = $url_array[10];
                         if ( isset( $url_array[11] ) )
                             $LinkID = $url_array[11];
+
                         include( "classes/admin/linkselect.php" );
                         break;
                     }
