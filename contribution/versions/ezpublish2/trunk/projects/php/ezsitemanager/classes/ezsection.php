@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsection.php,v 1.11 2001/09/19 11:24:57 bf Exp $
+// $Id: ezsection.php,v 1.12 2001/09/21 12:23:08 bf Exp $
 //
 // ezsection class
 //
@@ -335,14 +335,19 @@ class eZSection
      */
     function setOverrideVariables()
     {
-        if ( trim( $this->TemplateStyle ) != "" )
+        $ini =& INIFile::globalINI();
+        // set the sitedesign from the section
+        if ( $ini->read_var( "site", "Sections" ) == "enabled" )
         {
-            $GLOBALS["eZTemplateOverride"] = trim( $this->TemplateStyle );
-        }
+            if ( trim( $this->TemplateStyle ) != "" )
+            {
+                $GLOBALS["eZTemplateOverride"] = trim( $this->TemplateStyle );
+            }
 
-        if ( trim( $this->SecLanguage ) != "" )
-        {
-            $GLOBALS["eZLanguageOverride"] = trim( $this->SecLanguage );
+            if ( trim( $this->SecLanguage ) != "" )
+            {
+                $GLOBALS["eZLanguageOverride"] = trim( $this->SecLanguage );
+            }
         }
     }
 
