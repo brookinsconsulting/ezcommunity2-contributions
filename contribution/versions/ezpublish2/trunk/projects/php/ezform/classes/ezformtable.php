@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformtable.php,v 1.8 2001/12/18 09:37:40 jhe Exp $
+// $Id: ezformtable.php,v 1.9 2001/12/20 11:45:53 jhe Exp $
 //
 // Definition of eZFormTable class
 //
@@ -82,12 +82,12 @@ class eZFormTable
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-
+        $res = array();
         if ( $this->ID == 0 || !isSet( $this->ID ) )
         {
             $db->lock( "eZForm_FormTable" );
             $this->ID = $db->nextID( "eZForm_FormTable", "ID" );
-            $res = $db->query( "INSERT INTO eZForm_FormTable
+            $res[] = $db->query( "INSERT INTO eZForm_FormTable
                                        (ID,
                                         ElementID,
                                         Cols,
@@ -100,7 +100,7 @@ class eZFormTable
         }
         else
         {
-            $res = $db->query( "UPDATE eZForm_FormTable SET
+            $res[] = $db->query( "UPDATE eZForm_FormTable SET
                                 ElementID='$this->ElementID',
                                 Cols='$this->Cols',
                                 Rows='$this->Rows'
