@@ -47,7 +47,7 @@
         <!-- END folder_read_tpl -->
         <!-- BEGIN folder_write_tpl -->
 	<td class="{td_class}" width="1%" valign="top">
-	<a href="/filemanager/folder/edit/{folder_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{folder_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezf{folder_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a><br />
+	<a href="/filemanager/folder/edit/{folder_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{folder_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezf{folder_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a><br />
 	</td>
 	<td width="1%" valign="top">
 	<input type="checkbox" name="FolderArrayID[]" value="{folder_id}">
@@ -86,12 +86,12 @@
 	{file_size}&nbsp;{file_unit}
 	</td>
 	<td class="{td_class}" width="1%" valign="top">
-	<a href="/filemanager/download/{file_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{file_id}-dl','','/images/downloadminimrk.gif',1)"><img name="ezf{file_id}-dl" border="0" src="/images/downloadmini.gif" width="16" height="16" align="top"></a>
+	<a href="/filemanager/download/{file_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{file_id}-dl','','/images/downloadminimrk.gif',1)"><img name="ezf{file_id}-dl" border="0" src="/images/downloadmini.gif" width="16" height="16" align="top" alt="Download" /></a>
 	</td>
 	<!-- END read_tpl -->
 	<!-- BEGIN write_tpl -->
 	<td class="{td_class}" width="1%" valign="top">
-	<a href="/filemanager/edit/{file_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{file_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezf{file_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a><br />
+	<a href="/filemanager/edit/{file_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{file_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezf{file_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a><br />
 	</td>
 	<td class="{td_class}" width="1%" align="center" valign="top">
 	<input type="checkbox" name="FileArrayID[]" value="{file_id}">
