@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailtemplate.php,v 1.11 2001/08/17 13:35:58 jhe Exp $
+// $Id: ezbulkmailtemplate.php,v 1.11.2.1 2001/11/19 14:01:43 jhe Exp $
 //
 // eZBulkMailTemplate class
 //
@@ -100,7 +100,7 @@ class eZBulkMailTemplate
     {
         $db =& eZDB::globalDatabase();
 
-        if( $id == -1 )
+        if ( $id == -1 )
             $id = $this->ID;
 
         $db->begin();
@@ -125,7 +125,7 @@ class eZBulkMailTemplate
             {
                 die( "Error: Templates with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $template_array ) == 1 )
+            else if ( count( $template_array ) == 1 )
             {
                 $this->ID = $template_array[0][$db->fieldName( "ID" )];
                 $this->Name = $template_array[0][$db->fieldName( "Name" )];
@@ -148,8 +148,8 @@ class eZBulkMailTemplate
         $template_array = array();
         
         $db->array_query( $template_array, "SELECT ID, Name FROM eZBulkMail_Template ORDER BY Name" );
-        for ( $i=0; $i<count($template_array); $i++ )
-        { 
+        for ( $i = 0; $i < count( $template_array ); $i++ )
+        {
             $return_array[$i] = new eZBulkMailTemplate( $template_array[$i][$db->fieldName( "ID" )] );
         }
         
