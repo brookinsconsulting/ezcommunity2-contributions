@@ -1,6 +1,6 @@
 <?php 
 // 
-// $Id: INIFile.php,v 1.47.2.5 2002/04/24 07:32:39 jhe Exp $
+// $Id: INIFile.php,v 1.47.2.6 2002/06/11 08:36:33 jhe Exp $
 //
 // Implements a simple INI-file parser
 //
@@ -422,10 +422,13 @@ class INIFile
     /*!
       Prints the error message.
     */
-    function error($errmsg)
+    function error( $errmsg )
     {
         $this->ERROR = $errmsg;
-        echo  "Error:" . $this->ERROR . "<br>\n";
+        if ( $GLOBALS["DEBUG"] == true )
+        {
+            print( "Error:" . $this->ERROR . "<br>\n" );
+        }
         return;
     }
 
