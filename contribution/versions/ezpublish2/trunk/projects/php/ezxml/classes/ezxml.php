@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxml.php,v 1.13 2001/11/26 14:41:01 br Exp $
+// $Id: ezxml.php,v 1.14 2001/12/10 12:29:27 bf Exp $
 //
 // Definition of eZXML class
 //
@@ -51,8 +51,10 @@ class eZXML
     /*!
       \static
       Will return an DOM object tree from the well formed XML.
+
+      $params["TrimWhiteSpace"] = false/true : if the XML parser should ignore whitespace between tags.      
     */
-    function domTree( $xmlDoc )  
+    function domTree( $xmlDoc, $params=array() )  
     {
         $TagStack = array();
 
@@ -253,7 +255,7 @@ class eZXML
                 // content tag
                 $tagContent = substr( $xmlDoc, $endTagPos + 1, $pos - ( $endTagPos + 1 ) );
 
-//                if ( trim( $tagContent ) != "" )
+                if ( $params["TrimWhiteSpace"] == true and ( trim( $tagContent ) != "" ) )
                 {
                     unset( $subNode );
                     $subNode = new eZDOMNode();
