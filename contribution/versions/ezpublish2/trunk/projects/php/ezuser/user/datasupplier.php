@@ -1,6 +1,4 @@
 <?
-print( "12" . $test );
-
 switch ( $url_array[2] )
 {
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.18 2001/01/18 19:23:27 bf Exp $
+// $Id: userwithaddress.php,v 1.19 2001/01/19 09:29:30 ce Exp $
 //
 // 
 //
@@ -28,7 +28,6 @@ require( "ezuser/user/usercheck.php" );
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
-include_once( "classes/ezmail.php" );
 
 $ini = new INIFIle( "site.ini" );
 
@@ -40,6 +39,7 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezcontact/classes/ezaddress.php" );
 include_once( "ezcontact/classes/ezcountry.php" );
+include_once( "classes/ezmail.php" );
 
 $t = new eZTemplate( "ezuser/user/" . $ini->read_var( "eZUserMain", "TemplateDir" ),
                      "ezuser/user/intl/", $Language, "userwithaddress.php" );
@@ -49,6 +49,7 @@ $t->setAllStrings();
 $t->set_file( array(        
     "user_edit_tpl" => "userwithaddress.tpl"
     ) );
+
 
 $t->set_block( "user_edit_tpl", "required_fields_error_tpl", "required_fields_error" );
 $t->set_block( "user_edit_tpl", "user_exists_error_tpl", "user_exists_error" );
@@ -62,6 +63,7 @@ $t->set_block( "country_tpl", "country_option_tpl", "country_option" );
 $t->set_block( "user_edit_tpl", "errors_item_tpl", "errors_item" );
 $t->set_var( "errors_item", "&nbsp;" );
 
+// Error templates
 $t->set_block( "errors_item_tpl", "error_login_tpl", "error_login" );
 $t->set_block( "errors_item_tpl", "error_login_exists_tpl", "error_login_exists" );
 $t->set_block( "errors_item_tpl", "error_first_name_tpl", "error_first_name" );
@@ -69,7 +71,7 @@ $t->set_block( "errors_item_tpl", "error_last_name_tpl", "error_last_name" );
 $t->set_block( "errors_item_tpl", "error_email_tpl", "error_email" );
 $t->set_block( "errors_item_tpl", "error_email_not_valid_tpl", "error_email_not_valid" );
 $t->set_block( "errors_item_tpl", "error_password_match_tpl", "error_password_match" );
-$t->set_block( "errors_item_tpl", "error_password_to_short_tpl", "error_password_to_short" );
+$t->set_block( "errors_item_tpl", "error_password_too_short_tpl", "error_password_too_short" );
 
 $t->set_var( "error_login", "" );
 $t->set_var( "error_login_exists", "" );
@@ -77,7 +79,8 @@ $t->set_var( "error_first_name", "" );
 $t->set_var( "error_last_name", "" );
 $t->set_var( "error_email", "" );
 $t->set_var( "error_email_not_valid", "" );
-$t->set_var( "error_password", "" );
+$t->set_var( "error_password_match", "" );
+$t->set_var( "error_password_too_short", "" );
 
 $t->set_var( "first_name_value", "$FirstName" );
 $t->set_var( "last_name_value", "$LastName" );
@@ -86,9 +89,8 @@ $t->set_var( "email_value", "$Email" );
 $t->set_var( "password_value", "$Password" );
 $t->set_var( "verify_password_value", "$VerifyPassword" );
 
-
-print_r( $AddressArrayID );
-if ( count ( $AddressArrayID ) != 0 )
+// Check if there are addresses
+if ( count ( $AddressID ) != 0 )
 {
     $t->set_block( "errors_item_tpl", "error_address_street1_tpl", "error_address_street1" );
     $t->set_block( "errors_item_tpl", "error_address_street2_tpl", "error_address_street2" );
@@ -100,7 +102,17 @@ if ( count ( $AddressArrayID ) != 0 )
     $t->set_var( "error_address_street1", "" );
     $t->set_var( "error_address_street2", "" );
 
-    print( "hm" );
+    for ( $i=0; $i < count ( $AddressID ); $i++ )
+    {
+        $t->set_var( "address_number", "$i" );
+        $t->set_var( "address_id", "$AddressID[$i]" );
+        $t->set_var( "street1_value", "$Street1[$i]" );
+        $t->set_var( "street2_value", "$Street2[$i]" );
+        $t->set_var( "zip_value", "$Zip[$i]" );
+        $t->set_var( "place_value", "$Place[$i]" );
+
+        $t->parse( "address", "address_tpl", true );
+    }
 
     $addressCheck = true;
 }
@@ -120,20 +132,23 @@ $street2Check = true;
 $zipCheck = true;
 $placeCheck = true;
 
-if ( $Action == "Insert" || $Action == "Update" )
+// Check for errors when inserting, updating and inserting a new address
+if ( $Action == "Insert" || $Action == "Update" || isSet ( $NewAddress ) )
 {
-    if ( $loginCheck )
+
+    if ( $loginCheck && $Action == "insert" )
     {
         if ( empty ( $Login ) )
         {
+
             $t->parse( "error_login", "error_login_tpl" );
             $error = true;
+
         }
         else
         {
-            
             $user = new eZUser();
-            if ( $user->exists( $Login ) == false )
+            if ( $user->exists( $Login ) == true )
             {
                 $t->parse( "error_login_exits", "error_login_exists_tpl" );
                 $error = true;
@@ -163,6 +178,7 @@ if ( $Action == "Insert" || $Action == "Update" )
     {
         if( empty( $Email ) )
         {
+            print( "mail" );
             $t->parse( "error_email", "error_email_tpl" );
             $error = true;
         }
@@ -170,6 +186,7 @@ if ( $Action == "Insert" || $Action == "Update" )
         {
             if( eZMail::validate( $Email ) == false )
             {
+                print( "validae" );
                 $t->parse( "error_email_not_valid", "error_email_not_valid_tpl" );
                 $error = true;
             }
@@ -180,58 +197,59 @@ if ( $Action == "Insert" || $Action == "Update" )
     {
         if ( $Password != $VerifyPassword )
         {
+            print( "passowrd" );
             $t->parse( "error_passwword_match", "error_pasword_match_tpl" );
             $error = true;
             
         }
         if ( strlen( $VerifyPassword ) < 2 )
         {
-            $t->parse( "error_passwword_to_short", "error_pasword_to_short_tpl" );
+            print( "passoord_lenge" );
+            $t->parse( "error_passwword_too_short", "error_pasword_too_short_tpl" );
             $error = true;
         }
     }
 
-    if ( $street1Check && $addressCheck )
+    if ( $addressCheck )
     {
-        if ( empty ( $Street1 ) )
+        for( $i=0; $i < count ( $AddressID ); $i++ )
         {
-            $t->parse( "error_address_street1", "error_address_street1_tpl" );
+            if ( empty ( $Street1[$i] ) )
+            {
+                $t->parse( "error_address_street1", "error_address_street1_tpl" );
+                $error = true;
+            }
+            if ( empty ( $Street2[$i] ) )
+            {
+                $t->parse( "error_address_street2", "error_address_street2_tpl" );
+                $error = true;
+            }
+            if ( empty ( $Zip[$i] ) )
+            {
+                $t->parse( "error_address_zip", "error_address_zip_tpl" );
+                $error = true;
+            }
+            if ( empty ( $Place[$i] ) )
+            {
+                $t->parse( "error_address_place", "error_address_place_tpl" );
+                $error = true;
+            }
         }
     }
-
-    if ( $street2Check && $addressCheck )
-    {
-        if ( empty ( $Street2 ) )
-        {
-            $t->parse( "error_address_street2", "error_address_street2_tpl" );
-        }
-    }
-
-    if ( $zipCheck && $addressCheck )
-    {
-        if ( empty ( $ZipCheck ) )
-        {
-            $t->parse( "error_address_zip", "error_address_zip_tpl" );
-        }
-    }
-
-    if ( $placeCheck && $addressCheck )
-    {
-        if ( empty ( $placeCheck ) )
-        {
-            $t->parse( "error_address_place", "error_address_place_tpl" );
-        }
-    }
+    
 
     if( $error == true )
     {
+        print( "error" );
         $t->parse( "errors_item", "errors_item_tpl" );
         $Action = "New";
     }
 }
 
-if ( isset( $NewAddress ) )
+// Add a new address
+if ( isset( $NewAddress ) && $error == false )
 {
+    print( "legger til ny addrss<br>" );
     $address = new eZAddress();
     $country = new eZCountry( $CountryID );    
     $address->setCountry( 0 );    
@@ -243,6 +261,7 @@ if ( isset( $NewAddress ) )
     $Action = "Edit";
 }
 
+// Delete address
 if ( isset( $DeleteAddress ) )
 {            
     if ( count ( $AddressArrayID ) != 0 )
@@ -274,10 +293,10 @@ if ( $Action == "Insert" && $error == false )
     
     
     $address = new eZAddress();
-    $address->setStreet1( $Street1 );
-    $address->setStreet2( $Street2 );
-    $address->setZip( $Zip );
-    $address->setPlace( $Place );
+    $address->setStreet1( $Street1[0] );
+    $address->setStreet2( $Street2[0] );
+    $address->setZip( $Zip[0] );
+    $address->setPlace( $Place[0] );
     
     if ( isset( $CountryID ) )
     {
@@ -359,17 +378,18 @@ if ( $Action == "Update" )
 
 if ( $Action == "New" )
 {
-    $t->set_var( "address_number", 1 );
-    $t->set_var( "address_id", "-1" );
-    $t->set_var( "action_value", "insert" );
+    if ( $error == false )
+    {
+        $t->set_var( "address_number", 1 );
+        $t->set_var( "address_id", "-1" );
+        $t->set_var( "street1_value", "" );
+        $t->set_var( "street2_value", "" );
+        $t->set_var( "zip_value", "" );
+        $t->set_var( "place_value", "" );
+        
+        $t->parse( "address", "address_tpl" );
+    }
 
-    $t->set_var( "street1_value", "" );
-    $t->set_var( "street2_value", "" );
-            
-    $t->set_var( "zip_value", "" );
-            
-    $t->set_var( "place_value", "" );
-            
     if ( $SelectCountry == "enabled" )
     {
         $countryList = "";
@@ -378,26 +398,34 @@ if ( $Action == "New" )
         $countryList =& $ezcountry->getAllArray();
 
         $t->set_var( "country_option", "" );
-
         foreach ( $countryList as $country )
         {
-            // add default country
-            $t->set_var( "is_selected", "" );
+            if ( $Action == "Edit" )
+            {
+                if ( $address )
+                {
+                    $countryID = $address->country();
+                
+                    if ( $country["ID"] == $countryID->id() )
+                    {
+                        $t->set_var( "is_selected", "selected" );
+                    }
+                    else
+                        $t->set_var( "is_selected", "" );
+                }
+            }
                         
             $t->set_var( "country_id", $country["ID"] );
             $t->set_var( "country_name", $country["Name"] );
             $t->parse( "country_option", "country_option_tpl", true );
         }
-
         $t->parse( "country", "country_tpl" );
     }
     else
     {
         $t->set_var( "country", "" );
     }
-
-    $t->parse( "address", "address_tpl" );
-    
+    $t->set_var( "action_value", "insert" );
 }
 
 if ( $MissingAddress == true )
@@ -433,6 +461,8 @@ if ( $Action == "Edit" )
     
     $t->set_var( "readonly", "readonly" );
 
+    $t->set_var( "address", "" );
+
     $addressArray = "";
     $addressArray = $user->addresses();
 
@@ -444,7 +474,8 @@ if ( $Action == "Edit" )
         $Street2 = $address->street2();
         $Zip = $address->zip();
         $Place = $address->place();
-            
+
+        print( $address );
         $t->set_var( "address_id", $address->id() );
             
         $t->set_var( "street1_value", $Street1 );
@@ -496,7 +527,7 @@ if ( $Action == "Edit" )
         $t->parse( "address", "address_tpl", true );
     }
 
-    $action_value = "update";
+    $t->set_var( "action_value", "update" );
 }
 
 $t->set_var( "user_id", $UserID );
@@ -506,7 +537,3 @@ $t->set_var( "redirect_url", $RedirectURL );
 $t->pparse( "output", "user_edit_tpl" );
 
 ?>
-
-
-
-

@@ -1,5 +1,5 @@
 <form method="post" action="/user/userwithaddress/{action_value}/{user_id}/">
-
+<input type="hidden" name="bla" value="jaaa">
 <h1>{intl-head_line}</h1>
 
 <hr noshade="noshade" size="4" />
@@ -27,29 +27,17 @@
     <li>{intl-error_email}
     <!-- END error_email_tpl -->
 
-    <!-- BEGIN error_email_not_valid_item_tpl -->
+    <!-- BEGIN error_email_not_valid_tpl -->
     <li>{intl-error_email_not_valid}
-    <!-- END error_email_not_valid_item_tpl -->
+    <!-- END error_email_not_valid_tpl -->
 
-    <!-- BEGIN error_password_tpl -->
-    <li>{intl-error_password}
-    <!-- END error_password_tpl -->
-
-    <!-- BEGIN error_password_too_short_item_tpl -->
+    <!-- BEGIN error_password_too_short_tpl -->
     <li>{intl-error_password_too_short}
-    <!-- END error_password_too_short_item_tpl -->
+    <!-- END error_password_too_short_tpl -->
 
-    <!-- BEGIN error_passwordrepeat_item_tpl -->
-    <li>{intl-error_passwordrepeat_item}
-    <!-- END error_passwordrepeat_item_tpl -->
-
-    <!-- BEGIN error_passwordmatch_item_tpl -->
+    <!-- BEGIN error_password_match_tpl -->
     <li>{intl-error_passwordmatch_item}
-    <!-- END error_passwordmatch_item_tpl -->
-
-    <!-- BEGIN error_loginname_item_tpl -->
-    <li>{intl-error_loginname}
-    <!-- END error_loginname_item_tpl -->
+    <!-- END error_password_match_tpl -->
 
     <!-- BEGIN error_address_street1_tpl -->
     <li>{intl-error_street1}
@@ -66,9 +54,6 @@
     <!-- BEGIN error_address_place_tpl -->
     <li>{intl-error_place}
     <!-- END error_address_place_tpl -->
-
-
-
 </ul>
 
 <hr noshade size="4"/>
@@ -157,8 +142,6 @@
 <input class="okbutton" type="submit" value="OK" />
 
 <input type="hidden" name="RedirectURL" value="{redirect_url}" />
-
-<input type="hidden" name="test" value="1">
 </form>
 
 
