@@ -1961,6 +1961,7 @@ CREATE TABLE eZTrade_OrderStatus (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
+
 #
 # Table structure for table 'eZTrade_OrderStatusType'
 #
@@ -1972,6 +1973,17 @@ CREATE TABLE eZTrade_OrderStatusType (
   PRIMARY KEY (ID),
   UNIQUE KEY Name(Name)
 ) TYPE=MyISAM;
+
+
+
+#
+# Dumping data for table 'eZTrade_OrderStatusType'
+#
+
+INSERT INTO eZTrade_OrderStatusType VALUES (1,'intl-initial');
+INSERT INTO eZTrade_OrderStatusType VALUES (2,'intl-sendt');
+INSERT INTO eZTrade_OrderStatusType VALUES (3,'intl-payed');
+INSERT INTO eZTrade_OrderStatusType VALUES (4,'intl-undefined');
 
 #
 # Table structure for table 'eZTrade_PriceGroup'
