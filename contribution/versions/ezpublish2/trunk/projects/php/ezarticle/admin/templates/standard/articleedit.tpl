@@ -8,12 +8,20 @@
 
 <hr noshade="noshade" size="4" />
 
-<input type="checkbox" name="IsPublished" {article_is_published} />
-<span class="boxtext">{intl-article_is_published}</span><br />
+<br />
 
-
-<p class="boxtext">{intl-article_name}</p>
-<input type="text" name="Name" size="40" value="{article_name}" />
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	<p class="boxtext">{intl-article_name}</p>
+	<input type="text" name="Name" size="40" value="{article_name}" />
+	</td>
+	<td>
+	<input type="checkbox" name="IsPublished" {article_is_published} />
+	<span class="boxtext">{intl-article_is_published}</span><br />
+	</td>
+</tr>
+</table>
 
 <p class="boxtext">{intl-article_author}</p>
 <input type="text" name="AuthorText" size="40" value="{author_text}" />

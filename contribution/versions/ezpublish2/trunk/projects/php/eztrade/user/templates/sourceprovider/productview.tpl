@@ -46,7 +46,7 @@
 <tr>
 
 <!-- BEGIN image_tpl -->
-<td class="bglight">
+<td class="bglight" align="center">
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>

@@ -1,4 +1,4 @@
-<h2>{article_name}</h2>
+<h1>{article_name}</h1>
 
 <br />
 

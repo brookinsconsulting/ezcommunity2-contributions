@@ -7,5 +7,7 @@
 	<input type="password" size="8" name="Password"/><br />
 	<p class="menuspacer">&nbsp;</p>
 	<input type="submit" value="OK" />
+	<p class="menuspacer">&nbsp;</p>
+	<a class="menutext" href="/user/userwithaddress/">Ny bruker</a>
 	</form>
-<a class="menutext" href="/user/userwithaddress/">Ny bruker</a>
+
