@@ -12,7 +12,7 @@ $call = new eZXMLRPCCall( );
 $call->setMethodName( "myFunc2" );
 $call->addParameter( new eZXMLRPCString( "bla" ) );
 $call->addParameter( new eZXMLRPCString( "bla" ) );
-$call->addParameter( new eZXMLRPCString( "bla" ) );
+$call->addParameter( new eZXMLRPCDouble( "bla" ) );
 
 $response = $client->send( $call );
 
@@ -43,6 +43,11 @@ $response = $client->send( $call );
 
 $result = $response->result();
 print( "The server returned: " . "<br>" );
+
+print( "<pre>" );
+print_r( $result->value() );
+print( "</pre>" );
+    
 
 foreach ( $result->value() as $item )
 {
@@ -92,7 +97,7 @@ print( "The server returned: " . $result->value() . "<br>" );
 $call = new eZXMLRPCCall( );
 $call->setMethodName( "addArray" );
 
-$call->addParameter( new eZXMLRPCArray( array( new eZXMLRPCInt( "1" ),
+$call->addParameter( new eZXMLRPCArray( array( new eZXMLRPCDouble( "1" ),
                                                new eZXMLRPCInt( "2" ),
                                                new eZXMLRPCInt( "3" ),
                                                new eZXMLRPCInt( "4" ) ) ) );
@@ -104,6 +109,68 @@ print( "The server returned: " . $result->value() . "<br>" );
 
 
 
+// send return test, with array
+print( "<hr>" );
+print( "<br>Send and return test:<br>" );
+$call = new eZXMLRPCCall( );
+$call->setMethodName( "returnFirstArg" );
+
+// create an advanced datatype combination:
+$call->addParameter( new eZXMLRPCArray( array( new eZXMLRPCDouble( 4.32 ),
+                                               new eZXMLRPCInt( "2" ),
+                                               new eZXMLRPCString( "Foo bar" ),
+                                               new eZXMLRPCInt( "3" ),
+                                               new eZXMLRPCStruct( array( "ADoubleValue" => new eZXMLRPCDouble( 42.2223 ),
+                                                                          "AnInt" => new eZXMLRPCInt( 2 ),
+                                                                          "AString" => new eZXMLRPCString( "3" ),                                                                          
+                                                                          "BoolItIS" => new eZXMLRPCBool( true ),
+                                                                          "ASubArray" => new eZXMLRPCArray( array( new eZXMLRPCDouble( 3.1415 ),
+                                                                                                                  new eZXMLRPCInt( "2" ),
+                                                                                                                  new eZXMLRPCInt( "3" ),
+                                                                                                                   new eZXMLRPCInt( "4" ) ) ) )
+                                                                   ),
+                                               
+                                               new eZXMLRPCArray( array( new eZXMLRPCDouble( 3.1415 ),
+                                                                         new eZXMLRPCInt( "2" ),
+                                                                         new eZXMLRPCInt( "3" ),
+                                                                         new eZXMLRPCStruct( array( "ADoubleValue" => new eZXMLRPCDouble( 42.2223 ),
+                                                                                                    "AnInt" => new eZXMLRPCInt( 2 ),
+                                                                                                    "AString" => new eZXMLRPCString( "3" ),                                                                          
+                                                                                                    "BoolItIS" => new eZXMLRPCBool( true ),
+                                                                                                    "ASubArray" => new eZXMLRPCArray( array( new eZXMLRPCDouble( 3.1415 ),
+                                                                                                                                             new eZXMLRPCInt( "2" ),
+                                                                                                                                             new eZXMLRPCInt( "3" ),
+                                                                                                                                             new eZXMLRPCInt( "4" ) ) ) )
+                                                                                             ),                                                                         
+                                                                         new eZXMLRPCInt( "4" ) ) )
+                                               )
+                                        ) );
+                     
+$response = $client->send( $call );
+
+if ( $response->isFault() )
+{
+    print( "The server returned an error (" .  $response->faultCode() . "): ". 
+           $response->faultString() .
+           "<br>" );
+}
+else
+{
+    $result = $response->result();
+
+    print( "<pre>" );
+    print_r( $result->value() );
+    print( "</pre>" );
+    
+    print( "The server returned: " . $result->value() . "<br>" );
+    
+    
+    print( "The server returned: " . $result->value() . "<br>" );
+}
+
+print( "<hr>" );
+
+/// misc tests
 
 $call = new eZXMLRPCCall( );
 $call->setMethodName( "foo" );

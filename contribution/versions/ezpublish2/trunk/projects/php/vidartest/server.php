@@ -22,7 +22,13 @@ $server->registerFunction( "foo", array( new eZXMLRPCInt() ) );
 $server->registerFunction( "myPi" );
 $server->registerFunction( "currentTime" );
 
+$server->registerFunction( "returnFirstArg", array( new eZXMLRPCArray() ) );
+
+
+
 $server->registerFunction( "addArray", array( new eZXMLRPCArray() ) );
+
+
 
 $server->registerFunction( "giveMeArray" );
 $server->registerFunction( "giveMeStruct" );
@@ -56,12 +62,14 @@ function tellMe( )
 
 function giveMeArray( )
 {
-    $tmp = new eZXMLRPCArray( array( new eZXMLRPCString( "first" ),
+    $tmp = new eZXMLRPCArray( array( new eZXMLRPCDouble( 3.14 ),
                                      new eZXMLRPCString( "second" ),
                                      new eZXMLRPCString( "second" ),
                                      new eZXMLRPCString( "second" ),
-                                     array( new eZXMLRPCString( "level1" ),
-                                            new eZXMLRPCString( "level1_1" ) )
+                                     new eZXMLRPCArray( array( new eZXMLRPCDouble( 3.14 ),
+                                                               new eZXMLRPCString( "second" ),
+                                                               new eZXMLRPCString( "second" ),
+                                                               new eZXMLRPCString( "second" ) ) )
                                      )
                               );
     return $tmp;
@@ -72,7 +80,7 @@ function giveMeStruct( )
 {
     $tmp = new eZXMLRPCStruct( array( "errorCode" => new eZXMLRPCInt( 42 ),
                                       "errorMessage" => new eZXMLRPCString( "Secret" ),
-                                      "errorCode2" => new eZXMLRPCInt( 34 ),
+                                      "doubleTest" => new eZXMLRPCDouble( 3.1415 ),
                                       "errorMessage2" => new eZXMLRPCString( "Secret, not!" ),
                                       "ArrayInside" => new eZXMLRPCArray(
                                           array( new eZXMLRPCString( "first" ),
@@ -82,6 +90,13 @@ function giveMeStruct( )
                               );
     return $tmp;
 }
+
+
+function returnFirstArg( $args )
+{
+    return $args[0];
+}
+
 
 
 function add( $args )
