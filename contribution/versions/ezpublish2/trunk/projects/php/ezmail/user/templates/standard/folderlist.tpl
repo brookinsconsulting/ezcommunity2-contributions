@@ -15,6 +15,7 @@
 <hr noshade="noshade" size="4" />
 
 <form method="post" action="{www_dir}{index}/mail/folderlist/" enctype="multipart/form-data" >
+<!-- BEGIN mailbox_item_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th width="88%">{intl-name}:</th>
@@ -26,7 +27,7 @@
 <!-- BEGIN folders_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	{indent}<a href="{www_dir}{index}/mail/folder/local/{folder_id}">{folder_name}</a>
+	{indent}<a href="{www_dir}{index}/mail/folder/{account_type}/{folder_id}">{folder_name}</a>
 	</td>
 	<td class="{td_class}" align="right">
         {folder_unread_mail_total}
@@ -53,6 +54,7 @@
 <!-- END folders_item_tpl -->
 
 </table>
+<!-- END mailbox_item_tpl -->
 
 <hr noshade="noshade" size="4" />
 

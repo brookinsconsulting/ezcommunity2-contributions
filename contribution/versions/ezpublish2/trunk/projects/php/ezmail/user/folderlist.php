@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: folderlist.php,v 1.6 2001/07/20 11:18:28 jakobn Exp $
+// $Id: folderlist.php,v 1.7 2002/04/09 20:10:05 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -32,6 +32,7 @@ include_once( "classes/ezhttptool.php" );
 include_once( "ezmail/classes/ezmailaccount.php" );
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezmail/classes/ezmailfolder.php" );
+include_once( "ezmail/classes/ezimapmailfolder.php" );
 
 /** If user wants to move folders **/
 if( isset( $Move ) && count( $FolderArrayID ) > 0 && $FolderSelectID != -1)
@@ -81,8 +82,9 @@ $t->set_file( array(
     "folder_list_page_tpl" => "folderlist.tpl"
     ) );
 
+$t->set_block( "folder_list_page_tpl", "mailbox_item_tpl", "mailbox_item" );
 $t->set_block( "folder_list_page_tpl", "folder_item_tpl", "folder_item" );
-$t->set_block( "folder_list_page_tpl", "folders_item_tpl", "folders_item" );
+$t->set_block( "mailbox_item_tpl", "folders_item_tpl", "folders_item" );
 $t->set_block( "folders_item_tpl", "folders_item_edit_tpl", "folders_item_edit" );
 $t->set_block( "folders_item_tpl", "edit_empty_tpl", "edit_empty" );
 $t->set_var( "folders_item_edit", "" );
@@ -105,10 +107,11 @@ foreach( array( INBOX, SENT, DRAFTS, TRASH ) as $specialfolder )
     $t->parse( "folders_item", "folders_item_tpl", true );
     $i++;
 }
-/** insert the user folders **/
-$userFolders = eZMailFolder::getTree( 0, -1);
+/** insert the local user folders **/
+$userFolders = eZMailFolder::getTree( 0, -1 );
 foreach( $userFolders as $folderItem )
 {
+    $t->set_var( "account_type", "local" );
     $t->set_var( "folder_id", $folderItem[0] );
     $t->set_var( "folder_name", htmlspecialchars( $folderItem[1] ) );
     $t->set_var( "folder_unread_mail_total", eZMailFolder::count( true, $folderItem[0] ) );
@@ -120,6 +123,36 @@ foreach( $userFolders as $folderItem )
     $t->parse( "folders_item_edit", "folders_item_edit_tpl", false );
     $t->parse( "folders_item", "folders_item_tpl", true );
     $i++;
+}
+$t->parse( "mailbox_item", "mailbox_item_tpl", true );
+
+/** insert the remote user folders **/
+$imapAccounts = eZMailAccount::getByUser( eZUser::currentUser(), IMAP );
+if( count( $imapAccounts ) > 0 )
+{
+    foreach( $imapAccounts as $imapAccount ) // loop through all IMAP accounts
+    {
+        $t->set_var( "folders_item", "" ); // cleanup after last round.
+        $folders = eZIMAPMailFolder::getImapTree( $imapAccount );
+        if( count( $folders ) > 0 )
+        {
+            foreach( $folders as $folder ) // loop trough all folders in each IMAP account
+            {
+                $t->set_var( "account_type", "remote" );
+                $t->set_var( "folder_id", $folder->encodeFolderID() );
+                $t->set_var( "folder_name", $folder->name() );
+                $t->set_var( "folder_unread_mail_total", "UA" );
+                $t->set_var( "folder_mail_total", "UA" );
+                $t->set_var( "indent", "" ); // TODO: DIFFERENT THAN FOR LOCAL FULL PATH IS GIVEN
+                $t->set_var( "edit_empty", "" );
+                ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
+                $t->parse( "folders_item_edit", "folders_item_edit_tpl", false );
+                $t->parse( "folders_item", "folders_item_tpl", true );
+                $i++;
+            }
+            $t->parse( "mailbox_item", "mailbox_item_tpl", true );
+        }
+    }
 }
 
 /** insert folders into the move dialog **/

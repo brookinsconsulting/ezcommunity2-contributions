@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: folderedit.php,v 1.8 2002/04/09 14:19:03 fh Exp $
+// $Id: folderedit.php,v 1.9 2002/04/09 20:10:05 fh Exp $
 //
 // Created on: <16-Feb-2001 14:33:48 fh>
 //
@@ -112,9 +112,16 @@ $t->set_var( "folder_name", "" );
 $t->set_var( "top_imap_item", "" );
 $t->set_var( "current_folder_id", $FolderID );
 
-if( $FolderID != 0 )
+if( !empty( $FolderID ) )
 {
-    $folder = new eZMailFolder( $FolderID );
+    if( strstr( $FolderID, "-" ) ) // editing IMAP folder
+    {
+        $folder = new eZIMAPMailFolder( $FolderID );
+    }
+    else
+    {
+        $folder = new eZMailFolder( $FolderID );
+    }
     $parentID = $folder->parentID();
     $t->set_var( "folder_name", $folder->name() );
 }
