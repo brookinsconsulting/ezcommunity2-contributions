@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezonline.php,v 1.3 2000/11/15 15:31:43 ce-cvs Exp $
+// $Id: ezonline.php,v 1.4 2000/11/16 18:55:36 pkej-cvs Exp $
 //
 // Definition of eZOnline class
 //
@@ -47,11 +47,11 @@ class eZOnline
     /*!
       Constructs a new eZOnline object.
     */
-    function eZOnline( $id="-1", $fetch=true )
+    function eZOnline( $id="", $fetch=true )
     {
         $this->IsConnected = false;
 
-        if ( $id != -1 )
+        if ( !empty( $id ) )
         {
             $this->ID = $id;
             if ( $fetch == true )

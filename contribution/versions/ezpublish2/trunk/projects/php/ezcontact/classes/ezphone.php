@@ -11,11 +11,11 @@ class eZPhone
     /*
 
     */
-    function eZPhone( $id="-1", $fetch=true )
+    function eZPhone( $id="", $fetch=true )
     {
         $this->IsConnected = false;
         
-        if ( $id != -1 )
+        if ( !empty( $id ) )
         {
             $this->ID = $id;
             if ( $fetch == true )
@@ -44,7 +44,6 @@ class eZPhone
         $this->dbInit();
         
         $ret = false;
-        
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZContact_Phone set Number='$this->Number', PhoneTypeID='$this->PhoneTypeID' " );

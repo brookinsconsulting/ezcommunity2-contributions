@@ -146,6 +146,7 @@
 </tr>
 </table>
 <input type="hidden" name="AddressTypeID" value="{cv_address_type_id}" />
+<input type="hidden" name="AddressID" value="{cv_address_id}" />
 <!-- END address_item_tpl -->
 
 <h3>{intl-telephone_headline}</h3>
@@ -155,7 +156,7 @@
         <!-- BEGIN home_phone_item_tpl -->
         <p class="boxtext">{intl-home_phone}:</p>
         <input type="text" size="20" name="Phone[]" value="{home_phone}"/>
-        <input type="hidden" name="PhoneTypeID[]" value="{cv_work_phone_type_id}">
+        <input type="hidden" name="PhoneTypeID[]" value="{cv_home_phone_type_id}">
         <input type="hidden" name="PhoneID[]" value="{cv_home_phone_id}">
         <!-- END home_phone_item_tpl -->
     </td>
@@ -178,7 +179,7 @@
         <p class="boxtext">{intl-email}:</p>
         <input type="text" size="20" name="Online[]" value="{email}"/>
         <input type="hidden" name="URLType[]" value="mailto">
-        <input type="hidden" name="OnlineTypeID[]" value="{cv_web_online_type_id}">
+        <input type="hidden" name="OnlineTypeID[]" value="{cv_email_online_type_id}">
         <input type="hidden" name="OnlineID[]" value="{cv_email_online_id}">
         <!-- END email_item_tpl -->
     </td>

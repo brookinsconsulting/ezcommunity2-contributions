@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.25 2000/11/16 17:43:13 pkej-cvs Exp $
+// $Id: ezperson.php,v 1.26 2000/11/16 18:55:36 pkej-cvs Exp $
 //
 // Definition of eZPerson class
 //
@@ -38,7 +38,7 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezdb.php" );
 include_once( "ezcontact/classes/ezaddress.php" );
 include_once( "ezcontact/classes/ezphone.php" );
-// include_once( "ezcontact/classes/ezonline.php" );
+include_once( "ezcontact/classes/ezonline.php" );
 
 class eZPerson
 {
@@ -48,10 +48,10 @@ class eZPerson
       If $id is set, the object's values are fetched from the
       database.
     */
-    function eZPerson( $id="-1", $fetch=true  )
+    function eZPerson( $id="", $fetch=true  )
     {
         $this->IsConnected = false;
-        if( $id != -1 )
+        if( !empty( $id ) )
         {
             $this->ID = $id;
             if( $fetch == true )
@@ -257,9 +257,9 @@ class eZPerson
                                                  WHERE PersonID='$personID'" );
 
         foreach( $address_array as $addressItem )
-            {
-                $return_array[] = new eZAddress( $addressItem["AddressID"] );
-            }
+        {
+            $return_array[] = new eZAddress( $addressItem["AddressID"] );
+        }
 
         return $return_array;
     }
@@ -279,11 +279,13 @@ class eZPerson
         {
             $addressID = $address->id();
 
-            $checkQuery = "SELECT $PersonID FROM eZContact_PersonAddressDict WHERE AddressID='$addressID'";
+            $checkQuery = "SELECT PersonID FROM eZContact_PersonAddressDict WHERE AddressID='$addressID'";
             
             $this->Database->array_query( $address_array, $checkQuery );
 
-            if( !is_array( $address_array ) )
+            $count = count( $address_array );
+
+            if( $count == 0 )
             {
                 $this->Database->query( "INSERT INTO eZContact_PersonAddressDict
                                 SET PersonID='$this->ID', AddressID='$addressID'" );
@@ -331,11 +333,12 @@ class eZPerson
         {
             $phoneID = $phone->id();
 
-            $checkQuery = "SELECT $PersonID FROM eZContact_PersonPhoneDict WHERE PhoneID='$phoneID'";
-            
+            $checkQuery = "SELECT PersonID FROM eZContact_PersonPhoneDict WHERE PhoneID='$phoneID'";
+
             $this->Database->array_query( $phone_array, $checkQuery );
 
-            if( !is_array( $phone_array ) )
+            $count = count( $phone_array );
+            if( $count == 0 )
             {
                 $this->Database->query( "INSERT INTO eZContact_PersonPhoneDict
                                 SET PersonID='$this->ID', PhoneID='$phoneID'" );
@@ -349,7 +352,7 @@ class eZPerson
     /*!
       Returns the onlines that belong to this eZPerson object.
     */
-    function onlines( $onlineID )
+    function onlines( $personID )
     {
         if( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -359,12 +362,12 @@ class eZPerson
 
         $this->Database->array_query( $online_array, "SELECT OnlineID
                                                  FROM eZContact_PersonOnlineDict
-                                                 WHERE OnlineID='$this->onlineID'" );
+                                                 WHERE PersonID='$personID'" );
 
         foreach( $online_array as $onlineItem )
-            {
-                $return_array[] = new eZOnline( $onlineItem["OnlineID"] );
-            }
+        {
+            $return_array[] = new eZOnline( $onlineItem["OnlineID"] );
+        }
 
         return $return_array;
     }
@@ -385,11 +388,13 @@ class eZPerson
         {
             $onlineID = $online->id();
 
-            $checkQuery = "SELECT $PersonID FROM eZContact_PersonOnlineDict WHERE OnlineID='$onlineID'";
+            $checkQuery = "SELECT PersonID FROM eZContact_PersonOnlineDict WHERE OnlineID='$onlineID'";
             
             $this->Database->array_query( $online_array, $checkQuery );
 
-            if( !is_array( $online_array ) )
+            $count = count( $online_array );
+
+            if( $count == 0 )
             {
                 $this->Database->query( "INSERT INTO eZContact_PersonOnlineDict
                                 SET PersonID='$this->ID', OnlineID='$onlineID'" );
@@ -442,7 +447,9 @@ class eZPerson
             $checkQuery = "SELECT PersonID FROM eZContact_UserPersonDict WHERE UserID=$userID";
             $this->Database->array_query( $user_array, $checkQuery );
             
-            if( !is_array( $user_array ) )
+            $count = count( $user_array );
+            
+            if( $count == 0 )
             {
                 $this->Database->query( "INSERT INTO eZContact_UserPersonDict
                                 SET PersonID='$this->ID', UserID='$userID'" );

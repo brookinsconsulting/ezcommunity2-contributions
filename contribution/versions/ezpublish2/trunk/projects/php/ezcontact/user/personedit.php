@@ -73,19 +73,20 @@ $t->set_var( "email", "" );
     dynamic information in certain categories.
  */
 
-define( "HOME_PHONE_TYPE_ID", "1" );
-define( "WORK_PHONE_TYPE_ID", "2" );
-define( "WEB_ONLINE_TYPE_ID", "1" );
-define( "EMAIL_ONLINE_TYPE_ID", "2" );
-define( "CONTACT_TYPE_ID", "1" );
-define( "ADDRESS_TYPE_ID", "1" );
+$HOME_PHONE_TYPE_ID = 1;
+$WORK_PHONE_TYPE_ID = 2;
+$WEB_ONLINE_TYPE_ID = 1;
+$EMAIL_ONLINE_TYPE_ID = 2;
+$CONTACT_TYPE_ID = 1;
+$ADDRESS_TYPE_ID = 1;
 
-$t->set_var( "cv_contact_type_id", "CONTACT_TYPE_ID" );
-$t->set_var( "cv_address_type_id", "ADDRESS_TYPE_ID" );
-$t->set_var( "cv_home_phone_type_id", "HOME_PHONE_TYPE_ID" );
-$t->set_var( "cv_work_phone_type_id", "WORK_PHONE_TYPE_ID" );
-$t->set_var( "cv_web_online_type_id", "WEB_ONLINE_TYPE_ID" );
-$t->set_var( "cv_email_online_type_id", "EMAIL_ONLINE_TYPE_ID" );
+$t->set_var( "cv_contact_type_id", "$CONTACT_TYPE_ID" );
+$t->set_var( "cv_address_type_id", "$ADDRESS_TYPE_ID" );
+$t->set_var( "cv_address_id", "" );
+$t->set_var( "cv_home_phone_type_id", "$HOME_PHONE_TYPE_ID" );
+$t->set_var( "cv_work_phone_type_id", "$WORK_PHONE_TYPE_ID" );
+$t->set_var( "cv_web_online_type_id", "$WEB_ONLINE_TYPE_ID" );
+$t->set_var( "cv_email_online_type_id", "$EMAIL_ONLINE_TYPE_ID" );
 $t->set_var( "cv_home_phone_id", "" );
 $t->set_var( "cv_work_phone_id", "" );
 $t->set_var( "cv_web_online_id", "" );
@@ -207,9 +208,15 @@ if( $Action == "insert" && $error == false && $Add_User == true )
     }
 }
 
-if( $Action == "insert" && $error == false && $Add_User == false )
+if( ( $Action == "insert" || $Action == "update" ) && $error == false && $Add_User == false )
 {
-    $person = new eZPerson();
+    $user = new eZUser( $UserID, true );
+    $user->setFirstName( $FirstName );
+    $user->setLastName( $LastName );
+    $user->setEmail( $Online[0] );
+    $user->store();
+    
+    $person = new eZPerson( $PersonID, fetch );
     $person->setFirstName( $FirstName );
     $person->setLastName( $LastName );
     
@@ -224,35 +231,35 @@ if( $Action == "insert" && $error == false && $Add_User == false )
     $person->addUser( $user );
 
     // adresss
-    $address = new eZAddress();
+    $address = new eZAddress( $AddressID, true );
     $address->setStreet1( $Street1 );
     $address->setStreet2( $Street2 );
     $address->setZip( $Zip );
     $address->setPlace( $Place );
-    $address->setAddressType( $AddressType );
+    $address->setAddressType( $AddressTypeID );
     $address->store();
-
+    
     $person->addAddress( $address );
 
     for($i=0; $i < count( $Phone ); $i++)
     {
-        $phone = new eZPhone( );
-        // telefonnummer
+        $phone = new eZPhone( $PhoneID[$i], true );
         $phone->setNumber( $Phone[$i] );
         $phone->setPhoneTypeID( $PhoneTypeID[$i] );
         $phone->store();
+        
         $person->addPhone( $phone );
     }
 
-//     for($i=0; $i < count( $Online ); $i++)
-//     {
-//         $Online = new eZOnline();
-//         $Online->setURL( $Online[$i] );
-//         $Online->setURLType( $URLType[$i] );
-//         $Online->setOnlineTypeID( $OnlineTypeID[$i] );
-//         $Online->store();
-//         $person->addOnline( $Online );
-//     }
+    for($i=0; $i < count( $Online ); $i++)
+    {
+        $online = new eZOnline( $OnlineID[$i], true );
+        $online->setURL( $Online[$i] );
+        $online->setURLType( $URLType[$i] );
+        $online->setOnlineTypeID( $OnlineTypeID[$i] );
+        $online->store();
+        $person->addOnline( $online );
+    }
     
     $PersonID = $person->id();
     
@@ -334,20 +341,21 @@ if( $Action == "edit" )
     $count = count( $phoneList );
     if( $count <= 2 && $count != 0 )
     {
-        for( $i=0; $i<count ( $phoneList ); $i++ )
+        for( $i=0; $i < $count; $i++ )
         {
-            if ( $phoneList[$i]->phoneTypeID() == HOME_PHONE_TYPE_ID )
+            if ( $phoneList[$i]->phoneTypeID() == $HOME_PHONE_TYPE_ID )
             {
                 $t->set_var( "cv_home_phone_id", $phoneList[$i]->id() );
                 $t->set_var( "home_phone", $phoneList[$i]->number() );
             }
-            if ( $phoneList[$i]->phoneTypeID() == WORK_PHONE_TYPE_ID )
+            
+            $t->parse( "home_phone_item", "home_phone_item_tpl" );
+            if ( $phoneList[$i]->phoneTypeID() == $WORK_PHONE_TYPE_ID )
             {
                 $t->set_var( "cv_work_phone_id", $phoneList[$i]->id() );
                 $t->set_var( "work_phone", $phoneList[$i]->number() );
             }
 
-            $t->parse( "home_phone_item", "home_phone_item_tpl" );
             $t->parse( "work_phone_item", "work_phone_item_tpl" );
         }
     }
@@ -364,13 +372,11 @@ if( $Action == "edit" )
     {
         foreach( $addressList as $addressItem )
         {
-            $t->set_var( "address_id", $addressItem->id() );
+            $t->set_var( "cv_address_id", $addressItem->id() );
             $t->set_var( "street1", $addressItem->street1() );
             $t->set_var( "street2", $addressItem->street2() );
             $t->set_var( "zip", $addressItem->zip() );
             $t->set_var( "place", $addressItem->place() );
-            
-            $t->set_var( "person_id", $PersonID );
             
             $t->set_var( "script_name", "personedit.php" );
 
@@ -389,15 +395,16 @@ if( $Action == "edit" )
     {
         for( $i=0; $i<count ( $OnlineList ); $i++ )
         {
-            if ( $OnlineList[$i]->onlineTypeID() == WEB_ONLINE_TYPE_ID )
+            if ( $OnlineList[$i]->onlineTypeID() == $WEB_ONLINE_TYPE_ID )
             {
-                $t->set_var( "web_online_id", $OnlineList[$i]->id() );
-                $t->set_var( "online[1]", $OnlineList[$i]->URL() );
+                $t->set_var( "cv_web_online_id", $OnlineList[$i]->id() );
+                $t->set_var( "web", $OnlineList[$i]->URL() );
             }
-            if ( $OnlineList[$i]->onlineTypeID() == EMAIL_ONLINE_TYPE_ID )
+            
+            if ( $OnlineList[$i]->onlineTypeID() == $EMAIL_ONLINE_TYPE_ID )
             {
-                $t->set_var( "email_online_id", $OnlineList[$i]->id() );
-                $t->set_var( "online[0]", $OnlineList[$i]->URL() );
+                $t->set_var( "cv_email_online_id", $OnlineList[$i]->id() );
+                $t->set_var( "email", $OnlineList[$i]->URL() );
             }
             
             $t->parse( "web_item", "web_item_tpl" );
@@ -410,6 +417,8 @@ if( $Action == "edit" )
         $t->parse( "email_item", "email_item_tpl" );
     }
     
+    $t->set_var( "person_id", $PersonID );
+            
     $t->set_var( "password_item", "" );
     
     $t->parse( "person_item", "person_item_tpl" );
