@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pricegroupedit.php,v 1.5 2001/07/30 07:11:55 br Exp $
+// $Id: pricegroupedit.php,v 1.5.2.1 2002/02/07 08:39:29 jhe Exp $
 //
 // Created on: <23-Feb-2001 15:32:27 amos>
 //
@@ -39,7 +39,8 @@ $price = new eZPriceGroup( $PriceID );
 
 if ( isset( $Cancel ) )
 {
-    header( "Location: /trade/pricegroups/list" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /trade/pricegroups/list" );
     exit();
 }
 
@@ -50,11 +51,12 @@ if ( isset( $OK ) )
     $price->store();
 
     $price->removeUserGroups();
-    foreach( $GroupID as $group )
+    foreach ( $GroupID as $group )
     {
         $price->addUserGroup( $group );
     }
-    header( "Location: /trade/pricegroups/list" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /trade/pricegroups/list" );
     exit();
 }
 else if ( isset( $PriceID ) and is_numeric( $PriceID ) )
@@ -86,7 +88,7 @@ if ( !isset( $GroupID ) )
     $GroupID = array();
 
 $groups = eZUserGroup::getAll();
-foreach( $groups as $group )
+foreach ( $groups as $group )
 {
     $t->set_var( "group_id", $group->id() );
     $t->set_var( "group_name", eZTextTool::htmlspecialchars( $group->name() ) );

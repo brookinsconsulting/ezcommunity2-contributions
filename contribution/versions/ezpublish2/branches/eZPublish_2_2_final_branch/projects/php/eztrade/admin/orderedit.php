@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderedit.php,v 1.31.2.2 2001/11/21 17:34:16 br Exp $
+// $Id: orderedit.php,v 1.31.2.3 2002/02/07 08:39:29 jhe Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -25,7 +25,8 @@
 
 if ( isSet( $Cancel ) )
 {
-    Header( "Location: /trade/orderlist/" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /trade/orderlist/" );
     exit();
 }
 
@@ -77,7 +78,8 @@ if ( $Action == "newstatus" )
     $status->setAdmin( $user );
     $status->store();            
 
-    Header( "Location: /trade/orderlist/" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /trade/orderlist/" );
     exit();
 }
 
@@ -86,7 +88,8 @@ if ( $Action == "delete" )
     $order = new eZOrder( $OrderID );
     $order->delete();
     
-    Header( "Location: /trade/orderlist/" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /trade/orderlist/" );
     exit();
 }
 
@@ -104,8 +107,6 @@ $t->set_block( "order_edit_tpl", "invoice_tpl", "invoice" );
 
 $t->set_block( "order_edit_tpl", "order_status_option_tpl", "order_status_option" );
 $t->set_block( "order_edit_tpl", "order_status_history_tpl", "order_status_history" );
-
-
 
 $t->set_block( "order_edit_tpl", "full_cart_tpl", "full_cart" );
 $t->set_block( "full_cart_tpl", "cart_item_list_tpl", "cart_item_list" );
@@ -351,7 +352,7 @@ foreach ( $items as $item )
     }
     else
     {
-        if( false )
+        if ( false )
         {
             $t->set_var( "basis_price", $item->localePrice( false, false, $PricesIncludeVAT ) );
             $t->parse( "cart_item_basis", "cart_item_basis_tpl", true );
@@ -461,7 +462,7 @@ if ( $ShowCart == true )
 
     $j = 0;
 
-    foreach( $tax as $taxGroup )
+    foreach ( $tax as $taxGroup )
     {
         $t->set_var( "td_class", ( $j % 2 ) == 0 ? "bglight" : "bgdark" );
         $j++;  
