@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.12 2000/11/07 12:41:10 ce-cvs Exp $
+// $Id: userwithaddress.php,v 1.13 2000/11/07 13:36:41 bf-cvs Exp $
 //
 // 
 //
@@ -206,7 +206,7 @@ if ( $Action == "Update" )
 
 
 
-$t = new eZTemplate( "ezuser/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
+$t = new eZTemplate( "ezuser/user/" . $ini->read_var( "eZUserMain", "TemplateDir" ),
                      "ezuser/user/intl/", $Language, "userwithaddress.php" );
 
 $t->setAllStrings();
