@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: hotdealslist.php,v 1.7 2001/02/08 10:37:50 jb Exp $
+// $Id: hotdealslist.php,v 1.8 2001/02/08 11:22:18 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Nov-2000 19:34:40 bf>
@@ -56,6 +56,14 @@ $t->set_block( "product_list_tpl", "product_tpl", "product" );
 $t->set_block( "product_tpl", "product_image_tpl", "product_image" );
 $t->set_block( "product_tpl", "price_tpl", "price" );
 
+if ( !isset( $ModuleName ) )
+    $ModuleName = "trade";
+if ( !isset( $ModuleView ) )
+    $ModuleView = "productview";
+
+$t->set_var( "module", $ModuleName );
+$t->set_var( "module_view", $ModuleView );
+
 
 $t->setAllStrings();
 
@@ -95,10 +103,21 @@ foreach ( $productList as $product )
     {
         $thumbnail =& $image->requestImageVariation( 100, 100 );
 
-        $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
-        $t->set_var( "product_image_width", $thumbnail->width() );
-        $t->set_var( "product_image_height", $thumbnail->height() );
-        $t->set_var( "product_image_caption", $image->caption() );
+        if ( !isset( $HotDealsPage ) )
+        {
+            $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
+            $t->set_var( "product_image_width", $thumbnail->width() );
+            $t->set_var( "product_image_height", $thumbnail->height() );
+            $t->set_var( "product_image_caption", $image->caption() );
+        }
+        else
+        {
+            $t->set_var( "thumbnail_image_uri", "/" . $thumbnail->imagePath() );
+            $t->set_var( "thumbnail_image_width", $thumbnail->width() );
+            $t->set_var( "thumbnail_image_height", $thumbnail->height() );
+            $t->set_var( "thumbnail_image_caption", $image->caption() );
+        }
+
         $t->parse( "product_image", "product_image_tpl" );
     }
     else

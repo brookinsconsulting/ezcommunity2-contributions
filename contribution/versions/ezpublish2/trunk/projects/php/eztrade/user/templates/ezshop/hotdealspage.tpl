@@ -26,6 +26,7 @@
         </td>
     </tr>
     </table>
+	<!-- END product_image_tpl -->
 
 	<div class="p">{product_intro_text}</div>
 
