@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: image.php,v 1.17.2.6 2002/05/08 13:05:20 jb Exp $
+// $Id: image.php,v 1.17.2.7 2002/08/06 15:15:45 gl Exp $
 //
 // Created on: <14-Jun-2001 13:18:27 amos>
 //
@@ -106,9 +106,14 @@ else if( $Command == "data" ) // Dump image info!
                 $cats = $image->categories();
                 $cats = array_diff( $cats, array( $cat_def_id ) );
 
+                $section_id = 0;
+                $cat_def_id = 0;
                 $cat_def = $image->categoryDefinition();
-                $cat_def_id = $cat_def->id();
-                $section_id = eZImageCategory::sectionIDStatic( $cat_def_id );
+                if ( is_object( $cat_def ) )
+                {
+                    $cat_def_id = $cat_def->id();
+                    $section_id = eZImageCategory::sectionIDStatic( $cat_def_id );
+                }
                 $section_lang = false;
                 if ( $section_id != 0 )
                 {
