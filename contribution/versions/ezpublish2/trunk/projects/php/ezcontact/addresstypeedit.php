@@ -54,7 +54,7 @@ $t->set_file( array(
 $t->set_var( "submit_text", "Legg til" );
 $t->set_var( "action_value", "insert" );
 $t->set_var( "address_type_id", "" );
-$t->set_var( "head_line", "Endre addresse type" );
+$t->set_var( "head_line", "Legg til addresse type" );
 
 // Editere
 if ( $Action == "edit" )

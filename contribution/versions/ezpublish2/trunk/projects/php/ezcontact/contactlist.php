@@ -4,12 +4,15 @@ require "ezcontact/dbsettings.php";
 
 require  "ezphputils.php";
 require $DOCUMENTROOT . "classes/ezperson.php";
+print ( "blah" );
 require $DOCUMENTROOT . "classes/ezpersontype.php";
 require $DOCUMENTROOT . "classes/ezsession.php";
 require $DOCUMENTROOT . "classes/ezuser.php";
 require $DOCUMENTROOT . "classes/ezcompany.php";
 
 include( $DOCUMENTROOT . "checksession.php" );
+
+
 
 $t = new Template( ".");  
 

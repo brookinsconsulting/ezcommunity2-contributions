@@ -33,7 +33,18 @@ class eZPerson
         return mysql_insert_id();
     }
 
+
     /*
+      Sletter informasjonen som ligger i databasen.
+    */
+    function delete()
+    {
+        $this->dbInit();
+        query( "DELETE FROM Person WHERE ID='$this->ID'" );
+    }
+
+
+/*
       Oppdaterer informasjonen som ligger i databasen.
     */  
     function update()

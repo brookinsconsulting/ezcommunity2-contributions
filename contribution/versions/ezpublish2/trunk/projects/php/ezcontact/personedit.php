@@ -13,7 +13,9 @@ require $DOCUMENTROOT . "classes/ezuser.php";
 require $DOCUMENTROOT . "classes/ezpersonphonedict.php";
 require $DOCUMENTROOT . "classes/ezpersonaddressdict.php";
 
-// Oppdatere informasjon
+print ( "blah" );
+
+// Oppdatere informasjon.
 if ( $Action == "update" )
 {
     $updatePerson = new eZPerson();
@@ -26,7 +28,18 @@ if ( $Action == "update" )
     $updatePerson->update();
 }
 
-// Legge til kontakt person
+// Slette person fra databasen.
+if ( $Action == "delete" )
+{
+    $deletePerson = new eZPerson();
+    $deletePerson->get ( $PID );
+    $deletePerson->delete();
+
+    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "contactlist.php" );
+    
+}
+
+// Legge til kontakt person.
 if ( $Action == "insert" )
 {
   $newPerson = new eZPerson();
@@ -37,7 +50,7 @@ if ( $Action == "insert" )
   $newPerson->setCompany( $CompanyID );
   $newPerson->setComment( $Comment );
 
-  { // hente ut gjeldene bruker
+  { // hente ut gjeldene bruker.
     $session = new eZSession();
     $session->get( $AuthenticatedSession ); 
     $usr = new eZUser();
@@ -58,6 +71,7 @@ if ( $Action == "insert" )
   $link->store();
 }
 
+
 // sjekke session
 {
   include( $DOCUMENTROOT . "checksession.php" );
@@ -71,6 +85,7 @@ $t->set_file( array(
                     "address_type_select" => $DOCUMENTROOT . "templates/addresstypeselect.tpl"
                     ) );
 
+
 $message = "Legg til ny kontakt person informasjon";
 $submit_text = "Legg til";
 $action_value = "insert";
@@ -83,6 +98,7 @@ $addressType = new eZAddressType();
 $person_type_array = $personType->getAll( );
 $company_array = $company->getAll( );
 $address_type_array = $addressType->getAll( );
+
 
 // Editere kontakt person
 if ( $Action == "edit" )
