@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfilterrule.php,v 1.12 2001/06/28 08:14:54 bf Exp $
+// $Id: ezmailfilterrule.php,v 1.13 2001/07/10 11:27:43 fh Exp $
 //
 // eZMailFilterRule class
 //
@@ -64,26 +64,12 @@ class eZMailFilterRule
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZMailFilterRule( $id="", $fetch=true )
+    function eZMailFilterRule( $id="" )
     {
-        $this->IsConnected = false;
-
         if ( $id != "" )
         {
-
             $this->ID = $id;
-            if ( $fetch == true )
-            {                
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -92,7 +78,7 @@ class eZMailFilterRule
     */
     function delete( $id = -1 )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if( $id == -1 )
             $id = $this->ID;
         
@@ -105,28 +91,30 @@ class eZMailFilterRule
     */
     function store()
     {
-        $this->dbInit();
-
-        $match = addslashes( $this->Match );
+        $db =& eZDB::globalDatabase();
+        $match = $db->escapeString( $this->Match );
         
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZMail_FilterRule SET
-		                         UserID='$this->UserID',
-                                 HeaderType='$this->HeaderType',
-                                 CheckType='$this->CheckType',
-                                 MatchValue='$match',
-                                 FolderID='$this->FolderID',
-                                 IsActive='$this->IsActive'
+            $db->lock( "eZMail_FilterRule" );
+            $nextID = $db->nextID( "eZMail_FilterRule", "ID" );
+            $result = $db->query( "INSERT INTO eZMail_FilterRule ( ID, UserID, HeaderType, CheckType,
+                                    MatchValue, FolderID, IsActive )
+                                 VALUES (
+                                 '$nextID',
+		                         '$this->UserID',
+                                 '$this->HeaderType',
+                                 '$this->CheckType',
+                                 '$match',
+                                 '$this->FolderID',
+                                 '$this->IsActive' )
                                  " );
 
-			$this->ID = $this->Database->insertID();
-
-            $this->State_ = "Coherent";
+			$this->ID = $nextID;
         }
         else
         {
-            $this->Database->query( "UPDATE eZMail_FilterRule SET
+            $result = $db->query( "UPDATE eZMail_FilterRule SET
 		                         UserID='$this->UserID',
                                  HeaderType='$this->HeaderType',
                                  CheckType='$this->CheckType',
@@ -136,9 +124,13 @@ class eZMailFilterRule
                                  WHERE ID='$this->ID'
                                  " );
 
-            $this->State_ = "Coherent";
         }
-        
+        $db->unlock();
+        if ( $result == false )
+            $db->rollback( );
+        else
+            $db->commit();
+
         return true;
     }    
 
@@ -147,33 +139,27 @@ class eZMailFilterRule
     */
     function get( $id="" )
     {
-        $this->dbInit();
         $ret = false;
-        
         if ( $id != "" )
         {
-            $this->Database->array_query( $mail_array, "SELECT * FROM eZMail_FilterRule WHERE ID='$id'" );
+            $db =& eZDB::globalDatabase();
+            $db->array_query( $mail_array, "SELECT * FROM eZMail_FilterRule WHERE ID='$id'" );
             if ( count( $mail_array ) > 1 )
             {
                 die( "Error: Mail filters with the same ID where found in the database. This should not happen." );
             }
             else if( count( $mail_array ) == 1 )
             {
-                $this->ID =& $mail_array[0][ "ID" ];
-                $this->UserID =& $mail_array[0][ "UserID" ];
-                $this->HeaderType =& $mail_array[0][ "HeaderType" ];
-                $this->CheckType =& $mail_array[0][ "CheckType" ];
-                $this->Match =& $mail_array[0][ "MatchValue" ];
-                $this->FolderID =& $mail_array[0][ "FolderID" ];
-                $this->IsActive =& $mail_array[0][ "IsActive" ];
+                $this->ID =& $mail_array[0][ $db->fieldName("ID") ];
+                $this->UserID =& $mail_array[0][ $db->fieldName("UserID") ];
+                $this->HeaderType =& $mail_array[0][ $db->fieldName("HeaderType") ];
+                $this->CheckType =& $mail_array[0][ $db->fieldName("CheckType") ];
+                $this->Match =& $mail_array[0][ $db->fieldName("MatchValue") ];
+                $this->FolderID =& $mail_array[0][ $db->fieldName("FolderID") ];
+                $this->IsActive =& $mail_array[0][ $db->fieldName("IsActive") ];
                 
-                $this->State_ = "Coherent";
                 $ret = true;
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
     }
@@ -191,9 +177,6 @@ class eZMailFilterRule
     */
     function owner()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->UserID;;
     }
     
@@ -202,9 +185,6 @@ class eZMailFilterRule
     */
     function setOwner( $newOwner )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         if( get_class( $newOwner ) == "ezuser" )
             $this->UserID = $newOwner->id();
         else
@@ -216,8 +196,6 @@ class eZMailFilterRule
      */
     function headerType()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->HeaderType;
     }
 
@@ -226,8 +204,6 @@ class eZMailFilterRule
      */
     function setHeaderType( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $this->HeaderType = $value;
     }
 
@@ -236,8 +212,6 @@ class eZMailFilterRule
      */
     function checkType()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->CheckType;
     }
 
@@ -246,8 +220,6 @@ class eZMailFilterRule
      */
     function setCheckType( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $this->CheckType = $value;
     }
 
@@ -256,8 +228,6 @@ class eZMailFilterRule
      */
     function match()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->Match;
     }
 
@@ -266,8 +236,6 @@ class eZMailFilterRule
      */
     function setMatch( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $this->Match = $value;
     }
 
@@ -276,8 +244,6 @@ class eZMailFilterRule
     */
     function isActive()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
 
         return $this->IsActive;
     }
@@ -287,9 +253,6 @@ class eZMailFilterRule
    */
     function setIsActive( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->IsActive = $value;
     }
 
@@ -298,8 +261,6 @@ class eZMailFilterRule
      */
     function folderID()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->FolderID;
     }
     
@@ -308,11 +269,7 @@ class eZMailFilterRule
      */
     function setFolderID( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->FolderID = $value;
-
     }
 
     /*!
@@ -334,7 +291,7 @@ class eZMailFilterRule
  
         for ( $i=0; $i < count($account_array); $i++ )
         {
-            $return_array[$i] = new eZMailFilterRule( $account_array[$i]["ID"] );
+            $return_array[$i] = new eZMailFilterRule( $account_array[$i][$database->fieldName("ID")] );
         }
  
         return $return_array; 
@@ -507,20 +464,6 @@ class eZMailFilterRule
         }
     }
     
-   /*!
-      \private
-      
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
-
     var $ID;
     var $UserID;
 

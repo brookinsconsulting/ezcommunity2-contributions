@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.31 2001/07/05 20:42:27 bf Exp $
+// $Id: ezmail.php,v 1.32 2001/07/10 11:27:43 fh Exp $
 //
 // Definition of eZMail class
 //
@@ -33,7 +33,7 @@
   Functions that are used when sending mail have ideas from:
     Sascha Schumann <sascha@schumann.cx>
     Tobias Ratschiller <tobias@dnet.it
-  extended and modified to fit eZPublish needs by
+  extended and modified to fit eZ publish needs by
     Frederik Holljen <fh@ez.no>
   
   Example code:
@@ -61,31 +61,20 @@ class eZMail
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZMail( $id="", $fetch=true )
+    function eZMail( $id="" )
     {
-        $FilesAttached = false;
+        $this->$FilesAttached = false;
         
-        $this->IsConnected = false;
-
         // array used when sending mail.. do not alter!!!
         $this->parts = array();
         if ( $id != "" )
         {
 
             $this->ID = $id;
-            if ( $fetch == true )
-            {                
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-                
-            }
+            $this->get( $this->ID );
         }
         else
         {
-            $this->State_ = "New";
             // default values
             $this->IsPublished = "false";
             $this->UDate = time();
@@ -98,7 +87,7 @@ class eZMail
     */
     function delete( $id = -1 )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if( $id == -1 )
             $id = $this->ID;
         
@@ -113,42 +102,46 @@ class eZMail
     */
     function store()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-        $to = addslashes( $this->To );
-        $from = addslashes( $this->From );
-        $cc = addslashes( $this->Cc );
-        $bcc = addslashes( $this->Bcc );
-        $references = addslashes( $this->References );
-        $replyto = addslashes( $this->ReplyTo );
-        $subject = addslashes( $this->Subject );
-        $body = addslashes( $this->BodyText );
-                
+        $to = $db->escapeString( $this->To );
+        $from = $db->escapeString( $this->From );
+        $cc = $db->escapeString( $this->Cc );
+        $bcc = $db->escapeString( $this->Bcc );
+        $references = $db->escapeString( $this->References );
+        $replyto = $db->escapeString( $this->ReplyTo );
+        $subject = $db->escapeString( $this->Subject );
+        $body = $db->escapeString( $this->BodyText );
+        $db->begin();
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZMail_Mail SET
-		                         UserID='$this->UserID',
-                                 ToField='$to',
-                                 FromField='$from',
-                                 Cc='$cc',
-                                 Bcc='$bcc',
-                                 MessageID='$this->MessageID',
-                                 Reference='$references',
-                                 ReplyTo='$replyto',
-                                 Subject='$subject',
-                                 BodyText='$body',
-                                 Status='$this->Status',
-                                 Size='$this->Size',
-                                 UDate='$this->UDate'
-                                 " );
+            $db->lock( "eZMail_Mail" );
+            $nextID = $db->nextID( "eZMail_Mail", "ID" );            
+            $result = $db->query( "INSERT INTO eZMail_Mail ( ID, UserID, ToField, FromField, Cc, Bcc,
+                                 MessageID, Reference, ReplyTo, Subject, BodyText, Status, Size, UDate )
+                                 VALUES (
+                                 '$nextID',
+		                         '$this->UserID',
+                                 '$to',
+                                 '$from',
+                                 '$cc',
+                                 '$bcc',
+                                 '$this->MessageID',
+                                 '$references',
+                                 '$replyto',
+                                 '$subject',
+                                 '$body',
+                                 '$this->Status',
+                                 '$this->Size',
+                                 '$this->UDate'
+                                 )
+                       " );
 
-			$this->ID = $this->Database->insertID();
-
-            $this->State_ = "Coherent";
+			$this->ID = $nextID;
         }
         else
         {
-            $this->Database->query( "UPDATE eZMail_Mail SET
+            $result = $db->query( "UPDATE eZMail_Mail SET
 		                         UserID='$this->UserID',
                                  ToField='$to',
                                  FromField='$from',
@@ -164,10 +157,13 @@ class eZMail
                                  UDate='$this->UDate'
                                  WHERE ID='$this->ID'
                                  " );
-
-            $this->State_ = "Coherent";
         }
-        
+        $db->unlock();
+        if ( $result == false )
+            $db->rollback( );
+        else
+            $db->commit();
+
         return true;
     }    
 
@@ -176,41 +172,36 @@ class eZMail
     */
     function get( $id="" )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         $ret = false;
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $mail_array, "SELECT * FROM eZMail_Mail WHERE ID='$id'" );
+            $db->array_query( $mail_array, "SELECT * FROM eZMail_Mail WHERE ID='$id'" );
             if ( count( $mail_array ) > 1 )
             {
                 die( "Error: Mails with the same ID was found in the database. This should not happen." );
             }
             else if( count( $mail_array ) == 1 )
             {
-                $this->ID = $mail_array[0][ "ID" ];
-                $this->UserID = $mail_array[0][ "UserID" ];
-                $this->To = $mail_array[0][ "ToField" ];
-                $this->From = $mail_array[0][ "FromField" ];
-                $this->FromName = $mail_array[0][ "FromName" ];
-                $this->Cc = $mail_array[0][ "Cc" ];
-                $this->Bcc = $mail_array[0][ "Bcc" ];
-                $this->MessageID = $mail_array[0][ "MessageID" ];
-                $this->References = $mail_array[0][ "Reference" ];
-                $this->ReplyTo = $mail_array[0][ "ReplyTo" ];
-                $this->Subject = $mail_array[0][ "Subject" ];
-                $this->BodyText = $mail_array[0][ "BodyText" ];
-                $this->Status = $mail_array[0][ "Status" ];
-                $this->Size = $mail_array[0][ "Size" ];
-                $this->UDate = $mail_array[0][ "UDate" ];
+                $this->ID = $mail_array[0][ $db->fieldName("ID") ];
+                $this->UserID = $mail_array[0][ $db->fieldName("UserID") ];
+                $this->To = $mail_array[0][ $db->fieldName("ToField") ];
+                $this->From = $mail_array[0][ $db->fieldName("FromField") ];
+                $this->FromName = $mail_array[0][ $db->fieldName("FromName") ];
+                $this->Cc = $mail_array[0][ $db->fieldName("Cc") ];
+                $this->Bcc = $mail_array[0][ $db->fieldName("Bcc") ];
+                $this->MessageID = $mail_array[0][ $db->fieldName("MessageID") ];
+                $this->References = $mail_array[0][ $db->fieldName("Reference") ];
+                $this->ReplyTo = $mail_array[0][ $db->fieldName("ReplyTo") ];
+                $this->Subject = $mail_array[0][ $db->fieldName("Subject") ];
+                $this->BodyText = $mail_array[0][ $db->fieldName("BodyText") ];
+                $this->Status = $mail_array[0][ $db->fieldName("Status") ];
+                $this->Size = $mail_array[0][ $db->fieldName("Size") ];
+                $this->UDate = $mail_array[0][ $db->fieldName("UDate") ];
                 
-                $this->State_ = "Coherent";
                 $ret = true;
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
     }
@@ -228,9 +219,6 @@ class eZMail
     */
     function to()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->To;
     }
 
@@ -239,9 +227,6 @@ class eZMail
     */
     function setTo( $newTo )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->To = $newTo;
     }
 
@@ -251,9 +236,6 @@ class eZMail
     */
     function replyTo()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->ReplyTo;
     }
 
@@ -262,9 +244,6 @@ class eZMail
     */
     function setReplyTo( $newReplyTo )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->ReplyTo = $newReplyTo;
     }
 
@@ -274,8 +253,6 @@ class eZMail
     */
     function receiver()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->To;
     }
 
@@ -284,8 +261,6 @@ class eZMail
     */
     function setReceiver( $newReceiver )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
 
         $this->To = $newReceiver;
     }
@@ -296,9 +271,6 @@ class eZMail
     */
     function from()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->From;
     }
 
@@ -308,9 +280,6 @@ class eZMail
     */
     function setFrom( $newFrom )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->From = $newFrom;
     }
 
@@ -319,9 +288,6 @@ class eZMail
      */
     function cc()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->Cc;
     }
 
@@ -330,9 +296,6 @@ class eZMail
      */
     function setCc( $newCc )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->Cc = $newCc;
     }
 
@@ -341,9 +304,6 @@ class eZMail
      */
     function bcc()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->Bcc;
     }
 
@@ -352,9 +312,6 @@ class eZMail
      */
     function setBcc( $newBcc )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->Bcc = $newBcc;
     }
 
@@ -364,9 +321,6 @@ class eZMail
      */
     function messageID()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->MessageID;
     }
 
@@ -375,9 +329,6 @@ class eZMail
      */
     function setMessageID( $newMessageID )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->MessageID = $newMessageID;
     }
 
@@ -397,9 +348,6 @@ class eZMail
      */
     function setReferences( $newReference )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->References = $newReference;
     }
 
@@ -408,9 +356,6 @@ class eZMail
     */
     function fromName()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->FromName;
     }
 
@@ -419,9 +364,6 @@ class eZMail
     */
     function setFromName( $newFrom )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->FromName = $newFrom;
     }
 
@@ -430,9 +372,6 @@ class eZMail
     */
     function sender()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->From;
     }
 
@@ -441,9 +380,6 @@ class eZMail
     */
     function setSender( $newSender )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->From = $newSender;
     }
     
@@ -452,9 +388,6 @@ class eZMail
     */
     function subject()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->Subject;
     }
 
@@ -463,9 +396,6 @@ class eZMail
     */
     function setSubject( $newSubject )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->Subject = trim( $newSubject );
     }
 
@@ -474,9 +404,6 @@ class eZMail
     */
     function body()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->BodyText;
     }
 
@@ -485,9 +412,6 @@ class eZMail
     */
     function setBody( $newBody )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->BodyText = $newBody;
     }
 
@@ -497,9 +421,6 @@ class eZMail
     */
     function setBodyText( $newBody )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->BodyText = $newBody;
     }
 
@@ -508,9 +429,6 @@ class eZMail
     */
     function owner()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->UserID;;
     }
 
@@ -519,8 +437,6 @@ class eZMail
     */
     function setOwner( $newOwner )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
 
         if( get_class( $newOwner ) == "ezuser" )
             $this->UserID = $newOwner->id();
@@ -533,8 +449,6 @@ class eZMail
      */
     function size()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->Size;
     }
 
@@ -547,8 +461,6 @@ class eZMail
      */
     function siSize()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
 
         $units = array( "GB" => 10737741824,
                         "MB" => 1048576,
@@ -583,9 +495,6 @@ class eZMail
      */
     function setSize( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->Size = $value;
     }
 
@@ -594,9 +503,6 @@ class eZMail
      */
     function uDate()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->UDate;
     }
 
@@ -605,8 +511,6 @@ class eZMail
      */
     function setUDate( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $this->UDate = $value;
     }
 
@@ -620,8 +524,6 @@ class eZMail
     */
     function status()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->Status;
     }
 
@@ -637,13 +539,10 @@ class eZMail
      */
     function setStatus( $status, $directWrite = false )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->Status = $status;
-
+        $db =& eZDB::globalDatabase();
         if( $directWrite == true )
-            $this->Database->query( "UPDATE eZMail_Mail SET Status='$status' where ID='$this->ID'" );
+            $db->query( "UPDATE eZMail_Mail SET Status='$status' where ID='$this->ID'" );
     }
     
     /*!
@@ -693,7 +592,7 @@ class eZMail
         $database->query_single( $res, "SELECT count(*) as Count FROM eZMail_FetchedMail WHERE UserID='$userID' AND MessageID='$mailident'" );
 
         $ret = true;
-        if( $res["Count"] == 0 )
+        if( $res[$db->fieldName("Count")] == 0 )
             $ret = false;
         
         return $ret;    
@@ -704,12 +603,18 @@ class eZMail
      */
     function markAsDownloaded()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $db->lock( "eZMail_FetchedMail" );
+        $nextID = $db->nextID( "eZMail_FetchedMail", "ID" );            
+        $result = $db->query( "INSERT INTO eZMail_FetchedMail ( ID, UserID, MessageID ) VALUES (
+                               $nextID, '$this->UserID', '$this->MessageID' )" );
 
-        $database =& eZDB::globalDatabase();
-        
-        $database->query( "INSERT INTO eZMail_FetchedMail SET UserID='$this->UserID', MessageID='$this->MessageID'" );
+        $db->unlock();
+        if ( $result == false )
+            $db->rollback( );
+        else
+            $db->commit();
     }
     
     /*
@@ -717,18 +622,16 @@ class eZMail
      */
     function folder( $AsObject = true )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $res = array();
-        $this->Database->array_query( $res, "SELECT FolderID FROM eZMail_MailFolderLink WHERE MailID='$this->ID'" );
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $res, "SELECT FolderID FROM eZMail_MailFolderLink WHERE MailID='$this->ID'" );
 
         if( count( $res ) > 0 )
         {
             if( $AsObject == true )
-                return new eZMailFolder( $res[0]["FolderID"] );
+                return new eZMailFolder( $res[0][$db->fieldName("FolderID")] );
 
-            return $res[0]["FolderID"];
+            return $res[0][$db->fieldName("FolderID")];
         }
 
         return false;
@@ -752,13 +655,13 @@ class eZMail
         $return_array = array();
         $res = array();
         $userid = $user->id();
-        $database = eZDB::globalDatabase();
+        $database =& eZDB::globalDatabase();
         $query = "SELECT ID FROM eZMail_Mail WHERE UserID='$userid' $unreadOnlySQL";
         $database->array_query( $res, $query );
 
         for ( $i=0; $i < count($res); $i++ )
         {
-            $return_array[$i] = new eZMail( $res[$i]["ID"] );
+            $return_array[$i] = new eZMail( $res[$i][$db->fieldName("ID")] );
         }
 
         return $return_array;
@@ -770,18 +673,17 @@ class eZMail
      */
     function addFile( $file )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $FilesAttached = true;
+       $this->$FilesAttached = true;
+       $db =& eZDB::globalDatabase();
        
        if ( get_class( $file ) == "ezvirtualfile" )
        {
-           $this->dbInit();
-           
+           $db->begin();
            $fileID = $file->id();
            
-           $this->Database->query( "INSERT INTO eZMail_MailAttachmentLink SET MailID='$this->ID', FileID='$fileID'" );
+           $db->query( "INSERT INTO eZMail_MailAttachmentLink ( MailID, FileID ) VALUES (
+                           '$this->ID', '$fileID'" );
+
            $this->calculateSize();
        }
     }
@@ -792,16 +694,12 @@ class eZMail
     */
     function deleteFile( $file )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
- 
         if ( get_class( $file ) == "ezvirtualfile" )
         {
-            $this->dbInit();
- 
             $fileID = $file->id();
             $file->delete();
-            $this->Database->query( "DELETE FROM eZMail_MailAttachmentLink WHERE MailID='$this->ID' AND FileID='$fileID'" );
+            $db =& eZDB::globalDatabase();
+            $db->query( "DELETE FROM eZMail_MailAttachmentLink WHERE MailID='$this->ID' AND FileID='$fileID'" );
             $this->calculateSize();
         }
     }
@@ -811,19 +709,14 @@ class eZMail
     */
     function files()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
- 
-       $this->dbInit();
- 
        $return_array = array();
        $file_array = array();
- 
-       $this->Database->array_query( $file_array, "SELECT FileID FROM eZMail_MailAttachmentLink WHERE MailID='$this->ID'" );
+       $db =& eZDB::globalDatabase();
+       $db->array_query( $file_array, "SELECT FileID FROM eZMail_MailAttachmentLink WHERE MailID='$this->ID'" );
  
        for ( $i=0; $i<count($file_array); $i++ )
        {
-           $return_array[$i] = new eZVirtualFile( $file_array[$i]["FileID"], false );
+           $return_array[$i] = new eZVirtualFile( $file_array[$i][$db->fieldName("FileID")], false );
        }
  
        return $return_array;
@@ -834,14 +727,11 @@ class eZMail
      */
     function addImage( $image )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
- 
         if( get_class( $image ) == "ezimage" )
         {
             $imageID = $image->id();
-            $this->dbInit();
-            $this->Database->query( "INSERT INTO eZMail_MailImageLink SET MailID='$this->ID', ImageID='$imageID'" );
+            $db =& eZDB::globalDatabase();
+            $db->query( "INSERT INTO eZMail_MailImageLink (MailID, ImageID ) VALUES ('$this->ID', '$imageID')" );
         }
     }
  
@@ -850,16 +740,12 @@ class eZMail
      */
     function deleteImage( $image )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
- 
         if( get_class( $image ) == "ezimage" )
         {
-            $this->dbInit();
- 
             $imageID = $image->id();
             $image->delete();
-            $this->Database->query( "DELETE FROM eZMail_MailImageLink WHERE MailID='$this->ID' AND ImageID='$imageID'" );
+            $db =& eZDB::globalDatabase();
+            $db->query( "DELETE FROM eZMail_MailImageLink WHERE MailID='$this->ID' AND ImageID='$imageID'" );
         }
     }
  
@@ -868,15 +754,11 @@ class eZMail
      */
     function images()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
- 
-       $this->dbInit();
- 
        $return_array = array();
        $image_array = array();
- 
-       $this->Database->array_query( $image_array, "SELECT ImageID FROM eZMail_MailImageLink WHERE MailID='$this->ID'" );
+
+       $db =& eZDB::globalDatabase();
+       $db->array_query( $image_array, "SELECT ImageID FROM eZMail_MailImageLink WHERE MailID='$this->ID'" );
  
        for ( $i=0; $i<count($image_array); $i++ )
        {
@@ -895,9 +777,9 @@ class eZMail
         if( get_class( $user ) == "ezuser" )
             $user = $user->id();
         
-        $database =& eZDB::globalDatabase();
-        $database->query_single( $res, "SELECT UserID from eZMail_Mail WHERE ID='$mailID'" );
-        if( $res["UserID"] == $user )
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $res, "SELECT UserID from eZMail_Mail WHERE ID='$mailID'" );
+        if( $res[$db->fieldName("UserID")] == $user )
             return true;
         
         return false;
@@ -985,7 +867,7 @@ class eZMail
      */
     function send() 
     {
-        if ( $FilesAttached == true )
+        if ( $this->$FilesAttached == true )
         {
             $files = $this->files();
             foreach( $files as $file )
@@ -1069,20 +951,6 @@ class eZMail
     }
 
 
-    /*!
-      \private
-      
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database =& eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
-
     /// this variable is only used during the buildup of a mail that is beeing sent. NEVER access directly!!!
     var $parts;
 
@@ -1114,9 +982,6 @@ class eZMail
     /* database specific variables */
     var $ID;
     var $UserID;
-    var $Database;
-    var $IsConnected;
-    var $State_;
 }
 
 ?>

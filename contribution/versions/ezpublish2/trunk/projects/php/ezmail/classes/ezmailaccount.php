@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailaccount.php,v 1.26 2001/05/05 12:20:15 bf Exp $
+// $Id: ezmailaccount.php,v 1.27 2001/07/10 11:27:43 fh Exp $
 //
 // eZMailAccount class
 //
@@ -61,28 +61,12 @@ class eZMailAccount
     /*!
       constructor
     */
-    function eZMailAccount( $id="", $fetch=true )
+    function eZMailAccount( $id="" )
     {
-        $this->IsConnected = false;
-
         if ( $id != "" )
         {
-
             $this->ID = $id;
-            if ( $fetch == true )
-            {                
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-                
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
-            
+            $this->get( $this->ID );
         }
     }
 
@@ -109,34 +93,36 @@ class eZMailAccount
     */
     function store()
     {
-        $this->dbInit();
-
-        $name = addslashes( $this->Name );
-        $loginname = addslashes( $this->LoginName );
-        $password = addslashes( $this->Password );
-        $server = addslashes( $this->Server );
-        
+        $db =& eZDB::globalDatabase();
+        $name = $db->escapeString( $this->Name );
+        $loginname = $db->escapeString( $this->LoginName );
+        $password = $db->escapeString( $this->Password );
+        $server = $db->escapeString( $this->Server );
+        $db->begin();
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZMail_Account SET
-		                         UserID='$this->UserID',
-                                 Name='$name',
-                                 LoginName='$loginname',
-                                 Password='$password',
-                                 Server='$server',
-                                 DeleteFromServer='$this->DeleteFromServer',
-                                 IsActive='$this->IsActive',
-                                 ServerType='$this->ServerType',
-                                 ServerPort='$this->ServerPort'
+            $db->lock( "eZMail_Account" );
+            $nextID = $db->nextID( "eZMail_Account", "ID" );
+            $result = $db->query( "INSERT INTO eZMail_Account ( ID, UserID, Name, LoginName, Password,
+                                 Server, DeleteFromServer, IsActive, ServerType, ServerPort )
+                                 VALUES (
+                                 '$nextID',
+		                         '$this->UserID',
+                                 '$name',
+                                 '$loginname',
+                                 '$password',
+                                 '$server',
+                                 '$this->DeleteFromServer',
+                                 '$this->IsActive',
+                                 '$this->ServerType',
+                                 '$this->ServerPort' )
                                  " );
 
-			$this->ID = $this->Database->insertID();
-
-            $this->State_ = "Coherent";
+			$this->ID = $nextID;
         }
         else
         {
-            $this->Database->query( "UPDATE eZMail_Account SET
+            $result = $db->query( "UPDATE eZMail_Account SET
 		                         UserID='$this->UserID',
                                  Name='$name',
                                  LoginName='$loginname',
@@ -148,10 +134,13 @@ class eZMailAccount
                                  ServerPort='$this->ServerPort'
                                  WHERE ID='$this->ID'
                                  " );
-
-            $this->State_ = "Coherent";
         }
-        
+        $db->unlock();
+        if ( $result == false )
+            $db->rollback( );
+        else
+            $db->commit();
+
         return true;
     }    
 
@@ -160,12 +149,12 @@ class eZMailAccount
     */
     function get( $id="" )
     {
-        $this->dbInit();
         $ret = false;
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $account_array, "SELECT * FROM eZMail_Account WHERE ID='$id'" );
+            $db =& eZDB::globalDatabase();
+            $db->array_query( $account_array, "SELECT * FROM eZMail_Account WHERE ID='$id'" );
             if ( count( $account_array ) > 1 )
             {
                 die( "Error: Mail accounts with the same ID was found in the database. This should not happen." );
@@ -173,24 +162,19 @@ class eZMailAccount
             else if( count( $account_array ) == 1 )
             {
 
-                $this->ID =& $account_array[0][ "ID" ];
-                $this->UserID =& $account_array[0][ "UserID" ];
-                $this->Name =& $account_array[0][ "Name" ];
-                $this->LoginName =& $account_array[0][ "LoginName" ];
-                $this->Password =& $account_array[0][ "Password" ];
-                $this->Server =& $account_array[0][ "Server" ];
-                $this->DeleteFromServer =& $account_array[0][ "DeleteFromServer" ];
-                $this->IsActive =& $account_array[0][ "IsActive" ];
-                $this->ServerType =& $account_array[0][ "ServerType" ];
-                $this->ServerPort =& $account_array[0][ "ServerPort" ];
+                $this->ID =& $account_array[0][ $db->fieldName("ID") ];
+                $this->UserID =& $account_array[0][ $db->fieldName("UserID") ];
+                $this->Name =& $account_array[0][ $db->fieldName("Name") ];
+                $this->LoginName =& $account_array[0][ $db->fieldName("LoginName") ];
+                $this->Password =& $account_array[0][ $db->fieldName("Password") ];
+                $this->Server =& $account_array[0][ $db->fieldName("Server") ];
+                $this->DeleteFromServer =& $account_array[0][ $db->fieldName("DeleteFromServer") ];
+                $this->IsActive =& $account_array[0][ $db->fieldName("IsActive") ];
+                $this->ServerType =& $account_array[0][  $db->fieldName("ServerType") ];
+                $this->ServerPort =& $account_array[0][ $db->fieldName("ServerPort") ];
 
-                $this->State_ = "Coherent";
                 $ret = true;
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
     }
@@ -208,9 +192,6 @@ class eZMailAccount
     */
     function userID()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->UserID;
     }
 
@@ -219,9 +200,6 @@ class eZMailAccount
     */
     function setUserID( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->UserID = $value;
     }
 
@@ -230,9 +208,6 @@ class eZMailAccount
      */
     function setUser( $user )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         if( get_class( $user ) == "ezuser" )
             $this->UserID = $user->id();
     }
@@ -242,9 +217,6 @@ class eZMailAccount
     */
     function name()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->Name;
     }
 
@@ -253,9 +225,6 @@ class eZMailAccount
     */
     function setName( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->Name = $value;
     }
 
@@ -264,9 +233,6 @@ class eZMailAccount
     */
     function loginName()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->LoginName;
     }
 
@@ -275,9 +241,6 @@ class eZMailAccount
     */
     function setLoginName( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->LoginName = $value;
     }
 
@@ -287,9 +250,6 @@ class eZMailAccount
    */
     function password()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->Password;
     }
 
@@ -299,9 +259,6 @@ class eZMailAccount
     */
     function setPassword( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->Password = $value;
     }    
 
@@ -310,9 +267,6 @@ class eZMailAccount
     */
     function server()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->Server;
     }
 
@@ -321,9 +275,6 @@ class eZMailAccount
     */
     function setServer( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->Server = $value;
     }
 
@@ -332,9 +283,6 @@ class eZMailAccount
      */
     function serverPort()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->ServerPort;
     }
 
@@ -343,9 +291,6 @@ class eZMailAccount
      */
     function setServerPort( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->ServerPort = $value;
     }
     
@@ -354,9 +299,6 @@ class eZMailAccount
     */
     function deleteFromServer()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->DeleteFromServer;
     }
 
@@ -366,9 +308,6 @@ class eZMailAccount
     */
     function setDeleteFromServer( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->DeleteFromServer = $value;
     }
     
@@ -377,9 +316,6 @@ class eZMailAccount
     */
     function isActive()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->IsActive;
     }
 
@@ -388,9 +324,6 @@ class eZMailAccount
    */
     function setIsActive( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->IsActive = $value;
     }
 
@@ -399,9 +332,6 @@ class eZMailAccount
     */
     function serverType()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->ServerType;
     }
 
@@ -410,9 +340,6 @@ class eZMailAccount
     */
     function setServerType( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->ServerType = $value;
     }
 
@@ -426,9 +353,9 @@ class eZMailAccount
         if( get_class( $user ) == "ezuser" )
             $user = $user->id();
         
-        $database =& eZDB::globalDatabase();
-        $database->query_single( $res, "SELECT UserID from eZMail_Account WHERE ID='$accountID'" );
-        if( $res["UserID"] == $user )
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $res, "SELECT UserID from eZMail_Account WHERE ID='$accountID'" );
+        if( $res[$db->fieldName("UserID")] == $user )
             return true;
         
         return false;
@@ -444,16 +371,16 @@ class eZMailAccount
         if( get_class( $user ) == "ezuser" )
             $user = $user->id();
         
-        $database =& eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         $return_array = array();
         $account_array = array();
  
-        $database->array_query( $account_array, "SELECT ID FROM eZMail_Account WHERE UserID='$user'" );
+        $db->array_query( $account_array, "SELECT ID FROM eZMail_Account WHERE UserID='$user'" );
  
         for ( $i=0; $i < count($account_array); $i++ )
         {
-            $return_array[$i] = new eZMailAccount( $account_array[$i]["ID"] );
+            $return_array[$i] = new eZMailAccount( $account_array[$i][$db->fieldName("ID")] );
         }
  
         return $return_array; 
@@ -518,21 +445,6 @@ class eZMailAccount
     }
     
     
-    /*!
-      \private
-      
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database =& eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
-
-    
     var $ID;
     var $UserID;
     var $Name;
@@ -543,10 +455,6 @@ class eZMailAccount
     var $DeleteFromServer;
     var $IsActive;
     var $ServerType;
-    
-    var $Database;
-    var $IsConnected;
-    var $State_;
 }
 
 ?>
