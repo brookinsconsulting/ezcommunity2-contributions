@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.49 2001/09/27 10:53:28 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.50 2001/09/30 11:53:59 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -458,7 +458,7 @@ class eZQDomrenderer
         {
             $articleImages = $this->Article->images();
             $articleID = $this->Article->id();
-
+            
             $level = 1;
             if  ( count( $paragraph->attributes ) > 0 )
             foreach ( $paragraph->attributes as $attr )
@@ -512,7 +512,6 @@ class eZQDomrenderer
                     $image = $imageArray["Image"];
             }
             
-
             // add image if a valid image was found, else report an error in the log.
             if ( get_class( $image ) == "ezimage" )
             {

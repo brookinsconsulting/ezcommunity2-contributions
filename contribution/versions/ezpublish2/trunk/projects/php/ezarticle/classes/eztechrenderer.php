@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.75 2001/09/29 12:35:14 kaid Exp $
+// $Id: eztechrenderer.php,v 1.76 2001/09/30 11:53:59 bf Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -623,7 +623,7 @@ class eZTechRenderer
                                             <tr>
                                             <td>
                                                          <a href=\"" . $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index . "/imagecatalogue/imageview/$imageID/?RefererURL=/article/$viewMode/$articleID/\">
-                                                        <img src=\"" . $GlobalSiteIni->WWWDir . "imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" alt=\"\" />
+                                                        <img src=\"" . $GlobalSiteIni->WWWDir . "$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" alt=\"\" />
                                                         </a>   
                                                         </td>
                                                 </tr>
