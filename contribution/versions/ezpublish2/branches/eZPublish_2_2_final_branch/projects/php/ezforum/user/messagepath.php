@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagepath.php,v 1.5 2001/09/24 11:53:43 jhe Exp $
+// $Id: messagepath.php,v 1.5.2.1 2001/11/26 08:33:56 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -36,18 +36,17 @@ if ( $ShowPath == true )
     $t->set_var( "forum_message_item", "" );
     $t->set_var( "forum_topic_item", "" );
 
-    if ( !is_object( $msg )  )
+    if ( !is_object( $msg ) )
     {
         $msg = new eZForumMessage( $MessageID );
     }
     
     $MessageTopic = $msg->topic();
     $ForumID = $msg->forumId();
-    
     $forum = new eZForum( $ForumID );
     $ForumName = $forum->name();
     $categories = $forum->categories();
-    
+
     if ( is_object( $categories[0] ) )
     {
         $ForumCategory = new eZForumCategory( $categories[0]->id() );
