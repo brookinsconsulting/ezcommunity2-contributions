@@ -6,3 +6,48 @@ change: added user_edit=Some text
 
 mod: trade, optionedit.php.ini
 change: added main_price=Price
+
+mod: stats, dayreport.php.ini
+change: removed
+january_month=January
+february_month=February
+march_month=March
+april_month=April
+may_month=May
+june_month=June
+july_month=July
+august_month=August
+september_month=September
+october_month=October
+november_month=November
+december_month=December
+
+mod: stats, monthreport.php.ini
+change: removed
+january_month=January
+february_month=February
+march_month=March
+april_month=April
+may_month=May
+june_month=June
+july_month=July
+august_month=August
+september_month=September
+october_month=October
+november_month=November
+december_month=December
+
+mod: stats, yearreport.php.ini
+change: removed
+january_month=January
+february_month=February
+march_month=March
+april_month=April
+may_month=May
+june_month=June
+july_month=July
+august_month=August
+september_month=September
+october_month=October
+november_month=November
+december_month=December
