@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallproductlist.php,v 1.4 2001/10/04 14:57:29 bf Exp $
+// $Id: smallproductlist.php,v 1.4.2.1 2002/03/25 10:27:30 ce Exp $
 //
 // Created on: <04-Oct-2001 12:20:03 ce>
 //
@@ -35,7 +35,7 @@ if ( $PageCaching == "enabled" )
 {
     include_once( "classes/ezcachefile.php" );
     $CacheFile = new eZCacheFile( "eztrade/cache/",
-                                  array( "cateorylist", $CategoryID, $GlobalSiteDesign ), 
+                                  array( "smallproductlist", $CategoryID, $GlobalSiteDesign ), 
                                   "cache", "," );
     if ( $CacheFile->exists() )
     {
