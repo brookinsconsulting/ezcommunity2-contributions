@@ -20,13 +20,13 @@
 
 <hr noshade="noshade" size="4" />
 
-<img src="{www_dir}/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" />
+<img src="{www_dir}/design/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" />
 <a class="path" href="{www_dir}{index}/forum/categorylist/">{intl-forum-main}</a>
 
-<img src="{www_dir}/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
+<img src="{www_dir}/design/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
 <a class="path" href="{www_dir}{index}/forum/forumlist/{category_id}/">{category_name}</a>
 
-<img src="{www_dir}/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
+<img src="{www_dir}/design/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
 <a class="path" href="{www_dir}{index}/forum/messagelist/{forum_id}/">{forum_name}</a>
 
 <hr noshade="noshade" size="4" />
@@ -43,7 +43,7 @@
 <!-- BEGIN message_item_tpl -->
 <tr bgcolor="{color}">
 	<td width="1%" class="{td_class}">
-	<img src="{www_dir}/admin/images/message.gif" height="16" width="16" border="0" alt="" align="top" />
+	<img src="{www_dir}/design/admin/images/message.gif" height="16" width="16" border="0" alt="" align="top" />
 	</td>
      <td width="32%" class="{td_class}">
      {spacer}
@@ -59,7 +59,7 @@
      {emailnotice}&nbsp;
      </td class="{td_class}">
      <td width="1%" class="{td_class}">
-	 <a href="{www_dir}{index}/forum/messageedit/edit/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('efm{message_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="efm{message_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="" alt="Edit" /></a>
+	 <a href="{www_dir}{index}/forum/messageedit/edit/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('efm{message_id}-red','','{www_dir}/design/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="efm{message_id}-red" border="0" src="{www_dir}/design/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="" alt="Edit" /></a>
      </td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="MessageArrayID[]" value="{message_id}">

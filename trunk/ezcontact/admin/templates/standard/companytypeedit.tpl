@@ -2,17 +2,17 @@
 <!-- BEGIN path_tpl -->
 <hr noshade="noshade" size="4" />
 
-<img src="{www_dir}/admin/images/path-arrow.gif" height="10" width="15" border="0">
+<img src="{www_dir}/design/admin/images/path-arrow.gif" height="10" width="15" border="0">
 
 <a class="path" href="{www_dir}{index}/contact/{command_type}/list/0">{intl-root_category}</a>
 
 <!-- BEGIN path_item_tpl -->
-<img src="{www_dir}/admin/images/path-slash.gif" height="10" width="20" border="0">
+<img src="{www_dir}/design/admin/images/path-slash.gif" height="10" width="20" border="0">
 <a class="path" href="{www_dir}{index}/contact/companycategory/view/{parent_id}">{parent_name}</a>
 <!-- END path_item_tpl -->
 
 <!-- BEGIN current_path_item_tpl -->
-<img src="{www_dir}/admin/images/path-slash.gif" height="10" width="20" border="0">
+<img src="{www_dir}/design/admin/images/path-slash.gif" height="10" width="20" border="0">
 <a class="path" href="{www_dir}{index}/contact/companycategory/view/{parent_id}">{intl-current_edit}</a>
 <!-- END current_path_item_tpl -->
 

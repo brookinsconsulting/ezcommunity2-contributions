@@ -48,12 +48,12 @@
 
 <hr noshade="noshade" size="4" />
 
-	<img src="{www_dir}/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" />
+	<img src="{www_dir}/design/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" />
 
 	<a class="path" href="{www_dir}{index}/article/archive/0/">{intl-topcategory}</a>
 	<!-- BEGIN path_item_tpl -->
 
-	<img src="{www_dir}/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
+	<img src="{www_dir}/design/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
 
 	<a class="path" href="{www_dir}{index}/article/archive/{category_id}/">{category_name}</a>
 	<!-- END path_item_tpl -->
@@ -77,7 +77,7 @@
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td width="1%" class="{td_class}">
-	<img src="{www_dir}/admin/images/folder.gif" height="16" width="16" border="0" alt="" align="top" />
+	<img src="{www_dir}/design/admin/images/folder.gif" height="16" width="16" border="0" alt="" align="top" />
 	</td>
 	<td class="{td_class}">
 	<a href="{www_dir}{index}/article/archive/{category_id}/">{category_name}</a>&nbsp;
@@ -86,15 +86,15 @@
 	{category_description}&nbsp;
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/article/archive/{current_category_id}/?MoveCategoryDown={category_id}"><img src="{www_dir}/admin/images/{site_style}/move-down.gif" height="12" width="12" border="0" alt="Down" /></a>
+	<a href="{www_dir}{index}/article/archive/{current_category_id}/?MoveCategoryDown={category_id}"><img src="{www_dir}/design/admin/images/{site_style}/move-down.gif" height="12" width="12" border="0" alt="Down" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/article/archive/{current_category_id}/?MoveCategoryUp={category_id}"><img src="{www_dir}/admin/images/{site_style}/move-up.gif" height="12" width="12" border="0" alt="Up" /></a>
+	<a href="{www_dir}{index}/article/archive/{current_category_id}/?MoveCategoryUp={category_id}"><img src="{www_dir}/design/admin/images/{site_style}/move-up.gif" height="12" width="12" border="0" alt="Up" /></a>
 	</td>
 
 <!-- BEGIN category_edit_tpl -->
 	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/article/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="{www_dir}{index}/article/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','{www_dir}/design/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="{www_dir}/design/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="CategoryArrayID[]" value="{category_id}">
@@ -134,7 +134,7 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td width="1%" class="{td_class}">
-	<img src="{www_dir}/admin/images/document.gif" height="16" width="16" border="0" alt="" align="top" />
+	<img src="{www_dir}/design/admin/images/document.gif" height="16" width="16" border="0" alt="" align="top" />
 	</td>
 	<td width="74%" class="{td_class}">
 	<a href="{www_dir}{index}/article/articlepreview/{article_id}/">{article_name}</a>
@@ -153,15 +153,15 @@
 	</td>
 	<!-- BEGIN absolute_placement_item_tpl -->
 	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/article/archive/{current_category_id}/?MoveDown={article_id}"><img src="{www_dir}/admin/images/{site_style}/move-down.gif" height="12" width="12" border="0" alt="Down" /></a>
+	<a href="{www_dir}{index}/article/archive/{current_category_id}/?MoveDown={article_id}"><img src="{www_dir}/design/admin/images/{site_style}/move-down.gif" height="12" width="12" border="0" alt="Down" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/article/archive/{current_category_id}/?MoveUp={article_id}"><img src="{www_dir}/admin/images/{site_style}/move-up.gif" height="12" width="12" border="0" alt="Up" /></a>
+	<a href="{www_dir}{index}/article/archive/{current_category_id}/?MoveUp={article_id}"><img src="{www_dir}/design/admin/images/{site_style}/move-up.gif" height="12" width="12" border="0" alt="Up" /></a>
 	</td>
 	<!-- END absolute_placement_item_tpl -->
         <!-- BEGIN article_edit_tpl -->
 	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/article/articleedit/edit/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezaa{article_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+	<a href="{www_dir}{index}/article/articleedit/edit/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-red','','{www_dir}/design/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezaa{article_id}-red" border="0" src="{www_dir}/design/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="ArticleArrayID[]" value="{article_id}">

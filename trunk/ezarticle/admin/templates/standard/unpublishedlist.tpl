@@ -29,7 +29,7 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td width="1%" class="{td_class}">
-	<img src="{www_dir}/admin/images/document.gif" height="16" width="16" border="0" alt="" align="top" />
+	<img src="{www_dir}/design/admin/images/document.gif" height="16" width="16" border="0" alt="" align="top" />
 	</td>
 	<td width="77%" class="{td_class}">
 	<a href="{www_dir}{index}/article/articlepreview/{article_id}/">
@@ -46,7 +46,7 @@
 	</td>
 	<!-- BEGIN article_edit_tpl -->
 	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/article/articleedit/edit/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezaa{article_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+	<a href="{www_dir}{index}/article/articleedit/edit/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-red','','{www_dir}/design/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezaa{article_id}-red" border="0" src="{www_dir}/design/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="ArticleArrayID[]" value="{article_id}">

@@ -10,11 +10,11 @@
 
 <hr noshade="noshade" size="4" />
 
-<img src="{www_dir}/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="">
+<img src="{www_dir}/design/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="">
 <a class="path" href="{www_dir}{index}/mediacatalogue/media/list/0/">{intl-media_root}</a>
 
 <!-- BEGIN path_item_tpl -->
-<img src="{www_dir}/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="">
+<img src="{www_dir}/design/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="">
 <a class="path" href="{www_dir}{index}/mediacatalogue/media/list/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
 
@@ -29,7 +29,7 @@
 <tr>
         <!-- BEGIN category_read_tpl -->
 	<td class="{td_class}" width="1%">
-	<a href="{www_dir}{index}/mediacatalogue/media/list/{category_id}/"><img src="{www_dir}/admin/images/folder.gif" alt="" width="16" height="16" border="0" /></a>
+	<a href="{www_dir}{index}/mediacatalogue/media/list/{category_id}/"><img src="{www_dir}/design/admin/images/folder.gif" alt="" width="16" height="16" border="0" /></a>
 	</td>
 	<td class="{td_class}" width="38%">
 	<a href="{www_dir}{index}/mediacatalogue/media/list/{category_id}/">{category_name}</a>
@@ -40,7 +40,7 @@
         <!-- END category_read_tpl -->
         <!-- BEGIN category_write_tpl -->
 	<td class="{td_class}" width="1%">
-	<a href="{www_dir}{index}/mediacatalogue/category/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezmc{category_id}-red','','{www_dir}/admin/images/redigerminimrk.gif',1)"><img name="ezmc{category_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/mediacatalogue/category/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezmc{category_id}-red','','{www_dir}/design/admin/images/redigerminimrk.gif',1)"><img name="ezmc{category_id}-red" border="0" src="{www_dir}/design/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%">
 	<input type="checkbox" name="CategoryArrayID[]" value="{category_id}" />
@@ -58,7 +58,7 @@
 <tr>
 	<!-- BEGIN read_tpl -->
 	<td class="{td_class}" width="1%">
-	<img src="{www_dir}/admin/images/video.gif" border="0" alt="" width="16" height="16" border="0" />
+	<img src="{www_dir}/design/admin/images/video.gif" border="0" alt="" width="16" height="16" border="0" />
 	</td>
 	<td class="{td_class}" width="40%">
 	<a href="{www_dir}{index}/mediacatalogue/mediaview/{media_id}/?RefererURL=/mediacatalogue/media/list/{main_category_id}/">{media_name}</a>
@@ -69,7 +69,7 @@
 	<!-- END read_tpl -->
 	<!-- BEGIN write_tpl -->
 	<td class="{td_class}" width="1%">
-	<a href="{www_dir}{index}/mediacatalogue/media/edit/{media_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezmc{media_id}-red','','{www_dir}/admin/images/redigerminimrk.gif',1)"><img name="ezmc{media_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a><br />
+	<a href="{www_dir}{index}/mediacatalogue/media/edit/{media_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezmc{media_id}-red','','{www_dir}/design/admin/images/redigerminimrk.gif',1)"><img name="ezmc{media_id}-red" border="0" src="{www_dir}/design/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a><br />
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="MediaArrayID[]" value="{media_id}">

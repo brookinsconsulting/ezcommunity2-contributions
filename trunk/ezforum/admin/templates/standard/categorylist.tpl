@@ -14,7 +14,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<img src="{www_dir}/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" />
+<img src="{www_dir}/design/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" />
 <a class="path" href="{www_dir}{index}/forum/categorylist/">{intl-forum-main}</a> 
 
 <hr noshade="noshade" size="4" />
@@ -29,7 +29,7 @@
 <!-- BEGIN category_item_tpl -->
 <tr bgcolor="{color}">
 	<td width="1%" class="{td_class}">
-	<img src="{www_dir}/admin/images/folder.gif" height="16" width="16" border="0" alt="" align="top" />
+	<img src="{www_dir}/design/admin/images/folder.gif" height="16" width="16" border="0" alt="" align="top" />
 	</td>
     <td class={td_class}>
     <a href="{www_dir}{index}/forum/forumlist/{category_id}/">{category_name}</a>
@@ -39,7 +39,7 @@
     </td>
     
     <td width="1%" class={td_class}>
-        <a href="{www_dir}{index}/forum/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ef{category_id}-red','','{www_dir}/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ef{category_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+        <a href="{www_dir}{index}/forum/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ef{category_id}-red','','{www_dir}/design/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ef{category_id}-red" border="0" src="{www_dir}/design/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
     </td>
      <td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="CategoryArrayID[]" value="{category_id}">
