@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: category.php,v 1.5 2001/10/16 14:01:06 jb Exp $
+// $Id: category.php,v 1.6 2001/10/26 13:42:04 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -96,7 +96,7 @@ else if( $Command == "storedata" ) // save the category data!
     if ( $parentid == 0 or $parent->get( $parentid ) )
     {
         $old_category = $category->parent();
-        $old_category_id = is_object( $old_category ) ? $old_category->id() : 0;
+        $old_category_arr = is_object( $old_category ) ? array( $old_category->id() ) : array();
         $category->setParent( $parent );
         $category->store();
         $ID = $category->id();
@@ -119,9 +119,9 @@ else if( $Command == "storedata" ) // save the category data!
         $add_categories = array();
         $cur_categories = array();
         $remove_categories = array();
-        $add_categories = array_diff( array( $parent->id() ), array( $old_category_id ) );
-        $remove_categories = array_diff( array( $old_category_id ), array( $parent_id ) );
-        $cur_categories = array_intersect( array( $parent->id() ), array( $old_category_id ) );
+        $add_categories = array_diff( array( $parent->id() ), $old_category_arr );
+        $remove_categories = array_diff( $old_category_arr, array( $parent->id() ) );
+        $cur_categories = array_intersect( array( $parent->id() ), $old_category_arr );
 
         $add_locs =& createURLArray( $add_categories, "ezimagecatalogue", "category" );
         $cur_locs =& createURLArray( $cur_categories, "ezimagecatalogue", "category" );

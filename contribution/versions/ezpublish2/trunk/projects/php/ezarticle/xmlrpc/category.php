@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: category.php,v 1.14 2001/10/16 14:01:06 jb Exp $
+// $Id: category.php,v 1.15 2001/10/26 13:42:04 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -91,10 +91,11 @@ else if( $Command == "storedata" ) // save the category data!
     $parentid = $Data["ParentID"]->value();
     if ( $parentid == 0 or $parent->get( $parentid ) )
     {
-        $old_category = $category->parent( false );
+        $old_category = $category->parent();
+        $old_category_arr = is_object( $old_category ) ? array( $old_category->id() ) : array();
         $category->setParent( $parent );
         $category->setExcludeFromSearch( $Data["ExcludeFromSearch"]->value() );
-    
+
         $category->setBulkMailCategory( $Data["BulkMailID"]->value() );
         $category->setSortMode( $Data["SortMode"]->value() );
         $category->setSectionID( $Data["SectionID"]->value() );
@@ -118,9 +119,9 @@ else if( $Command == "storedata" ) // save the category data!
         $add_categories = array();
         $cur_categories = array();
         $remove_categories = array();
-        $add_categories = array_diff( array( $parent->id() ), array( $old_category ) );
-        $remove_categories = array_diff( array( $old_category ), array( $parent->id() ) );
-        $cur_categories = array_intersect( array( $parent->id() ), array( $old_category ) );
+        $add_categories = array_diff( array( $parent->id() ), $old_category_arr );
+        $remove_categories = array_diff( $old_category_arr, array( $parent->id() ) );
+        $cur_categories = array_intersect( array( $parent->id() ), $old_category_arr );
 
         $add_locs =& createURLArray( $add_categories, "ezarticle", "category" );
         $cur_locs =& createURLArray( $cur_categories, "ezarticle", "category" );
@@ -162,7 +163,7 @@ else if( $Command == "delete" )
             $par[] = createURLStruct( "ezarticle", "category", $item[0] );
     }
 
-    
+
     $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezarticle", "category", $ID ),
                                              "Path" => new eZXMLRPCArray( $par ),
                                              "UpdateType" => new eZXMLRPCString( $Command )
