@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileupload.php,v 1.13 2001/02/14 13:37:14 th Exp $
+// $Id: fileupload.php,v 1.14 2001/02/26 16:43:48 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 15:49:57 bf>
@@ -42,12 +42,25 @@ if ( isSet ( $NewFolder ) )
     eZHTTPTool::header( "Location: /filemanager/folder/new/$FolderID" );
     exit();
 }
+
 if ( isSet( $Delete ) )
 {
     $Action = "Delete";
 }
 
-$ini = new INIFIle( "site.ini" );
+if ( isSet( $DeleteFolders ) )
+{
+    $Action = "DeleteFolders";
+}
+
+if ( isSet ( $Cancel ) )
+{
+    eZHTTPTool::header( "Location: /filemanager/list/" . $parentID );
+    exit();
+}
+
+
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZFileManagerMain", "Language" );
 
@@ -61,32 +74,20 @@ $t->setAllStrings();
 
 $t->set_block( "file_upload_tpl", "value_tpl", "value" );
 $t->set_block( "file_upload_tpl", "errors_tpl", "errors" );
+
+$t->set_block( "file_upload_tpl", "write_group_item_tpl", "write_group_item" );
+$t->set_block( "file_upload_tpl", "read_group_item_tpl", "read_group_item" );
+
 $t->set_var( "errors", "&nbsp;" );
 
 $t->set_var( "name_value", "$Name" );
 $t->set_var( "description_value", "$Description" );
-
-if ( $Read == "User" )
-    $t->set_var( "user_read_checked", "checked" );
-if ( $Read == "Group" )
-    $t->set_var( "group_read_checked", "checked" );
-if ( $Read == "All" )
-    $t->set_var( "all_read_checked", "checked" );
-
-if ( $Write == "User" )
-    $t->set_var( "user_write_checked", "checked" );
-if ( $Write == "Group" )
-    $t->set_var( "group_write_checked", "checked" );
-if ( $Write == "All" )
-    $t->set_var( "all_write_checked", "checked" );
 
 $error = false;
 $nameCheck = true;
 $descriptionCheck = false;
 $folderPermissionCheck = true;
 $readCheck = true;
-$writeCheck = true;
-$fileCheck = true;
 
 $t->set_block( "errors_tpl", "error_write_permission", "write_permission" );
 $t->set_var( "write_permission", "&nbsp;" );
@@ -94,17 +95,18 @@ $t->set_var( "write_permission", "&nbsp;" );
 $t->set_block( "errors_tpl", "error_name_tpl", "error_name" );
 $t->set_var( "error_name", "&nbsp;" );
 
-$t->set_block( "errors_tpl", "error_write_check_tpl", "error_write_check" );
-$t->set_var( "error_write_check", "&nbsp;" );
-
-$t->set_block( "errors_tpl", "error_read_check_tpl", "error_read_check" );
-$t->set_var( "error_read_check", "&nbsp;" );
-
 $t->set_block( "errors_tpl", "error_file_upload_tpl", "error_file_upload" );
 $t->set_var( "error_file_upload", "&nbsp" );
 
 $t->set_block( "errors_tpl", "error_description_tpl", "error_description" );
 $t->set_var( "error_description", "&nbsp;" );
+
+$t->set_block( "errors_tpl", "error_read_everybody_permission_tpl", "error_read_everybody_permission" );
+$t->set_var( "error_read_everybody_permission", "&nbsp;" );
+
+$t->set_block( "errors_tpl", "error_write_everybody_permission_tpl", "error_write_everybody_permission" );
+$t->set_var( "error_write_everybody_permission", "&nbsp;" );
+
 
 if ( $Action == "Insert" || $Action == "Update" )
 {
@@ -113,10 +115,35 @@ if ( $Action == "Insert" || $Action == "Update" )
         
         $user = eZUser::currentUser();
         $folder = new eZVirtualFolder( $FolderID );
-        if ( $folder->checkWritePermission( $user ) == false )
+        
+        if ( $folder->hasWritePermissions( $user ) == false )
         {
             $t->parse( "write_permission", "error_write_permission" ); 
             $error = true;
+        }
+    }
+
+    if ( count ( $ReadGroupArrayID ) > 1 )
+    {
+        foreach ( $ReadGroupArrayID as $Read )
+        {
+            if ( $Read == 0 )
+            {
+                $t->parse( "error_read_everybody_permission", "error_read_everybody_permission_tpl" );
+                $error = true;
+            }
+        }
+    }
+
+    if ( count ( $WriteGroupArrayID ) > 1 )
+    {
+        foreach ( $WriteGroupArrayID as $Write )
+        {
+            if ( $Write == 0 )
+            {
+                $t->parse( "error_write_everybody_permission", "error_write_everybody_permission_tpl" );
+                $error = true;
+            }
         }
     }
 
@@ -135,26 +162,6 @@ if ( $Action == "Insert" || $Action == "Update" )
         if ( empty ( $Description ) )
         {
             $t->parse( "error_description", "error_description_tpl" );
-            $error = true;
-        }
-    }
-
-    if ( $writeCheck )
-    {
-        
-        if ( empty ( $Write ) )
-        {
-            $t->parse( "error_write_check", "error_write_check_tpl" );
-            $error = true;
-        }
-    }
-
-    if ( $readCheck )
-    {
-        
-        if ( empty ( $Read ) )
-        {
-            $t->parse( "error_read_check", "error_read_check_tpl" );
             $error = true;
         }
     }
@@ -181,22 +188,28 @@ if ( $Action == "Insert" && $error == false )
     $uploadedFile = new eZVirtualFile();
     $uploadedFile->setName( $Name );
     $uploadedFile->setDescription( $Description );
-    $uploadedFile->setReadPermission( $Read );
-    $uploadedFile->setWritePermission( $Write );
-    
-    $user = eZUser::currentUser();
-    
-    if ( !$user )
-    {
-        eZHTTPTool::header( "Location: /" );
-        exit();
-    }
     
     $uploadedFile->setUser( $user );
     
     $uploadedFile->setFile( $file );
     
     $uploadedFile->store();
+
+    if ( count ( $ReadGroupArrayID ) > 0 )
+    {
+        foreach ( $ReadGroupArrayID as $Read )
+        {
+            $uploadedFile->addReadPermission( $Read );
+        }
+    }
+
+    if ( count ( $WriteGroupArrayID ) > 0 )
+    {
+        foreach ( $WriteGroupArrayID as $Write )
+        {
+            $uploadedFile->addWritePermission( $Write );
+        }
+    }
     
     $folder = new eZVirtualFolder( $FolderID );
     
@@ -215,8 +228,6 @@ if ( $Action == "Update" && $error == false )
 
     $uploadedFile->setName( $Name );
     $uploadedFile->setDescription( $Description );
-    $uploadedFile->setReadPermission( $Read );
-    $uploadedFile->setWritePermission( $Write );
     
     if ( $file->getUploadedFile( "userfile" ) )
     {
@@ -224,6 +235,26 @@ if ( $Action == "Update" && $error == false )
     }    
 
     $uploadedFile->store();
+
+    $uploadedFile->removeWritePermissions();
+    $uploadedFile->removeReadPermissions();
+
+    if ( count ( $ReadGroupArrayID ) > 0 )
+    {
+        foreach ( $ReadGroupArrayID as $Read )
+        {
+            $uploadedFile->addReadPermission( $Read );
+        }
+    }
+
+    if ( count ( $WriteGroupArrayID ) > 0 )
+    {
+        foreach ( $WriteGroupArrayID as $Write )
+        {
+            $uploadedFile->addWritePermission( $Write );
+        }
+    }
+
 
     $folder = new eZVirtualFolder( $FolderID );
 
@@ -252,8 +283,21 @@ if ( $Action == "Delete" )
 
     eZHTTPTool::header( "Location: /filemanager/list/" );
     exit();
-    
-    
+}
+
+if ( $Action == "DeleteFolders" )
+{
+    if ( count ( $FolderArrayID ) > 0 )
+    {
+        foreach ( $FolderArrayID as $FolderID )
+        {
+            $folder = new eZVirtualFolder( $FolderID );
+            $folder->delete();
+        }
+    }
+
+    eZHTTPTool::header( "Location: /filemanager/list/" );
+    exit();
 }
     
 if ( $Action == "New" || $error )
@@ -270,38 +314,76 @@ if ( $Action == "Edit" )
     $t->set_var( "description_value", $file->description() );
     $t->set_var( "file_id", $file->id() );
 
-    $write = $file->writePermission();
+    $readPermissionList = $file->readPermissions();
 
-    if ( $write == "User" )
-    {
-        $t->set_var( "user_write_checked", "checked" );
-    }
-    else if ( $write == "Group" )
-    {
-        $t->set_var( "group_write_checked", "checked" );
-    }
-    else if ( $write == "All" )
-    {
-        $t->set_var( "all_write_checked", "checked" );
-    }
 
-    $read = $file->readPermission();
 
-    if ( $read == "User" )
-    {
-        $t->set_var( "user_read_checked", "checked" );
-    }
-    else if ( $read == "Group" )
-    {
-        $t->set_var( "group_read_checked", "checked" );
-    }
-    else if ( $read == "All" )
-    {
-        $t->set_var( "all_read_checked", "checked" );
-    }
+    $writePermissionList = $file->writePermissions();
 
     $t->set_var( "action_value", "update" );
 }
+
+// Print out all the groups.
+
+$groups = $user->groups();
+
+foreach ( $groups as $group )
+{
+    $t->set_var( "group_id", $group->id() );
+    $t->set_var( "group_name", $group->name() );
+
+    if ( $readPermissionList )
+    {
+        foreach ( $readPermissionList as $readGroup )
+        {
+            if ( get_class( $readGroup ) == "ezusergroup" )
+            {
+                if ( $readGroup->id() == $group->id() )
+                {
+                    $t->set_var( "is_read_selected", "selected" );
+                }
+                else
+                {
+                    $t->set_var( "is_read_selected", "" );
+                }
+            }
+            
+            if ( $readGroup == "Everybody" )
+            {
+                $t->set_var( "read_everybody", "selected" );
+            }
+        }
+    }
+
+
+    if ( $writePermissionList )
+    {
+        foreach ( $writePermissionList as $writeGroup )
+        {
+            if ( get_class( $writeGroup ) == "ezusergroup" )
+            {
+                if ( $writeGroup->id() == $group->id() )
+                {
+                    $t->set_var( "is_write_selected", "selected" );
+                }
+                else
+                {
+                    $t->set_var( "is_write_selected", "" );
+                }
+            }
+            
+            if ( $writeGroup == "Everybody" )
+            {
+                $t->set_var( "write_everybody", "selected" );
+            }
+        }
+    }
+
+
+    $t->parse( "write_group_item", "write_group_item_tpl", true );
+    $t->parse( "read_group_item", "read_group_item_tpl", true );
+}
+
 
 $folder = new eZVirtualFolder() ;
 
@@ -331,12 +413,10 @@ foreach ( $folderList as $folderItem )
             $t->set_var( "selected", "selected" );
         }
     }
-    
+
     $t->parse( "value", "value_tpl", true );
 }
 
 $t->pparse( "output", "file_upload_tpl" );
-
-
 ?>
 

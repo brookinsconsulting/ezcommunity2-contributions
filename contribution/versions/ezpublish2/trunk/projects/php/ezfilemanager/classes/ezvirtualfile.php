@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.16 2001/02/02 15:51:41 fh Exp $
+// $Id: ezvirtualfile.php,v 1.17 2001/02/26 16:43:47 ce Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -35,7 +35,6 @@
  */
 
 include_once( "classes/ezdb.php" );
-
 
 class eZVirtualfile
 {
@@ -82,8 +81,6 @@ class eZVirtualfile
                                  Description='$this->Description',
                                  FileName='$this->FileName',
                                  OriginalFileName='$this->OriginalFileName',
-                                 ReadPermission='$this->ReadPermission',
-                                 WritePermission='$this->WritePermission',
                                  UserID='$this->UserID'
                                  " );
             $this->ID = mysql_insert_id();
@@ -94,9 +91,7 @@ class eZVirtualfile
                                  Name='$this->Name',
                                  Description='$this->Description',
                                  FileName='$this->FileName',
-                                 OriginalFileName='$this->OriginalFileName',
-                                 ReadPermission='$this->ReadPermission',
-                                 WritePermission='$this->WritePermission'
+                                 OriginalFileName='$this->OriginalFileName'
                                  WHERE ID='$this->ID'
                                  " );
         }
@@ -114,6 +109,9 @@ class eZVirtualfile
 
         if ( isset( $this->ID ) )
         {
+            $this->removeWritePermissions();
+            $this->removeReadPermissions();
+
             $this->Database->query( "DELETE FROM eZFileManager_File WHERE ID='$this->ID'" );
         }
 
@@ -146,8 +144,6 @@ class eZVirtualfile
                 $this->Description =& $virtualfile_array[0][ "Description" ];
                 $this->FileName =& $virtualfile_array[0][ "FileName" ];
                 $this->OriginalFileName =& $virtualfile_array[0][ "OriginalFileName" ];
-                $this->ReadPermission =& $virtualfile_array[0][ "ReadPermission" ];
-                $this->WritePermission =& $virtualfile_array[0][ "WritePermission" ];
                 $this->UserID =& $virtualfile_array[0][ "UserID" ];
 
                 $this->State_ = "Coherent";
@@ -190,143 +186,7 @@ class eZVirtualfile
         return $return_array;
     }
 
-    /*!
-      Check what read permission the user have to this eZVirtualFile object.
 
-      Returns:
-      User - if the user owns the file
-      Group - if the user is member of the group
-      All - if the file can be read by everybody
-      False - if the user don't have access
-    */
-    function &checkReadPermission( &$currentUser )
-    {
-        $ret = false;
-
-        $read = eZVirtualFile::readPermission();
-        
-        if ( get_class( $currentUser ) == "ezuser" )
-        {
-            if ( $read == "User" )
-            {
-                if ( $this->UserID != 0 )
-                {
-                    if ( $currentUser->id() == $this->UserID )
-                    {
-                        $ret = "User";
-                    }
-                    else
-                    {
-                        return $ret;
-                    }
-                }
-            }
-            else if ( $read == "Group" )
-            {
-                if ( $this->UserID != 0 )
-                {
-                    $currentGroups = $currentUser->groups();
-                    foreach( $currentGroups as $Groups )
-                    {
-                        $user = new eZUser( $this->UserID );
-                        $userGroups =& $user->groups();
-                            
-                        foreach( $userGroups as $userGroup )
-                        {
-                            if ( $Groups->id() == $userGroup->id() )
-                            {
-                                $ret = "Group";
-                            }
-                            else
-                            {
-                                return $ret;
-                            }
-                        }
-                    }
-                }
-            }
-            else if ( $read == "All" )
-            {
-                $ret = "Group";
-            }
-        }
-        else if ( $read == "All" )
-        {
-            $ret = "All";
-        }
-
-
-        return $ret;
-
-    }
-
-    /*!
-      Check what write permission the user have to this eZVirtualFile object.
-
-      Returns:
-      User - if the user owns the file
-      Group - if the user is member of the group
-      All - if the file can be write by everybody
-      False - if the user don't have access
-    */
-    function checkWritePermission( &$currentUser )
-    {
-        $ret = false;
-
-        $write = eZVirtualFile::writePermission();
-
-        if ( get_class( $currentUser ) == "ezuser" )
-        {
-            if ( $write == "User" )
-            {
-                if ( $this->UserID != 0 )
-                {
-                    if ( $currentUser->id() == $this->UserID )
-                    {
-                        $ret = "User";
-                    }
-                    else
-                    {
-                        return $ret;
-                    }
-                }
-            }
-            else if ( $write == "Group" )
-            {
-                if ( $this->UserID != 0 )
-                {
-                    $currentGroups = $currentUser->groups();
-                    foreach( $currentGroups as $Groups )
-                    {
-                        $user = new eZUser( $this->UserID );
-                        $userGroups =& $user->groups();
-                            
-                        foreach( $userGroups as $userGroup )
-                        {
-                            if ( $Groups->id() == $userGroup->id() )
-                            {
-                                $ret = "Group";
-                            }
-                            else
-                            {
-                                return $ret;
-                            }
-                        }
-                    }
-                }
-            }
-            else if ( $write == "All" )
-            {
-                $ret = "Group";
-            }
-        }
-        else if ( $read == "All" )
-        {
-            $ret = "All";
-        }
-
-        return $ret;
-    }
     
     /*!
       Returns the id of the virtual file.
@@ -385,75 +245,6 @@ class eZVirtualfile
         return $this->OriginalFileName;
     }
 
-    /*!
-      Returns the writePermission permission of the virtual file.
-    */
-    function &writePermission()
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       switch( $this->WritePermission )
-       {
-           case 1:
-           {
-               $ret = "User";
-           }
-           break;
-
-           case 2:
-           {
-               $ret = "Group";
-           }
-           break;
-           
-           case 3:
-           {
-               $ret = "All";
-           }
-           break;
-
-           default:
-               $ret = "User";
-       }
-
-       return $ret;
-    }
-
-    /*!
-      Returns the read permission of the virtual file.
-    */
-    function &readPermission()
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       switch( $this->ReadPermission )
-       {
-           case 1:
-           {
-               $ret = "User";
-           }
-           break;
-
-           case 2:
-           {
-               $ret = "Group";
-           }
-           break;
-           
-           case 3:
-           {
-               $ret = "All";
-           }
-           break;
-
-           default:
-               $ret = "User";
-       }
-       
-       return $ret;
-    }
 
     /*!
       Returns a eZUser object.
@@ -578,86 +369,6 @@ class eZVirtualfile
     }
 
     /*!
-      Sets the writePermission permission of the virtual filename.
-
-      1 = User
-      2 = Group
-      3 = All
-      
-    */
-    function setWritePermission( $value )
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       switch ( $value )
-       {
-           case "User":
-           {
-               $value = 1;
-           }
-           break;
-           
-           case "Group":
-           {
-               $value = 2;
-           }
-           break;
-           
-           case "All":
-           {
-               $value = 3;
-           }
-           break;
-           
-           default:
-               $value = 1;
-       }
-       
-       $this->WritePermission = $value;
-    }
-
-    /*!
-      Sets the read permission of the virtual filename.
-
-      1 = User
-      2 = Group
-      3 = All
-      
-    */
-    function setReadPermission( $value )
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       switch ( $value )
-       {
-           case "User":
-           {
-               $value = 1;
-           }
-           break;
-           
-           case "Group":
-           {
-               $value = 2;
-           }
-           break;
-           
-           case "All":
-           {
-               $value = 3;
-           }
-           break;
-           
-           default:
-               $value = 1;
-       }
-       
-       $this->ReadPermission = $value;
-    }
-
-    /*!
       Sets the user of the file.
     */
     function setUser( &$user )
@@ -727,6 +438,27 @@ class eZVirtualfile
     }
 
     /*!
+      Retuns the folder for this eZVirtualFile object.
+    */
+    function &folder()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+       $result = array();
+
+       $query = ( "SELECT FolderID FROM eZFileManager_FileFolderLink WHERE FileID='$this->ID'" );
+       $this->Database->array_query( $result, $query );
+
+       foreach ( $result as $folder )
+       {
+           return new eZVirtualFolder( $folder["FolderID"] );
+       }
+    }
+
+
+    /*!
       Removes the file from every folders.
     */
     function removeFolders()
@@ -761,22 +493,223 @@ class eZVirtualfile
        }
     }
 
-    /*!
-      \public
-      Returns folder that owns this file.
+        /*!
+      Adds read permission to the user.
     */
-    function folder()
+    function addReadPermission( $value )
     {
-        $this->dbInit();
-        $result_array = array();
-        $this->Database->array_query( $result_array, "SELECT FolderID FROM eZFileManager_FileFolderLink WHERE FileID='$this->ID'" );
-        
-        foreach( $result_array as $item )
-        {
-            $return_array[] = new eZVirtualFolder( $item[ "FolderID" ] );
-        }
-        return $return_array;
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $this->dbInit();
+       
+       $query = "INSERT INTO eZFileManager_FileReadGroupLink SET FileID='$this->ID', GroupID='$value'";
+            
+       $this->Database->query( $query );
     }
+
+    /*!
+      Adds write permission to the user.
+    */
+    function addWritePermission( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $this->dbInit();
+       
+       $query = "INSERT INTO eZFileManager_FileWriteGroupLink SET FileID='$this->ID', GroupID='$value'";
+            
+       $this->Database->query( $query );
+    }
+
+    /*!
+      Check if the user have read permissions.
+
+    */
+    function hasReadPermissions( $user=false )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $this->Database->array_query( $userArrayID, "SELECT UserID FROM eZFileManager_File WHERE ID='$this->ID'" );
+
+       if ( $user )
+       {
+           if ( $userArrayID[0]["UserID"] == $user->id() )
+           {
+               return true;
+           }
+           $groups = $user->groups();
+       }
+
+       $this->Database->array_query( $readPermissions, "SELECT GroupID FROM eZFileManager_FileReadGroupLink WHERE FileID='$this->ID'" );
+
+       for ( $i=0; $i < count ( $readPermissions ); $i++ )
+       {
+           if ( $readPermissions[$i]["GroupID"] == 0 )
+           {
+               return true;
+           }
+           else
+           {
+               if ( count ( $groups ) > 0 )
+               {
+                   foreach ( $groups as $group )
+                   {
+                       if ( $group->id() == $readPermissions[$i]["GroupID"] )
+                       {
+                           return true;
+                       }
+                   }
+               }
+           }
+       }
+       
+       return false;
+    }
+
+    /*!
+      Check if the user have read permissions.
+
+    */
+    function hasWritePermissions( $user=false )
+    {
+
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $this->Database->array_query( $userArrayID, "SELECT UserID FROM eZFileManager_File WHERE ID='$this->ID'" );
+
+       if ( $user )
+       {
+           if ( $userArrayID[0]["UserID"] == $user->id() )
+           {
+               return true;
+           }
+           $groups = $user->groups();
+       }
+       
+       $this->Database->array_query( $writePermissions, "SELECT GroupID FROM eZFileManager_FileWriteGroupLink WHERE FileID='$this->ID'" );
+
+       for ( $i=0; $i < count ( $writePermissions ); $i++ )
+       {
+           if ( $writePermissions[$i]["GroupID"] == 0 )
+           {
+               return true;
+           }
+           else
+           {
+               if ( count ( $groups ) > 0 )
+               {
+                   foreach ( $groups as $group )
+                   {
+                       if ( $group->id() == $writePermissions[$i]["GroupID"] )
+                       {
+                           return true;
+                       }
+                   }
+               }
+           }
+       }
+       
+       return false;
+    }
+
+    /*!
+      Remove the read permissions from this eZVirtualFile object.
+
+    */
+    function removeReadPermissions()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $this->Database->query( "DELETE FROM eZFileManager_FileReadGroupLink WHERE FileID='$this->ID'" );
+    }
+
+
+    /*!
+      Remove the write permissions from this eZVirtualFile object.
+
+    */
+    function removeWritePermissions()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $this->Database->query( "DELETE FROM eZFileManager_FileWriteGroupLink WHERE FileID='$this->ID'" );
+    }
+
+    /*!
+      Returns all the read permission for this object.
+
+    */
+    function readPermissions( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $readPermissions = array();
+       $ret = false;
+
+       $this->Database->array_query( $readPermissions, "SELECT GroupID FROM eZFileManager_FileReadGroupLink WHERE FileID='$this->ID'" );
+
+      
+       for ( $i=0; $i < count ( $readPermissions ); $i++ )
+       {
+           if ( $readPermissions[$i]["GroupID"] == 0 )
+           {
+               $ret[] = "Everybody";
+           }
+          
+           $ret[] = new eZUserGroup( $readPermissions[$i]["GroupID"] );
+       }
+
+       return $ret;
+    }
+
+    /*!
+      Returns all the write permission for this object.
+
+    */
+    function writePermissions( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $writePermissions = array();
+       $ret = false;
+
+       $this->Database->array_query( $writePermissions, "SELECT GroupID FROM eZFileManager_FileWriteGroupLink WHERE FileID='$this->ID'" );
+
+      
+       for ( $i=0; $i < count ( $writePermissions ); $i++ )
+       {
+           if ( $writePermissions[$i]["GroupID"] == 0 )
+           {
+               $ret[] = "Everybody";
+           }
+          
+           $ret[] = new eZUserGroup( $writePermissions[$i]["GroupID"] );
+       }
+
+       return $ret;
+    }
+
+
     
     /*!
       \private
@@ -797,8 +730,6 @@ class eZVirtualfile
     var $Description;
     var $FileName;
     var $OriginalFileName;
-    var $ReadPermission;
-    var $WritePermission;
     var $UserID;
 
     ///  Variable for keeping the database connection.

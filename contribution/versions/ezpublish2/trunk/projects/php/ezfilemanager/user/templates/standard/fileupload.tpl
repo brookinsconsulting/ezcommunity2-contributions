@@ -20,17 +20,18 @@
     <li>{intl-error_description}
     <!-- END error_description_tpl -->
 
-    <!-- BEGIN error_read_check_tpl -->
-    <li>{intl-error_read_check}
-    <!-- END error_read_check_tpl -->
-
-    <!-- BEGIN error_write_check_tpl -->
-    <li>{intl-error_write_check}
-    <!-- END error_write_check_tpl -->
-
     <!-- BEGIN error_file_upload_tpl -->
     <li>{intl-error_file_upload}
     <!-- END error_file_upload_tpl -->
+
+    <!-- BEGIN error_read_everybody_permission_tpl -->
+    <li>{intl-error_read_everybody_check}
+    <!-- END error_read_everybody_permission_tpl -->
+
+    <!-- BEGIN error_write_everybody_permission_tpl -->
+    <li>{intl-error_write_everybody_check}
+    <!-- END error_write_everybody_permission_tpl -->
+
 </ul>
 <hr noshade size="4"/>
 <!-- END errors_tpl -->
@@ -57,15 +58,21 @@
     <br />
 
     <p class="boxtext">{intl-read_permissions}</p>
-    <input type="radio" name="Read" value="User" {user_read_checked} /> {intl-user}
-    <input type="radio" name="Read" value="Group" {group_read_checked} />{intl-group}
-    <input type="radio" name="Read" value="All" {all_read_checked} /> {intl-all}
+    <select multiple size="5" name="ReadGroupArrayID[]">
+    <option value="0" {read_everybody}>{intl-everybody}</option>
+    <!-- BEGIN read_group_item_tpl -->
+    <option value="{group_id}" {is_read_selected}>{group_name}</option>
+    <!-- END read_group_item_tpl -->
+    </select>
     <br /><br />
 
     <p class="boxtext">{intl-write_permissions}</p>
-    <input type="radio" name="Write" value="User" {user_write_checked} /> {intl-user}
-    <input type="radio" name="Write" value="Group" {group_write_checked} /> {intl-group}
-    <input type="radio" name="Write" value="All" {all_write_checked} /> {intl-all}
+    <select multiple size="5" name="WriteGroupArrayID[]">
+    <option value="0" {write_everybody}>{intl-everybody}</option>
+    <!-- BEGIN write_group_item_tpl -->
+    <option value="{group_id}" {is_write_selected}>{group_name}</option>
+    <!-- END write_group_item_tpl -->
+    </select>
     <br /><br />
 
 <hr noshade="noshade" size="4" />

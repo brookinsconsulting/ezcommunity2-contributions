@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.18 2001/02/26 11:57:24 bf Exp $
+// $Id: filelist.php,v 1.19 2001/02/26 16:43:48 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -29,6 +29,9 @@ include_once( "classes/ezlog.php" );
 
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
+
+include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/ezpermission.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -66,14 +69,13 @@ $user = eZUser::currentUser();
 
 $folder = new eZVirtualFolder( $FolderID );
 
-$readPermission = $folder->checkReadPermission( $user );
-
 $error = true;
 
-if ( ( $readPermission == "User" ) || ( $readPermission == "Group" ) || ( $readPermission == "All" ) )
+// Check for read permission in the current folder.
+if ( $folder->hasReadPermissions( $user ) == true )
 {
     $error = false;
-}
+} 
 
 if ( $FolderID == 0 )
 {
@@ -82,6 +84,7 @@ if ( $FolderID == 0 )
 
 $t->set_var( "current_folder", "" );
 $t->set_var( "current_folder_description", "" );
+
 if ( $folder->id() != 0 )
 {
     $t->set_var( "current_folder_description", $folder->description() );
@@ -104,55 +107,47 @@ foreach ( $pathArray as $path )
     $t->parse( "path_item", "path_item_tpl", true );
 }
 
+// Print out the folders.
 
 $folderList =& $folder->getByParent( $folder );
 
 $i=0;
 foreach ( $folderList as $folderItem )
 {
-//      if ( ( $i % 2 ) == 0 )
-//      {
-//          $t->set_var( "begin_tr", "<tr>" );
-//          $t->set_var( "end_tr", "" );        
-//      }
-//      else if ( ( $i % 4 ) == 3 )
-//      {
-//          $t->set_var( "begin_tr", "" );
-//          $t->set_var( "end_tr", "</tr>" );
-//      }
-//      else
-//      {
-//          $t->set_var( "begin_tr", "" );
-//          $t->set_var( "end_tr", "" );        
-//      }
-
     $t->set_var( "folder_name", $folderItem->name() );
     $t->set_var( "folder_id", $folderItem->id() );
-
-    $writePermission = $folderItem->checkWritePermission( $user );
-    $readPermission = $folderItem->checkReadPermission( $user );
 
     $t->set_var( "folder_read", "" );
     $t->set_var( "folder_write", "" );
 
-    if ( ( $readPermission == "User" ) || ( $readPermission == "Group" ) || ( $readPermission == "All" ) )
+    if ( $folderItem->hasReadPermissions( $user ) == true )
     {
         $t->parse( "folder_read", "folder_read_tpl" );
     }
-    else
-    {
-    }
 
-    if ( ( $writePermission == "User" ) || ( $writePermission == "Group" ) || ( $writePermission == "All" ) )
+    if ( $folderItem->hasWritePermissions( $user ) == true )
     {
         $t->parse( "folder_write", "folder_write_tpl" );
-    }
-    else
-    {
     }
 
     $t->parse( "folder", "folder_tpl", true );
     $i++;
+}
+
+if ( $folder->id() != 0 )
+{
+    if ( $folder->hasWritePermissions( $user ) )
+    {
+        //      $t->parse( "write_menu", "write_menu_tpl" );
+    }
+}
+else
+{
+
+    if ( eZPermission::checkPermission( $user, "eZFileManager", "WriteToRoot" ) )
+    {
+//        $t->parse( "write_menu", "write_menu_tpl" );
+    }
 }
 
 if ( count( $folderList ) > 0 )
@@ -164,29 +159,13 @@ else
     $t->set_var( "folder_list", "" );
 }
 
+// Print out the files.
 
 $fileList =& $folder->files();
 
 //$i=0;
 foreach ( $fileList as $file )
 {
-//      if ( ( $i % 4 ) == 0 )
-//      {
-//          $t->set_var( "begin_tr", "<tr>" );
-//          $t->set_var( "end_tr", "" );        
-//      }
-//      else if ( ( $i % 4 ) == 3 )
-//      {
-//          $t->set_var( "begin_tr", "" );
-//          $t->set_var( "end_tr", "</tr>" );
-//      }
-//      else
-//      {
-//          $t->set_var( "begin_tr", "" );
-//          $t->set_var( "end_tr", "" );
-        
-//      }
-
     $t->set_var( "file_id", $file->id() );
     $t->set_var( "original_file_name", $file->originalFileName() );
     $t->set_var( "file_name", $file->name() );
@@ -198,33 +177,23 @@ foreach ( $fileList as $file )
     $t->set_var( "file_size", $size["size-string"] );
     $t->set_var( "file_unit", $size["unit"] );
 
-    $writePermission = $file->checkWritePermission( $user );
-    $readPermission = $file->checkReadPermission( $user );
+    $t->set_var( "file_read", "" );
+    $t->set_var( "file_write", "" );
 
-    $t->set_var( "read", "" );
-    $t->set_var( "write", "" );
-
-    if ( ( $readPermission == "User" ) || ( $readPermission == "Group" ) || ( $readPermission == "All" ) )
+    if ( $file->hasReadPermissions( $user ) )
     {
         $t->parse( "read", "read_tpl" );
     }
-    else
-    {
-    }
 
-    if ( ( $writePermission == "User" ) || ( $writePermission == "Group" ) || ( $writePermission == "All" ) )
+    if ( $file->hasWritePermissions( $user ) )
     {
         $t->parse( "write", "write_tpl" );
-    }
-    else
-    {
     }
 
     $t->parse( "file", "file_tpl", true );
     
     $i++;
 }
-
 
 if ( count( $fileList ) > 0 )
 {
@@ -235,14 +204,18 @@ else
     $t->set_var( "file_list", "" );
 }
 
-
 $t->set_var( "image_dir", $ImageDir );
 $t->set_var( "main_folder_id", $FolderID );
 
-
 if ( $error == false )
+{
     $t->pparse( "output", "file_list_page_tpl" );
-
+}
+else
+{
+    eZHTTPTool::header( "Location: /error/403/" );
+    exit();
+}
 
 ?>
 

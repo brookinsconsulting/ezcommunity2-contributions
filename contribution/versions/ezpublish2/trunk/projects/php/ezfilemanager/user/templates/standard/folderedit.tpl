@@ -22,13 +22,17 @@
     <li>{intl-error_description}
     <!-- END error_description_tpl -->
 
-    <!-- BEGIN error_read_check_tpl -->
-    <li>{intl-error_read_check}
-    <!-- END error_read_check_tpl -->
+    <!-- BEGIN error_parent_check_tpl -->
+    <li>{intl-error_parent_check}
+    <!-- END error_parent_check_tpl -->
 
-    <!-- BEGIN error_write_check_tpl -->
-    <li>{intl-error_write_check}
-    <!-- END error_write_check_tpl -->
+    <!-- BEGIN error_read_everybody_permission_tpl -->
+    <li>{intl-error_read_everybody_check}
+    <!-- END error_read_everybody_permission_tpl -->
+
+    <!-- BEGIN error_write_everybody_permission_tpl -->
+    <li>{intl-error_write_everybody_check}
+    <!-- END error_write_everybody_permission_tpl -->
 
 </ul>
 
@@ -36,35 +40,54 @@
 
 <!-- END errors_tpl -->
 
+<br /><br />
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td>
+    <p class="boxtext">{intl-folder}:</p>
+    <select name="ParentID">
+    <option value="0" {selected}>{intl-top_folder}</option>
+    <!-- BEGIN value_tpl -->
+    <option value="{option_value}" {selected}>{option_level}{option_name}</option>
+    <!-- END value_tpl -->
+    </select>
+
     <p class="boxtext">{intl-folder_name}:</p>
     <input type="text" size="40" name="Name" value="{name_value}"/>
 
-	<p class="boxtext">{intl-folder}:</p>
-	
-	<select name="FolderID">
-	<option value="0" {selected}>{option_level}{intl-top_folder}</option>
-	<!-- BEGIN value_tpl -->
-	<option value="{option_value}" {selected}>{option_level}{option_name}</option>
-	<!-- END value_tpl -->
-	
-	</select>
-	
     <p class="boxtext">{intl-folder_description}:</p>
-	
-	<textarea name="Description" cols="40" rows="5" wrap="soft">{description_value}</textarea>
+    <textarea name="Description" cols="40" rows="5" wrap="soft">{description_value}</textarea>
+    </td>
+</tr>
 
+<tr>
     <br />
     <p class="boxtext">{intl-read_permissions}</p>
-    <input type="radio" name="Read" value="User" {user_read_checked} /> {intl-user}
-    <input type="radio" name="Read" value="Group" {group_read_checked} />{intl-group}
-    <input type="radio" name="Read" value="All" {all_read_checked} /> {intl-all}
+    <select multiple size="5" name="ReadGroupArrayID[]">
+    <option value="0" {selected}>{intl-everybody}</option>
+    <!-- BEGIN read_group_item_tpl -->
+    <option value="{group_id}" {selected}>{group_name}</option>
+    <!-- END read_group_item_tpl -->
+    </select>
+    </td>
+</tr>
+
+<tr>    
+    <td>
+    <br /><br />
+    <p class="boxtext">{intl-write_permissions}</p>
+    <select multiple size="5" name="WriteGroupArrayID[]">
+    <option value="0" {selected}>{intl-everybody}</option>
+    <!-- BEGIN write_group_item_tpl -->
+    <option value="{group_id}" {selected}>{group_name}</option>
+    <!-- END write_group_item_tpl -->
+    </select>
+    </td>
+</tr>
+</table>
     <br /><br />
 
-    <p class="boxtext">{intl-write_permissions}</p>
-    <input type="radio" name="Write" value="User" {user_write_checked} /> {intl-user}
-    <input type="radio" name="Write" value="Group" {group_write_checked} /> {intl-group}
-    <input type="radio" name="Write" value="All" {all_write_checked} /> {intl-all}
-    <br /><br />
 
 <hr noshade="noshade" size="4" />
 

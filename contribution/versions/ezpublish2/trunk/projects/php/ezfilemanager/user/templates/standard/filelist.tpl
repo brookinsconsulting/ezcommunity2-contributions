@@ -46,8 +46,11 @@
 	</td>
         <!-- END folder_read_tpl -->
         <!-- BEGIN folder_write_tpl -->
+	<td class="{td_class}" width="1%">
+	<a href="/filemanager/folder/edit/{folder_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{folder_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezf{folder_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a><br />
+	</td>
 	<td width="1%">
-	<a href="/filemanager/folder/delete/{folder_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{folder_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezf{folder_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a><br />
+	<input type="checkbox" name="FolderArrayID[]" value="{folder_id}">
 	</td>
         <!-- END folder_write_tpl -->
 </tr>
@@ -112,6 +115,10 @@
     <td>
 	<input class="stdbutton" type="submit" name="Delete" value="{intl-delete}">
 	</td>
+    <td>
+	<input class="stdbutton" type="submit" name="DeleteFolders" value="{intl-delete_folders}">
+	</td>
+
 </tr>
 </table>
 </form>
