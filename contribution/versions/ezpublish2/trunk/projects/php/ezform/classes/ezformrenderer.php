@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.40 2001/12/23 08:41:31 jhe Exp $
+// $Id: ezformrenderer.php,v 1.41 2002/01/02 08:58:38 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -676,9 +676,12 @@ class eZFormRenderer
             if ( $elementType->name() == "numerical_integer_item" )
             {
                 if ( $value == "" )
+                {
                     $$elementName = 0;
+                    $value = 0;
+                }
                 $numElement = new eZFormElementNumerical( $element->id() );
-                if ( !$numElement->validNumber( $value ) )
+                if ( !$numElement->validNumber( $value ) || !is_numeric( $value ) )
                 {
                     $errorMessages[] = "integer_field";
                     $errorMessagesAdditionalInfo[] = "\"" .  $element->name() . "\"" ;
@@ -688,11 +691,14 @@ class eZFormRenderer
             if ( $elementType->name() == "numerical_float_item" )
             {
                 if ( $value == "" )
+                {
                     $$elementName = 0;
+                    $value = 0;
+                }
                 $numElement = new eZFormElementNumerical( $element->id() );
                 if ( $numElement->id() == 0 )
                 {
-                    if ( !is_numeric( $value ) && $value != "" )
+                    if ( !is_numeric( $value ) )
                     {
                         $errorMessages[] = "float_field";
                         $errorMessagesAdditionalInfo[] = "\"" .  $element->name() . "\"" ;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelementnumerical.php,v 1.2 2001/12/21 11:57:33 jhe Exp $
+// $Id: ezformelementnumerical.php,v 1.3 2002/01/02 08:58:37 jhe Exp $
 //
 // ezformelementtype class
 //
@@ -116,17 +116,17 @@ class eZFormElementNumerical
         $db =& eZDB::globalDatabase();
 
         $ret = false;
-        if ( $id != "-1" )
+        if ( $id != -1 )
         {
             $db->array_query( $formArray, "SELECT * FROM eZForm_FormElementNumerical WHERE ElementID='$id'",
                               0, 1 );
                               
-            if( count( $formArray ) == 1 )
+            if ( count( $formArray ) == 1 )
             {
                 $this->fill( &$formArray[0] );
                 $ret = true;
             }
-            elseif( count( $formArray ) != 1 )
+            elseif ( count( $formArray ) != 1 )
             {
                 $this->ID = 0;
             }
@@ -159,7 +159,7 @@ class eZFormElementNumerical
 
         $db->array_query( $formArray, "SELECT ElementID FROM eZForm_FormElementNumerical" );
 
-        for ( $i=0; $i < count($formArray); $i++ )
+        for ( $i = 0; $i < count( $formArray ); $i++ )
         {
             $returnArray[$i] = new eZFormElementNumerical( $formArray[$i][$db->fieldValue( "ElementID" )] );
         }
@@ -213,6 +213,7 @@ class eZFormElementNumerical
        $this->ID = $ID;
        $this->status = "new";
     }
+    
     /*!
       Sets the minValue of the object.
     */
@@ -231,10 +232,17 @@ class eZFormElementNumerical
 
     function validNumber( $value )
     {
-        if ( $value >= $this->MinValue && $value <= $this->MaxValue )
+        if ( $this->MinValue == "" && $this->MaxValue == "" )
+        {
             return true;
+        }
         else
-            return false;
+        {
+            if ( $value >= $this->MinValue && $value <= $this->MaxValue )
+                return true;
+            else
+                return false;
+        }
     }
     
     var $ID;
