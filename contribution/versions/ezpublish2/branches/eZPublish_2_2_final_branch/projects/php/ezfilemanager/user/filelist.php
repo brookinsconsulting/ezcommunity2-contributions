@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filelist.php,v 1.49.2.6 2002/03/04 13:26:58 bf Exp $
+// $Id: filelist.php,v 1.49.2.7 2002/03/06 10:35:04 jhe Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -80,12 +80,6 @@ $folder = new eZVirtualFolder( $FolderID );
 // sections
 include_once( "ezsitemanager/classes/ezsection.php" );
 
-// tempo fix for admin users - maybe in the future must be changed
-if ( ( $FolderID != 0 ) && !eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
-{
-    // moved out
-}
-
 if ( $FolderID == 0 )
     $GlobalSectionID = $ini->read_var( "eZFileManagerMain", "DefaultSection" );
 else
@@ -101,7 +95,7 @@ if ( eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "r"
      eZVirtualFolder::isOwner( $user, $folder->id() ) )
 {
     $error = false;
-} 
+}
 
 if ( $FolderID == 0 )
 {
