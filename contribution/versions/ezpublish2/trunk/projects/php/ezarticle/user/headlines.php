@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: headlines.php,v 1.11 2001/04/19 16:05:08 th Exp $
+// $Id: headlines.php,v 1.12 2001/04/27 09:24:47 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Nov-2000 14:35:24 bf>
@@ -46,7 +46,6 @@ $t->set_file( array(
     ) );
 
 
-
 // product
 $t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
 $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
@@ -64,7 +63,7 @@ if ( !isset( $HeadlineOffset ) )
 	$HeadlineOffset = 0;
 }
 
-$category = new eZArticleCategory( );
+$category = new eZArticleCategory( $CategoryID );
 
 if ( $CategoryID == 0 )
 {
@@ -77,7 +76,7 @@ if ( $CategoryID == 0 )
 else
 {
     $articleList =& $category->articles( $category->sortMode(), false, true, $HeadlineOffset, $Limit );
-    $articleCount = $category->articleCount( false, true  );
+    $articleCount = $category->articleCount( false, true  );    
 }
 
 
