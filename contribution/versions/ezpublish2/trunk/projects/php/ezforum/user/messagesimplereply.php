@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagesimplereply.php,v 1.9 2001/02/07 15:48:18 fh Exp $
+// $Id: messagesimplereply.php,v 1.10 2001/02/09 11:01:25 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -58,8 +58,6 @@ if ( $Action == "insert" )
     $reply->setForumID( $original->forumID() );
 
     $reply->setTopic( strip_tags( $Topic ) );
-    $Body = ereg_replace ( "(<)", "&lt;", $Body );        
-    $Body = ereg_replace ( "(>)", "&gt;", $Body );        
          
     $reply->setBody( strip_tags( $Body, "<b>,<i>,<u>,<font>" ) );
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.10 2001/02/06 12:10:52 pkej Exp $
+// $Id: menubox.php,v 1.11 2001/02/09 11:01:25 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -27,7 +27,7 @@
 
 $menuItems = array(
     array( "/article/archive/", "{intl-archive}" ),
-    array( "/article/archive/", "{intl-unpublished}" ),
+    array( "/article/unpublished/", "{intl-unpublished}" ),
     array( "/article/articleedit/new/", "{intl-new_article}" ),
     array( "/article/categoryedit/new/", "{intl-new_category}" )
     );

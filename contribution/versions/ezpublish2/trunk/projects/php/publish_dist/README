@@ -280,12 +280,12 @@ CREATE TABLE eZTrade_AttributeValue (
 );
 
 
+# user table
+alter table eZUser_User add Signature text NOT NULL;   
+
 ### BETA 1- BETA 2
 
 alter table eZTrade_Order add IsExported int not null default 0;    
-
-alter table eZTrade_Order add IsSendt int not null default 1;    
-
 alter table eZTrade_Order add Date datetime;
 
 # eZ stats (speed) update
