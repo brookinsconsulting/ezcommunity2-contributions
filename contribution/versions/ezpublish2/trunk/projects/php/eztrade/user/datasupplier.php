@@ -3,7 +3,7 @@ $PageCaching = $ini->read_var( "eZTradeMain", "PageCaching");
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "eztrade/classes/ezpricegroup.php" );
-
+include_once( "classes/ezhttptool.php" );
 $user = eZUser::currentUser();
 
 $RequireUser = $ini->read_var( "eZTradeMain", "RequireUserLogin" ) == "enabled" ? true : false;
@@ -213,6 +213,19 @@ switch ( $url_array[2] )
 
     case "extendedsearch" :
     {
+        $Limit = 10;
+        if ( $url_array[3] == "move" )
+        {
+            $Text = urldecode( $url_array[4] );
+            $PriceLower = urldecode( $url_array[5] );
+            $PriceHigher = urldecode ( $url_array[6] );
+            $CategoryArray = urldecode ( $url_array[7] );
+            $Offset = urldecode ( $url_array[8] );
+
+            $Action = "SearchButton";
+            $Next = true;
+        }
+                
         include( "eztrade/user/extendedsearch.php" );
     }
     break;

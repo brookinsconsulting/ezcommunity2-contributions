@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: extendedsearch.php,v 1.2 2001/03/15 19:27:08 bf Exp $
+// $Id: extendedsearch.php,v 1.3 2001/03/16 16:46:32 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 17:49:05 bf>
@@ -29,6 +29,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
 include_once( "classes/ezhttptool.php" );
+include_once( "classes/ezlist.php" );
 
 $ini =& INIFile::globalINI();
 
@@ -45,7 +46,7 @@ include_once( "ezimagecatalogue/classes/ezimage.php" );
 
 if ( isSet ( $SearchButton ) )
 {
-    $Action = "Search";
+    $Action = "SearchButton";
 }
 
 $user = eZUser::currentUser();
@@ -54,9 +55,6 @@ $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateD
                      "eztrade/user/intl/", $Language, "extendedsearch.php" );
 
 $t->setAllStrings();
-
-$Limit = eZHTTPTool::getVar( "Limit" );
-$Offset = eZHTTPTool::getVar( "Offset" );
 
 $t->set_file(  "extended_search_tpl", "extendedsearch.tpl" );
 
@@ -67,11 +65,6 @@ $t->set_block( "extended_search_tpl", "category_item_tpl", "category_item" );
 $t->set_block( "product_search_list_tpl", "image_tpl", "image" );
 $t->set_block( "product_search_list_tpl", "price_tpl", "price" );
 
-$t->set_block( "product_search_list_tpl", "previous_tpl", "previous" );
-$t->set_block( "product_search_list_tpl", "next_tpl", "next" );
-
-$t->set_var( "next", "" ); 
-$t->set_var( "previous", "" );
 
 $t->set_var( "price_lower", "" );
 $t->set_var( "price_higher", "" );
@@ -80,18 +73,50 @@ $t->set_var( "text", "" );
 // products
 $product = new eZProduct();
 
-if ( $Action == "Search" )
+if ( $Action == "SearchButton" )
 {
-    if ( $Limit == "" )
-        $Limit = 10;
-    if ( $Offset == "" )
-        $Offset = 0;
+    $session = new eZSession();
 
-    $productList =& $product->extendedSearch( $PriceLower, $PriceHigher, $Text, $Offset, $Limit, $CategoryArrayID );
-    $total_count = $product->extendedSearchCount( $PriceLower, $PriceHigher, $Text, $CategoryArrayID );
+    if ( $Next || $Prev )
+    {
+        if ( $CategoryArray != "" )
+            $CategoryArrayID = explode( "-", $CategoryArray );
+        $productList =& $product->extendedSearch( $PriceLower, $PriceHigher, $Text, $Offset, $Limit, $CategoryArrayID );
+        $totalCount = $product->extendedSearchCount( $PriceLower, $PriceHigher, $Text, $CategoryArrayID );
+    }
+    else
+    {
+        if ( $Limit == "" )
+            $Limit = 10;
+        if ( $Offset == "" )
+            $Offset = 0;
+        
+        $productList =& $product->extendedSearch( $PriceLower, $PriceHigher, $Text, $Offset, $Limit, $CategoryArrayID );
+        $totalCount = $product->extendedSearchCount( $PriceLower, $PriceHigher, $Text, $CategoryArrayID );
+    }
 
     $t->set_var( "price_lower", $PriceLower );
     $t->set_var( "price_higher", $PriceHigher );
+    $t->set_var( "text", $Text );
+
+    $t->set_var( "url_text", urlencode( $Text ) );
+    $t->set_var( "url_lower", urlencode( $PriceLower ) );
+    $t->set_var( "url_higher", urlencode( $PriceHigher ) );
+
+    if ( is_array ( $CategoryArrayID ) )
+    {
+        $i=0;
+        foreach ( $CategoryArrayID as $categoryID )
+        {
+            if ( $i == 1 )
+                $urlCategory = $categoryID;
+            else
+                $urlCategory .= "-" . $categoryID;
+            $i++;
+        }
+    }
+
+    $t->set_var( "url_category", urlencode( $urlCategory ) );
 }
 
 $locale = new eZLocale( $Language );
@@ -146,7 +171,6 @@ if ( count ( $productList ) > 0 )
             $t->set_var( "price", "" );
         }
         
-        
         $t->set_var( "product_intro_text", $product->brief() );
         $t->set_var( "product_id", $product->id() );
 
@@ -162,29 +186,7 @@ if ( count ( $productList ) > 0 )
             $t->set_var( "td_class", "bgdark" );
         }
 
-        $prevOffs = $Offset - $Limit;
-        $nextOffs = $Offset + $Limit;
-        
-        if ( $prevOffs >= 0 )
-        {
-            $t->set_var( "prev_offset", $prevOffs  );
-            $t->parse( "previous", "previous_tpl" );
-        }
-        else
-        {
-            $t->set_var( "previous", "" );
-        }
-        
-        if ( $nextOffs <= $total_count )
-        {
-            $t->set_var( "next_offset", $nextOffs  );
-            $t->parse( "next", "next_tpl" );
-        }
-        else
-        {
-            $t->set_var( "next", "" );
-        }
-
+       
         $t->parse( "product_search_list", "product_search_list_tpl", true );
         $i++;
     }
@@ -193,6 +195,12 @@ else
 {
     $t->set_var( "product_search_list", "" );
 }
+//  print( "Object:" . $t . "<br>" . 
+//                         "totalt:" .$totalCount . "<br>" . 
+//                         "limit:" . $Limit . "<br>" . 
+//                         "offset:" . $Offset . "<br>"
+//                         );
+eZList::drawNavigator( $t, $totalCount, $Limit, $Offset, "extended_search_tpl" );
 
 $category = new eZProductCategory();
 
@@ -208,6 +216,16 @@ foreach( $categoryList as $categoryItem )
     else
         $t->set_var( "option_level", "" );
 
+    $t->set_var( "is_selected", "" );
+    
+    if ( is_array ( $CategoryArrayID ) )
+    {
+        foreach ( $CategoryArrayID as $CategoryID )
+        {
+            if ( $CategoryID == $categoryItem[0]->id() )
+                $t->set_var( "is_selected", "selected" );
+        }
+    }
 
     $t->parse( "category_item", "category_item_tpl", true );
 }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.48 2001/03/15 19:44:20 bf Exp $
+// $Id: ezproduct.php,v 1.49 2001/03/16 16:46:32 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -1069,12 +1069,14 @@ class eZProduct
 
         if ( count ( $categoryArrayID ) > 0 )
         {
+            $i = 0;
             foreach( $categoryArrayID as $categoryID )
             {
                 if ( $i == 0 )
                     $catID = "eZTrade_ProductCategoryLink.CategoryID='$categoryID'";
                 else
                     $catID .= " OR eZTrade_ProductCategoryLink.CategoryID='$categoryID'";
+                $i++;
             }
         }
         
@@ -1156,12 +1158,14 @@ class eZProduct
 
         if ( count ( $categoryArrayID ) > 0 )
         {
+            $i=0;
             foreach( $categoryArrayID as $categoryID )
             {
                 if ( $i == 0 )
                     $catID = "eZTrade_ProductCategoryLink.CategoryID='$categoryID'";
                 else
                     $catID .= " OR eZTrade_ProductCategoryLink.CategoryID='$categoryID'";
+                $i++;
             }
         }
         
@@ -1217,7 +1221,7 @@ class eZProduct
 
         $this->Database->array_query( $res_array, $queryString );
 
-        return $res_array[0]["Count"];
+        return $res_array[0][0];
     }
    
     
