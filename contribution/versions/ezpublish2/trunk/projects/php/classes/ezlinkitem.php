@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlinkitem.php,v 1.4 2001/05/04 09:03:20 jb Exp $
+// $Id: ezlinkitem.php,v 1.5 2001/06/28 08:14:53 bf Exp $
 //
 // Definition of eZLinkItem class
 //
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! 
+//!! eZCommon
 //! The class eZLinkItem handles link items contained in a section.
 /*!
   Contains information on the name, the url and the type of link.

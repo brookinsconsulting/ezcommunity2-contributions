@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticletool.php,v 1.7 2001/06/08 14:12:12 ce Exp $
+// $Id: ezarticletool.php,v 1.8 2001/06/28 08:14:53 bf Exp $
 //
 // Definition of eZArticleTool class
 //
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! 
+//!! eZArticle
 //! The class eZArticleTool has functions for article handling.
 /*!
 

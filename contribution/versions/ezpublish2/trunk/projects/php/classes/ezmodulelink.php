@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmodulelink.php,v 1.2 2001/05/04 08:40:22 jb Exp $
+// $Id: ezmodulelink.php,v 1.3 2001/06/28 08:14:53 bf Exp $
 //
 // Definition of eZModuleLink class
 //
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! 
+//!! eZCommon
 //! The class eZModuleLink handles remote linkage of sections.
 /*!
   It can link sections from a remote modules to a specific module and sub type.

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticleform.php,v 1.1 2001/06/15 13:47:29 pkej Exp $
+// $Id: ezarticleform.php,v 1.2 2001/06/28 08:14:53 bf Exp $
 //
 // ezarticleform class
 //
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! ezarticleform
+//!! eZArticle
 //! ezarticleform documentation.
 /*!
 

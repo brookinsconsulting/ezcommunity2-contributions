@@ -23,7 +23,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! eZBulkMailForgot
+//!! eZBulkMail
 //! eZBulkMailForgot handles forgotten password. The user send a mail and get a hash returned, the user use the hash to get a new password.
 /*!
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlinksection.php,v 1.4 2001/05/04 08:49:21 jb Exp $
+// $Id: ezlinksection.php,v 1.5 2001/06/28 08:14:53 bf Exp $
 //
 // Definition of eZLinkSection class
 //
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! 
+//!! eZCommon
 //! The class eZLinkSection handles link sections.
 /*!
   Link sections are connected to a specific item in a module

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezurltranslator.php,v 1.6 2001/06/26 10:42:43 bf Exp $
+// $Id: ezurltranslator.php,v 1.7 2001/06/28 08:14:55 bf Exp $
 //
 // Definition of eZURLTranslator class
 //
@@ -30,7 +30,6 @@
 /*!
    
 */
-
 
 include_once( "classes/ezdb.php" );
 

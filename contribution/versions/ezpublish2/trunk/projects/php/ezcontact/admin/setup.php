@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: setup.php,v 1.3 2001/03/09 12:25:37 jb Exp $
+// $Id: setup.php,v 1.4 2001/06/28 08:14:53 bf Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <25-Jan-2001 00:58:23 amos>
@@ -23,11 +23,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! 
-//! The setup prints a menubox with contact setup items
-/*!
-
-*/
 
 include_once( "classes/ezmenubox.php" );
 include_once( "classes/INIFile.php" );

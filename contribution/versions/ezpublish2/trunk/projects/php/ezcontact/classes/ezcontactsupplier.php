@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcontactsupplier.php,v 1.5 2001/05/04 10:38:27 jb Exp $
+// $Id: ezcontactsupplier.php,v 1.6 2001/06/28 08:14:54 bf Exp $
 //
 // Definition of ezcontactsupplier class
 //
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! 
+//!! eZContact
 //! The class ezcontactsupplier does
 /*!
 

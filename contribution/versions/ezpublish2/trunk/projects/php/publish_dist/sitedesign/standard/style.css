@@ -258,3 +258,121 @@ hr
 }
 
 /* Hellstrøm 11.6.2001 */
+
+
+// for phpdoc
+
+td.header {
+    color : #eeeeee;
+    background-color : #b53e29;
+}
+
+td.tableHeader {
+    color : #444444;
+    background-color : #dddddd;
+}
+
+td.classLinkLight {
+    background-color : #eeeeee;
+}
+
+td.classLinkDark {
+    background-color : #dddddd;
+}
+
+td.classDescription {
+    background-color : #eeeeee;
+}
+
+td.classTODO {
+    background-color : #eeeeee;
+}
+
+td.sourceListing {
+    background-color : #416141;
+    color : #de9562;
+    font-family: courier, monospace;
+}
+
+td.footer {
+    background-color : #b53e29;
+    color : #ffffff;
+    font-family: verdana, arial, helvetica;
+}
+
+
+p.functionName {
+    font-size : 14pt;	
+    font-face : verdana, arial, helvetica;
+}
+
+span.comment {
+    background-color : #315031;
+    color : #ffce20;
+    font-weight : none;
+}
+
+span.reservedWord {
+    background-color : #416141;
+    color : #83b6de;
+}
+
+span.specialChar {
+    background-color : #416141;
+    color : #e6be52;
+}
+
+span.variable {
+    background-color : #416141;
+    color : #00ffff;
+}
+
+span.string {
+    background-color : #416141;
+    color : #eeeeee;
+}
+
+span.number {
+    background-color : #416141;
+    color : #ffff55;
+}
+
+td.functionDesc {
+    background-color : #eeeeee;
+}
+
+p.functionIndex
+{
+    background-color : #ffffff;
+}
+
+.tdlight
+{
+    background-color : #eeeeee;
+}
+
+.tddark
+{
+    background-color : #dddddd;
+}
+
+.light
+{
+    color : #eeeeee;
+}
+
+.white
+{
+    color : #ffffff;
+}
+
+h3.fn, span.fn 
+{ 
+    margin-left: 1cm; 
+    text-indent: -1cm; 
+}
+
+A:hover {
+         background-color: #ffaf4a;
+          }
+

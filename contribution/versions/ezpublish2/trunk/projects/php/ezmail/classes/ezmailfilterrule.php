@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfilterrule.php,v 1.11 2001/05/05 12:20:15 bf Exp $
+// $Id: ezmailfilterrule.php,v 1.12 2001/06/28 08:14:54 bf Exp $
 //
 // eZMailFilterRule class
 //
@@ -533,7 +533,7 @@ class eZMailFilterRule
     var $IsActive;
 }
 
-//!! eZMailFilter
+//!! eZMail
 //! eZMailFilter documentation.
 /*!
   Does the filtering of a users mail. If no filters apply the mail is put into the inbox.

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpricegroup.php,v 1.7 2001/05/05 11:16:04 bf Exp $
+// $Id: ezpricegroup.php,v 1.8 2001/06/28 08:14:54 bf Exp $
 //
 // Definition of eZPriceGroup class
 //
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! 
+//!! eZTrade
 //! The class eZPriceGroup handles price groups and prices for products and options
 /*!
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmailtemplate.php,v 1.5 2001/05/05 11:16:03 bf Exp $
+// $Id: ezbulkmailtemplate.php,v 1.6 2001/06/28 08:14:53 bf Exp $
 //
 // eZBulkMailTemplate class
 //
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! eZBulkMailTemplate
+//!! eZBulkMail
 //! eZBulkMailTemplate documentation.
 /*!
 

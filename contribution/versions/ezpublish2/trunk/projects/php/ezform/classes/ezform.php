@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezform.php,v 1.1 2001/06/15 15:40:34 pkej Exp $
+// $Id: ezform.php,v 1.2 2001/06/28 08:14:54 bf Exp $
 //
 // ezform class
 //
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! ezform
+//!! eZForm
 //! ezform documentation.
 /*!
 

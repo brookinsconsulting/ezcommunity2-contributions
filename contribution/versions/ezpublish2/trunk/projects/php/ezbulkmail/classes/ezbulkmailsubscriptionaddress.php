@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmailsubscriptionaddress.php,v 1.10 2001/05/16 13:09:13 ce Exp $
+// $Id: ezbulkmailsubscriptionaddress.php,v 1.11 2001/06/28 08:14:53 bf Exp $
 //
 // eZBulkMailSubscriptionAddress class
 //
@@ -27,7 +27,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! eZBulkMailSubscriptionAddress
+//!! eZBulkMail
 //! eZBulkMailSubscriptionAddress documentation.
 /*!
 

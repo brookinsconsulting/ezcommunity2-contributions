@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlesupplier.php,v 1.2 2001/05/15 06:48:54 bf Exp $
+// $Id: ezarticlesupplier.php,v 1.3 2001/06/28 08:14:53 bf Exp $
 //
 // Definition of eZArticleSupplier class
 //
@@ -25,8 +25,8 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! 
-//! The class eZArticleSupplier does
+//!! eZArticle
+//! The class eZArticleSupplier supples article categories and article for other modules.
 /*!
 
 */

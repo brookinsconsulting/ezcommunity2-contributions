@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezslideshow.php,v 1.1 2001/06/27 11:59:41 jhe Exp $
+// $Id: ezslideshow.php,v 1.2 2001/06/28 08:14:54 bf Exp $
 //
 // Definition of eZSlideshow class
 //
@@ -24,7 +24,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-//!! eZSlideshow
+
+//!! eZImageCatalogue
 //! eZSlideshow documentation.
 /*!
 

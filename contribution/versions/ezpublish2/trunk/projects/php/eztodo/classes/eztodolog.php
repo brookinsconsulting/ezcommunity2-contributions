@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eztodolog.php,v 1.3 2001/05/05 11:16:04 bf Exp $
+// $Id: eztodolog.php,v 1.4 2001/06/28 08:14:54 bf Exp $
 //
 // eZTodoLog class
 //
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! eZTodoLog
+//!! eZTodo
 //! eZTodoLog handles logs.
 /*!
 
