@@ -32,18 +32,32 @@
 
 <hr noshade size="4">
 
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <!-- BEGIN group_list_tpl -->
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<td>
+	<h2>{categories}</h2>
+	</td>
+</tr>
+<!-- BEGIN group_item_tpl -->
 {start_tr}
 	<td class="{td_class}">
 	<b><a href="/link/group/{linkgroup_id}/">{linkgroup_title}</a></b>
 	</td>
 {stop_tr}
-<!-- END group_list_tpl -->
+<!-- END group_item_tpl -->
 </table>
+<!-- END group_list_tpl -->
 
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+
 <!-- BEGIN link_list_tpl -->
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<td>
+	<h2>{links}</h2>
+	</td>
+</tr>
+<!-- BEGIN link_item_tpl -->
 <tr>
 	<td bgcolor="{bg_color}">
 	<b><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank">{link_title}</a></b><br />
@@ -53,6 +67,6 @@
 	(Hits: {link_hits})
      	</td>
 </tr>
-<!-- END link_list_tpl -->
+<!-- END link_item_tpl -->
 </table>
-
+<!-- END link_list_tpl -->

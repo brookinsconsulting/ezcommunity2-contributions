@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: linkgrouplist.php,v 1.4 2000/11/01 13:59:35 bf-cvs Exp $
+// $Id: linkgrouplist.php,v 1.5 2000/11/02 14:57:35 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:02:09 ce>
@@ -30,6 +30,8 @@ $ini = new INIFile( "site.ini" );
 
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 
+$languageIni = new INIFile( "ezlink/user/intl/". $Language . "/linkgrouplist.php.ini", false );
+
 include_once( "ezlink/classes/ezlinkgroup.php" );
 include_once( "ezlink/classes/ezlink.php" );
 include_once( "ezlink/classes/ezhit.php" );
@@ -45,7 +47,11 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "link_page_tpl", "group_list_tpl", "group_list" );
+$t->set_block( "group_list_tpl", "group_item_tpl", "group_item" );
+
 $t->set_block( "link_page_tpl", "link_list_tpl", "link_list" );
+$t->set_block( "link_list_tpl", "link_item_tpl", "link_item" );
+
 $t->set_block( "link_page_tpl", "path_item_tpl", "path_item" );
 
 // List all the categories
@@ -69,6 +75,7 @@ $linkGroup_array = $linkGroup->getByParent( $LinkGroupID );
 
 if ( count( $linkGroup_array ) == 0 )
 {
+    $t->set_var( "categories", "" );
     $t->set_var( "group_list", "" );
 }
 else
@@ -102,9 +109,15 @@ else
             $t->set_var( "start_tr", "" );
             $t->set_var( "stop_tr", "</tr>" );            
         }
+
+        $categories = $languageIni->read_var( "strings", "categories" );
+
+        $t->set_var( "categories", $categories );
+        
         $i++;
-        $t->parse( "group_list", "group_list_tpl", true );
+        $t->parse( "group_item", "group_item_tpl", true );
     }
+    $t->parse( "group_list", "group_list_tpl", true );
 }
 
 
@@ -128,7 +141,8 @@ if ( count( $link_array ) == 0 )
     }
     else
     {
-    $t->set_var( "link_list", "" );
+        $t->set_var( "links", "" );
+        $t->set_var( "link_list", "" );
     }
     
 }
@@ -159,9 +173,12 @@ else
         $hits = $hit->getLinkHits( $linkItem->id() );
         $t->set_var( "link_hits", $hits );
 
-        $t->parse( "link_list", "link_list_tpl", true );
+        $links = $languageIni->read_var( "strings", "links" );
+        $t->set_var( "links", $links );
+        $t->parse( "link_item", "link_item_tpl", true );
         $i++;
     }
+    $t->parse( "link_list", "link_list_tpl", true );
 }
 
 // $t->set_var( "printpath", $linkGroup->printPath( $LinkGroupID, "ezlink/linklist.php" ) );
