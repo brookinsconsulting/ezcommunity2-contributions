@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.3 2000/10/25 19:21:42 bf-cvs Exp $
+// $Id: checkout.php,v 1.4 2000/10/27 15:42:02 ce-cvs Exp $
 //
 // 
 //
@@ -76,7 +76,9 @@ $t->set_block( "checkout_tpl", "address_tpl", "address" );
 
 // create an order and empty the cart.
 if ( $SendOrder == "true" ) 
-{ 
+{
+    $locale = new eZLocale( $Language );
+    $currency = new eZCurrency();
     // create a new order
     $order = new eZOrder();
     $user = eZUser::currentUser();
@@ -85,13 +87,22 @@ if ( $SendOrder == "true" )
     $order->setShippingCharge( 120.0 );
     $order->store();
 
+    // Setup the template for email
+    $mailTemplate = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
+                                        "eztrade/user/intl", $Language, "checkout.php" );
+        
+    $mailTemplate->set_file( "mail_order_tpl", "mailorder.tpl" );
+    $mailTemplate->setAllStrings();
+
+    $mailTemplate->set_block( "mail_order_tpl", "order_item_tpl", "order_item" );
+    
     // fetch the cart items
     $items = $cart->items( $CartType );
 
+    print( count( $items ) . "<br>" );
     foreach ( $items as $item )
         {
             $product = $item->product();
-            print( $product->name() . "<br>" );
 
             // create a new order item
             $orderItem = new eZOrderItem();
@@ -100,10 +111,16 @@ if ( $SendOrder == "true" )
             $orderItem->setCount( $item->count() );
             $orderItem->setPrice( $product->price() );
             $orderItem->store();
+            $price = $product->price() * $item->count();
+            $currency->setValue( $price );
+
+            $mailTemplate->set_var( "order", $product->name() );
+            $mailTemplate->set_var( "count", $item->count() );
+            $mailTemplate->set_var( "price", $locale->format( $currency  ));
 
             $optionValues =& $item->optionValues();
 
-            $t->set_var( "cart_item_option", "" );
+            $mailTemplate->set_var( "cart_item_option", "" );
             foreach ( $optionValues as $optionValue )
                 {
                     $option =& $optionValue->option();
@@ -116,10 +133,27 @@ if ( $SendOrder == "true" )
                     $orderOptionValue->store();
         
                     print( "&nbsp;&nbsp;" . $option->name() . " " . $value->name() . "<br>");
-                }    
-        }
+                }
 
-    $cart->clear();
+            $mailTemplate->parse( "order_item", "order_item_tpl", true );
+        }
+    print( "<pre>" . $mailTemplate->parse( "weg", "mail_order_tpl" ) . "</pre>");
+    
+    die();
+
+// Send a email
+    
+        
+//          $mail = new eZMail();
+//          $mail->setFrom( $OrderSenderEmail );
+//          $mail->setTo( $OrderReceiverEmail );
+//          $mail->setSubject( $newOrder );
+
+        
+    $mail->setBody( "Ny ordre" );
+    $mail->send();
+    
+//    $cart->clear();
 
     Header( "Location: /trade/ordersendt/" );
 }
@@ -189,13 +223,6 @@ if ( $SendOrder == "true" )
     $sum += $shippingCost;
     $currency->setValue( $sum );
     $t->set_var( "cart_sum", $locale->format( $currency ) );
-
-    $mail = new eZMail();
-    $mail->setFrom( $OrderSenderEmail );
-    $mail->setTo( $OrderReceiverEmail );
-    $mail->setSubject( "Ny ordre" );
-    $mail->setBody( "Ny ordre" );
-    $mail->send();
 }
 
 $t->parse( "cart_item_list", "cart_item_list_tpl" );
