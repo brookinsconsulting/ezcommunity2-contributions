@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newslist.php,v 1.8 2000/12/05 14:37:58 th-cvs Exp $
+// $Id: newslist.php,v 1.9 2000/12/05 17:39:21 th-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <29-Nov-2000 11:35:19 bf>
@@ -125,8 +125,9 @@ foreach ( $shortNewsList as $news )
     
     $t->set_var( "news_id", $news->id() );
 
-//    $t->parse( "short_news_item", "short_news_item_tpl", true );
-    $i++;
+//    $t->parse( "short_news_item", "short_news_item_tpl", true ); Hellstrøm var her!
+	$t->set_var( "short_news_item", "" ); // Her også!
+	$i++;
 }
 
 if ( count( $newsList ) > 0 )    

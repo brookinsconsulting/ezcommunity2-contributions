@@ -67,7 +67,6 @@
 </table>
 <br />
 
-<!--
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 
 <!-- BEGIN short_news_item_tpl -->
@@ -83,7 +82,6 @@
 
 </table>
 <!-- END news_list_tpl -->
--->
 
 <br />
 

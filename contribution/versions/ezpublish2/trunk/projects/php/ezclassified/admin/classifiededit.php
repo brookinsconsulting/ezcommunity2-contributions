@@ -311,6 +311,7 @@ if ( $position )
         $t->parse( "email_item", "email_item_tpl" );
 
     }
+	$t->set_var( "company_select", "" ); // Dette er min kode! (Hellstrøm)
     $t->set_var( "company_id", $company->id() );
     $t->parse( "company_view", "company_view_tpl" );
 }
