@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.90 2001/08/30 12:24:53 ce Exp $
+// $Id: ezuser.php,v 1.91 2001/09/12 11:23:48 ce Exp $
 //
 // Definition of eZUser class
 //
@@ -393,6 +393,10 @@ class eZUser
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
+
+        $login = $db->escapeString( $login );
+        $password = $db->escapeString( $password );
+        
 
         if ( $db->isA() == "mysql" )
         {
