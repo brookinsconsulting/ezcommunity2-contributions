@@ -37,6 +37,9 @@ Adresse:<br>
 Postnummer:<br>
 <input type="text" name="Zip" value="{zip_code}"><br>
 
+<table>
+<tr>
+	<td bgcolor="#eeeeee">
 Telefon:<br>
 <select name="PhoneType">
 {phone_type}
@@ -48,8 +51,12 @@ Telefon:<br>
 <input type="submit" value="{phone_action_value}">
 <br>
 
-{phone_list}
-<br>
+	<table width="100%">
+	{phone_list}
+	</table>
+	</td>
+</tr>
+</table>
 
 Kommentar:<br>
 <textarea rows="5" name="Comment">{comment}</textarea><br>
