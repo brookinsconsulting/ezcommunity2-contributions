@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezdomdocument.php,v 1.4 2001/12/21 14:29:03 bf Exp $
+// $Id: ezdomdocument.php,v 1.5 2001/12/21 15:37:48 bf Exp $
 //
 // Definition of eZDOMDocument class
 //
@@ -36,7 +36,7 @@ class eZDOMDocument
     */
     function eZDOMDocument( )
     {
-        $this->children = array();
+//        $this->children = array();
     }
 
     /*!
@@ -46,6 +46,7 @@ class eZDOMDocument
     {
         $ret = "<?xml version=\"1.0\"?>";
 
+        if ( count( $this->children ) > 0 )
         foreach ( $this->children as $child )
         {
             $ret .= $child->toString();

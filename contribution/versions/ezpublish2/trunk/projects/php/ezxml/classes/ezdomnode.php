@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezdomnode.php,v 1.3 2001/12/21 14:29:03 bf Exp $
+// $Id: ezdomnode.php,v 1.4 2001/12/21 15:37:48 bf Exp $
 //
 // Definition of eZDOMNode class
 //
@@ -36,8 +36,6 @@ class eZDOMNode
     */
     function eZDOMNode( )
     {
-        $this->children = array();
-        $this->attributes = array();
     }
 
     /*!
@@ -78,6 +76,7 @@ class eZDOMNode
                 
                 $attrStr = "";
                 // generate attributes string
+                if ( count( $this->attributes ) > 0 )
                 foreach ( $this->attributes as $attr )
                 {
                     $attrStr .= " " . $attr->name . "=\"" . $attr->content . "\" ";
@@ -91,6 +90,7 @@ class eZDOMNode
                     
                 $ret = "<" . $this->name . $attrStr . $oneLinerEnd . ">";
 
+                if ( count( $this->children ) > 0 )
                 foreach ( $this->children as $child )
                 {
                     $ret .= $child->toString();
