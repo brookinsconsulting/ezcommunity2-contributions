@@ -104,6 +104,12 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "extendedsearch":
+    {
+        include( "ezarticle/user/extendedsearch.php" );
+    }
+    break;
+
     case "articleheaderlist":
     {
         $CategoryID = $url_array[3];

@@ -77,6 +77,10 @@
 </tr>
 </table>
 
+<p class="boxtext">{intl-keywords}:</p>
+<input type="text" name="Keywords" size="40" value="{article_keywords}"></input>
+<br /><br />
+
 <p class="boxtext">{intl-intro}:</p>
 <textarea name="Contents[]" cols="40" rows="5" wrap="soft">{article_contents_0}</textarea>
 <br /><br />

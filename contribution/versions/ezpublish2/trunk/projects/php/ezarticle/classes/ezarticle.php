@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.57 2001/03/21 15:51:28 fh Exp $
+// $Id: ezarticle.php,v 1.58 2001/03/29 14:09:36 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -454,7 +454,53 @@ class eZArticle
 
        $this->Keywords = $keywords;
     }
-    
+
+    /*!
+      Sets the manual keywords to an article. Theese words are used in the search.
+    */
+    function setManualKeywords( $keywords )
+    {
+        if ( !is_array( $keywords ) )
+        {
+            $words = explode( ",", $keywords );
+            $keywords = array();
+            foreach( $words as $word )
+            {
+                $keyword = strtolower( trim( $word ) );
+                if ( $keyword != "" )
+                    $keywords[] = $keyword;
+            }
+        }
+        $db =& eZDB::globalDatabase();
+        $db->query( "DELETE FROM eZArticle_ArticleKeyword WHERE ArticleID='$this->ID' AND Automatic='0'" );
+        foreach( $keywords as $keyword )
+        {
+            $db->query( "INSERT INTO eZArticle_ArticleKeyword SET
+                         ArticleID='$this->ID',
+                         Keyword='$keyword',
+                         Automatic='0'" );
+        }
+    }
+
+    /*!
+      Returns the manual keywords for an article.
+      It is either returned as an array or as a comma separated string.
+    */
+    function &manualKeywords( $as_array = false )
+    {
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $keywords, "SELECT Keyword FROM eZArticle_ArticleKeyword
+                                      WHERE ArticleID='$this->ID' AND Automatic='0'" );
+        $ret = array();
+        foreach( $keywords as $keyword )
+        {
+            $ret[] = $keyword["Keyword"];
+        }
+        if ( !$as_array )
+            $ret = implode( ", ", $ret );
+        return $ret;
+    }
+
     /*!
      Sets the article to published or not. 
     */
@@ -578,7 +624,7 @@ class eZArticle
        
        $this->Database->array_query( $image_array, "SELECT ImageID FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' ORDER BY Created" );
        
-       for ( $i=0; $i<count($image_array); $i++ )
+       for ( $i=0; $i < count($image_array); $i++ )
        {
            $return_array[$i] = new eZImage( $image_array[$i]["ImageID"], false );
        }
@@ -721,7 +767,7 @@ class eZArticle
        
        $this->Database->array_query( $file_array, "SELECT FileID FROM eZArticle_ArticleFileLink WHERE ArticleID='$this->ID' ORDER BY Created" );
        
-       for ( $i=0; $i<count($file_array); $i++ )
+       for ( $i=0; $i < count($file_array); $i++ )
        {
            $return_array[$i] = new eZVirtualFile( $file_array[$i]["FileID"], false );
        }

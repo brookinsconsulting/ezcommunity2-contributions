@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.60 2001/03/19 14:18:47 bf Exp $
+// $Id: articleedit.php,v 1.61 2001/03/29 14:09:36 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -56,10 +56,10 @@ function notificationMessage( &$article )
     $mailTemplate->setAllStrings();
 
     $renderer = new eZArticleRenderer( $article );
-    
+
     $subjectLine = $mailTemplate->Ini->read_var( "strings", "subject" );
     $subjectLine = $subjectLine . " " . $PublishSite;
-    
+
     $intro = eZTextTool::linesplit(strip_tags( $renderer->renderIntro( ) ), $PublishNoticePadding, 76 );
 
     $mailTemplate->set_var( "body", "$intro" );
@@ -216,13 +216,14 @@ if ( $Action == "Insert" )
         $keywords = "";
         foreach ( $contents_array as $word )
         {
-            
-            $keywords .= $word . " ";
+            $keywords .= strtolower( trim( $word ) ) . " ";
         }
 
         $article->setKeywords( $keywords );
         
         $article->store();
+
+        $article->setManualKeywords( $Keywords );
     
 
         // add to categories
@@ -407,6 +408,8 @@ if ( $Action == "Update" )
 
         $article->store();
 
+        $article->setManualKeywords( $Keywords );
+
         $categoryArray = $article->categories();
         // Calculate new and unused categories
         $old_maincategory = $article->categoryDefinition();
@@ -541,6 +544,7 @@ $t->set_var( "article_is_published", "" );
 
 $t->set_var( "article_id", "" );
 $t->set_var( "article_name", stripslashes( $Name ) );
+$t->set_var( "article_keywords", stripslashes( $Keywords ) );
 $t->set_var( "article_contents_0", stripslashes( $Contents[0] ) );
 $t->set_var( "article_contents_1", stripslashes($Contents[1] ) );
 $t->set_var( "article_contents_2", stripslashes($Contents[2] ) );
@@ -594,6 +598,7 @@ if ( $Action == "Edit" )
         }
         $i++;
     }
+    $t->set_var( "article_keywords", $article->manualKeywords() );
     
     $t->set_var( "author_text", $article->authorText() );
     $t->set_var( "link_text", $article->linkText() );
