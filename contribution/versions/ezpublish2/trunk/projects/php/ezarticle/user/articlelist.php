@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.82 2001/10/30 13:21:48 bf Exp $
+// $Id: articlelist.php,v 1.83 2001/11/12 08:02:07 ce Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -99,9 +99,11 @@ $t->set_block( "article_list_page_tpl", "current_image_item_tpl", "current_image
 $t->set_block( "category_item_tpl", "image_item_tpl", "image_item" );
 $t->set_block( "category_item_tpl", "no_image_tpl", "no_image" );
 
-// product
+// article item
 $t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
 $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
+$t->set_block( "article_item_tpl", "link_url_default_tpl", "link_url_default" );
+$t->set_block( "article_item_tpl", "link_url_tpl", "link_url" );
 
 $t->set_block( "article_item_tpl", "article_date_tpl", "article_date" );
 $t->set_block( "article_item_tpl", "headline_with_link_tpl", "headline_with_link" );
@@ -425,13 +427,29 @@ foreach ( $articleList as $article )
     $renderer = new eZArticleRenderer( $article );
 
     $t->set_var( "article_intro", $renderer->renderIntro(  ) );
-        
+
+    $t->set_var( "link_url_default", "" );
+    $t->set_var( "link_url", "" );
+    
     if ( $article->linkText() != "" )
     {
+        if ( $article->linkURL() != "" )
+        {
+            $t->set_var( "link_url_default", "" );
+            $t->set_var( "article_link_url", $article->linkURL() );
+            $t->parse( "link_url", "link_url_tpl" );
+        }
+        else
+        {
+            $t->set_var( "link_url", "" );
+            $t->parse( "link_url_default", "link_url_default_tpl" );
+        }
         $t->set_var( "article_link_text", $article->linkText() );
     }
     else
     {
+        $t->set_var( "link_url", "" );
+        $t->parse( "link_url_default", "link_url_default_tpl" );
         $t->set_var( "article_link_text", $DefaultLinkText );
     }
 

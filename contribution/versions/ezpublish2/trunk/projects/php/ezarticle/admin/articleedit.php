@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.116 2001/09/15 13:20:26 bf Exp $
+// $Id: articleedit.php,v 1.117 2001/11/12 08:02:06 ce Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -124,10 +124,10 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
         $article->setContents( $contents  );
         $article->setPageCount( $generator->pageCount() );
 
-
         $article->setAuthorText( $AuthorText );
         $article->setAuthorEmail( $AuthorEmail );
         $article->setLinkText( $LinkText );
+        $article->setLinkURL( $LinkURL );
 
         if ( trim( $LogMessage ) != "" )
             $article->addLog( $LogMessage );
@@ -140,7 +140,6 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
         // check if the contents is parseable
         if ( xmltree( $contents ) )
         {
-        
             // to get ID
             $article->store();
 
@@ -193,7 +192,6 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
             {
                 eZArticleCategory::addArticle( $article, $categoryItem );
             }
-        
 
             // add check for publishing rights here
             if ( $IsPublished == "on" )
@@ -421,23 +419,24 @@ $t->set_var( "article_id", "" );
 $t->set_var( "article_name", stripslashes( $Name ) );
 $t->set_var( "article_keywords", stripslashes( $Keywords ) );
 $t->set_var( "article_contents_0", stripslashes( $Contents[0] ) );
-$t->set_var( "article_contents_1", stripslashes($Contents[1] ) );
-$t->set_var( "article_contents_2", stripslashes($Contents[2] ) );
-$t->set_var( "article_contents_3", stripslashes($Contents[3] ) );
-$t->set_var( "author_text", stripslashes($AuthorText ) );
-$t->set_var( "author_email", stripslashes($AuthorEmail ) );
-$t->set_var( "link_text", stripslashes($LinkText  ));
+$t->set_var( "article_contents_1", stripslashes( $Contents[1] ) );
+$t->set_var( "article_contents_2", stripslashes( $Contents[2] ) );
+$t->set_var( "article_contents_3", stripslashes( $Contents[3] ) );
+$t->set_var( "author_text", stripslashes( $AuthorText ) );
+$t->set_var( "author_email", stripslashes( $AuthorEmail ) );
+$t->set_var( "link_text", stripslashes( $LinkText ) );
+$t->set_var( "link_url", stripslashes( $LinkURL ) );
 
-$t->set_var( "start_day", stripslashes($StartDay  ));
-$t->set_var( "start_month", stripslashes($StartMonth  ));
-$t->set_var( "start_year", stripslashes($StartYear  ));
-$t->set_var( "start_hour", stripslashes($StartHour  ));
-$t->set_var( "start_minute", stripslashes($StartMinute  ));
-$t->set_var( "stop_day", stripslashes($StopDay  ));
-$t->set_var( "stop_month", stripslashes($StopMonth  ));
-$t->set_var( "stop_year", stripslashes($StopYear  ));
-$t->set_var( "stop_hour", stripslashes($StopHour  ));
-$t->set_var( "stop_minute", stripslashes($StopMinute  ));
+$t->set_var( "start_day", stripslashes( $StartDay ) );
+$t->set_var( "start_month", stripslashes( $StartMonth ) );
+$t->set_var( "start_year", stripslashes( $StartYear ) );
+$t->set_var( "start_hour", stripslashes( $StartHour ) );
+$t->set_var( "start_minute", stripslashes( $StartMinute ) );
+$t->set_var( "stop_day", stripslashes( $StopDay ) );
+$t->set_var( "stop_month", stripslashes( $StopMonth ) );
+$t->set_var( "stop_year", stripslashes( $StopYear ) );
+$t->set_var( "stop_hour", stripslashes( $StopHour ) );
+$t->set_var( "stop_minute", stripslashes( $StopMinute ) );
 
 $t->set_var( "action_value", "insert" );
 $t->set_var( "all_selected", "selected" );
@@ -561,6 +560,7 @@ if ( $Action == "Edit" )
     }
     
     $t->set_var( "link_text", $article->linkText() );
+    $t->set_var( "link_url", $article->linkURL() );
 
     $t->set_var( "action_value", "update" );
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: mediaedit.php,v 1.5 2001/09/08 12:17:54 fh Exp $
+// $Id: mediaedit.php,v 1.6 2001/11/12 08:02:06 ce Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
@@ -106,7 +106,7 @@ if ( isset ( $OK ) )
     exit();
 }
 
-if ( $Action == "Delete" )
+if ( isSet ( $DeleteSelected ) )
 {
     $article = new eZArticle( $ArticleID );
 

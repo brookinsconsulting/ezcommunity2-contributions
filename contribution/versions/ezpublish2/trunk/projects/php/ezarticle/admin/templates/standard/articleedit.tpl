@@ -122,6 +122,9 @@
 
 <p class="boxtext">{intl-link_text}:</p>
 <input class="box" type="text" name="LinkText" size="20" value="{link_text}" />
+
+<p class="boxtext">{intl-link_url}:</p>
+<input class="box" type="text" name="LinkURL" size="20" value="{link_url}" />
 <br /><br />
 
 
