@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.27 2001/01/25 16:53:14 jb Exp $
+// $Id: eztemplate.php,v 1.28 2001/01/29 17:20:33 jb Exp $
 //
 // Definition of eZTemplate class
 //
@@ -123,15 +123,43 @@ class eZTemplate
         $this->set_root($templateDir);
         $this->set_unknowns("remove");
 
-        $this->languageFile = $intlDir . "/" . $language . "/" . $phpFile . ".ini";
-        if ( file_exists( $this->languageFile ) )
+        if ( is_array( $phpFile ) and is_array( $intlDir ) )
         {
-            $this->Ini = new INIFile( $intlDir . "/" . $language . "/" . $phpFile . ".ini", false );
-            $this->TextStrings = $this->Ini->read_group( "strings" );
+            $this->languageFile = array();
+            $this->Ini = new INIFile();
+            $intl_dir =& each( $intlDir );
+            foreach( $phpFile as $php_file )
+            {
+                $lang_file = $intl_dir[1] . "/" . $language . "/" . $php_file . ".ini";
+                $this->languageFile[] = $lang_file;
+                if ( file_exists( $lang_file ) )
+                {
+                    $this->Ini->load_data( $lang_file, false );
+                    $this->TextStrings = array_merge( $this->TextStrings, $this->Ini->read_group( "strings" ) );
+                }
+                else
+                {
+                    print( "<br><b>Error: language file, $lang_file, could not be found.</b><br>" );
+                }
+                $intl_dir =& each( $intlDir );
+            }
+        }
+        else if ( !is_array( $phpFile ) and !is_array( $intlDir ) )
+        {
+            $this->languageFile = $intlDir . "/" . $language . "/" . $phpFile . ".ini";
+            if ( file_exists( $this->languageFile ) )
+            {
+                $this->Ini = new INIFile( $this->languageFile, false );
+                $this->TextStrings = $this->Ini->read_group( "strings" );
+            }
+            else
+            {
+                print( "<br><b>Error: language file, $this->languageFile, could not be found.</b><br>" );
+            }
         }
         else
         {
-            print( "<br><b>Error: language file, $this->languageFile, could not be found.</b><br>" );
+                print( "<br><b>Error: $" . "intlDir and $" . "phpFile must either be arrays or strings.</b><br>" );
         }
 
         if ( empty( $this->Style ) || empty( $this->ModuleDir ) )
@@ -226,7 +254,18 @@ class eZTemplate
         if ( file_exists( $CacheFile ) )
         {
             $template_m = filemtime( $this->filename( $this->files[0] ) );
-            $lang_m = filemtime( $this->languageFile );
+            if ( is_array( $this->languageFile ) )
+            {
+                $lang_m = 0;
+                foreach ( $this->languageFile as $lang )
+                {
+                    $modtime = filemtime( $lang );
+                    if ( $modtime > $lang_m )
+                        $lang_m = $modtime;
+                }
+            }
+            else
+                $lang_m = filemtime( $this->languageFile );
             $cache_m = filemtime( $CacheFile );
             if ( $template_m <= $cache_m && $lang_m <= $cache_m )
             {
@@ -379,6 +418,7 @@ class eZTemplate
     {
         if ( !is_array( $parent ) )
         {
+//              print( "<br>\"$parent\", \"$handle\", \"$name\"<br>" );
             if (!$this->loadfile($parent))
             {
                 $this->halt("subst: unable to load $parent.");
@@ -398,6 +438,7 @@ class eZTemplate
         {
             foreach( $parent as $block )
             {
+//                  print( "<br>#\"$block[0]\", \"$block[1]\", \"$block[2]\"<br>" );
                 $this->set_block( $block[0], $block[1], $block[2] );
             }
         }
@@ -679,8 +720,14 @@ class eZTemplate
     */
     function filename($filename)
     {
+        $root = $this->root;
+        if ( is_array( $filename ) )
+        {
+            $root = $filename[0];
+            $filename = $filename[1];
+        }
         if (substr($filename, 0, 1) != "/") {
-            $filename = $this->root."/".$filename;
+            $filename = $root."/".$filename;
         }
     
         if (!file_exists($filename))
@@ -704,6 +751,8 @@ class eZTemplate
             $this->halt("loadfile: $handle is not a valid handle.");
             return false;
         }
+
+        $file = $this->file[$handle];
         $filename = $this->file[$handle];
 
         $fd = fopen( $filename, "r" );
