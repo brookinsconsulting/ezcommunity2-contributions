@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.91 2001/09/04 11:01:07 pkej Exp $
+// $Id: ezarticlecategory.php,v 1.92 2001/09/06 09:14:54 jb Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -376,14 +376,16 @@ class eZArticleCategory
       If $showAll is set to true every category is shown. By default the categories
       set as exclude from search is excluded from this query.
 
-      The categories are returned as an array of eZArticleCategory objects.      
+      The categories are returned as an array of eZArticleCategory objects.
+      If $user is not a eZUser object the current user is used.
     */
-    function countByParent( $parent, $showAll=false )
+    function countByParent( $parent, $showAll=false, $user = false )
     {
         if ( get_class( $parent ) == "ezarticlecategory" )
         {
             $db =& eZDB::globalDatabase();
-            $user =& eZUser::currentUser();
+            if ( get_class( $user ) != "ezuser" )
+                $user =& eZUser::currentUser();
 
             $return_array = array();
             $category_array = array();
@@ -410,21 +412,25 @@ class eZArticleCategory
                     $i++;
                 }
                 $currentUserID = $user->id();
-                $loggedInSQL = "Article.AuthorID=$currentUserID OR";
 
                 if ( $user->hasRootAccess() )
                     $usePermission = false;
             }
 
+            $permissionTables = "";
+
             if ( $usePermission )
-                $permissionSQL = "( ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' AND CategoryPermission.GroupID='-1' AND CategoryPermission.ReadPermission='1') )";
+                $permissionSQL = "( ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' ) AND ";
             else
                 $permissionSQL = "";
 
-
-            $db->query_single( $category_array, "SELECT count( ID ) AS Count
-                                           FROM eZArticle_Category
-                                           WHERE ParentID='$parentID' $show_str",
+            $db->query_single( $category_array, "SELECT count( DISTINCT Category.ID ) AS Count
+                                           FROM eZArticle_Category AS Category,
+                                                eZArticle_CategoryPermission as Permission
+                                           WHERE $permissionSQL
+                                                 ParentID='$parentID'
+                                                 AND Permission.ObjectID=Category.ID
+                                                 $show_str",
                                            "Count" );
 
             return $category_array;
