@@ -6,7 +6,7 @@ Created By: Adam Fallert <FallertA@umsystem.edu>
 Updated on: <Nov-2004 11:00:00>
 Created on: <Oct-2001 14:36:00>
 
-      
+
 LICENCE               (see doc/LICENCE for official licence)
 ############################################################
 
@@ -32,16 +32,26 @@ INSTALATION
 ############################################################
 For installation instructions and suggestions see doc/INSTALL
 
-BUGS
-############################################################
-For packages bugs, known problems and suggestions see doc/BUGS
-
 INTRODUCTION
 ############################################################
 For packages dependancies, history, references, etc see doc/INTRODUCTION
 
+BUGS
+############################################################
+If you are having problems, check doc/BUGS for the issue, solution and background information about the issue.
+
 CREDITS
 ############################################################
-For package release history, notes, etc see doc/CREDITS
+For package release history, history, notes, references, see doc/CREDITS
+
+SUPPORT
+############################################################
+When The installation, introduction documentation has failed
+to yeild an answere to your question, you may seek support from
+one of these sources of eZ publish 2 support.
+
+(Community) eZ publish 2 Support | Documentation : http://ezcommunity.net/forum
+(Commercial) eZ publish 2 Support | Development : http://brookinsconsulting.com/
+
 
 

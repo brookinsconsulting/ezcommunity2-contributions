@@ -3,8 +3,7 @@ Version: v2.0
 Description: 
 Brief List of Key Breakdowns that are possible
 
-Bedlore List
-
+Checklist
 
 1. eZ publish 2 (stock) clearcache.sh script fails on calender cache dirs
 
@@ -54,7 +53,7 @@ This is a *required* step that must be completed properly for the calendar edit 
 3. eZGroupEventCalender TIMESTAMP problems with MySQL v4.1 and greater
 The eZGroupEventCalender v1 was designed like much of eZ publish 2 to use the MySQL v3.x -> v4.0 API
 
-The MySQL v4.1 API was changed dramaticly in v4.1 which droped support in general for the MySQL 
+The MySQL v4.1 API was changed dramaticly in v4.1 which droped support in general for the MySQL
 Column Type TIMESTAMP "width" paramiter which eZGroupEventCalender like a lot of applications which
 used eZ publish 2 :: eZDate:MysqlTimeStamp() for database date storage.
 
@@ -163,9 +162,9 @@ compatibility with mysql v4.1) I find my eZDateTime::mysqlTimeStamp()
 string's are truncated when they are stored to a v4.1 int(11).
 
 I can understand why one might want to use the unix timestamp method / 
-conversion you describe, yet in my case I am at the end of this project and 
+conversion you describe, yet in my case I am at the end of this project and
 this conversion is out of scope for the project and a fair amount of 
-changes and testing to the eZGroupEventCalendar product I've been working 
+changes and testing to the eZGroupEventCalendar product I've been working
 on, I'm really trying to minimize the cost of keeping the application 
 running at the immediate moment.
 
@@ -239,7 +238,7 @@ these two places you probably don't need to change anything in the code.
 Overlib and Dom Drag are incompatible. After dragging the navigation calendar or Sort By box,
 mousing over an event name will display the overlib div in the upper right hand corner.
 
-Solution: use a php if statement / case to avoid including the two js files at the same time 
+Solution: use a php if statement / case to avoid including the two js files at the same time
 (since overlib and domdrag are only used separatly, never on the same page). One could patch 
 the two libraries to be compatable but not really necissary.
 

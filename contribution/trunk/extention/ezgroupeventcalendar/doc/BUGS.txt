@@ -3,8 +3,7 @@ Version: v2.0
 Description: 
 Brief List of Key Breakdowns that are possible
 
-Bedlore List
-
+Checklist
 
 1. eZ publish 2 (stock) clearcache.sh script fails on calender cache dirs
 
@@ -163,7 +162,7 @@ compatibility with mysql v4.1) I find my eZDateTime::mysqlTimeStamp()
 string's are truncated when they are stored to a v4.1 int(11).
 
 I can understand why one might want to use the unix timestamp method / 
-conversion you describe, yet in my case I am at the end of this project and 
+conversion you describe, yet in my case I am at the end of this project and
 this conversion is out of scope for the project and a fair amount of 
 changes and testing to the eZGroupEventCalendar product I've been working 
 on, I'm really trying to minimize the cost of keeping the application 
