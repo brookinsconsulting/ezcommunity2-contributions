@@ -448,6 +448,12 @@ The virtual host is configured through the {}``httpd.conf{}'' file
 which is the main configuration of Apache. Following is an example
 of such a host, modify it to reflect your own installation and preferences.
 
+You should consider using the utility which we have online for creating
+the configuration. The URL is http://developer.ez.no/virtualhost it
+will generate a setup with the latest needed information. The presented
+configuration herein might be slightly outdated, so we recommend the
+online tool.
+
 
 \subsubsection{User Site}
 
@@ -464,6 +470,15 @@ of such a host, modify it to reflect your own installation and preferences.
 \texttt{\scriptsize ~~~~~~</Directory>}{\scriptsize \par}
 
 \texttt{\scriptsize ~~~~~~RewriteEngine On}{\scriptsize \par}
+
+\texttt{\scriptsize ~~~~~~RewriteRule \textasciicircum{}/stats/store/(.{*}).gif\$}{\scriptsize \par}
+
+\texttt{\scriptsize ~~~~~~/your/path/to/publish/ezstats/user/storestats.php
+{[}S=2{]}}{\scriptsize \par}
+
+\texttt{\scriptsize ~~~~~~\#~The~lines~above~should~appear~on~the~same}{\scriptsize \par}
+
+\texttt{\scriptsize ~~~~~~\#~line~in~your~configuration~file!}{\scriptsize \par}
 
 \texttt{\scriptsize ~~~~~~RewriteRule~\textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$}{\scriptsize \par}
 
@@ -484,8 +499,6 @@ of such a host, modify it to reflect your own installation and preferences.
 
 \texttt{\scriptsize ~~~~~~ServerName your.domain.com}{\scriptsize \par}
 
-\texttt{\scriptsize ~~~~~~ServerAlias publish}{\scriptsize \par}
-
 \texttt{\scriptsize ~~~~</VirtualHost>}{\scriptsize \par}
 
 
@@ -501,20 +514,18 @@ of such a host, modify it to reflect your own installation and preferences.
 
 \texttt{\footnotesize ~~~~~~AllowOverride None}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~</Directory>}{\footnotesize \par}
+\texttt{\footnotesize ~~~~~~RewriteEngine On}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~RewriteEngine On}{\footnotesize \par}
-
-\texttt{\footnotesize ~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
+\texttt{\footnotesize ~~~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
 /your/apache/documentroot/admin/index.php}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~</Directory>}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~ServerAdmin your\_mail@domain.no}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~DocumentRoot /your/apache/documentroot/admin}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~ServerName admin.yourdomain.org}{\footnotesize \par}
-
-\texttt{\footnotesize ~~~~ServerAlias admin.yourdomain.org}{\footnotesize \par}
 
 \texttt{\footnotesize ~~</VirtualHost>}~\\
 {\footnotesize \par}

@@ -986,6 +986,14 @@ httpd.conf
  file which is the main configuration of Apache.
  Following is an example of such a host, modify it to reflect your own installat
 ion and preferences.
+\layout Standard
+
+You should consider using the utility which we have online for creating
+ the configuration.
+ The URL is http://developer.ez.no/virtualhost it will generate a setup with
+ the latest needed information.
+ The presented configuration herein might be slightly outdated, so we recommend
+ the online tool.
 \layout Subsubsection
 
 User Site
@@ -1078,6 +1086,67 @@ AllowOverride None
 \SpecialChar ~
 \SpecialChar ~
 RewriteEngine On
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule ^/stats/store/(.*).gif$
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+/your/path/to/publish/ezstats/user/storestats.php [S=2]
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+#\SpecialChar ~
+The\SpecialChar ~
+lines\SpecialChar ~
+above\SpecialChar ~
+should\SpecialChar ~
+appear\SpecialChar ~
+on\SpecialChar ~
+the\SpecialChar ~
+same
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+#\SpecialChar ~
+line\SpecialChar ~
+in\SpecialChar ~
+your\SpecialChar ~
+configuration\SpecialChar ~
+file!
 \layout Standard
 
 
@@ -1211,18 +1280,6 @@ ServerName your.domain.com
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-ServerAlias publish
-\layout Standard
-
-
-\family typewriter 
-\size scriptsize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
 </VirtualHost>
 \layout Subsubsection
 
@@ -1286,14 +1343,6 @@ AllowOverride None
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-</Directory>
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
 RewriteEngine On
@@ -1306,9 +1355,21 @@ RewriteEngine On
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
 RewriteRule !
 \backslash 
 .(gif|css|jpg|png)$ /your/apache/documentroot/admin/index.php
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+</Directory>
 \layout Standard
 
 
@@ -1339,16 +1400,6 @@ DocumentRoot /your/apache/documentroot/admin
 \SpecialChar ~
 \SpecialChar ~
 ServerName admin.yourdomain.org
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-ServerAlias admin.yourdomain.org
 \layout Standard
 
 

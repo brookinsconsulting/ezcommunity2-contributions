@@ -497,6 +497,12 @@ file which is the main configuration of Apache. Following
 is an example of such a host, modify it to reflect your
 own installation and preferences.
 
+You should consider using the utility which we have online
+for creating the configuration. The URL is http://developer.ez.no/virtualhost
+it will generate a setup with the latest needed information.
+The presented configuration herein might be slightly outdated,
+so we recommend the online tool.
+
 4.1.1.1 User Site
 
     # User site
@@ -512,6 +518,15 @@ own installation and preferences.
       </Directory>
 
       RewriteEngine On
+
+      RewriteRule ^/stats/store/(.*).gif$
+
+      /your/path/to/publish/ezstats/user/storestats.php
+[S=2]
+
+      # The lines above should appear on the same
+
+      # line in your configuration file!
 
       RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$
 
@@ -531,8 +546,6 @@ own installation and preferences.
 
       ServerName your.domain.com
 
-      ServerAlias publish
-
     </VirtualHost>
 
 4.1.1.2 Admin Site
@@ -547,19 +560,17 @@ own installation and preferences.
 
       AllowOverride None
 
+      RewriteEngine On
+
+      RewriteRule !\.(gif|css|jpg|png)$ /your/apache/documentroot/admin/index.php
+
     </Directory>
-
-    RewriteEngine On
-
-    RewriteRule !\.(gif|css|jpg|png)$ /your/apache/documentroot/admin/index.php
 
     ServerAdmin your_mail@domain.no
 
     DocumentRoot /your/apache/documentroot/admin
 
     ServerName admin.yourdomain.org
-
-    ServerAlias admin.yourdomain.org
 
   </VirtualHost>
 
