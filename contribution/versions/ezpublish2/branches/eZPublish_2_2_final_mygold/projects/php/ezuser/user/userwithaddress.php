@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userwithaddress.php,v 1.75 2001/10/17 07:17:03 ce Exp $
+// $Id: userwithaddress.php,v 1.75.4.1 2001/10/24 14:52:24 ce Exp $
 //
 // Created on: <10-ct-2000 12:52:42 bf>
 //
@@ -668,7 +668,8 @@ else
 foreach ( $DeleteAddressArrayID as $aid )
 {
     $delete_address = new eZAddress( $RealAddressID[$aid-1] );
-    $user->removeAddress( $delete_address );
+    if ( $user )
+        $user->removeAddress( $delete_address );
 }
 
 // Render addresses
