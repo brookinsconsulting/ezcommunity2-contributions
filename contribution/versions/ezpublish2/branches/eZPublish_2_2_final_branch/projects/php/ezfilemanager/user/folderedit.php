@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: folderedit.php,v 1.40.2.2 2002/02/04 17:42:03 jhe Exp $
+// $Id: folderedit.php,v 1.40.2.3 2003/03/25 08:26:23 br Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -453,7 +453,7 @@ function changePermissions( $objectID, $groups, $permission )
                 $group = $groupItem;
             
             eZObjectPermission::setPermission( $group, $objectID, "filemanager_folder", $permission );
-            print "set: " . $group . " - " . $objectID . " - " . $permission . "<br>";
+//            print "set: " . $group . " - " . $objectID . " - " . $permission . "<br>";
         }
     }
 }
