@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.76.2.1 2002/02/04 08:11:33 jhe Exp $
+// $Id: eztechrenderer.php,v 1.76.2.2 2002/02/06 08:04:48 bf Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -265,7 +265,8 @@ class eZTechRenderer
 
             $pageArray = array();
             // loop on the pages
-            foreach ( $body as $page )
+            if ( count( $body ) > 0 )
+            foreach ( $body as $page )                
             {
                 $pageContent = "";
                 $this->PrevTag = "";
