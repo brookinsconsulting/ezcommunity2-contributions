@@ -89,6 +89,11 @@
 	<input class="okbutton" type="submit" name="Back" value="{intl-back}">
 	</form>
 	</td>
+	<td>
+	<form method="post" action="/contact/consultation/person/new/{person_id}/" enctype="multipart/form-data">
+	<input class="okbutton" type="submit" value="{intl-consultation}" />
+	</form>
+	</td>
 </tr>
 </table>
 

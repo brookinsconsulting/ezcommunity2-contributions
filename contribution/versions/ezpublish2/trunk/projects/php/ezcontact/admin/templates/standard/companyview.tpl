@@ -120,3 +120,8 @@
 <input class="okbutton" type="submit" name="Back" value="{intl-list}">
 
 </form>
+<form method="post" action="/contact/consultation/company/new/{company_id}/">
+
+<input class="okbutton" type="submit" name="New" value="{intl-consultation}">
+
+</form>
