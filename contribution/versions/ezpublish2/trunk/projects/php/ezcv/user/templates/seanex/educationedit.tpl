@@ -47,11 +47,11 @@
     </td>
     <td>
         <div class="small">{intl-month}:</div>
-        <input type="text" size="2" name="EndMonth" value="{endmonth}"/>&nbsp;&nbsp;
+        <input type="hidden" size="2" name="EndMonth" value="{endmonth}"/>&nbsp;&nbsp;
     </td>
     <td>
         <div class="small">{intl-day}:</div>
-        <input type="text" size="2" name="EndDay" value="{endday}"/>&nbsp;&nbsp;
+        <input type="hidden" size="2" name="EndDay" value="{endday}"/>&nbsp;&nbsp;
     </td>
 </tr>
 </table>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezeducation.php,v 1.1 2000/12/11 12:08:19 pkej Exp $
+// $Id: ezeducation.php,v 1.2 2000/12/21 12:02:02 ce Exp $
 //
 // Definition of eZEducation class
 //
@@ -70,7 +70,7 @@ class eZEducation
         {
         
             $this->Created = gmdate( "YmdHis", time());
-            
+
             $this->Database->query
             ( "
                 INSERT INTO

@@ -188,6 +188,12 @@ if( $Action == "insert" || $Action == "update" || $Action == "add" )
         header( "Location: /cv/experience/new/?CVID=$CVID" );
         exit();
     }
+    if( $CourseAdd )
+    {
+        header( "Location: /cv/course/new/?CVID=$CVID" );
+        exit();
+    }
+
 }
 
 

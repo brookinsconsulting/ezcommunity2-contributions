@@ -59,9 +59,9 @@
 <li>{intl-error_address}
 <!-- END error_address_item_tpl -->
 
-<!-- BEGIN error_address_item_tpl -->
+<!-- BEGIN error_userexists_item_tpl -->
 <li>{intl-error_loginname_exists}
-<!-- END error_address_item_tpl -->
+<!-- END error_userexists_item_tpl -->
 
 </ul>
 <!-- END errors_tpl -->

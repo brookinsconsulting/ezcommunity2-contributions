@@ -25,12 +25,12 @@
         <input type="text" size="4" name="StartYear" value="{startyear}"/>&nbsp;&nbsp;
     </td>
     <td>
-        <div class="small">{intl-month}:</div>
-        <input type="text" size="2" name="StartMonth" value="{startmonth}"/>&nbsp;&nbsp;
+        <!-- <div class="small">{intl-month}:</div> -->
+        <input type="hidden" size="2" name="StartMonth" value="{startmonth}"/>&nbsp;&nbsp;
     </td>
     <td>
-        <div class="small">{intl-day}:</div>
-        <input type="text" size="2" name="StartDay" value="{startday}"/>&nbsp;&nbsp;
+         <!--<div class="small">{intl-day}:</div> -->
+        <input type="hidden" size="2" name="StartDay" value="{startday}"/>&nbsp;&nbsp;
     </td>
 </tr>
 </table>
@@ -46,12 +46,12 @@
         <input type="text" size="4" name="EndYear" value="{endyear}"/>&nbsp;&nbsp;
     </td>
     <td>
-        <div class="small">{intl-month}:</div>
-        <input type="text" size="2" name="EndMonth" value="{endmonth}"/>&nbsp;&nbsp;
+        <!-- <div class="small">{intl-month}:</div> -->
+        <input type="hidden" size="2" name="EndMonth" value="{endmonth}"/>&nbsp;&nbsp;
     </td>
     <td>
-        <div class="small">{intl-day}:</div>
-        <input type="text" size="2" name="EndDay" value="{endday}"/>&nbsp;&nbsp;
+	<!-- <div class="small">{intl-day}:</div> -->
+        <input type="hidden" size="2" name="EndDay" value="{endday}"/>&nbsp;&nbsp;
     </td>
 </tr>
 </table>

@@ -77,7 +77,7 @@ $t->set_block( "errors_tpl", "error_password_too_short_item_tpl", "error_passwor
 $t->set_block( "errors_tpl", "error_email_not_valid_item_tpl", "error_email_not_valid_item" );
 $t->set_block( "errors_tpl", "error_address_item_tpl", "error_address_item" );
 $t->set_block( "errors_tpl", "error_userexists_item_tpl", "error_userexists_item" );
-
+                                                           
 
 $t->set_var( "firstname", "" );
 $t->set_var( "lastname", "" );
@@ -195,10 +195,11 @@ if( $Action == "insert" || $Action == "update" )
         $t->parse( "error_loginname_item", "error_loginname_item_tpl" );
         $error = true;
     }
-    if ( $LoginName != 0 )
+    
+    if ( $LoginName )
     {
         $user = new eZUser();
-        $user->setLogin( $Login );
+        $user->setLogin( $LoginName );
             if ( $user->exists( $user->login() ) )
             {
                 $t->parse( "error_userexists_item", "error_userexists_item_tpl" );

@@ -88,7 +88,7 @@ if( $Action == "insert" || $Action == "update" )
     $EndDate->setYear( $EndYear );
     $EndDate->setMonth( $EndMonth );
     $EndDate->setDay( $EndDay );
-    
+
     $education->setStart( $StartDate->mySQLDate() );
     $education->setEnd( $EndDate->mySQLDate() );
     $education->setInstitution( $Institution );
