@@ -385,8 +385,7 @@ else
     }
 
     eZList::drawNavigator( $t, $total_companies, $MaxCompanyList, $Offset, "type_page",
-    array( "type_list" => "company_list" )
-                           );
+                           array( "type_list" => "company_list" ) );
 
     $t->pparse( "output", "type_page" );
 }
