@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.8 2001/09/20 12:36:36 jb Exp $
+// $Id: datasupplier.php,v 1.9 2001/09/24 10:47:16 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -27,6 +27,7 @@ define( "EZIMAGECATALOGUE_NONEXISTING_IMAGE", 1 );
 define( "EZIMAGECATALOGUE_CONVERT_ERROR", 2 );
 define( "EZIMAGECATALOGUE_SIZE_MISSING", 3 );
 define( "EZIMAGECATALOGUE_BAD_IMAGE", 4 );
+define( "EZIMAGECATALOGUE_NONEXISTING_PARENT", 5 );
 
 switch ( $RequestType )
 {
@@ -41,13 +42,13 @@ switch ( $RequestType )
                 include( "ezimagecatalogue/xmlrpc/categorylist.php" );
                 break;
             }
-//                  case "data":
-//                  case "storedata":
-//                  case "delete":
-//                  {
-//                      include( "ezarticle/xmlrpc/category.php" );
-//                      break;
-//                  }
+                case "data":
+                case "storedata":
+                case "delete":
+                {
+                    include( "ezimagecatalogue/xmlrpc/category.php" );
+                    break;
+                }
             default:
                 $Error = true;
         }
