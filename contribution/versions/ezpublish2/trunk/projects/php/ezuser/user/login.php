@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: login.php,v 1.34 2001/08/10 12:15:26 jhe Exp $
+// $Id: login.php,v 1.35 2001/08/13 06:58:07 jhe Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -107,10 +107,10 @@ if ( $Action == "login" )
                     $user->setCookieValues();
                 }
 
-                $mainGroup = $user->groupDefinition();
-                if ( $mainGroup->groupURL() )
+                $mainGroup = $user->groupDefinition( true );
+                if ( ( $mainGroup ) && $mainGroup->groupURL() )
                 {
-                    eZHTTPTool::header( $mainGroup->groupURL() );
+                    eZHTTPTool::header( "Location: " . $mainGroup->groupURL() );
                     exit();
                 }
                 else if ( isSet( $RedirectURL ) )
