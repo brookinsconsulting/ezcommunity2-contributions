@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.30 2001/02/22 16:29:26 fh Exp $
+// $Id: ezarticlecategory.php,v 1.31 2001/02/22 17:04:48 fh Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -459,9 +459,9 @@ class eZArticleCategory
     {
        $database =& eZDB::globalDatabase();
        $database->array_query( $res, "SELECT ReadPermission FROM eZArticle_Category WHERE ID='$categoryID'" );
-       print("<br>Inside hasReadPermission<br>");
+//       print("<br>Inside hasReadPermission<br>");
        $readPermission = $res[0][ "ReadPermission" ];
-       print( "This page has readpermission: $readPermission <br>" );
+//       print( "This page has readpermission: $readPermission <br>" );
 
        if( $readPermission == 0 ) //none
            return false;

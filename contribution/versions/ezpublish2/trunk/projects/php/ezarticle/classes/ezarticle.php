@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.41 2001/02/22 16:29:26 fh Exp $
+// $Id: ezarticle.php,v 1.42 2001/02/22 17:04:48 fh Exp $
 //
 // Definition of eZArticle class
 //
@@ -1119,9 +1119,9 @@ class eZArticle
     {
        $database =& eZDB::globalDatabase();
        $database->array_query( $res, "SELECT ReadPermission FROM eZArticle_Article WHERE ID='$articleID'" );
-       print("<br>Inside hasReadPermission<br>");
+//       print("<br>Inside hasReadPermission<br>");
        $readPermission = $res[0][ "ReadPermission" ];
-       print( "This page has readpermission: $readPermission <br>" );
+//       print( "This page has readpermission: $readPermission <br>" );
 
        if( $readPermission == 0 ) //none
            return false;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.29 2001/02/16 14:42:14 bf Exp $
+// $Id: articlelist.php,v 1.30 2001/02/22 17:04:48 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -167,8 +167,15 @@ else
 $locale = new eZLocale( $Language );
 $i=0;
 $t->set_var( "article_list", "" );
+
+$user = eZUser::currentUser();
 foreach ( $articleList as $article )
 {
+    // check if user has permission, if not break to next article.
+    $aid = $article->id();
+    if( eZArticle::hasReadPermission( $user, $aid ) != true )
+        break;
+    
     $t->set_var( "article_id", $article->id() );
     $t->set_var( "article_name", $article->name() );
 
