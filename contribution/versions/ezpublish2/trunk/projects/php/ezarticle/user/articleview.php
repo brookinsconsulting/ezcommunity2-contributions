@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.27 2001/02/16 14:54:27 bf Exp $
+// $Id: articleview.php,v 1.28 2001/02/22 09:47:58 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -47,6 +47,8 @@ $t->set_file( array(
     "article_view_page_tpl" => "articleview.tpl"
     ) );
 
+$t->set_block( "article_view_page_tpl", "article_url_item_tpl", "article_url_item" );
+
 $t->set_block( "article_view_page_tpl", "article_header_tpl", "article_header" );
 
 $t->set_block( "article_view_page_tpl", "attached_file_list_tpl", "attached_file_list" );
@@ -67,6 +69,13 @@ else
 {
     $t->parse( "article_header", "article_header_tpl" );
 }
+
+$SiteURL = $ini->read_var( "site", "SiteURL" );
+
+$t->set_var( "article_url", $SiteURL . $REQUEST_URI );
+$t->set_var( "article_url_item", "" );
+if ( $PrintableVersion == "enabled" )
+    $t->parse( "article_url_item", "article_url_item_tpl" );
 
 $article = new eZArticle(  );
 
@@ -100,7 +109,6 @@ if ( $article->get( $ArticleID ) )
     $categoryDef =& $article->categoryDefinition();
 
     $t->set_var( "category_definition_name", $categoryDef->name() );
-    
 
     $pageCount = $article->pageCount();
     if ( $PageNumber > $pageCount )

@@ -1,3 +1,12 @@
+<!-- BEGIN article_url_item_tpl -->
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	<center><h3>{intl-found}: http://{article_url}</h3></center>
+	</td>
+</tr>
+</table>
+<!-- END article_url_item_tpl -->
 <h1>{article_name}</h1>
 
 <hr noshade="noshade" size="4" />

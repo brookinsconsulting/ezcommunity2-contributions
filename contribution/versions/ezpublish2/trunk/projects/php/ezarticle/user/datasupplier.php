@@ -144,11 +144,10 @@ switch ( $url_array[2] )
     }
     break;
 
-    
     case "print":
     case "articleprint":
     {
-        $StaticRendering = false;        
+        $StaticRendering = false;
         $ArticleID = $url_array[3];
         $PageNumber= $url_array[4];
 
@@ -159,7 +158,7 @@ switch ( $url_array[2] )
             else if ( $PageNumber < 1 )
                 $PageNumber = 1;
         }
-        
+
         if ( $PageCaching == "enabled" )
         {
             $CategoryID = $url_array[3];
