@@ -7,7 +7,7 @@
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<td colspan="2">
-	<a href="{first_news_url}/">
+	<a href="{first_news_url}">
 	<div class="h1">{first_news_name}</div>
 	</a>
 	<span class="small">( {first_news_origin} - {first_news_date} )</span>
@@ -29,7 +29,7 @@
 <!-- BEGIN news_item_tpl -->
 {starttr}
 	<td valign="top" width="50%">
-	<a href="{news_url}/"><div class="h2">{news_name}</div></a>
+	<a href="{news_url}"><div class="h2">{news_name}</div></a>
 	<span class="small">( {news_origin} - {news_date} )</span>
 	<p class="newslist">{news_intro}</p>
 	<img src="/images/path-arrow.gif" height="10" width="15" border="0" alt=""><a class="path" href="{news_url}">{intl-read_more}</a>
@@ -44,7 +44,7 @@
 <!-- BEGIN short_news_item_tpl -->
 <tr>
 	<td valign="top">
-	<a href="{news_url}/"><b>{news_name}</b></a>&nbsp;&nbsp;
+	<a href="{news_url}"><b>{news_name}</b></a>&nbsp;&nbsp;
 	<span class="small">
 	( {news_origin} - {news_date} )
 	</span>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unpublished.php,v 1.3 2000/11/30 10:15:30 bf-cvs Exp $
+// $Id: unpublished.php,v 1.4 2000/12/01 13:24:13 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <29-Nov-2000 18:10:27 bf>
@@ -151,7 +151,7 @@ else
 
 
 // news
-$newsList =& $category->newsList( "time", "only" );
+$newsList =& $category->newsList( "time", "only", 0, 15 );
 
 $locale = new eZLocale( $Language );
 $i=0;

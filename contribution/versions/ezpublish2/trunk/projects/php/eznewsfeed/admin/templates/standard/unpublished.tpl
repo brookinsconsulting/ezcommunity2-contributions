@@ -108,6 +108,7 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-sl
 	<th>{intl-news}:</th>
 	<th>{intl-published}:</th>
 	<th>{intl-publish}:</th>
+	<th>{intl-delete}:</th>
 	<th colspan="2">&nbsp;</th>
 </tr>
 
@@ -129,8 +130,12 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-sl
 	</td>
 	<td class="{td_class}">
 	<input type="checkbox" name="NewsPublishIDArray[]" value="{news_id}" />
-	
 	</td>
+
+	<td class="{td_class}">
+	<input color="red" type="checkbox" name="NewsPublishIDArray[]" value="{news_id}" />
+	</td>
+
 	<td width="1%" class="{td_class}">
 	<a href="/newsfeed/news/edit/{news_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{news_id}-red','','/eznewsfeed/admin/images/redigerminimrk.gif',1)"><img name="ezaa{news_id}-red" border="0" src="/eznewsfeed/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
