@@ -13,6 +13,10 @@
     <?
           include( "ezpoll/user/votebox.php" );
     ?>
+
+    <?
+          include( "ezquiz/user/menubox.php" );
+    ?>
         
 	<!-- Oppslagstavle fram til hit! -->
 
