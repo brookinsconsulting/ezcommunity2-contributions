@@ -29,7 +29,7 @@
 
 <h1>{message}</h1>
 
-<table width="100%" border="2">
+<table width="100%" border="0">
 <tr>
 	<td valign="top"  bgcolor="#ddeedd">
 
