@@ -1,11 +1,11 @@
 /* Standard eZ publish stylesheet */
 
-body, div, span, p, .p, h1, h2, .listheadline, .listproducts, h3, a, td ,th, select, input, textarea, credit
+body, div, span, p, .p, h1, h2, .listheadline, .listproducts, h3, ul, li, a, td ,th, select, input, textarea, credit
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
 }
 
-body, p, .p, a, h3, .path, th, td, .check
+body, p, .p, ul, li, a, h3, .path, th, td, .check
 {
 	font-size: 13px;
 	color: #000000;
@@ -59,7 +59,7 @@ a:hover
 
 .menuhead
 {
-	background: #777777;
+	background: #146e14;
 	font-size: 18px;
 	color: #ffffff;
 	font-weight: normal;
@@ -191,9 +191,14 @@ th
 	background-color: #787878;
 }
 
+form
+{
+	margin: 0px;
+}
+
 hr
 {
-	color: #808080;
+	color: #146e14;
 }
 
 .stdbutton 
@@ -215,4 +220,4 @@ hr
     color: #f07800;
 }
 
-/* Hellstrøm 23.02.2001 */
+/* Hellstrøm 28.02.2001 */

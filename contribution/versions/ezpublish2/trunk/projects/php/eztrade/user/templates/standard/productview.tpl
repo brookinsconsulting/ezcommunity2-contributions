@@ -47,7 +47,7 @@
 
 <p>{intro_text}</p>
 
-<p>{description_text}</p>
+<div class="p">{description_text}</div>
 
 <br clear="all" />
 
@@ -84,13 +84,13 @@
 <!-- END image_list_tpl -->
 
 <!-- BEGIN attribute_list_tpl -->
-<table width="50%" cellspacing="0" cellpadding="2" border="0">
+<table width="60%" cellspacing="0" cellpadding="2" border="0" align="center">
 <!-- BEGIN attribute_tpl -->
 <tr>
 	<th>
 	{attribute_name}: 
 	</td>
-	<td>
+	<td align="right">
 	{attribute_value}
 	</td>
 </tr>
@@ -177,7 +177,7 @@
 
 	<!-- END price_tpl -->	
 	</td>
-	<td align="right">
+	<td align="right" valign="top">
 	<!-- BEGIN external_link_tpl -->
 	<p class="boxtext">{intl-external_link}:</p>
 	<a href="{external_link_url}" target="_blank">{external_link_url}</a>

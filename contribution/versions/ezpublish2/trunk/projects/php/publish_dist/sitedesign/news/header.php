@@ -1,23 +1,12 @@
 </head>
 
-<body bgcolor="#ffffff" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onLoad="MM_preloadImages('/images/redigerminimrk.gif','/images/slettminimrk.gif','/images/downloadminimrk.gif','/images/addminimrk.gif')">
+<body bgcolor="#dc8282" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onLoad="MM_preloadImages('/images/redigerminimrk.gif','/images/slettminimrk.gif','/images/downloadminimrk.gif','/images/addminimrk.gif')">
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td bgcolor="#ffffff">
-    <a href="/">
-    <img src="/sitedesign/news/images/newssitelogo.gif" border="0" /></a>
-	</td>
-	<td bgcolor="#ffffff" align="right">
-	<h2>eZ publish v2.0 Beta 3</h2>
-	</td>
-</tr>
-</table>
-
+<img src="/sitedesign/news/images/ezpublish-news.gif" height="40" width="610" border="0" alt="" />
 
 <table width="100%" border="0" cellspacing="0" cellpadding="4">
 <tr valign="top">
-    <td width="1%" bgcolor="#f0f0f0">
+    <td width="1%" bgcolor="#fff5f5">
 	<!-- Meny start! -->
 
 	<table width="100%" cellspacing="0" cellpadding="2" border="0">

@@ -2,7 +2,7 @@
     </td>
    	<td width="1%" bgcolor="#ffffff"><img src="/images/1x1.gif" width="2" height="1" border="0" alt="0" /></td>
 
-	<td width="1%" bgcolor="#f0f0f0">
+	<td width="1%" bgcolor="#fff5f5">
 
    	<!-- Oppslagstavle kommer her! -->
     
@@ -84,9 +84,9 @@ if ( $Design == 3 )
 }
 
 ?>
-    <a href="<? print( $REQUEST_URI . "?Design=1"); ?>">Portal site</a> <br />
-    <a href="<? print( $REQUEST_URI . "?Design=2"); ?>">E-commerce</a> <br />
-    <a href="<? print( $REQUEST_URI . "?Design=3"); ?>">Intranet site</a> <br />
+    <a href="<? print( $REQUEST_URI . "?Design=1"); ?>">Portal site</a><br />
+    <a href="<? print( $REQUEST_URI . "?Design=2"); ?>">E-commerce</a><br />
+    <a href="<? print( $REQUEST_URI . "?Design=3"); ?>">Intranet site</a><br />
 
     <img src="/images/1x1.gif" width="130" height="1" border="0"><br />
 	 

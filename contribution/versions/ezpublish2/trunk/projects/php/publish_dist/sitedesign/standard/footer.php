@@ -69,7 +69,7 @@ if ( $Design == 3 )
 
 
     ?>
-    <a href="<? print( $REQUEST_URI . "?Design=1"); ?>">Intranet site</a>
+    <a href="<? print( $REQUEST_URI . "?Design=1"); ?>">Intranet site</a><br />
     <a href="<? print( $REQUEST_URI . "?Design=2"); ?>">E-commerce</a><br />
     <a href="<? print( $REQUEST_URI . "?Design=3"); ?>">News site</a><br />
     
