@@ -180,7 +180,7 @@
 <form action="{www_dir}{index}/mail/folder/{mode}/{current_folder_id}/" method="post">
 <select name="NumMessages">
 <!-- BEGIN num_mail_element_tpl -->
-<option value="{messages_number}" {is_selected} />{messages_number}</option>
+<option value="{messages_number}" {is_selected}>{messages_number}</option>
 <!-- END num_mail_element_tpl -->
 </select>
 <input type="submit" value="{intl-update}" />
