@@ -3,6 +3,7 @@ eZ publish changelog:
 
 Changes from 2.2.1 final to 2.2.2
 ---------------------------------
+* Fixed cookie problem with some IE browsers
 * Added support for libxml xml parsing in ezxmlrpc
 * Added menubox in eZ search
 * Fixed display of $10 like text correctly
