@@ -671,3 +671,6 @@ CREATE TABLE eZArticle_ArticleKeyword (
 
 # Add SimultaneousLogins to eZUser_User
 ALTER TABLE eZUser_User ADD SimultaneousLogins int(11) DEFAULT '0' NOT NULL;
+
+#placement for article categories
+ALTER TABLE eZArticle_Category ADD Placement int(11) DEFAULT '0';
