@@ -38,7 +38,6 @@ $t->set_block( "person_view", "no_online_item_tpl", "no_online_item" );
 
 $t->set_var( "firstname", "" );
 $t->set_var( "lastname", "" );
-$t->set_var( "personno", "" );
 $t->set_var( "birthday", "" );
 $t->set_var( "birthmonth", "" );
 $t->set_var( "birthyear", "" );
@@ -70,7 +69,6 @@ if ( $Action == "view" )
     
     $t->set_var( "firstname", $person->firstName() );
     $t->set_var( "lastname", $person->lastName() );
-    $t->set_var( "personno", $person->personNo() );
 
     $Birth = new eZDate();
     $Birth->setMySQLDate( $person->birthDate() );
