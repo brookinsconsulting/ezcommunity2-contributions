@@ -79,13 +79,13 @@ if( $Action == "insert" || $Action == "update" )
     $type->store();
     $TypeID = $type->id();
 
-    header( "Location: /contact/companytype/view/$TypeID" );
+    header( "Location: /contact/companycategory/list/$TypeID" );
 
 }
 
 if( !$type->id() && $Action != "new"  )
 {
-    header( "Location: /error.php?type=404&reason=missingpage&module=ezcontact&hint=/contact/companytype/list/0" );
+    header( "Location: /error.php?type=404&reason=missingpage&module=ezcontact&hint=/contact/companycategory/list/0" );
     exit();
 }
 
@@ -97,7 +97,7 @@ if ( $Action == "delete" )
     $ParentID = $type->parentID(); 
     $type->delete( );
     
-    header( "Location: /contact/companytype/list/$ParentID" );
+    header( "Location: /contact/companycategory/list/$ParentID" );
     exit();
 }
 
