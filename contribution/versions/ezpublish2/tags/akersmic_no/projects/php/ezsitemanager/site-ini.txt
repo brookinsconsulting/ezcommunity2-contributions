@@ -1,0 +1,4 @@
+        **** Explanation of site.ini variables ****
+ 
+The name of the group in site.ini for eZSiteManager is eZSiteManager
+It contains these variables:
