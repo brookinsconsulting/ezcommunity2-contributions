@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: shippingtypes.php,v 1.6 2001/03/12 12:17:27 bf Exp $
+// $Id: shippingtypes.php,v 1.7 2001/03/12 13:42:42 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Feb-2001 11:38:37 bf>
@@ -139,14 +139,14 @@ $shippingGroup = new eZShippingGroup();
 $groups =& $shippingGroup->getAll();
 
 $shippingType = new eZShippingType();
-$types =& $shippingType->getAll();
+$shippingTypes =& $shippingType->getAll();
 
 
 $t->set_var( "type_item", "" );
 $t->set_var( "header_item", "" );
 
 // set the header
-foreach ( $types as $type )
+foreach ( $shippingTypes as $type )
 {
     $t->set_var( "shipping_type_name", $type->name() );
     $t->set_var( "type_id", $type->id() );
@@ -212,13 +212,14 @@ foreach ( $groups as $group )
     $t->set_var( "shipping_group_name", $group->name() );
     
     $t->set_var( "type_group_item", "" );
-    foreach ( $types as $type )
+    foreach ( $shippingTypes as $type )
     {
         $values =& $group->startAddValue( $type );
 
         $t->set_var( "value_group_id", $group->id() );
         $t->set_var( "value_type_id", $type->id() );
 
+    
         $t->set_var( "start_value", $values["StartValue"] );
         $t->set_var( "add_value", $values["AddValue"] );
         
