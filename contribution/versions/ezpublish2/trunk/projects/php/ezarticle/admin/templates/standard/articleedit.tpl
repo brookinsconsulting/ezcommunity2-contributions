@@ -15,7 +15,6 @@
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-        <!-- BEGIN author_information_tpl -->
 	<td valign="top">
 	<p class="boxtext">{intl-article_author}:</p>
 	<select name="ContentsWriterID">
@@ -23,8 +22,21 @@
 	<option value="{author_id}" {selected}>{author_name}</option>
 	<!-- END author_item_tpl -->
 	</select>
+
+	<table width="100%" cellspacing="0" cellpadding="0" border="0">
+	<tr>
+		<td valign="top">
+			<p class="boxtext">{intl-new_author_name}:</p>
+			<input type="text" name="NewAuthorName" size="20" value="" />
+		</td>
+		<td valign="top">
+			<p class="boxtext">{intl-new_author_email}:</p>
+			<input type="text" name="NewAuthorEmail" size="20" value="" />
+		</td>
+	</tr>
+	</table>
+
 	</td>
-        <!-- END author_information_tpl -->
         <!-- BEGIN author_pending_information_tpl -->
 	<td valign="top">
 	<p class="boxtext">{intl-article_author}:</p>

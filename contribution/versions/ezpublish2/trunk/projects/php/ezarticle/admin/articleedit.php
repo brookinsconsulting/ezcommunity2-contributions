@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.111 2001/08/21 11:23:58 ce Exp $
+// $Id: articleedit.php,v 1.112 2001/08/28 09:58:33 bf Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -101,9 +101,21 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
 
         $article->setName( $Name );
 
-        $author = new eZAuthor( $ContentsWriterID );
-        $article->setContentsWriter( $author );
-
+        if ( trim( $NewAuthorName ) != "" &&
+             trim( $NewAuthorEmail ) != ""
+             )
+        {
+            $author = new eZAuthor( );
+            $author->setName( $NewAuthorName );
+            $author->setEmail( $NewAuthorEmail );
+            $author->store();
+            $article->setContentsWriter( $author );
+        }
+        else
+        {
+            $author = new eZAuthor( $ContentsWriterID );
+            $article->setContentsWriter( $author );
+        }
         $topic = new eZTopic( $TopicID );
         $article->setTopic( $topic );
 
@@ -365,7 +377,6 @@ $t->setAllStrings();
 
 $t->set_file( "article_edit_page_tpl",  "articleedit.tpl"  );
 
-
 $t->set_block( "article_edit_page_tpl", "topic_item_tpl", "topic_item" );
 
 $t->set_block( "article_edit_page_tpl", "value_tpl", "value" );
@@ -377,9 +388,8 @@ $t->set_block( "article_edit_page_tpl", "publish_dates_tpl", "publish_dates" );
 $t->set_block( "article_edit_page_tpl", "article_pending_tpl", "article_pending" );
 
 $t->set_block( "article_edit_page_tpl", "author_pending_information_tpl", "author_pending_information" );
-$t->set_block( "article_edit_page_tpl", "author_information_tpl", "author_information" );
 
-$t->set_block( "author_information_tpl", "author_item_tpl", "author_item" );
+$t->set_block( "article_edit_page_tpl", "author_item_tpl", "author_item" );
 
 $t->set_block( "publish_dates_tpl", "published_tpl", "published" );
 $t->set_block( "publish_dates_tpl", "un_published_tpl", "un_published" );
@@ -434,7 +444,6 @@ if ( $Action == "New" )
     $article = new eZArticle( );
 }
 
-$t->set_var( "author_information", "" );
 $t->set_var( "author_pending_information", "" );
 $t->set_var( "publish_dates", "" );
 $t->set_var( "article_pending", "" );
@@ -536,13 +545,11 @@ if ( $Action == "Edit" )
 
     if ( $pending )
     {
-        $t->set_var( "author_information", "" );
         $t->parse( "author_pending_information", "author_pending_information_tpl" );
     }
     else
     {
         $t->set_var( "author_pending_information", "" );
-        $t->parse( "author_information", "author_information_tpl" );
     }
     
     $t->set_var( "link_text", $article->linkText() );
