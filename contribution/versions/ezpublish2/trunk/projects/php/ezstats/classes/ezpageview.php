@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageview.php,v 1.4 2001/01/23 20:33:14 bf Exp $
+// $Id: ezpageview.php,v 1.5 2001/02/09 14:35:41 jb Exp $
 //
 // Definition of eZPageView class
 //
@@ -49,17 +49,10 @@ class eZPageView
     */
     function eZPageView( $id="" )
     {
-        $this->IsConnected = false;
-
         if ( $id != "" )
         {
             $this->ID = $id;
             $this->get( $this->ID );
-            $this->State_ = "Coherent";
-        }
-        else
-        {
-            $this->State_ = "New";
         }
     }
 
@@ -71,7 +64,7 @@ class eZPageView
     */
     function store()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         if ( !isset( $this->ID ) )
         {
@@ -80,14 +73,14 @@ class eZPageView
 
             // check if the browser type is already stored in the database, if it it just
             // create a reference to it.
-            $this->Database->array_query( $browser_type_array,
+            $db->array_query( $browser_type_array,
             "SELECT ID FROM eZStats_BrowserType
              WHERE BrowserType='$userAgent'" );
 
             if ( count( $browser_type_array ) == 0 )
             {
 
-                $this->Database->query( "INSERT INTO eZStats_BrowserType SET
+                $db->query( "INSERT INTO eZStats_BrowserType SET
                                  BrowserType='$userAgent'
                                  " );
                 
@@ -103,13 +96,13 @@ class eZPageView
 
             $remoteIP = $GLOBALS["REMOTE_ADDR"];
             
-            $this->Database->array_query( $remote_host_array,
+            $db->array_query( $remote_host_array,
             "SELECT ID FROM eZStats_RemoteHost
              WHERE IP='$remoteIP'" );
             
             if ( count( $remote_host_array ) == 0 )
             {
-                $this->Database->query( "INSERT INTO eZStats_RemoteHost SET
+                $db->query( "INSERT INTO eZStats_RemoteHost SET
                                  IP='$remoteIP'
                                  " );
                 
@@ -136,13 +129,13 @@ class eZPageView
                 $refererURI =& $valueArray[3];
             }
             
-            $this->Database->array_query( $referer_url_array,
+            $db->array_query( $referer_url_array,
             "SELECT ID FROM eZStats_RefererURL
              WHERE Domain='$refererDomain' AND URI='$refererURI'" );
             
             if ( count( $referer_url_array ) == 0 )
             {
-                $this->Database->query( "INSERT INTO eZStats_RefererURL SET
+                $db->query( "INSERT INTO eZStats_RefererURL SET
                                  Domain='$refererDomain',
                                  URI='$refererURI'
                                  " );
@@ -163,13 +156,13 @@ class eZPageView
             $requestURI =& $regs[1];
 
 
-            $this->Database->array_query( $request_page_array,
+            $db->array_query( $request_page_array,
             "SELECT ID FROM eZStats_RequestPage
              WHERE URI='$requestURI'" );
             
             if ( count( $request_page_array ) == 0 )
             {
-                $this->Database->query( "INSERT INTO eZStats_RequestPage SET
+                $db->query( "INSERT INTO eZStats_RequestPage SET
                                  URI='$requestURI'
                                  " );
                 
@@ -192,7 +185,7 @@ class eZPageView
             }
             
             
-            $this->Database->query( "INSERT INTO eZStats_PageView SET
+            $db->query( "INSERT INTO eZStats_PageView SET
                                  UserID='$this->UserID',
                                  BrowserTypeID='$this->BrowserTypeID',
                                  RemoteHostID='$this->RemoteHostID',
@@ -203,7 +196,7 @@ class eZPageView
         }
         else
         {
-            $this->Database->query( "UPDATE eZStats_PageView SET
+            $db->query( "UPDATE eZStats_PageView SET
                                  UserID='$this->UserID',
                                  BrowserTypeID='$this->BrowserTypeID',
                                  RemoteHostID='$this->RemoteHostID',
@@ -214,8 +207,6 @@ class eZPageView
         }
         
         $this->ID = mysql_insert_id();
-
-        $this->State_ = "Coherent";
     }
     
     /*!
@@ -223,12 +214,12 @@ class eZPageView
     */
     function get( $id="" )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $ret = false;
         if ( $id != "" )
         {
-            $this->Database->array_query( $pageview_array, "SELECT * FROM eZStats_PageView WHERE ID='$id'" );
+            $db->array_query( $pageview_array, "SELECT * FROM eZStats_PageView WHERE ID='$id'" );
             if ( count( $pageview_array ) > 1 )
             {
                 die( "Error: Pageview's with the same ID was found in the database. This shouldent happen." );
@@ -244,7 +235,7 @@ class eZPageView
                 $this->RequestPageID =& $pageview_array[0][ "RequestPageID" ];
 
                 // fetch the remote IP and domain
-                $this->Database->array_query( $pageview_array,
+                $db->array_query( $pageview_array,
                 "SELECT IP, HostName FROM eZStats_RemoteHost WHERE ID='$this->RemoteHostID'" );
 
                 $this->RemoteIP = $pageview_array[0]["IP"];
@@ -256,28 +247,18 @@ class eZPageView
                 if ( $this->RemoteHostName = "NULL" )
                 {
                     $this->RemoteHostName =& gethostbyaddr( $this->RemoteIP );
-                    $this->Database->query( "UPDATE eZStats_RemoteHost SET HostName='$this->RemoteHostName' WHERE ID='$this->RemoteHostID'" );
+                    $db->query( "UPDATE eZStats_RemoteHost SET HostName='$this->RemoteHostName' WHERE ID='$this->RemoteHostID'" );
                 }
 
                 // fetch the requested page
-                $this->Database->array_query( $pageview_array,
+                $db->array_query( $pageview_array,
                 "SELECT URI FROM eZStats_RequestPage WHERE ID='$this->RequestPageID'" );
 
                 $this->RequestPage = $pageview_array[0]["URI"];                
-                
 
-                $this->State_ = "Coherent";
                 $ret = true;
 
             }
-            else if ( count( $pageview_array ) < 1 )
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
 
         return $ret;
@@ -335,27 +316,13 @@ class eZPageView
     */
     function requestPageByID( $id )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         // fetch the requested page
-        $this->Database->array_query( $pageview_array,
+        $db->array_query( $pageview_array,
         "SELECT URI FROM eZStats_RequestPage WHERE ID='$id'" );
         
         return $pageview_array[0]["URI"];
-    }
-    
-    
-    /*!
-      \private
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
     }
 
     var $ID;
@@ -372,14 +339,6 @@ class eZPageView
     var $RefererURL;
     var $RefererDomain;
     var $RequestPage;
-
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>
