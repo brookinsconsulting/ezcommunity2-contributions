@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.3 2001/07/19 12:36:31 jakobn Exp $
+// $Id: datasupplier.php,v 1.4 2001/07/25 10:32:40 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -23,25 +23,17 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-if ( $ReturnCatalogues == true )
+switch ( $RequestType )
 {
-//    $Catalogues[] = new eZXMLRPCString( "categorylist" );
-}
-else
-{
-    switch ( $RequestType )
+    case "category" :
     {
-        case "category" :
-        {
-            include( "ezbulkmail/xmlrpc/category.php" );
-        } break;
-        
-        default :
-        {
-            $Error = new eZXMLRPCResponse( );
-            $Error->setError( 2, "Server function not found." );
-        } break;
-    }
+        include( "ezbulkmail/xmlrpc/category.php" );
+    } break;
+
+    default :
+    {
+        $Error = true;
+    } break;
 }
 
 ?>
