@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: datasupplier.php,v 1.5 2001/05/31 11:33:24 pkej Exp $
+// $Id: datasupplier.php,v 1.6 2001/05/31 11:48:02 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -106,6 +106,7 @@ switch ( $url_array[2] )
             }
             break;
             
+            case "score":
             case "scores":
             {
                 $Offset = $url_array[5];
@@ -115,6 +116,7 @@ switch ( $url_array[2] )
                     $Offset = 0;
                 }
                 $GameID = $url_array[4];
+                
                 include( "ezquiz/user/quizscores.php" );
             }
             break;

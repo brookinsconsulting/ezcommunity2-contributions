@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: quizscores.php,v 1.1 2001/05/31 11:33:24 pkej Exp $
+// $Id: quizscores.php,v 1.2 2001/05/31 11:48:02 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -76,9 +76,12 @@ $t->set_var( "players", $game->numberOfPlayers() );
 $score = new eZQuizScore();
 $scores = $score->getAllByGame( $game, $Offset, $Limit );
 
+$count = count( $scores ); 
+$scoreCount = $score->countAllByGame( $game );
+
 $last = 0;
 $lastColor = "bgdark";
-$position = 1;
+$position = $Offset + 1;
 $locale = new eZLocale( $Language );
 
 if( $game->isClosed() )
@@ -109,14 +112,14 @@ else
 
 if( $printScores == true )
 {
-    if( count( $scores ) > 0 )
+    if( $count > 0 )
     {
         foreach( $scores as $score )
         {
 
             $currentScore = $score->totalScore();
 
-            if( $currentScore == $last )
+            if( $currentScore == $last && $position != ( $Offset + 1 ) )
             {
                 $t->set_var( "score_position", "&nbsp;" );
 
@@ -160,12 +163,14 @@ if( $printScores == true )
         }
 
         $t->parse( "score_list_item", "score_list_item_tpl" );
+        eZList::drawNavigator( $t, $scoreCount, $Limit, $Offset, "score_page_tpl" );
     }
     else
     {
         $t->parse( "no_scores_item", "no_scores_item_tpl" );
     }
 }
+
 
 if( $error )
 {
