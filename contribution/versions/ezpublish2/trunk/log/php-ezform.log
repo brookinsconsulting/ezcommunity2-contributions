@@ -1397,3 +1397,11 @@ Maintainer(s) : pkej@ez.no
     * user/intl/no_NO/form.php.ini
       admin/intl/no_NO/form.php.ini: epost -> e-post
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-04-22  christoffer  <ce@zev.ez.no>
+
+    * classes/ezformrenderer.php: Added related products
+

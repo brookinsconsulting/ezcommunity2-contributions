@@ -748,3 +748,15 @@ Maintainer(s) : jhe@ez.no
 
     * user/filelist.php: removed template variable when empty list
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2002-04-22  jhe  <jhe@zev.ez.no>
+
+    * user/fileupload.php
+      user/fileview.php
+      classes/ezvirtualfile.php: heavy permission fixes
+
+    * user/fileupload.php: removed &nbsp when removing error messages
+

@@ -1002,3 +1002,14 @@ Maintainer(s) : br@ez.no
     * admin/intl/no_NO/imageedit.php.ini
       user/intl/no_NO/imageedit.php.ini: epost -> e-post
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2002-04-22  jhe  <jhe@zev.ez.no>
+
+    * user/categoryedit.php
+      user/imageedit.php
+      user/imagelist.php
+      classes/ezimage.php: fixed permission bugs
+

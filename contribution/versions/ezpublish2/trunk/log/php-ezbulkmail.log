@@ -707,3 +707,13 @@ Maintainer(s) : fh@ez.no
       user/intl/no_NO/subscriptionmail.php.ini
       user/intl/no_NO/usermessages.php.ini: epost -> e-post
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2002-04-22  christoffer  <ce@zev.ez.no>
+
+    * admin/mailview.php
+      classes/ezbulkmailcategory.php
+      classes/ezbulkmailusersubscripter.php: Added related products
+

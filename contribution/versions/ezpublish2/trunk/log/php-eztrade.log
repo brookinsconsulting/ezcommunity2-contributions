@@ -3587,3 +3587,13 @@ Maintainer(s) : ce@ez.no
       admin/voucheredit.php
       admin/voucherlist.php: Major commit for the mygold project
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-04-22  christoffer  <ce@zev.ez.no>
+
+    * user/productview.php
+      classes/Attic/ezorderconfirmation.php
+      classes/ezproduct.php: Added related products
+

@@ -3171,3 +3171,15 @@ Maintainer(s) : bf@ez.no
     * admin/templates/standard/articlelist.tpl
       admin/articlelist.php: Fixed bug with "go to a category" in articlelist.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-04-22  bf  <bf@zev.ez.no>
+
+    * classes/ezarticletool.php
+      classes/ezqdomrenderer.php: Cosmetic code fix.
+
+    * classes/ezarticle.php:
+    Fixed returning to big result in some permission settings.
+
