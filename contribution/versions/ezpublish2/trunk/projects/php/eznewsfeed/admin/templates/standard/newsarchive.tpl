@@ -124,11 +124,11 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-sl
 	&nbsp;
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="/newsfeed/news/edit/{news_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-red','','/eznewsfeed/admin/images/redigerminimrk.gif',1)"><img name="ezaa{article_id}-red" border="0" src="/eznewsfeed/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="/newsfeed/news/edit/{news_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{news_id}-red','','/eznewsfeed/admin/images/redigerminimrk.gif',1)"><img name="ezaa{news_id}-red" border="0" src="/eznewsfeed/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%" class="{td_class}">
 	<a href="#" onClick="verify( '{intl-delete}', '/newsfeed/news/delete/{news_id}/'); return false;"
-onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-slett','','/eznewsfeed/admin/images/slettminimrk.gif',1)"><img name="ezaa{article_id}-slett" border="0" src="/eznewsfeed/admin/images/slettmini.gif" width="16" height="16" align="top"></a>
+onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{news_id}-slett','','/eznewsfeed/admin/images/slettminimrk.gif',1)"><img name="ezaa{news_id}-slett" border="0" src="/eznewsfeed/admin/images/slettmini.gif" width="16" height="16" align="top"></a>
 
 	</td>
 </tr>

@@ -3,13 +3,13 @@
 <hr noshade="noshade" size="4" />
 
 <p class="boxtext">{intl-news_title}:</p>
-<input type="text" size="40" name="NewsTitle" value="{news_title_value}"/>
+<input type="text" size="40" name="NewsTitle" value="{news_title_value}" />
 
 <p class="boxtext">{intl-news_source}:</p>
-<input type="text" size="40" name="NewsSource" value="{news_source_value}"/>
+<input type="text" size="40" name="NewsSource" value="{news_source_value}" />
 
 <p class="boxtext">{intl-news_date}:</p>
-<input type="text" size="40" name="NewsDate" value="{news_date_value}"/>
+<input type="text" size="40" name="NewsDate" value="{news_date_value}" />
 
 <p class="boxtext">{intl-news_category}:</p>
 <select name="CategoryID">
@@ -29,10 +29,13 @@
 <p class="boxtext">{intl-news_keywords}:</p>
 <input type="text" size="40" name="NewsKeywords" value="{news_keywords_value}"/>
 
+<br />
+<input type="checkbox" name="IsPublished" {news_is_published} />
+<span class="boxtext">{intl-news_is_published}</span><br />
 
 <hr noshade="noshade" size="4" />
 
-<input type="submit" class="okbutton" value="{intl-ok}">
+<input type="submit" class="okbutton" value="{intl-ok}" />
 <input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />
 <input type="hidden" value="{action_value}" name="Action" />
 <input type="hidden" value="{news_id}" name="NewsID" />

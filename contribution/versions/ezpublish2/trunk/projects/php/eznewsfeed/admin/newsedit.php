@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsedit.php,v 1.4 2000/11/17 10:05:53 bf-cvs Exp $
+// $Id: newsedit.php,v 1.5 2000/11/17 10:45:11 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -42,7 +42,15 @@ if ( $Action == "Insert" )
 
     $news->setName( $NewsTitle );
     $news->setIntro( $NewsIntro );
-    $news->setIsPublished( true );
+    
+    if ( $IsPublished == "on" )
+    {
+        $news->setIsPublished( true );
+    }
+    else
+    {
+        $news->setIsPublished( false );
+    }
 
     $news->setKeywords( $NewsKeywords );
     $news->setOrigin( $NewsSource );
@@ -54,7 +62,39 @@ if ( $Action == "Insert" )
 
     $category->addNews( $news );
     Header( "Location: /newsfeed/archive/$CategoryID/" );
-    exi();
+    exit();
+}
+
+if ( $Action == "Update" )
+{
+    $category = new eZNewsCategory( $CategoryID );
+    
+    $news = new eZNews( $NewsID );
+
+    $news->setName( $NewsTitle );
+    $news->setIntro( $NewsIntro );
+
+    if ( $IsPublished == "on" )
+    {
+        $news->setIsPublished( true );
+    }
+    else
+    {
+        $news->setIsPublished( false );
+    }
+
+    $news->setKeywords( $NewsKeywords );
+    $news->setOrigin( $NewsSource );
+    $news->setURL( $NewsURL );
+    $dateTime = new eZDateTime( 2000, 11, 13, 14, 0, 15 );
+    $news->setOriginalPublishingDate( $dateTime );
+
+    $news->store();
+
+    $news->removeFromCategories();
+    $category->addNews( $news );
+    Header( "Location: /newsfeed/archive/$CategoryID/" );
+    exit();
 }
 
 
@@ -88,13 +128,27 @@ if ( $Action == "Edit" )
 {
     $news = new eZNews( $NewsID );
 
-    print( "22". $news->name() );
     $t->set_var( "news_title_value", $news->name() );
-    $t->set_var( "news_source_value", $news->source() );
+    $t->set_var( "news_source_value", $news->origin() );
     $t->set_var( "news_intro_value", $news->intro() );
     $t->set_var( "news_url_value", $news->url() );
     $t->set_var( "news_keywords_value", $news->keywords() );
     $t->set_var( "news_id", $news->id() );
+    $t->set_var( "action_value", "Update" );
+
+    if ( $news->isPublished() == true )
+    {
+        $t->set_var( "news_is_published", "checked" );
+    }
+    else
+    {
+        $t->set_var( "news_is_published", "" );
+    }
+    
+
+    $cats = $news->categories();
+
+    $defCat = $cats[0];
 }
 
 // category select

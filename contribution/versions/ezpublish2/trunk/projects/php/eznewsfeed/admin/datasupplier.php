@@ -19,16 +19,15 @@ switch ( $url_array[2] )
         {
             $Action == "New";
         }
-        else
+        else if ( $url_array[3]  == "edit" )
         {
-            $arg = $url_array[3];
+            $arg = $url_array[4];
             
             setType( $arg, "integer" );
             if ( $arg != 0 )
             {
-                $Action == "Edit";
+                $Action = "Edit";
                 $NewsID = $arg;
-                print( "" );
             }
         }
         

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznews.php,v 1.4 2000/11/16 15:53:21 bf-cvs Exp $
+// $Id: eznews.php,v 1.5 2000/11/17 10:45:11 bf-cvs Exp $
 //
 // Definition of eZNews class
 //
@@ -285,6 +285,17 @@ class eZNews
        return $dateTime;
     }
     
+    /*!
+      Returns the origin of the news.
+    */
+    function origin( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->Origin;
+    }
+
     /*!
       Returns the keywords of an news.
     */
