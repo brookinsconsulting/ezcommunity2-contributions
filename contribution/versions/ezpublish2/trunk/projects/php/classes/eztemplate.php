@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.28 2001/01/29 17:20:33 jb Exp $
+// $Id: eztemplate.php,v 1.29 2001/02/03 21:21:56 jb Exp $
 //
 // Definition of eZTemplate class
 //
@@ -28,6 +28,7 @@
 //
 
 include_once( "classes/INIFile.php" );
+include_once( "classes/ezlog.php" );
 
 //!! eZCommon
 //! The eZTemplate class provides template functions. In regard to locale information.
@@ -793,7 +794,9 @@ class eZTemplate
     */
     function haltmsg($msg)
     {
-        printf("<b>Template Error:</b> %s<br>\n", $msg);
+        $err_msg = "<b>Template Error:</b> $msg<br>\n";
+        print( $err_msg );
+        eZLog::writeNotice( $err_msg );
     }
 
     var $TextStrings;
