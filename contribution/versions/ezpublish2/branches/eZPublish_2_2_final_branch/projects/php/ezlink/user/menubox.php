@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.16 2001/09/27 12:49:47 th Exp $
+// $Id: menubox.php,v 1.16.2.1 2002/01/04 14:51:51 kaid Exp $
 //
 // Created on: <17-Oct-2000 12:16:07 bf>
 //
@@ -58,7 +58,7 @@ function createLinkMenu( $menuCacheFile=false )
     global $ini;
     global $Language;
     global $menuCachedFile;
-	global $GlobalSiteDesign;
+    global $GlobalSiteDesign;
     
     include_once( "classes/eztemplate.php" );
 
@@ -103,6 +103,8 @@ function createLinkMenu( $menuCacheFile=false )
             $t->parse( "link_category", "link_category_tpl", true );
         }
     }
+    if ( !isset( $LGID ) )
+        $LGID = "";
     $t->set_var( "linkcategory_id", $LGID );
                        
     $t->set_var( "sitedesign", $GlobalSiteDesign );
@@ -115,7 +117,7 @@ function createLinkMenu( $menuCacheFile=false )
     }
     else
     {
-		$t->pparse( "output", "menu_box_tpl" );
+        $t->pparse( "output", "menu_box_tpl" );
     }
 }
 
