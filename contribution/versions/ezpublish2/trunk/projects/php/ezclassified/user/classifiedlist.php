@@ -94,7 +94,7 @@ else
 
 //          $t->set_var( "company_name", $company->name() );
         
-        $t->parse( "classified_item", "classified_item_tpl" );
+        $t->parse( "classified_item", "classified_item_tpl", true );
     }
     $t->parse( "classified_list", "classified_list_tpl", true );
 }
