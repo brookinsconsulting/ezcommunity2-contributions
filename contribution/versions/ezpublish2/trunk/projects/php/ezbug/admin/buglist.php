@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: buglist.php,v 1.5 2001/02/09 16:50:13 fh Exp $
+// $Id: buglist.php,v 1.6 2001/02/09 16:59:04 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 19:06:23 bf>
@@ -118,9 +118,13 @@ foreach ( $moduleList as $moduleItem )
     
 //    $t->set_var( "module_description", $moduleItem->description() );
 
+    
     $totalCount = $moduleItem->countBugs( true, false , true );
     $t->set_var( "bug_count", $totalCount );
 
+    $unhandledCount = $totalCount - $moduleItem->countBugs( false, false, true );
+    $t->set_var( "unhandled_bug_count", $unhandledCount );
+    
     $openCount = $moduleItem->countBugs( true, true , true );
     $t->set_var( "open_bug_count", $openCount );
 

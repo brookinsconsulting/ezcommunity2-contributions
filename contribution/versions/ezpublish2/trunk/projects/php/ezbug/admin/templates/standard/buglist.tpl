@@ -42,10 +42,9 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-module}:</td>
+	<th>{intl-unhandled_bug_count}:</td>
 	<th>{intl-open_bug_count}:</th>
 	<th>{intl-bug_count}:</th>
-<!--	<th>{intl-description}:</th>
-	<th colspan="2">&nbsp;</th>-->
 </tr>
 	
 <!-- BEGIN module_item_tpl -->
@@ -54,6 +53,10 @@
 	<a href="/bug/archive/{module_id}/">{module_name}</a>&nbsp;
 	</td>
 	
+	<td class="{td_class}">
+	  {unhandled_bug_count}
+	</td>
+
 	<td class="{td_class}">
 	  {open_bug_count}
 	</td>
