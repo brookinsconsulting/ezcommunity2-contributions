@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdate.php,v 1.10 2001/01/12 16:25:12 gl Exp $
+// $Id: ezdate.php,v 1.11 2001/01/19 10:40:03 gl Exp $
 //
 // Definition of eZCompany class
 //
@@ -162,7 +162,7 @@ class eZDate
     */
     function dayOfWeek( )
     {
-        $weekday = date ( "w", mktime ( 2, 0, 0, $this->month(), $this->day(), $this->year() ) );
+        $weekday = date ( "w", mktime ( 2, 0, 0, $this->Month, $this->Day, $this->Year ) );
 
         if ( $weekday == 0 )
             $weekday = 7;
@@ -230,7 +230,7 @@ class eZDate
     {
         $month = "unknown";
 
-        switch( $this->month() )
+        switch( $this->Month )
         {
             case 1 :
             {
@@ -312,7 +312,24 @@ class eZDate
     */
     function isValid()
     {
-        return checkdate( $this->month(), $this->day(), $this->year() );
+        return checkdate( $this->Month(), $this->Day(), $this->Year() );
+    }
+
+    /*!
+      Returns true if the current date equals the supplied date.
+    */
+    function equals( $date )
+    {
+        $ret = false;
+
+        if ( $this->Year == $date->year() &&
+             $this->Month == $date->month() &&
+             $this->Day == $date->day() )
+        {
+            $ret = true;
+        }
+
+        return $ret;
     }
 
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdatetime.php,v 1.18 2001/01/15 18:56:29 gl Exp $
+// $Id: ezdatetime.php,v 1.19 2001/01/19 10:40:03 gl Exp $
 //
 // Definition of eZCompany class
 //
@@ -352,6 +352,14 @@ class eZDateTime
     function isValid()
     {
         return $this->Date->isValid();
+    }
+
+    /*!
+      Returns true if the current date equals the supplied date.
+    */
+    function dateEquals( $date )
+    {
+        return $this->Date->equals( $date );
     }
 
 
