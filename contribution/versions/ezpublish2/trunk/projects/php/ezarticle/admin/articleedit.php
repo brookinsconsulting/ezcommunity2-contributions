@@ -1,8 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.19 2000/11/01 07:53:40 bf-cvs Exp $
-//
-// 
+// $Id: articleedit.php,v 1.20 2000/11/01 09:30:57 ce-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
