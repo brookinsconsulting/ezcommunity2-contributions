@@ -79,10 +79,18 @@ if ( isSet ( $Delete ) )
     $Action = "delete";
 }
 
-
 if ( isSet ( $Preview ) )
 {
-    $Action = "update";
+
+    if ( is_numeric ( $CompanyID ) )
+    {
+        $Action = "update";
+    }
+    else
+    {
+        $Action = "insert";
+    }
+    
 }
 
 if( $Action == "delete" )
