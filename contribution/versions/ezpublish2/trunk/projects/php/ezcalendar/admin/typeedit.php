@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: typeedit.php,v 1.4 2001/02/20 10:54:10 gl Exp $
+// $Id: typeedit.php,v 1.5 2001/02/20 12:33:38 gl Exp $
 //
 // Gunnstein Lye <gl@ez.no>
 // Created on: <20-Dec-2000 18:24:06 gl>
@@ -131,11 +131,8 @@ foreach ( $typeList as $typeSubList )
     $typeLevel = $typeSubList[1];
     $indent = "";
 
-    while ( $typeLevel > 1 )
-    {
-        $indent = $indent . "&nbsp;&nbsp;";
-        $typeLevel--;
-    }
+    if ( $typeLevel > 1 )
+        $indent =  str_repeat( "&nbsp;&nbsp;", $typeLevel - 1 );
 
     $t->set_var( "parent_name", $indent . $typeItem->name() );
     $t->set_var( "parent_id", $typeItem->id() );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.30 2001/02/19 12:29:19 gl Exp $
+// $Id: appointmentedit.php,v 1.31 2001/02/20 12:33:38 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -501,8 +501,8 @@ $typeList =& $type->getTree();
 
 foreach ( $typeList as $type )
 {
-    if ( $type[1] > 0 )
-        $t->set_var( "option_level", str_repeat( "&nbsp;", $catItem[1] ) );
+    if ( $type[1] > 1 )
+        $t->set_var( "option_level", str_repeat( "&nbsp;&nbsp;", $type[1] - 1 ) );
     else
         $t->set_var( "option_level", "" );
 
