@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagecategory.php,v 1.44.2.1 2001/11/14 18:59:57 br Exp $
+// $Id: ezimagecategory.php,v 1.44.2.2 2002/03/06 10:34:39 jhe Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -105,7 +105,7 @@ class eZImageCategory
         $topic = array();
 
         $sortbySQL = "Category.Name";
-        switch( $sortby )
+        switch ( $sortby )
         {
             case "name" : $sortbySQL = "Category.Name"; break;
         }
@@ -154,9 +154,9 @@ class eZImageCategory
                            GROUP BY Category.ID
                            ORDER BY $sortbySQL" );
 
-        foreach( $author_array as $author )
+        foreach ( $author_array as $author )
         {
-            $topic[] =& new eZImageCategory( $author[$db->fieldName("ID")] );
+            $topic[] =& new eZImageCategory( $author[$db->fieldName( "ID" )] );
         }
         return $topic;
     }
@@ -193,7 +193,7 @@ class eZImageCategory
         $res1 = $db->query( "DELETE FROM eZImageCatalogue_Category WHERE ID='$categoryID'" );
         $res2 = $db->query( "DELETE FROM eZImageCatalogue_CategoryPermission WHERE ObjectID='$this->ID'" );
 
-        if ( ( $res1 == false)  || ( $res2 == false ) )
+        if ( ( $res1 == false )  || ( $res2 == false ) )
             $db->rollback( );
         else
             $db->commit();
@@ -215,7 +215,7 @@ class eZImageCategory
                 eZLog::writeNotice( "Error: Category's with the same ID was found in the database. This shouldent happen." );
                 return false;
             }
-            else if( count( $category_array ) == 1 )
+            else if ( count( $category_array ) == 1 )
             {
                 $this->ID =& $category_array[0][$db->fieldName("ID")];
                 $this->Name =& $category_array[0][$db->fieldName("Name")];
@@ -242,9 +242,9 @@ class eZImageCategory
         
         $db->array_query( $category_array, "SELECT ID, Name FROM eZImageCatalogue_Category ORDER BY Name" );
         
-        for ( $i=0; $i<count($category_array); $i++ )
+        for ( $i = 0; $i < count( $category_array ); $i++ )
         {
-            $return_array[$i] = new eZImageCategory( $category_array[$i][$db->fieldName("ID")] );
+            $return_array[$i] = new eZImageCategory( $category_array[$i][$db->fieldName( "ID" )] );
         }
         
         return $return_array;
@@ -305,9 +305,9 @@ class eZImageCategory
                                           ORDER BY Name", array( "Limit" => $max,
                                                                  "Offset" => $offset ) );
 
-            for ( $i=0; $i<count($category_array); $i++ ) 
+            for ( $i = 0; $i < count( $category_array ); $i++ ) 
             { 
-                $return_array[$i] = new eZImageCategory( $category_array[$i][$db->fieldName("ID")] ); 
+                $return_array[$i] = new eZImageCategory( $category_array[$i][$db->fieldName( "ID" )] ); 
             } 
 
             return $return_array; 
@@ -330,13 +330,13 @@ class eZImageCategory
         
         $topic =& new eZImageCategory();
 
-        if( $name != "" )
+        if ( $name != "" )
         {
             $db->array_query( $author_array, "SELECT ID, Name FROM eZImageCatalogue_Category WHERE Name='$name'" );
 
-            if( count( $author_array ) == 1 )
+            if ( count( $author_array ) == 1 )
             {
-                $topic =& new eZImageCategory( $author_array[0][$db->fieldName("ID")] );
+                $topic =& new eZImageCategory( $author_array[0][$db->fieldName( "ID" )] );
             }
         }
 
@@ -391,14 +391,13 @@ class eZImageCategory
         $tree = array();
         $level++;
         foreach ( $categoryList as $category )
-            {
-                array_push( $tree, array( $return_array[] = new eZImageCategory( $category->id() ), $level ) );
+        {
+            array_push( $tree, array( $return_array[] = new eZImageCategory( $category->id() ), $level ) );
 
             if ( $category != 0 )
             {
                 $tree = array_merge( $tree, $this->getTree( $category->id(), $level ) );
             }
-
         }
 
         return $tree;
@@ -419,7 +418,7 @@ class eZImageCategory
     */
     function name( $html = true )
     {
-       if( $html )
+       if ( $html )
            return htmlspecialchars( $this->Name );
        else
            return $this->Name;
@@ -430,7 +429,7 @@ class eZImageCategory
     */
     function description( $html = true )
     {
-       if( $html )
+       if ( $html )
            return htmlspecialchars( $this->Description );
        else
            return $this->Description;
@@ -476,13 +475,13 @@ class eZImageCategory
      */
     function isOwner( $user, $imagecategory )
     {
-        if( get_class( $user ) != "ezuser" )
+        if ( get_class( $user ) != "ezuser" )
             return false;
         
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT UserID from eZImageCatalogue_Category WHERE ID='$imagecategory'");
         $userID = $res[$db->fieldName("UserID")];
-        if(  $userID == $user->id() )
+        if ( $userID == $user->id() )
             return true;
 
         return false;
@@ -740,7 +739,7 @@ class eZImageCategory
        
        for ( $i = 0; $i < count( $file_array ); $i++ )
        {
-           $return_array[$i] = new eZImage( $file_array[$i][$db->fieldName("ImageID")], false );
+           $return_array[$i] = new eZImage( $file_array[$i][$db->fieldName( "ImageID" )], false );
        }
        
        return $return_array;
@@ -768,7 +767,7 @@ class eZImageCategory
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT SectionID from eZImageCatalogue_Category WHERE ID='$categoryID'" );
         
-        $sectionID = $res[$db->fieldName("SectionID")];
+        $sectionID = $res[$db->fieldName( "SectionID" )];
         
         if ( $sectionID > 0 )
         {

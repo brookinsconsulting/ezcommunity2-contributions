@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.29 2001/10/04 09:09:51 fh Exp $
+// $Id: categoryedit.php,v 1.29.2.1 2002/03/06 10:34:39 jhe Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -38,7 +38,7 @@ include_once( "ezimagecatalogue/classes/ezimagecategory.php" );
 
 include_once( "ezsitemanager/classes/ezsection.php" );
 
-if ( isSet ( $Cancel ) )
+if ( isSet( $Cancel ) )
 {
     eZHTTPTool::header( "Location: /imagecatalogue/image/list/" );
     exit();
@@ -105,22 +105,21 @@ if ( $Action == "Insert" || $Action == "Update" )
         // Parent is null, need only check for write to root
         if ( $ParentID == 0 )
         {
-            if ( eZPermission::checkPermission( $user, "eZImageCatalogue", "WriteToRoot"  ) == false )
+            if ( !eZPermission::checkPermission( $user, "eZImageCatalogue", "WriteToRoot"  ) )
                 $error = true;
         }
         else
         {
             // new category, check parent permissions
-            if ( $CategoryID == 0 && eZObjectPermission::hasPermission( $ParentID, "imagecatalogue_category", "w", $user ) == false
-            && eZObjectPermission::hasPermission( $ParentID, "imagecatalogue_category", 'u', $user ) == false
-                 )
+            if ( $CategoryID == 0 && !eZObjectPermission::hasPermission( $ParentID, "imagecatalogue_category", "w", $user ) &&
+                 !eZObjectPermission::hasPermission( $ParentID, "imagecatalogue_category", 'u', $user ) )
                 $error = true;
 
-            if( $Action == "Update" && eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", 'w' == false )
-            && eZImageCategory::isOwner($user, $CategoryID) )
+            if ( $Action == "Update" && !eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", 'w' ) &&
+                eZImageCategory::isOwner($user, $CategoryID) )
                 $error = true;
         }
-        if( $error )
+        if ( $error )
             $t->parse( "error_write", "error_write_permission" );
     }
 
@@ -137,7 +136,7 @@ if ( $Action == "Insert" || $Action == "Update" )
     // Check if name is empty.
     if ( $nameCheck )
     {
-        if ( empty ( $Name ) )
+        if ( empty( $Name ) )
         {
             $t->parse( "error_name", "error_name_tpl" );
             $error = true;
@@ -147,7 +146,7 @@ if ( $Action == "Insert" || $Action == "Update" )
     // Check if description is empty.
     if ( $descriptionCheck )
     {
-        if ( empty ( $Description ) )
+        if ( empty( $Description ) )
         {
             $t->parse( "error_description", "error_description_tpl" );
             $error = true;
@@ -156,16 +155,16 @@ if ( $Action == "Insert" || $Action == "Update" )
 
     // Check if there was any errors.
  
-    if ( $error == true )
+    if ( $error )
     {
         $t->parse( "errors", "errors_tpl" );
     }
 }
 
 // Insert or update a category
-if( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
+if ( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
 {
-    if( $Action == "Insert" )
+    if ( $Action == "Insert" )
     {
         $category = new eZImageCategory();
         $category->setUser( $user );
@@ -203,12 +202,9 @@ if( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
     if ( $Action == "Insert" && eZObjectPermission::hasPermission( $ParentID, "imagecatalogue_category", 'w' ) == false &&
     $parent->user( false ) != $user->id() )
     {
-        changePermissions(
-            $CategoryID, eZObjectPermission::getGroups( $ParentID, "imagecatalogue_category", 'r', false ), 'r' );
-        changePermissions(
-            $CategoryID, eZObjectPermission::getGroups( $ParentID, "imagecatalogue_category", 'w', false ), 'w' );
-        changePermissions(
-            $CategoryID, eZObjectPermission::getGroups( $ParentID, "imagecatalogue_category", 'u', false ), 'u' );
+        changePermissions( $CategoryID, eZObjectPermission::getGroups( $ParentID, "imagecatalogue_category", 'r', false ), 'r' );
+        changePermissions( $CategoryID, eZObjectPermission::getGroups( $ParentID, "imagecatalogue_category", 'w', false ), 'w' );
+        changePermissions( $CategoryID, eZObjectPermission::getGroups( $ParentID, "imagecatalogue_category", 'u', false ), 'u' );
         $category->setUser( $parent->user() );
         $category->store();
     }
@@ -253,7 +249,7 @@ if( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
 // Delete the selected categories.
 if ( $Action == "Delete" && $error == false )
 {
-    if ( count ( $CategoryArrayID ) > 0 )
+    if ( count( $CategoryArrayID ) > 0 )
     {
         foreach ( $CategoryArrayID as $CategoryID )
         {
@@ -290,7 +286,6 @@ if ( $Action == "Edit" )
     $t->set_var( "action_value", "update" );
 
     $readGroupArrayID =& eZObjectPermission::getGroups( $category->id(), "imagecatalogue_category", "r", false );
-
     $writeGroupArrayID =& eZObjectPermission::getGroups( $category->id(), "imagecatalogue_category", "w", false );
     $uploadGroupArrayID =& eZObjectPermission::getGroups( $category->id(), "imagecatalogue_category", "u", false );
 }
@@ -306,11 +301,11 @@ foreach ( $groups as $group )
     $t->set_var( "is_read_selected1", "" );
     $t->set_var( "is_upload_selected1", "" );
 
-    if( in_array( $group->id(), $readGroupArrayID ) )
+    if ( in_array( $group->id(), $readGroupArrayID ) )
     {
         $t->set_var( "is_read_selected1", "selected" );
     }
-    elseif( in_array( -1, $readGroupArrayID ) )
+    elseif ( in_array( -1, $readGroupArrayID ) )
     {
         $t->set_var( "read_everybody", "selected" );
     }
@@ -320,11 +315,11 @@ foreach ( $groups as $group )
     }
     $t->parse( "read_group_item", "read_group_item_tpl", true );
 
-    if( in_array( $group->id(), $writeGroupArrayID ) )
+    if ( in_array( $group->id(), $writeGroupArrayID ) )
     {
         $t->set_var( "is_write_selected1", "selected" );
     }
-    elseif( in_array( -1, $writeGroupArrayID ) )
+    elseif ( in_array( -1, $writeGroupArrayID ) )
     {
         $t->set_var( "write_everybody", "selected" );
     }
@@ -334,11 +329,11 @@ foreach ( $groups as $group )
     }
     $t->parse( "write_group_item", "write_group_item_tpl", true );
 
-    if( in_array( $group->id(), $uploadGroupArrayID ) )
+    if ( in_array( $group->id(), $uploadGroupArrayID ) )
     {
         $t->set_var( "is_upload_selected1", "selected" );
     }
-    elseif( in_array( -1, $uploadGroupArrayID ) )
+    elseif ( in_array( -1, $uploadGroupArrayID ) )
     {
         $t->set_var( "upload_everybody", "selected" );
     }
@@ -353,7 +348,7 @@ $category = new eZImageCategory() ;
 
 $categoryList =& $category->getTree( );
 
-if ( count ( $categoryList ) == 0 )
+if ( count( $categoryList ) == 0 )
 {
     $t->set_var( "value", "" );
 }
@@ -361,9 +356,9 @@ if ( count ( $categoryList ) == 0 )
 // Print out the categories.
 foreach ( $categoryList as $categoryItem )
 {
-    if( eZObjectPermission::hasPermission( $categoryItem[0]->id(), "imagecatalogue_category", 'w' )
-        || eZObjectPermission::hasPermission( $categoryItem[0]->id(), "imagecatalogue_category", 'u' )
-        || eZImageCategory::isOwner( eZUser::currentUser(), $categoryItem[0]->id() ) )
+    if ( eZObjectPermission::hasPermission( $categoryItem[0]->id(), "imagecatalogue_category", 'w' ) ||
+         eZObjectPermission::hasPermission( $categoryItem[0]->id(), "imagecatalogue_category", 'u' ) ||
+         eZImageCategory::isOwner( eZUser::currentUser(), $categoryItem[0]->id() ) )
     {
         $t->set_var( "option_name", $categoryItem[0]->name() );
         $t->set_var( "option_value", $categoryItem[0]->id() );
@@ -391,17 +386,11 @@ foreach ( $categoryList as $categoryItem )
     }
 }
 
-if ( $sectionID )
-{
-    $section = new eZSection( $sectionID );
-    $t->set_var( "section_name", $section->name() );
-}
-else
-{
+if ( !$sectionID )
     $sectionID = $ini->read_var( "eZImageCatalogueMain", "DefaultSection" );
-    $section = new eZSection( $sectionID );
-    $t->set_var( "section_name", $section->name() );
-}
+
+$section = new eZSection( $sectionID );
+$t->set_var( "section_name", $section->name() );
 
 $t->pparse( "output", "category_edit_tpl" );
 
@@ -421,8 +410,8 @@ function changePermissions( $objectID, $groups , $permission )
             eZObjectPermission::setPermission( $group, $objectID, "imagecatalogue_category", $permission );
         }
     }
-
 }
+
 // get all the images and categories of a category recursivly.
 function getImagesAndCategores( &$folderArray, &$fileArray, $fromFolder )
 {

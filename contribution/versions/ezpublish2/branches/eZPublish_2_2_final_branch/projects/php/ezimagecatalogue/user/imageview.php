@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imageview.php,v 1.19 2001/09/27 16:19:19 br Exp $
+// $Id: imageview.php,v 1.19.2.1 2002/03/06 10:34:39 jhe Exp $
 //
 // Created on: <26-Oct-2000 19:40:18 bf>
 //
@@ -61,6 +61,9 @@ if ( $parent_category != 0 )
 {
     $GlobalSectionID = eZImageCategory::sectionIDstatic ( $parent_category[0] ); // We use always first category ;-( [0]
 }
+
+if ( !$GlobalSectionID )
+    $GlobalSectionID = $ini->read_var( "eZImageCatalogueMain", "DefaultSection" );
 
 // init the section
 $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );

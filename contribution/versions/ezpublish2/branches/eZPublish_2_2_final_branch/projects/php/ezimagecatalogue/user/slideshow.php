@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: slideshow.php,v 1.6 2001/07/20 11:06:39 jakobn Exp $
+// $Id: slideshow.php,v 1.6.2.1 2002/03/06 10:34:39 jhe Exp $
 //
 // Definition of eZArticle class
 //
@@ -29,6 +29,9 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "ezimagecatalogue/classes/ezslideshow.php" );
 
+// sections
+include_once( "ezsitemanager/classes/ezsection.php" );
+
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZImageCatalogueMain", "Language" );
 
@@ -39,7 +42,6 @@ if ( $SlideShowHeaderFooter == "disabled" )
 {
     $PrintableVersion = "enabled";
 }
-
 
 $t = new eZTemplate( "ezimagecatalogue/user/" . $ini->read_var( "eZImageCatalogueMain", "TemplateDir" ),
                      "ezimagecatalogue/user/intl/", $Language, "slideshow.php" );
@@ -52,9 +54,18 @@ $t->set_block( "slideshow_tpl", "image_tpl", "image" );
 $t->set_block( "slideshow_tpl", "previous_tpl", "previous" );
 $t->set_block( "slideshow_tpl", "next_tpl", "next" );
 
+
+if ( $CategoryID == 0 )
+    $GlobalSectionID = $ini->read_var( "eZImageCatalogueMain", "DefaultSection" );
+
+if ( !$GlobalSectionID )
+    $GlobalSectionID = $ini->read_var( "eZImageCatalogueMain", "DefaultSection" );
+
+$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+$sectionObject->setOverrideVariables();
+
 if ( $Position == "" )
     $Position = 0;
-
 
 $slideshow = new eZSlideshow( $CategoryID, eZUser::currentUser(), $Position );
 $image = $slideshow->image();
@@ -74,8 +85,6 @@ else
         $variation =& $image->requestImageVariation( $ini->read_var( "eZImageCatalogueMain", "ImageViewWidth" ),
         $ini->read_var( "eZImageCatalogueMain", "ImageViewHeight" ) );
     }
-        
-
 
     $t->set_var( "image_uri", "/" . $variation->imagePath( true ) );
     $t->set_var( "image_width", $variation->width() );
@@ -102,7 +111,7 @@ if ( $current < ( $slideshow->size() - 1 ) )
 {
     if ( is_numeric( $RefreshTimer ) )
     {
-        $MetaRedirectLocation = "/imagecatalogue/slideshow/" . $CategoryID . "/" . ($current + 1) . "/" . $RefreshTimer . "/";
+        $MetaRedirectLocation = "/imagecatalogue/slideshow/" . $CategoryID . "/" . ( $current + 1 ) . "/" . $RefreshTimer . "/";
         $MetaRedirectTimer = $RefreshTimer;
     }
     $t->set_var( "next_image", $current + 1 );
