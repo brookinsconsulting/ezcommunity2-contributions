@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: folder.php,v 1.3 2001/09/25 08:16:33 jhe Exp $
+// $Id: folder.php,v 1.4 2001/10/12 12:27:35 jhe Exp $
 //
 // Created on: <14-Sep-2001 14:39:54 jhe>
 //
@@ -36,7 +36,7 @@ if ( !$top )
     $top = $contact->ID();
 }
 
-if ( isSet( $CompanyEdit ) )
+if ( $CompanyEdit )
 {
     $parent = eZVirtualFolder::getIDByParent( "Company", $top );
     if ( !$parent )

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.36 2001/09/14 12:21:35 jhe Exp $
+// $Id: datasupplier.php,v 1.37 2001/10/12 12:27:35 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -123,9 +123,14 @@ switch ( $url_array[2] )
             case "delete":
             case "insert":
             {
+                $CompanyEdit = false;
                 if ( isSet( $SendMail ) )
                 {
-                    $CompanyEdit = false;
+                    include( "ezcontact/admin/sendmail.php" );
+                }
+                else if ( isSet( $MailButton ) )
+                {
+                    $ContactArrayID = array( $PersonID );
                     include( "ezcontact/admin/sendmail.php" );
                 }
                 else
@@ -192,9 +197,14 @@ switch ( $url_array[2] )
             case "delete":
             case "insert":
             {
+                $CompanyEdit = true;
                 if ( isSet( $SendMail ) )
                 {
-                    $CompanyEdit = true;
+                    include( "ezcontact/admin/sendmail.php" );
+                }
+                else if ( isSet( $MailButton ) )
+                {
+                    $ContactArrayID = array( $CompanyID );
                     include( "ezcontact/admin/sendmail.php" );
                 }
                 else

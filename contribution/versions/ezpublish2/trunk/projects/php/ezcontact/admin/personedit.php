@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.56 2001/10/12 10:24:38 jhe Exp $
+// $Id: personedit.php,v 1.57 2001/10/12 12:27:35 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -65,7 +65,7 @@ function unlink_wild( $dir, $rege )
 
 $user =& eZUser::currentUser();
 
-if ( isSet( $CompanyEdit ) )
+if ( $CompanyEdit )
 {
     $item_type = "company";
     $item_id = $CompanyID;
@@ -90,7 +90,7 @@ if ( isSet( $BuyButton ) )
 
 if ( isSet( $OK ) )
 {
-    if ( isSet( $CompanyEdit ) )
+    if ( $CompanyEdit )
     {
         if ( $Action == "edit" || $Action == "update" )
         {
@@ -153,15 +153,9 @@ if ( isSet( $FileButton ) )
     include( "ezcontact/admin/folder.php" );
 }
 
-if ( isSet( $MailButton ) )
-{
-    $ContactArrayID = array( $item_id );
-    include( "ezcontact/admin/sendmail.php" );
-}
-
 if ( isSet( $Back ) )
 {
-    if ( isSet( $CompanyEdit ) )
+    if ( $CompanyEdit )
     {
         $company = new eZCompany( $CompanyID );
         $categories = $company->categories( false, false );
@@ -179,7 +173,7 @@ if ( isSet( $Delete ) )
 
 if ( $Action == "delete" )
 {
-    if ( isSet( $CompanyEdit ) )
+    if ( $CompanyEdit )
     {
         if ( !eZPermission::checkPermission( $user, "eZContact", "CompanyDelete" ) )
         {
@@ -198,7 +192,7 @@ if ( $Action == "delete" )
         }
     }
 
-    if ( isSet( $CompanyEdit ) )
+    if ( $CompanyEdit )
     {
         $categories =& eZCompany::categories( $CompanyID, false, 1 );
         $id =& $categories[0];
@@ -233,7 +227,7 @@ if ( isSet( $OK ) )
 
 $error = false;
 
-if ( isSet( $CompanyEdit ) )
+if ( $CompanyEdit )
 {
     $template_file = "companyedit.tpl";
     $language_file = "companyedit.php";
@@ -253,7 +247,7 @@ $t->set_file( "person_edit", $template_file );
 $t->set_block( "person_edit", "edit_tpl", "edit_item" );
 $t->set_block( "person_edit", "confirm_tpl", "confirm_item" );
 
-if ( isSet( $CompanyEdit ) )
+if ( $CompanyEdit )
 {
     $t->set_block( "edit_tpl", "company_item_tpl", "company_item" );
     $t->set_block( "company_item_tpl", "company_type_select_tpl", "company_type_select" );
@@ -291,7 +285,7 @@ $t->set_block( "person_edit", "delete_item_tpl", "delete_item" );
 
 $t->set_block( "edit_tpl", "errors_tpl", "errors_item" );
 
-if ( isSet( $CompanyEdit ) )
+if ( $CompanyEdit )
 {
     $t->set_block( "errors_tpl", "error_name_item_tpl", "error_name_item" );
 }
@@ -316,7 +310,7 @@ if ( $Action == "delete" )
     {
         $confirm = true;
 
-        if ( isSet( $CompanyEdit ) )
+        if ( $CompanyEdit )
         {
             $t->set_var( "company_id", $CompanyID );
             $company = new eZCompany( $CompanyID );
@@ -340,7 +334,7 @@ if ( !$confirm )
 {
     $t->set_var( "confirm_item", "" );
 
-    if ( isSet( $CompanyEdit ) )
+    if ( $CompanyEdit )
     {
         $t->set_var( "name", "" );
         $t->set_var( "companyno", "" );
@@ -367,7 +361,7 @@ if ( !$confirm )
             deleteCache( "default" );
         }
         
-        if ( isSet( $CompanyEdit ) )
+        if ( $CompanyEdit )
         {
             $t->set_var( "error_name_item", "" );
         }
@@ -384,7 +378,7 @@ if ( !$confirm )
         $t->set_var( "error_logo_item", "" );
         $t->set_var( "error_image_item", "" );
 
-        if ( isSet( $CompanyEdit ) )
+        if ( $CompanyEdit )
         {
             if ( $Name == "" )
             {
@@ -546,7 +540,7 @@ if ( !$confirm )
 
     if ( ( $Action == "insert" || $Action == "update" ) && !$error && isSet( $OK ) )
     {
-        if ( isSet( $CompanyEdit ) )
+        if ( $CompanyEdit )
         {
             if ( $Action == "insert" )
                 $company = new eZCompany();
@@ -714,7 +708,7 @@ if ( !$confirm )
             }
         }
 
-        if ( isSet( $CompanyEdit ) )
+        if ( $CompanyEdit )
         {
             $CompanyID = $company->id();
             $item_cat_id = $CompanyID;
@@ -741,7 +735,7 @@ if ( !$confirm )
 
     if ( $Action == "edit" )
     {
-        if ( isSet( $CompanyEdit ) )
+        if ( $CompanyEdit )
         {
             $company = new eZCompany( $CompanyID, true );
             $item =& $company;
@@ -835,7 +829,7 @@ if ( !$confirm )
                 $Action = "insert";
         }
 
-        if ( isSet( $CompanyEdit ) )
+        if ( $CompanyEdit )
         {
             $t->set_var( "company_id", $CompanyID );
             $t->set_var( "user_id", $user->id() );
@@ -1168,7 +1162,7 @@ if ( !$confirm )
         }
 
         $t->set_var( "project_contact_item", "" );
-        if ( isSet( $CompanyEdit ) )
+        if ( $CompanyEdit )
         {
             $t->set_var( "user_search", eZTextTool::htmlspecialchars( $UserSearch ) );
 
@@ -1249,7 +1243,7 @@ if ( !$confirm )
 
         $t->parse( "project_item", "project_item_tpl", true );
 
-        if ( isSet( $CompanyEdit ) )
+        if ( $CompanyEdit )
         {
             // View logo.
             $logoImage = eZCompany::logoImage( $CompanyID );
