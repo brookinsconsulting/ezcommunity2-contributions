@@ -131,15 +131,13 @@
 
 <br /><br />
 <p class="boxtext">{intl-comment}:</p>
-<textarea name="Comment" cols="40" rows="5"></textarea>
+<textarea class="box" name="Comment" cols="40" rows="5"></textarea>
 
 
 <!-- BEGIN show_payment_tpl -->
 <br /><br />
-<hr noshade="noshade" size="4" />
-<br />
 
-{intl-payment_methods_description}:
+<span class="p">{intl-payment_methods_description}:</span>
 
 <select name="PaymentMethod">
 <!-- BEGIN payment_method_tpl -->

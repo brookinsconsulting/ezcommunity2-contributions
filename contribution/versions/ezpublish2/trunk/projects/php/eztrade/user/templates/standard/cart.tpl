@@ -110,20 +110,22 @@
 <hr noshade="noshade" size="4" />
 <!-- BEGIN cart_checkout_tpl -->
 
-<table cellpadding="0" cellspacing="0" border="0">
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<!-- BEGIN cart_checkout_button_tpl -->
 	<td>
-	<input class="okbutton" type="submit" name="DoCheckOut" value="{intl-checkout}" />
+	<input class="stdbutton" type="submit" name="ShopMore" value="{intl-shopmore}" />
 	</td>
-	<!-- END cart_checkout_button_tpl -->
-
 	<td>&nbsp;</td>
-	<td>
-	<input class="okbutton" type="submit" value="{intl-update}" />
+	<td align="right">
+	<input class="stdbutton" type="submit" value="{intl-update}" />
 	</td>
 </td>
 </table>
+<hr noshade="noshade" size="4" />
+	<!-- BEGIN cart_checkout_button_tpl -->
+	<input class="okbutton" type="submit" name="DoCheckOut" value="{intl-checkout}" />
+	<!-- END cart_checkout_button_tpl -->
+
 <!-- END cart_checkout_tpl -->
 
 
