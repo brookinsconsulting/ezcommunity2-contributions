@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezforummessage.php,v 1.97 2001/08/31 14:01:59 jhe Exp $
+// $Id: ezforummessage.php,v 1.98 2001/09/14 14:29:31 jhe Exp $
 //
 // Definition of eZForumMessage class
 //
@@ -761,7 +761,7 @@ class eZForumMessage
                                            f.ID as FID, f.GroupID
                                            FROM eZForum_Message as m, eZForum_ForumCategoryLink as l,
                                            eZForum_Forum as f
-                                           WHERE IsTemporary='0' AND Depth='0' AND l.ForumID=m.ForumID
+                                           WHERE IsTemporary='0' AND l.ForumID=m.ForumID
                                            AND f.ID=l.ForumID $query_string
                                            ORDER BY m.PostingTime DESC", array( "Limit" => $limit ) );
 
