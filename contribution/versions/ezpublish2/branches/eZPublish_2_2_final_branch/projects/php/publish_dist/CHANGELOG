@@ -5,7 +5,7 @@ Changes from 2.2.8 to 2.2.9
 * Fixed security bug with variable check in eZ article.
 * Fixed security bug with session variable.
 * Fixed bug with permission when non logged in users had write access to the image catalogue.
-* Fixed bug with section override templates in article view.
+* Fixed bug with section override templates in article view and article list.
 * Fixed typo in section edit.
 * Fixed cache bugs in headline view.
 * Fixed bug with addresses.
