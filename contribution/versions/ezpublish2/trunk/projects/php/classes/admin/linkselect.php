@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: linkselect.php,v 1.4 2001/05/04 10:09:54 jb Exp $
+// $Id: linkselect.php,v 1.5 2001/05/04 10:19:56 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <30-Apr-2001 18:33:53 amos>
@@ -24,6 +24,14 @@
 //
 
 // ** Please see the linklist.php for variables to set before including this file. **
+// Additional dynamic variables (which are normally taken from the url):
+//  $ItemID = The id of the item which is being linked
+//  $ModuleName = The name of the module being linked from (when browsing)
+//  $Type = The name of the subtype being linked from (when browsing)
+//  $SectionID = The section currently being worked on (when browsing)
+//  $Category = The category currently visiting (when browsing)
+//  $Offset = The offset being shown (when browsing)
+//  $LinkID = The id of the link being edited
 
 include_once( "classes/ezhttptool.php" );
 include_once( "classes/ezcachefile.php" );

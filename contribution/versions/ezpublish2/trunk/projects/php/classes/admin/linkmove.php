@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: linkmove.php,v 1.2 2001/05/04 10:09:54 jb Exp $
+// $Id: linkmove.php,v 1.3 2001/05/04 10:19:56 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <03-May-2001 17:57:46 amos>
@@ -24,6 +24,12 @@
 //
 
 // ** Please see the linklist.php for variables to set before including this file. **
+// Additional dynamic variables (which are normally taken from the url):
+//  $MoveUp = Whether the link/section is moved up or down
+//  $ObjectType = The type of object being moved, either "section" or "link"
+//  $ItemID = The id of the item being linked
+//  $ObjectID = The id of the section
+//  $LinkID = The id of the link (only when moving link)
 
 include_once( "classes/ezhttptool.php" );
 

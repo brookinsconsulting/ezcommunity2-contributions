@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: linklist.php,v 1.4 2001/05/04 10:09:54 jb Exp $
+// $Id: linklist.php,v 1.5 2001/05/04 10:19:56 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <30-Apr-2001 18:50:47 amos>
@@ -26,6 +26,7 @@
 // To use the general link list you need to initialize some variables before
 // including this file. The variables are:
 //
+// Static variables:
 //  $INIGroup = The group name of the module in the site.ini file, eg. "eZTradeMain"
 //  $DefaultSectionsName = site.ini item name which contains the default sections names, eg. "ProductLinkSections"
 //  $PreferencesSetting = Preferences variable name which contains the type selection, eg. "ProductLinkType"
