@@ -22,6 +22,12 @@
 <!-- END invoice_tpl -->
 </select>
 
+<p>{intl-if_using_credit_card}</p>
+
+<p>{intl-if_using_invoice}</p>
+
+<p>{intl-all_others}</p>
+
 <hr noshade="noshade" size="4" />
 
 <h2>{intl-products_about_to_order}:</h2>
