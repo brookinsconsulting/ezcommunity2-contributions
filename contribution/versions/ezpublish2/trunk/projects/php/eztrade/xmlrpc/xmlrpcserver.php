@@ -72,7 +72,7 @@ function &newOrders( $args )
         foreach ( $orderArray as $orderItem )
         {
             // set the order item to be exported
-            $orderItem->setIsExported( true );
+//            $orderItem->setIsExported( true );
             $orderItem->store();
 
             $datetime =& $orderItem->date();
@@ -103,14 +103,28 @@ function &newOrders( $args )
                 foreach ( $items as $item )
                 {
                     $product = $item->product();
+
+                    $optionValues =& $item->optionValues();
+
+                    foreach ( $optionValues as $optionValue )
+                    {
+                        $optionArray[] = new eZXMLRPCStruct( array( "OptionName" => new eZXMLRPCString( $optionValue->optionName() ),
+                                                              "OptionValue" => new eZXMLRPCString( $optionValue->valueName() ) )
+                                                              );
+                        
+                        
+                        
+                        
+                    }
+                    
                     
                     $itemArray[] = new eZXMLRPCStruct( array( "ProductID" => new eZXMLRPCInt( $product->id() ),
                                                               "ProductNumber" => new eZXMLRPCInt( $product->productNumber() ),
                                                               "Name" => new eZXMLRPCString( $product->name() ),
-                                                              "Name" => new eZXMLRPCString( $product->name() ),
                                                               "Count" => new eZXMLRPCInt( $item->count() ),
                                                               "Price" => new eZXMLRPCDouble( ( $item->count() * $product->price() ) ),
-                                                              "TotalPrice" => new eZXMLRPCDouble( ($product->price() ) )
+                                                              "TotalPrice" => new eZXMLRPCDouble( ($product->price() ) ),
+                                                              "Options" => new eZXMLRPCArray( $optionArray )
                                                               ) );
                 }
 
