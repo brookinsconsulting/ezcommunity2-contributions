@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messageedit.php,v 1.58.2.6 2001/12/11 17:01:32 br Exp $
+// $Id: messageedit.php,v 1.58.2.7 2002/01/07 09:21:49 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -50,7 +50,7 @@ if ( !empty( $PreviewButton ) )
 if ( $Action == "preview" )
 {
     $NewMessageTopic = trim( $NewMessageTopic );
-    $NewMessageBody = trim( $NewMessageBody );
+    $NewMessageBody = $NewMessageBody;
 
     if ( empty( $NewMessageTopic ) || empty( $NewMessageBody ) )
     {
@@ -342,7 +342,7 @@ switch ( $Action )
             }
         }
 
-        if( $RedirectURL != "" )
+        if ( $RedirectURL != "" )
         {
             eZHTTPTool::header( "Location: $RedirectURL" );
         }
