@@ -12,7 +12,6 @@
 </tr>
 <tr>
 	<td bgcolor="#f0f0f0">
-	<br>
 	<p>
 	Gruppenavn:<br>
 	<input type="text" name="Name" value="{name}">
@@ -22,20 +21,12 @@
 	Gi en beskrivelse av gruppen:<br>
 	<input type="text" name="Description" value="{description}">
 	</p>
-	</td>
-</tr>
-<tr>
-	<td bgcolor="#f0f0f0">
-	<br>
+	<img src="../images/1x1.gif" width="1" height="4" border="0"><br>
 	</td>
 </tr>
 </table>
 
-<table width="100%" height="4" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td bgcolor="ffffff"><img src="../images/1x1.gif" width="1" height="4" border="0"></td>
-</tr>
-</table>
+<img src="../images/1x1.gif" width="1" height="4" border="0"><br>
 
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -49,7 +40,6 @@
 	<td bgcolor="#f0f0f0">	
 
 <table>
-
   <tr>
     <td colspan="2"><br><b>eZPublish</b></td>
   </tr>
@@ -239,10 +229,9 @@
   </tr>
 </table>
 
+	<img src="../images/1x1.gif" width="1" height="4" border="0"><br>
 	</td>
 </tr>
-
-<tr><td bgcolor="#f0f0f0"><br></td></tr>
 
 </table>
 <br>
