@@ -1,7 +1,7 @@
 <?
 
 // 
-// $Id: ezcompanytype.php,v 1.15 2000/11/16 17:49:56 ce-cvs Exp $
+// $Id: ezcompanytype.php,v 1.16 2000/11/17 18:41:23 pkej-cvs Exp $
 //
 // Definition of eZCompanyType class
 //
@@ -76,7 +76,7 @@ class eZCompanyType
         
         if ( !isSet( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZContact_CompanyType set Name='$this->Name', Description='$this->Description', ParentID='$this->ParentID" );
+            $this->Database->query( "INSERT INTO eZContact_CompanyType set Name='$this->Name', Description='$this->Description', ParentID='$this->ParentID'" );
 
             $this->ID = mysql_insert_id();
 
@@ -85,7 +85,7 @@ class eZCompanyType
         }
         else
         {
-            $this->Database->query( "UPDATE eZContact_CompanyType set Name='$this->Name', Description='$this->Description', ParentID='$this->ParentID WHERE ID='$this->ID'" );
+            $this->Database->query( "UPDATE eZContact_CompanyType set Name='$this->Name', Description='$this->Description', ParentID='$this->ParentID' WHERE ID='$this->ID'" );
 
             $this->State_ = "Coherent";
             $ret = true;
@@ -130,14 +130,51 @@ class eZCompanyType
     /*!
         Fetches all the company types in the db and return them as an array of objects.
      */
-    function getAll( )
+    function getAll( $OrderBy = "ID", $LimitStart = "None", $LimitBy = "None" )
     {
         $this->dbInit();
+        
+        switch( strtolower( $OrderBy ) )
+        {
+            case "description":
+            case "desc":
+                $OrderBy = "ORDER BY Description";
+                break;
+            case "name":
+                $OrderBy = "ORDER BY Name";
+                break;
+            case "parentid":
+            case "pid":
+                $OrderBy = "ORDER BY ParentID";
+                break;
+            case "id":
+            case "typeid":
+                $OrderBy = "ORDER BY ID";
+                break;
+            default:
+                $OrderBy = "ORDER BY ID";
+                break;
+        }
+        
+        if( is_numeric( $LimitStart ) )
+        {
+            $LimitClause = "LIMIT $LimitStart";
+            
+            if( is_numeric( $LimitBy ) )
+            {
+                $LimitClause = $LimitClause . ", $LimitBy";
+            }
+        }
+        else
+        {
+            $LimitClause = "";
+        }
+        
         $company_type_array = array();
         $return_array = array();
 
         
-        $this->Database->array_query( $company_type_array, "SELECT ID FROM eZContact_CompanyType ORDER BY Name" );
+        $this->Database->array_query( $company_type_array, "SELECT ID FROM eZContact_CompanyType $OrderBy $LimitClause" );
 
         foreach( $company_type_array as $companyTypeItem )
         {
@@ -149,13 +186,50 @@ class eZCompanyType
     /*!
         Fetches all the company types in the db and return them as an array of objects.
      */
-    function getByParentID( $id )
+    function getByParentID( $id = 0, $OrderBy = "ID", $LimitStart = "None", $LimitBy = "None" )
     {
         $this->dbInit();
+
+        switch( strtolower( $OrderBy ) )
+        {
+            case "description":
+            case "desc":
+                $OrderBy = "ORDER BY Description";
+                break;
+            case "name":
+                $OrderBy = "ORDER BY Name";
+                break;
+            case "parentid":
+            case "pid":
+                $OrderBy = "ORDER BY ParentID";
+                break;
+            case "id":
+            case "typeid":
+                $OrderBy = "ORDER BY ID";
+                break;
+            default:
+                $OrderBy = "ORDER BY ID";
+                break;
+        }
+        
+        if( is_numeric( $LimitStart ) )
+        {
+            $LimitClause = "LIMIT $LimitStart";
+            
+            if( is_numeric( $LimitBy ) )
+            {
+                $LimitClause = $LimitClause . ", $LimitBy";
+            }
+        }
+        else
+        {
+            $LimitClause = "";
+        }
+        
         $company_type_array = array();
         $return_array = array();
-
-        $this->Database->array_query( $company_type_array, "SELECT ID FROM eZContact_CompanyType WHERE ParentID='$id' ORDER BY Name" );
+        
+        $this->Database->array_query( $company_type_array, "SELECT ID FROM eZContact_CompanyType WHERE ParentID='$id' $OrderBy $LimitClause" );
 
         foreach( $company_type_array as $companyTypeItem )
         {
@@ -165,13 +239,42 @@ class eZCompanyType
     }
 
     /*!
+        Check if this item has children
+     */
+    function hasChildren( &$childrenCount, $id = "this" )
+    {
+        $ret = false;
+        
+        if( $id == "this" )
+        {
+            $id = $this->ID;
+        }
+        
+        if( is_numeric( $id ) )
+        {
+            $this->dbInit();
+            
+            $company_type_array = array();
+            $this->Database->array_query( $company_type_array, "SELECT ParentID FROM eZContact_CompanyType WHERE ParentID='$id'" );
+            $childrenCount = count( $company_type_array );
+            
+            if( $childrenCount != 0 )
+            {
+                $ret = true;
+            }
+        }
+        
+        return $ret;
+    }
+
+    /*!
       Print out the group path.
     */
-    function path( $categoryID=0 )
+    function path( $categoryID = 0 )
     {
         $this->dbInit();
         
-        if ( $categoryID == 0 )
+        if( $categoryID == 0 )
         {
             $categoryID = $this->ID;
         }

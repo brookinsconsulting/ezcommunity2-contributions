@@ -1,6 +1,6 @@
 <?
 /*
-  Editerer firma typer.
+  Edit company types
 */
 
 include_once( "classes/INIFile.php" );
@@ -9,103 +9,163 @@ $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZContactMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
-
-include_once( "ezuser/classes/ezuser.php" );
-include_once( "ezuser/classes/ezusergroup.php" );
-include_once( "ezuser/classes/ezmodule.php" );
-include_once( "ezuser/classes/ezpermission.php" );
-
-include_once( "ezcontact/classes/ezperson.php" );
 include_once( "ezcontact/classes/ezcompanytype.php" );
 
-require( "ezuser/admin/admincheck.php" );
-
-// Legge til firma type.
-if ( $Action == "insert" )
+if( empty( $TypeID ) )
 {
-    if ( eZPermission::checkPermission( $user, "eZContact", "AdminAdd" ) )
+    $TypeID = 0;
+}
+
+$type = new eZCompanyType();
+$type->get( $TypeID );
+
+if ( $Action == "insert" || $Action == "update" )
+{
+    if( true || eZPermission::checkPermission( $user, "eZContact", "AdminModify" ) )
     {
         $type = new eZCompanyType();
-        $type->setName( $CompanyTypeName );
-        $type->setDescription( $CompanyTypeDescription );
-        $type->store(); 
 
-        Header( "Location: /contact/companytypelist/" );
+        if( !empty( $TypeID ) )
+        {
+            $type->get( $TypeID );
+        }
+        $type->setName( $TypeName );
+        $type->setDescription( $TypeDescription );
+        $type->setParentID( $SelectParentID ); 
+        $type->store();
+        $TypeID = $type->id();
+
+        header( "Location: /contact/companytype/view/$TypeID" );
     }
     else
     {
-        print( "Du har ikke rettigheter.");
-    }
+        header( "Location: /error.php?type=500&reason=missingpermission&tried=update&module=ezcontact" );
+   }
 }
 
-// Oppdatere firma type.
-if ( $Action == "update" )
+if( !$type->id() && $Action != "new"  )
 {
-    if ( eZPermission::checkPermission( $user, "eZContact", "AdminModify" ) )
+    header( "HTTP/1.0 404 Not Found" );
+    header( "Location: /contact/companytype/list/0" );
+    exit();
+}
+else
+{
+    if ( $Action == "delete" )
     {
-        $type = new eZCompanyType();
-        $type->get( $CID );
-  
-        $type->setName( $CompanyTypeName );
-        $type->setDescription( $CompanyTypeDescription );
-        $type->update();
+        if ( true || eZPermission::checkPermission( $user, "eZContact", "AdminDelete" ) )
+        {
+            $type = new eZCompanyType();
+            $type->get( $TypeID );
+            $ParentID = $type->parentID(); 
+            $type->delete( );
 
-        Header( "Location: /contact/companytypelist/" );
+            header( "Location: /contact/companytype/list/$ParentID" );
+        }
+        else
+        {
+            header( "Location: /error.php?type=500&reason=missingpermission&tried=delete&module=ezcontact" );
+        }
+    }
+
+    
+    $t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
+                         "ezcontact/admin/intl/", $Language, "companytype.php" );
+    $t->setAllStrings();
+
+    $t->set_file( array(
+        "type_page" => "companytypeedit.tpl",
+        ) );    
+    $t->set_block( "type_page", "current_type_tpl", "current_type" );
+    $t->set_block( "type_page", "path_tpl", "path" );
+    $t->set_block( "path_tpl", "path_item_tpl", "path_item" );
+    $t->set_block( "path_tpl", "current_path_item_tpl", "current_path_item" );
+    $t->set_block( "current_type_tpl", "parent_item_tpl", "parent_item" );
+
+    $t->set_var( "page_args", $args );
+
+    if( empty( $TypeID ) || $TypeID == 0 )
+    {
+        $t->set_var( "path_item", "" );
+        $t->set_var( "current_path_item", "" );
+        $t->parse( "path", "path_tpl" );
     }
     else
     {
-        print( "Du har ikke rettigheter.");
-    }
-}
+        $paths = $type->path( $TypeID );
+        $countingPaths = count( $path );
 
-// Slette firma type.
-if ( $Action == "delete" )
-{
-    if ( eZPermission::checkPermission( $user, "eZContact", "AdminDelete" ) )
+        $t->set_var( "path_item", "" );
+        foreach( $paths as $path )
+        {
+            $t->set_var( "parent_id", $path[0] );
+            if( $path[0] == $type->id() )
+            {
+                $t->parse( "current_path_item", "current_path_item_tpl" );
+            }
+            else
+            {
+                $t->set_var( "parent_name", $path[1] );
+                $t->parse( "path_item", "path_item_tpl", true );
+            }
+        }
+
+        $t->parse( "path", "path_tpl" );
+    }
+    
+    if ( $Action == "edit" || $Action == "new" )
     {
         $type = new eZCompanyType();
-        $type->get( $CID );
-        $type->delete( );
+        $type->get( $TypeID );
 
-        Header( "Location: /contact/companytypelist/" );
+        $id = $type->id();
+        $name = $type->name();
+        $desc = $type->description();
+        $parentid = $type->parentID();
+        
+        $t->set_var( "current_id", $id );
+        $t->set_var( "current_name", $name );
+        $t->set_var( "current_description", $desc );
+        $t->set_var( "parent_id", $parentid );
+
+        $categories = $type->getAll();
+        
+        $selected = false;
+        
+        foreach( $categories as $category )
+        {
+            $t->set_var( "select_parent_id", $category->id() );
+            $t->set_var( "select_parent_name", $category->name() );
+            if( $category->id() == $parentid )
+            {
+                $t->set_var( "selected", "selected" );
+                $selected = true;
+            }
+            else
+            {
+                $t->set_var( "selected", "" );
+            }            
+            $t->parse( "parent_item", "parent_item_tpl", true );
+        }
+
+        if( count( $categories ) == 0 )
+        {
+            $t->set_var( "parent_item", "" );
+        }
+        
+        if( $selected == false )
+        {
+            $t->set_var( "root_selected", "selected" );
+        }
+        else
+        {
+            $t->set_var( "root_selected", "" );
+        }
+
+        $t->parse( "current_type", "current_type_tpl" );
     }
-    else
-    {
-        print( "Du har ikke rettigheter.");
-    }
+
+    $t->pparse( "output", "type_page" );
 }
 
-// Setter template.
-$t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
-                     "ezcontact/admin/intl/", $Language, "companytype.php" );
-$t->setAllStrings();
-
-$t->set_file( array(
-    "companytype_edit_page" => "companytypeedit.tpl"
-    ) );    
-
-$t->set_var( "submit_text", "Legg til" );
-$t->set_var( "action_value", "insert" );
-$t->set_var( "companytype_id", "" );
-$t->set_var( "head_line", "Legg til ny firmatype" );
-
-// Editere firma type.
-if ( $Action == "edit" )
-{
-    $type = new eZCompanyType();
-    $type->get( $CID );
-  
-    $CompanyTypeName = $type->name();
-    $CompanyTypeDescription = $type->description();
-
-    $t->set_var( "submit_text", "Lagre endringer" );
-    $t->set_var( "action_value", "update" );
-    $t->set_var( "companytype_id", $CID );
-    $t->set_var( "head_line", "Rediger firmatype" );
-}
-
-$t->set_var( "companytype_name", $CompanyTypeName );
-$t->set_var( "description", $CompanyTypeDescription );
-
-$t->pparse( "output", "companytype_edit_page" );
 ?>

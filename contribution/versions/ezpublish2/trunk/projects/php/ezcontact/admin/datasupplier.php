@@ -62,40 +62,51 @@ switch ( $url_array[2] )
     {
         switch( $url_array[3] )
         {
-            case "list":
+            case "view":
             {
+                $TypeID = $url_array[4];
+                $Action = "view";
                 include( "ezcontact/admin/companytypelist.php" );
                 break;
             }
+            case "list":
+            {
+                $TypeID = $url_array[4];
+                $Action = "list";
+                include( "ezcontact/admin/companytypelist.php" );
+                break;
+            }
+
             case "new":
             {
+                $Action = "new";
                 include( "ezcontact/admin/companytypeedit.php" );
                 break;
             }
             case "insert":
             {
-                $CID = $url_array[4];
+                $TypeID = $url_array[4];
                 $Action = "insert";
                 include( "ezcontact/admin/companytypeedit.php" );
                 break;
             }
             case "edit":
             {
-                $CID = $url_array[4];
+                $TypeID = $url_array[4];
                 $Action = "edit";
                 include( "ezcontact/admin/companytypeedit.php" );
                 break;
             }
             case "update":
             {
-                $CID = $url_array[4];
+                $TypeID = $url_array[4];
                 $Action = "update";
                 include( "ezcontact/admin/companytypeedit.php" );
                 break;
             }
             case "delete":
             {
-                $CID = $url_array[4];
+                $TypeID = $url_array[4];
                 $Action = "delete";
                 include( "ezcontact/admin/companytypeedit.php" );
                 break;
@@ -109,6 +120,7 @@ switch ( $url_array[2] )
         {
             case "list":
             {
+                $PersonID = $url_array[4];
                 $Action = "list";
                 include( "ezcontact/admin/personlist.php" );
                 break;
