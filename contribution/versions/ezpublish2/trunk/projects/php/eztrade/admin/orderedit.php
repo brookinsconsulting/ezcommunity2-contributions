@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderedit.php,v 1.6 2000/11/01 09:24:18 ce-cvs Exp $
+// $Id: orderedit.php,v 1.7 2000/11/01 12:26:40 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Sep-2000 13:03:13 bf>
@@ -118,7 +118,10 @@ if ( $user )
         $t->set_var( "street2", $address->street2() );
         $t->set_var( "zip", $address->zip() );
         $t->set_var( "place", $address->place() );
-    
+
+        $country = $address->country();
+        $t->set_var( "country", $country->name() );
+
         $t->parse( "address", "address_tpl", true );
     }
 

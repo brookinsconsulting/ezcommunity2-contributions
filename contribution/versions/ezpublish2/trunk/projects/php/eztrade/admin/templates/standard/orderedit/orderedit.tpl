@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.6 2000/11/01 09:11:12 ce-cvs Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.7 2000/11/01 12:26:40 bf-cvs Exp $ -->
 
 <h1>{intl-head_line}</h1>
 
@@ -15,6 +15,7 @@
 {street1}<br />
 {street2}<br />
 {zip} {place}<br />
+{country}
 <!-- END address_tpl -->
 
 <br />
