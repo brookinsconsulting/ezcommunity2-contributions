@@ -121,7 +121,7 @@
       <p class="boxtext">{intl-variations}:</p>
       <!-- BEGIN image_variation_tpl -->
       <tr><td class="{td_class}" >
-      <a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/{variation_id}/?RefererURL=/imagecatalogue/image/list/{main_category_id}/">{variation_width}x{variation_height}</a>
+      <a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/{variation_id}/?RefererURL=/imagecatalogue/image/edit/{image_id}/">{variation_width}x{variation_height}</a>
       </td></tr>
       <!-- END image_variation_tpl -->
 </td>

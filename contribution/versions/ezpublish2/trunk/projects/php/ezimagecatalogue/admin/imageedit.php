@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: imageedit.php,v 1.2 2001/11/05 10:34:37 jhe Exp $
+// $Id: imageedit.php,v 1.3 2001/11/15 14:24:34 br Exp $
 //
 // Created on: <09-Jan-2001 10:45:44 ce>
 //
@@ -194,19 +194,25 @@ if ( $Action == "Insert" || $Action == "Update" )
     if ( $error )
     {
         $t->parse( "errors", "errors_tpl" );
-        foreach ( $WriteGroupArrayID as $unf )
+        if( count( $WriteGroupArrayID ) > 0 )
         {
-            if ( $unf == 0 )
-                $writeGroupArrayID[] = -1;
-            else
-                $writeGroupArrayID[] = $unf;
+            foreach ( $WriteGroupArrayID as $unf )
+            {
+                if ( $unf == 0 )
+                    $writeGroupArrayID[] = -1;
+                else
+                    $writeGroupArrayID[] = $unf;
+            }
         }
-        foreach ( $ReadGroupArrayID as $unf )
+        if( count( $ReadGroupArrayID ) > 0 )
         {
-            if ( $unf == 0 )
-                $readGroupArrayID[] = -1;
-            else
-                $readGroupArrayID[] = $unf;
+            foreach ( $ReadGroupArrayID as $unf )
+            {
+                if ( $unf == 0 )
+                    $readGroupArrayID[] = -1;
+                else
+                    $readGroupArrayID[] = $unf;
+            }
         }
     }
 }
@@ -333,6 +339,28 @@ if ( $Action == "Update" && $error == false )
     eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $CurrentCategoryID . "/" );
     exit();
 }
+else if ( $Action == "Update" && $error == true )
+{
+    $t->set_var( "name_value", $Name );
+    $t->set_var( "caption_value", $Caption );
+    $t->set_var( "image_description", $Description );
+    if( $ImageID )
+    {
+        $image = new eZImage( $ImageID );
+
+        $t->set_var( "image_id", $image->id() );
+        $t->set_var( "image_alt", $image->caption() );
+
+        $variation = $image->requestImageVariation( 150, 150 );
+
+        $t->set_var( "image_src", "/" .$variation->imagePath() );
+        $t->set_var( "image_width", $variation->width() );
+        $t->set_var( "image_height", $variation->height() );
+        $t->set_var( "image_file_name", $image->originalFileName() );
+    }
+    $t->parse( "image", "image_tpl" );
+    $t->set_var( "action_value", "update" );
+}
 
 // Delete an image
 if ( $Action == "DeleteImages" )
@@ -369,12 +397,31 @@ if ( $Action == "DeleteCategories" )
 }
 
 // Set the default values to null
-if ( $Action == "New" || $error )
+if ( $Action == "New" || ( $Action == "Insert" && $error == true ) )
 {
     $t->set_var( "action_value", "Insert" );
-    $t->set_var( "image", "" );
-    $t->set_var( "image_id", "" );
+    if( $ImageID == "" )
+    {
+        $t->set_var( "image", "" );
+        $t->set_var( "image_id", "" );
+    }
+    else
+    {
+        $image = new eZImage( $ImageID );
 
+        $t->set_var( "image_id", $image->id() );
+        $t->set_var( "image_alt", $image->caption() );
+
+        $variation = $image->requestImageVariation( 150, 150 );
+
+        $t->set_var( "image_src", "/" .$variation->imagePath() );
+        $t->set_var( "image_width", $variation->width() );
+        $t->set_var( "image_height", $variation->height() );
+        $t->set_var( "image_file_name", $image->originalFileName() );
+        $t->parse( "image", "image_tpl" );
+
+    }
+        
 // author select
 
     $author = new eZAuthor();
@@ -632,6 +679,7 @@ foreach ( $groups as $group )
 
 $t->pparse( "output", "image_edit_page" );
 /******* FUNCTIONS ****************************/
+
 function changePermissions( $objectID, $groups , $permission )
 {
     eZObjectPermission::removePermissions( $objectID, "imagecatalogue_image", $permission );
