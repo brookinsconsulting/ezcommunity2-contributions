@@ -35,7 +35,7 @@
 <hr noshade="noshade" size="4" />
 <br />
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>
 	{intl-name}:
