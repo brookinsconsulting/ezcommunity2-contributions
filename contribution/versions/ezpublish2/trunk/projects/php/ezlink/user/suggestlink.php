@@ -1,5 +1,5 @@
 <?php
-// $Id: suggestlink.php,v 1.17 2001/07/09 08:05:04 jhe Exp $
+// $Id: suggestlink.php,v 1.18 2001/07/09 13:49:27 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -40,8 +40,8 @@ include( "ezlink/classes/ezhit.php" );
 
 include_once( "ezlink/classes/ezlinktype.php" );
 include_once( "ezlink/classes/ezlinkattribute.php" );
-
 include_once( "ezlink/classes/ezmeta.php" );
+
 require( "ezuser/admin/admincheck.php" );
 
 if ( isSet ( $DeleteLinks ) )
@@ -304,9 +304,7 @@ if ( $Action == "insert" )
                     foreach ( $AttributeValue as $attribute )
                     {
                         $att = new eZLinkAttribute( $AttributeID[$i] );
-                        
                         $att->setValue( $link, $attribute );
-                        
                         $i++;
                     }
                 }
@@ -321,10 +319,7 @@ if ( $Action == "insert" )
                 foreach ( $CategoryArray as $categoryItem )
                 {
                     if ( $categoryItem != $cat->id() )
-                    {
-                        $cat = new eZLinkCategory( $categoryItem );
-                        $cat->addLink( $link );
-                    }
+                        eZLinkCategory::addLink( $link, $categoryItem );
                 }
             }
 

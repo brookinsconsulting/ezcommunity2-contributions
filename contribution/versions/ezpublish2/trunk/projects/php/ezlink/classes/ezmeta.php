@@ -1,5 +1,5 @@
 <?php
-// $Id: ezmeta.php,v 1.4 2001/07/09 08:02:31 jhe Exp $
+// $Id: ezmeta.php,v 1.5 2001/07/09 13:49:27 jhe Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <01-Nov-2000 16:44:39 bf>
@@ -25,7 +25,7 @@
 function &fetchURLInfo( $url )
 {
     $list = array();
-    $fp = fopen( $url, "r" );
+    $fp = @fopen( $url, "r" );
 
     if ( $fp )
     {

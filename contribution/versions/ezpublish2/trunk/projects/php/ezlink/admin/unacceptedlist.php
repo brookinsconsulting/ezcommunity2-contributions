@@ -1,5 +1,5 @@
 <?php
-// $Id: unacceptedlist.php,v 1.7 2001/07/09 08:05:04 jhe Exp $
+// $Id: unacceptedlist.php,v 1.8 2001/07/09 13:49:27 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:55:24 ce>
@@ -74,7 +74,7 @@ $i = 0;
 $catCount = count( $linkCategoryList );
 $t->set_var( "num_select_categories", min( $catCount, 10 ) );
 
-foreach( $linkList as $linkItem )
+foreach ( $linkList as $linkItem )
 {
     $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
 
@@ -91,7 +91,7 @@ foreach( $linkList as $linkItem )
     $t->set_var( "category_item", "" );
     $t->set_var( "multiple_category", "" );
     
-    foreach( $linkCategoryList as $linkCategoryItem )
+    foreach ( $linkCategoryList as $linkCategoryItem )
     {
         $t->set_var("link_category_id", $linkCategoryItem[0]->id() );
         $t->set_var("link_category_name", $linkCategoryItem[0]->name() );
@@ -104,7 +104,8 @@ foreach( $linkList as $linkItem )
             $t->set_var( "option_level", "" );
         
         
-        if ( is_array( $LinkCategoryIDArray ) and ( $linkCategoryID != $linkCategoryItem[0]->id() ) )
+        if ( is_array( $LinkCategoryIDArray ) and ( $linkCategoryID != $linkCategoryItem[0]->id() )
+             and ( in_array( $linkCategoryItem[0]->id(), $LinkCategoryIDArray ) ) )
         {
             $t->set_var( "multiple_selected", "selected" );
         }

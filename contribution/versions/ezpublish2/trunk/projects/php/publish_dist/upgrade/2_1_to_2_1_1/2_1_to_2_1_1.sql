@@ -630,5 +630,6 @@ INSERT INTO eZLink_LinkCategoryLink ( LinkID, CategoryID ) SELECT ID, LinkGroup 
 INSERT INTO eZLink_LinkCategoryDefinition ( LinkID, CategoryID ) SELECT ID, LinkGroup from eZLink_Link;
 ALTER TABLE eZLink_Link DROP LinkGroup;
 
+alter table eZLink_Link change Title Name varchar(100);
 ALTER TABLE eZLink_Category add ImageID int;
 ALTER TABLE eZLink_Category add Description varchar(200);

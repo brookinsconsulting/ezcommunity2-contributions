@@ -1,5 +1,5 @@
 <?php
-// $Id: unacceptededit.php,v 1.4 2001/07/09 08:05:04 jhe Exp $
+// $Id: unacceptededit.php,v 1.5 2001/07/09 13:49:27 jhe Exp $
 //
 // Author: Bård Farstad <bf@ez.no>
 // Created on: <21-Jan-2001 13:34:48 bf>
@@ -35,14 +35,12 @@ for( $i = 0; $i < count( $LinkArrayID ); $i++ )
     $link->setName( $Name[$i] );
     $link->setCategoryDefinition( $LinkCategoryID[$i] );
 
-    $categoryArray = $link->categories();
     // Calculate new and unused categories
     $old_maincategory = $link->categoryDefinition();
     $old_categories =& array_unique( array_merge( $old_maincategory->id(),
                                                   $link->categories( false ) ) );
 
-    $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
-
+    $new_categories =& array_unique( array_merge( $LinkCategoryID[$i], $CategoryArray[$i] ) );
     $remove_categories = array_diff( $old_categories, $new_categories );
     $add_categories = array_diff( $new_categories, $old_categories );
 
