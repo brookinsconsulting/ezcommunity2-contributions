@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: settings.php,v 1.1 2001/04/11 15:11:38 jb Exp $
+// $Id: settings.php,v 1.2 2001/04/19 07:36:07 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <11-Apr-2001 16:53:40 amos>
@@ -34,15 +34,10 @@ $DOC_ROOT = $ini->read_var( "eZUserMain", "DocumentRoot" );
 include_once( "ezsession/classes/ezpreferences.php" );
 $preferences = new eZPreferences();
 
-$single_module = $preferences->variable( "SingleModule" );
-if ( !is_bool( $single_module ) )
-{
-    $single_module =  $single_module == "enabled";
-}
-else
-{
-    $single_module = true;
-}
+include_once( "ezmodule/classes/ezmodulehandler.php" );
+
+$single_module = eZModuleHandler::useSingleModule();
+$module_tab = eZModuleHandler::activeTab( true );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
@@ -52,9 +47,13 @@ include_once( "ezsession/classes/ezsession.php" );
 
 require( "ezuser/admin/admincheck.php" );
 
+$url = $GLOBALS["RefURL"];
+if ( $url == "/user/settings" )
+    $url = "/";
+
 if ( isSet( $Cancel ) )
 {
-    eZHTTPTool::header( "Location: /" );
+    eZHTTPTool::header( "Location: $url" );
 }
 
 // Template
@@ -63,6 +62,10 @@ $t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZUserMain", "Admi
 $t->setAllStrings();
 
 $t->set_file( "settings", "settings.tpl" );
+
+$t->set_block( "settings", "module_tab_item_tpl", "module_tab_item" );
+
+$t->set_var( "ref_url", $url );
 
 $user = eZUser::currentUser();
 if ( !$user ) 
@@ -74,7 +77,8 @@ if ( !$user )
 if ( $Action == "update" )
 {
     $preferences->setVariable( "SingleModule", $SingleModule != "" ? "enabled" : "disabled" );
-    eZHTTPTool::header( "Location: /" );
+    $preferences->setVariable( "ModuleTab", $ModuleTabBar != "" ? "enabled" : "disabled" );
+    eZHTTPTool::header( "Location: $url" );
     exit();
 }
 
@@ -83,7 +87,12 @@ $t->set_var( "last_name", $user->lastName() );
 
 $t->set_var( "action_value", "update" );
 
+$t->set_var( "module_tab", $module_tab ? "checked" : "" );
 $t->set_var( "single_module", $single_module ? "checked" : "" );
+
+$t->set_var( "module_tab_item", "" );
+if ( eZModuleHandler::hasTab() )
+    $t->parse( "module_tab_item", "module_tab_item_tpl" );
 
 $t->pparse( "output", "settings" );
 
