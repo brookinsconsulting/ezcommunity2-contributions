@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageview.php,v 1.5 2001/02/09 14:35:41 jb Exp $
+// $Id: ezpageview.php,v 1.6 2001/02/09 17:08:21 jb Exp $
 //
 // Definition of eZPageView class
 //
@@ -191,7 +191,9 @@ class eZPageView
                                  RemoteHostID='$this->RemoteHostID',
                                  RefererURLID='$this->RefererURLID',
                                  RequestPageID='$this->RequestPageID',
-                                 Date=now()
+                                 Date=now(),
+                                 DateValue=DATE_FORMAT( now(), \"%Y-%m-%d\" ),
+                                 TimeValue=DATE_FORMAT( now(), \"%H:%i:%S\" )
                                  " );
         }
         else
@@ -200,8 +202,7 @@ class eZPageView
                                  UserID='$this->UserID',
                                  BrowserTypeID='$this->BrowserTypeID',
                                  RemoteHostID='$this->RemoteHostID',
-                                 RefererURLID='$this->RefererURLID',
-                                 Date='Date'
+                                 RefererURLID='$this->RefererURLID'
                                  WHERE ID='$this->ID'
                                  " );
         }
@@ -229,6 +230,8 @@ class eZPageView
                 $this->ID =& $pageview_array[0][ "ID" ];
                 $this->UserID =& $pageview_array[0][ "UserID" ];
                 $this->Date =& $pageview_array[0][ "Date" ];
+                $this->DateValue =& $pageview_array[0][ "DateValue" ];
+                $this->TimeValue =& $pageview_array[0][ "TimeValue" ];
                 $this->BrowserTypeID =& $pageview_array[0][ "Date" ];
                 $this->RemoteHostID =& $pageview_array[0][ "RemoteHostID" ];
                 $this->RefererURLID =& $pageview_array[0][ "RefererURLID" ];
@@ -328,6 +331,8 @@ class eZPageView
     var $ID;
     var $UserID;
     var $Date;
+    var $DateValue;
+    var $TimeValue;
     var $BrowserTypeID;
     var $RemoteHostID;
     var $RefererID;
