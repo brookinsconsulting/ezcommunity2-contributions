@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagebody.php,v 1.9 2001/09/24 11:53:43 jhe Exp $
+// $Id: messagebody.php,v 1.9.2.1 2002/02/05 10:39:07 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -40,14 +40,7 @@ if ( $ShowMessage )
     
     $msg = new eZForumMessage( $MessageID );
     $MessageTopic = $msg->topic();
-    if ( $AllowHTML == "enabled" )
-    {
-        $MessageBody = $msg->body( true );
-    }
-    else
-    {
-        $MessageBody = eZTextTool::nl2br( $msg->body( false ) );
-    }
+    $MessageBody = eZTextTool::nl2br( $msg->body() );
     
     $author = new eZUser( $msg->userID() );
     

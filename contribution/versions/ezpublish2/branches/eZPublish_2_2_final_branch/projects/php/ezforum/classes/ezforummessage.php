@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezforummessage.php,v 1.104.2.5 2002/02/04 17:44:14 jhe Exp $
+// $Id: ezforummessage.php,v 1.104.2.6 2002/02/05 10:39:07 jhe Exp $
 //
 // Definition of eZForumMessage class
 //
@@ -314,7 +314,7 @@ class eZForumMessage
     /*!
       Returns every message as an array of eZForumCategory objects.
     */
-    function getAll( )
+    function getAll()
     {
         $db =& eZDB::globalDatabase();
         $ret = array();
@@ -592,16 +592,9 @@ class eZForumMessage
     /*!
       Returns the body of the forum message.
     */      
-    function &body( $htmlchars = true )
+    function &body()
     {
-       if ( $htmlchars )
-       {
-            return $this->Body;
-       }
-       else
-       {
-            return htmlspecialchars( $this->Body );
-       }
+        return $this->Body;
     }
 
     /*!

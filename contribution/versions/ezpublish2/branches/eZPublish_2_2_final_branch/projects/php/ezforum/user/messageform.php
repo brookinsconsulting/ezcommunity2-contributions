@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messageform.php,v 1.16.2.2 2001/11/01 11:25:46 jhe Exp $
+// $Id: messageform.php,v 1.16.2.3 2002/02/05 10:39:07 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -114,14 +114,7 @@ if ( $ShowMessageForm )
         }
         else
         {
-            if ( $AllowHTML == "enabled" )
-            {
-                $MessageBody = $msg->body( true );
-            }
-            else
-            {
-                $MessageBody = $msg->body( false );
-            }
+            $MessageBody = $msg->body();
         }
 
         $MessageNotice = $msg->emailNotice();

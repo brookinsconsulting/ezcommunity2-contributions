@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: message.php,v 1.36 2001/10/10 11:44:24 bf Exp $
+// $Id: message.php,v 1.36.2.1 2002/02/05 10:39:07 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -28,7 +28,6 @@ include_once( "classes/INIFile.php" );
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZForumMain", "Language" );
 $NewMessageLimit = $ini->read_var( "eZForumMain", "NewMessageLimit" );
-$AllowHTML = $ini->read_var( "eZForumMain", "AllowHTML" );
 
 include_once( "classes/ezlocale.php" );
 include_once( "classes/eztexttool.php" );
@@ -136,11 +135,7 @@ $t->set_var( "topic", $message->topic() );
 
 $time = $message->postingTime();
 $t->set_var( "main-postingtime", $locale->format( $time ) );
-
-if ( $AllowHTML == "enabled" )
-    $t->set_var( "body", eZTextTool::nl2br( $message->body( true ) ) );
-else
-    $t->set_var( "body", eZTextTool::nl2br( $message->body( false ) ) );
+$t->set_var( "body", eZTextTool::nl2br( $message->body() ) );
 
 $t->set_var( "reply_id", $message->id() );
 $t->set_var( "forum_id", $forum->id() );

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messageedit.php,v 1.58.2.7 2002/01/07 09:21:49 jhe Exp $
+// $Id: messageedit.php,v 1.58.2.8 2002/02/05 10:39:07 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -300,8 +300,8 @@ switch ( $Action )
 
                         $subject_line = $mailTemplate->Ini->read_var( "strings", "moderator_subject" );
 
-                        $mailTemplate->set_var( "topic", $msg->topic( false ) );
-                        $mailTemplate->set_var( "body", $msg->body( true ) );
+                        $mailTemplate->set_var( "topic", $msg->topic() );
+                        $mailTemplate->set_var( "body", $msg->body() );
                         
                         $mailTemplate->set_var( "forum_name", $forum->name() );
                         $mailTemplate->set_var( "forum_link", "http://"  . $headersInfo["Host"] . "/forum/messagelist/" . $forum->id() );
@@ -370,8 +370,8 @@ switch ( $Action )
             eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
         }
 
-        $msg->setTopic( $tmpmsg->topic( false ) );
-        $msg->setBody( $tmpmsg->body( false ) );
+        $msg->setTopic( $tmpmsg->topic() );
+        $msg->setBody( $tmpmsg->body() );
         $msg->setEmailNotice( $tmpmsg->emailNotice() );
 
         $msg->store();
@@ -502,7 +502,7 @@ switch ( $Action )
 
         if ( $ReplyTags == "enabled" )
         {
-            $NewMessageBody = $ReplyStartTag . "\n" . $msg->body( true ) . "\n" . $ReplyEndTag;
+            $NewMessageBody = $ReplyStartTag . "\n" . $msg->body() . "\n" . $ReplyEndTag;
         }
         else
         {
@@ -624,13 +624,13 @@ switch ( $Action )
 
             if ( $AllowHTML == "enabled" )
             {
-                $msg->setTopic( strip_tags( $NewMessageTopic ) );
-                $msg->setBody( strip_tags( $NewMessageBody, $AllowedTags ) );
+                $msg->setTopic( $NewMessageTopic );
+                $msg->setBody( $NewMessageBody );
             }
             else
             {
-                $msg->setTopic( $NewMessageTopic );
-                $msg->setBody( $NewMessageBody );
+                $msg->setTopic( strip_tags( $NewMessageTopic ) );
+                $msg->setBody( strip_tags( $NewMessageBody, $AllowedTags ) );
             }
 
             $msg->setIsTemporary( true );

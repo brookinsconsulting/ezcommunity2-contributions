@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagesimplelist.php,v 1.15 2001/09/21 07:56:43 jhe Exp $
+// $Id: messagesimplelist.php,v 1.15.2.1 2002/02/05 10:39:07 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -46,9 +46,7 @@ $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateD
 
 $t->set_file( "messagelist", "messagesimplelist.tpl"  );
 
-
 $t->set_block( "messagelist", "message_list_tpl", "message_list" );
-
 $t->set_block( "message_list_tpl", "message_item_tpl", "message_item" );
 
 $t->setAllStrings();
