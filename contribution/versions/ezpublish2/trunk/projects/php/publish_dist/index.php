@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.101 2001/08/30 07:49:49 ce Exp $
+// $Id: index.php,v 1.102 2001/09/03 17:20:15 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -68,13 +68,6 @@ else
 ereg( "([^?]+)", $REQUEST_URI, $regs );
 $REQUEST_URI = $regs[1];
 
-include_once( "classes/ezbenchmark.php" );
-
-include_once( "eztrade/classes/ezproduct.php" );
-
-// Run benchmark test.
-$bench = new eZBenchmark();
-$bench->start();
   
 $GLOBALS["DEBUG"] = true;
 $UsePHPSessions = false;
@@ -354,16 +347,9 @@ else
     include( "sitedesign/$siteDesign/loginframe.php" );
 }
 
-
 // close the database connection.
 $db =& eZDB::globalDatabase();
 $db->close();
-print( $db->isA() );
-
-// Stop benchmark test and print the result.
-$bench->stop();
-$bench->printResults();
-
 
 ob_end_flush();
 
