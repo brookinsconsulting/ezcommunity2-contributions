@@ -18,7 +18,7 @@
   </td>
   <td bgcolor="#eeeeee">
 <form method="post" action="index.php4?page={document_root}contactlist.php4">
- <input type="text" name="Query" size="5">
+&nbsp; <input type="text" name="Query" size="5">
 <input type="submit" value="søk">
 </form>
   </td>
