@@ -12,7 +12,8 @@ http://{site_url}
 <!-- BEGIN billing_address_tpl -->
 {intl-billing_address}:
 {customer_first_name} {customer_last_name}
-{billing_street1} {billing_street2}
+{billing_street2}
+{billing_street1}
 {billing_zip} {billing_place}
 {billing_country}
 <!-- END billing_address_tpl -->
@@ -23,7 +24,8 @@ http://{site_url}
 <!-- BEGIN shipping_address_tpl -->
 {intl-shipping_address}:
 {shipping_customer_first_name} {shipping_customer_last_name}
-{shipping_street1} {shipping_street2}
+{shipping_street2} 
+{shipping_street1}
 {shipping_zip} {shipping_place}
 {shipping_country}
 <!-- END shipping_address_tpl -->
@@ -49,7 +51,7 @@ http://{site_url}
 
 {intl-other_instructions_on_web_site} http://{site_url}
 {stringline}
- MyGold.com - Impetex GmbH | Tel: +49 (8041) 5562   
+ MyGold.com - Impetex GmbH | Tel: +49 (8041) 794330
  Marktstr. 24              | Fax: +49 (8041) 70932
  D-83646 Bad Tölz          | info@mygold.com
 {stringline}

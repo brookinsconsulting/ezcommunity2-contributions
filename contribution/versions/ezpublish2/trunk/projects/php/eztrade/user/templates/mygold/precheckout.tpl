@@ -1,15 +1,14 @@
-<form name="" method="post" action="{www_dir}{index}/trade/precheckout/">
-
+<form method="post" action="/trade/precheckout/">
 <h1>Sicherheitsinformationen zur SSL Verschl&uuml;sselung</h1>
 <hr noshade="noshade" size="1" />
 <br />
 <p>
 Sie betreten in K&uuml;rze den gesicherten Bereich der MyGold.com Webseite. In dem Ihre Daten verschl&uuml;sselt und damit sicher vor Dritten an unseren Webserver &uuml;bertragen werden.<br />
+</p>
 <hr noshade="noshade" size="1" />
-</p><p>
 <table border="0" cellspacing="5" cellpadding="0" width="1" align="left">
  <tr>
-  <td background="{www_dir}/sitedesign/mygold/images/nossl.gif"><a href="https://www.thawte.com/cgi/server/certdetails.exe?code=DEIMPE1" onclick="window.open('https://www.thawte.com/cgi/server/certdetails.exe?code=DEIMPE1', 'anew', config='height=400,width=450,toolbar=no,menubar=no,scrollbars=yes,resizable=no,location=no,directories=no,status=yes'); return false;" target="new"><img src="https://www.mygold.com/sitedesign/mygold/images/stampger.gif" alt="" border="0" width="134" height="85" /></a></td>
+  <td style="background-image: url(/sitedesign/mygold/images/nossl.gif);"><a href="https://www.thawte.com/cgi/server/certdetails.exe?code=DEIMPE1" onclick="window.open('https://www.thawte.com/cgi/server/certdetails.exe?code=DEIMPE1', 'anew', config='height=400,width=450,toolbar=no,menubar=no,scrollbars=yes,resizable=no,location=no,directories=no,status=yes'); return false;" target="new"><img src="https://www.mygold.com/sitedesign/mygold/images/stampger.gif" alt="" border="0" width="134" height="85" /></a></td>
  </tr>
  <tr>
   <td class="pictext">Verifizieren Sie unser Zertifikat</td>
@@ -18,11 +17,12 @@ Sie betreten in K&uuml;rze den gesicherten Bereich der MyGold.com Webseite. In d
 <p>Ihre Sicherheit ist uns sehr wichtig. Aus diesem Grund setzen wir moderne 128-Bit
  Verschl&uuml;sselung ein. Diese Verschl&uuml;sselung entspricht dem letzten
  Stand der Technik und gilt als absolut sicher. Leider kann es aber bei manchen
- Browsern zu Problemen kommen. Wir haben im folgenenden die m&ouml;glichen
+ Browsern zu Problemen kommen.<br />
+ Wir haben im folgenenden die m&ouml;glichen
  Probleme beschrieben und geben Ihnen Tips, wie Sie trotzdem problemlos bei
  uns einkaufen k&ouml;nnen.<br />
  Sollten Sie trotz der Anleitung Probleme haben, k&ouml;nnen Sie uns gerne
- <a href="{www_dir}{index}/feedback/">kontaktieren</a>, wir stehen Ihnen gerne zur Seite.<br />
+ <a href="/feedback/">kontaktieren</a>, wir stehen Ihnen gerne zur Seite.<br />
  <br />
 </p>
 
@@ -82,7 +82,7 @@ Sie betreten in K&uuml;rze den gesicherten Bereich der MyGold.com Webseite. In d
  und Ihren Einkauf weiterf&uuml;hren. Falls Sie die Testseite gar nicht oder
  schlecht sehen, sollten Sie entweder wir oben beschrieben Ihren Browser updaten
  oder Ihren Einkauf unverschl&uuml;sselt weiterf&uuml;hren. Hier k&ouml;nnen
- Sie Ihren Browser einem <b><a href="https://www.mygold.com/home/ssltest/" target="new">SSL-Test</a></b>
+ Sie Ihren Browser einem <b><a href="https://www.mygold.com/schmuck/ssltest/" target="new">SSL-Test</a></b>
  unterziehen.<br />
  <br />
 </p>
@@ -103,9 +103,7 @@ Sie betreten in K&uuml;rze den gesicherten Bereich der MyGold.com Webseite. In d
   <td>Liste mit unterst&uuml;tzten Browsern </td>
  </tr>
 </table>
-</p>
 <br />
-<p>
 </form>
 
 

@@ -1,12 +1,7 @@
 <h1>{intl-head_line}</h1>
 <hr noshade="noshade" size="1" />
-
-<!-- BEGIN error_max_search_for_products_tpl -->
-<p class="error">{intl-max_search}</p>
-<!-- END error_max_search_for_products_tpl -->
-
 <!-- BEGIN product_search_form_tpl -->
-<form action="{www_dir}{index}/trade/extendedsearch/" method="post">
+<form action="/trade/extendedsearch/" method="post">
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
     <tr>
         <td>
@@ -72,64 +67,81 @@
 <input class="okbutton" type="submit" name="SearchButton" value="{intl-search}" />
 </form>
 <!-- END product_search_form_tpl -->
-
-<br /><br />
+<hr noshade="noshade" size="1" />
 <!-- BEGIN empty_search_tpl -->        
 <h2>{intl-empty_search}</h2>
 <!-- END empty_search_tpl -->        
 
+<!-- BEGIN error_max_search_for_products_tpl -->
+<p>{intl-max_search}</p>
+<!-- END error_max_search_for_products_tpl -->
 
 <!-- BEGIN product_search_list_tpl -->        
+
 <br />
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
-    <!-- BEGIN product_tpl -->
-    <tr>
-	<td>
-	    <a href="{www_dir}{index}/trade/productview/{product_id}/{category_id}/"><h2>{product_name}</h2></a><br>
-	    <!-- BEGIN image_tpl -->
-	    <table align="right">
-		<tr>
-    		    <td>
-    			<img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
-    		    </td>
-		</tr>
-		<tr>
-    		    <td>
-    			{thumbnail_image_caption}
-    		    </td>
-		</tr>
-	    </table>
-	    <!-- END image_tpl -->
-	    {product_intro_text}<br />
-	    <!-- BEGIN price_tpl -->
-	    {product_price}<br />
-	    <!-- END price_tpl -->
-	</td>
-    </tr>
-    <tr>
-	<td>
-	    <hr noshade="noshade" size="1" />
-    <!-- END product_tpl -->
+  <!-- BEGIN product_tpl -->
+  <tr> 
+    <td colspan="2">
+      <a href="/trade/productview/{product_id}/{category_id}/"><h2>{product_name}</h2></a> 
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="spacer5">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" width="99%"> {product_intro_text} </td>
+    <td valign="top"> 
+      <!-- BEGIN image_tpl -->
+      <table>
+        <tr>
+          <td>
+            <img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
+          </td>
+	</tr>
+        <tr>
+          <td>
+            {thumbnail_image_caption}
+          </td>
+        </tr>
+      </table>
+      <!-- END image_tpl -->
+    </td>
+  </tr>
+  <tr> 
+    <td colspan="2"> 
+      <!-- BEGIN price_tpl -->
+      {product_price}
+      <!-- END price_tpl -->
+    </td>
+  </tr>
+  <tr> 
+    <td colspan="2"> 
+      <hr noshade size="1" />
+    </td>
+  </tr>
+  <!-- END product_tpl -->
 </table>
+																				    
 <!-- END product_search_list_tpl -->        
 
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table width="100%" cellspacing="0" cellpadding="0" border="0" align="center">
     <tr>
 	<td>
 	    <!-- BEGIN type_list_tpl -->
 	    <br />
-	    <table cellpadding="0" cellspacing="0" border="0">
+	    <table cellpadding="0" cellspacing="0" border="0" align="center">
 		<tr>
 		    <!-- BEGIN type_list_previous_tpl -->
 		    <td>
-			&lt;&lt;&nbsp;<a class="path" href="{www_dir}{index}/trade/extendedsearch/move/{url_text}/{url_range}/{url_main_categories}/{url_category}/{item_previous_index}">{intl-previous}</a>&nbsp;|
+			&lt;&lt;&nbsp;<a class="path" href="/trade/extendedsearch/move/{url_text}/{url_range}/{url_main_categories}/{url_category}/{item_previous_index}">{intl-previous}</a>&nbsp;|
 		    </td>
 		    <!-- END type_list_previous_tpl -->
 		    
 		    <!-- BEGIN type_list_previous_inactive_tpl -->
 		    <td class="inactive">
-			{intl-previous}&nbsp;
+			&lt;&lt;&nbsp;{intl-previous}&nbsp;
 		    </td>
 		    <!-- END type_list_previous_inactive_tpl -->
 
@@ -137,7 +149,7 @@
 
 		    <!-- BEGIN type_list_item_tpl -->
 		    <td>
-			&nbsp;<a class="path" href="{www_dir}{index}/trade/extendedsearch/move/{url_text}/{url_range}/{url_main_categories}/{url_category}/{item_index}">{type_item_name}</a>&nbsp;|
+			&nbsp;<a class="path" href="/trade/extendedsearch/move/{url_text}/{url_range}/{url_main_categories}/{url_category}/{item_index}">{type_item_name}</a>&nbsp;|
 		    </td>
 		    <!-- END type_list_item_tpl -->
 
@@ -151,7 +163,7 @@
 
 		    <!-- BEGIN type_list_next_tpl -->
 		    <td>
-			&nbsp;<a class="path" href="{www_dir}{index}/trade/extendedsearch/move/{url_text}/{url_range}/{url_main_categories}/{url_category}/{item_next_index}">{intl-next}</a>&nbsp;&gt;&gt;
+			&nbsp;<a class="path" href="/trade/extendedsearch/move/{url_text}/{url_range}/{url_main_categories}/{url_category}/{item_next_index}">{intl-next}</a>&nbsp;&gt;&gt;
 		    </td>
 		    <!-- END type_list_next_tpl -->
 

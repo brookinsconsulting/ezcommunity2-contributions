@@ -1,4 +1,4 @@
-<form action="{www_dir}{index}/trade/voucherinformation/{url_arg}" method="post">
+<form action="{www_dir}{index}/trade/voucherinformation/{product_id}" method="post">
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 
 <h2>{product_name} - {product_price}</h2>
@@ -77,16 +77,11 @@
 
 <hr noshade="noshade" size="4" />
 
-<input type="hidden" name="MailType" value="{mail_type}" />
+<input type="hidden" name="MailMethod" value="{mail_method}" />
 <input type="hidden" name="ProductID" value="{product_id}" />
+<input type="hidden" name="PriceRange" value="{price_range}" />
 
-<!-- BEGIN next_tpl -->
-<input type="submit" name="Next" value="{intl-next}" />&nbsp;
-<!-- END next_tpl -->
-
-<!-- BEGIN ok_tpl -->
 <input type="submit" name="OK" value="{intl-ok}" />&nbsp;
-<!-- END ok_tpl -->
 
 <input type="submit" name="Cancel" value="{intl-cancel}" />
 

@@ -1,11 +1,10 @@
-
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 	<tr> 
 		<td> 
 			<h1>{intl-productlist}</h1>
 		</td>
 		<td align="right"> 
-			<form action="{www_dir}{index}/trade/search/" method="post">
+			<form action="/trade/search/" method="post">
 				<input type="text" name="Query" size="8" />
 				<input class="okbutton" type="submit" name="search" value="{intl-search_button}" />
 			</form>
@@ -14,11 +13,11 @@
 	<tr> 
 		<td colspan="2"> 
 			<hr noshade size="1" />
-			<img src="{www_dir}/sitedesign/mygold/images/path-arrow.gif" height="10" width="15" border="0" alt=""/> 
-			<a href="{www_dir}{index}/trade/productlist/0/">{intl-top}</a> 
+			<img src="/sitedesign/mygold/images/path-arrow.gif" height="10" width="15" border="0" alt=""/> 
+			<a href="/trade/productlist/0/">{intl-top}</a> 
 			<!-- BEGIN path_tpl -->
-			<img src="{www_dir}/sitedesign/mygold/images/path-slash.gif" height="10" width="20" border="0" alt=""/> 
-			<a href="{www_dir}{index}/trade/productlist/{category_id}/">{category_name}</a> 
+			<img src="/sitedesign/mygold/images/path-slash.gif" height="10" width="20" border="0" alt=""/> 
+			<a href="/trade/productlist/{category_id}/">{category_name}</a> 
 			<!-- END path_tpl -->
 			<hr noshade size="1" />
 		</td>
@@ -30,7 +29,7 @@
 	</tr>
 	<!-- BEGIN category_tpl -->
 	<tr> 
-		<td class="{td_class}"> <a href="{www_dir}{index}/trade/productlist/{category_id}/">{category_name}</a>&nbsp; 
+		<td class="{td_class}"> <a href="/trade/productlist/{category_id}/">{category_name}</a>&nbsp; 
 		</td>
 		<td class="{td_class}"> {category_description}&nbsp; </td>
 	</tr>
@@ -45,7 +44,7 @@
 	<!-- BEGIN product_tpl -->
 	<tr> 
 		<td valign="top"> 
-			<h2><a href="{www_dir}{index}/trade/productview/{product_id}/{category_id}/">{product_name}</a></h2>
+			<h2><a href="/trade/productview/{product_id}/{category_id}/">{product_name}</a></h2>
 			<p><br />
 				{product_intro_text}</p>
 		</td>
@@ -53,8 +52,8 @@
 			<!-- BEGIN product_image_tpl -->
 			<table>
 				<tr> 
-					<td><a href="{www_dir}{index}/trade/productview/{product_id}/{category_id}/"> 
-						<img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" alt="{thumbnail_image_caption}"/></a> 
+					<td><a href="/trade/productview/{product_id}/{category_id}/"> 
+						<img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" alt="{thumbnail_image_caption}"/></a> 
 					</td>
 				</tr>
 				<tr> 
@@ -82,7 +81,7 @@
 <table width="100%">
     <tr>
         <td class="spacer" width="1%">
-	    <a class="nav" href="#"><img src="{www_dir}/sitedesign/mygold/images/top.gif" width="10" height="15" border="0" alt="" /></a>
+	    <a class="nav" href="#"><img src="/sitedesign/mygold/images/top.gif" width="10" height="15" border="0" alt="" /></a>
 	</td>
 	<td>
 	    <a class="nav" href="#">TOP</a>
@@ -91,7 +90,7 @@
 	    <a class="nav" href="#">TOP</a>
 	</td>
         <td class="spacer" width="1%">
-	    <a class="nav" href="#"><img src="{www_dir}/sitedesign/mygold/images/top.gif" width="10" height="15" border="0" alt="" /></a>
+	    <a class="nav" href="#"><img src="/sitedesign/mygold/images/top.gif" width="10" height="15" border="0" alt="" /></a>
 	</td>	        
     </tr>
 </table>    	
@@ -100,7 +99,7 @@
 <table cellpadding="0" cellspacing="0" border="0" align="center">
 	<tr> 
 		<!-- BEGIN type_list_previous_tpl -->
-		<td> &lt;&lt;&nbsp;<a class="path" href="{www_dir}{index}/trade/productlist/{category_id}/{item_previous_index}">{intl-previous}</a>&nbsp;| 
+		<td> &lt;&lt;&nbsp;<a class="path" href="/trade/productlist/{category_id}/{item_previous_index}">{intl-previous}</a>&nbsp;| 
 		</td>
 		<!-- END type_list_previous_tpl -->
 		<!-- BEGIN type_list_previous_inactive_tpl -->
@@ -108,7 +107,7 @@
 		<!-- END type_list_previous_inactive_tpl -->
 		<!-- BEGIN type_list_item_list_tpl -->
 		<!-- BEGIN type_list_item_tpl -->
-		<td> &nbsp;<a class="path" href="{www_dir}{index}/trade/productlist/{category_id}/{item_index}">{type_item_name}</a>&nbsp;| 
+		<td> &nbsp;<a class="path" href="/trade/productlist/{category_id}/{item_index}">{type_item_name}</a>&nbsp;| 
 		</td>
 		<!-- END type_list_item_tpl -->
 		<!-- BEGIN type_list_inactive_item_tpl -->
@@ -116,7 +115,7 @@
 		<!-- END type_list_inactive_item_tpl -->
 		<!-- END type_list_item_list_tpl -->
 		<!-- BEGIN type_list_next_tpl -->
-		<td> &nbsp;<a class="path" href="{www_dir}{index}/trade/productlist/{category_id}/{item_next_index}">{intl-next}</a>&nbsp;&gt;&gt; 
+		<td> &nbsp;<a class="path" href="/trade/productlist/{category_id}/{item_next_index}">{intl-next}</a>&nbsp;&gt;&gt; 
 		</td>
 		<!-- END type_list_next_tpl -->
 		<!-- BEGIN type_list_next_inactive_tpl -->
