@@ -2001,6 +2001,7 @@ CREATE TABLE eZStats_Archive_RemoteHost (
   PRIMARY KEY (ID)
 );
 
+CREATE INDEX PageView_TimeValue ON eZStats_PageView (TimeValue);
 CREATE TABLE eZTodo_Category (
   ID int(11) NOT NULL,
   Description text,
