@@ -32,6 +32,20 @@ class eZPhoneType
         }
     }
 
+    /*
+    Henter ut alle telefontypene lagret i databasen.
+  */
+    function getAll( )
+    {
+        $this->dbInit();    
+        $phone_type_array = 0;
+    
+        array_query( $phone_type_array, "SELECT * FROM PhoneType" );
+    
+        return $phone_type_array;
+    }
+    
+
 
     /*!
       Lagrer en telefontyperow til databasen.

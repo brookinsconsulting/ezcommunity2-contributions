@@ -23,11 +23,17 @@ Adresse:<br>
 Postnummer:<br>
 <input type="text" name="Zip" value="{zip_code}"><br>
 
-
 Telefon:<br>
-<input type="text" name="Phone[0]"><br>
-E-mail:<br>
-<input type="text" name="Phone[1]"><br>
+<select name="PhoneType">
+{phone_type}
+</select>
+
+<input type="text" value="{phone_edit_number}">
+<input type="hidden" value="{phone_edit_id}">
+<br>
+
+{phone_list}
+<br>
 
 Kommentar:<br>
 <textarea rows="5" name="Comment">{comment}</textarea><br>
@@ -35,7 +41,7 @@ Kommentar:<br>
 
 <input type="hidden" name="Insert" value="TRUE">
 
-<input type="hidden" name="EditMode" value="{edit_mode}">
+<input type="hidden" name="Action" value="{edit_mode}">
 <input type="submit" value="{submit_text}">
 
 </form>

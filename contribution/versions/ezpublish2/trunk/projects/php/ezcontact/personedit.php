@@ -56,7 +56,6 @@ if ( $Action == "insert" )
   $link->setPersonID( $pid );
   $link->setAddressID( $aid );
   $link->store();
-
 }
 
 // sjekke session

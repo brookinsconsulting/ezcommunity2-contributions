@@ -13,8 +13,10 @@ require $DOCUMENTROOT . "classes/ezuser.php";
 require $DOCUMENTROOT . "classes/ezcompanytype.php";
 require $DOCUMENTROOT . "classes/ezcompanyaddressdict.php";
 require $DOCUMENTROOT . "classes/ezphone.php";
+require $DOCUMENTROOT . "classes/ezphonetype.php";
+require $DOCUMENTROOT . "classes/ezcompanyphonedict.php";
 
-if ( $Insert == "TRUE" )
+if ( $Action == "insert" )
 {
   $newCompany = new eZCompany();
 //  print $CompanyName;
@@ -58,16 +60,19 @@ $t = new Template( "." );
 $t->set_file( array(                    
                     "company_edit" => $DOCUMENTROOT . "templates/companyedit.tpl",
                     "company_type_select" => $DOCUMENTROOT . "templates/companytypeselect.tpl",
-                    "address_type_select" => $DOCUMENTROOT . "templates/addresstypeselect.tpl"
+                    "address_type_select" => $DOCUMENTROOT . "templates/addresstypeselect.tpl",
+                    "phone_type_select" => $DOCUMENTROOT . "templates/phonetypeselect.tpl"
                     ) );
 
 $company = new eZCompany();
 $companyType = new eZCompanyType();
 $company = new eZCompany();
 $addressType = new eZAddressType();
+$phoneType = new eZPhoneType();
 
 $company_type_array = $companyType->getAll( );
 $address_type_array = $addressType->getAll( );
+$phone_type_array = $phoneType->getAll();
 
 // company type selector
 for ( $i=0; $i<count( $company_type_array ); $i++ )
@@ -109,25 +114,47 @@ for ( $i=0; $i<count( $address_type_array ); $i++ )
   $t->parse( "address_type", "address_type_select", true );
 }
 
+// telefon type selector
+for ( $i=0; $i<count( $phone_type_array ); $i++ )
+{
+  $t->set_var( "phone_type_id", $phone_type_array[$i][ "ID" ] );
+  $t->set_var( "phone_type_name", $phone_type_array[$i][ "Name" ] );
+  
+  if ( $Phone_Type == $phone_type_array[$i][ "ID" ] )
+  {
+    $t->set_var( "is_selected", "selected" );
+  }
+  else
+  {
+    $t->set_var( "is_selected", "" );    
+  }
+  
+  $t->parse( "phone_type", "phone_type_select", true );
+}
+
+// redigering av firma
+if ( $Action == "edit" )
+{
+    print( $CID );    
+
+    $company = new eZCompany();
+    $company->get( $CID );
+    
+    //
+    
+}
+
 $t->set_var( "comment", $Comment );
 
 $t->set_var( "street_1", $Street1 );
 $t->set_var( "street_2", $Street2 );
 $t->set_var( "zip_code", $Zip );
 
-if ( $EditMode == "edit" )
-{  
-  $t->set_var( "submit_text", "lagre endringer" );
-}
-else
-{
- $t->set_var( "submit_text", "lagre" );
-}
+$t->set_var( "submit_text", "lagre endringer" );
 
 $t->set_var( "message", "Nytt kontakfirma" );
 $t->set_var( "document_root", $DOCUMENTROOT );
 
 $t->pparse( "output", "company_edit"  );
-
 
 ?>
