@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.1 2001/04/27 09:09:35 jb Exp $
+// $Id: index.php,v 1.2 2001/04/27 13:44:53 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <27-Apr-2001 10:15:40 amos>
@@ -70,6 +70,19 @@ foreach( $indexes as $index )
     $t->parse( "index_item", "index_item_tpl", true);
 }
 
-$t->pparse( "output", "index_tpl" );
+if ( $GenerateStaticPage == "true" and $cachedFile != "" )
+{
+    $fp = fopen ( $cachedFile, "w+");
+    $output = $t->parse( "output", "index_tpl" );
+    
+    // print the output the first time while printing the cache file.
+    print( $output );
+    fwrite ( $fp, $output );
+    fclose( $fp );
+}
+else
+{
+    $t->pparse( "output", "index_tpl" );
+}
 
 ?>

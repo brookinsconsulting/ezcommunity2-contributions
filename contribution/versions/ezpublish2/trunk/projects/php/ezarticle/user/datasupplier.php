@@ -110,7 +110,33 @@ switch ( $url_array[2] )
 
     case "index":
     {
-        include( "ezarticle/user/index.php" );
+        $user =& eZUser::currentUser();
+        $groupstr = "";
+        if( get_class( $user ) == "ezuser" )
+        {
+            $groupIDArray = $user->groups( true );
+            sort( $groupIDArray );
+            $first = true;
+            foreach( $groupIDArray as $groupID )
+            {
+                $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
+                $first = false;
+            }
+        }
+        include_once( "classes/ezcachefile.php" );
+        $file = new eZCacheFile( "ezarticle/cache/", array( "articleindex", $groupstr ),
+                                 "cache", "," );
+            
+        $cachedFile = $file->filename( true );
+        if ( $file->exists() )
+        {
+            include( $cachedFile );
+        }
+        else
+        {
+            $GenerateStaticPage = "true";
+            include( "ezarticle/user/index.php" );
+        }
     }
     break;
 
