@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: header.php,v 1.40.2.4 2002/04/24 14:00:34 jb Exp $
+// $Id: header.php,v 1.40.2.5 2002/04/26 14:56:44 jb Exp $
 //
 // Created on: <23-Jan-2001 16:06:07 bf>
 //
@@ -61,14 +61,37 @@ $charsetLanguage =& $session->variable( "charsetLanguage" );
 // This means that moving away from the section enabled pages will refetch the
 // old setting.
 //EP: autoswitch charsets in admin ------------------------------------------
-if ( $url_array[2] == "archive" )
+if ( $url_array[2] == "archive" || $url_array[2] == "articleedit" )
 {
     $CategoryID = $url_array[3];
-    
+    if ( $url_array[2] == "articleedit" )
+    {
+        include_once( "ezarticle/classes/ezarticle.php" );
+        $CategoryID = eZArticle::categoryDefinitionStatic( $CategoryID );
+    }
+
     include_once( "ezarticle/classes/ezarticlecategory.php" );
     include_once( "ezsitemanager/classes/ezsection.php" );
 
     $GlobalSectionID = eZArticleCategory::sectionIDStatic( $CategoryID );
+
+    $charsetLanguage = eZSection::language ( $GlobalSectionID );
+}
+else if ( $url_array[2] == "image" && ( $url_array[3] == "list" || $url_array[3] == "edit" ) )
+{
+    $CategoryID = $url_array[4];
+    if ( $url_array[3] == "edit" )
+    {
+        include_once( "ezimagecatalogue/classes/ezimage.php" );
+        $img = new eZImage( $CategoryID );
+        $CategoryID = $img->categoryDefinition();
+        $CategoryID = $CategoryID->id();
+    }
+
+    include_once( "ezimagecatalogue/classes/ezimagecategory.php" );
+    include_once( "ezsitemanager/classes/ezsection.php" );
+
+    $GlobalSectionID = eZImageCategory::sectionIDStatic( $CategoryID );
 
     $charsetLanguage = eZSection::language ( $GlobalSectionID );
 }
