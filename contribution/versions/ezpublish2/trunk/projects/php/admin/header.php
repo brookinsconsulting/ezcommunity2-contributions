@@ -35,7 +35,7 @@ function verify( msg, url )
                         <img src="images/topplogo.gif" width="430" height="32" border="0">
                 </td>
                 <td align="right"> 
-                        <img src="images/ez-logo.gif" width="160" height="32" border="0">
+                        <a href="http://www.ez.no" target="_blank"><img src="images/ez-logo.gif" width="160" height="32" border="0"></a>
                 </td>
               </tr>
             </table>
