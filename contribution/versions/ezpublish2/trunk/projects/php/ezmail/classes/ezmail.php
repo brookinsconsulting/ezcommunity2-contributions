@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.30 2001/06/29 09:48:35 pkej Exp $
+// $Id: ezmail.php,v 1.31 2001/07/05 20:42:27 bf Exp $
 //
 // Definition of eZMail class
 //
@@ -63,6 +63,8 @@ class eZMail
     */
     function eZMail( $id="", $fetch=true )
     {
+        $FilesAttached = false;
+        
         $this->IsConnected = false;
 
         // array used when sending mail.. do not alter!!!
@@ -770,16 +772,18 @@ class eZMail
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
- 
-        if ( get_class( $file ) == "ezvirtualfile" )
-        {
-            $this->dbInit();
- 
-            $fileID = $file->id();
- 
-            $this->Database->query( "INSERT INTO eZMail_MailAttachmentLink SET MailID='$this->ID', FileID='$fileID'" );
-            $this->calculateSize();
-        }
+
+       $FilesAttached = true;
+       
+       if ( get_class( $file ) == "ezvirtualfile" )
+       {
+           $this->dbInit();
+           
+           $fileID = $file->id();
+           
+           $this->Database->query( "INSERT INTO eZMail_MailAttachmentLink SET MailID='$this->ID', FileID='$fileID'" );
+           $this->calculateSize();
+       }
     }
  
     /*!
@@ -981,12 +985,15 @@ class eZMail
      */
     function send() 
     {
-        $files = $this->files();
-        foreach( $files as $file )
+        if ( $FilesAttached == true )
         {
-            $filename = "ezfilemanager/files/" . $file->fileName();
-            $attachment = fread( fopen( $filename, "r"), filesize( $filename ) );
-            $this->add_attachment( $attachment, $file->originalFileName(), "image/jpeg" );
+            $files = $this->files();
+            foreach( $files as $file )
+            {
+                $filename = "ezfilemanager/files/" . $file->fileName();
+                $attachment = fread( fopen( $filename, "r"), filesize( $filename ) );
+                $this->add_attachment( $attachment, $file->originalFileName(), "image/jpeg" );
+            }
         }
         
         $mime = "";
@@ -1100,6 +1107,9 @@ class eZMail
     var $UDate;
     
     var $Status;
+
+    // variable to check if files are attached ( no need to use database if not)
+    var $FilesAttached;
     
     /* database specific variables */
     var $ID;
