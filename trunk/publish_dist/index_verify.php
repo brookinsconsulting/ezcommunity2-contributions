@@ -31,11 +31,13 @@ elseif ( ereg( "(.*/)([^\/]+\.php)/?", $PHP_SELF, $regs ) )
 else
 	$siteDir = "./";
 
+// Detect os platform
 if ( substr( php_uname(), 0, 7) == "Windows" )
     $separator = ";";
 else
     $separator = ":";
 
+// Build include path
 $includePath = ini_get( "include_path" );
 if ( trim( $includePath ) != "" )
     $includePath .= $separator . $siteDir;
@@ -44,6 +46,7 @@ else
 ini_set( "include_path", $includePath );
 
 ob_end_clean();
+
 // script to check if the site is alive
 // this script will return 42 if the server is alive
 // it will return 13 if not
@@ -54,10 +57,13 @@ $db =& eZDB::globalDatabase();
 $db->query_single( $session_array, "SELECT COUNT( ID ) AS Count FROM eZSession_Session" );
 $db->query_single( $user_array, "SELECT COUNT( ID ) AS Count FROM eZUser_User" );
 $db->query_single( $stats_array, "SELECT COUNT( ID ) AS Count FROM eZStats_PageView" );
-if ( $user_array["Count"] > 0 )
-    print( "Success: 42" );
-else
-    print( "Error: 13" );
+
+// test results & informational notice
+if ( $user_array["Count"] > 0 ) {
+    print( "Success: <br /> Code: 42 <br /><br /> Congratulations! Your eZ publish 2 Installation has succesfully connected to the database and these tables: <br /> eZUser_User, eZSession_Session and eZStats_PageView. You can now use the <a href='/'>installation</a>" );
+} else {
+    print( "Error: <br /> Code: 13 <br /><br /> Your eZ publish 2 Installation was not able to successfully connect to the database or the tables: <br /> eZUser_User, eZSession_Session and eZStats_PageView were missing or contained no data. <br /> Please check your database settings, configuration and <a href='/index_verify.php'>try again</a>." );
+}
 
 exit();
 ?>

@@ -1,46 +1,67 @@
+################################################################################
+# PHP : Required php configuration variable changes required 
+#       for eZ publish 2 && php version > 4.3.2? / 4.2.0
+
+################################################################################
+#  eZ publish 2 : Runs best with 'magic_quotes' off 
 php_flag magic_quotes_gpc off
 
-##############################
-# PHP : Required variable changes required for eZ publish v2 && php v > 4.3.2?
-##############################
-
+################################################################################
+# eZ publish 2 : Requires Old World Global Variables
 php_flag register_globals on
+
+################################################################################
+# eZ publish 2 : Requires Large Array Support
 php_flag register_long_arrays on
 
-##############################
-# .htaccess : mod_rewrite : rules for users who do not have access to apache configuration
 
+################################################################################
+# .htaccess : mod_rewrite : Url Rewrite Rules, for users who do not have access 
+# to their apache web server  configuration
+
+# These attractive <IfModule> tags allow apache to ignore the rules 
+# if mod_rewrite support is not included or enabled by apache
 <IfModule mod_rewrite.c>
+      # mod_rewrite is highly recomended for an eZ publish's installation security.    
+      # mod_rewrite is not required for operation of eZ publish, per say.
       RewriteEngine On
 
       RewriteRule ^/stats/store/(.*).gif$ ezstats/user/storestats.php [L]
       RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$ ezfilemanager/files/$1 [T="application/oct-stream",L]
 
-#by ip:
-
+#    By IP Address:
+#
 #    RewriteCond %{HTTP_HOST} ^66\.42\.203\.110$
-#    RewriteRule !\.(ico|png|css|jpg|jpeg|gif|js|jar|swf|rm|rmm|ram|rpm|mp3|mp4|wma|asx|asf|wmv|mov|mpg|mpeg|ogg|wav|a
-u|aiff|midi|mid|pdf)$ index.php
+#    eZ publish Installation Test : The following line allows access test page.
+#    RewriteCond %{REQUEST_URI} !^/index_verify.php*
+#    RewriteRule !\.(ico|png|css|jpg|jpeg|gif|js|jar|swf|rm|rmm|ram|rpm|mp3|mp4|wma|asx|asf|wmv|mov|mpg|mpeg|ogg|wav|au|aiff|midi|mid|pdf)$ index.php
 
-#by dns short: example.org
+
+#   By DNS Name : example.org
+#
 
     RewriteCond %{HTTP_HOST} ^example\.org$
-    RewriteRule !\.(ico|png|css|jpg|jpeg|gif|js|jar|swf|rm|rmm|ram|rpm|mp3|mp4|wma|asx|asf|wmv|mov|mpg|mpeg|ogg|wav|a
-u|aiff|midi|mid|pdf)$ index.php
+    # eZ publish Installation Test : The following line allows access test page.
+    RewriteCond %{REQUEST_URI} !^/index_verify.php*
+    RewriteRule !\.(ico|png|css|jpg|jpeg|gif|js|jar|swf|rm|rmm|ram|rpm|mp3|mp4|wma|asx|asf|wmv|mov|mpg|mpeg|ogg|wav|au|aiff|midi|mid|pdf)$ index.php
 
-#by dns long:  www.example.org
 
+#   By DNS Name (Long) : www.example.org
+#
     RewriteCond %{HTTP_HOST} ^www\.example\.org$
-    RewriteRule !\.(ico|png|css|jpg|jpeg|gif|js|jar|swf|rm|rmm|ram|rpm|mp3|mp4|wma|asx|asf|wmv|mov|mpg|mpeg|ogg|wav|a
-u|aiff|midi|mid|pdf)$ index.php
+    # eZ publish Installation Test : The following line allows access test page.
+    # RewriteCond %{REQUEST_URI} !^/index_verify.php*
+    RewriteRule !\.(ico|png|css|jpg|jpeg|gif|js|jar|swf|rm|rmm|ram|rpm|mp3|mp4|wma|asx|asf|wmv|mov|mpg|mpeg|ogg|wav|au|aiff|midi|mid|pdf)$ index.php
 
-#by dns admin:  admin.example.org
 
+#   By DNS Name (Admin Site) :  admin.example.org  or  my.example.org
+#
      RewriteCond %{HTTP_HOST} ^admin\.example\.org$
-     RewriteRule !\.(ico|png|css|jpg|jpeg|gif|js|jar|swf|rm|rmm|ram|rpm|mp3|mp4|wma|asx|asf|wmv|mov|mpg|mpeg|ogg|wav|a
-u|aiff|midi|mid|pdf) index_admin.php
+     # eZ publish Installation Test : The following line allows access test page.
+     # RewriteCond %{REQUEST_URI} !^/index_verify.php*
+     RewriteRule !\.(ico|png|css|jpg|jpeg|gif|js|jar|swf|rm|rmm|ram|rpm|mp3|mp4|wma|asx|asf|wmv|mov|mpg|mpeg|ogg|wav|au|aiff|midi|mid|pdf) index_admin.php
 
 </IfModule>
 
-##############################
+################################################################################
 
