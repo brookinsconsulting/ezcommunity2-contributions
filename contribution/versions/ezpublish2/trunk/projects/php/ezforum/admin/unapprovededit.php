@@ -1,5 +1,5 @@
 <?
-// $Id: unapprovededit.php,v 1.5 2001/05/04 12:47:06 ce Exp $
+// $Id: unapprovededit.php,v 1.6 2001/05/08 11:51:45 ce Exp $
 //
 // Author: Bård Farstad <bf@ez.no>
 // Created on: <21-Jan-2001 13:34:48 bf>
@@ -43,13 +43,14 @@ $message = new eZForumMessage();
 
 for( $i=0; $i < count ( $ActionValueArray ); $i++ )
 {
-    
     $message = new eZForumMessage( $MessageID[$i] );
 
+    if ( $ActionValueArray[$i] == "Defer" )
+    {
+    }
     if ( $ActionValueArray[$i] == "Approve" )
     {
         $message->setIsApproved( 1 );
-
         $message->store();
     }
     if ( $ActionValueArray[$i] == "Discard" )
@@ -102,10 +103,9 @@ for( $i=0; $i < count ( $ActionValueArray ); $i++ )
 
         $message->delete();
     }
-
-    eZHTTPTool::header( "Location: /forum/unapprovedlist/" );
-    exit();
 }
+eZHTTPTool::header( "Location: /forum/unapprovedlist/" );
+exit();
 
 
 ?>

@@ -1,5 +1,5 @@
 <?
-// $Id: unapprovedlist.php,v 1.7 2001/05/04 13:21:24 ce Exp $
+// $Id: unapprovedlist.php,v 1.8 2001/05/08 11:51:45 ce Exp $
 //
 // Author: Bård Farstad <bf@ez.no>
 // Created on: <21-Jan-2001 13:34:48 bf>
@@ -75,10 +75,14 @@ else
 
         $forum = new eZForum( $msg->forumID() );
         $t->set_var( "forum_name", $forum->name() );
+        $t->set_var( "forum_id", $forum->id() );
 
         $categoryList =& $forum->categories();
 
-        $t->set_var( "category_name", $cateogryName );
+        $category =& $categoryList[0];
+
+        $t->set_var( "category_name", $category->name() );
+        $t->set_var( "category_id", $category->id() );
 
         $t->set_var( "message_topic", $msg->topic() );
 

@@ -22,6 +22,19 @@
         {message_postingtime}
     </td>
 </tr>
+<tr>
+    <td>&nbsp;</td>
+</tr>
+<tr>
+    <td>
+        <p class="boxtext">{intl-path}:</p>
+	<a class="path" href="/forum/categorylist/">{intl-forum-main}</a>
+	<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="" />
+        <a class="path" href="/forum/forumlist/{category_id}/">{category_name}</a>
+	<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="" />
+	<a class="path" href="/forum/messagelist/{forum_id}">{forum_name}</a>
+    </td>
+</tr>
 </table>
 
 <p class="boxtext">{intl-original_message}:</p>
@@ -34,6 +47,7 @@
 </table>
  
 <p class="boxtext">{intl-action}:</p>
+<span class="p">{intl-defer}:</span> <input value="Defer" type="radio" name="ActionValueArray[{i}]" checked /><br />
 <span class="p">{intl-approve}:</span> <input value="Approve" type="radio" name="ActionValueArray[{i}]" /><br />
 <span class="p">{intl-discard}:</span> <input value="Discard" type="radio" name="ActionValueArray[{i}]" /><br />
 <span class="p">{intl-reject}:</span> <input value="Reject" type="radio" name="ActionValueArray[{i}]" />
