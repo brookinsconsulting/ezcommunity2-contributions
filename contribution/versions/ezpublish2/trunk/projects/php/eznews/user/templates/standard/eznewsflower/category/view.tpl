@@ -3,8 +3,13 @@
 
 <hr noshade size="4" />
 
-<p>{this_public_description}</p>
 <!-- END this_item_template -->
+
+<p>{this_public_description}</p>
+
+<!-- BEGIN go_to_parent_template -->
+<a href="/{this_path}/{this_canonical_parent_id}">{intl-go_to_parent} {this_canonical_parent_name}</a>
+<!-- END go_to_parent_template -->
 
 
 <!-- BEGIN no_articles_template -->

@@ -32,6 +32,8 @@
 
 <br />
 
+<a href="/{this_path}/{this_canonical_parent_id}">{intl-go_to_parent} {this_canonical_parent_name}</a>
+
 <!-- END article_item_template -->
 
 

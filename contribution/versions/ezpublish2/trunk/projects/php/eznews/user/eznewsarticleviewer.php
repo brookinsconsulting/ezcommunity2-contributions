@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsarticleviewer.php,v 1.1 2000/10/13 20:55:50 pkej-cvs Exp $
+// $Id: eznewsarticleviewer.php,v 1.2 2000/10/13 21:46:07 pkej-cvs Exp $
 //
 // Definition of eZNewsArticleViewer class
 //
@@ -82,7 +82,7 @@ class eZNewsArticleViewer extends eZNewsViewer
 
 
     /*!
-        This function will fill in the information about this category.
+        This function will fill in the information about this article.
         
         \return
             Returns true if successful.
@@ -93,6 +93,22 @@ class eZNewsArticleViewer extends eZNewsViewer
             
         $this->IniObject->set_var( "this_id", $this->Item->id() );
         $this->IniObject->set_var( "this_name", $this->Item->name() );
+        
+        $thisParent = new eZNewsItem( $this->Item->getIsCanonical() );
+        
+        if( $thisParent->isCoherent() )
+        {
+            $url = $this->IniObject->GlobalIni->read_var( "eZNewsMain", "URL" );
+            $this->IniObject->set_var( "this_canonical_parent_id", $thisParent->id() );
+            $this->IniObject->set_var( "this_canonical_parent_name", $thisParent->name() );
+            $this->IniObject->set_var( "this_path", $url );
+        }
+        else
+        {
+            $this->IniObject->set_var( "this_canonical_parent_id", "" );
+            $this->IniObject->set_var( "this_canonical_parent_name", "" );
+            $this->IniObject->set_var( "this_path", "" );
+        }
 
         return $value;
     }

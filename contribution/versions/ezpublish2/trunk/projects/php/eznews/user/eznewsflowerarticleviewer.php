@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsflowerarticleviewer.php,v 1.1 2000/10/13 20:55:50 pkej-cvs Exp $
+// $Id: eznewsflowerarticleviewer.php,v 1.2 2000/10/13 21:46:07 pkej-cvs Exp $
 //
 // Definition of eZNewsFlowerArticleViewer class
 //
@@ -42,6 +42,7 @@ class eZNewsFlowerArticleViewer extends eZNewsArticleViewer
         $value = false;
 
         $this->IniObject->readUserTemplate( "eznewsflower/article", "view.php" );
+        
         $this->IniObject->set_file( array( "article" => "view.tpl" ) );
         $this->IniObject->set_block( "article", "article_here_template", "article_here" );
         $this->IniObject->set_block( "article", "article_item_template", "article_item" );

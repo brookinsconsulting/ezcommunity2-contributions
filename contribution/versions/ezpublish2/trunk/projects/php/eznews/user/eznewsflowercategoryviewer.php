@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsflowercategoryviewer.php,v 1.2 2000/10/13 21:10:47 pkej-cvs Exp $
+// $Id: eznewsflowercategoryviewer.php,v 1.3 2000/10/13 21:46:07 pkej-cvs Exp $
 //
 // Definition of eZNewsFlowerCategoryCreator class
 //
@@ -54,14 +54,15 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
         else
         {
             $this->IniObject->readUserTemplate( "eznewsflower/category", "view.php" );
+            
             $this->IniObject->set_file( array( "category" => "view.tpl" ) );
             $this->IniObject->set_block( "category", "this_item_template", "this_item" );
             $this->IniObject->set_block( "category", "articles_template", "articles" );
             $this->IniObject->set_block( "category", "no_articles_template", "no_articles" );
             $this->IniObject->set_block( "category", "article_item_template", "article_item" );
+            $this->IniObject->set_block( "category", "go_to_parent_template", "go_to_parent" );
             
-            $this->IniObject->readUserTemplate( "eznewsflower/article", "view.php" );
-            $this->IniObject->set_file( array( "article" => "view.tpl" ) );
+            $this->IniObject->set_file( array( "article" => "article.tpl" ) );
             $this->IniObject->set_block( "article", "article_item_template", "article_item" );
             $this->IniObject->set_block( "article", "article_image_template", "article_image" );
             
@@ -147,7 +148,7 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
             if( $child->ItemTypeID() == $itemType->ID() && $changeType->ID() == $child->status() )
             {
                 $child = new eZNewsFlowerArticle( $child->id() );
-                echo $child->name() . "<br>";
+
                 /* snitched from article class */
                 /* Why? Because the fsck template functions don't work across objects. */
                 
@@ -168,11 +169,11 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
                     $image = $mainImage->requestImageVariation( 250, 250 );
 
                     $this->IniObject->set_var( "this_image_id", $mainImage->id() );
-                    $this->IniObject->set_var( "this_image_value", htmlspecialchars( $mainImage->name() ) );
+                    $this->IniObject->set_var( "this_image_name", htmlspecialchars( $mainImage->name() ) );
                     $this->IniObject->set_var( "this_image", "/" . htmlspecialchars( $image->imagePath() ) );
-                    $this->IniObject->set_var( "this_image_width", "/" . htmlspecialchars( $image->width() ) );
-                    $this->IniObject->set_var( "this_image_height", "/" . htmlspecialchars( $image->height() ) );
-                    $this->IniObject->set_var( "this_image_caption", "/" . htmlspecialchars( $mainImage->caption() ) );
+                    $this->IniObject->set_var( "this_image_width", $image->width() );
+                    $this->IniObject->set_var( "this_image_height", $image->height() );
+                    $this->IniObject->set_var( "this_image_caption", "/" . htmlspecialchars( $mainImage->name() ) );
                     $this->IniObject->parse( "article_image", "article_image_template" );
                     $this->IniObject->set_var( "this_picture", $this->IniObject->get_var( "article_image" ) );
                     $this->IniObject->set_var( "image", "" );
@@ -229,14 +230,36 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
     function doThis()
     {
         $value = true;
-        
+            
         $publicDescription = new eZNewsArticle( $this->Item->publicDescriptionID() );
         $this->IniObject->set_var( "this_public_description", $publicDescription->Story() );
         
         $privateDescription = new eZNewsArticle( $this->Item->privateDescriptionID() );
         $this->IniObject->set_var( "this_private_description", $privateDescription->Story() );
 
-        $value = eZNewsCategoryViewer::doThis();
+        $this->IniObject->set_var( "this_id", $this->Item->id() );
+        $this->IniObject->set_var( "this_name", $this->Item->name() );
+
+        $itemType = new eZNewsItemType( "flowercategory" );
+        
+        $thisParent = new eZNewsItem( $this->Item->getIsCanonical() );
+        
+        if( $thisParent->isCoherent() && $thisParent->itemTypeID() == $itemType->id() )
+        {
+            $url = $this->IniObject->GlobalIni->read_var( "eZNewsMain", "URL" );
+            $this->IniObject->set_var( "this_canonical_parent_id", $thisParent->id() );
+            $this->IniObject->set_var( "this_canonical_parent_name", $thisParent->name() );
+            $this->IniObject->set_var( "this_path", $url );
+            $this->IniObject->parse( "go_to_parent", "go_to_parent_template" );
+        }
+        else
+        {
+            $this->IniObject->set_var( "this_canonical_parent_id", "" );
+            $this->IniObject->set_var( "this_canonical_parent_name", "" );
+            $this->IniObject->set_var( "go_to_parent", "" );
+            $this->IniObject->set_var( "this_path", "" );
+        }
+
         return $value;
     }
 };
