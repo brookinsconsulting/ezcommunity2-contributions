@@ -283,10 +283,11 @@
 <tr>
 	<!-- BEGIN mail_method_tpl -->
 	<td>
-	<p class="boxtext">{intl-mail_method}:</p>
+<!--	<p class="boxtext">{intl-mail_method}:</p>
 	{intl-email}: <input type="radio" value="1" name="MailMethod" checked />&nbsp;
 	{intl-smail}: <input type="radio" value="2" name="MailMethod" />
-	</td>
+	</td> -->
+<input type="hidden" value="1" name="MailMethod" />
 	<!-- END mail_method_tpl -->
 </tr>
 </table>
