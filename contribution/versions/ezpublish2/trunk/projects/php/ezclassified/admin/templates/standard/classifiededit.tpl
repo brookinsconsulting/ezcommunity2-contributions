@@ -76,14 +76,28 @@
 
 <h2>Stillingsinformasjon</h2>
 
-<p class="boxtext">{intl-name}:</p>
-<input type="text" size="20" name="Name" value="{classified_name}"/>
+<p class="boxtext">{intl-title}:</p>
+<input type="text" size="20" name="Title" value="{classified_title}"/>
 
 <p class="boxtext">{intl-category}:</p>
 <select multiple size="10" name="CategoryArray[]">
 <!-- BEGIN category_item_tpl -->
 <option value="{category_id}" {is_selected}>{category_level}{category_name}</option>
 <!-- END category_item_tpl -->
+</select>
+
+<p class="boxtext">{intl-position_type}:</p>
+<select single size="10" name="PositionType">
+<!-- BEGIN position_type_item_tpl -->
+<option value="{position_type_id}" {is_selected}>{position_name}</option>
+<!-- END position_type_item_tpl -->
+</select>
+
+<p class="boxtext">{intl-initiate_type}:</p>
+<select single size="10" name="InitiateType">
+<!-- BEGIN initiate_type_item_tpl -->
+<option value="{initiate_type_id}" {is_selected}>{initiate_name}</option>
+<!-- END initiate_type_item_tpl -->
 </select>
 <br />
 
@@ -98,7 +112,12 @@
 <tr>
 	<td width="50%">
 	<p class="boxtext">{intl-pay}:</p>
+<!-- BEGIN classified_pay_edit_tpl -->
 	<input type="text" size="20" name="Pay" value="{classified_pay}"/>
+<!-- END classified_pay_edit_tpl -->
+<!-- BEGIN classified_pay_edit_def_tpl -->
+	<input type="text" size="20" name="Pay" value="{intl-pay_default}"/>
+<!-- END classified_pay_edit_def_tpl -->
 	<br /><br />
 	</td>
 	<td>
