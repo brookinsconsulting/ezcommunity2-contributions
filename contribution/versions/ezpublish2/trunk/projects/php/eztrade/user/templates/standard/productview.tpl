@@ -111,14 +111,20 @@
 </tr>
 </table>
 
-<p class="boxtext">Pris:</p>
-{product_price}
+	<!-- BEGIN price_tpl -->
+	<p class="boxtext">{intl-price}:</p>
+	{product_price}
+	<!-- END price_tpl -->	
 
 <br /><br />
 
 <hr noshade="noshade" size="4" />
 
-<input class="okbutton" type="submit" name="Cart" value="kjøp" />
-<input class="okbutton" type="submit" name="WishList" value="Ønskeliste" />
+<!-- BEGIN add_to_cart_tpl -->
+<input class="okbutton" type="submit" name="Cart" value="{intl-add_to_cart}" />
+
+<input class="okbutton" type="submit" name="WishList" value="{intl-wishlist}" />
+<!-- END add_to_cart_tpl -->
+
 
 </form>
