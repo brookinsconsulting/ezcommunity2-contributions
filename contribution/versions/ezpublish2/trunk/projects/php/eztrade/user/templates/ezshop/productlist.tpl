@@ -56,7 +56,7 @@
 <tr>
 	<td>
 
-	<a href="/trade/productview/{product_id}/{category_id}/"><h2>{product_name}</h2></a><br>
+	<a href="/trade/productview/{product_id}/{category_id}/"><h2>{product_name}</h2></a>
 
 <!-- BEGIN product_image_tpl -->
     <table align="right">
