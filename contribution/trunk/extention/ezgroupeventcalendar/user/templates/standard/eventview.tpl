@@ -1,15 +1,21 @@
-<form method="get" action="{www_dir}{index}/search/">
 <table width="100%" cellspacing="0" cellpadding="2" border="0" align="center">
   <tr>
     <td align="left"> 
      <h1>{intl-event_view}</h1>
     </td>
-    <td> 
-	&nbsp;
+  </tr>
+  <tr>
+    <td align="right">
+	<form method="post" action="{www_dir}{index}/groupeventcalendar/eventedit/edit/">
+	 <input class="stdbutton" type="submit" name="GoDay" value="{intl-day}">
+	 <input class="stdbutton" type="submit" name="GoWeek" value="{intl-week}">
+	 <input class="stdbutton" type="submit" name="GoMonth" value="{intl-month}">
+	 <input class="stdbutton" type="submit" name="GoYear" value="{intl-year}">
+	 <input class="stdbutton" type="submit" name="GoToday" value="{intl-today}">
+	</form>
     </td>
   </tr>
 </table>
-</form>
 
 <!-- BEGIN error_tpl -->
 <p class="error">{intl-error}</p>
@@ -31,6 +37,7 @@
 	</td>
 </tr>
 </table>
+
 <br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -181,6 +188,7 @@
 </tr>
 <!-- END attached_file_tpl -->
 </table>
+<br />
 <!-- END attached_file_list_tpl -->
 
 <!-- BEGIN valid_editor_tpl -->
@@ -199,16 +207,8 @@
 </tr>
 </table>
 </form>
-<!-- END valid_editor_tpl -->
+
 <hr noshade size="4" />
+<!-- END valid_editor_tpl -->
 
 <!-- END view_tpl -->
-<form method="post" action="{www_dir}{index}/groupeventcalendar/eventedit/edit/">
-<input class="stdbutton" type="submit" name="GoDay" value="{intl-day}">
-<input class="stdbutton" type="submit" name="GoWeek" value="{intl-week}">
-<input class="stdbutton" type="submit" name="GoMonth" value="{intl-month}">
-<input class="stdbutton" type="submit" name="GoYear" value="{intl-year}">
-<input class="stdbutton" type="submit" name="GoToday" value="{intl-today}">
-</form>
-
-<br />
