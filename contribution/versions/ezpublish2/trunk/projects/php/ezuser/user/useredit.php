@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.20 2001/05/14 15:31:15 fh Exp $
+// $Id: useredit.php,v 1.21 2001/05/25 12:06:05 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 12:52:42 bf>
@@ -107,7 +107,8 @@ if ( $Action == "Insert" )
                     }
                     else
                     {
-                        eZHTTPTool::header( "Location: /" );
+                        $redirect = $ini->read_var( "eZUserMain", "DefaultRedirect" );
+                        eZHTTPTool::header( "Location: $redirect" );
                         exit();
                     }
                 }
