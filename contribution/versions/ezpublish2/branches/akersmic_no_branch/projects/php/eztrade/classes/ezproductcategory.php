@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproductcategory.php,v 1.52.8.1 2002/01/02 11:37:34 bf Exp $
+// $Id: ezproductcategory.php,v 1.52.8.2 2002/01/14 10:20:12 bf Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -701,16 +701,6 @@ class eZProductCategory
        $return_array = array();
        $product_array = array();
 
-       $user =& eZUser::currentUser();
-       if ( $user )
-       {
-           $groups = $user->groups();
-       }
-       else
-       {
-           $groups = array();
-       }
-       
        if ( $fetchNonActive  == true )
        {
            $nonActiveCode = "";

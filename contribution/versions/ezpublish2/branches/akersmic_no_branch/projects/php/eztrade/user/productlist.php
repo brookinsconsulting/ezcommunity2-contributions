@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.41 2001/10/16 11:33:52 ce Exp $
+// $Id: productlist.php,v 1.41.8.1 2002/01/14 10:20:12 bf Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -186,7 +186,7 @@ foreach ( $productList as $product )
     }
     else
     {
-        $t->set_var( "product_image", "" );    
+        $t->set_var( "product_image", "" );
     }
 
     $SiteDescriptionOverride .= $product->name() . " ";

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productedit.php,v 1.69.2.1.4.1 2002/01/03 08:54:40 ce Exp $
+// $Id: productedit.php,v 1.69.2.1.4.2 2002/01/14 10:20:12 bf Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -489,8 +489,6 @@ $t->set_block( "product_edit_tpl", "vat_select_tpl", "vat_select" );
 $t->set_block( "product_edit_tpl", "shipping_select_tpl", "shipping_select" );
 $t->set_block( "product_edit_tpl", "quantity_item_tpl", "quantity_item" );
 
-$t->set_block( "product_edit_tpl", "read_group_item_tpl", "read_group_item" );
-$t->set_block( "product_edit_tpl", "write_group_item_tpl", "write_group_item" );
 
 $t->set_block( "product_edit_tpl", "price_range_tpl", "price_range" );
 $t->set_block( "product_edit_tpl", "normal_price_tpl", "normal_price" );

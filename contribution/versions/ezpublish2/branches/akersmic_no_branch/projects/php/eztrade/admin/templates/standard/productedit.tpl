@@ -37,26 +37,6 @@
 <tr>
         <td>&nbsp;</td>
 </tr>
-<tr>
-	<td align="top">
-	<p class="boxtext">{intl-read_groups}:</p>
-	<select name="ReadGroupArray[]" size="3" multiple>
-	<option value="0" {all_selected}>{intl-all}</option>
-	<!-- BEGIN read_group_item_tpl -->
-	<option value="{read_id}" {selected}>{read_name}</option>
-	<!-- END read_group_item_tpl -->
-	</select>
-	</td>	
-	<td valign="top">
-	<p class="boxtext">{intl-write_groups}:</p>
-	<select name="WriteGroupArray[]" size="3" multiple>
-	<option value="0" {all_write_selected}>{intl-all}</option>
-	<!-- BEGIN write_group_item_tpl -->
-	<option value="{write_id}" {is_selected}>{write_name}</option>
-	<!-- END write_group_item_tpl -->
-	</select>
-	</td>
-</tr>
 </table>
 
 <p class="boxtext">{intl-keywords}:</p>
