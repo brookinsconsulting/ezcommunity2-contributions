@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.56 2001/03/17 16:02:34 bf Exp $
+// $Id: ezarticle.php,v 1.57 2001/03/21 15:51:28 fh Exp $
 //
 // Definition of eZArticle class
 //
@@ -884,11 +884,13 @@ class eZArticle
            $fetch_text = "AND A.IsPublished = 'true'";
        }
        $this->Database->query_single( $article_array, "
-                    SELECT count( DISTINCT A.ID ) AS Count
-                    FROM eZArticle_Article AS A LEFT JOIN eZArticle_ArticlePermission AS P ON A.ID=P.ObjectID,
+                    SELECT count( A.ID ) AS Count
+                    FROM eZArticle_Article AS A, eZArticle_ArticlePermission AS P,
                     eZArticle_Category, eZArticle_ArticleCategoryLink 
                     WHERE
                     $loggedInSQL
+                    A.ID=P.ObjectID
+                    AND
                     eZArticle_ArticleCategoryLink.ArticleID = A.ID
                     AND
                     eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
@@ -1126,10 +1128,17 @@ class eZArticle
         $db =& eZDB::globalDatabase();
 
         $ArticleID = 0;
-        
+
+        /* OLD
         $db->array_query( $result, "SELECT DISTINCT ArticleID FROM
                                     eZArticle_ArticleForumLink
                                     WHERE ForumID='$ForumID'" );
+        */
+
+        $db->array_query( $result, "SELECT ArticleID FROM
+                                    eZArticle_ArticleForumLink
+                                    WHERE ForumID='$ForumID' GROUP BY ArticleID" );
+
         if( count( $result ) > 0 )
         {
             $ArticleID = $result[0]["ArticleID"];
@@ -1165,7 +1174,7 @@ class eZArticle
             $limit_text = "LIMIT $offset, $limit";
         }
         $db =& eZDB::globalDatabase();
-        $db->array_query( $qry_array, "SELECT count( DISTINCT eZArticle_Article.ID ) AS Count, AuthorID
+        $db->array_query( $qry_array, "SELECT count( eZArticle_Article.ID ) AS Count, AuthorID
                                        FROM eZArticle_Article, eZArticle_ArticleCategoryLink
                                        WHERE IsPublished='true' AND eZArticle_Article.ID=ArticleID
                                        GROUP BY AuthorID $sort_text $limit_text" );
@@ -1283,12 +1292,19 @@ class eZArticle
        
 
         
-       $query = "SELECT count( DISTINCT A.ID ) AS Count 
+/* old       $query = "SELECT count( DISTINCT A.ID ) AS Count 
                      FROM eZArticle_Article AS A LEFT JOIN eZArticle_ArticlePermission AS P ON A.ID=P.ObjectID,
                      eZArticle_Category AS C, eZArticle_ArticleCategoryLink AS ACL
                      WHERE IsPublished='true' AND AuthorID='$authorid' AND $loggedInSQL
                      A.ID=ACL.ArticleID AND C.ID=ACL.CategoryID";
-        
+                     */
+
+        $query = "SELECT count( A.ID ) AS Count 
+                     FROM eZArticle_Article AS A,
+                     eZArticle_ArticlePermission AS P
+                     WHERE IsPublished='true' AND AuthorID='$authorid' AND $loggedInSQL
+                     A.ID=P.ObjectID";
+
         $db =& eZDB::globalDatabase();
 //        $db->query_single( $qry_array, "SELECT count( eZArticle_Article.ID ) AS Count
 //                                        FROM eZArticle_Article, eZArticle_ArticleCategoryLink

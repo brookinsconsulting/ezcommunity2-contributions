@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: authorview.php,v 1.5 2001/03/01 14:06:25 jb Exp $
+// $Id: authorview.php,v 1.6 2001/03/21 15:51:28 fh Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <16-Feb-2001 15:36:13 amos>
@@ -76,7 +76,7 @@ foreach( $articles as $article )
 {
     $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
     $t->set_var( "article_id", $article["ID"] );
-    $t->set_var( "article_name", $article["Name"] );
+    $t->set_var( "article_name", htmlspecialchars( $article["Name"] ) );
     $t->set_var( "category_id", $article["CategoryID"] );
     $t->set_var( "article_category", $article["CategoryName"] );
     $t->set_var( "author_name", $article["AuthorName"] );
