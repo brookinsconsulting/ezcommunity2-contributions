@@ -69,7 +69,7 @@ CREATE TABLE eZBulkMail_GroupCategoryLink (
 ) TYPE=MyISAM;
 
 CREATE TABLE eZBulkMail_Forgot (
-  ID(11) int NOT NULL,
+  ID int(11) NOT NULL,
   Mail varchar(255) NOT NULL,
   Password varchar(50) NOT NULL,
   Hash varchar(33),
