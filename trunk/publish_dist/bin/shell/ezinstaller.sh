@@ -4,8 +4,8 @@
 # ezinstaller - version 1.10 - (c) 2001 Kai Dübbert <kai@duebbert.de>, eZ Systems
 # ===============================================================================
 #
-# This shell script will install eZ publish (http://developer.ez.no) on a Linux 
-# (or Unix) system.
+# This shell script will install eZ publish 2 (http://ezcommunity.net/) on a Linux 
+# (or Unix like) system.
 #
 #---------------------------------------------------------------------------
 # Licence: GPL
@@ -36,7 +36,7 @@
 # 1.5: - partial rewrite
 #      - fixed for 2.2 alpha
 # 1.4: - fixed to have it work with older Bash
-#
+# 1.4.5 - Updated script to reflect change from ez.no to ezcommunity.net & new design of eZ publish 2.3.0
 
 ############################################################################
 # Default values
@@ -47,7 +47,7 @@ DEF_OWNER=www-data
 DEF_GROUP=www-data
 DEF_DBNAME=publish
 DEF_DBUSER=publish
-DEF_TITLE="eZ publish"
+DEF_TITLE="eZ publish 2"
 DEF_DBSERVER=localhost
 DEF_URLDIR=/publish
 DEF_INSTALL=1
@@ -58,12 +58,13 @@ DEF_INSTALL=1
 ############################################################################
 #Let's go
 #
-DATE="2001-12-07"
-VERSION="1.10 [$DATE]"
+DATE="09-25-2004"
+VERSION="1.4.5 [$DATE]"
 
-echo "ezinstaller.sh - version $VERSION - (c) 2001 Kai Dübbert, eZ Systems"
+#echo "ezinstaller.sh - version $VERSION - (c) 2001 Kai Dübbert, eZ Systems"
+echo "ezinstaller.sh - version $VERSION "
 echo ""
-echo "This tool will help you install eZ publish on your server."
+echo "This tool will help you install eZ publish 2 on your server."
 echo ""
 echo "Licence: GPL"
 echo ""
@@ -469,7 +470,7 @@ fi
 if [ $Q_DB_CREATE = 1 ]; then
 	# db structure creation
 	echo -n "Creating data structures... "
-	mysql $DBOPTIONS $C_DBNAME < sql/publish_mysql.sql
+	mysql $DBOPTIONS $C_DBNAME < bin/sql/publish_mysql.sql
 	if [ ! $? = 0 ]; then
 		echo "Creating the data structures failed! Abort."
 		exit 1
@@ -484,7 +485,7 @@ if [ $Q_DB_CREATE = 1 ]; then
 	read Q
 	if [ "$Q" = "y" ] || [ "$Q" = "Y" ]; then
 		echo -n "Filling the database... "
-		mysql $DBOPTIONS $C_DBNAME < sql/data_mysql.sql
+		mysql $DBOPTIONS $C_DBNAME < bin/sql/data_mysql.sql
 		if [ ! $? = 0 ]; then
 			echo "Filling the database with example data failed! Aborting."
 			exit 1
@@ -498,9 +499,9 @@ fi
 # Extracting the examples
 #
 echo -n "Extracting the data for the example site... "
-tar xzfp data.tar.gz
+tar xzfp bin/data/data.tar.gz
 if [ ! $? = 0 ]; then
-	echo "Failed to extract the example data (data.tar.gz)! Aborting."
+	echo "Failed to extract the example data (bin/data/data.tar.gz)! Aborting."
 	exit 1
 else
 	echo "done."
@@ -511,7 +512,7 @@ fi
 #
 if [ "$C_INSTALL" = "old" ]; then
 	echo -n "Executing secure_modfix.sh... "
-	./secure_modfix.sh $C_OWNER $C_GROUP
+	./bin/shell/secure_modfix.sh $C_OWNER $C_GROUP
 	if [ -d ezimagecatalogue/catalogue ]; then
 		chown -R $C_OWNER ezimagecatalogue/catalogue
 		chgrp -R $C_GROUP ezimagecatalogue/catalogue
@@ -525,8 +526,8 @@ if [ "$C_INSTALL" = "old" ]; then
 else
 	# TODO: let's try to find a better solution
 	echo "Creating the needed cache directories and files... "
-	touch error.log
-	chmod 660 error.log
+	touch bin/logs/error.log
+	chmod 660 bin/logs/error.log
 
 	dirs="
 	admin/tmp
@@ -587,7 +588,7 @@ fi
 # Fix the owners and permissions. We don't have to be too picky with the new install.
 #
 if [ "$C_INSTALL" = "new" ]; then
-	chmod 640 site.ini
+	chmod 640 bin/ini/site.ini
 fi
 
 
@@ -595,7 +596,7 @@ fi
 # cleaning and securing the cache
 #
 echo -n "Executing secure_clearcache.sh... "
-./secure_clearcache.sh
+./bin/shell/secure_clearcache.sh
 if [ $? = 0 ]; then
 	echo "done."
 else
@@ -636,57 +637,57 @@ if [ "$C_INSTALL" = "new" ] && [ $C_WWWDIR != $C_INSTDIR ]; then
 	done
 	echo "done."
 
-	if [ ! -d "$C_WWWDIR/admin" ]; then
-		mkdir "$C_WWWDIR/admin"
+	if [ ! -d "$C_WWWDIR/design/admin" ]; then
+		mkdir "$C_WWWDIR/design/admin"
 	fi
 
-	echo -n "Moving admin/images to $C_WWWDIR/admin... "
-	mv "admin/images" "$C_WWWDIR/admin"
+	echo -n "Moving design/admin/images to $C_WWWDIR/design/admin... "
+	mv "design/admin/images" "$C_WWWDIR/design/admin"
 	echo "done."
 
 	echo -n "Moving images to $C_WWWDIR... "
 	mv "images" "$C_WWWDIR"
 	echo "done."
 
-	echo -n "Moving admin/templates/*/* to $C_WWWDIR... "
-	if [ ! -d "admin/templates" ]; then
-		mkdir -p admin/templates
+	echo -n "Moving design/admin/templates/*/* to $C_WWWDIR... "
+	if [ ! -d "design/admin/templates" ]; then
+		mkdir -p design/admin/templates
 	fi
-	for i in admin/templates/*; do
+	for i in design/admin/templates/*; do
 		if [ ! "$(basename $i)" = "CVS" ]; then
-			mkdir -p admin/templates/$(basename $i)
+			mkdir -p design/admin/templates/$(basename $i)
 			if [ -e $i/*.css ]; then
 				# TODO: Resolve this problem!
-				mv $i/*.css admin/templates/$(basename $i) | grep -v "are the same file"
+				mv $i/*.css design/admin/templates/$(basename $i) | grep -v "are the same file"
 			fi
 		fi
 	done
 	echo "done."
 
-	echo -n "Moving sitedesign/*/*.css to sitedesign/*... "
-	for i in sitedesign/*; do
+	echo -n "Moving design/*/*.css to design/*... "
+	for i in design/*; do
 		SDNAME=`basename $i`
 		if [ ! "$SDNAME" = "CVS" ]; then
-			mkdir -p "$C_WWWDIR/sitedesign/$SDNAME"
+			mkdir -p "$C_WWWDIR/design/$SDNAME"
 			if [ -e $i/images ]; then
-				mv "$i/images" "$C_WWWDIR/sitedesign/$SDNAME"
+				mv "$i/images" "$C_WWWDIR/design/$SDNAME"
 			fi
 			if [ -e $i/*.css ]; then
-				mv $i/*.css "$C_WWWDIR/sitedesign/$SDNAME"
+				mv $i/*.css "$C_WWWDIR/design/$SDNAME"
 			fi
 		fi
 	done
 	echo "done."
 
 	echo -n "Moving sitedir.ini to $C_WWWDIR... "
-	mv "sitedir.ini" "$C_WWWDIR"
+	mv "bin/ini/sitedir.ini" "$C_WWWDIR/bin/ini/"
 	echo "done."
 
 	#
 	# change sitedir.ini
 	#
-	echo -n "Adjusting $C_WWWDIR/sitedir.ini... "
-	sed s:"siteDir = \"\"":"siteDir = \"$C_INSTDIR\"": $C_WWWDIR/sitedir.ini > $C_WWWDIR/sitedir.ini.tmp && mv $C_WWWDIR/sitedir.ini.tmp $C_WWWDIR/sitedir.ini
+	echo -n "Adjusting $C_WWWDIR/bin/ini/sitedir.ini... "
+	sed s:"siteDir = \"\"":"siteDir = \"$C_INSTDIR\"": $C_WWWDIR/bin/ini/sitedir.ini > $C_WWWDIR/bin/ini/sitedir.ini.tmp && mv $C_WWWDIR/bin/ini/sitedir.ini.tmp $C_WWWDIR/bin/ini/sitedir.ini
 	echo "done."
 fi
 
@@ -735,13 +736,13 @@ fi
 echo ""
 echo "#################################################################"
 echo "Changing site.ini with our values."
-echo -n "Adjusting site.ini... "
-echo -n "SiteURL"; sed s:SiteURL=ez.no:"SiteURL=$C_HOSTNAME": $C_INSTDIR/site.ini > $C_INSTDIR/site.ini.tmp && mv $C_INSTDIR/site.ini.tmp $C_INSTDIR/site.ini
-echo -n " SiteTitle"; sed s:'SiteTitle=eZ Systems':"SiteTitle=$C_TITLE": $C_INSTDIR/site.ini > $C_INSTDIR/site.ini.tmp && mv $C_INSTDIR/site.ini.tmp $C_INSTDIR/site.ini
-echo -n " Server"; sed s:Server=localhost:"Server=$C_DBSERVER": $C_INSTDIR/site.ini > $C_INSTDIR/site.ini.tmp && mv $C_INSTDIR/site.ini.tmp $C_INSTDIR/site.ini
-echo -n " Database"; sed s:Database=publish:"Database=$C_DBNAME": $C_INSTDIR/site.ini > $C_INSTDIR/site.ini.tmp && mv $C_INSTDIR/site.ini.tmp $C_INSTDIR/site.ini
-echo -n " User"; sed s:User=publish:"User=$C_DBUSER": $C_INSTDIR/site.ini > $C_INSTDIR/site.ini.tmp && mv $C_INSTDIR/site.ini.tmp $C_INSTDIR/site.ini
-echo -n " Password"; sed s:Password=publish:"Password=$C_DBPASS": $C_INSTDIR/site.ini > $C_INSTDIR/site.ini.tmp && mv $C_INSTDIR/site.ini.tmp $C_INSTDIR/site.ini
+echo -n "Adjusting bin/ini/site.ini... "
+echo -n "SiteURL"; sed s:SiteURL=ez.no:"SiteURL=$C_HOSTNAME": $C_INSTDIR/bin/ini/override/site.ini > $C_INSTDIR/bin/ini/override/site.ini.tmp && mv $C_INSTDIR/bin/ini/override/site.ini.tmp $C_INSTDIR/bin/ini/override/site.ini
+echo -n " SiteTitle"; sed s:'SiteTitle=eZ Systems':"SiteTitle=$C_TITLE": $C_INSTDIR/bin/ini/override/site.ini > $C_INSTDIR/bin/ini/override/site.ini.tmp && mv $C_INSTDIR/bin/ini/override/site.ini.tmp $C_INSTDIR/bin/ini/override/site.ini
+echo -n " Server"; sed s:Server=localhost:"Server=$C_DBSERVER": $C_INSTDIR/bin/ini/override/site.ini > $C_INSTDIR/bin/ini/override/site.ini.tmp && mv $C_INSTDIR/bin/ini/override/site.ini.tmp $C_INSTDIR/bin/ini/override/site.ini
+echo -n " Database"; sed s:Database=publish:"Database=$C_DBNAME": $C_INSTDIR/bin/ini/override/site.ini > $C_INSTDIR/bin/ini/override/site.ini.tmp && mv $C_INSTDIR/bin/ini/override/site.ini.tmp $C_INSTDIR/bin/ini/override/site.ini
+echo -n " User"; sed s:User=publish:"User=$C_DBUSER": $C_INSTDIR/bin/ini/override/site.ini > $C_INSTDIR/bin/ini/override/site.ini.tmp && mv $C_INSTDIR/bin/ini/override/site.ini.tmp $C_INSTDIR/bin/ini/override/site.ini
+echo -n " Password"; sed s:Password=publish:"Password=$C_DBPASS": $C_INSTDIR/bin/ini/override/site.ini > $C_INSTDIR/bin/ini/override/site.ini.tmp && mv $C_INSTDIR/bin/ini/override/site.ini.tmp $C_INSTDIR/bin/ini/override/site.ini
 echo " ...done."
 
 
@@ -760,7 +761,8 @@ NameVirtualHost $C_IPADDRESS
    RewriteEngine On 
    RewriteRule ^/stats/store/(.*).gif\$  $C_WWWDIR/ezstats/user/storestats.php [S=2]
    RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)\$  $C_WWWDIR/ezfilemanager/files/\$1 [T="application/oct-stream",S=1]
-   RewriteRule !\.(gif|css|jpg|png)\$ $C_WWWDIR/index.php
+   RewriteRule !\.(ico|png|css|jpg|jpeg|gif|js|jar|swf|rm|rmm|ram|rpm|mp3|mp4|wma|asx|wmv|mov|mpg|mpeg|ogg|wav|a
+u|aiff|midi|mid|pdf)\$ $C_WWWDIR/index.php
  
    ServerAdmin webmaster@$C_HOSTNAME
    DocumentRoot $C_WWWDIR
@@ -772,7 +774,8 @@ NameVirtualHost $C_IPADDRESS
 		Options FollowSymLinks Indexes ExecCGI
 		AllowOverride None 
 		RewriteEngine On
-		RewriteRule     !\.(gif|css|jpg) $C_WWWDIR/index_admin.php
+		RewriteRule     !\.(ico|png|css|jpg|jpeg|gif|js|jar|swf|rm|rmm|ram|rpm|mp3|mp4|wma|asx|wmv|mov|mpg|mpeg|ogg|wav|a
+u|aiff|midi|mid|pdf) $C_WWWDIR/index_admin.php
   </Directory>
  
   ServerAdmin webmaster@$C_HOSTNAME
@@ -804,7 +807,7 @@ fi
 
 echo ""
 echo ""
-echo "Have fun!"
+echo "Happy Hacking!"
 echo ""
-echo "Kai Dübbert <kai@duebbert.de> - $DATE"
+echo "Graham Brookins <info at brookinsconsulting dot com> - $DATE"
 
