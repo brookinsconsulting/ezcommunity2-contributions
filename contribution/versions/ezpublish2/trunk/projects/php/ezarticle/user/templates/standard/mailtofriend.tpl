@@ -8,19 +8,21 @@
 <table border="0">
 <tr>
     <td>{intl-real_name}:</td><td><input type="text"
-     name="RealName" value="" />*</td>
+     name="RealName" value="{real_name}" />*</td>
 </tr>
 <tr>
     <td>{intl-send_to}:</td><td><input type="text"
-     name="SendTo" value="" />*</td>
+     name="SendTo" value="{send_to}" />*</td>
 </tr>
 <tr>
-    <td>{intl-from_mail}</td><td> <input type="text" name="From" value="">*</td>
+    <td>{intl-from_mail}</td><td> <input type="text" 
+    name="From" value="{from}">*</td>
 </tr>
 </table>
 <br />
 {intl-comment}:<br />
-<textarea name="Textarea" value="" cols="40" rows="7">
+<textarea name="Textarea" cols="40" rows="7">
+{textarea}
 </textarea><br />
 <br />
 <input type="submit" name="Submit" value="{intl-send}">
@@ -40,7 +42,9 @@
 {user_comment}<br />
 </pre>
 {intl-url}:<br />
-<a href="http://{site_url}/article/view/{art_id}">http://{site_url}/article/view/{art_id}</a>
+<a href="http://{site_url}/article/view/{art_id}">http://{site_url}/article/view/{art_id}</a><br />
+<br />
+<a href="http://{site_url}/article/mailtofriend/{art_id}">| back |</a>
 <!-- END success_tpl -->
 <!-- BEGIN article_url_tpl -->
 http://{site_url}/article/view/{art_id}

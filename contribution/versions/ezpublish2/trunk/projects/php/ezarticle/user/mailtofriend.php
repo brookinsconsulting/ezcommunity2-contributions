@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: mailtofriend.php,v 1.1 2001/06/20 15:30:24 br Exp $
+// $Id: mailtofriend.php,v 1.2 2001/06/20 17:48:17 br Exp $
 //
 // Bjørn Reiten <br@ez.no>
 // Created on: <18-Jun-2001 16:37:47 br>
@@ -49,9 +49,9 @@ if ( isset( $Submit ) || isset( $RealName ) ||  isset( $SendTo  ) || isset( $Fro
         $errorArr["errormsg_from_tpl"] = "errormsg_from";
 
     if ( $errorArr )
-        errorMsg( $ArticleID, $tpl, $errorArr );
+        errorMsg( $ArticleID, $tpl, $RealName, $SendTo, $From, $Textarea, $errorArr );
     else
-        sendmail( $tpl, $ArticleID, $RealName, $SendTo, $From, $Textarea );
+        sendmail( $ArticleID, $tpl, $RealName, $SendTo, $From, $Textarea );
 } else
 {
     printForm( $ArticleID, $tpl );
@@ -60,7 +60,7 @@ if ( isset( $Submit ) || isset( $RealName ) ||  isset( $SendTo  ) || isset( $Fro
 /*!
   build up the mail to send.
  */
-function sendmail ( $tpl, $article_id, $real_name, $to_name, $from_name, $text )
+function sendmail ( $article_id, $tpl, $real_name, $to_name, $from_name, $text )
 {
     $article = getArticle( $article_id );
     $renderer = new eZArticleRenderer( $article );
@@ -119,7 +119,7 @@ function sendmail ( $tpl, $article_id, $real_name, $to_name, $from_name, $text )
 /*!
   Print an error msg if wrong input from the form.
  */
-function errorMsg ( $ArticleID, $tpl, $error )
+function errorMsg ( $article_id, $tpl, $real_name, $send_to, $from, $textarea, $error )
 {
     $tpl->set_file( "mailtofriend_tpl" ,"mailtofriend.tpl" );
     $tpl->set_block( "mailtofriend_tpl", "errormsg_tpl", "errormsg" );
@@ -129,7 +129,7 @@ function errorMsg ( $ArticleID, $tpl, $error )
         $tpl->set_block( "mailtofriend_tpl", $target, $handle );
         $tpl->pparse( "output" , $target );
     }
-    printForm( $ArticleID, $tpl );
+    printForm( $article_id, $tpl,  $real_name, $send_to, $from, $textarea );
 }
 
 /*!
@@ -151,7 +151,7 @@ function getArticle ( $ArticleID )
 /*!
   print the first page.
  */
-function printForm ( $ArticleID, $tpl )
+function printForm ( $ArticleID, $tpl, $real_name="", $send_to="", $from="", $textarea="" )
 {
     $article = getArticle( $ArticleID );
     $renderer = new eZArticleRenderer( $article );
@@ -163,7 +163,10 @@ function printForm ( $ArticleID, $tpl )
     $tpl->set_block( "mailtofriend_tpl", "first_page_tpl", "first_page" );
     $tpl->set_var( "Topic", $name );
     $tpl->set_var( "Intro", $intro );
-    $tpl->parse( "first_page", "first_page_tpl" );
+    $tpl->set_var( "real_name", $real_name );
+    $tpl->set_var( "send_to", $send_to );
+    $tpl->set_var( "from", $from );
+    $tpl->set_var( "textarea", $textarea );
     $tpl->pparse( "output", "first_page_tpl" );
 }
 ?>
