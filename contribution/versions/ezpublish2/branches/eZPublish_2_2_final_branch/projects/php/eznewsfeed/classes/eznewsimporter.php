@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsimporter.php,v 1.13 2001/08/23 17:49:39 br Exp $
+// $Id: eznewsimporter.php,v 1.13.2.1 2001/10/29 16:49:39 bf Exp $
 //
 // Definition of eZNewsImporter class
 //
@@ -68,7 +68,7 @@ class eZNewsImporter
      */
     function listDecoders( )
     {
-        $list = array( "nyheter.no", "rdf", "rss", "backslash" );
+        $list = array( "rdf", "rss", "backslash" );
         return $list;
     }
     

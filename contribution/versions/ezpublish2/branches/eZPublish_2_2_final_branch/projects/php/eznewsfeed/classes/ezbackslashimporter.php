@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbackslashimporter.php,v 1.9 2001/08/17 13:36:00 jhe Exp $
+// $Id: ezbackslashimporter.php,v 1.9.2.1 2001/10/29 16:49:39 bf Exp $
 //
 // Definition of ezbackslashimporter class
 //
@@ -63,11 +63,11 @@ class eZBackslashImporter
         $output = fread ( $fp, 100000000 );
         fclose( $fp );
 
-        $doc = qdom_tree( $output );
+        $doc = xmltree( $output );
         if ( count( $doc->children ) > 0 )
         foreach ( $doc->children as $child )
         {
-            if ( $child->name == "backslash" || $child->name == "linuxtoday" )
+            if ( $child->name == "backslash" || $child->name == "linuxtoday" || $child->name == "RDF" )
             {
                 foreach ( $child->children as $channel )
                 {
@@ -79,14 +79,7 @@ class eZBackslashImporter
                         
                         foreach ( $channel->children as $item )
                         {
-                            $content = "";
-                            foreach ( $item->children as $value )
-                            {
-                                if ( $value->name == "#text" )
-                                {
-                                    $content = $value->content;
-                                }                                        
-                            }
+                            $content = $value->content;
                             
                             switch ( $item->name )
                             {
