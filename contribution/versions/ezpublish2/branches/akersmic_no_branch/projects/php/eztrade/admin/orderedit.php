@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderedit.php,v 1.31 2001/10/17 08:25:19 pkej Exp $
+// $Id: orderedit.php,v 1.31.8.1 2002/01/18 09:13:25 br Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -75,9 +75,42 @@ if ( $Action == "newstatus" )
     $user =& eZUser::currentUser();
 
     $status->setAdmin( $user );
-    $status->store();            
+    $status->store();
+
+
 
     Header( "Location: /trade/orderlist/" );
+    exit();
+}
+
+if ( $Action == "payment" )
+{
+    // handle payment info
+    if ( is_Numeric( $PaymentAmount ) && $PaymentAmount > 0  )
+    {
+        $order = new eZOrder( $OrderID );
+        $order->orderTotals( $tax, $total );
+
+        $paidArray = $order->paidAmount();
+        $totalPaidAmount = 0;
+        if ( count( $paidArray > 0 ) )
+        {
+            $j=0;
+            foreach( $paidArray as $paid )
+            {
+                $totalPaidAmount += $paid["Paid"];
+            }
+        }
+        $maxAmount = $total["inctax"] - $totalPaidAmount;
+        
+        if ( $PaymentAmount <= $maxAmount )
+        {
+            // includes the payment transaction if the amount is verified.
+//             include()
+            print( "saver ..." );
+        }
+    }
+    Header( "Location: /trade/orderedit/$OrderID/" );
     exit();
 }
 
@@ -149,17 +182,9 @@ $t->set_block( "cart_item_basis_tpl", "basis_ex_tax_item_tpl", "basis_ex_tax_ite
 $t->set_block( "full_cart_tpl", "tax_specification_tpl", "tax_specification" );
 $t->set_block( "tax_specification_tpl", "tax_item_tpl", "tax_item" );
 
-
-
-
-
-
-
-
-
-
-
-
+$t->set_block( "order_edit_tpl", "online_payment_list_tpl", "online_payment_list" );
+$t->set_block( "online_payment_list_tpl", "online_payment_item_tpl", "online_payment_item" );
+$t->set_block( "order_edit_tpl", "online_payment_pay_tpl", "online_payment_pay" );
 
 $order = new eZOrder( $OrderID );
 
@@ -529,13 +554,52 @@ if ( count ( $usedVouchers ) > 0 )
 
 
 
+// Code for visa / mastercard / eurocard with paynet.
 
+$paidArray = $order->paidAmount();
+$totalPaidAmount = 0;
 
+if ( count( $paidArray > 0 ) )
+{
+    $j=0;
+    foreach( $paidArray as $paid )
+    {
+        $totalPaidAmount += $paid["Paid"];
 
+        $t->set_var( "td_class", ( $j % 2 ) == 0 ? "bglight" : "bgdark" );
+        $j++;
 
+        $currency->setValue( $paid["Paid"] );
+        $t->set_var( "online_payment", $locale->format( $currency ) );
 
+        $hour = $paid["Date"]->hour();
+        $minute = $paid["Date"]->minute();
+        $second = $paid["Date"]->second();
+        $t->set_var( "year", $paid["Date"]->year() );
+        $t->set_var( "month", $paid["Date"]->month() );
+        $t->set_var( "day", $paid["Date"]->day() );
+        $t->set_var( "hour", $hour < 10 ? "0" . $hour : $hour );
+        $t->set_var( "minute", $minute < 10 ? "0" . $minute : $minute );
+        $t->set_var( "second", $second < 10 ? "0" . $second : $second );
 
+        $t->parse( "online_payment_item", "online_payment_item_tpl", true );
+    }
+    $t->parse( "online_payment_list", "online_payment_list_tpl" );
+}
+else
+{
+    $t->set_var( "online_payment_list", "" );
+}
 
+$t->set_var( "payment_amount", "" );
+
+$currency->setValue( $total["inctax"] - $totalPaidAmount );
+$t->set_var( "highest_amount", $locale->format( $currency ) );
+
+$currency->setValue( 0 );
+$t->set_var( "lowest_amount", $locale->format( $currency ) );
+
+$t->parse( "online_payment_pay", "online_payment_pay_tpl" );
 
 
 

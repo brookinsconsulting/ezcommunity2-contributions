@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.8 2001/10/17 08:25:19 pkej Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.8.8.1 2002/01/18 09:13:25 br Exp $ -->
 
 <h1>{intl-head_line} ({order_id})</h1>
 
@@ -286,15 +286,43 @@
     <td class="{td_class}" align="right">{sub_tax}</td>
 </tr>
 <!-- END tax_item_tpl -->
-
 <tr>
     <th colspan="2" class="right">{intl-total}:</th>
     <td align="right">{tax}</td>
 </tr>
-
 </table>
 <!-- END tax_specification_tpl -->
 <!-- END full_cart_tpl -->
+
+<!-- BEGIN online_payment_list_tpl -->
+<h2>{intl-online_transactions}</h2>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <tr>
+     <th>{intl-amount}:</th>
+     <th>{intl-moment_time}:</th>
+  </tr>
+  <!-- BEGIN online_payment_item_tpl -->
+  <tr>
+    <td class="{td_class}">{online_payment}</td>
+    <td class="{td_class}">{day}.{month}.{year} - {hour}:{minute}:{second}</td>
+  <tr>
+  <!-- END online_payment_item_tpl -->
+</table>
+
+<br />
+<br />
+
+<!-- END online_payment_list_tpl -->
+
+<!-- BEGIN online_payment_pay_tpl -->
+<form action="{www_dir}{index}/trade/orderedit/{order_id}/payment/" method="post">
+<p class="boxtext">{intl-charge_amount} ({lowest_amount} - {highest_amount}):</p>
+<input type="text" size="20" name="PaymentAmount" value="{payment_amount}"/>
+<input class="stdbutton" type="submit" value="{intl-ok}" />
+</form>
+<!-- END online_payment_pay_tpl -->
+<br />
+<br />
 
 <h2>{intl-order_status}</h2>
 

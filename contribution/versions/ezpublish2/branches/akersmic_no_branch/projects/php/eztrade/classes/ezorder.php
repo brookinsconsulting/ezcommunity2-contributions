@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.61 2001/10/17 12:06:48 ce Exp $
+// $Id: ezorder.php,v 1.61.8.1 2002/01/18 09:13:25 br Exp $
 //
 // Definition of eZOrder class
 //
@@ -697,6 +697,14 @@ class eZOrder
     }
     
     /*!
+      Returns the amount which will be refunded.
+    */
+    function refundAmount()
+    {
+        return $this->RefundAmount;
+    }
+    
+    /*!
       Sets the payment method.
     */
     function setPaymentMethod( $value )
@@ -868,6 +876,16 @@ class eZOrder
         }
     }
             
+
+    /*!
+      Set the amount which will be refunded.
+    */
+    function refundAmount( $value )
+    {
+        $this->RefundAmount = $value;
+    }
+
+    
     /*!
       Returns the initial status as a eZOrderStatus object.
     */
@@ -1236,6 +1254,31 @@ class eZOrder
 
         return $return_array;
     }
+
+    
+    /*!
+      Returns all the amounts which is paid for the order
+
+      The users are returned as an two dimensial array with Paid and Date.
+    */
+    function &paidAmount()
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $db->array_query( $amount_array, "SELECT Paid, Date FROM eZTrade_OrderPaid WHERE OrderID='$this->ID'
+                                          ORDER BY Date" );
+
+        for ( $i = 0; $i < count( $amount_array ); $i++ )
+        {
+            $dateTime = new eZDateTime();
+            $dateTime->setTimeStamp( $amount_array[$i][$db->fieldName( "Date" )] );
+            $return_array[$i]["Paid"] = $amount_array[$i][$db->fieldName( "Paid" )];
+            $return_array[$i]["Date"] = $dateTime;
+        }
+
+        return $return_array;
+    }
+
     
     var $ID;
     var $UserID;
@@ -1251,6 +1294,7 @@ class eZOrder
     var $CompanyID;
     var $IsVATInc;
     var $Comment;
+    var $RefundAmount;
     
     var $ShippingTypeID;
     var $OrderStatus_;
