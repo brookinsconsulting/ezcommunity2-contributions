@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.102 2001/09/26 10:51:12 ce Exp $
+// $Id: ezproduct.php,v 1.103 2001/09/26 11:12:20 pkej Exp $
 //
 // Definition of eZProduct class
 //
@@ -463,6 +463,7 @@ class eZProduct
             $currency->setValue( $price );
             $returnString = $locale->format( $currency );
         }
+        
         return $returnString;
     }    
 
@@ -493,7 +494,7 @@ class eZProduct
        
        $vatType =& $this->vatType();
 
-       if ( $this->hasVAT() )
+       if ( $this->includesVAT() )
         {
            $vat = 0;
 
@@ -592,7 +593,7 @@ class eZProduct
        
         $vatType =& $this->vatType();
         $vat = 0;
-        if ( $this->hasVAT() )
+        if ( $this->includesVAT() )
         {
            if ( $vatType )
            {
