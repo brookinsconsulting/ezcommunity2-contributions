@@ -10,13 +10,13 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<p class="boxtext">{intl-title}</p>
+	<p class="boxtext">{intl-title}:</p>
 	<input type="text" size="40" name="Name" value="{name_value}"/>
 	
-	<p class="boxtext">{intl-imagetext}</p>
+	<p class="boxtext">{intl-imagetext}:</p>
 	<textarea wrap="soft"rows="5" cols="40" name="Caption">{caption_value}</textarea>
 	
-	<p class="boxtext">{intl-file}</p>
+	<p class="boxtext">{intl-file}:</p>
 	<input size="40" name="userfile" type="file" />
 	</td>
 	<td>&nbsp;</td>

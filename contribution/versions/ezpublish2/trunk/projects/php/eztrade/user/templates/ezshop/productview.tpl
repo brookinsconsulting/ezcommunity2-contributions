@@ -1,3 +1,5 @@
+<form action="/{module}/cart/add/{product_id}/" method="post">
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td bgcolor="#f08c00">
@@ -64,8 +66,6 @@
 </tr>
 </table>
 
-<form action="/{module}/cart/add/{product_id}/" method="post">
-
 <!-- BEGIN option_tpl -->
 
 
@@ -96,7 +96,7 @@
 
 <!-- END option_tpl -->
 
-<table width="100%" border="0">
+<table class="list" width="100%" border="0" cellpadding="0" cellspacing="0">
 <tr>
 	<td>
 	<!-- BEGIN price_tpl -->
@@ -112,10 +112,9 @@
 	</td>
 </tr>
 </table>
-<br />
 
 <!-- BEGIN attribute_list_tpl -->
-<table width="80%" cellspacing="0" cellpadding="2" border="0" align="center">
+<table class="list" width="80%" cellspacing="0" cellpadding="2" border="0" align="center">
 <!-- BEGIN attribute_tpl -->
 <tr>
 	<th>
@@ -137,7 +136,7 @@
 
 <!-- END add_to_cart_tpl -->
 
-<br /><br />
+<br /><br /><br />
 
 <!-- BEGIN numbered_page_link_tpl -->
 <div align="center"><a class="path" href="/{module}/{module_view}/{product_id}/0/">| {intl-numbered_page} |</a></div>
