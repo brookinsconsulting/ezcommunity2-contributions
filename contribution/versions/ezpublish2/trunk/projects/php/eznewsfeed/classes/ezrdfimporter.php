@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezrdfimporter.php,v 1.6 2001/01/02 15:38:36 bf Exp $
+// $Id: ezrdfimporter.php,v 1.7 2001/03/12 14:32:15 bf Exp $
 //
 // Definition of ezrdfimporter class
 //
@@ -59,7 +59,7 @@ class eZRDFImporter
     {
         $return_array = array();
         $fp = fopen( $this->Site, "r" );
-        $output = fread ( $fp, 100000000 );
+        $output = fread ( $fp, 10000000 );
         fclose( $fp );
 
         $doc = qdom_tree( $output );
