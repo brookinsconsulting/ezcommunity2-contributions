@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index_admin.php,v 1.19.2.2 2001/12/03 15:55:32 kaid Exp $
+// $Id: index_admin.php,v 1.19.2.3 2001/12/07 16:48:45 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -52,7 +52,12 @@ if ( isset( $siteDir ) and $siteDir != "" )
     {
         $wwwDir = $regs[1];
         $index = $regs[2];
-    }
+         if ( $wwwDir == "/" )
+        {
+            $wwwDir = "";
+            $index = "/" . $index;
+        }
+   }
  
     // Remove url parameters
     if ( ereg( "^$wwwDir$index(.+)", $REQUEST_URI, $req ) )
