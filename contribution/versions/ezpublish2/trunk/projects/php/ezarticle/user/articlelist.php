@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.1 2000/10/19 11:14:21 bf-cvs Exp $
+// $Id: articlelist.php,v 1.2 2000/10/19 11:20:52 bf-cvs Exp $
 //
 // 
 //
@@ -19,6 +19,8 @@ include_once( "classes/ezlocale.php" );
 
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
+include_once( "ezarticle/classes/ezarticlerenderer.php" );
+
 
 $ini = new INIFIle( "site.ini" );
 
@@ -114,6 +116,19 @@ foreach ( $articleList as $article )
     else
     {
         $t->set_var( "td_class", "bgdark" );
+    }
+
+    $renderer = new eZArticleRenderer( $article );
+
+    $t->set_var( "article_intro", $renderer->renderIntro(  ) );
+
+    if ( $article->linkText() != "" )
+    {
+        $t->set_var( "article_link_text", $article->linkText() );
+    }
+    else
+    {
+        $t->set_var( "article_link_text", "more" );
     }
 
     $t->parse( "article_item", "article_item_tpl", true );
