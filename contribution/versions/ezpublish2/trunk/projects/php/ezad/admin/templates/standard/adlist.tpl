@@ -79,6 +79,7 @@
 	<th colspan="2">&nbsp;</th>
 </tr>
 
+<form method="post" action="/ad/ad/edit/" enctype="multipart/form-data">
 <!-- BEGIN ad_item_tpl -->
 <tr>
 	<td class="{td_class}">
@@ -107,15 +108,17 @@
 	<td width="1%" class="{td_class}">
 	<a href="/ad/ad/edit/{ad_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{ad_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezaa{ad_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
-	<td width="1%" class="{td_class}">
-	<a href="#" onClick="verify( '{intl-delete}', '/ad/ad/delete/{ad_id}/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{ad_id}-slett','','/images/{site_style}/slettminimrk.gif',1)"><img name="ezaa{ad_id}-slett" border="0" src="/images/{site_style}/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
-
+	<td class="{td_class}" width="1%" align="center">
+	<input type="checkbox" name="AdArrayID[]" value="{ad_id}">
 	</td>
 </tr>
 <!-- END ad_item_tpl -->
-
 </table>
+
+<hr noshade="noshade" size="4" />
+
+<input class="stdbutton" type="submit" Name="DeleteAds" value="{intl-deleteads}">
+</form>
+
 <!-- END ad_list_tpl -->
-
-
 

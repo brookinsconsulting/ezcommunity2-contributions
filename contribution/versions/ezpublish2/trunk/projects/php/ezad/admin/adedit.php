@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adedit.php,v 1.13 2001/02/09 15:48:44 pkej Exp $
+// $Id: adedit.php,v 1.14 2001/02/09 16:08:29 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -34,6 +34,11 @@ include_once( "classes/ezdatetime.php" );
 
 include_once( "ezad/classes/ezad.php" );
 include_once( "ezad/classes/ezadcategory.php" );
+
+if ( isset ( $DeleteAds ) )
+{
+    $Action = "DeleteAds";
+}
 
 if ( isSet ( $Preview ) )
 {
@@ -154,9 +159,9 @@ if ( $Action == "Update" )
         $image->setCaption( $Caption );
 
         $image->setImage( $file );
-        
+
         $image->store();
-        
+
         $ad->setImage( $image );
 
         eZLog::writeNotice( "Picture added to ad: $AdID  from IP: $REMOTE_ADDR" );
@@ -185,6 +190,21 @@ if ( $Action == "Delete" )
     
     eZHTTPTool::header( "Location: /ad/archive/$CategoryID/" );
     exit();    
+}
+
+if ( $Action == "DeleteAds" )
+{
+    if ( count ( $AdArrayID ) != 0 )
+    {
+        foreach( $AdArrayID as $AdID )
+        {
+            $ad = new eZAd( $AdID );
+            $ad->delete();
+        }
+    }
+
+    eZHTTPTool::header( "Location: /ad/archive/$CategoryID/" );
+    exit();
 }
 
 
