@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcart.php,v 1.35 2001/10/12 11:42:47 ce Exp $
+// $Id: ezcart.php,v 1.36 2001/10/17 13:14:38 ce Exp $
 //
 // Definition of eZCart class
 //
@@ -367,9 +367,12 @@ class eZCart
             $shippingCost = $this->shippingCost( $shippingType );
             $shippingVAT = $this->shippingVAT( $shippingType );
             $shippingVATPercentage = $this->extractShippingVATPercentage( $shippingType );
+
+
         }
-
-
+        if ( $shippingVATPercentage == "" )
+            $shippingVATPercentage = 0;
+            
         $user =& eZUser::currentUser();
         $useVAT = true;
         

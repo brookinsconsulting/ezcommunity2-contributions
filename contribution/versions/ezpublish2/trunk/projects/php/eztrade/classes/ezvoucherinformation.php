@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucherinformation.php,v 1.7 2001/10/16 09:21:04 ce Exp $
+// $Id: ezvoucherinformation.php,v 1.8 2001/10/17 13:14:38 ce Exp $
 //
 // eZVoucherInformation class
 //
@@ -569,7 +569,7 @@ class eZVoucherInformation
 
         $voucher =& $this->voucher();
 
-        $fromUser =& $voucher->user();
+        $fromUser =& $this->fromEmail();
         
         $Language = $ini->read_var( "eZTradeMain", "Language" );
         
@@ -592,7 +592,7 @@ class eZVoucherInformation
         
         $mail->setTo( $mailAddress->url() );
         $mail->setBody( $t->parse( "dummy", "voucheremail" ) );
-        $mail->setFrom( $fromUser->email() );
+        $mail->setFrom( $fromUser->url() );
         $mail->send();
     }
 

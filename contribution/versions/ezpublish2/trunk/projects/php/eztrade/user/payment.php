@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.83 2001/10/16 09:21:05 ce Exp $
+// $Id: payment.php,v 1.84 2001/10/17 13:14:38 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -893,22 +893,27 @@ if ( $PaymentSuccess == "true" )
         }
 
         $user =& eZUser::currentUser();
-        
-        // Create vouchers
-        $voucherInfo =& $item->voucherInformation();
-        if ( $item->voucherInformation() )
+
+
+
+        for( $i=0; $i < $count; $i++ )
         {
-            $voucher = new eZVoucher( );
-            $voucher->generateKey();
-            $voucher->setAvailable( true );
-            $voucher->setUser( $user );
-            $voucher->setPrice( $voucherInfo->price() );
-            $voucher->setTotalValue( $voucherInfo->price() );
-            $voucher->setProduct( $voucherInfo->product() );
-            $voucher->store();
-            $voucherInfo->setVoucher( $voucher );
-            $voucherInfo->store();
-            $voucherInfo->sendMail();
+            // Create vouchers
+            $voucherInfo =& $item->voucherInformation();
+            if ( $item->voucherInformation() )
+            {
+                $voucher = new eZVoucher( );
+                $voucher->generateKey();
+                $voucher->setAvailable( true );
+                $voucher->setUser( $user );
+                $voucher->setPrice( $voucherInfo->price() );
+                $voucher->setTotalValue( $voucherInfo->price() );
+                $voucher->setProduct( $voucherInfo->product() );
+                $voucher->store();
+                $voucherInfo->setVoucher( $voucher );
+                $voucherInfo->store();
+                $voucherInfo->sendMail();
+            }
         }
     }
     

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.76 2001/10/16 12:03:13 ce Exp $
+// $Id: productview.php,v 1.77 2001/10/17 13:14:39 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -264,6 +264,7 @@ $t->set_var( "description_text", $product->description() );
 
 if ( $product->productType() == 2 )
 {
+
     $useVoucher = true;
     $t->set_var( "action_url", "productview" );
 }
