@@ -855,3 +855,42 @@ alter table eZAd_View drop Date;
 alter table eZAd_View change DateTmp Date int;
 
 alter table eZAd_View add ViewOffsetCount int;
+
+alter table eZTrade_Product add ExpiryTime int;             
+alter table eZTrade_OrderItem add ExpiryDate int;             
+
+#
+# Table structure for table 'eZTrade_VoucherSMail'
+#
+ 
+CREATE TABLE eZTrade_VoucherSMail (
+  ID int(11) default '0',
+  VoucherID int(11) default '0',
+  AddressID int(11) default '0',
+  Description text,
+  PreOrderID int(11) default '0'
+) TYPE=MyISAM;
+ 
+#
+# Table structure for table 'eZTrade_VoucherEMail'
+#
+ 
+CREATE TABLE eZTrade_VoucherEMail (
+  ID int(11) default '0',
+  VoucherID int(11) default '0',
+  Email varchar(40) default NULL,
+  Description text,
+  PreOrderID int(11) default '0'
+) TYPE=MyISAM;
+ 
+#
+# Table structure for table 'eZTrade_Voucher'
+#
+ 
+CREATE TABLE eZTrade_Voucher (
+  ID int(11) default '0',
+  Created int(11) default '0',
+  Price float default '0',
+  UnAvailable int(11) default '0',
+  KeyNumber varchar(50) default NULL
+) TYPE=MyISAM;

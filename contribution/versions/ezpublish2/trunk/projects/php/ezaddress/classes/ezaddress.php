@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezaddress.php,v 1.14 2001/08/21 11:23:58 ce Exp $
+// $Id: ezaddress.php,v 1.15 2001/08/22 12:09:15 ce Exp $
 //
 // Definition of eZAddress class
 //
@@ -67,13 +67,14 @@ class eZAddress
 
         $street1 = $db->escapeString( $this->Street1 );
         $street2 = $db->escapeString( $this->Street2 );
+        $name = $db->escapeString( $this->Name );
         $place = $db->escapeString( $this->Place );
         if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZAddress_Address" );
 			$this->ID = $db->nextID( "eZAddress_Address", "ID" );
             $res[] = $db->query( "INSERT INTO eZAddress_Address
-                                  (ID, Street1, Street2, Zip, Place, CountryID, AddressTypeID)
+                                  (ID, Street1, Street2, Zip, Place, CountryID, AddressTypeID, Name)
                                   VALUES
                                   ('$this->ID',
                                    '$street1',
@@ -81,7 +82,8 @@ class eZAddress
                                    '$this->Zip',
                                    '$place',
                                    '$country_id',
-                                   '$this->AddressTypeID')" );
+                                   '$this->AddressTypeID',
+                                   '$name')" );
             $db->unlock();
             $ret = true;
         }
@@ -93,6 +95,7 @@ class eZAddress
                                   Zip='$this->Zip',
                                   Place='$place',
                                   AddressTypeID='$this->AddressTypeID',
+                                  Name='$name',
                                   CountryID=$country_id
                                   WHERE ID='$this->ID'" );            
             $ret = true;            
@@ -124,6 +127,7 @@ class eZAddress
                 $this->Place =& $address_array[ 0 ][ $db->fieldName( "Place" ) ];
                 $this->CountryID =& $address_array[ 0 ][ $db->fieldName( "CountryID" ) ];
                 $this->AddressTypeID =& $address_array[ 0 ][ $db->fieldName( "AddressTypeID" ) ];
+                $this->Name =& $address_array[ 0 ][ $db->fieldName( "Name" ) ];
             }
             if ( $this->CountryID == "NULL" )
                 $this->CountryID = -1;
@@ -171,6 +175,14 @@ class eZAddress
     function setStreet2( $value )
     {
         $this->Street2 = $value;
+    }
+
+    /*!
+      Sets the name.
+    */
+    function setName( $value )
+    {
+        $this->Name = $value;
     }
 
     /*!
@@ -302,6 +314,14 @@ class eZAddress
     }
 
     /*!
+      Returns the name.
+    */
+    function name( )
+    {
+        return $this->Name;
+    }
+
+    /*!
       Returnerer postkode.
     */
     function zip( )
@@ -375,6 +395,7 @@ class eZAddress
     var $Zip;
     var $Place;
     var $CountryID;
+    var $Name;
     
     /// Relation to an eZAddressTypeID
     var $AddressTypeID;
