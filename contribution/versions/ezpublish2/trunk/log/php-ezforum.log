@@ -1083,3 +1083,11 @@ Maintainer(s) : jhe@ez.no
     * user/latestmessages.php:
     Added code for showing user names and time of postings.
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-02-25  ceaker  <ceaker@zev.ez.no>
+
+    * user/messagesimplelist.php: *** empty log message ***
+
