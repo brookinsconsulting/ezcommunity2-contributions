@@ -33,6 +33,8 @@
 <input type="text" class="halfbox" name="LinkText" size="20" value="{link_text}" />
 <br /><br />
 
+<hr noshade="noshade" size="4" />
+
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td>
@@ -46,7 +48,6 @@
     </td>
 <tr>
 </table>
-
 
 <hr noshade="noshade" size="4" />
 

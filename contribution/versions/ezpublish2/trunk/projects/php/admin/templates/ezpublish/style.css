@@ -154,9 +154,10 @@ th.right
 	font-size: 1px;
 }
 
-.byline, .pictext
+.pictext
 {
-	font-style: italic;
+	font-style: normal;
+	background-color: #f0f0f0;
 }
 
 .pris
@@ -295,6 +296,6 @@ hr
 	font-size: 1px;
 }
 
-/* Hellstrøm 11.6.2001 */
+/* Hellstrøm 24.8.2001 */
 
 
