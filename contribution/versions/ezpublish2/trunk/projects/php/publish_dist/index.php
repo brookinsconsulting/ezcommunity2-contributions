@@ -21,8 +21,6 @@ ini_alter("session.entropy_length", "512");
 
 ini_alter("session.cache_expire", "172800");
 
-//phpinfo();
-
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezdb.php" );
 include_once( "classes/ezhttptool.php" );
