@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpreferences.php,v 1.5 2001/04/05 09:33:47 fh Exp $
+// $Id: ezpreferences.php,v 1.6 2001/04/11 14:37:39 jb Exp $
 //
 // Definition of eZPreferences class
 //
@@ -78,10 +78,12 @@ class eZPreferences
     function variableArray( $name )
     {
         $val =& $this->variable( $name );
-        if ( $val )
+        if ( $val != "" )
         {
             $val =& explode( ";", $val );
         }
+        else
+            $val = array();
         return $val;
     }
 
