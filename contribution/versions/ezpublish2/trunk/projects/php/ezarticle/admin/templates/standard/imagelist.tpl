@@ -73,7 +73,10 @@
 
 <hr noshade="noshade" size="4" />
 
-"Nytt bilde"-knapp skal ligge her!
+
+
+<input class="stdbutton" type="submit" name="NewImage"value="nytt bilde" />
+
 
 <hr noshade="noshade" size="4" />
 
@@ -91,9 +94,6 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<form action="/article/articleedit/imageedit/new/{article_id}/" method="post">
-	<input class="stdbutton" type="submit" value="nytt bilde" />
-	</form>
 	</td>
 </tr>
 </table>
