@@ -155,17 +155,18 @@ td
 
 .bgdark 
 {
-	background-color: #bcbcbc;
+	background-color: #dcdcdc;
 }
 
 .bgcurrent
 {
-	background-color: #ffdcdc;
+	background-color: #f07800;
 }
 
 .bgweekend
 {
-	background-color: #dcdcdc;
+	color: #ffffff;
+	background-color: #787878;
 }
 
 .bgselect
