@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categorylist.php,v 1.27 2001/08/28 15:56:21 ce Exp $
+// $Id: categorylist.php,v 1.28 2001/08/30 11:09:39 ce Exp $
 //
 // Created on: <13-Sep-2000 14:56:11 bf>
 //
@@ -191,11 +191,7 @@ foreach ( $productList as $product )
     {
         $price = new eZCurrency( $product->price() );
 
-        $priceIncVAT = $product->priceIncVAT();
-        $priceIncVAT = new eZCurrency( $priceIncVAT["Price"] );
-
         $t->set_var( "product_price", $locale->format( $price ) );
-        $t->set_var( "product_price_inc_vat", $locale->format( $priceIncVAT ) );        
     }
     else
     {
@@ -218,17 +214,9 @@ foreach ( $productList as $product )
                     }
                     $high = max( $priceArray );
                     $low = min( $priceArray );
-
-                    $lowIncVAT = $product->priceIncVAT( $low );
-                    $highIncVAT = $product->priceIncVAT( $high );
-
-                    $highIncVAT = new eZCurrency( $highIncVAT["Price"] );
-                    $lowIncVAT = new eZCurrency( $lowIncVAT["Price"] );
-
-                    $high = new eZCurrency( $high );
                     $low = new eZCurrency( $low );
+                    $high = new eZCurrency( $high );
 
-                    $t->set_var( "product_price_inc_vat", $locale->format( $lowIncVAT ) . " - " . $locale->format( $highIncVAT ) );
                     $t->set_var( "product_price", $locale->format( $low ) . " - " . $locale->format( $high ) );
                 }
             }
