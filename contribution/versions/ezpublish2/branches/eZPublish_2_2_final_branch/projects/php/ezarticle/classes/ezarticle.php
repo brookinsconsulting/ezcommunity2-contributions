@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezarticle.php,v 1.183.2.16 2002/04/10 12:04:04 jhe Exp $
+// $Id: ezarticle.php,v 1.183.2.17 2002/04/15 16:15:10 jhe Exp $
 //
 // Definition of eZArticle class
 //
@@ -2702,16 +2702,15 @@ eZUser_Author as Author
         }
         $loggedInSQL = "( $currentUserSQL ( ( $groupSQL P.GroupID='-1' AND CP.GroupID='-1' ) AND P.ReadPermission='1' AND CP.ReadPermission='1' ) ) ";
 
-        $query = "SELECT count( A.ID ) AS Count
+        $query = "SELECT count( DISTINCT A.ID ) AS Count
                      FROM eZArticle_Article AS A,
-eZArticle_ArticleCategoryDefinition AS Def,
-eZArticle_ArticlePermission AS P,
-eZArticle_CategoryPermission AS CP,
+                     eZArticle_ArticleCategoryDefinition AS Def,
+                     eZArticle_ArticlePermission AS P,
+                     eZArticle_CategoryPermission AS CP,
                      eZUser_Author as Author
                      WHERE
-$loggedInSQL AND CP.ObjectID=Def.CategoryID AND A.ID=P.ObjectID AND  A.ID=Def.ArticleID AND
-A.ContentsWriterID=Author.ID AND IsPublished='1' AND ContentsWriterID='$authorid'
-                      GROUP BY A.ContentsWriterID";
+                     $loggedInSQL AND CP.ObjectID=Def.CategoryID AND A.ID=P.ObjectID AND  A.ID=Def.ArticleID AND
+                     A.ContentsWriterID=Author.ID AND A.IsPublished='1' AND A.ContentsWriterID='$authorid'";
 
         $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, $query );
