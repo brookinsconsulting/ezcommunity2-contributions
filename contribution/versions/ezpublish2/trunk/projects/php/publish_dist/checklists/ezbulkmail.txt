@@ -15,6 +15,9 @@ admin:
 
 -delete a bulkmail from the category list
 
+-in the category list set a single list mode
+*check logging in and out of single mode lists (in user)
+
 user:
 -create a new user
 -login with a user
