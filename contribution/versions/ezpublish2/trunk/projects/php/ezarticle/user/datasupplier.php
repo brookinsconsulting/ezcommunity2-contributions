@@ -17,7 +17,6 @@ switch ( $url_array[2] )
         if  ( !isset( $CategoryID ) || ( $CategoryID == "" ) )
             $CategoryID = 0;
 
-        print( "bla" );
         include( "ezarticle/user/articleheaderlist.php" );
     }
     break;

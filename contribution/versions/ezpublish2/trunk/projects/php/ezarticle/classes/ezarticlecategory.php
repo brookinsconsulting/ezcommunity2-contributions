@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.6 2000/10/25 18:19:56 bf-cvs Exp $
+// $Id: ezarticlecategory.php,v 1.7 2000/10/26 19:19:57 bf-cvs Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -338,7 +338,7 @@ class eZArticleCategory
 
        $this->dbInit();
 
-       $OrderBy = "eZArticle_Article.Created DESC";
+       $OrderBy = "eZArticle_Article.Published DESC";
        switch( $sortMode )
        {
            case "alpha" :

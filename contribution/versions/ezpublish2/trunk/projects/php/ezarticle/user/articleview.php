@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.8 2000/10/26 12:18:27 bf-cvs Exp $
+// $Id: articleview.php,v 1.9 2000/10/26 19:19:57 bf-cvs Exp $
 //
 // 
 //
@@ -96,9 +96,9 @@ else
 }
 
 $locale = new eZLocale();
-$created = $article->created();
+$published = $article->published();
 
-$t->set_var( "article_created", $locale->format( $created ) );
+$t->set_var( "article_created", $locale->format( $published ) );
 
 
 

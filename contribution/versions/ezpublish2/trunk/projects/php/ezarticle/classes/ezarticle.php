@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.16 2000/10/25 18:19:56 bf-cvs Exp $
+// $Id: ezarticle.php,v 1.17 2000/10/26 19:19:57 bf-cvs Exp $
 //
 // Definition of eZArticle class
 //
@@ -100,6 +100,7 @@ class eZArticle
                                  PageCount='$this->PageCount',
                                  IsPublished='$this->IsPublished',
                                  Modified=now(),
+                                 Published=now(),
                                  Created=now()
                                  " );
 
@@ -109,7 +110,26 @@ class eZArticle
         }
         else
         {
-            $this->Database->query( "UPDATE eZArticle_Article SET
+            $this->Database->array_query( $res, "SELECT ID FROM eZArticle_Article WHERE IsPublished='false' AND ID='$this->ID'" );
+            
+            if ( ( count( $res ) > 0 ) && ( $this->IsPublished == "true" ) )
+            {                
+                $this->Database->query( "UPDATE eZArticle_Article SET
+		                         Name='$this->Name',
+                                 Contents='$this->Contents',
+                                 AuthorText='$this->AuthorText',
+                                 LinkText='$this->LinkText',
+                                 PageCount='$this->PageCount',
+                                 AuthorID='$this->AuthorID',
+                                 IsPublished='$this->IsPublished',
+                                 Published=now(),
+                                 Modified=now()
+                                 WHERE ID='$this->ID'
+                                 " );
+            }
+            else
+            {
+                $this->Database->query( "UPDATE eZArticle_Article SET
 		                         Name='$this->Name',
                                  Contents='$this->Contents',
                                  AuthorText='$this->AuthorText',
@@ -120,6 +140,7 @@ class eZArticle
                                  Modified=now()
                                  WHERE ID='$this->ID'
                                  " );
+            }
 
             $this->State_ = "Coherent";
         }
@@ -152,6 +173,7 @@ class eZArticle
                 $this->LinkText =& $article_array[0][ "LinkText" ];
                 $this->Modified =& $article_array[0][ "Modified" ];
                 $this->Created =& $article_array[0][ "Created" ];
+                $this->Published =& $article_array[0][ "Published" ];
                 $this->PageCount =& $article_array[0][ "PageCount" ];
                 $this->IsPublished =& $article_array[0][ "IsPublished" ];
 
@@ -278,6 +300,22 @@ class eZArticle
        return $dateTime;
     }
 
+    /*!
+      Returns the last time the article was published.
+
+      The time is returned as a eZDateTime object.
+    */
+    function &published()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $dateTime = new eZDateTime();
+       $dateTime->setMySQLTimeStamp( $this->Published );
+       
+       return $dateTime;
+    }
+    
     /*!
       Returns true if the article is published false if not.
     */
@@ -586,7 +624,7 @@ class eZArticle
 
        $this->dbInit();
 
-       $OrderBy = "Created DESC";
+       $OrderBy = "Published DESC";
        switch( $sortMode )
        {
            case "alpha" :
@@ -642,6 +680,7 @@ class eZArticle
     var $LinkText;
     var $Modified;
     var $Created;
+    var $Published;
 
     // telll eZ publish to show the article to the public
     var $IsPublished;

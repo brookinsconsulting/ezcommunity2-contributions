@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forgot.php,v 1.4 2000/10/26 13:13:46 ce-cvs Exp $
+// $Id: forgot.php,v 1.5 2000/10/26 19:19:57 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -32,7 +32,7 @@ include_once( "classes/ezmail.php" );
 $iniSite = new INIFIle( "site.ini" );
 $Language = $iniSite->read_var( "eZUserMain", "Language" );
 
-$ini = new INIFIle( "ezuser/intl/" . $Language . "/forgot.php.ini", false );
+$ini = new INIFIle( "ezuser/user/intl/" . $Language . "/forgot.php.ini", false );
 // Get the user.
 if ( $Login )
 {
