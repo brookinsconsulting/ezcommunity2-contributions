@@ -24,14 +24,13 @@ Chapter 2 Installing eZ publish (standard method)
         2.1.2 Needed Software
         2.1.3 Which Software is Already Installed?
             2.1.3.1 Systems Using RPM
-        2.1.4 FreeBSD
-        2.1.5 Mandrake
-        2.1.6 IRIX
-        2.1.7 RAQ 3
-        2.1.8 Windows
-        2.1.9 Other Systems
-        2.1.10 Installation of Required Software
-        2.1.11 Important Notice
+        2.1.4 Mandrake
+        2.1.5 IRIX
+        2.1.6 RAQ 3
+        2.1.7 Windows
+        2.1.8 Other Systems
+        2.1.9 Installation of Required Software
+        2.1.10 Important Notice
     2.2 Compile Configuration
         2.2.1 PHP
             2.2.1.1 Unpacking
@@ -56,9 +55,8 @@ Chapter 2 Installing eZ publish (standard method)
         2.5.1 Post Install Checklist
     2.6 Troubleshooting
         2.6.1 Problems During Installation
-            2.6.1.1 FreeBSD 4.2 and libxml2
-            2.6.1.2 Missing Compiler/Can not Compile (C++/C)
-            2.6.1.3 I am getting linking errors when trying to build PHP
+            2.6.1.1 Missing Compiler/Can not Compile (C++/C)
+            2.6.1.2 I am getting linking errors when trying to build PHP
         2.6.2 Problems After Installation
             2.6.2.1 Permission Denied
             2.6.2.2 Can not see Images
@@ -226,19 +224,6 @@ if they aren't present on your system already:
   version 3.23 or later and PostgreSQL (http://www.postgresql.org)
   version 7.1.3 or later.
 
-* libXml2 (http://xmlsoft.org/#Downloads) version 2.4.1 is
-  recommended but versions as old as 2.2.9 is known to work.
-  (Needed by eZ article. If you wish to use the default
-  article renderer you need libXml2 installed. You can create
-  your own renderers if you don't want to use the default.)
-
-* libQdom (http://www.trolltech.com) is a part of QT, you
-  need version 2.2.3 or later. (Needed by eZ news feed's
-  parsers. If you wish to include headlines from external
-  sites (example developer.ez.no or slashdot.org) then you
-  need this installed. You can create your own parsers if
-  you don't want to use the default.)
-
 * ImageMagick (http://www.imagemagick.org/) newest version
   (Needed by eZ article, eZ image catalogue, and all modules
   using images. You need only the command line version.)
@@ -271,6 +256,14 @@ i386 on http://developer.ez.no. The software is listed in
 the order of installation.
 
 You should also find a list of RPMs at http://www.brandish.co.uk/phprpm
+
+Important release note:
+
+eZ publish version 2.2.2 does not require neither QDom or
+libxml as previosly releases did. In this release, eZ publish
+uses it own xml parser : eZ xml. Optioninal support for
+libxml will probably be reintroduced in a future version
+of eZ publish
 
 2.1.3 Which Software is Already Installed?
 
@@ -320,33 +313,12 @@ from the user to the shell.) :
 
     /usr/share/doc/packages/libxml/TODO
 
-2.1.4 FreeBSD
-
-When installing and compiling PHP on a FreeBSD system you
-might encounter an error when using --with-dom which says
-you have a conifgure error on the lib. It turns out that
-the current port of libxml installs itself as /usr/local/lib/libxml2.a|so
-and it goes unrecognised by configure. You can easily get
-around this problem by linking the libs to libxml.a|so.
-
-You also have to add another link for the include files (which
-are in a quite strange place) : ln -s /usr/local/include/libxml2/libxml
-/usr/local/include/libxml
-
-If people want to setup PHP4 by the ports, they also will
-have to modify the Makefile of the port to add the missing
-(from the port GUI) options which are --disable-magic-quotes
-and --with-qtdom. The other options are available from the
-port GUI.
-
-Thanks to David Touitou for pointing this out.
-
-2.1.5 Mandrake
+2.1.4 Mandrake
 
 First read chapter [chptr: mandrake],
 then continue reading the manual from here.
 
-2.1.6 IRIX
+2.1.5 IRIX
 
 By accessing the software manager (you must be root) you
 can get a list of installed software, scroll or search that
@@ -354,17 +326,17 @@ list to find the packages you're interested in. Double click
 on the tabs to the left to get information about where specific
 files are installed.
 
-2.1.7 RAQ 3
+2.1.6 RAQ 3
 
 There is a separate chapter [chptr: raq 3]
 in this manual describing installation on a RAQ 3 server.
 It was kindly provided by Chris Mason, 
 
-2.1.8 Windows
+2.1.7 Windows
 
 Windows installation is described in its own chapter [chptr: windows].
 
-2.1.9 Other Systems
+2.1.8 Other Systems
 
 On other systems you should read the documentation for that
 system to learn how to find out what software is already
@@ -380,7 +352,7 @@ computer. Therefore we urge you to learn how to use the
 proper installation features of your system to find the
 software already installed.
 
-2.1.10 Installation of Required Software
+2.1.9 Installation of Required Software
 
 If you've found pre-compiled versions of all the software
 packaged for use with an installation tool, you just have
@@ -398,7 +370,7 @@ confident about the job.
 This manual will only cover configuration of the software
 needed and compilation of PHP to use the other software.
 
-2.1.11 Important Notice
+2.1.10 Important Notice
 
 You should read all the README, INSTALL and similar files
 found with the software packages you download. They often
@@ -481,13 +453,6 @@ quotes to be enabled)  onwards magic quotes must be turned off for eZ publish to
 work properly.
 (http://www.php.net/manual/en/install.configure.php#install.configure.enable-magic-quotes)
 
---with-dom This configures PHP to include libxml. 
-  (http://www.php.net/manual/en/install.configure.php#install.configure.with-dom)
-
---with-qtdom This configures PHP to include libqdom. It
-  isn't up on the PHP site with a link, but it works as
-  --with-dom.
-
 --with-imap This configures PHP to include imap support.
   This is used by eZ mail module. This parameters require
   ssl support. Imap does also have bindings to kerberos.
@@ -526,21 +491,23 @@ using.
 Creating the Configuration
 
 Now you just have to run the "./configure"
-program with the apropriate configuration directives which
+program with the appropriate configuration directives which
 we discussed in the preceeding sections, for an apache module
 you'd do the following:
 
 
-   # ./configure --enable-trans-sid --with-mysql
-    --with-apxs --with-dom --with-qtdom
+   # ./configure --enable-trans-sid --with-mysql --enable-trans-sid
+--disable-magic-quotes --with-imap --with-openssl
+    --with-apxs
 
 
 Remember that to compile a script/cgi version you'd need
 to change that line to:
 
 
-    # ./configure --enable-trans-sid --with-mysql
-    --with-dom --with-qtdom
+    # ./configure --enable-trans-sid --with-mysql --enable-trans-sid
+--disable-magic-quotes --with-imap --with-openssl
+    
 
 2.2.1.3 Compilation
 
@@ -583,10 +550,9 @@ $ export LDFLAGS="-L/usr/kerberos/lib -lkrb5 -lgssapi_krb5
 
 Run the configure script:
 
-$ ./configure --with-apxs=/usr/sbin/apxs --enable-ftp --with-xml
---with-dom --enable-trans-sid --with-config-file-path=/etc/httpd
---with-mysql=/usr --with-pgsql=/usr --enable-inline-optimization
---with-ttf --with-qtdom --with-gd --enable-gd-native-ttf
+$ ./configure --with-apxs=/usr/sbin/apxs --enable-ftp --enable-trans-sid
+--with-config-file-path=/etc/httpd --with-mysql=/usr --with-pgsql=/usr
+--enable-inline-optimization --with-ttf --with-gd --enable-gd-native-ttf
 --with-imap --includedir=/usr --with-openssl=/usr --with-zlib-dir=/usr
 --with-openssl=shared,/usr
 
@@ -1120,13 +1086,7 @@ developments.
 
 2.6.1 Problems During Installation
 
-2.6.1.1 FreeBSD 4.2 and libxml2
-
-The current version (2.2.11) installs itself as /usr/local/lib/libxml2.a|so
-and goes unrecognized by configure (PHP). Link the files
-to /usr/local/lib/libxml.a|so.
-
-2.6.1.2 Missing Compiler/Can not Compile (C++/C)
+2.6.1.1 Missing Compiler/Can not Compile (C++/C)
 
 When compiling php and other support programs (like ImageMagick)
 you need the GCC compiler. It is recommended that you use
@@ -1136,7 +1096,7 @@ it listed some sites where you can download pre-compiled
 versions of software for some different Unix versions. Please
 note that you must compile php on your own.
 
-2.6.1.3 I am getting linking errors when trying to build PHP
+2.6.1.2 I am getting linking errors when trying to build PHP
 
 The PHP module you have compiled will be linked agains kerberos.
 This causes some linking problems on RedHat Linux. The workaround
@@ -1355,7 +1315,7 @@ First remove any cache:
 
     # make clean
 
-    #./configure --with-xml --with-mysql \
+    #./configure --with-mysql \
 
     --with-apxs=/usr/sbin/apxs \
 
@@ -1374,8 +1334,6 @@ First remove any cache:
     --with-config-file-path=/etc/httpd/conf/ \
 
     --with-exec-dir=/usr/sbin/httpd \
-
-    --with-dom \
 
     --enable-trans-sid
 
@@ -1617,11 +1575,6 @@ being logged in. If you have the choice, do not use a windows
 system for a production system! I'm using this just for
 development purposes on my laptop.
 
-Also note, that you will not be able to use the news feed
-module with this setup, as I did not find a windows binary
-for the Qdom library. The news feed module is used to include
-headlines from external sites.
-
 I will describe the installation steps and show some small
 tests to see if all went fine. Of course you will need (root)
 access to the system if you need to install anything.
@@ -1740,17 +1693,14 @@ magic_quotes_gpc        =       Off
 
 extension_dir   =       C:\php\extensions       
 
-extension=php_domxml.dll
-
 session.save_path        
 = C:\windows\temp
 
 
-Magic Quotes must be off for ezPublish 2.1. You need to set
-the extension_dir in order to find the php_domxml.dll library.
-You also must enable this libary by removing the comment
-sign '#' in its line. The savepath must be set to some local
-directory for temporary files.
+Magic Quotes must be off for ezPublish 2.1. You also must
+enable this libary by removing the comment sign '#' in its
+line. The savepath must be set to some local directory for
+temporary files.
 
 Restart the Apache server. If all is fine, it should display
 "Apache/1.3.19 (Win32) PHP/4.0.1pl1 running..." now.
@@ -2289,13 +2239,6 @@ you must have permissions to use it:
 
 The following software is optional, but required for some
 modules of eZ publish:
-
-* libQdom ([http://www.trolltech.com]) is a part
-  of QT, you need version 2.2.3 or later. (Needed by eZ
-  news feed's parsers. If you wish to include headlines
-  from external sites (example developer.ez.no or slashdot.org)
-  then you need this installed. You can create your own
-  parsers if you don't want to use the default.)
 
 * ImageMagick ([http://www.imagemagick.org])
   newest version (Needed by eZ article, eZ image catalogue,
