@@ -1,7 +1,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td align="left" valign="bottom">
-        <h1>{topic}</h1>
+        <h1>{intl-message_view}</h1>
      </td>
      <td align="right">
 	 <form action="/forum/search/" method="post">
@@ -28,17 +28,15 @@
 
 <br />
 
+<h2>{topic}</h2>
+<br />
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>        
-   	<td>
-	<p class="boxtext">{intl-topic}:</p>
-    {topic}
-	</td>
-    <td>
+    <td valign="top">
 	<p class="boxtext">{intl-author}:</p>
     {user}
 	</td>
-	<td>
+	<td valign="top">
 	<p class="boxtext">{intl-time}:</p>
 	<span class="small">{postingtime}</span>
 	</td>
@@ -46,7 +44,7 @@
 </table>
 
 
-<p class="boxtext">{intl-text}</p>
+<p class="boxtext">{intl-text}:</p>
 <table width="100%" border="0" cellspacing="0" cellpadding="4">
 <tr>        
    	<td class="bglight">
