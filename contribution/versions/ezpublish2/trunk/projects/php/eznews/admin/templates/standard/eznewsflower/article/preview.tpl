@@ -1,6 +1,6 @@
 
 <!-- BEGIN article_image_template -->
-<img src="{this_image}" height="{this_image_height}" alt="this_image_caption" width="{this_image_width}" align="right" border="0">
+<img src="{this_image}" height="{this_image_height}" alt="{this_image_caption}" width="{this_image_width}" align="right" border="0">
 <!-- END article_image_template -->
 
 
@@ -62,6 +62,10 @@
 <!-- END go_to_self_template -->
 
 
+<!-- BEGIN picture_uploaded_template -->
+{this_image_name}
+<input name="ImageID" type="hidden" value="{this_image_id}">
+<!-- END picture_uploaded_template -->
 
 
 
@@ -70,7 +74,3 @@
 <!-- BEGIN upload_picture_template -->
 
 <!-- END upload_picture_template -->
-
-<!-- BEGIN picture_uploaded_template -->
-
-<!-- END picture_uploaded_template -->

@@ -54,7 +54,10 @@
 <!-- END article_item_template -->
 
 
-
+<!-- BEGIN picture_uploaded_template -->
+{this_image_name}
+<input name="ImageID" type="hidden" value="{this_image_id}">
+<!-- END picture_uploaded_template -->
 
 
 
@@ -65,10 +68,6 @@
 <!-- BEGIN upload_picture_template -->
 
 <!-- END upload_picture_template -->
-
-<!-- BEGIN picture_uploaded_template -->
-
-<!-- END picture_uploaded_template -->
 
 <!-- BEGIN go_to_parent_template -->
 
