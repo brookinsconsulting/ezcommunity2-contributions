@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagevariation.php,v 1.8 2001/01/06 16:21:01 bf Exp $
+// $Id: ezimagevariation.php,v 1.9 2001/01/10 21:32:37 ce Exp $
 //
 // Definition of eZImageVariation class
 //
@@ -168,7 +168,6 @@ class eZImageVariation
             
             if ( $variation->getByGroupAndImage( $variationGroup->id(), $image->id() ) )
             {
-                
                 $ret =& $variation;
             }
             else

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageview.php,v 1.5 2000/12/01 06:31:38 bf-cvs Exp $
+// $Id: imageview.php,v 1.6 2001/01/10 21:32:37 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Oct-2000 19:40:18 bf>
@@ -64,6 +64,8 @@ else
     $t->set_var( "image_width", $image->width() );
     $t->set_var( "image_height", $image->height() );
     $t->set_var( "image_caption", $image->caption() );
+    $t->set_var( "image_name", $image->name() );
+    $t->set_var( "image_description", $image->description() );
     
     $t->set_var( "referer_url", $RefererURL );
 }

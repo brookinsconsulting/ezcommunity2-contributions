@@ -1,4 +1,4 @@
-<h1>{intl-headline}</h1>
+<h1>{intl-headline}: {image_name}</h1>
 <hr noshade size="4"/>
 
 <table align="center" cellspacing="0" cellpadding="0" border="0">
@@ -9,9 +9,17 @@
 	</td>
 </tr>
 <tr>
-	<td class="pictext">
-	{image_caption}
-	</td>
+</tr>
+</table>
+<br />
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+        <th>{intl-description}</th>
+</tr>
+<tr>
+        <td>
+	<p>{image_description}</p>
+        </td>
 </tr>
 </table>
 

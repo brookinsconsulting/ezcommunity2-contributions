@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.24 2001/01/06 16:21:01 bf Exp $
+// $Id: ezimage.php,v 1.25 2001/01/10 21:32:37 ce Exp $
 //
 // Definition of eZImage class
 //
@@ -126,6 +126,9 @@ class eZImage
                                  Caption='$this->Caption',
                                  Description='$this->Description',
                                  FileName='$this->FileName',
+                                 UserID='$this->UserID',
+                                 WritePermission='$this->WritePermission',
+                                 ReadPermission='$this->ReadPermission',
                                  OriginalFileName='$this->OriginalFileName'
                                  " );
         }
@@ -136,6 +139,9 @@ class eZImage
                                  Caption='$this->Caption',
                                  Description='$this->Description',
                                  FileName='$this->FileName',
+                                 UserID='$this->UserID',
+                                 WritePermission='$this->WritePermission',
+                                 ReadPermission='$this->ReadPermission',
                                  OriginalFileName='$this->OriginalFileName'
                                  WHERE ID='$this->ID'
                                  " );
@@ -169,6 +175,9 @@ class eZImage
                 $this->Description =& $image_array[0][ "Description" ];
                 $this->FileName =& $image_array[0][ "FileName" ];
                 $this->OriginalFileName =& $image_array[0][ "OriginalFileName" ];
+                $this->UserID =& $image_array[0][ "UserID" ];
+                $this->WritePermission =& $image_array[0][ "WritePermission" ];
+                $this->ReadPermission =& $image_array[0][ "ReadPermission" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -186,6 +195,136 @@ class eZImage
 
         return $ret;
     }
+
+    /*!
+      Check what read permission the user have to this eZVirtualFile object.
+
+      Returns:
+      User - if the user owns the file
+      Group - if the user is member of the group
+      All - if the file can be read by everybody
+      False - if the user don't have access
+    */
+    function checkReadPermission( &$currentUser )
+    {
+        $ret = false;
+
+        if ( get_class( $currentUser ) == "ezuser" )
+        {
+            $read = $this->readPermission();
+
+            if ( $read == "User" )
+            {
+                if ( $this->UserID != 0 )
+                {
+                    if ( $currentUser->id() == $this->UserID )
+                    {
+                        $ret = "User";
+                    }
+                    else
+                    {
+                        return $ret;
+                    }
+                }
+            }
+            else if ( $read == "Group" )
+            {
+                if ( $this->UserID != 0 )
+                {
+                    $currentGroups =& $currentUser->groups();
+                    foreach( $currentGroups as $Groups )
+                    {
+                        $user = new eZUser( $this->UserID );
+                        $userGroups =& $user->groups();
+                            
+                        foreach( $userGroups as $userGroup )
+                        {
+                            if ( $Groups->id() == $userGroup->id() )
+                            {
+                                $ret = "Group";
+                            }
+                            else
+                            {
+                                return $ret;
+                            }
+                        }
+                    }
+                }
+            }
+            else if ( $read == "All" )
+            {
+                $ret = "Group";
+            }
+        }
+
+        return $ret;
+
+    }
+
+    /*!
+      Check what write permission the user have to this eZVirtualFile object.
+
+      Returns:
+      User - if the user owns the file
+      Group - if the user is member of the group
+      All - if the file can be write by everybody
+      False - if the user don't have access
+    */
+    function checkWritePermission( &$currentUser )
+    {
+        $ret = false;
+
+        if ( get_class( $currentUser ) == "ezuser" )
+        {
+            $write = $this->writePermission();
+
+            if ( $write == "User" )
+            {
+                if ( $this->UserID != 0 )
+                {
+                    if ( $currentUser->id() == $this->UserID )
+                    {
+                        $ret = "User";
+                    }
+                    else
+                    {
+                        return $ret;
+                    }
+                }
+            }
+            else if ( $write == "Group" )
+            {
+                if ( $this->UserID != 0 )
+                {
+                    $currentGroups =& $currentUser->groups();
+                    foreach( $currentGroups as $Groups )
+                    {
+                        $user = new eZUser( $this->UserID );
+                        $userGroups =& $user->groups();
+                            
+                        foreach( $userGroups as $userGroup )
+                        {
+                            if ( $Groups->id() == $userGroup->id() )
+                            {
+                                $ret = "Group";
+                            }
+                            else
+                            {
+                                return $ret;
+                            }
+                        }
+                    }
+                }
+            }
+            else if ( $write == "All" )
+            {
+                $ret = "Group";
+            }
+        }
+
+        return $ret;
+    }
+
     
     /*!
       Returns the id of the image.
@@ -296,6 +435,7 @@ class eZImage
 
        if ( $group->groupExists( $width, $height ) )
        {
+
            $group->get( $group->groupExists( $width, $height ) );
 
            $ret =& $variation->requestVariation( $this, $group );
@@ -305,14 +445,99 @@ class eZImage
            $group->setWidth( $width );
            $group->setHeight( $height );
            $group->store();
-           
+
            $ret =& $variation->requestVariation( $this, $group );
        }
 
        return $ret;
     }
 
-    
+    /*!
+      Returns the writePermission permission of the eZImage object.
+    */
+    function writePermission()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       switch( $this->WritePermission )
+       {
+           case 1:
+           {
+               $ret = "User";
+           }
+           break;
+
+           case 2:
+           {
+               $ret = "Group";
+           }
+           break;
+           
+           case 3:
+           {
+               $ret = "All";
+           }
+           break;
+
+           default:
+               $ret = "User";
+       }
+
+       return $ret;
+    }
+
+    /*!
+      Returns the read permission of the eZImage object.
+    */
+    function readPermission()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       switch( $this->ReadPermission )
+       {
+           case 1:
+           {
+               $ret = "User";
+           }
+           break;
+
+           case 2:
+           {
+               $ret = "Group";
+           }
+           break;
+           
+           case 3:
+           {
+               $ret = "All";
+           }
+           break;
+
+           default:
+               $ret = "User";
+       }
+       
+       return $ret;
+    }
+
+    /*!
+      Returns a eZUser object.
+    */
+    function user()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        if ( $this->UserID != 0 )
+        {
+            $ret = new eZUser( $this->UserID );
+        }
+        
+        return $ret;
+    }
+
     
     /*!
       Sets the image name.
@@ -425,6 +650,102 @@ class eZImage
            $this->OriginalFileName =& $name;
        }
     }
+
+    /*!
+      Sets the writePermission permission of the eZImage object.
+
+      1 = User
+      2 = Group
+      3 = All
+      
+    */
+    function setWritePermission( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       switch ( $value )
+       {
+           case "User":
+           {
+               $value = 1;
+           }
+           break;
+           
+           case "Group":
+           {
+               $value = 2;
+           }
+           break;
+           
+           case "All":
+           {
+               $value = 3;
+           }
+           break;
+           
+           default:
+               $value = 1;
+       }
+       
+       $this->WritePermission = $value;
+    }
+
+    /*!
+      Sets the read permission of the eZImage object.
+
+      1 = User
+      2 = Group
+      3 = All
+      
+    */
+    function setReadPermission( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       switch ( $value )
+       {
+           case "User":
+           {
+               $value = 1;
+           }
+           break;
+           
+           case "Group":
+           {
+               $value = 2;
+           }
+           break;
+           
+           case "All":
+           {
+               $value = 3;
+           }
+           break;
+           
+           default:
+               $value = 1;
+       }
+       
+       $this->ReadPermission = $value;
+    }
+
+    /*!
+      Sets the user of the eZImage object.
+    */
+    function setUser( $user )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        if ( get_class( $user ) == "ezuser" )
+        {
+            $userID = $user->id();
+
+            $this->UserID = $userID;
+        }
+    }
     
     /*!
         Checks if the object is in the coherent state. This check can be applied
@@ -485,6 +806,18 @@ class eZImage
     var $Description;
     var $FileName;
     var $OriginalFileName;
+    var $ReadPermission;
+    var $WritePermission;
+    var $UserID;
+
+    ///  Variable for keeping the database connection.
+    var $Database;
+
+    /// Indicates the state of the object. In regard to database information.
+    var $State_;
+    /// Is true if the object has database connection, false if not.
+    var $IsConnected;
+
 }
 
 ?>
