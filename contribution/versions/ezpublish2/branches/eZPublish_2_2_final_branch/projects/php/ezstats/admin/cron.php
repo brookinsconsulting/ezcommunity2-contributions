@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: cron.php,v 1.1.2.2 2001/11/02 06:46:24 br Exp $
+// $Id: cron.php,v 1.1.2.3 2002/01/13 14:05:11 kaid Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -59,7 +59,7 @@ foreach ( $newelements as $element )
     else
     {
         $count = $oldelements[0][$db->fieldName("Count")] + $element[0];
-        $res[] = $db->query( "UPDATE eZStats_Archive_BrowserType SET Count='$count' WHERE BrowserType='$browsername'" );
+        $res[] = $db->query( "UPDATE eZStats_Archive_BrowserType SET Count='$count' WHERE Browser='$browsername'" );
     }
 }
 
