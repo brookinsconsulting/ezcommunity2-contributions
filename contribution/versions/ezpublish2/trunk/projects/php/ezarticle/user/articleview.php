@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.12 2000/11/01 13:18:20 bf-cvs Exp $
+// $Id: articleview.php,v 1.13 2000/11/02 20:14:35 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -60,23 +60,33 @@ else
     $t->parse( "article_header", "article_header_tpl" );
 }
 
-$article = new eZArticle( $ArticleID );
+$article = new eZArticle(  );
 
-$renderer = new eZArticleRenderer( $article );
+// check if the article exists
+if ( $article->get( $ArticleID ) )
+{
 
-$t->set_var( "article_name", $article->name() );
-$t->set_var( "author_text", $article->authorText() );
+    $renderer = new eZArticleRenderer( $article );
 
-$pageCount = $article->pageCount();
-if ( $PageNumber > $pageCount )
-    $PageNumber = $pageCount;
+    $t->set_var( "article_name", $article->name() );
+    $t->set_var( "author_text", $article->authorText() );
 
-$t->set_var( "article_body", $renderer->renderPage( $PageNumber - 1 ) );
+    $pageCount = $article->pageCount();
+    if ( $PageNumber > $pageCount )
+        $PageNumber = $pageCount;
 
-$t->set_var( "link_text", $article->linkText() );
+    $t->set_var( "article_body", $renderer->renderPage( $PageNumber - 1 ) );
 
-$t->set_var( "article_id", $article->id() );
+    $t->set_var( "link_text", $article->linkText() );
 
+    $t->set_var( "article_id", $article->id() );
+
+    $locale = new eZLocale();
+    $published = $article->published();
+
+    $t->set_var( "article_created", $locale->format( $published ) );
+ 
+}
 
 $t->set_var( "current_page_link", "" );
 
@@ -103,10 +113,6 @@ else
     
 }
 
-$locale = new eZLocale();
-$published = $article->published();
-
-$t->set_var( "article_created", $locale->format( $published ) );
 
 
 
