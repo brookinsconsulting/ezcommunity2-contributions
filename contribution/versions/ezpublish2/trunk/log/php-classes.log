@@ -547,3 +547,29 @@ Maintainer(s) : bf@ez.no
     * INIFile.php:
     better error message, if site.ini or site.ini.php are not found
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-12-18  Sascha Frinken  <sascha@impetex.de>
+
+    * ezmysqldb.php: Commitng the mygold cahnges
+
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-12-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/pt_PT/linklist.php.ini
+      admin/intl/pt_PT/linkselect.php.ini: pt_PT (Portuguese) version 2.2.2
+
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2002-01-02  Baard Farstad  <bf@ez.no>
+
+    * ezbenchmark.php
+      ezmysqldb.php: Added import script.
+

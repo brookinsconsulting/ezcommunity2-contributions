@@ -2543,3 +2543,67 @@ Maintainer(s) : bf@ez.no
     * classes/eztechgenerator.php
       user/frontpage.php: Fixed grayscale images on frontpage list.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-12-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/pt_PT/articleedit.php.ini
+      admin/intl/pt_PT/articlelist.php.ini
+      admin/intl/pt_PT/articlelog.php.ini
+      admin/intl/pt_PT/articlepreview.php.ini
+      admin/intl/pt_PT/attribute.php.ini
+      admin/intl/pt_PT/attributelist.php.ini
+      admin/intl/pt_PT/categoryedit.php.ini
+      admin/intl/pt_PT/fileedit.php.ini
+      admin/intl/pt_PT/filelist.php.ini
+      admin/intl/pt_PT/formlist.php.ini
+      admin/intl/pt_PT/imageedit.php.ini
+      admin/intl/pt_PT/imagelist.php.ini
+      admin/intl/pt_PT/imagemap.php.ini
+      admin/intl/pt_PT/mailtemplate.php.ini
+      admin/intl/pt_PT/mediaedit.php.ini
+      admin/intl/pt_PT/medialist.php.ini
+      admin/intl/pt_PT/menubox.php.ini
+      admin/intl/pt_PT/pendinglist.php.ini
+      admin/intl/pt_PT/pendingmail.php.ini
+      admin/intl/pt_PT/search.php.ini
+      admin/intl/pt_PT/searchform.php.ini
+      admin/intl/pt_PT/sitemap.php.ini
+      admin/intl/pt_PT/topiclist.php.ini
+      admin/intl/pt_PT/typeedit.php.ini
+      admin/intl/pt_PT/typelist.php.ini
+      admin/intl/pt_PT/unpublishedlist.php.ini
+      user/intl/pt_PT/articleedit.php.ini
+      user/intl/pt_PT/articleheaderlist.php.ini
+      user/intl/pt_PT/articlelinks.php.ini
+      user/intl/pt_PT/articlelist.php.ini
+      user/intl/pt_PT/articleview.php.ini
+      user/intl/pt_PT/authorview.php.ini
+      user/intl/pt_PT/fileedit.php.ini
+      user/intl/pt_PT/filelist.php.ini
+      user/intl/pt_PT/frontpage.php.ini
+      user/intl/pt_PT/headlines.php.ini
+      user/intl/pt_PT/imageedit.php.ini
+      user/intl/pt_PT/imagelist.php.ini
+      user/intl/pt_PT/index.php.ini
+      user/intl/pt_PT/mailtofriend.php.ini
+      user/intl/pt_PT/menubox.php.ini
+      user/intl/pt_PT/menumaker.php.ini
+      user/intl/pt_PT/newsgroup.php.ini
+      user/intl/pt_PT/search.php.ini
+      user/intl/pt_PT/searchform.php.ini
+      user/intl/pt_PT/sendmailtofriend.php.ini
+      user/intl/pt_PT/sitemap.php.ini
+      user/intl/pt_PT/topiclist.php.ini
+      user/intl/pt_PT/urlsupplier.php.ini: pt_PT (Portuguese) version 2.2.2
+
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-01-02  Baard Farstad  <bf@ez.no>
+
+    * classes/ezarticle.php: Added import script.
+

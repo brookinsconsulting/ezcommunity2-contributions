@@ -2530,3 +2530,131 @@ Maintainer(s) : ce@ez.no
     * classes/ezproduct.php:
     Fixed extended search to exclude unavailable products.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-12-18  Sascha Frinken  <sascha@impetex.de>
+
+    * xmlrpc/Attic/xmlrpcserverimport.php
+      xmlrpc/xmlrpcserver.php
+      admin/templates/standard/orderedit.tpl
+      admin/templates/standard/voucherlist.tpl
+      classes/ezcart.php
+      classes/ezoptionvalue.php
+      classes/ezproduct.php
+      classes/ezproductcategory.php
+      classes/ezvoucher.php
+      classes/ezvoucherinformation.php
+      classes/ezwishlist.php
+      classes/ezwishlistitem.php
+      user/cart.php
+      user/checkout.php
+      user/customerlogin.php
+      user/intl/de_MG/Attic/voucherview.php.ini
+      user/intl/de_MG/customerlogin.php.ini
+      user/intl/de_MG/mailorder.php.ini
+      user/intl/de_MG/ordersendt.php.ini
+      user/orderlist.php
+      user/ordersendt.php
+      user/payment.php
+      user/productlist.php
+      user/productview.php
+      user/viewwishlist.php
+      user/voucher.php
+      user/voucherview.php
+      admin/datasupplier.php
+      admin/intl/de_MG/menubox.php.ini
+      admin/intl/de_MG/orderedit.php.ini
+      admin/intl/de_MG/orderlist.php.ini
+      admin/menubox.php
+      admin/voucheredit.php
+      admin/voucherlist.php: Commitng the mygold cahnges
+
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-12-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/pt_PT/customerlist.php.ini
+      admin/intl/pt_PT/customerview.php.ini
+      admin/intl/pt_PT/formlist.php.ini
+      admin/intl/pt_PT/pricegroups.php.ini
+      admin/intl/pt_PT/productedit.php.ini
+      admin/intl/pt_PT/productexpire.php.ini
+      admin/intl/pt_PT/productpreview.php.ini
+      admin/intl/pt_PT/productsearch.php.ini
+      admin/intl/pt_PT/shippingtypes.php.ini
+      admin/intl/pt_PT/typeedit.php.ini
+      admin/intl/pt_PT/typelist.php.ini
+      admin/intl/pt_PT/vattypes.php.ini
+      admin/intl/pt_PT/voucheredit.php.ini
+      admin/intl/pt_PT/voucherlist.php.ini
+      user/intl/pt_PT/cart.php.ini
+      user/intl/pt_PT/categorylist.php.ini
+      user/intl/pt_PT/categorytreelist.php.ini
+      user/intl/pt_PT/checkout.php.ini
+      user/intl/pt_PT/customerlogin.php.ini
+      user/intl/pt_PT/extendedsearch.php.ini
+      user/intl/pt_PT/findwishlist.php.ini
+      user/intl/pt_PT/hotdealslist.php.ini
+      user/intl/pt_PT/mailorder.php.ini
+      user/intl/pt_PT/mastercard.php.ini
+      user/intl/pt_PT/menubox.php.ini
+      user/intl/pt_PT/orderlist.php.ini
+      user/intl/pt_PT/ordersendt.php.ini
+      user/intl/pt_PT/orderview.php.ini
+      user/intl/pt_PT/precheckout.php.ini
+      user/intl/pt_PT/productlist.php.ini
+      user/intl/pt_PT/productsearch.php.ini
+      user/intl/pt_PT/productview.php.ini
+      user/intl/pt_PT/sendwishlist.php.ini
+      user/intl/pt_PT/smallcart.php.ini
+      user/intl/pt_PT/smallproductlist.php.ini
+      user/intl/pt_PT/viewwishlist.php.ini
+      user/intl/pt_PT/visa.php.ini
+      user/intl/pt_PT/voucher.php.ini
+      user/intl/pt_PT/voucheremail.php.ini
+      user/intl/pt_PT/voucherinformation.php.ini
+      user/intl/pt_PT/voucherview.php.ini
+      user/intl/pt_PT/wishlist.php.ini
+      user/intl/pt_PT/wishlistmail.php.ini
+      admin/intl/pt_PT/attributeedit.php.ini
+      admin/intl/pt_PT/categoryedit.php.ini
+      admin/intl/pt_PT/categorylist.php.ini
+      admin/intl/pt_PT/currency.php.ini
+      admin/intl/pt_PT/imageedit.php.ini
+      admin/intl/pt_PT/imagelist.php.ini
+      admin/intl/pt_PT/linklist.php.ini
+      admin/intl/pt_PT/linkselect.php.ini
+      admin/intl/pt_PT/menubox.php.ini
+      admin/intl/pt_PT/optionedit.php.ini
+      admin/intl/pt_PT/optionlist.php.ini
+      admin/intl/pt_PT/orderedit.php.ini
+      admin/intl/pt_PT/orderlist.php.ini
+      admin/intl/pt_PT/pricegroupedit.php.ini:
+    pt_PT (Portuguese) version 2.2.2
+
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-01-02  Kai Duebbert  <kai@duebbert.de>
+
+    * user/datasupplier.php
+      user/orderview.php
+      user/sendwishlist.php
+      user/viewwishlist.php
+      user/wishlist.php: fixed wrong redirection in eZ Trade
+
+2002-01-02  Baard Farstad  <bf@ez.no>
+
+    * sql/mysql/eztrade.sql
+      user/templates/standard/productlist.tpl
+      user/templates/standard/productsearch.tpl
+      user/templates/standard/productview.tpl
+      classes/ezproduct.php
+      classes/ezproductattribute.php
+      classes/ezproductcategory.php: Added import script.
+

@@ -629,3 +629,34 @@ Maintainer(s) : br@ez.no
 
     * admin/search.php: fixed search
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-12-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/pt_PT/attributeedit.php.ini
+      admin/intl/pt_PT/categoryedit.php.ini
+      admin/intl/pt_PT/categorylist.php.ini
+      admin/intl/pt_PT/linkcategorylist.php.ini
+      admin/intl/pt_PT/linkedit.php.ini
+      admin/intl/pt_PT/menubox.php.ini
+      admin/intl/pt_PT/typeedit.php.ini
+      admin/intl/pt_PT/typelist.php.ini
+      admin/intl/pt_PT/unacceptedlist.php.ini
+      user/intl/pt_PT/categorylist.php.ini
+      user/intl/pt_PT/linkcategorylist.php.ini
+      user/intl/pt_PT/linklist.php.ini
+      user/intl/pt_PT/onepagelinklist.php.ini
+      user/intl/pt_PT/suggestlink.php.ini: pt_PT (Portuguese) version 2.2.2
+
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2002-01-02  Bjoern Reiten  <br@ez.no>
+
+    * admin/linkedit.php
+      classes/ezlinkcategory.php:
+    fixed template bugs, and is_numeric type fix.
+
