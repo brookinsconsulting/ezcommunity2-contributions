@@ -1,3 +1,30 @@
+<!-- BEGIN hr_tpl -->
+<hr>
+<!-- END hr_tpl -->
+
+<!-- BEGIN tstart_tpl -->
+<table width=100%>
+<tr>
+<td>
+<!-- END tstart_tpl -->
+
+<!-- BEGIN telem_tpl -->
+</td>
+<td>
+<!-- END telem_tpl -->
+
+<!-- BEGIN trow_tpl -->
+</td>
+</tr>
+<tr>
+<td>
+<!-- END trow_tpl -->
+
+<!-- BEGIN tend_tpl -->
+</td>
+</tr>
+</table>
+<!-- END tend_tpl -->
 
 <!-- BEGIN header_1_tpl -->
 <h1>{contents}</h1>
