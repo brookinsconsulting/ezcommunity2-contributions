@@ -97,9 +97,9 @@
 </table>
 <!-- END file_list_tpl -->
 
+<br />
 
 <!-- BEGIN delete_menu_tpl -->
-<hr noshade="noshade" size="4" />
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -114,8 +114,9 @@
 </table>
 <!-- END delete_menu_tpl -->
 
+<br />
+
 <!-- BEGIN write_menu_tpl -->
-<hr noshade="noshade" size="4" />
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
