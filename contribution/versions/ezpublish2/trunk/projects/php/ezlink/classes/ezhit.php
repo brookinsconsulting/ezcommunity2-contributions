@@ -16,7 +16,7 @@ class eZHit
     function store()
     {
         $this->dbInit();
-        query( "INSERT INTO Hit SET
+        query( "INSERT INTO eZLink_Hit SET
 				RemoteIP='$this->RemoteIP',
                 ID='$this->ID',
                 Link='$this->Link'" );
@@ -29,7 +29,7 @@ class eZHit
     function update()
     {
         $this->dbInit();
-        query( "UPDATE Hit SET
+        query( "UPDATE eZLink_Hit SET
 				RemoteIP='$this->RemoteIP',
                 Link='$this->Link',
                 WHERE ID='$this->ID'" );
@@ -41,7 +41,7 @@ class eZHit
     function delete()
     {
         $this->dbInit();                
-        query( "DELETE FROM Hit WHERE ID='$ID'" );
+        query( "DELETE FROM eZLink_Hit WHERE ID='$ID'" );
     }
 
     /*
@@ -51,14 +51,14 @@ class eZHit
     function getLinkHits( $id )
     {
         $this->dbInit();        
-        array_query( $hit_array, "SELECT * FROM Hit WHERE Link='$id'" );        
+        array_query( $hit_array, "SELECT * FROM eZLink_Hit WHERE Link='$id'" );        
         $count = count( $hit_array );
         return $count;
     }
     function get( $id )
     {
         $this->dbInit();
-        array_query( $hit_array, "SELECT * FROM Hit WHERE ID='$id'" );
+        array_query( $hit_array, "SELECT * FROM eZLink_Hit WHERE ID='$id'" );
         return count( $hit_array );
     }
 

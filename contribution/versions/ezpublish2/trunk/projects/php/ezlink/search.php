@@ -19,10 +19,11 @@ $t->set_file( array(
     "search_list" => $DOCUMENTROOT . "templates/searchlistuser.tpl"
     ) );
 
+$limit = "10";
+$offset = $Offset;
+
 $linkGroup = new eZLinkGroup();
 $linkGroup->get ( $LGID );
-
-print ( "oppe--->" . $LGID );
 
 $t->set_var( "printpath", $linkGroup->printPath( $LGID, $DOCUMENTROOT . "linklist.php" ) );
 
@@ -31,7 +32,8 @@ $link = new eZLink();
 
 if ( $Action == "search" )
 {
-    $link_array = $link->getQuery( $QueryText );
+    $link_array = $link->getQueryLimit( $QueryText, $limit, $offset );
+    $thit_count = count( $link->getQuery( $QueryText ) );
     $tlink_message = "Søk resultater";
 }
 
@@ -59,6 +61,10 @@ else
         $t->set_var( "link_accepted", $link_array[ $i ][ "Accepted" ] );
         $t->set_var( "link_url", $link_array[ $i ][ "Url" ] );
 
+        $t->set_var( "link_next_offs", $offset + $limit );
+        $t->set_var( "link_prev_offs", $offset - $limit );
+        $t->set_var( "query_text", $QueryText );
+
         $LGID =  ( $link_array[ $i ][ "LinkGroup" ] );
 
         $t->set_var( "printpath", $linkGroup->printPath( $LGID, $DOCUMENTROOT . "linklist.php" ) );                       
@@ -79,12 +85,12 @@ else
 
 if ( $Action == "search" )
 {
-    $link_array = $link->getQuery( $QueryText );
+    $link_array = $link->getQueryLimit( $QueryText, $limit, $offset );
     $tlink_message = "Søk resultater";
 }
 
 
-
+$t->set_var( "hit_count", $thit_count );
 $t->set_var( "link_message", $tlink_message );
 $t->set_var( "linkgroup_id", $LGID );
 $t->set_var( "document_root", $DOCUMENTROOT );

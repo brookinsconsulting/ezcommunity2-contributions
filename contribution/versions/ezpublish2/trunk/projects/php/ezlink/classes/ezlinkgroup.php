@@ -15,7 +15,7 @@ class eZLinkGroup
     function store()
     {
         $this->dbInit();
-        query( "INSERT INTO LinkGroup SET
+        query( "INSERT INTO eZLink_LinkGroup SET
                 ID='$this->ID',
                 Title='$this->Title',
                 Parent='$this->Parent'" );
@@ -27,7 +27,7 @@ class eZLinkGroup
     function update()
     {
         $this->dbInit();
-        query( "UPDATE LinkGroup SET 
+        query( "UPDATE eZLink_LinkGroup SET 
                 Title='$this->Title',
                 Parent='$this->Parent'
                 WHERE ID='$this->ID'" );
@@ -39,7 +39,7 @@ class eZLinkGroup
     function delete( )
     {
         $this->dbInit();
-        query( "DELETE FROM LinkGroup WHERE ID='$this->ID'" );
+        query( "DELETE FROM eZLink_LinkGroup WHERE ID='$this->ID'" );
     }
 
     /*
@@ -48,7 +48,7 @@ class eZLinkGroup
     function get( $id )
     {
         $this->dbInit();
-        array_query( $linkgroup_array,  "SELECT * FROM LinkGroup WHERE ID='$id'" );
+        array_query( $linkgroup_array,  "SELECT * FROM eZLink_LinkGroup WHERE ID='$id'" );
         if ( count( $linkgroup_array ) > 1 )
         {
             die( "feil, flere grupper med samme id" );
@@ -94,7 +94,7 @@ class eZLinkGroup
         $this->dbInit();
         $parent_array = 0;
 
-        array_query( $parent_array, "SELECT * FROM LinkGroup WHERE Parent='$id'" );
+        array_query( $parent_array, "SELECT * FROM eZLink_LinkGroup WHERE Parent='$id'" );
 
         return $parent_array;
     }
@@ -109,7 +109,7 @@ class eZLinkGroup
 
         if ( $id == $start_id )
         {
-            array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM Link WHERE LinkGroup='$id' AND Accepted='Y'" );
+            array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM eZLink_Link WHERE LinkGroup='$id' AND Accepted='Y'" );
             $count += $link_count[0][ "LinkCount" ];
         }
         
@@ -117,7 +117,7 @@ class eZLinkGroup
         {
             $group_id =  $sibling_array[ $i][ "ID" ];
             $count += $this->getTotalSubLinks( $group_id, $start_id );
-            array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM Link WHERE LinkGroup='$group_id' AND Accepted='Y'" );
+            array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM eZLink_Link WHERE LinkGroup='$group_id' AND Accepted='Y'" );
             $count += $link_count[0][ "LinkCount" ];            
         }
         return $count;
@@ -135,7 +135,7 @@ class eZLinkGroup
 
         if ( $id == $start_id )
         {
-            array_query( $link_count, "SELECT COUNT( ID ) AS LinkCount from Link WHERE LinkGroup='$id' AND Accepted='Y' AND ( TO_DAYS( Now() ) - TO_DAYS( Created ) ) <= $new_limit  ORDER BY Title" );
+            array_query( $link_count, "SELECT COUNT( ID ) AS LinkCount from eZLink_Link WHERE LinkGroup='$id' AND Accepted='Y' AND ( TO_DAYS( Now() ) - TO_DAYS( Created ) ) <= $new_limit  ORDER BY Title" );
             $count += $link_count[0][ "LinkCount" ];
         }
         
@@ -143,7 +143,7 @@ class eZLinkGroup
         {
             $group_id =  $sibling_array[ $i][ "ID" ];
             $count += $this->getNewSubLinks( $group_id, $start_id, $new_limit );
-            array_query( $link_count, "SELECT COUNT( ID ) AS LinkCount  from Link WHERE LinkGroup='$group_id' AND Accepted='Y' AND ( To_DAYS( Now() ) - TO_DAYS( Created ) ) <= $new_limit  ORDER BY Title" );
+            array_query( $link_count, "SELECT COUNT( ID ) AS LinkCount  from eZLink_Link WHERE LinkGroup='$group_id' AND Accepted='Y' AND ( To_DAYS( Now() ) - TO_DAYS( Created ) ) <= $new_limit  ORDER BY Title" );
             $count += $link_count[0][ "LinkCount" ];            
         }
         return $count;
@@ -155,7 +155,7 @@ class eZLinkGroup
     function getTotalIncomingLinks()
     {
         $count = 0;
-        array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM Link WHERE Accepted='N'" );
+        array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM eZLink_Link WHERE Accepted='N'" );
         $count = $link_count[0][ "LinkCount" ];
         return $count;
     }
@@ -168,7 +168,7 @@ class eZLinkGroup
         $this->dbInit();
         $parnet_array = 0;
 
-        array_query( $parent_array, "SELECT * FROM LinkGroup ORDER BY Title" );
+        array_query( $parent_array, "SELECT * FROM eZLink_LinkGroup ORDER BY Title" );
 
         return $parent_array;
     }

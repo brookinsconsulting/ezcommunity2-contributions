@@ -18,7 +18,7 @@ class eZLink
         $this->dbInit();
         // setter created til tiden på systemklokken.
         $this->Created = date( "Y-m-d G:i:s" );        
-        query( "INSERT INTO Link SET
+        query( "INSERT INTO eZLink_Link SET
                 ID='$this->ID',
                 Title='$this->Title',
                 Description='$this->Description',
@@ -35,7 +35,7 @@ class eZLink
     function update()
     {
         $this->dbInit();
-        query( "UPDATE Link SET
+        query( "UPDATE eZLink_Link SET
                 Title='$this->Title',
                 LinkGroup='$this->LinkGroup',
                 KeyWords='$this->KeyWords',
@@ -51,8 +51,8 @@ class eZLink
     function delete( )
     {
         $this->dbInit();
-        query( "DELETE FROM Hit WHERE Link='$this->ID'" );        
-        query( "DELETE FROM Link WHERE ID='$this->ID'" );
+        query( "DELETE FROM eZLink_Hit WHERE Link='$this->ID'" );        
+        query( "DELETE FROM eZLink_Link WHERE ID='$this->ID'" );
     }
 
     /*
@@ -63,7 +63,7 @@ class eZLink
         $this->dbInit();
         if ( $id != "" )
         {
-            array_query( $link_array, "SELECT * FROM Link WHERE ID='$id'" );
+            array_query( $link_array, "SELECT * FROM eZLink_Link WHERE ID='$id'" );
             if ( count( $link_array ) > 1 )
             {
                 die( "Feil: flere linker med samme ID ble funnet i databasen, dette skal ikke være mulig." );
@@ -92,7 +92,7 @@ class eZLink
         $this->dbInit();
         $link_array = 0;
         
-        array_query( $link_array, "SELECT * FROM Link WHERE LinkGroup='$id' AND Accepted='Y' ORDER BY Title" );
+        array_query( $link_array, "SELECT * FROM eZLink_Link WHERE LinkGroup='$id' AND Accepted='Y' ORDER BY Title" );
 
         return $link_array;
     }
@@ -105,7 +105,7 @@ class eZLink
         $this->dbInit();
         $link_array = 0;
         
-        array_query( $link_array, "SELECT * FROM Link WHERE LinkGroup='$id' AND Accepted='Y' ORDER BY Title" );
+        array_query( $link_array, "SELECT * FROM eZLink_Link WHERE LinkGroup='$id' AND Accepted='Y' ORDER BY Title" );
 
         return $link_array;
     }
@@ -118,10 +118,38 @@ class eZLink
         $this->dbInit();
         $link_array = 0;
         
-        array_query( $link_array, "SELECT * FROM Link WHERE Accepted='N' ORDER BY Title" );
+        array_query( $link_array, "SELECT * FROM eZLink_Link WHERE Accepted='N' ORDER BY Title" );
 
         return $link_array;
     }
+
+        /*
+      Henter ut de 10 siste linkene med accepted = yes
+    */
+    function getLastTenDate( $limit, $offset )
+    {
+        $this->dbInit();
+        $link_array = 0;
+        
+        array_query( $link_array, "SELECT * FROM eZLink_Link WHERE Accepted='Y' ORDER BY Created DESC LIMIT $offset, $limit" );
+
+        return $link_array;
+    }
+
+    /*
+      Henter ut de 10 siste linkene med accepted = yes
+    */
+    function getLastTen( $limit, $offset )
+    {
+        $this->dbInit();
+        $link_array = 0;
+        
+        array_query( $link_array, "SELECT * FROM eZLink_Link WHERE Accepted='Y' ORDER BY Title DESC LIMIT $offset, $limit" );
+
+        return $link_array;
+    }
+ 
+
 
     /*
       Henter linkene som mather $query.
@@ -131,10 +159,24 @@ class eZLink
         $this->dbInit();
         $link_array = 0;
         
-        array_query( $link_array, "SELECT * FROM Link WHERE (KeyWords LIKE '%$query%' OR Title LIKE '%$query%' OR Description LIKE '%$query%') AND Accepted='Y' ORDER BY Title" );
+        array_query( $link_array, "SELECT * FROM eZLink_Link WHERE (KeyWords LIKE '%$query%' OR Title LIKE '%$query%' OR Description LIKE '%$query%') AND Accepted='Y' ORDER BY Title" );
 
         return $link_array;
     }
+
+        /*
+      Henter linkene som mather $query. antall 10 om gangen
+    */
+    function getQueryLimit( $query, $limit, $offset )
+    {
+        $this->dbInit();
+        $link_array = 0;
+        
+        array_query( $link_array, "SELECT * FROM eZLink_Link WHERE (KeyWords LIKE '%$query%' OR Title LIKE '%$query%' OR Description LIKE '%$query%') AND Accepted='Y' ORDER BY Title LIMIT $offset, $limit" );
+
+        return $link_array;
+    }
+
 
     /*
       Henter ut alt fra Link
@@ -144,7 +186,7 @@ class eZLink
         $this->dbInit();
         $group_array = 0;
 
-        array_query( $group_array, "SELECT * FROM Link ORDER BY Title" );
+        array_query( $group_array, "SELECT * FROM eZLink_Link ORDER BY Title" );
 
         return $group_array;
     }
@@ -156,7 +198,7 @@ class eZLink
     {
         $this->dbInit();
 
-        array_query( $url_array, "SELECT url FROM Link WHERE url='$url'" );
+        array_query( $url_array, "SELECT url FROM eZLink_Link WHERE url='$url'" );
 
         return count( $url_array );
     }
