@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.17 2001/09/27 13:31:17 bf Exp $
+// $Id: search.php,v 1.18 2001/10/01 13:16:11 kaid Exp $
 //
 // Created on: <28-Oct-2000 15:56:58 bf>
 //
@@ -30,15 +30,6 @@ include_once( "classes/ezlocale.php" );
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "classes/ezlist.php" );
-
-if ( isset( $GLOBALS["SiteIni"] ) )
-{
-    $ini =& $GLOBALS["SiteIni"];
-}
-else
-{
-    $ini = new INIFile( "site.ini" );
-}
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 $Limit = $ini->read_var( "eZArticleMain", "SearchListLimit" );
