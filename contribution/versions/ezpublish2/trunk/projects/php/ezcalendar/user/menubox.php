@@ -1,9 +1,9 @@
 <?
 // 
-// $Id: menubox.php,v 1.3 2001/04/11 13:21:15 th Exp $
+// $Id: menubox.php,v 1.1 2001/04/11 13:21:15 th Exp $
 //
-// Christoffer A. Elo <ce@ez.no>
-// Created on: <16-Jan-2001 13:23:02 ce>
+// Thomas Hellstrøm <th@ez.no>
+// Created on: <11-April-2001 15:20:00 th>
 //
 // This source file is part of eZ publish, publishing software.
 // Copyright (C) 1999-2001 eZ systems as
@@ -27,28 +27,21 @@ include_once( "classes/INIFile.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
-$Language = $ini->read_var( "eZBugMain", "Language" );
+$Language = $ini->read_var( "eZCalendarMain", "Language" );
 
     
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdb.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 
-$t = new eZTemplate( "ezbug/user/" . $ini->read_var( "eZBugMain", "TemplateDir" ),
-                     "ezbug/user/intl", $Language, "menubox.php" );
+$t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
+                     "ezcalendar/user/intl", $Language, "menubox.php" );
 
 $t->setAllStrings();
 
 $t->set_file( array(
     "menu_box_tpl" => "menubox.tpl"
     ) );
-
-$t->set_block( "menu_box_tpl", "unhandled_tpl", "unhandled" );
-
-if( eZObjectPermission::getObjects( "bug_module", 'w', true ) )
-    $t->parse( "unhandled", "unhandled_tpl" );
-else
-    $t->set_var( "unhandled", "" );
 
 $t->set_var( "sitedesign", $GlobalSiteDesign );
 

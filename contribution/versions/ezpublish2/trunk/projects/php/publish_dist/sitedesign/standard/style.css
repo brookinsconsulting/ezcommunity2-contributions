@@ -66,7 +66,13 @@ a:hover
 	text-align: center;
 }
 
-.menu, .menutext, .menubold, .pictext, .credit, .byline
+.subhead
+{
+	color: #000000;
+	font-weight: bold;
+}
+
+.menu, .menutext, .menubold, .pictext, .credit, .byline, .subhead
 {
 	font-size: 11px;
 }
@@ -220,4 +226,4 @@ hr
     color: #f07800;
 }
 
-/* Hellstrøm 28.02.2001 */
+/* Hellstrøm 11.4.2001 */

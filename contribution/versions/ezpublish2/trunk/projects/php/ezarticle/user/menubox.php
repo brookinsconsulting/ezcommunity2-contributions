@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.14 2001/04/07 15:31:02 bf Exp $
+// $Id: menubox.php,v 1.15 2001/04/11 13:21:15 th Exp $
 //
 // 
 //
@@ -53,7 +53,7 @@ if ( $PageCaching == "enabled" )
         }
     }
     
-    $menuCachedFile = "ezarticle/cache/menubox," . $groupstr .".cache";
+    $menuCachedFile = "ezarticle/cache/menubox," . $groupstr . ",". $GlobalSiteDesign .".cache";
                     
     if ( file_exists( $menuCachedFile ) )
     {
@@ -76,6 +76,7 @@ function createArticleMenu( $menuCachedFile="" )
     global $Language;
     global $menuCachedFile;
     global $GenerateStaticPage;
+	global $GlobalSiteDesign;
     
     include_once( "classes/eztemplate.php" );
 
@@ -95,6 +96,8 @@ function createArticleMenu( $menuCachedFile="" )
     $t->set_block( "menu_box_tpl", "submit_article_tpl", "submit_article" );
 
     $t->set_var( "submit_article", "" );
+
+    $t->set_var( "sitedesign", $GlobalSiteDesign );
 
 // Lister alle kategorier
     
