@@ -52,32 +52,31 @@
 <!-- BEGIN message_item_tpl -->
 <tr>
     <td class="{td_class}">
-		<table width="100%" cellspacing="0" cellpadding="0" border="0">
+	<table width="100%" cellspacing="0" cellpadding="0" border="0">
 	<tr>
-		<td width="1%" valign="top">
+		<td width="1%">
 		{spacer}{spacer}
 				<!-- BEGIN new_icon_tpl -->
-                <img src="/images/message_new.gif" width="16" height="16" border="0" alt="New message" />&nbsp;
+                <img src="/images/message_new.gif" width="16" height="16" border="0" alt="New message" />
 		<!-- END new_icon_tpl -->
 		<!-- BEGIN old_icon_tpl -->
-                <img src="/images/message.gif" width="16" height="16" border="0" alt="Message" />&nbsp;
+                <img src="/images/message.gif" width="16" height="16" border="0" alt="Message" />
 		<!-- END old_icon_tpl -->	
 
 		</td>
-		<td width="99%" valign="top">
-
-                <a href="/forum/message/{message_id}/">{topic} {count_replies}</a>
-                </td>
+		<td width="99%">
+        &nbsp;<a href="/forum/message/{message_id}/">{topic} {count_replies}</a>
+        </td>
 	</tr>
 	</table>
     </td>
-    <td class="{td_class}" valign="top">
-        {user}
+    <td class="{td_class}">
+        <span class="small">{user}</span>
     </td>
-    <td class="{td_class}" align="right" valign="top">
+    <td class="{td_class}" align="right">
         <span class="small">{postingtime}</span>
     </td>
-    <td class="{td_class}" align="right" valign="top">
+    <td class="{td_class}" align="right">
 		&nbsp;
         <!-- BEGIN edit_message_item_tpl -->
         <nobr><a href="/forum/messageedit/edit/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezfrm{message_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezfrm{message_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>&nbsp;<a href="/forum/messageedit/delete/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezfrm{message_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezfrm{message_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a></nobr>

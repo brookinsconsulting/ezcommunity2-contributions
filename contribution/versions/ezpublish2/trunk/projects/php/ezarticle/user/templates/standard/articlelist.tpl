@@ -2,7 +2,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="bottom">
-	<h1>{intl-head_line} <!-- {current_category_name} --></h1>
+	<h1>{intl-head_line} - {current_category_name}</h1>
 	</td>
 	<td align="right">
 	<form action="/article/search/" method="post">
@@ -43,7 +43,7 @@
 
 <!-- BEGIN category_item_tpl -->
 <tr>
-	<td class="{td_class}" width="1%" valign="top">
+	<td class="{td_class}" width="1%">
 	<!-- BEGIN image_item_tpl -->
 	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" />
 	<!-- END image_item_tpl -->
@@ -51,11 +51,11 @@
 	&nbsp;
 	<!-- END no_image_tpl -->
         </td>
-	<td width="49%" class="{td_class}" valign="top">
-	<a href="/article/archive/{category_id}/">{category_name}</a>&nbsp;
+	<td width="49%" class="{td_class}">
+	<a href="/article/archive/{category_id}/">{category_name}</a>
 	</td>
-	<td width="50%" class="{td_class}" valign="top">
-	{category_description}&nbsp;
+	<td width="50%" class="{td_class}">
+	<span class="small">{category_description}</small>
 	</td>
 </tr>
 <!-- END category_item_tpl -->

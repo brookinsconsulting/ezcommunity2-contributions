@@ -1,12 +1,13 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td align="left" valign="bottom">
-        <h1>{intl-search} - ({link_start}-{link_end}/{link_total})</h1>
+        <h1>{intl-search}</h1>
+		<div class="boxtext">({link_start}-{link_end}/{link_total})</div>
      </td>
      <td align="right">
 	 <form action="/link/search/" method="post">
 	       <input type="text" name="QueryString" size="12" />
-	       <input type="submit" name="search" value="{intl-search}" />
+	       <input class="stdbutton" type="submit" name="search" value="{intl-search}" />
          </form>
      </td>
 </tr>
@@ -16,10 +17,9 @@
 <hr noshade size="4" />
 
 <h2>Search for: "{query_string}"</h2>
-<br>
 
 <!-- BEGIN empty_result_tpl -->
-<h3 class="error">{intl-empty_result}</h3>
+<h2>{intl-empty_result}</h2>
 <!-- END empty_result_tpl -->
 
 <br />

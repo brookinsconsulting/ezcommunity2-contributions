@@ -28,21 +28,21 @@
 <!-- BEGIN category_tpl -->
 <tr>
         <!-- BEGIN category_read_tpl -->
-	<td class="{td_class}" width="1%" valign="top">
+	<td class="{td_class}" width="1%">
 	<a href="/imagecatalogue/image/list/{category_id}/"><img src="/images/folder.gif" alt="" width="16" height="16" border="0" /></a>
 	</td>
-	<td class="{td_class}" width="38%" valign="top">
+	<td class="{td_class}" width="38%">
 	<a href="/imagecatalogue/image/list/{category_id}/">{category_name}</a>
 	</td>
-	<td class="{td_class}" width="59%" valign="top">
-	{category_description}
+	<td class="{td_class}" width="59%">
+	<span class="small">{category_description}</span>
 	</td>
         <!-- END category_read_tpl -->
         <!-- BEGIN category_write_tpl -->
-	<td class="{td_class}" width="1%" valign="top">
+	<td class="{td_class}" width="1%">
 	<a href="/imagecatalogue/category/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezim{category_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezim{category_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
-	<td class="{td_class}" width="1%" valign="top">
+	<td class="{td_class}" width="1%">
 	<input type="checkbox" name="CategoryArrayID[]" value="{category_id}" />
 	</td>
         <!-- END category_write_tpl -->
@@ -57,12 +57,12 @@
 <!-- BEGIN image_tpl -->
 {begin_tr}
 	<!-- BEGIN read_tpl -->
-	<td {col_span} align="center" valign="center" valign="top">
+	<td {col_span} align="center" valign="center">
 	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/image/list/{main_category_id}/"><img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a><div class="pictext">{image_caption}</div>
 	</td>
 	<!-- END read_tpl -->
 	<!-- BEGIN read_span_tpl -->
-	<td colspan="{col_span}" valign="top">
+	<td colspan="{col_span}">
 	&nbsp;
 	</td>
 	<!-- END read_span_tpl -->
@@ -75,24 +75,24 @@
 <!-- BEGIN detail_view_tpl -->
 <tr>
 	<!-- BEGIN detail_read_tpl -->
-	<td valign="top">
+	<td>
 	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/image/list/{main_category_id}/"><img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a>
 	</td>
-	<td class="{td_class}" valign="top">
-	{image_caption}
+	<td class="{td_class}">
+	<span class="small">{image_caption}</span>
 	</td>
-	<td class="{td_class}" valign="top">
+	<td class="{td_class}">
 	{image_size}&nbsp;{image_unit}
 	</td>
-	<td class="{td_class}" width="1%" valign="top">
+	<td class="{td_class}" width="1%">
 	<a href="/imagecatalogue/download/{image_id}/{original_image_name}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezimg{image_id}-dl','','/ezimagecatalogue/user/{image_dir}/downloadminimrk.gif',1)"><img name="ezimg{image_id}-dl" border="0" src="/ezimagecatalogue/user/{image_dir}/downloadmini.gif" width="16" height="16" align="top" alt="Download" /></a><br />
 	</td>
 	<!-- END detail_read_tpl -->
 	<!-- BEGIN detail_write_tpl -->
-	<td class="{td_class}" width="1%" valign="top">
+	<td class="{td_class}" width="1%">
 	<a href="/imagecatalogue/image/edit/{image_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezimg{image_id}-red','','/ezimagecatalogue/user/{image_dir}/redigerminimrk.gif',1)"><img name="ezimg{image_id}-red" border="0" src="/ezimagecatalogue/user/{image_dir}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
-	<td class="{td_class}" width="1%" valign="top">
+	<td class="{td_class}" width="1%">
 	<input type="checkbox" name="ImageArrayID[]" value="{image_id}">
 	</td>
 	<!-- END detail_write_tpl -->
@@ -105,7 +105,9 @@
 
 <!-- BEGIN write_menu_tpl -->
 <!-- BEGIN default_delete_tpl -->
+
 <hr noshade="noshade" size="4" />
+
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 
@@ -127,6 +129,7 @@
 <!-- END default_delete_tpl -->
 
 <!-- BEGIN default_new_tpl -->
+
 <hr noshade="noshade" size="4" />
 
 <table cellspacing="0" cellpadding="0" border="0">

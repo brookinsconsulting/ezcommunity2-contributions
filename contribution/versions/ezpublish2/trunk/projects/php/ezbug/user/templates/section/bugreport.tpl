@@ -23,10 +23,6 @@
 <input class="box" type="text" size="40" name="Name" value="{title_value}"/>
 <br />
 
-<p class="boxtext">{intl-program_version}:</p>
-<input class="halfbox" type="text" size="20" name="Version" value="{version_value}" />
-<br /><br />
-
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
 	<td width="33%">
@@ -48,6 +44,11 @@
 	</td>
 </tr>
 </table>
+
+<p class="boxtext">{intl-program_version}:</p>
+<input class="halfbox" type="text" size="20" name="Version" value="{version_value}" />
+<br /><br />
+
 
 <!-- BEGIN email_address_tpl -->
 <p class="boxtext">{intl-email_address} ({intl-if_you_are_a registered_user_please_log_in}):</p>

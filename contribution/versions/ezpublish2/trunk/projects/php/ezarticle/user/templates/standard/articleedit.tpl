@@ -2,19 +2,17 @@
 
 <h1>{intl-head_line}</h1>
 
+<hr noshade="noshade" size="4" />
+
 <!-- BEGIN error_message_tpl -->
 <h3 class="error">{intl-error_parsing_xml}</h3>
 <!-- END error_message_tpl -->
 
-<hr noshade="noshade" size="4" />
-
-<br />
-
 <p class="boxtext">{intl-article_name}:</p>
-<input type="text" name="Name" size="40" value="{article_name}" />
+<input type="text" class="box" name="Name" size="40" value="{article_name}" />
 
 <p class="boxtext">{intl-article_author}:</p>
-<input type="text" name="AuthorText" size="40" value="{author_text}" />
+<input type="text" class="box" name="AuthorText" size="40" value="{author_text}" />
 
 <p class="boxtext">{intl-category}:</p>
 <select name="CategoryIDSelect">
@@ -24,17 +22,16 @@
 </select>
 
 <p class="boxtext">{intl-intro}:</p>
-<textarea name="Contents[]" cols="40" rows="5" wrap="soft">{article_contents_0}</textarea>
+<textarea name="Contents[]" class="box" cols="40" rows="5" wrap="soft">{article_contents_0}</textarea>
 <br /><br />
 
 <p class="boxtext">{intl-contents}:</p>
-<textarea name="Contents[]" cols="40" rows="20" wrap="soft">{article_contents_1}</textarea>
+<textarea name="Contents[]" class="box" cols="40" rows="20" wrap="soft">{article_contents_1}</textarea>
 <br /><br />
 
 <p class="boxtext">{intl-link_text}:</p>
-<input type="text" name="LinkText" size="20" value="{link_text}" />
+<input type="text" class="halfbox" name="LinkText" size="20" value="{link_text}" />
 <br /><br />
-
 
 <hr noshade="noshade" size="4" />
 

@@ -64,7 +64,8 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<td>
-	<h2>{links} - ({link_start}-{link_end}/{link_total})</h2>
+	<h2>{links}</h2>
+	<div class="boxtext">({link_start}-{link_end}/{link_total})</div>
 	</td>
 </tr>
 <!-- BEGIN link_item_tpl -->

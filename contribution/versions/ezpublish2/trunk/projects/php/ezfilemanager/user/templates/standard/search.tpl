@@ -39,7 +39,7 @@
 	<a href="/filemanager/fileview/{file_id}/">{file_name}</a><br />
 	</td>
 	<td class="{td_class}" width="56%" valign="top">
-	{original_file_name}&nbsp;
+	{original_file_name}
 	<td class="{td_class}" width="1%" valign="top">
 	{file_size}&nbsp;{file_unit}
 	</td>

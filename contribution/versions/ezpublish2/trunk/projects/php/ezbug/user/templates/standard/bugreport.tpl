@@ -13,8 +13,8 @@
 <hr noshade="noshade" size="4">
 
 <p class="boxtext">{intl-bug_title}:</p>
-<input type="text" size="40" name="Name" value="{title_value}"/>
-<br /><br />
+<input class="box" type="text" size="40" name="Name" value="{title_value}"/>
+<br />
 
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
@@ -35,22 +35,22 @@
 	<!-- END category_item_tpl -->
 	</select>
 	</td>
-	<td>
-	<p class="boxtext">{intl-program_version}:</p>
-	<input type="text" name="Version" value="{version_value}" />
-	</td>
 </tr>
 </table>
 
+<p class="boxtext">{intl-program_version}:</p>
+<input class="halfbox" type="text" size="20" name="Version" value="{version_value}" />
+<br /><br />
+
 <!-- BEGIN email_address_tpl -->
 <p class="boxtext">{intl-email_address} ({intl-if_you_are_a registered_user_please_log_in}):</p>
-<input type="text" size="40" name="Email" value="{usr_email}"/>
+<input class="halfbox" type="text" size="20" name="Email" value="{usr_email}"/>
 <!-- END email_address_tpl -->
 
 <p class="boxtext">{intl-bug_description}:</p>
-<textarea name="Description" cols="40" rows="8" wrap="soft">{description_value}</textarea>
-<br /><br />
-  <input type="checkbox" name="IsPrivate" value="true" {private_checked} />&nbsp;{intl-private}
+<textarea class="box" name="Description" cols="40" rows="8" wrap="soft">{description_value}</textarea>
+<br />
+<input type="checkbox" name="IsPrivate" value="true" {private_checked} />&nbsp;<span class="boxtext">{intl-private}</span>
 <br />
 
 
