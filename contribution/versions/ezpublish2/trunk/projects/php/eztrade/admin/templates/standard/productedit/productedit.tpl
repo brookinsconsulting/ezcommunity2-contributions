@@ -39,7 +39,7 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 	<div class="check"><input type="checkbox" name="Active" {showproduct_checked} />&nbsp;{intl-active}</div>
 	</td>
 	<td>
-	<div class="check"><input type="checkbox" name="InheritOptions" {inherit_options_checked} />{intl-inherit_options}</div>
+	<div class="check"><input type="checkbox" name="IsHotDeal" {is_hot_deal_checked} />{intl-is_hot_deal}</div>
 	</td>
 </tr>
 <tr>

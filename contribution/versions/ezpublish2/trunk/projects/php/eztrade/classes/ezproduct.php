@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.21 2000/11/01 09:24:18 ce-cvs Exp $
+// $Id: ezproduct.php,v 1.22 2000/11/12 18:05:29 bf-cvs Exp $
 //
 // Definition of eZProduct class
 //
@@ -136,6 +136,7 @@ class eZProduct
                                  ShowProduct='$showProduct',
                                  Discontinued='$discontinued',
                                  ExternalLink='$this->ExternalLink',
+                                 IsHotDeal='$this->IsHotDeal',
                                  InheritOptions='$inheritOptions'
                                  " );
 
@@ -156,6 +157,7 @@ class eZProduct
                                  ShowProduct='$showProduct',
                                  Discontinued='$discontinued',
                                  ExternalLink='$this->ExternalLink',
+                                 IsHotDeal='$this->IsHotDeal',
                                  InheritOptions='$inheritOptions'
                                  WHERE ID='$this->ID'
                                  " );
@@ -191,6 +193,7 @@ class eZProduct
                 $this->ProductNumber =& $category_array[0][ "ProductNumber" ];
                 $this->ExternalLink =& $category_array[0][ "ExternalLink" ];
                 $this->Price =& $category_array[0][ "Price" ];
+                $this->IsHotDeal =& $category_array[0][ "IsHotDeal" ];
 
                 if ( $category_array[0][ "ShowPrice" ] == "true" )                    
                     $this->ShowPrice = true;
@@ -384,6 +387,25 @@ class eZProduct
 
        return $this->ExternalLink;
     }
+
+    /*!
+      Returns true if the product is a hot deal.
+      False if not.
+    */
+    function isHotDeal()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = false;
+       if ( $this->IsHotDeal == "true" )
+       {
+           $ret = true;
+       }
+
+       return $ret;
+    }
+      
     
     /*!
       Sets the product name.
@@ -513,6 +535,28 @@ class eZProduct
 
        $this->ExternalLink = $value;
     }
+
+    /*!
+      Set the product to be a hot deal or not. True makes
+      the product a hot deal, false it it just as an ordinary
+      product.
+    */
+    function setIsHotDeal( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( $value == true )
+       {
+           $this->IsHotDeal = "true";
+       }
+       else
+       {
+           $this->IsHotDeal = "false";
+       }
+        
+    }
+      
     
 
     /*!
@@ -869,6 +913,7 @@ class eZProduct
     var $Discontinued;
     var $InheritOptions;
     var $ExternalLink;
+    var $IsHotDeal;
     
     ///  Variable for keeping the database connection.
     var $Database;

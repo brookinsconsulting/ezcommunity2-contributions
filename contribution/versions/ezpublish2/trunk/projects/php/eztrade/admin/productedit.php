@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.20 2000/11/01 09:24:18 ce-cvs Exp $
+// $Id: productedit.php,v 1.21 2000/11/12 18:05:29 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -74,6 +74,15 @@ if ( $Action == "Insert" )
     else
     {
         $product->setInheritOptions( false );
+    }
+
+    if ( $IsHotDeal == "on" )
+    {
+        $product->setIsHotDeal( true );
+    }
+    else
+    {
+        $product->setIsHotDeal( false );
     }
     
     $product->setPrice( $Price );
@@ -182,6 +191,16 @@ if ( $Action == "Update" )
     {
         $product->setInheritOptions( false );
     }
+
+    if ( $IsHotDeal == "on" )
+    {
+        $product->setIsHotDeal( true );
+    }
+    else
+    {
+        $product->setIsHotDeal( false );
+    }
+    
     
     $product->setPrice( $Price );
     
@@ -329,6 +348,7 @@ $t->set_var( "price_value", "" );
 $t->set_var( "showprice_checked", "" );
 $t->set_var( "showproduct_checked", "" );
 $t->set_var( "inherit_options_checked", "" );
+$t->set_var( "is_hot_deal_checked", "" );
 
 $t->set_var( "external_link", "" );
 
@@ -361,6 +381,10 @@ if ( $Action == "Edit" )
 
     if ( $product->inheritOptions() == true )
         $t->set_var( "inherit_options_checked", "checked" );
+
+    if ( $product->isHotDeal() == true )
+        $t->set_var( "is_hot_deal_checked", "checked" );
+    
 }
 
 $category = new eZProductCategory();
