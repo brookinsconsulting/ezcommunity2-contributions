@@ -24,6 +24,11 @@ if ( $session->fetch() == false )
 else
 {
     $siteDesign = $session->variable( "SiteDesign" );
+    
+    if ( $siteDesign == "" )
+    {
+        $siteDesign = $ini->read_var( "site", "SiteDesign" );
+    }
 }
 
 // do the statistics
