@@ -108,7 +108,7 @@
 
 <!-- BEGIN type_item_tpl -->
 <tr class="{theme-type_class}">
-    <td><a href="/{intl-module_name}/{intl-command_type}/{intl-command_view}/{type_id}/">{type_name}</a></td>
+    <td><a href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/{type_id}/">{type_name}</a></td>
     <td>{type_description}</td>
     <td width="1%"><a href="/{intl-module_name}/{intl-command_type}/{intl-command_edit}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezuser{type_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a></td>
     <td width="1%"><a href="/{intl-module_name}/{intl-command_type}/{intl-command_delete}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezuser{type_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a></td>
@@ -125,6 +125,11 @@
 
 <h2>{intl-companylist_headline}</h2>
 
+<!-- BEGIN no_companies_tpl -->
+	<p class="error">{intl-no_companies_error}</p>
+<!-- END no_companies_tpl -->
+
+<!-- BEGIN companies_table_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-name}:</th>
@@ -132,13 +137,6 @@
 	<th colspan="2">&nbsp;</th>
 </tr>
 
-<!-- BEGIN no_companies_tpl -->
-<tr>
-	<td>
-	<p class="error">{intl-no_companies_error}</p>
-	</td>
-</tr>
-<!-- END no_companies_tpl -->
 <!-- BEGIN company_item_tpl -->
 <tr>
 	<td class="{td_class}">
@@ -163,3 +161,4 @@
 </tr>
 <!-- END company_item_tpl -->
 </table>
+<!-- END companies_table_tpl -->
