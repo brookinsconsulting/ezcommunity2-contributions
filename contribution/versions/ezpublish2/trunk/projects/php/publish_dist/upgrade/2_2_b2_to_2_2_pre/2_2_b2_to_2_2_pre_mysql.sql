@@ -55,3 +55,8 @@ CREATE TABLE eZForm_FormElementFixedValueLink (
   FixedValueID int(11) default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
+
+INSERT INTO eZForm_FormElementType VALUES (3,'dropdown_item','HTML Select',0);
+INSERT INTO eZForm_FormElementType VALUES (4,'multiple_select_item','HTML Multiple Select',0);
+INSERT INTO eZForm_FormElementType VALUES (6,'radiobox_item','HTML RadioBox',0);
+INSERT INTO eZForm_FormElementType VALUES (5,'checkbox_item','HTML CheckBox',0);
