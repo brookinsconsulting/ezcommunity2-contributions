@@ -691,7 +691,7 @@ $Day = $dateArr[2];
            $t->set_var( "date_calendar", $dateCal);
           else 
 	  {
-	   $today = eZDateTime();
+	   $today = new eZDateTime();
 
            $tyear = $today->year();
            $tmonth = $today->month();
