@@ -66,7 +66,7 @@ function Call( $args )
         // Get caller ID if any
         $caller = false;
         if ( is_object( $call["Caller"] ) )
-            $caller = $call["Caller"]->value();
+            $caller = $call["Caller"];
 
         // decode URL
         $REQUEST_URI = $call["URL"]->value();
@@ -120,11 +120,14 @@ function Call( $args )
             }
 
             // create the return struct...
-            $ret = new eZXMLRPCStruct( array( "Version" => new eZXMLRPCDouble( EZPUBLISH_SERVER_VERSION ),
-                                              "URL" => createURLStruct( $Module, $RequestType, $ID ),
-                                              "Command" => new eZXMLRPCString( $Command ),
-                                              "Data" => $ReturnData
-                                              ) );
+            $ret_arr = array( "Version" => new eZXMLRPCDouble( EZPUBLISH_SERVER_VERSION ),
+                              "URL" => createURLStruct( $Module, $RequestType, $ID ),
+                              "Command" => new eZXMLRPCString( $Command ),
+                              "Data" => $ReturnData
+                              );
+            if ( is_object( $caller ) )
+                $ret_arr["Caller"] = $caller;
+            $ret = new eZXMLRPCStruct( $ret_arr );
             
             
             if ( get_class( $Error ) == "ezxmlrpcresponse" )
