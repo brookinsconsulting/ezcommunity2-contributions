@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.28 2001/02/26 19:00:50 pkej Exp $
+// $Id: messageedit.php,v 1.29 2001/03/01 10:35:23 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -22,6 +22,10 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
+include_once( "ezforum/classes/ezforum.php" );
+include_once( "ezforum/classes/ezforummessage.php" );
+include_once( "ezforum/classes/ezforumcategory.php" );
 
 if( isset( $EditButton ) )
 {
