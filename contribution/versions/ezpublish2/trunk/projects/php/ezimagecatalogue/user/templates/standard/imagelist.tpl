@@ -57,10 +57,15 @@
 <!-- BEGIN image_tpl -->
 {begin_tr}
 	<!-- BEGIN read_tpl -->
-	<td>
+	<td {col_span} align="center" valign="center">
 	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/image/list/{main_category_id}/"><img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a>
 	</td>
 	<!-- END read_tpl -->
+	<!-- BEGIN read_span_tpl -->
+	<td colspan="{col_span}">
+	&nbsp;
+	</td>
+	<!-- END read_span_tpl -->
 	<!-- BEGIN write_tpl -->
 
 	<!-- END write_tpl -->
