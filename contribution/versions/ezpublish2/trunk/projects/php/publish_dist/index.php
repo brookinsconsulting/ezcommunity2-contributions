@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.109 2001/09/21 15:25:57 bf Exp $
+// $Id: index.php,v 1.110 2001/09/24 12:59:11 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -274,7 +274,6 @@ if ( ( $requireUserLogin == "disabled" ) ||
         if ( $languageOverride != "" )
         {
             $Language = $languageOverride;
-            print( $Language );
         }
         else
         {
@@ -312,16 +311,13 @@ if ( ( $requireUserLogin == "disabled" ) ||
             $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
             $sectionObject->setOverrideVariables();
 
-            print( "Section Debug $GlobalSectionID: <br>" );
-            print( "sitedesign: " . $sectionObject->siteDesign() . " <br>" );
-            print( "template: " . $sectionObject->templateStyle() . " <br>" );
-            print( "language: " . $sectionObject->language() . " <br>" );
-
-            print( $GlobalSectionID );
-
             if ( $DEBUG == true )
             {
-                print( eZSection::siteDesign( $GlobalSectionID ) );
+
+                print( "Section Debug $GlobalSectionID: <br>" );
+                print( "sitedesign: " . $sectionObject->siteDesign() . " <br>" );
+                print( "template: " . $sectionObject->templateStyle() . " <br>" );
+                print( "language: " . $sectionObject->language() . " <br>" );
             }
 
         
