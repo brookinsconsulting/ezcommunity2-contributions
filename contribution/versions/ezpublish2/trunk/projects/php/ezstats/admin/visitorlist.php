@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: visitorlist.php,v 1.7 2001/08/24 11:46:14 br Exp $
+// $Id: visitorlist.php,v 1.8 2001/09/24 17:41:18 br Exp $
 //
 // Created on: <07-Jan-2001 12:56:58 bf>
 //
@@ -74,6 +74,7 @@ if ( count( $latest ) > 0 )
         $t->parse( "visitor", "visitor_tpl", true );
         $i++;
     }
+    eZList::drawNavigator( $t, $ItemCount, $ViewLimit, $Offset, "visitor_list_tpl" );
 
     $t->parse( "visitor_list", "visitor_list_tpl" );
 }
@@ -82,7 +83,6 @@ else
     $t->set_var( "visitor_list", "" );
 }
 
-eZList::drawNavigator( $t, $ItemCount, $ViewLimit, $Offset, "visitor_list_tpl" );
 
 $t->pparse( "output", "visitor_page_tpl" );
 
