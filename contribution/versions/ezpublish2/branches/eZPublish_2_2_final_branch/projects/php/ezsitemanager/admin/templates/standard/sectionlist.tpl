@@ -28,11 +28,11 @@
 	</td>
 
 	<td width="42%">
-	{section_name}
+	{section_name}&nbsp;
 	</td>
 
 	<td width="50%">
-	{section_description}
+	{section_description}&nbsp;
 	</td>
 
 	<td width="1%">
