@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezaddress.php,v 1.16 2001/09/26 07:10:50 ce Exp $
+// $Id: ezaddress.php,v 1.17 2001/10/11 11:44:30 ce Exp $
 //
 // Definition of eZAddress class
 //
@@ -162,11 +162,30 @@ class eZAddress
     
 
     /*!
+      Copy this object.
+    */
+    function &copy( )
+    {
+        $new = $this;
+        $new->setID( );
+        $new->store();
+        return $new;
+    }
+
+    /*!
       Setter  street1.
     */
     function setStreet1( $value )
     {
         $this->Street1 = $value;
+    }
+
+    /*!
+      Setter  street1.
+    */
+    function setID( $id )
+    {
+        $this->ID = $id;
     }
 
     /*!

@@ -1,4 +1,5 @@
 alter table eZTrade_VoucherInformation add FromAddressID int default 0; 
+alter table eZTrade_VoucherInformation add ProductID int default 0; 
 alter table eZTrade_VoucherInformation change AddressID ToAddressID int default 0;        
 
 CREATE TABLE eZBug_Log (
@@ -83,5 +84,7 @@ INSERT INTO eZForm_FormElementType VALUES (3,'dropdown_item','HTML Select');
 INSERT INTO eZForm_FormElementType VALUES (4,'multiple_select_item','HTML Multiple Select');
 INSERT INTO eZForm_FormElementType VALUES (6,'radiobox_item','HTML RadioBox');
 INSERT INTO eZForm_FormElementType VALUES (5,'checkbox_item','HTML CheckBox');
+
+create table eZUser_UserShippingLink ( ID int NOT NULL primary key, UserID int default 0, AddressID int default 0 );  =======
 
 ALTER TABLE eZLink_Hit CHANGE RemoteIP RemoteIP varchar(15);

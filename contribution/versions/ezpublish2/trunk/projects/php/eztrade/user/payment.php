@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.80 2001/10/04 13:09:35 br Exp $
+// $Id: payment.php,v 1.81 2001/10/11 11:44:30 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -182,8 +182,8 @@ if ( $PaymentSuccess == "true" )
     $shippingAddress = new eZAddress( $session->variable( "ShippingAddressID" ) );
     $billingAddress = new eZAddress( $session->variable( "BillingAddressID" ) );
 
-    $order->setShippingAddress( $shippingAddress );
-    $order->setBillingAddress( $billingAddress );
+    $order->setShippingAddress( $shippingAddress, $user );
+    $order->setBillingAddress( $billingAddress, $user );
 
     $order->setShippingCharge( $session->variable( "ShippingCost" ) );
     $order->setShippingVAT( $session->variable( "ShippingVAT" ) );

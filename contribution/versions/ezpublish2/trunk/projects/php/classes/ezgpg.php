@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezgpg.php,v 1.9 2001/10/10 13:54:05 ce Exp $
+// $Id: ezgpg.php,v 1.10 2001/10/11 11:44:30 ce Exp $
 //
 // Definition of eZGPG class
 //
@@ -55,6 +55,8 @@ class eZGPG
 
       system( $this->pcmd );
 
+      print( $this->pcmd );
+      exit();
 //      $pp = popen( $this->pcmd, "w" );
       //     fwrite( $pp, $this->body );
       //  pclose( $pp );

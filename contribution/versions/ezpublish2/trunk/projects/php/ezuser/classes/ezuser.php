@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.98 2001/10/11 09:28:18 ce Exp $
+// $Id: ezuser.php,v 1.99 2001/10/11 11:44:30 ce Exp $
 //
 // Definition of eZUser class
 //
@@ -210,6 +210,7 @@ class eZUser
         {
             $db->query( "DELETE FROM eZUser_UserGroupLink WHERE UserID='$this->ID'" );
             $db->query( "DELETE FROM eZUser_UserAddressLink WHERE UserID='$this->ID'" );
+            $db->query( "DELETE FROM eZUser_UserShippingLink WHERE UserID='$this->ID'" );
 
             $db->query( "DELETE FROM eZUser_User WHERE ID='$this->ID'" );
         }

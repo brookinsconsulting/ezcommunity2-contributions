@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.56 2001/09/28 09:19:50 ce Exp $
+// $Id: ezorder.php,v 1.57 2001/10/11 11:44:30 ce Exp $
 //
 // Definition of eZOrder class
 //
@@ -172,6 +172,7 @@ class eZOrder
             }
         }
         $ret[] = $db->query( "DELETE FROM eZTrade_OrderStatus WHERE OrderID='$this->ID'" );
+        $ret[] = $db->query( "DELETE FROM eZUser_UserShippingLink WHERE ShippingID='$this->ShippingAddressID'" );
         $ret[] = $db->query( "DELETE FROM eZTrade_Order WHERE ID='$this->ID'" );
 
         eZDB::finish( $ret, $db );
@@ -610,7 +611,7 @@ class eZOrder
         if ( $this->PersonID == 0 && $this->CompanyID == 0 )
         {
             $db->array_query( $address_array,
-            "SELECT * FROM eZUser_UserAddressLink WHERE AddressID=$this->ShippingAddressID" );
+            "SELECT * FROM eZUser_UserShippingLink WHERE AddressID=$this->ShippingAddressID" );
             
             if ( count( $address_array ) == 1 )
             {
@@ -739,21 +740,39 @@ class eZOrder
     /*!
       Sets the shipping address.
     */
-    function setShippingAddress( $shippingAddress )
+    function setShippingAddress( $shippingAddress, $user )
     {
        if ( get_class( $shippingAddress ) == "ezaddress" )
        {
+           $shippingAddress =& $shippingAddress->copy();
            $this->ShippingAddressID = $shippingAddress->id();
+
+           $db =& eZDB::globalDatabase();
+           $db->begin();
+           $userID = $user->id();
+           $db->lock( "eZUser_UserShippingLink" );
+           $nextID = $db->nextID( "eZUser_UserShippingLink", "ID" );
+           $ret[] = $db->query( "INSERT INTO eZUser_UserShippingLink
+                                  (ID,
+	     	                       UserID,
+		                           AddressID )
+                                  VALUES
+                                  ('$nextID',
+		                           '$userID',
+		                           '$this->ShippingAddressID') " );
+           $db->unlock();
+           eZDB::finish( $ret, $db );
        }
     }
 
     /*!
       Sets the billing address.
     */
-    function setBillingAddress( $billingAddress )
+    function setBillingAddress( $billingAddress, $user )
     {
        if ( get_class( $billingAddress ) == "ezaddress" )
        {
+           $billingAddress =& $billingAddress->copy();
            $this->BillingAddressID = $billingAddress->id();
        }
     }

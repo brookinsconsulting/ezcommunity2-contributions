@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.114 2001/09/29 12:35:14 kaid Exp $
+// $Id: index.php,v 1.115 2001/10/11 11:44:30 ce Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -63,6 +63,7 @@ else
     $wwwDir = "";
     $index = "";
 }
+
 
 // Remove url parameters
 ereg( "([^?]+)", $REQUEST_URI, $regs );
