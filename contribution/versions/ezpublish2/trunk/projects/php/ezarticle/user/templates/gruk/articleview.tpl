@@ -30,18 +30,16 @@
 
 <hr noshade="noshade" size="4" />
 <br />
-<!-- BEGIN article_header_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
+<!-- BEGIN article_header_tpl -->
 	<p class="byline">{intl-article_author}: <a class="byline" href="{www_dir}{index}/article/author/view/{author_id}">{author_text}</a></p>
-	</td>
-	<td align="right">
+<!-- END article_header_tpl -->
 	<p class="byline">{intl-article_date}: {article_created}</p>
 	</td>
 </tr>
 </table>
-<!-- END article_header_tpl -->
 
 <!-- BEGIN article_intro_tpl -->
 <p>
@@ -101,21 +99,6 @@
 <!-- END attached_file_tpl -->
 </table>
 <!-- END attached_file_list_tpl -->
-
-<br clear="all" />
-<form method="post" action="{www_dir}{index}/article/mailtofriend/{article_id}">
-
-<p class="boxtext">{intl-send_to}:</p>
-<input type="text" class="box" size="40" name="SendTo" value="{send_to}" />
-<br /><br />
-
-<p class="boxtext">{intl-from_mail}:</p>
-<input type="text" class="box" size="40" name="From" value="{from}">
-<br /><br />
-
-<input class="stdbutton" type="submit" value="{intl-send_mail}">
-
-</form>
 
 <br clear="all" />
 
