@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.11 2001/02/07 16:28:59 bf Exp $
+// $Id: productlist.php,v 1.12 2001/02/09 10:03:02 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Sep-2000 14:46:20 bf>
@@ -142,6 +142,7 @@ foreach ( $productList as $product )
 
     // preview image
     $thumbnailImage = $product->thumbnailImage();
+    
     if ( $thumbnailImage )
     {
         $variation =& $thumbnailImage->requestImageVariation( $ThumbnailImageWidth, $ThumbnailImageHeight );

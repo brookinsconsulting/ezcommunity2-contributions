@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.28 2001/02/02 12:27:20 ce Exp $
+// $Id: ezimage.php,v 1.29 2001/02/09 10:03:02 bf Exp $
 //
 // Definition of eZImage class
 //
@@ -476,6 +476,8 @@ class eZImage
       The required image variation group is also created if it does not exist.
 
       The path to the file is returned.
+
+      False is returned if the original image does not exist.
     */
     function &requestImageVariation( $width, $height )
     {
@@ -484,12 +486,12 @@ class eZImage
 
        $group = new eZImageVariationGroup();
        $variation = new eZImageVariation();
-
+       
        if ( $group->groupExists( $width, $height ) )
        {
-
+           
            $group->get( $group->groupExists( $width, $height ) );
-
+           
            $ret =& $variation->requestVariation( $this, $group );
        }
        else
@@ -497,10 +499,10 @@ class eZImage
            $group->setWidth( $width );
            $group->setHeight( $height );
            $group->store();
-
+           
            $ret =& $variation->requestVariation( $this, $group );
        }
-
+       
        return $ret;
     }
 

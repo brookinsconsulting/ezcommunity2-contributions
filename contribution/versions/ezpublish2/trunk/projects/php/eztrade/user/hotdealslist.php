@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: hotdealslist.php,v 1.10 2001/02/08 16:51:59 bf Exp $
+// $Id: hotdealslist.php,v 1.11 2001/02/09 10:03:02 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Nov-2000 19:34:40 bf>
@@ -100,27 +100,35 @@ foreach ( $productList as $product )
     $t->set_var( "product_intro_text", $product->brief() );
 
     $image = $product->thumbnailImage();
-    
+
     if  ( $image )
     {
-        $thumbnail =& $image->requestImageVariation( 110, 110 );
+        $thumbnail =& $image->requestImageVariation( 109, 109 );
         
-        if ( !isset( $HotDealsPage ) )
+        if ( $thumbnail )
         {
-            $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
-            $t->set_var( "product_image_width", $thumbnail->width() );
-            $t->set_var( "product_image_height", $thumbnail->height() );
-            $t->set_var( "product_image_caption", $image->caption() );
+            if ( !isset( $HotDealsPage ) )
+            {
+                $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
+                $t->set_var( "product_image_width", $thumbnail->width() );
+                $t->set_var( "product_image_height", $thumbnail->height() );
+                $t->set_var( "product_image_caption", $image->caption() );
+            }
+            else
+            {
+                $t->set_var( "thumbnail_image_uri", "/" . $thumbnail->imagePath() );
+                $t->set_var( "thumbnail_image_width", $thumbnail->width() );
+                $t->set_var( "thumbnail_image_height", $thumbnail->height() );
+                $t->set_var( "thumbnail_image_caption", $image->caption() );
+            }
+            $t->parse( "product_image", "product_image_tpl" );            
         }
         else
         {
-            $t->set_var( "thumbnail_image_uri", "/" . $thumbnail->imagePath() );
-            $t->set_var( "thumbnail_image_width", $thumbnail->width() );
-            $t->set_var( "thumbnail_image_height", $thumbnail->height() );
-            $t->set_var( "thumbnail_image_caption", $image->caption() );
+            $t->set_var( "product_image", "" );
         }
 
-        $t->parse( "product_image", "product_image_tpl" );
+
     }
     else
     {

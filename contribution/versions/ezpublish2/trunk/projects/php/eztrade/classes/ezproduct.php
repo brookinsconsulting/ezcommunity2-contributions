@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.31 2001/02/08 10:45:58 bf Exp $
+// $Id: ezproduct.php,v 1.32 2001/02/09 10:03:02 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -748,7 +748,7 @@ class eZProduct
        
        if ( count( $res_array ) == 1 )
        {
-           if ( $res_array[0]["ThumbnailImageID"] != "NULL" )
+           if ( is_numeric( $res_array[0]["ThumbnailImageID"] ) )
            {
                $ret = new eZImage( $res_array[0]["ThumbnailImageID"], false );
            }               
