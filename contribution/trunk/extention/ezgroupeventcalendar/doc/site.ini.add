@@ -5,11 +5,13 @@ AdminTemplateDir=templates/standard/
 TemplateDir=templates/standard/
 ImageDir=/images/standard/
 Language=en_GB
+#LinkModules=eZGroupEventCalendar:23
+LinkModules=eZGroupEventCalendar:6
 DayStartTime=00:00
 DayStopTime=24:00
-DayInterval=60:00
+DayInterval=00:15
 YearsPrint=19
-Priority=1
+Priority=2
 Status=0
 SubGroupSelect=disabled
 TwelveHourSelect=enabled
@@ -19,7 +21,7 @@ TruncateTitle=enabled
 
 [eZGroupEventCalendarRSS]
 # Channel Title, Link, Description and Language
-Title=eZ publish 2 News
+Title=eZ Community Calendar
 Link=http://ezcommunity.net/
 Description=Calendar Events, stuff that matters . . .
 Encoding=ISO-8859-1
