@@ -42,12 +42,13 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
     $db->array_query( $checkArray, "SELECT ID FROM eZTrade_Category WHERE RemoteID='$groupName'" );
 
     // Make the top level
-    $matArray = createIfNotExists( "Material", 0 );
+    $matArray = createIfNotExists( "Material", 0, 1 );
     $mat = $matArray[0];
     
-    $placeArray = createIfNotExists( "Produkt", 0 );
+    $placeArray = createIfNotExists( "Produkt", 0, 2 );
     $place = $placeArray[0];
 
+    print( "-->" . $parentName . "<--" );
     // Create the parent
     $parentArray = createIfNotExists( $parentName, $place->id() );
     $parent = $parentArray[0];
@@ -412,6 +413,51 @@ function createIfNotExists( $categoryName, $parentID, $remoteID=0, $checkParent=
     }
     else
     {
+        $parent = new eZProductCategory( $parentID );
+        $category = new eZProductCategory();
+        $category->setName ( $categoryName );
+        $category->setParent ( $parentID );
+        if ( $parent->id() != 0 )
+        {
+            $remoteID = $parent->remoteID() . "-" . $remoteID;
+            $category->setRemoteID ( $remoteID );
+        }
+        $category->setRemoteID ( $remoteID );
+        $category->store();
+
+        eZLog::writeNotice( "Category: Stored " . $categoryName . " to the database" );
+
+        $ret = array( $category, false );
+        return $ret;
+    }
+}
+
+/*
+function createIfNotExists( $categoryName, $parentID, $remoteID=0, $checkParent=false )
+{
+    $db =& eZDB::globalDatabase();
+
+    if ( $checkParent )
+        $db->array_query( $categoryArray, "SELECT ID, Name FROM eZTrade_Category WHERE Name='$categoryName' AND Parent='$parentID'" );
+    else
+        $db->array_query( $categoryArray, "SELECT ID, Name FROM eZTrade_Category WHERE Name='$categoryName'" );
+
+    foreach( $categoryArray as $cat )
+    {
+        if ( $cat["Name"] == $categoryName )
+        {
+            $check = true;
+        }
+    }
+
+    if ( $check )
+    {
+        $object = new eZProductCategory( $categoryArray[0]["ID"] );
+        $ret = array( $object, true );
+        return $ret;
+    }
+    else
+    {
         $category = new eZProductCategory();
         $category->setName( $categoryName );
         $category->setParent( $parentID );
@@ -424,7 +470,7 @@ function createIfNotExists( $categoryName, $parentID, $remoteID=0, $checkParent=
         return $ret;
     }
 }
-
+*/
 // Return the category name for a shortnamed category.
 function belongsTo( $category )
 {
