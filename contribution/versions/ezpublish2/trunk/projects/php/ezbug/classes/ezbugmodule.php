@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugmodule.php,v 1.11 2001/02/14 13:38:26 fh Exp $
+// $Id: ezbugmodule.php,v 1.12 2001/02/15 10:57:46 fh Exp $
 //
 // Definition of eZBugModule class
 //
@@ -369,8 +369,9 @@ class eZBugModule
     /*!
       Sets the owner group of this module.
       Parameter $newOwner must be an eZUserGroup object.
+      if $recursive is true the function will also set the owner group for all submodules. These will be stored automaticly.
      */
-    function setOwnerGroup( $newOwner )
+    function setOwnerGroup( $newOwner, $recursive = false )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -378,6 +379,15 @@ class eZBugModule
         if( get_class( $newOwner ) == "ezusergroup" )
         {
             $this->OwnerGroupID = $newOwner->id();
+            if( $recursive == true )
+            {
+                $modules = $this->getByParent( $this );
+                foreach( $modules as $moduleItem )
+                {
+                    $moduleItem->setOwnerGroup( $newOwner, true );
+                    $moduleItem->store();
+                }
+            }
         }
     }
     
