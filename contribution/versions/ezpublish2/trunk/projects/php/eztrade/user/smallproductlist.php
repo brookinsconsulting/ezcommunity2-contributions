@@ -1,8 +1,8 @@
 <?php
 // 
-// $Id: categorylist.php,v 1.10 2001/10/04 10:04:54 ce Exp $
+// $Id: smallproductlist.php,v 1.1 2001/10/04 10:04:54 ce Exp $
 //
-// Created on: <23-Nov-2000 09:23:42 bf>
+// Created on: <04-Oct-2001 12:20:03 ce>
 //
 // This source file is part of eZ publish, publishing software.
 //
@@ -22,7 +22,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
 
 $ini =& INIFile::globalINI();
 $PageCaching =& $ini->read_var( "eZTradeMain", "PageCaching");
@@ -49,7 +48,6 @@ if ( $PageCaching == "enabled" )
     }
 }
 
-
 if ( $PureStatic != "true" )
 {
     include_once( "classes/INIFile.php" );
@@ -68,49 +66,34 @@ if ( $PureStatic != "true" )
     include_once( "eztrade/classes/ezproductcategory.php" );
 
     $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
-                         "eztrade/user/intl/", $Language, "categorylist.php" );
+                         "eztrade/user/intl/", $Language, "smallproductlist.php" );
 
-    $t->set_file( "category_list_page_tpl", "categorylist.tpl" );
+    $t->set_file( "product_list_page_tpl", "smallproductlist.tpl" );
 
-    $t->set_block( "category_list_page_tpl", "category_list_tpl", "category_list" );
-    $t->set_block( "category_list_tpl", "category_tpl", "category" );
+    $t->set_block( "product_list_page_tpl", "product_list_tpl", "product_list" );
+    $t->set_block( "product_list_tpl", "product_tpl", "product" );
 
 
     $t->setAllStrings();
 
-    $category = new eZProductCategory(  );
-    $category->get( $CategoryID );
+    $category = new eZProductCategory( $CategoryID );
 
-
-    $categoryList = $category->getByParent( $category );
+    $productList =& $category->activeProducts( "time", 0, $Limit );
 
     $t->set_var( "sitedesign", $GlobalSiteDesign );
-
+    $t->set_var( "category_id", $CategoryID );
     $user =& eZUser::currentUser();
-    
+
     // categories
     $i=0;
-    foreach ( $categoryList as $categoryItem )
+    foreach ( $productList as $productItem )
     {
-        if ( eZObjectPermission::hasPermission( $categoryItem->id(), "trade_category", "r", $user ) )
+        if ( eZObjectPermission::hasPermission( $productItem->id(), "trade_product", "r", $user ) )
         {
-            $t->set_var( "category_id", $categoryItem->id() );
+            $t->set_var( "product_id", $productItem->id() );
 
-            $t->set_var( "category_name", $categoryItem->name() );
 
-            $t->set_var( "category_description", $categoryItem->description() );
-
-            $parent = $categoryItem->parent();
-
-            if ( $categoryItem->parent() != 0 )
-            {
-                $parent = $categoryItem->parent();
-                $t->set_var( "category_parent", $parent->name() );
-            }
-            else
-            {
-                $t->set_var( "category_parent", "&nbsp;" );
-            }
+            $t->set_var( "product_name", $productItem->name() );
 
             if ( ( $i % 2 ) == 0 )
             {
@@ -121,35 +104,30 @@ if ( $PureStatic != "true" )
                 $t->set_var( "td_class", "bgdark" );
             }
 
-
-            $t->parse( "category", "category_tpl", true );
+            $t->parse( "product", "product_tpl", true );
             $i++;
         }
     }
              
     if ( count( $i ) == 0 )
     {
-        $t->set_var( "category_list", "" );
+        $t->set_var( "product_list", "" );
     }
     else
     {
-        $t->parse( "category_list", "category_list_tpl" );
+        $t->parse( "product_list", "product_list_tpl" );
     }
-
-
 
     if ( $GenerateStaticPage == "true" )
     {
-        $output = $t->parse( $target, "category_list_page_tpl" );
+        $output = $t->parse( $target, "product_list_page_tpl" );
         // print the output the first time while printing the cache file.
         print( $output );
         $CacheFile->store( $output );
     }
     else
     {
-        $t->pparse( "output", "category_list_page_tpl" );
+        $t->pparse( "output", "product_list_page_tpl" );
     }
 }
-
-
 ?>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menufolderlist.php,v 1.1 2001/09/30 12:50:22 bf Exp $
+// $Id: menufolderlist.php,v 1.2 2001/10/04 10:04:54 ce Exp $
 //
 // Created on: <30-Sep-2001 15:43:27 bf>
 //
@@ -52,15 +52,21 @@ $t->set_block( "folder_list_tpl", "folder_tpl", "folder" );
 
 $folder = new eZVirtualFolder( $FolderID );
 
+$user =& eZUser::currentUser();
+
 // Print out the folders.
 $folderList =& $folder->getByParent( $folder );
 
 foreach ( $folderList as $folderItem )
 {
-    $t->set_var( "folder_name", $folderItem->name() );
-    $t->set_var( "folder_id", $folderItem->id() );
-
-    $t->parse( "folder", "folder_tpl", true );
+    if ( eZObjectPermission::hasPermission( $folderItem->id(), "filemanager_folder", "r", $user ) ||
+         eZVirtualFolder::isOwner( $user, $folderItem->id() ) )
+    {
+        $t->set_var( "folder_name", $folderItem->name() );
+        $t->set_var( "folder_id", $folderItem->id() );
+        
+        $t->parse( "folder", "folder_tpl", true );
+    }
 }
 
 if ( count( $folderList ) > 0 )

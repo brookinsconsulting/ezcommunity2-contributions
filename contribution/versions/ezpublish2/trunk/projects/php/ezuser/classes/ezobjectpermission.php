@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.34 2001/09/28 08:18:53 jhe Exp $
+// $Id: ezobjectpermission.php,v 1.35 2001/10/04 10:04:54 ce Exp $
 //
 // Definition of eZObjectPermission class
 //
@@ -82,7 +82,7 @@ class eZObjectPermission
 
         if ( $permission != 'u' && $permission != 'w' && $permission != 'r' )
             return false;
-        
+
         $SQLGroups = "GroupID = '-1'";
         if ( get_class( $user ) == "ezuser" )
         {
@@ -129,6 +129,7 @@ class eZObjectPermission
         $query = "SELECT count( ID ) as ID FROM $tableName WHERE ObjectID='$objectID' AND ( $SQLGroups ) $SQLPermission";
         $database =& eZDB::globalDatabase();
 
+        
         $database->query_single( $res, $query );
         if ( $res[$database->fieldName( "ID" )] != 0 )
             return true;

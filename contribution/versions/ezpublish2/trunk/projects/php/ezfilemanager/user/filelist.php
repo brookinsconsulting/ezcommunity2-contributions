@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filelist.php,v 1.47 2001/10/02 18:33:17 br Exp $
+// $Id: filelist.php,v 1.48 2001/10/04 10:04:54 ce Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -162,7 +162,6 @@ foreach ( $folderList as $folderItem )
     $t->set_var( "td_class", ( $i % 2 ) ? "bgdark" : "bglight" );
     if ( eZObjectPermission::hasPermission( $folderItem->id(), "filemanager_folder", "r", $user ) ||
          eZVirtualFolder::isOwner( $user, $folderItem->id() ) )
-     
     {
         $t->parse( "folder_read", "folder_read_tpl" );
         $i++;
