@@ -687,5 +687,6 @@ alter table eZArticle_Article add Discuss int default 0;
 #placement for article categories
 
 ALTER TABLE eZArticle_Category ADD Placement int(11) DEFAULT '0';
+update eZArticle_Category set Placement=ID;
 
 DROP TABLE eZContact_ImageType;
