@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.23 2000/11/12 19:41:44 bf-cvs Exp $
+// $Id: ezproduct.php,v 1.24 2000/12/12 18:32:08 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -814,7 +814,10 @@ class eZProduct
 
        $this->Database->array_query( $res_array, "SELECT ID FROM eZTrade_Product
                                      WHERE
-                                     Name LIKE '%$query%' LIMIT $offset, $limit
+                                     ( Name LIKE '%$query%' ) OR
+                                     ( Description LIKE '%$query%' ) OR
+                                     ( Keywords LIKE '%$query%' ) 
+                                     LIMIT $offset, $limit
                                    " );
 
        foreach ( $res_array as $product )
@@ -825,6 +828,27 @@ class eZProduct
        return $ret;
     }
 
+    /*!
+      Searches through every product and returns the result count
+    */
+    function activeProductSearchCount( $query )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = array();
+       $this->dbInit();
+
+       $this->Database->array_query( $res_array, "SELECT count(ID) AS Count FROM eZTrade_Product
+                                     WHERE
+                                     ( Name LIKE '%$query%' ) OR
+                                     ( Description LIKE '%$query%' ) OR
+                                     ( Keywords LIKE '%$query%' )
+                                   " );
+       
+       return $res_array[0]["Count"];
+    }
+    
     /*!
       Returns the products set to hot deal.
     */

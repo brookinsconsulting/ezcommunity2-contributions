@@ -3,6 +3,8 @@ eZ trade changelog:
 
 Changes from version 1.0.4
 --------------------------
+* Added increasment of product count in basket when adding a product with the same options.
+* Fixed broken product search.
 * Fixed the article search.
 * Fixed the product search, does not output {next} and {prev}
 

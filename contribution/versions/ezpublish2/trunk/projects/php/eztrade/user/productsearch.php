@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.7 2000/12/12 17:08:23 bf Exp $
+// $Id: productsearch.php,v 1.8 2000/12/12 18:32:08 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 17:49:05 bf>
@@ -62,12 +62,20 @@ $t->set_var( "previous", "" );
 $product = new eZProduct();
 
 if ( !isSet( $Limit ) )
-    $Limit = 2;
+    $Limit = 10;
 if ( !isSet( $Offset ) )
     $Offset = 0;
 
 
+if ( isset( $URLQueryString ) )
+{
+    $Query = $URLQueryString;
+}
+
 $productList =& $product->activeProductSearch( $Query, $Offset, $Limit );
+$total_count = $product->activeProductSearchCount( $Query );
+
+$t->set_var( "url_query_string", $Query );
 
 $locale = new eZLocale( $Language );
 $i=0;
@@ -130,7 +138,7 @@ if ( isSet( $Query ) )
         }
         else
         {
-        $t->set_var( "previous", "" );
+            $t->set_var( "previous", "" );
         }
         
         if ( $nextOffs <= $total_count )
