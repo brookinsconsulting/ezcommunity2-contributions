@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sitemap.php,v 1.7 2001/09/17 07:34:30 bf Exp $
+// $Id: sitemap.php,v 1.8 2001/09/25 13:15:13 master Exp $
 //
 // Created on: <06-Jun-2001 17:05:38 bf>
 //
@@ -38,6 +38,19 @@ include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlegenerator.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
 
+
+// sections
+include_once( "ezsitemanager/classes/ezsection.php" );
+
+if ( ($CategoryID != 0) )
+{
+    $GlobalSectionID = eZArticleCategory::sectionIDstatic ( $CategoryID );
+}
+	
+// init the section
+$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+$sectionObject->setOverrideVariables();
+    
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", $Language, "sitemap.php" );
 
@@ -52,6 +65,21 @@ $t->set_block( "article_sitemap_page_tpl", "value_tpl", "value" );
 $tree = new eZArticleCategory();
 $treeArray =& $tree->getTree( $CategoryID );
 $user =& eZUser::currentUser();
+
+
+// sections
+include_once( "ezsitemanager/classes/ezsection.php" );
+
+// tempo fix for admin users - maybe in the future must be changed
+if ( ($CategoryID != 0) )
+{
+    $GlobalSectionID = eZArticleCategory::sectionIDstatic ( $CategoryID );
+    }
+    
+// init the section
+$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+$sectionObject->setOverrideVariables();
+
 
 $t->set_var( "category_value", "" );
 $t->set_var( "article_value", "" );
