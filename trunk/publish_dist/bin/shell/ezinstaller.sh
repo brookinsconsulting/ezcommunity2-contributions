@@ -761,7 +761,7 @@ NameVirtualHost $C_IPADDRESS
    RewriteEngine On 
    RewriteRule ^/stats/store/(.*).gif\$  $C_WWWDIR/ezstats/user/storestats.php [S=2]
    RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)\$  $C_WWWDIR/ezfilemanager/files/\$1 [T="application/oct-stream",S=1]
-   RewriteRule !\.(ico|png|css|jpg|jpeg|gif|js|jar|swf|rm|rmm|ram|rpm|mp3|mp4|wma|asx|wmv|mov|mpg|mpeg|ogg|wav|a
+   RewriteRule !\.(ico|png|css|jpg|jpeg|gif|js|jar|swf|rm|rmm|ram|rpm|mp3|mp4|wma|asx|asf|wmv|mov|mpg|mpeg|ogg|wav|a
 u|aiff|midi|mid|pdf)\$ $C_WWWDIR/index.php
  
    ServerAdmin webmaster@$C_HOSTNAME
@@ -774,7 +774,7 @@ u|aiff|midi|mid|pdf)\$ $C_WWWDIR/index.php
 		Options FollowSymLinks Indexes ExecCGI
 		AllowOverride None 
 		RewriteEngine On
-		RewriteRule     !\.(ico|png|css|jpg|jpeg|gif|js|jar|swf|rm|rmm|ram|rpm|mp3|mp4|wma|asx|wmv|mov|mpg|mpeg|ogg|wav|a
+		RewriteRule     !\.(ico|png|css|jpg|jpeg|gif|js|jar|swf|rm|rmm|ram|rpm|mp3|mp4|wma|asx|asf|wmv|mov|mpg|mpeg|ogg|wav|a
 u|aiff|midi|mid|pdf) $C_WWWDIR/index_admin.php
   </Directory>
  
