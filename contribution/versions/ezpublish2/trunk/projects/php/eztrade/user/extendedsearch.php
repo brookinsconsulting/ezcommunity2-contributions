@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: extendedsearch.php,v 1.7 2001/03/21 15:10:49 bf Exp $
+// $Id: extendedsearch.php,v 1.8 2001/03/21 16:08:37 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 17:49:05 bf>
@@ -101,9 +101,17 @@ if ( $Action == "SearchButton" )
             $Limit = 10;
         if ( $Offset == "" )
             $Offset = 0;
+
+        $catIDArray = array();
         
-        $productList =& $product->extendedSearch( $PriceLower, $PriceHigher, $Text, $Offset, $Limit, $CategoryArrayID );
-        $totalCount = $product->extendedSearchCount( $PriceLower, $PriceHigher, $Text, $CategoryArrayID );
+        foreach ( $CategoryArrayID as $cat )
+        {
+            $cats = explode( "-", $cat );
+            $catIDArray = array_merge( $cats, $catIDArray );
+        }
+
+        $productList =& $product->extendedSearch( $PriceLower, $PriceHigher, $Text, $Offset, $Limit, $catIDArray );
+        $totalCount = $product->extendedSearchCount( $PriceLower, $PriceHigher, $Text, $catIDArray );
     }
 
     $t->set_var( "price_lower", $PriceLower );
@@ -132,6 +140,7 @@ if ( $Action == "SearchButton" )
 $locale = new eZLocale( $Language );
 $i=0;
 $t->set_var( "product", "" );
+$t->set_var( "empty_search", "" );
 if ( count ( $productList ) > 0 )
 {
     foreach ( $productList as $product )
@@ -200,14 +209,12 @@ if ( count ( $productList ) > 0 )
         $t->parse( "product_search_list", "product_search_list_tpl", true );
         $i++;
     }
-
-    $t->set_var( "empty_search", "" );    
 }
 else
 {
     $t->set_var( "product_search_list", "" );
-    $t->parse( "empty_search", "empty_search_tpl" );
-     
+    if ( $Action == "SearchButton" )
+        $t->parse( "empty_search", "empty_search_tpl" );     
 }
 
 eZList::drawNavigator( $t, $totalCount, $Limit, $Offset, "extended_search_tpl" );
@@ -216,28 +223,42 @@ $category = new eZProductCategory();
 
 $categoryList =& $category->getTree();
 
+$subCategories = "";
 foreach( $categoryList as $categoryItem )
 {
-    $t->set_var( "category_name", $categoryItem[0]->name() );
-    $t->set_var( "category_id", $categoryItem[0]->id() );
+    $level = $categoryItem[1];
 
-    if ( $categoryItem[1] > 0 )
-        $t->set_var( "option_level", str_repeat( "&nbsp;", $categoryItem[1] ) );
-    else
-        $t->set_var( "option_level", "" );
-
-    $t->set_var( "is_selected", "" );
-    
-    if ( is_array ( $CategoryArrayID ) )
+    if ( $level == 2 )
     {
-        foreach ( $CategoryArrayID as $categoryID )
+        $t->set_var( "category_name", $categoryItem[0]->name()  );
+        $t->set_var( "category_id", $categoryItem[0]->id() . $subCategories );
+        
+        if ( $categoryItem[1] > 0 )
+            $t->set_var( "option_level", str_repeat( "&nbsp;", $categoryItem[1] ) );
+        else
+            $t->set_var( "option_level", "" );
+        
+        $t->set_var( "is_selected", "" );
+        
+        if ( is_array ( $CategoryArrayID ) )
         {
-            if ( $categoryID == $categoryItem[0]->id() )
-                $t->set_var( "is_selected", "selected" );
+            foreach ( $CategoryArrayID as $categoryID )
+            {
+                if ( $categoryID == $categoryItem[0]->id() )
+                    $t->set_var( "is_selected", "selected" );
+            }
+        }
+
+        $t->parse( "category_item", "category_item_tpl", true );
+        $subCategories = "";
+    }
+    else
+    {
+        if ( $level > 2 )
+        {
+            $subCategories .= "-" . $categoryItem[0]->id();            
         }
     }
-
-    $t->parse( "category_item", "category_item_tpl", true );
 }
 
 $t->set_var( "url_query_string", $Query );
