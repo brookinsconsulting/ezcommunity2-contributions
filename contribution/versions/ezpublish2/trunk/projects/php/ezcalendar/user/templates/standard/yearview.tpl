@@ -18,7 +18,7 @@
 <table width="100%" cellspacing="10">
 {begin_tr}
 <!-- BEGIN month_tpl -->
-     <td>
+     <td valign="top">
 
 <a href="/calendar/monthview/{year_number}/{month_number}"><b>{month_name}:</b></a>
 <br />

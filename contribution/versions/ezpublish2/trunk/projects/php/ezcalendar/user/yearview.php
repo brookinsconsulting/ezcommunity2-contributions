@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: yearview.php,v 1.12 2001/02/08 16:19:35 gl Exp $
+// $Id: yearview.php,v 1.13 2001/02/26 15:22:32 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 11:29:22 bf>
@@ -151,8 +151,14 @@ if ( $build == true )
                 }
             }
             $t->parse( "week", "week_tpl", true );
+
+            if( $currentDay >= $date->daysInMonth() )
+            {
+                $week++;
+            }
         }
         $t->parse( "month", "month_tpl", true );
+        
 
         $i++;
     }
