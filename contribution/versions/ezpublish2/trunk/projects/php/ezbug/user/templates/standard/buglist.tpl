@@ -17,6 +17,7 @@
 
 <hr noshade="noshade" size="4" />
 
+<form method="post" action="" enctype="multipart/form-data">
 <!-- BEGIN path_tpl -->
 
 
@@ -102,11 +103,25 @@
 	<!-- BEGIN bug_is_open_tpl -->
 	{intl-is_open}&nbsp;
 	<!-- END bug_is_open_tpl -->
-
+	
+	<!-- BEGIN bug_edit_tpl -->
+	<td class="{td_class}">
+	<a href="/bug/edit/edit/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{bug_id}-red','','/ezbug/admin/images/redigerminimrk.gif',1)"><img name="ezaa{bug_id}-red" border="0" src="/ezbug/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>	</td>
+	<td class="{td_class}">
+	<input type="checkbox" name="BugArrayID[]" value="{bug_id}">
+	</td>
+	<!-- END bug_edit_tpl -->
 	</td>
 
 </tr>
 <!-- END bug_item_tpl -->
 
+
 </table>
 <!-- END bug_list_tpl -->
+
+<!-- BEGIN bug_edit_buttons_tpl -->
+<hr noshade size="4"/>
+<input class="stdbutton" type="submit" name="Delete" value="{intl-delete_bugs}" />
+<!-- END bug_edit_buttons_tpl -->
+</form>

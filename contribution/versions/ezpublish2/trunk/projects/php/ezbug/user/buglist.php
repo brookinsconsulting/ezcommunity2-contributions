@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: buglist.php,v 1.6 2001/02/06 16:26:28 fh Exp $
+// $Id: buglist.php,v 1.7 2001/02/14 17:42:35 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <04-Dec-2000 11:36:41 bf>
@@ -32,6 +32,7 @@ include_once( "ezbug/classes/ezbugmodule.php" );
 include_once( "ezbug/classes/ezbug.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/ezpermission.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -58,12 +59,22 @@ $t->set_block( "bug_list_page_tpl", "bug_list_tpl", "bug_list" );
 $t->set_block( "bug_list_tpl", "bug_item_tpl", "bug_item" );
 $t->set_block( "bug_item_tpl", "bug_is_closed_tpl", "bug_is_closed" );
 $t->set_block( "bug_item_tpl", "bug_is_open_tpl", "bug_is_open" );
+$t->set_block( "bug_item_tpl", "bug_edit_tpl", "bug_edit" );
 
+$t->set_block( "bug_list_page_tpl", "bug_edit_buttons_tpl", "bug_edit_buttons" );
 $module = new eZBugModule( $ModuleID );
 
 $t->set_var( "current_module_id", $module->id() );
 $t->set_var( "current_module_name", $module->name() );
 $t->set_var( "current_module_description", $module->description() );
+
+// check user rights
+$user = eZUser::currentUser();
+$ownerGroup = $module->ownerGroup();
+$gotRights = false;
+if ( eZPermission::checkPermission( $user, "eZBug", "BugEdit" ) && get_class( $ownerGroup ) == "ezusergroup" && $ownerGroup->isMember( $user ) )
+    $gotRights = true;
+
 
 // path
 $pathArray = $module->path();
@@ -167,21 +178,41 @@ foreach ( $bugList as $bug )
     if ( ( $i % 2 ) == 0 )
     {
         $t->set_var( "td_class", "bglight" );
+        $td_class = "bglight";
     }
     else
     {
         $t->set_var( "td_class", "bgdark" );
+        $td_class = "bgdark";
     }
 
+    if( $gotRights == true ) // insert the checkbox and edit button
+    {
+        $t->parse( "bug_edit", "bug_edit_tpl" );
+    }
+    else
+    {
+        $t->set_var( "bug_edit", "" );
+    }
+    
     $t->parse( "bug_item", "bug_item_tpl", true );
     $i++;
 }
+
 
 if ( count( $bugList ) > 0 )    
     $t->parse( "bug_list", "bug_list_tpl" );
 else
     $t->set_var( "bug_list", "" );
 
-$t->pparse( "output", "bug_list_page_tpl" );
+if( $gotRights == true )  // insert the buttons
+{
+    $t->parse( "bug_edit_buttons", "bug_edit_buttons_tpl" );
+}
+else
+{
+    $t->set_var( "bug_edit_buttons", "" );
+}
 
+$t->pparse( "output", "bug_list_page_tpl" );
 ?>
