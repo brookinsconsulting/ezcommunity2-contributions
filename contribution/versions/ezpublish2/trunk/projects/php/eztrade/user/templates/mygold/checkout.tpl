@@ -54,6 +54,7 @@
               <!-- END shipping_type_tpl -->
             </select>&nbsp;
             <input class="okbutton" type="submit" name="Recalculate" value="{intl-recalculate}" />
+	    <a class="small" href="/article/articlestatic/26/#Versand"><br />Versand-Information</a>
         </td>
         <td align="right" colspan="2">
 	{intl-shipping_charges}:
@@ -76,7 +77,7 @@
 </tr>
 </table>
 <!-- END cart_item_list_tpl -->
-
+<hr noshade="noshade" size="1" />
 <!-- BEGIN billing_address_tpl -->
 <p><b>{intl-billing_to}:</b></p>
 <select name="BillingAddressID">
@@ -142,7 +143,7 @@
 <input type="hidden" name="TotalCost" value="{total_cost_value}" />
 
 <!-- BEGIN sendorder_item_tpl -->
-<input class="okbutton" type="submit" name="SendOrder" value="{intl-send}" />
+<input class="okbutton" type="submit" name="SendOrder" value="&nbsp;{intl-send}&nbsp;" />
 <!-- END sendorder_item_tpl -->
 
 </form>
