@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmodulehandler.php,v 1.5 2001/07/20 11:20:31 jakobn Exp $
+// $Id: ezmodulehandler.php,v 1.5.2.1 2003/04/09 13:09:07 jhe Exp $
 //
 // Definition of eZModuleHandler class
 //
@@ -122,9 +122,10 @@ class eZModuleHandler
         $return_array = array();
         $ini =& INIFile::globalINI();
         $allModules = $ini->read_array( "site", "EnabledModules" );
-        foreach( $allModules as $moduleItem )
+        $user =& eZUser::currentUser();
+        foreach ( $allModules as $moduleItem )
         {
-            if( eZPermission::checkPermission( eZUser::currentUser(), $moduleItem, "ModuleEdit" ) )
+            if ( eZPermission::checkPermission( $user, $moduleItem, "ModuleEdit" ) )
                 $return_array[] = $moduleItem;
         }
         return $return_array;

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezarticle.php,v 1.183.2.23 2003/04/09 10:34:09 br Exp $
+// $Id: ezarticle.php,v 1.183.2.24 2003/04/09 13:09:07 jhe Exp $
 //
 // Definition of eZArticle class
 //
@@ -94,7 +94,11 @@ class eZArticle
 
         $this->PublishedOverride = 0;
 
-        if ( $id != "" )
+        if ( is_array( $id ) )
+        {
+            $this->fill( $id );
+        }
+        else if ( $id != "" )
         {
             $this->ID = $id;
             $this->get( $this->ID );
@@ -311,35 +315,41 @@ class eZArticle
             {
                 die( "Error: Article's with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $article_array ) == 1 )
+            else if ( count( $article_array ) == 1 )
             {
-                $this->ID =& $article_array[0][$db->fieldName("ID")];
-                $this->Name =& $article_array[0][$db->fieldName("Name")];
-                $this->Contents =& $article_array[0][$db->fieldName("Contents")];
-                $this->AuthorText =& $article_array[0][$db->fieldName("AuthorText")];
-                $this->AuthorEmail =& $article_array[0][$db->fieldName("AuthorEmail")];
-                $this->AuthorID =& $article_array[0][$db->fieldName("AuthorID")];
-                $this->LinkText =& $article_array[0][$db->fieldName("LinkText")];
-                $this->Modified =& $article_array[0][$db->fieldName("Modified")];
-                $this->Created =& $article_array[0][$db->fieldName("Created")];
-                $this->Published =& $article_array[0][$db->fieldName("Published")];
-                $this->PageCount =& $article_array[0][$db->fieldName("PageCount")];
-                $this->IsPublished =& $article_array[0][$db->fieldName("IsPublished")];
-                $this->Keywords =& $article_array[0][$db->fieldName("Keywords")];
-                $this->Discuss =& $article_array[0][$db->fieldName("Discuss")];
-                $this->ContentsWriterID =& $article_array[0][$db->fieldName("ContentsWriterID")];
-                $this->TopicID =& $article_array[0][$db->fieldName("TopicID")];
-                $this->StartDate =& $article_array[0][$db->fieldName("StartDate")];
-                $this->StopDate =& $article_array[0][$db->fieldName("StopDate")];
-                $this->ImportID =& $article_array[0][$db->fieldName("ImportID")];
-                if ( $this->StartDate == 0 )
-                    $this->StartDate = false;
-                if ( $this->StopDate == 0 )
-                    $this->StopDate = false;
+                $this->fill( $article_array[0] );
                 $ret = true;
             }
         }
         return $ret;
+    }
+
+    function fill( $article_array )
+    {
+        $db =& eZDB::globalDatabase();
+        $this->ID =& $article_array[$db->fieldName("ID")];
+        $this->Name =& $article_array[$db->fieldName("Name")];
+        $this->Contents =& $article_array[$db->fieldName("Contents")];
+        $this->AuthorText =& $article_array[$db->fieldName("AuthorText")];
+        $this->AuthorEmail =& $article_array[$db->fieldName("AuthorEmail")];
+        $this->AuthorID =& $article_array[$db->fieldName("AuthorID")];
+        $this->LinkText =& $article_array[$db->fieldName("LinkText")];
+        $this->Modified =& $article_array[$db->fieldName("Modified")];
+        $this->Created =& $article_array[$db->fieldName("Created")];
+        $this->Published =& $article_array[$db->fieldName("Published")];
+        $this->PageCount =& $article_array[$db->fieldName("PageCount")];
+        $this->IsPublished =& $article_array[$db->fieldName("IsPublished")];
+        $this->Keywords =& $article_array[$db->fieldName("Keywords")];
+        $this->Discuss =& $article_array[$db->fieldName("Discuss")];
+        $this->ContentsWriterID =& $article_array[$db->fieldName("ContentsWriterID")];
+        $this->TopicID =& $article_array[$db->fieldName("TopicID")];
+        $this->StartDate =& $article_array[$db->fieldName("StartDate")];
+        $this->StopDate =& $article_array[$db->fieldName("StopDate")];
+        $this->ImportID =& $article_array[$db->fieldName("ImportID")];
+        if ( $this->StartDate == 0 )
+            $this->StartDate = false;
+        if ( $this->StopDate == 0 )
+            $this->StopDate = false;
     }
 
     /*!
@@ -362,7 +372,7 @@ class eZArticle
 
             if( count( $author_array ) == 1 )
             {
-                $topic =& new eZArticle( $author_array[0][$db->fieldName("ID")] );
+                $topic =& new eZArticle( $author_array[0] );
             }
         }
 
@@ -388,7 +398,7 @@ class eZArticle
 
             if( count( $author_array ) == 1 )
             {
-                $topic =& new eZArticle( $author_array[0][$db->fieldName("ID")] );
+                $topic =& new eZArticle( $author_array[0] );
             }
         }
 
@@ -783,7 +793,7 @@ class eZArticle
         $db =& eZDB::globalDatabase();
         $ret = array();
 
-        $ret[] = $db->query( "DELETE FROM  eZArticle_ArticleWordLink WHERE ArticleID='$this->ID'" );
+        $ret[] = $db->query( "DELETE FROM eZArticle_ArticleWordLink WHERE ArticleID='$this->ID'" );
 
         // get total number of articles
         $db->array_query( $article_array, "SELECT COUNT(*) AS Count FROM eZArticle_Article" );
@@ -2969,13 +2979,11 @@ eZUser_Author as Author
         $returnArray = array();
         $articleArray = array();
 
-        $db->array_query( $articleArray, "SELECT ID
-                                          FROM eZArticle_Article
-                                          " );
+        $db->array_query( $articleArray, "SELECT * FROM eZArticle_Article" );
 
         for ( $i=0; $i < count($articleArray); $i++ )
         {
-            $returnArray[$i] = new eZArticle( $articleArray[$i][$db->fieldName("ID")] );
+            $returnArray[$i] = new eZArticle( $articleArray[$i] );
         }
 
         return $returnArray;
@@ -3000,7 +3008,7 @@ eZUser_Author as Author
 
         $now =& eZDateTime::timeStamp( true );
 
-        $db->array_query( $articleArray, "SELECT ID
+        $db->array_query( $articleArray, "SELECT *
                                           FROM eZArticle_Article
                                           WHERE $published
                                           AND ( StartDate !='0' AND StartDate <= $now )
@@ -3010,7 +3018,7 @@ eZUser_Author as Author
 
         for ( $i=0; $i < count($articleArray); $i++ )
         {
-            $returnArray[$i] = new eZArticle( $articleArray[$i][$db->fieldName("ID")] );
+            $returnArray[$i] = new eZArticle( $articleArray[$i] );
         }
 
         return $returnArray;
@@ -3074,7 +3082,7 @@ eZUser_Author as Author
 
         $now =& eZDateTime::timeStamp( true );
 
-        $db->array_query( $articleArray, "SELECT ID
+        $db->array_query( $articleArray, "SELECT *
                                           FROM eZArticle_Article
                                           WHERE $published
                                           AND ( StopDate !='0')
@@ -3084,7 +3092,7 @@ eZUser_Author as Author
 
         for ( $i=0; $i < count($articleArray); $i++ )
         {
-            $returnArray[$i] = new eZArticle( $articleArray[$i][$db->fieldName("ID")] );
+            $returnArray[$i] = new eZArticle( $articleArray[$i] );
         }
 
         return $returnArray;

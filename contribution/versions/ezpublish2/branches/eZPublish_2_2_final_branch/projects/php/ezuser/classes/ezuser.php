@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.100.2.7 2002/07/09 07:25:42 bf Exp $
+// $Id: ezuser.php,v 1.100.2.8 2003/04/09 13:09:07 jhe Exp $
 //
 // Definition of eZUser class
 //
@@ -84,6 +84,7 @@ class eZUser
         $this->InfoSubscription = 0;
         $this->SimultaneousLogins = 0;
         $this->GroupString = false;
+        $this->HasRoot = -1;
         if ( is_array( $id ) )
         {
             $this->fill( $id );
@@ -768,7 +769,7 @@ class eZUser
         {
             return $user;
         }
-        
+
 
         $session =& eZSession::globalSession();
 
@@ -777,7 +778,7 @@ class eZUser
         if ( $session->fetch( false ) )
         {
             $user = new eZUser( $session->variable("AuthenticatedUser" ) );
-            
+
 //            $val =& $session->variable( "AuthenticatedUser" );
 //            $user = new eZUser( $val );
 
@@ -785,20 +786,20 @@ class eZUser
 
             $idle = $session->idle();
             $idle = $idle / 60;
-       
+
             if ( ( $idle > $user->timeoutValue() ) && ( $user->timeoutValue() != 0 ) )
             {
                 $user->logout();
                 $user = false;
             }
-            else            
+            else
             {
                 if ( ( $user->id() != 0 ) && ( $user->id() != "" ) )
                 {
                     $session->refresh( );
                     $returnValue = $user;
                 }
-            }            
+            }
         }
 
         return $returnValue;
@@ -922,14 +923,19 @@ class eZUser
      */
     function hasRootAccess()
     {
-        $db =& eZDB::globalDatabase();
-        $db->query_single( $result, "SELECT count( * ) as Count FROM eZUser_UserGroupLink, eZUser_Group
+        if ( $this->HasRoot < 0 )
+        {
+            $db =& eZDB::globalDatabase();
+            $db->query_single( $result, "SELECT count( * ) as Count FROM eZUser_UserGroupLink, eZUser_Group
                                                     WHERE eZUser_UserGroupLink.UserID='$this->ID'
                                                     AND eZUser_Group.ID=eZUser_UserGroupLink.GroupID
                                                     AND eZUser_Group.IsRoot='1'" );
-        if ( $result[$db->fieldName("Count")] > 0 )
-            return true;
-        return false;
+            if ( $result[$db->fieldName( "Count" )] > 0 )
+                $this->HasRoot = true;
+            else
+                $this->HasRoot = false;
+        }
+        return $this->HasRoot;
     }
 
     
@@ -939,7 +945,6 @@ class eZUser
     function removeGroups()
     {
         $db =& eZDB::globalDatabase();
-       
         $db->query( "DELETE FROM eZUser_UserGroupLink
                                 WHERE UserID='$this->ID'" );
     }
@@ -964,7 +969,7 @@ class eZUser
                                 ( '$nextID', '$this->ID', '$addressID' )" );
 
             $db->unlock();
-            
+
             if ( $res == false )
                 $db->rollback();
             else
@@ -979,7 +984,7 @@ class eZUser
     {
         $db =& eZDB::globalDatabase();
         if ( get_class( $address ) == "ezaddress" )
-        {            
+        {
             $addressID = $address->id();
             $db->begin( );
 
@@ -990,7 +995,7 @@ class eZUser
                 $db->rollback();
             else
                 $db->commit();
-            
+
             eZAddress::delete( $addressID );
 //              $db->query( "DELETE FROM eZContact_Address
 //                                  WHERE ID='$addressID'" );
@@ -1017,7 +1022,7 @@ class eZUser
     }
 
     /*!
-      Returns the addresses a user has. It is returned as an array of eZAddress objects.      
+      Returns the addresses a user has. It is returned as an array of eZAddress objects.
       If the $id is supplied it is used for looking up addresses.
     */
     function addresses( $id = false, $as_object = true )
@@ -1050,7 +1055,7 @@ class eZUser
     }
 
     /*!
-      Returns the main address the user has. It is returned as an eZAddress objects.      
+      Returns the main address the user has. It is returned as an eZAddress objects.
       If the $id is supplied it is used for looking up addresses.
     */
     function mainAddress( $as_object = true )
@@ -1209,15 +1214,14 @@ class eZUser
                                                       WHERE eZUser_User.ID=eZUser_UserGroupLink.UserID
                                                       AND eZUser_Group.ID=eZUser_UserGroupLink.GroupID
                                                       AND eZUser_User.ID='$this->ID'
-                                                      ORDER BY eZUser_Group.SessionTimeout ASC
-                                                      ", array( "Limit" => "1" ) );
+                                                      ORDER BY eZUser_Group.SessionTimeout ASC",
+                          array( "Limit" => 1 ) );
 
        if ( count( $timeout_array ) == 1 )
        {
            $ret = $timeout_array[0][$db->fieldName("SessionTimeout")];
-           $this->StoredTimeout = $ret;
        }
-
+       $this->StoredTimeout = $ret;
        return $ret;
     }
 
@@ -1294,6 +1298,7 @@ class eZUser
     var $CookieLogin;
     var $SimultaneousLogins;
     var $StoredTimeout;
+    var $HasRoot;
 
     /// string with the member groups, used for storing permissions in cache files
     var $GroupString;
