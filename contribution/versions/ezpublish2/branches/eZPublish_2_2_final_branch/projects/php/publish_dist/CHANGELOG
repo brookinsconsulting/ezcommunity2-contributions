@@ -3,6 +3,7 @@ eZ publish changelog:
 
 Changes from 2.2.3 to 2.2.4
 ---------------------------
+* When user uploads a file to a upload only folder userid is now kept
 * Fixed wrong path in forgot password mail using nvh setup
 * Fixed rendering bug of bullet lists where list items where split
 * Fixed bug in timepublising
