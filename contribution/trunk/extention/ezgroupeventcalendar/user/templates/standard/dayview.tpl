@@ -14,7 +14,9 @@
 </table>
 -->
 </form>
+
 <br />
+
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td valign="top">
@@ -37,8 +39,6 @@
 		&nbsp;&nbsp;&nbsp;&nbsp;
 
 		<input class="stdbutton" type="submit" Name="GetByGroup" value="{intl-show}">
-
-
 	</td>
 	<td align="center">
 		<a class="menu" href="/groupeventcalendar/dayview/{pm_year_number}/{pm_month_number}/{pm_day_number}/{group_print_id}/">&lt;&lt;&nbsp;</a>
@@ -96,13 +96,13 @@
 	<!-- DUMMY links, love Dylan -->
 	<td width="4.5%" class="gcalDayViewTopBar"><a class="gcalSmallLink" href="/groupeventcalendar/dayview/{pd_year_number}/{pd_month_number}/{pd_day_number}/{group_print_id}/"> &lt;&lt; </a></td>
 	<td width="13%" onmouseover="this.className='gcalDayViewTopBarSelect'" onmouseout="this.className='gcalDayViewTopBar'" class="gcalDayViewTopBar">Monday</td>
-	<td width="13%" class="gcalDayViewTopBar">Tuesday</td>
-	<td width="13%" class="gcalDayViewTopBarSelect">Wedensday</td>
-	<td width="13%" class="gcalDayViewTopBar">Thursday</td>
-	<td width="13%" class="gcalDayViewTopBar">Friday</td>
-	<td width="13%" class="gcalDayViewTopBar">Saturday
+	<td width="13%" onmouseover="this.className='gcalDayViewTopBarSelect'" onmouseout="this.className='gcalDayViewTopBar'" class="gcalDayViewTopBar">Tuesday</td>
+	<td width="13%" onmouseover="this.className='gcalDayViewTopBarSelect'" onmouseout="this.className='gcalDayViewTopBarSelect'" class="gcalDayViewTopBarSelect">Wedensday</td>
+	<td width="13%" onmouseover="this.className='gcalDayViewTopBarSelect'" onmouseout="this.className='gcalDayViewTopBar'" class="gcalDayViewTopBar">Thursday</td>
+	<td width="13%" onmouseover="this.className='gcalDayViewTopBarSelect'" onmouseout="this.className='gcalDayViewTopBar'" class="gcalDayViewTopBar">Friday</td>
+	<td width="13%" onmouseover="this.className='gcalDayViewTopBarSelect'" onmouseout="this.className='gcalDayViewTopBar'" class="gcalDayViewTopBar">Saturday
 	</td>
-	<td width="13%" class="gcalDayViewTopBar">Sunday
+	<td width="13%" onmouseover="this.className='gcalDayViewTopBarSelect'" onmouseout="this.className='gcalDayViewTopBar'" class="gcalDayViewTopBar">Sunday
 	</td>
 	<td width="4.5%" class="gcalDayViewTopBar"><a class="gcalSmallLink" href="/groupeventcalendar/dayview/{nd_year_number}/{nd_month_number}/{nd_day_number}/{group_print_id}/"> &gt;&gt; </a></td>
 	<!-- End dummy links -->
