@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezsession.php,v 1.5 2000/07/26 17:03:13 lw-cvs Exp $
+    $Id: ezsession.php,v 1.6 2000/08/14 09:22:56 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no> (Bård Farstad <bf@ez.no>)
     
@@ -8,8 +8,10 @@
     
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
+
 include( "ezforum/dbsettings.php" );
 include_once( "$DOCROOT/classes/ezdb.php" );
+
 class eZSession
 {
     var $ID;
