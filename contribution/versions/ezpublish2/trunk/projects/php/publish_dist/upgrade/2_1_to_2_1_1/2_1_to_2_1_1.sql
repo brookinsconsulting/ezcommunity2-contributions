@@ -786,14 +786,6 @@ alter table eZTrade_OrderItem add VATValue int;
 alter table eZTrade_Order add IsVATInc int default 0;
 
 
-CREATE TABLE eZArticle_ArticleForumLink (
-  ID int NOT NULL,
-  ArticleID int NOT NULL default '0',
-  ForumID int NOT NULL default '0',
-  PRIMARY KEY (ID)
-);
-
-
 CREATE TABLE eZPoll_PollForumLink (
   ID int NOT NULL,
   PollID int NOT NULL default '0',
