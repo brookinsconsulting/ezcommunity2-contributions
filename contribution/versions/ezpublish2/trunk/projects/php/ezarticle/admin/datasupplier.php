@@ -1,5 +1,22 @@
 <?
 
+$nID = 1263;
+
+$values = "17
+47
+48
+57
+61";
+
+$idArray = explode( "\n", $values );
+
+foreach ( $idArray as $id )
+{    
+//   print( "INSERT INTO eZArticle_ArticleCategoryDefinition ( ID, ArticleID, CategoryID ) VALUES ( $nID, $id, 7 );\n" );
+    $nID++;
+}
+
+
 include_once( "classes/ezhttptool.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlecategory.php" );
