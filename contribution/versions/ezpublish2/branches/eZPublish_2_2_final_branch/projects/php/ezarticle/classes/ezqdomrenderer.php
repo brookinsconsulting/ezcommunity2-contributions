@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezqdomrenderer.php,v 1.55.2.13 2002/02/15 08:09:53 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.55.2.14 2002/02/27 09:09:11 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -844,10 +844,10 @@ class eZQDomrenderer
                     if ( $child->name == "li" )
                     {
                         $oldBullet = false;
+                        $content = "";
                         if ( count( $child->children ) > 0 )
                         foreach ( $child->children as $listItem )
                         {
-                            $content = "";
                             if ( $listItem->name == "text" )
                             {
                                 $content .= $listItem->content;
@@ -865,8 +865,8 @@ class eZQDomrenderer
                                 $content .= $this->renderTable( $listItem );
                             }
 
-                            $lines[] = $content;
                         }
+                        $lines[] = $content;                        
                     }
                     else
                     {
