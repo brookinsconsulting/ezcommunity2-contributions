@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.36 2001/04/29 14:33:31 bf Exp $
+// $Id: articlelist.php,v 1.37 2001/05/04 13:21:24 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -340,7 +340,6 @@ if ( is_numeric( $CategoryID ) && ( $CategoryID > 0 ) )
             $articleList =& $category->articles( $category->sortMode(), true, true, $Offset, $Limit );
             $articleCount = $category->articleCount( true, true  );        
         }
-        
     }
 }
 else

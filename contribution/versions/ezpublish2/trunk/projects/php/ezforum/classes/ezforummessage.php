@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.84 2001/04/09 09:16:37 bf Exp $
+// $Id: ezforummessage.php,v 1.85 2001/05/04 13:21:24 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -706,13 +706,13 @@ class eZForumMessage
     /*!
       Get all the messages which is not approved
     */
-    function getAllNotApproved( )
+    function getAllUnApproved( $Offset=0, $Limit=10 )
     {
         $db =& eZDB::globalDatabase();
 
         $ret = array();
 
-        $db->array_query( $message_array, "SELECT ID FROM eZForum_Message WHERE IsApproved='0' AND IsTemporary='0'" );
+        $db->array_query( $message_array, "SELECT ID FROM eZForum_Message WHERE IsApproved='0' AND IsTemporary='0' LIMIT $Offset, $Limit" );
         $ret = array();
 
         foreach ( $message_array as $message )
@@ -721,7 +721,18 @@ class eZForumMessage
         }
         
         return $ret;
+    }
 
+    /*!
+      Returns the number of unapproved messages.
+    */      
+    function unApprovedCount( )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $db->array_query( $message_array, "SELECT COUNT(ID) as Count FROM eZForum_Message WHERE IsApproved='0' AND IsTemporary='0'" );        
+
+        return $message_array[0]["Count"];
     }
 
     /*!

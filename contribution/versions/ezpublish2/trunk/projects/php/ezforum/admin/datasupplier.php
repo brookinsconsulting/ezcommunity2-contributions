@@ -1,3 +1,4 @@
+
 <?
 $url_array = explode( "/", $REQUEST_URI );
 
@@ -20,6 +21,10 @@ switch ( $url_array[2] )
 
     case "unapprovedlist":
     {
+        if ( $url_array[3] == "parent" )
+            $Offset = $url_array[4];
+        else
+            $Offset = 0;
         include( "ezforum/admin/unapprovedlist.php" );
     }
     break;

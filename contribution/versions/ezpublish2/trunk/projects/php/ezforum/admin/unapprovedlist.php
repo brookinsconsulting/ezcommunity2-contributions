@@ -1,5 +1,5 @@
 <?
-// $Id: unapprovedlist.php,v 1.6 2001/03/01 14:06:25 jb Exp $
+// $Id: unapprovedlist.php,v 1.7 2001/05/04 13:21:24 ce Exp $
 //
 // Author: Bård Farstad <bf@ez.no>
 // Created on: <21-Jan-2001 13:34:48 bf>
@@ -26,9 +26,11 @@ include_once( "classes/INIFile.php" );
 $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
+$UnapprovdLimit = $ini->read_var( "eZForumMain", "UnApprovdLimit" );
 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
+include_once( "classes/ezlist.php" );
 
 include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "ezforum/classes/ezforum.php" );
@@ -49,7 +51,8 @@ $locale = new eZLocale( $Language );
 
 $message = new eZForumMessage();
 
-$messages = $message->getAllNotApproved( );
+$messages = $message->getAllUnApproved( $Offset, $UnapprovdLimit );
+$messageCount = $message->unApprovedCount();
 
 $languageIni = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/unapprovedlist.php.ini", false );
 $true =  $languageIni->read_var( "strings", "true" );
@@ -70,15 +73,10 @@ else
         else
             $t->set_var( "td_class", "bgdark" );
 
-
         $forum = new eZForum( $msg->forumID() );
         $t->set_var( "forum_name", $forum->name() );
 
         $categoryList =& $forum->categories();
-
-        //      print_R( $categoryList );
-        
-//        $categoryName = $categoryList[0]->name();
 
         $t->set_var( "category_name", $cateogryName );
 
@@ -101,7 +99,9 @@ else
         $t->parse( "message_item", "message_item_tpl", true );
         $i++;
     }
-} 
+}
+
+eZList::drawNavigator( $t, $messageCount, $UnapprovdLimit, $Offset, "message_page" );
 
 $t->pparse( "output", "message_page" );
 ?>
