@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcompany.php,v 1.80 2001/10/09 12:19:00 jhe Exp $
+// $Id: ezcompany.php,v 1.81 2001/10/10 13:19:26 jhe Exp $
 //
 // Definition of eZProduct class
 //
@@ -99,6 +99,11 @@ class eZCompany
                                    '$type',
                                    '$this->CreatorID')" );
             $db->unlock();
+            $name = strtolower( $name );
+            $res[] = $db->query( "INSERT INTO eZContact_CompanyIndex
+                                  (CompanyID, Value, Type)
+                                  VALUES
+                                  ('$this->ID', '$name', '0')" );
         }
         else
         {
@@ -110,7 +115,10 @@ class eZCompany
                                   ContactType='$type',
                                   CreatorID='$this->CreatorID'
                                   WHERE ID='$this->ID'" );
-
+            $name = strtolower( $name );
+            $res[] = $db->query( "UPDATE eZContact_CompanyIndex SET
+                                  Value='$name'
+                                  WHERE ID='$this->ID' AND Type='0'" );
         }
         eZDB::finish( $res, $db );
 
@@ -176,6 +184,7 @@ class eZCompany
             $res[] = $db->query( "DELETE FROM eZContact_CompanyTypeDict WHERE CompanyID='$id'" );
             $res[] = $db->query( "DELETE FROM eZContact_Company WHERE ID='$id'" );
             $res[] = $db->query( "DELETE FROM eZContact_CompanyPersonDict WHERE CompanyID='$id'" );
+            $res[] = $db->query( "DELETE FROM eZContact_CompanyIndex WHERE CompanyID='$id'" );
             $db->array_query( $res_array, "SELECT ID FROM eZTrade_Order WHERE CompanyID='$id'" );
             include_once( "eztrade/classes/ezorder.php" );
             foreach ( $res_array as $order )
@@ -374,26 +383,20 @@ class eZCompany
     {
         $db =& eZDB::globalDatabase();
 
-        $query = $db->escapeString( $query );
+        $query = $db->escapeString( strtolower( $query ) );
         
         $company_array = array();
         $return_array = array();
 
-        $queryString = "SELECT C.ID FROM eZContact_Company as C,
-                        eZContact_CompanyOnlineDict as POD,
-                        eZAddress_Online as O,
-                        eZContact_CompanyPhoneDict as PPD,
-                        eZAddress_Phone as Ph
-                        WHERE (C.Name LIKE '%$query%')
-                        OR (C.ID = POD.CompanyID AND POD.OnlineID = O.ID AND O.URL LIKE '%$query%')
-                        OR (C.ID = PPD.CompanyID AND PPD.PhoneID = Ph.ID AND Ph.Number LIKE '%$query%')
-                        GROUP BY C.ID;";
+        $queryString = "SELECT CompanyID FROM eZContact_CompanyIndex
+                        WHERE (Value LIKE '%$query%')
+                        GROUP BY CompanyID";
 
         $db->array_query( $company_array, $queryString );
 
         foreach ( $company_array as $companyItem )
         {
-            $return_array[] =& new eZCompany( $companyItem[$db->fieldName( "ID" )] );
+            $return_array[] =& new eZCompany( $companyItem[$db->fieldName( "CompanyID" )] );
         }
         return $return_array;
     }
@@ -548,11 +551,17 @@ class eZCompany
         if ( get_class( $phone ) == "ezphone" )
         {
             $phoneID =& $phone->id();
+            $phoneno = strtolower( $phone->number() );
 
             $res[] = $db->query( "INSERT INTO eZContact_CompanyPhoneDict
                                   (CompanyID, PhoneID)
                                   VALUES
                                   ('$this->ID', '$phoneID')" );
+
+            $res[] = $db->query( "INSERT INTO eZContact_CompanyIndex
+                                  (CompanyID, Value, Type)
+                                  VALUES
+                                  ('$this->ID', '$phoneno', '1')" );
             $ret = true;
         }
         eZDB::finish( $res, $db );
@@ -575,6 +584,7 @@ class eZCompany
             eZPhone::delete( $phoneID );
         }
         $res[] = $db->query( "DELETE FROM eZContact_CompanyPhoneDict WHERE CompanyID='$this->ID'" );
+        $res[] = $db->query( "DELETE FROM eZContact_CompanyIndex WHERE CompanyID='$this->ID' AND Type='1'" );
         eZDB::finish( $res, $db );
     }
 
@@ -615,10 +625,15 @@ class eZCompany
         if ( get_class( $online ) == "ezonline" )
         {
             $onlineID =& $online->id();
+            $url = strtolower( $online->url() );
             $res[] = $db->query( "INSERT INTO eZContact_CompanyOnlineDict
                                   (CompanyID, OnlineID)
                                   VALUES
                                   ('$this->ID', '$onlineID')" );
+            $res[] = $db->query( "INSERT INTO eZContact_CompanyIndex
+                                  (CompanyID, Value, Type)
+                                  VALUES
+                                  ('$this->ID', '$url', '2')" );
             $ret = true;
         }
         eZDB::finish( $res, $db );
@@ -642,6 +657,7 @@ class eZCompany
         }
         
         $res[] = $db->query( "DELETE FROM eZContact_CompanyOnlineDict WHERE CompanyID='$this->ID'" );
+        $res[] = $db->query( "DELETE FROM eZContact_CompanyIndex WHERE CompanyID='$this->ID' AND Type='2'" );
         eZDB::finish( $res, $db );
     }
     

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezperson.php,v 1.61 2001/10/09 12:19:00 jhe Exp $
+// $Id: ezperson.php,v 1.62 2001/10/10 13:19:26 jhe Exp $
 //
 // Definition of eZPerson class
 //
@@ -87,16 +87,34 @@ class eZPerson
                                    '$birth',
                                    '$this->ContactType')" );
             $db->unlock();
+            $firstname = strlolower( $firstname );
+            $lastname = strtolower( $lastname );
+            $res[] = $db->query( "INSERT INTO eZContact_PersonIndex
+                                  (PersonID, Value, Type)
+                                  VALUES
+                                  ('$this->ID', '$firstname', '0')" );
+            $res[] = $db->query( "INSERT INTO eZContact_PersonIndex
+                                  (PersonID, Value, Type)
+                                  VALUES
+                                  ('$this->ID', '$lastname', '0')" );
         }
         else
         {
-            $res[] = $db->query( "UPDATE eZContact_Person set
+            $res[] = $db->query( "UPDATE eZContact_Person SET
                                           FirstName='$firstname',
                                           LastName='$lastname',
 	                                      Comment='$comment',
 	                                      BirthDate=$birth,
                                           ContactTypeID='$this->ContactType'
                                           WHERE ID='$this->ID'" );
+            $firstname = strlolower( $firstname );
+            $lastname = strtolower( $lastname );
+            $res[] = $db->query( "UPDATE eZContact_PersonIndex SET
+                                          Value='$firstname'
+                                          WHERE PersonID='$this->ID' AND Type='0'" );
+            $res[] = $db->query( "UPDATE eZContact_PersonIndex SET
+                                          Value='$lastname'
+                                          WHERE PersonID='$this->ID' AND Type='0'" );
         }
         eZDB::finish( $res, $db );
     }
@@ -161,6 +179,7 @@ class eZPerson
             $res[] = $db->query( "DELETE FROM eZContact_PersonOnlineDict WHERE PersonID='$id'" );
             $res[] = $db->query( "DELETE FROM eZContact_CompanyPersonDict WHERE PersonID='$id'" );
             $res[] = $db->query( "DELETE FROM eZContact_Person WHERE ID='$id'" );
+            $res[] = $db->query( "DELETE FROM eZContact_PersonIndex WHERE CompanyID='$id'" );
             $db->array_query( $res_array, "SELECT ID FROM eZTrade_Order WHERE PersonID='$id'" );
             include_once( "eztrade/classes/ezorder.php" );
             foreach ( $res_array as $order )
@@ -402,23 +421,17 @@ class eZPerson
         $person_array = 0;
         $return_array = array();
         
-        $query = $db->escapeString( $query );
+        $query = $db->escapeString( strtolower( $query ) );
 
-        $queryString = "SELECT P.ID FROM eZContact_Person as P,
-                        eZContact_PersonOnlineDict as POD,
-                        eZAddress_Online as O,
-                        eZContact_PersonPhoneDict as PPD,
-                        eZAddress_Phone as Ph
-                        WHERE (P.FirstName LIKE '%$query%' OR P.LastName LIKE '%$query%')
-                        OR (P.ID = POD.PersonID AND POD.OnlineID = O.ID AND O.URL LIKE '%$query%')
-                        OR (P.ID = PPD.PersonID AND PPD.PhoneID = Ph.ID AND Ph.Number LIKE '%$query%')
-                        GROUP BY P.ID;";
+        $queryString = "SELECT PersonID FROM eZContact_PersonIndex
+                        WHERE Value LIKE '%$query%'
+                        GROUP BY PersonID;";
 
         $db->array_query( $person_array, $queryString );
     
         foreach ( $person_array as $personItem )
         {
-            $return_array[] = new eZPerson( $personItem[$db->fieldName( "ID" )] );
+            $return_array[] = new eZPerson( $personItem[$db->fieldName( "PersonID" )] );
         }
         return $return_array;
     }
@@ -522,7 +535,7 @@ class eZPerson
 
         foreach ( $phone_array as $phoneItem )
         {
-            $return_array[] = new eZPhone( $phoneItem[ $db->fieldName( "PhoneID" ) ] );
+            $return_array[] = new eZPhone( $phoneItem[$db->fieldName( "PhoneID" )] );
         }
 
         return $return_array;
@@ -547,11 +560,16 @@ class eZPerson
             $count = count( $phone_array );
             if ( $count == 0 )
             {
+                $phoneno = strtolower( $phone->number() );
                 $db->begin();
                 $res[] = $db->query( "INSERT INTO eZContact_PersonPhoneDict
                                       (PersonID, PhoneID)
                                       VALUES
                                       ('$this->ID', '$phoneID')" );
+                $res[] = $db->query( "INSERT INTO eZContact_PersonIndex
+                                      (PersonID, Value, Type)
+                                      VALUES
+                                      ('$this->ID', '$phoneno', '1')" );
                 eZDB::finish( $res, $db );
             }
 
@@ -575,6 +593,7 @@ class eZPerson
         }
         $db->begin();
         $res[] = $db->query( "DELETE FROM eZContact_PersonPhoneDict WHERE PersonID='$this->ID'" );
+        $res[] = $db->query( "DELETE FROM eZContact_PersonIndex WHERE PersonID='$this->ID' AND Type='1'" );
         eZDB::finish( $res, $db );
     }
 
@@ -617,6 +636,7 @@ class eZPerson
         }
         $db->begin();
         $res[] = $db->query( "DELETE FROM eZContact_PersonOnlineDict WHERE PersonID='$this->ID'" );
+        $res[] = $db->query( "DELETE FROM eZContact_PersonIndex WHERE PersonID='$this->ID' AND Type='2'" );
         eZDB::finish( $res, $db );
 
     }
@@ -718,7 +738,7 @@ class eZPerson
 
         if ( count( $title_array ) == 1 )
         {
-            $title = $title_array[0][ $db->fieldName( "Title" ) ];
+            $title = $title_array[0][$db->fieldName( "Title" )];
         }
         else
         {
@@ -747,11 +767,16 @@ class eZPerson
 
             if ( $count == 0 )
             {
+                $url = strtolower( $online->url() );
                 $db->begin();
                 $res[] = $db->query( "INSERT INTO eZContact_PersonOnlineDict
                                       (PersonID, OnlineID)
                                       VALUES
                                       ('$this->ID', '$onlineID')" );
+                $res[] = $db->query( "INSERT INTO eZContact_PersonIndex
+                                      (PersonID, Value, Type)
+                                      VALUES
+                                      ('$this->ID', '$url', '2')" );
                 eZDB::finish( $res, $db );
             }
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.13 2001/08/17 13:35:59 jhe Exp $
+// $Id: menubox.php,v 1.14 2001/10/10 13:19:26 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -34,7 +34,6 @@ if ( get_class( $user ) == "ezuser" and
        eZPermission::checkPermission( $user, "eZContact", "Consultation" ) ) )
 {
     include_once( "classes/INIFile.php" );
-    // $ini = new INIFile( "site.ini" );
 
     $Language = $ini->read_var( "eZContactMain", "Language" );
 
@@ -69,6 +68,6 @@ if ( get_class( $user ) == "ezuser" and
 	$t->set_var( "sitedesign", $GlobalSiteDesign );
 
     $t->pparse( "output", "menu_box_tpl" );
-}   
+}
 
 ?>

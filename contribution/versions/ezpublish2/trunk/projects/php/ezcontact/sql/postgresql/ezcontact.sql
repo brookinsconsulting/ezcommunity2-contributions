@@ -15,6 +15,13 @@ CREATE TABLE eZContact_CompanyAddressDict (
   PRIMARY KEY (CompanyID,AddressID)
 );
 
+CREATE TABLE eZContact_CompanyIndex (
+  CompanyID int NOT NULL default '0',
+  Value varchar(255) NOT NULL default '',
+  Type int NOT NULL default '0',
+  PRIMARY KEY (CompanyID,Value)
+);
+
 CREATE TABLE eZContact_CompanyImageDefinition (
   CompanyID int NOT NULL,
   CompanyImageID int DEFAULT '0' NOT NULL,
@@ -119,6 +126,13 @@ CREATE TABLE eZContact_PersonAddressDict (
   PersonID int NOT NULL,
   AddressID int NOT NULL,
   PRIMARY KEY (PersonID,AddressID)
+);
+
+CREATE TABLE eZContact_PersonIndex (
+  PersonID int NOT NULL default '0',
+  Value varchar(255) NOT NULL default '',
+  Type int NOT NULL default '0',
+  PRIMARY KEY (PersonID,Value)
 );
 
 CREATE TABLE eZContact_PersonOnlineDict (
