@@ -29,6 +29,7 @@
 			  <input type="hidden" name="RedirectURL" value="{redirect_url}" />
 			</td>
 		  </tr>
+		  <!-- BEGIN standard_creation_tpl -->
 		  <tr> 
 			<td align="center">
 			  <a class="small" href="/user/forgot/">{intl-forgot}</a> 
@@ -36,6 +37,11 @@
 			  <a class="small" href="{user_edit_url}">{intl-register}</a>
 			</td>
 		  </tr>
+		<!-- END standard_creation_tpl -->
+		<!-- BEGIN extra_creation_tpl -->
+		{extra_userbox}
+		<!-- END extra_creation_tpl -->
+
 		</table>
 	  </form>
 	</td>
