@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.40 2001/02/28 19:24:35 fh Exp $
+// $Id: ezarticlecategory.php,v 1.41 2001/03/01 08:38:51 bfalex Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -869,7 +869,7 @@ class eZArticleCategory
            }
            $currentUserID = $user->id();
 
-          $loggedInSQL = "Article.AuthorID=$currentUserID OR  $groupSQL";
+          $loggedInSQL = "Article.AuthorID=$currentUserID OR  $groupSQL OR";
        }
 
        /*
@@ -894,7 +894,7 @@ class eZArticleCategory
                  LEFT JOIN eZArticle_ArticlePermission AS Permission ON Article.ID=Permission.ObjectID,
                  eZArticle_Category AS Category
                  WHERE(
-                      $loggedInSQL OR Permission.GroupID='-1'
+                      $loggedInSQL Permission.GroupID='-1'
                       )
                  AND Permission.ReadPermission='1'
                  $publishedCode
