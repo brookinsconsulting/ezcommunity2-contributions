@@ -6,6 +6,8 @@
 </tr>
 </table>
 
-<hr noshade="noshade" size="4" />
+<hr noshade="noshade" size="1" />
 
 <p class="error">{error_msg}</p>
+
+<hr noshade="noshade" size="1" />

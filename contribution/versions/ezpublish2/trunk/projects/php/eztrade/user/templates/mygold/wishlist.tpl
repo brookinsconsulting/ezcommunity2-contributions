@@ -8,7 +8,8 @@
       <h1>{intl-wishlist}</h1>
     </td>
     <td align="right">
-      <!-- BEGIN public_wishlist_tpl -->
+     
+     <!-- BEGIN public_wishlist_tpl -->
       {intl-public_wishlist_text}
       <input class="okbutton" type="submit" name="IsPublicButton" value="{intl-non_public_wishlist}" />
       <!-- END public_wishlist_tpl -->
@@ -16,6 +17,7 @@
       {intl-non_public_wishlist_text}
       <input class="okbutton" type="submit" name="IsPublicButton" value="{intl-public_wishlist}" />
       <!-- END non_public_wishlist_tpl -->
+      
     </td>
 <tr>
     <td colspan="2">
@@ -89,11 +91,12 @@
     </td>
   </tr>
 </table>
-
+<input type="hidden" name="Action" value="Refresh" />
+<!-- BEGIN wishlist_checkout_tpl -->
 <table border="0" width="100%">
 <tr>
 	<td>
-          <input type="hidden" name="Action" value="Refresh" />
+          
 	  <input class="okbutton" type="submit" value="{intl-update}" />
 	</td>
 </tr>
@@ -103,5 +106,5 @@
 	</td>
 </td>
 </table>
-
+<!-- END wishlist_checkout_tpl -->
 </form>

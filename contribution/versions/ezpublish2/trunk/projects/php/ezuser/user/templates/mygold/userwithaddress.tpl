@@ -6,7 +6,7 @@
 <h1>{intl-edit_head_line}</h1>
 <!-- END edit_user_tpl -->
 
-<hr noshade="noshade" size="4" />
+<hr noshade="noshade" size="1" />
 
 <!-- BEGIN info_item_tpl -->
 <ul>
@@ -15,7 +15,7 @@
     <!-- END info_updated_tpl -->
 </ul>
 
-<hr noshade size="4"/>
+<hr noshade="noshade" size="1"/>
 
 <br />
 <!-- END info_item_tpl -->
@@ -76,7 +76,7 @@
     <!-- END error_missing_address_tpl -->
 </ul>
 
-<hr noshade size="4"/>
+<hr noshade="noshade" size="1"/>
 
 <br />
 <!-- END errors_item_tpl -->
@@ -125,13 +125,13 @@
 </table>
 
 <!-- BEGIN address_tpl -->
-
+<hr noshade="noshade" size="1" />
 <h2>{intl-address_number} {address_number} </h2> 
 <!-- BEGIN delete_address_tpl -->
-<input type="submit" name="DeleteAddressButton{address_id}" value="{intl-delete_this_address}">
+<input class="okbutton" type="submit" name="DeleteAddressButton{address_id}" value="{intl-delete_this_address}">
 <!-- END delete_address_tpl -->
 <input type="hidden" name="AddressID[]" value="{address_id}"/>
-<input {is_checked} type="radio" name="MainAddressID" value="{address_id}"> {intl-main_address}
+<input style="background: #FFFFFF" {is_checked} type="radio" name="MainAddressID" value="{address_id}"> {intl-main_address}
 
 <p class="boxtext">{intl-street1}:</p>
 <input type="text" size="20" name="Street1[]" value="{street1_value}"/>
@@ -161,16 +161,16 @@
 
 <br />
 
-<hr noshade="noshade" size="4" />
+<hr noshade="noshade" size="1" />
 
-<input type="submit" value="{intl-new_address}" name="NewAddress" />
+<input class="okbutton" type="submit" value="{intl-new_address}" name="NewAddress" />
 
-<hr noshade="noshade" size="4" />
+<hr noshade="noshade" size="1" />
 
 
 <input type="hidden" name="UserID" value="{user_id}" />
 <!-- BEGIN ok_button_tpl -->
-<input class="okbutton" type="submit" name="OK" value="{intl-ok}" />
+<input class="okbutton" type="submit" name="OK" value="&nbsp;{intl-ok}&nbsp;" />
 <!-- END ok_button_tpl -->
 <!-- BEGIN submit_button_tpl -->
 <input class="okbutton" type="submit" name="OK" value="{intl-submit}" />

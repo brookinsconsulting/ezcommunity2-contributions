@@ -2,7 +2,7 @@
 
 <h1>{intl-head_line}</h1>
 
-<hr noshade="noshade" size="4" />
+<hr noshade="noshade" size="1" />
 
 <!-- BEGIN required_fields_error_tpl -->
 <h3 class="error" >{intl-required_fields_error}</h3>

@@ -12,11 +12,11 @@
 	</tr>
 </table>
 <hr noshade="noshade" size="1" />
-<img src="/eztrade/images/path-arrow.gif" height="10" width="15" border="0" alt=""/>
-<a class="nav" href="/trade/productlist/0/">{intl-top}</a>
+<img src="/sitedesign/mygold/images/path-arrow.gif" height="10" width="15" border="0" alt=""/>
+<a href="/trade/productlist/0/">{intl-top}</a>
 <!-- BEGIN path_tpl -->
-<img src="/eztrade/images/path-slash.gif" height="10" width="20" border="0" alt=""/>
-<a class="nav" href="/trade/productlist/{category_id}/">{category_name}</a>
+<img src="/sitedesign/mygold/images/path-slash.gif" height="10" width="20" border="0" alt=""/>
+<a href="/trade/productlist/{category_id}/">{category_name}</a>
 <!-- END path_tpl -->
 <hr noshade="noshade" size="1" />
 <!-- BEGIN category_list_tpl -->
@@ -28,7 +28,7 @@
 	<!-- BEGIN category_tpl -->
 	<tr>
 		<td class="{td_class}">
-			<a class="nav" href="/trade/productlist/{category_id}/">{category_name}</a>&nbsp;
+			<a href="/trade/productlist/{category_id}/">{category_name}</a>&nbsp;
 		</td>
 		<td class="{td_class}">
 			{category_description}&nbsp;
@@ -75,17 +75,17 @@
 	<td>
 <!-- BEGIN type_list_tpl -->
 <br />
-<table cellpadding="0" cellspacing="0" border="0">
+<table cellpadding="0" cellspacing="0" border="0" align="center">
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/trade/productlist/{category_id}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;|
+	&lt;&lt;&nbsp;<a class="path" href="/trade/productlist/{category_id}/{item_previous_index}">{intl-previous}</a>&nbsp;|
 	</td>
 	<!-- END type_list_previous_tpl -->
 
 	<!-- BEGIN type_list_previous_inactive_tpl -->
 	<td>
-	&nbsp;
+	<span class="inactive">&lt;&lt; {intl-previous} </span>| 
 	</td>
 	<!-- END type_list_previous_inactive_tpl -->
 
@@ -99,7 +99,7 @@
 
 	<!-- BEGIN type_list_inactive_item_tpl -->
 	<td>
-	&nbsp;&lt;{type_item_name}&gt;&nbsp;|
+	<span class="inactive">&nbsp;{type_item_name}&nbsp;</span>|
 	</td>
 	<!-- END type_list_inactive_item_tpl -->
 
@@ -107,13 +107,13 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	&nbsp;<a class="path" href="/trade/productlist/{category_id}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	&nbsp;<a class="path" href="/trade/productlist/{category_id}/{item_next_index}">{intl-next}</a>&nbsp;&gt;&gt;
 	</td>
 	<!-- END type_list_next_tpl -->
 
 	<!-- BEGIN type_list_next_inactive_tpl -->
 	<td>
-	{intl-next}
+	<span class="inactive">&nbsp;{intl-next}</span> &gt;&gt;
 	</td>
 	<!-- END type_list_next_inactive_tpl -->
 

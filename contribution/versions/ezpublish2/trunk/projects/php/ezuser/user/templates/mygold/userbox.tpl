@@ -21,7 +21,7 @@
 	</tr>
 	<tr> 
 		<td align="center">
-			<a class="small" href="{user_edit_url}/{user_id}/">{intl-change_user_info}</a> 
+			<a class="small" href="{user_edit_url}{user_id}/">{intl-change_user_info}</a> 
 		</td>
 	</tr>
 	<tr> 

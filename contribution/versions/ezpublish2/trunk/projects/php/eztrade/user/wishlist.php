@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: wishlist.php,v 1.15 2001/03/14 17:21:57 jb Exp $
+// $Id: wishlist.php,v 1.16 2001/03/15 20:45:36 sascha Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Oct-2000 18:09:45 bf>
@@ -294,6 +294,7 @@ $t->set_block( "wishlist_item_option_tpl", "wishlist_item_option_availability_tp
 $t->set_block( "wishlist_item_tpl", "is_bought_tpl", "is_bought" );
 $t->set_block( "wishlist_item_tpl", "is_not_bought_tpl", "is_not_bought" );
 
+$t->set_block( "wishlist_page_tpl", "wishlist_checkout_tpl", "wishlist_checkout" ); //SF
 
 $t->set_var( "public_wishlist", "" );
 $t->set_var( "non_public_wishlist", "" );
@@ -462,6 +463,15 @@ else
 {
     $t->parse( "empty_wishlist", "empty_wishlist_tpl" );
     $t->set_var( "wishlist_item_list", "" );
+}
+
+if ( count( $items ) > 0 )
+{
+    $t->parse( "wishlist_checkout", "wishlist_checkout_tpl" );
+}
+else
+{
+    $t->set_var( "wishlist_checkout", "" );
 }
 
 

@@ -22,29 +22,24 @@
 <br />
 <hr noshade="noshade" size="1">
 
-<table cellspacing="0" cellpadding="0" border="0">
+<table width="60%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<input class="okbutton" type="submit" Name="Forgot" value="{intl-forgot}">
+	<a href="/user/forgot/?RedirectURL={redirect_url}">{intl-forgot}</a>
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<input class="okbutton" type="submit" Name="Register" value="{intl-register}">
+	<a href="/user/user/new/?RedirectURL={redirect_url}">{intl-register}</a>
 	</td>
 </tr>
 </table>
 
-<br />
 <hr noshade="noshade" size="1">
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td class="menuspacer">&nbsp;</td>
-</tr>
-
-<tr>
 	<td>
-	<input class="okbutton" type="submit" value="{intl-ok}">
+	<input class="okbutton" type="submit" value="&nbsp;{intl-ok}&nbsp;">
 	</td>
 </tr>
 <input type="hidden" name="RedirectURL" value="{redirect_url}">

@@ -12,9 +12,10 @@
 </tr>
 </table>
 
-<hr noshade size="4" />
-
-
+<hr noshade="noshade" size="1" />
+{intl-explain_1}<br />
+{intl-explain_2}<br />
+{intl-privacy}<br />
 
 
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
@@ -25,6 +26,7 @@
 	</td>
 </tr>
 <!-- END wishlist_tpl -->
+
 </table>
 
 </form>

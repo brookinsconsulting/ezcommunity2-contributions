@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 
 <head>
-<title>eZ publish administrasjon</title>
+<title>eZ publish Administration - MyGold.com</title>
 <link rel="stylesheet" type="text/css" href="/{site_style}.css"/>
 <meta http-equiv="Content-Type" content="text/html; charset={charset}"/>
 
