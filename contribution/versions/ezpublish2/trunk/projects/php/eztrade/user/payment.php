@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.14 2001/03/08 08:01:49 ce Exp $
+// $Id: payment.php,v 1.15 2001/03/09 09:02:00 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -29,6 +29,9 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
+
+include_once( "classes/ezhttptool.php" );
+
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "eztrade/classes/ezproduct.php" );
@@ -61,7 +64,7 @@ $cart = $cart->getBySession( $session, "Cart" );
 
 if ( !$cart )
 {
-    header("Location: /trade/cart/" );
+    eZHTTPTool::header("Location: /trade/cart/" );
 }
 
 $items = $cart->items();
@@ -322,7 +325,7 @@ if ( $PaymentSuccess == "true" )
 
     $orderID = $order->id();
     
-    Header( "Location: /trade/ordersendt/$orderID/" );
+    eZHTTPTool::header( "Location: /trade/ordersendt/$orderID/" );
     exit();
 }
 

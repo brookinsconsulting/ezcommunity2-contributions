@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.20 2001/03/08 14:48:13 bf Exp $
+// $Id: cart.php,v 1.21 2001/03/09 09:02:00 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Sep-2000 11:57:49 bf>
@@ -23,10 +23,12 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+include_once( "classes/ezhttptool.php" );
+
 // checkout
 if ( isset( $DoCheckOut ) )
 {
-    Header( "Location: /trade/customerlogin/" );
+    eZHTTPTool::header( "Location: /trade/customerlogin/" );
     exit();
 }
 
@@ -200,7 +202,7 @@ if ( $Action == "RemoveFromBasket" )
     $cartItem = new eZCartItem( $CartItemID );
     $cartItem->delete();
     
-    Header( "Location: /trade/cart/" );
+    eZHTTPTool::header( "Location: /trade/cart/" );
     
     exit();
 }

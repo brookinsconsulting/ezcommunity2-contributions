@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: typeedit.php,v 1.3 2001/03/01 14:06:26 jb Exp $
+// $Id: typeedit.php,v 1.4 2001/03/09 09:02:00 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Dec-2000 18:24:06 bf>
@@ -23,15 +23,17 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+include_once( "classes/ezhttptool.php" );
 
 if ( isset( $Cancel ) )
 {
-    Header( "Location: /trade/typelist/" );
+    eZHTTPTool::header( "Location: /trade/typelist/" );
     exit();
 }
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZTradeMain", "Language" );
@@ -47,7 +49,7 @@ if ( $Action == "Insert" )
 
     $type->store();
 
-    Header( "Location: /trade/typelist/" );
+    eZHTTPTool::header( "Location: /trade/typelist/" );
     exit();
 }
 
@@ -92,7 +94,7 @@ if ( $Action == "Update" )
         }
         else
         {
-            Header( "Location: /trade/typelist/" );
+            eZHTTPTool::header( "Location: /trade/typelist/" );
             exit();
         }
     }
@@ -105,7 +107,7 @@ if ( $Action == "Delete" )
 
     $type->delete();
     
-    Header( "Location: /trade/typelist/" );
+    eZHTTPTool::header( "Location: /trade/typelist/" );
     exit();
 }
 

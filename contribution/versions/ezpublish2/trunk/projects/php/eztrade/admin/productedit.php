@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.42 2001/03/07 11:51:38 jb Exp $
+// $Id: productedit.php,v 1.43 2001/03/09 09:02:00 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -194,28 +194,28 @@ if ( $Action == "Insert" )
     // add options
     if ( isset( $Option ) )
     {
-        Header( "Location: /trade/productedit/optionlist/$productID/" );
+        eZHTTPTool::header( "Location: /trade/productedit/optionlist/$productID/" );
         exit();
     }
 
     // add images
     if ( isset( $Image ) )
     {
-        Header( "Location: /trade/productedit/imagelist/$productID/" );
+        eZHTTPTool::header( "Location: /trade/productedit/imagelist/$productID/" );
         exit();
     }
     
     // preview
     if ( isset( $Preview ) )
     {
-        Header( "Location: /trade/productedit/productpreview/$productID/" );
+        eZHTTPTool::header( "Location: /trade/productedit/productpreview/$productID/" );
         exit();
     }
    
     // attribute
     if ( isset( $Attribute ) )
     {
-        Header( "Location: /trade/productedit/attributeedit/$productID/" );
+        eZHTTPTool::header( "Location: /trade/productedit/attributeedit/$productID/" );
         exit();
     }
         
@@ -224,7 +224,7 @@ if ( $Action == "Insert" )
     $category = $product->categoryDefinition( );
     $categoryID = $category->id();
     
-    Header( "Location: /trade/categorylist/parent/$categoryID" );
+    eZHTTPTool::header( "Location: /trade/categorylist/parent/$categoryID" );
     exit();
 }
 
@@ -324,28 +324,28 @@ if ( $Action == "Update" )
     // add options
     if ( isset( $Option ) )
     {
-        Header( "Location: /trade/productedit/optionlist/$productID/" );
+        eZHTTPTool::header( "Location: /trade/productedit/optionlist/$productID/" );
         exit();
     }
 
     // add images
     if ( isset( $Image ) )
     {
-        Header( "Location: /trade/productedit/imagelist/$productID/" );
+        eZHTTPTool::header( "Location: /trade/productedit/imagelist/$productID/" );
         exit();
     }
     
     // preview
     if ( isset( $Preview ) )
     {
-        Header( "Location: /trade/productedit/productpreview/$productID/" );
+        eZHTTPTool::header( "Location: /trade/productedit/productpreview/$productID/" );
         exit();
     }
 
     // attribute
     if ( isset( $Attribute ) )
     {
-        Header( "Location: /trade/productedit/attributeedit/$productID/" );
+        eZHTTPTool::header( "Location: /trade/productedit/attributeedit/$productID/" );
         exit();
     }    
 
@@ -353,7 +353,7 @@ if ( $Action == "Update" )
     $category = $product->categoryDefinition( );
     $categoryID = $category->id();
     
-    Header( "Location: /trade/categorylist/parent/$categoryID" );
+    eZHTTPTool::header( "Location: /trade/categorylist/parent/$categoryID" );
     exit();
 }
 
@@ -364,12 +364,12 @@ if ( $Action == "Cancel" )
         $product = new eZProduct( $ProductID );
         $category = $product->categoryDefinition( );
         $categoryID = $category->id();
-        Header( "Location: /trade/categorylist/parent/$categoryID" );
+        eZHTTPTool::header( "Location: /trade/categorylist/parent/$categoryID" );
         exit();
     }
     else
     {
-        Header( "Location: /trade/categorylist/parent/" );
+        eZHTTPTool::header( "Location: /trade/categorylist/parent/" );
         exit();
     }
 }
@@ -436,7 +436,7 @@ if ( $Action == "Delete" )
 
     eZPriceGroup::removePrices( $ProductID, -1 );
     
-    Header( "Location: /trade/categorylist/parent/$categoryID/" );
+    eZHTTPTool::header( "Location: /trade/categorylist/parent/$categoryID/" );
     exit();
 }
 

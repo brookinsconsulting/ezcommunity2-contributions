@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: customerlogin.php,v 1.10 2001/03/01 14:06:26 jb Exp $
+// $Id: customerlogin.php,v 1.11 2001/03/09 09:02:00 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Oct-2000 16:45:30 bf>
@@ -25,6 +25,7 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezhttptool.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
@@ -39,20 +40,20 @@ if ( $user  )
 {
     if ( isset( $RedirectURL ) && ( $RedirectURL != "" ) )
     {
-        Header( "Location: $RedirectURL" );
+        eZHTTPTool::header( "Location: $RedirectURL" );
         exit();
     }
         
     if ( count( $user->addresses() ) == 0 )
     {
         $userID = $user->id();
-        Header( "Location: /user/userwithaddress/edit/$userID/MissingAddress" );
+        eZHTTPTool::header( "Location: /user/userwithaddress/edit/$userID/MissingAddress" );
 //        Header( "Location: /user/address/new/?RedirectURL=/trade/customerlogin/" );
         exit();
 
     }
 
-    Header( "Location: /trade/checkout/" );
+    eZHTTPTool::header( "Location: /trade/checkout/" );
     exit();
 }
 else

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.22 2001/03/08 08:01:49 ce Exp $
+// $Id: ordersendt.php,v 1.23 2001/03/09 09:02:00 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <06-Oct-2000 14:04:17 bf>
@@ -30,6 +30,8 @@ include_once( "classes/ezcurrency.php" );
 include_once( "eztrade/classes/ezorder.php" ); 
 include_once( "eztrade/classes/ezproduct.php" ); 
 include_once( "eztrade/classes/ezcheckout.php" ); 
+
+include_once( "classes/ezhttptool.php" );
 
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
@@ -65,14 +67,14 @@ $currentUser = eZUser::currentUser();
 // check if the user is logged i
 if ( !( $currentUser && $user ) ) 
 {
-    Header( "Location: /trade/cart/" );
+    eZHTTPTool::header( "Location: /trade/cart/" );
     exit();
 }
 
 // check if the user owns the order
 if ( $currentUser->id() != $user->id() )
 {
-    Header( "Location: /trade/cart/" );
+    eZHTTPTool::header( "Location: /trade/cart/" );
     exit();
 }
 

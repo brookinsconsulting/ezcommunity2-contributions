@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: attributeedit.php,v 1.2 2001/03/01 14:06:26 jb Exp $
+// $Id: attributeedit.php,v 1.3 2001/03/09 09:02:00 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Dec-2000 18:45:08 bf>
@@ -23,9 +23,11 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+include_once( "classes/ezhttptool.php" );
+
 if ( isset( $Cancel ) )
 {
-    Header( "Location: /trade/productedit/edit/$ProductID/" );
+    eZHTTPTool::header( "Location: /trade/productedit/edit/$ProductID/" );
     exit();
 }
 
@@ -76,7 +78,7 @@ if ( $Action == "Update" )
     
     if ( isset( $OK ) )
     {
-        Header( "Location: /trade/productedit/edit/$ProductID/" );
+        eZHTTPTool::header( "Location: /trade/productedit/edit/$ProductID/" );
         exit();
     }
 }

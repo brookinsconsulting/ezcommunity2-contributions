@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.42 2001/03/08 14:48:13 bf Exp $
+// $Id: checkout.php,v 1.43 2001/03/09 09:02:00 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -79,7 +79,7 @@ if ( $ForceSSL == "enabled" )
     if ( $SERVER_PORT != '443' )
     {
 //          print( "<font color=\"#333333\">Start: Location: https://" . $HTTP_HOST . $REQUEST_URI . "</font>" );
-        eZHTTPTool::hheader("Location: https://" . $HTTP_HOST . $REQUEST_URI );
+        eZHTTPTool::header("Location: https://" . $HTTP_HOST . $REQUEST_URI );
         exit;
     }
 }
@@ -202,7 +202,7 @@ if ( isset( $SendOrder ) )
     $session->setVariable( "PaymentMethod", $PaymentMethod );
     $session->setVariable( "OrderID", $order_id );
 
-    Header( "Location: /trade/payment/" );
+    eZHTTPTool::header( "Location: /trade/payment/" );
     exit();
 }
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.14 2001/03/01 14:06:26 jb Exp $
+// $Id: categoryedit.php,v 1.15 2001/03/09 09:02:00 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -23,10 +23,11 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+include_once( "classes/ezhttptool.php" );
 
 if ( isset( $Cancel ) )
 {
-    Header( "Location: /trade/categorylist/" );
+    eZHTTPTool::header( "Location: /trade/categorylist/" );
     exit();
 }
 
@@ -68,7 +69,7 @@ if ( $Action == "Insert" )
         $file->delete();
     }
 
-    Header( "Location: /trade/categorylist/" );
+    eZHTTPTool::header( "Location: /trade/categorylist/" );
     exit();
 }
 
@@ -96,7 +97,7 @@ if ( $Action == "Update" )
         $file->delete();
     }
 
-    Header( "Location: /trade/categorylist/" );
+    eZHTTPTool::header( "Location: /trade/categorylist/" );
     exit();
 }
 
@@ -125,7 +126,7 @@ if ( $Action == "Delete" )
 
     $category->delete();
     
-    Header( "Location: /trade/categorylist/" );
+    eZHTTPTool::header( "Location: /trade/categorylist/" );
     exit();
 }
 
