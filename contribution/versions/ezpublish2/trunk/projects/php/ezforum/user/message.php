@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: message.php,v 1.10 2000/11/22 13:09:35 bf-cvs Exp $
+// $Id: message.php,v 1.11 2000/11/24 14:15:55 bf-cvs Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -71,7 +71,9 @@ $t->set_var( "main-user", $user->firstName() . " " . $user->lastName() );
 
 $t->set_var( "topic", $message->topic() );
 
-$t->set_var( "main-postingtime", $locale->format( $message->postingTime() ));
+$time = $message->postingTime();
+$t->set_var( "main-postingtime", $locale->format( $time  ));
+
 $t->set_var( "body", eZTextTool::nl2br( $message->body() ) );
 
 $t->set_var( "reply_id", $message->id() );
@@ -115,7 +117,8 @@ foreach ( $messages as $message )
     
     $t->set_var( "reply_topic", $message->topic() );
 
-    $t->set_var( "postingtime", $locale->format( $message->postingTime() ) );
+    $time = $message->postingTime();
+    $t->set_var( "postingtime", $locale->format( $time ) );
 
     $t->set_var( "message_id", $message->id() );
 

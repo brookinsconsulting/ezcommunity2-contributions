@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.4 2000/11/22 13:09:35 bf-cvs Exp $
+// $Id: messagelist.php,v 1.5 2000/11/24 14:15:55 bf-cvs Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -92,7 +92,11 @@ else
             $t->set_var( "spacer", "" );
         
         $t->set_var( "topic", $message->topic() );
-        $t->set_var( "postingtime", $locale->format( $message->postingTime() ) );
+
+
+        $time = $message->postingTime();
+        $t->set_var( "postingtime", $locale->format( $time  ) );
+
         $t->set_var( "message_id", $message->id() );
         
         $user = $message->user();    

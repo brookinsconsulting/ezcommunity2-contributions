@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.56 2000/11/10 09:59:37 ce-cvs Exp $
+// $Id: ezforummessage.php,v 1.57 2000/11/24 14:15:55 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -539,7 +539,8 @@ class eZForumMessage
         
         if ( $msg->parent() != 0 )
         {
-            $ret = $this->threadTop( $msg->parent() );
+            $parent = $msg->parent();
+            $ret = $this->threadTop( $parent  );
         }
         else
         {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.10 2000/10/20 10:07:48 bf-cvs Exp $
+// $Id: ezlocale.php,v 1.11 2000/11/24 14:15:54 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -265,7 +265,7 @@ class eZLocale
                     }                    
                 }
                 
-                $returnString =& $value;
+                $returnString = $value;
                 break;
             }
         }
