@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: quoteedit.php,v 1.7 2001/02/04 19:31:29 jb Exp $
+// $Id: quoteedit.php,v 1.8 2001/02/05 16:12:28 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <30-Jan-2001 14:54:24 amos>
@@ -210,7 +210,7 @@ function showNotice( &$ini, &$locale, &$module, &$Language, &$quote, &$used_quan
     $t->pparse( "output", "product_match_tpl" );
 }
 
-function matchAllAll( &$quote, &$offer, &$ini, &$locale, &$module, &$Language,
+function matchAllAll( &$quote, &$offer, &$q_notice, &$ini, &$locale, &$module, &$Language,
                       &$product_name, &$ProductID, &$CategoryID )
 {
     $q_quan = $quote->quantity();
@@ -224,10 +224,12 @@ function matchAllAll( &$quote, &$offer, &$ini, &$locale, &$module, &$Language,
 
         sendMails( $ini, $locale, $quote, $offer, $quote->quantity(), $offer->quantity(),
                    $product_name, $customer, $supplier, $Language );
-        $used_quantity = $offer->quantity();
+        $used_quantity = $quote->quantity();
 
-        showNotice( $ini, $locale, $module, $Language, $offer, $used_quantity,
+        showNotice( $ini, $locale, $module, $Language, $q_notice, $used_quantity,
                     $product_name, $ProductID, $CategoryID );
+
+        exit();
 
         $quote->delete();
         $offer->delete();
@@ -237,7 +239,7 @@ function matchAllAll( &$quote, &$offer, &$ini, &$locale, &$module, &$Language,
     return false;
 }
 
-function matchAllPartial( &$quote, &$offer, &$ini, &$locale, &$module, &$Language,
+function matchAllPartial( &$quote, &$offer, &$q_notice, &$ini, &$locale, &$module, &$Language,
                           &$product_name, &$ProductID, &$CategoryID )
 {
     $q_quan = $quote->quantity();
@@ -254,8 +256,10 @@ function matchAllPartial( &$quote, &$offer, &$ini, &$locale, &$module, &$Languag
 
         $used_quantity = $quote->quantity();
 
-        showNotice( $ini, $locale, $module, $Language, $offer, $used_quantity,
+        showNotice( $ini, $locale, $module, $Language, $q_notice, $used_quantity,
                     $product_name, $ProductID, $CategoryID );
+
+        exit();
 
         if ( $quote->quantity() == $offer->quantity() )
         {
@@ -273,7 +277,7 @@ function matchAllPartial( &$quote, &$offer, &$ini, &$locale, &$module, &$Languag
     return false;
 }
 
-function matchPartialAll( &$quote, &$offer, &$ini, &$locale, &$module, &$Language,
+function matchPartialAll( &$quote, &$offer, &$q_notice, &$ini, &$locale, &$module, &$Language,
                           &$product_name, &$ProductID, &$CategoryID )
 {
     $q_quan = $quote->quantity();
@@ -290,8 +294,10 @@ function matchPartialAll( &$quote, &$offer, &$ini, &$locale, &$module, &$Languag
 
         $used_quantity = $offer->quantity();
 
-        showNotice( $ini, $locale, $module, $Language, $offer, $used_quantity,
+        showNotice( $ini, $locale, $module, $Language, $q_notice, $used_quantity,
                     $product_name, $ProductID, $CategoryID );
+
+        exit();
 
         if ( $quote->quantity() == $offer->quantity() )
         {
@@ -309,7 +315,7 @@ function matchPartialAll( &$quote, &$offer, &$ini, &$locale, &$module, &$Languag
     return false;
 }
 
-function matchPartialPartial( &$quote, &$offer, &$ini, &$locale, &$module, &$Language,
+function matchPartialPartial( &$quote, &$offer, &$q_notice, &$ini, &$locale, &$module, &$Language,
                               &$product_name, &$ProductID, &$CategoryID )
 {
     $min_quantity = min( $quote->quantity(), $offer->quantity() );
@@ -321,8 +327,10 @@ function matchPartialPartial( &$quote, &$offer, &$ini, &$locale, &$module, &$Lan
 
     $used_quantity = $min_quantity;
 
-    showNotice( $ini, $locale, $module, $Language, $offer, $used_quantity,
+    showNotice( $ini, $locale, $module, $Language, $q_notice, $used_quantity,
                 $product_name, $ProductID, $CategoryID );
+
+    exit();
 
     if ( $quote->quantity() == $min_quantity )
     {
@@ -354,7 +362,8 @@ if( isset( $Cancel ) )
     exit();
 }
 
-if ( $Action == "quote" and isset( $Price ) and ( strtolower( $Price ) == "rfq" || empty( $Price ) ) )
+if ( $Action == "quote" and isset( $Price ) and ( strtolower( $Price ) == "rfq" || empty( $Price ) )
+     and ( get_class( $quote ) != "ezquote" or $quote->quoteState() == RFQ_TYPE ) )
     $Action = "rfq";
 
 $Language = $ini->read_var( "eZExchangeMain", "Language" );
@@ -372,6 +381,8 @@ if ( is_numeric( $ProductID ) )
         {
             $best_quote = eZQuote::bestPricedQuote( $ProductID, true );
             $quote = eZQuote::getUserOffer( $ProductID, true );
+            if ( get_class( $quote ) == "ezquote" and $quote->rfqLink() )
+                $best_quote = new eZQuote( $quote->rfqLink() );
             break;
         }
         case "request":
@@ -393,7 +404,11 @@ if ( is_numeric( $ProductID ) )
             $best_quote = eZQuote::bestPricedOffer( $ProductID, true );
             $quote = eZQuote::getUserQuote( $ProductID, true );
             if ( get_class( $quote ) != "ezquote" )
+            {
                 $quote = eZQuote::getUserRFQ( $ProductID, true );
+                if ( get_class( $quote ) == "ezquote" and $quote->offerLink() )
+                    $best_quote = new eZQuote( $quote->offerLink() );
+            }
         }
     }
     if ( $quote and get_class( $quote ) == "ezquote" )
@@ -433,7 +448,8 @@ if ( isset( $OK ) )
 {
     if ( !is_numeric( $Price ) || $Price <= 0 )
     {
-        if ( $Action != "rfq" or ( $Price != "rfq" && !empty( $Price ) ) )
+        if ( ( get_class( $quote ) == "ezquote" and $quote->quoteState() != RFQ_TYPE ) or
+             ( $Action != "rfq" or ( $Price != "rfq" && !empty( $Price ) ) ) )
         {
             $error_array[] = "error_price_item";
             $error = true;
@@ -482,12 +498,15 @@ if ( isset( $OK ) )
             case "offer":
             case "request":
             {
-                $best_quote = eZQuote::bestPricedQuote( $ProductID, true );
-                if ( get_class( $best_quote ) == "ezquote" and $Price < $best_quote->price() )
+                if( get_class( $quote ) != "ezquote" or !$quote->rfqLink() )
                 {
-                    $error_array[] = "error_high_price_item";
-                    $high_price = $best_quote->price();
-                    $error = true;
+                    $best_quote = eZQuote::bestPricedQuote( $ProductID, true );
+                    if ( get_class( $best_quote ) == "ezquote" and $Price < $best_quote->price() )
+                    {
+                        $error_array[] = "error_high_price_item";
+                        $high_price = $best_quote->price();
+                        $error = true;
+                    }
                 }
                 break;
             }
@@ -498,12 +517,15 @@ if ( isset( $OK ) )
             default:
             case "quote":
             {
-                $best_offer = eZQuote::bestPricedOffer( $ProductID, true );
-                if ( get_class( $best_offer ) == "ezquote" and $Price > $best_offer->price() )
+                if( get_class( $quote ) != "ezquote" or !$quote->offerLink() )
                 {
-                    $error_array[] = "error_high_price_item";
-                    $high_price = $best_offer->price();
-                    $error = true;
+                    $best_offer = eZQuote::bestPricedOffer( $ProductID, true );
+                    if ( get_class( $best_offer ) == "ezquote" and $Price > $best_offer->price() )
+                    {
+                        $error_array[] = "error_high_price_item";
+                        $high_price = $best_offer->price();
+                        $error = true;
+                    }
                 }
             }
         }
@@ -515,6 +537,7 @@ if ( isset( $OK ) )
         {
             $quote = new eZQuote();
         }
+        $old_action = $Action;
         if ( $Action == "request" )
             $Action = "offer";
         $quote->setDate( new eZDate() );
@@ -522,80 +545,155 @@ if ( isset( $OK ) )
         $quote->setQuantity( $quantity );
         $quote->setPrice( $price );
         $quote->setType( $quote_type );
-        $quote->setQuoteState( $Action );
+        if ( $Action == "rfq" and $quote->offerLink() )
+            $quote->setQuoteState( QUOTE_TYPE );
+        else
+            $quote->setQuoteState( $Action );
         $ret = $quote->store();
         if( $ret == "insert" )
             $quote->addToUser( $ProductID );
 
+        if ( $old_action == "request" )
+            $quote->linkWithRFQ( $QuoteID );
+
+        $match = false;
         switch( $Action )
         {
             case "offer":
             {
-                $quotes = eZQuote::getAllQuotes( $ProductID, true, $Price );
-                $match = false;
-                foreach( $quotes as $quote_match )
+                if ( $quote->rfqLink() )
                 {
+                    $quote_match = new eZQuote( $quote->rfqLink() );
+                    if ( $quote_match->price() != $quote->price() )
+                        break;
+                    $match = false;
                     if ( $quote_match->type() == QUOTE_ALL_TYPE && $quote_type == QUOTE_ALL_TYPE )
                     {
-                        $match = matchAllAll( $quote_match, $quote,
-                                              $ini, $locale, $module, $Language, $product_name,
-                                              $ProductID, $CategoryID );
+                        $match = matchAllAll( $quote_match, $quote, $quote,
+                        $ini, $locale, $module, $Language, $product_name,
+                        $ProductID, $CategoryID );
                     }
                     else if ( $quote_match->type() == QUOTE_ALL_TYPE && $quote_type == QUOTE_PARTIAL_TYPE )
                     {
-                        $match = matchAllPartial( $quote_match, $quote,
-                                                  $ini, $locale, $module, $Language, $product_name,
-                                                  $ProductID, $CategoryID );
+                        $match = matchAllPartial( $quote_match, $quote, $quote,
+                        $ini, $locale, $module, $Language, $product_name,
+                        $ProductID, $CategoryID );
                     }
                     else if ( $quote_match->type() == QUOTE_PARTIAL_TYPE && $quote_type == QUOTE_ALL_TYPE )
                     {
-                        $match = matchPartialAll( $quote_match, $quote,
-                                                  $ini, $locale, $module, $Language, $product_name,
-                                                  $ProductID, $CategoryID );
+                        $match = matchPartialAll( $quote_match, $quote, $quote,
+                        $ini, $locale, $module, $Language, $product_name,
+                        $ProductID, $CategoryID );
                     }
                     else if ( $quote_match->type() == QUOTE_PARTIAL_TYPE && $quote_type == QUOTE_PARTIAL_TYPE )
                     {
-                        $match = matchPartialPartial( $quote_match, $quote,
-                                                      $ini, $locale, $module, $Language, $product_name,
-                                                      $ProductID, $CategoryID );
+                        $match = matchPartialPartial( $quote_match, $quote, $quote,
+                        $ini, $locale, $module, $Language, $product_name,
+                        $ProductID, $CategoryID );
                     }
-                    if ( $match )
-                        break;
+                }
+                else
+                {
+                    $quotes = eZQuote::getAllQuotes( $ProductID, true, $Price );
+                    $match = false;
+                    foreach( $quotes as $quote_match )
+                    {
+                        if ( $quote_match->type() == QUOTE_ALL_TYPE && $quote_type == QUOTE_ALL_TYPE )
+                        {
+                            $match = matchAllAll( $quote_match, $quote, $quote,
+                            $ini, $locale, $module, $Language, $product_name,
+                            $ProductID, $CategoryID );
+                        }
+                        else if ( $quote_match->type() == QUOTE_ALL_TYPE && $quote_type == QUOTE_PARTIAL_TYPE )
+                        {
+                            $match = matchAllPartial( $quote_match, $quote, $quote,
+                            $ini, $locale, $module, $Language, $product_name,
+                            $ProductID, $CategoryID );
+                        }
+                        else if ( $quote_match->type() == QUOTE_PARTIAL_TYPE && $quote_type == QUOTE_ALL_TYPE )
+                        {
+                            $match = matchPartialAll( $quote_match, $quote, $quote,
+                            $ini, $locale, $module, $Language, $product_name,
+                            $ProductID, $CategoryID );
+                        }
+                        else if ( $quote_match->type() == QUOTE_PARTIAL_TYPE && $quote_type == QUOTE_PARTIAL_TYPE )
+                        {
+                            $match = matchPartialPartial( $quote_match, $quote, $quote,
+                            $ini, $locale, $module, $Language, $product_name,
+                            $ProductID, $CategoryID );
+                        }
+                        if ( $match )
+                            break;
+                    }
                 }
                 break;
             }
             case "quote":
             {
-                $offers = eZQuote::getAllOffers( $ProductID, true, $Price );
-                $match = false;
-                foreach( $offers as $offer_match )
+                if ( $quote->offerLink() )
                 {
+                    $offer_match = new eZQuote( $quote->offerLink() );
+                    if ( $offer_match->price() != $quote->price() )
+                        break;
+                    $match = false;
                     if ( $offer_match->type() == QUOTE_ALL_TYPE && $quote_type == QUOTE_ALL_TYPE )
                     {
-                        $match = matchAllAll( $quote, $offer_match,
+                        $match = matchAllAll( $quote, $offer_match, $quote,
                                               $ini, $locale, $module, $Language, $product_name,
                                               $ProductID, $CategoryID );
                     }
                     else if ( $offer_match->type() == QUOTE_ALL_TYPE && $quote_type == QUOTE_PARTIAL_TYPE )
                     {
-                        $match = matchPartialAll( $quote, $offer_match,
+                        $match = matchPartialAll( $quote, $offer_match, $quote,
                                                   $ini, $locale, $module, $Language, $product_name,
                                                   $ProductID, $CategoryID );
                     }
                     else if ( $offer_match->type() == QUOTE_PARTIAL_TYPE && $quote_type == QUOTE_ALL_TYPE )
                     {
-                        $match = matchAllPartial( $quote, $offer_match,
+                        $match = matchAllPartial( $quote, $offer_match, $quote,
                                                   $ini, $locale, $module, $Language, $product_name,
                                                   $ProductID, $CategoryID );
                     }
                     else if ( $offer_match->type() == QUOTE_PARTIAL_TYPE && $quote_type == QUOTE_PARTIAL_TYPE )
                     {
-                        $match = matchPartialPartial( $quote, $offer_match,
+                        $match = matchPartialPartial( $quote, $offer_match, $quote,
                                                       $ini, $locale, $module, $Language, $product_name,
                                                       $ProductID, $CategoryID );
                     }
-                    if ( $match )
-                        break;
+                }
+                else
+                {
+                    $offers = eZQuote::getAllOffers( $ProductID, true, $Price );
+                    $match = false;
+                    foreach( $offers as $offer_match )
+                    {
+                        if ( $offer_match->type() == QUOTE_ALL_TYPE && $quote_type == QUOTE_ALL_TYPE )
+                        {
+                            $match = matchAllAll( $quote, $offer_match, $quote,
+                            $ini, $locale, $module, $Language, $product_name,
+                            $ProductID, $CategoryID );
+                        }
+                        else if ( $offer_match->type() == QUOTE_ALL_TYPE && $quote_type == QUOTE_PARTIAL_TYPE )
+                        {
+                            $match = matchPartialAll( $quote, $offer_match, $quote,
+                            $ini, $locale, $module, $Language, $product_name,
+                            $ProductID, $CategoryID );
+                        }
+                        else if ( $offer_match->type() == QUOTE_PARTIAL_TYPE && $quote_type == QUOTE_ALL_TYPE )
+                        {
+                            $match = matchAllPartial( $quote, $offer_match, $quote,
+                            $ini, $locale, $module, $Language, $product_name,
+                            $ProductID, $CategoryID );
+                        }
+                        else if ( $offer_match->type() == QUOTE_PARTIAL_TYPE && $quote_type == QUOTE_PARTIAL_TYPE )
+                        {
+                            $match = matchPartialPartial( $quote, $offer_match, $quote,
+                            $ini, $locale, $module, $Language, $product_name,
+                            $ProductID, $CategoryID );
+                        }
+                        if ( $match )
+                            break;
+                    }
                 }
                 break;
             }
@@ -644,9 +742,12 @@ if ( !$match )
     $t->set_block( "quote_edit_tpl", "quote_rfq_price_tpl", "quote_rfq_price" );
 
     $t->set_block( "quote_edit_tpl", "best_quote_tpl", "best_quote" );
+    $t->set_block( "best_quote_tpl", "best_quote_values_tpl", "best_quote_values" );
+    $t->set_block( "best_quote_tpl", "best_quote_rfq_values_tpl", "best_quote_rfq_values" );
     $t->set_block( "best_quote_tpl", "best_quote_all_type_tpl", "best_quote_all_type" );
     $t->set_block( "best_quote_tpl", "best_quote_any_type_tpl", "best_quote_any_type" );
     $t->set_block( "best_quote_tpl", "quote_best_price_tpl", "quote_best_price" );
+    $t->set_block( "best_quote_tpl", "quote_best_rfq_price_tpl", "quote_best_rfq_price" );
 
     $t->set_block( "quote_edit_tpl", "edit_quote_tpl", "edit_quote" );
     $t->set_block( "edit_quote_tpl", "quote_all_type_tpl", "quote_all_type" );
@@ -702,8 +803,6 @@ if ( !$match )
     $t->set_var( "product_id", $product_id );
     $t->set_var( "category_id", $CategoryID );
     $t->set_var( "quote_id", $QuoteID );
-//      if ( ( isset( $quote_type ) and is_numeric( $quote_type ) ) || ( !isset( $quote_type ) ) )
-//          $quote_type = $Action;
     $t->set_var( "quote_type", $Action );
 
     $t->set_var( "cur_quantity", $quantity );
@@ -712,11 +811,44 @@ if ( !$match )
 
     $t->set_var( "high_price", $high_price );
 
+    $t->set_var( "quote_best_price", "" );
+    $t->set_var( "quote_best_rfq_price", "" );
+    $t->set_var( "best_quote_values", "" );
+    $t->set_var( "best_quote_rfq_values", "" );
+
     if ( get_class( $best_quote ) == "ezquote" )
     {
         $t->set_var( "best_quantity", $best_quote->quantity() );
-        $currency = new eZCurrency( $best_quote->price() );
-        $t->set_var( "best_price", $locale->format( $currency ) );
+        if ( $Action == "rfq" )
+        {
+            $currency = new eZCurrency( $best_quote->price() );
+            $t->set_var( "best_price", $locale->format( $currency ) );
+            $t->parse( "quote_best_price", "quote_best_price_tpl" );
+            if ( $quote->offerLink() )
+                $t->parse( "best_quote_rfq_values", "best_quote_rfq_values_tpl" );
+            else
+                $t->parse( "best_quote_values", "best_quote_values_tpl" );
+        }
+        else if ( $best_quote->quoteState() != RFQ_TYPE )
+        {
+            $currency = new eZCurrency( $best_quote->price() );
+            $t->set_var( "best_price", $locale->format( $currency ) );
+            if ( get_class( $quote ) == "ezquote" and $quote->rfqLink() == $best_quote->id() )
+            {
+                $t->parse( "quote_best_price", "quote_best_price_tpl" );
+                $t->parse( "best_quote_rfq_values", "best_quote_rfq_values_tpl" );
+            }
+            else
+            {
+                $t->parse( "quote_best_price", "quote_best_price_tpl" );
+                $t->parse( "best_quote_values", "best_quote_values_tpl" );
+            }
+        }
+        else
+        {
+            $t->parse( "quote_best_rfq_price", "quote_best_rfq_price_tpl" );
+            $t->parse( "best_quote_rfq_values", "best_quote_rfq_values_tpl" );
+        }
         $t->set_var( "best_days", $best_quote->expireDays() );
         $t->set_var( "best_expire_date", $locale->format( $best_quote->expireDate() ) );
         if ( $best_quote->type() == QUOTE_ALL_TYPE )
@@ -740,7 +872,8 @@ if ( !$match )
 
     $t->set_var( "quote_show_quantity", "" );
     $t->set_var( "quote_edit_quantity", "" );
-    if ( $Action == "request" )
+    if ( $Action == "request" or
+         ( get_class( $quote ) == "ezquote" and $quote->quoteState() == OFFER_TYPE and $quote->rfqLink() ) )
     {
         $t->parse( "quote_show_quantity", "quote_show_quantity_tpl" );
     }
@@ -749,7 +882,7 @@ if ( !$match )
         $t->parse( "quote_edit_quantity", "quote_edit_quantity_tpl" );
     }
 
-    if ( $Action != "rfq" )
+    if ( $Action != "rfq" or $quote->offerLink() )
     {
         $t->parse( "quote_header_price", "quote_header_price_tpl" );
         $t->parse( "quote_edit_price", "quote_edit_price_tpl" );
@@ -762,7 +895,6 @@ if ( !$match )
         $t->set_var( "quote_header_price", "" );
         $t->set_var( "quote_edit_price", "" );
         $t->set_var( "quote_new_price", "" );
-        $t->set_var( "quote_best_price", "" );
         $t->parse( "quote_rfq_price", "quote_rfq_price_tpl" );
     }
 

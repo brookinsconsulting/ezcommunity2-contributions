@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.2 2001/02/03 16:47:15 bf Exp $
+// $Id: menubox.php,v 1.3 2001/02/05 16:12:28 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -23,8 +23,8 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-$user = eZUser::currentUser();
-if ( $user )
+//  $user = eZUser::currentUser();
+//  if ( $user )
 {
     include_once( "classes/INIFile.php" );
     include_once( "classes/eztemplate.php" );

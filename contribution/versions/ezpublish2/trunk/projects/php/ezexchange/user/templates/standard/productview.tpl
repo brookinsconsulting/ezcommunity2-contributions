@@ -17,6 +17,7 @@
 	</tr>
 	<!-- BEGIN quote_item_tpl -->
 	<tr>
+	<!-- BEGIN quote_real_item_tpl -->
 		<td {quote_current}>
 		{quote_expire_date}
 		</td>
@@ -42,6 +43,12 @@
 		<a href="/{module}/product/request/{product_id}/{category_id}/{rfq_id}">{intl-rfq}</a>
 	<!-- END rfq_linked_quote_item_tpl -->
 		</td>
+	<!-- END quote_real_item_tpl -->
+	<!-- BEGIN quote_line_item_tpl -->
+		<td colspan="4">
+		&nbsp;
+		</td>
+	<!-- END quote_line_item_tpl -->
 	</tr>
 	<!-- END quote_item_tpl -->
 	</table>
@@ -82,6 +89,11 @@
 		&nbsp;
 		</td>
 	<!-- END empty_offer_item_tpl -->
+	<!-- BEGIN offer_line_item_tpl -->
+		<td colspan="4">
+		&nbsp;
+		</td>
+	<!-- END offer_line_item_tpl -->
 	<!-- END offer_item_tpl -->
 	</table>
 	</td>

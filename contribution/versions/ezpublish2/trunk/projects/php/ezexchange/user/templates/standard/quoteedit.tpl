@@ -58,7 +58,12 @@
 
 <!-- BEGIN best_quote_tpl -->
 <tr>
+	<!-- BEGIN best_quote_values_tpl -->
 	<td>{intl-best_values}</td>
+	<!-- END best_quote_values_tpl -->
+	<!-- BEGIN best_quote_rfq_values_tpl -->
+	<td>{intl-best_rfq_values}</td>
+	<!-- END best_quote_rfq_values_tpl -->
 	<td>{today}</td>
 	<td>{best_days}</td>
 	<td>{best_expire_date}</td>
@@ -74,6 +79,9 @@
 	<!-- BEGIN quote_best_price_tpl -->
 	<td>{best_price}</td>
 	<!-- END quote_best_price_tpl -->
+	<!-- BEGIN quote_best_rfq_price_tpl -->
+	<td>{intl-rfq}</td>
+	<!-- END quote_best_rfq_price_tpl -->
 </tr>
 <!-- END best_quote_tpl -->
 

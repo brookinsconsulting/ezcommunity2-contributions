@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezquote.php,v 1.8 2001/02/04 19:31:29 jb Exp $
+// $Id: ezquote.php,v 1.9 2001/02/05 16:12:28 jb Exp $
 //
 // Definition of eZQuote class
 //
@@ -100,6 +100,12 @@ class eZQuote
         {
             $db->query( "DELETE FROM eZExchange_UserProductQuoteDict
                          WHERE QuoteID='$id'" );
+            if ( type() == OFFER_TYPE )
+                $db->query( "DELETE FROM eZExchange_OfferRFQDict
+                             WHERE OfferID='$id'" );
+            else if ( type() == RFQ_TYPE )
+                $db->query( "DELETE FROM eZExchange_OfferRFQDict
+                             WHERE RFQID='$id'" );
             $db->query( "DELETE FROM eZExchange_Quote WHERE ID='$id'" );
         }
         return true;
@@ -150,8 +156,50 @@ class eZQuote
         $db =& eZDB::globalDatabase();
         $user =& eZUser::currentUser();
         $userid = $user->id();
+        if ( !$quoteid )
+            $quoteid = $this->ID;
         $db->query( "INSERT INTO eZExchange_UserProductQuoteDict SET
-                                 UserID='$userid', ProductID='$productid', QuoteID='$this->ID'" );
+                                 UserID='$userid', ProductID='$productid', QuoteID='$quoteid'" );
+    }
+
+    function linkWithRFQ( $rfq, $quoteid = false )
+    {
+        if ( get_class( $rfq ) == "ezquote" )
+            $rfqid = $rfq->id();
+        else if ( is_numeric( $rfq ) )
+            $rfqid = $rfq;
+        else
+            return;
+        if ( !$quoteid )
+            $quoteid = $this->ID;
+
+        $db =& eZDB::globalDatabase();
+        $db->query( "INSERT INTO eZExchange_OfferRFQDict SET
+                                 OfferID='$quoteid', RFQID='$rfqid'" );
+    }
+
+    function rfqLink( $quoteid = false )
+    {
+        if ( !$quoteid )
+            $quoteid = $this->ID;
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $qry_array, "SELECT RFQID FROM eZExchange_OfferRFQDict
+                                       WHERE OfferID='$quoteid'", 0, 1 );
+        if ( count( $qry_array ) == 0 )
+            return false;
+        return $qry_array[0]["RFQID"];
+    }
+
+    function offerLink( $quoteid = false )
+    {
+        if ( !$quoteid )
+            $quoteid = $this->ID;
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $qry_array, "SELECT OfferID FROM eZExchange_OfferRFQDict
+                                       WHERE RFQID='$quoteid'", 0, 1 );
+        if ( count( $qry_array ) == 0 )
+            return false;
+        return $qry_array[0]["OfferID"];
     }
 
     function id()
@@ -322,6 +370,42 @@ class eZQuote
     function getQuotes( $productid, $type, $as_object = true, $price = false )
     {
         $db =& eZDB::globalDatabase();
+        $ret_array = array();
+
+        if ( $type == "rfq" )
+        {
+            $minor_sort = "Q.Quantity, Q.Type, Q.ExpireDate";
+            $cond = "IS NULL";
+            $order = "ORDER BY $minor_sort";
+
+            if ( is_numeric( $price ) )
+            {
+                $price_text = "AND Q.Price='$price'";
+            }
+
+            $db->array_query( $qry_array, "SELECT Q.ID FROM eZExchange_UserProductQuoteDict AS UPQD,
+                                                        eZExchange_Quote AS Q
+                                       LEFT JOIN eZExchange_OfferRFQDict AS ORD ON
+                                       Q.ID=ORD.RFQID
+                                       WHERE UPQD.ProductID='$productid' AND Q.ExpireDate >= CURDATE()
+                                         AND UPQD.QuoteID=Q.ID AND Q.Price > 0
+                                         $price_text AND ORD.OfferID IS NOT NULL
+                                         $order" );
+            if ( $as_object )
+            {
+                foreach ( $qry_array as $qry )
+                {
+                    $ret_array[] = new eZQuote( $qry["ID"] );
+                }
+            }
+            else
+            {
+                foreach ( $qry_array as $qry )
+                {
+                    $ret_array[] = $qry["ID"];
+                }
+            }
+        }
 
         $minor_sort = "Q.Quantity, Q.Type, Q.ExpireDate";
         switch( $type )
@@ -330,6 +414,9 @@ class eZQuote
             {
                 $cond = "< '0'";
                 $order = "ORDER BY Q.Price DESC, $minor_sort";
+//                  $join = "LEFT JOIN eZExchange_OfferRFQDict AS ORD
+//                                     ON Q.ID=ORD.OfferID";
+//                  $join_cond = "AND ORD.RFQID IS NULL";
                 break;
             }
             case "rfq":
@@ -343,6 +430,9 @@ class eZQuote
             {
                 $cond = ">= '0'";
                 $order = "ORDER BY Q.Price DESC, $minor_sort";
+                $join = "LEFT JOIN eZExchange_OfferRFQDict AS ORD
+                                   ON Q.ID=ORD.RFQID";
+                $join_cond = "AND ORD.OfferID IS NULL";
                 break;
             }
         }
@@ -367,11 +457,10 @@ class eZQuote
         }
 
         $db->array_query( $qry_array, "SELECT Q.ID FROM eZExchange_UserProductQuoteDict AS UPQD,
-                                                        eZExchange_Quote AS Q
+                                                        eZExchange_Quote AS Q $join
                                        WHERE UPQD.ProductID='$productid' AND Q.ExpireDate >= CURDATE()
-                                         AND UPQD.QuoteID=Q.ID AND Q.Price $cond $price_text
+                                         AND UPQD.QuoteID=Q.ID AND Q.Price $cond $price_text $join_cond
                                        $order" );
-        $ret_array = array();
         if ( $as_object )
         {
             foreach ( $qry_array as $qry )
@@ -409,12 +498,17 @@ class eZQuote
             {
                 $cond = "< '0'";
                 $order = "ORDER BY Q.Price DESC";
+                $join = "LEFT JOIN eZExchange_OfferRFQDict AS ORD
+                                   ON Q.ID=ORD.OfferID";
+                $join_cond = "AND ORD.RFQID IS NULL";
                 break;
             }
             case "rfq":
             {
                 $cond = "IS NULL";
                 $order = "ORDER BY Q.Quantity";
+                $join = "";
+                $join_cond = "";
                 break;
             }
             default:
@@ -422,15 +516,17 @@ class eZQuote
             {
                 $cond = ">= '0'";
                 $order = "ORDER BY Q.Price DESC";
+                $join = "";
+                $join_cond = "";
                 break;
             }
         }
 
         $db->array_query( $qry, "SELECT Q.ID FROM eZExchange_UserProductQuoteDict AS UPQD,
-                                                  eZExchange_Quote AS Q
+                                                  eZExchange_Quote AS Q $join
                                        WHERE UPQD.ProductID='$productid' AND Q.ExpireDate >= CURDATE()
-                                         AND UPQD.QuoteID=Q.ID AND Q.Price $cond
-                                       GROUP BY Q.Price $order LIMIT 1", 0, 1 );
+                                         AND UPQD.QuoteID=Q.ID AND Q.Price $cond $join_cond
+                                         $order LIMIT 1", 0, 1 );
         if ( count( $qry ) == 0 )
             return false;
         if ( $as_object )

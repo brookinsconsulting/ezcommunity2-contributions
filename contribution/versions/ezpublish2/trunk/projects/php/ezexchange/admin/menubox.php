@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.1 2001/01/30 20:12:10 jb Exp $
+// $Id: menubox.php,v 1.2 2001/02/05 16:12:28 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -26,10 +26,10 @@
 // Supply $menuItems to get a menubox
 
 $menuItems = array(
-    array( "/exchange/product/list/", "{intl-products}" ),
-    array( "/exchange/quote/list", "{intl-quotes}" ),
-    array( "/exchange/rfq/list", "{intl-rfqs}" ),
-    array( "/exchange/offer/list", "{intl-offers}" ),
+    array( "/exchange/product/list/", "{intl-products}" )
+//      array( "/exchange/quote/list", "{intl-quotes}" ),
+//      array( "/exchange/rfq/list", "{intl-rfqs}" ),
+//      array( "/exchange/offer/list", "{intl-offers}" ),
     );
 
 ?>
