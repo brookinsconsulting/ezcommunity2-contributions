@@ -20,6 +20,23 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+//!! eZEventCalendar
+//! eZEvent handles events.
+/*!
+  
+*/
+
+/*!TODO
+*/
+
+include_once( "classes/ezdb.php" );
+include_once( "classes/ezdatetime.php" );
+include_once( "classes/eztime.php" );
+
+include_once( "ezgroupeventcalendar/classes/ezgroupnoshow.php" );
+include_once( "ezgroupeventcalendar/classes/ezgroupeventtype.php" );
+
+
 // take two date objects and return an array holding
 // the difference in years, months, weeks, and days
 // we should probably integrate this in a class later on...
@@ -59,22 +76,6 @@ $weeks = round($days / 7);
 $retArr = array('years'=>$years, 'months'=>$months, 'weeks'=>$weeks, 'days'=>$days);
 return $retArr;
 }
-//!! eZEventCalendar
-//! eZEvent handles events.
-/*!
-  
-*/
-
-/*!TODO
-*/
-
-include_once( "classes/ezdb.php" );
-include_once( "classes/ezdatetime.php" );
-include_once( "classes/eztime.php" );
-
-include_once( "ezgroupeventcalendar/classes/ezgroupnoshow.php" );
-include_once( "ezgroupeventcalendar/classes/ezgroupeventtype.php" );
-
 
 class eZGroupEvent
 {
