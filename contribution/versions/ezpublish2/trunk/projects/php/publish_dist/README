@@ -344,6 +344,9 @@ alter table eZFileManager_Folder add WritePermission int DEFAULT '1';
 alter table eZFileManager_Folder add UserID int;
 alter table eZForum_Forum add GroupID int default 0;
 
+
+
+
 ### BETA 2 - BETA 3
 #set a group for eZBugmodule
 alter table eZBug_Module add OwnerGroupID int default 0;
@@ -404,29 +407,30 @@ ALTER TABLE eZForum_Forum  MODIFY  IsModerated int(1) DEFAULT '0' NOT NULL;
 ALTER TABLE eZForum_Message  MODIFY  IsApproved int(1) DEFAULT '1' NOT NULL; 
 
 # eZForum_Message uses y and n instead of 0 and 1. These fixes that:
-select ID, EmailNotice from eZForum_Message;
+SELECT ID, EmailNotice from eZForum_Message;
 
-update eZForum_Message SET EmailNotice='N' where EmailNotice = "";  
+UPDATE eZForum_Message SET EmailNotice='N' WHERE EmailNotice = "";  
 ALTER TABLE eZForum_Message  MODIFY  EmailNotice int(1) DEFAULT '0' NOT NULL; 
-update eZForum_Message SET EmailNotice='0' where EmailNotice = "1";   
-update eZForum_Message SET EmailNotice='1' where EmailNotice = "2";
+UPDATE eZForum_Message SET EmailNotice='0' WHERE EmailNotice = "1";   
+UPDATE eZForum_Message SET EmailNotice='1' WHERE EmailNotice = "2";
 
 # eZForum_Category uses y and n instead of 0 and 1. These fixes that:
 select ID, Private from eZForum_Category;
 
-update eZForum_Category SET Private='N' where Private = "";  
+UPDATE eZForum_Category SET Private='N' WHERE Private = "";  
 ALTER TABLE eZForum_Category  MODIFY  Private int(1) DEFAULT '0' NOT NULL; 
-update eZForum_Category SET Private='0' where Private = "1";   
-update eZForum_Category SET Private='1' where Private = "2";
+UPDATE eZForum_Category SET Private='0' WHERE Private = "1";   
+UPDATE eZForum_Category SET Private='1' WHERE Private = "2";
+ALTER TABLE eZForum_Category CHANGE Private IsPrivate int(1); 
 
 # eZForum_Forum uses y and n instead of 0 and 1. These fixes that:
 select ID, Private from eZForum_Forum;
 
-update eZForum_Forum SET Private='N' where Private = "";  
+UPDATE eZForum_Forum SET Private='N' where Private = "";  
 ALTER TABLE eZForum_Forum  MODIFY  Private int(1) DEFAULT '0' NOT NULL; 
-update eZForum_Forum SET Private='0' where Private = "1";   
-update eZForum_Forum SET Private='1' where Private = "2";
-
+UPDATE eZForum_Forum SET Private='0' WHERE Private = "1";   
+UPDATE eZForum_Forum SET Private='1' WHERE Private = "2";
+ALTER TABLE eZForum_Forum CHANGE Private IsPrivate int(1); 
 
 
 #
