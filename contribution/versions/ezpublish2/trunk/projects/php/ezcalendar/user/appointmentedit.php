@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: appointmentedit.php,v 1.53 2001/09/17 13:58:07 jhe Exp $
+// $Id: appointmentedit.php,v 1.54 2001/09/19 06:31:39 jhe Exp $
 //
 // Created on: <03-Jan-2001 12:47:22 bf>
 //
@@ -260,7 +260,7 @@ if ( $Action == "Insert" || $Action == "Update" )
     
     foreach ( $trusteelist as $trusteduser )
     {
-        if ( $user->ID() == $user->ID() ||
+        if ( $user->ID() == $trusteduser->ID() ||
              in_array( $user->ID(), $trusteduser->getByTrustee() ) )
         {
             $type = new eZAppointmentType( $TypeID );
@@ -395,6 +395,7 @@ if ( $Action == "Insert" || $Action == "Update" )
                                  addZero( $beginDate->month() ),
                                  addZero( $beginDate->day() ), $userID );
                 }
+                die();
             }
             else
             {
@@ -801,6 +802,7 @@ if ( $UserError == false )
 // deletes the dayview cache file for a given day
 function deleteCache( $siteStyle, $language, $year, $month, $day, $userID )
 {
+    print "$siteStyle-$language-$year-$month-$day-$userID<br>";
     @eZFile::unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$userID.cache" );
     @eZFile::unlink( "ezcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$userID.cache" );
     @eZFile::unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$userID-private.cache" );
