@@ -19,7 +19,7 @@
 	<td align="right">
 	<br />
 	<!-- BEGIN product_number_item_tpl -->
-	<span class="boxtext">{intl-nr}:</span> {product_number}
+	<div class="boxtext">{intl-nr}:</div><div class="small">{product_number}</div>
 	<!-- END product_number_item_tpl -->
 	</td>
 </tr>
