@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: payment.php,v 1.84.2.2 2002/03/01 09:04:14 ce Exp $
+// $Id: payment.php,v 1.84.2.3 2002/03/04 08:51:07 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -72,7 +72,6 @@ $ShowExTaxTotal = $ini->read_var( "eZTradeMain", "ShowExTaxTotal" ) == "enabled"
 $ColSpanSizeTotals = $ini->read_var( "eZTradeMain", "ColSpanSizeTotals" );
 $DiscontinueQuantityless = $ini->read_var( "eZTradeMain", "DiscontinueQuantityless" ) == "true";
 $SiteURL =  $ini->read_var( "site", "SiteURL" );
-$PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" );
 
 // Set some variables to defaults.
 $ShowCart = false;
