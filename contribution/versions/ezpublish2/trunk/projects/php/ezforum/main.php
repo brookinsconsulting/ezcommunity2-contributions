@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: main.php,v 1.19 2000/08/07 15:00:30 th-cvs Exp $
+    $Id: main.php,v 1.20 2000/08/09 14:55:18 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -20,6 +20,7 @@ include_once( "$DOCROOT/classes/ezsession.php" );
 include_once( "$DOCROOT/classes/ezforummessage.php" );
 include_once( "$DOCROOT/classes/eztemplate.php" );
 
+echo "yo";
 $session = new eZSession();
 
 $ini = new INIFile( "ezforum.ini" ); // get language settings
@@ -77,11 +78,6 @@ if ( $search )
     
     for ( $i = 0; $i < count ( $headers ); $i++)
     {
-/*        $t->set_var( "message_id", $headers[$i]["Id"] );
-        $t->set_var( "topic", $headers[$i]["Topic"] );
-        $t->set_var( "author", $usr->resolveUser( $headers[$i]["UserId"] ) );
-        $t->set_var( "time", eZforumMessage::formatTime( $headers[$i]["PostingTime"] ) );
-*/
         arrayTemplate( $t, $headers[$i], Array( Array("Id", "message_id"),
                                                 Array("Topic", "topic"),
                                                 Array("UserId", "author"),
