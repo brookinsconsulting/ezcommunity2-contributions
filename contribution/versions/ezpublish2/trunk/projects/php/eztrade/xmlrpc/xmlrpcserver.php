@@ -75,7 +75,7 @@ function &newOrders( $args )
         {
             // set the order item to be exported
             $orderItem->setIsExported( true );
-            $orderItem->store();
+//              $orderItem->store();
 
             $datetime =& $orderItem->date();
 
@@ -117,6 +117,7 @@ function &newOrders( $args )
                     
                     
                     $itemArray[] = new eZXMLRPCStruct( array( "ProductID" => new eZXMLRPCInt( $product->id() ),
+                                                              "RemoteID" => new eZXMLRPCString( $product->remoteID() ),
                                                               "ProductNumber" => new eZXMLRPCInt( $product->productNumber() ),
                                                               "Name" => new eZXMLRPCString( $product->name() ),
                                                               "Count" => new eZXMLRPCInt( $item->count() ),
