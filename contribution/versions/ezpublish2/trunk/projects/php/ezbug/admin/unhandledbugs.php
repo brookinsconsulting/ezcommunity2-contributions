@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: unhandledbugs.php,v 1.6 2001/02/12 18:28:52 fh Exp $
+// $Id: unhandledbugs.php,v 1.7 2001/02/14 09:46:25 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 22:18:56 bf>
@@ -30,9 +30,11 @@ include_once( "ezbug/classes/ezbug.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "classes/eztemplate.php" );
+include_once( "classes/INIFile.php" );
 
 $t = new eZTemplate( "ezbug/admin/" . $ini->read_var( "eZBugMain", "AdminTemplateDir" ),
                      "ezbug/admin/intl", $Language, "unhandledbugs.php" );
+$errorIni = new INIFIle( "ezbug/admin/intl/" . $Language . "/unhandledbugs.php.ini", false );
 
 $t->set_file( array(
     "unhandled_bugs_tpl" => "unhandledbugs.tpl"
@@ -67,7 +69,14 @@ foreach ( $unhandleBugs as $bug )
     $t->set_var( "bug_module_name", $module->name() );
 
     $owner = $bug->user();
-    $t->set_var( "bug_submiter", $owner->name() );
+
+    if( get_class( $owner) == "ezuser" )
+        $t->set_var( "bug_submiter", $owner->name() );
+    else
+    {
+        $errorMsg = $errorIni->read_var( "strings", "unknown" );
+        $t->set_var( "bug_submiter", "Unknown" );
+    }
 
     $t->parse( "bug", "bug_tpl", true );
     $i++;
