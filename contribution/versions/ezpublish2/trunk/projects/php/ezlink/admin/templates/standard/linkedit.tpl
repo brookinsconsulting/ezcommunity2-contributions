@@ -1,4 +1,4 @@
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+wwwwwwwwwwww<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td align="left" valign="bottom">
         <h1>{headline}</h1>
@@ -22,14 +22,31 @@
 <p class="boxtext">{intl-title}:</p>
 <!-- {intl-titleedit} -->
 <input type="text" class="box" name="Title" size="40" value="{title}">
-
-<p class="boxtext">{intl-linkgroup}:</p>
-<!-- {intl-choosegroup} -->
-<select name="LinkGroupID">
+<br />
+<br />
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td align="left" valign="top">
+    <p class="boxtext">{intl-linkgroup}:</p>
+    <!-- {intl-choosegroup} -->
+    <select name="LinkGroupID">
+        <option value="0">{intl-no_topic}</option>
 	<!-- BEGIN link_group_tpl -->
 	<option {is_selected} value="{link_group_id}">{option_level}{link_group_title}</option>
 	<!-- END link_group_tpl -->
-</select>
+    </select>
+    </td align="left" valign="top">
+    <td>
+    <p class="boxtext">{intl-add_linkgroup}:</p>
+    <select multiple size="{num_select_categories}" name="CategoryArray[]">
+        <!-- BEGIN multiple_category_tpl -->
+	<option value="{link_group_id}" {multiple_selected}>&nbsp;{option_level} {link_group_title}</option>
+        <!-- END multiple_category_tpl -->
+    </select>
+    </td>
+</tr>
+</table>
+
 
 <p class="boxtext">{intl-url}: <a href="/link/gotolink/addhit/{link_id}/?Url={url}">{url}</a> </p>
 <!-- {intl-urledit} -->

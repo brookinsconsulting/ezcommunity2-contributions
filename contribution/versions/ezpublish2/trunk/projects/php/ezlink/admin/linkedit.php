@@ -1,5 +1,5 @@
 <?
-// $Id: linkedit.php,v 1.49 2001/06/29 07:08:39 bf Exp $
+// $Id: linkedit.php,v 1.50 2001/06/29 07:51:08 br Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -23,7 +23,7 @@
 //
 
 /*
-  linkedit.php - Redigerer en link.
+  linkedit.php - edit a link.
 */
 
 include_once( "classes/INIFile.php" );
@@ -35,12 +35,12 @@ $error = new INIFile( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", fa
 
 include_once( "classes/eztemplate.php" );
 
+include( "ezlink/classes/ezlinkcategory.php" );
 include( "ezlink/classes/ezlinkgroup.php" );
 include( "ezlink/classes/ezlink.php" );
 include( "ezlink/classes/ezhit.php" );
 
 include_once( "ezlink/classes/ezmeta.php" );
-
 require( "ezuser/admin/admincheck.php" );
 
 if ( isSet ( $DeleteLinks ) )
@@ -138,6 +138,41 @@ if ( $Action == "update" )
             $link->setDescription( $Description );
             $link->setLinkGroupID( $LinkGroupID );
             $link->setKeyWords( $Keywords );
+            $link->setUrl( $Url );
+            
+            $link->setCategoryDefinition( $link );
+
+            // Calculate new and unused categories
+            
+            $old_maincategory = $link->categoryDefinition();
+            $old_categories =& array_unique( array_merge( $old_maincategory->id(),
+                                                          $link->categories( false ) ) );
+            
+            $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
+
+            $remove_categories = array_diff( $old_categories, $new_categories );
+            $add_categories = array_diff( $new_categories, $old_categories );
+
+            $categoryIDArray = array();
+            
+            foreach ( $categoryArray as $cat )
+            {
+                $categoryIDArray[] = $cat->id();
+            }
+
+            foreach ( $remove_categories as $categoryItem )
+            {
+                eZLinkCategory::removeLink( $link, $categoryItem );
+            }
+            
+            // add to categories
+            $category = new eZLinkCategory( $LinkGroupID );
+            $link->setCategoryDefinition( $category );
+
+            foreach ( $add_categories as $categoryItem )
+            {
+                eZLinkCategory::addLink( $link, $categoryItem );
+            }
             
             if ( $Accepted == "1" )
                 $link->setAccepted( true );
@@ -286,6 +321,31 @@ if ( $Action == "insert" )
             
             $link->store();
 
+            // Add to categories.
+            $cat = new eZLinkCategory( $LinkGroupID );
+            $cat->addLink( $link );
+
+            $link->setCategoryDefinition( $cat );
+
+            if ( count( $CategoryArray ) > 0 )
+            {
+                foreach ( $CategoryArray as $categoryItem )
+                {
+                    if ( $categoryItem != $cat->id() )
+                    {
+                        $cat = new eZLinkCategory( $categoryItem );
+                        $cat->addLink( $link );
+                    }
+                }
+            }
+            $linkID = $link->id();
+            $categoryArray = $link->categories();
+            $categoryIDArray = array();
+            foreach ( $categoryArray as $categor )
+            {
+                $categoryIDArray[] = $categor->id();
+            }
+
             if ( isSet ( $Browse ) )
             {
                 $linkID = $link->id();
@@ -311,12 +371,10 @@ if ( $Action == "insert" )
     }
 }
 
-// Sette template filer.
+// set the template files.
 
 $t = new eZTemplate( "ezlink/admin/" . $ini->read_var( "eZLinkMain", "AdminTemplateDir" ),
 "ezlink/admin/" . "/intl", $Language, "linkedit.php" );
-$t->setAllStrings();
-
 $t->setAllStrings();
 
 $t->set_file( array(
@@ -328,6 +386,8 @@ $t->set_block( "link_edit", "link_group_tpl", "link_group" );
 $t->set_block( "link_edit", "image_item_tpl", "image_item" );
 $t->set_block( "link_edit", "no_image_item_tpl", "no_image_item" );
 
+$t->set_block( "link_edit", "multiple_category_tpl", "multiple_category" );
+
 
 
 $languageIni = new INIFIle( "ezlink/admin/intl/" . $Language . "/linkedit.php.ini", false );
@@ -337,7 +397,7 @@ $linkselect = new eZLinkGroup();
 
 $linkGroupList = $linkselect->getTree();
 
-// Template variabler
+// Template variables.
 $message = "Legg til link";
 $submit = "Legg til";
 
@@ -355,8 +415,7 @@ if ( $Action == "new" )
     $t->set_var( "image_item", "" );
     $t->set_var( "no_image_item", "" );
 }
-
-// setter akseptert link som default.
+// set accepted link as default.
 $yes_selected = "selected";
 $no_selected = "";
 
@@ -374,6 +433,8 @@ if ( $Action == "edit" )
     else
     {
         $editlink = new eZLink();
+        
+
         $editlink->get( $LinkID );
 
         $title = $editlink->Title;
@@ -443,7 +504,9 @@ if ( $Action == "edit" )
     
 // Selector
 $link_select_dict = "";
-
+$catCount = count( $linkGroupList );
+$t->set_var( "num_select_categories", min( $catCount, 10 ) );
+$i = 0;
 foreach( $linkGroupList as $linkGroupItem )
 {
     $t->set_var("link_group_id", $linkGroupItem[0]->id() );
@@ -457,16 +520,26 @@ foreach( $linkGroupList as $linkGroupItem )
     {
         $t->set_var( "is_selected", "" );
     }
-
+   
     if ( $linkGroupItem[1] > 0 )
         $t->set_var( "option_level", str_repeat( "&nbsp;", $linkGroupItem[1] ) );
     else
         $t->set_var( "option_level", "" );
 
-
     $link_select_dict[ $linkGroupItem[0]->id() ] = $i;
 
+    if ( $CategoryArray[$i] == $linkGroupItem[0]->id() )
+    {
+        $t->set_var( "multiple_selected", "selected" );
+        $i++;
+    }
+    else
+    {
+        $t->set_var( "multiple_selected", "" );
+    }
+    
     $t->parse( "link_group", "link_group_tpl", true );
+    $t->parse( "multiple_category", "multiple_category_tpl", true );
 }
 
 
