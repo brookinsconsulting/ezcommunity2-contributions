@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: eznewscategory.php,v 1.10 2000/10/13 14:49:57 pkej-cvs Exp $
+// $Id: eznewscategory.php,v 1.11 2000/10/13 20:55:50 pkej-cvs Exp $
 //
 // Definition of eZNewsCategory class
 //

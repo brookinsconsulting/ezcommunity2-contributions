@@ -1,5 +1,5 @@
-<?
-    include_once("eznews/classes/eznewsitemviewer.php");
-    $item=new eZNewsItemViewer( "site.ini" );
+<?php
+    include_once("eznews/user/eznewsuser.php");
+    $item=new eZNewsUser( "site.ini" );
     $item->doActions();
 ?> 

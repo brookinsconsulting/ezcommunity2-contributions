@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: eznewschangetype.php,v 1.12 2000/10/13 11:59:02 pkej-cvs Exp $
+// $Id: eznewschangetype.php,v 1.13 2000/10/13 20:55:50 pkej-cvs Exp $
 //
 // Definition of eZNewsChangeType class
 //

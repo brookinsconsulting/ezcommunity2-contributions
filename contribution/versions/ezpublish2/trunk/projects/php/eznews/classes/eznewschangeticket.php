@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: eznewschangeticket.php,v 1.4 2000/10/13 11:59:02 pkej-cvs Exp $
+// $Id: eznewschangeticket.php,v 1.5 2000/10/13 20:55:50 pkej-cvs Exp $
 //
 // Definition of eZNewsChangeTicket class
 //

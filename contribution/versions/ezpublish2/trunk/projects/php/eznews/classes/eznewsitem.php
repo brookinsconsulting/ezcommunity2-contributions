@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.43 2000/10/13 13:15:38 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.44 2000/10/13 20:55:50 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -105,12 +105,13 @@
     Add logging
     
  */
- 
-include_once( "eznews/classes/eznewsutility.php" );       
+
+include_once( "ezuser/classes/ezuser.php" );
+include_once( "eznews/classes/eznewsutility.php" );
 include_once( "eznews/classes/eznewschangetype.php" );       
 include_once( "eznews/classes/eznewschangeticket.php" );
-include_once( "ezuser/classes/ezuser.php" );
 
+#echo "eZNewsItem<br />\n";
 class eZNewsItem extends eZNewsUtility
 {
     /*!
@@ -2154,7 +2155,10 @@ class eZNewsItem extends eZNewsUtility
     */
     function getIsCanonical()
     {
+        #echo "eZNewsItem::getIsCanonical()<br />\n";
         $this->dirtyUpdate();
+        #echo "\$this->isCanonical " .  $this->isCanonical . "<br />\n";
+                
         return $this->isCanonical;
     }
 

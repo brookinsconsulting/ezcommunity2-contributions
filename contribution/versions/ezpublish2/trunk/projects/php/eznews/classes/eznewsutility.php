@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: eznewsutility.php,v 1.17 2000/10/13 11:59:02 pkej-cvs Exp $
+// $Id: eznewsutility.php,v 1.18 2000/10/13 20:55:50 pkej-cvs Exp $
 //
 // Definition of eZNewsUtility class
 //
@@ -51,10 +51,10 @@
     interface.
 
  */
-
 include_once( "classes/ezdb.php" );
 include_once( "ezsession/classes/ezsession.php" );
 
+#echo "eZNewsUtility<br />\n";
 class eZNewsUtility
 {
     /*!

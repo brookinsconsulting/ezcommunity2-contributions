@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitemviewer.php,v 1.17 2000/10/13 14:49:57 pkej-cvs Exp $
+// $Id: eznewsitemviewer.php,v 1.18 2000/10/13 20:55:50 pkej-cvs Exp $
 //
 // Definition of eZNewsItemViewer class
 //
@@ -212,7 +212,7 @@ class eZNewsItemViewer
      */
     function doAdminAction( $itemNo )
     {
-        #echo "eZNewsItemViewer::doAdminAction()<br>\n";
+        #echo "eZNewsItemViewer::doAdminAction( \$itemNo = $itemNo )<br>\n";
         $continue = true;
         $value = false;
         
@@ -349,7 +349,7 @@ class eZNewsItemViewer
 
     function doAdminCreate( &$itemNo )
     {
-        #echo "eZNewsItemViewer::doAdminCreate()<br>\n";
+        echo "eZNewsItemViewer::doAdminCreate()<br>\n";
         $this->URLObject->getQueries( $queries, "^create\+parent" );
         $count = count( $queries );
         $continue = true;
@@ -403,7 +403,7 @@ class eZNewsItemViewer
      */
     function doAdminEdit( &$itemNo )
     {
-        #echo "eZNewsItemViewer::doAdminEdit()<br>\n";
+        echo "eZNewsItemViewer::doAdminEdit()<br>\n";
         $item = new eZNewsItemCreator( $this->inNewsConfigFileName, $itemNo );
         $item->doAction( "edit", "this" );
     }
@@ -476,7 +476,7 @@ class eZNewsItemViewer
     
     function doAdminBrowse( &$inItemNo )
     {
-        echo "eZNewsItemViewer::doAdminBrowse( \$inItemNo = $inItemNo )<br>\n";
+        #echo "eZNewsItemViewer::doAdminBrowse( \$inItemNo = $inItemNo )<br>\n";
         $value = true;
         
         // Checks if we''re dealing with a special customer.
@@ -932,7 +932,7 @@ class eZNewsItemViewer
         {
             $stringArray = explode( "=", $QueryArray[0] );
             $string = explode( "+", $stringArray[1] );
-            echo $stringArray[0];
+            #echo $stringArray[0];
         }
         
         return $returnString;

@@ -1,5 +1,5 @@
 #
-# $Id: eznews.sql,v 1.15 2000/10/13 14:49:57 pkej-cvs Exp $
+# $Id: eznews.sql,v 1.16 2000/10/13 20:55:50 pkej-cvs Exp $
 #
 # eZNews database schema.
 #
@@ -386,6 +386,8 @@ INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT T
 INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Begravelse',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'flowercategory';
 INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Euro3Plast',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'flowercategory';
 INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Hundehus',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'flowercategory';
+INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Hundehus artikkel 1',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'flowerarticle';
+INSERT INTO eZNews_Item (ItemTypeID, Name, CreationIP, Status) SELECT DISTINCT Type.ID,  'Hundehus artikkel 2',  'local', CT.ID FROM eZNews_ChangeType AS CT, eZNews_ItemType AS Type WHERE CT.Name = 'publish' AND Type.Name = 'flowerarticle';
 
 INSERT INTO eZNews_Hiearchy (ItemID, ParentID, isCanonical) SELECT DISTINCT Item.ID, '0', 'Y' FROM eZNews_Item AS Item, eZNews_Item AS Parent WHERE Item.Name = 'Root';
 INSERT INTO eZNews_Hiearchy (ItemID, ParentID, isCanonical) SELECT DISTINCT Item.ID, Parent.ID, 'Y' FROM eZNews_Item AS Item, eZNews_Item AS Parent WHERE Item.Name = 'Heistad Hagesenter' AND Parent.Name = 'Root';
@@ -397,6 +399,8 @@ INSERT INTO eZNews_Hiearchy (ItemID, ParentID, isCanonical) SELECT DISTINCT Item
 INSERT INTO eZNews_Hiearchy (ItemID, ParentID, isCanonical) SELECT DISTINCT Item.ID, Parent.ID, 'Y' FROM eZNews_Item AS Item, eZNews_Item AS Parent WHERE Item.Name = 'Begravelse' AND Parent.Name = 'Heistad Hagesenter';
 INSERT INTO eZNews_Hiearchy (ItemID, ParentID, isCanonical) SELECT DISTINCT Item.ID, Parent.ID, 'Y' FROM eZNews_Item AS Item, eZNews_Item AS Parent WHERE Item.Name = 'Euro3Plast' AND Parent.Name = 'Heistad Hagesenter';
 INSERT INTO eZNews_Hiearchy (ItemID, ParentID, isCanonical) SELECT DISTINCT Item.ID, Parent.ID, 'Y' FROM eZNews_Item AS Item, eZNews_Item AS Parent WHERE Item.Name = 'Hundehus' AND Parent.Name = 'Heistad Hagesenter';
+INSERT INTO eZNews_Hiearchy (ItemID, ParentID, isCanonical) SELECT DISTINCT Item.ID, Parent.ID, 'Y' FROM eZNews_Item AS Item, eZNews_Item AS Parent WHERE Item.Name = 'Hundehus artikkel 1' AND Parent.Name = 'Hundehus';
+INSERT INTO eZNews_Hiearchy (ItemID, ParentID, isCanonical) SELECT DISTINCT Item.ID, Parent.ID, 'Y' FROM eZNews_Item AS Item, eZNews_Item AS Parent WHERE Item.Name = 'Hundehus artikkel 2' AND Parent.Name = 'Hundehus';
 
 INSERT INTO eZNews_Category (ID, PublicDescriptionID, PrivateDescriptionID ) SELECT DISTINCT ID,  '0', '0' FROM eZNews_Item AS Item WHERE Item.Name = 'Root';
 INSERT INTO eZNews_Category (ID, PublicDescriptionID, PrivateDescriptionID ) SELECT DISTINCT ID,  '0', '0' FROM eZNews_Item AS Item WHERE Item.Name = 'Heistad Hagesenter';
@@ -408,6 +412,9 @@ INSERT INTO eZNews_Category (ID, PublicDescriptionID, PrivateDescriptionID ) SEL
 INSERT INTO eZNews_Category (ID, PublicDescriptionID, PrivateDescriptionID ) SELECT DISTINCT ID,  '0', '0' FROM eZNews_Item AS Item WHERE Item.Name = 'Begravelse';
 INSERT INTO eZNews_Category (ID, PublicDescriptionID, PrivateDescriptionID ) SELECT DISTINCT ID,  '0', '0' FROM eZNews_Item AS Item WHERE Item.Name = 'Euro3Plast';
 INSERT INTO eZNews_Category (ID, PublicDescriptionID, PrivateDescriptionID ) SELECT DISTINCT ID,  '0', '0' FROM eZNews_Item AS Item WHERE Item.Name = 'Hundehus';
+
+INSERT INTO eZNews_Article (ID) SELECT DISTINCT ID FROM eZNews_Item AS Item WHERE Item.Name = 'Hundehus artikkel 1';
+INSERT INTO eZNews_Article (ID) SELECT DISTINCT ID FROM eZNews_Item AS Item WHERE Item.Name = 'Hundehus artikkel 2';
 
 
 DROP TABLE eZNews_ItemPosition;

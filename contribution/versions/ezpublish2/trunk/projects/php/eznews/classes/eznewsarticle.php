@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: eznewsarticle.php,v 1.12 2000/10/13 14:49:57 pkej-cvs Exp $
+// $Id: eznewsarticle.php,v 1.13 2000/10/13 20:55:50 pkej-cvs Exp $
 //
 // Definition of eZNewsArticle class
 //
@@ -499,6 +499,6 @@ class eZNewsArticle extends eZNewsItem
     
     /*  This is the 'read more' text to go from the lead in to the story */
     var $LinkText = '';
-}
+};
 
 ?>

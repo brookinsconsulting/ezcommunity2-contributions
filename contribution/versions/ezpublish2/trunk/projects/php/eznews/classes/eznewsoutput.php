@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: eznewsoutput.php,v 1.3 2000/10/12 12:29:47 pkej-cvs Exp $
+// $Id: eznewsoutput.php,v 1.4 2000/10/13 20:55:50 pkej-cvs Exp $
 //
 // Definition of eZNewsOutput class
 //
@@ -22,7 +22,6 @@
 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/INIFile.php" );        
-include_once( "eznews/classes/eznewsitemviewer.php" );
 
 class eZNewsOutput extends eZTemplate
 {
@@ -41,8 +40,8 @@ class eZNewsOutput extends eZTemplate
 
         $this->AdminLanguagePath = $DocumentPath . "/admin/intl/";
         $this->AdminTemplatePath = $DocumentPath . "/admin/" . $TemplatePath;
-        $this->LanguagePath = $DocumentPath . "/intl/";
-        $this->TemplatePath = $DocumentPath . $TemplatePath;
+        $this->LanguagePath = $DocumentPath . "/user/intl/";
+        $this->TemplatePath = $DocumentPath . "/user/" . $TemplatePath;
         $this->DocumentPath = $DocumentPath;
         $this->Language = $Language;
     }
@@ -78,7 +77,7 @@ class eZNewsOutput extends eZTemplate
         This function inializes the template of this object to point to files
         in the public section.
      */
-    function readTemplate( $inSubPath, $inLanguageFileName )
+    function readUserTemplate( $inSubPath, $inLanguageFileName )
     {
         #echo "eZNewsOutput::readTemplate( \$inSubPath = $inSubPath, \$inLanguageFileName = $inLanguageFileName )<br \>\n";
 
@@ -167,3 +166,5 @@ class eZNewsOutput extends eZTemplate
     /* The language of this session */
     var $Language;
 };
+
+?>
