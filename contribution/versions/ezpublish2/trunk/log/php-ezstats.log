@@ -461,3 +461,19 @@ Maintainer(s) : br@ez.no
     to the eZStats_Archive_RefererURL table where "Language" was missing in
     cron.php.
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2002-08-26  Bjoern Reiten  <br@ez.no>
+
+    * admin/cron.php: fixed som bugs with date.
+
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2003-01-07  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezpageviewquery.php: fixed bug with dayview.
+

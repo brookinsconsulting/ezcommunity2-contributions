@@ -3528,3 +3528,26 @@ Maintainer(s) : bf@ez.no
     * user/articleview.php:
     Made keywords available in articleview.tpl and as a variable which can be used in frame.php
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2003-01-03  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezqdomgenerator.php
+      classes/ezqdomrenderer.php
+      user/templates/standard/articletags.tpl: added rollover tag.
+
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2003-01-07  Bjoern Reiten  <br@ez.no>
+
+    * admin/templates/standard/imagelist.tpl
+      classes/ezarticle.php
+      classes/ezqdomrenderer.php
+      admin/imagelist.php: added updates from Kadooz ApS.
+    Fix for mail link.
+    Added up / down arrows for images to an article.
+
