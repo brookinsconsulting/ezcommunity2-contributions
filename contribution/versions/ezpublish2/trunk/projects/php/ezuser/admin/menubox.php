@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.13 2001/01/23 16:11:32 bf Exp $
+// $Id: menubox.php,v 1.14 2001/01/23 16:42:54 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -41,8 +41,6 @@ $t->set_block( "menu_box_tpl", "menu_item_tpl", "menu_item" );
 
 $t->set_var( "site_style", $SiteStyle );
 $t->set_var( "module_dir", $module_dir );
-
-print( $module_dir );
 
 
 $menuItems = array(
