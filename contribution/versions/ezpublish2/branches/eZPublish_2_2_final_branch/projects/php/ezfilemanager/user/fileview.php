@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileview.php,v 1.16 2001/09/22 11:32:13 master Exp $
+// $Id: fileview.php,v 1.16.2.1 2002/02/14 09:35:03 jhe Exp $
 //
 // Created on: <04-Jan-2001 16:47:23 ce>
 //
@@ -78,6 +78,8 @@ if ( $FileID != 0 )
 
     $parent_folder = $file->folder();
 
+    $t->set_var( "folder_name", $parent_folder->name() );
+    
     // tempo fix for admin users - maybe in the future must be changed
     if ( $parent_folder != 0 && ! eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
     {
