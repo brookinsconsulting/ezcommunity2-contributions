@@ -1707,6 +1707,25 @@ CREATE TABLE eZTodo_Priority (
 ) TYPE=MyISAM;
 
 #
+# Table structure for table 'eZTodo_Status'
+#
+
+DROP TABLE IF EXISTS eZTodo_Status;
+CREATE TABLE eZTodo_Status (
+  Description text,
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  Name varchar(30),
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'eZTodo_Status'
+#
+
+INSERT INTO eZTodo_Status VALUES (NULL,1,'Not done');
+INSERT INTO eZTodo_Status VALUES (NULL,2,'Done');
+
+#
 # Table structure for table 'eZTodo_Todo'
 #
 
@@ -2309,8 +2328,9 @@ INSERT INTO eZUser_GroupPermissionLink VALUES (80,1,41,'true');
 INSERT INTO eZUser_GroupPermissionLink VALUES (81,1,42,'true');
 INSERT INTO eZUser_GroupPermissionLink VALUES (82,1,43,'true');
 INSERT INTO eZUser_GroupPermissionLink VALUES (83,1,44,'true');
-
-
+INSERT INTO eZUser_GroupPermissionLink VALUES (84,1,45,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (85,1,46,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (86,1,47,'true');
 
 #
 # Table structure for table 'eZUser_Module'
@@ -2392,6 +2412,9 @@ INSERT INTO eZUser_Permission VALUES (41,6,'CompanyView');
 INSERT INTO eZUser_Permission VALUES (42,6,'CompanyList');
 INSERT INTO eZUser_Permission VALUES (43,6,'TypeAdmin');
 INSERT INTO eZUser_Permission VALUES (44,6,'Consultation');
+INSERT INTO eZUser_Permission VALUES (45,4,'ViewOtherUsers');
+INSERT INTO eZUser_Permission VALUES (46,4,'AddOthers');
+INSERT INTO eZUser_Permission VALUES (47,4,'EditOthers');
 
 #
 # Table structure for table 'eZUser_User'
