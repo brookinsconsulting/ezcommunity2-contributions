@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezusergroup.php,v 1.14 2001/02/14 11:10:05 fh Exp $
+// $Id: ezusergroup.php,v 1.15 2001/02/14 15:39:23 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -230,15 +230,15 @@ class eZUserGroup
     }
     
     /*!
-      \static
-      Returns true if the user $user is a member of the group $group.
+      Returns true if the user $user is a member of the group
+      $user is of type eZUser
      */
-    function isMember( $user, $groupID )
+    function isMember( $user )
     {
-        if( get_class( $user ) == "ezuser" && $groupID > -1 )
+        if( get_class( $user ) == "ezuser" )
         {
-            $userList = $this->users( $groupID );
-            if( count( $userlist ) > 0 )
+            $userList = $this->users( $this->$ID );
+            if( count( $userList ) > 0 )
             {
                 foreach( $userList as $usr )
                 {
