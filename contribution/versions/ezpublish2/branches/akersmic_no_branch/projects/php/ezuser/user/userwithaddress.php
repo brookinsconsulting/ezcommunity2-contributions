@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: userwithaddress.php,v 1.75.2.1.4.3 2002/01/30 13:08:25 bf Exp $
+// $Id: userwithaddress.php,v 1.75.2.1.4.4 2002/01/30 17:09:48 ce Exp $
 //
 // Created on: <10-ct-2000 12:52:42 bf>
 //
@@ -99,6 +99,7 @@ $t->set_block( "user_edit_tpl", "edit_user_info_tpl", "edit_user_info" );
 
 $t->set_block( "user_edit_tpl", "ok_button_tpl", "ok_button" );
 $t->set_block( "user_edit_tpl", "submit_button_tpl", "submit_button" );
+$t->set_block( "user_edit_tpl", "user_logged_in_tpl", "user_logged_in" );
 
 $t->set_var( "error_login", "" );
 $t->set_var( "error_login_exists", "" );
@@ -122,6 +123,7 @@ $t->set_var( "email_value", "$Email" );
 $t->set_var( "password_value", "$Password" );
 $t->set_var( "verify_password_value", "$VerifyPassword" );
 $t->set_var( "address_actions", "" );
+$t->set_var( "user_logged_in", "" );
 
 if ( $AutoCookieLogin == "on" )
 {
@@ -147,6 +149,7 @@ $t->set_var( "edit_user_info", "" );
 if ( get_class( $user ) == "ezuser" )
 {
     $t->parse( "submit_button", "submit_button_tpl" );
+    $t->parse( "user_logged_in", "user_logged_in_tpl" );
     $t->parse( "edit_user", "edit_user_tpl" );
     $t->parse( "edit_user_info", "edit_user_info_tpl" );
 }
