@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezusergroup.php,v 1.11 2001/01/22 14:56:46 ce Exp $
+// $Id: ezusergroup.php,v 1.12 2001/01/22 16:04:02 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -241,7 +241,7 @@ class eZUserGroup
     /*!
       Returns the users who is a member of the eZUserGroup object.
     */
-    function users( $GroupID = false, $order="Login" )
+    function users( $GroupID = false, $order="Login", $search = false )
     {
         switch ( $order )
         {
@@ -280,9 +280,14 @@ class eZUserGroup
         $ret = array();
         $db =& eZDB::globalDatabase();
 
+        $query = new eZQuery( array( "U.FirstName", "U.LastName",
+                                     "U.Login", "U.Email" ), $search );
+
         $db->array_query( $user_array, "SELECT UGL.UserID FROM eZUser_UserGroupLink AS UGL,
                                                                eZUser_User AS U
-                                                   WHERE UGL.GroupID='$GroupID' AND UGL.UserID=U.ID ORDER By $orderBy" );
+                                                   WHERE UGL.GroupID='$GroupID' AND UGL.UserID=U.ID
+                                                   AND ( " . $query->buildQuery() . " )
+                                                   ORDER By $orderBy" );
         foreach ( $user_array as $user )
         {
             $ret[] = new eZUser( $user["UserID"] );
