@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.7 2001/09/03 10:22:42 bf Exp $
+// $Id: datasupplier.php,v 1.8 2001/09/27 11:48:27 br Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -23,9 +23,45 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+include_once( "ezuser/classes/ezpermission.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
+include_once( "classes/ezhttptool.php" );
+include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezimagecatalogue/classes/ezimagecategory.php" );
+include_once( "ezimagecatalogue/classes/ezimage.php" );
+
+function writeAtAll()
+{
+    $user =& eZUser::currentUser();
+    if( eZObjectPermission::getObjects( "imagecatalogue_category", 'w', true ) < 1
+        && !eZPermission::checkPermission( $user, "eZImageCatalogue", "WriteToRoot" ) )
+    {
+        $text = "You do not have write permission to any categories";
+        $info = urlencode( $text );
+        eZHTTPTool::header( "Location: /error/403?Info=$info" );
+        exit();
+    }
+    return true;
+}
+
 
 switch ( $url_array[2] )
 {
+        case "customimage" :
+    {
+        $ImageID = $url_array[3];
+        $ImageWidth = $url_array[4];
+        $ImageHeight = $url_array[5];
+        include( "ezimagecatalogue/admin/customimage.php" );
+    }
+    break;
+
+    case "search" :
+    {
+        include( "ezimagecatalogue/admin/imagelist.php" );
+    }
+    break;
+
     case "browse":
     {
         $CategoryID = $url_array[3];
@@ -46,8 +82,171 @@ switch ( $url_array[2] )
         include( "ezimagecatalogue/admin/unassigned.php" );
     }
 
+    case "imageview" :
+    {
+        $ImageID = $url_array[3];
+        $VariationID = $url_array[4];
+        include( "ezimagecatalogue/admin/imageview.php" );
+    }
+    break;
+
+    case "image" :
+    {
+        switch ( $url_array[3] )
+        {
+            case "list" :
+            {
+                $CategoryID = $url_array[4];
+                if ( !is_numeric($CategoryID ) )
+                    $CategoryID = 0;
+                $Offset = $url_array[6];
+                if ( $Offset == "" )
+                    $Offset = 0;
+                include( "ezimagecatalogue/admin/imagelist.php" );
+            }
+            break;
+
+            case "new" :
+            {
+                writeAtAll();
+                $Action = "New";
+                include( "ezimagecatalogue/admin/imageedit.php" );
+            }
+            break;
+            
+            case "Insert" :
+            {
+                writeAtAll();
+                $Action = "Insert";
+                include( "ezimagecatalogue/admin/imageedit.php" );
+            }
+            break;
+
+            case "edit" :
+            {
+                $ImageID = $url_array[4];
+                $Action = "Edit";
+                if( ( eZImage::isOwner( $user, $ImageID ) ||
+                     eZObjectPermission::hasPermission( $ImageID, "imagecatalogue_image", 'w' ) )
+                    && writeAtAll() )
+                {
+                    include( "ezimagecatalogue/admin/imageedit.php" );
+                }
+                else
+                {
+                    eZHTTPTool::header( "Location: /error/403" );
+                    exit();
+                }
+            }
+            break;
+
+            case "update" :
+            {
+                $ImageID = $url_array[4];
+                $Action = "Update";
+                if( ( eZImage::isOwner( $user, $ImageID ) ||
+                     eZObjectPermission::hasPermission( $ImageID, "imagecatalogue_image", 'w' ) )
+                    && writeAtAll() )
+                    include( "ezimagecatalogue/admin/imageedit.php" );
+                else
+                {
+                    eZHTTPTool::header( "Location: /error/403" );
+                    exit();
+                }
+            }
+            break;
+            default :
+            {
+                eZHTTPTool::header( "Location: /error/404" );
+                exit();
+            }
+        }
+    }
+    break;
+
+    case "download" :
+    {
+        $ImageID = $url_array[3];
+        if ( !is_numeric( $ImageID ) )
+            $ImageID = 0;
+        if ( ( eZImage::isOwner( $user, $ImageID ) ||
+              eZObjectPermission::hasPermission( $ImageID, "imagecatalogue_image", 'r' ) ) )
+            include( "ezimagecatalogue/admin/filedownload.php" );
+        else
+        {
+            eZHTTPTool::header( "Location: /error/404" );
+            exit();
+        }
+    }
+    break;
+
+    case "category" :
+    {
+        switch( $url_array[3] )
+        {
+           
+            case "new" :
+            {
+                writeAtAll();
+                $CurrentCategoryID = $url_array[4];
+                $Action = "New";
+                include( "ezimagecatalogue/admin/categoryedit.php" );
+            }
+            break;
+
+            case "insert" :
+            {
+                writeAtAll();
+                $Action = "Insert";
+                include( "ezimagecatalogue/admin/categoryedit.php" );
+            }
+            break;
+
+            case "edit" :
+            {
+                $Action = "Edit";
+                $CategoryID = $url_array[4];
+                if( ( eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", 'w' ) ||
+                      eZImageCategory::isOwner( $user, $CategoryID ) )
+                    && writeAtAll() )
+                {
+                    include( "ezimagecatalogue/admin/categoryedit.php" );
+                }
+                else
+                {
+                    eZHTTPTool::header( "Location: /error/403" );
+                    exit();
+                }
+            }
+            break;
+
+            case "update" :
+            {
+                $Action = "Update";
+                $CategoryID = $url_array[4];
+                if( ( eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", 'w' ) ||
+                     eZImageCategory::isOwner( $user, $CategoryID ) )
+                    && writeAtAll() )
+                {
+                    include( "ezimagecatalogue/admin/categoryedit.php" );
+                }
+                else
+                {
+                    $info= urlencode( "You have no permission to update categories" );
+                    eZHTTPTool::header( "Location: /error/403?Info=$info" );
+                    exit();
+                }
+
+            }
+            break;
+        }
+    }
+    break;
+
+    
     default:
-        include( "ezimagecatalogue/user/datasupplier.php" );
+        $info = urlencode( "This page does not exist!" );
+        eZHTTPTool::header( "Location: /error/403?Info=$info" );
     
 }
 

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.24 2001/09/19 16:01:59 bf Exp $
+// $Id: datasupplier.php,v 1.25 2001/09/27 11:48:27 br Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -229,16 +229,20 @@ switch ( $url_array[2] )
                 }
                 else
                 {
-                    eZHTTPTool::header( "Location: /error/403?Info=FUCK" );
+                    $info= urlencode( "You have no permission to update categories" );
+                    eZHTTPTool::header( "Location: /error/403?Info=$info" );
                     exit();
                 }
 
             }
             break;
-
-
         }
     }
     break;
+
+    default:
+        $info = urlencode( "This page does not exist!" );
+        eZHTTPTool::header( "Location: /error/403?Info=$info" );
+
 }
 ?>

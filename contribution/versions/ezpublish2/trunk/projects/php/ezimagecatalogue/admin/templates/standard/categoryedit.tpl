@@ -49,6 +49,13 @@
     <!-- BEGIN value_tpl -->
     <option value="{option_value}" {is_selected}>{option_level}{option_name}</option>
     <!-- END value_tpl -->
+
+    </select></td>
+    <td><p class="boxtext">{intl-section_select}:</p>
+    <select name="SectionID">
+    <!-- BEGIN section_item_tpl -->
+    <option value="{section_id}" {section_is_selected}>{section_name}</option>
+    <!-- END section_item_tpl -->
     </select></td>
 </tr>
 </table>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.26 2001/09/27 11:48:27 br Exp $
+// $Id: categoryedit.php,v 1.1 2001/09/27 11:48:27 br Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -56,8 +56,8 @@ $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZImageCatalogueMain", "Language" );
 
-$t = new eZTemplate( "ezimagecatalogue/user/" . $ini->read_var( "eZImageCatalogueMain", "TemplateDir" ),
-                     "ezimagecatalogue/user/intl/", $Language, "categoryedit.php" );
+$t = new eZTemplate( "ezimagecatalogue/admin/" . $ini->read_var( "eZImageCatalogueMain", "TemplateDir" ),
+                     "ezimagecatalogue/admin/intl/", $Language, "categoryedit.php" );
 
 $t->set_file( "category_edit_tpl", "categoryedit.tpl" );
 
@@ -66,6 +66,7 @@ $t->setAllStrings();
 $t->set_block( "category_edit_tpl", "value_tpl", "value" );
 $t->set_block( "category_edit_tpl", "errors_tpl", "errors" );
 
+$t->set_block( "category_edit_tpl", "section_item_tpl", "section_item" );
 $t->set_block( "category_edit_tpl", "write_group_item_tpl", "write_group_item" );
 $t->set_block( "category_edit_tpl", "read_group_item_tpl", "read_group_item" );
 $t->set_block( "category_edit_tpl", "upload_group_item_tpl", "upload_group_item" );
@@ -175,20 +176,10 @@ if( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
     $category->setName( $Name );
     $category->setDescription( $Description );
 
+    $category->setSectionID( $SectionID );
     
     $parent = new eZImageCategory( $ParentID );
     $category->setParent( $parent );
-
-    // Set section id.
-    if ( $ParentID > 0 )
-    {
-        $sectionID = $parent->sectionID( $ParentID );
-    }
-    else
-    {
-        $sectionID = $ini->read_var( "eZImageCatalogueMain", "DefaultSection" );
-    }
-    $category->setSectionID( $sectionID );
 
     $category->store();
     $CategoryID = $category->id();
@@ -288,6 +279,30 @@ if ( $Action == "Edit" )
     $writeGroupArrayID =& eZObjectPermission::getGroups( $category->id(), "imagecatalogue_category", "w", false );
     $uploadGroupArrayID =& eZObjectPermission::getGroups( $category->id(), "imagecatalogue_category", "u", false );
 }
+
+// Print the sections.
+
+$sectionList =& eZSection::getAll();
+
+if ( count( $sectionList ) > 0 )
+{
+    foreach ( $sectionList as $section )
+    {
+        $t->set_var( "section_id", $section->id() );
+        $t->set_var( "section_name", $section->name() );
+        if ( $sectionID == $section->id() )
+            $t->set_var( "section_is_selected", "selected" );
+        else
+            $t->set_var( "section_is_selected", "" );
+        
+        $t->parse( "section_item", "section_item_tpl", true );
+    }
+}
+else
+    $t->set_var( "section_item", "" );
+
+
+
 
 // Print out all the groups.
 $groups = eZUserGroup::getAll();
