@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.113 2001/09/03 12:18:37 bf Exp $
+// $Id: articleedit.php,v 1.114 2001/09/04 08:14:34 pkej Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -45,7 +45,6 @@ include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
 include_once( "ezarticle/classes/ezarticletool.php" );
 
 $ini =& INIFile::globalINI();
-
 
 // article published from preview
 if ( isset( $PublishArticle ) )
@@ -101,6 +100,9 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
 
         $article->setName( $Name );
 
+        $author = new eZAuthor( $ContentsWriterID );
+        $article->setContentsWriter( $author );
+
         if ( trim( $NewAuthorName ) != "" &&
              trim( $NewAuthorEmail ) != ""
              )
@@ -116,6 +118,7 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
             $author = new eZAuthor( $ContentsWriterID );
             $article->setContentsWriter( $author );
         }
+
         $topic = new eZTopic( $TopicID );
         $article->setTopic( $topic );
 
@@ -146,8 +149,14 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
         $category = new eZArticleCategory( $CategoryID );
         $article->setCategoryDefinition( $category );
             
-
-        $article->setManualKeywords( $Keywords );
+        $iniVar = $ini->read_var( "eZArticleMain", "LowerCaseManualKeywords" );
+        
+        if( $iniVar == "enabled" )
+            $toLower = true;
+        else
+            $toLower = false;
+        
+        $article->setManualKeywords( $Keywords, $toLower );
 
         $categoryArray =& $article->categories();
 
@@ -193,6 +202,7 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
             // check if the article is published now
             if ( $article->isPublished() == false )
             {
+
                 eZArticleTool::notificationMessage( $article );
             }
 
@@ -278,7 +288,6 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
 
             $article->setKeywords( $keywords );
 
-
             $article->store();
             $ArticleID = $article->id();
 
@@ -349,7 +358,9 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
             $categoryID = $category->id();
 
             if ( $article->isPublished() )
-                eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
+            {
+               eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
+            }
             else
                 eZHTTPTool::header( "Location: /article/unpublished/$categoryID/" );
             exit();
