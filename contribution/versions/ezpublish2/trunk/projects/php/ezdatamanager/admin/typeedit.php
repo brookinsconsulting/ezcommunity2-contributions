@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: typeedit.php,v 1.4 2002/02/09 15:06:29 br Exp $
+// $Id: typeedit.php,v 1.5 2002/02/09 16:07:42 br Exp $
 //
 // Created on: <20-Nov-2001 15:04:53 bf>
 //
@@ -112,7 +112,6 @@ if ( isset( $Store ) || isset( $NewItem ) || isSet( $Update ) )
         if ( $EditItemTypeIDArray[$i] == 2 )
         {
             $relationIDString = "TypeRelationID_$itemID";
-//            print( $$relationIDString . ",");
             $relationID = $$relationIDString;
             $item->setRelation( $relationID );
         }
@@ -191,6 +190,13 @@ if ( $TypeID > 0 )
             {
                 $relationIDString = "TypeRelationID_" . $ItemIDArray[$i];
                 $relationID = $$relationIDString;
+
+                if ( !$relationID )
+                {
+                    $item = new eZDataTypeItem( $ItemIDArray[$i] );
+                    $relationID = $item->relationID();
+                }
+
                 parseRelation( $t, $relationID );
             }
             $t->parse( "type_item", "type_item_tpl", true );
