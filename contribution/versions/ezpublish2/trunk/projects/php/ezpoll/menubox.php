@@ -13,3 +13,11 @@
 	</a>
 	</td>
 </tr>
+
+<tr>
+	<td>
+	<a class="menu" href="/poll/result/0/all/">
+    Resultater
+	</a>
+	</td>
+</tr>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcart.php,v 1.5 2000/10/03 09:45:18 bf-cvs Exp $
+// $Id: ezcart.php,v 1.6 2000/10/03 12:06:02 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -217,6 +217,13 @@ class eZCart
         {
             $this->SessionID = $session->id();
         }
+
+        if ( get_class( $session ) == "ezuser" )
+        {
+            $this->SessionID = $session->id();
+        }
+
+        
     }
 
     /*!

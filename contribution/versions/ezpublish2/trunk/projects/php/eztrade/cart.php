@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.6 2000/10/03 10:51:46 bf-cvs Exp $
+// $Id: cart.php,v 1.7 2000/10/03 12:06:02 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -42,17 +42,43 @@ if ( !$session->fetch() )
     $session->store();
 }
 
+$user = eZUser::currentUser();
 // get the cart or create it
-$cart = $cart->getBySession( $session, $CartType );
+if ( $CartType == "Cart" )
+{
+    $cart = $cart->getBySession( $session, $CartType );
+}
+
 if ( !$cart )
 {
-    print( "creating a cart" );
-    $cart = new eZCart();
-    $cart->setSession( $session );
-    $cart->setType( $CartType );
+    if ( $CartType == "Cart" )
+    {
+        print( "creating a cart" );
+        $cart = new eZCart();
+        $cart->setSession( $session );
+        $cart->setType( $CartType );
+        
+        $cart->store();
+    }
+    else
+    {
+        print( "creating a cart" );
 
-    $cart->store();
+        if ( $user )
+        {
+            $cart = new eZCart();
+            $cart->setSession( $session );
+            $cart->setType( $CartType );
+            
+            $cart->store();
+        }
+        else
+        {
+            print( "Error: must log in to create a wishlist" );
+        }
+    }
 }
+//  $cart->delete();
 
 if ( $Action == "AddToBasket" )
 {
