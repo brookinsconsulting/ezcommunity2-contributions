@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezfile.php,v 1.6 2001/01/22 14:42:59 jb Exp $
+// $Id: ezfile.php,v 1.7 2001/02/19 16:37:53 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -94,8 +94,9 @@ class eZFile
 
         if ( ( $this->FileSize == "0" ) || ( $this->FileSize == "" ) )
         {
-            $ret = false;
+            return false;
         }
+        return true;
     }
 
     /*!

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.24 2001/02/12 19:11:20 jb Exp $
+// $Id: ezproductcategory.php,v 1.25 2001/02/19 16:37:53 ce Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -492,7 +492,6 @@ class eZProductCategory
             $this->dbInit();
 
             $prodID = $value->id();
-            print( $prodID );
 
             $this->Database->array_query( $qry, "SELECT Placement FROM eZTrade_ProductCategoryLink
                                                  ORDER BY Placement DESC LIMIT 1" );

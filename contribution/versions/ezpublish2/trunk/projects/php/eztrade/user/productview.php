@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.15 2001/01/29 17:17:41 jb Exp $
+// $Id: productview.php,v 1.16 2001/02/19 16:37:53 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -243,12 +243,15 @@ if ( $type )
             $t->set_var( "begin_tr", "" );
             $t->set_var( "end_tr", "</tr>" );
         }
-        
+
+        $value =& $attribute->value( $product );
         $t->set_var( "attribute_id", $attribute->id( ) );
         $t->set_var( "attribute_name", $attribute->name( ) );
-        $t->set_var( "attribute_value", $attribute->value( $product ) );
+        $t->set_var( "attribute_value", $value );
+
+        if ( $value )
+            $t->parse( "attribute", "attribute_tpl", true );
         
-        $t->parse( "attribute", "attribute_tpl", true );
         $i++;
     }
 }
