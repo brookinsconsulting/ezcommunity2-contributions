@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.31 2002/01/11 13:47:56 jhe Exp $
+// $Id: ezformelement.php,v 1.32 2002/01/14 13:37:44 jhe Exp $
 //
 // ezformelement class
 //
@@ -72,6 +72,7 @@ class eZFormElement
         $name =& $db->escapeString( $this->Name );
         $size =& $db->escapeString( $this->Size );
         $required =& $this->Required;
+        $hide =& $this->Hide;
         
         if ( get_class( $this->ElementType ) == "ezformelementtype" )
         {
@@ -83,9 +84,9 @@ class eZFormElement
             $db->lock( "eZForm_FormElement" );
             $nextID = $db->nextID( "eZForm_FormElement", "ID" );
             $res[] = $db->query( "INSERT INTO eZForm_FormElement
-                         ( ID, Name, Required, Size, Break, ElementTypeID )
+                         ( ID, Name, Required, Size, Break, ElementTypeID, Hide )
                          VALUES
-                         ( '$nextID', '$name', '$required', '$size', '$this->Break', '$elementTypeID' )" );
+                         ( '$nextID', '$name', '$required', '$size', '$this->Break', '$elementTypeID', '$hide' )" );
 
 			$this->ID = $nextID;
 
@@ -98,7 +99,8 @@ class eZFormElement
                                     Required='$required',
                                     Size='$size',
                                     Break='$this->Break',
-                                    ElementTypeID='$elementTypeID'
+                                    ElementTypeID='$elementTypeID',
+                                    Hide='$hide'
                                   WHERE ID='$this->ID'" );
         }
         
@@ -178,6 +180,7 @@ class eZFormElement
         $this->Size =& $formArray[$db->fieldName( "Size" )];
         $this->Break =& $formArray[$db->fieldName( "Break" )];
         $this->ElementType =& new eZFormElementType( $formArray[$db->fieldName( "ElementTypeID" )] );
+        $this->Hide =& $formArray[$db->fieldName( "Hide" )];
     }
 
     /*!
@@ -194,14 +197,14 @@ class eZFormElement
 
         if ( $limit == false )
         {
-            $db->array_query( $formArray, "SELECT ID
+            $db->array_query( $formArray, "SELECT *
                                            FROM eZForm_FormElement
                                            ORDER BY Name DESC" );
 
         }
         else
         {
-            $db->array_query( $formArray, "SELECT ID
+            $db->array_query( $formArray, "SELECT *
                                            FROM eZForm_FormElement
                                            ORDER BY Name DESC",
                                            array( "Limit" => $limit, "Offset" => $offset ) );
@@ -209,7 +212,7 @@ class eZFormElement
 
         for ( $i = 0; $i < count( $formArray ); $i++ )
         {
-            $returnArray[$i] = new eZFormElement( $formArray[$i][$db->fieldName( "ID" )] );
+            $returnArray[$i] = new eZFormElement( $formArray[$i] );
         }
 
         return $returnArray;
@@ -305,6 +308,23 @@ class eZFormElement
     }
 
     /*!
+      Returns true if this element should be hidden in listing
+    */
+    function hide()
+    {
+        if ( $this->Hide == 0 )
+        {
+            $ret = false;
+        }
+        else
+        {
+            $ret = true;
+        }
+        
+        return $ret;
+    }
+
+    /*!
       Returns the ElementType of the object.
     */
     function &elementType()
@@ -361,6 +381,22 @@ class eZFormElement
     }
 
     /*!
+      Sets the break status.
+    */
+    function setHide( $value = false )
+    {
+        if ( $value == true )
+        {
+            $value = 1;
+        }
+        else
+        {
+            $value = 0;
+        }
+        $this->Hide = $value;
+    }
+
+    /*!
       Sets the ElementType.
     */
     function setElementType( &$object )
@@ -385,7 +421,7 @@ class eZFormElement
 
         for ( $i = 0; $i < count( $formArray ); $i++ )
         {
-            $returnArray[$i] = new eZFormElement( $formArray[$i][$db->fieldName( "FormID" )], true );
+            $returnArray[$i] = new eZForm( $formArray[$i][$db->fieldName( "FormID" )], true );
         }
         return $returnArray;
     }
@@ -686,7 +722,7 @@ class eZFormElement
         $db =& eZDB::globalDatabase();
         $db->array_query( $result, "SELECT fer.Result AS Result FROM eZForm_FormResults AS fr,
                                      eZForm_FormElementResult AS fer WHERE
-                                     fer.ResultID=fr.ID AND ElementID='$this->ID'
+                                     fer.ResultID=fr.ID AND fer.ElementID='$this->ID'
                                      AND $where", array( "Limit" => 1, "Offset" => 0 ) );
         
         if ( count( $result ) == 1 )
@@ -749,6 +785,7 @@ class eZFormElement
     var $ElementType;
     var $Break;
     var $Size;
+    var $Hide;
 }
 
 

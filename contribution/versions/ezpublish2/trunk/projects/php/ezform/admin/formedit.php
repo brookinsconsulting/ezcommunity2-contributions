@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formedit.php,v 1.25 2001/12/19 13:44:58 jhe Exp $
+// $Id: formedit.php,v 1.26 2002/01/14 13:37:44 jhe Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -235,7 +235,8 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $Preview ) )
             $formCompletedPage = "";
             $form->setCompletedPage( $formCompletedPage );
         }
-                
+
+        $form->setTitleField( $TitleField );
         $form->store();
         $FormID = $form->id();
         
@@ -275,6 +276,7 @@ $t->set_block( "form_edit_page_tpl", "no_types_item_tpl", "no_types_item" );
 
 $t->set_block( "form_item_tpl", "predefined_instructions_item_tpl", "predefined_instructions_item" );
 $t->set_block( "form_item_tpl", "predefined_completion_item_tpl", "predefined_completion_item" );
+$t->set_block( "form_item_tpl", "element_item_tpl", "element_item" );
 
 // set all page template blocks.
 $pageTemplate->set_block( "pagelist_tpl", "no_page_items_tpl", "no_page_items" );
@@ -283,8 +285,6 @@ $pageTemplate->set_block( "page_list_tpl", "page_item_tpl", "page_item" );
 
 $pageTemplate->set_var( "no_page_items", "" );
 $pageTemplate->set_var( "page_item", "" );
-
-
 
 $t->set_var( "no_types_item", "" );
 $t->set_var( "error_list", "" );
@@ -295,6 +295,7 @@ $t->set_var( "form_completed_page", "" );
 $t->set_var( "form_instruction_page", "" );
 $t->set_var( "form_instruction_page_name", "" );
 $t->set_var( "form_instruction_page_name_b", "" );
+$t->set_var( "element_item", "" );
 
 if ( $form->completedPage() )
 {
@@ -428,12 +429,17 @@ else
     $t->set_var( "DataSender_is_predefined", "" );
 }
 
+$elementList = array();
+
 if ( $FormID )
 {
     $pages =& eZFormPage::getByFormID( $FormID );
 
     if ( count( $pages ) > 0 )
     {
+        $form = new eZForm( $FormID );
+        $elementList = $form->formElements();
+        $ElementID = $form->titleField();
         $i = 0;
         foreach ( $pages as $page )
         {
@@ -453,6 +459,54 @@ if ( $FormID )
             
             $pageTemplate->parse( "page_item", "page_item_tpl", true );
             $i++;
+        }
+    }
+}
+
+foreach ( $elementList as $element )
+{
+    $eType = $element->elementType();
+    if ( $eType->name() == "table_item" )
+    {
+        $table = new eZFormTable( $element->id() );
+        $tableElements = $table->tableElements();
+        foreach ( $tableElements as $te )
+        {
+            $elementList[] = $te;
+            $eT = $element->elementType();
+            if ( !( $eT->name() == "text_label_item" ||
+                    $eT->name() == "text_header_1_item" ||
+                    $eT->name() == "text_header_2_item" ||
+                    $eT->name() == "hr_line_item" ||
+                    $eT->name() == "empty_item" ) )
+            {
+                $t->set_var( "element_id", $te->id() );
+                if ( strlen( $te->name() ) > 40 )
+                    $t->set_var( "element_name", substr( $te->name(), 0, 40 ) . "..." );
+                else
+                    $t->set_var( "element_name", $te->name() );
+
+                $t->set_var( "selected", $ElementID == $te->id() ? "selected" : "" );
+                $t->parse( "element_item", "element_item_tpl", true );
+            }
+        }
+    }
+    else
+    {
+        $elementList[] = $element;
+        if ( !( $eType->name() == "text_label_item" ||
+                $eType->name() == "text_header_1_item" ||
+                $eType->name() == "text_header_2_item" ||
+                $eType->name() == "hr_line_item" ||
+                $eType->name() == "empty_item" ) )
+        {
+            $t->set_var( "element_id", $element->id() );
+            if ( strlen( $element->name() ) > 40 )
+                $t->set_var( "element_name", substr( $element->name(), 0, 40 ) . "..." );
+            else
+                $t->set_var( "element_name", $element->name() );
+            $t->set_var( "selected", $ElementID == $element->id() ? "selected" : "" );
+            $t->parse( "element_item", "element_item_tpl", true );
         }
     }
 }

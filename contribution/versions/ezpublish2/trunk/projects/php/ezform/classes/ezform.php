@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezform.php,v 1.20 2002/01/11 09:13:58 jhe Exp $
+// $Id: ezform.php,v 1.21 2002/01/14 13:37:44 jhe Exp $
 //
 // ezform class
 //
@@ -94,7 +94,8 @@ class eZForm
                             Counter,
                             SendAsUser,
                             Sender,
-                            useDatabaseStorage )
+                            useDatabaseStorage,
+                            TitleField )
                           VALUES
                           ( '$nextID',
                             '$name',
@@ -106,7 +107,8 @@ class eZForm
                             '$counter',
                             '$sendAsUser',
                             '$sender',
-                            '$useDatabaseStorage' )" );
+                            '$useDatabaseStorage',
+                            '$this->TitleField' )" );
 
 			$this->ID = $nextID;
         }
@@ -122,7 +124,8 @@ class eZForm
                                     Counter='$counter',
                                     SendAsUser='$sendAsUser',
                                     Sender='$sender',
-                                    useDatabaseStorage='$useDatabaseStorage'
+                                    useDatabaseStorage='$useDatabaseStorage',
+                                    TitleField='$this->TitleField'
                                   WHERE ID='$this->ID'" );
         }
 
@@ -199,6 +202,7 @@ class eZForm
         $this->SendAsUser =& $formArray[$db->fieldName( "SendAsUser" )];
         $this->Sender =& $formArray[$db->fieldName( "Sender" )];
         $this->UseDatabaseStorage =& $formArray[$db->fieldName( "useDatabaseStorage" )];
+        $this->TitleField =& $formArray[$db->fieldName( "TitleField" )];
     }
 
     /*!
@@ -348,6 +352,14 @@ class eZForm
         return $ret;
     }
 
+    /*!
+      Returns the field that should be used as title
+    */
+    function titleField()
+    {
+        return $this->TitleField;
+    }
+    
    /*!
       Sets the name of the object.
     */
@@ -434,6 +446,11 @@ class eZForm
         $this->InstructionPageName = $value;
     }
 
+    function setTitleField( &$value )
+    {
+        $this->TitleField = $value;
+    }
+
     /*!
       Increases the counter of the object.
     */
@@ -456,14 +473,17 @@ class eZForm
       Returns every form element of this form.
       The form elements are returned as an array of eZFormElement objects.
     */
-    function &formElements()
+    function &formElements( $id = false )
     {
+        if ( !$id )
+            $id = $this->ID;
+        
         $returnArray = array();
         $formArray = array();
         
         $db =& eZDB::globalDatabase();
         
-        $db->array_query( $formArray, "SELECT ElementID FROM eZForm_PageElementDict, eZForm_FormPage WHERE eZForm_PageElementDict.PageID=eZForm_FormPage.ID AND eZForm_FormPage.FormID='$this->ID' order by eZForm_FormPage.Placement, eZForm_PageElementDict.Placement" );
+        $db->array_query( $formArray, "SELECT ElementID FROM eZForm_PageElementDict, eZForm_FormPage WHERE eZForm_PageElementDict.PageID=eZForm_FormPage.ID AND eZForm_FormPage.FormID='$id' order by eZForm_FormPage.Placement, eZForm_PageElementDict.Placement" );
         
         for ( $i = 0; $i < count( $formArray ); $i++ )
         {
@@ -673,6 +693,7 @@ class eZForm
     var $SendAsUser;
     var $Sender;
     var $UseDatabaseStorage;
+    var $TitleField;
 }
 
 ?>

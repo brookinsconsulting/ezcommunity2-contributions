@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: tableedit.php,v 1.12 2001/12/20 09:10:05 jhe Exp $
+// $Id: tableedit.php,v 1.13 2002/01/14 13:37:44 jhe Exp $
 //
 // Created on: <13-Dec-2001 10:51:41 jhe>
 //
@@ -79,6 +79,7 @@ if ( isSet( $OK ) || isSet( $Update ) )
 
         $required = false;
         $break = false;
+        $hide = false;
         if ( count( $elementRequired ) > 0 )
         {
             foreach ( $elementRequired as $requiredID )
@@ -101,9 +102,20 @@ if ( isSet( $OK ) || isSet( $Update ) )
                 }
             }
         }
+        if ( count( $elementHide ) > 0 )
+        {
+            foreach ( $elementHide as $hideID )
+            {
+                if ( $elementID[$i] == $hideID )
+                {
+                    $hide = true;
+                }
+            }
+        }
         
         $element->setBreak( $break );
         $element->setRequired( $required );
+        $element->setHide( $hide );
         
         $element->store();
     }
@@ -212,6 +224,15 @@ for ( $row = 0; $row < $table->rows(); $row++ )
         else
         {
             $elementTemplate->set_var( "element_is_breaking", "" );
+        }
+
+        if ( $element->hide() )
+        {
+            $elementTemplate->set_var( "element_hide", "checked" );
+        }
+        else
+        {
+            $elementTemplate->set_var( "element_hide", "" );
         }
 
         $elementTemplate->set_var( "fixed_values", "" );

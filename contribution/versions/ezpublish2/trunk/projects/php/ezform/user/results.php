@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: results.php,v 1.1 2002/01/11 09:13:59 jhe Exp $
+// $Id: results.php,v 1.2 2002/01/14 13:37:44 jhe Exp $
 //
 // Created on: <10-Jan-2002 08:58:22 jhe>
 //
@@ -112,6 +112,7 @@ foreach ( $results as $result )
 {
     $t->set_var( "td_class", $i % 2 == 0 ? "bglight" : "bgdark" );
     $t->set_var( "result_id", $result );
+    $t->set_var( "title", eZFormElement::getResult( $result, $form->titleField() ) );
     $t->parse( "result", "result_tpl", true );
     $i++;
 }

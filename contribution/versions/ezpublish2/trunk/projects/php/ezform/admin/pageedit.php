@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.32 2002/01/03 12:55:53 jhe Exp $
+// $Id: pageedit.php,v 1.33 2002/01/14 13:37:44 jhe Exp $
 //
 // Definition of ||| class
 //
@@ -222,6 +222,7 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $NewElement ) )
         
         $required = false;
         $break = false;
+        $hide = false;
         if ( count( $elementRequired ) > 0 )
         {
             foreach ( $elementRequired as $requiredID )
@@ -242,8 +243,19 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $NewElement ) )
                 }
             }
         }
+        if ( count( $elementHide ) > 0 )
+        {
+            foreach ( $elementHide as $hideID )
+            {
+                if ( $elementID[$i] == $hideID )
+                {
+                    $hide = true;
+                }
+            }
+        }
         $element->setBreak( $break );
         $element->setRequired( $required );
+        $element->setHide( $hide );
         
         $element->store();
         if ( $elementType->name() == "table_item" )
@@ -438,6 +450,15 @@ if ( $count > 0 )
         else
         {
             $elementTemplate->set_var( "element_is_breaking", "" );
+        }
+
+        if ( $element->hide() )
+        {
+            $elementTemplate->set_var( "element_hide", "checked" );
+        }
+        else
+        {
+            $elementTemplate->set_var( "element_hide", "" );
         }
 
         $currentType = $element->elementType();

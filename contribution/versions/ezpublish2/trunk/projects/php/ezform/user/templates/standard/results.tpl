@@ -23,7 +23,7 @@
 <!-- BEGIN result_tpl -->
 <tr>
         <td class="{td_class}">
-	<a href="{www_dir}{index}/form/results/{form_id}/{result_id}/">svar</a>
+	<a href="{www_dir}{index}/form/results/{form_id}/{result_id}/">{title}</a>
         </td>
 </tr>
 <!-- END result_tpl -->

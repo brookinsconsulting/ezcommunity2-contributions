@@ -160,6 +160,20 @@
 <!-- END predefined_completion_item_tpl -->
 </table>
 
+<h2>{intl-form_title_field}:</h2>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+    <td>
+    {intl-title_field}:
+    <select name="TitleField">
+    <!-- BEGIN element_item_tpl -->
+    <option value="{element_id}" {selected}>{element_name}</option>
+    <!-- END element_item_tpl -->
+    </select>
+    </td>
+<tr>
+</table>
+
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td colspan="2"><br /></td>

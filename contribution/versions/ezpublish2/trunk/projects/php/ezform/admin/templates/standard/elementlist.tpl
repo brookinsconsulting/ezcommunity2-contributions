@@ -18,6 +18,7 @@
 	<th>{intl-size}</th>
 	<th>{intl-break}</th>
 	<th>{intl-element_required}:</th>
+	<th>{intl-hide_from_results}:</th>
 	<th colspan="3">&nbsp;</th>
 
 <!-- BEGIN element_item_tpl -->
@@ -66,6 +67,10 @@
         <input type="checkbox" {element_required} name="elementRequired[]" value="{element_id}" />
     </td>
     
+    <td width="1%" class="{td_class}" align="center">
+        <input type="checkbox" {element_hide} name="elementHide[]" value="{element_id}" />
+    </td>
+
 <!-- BEGIN item_move_down_tpl -->
 	<td width="1%" class="{td_class}">
         <a href="{www_dir}{index}/form/form/{element_page}/{form_id}/{page_id}/{table_id}/down/?ElementID={element_id}"><img src="{www_dir}/admin/images/move-down.gif" height="12" width="12" border="0" alt="{intl-move_up}" /></a>
