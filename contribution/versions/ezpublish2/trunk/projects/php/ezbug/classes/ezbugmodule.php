@@ -1,14 +1,14 @@
 <?php
 // 
-// $Id: ezbugmodule.php,v 1.23 2001/07/11 14:12:40 jhe Exp $
+// $Id: ezbugmodule.php,v 1.24 2001/07/19 12:29:04 jakobn Exp $
 //
 // Definition of eZBugModule class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 19:08:57 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: buglist.php,v 1.11 2001/04/04 15:21:44 fh Exp $
+// $Id: buglist.php,v 1.12 2001/07/19 12:29:04 jakobn Exp $
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 19:06:23 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
