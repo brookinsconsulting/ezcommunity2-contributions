@@ -12,10 +12,10 @@ Changes from 2.1.0B1 to 2.1.0B2
 * Added new module eZ sysinfo
 * Fixed division-by-zero in eZ stats day/month/year view.
 * Added password and email verification in eZBulkMail
-* Added BulkMailNotifyGroup to site.ini under eZArticleMain -> send bulkmailnotification of new article to this bulkmail group
+* Added possibility to automaticly send news updates through mail via ezbulkmail
 * Added support for dynamic menuboxes in the admin interface, this means that each module may have it's own menubox template.
 * Added version number textfield in eZ bug
-* Added posibility to subscribe usergroups to a bulkmail list. Also a list can be private or public
+* Added possibility to subscribe usergroups to a bulkmail list. Also a list can be private or public
 * Added article indexing by keywords
 * Bugfix of infinite category loops when assigning categories to themselves or own subcategories.
 * Checkbox delete on consultations.
