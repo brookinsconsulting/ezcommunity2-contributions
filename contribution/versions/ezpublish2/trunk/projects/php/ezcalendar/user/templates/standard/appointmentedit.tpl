@@ -3,6 +3,10 @@
 
 <h1>{intl-appointment_edit}</h1>
 
+<!-- BEGIN title_error_tpl -->
+<h2 class="error">{intl-title_error}</h2>
+<!-- END title_error_tpl -->
+
 <!-- BEGIN start_time_error_tpl -->
 <h2 class="error">{intl-start_time_error}</h2>
 <!-- END start_time_error_tpl -->

@@ -1,0 +1,17 @@
+        **** Explanation of site.ini variables ****
+
+The name of the group in site.ini for eZCalendar is eZCalendarMain.
+It contains these variables:
+
+AdminTemplateDir:    Relative path to template files in admin
+TemplateDir:         Relative path to template files in user
+ImageDir:            Absolute path to images
+Language:            The language used in eZCalendar
+
+Example group:
+[eZCalendarMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=/images/standard/
+Language=en_GB
+

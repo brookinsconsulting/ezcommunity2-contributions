@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezappointment.php,v 1.10 2001/01/22 14:42:59 jb Exp $
+// $Id: ezappointment.php,v 1.11 2001/01/22 16:53:04 gl Exp $
 //
 // Definition of eZAppointment class
 //
@@ -455,7 +455,6 @@ class eZAppointment
        if ( get_class( $type ) == "ezappointmenttype" )
        {
            $this->AppointmentTypeID = $type->id();
-           print( $this->AppointmentTypeID );
        }
     }
 
@@ -489,8 +488,6 @@ class eZAppointment
        {
            $this->IsPrivate = 0;
        }
-       
-       print( "-" . $this->IsPrivate );
     }    
     
     /*!
