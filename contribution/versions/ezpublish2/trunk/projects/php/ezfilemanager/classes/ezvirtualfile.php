@@ -1,14 +1,14 @@
-<?
+<?php
 // 
-// $Id: ezvirtualfile.php,v 1.37 2001/07/10 13:20:08 jb Exp $
+// $Id: ezvirtualfile.php,v 1.38 2001/07/19 13:01:02 jakobn Exp $
 //
 // Definition of eZVirtualFile class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 15:36:36 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

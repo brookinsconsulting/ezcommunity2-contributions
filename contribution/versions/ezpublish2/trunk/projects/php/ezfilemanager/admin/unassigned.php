@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: unassigned.php,v 1.1 2001/05/29 11:59:19 ce Exp $
+// $Id: unassigned.php,v 1.2 2001/07/19 13:01:02 jakobn Exp $
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

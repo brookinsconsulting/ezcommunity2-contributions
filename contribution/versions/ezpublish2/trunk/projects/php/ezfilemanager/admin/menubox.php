@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: menubox.php,v 1.4 2001/05/29 11:59:19 ce Exp $
+// $Id: menubox.php,v 1.5 2001/07/19 13:01:02 jakobn Exp $
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

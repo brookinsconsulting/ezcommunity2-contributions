@@ -1,12 +1,12 @@
 <?php
 // 
-// $Id: filedownload.php,v 1.14 2001/06/29 11:10:46 ce Exp $
+// $Id: filedownload.php,v 1.15 2001/07/19 13:01:02 jakobn Exp $
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:39:10 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: viewfile.php,v 1.5 2001/03/01 14:06:25 jb Exp $
+// $Id: viewfile.php,v 1.6 2001/07/19 13:01:02 jakobn Exp $
 //
-// Christoffer A. Elo <ce@ez.no>
 // Created on: <04-Jan-2001 16:47:23 ce>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
