@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: message.php,v 1.6 2000/11/01 07:48:39 bf-cvs Exp $
+// $Id: message.php,v 1.7 2000/11/07 14:42:00 ce-cvs Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -34,6 +34,8 @@ include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
 include_once( "ezforum/classes/ezforum.php" );
 
+$locale = new eZLocale( $Language );
+
 $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
                      "ezforum/user/intl", $Language, "message.php" );
 $t->setAllStrings();
@@ -64,11 +66,11 @@ $t->set_var( "topic", $message->topic() );
 
 $user = $message->user();
 
-$t->set_var( "user", $user->firstName() . " " . $user->lastName() );
+$t->set_var( "main-user", $user->firstName() . " " . $user->lastName() );
 
 $t->set_var( "topic", $message->topic() );
 
-$t->set_var( "postingtime", $message->postingTime() );
+$t->set_var( "main-postingtime", $locale->format( $message->postingTime() ));
 $t->set_var( "body", nl2br( $message->body() ) );
 
 $t->set_var( "reply_id", $message->id() );
@@ -82,8 +84,6 @@ $topMessage = $message->threadTop( $message );
 $messages = $forum->messageThreadTree( $message->threadID() );
 
 //  $messages = $forum->messages();
-
-$locale = new eZLocale( $Language );
 
 $level = 0;
 

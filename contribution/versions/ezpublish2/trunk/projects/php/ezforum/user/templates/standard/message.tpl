@@ -36,11 +36,11 @@
 	</td>
     <td>
 	<p class="boxtext">{intl-author}:</p>
-    {user}
+    {main-user}
 	</td>
 	<td>
 	<p class="boxtext">{intl-time}:</p>
-	<span class="small">{postingtime}</span>
+	<span class="small">{main-postingtime}</span>
 	</td>
 </tr>
 </table>
