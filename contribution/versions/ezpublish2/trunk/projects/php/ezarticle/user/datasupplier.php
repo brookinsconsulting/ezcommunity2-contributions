@@ -267,9 +267,23 @@ switch ( $url_array[2] )
     {
         switch ( $url_array[3] )
         {
-            case "new" :
+            case "new":
             {
                 $Action = "New";
+                include( "ezarticle/user/articleedit.php" );
+                break;
+            }
+            case "insert":
+            {
+                $Action = "Insert";
+                $ArticleID = $url_array[4];
+                include( "ezarticle/user/articleedit.php" );
+                break;
+            }
+            case "cancel":
+            {
+                $Action = "Cancel";
+                $ArticleID = $url_array[4];
                 include( "ezarticle/user/articleedit.php" );
                 break;
             }
