@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filedownload.php,v 1.20 2001/09/28 08:03:17 jhe Exp $
+// $Id: filedownload.php,v 1.20.2.1 2001/11/23 08:55:05 jhe Exp $
 //
 // Created on: <10-Dec-2000 16:39:10 bf>
 //
@@ -24,10 +24,11 @@
 //
 
 
-
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
+
+$ini =& INIFile::globalINI();
 
 $user =& eZUser::currentUser();
 
@@ -40,7 +41,12 @@ $file = new eZVirtualFile( $FileID );
 //}
 
 $fileName = $file->name();
-$originalFileName = $file->name();
+
+if ( $ini->read_var( "eZFileManagerMain", "DownloadOriginalFilename" ) == "true" )
+    $originalFileName = $file->originalFileName();
+else
+    $originalFileName = $file->name();
+
 $filePath = $file->filePath( true );
 
 include_once( "ezstats/classes/ezpageview.php" );

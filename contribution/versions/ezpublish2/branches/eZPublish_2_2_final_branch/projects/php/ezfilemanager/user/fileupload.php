@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileupload.php,v 1.44.2.3 2001/11/15 17:43:30 jhe Exp $
+// $Id: fileupload.php,v 1.44.2.4 2001/11/23 08:55:05 jhe Exp $
 //
 // Created on: <10-Dec-2000 15:49:57 bf>
 //
@@ -68,7 +68,11 @@ if ( isSet( $Cancel ) )
 if ( isSet( $Download ) )
 {
     $file = new eZVirtualFile( $FileID );
-    $fileName = $file->originalFileName();
+
+    if ( $ini->read_var( "eZFileManagerMain", "DownloadOriginalFilename" ) == "true" )
+        $fileName = $file->originalFileName();
+    else
+        $fileName = $file->name();
 
     eZHTTPTool::header( "Location: /filemanager/download/$FileID/$fileName" );
     exit();
@@ -102,8 +106,8 @@ $t->set_block( "file_upload_tpl", "read_group_item_tpl", "read_group_item" );
 
 $t->set_var( "errors", "&nbsp;" );
 
-$t->set_var( "name_value", "$Name" );
-$t->set_var( "description_value", "$Description" );
+$t->set_var( "name_value", $Name );
+$t->set_var( "description_value", $Description );
 
 $error = false;
 $nameCheck = true;
@@ -201,16 +205,20 @@ if ( $Action == "Insert" && !$error )
     if ( empty( $Name ) )
         $Name = $uploadedFile->originalFileName();
 
-    $extension = strrchr( $uploadedFile->originalFileName(), "." );
-    if ( strrchr( $Name, "." ) != $extension )
-        $Name .= $extension;
+    if ( !$ini->read_var( "eZFileManagerMain", "DownloadOriginalFilename" ) == "true" )
+    {
+        $extension = strrchr( $uploadedFile->originalFileName(), "." );
+        if ( strrchr( $Name, "." ) != $extension )
+            $Name .= $extension;
+    }
 
     $uploadedFile->setName( $Name );
     $uploadedFile->store();
     $FileID = $uploadedFile->id();
     $folder = new eZVirtualFolder( $FolderID );
     
-    if ( eZObjectPermission::hasPermission( $FolderID, "filemanager_folder", 'w' ) || eZVirtualFolder::isOwner( $user, $FolderID ) ) 
+    if ( eZObjectPermission::hasPermission( $FolderID, "filemanager_folder", 'w' ) ||
+         eZVirtualFolder::isOwner( $user, $FolderID ) ) 
     {
         changePermissions( $FileID, $ReadGroupArrayID, 'r' );
         changePermissions( $FileID, $WriteGroupArrayID, 'w' );

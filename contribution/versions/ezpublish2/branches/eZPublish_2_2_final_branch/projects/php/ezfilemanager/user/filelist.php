@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filelist.php,v 1.49 2001/10/04 12:02:15 ce Exp $
+// $Id: filelist.php,v 1.49.2.1 2001/11/23 08:55:05 jhe Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -82,7 +82,7 @@ $folder = new eZVirtualFolder( $FolderID );
 include_once( "ezsitemanager/classes/ezsection.php" );
 
 // tempo fix for admin users - maybe in the future must be changed
-if ( ($FolderID != 0) && ! eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
+if ( ( $FolderID != 0 ) && !eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
 {
     // moved out
 }
@@ -197,8 +197,13 @@ $deleteFiles = false;
 foreach ( $fileList as $file )
 {
     $filename = $file->name();
+    if ( $ini->read_var( "eZFileManagerMain", "DownloadOriginalFilename" ) == "true" )
+        $originalfilename = $file->originalFileName();
+    else
+        $originalfilename = $filename;
+    
     $t->set_var( "file_id", $file->id() );
-    $t->set_var( "original_file_name_without_spaces", str_replace( " ", "%20", $filename ) );
+    $t->set_var( "original_file_name_without_spaces", str_replace( " ", "%20", $originalfilename ) );
     $t->set_var( "original_file_name", $filename );
     $t->set_var( "file_name", $filename );
     $t->set_var( "file_url", $filename );
@@ -225,9 +230,9 @@ foreach ( $fileList as $file )
         $t->set_var( "read", "" );
     }
     
-    if ( ( $user ) &&
-        ( eZObjectPermission::hasPermission( $file->id(), "filemanager_file", "w", $user ) )  ||
-        ( eZVirtualFile::isOwner( $user, $file->id() )) )
+    if ( $user &&
+         ( eZObjectPermission::hasPermission( $file->id(), "filemanager_file", "w", $user ) ||
+           eZVirtualFile::isOwner( $user, $file->id() ) ) )
     {
         $t->parse( "write", "write_tpl" );
         $t->set_var( "no_write", "" );
