@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.24 2001/03/02 16:59:05 fh Exp $
+// $Id: bugedit.php,v 1.25 2001/03/05 10:34:09 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -223,7 +223,11 @@ if ( $Action == "Update" )
                 $mailTemplate->set_var( "bug_title", $bug->name() );
                 
                 $bodyText = ( $mailTemplate->parse( "dummy", "mailreply" ) );
-                $mail->setSubject( $bug->name() );
+
+                $languageIni = new INIFile( "ezbug/admin/" . "intl/" . $Language . "/mailreply.php.ini", false );
+                $msg =  $languageIni->read_var( "strings", "bug_handled" );
+
+                $mail->setSubject( "[" . $msg . "]" . $bug->name() );
                 $mail->setTo( $reporter_email );
                 $mail->setBody( $bodyText );
 
