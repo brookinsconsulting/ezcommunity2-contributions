@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.4 2000/07/19 09:22:09 lw-cvs Exp $
+    $Id: category.php,v 1.5 2000/07/21 13:06:55 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -85,7 +85,12 @@ for ($i = 0; $i < count($categories); $i++)
     $t->set_var("list-Name", $Name);
     $t->set_var("list-Description", $Description);
     $t->set_var("list-Private", $Private);
-    
+
+    if ( ($i % 2) != 0)
+        $t->set_var( "color", "#eeeeee" );
+    else
+        $t->set_var( "color", "#bbbbbb" );
+
     $t->parse("categories","listelements",true);
 }
 
