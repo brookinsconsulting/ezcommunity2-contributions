@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messageedit.php,v 1.62 2001/11/01 11:23:57 jhe Exp $
+// $Id: messageedit.php,v 1.63 2001/12/11 17:04:33 br Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -341,8 +341,16 @@ switch ( $Action )
                 $msg->store();
             }
         }
-
-        eZHTTPTool::header( "Location: /forum/messageedit/$ActionValue/$OriginalID?ReplyToID=$ReplyToID&ActionStart=$ActionStart&RedirectURL=$RedirectURL" );
+        
+        if( $RedirectURL != "" )
+        {
+            eZHTTPTool::header( "Location: $RedirectURL" );
+        }
+        else
+        {
+            eZHTTPTool::header( "Location: /forum/messageedit/$ActionValue/$OriginalID?ReplyToID=$ReplyToID&ActionStart=$ActionStart" );
+        }
+        exit();
     }
     break;
 
@@ -367,7 +375,15 @@ switch ( $Action )
         $msg->setEmailNotice( $tmpmsg->emailNotice() );
 
         $msg->store();
-        eZHTTPTool::header( "Location: /forum/messageedit/$ActionValue/$OriginalID?ActionStart=$ActionStart&RedirectURL=$RedirectURL" );
+
+        if( $RedirectURL )
+        {
+            eZHTTPTool::header( "Location: $RedirectURL" );
+        }
+        else
+        {
+            eZHTTPTool::header( "Location: /forum/messageedit/$ActionValue/$OriginalID?ActionStart=$ActionStart" );
+        }
         exit();
     }
 
