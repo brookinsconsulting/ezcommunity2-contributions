@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: replymessage.php,v 1.11 2000/10/12 17:45:06 bf-cvs Exp $
+// $Id: replymessage.php,v 1.12 2000/10/12 18:51:53 bf-cvs Exp $
 //
 // 
 //
@@ -74,7 +74,7 @@ if ( $Action == "Reply" )
                 $user =& $message->user();
                 
                 $mail->setTo( $user->email() );
-                $mail->setBody(  $message->id() . "" . $user->email() );
+                $mail->setBody(  $reply->body() . "" . $user->email() );
                 
                 $mail->send();
             }
@@ -95,11 +95,11 @@ $t->set_var( "category_id", $category_id );
 $category = new eZForumCategory();
 
 
+// chech for login..
 
 // add path
 
 $msg = new eZForumMessage( $ReplyID );
-
 
 $user = eZUser::currentUser();
 
@@ -112,6 +112,7 @@ $t->set_var( "topic", ("SV: " . stripslashes( $msg->topic() ) ) );
 $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
 
 $t->set_var("body", nl2br( stripslashes( $msg->body() ) ) );
+
 //  $t->set_var("replier", $user->resolveUser( $UserID ) );
 
 $t->pparse("output", "replymessage");
