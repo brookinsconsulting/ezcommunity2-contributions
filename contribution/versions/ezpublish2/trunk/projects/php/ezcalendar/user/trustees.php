@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: trustees.php,v 1.2 2001/08/17 13:35:58 jhe Exp $
+// $Id: trustees.php,v 1.3 2001/09/28 06:29:57 jhe Exp $
 //
 // Created on: <26-Jul-2001 14:26:26 jhe>
 //
@@ -24,7 +24,7 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
-
+include_once( "classes/ezlocale.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
 $ini =& $GLOBALS[ "GlobalSiteIni" ];
