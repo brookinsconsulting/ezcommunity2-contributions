@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagebody.php,v 1.9.2.2 2002/05/22 11:24:54 jhe Exp $
+// $Id: messagebody.php,v 1.9.2.3 2003/06/05 10:33:29 br Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -109,10 +109,10 @@ if ( $ShowMessage )
         break;
     }
 
-    $t->set_var( "message_topic", $MessageTopic );
-    $t->set_var( "message_body", $MessageBody );
+    $t->set_var( "message_topic", htmlspecialchars( $MessageTopic ) );
+    $t->set_var( "message_body", htmlspecialchars( $MessageBody ) );
     $t->set_var( "message_posted_at", $MessagePostedAt );
-    $t->set_var( "message_author", $MessageAuthor );
+    $t->set_var( "message_author", htmlspecialchars( $MessageAuthor ) );
     $t->set_var( "message_id", $MessageID );
     $t->set_var( "message_notice", $MessageNotice );
     if ( $doPrint == true )
