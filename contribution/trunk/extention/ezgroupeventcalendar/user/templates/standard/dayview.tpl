@@ -161,7 +161,7 @@ onmouseout="return nd();">{all_day_name}</a></td>
           <img name="ezcal{event_id}-red" border="0" src="/images/redigermini.gif" width="12" height="12" align="top" alt="Edit" /></a>
 		</td>
 		<td width="1%" align="right" style="cursor: pointer; background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalAllDayEvent.png') repeat;">
-		  <input type="checkbox" name="eventArrayID[]" value={event_id}>
+		  <input type="checkbox" name="eventArrayID[]" value={all_day_id}>
 		</td>
 		<!-- END all_day_delete_check_tpl -->
 <td width="5%" class="gcalDayViewTopBar" style="cursor: default; font-size: 8px;">All Day</td></tr>

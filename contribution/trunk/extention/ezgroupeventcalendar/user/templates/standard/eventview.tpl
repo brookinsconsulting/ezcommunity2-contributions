@@ -1,13 +1,13 @@
 <table width="100%" cellspacing="0" cellpadding="2" border="0" align="center">
 
   <tr>
-    <td align="right"><!-- BEGIN valid_editor_tpl -->
+    <td align="right">
+    <!-- BEGIN valid_editor_tpl -->
 	<form method="post" action="{www_dir}{index}/groupeventcalendar/eventedit/edit/{event_id}/">
-	<td align="right" colspan="10" style="padding: 5px;">
 	<input type="hidden" name="eventArrayID[]" value={event_id}>
-     <input class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" type="submit"  value="{intl-edit_event}">&nbsp;
+     <span><input class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" type="submit"  value="{intl-edit_event}">&nbsp;
 	 <input class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'" onmouseout="this.className='gcalSwitchBox'" type="submit" name="DeleteEvents" value="{intl-delete_events}">
-      </form>
+      </form></span>
        <!-- END valid_editor_tpl -->
       <span class="gcalSwitchBox" onmouseover="this.className='gcalSwitchBoxSelect'"
       onmouseout="this.className='gcalSwitchBox'">
@@ -30,7 +30,7 @@
       <a href="{www_dir}{index}/groupeventcalendar/dayview/{year_cur}/{month_cur}/{day_cur}/" style="text-decoration:none; font-weight:normal;font-size:12px;">{intl-today}</a>
       </span>
 
-
+       
 	</td>
     </td>
   </tr>
