@@ -964,3 +964,15 @@ Maintainer(s) : br@ez.no
 
     * classes/ezimage.php: Added design for akersmic
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2002-04-10  christoffer  <ce@zev.ez.no>
+
+    * classes/ezimage.php: Major commit from the online akersmic version.
+
+2002-04-10  bf  <bf@zev.ez.no>
+
+    * classes/ezimage.php: Added hasMap() function.
+

@@ -1101,3 +1101,20 @@ Maintainer(s) : bf@ez.no
 
     * user/intl/no_NO/userwithaddress.php.ini: fixa engelsk orddeling
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-04-04  br  <br@zev.ez.no>
+
+    * admin/useredit.php: removed default additional groups.
+
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-04-10  christoffer  <ce@zev.ez.no>
+
+    * classes/ezuser.php
+      user/login.php: Major commit from the online akersmic version.
+

@@ -584,3 +584,11 @@ Maintainer(s) : ce@ez.no
 
     * classes/ezsection.php: Added design for akersmic
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : ce@ez.no
+2002-04-10  christoffer  <ce@zev.ez.no>
+
+    * classes/ezsection.php: Major commit from the online akersmic version.
+

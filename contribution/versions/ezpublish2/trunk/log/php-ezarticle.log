@@ -3019,3 +3019,42 @@ Maintainer(s) : bf@ez.no
     * admin/sitemap.php
       user/sitemap.php: added fix to not write &nbsp; at the root level.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-04-10  jhe  <jhe@zev.ez.no>
+
+    * admin/datasupplier.php: fixed coding standard errors
+
+2002-04-10  br  <br@zev.ez.no>
+
+    * user/headlines.php: added include for cache files.
+
+2002-04-10  christoffer  <ce@zev.ez.no>
+
+    * admin/Attic/categorybrowse.php
+      admin/templates/standard/Attic/categorybrowse.tpl:
+    Major commit from the online akersmic version.
+
+    * admin/Attic/categorybrowse.php
+      admin/templates/standard/Attic/categorybrowse.tpl: New file.
+
+2002-04-10  jhe  <jhe@zev.ez.no>
+
+    * classes/ezarticle.php
+      classes/ezimagemap.php: swapped values when wrong order
+
+2002-04-10  christoffer  <ce@zev.ez.no>
+
+    * user/datasupplier.php
+      admin/datasupplier.php
+      classes/ezqdomgenerator.php:
+    Major commit from the online akersmic version.
+
+2002-04-10  bf  <bf@zev.ez.no>
+
+    * user/templates/standard/articletags.tpl: Added image map templates.
+
+    * classes/ezqdomrenderer.php: Added rendering of image map.
+

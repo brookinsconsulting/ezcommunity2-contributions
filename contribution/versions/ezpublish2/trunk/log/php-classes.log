@@ -725,3 +725,19 @@ Maintainer(s) : bf@ez.no
 
     * ezbenchmark.php: Updated the benchmark file.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2002-04-10  jhe  <jhe@zev.ez.no>
+
+    * ezcachefile.php: fixed cache bug
+
+2002-04-10  christoffer  <ce@zev.ez.no>
+
+    * ezcachefile.php
+      ezgpg.php
+      ezlist.php
+      ezmysqldb.php
+      eztemplate.php: Major commit from the online akersmic version.
+

@@ -1346,3 +1346,34 @@ Maintainer(s) : pkej@ez.no
 
     * admin/templates/standard/formrenderer.tpl: Added design for akersmic
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-04-10  christoffer  <ce@zev.ez.no>
+
+    * admin/templates/Attic/fixedvalues.tpl
+      admin/templates/Attic/formedit.tpl
+      admin/templates/Attic/formlist.tpl
+      admin/templates/Attic/formpreview.tpl
+      admin/templates/Attic/formrenderer.tpl
+      admin/templates/Attic/formview.tpl
+      user/templates/standard/Attic/formrenderer.tpl:
+    Major commit from the online akersmic version.
+
+    * admin/templates/Attic/fixedvalues.tpl
+      admin/templates/Attic/formedit.tpl
+      admin/templates/Attic/formlist.tpl
+      admin/templates/Attic/formpreview.tpl
+      admin/templates/Attic/formrenderer.tpl
+      admin/templates/Attic/formview.tpl
+      user/templates/standard/Attic/formrenderer.tpl: New file.
+
+    * admin/formedit.php
+      admin/templates/standard/formedit.tpl
+      classes/ezformelement.php
+      classes/ezformrenderer.php
+      user/templates/standard/formview.tpl
+      admin/templates/standard/formrenderer.tpl:
+    Major commit from the online akersmic version.
+

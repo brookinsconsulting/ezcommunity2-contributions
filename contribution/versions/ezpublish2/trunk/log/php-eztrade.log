@@ -3343,3 +3343,63 @@ Maintainer(s) : ce@ez.no
       user/datasupplier.php
       user/payment.php: updated files for payment.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-04-10  christoffer  <ce@zev.ez.no>
+
+    * admin/intl/en_GB/Attic/categorybrowse.php.ini
+      user/Attic/productnews.php:
+    Major commit from the online akersmic version.
+
+    * admin/intl/en_GB/Attic/categorybrowse.php.ini
+      user/Attic/productnews.php: New file.
+
+    * admin/categoryedit.php
+      admin/datasupplier.php
+      admin/productedit.php
+      admin/productsearch.php
+      admin/templates/standard/categoryedit.tpl
+      admin/templates/standard/productedit.tpl
+      admin/currency.php
+      classes/ezcart.php
+      classes/ezoption.php
+      classes/ezoptionvalue.php
+      classes/ezorder.php
+      classes/ezproduct.php
+      classes/ezproductattribute.php
+      classes/ezproductcategory.php
+      user/Attic/similarproducts.php
+      user/payment.php
+      user/productlist.php
+      user/productsearch.php
+      user/productview.php
+      user/Attic/biglist.php
+      user/cart.php
+      user/checkout.php
+      user/datasupplier.php
+      user/ordersendt.php: Major commit from the online akersmic version.
+
+2002-04-10  br  <br@zev.ez.no>
+
+    * classes/Attic/ezorderconfirmation.php
+      classes/ezcartitem.php
+      classes/ezorder.php
+      user/Attic/confirmation.php
+      user/cart.php
+      user/checkout.php
+      user/datasupplier.php
+      user/invoice.php
+      user/mastercard.php
+      user/ordersendt.php
+      user/payment.php
+      user/precheckout.php
+      user/visa.php
+      user/voucher.php:
+    Updated eztrade to generate one order for each time a PreOrderID is
+    generated. The PreOrderID will now confirm that the order is verified.
+
+    In the admin will only orders which are confirmed in eZTrade_PreOrder
+    be shown in the orderlist.
+

@@ -1142,3 +1142,17 @@ Maintainer(s) : jhe@ez.no
     * user/templates/standard/messagelist.tpl
       user/message.php: fixed bad white spaces and incorrect html code
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-04-10  christoffer  <ce@zev.ez.no>
+
+    * classes/ezforum.php
+      classes/ezforummessage.php
+      user/datasupplier.php
+      user/messageedit.php
+      user/messagepermissions.php
+      user/messagesimplelist.php:
+    Major commit from the online akersmic version.
+
