@@ -50,6 +50,7 @@ ezclassified    projects/php/ezclassified
 ezcalendar	projects/php/ezcalendar
 ezstats		projects/php/ezstats
 ezxmlrpc	projects/php/ezxmlrpc
+ezmail		projects/php/ezmail
 ezaddress	projects/php/ezaddress
  
 # Distribution
