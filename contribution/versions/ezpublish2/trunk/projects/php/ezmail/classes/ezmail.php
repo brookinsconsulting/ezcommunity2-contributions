@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmail.php,v 1.43 2001/08/17 08:43:48 jhe Exp $
+// $Id: ezmail.php,v 1.44 2001/09/10 14:24:38 fh Exp $
 //
 // Definition of eZMail class
 //
@@ -62,7 +62,7 @@ class eZMail
     */
     function eZMail( $id = "" )
     {
-        $this->$FilesAttached = false;
+        $this->FilesAttached = false;
         
         // array used when sending mail.. do not alter!!!
         $this->parts = array();
@@ -740,7 +740,7 @@ class eZMail
      */
     function addFile( $file )
     {
-       $this->$FilesAttached = true;
+       $this->FilesAttached = true;
        $db =& eZDB::globalDatabase();
        
        if ( get_class( $file ) == "ezvirtualfile" )
@@ -939,7 +939,7 @@ class eZMail
      */
     function send() 
     {
-        if ( $this->$FilesAttached == true )
+        if ( $this->FilesAttached == true )
         {
             $files = $this->files();
             foreach ( $files as $file )
