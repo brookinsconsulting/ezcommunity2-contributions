@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugmodule.php,v 1.5 2001/02/04 17:00:03 bf Exp $
+// $Id: ezbugmodule.php,v 1.6 2001/02/06 10:17:57 fh Exp $
 //
 // Definition of eZBugModule class
 //
@@ -433,7 +433,7 @@ class eZBugModule
        $openSQL = "";
        if ( $excludeClosed == true )
        {
-           $openSQL = "AND eZBug_Bug.IsClosed!='false'";
+           $openSQL = "AND eZBug_Bug.IsClosed!='true'";
        }
 
        $query = "
@@ -450,7 +450,7 @@ class eZBugModule
                 ";
        
        $this->Database->array_query( $bug_array, $query );
-
+       print( $bug_array[0]["Count"] );
        $ret =& $bug_array[0]["Count"];
 
        return $ret;
