@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: quizplay.php,v 1.9 2001/06/15 08:04:16 pkej Exp $
+// $Id: quizplay.php,v 1.10 2001/06/15 08:58:20 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -29,6 +29,7 @@
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezdate.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezhttptool.php" );
 include_once( "ezquiz/classes/ezquizquestion.php" );
 include_once( "ezquiz/classes/ezquizgame.php" );
 include_once( "ezquiz/classes/ezquizanswer.php" );
@@ -56,6 +57,8 @@ if( isset( $SaveButton ) )
         }
         $score->setNextQuestion( $Placement );
         $score->store();
+        
+        eZHTTPTool::header( "Location: /quiz/my/open/" );
     }
 }
 
@@ -179,9 +182,14 @@ if( $score->isFinishedGame() )
 
 // Find out which question this user should start on (has he saved earlier info).
 
+if( $score->nextQuestion() > 1 )
+{
+    $QuestionNum = $score->nextQuestion();
+}
+
 if( $QuestionNum == 0 )
 {
-        $t->parse( "start_item", "start_item_tpl" );
+    $t->parse( "start_item", "start_item_tpl" );
 }
 elseif( empty( $error ) )
 {

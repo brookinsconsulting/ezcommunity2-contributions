@@ -1,4 +1,4 @@
-<h1>{intl-header_quiz_list}</h1>
+<h1>{intl-{header_of_page}}</h1>
 
 <hr noshade="noshade" size="4" />
 <br />
@@ -29,7 +29,11 @@
     <td class="small">{game_start}<br />{game_stop}</td>
 <!--    <td>{game_questions}&nbsp;</td> -->
 <!--    <td>{game_players}&nbsp;</td> -->
-    <td><a href="/quiz/game/scores/{game_id}">{intl-scores}</a></td>
+        <td>
+<!-- BEGIN score_link_tpl -->
+    <a href="/quiz/game/scores/{game_id}">{intl-scores}</a>
+<!-- END score_link_tpl -->
+        </td>
 <!--	<td><a href="/quiz/game/play/{game_id}">{intl-play}</a></td> -->
 </tr>
 <!-- END game_item_tpl -->
