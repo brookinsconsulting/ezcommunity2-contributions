@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.41 2002/02/06 14:53:35 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.42 2003/02/11 09:39:06 descala Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -694,6 +694,12 @@ class eZQDomGenerator
                     
                 }
             }
+
+	    // handles especial html tags in the url of a link
+            // like: "&amp;" -> "&"
+	    $trans = get_html_translation_table(HTML_SPECIALCHARS);
+	    $trans = array_flip($trans);
+	    $text = strtr($text, $trans);
 
             if ( $target == "_blank" )
                 $pageContent .= "<popuplink $href $text>";
