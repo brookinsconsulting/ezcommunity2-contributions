@@ -34,9 +34,21 @@
 
 
 <br />
-<p class="boxtext">{intl-forum_is_moderated}:</p>
-<input type="checkbox" name="IsModerated" {forum_is_moderated} />
-
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td>
+        <p class="boxtext">{intl-forum_is_moderated}:</p>
+        <input type="checkbox" name="IsModerated" {forum_is_moderated} />
+    </td>
+    <td>
+        &nbsp;
+    </td>
+    <td>
+        <p class="boxtext">{intl-forum_is_anonymous}:</p>
+        <input type="checkbox" name="IsAnonymous" {forum_is_anonymous} />
+    </td>
+</tr>
+</table>
 
 <br />
 <p class="boxtext">{intl-moderator}:</p>

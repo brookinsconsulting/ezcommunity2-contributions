@@ -1,5 +1,5 @@
 <?
-// $Id: unapprovededit.php,v 1.2 2001/01/23 13:16:57 jb Exp $
+// $Id: unapprovededit.php,v 1.3 2001/03/01 10:58:02 pkej Exp $
 //
 // Author: Bård Farstad <bf@ez.no>
 // Created on: <21-Jan-2001 13:34:48 bf>
@@ -31,6 +31,7 @@ $Language = $ini->read_var( "eZForumMain", "Language" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 
+include_once( "ezforum/classes/ezforum.php" );
 include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "classes/ezmail.php" );
 

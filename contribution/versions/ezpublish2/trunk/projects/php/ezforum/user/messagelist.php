@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.13 2001/02/23 16:05:02 pkej Exp $
+// $Id: messagelist.php,v 1.14 2001/03/01 10:58:02 pkej Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -134,8 +134,16 @@ else
 
         $t->set_var( "message_id", $message->id() );
         
-        $user =& $message->user();    
-        $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
+        $user =& $message->user(); 
+        
+        if( $user->id() == 0 )
+        {
+            $t->set_var( "user", $ini->read_var( "eZForumMain", "AnonymousPoster" ) );
+        }
+        else
+        {
+            $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
+        }
         
         $t->set_var( "limit", $Limit );
         

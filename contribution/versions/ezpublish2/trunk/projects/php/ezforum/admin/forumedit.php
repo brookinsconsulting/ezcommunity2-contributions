@@ -1,5 +1,5 @@
 <?
-// $Id: forumedit.php,v 1.18 2001/02/26 09:40:58 ce Exp $
+// $Id: forumedit.php,v 1.19 2001/03/01 10:58:02 pkej Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -61,9 +61,23 @@ if ( $Action == "insert" )
             $forum->setModerator( $user );
 
             if ( $IsModerated == "on" )
+            {
                 $forum->setIsModerated( true );
+            }
             else
+            {
                 $forum->setIsModerated( false );            
+            }
+            
+            if ( $IsAnonymous == "on" )
+            {
+                $forum->setIsAnonymous( true );
+            }
+            else
+            {
+                $forum->setIsAnonymous( false );
+            }
+            
 
             $group = new eZUserGroup( $GroupID );
             $forum->setGroup( $group );
@@ -111,6 +125,15 @@ if ( $Action == "update" )
             else
             {
                 $forum->setIsModerated( false );
+            }
+            
+            if ( $IsAnonymous == "on" )
+            {
+                $forum->setIsAnonymous( true );
+            }
+            else
+            {
+                $forum->setIsAnonymous( false );
             }
             
             $forum->setName( $Name );
@@ -244,9 +267,23 @@ if ( $Action == "edit" )
         $t->set_var( "forum_id", $ForumID);
 
         if ( $forum->isModerated() == true )
+        {
             $t->set_var( "forum_is_moderated", "checked" );
+        }
         else
+        {
             $t->set_var( "forum_is_moderated", "" );
+        }
+
+        if ( $forum->isAnonymous() == true )
+        {
+            $t->set_var( "forum_is_anonymouse", "checked" );
+        }
+        else
+        {
+            $t->set_var( "forum_is_anonymouse", "" );
+        }
+            
 
         $groupUser =& $forum->group();
             

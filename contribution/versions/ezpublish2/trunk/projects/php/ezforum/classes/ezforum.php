@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.19 2001/02/26 19:01:49 pkej Exp $
+// $Id: ezforum.php,v 1.20 2001/03/01 10:58:02 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -492,7 +492,7 @@ class eZForum
     /*!
       Sets the forum to allow anonymous posting, or not.
     */
-    function setIsModerated( $value )
+    function setIsAnonymous( $value )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
