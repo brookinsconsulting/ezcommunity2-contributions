@@ -1,4 +1,4 @@
-<form method="get" action="/search/">
+<form method="get" action="{www_dir}{index}/search/">
 <table width="100%" cellspacing="0" cellpadding="2" border="0" align="center">
   <tr>
     <td align="left"> 
@@ -161,11 +161,32 @@
 <td colspan="2"><a href="{event_url}" target="_blank" style="text-decoration: none;">{event_url}</a></td></tr>
 </table>
 
+<!-- BEGIN attached_file_list_tpl -->
 <br />
+<table width="100%" cellspacing="2" cellpadding="0" border="0">
+<tr><th>{intl-attached_files}:</th></tr>
+<!-- BEGIN attached_file_tpl -->
+<tr>
+     <td width="50%" class="{td_class}">
+     <a style="text-decoration: none;" href="{www_dir}{index}/filemanager/download/{file_id}/{file_name}">{file_name}</a>
+     </td>
+     <td width="50%" class="{td_class}" align="right">
+     <div class="p">( <a href="{www_dir}{index}/filemanager/download/{file_id}/{file_name}">{file_size}&nbsp;{file_unit}</a> )</div>
+     </td>
+</tr>
+<tr>
+     <td colspan="2" valign="top" class="{td_class}"> 
+	{file_description}
+     </td>
+</tr>
+<!-- END attached_file_tpl -->
+</table>
+<!-- END attached_file_list_tpl -->
 
 <!-- BEGIN valid_editor_tpl -->
 <hr noshade size="4" />
-<form method="post" action="/groupeventcalendar/eventedit/edit/{event_id}/">
+
+<form method="post" action="{www_dir}{index}/groupeventcalendar/eventedit/edit/{event_id}/">
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
 <tr>
     <td>
@@ -182,7 +203,7 @@
 <hr noshade size="4" />
 
 <!-- END view_tpl -->
-<form method="post" action="/groupeventcalendar/eventedit/edit/">
+<form method="post" action="{www_dir}{index}/groupeventcalendar/eventedit/edit/">
 <input class="stdbutton" type="submit" name="GoDay" value="{intl-day}">
 <input class="stdbutton" type="submit" name="GoWeek" value="{intl-week}">
 <input class="stdbutton" type="submit" name="GoMonth" value="{intl-month}">
