@@ -68,6 +68,7 @@ if ( ( $requireUserLogin == "disabled" ) ||
     $meta_page = "ez" . $url_array[1] . "/metasupplier.php";
 
 // include some html
+    $Title = $ini->read_var( "site", "SiteTitle" );
     include( "sitedesign/$siteDesign/preamble.php" );
 
 // check if there is specific meta info, if not include the default
