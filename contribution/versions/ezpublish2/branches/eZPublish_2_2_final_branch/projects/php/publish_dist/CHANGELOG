@@ -3,6 +3,7 @@ eZ publish changelog:
 
 Changes from 2.2.4 to 2.2.5
 ---------------------------
+* Fixed notification bug when articles got published from eZ publish DE.
 * Fixed several permission bugs in eZ imagecatalogue.
 * Fixed several permission bugs in eZ filemanager.
 * Fixed problem with updating cache files introduced in 2.2.4
