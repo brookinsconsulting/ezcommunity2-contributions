@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: replymessage.php,v 1.16 2000/10/15 12:23:36 bf-cvs Exp $
+// $Id: replymessage.php,v 1.17 2000/10/15 12:38:27 bf-cvs Exp $
 //
 // 
 //

@@ -1,8 +1,5 @@
 <?
 
-eZLog::writeNotice( "A notice" );
-eZLog::writeWarning( "A warning" );
-eZLog::writeError( "An error" );
 
 
 
