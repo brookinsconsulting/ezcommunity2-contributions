@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.36 2000/10/31 08:39:27 ce-cvs Exp $
+// $Id: ezlinkgroup.php,v 1.37 2000/10/31 09:30:28 bf-cvs Exp $
 //
 // Definition of eZLinkGroup class
 //
@@ -57,15 +57,15 @@ class eZLinkGroup
     /*!
       Counstructor
     */
-    function eZLinkGroup( $id=-0, $fetch=true )
+    function eZLinkGroup( $id=-1, $fetch=true )
     {
-
         $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
             if ( $fetch == true )
             {
+                
                 $this->get( $this->ID );
             }
             else
@@ -126,9 +126,9 @@ class eZLinkGroup
         }
         else if ( count( $linkgroup_array ) == 1 )
         {
-            $this->ID = $linkgroup_array[ 0 ][ "ID" ];
-            $this->Title = $linkgroup_array[ 0 ][ "Title" ];
-            $this->Parent = $linkgroup_array[ 0 ][ "Parent" ];
+            $this->ID =& $linkgroup_array[ 0 ][ "ID" ];
+            $this->Title =& $linkgroup_array[ 0 ][ "Title" ];
+            $this->Parent =& $linkgroup_array[ 0 ][ "Parent" ];
         }
     }
 
@@ -137,6 +137,8 @@ class eZLinkGroup
     */
     function path( $groupID=0 )
     {
+        $this->dbInit();
+        
         if ( $groupID == 0 )
         {
             $groupID = $this->ID;
@@ -171,12 +173,12 @@ class eZLinkGroup
     */
     function &getByParent( $id )
     {
-
         $this->dbInit();
         $parent_array = array();
         $return_array = array();
 
-        $this->Database->array_query( $parent_array, "SELECT ID FROM eZLink_LinkGroup WHERE Parent='$id' ORDER BY Title" );
+        $this->Database->array_query( $parent_array, "SELECT ID FROM eZLink_LinkGroup
+                                                      WHERE Parent='$id' ORDER BY Title" );
 
         for( $i=0; $i<count( $parent_array ); $i++ )
         {
@@ -192,6 +194,8 @@ class eZLinkGroup
      */
     function getTotalSubLinks( $id, $start_id )
     {
+        $this->dbInit();
+        
         $count = 0;
         $sibling_array = $this->getByParent( $id );
 
@@ -217,7 +221,8 @@ class eZLinkGroup
      */
     function getNewSubLinks( $id, $start_id, $new_limit )
     {
-
+        $this->dbInit();
+        
         $count = 0;
         $sibling_array = $this->getByParent( $id );
 
@@ -242,6 +247,8 @@ class eZLinkGroup
      */
     function getTotalIncomingLinks()
     {
+        $this->dbInit();
+        
         $count = 0;
         $this->Database->array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM eZLink_Link WHERE Accepted='N'" );
         $count = $link_count[0][ "LinkCount" ];
@@ -254,6 +261,7 @@ class eZLinkGroup
     function getAll()
     {
         $this->dbInit();
+        
         $parnet_array = array();
         $return_array = array();
 
@@ -283,6 +291,9 @@ class eZLinkGroup
     */
     function setTitle( $value )
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
         $this->Title = ( $value );
     }
 
@@ -291,6 +302,9 @@ class eZLinkGroup
     */
     function setParent( $value )
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
         $this->Parent = ( $value );
     }
 
@@ -300,6 +314,9 @@ class eZLinkGroup
 
     function Title()
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
         return $this->Title;
     }
 
@@ -308,6 +325,9 @@ class eZLinkGroup
     */
     function parent()
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
         return $this->Parent;
 
     }
@@ -330,6 +350,12 @@ class eZLinkGroup
 
     /// Is true if the object has database connection, false if not.
     var $IsConnected;
+
+    /// database connection indicator
+    var $IsConnected;
+
+    /// internal object state
+    var $State_;
 }
 
 ?>

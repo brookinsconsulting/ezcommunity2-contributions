@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: linkgrouplist.php,v 1.1 2000/10/30 13:05:43 ce-cvs Exp $
+// $Id: linkgrouplist.php,v 1.2 2000/10/31 09:30:28 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:02:09 ce>
@@ -88,8 +88,8 @@ else
         $t->set_var( "linkgroup_title", $groupItem->title() );
         $t->set_var( "linkgroup_parent", $groupItem->parent() );
 
-        $total_sub_links = $linkGroup->getTotalSubLinks( $link_group_id, $link_group_id );
-        $new_sub_links = $linkGroup->getNewSubLinks( $link_group_id, $link_group_id, 1 );
+//          $total_sub_links = $linkGroup->getTotalSubLinks( $link_group_id, $link_group_id );
+//          $new_sub_links = $linkGroup->getNewSubLinks( $link_group_id, $link_group_id, 1 );
         
         $t->set_var( "total_links", $total_sub_links );
         $t->set_var( "new_links", $new_sub_links );

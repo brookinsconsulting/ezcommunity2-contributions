@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.2 2000/10/25 07:17:55 ce-cvs Exp $
+// $Id: menubox.php,v 1.3 2000/10/31 09:30:28 bf-cvs Exp $
 //
 // 
 //
@@ -82,32 +82,23 @@ function createLinkMenu()
 
 // Lister alle kategorier
     $linkGroup = new eZLinkGroup();
-    $linkGroup->get ( $LGID );
 
     $linkGroup_array = $linkGroup->getByParent( 0 );
 
     if ( count( $linkGroup_array ) == 0 )
     {
         $t->set_var( "group_list", "" );
-
     }
     else
     {
         foreach( $linkGroup_array as $groupItem )
         {
             $link_group_id = $groupItem->id();
+            
             $t->set_var( "linkgroup_id", $link_group_id );
             $t->set_var( "linkgroup_title", $groupItem->title() );
-            $t->set_var( "linkgroup_parent", $groupItem->parent() );
-            
-            $total_sub_links = $linkGroup->getTotalSubLinks( $link_group_id, $link_group_id );
-            $new_sub_links = $linkGroup->getNewSubLinks( $link_group_id, $link_group_id, 1 );
-            
-            $t->set_var( "total_links", $total_sub_links );
-            $t->set_var( "new_links", $new_sub_links );
             
             $t->parse( "link_group", "link_group_tpl", true );
-            
         }
     }
     $t->set_var( "linkgroup_id", $LGID );
