@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.54.8.6 2002/01/23 15:21:04 bf Exp $
+// $Id: datasupplier.php,v 1.54.8.7 2002/02/05 15:30:55 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -69,7 +69,7 @@ switch ( $url_array[2] )
         include( "eztrade/user/mailtofriend.php" );
     }
     break;
-    
+
     case "productlist" :
     {
         $CategoryID = $url_array[3];
@@ -103,7 +103,7 @@ switch ( $url_array[2] )
     {
         $ProductID = $url_array[3];
         $CategoryID = $url_array[4];
-        
+
         // forum
         {
             $buffer =& ob_get_contents();
@@ -113,7 +113,7 @@ switch ( $url_array[2] )
             ob_start();
 
             $RedirectURL = "/trade/productview/$ProductID/";
-            $product = new eZProduct( );            
+            $product = new eZProduct( );
             if ( !$product->get( $ProductID ) )
             {
                 header( "Location: /error/404" );
@@ -121,14 +121,14 @@ switch ( $url_array[2] )
             }
 
             $ProductName = $product->name();
-            
+
             if ( ( $product->id() >= 1 ) )
             {
                 $forum = $product->forum();
                 $ForumID = $forum->id();
                 include( "ezforum/user/messagesimplelist.php" );
             }
-            
+
             $forumHTMLContents .= ob_get_contents();
             ob_end_clean();
 
@@ -160,9 +160,18 @@ switch ( $url_array[2] )
             $CategoryID = $url_array[4];
             include( "eztrade/user/productview.php" );
         }
+
+        include_once( "eztrade/user/similarproducts.php" );
+        $similarCode =& similarProducts( $SimilarCategoryID );
+
+        $tmpBuffer =& ob_get_contents();
+        ob_end_clean();
+        ob_start();
+        $tmpBuffer =& str_replace( "<!-- SIMILAR -->", $similarCode, $tmpBuffer );
+        print( $tmpBuffer );
     }
     break;
-        
+
     case "print" :
     case "productprint" :
         if ( $PageCaching == "enabled" )
@@ -230,7 +239,7 @@ switch ( $url_array[2] )
             $Action = "AddToBasket";
             $ProductID = $url_array[4];
         }
-        
+
         if ( $url_array[3] == "movetocart" )
         {
             $Action = "MoveToCart";
@@ -254,11 +263,11 @@ switch ( $url_array[2] )
             $Action = "MoveToCart";
             $WishListItemID = $url_array[4];
         }
-        
+
         include( "eztrade/user/viewwishlist.php" );
     }
     break;
-    
+
     case "sendwishlist" :
     {
         include( "eztrade/user/sendwishlist.php" );
@@ -270,18 +279,18 @@ switch ( $url_array[2] )
         include( "eztrade/user/voucherview.php" );
     }
     break;
-    
+
     case "vouchermain" :
     {
         include( "eztrade/user/vouchermain.php" );
     }
-    break;    
+    break;
 
     case "voucheremailsample" :
     {
         include( "eztrade/user/voucheremailsample.php" );
     }
-    break;        
+    break;
 
     case "orderview" :
     {
@@ -327,7 +336,7 @@ switch ( $url_array[2] )
         include( "eztrade/user/voucherinformation.php" );
     }
     break;
-        
+
     case "ordersendt" :
     {
         $OrderID = $url_array[3];
@@ -356,14 +365,14 @@ switch ( $url_array[2] )
         include( "eztrade/user/advancedproductsearch.php" );
     }
     break;
-    
+
     case "orderlist" :
     {
         if ( $url_array[3] != "" )
             $Offset = $url_array[3];
         else
             $Offset = 0;
-        
+
         include( "eztrade/user/orderlist.php" );
     }
     break;
@@ -383,11 +392,11 @@ switch ( $url_array[2] )
             $Action = "SearchButton";
             $Next = true;
         }
-                
+
         include( "eztrade/user/extendedsearch.php" );
     }
     break;
-    
+
     // XML rpc interface
     case "xmlrpc" :
     {
@@ -402,7 +411,7 @@ switch ( $url_array[2] )
     }
     break;
 
-        
+
     default :
     {
         eZHTTPTool::header( "Location: /error/404" );

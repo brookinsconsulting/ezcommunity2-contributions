@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productview.php,v 1.77.2.2.4.8 2002/02/01 13:21:27 bf Exp $
+// $Id: productview.php,v 1.77.2.2.4.9 2002/02/05 15:30:55 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -108,9 +108,11 @@ $t->setAllStrings();
 $sectionOverride = "_sectionoverride_$GlobalSectionID";
 
 $t->set_var( "extra_product_info", "" );
+if ( !isSet( $productview ) )
+    $productview = "productview.tpl";
 
-
-// section override
+//if ( isSet( $template_array ) and isSet( $variable_array ) and
+//     is_array( $template_array ) and is_array( $variable_array ) )
 if ( eZFile::file_exists( "eztrade/user/$TemplateDir/productview" . $sectionOverride  . ".tpl" ) )
 {
     $t->set_file( "product_view_tpl", "productview" . $sectionOverride  . ".tpl"  );
@@ -250,7 +252,7 @@ else
     $t->set_var( "main_image_width", "100" );
     $t->set_var( "main_image_height", "100" );
     $t->set_var( "main_image_caption", "" );
-    
+
     $t->parse( "main_image", "main_image_tpl" );
 }
 
@@ -428,7 +430,7 @@ if ( count( $attribute_value_array ) > 0 )
         {
             $t->parse( "attribute", "attribute_value_tpl", true );
         }
- 
+
     }
 }
 
@@ -516,11 +518,6 @@ $SiteDescriptionOverride = str_replace( "\"", "", strip_tags( $product->brief() 
 $SiteKeywordsOverride = str_replace( "\"", "", strip_tags( $product->keywords() ) );
 
 $SimilarCategoryID = 28;
-include_once( "eztrade/user/similarproducts.php" );
-$similarCode = similarProducts( $SimilarCategoryID );
-$t->set_var( "similar_products", $similarCode );
-
-
 
 if ( $GenerateStaticPage == "true" && !$useVoucher )
 {
@@ -532,13 +529,12 @@ if ( $GenerateStaticPage == "true" && !$useVoucher )
     $output .= "\$SiteTitleAppend=\"$SiteTitleAppend\";\n";
     $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";
     $output .= "\$SiteKeywordsOverride=\"$SiteKeywordsOverride\";\n";
+    $output .= "\$SimilarCategoryID=\"$SimilarCategoryID\";\n";
     $output .= "?>\n";
-
-
-    $output = $t->parse($target, $template_var );
+    $output =& $t->parse($target, $template_var );
     // print the output the first time while printing the cache file.
     print( $output );
-    $CacheFile->store( $output );
+    $CacheFile->store( &$output );
 }
 else
 {
