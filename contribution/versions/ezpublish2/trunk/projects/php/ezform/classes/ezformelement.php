@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.19 2001/12/19 14:42:17 br Exp $
+// $Id: ezformelement.php,v 1.20 2001/12/20 09:10:05 jhe Exp $
 //
 // ezformelement class
 //
@@ -533,11 +533,28 @@ class eZFormElement
         $formArray = array();
         
         $db =& eZDB::globalDatabase();
-        $db->array_query( $formArray, "SELECT FixedValueID FROM eZForm_FormElementFixedValueLink WHERE ElementID='$this->ID'" );
-
-        for ( $i = 0; $i < count( $formArray ); $i++ )
+        if ( get_class( $this->ElementType ) == "ezformelementtype" )
         {
-            $returnArray[$i] = new eZFormElementFixedValue( $formArray[$i][$db->fieldName( "FixedValueID" )], true );
+            if ( $this->ElementType->name() == "multiple_select_item" ||
+                 $this->ElementType->name() == "checkbox_item" ||
+                 $this->ElementType->name() == "radiobox_item" )
+            {
+                $db->array_query( $formArray, "SELECT FixedValueID FROM eZForm_FormElementFixedValueLink WHERE ElementID='$this->ID'" );
+                
+                for ( $i = 0; $i < count( $formArray ); $i++ )
+                {
+                    $returnArray[$i] = new eZFormElementFixedValue( $formArray[$i][$db->fieldName( "FixedValueID" )], true );
+                }
+            }
+            else
+            {
+                $db->array_query( $qa, "SELECT FixedValueID AS ID FROM eZForm_FormElementFixedValueLink WHERE ElementID='$this->ID'" );
+                $db->query( "DELETE FROM eZForm_FormElementFixedValueLink WHERE ElementID='$this->ID'" );
+                foreach ( $qa as $q )
+                {
+                    $db->query( "DELETE FROM eZForm_FormElementFixedValues WHERE ID='" . $q[$db->fieldName( "ID" )] . "'" );
+                }
+            }
         }
         return $returnArray;
     }

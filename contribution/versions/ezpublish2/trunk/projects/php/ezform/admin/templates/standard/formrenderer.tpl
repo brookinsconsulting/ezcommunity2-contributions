@@ -18,7 +18,7 @@
 <!-- END text_area_item_tpl -->
 
 <!-- BEGIN text_label_item_tpl -->
-<span class="boxtext">{field_value}</span>
+<span class="boxtext">{field_name}</span>
 <!-- END text_label_item_tpl -->
 
 <!-- BEGIN text_header_1_item_tpl -->
@@ -97,7 +97,7 @@
 <!-- BEGIN table_item_sub_item_tpl -->
 <tr>
 <!-- BEGIN table_item_cell_tpl -->
-<td {colspan} >
+<td {colspan} valign="top" >
 {element}
 </td>
 <!-- END table_item_cell_tpl -->

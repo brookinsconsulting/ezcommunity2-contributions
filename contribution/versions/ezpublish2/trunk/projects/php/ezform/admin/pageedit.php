@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.20 2001/12/19 16:43:02 br Exp $
+// $Id: pageedit.php,v 1.21 2001/12/20 09:10:05 jhe Exp $
 //
 // Definition of ||| class
 //
@@ -178,7 +178,7 @@ $errorMessages = array();
 
 if ( isSet( $OK ) || isSet( $Update ) || isSet( $NewElement ) )
 {
-    $page->setName( $PageName );
+    $page->setName( $pageName );
     
     if ( isSet( $NewElement ) || isSet( $Update ) )
     {
@@ -266,14 +266,14 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $NewElement ) )
     $element = new eZFormElement( $elementID );
     $values =& $element->fixedValues();
     $elementType =& $element->elementType();
-    
+    $page->store();
     if ( $elementType && $elementType->name() == "text_field_item" )
     {
         if ( count( $ElementRange ) > 0 )
         {
             $i=0;
             $element->removeCondition();
-            foreach( $ElementRange as $range )
+            foreach ( $ElementRange as $range )
             {
                 $checkID = "FixedPage_" . $range;
                 $pageID = $$checkID;

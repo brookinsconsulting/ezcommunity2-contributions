@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.33 2001/12/19 16:39:13 jhe Exp $
+// $Id: ezformrenderer.php,v 1.34 2001/12/20 09:10:05 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -214,7 +214,7 @@ class eZFormRenderer
             if ( $elementType->name() == "text_block_item" )
             {
                 $elementText = new eZFormElementText( $element->id() );
-                $this->Template->set_var( "text_block", $elementText->text() );
+                $this->Template->set_var( "text_block", nl2br( $elementText->text() ) );
             }
             
             if ( $elementType->name() == "numerical_float_item" ||
@@ -584,7 +584,9 @@ class eZFormRenderer
         $errorMessages = array();
         $errorMessagesAdditionalInfo = array();
         $ini =& INIFile::globalINI();
-              
+
+        if ( $page == -1 )
+            $page = $this->Page;
         $this->Form = new eZForm( $FormID );
         $page = new eZFormPage( $page );
         $elements = $page->pageElements();

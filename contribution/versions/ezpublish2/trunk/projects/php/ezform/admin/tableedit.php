@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: tableedit.php,v 1.11 2001/12/19 16:39:13 jhe Exp $
+// $Id: tableedit.php,v 1.12 2001/12/20 09:10:05 jhe Exp $
 //
 // Created on: <13-Dec-2001 10:51:41 jhe>
 //
@@ -156,6 +156,8 @@ $elementTemplate->set_var( "error_list", "" );
 $elementTemplate->set_var( "element_item", "" );
 $elementTemplate->set_var( "typelist_item", "" );
 $elementTemplate->set_var( "checked", "" );
+$elementTemplate->set_var( "text_block_edit", "" );
+$elementTemplate->set_var( "numerical_edit", "" );
 $elementTemplate->set_var( "element_page", "tableedit" );
 
 $elementTemplate->set_var( "form_id", $FormID );

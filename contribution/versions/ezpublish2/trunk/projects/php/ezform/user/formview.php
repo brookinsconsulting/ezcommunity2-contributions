@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formview.php,v 1.7 2001/12/19 14:13:15 jhe Exp $
+// $Id: formview.php,v 1.8 2001/12/20 09:10:06 jhe Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -139,7 +139,7 @@ $t->set_var( "form", $output );
 
 if ( isSet( $OK ) )
 {
-    $output =& $renderer->verifyForm();
+    $output =& $renderer->verifyPage();
     if ( $output == "" )
     {
         if ( $form->receiver() != "" )

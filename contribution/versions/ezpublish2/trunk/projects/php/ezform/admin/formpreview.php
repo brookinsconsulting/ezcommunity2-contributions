@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formpreview.php,v 1.2 2001/07/19 13:03:50 jakobn Exp $
+// $Id: formpreview.php,v 1.3 2001/12/20 09:10:05 jhe Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -36,13 +36,13 @@ include_once( "ezmail/classes/ezmail.php" );
 
 $ini =& INIFile::globalINI();
 
-if( isset( $Cancel ) )
+if ( isset( $Cancel ) )
 {
     eZHTTPTool::header( "Location: /form/form/edit/$FormID/" );
     exit();
 }
 
-if( isset( $OK ) )
+if ( isset( $OK ) )
 {
     eZHTTPTool::header( "Location: /form/form/edit/$FormID/" );
     exit();
@@ -80,16 +80,16 @@ $renderer =& new eZFormRenderer( $form );
 $output =& $renderer->renderForm( $form, false, false );
 $t->set_var( "form", $output );
 
-if( isset( $Test ) )
+if ( isSet( $Test ) )
 {
-    $output =& $renderer->verifyForm();
+    $output =& $renderer->verifyPage();
     $t->set_var( "error", $output );
 }
 
 
-if( count( $errorMessages ) > 0 )
+if ( count( $errorMessages ) > 0 )
 {
-    foreach( $errorMessages as $errorMessage )
+    foreach ( $errorMessages as $errorMessage )
     {
         $errorMessage =& $t->Ini->read_var( "strings", $errorMessage );
         $t->set_var( "error_message", $errorMessage );
