@@ -247,3 +247,19 @@ Maintainer(s) : br@ez.no
       admin/intl/se_SE/categoryedit.php.ini
       admin/intl/se_SE/menubox.php.ini: se_SE swedish 2.2.1
 
+
+Module : ezad
+Repository path : /home/cvsroot/projects/php/ezad
+Maintainer(s) : br@ez.no
+2001-11-23  Bjoern Reiten  <br@ez.no>
+
+    * admin/adedit.php: removed strtolower for url.
+
+    * classes/ezad.php:
+    removed htmlspecialchars and removed duplicate url function.
+
+    * classes/ezad.php:
+    remover htmlspecialchars on url and the function url was duplicated.
+
+    * admin/adedit.php: removed strtolower on url.
+

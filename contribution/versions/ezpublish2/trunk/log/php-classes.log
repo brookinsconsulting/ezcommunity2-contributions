@@ -482,3 +482,16 @@ Maintainer(s) : bf@ez.no
 
     * ezpublish.php: New version.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-11-23  Baard Farstad  <bf@ez.no>
+
+    * ezpostgresqldb.php:
+    removed dependency to mysql_escape_string() when using postgresql database.
+
+2001-11-23  Christoffer Elo  <ce@ez.no>
+
+    * eztime.php: fix
+

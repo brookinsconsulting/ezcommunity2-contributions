@@ -579,3 +579,14 @@ Maintainer(s) : jhe@ez.no
 
     * admin/intl/es_MX/browse.php.ini: es_MX update for 2.2.2
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-11-23  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/filedownload.php
+      user/filelist.php
+      user/fileupload.php:
+    added site.ini setting if we should download with originalfilename or name as filename
+

@@ -623,3 +623,13 @@ Maintainer(s) : jhe@ez.no
 
     * admin/intl/es_MX/personedit.php.ini: es_MX update for 2.2.2
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-11-23  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/consultationedit.php
+      admin/consultationlist.php
+      admin/consultationview.php: fixed bug with getting ini file
+

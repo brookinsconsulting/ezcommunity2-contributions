@@ -2345,3 +2345,11 @@ Maintainer(s) : bf@ez.no
     * user/frontpage.php:
     Need to read the correct variable, or else the price will be wrong.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-11-23  Baard Farstad  <bf@ez.no>
+
+    * classes/ezqdomrenderer.php: Added reference.
+
