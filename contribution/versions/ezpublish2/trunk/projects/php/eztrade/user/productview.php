@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.72 2001/10/10 12:30:18 ce Exp $
+// $Id: productview.php,v 1.73 2001/10/10 12:44:21 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -216,6 +216,8 @@ if ( isSet ( $Voucher ) )
         exit();
     }
 }
+else
+$session->setVariable( "VoucherInformationID", 0 );
 
 $pathArray =& $category->path();
 
