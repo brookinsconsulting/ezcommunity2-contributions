@@ -10,9 +10,6 @@
 	</form>	
 	</td>
 </tr>
-<tr>
-	<td>{current_category_description}</td>
-</tr>
 </table>
 
 <hr noshade="noshade" size="4" />
@@ -34,6 +31,8 @@
 <!-- END path_item_tpl -->
 
 <hr noshade="noshade" size="4" />
+
+<div class="spacer"><div class="p">{current_category_description}</div></div>
 
 <!-- BEGIN category_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
