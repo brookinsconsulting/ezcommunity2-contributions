@@ -3,14 +3,15 @@ eZ publish changelog:
 
 Changes from 2.2.4 to 2.2.5
 ---------------------------
+* Fixed several permission bugs in eZ imagecatalogue.
 * Fixed several permission bugs in eZ filemanager.
 * Fixed problem with updating cache files introduced in 2.2.4
 * Fixed problem with notification mails not beeing sent when articles are submitted from the user site.
-* Fixed storing article category position when adding images to articles on user site
-* Fixed premature publishing when submitting articles from user site
+* Fixed storing article category position when adding images to articles on user site.
+* Fixed premature publishing when submitting articles from user site.
 * Fixed bug where wrong confirmation page for generated password was shown.
 * Fixed bug with default page.
-* Fixed bug when downloading binary files from Windows servers
+* Fixed bug when downloading binary files from Windows servers.
 * Fixed article count bug on article list from all categories.
 * Removed &nbsp; for the root of the sitemap in eZ article.
 * Set Orders in eZ trade to be generated in checkout instead of payment.
