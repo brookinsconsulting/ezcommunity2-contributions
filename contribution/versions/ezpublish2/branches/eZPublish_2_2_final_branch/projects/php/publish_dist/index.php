@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.119.2.4 2001/11/10 13:18:17 bf Exp $
+// $Id: index.php,v 1.119.2.5 2001/11/15 15:15:13 ce Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -27,6 +27,8 @@ header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" );
 header( "Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" ); 
 header( "Cache-Control: no-cache, must-revalidate" ); 
 header( "Pragma: no-cache" );
+
+apd_set_session_trace(35);
 
 // Tell PHP where it can find our files.
 if ( file_exists( "sitedir.ini" ) )
