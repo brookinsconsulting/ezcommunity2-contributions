@@ -204,7 +204,7 @@ $t->set_block( "no_error_tpl", "category_value_tpl", "category_value" );
 
 $t->set_block( "no_error_tpl", "month_tpl", "month" );
 $t->set_block( "no_error_tpl", "day_tpl", "day" );
-//$t->set_block( "no_error_tpl", "year_tpl", "year" );
+$t->set_block( "no_error_tpl", "year_tpl", "year" );
 $t->set_block( "no_error_tpl", "group_name_edit_tpl", "group_name_edit" );
 $t->set_block( "no_error_tpl", "group_name_new_tpl", "group_name_new" );
 $t->set_block( "group_name_new_tpl", "group_item_tpl", "group_item" );
@@ -411,7 +411,7 @@ if ( $Action == "DeleteEvents" )
 					exec("secure_clearcache.sh");
 					break;
 				}
-			}
+			}  
 		}
 	}
 
@@ -500,7 +500,7 @@ $Day = $dateArr[2];
         }
 
 
-	// kracker : i wanted to reserve 0 for events in all group category
+	// wanted to reserve 0 for events in all group category
 	//	if ( $StoreByGroupID != 0 )
 	if ( $StoreByGroupID != "" )
         { 
@@ -651,7 +651,7 @@ $Day = $dateArr[2];
                                     $stopTime->minute() - $startTime->minute() );
 	  */
 
-	  // kracker : formant hour, minute, second : the 1.0 release had a major bug related to the above code mssing the ,0 in duration time span
+	  // formant hour, minute, second : the 1.0 release had a major bug related to the above code mssing the ,0 in duration time span
 
 	  $duration = new eZTime( $pStopTimeHour - $pStartTimeHour,
 				  $pStopTimeMinute - $pStartTimeMinute, 0 );
@@ -670,7 +670,7 @@ $Day = $dateArr[2];
 
 	    die();
 	    */
-	    // spectrum : check to see if this is a recurring event
+	    //  : check to see if this is a recurring event
        }
 
         if ( $TitleError == false && $GroupInsertError == false && $StartTimeError == false && $StopTimeError == false )
@@ -681,11 +681,11 @@ $Day = $dateArr[2];
             $month = addZero( $datetime->month() );
             $day = addZero( $datetime->day() );
             deleteCache( "default", $Language, $year, $month, $day, $groupID );
-            eZHTTPTool::header( "Location: /groupeventcalendar/dayview/$year/$month/$day/" );
+	    eZHTTPTool::header( "Location: /groupeventcalendar/dayview/$year/$month/$day/" );
         }
         else
         {
-	    // spectrum: js gui calendar regeneraion
+	    // : js gui calendar regeneraion
           if (isset($dateCal))
            $t->set_var( "date_calendar", $dateCal);
           else 
@@ -787,7 +787,7 @@ $Day = $dateArr[2];
 				foreach( $groupsList as $groups )
 				  {
 
-				    // kracker : Add entry for event to be in all groups
+				    // Add entry for event to be in all groups
 				    $t->set_var( "group_member_name", "All Groups" );
 				    $t->set_var( "group_member_id", 0 );
 
@@ -823,9 +823,7 @@ $Day = $dateArr[2];
                 $t->set_var( "is_private", "checked" );
             else
                 $t->set_var( "is_private", "" );
-/* spectrum : what we need to store this date.
-timestamp
-*/
+	                /* what we need to store this date. timestamp */
 
 			$eventStartTime =& $event->startTime();
 			$startHour		= ( addZero( $eventStartTime->hour() ) );
@@ -1009,7 +1007,7 @@ if ( $Action == "Edit" && $groupError == false )
     $t->set_var( "event_id", $event->id() );
     $t->set_var( "description_value", $event->description() );
 
-    // spectrum: adding recurring event template vars
+    // : adding recurring event template vars
         $t->set_var( "is_recurring", '');
     $t->set_var( "recur_freq", "1" );  
     $t->set_var( "recur_weekly_mon", "" ); 
@@ -1079,12 +1077,8 @@ if ( $Action == "Edit" && $groupError == false )
 	$t->set_var('recur_exceptions', '');
      }   
        // still need to add exception handling, once it's all ready
-       
-       
-    
-    
-    
     }
+
 	include_once("ezuser/classes/ezusergroup.php" );
 	$group = new eZUserGroup( $groupID );
 	
@@ -1097,7 +1091,7 @@ if ( $Action == "Edit" && $groupError == false )
 	$noshow_array = $noShowGroup->getAll();
 	$t->set_var( "group_item", "" );
 
-	// kracker : Add entry for event to be in all groups
+	// Add entry for event to be in all groups
 	$t->set_var( "group_member_name", "All Groups" );
 	$t->set_var( "group_member_id", 0 );
 
@@ -1316,7 +1310,7 @@ if ( $Action == "Edit" && $groupError == false )
 	$tempYear = addZero( $today->year() );
         //$tempYear = $tmpdate->year();
 	$yearsPrint = $ini->read_var( "eZGroupEventCalendarMain", "YearsPrint" );
-//spectrum : setting new day time in template
+// : setting new day time in template
 $t->set_var( "date_calendar", "$year-$month-$day");
 
 /*
@@ -1398,7 +1392,7 @@ if ( $Action == "New" && $groupError == false )
 
 		$noshow_array = $noShowGroup->getAll();
 
-		// kracker : Add entry for event to be in all groups
+		// Add entry for event to be in all groups
 		$t->set_var( "group_member_name", "All Groups" );
 		$t->set_var( "group_member_id", 0 );
 
@@ -1692,7 +1686,7 @@ foreach ( $categoryList as $category )
 }
 
 // set day combobox
-/*-- removed by spectrum
+/*-- removed by 
 $daysInMonth = $tmpdate->daysInMonth();
 //for ( $i=1; $i<=$daysInMonth; $i++ )
 for ( $i=1; $i<=31; $i++ )
@@ -1724,7 +1718,7 @@ for ( $i=1; $i<=31; $i++ )
 }
 /*
 // set month combobox /
-/*-- removed by spectrum
+/*-- removed code
 $month = $tmpdate->month();
 for ( $i=1; $i<13; $i++ )
 {
@@ -1759,13 +1753,13 @@ if ( $Action != "Edit" )
 {
     $t->set_var( "year_value", $tmpdate->year() );
 	$t->set_var( "is_year_selected", "selected" );
-//	$t->parse( "year", "year_tpl", true );
+	$t->parse( "year", "year_tpl", true );
 	$yearsPrint = $ini->read_var( "eZGroupEventCalendarMain", "YearsPrint" );
 	for( $i=1; $i<=$yearsPrint; $i++ )
 	{
 		$t->set_var( "year_value", $tmpdate->year() + $i );
 		$t->set_var( "is_year_selected", "" );
-//		$t->parse( "year", "year_tpl", true );
+		$t->parse( "year", "year_tpl", true );
 	}
 }
 
