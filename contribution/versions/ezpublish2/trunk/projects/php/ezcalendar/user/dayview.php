@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.27 2001/01/25 15:40:23 gl Exp $
+// $Id: dayview.php,v 1.28 2001/01/25 18:11:26 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -321,14 +321,15 @@ else
             }
         }
 
-        // mark current time with bgcurrent, if applicable
         $t->set_var( "td_class", "" );
-        if ( $date->equals( $today ) && $nowSet == false &&
-        $startTime->isGreater( $now, true ) && $now->isGreater( $startTime->add( $interval ) ) )
-        {
-            $t->set_var( "td_class", "bgcurrent" );
-            $nowSet = true;
-        }
+
+// Mark current time with bgcurrent. Does not currently go well together with caching.
+//        if ( $date->equals( $today ) && $nowSet == false &&
+//        $startTime->isGreater( $now, true ) && $now->isGreater( $startTime->add( $interval ) ) )
+//        {
+//            $t->set_var( "td_class", "bgcurrent" );
+//            $nowSet = true;
+//        }
 
         $startTime = $startTime->add( $interval );
         $row++;
