@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderlist.php,v 1.20 2001/08/30 11:38:31 ce Exp $
+// $Id: orderlist.php,v 1.21 2001/09/26 09:51:35 br Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -35,6 +35,7 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezorder.php" );
+include_once( "eztrade/classes/ezpreorder.php" );
 
 include_once( "eztrade/classes/ezorderstatustype.php" );
 
@@ -44,6 +45,10 @@ if( isSet( $Delete ) && count( $OrderArrayID ) > 0 )
     {
         $order = new eZOrder( $orderid );
         $order->delete();
+        $preOrder = new eZPreOrder();
+        $preOrder->getByOrderID( $orderid );
+        $preOrder->setOrderID( 0 );
+        $preOrder->store();
     }
 }
 
