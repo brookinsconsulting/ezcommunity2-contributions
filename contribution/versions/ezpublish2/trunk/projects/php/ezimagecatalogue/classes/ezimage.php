@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimage.php,v 1.69 2001/07/20 11:06:38 jakobn Exp $
+// $Id: ezimage.php,v 1.70 2001/07/24 11:49:56 jhe Exp $
 //
 // Definition of eZImage class
 //
@@ -24,6 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
 //!! eZImageCatalogue
 //! The eZImage class hadles images in the image catalogue.
 /*!
@@ -114,7 +115,7 @@ class eZImage
         $filename = $db->escapeString( $this->FileName );
         $originalfilename = $db->fieldName( $this->OriginalFileName );
         
-        if ( !isset( $this->ID ) )
+        if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZImageCatalogue_Image" );
 
@@ -126,7 +127,7 @@ class eZImage
                                              Name,
                                              Caption,
                                              Description,
-                                             FileNAme,
+                                             FileName,
                                              UserID,
                                              WritePermission,
                                              ReadPermission,
@@ -173,7 +174,7 @@ class eZImage
         }
         
         if ( $res == false )
-            $db->rollback( );
+            $db->rollback();
         else
             $db->commit();
     }
@@ -353,15 +354,18 @@ class eZImage
 
       The images are returned as an array of eZImage objects.
      */
-    function getUnassigned()
+    function getUnassigned( $offset = -1, $limit = -1 )
     {
         $db =& eZDB::globalDatabase();
-
+        if ( $offset > 0 || $limit > 0 )
+            $limitArray = array( "Offset" => $offset, "Limit" => $limit );
+        else
+            $limitArray = array();
         $db->array_query( $imageArray, "SELECT Image.ID, Link.ImageID
                                         FROM eZImageCatalogue_Image AS Image
                                         LEFT JOIN  eZImageCatalogue_ImageCategoryLink AS Link
                                         ON Image.ID=Link.ImageID
-                                        WHERE ImageID IS NULL" );
+                                        WHERE ImageID IS NULL", $limitArray );
 
         foreach( $imageArray as $image )
         {
@@ -377,14 +381,13 @@ class eZImage
     function countUnassigned()
     {
         $db =& eZDB::globalDatabase();
-
         $db->query_single( $image, "SELECT COUNT(Image.ID) as Count, Link.ImageID
                                         FROM eZImageCatalogue_Image AS Image
-                                        LEFT JOIN  eZImageCatalogue_ImageCategoryLink AS Link
+                                        LEFT JOIN eZImageCatalogue_ImageCategoryLink AS Link
                                         ON Image.ID=Link.ImageID
                                         WHERE ImageID IS NULL
                                         GROUP By ImageID" );
-        return $image[$db->fieldName("Count")];
+        return $image[ $db->fieldName( "Count" ) ];
     }
 
     /*!

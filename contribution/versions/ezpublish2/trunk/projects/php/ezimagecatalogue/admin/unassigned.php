@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unassigned.php,v 1.4 2001/07/20 11:06:38 jakobn Exp $
+// $Id: unassigned.php,v 1.5 2001/07/24 11:49:56 jhe Exp $
 //
 // Created on: <26-Oct-2000 19:40:18 bf>
 //
@@ -36,9 +36,7 @@ include_once( "ezimagecatalogue/classes/ezimagecategory.php" );
 include_once( "classes/ezhttptool.php" );
 
 $ini =& INIFile::globalINI();
-
 $Language = $ini->read_var( "eZImageCatalogueMain", "Language" );
-
 $ImageDir = $ini->read_var( "eZImageCatalogueMain", "ImageDir" );
 
 $t = new eZTemplate( "ezimagecatalogue/admin/" . $ini->read_var( "eZImageCatalogueMain", "AdminTemplateDir" ),
@@ -51,8 +49,10 @@ $t->setAllStrings();
 $user = eZUser::currentUser();
 
 $t->set_block( "image_list_page_tpl", "image_list_tpl", "image_list" );
-$t->set_block( "image_list_tpl", "value_tpl", "value" );
+$t->set_block( "image_list_page_tpl", "prev_link_tpl", "prev_link" );
+$t->set_block( "image_list_page_tpl", "next_link_tpl", "next_link" );
 
+$t->set_block( "image_list_tpl", "value_tpl", "value" );
 $t->set_block( "image_list_tpl", "detail_view_tpl", "detail_view" );
 
 $t->set_block( "detail_view_tpl", "detail_read_tpl", "detail_read" );
@@ -66,22 +66,55 @@ $t->set_var( "delete_categories_button" , "" );
 $t->set_var( "default_new" , "" );
 $t->set_var( "default_delete" , "" );
 
-if ( isSet ( $Update ) )
+if ( !( $Offset > 0 ) )
+    $Offset = 0;
+if ( !( $Limit > 0 ) )
+    $Limit = $ini->read_var( "eZImageCatalogueMain", "ListImagesPerPage" );
+
+if ( isSet( $Update ) )
 {
-    for( $i=0; $i < count ( $ImageArrayID ); $i++ )
+    for ( $i = 0; $i < count( $ImageArrayID ); $i++ )
     {
         if ( ( $CategoryArrayID[$i] != "-1" ) && ( is_numeric( $CategoryArrayID[$i] ) ) )
         {
-            $image = new eZImage( $ImageArrayID[$i] );
-            $category = new eZImageCategory( $CategoryArrayID[$i] );
+            $image = new eZImage( $ImageArrayID[$Offset + $i] );
+            $category = new eZImageCategory( $CategoryArrayID[$Offset + $i] );
             $category->addImage( &$image );
         }
     }
 }
 
+$t->set_var( "offset", $Offset );
+$t->set_var( "limit", $Limit );
+
 // Print out all the images
-$imageList =& eZImage::getUnassigned();
+$imageList =& eZImage::getUnassigned( $Offset, $Limit );
 $imageCount =& eZImage::countUnassigned();
+
+$t->set_var( "limit", $Limit );
+if ( $Offset > 0 )
+{
+    if ( $Offset - $Limit < 0 )
+        $t->set_var( "prev_offset", "0" );
+    else
+        $t->set_var( "prev_offset", $Offset - $Limit );
+    $t->parse( "prev_link", "prev_link_tpl", true );
+}
+else
+{
+    $t->set_var( "prev_link", "" );
+}
+
+if ( $Offset + $Limit < $imageCount )
+{
+    $t->set_var( "next_offset", $Offset + $Limit );
+    $t->parse( "next_link", "next_link_tpl", true );
+}
+else
+{
+    $t->set_var( "next_link", "" );
+}
+
 
 $i = 0;
 $counter = 0;
@@ -119,6 +152,15 @@ foreach ( $imageList as $image )
         $size = 0;
     }
 
+    if ( ( $i % 2 ) == 0 )
+    {
+        $t->set_var( "td_class", "bglight" );
+    }
+    else
+    {
+        $t->set_var( "td_class", "bgdark" );
+    }
+    
     $size = eZFile::siFileSize( $size );
 
     $t->set_var( "image_size", $size["size-string"] );

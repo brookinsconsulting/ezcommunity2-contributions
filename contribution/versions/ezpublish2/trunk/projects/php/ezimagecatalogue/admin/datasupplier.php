@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.5 2001/07/20 11:06:38 jakobn Exp $
+// $Id: datasupplier.php,v 1.6 2001/07/24 11:49:56 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -35,6 +35,8 @@ switch ( $url_array[2] )
 
     case "unassigned":
     {
+        $Offset = $url_array[3];
+        $Limit = $url_array[4];
         include( "ezimagecatalogue/admin/unassigned.php" );
     }
 

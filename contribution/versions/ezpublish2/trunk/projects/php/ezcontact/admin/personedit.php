@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.38 2001/07/20 12:01:50 jakobn Exp $
+// $Id: personedit.php,v 1.39 2001/07/24 11:49:56 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -45,6 +45,27 @@ include_once( "ezcontact/classes/ezprojecttype.php" );
 
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
+
+
+// deletes the dayview cache file for a given day
+function deleteCache( $siteStyle )
+{
+    unlink_wild( "./ezcalendar/user/cache/", "monthview.tpl-$siteStyle-*" );
+}
+
+function unlink_wild( $dir, $rege )
+{
+    $d = opendir( $dir );
+    while ( $f = readdir( $d ) )
+    {
+        if ( ereg( $rege, $f ) )
+        {
+            unlink( $dir . $f );
+        }
+    }
+    closedir( $d );
+}
+
 
 $user = eZUser::currentUser();
 if ( get_class( $user ) != "ezuser" )
@@ -134,7 +155,7 @@ if ( isSet( $Delete ) )
     $Action = "delete";
 }
 
-if( $Action == "delete" )
+if ( $Action == "delete" )
 {
     if ( isSet( $CompanyEdit ) )
     {
@@ -168,6 +189,7 @@ if( $Action == "delete" )
             eZPerson::delete( $PersonID );
         }
 
+        deleteCache( "default" );
         include_once( "classes/ezhttptool.php" );
         eZHTTPTool::header( "Location: /contact/$item_type/list/$id" );
         exit;
@@ -262,7 +284,7 @@ $t->set_block( "errors_tpl", "error_image_item_tpl", "error_image_item" );
 
 $confirm = false;
 
-if( $Action == "delete" )
+if ( $Action == "delete" )
 {
     if ( !isSet( $Confirm ) )
     {
@@ -313,8 +335,13 @@ if ( !$confirm )
     $t->set_var( "contact_item_select", "" );
 
 /* End of the pre-defined values */
-    if( $Action == "insert" || $Action == "update" )
+    if ( $Action == "insert" || $Action == "update" )
     {
+        if ( $Action == "update" )
+        {
+            deleteCache( "default" );
+        }
+        
         if ( isSet( $CompanyEdit ) )
         {
             $t->set_var( "error_name_item", "" );
@@ -334,7 +361,7 @@ if ( !$confirm )
 
         if ( isSet( $CompanyEdit ) )
         {
-            if( $Name == "" )
+            if ( $Name == "" )
             {
                 $t->parse( "error_name_item", "error_name_item_tpl" );
                 $error = true;
@@ -342,13 +369,13 @@ if ( !$confirm )
         }
         else
         {
-            if( $FirstName == "" )
+            if ( $FirstName == "" )
             {
                 $t->parse( "error_firstname_item", "error_firstname_item_tpl" );
                 $error = true;
             }
     
-            if( $LastName == "" )
+            if ( $LastName == "" )
             {
                 $t->parse( "error_lastname_item", "error_lastname_item_tpl" );
                 $error = true;
@@ -367,11 +394,10 @@ if ( !$confirm )
     
         $count = max( count( $AddressTypeID ), count( $AddressID ),
                       count( $Street1 ), count( $Street2 ),
-                      count( $Zip ), count( $Place ),
-                      1 );
+                      count( $Zip ), count( $Place ), 1 );
         for ( $i = 0; $i < $count; $i++ )
         {
-            if( $AddressTypeID[$i] != -1 )
+            if ( $AddressTypeID[$i] != -1 )
             {
                 if ( $Street1[$i] == "" || $Place[$i] == "" || $Country[$i] == "" )
                 {
@@ -395,7 +421,7 @@ if ( !$confirm )
         $count = max( count( $PhoneTypeID ), count( $PhoneID ), count( $Phone ) );
         for ( $i = 0; $i < $count; $i++ )
         {
-            if( $PhoneTypeID[$i] != -1 )
+            if ( $PhoneTypeID[$i] != -1 )
             {
                 if ( $Phone[$i] == "" )
                 {
@@ -418,7 +444,7 @@ if ( !$confirm )
         $count = max( count( $OnlineTypeID ), count( $OnlineID ), count( $Online ) );
         for ( $i = 0; $i < $count; $i++ )
         {
-            if( $OnlineTypeID[$i] != -1 )
+            if ( $OnlineTypeID[$i] != -1 )
             {
                 if ( $Online[$i] == "" )
                 {
@@ -462,14 +488,14 @@ if ( !$confirm )
             }
         }
 
-        if( $error == true )
+        if ( $error == true )
         {
             $t->parse( "errors_item", "errors_tpl" );
         }
     }
 
 
-    if( $error == false )
+    if ( $error == false )
     {
         $t->set_var( "errors_item", "" );
     }
@@ -478,11 +504,12 @@ if ( !$confirm )
         $Action = "formdata";
     }
 
-    if( ( $Action == "insert" || $Action == "update" ) && $error == false )
+    if ( ( $Action == "insert" || $Action == "update" ) && $error == false )
     {
         if ( isSet( $CompanyEdit ) )
         {
             $company = new eZCompany( $CompanyID, true );
+            
             $company->setName( $Name );
 
             $company->setCompanyNo( $CompanyNo );
@@ -501,7 +528,7 @@ if ( !$confirm )
             $category = new eZCompanyType();
             if ( count( $CompanyCategoryID ) > 0 )
             {
-                for( $i=0; $i < count( $CompanyCategoryID ); $i++ )
+                for ( $i = 0; $i < count( $CompanyCategoryID ); $i++ )
                 {
                     $category->get( $CompanyCategoryID[$i] );
                     $category->addCompany( $company );
@@ -578,7 +605,7 @@ if ( !$confirm )
             $person->store();
 
             $person->removeCompanies();
-            for( $i = 0; $i < count( $CompanyID ); $i++ )
+            for ( $i = 0; $i < count( $CompanyID ); $i++ )
             {
                 eZCompany::addPerson( $person->id(), $CompanyID[$i] );
             }
@@ -632,9 +659,9 @@ if ( !$confirm )
 
         $item->removeOnlines();
         $count = max( count( $OnlineID ), count( $Online ) );
-        for( $i=0; $i < $count; $i++ )
+        for ( $i=0; $i < $count; $i++ )
         {
-            if( !in_array( $i + 1, $OnlineDelete ) && $Online[$i] != "" )
+            if ( !in_array( $i + 1, $OnlineDelete ) && $Online[$i] != "" )
             {
                 $online = new eZOnline( false, true );
                 $online->setURL( $Online[$i] );
@@ -668,7 +695,7 @@ if ( !$confirm )
     We fetch the appropriate variables.
 */
 
-    if( $Action == "edit" )
+    if ( $Action == "edit" )
     {
         if ( isSet( $CompanyEdit ) )
         {
@@ -754,9 +781,12 @@ if ( !$confirm )
     
     We present an empty form.
  */
-    if( $Action == "new" || $Action == "formdata" || $Action == "edit" )
+    if ( $Action == "new" || $Action == "formdata" || $Action == "edit" )
     {
-        $Action_value = "new";
+        if ( $Action == "edit" )
+            $Action_value = "edit";
+        else
+            $Action_value = "new";
 
         if ( isSet( $CompanyEdit ) )
         {
@@ -796,7 +826,7 @@ if ( !$confirm )
                 $categoryList =& array_unique( array_merge( $NewCompanyCategory, $categoryList ) );
             $category_values = array_values( $categoryList );
             $t->set_var( "is_top_selected", in_array( 0, $category_values ) ? "selected" : "" );
-            foreach( $companyTypeList as $companyTypeItem )
+            foreach ( $companyTypeList as $companyTypeItem )
             {
                 $t->set_var( "company_type_name", eZTextTool::htmlspecialchars( $companyTypeItem[0]->name() ) );
                 $t->set_var( "company_type_id", $companyTypeItem[0]->id() );

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: consultationedit.php,v 1.19 2001/07/23 14:54:24 jhe Exp $
+// $Id: consultationedit.php,v 1.20 2001/07/24 11:49:56 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -34,6 +34,27 @@ $Language = $ini->read_var( "eZContactMain", "Language" );
 
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
+
+// deletes the dayview cache file for a given day
+function deleteCache( $siteStyle, $language, $year, $month, $day, $userID )
+{
+    unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$userID.cache" );
+    unlink( "ezcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$userID.cache" );
+    unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$userID-private.cache" );
+    unlink( "ezcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$userID-private.cache" );
+}
+
+//Adds a "0" in front of the value if it's below 10.
+function addZero( $value )
+{
+    settype( $value, "integer" );
+    $ret = $value;
+    if ( $ret < 10 )
+    {
+        $ret = "0". $ret;
+    }
+    return $ret;
+}
 
 $user = eZUser::currentUser();
 if ( get_class( $user ) != "ezuser" )
@@ -249,11 +270,16 @@ if ( !$user )
     exit();
 }
 
+$userID = $user->ID();
+
 if ( ( $Action == "insert" || $Action == "update" ) && $error == false )
 {
     if ( $ConsultationID > 0 )
     {
         $consultation = new eZConsultation( $ConsultationID );
+        $oldDate = $consultation->date();
+        deleteCache( "default", $Language, $oldDate->year(), addZero( $oldDate->month() ), addZero( $oldDate->day() ), $userID );
+        deleteCache( "default", $Language, $ConsultationYear, addZero( $ConsultationMonth ), addZero( $ConsultationDay ), $userID );
     }
     else
     {
@@ -265,7 +291,7 @@ if ( ( $Action == "insert" || $Action == "update" ) && $error == false )
     $consultation->setState( $StatusID );
     $consultation->setEmail( $EmailNotice );
     $consultation->store();
-
+    
     if ( isSet( $CompanyContact ) )
     {
         $contact_type = "company";

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: todoedit.php,v 1.24 2001/07/20 11:36:07 jakobn Exp $
+// $Id: todoedit.php,v 1.25 2001/07/24 11:49:56 jhe Exp $
 //
 // Definition of todo list.
 //
@@ -27,6 +27,27 @@
 
 include_once( "classes/ezhttptool.php" );
 
+// deletes the dayview cache file for a given day
+function deleteCache( $siteStyle, $language, $year, $month, $day, $userID )
+{
+    unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$userID.cache" );
+    unlink( "ezcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$userID.cache" );
+    unlink( "ezcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$userID-private.cache" );
+    unlink( "ezcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$userID-private.cache" );
+}
+
+//Adds a "0" in front of the value if it's below 10.
+function addZero( $value )
+{
+    settype( $value, "integer" );
+    $ret = $value;
+    if ( $ret < 10 )
+    {
+        $ret = "0". $ret;
+    }
+    return $ret;
+}
+
 
 if ( isSet ( $Delete ) )
 {
@@ -37,12 +58,12 @@ if ( isSet ( $List ) )
     eZHTTPTool::header( "Location: /todo" );
     exit();
 }
-if ( isSet ( $Edit ) )
+if ( isSet( $Edit ) )
 {
     $Action = "edit";
 }
 
-if( isset( $Cancel ) )
+if( isSet( $Cancel ) )
 {
     eZHTTPTool::header( "Location: /todo" );
     exit();
@@ -80,7 +101,7 @@ $locale = new eZLocale( $Language );
 $user = eZUser::currentUser();
 $redirect = true;
 
-if ( isSet ( $AddLog ) )
+if ( isSet( $AddLog ) )
 {
     $log = new eZTodoLog();
     $log->setLog( $Log );
@@ -231,7 +252,7 @@ if ( $Action == "insert" && $error == false )
     {
         $todo->setIsPublic( false );
     }
-
+    
     $todo->store();
 
     if ( $SendMail == "on" )
@@ -286,8 +307,14 @@ if ( $Action == "insert" && $error == false )
 // Update a todo in the database.
 if ( $Action == "update" && $error == false )
 {
+    $userID = $user->ID();
     $todo = new eZTodo();
     $todo->get( $TodoID );
+    $oldDue = $todo->due();
+
+    deleteCache( "default", $Language, $oldDue->year(), addZero( $oldDue->month() ) , addZero( $oldDue->day() ), $userID );
+    deleteCache( "default", $Language, $DeadlineYear, addZero( $DeadlineMonth ), addZero( $DeadlineDay ), $userID );
+
     $oldstatus = $todo->statusID();
         
     $todo->setName( $Name );
@@ -295,9 +322,8 @@ if ( $Action == "update" && $error == false )
     $todo->setCategoryID( $CategoryID );
     $todo->setPriorityID( $PriorityID );
     $todo->setDue( $Due );
-    $todo->setUserID( $UserID );
+    $todo->setUserID( $userID );
     $todo->setStatusID( $StatusID );
-
     
     if ( $IsPublic == "on" )
     {

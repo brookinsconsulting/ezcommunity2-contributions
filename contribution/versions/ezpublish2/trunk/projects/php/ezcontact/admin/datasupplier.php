@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.48 2001/07/20 12:01:50 jakobn Exp $
+// $Id: datasupplier.php,v 1.49 2001/07/24 11:49:56 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -97,7 +97,7 @@ switch ( $ListType )
             // intentional fall through
             case "new":
             {
-                if ( isset( $url_array[4] ) and is_numeric( $url_array[4] ) )
+                if ( isSet( $url_array[4] ) and is_numeric( $url_array[4] ) )
                     $NewCompanyCategory = $url_array[4];
                 include( "ezcontact/admin/companyedit.php" );
                 break;
@@ -107,14 +107,14 @@ switch ( $ListType )
             case "delete":
             case "insert":
             {
-                if ( !isset( $CompanyID ) and isset( $url_array[4] ) and is_numeric( $url_array[4] ) )
+                if ( !isSet( $CompanyID ) and isSet( $url_array[4] ) and is_numeric( $url_array[4] ) )
                     $CompanyID = $url_array[4];
                 include( "ezcontact/admin/companyedit.php" );
                 break;
             }
             case "view":
             {
-                if ( !isset( $CompanyID ) and isset( $url_array[4] ) and is_numeric( $url_array[4] ) )
+                if ( !isSet( $CompanyID ) and isSet( $url_array[4] ) and is_numeric( $url_array[4] ) )
                     $CompanyID = $url_array[4];
                 $PersonOffset = $url_array[5];
                 include( "ezcontact/admin/companyview.php" );

@@ -1,6 +1,4 @@
-<form method="post" action="/imagecatalogue/unassigned/" enctype="multipart/form-data">
-
-<input type="hidden" name="CategoryID" value="{main_category_id}">
+<form method="post" action="/imagecatalogue/unassigned/{offset}/{limit}/" enctype="multipart/form-data">
 
 <h1>{intl-images}</h1>
 
@@ -12,7 +10,7 @@
 <!-- BEGIN detail_view_tpl -->
 <tr>
 	<!-- BEGIN detail_read_tpl -->
-	<td valign="top">
+	<td valign="top" class="{td_class}">
 	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/unassigned/"><img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a>
 	</td>
 	<td class="{td_class}">
@@ -23,7 +21,7 @@
 	<select name="CategoryArrayID[]">
 	<option	value="-1">{intl-do_not_update}</option>
 	<!-- BEGIN value_tpl -->
-	<option	value="{option_value}" {selected}>{option_level}{option_name}</option>
+	<option	value="{option_value}">{option_level}{option_name}</option>
 	<!-- END value_tpl -->
 	</select>
 	</td>
@@ -39,7 +37,20 @@
 <!-- END detail_view_tpl -->
 </table>
 <!-- END image_list_tpl -->
-
+<table width="100%" border="0" cellspacing="0" cellpadding="0" >
+<tr>
+<td width="50" align="left">
+<!-- BEGIN prev_link_tpl -->
+<a href="/imagecatalogue/unassigned/{prev_offset}/{limit}/">{intl-prev}</a>
+<!-- END prev_link_tpl -->
+</td>
+<td width="50%" align="right">
+<!-- BEGIN next_link_tpl -->
+<a href="/imagecatalogue/unassigned/{next_offset}/{limit}/">{intl-next}</a>
+<!-- END next_link_tpl -->
+</td>
+</tr>
+</table>
 <hr noshade="noshade" size="4" />
 
 <input class="stdbutton" type="submit" name="Update" value="{intl-update}">
