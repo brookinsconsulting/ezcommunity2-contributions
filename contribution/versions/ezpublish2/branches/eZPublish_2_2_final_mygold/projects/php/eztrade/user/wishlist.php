@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: wishlist.php,v 1.20.4.3 2001/11/21 14:08:34 sascha Exp $
+// $Id: wishlist.php,v 1.20.4.4 2001/11/21 15:01:14 ce Exp $
 //
 // Created on: <21-Oct-2000 18:09:45 bf>
 //
@@ -82,6 +82,9 @@ if ( !$user )
 }
 
 $wishlist = $wishlist->getByUser( $user );
+
+if ( isSet ( $Refresh ) )
+    $Action = "Refresh";
 
 
 

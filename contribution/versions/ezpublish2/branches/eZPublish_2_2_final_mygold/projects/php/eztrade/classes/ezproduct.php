@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.119.4.1 2001/10/22 11:52:22 ce Exp $
+// $Id: ezproduct.php,v 1.119.4.2 2001/11/21 15:01:14 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -2205,32 +2205,6 @@ class eZProduct
         return $ret;
     }
 
-    /*!
-      Returns the voucher information if this product is a voucher.
-    */
-    function voucherInformation()
-    {
-        $db =& eZDB::globalDatabase();
-
-        $ProductID = $this->ID;
-        
-        $ret = false;
-        
-        $query = "SELECT ID FROM eZTrade_VoucherInformation
-                      WHERE ProductID='$ProductID'
-                      ";
-
-        $db->query_single( $res, $query );
-
-        if ( is_numeric ( $res[$db->fieldName( "ID" )] ) )
-        {
-            $ret = new eZVoucherInformation( $res[$db->fieldName( "ID" )] );
-        }
-        
-        return $ret;
-    }
-
-   
     var $ID;
     var $Name;
     

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.96.4.2 2001/10/25 08:19:00 ce Exp $
+// $Id: checkout.php,v 1.96.4.3 2001/11/21 15:01:14 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -49,7 +49,13 @@ $ColSpanSizeTotals = $ini->read_var( "eZTradeMain", "ColSpanSizeTotals" );
 $ShowCart = false;
 $ShowSavingsColumn = false;
 
+$user =& eZUser::currentUser();
 
+if ( !$user )
+{
+    eZHTTPTool::header( "/error/403/" );
+    exit();
+}
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezuser.php" );
@@ -140,7 +146,8 @@ $t->set_block( "tax_specification_tpl", "tax_item_tpl", "tax_item" );
 
 $t->set_block( "full_cart_tpl", "shipping_type_tpl", "shipping_type" );
 
-$t->set_block( "checkout_page_tpl", "shipping_address_tpl", "shipping_address" );
+$t->set_block( "checkout_page_tpl", "shipping_address_list_tpl", "shipping_address_list" );
+$t->set_block( "shipping_address_list_tpl", "shipping_address_tpl", "shipping_address" );
 $t->set_block( "checkout_page_tpl", "billing_address_tpl", "billing_address" );
 $t->set_block( "billing_address_tpl", "billing_option_tpl", "billing_option" );
 $t->set_block( "checkout_page_tpl", "wish_user_tpl", "wish_user" );
@@ -271,7 +278,7 @@ else
 {
     $address = new eZAddress();
     $mainAddress = $address->mainAddress( $user );
-    
+
     $country =& $mainAddress->country();    
     if ( !$country->hasVAT() )
     {
@@ -321,7 +328,7 @@ function turnColumnsOnOff( $rowName )
 
 $items = $cart->items( );
 
-
+$onlyProduct = true;
 foreach ( $items as $item )
 {
     $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
@@ -347,7 +354,12 @@ foreach ( $items as $item )
     $t->set_var( "cart_item_basis", "" );
 
     if ( $product->productType() == 2 )
+    {
         $useVoucher = true;
+        $info = $item->voucherInformation();
+        if ( $info->mailMethod() == 1 )
+            $onlyProduct = false;
+    }
     else
         $useVoucher = false;
 
@@ -593,8 +605,6 @@ else
 
 $can_checkout = true;
 
-$user =& eZUser::currentUser();
-
 // print out the addresses
 
 if ( $cart->personID() == 0 && $cart->companyID() == 0 )
@@ -658,9 +668,14 @@ foreach ( $addressArray as $address )
         $t->parse( "billing_option", "billing_option_tpl", true );
     else
         $t->set_var( "billing_option" );
-    
+
     $t->parse( "shipping_address", "shipping_address_tpl", true );
 }
+
+if ( $onlyProduct )
+    $t->parse( "shipping_address_list", "shipping_address_list_tpl" );
+else
+$t->set_var( "shipping_address_list", "" );
 
 
 if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) == "enabled" )
