@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.61 2001/08/24 10:26:37 bf Exp $
+// $Id: articlelist.php,v 1.62 2001/08/30 11:39:35 bf Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -121,6 +121,9 @@ else
 	
 // image dir
 $t->set_var( "image_dir", $ImageDir );
+
+// makes the section ID available in articleview template
+$t->set_var( "section_id", $GlobalSectionID );
 
 $category = new eZArticleCategory( $CategoryID );
 
