@@ -15,7 +15,7 @@ CREATE TABLE eZBug_Bug (
   PRIMARY KEY (ID)
 );
 
-INSERT INTO eZBug_Bug VALUES (1,'Help!','It dosent work!',33,997357856,0,0,0,'','','');
+INSERT INTO eZBug_Bug VALUES (1,'Help!','It dosent work!',33,997357856,0,0,0,'','','','','0');
 
 CREATE TABLE eZBug_BugCategoryLink (
   ID int NOT NULL,
