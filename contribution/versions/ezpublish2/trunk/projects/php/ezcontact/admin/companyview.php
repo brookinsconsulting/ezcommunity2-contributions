@@ -364,7 +364,7 @@ else
     if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
     {
         $max = $ini->read_var( "eZContactMain", "MaxCompanyConsultationList" );
-        $consultations = eZConsultation::findConsultationsByContact( $CompanyID, $user->id(), false, 0, $max );
+        $consultations = eZConsultation::findConsultationsByContact( $CompanyID, $user->id(), "Date", false, 0, $max );
         $t->set_var( "consultation_type", "company" );
         $t->set_var( "company_id", $CompanyID  );
 

@@ -298,7 +298,7 @@ if ( $Action == "view" )
     if ( eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
     {
         $max = $ini->read_var( "eZContactMain", "MaxPersonConsultationList" );
-        $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), true, 0, $max );
+        $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), "Date", true, 0, $max );
         $t->set_var( "consultation_type", "person" );
         $t->set_var( "person_id", $PersonID  );
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezconsultation.php,v 1.17 2001/07/13 14:48:19 jhe Exp $
+// $Id: ezconsultation.php,v 1.18 2001/07/18 15:10:49 jhe Exp $
 //
 // Definition of eZConsultation class
 //
@@ -428,7 +428,7 @@ class eZConsultation
       \static
       Finds all consultations on a specific contact person or company.
     */
-    function findConsultationsByContact( $contact, $user, $is_person = true, $index = 0, $max = -1 )
+    function findConsultationsByContact( $contact, $user, $OrderBy = "ID", $is_person = true, $index = 0, $max = -1 )
     {
         if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
@@ -441,19 +441,40 @@ class eZConsultation
             $limit = array();
         }
 
+        switch( strtolower( $OrderBy ) )
+        {
+            case "description":
+            case "desc":
+                $OrderBy = "ORDER BY C.ShortDesc";
+                break;
+            case "date":
+                $OrderBy = "ORDER BY C.Date DESC";
+                break;
+            case "status":
+                $OrderBy = "ORDER BY C.StateID";
+                break;
+            case "id":
+            case "typeid":
+                $OrderBy = "ORDER BY C.ID";
+                break;
+            default:
+                $OrderBy = "ORDER BY C.Date DESC";
+                break;
+        }
+        
         $qry_array = array();
         $db =& eZDB::globalDatabase();
         if ( $is_person )
         {
             $db->array_query( $qry_array, "SELECT CPUD.ConsultationID FROM eZContact_ConsultationPersonUserDict AS CPUD, eZContact_Consultation AS C
                                            WHERE CPUD.PersonID='$contact' AND CPUD.UserID='$user' AND CPUD.ConsultationID = C.ID
-                                           ORDER BY C.Date DESC, C.ID DESC", $limit );
+                                           $OrderBy", $limit );
         }
         else
         {
             $db->array_query( $qry_array, "SELECT CPCD.ConsultationID FROM eZContact_ConsultationCompanyUserDict AS CPCD, eZContact_Consultation AS C
                                            WHERE CPCD.CompanyID='$contact' AND CPCD.UserID='$user' AND CPCD.ConsultationID = C.ID
-                                           ORDER BY C.Date DESC, C.ID DESC", $limit );
+                                           $OrderBy", $limit );
         }
         $ret_array = array();
         foreach ( $qry_array as $qry )

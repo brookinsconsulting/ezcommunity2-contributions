@@ -1,16 +1,28 @@
-<?
-// $Id: todoedit.php,v 1.22 2001/05/14 15:31:15 fh Exp $
+<?php
+//
+// $Id: todoedit.php,v 1.23 2001/07/18 15:10:49 jhe Exp $
 //
 // Definition of todo list.
 //
-// <real-name> <<mail-name>>
 // Created on: <04-Sep-2000 16:53:15 ce>
 // Modified on: <28-Mar-2001 21:08:00> by: Wojciech potaczek <Wojciech@Potaczek.pl> for todo status handling
 //
-// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
+// This source file is part of eZ publish, publishing software.
+// Copyright (C) 1999-2001 eZ systems as
 //
-// IMPORTANT NOTE: You may NOT copy this file or any part of it into
-// your own programs or libraries.
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
 include_once( "classes/ezhttptool.php" );
@@ -68,7 +80,7 @@ $locale = new eZLocale( $Language );
 $user = eZUser::currentUser();
 $redirect = true;
 
-if ( isset ( $AddLog ) )
+if ( isSet ( $AddLog ) )
 {
     $log = new eZTodoLog();
     $log->setLog( $Log );
@@ -97,15 +109,14 @@ $t = new eZTemplate( "eztodo/user/" . $ini->read_var( "eZTodoMain", "TemplateDir
                      "eztodo/user/intl", $Language, "todoedit.php" );
 $t->setAllStrings();
 
-$t->set_file( array(
-    "todo_edit_page" => "todoedit.tpl",
-    ) );
+$t->set_file( "todo_edit_page", "todoedit.tpl" );
 
 $t->set_block( "todo_edit_page", "category_select_tpl", "category_select" );
 $t->set_block( "todo_edit_page", "priority_select_tpl", "priority_select" );
 $t->set_block( "todo_edit_page", "status_select_tpl", "status_select" );
 $t->set_block( "todo_edit_page", "user_item_tpl", "user_item" );
 $t->set_block( "todo_edit_page", "send_mail_tpl", "send_mail" );
+$t->set_block( "todo_edit_page", "day_item_tpl", "day_item" );
 
 $t->set_block( "todo_edit_page", "list_logs_tpl", "list_logs" );
 $t->set_block( "list_logs_tpl", "log_item_tpl", "log_item" );
@@ -145,7 +156,8 @@ if ( ( $userCheck ) && ( $Action == "update" ) || ( $Action == "updateStatus" ) 
 {
     $todo = new eZTodo( $TodoID );
     
-    if ( ( $todo->userID() == $user->id() ) || ( $todo->ownerID() == $user->id() ) || ( eZPermission::checkPermission( $user, "eZTodo", "EditOthers" ) == true))
+    if ( ( $todo->userID() == $user->id() ) || ( $todo->ownerID() == $user->id() ) ||
+         ( eZPermission::checkPermission( $user, "eZTodo", "EditOthers" ) == true) )
     {
     }
     else
@@ -182,6 +194,14 @@ if ( $Action == "insert" || $Action == "update" )
             $error = true;
         }
     }
+    if ( $DeadlineYear > 0 )
+    {
+        $Due = new eZDateTime( $DeadlineYear, $DeadlineMonth, $DeadlineDay );
+    }
+    else
+    {
+        $Due = "";
+    }
 }
 
 if ( $error )
@@ -197,6 +217,7 @@ if ( $Action == "insert" && $error == false )
     $todo->setDescription( $Description );
     $todo->setCategoryID( $CategoryID );
     $todo->setPriorityID( $PriorityID );
+    $todo->setDue( $Due );
     $todo->setUserID( $UserID );
     $todo->setOwnerID( $user->id() );
     $todo->setStatusID( $StatusID );
@@ -273,7 +294,7 @@ if ( $Action == "update" && $error == false )
     $todo->setDescription( $Description );
     $todo->setCategoryID( $CategoryID );
     $todo->setPriorityID( $PriorityID );
-    $todo->setDue( "" );
+    $todo->setDue( $Due );
     $todo->setUserID( $UserID );
     $todo->setStatusID( $StatusID );
 
@@ -385,6 +406,43 @@ if ( $Action == "new" || $error )
     $t->set_var( "last_name", $user->lastName() );
     $t->set_var( "todo_id", "" );
     $t->set_var( "action_value", "insert" );
+
+    for ( $i = 1; $i <= 31; $i++ )
+    {
+        $t->set_var( "day_id", $i );
+        $t->set_var( "day_value", $i );
+        $t->set_var( "selected", "" );
+        if ( ( $DeadlineDay == "" and $i == 1 ) or $DeadlineDay == $i )
+            $t->set_var( "selected", "selected" );
+        $t->parse( "day_item", "day_item_tpl", true );
+    }
+
+    $month_array = array( 1 => "select_january",
+                          2 => "select_february",
+                          3 => "select_march",
+                          4 => "select_april",
+                          5 => "select_may",
+                          6 => "select_june",
+                          7 => "select_july",
+                          8 => "select_august",
+                          9 => "select_september",
+                          10 => "select_october",
+                          11 => "select_november",
+                          12 => "select_december" );
+
+    foreach ( $month_array as $month )
+    {
+        $t->set_var( $month, "" );
+    }
+
+    $var_name =& $month_array[1];
+    
+    $t->set_var( $var_name, "selected" );
+
+    $t->set_var( "deadlineyear", "" );
+
+    $t->set_var( "comment", $Comment );
+
     $userID = $user->id();
 }
 
@@ -422,7 +480,20 @@ if ( $Action == "edit" )
     $userID = $todo->userID();
     $ownerID = $todo->ownerID();
     $statusID = $todo->statusID();
-    
+
+    $duestamp = $todo->due();
+    if ( $duestamp )
+    {
+        $DeadlineDay = $duestamp->day();
+        $DeadlineMonth = $duestamp->month();
+        $DeadlineYear = $duestamp->year();
+    }
+    else
+    {
+        $DeadlineDay = "";
+        $DeadlineMonth = "";
+        $DeadlineYear = "";
+    }
     // Get the owner
     $owner = new eZUser( $todo->ownerID() );
     $t->set_var( "first_name", $owner->firstName() );
@@ -441,7 +512,45 @@ if ( $Action == "edit" )
         }
     }
     $t->parse( "list_logs", "list_logs_tpl" );
+
+    for ( $i = 1; $i <= 31; $i++ )
+    {
+        $t->set_var( "day_id", $i );
+        $t->set_var( "day_value", $i );
+        $t->set_var( "selected", "" );
+        if ( ( $DeadlineDay == "" and $i == 1 ) or $DeadlineDay == $i )
+            $t->set_var( "selected", "selected" );
+        $t->parse( "day_item", "day_item_tpl", true );
+    }
+
+    $month_array = array( 1 => "select_january",
+                          2 => "select_february",
+                          3 => "select_march",
+                          4 => "select_april",
+                          5 => "select_may",
+                          6 => "select_june",
+                          7 => "select_july",
+                          8 => "select_august",
+                          9 => "select_september",
+                          10 => "select_october",
+                          11 => "select_november",
+                          12 => "select_december" );
+
+    foreach ( $month_array as $month )
+    {
+        $t->set_var( $month, "" );
+    }
+
+    $var_name =& $month_array[$DeadlineMonth];
+    if ( $var_name == "" )
+        $var_name =& $month_array[1];
     
+    $t->set_var( $var_name, "selected" );
+
+    $t->set_var( "deadlineyear", $DeadlineYear );
+
+    $t->set_var( "comment", $Comment );
+
     $headline = "Rediger todo";
     $submit_description = "Rediger";
 
@@ -452,8 +561,8 @@ if ( $Action == "edit" )
 $category = new eZCategory();
 $category_array = $category->getAll();
 
-for( $i=0; $i<count( $category_array ); $i++ )
-{
+for ( $i = 0; $i < count( $category_array ); $i++ )
+{ 
     $t->set_var( "category_id", $category_array[$i]->id() );
     $t->set_var( "category_name", $category_array[$i]->name() );
 
@@ -465,7 +574,6 @@ for( $i=0; $i<count( $category_array ); $i++ )
     {
         $t->set_var( "is_selected", "" );
     }
-
     $t->parse( "category_select", "category_select_tpl", true );
 }
 
@@ -473,8 +581,8 @@ for( $i=0; $i<count( $category_array ); $i++ )
 $priority = new eZPriority();
 $priority_array = $priority->getAll();
 
-for( $i=0; $i<count( $priority_array ); $i++ )
-{
+for ( $i = 0; $i < count( $priority_array ); $i++ )
+{ 
     $t->set_var( "priority_id", $priority_array[$i]->id() );
     $t->set_var( "priority_name", $priority_array[$i]->name() );
     
@@ -497,7 +605,7 @@ $status_array = $status->getAll();
 if ( $Action == "new")
     $statusID = 1;
     
-for( $i=0; $i<count( $status_array ); $i++ )
+for ( $i = 0; $i < count( $status_array ); $i++ )
 {
     $t->set_var( "status_id", $status_array[$i]->id() );
     $t->set_var( "status_name", $status_array[$i]->name() );
@@ -520,7 +628,7 @@ for( $i=0; $i<count( $status_array ); $i++ )
 $user = new eZUser();
 $user_array = $user->getAll();
 
-foreach( $user_array as $userItem )
+foreach ( $user_array as $userItem )
 {
     $t->set_var( "user_id", $userItem->id() );
     $t->set_var( "user_firstname", $userItem->firstName() );

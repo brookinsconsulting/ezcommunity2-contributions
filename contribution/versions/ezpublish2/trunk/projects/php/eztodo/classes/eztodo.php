@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: eztodo.php,v 1.24 2001/07/18 09:30:55 jhe Exp $
+// $Id: eztodo.php,v 1.25 2001/07/18 15:10:49 jhe Exp $
 //
 // Definition of eZTodo class
 //
@@ -58,6 +58,10 @@ class eZTodo
         $db->begin();
         $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
+        if ( get_class( $this->Due ) == "ezdatetime" )
+            $due = $this->Due->timeStamp();
+        else
+            $due = "";
         
         if ( !isSet( $this->ID ) )
         {
@@ -65,16 +69,24 @@ class eZTodo
 			$this->ID = $db->nextID( "eZTodo_Todo", "ID" );
             $timestamp = eZDateTime::timeStamp( true );
             $res[] = $db->query( "INSERT INTO eZTodo_Todo
-                                  (ID, Name, Description, Category,
-                                   Priority, Due, UserID, OwnerID,
-                                   Status, Date, IsPublic)
+                                  (ID,
+                                   Name,
+                                   Description,
+                                   Category,
+                                   Priority,
+                                   Due,
+                                   UserID,
+                                   OwnerID,
+                                   Status,
+                                   Date,
+                                   IsPublic)
                                   VALUES
                                   ('$this->ID',
                                    '$name',
                                    '$description',
                                    '$this->Category',
                                    '$this->Priority', 
-                                   '$this->Due',
+                                   '$due',
                                    '$this->UserID',
                                    '$this->OwnerID',
                                    '$this->Status',
@@ -89,7 +101,7 @@ class eZTodo
                                               Description='$description',
                                               Category='$this->Category',
                                               Priority='$this->Priority',
-                                              Due='$this->Due',
+                                              Due='$due',
                                               UserID='$this->UserID',
                                               OwnerID='$this->OwnerID',
                                               Status='$this->Status',
@@ -107,7 +119,7 @@ class eZTodo
     function delete()
     {
         $db =& eZDB::globalDatabase();
-        $db->begin()
+        $db->begin();
         $res[] = $db->query( "DELETE FROM eZTodo_Todo WHERE ID='$this->ID'" );
         eZDB::finish( $res, $db );
 
@@ -353,6 +365,8 @@ class eZTodo
     */
     function due()
     {
+        if ( $this->Due == 0 )
+            return false;
         $dateTime = new eZDateTime();
         $dateTime->setTimeStamp( $this->Due );
         

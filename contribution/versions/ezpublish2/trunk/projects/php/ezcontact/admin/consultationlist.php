@@ -1,4 +1,5 @@
 <?php
+
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezhttptool.php" );
 $ini = new INIFIle( "site.ini" );
@@ -24,7 +25,7 @@ if ( !eZPermission::checkPermission( $user, "eZContact", "Consultation" ) )
    exit();
 }
 
-if ( isset( $ConsultationList ) )
+if ( isSet( $ConsultationList ) )
 {
     $templatefile = "consultationdetaillist.tpl";
     $languagefile = "consultationdetaillist.php";
@@ -43,7 +44,7 @@ include_once( "classes/ezlocale.php" );
 
 $t->set_file( "consultation_page", $templatefile );
 
-if ( isset( $ConsultationList ) )
+if ( isSet( $ConsultationList ) )
 {
     $t->set_block( "consultation_page", "no_consultations_item_tpl", "no_consultations_item" );
     $t->set_block( "consultation_page", "consultation_table_item_tpl", "consultation_table_item" );
@@ -93,10 +94,15 @@ if ( isSet( $ConsultationList ) )
     {
         die( "Neither CompanyID or PersonID is set" );
     }
+    
+    if ( empty( $OrderBy ) )
+    {
+        $OrderBy = "Date";
+    }
 
     if ( isSet( $CompanyID ) )
     {
-        $consultations = eZConsultation::findConsultationsByContact( $CompanyID, $user->id(), false );
+        $consultations = eZConsultation::findConsultationsByContact( $CompanyID, $user->id(), $OrderBy, false );
         $t->set_var( "consultation_type", "company" );
         $t->set_var( "company_id", $CompanyID  );
         $company = new eZCompany( $CompanyID );
@@ -104,7 +110,7 @@ if ( isSet( $ConsultationList ) )
     }
     else if ( isSet( $PersonID ) )
     {
-        $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), true );
+        $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), $OrderBy, true );
         $t->set_var( "consultation_type", "person" );
         $t->set_var( "person_id", $PersonID  );
         $person = new eZPerson( $PersonID );

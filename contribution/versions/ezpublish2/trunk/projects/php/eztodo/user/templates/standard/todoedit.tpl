@@ -99,6 +99,46 @@
 	<td>
 	<input type="checkbox" name="IsPublic" {todo_is_public} >&nbsp;<span class="boxtext">{intl-is_public}</span>
 	</td>
+
+
+<td>
+<p class="boxtext">{intl-deadline_headline}:</p>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+    <td width="1%" valign="bottom">
+    <select name="DeadlineDay">
+	<!-- BEGIN day_item_tpl -->
+	<option value="{day_id}" {selected}>{day_value}</option>
+	<!-- END day_item_tpl -->
+	</select>
+    </td>
+    <td width="1%" valign="bottom">
+    <select name="DeadlineMonth" >
+	<option value="1" {select_january}>{intl-january}</option>
+	<option value="2" {select_february}>{intl-february}</option>
+	<option value="3" {select_march}>{intl-march}</option>
+	<option value="4" {select_april}>{intl-april}</option>
+	<option value="5" {select_may}>{intl-may}</option>
+	<option value="6" {select_june}>{intl-june}</option>
+	<option value="7" {select_july}>{intl-july}</option>
+	<option value="8" {select_august}>{intl-august}</option>
+	<option value="9" {select_september}>{intl-september}</option>
+	<option value="10" {select_october}>{intl-october}</option>
+	<option value="11" {select_november}>{intl-november}</option>
+	<option value="12" {select_december}>{intl-december}</option>
+	</select>
+    </td>
+    <td width="1%" valign="bottom">
+        <input type="text" size="4" name="DeadlineYear" value="{deadlineyear}" />
+    </td>
+    <td width="97%" valign="bottom">
+        &nbsp;
+    </td>
+</tr>
+</table>
+</td>
+
+
 	<!-- BEGIN send_mail_tpl -->
 	<td>
 	<input type="checkbox" name="SendMail"  >&nbsp;<span class="boxtext">{intl-send_mail}</span>

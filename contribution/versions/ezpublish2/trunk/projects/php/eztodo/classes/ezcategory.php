@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcategory.php,v 1.13 2001/07/18 09:30:55 jhe Exp $
+// $Id: ezcategory.php,v 1.14 2001/07/18 15:10:49 jhe Exp $
 //
 // Definition of eZCategory class
 //
@@ -92,7 +92,7 @@ class eZCategory
     */
     function get( $id )
     {
-        $db = new eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $ret = false;
         
         if ( $id != "" )
@@ -119,7 +119,7 @@ class eZCategory
     */
     function getAll()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $category_array = 0;
 

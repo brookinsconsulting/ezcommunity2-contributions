@@ -48,9 +48,24 @@
 	{todo_description}
 	</td>
 </tr>
+<!-- BEGIN deadline_tpl -->
 <tr>
         <td>&nbsp;</td>
 </tr>
+<tr>
+	<td>
+	<p class="boxtext">{intl-deadline}:</p>
+	</td>
+</tr>
+<tr>
+	<td>
+	{todo_deadline}
+	</td>
+</tr>
+<tr>
+        <td>&nbsp;</td>
+</tr>
+<!-- END deadline_tpl -->
 <tr>
 
 	<td >
