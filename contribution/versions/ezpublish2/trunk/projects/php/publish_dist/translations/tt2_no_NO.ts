@@ -1,5 +1,38 @@
 <!DOCTYPE TS><TS>
 <context>
+    <name>admin/intl/en_GB/error.ini [Error]</name>
+    <message>
+        <source>You can not add articles on this site!</source>
+        <comment>Key: 1</comment>
+        <translation>Du har ikke rettigheter til å legge til artikler!</translation>
+    </message>
+    <message>
+        <source>A file with this name already exist on the server!</source>
+        <comment>Key: 2</comment>
+        <translation>Det eksisterer allerede en fil med dette filnavnet på serveren.</translation>
+    </message>
+    <message>
+        <source>You can not delete articles on this site!</source>
+        <comment>Key: 3</comment>
+        <translation>Du har ikke rettigheter til å slette artikler!</translation>
+    </message>
+    <message>
+        <source>This article does not exist!</source>
+        <comment>Key: 4</comment>
+        <translation>Denne artikkelen eksisterer ikke!</translation>
+    </message>
+    <message>
+        <source>You can not edit articles on this site!</source>
+        <comment>Key: 5</comment>
+        <translation>Du har ikke rettigheter til å redigere artikler!</translation>
+    </message>
+    <message>
+        <source>You can not edit preferences for this site!</source>
+        <comment>Key: 6</comment>
+        <translation></translation>
+    </message>
+</context>
+<context>
     <name>admin/intl/en_GB/header.php.ini [strings]</name>
     <message>
         <source>User</source>
@@ -960,7 +993,7 @@
     <message>
         <source>Charge VAT?</source>
         <comment>Key: has_vat</comment>
-        <translation type="unfinished"></translation>
+        <translation>Har landet MVA?</translation>
     </message>
 </context>
 <context>
@@ -2130,7 +2163,7 @@
     <message>
         <source>Imagemap</source>
         <comment>Key: imagemap</comment>
-        <translation type="unfinished"></translation>
+        <translation>Imagemap</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -2145,6 +2178,21 @@
 </context>
 <context>
     <name>ezarticle/admin/intl/en_GB/mailtemplate.php.ini [strings]</name>
+    <message>
+        <source>A new article by</source>
+        <comment>Key: info_message_1</comment>
+        <translation>En ny artikkel av</translation>
+    </message>
+    <message>
+        <source>has been published at</source>
+        <comment>Key: info_message_2</comment>
+        <translation>har blitt publisert på</translation>
+    </message>
+    <message>
+        <source>You can read it by visiting this link</source>
+        <comment>Key: info_message_3</comment>
+        <translation>Følg denne lenken for å lese resten</translation>
+    </message>
     <message>
         <source>New article published at</source>
         <comment>Key: subject</comment>
@@ -2451,6 +2499,11 @@
 <context>
     <name>ezarticle/admin/intl/en_GB/pendingmail.php.ini [strings]</name>
     <message>
+        <source>A new article is waiting for you</source>
+        <comment>Key: pending-email-is-waiting</comment>
+        <translation>En ny artikkler venter</translation>
+    </message>
+    <message>
         <source>Author</source>
         <comment>Key: author</comment>
         <translation>Forfatter</translation>
@@ -2643,12 +2696,12 @@
     <message>
         <source>Header</source>
         <comment>Key: header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Topptekst</translation>
     </message>
     <message>
         <source>Variable</source>
         <comment>Key: variable</comment>
-        <translation type="unfinished">Variabel</translation>
+        <translation>Variabel</translation>
     </message>
     <message>
         <source>Description</source>
@@ -2668,7 +2721,7 @@
     <message>
         <source>Update</source>
         <comment>Key: update</comment>
-        <translation type="unfinished">Oppdater</translation>
+        <translation>Oppdater</translation>
     </message>
     <message>
         <source>OK</source>
@@ -2683,7 +2736,7 @@
     <message>
         <source>Unit</source>
         <comment>Key: unit</comment>
-        <translation type="unfinished"></translation>
+        <translation>Enhet</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -2779,7 +2832,7 @@
     <message>
         <source>Previous</source>
         <comment>Key: previous</comment>
-        <translation type="unfinished"></translation>
+        <translation>Forrige</translation>
     </message>
     <message>
         <source>Delete selected categories</source>
@@ -3308,17 +3361,17 @@
     <message>
         <source>Photographer</source>
         <comment>Key: photographer</comment>
-        <translation type="unfinished">Fotograf</translation>
+        <translation>Fotograf</translation>
     </message>
     <message>
         <source>Name of new photographer</source>
         <comment>Key: new_photographer_name</comment>
-        <translation type="unfinished">Nytt fotograf navn</translation>
+        <translation>Navn på ny fotograf</translation>
     </message>
     <message>
         <source>Email of new photographer</source>
         <comment>Key: new_photographer_email</comment>
-        <translation type="unfinished">Ny fotograf email</translation>
+        <translation>Epost til ny fotograf</translation>
     </message>
 </context>
 <context>
@@ -4052,20 +4105,20 @@
     <message>
         <source>Bug report</source>
         <comment>Key: subject</comment>
-        <translation type="unfinished"></translation>
+        <translation>Bug report</translation>
     </message>
     <message>
         <source>Thank you for your bug report.
 Your bug will be taken care of shortly.
 If you have any other information about the bug, please reply to this message.</source>
         <comment>Key: body</comment>
-        <translation type="unfinished"></translation>
+        <translation>Thank you for your bug report.</translation>
     </message>
     <message>
         <source>Your bug report has been updated.
 Thank you for your comment.</source>
         <comment>Key: reply</comment>
-        <translation type="unfinished"></translation>
+        <translation>Your bug report has been updated.</translation>
     </message>
 </context>
 <context>
@@ -4474,6 +4527,11 @@ Thank you for your comment.</source>
         <source>Email address</source>
         <comment>Key: email_address</comment>
         <translation>Epostadresse</translation>
+    </message>
+    <message>
+        <source>If you are a registered user, please log in</source>
+        <comment>Key: if_you_are_a registered_user_please_log_in</comment>
+        <translation>Vennligst logg inn, hvis du er en registrert bruker</translation>
     </message>
     <message>
         <source>Error: you must fill in all fields.</source>
@@ -4988,7 +5046,7 @@ Thank you for your comment.</source>
     <message>
         <source>Delay</source>
         <comment>Key: delay</comment>
-        <translation type="unfinished"></translation>
+        <translation>Forsinkelse</translation>
     </message>
 </context>
 <context>
@@ -5056,7 +5114,7 @@ Thank you for your comment.</source>
     <message>
         <source>Select categories</source>
         <comment>Key: select_categories</comment>
-        <translation type="unfinished"></translation>
+        <translation>Velg kategorier</translation>
     </message>
 </context>
 <context>
@@ -5165,7 +5223,7 @@ Thank you for your comment.</source>
     <message>
         <source>to</source>
         <comment>Key: to</comment>
-        <translation type="unfinished"></translation>
+        <translation>til</translation>
     </message>
 </context>
 <context>
@@ -5236,12 +5294,12 @@ Thank you for your comment.</source>
     <message>
         <source>Your password is</source>
         <comment>Key: you_password_is</comment>
-        <translation type="unfinished"></translation>
+        <translation>Passordet ditt er</translation>
     </message>
     <message>
         <source>To change your subscriptions, please visit the site that subscribed you to the lists. There you can log into the news section with your email address and your password and change the subscription data.</source>
         <comment>Key: list_info</comment>
-        <translation type="unfinished"></translation>
+        <translation>For å forandre på listene du er meldt på, gå til nettstedet der du ble påmeldt. Der kan du logge deg inn på nyhetsseksjonen med din epostaddresse og passord, og forandre på dine påmeldinger.</translation>
     </message>
 </context>
 <context>
@@ -5343,77 +5401,77 @@ Thank you for your comment.</source>
     <message>
         <source>Category list</source>
         <comment>Key: category_list</comment>
-        <translation type="unfinished"></translation>
+        <translation>Category list</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Key: category_name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Name</translation>
     </message>
     <message>
         <source>Description</source>
         <comment>Key: category_description</comment>
-        <translation type="unfinished"></translation>
+        <translation>Description</translation>
     </message>
     <message>
         <source>Subscriptions</source>
         <comment>Key: subscription_count</comment>
-        <translation type="unfinished">Påmeldinger</translation>
+        <translation>Påmeldinger</translation>
     </message>
     <message>
         <source>Subject</source>
         <comment>Key: bulkmail_subject</comment>
-        <translation type="unfinished"></translation>
+        <translation>Subject</translation>
     </message>
     <message>
         <source>Sent date</source>
         <comment>Key: sent_date</comment>
-        <translation type="unfinished">Sendt dato</translation>
+        <translation>Sendt dato</translation>
     </message>
     <message>
         <source>Yes</source>
         <comment>Key: yes</comment>
-        <translation type="unfinished"></translation>
+        <translation>Yes</translation>
     </message>
     <message>
         <source>No</source>
         <comment>Key: no</comment>
-        <translation type="unfinished"></translation>
+        <translation>No</translation>
     </message>
     <message>
         <source>Public</source>
         <comment>Key: category_is_public</comment>
-        <translation type="unfinished"></translation>
+        <translation>Public</translation>
     </message>
     <message>
         <source>Ok</source>
         <comment>Key: ok</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ok</translation>
     </message>
     <message>
         <source>Select single list</source>
         <comment>Key: single_list_select</comment>
-        <translation type="unfinished">Velg singel liste kategori</translation>
+        <translation>Velg singel liste kategori</translation>
     </message>
     <message>
         <source>Use multilist</source>
         <comment>Key: multi_list_site</comment>
-        <translation type="unfinished">Bruk multiliste system</translation>
+        <translation>Bruk multiliste system</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>Key: next</comment>
-        <translation type="unfinished"></translation>
+        <translation>Next</translation>
     </message>
     <message>
         <source>Previous</source>
         <comment>Key: previous</comment>
-        <translation type="unfinished"></translation>
+        <translation>Previous</translation>
     </message>
     <message>
         <source>No bulkmails are avaiable</source>
         <comment>Key: no_bulkmail_error</comment>
-        <translation type="unfinished"></translation>
+        <translation>No bulkmails are avaiable</translation>
     </message>
 </context>
 <context>
@@ -5421,7 +5479,7 @@ Thank you for your comment.</source>
     <message>
         <source>Category settings</source>
         <comment>Key: category_settings</comment>
-        <translation type="unfinished"></translation>
+        <translation>Category settings</translation>
     </message>
 </context>
 <context>
@@ -5495,27 +5553,27 @@ Thank you for your comment.</source>
     <message>
         <source>Ok</source>
         <comment>Key: ok</comment>
-        <translation>Ok</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation>Cancel</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <source>List name</source>
         <comment>Key: category_name</comment>
-        <translation>List name</translation>
+        <translation>Listenavn</translation>
     </message>
     <message>
         <source>List description</source>
         <comment>Key: category_description</comment>
-        <translation>List description</translation>
+        <translation>Listebeskrivelse</translation>
     </message>
     <message>
         <source>Subscribe</source>
         <comment>Key: subscribe</comment>
-        <translation>Subscribe</translation>
+        <translation>Meld meg på</translation>
     </message>
     <message>
         <source>No categories are available </source>
@@ -5545,17 +5603,17 @@ Thank you for your comment.</source>
     <message>
         <source>Send at the end of the year</source>
         <comment>Key: year</comment>
-        <translation type="unfinished"></translation>
+        <translation>Send all post ved årets slutt</translation>
     </message>
     <message>
         <source>Send immediately</source>
         <comment>Key: no_delay</comment>
-        <translation>Send med engang</translation>
+        <translation>Send med en gang</translation>
     </message>
     <message>
         <source>Check the &quot;subscribe&quot; checkbox to subscribe to a list. If you want to unsubscribe later, log into this page again and uncheck the checkbox.</source>
         <comment>Key: subscription_text</comment>
-        <translation type="unfinished"></translation>
+        <translation>Kryss av ved &quot;Meld meg på&quot; for å melde deg på en liste. Hvis du senere vil melde deg av, logg deg inn på denne siden og fjern avkryssningen.</translation>
     </message>
 </context>
 <context>
@@ -5636,27 +5694,27 @@ Thank you for your comment.</source>
     <message>
         <source>Welcome to the mail information system at</source>
         <comment>Key: welcome_message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Welcome to the mail information system at</translation>
     </message>
     <message>
         <source>You have requested to add your address to the mail information system. If you have no idea what this mail is about, please ignore it!</source>
         <comment>Key: information</comment>
-        <translation type="unfinished"></translation>
+        <translation>You have requested to add your address to the mail information system. If you have no idea what this mail is about, please ignore it!</translation>
     </message>
     <message>
         <source>Pressing the link will add this mail address to the mail information system and take you to the list of available information lists.</source>
         <comment>Key: click_me</comment>
-        <translation type="unfinished"></translation>
+        <translation>Pressing the link will add this mail address to the mail information system and take you to the list of available information lists.</translation>
     </message>
     <message>
         <source>If you want to change your subscribtion data later you can log into the news info section of the site with your email address and your password.</source>
         <comment>Key: list_info</comment>
-        <translation type="unfinished"></translation>
+        <translation>If you want to change your subscribtion data later you can log into the news info section of the site with your email address and your password.</translation>
     </message>
     <message>
         <source>Enjoy!</source>
         <comment>Key: goodbye</comment>
-        <translation type="unfinished"></translation>
+        <translation>Enjoy!</translation>
     </message>
 </context>
 <context>
@@ -8071,11 +8129,6 @@ Thank you for your comment.</source>
         <translation>Desember</translation>
     </message>
     <message>
-        <source>Delete persons</source>
-        <comment>Key: delete_person</comment>
-        <translation>Slett personer</translation>
-    </message>
-    <message>
         <source>Send mail</source>
         <comment>Key: send_mail</comment>
         <translation>Send e-post</translation>
@@ -8371,7 +8424,7 @@ Thank you for your comment.</source>
     <message>
         <source>Sales</source>
         <comment>Key: sales_headline</comment>
-        <translation type="unfinished">Salg</translation>
+        <translation>Salg</translation>
     </message>
     <message>
         <source>Date</source>
@@ -8662,7 +8715,7 @@ Thank you for your comment.</source>
     <message>
         <source>No companies found.</source>
         <comment>Key: no_companies_error</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ingen firmaer funnet.</translation>
     </message>
     <message>
         <source>Companies</source>
@@ -8672,7 +8725,7 @@ Thank you for your comment.</source>
     <message>
         <source>No image</source>
         <comment>Key: no_image</comment>
-        <translation type="unfinished"></translation>
+        <translation>Mangler bilde</translation>
     </message>
     <message>
         <source>Search</source>
@@ -8722,7 +8775,7 @@ Thank you for your comment.</source>
     <message>
         <source>Search results:</source>
         <comment>Key: results</comment>
-        <translation type="unfinished"></translation>
+        <translation>Søkeresultater:</translation>
     </message>
 </context>
 <context>
@@ -8903,7 +8956,7 @@ Thank you for your comment.</source>
     <message>
         <source>No companies found.</source>
         <comment>Key: no_companies_error</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ingen firmaer funnet.</translation>
     </message>
     <message>
         <source>Persons</source>
@@ -8913,7 +8966,7 @@ Thank you for your comment.</source>
     <message>
         <source>No image</source>
         <comment>Key: no_image</comment>
-        <translation type="unfinished"></translation>
+        <translation>Mangler bilde</translation>
     </message>
     <message>
         <source>Search</source>
@@ -8953,7 +9006,7 @@ Thank you for your comment.</source>
     <message>
         <source>Search results:</source>
         <comment>Key: results</comment>
-        <translation type="unfinished"></translation>
+        <translation>Søkeresultater:</translation>
     </message>
 </context>
 <context>
@@ -9251,6 +9304,21 @@ Thank you for your comment.</source>
         <comment>Key: example_page</comment>
         <translation>Eksempelside</translation>
     </message>
+    <message>
+        <source>Example page 2</source>
+        <comment>Key: example_page2</comment>
+        <translation>Eksempelside 2</translation>
+    </message>
+    <message>
+        <source>Example page 3</source>
+        <comment>Key: example_page3</comment>
+        <translation>Eksempelside 3</translation>
+    </message>
+    <message>
+        <source>Example page 4</source>
+        <comment>Key: example_page4</comment>
+        <translation>Eksempelside 4</translation>
+    </message>
 </context>
 <context>
     <name>ezfilemanager/admin/intl/en_GB/browse.php.ini [strings]</name>
@@ -9504,7 +9572,7 @@ Thank you for your comment.</source>
     <message>
         <source>You can&apos;t move files into upload directories you don&apos;t have write access to.</source>
         <comment>Key: error_upload_permission</comment>
-        <translation type="unfinished"></translation>
+        <translation>Du kan ikke flytte filer til kataloger du ikke har tilgang til.</translation>
     </message>
 </context>
 <context>
@@ -9680,7 +9748,7 @@ Thank you for your comment.</source>
     <message>
         <source>You can&apos;t move files into upload directories you don&apos;t have write access to.</source>
         <comment>Key: error_upload_permission</comment>
-        <translation type="unfinished"></translation>
+        <translation>Du kan ikke flytte filer til kataloger du ikke har tilgang til.</translation>
     </message>
 </context>
 <context>
@@ -9759,32 +9827,32 @@ Thank you for your comment.</source>
     <message>
         <source>Add value</source>
         <comment>Key: add_value</comment>
-        <translation type="unfinished"></translation>
+        <translation>Add value</translation>
     </message>
     <message>
         <source>Delete selected</source>
         <comment>Key: delete_selected</comment>
-        <translation type="unfinished"></translation>
+        <translation>Delete selected</translation>
     </message>
     <message>
         <source>Store</source>
         <comment>Key: store</comment>
-        <translation type="unfinished">Lagre</translation>
+        <translation>Lagre</translation>
     </message>
     <message>
         <source>OK</source>
         <comment>Key: ok</comment>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Fixed values</source>
         <comment>Key: fixed_values</comment>
-        <translation type="unfinished"></translation>
+        <translation>Fixed values</translation>
     </message>
     <message>
         <source>Value name</source>
         <comment>Key: value_name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Value name</translation>
     </message>
 </context>
 <context>
@@ -9853,6 +9921,21 @@ Thank you for your comment.</source>
         <source>-- Select element type --</source>
         <comment>Key: select_type</comment>
         <translation>-- Velg element type --</translation>
+    </message>
+    <message>
+        <source>No element types are defined in the database, check your installation</source>
+        <comment>Key: no_types_1</comment>
+        <translation>Ingen elementtyper er definert i databasen, kontroller installasjonen din</translation>
+    </message>
+    <message>
+        <source>You need to execute the correct SQL statements to fill in the element types</source>
+        <comment>Key: no_types_2</comment>
+        <translation>Du må kjøre de riktige SQL setningene for å fylle inn elementtypene</translation>
+    </message>
+    <message>
+        <source>You can create your form, but they can&apos;t be used or previewed until you&apos;ve rectified the above problem</source>
+        <comment>Key: no_types_3</comment>
+        <translation>Du kan opprette skjemaet, men det kan ikke brukes eller forhåndsvises før du har rettet på problemet ovenfor</translation>
     </message>
     <message>
         <source>You must define one or more elements for this form before you can use it</source>
@@ -9980,9 +10063,34 @@ Thank you for your comment.</source>
         <translation>Textfield</translation>
     </message>
     <message>
+        <source>Dropdown</source>
+        <comment>Key: dropdown_item</comment>
+        <translation>Dropdown</translation>
+    </message>
+    <message>
+        <source>Multiple Select</source>
+        <comment>Key: multiple_select_item</comment>
+        <translation>Multiple Select</translation>
+    </message>
+    <message>
+        <source>Checkbox</source>
+        <comment>Key: checkbox_item</comment>
+        <translation>Checkbox</translation>
+    </message>
+    <message>
+        <source>Radiobox</source>
+        <comment>Key: radiobox_item</comment>
+        <translation>Radiobox</translation>
+    </message>
+    <message>
         <source>Let user select sender</source>
         <comment>Key: form_send_as_user</comment>
         <translation>La brukeren velge sender</translation>
+    </message>
+    <message>
+        <source>Your e-mail address</source>
+        <comment>Key: form_sender</comment>
+        <translation>Your e-mail address</translation>
     </message>
     <message>
         <source>You can&apos;t let the user select the sender as well as define a sender for this form</source>
@@ -10020,44 +10128,19 @@ Thank you for your comment.</source>
         <translation>Instruksjoner</translation>
     </message>
     <message>
-        <source>Dropdown</source>
-        <comment>Key: dropdown_item</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Multiple Select</source>
-        <comment>Key: multiple_select_item</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Checkbox</source>
-        <comment>Key: checkbox_item</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Radiobox</source>
-        <comment>Key: radiobox_item</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Your e-mail address</source>
-        <comment>Key: form_sender</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Fixed values</source>
         <comment>Key: fixed_values</comment>
-        <translation type="unfinished"></translation>
+        <translation>Fixed values</translation>
     </message>
     <message>
         <source>Size</source>
         <comment>Key: size</comment>
-        <translation type="unfinished">Størrelse</translation>
+        <translation>Størrelse</translation>
     </message>
     <message>
         <source>Break</source>
         <comment>Key: break</comment>
-        <translation type="unfinished"></translation>
+        <translation>Break</translation>
     </message>
 </context>
 <context>
@@ -10079,236 +10162,269 @@ Thank you for your comment.</source>
     </message>
 </context>
 <context>
+    <name>ezform/user/intl/en_GB/errors.php.ini [strings]</name>
+    <message>
+        <source>No such form</source>
+        <comment>Key: error_404_header</comment>
+        <translation>Ikke noe slikt skjema</translation>
+    </message>
+    <message>
+        <source>You&apos;ve tried to reach an eZ form page which doesn&apos;t exist</source>
+        <comment>Key: error_404_1</comment>
+        <translation>Du har prøvd å nå et skjema som ikke eksisterer</translation>
+    </message>
+    <message>
+        <source>Report this error to the site manager</source>
+        <comment>Key: error_404_2</comment>
+        <translation>Rapporter denne feilen til web administrator</translation>
+    </message>
+</context>
+<context>
     <name>ezform/user/intl/en_GB/form.php.ini [strings]</name>
     <message>
         <source>OK</source>
         <comment>Key: ok</comment>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation type="unfinished"></translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <source>Edit form</source>
         <comment>Key: form_edit</comment>
-        <translation type="unfinished">Rediger skjema</translation>
+        <translation>Rediger skjema</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Key: form_name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Name</translation>
     </message>
     <message>
         <source>ID</source>
         <comment>Key: form_id</comment>
-        <translation type="unfinished"></translation>
+        <translation>ID</translation>
     </message>
     <message>
         <source>Send form to</source>
         <comment>Key: form_receiver</comment>
-        <translation type="unfinished">Send skjema til</translation>
+        <translation>Send skjema til</translation>
     </message>
     <message>
         <source>Send copy of form to</source>
         <comment>Key: form_cc</comment>
-        <translation type="unfinished">Send kopi av skjema til</translation>
+        <translation>Send kopi av skjema til</translation>
     </message>
     <message>
         <source>Show this page on completion</source>
         <comment>Key: form_completed_page</comment>
-        <translation type="unfinished">Vis denne siden ved fullføring av skjemaet</translation>
+        <translation>Vis denne siden ved fullføring av skjemaet</translation>
     </message>
     <message>
         <source>Show this page if user wants instructions</source>
         <comment>Key: form_instruction_page</comment>
-        <translation type="unfinished">Vis denne siden hvis brukeren vil ha instruksjoner</translation>
+        <translation>Vis denne siden hvis brukeren vil ha instruksjoner</translation>
     </message>
     <message>
         <source>Required</source>
         <comment>Key: element_required</comment>
-        <translation type="unfinished">Nødvendig</translation>
+        <translation>Nødvendig</translation>
     </message>
     <message>
         <source>Type</source>
         <comment>Key: element_type</comment>
-        <translation type="unfinished">Type</translation>
+        <translation>Type</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Key: element_name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Name</translation>
     </message>
     <message>
         <source>-- Select element type --</source>
         <comment>Key: select_type</comment>
-        <translation type="unfinished">-- Velg element type --</translation>
+        <translation>-- Velg element type --</translation>
+    </message>
+    <message>
+        <source>No element types are defined in the database, check your installation</source>
+        <comment>Key: no_types_1</comment>
+        <translation>Ingen elementtyper er definert i databasen, kontroller installasjonen din</translation>
+    </message>
+    <message>
+        <source>You need to execute the correct SQL statements to fill in the element types</source>
+        <comment>Key: no_types_2</comment>
+        <translation>Du må kjøre de riktige SQL setningene for å fylle inn elementtypene</translation>
+    </message>
+    <message>
+        <source>You can create your form, but they can&apos;t be used or previewed until you&apos;ve rectified the above problem</source>
+        <comment>Key: no_types_3</comment>
+        <translation>Du kan opprette skjemaet, men det kan ikke brukes eller forhåndsvises før du har rettet på problemet ovenfor</translation>
     </message>
     <message>
         <source>You must define one or more elements for this form before you can use it</source>
         <comment>Key: no_elements_exist</comment>
-        <translation type="unfinished">Du må definere et eller mere elementer i dette skjemaet før du kan bruke det</translation>
+        <translation>Du må definere et eller mere elementer i dette skjemaet før du kan bruke det</translation>
     </message>
     <message>
         <source>Update</source>
         <comment>Key: update</comment>
-        <translation type="unfinished">Oppdater</translation>
+        <translation>Oppdater</translation>
     </message>
     <message>
         <source>New Element</source>
         <comment>Key: add_element</comment>
-        <translation type="unfinished">Nytt element</translation>
+        <translation>Nytt element</translation>
     </message>
     <message>
         <source>Preview</source>
         <comment>Key: preview</comment>
-        <translation type="unfinished"></translation>
+        <translation>Preview</translation>
     </message>
     <message>
         <source>Test</source>
         <comment>Key: test</comment>
-        <translation type="unfinished">Test</translation>
+        <translation>Test</translation>
     </message>
     <message>
         <source>You failed to fill in the form correctly</source>
         <comment>Key: error</comment>
-        <translation type="unfinished">Noen av feltene i formen er ikke fylt inn riktig</translation>
+        <translation>Noen av feltene i formen er ikke fylt inn riktig</translation>
     </message>
     <message>
         <source>You must enter a valid e-mail address for the form receiver</source>
         <comment>Key: form_receiver_not_valid</comment>
-        <translation type="unfinished">Du må fylle inn en gyldig e-mail addrese i skjemaet for mottager feltet</translation>
+        <translation>Du må fylle inn en gyldig e-mail addrese i skjemaet for mottager feltet</translation>
     </message>
     <message>
         <source>You must enter an e-mail address for the receiver of the form</source>
         <comment>Key: form_receiver_not_set</comment>
-        <translation type="unfinished">Du må fylle inn en e-mail addresse for mottageren i skjemaet</translation>
+        <translation>Du må fylle inn en e-mail addresse for mottageren i skjemaet</translation>
     </message>
     <message>
         <source>You must enter a valid e-mail address for the copy to field</source>
         <comment>Key: form_cc_not_valid</comment>
-        <translation type="unfinished">Du må fylle in en gyldig e-mail addresse i kopi feltet</translation>
+        <translation>Du må fylle in en gyldig e-mail addresse i kopi feltet</translation>
     </message>
     <message>
         <source>You must select a name for your form</source>
         <comment>Key: form_name_not_set</comment>
-        <translation type="unfinished">Du må velge et navn for skjemaet ditt</translation>
+        <translation>Du må velge et navn for skjemaet ditt</translation>
     </message>
     <message>
         <source>You must enter a page which should be viewed after the form has been completed successfully</source>
         <comment>Key: form_completed_page_not_set</comment>
-        <translation type="unfinished">Du må fylle inn en side som skal bli vist etter at skjemaet er fylt inn riktig</translation>
+        <translation>Du må fylle inn en side som skal bli vist etter at skjemaet er fylt inn riktig</translation>
     </message>
     <message>
         <source>Missing data in database</source>
         <comment>Key: error_types</comment>
-        <translation type="unfinished">Mangler data i databasen</translation>
+        <translation>Mangler data i databasen</translation>
     </message>
     <message>
         <source>Delete selected elements</source>
         <comment>Key: delete_selected_elements</comment>
-        <translation type="unfinished">Slett valgte elementer</translation>
+        <translation>Slett valgte elementer</translation>
     </message>
     <message>
         <source>Delete selected forms</source>
         <comment>Key: delete_selected_forms</comment>
-        <translation type="unfinished">Slett valgte skjemaer</translation>
+        <translation>Slett valgte skjemaer</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>Key: next</comment>
-        <translation type="unfinished"></translation>
+        <translation>Next</translation>
     </message>
     <message>
         <source>Previous</source>
         <comment>Key: previous</comment>
-        <translation type="unfinished"></translation>
+        <translation>Previous</translation>
     </message>
     <message>
         <source>Forms</source>
         <comment>Key: form_list</comment>
-        <translation type="unfinished">Skjemaer</translation>
+        <translation>Skjemaer</translation>
     </message>
     <message>
         <source>There are no forms in the database</source>
         <comment>Key: no_forms_exist</comment>
-        <translation type="unfinished">Det er ingen skjemaer i databasen</translation>
+        <translation>Det er ingen skjemaer i databasen</translation>
     </message>
     <message>
         <source>Preview</source>
         <comment>Key: form_preview</comment>
-        <translation type="unfinished"></translation>
+        <translation>Preview</translation>
     </message>
     <message>
         <source>You must set the type of all elements</source>
         <comment>Key: all_elements_must_have_type</comment>
-        <translation type="unfinished">Du må sette type på alle elementer</translation>
+        <translation>Du må sette type på alle elementer</translation>
     </message>
     <message>
         <source>is a required field, please write something into that field</source>
         <comment>Key: required_field</comment>
-        <translation type="unfinished">er et felt som må være med, vennligst skriv noe i dette feltet.</translation>
+        <translation>er et felt som må være med, vennligst skriv noe i dette feltet.</translation>
     </message>
     <message>
         <source>Subject</source>
         <comment>Key: subject_label</comment>
-        <translation type="unfinished"></translation>
+        <translation>Subject</translation>
     </message>
     <message>
         <source>Content</source>
         <comment>Key: content_label</comment>
-        <translation type="unfinished">Innhold</translation>
+        <translation>Innhold</translation>
     </message>
     <message>
         <source>Tekstlinje</source>
         <comment>Key: text_field_item</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tekstlinje</translation>
     </message>
     <message>
         <source>Tekstomr&#xe5;de</source>
         <comment>Key: text_area_item</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tekstområde</translation>
     </message>
     <message>
         <source>Let user select sender</source>
         <comment>Key: form_send_as_user</comment>
-        <translation type="unfinished">La brukeren velge sender</translation>
-    </message>
-    <message>
-        <source>You can&apos;t let the user select the sender as well as define a sender for this form</source>
-        <comment>Key: form_cant_have_both</comment>
-        <translation type="unfinished">Du kan ikke la brukeren velge sender og i tillegg definere senderen av skjema</translation>
-    </message>
-    <message>
-        <source>You must either select &quot;Let the user select sender&quot; or fill in an e-mail address in &quot;Sender of this form&quot;</source>
-        <comment>Key: form_must_have_sender</comment>
-        <translation type="unfinished">Du må enten velge &quot;La brukeren velge sender&quot; eller fylle inn en e-mail addresse i &quot;Sender av dette skjemaet&quot;</translation>
-    </message>
-    <message>
-        <source>You must enter a valid e-mail address for the form sender</source>
-        <comment>Key: form_sender_not_valid</comment>
-        <translation type="unfinished">Du må sette en gyldig e-mail addresse i sender på skjemaet</translation>
-    </message>
-    <message>
-        <source>You must enter an e-mail address for the form sender</source>
-        <comment>Key: form_sender_missing</comment>
-        <translation type="unfinished">Du må sette en e-mail addresse i sender på skjemaet</translation>
-    </message>
-    <message>
-        <source>Move up</source>
-        <comment>Key: move_up</comment>
-        <translation type="unfinished">Flytt opp</translation>
-    </message>
-    <message>
-        <source>Move down</source>
-        <comment>Key: move_down</comment>
-        <translation type="unfinished">Flytt ned</translation>
+        <translation>La brukeren velge sender</translation>
     </message>
     <message>
         <source>Your e-mail address</source>
         <comment>Key: form_sender</comment>
-        <translation type="unfinished"></translation>
+        <translation>Your e-mail address</translation>
+    </message>
+    <message>
+        <source>You can&apos;t let the user select the sender as well as define a sender for this form</source>
+        <comment>Key: form_cant_have_both</comment>
+        <translation>Du kan ikke la brukeren velge sender og i tillegg definere senderen av skjema</translation>
+    </message>
+    <message>
+        <source>You must either select &quot;Let the user select sender&quot; or fill in an e-mail address in &quot;Sender of this form&quot;</source>
+        <comment>Key: form_must_have_sender</comment>
+        <translation>Du må enten velge &quot;La brukeren velge sender&quot; eller fylle inn en e-mail addresse i &quot;Sender av dette skjemaet&quot;</translation>
+    </message>
+    <message>
+        <source>You must enter a valid e-mail address for the form sender</source>
+        <comment>Key: form_sender_not_valid</comment>
+        <translation>Du må sette en gyldig e-mail addresse i sender på skjemaet</translation>
+    </message>
+    <message>
+        <source>You must enter an e-mail address for the form sender</source>
+        <comment>Key: form_sender_missing</comment>
+        <translation>Du må sette en e-mail addresse i sender på skjemaet</translation>
+    </message>
+    <message>
+        <source>Move up</source>
+        <comment>Key: move_up</comment>
+        <translation>Flytt opp</translation>
+    </message>
+    <message>
+        <source>Move down</source>
+        <comment>Key: move_down</comment>
+        <translation>Flytt ned</translation>
     </message>
 </context>
 <context>
@@ -10395,6 +10511,11 @@ Thank you for your comment.</source>
         <source>Category list</source>
         <comment>Key: headline</comment>
         <translation>Kategorioversikt</translation>
+    </message>
+    <message>
+        <source>Categories</source>
+        <comment>Key: forum-main</comment>
+        <translation>Kategorier</translation>
     </message>
     <message>
         <source>Search</source>
@@ -10528,6 +10649,11 @@ Thank you for your comment.</source>
         <translation>Søk</translation>
     </message>
     <message>
+        <source>Categories</source>
+        <comment>Key: forum-main</comment>
+        <translation>Kategorier</translation>
+    </message>
+    <message>
         <source>Delete forum?</source>
         <comment>Key: delete</comment>
         <translation>Slette forum?</translation>
@@ -10627,6 +10753,26 @@ Thank you for your comment.</source>
         <translation>Tilbake</translation>
     </message>
     <message>
+        <source>Topic</source>
+        <comment>Key: reply-topic</comment>
+        <translation>Emne</translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <comment>Key: reply-author</comment>
+        <translation>Forfatter</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <comment>Key: reply-time</comment>
+        <translation>Tidspunkt</translation>
+    </message>
+    <message>
+        <source>Categories</source>
+        <comment>Key: forum-main</comment>
+        <translation>Kategorier</translation>
+    </message>
+    <message>
         <source>Message text</source>
         <comment>Key: text</comment>
         <translation>Beskjedtekst</translation>
@@ -10640,6 +10786,11 @@ Thank you for your comment.</source>
         <source>Reply</source>
         <comment>Key: answer</comment>
         <translation>Svar</translation>
+    </message>
+    <message>
+        <source>New message</source>
+        <comment>Key: new-posting</comment>
+        <translation>Ny post</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -10758,6 +10909,11 @@ Thank you for your comment.</source>
         <translation>Søk</translation>
     </message>
     <message>
+        <source>Categories</source>
+        <comment>Key: forum-main</comment>
+        <translation>Kategorier</translation>
+    </message>
+    <message>
         <source>Subject</source>
         <comment>Key: subject</comment>
         <translation>Emne</translation>
@@ -10824,6 +10980,11 @@ Thank you for your comment.</source>
         <translation>Kategorier</translation>
     </message>
     <message>
+        <source>Search mesages</source>
+        <comment>Key: search-intro</comment>
+        <translation>Søk i meldingene</translation>
+    </message>
+    <message>
         <source>Search</source>
         <comment>Key: search</comment>
         <translation>Søk</translation>
@@ -10837,6 +10998,36 @@ Thank you for your comment.</source>
         <source>Your search didn&apos;t return any results</source>
         <comment>Key: empty_result</comment>
         <translation>Søket ga ingen treff</translation>
+    </message>
+    <message>
+        <source>No.</source>
+        <comment>Key: result-no</comment>
+        <translation>Ant.</translation>
+    </message>
+    <message>
+        <source>Topic</source>
+        <comment>Key: result-topic</comment>
+        <translation>Emne</translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <comment>Key: result-author</comment>
+        <translation>Forfatter</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <comment>Key: result-time</comment>
+        <translation>Tidspunkt</translation>
+    </message>
+    <message>
+        <source>Forum</source>
+        <comment>Key: result-forum</comment>
+        <translation>Forum</translation>
+    </message>
+    <message>
+        <source>Categories</source>
+        <comment>Key: forum-main</comment>
+        <translation>Kategorier</translation>
     </message>
     <message>
         <source>Author</source>
@@ -10856,7 +11047,7 @@ Thank you for your comment.</source>
     <message>
         <source>Previous</source>
         <comment>Key: previous</comment>
-        <translation type="unfinished"></translation>
+        <translation>Forrige</translation>
     </message>
     <message>
         <source>Next</source>
@@ -10914,12 +11105,12 @@ Thank you for your comment.</source>
     <message>
         <source>Rejection reason</source>
         <comment>Key: reject_reason</comment>
-        <translation>Avvisningsmelding</translation>
+        <translation>Avvisningsårsak</translation>
     </message>
     <message>
         <source>Rejection message</source>
         <comment>Key: reject_message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Avvisningsmelding</translation>
     </message>
     <message>
         <source>Update</source>
@@ -10957,6 +11148,11 @@ Thank you for your comment.</source>
         <translation>Forrige</translation>
     </message>
     <message>
+        <source>Categories</source>
+        <comment>Key: forum-main</comment>
+        <translation>Kategorier</translation>
+    </message>
+    <message>
         <source>Path</source>
         <comment>Key: path</comment>
         <translation>Sti</translation>
@@ -10985,6 +11181,11 @@ Thank you for your comment.</source>
         <translation>Beskrivelse</translation>
     </message>
     <message>
+        <source>Categories</source>
+        <comment>Key: forum-main</comment>
+        <translation>Kategorier</translation>
+    </message>
+    <message>
         <source>No categories found.</source>
         <comment>Key: noitem</comment>
         <translation>Ingen kategorier ble funnet.</translation>
@@ -11011,6 +11212,11 @@ Thank you for your comment.</source>
         <source>Description</source>
         <comment>Key: desc</comment>
         <translation>Beskrivelse</translation>
+    </message>
+    <message>
+        <source>Categories</source>
+        <comment>Key: forum-main</comment>
+        <translation>Kategorier</translation>
     </message>
     <message>
         <source>No categories found.</source>
@@ -11099,9 +11305,44 @@ Thank you for your comment.</source>
         <translation></translation>
     </message>
     <message>
+        <source>You have requested e-mail notification on responses to your posting</source>
+        <comment>Key: info_message_1</comment>
+        <translation>Du har bedt om e-post notiser når noen svarer på din melding.</translation>
+    </message>
+    <message>
+        <source>Visit this link</source>
+        <comment>Key: info_message_2</comment>
+        <translation>Besøk denne linken</translation>
+    </message>
+    <message>
+        <source>to reply to this message</source>
+        <comment>Key: info_message_3</comment>
+        <translation>for å svare på beskjeden</translation>
+    </message>
+    <message>
+        <source>The reply message is presented below</source>
+        <comment>Key: info_message_4</comment>
+        <translation>Svaret på din post er presentert nedenfor</translation>
+    </message>
+    <message>
         <source>Message posted to your moderated forum</source>
         <comment>Key: moderator_subject</comment>
         <translation>En beskjed har blitt postet på ditt styrte forum</translation>
+    </message>
+    <message>
+        <source>You are the moderator of the forum</source>
+        <comment>Key: moderator_info_message_1</comment>
+        <translation>Du er ordstyrer for dette forumet</translation>
+    </message>
+    <message>
+        <source>You can manage the message from this link</source>
+        <comment>Key: moderator_info_message_2</comment>
+        <translation>Du kan bruke denne linken for å kontrollere beskjeden</translation>
+    </message>
+    <message>
+        <source>The new message is presented below</source>
+        <comment>Key: moderator_info_message_4</comment>
+        <translation>Den nye beskjeden er presentert nedenfor</translation>
     </message>
 </context>
 <context>
@@ -11115,6 +11356,11 @@ Thank you for your comment.</source>
         <source>Description</source>
         <comment>Key: desc</comment>
         <translation>Beskrivelse</translation>
+    </message>
+    <message>
+        <source>Categories</source>
+        <comment>Key: forum-main</comment>
+        <translation>Kategorier</translation>
     </message>
     <message>
         <source>No categories found.</source>
@@ -11260,9 +11506,49 @@ Thank you for your comment.</source>
         <translation>Du kan bruke de følgende taggene</translation>
     </message>
     <message>
+        <source>You should enclose the text you reply to in &amp;lt;blockquote&amp;gt; and &amp;lt;blockquote&amp;gt;</source>
+        <comment>Key: reply_info_1</comment>
+        <translation>Du må omslutte teksten du besvarer med &amp;lt;blockquote&amp;gt; og &amp;lt;blockquote&amp;gt;</translation>
+    </message>
+    <message>
+        <source>If you are answering several questions, you should break up the text into several blocks</source>
+        <comment>Key: reply_info_2</comment>
+        <translation>Hvis du svarer på flere spørsmål bør du dele opp teksten i flere avsnitt</translation>
+    </message>
+    <message>
+        <source>and write your reply below each question</source>
+        <comment>Key: reply_info_3</comment>
+        <translation>og skrive ditt svar nedenfor hvert spørsmål</translation>
+    </message>
+    <message>
+        <source>Remember to enclose quoted (original) question with &amp;lt;blockquote&amp;gt; and &amp;lt;blockquote&amp;gt;</source>
+        <comment>Key: reply_info_4</comment>
+        <translation>Husk å omslutte de originale spørmsålene med &amp;lt;blockquote&amp;gt; og &amp;lt;blockquote&amp;gt;</translation>
+    </message>
+    <message>
         <source>Important</source>
         <comment>Key: reply_info_header</comment>
         <translation>Viktig</translation>
+    </message>
+    <message>
+        <source>Your message has been posted to the forum</source>
+        <comment>Key: posted_info_1</comment>
+        <translation>Din beskjed har blitt postet på forumet</translation>
+    </message>
+    <message>
+        <source>The complete message is shown above</source>
+        <comment>Key: posted_info_2</comment>
+        <translation>Den komplette beskjeden er vist ovenfor</translation>
+    </message>
+    <message>
+        <source>You can edit or delete your message until someone answers it, edit message</source>
+        <comment>Key: posted_info_3</comment>
+        <translation>Du kan redigere eller slette beskjeden din inntil noen svarer på den, rediger beskjeden</translation>
+    </message>
+    <message>
+        <source>Return to the forum</source>
+        <comment>Key: posted_info_4</comment>
+        <translation>Tilbake til forumet</translation>
     </message>
     <message>
         <source>You need to enter a topic</source>
@@ -11273,6 +11559,26 @@ Thank you for your comment.</source>
         <source>You need to write some text in the body</source>
         <comment>Key: error_missing_body</comment>
         <translation>Du må skrive inn beskjeden din</translation>
+    </message>
+    <message>
+        <source>You tried to access an eZ forum page which doesn&apos;t exist</source>
+        <comment>Key: error_missing_page_1</comment>
+        <translation>Du har prøvd å nå en eZ forum side som ikke eksisterer</translation>
+    </message>
+    <message>
+        <source>Please try to access the forums from this link</source>
+        <comment>Key: error_missing_page_2</comment>
+        <translation>Vennligst finn korekt forum via denne linken</translation>
+    </message>
+    <message>
+        <source>You tried to access an eZ forum page which you don&apos;t have access to</source>
+        <comment>Key: error_forbidden_page_1</comment>
+        <translation>Du har prøvd å nå en eZ forum side som du ikke har tilgang til</translation>
+    </message>
+    <message>
+        <source>Please try to access the forums from this link</source>
+        <comment>Key: error_forbidden_page_2</comment>
+        <translation>Vennligst finn korekt forum via denne linken</translation>
     </message>
     <message>
         <source>This message does not exist</source>
@@ -11300,6 +11606,26 @@ Thank you for your comment.</source>
         <translation>Tråder</translation>
     </message>
     <message>
+        <source>Topic</source>
+        <comment>Key: reply-topic</comment>
+        <translation>Emne</translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <comment>Key: reply-author</comment>
+        <translation>Forfatter</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <comment>Key: reply-time</comment>
+        <translation>Tidspunkt</translation>
+    </message>
+    <message>
+        <source>Categories</source>
+        <comment>Key: forum-main</comment>
+        <translation>Kategorier</translation>
+    </message>
+    <message>
         <source>Text</source>
         <comment>Key: text</comment>
         <translation>Beskjed</translation>
@@ -11308,6 +11634,11 @@ Thank you for your comment.</source>
         <source>Reply</source>
         <comment>Key: answer</comment>
         <translation>Svar</translation>
+    </message>
+    <message>
+        <source>New message</source>
+        <comment>Key: new-posting</comment>
+        <translation>Ny beskjed</translation>
     </message>
 </context>
 <context>
@@ -11348,6 +11679,26 @@ Thank you for your comment.</source>
         <translation>Tilbake</translation>
     </message>
     <message>
+        <source>Topic</source>
+        <comment>Key: reply-topic</comment>
+        <translation>Emne</translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <comment>Key: reply-author</comment>
+        <translation>Forfatter</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <comment>Key: reply-time</comment>
+        <translation>Tidspunkt</translation>
+    </message>
+    <message>
+        <source>Categories</source>
+        <comment>Key: forum-main</comment>
+        <translation>Kategorier</translation>
+    </message>
+    <message>
         <source>Search</source>
         <comment>Key: search</comment>
         <translation>Søk</translation>
@@ -11366,6 +11717,11 @@ Thank you for your comment.</source>
         <source>Next</source>
         <comment>Key: next</comment>
         <translation>Neste</translation>
+    </message>
+    <message>
+        <source>New message</source>
+        <comment>Key: new-posting</comment>
+        <translation>Ny post</translation>
     </message>
     <message>
         <source>Show threads</source>
@@ -11390,7 +11746,7 @@ Thank you for your comment.</source>
     <message>
         <source>You dont have access to this forum.</source>
         <comment>Key: no_access</comment>
-        <translation type="unfinished"></translation>
+        <translation>Du har ikke tilgang til dette forumet.</translation>
     </message>
 </context>
 <context>
@@ -11431,6 +11787,26 @@ Thank you for your comment.</source>
         <translation>Tilbake</translation>
     </message>
     <message>
+        <source>Topic</source>
+        <comment>Key: reply-topic</comment>
+        <translation>Emne</translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <comment>Key: reply-author</comment>
+        <translation>Forfatter</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <comment>Key: reply-time</comment>
+        <translation>Tidspunkt</translation>
+    </message>
+    <message>
+        <source>Categories</source>
+        <comment>Key: forum-main</comment>
+        <translation>Kategorier</translation>
+    </message>
+    <message>
         <source>Search</source>
         <comment>Key: search</comment>
         <translation>Søk</translation>
@@ -11450,13 +11826,18 @@ Thank you for your comment.</source>
         <comment>Key: next</comment>
         <translation>Neste</translation>
     </message>
+    <message>
+        <source>New comment</source>
+        <comment>Key: new-posting</comment>
+        <translation>Ny kommentar</translation>
+    </message>
 </context>
 <context>
     <name>ezforum/user/intl/en_GB/noaccess.php.ini [strings]</name>
     <message>
         <source>You don&apos;t have access to this forum.</source>
         <comment>Key: no_access</comment>
-        <translation type="unfinished"></translation>
+        <translation>You don&apos;t have access to this forum.</translation>
     </message>
 </context>
 <context>
@@ -11472,6 +11853,11 @@ Thank you for your comment.</source>
         <translation>Kategorier</translation>
     </message>
     <message>
+        <source>Search messages</source>
+        <comment>Key: search-intro</comment>
+        <translation>Søk i meldingene</translation>
+    </message>
+    <message>
         <source>Search</source>
         <comment>Key: search</comment>
         <translation>Søk</translation>
@@ -11480,6 +11866,36 @@ Thank you for your comment.</source>
         <source>The search didn&apos;t return any results</source>
         <comment>Key: empty_result</comment>
         <translation>Søket ga ingen treff</translation>
+    </message>
+    <message>
+        <source>No.</source>
+        <comment>Key: result-no</comment>
+        <translation>Ant.</translation>
+    </message>
+    <message>
+        <source>Topic</source>
+        <comment>Key: result-topic</comment>
+        <translation>Emne</translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <comment>Key: result-author</comment>
+        <translation>Forfatter</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <comment>Key: result-time</comment>
+        <translation>Tidspunkt</translation>
+    </message>
+    <message>
+        <source>Forum</source>
+        <comment>Key: result-forum</comment>
+        <translation>Forum</translation>
+    </message>
+    <message>
+        <source>Categories</source>
+        <comment>Key: forum-main</comment>
+        <translation>Kategorier</translation>
     </message>
     <message>
         <source>Author</source>
@@ -11643,7 +12059,7 @@ Thank you for your comment.</source>
     <message>
         <source>Upload permissions</source>
         <comment>Key: upload_permissions</comment>
-        <translation type="unfinished">Opplastingsrettigheter</translation>
+        <translation>Opplastingsrettigheter</translation>
     </message>
     <message>
         <source>OK</source>
@@ -11801,12 +12217,12 @@ Thank you for your comment.</source>
     <message>
         <source>Name of new photographer</source>
         <comment>Key: new_photographer_name</comment>
-        <translation type="unfinished">Nytt fotograf navn</translation>
+        <translation>Navn på ny fotograf</translation>
     </message>
     <message>
         <source>Email of new photographer</source>
         <comment>Key: new_photographer_email</comment>
-        <translation type="unfinished">Ny fotograf email</translation>
+        <translation>Epost til ny fotograf</translation>
     </message>
     <message>
         <source>Please fix the following errors</source>
@@ -12016,7 +12432,7 @@ Thank you for your comment.</source>
     <message>
         <source>Upload permissions</source>
         <comment>Key: upload_permissions</comment>
-        <translation type="unfinished">Opplastingsrettigheter</translation>
+        <translation>Opplastingsrettigheter</translation>
     </message>
     <message>
         <source>OK</source>
@@ -12041,7 +12457,7 @@ Thank you for your comment.</source>
     <message>
         <source>Section</source>
         <comment>Key: section</comment>
-        <translation type="unfinished">Seksjon</translation>
+        <translation>Seksjon</translation>
     </message>
     <message>
         <source>Please fix the following errors</source>
@@ -12174,12 +12590,12 @@ Thank you for your comment.</source>
     <message>
         <source>Name of new photographer</source>
         <comment>Key: new_photographer_name</comment>
-        <translation type="unfinished">Nytt fotograf navn</translation>
+        <translation>Navn på ny fotograf</translation>
     </message>
     <message>
         <source>Email of new photographer</source>
         <comment>Key: new_photographer_email</comment>
-        <translation type="unfinished">Ny fotograf email</translation>
+        <translation>Epost til ny fotograf</translation>
     </message>
     <message>
         <source>Please fix the following errors</source>
@@ -12319,37 +12735,37 @@ Thank you for your comment.</source>
     <message>
         <source>Attribute Edit</source>
         <comment>Key: attribute_edit</comment>
-        <translation type="unfinished">Egenskapsredigering</translation>
+        <translation>Egenskapsredigering</translation>
     </message>
     <message>
         <source>Attribute name</source>
         <comment>Key: attribute_name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Attribute name</translation>
     </message>
     <message>
         <source>Attribute value</source>
         <comment>Key: attribute_value</comment>
-        <translation type="unfinished"></translation>
+        <translation>Attribute value</translation>
     </message>
     <message>
         <source>No attributes</source>
         <comment>Key: no_attributes</comment>
-        <translation type="unfinished"></translation>
+        <translation>No attributes</translation>
     </message>
     <message>
         <source>Update</source>
         <comment>Key: update</comment>
-        <translation type="unfinished">Oppdater</translation>
+        <translation>Oppdater</translation>
     </message>
     <message>
         <source>OK</source>
         <comment>Key: ok</comment>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation type="unfinished"></translation>
+        <translation>Cancel</translation>
     </message>
 </context>
 <context>
@@ -12402,7 +12818,7 @@ Thank you for your comment.</source>
     <message>
         <source>Section</source>
         <comment>Key: section_select</comment>
-        <translation type="unfinished">Seksjon</translation>
+        <translation>Seksjon</translation>
     </message>
     <message>
         <source>Add category</source>
@@ -12430,42 +12846,42 @@ Thank you for your comment.</source>
     <message>
         <source>Link Overview</source>
         <comment>Key: headline</comment>
-        <translation type="unfinished">Link oversikt</translation>
+        <translation>Link oversikt</translation>
     </message>
     <message>
         <source>Links</source>
         <comment>Key: link</comment>
-        <translation type="unfinished">Linker</translation>
+        <translation>Linker</translation>
     </message>
     <message>
         <source>Categories</source>
         <comment>Key: category</comment>
-        <translation type="unfinished"></translation>
+        <translation>Categories</translation>
     </message>
     <message>
         <source>No categories found.</source>
         <comment>Key: no_group</comment>
-        <translation type="unfinished"></translation>
+        <translation>No categories found.</translation>
     </message>
     <message>
         <source>No links found.</source>
         <comment>Key: no_link</comment>
-        <translation type="unfinished"></translation>
+        <translation>No links found.</translation>
     </message>
     <message>
         <source>Search</source>
         <comment>Key: search</comment>
-        <translation type="unfinished">Søk</translation>
+        <translation>Søk</translation>
     </message>
     <message>
         <source>Delete category? Remember that all the links will also be deleted.</source>
         <comment>Key: delete</comment>
-        <translation type="unfinished"></translation>
+        <translation>Delete category? Remember that all the links will also be deleted.</translation>
     </message>
     <message>
         <source>Delete link</source>
         <comment>Key: deletelink</comment>
-        <translation type="unfinished"></translation>
+        <translation>Delete link</translation>
     </message>
 </context>
 <context>
@@ -12571,7 +12987,7 @@ Thank you for your comment.</source>
     <message>
         <source>Choose the category you want the link to appear in</source>
         <comment>Key: choosecategory</comment>
-        <translation type="unfinished">Velg kategorien du ønsker at linken skal tilhøre</translation>
+        <translation>Velg kategorien du vil at linken skal tilhøre</translation>
     </message>
     <message>
         <source>Root category</source>
@@ -12586,7 +13002,7 @@ Thank you for your comment.</source>
     <message>
         <source>Give your link a name</source>
         <comment>Key: nameedit</comment>
-        <translation type="unfinished">Gi linken ett navn</translation>
+        <translation>Gi linken ett navn</translation>
     </message>
     <message>
         <source>URL</source>
@@ -12790,7 +13206,7 @@ Thank you for your comment.</source>
     <message>
         <source>Previous</source>
         <comment>Key: previous</comment>
-        <translation type="unfinished"></translation>
+        <translation>Forrige</translation>
     </message>
     <message>
         <source>Next</source>
@@ -12949,7 +13365,7 @@ Thank you for your comment.</source>
     <message>
         <source>Additional categories</source>
         <comment>Key: multiple_categories</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tilleggskategorier</translation>
     </message>
     <message>
         <source>Update</source>
@@ -12982,7 +13398,7 @@ Thank you for your comment.</source>
     <message>
         <source>No link categories found.</source>
         <comment>Key: no_link_categories</comment>
-        <translation type="unfinished"></translation>
+        <translation>Fant ingen linkkategorier.</translation>
     </message>
 </context>
 <context>
@@ -13144,7 +13560,7 @@ Thank you for your comment.</source>
     <message>
         <source>Previous</source>
         <comment>Key: previous</comment>
-        <translation type="unfinished"></translation>
+        <translation>Forrige</translation>
     </message>
     <message>
         <source>Next</source>
@@ -13230,7 +13646,7 @@ Thank you for your comment.</source>
     <message>
         <source>Please insert the URL you want to use</source>
         <comment>Key: urledit</comment>
-        <translation type="unfinished">Skriv inn en URL som linken skal peke til</translation>
+        <translation>Skriv inn en URL som linken skal peke til</translation>
     </message>
     <message>
         <source>Keywords</source>
@@ -13456,52 +13872,52 @@ Thank you for your comment.</source>
     <message>
         <source>Options</source>
         <comment>Key: options</comment>
-        <translation type="unfinished"></translation>
+        <translation>Opsjoner</translation>
     </message>
     <message>
         <source>Signature</source>
         <comment>Key: signature</comment>
-        <translation type="unfinished">Signatur</translation>
+        <translation>Signatur</translation>
     </message>
     <message>
         <source>Auto append signature</source>
         <comment>Key: auto_signature</comment>
-        <translation type="unfinished"></translation>
+        <translation>Legg til signatur automatisk</translation>
     </message>
     <message>
         <source>On delete</source>
         <comment>Key: on_delete</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ved sletting</translation>
     </message>
     <message>
         <source>Remove from system</source>
         <comment>Key: del_on_del</comment>
-        <translation type="unfinished"></translation>
+        <translation>Fjern fra systemet</translation>
     </message>
     <message>
         <source>Show unread</source>
         <comment>Key: show_unread</comment>
-        <translation type="unfinished"></translation>
+        <translation>Vis uleste</translation>
     </message>
     <message>
         <source>Shows the number of unread mail in the menubox. This functions makes loading the page a bit slower</source>
         <comment>Key: unread_text</comment>
-        <translation type="unfinished"></translation>
+        <translation>Vis antall uleste meldinger i menyboksen. Dette gjør at lastingen av siden tar litt lengre tid</translation>
     </message>
     <message>
         <source>Checks mail on every reload if checked (slower). If not checked you have press &quot;Check mail&quot; to receive new mail (faster).</source>
         <comment>Key: auto_text</comment>
-        <translation type="unfinished"></translation>
+        <translation>Henter ny epost ved hver lasting av siden (tregere). Hvis den ikke er krysset av må du trykke &quot;Hent ny epost&quot; for å motta ny epost (raskere).</translation>
     </message>
     <message>
         <source>Auto check mail</source>
         <comment>Key: auto_check_mail</comment>
-        <translation type="unfinished"></translation>
+        <translation>Hent ny epost automatisk</translation>
     </message>
     <message>
         <source>Move to trash</source>
         <comment>Key: trash_on_del</comment>
-        <translation type="unfinished"></translation>
+        <translation>Flytt til papirkurven</translation>
     </message>
     <message>
         <source>&lt;To&gt;</source>
@@ -13743,7 +14159,7 @@ Thank you for your comment.</source>
     <message>
         <source>Search</source>
         <comment>Key: search</comment>
-        <translation type="unfinished">Søk</translation>
+        <translation>Søk</translation>
     </message>
     <message>
         <source>Name</source>
@@ -13788,22 +14204,22 @@ Thank you for your comment.</source>
     <message>
         <source>Inbox</source>
         <comment>Key: inbox</comment>
-        <translation type="unfinished">Innkommende</translation>
+        <translation>Innkommende</translation>
     </message>
     <message>
         <source>Sent</source>
         <comment>Key: sent</comment>
-        <translation type="unfinished">Sendt</translation>
+        <translation>Sendt</translation>
     </message>
     <message>
         <source>Drafts</source>
         <comment>Key: drafts</comment>
-        <translation type="unfinished">Utkast</translation>
+        <translation>Utkast</translation>
     </message>
     <message>
         <source>Trash</source>
         <comment>Key: trash</comment>
-        <translation type="unfinished"></translation>
+        <translation>Papirkurv</translation>
     </message>
 </context>
 <context>
@@ -13811,32 +14227,32 @@ Thank you for your comment.</source>
     <message>
         <source>Link e-mail to these companies/persons</source>
         <comment>Key: message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Link e-mail to these companies/persons</translation>
     </message>
     <message>
         <source>Companies</source>
         <comment>Key: companies</comment>
-        <translation type="unfinished"></translation>
+        <translation>Companies</translation>
     </message>
     <message>
         <source>Persons</source>
         <comment>Key: persons</comment>
-        <translation type="unfinished">Personer</translation>
+        <translation>Personer</translation>
     </message>
     <message>
         <source>Top</source>
         <comment>Key: top_category</comment>
-        <translation type="unfinished"></translation>
+        <translation>Top</translation>
     </message>
     <message>
         <source>OK</source>
         <comment>Key: ok</comment>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Back</source>
         <comment>Key: back</comment>
-        <translation type="unfinished"></translation>
+        <translation>Back</translation>
     </message>
 </context>
 <context>
@@ -13929,7 +14345,7 @@ Thank you for your comment.</source>
     <message>
         <source>Append signature</source>
         <comment>Key: signature</comment>
-        <translation type="unfinished"></translation>
+        <translation>Legg til signatur</translation>
     </message>
 </context>
 <context>
@@ -13942,7 +14358,7 @@ Thank you for your comment.</source>
     <message>
         <source>Search</source>
         <comment>Key: search</comment>
-        <translation type="unfinished">Søk</translation>
+        <translation>Søk</translation>
     </message>
     <message>
         <source>Mail</source>
@@ -13997,7 +14413,7 @@ Thank you for your comment.</source>
     <message>
         <source>Update</source>
         <comment>Key: update</comment>
-        <translation type="unfinished">Oppdater</translation>
+        <translation>Oppdater</translation>
     </message>
 </context>
 <context>
@@ -14010,7 +14426,7 @@ Thank you for your comment.</source>
     <message>
         <source>Search</source>
         <comment>Key: search</comment>
-        <translation type="unfinished">Søk</translation>
+        <translation>Søk</translation>
     </message>
     <message>
         <source>To</source>
@@ -14085,7 +14501,7 @@ Thank you for your comment.</source>
     <message>
         <source>Link</source>
         <comment>Key: link</comment>
-        <translation type="unfinished">Link</translation>
+        <translation>Link</translation>
     </message>
 </context>
 <context>
@@ -14128,7 +14544,7 @@ Thank you for your comment.</source>
     <message>
         <source>Check mail</source>
         <comment>Key: check_mail</comment>
-        <translation>Sjekk post</translation>
+        <translation>Hent ny epost</translation>
     </message>
     <message>
         <source>Folders</source>
@@ -14138,7 +14554,7 @@ Thank you for your comment.</source>
     <message>
         <source>Folder list</source>
         <comment>Key: folder_list</comment>
-        <translation>;Mappeliste</translation>
+        <translation>Mappeliste</translation>
     </message>
 </context>
 <context>
@@ -14146,37 +14562,37 @@ Thank you for your comment.</source>
     <message>
         <source>Search</source>
         <comment>Key: search_headline</comment>
-        <translation type="unfinished">Søk</translation>
+        <translation>Søk</translation>
     </message>
     <message>
         <source>Search</source>
         <comment>Key: search</comment>
-        <translation type="unfinished">Søk</translation>
+        <translation>Søk</translation>
     </message>
     <message>
         <source>Subject</source>
         <comment>Key: subject</comment>
-        <translation type="unfinished"></translation>
+        <translation>Subject</translation>
     </message>
     <message>
         <source>Sender</source>
         <comment>Key: sender</comment>
-        <translation type="unfinished">Avsender</translation>
+        <translation>Avsender</translation>
     </message>
     <message>
         <source>Folder</source>
         <comment>Key: folder</comment>
-        <translation type="unfinished"></translation>
+        <translation>Folder</translation>
     </message>
     <message>
         <source>Move selected mail/folder to</source>
         <comment>Key: move</comment>
-        <translation type="unfinished">Flytt valgt mappe til</translation>
+        <translation>Flytt valgt mappe til</translation>
     </message>
     <message>
         <source>Choose folder</source>
         <comment>Key: choose_dest</comment>
-        <translation type="unfinished">Velg mappe</translation>
+        <translation>Velg mappe</translation>
     </message>
 </context>
 <context>
@@ -14184,37 +14600,37 @@ Thank you for your comment.</source>
     <message>
         <source>Attribute Edit</source>
         <comment>Key: attribute_edit</comment>
-        <translation type="unfinished">Egenskapsredigering</translation>
+        <translation>Egenskapsredigering</translation>
     </message>
     <message>
         <source>Attribute name</source>
         <comment>Key: attribute_name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Attribute name</translation>
     </message>
     <message>
         <source>Attribute value</source>
         <comment>Key: attribute_value</comment>
-        <translation type="unfinished"></translation>
+        <translation>Attribute value</translation>
     </message>
     <message>
         <source>No attributes</source>
         <comment>Key: no_attributes</comment>
-        <translation type="unfinished"></translation>
+        <translation>No attributes</translation>
     </message>
     <message>
         <source>Update</source>
         <comment>Key: update</comment>
-        <translation type="unfinished">Oppdater</translation>
+        <translation>Oppdater</translation>
     </message>
     <message>
         <source>OK</source>
         <comment>Key: ok</comment>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation type="unfinished"></translation>
+        <translation>Cancel</translation>
     </message>
 </context>
 <context>
@@ -14222,27 +14638,27 @@ Thank you for your comment.</source>
     <message>
         <source>Media</source>
         <comment>Key: media</comment>
-        <translation type="unfinished">Media</translation>
+        <translation>Media</translation>
     </message>
     <message>
         <source>Media root</source>
         <comment>Key: media_root</comment>
-        <translation type="unfinished"></translation>
+        <translation>Media root</translation>
     </message>
     <message>
         <source>Add media</source>
         <comment>Key: add_media</comment>
-        <translation type="unfinished"></translation>
+        <translation>Add media</translation>
     </message>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation type="unfinished"></translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <source>Add media for:</source>
         <comment>Key: add_media_for</comment>
-        <translation type="unfinished"></translation>
+        <translation>Add media for:</translation>
     </message>
 </context>
 <context>
@@ -14250,97 +14666,97 @@ Thank you for your comment.</source>
     <message>
         <source>Category edit</source>
         <comment>Key: category_edit</comment>
-        <translation type="unfinished"></translation>
+        <translation>Category edit</translation>
     </message>
     <message>
         <source>Category</source>
         <comment>Key: category</comment>
-        <translation type="unfinished"></translation>
+        <translation>Category</translation>
     </message>
     <message>
         <source>Category name</source>
         <comment>Key: category_name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Category name</translation>
     </message>
     <message>
         <source>Category description</source>
         <comment>Key: category_description</comment>
-        <translation type="unfinished">Kategoribeskrivelse</translation>
+        <translation>Kategoribeskrivelse</translation>
     </message>
     <message>
         <source>User</source>
         <comment>Key: user</comment>
-        <translation type="unfinished"></translation>
+        <translation>User</translation>
     </message>
     <message>
         <source>Group</source>
         <comment>Key: group</comment>
-        <translation type="unfinished"></translation>
+        <translation>Group</translation>
     </message>
     <message>
         <source>All</source>
         <comment>Key: all</comment>
-        <translation type="unfinished">Alle</translation>
+        <translation>Alle</translation>
     </message>
     <message>
         <source>Write permissions</source>
         <comment>Key: write_permissions</comment>
-        <translation type="unfinished">Skriverettigheter</translation>
+        <translation>Skriverettigheter</translation>
     </message>
     <message>
         <source>Read permissions</source>
         <comment>Key: read_permissions</comment>
-        <translation type="unfinished">Leserettigheter</translation>
+        <translation>Leserettigheter</translation>
     </message>
     <message>
         <source>OK</source>
         <comment>Key: ok</comment>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation type="unfinished"></translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <source>Root level</source>
         <comment>Key: root_level</comment>
-        <translation type="unfinished">Rotkatalog</translation>
+        <translation>Rotkatalog</translation>
     </message>
     <message>
         <source>Everybody</source>
         <comment>Key: everybody</comment>
-        <translation type="unfinished">Alle</translation>
+        <translation>Alle</translation>
     </message>
     <message>
         <source>Please fix the following errors</source>
         <comment>Key: error_headline</comment>
-        <translation type="unfinished"></translation>
+        <translation>Please fix the following errors</translation>
     </message>
     <message>
         <source>Write permission denied</source>
         <comment>Key: error_write_permission</comment>
-        <translation type="unfinished"></translation>
+        <translation>Write permission denied</translation>
     </message>
     <message>
         <source>You must supply a name</source>
         <comment>Key: error_name</comment>
-        <translation type="unfinished"></translation>
+        <translation>You must supply a name</translation>
     </message>
     <message>
         <source>You must supply a description</source>
         <comment>Key: error_description</comment>
-        <translation type="unfinished"></translation>
+        <translation>You must supply a description</translation>
     </message>
     <message>
         <source>You must choose write permissions</source>
         <comment>Key: error_write_check</comment>
-        <translation type="unfinished">Du må velge skrive rettighter</translation>
+        <translation>Du må velge skrive rettighter</translation>
     </message>
     <message>
         <source>You must choose a read permissions</source>
         <comment>Key: error_read_check</comment>
-        <translation type="unfinished">Du må velge lese rettigheter</translation>
+        <translation>Du må velge lese rettigheter</translation>
     </message>
 </context>
 <context>
@@ -14348,152 +14764,152 @@ Thank you for your comment.</source>
     <message>
         <source>Media upload</source>
         <comment>Key: mediaupload</comment>
-        <translation type="unfinished">Mediaopplasting</translation>
+        <translation>Mediaopplasting</translation>
     </message>
     <message>
         <source>Media title</source>
         <comment>Key: mediatitle</comment>
-        <translation type="unfinished"></translation>
+        <translation>Media title</translation>
     </message>
     <message>
         <source>Media caption</source>
         <comment>Key: mediacaption</comment>
-        <translation type="unfinished"></translation>
+        <translation>Media caption</translation>
     </message>
     <message>
         <source>Media file</source>
         <comment>Key: mediafile</comment>
-        <translation type="unfinished"></translation>
+        <translation>Media file</translation>
     </message>
     <message>
         <source>OK</source>
         <comment>Key: ok</comment>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation type="unfinished"></translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <source>Description</source>
         <comment>Key: description</comment>
-        <translation type="unfinished"></translation>
+        <translation>Description</translation>
     </message>
     <message>
         <source>Read permission</source>
         <comment>Key: read_permissions</comment>
-        <translation type="unfinished">Leserettigheter</translation>
+        <translation>Leserettigheter</translation>
     </message>
     <message>
         <source>Write permission</source>
         <comment>Key: write_permissions</comment>
-        <translation type="unfinished">Skriverettigheter</translation>
+        <translation>Skriverettigheter</translation>
     </message>
     <message>
         <source>User</source>
         <comment>Key: user</comment>
-        <translation type="unfinished"></translation>
+        <translation>User</translation>
     </message>
     <message>
         <source>Group</source>
         <comment>Key: group</comment>
-        <translation type="unfinished"></translation>
+        <translation>Group</translation>
     </message>
     <message>
         <source>All</source>
         <comment>Key: all</comment>
-        <translation type="unfinished">Alle</translation>
+        <translation>Alle</translation>
     </message>
     <message>
         <source>Media category</source>
         <comment>Key: category</comment>
-        <translation type="unfinished"></translation>
+        <translation>Media category</translation>
     </message>
     <message>
         <source>Additional categories</source>
         <comment>Key: additional_category</comment>
-        <translation type="unfinished"></translation>
+        <translation>Additional categories</translation>
     </message>
     <message>
         <source>Everybody</source>
         <comment>Key: everybody</comment>
-        <translation type="unfinished">Alle</translation>
+        <translation>Alle</translation>
     </message>
     <message>
         <source>Creator</source>
         <comment>Key: creator</comment>
-        <translation type="unfinished">Laget av</translation>
+        <translation>Laget av</translation>
     </message>
     <message>
         <source>Attributes</source>
         <comment>Key: attributes</comment>
-        <translation type="unfinished"></translation>
+        <translation>Attributes</translation>
     </message>
     <message>
         <source>Attribute name</source>
         <comment>Key: attribute_name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Attribute name</translation>
     </message>
     <message>
         <source>Attribute value</source>
         <comment>Key: attribute_value</comment>
-        <translation type="unfinished"></translation>
+        <translation>Attribute value</translation>
     </message>
     <message>
         <source>No attributes</source>
         <comment>Key: no_attributes</comment>
-        <translation type="unfinished"></translation>
+        <translation>No attributes</translation>
     </message>
     <message>
         <source>Update</source>
         <comment>Key: update</comment>
-        <translation type="unfinished">Oppdater</translation>
-    </message>
-    <message>
-        <source>Please fix the following errors</source>
-        <comment>Key: error_headline</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You must supply a name</source>
-        <comment>Key: error_name</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You must supply a caption</source>
-        <comment>Key: error_caption</comment>
-        <translation type="unfinished">Du må oppgi en bildetekst</translation>
-    </message>
-    <message>
-        <source>You must supply a description</source>
-        <comment>Key: error_description</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You must choose write permissions</source>
-        <comment>Key: error_write_check</comment>
-        <translation type="unfinished">Du må velge skrive rettighter</translation>
-    </message>
-    <message>
-        <source>You must choose read permissions</source>
-        <comment>Key: error_read_check</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You must supply a file</source>
-        <comment>Key: error_file_upload</comment>
-        <translation type="unfinished"></translation>
+        <translation>Oppdater</translation>
     </message>
     <message>
         <source>Name of new media creator</source>
         <comment>Key: new_creator_name</comment>
-        <translation type="unfinished">Nytt navn</translation>
+        <translation>Nytt navn</translation>
     </message>
     <message>
         <source>Email address of new media creator</source>
         <comment>Key: new_creator_email</comment>
-        <translation type="unfinished">Ny epostadresse</translation>
+        <translation>Ny epostadresse</translation>
+    </message>
+    <message>
+        <source>Please fix the following errors</source>
+        <comment>Key: error_headline</comment>
+        <translation>Please fix the following errors</translation>
+    </message>
+    <message>
+        <source>You must supply a name</source>
+        <comment>Key: error_name</comment>
+        <translation>You must supply a name</translation>
+    </message>
+    <message>
+        <source>You must supply a caption</source>
+        <comment>Key: error_caption</comment>
+        <translation>Du må oppgi en bildetekst</translation>
+    </message>
+    <message>
+        <source>You must supply a description</source>
+        <comment>Key: error_description</comment>
+        <translation>You must supply a description</translation>
+    </message>
+    <message>
+        <source>You must choose write permissions</source>
+        <comment>Key: error_write_check</comment>
+        <translation>Du må velge skrive rettighter</translation>
+    </message>
+    <message>
+        <source>You must choose read permissions</source>
+        <comment>Key: error_read_check</comment>
+        <translation>You must choose read permissions</translation>
+    </message>
+    <message>
+        <source>You must supply a file</source>
+        <comment>Key: error_file_upload</comment>
+        <translation>You must supply a file</translation>
     </message>
 </context>
 <context>
@@ -14501,52 +14917,52 @@ Thank you for your comment.</source>
     <message>
         <source>Media root</source>
         <comment>Key: media_root</comment>
-        <translation type="unfinished"></translation>
+        <translation>Media root</translation>
     </message>
     <message>
         <source>New media</source>
         <comment>Key: new_media</comment>
-        <translation type="unfinished"></translation>
+        <translation>New media</translation>
     </message>
     <message>
         <source>New category</source>
         <comment>Key: new_category</comment>
-        <translation type="unfinished"></translation>
+        <translation>New category</translation>
     </message>
     <message>
         <source>Normal view</source>
         <comment>Key: normal_view</comment>
-        <translation type="unfinished">Normal visning</translation>
+        <translation>Normal visning</translation>
     </message>
     <message>
         <source>Detail view</source>
         <comment>Key: detail_view</comment>
-        <translation type="unfinished">Detaljert visning</translation>
+        <translation>Detaljert visning</translation>
     </message>
     <message>
         <source>Media</source>
         <comment>Key: media</comment>
-        <translation type="unfinished">Media</translation>
+        <translation>Media</translation>
     </message>
     <message>
         <source>Delete selected categories</source>
         <comment>Key: delete_categories</comment>
-        <translation type="unfinished"></translation>
+        <translation>Delete selected categories</translation>
     </message>
     <message>
         <source>Delete selected media</source>
         <comment>Key: delete_media</comment>
-        <translation type="unfinished">Slett merkede mediafiler</translation>
+        <translation>Slett merkede mediafiler</translation>
     </message>
     <message>
         <source>Next media</source>
         <comment>Key: next</comment>
-        <translation type="unfinished"></translation>
+        <translation>Next media</translation>
     </message>
     <message>
         <source>Previous media</source>
         <comment>Key: previous</comment>
-        <translation type="unfinished"></translation>
+        <translation>Previous media</translation>
     </message>
 </context>
 <context>
@@ -14554,12 +14970,12 @@ Thank you for your comment.</source>
     <message>
         <source>Media view</source>
         <comment>Key: headline</comment>
-        <translation type="unfinished"></translation>
+        <translation>Media view</translation>
     </message>
     <message>
         <source>Back</source>
         <comment>Key: back</comment>
-        <translation type="unfinished"></translation>
+        <translation>Back</translation>
     </message>
 </context>
 <context>
@@ -14567,37 +14983,37 @@ Thank you for your comment.</source>
     <message>
         <source>media catalogue</source>
         <comment>Key: module_name</comment>
-        <translation type="unfinished"></translation>
+        <translation>media catalogue</translation>
     </message>
     <message>
         <source>Category list</source>
         <comment>Key: category_list</comment>
-        <translation type="unfinished"></translation>
+        <translation>Category list</translation>
     </message>
     <message>
         <source>New category</source>
         <comment>Key: new_category</comment>
-        <translation type="unfinished"></translation>
+        <translation>New category</translation>
     </message>
     <message>
         <source>New media</source>
         <comment>Key: new_media</comment>
-        <translation type="unfinished"></translation>
+        <translation>New media</translation>
     </message>
     <message>
         <source>Unassigned</source>
         <comment>Key: unassigned</comment>
-        <translation type="unfinished"></translation>
+        <translation>Unassigned</translation>
     </message>
     <message>
         <source>Typelist</source>
         <comment>Key: typelist</comment>
-        <translation type="unfinished"></translation>
+        <translation>Typelist</translation>
     </message>
     <message>
         <source>New type</source>
         <comment>Key: newtype</comment>
-        <translation type="unfinished">Ny type</translation>
+        <translation>Ny type</translation>
     </message>
 </context>
 <context>
@@ -14605,57 +15021,57 @@ Thank you for your comment.</source>
     <message>
         <source>Type Edit</source>
         <comment>Key: type_edit</comment>
-        <translation type="unfinished"></translation>
+        <translation>Type Edit</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Key: name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Name</translation>
     </message>
     <message>
         <source>New attribute</source>
         <comment>Key: new_attribute</comment>
-        <translation type="unfinished"></translation>
+        <translation>New attribute</translation>
     </message>
     <message>
         <source>Attribute name</source>
         <comment>Key: attribute_name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Attribute name</translation>
     </message>
     <message>
         <source>Update</source>
         <comment>Key: update</comment>
-        <translation type="unfinished">Oppdater</translation>
+        <translation>Oppdater</translation>
     </message>
     <message>
         <source>OK</source>
         <comment>Key: ok</comment>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation type="unfinished"></translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <source>Unit</source>
         <comment>Key: unit</comment>
-        <translation type="unfinished"></translation>
+        <translation>Unit</translation>
     </message>
     <message>
         <source>Delete</source>
         <comment>Key: delete</comment>
-        <translation type="unfinished"></translation>
+        <translation>Delete</translation>
     </message>
     <message>
         <source>Delete selected</source>
         <comment>Key: delete_selected</comment>
-        <translation type="unfinished"></translation>
+        <translation>Delete selected</translation>
     </message>
     <message>
         <source>Default value</source>
         <comment>Key: attribute_default_value</comment>
-        <translation type="unfinished"></translation>
+        <translation>Default value</translation>
     </message>
 </context>
 <context>
@@ -14663,27 +15079,27 @@ Thank you for your comment.</source>
     <message>
         <source>Type List</source>
         <comment>Key: type_list</comment>
-        <translation type="unfinished"></translation>
+        <translation>Type List</translation>
     </message>
     <message>
         <source>Type</source>
         <comment>Key: type</comment>
-        <translation type="unfinished">Type</translation>
+        <translation>Type</translation>
     </message>
     <message>
         <source>Delete</source>
         <comment>Key: delete</comment>
-        <translation type="unfinished"></translation>
+        <translation>Delete</translation>
     </message>
     <message>
         <source>Delete selected types</source>
         <comment>Key: delete_selected</comment>
-        <translation type="unfinished"></translation>
+        <translation>Delete selected types</translation>
     </message>
     <message>
         <source>Description</source>
         <comment>Key: description</comment>
-        <translation type="unfinished"></translation>
+        <translation>Description</translation>
     </message>
 </context>
 <context>
@@ -14691,17 +15107,17 @@ Thank you for your comment.</source>
     <message>
         <source>message</source>
         <comment>Key: module_name</comment>
-        <translation type="unfinished"></translation>
+        <translation>message</translation>
     </message>
     <message>
         <source>Message list</source>
         <comment>Key: message_list</comment>
-        <translation type="unfinished">Meldingoversikt</translation>
+        <translation>Meldingoversikt</translation>
     </message>
     <message>
         <source>Message edit</source>
         <comment>Key: message_edit</comment>
-        <translation type="unfinished"></translation>
+        <translation>Message edit</translation>
     </message>
 </context>
 <context>
@@ -14709,52 +15125,52 @@ Thank you for your comment.</source>
     <message>
         <source>Message edit</source>
         <comment>Key: message_edit</comment>
-        <translation type="unfinished"></translation>
+        <translation>Message edit</translation>
     </message>
     <message>
         <source>Subject</source>
         <comment>Key: subject</comment>
-        <translation type="unfinished"></translation>
+        <translation>Subject</translation>
     </message>
     <message>
         <source>Description</source>
         <comment>Key: description</comment>
-        <translation type="unfinished"></translation>
+        <translation>Description</translation>
     </message>
     <message>
         <source>Send</source>
         <comment>Key: send</comment>
-        <translation type="unfinished"></translation>
+        <translation>Send</translation>
     </message>
     <message>
         <source>Receiver (login to the user(s), separated by , )</source>
         <comment>Key: receiver</comment>
-        <translation type="unfinished"></translation>
+        <translation>Receiver (login to the user(s), separated by , )</translation>
     </message>
     <message>
         <source>Receiver list</source>
         <comment>Key: receiver_list</comment>
-        <translation type="unfinished"></translation>
+        <translation>Receiver list</translation>
     </message>
     <message>
         <source>Message is sent</source>
         <comment>Key: message_sent</comment>
-        <translation type="unfinished"></translation>
+        <translation>Message is sent</translation>
     </message>
     <message>
         <source>Preview</source>
         <comment>Key: preview</comment>
-        <translation type="unfinished"></translation>
+        <translation>Preview</translation>
     </message>
     <message>
         <source>Edit</source>
         <comment>Key: edit</comment>
-        <translation type="unfinished"></translation>
+        <translation>Edit</translation>
     </message>
     <message>
         <source>Error: Could not find receiver</source>
         <comment>Key: receiver_not_found</comment>
-        <translation type="unfinished"></translation>
+        <translation>Error: Could not find receiver</translation>
     </message>
 </context>
 <context>
@@ -14762,42 +15178,42 @@ Thank you for your comment.</source>
     <message>
         <source>Messages for</source>
         <comment>Key: messages_for</comment>
-        <translation type="unfinished"></translation>
+        <translation>Messages for</translation>
     </message>
     <message>
         <source>Date</source>
         <comment>Key: message_date</comment>
-        <translation type="unfinished">Dato</translation>
+        <translation>Dato</translation>
     </message>
     <message>
         <source>From</source>
         <comment>Key: message_from_user</comment>
-        <translation type="unfinished">Fra</translation>
+        <translation>Fra</translation>
     </message>
     <message>
         <source>Subject</source>
         <comment>Key: message_subject</comment>
-        <translation type="unfinished"></translation>
+        <translation>Subject</translation>
     </message>
     <message>
         <source>Refresh</source>
         <comment>Key: refresh</comment>
-        <translation type="unfinished"></translation>
+        <translation>Refresh</translation>
     </message>
     <message>
         <source>Read</source>
         <comment>Key: message_is_read</comment>
-        <translation type="unfinished"></translation>
+        <translation>Read</translation>
     </message>
     <message>
         <source>Yes</source>
         <comment>Key: is_read</comment>
-        <translation type="unfinished"></translation>
+        <translation>Yes</translation>
     </message>
     <message>
         <source>No</source>
         <comment>Key: is_unread</comment>
-        <translation type="unfinished"></translation>
+        <translation>No</translation>
     </message>
 </context>
 <context>
@@ -14805,37 +15221,37 @@ Thank you for your comment.</source>
     <message>
         <source>Message from</source>
         <comment>Key: message_from</comment>
-        <translation type="unfinished">Melding fra</translation>
+        <translation>Melding fra</translation>
     </message>
     <message>
         <source>Date</source>
         <comment>Key: message_date</comment>
-        <translation type="unfinished">Dato</translation>
+        <translation>Dato</translation>
     </message>
     <message>
         <source>From</source>
         <comment>Key: message_from_user</comment>
-        <translation type="unfinished">Fra</translation>
+        <translation>Fra</translation>
     </message>
     <message>
         <source>Subject</source>
         <comment>Key: message_subject</comment>
-        <translation type="unfinished"></translation>
+        <translation>Subject</translation>
     </message>
     <message>
         <source>Message</source>
         <comment>Key: message_message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Message</translation>
     </message>
     <message>
         <source>Back</source>
         <comment>Key: back</comment>
-        <translation type="unfinished"></translation>
+        <translation>Back</translation>
     </message>
     <message>
         <source>Reply</source>
         <comment>Key: reply</comment>
-        <translation type="unfinished">Svar</translation>
+        <translation>Svar</translation>
     </message>
 </context>
 <context>
@@ -15113,7 +15529,7 @@ Thank you for your comment.</source>
     <message>
         <source>Delete</source>
         <comment>Key: delete</comment>
-        <translation type="unfinished"></translation>
+        <translation>Slett</translation>
     </message>
 </context>
 <context>
@@ -15761,107 +16177,107 @@ Thank you for your comment.</source>
     <message>
         <source>Game edit</source>
         <comment>Key: headline</comment>
-        <translation type="unfinished"></translation>
+        <translation>Game edit</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Key: name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Name</translation>
     </message>
     <message>
         <source>Description</source>
         <comment>Key: description</comment>
-        <translation type="unfinished"></translation>
+        <translation>Description</translation>
     </message>
     <message>
         <source>Start date</source>
         <comment>Key: start_date</comment>
-        <translation type="unfinished">Start dato</translation>
+        <translation>Start dato</translation>
     </message>
     <message>
         <source>Stop date</source>
         <comment>Key: stop_date</comment>
-        <translation type="unfinished">Stopp dato</translation>
+        <translation>Stopp dato</translation>
     </message>
     <message>
         <source>OK</source>
         <comment>Key: ok</comment>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation type="unfinished"></translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <source>Questions</source>
         <comment>Key: questions</comment>
-        <translation type="unfinished"></translation>
+        <translation>Questions</translation>
     </message>
     <message>
         <source>Update</source>
         <comment>Key: update</comment>
-        <translation type="unfinished">Oppdater</translation>
+        <translation>Oppdater</translation>
     </message>
     <message>
         <source>New Question</source>
         <comment>Key: new_question</comment>
-        <translation type="unfinished"></translation>
+        <translation>New Question</translation>
     </message>
     <message>
         <source>Delete selected questions</source>
         <comment>Key: delete_questions</comment>
-        <translation type="unfinished"></translation>
+        <translation>Delete selected questions</translation>
     </message>
     <message>
         <source>This game crashes with:</source>
         <comment>Key: this_game_crash_with</comment>
-        <translation type="unfinished"></translation>
+        <translation>This game crashes with:</translation>
     </message>
     <message>
         <source>This game ends after the starting date of:</source>
         <comment>Key: this_game_crash_with_start</comment>
-        <translation type="unfinished"></translation>
+        <translation>This game ends after the starting date of:</translation>
     </message>
     <message>
         <source>This game starts before the ending date of:</source>
         <comment>Key: this_game_crash_with_stop</comment>
-        <translation type="unfinished"></translation>
+        <translation>This game starts before the ending date of:</translation>
     </message>
     <message>
         <source>This game starts after, and ends before this game:</source>
         <comment>Key: this_game_embraces_period</comment>
-        <translation type="unfinished"></translation>
+        <translation>This game starts after, and ends before this game:</translation>
     </message>
     <message>
         <source>Day</source>
         <comment>Key: day</comment>
-        <translation type="unfinished">Dag</translation>
+        <translation>Dag</translation>
     </message>
     <message>
         <source>Month</source>
         <comment>Key: month</comment>
-        <translation type="unfinished">Måned</translation>
+        <translation>Måned</translation>
     </message>
     <message>
         <source>Year</source>
         <comment>Key: year</comment>
-        <translation type="unfinished">År</translation>
+        <translation>År</translation>
     </message>
     <message>
         <source>Please select a name for this game</source>
         <comment>Key: error_this_game_needs_a_name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Please select a name for this game</translation>
     </message>
     <message>
         <source>You need to change the start and end dates of the game, no part of the dates should be empty or set to zero</source>
         <comment>Key: error_this_game_needs_dates</comment>
-        <translation type="unfinished"></translation>
+        <translation>You need to change the start and end dates of the game, no part of the dates should be empty or set to zero</translation>
     </message>
     <message>
         <source>You need to define at least one question for this game</source>
         <comment>Key: error_this_game_needs_a_question</comment>
-        <translation type="unfinished"></translation>
+        <translation>You need to define at least one question for this game</translation>
     </message>
 </context>
 <context>
@@ -15869,27 +16285,27 @@ Thank you for your comment.</source>
     <message>
         <source>Games</source>
         <comment>Key: games</comment>
-        <translation type="unfinished"></translation>
+        <translation>Games</translation>
     </message>
     <message>
         <source>New game</source>
         <comment>Key: new_game</comment>
-        <translation type="unfinished"></translation>
+        <translation>New game</translation>
     </message>
     <message>
         <source>Delete games</source>
         <comment>Key: delete_games</comment>
-        <translation type="unfinished"></translation>
+        <translation>Delete games</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Key: name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Name</translation>
     </message>
     <message>
         <source>Description</source>
         <comment>Key: description</comment>
-        <translation type="unfinished"></translation>
+        <translation>Description</translation>
     </message>
 </context>
 <context>
@@ -15897,17 +16313,17 @@ Thank you for your comment.</source>
     <message>
         <source>quiz</source>
         <comment>Key: module_name</comment>
-        <translation type="unfinished"></translation>
+        <translation>quiz</translation>
     </message>
     <message>
         <source>Game List</source>
         <comment>Key: game_list</comment>
-        <translation type="unfinished"></translation>
+        <translation>Game List</translation>
     </message>
     <message>
         <source>New Game</source>
         <comment>Key: new_game</comment>
-        <translation type="unfinished"></translation>
+        <translation>New Game</translation>
     </message>
 </context>
 <context>
@@ -15915,77 +16331,77 @@ Thank you for your comment.</source>
     <message>
         <source>Questionedit</source>
         <comment>Key: headline</comment>
-        <translation type="unfinished"></translation>
+        <translation>Questionedit</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Key: name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Name</translation>
     </message>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation type="unfinished"></translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <source>New answer</source>
         <comment>Key: new_answer</comment>
-        <translation type="unfinished"></translation>
+        <translation>New answer</translation>
     </message>
     <message>
         <source>OK</source>
         <comment>Key: ok</comment>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Update</source>
         <comment>Key: update</comment>
-        <translation type="unfinished">Oppdater</translation>
+        <translation>Oppdater</translation>
     </message>
     <message>
         <source>Alternatives</source>
         <comment>Key: alternatives</comment>
-        <translation type="unfinished">Svaralternativer</translation>
+        <translation>Svaralternativer</translation>
     </message>
     <message>
         <source>Is correct</source>
         <comment>Key: is_correct</comment>
-        <translation type="unfinished"></translation>
+        <translation>Is correct</translation>
     </message>
     <message>
         <source>New alternative</source>
         <comment>Key: new_alternative</comment>
-        <translation type="unfinished"></translation>
+        <translation>New alternative</translation>
     </message>
     <message>
         <source>Delete selected alternatives</source>
         <comment>Key: delete_alternatives</comment>
-        <translation type="unfinished"></translation>
+        <translation>Delete selected alternatives</translation>
     </message>
     <message>
         <source>You must add at least one answer to the question</source>
         <comment>Key: error_add_alternative</comment>
-        <translation type="unfinished"></translation>
+        <translation>You must add at least one answer to the question</translation>
     </message>
     <message>
         <source>You must add at least one correct answer to the question</source>
         <comment>Key: error_no_correct_alternative</comment>
-        <translation type="unfinished"></translation>
+        <translation>You must add at least one correct answer to the question</translation>
     </message>
     <message>
         <source>There were errors</source>
         <comment>Key: error_headline</comment>
-        <translation type="unfinished"></translation>
+        <translation>There were errors</translation>
     </message>
     <message>
         <source>You must give this question a name, the name should be in the form of a question which the user can answer</source>
         <comment>Key: error_missing_question_name</comment>
-        <translation type="unfinished"></translation>
+        <translation>You must give this question a name, the name should be in the form of a question which the user can answer</translation>
     </message>
     <message>
         <source>You must give the answer a name, this should be phrased in the foorm of an answer to the question asked</source>
         <comment>Key: error_missing_answer_name</comment>
-        <translation type="unfinished"></translation>
+        <translation>You must give the answer a name, this should be phrased in the foorm of an answer to the question asked</translation>
     </message>
 </context>
 <context>
@@ -15993,67 +16409,67 @@ Thank you for your comment.</source>
     <message>
         <source>Quiz</source>
         <comment>Key: title</comment>
-        <translation type="unfinished"></translation>
+        <translation>Quiz</translation>
     </message>
     <message>
         <source>Current game</source>
         <comment>Key: current_game</comment>
-        <translation type="unfinished"></translation>
+        <translation>Current game</translation>
     </message>
     <message>
         <source>Next game</source>
         <comment>Key: next_game</comment>
-        <translation type="unfinished"></translation>
+        <translation>Next game</translation>
     </message>
     <message>
         <source>No scheduled games</source>
         <comment>Key: no_game</comment>
-        <translation type="unfinished"></translation>
+        <translation>No scheduled games</translation>
     </message>
     <message>
         <source>Quiz operations</source>
         <comment>Key: game_menu</comment>
-        <translation type="unfinished"></translation>
+        <translation>Quiz operations</translation>
     </message>
     <message>
         <source>All games</source>
         <comment>Key: all_games</comment>
-        <translation type="unfinished"></translation>
+        <translation>All games</translation>
     </message>
     <message>
         <source>Upcomming games</source>
         <comment>Key: all_future_games</comment>
-        <translation type="unfinished"></translation>
+        <translation>Upcomming games</translation>
     </message>
     <message>
         <source>Ended games</source>
         <comment>Key: all_previous_games</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ended games</translation>
     </message>
     <message>
         <source>Scores</source>
         <comment>Key: all_scores</comment>
-        <translation type="unfinished"></translation>
+        <translation>Scores</translation>
     </message>
     <message>
         <source>My quiz</source>
         <comment>Key: my_quiz</comment>
-        <translation type="unfinished"></translation>
+        <translation>My quiz</translation>
     </message>
     <message>
         <source>Saved games</source>
         <comment>Key: my_unfinished_games</comment>
-        <translation type="unfinished"></translation>
+        <translation>Saved games</translation>
     </message>
     <message>
         <source>Finished games</source>
         <comment>Key: my_finished_games</comment>
-        <translation type="unfinished"></translation>
+        <translation>Finished games</translation>
     </message>
     <message>
         <source>Scores</source>
         <comment>Key: my_scores</comment>
-        <translation type="unfinished"></translation>
+        <translation>Scores</translation>
     </message>
 </context>
 <context>
@@ -16061,322 +16477,347 @@ Thank you for your comment.</source>
     <message>
         <source>quiz</source>
         <comment>Key: module</comment>
-        <translation type="unfinished"></translation>
+        <translation>quiz</translation>
     </message>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation type="unfinished"></translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <source>OK</source>
         <comment>Key: ok</comment>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Quiz List</source>
         <comment>Key: header_quiz_list</comment>
-        <translation type="unfinished"></translation>
+        <translation>Quiz List</translation>
     </message>
     <message>
         <source>Date</source>
         <comment>Key: date</comment>
-        <translation type="unfinished">Dato</translation>
+        <translation>Dato</translation>
     </message>
     <message>
         <source>Starts at</source>
         <comment>Key: start_date</comment>
-        <translation type="unfinished"></translation>
+        <translation>Starts at</translation>
     </message>
     <message>
         <source>Ends at</source>
         <comment>Key: end_date</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ends at</translation>
     </message>
     <message>
         <source>Open between</source>
         <comment>Key: valid</comment>
-        <translation type="unfinished"></translation>
+        <translation>Open between</translation>
     </message>
     <message>
         <source>Scores</source>
         <comment>Key: scores</comment>
-        <translation type="unfinished"></translation>
+        <translation>Scores</translation>
     </message>
     <message>
         <source>Play</source>
         <comment>Key: play</comment>
-        <translation type="unfinished"></translation>
+        <translation>Play</translation>
     </message>
     <message>
         <source>Save</source>
         <comment>Key: save</comment>
-        <translation type="unfinished"></translation>
+        <translation>Save</translation>
     </message>
     <message>
         <source>Questions</source>
         <comment>Key: questions</comment>
-        <translation type="unfinished"></translation>
+        <translation>Questions</translation>
     </message>
     <message>
         <source>Players</source>
         <comment>Key: players</comment>
-        <translation type="unfinished"></translation>
+        <translation>Players</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>Key: next</comment>
-        <translation type="unfinished"></translation>
+        <translation>Next</translation>
     </message>
     <message>
         <source>Error</source>
         <comment>Key: error</comment>
-        <translation type="unfinished"></translation>
+        <translation>Error</translation>
     </message>
     <message>
         <source>Previous</source>
         <comment>Key: previous</comment>
-        <translation type="unfinished"></translation>
+        <translation>Previous</translation>
     </message>
     <message>
         <source>Instructions</source>
         <comment>Key: instructions</comment>
-        <translation type="unfinished">Instruksjoner</translation>
+        <translation>Instruksjoner</translation>
     </message>
     <message>
         <source>Start playing the game</source>
         <comment>Key: start_game</comment>
-        <translation type="unfinished"></translation>
+        <translation>Start playing the game</translation>
     </message>
     <message>
         <source>You can always press &quot;Save&quot; to save a current game and return to it later</source>
         <comment>Key: save_and_return</comment>
-        <translation type="unfinished"></translation>
+        <translation>You can always press &quot;Save&quot; to save a current game and return to it later</translation>
     </message>
     <message>
         <source>You must answer all questions of a game before the ending date of the game</source>
         <comment>Key: answer_before_end_date</comment>
-        <translation type="unfinished"></translation>
+        <translation>You must answer all questions of a game before the ending date of the game</translation>
     </message>
     <message>
         <source>Remember to answer your saved games before the ending date of the game.</source>
         <comment>Key: also_saved_games</comment>
-        <translation type="unfinished"></translation>
+        <translation>Remember to answer your saved games before the ending date of the game.</translation>
     </message>
     <message>
         <source>View this games&apos; high scores</source>
         <comment>Key: view_high_score</comment>
-        <translation type="unfinished"></translation>
+        <translation>View this games&apos; high scores</translation>
     </message>
     <message>
         <source>You will be presented with a question and several alternatives</source>
         <comment>Key: several_alternatives</comment>
-        <translation type="unfinished"></translation>
+        <translation>You will be presented with a question and several alternatives</translation>
     </message>
     <message>
         <source>Select the alternative you think is the correct and press &quot;Next&quot; to go to the next question</source>
         <comment>Key: select_your_choice</comment>
-        <translation type="unfinished"></translation>
+        <translation>Select the alternative you think is the correct and press &quot;Next&quot; to go to the next question</translation>
     </message>
     <message>
         <source>You will not be able to go back to correct a wrong answer</source>
         <comment>Key: no_turning_back</comment>
-        <translation type="unfinished"></translation>
+        <translation>You will not be able to go back to correct a wrong answer</translation>
     </message>
     <message>
         <source>You will not be able to take a quiz several times</source>
         <comment>Key: no_return</comment>
-        <translation type="unfinished"></translation>
+        <translation>You will not be able to take a quiz several times</translation>
     </message>
     <message>
         <source>After finishing the game you will be presented with your score and current position</source>
         <comment>Key: your_score</comment>
-        <translation type="unfinished"></translation>
+        <translation>After finishing the game you will be presented with your score and current position</translation>
+    </message>
+    <message>
+        <source>You have played this game before</source>
+        <comment>Key: your_score_item_3</comment>
+        <translation>Du har spilt dette spillet før</translation>
+    </message>
+    <message>
+        <source>You are</source>
+        <comment>Key: your_score_item_1</comment>
+        <translation>Du er</translation>
+    </message>
+    <message>
+        <source>and your score is</source>
+        <comment>Key: your_score_item_2</comment>
+        <translation>og dine poeng er</translation>
+    </message>
+    <message>
+        <source>Current high score is</source>
+        <comment>Key: high_score_item_1</comment>
+        <translation>Gjeldene poengrekord</translation>
+    </message>
+    <message>
+        <source>by</source>
+        <comment>Key: high_score_item_2</comment>
+        <translation>av</translation>
     </message>
     <message>
         <source>people have played this game before you</source>
         <comment>Key: earlier_played</comment>
-        <translation type="unfinished"></translation>
+        <translation>people have played this game before you</translation>
     </message>
     <message>
         <source>There are no questions defined for this game, contact site administrator</source>
         <comment>Key: error_no_questions</comment>
-        <translation type="unfinished"></translation>
+        <translation>There are no questions defined for this game, contact site administrator</translation>
     </message>
     <message>
         <source>There are no alternatives defined for this question, contact site administrator</source>
         <comment>Key: error_no_alternatives</comment>
-        <translation type="unfinished"></translation>
+        <translation>There are no alternatives defined for this question, contact site administrator</translation>
     </message>
     <message>
         <source>The alternative you&apos;ve selected doesn&apos;t exist for this question, contact site administrator</source>
         <comment>Key: error_no_such_alternative</comment>
-        <translation type="unfinished"></translation>
+        <translation>The alternative you&apos;ve selected doesn&apos;t exist for this question, contact site administrator</translation>
     </message>
     <message>
         <source>The user whose answer we&apos;ve received isn&apos;t the same as the one logged in</source>
         <comment>Key: error_differing_user_ids</comment>
-        <translation type="unfinished"></translation>
+        <translation>The user whose answer we&apos;ve received isn&apos;t the same as the one logged in</translation>
     </message>
     <message>
         <source>An undefined error has appeared, contact site administrator</source>
         <comment>Key: error_undefined</comment>
-        <translation type="unfinished"></translation>
+        <translation>An undefined error has appeared, contact site administrator</translation>
     </message>
     <message>
         <source>This game will open at a future date, select a different game</source>
         <comment>Key: error_unopened</comment>
-        <translation type="unfinished"></translation>
+        <translation>This game will open at a future date, select a different game</translation>
     </message>
     <message>
         <source>This game has closed</source>
         <comment>Key: error_closed</comment>
-        <translation type="unfinished"></translation>
+        <translation>This game has closed</translation>
     </message>
     <message>
         <source>You aren&apos;t logged in, log in or register a new user</source>
         <comment>Key: error_login</comment>
-        <translation type="unfinished"></translation>
+        <translation>You aren&apos;t logged in, log in or register a new user</translation>
     </message>
     <message>
         <source>High Scores</source>
         <comment>Key: high_score_list</comment>
-        <translation type="unfinished"></translation>
+        <translation>High Scores</translation>
     </message>
     <message>
         <source>There are no scores</source>
         <comment>Key: no_scores</comment>
-        <translation type="unfinished"></translation>
+        <translation>There are no scores</translation>
     </message>
     <message>
         <source>This game hasn&apos;t been played yet</source>
         <comment>Key: in_the_future</comment>
-        <translation type="unfinished"></translation>
+        <translation>This game hasn&apos;t been played yet</translation>
     </message>
     <message>
         <source>The game opens</source>
         <comment>Key: opens_at</comment>
-        <translation type="unfinished"></translation>
+        <translation>The game opens</translation>
     </message>
     <message>
         <source>This game is still being played</source>
         <comment>Key: not_closed</comment>
-        <translation type="unfinished"></translation>
+        <translation>This game is still being played</translation>
     </message>
     <message>
         <source>The game closes</source>
         <comment>Key: closes_at</comment>
-        <translation type="unfinished"></translation>
+        <translation>The game closes</translation>
     </message>
     <message>
         <source>No one has played this game before it closed</source>
         <comment>Key: no_players</comment>
-        <translation type="unfinished"></translation>
+        <translation>No one has played this game before it closed</translation>
     </message>
     <message>
         <source>Position</source>
         <comment>Key: position</comment>
-        <translation type="unfinished"></translation>
+        <translation>Position</translation>
     </message>
     <message>
         <source>Score</source>
         <comment>Key: score</comment>
-        <translation type="unfinished"></translation>
+        <translation>Score</translation>
     </message>
     <message>
         <source>Player</source>
         <comment>Key: player</comment>
-        <translation type="unfinished"></translation>
+        <translation>Player</translation>
     </message>
     <message>
         <source>Your scores</source>
         <comment>Key: my_score_list</comment>
-        <translation type="unfinished"></translation>
+        <translation>Your scores</translation>
     </message>
     <message>
         <source>There are no registrered scores for your user</source>
         <comment>Key: you_have_no_scores</comment>
-        <translation type="unfinished"></translation>
+        <translation>There are no registrered scores for your user</translation>
     </message>
     <message>
         <source>You must play a game to get a score</source>
         <comment>Key: you_must_play</comment>
-        <translation type="unfinished"></translation>
+        <translation>You must play a game to get a score</translation>
     </message>
     <message>
         <source>Please play the currently running game</source>
         <comment>Key: play_the_current</comment>
-        <translation type="unfinished"></translation>
+        <translation>Please play the currently running game</translation>
     </message>
     <message>
         <source>Click on the name of the currently running game</source>
         <comment>Key: click_on_game_in_menu</comment>
-        <translation type="unfinished"></translation>
+        <translation>Click on the name of the currently running game</translation>
     </message>
     <message>
         <source>You are logged in as</source>
         <comment>Key: logged_in_as</comment>
-        <translation type="unfinished"></translation>
+        <translation>You are logged in as</translation>
     </message>
     <message>
         <source>Your name</source>
         <comment>Key: name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Your name</translation>
     </message>
     <message>
         <source>Game</source>
         <comment>Key: game</comment>
-        <translation type="unfinished"></translation>
+        <translation>Game</translation>
     </message>
     <message>
         <source>There are no games</source>
         <comment>Key: error_list_empty</comment>
-        <translation type="unfinished"></translation>
+        <translation>There are no games</translation>
     </message>
     <message>
         <source>There are no future games</source>
         <comment>Key: error_future_empty</comment>
-        <translation type="unfinished"></translation>
+        <translation>There are no future games</translation>
     </message>
     <message>
         <source>There are no past games</source>
         <comment>Key: error_past_empty</comment>
-        <translation type="unfinished"></translation>
+        <translation>There are no past games</translation>
     </message>
     <message>
         <source>You have no saved games</source>
         <comment>Key: error_open_empty</comment>
-        <translation type="unfinished"></translation>
+        <translation>You have no saved games</translation>
     </message>
     <message>
         <source>You have no finished games</source>
         <comment>Key: error_closed_empty</comment>
-        <translation type="unfinished"></translation>
+        <translation>You have no finished games</translation>
     </message>
     <message>
         <source>All Games</source>
         <comment>Key: header_game_list</comment>
-        <translation type="unfinished"></translation>
+        <translation>All Games</translation>
     </message>
     <message>
         <source>Future Games</source>
         <comment>Key: header_future_game_list</comment>
-        <translation type="unfinished"></translation>
+        <translation>Future Games</translation>
     </message>
     <message>
         <source>Earlier Games</source>
         <comment>Key: header_past_game_list</comment>
-        <translation type="unfinished"></translation>
+        <translation>Earlier Games</translation>
     </message>
     <message>
         <source>You have saved these games</source>
         <comment>Key: header_open_game_list</comment>
-        <translation type="unfinished"></translation>
+        <translation>You have saved these games</translation>
     </message>
     <message>
         <source>You have completed these games</source>
         <comment>Key: header_closed_game_list</comment>
-        <translation type="unfinished"></translation>
+        <translation>You have completed these games</translation>
     </message>
 </context>
 <context>
@@ -16384,27 +16825,27 @@ Thank you for your comment.</source>
     <message>
         <source>Site search</source>
         <comment>Key: site_search</comment>
-        <translation type="unfinished"></translation>
+        <translation>Site search</translation>
     </message>
     <message>
         <source>Search in module</source>
         <comment>Key: search_in_module</comment>
-        <translation type="unfinished"></translation>
+        <translation>Search in module</translation>
     </message>
     <message>
         <source>Search count</source>
         <comment>Key: search_count</comment>
-        <translation type="unfinished"></translation>
+        <translation>Search count</translation>
     </message>
     <message>
         <source>Full search</source>
         <comment>Key: full_search</comment>
-        <translation type="unfinished"></translation>
+        <translation>Full search</translation>
     </message>
     <message>
         <source>click here</source>
         <comment>Key: click_here</comment>
-        <translation type="unfinished"></translation>
+        <translation>click here</translation>
     </message>
 </context>
 <context>
@@ -16506,7 +16947,7 @@ Thank you for your comment.</source>
     <message>
         <source>SQL Admin</source>
         <comment>Key: sql_admin</comment>
-        <translation type="unfinished"></translation>
+        <translation>SQL administrator</translation>
     </message>
 </context>
 <context>
@@ -16514,47 +16955,47 @@ Thank you for your comment.</source>
     <message>
         <source>Menu edit</source>
         <comment>Key: headline</comment>
-        <translation type="unfinished"></translation>
+        <translation>Menu edit</translation>
     </message>
     <message>
         <source>OK</source>
         <comment>Key: ok</comment>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation type="unfinished"></translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Key: name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Name</translation>
     </message>
     <message>
         <source>Link</source>
         <comment>Key: link</comment>
-        <translation type="unfinished">Link</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <comment>Key: type</comment>
-        <translation type="unfinished">Type</translation>
+        <translation>Link</translation>
     </message>
     <message>
         <source>Parent</source>
         <comment>Key: parent</comment>
-        <translation type="unfinished">Foreldrekategori</translation>
+        <translation>Foreldrekategori</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <comment>Key: type</comment>
+        <translation>Type</translation>
     </message>
     <message>
         <source>Header</source>
         <comment>Key: header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Header</translation>
     </message>
     <message>
         <source>Root</source>
         <comment>Key: root</comment>
-        <translation type="unfinished"></translation>
+        <translation>Root</translation>
     </message>
 </context>
 <context>
@@ -16562,42 +17003,42 @@ Thank you for your comment.</source>
     <message>
         <source>Menus</source>
         <comment>Key: menus</comment>
-        <translation type="unfinished"></translation>
+        <translation>Menus</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Key: name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Name</translation>
     </message>
     <message>
         <source>Description</source>
         <comment>Key: description</comment>
-        <translation type="unfinished"></translation>
+        <translation>Description</translation>
     </message>
     <message>
         <source>New menu</source>
         <comment>Key: new_menu</comment>
-        <translation type="unfinished"></translation>
+        <translation>New menu</translation>
     </message>
     <message>
         <source>Delete menus</source>
         <comment>Key: delete_menus</comment>
-        <translation type="unfinished"></translation>
+        <translation>Delete menus</translation>
     </message>
     <message>
         <source>ID</source>
         <comment>Key: id</comment>
-        <translation type="unfinished"></translation>
+        <translation>ID</translation>
     </message>
     <message>
         <source>Link</source>
         <comment>Key: link</comment>
-        <translation type="unfinished">Link</translation>
+        <translation>Link</translation>
     </message>
     <message>
         <source>Top</source>
         <comment>Key: top</comment>
-        <translation type="unfinished"></translation>
+        <translation>Top</translation>
     </message>
 </context>
 <context>
@@ -16643,6 +17084,11 @@ Thank you for your comment.</source>
         <translation>Språk</translation>
     </message>
     <message>
+        <source>Frontpage</source>
+        <comment>Key: frontpage</comment>
+        <translation>Forside</translation>
+    </message>
+    <message>
         <source>Add row</source>
         <comment>Key: add_row</comment>
         <translation>Legg til rad</translation>
@@ -16663,24 +17109,44 @@ Thank you for your comment.</source>
         <translation>Kategori</translation>
     </message>
     <message>
-        <source>Frontpage</source>
-        <comment>Key: frontpage</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Column</source>
         <comment>Key: column</comment>
-        <translation type="unfinished"></translation>
+        <translation>Kolonne</translation>
+    </message>
+    <message>
+        <source>1 Column article</source>
+        <comment>Key: 1column</comment>
+        <translation>1 kolonnes artikkel</translation>
+    </message>
+    <message>
+        <source>2 Column article</source>
+        <comment>Key: 2column</comment>
+        <translation>2 kolonnes artikkel</translation>
+    </message>
+    <message>
+        <source>1 Column product</source>
+        <comment>Key: 1columnProduct</comment>
+        <translation>1 kolonnes produkt</translation>
+    </message>
+    <message>
+        <source>2 Column product</source>
+        <comment>Key: 2columnProduct</comment>
+        <translation>2 kolonnes produkt</translation>
     </message>
     <message>
         <source>Ad</source>
         <comment>Key: ad</comment>
-        <translation type="unfinished">Reklame</translation>
+        <translation>Reklame</translation>
+    </message>
+    <message>
+        <source>1 short article</source>
+        <comment>Key: 1short</comment>
+        <translation>1 kort artikkel</translation>
     </message>
     <message>
         <source>All</source>
         <comment>Key: all</comment>
-        <translation type="unfinished">Alle</translation>
+        <translation>Alle</translation>
     </message>
 </context>
 <context>
@@ -16734,37 +17200,42 @@ Thank you for your comment.</source>
     <message>
         <source>SQL Query</source>
         <comment>Key: sql_query</comment>
-        <translation type="unfinished"></translation>
+        <translation>SQL Query</translation>
     </message>
     <message>
         <source>Notice</source>
         <comment>Key: notice</comment>
-        <translation type="unfinished"></translation>
+        <translation>Notice</translation>
     </message>
     <message>
         <source>This feature is for advanced users only</source>
         <comment>Key: only_for_advanced_users</comment>
-        <translation type="unfinished"></translation>
+        <translation>This feature is for advanced users only</translation>
     </message>
     <message>
         <source>Run query</source>
         <comment>Key: run</comment>
-        <translation type="unfinished"></translation>
+        <translation>Run query</translation>
     </message>
     <message>
         <source>Save query</source>
         <comment>Key: save_query</comment>
-        <translation type="unfinished"></translation>
+        <translation>Save query</translation>
     </message>
     <message>
         <source>SQl error occured</source>
         <comment>Key: error</comment>
-        <translation type="unfinished"></translation>
+        <translation>SQl error occured</translation>
     </message>
     <message>
         <source>Total rows</source>
         <comment>Key: query_rows</comment>
-        <translation type="unfinished"></translation>
+        <translation>Total rows</translation>
+    </message>
+    <message>
+        <source>Use</source>
+        <comment>Key: run2</comment>
+        <translation>Bruk</translation>
     </message>
 </context>
 <context>
@@ -16772,12 +17243,12 @@ Thank you for your comment.</source>
     <message>
         <source>Template edit</source>
         <comment>Key: template_edit</comment>
-        <translation type="unfinished">Endre mal</translation>
+        <translation>Endre mal</translation>
     </message>
     <message>
         <source>Store</source>
         <comment>Key: store</comment>
-        <translation type="unfinished">Lagre</translation>
+        <translation>Lagre</translation>
     </message>
 </context>
 <context>
@@ -16785,7 +17256,7 @@ Thank you for your comment.</source>
     <message>
         <source>Template list</source>
         <comment>Key: template_list</comment>
-        <translation type="unfinished"></translation>
+        <translation>Template list</translation>
     </message>
 </context>
 <context>
@@ -17468,7 +17939,7 @@ Thank you for your comment.</source>
     <message>
         <source>eZ Info</source>
         <comment>Key: ez_info</comment>
-        <translation type="unfinished"></translation>
+        <translation>eZ Info</translation>
     </message>
 </context>
 <context>
@@ -17686,64 +18157,59 @@ Thank you for your comment.</source>
 <context>
     <name>eztodo/user/intl/en_GB/maillog.php.ini [strings]</name>
     <message>
-        <source>This is a log..</source>
-        <comment>Key: log</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Name</source>
         <comment>Key: name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Name</translation>
     </message>
     <message>
         <source>Category</source>
         <comment>Key: category</comment>
-        <translation type="unfinished"></translation>
+        <translation>Category</translation>
     </message>
     <message>
         <source>Priority</source>
         <comment>Key: priority</comment>
-        <translation type="unfinished"></translation>
+        <translation>Priority</translation>
     </message>
     <message>
         <source>Status</source>
         <comment>Key: status</comment>
-        <translation type="unfinished">Status</translation>
+        <translation>Status</translation>
     </message>
     <message>
         <source>Is public</source>
         <comment>Key: is_public</comment>
-        <translation type="unfinished"></translation>
+        <translation>Is public</translation>
     </message>
     <message>
         <source>Owner</source>
         <comment>Key: owner</comment>
-        <translation type="unfinished"></translation>
+        <translation>Owner</translation>
     </message>
     <message>
         <source>Description</source>
         <comment>Key: description</comment>
-        <translation type="unfinished"></translation>
+        <translation>Description</translation>
     </message>
     <message>
         <source>Log</source>
         <comment>Key: log</comment>
-        <translation type="unfinished"></translation>
+        <translation>This is a log..</translation>
     </message>
     <message>
         <source>Yes</source>
         <comment>Key: yes</comment>
-        <translation type="unfinished"></translation>
+        <translation>Yes</translation>
     </message>
     <message>
         <source>No</source>
         <comment>Key: no</comment>
-        <translation type="unfinished"></translation>
+        <translation>No</translation>
     </message>
     <message>
         <source>Todo log</source>
         <comment>Key: log_introduction</comment>
-        <translation type="unfinished"></translation>
+        <translation>Todo log</translation>
     </message>
 </context>
 <context>
@@ -17769,52 +18235,52 @@ Thank you for your comment.</source>
     <message>
         <source>Name</source>
         <comment>Key: name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Name</translation>
     </message>
     <message>
         <source>Category</source>
         <comment>Key: category</comment>
-        <translation type="unfinished"></translation>
+        <translation>Category</translation>
     </message>
     <message>
         <source>Priority</source>
         <comment>Key: priority</comment>
-        <translation type="unfinished"></translation>
+        <translation>Priority</translation>
     </message>
     <message>
         <source>Status</source>
         <comment>Key: status</comment>
-        <translation type="unfinished">Status</translation>
+        <translation>Status</translation>
     </message>
     <message>
         <source>Is public</source>
         <comment>Key: is_public</comment>
-        <translation type="unfinished"></translation>
+        <translation>Is public</translation>
     </message>
     <message>
         <source>Owner</source>
         <comment>Key: owner</comment>
-        <translation type="unfinished"></translation>
+        <translation>Owner</translation>
     </message>
     <message>
         <source>Description</source>
         <comment>Key: description</comment>
-        <translation type="unfinished"></translation>
+        <translation>Description</translation>
     </message>
     <message>
         <source>Yes</source>
         <comment>Key: yes</comment>
-        <translation type="unfinished"></translation>
+        <translation>Yes</translation>
     </message>
     <message>
         <source>No</source>
         <comment>Key: no</comment>
-        <translation type="unfinished"></translation>
+        <translation>No</translation>
     </message>
     <message>
         <source>Someone have sent you a todo.</source>
         <comment>Key: todo_introduction</comment>
-        <translation type="unfinished"></translation>
+        <translation>Someone have sent you a todo.</translation>
     </message>
 </context>
 <context>
@@ -17882,7 +18348,7 @@ Thank you for your comment.</source>
     <message>
         <source>Is private</source>
         <comment>Key: is_private</comment>
-        <translation type="unfinished"></translation>
+        <translation>Er privat</translation>
     </message>
     <message>
         <source>Mail the user</source>
@@ -17907,7 +18373,7 @@ Thank you for your comment.</source>
     <message>
         <source>Status</source>
         <comment>Key: mail_status</comment>
-        <translation type="unfinished">Status</translation>
+        <translation>Status</translation>
     </message>
     <message>
         <source>Show to others</source>
@@ -17927,82 +18393,82 @@ Thank you for your comment.</source>
     <message>
         <source>Is public</source>
         <comment>Key: is_public</comment>
-        <translation type="unfinished"></translation>
+        <translation>Er offentlig</translation>
     </message>
     <message>
         <source>Mail log</source>
         <comment>Key: mail_log</comment>
-        <translation type="unfinished"></translation>
+        <translation>Epost-logg</translation>
     </message>
     <message>
         <source>Add log</source>
         <comment>Key: add_log</comment>
-        <translation type="unfinished"></translation>
+        <translation>Legg til logg</translation>
     </message>
     <message>
         <source>January</source>
         <comment>Key: january</comment>
-        <translation type="unfinished">Januar</translation>
+        <translation>Januar</translation>
     </message>
     <message>
         <source>February</source>
         <comment>Key: february</comment>
-        <translation type="unfinished">Februar</translation>
+        <translation>Februar</translation>
     </message>
     <message>
         <source>March</source>
         <comment>Key: march</comment>
-        <translation type="unfinished">Mars</translation>
+        <translation>Mars</translation>
     </message>
     <message>
         <source>April</source>
         <comment>Key: april</comment>
-        <translation type="unfinished">April</translation>
+        <translation>April</translation>
     </message>
     <message>
         <source>May</source>
         <comment>Key: may</comment>
-        <translation type="unfinished">Mai</translation>
+        <translation>Mai</translation>
     </message>
     <message>
         <source>June</source>
         <comment>Key: june</comment>
-        <translation type="unfinished">Juni</translation>
+        <translation>Juni</translation>
     </message>
     <message>
         <source>July</source>
         <comment>Key: july</comment>
-        <translation type="unfinished">Juli</translation>
+        <translation>Juli</translation>
     </message>
     <message>
         <source>August</source>
         <comment>Key: august</comment>
-        <translation type="unfinished">August</translation>
+        <translation>August</translation>
     </message>
     <message>
         <source>September</source>
         <comment>Key: september</comment>
-        <translation type="unfinished">September</translation>
+        <translation>September</translation>
     </message>
     <message>
         <source>October</source>
         <comment>Key: october</comment>
-        <translation type="unfinished">Oktober</translation>
+        <translation>Oktober</translation>
     </message>
     <message>
         <source>November</source>
         <comment>Key: november</comment>
-        <translation type="unfinished">November</translation>
+        <translation>November</translation>
     </message>
     <message>
         <source>December</source>
         <comment>Key: december</comment>
-        <translation type="unfinished">Desember</translation>
+        <translation>Desember</translation>
     </message>
     <message>
         <source>Deadline</source>
         <comment>Key: deadline_headline</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tidsfrist</translation>
     </message>
     <message>
         <source>Please fix the following errors</source>
@@ -18042,12 +18508,12 @@ Thank you for your comment.</source>
     <message>
         <source>Status changed</source>
         <comment>Key: mail_status_changed</comment>
-        <translation type="unfinished"></translation>
+        <translation>Status er forandret</translation>
     </message>
     <message>
         <source>Status changed</source>
         <comment>Key: subject_status_changed</comment>
-        <translation type="unfinished"></translation>
+        <translation>Status er forandret</translation>
     </message>
 </context>
 <context>
@@ -18125,7 +18591,7 @@ Thank you for your comment.</source>
     <message>
         <source>All</source>
         <comment>Key: status_all</comment>
-        <translation type="unfinished">Alle</translation>
+        <translation>Alle</translation>
     </message>
     <message>
         <source>Show</source>
@@ -18160,17 +18626,17 @@ Thank you for your comment.</source>
     <message>
         <source>Is public</source>
         <comment>Key: is_public</comment>
-        <translation type="unfinished"></translation>
+        <translation>Er offentlig</translation>
     </message>
     <message>
         <source>No</source>
         <comment>Key: todo_is_not_public</comment>
-        <translation type="unfinished"></translation>
+        <translation>Nei</translation>
     </message>
     <message>
         <source>Yes</source>
         <comment>Key: todo_is_public</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ja</translation>
     </message>
 </context>
 <context>
@@ -18266,22 +18732,22 @@ Thank you for your comment.</source>
     <message>
         <source>Todo is public</source>
         <comment>Key: todo_is_public</comment>
-        <translation type="unfinished"></translation>
+        <translation>Er offentlig</translation>
     </message>
     <message>
         <source>Todo is private</source>
         <comment>Key: todo_is_private</comment>
-        <translation type="unfinished"></translation>
+        <translation>Er privat</translation>
     </message>
     <message>
         <source>Logs</source>
         <comment>Key: log_header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Logger</translation>
     </message>
     <message>
         <source>Deadline</source>
         <comment>Key: deadline</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tidsfrist</translation>
     </message>
 </context>
 <context>
@@ -18397,7 +18863,7 @@ Thank you for your comment.</source>
     <message>
         <source>Delete image</source>
         <comment>Key: delete_image</comment>
-        <translation type="unfinished">Slett bilde</translation>
+        <translation>Slett bilde</translation>
     </message>
     <message>
         <source>Browse imagecatalogue</source>
@@ -18535,7 +19001,7 @@ Thank you for your comment.</source>
     <message>
         <source>Price Inc.VAT</source>
         <comment>Key: price_inc_vat</comment>
-        <translation type="unfinished"></translation>
+        <translation>Pris inkl. MVA</translation>
     </message>
     <message>
         <source>ex. VAT</source>
@@ -18606,12 +19072,12 @@ Thank you for your comment.</source>
     <message>
         <source>Customer List</source>
         <comment>Key: customerlist</comment>
-        <translation type="unfinished"></translation>
+        <translation>Kundeliste</translation>
     </message>
     <message>
         <source>Search</source>
         <comment>Key: search</comment>
-        <translation type="unfinished">Søk</translation>
+        <translation>Søk</translation>
     </message>
 </context>
 <context>
@@ -18619,142 +19085,152 @@ Thank you for your comment.</source>
     <message>
         <source>Customer View</source>
         <comment>Key: customerview</comment>
-        <translation type="unfinished"></translation>
+        <translation>Kunde oversikt</translation>
     </message>
     <message>
         <source>First name</source>
         <comment>Key: first_name</comment>
-        <translation type="unfinished">Fornavn</translation>
+        <translation>Fornavn</translation>
     </message>
     <message>
         <source>Last name</source>
         <comment>Key: last_name</comment>
-        <translation type="unfinished">Etternavn</translation>
+        <translation>Etternavn </translation>
     </message>
     <message>
         <source>E-mail</source>
         <comment>Key: email</comment>
-        <translation type="unfinished">E-post</translation>
+        <translation>E-post</translation>
     </message>
     <message>
         <source>Orders</source>
         <comment>Key: orders</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ordere</translation>
     </message>
     <message>
         <source>Address list</source>
         <comment>Key: address_list</comment>
-        <translation type="unfinished"></translation>
+        <translation>Addresse liste</translation>
+    </message>
+    <message>
+        <source>Street 1</source>
+        <comment>Key: street1</comment>
+        <translation>Gate 1</translation>
+    </message>
+    <message>
+        <source>Street 2</source>
+        <comment>Key: street2</comment>
+        <translation>Gate 2</translation>
     </message>
     <message>
         <source>Zipcode</source>
         <comment>Key: zip</comment>
-        <translation type="unfinished"></translation>
+        <translation>Postnummer</translation>
     </message>
     <message>
         <source>Place</source>
         <comment>Key: place</comment>
-        <translation type="unfinished">Poststed</translation>
+        <translation>Sted</translation>
     </message>
     <message>
         <source>Country</source>
         <comment>Key: country</comment>
-        <translation type="unfinished">Land</translation>
+        <translation>Land</translation>
     </message>
     <message>
         <source>Initial</source>
         <comment>Key: initial</comment>
-        <translation type="unfinished">Ubehandlet</translation>
+        <translation>Initial</translation>
     </message>
     <message>
         <source>Payed</source>
         <comment>Key: payed</comment>
-        <translation type="unfinished">Betalt</translation>
+        <translation>Betalt</translation>
     </message>
     <message>
         <source>Sent</source>
         <comment>Key: sendt</comment>
-        <translation type="unfinished">Sendt</translation>
+        <translation>Sendt</translation>
     </message>
     <message>
         <source>Undefined</source>
         <comment>Key: undefined</comment>
-        <translation type="unfinished">Udefinert</translation>
+        <translation>Ikke-definert</translation>
     </message>
     <message>
         <source>Wish list</source>
         <comment>Key: wishlist</comment>
-        <translation type="unfinished">Ønskeliste</translation>
+        <translation>Ønskeliste</translation>
     </message>
     <message>
         <source>Product name</source>
         <comment>Key: product_name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Produktnavn</translation>
     </message>
     <message>
         <source>Is bought</source>
         <comment>Key: is_product_bought</comment>
-        <translation type="unfinished">Er kjøpt</translation>
+        <translation>Er kjøpt</translation>
     </message>
     <message>
         <source>Bought</source>
         <comment>Key: is_bought</comment>
-        <translation type="unfinished"></translation>
+        <translation>Kjøpt</translation>
     </message>
     <message>
         <source>Not bought</source>
         <comment>Key: is_not_bought</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ikke kjøpt</translation>
     </message>
     <message>
         <source>Options</source>
         <comment>Key: product_options</comment>
-        <translation type="unfinished"></translation>
+        <translation>Opsjoner</translation>
     </message>
     <message>
         <source>Price</source>
         <comment>Key: product_price</comment>
-        <translation type="unfinished">Pris</translation>
+        <translation>Pris</translation>
     </message>
     <message>
         <source>Nr</source>
         <comment>Key: nr</comment>
-        <translation type="unfinished">Nr</translation>
+        <translation>Nr</translation>
     </message>
     <message>
         <source>Used</source>
         <comment>Key: used</comment>
-        <translation type="unfinished">I bruk</translation>
+        <translation>Brukt</translation>
     </message>
     <message>
         <source>Voucher</source>
         <comment>Key: voucher</comment>
-        <translation type="unfinished">Gavekort</translation>
+        <translation>Gavekort</translation>
     </message>
     <message>
         <source>Order</source>
         <comment>Key: order</comment>
-        <translation type="unfinished">Ordre bestilt</translation>
+        <translation>Ordre</translation>
     </message>
     <message>
         <source>Price</source>
         <comment>Key: price</comment>
-        <translation type="unfinished">Pris</translation>
+        <translation>Pris</translation>
     </message>
     <message>
         <source>Used vouchers</source>
         <comment>Key: vouchers</comment>
-        <translation type="unfinished"></translation>
+        <translation>Brukte gavekort</translation>
     </message>
     <message>
         <source>Created</source>
         <comment>Key: created</comment>
-        <translation type="unfinished">Opprettet</translation>
+        <translation>Opprettet</translation>
     </message>
     <message>
         <source>Status</source>
         <comment>Key: status</comment>
-        <translation type="unfinished">Status</translation>
+        <translation>Status</translation>
     </message>
 </context>
 <context>
@@ -19304,11 +19780,6 @@ Thank you for your comment.</source>
         <translation>Faktura</translation>
     </message>
     <message>
-        <source>Shipping</source>
-        <comment>Key: shipping</comment>
-        <translation>Frakt</translation>
-    </message>
-    <message>
         <source>Initial</source>
         <comment>Key: initial</comment>
         <translation>Ubehandlet</translation>
@@ -19396,62 +19867,62 @@ Thank you for your comment.</source>
     <message>
         <source>VAT</source>
         <comment>Key: tax</comment>
-        <translation type="unfinished"></translation>
+        <translation>MVA</translation>
     </message>
     <message>
         <source>Percentage</source>
         <comment>Key: tax_percentage</comment>
-        <translation type="unfinished">Prosent</translation>
+        <translation>Prosent</translation>
     </message>
     <message>
         <source>VAT basis</source>
         <comment>Key: tax_basis</comment>
-        <translation type="unfinished"></translation>
+        <translation>MVA grunnlag</translation>
     </message>
     <message>
         <source>VAT specification</source>
         <comment>Key: tax_list</comment>
-        <translation type="unfinished"></translation>
+        <translation>MVA spesifikasjon</translation>
     </message>
     <message>
         <source>Product name</source>
         <comment>Key: product_name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Varenavn</translation>
     </message>
     <message>
         <source>Prod num.</source>
         <comment>Key: product_number</comment>
-        <translation type="unfinished"></translation>
+        <translation>Prod. Num.</translation>
     </message>
     <message>
         <source>Price</source>
         <comment>Key: product_price</comment>
-        <translation type="unfinished">Pris</translation>
+        <translation>Pris</translation>
     </message>
     <message>
         <source>Qty.</source>
         <comment>Key: product_qty</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ant.</translation>
     </message>
     <message>
         <source>Total ex. VAT</source>
         <comment>Key: product_total_ex_tax</comment>
-        <translation type="unfinished">Total eksl. MVA</translation>
+        <translation>Total eksl. MVA</translation>
     </message>
     <message>
         <source>Total inc. VAT</source>
         <comment>Key: product_total_inc_tax</comment>
-        <translation type="unfinished">Totalt inkl. MVA</translation>
+        <translation>Totalt inkl. MVA</translation>
     </message>
     <message>
         <source>Shipping and handling</source>
         <comment>Key: shipping</comment>
-        <translation type="unfinished"></translation>
+        <translation>Frakt</translation>
     </message>
     <message>
         <source>Subtotal</source>
         <comment>Key: subtotal</comment>
-        <translation type="unfinished">Subtotal</translation>
+        <translation>Subtotal</translation>
     </message>
 </context>
 <context>
@@ -19781,6 +20252,11 @@ Thank you for your comment.</source>
         <translation>Maksimums pris</translation>
     </message>
     <message>
+        <source>0 is unlimited</source>
+        <comment>Key: 0_is_unlimited</comment>
+        <translation>0 er ubegrenset</translation>
+    </message>
+    <message>
         <source>Prices entered include VAT</source>
         <comment>Key: includes_vat</comment>
         <translation>Inkludert mva</translation>
@@ -19894,7 +20370,7 @@ Thank you for your comment.</source>
     <message>
         <source>Product search</source>
         <comment>Key: product_search</comment>
-        <translation type="unfinished"></translation>
+        <translation>Produktsøk</translation>
     </message>
     <message>
         <source>Category</source>
@@ -20159,87 +20635,87 @@ Thank you for your comment.</source>
     <message>
         <source>Voucher Edit</source>
         <comment>Key: voucher_edit</comment>
-        <translation type="unfinished"></translation>
+        <translation>Voucher Edit</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Key: name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Name</translation>
     </message>
     <message>
         <source>Description</source>
         <comment>Key: description</comment>
-        <translation type="unfinished"></translation>
+        <translation>Description</translation>
     </message>
     <message>
         <source>Update</source>
         <comment>Key: update</comment>
-        <translation type="unfinished">Oppdater</translation>
+        <translation>Oppdater</translation>
     </message>
     <message>
         <source>OK</source>
         <comment>Key: ok</comment>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation type="unfinished"></translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <source>Delete</source>
         <comment>Key: delete</comment>
-        <translation type="unfinished"></translation>
+        <translation>Delete</translation>
     </message>
     <message>
         <source>Delete selected</source>
         <comment>Key: delete_selected</comment>
-        <translation type="unfinished"></translation>
+        <translation>Delete selected</translation>
     </message>
     <message>
         <source>Created</source>
         <comment>Key: created</comment>
-        <translation type="unfinished">Opprettet</translation>
+        <translation>Opprettet</translation>
     </message>
     <message>
         <source>Price left</source>
         <comment>Key: price</comment>
-        <translation type="unfinished"></translation>
+        <translation>Price left</translation>
     </message>
     <message>
         <source>Price</source>
         <comment>Key: used_price</comment>
-        <translation type="unfinished">Pris</translation>
+        <translation>Pris</translation>
     </message>
     <message>
         <source>Receiver</source>
         <comment>Key: receiver</comment>
-        <translation type="unfinished">Mottaker</translation>
+        <translation>Mottaker</translation>
     </message>
     <message>
         <source>Receiver description</source>
         <comment>Key: receiver_description</comment>
-        <translation type="unfinished"></translation>
+        <translation>Receiver description</translation>
     </message>
     <message>
         <source>Used</source>
         <comment>Key: used</comment>
-        <translation type="unfinished">I bruk</translation>
+        <translation>I bruk</translation>
     </message>
     <message>
         <source>Order ID</source>
         <comment>Key: order</comment>
-        <translation type="unfinished"></translation>
+        <translation>Order ID</translation>
     </message>
     <message>
         <source>Available</source>
         <comment>Key: available</comment>
-        <translation type="unfinished">Tilgjengelig</translation>
+        <translation>Tilgjengelig</translation>
     </message>
     <message>
         <source>Used by</source>
         <comment>Key: used_by</comment>
-        <translation type="unfinished"></translation>
+        <translation>Used by</translation>
     </message>
 </context>
 <context>
@@ -20415,12 +20891,12 @@ Thank you for your comment.</source>
     <message>
         <source>Option name</source>
         <comment>Key: option_name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Opsjonsnavn</translation>
     </message>
     <message>
         <source>Option value</source>
         <comment>Key: option_value</comment>
-        <translation type="unfinished"></translation>
+        <translation>Opsjonsverdi</translation>
     </message>
     <message>
         <source>Go back to the shop</source>
@@ -20569,29 +21045,29 @@ Thank you for your comment.</source>
         <translation>Regn ut på nytt</translation>
     </message>
     <message>
+        <source>Mail to</source>
+        <comment>Key: mail_to</comment>
+        <translation>Epost til</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <comment>Key: description</comment>
+        <translation>Beskrivelse</translation>
+    </message>
+    <message>
         <source>Availability</source>
         <comment>Key: product_availability</comment>
         <translation>Tilgjengelighet</translation>
     </message>
     <message>
-        <source>Mail to</source>
-        <comment>Key: mail_to</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <comment>Key: description</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Send e-mail</source>
         <comment>Key: send_email</comment>
-        <translation type="unfinished"></translation>
+        <translation>Send epost</translation>
     </message>
     <message>
         <source>Send s-mail</source>
         <comment>Key: send_smail</comment>
-        <translation type="unfinished"></translation>
+        <translation>Send papirpost</translation>
     </message>
     <message>
         <source>Voucher</source>
@@ -20601,7 +21077,7 @@ Thank you for your comment.</source>
     <message>
         <source>Remove selected vouchers</source>
         <comment>Key: remove_voucher</comment>
-        <translation type="unfinished"></translation>
+        <translation>Slett merkede gavekort</translation>
     </message>
     <message>
         <source>Comment</source>
@@ -20775,11 +21251,6 @@ Thank you for your comment.</source>
         <translation>Søk etter</translation>
     </message>
     <message>
-        <source>Search in category</source>
-        <comment>Key: search_in_category</comment>
-        <translation>Søk i disse kategoriene</translation>
-    </message>
-    <message>
         <source>All prices</source>
         <comment>Key: all_range</comment>
         <translation>Alle prisgrupper</translation>
@@ -20844,6 +21315,11 @@ Thank you for your comment.</source>
         <translation>Gate</translation>
     </message>
     <message>
+        <source>Street2</source>
+        <comment>Key: street2</comment>
+        <translation>Gate2</translation>
+    </message>
+    <message>
         <source>City</source>
         <comment>Key: city</comment>
         <translation>Sted</translation>
@@ -20904,11 +21380,6 @@ Thank you for your comment.</source>
         <translation>Frakt og ekspedisjon</translation>
     </message>
     <message>
-        <source>Payment method</source>
-        <comment>Key: payment_method</comment>
-        <translation>Betalingsmåte</translation>
-    </message>
-    <message>
         <source>For further instructions please visit:</source>
         <comment>Key: other_instructions_on_web_site</comment>
         <translation>For videre instruksjoner besøk:</translation>
@@ -20917,6 +21388,11 @@ Thank you for your comment.</source>
         <source>Shipping type</source>
         <comment>Key: shipping_type</comment>
         <translation>Forsendelsesmetode</translation>
+    </message>
+    <message>
+        <source>Payment method</source>
+        <comment>Key: payment_method</comment>
+        <translation>Betalingsmåte</translation>
     </message>
     <message>
         <source>Product number</source>
@@ -20997,12 +21473,12 @@ Thank you for your comment.</source>
     <message>
         <source>Voucher view</source>
         <comment>Key: voucher_view</comment>
-        <translation type="unfinished"></translation>
+        <translation>Gavekort oversikt</translation>
     </message>
     <message>
         <source>Order list</source>
         <comment>Key: order_list</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ordreliste</translation>
     </message>
 </context>
 <context>
@@ -21010,91 +21486,96 @@ Thank you for your comment.</source>
     <message>
         <source>Order list for</source>
         <comment>Key: head_line</comment>
-        <translation type="unfinished"></translation>
+        <translation>Order list for</translation>
     </message>
     <message>
         <source>Search</source>
         <comment>Key: search</comment>
-        <translation type="unfinished">Søk</translation>
+        <translation>Søk</translation>
     </message>
     <message>
         <source>No.</source>
         <comment>Key: nr</comment>
-        <translation type="unfinished"></translation>
+        <translation>No.</translation>
     </message>
     <message>
         <source>Created</source>
         <comment>Key: created</comment>
-        <translation type="unfinished">Opprettet</translation>
+        <translation>Opprettet</translation>
     </message>
     <message>
         <source>Last modified</source>
         <comment>Key: modified</comment>
-        <translation type="unfinished">Sist endret</translation>
+        <translation>Sist endret</translation>
     </message>
     <message>
         <source>Status</source>
         <comment>Key: status</comment>
-        <translation type="unfinished">Status</translation>
+        <translation>Status</translation>
     </message>
     <message>
         <source>Price</source>
         <comment>Key: price</comment>
-        <translation type="unfinished">Pris</translation>
+        <translation>Pris</translation>
     </message>
     <message>
         <source>Initial</source>
         <comment>Key: initial</comment>
-        <translation type="unfinished">Ubehandlet</translation>
+        <translation>Ubehandlet</translation>
     </message>
     <message>
         <source>Payed</source>
         <comment>Key: payed</comment>
-        <translation type="unfinished">Betalt</translation>
+        <translation>Betalt</translation>
     </message>
     <message>
         <source>Sent</source>
         <comment>Key: sendt</comment>
-        <translation type="unfinished">Sendt</translation>
+        <translation>Sendt</translation>
     </message>
     <message>
         <source>Undefined</source>
         <comment>Key: undefined</comment>
-        <translation type="unfinished">Udefinert</translation>
+        <translation>Udefinert</translation>
     </message>
     <message>
         <source>Delete order?</source>
         <comment>Key: delete</comment>
-        <translation type="unfinished">Slette ordre?</translation>
+        <translation>Slette ordre?</translation>
     </message>
     <message>
         <source>Delete selected orders</source>
         <comment>Key: delete_selected</comment>
-        <translation type="unfinished">Slett merkede ordre</translation>
+        <translation>Slett merkede ordre</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>Key: next</comment>
-        <translation type="unfinished"></translation>
+        <translation>Next</translation>
     </message>
     <message>
         <source>Previous</source>
         <comment>Key: previous</comment>
-        <translation type="unfinished"></translation>
+        <translation>Previous</translation>
     </message>
     <message>
         <source>View</source>
         <comment>Key: view</comment>
-        <translation type="unfinished"></translation>
+        <translation>View</translation>
     </message>
     <message>
         <source>Order list</source>
         <comment>Key: order_list</comment>
-        <translation type="unfinished"></translation>
+        <translation>Order list</translation>
     </message>
 </context>
 <context>
     <name>eztrade/user/intl/en_GB/ordersendt.php.ini [strings]</name>
+    <message>
+        <source>Order Confirmation</source>
+        <comment>Key: confirming-order</comment>
+        <translation>Ordrebekreftelse</translation>
+    </message>
     <message>
         <source>Thank you for your business.</source>
         <comment>Key: thanks_for_shopping</comment>
@@ -21203,17 +21684,17 @@ Thank you for your comment.</source>
     <message>
         <source>Comment</source>
         <comment>Key: comment</comment>
-        <translation>Kommentar.</translation>
+        <translation>Kommentar</translation>
     </message>
     <message>
         <source>ID</source>
         <comment>Key: product_id</comment>
-        <translation type="unfinished"></translation>
+        <translation>ID</translation>
     </message>
     <message>
         <source>You save</source>
         <comment>Key: product_savings</comment>
-        <translation type="unfinished">Du sparer</translation>
+        <translation>Du sparer</translation>
     </message>
     <message>
         <source>Prod. No.</source>
@@ -21268,37 +21749,37 @@ Thank you for your comment.</source>
     <message>
         <source>Used ex. VAT</source>
         <comment>Key: voucher_used_ex_tax</comment>
-        <translation type="unfinished"></translation>
+        <translation>Brukt eksl. MVA</translation>
     </message>
     <message>
         <source>Used inc. VAT</source>
         <comment>Key: voucher_used_inc_tax</comment>
-        <translation type="unfinished"></translation>
+        <translation>Used inkl. MVA</translation>
     </message>
     <message>
         <source>Left ex. VAT</source>
         <comment>Key: voucher_left_ex_tax</comment>
-        <translation type="unfinished"></translation>
+        <translation>Gjenstående eksl. MVA</translation>
     </message>
     <message>
         <source>Left inc. VAT</source>
         <comment>Key: voucher_left_inc_tax</comment>
-        <translation type="unfinished"></translation>
+        <translation>Gjenstående inkl. MVA</translation>
     </message>
     <message>
         <source>Voucher No.</source>
         <comment>Key: voucher_number</comment>
-        <translation type="unfinished"></translation>
+        <translation>Gavekort Nr.</translation>
     </message>
     <message>
         <source>Tax overview</source>
         <comment>Key: tax_list</comment>
-        <translation type="unfinished"></translation>
+        <translation>MVA oversikt</translation>
     </message>
     <message>
         <source>Voucher overview</source>
         <comment>Key: voucher_list</comment>
-        <translation type="unfinished"></translation>
+        <translation>Gavekort oversikt</translation>
     </message>
 </context>
 <context>
@@ -21306,112 +21787,112 @@ Thank you for your comment.</source>
     <message>
         <source>View Order</source>
         <comment>Key: head_line</comment>
-        <translation type="unfinished"></translation>
+        <translation>View Order</translation>
     </message>
     <message>
         <source>Customer Information</source>
         <comment>Key: customerinfo</comment>
-        <translation type="unfinished">Kundeinformasjon</translation>
+        <translation>Kundeinformasjon</translation>
     </message>
     <message>
         <source>Product list</source>
         <comment>Key: productlist</comment>
-        <translation type="unfinished">Produktkatalog</translation>
+        <translation>Produktkatalog</translation>
     </message>
     <message>
         <source>Image</source>
         <comment>Key: image</comment>
-        <translation type="unfinished"></translation>
+        <translation>Image</translation>
     </message>
     <message>
         <source>Product Name</source>
         <comment>Key: productname</comment>
-        <translation type="unfinished">Varenavn</translation>
+        <translation>Varenavn</translation>
     </message>
     <message>
         <source>Product Number</source>
         <comment>Key: productnumber</comment>
-        <translation type="unfinished"></translation>
+        <translation>Product Number</translation>
     </message>
     <message>
         <source>Options</source>
         <comment>Key: option</comment>
-        <translation type="unfinished"></translation>
+        <translation>Options</translation>
     </message>
     <message>
         <source>Qty.</source>
         <comment>Key: count</comment>
-        <translation type="unfinished"></translation>
+        <translation>Qty.</translation>
     </message>
     <message>
         <source>Price</source>
         <comment>Key: price</comment>
-        <translation type="unfinished">Pris</translation>
+        <translation>Pris</translation>
     </message>
     <message>
         <source>Total</source>
         <comment>Key: total</comment>
-        <translation type="unfinished"></translation>
+        <translation>Total</translation>
     </message>
     <message>
         <source>Payment Method</source>
         <comment>Key: payment_method</comment>
-        <translation type="unfinished">Betalingsmåte</translation>
+        <translation>Betalingsmåte</translation>
     </message>
     <message>
         <source>Shipping Method</source>
         <comment>Key: shipping_method</comment>
-        <translation type="unfinished">Forsendelsesmetode</translation>
+        <translation>Forsendelsesmetode</translation>
     </message>
     <message>
         <source>Payment by VISA</source>
         <comment>Key: visa_text</comment>
-        <translation type="unfinished">Handlet med VISA</translation>
+        <translation>Handlet med VISA</translation>
     </message>
     <message>
         <source>Payment by Mastercard</source>
         <comment>Key: mastercard_text</comment>
-        <translation type="unfinished">Handlet med Mastercard</translation>
+        <translation>Handlet med Mastercard</translation>
     </message>
     <message>
         <source>Payment by</source>
         <comment>Key: payment_by</comment>
-        <translation type="unfinished">Betal med</translation>
+        <translation>Betal med</translation>
     </message>
     <message>
         <source>Cash On Delivery</source>
         <comment>Key: cod_text</comment>
-        <translation type="unfinished">Postoppkrav</translation>
+        <translation>Postoppkrav</translation>
     </message>
     <message>
         <source>Invoice</source>
         <comment>Key: invoice_text</comment>
-        <translation type="unfinished">Faktura</translation>
+        <translation>Faktura</translation>
     </message>
     <message>
         <source>Shipping Address</source>
         <comment>Key: shipping_address</comment>
-        <translation type="unfinished">Leveringsadresse</translation>
+        <translation>Leveringsadresse</translation>
     </message>
     <message>
         <source>Billing Address</source>
         <comment>Key: billing_address</comment>
-        <translation type="unfinished">Fakturaadresse</translation>
+        <translation>Fakturaadresse</translation>
     </message>
     <message>
         <source>Vat</source>
         <comment>Key: vat</comment>
-        <translation type="unfinished">mva</translation>
+        <translation>mva</translation>
     </message>
     <message>
         <source>OK</source>
         <comment>Key: ok</comment>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Shipping</source>
         <comment>Key: shipping</comment>
-        <translation type="unfinished">Frakt</translation>
+        <translation>Frakt</translation>
     </message>
 </context>
 <context>
@@ -21495,7 +21976,7 @@ Thank you for your comment.</source>
     <message>
         <source>Previous</source>
         <comment>Key: previous</comment>
-        <translation type="unfinished"></translation>
+        <translation>Forrige</translation>
     </message>
 </context>
 <context>
@@ -21578,52 +22059,52 @@ Thank you for your comment.</source>
     <message>
         <source>Price range</source>
         <comment>Key: price_range</comment>
-        <translation type="unfinished"></translation>
+        <translation>Pris variasjon</translation>
     </message>
     <message>
         <source>Min price</source>
         <comment>Key: min</comment>
-        <translation type="unfinished">Minimums pris</translation>
+        <translation>Minimum</translation>
     </message>
     <message>
         <source>Max price</source>
         <comment>Key: max</comment>
-        <translation type="unfinished">Maksimums pris</translation>
+        <translation>Maximum</translation>
     </message>
     <message>
         <source>Unlimited</source>
         <comment>Key: unlimited</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ubegrenset</translation>
     </message>
     <message>
         <source>Mail method</source>
         <comment>Key: mail_method</comment>
-        <translation type="unfinished"></translation>
+        <translation>Postmetode</translation>
     </message>
     <message>
         <source>S-Mail</source>
         <comment>Key: smail</comment>
-        <translation type="unfinished"></translation>
+        <translation>Papirpost</translation>
     </message>
     <message>
         <source>E-Mail</source>
         <comment>Key: email</comment>
-        <translation type="unfinished"></translation>
+        <translation>Epost</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>Key: next</comment>
-        <translation type="unfinished"></translation>
+        <translation>Neste</translation>
     </message>
     <message>
         <source>The price is too low</source>
         <comment>Key: price_to_low</comment>
-        <translation type="unfinished"></translation>
+        <translation>Prisen er for lav</translation>
     </message>
     <message>
         <source>The price is too high</source>
         <comment>Key: price_to_high</comment>
-        <translation type="unfinished"></translation>
+        <translation>Prisen er for høy</translation>
     </message>
 </context>
 <context>
@@ -21722,7 +22203,7 @@ Thank you for your comment.</source>
     <message>
         <source>Products</source>
         <comment>Key: products</comment>
-        <translation type="unfinished">Produkter</translation>
+        <translation>Produkter</translation>
     </message>
 </context>
 <context>
@@ -21866,27 +22347,27 @@ Thank you for your comment.</source>
     <message>
         <source>Voucher payment</source>
         <comment>Key: voucher_payment</comment>
-        <translation type="unfinished"></translation>
+        <translation>Voucher payment</translation>
     </message>
     <message>
         <source>Key number</source>
         <comment>Key: key_number</comment>
-        <translation type="unfinished"></translation>
+        <translation>Key number</translation>
     </message>
     <message>
         <source>OK</source>
         <comment>Key: ok</comment>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>The key is invalid.</source>
         <comment>Key: error_message</comment>
-        <translation type="unfinished"></translation>
+        <translation>The key is invalid.</translation>
     </message>
     <message>
         <source>Back</source>
         <comment>Key: back</comment>
-        <translation type="unfinished"></translation>
+        <translation>Back</translation>
     </message>
 </context>
 <context>
@@ -21894,22 +22375,22 @@ Thank you for your comment.</source>
     <message>
         <source>Someone has bought you a voucher!</source>
         <comment>Key: introduction</comment>
-        <translation type="unfinished"></translation>
+        <translation>Someone has bought you a voucher!</translation>
     </message>
     <message>
         <source>Key number</source>
         <comment>Key: key_number</comment>
-        <translation type="unfinished"></translation>
+        <translation>Key number</translation>
     </message>
     <message>
         <source>From</source>
         <comment>Key: from</comment>
-        <translation type="unfinished">Fra</translation>
+        <translation>Fra</translation>
     </message>
     <message>
         <source>To</source>
         <comment>Key: to</comment>
-        <translation type="unfinished">Til</translation>
+        <translation>Til</translation>
     </message>
 </context>
 <context>
@@ -21917,72 +22398,72 @@ Thank you for your comment.</source>
     <message>
         <source>Please fill in the information</source>
         <comment>Key: description</comment>
-        <translation type="unfinished"></translation>
+        <translation>Please fill in the information</translation>
     </message>
     <message>
         <source>Receiver email</source>
         <comment>Key: to_email</comment>
-        <translation type="unfinished"></translation>
+        <translation>Receiver email</translation>
     </message>
     <message>
         <source>Text</source>
         <comment>Key: text</comment>
-        <translation type="unfinished"></translation>
+        <translation>Text</translation>
     </message>
     <message>
         <source>Street</source>
         <comment>Key: street</comment>
-        <translation type="unfinished">Gate</translation>
+        <translation>Gate</translation>
     </message>
     <message>
         <source>Zip</source>
         <comment>Key: zip</comment>
-        <translation type="unfinished"></translation>
+        <translation>Zip</translation>
     </message>
     <message>
         <source>Place</source>
         <comment>Key: place</comment>
-        <translation type="unfinished">Poststed</translation>
+        <translation>Poststed</translation>
     </message>
     <message>
         <source>Country</source>
         <comment>Key: country</comment>
-        <translation type="unfinished">Land</translation>
+        <translation>Land</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Key: name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Name</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>Key: next</comment>
-        <translation type="unfinished"></translation>
+        <translation>Next</translation>
     </message>
     <message>
         <source>OK</source>
         <comment>Key: ok</comment>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation type="unfinished"></translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <source>Receiver name</source>
         <comment>Key: to_name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Receiver name</translation>
     </message>
     <message>
         <source>From name</source>
         <comment>Key: from_name</comment>
-        <translation type="unfinished"></translation>
+        <translation>From name</translation>
     </message>
     <message>
         <source>From email</source>
         <comment>Key: from_email</comment>
-        <translation type="unfinished"></translation>
+        <translation>From email</translation>
     </message>
 </context>
 <context>
@@ -21990,92 +22471,92 @@ Thank you for your comment.</source>
     <message>
         <source>Voucher View</source>
         <comment>Key: voucher_edit</comment>
-        <translation type="unfinished"></translation>
+        <translation>Voucher View</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Key: name</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <comment>Key: description</comment>
-        <translation type="unfinished"></translation>
+        <translation>Name</translation>
     </message>
     <message>
         <source>Update</source>
         <comment>Key: update</comment>
-        <translation type="unfinished">Oppdater</translation>
+        <translation>Oppdater</translation>
     </message>
     <message>
         <source>OK</source>
         <comment>Key: ok</comment>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation type="unfinished"></translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <source>Delete</source>
         <comment>Key: delete</comment>
-        <translation type="unfinished"></translation>
+        <translation>Delete</translation>
     </message>
     <message>
         <source>Delete selected</source>
         <comment>Key: delete_selected</comment>
-        <translation type="unfinished"></translation>
+        <translation>Delete selected</translation>
     </message>
     <message>
         <source>Created</source>
         <comment>Key: created</comment>
-        <translation type="unfinished">Opprettet</translation>
+        <translation>Opprettet</translation>
     </message>
     <message>
         <source>Price left</source>
         <comment>Key: price</comment>
-        <translation type="unfinished"></translation>
+        <translation>Price left</translation>
     </message>
     <message>
         <source>Price</source>
         <comment>Key: used_price</comment>
-        <translation type="unfinished">Pris</translation>
+        <translation>Pris</translation>
     </message>
     <message>
         <source>Receiver</source>
         <comment>Key: receiver</comment>
-        <translation type="unfinished">Mottaker</translation>
+        <translation>Mottaker</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <comment>Key: description</comment>
+        <translation>Description</translation>
     </message>
     <message>
         <source>Used</source>
         <comment>Key: used</comment>
-        <translation type="unfinished">I bruk</translation>
+        <translation>I bruk</translation>
     </message>
     <message>
         <source>View order</source>
         <comment>Key: view_order</comment>
-        <translation type="unfinished"></translation>
+        <translation>View order</translation>
     </message>
     <message>
         <source>Available</source>
         <comment>Key: available</comment>
-        <translation type="unfinished">Tilgjengelig</translation>
+        <translation>Tilgjengelig</translation>
     </message>
     <message>
         <source>View voucher</source>
         <comment>Key: view_voucher</comment>
-        <translation type="unfinished"></translation>
+        <translation>View voucher</translation>
     </message>
     <message>
         <source>Key</source>
         <comment>Key: key</comment>
-        <translation type="unfinished"></translation>
+        <translation>Key</translation>
     </message>
     <message>
-        <source>Your key does not exists</source>
+        <source>Your key does not exist</source>
         <comment>Key: error_message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Your key does not exists</translation>
     </message>
 </context>
 <context>
@@ -22472,12 +22953,12 @@ Thank you for your comment.</source>
     <message>
         <source>Session Info</source>
         <comment>Key: session_info</comment>
-        <translation>Sesjon informasjon</translation>
+        <translation>Sesjoninformasjon</translation>
     </message>
     <message>
         <source>Photographer list</source>
         <comment>Key: photographerlist</comment>
-        <translation type="unfinished"></translation>
+        <translation>Fotografliste</translation>
     </message>
 </context>
 <context>
@@ -22841,6 +23322,16 @@ Thank you for your comment.</source>
         <translation>Gjenta passord</translation>
     </message>
     <message>
+        <source>Street 1</source>
+        <comment>Key: street1</comment>
+        <translation>Gate 1</translation>
+    </message>
+    <message>
+        <source>Street 2</source>
+        <comment>Key: street2</comment>
+        <translation>Gate 2</translation>
+    </message>
+    <message>
         <source>Postal code</source>
         <comment>Key: zip</comment>
         <translation>Postnummer</translation>
@@ -22889,6 +23380,11 @@ Thank you for your comment.</source>
         <translation>Brukernavn</translation>
     </message>
     <message>
+        <source>Type your username in the field, you will then receive an email. There it wil be a link which you must follow to get a new password. This link will be valid for 1 day.</source>
+        <comment>Key: forgot-text</comment>
+        <translation>Skriv inn ditt brukernavn i feltet under, og du vil få en e-post med en link du må følge for å få nytt passord. Linken som følger med e-posten vil kun være gyldig i et døgn.</translation>
+    </message>
+    <message>
         <source>Forgotten password at</source>
         <comment>Key: subject_text</comment>
         <translation>Glemt passord på</translation>
@@ -22932,6 +23428,21 @@ Thank you for your comment.</source>
         <translation>Du vil motta en e-post fra oss med en link</translation>
     </message>
     <message>
+        <source>Visit that link to change your password</source>
+        <comment>Key: mail_sent_text_2</comment>
+        <translation>Besøk den linken for å endre passordet ditt</translation>
+    </message>
+    <message>
+        <source>The link will be available for 24 hours; if you haven&apos;t visited it within that period you will have to go through this procedure one more time</source>
+        <comment>Key: mail_sent_text_3</comment>
+        <translation>Linken vil være tilgjengelig for 24 timer; hvis du ikke har besøkt linken innen den perioden må du gå igjennom denne prosessen en gang til</translation>
+    </message>
+    <message>
+        <source>If you don&apos;t receive the e-mail within a short while, please contact the site admininstrator</source>
+        <comment>Key: mail_sent_text_4</comment>
+        <translation>Hvis du ikke mottar e-posten innen kort tid vennligst kontakt vår administrator</translation>
+    </message>
+    <message>
         <source>Please go back to the previous page, and make sure that you write the user name you selected when you first registered with us</source>
         <comment>Key: user_not_exists_text</comment>
         <translation>Vennligst gå tilbake til den forrige siden og sjekk at du har skrevet inn det brukernavnet du valgte når du registrerte deg</translation>
@@ -22950,6 +23461,21 @@ Thank you for your comment.</source>
         <source>Your new password has been generated and sent to your e-mail address</source>
         <comment>Key: generated_password</comment>
         <translation>Ditt nye passord har blitt generert og sendt til din e-postadresse</translation>
+    </message>
+    <message>
+        <source>Your new password has been generated and sent to your e-mail address</source>
+        <comment>Key: generated_password_2</comment>
+        <translation>Ditt nye passord har blitt generert og sendt til din e-postadresse</translation>
+    </message>
+    <message>
+        <source>Login with your user name and your new password, then go to your user page</source>
+        <comment>Key: generated_password_3</comment>
+        <translation>Logg inn med ditt brukernavn og ditt nye passord, deretter besøker du din brukerside</translation>
+    </message>
+    <message>
+        <source>and change the generated password to something which is easier to remember for you</source>
+        <comment>Key: generated_password_4</comment>
+        <translation>og endrer det genererte passordet til noe som er lettere å huske for deg</translation>
     </message>
     <message>
         <source>Change user info here</source>
@@ -23137,6 +23663,16 @@ Thank you for your comment.</source>
         <translation>Gjenta passord</translation>
     </message>
     <message>
+        <source>Street 1</source>
+        <comment>Key: street1</comment>
+        <translation>Gate 1</translation>
+    </message>
+    <message>
+        <source>Street 2</source>
+        <comment>Key: street2</comment>
+        <translation>Gate 2</translation>
+    </message>
+    <message>
         <source>Postal code</source>
         <comment>Key: zip</comment>
         <translation>Postnummer</translation>
@@ -23233,6 +23769,16 @@ Thank you for your comment.</source>
         <source>Street</source>
         <comment>Key: street</comment>
         <translation>Gate</translation>
+    </message>
+    <message>
+        <source>Street 1</source>
+        <comment>Key: street1</comment>
+        <translation>Gate 1</translation>
+    </message>
+    <message>
+        <source>Street 2</source>
+        <comment>Key: street2</comment>
+        <translation>Gate 2</translation>
     </message>
     <message>
         <source>Postal code</source>
@@ -23358,6 +23904,16 @@ Thank you for your comment.</source>
         <source>Your login name already exists</source>
         <comment>Key: error_loginname</comment>
         <translation>Brukernavnet ditt finnes fra før</translation>
+    </message>
+    <message>
+        <source>You must supply a street address</source>
+        <comment>Key: error_street1</comment>
+        <translation>Du må fylle inn gate navn</translation>
+    </message>
+    <message>
+        <source>You must supply a street2 address</source>
+        <comment>Key: error_street2</comment>
+        <translation>Du må fylle inn gate 2 navn</translation>
     </message>
     <message>
         <source>You must supply a postal code</source>
