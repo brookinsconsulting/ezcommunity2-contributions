@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.20 2001/01/18 13:43:34 ce Exp $
+// $Id: checkout.php,v 1.21 2001/01/18 14:18:27 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -219,26 +219,40 @@ if ( $SendOrder == "true" )
     $mailTemplate->set_var( "user_first_name", $user->firstName() );
     $mailTemplate->set_var( "user_last_name", $user->lastName() );
 
-    $addressArray = $user->addresses();
+    $shippingAddress = $order->shippingAddress();
+    $billingAddress = $order->billingAddress();
 
-        $mailTemplate->set_var( "user_street", "" );
-        $mailTemplate->set_var( "user_street2", "" );
-        $mailTemplate->set_var( "user_city", "" );
-        $mailTemplate->set_var( "user_zip", "" );
+    $mailTemplate->set_var( "shipping_user_street", "" );
+    $mailTemplate->set_var( "shipping_user_street2", "" );
+    $mailTemplate->set_var( "shipping_user_city", "" );
+    $mailTemplate->set_var( "shipping_user_zip", "" );
 
-        $mailTemplate->set_var( "user_country", "" );
+    $mailTemplate->set_var( "shipping_user_country", "" );
 
-    foreach ( $addressArray as $address )
-    {
-        // Select correct later PKEJ
-        $mailTemplate->set_var( "user_street", $address->street1() );
-        $mailTemplate->set_var( "user_street2", $address->street2() );
-        $mailTemplate->set_var( "user_city", $address->place() );
-        $mailTemplate->set_var( "user_zip", $address->zip() );
+    $mailTemplate->set_var( "billing_user_street", "" );
+    $mailTemplate->set_var( "billing_user_street2", "" );
+    $mailTemplate->set_var( "billing_user_city", "" );
+    $mailTemplate->set_var( "billing_user_zip", "" );
 
-        $country = $address->country();
-        $mailTemplate->set_var( "user_country", $country->name() );
-    }
+    $mailTemplate->set_var( "billing_user_country", "" );
+
+    // Select correct later PKEJ
+    $mailTemplate->set_var( "shipping_user_street", $shippingAddress->street1() );
+    $mailTemplate->set_var( "shipping_user_street2", $shippingAddress->street2() );
+    $mailTemplate->set_var( "shipping_user_city", $shippingAddress->place() );
+    $mailTemplate->set_var( "shipping_user_zip", $shippingAddress->zip() );
+
+    $shippingCountry = $shippingAddress->country();
+
+    $mailTemplate->set_var( "billing_user_street", $billingAddress->street1() );
+    $mailTemplate->set_var( "billing_user_street2", $billingAddress->street2() );
+    $mailTemplate->set_var( "billing_user_city", $billingAddress->place() );
+    $mailTemplate->set_var( "billing_user_zip", $billingAddress->zip() );
+
+    $billingCountry = $billingAddress->country();
+
+    $mailTemplate->set_var( "billing_user_country", $shippingCountry->name() );
+    $mailTemplate->set_var( "shipping_user_country", $billingCountry->name() );
 
     foreach( $items as $item )
     {
@@ -351,6 +365,7 @@ if ( $SendOrder == "true" )
     
     $mail->setSubject( $mailSubjectAdmin );
     $mail->setTo( $mailToAdmin );
+
     $mail->send();
 
     $cart->clear();

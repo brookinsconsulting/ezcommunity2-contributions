@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.16 2001/01/18 13:43:34 ce Exp $
+// $Id: ezorder.php,v 1.17 2001/01/18 14:18:26 ce Exp $
 //
 // Definition of eZOrder class
 //
@@ -311,6 +311,32 @@ class eZOrder
             $this->get( $this->ID );
 
        return $this->ShippingCharge;
+    }
+
+    /*!
+      Returns the shipping address.
+    */
+    function shippingAddress()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $shippingAddress = new eZAddress( $this->ShippingAddressID );
+       
+       return $shippingAddress;
+    }
+
+    /*!
+      Returns the billing address.
+    */
+    function billingAddress()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $billingAddress = new eZAddress( $this->BillingAddressID );
+       
+       return $billingAddress;
     }
 
     /*!
