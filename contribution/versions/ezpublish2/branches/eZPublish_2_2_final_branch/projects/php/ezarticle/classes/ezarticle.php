@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.183.2.2 2001/11/01 18:57:34 bf Exp $
+// $Id: ezarticle.php,v 1.183.2.3 2001/11/22 16:42:45 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -786,6 +786,8 @@ class eZArticle
         // get total number of articles
         $db->array_query( $article_array, "SELECT COUNT(*) AS Count FROM eZArticle_Article" );
         $articleCount = $article_array[0][$db->fieldName( "Count" )];        
+
+                $db->begin( );
         
         foreach ( $contents_array as $word )
         {
@@ -795,7 +797,6 @@ class eZArticle
 
                 $indexWord = $db->escapeString( $indexWord );
 
-                $db->begin( );
 
                 // find the frequency
                 $count = $wordCount[$indexWord];
