@@ -46,6 +46,7 @@ include_once( "ezuser/classes/ezuser.php" );
 $session =& eZSession::globalSession();
 
 unset( $siteDesign );
+unset( $GlobalSiteDesign );
 if ( $session->fetch() == false )
 {
     $siteDesign =& $ini->read_var( "site", "SiteDesign" );
@@ -59,7 +60,8 @@ else
         $siteDesign =& $ini->read_var( "site", "SiteDesign" );
     }
 }
-
+// Store the site design in a global variable
+$GlobalSiteDesign = $siteDesign;
 
 
 $StoreStats = $ini->read_var( "eZStatsMain", "StoreStats" );
