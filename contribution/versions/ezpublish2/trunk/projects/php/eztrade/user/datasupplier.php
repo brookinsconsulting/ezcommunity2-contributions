@@ -82,6 +82,33 @@ switch ( $url_array[2] )
         }
 
         break;
+        
+    case "print" :
+    case "productprint" :
+        if ( $PageCaching == "enabled" )
+        {
+            $ProductID = $url_array[3];
+            $CategoryID = $url_array[4];
+
+            $cachedFile = "eztrade/cache/productprint," .$ProductID . "," . $CategoryID .".cache";
+            if ( file_exists( $cachedFile ) )
+            {
+                include( $cachedFile );
+            }
+            else
+            {
+                $GenerateStaticPage = "true";
+                include( "eztrade/user/productview.php" );
+            }
+        }
+        else
+        {
+            $ProductID = $url_array[3];
+            $CategoryID = $url_array[4];
+            include( "eztrade/user/productview.php" );
+        }
+
+        break;
 
     case "cart" :
 

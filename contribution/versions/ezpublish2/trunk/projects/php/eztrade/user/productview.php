@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.10 2000/12/21 16:45:33 bf Exp $
+// $Id: productview.php,v 1.11 2001/01/04 10:18:24 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -66,6 +66,9 @@ $t->set_block( "product_view_tpl", "external_link_tpl", "external_link" );
 
 $t->set_block( "product_view_tpl", "attribute_list_tpl", "attribute_list" );
 $t->set_block( "attribute_list_tpl", "attribute_tpl", "attribute" );
+
+$t->set_block( "product_view_tpl", "numbered_page_link_tpl", "numbered_page_link" );
+$t->set_block( "product_view_tpl", "print_page_link_tpl", "print_page_link" );
 
 
 $category = new eZProductCategory(  );
@@ -249,6 +252,17 @@ else
 {
     $t->set_var( "price", "" );
     $t->set_var( "add_to_cart", "" );
+}
+
+if ( $PrintableVersion == "enabled" )
+{
+    $t->parse( "numbered_page_link", "numbered_page_link_tpl" );
+    $t->set_var( "print_page_link", "" );
+}
+else
+{
+    $t->parse( "print_page_link", "print_page_link_tpl" );
+    $t->set_var( "numbered_page_link", "" );
 }
 
 if ( $GenerateStaticPage == "true" )

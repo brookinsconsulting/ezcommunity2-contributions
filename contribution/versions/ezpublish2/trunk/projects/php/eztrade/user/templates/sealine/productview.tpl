@@ -36,7 +36,8 @@
 <br />
 
 <!-- BEGIN attribute_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<div align="center">
+<table width="50%" cellspacing="0" cellpadding="2" border="0">
 <!-- BEGIN attribute_tpl -->
 {begin_tr}
 	<th>
@@ -48,6 +49,7 @@
 {end_tr}
 <!-- END attribute_tpl -->
 </table>
+</div>
 <!-- END attribute_list_tpl -->
 
 
@@ -153,8 +155,14 @@
 <!-- BEGIN add_to_cart_tpl -->
 
 <!-- END add_to_cart_tpl -->
-
  
 </form>
 
- 
+<!-- BEGIN numbered_page_link_tpl -->
+<center><a class="path" href="/trade/productview/{product_id}/0/">{intl-numbered_page}</a></center>
+<!-- END numbered_page_link_tpl -->
+
+<!-- BEGIN print_page_link_tpl -->
+<center> <a class="path" href="/trade/productprint/{product_id}/">{intl-print_page}</a> </center>
+<!-- END print_page_link_tpl -->
+</p> 
