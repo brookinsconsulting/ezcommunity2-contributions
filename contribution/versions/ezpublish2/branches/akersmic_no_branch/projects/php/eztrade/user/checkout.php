@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: checkout.php,v 1.96.2.2.4.9 2002/03/27 14:33:56 br Exp $
+// $Id: checkout.php,v 1.96.2.2.4.10 2002/03/27 19:28:55 br Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -281,6 +281,7 @@ if ( isSet( $SendOrder ) )
     $order_id = $order->id();
     
     $session->setVariable( "OrderID", $order_id );
+    $session->setVariable( "OrderConfirmation", $order_id );    
 
     foreach ( $items as $item )
     {
