@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.82 2001/08/15 15:04:59 ce Exp $
+// $Id: ezarticlecategory.php,v 1.83 2001/08/16 11:36:00 ce Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -975,9 +975,9 @@ class eZArticleCategory
            foreach ( $groups as $group )
            {
                if ( $i == 0 )
-                   $groupSQL .= " Permission.GroupID=$group OR";
+                   $groupSQL .= "( Permission.GroupID=$group AND CategoryPermission.GroupID=$group ) OR";
                else
-                   $groupSQL .= " Permission.GroupID=$group OR";
+                   $groupSQL .= " ( Permission.GroupID=$group AND CategoryPermission.GroupID=$group ) OR";
                
                $i++;
            }
@@ -989,7 +989,7 @@ class eZArticleCategory
        }
 
        if ( $usePermission )
-           $permissionSQL = "( ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' AND CategoryPermission.GroupID='-1' AND CategoryPermission.ReadPermission='1') ) ";
+           $permissionSQL = "( ( $loggedInSQL ($groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1') ) ";
        else
            $permissionSQL = "";
        
@@ -1090,16 +1090,10 @@ class eZArticleCategory
            $i = 0;
            foreach ( $groups as $group )
            {
-               if ( $i == 0 )
-               {
-                   $categoryGroupSQL .= " CategoryPermission.GroupID=$group OR";
-                   $groupSQL .= " Permission.GroupID=$group OR";
-               }
-               else
-               {
-                   $categoryGroupSQL .= " CatregoryPermission.GroupID=$group OR";
-                   $groupSQL .= " Permission.GroupID=$group OR";
-               }
+                if ( $i == 0 )
+                    $groupSQL .= "( Permission.GroupID=$group AND CategoryPermission.GroupID=$group ) OR";
+                else
+                    $groupSQL .= " ( Permission.GroupID=$group AND CategoryPermission.GroupID=$group ) OR";
                
                $i++;
            }
@@ -1111,7 +1105,7 @@ class eZArticleCategory
        }
 
        if ( $usePermission )
-           $permissionSQL = "( ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' AND CategoryPermission.GroupID='-1' AND CategoryPermission.ReadPermission='1') ) ";
+           $permissionSQL = "( ( $loggedInSQL ($groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1') ) ";
        else
            $permissionSQL = "";
 
