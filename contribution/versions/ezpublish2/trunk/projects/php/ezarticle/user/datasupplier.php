@@ -1,5 +1,4 @@
 <?
-
 switch ( $url_array[2] )
 {
     case "archive":
@@ -12,6 +11,17 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "articleheaderlist":
+    {
+        $CategoryID = $url_array[3];
+        if  ( !isset( $CategoryID ) || ( $CategoryID == "" ) )
+            $CategoryID = 0;
+
+        print( "bla" );
+        include( "ezarticle/user/articleheaderlist.php" );
+    }
+    break;
+    
     case "articleview":
     {
         $StaticRendering = false;        
