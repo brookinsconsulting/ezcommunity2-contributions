@@ -190,6 +190,12 @@ CREATE TABLE eZArticle_ArticleWordLink (
 );
 
 
+CREATE TABLE eZArticle_Word (
+  ID int(11) NOT NULL default '0',
+  Word varchar(50) NOT NULL default ''
+);
+
+
 CREATE INDEX Article_Name ON eZArticle_Article (Name);
 CREATE INDEX Article_Published ON eZArticle_Article (Published);
 
