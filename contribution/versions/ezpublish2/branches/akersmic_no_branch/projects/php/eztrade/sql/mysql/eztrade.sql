@@ -502,8 +502,8 @@ CREATE INDEX TradeAttributeValue_ProductID ON eZTrade_AttributeValue (ProductID)
 CREATE INDEX TradeAttributeValue_AttributeID ON eZTrade_AttributeValue (AttributeID);
 
 
-CREATE INDEX TradeWordLink_ArticleID ON eZTrade_ArticleWordLink (ProductID);
-CREATE INDEX TradeWordLink_WordID ON eZTrade_ArticleWordLink (WordID);
+CREATE INDEX TradeWordLink_ArticleID ON eZTrade_ProductWordLink (ProductID);
+CREATE INDEX TradeWordLink_WordID ON eZTrade_ProductWordLink (WordID);
 CREATE INDEX TradeWord_Word ON eZTrade_Word (Word);
 CREATE UNIQUE INDEX TradeWord_ID ON eZTrade_Word (ID);
 
