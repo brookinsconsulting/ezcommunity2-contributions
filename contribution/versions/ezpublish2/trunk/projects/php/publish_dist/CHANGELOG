@@ -1,6 +1,11 @@
 eZ publish changelog:
 ---------------------
 
+Changes from version 2.0 beta 3 to pre-release 2
+------------------------------------------------
+* Deletion of company, person and consultation in eZ contact has been fixed.
+
+
 Changes from version 2.0 beta 3 to pre-release 1
 ------------------------------------------------
 * Added eZObjectPermission to eZimagecatalogue and eZfilemanager
