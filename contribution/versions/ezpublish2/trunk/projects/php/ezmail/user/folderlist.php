@@ -10,8 +10,19 @@ include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezmail/classes/ezmailfolder.php" );
 
 
-if( isset( $Move ) )
+if( isset( $Move ) && count( $FolderArrayID ) > 0 && $FolderSelectID != -1)
 {
+    foreach( $FolderArrayID as $folderID )
+    {
+        $folder = new eZMailFolder( $folderID );
+        if( $folder->folderType() == USER && $folder->id() != $FolderSelectID )
+        {
+            $folder->setParent( $FolderSelectID );
+            $folder->store();
+        }
+    }
+    eZHTTPTool::header( "Location: /mail/folderlist/" );
+    exit();
 }
 
 if( isset( $NewFolder ) )

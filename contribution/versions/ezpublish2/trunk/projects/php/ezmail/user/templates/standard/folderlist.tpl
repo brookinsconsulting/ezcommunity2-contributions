@@ -29,7 +29,7 @@
           </a>
 	</td>
 	<td class="{td_class}">
-	<input type="checkbox" name="FolderArrayID[]" value="{mail_id}" />
+	<input type="checkbox" name="FolderArrayID[]" value="{folder_id}" />
 	</td>
 	<!-- END folders_item_edit_tpl -->
 	<!-- BEGIN edit_empty_tpl -->

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfolder.php,v 1.9 2001/03/28 14:43:08 fh Exp $
+// $Id: ezmailfolder.php,v 1.10 2001/03/28 15:44:54 fh Exp $
 //
 // eZMailFolder class
 //
@@ -37,6 +37,7 @@
 include_once( "ezuser/classes/ezuser.php" );
 
 /* DEFINES */
+define( "USER", 0 );
 define( "INBOX", 1 );
 define( "DRAFTS", 2 );
 define( "SENT", 3 );
@@ -266,7 +267,7 @@ class eZMailFolder
      4 - Drafts
      5 - Trash
     */
-    function setServerType( $value )
+    function setFolderType( $value )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
