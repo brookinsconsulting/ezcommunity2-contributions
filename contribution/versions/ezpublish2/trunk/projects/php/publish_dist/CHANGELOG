@@ -1,6 +1,11 @@
 eZ publish changelog:
 ---------------------
 
+Changes from version 1.0.5
+--------------------------
+* Fixed a ini bug in eZUser
+
+
 Changes from version 1.0.4
 --------------------------
 * Added Turkish translation
