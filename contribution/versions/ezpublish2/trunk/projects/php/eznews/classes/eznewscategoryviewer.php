@@ -45,10 +45,7 @@ class eZNewsCategoryViewer
         global $data;
         global $parsedXMLAttributes;
         
-        include_once("eznews/classes/eztable.php");
-        
-        $testing = new eZExampleClass();
-        
+       
         $item->polymorphSelf( $this->className );
         $this->Item = $item;
         $theViewer = $this;
