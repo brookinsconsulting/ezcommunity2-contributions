@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderlist.php,v 1.9 2000/11/05 08:59:13 bf-cvs Exp $
+// $Id: orderlist.php,v 1.10 2000/11/10 10:44:41 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Sep-2000 13:03:13 bf>
@@ -40,6 +40,8 @@ include_once( "eztrade/classes/ezorderstatustype.php" );
 
 $t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/orderlist/",
                      "eztrade/admin/intl/", $Language, "orderlist.php" );
+
+$languageINI = new INIFIle( "eztrade/admin/intl/" . $Language . "/orderlist.php.ini", false );
 
 $t->setAllStrings();
 
@@ -139,8 +141,12 @@ foreach ( $orderArray as $order )
     $t->set_var( "altered_date", $locale->format( $dateTime ) );
 
     $statusType = $status->type();
+
+    $statusName = preg_replace( "#intl-#", "", $statusType->name() );
     
-    $t->set_var( "order_status", $statusType->name() );
+    $statusName =  $languageINI->read_var( "strings", $statusName );
+    
+    $t->set_var( "order_status", $statusName );
 
     $currency->setValue( $order->totalPrice() + $order->shippingCharge() );
     $t->set_var( "order_price", $locale->format( $currency ) );

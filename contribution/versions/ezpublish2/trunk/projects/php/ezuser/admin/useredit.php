@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.11 2000/10/29 10:21:10 ce-cvs Exp $
+// $Id: useredit.php,v 1.12 2000/11/10 10:44:41 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -62,9 +62,9 @@ if ( $Action == "insert" )
                         $user->setLastName( $LastName );
 
                         if ( $InfoSubscription == "on" )
-                            $user->setInfoSubscription( "true" );
+                            $user->setInfoSubscription( true );
                         else
-                            $user->setInfoSubscription( "false" );
+                            $user->setInfoSubscription( false );
                         
                         $user->store();
                         eZLog::writeNotice( "User created: $FirstName $LastName ($Login) $Email from IP: $REMOTE_ADDR" );
@@ -134,9 +134,9 @@ if ( $Action == "update" )
                         $user->setEmail( $Email );
 
                         if ( $InfoSubscription == "on" )
-                            $user->setInfoSubscription( "true" );
+                            $user->setInfoSubscription( true );
                         else
-                            $user->setInfoSubscription( "false" );
+                            $user->setInfoSubscription( false );
 
                         $user->setFirstName( $FirstName );
                         $user->setLastName( $LastName );
@@ -251,7 +251,7 @@ if ( $Action == "edit" )
     $user = new eZUser();
     $user->get( $UserID );
 
-    if( $user->infoSubscription() == "true" )
+    if( $user->infoSubscription() == true )
         $InfoSubscription = "checked";
     else
         $InfoSubscription = "";

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderedit.php,v 1.9 2000/11/06 15:06:08 bf-cvs Exp $
+// $Id: orderedit.php,v 1.10 2000/11/10 10:44:41 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Sep-2000 13:03:13 bf>
@@ -37,6 +37,9 @@ include_once( "classes/ezcurrency.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
+
+$languageINI = new INIFIle( "eztrade/admin/intl/" . $Language . "/orderedit.php.ini", false );
+
 
 include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezproduct.php" );
@@ -111,6 +114,7 @@ $user = $order->user();
 
 if ( $user )
 {
+    $t->set_var( "customer_email", $user->email() );    
     $t->set_var( "customer_first_name", $user->firstName() );
     $t->set_var( "customer_last_name", $user->lastName() );
 
@@ -200,7 +204,10 @@ $statusType = new eZOrderStatusType();
 $statusTypeArray = $statusType->getAll();
 foreach ( $statusTypeArray as $status )
 {
-    $t->set_var( "option_name", $status->name() );
+    $statusName = preg_replace( "#intl-#", "", $status->name() );
+    $statusName =  $languageINI->read_var( "strings", $statusName );
+    
+    $t->set_var( "option_name", $statusName );
     $t->set_var( "option_id", $status->id() );
     $t->parse( "order_status_option", "order_status_option_tpl", true );
 }
@@ -218,8 +225,13 @@ foreach ( $historyArray as $status )
     $admin =  $status->admin();
     
     $statusType = $status->type();
+
+    $statusName = preg_replace( "#intl-#", "", $statusType->name() );
+    $statusName =  $languageINI->read_var( "strings", $statusName );
+    
+    
     $t->set_var( "status_date", $locale->format( $status->altered() ) );
-    $t->set_var( "status_name", $statusType->name() );
+    $t->set_var( "status_name", $statusName );
     $t->set_var( "status_comment", $status->comment() );
     $t->set_var( "admin_login", $admin->login() );
     $t->parse( "order_status_history", "order_status_history_tpl", true );

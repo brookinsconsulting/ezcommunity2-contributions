@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.16 2000/10/31 21:20:51 ce-cvs Exp $
+// $Id: ezuser.php,v 1.17 2000/11/10 10:44:41 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -306,7 +306,13 @@ class eZUser
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       return $this->InfoSubscription;
+       $ret = false;
+       
+       if ( $this->InfoSubscription == "true" )
+       {
+           $ret = true;
+       }
+       return $ret;
     }
 
 
@@ -379,13 +385,22 @@ class eZUser
     /*!
       Sets the infoSubscription to the user.
 
+      This value indicates if the user wants to receive updates
+      from the site. true and false are valid arguments.
     */
     function setInfoSubscription( $value )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->InfoSubscription = $value;
+       if ( $value == true )
+       {
+           $this->InfoSubscription = "true";
+       }
+       else
+       {
+           $this->InfoSubscription = "false";
+       }
     }
 
     /*!
