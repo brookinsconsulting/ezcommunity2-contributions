@@ -36,22 +36,22 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td valign="top">
-	<p class="boxtext">{intl-appointment_month}:</p>
-
-	<select name="Month">
-	<!-- BEGIN month_tpl -->
-		<option value="{month_id}" {selected}>{month_name}</option>
-	<!-- END month_tpl -->
-	</select>
-
-	</td>
-	<td valign="top">
 	<p class="boxtext">{intl-appointment_day}:</p>
 
 	<select name="Day">
 	<!-- BEGIN day_tpl -->
 		<option value="{day_id}" {selected}>{day_name}</option>
 	<!-- END day_tpl -->
+	</select>
+
+	</td>
+	<td valign="top">
+	<p class="boxtext">{intl-appointment_month}:</p>
+
+	<select name="Month">
+	<!-- BEGIN month_tpl -->
+		<option value="{month_id}" {selected}>{month_name}</option>
+	<!-- END month_tpl -->
 	</select>
 
 	</td>

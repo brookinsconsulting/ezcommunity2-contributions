@@ -54,7 +54,7 @@
 <!-- END appointment_tpl -->
 <br />
 <br />
-<div align="right"><a href="/calendar/appointmentedit/new/">+</a></div>
+<div align="right"><a href="/calendar/appointmentedit/new/{year_number}/{month_number}/{day_number}">+</a></div>
 </td>
 <!-- END day_tpl -->
 
@@ -68,8 +68,8 @@
 <hr noshade size="4" />
 
 <form action=/calendar/appointmentedit/edit/">
-<input type="submit" name="Day" value="{intl-day}">
-<input type="submit" name="Month" value="{intl-month}">
-<input type="submit" name="Year" value="{intl-year}">
+<input type="submit" name="GoDay" value="{intl-day}">
+<input type="submit" name="GoMonth" value="{intl-month}">
+<input type="submit" name="GoYear" value="{intl-year}">
 </form>
 

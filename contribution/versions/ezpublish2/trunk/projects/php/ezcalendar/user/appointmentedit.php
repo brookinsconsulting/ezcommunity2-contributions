@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.8 2001/01/18 10:07:13 gl Exp $
+// $Id: appointmentedit.php,v 1.9 2001/01/18 12:50:03 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -28,17 +28,17 @@ if ( isSet ( $DeleteAppointments ) )
     $Action = "DeleteAppointment";
 }
 
-if ( isSet ( $Day ) )
+if ( isSet ( $GoDay ) )
 {
     Header( "Location: /calendar/dayview" );
     exit();
 }
-else if ( isSet ( $Month ) )
+else if ( isSet ( $GoMonth ) )
 {
     Header( "Location: /calendar/monthview" );
     exit();
 }
-else if ( isSet ( $Year ) )
+else if ( isSet ( $GoYear ) )
 {
     Header( "Location: /calendar/yearview" );
     exit();
@@ -47,7 +47,9 @@ else if ( isSet ( $Year ) )
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
+include_once( "classes/ezlocale.php" );
 include_once( "classes/ezdatetime.php" );
+include_once( "classes/ezdate.php" );
 include_once( "classes/eztime.php" );
 
 include_once( "ezcalendar/classes/ezappointment.php" );
@@ -56,11 +58,7 @@ include_once( "ezcalendar/classes/ezappointmenttype.php" );
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
-
-//  $type = new eZAppointmentType();
-//  $type->setName( "Programmering" );
-//  $type->setDescription( "Møte med kompilatoren" );
-//  $type->store();
+$locale = new eZLocale( $Language );
 
 
 // Allowed format for start and stop time:
@@ -256,6 +254,9 @@ else
     $t->set_var( "stop_time_error", "" );
 }
 
+$today = new eZDate();
+$tmpdate = new eZDate();
+
 if ( $Action == "New" )
 {
     $t->set_var( "action_value", "Insert" );
@@ -264,6 +265,26 @@ if ( $Action == "New" )
     $t->set_var( "private_checked", "" );
     $t->set_var( "start_value", "" );
     $t->set_var( "stop_value", "" );
+
+    if ( $Year != 0 )
+        $year = $Year;
+    else
+        $year = $today->year();
+
+    if ( $Month != 0 )
+        $month = $Month;
+    else
+        $month = $today->month();
+
+    if ( $Day != 0 )
+        $day = $Day;
+    else
+        $day = $today->day();
+
+    $tmpdate = new eZDate( $year, $month, $day );
+
+    if ( $StartTime != 0 )
+        $t->set_var( "start_value", $StartTime );
 }
 
 // print the appointment types
@@ -295,37 +316,11 @@ foreach ( $typeList as $type )
     $t->parse( "value", "value_tpl", true );
 }
 
-$dateTime = new eZDateTime();
-$today = new eZDateTime();
-for ( $i=1; $i<13; $i++ )
+
+$daysInMonth = $tmpdate->daysInMonth();
+for ( $i=1; $i<=$daysInMonth; $i++ )
 {
-    if ( $today->month() == $i )
-        $t->set_var( "selected", "selected" );
-    else
-        $t->set_var( "selected", "" );
-
-    if ( $Action == "Edit" )
-    {
-        if ( $dt->month() == $i )
-        {
-            $t->set_var( "selected", "selected" );
-        }
-        else
-        {
-            $t->set_var( "selected", "" );
-        }
-    }
-    
-    $dateTime->setMonth( $i );
-    $t->set_var( "month_id", $i );
-    $t->set_var( "month_name", $dateTime->monthName() );
-
-    $t->parse( "month", "month_tpl", true );
-}
-
-for ( $i=1; $i<32; $i++ )
-{
-    if ( $today->day() == $i )
+    if ( $tmpdate->day() == $i )
         $t->set_var( "selected", "selected" );
     else
         $t->set_var( "selected", "" );
@@ -348,13 +343,35 @@ for ( $i=1; $i<32; $i++ )
     $t->parse( "day", "day_tpl", true );
 }
 
-//  $t->set_var( "start_value", "" );
+$month = $tmpdate->month();
+for ( $i=1; $i<13; $i++ )
+{
+    if ( $month == $i )   // don't use $tmpdate->month() since it gets changed
+        $t->set_var( "selected", "selected" );
+    else
+        $t->set_var( "selected", "" );
 
-//  $t->set_var( "stop_value", "" );
+    if ( $Action == "Edit" )
+    {
+        if ( $dt->month() == $i )
+        {
+            $t->set_var( "selected", "selected" );
+        }
+        else
+        {
+            $t->set_var( "selected", "" );
+        }
+    }
 
+    $tmpdate->setMonth( $i );
+    $t->set_var( "month_id", $i );
+    $t->set_var( "month_name", $locale->monthName( $tmpdate->monthName() ) );
+
+    $t->parse( "month", "month_tpl", true );
+}
 
 if ( $Action != "Edit" )
-    $t->set_var( "year_value", $dateTime->year() );
+    $t->set_var( "year_value", $tmpdate->year() );
 
 $t->pparse( "output", "appointment_edit_tpl" );
 

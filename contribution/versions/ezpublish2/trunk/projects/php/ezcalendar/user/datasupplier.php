@@ -37,6 +37,10 @@ switch ( $url_array[2] )
             case "new" :
             {
                 $Action = "New";
+                $Year = $url_array[4];
+                $Month = $url_array[5];
+                $Day = $url_array[6];
+                $StartTime = $url_array[7];
             }
             break;
 
