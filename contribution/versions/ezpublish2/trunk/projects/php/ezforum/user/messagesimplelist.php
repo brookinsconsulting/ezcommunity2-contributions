@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagesimplelist.php,v 1.5 2000/12/14 21:05:02 bf Exp $
+// $Id: messagesimplelist.php,v 1.6 2000/12/15 12:15:37 bf Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -61,12 +61,12 @@ if ( !isset( $Offset ) )
 if ( !isset( $Limit ) )
     $Limit = 30;
 
-$messageList = $forum->messageTree( $Offset, $Limit );
+$messageList =& $forum->messageTree( $Offset, $Limit );
 
 if ( !$messageList )
 {
     $errorIni = new INIFile( "ezforum/user/intl/" . $Language . "/messagesimplelist.php.ini", false );
-    $noitem =  $errorIni->read_var( "strings", "noitem" );
+    $noitem =& $errorIni->read_var( "strings", "noitem" );
 
     $t->set_var( "message_list", $noitem );
     $t->set_var( "next", "" );
@@ -74,7 +74,6 @@ if ( !$messageList )
 }
 else
 {
-
     $level = 0;
     $i = 0;
     foreach ( $messageList as $message )
@@ -89,17 +88,15 @@ else
         if ( $level > 0 )
             $t->set_var( "spacer", str_repeat( "&nbsp;", $level ) );
         else
-            $t->set_var( "spacer", "" );
-
-        
+            $t->set_var( "spacer", "" );        
             
         $t->set_var( "topic", $message->topic() );
         $t->set_var( "body", eZTextTool::nl2br( $message->body() ) );
-        $time = $message->postingTime();
+        $time =& $message->postingTime();
         $t->set_var( "postingtime", $locale->format( $time ) );
         $t->set_var( "message_id", $message->id() );
         
-        $user = $message->user();    
+        $user =& $message->user();
         $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
         
         $t->set_var( "limit", $Limit );
