@@ -8,6 +8,7 @@ CREATE TABLE eZForm_Form (
   CompletedPage varchar(255) default NULL,
   InstructionPage varchar(255) default NULL,
   Counter int default NULL,
+  useDatabaseStorage varchar(1) default NULL,
   PRIMARY KEY (ID)
 );
 

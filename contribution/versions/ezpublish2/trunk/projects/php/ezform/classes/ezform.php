@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezform.php,v 1.13 2001/12/18 09:37:40 jhe Exp $
+// $Id: ezform.php,v 1.14 2001/12/18 14:11:46 pkej Exp $
 //
 // ezform class
 //
@@ -76,6 +76,7 @@ class eZForm
         $sender =& $db->escapeString( $this->Sender );
         $sendAsUser =& $this->SendAsUser;
         $counter =& $this->Counter;
+        $useDatabaseStorage =& $this->UseDatabaseStorage;
         
         if ( empty( $this->ID ) )
         {
@@ -90,7 +91,8 @@ class eZForm
                             InstructionPage,
                             Counter,
                             SendAsUser,
-                            Sender )
+                            Sender,
+                            useDatabaseStorage )
                           VALUES
                           ( '$nextID',
                             '$name',
@@ -100,7 +102,8 @@ class eZForm
                             '$instructionPage',
                             '$counter',
                             '$sendAsUser',
-                            '$sender' )" );
+                            '$sender',
+                            '$useDatabaseStorage' )" );
 
 			$this->ID = $nextID;
         }
@@ -114,7 +117,8 @@ class eZForm
                                     InstructionPage='$instructionPage',
                                     Counter='$counter',
                                     SendAsUser='$sendAsUser',
-                                    Sender='$sender'
+                                    Sender='$sender',
+                                    useDatabaseStorage='$useDatabaseStorage'
                                   WHERE ID='$this->ID'" );
         }
 
@@ -189,6 +193,7 @@ class eZForm
         $this->Counter =& $formArray[$db->fieldName( "Counter" )];
         $this->SendAsUser =& $formArray[$db->fieldName( "SendAsUser" )];
         $this->Sender =& $formArray[$db->fieldName( "Sender" )];
+        $this->UseDatabaseStorage =& $formArray[$db->fieldName( "useDatabaseStorage" )];
     }
 
     /*!
@@ -320,6 +325,21 @@ class eZForm
         return $ret;
     }
 
+     /*!
+      Returns true if the data the user sends in for this form should be saved in the database.
+    */
+    function &useDatabaseStorage()
+    {
+        $ret = true;
+        
+        if( $this->UseDatabaseStorage == 0 )
+        {
+            $ret = false;
+        }
+        
+        return $ret;
+    }
+
    /*!
       Sets the name of the object.
     */
@@ -348,6 +368,21 @@ class eZForm
         else
         {
             $this->SendAsUser = 1;
+        }
+    }
+
+    /*!
+      Sets UseDataBaseStorage.
+    */
+    function setUseDataBaseStorage( $value = true )
+    {
+        if ( $value == false )
+        {
+            $this->UseDatabaseStorage = 0;
+        }
+        else
+        {
+            $this->UseDatabaseStorage = 1;
         }
     }
 
@@ -569,6 +604,7 @@ class eZForm
     var $Counter;
     var $SendAsUser;
     var $Sender;
+    var $UseDatabaseStorage;
 }
 
 ?>
