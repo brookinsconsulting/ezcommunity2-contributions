@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.33 2000/08/22 09:35:02 bf-cvs Exp $
+    $Id: ezforummessage.php,v 1.34 2000/08/29 12:08:53 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -53,6 +53,7 @@ class eZForumMessage
         $this->Body = $results["Body"];
         $this->Parent = $results["Parent"];
         $this->UserId = $results["UserId"];
+        $this->ForumId = $results["ForumId"];
         $this->PostingTime = $results["PostingTime"];
         $this->EmailNotice = $results["EmailNotice"];
     }
@@ -187,7 +188,8 @@ class eZForumMessage
     {
         return $this->ForumId;
     }
-    function setForumId($newForumId)
+    
+    function setForumId( $newForumId )
     {
         $this->ForumId = $newForumId;
     }
@@ -196,6 +198,7 @@ class eZForumMessage
     {
         return $this->Parent;
     }
+    
     function setParent($newParent)
     {
         $this->Parent = $newParent;    

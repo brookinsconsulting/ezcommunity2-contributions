@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: replymessage.php,v 1.4 2000/07/28 09:51:58 lw-cvs Exp $
+    $Id: replymessage.php,v 1.5 2000/08/29 12:08:53 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -8,20 +8,25 @@
     
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
-include( "ezforum/dbsettings.php" );
+
+
+$ini = new INIFile( "site.ini" ); // get language settings
+$DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
+
+
 include_once( "ezphputils.php" );
 include_once( "template.inc" );
-include_once( "$DOCROOT/classes/ezdb.php" );
-include_once( "$DOCROOT/classes/ezforummessage.php");
-include_once( "$DOCROOT/classes/ezsession.php" );
-include_once( "$DOCROOT/classes/ezuser.php" );
+include_once( $DOC_ROOT . "/classes/ezdb.php" );
+include_once( $DOC_ROOT . "/classes/ezforummessage.php");
+include_once( "classes/ezsession.php" );
+include_once( "classes/ezuser.php" );
 
 $msg = new eZforumMessage;
 $t = new Template(".");
 
-$t->set_file("replymessage","$DOCROOT/templates/replymessage.tpl");
+$t->set_file("replymessage","$DOC_ROOT/templates/replymessage.tpl");
 
-$t->set_var( "docroot", $DOCROOT);
+$t->set_var( "docroot", $DOC_ROOT);
 $t->set_var( "category_id", $category_id);
 
 $msg->get( $reply_id );
@@ -37,16 +42,19 @@ else
     $UserId = 0;
 }
 
-$info = eZforumCategory::categoryForumInfo($forum_id);
+$category = new eZForumCategory();
+$info = $category->categoryForumInfo($forum_id);
 $infoString = $info["CategoryName"] . "::" . $info["ForumName"];
+
+$user = new eZUser();
 
 $t->set_var("forum_id", $forum_id );
 $t->set_var("msg_id", $msg->id() );
 $t->set_var("info",  $infoString);
 $t->set_var("topic", ("SV: " . stripslashes( $msg->topic() ) ) );
-$t->set_var("user", eZUser::resolveUser( $msg->userId() ) );
+$t->set_var("user", $user->resolveUser( $msg->userId() ) );
 $t->set_var("body", nl2br( stripslashes( $msg->body() ) ) );
-$t->set_var("replier", eZUser::resolveUser( $UserID ) );
+$t->set_var("replier", $user->resolveUser( $UserID ) );
 
 $t->pparse("output", "replymessage");
 ?>

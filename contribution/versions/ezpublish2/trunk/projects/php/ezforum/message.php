@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.16 2000/08/29 08:21:39 bf-cvs Exp $
+    $Id: message.php,v 1.17 2000/08/29 12:08:53 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -20,7 +20,7 @@ include_once( "classes/ezuser.php" );
 include_once( "classes/ezsession.php" );
 include_once( "classes/eztemplate.php" );
 
-$msg = new eZforumMessage;
+$msg = new eZForumMessage;
 $usr = new eZUser;
 $session = new eZSession;
 $ini = new INIFile( "ezforum.ini" ); // get language settings
@@ -41,19 +41,22 @@ $t->set_file( array("message" => "message.tpl",
 $t->set_var( "docroot", $DOC_ROOT);
 $t->set_var( "category_id", $category_id);
 
+$message = new eZForumMessage( );
+$message->get( $message_id );
+$forum_id = $message->forumID();
+
+$forum = new eZForumForum( );
+$forum->get( $forum_id );
+
+$category_id = $forum->categoryID();
 
 $category = new eZForumCategory( );
 $category->get( $category_id );
 $forumPath = "/ <a href=\"index.php?page=" . $DOC_ROOT .  "category.php&category_id=" . $category_id . "\">" . $category->name() . "</a> ";
 
-$forum = new eZForumForum( );
-$forum->get( $forum_id );
 $forumPath .= "/ <a href=\"index.php?page=" . $DOC_ROOT .  "forum.php&forum_id=" . $forum_id . "&category_id=" . $category_id . "\">" . $forum->name() . "</a> ";
 
-$message = new eZForumMessage( );
-$message->get( $message_id );
 $forumPath .= "/ <a href=\"index.php?page=" . $DOC_ROOT .  "message.php&forum_id=" . $forum_id . "&category_id=" . $category_id . "&message_id=" . $message_id . "\">" . $message->topic() . "</a>";
-
 
 $t->set_var( "forum_path", $forumPath );
 

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforumforum.php,v 1.8 2000/08/22 09:45:21 bf-cvs Exp $
+    $Id: ezforumforum.php,v 1.9 2000/08/29 12:08:53 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -113,10 +113,15 @@ class eZforumForum
         mysql_query("DELETE FROM ezforum_ForumTable WHERE Id='$Id'")
             or die("delete()");
     }
+    
+    function id()
+    {
+        return $this->Id;
+    }
         
     function categoryId()
     {
-        return $this->Id;    
+        return $this->CategoryId;
     }
         
     function setCategoryId($newCategoryId)
