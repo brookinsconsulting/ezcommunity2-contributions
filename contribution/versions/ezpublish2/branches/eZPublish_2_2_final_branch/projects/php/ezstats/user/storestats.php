@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: storestats.php,v 1.3 2001/07/29 23:31:10 kaid Exp $
+// $Id: storestats.php,v 1.3.2.1 2001/11/01 17:44:30 bf Exp $
 //
 // Created on: <26-Apr-2001 10:39:18 bf>
 //
@@ -29,6 +29,8 @@ ob_start( );
 chdir( "../../" );
 
 $REQUEST_URI = preg_replace( "#/stats/store(.*?)1x1.gif$#", "\\1", $REQUEST_URI );
+
+$REQUEST_URI = preg_replace( "#/rx.*?-(.*)$#", "\\1", $REQUEST_URI );
 
 // do the statistics
 include_once( "ezstats/classes/ezpageview.php" );
