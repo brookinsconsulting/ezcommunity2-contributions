@@ -23,6 +23,7 @@ ezquiz
 classes
 ezurltranslator
 ezbulkmail
+ezform
 "
 
 for dir in $dirs
