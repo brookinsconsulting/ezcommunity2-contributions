@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: article.php,v 1.20.2.9 2002/07/08 09:24:10 jb Exp $
+// $Id: article.php,v 1.20.2.10 2002/07/31 14:26:26 gl Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -161,7 +161,6 @@ else if( $Command == "storedata" )
     $article->setContents( $Data["Contents"]->value() );
     $article->setContentsWriter( $Data["ContentsWriterID"]->value() );
     $article->setLinkText( $Data["LinkText"]->value() );
-    $article->setManualKeywords( $Data["ManualKeyWords"]->value() );
     $article->setDiscuss( $Data["Discuss"]->value() );
     $article->setTopic( $Data["Topic"]->value() );
 
@@ -178,6 +177,9 @@ else if( $Command == "storedata" )
 
     $article->store();
     $ID = $article->id();
+
+    // Must have an article ID in order to set keywords
+    $article->setManualKeywords( $Data["ManualKeyWords"]->value() );
 
     if ( isset( $Data["LogMessage"] ) )
     {
