@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagefile.php,v 1.10 2001/03/08 12:29:33 jb Exp $
+// $Id: ezimagefile.php,v 1.11 2001/03/08 18:47:00 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -160,13 +160,13 @@ class eZImageFile extends eZFile
         if ( $ini->has_var( "classes", "ImageConversionProgram" ) )
             $image_prog = $ini->read_var( "classes", "ImageConversionProgram" );
         $execstr = "$image_prog -geometry \"$width" . "x" . "$height" . ">\" "  . $this->TmpFileName . " " . $dest;
-        print( "<br><b>$execstr</b><br>" );
+        // print( "<br><b>$execstr</b><br>" );
 
         $err = system( $execstr, $ret_code );
 
         if ( $ret_code == 0 )
         {
-            chmod( $dest, 0644 );
+            @chmod( $dest, 0644 );
             $ret = true;
         }
         else
@@ -178,7 +178,7 @@ class eZImageFile extends eZFile
         if ( file_exists( "$dest" . ".0" ) )
         {
             copy( $this->TmpFileName, $dest );
-            chmod( $dest, 0644 );
+            @chmod( $dest, 0644 );
             $i = 0;
             while( file_exists( "$dest.$i" ) )
             {
@@ -204,7 +204,7 @@ class eZImageFile extends eZFile
         if ( $ini->has_var( "classes", "ImageConversionProgram" ) )
             $image_prog = $ini->read_var( "classes", "ImageConversionProgram" );
         $execstr = "$image_prog -quality 95 " . $this->TmpFileName . " " . $dest;
-        print( "<br><b>$execstr</b><br>" );
+        // print( "<br><b>$execstr</b><br>" );
 
         $err = system( $execstr, $ret_code );
         $ret = true;
@@ -213,7 +213,7 @@ class eZImageFile extends eZFile
             $ret = false;
         }
         else
-            chmod( $dest, 0644 );
+            @chmod( $dest, 0644 );
         
         return $ret;
     }

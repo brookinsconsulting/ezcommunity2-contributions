@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: votebox.php,v 1.14 2001/03/06 13:43:26 th Exp $
+// $Id: votebox.php,v 1.15 2001/03/08 18:47:00 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -72,36 +72,43 @@ function createPollMenu( $generateStaticPage = false )
 
     $poll = new eZPoll( $PollID );
     $poll = $poll->mainPoll();
-    $PollID = $poll->id();
-    $poll = new eZPoll( $PollID );
-
-
-    if ( $poll->isClosed() )
-    {
-        eZHTTPTool::header( "Location: /poll/result/$PollID" );
-        exit();
-    }
 
     $t->set_file( array(
         "vote_box" => "votebox.tpl"
         ) );
-
+    
     $t->set_block( "vote_box", "vote_item_tpl", "vote_item" );
     $t->set_block( "vote_box", "novote_item_tpl", "novote_item" );
 
-    $choice = new eZPollChoice();
-
-    $choiceList = $choice->getAll( $PollID );
-
-    if ( !$choiceList )
+    $t->set_var( "vote_item", "" );
+    $t->set_var( "novote_item", "" );
+    $t->set_var( "head_line", "" );
+    
+    if ( $poll )
     {
-        $t->set_var( "vote_item", "" );
-        $t->set_var( "novote_item", $noItem );
-        $t->parse( "novote_item", "novote_item_tpl" );
-    }
-    else
-    {
-        foreach( $choiceList as $choiceItem )
+        $PollID = $poll->id();
+        $poll = new eZPoll( $PollID );
+
+
+        if ( $poll->isClosed() )
+        {
+            eZHTTPTool::header( "Location: /poll/result/$PollID" );
+            exit();
+        }
+
+        $choice = new eZPollChoice();
+
+        $choiceList = $choice->getAll( $PollID );
+
+        if ( !$choiceList )
+        {
+            $t->set_var( "vote_item", "" );
+            $t->set_var( "novote_item", $noItem );
+            $t->parse( "novote_item", "novote_item_tpl" );
+        }
+        else
+        {
+            foreach( $choiceList as $choiceItem )
             {
                 $t->set_var( "choice_name", $choiceItem->name() );
                 $t->set_var( "choice_id", $choiceItem->id() );
@@ -109,13 +116,15 @@ function createPollMenu( $generateStaticPage = false )
                 $t->set_var( "novote_item", "" );
                 $t->parse( "vote_item", "vote_item_tpl", true );
             }
+        }
+
+        $poll = new eZPoll();
+        $poll->get( $PollID );
+        $t->set_var( "head_line", $poll->name() );
+        $t->set_var( "poll_id", $PollID );
+
     }
-
-    $poll = new eZPoll();
-    $poll->get( $PollID );
-    $t->set_var( "head_line", $poll->name() );
-    $t->set_var( "poll_id", $PollID );
-
+    
     if ( $generateStaticPage == true )
     {
         $fp = fopen ( $menuCachedFile, "w+");
@@ -131,5 +140,6 @@ function createPollMenu( $generateStaticPage = false )
     {
         $t->pparse( "output", "vote_box" );
     }
+
 }
 ?>
