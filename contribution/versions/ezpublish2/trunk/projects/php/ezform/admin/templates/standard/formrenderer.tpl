@@ -17,6 +17,11 @@
 <textarea class="box" name="{field_name}" cols="40" rows="5" wrap="soft">{field_value}</textarea>
 <!-- END text_area_item_tpl -->
 
+<!-- BEGIN result_item_tpl -->
+{header_line}
+<div>{field_value}</div>
+<!-- END result_item_tpl -->
+
 <!-- BEGIN text_label_item_tpl -->
 <span class="boxtext">{element_name}</span>
 <!-- END text_label_item_tpl -->

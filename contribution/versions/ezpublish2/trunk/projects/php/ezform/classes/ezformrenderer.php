@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.48 2002/01/14 13:37:44 jhe Exp $
+// $Id: ezformrenderer.php,v 1.49 2002/01/14 17:39:36 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -72,6 +72,7 @@ class eZFormRenderer
         $this->Template->set_block( "form_renderer_page_tpl", "text_field_item_tpl", "text_field_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "text_block_item_tpl", "text_block_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "text_area_item_tpl", "text_area_item" );
+        $this->Template->set_block( "form_renderer_page_tpl", "result_item_tpl", "result_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "text_label_item_tpl", "text_label_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "text_header_1_item_tpl", "text_header_1_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "text_header_2_item_tpl", "text_header_2_item" );
@@ -125,6 +126,7 @@ class eZFormRenderer
         $this->Template->set_var( "form_list", "" );
         $this->Template->set_var( "form_item", "" );
         $this->Template->set_var( "text_field_item", "" );
+        $this->Template->set_var( "result_item", "" );
         $this->Template->set_var( "text_area_item", "" );
         $this->Template->set_var( "text_block_item", "" );
         $this->Template->set_var( "text_label_item", "" );
@@ -163,13 +165,28 @@ class eZFormRenderer
         $output = "";
         if ( get_class( $element ) == "ezformelement" )
         {
-            $subItems =& $element->fixedValues();
-
             $this->Template->set_var( "sub_item", "" );
 
             $type =& $element->elementType();
             $name = $type->name();
 
+            if ( $result &&
+                 ( $name == "user_email_item" ||
+                   $name == "numerical_float_item" ||
+                   $name == "numerical_integer_item" ||
+                   $name == "dropdown_item" ||
+                   $name == "text_field_item" ||
+                   $name == "text_area_item" ||
+                   $name == "multiple_select_item" ) )
+            {
+                $subItems = array();
+                $name = "result_item";
+            }
+            else
+            {
+                $subItems =& $element->fixedValues();
+            }
+            
             $name = str_replace( " ", "_", $name );
 
             $elementName = "eZFormElement_" . $element->id();
@@ -184,7 +201,11 @@ class eZFormRenderer
             if ( !( isSet( $elementValue ) && $elementValue != "" ) )
             {
                 if ( $result )
+                {
                     $elementValue = $element->result( -1, $result );
+                    if ( $elementValue == "" )
+                        $elementValue = "&nbsp;";
+                }
                 else
                     $elementValue = $element->result();
             }
@@ -283,17 +304,19 @@ class eZFormRenderer
                 $this->Template->set_var( "sub_value", $subItem->value() );
                 $this->Template->parse( $name . "_sub_item", $name . "_sub_item_tpl", true );
             }
-                    
+            
             $elementValue = str_replace( "eZFormElement_", "", $$elementName );
 
             if ( trim( $type ) != "" )
                 $output =& $this->Template->parse( $target, $name . "_tpl" );
         }
         
-
         return $output;
     }
 
+    /*!
+      Renders form for viewing of results
+    */
     function &renderResult( $resultID )
     {
         $elements = $this->Form->formElements();
