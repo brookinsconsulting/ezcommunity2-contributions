@@ -26,7 +26,7 @@ $server->registerFunction( "insert", array( new eZXMLRPCStruct() ) );
 
 $server->processRequest();
 
-// Check if the the category exists, if not, create the category. And add the product to this current category.
+// Add a product to the rigth categories.
 function &addToGroup( $groupName, $product, $parentName, $design, $material )
 {
     $db =& eZDB::globalDatabase();
@@ -148,6 +148,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material )
             }
             break;
 
+
             // Ketten
             case "A01":
             case "H04":
@@ -155,14 +156,34 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material )
             case "S05":
             {
                 eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Ketten" );
-                $matCatArray = createIfNotExists( "Ketten", $mat->id() );
+                $matCatArray = createIfNotExists( "Ketten", $place->id() );
                 $matCat = $matCatArray[0];
                 $matCategoryArray[] = array( $matCat, $material, $matCatArray[1] );
             }
             break;
-            default:
+
+
+            // Others
+            case "T08":
+            case "R04":
+            case "N03":
+            case "T04":
+            case "H03":
+            case "T02":
+            case "T02":
+            case "H08":
+            case "T03":
+            case "T01":
+            case "H09":
+            case "H10":
+            case "O03":
+            case "T05":
+            case "O06":
+            case "T06":
+            case "T07":
+            case "K02":
             {
-                $noCategory = true;
+                $others = true;
             }
         }
 
@@ -211,9 +232,10 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material )
             }
             break;
             
+
             default:
             {
-                if ( $noCategory )
+                if ( $others )
                 {
                     eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Others" );
                     $matCatArray = createIfNotExists( "Others", $mat->id() );
@@ -223,10 +245,13 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material )
             }
         }
 
+
+        // Add the product in the right material category
         foreach( $matCategoryArray as $matCategory )
         {
             if ( get_class( $matCategory[0] ) == "ezproductcategory" )
             {
+
                 $tmp = $product->categoryDefinition();
                 $name = $tmp->name();
 
@@ -249,6 +274,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material )
     return $productCategory;
 }
 
+// Translate a string from a .ini file
 function translate( $name, $file )
 {
     $ini = new INIFile( "translate/" . $file );
@@ -262,6 +288,7 @@ function translate( $name, $file )
     return $ret;
 }
 
+// Insert a product to the a category.
 function addProductToGroup( $group, $product, $checkProduct=false )
 {
     if ( ( get_class( $group ) == "ezproductcategory" ) && ( get_class( $product ) == "ezproduct" ) )
@@ -285,6 +312,7 @@ function addProductToGroup( $group, $product, $checkProduct=false )
     }
 }
 
+// Add a product to a category. Only insert the product if there is no other product that have the same category.
 function addToCategoryIfNotExists( $category, $product )
 {
     $categoryID = $category->id();
@@ -316,6 +344,7 @@ function addToCategoryIfNotExists( $category, $product )
 
 }
 
+// Add a image to the product.
 function addImage( $image, $product )
 {
     if ( ( get_class( $image ) == "ezimage" ) && ( get_class( $product ) == "ezproduct" ) )
@@ -340,6 +369,7 @@ function addImage( $image, $product )
    
 }
 
+// Create a category if its not exists.
 function createIfNotExists( $categoryName, $parentID, $remoteID=0, $checkParent=false )
 {
     $db =& eZDB::globalDatabase();
@@ -378,17 +408,15 @@ function createIfNotExists( $categoryName, $parentID, $remoteID=0, $checkParent=
     }
 }
 
+// Return the category name for a shortnamed category.
 function belongsTo( $category )
 {
-    $ringArray = array( "B08", "D01", "D02", "D03", "T08", "R06", "R07", "K01" );
-// Gamle ringer
-//    $halsArray = array( "H01", "H02", "H03", "H04", "H05", "H06", "H07", "H07", "H08", "H09", "H10", "H11", "H12", "S05" );
-    $halsArray = array( "H01", "H02", "H03", "H04", "H05", "H06", "H07", "H07", "H08", "H09", "H10", "S05" );
-//    $armArray = array( "A01", "A02", "A03", "A04", "A05", "A06", "A07" );
-    $armArray = array( "A01", "A02", "A03", "A04", "A07" );
-//    $orhArray = array( "O01", "O02", "O03", "O04", "O05", "O06", "O07", "O08", "B07", "D08", "T07" );
-    $orhArray = array( "O01", "O02", "O03", "O04", "O06", "O07", "D08", "T07" );
-    $ansteArray = array( "K02", "N01", "N02", "N03" );
+    $ringArray = array( "B08", "D01", "D02", "D03", "T08", "R06", "R07", "K01", "R05", "R01", "R02", "R03", "R04" );
+    $halsArray = array( "H01", "H02", "H03", "H04", "H05", "H06", "H07", "H08", "H09", "H10", "S05", "S02", "D05", "T02", "S04", "S03", "B03", "D06", "T03" );
+    $armArray = array( "A01", "A02", "A03", "A04", "A07", "S01", "D04", "T01", "B01", "B02", "A05" );
+    $orhArray = array( "O01", "O02", "O03", "O04", "O06", "O07", "D08", "T07", "B05", "D07", "T05", "B06", "T05", "B06", "T06", "B07", "O05" );
+    $ansteArray = array( "K02", "N01", "N02", "N03", "B04", "D09", "T04" );
+    $ketten = array( "A01", "S01", "H04", "S04", "H05", "S03", "S05" );
 
     if ( isPartOf( $ringArray, $category ) )
     {
@@ -398,20 +426,26 @@ function belongsTo( $category )
     {
         return "Halsschmuck";
     }
-    if ( isPartOf( $armArray, $category ) )
-    {
-        return "Armschmuck";
-    }
     if ( isPartOf( $orhArray, $category ) )
     {
         return "Orhschmuck";
+    }
+        if ( isPartOf( $ketten, $category ) )
+    {
+        return "Ketten";
+    }
+    if ( isPartOf( $armArray, $category ) )
+    {
+        return "Armschmuck";
     }
     if ( isPartOf( $ansteArray, $category ) )
     {
         return "Ansteckschmuck";
     }
+
 }
 
+// check if a category is a part of the categoryArray
 function isPartOf( $array=array(), $categoryName )
 {
     foreach( $array as $arrayItem )
@@ -424,6 +458,7 @@ function isPartOf( $array=array(), $categoryName )
     return false;
 }
 
+// Rename categoryies.
 function translateCategory( $categoryName )
 {
     switch( $categoryName )
@@ -537,6 +572,8 @@ function addToCategory ( $categoryID, $product )
     return true;
 }
 
+
+// Insert the product.
 function insert( $args )
 {
 //          print_r( $args );
