@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: hotdealslist.php,v 1.2 2000/11/12 19:41:44 bf-cvs Exp $
+// $Id: hotdealslist.php,v 1.3 2000/12/13 11:13:48 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Nov-2000 19:34:40 bf>
@@ -59,9 +59,18 @@ $locale = new eZLocale( $Language );
 $i=0;
 foreach ( $productList as $product )
 {
+    if ( ( $i % 2 ) == 0 )
+    {
+        $t->set_var( "begin_tr", "<tr>" );
+        $t->set_var( "end_tr", "" );        
+    }
+    else
+    {
+        $t->set_var( "begin_tr", "" );
+        $t->set_var( "end_tr", "</tr>" );
+    }
+    
     $t->set_var( "product_id", $product->id() );
-
-
     $t->set_var( "product_name", $product->name() );
     $t->set_var( "product_intro_text", $product->brief() );
     
@@ -78,15 +87,6 @@ foreach ( $productList as $product )
     
     $defCat = $product->categoryDefinition();
     $t->set_var( "category_id", $defCat->id() );
-
-    if ( ( $i % 2 ) == 0 )
-    {
-        $t->set_var( "td_class", "bglight" );
-    }
-    else
-    {
-        $t->set_var( "td_class", "bgdark" );
-    }
 
     $t->parse( "product", "product_tpl", true );
     $i++;

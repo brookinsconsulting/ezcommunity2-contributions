@@ -9,7 +9,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 
 <!-- BEGIN product_tpl -->
-<tr>
+{begin_tr}
 	<td>
 
 	<a href="/trade/productview/{product_id}/{category_id}/"><h2>{product_name}</h2></a>
@@ -21,7 +21,7 @@
 <!-- END price_tpl -->
 
 	</td>
-</tr>
+{end_tr}
 <!-- END product_tpl -->
 
 </table>
