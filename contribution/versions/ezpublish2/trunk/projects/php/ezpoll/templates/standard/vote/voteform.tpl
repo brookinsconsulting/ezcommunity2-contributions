@@ -5,12 +5,20 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <!-- BEGIN vote_item_tpl -->
 <tr>
-<input type="radio" value="{choice_id}" name="ChoiceID"><span  class="small"> {choice_name}</span><br />
+	<td width="1%">
+	<input type="radio" value="{choice_id}" name="ChoiceID">
+	</td>
+	<td class="small">
+	{choice_name}
+	</td>
 </tr>
 <!-- END vote_item_tpl -->
-<br />
-<input type="hidden" name="PollID" value="{poll_id}" />
-<input type="submit" value="Vote" />
-
+<tr>
+	<td colspan="2">
+	<br />
+	<input type="hidden" name="PollID" value="{poll_id}" />
+	<input type="submit" value="Vote" />
+	</td>
+</tr>
 </table>
 </form>
