@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.31 2001/03/08 14:48:13 bf Exp $
+// $Id: ezsession.php,v 1.32 2001/03/12 15:03:02 bf Exp $
 //
 // Definition of eZSession class
 //
@@ -94,8 +94,8 @@ class eZSession
         
         $GLOBALS["eZSession"] =& $this->Hash;
 
-//          setcookie ( "eZSession", $this->Hash, 0, "/",  "", 0 )
-//              or die( "Error: could not set cookie." );        
+        setcookie ( "eZSessionCookie", $this->Hash, 0, "/",  "", 0 )
+            or print( "Error: could not set cookie." );        
 
         $remoteIP = $GLOBALS["REMOTE_ADDR"];
         
@@ -188,21 +188,15 @@ class eZSession
             $db =& eZDB::globalDatabase();
             $ret = false;
 
-//              if ( session_is_registered("eZSession") )
-//              {
-//                  print("variable registered" );
-//              }
-//              else
-//              {
-//                  print("variable not registered" );
-//              }
-            
-//              $hash = $HTTP_SESSION_VARS["eZSession"];
-
-            $hash = $GLOBALS["eZSession"];
-            
-        
-//              $hash = $GLOBALS["eZSession"];
+            // prefer cookie
+            if ( isset( $GLOBALS["eZSessionCookie"] ) )
+            {
+                $hash = $GLOBALS["eZSessionCookie"];
+            }
+            else
+            {                 
+                $hash = $GLOBALS["eZSession"];
+            }
             
             $db->array_query( $session_array, "SELECT *
                                       FROM eZSession_Session
