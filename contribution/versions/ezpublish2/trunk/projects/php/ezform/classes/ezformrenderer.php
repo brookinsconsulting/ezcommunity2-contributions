@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.26 2001/12/18 11:41:01 pkej Exp $
+// $Id: ezformrenderer.php,v 1.27 2001/12/18 16:43:03 pkej Exp $
 //
 // eZFormRenderer class
 //
@@ -40,6 +40,7 @@ include_once( "classes/ezhttptool.php" );
 
 include_once( "ezform/classes/ezform.php" );
 include_once( "ezform/classes/ezformelement.php" );
+include_once( "ezform/classes/ezformelementtext.php" );
 include_once( "ezform/classes/ezformelementtype.php" );
 include_once( "ezform/classes/ezformtable.php" );
 include_once( "ezmail/classes/ezmail.php" );
@@ -68,6 +69,7 @@ class eZFormRenderer
         $this->Template->set_file( "form_renderer_page_tpl", "formrenderer.tpl" );
         
         $this->Template->set_block( "form_renderer_page_tpl", "text_field_item_tpl", "text_field_item" );
+        $this->Template->set_block( "form_renderer_page_tpl", "text_block_item_tpl", "text_block_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "text_area_item_tpl", "text_area_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "text_label_item_tpl", "text_label_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "text_header_1_item_tpl", "text_header_1_item" );
@@ -119,6 +121,7 @@ class eZFormRenderer
         $this->Template->set_var( "form_item", "" );
         $this->Template->set_var( "text_field_item", "" );
         $this->Template->set_var( "text_area_item", "" );
+        $this->Template->set_var( "text_block_item", "" );
         $this->Template->set_var( "text_label_item", "" );
         $this->Template->set_var( "text_header_1_item", "" );
         $this->Template->set_var( "text_header_2_item", "" );
@@ -173,6 +176,8 @@ class eZFormRenderer
             $this->Template->set_var( "field_name", $elementName );
             $this->Template->set_var( "field_value", $elementValue );
             $this->Template->set_var( "element_name", $element->name() );
+            $elementText = new eZFormElementText( $element->id() );
+            $this->Template->set_var( "text_block", $elementText->text() );
 
             if ( $element->size() == 0 )
             {

@@ -38,6 +38,11 @@
 <input type="text" size="{element_size}" name="{field_name}" value="{field_value}" />
 <!-- END numerical_integer_item_tpl -->
 
+<!-- BEGIN text_block_item_tpl -->
+<p class="boxtext">{element_name}:</p>
+<div>{text_block}</div>
+<!-- END text_block_item_tpl -->
+
 <!-- BEGIN multiple_select_item_tpl -->
 <p class="boxtext">{element_name}:</p>
 <select name="{field_name}[]" multiple="multiple" >
