@@ -69,3 +69,11 @@ Maintainer(s) : jhe@ez.no
     1. Upload functionality added to eZObjectPermission.
     2. Upload toggles added to imagecatalogue (toggles work) functionality not.
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-09-16  fh  <fh@zev.ez.no>
+
+    * user/folderedit.php: Fix
+

@@ -292,3 +292,14 @@ Maintainer(s) : ce@ez.no
     Simplified a lot of functions in the classes (removed the use of language
     and user, since these exists as global objects.)
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-09-16  Bjoern Reiten  <br@ez.no>
+
+    * admin/intl/no_NO/imagelist.php.ini
+      admin/intl/no_NO/productedit.php.ini
+      admin/intl/no_NO/voucherlist.php.ini
+      user/intl/no_NO/ordersendt.php.ini: added translation.
+

@@ -431,3 +431,26 @@ Maintainer(s) : bf@ez.no
       user/articleview.php:
     Fixed a serious bug where article could disappear after entering invalid XML tags.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-09-16  Baard Farstad  <bf@ez.no>
+
+    * user/sitemap.php:
+    Fixed exclusion of categories in sitemap which should now be shown.
+
+    * user/sitemap.php:
+    Fixed not showing categories which are excluded from search.
+
+    * admin/search.php
+      classes/ezarticle.php
+      user/search.php: Fixed search.
+
+    * classes/ezarticle.php: Fixed count in search.
+
+2001-09-16  Bjoern Reiten  <br@ez.no>
+
+    * user/templates/linmag/articlelist.tpl
+      user/templates/linmag/articleview.tpl: added blocks for article_topic
+

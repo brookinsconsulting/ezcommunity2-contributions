@@ -122,3 +122,18 @@ Maintainer(s) : br@ez.no
 
     * classes/ezimage.php: Added cache
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-09-16  fh  <fh@zev.ez.no>
+
+    * user/categoryedit.php: Fixed a empty list bug.
+
+    * user/intl/en_GB/categoryedit.php.ini
+      user/intl/en_GB/imageedit.php.ini
+      user/templates/standard/categoryedit.tpl
+      user/templates/standard/imageedit.tpl
+      user/categoryedit.php
+      user/imageedit.php: Added upload permissions in imagecatalogue...
+
