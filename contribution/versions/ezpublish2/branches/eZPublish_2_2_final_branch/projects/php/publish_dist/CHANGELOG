@@ -14,6 +14,7 @@ Changes from 2.2.4 to 2.2.5
 * Set Orders in eZ trade to be generated in checkout instead of payment.
 * Added eZOrderConfirmation class to confirm order and send confirmation mails in eZ trade.
 * Added user/confirmation.php which will confirm the order after payment.php in eZ trade.
+* Added include for cache in headlines.php in eZ article.
 
 Changes from 2.2.3 to 2.2.4
 ---------------------------
