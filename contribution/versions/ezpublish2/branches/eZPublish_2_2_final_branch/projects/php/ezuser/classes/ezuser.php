@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.100.2.6 2002/04/24 07:23:43 bf Exp $
+// $Id: ezuser.php,v 1.100.2.7 2002/07/09 07:25:42 bf Exp $
 //
 // Definition of eZUser class
 //
@@ -828,9 +828,9 @@ class eZUser
 
             if ( ( $idle > $user->timeoutValue() ) && ( $user->timeoutValue() != 0 ) )
             {
-                $session->delete( );                
+                $session->delete( );
             }
-            else            
+            else
             {
                 if ( ( $user->id() != 0 ) && ( $user->id() != "" ) )
                 {

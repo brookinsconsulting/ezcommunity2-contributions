@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sessioninfo.php,v 1.13.2.1 2002/07/08 15:16:41 bf Exp $
+// $Id: sessioninfo.php,v 1.13.2.2 2002/07/09 07:25:42 bf Exp $
 //
 // Created on: <01-Nov-2000 14:34:30 bf>
 //
@@ -81,7 +81,7 @@ foreach( $userSessionList as $userSessionItem )
 
     $t->set_var( "first_name", $userSessionItem[0]->firstName() );
     $t->set_var( "last_name", $userSessionItem[0]->lastName() );
-    $t->set_var( "email", $userSessionItem[0]->email() );    
+    $t->set_var( "email", $userSessionItem[0]->email() );
     $t->set_var( "user_id", $userSessionItem[0]->id() );
 
     $t->set_var( "session_id", $userSessionItem[1]->id() );
@@ -92,8 +92,6 @@ foreach( $userSessionList as $userSessionItem )
 
     if ( $idle == 0 )
         $idle = 1;
-
-    $idle = 60*60*50 +60*60*2+1+60;
 
     $seconds = $idle % 60;
     $minutes = ( ( $idle - $seconds ) / 60 ) % 60;

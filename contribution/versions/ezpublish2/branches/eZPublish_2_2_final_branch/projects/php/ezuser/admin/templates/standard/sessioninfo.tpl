@@ -7,6 +7,10 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>
+	{intl-user_id}:
+	</th>
+
+	<th>
 	{intl-name}:
 	</th>
 
@@ -29,6 +33,10 @@
 </tr>
 <!-- BEGIN user_item_tpl -->
 <tr>
+	<td class="{td_class}">
+	{user_id}
+	</td>
+
 	<td class="{td_class}">
 	{first_name} {last_name}
 	</td>
