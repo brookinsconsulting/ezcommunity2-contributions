@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlinkitem.php,v 1.8.2.1 2001/11/01 12:06:23 ce Exp $
+// $Id: ezlinkitem.php,v 1.8.2.2 2003/07/22 10:57:19 vl Exp $
 //
 // Definition of eZLinkItem class
 //
@@ -70,6 +70,7 @@ class eZLinkItem
         $table_name = $this->Module . "_Link";
         $db =& eZDB::globalDatabase();
         $db->begin();
+        $name = $db->escapeString( $this->Name );
         if ( is_numeric( $this->ID ) and $this->ID > 0 )
         {
             $qry_text = "UPDATE $table_name";
@@ -77,7 +78,7 @@ class eZLinkItem
 
             $db->query( "$qry_text
                      SET SectionID='$this->Section',
-                         Name='$this->Name',
+                         Name='$name',
                          URL='$this->URL',
                          Placement='$this->Placement',
                          ModuleType='$this->ModuleType' $qry_where" );
@@ -95,7 +96,7 @@ class eZLinkItem
                         
             $res = $db->query( "$qry_text
                      ( ID, SectionID, Name, URL, Placement, ModuleType )
-                     VALUES( '$nextID', '$this->Section', '$this->Name', '$this->URL', '$this->Placement', '$this->ModuleType' )" );
+                     VALUES( '$nextID', '$this->Section', '$name', '$this->URL', '$this->Placement', '$this->ModuleType' )" );
             $this->ID = $nextID;
             $db->unlock();
         }
