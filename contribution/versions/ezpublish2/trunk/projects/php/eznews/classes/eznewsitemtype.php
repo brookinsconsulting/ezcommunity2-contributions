@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsitemtype.php,v 1.8 2000/10/13 11:59:02 pkej-cvs Exp $
+// $Id: eznewsitemtype.php,v 1.9 2000/10/16 13:10:08 pkej-cvs Exp $
 //
 // Definition of eZNewsItemType class
 //
@@ -12,6 +12,7 @@
 // IMPORTANT NOTE: You may NOT copy this file or any part of it into
 // your own programs or libraries.
 //
+
 
 //!! eZNews
 //! eZNewsItemType handles item types for the eZNews log.
@@ -594,3 +595,4 @@ class eZNewsItemType extends eZNewsUtility
 };
 
 ?>
+

@@ -1,5 +1,5 @@
 #
-# $Id: eznews.sql,v 1.16 2000/10/13 20:55:50 pkej-cvs Exp $
+# $Id: eznews.sql,v 1.17 2000/10/16 13:10:08 pkej-cvs Exp $
 #
 # eZNews database schema.
 #
@@ -413,9 +413,6 @@ INSERT INTO eZNews_Category (ID, PublicDescriptionID, PrivateDescriptionID ) SEL
 INSERT INTO eZNews_Category (ID, PublicDescriptionID, PrivateDescriptionID ) SELECT DISTINCT ID,  '0', '0' FROM eZNews_Item AS Item WHERE Item.Name = 'Euro3Plast';
 INSERT INTO eZNews_Category (ID, PublicDescriptionID, PrivateDescriptionID ) SELECT DISTINCT ID,  '0', '0' FROM eZNews_Item AS Item WHERE Item.Name = 'Hundehus';
 
-INSERT INTO eZNews_Article (ID) SELECT DISTINCT ID FROM eZNews_Item AS Item WHERE Item.Name = 'Hundehus artikkel 1';
-INSERT INTO eZNews_Article (ID) SELECT DISTINCT ID FROM eZNews_Item AS Item WHERE Item.Name = 'Hundehus artikkel 2';
-
 
 DROP TABLE eZNews_ItemPosition;
 
@@ -441,3 +438,4 @@ CREATE TABLE eZNews_ItemPosition
     # category
     UNIQUE (CategoryID, Position)
 );
+

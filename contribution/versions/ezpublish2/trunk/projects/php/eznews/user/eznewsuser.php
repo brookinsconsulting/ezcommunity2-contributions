@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsuser.php,v 1.5 2000/10/16 12:33:05 pkej-cvs Exp $
+// $Id: eznewsuser.php,v 1.6 2000/10/16 13:10:08 pkej-cvs Exp $
 //
 // Definition of eZNewsUser class
 //
@@ -73,7 +73,7 @@ class eZNewsUser
         // Lets do default action.
         if( $count == 0 )
         {
-            $value = $this->doDefault();
+            $value = $this->doDefault( $inMeta );
         }
         else
         {
@@ -106,6 +106,7 @@ class eZNewsUser
                     {
                         if( $inMeta == true )
                         {
+                            $value = $this->doItem( $urlPathLast, $inMeta );
                         }
                         else
                         {
@@ -116,6 +117,7 @@ class eZNewsUser
                     {
                         if( $inMeta == true )
                         {
+                            $value = $this->doItem( $urlPathLast, $inMeta );
                         }
                         else
                         {
@@ -157,10 +159,13 @@ class eZNewsUser
 
         if( $inMeta == true )
         {
+            global $SERVER_NAME;
+            header( "Location: http://$SERVER_NAME/" );
         }
         else
         {
-            echo "<h2>bruk en korrekt kommandolinje</h2>";
+            global $SERVER_NAME;
+            echo "<h2>bruk en korrekt url a $SERVER_NAME</h2>";
             echo $this->IniObject->GlobalIni->read_var( "eZNewsMain", "URLDefault" );
         }
         $value = true;
@@ -181,7 +186,7 @@ class eZNewsUser
         \return
             Returns true if successful.
      */
-    function doItem( $inItemData )
+    function doItem( $inItemData, $inMeta = false )
     {
         #echo "eZNewsUser::doItem( \$inItemData = $inItemData )<br />\n";
         $value = false;
@@ -189,7 +194,7 @@ class eZNewsUser
         $tempItem = new eZNewsItem( $inItemData );
 
         // If the temp item was found, ie. we have something to show.
-        if( $tempItem->isCoherent() == true )
+        if( $tempItem->isCoherent() == true && $inMeta == false )
         {
             $changeType = new eZNewsChangeType( "publish" );
 
@@ -208,6 +213,14 @@ class eZNewsUser
                 
                 $value = $viewer->renderPage( $outPage );
                 echo $outPage;
+            }
+        }
+        else
+        {
+            if( $tempItem->isCoherent() == false && $inMeta == true )
+            {
+                global $SERVER_NAME;
+                header( "Location: http://$SERVER_NAME/" );
             }
         }
         
