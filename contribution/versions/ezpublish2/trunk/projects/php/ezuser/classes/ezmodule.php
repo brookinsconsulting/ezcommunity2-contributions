@@ -1,8 +1,8 @@
 <?php
 // 
-// $Id: ezmodule.php,v 1.11 2001/07/20 11:45:40 jakobn Exp $
+// $Id: ezmodule.php,v 1.12 2001/10/16 18:44:20 fh Exp $
 //
-// Definition of eZCompany class
+// Definition of eZModule class
 //
 // Created on: <27-Sep-2000 08:00:43 bf>
 //
@@ -78,7 +78,7 @@ class eZModule
         $dbError = false;
         $db->begin( );
         
-        $name = addslashes( $this->Name );
+        $name = $db->escapeString( $this->Name );
         
         if ( !isset( $this->ID ) )
         {
@@ -86,12 +86,12 @@ class eZModule
 
             $nextID = $db->nextID( "eZUser_Module", "ID" );
             
-            $res = $this->Database->query( "INSERT INTO eZUser_Module
+            $res = $db->query( "INSERT INTO eZUser_Module
                                      ( ID, Name )
                                      VALUES
                                      ( '$nextID', '$name' )" );
             
-			$this->ID = $this->Database->insertID();
+			$this->ID = $nextID;
         }
         else
         {
@@ -233,9 +233,6 @@ class eZModule
 
     var $ID;
     var $Name;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
 }
 
 ?>
