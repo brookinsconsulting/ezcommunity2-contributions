@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: viewwishlist.php,v 1.8.8.1 2002/01/31 13:40:06 ce Exp $
+// $Id: viewwishlist.php,v 1.8.8.2 2002/01/31 13:53:46 ce Exp $
 //
 // Created on: <21-Oct-2000 18:09:45 bf>
 //
@@ -173,7 +173,7 @@ foreach ( $items as $item )
 
         $t->set_var( "wishlist_item_id", $item->id() );
 
-    
+
         $image = $product->thumbnailImage();
 
         if ( $image )

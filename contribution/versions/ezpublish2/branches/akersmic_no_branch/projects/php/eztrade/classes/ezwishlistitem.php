@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezwishlistitem.php,v 1.15 2001/09/26 07:09:33 ce Exp $
+//
+// $Id: ezwishlistitem.php,v 1.15.8.1 2002/01/31 13:53:46 ce Exp $
 //
 // Definition of eZWishItem class
 //
@@ -78,11 +78,11 @@ class eZWishListItem
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZTrade_WishListItem" );
-            $nextID = $db->nextID( "eZTrade_WishListItem", "ID" );            
+            $nextID = $db->nextID( "eZTrade_WishListItem", "ID" );
 
             $res = $db->query( "INSERT INTO eZTrade_WishListItem
                                   ( ID, ProductID, WishListID, Count, IsBought )
@@ -90,7 +90,7 @@ class eZWishListItem
                                   ( '$nextID',
 		                            '$this->ProductID',
 		                            '$this->WishListID',
- 		                            '$this->Count',
+		                            '$this->Count',
 		                            '$this->IsBought' )
                                   " );
             $db->unlock();
@@ -106,14 +106,14 @@ class eZWishListItem
                                  WHERE ID='$this->ID'
                                  " );
         }
-    
+
         if ( $res == false )
             $db->rollback( );
         else
             $db->commit();
-        
+
         return true;
-    }    
+    }
 
     /*!
       Fetches the object information from the database.
@@ -122,7 +122,7 @@ class eZWishListItem
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+
         if ( $id != "" )
         {
             $db->array_query( $wishlist_array, "SELECT * FROM eZTrade_WishListItem WHERE ID='$id'" );
@@ -159,17 +159,17 @@ class eZWishListItem
         if ( in_array( false, $res ) )
             $db->rollback( );
         else
-            $db->commit();            
+            $db->commit();
 
         return true;
     }
-    
+
     /*!
       Returns the object id.
     */
     function id()
     {
-        return $this->ID;        
+        return $this->ID;
     }
 
     /*!
@@ -186,7 +186,7 @@ class eZWishListItem
            $ret = $prod;
        }
 
-       return $ret;       
+       return $ret;
     }
 
     /*!
@@ -196,13 +196,12 @@ class eZWishListItem
     {
        $ret = false;
 
-       $wishlist = new eZWishlist( );
-       if ( $wishlist->get( $this->WishListID ) )
+       if ( is_numeric ( $this->WishListID ) )
        {
-           $ret = $wishlist;
+           $ret = new eZWishList( $this->WishListID );
        }
 
-       return $ret;       
+       return $ret;
     }
 
     /*!
@@ -221,7 +220,7 @@ class eZWishListItem
        if ( get_class( $product ) == "ezproduct" )
        {
            $this->ProductID = $product->id();
-       }        
+       }
     }
 
     /*!
@@ -232,7 +231,7 @@ class eZWishListItem
        if ( get_class( $wishlist ) == "ezwishlist" )
        {
            $this->WishListID = $wishlist->id();
-       }        
+       }
     }
 
     /*!
@@ -249,7 +248,7 @@ class eZWishListItem
        else
        {
            $this->IsBought = 0;
-       }       
+       }
     }
 
     /*!
@@ -258,7 +257,7 @@ class eZWishListItem
     function isBought()
     {
        $ret = false;
-       
+
        if ( $this->IsBought == 1 )
        {
            $ret = true;
@@ -276,7 +275,7 @@ class eZWishListItem
     {
        $return_array = array();
        $db =& eZDB::globalDatabase();
-       
+
        $db->array_query( $res_array, "SELECT ID FROM eZTrade_WishListOptionValue
                                      WHERE
                                      WishListItemID='$this->ID'
@@ -307,19 +306,19 @@ class eZWishListItem
        $user =& eZUser::currentUser();
 
        $cart = $cart->getBySession( $session );
-       
+
        if ( !$cart )
        {
            $cart = new eZCart();
            $cart->setSession( $session );
-    
+
            $cart->store();
        }
-              
+
        $product = $this->product();
 
        $cartItem = new eZCartItem();
-    
+
        $cartItem->setProduct( $product );
        $cartItem->setCart( $cart );
 
@@ -329,7 +328,7 @@ class eZWishListItem
        $cartItem->store();
 
        $optionValues = $this->optionValues();
-       
+
 
        if ( count( $optionValues ) > 0 )
        {
@@ -337,13 +336,13 @@ class eZWishListItem
            {
                $cartOption = new eZCartOptionValue();
                $cartOption->setCartItem( $cartItem );
-               
+
                $cartOption->setOption( $value->option() );
                $cartOption->setOptionValue( $value->optionValue() );
-               
+
                $cartOption->store();
            }
-       }       
+       }
 
     }
 
@@ -373,34 +372,34 @@ class eZWishListItem
         foreach ( $optionValues as $optionValue )
         {
             $option =& $optionValue->option();
-            $value =& $optionValue->optionValue();            
+            $value =& $optionValue->optionValue();
 
             // the pricegroup is set in the datasupplier
-            
+
             $PriceGroup = $GLOBALS["PriceGroup"];
 
             // get the value price if exists
             $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup, $option->id(), $value->id() );
-        
+
             $found_price = false;
 
             if ( $price )
             {
                 $found_price = true;
             }
-            
+
             // if not fetch the standard price
             if ( !$found_price )
             {
                 $price = $value->price();
             }
-            
+
             $optionPrice += $price;
         }
 
         $price = ( $product->price() + $optionPrice )  * $this->count();
 
-        return $price;        
+        return $price;
     }
 
     var $ID;
