@@ -365,3 +365,22 @@ Maintainer(s) : fh@ez.no
       user/intl/hr_HR/menubox.php.ini
       user/intl/hr_HR/search.php.ini: Croatian (hr_HR) for 2.2.2
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2001-12-16  fh  <fh@zev.ez.no>
+
+    * classes/ezmail.php
+      classes/ezmailaccount.php
+      classes/ezmailfunctions.php
+      classes/imapfunctions.php
+      user/datasupplier.php
+      user/intl/en_GB/menubox.php.ini
+      user/menubox.php
+      user/templates/standard/menubox.tpl: IMAP support patchlevel 1:
+    -Fetching folder structure is possible
+    -Fetching mail overview in a folder is possible and reading
+    a mail is possible (not accessible yet though)
+    Several minor bugfixes.
+
