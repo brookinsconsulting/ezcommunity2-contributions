@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.14 2000/07/25 10:31:20 bf-cvs Exp $
+    $Id: ezforummessage.php,v 1.15 2000/07/25 10:55:37 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -276,6 +276,16 @@ class eZforumMessage
             array_push( $liste, $this->UserId );
         }
         if( $this->Parent != "" ) $this->recursiveEmailNotice( $startId, $this->Parent, $liste );
+    }
+
+    function countReplies( $Id )
+    {
+        openDB();
+         
+        $query_id = mysql_query("SELECT COUNT(Id) AS replies FROM MessageTable WHERE Parent='$Id'")
+             or die("could not count replies, dying");
+         
+        return mysql_result($query_id,0,"replies");
     }
 }
 ?>

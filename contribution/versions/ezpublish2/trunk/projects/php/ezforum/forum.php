@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.11 2000/07/25 10:31:20 bf-cvs Exp $
+    $Id: forum.php,v 1.12 2000/07/25 10:55:37 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -11,12 +11,11 @@
 include( "ezforum/dbsettings.php" );
 include( "ezphputils.php" );
 include( "template.inc" );
-include( "$DOCROOT/classes/ezdb.php" );
 include( "$DOCROOT/classes/ezuser.php" );
 include( "$DOCROOT/classes/ezforummessage.php" );
 include( "$DOCROOT/classes/ezsession.php" );
 
-$msg = new eZforumMessage($forum_id);
+$msg = new eZforumMessage( $forum_id );
 $t = new Template(".");
 
 $t->set_file( Array("forum" => "$DOCROOT/templates/forum.tpl",
@@ -107,12 +106,7 @@ else
         $t->set_var( "postingtime", $PostingTime );
         $t->set_var( "link",$link );
          
-        openDB();
-         
-        $query_id = mysql_query("SELECT COUNT(Id) AS replies FROM MessageTable WHERE Parent='$Id'")
-             or die("could not count replies, dying");
-         
-        $t->set_var( "replies", mysql_result($query_id,0,"replies"));
+        $t->set_var( "replies", eZforumMessage::countReplies( $Id ) );
 
         if ( ($i % 2) != 0)
             $t->set_var( "color", "#eeeeee");
@@ -122,7 +116,7 @@ else
         $t->parse("messages", "elements", true);
     }
      
-    if ( count($headers) == 0)
+    if ( count( $headers ) == 0)
         $t->set_var( "messages", "<tr><td colspan=\"4\">Ingen meldinger</td></tr>");
      
     $t->set_var("newmessage", $newmessage);
