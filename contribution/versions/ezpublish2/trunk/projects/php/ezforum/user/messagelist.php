@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.21 2001/05/04 12:47:06 ce Exp $
+// $Id: messagelist.php,v 1.22 2001/05/07 10:18:34 ce Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -78,7 +78,6 @@ else
     $readPermission = true;
 }
 
-
 if ( count( $categories ) > 0 )
 {
     $category = new eZForumCategory( $categories[0]->id() );
@@ -89,14 +88,19 @@ if ( count( $categories ) > 0 )
 
 $locale = new eZLocale( $Language );
 
-if ( !isset( $Offset ) )
+if ( !$Offset )
     $Offset = 0;
 
-if ( !isset( $Limit ) )
-    $Limit = 30;
-
-$messageList =& $forum->messageTreeArray( $Offset, $UserLimit );
-$messageCount =& $forum->messageCount();
+if ( $ini->read_var( "eZForumMain", "ShowReplies" ) == "enabled" )
+{
+    $messageList =& $forum->messageTreeArray( $Offset, $UserLimit );
+    $messageCount =& $forum->messageCount( );
+}
+else
+{
+    $messageList =& $forum->messageTreeArray( $Offset, $UserLimit, false, false );
+    $messageCount =& $forum->messageCount();
+}
 
 if ( !$messageList )
 {
@@ -107,10 +111,8 @@ if ( !$messageList )
 }
 else
 {
-
     $level = 0;
     $i = 0;
-
     $user = new eZUser( );
     $time = new eZDateTime();
     foreach ( $messageList as $message )
@@ -122,15 +124,7 @@ else
         else
             $t->set_var( "td_class", "bgdark" );
         
-        $level = $message["Depth"];
-        
-        if ( $level > 0 )
-            $t->set_var( "spacer", str_repeat( "&nbsp;", $level ) );
-        else
-            $t->set_var( "spacer", "" );
-        
         $t->set_var( "topic", $message["Topic"] );
-
 
         $time->setMySQLTimeStamp( $message["PostingTime"] );
         $t->set_var( "postingtime", $locale->format( $time  ) );
@@ -140,7 +134,22 @@ else
         $userID = $message["UserID"];
         $user->get( $userID );
         
-        
+        if ( $ini->read_var( "eZForumMain", "ShowReplies" ) == "enabled" )
+        {
+            $t->set_var( "count_replies", "" );
+            $level = $message["Depth"];
+            
+            if ( $level > 0 )
+                $t->set_var( "spacer", str_repeat( "&nbsp;", $level ) );
+            else
+                $t->set_var( "spacer", "" );
+        }
+        else
+        {
+            $t->set_var( "spacer", "" );
+            $t->set_var( "count_replies", "(" . eZForumMessage::countReplies( $message["ID"] ) . ")" );
+        }
+
         if ( $user->id() == 0 )
         {
             $t->set_var( "user", $ini->read_var( "eZForumMain", "AnonymousPoster" ) );
@@ -150,6 +159,7 @@ else
             $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
         }
         
+        /*        
         if ( get_class( $viewer ) == "ezuser" )
         {
             if ( $viewer->id() == $userID && eZForumMessage::countReplies( $message["ID"] ) == 0 && !$forum->IsModerated() )
@@ -157,6 +167,7 @@ else
                 $t->parse( "edit_message_item", "edit_message_item_tpl" );
             }
         }
+        */
         $t->parse( "message_item", "message_item_tpl", true );
         $i++;
     }
@@ -164,8 +175,6 @@ else
 eZList::drawNavigator( $t, $messageCount, $UserLimit, $Offset, "messagelist" );
 
 $t->set_var( "newmessage", $newmessage );
-
-
 
 $t->set_var( "forum_id", $forum->id() );
 $t->set_var( "forum_name", $forum->name() );

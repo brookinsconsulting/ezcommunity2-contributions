@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: message.php,v 1.20 2001/05/04 12:47:06 ce Exp $
+// $Id: message.php,v 1.21 2001/05/07 10:18:34 ce Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -187,6 +187,7 @@ foreach ( $messages as $message )
     
     $t->set_var( "user", $MessageAuthor );
 
+    /*
     if( get_class( $viewer ) == "ezuser" )
     {
         if( ( $viewer->id() == $message->userId() ) && ( eZForumMessage::countReplies( $message->id() ) == 0 ) )
@@ -194,6 +195,7 @@ foreach ( $messages as $message )
             $t->parse( "edit_message_item", "edit_message_item_tpl" );
         }
     }
+    */
     $t->parse( "message_item", "message_item_tpl", true );
     $i++;
 }

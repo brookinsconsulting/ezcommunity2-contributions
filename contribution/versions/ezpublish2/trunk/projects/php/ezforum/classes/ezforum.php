@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.26 2001/05/05 11:16:04 bf Exp $
+// $Id: ezforum.php,v 1.27 2001/05/07 10:18:34 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -305,7 +305,7 @@ class eZForum
 
       Default limit is set to 30.
     */
-    function &messageTreeArray( $offset=0, $limit=30, $showUnApproved=false )
+    function &messageTreeArray( $offset=0, $limit=30, $showUnApproved=false, $showReplies=true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -318,10 +318,18 @@ class eZForum
            $approvedCode = " AND IsApproved=1 ";
        }
 
+       if ( $showReplies )
+           $showReplies = "";
+       else
+           $showReplies = " AND Depth='0' ";
+       
        $db->array_query( $message_array, "SELECT ID, Topic, UserID, PostingTime, Depth FROM
                                           eZForum_Message
-                                          WHERE ForumID='$this->ID' $approvedCode
-                                          AND IsTemporary='0' ORDER BY TreeID
+                                          WHERE ForumID='$this->ID'
+                                          AND IsTemporary='0'
+                                          $approvedCode
+                                          $showReplies
+                                          ORDER BY TreeID
                                           DESC LIMIT $offset,$limit" );
 
        return $message_array;
