@@ -3,8 +3,6 @@
   Denne filen sjekker om brukeren er logget på..
 
 */
-print( "hash:" . $AuthenticatedSession );
-
 require "ezcontact/dbsettings.php";
 
   $menuTemplate = new Template( "." );
