@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productedit.php,v 1.69.2.1.4.2 2002/01/14 10:20:12 bf Exp $
+// $Id: productedit.php,v 1.69.2.1.4.3 2002/01/14 10:28:53 ce Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -124,21 +124,20 @@ if ( isSet( $DeleteProducts ) )
     $Action = "DeleteProducts";
 }
 
-if ( $Action == "Update"  or $Action == "Insert" )
+if ( $Action == "Update" or $Action == "Insert" )
 {
     $parentCategory = new eZProductCategory();
     $parentCategory->get( $CategoryID );
 
-    if ( $Action == "Insert" )
-    {
-        $product = new eZProduct();
-    }
-    else
+    if ( $ProductID != 0 )
     {
         $product = new eZProduct();
         $product->get( $ProductID );
         $was_hotdeal = $product->isHotDeal();
-
+    }
+    else
+    {
+        $product = new eZProduct();
     }
 
     $product->setName( $Name );
@@ -289,7 +288,7 @@ if ( $Action == "Update"  or $Action == "Insert" )
             $old_categories = array_merge( $old_maincategory->id(), $product->categories( false ) );
             $old_categories = array_unique( $old_categories );
 
-            $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
+            $new_categories = array_unique( array_merge( $MainCategoryID, $CategoryArray ) );
 
             $remove_categories = array_diff( $old_categories, $new_categories );
             $add_categories = array_diff( $new_categories, $old_categories );
@@ -301,12 +300,12 @@ if ( $Action == "Update"  or $Action == "Insert" )
         }
         else
         {
-            $add_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
+            $add_categories = array_unique( array_merge( $MainCategoryID, $CategoryArray ) );
         }
 
 
         // add a product to the categories
-        $category = new eZProductCategory( $CategoryID );
+        $category = new eZProductCategory( $MainCategoryID );
         $product->setCategoryDefinition( $category );
 
         foreach ( $add_categories as $categoryItem )
@@ -316,6 +315,17 @@ if ( $Action == "Update"  or $Action == "Insert" )
 
         // clear the cache files.
         deleteCache( $ProductID, $CategoryID, $old_categories, $was_hotdeal or $product->isHotDeal() );
+
+        if ( isSet ( $Browse ) )
+        {
+            $session =& eZSession::globalSession();
+            $session->setVariable( "CategoryListReturnTo", "/trade/productedit/edit/$productID" );
+            $session->setVariable( "SelectCategories", "multi" );
+            $session->setVariable( "NameInBrowse", $Name );
+
+            eZHTTPTool::header( "Location: /trade/categoryedit/browse/" );
+            exit();
+        }
 
         // preview
         if ( isSet( $Preview ) )
@@ -390,6 +400,8 @@ if ( $Action == "Update"  or $Action == "Insert" )
         }
     }
 }
+
+
 
 if ( $Action == "Cancel" )
 {
@@ -499,6 +511,8 @@ $t->set_block( "price_groups_item_tpl", "price_group_header_item_tpl", "price_gr
 $t->set_block( "price_groups_item_tpl", "price_group_item_tpl", "price_group_item" );
 $t->set_block( "price_group_list_tpl", "price_groups_no_item_tpl", "price_groups_no_item" );
 
+$t->set_block( "product_edit_tpl", "selected_category_item_tpl", "selected_category_item" );
+
 $t->setAllStrings();
 
 $t->set_var( "brief_value", "" );
@@ -549,6 +563,19 @@ if ( $Action == "Edit" )
     {
         $t->set_var( "brief_value", $contentsArray[0] );
         $t->set_var( "description_value", $contentsArray[1] );
+    }
+
+    $def = $product->categoryDefinition();
+    $CategoryID = $def->id();
+
+    if ( is_array ( $SelectedCategories ) )
+    {
+        $SelectedCategories = array_merge( $SelectedCategories, $product->categories( false ) );
+        $SelectedCategories = array_unique( $SelectedCategories );
+    }
+    else
+    {
+        $SelectedCategories = $product->categories( false );
     }
 
 
@@ -626,9 +653,9 @@ else
     $t->parse( "normal_price", "normal_price_tpl" );
 }
 
-if ( isSet ( $CategoryID ) )
+if ( isSet ( $MainCategoryID ) )
 {
-    $category = new eZProductCategory( $CategoryID );
+    $category = new eZProductCategory( $MainCategoryID );
 }
 else if ( is_object ( $product ) )
 {
@@ -638,8 +665,8 @@ else if ( is_object ( $product ) )
 
 if ( is_object( $category ) )
 {
-    $t->set_var( "category_name", $category->name() );
-    $t->set_var( "category_id", $category->id() );
+    $t->set_var( "main_category_name", $category->name() );
+    $t->set_var( "main_category_id", $category->id() );
 }
 
 /*
@@ -817,6 +844,19 @@ if ( $ShowPriceGroups )
 $t->set_var( "module_linker_button", "" );
 if ( $ShowModuleLinker )
     $t->parse( "module_linker_button", "module_linker_button_tpl" );
+
+$t->set_var( "selected_category_item" );
+if ( is_array ( $SelectedCategories ) )
+{
+    foreach( $SelectedCategories as $categoryID )
+    {
+        $cat = new eZProductCategory( $categoryID );
+        $t->set_var( "category_id", $cat->id() );
+        $t->set_var( "category_name", $cat->name() );
+
+        $t->parse( "selected_category_item", "selected_category_item_tpl", true );
+    }
+}
 
 // group selector
 $group = new eZUserGroup();

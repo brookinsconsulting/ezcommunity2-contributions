@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categorylist.php,v 1.32 2001/10/15 11:32:17 ce Exp $
+// $Id: categorylist.php,v 1.32.8.1 2002/01/14 10:28:53 ce Exp $
 //
 // Created on: <13-Sep-2000 14:56:11 bf>
 //
@@ -101,6 +101,8 @@ $category = new eZProductCategory( 1 );
 
 $category = new eZProductCategory();
 $category->get( $ParentID );
+
+$t->set_var( "main_category_id", $ParentID );
 
 // move products  up / down
 

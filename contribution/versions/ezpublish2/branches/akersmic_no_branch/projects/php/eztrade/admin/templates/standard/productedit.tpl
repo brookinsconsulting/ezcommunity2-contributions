@@ -30,9 +30,25 @@
 	<!-- END multiple_value_tpl -->
 	</select>
         -->
-        {category_name}
-        <input type="hidden" name="CategoryID" value="{category_id}" />
+        {main_category_name}
+        <input type="hidden" name="MainCategoryID" value="{main_category_id}" />
 	</td>
+	<td width="50%">
+	<p class="boxtext">{intl-category}:</p>
+	<table width="100%" cellspacing="0" cellpadding="0" border="0">
+	<!-- BEGIN selected_category_item_tpl -->
+	<tr> 
+	    <td>
+	    {category_name}
+	    <input type="hidden" name="SelectedCategories[]" value="{category_id}" />
+	    <input type="hidden" name="CategoryArray[]" value="{category_id}" />
+	    </td>
+	</tr>
+	<!-- END selected_category_item_tpl -->
+	</table>
+        <input class="stdbutton" type="submit" name="Browse" value="{intl-browse}" />
+	</td>
+
 </tr>
 <tr>
         <td>&nbsp;</td>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: datasupplier.php,v 1.42 2001/10/15 11:32:17 ce Exp $
+// $Id: datasupplier.php,v 1.42.8.1 2002/01/14 10:28:53 ce Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
@@ -148,7 +148,19 @@ switch ( $url_array[2] )
     break;
 
     case "categoryedit" :
-        if ( ( $url_array[3] == "insert") )
+    {
+        if ( isSet ( $Browse ) )
+        {
+            include ( "eztrade/admin/categorybrowse.php" );
+            break;
+        }
+
+        if ( ( $url_array[3] == "browse") )
+        {
+            $CategoryID = $url_array[4];
+            include( "eztrade/admin/categorybrowse.php" );
+        }
+        else if ( ( $url_array[3] == "insert") )
         {
             $Action = "Insert";
             include( "eztrade/admin/categoryedit.php" );
@@ -175,6 +187,8 @@ switch ( $url_array[2] )
             include( "eztrade/admin/categoryedit.php" );
         }        
         break;
+    }
+    break;
 
     case "voucher" :
         $UseVoucher = true;

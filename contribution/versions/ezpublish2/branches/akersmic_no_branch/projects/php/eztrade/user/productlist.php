@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.41.8.1 2002/01/14 10:20:12 bf Exp $
+// $Id: productlist.php,v 1.41.8.2 2002/01/14 10:28:54 ce Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -96,6 +96,7 @@ $t->setAllStrings();
 
 $category = new eZProductCategory();
 $category->get( $CategoryID );
+$t->set_var( "main_category_id", $CategoryID );
 
 // path
 $pathArray = $category->path();
@@ -110,8 +111,8 @@ foreach ( $pathArray as $path )
     $SiteTitleAppend .= $path[1] . " - ";
 }
 
-$categoryList =& $category->getByParent( $category );
-
+$categoryList =& $category->getByParent( $category, "name", $Limit, $Offset );
+$TotalTypes =& $category->countByParent( $category );
 // categories
 $i = 0;
 foreach ( $categoryList as $categoryItem )
@@ -144,6 +145,7 @@ foreach ( $categoryList as $categoryItem )
     $t->parse( "category", "category_tpl", true );
     $i++;
 }
+eZList::drawNavigator( $t, $TotalTypes, $Limit, $Offset, "product_list_page_tpl" );
 
 if ( count( $categoryList ) == 0 )
 {
@@ -265,10 +267,8 @@ else
 {
     $t->set_var( "product_list", "" );
 }
-
-
-
-eZList::drawNavigator( $t, $TotalTypes, $Limit, $Offset, "product_list_page_tpl" );
+if ( $TotalTypes >= 20 )
+    eZList::drawNavigator( $t, $TotalTypes, $Limit, $Offset, "product_list_page_tpl" );
 
 if ( $GenerateStaticPage == "true" )
 {

@@ -198,8 +198,12 @@
 <!-- END product_list_tpl -->
 <br />
 <form method="post" action="{www_dir}{index}/trade/categoryedit/edit/" enctype="multipart/form-data">
-<input type="hidden" name="CategoryID" value="{category_id}" />
+<input type="hidden" name="CategoryID" value="{main_category_id}" />
 <input class="stdbutton" type="submit" Name="NewCategory" value="Ny kategori" />&nbsp;
+</form>
+<form method="post" action="{www_dir}{index}/trade/productedit/" enctype="multipart/form-data">
+<input type="hidden" name="MainCategoryID" value="{main_category_id}" />
+<input class="stdbutton" type="submit" Name="NewCategory" value="Nytt produkt" />&nbsp;
 </form>
 
 

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categoryedit.php,v 1.23.8.1 2002/01/03 08:54:39 ce Exp $
+// $Id: categoryedit.php,v 1.23.8.2 2002/01/14 10:28:53 ce Exp $
 //
 // Created on: <18-Sep-2000 14:46:19 bf>
 //
@@ -55,6 +55,11 @@ if ( ( isSet ( $AddImages ) ) and ( is_numeric( $CategoryID ) ) and ( is_numeric
     $category->store();
     $Action = "Edit";
 }
+
+$session =& eZSession::globalSession();
+$session->setVariable( "CategoryListReturnTo", $REQUEST_URI );
+$session->setVariable( "SelectCategories", "multi" );
+$session->setVariable( "NameInBrowse", $Name );
 
 // Direct actions
 if ( $Action == "Insert" )
@@ -336,6 +341,7 @@ $t->set_block( "category_edit_tpl", "image_item_tpl", "image_item" );
 $t->set_block( "category_edit_tpl", "read_group_item_tpl", "read_group_item" );
 $t->set_block( "category_edit_tpl", "write_group_item_tpl", "write_group_item" );
 $t->set_block( "category_edit_tpl", "section_item_tpl", "section_item" );
+$t->set_block( "category_edit_tpl", "selected_category_item_tpl", "selected_category_item" );
 
 
 $headline = new INIFIle( "eztrade/admin/intl/" . $Language . "/categoryedit.php.ini", false );
@@ -498,6 +504,19 @@ if ( count( $sectionList ) > 0 )
 }
 else
     $t->set_var( "section_item", "" );
+
+$t->set_var( "selected_category_item" );
+if ( is_array ( $SelectedCategories ) )
+{
+    foreach( $SelectedCategories as $categoryID )
+    {
+        $cat = new eZProductCategory( $categoryID );
+        $t->set_var( "category_id", $cat->id() );
+        $t->set_var( "category_name", $cat->name() );
+
+        $t->parse( "selected_category_item", "selected_category_item_tpl", true );
+    }
+}
 
 
 // group selector
