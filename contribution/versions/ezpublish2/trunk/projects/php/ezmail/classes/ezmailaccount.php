@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailaccount.php,v 1.9 2001/03/25 19:25:21 fh Exp $
+// $Id: ezmailaccount.php,v 1.10 2001/03/26 17:33:33 fh Exp $
 //
 // eZMailAccount class
 //
@@ -424,6 +424,8 @@ class eZMailAccount
                 $mail = new eZMail();
                 $mail->setOwner( $user );
                 getHeaders( $mail, $mbox, $i ); // fetch header information
+                $mail->store(); // to get ID
+                
                 $mailstructure = imap_fetchstructure( $mbox, $i );
                 disectThisPart( $mailstructure, "1", $mbox, $i, $mail );
                 $mail->store();

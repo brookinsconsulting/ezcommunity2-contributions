@@ -58,7 +58,7 @@ if( $mail->bcc() != "" )
     $i = 0;
     foreach( $files as $file )
     {
-        $t->set_var( "file_name", "<a href=\"/filemanager/download/" . $file->id() . "/" . $file->originalFileName() . "\">" . htmlspecialchars( $file->originalFileName() ) . "</a>" );
+        $t->set_var( "file_name", "<a href=\"/filemanager/download/" . $file->id() . "/" /*. $file->originalFileName()*/ . "\">" . htmlspecialchars( $file->originalFileName() ) . "</a>" );
         $t->set_var( "file_id", $file->id() );
 
         $size = $file->siFileSize();

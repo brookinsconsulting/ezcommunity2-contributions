@@ -1,5 +1,7 @@
 <?
 include_once( "ezmail/classes/ezmail.php" );
+include_once( "classes/ezfile.php" );
+include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 
 /* This file contains a list of functions that are used by the various classes.
  They are put here because they are generall and to keep the classes from beeing
@@ -63,9 +65,7 @@ function disectThisPart( $this_part, $part_no, $mbox, $msgnum, &$mail, $level=0 
                     break;
 	            }
 	        }
-
-			// You could give a link to download the attachment here....
-//            print( "Mail has an attachment named: $att_name <br>" );
+            addAttachment( $mail, decode( $this_part->encoding, fetch_part( $part_no, $mbox, $msgnum) ) , $att_name );
         }
         else
         {
@@ -153,6 +153,22 @@ function disectThisPart( $this_part, $part_no, $mbox, $msgnum, &$mail, $level=0 
         }
         */
 	}
+}
+
+function addAttachment( &$mail, &$data , $fileName )
+{
+    $file = new eZFile();
+    $file->dumpDataToFile( $data, $fileName );
+
+    $uploadedFile = new eZVirtualFile();
+    $uploadedFile->setName( $fileName );
+    $uploadedFile->setDescription( "" );
+
+    $uploadedFile->setFile( $file );
+        
+    $uploadedFile->store();
+
+    $mail->addFile( $uploadedFile );
 }
 
 function decode( $enctype, $value )
