@@ -1,4 +1,4 @@
-<form method="post" action="login.php4">
+<form method="post" action="{document_root}login.php4">
 
 {login_msg}
 Brukernavn:<br>

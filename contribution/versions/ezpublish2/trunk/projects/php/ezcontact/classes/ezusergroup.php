@@ -21,7 +21,9 @@ class eZUserGroup
   function store()
   {
     $this->dbInit();
-    query( "INSERT INTO Grp set Name='$this->Name', Description='$this->Description',
+    query( "INSERT INTO Grp set
+        Name='$this->Name',
+        Description='$this->Description',
 	UserAdmin='$this->UserAdmin',
 	UserGroupAdmin='$this->UserGroupAdmin',
 	PersonTypeAdmin='$this->PersonTypeAdmin',
@@ -39,7 +41,9 @@ class eZUserGroup
     $this->dbInit();
     if ( isset( $this->ID ) )
     {
-      query( "UPDATE Grp set Name='$this->Name', Description='$this->Description',
+      query( "UPDATE Grp set
+                Name='$this->Name',
+                Description='$this->Description',
 		UserAdmin='$this->UserAdmin',
       		UserGroupAdmin='$this->UserGroupAdmin',
 		PersonTypeAdmin='$this->PersonTypeAdmin',

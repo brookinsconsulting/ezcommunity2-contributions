@@ -6,7 +6,7 @@ require "ezpersontype.php";
 require "ezsession.php";
 require "ezuser.php";
 require "ezcompany.php";
-
+4
 $t = new Template( ".");  
 $t->set_file( "person_info", "templates/personinfo.tpl" );
 

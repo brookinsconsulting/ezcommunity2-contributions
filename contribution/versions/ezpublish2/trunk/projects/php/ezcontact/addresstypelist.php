@@ -1,20 +1,21 @@
 <?
 include  "template.inc";
+require "ezcontact/dbsettings.php";
 require "ezphputils.php";
-require "ezsession.php";
-require "ezuser.php";
-require "ezusergroup.php";
-require "ezaddresstype.php";
+require $DOCUMENTROOT . "ezsession.php";
+require $DOCUMENTROOT . "ezuser.php";
+require $DOCUMENTROOT . "ezusergroup.php";
+require $DOCUMENTROOT . "ezaddresstype.php";
 
 // sjekke session
 {
-  include( "checksession.php" );
+  include( $DOCUMENTROOT . "checksession.php" );
 }
 
 $menuTemplate = new Template( "." );
 $menuTemplate->set_file( array(
-                               "address_type_page" => "templates/addresstypelist.tpl",
-                               "address_type_item" => "templates/addresstypeitem.tpl"
+                               "address_type_page" => $DOCUMENTROOT . "templates/addresstypelist.tpl",
+                               "address_type_item" => $DOCUMENTROOT . "templates/addresstypeitem.tpl"
                                ) );
 
 $address_type = new eZAddressType();

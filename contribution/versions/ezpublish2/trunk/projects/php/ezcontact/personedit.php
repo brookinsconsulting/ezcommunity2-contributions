@@ -1,13 +1,15 @@
 <?
 include  "template.inc";
 require "ezphputils.php";
-require "ezperson.php";
-require "ezpersontype.php";
-require "ezcompany.php";
-require "ezaddress.php";
-require "ezaddresstype.php";
-require "ezsession.php";
-require "ezuser.php";
+require "ezcontact/dbsettings.php"
+
+require "classes/ezperson.php";
+require "classes/ezpersontype.php";
+require "classes/ezcompany.php";
+require "classes/ezaddress.php";
+require "classes/ezaddresstype.php";
+require "classes/ezsession.php";
+require "classes/ezuser.php";
 
 if ( $Insert == "TRUE" )
 {
@@ -37,7 +39,7 @@ if ( $Insert == "TRUE" )
 
 // sjekke session
 {
-  include( "checksession.php" );
+  include( "classes/checksession.php" );
 }
 
 $t = new Template( "." );

@@ -3,10 +3,14 @@
   Denne filen sjekker om brukeren er logget på..
 
 */
+print( "hash:" . $AuthenticatedSession );
+
+require "ezcontact/dbsettings.php";
 
   $menuTemplate = new Template( "." );
-  $menuTemplate->set_file( "top_menu", "templates/topmenu.tpl" );               
-  
+  $menuTemplate->set_file( "top_menu", $DOCUMENTROOT .  "templates/topmenu.tpl" );
+
+
   $session = new eZSession();
   if ( !$session->get( $AuthenticatedSession ) )
   {

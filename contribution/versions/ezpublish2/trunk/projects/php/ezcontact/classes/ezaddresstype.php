@@ -19,7 +19,18 @@ class eZAddressType
     $this->dbInit();
     query( "INSERT INTO AddressType set Name='$this->Name'" );
   }
-  
+
+  /*!
+    Lagrer en addressetyperow til databasen.
+
+  */
+  function update()
+  {
+    $this->dbInit();
+    query( "UPDATE AddressType set Name='$this->Name' WHERE ID='$this->ID'" );
+  }
+
+    
   /*
     Henter ut en adressetype med ID == $id
   */  
