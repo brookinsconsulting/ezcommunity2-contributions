@@ -5,10 +5,21 @@
 Here is the description of the payment methods........
 
 <select name="PaymentMethod">
+<!-- BEGIN visa_tpl -->
 <option value="1">VISA</option>
+<!-- END visa_tpl -->
+
+<!-- BEGIN mastercard_tpl -->
 <option value="2">Mastercard</option>
+<!-- END mastercard_tpl -->
+
+<!-- BEGIN cod_tpl -->
 <option value="3">Postordre</option>
+<!-- END cod_tpl -->
+
+<!-- BEGIN invoice_tpl -->
 <option value="4">Faktura</option>
+<!-- END invoice_tpl -->
 </select>
 
 <hr noshade="noshade" size="4" />

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.8 2000/10/31 19:53:56 bf-cvs Exp $
+// $Id: checkout.php,v 1.9 2000/10/31 20:20:11 bf-cvs Exp $
 //
 // 
 //
@@ -24,6 +24,11 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 $OrderSenderEmail = $ini->read_var( "eZTradeMain", "OrderSenderEmail" );
 $OrderReceiverEmail = $ini->read_var( "eZTradeMain", "OrderReceiverEmail" );
 $ShippingCost = $ini->read_var( "eZTradeMain", "ShippingCost" );
+
+$VISAShopping = $ini->read_var( "eZTradeMain", "VISAShopping" );
+$MasterCardShopping = $ini->read_var( "eZTradeMain", "MasterCardShopping" );
+$CODShopping = $ini->read_var( "eZTradeMain", "CODShopping" );
+$InvoiceShopping = $ini->read_var( "eZTradeMain", "InvoiceShopping" );
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezoption.php" );
@@ -65,12 +70,54 @@ $t->set_file( array(
     "checkout_tpl" => "checkout.tpl"
     ) );
 
+$t->set_block( "checkout_tpl", "visa_tpl", "visa" );
+$t->set_block( "checkout_tpl", "mastercard_tpl", "mastercard" );
+$t->set_block( "checkout_tpl", "cod_tpl", "cod" );
+$t->set_block( "checkout_tpl", "invoice_tpl", "invoice" );
+
 $t->set_block( "checkout_tpl", "cart_item_list_tpl", "cart_item_list" );
 $t->set_block( "cart_item_list_tpl", "cart_item_tpl", "cart_item" );
 $t->set_block( "cart_item_tpl", "cart_item_option_tpl", "cart_item_option" );
 $t->set_block( "cart_item_tpl", "cart_image_tpl", "cart_image" );
 
 $t->set_block( "checkout_tpl", "address_tpl", "address" );
+
+
+if ( $VISAShopping == "enabled" )
+{
+    $t->parse( "visa", "visa_tpl" );
+}
+else
+{
+    $t->set_var( "visa", "" );
+}
+
+if ( $MasterCardShopping == "enabled" )
+{
+    $t->parse( "mastercard", "mastercard_tpl" );
+}
+else
+{
+    $t->set_var( "mastercard", "" );
+}
+
+if ( $CODShopping == "enabled" )
+{
+    $t->parse( "cod", "cod_tpl" );
+}
+else
+{
+    $t->set_var( "cod", "" );
+}
+
+if ( $InvoiceShopping == "enabled" )
+{
+    $t->parse( "invoice", "invoice_tpl" );
+}
+else
+{
+    $t->set_var( "invoice", "" );
+}
 
     
 //  $t->set_block( "cart_page", "cart_header_tpl", "cart_header" );
