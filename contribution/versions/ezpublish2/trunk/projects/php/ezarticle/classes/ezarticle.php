@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.36 2001/02/20 20:55:04 gl Exp $
+// $Id: ezarticle.php,v 1.37 2001/02/21 17:15:33 fh Exp $
 //
 // Definition of eZArticle class
 //
@@ -60,6 +60,7 @@
 include_once( "classes/ezdb.php" );
 include_once( "classes/ezdatetime.php" );
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/ezusergroup.php" );
 
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
@@ -123,7 +124,9 @@ class eZArticle
                                  Keywords='$this->Keywords',
                                  Modified=now(),
                                  Published=now(),
-                                 Created=now()
+                                 Created=now(),
+                                 OwnerGroupID='$this->OwnerGroupID',
+                                 ReadPermission='$this->ReadPermission'
                                  " );
 
             $this->ID = mysql_insert_id();
@@ -146,7 +149,9 @@ class eZArticle
                                  IsPublished='$this->IsPublished',
                                  Keywords='$this->Keywords',
                                  Published=now(),
-                                 Modified=now()
+                                 Modified=now(),
+                                 OwnerGroupID='$this->OwnerGroupID',
+                                 ReadPermission='$this->ReadPermission'
                                  WHERE ID='$this->ID'
                                  " );
             }
@@ -161,7 +166,9 @@ class eZArticle
                                  AuthorID='$this->AuthorID',
                                  IsPublished='$this->IsPublished',
                                  Keywords='$this->Keywords',
-                                 Modified=now()
+                                 Modified=now(),
+                                 OwnerGroupID='$this->OwnerGroupID',
+                                 ReadPermission='$this->ReadPermission'
                                  WHERE ID='$this->ID'
                                  " );
             }
@@ -201,6 +208,8 @@ class eZArticle
                 $this->PageCount =& $article_array[0][ "PageCount" ];
                 $this->IsPublished =& $article_array[0][ "IsPublished" ];
                 $this->Keywords =& $article_array[0][ "Keywords" ];
+                $this->OwnerGroupID =& $article_array[0][ "OwnerGroupID" ];
+                $this->ReadPermission =& $article_array[0][ "ReadPermission" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -226,7 +235,8 @@ class eZArticle
             $this->Database->query( "DELETE FROM eZArticle_ArticleCategoryDefinition WHERE ArticleID='$this->ID'" );
             $this->Database->query( "DELETE FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID'" );
             $this->Database->query( "DELETE FROM eZArticle_ArticleImageDefinition WHERE ArticleID='$this->ID'" );
-            
+            $this->Database->query( "DELETE FROM eZArticle_ArticleReaderLink WHERE ArticleID='$this->ID'" );
+
             $this->Database->query( "DELETE FROM eZArticle_Article WHERE ID='$this->ID'" );
         }
         
@@ -468,7 +478,71 @@ class eZArticle
        }
     }
     
+    /*!
+      Sets the owner group of this article.
+      Parameter $newOwner must be an eZUserGroup object.
+     */
+    function setOwnerGroup( $newOwner )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        if( get_class( $newOwner ) == "ezusergroup" )
+        {
+            $this->$OwnerGroupID = $newOwner->id();
+        }
+    }
 
+    /*!
+      Sets the read permission.
+
+      Note: If you set this to 0 or 2 it automaticly clears the permission link table.
+      
+      0 means that only the user has permission to read the article
+      1 means that only users in selected groups can read the article
+      2 means that evryone can read the article
+     */
+    function setReadPermission( $value )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        if( is_digit( $value ) && $value >=0 && $value <=2)
+        {
+            if( $value != 1 )
+                removeReadGroups();
+
+            $this->ReadPermission = $value;
+        }
+    }
+    
+    /*!
+      Returns the owner group of this module as an eZOwnerGroup object.
+      If the object doesn't have an owner it returns 0.
+    */
+    function ownerGroup()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $group = new eZUserGroup( $this->OwnerGroupID );
+        return $group;
+    }
+
+    /*!
+      Returns the read permission for this article.
+      0 means that only the user has permission to read the article
+      1 means that only users in selected groups can read the article
+      2 means that evryone can read the article
+     */
+    function readPermission()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return $this->ReadPermission;
+    }
+    
     /*!
       Returns the categrories an article is assigned to.
 
@@ -506,6 +580,62 @@ class eZArticle
         
     }
 
+    /*!
+      Removes every group that can read this article.
+    */
+    function removeReadGroups()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $this->Database->query( "DELETE FROM eZArticle_ArticleReaderLink WHERE ArticleID='$this->ID'" );       
+    }
+
+    
+    /*!
+      Adds a group that can read this article.
+
+      Note: calling this function will set the ReadPermission variable to 1 if not allready set.
+     */
+    function addReadGroup( $newGroup )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        if( get_class( $newGroup ) == "ezusergroup" )
+        {
+            $this->dbInit();
+            $groupID = $newGroup->id();
+            $this->Database->query( "INSERT INTO  eZArticle_ArticleReaderLink SET
+                                     ArticleID='$this->ID',
+                                     GroupID='$groupID',
+                                     Created=now()" );       
+        }
+        
+    }
+
+    /*!
+      Returns all the groups that have readpermission for this article as an array of eZUserGroup objects.
+     */
+    function readGroups()
+    {
+        $ret = array();
+        $this->Database->array_query( $res, "SELECT GroupID FROM eZArticle_ArticleReaderLink
+                                       WHERE ArticleID='$this->ID'" );
+        if( count( $res ) > 0 )
+        {
+            $i = 0;
+            foreach( $res as $groupID )
+            {
+                $ret[i] = new eZUserGroup( $groupID );
+                $i++;
+            }
+        }
+        return $ret;
+    }
+    
     /*!
       Adds an image to the article.
     */
@@ -1080,6 +1210,8 @@ class eZArticle
     var $Created;
     var $Published;
     var $Keywords;
+    var $OwnerGroupID;
+    var $ReadPermission=0;
     
     // telll eZ publish to show the article to the public
     var $IsPublished;
