@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.106 2001/09/19 12:58:00 ce Exp $
+// $Id: index.php,v 1.107 2001/09/21 12:01:03 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -178,7 +178,9 @@ if ( ( $requireUserLogin == "disabled" ) ||
     // do url translation if needed
     $URLTranslationKeyword = $ini->read_var( "site", "URLTranslationKeyword" );
 
-    if ( $URLTranslationKeyword == $url_array[1] )
+    $urlTranslatorArray = explode( ";", $URLTranslationKeyword );
+    
+    if ( in_array(  $url_array[1], $urlTranslatorArray ) )
     {
         include_once( "ezurltranslator/classes/ezurltranslator.php" );
         $REQUEST_URI = eZURLTranslator::translate( $REQUEST_URI );
