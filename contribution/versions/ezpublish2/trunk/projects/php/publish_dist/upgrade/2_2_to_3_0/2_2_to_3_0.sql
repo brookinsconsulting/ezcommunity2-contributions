@@ -37,3 +37,7 @@ CREATE TABLE eZUser_UserTitleLink (
   TitleID int NOT NULL,
   PRIMARY KEY (ID)
 );
+
+ALTER TABLE eZLink_Category ADD SortMode int default '1';
+ALTER TABLE eZLink_Category ADD Placement int default '0';
+ALTER TABLE eZLink_LinkCategoryLink ADD Placement int default '0';
