@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.29 2000/08/03 13:22:16 lw-cvs Exp $
+    $Id: ezforummessage.php,v 1.30 2000/08/04 07:59:35 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -341,8 +341,10 @@ class eZforumMessage
     }
 
     /*
-      Henter ut toppthreaden av gjeldende meldingstråd.
-      WARNING: Denne funksjonen er rekursiv.
+      getTopMessage
+      
+      Gets the top message of a thread.
+      *warning* This function is recursive!
      */
     function getTopMessage( $id )
     {
