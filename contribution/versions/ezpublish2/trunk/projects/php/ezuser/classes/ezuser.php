@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.53 2001/02/22 14:16:47 fh Exp $
+// $Id: ezuser.php,v 1.54 2001/02/25 14:33:59 gl Exp $
 //
 // Definition of eZCompany class
 //
@@ -422,7 +422,7 @@ class eZUser
     */
     function firstName( )
     {
-        return $this->FirstName;
+        return htmlspecialchars( $this->FirstName );
     }
 
     /*!
@@ -430,7 +430,7 @@ class eZUser
     */
     function lastName( )
     {
-        return $this->LastName;
+        return htmlspecialchars( $this->LastName );
     }
     
     /*!
