@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdate.php,v 1.23 2001/05/05 12:20:15 bf Exp $
+// $Id: ezdate.php,v 1.24 2001/06/07 10:01:41 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -182,6 +182,21 @@ class eZDate
         }
 
         return $weekday;
+    }
+
+    /*!
+      \private
+      Adds a "0" infront of the value if it's below 10.
+    */
+    function addZero( $value )
+    {
+        $ret = $value;
+        if ( $ret < 10 )
+        {
+            $ret = "0". $ret;
+        }
+        
+        return $ret;
     }
 
     /*!

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eztime.php,v 1.8 2001/02/19 12:26:27 gl Exp $
+// $Id: eztime.php,v 1.9 2001/06/07 10:01:41 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -155,6 +155,21 @@ class eZTime
             $tmpTime->setSecondsElapsed( $secondsElapsed );
 
             $ret = $tmpTime;
+        }
+        
+        return $ret;
+    }
+
+    /*!
+      \private
+      Adds a "0" infront of the value if it's below 10.
+    */
+    function addZero( $value )
+    {
+        $ret = $value;
+        if ( $ret < 10 )
+        {
+            $ret = "0". $ret;
         }
         
         return $ret;
