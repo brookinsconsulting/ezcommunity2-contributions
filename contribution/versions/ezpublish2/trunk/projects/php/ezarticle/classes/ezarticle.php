@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.125 2001/07/18 14:54:30 bf Exp $
+// $Id: ezarticle.php,v 1.126 2001/07/19 08:52:47 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -101,6 +101,9 @@ class eZArticle
     */
     function store()
     {
+        // index this article
+        $this->createIndex();
+        
         $db =& eZDB::globalDatabase();
         $db->begin();
 
@@ -710,63 +713,102 @@ class eZArticle
     
     /*!
       \private
-      will index the article keywords and name for fulltext search.
+      will index the article keywords (fetched from Contents) and name for fulltext search.
     */
     function createIndex()
     {
-        $str = $this->Keywords;
-        $str .= " " . $this->Name;
+        // generate keywords
+        $tmpContents = $this->Contents;
 
-        $str = preg_replace("(\s+)", " ", $str );
-
-        $words = explode( " ", $str );
-
-
+        $tmpContents = str_replace ("</intro>", " ", $tmpContents );
+        $tmpContents = str_replace ("</page>", " ", $tmpContents );
         
+        $contents = strtolower( strip_tags( $tmpContents ) ) . " " . $this->Name;
+        $contents = str_replace ("\n", "", $contents );
+        $contents = str_replace ("\r", "", $contents );
+        $contents = str_replace ("(", " ", $contents );
+        $contents = str_replace (")", " ", $contents );
+        $contents = str_replace (",", " ", $contents );
+        $contents = str_replace (".", " ", $contents );
+        $contents = str_replace ("/", " ", $contents );
+        $contents = str_replace ("-", " ", $contents );
+        $contents = str_replace ("_", " ", $contents );
+        $contents = str_replace ("\"", " ", $contents );
+        $contents = str_replace ("'", " ", $contents );
+        $contents = str_replace (":", " ", $contents );
+        $contents = str_replace ("?", " ", $contents );
+        $contents = str_replace ("!", " ", $contents );
+        $contents = str_replace ("\"", " ", $contents );
+        $contents = str_replace ("|", " ", $contents );
+
+        // strip &quot; combinations
+        $contents = preg_replace("(&.+?;)", " ", $contents );
+
+        // strip multiple whitespaces
+        $contents = preg_replace("(\s+)", " ", $contents );
+
+        $contents_array =& split( " ", $contents );
+       
+        $contents_array = array_unique( $contents_array );
+
+        $keywords = "";
+        foreach ( $contents_array as $word )
+        {
+            if ( strlen( $word ) > 3 )
+            {
+                $keywords .= $word . " ";
+            }
+        }
+
+        $this->Keywords = $keywords;
+
         $db =& eZDB::globalDatabase();
         $ret = array();
 
         $ret[] = $db->query( "DELETE FROM  eZArticle_ArticleWordLink WHERE ArticleID='$this->ID'" );
-        
-        foreach ( $words as $word )
+
+        foreach ( $contents_array as $word )
         {
-            $indexWord = strtolower($word);
+            if ( strlen( $word ) > 3 )
+            {
+                $indexWord = $word;
 
-            $indexWord = $db->escapeString( $indexWord );
+                $indexWord = $db->escapeString( $indexWord );
 
-            $db->begin( );        
+                $db->begin( );
 
-            $query = "SELECT ID FROM eZArticle_Word
+                $query = "SELECT ID FROM eZArticle_Word
                       WHERE Word='$indexWord'";
 
-            $db->array_query( $word_array, $query );
+                $db->array_query( $word_array, $query );
 
-            if ( count( $word_array ) == 1 )
-            {
-                // word exists create reference
-                $wordID = $word_array[0][$db->fieldName("ID")];
+                if ( count( $word_array ) == 1 )
+                {
+                    // word exists create reference
+                    $wordID = $word_array[0][$db->fieldName("ID")];
                 
-                $ret[] = $db->query( "INSERT INTO eZArticle_ArticleWordLink ( ArticleID, WordID ) VALUES
+                    $ret[] = $db->query( "INSERT INTO eZArticle_ArticleWordLink ( ArticleID, WordID ) VALUES
                                       ( '$this->ID',
                                         '$wordID' )" );
-            }
-            else
-            {
-                // lock the table
-                $db->lock( "eZArticle_Word" );
+                }
+                else
+                {
+                    // lock the table
+                    $db->lock( "eZArticle_Word" );
 
                 // new word, create word
-                $nextID = $db->nextID( "eZArticle_Word", "ID" );
-                $ret[] = $db->query( "INSERT INTO eZArticle_Word ( ID, Word ) VALUES
+                    $nextID = $db->nextID( "eZArticle_Word", "ID" );
+                    $ret[] = $db->query( "INSERT INTO eZArticle_Word ( ID, Word ) VALUES
                                       ( '$nextID',
                                         '$indexWord' )" );
-                $db->unlock();
+                    $db->unlock();
 
-                $ret[] = $db->query( "INSERT INTO eZArticle_ArticleWordLink ( ArticleID, WordID ) VALUES
+                    $ret[] = $db->query( "INSERT INTO eZArticle_ArticleWordLink ( ArticleID, WordID ) VALUES
                                       ( '$this->ID',
                                         '$nextID' )" );
                 
-            }            
+                }
+            }
         }
         eZDB::finish( $ret, $db );            
         
@@ -1561,7 +1603,7 @@ class eZArticle
             $i++;
         }
 
-        $queryString = "SELECT eZArticle_Article.ID AS ArticleID, eZArticle_Article.Published, eZArticle_Article.Name
+        $queryString = "SELECT DISTINCT eZArticle_Article.ID AS ArticleID, eZArticle_Article.Published, eZArticle_Article.Name
                  FROM eZArticle_Article,
                       eZArticle_ArticleWordLink,
                       eZArticle_Word,
@@ -1578,7 +1620,7 @@ class eZArticle
                           ( $loggedInSQL ($groupSQL eZArticle_ArticlePermission.GroupID='-1')
                             AND eZArticle_ArticlePermission.ReadPermission='1'
                           )
-                        ) 
+                        )            
                        ORDER BY $OrderBy";
         
         $db->array_query( $article_array, $queryString, array( "Limit" => $limit, "Offset" => $offset ) );        
@@ -1633,7 +1675,7 @@ class eZArticle
         }
 
 
-        $queryString = "SELECT count(eZArticle_Article.ID) AS Count
+        $queryString = "SELECT count( DISTINCT eZArticle_Article.ID) AS Count
                  FROM eZArticle_Article,
                       eZArticle_ArticleWordLink,
                       eZArticle_Word,

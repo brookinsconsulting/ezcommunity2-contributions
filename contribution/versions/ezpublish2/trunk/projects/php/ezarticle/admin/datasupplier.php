@@ -1,24 +1,5 @@
 <?
 
-// index articles
-
-/*
-set_time_limit( 0 );
-include_once( "ezarticle/classes/ezarticle.php" );
-include_once( "ezarticle/classes/ezarticlecategory.php" );
-
-$article = new eZArticle();
-
-$articles =& $article->getAll();
-
-foreach ( $articles as $article )
-{
-    print( "indexing article: " .  $article->name() . "<br>" );    
-//    $article->createIndex();
-}
-
-*/
-
 include_once( "classes/ezhttptool.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlecategory.php" );
