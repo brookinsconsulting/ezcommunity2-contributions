@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.20 2000/11/22 12:03:12 ce-cvs Exp $
+// $Id: ezimage.php,v 1.21 2000/11/23 16:55:42 bf-cvs Exp $
 //
 // Definition of eZImage class
 //
@@ -440,6 +440,26 @@ class eZImage
         }
         
         return $value;
+    }
+
+    /*!
+      Returns the width of the image.
+    */
+    function width()
+    {
+        $size = getimagesize( $this->filePath( true ) );
+        
+        return $size[0];
+    }
+
+    /*!
+      Returns the height of the image.
+    */
+    function height()
+    {
+        $size = getimagesize( $this->filePath( true ) );
+        
+        return $size[1];
     }
     
     /*!

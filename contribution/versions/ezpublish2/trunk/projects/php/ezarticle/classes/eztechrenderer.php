@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.40 2000/11/15 18:14:14 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.41 2000/11/23 16:55:42 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -372,6 +372,7 @@ class eZTechRenderer
 
     function &renderImage( $pageContent, $paragraph, $articleImages )
     {
+        $articleID = $this->Article->id();
         // image
         if ( $paragraph->name == "image" )
         {
@@ -444,11 +445,21 @@ class eZTechRenderer
                 $imageWidth = $variation->width();
                 $imageHeight = $variation->height();
                 $imageCaption = $image->caption();
+                $imageID = $image->id();
+
+                $viewMode = $GLOBALS["ViewMode"];
+
+                if ( $viewMode == "" )
+                {
+                    $viewMode = "view";
+                }
                             
                 $imageTags = "<table width=\"$imageWidth\" align=\"$imageAlignment\" border=\"0\" cellspacing=\"0\" cellpadding=\"4\">
                                             <tr>
                                             <td>
+                                                     	<a href=\"/imagecatalogue/imageview/$imageID/?RefererURL=/article/$viewMode/$articleID/\">
                                                         <img src=\"$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" />
+                                                        </a>   
                                                         </td>
                                                 </tr>
                                                 <tr>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageview.php,v 1.3 2000/11/01 09:32:55 ce-cvs Exp $
+// $Id: imageview.php,v 1.4 2000/11/23 16:55:43 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Oct-2000 19:40:18 bf>
@@ -33,6 +33,8 @@ $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZImageCatalogueMain", "Language" );
 
+$ShowOriginal = $ini->read_var( "eZImageCatalogueMain", "ShowOriginal" );
+
 
 $t = new eZTemplate( "ezimagecatalogue/user/" . $ini->read_var( "eZImageCatalogueMain", "TemplateDir" ),
                      "ezimagecatalogue/user/intl/", $Language, "imageview.php" );
@@ -43,15 +45,27 @@ $t->setAllStrings();
 
 $image = new eZImage( $ImageID );
 
-$variation =& $image->requestImageVariation( $ini->read_var( "eZImageCatalogueMain", "ImageViewWidth" ),
-                                             $ini->read_var( "eZImageCatalogueMain", "ImageViewHeight" ) );
 
-$t->set_var( "referer_url", $RefererURL );
-
-$t->set_var( "image_uri", "/" . $variation->imagePath() );
-$t->set_var( "image_width", $variation->width() );
-$t->set_var( "image_height", $variation->height() );
-$t->set_var( "image_caption", $image->caption() );
+if ( $ShowOriginal != "enabled" )
+{
+    $variation =& $image->requestImageVariation( $ini->read_var( "eZImageCatalogueMain", "ImageViewWidth" ),
+    $ini->read_var( "eZImageCatalogueMain", "ImageViewHeight" ) );
+    
+    
+    $t->set_var( "image_uri", "/" . $variation->imagePath() );
+    $t->set_var( "image_width", $variation->width() );
+    $t->set_var( "image_height", $variation->height() );
+    $t->set_var( "image_caption", $image->caption() );
+}
+else
+{
+    $t->set_var( "image_uri", $image->filePath( ) );
+    $t->set_var( "image_width", $image->width() );
+    $t->set_var( "image_height", $image->height() );
+    $t->set_var( "image_caption", $image->caption() );
+    
+    $t->set_var( "referer_url", $RefererURL );
+}
 
 $t->pparse( "output", "image_view_tpl" );
 

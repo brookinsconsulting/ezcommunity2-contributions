@@ -139,6 +139,8 @@ switch ( $url_array[2] )
     case "static":
     case "articlestatic":
     {
+        $ViewMode = "static";
+
         $StaticRendering = true;
         $ArticleID = $url_array[3];
         $PageNumber= $url_array[4];
