@@ -1,4 +1,4 @@
-<h1>Kategori- og produktoversikt</h1>
+<h1>Produktkatalog</h1>
 
 <hr noshade size="4"/>
 / <a href="/trade/categorylist/parent/0/">Hovedkategori</a> / 
@@ -18,10 +18,6 @@
 	</td>
 
 	<td>
-	Parent:
-	</td>
-
-	<td>
 	Beskrivelse:
 	</td>
 
@@ -37,9 +33,6 @@
 <tr>
 	<td class="{td_class}">
 	<a href="/trade/categorylist/parent/{category_id}/">{category_name}</a>
-	</td>
-	<td class="{td_class}">
-	{category_parent}		
 	</td>
 	<td class="{td_class}">
 	{category_description}

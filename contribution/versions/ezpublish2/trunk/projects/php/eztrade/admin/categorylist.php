@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.6 2000/10/10 14:04:10 bf-cvs Exp $
+// $Id: categorylist.php,v 1.7 2000/10/10 14:37:26 bf-cvs Exp $
 //
 // 
 //
@@ -74,15 +74,6 @@ foreach ( $categoryList as $categoryItem )
 
     $parent = $categoryItem->parent();
     
-    if ( $categoryItem->parent() != 0 )
-    {
-        $parent = $categoryItem->parent();
-        $t->set_var( "category_parent", $parent->name() );
-    }
-    else
-    {
-        $t->set_var( "category_parent", "&nbsp;" );
-    }
 
     if ( ( $i % 2 ) == 0 )
     {

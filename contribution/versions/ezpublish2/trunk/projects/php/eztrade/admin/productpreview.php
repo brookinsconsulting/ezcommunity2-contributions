@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productpreview.php,v 1.3 2000/10/10 14:23:42 bf-cvs Exp $
+// $Id: productpreview.php,v 1.4 2000/10/10 14:37:26 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -30,8 +30,7 @@ $t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZTradeMain", "Tem
 
 $t->setAllStrings();
 
-$t->set_file( array( "product_preview_tpl" => "productpreview.tpl",
-                      "value_item" => "valueitem.tpl"
+$t->set_file( array( "product_preview_tpl" => "productpreview.tpl"
                      ) );
 
 $t->set_block( "product_preview_tpl", "image_tpl", "image" );
