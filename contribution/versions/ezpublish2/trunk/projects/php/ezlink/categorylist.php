@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: categorylist.php,v 1.8 2000/10/09 14:50:59 ce-cvs Exp $
+    $Id: categorylist.php,v 1.9 2000/10/10 07:01:09 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -16,6 +16,7 @@
 include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 
+$Language = $ini->read_var( "eZLinkMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 
 include_once( "classes/eztemplate.php" );
@@ -25,13 +26,9 @@ include_once( "ezlink/classes/ezlinkgroup.php" );
 include_once( "ezlink/classes/ezlink.php" );
 include_once( "ezlink/classes/ezhit.php" );
 
-$Language = "no_NO";
-
-// setter template filer
-
-$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZLinkMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "categorylist.php" );
+$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZLinkMain", "TemplateDir" ). "/categorylist/",
+$DOC_ROOT . "/intl", $Language, "categorylist.php" );
 $t->setAllStrings();
-
 
 $t->set_file( array(
     "linkgroup_list" => "linkgrouplistshort.tpl",

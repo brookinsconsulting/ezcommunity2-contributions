@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: gotolink.php,v 1.8 2000/09/14 18:04:47 bf-cvs Exp $
+    $Id: gotolink.php,v 1.9 2000/10/10 07:01:09 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -9,23 +9,14 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 
-/*!
-  Legger inn hits og redirecter til korrekt side.
-*/
-
 include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 
-include_once( "classes/template.inc" );
-
 include_once( $DOC_ROOT . "classes/ezlinkgroup.php" );
 include_once( $DOC_ROOT . "classes/ezlink.php" );
 include_once( $DOC_ROOT . "classes/ezhit.php" );
-
-
-//print( $HTTP_REFERER );
 
 if ( $Action == "addhit" )
 {

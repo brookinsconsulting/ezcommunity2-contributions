@@ -1,21 +1,21 @@
 <?
+/*!
+    $Id: suggestlink.php,v 1.14 2000/10/10 07:01:09 ce-cvs Exp $
 
-/*
-  suggestlink.php -> foreslår en link
+    Author: Christoffer A. Elo <ce@ez.no>
+    
+    Created on: <14-Sep-2000 19:37:17 bf>
+    
+    Copyright (C) 2000 eZ systems. All rights reserved.
 */
 
 include_once( "classes/INIFile.php" );
-
+include_once( "classes/eztemplate.php" );
 
 $ini = new INIFile( "site.ini" );
 
 $Language = $ini->read_var( "eZLinkMain", "Language" );
-
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
-
-include_once( "classes/eztemplate.php" );
-
-include_once( "common/ezphputils.php" );
 
 include_once( "ezlink/classes/ezlinkgroup.php" );
 include_once( "ezlink/classes/ezlink.php" );
@@ -33,7 +33,6 @@ if ( $Action == "suggest" )
         $turl = $url;
         $tkeywords = $keywords;
         $tdescription = $description;
-//      printRedirect( "../index.php?page=" . $DOC_ROOT . "suggestlink.php" );
     }
     else
     {
@@ -47,7 +46,7 @@ if ( $Action == "suggest" )
         if ( $newlink->checkUrl( $url ) == 0 )
         {
             $newlink->store();
-//          printRedirect( "../index.php?page=" . $DOC_ROOT . "linklist.php" );
+            Header( "Location: /link/" );
         }
         else
         {
@@ -57,14 +56,12 @@ if ( $Action == "suggest" )
             $turl = $url;
             $tkeywords = $keywords;
             $tdescription = $description;
-//          printRedirect( "../index.php?page=" . $DOC_ROOT . "suggestlink.php" );
         }
     }
 }
 
-// $t = new Template();
-
-$t = new eZTemplate( $DOC_ROOT . "/" . $Ini->read_var( "eZLinkMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "suggestlink.php" );
+$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZLinkMain", "TemplateDir" ). "/suggestlink/",
+$DOC_ROOT . "/intl", $Language, "suggestlink.php" );
 $t->setAllStrings();
 
 $t->set_file( array(

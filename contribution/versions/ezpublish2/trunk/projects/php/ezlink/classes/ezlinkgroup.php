@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.23 2000/10/02 11:58:14 bf-cvs Exp $
+// $Id: ezlinkgroup.php,v 1.24 2000/10/10 07:01:09 ce-cvs Exp $
 //
 // Definition of eZLinkGroup class
 //
@@ -98,9 +98,9 @@ class eZLinkGroup
         }
         else
         {
-            $path .= "<img src=\"/ezlink/images/pil.gif\" border=\"0\" height=\"10\" width=\"10\"> <a href=\"/link/?LGID=0\">" . "Kategorier" . "</a>";
+            $path .= "<img src=\"/ezlink/images/pil.gif\" border=\"0\" height=\"10\" width=\"10\"> <a href=\"/link/group/0\">" . "Kategorier" . "</a>";
         }
-        $path .= " <img src=\"/ezlink/images/pil.gif\" border=\"0\" height=\"10\" width=\"10\"> <a href=\"/link/?LGID=$id\">" . $lg->title() . "</a>";
+        $path .= " <img src=\"/ezlink/images/pil.gif\" border=\"0\" height=\"10\" width=\"10\"> <a href=\"/link/group/$id\">" . $lg->title() . "</a>";
         return $path;
     }
 

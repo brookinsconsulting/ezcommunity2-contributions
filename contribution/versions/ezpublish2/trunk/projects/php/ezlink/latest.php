@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: latest.php,v 1.6 2000/09/24 11:51:37 bf-cvs Exp $
+    $Id: latest.php,v 1.7 2000/10/10 07:01:09 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -12,20 +12,18 @@
 include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 
+$Language = $ini->read_var( "eZLinkMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 
-// include_once( "classes/template.inc" );
 include_once( "common/ezphputils.php" );
-
 include_once( "classes/eztemplate.php" );
 include_once( "ezlink/classes/ezlinkgroup.php" );
 include_once( "ezlink/classes/ezlink.php" );
 include_once( "ezlink/classes/ezhit.php" );
 
-$Language = "no_NO";
 
-
-$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZLinkMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "linklist.php" );
+$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZLinkMain", "TemplateDir" ). "/latest/",
+$DOC_ROOT . "/intl", $Language, "linklist.php" );
 $t->setAllStrings();
 
 $t->set_file( array(

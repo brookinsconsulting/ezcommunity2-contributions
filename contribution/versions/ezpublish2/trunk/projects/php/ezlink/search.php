@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: search.php,v 1.16 2000/09/14 18:04:47 bf-cvs Exp $
+    $Id: search.php,v 1.17 2000/10/10 07:01:09 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -16,6 +16,7 @@
 include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 
+$Language = $ini->read_var( "eZLinkMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 
 include_once( "classes/eztemplate.php" );
@@ -25,17 +26,16 @@ include_once( "ezlink/classes/ezlinkgroup.php" );
 include_once( "ezlink/classes/ezlink.php"  );
 include_once( "ezlink/classes/ezhit.php" );
 
-$Language= "no_NO";
-
-include_once( $DOC_ROOT . "classes/ezquery.php" );
+include_once( "classes/ezquery.php" );
 
 // setter template filer
-$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZLinkMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "search.php" );
+$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZLinkMain", "TemplateDir" ). "/search/",
+$DOC_ROOT . "/intl", $Language, "search.php" );
 $t->setAllStrings();
 
 $t->set_file( array(
-    "search_item" => "searchitemuser.tpl",
-    "search_list" => "searchlistuser.tpl"
+    "search_item" => "searchitem.tpl",
+    "search_list" => "searchlist.tpl"
     ) );
 
 $limit = "10";
