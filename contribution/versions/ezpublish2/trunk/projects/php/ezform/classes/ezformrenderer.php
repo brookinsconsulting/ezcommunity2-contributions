@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.10 2001/10/09 10:07:50 bf Exp $
+// $Id: ezformrenderer.php,v 1.11 2001/10/09 10:16:45 bf Exp $
 //
 // eZFormRenderer class
 //
@@ -232,7 +232,7 @@ class eZFormRenderer
         
         $elements = $this->Form->formElements();
 
-        if(  $ini->read_var( "eZFormMain", "CreateEmailDefaults" ) != "enabled" )
+        if ( $this->Form->isSendAsUser() )
         {
             if ( isset( $formSender ) )
             {
@@ -328,9 +328,12 @@ class eZFormRenderer
             if ( is_array( $value ) )
             {
                 foreach ( $value as $v )
+                {
                     $tmpValue .=  $v . "\n";
+                }
+                $value = $tmpValue;
             }
-            $value = $tmpValue;
+
 
             if ( $emailDefaults == true )
             {
