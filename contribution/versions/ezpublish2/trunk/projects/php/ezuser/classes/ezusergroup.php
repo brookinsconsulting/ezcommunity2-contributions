@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezusergroup.php,v 1.29 2001/08/16 13:33:32 ce Exp $
+// $Id: ezusergroup.php,v 1.30 2001/08/17 09:43:03 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -261,7 +261,7 @@ class eZUserGroup
     {
         if ( get_class( $user ) == "ezuser" )
         {
-            $userList = $this->users( $this->$ID );
+            $userList = $this->users( );
             if ( count( $userList ) > 0 )
             {
                 foreach ( $userList as $usr )
@@ -344,15 +344,27 @@ class eZUserGroup
         $ret = array();
         $db =& eZDB::globalDatabase();
 
-        $query = new eZQuery( array( "U.FirstName", "U.LastName",
-                                     "U.Login", "U.Email" ), $search );
-
-        $db->array_query( $user_array, "SELECT  UGL.UserID FROM eZUser_UserGroupLink AS UGL,
+        if ( $search )
+        {
+            $query = new eZQuery( array( "U.FirstName", "U.LastName",
+                                         "U.Login", "U.Email" ), $search );
+            
+            
+            $db->array_query( $user_array, "SELECT  UGL.UserID FROM eZUser_UserGroupLink AS UGL,
                                                                eZUser_User AS U
                                                    WHERE ( $userSQL ) AND UGL.UserID=U.ID
                                                    AND ( " . $query->buildQuery() . " )
 
                                                    ORDER By $orderBy" );
+        }
+        else
+        {
+            $db->array_query( $user_array, "SELECT  UGL.UserID FROM eZUser_UserGroupLink AS UGL,
+                                                               eZUser_User AS U
+                                                   WHERE ( $userSQL ) AND UGL.UserID=U.ID
+                                                   ORDER By $orderBy" );
+
+        }
         foreach ( $user_array as $user )
         {
             $ret[] = new eZUser( $user[$db->fieldName( "UserID" )] );

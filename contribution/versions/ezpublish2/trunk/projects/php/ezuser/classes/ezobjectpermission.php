@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.26 2001/08/17 06:56:19 ce Exp $
+// $Id: ezobjectpermission.php,v 1.27 2001/08/17 09:43:03 ce Exp $
 //
 // Definition of eZObjectPermission class
 //
@@ -147,7 +147,7 @@ class eZObjectPermission
         if ( !$categoryID )
             return false;
 
-        $SQLGroups = "GroupID = '-1'";
+        $SQLGroups = "Object.GroupID = '-1'";
         if ( get_class( $user ) == "ezuser" )
         {
             $groups =& $user->groups( true );
