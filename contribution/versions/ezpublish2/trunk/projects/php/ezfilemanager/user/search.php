@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.4 2001/09/05 11:54:47 jhe Exp $
+// $Id: search.php,v 1.5 2001/09/10 08:02:21 jhe Exp $
 //
 // Created on: <10-May-2001 12:48:08 ce>
 //
@@ -57,7 +57,7 @@ if ( $SearchText )
 {
     $file = new eZVirtualFile();
     $fileList = $file->search( $SearchText, $Offset, $Limit );
-    $totalCount = $file->searchCount( $SearchText, "time", false );
+    $totalCount = $file->searchCount( $SearchText, $user ? $user->id() : -1 );
 
     $t->set_var( "url_text", urlencode( $SearchText ) );
 }
@@ -83,7 +83,7 @@ if ( count( $fileList ) > 0 )
         ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
     
         if ( eZObjectPermission::hasPermission( $file->id(), "filemanager_file", "r", $user ) ||
-             eZVirtualFile::isOwner( $user ,$file->id() ) )
+             eZVirtualFile::isOwner( $user, $file->id() ) )
         {
             $t->parse( "read", "read_tpl" );
             $i++;

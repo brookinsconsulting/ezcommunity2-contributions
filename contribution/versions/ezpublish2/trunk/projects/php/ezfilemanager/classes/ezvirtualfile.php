@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfile.php,v 1.44 2001/09/05 11:54:47 jhe Exp $
+// $Id: ezvirtualfile.php,v 1.45 2001/09/10 08:02:21 jhe Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -207,7 +207,6 @@ class eZVirtualfile
         $limit = array( "Limit" => $limit,
                         "Offset" => $offset );
 
-
         $db->array_query( $fileArray, $queryString, $limit );
 
         foreach ( $fileArray as $file )
@@ -220,19 +219,34 @@ class eZVirtualfile
     /*!
       Returns the total count of a query.
      */
-    function searchCount( &$queryText )
+    function searchCount( &$queryText, $userID = -1 )
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-
+        $user = new eZUser( $userID );
+        $groupString = "AND f.ID=p.ObjectID AND ( ( ( p.GroupID='-1' ";
+        if ( $user )
+        {
+            foreach ( $user->groups( true ) as $group )
+            {
+                $groupString .= "OR p.GroupID='$group' ";
+            }
+        }
+        $groupString .= ") AND p.ReadPermission='1' ) OR ( f.UserID='$userID' ) )";
         $query = new eZQuery( array( "Name", "Description", "OriginalFileName" ), $queryText );
-
-        $queryString = ( "SELECT COUNT(ID) as Count
-                        FROM eZFileManager_File
-                        WHERE (" . $query->buildQuery() . ")" );
+        $queryString = "SELECT COUNT(f.ID) as Count FROM eZFileManager_File as f";
+        if ( $user->hasRootAccess() )
+        {
+            $groupString = "";
+        }
+        else
+        {
+            $queryString .= ", eZFileManager_FilePermission as p";
+        }
+        $queryString .= " WHERE (" . $query->buildQuery() . ") $groupString ";
 
         $db->query_single( $result, $queryString );
-        $ret = $result[$db->fieldName("Count")];
+        $ret = $result[$db->fieldName( "Count" )];
 
         return $ret;
     }
@@ -334,7 +348,7 @@ class eZVirtualfile
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT UserID from eZFileManager_File WHERE ID='$file'");
         $userID = $res[$db->fieldName( "UserID" )];
-        if (  $userID == $user->id() )
+        if ( $userID == $user->id() )
             return true;
 
         return false;
