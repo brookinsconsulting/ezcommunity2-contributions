@@ -32,6 +32,18 @@ $t->set_var( "owner", $usr->login() );
 $dict = new eZPersonAddressDict();
 $dict_array = $dict->getByPerson( $person->id() );
 
+//  if ( count( $dict_array ) == 0 )
+//  {
+//  }
+
+if ( count( $dict_array ) == 0 )
+{
+    $t->set_var( "street1", "" );
+    $t->set_var( "street2", "" );
+    $t->set_var( "zip", "" );
+    $t->set_var( "place", "" );
+}
+    
 for ( $i=0; $i<count( $dict_array ); $i++ )
 {
     $address = new eZAddress();

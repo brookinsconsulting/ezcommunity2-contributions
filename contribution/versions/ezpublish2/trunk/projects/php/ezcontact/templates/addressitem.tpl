@@ -1,6 +1,6 @@
 <tr>
 <td bgcolor="#dddddd">
-<a href="javascript:UpdateAddress( '{address_street1}', '{address_street2}', '{address_zip}', '{address_id}', '{address_type_id}' )">{address_street1} {address_street2}</a> 
+<a href="javascript:UpdateAddress( '{address_street1}', '{address_street2}', '{address_zip}', '{address_id}', '{address_type_id}' )">{address_street1}<br> {address_street2} {address_zip}</a> 
 </td>
 <td bgcolor="#dddddd">
 {address_type_name}
