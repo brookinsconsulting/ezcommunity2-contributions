@@ -1,31 +1,19 @@
 One-line description:
 
-eZ publish is a content management system for e-commerce, e-publishing and intranets.
+eZ publish is a content management system for e-commerce, e-publishing and intranets
+eZ publish: content management system for e-commerce, e-publishing and intranets
 
 Short description:
 
-eZ publish is a web based application suite. It delivers functionality
-ranging from publishing of news, web logs and diaries, through web shop
-functionality like shopping carts and wishlists and forums to intranet
-functions like contact handling and bug reporting.
+eZ publish is a web based application suite. It delivers functionality ranging from publishing of news, web logs and diaries, through web shop functionality like shopping carts and wishlists and forums to intranet functions like contact handling and bug reporting.
 
-The software uses caching and other optimization techniques to speed up
-page serving. It handles users, user preferences and user tracking
-through a user database and both cookie-based and non-cookie sessions.
+The software uses caching and other optimization techniques to speed up page serving. It handles users, user preferences and user tracking through a user database and both cookie-based and non-cookie sessions.
 
-It supports statistics for page views, links followed and banner ads,
-both images and HTML with presentation logic.
+It supports statistics for page views, links followed and banner ads, both images and HTML with presentation logic.
 
-The package lends itself easily to customization, from changing the look
-and feel by changing templates, localizing the languages and other
-internationalization issues to adding new functionality.
+The package lends itself easily to customization, from changing the look and feel by changing templates, localizing the languages and other internationalization issues to adding new functionality.
 
-The target audience for eZ publish are e-commerce, ASP (Application
-Service Providers), BSP (Business Service Providers), news publishing,
-intranets, bug reporting, content management, discussion boards, FAQ and
-knowledge handling, file and image management, group ware, calendaring,
-polls, todo lists, appointments as well as personal web sites.
-
+The target audience for eZ publish are e-commerce, ASP (Application Service Providers), BSP (Business Service Providers), news publishing, intranets, bug reporting, content management, discussion boards, FAQ and knowledge handling, file and image management, group ware, calendaring, polls, todo lists, appointments as well as personal web sites.
 
 
 
