@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezuser.php,v 1.6 2000/07/18 13:40:35 lw-cvs Exp $
+    $Id: ezuser.php,v 1.7 2000/07/18 14:17:53 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -68,7 +68,7 @@ class eZUser {
     */
     function newUser()
     {
-        unset($id);    
+        unset($Id);    
     }
     
     /*!
@@ -76,10 +76,9 @@ class eZUser {
         
         $id : user ID
     */
-    function get($id)
+    function get( $id )
     {
-        //$id = addslashes($id);
-        $this->id = $id;
+        $this->Id = $id;
         
         openDB();
         $query_id = mysql_query("SELECT group_id,first_name, last_name, nick_name, email, state,
@@ -114,23 +113,6 @@ class eZUser {
     */
     function store()
     {
-        /*$this->groupID = addslashes($this->groupID);
-        $this->firstName = addslashes($this->firstName);
-        $this->lastName = addslashes($this->lastName);
-        $this->nickName = addslashes($this->nickName);
-        $this->email = addslashes($this->email);
-        $this->state = addslashes($this->state);
-        $this->phoneNumber = addslashes($this->phoneNumber);
-        $this->mobileNumber = addslashes($this->mobileNumber);
-        $this->faxNumber = addslashes($this->faxNumber);
-        $this->AddressOne = addslashes($this->AddressOne);
-        $this->AddressTwo = addslashes($this->AddressTwo);
-        $this->zipCode = addslashes($this->zipCode);
-        $this->city = addslashes($this->city);
-        $this->country = addslashes($this->country);
-        $this->regionInfo = addslashes($this->regionInfo);
-        $this->company = addslashes($this->company);*/
-
         openDB();
 
         if ($this->id) // an allready existing user record
@@ -553,14 +535,6 @@ class eZUser {
     
         return $returnName;
     }
-    function setSessionHash( $newSid )
-    {
-        $this->sid = $newSid;
-    }
-    function sessionHash()
-    {
-        return $this->sid;
-    }
 
     function getByAuthHash( $AuthHash )
     {
@@ -623,8 +597,9 @@ class eZUser {
         {
             $this->generateAuthHash();
             $this->store();
-            $msg = new eZMail();
 
+            // $this->get( $this->Id );
+            $msg = new eZMail();
             $msg->setTo( $email );
             $msg->setSubject( "eZ Forum @ " . $SERVER_NAME . "; New password." );
             $msg->setFrom("webmaster@" . $SERVER_NAME );
