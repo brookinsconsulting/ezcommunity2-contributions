@@ -85,9 +85,7 @@ if ( ( $LGID == 0 ) && ( $LGID != "incoming" ) )
             $t->set_var( "bg_color", "#dcdcdc" );
         }  
 
-
-
-//    $t->set_var( "bg_color", "#ffffdd" );
+    $t->set_var( "bg_color", "#ffffff" );
 
     $t->set_var( "linkgroup_id", "incoming" );
     $t->set_var( "linkgroup_title", "<br>Innkommende linker" );
