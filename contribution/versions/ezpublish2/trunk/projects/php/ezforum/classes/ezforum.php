@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.24 2001/04/23 12:00:41 fh Exp $
+// $Id: ezforum.php,v 1.25 2001/05/04 16:29:26 descala Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -87,7 +87,7 @@ class eZForum
 		                         IsPrivate='$this->IsPrivate'
                                  " );
 
-            $this->ID = mysql_insert_id();
+			$this->ID = $db->insertID();
 
             $this->State_ = "Coherent";
         }
@@ -659,3 +659,4 @@ class eZForum
 }
 
 ?>
+ 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.85 2001/05/04 13:21:24 ce Exp $
+// $Id: ezforummessage.php,v 1.86 2001/05/04 16:29:26 descala Exp $
 //
 // Definition of eZCompany class
 //
@@ -123,7 +123,7 @@ class eZForumMessage
        
                                  " );
 
-                $this->ID = mysql_insert_id();
+				$this->ID = $db->insertID();
             }
             else
             { // child node
@@ -165,7 +165,7 @@ class eZForumMessage
                                  PostingTime=now()
                                  " );
 
-                    $this->ID = mysql_insert_id();
+					$this->ID = $db->insertID();
                 }
                 else
                 {
@@ -780,3 +780,4 @@ class eZForumMessage
     var $State_;
 }
 ?>
+ 
