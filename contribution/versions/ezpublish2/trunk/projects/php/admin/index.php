@@ -36,8 +36,8 @@ include( "header.php" );
 $user = eZUser::currentUser();
 if ( $user )
 {
-    if ( $ini->read_var( "site", "eZPublish" ) == "enabled" )
-        include( "ezpublishadmin.php" );
+//      if ( $ini->read_var( "site", "eZPublish" ) == "enabled" )
+//          include( "ezpublishadmin.php" );
 
     if ( $ini->read_var( "site", "eZForum" ) == "enabled" )
         include( "ezforum/admin/menubox.php" );
@@ -46,10 +46,10 @@ if ( $user )
         include( "ezlink/admin/menubox.php" );
 
     if ( $ini->read_var( "site", "eZContact" ) == "enabled" )
-        include( "ezcontactadmin.php" );
+        include( "ezcontact/admin/menubox.php" );
 
     if ( $ini->read_var( "site", "eZTodo" ) == "enabled" )
-        include( "eztodoadmin.php" );
+        include( "eztodo/admin/menubox.php" );
 
     if ( $ini->read_var( "site", "eZTrade" ) == "enabled" )
         include( "eztrade/admin/menubox.php" );

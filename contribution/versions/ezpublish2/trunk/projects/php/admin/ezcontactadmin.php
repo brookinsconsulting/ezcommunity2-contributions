@@ -1,18 +1,19 @@
-<table width="100%" border="0" cellspacing="0" cellpadding="4">
-<tr bgcolor="#500A0A"> 
-<td> 
-<p class="smallhead">Kontakter</p>
-</td>
+<tr>
+    <td><img src="/images/<? echo $SiteStyle; ?>/menu-t.gif" width="150" height="50"></td>
 </tr>
-<tr bgcolor="#C8B4B4"> 
-<td>
-<a class="small" href="/contact/phonetypelist/">Kontakt typer</a><br>
-<a class="small" href="/contact/addresstypelist/">Addresse typer</a><br>
-<a class="small" href="/contact/persontypelist/">Person typer</a><br>
-<a class="small" href="/contact/companytypelist/">Firma typer</a><br>
+<tr> 
+    <td background="/images/<? echo $SiteStyle; ?>/menu-m.gif">
+<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="small" href="/contact/phonetypelist/">Kontakt typer</a><br>
+<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="small" href="/contact/addresstypelist/">Addresse typer</a><br>
+<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="small" href="/contact/persontypelist/">Person typer</a><br>
+<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="small" href="/contact/companytypelist/">Firma typer</a><br>
 
-</td>
+
+	</td>
 </tr>
-</table>
-
-<img src="images/1x1.gif" width="120" height="4" border="0"><br>
+<tr>
+    <td><img src="/images/<? echo $SiteStyle; ?>/menu-b.gif" width="150" height="30"></td>
+</tr>
+<tr>
+	<td><img src="/images/<? echo $SiteStyle; ?>/1x1.gif" width="10" height="10"></td>
+</tr>
