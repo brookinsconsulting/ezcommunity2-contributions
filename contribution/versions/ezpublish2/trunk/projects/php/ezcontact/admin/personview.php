@@ -52,6 +52,8 @@ $t->set_block( "person_view", "no_project_status_tpl", "no_project_status" );
 $t->set_block( "person_view", "consultation_table_item_tpl", "consultation_table_item" );
 $t->set_block( "consultation_table_item_tpl", "consultation_item_tpl", "consultation_item" );
 
+$t->set_block( "person_view", "consultation_buttons_tpl", "consultation_buttons" );
+
 $t->set_var( "consultation_item", "" );
 $t->set_var( "consultation_table_item", "" );
 
@@ -247,42 +249,54 @@ if ( $Action == "view" )
     }
 
     // Consultation list
-    $max = $ini->read_var( "eZContactMain", "MaxPersonConsultationList" );
     $user = eZUser::currentUser();
-    $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), true, 0, $max );
-    $t->set_var( "consultation_type", "person" );
-    $t->set_var( "person_id", $PersonID  );
-
-    $locale = new eZLocale( $Language );
-    $i = 0;
-
-    foreach ( $consultations as $consultation )
+    if ( get_class( $user ) == "ezuser" )
     {
-        if( ( $i % 2 ) == 0 )
-        {
-            $t->set_var( "bg_color", "bglight" );
-        }
-        else
-        {
-            $t->set_var( "bg_color", "bgdark" );
-        }
+        $max = $ini->read_var( "eZContactMain", "MaxPersonConsultationList" );
+        $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), true, 0, $max );
+        $t->set_var( "consultation_type", "person" );
+        $t->set_var( "person_id", $PersonID  );
 
-        $t->set_var( "consultation_id", $consultation->id() );
-        $t->set_var( "consultation_date", $locale->format( $consultation->date() ) );
-        $t->set_var( "consultation_short_description", $consultation->shortDescription() );
-        $t->set_var( "consultation_status_id", $consultation->state() );
-        $t->set_var( "consultation_status", eZConsultation::stateName( $consultation->state() ) );
-        $t->parse( "consultation_item", "consultation_item_tpl", true );
-        $i++;
+        $locale = new eZLocale( $Language );
+        $i = 0;
+
+        foreach ( $consultations as $consultation )
+        {
+            if( ( $i % 2 ) == 0 )
+            {
+                $t->set_var( "bg_color", "bglight" );
+            }
+            else
+            {
+                $t->set_var( "bg_color", "bgdark" );
+            }
+
+            $t->set_var( "consultation_id", $consultation->id() );
+            $t->set_var( "consultation_date", $locale->format( $consultation->date() ) );
+            $t->set_var( "consultation_short_description", $consultation->shortDescription() );
+            $t->set_var( "consultation_status_id", $consultation->state() );
+            $t->set_var( "consultation_status", eZConsultation::stateName( $consultation->state() ) );
+            $t->parse( "consultation_item", "consultation_item_tpl", true );
+            $i++;
+        }
     }
 
-    if ( count( $consultations ) > 0 )
+    if ( get_class( $user ) == "ezuser" and count( $consultations ) > 0 )
     {
         $t->parse( "consultation_table_item", "consultation_table_item_tpl", true );
     }
     else
     {
         $t->set_var( "consultation_table_item", "" );
+    }
+
+    if ( get_class( $user ) == "ezuser" )
+    {
+        $t->parse( "consultation_buttons", "consultation_buttons_tpl" );
+    }
+    else
+    {
+        $t->set_var( "consultation_buttons", "" );
     }
 }
 

@@ -17,6 +17,7 @@ $t->setAllStrings();
 
 include_once( "ezcontact/classes/ezperson.php" );
 include_once( "ezcontact/classes/ezprojecttype.php" );
+include_once( "ezuser/classes/ezuser.php" );
 
 $t->set_file( array(
     "person_page" => "personlist.tpl"
@@ -29,6 +30,7 @@ $t->set_block( "person_table_tpl", "person_item_tpl", "person_item" );
 
 $t->set_block( "person_item_tpl", "person_state_tpl", "person_state" );
 $t->set_block( "person_item_tpl", "no_person_state_tpl", "no_person_state" );
+$t->set_block( "person_item_tpl", "person_consultation_button_tpl", "person_consultation_button" );
 
 $t->set_block( "person_table_tpl", "person_list_tpl", "person_list" );
 
@@ -74,6 +76,16 @@ $count = count( $persons );
 
 $t->set_var( "person_table", "" );
 $t->set_var( "no_persons", "" );
+
+$user = eZUser::currentUser();
+if ( get_class( $user ) == "ezuser" )
+{
+    $t->parse( "person_consultation_button", "person_consultation_button_tpl" );
+}
+else
+{
+    $t->set_var( "person_consultation_button", "" );
+}
 
 if( $count == 0 )
 {

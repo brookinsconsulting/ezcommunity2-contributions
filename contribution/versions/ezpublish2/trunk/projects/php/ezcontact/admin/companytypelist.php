@@ -11,6 +11,7 @@ $Language = $ini->read_var( "eZContactMain", "Language" );
 include_once( "classes/eztemplate.php" );
 include_once( "ezcontact/classes/ezcompanytype.php" );
 include_once( "ezcontact/classes/ezcompany.php" );
+include_once( "ezuser/classes/ezuser.php" );
 
 if( empty( $TypeID ) )
 {
@@ -57,6 +58,7 @@ else
     $t->set_block( "type_page", "no_companies_tpl", "no_companies" );
     $t->set_block( "type_page", "companies_table_tpl", "companies_table" );
     $t->set_block( "company_item_tpl", "no_image_tpl", "no_image" );
+    $t->set_block( "company_item_tpl", "company_consultation_button_tpl", "company_consultation_button" );
 
     
     $t->set_var( "image_item", "" );
@@ -245,6 +247,16 @@ else
 
     // List all the companies.
     $companyList = $company->getByCategory( $TypeID );
+
+    $user = eZUser::currentUser();
+    if ( get_class( $user ) == "ezuser" )
+    {
+        $t->parse( "company_consultation_button", "company_consultation_button_tpl" );
+    }
+    else
+    {
+        $t->set_var( "company_consultation_button", "" );
+    }
 
     if ( count ( $companyList ) == 0 )
     {

@@ -45,9 +45,11 @@
 	</td>
 	<!-- END no_person_state_tpl -->
 
+	<!-- BEGIN person_consultation_button_tpl -->
 	<td width="1%">
 	<a href="/contact/consultation/person/new/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezn{person_id}-red','','/images/addminimrk.gif',1)"><img name="ezn{person_id}-red" border="0" src="/images/addmini.gif" width="16" height="16" align="top"></a>
 	</td>
+	<!-- END person_consultation_button_tpl -->
 
 	<td width="1%">
 	<a href="/contact/person/edit/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{person_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezc{person_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>

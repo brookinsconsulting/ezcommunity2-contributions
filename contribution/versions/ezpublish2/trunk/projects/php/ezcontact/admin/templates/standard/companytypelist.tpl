@@ -180,9 +180,11 @@
 	<!-- END no_image_tpl -->	
 	</td>
 
+	<!-- BEGIN company_consultation_button_tpl -->
 	<td class="{td_class}" width="1%">
-	<a href="/contact/consultation/company/new/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezn{company_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezn{company_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="/contact/consultation/company/new/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezn{company_id}-red','','/images/addminimrk.gif',1)"><img name="ezn{company_id}-red" border="0" src="/images/addmini.gif" width="16" height="16" align="top"></a>
 	</td>
+	<!-- END company_consultation_button_tpl -->
 
 	<td class="{td_class}" width="1%">
 	<a href="/contact/company/edit/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{company_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezc{company_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>

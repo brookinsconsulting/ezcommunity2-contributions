@@ -193,6 +193,8 @@
 <input class="okbutton" type="submit" name="Edit" value="{intl-edit}">
 <input type="submit" name="Delete" value="{intl-delete}" />
 <input type="submit" name="Back" value="{intl-list}">
+<!-- BEGIN consultation_buttons_tpl -->
 <input type="submit" name="ListConsultation" value="{intl-consultation_list}">
 <input type="submit" name="NewConsultation" value="{intl-consultation}">
+<!-- END consultation_buttons_tpl -->
 </form>
