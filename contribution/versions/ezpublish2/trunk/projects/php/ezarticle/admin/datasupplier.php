@@ -235,8 +235,7 @@ switch ( $url_array[2] )
         if ( $url_array[3] == "insert" )
         {
             $Action = "insert";
-            if( eZArticleCategory::hasWritePermission( $user, $ArticleID ) )
-                include( "ezarticle/admin/categoryedit.php" );
+            include( "ezarticle/admin/categoryedit.php" );
         }
         if ( $url_array[3] == "new" )
         {
@@ -247,22 +246,19 @@ switch ( $url_array[2] )
         {
             $CategoryID = $url_array[4];
             $Action = "update";
-            if( eZArticleCategory::hasWritePermission( $user, $ArticleID ) )
-                include( "ezarticle/admin/categoryedit.php" );
+            include( "ezarticle/admin/categoryedit.php" );
         }
         if ( $url_array[3] == "delete" )
         {
             $CategoryID = $url_array[4];
             $Action = "delete";
-            if( eZArticleCategory::hasWritePermission( $user, $ArticleID ) )
-                include( "ezarticle/admin/categoryedit.php" );
+            include( "ezarticle/admin/categoryedit.php" );
         }
         if ( $url_array[3] == "edit" )
         {
             $CategoryID = $url_array[4];
             $Action = "edit";
-            if( eZArticleCategory::hasWritePermission( $user, $ArticleID ) )
-                include( "ezarticle/admin/categoryedit.php" );
+            include( "ezarticle/admin/categoryedit.php" );
         }
 
     }
