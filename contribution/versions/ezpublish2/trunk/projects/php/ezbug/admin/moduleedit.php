@@ -120,28 +120,31 @@ $moduleList = $module->getAll();
 
 foreach( $moduleList as $moduleItem )
 {
-    $t->set_var( "module_parent_name", $moduleItem->name() );
-    $t->set_var( "module_parent_id", $moduleItem->id() );
-
-
-    if ( get_class( $parent ) == "ezbugmodule" )
+    if( $ModuleID != $moduleItem->id() )
     {
-        if ( $parent->id() == $moduleItem->id() )
+        $t->set_var( "module_parent_name", $moduleItem->name() );
+        $t->set_var( "module_parent_id", $moduleItem->id() );
+
+
+        if ( get_class( $parent ) == "ezbugmodule" )
         {
-            $t->set_var( "is_selected", "selected" );
+            if ( $parent->id() == $moduleItem->id() )
+            {
+                $t->set_var( "is_selected", "selected" );
+            }
+            else
+            {
+                $t->set_var( "is_selected", "" );
+            }
         }
         else
         {
             $t->set_var( "is_selected", "" );
         }
-    }
-    else
-    {
-        $t->set_var( "is_selected", "" );
-    }
         
 
-    $t->parse( "module_item", "module_item_tpl", true );
+        $t->parse( "module_item", "module_item_tpl", true );
+    }
 }
 
 // group selector
