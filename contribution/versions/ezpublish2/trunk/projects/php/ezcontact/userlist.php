@@ -1,4 +1,14 @@
 <?
+print( "<SCRIPT>\n" );
+print( "<!---\n" );
+print( "function dialogen(f) {\n");
+print( "	if( confirm( \"Slette?\" ) )\n" );
+print( "		f.submit(); \n" );
+print( "}\n " );
+print( "// -->\n" );
+print( "</SCRIPT>\n " );
+
+
 include  "template.inc";
 require "ezphputils.php";
 require "ezcontact/dbsettings.php";

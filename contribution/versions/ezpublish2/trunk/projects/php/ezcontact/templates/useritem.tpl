@@ -10,6 +10,8 @@
 	</td>
 	</td>
 	<td bgcolor="{bg_color}">
-	<a href="index.php4?prePage={document_root}useredit.php4&Action=delete&UID={user_id}">Slett</a>
+
+	<a href="#" onClick="verify( 'Slette bruker?', 'index.php4?prePage={document_root}useredit.php4&Action=delete&UID={user_id}'); return false;">Slette bruker</a>
+
 	</td>
 </tr>

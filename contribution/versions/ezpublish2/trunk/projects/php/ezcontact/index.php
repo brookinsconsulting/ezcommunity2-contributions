@@ -18,11 +18,17 @@ if ( file_exists( $prePage ) )
                 function NewWindow(bredde,hoyde,url) {
                         window.open(url,"_blank","menubars=0,scrollbars=1,resizable=0,height="+hoyde+",width="+bredde);
                 }
+
+     function verify( msg, url )
+     {
+	if ( confirm( msg ) )
+	{
+	this.location = url;
+	}
+     }
+
 //-->
 </SCRIPT>  
-
-
-
 
 </head>
 <body>
