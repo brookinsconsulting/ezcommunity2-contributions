@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.18 2001/03/12 15:03:29 pkej Exp $
+// $Id: login.php,v 1.19 2001/03/29 11:15:46 jakobn Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -56,18 +56,50 @@ if ( $Action == "login" )
 
     if ( ( $user )  && eZPermission::checkPermission( $user, "eZUser", "AdminLogin" ) )
     {
-        eZLog::writeNotice( "Admin login: $Username from IP: $REMOTE_ADDR" );
+        if ( $user->get( $user->ID ) )
+        {
+            $logins = $user->getLogins( $user->ID );
+            $AllowSimultaneousLogins =  $ini->read_var( "eZUserMain", "SimultaneousLogins" );
 
-        eZUser::loginUser( $user );
+            if ( $AllowSimultaneousLogins == "disabled" )
+            {
+                $MaxLogins = "1";
+            }
+            else
+            {
+                $MaxLogins = $user->simultaneousLogins();
+            }
 
-        if ( !isset( $RefererURL ) )
-            $RefererURL = "/";
-        eZHTTPTool::header( "Location: $RefererURL" );
-        exit();
+            if ( ( $logins < $MaxLogins ) || ( $MaxLogins == 0 ) )
+            {
+            
+                eZLog::writeNotice( "Admin login: $Username from IP: $REMOTE_ADDR" );
+
+                eZUser::loginUser( $user );
+
+                if ( !isset( $RefererURL ) )
+                    $RefererURL = "/";
+                
+                eZHTTPTool::header( "Location: $RefererURL" );
+                exit();
+            }
+            else
+            {
+                eZLog::writeWarning( "Max limit reached: $Username from IP: $REMOTE_ADDR" );
+        
+                $error = true;    
+            }
+        }
+        else
+        {
+            ezLog::writeError( "Couldn't recieve admininformation on : $Username from IP: $REMOTE_ADDR" );
+
+            $error = true;
+        }
     }
     else
     {
-        eZLog::writeWarning( "Bad admin  login: $Username from IP: $REMOTE_ADDR" );
+        eZLog::writeWarning( "Bad admin login: $Username from IP: $REMOTE_ADDR" );
         
         $error = true;
     }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.55 2001/03/13 13:21:10 pkej Exp $
+// $Id: ezuser.php,v 1.56 2001/03/29 11:15:47 jakobn Exp $
 //
 // Definition of eZCompany class
 //
@@ -38,6 +38,7 @@
   $user->setEmail( "bf@ez.no" );
   $user->setFirstName( "Bård" );
   $user->setLastName( "Farstad" );
+  $user->setSimultaneousLogins( "10" );
 
   // check if a user with that username exists
   if ( !$user->exists( $user->login() ) )
@@ -105,24 +106,26 @@ class eZUser
         if ( !isset( $this->ID ) )
         {
             $db->query( "INSERT INTO eZUser_User SET
-		                         Login='$this->Login',
+		                 Login='$this->Login',
                                  Password=PASSWORD('$this->Password'),
                                  Email='$this->Email',
                                  InfoSubscription='$this->InfoSubscription',
                                  FirstName='$this->FirstName',
                                  LastName='$this->LastName',
-                                 Signature='$this->Signature'" );
+                                 Signature='$this->Signature',
+				 SimultaneousLogins='$this->SimultaneousLogins'" );
             $this->ID = mysql_insert_id();
         }
         else
         {
             $db->query( "UPDATE eZUser_User SET
-		                         Login='$this->Login',
+		                 Login='$this->Login',
                                  Email='$this->Email',
                                  InfoSubscription='$this->InfoSubscription',
                                  FirstName='$this->FirstName',
                                  Signature='$this->Signature',
-                                 LastName='$this->LastName'
+                                 LastName='$this->LastName',
+                                 SimultaneousLogins='$this->SimultaneousLogins',
                                  WHERE ID='$this->ID'" );
 
             // update password if set.
@@ -196,6 +199,7 @@ class eZUser
         $this->FirstName =& $user_array[ "FirstName" ];
         $this->LastName =& $user_array[ "LastName" ];
         $this->Signature =& $user_array[ "Signature" ];
+        $this->SimultaneousLogins =& $user_array[ "SimultaneousLogins" ];
     }
 
     /*!
@@ -333,8 +337,7 @@ class eZUser
         }
         return $ret;
     }
-
-
+    
     /*!
       \static
       Returns the eZUser object if a user with that login exits.
@@ -436,6 +439,14 @@ class eZUser
     {
         return htmlspecialchars( $this->LastName );
     }
+
+    /*!
+      Returns the number og simultaneous logins allowed on this account.
+    */
+    function simultaneousLogins( )
+    {
+	return htmlspecialchars( $this->SimultaneousLogins );
+    }
     
     /*!
       Sets the signature.
@@ -501,6 +512,16 @@ class eZUser
     function setLastName( $value )
     {
        $this->LastName = $value;
+    }
+
+    /*!
+      Sets the number of simultaneous connections on this account.
+    */
+    function setSimultaneousLogins ( $value )
+    {
+       $this->SimultaneousLogins = $value;
+
+       setType( $this->SimultaneousLogins, "integer" );
     }
 
     /*!
@@ -636,6 +657,21 @@ class eZUser
         }
         
         return $ret;
+    }
+
+    /*!
+      Returns the current number of logged in users on one userid.
+    */
+    function getLogins( $userId )
+    {
+        $userSessionList = eZUser::currentUsers();
+        $logins=0;
+        foreach( $userSessionList as $userSessionItem )
+        {
+            if ( $userSessionItem[0]->id() == $userId )
+                $logins++;
+        }
+        return $logins;
     }
 
     /*!
@@ -791,6 +827,7 @@ class eZUser
     var $LastName;
     var $InfoSubscription;
     var $Signature;
+    var $SimultaneousLogins;
     var $StoredTimeout;
 }
 

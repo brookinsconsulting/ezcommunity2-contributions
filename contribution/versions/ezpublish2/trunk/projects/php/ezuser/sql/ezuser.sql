@@ -190,6 +190,7 @@ CREATE TABLE eZUser_User (
   FirstName varchar(50),
   LastName varchar(50),
   InfoSubscription enum('true','false') DEFAULT 'false',
+  SimultaneousLogins int(11) DEFAULT '0' NOT NULL,
   Signature text NOT NULL,
   PRIMARY KEY (ID),
   UNIQUE Login (Login)

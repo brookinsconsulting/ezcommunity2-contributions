@@ -64,6 +64,13 @@
 	</td>
 </tr>
 <tr>
+        <td colspan="2">
+        <p class="boxtext">{intl-simultaneouslogins}</p>
+	<input type="text" {read_only} size="5" name="SimultaneousLogins" value="{simultaneouslogins_value}"/>
+	<br /><br />
+	</td>
+</tr>
+<tr>
 	<td colspan="2">
 	<input {info_subscription} type="checkbox" name="InfoSubscription" />
 	<span class="p">{intl-infosubscription}</span>

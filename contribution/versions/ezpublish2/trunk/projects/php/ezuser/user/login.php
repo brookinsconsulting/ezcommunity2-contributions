@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.24 2001/03/08 13:54:50 jb Exp $
+// $Id: login.php,v 1.25 2001/03/29 11:15:47 jakobn Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -65,47 +65,77 @@ $t = new eZTemplate( "ezuser/user/" . $ini->read_var( "eZUserMain", "TemplateDir
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "login" => "login.tpl"
-    ) );
+$t->set_file( array("login" => "login.tpl") );
 
 if ( $Action == "login" )
 {
     $user = new eZUser();
-    $user = $user->validateUser( $Username, $Password );
+    $user = $user->validateUser( $Username, $Password );    
 
     if ( $user )
     {
-        eZLog::writeNotice( "User login: $Username from IP: $REMOTE_ADDR" );
-        
-        eZUser::loginUser( $user );
-
-        if ( isSet( $RedirectURL ) )
+        if ( $user->get( $user->ID ) )
         {
-            $stringTmp = split( "/", $RedirectURL );
-            
-            if ( $stringTmp[2] == "norights" )
+            $logins = $user->getLogins( $user->ID );
+            $AllowSimultaneousLogins =  $ini->read_var( "eZUserMain", "SimultaneousLogins" );
+
+            if ( $AllowSimultaneousLogins == "disabled" )
             {
-                eZHTTPTool::header( "Location: /" );
-                exit();
+                $MaxLogins = "1";
             }
             else
             {
-                if ( $RedirectURL == "" )
-                {
-                    $RedirectURL = "/";
-                }
+                $MaxLogins = $user->simultaneousLogins();
+            }
+            
 
-                eZHTTPTool::header( "Location: $RedirectURL" );
+            if ( ( $logins < $MaxLogins ) || ( $MaxLogins  == "0" ) )
+            {      
+                eZLog::writeNotice( "User login: $Username from IP: $REMOTE_ADDR" );
+                
+                eZUser::loginUser( $user );
+                
+                if ( isSet( $RedirectURL ) )
+                {
+                    $stringTmp = split( "/", $RedirectURL );
+                    
+                    if ( $stringTmp[2] == "norights" )
+                    {
+                        eZHTTPTool::header( "Location: /" );
+                        exit();
+                    }
+                    else
+                    {
+                        if ( $RedirectURL == "" )
+                        {
+                            $RedirectURL = "/";
+                        }
+
+                        eZHTTPTool::header( "Location: $RedirectURL" );
+                        exit();
+                    }
+                }
+                else
+                {
+                    eZHTTPTool::header( "Location: /" );
+                    exit();
+                }
+            }
+            else
+            {
+                eZLog::writeWarning( "Max limit reached: $Username from IP: $REMOTE_ADDR" );
+        
+                eZHTTPTool::header( "Location: /user/norights/?Error=MaxLogins&RedirectURL=$RedirectURL" );
                 exit();
             }
         }
         else
         {
-            eZHTTPTool::header( "Location: /" );
+            ezLog::writeError( "Couldn't recieve userinformastion on : $Username from IP: $REMOTE_ADDR" );
+
+            ezHTTPTool::header( "Location: /user/norights/?Error=UnknownError&RedirectURL=$RedirectURL" );
             exit();
         }
-
     }
     else
     {

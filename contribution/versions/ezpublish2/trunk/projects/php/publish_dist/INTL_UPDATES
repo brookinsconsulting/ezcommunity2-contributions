@@ -41,6 +41,13 @@ change: added products=Products
 mod: eztrade/user, extendedsearch.php.ini
 change: all_category=All
 
+mod: ezuser/user, norights.php.ini
+change: max_logins=The maximum number of users on this account are aleready logged in
+
+mod: ezuser/admin, login.php.ini
+change: max_logins=The maximum number of users on this account are aleready logged in
+
+
 #### PRE2 - 2.0 Final ####################
 
 mod: ezcontact/admin, menubox.php.ini

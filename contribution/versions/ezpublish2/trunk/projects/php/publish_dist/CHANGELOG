@@ -16,6 +16,8 @@ Changes from 2.0.0 to 2.0.1
 * Fixed cron update of news feeds.
 * Fixed a reply/post error in forum where anonymous users could post when they shouldn't be able to.
 * Fixed the links in the e-mails sent when people posts to the forum.
+* Added the posibility to restrict the numbers of simultaneous logins on one account.
+* Moved stylesheets in admin to the template directories.
 
 Changes from version 2.0 PRE 2 to 2.0.0
 ---------------------------------------

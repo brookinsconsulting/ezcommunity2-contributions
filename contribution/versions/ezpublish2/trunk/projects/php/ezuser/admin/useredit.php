@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.20 2001/03/01 14:06:26 jb Exp $
+// $Id: useredit.php,v 1.21 2001/03/29 11:15:46 jakobn Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -57,7 +57,8 @@ if ( $Action == "insert" )
         if ( $Login != "" &&
         $Email != "" &&
         $FirstName != "" &&
-        $LastName != "" )
+        $LastName != "" &&
+        $SimultaneousLogins != "")
         {
             if ( ( $Password == $VerifyPassword ) && ( strlen( $VerifyPassword ) > 2 ) )
             {
@@ -73,6 +74,7 @@ if ( $Action == "insert" )
                         $user->setFirstName( $FirstName );
                         $user->setLastName( $LastName );
                         $user->setSignature( $Signature );
+                        $user->setSimultaneousLogins( $SimultaneousLogins );
 
                         if ( $InfoSubscription == "on" )
                             $user->setInfoSubscription( true );
@@ -80,7 +82,7 @@ if ( $Action == "insert" )
                             $user->setInfoSubscription( false );
                         
                         $user->store();
-                        eZLog::writeNotice( "User created: $FirstName $LastName ($Login) $Email from IP: $REMOTE_ADDR" );
+                        eZLog::writeNotice( "User created: $FirstName $LastName ($Login) $Email $SimultaneousLogins  from IP: $REMOTE_ADDR" );
                         
                         // Add user to groups
                         if ( isset( $GroupArray ) )
@@ -132,7 +134,8 @@ if ( $Action == "update" )
         if ( $Login != "" &&
         $Email != "" &&
         $FirstName != "" &&
-        $LastName != "" )
+        $LastName != "" &&
+        $SimultaneousLogins != "")
         {
             if (  ( ( $Password == $VerifyPassword ) && ( strlen( $VerifyPassword ) > 2 ) ) ||
                   ( ( $Password == $VerifyPassword ) && ( strlen( $VerifyPassword ) == 0 ) ) )
@@ -154,6 +157,8 @@ if ( $Action == "update" )
 
                         $user->setFirstName( $FirstName );
                         $user->setLastName( $LastName );
+
+                        $user->setSimultaneousLogins( $SimultaneousLogins );
                         
                         if ( strlen( $Password ) > 0 )
                         {
@@ -215,9 +220,11 @@ if ( $Action == "delete" )
         $lastName = $user->lastName();
         $email = $user->email();
         $login = $user->login();
+        $simultaneousLogins = $user->simultaneousLogins();
+        
         $user->delete();
         
-        eZLog::writeNotice( "User deleted: $firstname $lastname ($login) $email from IP: $REMOTE_ADDR" );
+        eZLog::writeNotice( "User deleted: $firstname $lastname ($login) $email $simultaneousLogins from IP: $REMOTE_ADDR" );
         eZHTTPTool::header( "Location: /user/userlist/" );
         exit();
     }
@@ -238,9 +245,11 @@ if ( $Action == "DeleteUsers" )
             $lastName = $user->lastName();
             $email = $user->email();
             $login = $user->login();
+            $simultaneousLogins = $user->simultaneousLogins();
+
             $user->delete();
             
-            eZLog::writeNotice( "User deleted: $firstname $lastname ($login) $email from IP: $REMOTE_ADDR" );
+            eZLog::writeNotice( "User deleted: $firstname $lastname ($login) $email $simultaneousLogins from IP: $REMOTE_ADDR" );
         }
         eZHTTPTool::header( "Location: /user/userlist/" );
         exit();
@@ -263,8 +272,11 @@ if ( $Action == "new" )
     $Lastname = "";
     $Email = "";
     $Login = "";
+    $SimultaneousLogins = $ini->read_var( "eZUserMain", "DefaultSimultaneousLogins" );
 }
+
 $ActionValue = "insert";
+
 if ( $Action == "update" )
 {
     $ActionValue = "update";
@@ -295,7 +307,8 @@ if ( $Action == "edit" )
     $Email = $user->email();
     $Login = $user->login();
     $Signature = $user->signature();
-
+    $SimultaneousLogins = $user->simultaneousLogins();
+    
     $headline = new INIFIle( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", false );
     $t->set_var( "head_line", $headline->read_var( "strings", "head_line_edit" ) );
 
@@ -346,7 +359,7 @@ $t->set_var( "password_value", "" );
 $t->set_var( "verify_password_value", "" );
 $t->set_var( "action_value", $ActionValue );
 $t->set_var( "user_id", $UserID );
-
+$t->set_var( "simultaneouslogins_value", $SimultaneousLogins );
 $t->pparse( "output", "user_edit" );
 
 ?>

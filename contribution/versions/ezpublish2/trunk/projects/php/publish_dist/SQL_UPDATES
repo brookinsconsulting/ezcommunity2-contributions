@@ -661,3 +661,5 @@ CREATE TABLE eZTrade_ProductSectionDict (
   PRIMARY KEY (ProductID,SectionID)
 ) TYPE=MyISAM;
 
+# Add SimultaneousLogins to eZUser_User
+ALTER TABLE eZUser_User ADD SimultaneousLogins int(11) DEFAULT '0' NOT NULL;
