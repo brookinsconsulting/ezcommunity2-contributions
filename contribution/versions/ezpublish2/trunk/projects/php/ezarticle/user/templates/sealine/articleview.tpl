@@ -50,7 +50,7 @@
 </p>
 
 <!-- BEGIN numbered_page_link_tpl -->
-| <a class="path" href="/article/articleview/{article_id}/0/">{intl-numbered_page}</a> |
+<center> | <a class="path" href="/article/articleview/{article_id}/0/">Tilbake til normal sidevisning</a> | </center>
 <!-- END numbered_page_link_tpl -->
 
 <!-- BEGIN print_page_link_tpl -->
