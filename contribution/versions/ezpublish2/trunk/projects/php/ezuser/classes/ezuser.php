@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.78 2001/07/14 13:44:25 bf Exp $
+// $Id: ezuser.php,v 1.79 2001/07/14 14:08:14 bf Exp $
 //
 // Definition of eZUser class
 //
@@ -173,14 +173,12 @@ class eZUser
                 // backwards compatible passwords
                 if ( $db->isA() == "mysql" )
                 {
-                print( "mysql" );                    
                     $db->query( "UPDATE eZUser_User SET
                                  Password=PASSWORD('$this->Password')
                                  WHERE ID='$this->ID'" );
                 }
                 else
                 {
-                print( "not mysql" );                    
                     $password = md5( $this->Password );
 
                     $db->query( "UPDATE eZUser_User SET
