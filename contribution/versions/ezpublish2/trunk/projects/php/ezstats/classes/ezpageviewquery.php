@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageviewquery.php,v 1.10 2001/02/09 17:08:06 jb Exp $
+// $Id: ezpageviewquery.php,v 1.11 2001/02/11 18:13:30 jb Exp $
 //
 // Definition of eZPageViewQuery class
 //
@@ -505,8 +505,8 @@ class eZPageViewQuery
         if ( $month < 10 )
             $month = "0" . $month;
         if ( $day < 10 )
-            $sday = "0" . $day;
-        $stamp = $year . $month . $sday;
+            $day = "0" . $day;
+        $stamp = $year . $month . $day;
 
         $TotalPages = 0;
         // loop over the days
