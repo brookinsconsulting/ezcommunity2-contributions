@@ -35,7 +35,7 @@
 </table>
 <br />
 <!--
-<h2>{intl-addresses_headline}</h2>
+<p class="boxtext">{intl-addresses_headline}</p>
 -->
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
@@ -57,7 +57,7 @@
 </table>
 
 <!-- BEGIN phone_item_tpl -->
-<!-- <h2>{intl-telephone_headline}</h2> -->
+<!-- <p class="boxtext">{intl-telephone_headline}</p> -->
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <!-- BEGIN phone_line_tpl -->
@@ -72,13 +72,13 @@
 
 <!-- BEGIN no_phone_item_tpl -->
 <!--
-<h2>{intl-telephone_headline}</h2>
+<p class="boxtext">{intl-telephone_headline}</p>
 <div class="p">{intl-error_no_phones}</div>
 -->
 <!-- END no_phone_item_tpl -->
 
 <!-- BEGIN online_item_tpl -->
-<!-- <h2>{intl-online_headline}</h2> -->
+<!-- <p class="boxtext">{intl-online_headline}</p> -->
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <!-- BEGIN online_line_tpl -->
@@ -93,7 +93,7 @@
 
 <!-- BEGIN no_online_item_tpl -->
 <!--
-<h2>{intl-online_headline}</h2>
+<p class="boxtext">{intl-online_headline}</p>
 <div class="p">{intl-error_no_onlines}</div>
 -->
 <!-- END no_online_item_tpl -->

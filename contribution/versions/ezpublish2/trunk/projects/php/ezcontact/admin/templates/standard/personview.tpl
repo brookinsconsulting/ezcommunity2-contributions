@@ -35,7 +35,7 @@
 </tr>
 </table>
 
-<h2>{intl-companies}</h2>
+<p class="boxtext">{intl-companies}</p>
 
 <!-- BEGIN company_item_tpl -->
 
@@ -49,7 +49,7 @@
 <br />
 
 <!-- BEGIN address_item_tpl -->
-<h2>{intl-addresses_headline}</h2>
+<p class="boxtext">{intl-addresses_headline}</p>
 <br />
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
 <tr>
@@ -66,12 +66,12 @@
 </table>
 <!-- END address_item_tpl -->
 <!-- BEGIN no_address_item_tpl -->
-<h2>{intl-addresses_headline}</h2>
+<p class="boxtext">{intl-addresses_headline}</p>
 <p>{intl-error_no_addresses}</p>
 <!-- END no_address_item_tpl -->
 
 
-<h2>{intl-telephone_headline}</h2>
+<p class="boxtext">{intl-telephone_headline}</p>
 <!-- BEGIN phone_item_tpl -->
 <br />
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
@@ -91,7 +91,7 @@
 <!-- END no_phone_item_tpl -->
 
 
-<h2>{intl-online_headline}</h2>
+<p class="boxtext">{intl-online_headline}</p>
 <!-- BEGIN online_item_tpl -->
 <br />
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
