@@ -43,7 +43,9 @@ $GlobalPageView->store();
 ob_end_clean();
 
 //  # the file may be a local file with full path.
-$filePath = "images/1x1.gif";
+// $filePath = "images/1x1.gif";
+
+$filePath = "design/base/images/design/1x1.gif";
 $fileSize = eZFile::filesize( $filePath );
 $fp = eZFile::fopen( $filePath, "r" );
 $content =& fread( $fp, $fileSize );
