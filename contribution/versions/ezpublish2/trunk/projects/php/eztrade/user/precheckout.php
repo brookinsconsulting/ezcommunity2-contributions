@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: precheckout.php,v 1.5 2001/10/06 11:23:44 bf Exp $
+// $Id: precheckout.php,v 1.6 2001/10/16 08:18:24 bf Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -30,8 +30,6 @@ include_once( "classes/ezhttptool.php" );
 
 $ini =& INIFile::globalINI();
 $ForceSSL = $ini->read_var( "eZTradeMain", "ForceSSL" );
-
-print( $ForceSSL );
 
 // set SSL mode and redirect if not already in SSL mode.
 if ( ( $ForceSSL == "enabled" ) )
@@ -85,6 +83,7 @@ elseif ( $ForceSSL == "choose" )
         ) );
 
     $t->set_var( "host", $HTTP_HOST );
+    $t->set_var( "php_session", "?PHPSESSID=" . $GLOBALS["PHPSESSID"] );
 
     $t->pparse( "output", "precheckout_tpl" );
 }
