@@ -61,9 +61,9 @@ http://<input type="text" name="Url" size="40" value="{url}">
 <hr noshade size="4"/>
 
 <input class="okbutton" type="submit" value="{intl-ok}">
+</form>
 
 <form method="post" action="/link/group/">
       <input class="okbutton" type="submit" name="Back" value="{intl-back}">
 </form>
 
-</form>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.32 2000/10/25 15:20:42 ce-cvs Exp $
+// $Id: ezlink.php,v 1.33 2000/10/26 11:18:03 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -84,7 +84,7 @@ class eZLink
         $this->dbInit();
        // Sets the created to the system clock
         $this->Created = date( "Y-m-d G:i:s" );        
-        query( "INSERT INTO eZLink_Link SET
+        $this->Database->query( "INSERT INTO eZLink_Link SET
                 ID='$this->ID',
                 Title='$this->Title',
                 Description='$this->Description',
@@ -101,7 +101,7 @@ class eZLink
     function update()
     {
         $this->dbInit();
-        query( "UPDATE eZLink_Link SET
+        $this->Database->query( "UPDATE eZLink_Link SET
                 Title='$this->Title',
                 Description='$this->Description',
                 LinkGroup='$this->LinkGroupID',
@@ -117,8 +117,8 @@ class eZLink
     function delete( )
     {
         $this->dbInit();
-        query( "DELETE FROM eZLink_Hit WHERE Link='$this->ID'" );        
-        query( "DELETE FROM eZLink_Link WHERE ID='$this->ID'" );
+        $this->Database->query( "DELETE FROM eZLink_Hit WHERE Link='$this->ID'" );        
+        $this->Database->query( "DELETE FROM eZLink_Link WHERE ID='$this->ID'" );
     }
 
     /*!

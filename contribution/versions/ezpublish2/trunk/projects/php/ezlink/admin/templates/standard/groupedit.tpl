@@ -39,12 +39,13 @@
 	<input class="okbutton" type="submit" value="{intl-submit_text}">
 	</td>
 	<td>&nbsp;</td>
+	</form>
 	<td>
 	<form method="post" action="/link/group/">
 	<input class="okbutton" type="submit" name="Back" value="{intl-back}">
 	</form>
 	</td>
 </tr>
+
 </table>
 	
-</form>

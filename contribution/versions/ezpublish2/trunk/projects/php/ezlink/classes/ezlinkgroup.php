@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.32 2000/10/25 10:21:44 ce-cvs Exp $
+// $Id: ezlinkgroup.php,v 1.33 2000/10/26 11:18:03 ce-cvs Exp $
 //
 // Definition of eZLinkGroup class
 //
@@ -73,7 +73,7 @@ class eZLinkGroup
     function store()
     {
         $this->dbInit();
-        query( "INSERT INTO eZLink_LinkGroup SET
+        $this->Database->query( "INSERT INTO eZLink_LinkGroup SET
                 ID='$this->ID',
                 Title='$this->Title',
                 Parent='$this->Parent'" );
@@ -85,7 +85,7 @@ class eZLinkGroup
     function update()
     {
         $this->dbInit();
-        query( "UPDATE eZLink_LinkGroup SET 
+        $this->Database->query( "UPDATE eZLink_LinkGroup SET 
                 Title='$this->Title',
                 Parent='$this->Parent'
                 WHERE ID='$this->ID'" );
@@ -97,7 +97,8 @@ class eZLinkGroup
     function delete( )
     {
         $this->dbInit();
-        query( "DELETE FROM eZLink_LinkGroup WHERE ID='$this->ID'" );
+        $this->Database->query( "DELETE FROM eZLink_Link WHERE LinkGroup='$this->ID'" );
+        $this->Database->query( "DELETE FROM eZLink_LinkGroup WHERE ID='$this->ID'" );
     }
 
     /*!

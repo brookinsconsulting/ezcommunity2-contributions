@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezhit.php,v 1.16 2000/10/25 10:21:44 ce-cvs Exp $
+// $Id: ezhit.php,v 1.17 2000/10/26 11:18:03 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -51,7 +51,7 @@ class eZHit
     function store()
     {
         $this->dbInit();
-        query( "INSERT INTO eZLink_Hit SET
+        $this->Database->query( "INSERT INTO eZLink_Hit SET
 				RemoteIP='$this->RemoteIP',
                 ID='$this->ID',
                 Link='$this->Link'" );
@@ -63,7 +63,7 @@ class eZHit
     function update()
     {
         $this->dbInit();
-        query( "UPDATE eZLink_Hit SET
+        $this->Database->query( "UPDATE eZLink_Hit SET
 				RemoteIP='$this->RemoteIP',
                 Link='$this->Link',
                 WHERE ID='$this->ID'" );
@@ -75,7 +75,7 @@ class eZHit
     function delete()
     {
         $this->dbInit();                
-        query( "DELETE FROM eZLink_Hit WHERE ID='$ID'" );
+        $this->Database->query( "DELETE FROM eZLink_Hit WHERE ID='$ID'" );
     }
 
     /*!
