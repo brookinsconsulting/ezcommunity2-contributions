@@ -31,68 +31,90 @@
 <table width="100%" border="0">
 <tr>
 	<td bgcolor="#888888">
-	<font color="#ffffff" size="4">Personinformasjon</font>	
+	<font color="#ffffff" size="4">&nbsp;&nbsp;Personinformasjon</font>	
+	</td>
+
+	<td bgcolor="#888888">
+	<font color="#ffffff" size="4">&nbsp;&nbsp;Kommentar</font>	
 	</td>
 </tr>
 <tr>
-	<td valign="top"  bgcolor="#eeeeee">
+	<td valign="top"  bgcolor="#f0f0f0">
 <form method="post"  name="CompanyAddressEdit" action="index.php4?page={document_root}personedit.php4">
-Kontakt person type:
 <br>
-<select name="PersonType">
+&nbsp;&nbsp;Kontakttype:
+<br>
+&nbsp;&nbsp;<select name="PersonType">
 {person_type}
 </select>
 <br>
-Ansatt i firma:'
+&nbsp;&nbsp;Ansatt i firma:'
 <br>
-<select name="CompanyID">
+&nbsp;&nbsp;<select name="CompanyID">
 {company_type}
 </select>
 <br>
-Fornavn:<br>
-<input type="text" name="FirstName" value="{first_name}"><br>
-Etternavn:<br>
-<input type="text" name="LastName" value="{last_name}"><br>
+&nbsp;&nbsp;Fornavn:<br>
+&nbsp;&nbsp;<input type="text" name="FirstName" value="{first_name}"><br>
+&nbsp;&nbsp;Etternavn:<br>
+&nbsp;&nbsp;<input type="text" name="LastName" value="{last_name}"><br><br>
 
-Kommentar:<br>
-<textarea rows="5" name="Comment">{comment}</textarea><br>
+&nbsp;&nbsp;<input type="submit" value="{submit_text}">
+<br>
+<br>
+</td>
+	
+<td bgcolor="#f0f0f0">
+
+&nbsp;&nbsp;Kommentar:<br>
+&nbsp;&nbsp;<textarea rows="5" name="Comment">{comment}</textarea><br>
 
 <input type="hidden" name="Action" value="{action_value}">
 <input type="hidden" name="PID" value="{person_id}">
-
-<input type="submit" value="{submit_text}">
 
 </form>
 
 	</td>
 <tr>
 </tr>
-	<td valign="top"  bgcolor="#ddeeee">
+<tr>
+	<td bgcolor="#888888">
+	<font color="#ffffff" size="4">&nbsp;&nbsp;Registrer ny adresse</font>	
+	</td>
+
+	<td bgcolor="#888888">
+	<font color="#ffffff" size="4">&nbsp;&nbsp;Registrerte adresser</font>	
+	</td>
+</tr>
+	<td valign="top"  bgcolor="#f0f0f0">
 
 <form method="post"  name="CompanyAddressEdit" action="index.php4?page={document_root}personedit.php4">
-
-Adresse type:
 <br>
-<select name="AddressType">
+&nbsp;&nbsp;Adressetype:
+<br>
+&nbsp;&nbsp;<select name="AddressType">
 {address_type}
 </select>
 <br>
 
-Adresse:<br>
-<input type="text" name="Street1" value="{street_1}"><br>
-<input type="text" name="Street2" value="{street_2}"><br>
-Postnummer:<br>
-<input type="text" name="Zip" value="{zip_code}"><br>
+&nbsp;&nbsp;Adresse:<br>
+&nbsp;&nbsp;<input type="text" name="Street1" value="{street_1}"><br>
+&nbsp;&nbsp;<input type="text" name="Street2" value="{street_2}"><br>
+&nbsp;&nbsp;Postnummer:<br>
+&nbsp;&nbsp;<input type="text" name="Zip" value="{zip_code}"><br>
 
 <input type="hidden" name="AddressAction" value="{address_action}">
 <input type="hidden" name="PID" value="{person_id}">
-<input type="hidden" name="AddressID" value="{address_id}">
-<input type="{address_action_type}"  name="AddressSubmit" value="{address_action_value}">
+<input type="hidden" name="AddressID" value="{address_id}"><br>
+
+&nbsp;&nbsp;<input type="{address_action_type}"  name="AddressSubmit" value="{address_action_value}">
+<br>
+<br>
 </td>
 <td>
-
+	<br>
 	<center>
-	<table width="80%" cellspacing="0" cellpadding="3" border="0">
+	<table width="95%" cellspacing="0" cellpadding="3" border="0">
 	{address_list}
 	</table>
 	</center>
@@ -105,24 +127,39 @@ Postnummer:<br>
 	</td>
 <tr>
 </tr>
-	<td valign="top" bgcolor="#eeeeee">
+<tr>
+	<td bgcolor="#888888">
+	<font color="#ffffff" size="4">&nbsp;&nbsp;Registrer nytt kontaktmedium</font>	
+	</td>
+
+	<td bgcolor="#888888">
+	<font color="#ffffff" size="4">&nbsp;&nbsp;Registrerte kontaktmedier</font>	
+	</td>
+</tr>
+
+	<td valign="top" bgcolor="#f0f0f0">
 
 <form method="post" name="CompanyPhoneEdit" action="index.php4?page={document_root}personedit.php4">
-
-Telefon:<br>
-<select name="PhoneType">
+<br>
+&nbsp;&nbsp;Kontaktmedium:<br>
+&nbsp;&nbsp;<select name="PhoneType">
 {phone_type}
 </select>
 
-<input type="text" name="PhoneNumber" value="{phone_edit_number}">
+<br>
+&nbsp;&nbsp;<input type="text" name="PhoneNumber" value="{phone_edit_number}">
+
 <input type="hidden" name="PhoneID" value="{phone_edit_id}">
-<input type="hidden" name="PhoneAction" value="{phone_action}">
-<input type="{phone_action_type}" name="PhoneSubmit" value="{phone_action_value}">
+<input type="hidden" name="PhoneAction" value="{phone_action}"><br><br>
+
+&nbsp;&nbsp;<input type="{phone_action_type}" name="PhoneSubmit" value="{phone_action_value}">
+<br>
+<br>
 </td>
 <td>
-
+	<br>
 	<center>
-	<table width="80%" cellspacing="0" cellpadding="3" border="0">
+	<table width="95%" cellspacing="0" cellpadding="3" border="0">
 	{phone_list}
 	</table>
 	</center>
