@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.72 2001/08/16 13:57:04 jhe Exp $
+// $Id: datasupplier.php,v 1.73 2001/08/16 13:57:46 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -261,7 +261,7 @@ switch ( $url_array[2] )
                 include( $cachedFile );
             }
             else if( eZObjectPermission::hasPermissionWithDefinition( $ArticleID, "article_article", 'r', false, $definition )
-                     || eZArticle::isAuthor( $user, $ArticleID ) )
+                     && eZArticle::isAuthor( $user, $ArticleID ) )
             {
                 $GenerateStaticPage = "true";
                 
@@ -269,7 +269,7 @@ switch ( $url_array[2] )
             }
         }
         else if ( eZObjectPermission::hasPermissionWithDefinition( $ArticleID, "article_article", 'r', false, $definition )
-        || eZArticle::isAuthor( $user, $ArticleID ) )
+        && eZArticle::isAuthor( $user, $ArticleID ) )
         {
             include( "ezarticle/user/articleview.php" );
         }
