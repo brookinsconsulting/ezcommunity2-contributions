@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.2 2000/10/26 13:23:25 ce-cvs Exp $
+// $Id: search.php,v 1.3 2000/12/03 14:09:48 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Oct-2000 20:33:02 bf>
@@ -36,9 +36,8 @@ $Language = $ini->read_var( "eZForumMain", "Language" );
 include_once( "classes/eztemplate.php" );
 
 
-$t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+$t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "AdminTemplateDir" ),
                      "ezforum/admin/intl", $Language, "search.php" );
-
 
 $t->setAllStrings();
 
@@ -64,7 +63,6 @@ $t->set_var( "previous", "" );
 $t->set_var( "next", "" );
 
 $t->set_var( "search_result", "" );
-
 
 
 if ( $QueryString != "" )
