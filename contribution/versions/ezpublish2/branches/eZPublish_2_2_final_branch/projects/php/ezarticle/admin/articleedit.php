@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.116.2.1 2001/11/19 10:10:58 bf Exp $
+// $Id: articleedit.php,v 1.116.2.2 2002/02/15 18:40:33 master Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -214,6 +214,32 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
                 $article->setIsPublished( false );
             }
         
+	    //EP: URL translation inside articles -------------------------
+	
+	    if ( $UrltranslatorEnabled )
+	    {
+        	$category = $article->categoryDefinition();
+		$url1 = "/article/articleview/" . $article->id() . "/1/" . $category->id();
+	
+		include_once( "ezurltranslator/classes/ezurltranslator.php" );
+		$urltranslator = new eZURLTranslator();
+		$urltranslator->getbydest ( $url1 );
+
+		if ( $Urltranslator )
+		{
+		    $urltranslator->setSource ( $Urltranslator );
+		    $urltranslator->setDest   ( $url1 );
+		    $urltranslator->store();
+		}
+		else
+		{
+		    $urltranslator->delete();
+		}
+	
+	    }	
+	    
+	    //EP -------------------------------------------------------------
+	
             // Time publishing
             if ( checkdate ( $StartMonth, $StartDay, $StartYear ) )
             {
@@ -405,6 +431,7 @@ $t->set_block( "publish_dates_tpl", "un_published_tpl", "un_published" );
 
 $t->set_block( "article_edit_page_tpl", "error_message_tpl", "error_message" );
 
+$t->set_block( "article_edit_page_tpl", "urltranslator_tpl", "urltranslator" );
 
 $Locale = new eZLocale( $Language );
 if ( $ErrorParsing == true )
@@ -421,6 +448,12 @@ $t->set_var( "article_is_published", "" );
 
 $t->set_var( "article_id", "" );
 $t->set_var( "article_name", stripslashes( $Name ) );
+
+//EP: URL translation : new article
+$t->set_var( "article_url", "" );
+$t->set_var( "article_urltranslator", "" );
+$t->set_var( "urltranslator", "" );
+
 $t->set_var( "article_keywords", stripslashes( $Keywords ) );
 $t->set_var( "article_contents_0", stripslashes( $Contents[0] ) );
 $t->set_var( "article_contents_1", stripslashes($Contents[1] ) );
@@ -548,6 +581,25 @@ if ( $Action == "Edit" )
         }
         $i++;
     }
+    
+    //EP: URL translation: article edit get translation
+    
+    if ( $ini->read_var( "eZArticleMain", "AdminURLTranslator" ) == "enabled" )
+    {    
+
+	$category = $article->categoryDefinition();
+	$url1 = "/article/articleview/" . $article->id() . "/1/" . $category->id();
+	$t->set_var( "article_url", $url1 );
+	
+        include_once( "ezurltranslator/classes/ezurltranslator.php" );
+        $urltranslator = new eZURLTranslator();
+	$urltranslator->getbydest ( $url1 );
+	$t->set_var( "article_urltranslator", $urltranslator->source() );	
+		       
+        $t->parse( "urltranslator", "urltranslator_tpl" );
+    }
+    
+    
     $t->set_var( "article_keywords", $article->manualKeywords() );
 
     $t->set_var( "author_text", $article->authorText() );
