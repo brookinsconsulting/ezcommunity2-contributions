@@ -17,6 +17,13 @@ CREATE TABLE eZCalendar_Appointment (
 );
 
 #
+# Dumping data for table 'eZCalendar_Appointment'
+#
+
+
+
+
+#
 # Table structure for table 'eZCalendar_AppointmentType'
 #
 DROP TABLE IF EXISTS eZCalendar_AppointmentType;
@@ -27,3 +34,11 @@ CREATE TABLE eZCalendar_AppointmentType (
   Name varchar(200),
   PRIMARY KEY (ID)
 );
+
+#
+# Dumping data for table 'eZCalendar_AppointmentType'
+#
+
+
+
+

@@ -1,4 +1,22 @@
 #
+# Table structure for table 'eZLink_Category'
+#
+DROP TABLE IF EXISTS eZLink_Category;
+CREATE TABLE eZLink_Category (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  Parent int(11) DEFAULT '0',
+  Name char(100),
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZLink_Category'
+#
+
+INSERT INTO eZLink_Category VALUES (1,0,'Cool links');
+INSERT INTO eZLink_Category VALUES (2,0,'Not so cool links');
+
+#
 # Table structure for table 'eZLink_Hit'
 #
 DROP TABLE IF EXISTS eZLink_Hit;
@@ -14,11 +32,8 @@ CREATE TABLE eZLink_Hit (
 # Dumping data for table 'eZLink_Hit'
 #
 
-INSERT INTO eZLink_Hit VALUES (1,1,20001101194225,'10.0.2.3');
-INSERT INTO eZLink_Hit VALUES (2,1,20001101194230,'10.0.2.3');
-INSERT INTO eZLink_Hit VALUES (3,1,20001101194347,'10.0.2.3');
-INSERT INTO eZLink_Hit VALUES (4,1,20001101194442,'10.0.2.3');
-INSERT INTO eZLink_Hit VALUES (5,1,20001101201636,'10.0.2.3');
+
+
 
 #
 # Table structure for table 'eZLink_Link'
@@ -41,7 +56,41 @@ CREATE TABLE eZLink_Link (
 # Dumping data for table 'eZLink_Link'
 #
 
-INSERT INTO eZLink_Link VALUES (1,'eZ systems as','Linux and open source solutions made easy.',1,'linux open source',20001101115659,'Y','2000-11-01 11:56:59','ez.no');
+INSERT INTO eZLink_Link VALUES (1,'eZ systems as','Test!',1,'Test!',20010125160958,'Y','2001-01-25 16:09:58','ez.no');
+
+#
+# Table structure for table 'eZLink_LinkCategoryDefinition'
+#
+DROP TABLE IF EXISTS eZLink_LinkCategoryDefinition;
+CREATE TABLE eZLink_LinkCategoryDefinition (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  LinkID int(11) DEFAULT '0' NOT NULL,
+  CategoryID int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZLink_LinkCategoryDefinition'
+#
+
+INSERT INTO eZLink_LinkCategoryDefinition VALUES (1,1,1);
+
+#
+# Table structure for table 'eZLink_LinkCategoryLink'
+#
+DROP TABLE IF EXISTS eZLink_LinkCategoryLink;
+CREATE TABLE eZLink_LinkCategoryLink (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  LinkID int(11) DEFAULT '0' NOT NULL,
+  CategoryID int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZLink_LinkCategoryLink'
+#
+
+INSERT INTO eZLink_LinkCategoryLink VALUES (1,1,1);
 
 #
 # Table structure for table 'eZLink_LinkGroup'
@@ -59,4 +108,4 @@ CREATE TABLE eZLink_LinkGroup (
 #
 
 INSERT INTO eZLink_LinkGroup VALUES (1,0,'Cool links');
-INSERT INTO eZLink_LinkGroup VALUES (2,0,'Not so cool links');
+

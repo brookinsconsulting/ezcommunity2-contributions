@@ -1,4 +1,23 @@
 #
+# Table structure for table 'eZSession_Preferences'
+#
+DROP TABLE IF EXISTS eZSession_Preferences;
+CREATE TABLE eZSession_Preferences (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  UserID int(11) DEFAULT '0' NOT NULL,
+  Name char(50),
+  Value char(255),
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZSession_Preferences'
+#
+
+
+
+
+#
 # Table structure for table 'eZSession_Session'
 #
 DROP TABLE IF EXISTS eZSession_Session;
@@ -14,6 +33,8 @@ CREATE TABLE eZSession_Session (
 #
 # Dumping data for table 'eZSession_Session'
 #
+
+
 
 #
 # Table structure for table 'eZSession_SessionVariable'
@@ -31,19 +52,6 @@ CREATE TABLE eZSession_SessionVariable (
 # Dumping data for table 'eZSession_SessionVariable'
 #
 
-#
-# Table structure for table 'eZSession_Preferences'
-#
-DROP TABLE IF EXISTS eZSession_Preferences;
-CREATE TABLE eZSession_Preferences (
-  ID int(11) DEFAULT '0' NOT NULL auto_increment,
-  UserID int(11),
-  Name char(50),
-  Value char(255),
-  PRIMARY KEY (ID)
-);
 
-#
-# Dumping data for table 'eZSession_Preferences'
-#
+
 

@@ -1,6 +1,7 @@
 #
 # Table structure for table 'eZForum_Category'
 #
+DROP TABLE IF EXISTS eZForum_Category;
 CREATE TABLE eZForum_Category (
   Name varchar(20),
   Description varchar(40),
@@ -18,12 +19,14 @@ INSERT INTO eZForum_Category VALUES ('Talk center','General talk','N',1);
 #
 # Table structure for table 'eZForum_Forum'
 #
+DROP TABLE IF EXISTS eZForum_Forum;
 CREATE TABLE eZForum_Forum (
   Name varchar(20) DEFAULT '' NOT NULL,
   Description varchar(40),
-  Moderated enum('Y','N') DEFAULT 'N',
   Private enum('Y','N') DEFAULT 'N',
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  ModeratorID int(11) DEFAULT '0' NOT NULL,
+  IsModerated int(11) DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
 
@@ -31,15 +34,17 @@ CREATE TABLE eZForum_Forum (
 # Dumping data for table 'eZForum_Forum'
 #
 
-INSERT INTO eZForum_Forum VALUES ('Discussion','Discuss everything here','','',1);
-INSERT INTO eZForum_Forum VALUES ('Special talk','Talk about something else here','','',2);
-INSERT INTO eZForum_Forum VALUES ('Demo article','','','',3);
-INSERT INTO eZForum_Forum VALUES ('eZ publish introduct','','','',4);
-INSERT INTO eZForum_Forum VALUES ('About eZ publish','','','',6);
+INSERT INTO eZForum_Forum VALUES ('Discussion','Discuss everything here','',1,27,0);
+INSERT INTO eZForum_Forum VALUES ('Demo article','','',2,0,0);
+INSERT INTO eZForum_Forum VALUES ('What is New?','','',3,0,0);
+INSERT INTO eZForum_Forum VALUES ('What can eZ publish','','',4,0,0);
+INSERT INTO eZForum_Forum VALUES ('eZ Newsfeed','','',5,0,0);
+INSERT INTO eZForum_Forum VALUES ('eZ Article','','',6,0,0);
 
 #
 # Table structure for table 'eZForum_ForumCategoryLink'
 #
+DROP TABLE IF EXISTS eZForum_ForumCategoryLink;
 CREATE TABLE eZForum_ForumCategoryLink (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   ForumID int(11) DEFAULT '0' NOT NULL,
@@ -51,12 +56,12 @@ CREATE TABLE eZForum_ForumCategoryLink (
 # Dumping data for table 'eZForum_ForumCategoryLink'
 #
 
-INSERT INTO eZForum_ForumCategoryLink VALUES (1,1,1);
-INSERT INTO eZForum_ForumCategoryLink VALUES (2,2,1);
+INSERT INTO eZForum_ForumCategoryLink VALUES (3,1,1);
 
 #
 # Table structure for table 'eZForum_Message'
 #
+DROP TABLE IF EXISTS eZForum_Message;
 CREATE TABLE eZForum_Message (
   ForumID int(11) DEFAULT '0' NOT NULL,
   Topic varchar(60),
@@ -69,6 +74,7 @@ CREATE TABLE eZForum_Message (
   ThreadID int(11),
   Depth int(11),
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  IsApproved int(11) DEFAULT '1' NOT NULL,
   PRIMARY KEY (ID)
 );
 
@@ -76,7 +82,6 @@ CREATE TABLE eZForum_Message (
 # Dumping data for table 'eZForum_Message'
 #
 
-INSERT INTO eZForum_Message VALUES (1,'First post!','This is the first post!',27,0,'N',20001101195844,1,0,0,1);
-INSERT INTO eZForum_Message VALUES (1,'SV: First post!','> This is the first post!\r\nThis is the reply!',27,1,'N',20001101195844,0,0,1,2);
-INSERT INTO eZForum_Message VALUES (2,'First post!','YES!',27,0,'N',20001101200642,3,1,0,3);
-INSERT INTO eZForum_Message VALUES (2,'RE: First post!','> YES!\r\nhmm',27,3,'N',20001101200642,2,1,1,4);
+INSERT INTO eZForum_Message VALUES (1,'First post!','This is the first post!',27,0,'N',20010122104742,1,0,0,1,1);
+INSERT INTO eZForum_Message VALUES (1,'SV: First post!','> This is the first post!\r\nThis is the reply!',27,1,'N',20010122104747,0,0,1,2,1);
+

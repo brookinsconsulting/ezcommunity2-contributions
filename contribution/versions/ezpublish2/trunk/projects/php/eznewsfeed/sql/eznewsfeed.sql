@@ -14,6 +14,8 @@ CREATE TABLE eZNewsFeed_Category (
 # Dumping data for table 'eZNewsFeed_Category'
 #
 
+INSERT INTO eZNewsFeed_Category VALUES (1,'News from freshmeat','',0);
+
 #
 # Table structure for table 'eZNewsFeed_News'
 #
@@ -35,6 +37,9 @@ CREATE TABLE eZNewsFeed_News (
 # Dumping data for table 'eZNewsFeed_News'
 #
 
+
+
+
 #
 # Table structure for table 'eZNewsFeed_NewsCategoryLink'
 #
@@ -49,6 +54,9 @@ CREATE TABLE eZNewsFeed_NewsCategoryLink (
 #
 # Dumping data for table 'eZNewsFeed_NewsCategoryLink'
 #
+
+
+
 
 #
 # Table structure for table 'eZNewsFeed_SourceSite'
@@ -70,3 +78,6 @@ CREATE TABLE eZNewsFeed_SourceSite (
 #
 # Dumping data for table 'eZNewsFeed_SourceSite'
 #
+
+INSERT INTO eZNewsFeed_SourceSite VALUES (1,'http://freshmeat.net/backend/fm.rdf','','',1,'Freshmeat','','false',0);
+

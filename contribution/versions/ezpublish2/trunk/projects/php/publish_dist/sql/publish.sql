@@ -1803,8 +1803,6 @@ CREATE TABLE eZPoll_Vote (
 # Dumping data for table 'eZPoll_Vote'
 #
 
-INSERT INTO eZPoll_Vote VALUES (1,1,1,'10.0.2.13',0);
-
 #
 # Table structure for table 'eZSession_Preferences'
 #
@@ -1821,9 +1819,6 @@ CREATE TABLE eZSession_Preferences (
 # Dumping data for table 'eZSession_Preferences'
 #
 
-INSERT INTO eZSession_Preferences VALUES (1,27,'EnabledModules','eZArticle;eZContact;eZTrade;eZForum;eZLink;eZPoll;eZAd;eZUser;eZStats;eZAddress;eZNewsFeed;eZTodo;eZBug');
-INSERT INTO eZSession_Preferences VALUES (2,27,'eztrade_status','open');
-INSERT INTO eZSession_Preferences VALUES (3,27,'ezcontact_status','open');
 
 #
 # Table structure for table 'eZSession_Session'
@@ -1842,21 +1837,6 @@ CREATE TABLE eZSession_Session (
 # Dumping data for table 'eZSession_Session'
 #
 
-INSERT INTO eZSession_Session VALUES (1,'6421a09e001abb1f8b2ce67936e71946',20010125212521,20010126091432,20010126091432);
-INSERT INTO eZSession_Session VALUES (2,'a71c804c0fc4f97085f14265b16cb948',20010125212546,20010125212546,20010125212546);
-INSERT INTO eZSession_Session VALUES (3,'189486b95adc3dc0eeb00963a02abe8c',20010125212616,20010125215303,20010125215303);
-INSERT INTO eZSession_Session VALUES (4,'a8afdf0e4ae4d4237d7b3003bb6e49d8',20010125213648,20010126110614,20010126110614);
-INSERT INTO eZSession_Session VALUES (5,'dbd76a026749edc5c8f7fe426922813e',20010126101231,20010126125534,20010126125533);
-INSERT INTO eZSession_Session VALUES (6,'a2255621f559bae654368459f873eab7',20010126101313,20010126125510,20010126125510);
-INSERT INTO eZSession_Session VALUES (7,'98c8e91477713c0cb45cf92e55e22436',20010126104942,20010126104942,20010126104942);
-INSERT INTO eZSession_Session VALUES (8,'f4ff581928f3a90040a10c398bb9045b',20010126105005,20010126125207,20010126125207);
-INSERT INTO eZSession_Session VALUES (9,'8291a062bd118b73d9efed6afb9a2ee9',20010126105706,20010126105715,20010126105715);
-INSERT INTO eZSession_Session VALUES (10,'c51749d645a8ac656c3f4717abbcd6e0',20010126122734,20010126141524,20010126141524);
-INSERT INTO eZSession_Session VALUES (11,'fa6dc7ba4cb590e75dbec36cee02fbad',20010126125223,20010126130804,20010126130804);
-INSERT INTO eZSession_Session VALUES (12,'61d9ae1492d1804e263e767b459c9ce6',20010126134455,20010126135639,20010126135639);
-INSERT INTO eZSession_Session VALUES (13,'0669603fe7004cc0d4923908f612ff16',20010126134532,20010126134532,20010126134532);
-INSERT INTO eZSession_Session VALUES (14,'b7a7aedb0bb04194266f60ff3f9ba3fa',20010126135355,20010126140739,20010126140739);
-
 #
 # Table structure for table 'eZSession_SessionVariable'
 #
@@ -1873,51 +1853,6 @@ CREATE TABLE eZSession_SessionVariable (
 # Dumping data for table 'eZSession_SessionVariable'
 #
 
-INSERT INTO eZSession_SessionVariable VALUES (1,1,'SessionIP','10.0.2.9');
-INSERT INTO eZSession_SessionVariable VALUES (2,2,'SessionIP','10.0.2.9');
-INSERT INTO eZSession_SessionVariable VALUES (3,2,'AuthenticatedUser','27');
-INSERT INTO eZSession_SessionVariable VALUES (4,3,'SessionIP','10.0.2.16');
-INSERT INTO eZSession_SessionVariable VALUES (5,3,'AuthenticatedUser','27');
-INSERT INTO eZSession_SessionVariable VALUES (6,4,'SessionIP','10.0.2.3');
-INSERT INTO eZSession_SessionVariable VALUES (7,4,'SiteDesign','intranet');
-INSERT INTO eZSession_SessionVariable VALUES (8,4,'AuthenticatedUser','27');
-INSERT INTO eZSession_SessionVariable VALUES (9,4,'Bla','ikkeno');
-INSERT INTO eZSession_SessionVariable VALUES (10,4,'ShowOtherCalenderUsers','27');
-INSERT INTO eZSession_SessionVariable VALUES (11,4,'Year','2001');
-INSERT INTO eZSession_SessionVariable VALUES (12,4,'Month','1');
-INSERT INTO eZSession_SessionVariable VALUES (13,1,'SiteDesign','intranet');
-INSERT INTO eZSession_SessionVariable VALUES (14,1,'Bla','ikkeno');
-INSERT INTO eZSession_SessionVariable VALUES (15,5,'SessionIP','10.0.2.16');
-INSERT INTO eZSession_SessionVariable VALUES (16,6,'SessionIP','10.0.2.16');
-INSERT INTO eZSession_SessionVariable VALUES (17,6,'AuthenticatedUser','27');
-INSERT INTO eZSession_SessionVariable VALUES (18,7,'SessionIP','10.0.2.2');
-INSERT INTO eZSession_SessionVariable VALUES (19,5,'SiteDesign','intranet');
-INSERT INTO eZSession_SessionVariable VALUES (20,8,'SessionIP','10.0.2.2');
-INSERT INTO eZSession_SessionVariable VALUES (21,8,'AuthenticatedUser','27');
-INSERT INTO eZSession_SessionVariable VALUES (22,9,'SessionIP','10.0.2.9');
-INSERT INTO eZSession_SessionVariable VALUES (23,9,'SiteDesign','standard');
-INSERT INTO eZSession_SessionVariable VALUES (24,5,'Bla','ikkeno');
-INSERT INTO eZSession_SessionVariable VALUES (25,10,'SessionIP','10.0.2.3');
-INSERT INTO eZSession_SessionVariable VALUES (26,10,'AuthenticatedUser','27');
-INSERT INTO eZSession_SessionVariable VALUES (27,11,'SessionIP','10.0.2.9');
-INSERT INTO eZSession_SessionVariable VALUES (28,11,'ShowOtherCalenderUsers','');
-INSERT INTO eZSession_SessionVariable VALUES (29,11,'Year','2001');
-INSERT INTO eZSession_SessionVariable VALUES (30,11,'Month','01');
-INSERT INTO eZSession_SessionVariable VALUES (31,11,'Day','26');
-INSERT INTO eZSession_SessionVariable VALUES (32,11,'SiteDesign','trade');
-INSERT INTO eZSession_SessionVariable VALUES (33,11,'Bla','ikkeno');
-INSERT INTO eZSession_SessionVariable VALUES (34,10,'SiteDesign','trade');
-INSERT INTO eZSession_SessionVariable VALUES (35,10,'Bla','ikkeno');
-INSERT INTO eZSession_SessionVariable VALUES (36,10,'ShowOtherCalenderUsers','27');
-INSERT INTO eZSession_SessionVariable VALUES (37,10,'Year','2001');
-INSERT INTO eZSession_SessionVariable VALUES (38,10,'Month','1');
-INSERT INTO eZSession_SessionVariable VALUES (39,12,'SessionIP','10.0.2.9');
-INSERT INTO eZSession_SessionVariable VALUES (40,13,'SessionIP','10.0.2.9');
-INSERT INTO eZSession_SessionVariable VALUES (41,13,'AuthenticatedUser','27');
-INSERT INTO eZSession_SessionVariable VALUES (42,12,'AuthenticatedUser','27');
-INSERT INTO eZSession_SessionVariable VALUES (43,10,'Day','26');
-INSERT INTO eZSession_SessionVariable VALUES (44,14,'SessionIP','10.0.2.16');
-INSERT INTO eZSession_SessionVariable VALUES (45,14,'AuthenticatedUser','27');
 
 #
 # Table structure for table 'eZStats_BrowserType'
@@ -1932,8 +1867,6 @@ CREATE TABLE eZStats_BrowserType (
 #
 # Dumping data for table 'eZStats_BrowserType'
 #
-
-INSERT INTO eZStats_BrowserType VALUES (1,'Mozilla/5.0 (compatible; Konqueror/2.0.1; X11)');
 
 #
 # Table structure for table 'eZStats_PageView'
@@ -1954,16 +1887,6 @@ CREATE TABLE eZStats_PageView (
 # Dumping data for table 'eZStats_PageView'
 #
 
-INSERT INTO eZStats_PageView VALUES (1,27,1,1,1,20010126141327,1);
-INSERT INTO eZStats_PageView VALUES (2,27,1,1,2,20010126141333,2);
-INSERT INTO eZStats_PageView VALUES (3,27,1,1,3,20010126141350,3);
-INSERT INTO eZStats_PageView VALUES (4,27,1,1,1,20010126141351,4);
-INSERT INTO eZStats_PageView VALUES (5,27,1,1,4,20010126141442,5);
-INSERT INTO eZStats_PageView VALUES (6,27,1,1,5,20010126141446,4);
-INSERT INTO eZStats_PageView VALUES (7,27,1,1,4,20010126141519,5);
-INSERT INTO eZStats_PageView VALUES (8,27,1,1,5,20010126141523,3);
-INSERT INTO eZStats_PageView VALUES (9,27,1,1,1,20010126141524,4);
-
 #
 # Table structure for table 'eZStats_RefererURL'
 #
@@ -1979,11 +1902,6 @@ CREATE TABLE eZStats_RefererURL (
 # Dumping data for table 'eZStats_RefererURL'
 #
 
-INSERT INTO eZStats_RefererURL VALUES (1,'dozer.ez.no','/trade/productview/1/1/');
-INSERT INTO eZStats_RefererURL VALUES (2,'dozer.ez.no','/trade/productlist/0/');
-INSERT INTO eZStats_RefererURL VALUES (3,'dozer.ez.no','/trade/productview/2/1/');
-INSERT INTO eZStats_RefererURL VALUES (4,'dozer.ez.no','/imagecatalogue/imageview/3/?RefererURL=/trade/productview/1/');
-INSERT INTO eZStats_RefererURL VALUES (5,'dozer.ez.no','/trade/productview/1/');
 
 #
 # Table structure for table 'eZStats_RemoteHost'
@@ -2000,7 +1918,6 @@ CREATE TABLE eZStats_RemoteHost (
 # Dumping data for table 'eZStats_RemoteHost'
 #
 
-INSERT INTO eZStats_RemoteHost VALUES (1,'10.0.2.3',NULL);
 
 #
 # Table structure for table 'eZStats_RequestPage'
@@ -2015,12 +1932,6 @@ CREATE TABLE eZStats_RequestPage (
 #
 # Dumping data for table 'eZStats_RequestPage'
 #
-
-INSERT INTO eZStats_RequestPage VALUES (1,'/trade/productlist/0/');
-INSERT INTO eZStats_RequestPage VALUES (2,'/trade/productview/2/1/');
-INSERT INTO eZStats_RequestPage VALUES (3,'/trade/productview/1/1/');
-INSERT INTO eZStats_RequestPage VALUES (4,'/imagecatalogue/imageview/3/');
-INSERT INTO eZStats_RequestPage VALUES (5,'/trade/productview/1/');
 
 #
 # Table structure for table 'eZTodo_Category'

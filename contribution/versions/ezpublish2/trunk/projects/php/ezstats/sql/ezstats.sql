@@ -7,10 +7,12 @@ CREATE TABLE eZStats_BrowserType (
   BrowserType char(250) DEFAULT '' NOT NULL,
   PRIMARY KEY (ID)
 );
- 
+
 #
 # Dumping data for table 'eZStats_BrowserType'
-# 
+#
+
+
 
 #
 # Table structure for table 'eZStats_PageView'
@@ -26,10 +28,12 @@ CREATE TABLE eZStats_PageView (
   RequestPageID int(11) DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
- 
+
 #
 # Dumping data for table 'eZStats_PageView'
-# 
+#
+
+
 
 #
 # Table structure for table 'eZStats_RefererURL'
@@ -41,10 +45,13 @@ CREATE TABLE eZStats_RefererURL (
   URI char(200),
   PRIMARY KEY (ID)
 );
- 
+
 #
 # Dumping data for table 'eZStats_RefererURL'
-# 
+#
+
+
+
 
 #
 # Table structure for table 'eZStats_RemoteHost'
@@ -56,10 +63,13 @@ CREATE TABLE eZStats_RemoteHost (
   HostName char(150),
   PRIMARY KEY (ID)
 );
- 
+
 #
 # Dumping data for table 'eZStats_RemoteHost'
-# 
+#
+
+
+
 
 #
 # Table structure for table 'eZStats_RequestPage'
@@ -70,9 +80,10 @@ CREATE TABLE eZStats_RequestPage (
   URI char(250),
   PRIMARY KEY (ID)
 );
- 
+
 #
 # Dumping data for table 'eZStats_RequestPage'
-# 
+#
+
 
 

@@ -20,6 +20,7 @@ CREATE TABLE eZBug_Bug (
 # Dumping data for table 'eZBug_Bug'
 #
 
+INSERT INTO eZBug_Bug VALUES (1,'Help!','It dosent work!',33,20010125202931,'false',0,0,'','');
 
 #
 # Table structure for table 'eZBug_BugCategoryLink'
@@ -36,6 +37,7 @@ CREATE TABLE eZBug_BugCategoryLink (
 # Dumping data for table 'eZBug_BugCategoryLink'
 #
 
+INSERT INTO eZBug_BugCategoryLink VALUES (1,2,1);
 
 #
 # Table structure for table 'eZBug_BugModuleLink'
@@ -52,6 +54,7 @@ CREATE TABLE eZBug_BugModuleLink (
 # Dumping data for table 'eZBug_BugModuleLink'
 #
 
+INSERT INTO eZBug_BugModuleLink VALUES (1,1,1);
 
 #
 # Table structure for table 'eZBug_Category'
@@ -68,6 +71,8 @@ CREATE TABLE eZBug_Category (
 # Dumping data for table 'eZBug_Category'
 #
 
+INSERT INTO eZBug_Category VALUES (1,'GUI','');
+INSERT INTO eZBug_Category VALUES (2,'Feature request','');
 
 #
 # Table structure for table 'eZBug_Log'
@@ -87,6 +92,8 @@ CREATE TABLE eZBug_Log (
 #
 
 
+
+
 #
 # Table structure for table 'eZBug_Module'
 #
@@ -103,6 +110,7 @@ CREATE TABLE eZBug_Module (
 # Dumping data for table 'eZBug_Module'
 #
 
+INSERT INTO eZBug_Module VALUES (1,0,'My program','');
 
 #
 # Table structure for table 'eZBug_Priority'
@@ -119,6 +127,9 @@ CREATE TABLE eZBug_Priority (
 # Dumping data for table 'eZBug_Priority'
 #
 
+INSERT INTO eZBug_Priority VALUES (1,'High',NULL);
+INSERT INTO eZBug_Priority VALUES (2,'Middels',NULL);
+INSERT INTO eZBug_Priority VALUES (3,'Low',NULL);
 
 #
 # Table structure for table 'eZBug_Status'
@@ -133,3 +144,6 @@ CREATE TABLE eZBug_Status (
 #
 # Dumping data for table 'eZBug_Status'
 #
+
+INSERT INTO eZBug_Status VALUES (1,'Fixed');
+

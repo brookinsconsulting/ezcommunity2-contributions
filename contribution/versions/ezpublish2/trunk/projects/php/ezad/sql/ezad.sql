@@ -24,6 +24,8 @@ CREATE TABLE eZAd_Ad (
 #
 
 
+
+
 #
 # Table structure for table 'eZAd_AdCategoryLink'
 #
@@ -38,6 +40,8 @@ CREATE TABLE eZAd_AdCategoryLink (
 #
 # Dumping data for table 'eZAd_AdCategoryLink'
 #
+
+
 
 
 #
@@ -58,6 +62,8 @@ CREATE TABLE eZAd_Category (
 #
 
 
+
+
 #
 # Table structure for table 'eZAd_Click'
 #
@@ -73,6 +79,8 @@ CREATE TABLE eZAd_Click (
 #
 # Dumping data for table 'eZAd_Click'
 #
+
+
 
 
 #
@@ -91,3 +99,7 @@ CREATE TABLE eZAd_View (
 #
 # Dumping data for table 'eZAd_View'
 #
+
+
+
+
