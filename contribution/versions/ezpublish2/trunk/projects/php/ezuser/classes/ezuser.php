@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.89 2001/08/22 13:12:50 jb Exp $
+// $Id: ezuser.php,v 1.90 2001/08/30 12:24:53 ce Exp $
 //
 // Definition of eZUser class
 //
@@ -994,6 +994,32 @@ class eZUser
             {
                 $ret[] = $address[$db->fieldName( "AddressID" )];
             }
+        }
+
+        return $ret;
+    }
+
+    /*!
+      Returns the main address the user has. It is returned as an eZAddress objects.      
+      If the $id is supplied it is used for looking up addresses.
+    */
+    function mainAddress( $as_object = true )
+    {
+        $db =& eZDB::globalDatabase();
+
+        if ( !$id )
+            $id = $this->ID;
+
+        $db->array_query( $address_array, "SELECT AddressID FROM eZAddress_AddressDefinition
+                                WHERE UserID='$id' ORDER BY AddressID" );
+
+        if ( $as_object )
+        {
+            $ret = new eZAddress( $address_array[0][$db->fieldName( "AddressID" )] );
+        }
+        else
+        {
+            $ret = $address_array[0][$db->fieldName( "AddressID" )];
         }
 
         return $ret;
