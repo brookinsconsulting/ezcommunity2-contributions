@@ -1,6 +1,12 @@
-<h1>{intl-head_line}</h1>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td bgcolor="#f08c00">
+	<div class="headline">{intl-head_line}</div>
+	</td>
+</tr>
+</table>
 
-<hr noshade="noshade" size="4" />
+<br />
 
 <h2>{intl-customer_login}</h2>
 
@@ -14,8 +20,6 @@
 <input type="password" size="20" name="Password"/><br />
 <br />
 
-<hr noshade="noshade" size="4" />
-
 <input class="okbutton" type="submit" value="{intl-login}" />
 <input type="hidden" name="RedirectURL" value="{redirect_url}" />
 </form>
@@ -26,8 +30,6 @@
 <p>{intl-new_text}</p>
 
 <form method="post" action="/user/userwithaddress/new/?RedirectURL=/trade/customerlogin/">
-
-<hr noshade="noshade" size="4" />
 
 <input class="okbutton" class="stdbutton" type="submit" value="{intl-newuser}" />
 

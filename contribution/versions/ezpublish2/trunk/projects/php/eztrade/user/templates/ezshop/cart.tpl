@@ -53,6 +53,7 @@
 </tr>
 <!-- END cart_item_tpl -->
 
+<!--
 <tr>
 	<td colspan="2">&nbsp;</td>
 	<th colspan="2">{intl-shipping}:</th>
@@ -60,6 +61,7 @@
 	{shipping_cost}
 	</td>
 </tr>
+-->
 <tr>
 	<td colspan="2">&nbsp;</td>
 	<th colspan="2">{intl-total}:</th>
@@ -68,6 +70,14 @@
 	</td>
 </tr>
 </table>
+
+<p>
+Fraktkostnader kommer i tillegg: Kr. 50,- for programvarepakker.
+Fraktkostnadene for maskinvare kan variere; postens takster vil gjelde.
+For postoppkravsleveranser kommer postens oppkravsgebyr i tillegg.
+Brukerstøtte leveres fraktfritt.
+</p>
+
 <!-- END cart_item_list_tpl -->
 
 <!-- BEGIN cart_checkout_tpl -->
