@@ -1,5 +1,5 @@
 <?
-// $Id: todolist.php,v 1.11 2001/02/28 13:03:24 ce Exp $
+// $Id: todolist.php,v 1.12 2001/03/05 14:06:23 ce Exp $
 //
 // Definition of todo list.
 //
@@ -47,6 +47,8 @@ $t->set_file( array(
     "todo_list_page" => "todolist.tpl"
     ) );
 
+$CategoryID = eZHTTPTool::getVar( "CategoryTodoID" );
+
 $t->set_block( "todo_list_page", "todo_item_tpl", "todo_item" );
 $t->set_block( "todo_list_page", "user_item_tpl", "user_item" );
 $t->set_block( "todo_list_page", "no_found_tpl", "no_found" );
@@ -66,7 +68,7 @@ if ( isSet ( $ShowButton ) )
     {
         $session->setVariable( "ShowTodo", "Done" );
     }
-    
+
     $session->setVariable( "TodoCategory", $CategoryID );
 }
 

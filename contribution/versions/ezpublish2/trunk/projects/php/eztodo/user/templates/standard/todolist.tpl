@@ -55,7 +55,7 @@
 <option {done_selected} value="Done">{intl-show_done}</option>
 </select>
 &nbsp;
-<select name="CategoryID">
+<select name="CategoryTodoID">
 <option {is_selected} value="0">{intl-category_all}</option>
 <!-- BEGIN category_item_tpl -->
 <option {is_selected} value="{category_id}">{category_name}</option>
