@@ -1,11 +1,24 @@
 <?
+/*!
+    $Id: categorylist.php,v 1.2 2000/08/14 09:52:33 bf-cvs Exp $
+
+    Author: Bård Farstad <bf@ez.no>
+    
+    Created on: 
+    
+    Copyright (C) 2000 eZ systems. All rights reserved.
+*/
 
 /*
   listlink.php viser alle kategorier
 */
 
+include_once( "class.INIFile.php" );
+$ini = new INIFile( "site.ini" );
+
+$DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
+
 include_once( "template.inc" );
-require "ezlink/dbsettings.php";
 include_once( "ezphputils.php" );
 
 include_once( "ezlink/classes/ezlinkgroup.php" );
@@ -15,15 +28,15 @@ include_once( "ezlink/classes/ezhit.php" );
 // setter template filer
 $t = new Template( "." );
 $t->set_file( array(
-    "linkgroup_list" => $DOCUMENTROOT . "templates/linkgrouplistshort.tpl",
-    "linkgroup_item" => $DOCUMENTROOT . "templates/linkgroupitemshort.tpl",
+    "linkgroup_list" => $DOC_ROOT . "templates/linkgrouplistshort.tpl",
+    "linkgroup_item" => $DOC_ROOT . "templates/linkgroupitemshort.tpl",
     ) );
 
 // Lister alle kategorier
 $linkGroup = new eZLinkGroup();
 $linkGroup->get ( $LGID );
 
-// $linkGroup->printPath( $LGID, $DOCUMENTROOT . "linklist.php" );
+// $linkGroup->printPath( $LGID, $DOC_ROOT . "linklist.php" );
 
 $linkGroup_array = $linkGroup->getByParent( 0 );
 
@@ -58,7 +71,7 @@ else
         $t->set_var( "total_links", $total_sub_links );
         $t->set_var( "new_links", $new_sub_links );
         
-        $t->set_var( "document_root", $DOCUMENTROOT );
+        $t->set_var( "document_root", $DOC_ROOT );
         $t->parse( "group_list", "linkgroup_item", true );
 
     }
@@ -67,7 +80,7 @@ else
 
 
 $t->set_var( "linkgroup_id", $LGID );
-$t->set_var( "document_root", $DOCUMENTROOT );
+$t->set_var( "document_root", $DOC_ROOT );
                        
 $t->pparse( "output", "linkgroup_list" );
 

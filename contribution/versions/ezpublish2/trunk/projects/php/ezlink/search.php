@@ -1,24 +1,37 @@
 <?
+/*!
+    $Id: search.php,v 1.11 2000/08/14 09:52:34 bf-cvs Exp $
 
-/*
+    Author: Bård Farstad <bf@ez.no>
+    
+    Created on: 
+    
+    Copyright (C) 2000 eZ systems. All rights reserved.
+*/
+
+/*!
   listlink.php viser alle kategorier
 */
 
+include_once( "class.INIFile.php" );
+$ini = new INIFile( "site.ini" );
+
+$DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
+
 include_once( "template.inc" );
-include( "ezlink/dbsettings.php" );
 include_once( "ezphputils.php" );
 
 include_once( "ezlink/classes/ezlinkgroup.php" );
 include_once( "ezlink/classes/ezlink.php"  );
 include_once( "ezlink/classes/ezhit.php" );
 
-require $DOCUMENTROOT . "classes/ezquery.php";
+require $DOC_ROOT . "classes/ezquery.php";
 
 // setter template filer
 $t = new Template( "." );
 $t->set_file( array(
-    "search_item" => $DOCUMENTROOT . "templates/searchitemuser.tpl",
-    "search_list" => $DOCUMENTROOT . "templates/searchlistuser.tpl"
+    "search_item" => $DOC_ROOT . "templates/searchitemuser.tpl",
+    "search_list" => $DOC_ROOT . "templates/searchlistuser.tpl"
     ) );
 
 $limit = "10";
@@ -27,7 +40,7 @@ $offset = $Offset;
 $linkGroup = new eZLinkGroup();
 $linkGroup->get ( $LGID );
 
-$t->set_var( "printpath", $linkGroup->printPath( $LGID, $DOCUMENTROOT . "linklist.php" ) );
+$t->set_var( "printpath", $linkGroup->printPath( $LGID, $DOC_ROOT . "linklist.php" ) );
 
 
 $link = new eZLink();
@@ -75,7 +88,7 @@ else
 
         $LGID =  ( $link_array[ $i ][ "LinkGroup" ] );
 
-        $t->set_var( "printpath", $linkGroup->printPath( $LGID, $DOCUMENTROOT . "linklist.php" ) );                       
+        $t->set_var( "printpath", $linkGroup->printPath( $LGID, $DOC_ROOT . "linklist.php" ) );                       
 
         $hit = new eZHit();
         $hits = $hit->getLinkHits( $link_array[ $i ][ "ID" ] );
@@ -84,7 +97,7 @@ else
 
         $tlink_message = "Linker";
 
-        $t->set_var( "document_root", $DOCUMENTROOT );
+        $t->set_var( "document_root", $DOC_ROOT );
 
         $t->parse( "link_list", "search_item", true );
     }
@@ -93,9 +106,9 @@ else
 $t->set_var( "hit_count", $thit_count );
 $t->set_var( "link_message", $tlink_message );
 $t->set_var( "linkgroup_id", $LGID );
-$t->set_var( "document_root", $DOCUMENTROOT );
+$t->set_var( "document_root", $DOC_ROOT );
 
-$t->set_var( "printpath", $linkGroup->printPath( 0, $DOCUMENTROOT . "linklist.php" ) );                       
+$t->set_var( "printpath", $linkGroup->printPath( 0, $DOC_ROOT . "linklist.php" ) );                       
 
 $t->pparse( "output", "search_list" );
 ?>

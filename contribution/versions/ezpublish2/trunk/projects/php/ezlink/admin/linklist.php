@@ -1,14 +1,24 @@
 <?
+/*!
+    $Id: linklist.php,v 1.18 2000/08/14 09:52:34 bf-cvs Exp $
+
+    Author: Bård Farstad <bf@ez.no>
+    
+    Created on: 
+    
+    Copyright (C) 2000 eZ systems. All rights reserved.
+*/
 
 /*
   linklist.php viser alle kategorier
 */
 
-
 include_once( "template.inc" );
-include( "../ezlink/dbsettings.php" );
 include_once( "ezphputils.php" );
+include_once( "class.INIFile.php" );
 
+$ini = new INIFile( "site.ini" );
+$DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 
 include_once( "../ezlink/classes/ezlinkgroup.php" );
 include_once( "../ezlink/classes/ezlink.php" );
@@ -59,7 +69,7 @@ else
         $t->set_var( "total_links", $total_sub_links );
         $t->set_var( "new_links", $new_sub_links );
         
-        $t->set_var( "document_root", $DOCUMENTROOT );
+        $t->set_var( "document_root", $DOC_ROOT );
     
         $t->parse( "group_list", "linkgroup_item", true );
 
@@ -87,7 +97,7 @@ if ( ( $LGID == 0 ) && ( $LGID != "incoming" ) )
     $t->set_var( "total_links", $total_sub_links );
     $t->set_var( "new_links", "X" );
     
-    $t->set_var( "document_root", $DOCUMENTROOT );
+    $t->set_var( "document_root", $DOC_ROOT );
     
     $t->parse( "group_list", "linkgroup_item", true );
 }
@@ -143,14 +153,14 @@ else
 
         $t->set_var( "link_hits", $hits );
 
-        $t->set_var( "document_root", $DOCUMENTROOT );
+        $t->set_var( "document_root", $DOC_ROOT );
 
         $t->parse( "link_list", "link_item", true );
     }
 }
 
 
-$t->set_var( "document_root", $DOCUMENTROOT );
+$t->set_var( "document_root", $DOC_ROOT );
                        
 $t->pparse( "output", "linkgroup_list" );
 

@@ -1,17 +1,30 @@
 <?
+/*!
+    $Id: linkedit.php,v 1.12 2000/08/14 09:52:34 bf-cvs Exp $
+
+    Author: Bård Farstad <bf@ez.no>
+    
+    Created on: 
+    
+    Copyright (C) 2000 eZ systems. All rights reserved.
+*/
 
 /*
   linkedit.php 
 */
 
+
+include_once( "class.INIFile.php" );
+$ini = new INIFile( "site.ini" );
+
+$DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
+
 include_once( "template.inc" );
-require "../ezlink/dbsettings.php";
 include_once( "ezphputils.php" );
 
-
-require "../ezlink/classes/ezlinkgroup.php";
-require "../ezlink/classes/ezlink.php";
-require "../ezlink/classes/ezhit.php";
+include( "../ezlink/classes/ezlinkgroup.php" );
+include( "../ezlink/classes/ezlink.php";
+include( "../ezlink/classes/ezhit.php";
 
 // Oppdatere
 if ( $Action == "update" )
@@ -70,7 +83,7 @@ if ( $Action == "insert" )
     
     $message = "Legg til ny link";
     $submit = "Legg til";
-    print ( "akseptert: " . $accepted );
+//    print ( "akseptert: " . $accepted );
     $newlink->store();
 
     Header( "Location: index.php?page=../ezlink/admin/linklist.php" );
@@ -174,7 +187,7 @@ $t->set_var( "description", $tdescription );
 // $t->set_var( "accepted", $taccepted );
 
 
-$t->set_var( "document_root", $DOCUMENTROOT );
+$t->set_var( "document_root", $DOC_ROOT );
 
 $t->set_var( "link_id", $LID );
 $t->pparse( "output", "link_edit" );

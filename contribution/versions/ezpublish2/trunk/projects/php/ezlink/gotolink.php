@@ -1,19 +1,33 @@
 <?
-/*
-  Legger inn hits
+/*!
+    $Id: gotolink.php,v 1.5 2000/08/14 09:52:33 bf-cvs Exp $
+
+    Author: Bård Farstad <bf@ez.no>
+    
+    Created on: 
+    
+    Copyright (C) 2000 eZ systems. All rights reserved.
+*/
+
+/*!
+  Legger inn hits og redirecter til korrekt side.
 */
 
 
+include_once( "class.INIFile.php" );
+$ini = new INIFile( "site.ini" );
+
+$DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
+
 include_once( "template.inc" );
-require "ezlink/dbsettings.php";
 include_once( "ezphputils.php" );
 
-require $DOCUMENTROOT . "classes/ezlinkgroup.php";
-require $DOCUMENTROOT . "classes/ezlink.php";
-require $DOCUMENTROOT . "classes/ezhit.php";
+require $DOC_ROOT . "classes/ezlinkgroup.php";
+require $DOC_ROOT . "classes/ezlink.php";
+require $DOC_ROOT . "classes/ezhit.php";
 
 
-print( $HTTP_REFERER );
+//print( $HTTP_REFERER );
 
 if ( $Action == "addhit" )
 {
@@ -21,7 +35,6 @@ if ( $Action == "addhit" )
     $hit->setLink( $LID );
     $hit->setRemoteIP( $REMOTE_ADDR );
     $hit->store();
-
 }
 
 printRedirect( "http://" . $Url );

@@ -1,7 +1,20 @@
 <?
+/*!
+    $Id: latest.php,v 1.2 2000/08/14 09:52:33 bf-cvs Exp $
+
+    Author: Bård Farstad <bf@ez.no>
+    
+    Created on: 
+    
+    Copyright (C) 2000 eZ systems. All rights reserved.
+*/
+
+include_once( "class.INIFile.php" );
+$ini = new INIFile( "site.ini" );
+
+$DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 
 include_once( "template.inc" );
-include( "ezlink/dbsettings.php" );
 include_once( "ezphputils.php" );
 
 include_once( "ezlink/classes/ezlinkgroup.php" );
@@ -10,8 +23,8 @@ include_once( "ezlink/classes/ezhit.php" );
 
 $t = new Template( "." );
 $t->set_file( array(
-    "last_links" => $DOCUMENTROOT . "templates/linklist.tpl",
-    "link_item" => $DOCUMENTROOT . "templates/lastlinkitem.tpl"
+    "last_links" => $DOC_ROOT . "templates/linklist.tpl",
+    "link_item" => $DOC_ROOT . "templates/lastlinkitem.tpl"
     ) );
 
 $link = new eZLink();
@@ -50,7 +63,7 @@ else
 
         $t->set_var( "link_hits", $hits );
 
-        $t->set_var( "document_root", $DOCUMENTROOT );
+        $t->set_var( "document_root", $DOC_ROOT );
 
         $t->parse( "link_list", "link_item", true );
     }

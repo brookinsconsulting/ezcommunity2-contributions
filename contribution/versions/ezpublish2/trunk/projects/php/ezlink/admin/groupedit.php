@@ -1,11 +1,24 @@
 <?
+/*!
+    $Id: groupedit.php,v 1.9 2000/08/14 09:52:34 bf-cvs Exp $
+
+    Author: Bård Farstad <bf@ez.no>
+    
+    Created on: 
+    
+    Copyright (C) 2000 eZ systems. All rights reserved.
+*/
 
 /*
   groupedit.php 
 */
 
+include_once( "class.INIFile.php" );
+$ini = new INIFile( "../site.ini" );
+
+$DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
+
 include_once( "template.inc" );
-include( "../ezlink/dbsettings.php" );
 include_once( "ezphputils.php" );
 
 require "../ezlink/classes/ezlinkgroup.php";
@@ -44,7 +57,6 @@ if ( $Action == "insert" )
 // Oppdatere
 if ( $Action == "update" )
 {
-    print ( "banan" );
     //   die();
     $updatelinkgroup = new eZLinkGroup();
 
@@ -75,7 +87,6 @@ $grouplink_array = $groupselect->getAll( );
 // Redigering av gruppe
 if ( $Action == "edit" )
 {
-    print ( "hallo" );
     $editlinkgroup = new eZLinkGroup();
     $editlinkgroup->get ( $LGID );
 
@@ -118,7 +129,7 @@ $t->set_var( "message", $message );
 
 $t->set_var( "title", $ttitle );
 
-$t->set_var( "document_root", $DOCUMENTROOT );
+$t->set_var( "document_root", $DOC_ROOT );
 
 $t->set_var( "linkgroup_id", $LGID );
 $t->pparse( "output", "group_edit" );

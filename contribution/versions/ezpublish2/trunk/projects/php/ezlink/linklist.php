@@ -1,11 +1,26 @@
 <?
+/*!
+    $Id: linklist.php,v 1.27 2000/08/14 09:52:34 bf-cvs Exp $
 
-/*
+    Author: Bård Farstad <bf@ez.no>
+    
+    Created on: 
+    
+    Copyright (C) 2000 eZ systems. All rights reserved.
+*/
+
+
+/*!
   listlink.php viser alle kategorier
 */
 
 include_once( "template.inc" );
-require "ezlink/dbsettings.php";
+
+include_once( "class.INIFile.php" );
+$ini = new INIFile( "site.ini" );
+
+$DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
+
 include_once( "ezphputils.php" );
 
 include_once( "ezlink/classes/ezlinkgroup.php" );
@@ -15,17 +30,17 @@ include_once( "ezlink/classes/ezhit.php" );
 // setter template filer
 $t = new Template( "." );
 $t->set_file( array(
-    "linkgroup_list" => $DOCUMENTROOT . "templates/linkgrouplistuser.tpl",
-    "linkgroup_item" => $DOCUMENTROOT . "templates/linkgroupitemuser.tpl",
-    "linkgroup_item2" => $DOCUMENTROOT . "templates/linkgroupitemuser2.tpl",
-    "link_item" => $DOCUMENTROOT . "templates/linkitemuser.tpl"
+    "linkgroup_list" => $DOC_ROOT . "templates/linkgrouplistuser.tpl",
+    "linkgroup_item" => $DOC_ROOT . "templates/linkgroupitemuser.tpl",
+    "linkgroup_item2" => $DOC_ROOT . "templates/linkgroupitemuser2.tpl",
+    "link_item" => $DOC_ROOT . "templates/linkitemuser.tpl"
     ) );
 
 // Lister alle kategorier
 $linkGroup = new eZLinkGroup();
 $linkGroup->get ( $LGID );
 
-// $linkGroup->printPath( $LGID, $DOCUMENTROOT . "linklist.php" );
+// $linkGroup->printPath( $LGID, $DOC_ROOT . "linklist.php" );
 
 $linkGroup_array = $linkGroup->getByParent( $LGID );
 
@@ -60,7 +75,7 @@ else
         $t->set_var( "total_links", $total_sub_links );
         $t->set_var( "new_links", $new_sub_links );
         
-        $t->set_var( "document_root", $DOCUMENTROOT );
+        $t->set_var( "document_root", $DOC_ROOT );
         
         if ( $i %2 == 0 )
         {
@@ -98,7 +113,7 @@ if ( ( $LGID == 0 ) && ( $LGID != "incoming" ) )
     $t->set_var( "new_links", "X" );
      
 
-    $t->set_var( "document_root", $DOCUMENTROOT );
+    $t->set_var( "document_root", $DOC_ROOT );
     
     $t->parse( "group_list", "linkgroup_item", true );
 }
@@ -153,16 +168,16 @@ else
         $t->set_var( "link_hits", $hits );
 
 
-        $t->set_var( "document_root", $DOCUMENTROOT );
+        $t->set_var( "document_root", $DOC_ROOT );
 
         $t->parse( "link_list", "link_item", true );
     }
 }
 
-$t->set_var( "printpath", $linkGroup->printPath( $LGID, $DOCUMENTROOT . "linklist.php" ) );
+$t->set_var( "printpath", $linkGroup->printPath( $LGID, $DOC_ROOT . "linklist.php" ) );
 
 $t->set_var( "linkgroup_id", $LGID );
-$t->set_var( "document_root", $DOCUMENTROOT );
+$t->set_var( "document_root", $DOC_ROOT );
                        
 $t->pparse( "output", "linkgroup_list" );
 
