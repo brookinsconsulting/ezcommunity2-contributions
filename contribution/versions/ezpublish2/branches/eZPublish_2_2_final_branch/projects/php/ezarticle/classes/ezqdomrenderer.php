@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezqdomrenderer.php,v 1.55.2.22 2003/02/10 12:16:40 wy Exp $
+// $Id: ezqdomrenderer.php,v 1.55.2.23 2003/05/07 07:57:23 br Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -1331,8 +1331,8 @@ class eZQDomrenderer
 
             $this->Template->set_var( "href", "mailto:$to?subject=$subject" );
             $this->Template->set_var( "link_text", $text );
-            $pageContent = eregi_replace(" target=\"_self\"", "", $pageContent );
             $pageContent =& $this->Template->parse( "link", "link_tpl" );
+            $pageContent = preg_replace("/\s+target=\"{target}\"\s*/", "", $pageContent );
         }
 
         // ezarticle
