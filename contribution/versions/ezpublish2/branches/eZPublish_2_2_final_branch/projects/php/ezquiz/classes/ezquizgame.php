@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezquizgame.php,v 1.16.2.1 2001/12/06 10:19:29 jhe Exp $
+// $Id: ezquizgame.php,v 1.16.2.2 2002/02/12 13:05:40 pkej Exp $
 //
 // ezquizgame class
 //
@@ -159,9 +159,9 @@ class eZQuizGame
         $this->Name =& $quizArray[$db->fieldName( "Name" )];
         $this->Description =& $quizArray[$db->fieldName( "Description" )];
         $this->StartDate = new eZDate();
-        $this->StartDate->setTimeStamp( $quizArray[$db->fieldName( "StartDate" )] );
+        $this->StartDate->setMySQLDate( $quizArray[$db->fieldName( "StartDate" )] );
         $this->StopDate = new eZDate();
-        $this->StopDate->setTimeStamp( $quizArray[$db->fieldName( "StopDate" )] );
+        $this->StopDate->setMySQLDate( $quizArray[$db->fieldName( "StopDate" )] );
     }
 
     /*!
