@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.7 2000/10/21 13:44:13 bf-cvs Exp $
+// $Id: menubox.php,v 1.8 2000/10/23 08:05:18 bf-cvs Exp $
 //
 // 
 //
@@ -51,6 +51,7 @@ if ( $PageCaching == "enabled" )
 }
 else
 {
+    $GenerateStaticPage = false;
     createLinkMenu();
 }
 
