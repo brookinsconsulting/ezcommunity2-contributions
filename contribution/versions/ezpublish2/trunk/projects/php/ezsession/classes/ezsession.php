@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsession.php,v 1.63 2001/08/24 13:55:58 ce Exp $
+// $Id: ezsession.php,v 1.64 2001/08/31 10:19:42 ce Exp $
 //
 // Definition of eZSession class
 //
@@ -517,20 +517,21 @@ class eZSession
             $db->commit();
     }
 
-    function setArray( $name, $array )
+    function setArray( $name, $array, $append=false )
     {
-        $i = 0;
+        if ( $append )
+        {
+            $string = $this->variable( $name );
+            $string .= ";";
+        }
         while( list($key,$val) = each( $array ) )
         {
-            if ( $i == 0 )
+            if ( !$string )
                 $string .= $key . "->" . $val;
             else
                 $string .= ";" . $key . "->" . $val;
-
-            $i++;
         }
-        if ( $string )
-            $this->setVariable( $name, $string );
+        $this->setVariable( $name, $string );
     }
 
     function arrayValue( $name )
