@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.46.2.5 2002/02/27 10:26:13 bf Exp $
+// $Id: eztemplate.php,v 1.46.2.6 2002/04/24 07:31:19 jhe Exp $
 //
 // Definition of eZTemplate class
 //
@@ -154,7 +154,7 @@ class eZTemplate
         if ( is_array( $phpFile ) and is_array( $intlDir ) )
         {
             $this->languageFile = array();
-            $this->Ini = new INIFile();
+            $this->Ini = INIFile::globalINI();
             $intl_dir =& each( $intlDir );
             foreach( $phpFile as $php_file )
             {
@@ -178,7 +178,7 @@ class eZTemplate
         else if ( !is_array( $phpFile ) and !is_array( $intlDir ) )
         {
             $this->languageFile = $intlDir . "/" . $language . "/" . $phpFile . ".ini";
-            $this->Ini = new INIFile();
+            $this->Ini = INIFile::globalINI();
             if ( INIFile::file_exists( $this->languageFile ) )
             {
                 $this->Ini = new INIFile( $this->languageFile, false );
