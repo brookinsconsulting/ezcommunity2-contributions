@@ -67,6 +67,7 @@
 	<input type="text" size="20" name="CompanyNo" value="{companyno}"/>
 	</td>
 </tr>
+<!-- BEGIN login_tpl -->
 <tr>
 	<td>
 	<br />
@@ -74,6 +75,8 @@
 	<input type="text" {read_only} size="20" name="Login" value="{login}"/>
 	</td>
 </tr>
+<!-- END login_tpl -->
+<!-- BEGIN password_tpl -->
 <tr>
 	<td>
 	<br />
@@ -86,6 +89,7 @@
 	<input type="password" size="20" name="RepeatPassword" value="{repeat_password}"/>
 	</td>
 </tr>
+<!-- END password_tpl -->
 </table>
 
 <p class="boxtext">{intl-companytype}:</p>
