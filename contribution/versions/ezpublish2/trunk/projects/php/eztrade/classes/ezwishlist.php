@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezwishlist.php,v 1.10 2001/09/26 07:09:33 ce Exp $
+// $Id: ezwishlist.php,v 1.11 2001/10/16 10:08:45 ce Exp $
 //
 // Definition of eZWishList class
 //
@@ -329,7 +329,7 @@ class eZWishList
         AND ( eZUser_User.Email='$queryText'
         OR eZUser_User.FirstName='$queryText'
         OR eZUser_User.LastName='$queryText' )
-        GROUP BY eZUser_User.ID" );
+        GROUP BY eZUser_User.ID, eZTrade_WishList.ID" );
 
        foreach ( $wishlist_array as $item )
        {

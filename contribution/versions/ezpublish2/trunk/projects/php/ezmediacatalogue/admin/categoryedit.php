@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.2 2001/08/17 13:36:00 jhe Exp $
+// $Id: categoryedit.php,v 1.3 2001/10/16 10:08:45 ce Exp $
 //
 // Created on: <24-Jul-2001 10:31:09 ce>
 //
@@ -249,7 +249,7 @@ if ( $Action == "Update" && $error == false )
                 $group = -1;
             else
                 $group = new eZUserGroup( $Read );
-            
+
             eZObjectPermission::setPermission( $group, $category->id(), "mediacatalogue_category", "r" );
         }
     }
@@ -267,8 +267,7 @@ if ( $Action == "Update" && $error == false )
             eZObjectPermission::setPermission( $group, $category->id(), "mediacatalogue_category", "w" );
         }
     }
-
-    eZHTTPTool::header( "Location: /mediacatalogue/media/list/$CategoryID" );
+    eZHTTPTool::header( "Location: /mediacatalogue/media/list/$ParentID" );
     exit();
   
 }

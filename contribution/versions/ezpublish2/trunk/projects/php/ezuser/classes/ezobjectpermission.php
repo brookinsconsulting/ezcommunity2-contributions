@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.35 2001/10/04 10:04:54 ce Exp $
+// $Id: ezobjectpermission.php,v 1.36 2001/10/16 10:08:45 ce Exp $
 //
 // Definition of eZObjectPermission class
 //
@@ -442,7 +442,7 @@ class eZObjectPermission
                 $SQLGroups .= "OR GroupID = '-1' ";
             }
         }
-        
+
         $tableName = getTableName( $moduleTable );
         if( $tableName == "" )
         {
@@ -541,6 +541,14 @@ function getTableName( $name, $withDefinition=false )
 
         case "filemanager_file" :
             $ret = "eZFileManager_FilePermission";
+        break;
+
+        case "mediacatalogue_category" :
+            $ret = "eZMediaCatalogue_CategoryPermission";
+        break;
+
+        case "mediacatalogue_media" :
+            $ret = "eZMediaCatalogue_MediaPermission";
         break;
 
         case "bug_module" :

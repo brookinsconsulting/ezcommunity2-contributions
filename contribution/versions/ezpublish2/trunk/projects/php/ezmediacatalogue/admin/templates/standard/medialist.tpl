@@ -40,7 +40,7 @@
         <!-- END category_read_tpl -->
         <!-- BEGIN category_write_tpl -->
 	<td class="{td_class}" width="1%">
-	<a href="{www_dir}{index}/mediacatalogue/media/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezmc{category_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezmc{category_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="{www_dir}{index}/mediacatalogue/category/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezmc{category_id}-red','','/admin/images/redigerminimrk.gif',1)"><img name="ezmc{category_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%">
 	<input type="checkbox" name="CategoryArrayID[]" value="{category_id}" />
