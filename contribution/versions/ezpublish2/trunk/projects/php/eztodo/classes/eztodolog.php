@@ -1,10 +1,9 @@
-<?
+<?php
 // 
-// $Id: eztodolog.php,v 1.4 2001/06/28 08:14:54 bf Exp $
+// $Id: eztodolog.php,v 1.5 2001/07/18 09:30:55 jhe Exp $
 //
 // eZTodoLog class
 //
-// Christoffer A. Elo <ce@ez.no>
 // Created on: <30-Apr-2001 14:19:19 ce>
 //
 // This source file is part of eZ publish, publishing software.
@@ -43,24 +42,12 @@ class eZTodoLog
     /*!
       constructor
     */
-    function eZTodoLog( $id=-1, $fetch=true )
+    function eZTodoLog( $id = -1 )
     {
-        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -70,26 +57,30 @@ class eZTodoLog
     function store()
     {
         $db =& eZDB::globalDatabase();
-
+        $db->begin();
+        
         $GLOBALS["DEBUG"] = true;
 
-        $log = addslashes( $this->Log );
+        $log = $db->escapeString( $this->Log );
 
-        if ( !isset( $this->ID ) )
+        if ( !isSet( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZTodo_Log SET
-		                 Log='$log'" );
-            
-			$this->ID = $db->insertID();
+            $db->lock( "eZTodo_Log" );
+			$this->ID = $db->nextID( "eZTodo_Log", "ID" );
+            $res[] = $db->query( "INSERT INTO eZTodo_Log
+		                          (ID, Log)
+                                  VALUES
+                                  ('$this->ID','$log')" );
+            $db->unlock();
             $this->get( $this->ID );
-
         }
         else
         {
-            $db->query( "UPDATE eZTodo_Log SET
-		                 Log='$log'
-                         WHERE ID='$this->ID'" );
+            $res[] = $db->query( "UPDATE eZTodo_Log SET
+  		                          Log='$log'
+                                  WHERE ID='$this->ID'" );
         }
+        eZDB::finish( $res, $db );
         return true;
     }
 
@@ -99,11 +90,13 @@ class eZTodoLog
     function delete()
     {
         $db =& eZDB::globalDatabase();
-
+        $db->begin();
+        
         if ( isset( $this->ID ) )
         {
-            $db->query( "DELETE FROM eZTodoLog WHERE UserID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZTodoLog WHERE UserID='$this->ID'" );
         }
+        eZDB::finish( $res, $db );
         return true;
     }
 
@@ -112,7 +105,7 @@ class eZTodoLog
 
       True is retuned if successful, false (0) if not.
     */
-    function get( $id=-1 )
+    function get( $id = -1 )
     {
         $db =& eZDB::globalDatabase();
 
@@ -121,12 +114,12 @@ class eZTodoLog
         {
             $db->array_query( $todoLogArray, "SELECT * FROM eZTodo_Log WHERE ID='$id'",
                               0, 1 );
-            if( count( $todoLogArray ) == 1 )
+            if ( count( $todoLogArray ) == 1 )
             {
                 $this->fill( $todoLogArray[0] );
                 $ret = true;
             }
-            elseif( count( $todoLogArray ) == 1 )
+            else if( count( $todoLogArray ) == 1 )
             {
                 $this->ID = 0;
             }
@@ -139,9 +132,9 @@ class eZTodoLog
     */
     function fill( &$user_array )
     {
-        $this->ID =& $user_array[ "ID" ];
-        $this->Log =& $user_array[ "Log" ];
-        $this->Created =& $user_array[ "Created" ];
+        $this->ID =& $user_array[ $db->fieldName( "ID" ) ];
+        $this->Log =& $user_array[ $db->fieldName( "Log" ) ];
+        $this->Created =& $user_array[ $db->fieldName( "Created" ) ];
     }
 
     /*!
@@ -149,9 +142,6 @@ class eZTodoLog
     */
     function id()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->ID;
     }
 
@@ -160,9 +150,6 @@ class eZTodoLog
     */
     function log()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->Log;
     }
 
@@ -181,12 +168,9 @@ class eZTodoLog
     */
     function &created()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $dateTime = new eZDateTime();
 
-       $dateTime->setMySQLTimeStamp( $this->Created );
+       $dateTime->setTimeStamp( $this->Created );
        
        return $dateTime;
     }

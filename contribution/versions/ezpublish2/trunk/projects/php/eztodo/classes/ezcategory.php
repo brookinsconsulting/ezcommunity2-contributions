@@ -1,10 +1,9 @@
-<?
+<?php
 // 
-// $Id: ezcategory.php,v 1.12 2001/06/29 15:20:05 ce Exp $
+// $Id: ezcategory.php,v 1.13 2001/07/18 09:30:55 jhe Exp $
 //
 // Definition of eZCategory class
 //
-// Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Jun-2001 16:53:12 ce>
 //
 // This source file is part of eZ publish, publishing software.
@@ -24,9 +23,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-//!! eZAddress
-//! eZOnlineType handles online types.
-/*!
 
 //!! eZTodo
 //! The eZCategory handles the category informasjon.
@@ -39,24 +35,12 @@ class eZCategory
     /*!
       eZCategory Constructor.
     */
-    function eZCategory( $id=-1, $fetch=true )
+    function eZCategory( $id = -1 )
     {
-        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -66,27 +50,27 @@ class eZCategory
     */
     function store()
     {
-        $this->dbInit();
-        $name = addslashes( $this->Name );
-
+        $db =& eZDB::globalDatabase();
+        $name = $db->fieldName( $this->Name );
+        $db->begin();
+        
         if ( !isSet( $this->ID ) )
         {
-
-            $this->Database->query( "INSERT INTO eZTodo_Category SET
-                                     ID='$this->ID',
-                                     Name='$name' ");
-			$this->ID = $this->Database->insertID();
-
-            $this->State_ = "Coherent";
+            $db->lock( "eZTodo_Category" );
+			$this->ID = $db->nextID( "eZTodo_Category" );
+            $res[] = $db->query( "INSERT INTO eZTodo_Category
+                                  (ID, Name)
+                                  VALUES
+                                  ('$this->ID', '$name')" );
         }
         else
         {
-            $this->Database->query( "UPDATE eZTodo_Category SET
-                                     ID='$this->ID',
-                                     Name='$name'
-                                     WHERE ID='$this->ID' ");
-            $this->State_ = "Coherent";
+            $res[] = $db->query( "UPDATE eZTodo_Category SET
+                                  ID='$this->ID',
+                                  Name='$name'
+                                  WHERE ID='$this->ID' ");
         }
+        eZDB::finish( $res, $db );
         return true;
     }
         
@@ -96,9 +80,10 @@ class eZCategory
     */
     function delete()
     {
-        $this->dbInit();
-        $this->Database->query( "DELETE FROM eZTodo_Category WHERE ID='$this->ID'" );
-
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $res[] = $db->query( "DELETE FROM eZTodo_Category WHERE ID='$this->ID'" );
+        eZDB::finish( $res, $db );
         return true;
     }
 
@@ -107,31 +92,24 @@ class eZCategory
     */
     function get( $id )
     {
-        $this->dbInit();
+        $db = new eZDB::globalDatabase();
         $ret = false;
-        
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $category_array, "SELECT * FROM eZTodo_Category WHERE ID='$id'" );
+            $db->array_query( $category_array, "SELECT * FROM eZTodo_Category WHERE ID='$id'" );
             if ( count( $category_array ) > 1 )
             {
                 die( "Error: Category's with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $category_array ) == 1 )
+            else if ( count( $category_array ) == 1 )
             {
-                $this->ID = $category_array[0][ "ID" ];
-                $this->Name = $category_array[0][ "Name" ];
-                $this->Description = $category_array[0][ "Description" ];
+                $this->ID = $category_array[0][ $db->fieldName( "ID" ) ];
+                $this->Name = $category_array[0][ $db->fieldName( "Name" ) ];
+                $this->Description = $category_array[0][ $db->fieldName( "Description" ) ];
                 $ret = true;
             }
-            $this->State_ = "Coherent";
         }
-        else
-        {
-            $this->State_ = "Dirty";
-        }
-        
         return $ret;
     }
 
@@ -148,24 +126,21 @@ class eZCategory
         $return_array = array();
         $category_array = array();
 
-        $this->Database->array_query( $category_array, "SELECT ID FROM eZTodo_Category ORDER by Name" );
+        $db->array_query( $category_array, "SELECT ID FROM eZTodo_Category ORDER by Name" );
 
-        for ( $i=0; $i<count( $category_array ); $i++ )
-        {
-            $return_array[$i] = new eZCategory( $category_array[$i]["ID"], 0 );
-        }
+        for ( $i = 0; $i < count( $category_array ); $i++ )
+        { 
+            $return_array[$i] = new eZCategory( $category_array[$i][ $db->fieldName( "ID" ) ], 0 );
+        } 
         return $return_array;
     }
 
-
-    /*!
+    /*! 
       Tilte of the category.
       Returns the name of the category as a string.
     */
     function name()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return htmlspecialchars( $this->Name );
     }
 
@@ -175,8 +150,6 @@ class eZCategory
      */
     function setName( $value )
     {        
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $this->Name = $value;
     }
 
@@ -186,8 +159,6 @@ class eZCategory
     */
     function description()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return htmlspecialchars( $this->Description );
     }
 
@@ -197,8 +168,6 @@ class eZCategory
      */
     function setDescription( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $this->Description = $value;
     }
  
@@ -208,36 +177,13 @@ class eZCategory
     */
     function id()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->ID;
-    }
-
-    /*!
-      \private
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit( )
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = new eZDB( "site.ini", "site" );
-            $this->IsConnected = true;
-        }
     }
 
     var $ID;
     var $Name;
     var $Description;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>

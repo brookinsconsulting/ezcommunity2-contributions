@@ -1,15 +1,27 @@
-<?
-// $Id: eztodo.php,v 1.23 2001/05/05 11:16:04 bf Exp $
+<?php
+//
+// $Id: eztodo.php,v 1.24 2001/07/18 09:30:55 jhe Exp $
 //
 // Definition of eZTodo class
 //
-// <real-name> <<mail-name>>
 // Created on: <04-Sep-2000 16:53:15 ce>
 //
-// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
+// This source file is part of eZ publish, publishing software.
+// Copyright (C) 1999-2001 eZ systems as
 //
-// IMPORTANT NOTE: You may NOT copy this file or any part of it into
-// your own programs or libraries.
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
 //!! eZTodo
@@ -27,24 +39,12 @@ class eZTodo
     /*!
       eZtodo Constructor.
     */
-    function eZTodo( $id=-1, $fetch=true )
+    function eZTodo( $id = -1 )
     {
-        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -54,59 +54,62 @@ class eZTodo
     */
     function store()
     {
-        $this->dbInit();
-        $name = addslashes( $this->Name );
-        $description = addslashes( $this->Description );
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $name = $db->escapeString( $this->Name );
+        $description = $db->escapeString( $this->Description );
         
         if ( !isSet( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZTodo_Todo SET
-                                     ID='$this->ID',
-                                     Name='$name',
-                                     Description='$description',
-                                     Category='$this->Category',
-                                     Priority='$this->Priority', 
-                                     Due='$this->Due',
-                                     UserID='$this->UserID',
-                                     OwnerID='$this->OwnerID',
-                                     Status='$this->Status',
-                                     Date=now(),
-                                     IsPublic='$this->IsPublic'" );
-			$this->ID = $this->Database->insertID();
-
-            $this->State_ = "Coherent";
+            $db->lock( "eZTodo_Todo" );
+			$this->ID = $db->nextID( "eZTodo_Todo", "ID" );
+            $timestamp = eZDateTime::timeStamp( true );
+            $res[] = $db->query( "INSERT INTO eZTodo_Todo
+                                  (ID, Name, Description, Category,
+                                   Priority, Due, UserID, OwnerID,
+                                   Status, Date, IsPublic)
+                                  VALUES
+                                  ('$this->ID',
+                                   '$name',
+                                   '$description',
+                                   '$this->Category',
+                                   '$this->Priority', 
+                                   '$this->Due',
+                                   '$this->UserID',
+                                   '$this->OwnerID',
+                                   '$this->Status',
+                                   '$timestamp',
+                                   '$this->IsPublic')" );
+            $db->unlock();
         }
         else
         {
-            $this->Database->query( "UPDATE eZTodo_Todo SET
-                                     Name='$name',
-                                     Description='$description',
-                                     Category='$this->Category',
-                                     Priority='$this->Priority',
-                                     Due='$this->Due',
-                                     UserID='$this->UserID',
-                                     OwnerID='$this->OwnerID',
-                                     Status='$this->Status',
-                                     IsPublic='$this->IsPublic',
-                                     Date=Date
-                                     WHERE ID='$this->ID' ");
-
-            $this->State_ = "Coherent";
+            $res[] = $db->query( "UPDATE eZTodo_Todo SET
+                                              Name='$name',
+                                              Description='$description',
+                                              Category='$this->Category',
+                                              Priority='$this->Priority',
+                                              Due='$this->Due',
+                                              UserID='$this->UserID',
+                                              OwnerID='$this->OwnerID',
+                                              Status='$this->Status',
+                                              IsPublic='$this->IsPublic',
+                                              Date=Date
+                                              WHERE ID='$this->ID' ");
         }
-
+        eZDB::finish( $res, $db );
         return true;
     }
-
-
-
+    
     /*!
       Deletes the todo object in the database.
     */
     function delete()
     {
-        $this->dbInit();
-        
-        $this->Database->query( "DELETE FROM eZTodo_Todo WHERE ID='$this->ID'" );
+        $db =& eZDB::globalDatabase();
+        $db->begin()
+        $res[] = $db->query( "DELETE FROM eZTodo_Todo WHERE ID='$this->ID'" );
+        eZDB::finish( $res, $db );
 
         return true;
     }
@@ -116,37 +119,32 @@ class eZTodo
     */
     function get( $id )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         $ret = false;
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $todo_array, "SELECT * FROM eZTodo_Todo WHERE ID='$id'" );
+            $db->array_query( $todo_array, "SELECT * FROM eZTodo_Todo WHERE ID='$id'" );
             if ( count( $todo_array ) > 1 )
             {
                 die( "Error: Todo's with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $todo_array ) == 1 )
+            else if ( count( $todo_array ) == 1 )
             {
-                $this->ID = $todo_array[0][ "ID" ];
-                $this->Name = $todo_array[0][ "Name" ];
-                $this->Description = $todo_array[0][ "Description" ];
-                $this->Category = $todo_array[0][ "Category" ];
-                $this->Priority = $todo_array[0][ "Priority" ];
-                $this->Due = $todo_array[0][ "Due" ];
-                $this->Date = $todo_array[0][ "Date" ];
-                $this->UserID = $todo_array[0][ "UserID" ];
-                $this->OwnerID = $todo_array[0][ "OwnerID" ];
-                $this->Status = $todo_array[0][ "Status" ];
-                $this->IsPublic = $todo_array[0][ "IsPublic" ];
+                $this->ID = $todo_array[0][ $db->fieldName( "ID" ) ];
+                $this->Name = $todo_array[0][ $db->fieldName( "Name" ) ];
+                $this->Description = $todo_array[0][ $db->fieldName( "Description" ) ];
+                $this->Category = $todo_array[0][ $db->fieldName( "Category" ) ];
+                $this->Priority = $todo_array[0][ $db->fieldName( "Priority" ) ];
+                $this->Due = $todo_array[0][ $db->fieldName( "Due" ) ];
+                $this->Date = $todo_array[0][ $db->fieldName( "Date" ) ];
+                $this->UserID = $todo_array[0][ $db->fieldName( "UserID" ) ];
+                $this->OwnerID = $todo_array[0][ $db->fieldName( "OwnerID" ) ];
+                $this->Status = $todo_array[0][ $db->fieldName( "Status" ) ];
+                $this->IsPublic = $todo_array[0][ $db->fieldName( "IsPublic" ) ];
 
                 $ret = true;
             }
-            $this->State_ = "Coherent";
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
 
         return $ret;
@@ -158,38 +156,38 @@ class eZTodo
     */
     function getAll()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $return_array = array();
         $todo_array = array();
         
-        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo ORDER BY Priority" );
+        $db->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo ORDER BY Priority" );
         
-        for ( $i=0; $i<count($todo_array); $i++ )
-        {
-            $return_array[$i] = new eZTodo( $todo_array[$i]["ID"], 0 );
-        }
+        for ( $i=0; $i < count( $todo_array ); $i++ )
+        { 
+            $return_array[$i] = new eZTodo( $todo_array[$i][ $db->fieldName( "ID" ) ], 0 );
+        } 
         
         return $return_array;
     }
 
     /*! 
-      Gets all the todo infomasjon from a owner, where ID == $id.
-      Return the array in $todo_array ordered by name.
-      
-    */
-    function getByUserID( $id, $statusID=0, $categoryID=0 )
-    {
-        $this->dbInit();
+      Gets all the todo infomasjon from a owner, where ID == $id. 
+      Return the array in $todo_array ordered by name. 
+       
+    */ 
+    function getByUserID( $id, $statusID = 0, $categoryID = 0 )
+    { 
+        $db =& eZDB::globalDatabase();
         $todo_array = 0;
 
         $return_array = array();
         $todo_array = array();
 
-	if ( $statusID != 0)
-	{
-	    $showStatus = "AND Status='$statusID'";
-	}
+        if ( $statusID != 0 )
+        {
+            $showStatus = "AND Status='$statusID'";
+        }
 
         if ( $categoryID != 0 )
         {
@@ -198,46 +196,43 @@ class eZTodo
 
         $sql = "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' $showStatus $showCategory";
 
-        $this->Database->array_query( $todo_array, $sql );
+        $db->array_query( $todo_array, $sql );
        
-        for ( $i=0; $i<count($todo_array); $i++ )
-        {
-            $return_array[$i] = new eZTodo( $todo_array[$i]["ID"], 0 );
-        }
+        for ( $i = 0; $i < count( $todo_array ); $i++ )
+        { 
+            $return_array[$i] = new eZTodo( $todo_array[$i][ $db->fieldName( "ID" ) ], 0 );
+        } 
         return $return_array;        
     }
-        /*! 
+    
+    /*! 
       Gets all the todo infomasjon from a owner, where ID == $id.
       Return the array in $todo_array ordered by name.
       
-    */
+    */ 
     function getByOthers( $id )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         $todo_array = 0;
 
         $return_array = array();
         $todo_array = array();
 
-        $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE ( UserID='$id' or OwnerID='$id' ) AND IsPublic='1' ORDER BY Priority");
+        $db->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE ( UserID='$id' or OwnerID='$id' ) AND IsPublic='1' ORDER BY Priority");
        
-        for ( $i=0; $i<count($todo_array); $i++ )
-        {
-            $return_array[$i] = new eZTodo( $todo_array[$i]["ID"], 0 );
-        }
-        return $return_array;        
-    }
-
+        for ( $i=0; $i < count( $todo_array ); $i++ )
+        { 
+            $return_array[$i] = new eZTodo( $todo_array[$i][ $db->fieldName( "ID" ) ], 0 );
+        } 
+        return $return_array;         
+    } 
 
     /*!
       Tilte of the todo.
       Returns the name of the todo as a string.
-    */
+    */ 
     function name()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return htmlspecialchars( $this->Name );
     }
 
@@ -248,36 +243,35 @@ class eZTodo
     */
     function getByLimit( $id, $limit="5", $status="0", $except="0")    
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         $todo_array = 0;
 
         $return_array = array();
         $todo_array = array();
 	
-	if ($except=="0") 
-	{
-    	    $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' AND Status='$status' ORDER BY Priority LIMIT 0,$limit");
-	}
-	else
-	{
-    	    $this->Database->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' AND Status!='$status' ORDER BY Priority LIMIT 0,$limit");
-	}
-
-        for ( $i=0; $i<count($todo_array); $i++ )
+        if ( $except == "0" ) 
         {
-            $return_array[$i] = new eZTodo( $todo_array[$i]["ID"], 0 );
+    	    $db->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' AND Status='$status' ORDER BY Priority", array( "Limit" => $limit, "Offset" => 0 ) );
+        }
+        else
+        {
+    	    $db->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' AND Status!='$status' ORDER BY Priority", array( "Limit" => $limit, "Offset" => 0 ) );
         }
 
-        return $return_array;        
+        for ( $i=0; $i < count( $todo_array ); $i++ )
+        { 
+            $return_array[$i] = new eZTodo( $todo_array[$i][ $db->fieldName( "ID" ) ], 0 );
+        } 
+
+        return $return_array;         
     }
+    
     /*!
       Sets the name of the todo.
       The new name of the todo is passed as a paramenter ( $value ).
-     */
+    */
     function setName( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $this->Name = $value;
     }
 
@@ -287,9 +281,6 @@ class eZTodo
     */
     function description()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         return htmlspecialchars( $this->Description );
     }
 
@@ -299,8 +290,6 @@ class eZTodo
      */
     function setDescription( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $this->Description = $value;
     }
 
@@ -310,8 +299,6 @@ class eZTodo
     */
     function categoryID()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->Category;
     }
 
@@ -321,8 +308,6 @@ class eZTodo
      */
     function setCategoryID( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $this->Category = $value;
     }
 
@@ -332,8 +317,6 @@ class eZTodo
     */
     function priorityID()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->Priority;
     }
 
@@ -343,8 +326,6 @@ class eZTodo
      */
     function setPriorityID( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $this->Priority = $value;
     }
 
@@ -354,8 +335,6 @@ class eZTodo
     */
     function statusID()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->Status;
     }
 
@@ -365,8 +344,6 @@ class eZTodo
      */
     function setStatusID( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $this->Status = $value;
     }
 
@@ -376,11 +353,8 @@ class eZTodo
     */
     function due()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $dateTime = new eZDateTime();
-        $dateTime->setMySQLDateTime( $this->Due );
+        $dateTime->setTimeStamp( $this->Due );
         
         return $dateTime;
     }
@@ -391,8 +365,6 @@ class eZTodo
      */
     function setDue( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $this->Due = $value;
     }
 
@@ -402,11 +374,8 @@ class eZTodo
     */
     function date()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $dateTime = new eZDateTime( );
-        $dateTime->setMySQLTimeStamp( $this->Date );        
+        $dateTime->setTimeStamp( $this->Date );        
         
         return $dateTime;
     }
@@ -417,8 +386,6 @@ class eZTodo
      */
     function setDate( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $this->Date = $value;
     }
 
@@ -428,8 +395,6 @@ class eZTodo
     */
     function userID()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->UserID;
     }
 
@@ -439,8 +404,6 @@ class eZTodo
      */
     function setUserID( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $this->UserID = $value;
     }
 
@@ -450,8 +413,6 @@ class eZTodo
     */
     function ownerID()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->OwnerID;
     }
 
@@ -461,8 +422,6 @@ class eZTodo
      */
     function setOwnerID( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $this->OwnerID = $value;
     }
     
@@ -472,9 +431,6 @@ class eZTodo
     */
     function status()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         return $this->Status;
     }
 
@@ -484,9 +440,6 @@ class eZTodo
      */
     function setStatus( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->Status = $value;
     }
 
@@ -497,10 +450,6 @@ class eZTodo
     */
     function isPublic()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-
         if ( $this->IsPublic == 1 )
             return true;
         else
@@ -513,9 +462,6 @@ class eZTodo
      */
     function setIsPublic( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         if ( $value == true )
             $this->IsPublic = 1;
         else
@@ -529,21 +475,17 @@ class eZTodo
     */
     function logs()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $db =& eZDB::globalDatabase();
 
         $db->array_query( $logsArray, "SELECT LogID from eZTodo_TodoLogLink where TodoID='$this->ID'" );
 
-        if ( count ( $logsArray ) > 0 )
+        if ( count( $logsArray ) > 0 )
         {
             foreach ( $logsArray as $log )
             {
-                $returnArray[] = new eZTodoLog( $log["LogID"] );
+                $returnArray[] = new eZTodoLog( $log[ $db->fieldName( "LogID" ) ] );
             }
         }
-
         return $returnArray;
     }
 
@@ -552,20 +494,17 @@ class eZTodo
     */
     function addLog( &$value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         if ( get_class( $value ) == "eztodolog" )
         {
             $db =& eZDB::globalDatabase();
-
+            $db->begin();
+            
             $logID = $value->id();
 
-
-            $this->Database->query( "INSERT INTO eZTodo_TodoLogLink SET TodoID='$this->ID', LogID='$logID'" );
+            $res[] = $db->query( "INSERT INTO eZTodo_TodoLogLink SET TodoID='$this->ID', LogID='$logID'" );
+            eZDB::finish( $res, $db );
         }
     }
-
 
     /*!
       Id of the todo.
@@ -573,24 +512,7 @@ class eZTodo
     */
     function id()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->ID;
-    }
-
-    /*!
-      \private
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit( )
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = new eZDB( "site.ini", "site" );
-            $this->IsConnected = true;
-        }
     }
 
     var $OwnerID;
@@ -604,14 +526,6 @@ class eZTodo
     var $PriorityID;
     var $ID;
     var $Status;
-
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>
