@@ -37,8 +37,9 @@
 
 <br clear="all" />
 
-<table width="100%" cellspacing="0" cellpadding="7">
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
+
 <!-- BEGIN image_tpl -->
 <td class="bglight">
 
@@ -68,11 +69,9 @@
 
 <!-- BEGIN option_tpl -->
 
-
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<th colspan="2">
-	<br />
 	{option_name}
 	</th>
 </tr>
@@ -96,23 +95,6 @@
 
 <!-- END option_tpl -->
 
-<table class="list" width="100%" border="0" cellpadding="0" cellspacing="0">
-<tr>
-	<td>
-	<!-- BEGIN price_tpl -->
-	<p class="boxtext">{intl-price}:</p>
-	{product_price}
-	<!-- END price_tpl -->	
-	</td>
-	<td align="right">
-	<!-- BEGIN external_link_tpl -->
-	<p class="boxtext">{intl-external_link}:</p>
-	<a href="{external_link_url}" target="_blank">{external_link_url}</a>
-	<!-- END external_link_tpl -->
-	</td>
-</tr>
-</table>
-
 <!-- BEGIN attribute_list_tpl -->
 <table class="list" width="80%" cellspacing="0" cellpadding="2" border="0" align="center">
 <!-- BEGIN attribute_tpl -->
@@ -131,7 +113,25 @@
 
 {extra_product_info}
 
+<table class="list" width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+	<td>
+	<!-- BEGIN price_tpl -->
+	<p class="boxtext">{intl-price}:</p>
+	{product_price}
+	<!-- END price_tpl -->	
+	</td>
+	<td align="right">
+	<!-- BEGIN external_link_tpl -->
+	<p class="boxtext">{intl-external_link}:</p>
+	<a href="{external_link_url}" target="_blank">{external_link_url}</a>
+	<!-- END external_link_tpl -->
+	</td>
+</tr>
+</table>
+
 <!-- BEGIN add_to_cart_tpl -->
+<br />
 <input class="okbutton" type="submit" name="Cart" value="{intl-add_to_cart}" />
 
 <!-- END add_to_cart_tpl -->
