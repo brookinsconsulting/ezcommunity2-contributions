@@ -6,4 +6,4 @@
 {intl-you_password_is}: {password}
 <!-- END mail_password_tpl -->
 
-{intl-subscription_info}
+{intl-list_info}

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: subscriptionlogin.php,v 1.6 2001/07/19 12:36:31 jakobn Exp $
+// $Id: subscriptionlogin.php,v 1.7 2001/08/28 19:42:03 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -81,14 +81,19 @@ if( isset( $Ok ) )
             $forgot->setPassword( $Password );
             $forgot->store();
 
+            $mailTemplate = new eZTemplate( "ezbulkmail/user/" . $ini->read_var( "eZBulkMailMain", "TemplateDir" ),
+                                        "ezbulkmail/user/intl", $Language, "subscriptionmail.php" );
+            $mailTemplate->setAllStrings();
+            $mailTemplate->set_file( "subscription_mail_tpl", "subscriptionmail.tpl" );
+ 
             $mailpassword = new eZMail();
             $mailpassword->setTo( $Email );
             $mailpassword->setSubject( $subjectText );
 
-            $body = ( $bodyText . "\n");
-            $body .= ( "http://" . $headersInfo["Host"] . "/bulkmail/confirmsubscription/" . $forgot->Hash() );
-
-            $mailpassword->setBody( $body );
+            $mailTemplate->set_var( "activation_link",  "http://" . $headersInfo["Host"] . "/bulkmail/confirmsubscription/" . $forgot->Hash() );
+            $mailTemplate->set_var( "host", "http://" . $headersInfo["Host"] );
+            $mailpassword->setBody( $mailTemplate->parse( "dummy", "subscription_mail_tpl" ) );
+            $mailpassword->setFrom( $GlobalSiteIni->read_var( "eZBulkMailMain", "BulkmailSenderAddress" ) );
             $mailpassword->send();
 
             eZHTTPTool::header( "Location: /bulkmail/successfull/" );

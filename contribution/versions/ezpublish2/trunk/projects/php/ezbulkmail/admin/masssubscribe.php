@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: masssubscribe.php,v 1.6 2001/07/19 12:36:31 jakobn Exp $
+// $Id: masssubscribe.php,v 1.7 2001/08/28 19:42:03 fh Exp $
 //
 // Created on: <14-May-2001 15:02:02 ce>
 //
@@ -113,7 +113,8 @@ if ( isSet ( $OK ) && ( count ( $CategoryArrayID ) > 0 ) )
                             $mail->setSubject( $languageIni->read_var( "strings", "mail_subject" ) );
                             $mail->setTo( $email );
                             $mail->setBody( $mailTemplate->parse( "dummy", "send_mail_tpl" ) );
-                            
+                            $mail->setFrom( $GlobalSiteIni->read_var( "eZBulkMailMain", "BulkmailSenderAddress" ) );
+                           
                             $mail->send();
                         }
                     }

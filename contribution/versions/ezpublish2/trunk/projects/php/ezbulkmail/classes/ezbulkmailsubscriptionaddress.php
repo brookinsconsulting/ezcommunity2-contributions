@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailsubscriptionaddress.php,v 1.17 2001/08/17 13:35:58 jhe Exp $
+// $Id: ezbulkmailsubscriptionaddress.php,v 1.18 2001/08/28 19:42:03 fh Exp $
 //
 // eZBulkMailSubscriptionAddress class
 //
@@ -61,7 +61,7 @@ class eZBulkMailSubscriptionAddress
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZBulkMail_SubscriptionAddress" );
-            $nextID = $db->nextID( "eZBulkMail_Mail", "ID" );
+            $nextID = $db->nextID( "eZBulkMail_SubscriptionAddress", "ID" );
 
             $result = $db->query( "INSERT INTO eZBulkMail_SubscriptionAddress ( ID, EMail, Password )
                                  VALUES
