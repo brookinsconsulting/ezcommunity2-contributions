@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.6 2001/03/01 14:06:25 jb Exp $
+// $Id: search.php,v 1.7 2001/03/05 13:33:45 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Oct-2000 20:33:02 bf>
@@ -27,6 +27,7 @@ include_once( "classes/INIFile.php" );
 include_once( "ezforum/classes/ezforum.php" );
 
 include_once( "classes/ezlocale.php" );
+include_once( "classes/ezhttptool.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
@@ -67,15 +68,16 @@ $t->set_var( "next", "" );
 $t->set_var( "search_result", "" );
 
 
-
 if ( $QueryString != "" )
 {
     $t->set_var( "query_string", $QueryString );
 
-    if ( !isset( $Offset ) )
+    $Offset = eZHTTPTool::getVar( "Offset" );
+    if ( !is_numeric( $Offset ) )
         $Offset = 0;
 
-    if ( !isset( $Limit ) )
+    $Limit = eZHTTPTool::getVar( "Limit" );
+    if ( !is_numeric( $Limit ) )
         $Limit = 30;
 
     $forum = new eZForum();
