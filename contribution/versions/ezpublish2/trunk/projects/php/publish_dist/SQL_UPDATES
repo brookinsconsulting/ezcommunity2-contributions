@@ -563,3 +563,11 @@ ALTER TABLE eZArticle_Category DROP OwnerGroupID;
 
 #all categories should have an owner.
 ALTER TABLE eZArticle_Category ADD OwnerID int(11) DEFAULT '0'; 
+# IMPORTANT!!!! OLD CATEGORIES WILL NOT HAVE AN OWNER AND CAN BE UNREACHABLE!!!
+# to fix the problem:
+# 1. Find a suitable user to own the categories, run the following sql and write down the ID of the user you want.
+# SELECT ID, FirstName, LastName FROM eZUser_User;
+# 2. Run the following command and substitute XXX with the ID, this will set the user with the given ID as owner of all
+# existing categories.
+# UPDATE eZArticle_Category SET OwnerID='XXX';  
+
