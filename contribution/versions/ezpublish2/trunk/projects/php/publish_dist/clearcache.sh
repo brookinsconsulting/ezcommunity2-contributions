@@ -13,6 +13,7 @@ ezstats
 eznewsfeed
 ezad
 ezuser
+ezaddress
 "
 
 for dir in $dirs

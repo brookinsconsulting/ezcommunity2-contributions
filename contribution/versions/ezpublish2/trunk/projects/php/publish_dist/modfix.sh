@@ -30,6 +30,7 @@ eztodo/admin/cache
 ezuser/admin/cache
 eztrade/admin/cache
 eztrade/cache
+ezaddress/admin/cache
 ezcalendar/user/cache
 "
 
@@ -63,6 +64,7 @@ ezstats
 eztodo
 eznewsfeed
 eztrade
+ezaddress
 "
 
 for file in $files
