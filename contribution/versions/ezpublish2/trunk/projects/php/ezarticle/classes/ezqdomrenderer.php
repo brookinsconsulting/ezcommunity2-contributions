@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.41 2001/09/06 09:26:29 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.42 2001/09/06 09:27:47 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -556,18 +556,18 @@ class eZQDomrenderer
 
                 if ( $imageCaptionOverride != "" )
                 {
-                    $imageCaption = $imageCaptionOverride;
-                }
-                else
-                {
                     if ( $imageCaptionOverride == "_blank" )
                     {                    
                         $imageCaption = "";
                     }
                     else
                     {
-                        $imageCaption = $image->caption();                                                
+                        $imageCaption = $imageCaptionOverride;
                     }
+                }
+                else
+                {
+                    $imageCaption = $image->caption();                                                
                 }
                 
                 $imageID = $image->id();
