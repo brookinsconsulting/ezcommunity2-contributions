@@ -30,11 +30,28 @@ switch ( $url_array[2] )
     }
     break;
 
+
+    case "userlogin" :
+    {
+        $ForumID = $url_array[3];
+        include( "ezforum/userlogin.php" );
+    }    
+    break;
+    
     case "categorylist":
     {
         include( "ezforum/categorylist.php" );
     }
     break;
+
+    case "newpost" :
+    {
+        $ForumID = $url_array[3];
+        
+        include( "ezforum/newmessage.php" );                
+    }    
+    break;
+    
         
     case "category" :
         if ( $url_array[3] == "forum" )
@@ -73,13 +90,6 @@ switch ( $url_array[2] )
                     $forum_id = $url_array[6];
                     include( "ezforum/message.php" );
                 }
-            }
-            else if ( $url_array[4] == "newpost" )
-            {
-                $category_id = $url_array[5];
-                $forum_id = $url_array[6];
-                
-                include( "ezforum/newmessage.php" );                
             }
             else if ( $url_array[4] == "post" )
             {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: replymessage.php,v 1.14 2000/10/13 13:39:32 bf-cvs Exp $
+// $Id: replymessage.php,v 1.15 2000/10/14 15:33:09 bf-cvs Exp $
 //
 // 
 //
@@ -82,12 +82,13 @@ if ( $Action == "Reply" )
     }    
 
 
-    // delete the cache
+    // clear the cache files.
 
-    $dir = dir( "ezforum/cache/" ); 
+    $dir = dir( "ezforum/cache/" );
+    $files = array();
     while( $entry = $dir->read() )
     { 
-        if ($entry != "." && $entry != "..")
+        if ( $entry != "." && $entry != ".." )
         { 
             $files[] = $entry; 
             $numfiles++; 
@@ -97,10 +98,16 @@ if ( $Action == "Reply" )
 
     foreach( $files as $file )
     {
-        print( $file . "<br>" );
-    }    
- 
-    unlink( "ezforum/cache/forum," . $forum_id . ".cache" );
+        if ( ereg( "forum,([^,]+),.*", $file, $regArray  ) )
+        {
+            if ( $regArray[1] == $forum_id )
+            {
+                unlink( "ezforum/cache/" . $file );
+            }
+        }
+    }
+
+    // add deleting of every message in the thread
     unlink( "ezforum/cache/message," . $ReplyID . ".cache" );
     
     Header( "Location: /forum/category/forum/$forum_id/" );

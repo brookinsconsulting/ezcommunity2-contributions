@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.12 2000/10/13 15:38:08 ce-cvs Exp $
+// $Id: search.php,v 1.13 2000/10/14 15:33:09 bf-cvs Exp $
 //
 // 
 //
@@ -39,7 +39,11 @@ $t->set_block( "search_tpl", "next_tpl", "next" );
 
 
 if ( isSet( $URLQueryString ) )
+{
+    print( "decoding" );
     $QueryString = urldecode( $URLQueryString );
+}
+
 
 $t->set_var( "query_text", $QueryString );
 

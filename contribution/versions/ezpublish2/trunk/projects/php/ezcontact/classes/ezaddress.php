@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezaddress.php,v 1.15 2000/10/10 14:07:02 bf-cvs Exp $
+// $Id: ezaddress.php,v 1.16 2000/10/14 15:33:09 bf-cvs Exp $
 //
 // Definition of eZAddress class
 //
@@ -112,7 +112,7 @@ class eZAddress
         $this->dbInit();    
         if ( $id != "" )
         {
-            array_query( $address_array, "SELECT * FROM eZContact_Address WHERE ID='$id'" );
+            $this->Database->array_query( $address_array, "SELECT * FROM eZContact_Address WHERE ID='$id'" );
             if ( count( $address_array ) > 1 )
             {
                 die( "Feil: Flere addresser med samme ID funnet i database, dette skal ikke være mulig. " );

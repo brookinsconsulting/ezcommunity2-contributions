@@ -1,7 +1,6 @@
 <?
 //  $url_array = explode( "/", $REQUEST_URI );
 
-print( $RedirectURL );
 
 switch ( $url_array[2] )
 {
@@ -21,17 +20,22 @@ switch ( $url_array[2] )
         include( "ezuser/userwithaddress.php" );
     }
     break;
-    
-    case "test" :
-    {
-        include( "ezuser/test.php" );
-    }
-    break;
 
+
+    case "user" :
+    {
+
+        if ( $url_array[3] == "new" )
+            $Action = "New";
+        if ( $url_array[3] == "insert" )
+            $Action = "Insert";
+        
+        include( "ezuser/useredit.php" );
+    }
+    break;    
     
     case "success" :
     {
-
         $Action = $url_array[3];
         include( "ezuser/success.php" );
     }

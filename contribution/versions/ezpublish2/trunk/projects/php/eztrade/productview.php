@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.4 2000/10/12 09:46:58 bf-cvs Exp $
+// $Id: productview.php,v 1.5 2000/10/14 15:33:10 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -152,7 +152,7 @@ if ( $GenerateStaticPage == "true" )
     $cachedFile = "eztrade/cache/productview," .$ProductID . "," . $CategoryID .".cache";
     $fp = fopen ( $cachedFile, "w+");
 
-    $output = $t->parse($target, "product_view_page" );
+    $output = $t->parse($target, "product_view_tpl" );
     // print the output the first time while printing the cache file.
     print( $output );
     fwrite ( $fp, $output );
