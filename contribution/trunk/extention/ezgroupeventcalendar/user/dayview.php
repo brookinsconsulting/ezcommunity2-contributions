@@ -420,7 +420,9 @@ if( $user )
 
     while ( $tmpTime->isGreater( $stopTime ) == true )
     {
-        $t->set_var( "short_time", $Locale->format( $tmpTime, true ) );
+    // spectrum : this if block is a way to get the 23rd hour displayed
+        if ($tmpTime->hour() == 22 && $toggle23) $tmpTime = $tmpTime->add( $interval );
+	$t->set_var( "short_time", $Locale->format( $tmpTime, true ) );
         $t->set_var( "start_time", addZero( $tmpTime->hour() ) . addZero( $tmpTime->minute() ) );
 
         $drawnColumn = array();
@@ -522,12 +524,16 @@ if( $user )
 //            $t->set_var( "td_class", "bgcurrent" );
 //            $nowSet = true;
 //        }
-
-        if ( $tmpTime > $tmpTime->add( $interval ) )
+        if ( !isset($toggle23) )
+	    $toggle23 = false;
+        if ( $tmpTime > $tmpTime->add( $interval ) ) 
             $tmpTime = new eZTime( 23, 59 );
-        else
+	// this elseif block is a hack to get isGreater to display the 23rd hour    
+        elseif ($stopTime->hour() == 23 && $tmpTime->hour() == 22 && $toggle23 == false)
+	    $toggle23 = true;
+	else
             $tmpTime = $tmpTime->add( $interval );
-        $row++;
+	$row++;
 
 		if ( ( $i %2 ) == 0 )
 			$t->set_var( "td_class", "bglight" );
@@ -535,7 +541,7 @@ if( $user )
 			$t->set_var( "td_class", "bgdark" );
 
 		$i++;
-
+	if ($i > 30) die();
         $t->parse( "time_table", "time_table_tpl", true );
     }
 
