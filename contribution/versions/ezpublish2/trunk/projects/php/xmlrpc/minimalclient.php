@@ -5,7 +5,7 @@ include_once( "ezxmlrpc/classes/ezxmlrpccall.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcstring.php" );
 
 // create a new client
-$client = new eZXMLRPCClient( "php.ez.no", "/ezxmlrpc/server.php" );
+$client = new eZXMLRPCClient( "php.ez.no", "/xmlrpc/minimalserver.php" );
 
 $call = new eZXMLRPCCall( );
 $call->setMethodName( "myFunc" );
@@ -15,7 +15,17 @@ $response = $client->send( $call );
 
 // print out the results
 $result = $response->result();
-print( "The server returned: " . $result->value() . "<br>" );
+
+if ( $response->isFault() )
+{
+    print( "The server returned an error (" .  $response->faultCode() . "): ". 
+           $response->faultString() .
+           "<br>" );
+}
+else
+{
+    print( "The server returned: " . $result->value() . "<br>" );
+}
 
 ?>
 

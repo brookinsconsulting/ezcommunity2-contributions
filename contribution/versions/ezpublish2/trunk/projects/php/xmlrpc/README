@@ -12,3 +12,9 @@ Class reference documentation can be found in the doc/ folder.
 eZ xmlrpc uses the qdom xml parser functionality found in PHP version 4.0.4 and
 later. For further information about the qdom parser and how to compile it 
 consult the INSTALL file.
+
+There are two server/client examples provided with this software. Minimalclient.php 
+and minimalserver.php, which shows the basics and client.php and server.php which 
+shows some more use of datatypes and parameters.
+
+Any comments / suggestions can be sendt to bf@ez.no.

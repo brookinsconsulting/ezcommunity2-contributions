@@ -16,8 +16,7 @@ $server->processRequest();
 
 function myFunc( )
 {
-    $tmp = new eZXMLRPCString( "This command was run by xml rpc" );
-    return $tmp;
+    return new eZXMLRPCString( "This command was run by xml rpc" );
 }
 
 ob_end_flush();

@@ -7,6 +7,7 @@ include_once( "ezxmlrpc/classes/ezxmlrpcint.php" );
 
 $client = new eZXMLRPCClient( "php.ez.no", "/xmlrpc/server.php" );
 
+// error test, to many parameters
 $call = new eZXMLRPCCall( );
 $call->setMethodName( "myFunc2" );
 $call->addParameter( new eZXMLRPCString( "bla" ) );
@@ -29,60 +30,60 @@ else
     print( "The server returned: " . $result->value() . "<br>" );
 }
 
-//  $call = new eZXMLRPCCall( );
-//  $call->setMethodName( "currentTime" );
-//  $response = $client->send( $call );
+$call = new eZXMLRPCCall( );
+$call->setMethodName( "currentTime" );
+$response = $client->send( $call );
 
-//  $result = $response->result();
-//  print( "The server returned: " . $result->value() . "<br>" );
+$result = $response->result();
+print( "The server returned: " . $result->value() . "<br>" );
 
 // array test
-//  $call = new eZXMLRPCCall( );
-//  $call->setMethodName( "giveMeArray" );
-//  $response = $client->send( $call );
+$call = new eZXMLRPCCall( );
+$call->setMethodName( "giveMeArray" );
+$response = $client->send( $call );
 
-//  $result = $response->result();
-//  print( "The server returned: " . "<br>" );
+$result = $response->result();
+print( "The server returned: " . "<br>" );
 
-//  foreach ( $result->value() as $item )
-//  {
-//      print( $item->value() . "<br>" );
+foreach ( $result->value() as $item )
+{
+    print( $item->value() . "<br>" );
     
-//      if ( gettype( $item->value() )  == "array" )
-//      {
-//          foreach ( $item->value() as $subItem )
-//          {
-//              print( $subItem->value() . "<br>" );
-//          }
+    if ( gettype( $item->value() )  == "array" )
+    {
+        foreach ( $item->value() as $subItem )
+        {
+            print( $subItem->value() . "<br>" );
+        }
         
-//      }
-//  }
+    }
+}
 
-//  // struct
-//  print( "<hr>Struct:<br>" );
-//  $call = new eZXMLRPCCall( );
-//  $call->setMethodName( "giveMeStruct" );
-//  $response = $client->send( $call );
+// struct
+print( "<hr>Struct:<br>" );
+$call = new eZXMLRPCCall( );
+$call->setMethodName( "giveMeStruct" );
+$response = $client->send( $call );
 
-//  $result = $response->result();
+$result = $response->result();
 
-//  $struct = $result->value();
+$struct = $result->value();
 
-//  //  print_r( $struct );
+//  print_r( $struct );
     
-//  print( $struct["errorCode"]->value() . "<br>" );
-//  print( $struct["errorMessage"]->value() . "<br>" );
+print( $struct["errorCode"]->value() . "<br>" );
+print( $struct["errorMessage"]->value() . "<br>" );
 
 
-//  $call = new eZXMLRPCCall( );
-//  $call->setMethodName( "add" );
-//  $call->addParameter( new eZXMLRPCInt( 2 ) );
-//  $call->addParameter( new eZXMLRPCInt( 3 ) );
+$call = new eZXMLRPCCall( );
+$call->setMethodName( "add" );
+$call->addParameter( new eZXMLRPCInt( 2 ) );
+$call->addParameter( new eZXMLRPCInt( 3 ) );
 
-//  $response = $client->send( $call );
+$response = $client->send( $call );
 
-//  $result = $response->result();
-//  print( "The server returned: " . $result->value() . "<br>" );
+$result = $response->result();
+print( "The server returned: " . $result->value() . "<br>" );
 
 
 // array as argument
@@ -129,8 +130,7 @@ $result = $response->result();
 print( "The server returned: " . $result->value() . "<br>" );
 
 
-// file test:
-
+//file test:
 //  $call = new eZXMLRPCCall( );
 //  $call->setMethodName( "myFile" );
 
@@ -143,32 +143,6 @@ print( "The server returned: " . $result->value() . "<br>" );
 //  $fp = fopen( $filePath, "w+" );
 //  fwrite( $fp, $result->value() );
 //  fclose( $fp );
-
-
-// test on betty.userland.com
-//  $client = new eZXMLRPCClient( "betty.userland.com", "/RPC2" );
-
-//  $call = new eZXMLRPCCall( );
-//  $call->setMethodName( "examples.getStateName" );
-//  $call->addParameter( new eZXMLRPCInt( 41 ) );
-
-//  $response = $client->send( $call );
-
-//  $result = $response->result();
-//  print( "The server returned: " . $result->value() . "<br>" );
-
-
-// test on betty.userland.com
-//  $client = new eZXMLRPCClient( "xmlrpc.heddley.com", "/server.php" );
-
-//  $call = new eZXMLRPCCall( );
-//  $call->setMethodName( "examples.getStateName" );
-//  $call->addParameter( new eZXMLRPCInt( 41 ) );
-
-//  $response = $client->send( $call );
-
-//  $result = $response->result();
-//  print( "The server returned: " . $result->value() . "<br>" );
 
 
 
