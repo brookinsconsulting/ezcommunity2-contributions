@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: article.php,v 1.20.2.2 2002/01/17 12:31:07 jb Exp $
+// $Id: article.php,v 1.20.2.3 2002/04/23 11:31:58 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -324,9 +324,20 @@ else if( $Command == "storedata" )
         $article->addForm( $form );
     }
 
+    $waspublished = true;
+    if ( !$article->isPublished() )
+    {
+        $waspublished = false;
+    }    
+
     // Set is published and store again
     $article->setIsPublished( $Data["IsPublished"]->value(), $User );
     $article->store();
+
+    if ( $article->isPublished() && !$waspublished )
+    {
+        eZArticleTool::notificationMessage( $article );
+    }    
 
     // categories
     $category = new eZArticleCategory( eZArticle::categoryDefinitionStatic( $ID ) );
