@@ -528,6 +528,20 @@ When installing and compiling PHP on a FreeBSD system you might encounter
  It turns out that the current port of libxml installs itself as /usr/local/lib/
 libxml2.a|so and it goes unrecognised by configure.
  You can easily get around this problem by linking the libs to libxml.a|so.
+\layout Standard
+
+You also have to add another link for the include files (which are in a
+ quite strange place) : ln -s /usr/local/include/libxml2/libxml /usr/local/inclu
+de/libxml
+\layout Standard
+
+If people want to setup PHP4 by the ports, they also will have to modify
+ the Makefile of the port to add the missing (from the port GUI) options
+ which are --disable-magic-quotes and --with-qtdom.
+ The other options are available from the port GUI.
+\layout Standard
+
+Thanks to David Touitou for pointing this out.
 \layout Section
 
 Mandrake
@@ -993,7 +1007,13 @@ php-4.0.6.tar.gz
 First, unpack the tarball:
 \layout Standard
 
+
+\family typewriter 
+\size footnotesize 
 $ tar -xzf php-4.0.6.tar.gz
+\family default 
+\size default 
+
 \newline 
 
 \layout Standard
@@ -1001,7 +1021,13 @@ $ tar -xzf php-4.0.6.tar.gz
 Now, enter the source directory
 \layout Standard
 
+
+\family typewriter 
+\size footnotesize 
 $ cd php-4.0.6
+\family default 
+\size default 
+
 \newline 
 
 \layout Standard
@@ -1009,7 +1035,13 @@ $ cd php-4.0.6
 Apply the kerberos workaround:
 \layout Standard
 
+
+\family typewriter 
+\size footnotesize 
 $ export LDFLAGS="-L/usr/kerberos/lib -lkrb5 -lgssapi_krb5 -lpam"
+\family default 
+\size default 
+
 \newline 
 
 \layout Standard
