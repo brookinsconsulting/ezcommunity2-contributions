@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: sessioninfo.php,v 1.1 2000/11/19 14:42:46 bf-cvs Exp $
+// $Id: sessioninfo.php,v 1.2 2000/11/22 14:58:28 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <01-Nov-2000 14:34:30 bf>
@@ -82,8 +82,7 @@ foreach( $userSessionList as $userSessionItem )
 
     $t->set_var( "session_id", $userSessionItem[1]->id() );
 
-    $lastAccessed = $userSessionItem[1]->lastAccessed();
-    $t->set_var( "last_accessed", $locale->format( $lastAccessed ) );
+    $t->set_var( "idle", $userSessionItem[1]->idle() );
 
     $t->parse( "user_item", "user_item_tpl", true );
     $i++;

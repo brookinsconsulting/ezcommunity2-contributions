@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.12 2000/11/22 09:33:33 bf-cvs Exp $
+// $Id: ezsession.php,v 1.13 2000/11/22 14:58:28 bf-cvs Exp $
 //
 // Definition of eZSession class
 //
@@ -101,6 +101,7 @@ class eZSession
             $this->Database->query( "INSERT INTO eZSession_Session SET
                                  Created=now(),
                                  LastAccessed=now(),
+                                 SecondLastAccessed=now(),
 		                         Hash='$this->Hash'
                                  " );
 
@@ -112,6 +113,7 @@ class eZSession
         {
             $this->Database->query( "UPDATE eZSession_Session SET
                                  Created=Created,
+                                 SecondLastAccessed=LastAccessed,
                                  LastAccessed=now(),
 		                         Hash='$this->Hash'
                                  WHERE ID='$this->ID'
@@ -143,6 +145,7 @@ class eZSession
                 $this->ID = $session_array[0][ "ID" ];
                 $this->Hash = $session_array[0][ "Hash" ];
                 $this->LastAccessed = $session_array[0][ "LastAccessed" ];
+                $this->SecondLastAccessed = $session_array[0][ "SecondLastAccessed" ];
                 $this->Created = $session_array[0][ "Created" ];
                 
 
@@ -162,7 +165,7 @@ class eZSession
 
       Returnes false if unsuccessful.
     */
-    function fetch( $refresh=true )
+    function fetch( )
     {
         $this->dbInit();
         $ret = false;
@@ -177,10 +180,7 @@ class eZSession
         {
             $ret = $this->get( $session_array[0]["ID"] );
 
-            if ( $refresh == true )
-            {
-                $this->refresh();
-            }
+            $this->refresh();
         }
         
         return $ret;        
@@ -199,6 +199,7 @@ class eZSession
        // update session
        $this->Database->query( "UPDATE eZSession_Session SET
                                  Created=Created,
+                                 SecondLastAccessed=LastAccessed,
                                  LastAccessed=now()
                                  WHERE ID='$this->ID'
                                  " );        
@@ -335,23 +336,28 @@ class eZSession
     }
     
     /*!
-      Returns true if the session is not older than the number of minutes given as argument.
+      Returns the idle time of the session in seconds.
     */
-    function isValid( $timeout )
+    function idle( )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
        
        $this->dbInit();
 
-       $timeout = $timeout . "00";
        $value_array = array();
-       $this->Database->array_query( $value_array, "SELECT ID FROM eZSession_Session WHERE ID='$this->ID'
-                                                    AND ( ( now()-eZSession_Session.LastAccessed ) < $timeout )" );
+       $this->Database->array_query( $value_array, "SELECT ID, LastAccessed, ( now() + 0 ) AS NOW, SecondLastAccessed
+                                                    FROM eZSession_Session WHERE ID='$this->ID'" );
+       
        $ret = false;            
        if ( count( $value_array ) == 1 )
        {
-           $ret = true;
+           $now = $value_array[0]["NOW"];
+           $lastAccessed = $value_array[0]["SecondLastAccessed"];
+
+           $diff = $now - $lastAccessed;
+
+           $ret = $diff;
        }
 
        return $ret;
@@ -404,6 +410,7 @@ class eZSession
     var $Modified;
     var $Created;
     var $LastAccessed;
+    var $SecondLastAccessed;
     
 
     ///  Variable for keeping the database connection.

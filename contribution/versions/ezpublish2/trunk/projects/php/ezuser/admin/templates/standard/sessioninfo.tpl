@@ -49,7 +49,7 @@
 	</th>
 
 	<th>
-	{intl-last_accessed}:
+	{intl-seconds_idle}:
 	</th>
 
 	<th>
@@ -68,7 +68,7 @@
 	</td>
 
 	<td class="{td_class}">
-	{last_accessed}
+	{idle}
 	</td>
 
 
