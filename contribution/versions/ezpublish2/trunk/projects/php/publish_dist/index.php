@@ -62,7 +62,6 @@ else
 // Store the site design in a global variable
 $GlobalSiteDesign = $siteDesign;
 
-
 $StoreStats = $ini->read_var( "eZStatsMain", "StoreStats" );
 
 if ( $StoreStats == "enabled" )

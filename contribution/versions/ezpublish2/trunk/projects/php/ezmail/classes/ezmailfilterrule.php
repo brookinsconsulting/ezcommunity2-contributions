@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfilterrule.php,v 1.6 2001/04/03 08:46:32 fh Exp $
+// $Id: ezmailfilterrule.php,v 1.7 2001/04/23 13:41:49 ce Exp $
 //
 // eZMailFilterRule class
 //
@@ -569,9 +569,11 @@ class eZMailFilter
         do
         {
             echo "Running filter\n";
-            $res = $this->Filters[$i]->applyFilter( $mail );
+            if ( count ( $this->Filters ) > 0 )
+                $res = $this->Filters[$i]->applyFilter( $mail );
             $i++;
-        }while( $i < $NumFilters && $res == false );
+        }
+        while( $i < $this->$NumFilters && $res == false );
 
         if( $res == false )
         {
