@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.81.2.1 2001/11/05 18:21:27 master Exp $
+// $Id: articlelist.php,v 1.81.2.2 2001/11/17 10:49:14 bf Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -404,11 +404,17 @@ foreach ( $articleList as $article )
         $t->set_var( "td_class", "bgdark" );
     }
 
-    $published = $article->published();
+    $published =& $article->published();
 	
     $authorText = $article->authorText();
 
-	if( $authorText == "" || $authorText[0] == "-" )
+    $publishedDateValue =& $published->date();
+    $publishedTimeValue =& $published->time();
+
+    $t->set_var( "article_datevalue", $locale->format( $publishedDateValue ) );
+    $t->set_var( "article_timevalue", $locale->format( $publishedTimeValue ) );
+    
+	if ( $authorText == "" || $authorText[0] == "-" )
 	{
 		$t->set_var( "article_published", $locale->format( $published ) );
         $t->set_var( "article_date", "" );    

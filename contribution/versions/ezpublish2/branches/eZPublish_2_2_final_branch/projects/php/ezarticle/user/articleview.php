@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.84.2.4 2001/11/05 18:21:14 master Exp $
+// $Id: articleview.php,v 1.84.2.5 2001/11/17 10:49:14 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -323,6 +323,12 @@ if ( $article->get( $ArticleID ) )
 
     $locale = new eZLocale( $Language );
     $published = $article->published();
+
+    $publishedDateValue =& $published->date();
+    $publishedTimeValue =& $published->time();
+
+    $t->set_var( "article_datevalue", $locale->format( $publishedDateValue ) );
+    $t->set_var( "article_timevalue", $locale->format( $publishedTimeValue ) );
 
     $t->set_var( "article_created", $locale->format( $published ) );
 

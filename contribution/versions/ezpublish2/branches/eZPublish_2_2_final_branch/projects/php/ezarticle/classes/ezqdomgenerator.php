@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.39 2001/10/17 10:51:32 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.39.2.1 2001/11/17 10:49:13 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -35,6 +35,7 @@
 /*!TODO
   
 */
+include_once( "ezxml/classes/ezxml.php" );
 
 class eZQDomGenerator
 {
@@ -366,8 +367,9 @@ class eZQDomGenerator
     function &decodeXML( $htmlSpecialChars=false )
     {
         $contentsArray = array();
-
-        $xml =& xmltree( $this->Contents );
+        
+        $xml =& eZXML::domTree( $this->Contents );
+//        $xml =& xmltree( $this->Contents );
 
 //        $xml =& qdom_tree( $this->Contents );
 

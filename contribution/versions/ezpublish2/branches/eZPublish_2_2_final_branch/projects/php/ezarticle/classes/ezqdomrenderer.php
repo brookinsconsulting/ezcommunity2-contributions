@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.55.2.2 2001/11/01 19:58:17 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.55.2.3 2001/11/17 10:49:14 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -138,6 +138,7 @@
 
 include_once( "classes/eztexttool.php" );
 include_once( "classes/ezlog.php" );
+include_once( "ezxml/classes/ezxml.php" );
 
 class eZQDomrenderer
 {
@@ -232,7 +233,8 @@ class eZQDomrenderer
     */
     function &renderIntro()
     {
-        $xml =& xmltree( $this->Article->contents() );
+//        $xml =& xmltree( $this->Article->contents() );
+        $xml =& eZXML::domTree( $this->Article->contents() );
 
         if ( !$xml )
         {
@@ -292,7 +294,9 @@ class eZQDomrenderer
     {
 //        $xml =& qdom_tree( $this->Article->contents() );
 
-        $xml =& xmltree( $this->Article->contents() );
+        $xml =& eZXML::domTree( $this->Article->contents() );
+                        
+//        $xml =& xmltree( $this->Article->contents() );
 
 //        $err = qdom_error();
 //        if ( $err )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.28.2.5 2001/11/05 18:20:59 master Exp $
+// $Id: frontpage.php,v 1.28.2.6 2001/11/17 10:50:14 bf Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -330,6 +330,13 @@ function &renderFrontpageArticle( &$t, &$locale, &$article )
     
     $published = $article->published();
 
+    $publishedDateValue =& $published->date();
+    $publishedTimeValue =& $published->time();
+
+    $t->set_var( "article_datevalue", $locale->format( $publishedDateValue ) );
+    $t->set_var( "article_timevalue", $locale->format( $publishedTimeValue ) );
+    
+
     $t->set_var( "article_published", $locale->format( $published ) );
     
 
@@ -414,6 +421,13 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
     
     $published = $article1->published();
 
+    $publishedDateValue =& $published->date();
+    $publishedTimeValue =& $published->time();
+
+    $t->set_var( "article_datevalue", $locale->format( $publishedDateValue ) );
+    $t->set_var( "article_timevalue", $locale->format( $publishedTimeValue ) );
+    
+
     $t->set_var( "article_published", $locale->format( $published ) );
     
 
@@ -490,6 +504,13 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
     
     $published = $article2->published();
 
+    $publishedDateValue =& $published->date();
+    $publishedTimeValue =& $published->time();
+
+    $t->set_var( "article_datevalue", $locale->format( $publishedDateValue ) );
+    $t->set_var( "article_timevalue", $locale->format( $publishedTimeValue ) );
+   
+
     $t->set_var( "article_published", $locale->format( $published ) );
     
 
@@ -551,6 +572,12 @@ function &renderShortSingleArticle( &$t, &$locale, &$article )
     
     $published = $article->published();
 
+    $publishedDateValue =& $published->date();
+    $publishedTimeValue =& $published->time();
+
+    $t->set_var( "article_datevalue", $locale->format( $publishedDateValue ) );
+    $t->set_var( "article_timevalue", $locale->format( $publishedTimeValue ) );
+   
     $t->set_var( "article_published", $locale->format( $published ) );
     
 
