@@ -1,5 +1,5 @@
 <!-- BEGIN list_tpl -->
-<form action="/contact/company/search/" method="post">
+<form action="/contact/search/company/" method="post">
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td rowspan="2" valign="bottom">

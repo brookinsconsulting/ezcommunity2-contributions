@@ -209,7 +209,8 @@ switch ( $url_array[2] )
 
     case "consultation":
     {
-        $ConsultationID = $url_array[4];
+        if ( !isset( $ConsultationID ) or !is_numeric( $ConsultationID ) )
+            $ConsultationID = $url_array[4];
         $Action = $url_array[3];
         switch ( $Action )
         {
@@ -237,7 +238,8 @@ switch ( $url_array[2] )
             {
                 $SubAction = $url_array[3];
                 $Action = $url_array[4];
-                $CompanyID = $url_array[5];
+                if ( !isset( $CompanyID ) or !is_numeric( $CompanyID ) )
+                    $CompanyID = $url_array[5];
 //                  $ConsultationID = $url_array[5];
                 switch ( $Action )
                 {
@@ -269,7 +271,8 @@ switch ( $url_array[2] )
             {
                 $SubAction = $url_array[3];
                 $Action = $url_array[4];
-                $PersonID = $url_array[5];
+                if ( !isset( $PersonID ) or !is_numeric( $PersonID ) )
+                    $PersonID = $url_array[5];
 //                  $ConsultationID = $url_array[5];
                 switch ( $Action )
                 {

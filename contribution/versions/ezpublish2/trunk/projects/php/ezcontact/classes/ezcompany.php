@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.63 2001/03/05 15:43:31 jb Exp $
+// $Id: ezcompany.php,v 1.64 2001/03/06 19:17:01 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -116,52 +116,49 @@ class eZCompany
             // Delete real world addresses
 
             $db->array_query( $address_array, "SELECT eZContact_CompanyAddressDict.AddressID AS 'DID'
-                                               FROM eZContact_Address, eZContact_CompanyAddressDict
-                                               WHERE eZContact_Address.ID=eZContact_CompanyAddressDict.AddressID
+                                               FROM eZAddress_Address, eZContact_CompanyAddressDict
+                                               WHERE eZAddress_Address.ID=eZContact_CompanyAddressDict.AddressID
                                                      AND eZContact_CompanyAddressDict.CompanyID='$id' " );
 
             foreach( $address_array as $addressItem )
             {
                 $addressDictID = $addressItem["DID"];
                 eZAddress::delete( $addressDictID );
-//                  $db->query( "DELETE FROM eZContact_Address WHERE ID='$addressDictID'" );
             }
             $db->query( "DELETE FROM eZContact_CompanyAddressDict WHERE CompanyID='$id'" );
            
             // Delete phone numbers.
 
             $db->array_query( $phone_array, "SELECT eZContact_CompanyPhoneDict.PhoneID AS 'DID'
-                                     FROM eZContact_Phone, eZContact_CompanyPhoneDict
-                                     WHERE eZContact_Phone.ID=eZContact_CompanyPhoneDict.PhoneID
+                                     FROM eZAddress_Phone, eZContact_CompanyPhoneDict
+                                     WHERE eZAddress_Phone.ID=eZContact_CompanyPhoneDict.PhoneID
                                        AND eZContact_CompanyPhoneDict.CompanyID='$id' " );
 
             foreach( $phone_array as $phoneItem )
             {
                 $phoneDictID = $phoneItem["DID"];
                 eZPhone::delete( $phoneDictID );
-//                  $db->query( "DELETE FROM eZContact_Phone WHERE ID='$phoneDictID'" );
             }
             $db->query( "DELETE FROM eZContact_CompanyPhoneDict WHERE CompanyID='$id'" );
 
             // Delete online address.
 
             $db->array_query( $online_array, "SELECT eZContact_CompanyOnlineDict.OnlineID AS 'DID'
-                                     FROM eZContact_Online, eZContact_CompanyOnlineDict
-                                     WHERE eZContact_Online.ID=eZContact_CompanyOnlineDict.OnlineID
+                                     FROM eZAddress_Online, eZContact_CompanyOnlineDict
+                                     WHERE eZAddress_Online.ID=eZContact_CompanyOnlineDict.OnlineID
                                        AND eZContact_CompanyOnlineDict.CompanyID='$id' " );
 
             foreach( $online_array as $onlineItem )
             {
                 $onlineDictID = $onlineItem["DID"];
                 eZPhone::delete( $onlineDictID );
-//                  $db->query( "DELETE FROM eZContact_Online WHERE ID='$onlineDictID'" );
             }
             $db->query( "DELETE FROM eZContact_CompanyOnlineDict WHERE CompanyID='$id'" );
 
             $db->query( "DELETE FROM eZContact_CompanyTypeDict WHERE CompanyID='$id'" );
             $db->query( "DELETE FROM eZContact_Company WHERE ID='$id'" );
         }
-        $this->removePersons();
+        eZCompany::removePersons( $id );
         return true;
     }
 
@@ -397,7 +394,6 @@ class eZCompany
         foreach( $address_array as $addressItem )
         {
             $addressID =& $addressItem["AddressID"];
-//              $db->query( "DELETE FROM eZContact_Address WHERE ID='$addressID'" );
             eZAddress::delete( $addressID );
         }
         $db->query( "DELETE FROM eZContact_CompanyAddressDict WHERE CompanyID='$this->ID'" );
@@ -459,7 +455,6 @@ class eZCompany
         foreach( $phone_array as $phoneItem )
         {
             $phoneID =& $phoneItem["PhoneID"];
-//              $db->query( "DELETE FROM eZContact_Phone WHERE ID='$phoneID'" );
             eZPhone::delete( $phoneID );
         }
         $db->query( "DELETE FROM eZContact_CompanyPhoneDict WHERE CompanyID='$this->ID'" );
@@ -523,7 +518,6 @@ class eZCompany
         {
             $onlineID =& $onlineItem["OnlineID"];
             eZOnline::delete( $onlineID );
-//              $db->query( "DELETE FROM eZContact_Online WHERE ID='$onlineID'" );
         }
         $db->query( "DELETE FROM eZContact_CompanyOnlineDict WHERE CompanyID='$this->ID'" );
     }

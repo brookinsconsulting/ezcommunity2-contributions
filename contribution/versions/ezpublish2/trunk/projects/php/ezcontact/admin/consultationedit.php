@@ -35,8 +35,18 @@ if( $Action == "delete" )
 {
     $consultation = new eZConsultation( $ConsultationID );
     $person = $consultation->person( $user );
-    $company = $consultation->person( $user );
+    $company = $consultation->company( $user );
     $consultation->delete();
+    if ( is_numeric( $person ) )
+    {
+        $contact_type = "person";
+        $contact_id = $person;
+    }
+    else if ( is_numeric( $company ) )
+    {
+        $contact_type = "company";
+        $contact_id = $company;
+    }
 
     if ( isset( $contact_type ) && isset( $contact_id ) )
     {
@@ -84,6 +94,9 @@ $t->set_block( "consultation_edit", "person_contact_item_tpl", "person_contact_i
 $t->set_block( "consultation_edit", "hidden_company_contact_item_tpl", "hidden_company_contact_item" );
 $t->set_block( "consultation_edit", "hidden_person_contact_item_tpl", "hidden_person_contact_item" );
 
+$t->set_block( "consultation_edit", "person_id_item_tpl", "person_id_item" );
+$t->set_block( "consultation_edit", "company_id_item_tpl", "company_id_item" );
+
 $t->set_block( "consultation_edit", "errors_tpl", "errors_item" );
 
 $t->set_block( "errors_tpl", "error_company_person_item_tpl", "error_company_person_item" );
@@ -104,8 +117,30 @@ $t->set_var( "group_notice_id", "" );
 $t->set_var( "is_selected", "" );
 $t->set_var( "group_notice_name", "" );
 
-//  $t->set_var( "hidden_company_contact_item", "" );
-//  $t->set_var( "hidden_person_contact_item", "" );
+$t->set_var( "consultant_type", "" );
+$t->set_var( "person_id_item", "" );
+$t->set_var( "company_id_item", "" );
+
+if ( isset( $PersonID ) and !isset( $PersonContact ) )
+    $PersonContact = $PersonID;
+if ( isset( $CompanyID ) and !isset( $CompanyContact ) )
+    $CompanyContact = $CompanyID;
+
+if ( isset( $PersonID ) )
+{
+    $t->set_var( "consultant_type", "person/" );
+    $t->set_var( "person_id", $PersonID );
+    $t->parse( "person_id_item", "person_id_item_tpl" );
+}
+else if ( isset( $CompanyID ) )
+{
+    $t->set_var( "consultant_type", "company/" );
+    $t->set_var( "company_id", $CompanyID );
+    $t->parse( "company_id_item", "company_id_item_tpl" );
+}
+
+$t->set_var( "hidden_company_contact_item", "" );
+$t->set_var( "hidden_person_contact_item", "" );
 
 $t->set_var( "state_id", "" );
 
@@ -380,6 +415,7 @@ if( $Action == "edit" )
 if( $Action == "formdata" )
 {
     $Action_value = "insert";
+    $t->set_var( "consultation_id", $ConsultationID );
     $t->set_var( "short_description", $ShortDescription );
     $t->set_var( "description", $Description );
     $t->set_var( "email_notification", $EmailNotice );

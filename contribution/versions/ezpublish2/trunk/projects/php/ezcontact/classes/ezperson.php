@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.47 2001/03/03 20:23:14 jb Exp $
+// $Id: ezperson.php,v 1.48 2001/03/06 19:17:01 jb Exp $
 //
 // Definition of eZPerson class
 //
@@ -55,14 +55,6 @@ class eZPerson
             {
                 $this->get( $this->ID );
             }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
         }
     }
   
@@ -84,7 +76,6 @@ class eZPerson
 	                                                BirthDate=$birth,
                                                     ContactTypeID='$this->ContactType'" );
             $this->ID = mysql_insert_id();
-            $this->State_ = "Coherent";
         }
         else
         {
@@ -95,7 +86,6 @@ class eZPerson
 	                                                BirthDate=$birth,
                                                     ContactTypeID='$this->ContactType'
                                                     WHERE ID='$this->ID'" );
-            $this->State_ = "Coherent";
         }
     }
 
@@ -113,47 +103,47 @@ class eZPerson
         if( isset( $id ) && is_numeric( $id ) )
         {
             // Delete project state
-            $this->setProjectState( false );
+            eZPerson::setProjectState( false, $id );
 
             // Delete real world addresses
 
             $db->array_query( $address_array, "SELECT eZContact_PersonAddressDict.AddressID AS 'DID'
-                                               FROM eZContact_Address, eZContact_PersonAddressDict
-                                               WHERE eZContact_Address.ID=eZContact_PersonAddressDict.AddressID
+                                               FROM eZAddress_Address, eZContact_PersonAddressDict
+                                               WHERE eZAddress_Address.ID=eZContact_PersonAddressDict.AddressID
                                                      AND eZContact_PersonAddressDict.PersonID='$id' " );
 
             foreach( $address_array as $addressItem )
             {
                 $addressDictID = $addressItem["DID"];
-                $db->query( "DELETE FROM eZContact_Address WHERE ID='$addressDictID'" );
+                $db->query( "DELETE FROM eZAddress_Address WHERE ID='$addressDictID'" );
             }
             $db->query( "DELETE FROM eZContact_PersonAddressDict WHERE PersonID='$id'" );
            
             // Delete phone numbers.
 
             $db->array_query( $phone_array, "SELECT eZContact_PersonPhoneDict.PhoneID AS 'DID'
-                                     FROM eZContact_Phone, eZContact_PersonPhoneDict
-                                     WHERE eZContact_Phone.ID=eZContact_PersonPhoneDict.PhoneID
+                                     FROM eZAddress_Phone, eZContact_PersonPhoneDict
+                                     WHERE eZAddress_Phone.ID=eZContact_PersonPhoneDict.PhoneID
                                        AND eZContact_PersonPhoneDict.PersonID='$id' " );
 
             foreach( $phone_array as $phoneItem )
             {
                 $phoneDictID = $phoneItem["DID"];
-                $db->query( "DELETE FROM eZContact_Phone WHERE ID='$phoneDictID'" );
+                $db->query( "DELETE FROM eZAddress_Phone WHERE ID='$phoneDictID'" );
             }
             $db->query( "DELETE FROM eZContact_PersonPhoneDict WHERE PersonID='$id'" );
 
             // Delete online address.
 
             $db->array_query( $online_array, "SELECT eZContact_PersonOnlineDict.OnlineID AS 'DID'
-                                     FROM eZContact_Online, eZContact_PersonOnlineDict
-                                     WHERE eZContact_Online.ID=eZContact_PersonOnlineDict.OnlineID
+                                     FROM eZAddress_Online, eZContact_PersonOnlineDict
+                                     WHERE eZAddress_Online.ID=eZContact_PersonOnlineDict.OnlineID
                                        AND eZContact_PersonOnlineDict.PersonID='$id' " );
 
             foreach( $online_array as $onlineItem )
             {
                 $onlineDictID = $onlineItem["DID"];
-                $db->query( "DELETE FROM eZContact_Online WHERE ID='$onlineDictID'" );
+                $db->query( "DELETE FROM eZAddress_Online WHERE ID='$onlineDictID'" );
             }
             $db->query( "DELETE FROM eZContact_PersonOnlineDict WHERE PersonID='$id'" );
 
@@ -408,9 +398,6 @@ class eZPerson
     */
     function addresses()
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $return_array = array();
         $db = eZDB::globalDatabase();
 
@@ -436,9 +423,6 @@ class eZPerson
     */
     function addAddress( $address )
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $ret = false;
        
         $db = eZDB::globalDatabase();
@@ -467,9 +451,6 @@ class eZPerson
     */
     function removeAddresses()
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $db = eZDB::globalDatabase();
         $db->array_query( $address_array, "SELECT AddressID FROM eZContact_PersonAddressDict
                                            WHERE PersonID='$this->ID'" );
@@ -477,7 +458,6 @@ class eZPerson
         {
             $id = $address["AddressID"];
             eZAddress::delete( $id );
-//              $db->query( "DELETE FROM eZContact_Address WHERE PersonID='$id'" );
         }
         $db->query( "DELETE FROM eZContact_PersonAddressDict WHERE PersonID='$this->ID'" );
     }
@@ -487,9 +467,6 @@ class eZPerson
     */
     function phones( $personID = false )
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         if ( !is_numeric( $personID ) )
             $personID = $this->ID;
 
@@ -517,9 +494,6 @@ class eZPerson
     */
     function addPhone( $phone )
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $ret = false;
        
         $db = eZDB::globalDatabase();
@@ -548,9 +522,6 @@ class eZPerson
     */
     function removePhones()
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $db = eZDB::globalDatabase();
         $db->array_query( $phone_array, "SELECT PhoneID FROM
                                          eZContact_PersonPhoneDict WHERE PersonID='$this->ID'" );
@@ -558,7 +529,6 @@ class eZPerson
         {
             $id = $phone["PhoneID"];
             eZPhone::delete( $id );
-//              $db->query( "DELETE FROM eZContact_Phone WHERE PersonID='$id'" );
         }
         $db->query( "DELETE FROM eZContact_PersonPhoneDict WHERE PersonID='$this->ID'" );
     }
@@ -568,9 +538,6 @@ class eZPerson
     */
     function onlines()
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $return_array = array();
         $db = eZDB::globalDatabase();
 
@@ -595,9 +562,6 @@ class eZPerson
     */
     function removeOnlines()
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $db = eZDB::globalDatabase();
         $db->array_query( $online_array, "SELECT OnlineID FROM eZContact_PersonOnlineDict
                                           WHERE PersonID='$this->ID'" );
@@ -605,7 +569,6 @@ class eZPerson
         {
             $id = $online["OnlineID"];
             eZOnline::delete( $id );
-//              $db->query( "DELETE FROM eZContact_Online WHERE PersonID='$id'" );
         }
         $db->query( "DELETE FROM eZContact_PersonOnlineDict WHERE PersonID='$this->ID'" );
     }
@@ -673,9 +636,6 @@ class eZPerson
     */
     function hasTitle( $companyID )
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $db = eZDB::globalDatabase();
         $checkQuery = "SELECT Title FROM eZContact_CompanyPersonDict
                                     WHERE CompanyID='$companyID' and PersonID='$this->ID'";
@@ -692,9 +652,6 @@ class eZPerson
     */
     function title( $companyID )
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $ret = false;
 
         $db = eZDB::globalDatabase();
@@ -723,9 +680,6 @@ class eZPerson
     */
     function addOnline( $online )
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $ret = false;
        
         $db = eZDB::globalDatabase();
@@ -756,9 +710,6 @@ class eZPerson
     */
     function user()
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $return_array = array();
         $db = eZDB::globalDatabase();
 
@@ -779,9 +730,6 @@ class eZPerson
     */
     function addUser( $user )
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $ret = false;
         
         $db = eZDB::globalDatabase();
@@ -810,9 +758,6 @@ class eZPerson
      */
     function setFirstName( $value )
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->FirstName = $value;
     }
 
@@ -821,9 +766,6 @@ class eZPerson
      */
     function setLastName( $value )
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->LastName = $value;
     }
 
@@ -832,9 +774,6 @@ class eZPerson
      */
     function setComment( $value )
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->Comment = $value;
     }
 
@@ -843,9 +782,6 @@ class eZPerson
      */
     function setContact( $value )
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->ContactType = $value;
     }
 
@@ -854,9 +790,6 @@ class eZPerson
     */
     function setBirthDay( $value )
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $this->BirthDate = $value;
     }
 
@@ -889,9 +822,6 @@ class eZPerson
     */
     function firstName()
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->FirstName;
     }
 
@@ -900,9 +830,6 @@ class eZPerson
     */
     function lastName()
     {    
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->LastName;
     }
 
@@ -911,9 +838,6 @@ class eZPerson
     */
     function fullName()
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->FirstName . " " . $this->LastName;
     }
 
@@ -922,9 +846,6 @@ class eZPerson
     */
     function comment( )
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->Comment;
     }
 
@@ -933,9 +854,6 @@ class eZPerson
     */
     function contact( )
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->ContactType;
     }
 
@@ -944,9 +862,6 @@ class eZPerson
     */
     function projectState()
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $ret = "";
 
         $db = eZDB::globalDatabase();
@@ -965,20 +880,19 @@ class eZPerson
     /*!
       Returns the project state of this person.
     */
-    function setProjectState( $value )
+    function setProjectState( $value, $id = false )
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
+        if ( !$id )
+            $id = $this->ID;
         $db = eZDB::globalDatabase();
-        $db->query( "DELETE FROM eZContact_PersonProjectDict WHERE PersonID='$this->ID'" );
+        $db->query( "DELETE FROM eZContact_PersonProjectDict WHERE PersonID='$id'" );
 
         if ( is_numeric( $value )  )
         {
             if ( $value > 0 )
             {
                 $checkQuery = "INSERT INTO eZContact_PersonProjectDict
-                               SET PersonID='$this->ID', ProjectID='$value'";
+                               SET PersonID='$id', ProjectID='$value'";
                 $db->query( $checkQuery );
             }
         }
@@ -989,9 +903,6 @@ class eZPerson
     */
     function birthDate( )
     {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->BirthDate;
     }
 
@@ -1051,9 +962,6 @@ class eZPerson
     var $BirthDate;  
     var $ContactType;
     var $Comment;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
 };
 
 ?>

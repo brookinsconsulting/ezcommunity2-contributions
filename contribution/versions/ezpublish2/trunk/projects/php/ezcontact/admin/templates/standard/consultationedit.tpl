@@ -1,4 +1,4 @@
-<form method="post" action="/contact/consultation/{action_value}/{consultation_id}/" enctype="multipart/form-data">
+<form method="post" action="/contact/consultation/{consultant_type}{action_value}/{consultation_id}/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
 
 <h1>{intl-edit_headline}</h1>
@@ -139,6 +139,12 @@
 <hr noshade="noshade" size="4" />
 
 <input type="hidden" name="ConsultationID" value="{consultation_id}" />
+<!-- BEGIN person_id_item_tpl -->
+<input type="hidden" name="PersonID" value="{person_id}" />
+<!-- END person_id_item_tpl -->
+<!-- BEGIN company_id_item_tpl -->
+<input type="hidden" name="CompanyID" value="{company_id}" />
+<!-- END company_id_item_tpl -->
 
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
