@@ -6,13 +6,38 @@
 
 <form action="{www_dir}{index}/trade/voucherinformation/{product_id}" method="post">
 <!-- BEGIN email_tpl -->
-<b>{intl-email}:</b><br />
-<input type="text" name="Email" value="{email_var}" />
-<br /><br />
-
-<b>{intl-text}:</b><br />
-<textarea cols="60" name="Description" rows="8">{email_text}</textarea>
+<tr>
+<th>{intl-to_name}</th>
+</tr>
+<tr>
+      <td>
+      <input type="text" name="ToName" value="{to_name}" />
+      </td>
+</tr>
+<tr>
+<th>{intl-to_email}</th>
+</tr>
+<tr>
+      <td>
+      <input type="text" name="Email" value="{email_var}" />
+      </td>
+</tr>
+<tr>
+<th>{intl-from_name}</th>
+</tr>
+<tr>
+      <td>
+      <input type="text" name="FromName" value="{from_name}" />
+      </td>
+</tr>
+<th>{intl-text}</th>
+<tr>
+      <td>
+      <textarea cols="60" name="Description" rows="8">{email_text}</textarea>
+      </td>
+</tr>
 <!-- END email_tpl -->
+
 
 <!-- BEGIN smail_tpl -->
 <b>{intl-name}:</b><br />
