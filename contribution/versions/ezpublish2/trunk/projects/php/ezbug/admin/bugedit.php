@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.6 2000/12/04 10:47:52 bf-cvs Exp $
+// $Id: bugedit.php,v 1.7 2000/12/08 09:28:00 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -111,6 +111,9 @@ if ( $Action == "Update" )
                 $bug->setIsClosed( false );
             }
 
+            $bug->setName( addSlashes( $bug->name() ) );
+            $bug->setDescription( addSlashes( $bug->description() ) );
+            
 
             $bug->removeFromModules();
             $bug->removeFromCategories();
@@ -155,10 +158,12 @@ if ( $Action == "Edit" )
     $logList = $bugLog->getByBug( $bug );
 
     $cat =& $bug->category();
-    $categoryID = $cat->id();
+    if ( $cat )
+        $categoryID = $cat->id();
 
     $module =& $bug->module();
-    $moduleID = $module->id();
+    if ( $module )
+        $moduleID = $module->id();
 
     $pri =& $bug->priority();
     $status =& $bug->status();
