@@ -498,9 +498,9 @@ if ( $Action == "update" )
     if ( ( $CompanyCategoryID ) != "" )
     {
         $company->removeCategoryies();
-        
+
         $category = new eZCompanyType();
-        
+
         for( $i=0; $i<count( $CompanyCategoryID ); $i++ )
         {
             $category->get( $CompanyCategoryID[$i] );

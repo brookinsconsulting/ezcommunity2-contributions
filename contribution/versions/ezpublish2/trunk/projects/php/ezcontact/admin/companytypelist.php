@@ -25,7 +25,7 @@ $company = new eZCompany();
 if( !$type->id() && $TypeID != 0 )
 {
     header( "HTTP/1.0 404 Not Found" );
-    header( "Location: /contact/companycategory/list/" );
+    header( "Location: /contact/company/list/" );
     exit();
 }
 else
