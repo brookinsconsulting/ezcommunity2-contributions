@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.4 2001/12/17 11:30:42 jhe Exp $
+// $Id: pageedit.php,v 1.5 2001/12/17 11:57:05 jhe Exp $
 //
 // Definition of ||| class
 //
@@ -54,17 +54,17 @@ if ( isSet( $Cancel ) )
     exit();
 }
 
-        if ( isSet( $OK ) && count( $errorMessages ) == 0 )
-        {
-            eZHTTPTool::header( "Location: /form/form/list/" );
-            exit();
-        }
+if ( isSet( $OK ) && count( $errorMessages ) == 0 )
+{
+    eZHTTPTool::header( "Location: /form/form/list/" );
+    exit();
+}
 
-        if ( isSet( $Preview ) && count( $errorMessages ) == 0 )
-        {
-            eZHTTPTool::header( "Location: /form/form/preview/$FormID/" );
-            exit();
-        }
+if ( isSet( $Preview ) && count( $errorMessages ) == 0 )
+{
+    eZHTTPTool::header( "Location: /form/form/preview/$FormID/" );
+    exit();
+}
 
 $Language = $ini->read_var( "eZFormMain", "Language" );
 
@@ -74,6 +74,9 @@ $t = new eZTemplate( "ezform/admin/" . $ini->read_var( "eZFormMain", "AdminTempl
 
 $t->set_file( "pageedit_tpl", "pageedit.tpl" );
 $t->setAllStrings();
+
+$t->set_var( "form_id", $FormID );
+$t->set_var( "page_id", $PageID );
 
 // Make sub template for elements.
 $elementTemplate = new eZTemplate( "ezform/admin/" . $ini->read_var( "eZFormMain", "AdminTemplateDir" ),
@@ -330,7 +333,6 @@ $elementListBody = $elementTemplate->parse( $target, "elementlist_tpl" );
 
 $t->set_var( "page_name", $page->name() );
 $t->set_var( "element_list", $elementListBody );
-
 
 $t->pparse( "output", "pageedit_tpl" );
 

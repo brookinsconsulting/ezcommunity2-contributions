@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.20 2001/12/17 11:30:42 jhe Exp $
+// $Id: ezformrenderer.php,v 1.21 2001/12/17 11:57:05 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -212,7 +212,6 @@ class eZFormRenderer
         
         if ( $render == true )
         {
-            print_r( $currentPage );
             $elements =& $currentPage->pageElements();
 
             $elementCounter = 0;
@@ -250,9 +249,7 @@ class eZFormRenderer
                     $maxBreakCount = max( $maxBreakCount, $breakCount );
                 }                
             }
-            print "<pre>";
-            print_r( $elements );
-            die();
+
             foreach ( $elements as $element )
             {
                 $elementCounter++;
