@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.11 2000/11/21 16:23:12 ce-cvs Exp $
+// $Id: useredit.php,v 1.12 2000/11/28 09:25:02 ce-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 12:52:42 bf>
@@ -139,8 +139,10 @@ if ( $Action == "Update" )
         {
             if ( ( $Password == $VerifyPassword ) && ( strlen( $VerifyPassword ) > 3 ) )
             {
-                if ( !$Password == "dummy" )
+                if ( ( $Password != "dummy" ) )
+                {
                     $user->setPassword( $Password );
+                }
             }
             else
             {
