@@ -536,3 +536,28 @@ Maintainer(s) : fh@ez.no
     * classes/ezmail.php:
     Fixed but in ezmail that prevented replyto from working - CM.
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2002-04-04  fh  <fh@zev.ez.no>
+
+    * classes/ezimapmailfolder.php
+      classes/imapfunctions.php
+      user/menubox.php: Fixed a connect bug.
+    Step 1 in error handling.
+
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2002-04-07  fh  <fh@zev.ez.no>
+
+    * user/templates/standard/maillist.tpl: Fixed early tag closure bug.
+
+    * classes/ezimapmail.php
+      classes/ezimapmailfolder.php
+      user/datasupplier.php
+      user/mailview.php
+      user/menubox.php: Fix for in depth mailboxes..
+
