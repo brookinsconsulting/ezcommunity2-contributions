@@ -334,3 +334,12 @@ Maintainer(s) : jhe@ez.no
       user/intl/de_DE/personsearch.php.ini
       user/intl/de_DE/search.php.ini: updated de_DE for 2.2 beta2
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-10-17  Christoffer Elo  <ce@ez.no>
+
+    * sql/mysql/ezcontact.sql: Fixed SQL bugs
+    Fixed a percent bug in cart
+

@@ -31,3 +31,12 @@ Maintainer(s) : bf@ez.no
     * sql/mysql/ezmessage.sql
       sql/postgresql/ezmessage.sql: updated sql scheemes, ready for release
 
+
+Module : ezmessage
+Repository path : /home/cvsroot/projects/php/ezmessage
+Maintainer(s) : bf@ez.no
+2001-10-17  Christoffer Elo  <ce@ez.no>
+
+    * sql/mysql/ezmessage.sql: Fixed SQL bugs
+    Fixed a percent bug in cart
+

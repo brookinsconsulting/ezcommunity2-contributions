@@ -1442,3 +1442,46 @@ Maintainer(s) : bf@ez.no
     * user/datasupplier.php
       user/smallarticlelist.php: fixed errors in coding standard
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-10-17  Baard Farstad  <bf@ez.no>
+
+    * user/frontpage.php: Removed obsolete variables.
+
+2001-10-17  Thomas Hellstroem  <th@ez.no>
+
+    * user/templates/standard/frontpage.tpl: Layout
+
+2001-10-17  Baard Farstad  <bf@ez.no>
+
+    * admin/help/en_GB/article_articleedit.hlp: Updated tag documentation.
+
+2001-10-17  Christoffer Elo  <ce@ez.no>
+
+    * sql/mysql/ezarticle.sql: Fixed SQL bugs
+    Fixed a percent bug in cart
+
+2001-10-17  Baard Farstad  <bf@ez.no>
+
+    * classes/ezqdomgenerator.php: Renderer fix.
+
+2001-10-17  Thomas Hellstroem  <th@ez.no>
+
+    * user/articlelist.php
+      user/templates/standard/articletags.tpl
+      user/templates/standard/articleview.tpl: Layout
+
+2001-10-17  Baard Farstad  <bf@ez.no>
+
+    * user/templates/standard/frontpage.tpl: Fixed link.
+
+2001-10-17  Christoffer Elo  <ce@ez.no>
+
+    * user/templates/standard/frontpage.tpl: Fixed a template bug
+
+2001-10-17  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/articlelist.php: categorylist now shows images again
+

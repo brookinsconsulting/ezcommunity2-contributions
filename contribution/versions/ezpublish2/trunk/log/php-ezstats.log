@@ -111,3 +111,14 @@ Maintainer(s) : br@ez.no
 
     * admin/intl/de_DE/yearreport.php.ini: updated de_DE for 2.2 beta2
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2001-10-17  Christoffer Elo  <ce@ez.no>
+
+    * sql/mysql/ezstats.sql: fixed
+
+    * sql/mysql/ezstats.sql: Fixed SQL bugs
+    Fixed a percent bug in cart
+

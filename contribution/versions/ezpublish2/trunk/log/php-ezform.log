@@ -181,3 +181,30 @@ Maintainer(s) : pkej@ez.no
       admin/templates/standard/formrenderer.tpl:
     Added size and breaking in ez form
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-10-17  Thomas Hellstroem  <th@ez.no>
+
+    * admin/templates/standard/formrenderer.tpl
+      user/templates/standard/formview.tpl: Layout
+
+2001-10-17  Baard Farstad  <bf@ez.no>
+
+    * admin/templates/standard/formrenderer.tpl
+      classes/ezformrenderer.php: Fixed rendering of forms in a table.
+
+2001-10-17  Thomas Hellstroem  <th@ez.no>
+
+    * admin/templates/standard/formrenderer.tpl: Layout
+
+2001-10-17  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/formedit.php:
+    fixed problems with error reporting when creating new forms
+
+    * admin/datasupplier.php
+      admin/formedit.php:
+    fixed bug with error message printed on a new form + fixed several errors in coding stadard
+

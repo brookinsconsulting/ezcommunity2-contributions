@@ -290,3 +290,13 @@ Maintainer(s) : vl@ez.no
       admin/intl/de_DE/templateedit.php.ini
       admin/intl/de_DE/templatelist.php.ini: updated de_DE for 2.2 beta2
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-10-17  Christoffer Elo  <ce@ez.no>
+
+    * sql/mysql/ezsitemanager.sql
+      sql/postgresql/ezsitemanager.sql: Fixed SQL bugs
+    Fixed a percent bug in cart
+

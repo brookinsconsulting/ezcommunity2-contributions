@@ -1290,3 +1290,49 @@ Maintainer(s) : ce@ez.no
     * user/precheckout.php
       user/templates/standard/precheckout.tpl: Fixed cookie less shopping.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-10-17  Christoffer Elo  <ce@ez.no>
+
+    * user/intl/en_GB/productview.php.ini
+      user/productview.php
+      classes/ezcart.php
+      classes/ezvoucherinformation.php
+      user/payment.php: Fixed a voucher bug
+
+    * classes/ezorder.php
+      sql/mysql/eztrade.sql
+      sql/postgresql/eztrade.sql
+      user/cart.php
+      user/intl/no_NO/checkout.php.ini
+      user/intl/no_NO/menubox.php.ini
+      user/intl/no_NO/productview.php.ini: Fixed SQL bugs
+    Fixed a percent bug in cart
+
+2001-10-17  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * admin/intl/en_US/orderedit.php.ini
+      admin/intl/no_NO/orderedit.php.ini
+      admin/intl/en_GB/orderedit.php.ini: Translations.
+
+    * admin/orderedit.php
+      admin/templates/standard/orderedit.tpl:
+    Using the same as in ordersendt. Cut and paste, no problemo.
+
+2001-10-17  Christoffer Elo  <ce@ez.no>
+
+    * admin/intl/no_NO/customerlist.php.ini
+      admin/intl/no_NO/customerview.php.ini
+      user/intl/no_NO/ordersendt.php.ini: Added norsk language
+
+2001-10-17  Baard Farstad  <bf@ez.no>
+
+    * user/categorylist.php: Variable fix.
+
+2001-10-17  Christoffer Elo  <ce@ez.no>
+
+    * admin/intl/en_GB/customerview.php.ini
+      user/customerlogin.php: Fixed a redirect
+

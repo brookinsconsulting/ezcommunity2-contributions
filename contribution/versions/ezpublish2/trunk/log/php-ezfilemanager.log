@@ -351,3 +351,13 @@ Maintainer(s) : jhe@ez.no
       user/intl/de_DE/fileview.php.ini
       user/intl/de_DE/folderedit.php.ini: updated de_DE for 2.2 beta2
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-10-17  Christoffer Elo  <ce@ez.no>
+
+    * admin/cron.php
+      classes/ezvirtualfile.php: Fixed SQL bugs
+    Fixed a percent bug in cart
+

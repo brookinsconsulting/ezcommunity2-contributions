@@ -402,3 +402,17 @@ Maintainer(s) : bf@ez.no
       user/intl/de_DE/missingemailmessage.php.ini
       user/intl/de_DE/userwithaddress.php.ini: updated de_DE for 2.2 beta2
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-10-17  Christoffer Elo  <ce@ez.no>
+
+    * sql/mysql/ezuser.sql
+      sql/postgresql/ezuser.sql: Fixed SQL bugs
+    Fixed a percent bug in cart
+
+    * sql/mysql/ezuser.sql: Added a tabler
+
+    * user/userwithaddress.php: Fixed a redirect
+

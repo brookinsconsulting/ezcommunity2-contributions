@@ -87,3 +87,16 @@ Maintainer(s) : ce@ez.no
       admin/intl/de_DE/onlinetype.php.ini
       admin/intl/de_DE/phonetype.php.ini: updated de_DE for 2.2 beta2
 
+
+Module : ezaddress
+Repository path : /home/cvsroot/projects/php/ezaddress
+Maintainer(s) : ce@ez.no
+2001-10-17  Christoffer Elo  <ce@ez.no>
+
+    * admin/intl/en_GB/country.php.ini
+      admin/intl/no_NO/country.php.ini: added lang
+
+    * admin/countryedit.php
+      admin/templates/standard/countryedit.tpl
+      admin/typeedit.php: Added vat handling on countires
+

@@ -277,3 +277,12 @@ Maintainer(s) : bf@ez.no
 
     * ezpublish.php: Changed version.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-10-17  Baard Farstad  <bf@ez.no>
+
+    * eztemplate.php
+      template.inc: Fixed a error check bug.
+

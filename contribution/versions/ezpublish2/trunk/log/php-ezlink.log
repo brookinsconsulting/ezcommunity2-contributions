@@ -206,3 +206,21 @@ Maintainer(s) : br@ez.no
       user/intl/de_DE/success.php.ini
       user/intl/de_DE/suggestlink.php.ini: updated de_DE for 2.2 beta2
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-10-17  Bjoern Reiten  <br@ez.no>
+
+    * admin/linkedit.php
+      admin/templates/standard/linkedit.tpl: fixed some bugs in linkedit.php.
+
+    * classes/ezlink.php:
+    removed the code which deleted the image in  function deleteImage().
+
+2001-10-17  Christoffer Elo  <ce@ez.no>
+
+    * sql/postgresql/ezlink.sql
+      sql/mysql/ezlink.sql: Fixed SQL bugs
+    Fixed a percent bug in cart
+
