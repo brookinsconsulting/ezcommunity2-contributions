@@ -269,7 +269,7 @@
 <p class="boxtext">Image:</p>
 <!-- BEGIN image_item_tpl -->
 <img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
-<div><input type="checkbox" name="DeleteImage"><span class="p"> Delete image</span><drv /><br />
+<div><input type="checkbox" name="DeleteImage"><span class="p"> Delete image</span></div><br />
 <!-- END image_item_tpl -->
 
 <input class="box" size="40" name="ImageFile" type="file" />
