@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.50 2001/09/14 12:21:34 jhe Exp $
+// $Id: personedit.php,v 1.51 2001/09/14 13:25:57 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -838,7 +838,10 @@ if ( !$confirm )
                 $NewCompanyCategory = 0;
             if ( isSet( $NewCompanyCategory ) and is_numeric( $NewCompanyCategory ) )
                 $categoryList =& array_unique( array_merge( $NewCompanyCategory, $categoryList ) );
-            $category_values = array_values( $categoryList );
+            if ( count( $categoryList ) > 0 )
+                $category_values = array_values( $categoryList );
+            else
+                $category_values = array();
 
             $t->set_var( "is_top_selected", in_array( 0, $category_values ) ? "selected" : "" );
             foreach ( $companyTypeList as $companyTypeItem )
@@ -1251,6 +1254,11 @@ if ( !$confirm )
         
                     $t->parse( "logo_item", "logo_item_tpl" );
                 }
+            }
+            else
+            {
+                $t->set_var( "logo_id", "" );
+                $t->set_var( "image_id", "" );
             }
 
             // View company image.
