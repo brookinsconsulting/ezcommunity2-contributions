@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.8 2000/11/02 12:29:12 ce-cvs Exp $
+// $Id: useredit.php,v 1.9 2000/11/02 17:47:11 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 12:52:42 bf>
@@ -156,7 +156,7 @@ if ( $Action == "Update" )
     }
 }
         
-$t = new eZTemplate( "ezuser/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
+$t = new eZTemplate( "ezuser/user/" . $ini->read_var( "eZUserMain", "TemplateDir" ),
                      "ezuser/user/intl/", $Language, "useredit.php" );
 
 $t->setAllStrings();
