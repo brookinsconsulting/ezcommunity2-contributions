@@ -261,7 +261,7 @@
      <img src="{www_dir}{index}/filemanager/download/{image_id}/" alt="{image_name}" title="{image_name}" /><br />
      </td>
      <td width="50%" class="{td_class}" align="right">
-     <a style="text-decoration: none;" href="{www_dir}{index}/filemanager/download/{image_id}/">{image_name}</a>
+     <a style="text-decoration: none;" href="{www_dir}{index}/filemanager/download/{image_id}/">{image_name}</a>&nbsp;&nbsp;
      <div class="p">( <a href="{www_dir}{index}/filemanager/download/{image_id}/">{file_size}&nbsp;{file_unit}</a> )</div>
      </td>
 </tr>
