@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.84 2001/08/01 16:12:42 kaid Exp $
+// $Id: ezuser.php,v 1.85 2001/08/01 16:41:25 kaid Exp $
 //
 // Definition of eZUser class
 //
@@ -129,7 +129,7 @@ class eZUser
                                  LastName='$lastname',
                                  Signature='$signature',
                                  CookieLogin='$this->CookieLogin',
-				                 SimultaneousLogins='$this->SimultaneousLogins'" );
+                                 SimultaneousLogins='$this->SimultaneousLogins'" );
                 $this->ID = $nextID;
             }
             else
@@ -139,7 +139,7 @@ class eZUser
                 $db->query( "INSERT INTO eZUser_User
                 ( ID, Login, Password, Email, InfoSubscription, FirstName, LastName, Signature, CookieLogin, SimultaneousLogins )
                 VALUES
-		        ( '$nextID',
+                ( '$nextID',
                   '$login',
                   '$password',
                   '$email',
@@ -148,7 +148,7 @@ class eZUser
                   '$lastname',
                   '$signature',
                   '$this->CookieLogin',
-				  '$this->SimultaneousLogins')" );
+                  '$this->SimultaneousLogins')" );
                 
                 $this->ID = $nextID;
             }
@@ -157,7 +157,7 @@ class eZUser
         else
         {
             $db->query( "UPDATE eZUser_User SET
-		                 Login='$login',
+                         Login='$login',
                                  Email='$email',
                                  InfoSubscription='$this->InfoSubscription',
                                  FirstName='$firstname',
@@ -443,7 +443,8 @@ class eZUser
     */
     function id()
     {
-        return $this->ID;
+        if ( isset( $this->ID ) )
+            return $this->ID;
     }
     
     /*!

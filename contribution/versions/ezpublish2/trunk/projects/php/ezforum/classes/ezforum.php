@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezforum.php,v 1.40 2001/07/19 13:17:54 jakobn Exp $
+// $Id: ezforum.php,v 1.41 2001/08/01 16:41:25 kaid Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -311,10 +311,9 @@ class eZForum
            $approvedCode = " AND IsApproved=1 ";
        }
 
+       $timeStamp =& eZDateTime::timeStamp( true );            
        if ( $showReplies )
        {
-            $timeStamp =& eZDateTime::timeStamp( true );            
-           
             $db->array_query( $message_array, "SELECT ID, Topic, UserID, PostingTime, Depth,
                                           ( $timeStamp  - PostingTime ) AS Age, TreeID, Body
                                           FROM

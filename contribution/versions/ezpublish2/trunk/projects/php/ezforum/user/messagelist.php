@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagelist.php,v 1.36 2001/07/19 13:17:55 jakobn Exp $
+// $Id: messagelist.php,v 1.37 2001/08/01 16:41:25 kaid Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -125,7 +125,7 @@ if ( count( $categories ) > 0 )
 
 $locale = new eZLocale( $Language );
 
-if ( !$Offset )
+if ( !isset( $Offset ) or !$Offset )
     $Offset = 0;
 
 if ( $showThreads == "Hide" )
@@ -236,6 +236,8 @@ $t->set_var( "forum_start", $Offset + 1 );
 $t->set_var( "forum_end", min( $Offset + $UserLimit, $messageCount ) );
 $t->set_var( "forum_total", $messageCount );
 
+if ( !isset( $newmessage ) )
+    $newmessage = "";
 $t->set_var( "newmessage", $newmessage );
 
 $t->set_var( "forum_id", $forum->id() );
