@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmail.php,v 1.44.2.3 2002/01/04 09:26:57 jhe Exp $
+// $Id: ezmail.php,v 1.44.2.4 2002/02/15 18:16:53 master Exp $
 //
 // Definition of eZMail class
 //
@@ -1030,9 +1030,28 @@ class eZMail
         $message = $part["message"];
         $message = chunk_split( base64_encode( $message ) );
         $encoding = "base64";
-        return "Content-Type: " . $part["ctype"] . 
+	
+	//EP - different charsets for the MIME mail ---------------
+        global $GlobalSectionID;
+
+        include_once("ezsitemanager/classes/ezsection.php");
+        $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+        $Locale = new eZLocale( $sectionObject->language() );
+        $iso =& $Locale->languageISO();
+
+        $subj = $this->subject();
+        $subj = "=?$iso?B?" . trim( chunk_split( base64_encode( $subj ))) . "?=";
+        $this->setSubject ( $subj );
+
+        return "Content-Type: " . $part["ctype"] . ";\n\tcharset=\"$iso\"" .
             ( $part["name"] ? "; name = \"" . $part["name"] . "\"" : "" ) .
-            "\nContent-Transfer-Encoding: $encoding\n\n$message\n";
+            "\nContent-Transfer-Encoding: $encoding\n\n$message\n";	
+	
+	//EP	---------------------------------------------------
+	
+//        return "Content-Type: " . $part["ctype"] . 
+//            ( $part["name"] ? "; name = \"" . $part["name"] . "\"" : "" ) .
+//            "\nContent-Transfer-Encoding: $encoding\n\n$message\n";
     }
     
     /*!
