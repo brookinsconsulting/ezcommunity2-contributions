@@ -1,20 +1,22 @@
 <h1>{intl-ad_statistics}</h1>
+
 <hr noshade="noshade" size="4" />
 
-{ad_title}
-<br />
-{ad_description}
-<br />
+<h2>{ad_title}</h2>
 
-{intl-banner}:
+<p>{ad_description}</p>
+
+<p class="boxtext">{intl-banner}:</p>
 <!-- BEGIN image_tpl -->
 <img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
 <!-- END image_tpl -->
 
-<br />
-{intl-total_view_count}: {ad_view_count} <br />
-{intl-total_click_count}: {ad_click_count} <br />
-{intl-total_click_percentage}: {ad_click_percent} % <br />
+<p class="boxtext">{intl-total_view_count}:</p>
+{ad_view_count}
 
+<p class="boxtext">{intl-total_click_count}:</p>
+{ad_click_count}
 
-<hr noshade="noshade" size="4" />
+<p class="boxtext">{intl-total_click_percentage}:</p>
+{ad_click_percent} %
+
