@@ -14,14 +14,19 @@
 </table>
 
 <!-- END header_item_tpl -->
+
 <!-- BEGIN path_item_tpl -->
+
 <!-- END path_item_tpl -->
 
 <hr noshade="noshade" size="4" />
 
 <!-- BEGIN category_list_tpl -->
+
 <!-- BEGIN category_item_tpl -->
+
 <!-- END category_item_tpl -->
+
 <!-- END category_list_tpl -->
 
 

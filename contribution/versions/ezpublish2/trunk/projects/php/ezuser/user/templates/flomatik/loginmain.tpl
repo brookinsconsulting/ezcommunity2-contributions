@@ -13,7 +13,7 @@
 </tr>
 <tr>
 	<td colspan="2" class="menu" align="right">
-	<input type="text" size="6" name="Username"/><img src="/images/1x1.gif" width="4" height="1" border="0" alt="" />
+	<input type="text" size="8" name="Username"/><img src="/images/1x1.gif" width="4" height="1" border="0" alt="" />
 	</td>
     <td width="1%" bgcolor="#90a0b0"><img src="images/1x1.gif" width="1" height="1" alt="" /></td>
 </tr>
@@ -25,7 +25,7 @@
 </tr>
 <tr>
 	<td colspan="2" class="menu" align="right"> 
-	<input type="password" size="6" name="Password" /><img src="/images/1x1.gif" width="4" height="1" border="0" alt="" />
+	<input type="password" size="8" name="Password" /><img src="/images/1x1.gif" width="4" height="1" border="0" alt="" />
 	</td>
     <td width="1%" bgcolor="#90a0b0"><img src="images/1x1.gif" width="1" height="1" alt="" /></td>
 </tr>
@@ -53,6 +53,9 @@
 <tr>
     <td colspan="2" width="99%" background="/images/menufade-right2.jpg"><img src="images/1x1.gif" width="1" height="1" alt="" /></td>
     <td width="1%" bgcolor="#90a0b0"><img src="images/1x1.gif" width="1" height="1" alt="" /></td>
+</tr>
+<tr>
+	<td colspan="3" class="menuspacer">&nbsp;</td>
 </tr>
 </table>
 <input type="hidden" name="RedirectURL" value="{redirect_url}">
