@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: adlist.php,v 1.14 2001/04/30 16:04:47 bf Exp $
+// $Id: adlist.php,v 1.15 2001/06/29 18:03:20 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Nov-2000 21:08:34 bf>
@@ -61,6 +61,8 @@ $t->set_block( "ad_item_tpl", "no_image_tpl", "no_image" );
 
 $t->set_var( "site_style", $SiteStyle );
 
+if ( !is_numeric( $CategoryID ) )
+    $CategoryID = 0;
 $category = new eZAdCategory( $CategoryID );
 
 $t->set_var( "current_category_id", $category->id() );
@@ -119,7 +121,7 @@ else
 
 
 // ads
-$adList = $category->adlist( "time", true );
+$adList =& $category->adlist( "time", true );
 
 $locale = new eZLocale( $Language );
 $i=0;

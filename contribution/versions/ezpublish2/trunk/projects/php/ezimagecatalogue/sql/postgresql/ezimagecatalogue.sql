@@ -1,3 +1,7 @@
+drop table eZImageCatalogue_Category;
+drop table eZImageCatalogue_CategoryPermission;
+drop table eZImageCatalogue_Image;
+drop table eZImageCatalogue_ImageVariation;
 
 CREATE TABLE eZImageCatalogue_Category (
   ID int NOT NULL,
@@ -25,7 +29,8 @@ CREATE TABLE eZImageCatalogue_Image (
   Name varchar(100) default NULL,
   Caption text,
   Description text,
-  Photographer int,
+  PhotographerID int,
+  Created int,
   FileName varchar(100) default NULL,
   OriginalFileName varchar(100) default NULL,
   ReadPermission int default '1',
@@ -56,7 +61,7 @@ CREATE TABLE eZImageCatalogue_ImageVariation (
   ID int NOT NULL,
   ImageID int default NULL,
   VariationGroupID int default NULL,
-  ImagePath char(100) default NULL,
+  ImagePath varchar(100) default NULL,
   Width int default NULL,
   Height int default NULL,
   Modification char(20) NOT NULL default '',

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.8 2001/03/01 14:06:24 jb Exp $
+// $Id: categoryedit.php,v 1.9 2001/06/29 18:03:20 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -49,12 +49,14 @@ include_once( "ezad/classes/ezadcategory.php" );
 // Direct actions
 if ( $Action == "Insert" )
 {
-    $parentCategory = new eZAdCategory();
-    $parentCategory->get( $ParentID );
 
     $category = new eZAdCategory();
     $category->setName( $Name );
-    $category->setParent( $parentCategory );
+
+    $parentCategory = new eZAdCategory();
+    if ( $parentCategory->get( $ParentID ) == true )                    
+        $category->setParent( $parentCategory );
+    
     $category->setDescription( $Description );
 
     
@@ -68,13 +70,14 @@ if ( $Action == "Insert" )
 
 if ( $Action == "Update" )
 {
-    $parentCategory = new eZAdCategory();
-    $parentCategory->get( $ParentID );
-    
     $category = new eZAdCategory();
     $category->get( $CategoryID );
     $category->setName( $Name );
-    $category->setParent( $parentCategory );
+
+    $parentCategory = new eZAdCategory();
+    if ( $parentCategory->get( $ParentID ) == true )                    
+        $category->setParent( $parentCategory );
+    
     $category->setDescription( $Description );
 
     $category->store();

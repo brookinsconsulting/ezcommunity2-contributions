@@ -1,6 +1,6 @@
 <? 
 // 
-// $Id: ezinformixdb.php,v 1.10 2001/06/29 17:55:33 bf Exp $
+// $Id: ezinformixdb.php,v 1.11 2001/06/29 18:03:20 bf Exp $
 //
 // Definition of eZInformixDB class
 //
@@ -126,7 +126,10 @@ class eZInformixDB
         }
         
         $ret_array = array();
-        $res_id = ifx_prepare( $query, $this->Database, IFX_SCROLL );
+        if ( $offset != 0 )
+            $res_id = ifx_prepare( $query, $this->Database, IFX_SCROLL );
+        else
+            $res_id = ifx_prepare( $query, $this->Database );
 
         if ( !$res_id )
         {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adedit.php,v 1.19 2001/05/29 14:00:56 ce Exp $
+// $Id: adedit.php,v 1.20 2001/06/29 18:03:20 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -125,7 +125,7 @@ if ( $Action == "Insert" )
     {
         $adID = $ad->id();
         
-        $session = new eZSession();
+        $session =& eZSession::globalSession();
         $session->setVariable( "SelectImages", "single" );
         $session->setVariable( "ImageListReturnTo", "/ad/ad/edit/$adID/" );
         $session->setVariable( "NameInBrowse", $ad->name() );
@@ -208,7 +208,7 @@ if ( $Action == "Update" )
     {
         $adID = $ad->id();
         
-        $session = new eZSession();
+        $session =& eZSession::globalSession();
         $session->setVariable( "SelectImages", "single" );
         $session->setVariable( "ImageListReturnTo", "/ad/ad/edit/$adID/" );
         $session->setVariable( "NameInBrowse", $ad->name() );

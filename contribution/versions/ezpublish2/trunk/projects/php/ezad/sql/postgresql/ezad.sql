@@ -1,19 +1,23 @@
 drop table eZAd_Ad;
+drop table eZAd_AdCategoryLink;
+drop table eZAd_Category;
+drop table eZAd_Click;
+drop table eZAd_View;
 
 CREATE TABLE eZAd_Ad(
   ID int NOT NULL,
   Name varchar(150) default NULL,
   ImageID int default NULL,
-  ViewStartDate int NOT NULL,
-  ViewStopDate int NOT NULL,
-  ViewRule int default '1',
+  ViewStartDate int default null,
+  ViewStopDate int default null,
+  ViewRule int,
   URL varchar(200) default NULL,
   Description text,
-  IsActive int not null default '0',
-  ViewPrice float not null default '0.0',
-  ClickPrice float not null default '0.0',
-  HTMLBanner text NOT NULL,
-  UseHTML int NOT NULL default '0',
+  IsActive int not null,
+  ViewPrice float default 0.0,
+  ClickPrice float default 0.0,
+  HTMLBanner text default null,
+  UseHTML int NOT NULL,
   PRIMARY KEY (ID)
 );
 
@@ -28,24 +32,25 @@ CREATE TABLE eZAd_Category (
   ID int NOT NULL,
   Name varchar(150) default NULL,
   Description text,
-  ParentID int default NULL,
+  ParentID int not NULL,
   PRIMARY KEY (ID)
 );
 
 CREATE TABLE eZAd_Click (
   ID int NOT NULL,
   AdID int default NULL,
-  PageViewID int default NULL,
-  ClickPrice float(10,2) default NULL,
+  ClickCount int default NULL,
+  ClickOffsetCount int default NULL,
+  ClickPrice float,
   PRIMARY KEY (ID)
 );
 
 CREATE TABLE eZAd_View (
   ID int NOT NULL,
   AdID int default NULL,
-  Date date default NULL,
-  ViewCount int NOT NULL default '0',
-  ViewPrice int NOT NULL default '0',
+  ViewCount int NOT NULL,
+  ViewOffsetCount int NOT NULL,
+  ViewPrice float NOT NULL,
   PRIMARY KEY (ID)
 );
 

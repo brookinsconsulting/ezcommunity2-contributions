@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezadcategory.php,v 1.20 2001/06/29 07:08:37 bf Exp $
+// $Id: ezadcategory.php,v 1.21 2001/06/29 18:03:20 bf Exp $
 //
 // Definition of eZAdCategory class
 //
@@ -48,6 +48,8 @@ class eZAdCategory
     */
     function eZAdCategory( $id=-1 )
     {
+        $this->ParentID = 0;
+
         if ( $id != -1 )
         {
             $this->ID = $id;
@@ -123,6 +125,7 @@ class eZAdCategory
     */
     function get( $id=-1 )
     {
+        $ret = false;
         $db =& eZDB::globalDatabase();
         
         if ( $id != "" )
@@ -134,12 +137,15 @@ class eZAdCategory
             }
             else if( count( $category_array ) == 1 )
             {
+                $ret = true;
                 $this->ID = $category_array[0][$db->fieldName("ID")];
                 $this->Name = $category_array[0][$db->fieldName("Name")];
                 $this->Description = $category_array[0][$db->fieldName("Description")];
                 $this->ParentID = $category_array[0][$db->fieldName("ParentID")];
             }
         }
+
+        return $ret;
     }
 
     /*!
@@ -154,7 +160,7 @@ class eZAdCategory
         $return_array = array();
         $category_array = array();
         
-        $db->array_query( $category_array, "SELECT ID FROM eZAd_Category ORDER BY Name" );
+        $db->array_query( $category_array, "SELECT ID, Name FROM eZAd_Category ORDER BY Name" );
         
         for ( $i=0; $i < count($category_array); $i++ )
         {
@@ -417,7 +423,7 @@ class eZAdCategory
         $orderBySQL = "Ad.Name ASC";
 
         $db->array_query( $ad_array,
-        "SELECT Ad.ID
+        "SELECT Ad.ID, Ad.Name
          FROM eZAd_Ad AS Ad, eZAd_AdCategoryLink AS ACL
          WHERE Ad.ID=ACL.AdID AND ACL.CategoryID='$this->ID'
          ORDER BY $orderBySQL", array( "Limit" => $limit, "Offset" => $offset ) );
@@ -451,65 +457,28 @@ class eZAdCategory
            $fetchActiveSQL = "AND eZAd_Ad.IsActive = '1'";
        }
 
-       $orderBySQL = "Ad.Name ASC";
-       
+       $orderBySQL = "eZAd_Ad.Name ASC";       
        $orderBySQL = "eZAd_View.ViewCount ASC";
 
-       // Banners not shown at all
-       $db->array_query( $ad_not_shown_array,
-       "SELECT Ad.ID from eZAd_Ad as Ad left join eZAd_View as View ON Ad.ID=View.AdID, eZAd_AdCategoryLink AS Link
-        WHERE View.AdID IS NULL
-        AND IsActive='true'
-        AND Link.AdID=Ad.ID
-        AND View.Date IS NULL
-        AND Link.CategoryID='$this->ID' LIMIT $offset,$limit" );
+       $db->array_query( $ad_array,
+       "SELECT eZAd_Ad.ID, eZAd_View.ViewCount, eZAd_Ad.Name
+        FROM
+            eZAd_Ad,
+            eZAd_AdCategoryLink,
+            eZAd_View
+        WHERE
+           eZAd_AdCategoryLink.AdID = eZAd_Ad.ID
+           AND eZAd_View.AdID = eZAd_Ad.ID
+           $fetchActiveSQL
+           AND eZAd_AdCategoryLink.CategoryID='$this->ID'
+            ORDER BY $orderBySQL",
+       array( "Limit" => $limit, "Offset" => $offset ) );
 
-       if ( count( $ad_not_shown_array ) > 0 )
+       if ( count( $ad_array ) > 0 )
        {
-           for ( $i=0; $i < count($ad_not_shown_array); $i++ )
+           for ( $i=0; $i < count($ad_array); $i++ )
            {
-               $return_array[$i] = new eZAd( $ad_not_shown_array[$i][$db->fieldName("ID")], false );
-           }
-       }
-       else
-       {
-           // banners not shown today
-           $db->array_query( $ad_not_shown_array,
-           "SELECT Ad.ID, MAX(View.Date) AS LatestDate
-           FROM  eZAd_Ad as Ad, eZAd_View as View, eZAd_AdCategoryLink AS Link
-           WHERE IsActive='true' AND Link.AdID=Ad.ID AND View.AdID=Ad.ID AND Link.CategoryID='$this->ID'
-           GROUP BY Ad.ID HAVING LatestDate!=curdate() LIMIT $offset,$limit" );
-           
-
-           if ( count( $ad_not_shown_array ) > 0 )
-           {
-                 for ( $i=0; $i < count($ad_not_shown_array); $i++ )
-                 {
-                     $return_array[$i] = new eZAd( $ad_not_shown_array[$i][$db->fieldName("ID")], false );
-                 }
-           }
-           else
-           {           
-               $db->array_query( $ad_array, "
-                SELECT eZAd_Ad.ID AS AdID, eZAd_Ad.Name, eZAd_Category.ID, eZAd_Category.Name AS Count
-                FROM eZAd_Ad, eZAd_Category, eZAd_AdCategoryLink, eZAd_View
-                WHERE 
-                eZAd_AdCategoryLink.AdID = eZAd_Ad.ID
-                AND
-                eZAd_Category.ID = eZAd_AdCategoryLink.CategoryID
-                AND
-                eZAd_Ad.ID = eZAd_View.AdID
-                AND
-                eZAd_View.Date = curdate()
-                $fetchActiveSQL
-                AND 
-                eZAd_Category.ID='$this->ID'
-                GROUP BY eZAd_Ad.ID ORDER BY $orderBySQL LIMIT $offset,$limit" );
-
-               for ( $i=0; $i < count($ad_array); $i++ )
-               {
-                   $return_array[$i] = new eZAd( $ad_array[$i][$db->fieldName("AdID")], false );
-               }
+               $return_array[$i] = new eZAd( $ad_array[$i][$db->fieldName("ID")] );
            }
        }
 

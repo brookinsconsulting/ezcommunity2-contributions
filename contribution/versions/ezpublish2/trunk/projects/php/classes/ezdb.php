@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.40 2001/06/21 10:03:50 bf Exp $
+// $Id: ezdb.php,v 1.41 2001/06/29 18:03:20 bf Exp $
 //
 // Definition of eZDB class
 //
@@ -30,7 +30,80 @@
 /*!
   The eZDB class hanles database connections and is a wrapper
   to query functions for the selected database.
-   
+
+  \code
+  // fetch the database for the current connection.
+  $db =& eZDB::globalDatabase();
+
+  // Create a table
+  $db->query( "DROP TABLE TableA" );
+
+  // start a new transaction
+  $db->begin( );
+    
+  // lock the table
+  $db->lock( "TableA" );
+
+  // get the next ID
+  $id = $db->nextID( "TableA", "ID" );
+
+  $string =& $db->escapeString( "THis is a \nbold nstatement " );
+
+  $count = 100+$i;
+  $dateTime = new eZDateTime( 1977, 9, 2, 14, 30, 42 );
+  $timeStamp = $dateTime->timeStamp();
+
+         
+  $res1 = $db->query( "INSERT INTO TableA ( ID, Count, Number, Name, DateTime )
+                             VALUES ( '$id',
+                                      '$count',
+                                      '3.14',
+                                      '$string',
+                                      '$timeStamp' )" );
+  $db->unlock();
+    
+  if ( $res == false )
+     $db->rollback( );
+  else
+     $db->commit( );
+
+
+  // fetch some data
+  $db->array_query( $array,  "SELECT * FROM TableA ORDER BY ID DESC", array( "Limit" => 2, "Offset" => 2 ) );
+
+
+  $locale = new eZLocale( "no_NO" );
+  foreach ( $array as $row )
+  {
+    $timeStamp = $row[$db->fieldName("DateTime")];
+    $dateTime = new eZDateTime( );
+    
+    $dateTime->setTimeStamp( $timeStamp );
+    
+     print( $locale->format( $dateTime ).", " . 
+           "ID: " . $row[$db->fieldName("ID")] . " " .
+           $row[$db->fieldName("Count")] . " " .
+           nl2br( $row[$db->fieldName("Tekst")] ). " " .
+           $row[$db->fieldName("Name")] . " " .
+           $row[$db->fieldName("Description")] . " " .
+           $row[$db->fieldName("Number")] . " " .
+           $row[$db->fieldName("Date")] . "<br/>" );
+  }
+
+
+  // close the database connection
+  $db->close();     
+  
+  // if you need implementation spesific code
+  // you can use the isA function.
+  // Normally not neded
+  if ( $db->isA() == "informix" )    
+  {
+     // Special code for informix.
+  }
+  
+
+  \endcode   
 */
 
 /*!TODO

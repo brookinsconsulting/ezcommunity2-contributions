@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezad.php,v 1.23 2001/06/29 07:08:36 bf Exp $
+// $Id: ezad.php,v 1.24 2001/06/29 18:03:20 bf Exp $
 //
 // Definition of eZAd class
 //
@@ -109,6 +109,8 @@ class eZAd
                                  " );
 
 			$this->ID = $nextID;
+
+            $this->addPageView( );
         }
         else
         {
@@ -481,39 +483,52 @@ class eZAd
     {
         $db =& eZDB::globalDatabase();
 
-        $db->begin( );
+        $db->begin();
         
         $date = eZDate::timeStamp( true );
             
         $db->array_query( $view_result, "SELECT * FROM
                                          eZAd_View
-                                         WHERE AdID='$this->ID' AND Date='$date'" );
+                                         WHERE AdID='$this->ID'" );        
         
         if ( count( $view_result )  == 0 )
         {
             $db->lock( "eZAd_View" );
 
             $nextID = $db->nextID( "eZAd_View", "ID" );
-            
+
+            // get the lowest
+            $db->array_query( $view_offset, "SELECT * FROM
+                                         eZAd_View
+                                         ORDER BY ViewOffsetCount" );
+
+            if ( count( $view_offset ) > 0 )
+                $offs = $view_offset[0][$db->fieldName("ViewOffsetCount")];
+            else
+                $offs = 1;
+
             $res = $db->query( "INSERT INTO eZAd_View
                          ( ID,   
                            AdID,
-                           Date,
                            ViewCount,
+                           ViewOffsetCount,
                            ViewPrice )
                          VALUES
+                         (
+                           '$nextID',
                            '$this->ID',
-                           '$date',
                            '1',
-                           '$this->ViewPrice'" );
+                           '$offs',
+                           '$this->ViewPrice' )" );
 
         }
         else
         {
             $query = "UPDATE eZAd_View SET 
                                          ViewCount=(ViewCount + 1),
+                                         ViewOffsetCount=(ViewOffsetCount + 1),
                                          ViewPrice=(ViewPrice + $this->ViewPrice)
-                                         WHERE AdID='$this->ID' AND Date='$date'";
+                                         WHERE AdID='$this->ID'";
 
             $res = $db->query( $query );
         }
