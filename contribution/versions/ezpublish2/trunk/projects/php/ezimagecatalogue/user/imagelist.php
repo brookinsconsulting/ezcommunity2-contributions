@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.24 2001/05/09 10:44:12 ce Exp $
+// $Id: imagelist.php,v 1.25 2001/05/31 14:06:54 virt Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -252,9 +252,10 @@ foreach ( $imageList as $image )
     $t->set_var( "write", "" );
 
     $t->set_var( "read_span", "" );
+    $imagesPerRow = $ini->read_var( "eZImageCatalogueMain", "ListImagesPerRow" );
     if ( count( $imageList ) == $counter + 1 )
     {
-        $colspan = 3 - ($i % 4);
+        $colspan = ( $imagesPerRow-1 ) - ($imagesPerRow % 4);
         if ( $colspan > 0 )
         {
             $t->set_var( "col_span", $colspan );
@@ -270,11 +271,11 @@ foreach ( $imageList as $image )
          eZImage::isOwner( $user, $image->id() ) )
     {
         $can_read = true;
-        if ( ( $i % 4 ) == 0 )
+        if ( ( $i % $imagesPerRow ) == 0 )
         {
             $t->set_var( "begin_tr", "<tr>" );
         }
-        else if ( ( $i % 4 ) == 3 )
+        else if ( ( $i % $imagesPerRow ) == ( $imagesPerRow - 1 ) )
         {
             $t->set_var( "end_tr", "</tr>" );
         }
