@@ -46,6 +46,6 @@
 <!-- END numbered_page_link_tpl -->
 
 <!-- BEGIN print_page_link_tpl -->
-
+<center> <a class="path" href="/article/articleprint/{article_id}/">{intl-print_page}</a> </center>
 <!-- END print_page_link_tpl -->
 </p>

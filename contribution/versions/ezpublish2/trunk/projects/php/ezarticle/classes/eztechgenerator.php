@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.26 2000/11/23 16:55:42 bf-cvs Exp $
+// $Id: eztechgenerator.php,v 1.27 2000/12/01 06:31:38 bf-cvs Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -223,13 +223,17 @@ class eZTechGenerator
         return $tmpPage;
     }
 
+    /*!
+      \private
+    */
     function &generateImage( $tmpPage )
     {
         // parse the <image id align size> tag and convert it
         // to <image id="id" align="align" size="size" />
         $tmpPage = preg_replace( "/(<image\s+?([^ ]+)\s+?([^ ]+)\s+?([^( |>)]+)([^>]*?)>)/", "<image id=\"\\2\" align=\"\\3\" size=\"\\4\" />", $tmpPage );
 
-        print( htmlspecialchars( $tmpPage ) );
+        $tmpPage = preg_replace( "/(<image\s+?([0-9]+?)>)/", "<image id=\"\\2\" align=\"float\" size=\"medium\" />", $tmpPage );
+        
         return $tmpPage;
     }
 

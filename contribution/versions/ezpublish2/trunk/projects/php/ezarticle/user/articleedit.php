@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.1 2000/11/29 18:45:42 bf-cvs Exp $
+// $Id: articleedit.php,v 1.2 2000/12/01 06:31:38 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <29-Nov-2000 19:23:16 bf>
@@ -205,6 +205,8 @@ if ( $Action == "Update" )
     $generator = new eZArticleGenerator();
 
     $contents = $generator->generateXML( $Contents );
+
+    print( htmlspecialchars( $contents ) );
     
     $article->setContents( $contents  );
 

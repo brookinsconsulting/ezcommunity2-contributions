@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageview.php,v 1.4 2000/11/23 16:55:43 bf-cvs Exp $
+// $Id: imageview.php,v 1.5 2000/12/01 06:31:38 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Oct-2000 19:40:18 bf>
@@ -51,11 +51,12 @@ if ( $ShowOriginal != "enabled" )
     $variation =& $image->requestImageVariation( $ini->read_var( "eZImageCatalogueMain", "ImageViewWidth" ),
     $ini->read_var( "eZImageCatalogueMain", "ImageViewHeight" ) );
     
-    
     $t->set_var( "image_uri", "/" . $variation->imagePath() );
     $t->set_var( "image_width", $variation->width() );
     $t->set_var( "image_height", $variation->height() );
     $t->set_var( "image_caption", $image->caption() );
+
+    $t->set_var( "referer_url", $RefererURL );
 }
 else
 {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.41 2000/11/23 16:55:42 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.42 2000/12/01 06:31:38 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -37,7 +37,7 @@
   </header>
   <link ez.no text to the link> - anchor
   <mail adresse@domain.tld?subject="subject line" link text> - anchor to email address with subject
-  <image 42 align size> - image tag, 42 is the id, alignment (left|center|right), size (small|medium|large)
+  <image 42 align size> - image tag, 42 is the id, alignment (left|center|right|float), size (small|medium|large)
 
   <ezanchor anchorname>
   
@@ -401,7 +401,6 @@ class eZTechRenderer
                                 
                     }
                 }
-
                             
 //                          $imageID = $paragraph->children[0]->content;
             setType( $imageID, "integer" );
@@ -453,12 +452,13 @@ class eZTechRenderer
                 {
                     $viewMode = "view";
                 }
-                            
-                $imageTags = "<table width=\"$imageWidth\" align=\"$imageAlignment\" border=\"0\" cellspacing=\"0\" cellpadding=\"4\">
+                if ( $imageAlignment != "float"  )
+                {                            
+                    $imageTags = "<table width=\"$imageWidth\" align=\"$imageAlignment\" border=\"0\" cellspacing=\"0\" cellpadding=\"4\">
                                             <tr>
                                             <td>
                                                      	<a href=\"/imagecatalogue/imageview/$imageID/?RefererURL=/article/$viewMode/$articleID/\">
-                                                        <img src=\"$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" />
+                                                        <img src=\"$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" alt=\"\" />
                                                         </a>   
                                                         </td>
                                                 </tr>
@@ -468,6 +468,11 @@ class eZTechRenderer
                                                          </td>
                                                 </tr>
                                              </table>";
+                }
+                else
+                {                    
+                    $imageTags = "<a href=\"/imagecatalogue/imageview/$imageID/?RefererURL=/article/$viewMode/$articleID/\"><img src=\"$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" alt=\"\" /></a>";
+                }
                 $pageContent .=  $imageTags;
             }
             else

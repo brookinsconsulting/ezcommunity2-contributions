@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztexttool.php,v 1.9 2000/11/17 15:17:18 bf-cvs Exp $
+// $Id: eztexttool.php,v 1.10 2000/12/01 06:31:38 bf-cvs Exp $
 //
 // Definition of eZTextTool class
 //
@@ -68,7 +68,13 @@ class eZTextTool
 
     /*!
       \static
-      This function will convert text into capitilzed text. 
+      This function will convert text into capitilzed text.
+
+      Numbers will not be capitalized. E.g.
+
+      "a text string" will be converted to "A  T E X T  S T R I N G"
+      Where the first letter in each word will get the css style;
+      span with class="$bigClass" given as argument.
       
     */
     function &capitalize( $string, $bigClass="h1bigger" )
@@ -86,7 +92,9 @@ class eZTextTool
         $string = str_replace ("ø", "Ø", $string );
         $string = str_replace ("å", "Å", $string );
 
-        $string = preg_replace( "#(  |^)([^ ])#", "\\1<span class=\"$bigClass\">\\2</span>", $string );
+        $string = preg_replace( "#(  |^)([a-zA-ZæøåÆØÅ] )#", "\\1<span class=\"$bigClass\">\\2</span>", $string );
+        
+//        $string = preg_replace( "#(  |^)([^ ])#", "\\1<span class=\"$bigClass\">\\2</span>", $string );
         
         $string = str_replace ( "  ", "&nbsp;&nbsp;", $string );
         
