@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticleattribute.php,v 1.5 2001/06/27 08:15:30 bf Exp $
+// $Id: ezarticleattribute.php,v 1.6 2001/07/10 13:24:36 jb Exp $
 //
 // Definition of eZArticleAttribute class
 //
@@ -280,15 +280,15 @@ class eZArticleAttribute
 
                $db->lock( "eZArticle_AttributeValue" );
 
-               $nextID = $db->nextID( "eZArticle_Topic", "ID" );
+               $nextID = $db->nextID( "eZArticle_AttributeValue", "ID" );
                
                $res = $db->query( "INSERT INTO eZArticle_AttributeValue
                                    ( ID, ArticleID, AttributeID, Value )
                                    VALUES
                                    ( '$nextID',
-                                      ArticleID='$articleID',
-                                      AttributeID='$this->ID',
-                                      Value='$value' )" );
+                                      '$articleID',
+                                      '$this->ID',
+                                      '$value' )" );
            }
 
            $db->unlock();
