@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezonlinetype.php,v 1.5 2001/01/11 21:41:40 jb Exp $
+// $Id: ezonlinetype.php,v 1.6 2001/01/12 17:50:18 jb Exp $
 //
 // Definition of eZOnline class
 //
@@ -40,6 +40,9 @@
   
 */
 
+include_once( "ezcontact/classes/ezperson.php" );
+include_once( "ezcontact/classes/ezcompany.php" );
+
 class eZOnlineType
 {
     /*!
@@ -74,13 +77,16 @@ class eZOnlineType
     */
     function store()
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         $ret = false;
-        
         if ( !isSet( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZContact_OnlineType set Name='$this->Name'" );
+            $db->query_single( $qry, "SELECT ListOrder from eZContact_OnlineType ORDER BY ListOrder DESC LIMIT 1" );
+            $listorder = $qry["ListOrder"] + 1;
+            $this->ListOrder = $listorder;
+
+            $db->query( "INSERT INTO eZContact_OnlineType set Name='$this->Name', ListOrder='$this->ListOrder'" );
 
             $this->ID = mysql_insert_id();
 
@@ -89,7 +95,7 @@ class eZOnlineType
         }
         else
         {
-            $this->Database->query( "UPDATE eZContact_OnlineType set
+            $db->query( "UPDATE eZContact_OnlineType set
                                      Name='$this->Name'
                                      ListOrder='$this->ListOrder'
                                      WHERE ID='$this->ID'" );
@@ -101,12 +107,56 @@ class eZOnlineType
     }
 
     /*
-      Deletes from the database where id = $this->ID
+      Deletes from the database where id = $this->ID,
+      if $relations is true all relations to this item is deleted too,
+      if $relations is "full" all persons and companies are deleted too.
      */
-    function delete()
+    function delete( $relations = false )
     {
-        $this->dbInit();
-        $this->Database->query( "DELETE FROM eZContact_OnlineType WHERE ID='$this->ID'" );
+        $db = eZDB::globalDatabase();
+        if ( $relations == "full" )
+        {
+            $db->array_query( $person_qry, "SELECT Pe.ID
+                                            FROM eZContact_Person AS Pe, eZContact_PersonOnlineDict AS POD,
+                                                 eZContact_Online AS Online
+                                            WHERE Pe.ID = POD.PersonID AND POD.OnlineID = Online.ID AND OnlineTypeID='$this->ID'" );
+            foreach( $person_qry as $person )
+                {
+                    eZPerson::delete( $person["ID"] );
+                }
+            $db->array_query( $company_qry, "SELECT Co.ID
+                                             FROM eZContact_Company AS Co, eZContact_CompanyOnlineDict AS COD,
+                                                  eZContact_Online AS Online
+                                             WHERE Co.ID = COD.CompanyID AND COD.OnlineID = Online.ID AND OnlineTypeID='$this->ID'" );
+            foreach( $company_qry as $company )
+                {
+                    eZCompany::delete( $company["ID"] );
+                }
+        }
+        else if ( $relations )
+        {
+            $db->array_query( $person_qry, "SELECT A.PersonID, A.OnlineID
+                                            FROM eZContact_PersonOnlineDict AS A, eZContact_Online AS B
+                                            WHERE A.OnlineID = B.ID AND B.OnlineTypeID='$this->ID'" );
+            foreach( $person_qry as $person )
+                {
+                    $person_id = $person["PersonID"];
+                    $online_id = $person["OnlineID"];
+                    $db->query( "DELETE FROM eZContact_PersonOnlineDict WHERE PersonID='$person_id' AND OnlineID='$online_id'" );
+                    $db->query( "DELETE FROM eZContact_Online WHERE ID='$online_id'" );
+                }
+            $db->array_query( $company_qry, "SELECT A.CompanyID, A.OnlineID
+                                             FROM eZContact_CompanyOnlineDict AS A, eZContact_Online AS B
+                                             WHERE A.OnlineID = B.ID AND B.OnlineTypeID='$this->ID'" );
+            foreach( $company_qry as $company )
+                {
+                    $company_id = $company["CompanyID"];
+                    $online_id = $company["OnlineID"];
+                    $db->query( "DELETE FROM eZContact_CompanyOnlineDict WHERE CompanyID='$company_id' AND OnlineID='$online_id'" );
+                    $db->query( "DELETE FROM eZContact_Online WHERE ID='$online_id'" );
+                }
+        }
+        $db->query( "DELETE FROM eZContact_OnlineType WHERE ID='$this->ID'" );
     }
     
   /*
@@ -190,9 +240,20 @@ class eZOnlineType
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         $db = eZDB::globalDatabase();
-        $db->query_single( $company_qry, "SELECT count( CompanyID ) as Count FROM eZContact_CompanyOnlineDict WHERE OnlineID='$this->ID'" );
-        $db->query_single( $person_qry, "SELECT count( PersonID ) as Count FROM eZContact_PersonOnlineDict WHERE OnlineID='$this->ID'" );
-        return $company_qry["Count"] + $person_qry["Count"];
+        $db->array_query( $person_qry,  "SELECT count( Pe.ID ) as Count
+                                         FROM eZContact_Person AS Pe, eZContact_PersonOnlineDict AS POD,
+                                              eZContact_Online AS Online, eZContact_OnlineType AS OT
+                                         WHERE Pe.ID = POD.PersonID AND POD.OnlineID = Online.ID AND Online.OnlineTypeID = OT.ID AND OnlineTypeID='$this->ID'" );
+        $db->array_query( $company_qry, "SELECT count( Co.ID ) as Count
+                                         FROM eZContact_Company AS Co, eZContact_CompanyOnlineDict AS COD,
+                                              eZContact_Online AS Online, eZContact_OnlineType AS OT
+                                         WHERE Co.ID = COD.CompanyID AND COD.OnlineID = Online.ID AND Online.OnlineTypeID = OT.ID AND OnlineTypeID='$this->ID'" );
+        $cnt = 0;
+        if ( count( $company_qry ) > 0 )
+            $cnt += $company_qry[0]["Count"];
+        if ( count( $person_qry ) > 0 )
+            $cnt += $person_qry[0]["Count"];
+        return $cnt;
     }
 
     /*!
