@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.16 2001/02/22 17:43:40 pkej Exp $
+// $Id: ezforum.php,v 1.17 2001/02/23 09:22:41 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -31,8 +31,6 @@
 */
 
 /*!TODO
-  Moderated='$this->Moderated',  Private='$this->Private' to use enum( 'true', 'false' )
-  and use bool in the class. Rename the functions an variables to IsModerated and IsPrivate.  
 */
 
 include_once( "classes/ezdb.php" );
@@ -83,7 +81,7 @@ class eZForum
 		                         IsAnonymous='$this->IsAnonymous',
 		                         ModeratorID='$this->ModeratorID',
 		                         GroupID='$this->GroupID',
-		                         Private='$this->Private'
+		                         IsPrivate='$this->IsPrivate'
                                  " );
 
             $this->ID = mysql_insert_id();
@@ -99,7 +97,7 @@ class eZForum
 		                         IsAnonymous='$this->IsAnonymous',
 		                         ModeratorID='$this->ModeratorID',
 		                         GroupID='$this->GroupID',
-		                         Private='$this->Private'
+		                         IsPrivate='$this->IsPrivate'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -163,7 +161,7 @@ class eZForum
                 $this->IsAnonymous =& $forum_array[0][ "IsAnonymous" ];
                 $this->ModeratorID =& $forum_array[0][ "ModeratorID" ];
                 $this->GroupID =& $forum_array[0][ "GroupID" ];
-                $this->Private =& $forum_array[0][ "Private" ];
+                $this->IsPrivate =& $forum_array[0][ "IsPrivate" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -530,7 +528,7 @@ class eZForum
     */
     function private()
     {
-        return $this->Private;
+        return $this->IsPrivate;
     }
         
     /*!
@@ -542,7 +540,7 @@ class eZForum
             $this->get( $this->ID );
         
         
-        $this->Private = $newPrivate;
+        $this->IsPrivate = $newPrivate;
     }
 
     /*!
@@ -603,7 +601,7 @@ class eZForum
     var $Description;
     var $IsModerated;
     var $IsAnonymous;
-    var $Private;
+    var $IsPrivate;
     var $ModeratorID;
     var $GroupID;
 

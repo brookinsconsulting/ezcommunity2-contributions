@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.72 2001/02/22 17:43:40 pkej Exp $
+// $Id: ezforummessage.php,v 1.73 2001/02/23 09:22:41 pkej Exp $
 //
 // Definition of eZCompany class
 //
@@ -32,7 +32,6 @@
 */
 
 /*!TODO
-  EmailNotice to use enum( true, false) and bool in the class.
 */
 
 include_once( "classes/ezdatetime.php" );
@@ -503,7 +502,7 @@ class eZForumMessage
             $this->get( $this->ID );
 
        $ret = false;
-       if ( $this->EmailNotice == "Y" )
+       if ( $this->EmailNotice == 1 )
            $ret = true;    
         
        return $ret;
@@ -541,7 +540,7 @@ class eZForumMessage
             $this->get( $this->ID );
         
         
-        $this->setEmailNotice( "Y" );
+        $this->setEmailNotice( 1 );
     }
 
     /*!
@@ -553,7 +552,7 @@ class eZForumMessage
             $this->get( $this->ID );
         
         
-        $this->setEmailNotice( "N" );
+        $this->setEmailNotice( 0 );
     }
 
 

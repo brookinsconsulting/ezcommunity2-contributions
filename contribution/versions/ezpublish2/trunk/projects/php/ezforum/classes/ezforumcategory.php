@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumcategory.php,v 1.28 2001/02/22 17:43:40 pkej Exp $
+// $Id: ezforumcategory.php,v 1.29 2001/02/23 09:22:41 pkej Exp $
 //
 // Definition of eZForumCategory class
 //
@@ -79,6 +79,7 @@ class eZForumCategory
             $db->query( "INSERT INTO eZForum_Category SET
 		                         Name='$this->Name',
 		                         Description='$this->Description'
+		                         IsPrivate='$this->IsPrivate'
                                  " );
 
             $this->ID = mysql_insert_id();
@@ -90,6 +91,7 @@ class eZForumCategory
             $db->query( "UPDATE eZForum_Category SET
 		                         Name='$this->Name',
 		                         Description='$this->Description'
+		                         IsPrivate='$this->IsPrivate'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -311,6 +313,7 @@ class eZForumCategory
     var $ID;
     var $Name;
     var $Description;
+    var $IsPrivate;
 
     /// Indicates the state of the object. In regard to database information.
     var $State_;
