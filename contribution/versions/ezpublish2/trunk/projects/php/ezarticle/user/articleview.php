@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.78 2001/09/15 09:55:00 bf Exp $
+// $Id: articleview.php,v 1.79 2001/09/15 10:47:18 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -41,6 +41,8 @@ $Language = $ini->read_var( "eZArticleMain", "Language" );
 $ForceCategoryDefinition = $ini->read_var( "eZArticleMain", "ForceCategoryDefinition" );
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 $TemplateDir = $ini->read_var( "eZArticleMain", "TemplateDir" );
+$ListImageWidth = $ini->read_var( "eZArticleMain", "ListImageWidth" );
+$ListImageHeight = $ini->read_var( "eZArticleMain", "ListImageHeight" );
 
 if ( !isset( $CategoryID ) )
     $CategoryID = eZArticle::categoryDefinitionStatic( $ArticleID );
@@ -347,7 +349,7 @@ if ( $article->get( $ArticleID ) )
                 $t->set_var( "image_id", $image->id() );
                 $t->set_var( "article_id", $ArticleID );
 
-                $variation =& $image->requestImageVariation( 150, 150 );
+                $variation =& $image->requestImageVariation( $ListImageWidth, $ListImageHeight );
 
                 $t->set_var( "image_url", "/" .$variation->imagePath() );
                 $t->set_var( "image_width", $variation->width() );
