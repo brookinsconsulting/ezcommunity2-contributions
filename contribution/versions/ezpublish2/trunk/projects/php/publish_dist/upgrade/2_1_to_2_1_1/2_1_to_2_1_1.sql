@@ -405,6 +405,14 @@ update eZURLTranslator_URL set CreatedTmp= UNIX_TIMESTAMP( Created );
 alter table eZURLTranslator_URL drop Created; 
 alter table eZURLTranslator_URL change CreatedTmp Created int; 
 
+CREATE TABLE eZLink_LinkGroup (
+  ID int NOT NULL,
+  Parent int default '0',
+  Title varchar(100) default NULL,
+  ImageID int default NULL,
+  Description text,
+  PRIMARY KEY (ID)
+);
 
 # eZ article
 alter table eZArticle_Article add IsPublishedTmp int default '0';
@@ -666,6 +674,22 @@ CREATE TABLE eZStats_Archive_Users (
   PRIMARY KEY(ID)
 );
 
+alter table eZStats_PageView add DateTmp int;
+update eZStats_PageView set DateTmp= UNIX_TIMESTAMP( Date );
+alter table eZStats_PageView drop Date; 
+alter table eZStats_PageView change DateTmp Date int; 
+
+alter table eZStats_PageView add DateTimeTmp int;
+update eZStats_PageView set DateTimeTmp= UNIX_TIMESTAMP( DateTime );
+alter table eZStats_PageView drop DateTime; 
+alter table eZStats_PageView change DateTimeTmp Date int; 
+
+alter table eZStats_PageView add DateValueTmp int;
+update eZStats_PageView set  DateValueTmp= UNIX_TIMESTAMP( DateValue );
+alter table eZStats_PageView drop DateValue; 
+alter table eZStats_PageView change DateValueTmp DateValue int; 
+
+
 INSERT INTO eZLink_LinkCategoryLink ( LinkID, CategoryID ) SELECT ID, LinkGroup from eZLink_Link;
 INSERT INTO eZLink_LinkCategoryDefinition ( LinkID, CategoryID ) SELECT ID, LinkGroup from eZLink_Link;
 ALTER TABLE eZLink_Link DROP LinkGroup;
@@ -857,6 +881,8 @@ alter table eZAd_View change DateTmp Date int;
 alter table eZAd_View add ViewOffsetCount int;
 
 alter table eZTrade_OrderItem add ExpiryDate int;             
+alter table eZAd_Click drop ClickOffsetCount;
+alter table eZAd_Click drop ClickCount;
 
 #
 # Table structure for table 'eZTrade_VoucherSMail'
@@ -934,3 +960,28 @@ alter table eZTrade_Product drop Published;
 alter table eZTrade_Product change PublishedTmp Published int;
 
 ALTER TABLE eZImageCatalogue_Image ADD Keywords varchar(255);
+
+alter table eZContact_Consultation add DateTmp int;
+update eZContact_Consultation set DateTmp= UNIX_TIMESTAMP( Date );
+alter table eZContact_Consultation drop Date; 
+alter table eZContact_Consultation change DateTmp Date int;
+
+drop table eZContact_ImageType;
+
+alter table eZContact_CompanyView add DateTmp int;
+update eZContact_CompanyView set DateTmp= UNIX_TIMESTAMP( Date );
+alter table eZContact_CompanyView drop Date; 
+alter table eZContact_CompanyView change DateTmp Date int;
+
+CREATE TABLE eZContact_CompanyImageDict (
+  CompanyID int DEFAULT '0' NOT NULL,
+  ImageID int DEFAULT '0' NOT NULL,
+  PRIMARY KEY (CompanyID,ImageID)
+);
+
+alter table eZCalendar_Appointment add DateTmp int;
+update eZCalendar_Appointment set DateTmp= UNIX_TIMESTAMP( Date );
+alter table eZCalendar_Appointment drop Date; 
+alter table eZCalendar_Appointment change DateTmp Date int;
+
+alter table eZCalendar_AppointmentType change Description Description varchar(200);
