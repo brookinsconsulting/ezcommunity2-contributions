@@ -8,6 +8,21 @@ switch ( $url_array[2] )
         include_once( "ezbulkmail/user/subscriptionlist.php" );
     }
     break;
+
+    case "newsubscription" :
+        $New = "new";
+    case "login" :
+    {
+        include_once( "ezbulkmail/user/subscriptionlogin.php" );
+    }
+    break;
+
+    case "confirmsubscription" :
+    {
+        $Hash = $url_array[3];
+        include_once( "ezbulkmail/user/subscriptionlogin.php" );
+    }
+    break;
     
     default:
     {

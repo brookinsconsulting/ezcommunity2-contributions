@@ -4,11 +4,6 @@
 
 <form action="/bulkmail/subscriptionlist" method="post">
 
-<p class="boxtext">{intl-email}:</p>
-<input type="text" name="Email" value="{email_value}">&nbsp;<input type="submit" class="stdbutton" name="ChangeEmail" value="{intl-ok}" />
-<input type="hidden" name="CurrentEmail" value="{current_email}" />
-
-<hr noshade="noshade" size="4">
 <!-- BEGIN category_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>

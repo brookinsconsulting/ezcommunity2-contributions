@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: subscriptionlist.php,v 1.1 2001/04/18 14:09:42 fh Exp $
+// $Id: subscriptionlist.php,v 1.2 2001/04/24 12:19:03 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <18-Apr-2001 13:36:21 fh>
@@ -31,20 +31,26 @@ include_once( "classes/ezhttptool.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/INIFile.php" );
 
+
+$subscriptionaddress = eZBulkMailSubscriptionAddress::getByEmail( $session->variable( "BulkMailAddress" ) );
+
+if( !is_object( $subscriptionaddress ) )
+{
+    eZHTTPTool::header( "Location: /bulkmail/login" );
+    exit();
+}
+
+
 if( isset( $Ok ) && count( $CategoryArrayID ) > 0 )
 {
-    $subscriptionaddress = eZBulkMailSubscriptionAddress::getByEmail( $CurrentEmail );
-    if( $subscriptionaddress != false )
+    $subscriptionaddress->unsubscribe( true );
+    foreach( $CategoryArrayID as $categoryID )
     {
-        $subscriptionaddress->unsubscribe( true );
-        foreach( $CategoryArrayID as $categoryID )
-        {
-            $subscriptionaddress->subscribe( $categoryID );
-        }
-        /** TODO: Create a confirmation dialog to send the user to... let him either edit or do nothing...**/
-        eZHTTPTool::header( "Location: /bulkmail/subscriptionlist/" );
-        exit();
+        $subscriptionaddress->subscribe( $categoryID );
     }
+    /** TODO: Create a confirmation dialog to send the user to... let him either edit or do nothing...**/
+    eZHTTPTool::header( "Location: /bulkmail/subscriptionlist/" );
+    exit();
 }
 
 
@@ -65,43 +71,26 @@ $t->set_var( "category_item", "" );
 $t->set_var( "email_value", "" );
 $t->set_var( "current_email", "" );
 
-if( isset( $ChangeEmail ) )
-{
-    $subscriptionaddress = new eZBulkMailSubscriptionAddress();
-    if( $subscriptionaddress->setEMail( $Email ) )
-    {
-        $t->set_var( "current_email", $Email );
-        $t->set_var( "email_value", $Email );
-        $CurrentEmail = $Email;
-    }
-}
-
 /** List all the avaliable categories if there is a valid current address **/
-if( isset( $CurrentEmail) && $CurrentEmail != "" )
-{
-    $subscriptionaddress = eZBulkMailSubscriptionAddress::getByEmail( $CurrentEmail );
-    if( is_object( $subscriptionaddress ) )
-    {
-        $haystack = $subscriptionaddress->subscriptions( false );
-    }
+$haystack = $subscriptionaddress->subscriptions( false );
         
-    $categories = eZBulkMailCategory::getAll();
-    foreach( $categories as $categoryitem )
-    {
-        $t->set_var( "category_name", $categoryitem->name() );
-        $t->set_var( "category_description", $categoryitem->description() );
-        $t->set_var( "category_id", $categoryitem->id() );
-        ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
-        if( isset( $haystack ) && in_array( $categoryitem->id(), $haystack ) )
-            $t->set_var( "is_checked", "checked" );
-        else
-            $t->set_var( "is_checked", "" );
+$categories = eZBulkMailCategory::getAll();
+foreach( $categories as $categoryitem )
+{
+    $t->set_var( "category_name", $categoryitem->name() );
+    $t->set_var( "category_description", $categoryitem->description() );
+    $t->set_var( "category_id", $categoryitem->id() );
+    ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
+    if( isset( $haystack ) && in_array( $categoryitem->id(), $haystack ) )
+        $t->set_var( "is_checked", "checked" );
+    else
+        $t->set_var( "is_checked", "" );
     
-        $t->parse( "category_item", "category_item_tpl", true );
-        $i++;
-    }
-    if( $i > 0 )
-        $t->parse( "category", "category_tpl" );
+    $t->parse( "category_item", "category_item_tpl", true );
+    $i++;
 }
+if( $i > 0 )
+    $t->parse( "category", "category_tpl" );
+
 $t->pparse( "output", "subscription_list_tpl" );
 ?>

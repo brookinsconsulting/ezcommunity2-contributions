@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmailsubscriptionaddress.php,v 1.3 2001/04/18 14:09:01 fh Exp $
+// $Id: ezbulkmailsubscriptionaddress.php,v 1.4 2001/04/24 12:19:03 fh Exp $
 //
 // eZBulkMailSubscriptionAddress class
 //
@@ -60,18 +60,21 @@ class eZBulkMailSubscriptionAddress
     */
     function store()
     {
+        $password = addslashes( $this->Password );
         $this->dbInit();
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZBulkMail_SubscriptionAddress SET
-                                 EMail='$this->EMail'
+                                 EMail='$this->EMail',
+                                 Password='$password'
                                  " );
             $this->ID = mysql_insert_id();
         }
         else
         {
             $this->Database->query( "UPDATE eZBulkMail_SubscriptionAddress SET
-                                 EMail='$this->EMail'
+                                 EMail='$this->EMail',
+                                 Password='$password'
                                  WHERE ID='$this->ID'" );
         }
         return true;
@@ -114,6 +117,7 @@ class eZBulkMailSubscriptionAddress
             {
                 $this->ID = $address_array[0][ "ID" ];
                 $this->EMail = $address_array[0][ "EMail" ];
+                $this->Password = $address_array[0][ "Password" ];
             }
                  
             $this->State_ = "Coherent";
@@ -180,6 +184,14 @@ class eZBulkMailSubscriptionAddress
     }
 
     /*!
+      Sets an allready encryptet password.
+     */
+    function setEncryptetPassword( $value )
+    {
+        $this->Password = $value;
+    }
+    
+    /*!
       Returns all the categories that this user is subscribed to as an array of eZBulkMailCategory objects. If you just want the ID's supply false as the first argument.
      */
     function subscriptions( $asObjects = true )
@@ -219,6 +231,23 @@ class eZBulkMailSubscriptionAddress
             $this->Database->query( "DELETE FROM eZBulkMail_SubscriptionLink WHERE AddressID='$this->ID'" );
         }
     }
+
+    /*!
+      Checks if the email and passwords have a match. Returns true if yes, and false if not.
+    */
+    function validate( $email, $password )
+    {
+        $db =& eZDB::globalDatabase();
+        $ret = false;
+        
+        $db->array_query( $subscription_array, "SELECT * FROM eZBulkMail_SubscriptionAddress
+                                                    WHERE EMail='$email'
+                                                    AND Password=PASSWORD('$password')" );
+        if ( count( $subscription_array ) == 1 )
+            $ret = true;
+        
+        return $ret;
+    }
     
     /*!
       \private
@@ -234,12 +263,12 @@ class eZBulkMailSubscriptionAddress
         }
     }
 
-
+    var $ID;
     var $EMail;
     
     ///  Variable for keeping the database connection.
     var $Database;
-
+    var $Password;
     /// Indicates the state of the object. In regard to database information.
     var $State_;
     /// Is true if the object has database connection, false if not.
