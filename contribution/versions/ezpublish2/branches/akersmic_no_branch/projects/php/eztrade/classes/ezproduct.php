@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.26 2002/01/30 14:56:04 bf Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.27 2002/01/30 15:09:54 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -256,7 +256,8 @@ class eZProduct
         $contents = str_replace (")", " ", $contents );
         $contents = str_replace (",", " ", $contents );
 
-        // split and copy words with / . and -
+        // split and copy words with / . : and -
+        $contents = preg_replace ("#(([^\s]+):([^\s]+))#", "\\1 \\2 \\3", $contents );
         $contents = preg_replace ("#(([^\s]+)/([^\s]+))#", "\\1 \\2 \\3", $contents );
         $contents = preg_replace ("#(([^\s]+).([^\s]+))#", "\\1 \\2 \\3", $contents );
         $contents = preg_replace ("#(([^\s]+)-([^\s]+))#", "\\1 \\2 \\3", $contents );
@@ -288,6 +289,7 @@ class eZProduct
         {
             if (
                  is_numeric( strpos( $word, "." ) ) ||
+                 is_numeric( strpos( $word, ":" ) ) ||
                  is_numeric( strpos( $word, "-" ) ) ||
                  is_numeric( strpos( $word, "/" ) ) ||
                  is_numeric( strpos( $word, "ø" ) ) ||
@@ -299,6 +301,7 @@ class eZProduct
             {
                 $nWord = $word;
                 $nWord = str_replace( ".","", $nWord );
+                $nWord = str_replace( ":","", $nWord );
                 $nWord = str_replace( "-","", $nWord );
                 $nWord = str_replace( "/","", $nWord );
                 $nWord = str_replace( "ö","o", $nWord );
