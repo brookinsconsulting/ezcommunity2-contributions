@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.95.2.9 2002/04/23 15:32:42 bf Exp $
+// $Id: datasupplier.php,v 1.95.2.10 2002/05/02 13:29:53 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -330,7 +330,7 @@ switch ( $url_array[2] )
         $showComments = false;
         if ( $PageCaching == "enabled" )
         {
-            $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber . "," . $CategoryID . "," . $PrintableVersion . "," . $groupstr  .".cache";
+            $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber . "," . $CategoryID . "," . ( $PrintableVersion == "enabled" )  . "," . $groupstr  .".cache";
             if ( eZFile::file_exists( $cachedFile ) )
             {
                 include( $cachedFile );
@@ -388,11 +388,11 @@ switch ( $url_array[2] )
         $StaticRendering = true;
         $ArticleID = $url_array[3];
         $PageNumber= $url_array[4];
-        $CategoryID = $url_array[5];	
-        
+        $CategoryID = $url_array[5];
+
         if ( !isset( $PageNumber ) || ( $PageNumber == "" ) || ( $PageNumber < 1 ) )
             $PageNumber= 1;
-        
+
         include( "ezarticle/user/articleview.php" );
     }
     break;
@@ -401,11 +401,11 @@ switch ( $url_array[2] )
     case "articleprint":
     {
         $PrintableVersion = "enabled";
-        
+
         $StaticRendering = false;
         $ArticleID = $url_array[3];
         $PageNumber= $url_array[4];
-        $CategoryID = $url_array[5];	
+        $CategoryID = $url_array[5];
 
         // if file exists... evrything is ok..
         // if not.. check permission, then run page if ok
@@ -424,7 +424,7 @@ switch ( $url_array[2] )
         }
         else
             $user = 0;
-        
+
         if ( $PageNumber != -1 )
         {
             if ( !isset( $PageNumber ) || ( $PageNumber == "" ) )
