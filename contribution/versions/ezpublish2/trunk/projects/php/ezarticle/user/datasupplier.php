@@ -108,6 +108,12 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "index":
+    {
+        include( "ezarticle/user/index.php" );
+    }
+    break;
+
     case "extendedsearch":
     {
         if ( !isset( $Category ) and count( $url_array ) > 5 )
