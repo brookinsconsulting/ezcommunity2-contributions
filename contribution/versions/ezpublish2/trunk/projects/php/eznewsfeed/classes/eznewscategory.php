@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewscategory.php,v 1.5 2000/11/27 11:54:13 bf-cvs Exp $
+// $Id: eznewscategory.php,v 1.6 2000/11/27 15:34:52 bf-cvs Exp $
 //
 // Definition of eZNewsCategory class
 //
@@ -355,11 +355,16 @@ class eZNewsCategory
     /*!
       Returns every news in a category as a array of eZNews objects.
 
-      If $fetchNonPublished is set to true the news which is not published is
-      also returned. 
+      If $fetchNonPublished is set to "yes" the news which is not published is
+      also returned.
+
+      If $fetchNonPublished is set to "no" the news which is not published is not
+      returned.
+
+      If $fetchNonPublished is set to "only" only the news which is not published are returned.
     */
     function &newsList( $sortMode="time",
-                       $fetchNonPublished=false,
+                       $fetchNonPublished="no",
                        $offset=0,
                        $limit=50 )
     {
@@ -382,7 +387,7 @@ class eZNewsCategory
        $news_array = array();
 
 
-       if ( $fetchNonPublished  == true )
+       if ( $fetchNonPublished  == "yes" )
        {
            $this->Database->array_query( $news_array, "
                 SELECT eZNewsFeed_News.ID AS NewsID, eZNewsFeed_News.Name, eZNewsFeed_Category.ID, eZNewsFeed_Category.Name

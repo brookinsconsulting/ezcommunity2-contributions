@@ -9,10 +9,23 @@ switch ( $url_array[2] )
         if  ( !isset( $CategoryID ) || ( $CategoryID == "" ) )
             $CategoryID = 0;
 
+        $ShowUnPublished = "no";
+        
         include( "eznewsfeed/admin/newsarchive.php" );
     }
     break;
 
+    case "unpublished":
+    {
+        $CategoryID = $url_array[3];
+        if  ( !isset( $CategoryID ) || ( $CategoryID == "" ) )
+            $CategoryID = 0;
+
+        $ShowUnPublished = "only";
+        include( "eznewsfeed/admin/newsarchive.php" );
+    }
+    break;
+    
     case "sourcesite":
     {
         if ( $url_array[3]  == "edit" )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adedit.php,v 1.2 2000/11/27 11:23:47 bf-cvs Exp $
+// $Id: adedit.php,v 1.3 2000/11/27 15:34:51 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -147,6 +147,15 @@ if ( $Action == "Update" )
     }
 }
 
+if ( $Action == "Delete" )
+{
+    $ad = new eZAd( $AdID );
+    $ad->delete();
+    
+    Header( "Location: /ad/archive/$CategoryID/" );
+    exit();    
+}
+
 
 $ini = new INIFIle( "site.ini" );
 
@@ -208,6 +217,7 @@ if ( $Action == "Edit" )
 
     $defCat = $cats[0];
 }
+
 
 // category select
 $category = new eZAdCategory();

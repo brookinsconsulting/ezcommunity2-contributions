@@ -1,9 +1,9 @@
-<?
+<?php
 // 
-// $Id: adlist.php,v 1.3 2000/11/27 15:34:51 bf-cvs Exp $
+// $Id: newsunpublished.php,v 1.1 2000/11/27 15:34:52 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
-// Created on: <22-Nov-2000 21:08:34 bf>
+// Created on: <27-Nov-2000 16:05:01 bf>
 //
 // This source file is part of eZ publish, publishing software.
 // Copyright (C) 1999-2000 eZ systems as
@@ -23,41 +23,42 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-include_once( "classes/INIFile.php" );
-include_once( "classes/eztemplate.php" );
-include_once( "classes/ezlocale.php" );
+include_once( "eznewsfeed/classes/eznews.php" );
+include_once( "eznewsfeed/classes/eznewscategory.php" );
+include_once( "eznewsfeed/classes/eznewsimporter.php" );
 
-include_once( "ezad/classes/ezad.php" );
-include_once( "ezad/classes/ezadcategory.php" );
+include_once( "classes/ezdatetime.php" );
+include_once( "classes/ezlocale.php" );
 
 $ini = new INIFIle( "site.ini" );
 
-$Language = $ini->read_var( "eZAdMain", "Language" );
+$Language = $ini->read_var( "eZNewsFeedMain", "Language" );
 
-$t = new eZTemplate( "ezad/admin/" . $ini->read_var( "eZAdMain", "AdminTemplateDir" ),
-                     "ezad/admin/intl/", $Language, "adlist.php" );
+$t = new eZTemplate( "eznewsfeed/admin/" . $ini->read_var( "eZNewsFeedMain", "AdminTemplateDir" ),
+                     "eznewsfeed/admin/intl/", $Language, "newsunpublished.php" );
 
 $t->setAllStrings();
 
 $t->set_file( array(
-    "ad_list_page_tpl" => "adlist.tpl"
+    "news_archive_page_tpl" => "newsunpublished.tpl"
     ) );
 
 
+
 // path
-$t->set_block( "ad_list_page_tpl", "path_item_tpl", "path_item" );
+$t->set_block( "news_archive_page_tpl", "path_item_tpl", "path_item" );
 
 // category
-$t->set_block( "ad_list_page_tpl", "category_list_tpl", "category_list" );
+$t->set_block( "news_archive_page_tpl", "category_list_tpl", "category_list" );
 $t->set_block( "category_list_tpl", "category_item_tpl", "category_item" );
 
-// ad
-$t->set_block( "ad_list_page_tpl", "ad_list_tpl", "ad_list" );
-$t->set_block( "ad_list_tpl", "ad_item_tpl", "ad_item" );
-$t->set_block( "ad_item_tpl", "ad_is_active_tpl", "ad_is_active" );
-$t->set_block( "ad_item_tpl", "ad_not_active_tpl", "ad_not_active" );
+// news
+$t->set_block( "news_archive_page_tpl", "news_list_tpl", "news_list" );
+$t->set_block( "news_list_tpl", "news_item_tpl", "news_item" );
+$t->set_block( "news_item_tpl", "news_is_published_tpl", "news_is_published" );
+$t->set_block( "news_item_tpl", "news_not_published_tpl", "news_not_published" );
 
-$category = new eZAdCategory( $CategoryID );
+$category = new eZNewsCategory( $CategoryID );
 
 $t->set_var( "current_category_id", $category->id() );
 $t->set_var( "current_category_name", $category->name() );
@@ -90,7 +91,6 @@ foreach ( $categoryList as $categoryItem )
     $t->set_var( "category_name", $categoryItem->name() );
 
     $parent = $categoryItem->parent();
-    
 
     if ( ( $i % 2 ) == 0 )
     {
@@ -113,30 +113,37 @@ else
     $t->set_var( "category_list", "" );
 
 
-// ads
-$adList = $category->ads( "time", true );
+// news
+if ( $ShowUnPublished = "no" )
+{
+    $newsList = $category->newsList( "time", "no" );
+}
+else
+{
+    $newsList = $category->newsList( "time", "only" );
+}
 
 $locale = new eZLocale( $Language );
 $i=0;
-$t->set_var( "ad_list", "" );
-foreach ( $adList as $ad )
+$t->set_var( "news_list", "" );
+foreach ( $newsList as $news )
 {
-    if ( $ad->name() == "" )
-        $t->set_var( "ad_name", "&nbsp;" );
+    if ( $news->name() == "" )
+        $t->set_var( "news_name", "&nbsp;" );
     else
-        $t->set_var( "ad_name", $ad->name() );
+        $t->set_var( "news_name", $news->name() );
 
-    $t->set_var( "ad_id", $ad->id() );
+    $t->set_var( "news_id", $news->id() );
 
-    if ( $ad->isActive() == true )
+    if ( $news->isPublished() == true )
     {
-        $t->parse( "ad_is_active", "ad_is_active_tpl" );
-        $t->set_var( "ad_not_active", "" );        
+        $t->parse( "news_is_published", "news_is_published_tpl" );
+        $t->set_var( "news_not_published", "" );        
     }
     else
     {
-        $t->set_var( "ad_is_active", "" );
-        $t->parse( "ad_not_active", "ad_not_active_tpl" );
+        $t->set_var( "news_is_published", "" );
+        $t->parse( "news_not_published", "news_not_published_tpl" );
     }
 
     if ( ( $i % 2 ) == 0 )
@@ -148,21 +155,15 @@ foreach ( $adList as $ad )
         $t->set_var( "td_class", "bgdark" );
     }
 
-    $t->parse( "ad_item", "ad_item_tpl", true );
+    $t->parse( "news_item", "news_item_tpl", true );
     $i++;
 }
 
-if ( count( $adList ) > 0 )    
-    $t->parse( "ad_list", "ad_list_tpl" );
+if ( count( $newsList ) > 0 )    
+    $t->parse( "news_list", "news_list_tpl" );
 else
-    $t->set_var( "ad_list", "" );
+    $t->set_var( "news_list", "" );
 
-
-$t->pparse( "output", "ad_list_page_tpl" );
-
-
-
-
-
+$t->pparse( "output", "news_archive_page_tpl" );
 
 ?>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: sessioninfo.php,v 1.2 2000/11/22 14:58:28 bf-cvs Exp $
+// $Id: sessioninfo.php,v 1.3 2000/11/27 15:34:52 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <01-Nov-2000 14:34:30 bf>
@@ -74,13 +74,15 @@ foreach( $userSessionList as $userSessionItem )
         $t->set_var( "td_class", "bglight" );
     else
         $t->set_var( "td_class", "bgdark" );
-    
+
     $t->set_var( "first_name", $userSessionItem[0]->firstName() );
     $t->set_var( "last_name", $userSessionItem[0]->lastName() );
     $t->set_var( "email", $userSessionItem[0]->email() );    
     $t->set_var( "user_id", $userSessionItem[0]->id() );
 
     $t->set_var( "session_id", $userSessionItem[1]->id() );
+
+    $t->set_var( "session_ip", $userSessionItem[1]->variable( "SessionIP" ) );
 
     $t->set_var( "idle", $userSessionItem[1]->idle() );
 

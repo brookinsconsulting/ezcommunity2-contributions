@@ -6,6 +6,7 @@
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/newsfeed/archive/">{intl-news_archive}</a><br>
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/newsfeed/news/new">{intl-new_news}</a><br>
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/newsfeed/category/new">{intl-new_category}</a><br>
+    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/newsfeed/unpublished/">{intl-unpublished_news}</a><br>
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/newsfeed/importnews/">{intl-import_news}</a><br>
     </td>
 </tr>

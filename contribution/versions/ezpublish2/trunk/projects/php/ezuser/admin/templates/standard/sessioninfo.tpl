@@ -52,6 +52,11 @@
 	{intl-seconds_idle}:
 	</th>
 
+
+	<th>
+	{intl-session_ip}:
+	</th>
+
 	<th>
 	&nbsp;
 	</th>
@@ -69,6 +74,10 @@
 
 	<td class="{td_class}">
 	{idle}
+	</td>
+
+	<td class="{td_class}">
+	{session_ip}
 	</td>
 
 

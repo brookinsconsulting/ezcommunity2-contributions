@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezadcategory.php,v 1.2 2000/11/27 11:54:13 bf-cvs Exp $
+// $Id: ezadcategory.php,v 1.3 2000/11/27 15:34:51 bf-cvs Exp $
 //
 // Definition of eZAdCategory class
 //
@@ -393,10 +393,12 @@ class eZAdCategory
     /*!
       Returns every ad in a category as a array of eZAd objects.
 
+      If does not return un active ads unless $fetchUnActive is set to true.
     */
     function &ads( $sortMode="time",
-                       $offset=0,
-                       $limit=50 )
+                   $fetchUnActive=false,
+                   $offset=0,
+                   $limit=50 )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -406,6 +408,13 @@ class eZAdCategory
        $return_array = array();
        $ad_array = array();
 
+       
+       $fetchActiveSQL = "";
+       if ( $fetchUnActive == false )
+       {
+           $fetchActiveSQL = "AND eZAd_Ad.IsActive = 'true'";
+       }
+           
        $this->Database->array_query( $ad_array, "
                 SELECT eZAd_Ad.ID AS AdID, eZAd_Ad.Name, eZAd_Category.ID, eZAd_Category.Name
                 FROM eZAd_Ad, eZAd_Category, eZAd_AdCategoryLink
@@ -413,7 +422,8 @@ class eZAdCategory
                 eZAd_AdCategoryLink.AdID = eZAd_Ad.ID
                 AND
                 eZAd_Category.ID = eZAd_AdCategoryLink.CategoryID
-                AND
+                $fetchActiveSQL
+                AND 
                 eZAd_Category.ID='$this->ID'
                 GROUP BY eZAd_Ad.ID ORDER BY eZAd_Ad.Name LIMIT $offset,$limit" );
  
