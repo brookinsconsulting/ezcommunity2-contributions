@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezoptionvalue.php,v 1.37 2001/09/21 14:28:49 jhe Exp $
+// $Id: ezoptionvalue.php,v 1.38 2001/10/12 10:45:09 ce Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -47,6 +47,7 @@
 
 include_once( "classes/ezdb.php" );
 include_once( "eztrade/classes/ezoption.php" );
+include_once( "eztrade/classes/ezpricegroup.php" );
 
 class eZOptionValue
 {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.22 2001/10/12 07:27:23 br Exp $
+// $Id: frontpage.php,v 1.23 2001/10/12 10:45:09 ce Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -158,11 +158,19 @@ if ( is_array ( $rows ) and count ( $rows ) > 0 )
     }
 }
 
-
-
 $user =& eZUser::currentUser();
 
 $sectionObject->setOverrideVariables();
+
+if ( $adCount > 0 )
+{
+    include_once( "ezad/classes/ezadcategory.php" );
+    include_once( "ezad/classes/ezad.php" );
+
+    $adCategory = new eZAdCategory( $FrontPageAdCategory );
+
+    $adList =& $adCategory->ads( "count", false, 0, $adCount );
+}
 
 $t->set_var( "category_current_id", $CategoryID );
 
@@ -566,10 +574,13 @@ function &renderFrontpageProductDouble( &$t, &$locale, &$product1, &$product2 )
 {
     global $ini;
     $pid = $product1->id();
+
+    $ThumbnailImageWidth = $ini->read_var( "eZTradeMain", "ThumbnailImageWidth" );
+    $ThumbnailImageHeight = $ini->read_var( "eZTradeMain", "ThumbnailImageHeight" );
 	
     // preview image
     $thumbnailImage = $product1->thumbnailImage();
-      
+
     if ( $thumbnailImage )
     {
         $variation =& $thumbnailImage->requestImageVariation( $ThumbnailImageWidth, $ThumbnailImageHeight );
@@ -594,7 +605,7 @@ function &renderFrontpageProductDouble( &$t, &$locale, &$product1, &$product2 )
     $categoryDefinition = $product1->categoryDefinition();
     $t->set_var( "category_id", $categoryDefinition->id() );
 
-    if ( $ShowPrice and $product1->showPrice() == true and $product1->hasPrice() )
+    if ( $product1->showPrice() == true and $product1->hasPrice() )
     {
         $t->set_var( "product_price", $product1->localePrice( $PricesIncludeVAT ) );
         $priceRange = $product1->correctPriceRange( $PricesIncludeVAT );
@@ -658,10 +669,12 @@ function &renderFrontpageProductDouble( &$t, &$locale, &$product1, &$product2 )
     // preview image
     $thumbnailImage = $product2->thumbnailImage();
     
+    $t->set_var( "product_id", $product2->id() );
+    
     if ( $thumbnailImage )
     {
         $variation =& $thumbnailImage->requestImageVariation( $ThumbnailImageWidth, $ThumbnailImageHeight );
-    
+
         $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
         $t->set_var( "thumbnail_image_width", $variation->width() );
         $t->set_var( "thumbnail_image_height", $variation->height() );
@@ -675,14 +688,14 @@ function &renderFrontpageProductDouble( &$t, &$locale, &$product1, &$product2 )
     }
 
     $t->set_var( "product_name", $product2->name() );
-    $t->set_var( "product_id", $product2->id() );
+
 
     $categoryDefinition = $product2->categoryDefinition();
     $t->set_var( "category_id", $categoryDefinition->id() );
 
     $t->set_var( "product_intro_text", eZTextTool::nl2br( $product2->brief() ) );
 
-    if ( $ShowPrice and $product2->showPrice() == true and $product2->hasPrice() )
+    if ( $product2->showPrice() == true and $product2->hasPrice() )
     {
         $t->set_var( "product_price", $product2->localePrice( $PricesIncludeVAT ) );
         $priceRange = $product2->correctPriceRange( $PricesIncludeVAT );
