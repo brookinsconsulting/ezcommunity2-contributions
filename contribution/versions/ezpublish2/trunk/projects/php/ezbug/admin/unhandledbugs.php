@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: unhandledbugs.php,v 1.9 2001/02/23 16:35:18 gl Exp $
+// $Id: unhandledbugs.php,v 1.10 2001/03/02 14:43:25 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 22:18:56 bf>
@@ -65,8 +65,11 @@ foreach ( $unhandleBugs as $bug )
     $t->set_var( "bug_id",  $bug->id(), "&nbsp;" );
     $t->set_var( "bug_name",  $bug->name(), "&nbsp;" );
 
-    $module = new eZBugModule( $bug->id() );
-    $t->set_var( "bug_module_name", $module->name(), "&nbsp;" );
+    $module = $bug->module();
+    if ( $module )
+        $t->set_var( "bug_module_name", $module->name(), "&nbsp;" );
+    else
+        $t->set_var( "bug_module_name", "" );
     
     $owner = $bug->user();
 
@@ -74,12 +77,16 @@ foreach ( $unhandleBugs as $bug )
     {
         $t->set_var( "bug_submitter", $owner->name(), "&nbsp;" );
     }
+    elseif ( $bug->userEmail() == false )
+    {
+        $t->set_var( "bug_submitter", $bug->userEmail() );
+    }
     else
     {
         $errorMsg = $errorIni->read_var( "strings", "unknown" );
         $t->set_var( "bug_submitter", $errorMsg );
     }
-
+    
     $t->parse( "bug", "bug_tpl", true );
     $i++;
 }
