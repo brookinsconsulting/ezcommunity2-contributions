@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.13 2001/04/04 12:14:02 fh Exp $
+// $Id: menubox.php,v 1.14 2001/04/07 15:31:02 bf Exp $
 //
 // 
 //
@@ -35,10 +35,11 @@ $Language = $ini->read_var( "eZArticleMain", "Language" );
 $PageCaching = $ini->read_var( "eZArticleMain", "PageCaching");
 
 
+
 // do the caching 
 if ( $PageCaching == "enabled" )
 {
-    $user = eZUser::currentUser();
+    $user =& eZUser::currentUser();
     $groupstr = "";
     if( get_class( $user ) == "ezuser" )
     {
@@ -61,7 +62,7 @@ if ( $PageCaching == "enabled" )
     else
     {
         $GenerateStaticPage = "true";
-        createArticleMenu();
+        createArticleMenu( $menuCachedFile );
     }            
 }
 else
@@ -69,7 +70,7 @@ else
     createArticleMenu();
 }
 
-function createArticleMenu()
+function createArticleMenu( $menuCachedFile="" )
 {
     global $ini;
     global $Language;
@@ -131,6 +132,7 @@ function createArticleMenu()
 
     if ( $GenerateStaticPage == "true" )
     {
+        
         $fp = fopen ( $menuCachedFile, "w+");
 
         $output = $t->parse( $target, "menu_box_tpl" );
