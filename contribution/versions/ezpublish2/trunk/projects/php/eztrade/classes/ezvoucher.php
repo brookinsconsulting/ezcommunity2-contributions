@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucher.php,v 1.11 2001/09/26 07:09:33 ce Exp $
+// $Id: ezvoucher.php,v 1.12 2001/09/27 14:53:51 ce Exp $
 //
 // eZVoucher class
 //
@@ -88,7 +88,7 @@ class eZVoucher
             $password = md5( $this->Password );
 
             $res = $db->query( "INSERT INTO eZTrade_Voucher
-                      ( ID, Created, Price, Available, KeyNumber, UserID, ProductID )
+                      ( ID, Created, Price, Available, KeyNumber, UserID, ProductID, TotalValue )
                       VALUES
                       ( '$nextID',
                         '$timeStamp',
@@ -96,7 +96,8 @@ class eZVoucher
                         '$this->Available',
                         '$this->KeyNumber',
                         '$this->UserID',
-                        '$this->ProductID'
+                        '$this->ProductID',
+                        '$this->TotalValue'
                             )" );
 
 			$this->ID = $nextID;
@@ -109,7 +110,8 @@ class eZVoucher
                                      Available='$this->Available',
                                      KeyNumber='$this->KeyNumber',
                                      UserID='$this->UserID',
-                                     ProductID='$this->ProductID'
+                                     ProductID='$this->ProductID',
+                                     TotalValue='$this->TotalValue'
                                      WHERE ID='$this->ID'" );
         }
         $db->unlock();
@@ -180,6 +182,7 @@ class eZVoucher
         $this->KeyNumber =& $voucherArray[ "KeyNumber" ];
         $this->UserID =& $voucherArray[ "UserID" ];
         $this->ProductID =& $voucherArray[ "ProductID" ];
+        $this->TotalValue =& $voucherArray[ "TotalValue" ];
     }
 
     /*!
@@ -323,6 +326,15 @@ class eZVoucher
     }
 
     /*!
+      Sets the total voucher price.
+    */
+    function setTotalValue( $value )
+    {
+       $this->TotalValue = $value;
+       setType( $this->TotalValue, "integer" );
+    }
+
+    /*!
       Sets the user of this object.
     */
     function setUser( &$user )
@@ -350,6 +362,14 @@ class eZVoucher
     function &price( )
     {
         return $this->Price;
+    }
+
+    /*!
+      Returns the total value price of the voucher.
+    */
+    function &totalValue( )
+    {
+        return $this->TotalValue;
     }
 
     /*!
@@ -491,6 +511,7 @@ class eZVoucher
     var $Price;
     var $UserID;
     var $ProductID;
+    var $TotalValue;
 }
 
 ?>

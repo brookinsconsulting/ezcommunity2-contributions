@@ -443,7 +443,7 @@ CREATE TABLE eZTrade_VoucherUsed (
   OrderID int default '0',
   UserID int default '0'
   PRIMARY KEY (ID)
-) TYPE=MyISAM;
+);
 
 CREATE TABLE eZTrade_WishList (
   ID int NOT NULL,

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.76 2001/09/26 11:04:52 ce Exp $
+// $Id: payment.php,v 1.77 2001/09/27 14:53:51 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -890,11 +890,11 @@ if ( $PaymentSuccess == "true" )
             $voucher->setAvailable( true );
             $voucher->setUser( $user );
             $voucher->setPrice( $voucherInfo->price() );
+            $voucher->setTotalValue( $voucherInfo->price() );
             $voucher->store();
             $voucherInfo->setVoucher( $voucher );
             $voucherInfo->store();
             $voucherInfo->sendMail();
-
         }
     }
     

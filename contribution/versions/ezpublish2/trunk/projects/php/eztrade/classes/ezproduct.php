@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.104 2001/09/27 07:53:30 ce Exp $
+// $Id: ezproduct.php,v 1.105 2001/09/27 14:53:51 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -1923,7 +1923,7 @@ class eZProduct
      */
     function setIncludesVAT( $inValue = true )
     {
-        if( $inValue == true )
+        if ( $inValue == true )
         {
             $this->IncludesVAT = 1;
         }
@@ -1940,7 +1940,7 @@ class eZProduct
     {
         $ret = false;
         
-        if( $this->IncludesVAT == 1 )
+        if ( $this->IncludesVAT == 1 )
         {
             $ret = true;
         }
@@ -1955,7 +1955,7 @@ class eZProduct
     {
         $ret = false;
         
-        if( $this->IncludesVAT == 0 )
+        if ( $this->IncludesVAT == 0 )
         {
             $ret = true;
         }

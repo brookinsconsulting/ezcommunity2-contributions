@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcart.php,v 1.31 2001/09/21 09:53:02 ce Exp $
+// $Id: ezcart.php,v 1.32 2001/09/27 14:53:51 ce Exp $
 //
 // Definition of eZCart class
 //
@@ -331,6 +331,7 @@ class eZCart
             $exTax = $voucher->correctPrice( false );
             $incTax = $voucher->correctPrice( true );
 
+           
             $totalExTax += $exTax;
             $totalIncTax += $incTax;
             
