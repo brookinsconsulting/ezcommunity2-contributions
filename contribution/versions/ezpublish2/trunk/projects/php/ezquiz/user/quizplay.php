@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: quizplay.php,v 1.4 2001/05/30 10:39:40 pkej Exp $
+// $Id: quizplay.php,v 1.5 2001/05/30 11:06:33 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -36,6 +36,9 @@ include_once( "ezquiz/classes/ezquizscore.php" );
 
 $t = new eZTemplate( "ezquiz/user/" . $ini->read_var( "eZQuizMain", "TemplateDir" ),
                      "ezquiz/user/intl/", $Language, "quiz.php" );
+
+$intl = new INIFIle( "ezquiz/user/intl/". $Language . "/quiz.php.ini" );
+
 
 if( isset( $SaveButton ) )
 {
@@ -112,6 +115,16 @@ if( isset( $NextButton ) )
                 $score->store();
             }
         }
+        else
+        {
+            $t->set_var( "error_message", $intl->read_var( "strings", "error_no_such_alternative" ) );
+            $t->parse( "error_item", "error_item_tpl" );
+        }
+    }
+    else
+    {
+            $t->set_var( "error_message", $intl->read_var( "strings", "error_differing_user_ids" ) );
+            $t->parse( "error_item", "error_item_tpl" );
     }
 }
 
@@ -123,12 +136,16 @@ $t->set_file( array(
 
 $t->set_block( "question_page_tpl", "question_item_tpl", "question_item" );
 $t->set_block( "question_page_tpl", "high_score_item_tpl", "high_score_item" );
+$t->set_block( "question_page_tpl", "your_score_item_tpl", "your_score_item" );
 $t->set_block( "question_page_tpl", "start_item_tpl", "start_item" );
+$t->set_block( "question_page_tpl", "error_item_tpl", "error_item" );
 $t->set_block( "question_item_tpl", "alternative_item_tpl", "alternative_item" );
 
 $t->set_var( "start_item", "" );
 $t->set_var( "question_item", "" );
 $t->set_var( "high_score_item", "" );
+$t->set_var( "your_score_item", "" );
+$t->set_var( "error_item", "" );
 
 $game = new eZQuizGame( $GameID );
 $t->set_var( "game_id", $GameID );
@@ -145,7 +162,18 @@ if( $highScorer->id() > 0 )
     $t->set_var( "high_score", $highScorer->totalScore() );
     $highPlayer = $highScorer->user();
     $t->set_var( "scorer", $highPlayer->login() );
+    $t->set_var( "scorer_id", $highPlayer->id() );
     $t->parse( "high_score_item", "high_score_item_tpl" );
+}
+
+$score->getUserGame( $user, $game );
+
+if( $score->isFinishedGame() )
+{
+    $t->set_var( "your_score", $score->totalScore() );
+    $t->set_var( "your_name", $user->login() );
+    $t->set_var( "your_id", $user->id() );
+    $t->parse( "your_score_item", "your_score_item_tpl" );
 }
 
 // Find out which question this user should start on (has he saved earlier info).
@@ -159,7 +187,6 @@ else
 
     if( $QuestionNum >= 1 )
     {
-        $score->getUserGame( $user, $game );
         $QuestionNum = $score->nextQuestion();
     }
     
@@ -169,7 +196,8 @@ else
 
     if( $questionCount <= 0 )
     {
-        echo "no questions defined";$t->set_var( "question_item", "" );
+       $t->set_var( "error_message", $intl->read_var( "strings", "error_no_questions" ) );
+       $t->parse( "error_item", "error_item_tpl" );
     }
     else if( $QuestionNum <= $questionCount )
     {
@@ -184,23 +212,32 @@ else
         $alternatives = $currentQuestion->alternatives();
         
         $i = 0;
+        $count = count( $alternatives );
         
-        foreach( $alternatives as $alternative )
+        if( $count == 0 )
         {
-            if ( ( $i % 2 ) == 0 )
-            {
-                $t->set_var( "td_class", "bglight" );
-            }
-            else
-            {
-                $t->set_var( "td_class", "bgdark" );
-            }
-            $t->set_var( "alternative_id", $alternative->id() );
-            $t->set_var( "alternative_name", $alternative->name() );
-            $t->parse( "alternative_item", "alternative_item_tpl", true );
-            $i++;
+            $t->set_var( "error_message", $intl->read_var( "strings", "error_no_alternatives" ) );
+            $t->parse( "error_item", "error_item_tpl" );
         }
-        $t->parse( "question_item", "question_item_tpl" );
+        else
+        {
+            foreach( $alternatives as $alternative )
+            {
+                if ( ( $i % 2 ) == 0 )
+                {
+                    $t->set_var( "td_class", "bglight" );
+                }
+                else
+                {
+                    $t->set_var( "td_class", "bgdark" );
+                }
+                $t->set_var( "alternative_id", $alternative->id() );
+                $t->set_var( "alternative_name", $alternative->name() );
+                $t->parse( "alternative_item", "alternative_item_tpl", true );
+                $i++;
+            }
+            $t->parse( "question_item", "question_item_tpl" );
+        }
     }
     else
     {

@@ -1,11 +1,19 @@
 <h1>{game_name}</h1>
 
 <hr noshade="noshade" size="4" />
+<!-- BEGIN error_item_tpl -->
+<p>{intl-error}</p>
+<p>{error_message}</p>
+<!-- END error_item_tpl -->
 
-<p>{players} people have played this game before you.</p>
 <!-- BEGIN high_score_item_tpl -->
-<p>Current high score is {high_score} by {scorer}</p>
+<p>{players} {intl-earlier_played}.</p>
+<p>{intl-high_score_item_1} {high_score} {intl-high_score_item_2} {scorer}<!-- {scorer_id} --></p>
 <!-- END high_score_item_tpl -->
+<!-- BEGIN your_score_item_tpl -->
+<p>{intl-your_score_item_3}.</p>
+<p>{intl-your_score_item_1} {your_name} {intl-your_score_item_2} {your_score}.<!-- {your_id} --></p>
+<!-- END your_score_item_tpl -->
 
 <!-- BEGIN start_item_tpl -->
 <h2>{intl-instructions}</h2>
