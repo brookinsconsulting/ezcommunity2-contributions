@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.26 2001/09/27 11:48:27 br Exp $
+// $Id: categoryedit.php,v 1.27 2001/09/27 15:13:17 br Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -383,6 +383,18 @@ foreach ( $categoryList as $categoryItem )
     
         $t->parse( "value", "value_tpl", true );
     }
+}
+
+if ( $sectionID )
+{
+    $section = new eZSection( $sectionID );
+    $t->set_var( "section_name", $section->name() );
+}
+else
+{
+    $sectionID = $ini->read_var( "eZImageCatalogueMain", "DefaultSection" );
+    $section = new eZSection( $sectionID );
+    $t->set_var( "section_name", $section->name() );
 }
 
 $t->pparse( "output", "category_edit_tpl" );

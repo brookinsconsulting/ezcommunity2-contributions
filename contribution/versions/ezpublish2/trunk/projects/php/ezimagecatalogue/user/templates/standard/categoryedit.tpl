@@ -40,7 +40,7 @@
 <p class="boxtext">{intl-category_name}:</p>
 <input type="text" size="40" class="box" name="Name" value="{category_name}"/>
 
-<table with="100%" border="0">
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td><p class="boxtext">{intl-category}:</p>
 
@@ -50,6 +50,9 @@
     <option value="{option_value}" {is_selected}>{option_level}{option_name}</option>
     <!-- END value_tpl -->
     </select></td>
+    <td><p class="boxtext">{intl-section}:</p>
+    {section_name}
+    </td>
 </tr>
 </table>
 <br />
