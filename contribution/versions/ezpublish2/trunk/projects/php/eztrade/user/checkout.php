@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.45 2001/03/12 10:34:38 bf Exp $
+// $Id: checkout.php,v 1.46 2001/03/12 12:24:07 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -313,7 +313,6 @@ foreach ( $types as $type )
         
         $sum += $price;
         $totalVAT += $product->vat( $price );
-
         
         $t->set_var( "product_name", $product->name() );
         $t->set_var( "product_price", $locale->format( $currency ) );
@@ -349,6 +348,16 @@ foreach ( $types as $type )
 
     $shippingCost = $cart->shippingCost( $currentShippingType );
     $t->set_var( "shipping_cost_value", $shippingCost );
+
+    // calculate the vat of the shiping
+    $vatType =& $currentShippingType->vatType();
+
+    $shippingVAT = 0;
+    if ( $vatType )
+    {
+        $value =& $vatType->value();
+        $shippingVAT = ( $shippingCost / ( $value + 100  ) ) * $value;        
+    }    
     
     $currency->setValue( $shippingCost );
     $t->set_var( "shipping_cost", $locale->format( $currency ) );
@@ -357,7 +366,7 @@ foreach ( $types as $type )
     $currency->setValue( $sum );
     $t->set_var( "cart_sum", $locale->format( $currency ) );
     
-    $currency->setValue( $totalVAT );
+    $currency->setValue( $totalVAT + $shippingVAT );
     $t->set_var( "cart_vat_sum", $locale->format( $currency ) );
 }
 

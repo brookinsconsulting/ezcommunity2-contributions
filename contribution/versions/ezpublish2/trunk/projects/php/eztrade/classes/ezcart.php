@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcart.php,v 1.12 2001/02/23 14:43:50 bf Exp $
+// $Id: ezcart.php,v 1.13 2001/03/12 12:24:07 bf Exp $
 //
 // Definition of eZCart class
 //
@@ -318,6 +318,21 @@ class eZCart
            $i++;
        }
 
+       $vatType =& $shippingType->vatType();
+       
+       
+       print( "shipping: $cost" );
+       print( "vat: "  . $vatType->value() );
+
+       $vat = 0;
+       if ( $vatType )
+       {
+           $value =& $vatType->value();
+           $vat = ( $cost / ( $value + 100  ) ) * $value;        
+       }
+       print( "vat: $vat " );
+       
+       
        return $cost;
     }
 
