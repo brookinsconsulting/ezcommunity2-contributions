@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezezrenderer.php,v 1.8 2000/10/30 11:33:07 bf-cvs Exp $
+// $Id: ezezrenderer.php,v 1.9 2000/10/30 11:48:24 bf-cvs Exp $
 //
 // Definition of eZEzRenderer class
 //
@@ -298,7 +298,7 @@ class eZEzRenderer
                             }
                         }
                         
-                        $pageContent .= "<a name=\"$href\">ba </a>";
+                        $pageContent .= "<a name=\"$href\"></a>";
                     }                    
 
                     // image
