@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.34 2001/02/16 16:19:37 jb Exp $
+// $Id: ezarticle.php,v 1.35 2001/02/16 16:44:36 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -958,14 +958,15 @@ class eZArticle
         {
             switch( $sort )
             {
-                case "name":
-                {
-                    $sort_text = "ORDER BY AuthorText";
-                    break;
-                }
                 case "count":
                 {
                     $sort_text = "ORDER BY Count";
+                    break;
+                }
+                default:
+                case "name":
+                {
+                    $sort_text = "ORDER BY AuthorText";
                     break;
                 }
             }
@@ -1006,9 +1007,10 @@ class eZArticle
                     $sort_text = "ORDER BY C.Name";
                     break;
                 }
+                default:
                 case "published":
                 {
-                    $sort_text = "ORDER BY A.Published";
+                    $sort_text = "ORDER BY A.Published DESC";
                     break;
                 }
             }
