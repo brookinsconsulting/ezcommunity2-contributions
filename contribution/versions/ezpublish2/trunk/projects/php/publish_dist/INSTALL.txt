@@ -6,7 +6,7 @@ eZ publish installation guide
 
 * MySQL-3.22.32 (www.mysql.org)
 
-* PHP-4.0.3 (www.php.net)
+* PHP-4.0.4 (www.php.net)
 
 * ImageMagick-4.2.9 (www.imagemagick.org)
 
@@ -26,7 +26,7 @@ eZ publish installation guide
 
 # ./configure --with-xml --enable-trans-sid 
 
---with-mysql --with-magic-quotes --with-apxs --with-dom
+--with-mysql --with-magic-quotes --with-apxs --with-dom --with-qtdom
 
 2.3 Compile and install the PHP package 
 
@@ -42,10 +42,11 @@ The rewrite and php modules needs to be active to use publish.
 
 3.2 Apache configuration
 
-This is an example of a httpd.conf virtalhost. Remember to change ipaddress,
-domainname, mailaddress and path to refelct your system.
+This is an example of a httpd.conf virtalhost. Remember to
+change ipaddress, domainname, mailaddress and path to refelct
+your system.
 
-NameVirtaulHost[yourIPaddress]:80
+NameVirtualHost[yourIPaddress]:80
 
 # User site 
 
@@ -61,7 +62,7 @@ NameVirtaulHost[yourIPaddress]:80
 
 RewriteEngine On 
 
-RewriteRule !\.(gif|css|jpg|png) /your/apache/documentroot/index.php 
+RewriteRule !\.(gif|css|jpg|png)$ /your/apache/documentroot/index.php 
 
 ServerAdmin your_mail@domain.no 
 
@@ -87,7 +88,7 @@ ServerAlias www.yourdomain.org
 
 RewriteEngine On 
 
-RewriteRule !\.(gif|css|jpg|png) /your/apache/documentroot/admin/index.php 
+RewriteRule !\.(gif|css|jpg|png)$ /your/apache/documentroot/admin/index.php 
 
 ServerAdmin your_mail@domain.no 
 
@@ -107,13 +108,15 @@ ServerAlias admin.yourdomain.org
 
 # mysqladmin -uroot -p create publish
 
-* Add a publish user in MySQL. To add a user you can use the MySQL
-  client
+* Add a publish user in MySQL. To add a user you can use
+  the MySQL client
 
-mysql>grant all on publish.* to publish@localhost identified by "secret";
+mysql>grant all on publish.* to publish@localhost identified
+by "secret";
 
-* Dump all the sql data from sql/publish.sql into your database. Remember
-  that this command will remove the existing publish tables.
+* Dump all the sql data from sql/publish.sql into your database.
+  Remember that this command will remove the existing publish
+  tables.
 
 # mysql -uroot -p publish < sql/publish.sql
 
@@ -123,21 +126,22 @@ mysql>grant all on publish.* to publish@localhost identified by "secret";
 
 # cd /tmp/
 
-# tar zxvf /path/to/ezpublish-1.0.tar.gz
+# tar zxvf /path/to/ezpublish-2.0.tar.gz
 
 # mv /tmp/publish_dist /your/apache/documentroot
 
-* Edit site.ini and add all the modules you need, and set the username
-  and password.
+* Edit site.ini and add all the modules you need, and set
+  the username and password.
 
-* Run modfix, this is important. This script will create symbolic links
-  needed and set permissions.
+* Run modfix, this is important. This script will create
+  symbolic links needed and set permissions.
 
 # ./modfix.sh
 
-* Start konqueror and have fun!
+* Start a browser and point it to the URL where you installed
+  eZ publish:
 
-# konqueror http://yourdomain.org
+# brower http://yourdomain.org
 
-* NOTE!: The default admin username and password will be admin/publish.
-  Remember to change the password!! 
+* NOTE!: The default admin username and password will be
+  admin/publish. Remember to change the password!! 

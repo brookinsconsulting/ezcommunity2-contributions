@@ -1,7 +1,7 @@
 #LyX 1.1 created this file. For more info see http://www.lyx.org/
-\lyxformat 2.16
+\lyxformat 218
 \textclass article
-\language default
+\language english
 \inputencoding latin1
 \fontscheme default
 \graphics default
@@ -235,7 +235,7 @@ Run modfix, this is important.
 # ./modfix.sh
 \layout Itemize
 
-Start a browser
+Start a browser and point it to the URL where you installed eZ publish:
 \layout LyX-Code
 
 # brower http://yourdomain.org
