@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpoll.php,v 1.12 2000/11/02 14:09:10 ce-cvs Exp $
+// $Id: ezpoll.php,v 1.13 2000/11/02 14:38:36 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //

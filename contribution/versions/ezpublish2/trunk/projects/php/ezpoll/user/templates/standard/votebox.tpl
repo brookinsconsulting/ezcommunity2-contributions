@@ -18,6 +18,15 @@
 	</td>
 </tr>
 <!-- END vote_item_tpl -->
+
+<!-- BEGIN novote_item_tpl -->
+<tr>
+	<td class="small">
+	{novote_item}
+	</td>
+</tr>
+<!-- END novote_item_tpl -->
+
 <tr>
 	<td colspan="2">
 	<input type="hidden" name="PollID" value="{poll_id}" />

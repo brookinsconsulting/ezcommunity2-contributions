@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: votebox.php,v 1.6 2000/11/01 07:48:39 bf-cvs Exp $
+// $Id: votebox.php,v 1.7 2000/11/02 14:38:37 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -27,8 +27,11 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 
 $ini = new INIFIle( "site.ini" );
-
+$Language = $ini->read_var( "eZUserMain", "Language" );
 $PageCaching = $ini->read_var( "eZPollMain", "PageCaching" );
+$errorIni = new INIFIle( "ezpoll/user/intl/" . $Language . "/votebox.php.ini", false );
+
+$noItem = $errorIni->read_var( "strings", "noitem" );
 
 unset( $menuCachedFile );
 // do the caching
@@ -54,6 +57,7 @@ function createPollMenu( $generateStaticPage = false )
 {
     global $ini;
     global $menuCachedFile;
+    global $noItem;
 
     $Language = $ini->read_var( "eZPollMain", "Language" );
     
@@ -82,6 +86,7 @@ function createPollMenu( $generateStaticPage = false )
         ) );
 
     $t->set_block( "vote_box", "vote_item_tpl", "vote_item" );
+    $t->set_block( "vote_box", "novote_item_tpl", "novote_item" );
 
     $choice = new eZPollChoice();
 
@@ -89,16 +94,20 @@ function createPollMenu( $generateStaticPage = false )
 
     if ( !$choiceList )
     {
-        $noitem = $iniError->read_var( "strings", "noitem" );
-        $t->set_var( "vote_item", $noitem );
+        $t->set_var( "vote_item", "" );
+        $t->set_var( "novote_item", $noItem );
+        $t->parse( "novote_item", "novote_item_tpl" );
     }
-
-    foreach( $choiceList as $choiceItem )
+    else
     {
-        $t->set_var( "choice_name", $choiceItem->name() );
-        $t->set_var( "choice_id", $choiceItem->id() );
-        
-        $t->parse( "vote_item", "vote_item_tpl", true );
+        foreach( $choiceList as $choiceItem )
+            {
+                $t->set_var( "choice_name", $choiceItem->name() );
+                $t->set_var( "choice_id", $choiceItem->id() );
+
+                $t->set_var( "novote_item", "" );
+                $t->parse( "vote_item", "vote_item_tpl", true );
+            }
     }
 
     $poll = new eZPoll();
