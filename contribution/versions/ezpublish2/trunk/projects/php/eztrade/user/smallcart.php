@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallcart.php,v 1.10 2001/03/15 18:26:21 bf Exp $
+// $Id: smallcart.php,v 1.11 2001/03/15 18:37:36 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Dec-2000 15:21:10 bf>
@@ -91,6 +91,7 @@ $currency = new eZCurrency();
 $i = 0;
 $sum = 0.0;
 $totalVAT = 0.0;
+$t->set_var( "cart_item", "" );
 foreach ( $items as $item )
 {
     $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
@@ -141,7 +142,6 @@ foreach ( $items as $item )
             $can_checkout = false;
 
         $t->parse( "cart_item", "cart_item_tpl", true );
-
     }
     
     $i++;
