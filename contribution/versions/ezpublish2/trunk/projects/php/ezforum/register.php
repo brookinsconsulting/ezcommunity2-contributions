@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: register.php,v 1.4 2000/07/20 19:44:36 lw Exp $
+    $Id: register.php,v 1.5 2000/07/26 15:12:50 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -8,12 +8,11 @@
     
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
-include( "template.inc" );
-include( "ezphputils.php" );
 include( "ezforum/dbsettings.php" );
-include( "$DOCROOT/classes/ezdb.php" );
-include( "$DOCROOT/classes/ezuser.php" );
-//include( "$DOCROOT/classes/ezsession.php" );
+include_once( "template.inc" );
+include_once( "ezphputils.php" );
+include_once( "$DOCROOT/classes/ezdb.php" );
+include_once( "$DOCROOT/classes/ezuser.php" );
 
 $t = new Template( "." );
 $t->set_file(Array( "register" => "$DOCROOT/templates/register.tpl",

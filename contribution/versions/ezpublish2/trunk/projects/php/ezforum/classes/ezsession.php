@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezsession.php,v 1.3 2000/07/26 15:05:41 lw-cvs Exp $
+    $Id: ezsession.php,v 1.4 2000/07/26 15:12:50 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no> (Bård Farstad <bf@ez.no>)
     
@@ -8,6 +8,8 @@
     
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
+include( "ezforum/dbsettings.php" );
+include_once( "$DOCROOT/classes/ezdb.php" );
 class eZSession
 {
     var $ID;
@@ -123,9 +125,7 @@ class eZSession
 
     function delete( $hash )
     {
-//        $this->dbInit();
         openDB();
-
         mysql_query("DELETE FROM session WHERE sid='$hash'")
             or die("delete session $hash failed, dying...");
     }
