@@ -7,6 +7,12 @@ $url_array = eZURITool::split( $REQUEST_URI );
 $ListType = $url_array[2];
 switch ( $ListType )
 {
+    case "setup":
+    {
+        include( "ezcontact/admin/setup.php" );
+        break;
+    }
+
     case "company":
     {
         if ( !isset( $CompanyID ) )
