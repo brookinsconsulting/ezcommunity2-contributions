@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.19 2001/03/01 14:06:24 jb Exp $
+// $Id: articlelist.php,v 1.20 2001/03/04 19:06:09 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -29,6 +29,7 @@ include_once( "classes/ezlocale.php" );
 
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 
 $ini =& INIFile::globalINI();
 
@@ -117,28 +118,31 @@ $i=0;
 $t->set_var( "category_list", "" );
 foreach ( $categoryList as $categoryItem )
 {
-    $t->set_var( "category_id", $categoryItem->id() );
-
-    $t->set_var( "category_name", $categoryItem->name() );
-
-    $parent = $categoryItem->parent();
-
-    if ( ( $i % 2 ) == 0 )
+    if( eZObjectPermission::hasPermission( $categoryItem->id(), "article_category", 'r' ) )
     {
-        $t->set_var( "td_class", "bglight" );
-    }
-    else
-    {
-        $t->set_var( "td_class", "bgdark" );
-    }
+        $t->set_var( "category_id", $categoryItem->id() );
+
+        $t->set_var( "category_name", $categoryItem->name() );
+
+        $parent = $categoryItem->parent();
+
+        if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "td_class", "bglight" );
+        }
+        else
+        {
+            $t->set_var( "td_class", "bgdark" );
+        }
     
-    $t->set_var( "category_description", $categoryItem->description() );
+        $t->set_var( "category_description", $categoryItem->description() );
 
-    $t->parse( "category_item", "category_item_tpl", true );
-    $i++;
+        $t->parse( "category_item", "category_item_tpl", true );
+        $i++;
+    }
 }
 
-if ( count( $categoryList ) > 0 )    
+if ($i > 0 )    
     $t->parse( "category_list", "category_list_tpl" );
 else
     $t->set_var( "category_list", "" );
@@ -169,45 +173,48 @@ else
 
 foreach ( $articleList as $article )
 {
-    if ( $article->name() == "" )
-        $t->set_var( "article_name", "&nbsp;" );
-    else
-        $t->set_var( "article_name", $article->name() );
+    if( eZObjectPermission::hasPermission( $article->id(), "article_article", 'r' ) )
+    {
+        if ( $article->name() == "" )
+            $t->set_var( "article_name", "&nbsp;" );
+        else
+            $t->set_var( "article_name", $article->name() );
 
-    $t->set_var( "article_id", $article->id() );
+        $t->set_var( "article_id", $article->id() );
 
-    if ( $article->isPublished() == true )
-    {
-        $t->parse( "article_is_published", "article_is_published_tpl" );
-        $t->set_var( "article_not_published", "" );        
-    }
-    else
-    {
-        $t->set_var( "article_is_published", "" );
-        $t->parse( "article_not_published", "article_not_published_tpl" );
-    }
+        if ( $article->isPublished() == true )
+        {
+            $t->parse( "article_is_published", "article_is_published_tpl" );
+            $t->set_var( "article_not_published", "" );        
+        }
+        else
+        {
+            $t->set_var( "article_is_published", "" );
+            $t->parse( "article_not_published", "article_not_published_tpl" );
+        }
 
-    if ( ( $i % 2 ) == 0 )
-    {
-        $t->set_var( "td_class", "bglight" );
-    }
-    else
-    {
-        $t->set_var( "td_class", "bgdark" );
-    }
+        if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "td_class", "bglight" );
+        }
+        else
+        {
+            $t->set_var( "td_class", "bgdark" );
+        }
 
-    if ( $category->sortMode() == "absolute_placement" )
-    {
-        $t->parse( "absolute_placement_item", "absolute_placement_item_tpl" );
-    }
-    else
-    {
-        $t->set_var( "absolute_placement_item", "" );
-    }
+        if ( $category->sortMode() == "absolute_placement" )
+        {
+            $t->parse( "absolute_placement_item", "absolute_placement_item_tpl" );
+        }
+        else
+        {
+            $t->set_var( "absolute_placement_item", "" );
+        }
     
 
-    $t->parse( "article_item", "article_item_tpl", true );
-    $i++;
+        $t->parse( "article_item", "article_item_tpl", true );
+        $i++;
+    }
 }
 
 $prevOffs = $Offset - $Limit;
@@ -232,8 +239,8 @@ else
 {
     $t->set_var( "next", "" );
 }
-
-if ( count( $articleList ) > 0 )    
+// $i is from the last foreach loop
+if ( $i > 0 )    
     $t->parse( "article_list", "article_list_tpl" );
 else
     $t->set_var( "article_list", "" );
