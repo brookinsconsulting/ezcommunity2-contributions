@@ -1,6 +1,7 @@
 <?php
 
-eZSession::delete( $AuthenticatedSession );
+$session = new eZSession();
+$session->delete( $AuthenticatedSession );
 Header( "Location: index.php" );
 
 ?>
