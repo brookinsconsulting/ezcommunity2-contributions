@@ -461,3 +461,29 @@ Maintainer(s) : bf@ez.no
     * user/intl/de_MG/userwithaddress.php.ini
       user/templates/mygold/userwithaddress.tpl: Added design and language
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-10-26  Baard Farstad  <bf@ez.no>
+
+    * admin/intl/en_GB/menubox.php.ini
+      admin/intl/en_GB/titlelist.php.ini
+      admin/intl/en_GB/useredit.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/useredit.php.ini
+      admin/templates/standard/titlelist.tpl
+      admin/templates/standard/useredit.tpl
+      classes/eztitle.php
+      classes/ezuser.php
+      sql/mysql/ezuser.sql
+      sql/postgresql/ezuser.sql
+      user/intl/en_GB/userwithaddress.php.ini
+      user/intl/no_NO/userwithaddress.php.ini
+      user/templates/standard/userwithaddress.tpl
+      user/userwithaddress.php
+      admin/datasupplier.php
+      admin/menubox.php
+      admin/titlelist.php
+      admin/useredit.php: Added titles in user edit.
+

@@ -1581,3 +1581,32 @@ Maintainer(s) : ce@ez.no
     * user/checkout.php
       user/voucherview.php: Renamed a function
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-10-26  Baard Farstad  <bf@ez.no>
+
+    * admin/templates/standard/customerview.tpl
+      admin/templates/standard/orderedit.tpl
+      user/ordersendt.php
+      user/payment.php
+      user/templates/standard/mailorder.tpl
+      user/templates/standard/ordersendt.tpl
+      admin/customerview.php
+      admin/intl/en_GB/customerview.php.ini
+      admin/intl/no_NO/customerview.php.ini
+      admin/orderedit.php: Fixed showing of title information in eZ trade.
+
+2001-10-26  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezvoucher.php
+      classes/ezvoucherinformation.php
+      user/voucherinformation.php: Fixed the template
+
+2001-10-26  Sascha Frinken  <sascha@impetex.de>
+
+    * classes/ezcheckoutsupplier.php
+      classes/ezvoucherinformation.php
+      user/datasupplier.php: Added design
+

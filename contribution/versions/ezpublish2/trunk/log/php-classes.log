@@ -294,3 +294,11 @@ Maintainer(s) : bf@ez.no
 
     * ezpublish.php: Version.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-10-26  Christoffer Elo  <ce@ez.no>
+
+    * ezlocale.php: fixed a npsp
+

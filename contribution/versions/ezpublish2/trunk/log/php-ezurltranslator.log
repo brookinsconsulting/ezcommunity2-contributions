@@ -68,3 +68,11 @@ Maintainer(s) : vl@ez.no
 
     * admin/intl/no_NO/menubox.php.ini: updated no_NO
 
+
+Module : ezurltranslator
+Repository path : /home/cvsroot/projects/php/ezurltranslator
+Maintainer(s) : vl@ez.no
+2001-10-26  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezurltranslator.php: Removed a print
+

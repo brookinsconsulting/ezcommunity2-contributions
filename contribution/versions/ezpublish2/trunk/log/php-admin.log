@@ -132,3 +132,11 @@ Maintainer(s) : bf@ez.no
 
     * intl/no_NO/header.php.ini: updated no_NO
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2001-10-26  Thomas Hellstroem  <th@ez.no>
+
+    * templates/ezpublish/separator.tpl: Fixed gap in design
+

@@ -1606,3 +1606,12 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezqdomrenderer.php: Upgraded the qdom rendrer
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-10-26  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/category.php:
+    Update: Reply sent by catalogue updates is fixed to sent correct info.
+
