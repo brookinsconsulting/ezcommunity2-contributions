@@ -15,6 +15,7 @@ CREATE TABLE eZArticle_Article (
   TopicID int NOT NULL default '0',
   StartDate int NOT NULL,
   StopDate int NOT NULL,
+  ImportID varchar(255) default NULL,
   PRIMARY KEY (ID)
 );
 
@@ -67,6 +68,7 @@ CREATE TABLE eZArticle_ArticleImageLink (
   ArticleID int NOT NULL default '0',
   ImageID int NOT NULL default '0',
   Created int NOT NULL,
+  Placement int NOT NULL default '0',
   PRIMARY KEY (ID)
 );
 
@@ -129,6 +131,7 @@ CREATE TABLE eZArticle_Category (
   Placement int default '0',
   SectionID int NOT NULL default '0',
   ImageID int default NULL,
+  EditorGroupID int default '0',
   PRIMARY KEY (ID)
 );
 
@@ -172,38 +175,6 @@ CREATE TABLE eZArticle_Type (
   PRIMARY KEY (ID)
 );
 
-Create table eZArticle_Word
-( 
-  ID int not null,
-   Word varchar(50) not null,
-   PRIMARY KEY (ID)
-);
-
-CREATE TABLE eZArticle_ArticleWordLink
-(
-	ArticleID int not null,
-	WordID int not null
-);
-
-
-DROP TABLE IF EXISTS eZArticle_ArticleMediaLink;
-CREATE TABLE eZArticle_ArticleMediaLink (
-  ID int(11) NOT NULL auto_increment,
-  ArticleID int(11) NOT NULL default '0',
-  MediaID int(11) NOT NULL default '0',
-  Created int(11) default NULL,
-  PRIMARY KEY (ID)
-) TYPE=MyISAM;
-
-
-CREATE INDEX ArticleWord_Word ON eZArticle_Word (Word);
-CREATE INDEX ArticleWordLink_ArticleID ON eZArticle_ArticleWordLink (ArticleID);
-CREATE INDEX ArticleWordLink_WordID ON eZArticle_ArticleWordLink (WordID);
-
-CREATE INDEX ArticlePermissionObjectID ON eZArticle_ArticlePermission (ObjectID);
-CREATE INDEX ArticlePermissionGroupID ON eZArticle_ArticlePermission (GroupID);
-CREATE INDEX ArticlePermissionWritePermission ON eZArticle_ArticlePermission (WritePermission);
-CREATE INDEX ArticlePermissionReadPermission ON eZArticle_ArticlePermission (ReadPermission);
 
 
 CREATE INDEX Article_Name ON eZArticle_Article (Name);
