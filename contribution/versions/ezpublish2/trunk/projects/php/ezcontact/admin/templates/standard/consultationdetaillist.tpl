@@ -7,7 +7,7 @@
 <!-- END no_consultations_item_tpl -->
 
 <!-- BEGIN consultation_table_item_tpl -->
-<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-consultation_date}:</th>
 	<th>{intl-consultation_short_description}:</th>
@@ -53,7 +53,7 @@
 </td>
 <td>
 <form method="post" action="/contact/consultation/list">
-<input class="okbutton" type="submit" value="{intl-back}">
+<input class="stdbutton" type="submit" value="{intl-back}">
 </form>
 </td>
 </tr>

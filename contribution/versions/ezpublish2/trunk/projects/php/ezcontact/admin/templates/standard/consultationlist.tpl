@@ -7,7 +7,7 @@
 <!-- END no_companies_item_tpl -->
 
 <!-- BEGIN company_table_item_tpl -->
-<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-company_name}:</th>
 	<th>{intl-consultation_count}:</th>
@@ -42,7 +42,7 @@
 <!-- END no_persons_item_tpl -->
 
 <!-- BEGIN person_table_item_tpl -->
-<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-person_name}:</th>
 	<th>{intl-consultation_count}:</th>

@@ -20,7 +20,7 @@
 <!-- END no_persons_tpl -->
 
 <!-- BEGIN person_table_tpl -->
-<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-person_name}:</th>
 	<th>{intl-state}:</th>
@@ -30,7 +30,12 @@
 <!-- BEGIN person_item_tpl -->
 <tr class="{bg_color}">
 	<td>
-        <a href="/contact/person/view/{person_id}">{person_lastname}, {person_firstname}&nbsp;</a>
+	<!-- BEGIN person_view_button_tpl -->
+        <a href="/contact/person/view/{person_id}">{person_lastname}, {person_firstname}</a>
+	<!-- END person_view_button_tpl -->
+	<!-- BEGIN no_person_view_button_tpl -->
+        {person_lastname}, {person_firstname}
+	<!-- END no_person_view_button_tpl -->
 	</td>
 
 	<!-- BEGIN person_state_tpl -->
@@ -51,13 +56,17 @@
 	</td>
 	<!-- END person_consultation_button_tpl -->
 
+	<!-- BEGIN person_edit_button_tpl -->
 	<td width="1%">
 	<a href="/contact/person/edit/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{person_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezc{person_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
+	<!-- END person_edit_button_tpl -->
 
+	<!-- BEGIN person_delete_button_tpl -->
 	<td width="1%">
 	<a href="/contact/person/delete/{person_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{person_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezc{person_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>	
+	<!-- END person_delete_button_tpl -->
 
 </tr>
 <!-- END person_item_tpl -->
@@ -102,8 +111,10 @@
 
 <!-- END person_table_tpl -->
 
+<!-- BEGIN person_new_button_tpl -->
 <form method="post" action="/contact/person/new">
 
 <hr noshade="noshade" size="4" />
 <input class="stdbutton" type="submit" value="{intl-new_person}">
 </form>
+<!-- END person_new_button_tpl -->
