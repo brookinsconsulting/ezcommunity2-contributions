@@ -1,5 +1,5 @@
 <?
-// $Id: linkgrouplist.php,v 1.1 2000/10/30 13:05:42 ce-cvs Exp $
+// $Id: linkgrouplist.php,v 1.2 2000/10/30 13:27:58 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:55:24 ce>
@@ -46,12 +46,12 @@ $t = new eZTemplate( "ezlink/admin/" . $ini->read_var( "eZLinkMain", "TemplateDi
 $t->setAllStrings();
 
 $t->set_file( array(
-    "link_page" => "linkgrouplist.tpl"
+    "link_page_tpl" => "linkgrouplist.tpl"
     ) );
 
-$t->set_block( "link_page", "group_list_tpl", "group_list" );
-$t->set_block( "link_page", "link_list_tpl", "link_list" );
-$t->set_block( "link_page", "path_item_tpl", "path_item" );
+$t->set_block( "link_page_tpl", "group_list_tpl", "group_list" );
+$t->set_block( "link_page_tpl", "link_list_tpl", "link_list" );
+$t->set_block( "link_page_tpl", "path_item_tpl", "path_item" );
 
 
 // Lister alle kategorier
@@ -195,5 +195,5 @@ if ( !$linkList )
 
 $t->set_var( "document_root", $DOC_ROOT );
                        
-$t->pparse( "output", "link_page" );
+$t->pparse( "output", "link_page_tpl" );
 ?>
