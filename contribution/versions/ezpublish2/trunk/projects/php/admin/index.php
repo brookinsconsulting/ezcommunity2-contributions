@@ -71,6 +71,9 @@ if ( $user )
         if ( $ini->read_var( "site", "eZContact" ) == "enabled" )
             include( "ezcontact/admin/menubox.php" );
 
+        if ( $ini->read_var( "site", "eZCV" ) == "enabled" )
+            include( "ezcv/admin/menubox.php" );
+
         if ( $ini->read_var( "site", "eZSite" ) == "enabled" )
             include( "ezsite/admin/menubox.php" );
 
