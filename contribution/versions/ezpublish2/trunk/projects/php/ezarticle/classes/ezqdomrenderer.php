@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.51 2001/10/10 11:38:27 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.52 2001/10/10 12:27:26 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -429,16 +429,23 @@ class eZQDomrenderer
             }
 
             if ( count( $paragraph->children ) > 0 )
-            foreach ( $paragraph->children as $child )
-            {
-                if ( $child->name == "text" )
+                foreach ( $paragraph->children as $child )
                 {
-                    $content = $child->content;
-                }
+                    if ( $child->name == "text" )
+                    {
+                        $content = $child->content;
+                    }
+                    else
+                    {
+                        $content .= $this->renderStandards( $child );
+                        $content .= $this->renderCustom( $child );
+                        $content .= $this->renderLink( $child );                        
+                    }
             }
             
             $level = min( 6, $level );
             $level = max( 1, $level );
+
 
             $this->Template->set_var( "contents", $content );
             $pageContent =& $this->Template->parse( "header_" . $level, "header_" . $level. "_tpl" );
