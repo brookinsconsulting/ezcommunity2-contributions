@@ -1,1 +1,9 @@
 Wed Sep  5 15:28:00 CEST 2001 - Creating module classes, module category php
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-09-04  Baard Farstad  <bf@ez.no>
+
+    * ezquery.php: Added Stop Word check.
+
