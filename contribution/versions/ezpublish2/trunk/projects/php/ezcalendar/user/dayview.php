@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.8 2001/01/17 15:20:31 ce Exp $
+// $Id: dayview.php,v 1.9 2001/01/17 16:18:16 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -47,6 +47,7 @@ $t->setAllStrings();
 
 $t->set_block( "day_view_page_tpl", "time_table_tpl", "time_table" );
 $t->set_block( "time_table_tpl", "appointment_tpl", "appointment" );
+$t->set_block( "appointment_tpl", "delete_check_tpl", "delete_check" );
 
 $user = eZUser::currentUser();
 
@@ -160,6 +161,7 @@ while ( $startTime->isGreater( $stopTime ) == true )
                     $t->set_var( "appointment_description", $app->description() );
                     $t->set_var( "edit_button", "Edit" );
                     $t->set_var( "delete_button", "Delete" );
+                    $t->parse( "delete_check", "delete_check_tpl" );
 
                     $t->parse( "appointment", "appointment_tpl", true );
                     $drawnColumn[$i] = true;
@@ -177,6 +179,7 @@ while ( $startTime->isGreater( $stopTime ) == true )
                 $t->set_var( "appointment_description", "" );
                 $t->set_var( "edit_button", "" );
                 $t->set_var( "delete_button", "" );
+                $t->set_var( "delete_check", "" );
 
                 $t->parse( "appointment", "appointment_tpl", true );
             }
@@ -199,6 +202,7 @@ while ( $startTime->isGreater( $stopTime ) == true )
         $t->set_var( "appointment_description", "" );
         $t->set_var( "edit_button", "" );
         $t->set_var( "delete_button", "" );
+        $t->set_var( "delete_check", "" );
 
         $t->parse( "appointment", "appointment_tpl", true );
 

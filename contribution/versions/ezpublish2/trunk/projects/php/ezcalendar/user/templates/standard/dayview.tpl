@@ -28,20 +28,29 @@
 </table>
 <br />
 
+<form method="post" action="/calendar/appointmentedit/edit/">
 <table width="100%" border="1" cellspacing="0" cellpadding="2" >
 <!-- BEGIN time_table_tpl -->
 <tr>
 	<td width="10%">
 	{hour_value} : {minute_value}
 	</td>	
+
 	<!-- BEGIN appointment_tpl -->
 	<td class="{td_class}" valign="top" rowspan="{rowspan_value}" >
 	<a href="/calendar/appointmentview/{appointment_id}/">{appointment_name}</a>
 	<a href="/calendar/appointmentedit/edit/{appointment_id}/">{edit_button}</a>
-	<a href="/calendar/appointmentview/{appointment_id}/">{delete_button}</a><br />
+<!--	<a href="/calendar/appointmentview/{appointment_id}/">{delete_button}</a><br /> -->
+        <!-- BEGIN delete_check_tpl -->
+        <input type="checkbox" name="AppointmentArrayID[]" value={appointment_id}>
+        <!-- END delete_check_tpl -->
 	{appointment_description}<br />
 	</td>
+
 	<!-- END appointment_tpl -->
+
 </tr>
 <!-- END time_table_tpl -->
 </table>
+<input type="submit" name="DeleteAppointments" value="{intl-delete_appointment}">
+</form>

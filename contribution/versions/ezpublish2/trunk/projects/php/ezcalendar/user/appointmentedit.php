@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.6 2001/01/17 12:05:33 gl Exp $
+// $Id: appointmentedit.php,v 1.7 2001/01/17 16:18:16 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -23,6 +23,10 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+if ( isSet ( $DeleteAppointments ) )
+{
+    $Action = "DeleteAppointment";
+}
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
@@ -132,6 +136,28 @@ if ( $Action == "Insert" || $Action == "Update" )
         Header( "Location: /calendar/dayview/$year/$month/$day/" );
         exit();
     }
+}
+
+if ( $Action == "DeleteAppointment" )
+{
+    if ( count ( $AppointmentArrayID ) != 0 )
+    {
+        $tmpAppointment = new eZAppointment( $AppointmentArrayID[0]);
+        $date = $tmpAppointment->date();
+        foreach( $AppointmentArrayID as $ID )
+        {
+            $appointment = new eZAppointment( $ID );
+            $appointment->delete();
+        }
+    }
+
+    $year = eZTime::addZero( $date->year() );
+    $month = eZTime::addZero( $date->month() );
+    $day = eZTime::addZero( $date->day() );
+
+    Header( "Location: /calendar/dayview/$year/$month/$day/" );
+    exit();
+
 }
 
 
