@@ -71,45 +71,42 @@
 <!-- BEGIN link_item_tpl -->
 <tr class="{td_class}">
 	<td valign="top" width="99%">
-	<b><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank">{link_name}</a></b><br />
- 	<span class="p">{link_description}</span><br />
-	<span class="small">(Hits: {link_hits})</span>
-   	</td>
-	<td valign="top" width="1%">
+	<p class="boxtext"><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}" target="_blank">{link_name}</a></p>
+ 	<span class="p">
 	<!-- BEGIN link_image_item_tpl -->
-	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" />
+	<a href="/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank"><img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="1" align="right" /></a>
 	<!-- END link_image_item_tpl -->
-	</td>
+	{link_description}
+	</span><br />
+   	</td>
+</tr>
 
 <!-- BEGIN attribute_list_tpl -->
-</tr><tr class="{td_class}">
-<td>
-<table width="60%" cellspacing="0" cellpadding="2" border="0" align="center">
+<tr>
+	<td class="{td_class}" align="center">
+	<table width="50%" cellspacing="0" cellpadding="2" border="0">
 <!-- BEGIN attribute_tpl -->
 
 <!-- END attribute_tpl -->
 
 <!-- BEGIN attribute_value_tpl -->
-<tr> 
-	<th>{attribute_name}:</th>
-	<td align="right">{attribute_value_var} {attribute_unit}</td>
-</tr>
+	<tr> 
+		<th class="small">{attribute_name}:</th>
+		<td class="small" align="right">{attribute_value_var} {attribute_unit}</td>
+	</tr>
 <!-- END attribute_value_tpl -->
 <!-- BEGIN attribute_header_tpl -->
-<tr> 
-	<th colspan="2">{attribute_name}:</th>
-</tr>
+	<tr> 
+		<th colspan="2">{attribute_name}:</th>
+	</tr>
 <!-- END attribute_header_tpl -->
 
-</table>
+	</table>
+	</td>
+</tr>
 <!-- END attribute_list_tpl -->
-
-
-
-
-
-
-
+<tr>
+	<td class="{td_class}"><span class="small">(Hits: {link_hits})</span></td>
 </tr>
 <!-- END link_item_tpl -->
 </table>
