@@ -56,7 +56,11 @@ class INIFile
     function INIFile( $inifilename="", $write=true )
     {
         // echo "INIFile::INIFile( \$inifilename = $inifilename,\$write = $write )<br />\n";
-        
+        $this->load_data( $inifilename, $write );
+    } 
+
+    function load_data( $inifilename="",$write=true )
+    {
         $this->WRITE_ACCESS = $write;
         if ( !empty($inifilename) )
         {
@@ -65,9 +69,9 @@ class INIFile
                 $this->error( "This file ($inifilename) does not exist!"); 
                 return; 
             }
+            $this->parse($inifilename);
         }
-        $this->parse($inifilename);
-    } 
+    }
 
     /*!
       Parses the ini file.
@@ -80,7 +84,9 @@ class INIFile
             $fp = fopen( $inifilename, "r+" ); 
         else
             $fp = fopen( $inifilename, "r" );
-        
+
+        $this->CURRENT_GROUP=false;
+        $this->GROUPS=array();
         $contents =& fread($fp, filesize($inifilename)); 
         $ini_data =& split( "\n",$contents); 
          
