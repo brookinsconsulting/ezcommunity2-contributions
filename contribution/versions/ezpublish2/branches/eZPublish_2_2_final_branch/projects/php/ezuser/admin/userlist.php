@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: userlist.php,v 1.25.2.1 2001/11/05 09:09:11 jhe Exp $
+//
+// $Id: userlist.php,v 1.25.2.2 2002/04/24 07:23:42 bf Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -54,6 +54,12 @@ $t->set_var( "site_style", $SiteStyle );
 $t->set_var( "OldSearchText", "" );
 
 $user = new eZUser();
+$OrderBy = "name";
+$LastName = addslashes (trim ($LastName));
+$FirstName = addslashes (trim ($FirstName));
+$Login = addslashes (trim ($Login));
+$EMail = addslashes (trim ($EMail));
+$SearchText = addslashes (trim ($SearchText) );
 
 if ( !is_numeric( $Max ) )
     $Max = 10;
@@ -62,7 +68,17 @@ if ( !is_numeric( $Index ) )
 
 if ( isSet( $Search ) && $SearchText != "" )
 {
-    $userList = $user->search( $SearchText );
+    $userList = $user->search( $SearchText, $OrderBy );
+    $TotalTypes =  count( $userList );
+}
+else if (   $FirstName != "" 
+		  or $LastName != ""
+		  or $Login != ""
+		  or $EMail != ""
+		 )
+{
+	$userList = $user->search( $SearchText, $OrderBy, $LastName, $FirstName, $EMail, $Login, $match);
+	$TotalTypes =  count( $userList );
 }
 else if ( $GroupID == 0 )
 {

@@ -1,8 +1,8 @@
 <?php
 //
-// $Id: menubox.php,v 1.20.2.1 2002/04/24 07:23:42 bf Exp $
+// $Id: extsearch.php,v 1.1.2.1 2002/04/24 07:23:42 bf Exp $
 //
-// Created on: <23-Oct-2000 17:53:46 bf>
+// Created on: <24-Apr-2002 09:02:33 bf>
 //
 // This source file is part of eZ publish, publishing software.
 //
@@ -23,17 +23,20 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-// Supply $menuItems to get a menubox
+include_once( "classes/INIFile.php" );
+include_once( "classes/eztemplate.php" );
 
-$menuItems = array(
-    array( "/user/userlist/", "{intl-userlist}" ),
-    array( "/user/grouplist/", "{intl-grouplist}" ),
-    array( "/user/useredit/new/", "{intl-newuser}" ),
-    array( "/user/groupedit/new/", "{intl-newgroup}" ),
-    array( "/user/authorlist/", "{intl-authorlist}" ),
-    array( "/user/extsearch/", "{intl-ext_search}" ),
-    array( "/user/sessioninfo/", "{intl-session_info}" )
-    );
+$ini =& INIFile::globalINI();
+$Language = $ini->read_var( "eZUserMain", "Language" );
+
+require( "ezuser/admin/admincheck.php" );
+
+$t = new eZTemplate( "ezuser/admin/" . $ini->read_var( "eZUserMain", "AdminTemplateDir" ),
+                     "ezuser/admin/" . "/intl", $Language, "extsearch.php" );
+$t->setAllStrings();
+
+$t->set_file( "extended_search", "extsearch.tpl" );
+
+$t->pparse( "output", "extended_search" );
 
 ?>
-
