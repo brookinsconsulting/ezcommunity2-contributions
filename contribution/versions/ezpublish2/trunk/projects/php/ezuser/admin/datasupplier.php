@@ -2,6 +2,7 @@
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "classes/ezhttptool.php" );
 
+
 // These should allways be available
 switch( $url_array[2] ) 
 {
@@ -19,31 +20,10 @@ switch( $url_array[2] )
     }
     break;
 
-    case "logout" :
-    {
-        $Action = $url_array[3];
-        include( "ezuser/admin/login.php" );
-    }
-    break;
-
-    case "passwordchange" :
-    {
-        $Action = $url_array[3];
-        include( "ezuser/admin/passwordchange.php" );
-    }
-    break;
-
-    case "settings" :
-    {
-        $Action = $url_array[3];
-        include( "ezuser/admin/settings.php" );
-    }
-    break;
 }
 
+$user =& eZUser::currentUser();
 
-
-$user = eZUser::currentUser();
 if ( get_class( $user ) == "ezuser" )
 {
     if( eZPermission::checkPermission( $user, "eZUser", "ModuleEdit" ) == false )
@@ -153,6 +133,27 @@ switch ( $url_array[2] )
             $GroupID = $url_array[4];
             include( "ezuser/admin/groupedit.php" );
         }
+    }
+    break;
+
+    case "logout" :
+    {
+        $Action = $url_array[3];
+        include( "ezuser/admin/login.php" );
+    }
+    break;
+
+    case "passwordchange" :
+    {
+        $Action = $url_array[3];
+        include( "ezuser/admin/passwordchange.php" );
+    }
+    break;
+
+    case "settings" :
+    {
+        $Action = $url_array[3];
+        include( "ezuser/admin/settings.php" );
     }
     break;
 
