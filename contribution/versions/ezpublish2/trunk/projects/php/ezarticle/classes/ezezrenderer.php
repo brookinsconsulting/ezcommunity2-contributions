@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezezrenderer.php,v 1.2 2000/10/26 15:27:40 bf-cvs Exp $
+// $Id: ezezrenderer.php,v 1.3 2000/10/26 16:58:55 bf-cvs Exp $
 //
 // Definition of eZEzRenderer class
 //
@@ -154,6 +154,7 @@ class eZEzRenderer
             {
                 $pageContent = "";
                 // loop on the contents of the pages
+                if ( count( $page->children ) > 0 )
                 foreach ( $page->children as $paragraph )
                 {
                     // ordinary text
@@ -236,6 +237,34 @@ class eZEzRenderer
                         }
                         
                         $pageContent .= "<a href=\"http://$href\">" . $text . "</a>";
+                    }
+
+                    // ezlink
+                    if ( $paragraph->name == "ezlink" )
+                    {
+                        foreach ( $paragraph->attributes as $imageItem )
+                        {
+                            switch ( $imageItem->name )
+                            {
+
+                                case "href" :
+                                {
+                                    $href = $imageItem->children[0]->content;
+                                }
+                                break;
+
+                                case "text" :
+                                {
+                                    $text = $imageItem->children[0]->content;
+                                }
+                                break;
+                            }
+                        }
+
+                        
+                        $pageContent .= "
+                                       <img align=\"baseline\" src=\"/images/pil-space.gif\" width=\"50\" height=\"10\" border=\"0\" hspace=\"0\"><a href=\"http://$href\">"
+                             . $text . "</a><br />";
                     }
                     
 

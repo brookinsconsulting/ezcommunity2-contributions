@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezezgenerator.php,v 1.1 2000/10/26 11:58:14 bf-cvs Exp $
+// $Id: ezezgenerator.php,v 1.2 2000/10/26 16:58:55 bf-cvs Exp $
 //
 // Definition of eZEzGenerator class
 //
@@ -65,13 +65,17 @@ class eZEzGenerator
             // convert <link ez.no ez systems> to valid xml
             // $tmpPage = "<link ez.no ez systems> <link ez.no ez systems>";
             $tmpPage = preg_replace( "#(<link\s+?([^ ]+)\s+?([^>]+)>)#", "<link href=\"\\2\" text=\"\\3\" />", $tmpPage );
+
+            // same as above for <ezlink ez.no ez systems> a design difference.
+            $tmpPage = preg_replace( "#(<ezlink\s+?([^ ]+)\s+?([^>]+)>)#", "<ezlink href=\"\\2\" text=\"\\3\" />", $tmpPage );
+            
             
             // replace & with &amp; to prevent killing the xml parser..
             // is that a bug in the xmltree(); function ? answer to bf@ez.no
             $tmpPage = ereg_replace ( "&", "&amp;", $tmpPage );
             
             // make unknown tags readable.. look-ahead assertion is used ( ?! ) 
-            $tmpPage = preg_replace( "/<(?!(page|php|\/|image|hea|lin|bol|ita|und|str|pre|ver|lis))/", "&lt;", $tmpPage );
+            $tmpPage = preg_replace( "/<(?!(page|php|\/|image|hea|lin|bol|ita|und|str|pre|ver|lis|ezlink))/", "&lt;", $tmpPage );
 
             // look-behind assertion is used here (?<!) 
             // the expression must be fixed with eg just use the 3 last letters of the tag
@@ -187,7 +191,7 @@ class eZEzGenerator
                         $pageContent .= "<image $imageID $imageAlignment $imageSize>";
                     }
 
-                    // image 
+                    // link 
                     if ( $paragraph->name == "link" )
                     {
                         foreach ( $paragraph->attributes as $imageItem )
@@ -212,6 +216,33 @@ class eZEzGenerator
                         }
                         
                         $pageContent .= "<link $href $text>";
+                    }
+
+                    // ezlink 
+                    if ( $paragraph->name == "ezlink" )
+                    {
+                        foreach ( $paragraph->attributes as $imageItem )
+                        {
+                            print( $imageItem->name );
+                            switch ( $imageItem->name )
+                            {
+
+                                case "href" :
+                                {
+                                    $href = $imageItem->children[0]->content;
+                                }
+                                break;
+
+                                case "text" :
+                                {
+                                    $text = $imageItem->children[0]->content;
+                                }
+                                break;
+                                
+                            }
+                        }
+                        
+                        $pageContent .= "<ezlink $href $text>";
                     }
                     
                     
