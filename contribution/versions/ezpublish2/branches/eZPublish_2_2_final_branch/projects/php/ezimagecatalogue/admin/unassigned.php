@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: unassigned.php,v 1.11 2001/10/12 12:59:22 br Exp $
+// $Id: unassigned.php,v 1.11.2.1 2001/11/14 20:37:59 br Exp $
 //
 // Created on: <26-Oct-2000 19:40:18 bf>
 //
@@ -26,6 +26,8 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
+include_once( "classes/ezlist.php" );
+include_once( "classes/ezhttptool.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezpermission.php" );
@@ -33,7 +35,6 @@ include_once( "ezuser/classes/ezobjectpermission.php" );
 
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "ezimagecatalogue/classes/ezimagecategory.php" );
-include_once( "classes/ezhttptool.php" );
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZImageCatalogueMain", "Language" );
@@ -100,33 +101,6 @@ if ( $imageList )
     $imageCount =& eZImage::countUnassigned();
 else
     $imageCount = 0;
-
-
-$t->set_var( "limit", $Limit );
-if ( $Offset > 0 )
-{
-    if ( $Offset - $Limit < 0 )
-        $t->set_var( "prev_offset", "0" );
-    else
-        $t->set_var( "prev_offset", $Offset - $Limit );
-    $t->parse( "prev_link", "prev_link_tpl", true );
-}
-else
-{
-    $t->set_var( "prev_link", "" );
-}
-
-if ( $Offset + $Limit < $imageCount )
-{
-    $t->set_var( "next_offset", $Offset + $Limit );
-    $t->parse( "next_link", "next_link_tpl", true );
-}
-else
-{
-    $t->set_var( "next_link", "" );
-}
-
-
 
 $i = 0;
 $counter = 0;
@@ -214,6 +188,7 @@ if ( count ( $imageList ) > 0 )
 }
 
 
+eZList::drawNavigator( $t, $imageCount, $Limit, $Offset, "image_list_page_tpl" );
 
 if ( count( $imageList ) > 0 )
 {

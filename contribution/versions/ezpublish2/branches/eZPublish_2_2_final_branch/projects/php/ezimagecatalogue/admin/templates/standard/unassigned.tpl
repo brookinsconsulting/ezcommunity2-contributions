@@ -37,20 +37,55 @@
 <!-- END detail_view_tpl -->
 </table>
 <!-- END image_list_tpl -->
-<table width="100%" border="0" cellspacing="0" cellpadding="0" >
+
+<!-- BEGIN type_list_tpl -->
+<br />
+<table cellpadding="0" cellspacing="0" border="0">
 <tr>
-<td width="50" align="left">
-<!-- BEGIN prev_link_tpl -->
-<a href="{www_dir}{index}/imagecatalogue/unassigned/{prev_offset}/{limit}/">{intl-prev}</a>
-<!-- END prev_link_tpl -->
-</td>
-<td width="50%" align="right">
-<!-- BEGIN next_link_tpl -->
-<a href="{www_dir}{index}/imagecatalogue/unassigned/{next_offset}/{limit}/">{intl-next}</a>
-<!-- END next_link_tpl -->
-</td>
+	<!-- BEGIN type_list_previous_tpl -->
+	<td>
+	<a class="path" href="{www_dir}{index}/imagecatalogue/unassigned/{item_previous_index}/{limit}/">&lt;&lt;&nbsp;{intl-prev}</a>&nbsp;
+	</td>
+	<!-- END type_list_previous_tpl -->
+
+	<!-- BEGIN type_list_previous_inactive_tpl -->
+	<td>
+	&nbsp;
+	</td>
+	<!-- END type_list_previous_inactive_tpl -->
+
+	<!-- BEGIN type_list_item_list_tpl -->
+
+	<!-- BEGIN type_list_item_tpl -->
+	<td>
+	|&nbsp;<a class="path" href="{www_dir}{index}/imagecatalogue/unassigned/{item_index}/{limit}">{type_item_name}</a>&nbsp;
+	</td>
+	<!-- END type_list_item_tpl -->
+
+	<!-- BEGIN type_list_inactive_item_tpl -->
+	<td>
+	|&nbsp;&lt;&nbsp;{type_item_name}&nbsp;&gt;&nbsp;
+	</td>
+	<!-- END type_list_inactive_item_tpl -->
+
+	<!-- END type_list_item_list_tpl -->
+
+	<!-- BEGIN type_list_next_tpl -->
+	<td>
+	|&nbsp;<a class="path" href="{www_dir}{index}/imagecatalogue/unassigned/{item_next_index}/{limit}">{intl-next}&nbsp;&gt;&gt;</a>
+	</td>
+	<!-- END type_list_next_tpl -->
+
+	<!-- BEGIN type_list_next_inactive_tpl -->
+	<td>
+	|&nbsp;
+	</td>
+	<!-- END type_list_next_inactive_tpl -->
+
 </tr>
 </table>
+<!-- END type_list_tpl -->
+
 <hr noshade="noshade" size="4" />
 
 <input class="stdbutton" type="submit" name="Update" value="{intl-update}">
