@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.13 2001/10/10 19:46:42 fh Exp $
+// $Id: datasupplier.php,v 1.14 2001/10/14 18:10:26 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -51,10 +51,14 @@ switch ( $url_array[2] )
         {
             $user =& eZUser::currentUser();
             if ( $user )
+            {
                 include( "ezbulkmail/user/subscriptionlist.php" );
+            }
             else
+            {
                 eZHTTPTool::header( "Location: /user/login/?RedirectURL=/bulkmail/subscriptionlist" );
-            exit();
+                exit();
+            }
         }
         else
             include( "ezbulkmail/user/subscriptionlogin.php" );

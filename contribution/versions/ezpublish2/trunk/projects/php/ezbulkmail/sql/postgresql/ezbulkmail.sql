@@ -113,10 +113,9 @@ CREATE TABLE eZBulkMail_UserCategoryDelay (
 );
 
 CREATE TABLE eZBulkMail_UserCategoryLink (
-  ID int NOT NULL,
   UserID int default '0',
   CategoryID int default '0',
-  PRIMARY KEY (ID)
+  PRIMARY KEY (UserID, CategoryID)
 );
 
 CREATE TABLE eZBulkMail_UserCategorySettings (

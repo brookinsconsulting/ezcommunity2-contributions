@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailusersubscripter.php,v 1.4 2001/09/10 11:37:29 ce Exp $
+// $Id: ezbulkmailusersubscripter.php,v 1.5 2001/10/14 18:10:26 fh Exp $
 //
 // eZBulkMailUserSubscription class
 //
@@ -107,15 +107,16 @@ class eZBulkMailUserSubscripter
                                                AND UserID='$userID'
                                                " );
         $result = false;
-        if ( count ( $check ) == 0 )
+        if ( count( $check ) == 0 )
         {
             $result = $db->query( "INSERT INTO eZBulkMail_UserCategoryLink ( UserID, CategoryID ) VALUES ( '$userID', '$categoryID' )" );
 
-            $db->unlock();
             if ( $result == false )
                 $db->rollback( );
             else
                 $db->commit();
+
+            $db->unlock();
             return true;
         }
         else
@@ -151,7 +152,7 @@ class eZBulkMailUserSubscripter
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        $db->lock( "eZBulkMail_UserSubscriptionCategorySettings" );
+        $db->lock( "eZBulkMail_UserCategorySettings" );
         $userID = $this->User->id();
         
         $res[] = $db->query( "DELETE FROM eZBulkMail_UserCategorySettings WHERE CategoryID='$category'" );
