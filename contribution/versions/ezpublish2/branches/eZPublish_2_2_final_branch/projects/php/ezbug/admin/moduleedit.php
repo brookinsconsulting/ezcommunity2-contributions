@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: moduleedit.php,v 1.11.2.2 2001/11/19 09:46:45 jhe Exp $
+// $Id: moduleedit.php,v 1.11.2.3 2002/02/07 08:12:04 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -22,8 +22,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
-
 
 /*
   Edit a module type.
@@ -49,12 +47,13 @@ if ( $Action == "insert" )
     $module->store();
     $ModuleID = $module->id();
     eZObjectPermission::removePermissions( $ModuleID, "bug_module", "w" );
-    foreach( $WriteGroupArrayID as $moduleOwner )
+    foreach ( $WriteGroupArrayID as $moduleOwner )
     {
         eZObjectPermission::setPermission( $moduleOwner, $ModuleID, "bug_module", 'w' );
     }
 
-    Header( "Location: /bug/module/list/" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /bug/module/list/" );
     exit();
 }
 
@@ -63,22 +62,22 @@ if ( $Action == "update" )
 {
     $module = new eZBugModule( $ModuleID );
     $parent = new eZBugModule( $ParentID );
-    if( $module->isChild( $ParentID, true ) != true )
+    if ( $module->isChild( $ParentID, true ) != true )
     {
         $module->setName( $Name );
         $module->setParent( $parent );
 
         eZObjectPermission::removePermissions( $ModuleID, "bug_module", "w" );
-        foreach( $WriteGroupArrayID as $moduleOwner )
+        foreach ( $WriteGroupArrayID as $moduleOwner )
         {
             eZObjectPermission::setPermission( $moduleOwner, $ModuleID, "bug_module", 'w' );
         }
 
-        if( isset( $Recursive ) )
+        if ( isSet( $Recursive ) )
         {
             $recursiveList = $module->getByParent( $module, "name", array() );
         
-            foreach( $recursiveList as $itemID )
+            foreach ( $recursiveList as $itemID )
             {
                 eZObjectPermission::removePermissions( $itemID, "bug_module", "w" );
                 if ( count ( $WriteGroupArrayID ) > 0 )
@@ -98,7 +97,9 @@ if ( $Action == "update" )
 
         $module->store();
     }
-    Header( "Location: /bug/module/list/" );
+    
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /bug/module/list/" );
     exit();
 }
 
@@ -108,7 +109,8 @@ if ( $Action == "delete" )
     $module = new eZBugModule( $ModuleID );
     $module->delete();
 
-    Header( "Location: /bug/module/list/" );
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /bug/module/list/" );
     exit();
 }
 
@@ -152,9 +154,9 @@ $module = new eZBugModule();
 
 $moduleList = $module->getAll();
 
-foreach( $moduleList as $moduleItem )
+foreach ( $moduleList as $moduleItem )
 {
-    if( $ModuleID != $moduleItem->id() )
+    if ( $ModuleID != $moduleItem->id() )
     {
         $t->set_var( "module_parent_name", $moduleItem->name() );
         $t->set_var( "module_parent_id", $moduleItem->id() );
@@ -174,8 +176,7 @@ foreach( $moduleList as $moduleItem )
         else
         {
             $t->set_var( "is_selected", "" );
-        }
-        
+        } 
 
         $t->parse( "module_item", "module_item_tpl", true );
     }
@@ -185,7 +186,7 @@ foreach( $moduleList as $moduleItem )
 $group = new eZUserGroup();
 $groupList =& $group->getAll();
 
-foreach( $groupList as $groupItem )
+foreach ( $groupList as $groupItem )
 {
     $t->set_var( "group_id", $groupItem->id() );
     $t->set_var( "group_name", $groupItem->name() );
@@ -195,8 +196,7 @@ foreach( $groupList as $groupItem )
     if ( $writeGroupArrayID )
     {
         foreach ( $writeGroupArrayID as $writeGroup )
-        {
-            
+        {    
             if ( $writeGroup == $groupItem->id() )
             {
                 $t->set_var( "is_write_selected1", "selected" );
@@ -216,4 +216,5 @@ foreach( $groupList as $groupItem )
 }
 
 $t->pparse( "output", "moduleedit" );
+
 ?>
