@@ -22,17 +22,13 @@ $t->set_file( array(
     "link_item" => $DOCUMENTROOT . "templates/linkitem.tpl"
     ) );
 
-
-
 // Lister alle kategorier
 $linkGroup = new eZLinkGroup();
 $linkGroup->get ( $LGID );
 
-
 $linkGroup->printPath( $LGID, $DOCUMENTROOT . "admin/linklist.php" );
 
 $linkGroup_array = $linkGroup->getByParent( $LGID );
-
 
 if ( ( count( $linkGroup_array ) == 0 ) || ( $LGID == "incoming" ) )
 {

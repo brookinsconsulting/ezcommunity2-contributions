@@ -100,10 +100,11 @@ class eZLinkGroup
     function getTotalSubLinks( $id )
     {
         $count = 0;
-        
         $sibling_array = $this->getByParent( $id );
-        print( "antall: " . count( $sibling_array ) );
 
+        array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM Link WHERE LinkGroup='$id' AND Accepted='N'" );
+        $count += $link_count[0][ "LinkCount" ];            
+        
         for ( $i=0; $i<count( $sibling_array ); $i++ )
         {
             $group_id =  $sibling_array[ $i][ "ID" ];

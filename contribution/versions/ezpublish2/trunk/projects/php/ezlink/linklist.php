@@ -21,29 +21,34 @@ $t->set_file( array(
     ) );
 
 // Lister alle kategorier
-$linkgroup = new eZLinkGroup();
-$linkgroup->get ( $LGID );
+$linkGroup = new eZLinkGroup();
+$linkGroup->get ( $LGID );
 
-$linkgroup->printPath( $LGID, $DOCUMENTROOT . "linklist.php" );
+$linkGroup->printPath( $LGID, $DOCUMENTROOT . "linklist.php" );
 
-$linkgroup_array = $linkgroup->getByParent( $LGID );
+$linkGroup_array = $linkGroup->getByParent( $LGID );
 
 
-if ( count( $linkgroup_array ) == 0 )
+if ( count( $linkGroup_array ) == 0 )
 {
     $t->set_var( "group_list", "Ingen grupper funnet" );
 }
 else
 {
-// print( "antall grupper " . count( $linkgroup_array )); 
-    for ( $i=0; $i<count( $linkgroup_array ); $i++ )
+// print( "antall grupper " . count( $linkGroup_array )); 
+    for ( $i=0; $i<count( $linkGroup_array ); $i++ )
     {
         $t->set_var( "bg_color", "#eeeedd" );
 
-        $t->set_var( "linkgroup_id", $linkgroup_array[ $i ][ "ID" ] );
-        $t->set_var( "linkgroup_title", $linkgroup_array[ $i ][ "Title" ] );
-        $t->set_var( "linkgroup_parent", $linkgroup_array[ $i ][ "Parent" ] );
+        $t->set_var( "linkgroup_id", $linkGroup_array[ $i ][ "ID" ] );
+        $t->set_var( "linkgroup_title", $linkGroup_array[ $i ][ "Title" ] );
+        $t->set_var( "linkgroup_parent", $linkGroup_array[ $i ][ "Parent" ] );
 
+        $total_sub_links = $linkGroup->getTotalSubLinks( $linkGroup_array[ $i ][ "ID" ] );
+        
+        $t->set_var( "total_links", $total_sub_links );
+        $t->set_var( "new_links", "X" );
+        
         $t->set_var( "document_root", $DOCUMENTROOT );
     
         $t->parse( "group_list", "linkgroup_item", true );
