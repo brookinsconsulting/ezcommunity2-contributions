@@ -5,6 +5,24 @@
 # Server version	3.22.32
 
 #
+# Table structure for table 'eZContact_Company'
+#
+DROP TABLE IF EXISTS eZContact_Company;
+CREATE TABLE eZContact_Company (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  CreatorID int(11) DEFAULT '0' NOT NULL,
+  Name char(50),
+  Comment text,
+  CompanyType int(11),
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZContact_Company'
+#
+
+
+#
 # Table structure for table 'eZContact_Address'
 #
 DROP TABLE IF EXISTS eZContact_Address;
@@ -15,13 +33,134 @@ CREATE TABLE eZContact_Address (
   AddressType int(11),
   Place char(50),
   Zip char(10),
-  CompanyID int(11),
+  CountryID int(11),
   PRIMARY KEY (ID)
 );
 
 #
 # Dumping data for table 'eZContact_Address'
 #
+
+#
+# Table structure for table 'eZContact_Phone'
+#
+DROP TABLE IF EXISTS eZContact_Phone;
+CREATE TABLE eZContact_Phone (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  AreaCode int(5),
+  Number int(22),
+  PhoneTypeID int(11),
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZContact_Online'
+#
+
+#
+#
+# Table structure for table 'eZContact_Online'
+#
+DROP TABLE IF EXISTS eZContact_Online;
+CREATE TABLE eZContact_Online (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  URL char(255),
+  URLType enum('mailto', 'http', 'https', 'ftp', 'news') DEFAULT 'mailto' NOT NULL,
+  OnlineTypeID int(11),
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZContact_Online'
+#
+
+# Table structure for table 'eZContact_AddressType'
+#
+DROP TABLE IF EXISTS eZContact_AddressType;
+CREATE TABLE eZContact_AddressType (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  Name char(50),
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZContact_AddressType'
+#
+
+#
+# Table structure for table 'eZContact_PhoneType'
+#
+DROP TABLE IF EXISTS eZContact_PhoneType;
+CREATE TABLE eZContact_PhoneType (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  Name char(50),
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZContact_PhoneType'
+#
+
+#
+# Table structure for table 'eZContact_OnlineType'
+#
+DROP TABLE IF EXISTS eZContact_OnlineType;
+CREATE TABLE eZContact_OnlineType (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  Name char(50),
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZContact_OnlineType'
+#
+
+#
+# Table structure for table 'eZContact_CompanyAddressDict'
+#
+DROP TABLE IF EXISTS eZContact_CompanyAddressDict;
+CREATE TABLE eZContact_CompanyAddressDict (
+  CompanyID int(11) DEFAULT '0' NOT NULL,
+  AddressID int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (CompanyID, AddressID)
+);
+
+#
+# Dumping data for table 'eZContact_CompanyAddressDict'
+#
+
+
+
+#
+# Table structure for table 'eZContact_CompanyOnlineDict'
+#
+DROP TABLE IF EXISTS eZContact_CompanyOnlineDict;
+CREATE TABLE eZContact_CompanyOnlineDict (
+  CompanyID int(11) DEFAULT '0' NOT NULL,
+  OnlineID int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (CompanyID, OnlineID)
+);
+
+#
+# Dumping data for table 'eZContact_CompanyOnlineDict'
+#
+
+
+
+#
+# Table structure for table 'eZContact_CompanyPhoneDict'
+#
+DROP TABLE IF EXISTS eZContact_CompanyPhoneDict;
+CREATE TABLE eZContact_CompanyPhoneDict (
+  CompanyID int(11) DEFAULT '0' NOT NULL,
+  PhoneID int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (CompanyID, PhoneID)
+);
+
+#
+# Dumping data for table 'eZContact_CompanyPhoneDict'
+#
+
 
 
 #
