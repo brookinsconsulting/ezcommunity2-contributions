@@ -1,6 +1,6 @@
 <?php 
 // 
-// $Id: INIFile.php,v 1.49 2001/11/01 20:58:16 bf Exp $
+// $Id: INIFile.php,v 1.50 2001/11/07 15:54:21 bf Exp $
 //
 // Implements a simple INI-file parser
 //
@@ -76,7 +76,7 @@ class INIFile
     */
     function has_var( $group_name, $var_name )
     {
-        $this->INIFileObject->hasVar();
+        $this->INIFileObject->hasVar( $group_name, $var_name );
     }
     
     /*!
