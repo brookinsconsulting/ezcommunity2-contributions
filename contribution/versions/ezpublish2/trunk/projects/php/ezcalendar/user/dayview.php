@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.5 2001/01/15 18:54:02 gl Exp $
+// $Id: dayview.php,v 1.6 2001/01/16 14:00:56 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -108,6 +108,7 @@ foreach ( $appointments as $appointment )
 }
 
 $numCols = count( $appointmentColumns );
+$emptyDone = false;
 
 // print out the time table
 while ( $startTime->isGreater( $stopTime ) == true )
@@ -126,6 +127,7 @@ while ( $startTime->isGreater( $stopTime ) == true )
         {
             foreach ( $appointmentColumns[$i] as $app )
             {
+                // draw an appointment cell
                 if ( intersects( $app, $startTime, $startTime->add( $interval ) ) )
                 {
                     $rowSpanColumns[$i] = appointmentRowSpan( $app, $startTime, $interval );
@@ -133,19 +135,26 @@ while ( $startTime->isGreater( $stopTime ) == true )
                     $t->set_var( "rowspan_value", $rowSpanColumns[$i] );
                     $t->set_var( "appointment_id", $app->id() );
                     $t->set_var( "appointment_name", $app->name() );
+                    $t->set_var( "appointment_description", $app->description() );
+                    $t->set_var( "edit_button", "Edit" );
+                    $t->set_var( "delete_button", "Delete" );
 
                     $t->parse( "appointment", "appointment_tpl", true );
                     $drawnColumn[$i] = true;
                 }
             }
 
+            // draw an empty cell
             if ( $drawnColumn[$i] == false )
             {
-                $rowSpanColumns[$i] = emptyRowSpan( $appointmentColumns[$i], $startTime, $interval );
+                $rowSpanColumns[$i] = emptyRowSpan( $appointmentColumns[$i], $startTime, $stopTime, $interval );
                 $t->set_var( "td_class", "bglight" );
                 $t->set_var( "rowspan_value", $rowSpanColumns[$i] );
                 $t->set_var( "appointment_id", "" );
                 $t->set_var( "appointment_name", "" );
+                $t->set_var( "appointment_description", "" );
+                $t->set_var( "edit_button", "" );
+                $t->set_var( "delete_button", "" );
 
                 $t->parse( "appointment", "appointment_tpl", true );
             }
@@ -154,6 +163,24 @@ while ( $startTime->isGreater( $stopTime ) == true )
         {
             $rowSpanColumns[$i]--;
         }
+    }
+
+    // if there are no appointments this day, draw a big empty cell
+    if ( $numCols == 0 && $emptyDone == false )
+    {
+        $emptyArray = array();
+        $rowSpanColumns[$i] = emptyRowSpan( $emptyArray, $startTime, $stopTime, $interval );
+        $t->set_var( "td_class", "bglight" );
+        $t->set_var( "rowspan_value", $rowSpanColumns[$i] );
+        $t->set_var( "appointment_id", "" );
+        $t->set_var( "appointment_name", "" );
+        $t->set_var( "appointment_description", "" );
+        $t->set_var( "edit_button", "" );
+        $t->set_var( "delete_button", "" );
+
+        $t->parse( "appointment", "appointment_tpl", true );
+
+        $emptyDone = true;
     }
 
     $startTime = $startTime->add( $interval );
@@ -180,13 +207,13 @@ function appointmentRowSpan( &$appointment, &$startTime, &$interval )
 
 
 // returns the number of empty rows before an appointment.
-function emptyRowSpan( $appointmentArray, &$startTime, &$interval )
+function emptyRowSpan( &$appointmentArray, &$startTime, &$stopTime, &$interval )
 {
     $ret = 0;
     $tmpTime = new eZTime( $startTime->hour(), $startTime->minute(), $startTime->second() );
     $foundAppointment = false;
 
-    while ( $foundAppointment == false )
+    while ( $foundAppointment == false && $tmpTime->isGreater( $stopTime ) == true )
     {
         $tmpTime = $tmpTime->add( $interval );
         $ret++;

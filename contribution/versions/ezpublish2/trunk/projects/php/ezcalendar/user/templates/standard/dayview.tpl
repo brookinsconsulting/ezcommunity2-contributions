@@ -35,8 +35,11 @@
 	{hour_value} : {minute_value}
 	</td>	
 	<!-- BEGIN appointment_tpl -->
-	<td class="{td_class}" rowspan="{rowspan_value}" >
-	{appointment_id} {appointment_name}
+	<td class="{td_class}" valign="top" rowspan="{rowspan_value}" >
+	<a href="/calendar/appointmentview/{appointment_id}/">{appointment_name}</a>
+	<a href="/calendar/appointmentedit/{appointment_id}/">{edit_button}</a>
+	<a href="/calendar/appointmentview/{appointment_id}/">{delete_button}</a><br />
+	{appointment_description}<br />
 	</td>
 	<!-- END appointment_tpl -->
 </tr>
