@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imagelist.php,v 1.42 2001/09/27 16:19:19 br Exp $
+// $Id: imagelist.php,v 1.42.2.1 2002/02/06 08:13:57 jhe Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -196,13 +196,6 @@ foreach ( $categoryList as $categoryItem )
     $t->set_var( "category_write", "" );
     ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
 
-    // Check if user have read permission
-    if ( eZObjectPermission::hasPermission( $categoryItem->id(), "imagecatalogue_category", "r", $user ) ||
-         eZImageCategory::isOwner( $user, $categoryItem->id()) )
-    {
-        $t->parse( "category_read", "category_read_tpl" );
-    }
-
     // Check if user have write permission
     if ( ( $user ) &&
          ( eZObjectPermission::hasPermission( $categoryItem->id(), "imagecatalogue_category", "w", $user ) ) ||
@@ -213,8 +206,15 @@ foreach ( $categoryList as $categoryItem )
         $t->parse( "default_delete", "default_delete_tpl" );
         $t->parse( "write_menu", "write_menu_tpl" );
     }
-    $t->parse( "category", "category_tpl", true );
-    $i++;
+
+    // Check if user have read permission
+    if ( eZObjectPermission::hasPermission( $categoryItem->id(), "imagecatalogue_category", "r", $user ) ||
+         eZImageCategory::isOwner( $user, $categoryItem->id()) )
+    {
+        $t->parse( "category_read", "category_read_tpl" );
+        $t->parse( "category", "category_tpl", true );
+        $i++;
+    }
 }
 
 if ( count( $categoryList ) > 0  &&  !isSet( $SearchText ))
