@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: todolist.php,v 1.21 2001/09/13 11:39:08 jhe Exp $
+// $Id: todolist.php,v 1.21.2.1 2001/11/19 09:37:02 jhe Exp $
 //
 // Definition of todo list.
 //
@@ -28,7 +28,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezhttptool.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini = INIFile::globalINI();
 $Language = $ini->read_var( "eZTodoMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZTodoMain", "DocumentRoot" );
 
@@ -200,7 +200,7 @@ $locale = new eZLocale( $Language );
 $i = 0;
 foreach ( $todo_array as $todoItem )
 {
-    if ( ( $i %2 ) == 0 )
+    if ( $i % 2 )
         $t->set_var( "td_class", "bgdark" );
     else
         $t->set_var( "td_class", "bglight" );
@@ -299,6 +299,5 @@ function addZero( $value )
     }
     return $ret;
 }
-
 
 ?>

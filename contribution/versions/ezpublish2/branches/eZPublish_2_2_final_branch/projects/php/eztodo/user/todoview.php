@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: todoview.php,v 1.11 2001/09/05 11:53:39 jhe Exp $
+// $Id: todoview.php,v 1.11.2.1 2001/11/19 09:37:02 jhe Exp $
 //
 // Definition of todo list.
 //
@@ -27,7 +27,7 @@
 
 include_once( "classes/INIFile.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini = INIFile::globalINI();
 $Language = $ini->read_var( "eZTodoMain", "Language" );
 
 $lanugageIni = new INIFile( "eztodo/user/intl/" . $Language . "/todoview.php.ini", false );
@@ -72,7 +72,6 @@ $t->set_var( "list_logs", "&nbsp;" );
 
 $todo = new eZTodo();
 $todo->get( $TodoID );
-
 
 if ( $todo->IsPublic() )
 {
