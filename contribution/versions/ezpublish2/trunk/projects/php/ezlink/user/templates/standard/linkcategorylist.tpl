@@ -95,6 +95,7 @@
 	<!-- BEGIN link_image_item_tpl -->
 	<a href="{www_dir}{index}/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank"><img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" align="right" /></a>
 	<!-- END link_image_item_tpl -->
+    &nbsp;
 	</td>
 </tr>
 
