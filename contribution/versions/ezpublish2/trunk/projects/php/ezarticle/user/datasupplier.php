@@ -13,6 +13,13 @@ $GlobalSectionID = $ini->read_var( "site", "DefaultSection" );
 
 switch ( $url_array[2] )
 {
+    case "sitemap":
+    {
+        $CategoryID = $url_array[3];
+        include( "ezarticle/user/sitemap.php" );        
+    }
+    break;
+
     case "frontpage":
     {
         include( "ezarticle/user/frontpage.php" );        

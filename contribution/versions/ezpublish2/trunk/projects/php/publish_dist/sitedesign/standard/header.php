@@ -27,6 +27,7 @@ if ( $StoreStats == "enabled" )
 	<!-- Meny start! -->
 
 	<?
+     $CategoryID = 0;
 	include( "ezarticle/user/menubox.php" );
 	?>
    

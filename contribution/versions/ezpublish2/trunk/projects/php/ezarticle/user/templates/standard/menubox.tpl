@@ -4,6 +4,10 @@
 </tr>
 	<tr>
 		<td width="1%" valign="top"><img src="/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12"><br /></td>
+		<td width="99%"><a class="menu" href="/article/frontpage">{intl-front_page}</a></td>
+	</tr>
+	<tr>
+		<td width="1%" valign="top"><img src="/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12"><br /></td>
 		<td width="99%"><a class="menu" href="/article/archive/0/">{intl-latest}</a></td>
 	</tr>
 	<tr>
@@ -17,6 +21,10 @@
 	<tr>
 		<td width="1%" valign="top"><img src="/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12"><br /></td>
 		<td width="99%"><a class="menu" href="/article/index">{intl-index}</a></td>
+	</tr>
+	<tr>
+		<td width="1%" valign="top"><img src="/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12"><br /></td>
+		<td width="99%"><a class="menu" href="/article/sitemap">{intl-site_map}</a></td>
 	</tr>
 <!-- BEGIN submit_article_tpl -->
 <tr>
