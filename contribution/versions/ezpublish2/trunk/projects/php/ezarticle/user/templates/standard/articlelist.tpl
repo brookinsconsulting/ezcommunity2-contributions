@@ -119,8 +119,9 @@
 
 	<!-- BEGIN article_topic_tpl -->
         | <a class="path" href="/article/topiclist/{topic_id}">{topic_name}</a>
-	<br />
 	<!-- END article_topic_tpl -->
+	<br />
+	<br />
 
 	</td>
 </tr>
