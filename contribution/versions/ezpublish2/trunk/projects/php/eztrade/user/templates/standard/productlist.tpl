@@ -55,7 +55,7 @@
 <tr>
 	<td>
 
-	<a href="/{module}/{module_view}/{product_id}/{category_id}/"><span class="listheadline">{product_name}</span></a>
+	<div class="listheadline"><a class="listheadline" href="/{module}/{module_view}/{product_id}/{category_id}/"><span class="underline">{product_name}</span></a></div>
 
 <!-- BEGIN product_image_tpl -->
     <table align="right">
