@@ -17,8 +17,11 @@
 
 <hr noshade="noshade" size="4" />
 
-<br />
+<!-- BEGIN path_item_tpl -->
 
+<!-- END path_item_tpl -->
+
+<br />
 <!-- BEGIN article_header_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -31,6 +34,8 @@
 </tr>
 </table>
 <!-- END article_header_tpl -->
+
+
 
 <p>
 {article_body}

@@ -1,5 +1,5 @@
 
-<h1>Nyhetsarkiv</h1>
+<h1>Arkiv</h1>
 
 <!-- BEGIN path_item_tpl -->
 

@@ -1,6 +1,11 @@
 <!-- BEGIN header_item_tpl -->
-
-<h1>Siste nytt fra Vekst i Grenland</h1>
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td><img src="/sitedesign/vig/images/VG-vig.gif" height="41" width="87" alt="" border="0" /></td>
+	<td>&nbsp;&nbsp;</td>
+	<td valign="bottom"><h1>Siste nytt fra Vekst i Grenland</h1></td>
+</tr>
+</table>
 
 <hr noshade="noshade" size="4" />
 <!-- END header_item_tpl -->
