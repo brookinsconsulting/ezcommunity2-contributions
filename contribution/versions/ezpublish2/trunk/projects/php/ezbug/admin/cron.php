@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cron.php,v 1.5 2001/11/06 12:33:54 jhe Exp $
+// $Id: cron.php,v 1.6 2001/11/14 08:19:26 jhe Exp $
 //
 // Created on: <26-Oct-2001 15:57:39 jhe>
 //
@@ -22,6 +22,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdatetime.php" );
 include_once( "ezbug/classes/ezbug.php" );
@@ -32,7 +33,7 @@ include_once( "ezbug/classes/ezbugsupportcategory.php" );
 include_once( "ezmail/classes/ezmailaccount.php" );
 include_once( "ezmail/classes/ezmail.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini = new INIFile( "site.ini", false );
 
 $Language = $ini->read_var( "eZBugMain", "Language" );
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezinifile.php,v 1.2 2001/11/01 20:58:17 bf Exp $
+// $Id: ezinifile.php,v 1.3 2001/11/14 08:19:26 jhe Exp $
 //
 // Definition of eZINIFile class
 //
@@ -47,13 +47,16 @@ class eZINIFile
     /*!
       Initialization of object;
      */
-    function eZINIFile( $fileName )
+    function eZINIFile( $fileName, $useCache = true )
     {
         if ( $fileName == "" )
             $fileName = "site.ini";
             
         $this->FileName = $fileName;
-        $this->loadCache( );        
+        if ( $useCache )
+            $this->loadCache();
+        else
+            $this->parse();
     }
 
     /*!
@@ -64,7 +67,7 @@ class eZINIFile
     {
         include_once( "classes/ezfile.php" );
         
-        $cachedFile = "classes/cache/" . md5(  eZFile::realpath( $this->FileName ) ) . ".php";
+        $cachedFile = "classes/cache/" . md5( eZFile::realpath( $this->FileName ) ) . ".php";
         
         // check for modifications
         $cacheTime = eZFile::filemtime( $cachedFile );
@@ -90,7 +93,7 @@ class eZINIFile
         }
         else
         {
-            $this->parse( );
+            $this->parse();
             // save the data to a cached file
             $buffer = "";
             $i = 0;
@@ -131,19 +134,19 @@ class eZINIFile
         foreach ( $lines as $line )
         {
             // check for new block
-            if ( preg_match("#^\[(.+)\]\s*$#", "$line", $newBlockNameArray ) )
+            if ( preg_match("#^\[(.+)\]\s*$#", $line, $newBlockNameArray ) )
             {
                 $newBlockName = $newBlockNameArray[1];
                 $currentBlock = strToLower( $newBlockName );        
             }
 
             // check for variable
-            if ( preg_match("#^([^=]+)=(.+)$#", "$line", $valueArray ) )
+            if ( preg_match("#^([^=]+)=(.+)$#", $line, $valueArray ) )
             {
                 $varName = $valueArray[1];
                 $varValue = $valueArray[2];
                 
-                $this->BlockValues["$currentBlock"]["$varName"] = $varValue;
+                $this->BlockValues[$currentBlock][$varName] = $varValue;
             }
         }
 
@@ -164,7 +167,7 @@ class eZINIFile
             $fp = eZFile::fopen( $this->FileName, "w+");
 
         $output = ""; 
-        while ( list( $blockKey, $blockValue ) = each ( $this->BlockValues) )
+        while ( list( $blockKey, $blockValue ) = each ( $this->BlockValues ) )
         {
             $output .= "[$blockKey]\n";
             while ( list( $varKey, $varValue ) = each ( $blockValue ) )
@@ -184,7 +187,7 @@ class eZINIFile
     function &readVariable( $blockName, $varName )
     {
         $blockName = strToLower( $blockName );
-        $ret = $this->BlockValues["$blockName"]["$varName"];
+        $ret = $this->BlockValues[$blockName][$varName];
 
         return $ret;
     }
@@ -194,7 +197,7 @@ class eZINIFile
     */
     function &hasVar( $blockName, $varName )
     {
-        return isSet( $this->BlockValues["$blockName"]["$varName"] );
+        return isSet( $this->BlockValues[$blockName][$varName] );
     }
     
     /*!
@@ -204,7 +207,7 @@ class eZINIFile
     function &readVariableArray( $blockName, $varName )
     {
         $blockName = strToLower( $blockName );
-        $ret =& explode( ";", $this->BlockValues["$blockName"]["$varName"] );
+        $ret =& explode( ";", $this->BlockValues[$blockName][$varName] );
 
         return $ret;
     }
@@ -215,7 +218,7 @@ class eZINIFile
     function &readGroup( $blockName )
     {
         $blockName = strToLower( $blockName );        
-        $ret = $this->BlockValues["$blockName"];
+        $ret = $this->BlockValues[$blockName];
 
         return $ret;
     }
@@ -226,17 +229,15 @@ class eZINIFile
      */
     function &setVariable( $blockName, $varName, $varValue )
     {
-        $this->BlockValues["$blockName"]["$varName"] = $varValue;
+        $this->BlockValues[$blockName][$varName] = $varValue;
     }
-    
+   
 
     /// Variable to store the ini file values.
     var $BlockValues;
 
     /// Stores the filename
     var $FileName;
-    
-    
 }
 
 ?>

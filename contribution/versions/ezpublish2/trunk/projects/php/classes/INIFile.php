@@ -1,6 +1,6 @@
 <?php 
 // 
-// $Id: INIFile.php,v 1.50 2001/11/07 15:54:21 bf Exp $
+// $Id: INIFile.php,v 1.51 2001/11/14 08:19:26 jhe Exp $
 //
 // Implements a simple INI-file parser
 //
@@ -37,13 +37,12 @@ include_once( "classes/ezinifile.php" );
 
 class INIFile
 { 
-
     /*!
       Constructs a new INIFile object.
     */
-    function INIFile( $inifilename = "" )
+    function INIFile( $inifilename = "", $useCache = true )
     {
-        $this->INIFileObject = new eZINIFile( $inifilename );
+        $this->INIFileObject = new eZINIFile( $inifilename, $useCache );
     }
 
     /*!
