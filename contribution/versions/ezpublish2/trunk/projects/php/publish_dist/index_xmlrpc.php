@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: index_xmlrpc.php,v 1.33 2001/11/14 10:34:06 jb Exp $
+// $Id: index_xmlrpc.php,v 1.34 2002/06/10 11:08:41 gl Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -68,7 +68,7 @@ ob_end_clean();
 ob_start();
 
 define( "EZPUBLISH_SERVER_VERSION", 2.2 );
-define( "EZPUBLISH_SERVER_RELEASE", 2 );
+define( "EZPUBLISH_SERVER_RELEASE", 6 );
 
 // Error codes
 define( "EZERROR_BAD_LOGIN", 1 );
