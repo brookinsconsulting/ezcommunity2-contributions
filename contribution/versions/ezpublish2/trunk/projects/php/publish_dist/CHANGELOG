@@ -5,6 +5,7 @@ Changes from 2.2 final to 2.2....
 ---------------------------
 * Added related articles list in article view, based on keywords.
 * Added support for XML parsing with libxml instead of qdom in newsfeed.
+* Fixed bugs in eZStats.
 
 Changes from 2.2 Beta 2 to 2.2 Pre
 -----------------------------------
