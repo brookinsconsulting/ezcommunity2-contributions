@@ -6,6 +6,11 @@ change: added user_edit=Some text
 --------------------------------------------------------------------
 
 #### PRE2 - 2.0 Final ####################
+
+mod: eztrade/admin, shippingtypes.php.ini
+change: added
+shipping_type=Shipping Type
+
 mod; ezcontact/admin companyview.php.ini
 changed: added
 no_company_defined=No company defined with ID
