@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpermission.php,v 1.14 2001/05/04 16:37:27 descala Exp $
+// $Id: ezpermission.php,v 1.15 2001/05/15 13:18:46 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -485,7 +485,7 @@ class eZPermission
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = eZDB::globalDatabase();
+            $this->Database =& eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }
@@ -504,4 +504,3 @@ class eZPermission
 }
 
 ?>
- 

@@ -1,5 +1,5 @@
 <?
-// $Id: ezaddress.php,v 1.9 2001/05/05 11:16:03 bf Exp $
+// $Id: ezaddress.php,v 1.10 2001/05/15 13:18:46 bf Exp $
 //
 // Definition of eZAddress class
 //
@@ -29,6 +29,7 @@
   NOTE: this class defaults to Norwegian country is none is
   set.
 */
+
 
 
 include_once( "classes/ezdb.php" );

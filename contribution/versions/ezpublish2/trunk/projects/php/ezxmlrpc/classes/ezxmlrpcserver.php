@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcserver.php,v 1.3 2001/02/25 12:20:30 bf Exp $
+// $Id: ezxmlrpcserver.php,v 1.4 2001/05/15 13:18:46 bf Exp $
 //
 // Definition of eZXMLRPCServer class
 //
@@ -159,7 +159,7 @@ class eZXMLRPCServer
         Header("Content-type: text/xml" );
         Header( "Content-Length: " . strlen( $payload ) );
 
-        print( $payload );        
+        print( $payload );
     }
 
     /*!
