@@ -1,4 +1,12 @@
-<h1>{article_name}</h1>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	<h1>{article_name}</h1>
+	</td>
+</tr>
+</table>
+
+<hr noshade="noshade" size="4" />
 
 <br />
 

@@ -1,7 +1,12 @@
 <form action="/forum/messageedit/insert/{forum_id}/" method="post">
 <!-- <form action="/forum/userlogin/insert/{forum_id}/" method="post"> -->
-
-<h1>{intl-headline}</h1>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td>
+	<h1>{intl-headline}</h1>
+    </td>
+</tr>
+</table>
 
 <hr noshade size="4" />
 
