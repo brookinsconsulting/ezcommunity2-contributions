@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userwithaddress.php,v 1.79 2001/11/20 16:47:55 ce Exp $
+// $Id: userwithaddress.php,v 1.80 2001/11/21 12:49:40 ce Exp $
 //
 // Created on: <10-ct-2000 12:52:42 bf>
 //
@@ -64,6 +64,7 @@ $t->set_block( "user_edit_tpl", "address_actions_tpl", "address_actions" );
 
 $t->set_block( "user_edit_tpl", "additional_text_item_tpl", "additional_text_item" );
 $t->set_block( "user_edit_tpl", "additional_radio_item_tpl", "additional_radio_item" );
+$t->set_block( "user_edit_tpl", "additional_item_tpl", "additional_item" );
 $t->set_block( "additional_radio_item_tpl", "fixed_values_tpl", "fixed_values" );
 
 $t->set_block( "user_edit_tpl", "address_tpl", "address" );
@@ -386,6 +387,7 @@ if ( isSet( $OK ) and $error == false )
     if ( count ( $AdditionalArrayID ) > 0 )
     {
         $i=0;
+        sort( $AdditionalArrayID );
         foreach( $AdditionalArrayID as $AdditionalID )
         {
             $additional = new eZUserAdditional( $AdditionalID );
@@ -731,31 +733,48 @@ foreach ( $DeleteAddressArrayID as $aid )
 $additionalList =& eZUserAdditional::getAll();
 
 $i = 0;
-print_r( $additionalList );
-foreach( $additionalList as $additional )
+
+if ( count ( $additionalList ) > 0 )
 {
-    $t->set_var( "additional_name", $additional->name() );
-    $t->set_var( "additional_id", $additional->id() );
-    $t->set_var( "additional_value", $AdditionalValue[$i] );
-
-    $t->set_var( "index", $i );
-
-    if ( $additional->type() == 1 )
+    $t->set_var( "additional_text_item", "" );
+    $t->set_var( "additional_radio_item", "" );
+    foreach( $additionalList as $additional )
     {
-        $t->parse( "additional_text_item", "additional_text_item_tpl", true );
-    }
-    elseif ( $additional->type() == 2 )
-    {
-        $fixedValues =& $additional->fixedValues();
-        foreach( $fixedValues as $value )
+        $t->set_var( "additional_name", $additional->name() );
+        $t->set_var( "additional_id", $additional->id() );
+        $t->set_var( "additional_value", $AdditionalValue[$i] );
+        
+        $t->set_var( "index", $i );
+        
+        if ( $additional->type() == 1 )
         {
-            $t->set_var( "value_id", $value["ID"] );
-            $t->set_var( "value", $value["Value"] );
-            $t->parse( "fixed_values", "fixed_values_tpl", true );
+            $t->parse( "additional_item_tpl", "additional_text_item_tpl", true );
         }
-        $t->parse( "additional_radio_item", "additional_radio_item_tpl", true );
+        elseif ( $additional->type() == 2 )
+        {
+            $fixedValues =& $additional->fixedValues();
+            foreach( $fixedValues as $value )
+            {
+                $t->set_var( "value_id", $value["ID"] );
+                $t->set_var( "value", $value["Value"] );
+                
+                if ( $value["ID"] == $AdditionalValue[$i] )
+                    $t->set_var( "radio_checked", "checked" );
+                else
+                    $t->set_var( "radio_checked", "" );
+                
+                $t->parse( "fixed_values", "fixed_values_tpl", true );
+            }
+            $t->parse( "additional_item_tpl", "additional_radio_item_tpl", true );
+        }
+        $i++;
     }
-    $i++;
+    $t->parse( "additional_item", "additional_item_tpl" );
+}
+else
+{
+    $t->set_var( "additional_radio_item", "" );
+    $t->set_var( "additional_text_item", "" );
 }
 
 // Render addresses

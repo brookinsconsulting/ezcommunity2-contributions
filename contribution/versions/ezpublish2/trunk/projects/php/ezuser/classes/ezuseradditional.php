@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuseradditional.php,v 1.3 2001/11/20 16:47:55 ce Exp $
+// $Id: ezuseradditional.php,v 1.4 2001/11/21 12:49:40 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -403,6 +403,17 @@ class eZUserAdditional
         }
         
         return $return;
+    }
+
+    /*!
+      Returns the attribute value to the given product.
+    */
+    function deleteFixedValue( $id=false )
+    {
+        $db =& eZDB::globalDatabase();
+
+        if ( $id )
+            $db->query( "DELETE FROM eZUser_AdditionalFixedValue WHERE ID='$id'" );
     }
 
     /*!

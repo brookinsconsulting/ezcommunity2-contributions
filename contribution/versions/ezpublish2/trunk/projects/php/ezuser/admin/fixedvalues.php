@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: fixedvalues.php,v 1.1 2001/11/20 16:11:57 ce Exp $
+// $Id: fixedvalues.php,v 1.2 2001/11/21 12:49:40 ce Exp $
 //
 // Definition of ||| class
 //
@@ -47,7 +47,6 @@ $additional = new eZUserAdditional( $AdditionalID );
 
 if( isset( $AddValue ) )
 {
-    print( "hm" );
     $additional->addFixedValue( );
 }
 
@@ -59,7 +58,6 @@ if( isset( $Store ) || isset ( $AddValue ) || isset ( $DeleteSelected ) || isset
     {
         foreach( $ValueID as $ID )
         {
-            print( $ID );
             $additional->addFixedValue( $ID, $Value[$i] );
             $i++;
         }
@@ -70,8 +68,7 @@ if( isset( $DeleteSelected ) )
 {
     foreach( $ValueDeleteID as $ID )
     {
-        $value = new eZUserFixedValue( $ID );
-        $value->delete();
+        $additional->deleteFixedValue( $ID );
     }
 }
 

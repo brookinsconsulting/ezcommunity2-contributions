@@ -30,29 +30,14 @@
 <!-- END fixed_values_tpl -->
 	</td>
 
-<!-- BEGIN item_move_down_tpl --> 
-	<td ><a href="{www_dir}{index}/user/additional/down/{additional_id}"><img src="{www_dir}/admin/images/move-down.gif" height="12" width="12" border="0" alt="Move down" /></a></td>
-<!-- END item_move_down_tpl -->
+	<td width="1%" class="{td_class}">
+	<a href="{www_dir}{index}/article/archive/{current_category_id}/?MoveDown={article_id}"><img src="{www_dir}/admin/images/{site_style}/move-down.gif" height="12" width="12" border="0" alt="Down" /></a>
+	</td>
+	<td width="1%" class="{td_class}">
+	<a href="{www_dir}{index}/article/archive/{current_category_id}/?MoveUp={article_id}"><img src="{www_dir}/admin/images/{site_style}/move-up.gif" height="12" width="12" border="0" alt="Up" /></a>
+	</td>
 
-<!-- BEGIN no_item_move_down_tpl -->
-	<td > &nbsp; </td>
-<!-- END no_item_move_down_tpl -->
-
-<!-- BEGIN item_separator_tpl -->
-
-<!-- END item_separator_tpl -->
-<!-- BEGIN no_item_separator_tpl -->
-
-<!-- END no_item_separator_tpl -->
-
-<!-- BEGIN item_move_up_tpl -->
-	<td ><a href="{www_dir}{index}/user/additional/up/{additional_id}"><img src="{www_dir}/admin/images/move-up.gif" height="12" width="12" border="0" alt="Move up" /></a></td>
-<!-- END item_move_up_tpl -->
-<!-- BEGIN no_item_move_up_tpl -->
-	<td > &nbsp; </td>
-<!-- END no_item_move_up_tpl -->
-
-	<td >
+	<td align="right">
 	<input type="checkbox" name="DeleteArrayID[]" value="{additional_id}" />
 	</td>
 </tr>

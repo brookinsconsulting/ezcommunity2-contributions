@@ -33,10 +33,7 @@
 
 <input class="stdbutton" type="submit" name="AddValue" value="{intl-add_value}" />&nbsp;
 <input class="stdbutton" type="submit" name="DeleteSelected" value="{intl-delete_selected}" />
-<br />
-<br />
-
-
+<hr noshade="noshade" size="4" />
 <input class="okbutton" type="submit" name="OK" value="{intl-ok}" />&nbsp;
 <input class="okbutton" type="submit" name="Store" value="{intl-store}" />
 

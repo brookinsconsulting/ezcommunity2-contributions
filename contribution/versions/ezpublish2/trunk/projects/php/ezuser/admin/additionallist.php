@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: additionallist.php,v 1.2 2001/11/20 16:11:57 ce Exp $
+// $Id: additionallist.php,v 1.3 2001/11/21 12:49:40 ce Exp $
 //
 // Definition of ||| class
 //
@@ -45,13 +45,16 @@ include_once( "ezuser/classes/ezuseradditional.php" );
 if ( ( isset( $Update ) ) or ( isset ( $New ) ) or ( isset ( $Delete ) ) )
 {
     $i=0;
-    foreach( $AdditionalArrayID as $additionalID )
+    if ( count ( $AdditionalArrayID ) > 0 )
     {
-        $additional = new eZUserAdditional( $additionalID );
-        $additional->setName( $Name[$i] );
-        $additional->setType( $Type[$i] );
-        $additional->store();
-        $i++;
+        foreach( $AdditionalArrayID as $additionalID )
+        {
+            $additional = new eZUserAdditional( $additionalID );
+            $additional->setName( $Name[$i] );
+            $additional->setType( $Type[$i] );
+            $additional->store();
+            $i++;
+        }
     }
 }
 
@@ -120,65 +123,41 @@ $additionalList = $additional->getAll( );
 $count = count ( $additionalList );
 $i=0;
 $t->set_var( "additional_list", "" );
-foreach ( $additionalList as $additionalItem )
+if ( $count > 0 )
 {
-    $t->set_var( "additional_id", $additionalItem->id() );
-
-    $t->set_var( "additional_name", $additionalItem->name() );
-
-    $t->set_var( "fixed_values", "" );
-    if ( $additionalItem->type() == 1 )
-        $t->set_var( "1_is_selected", "selected" );
-    else
-        $t->set_var( "1_is_selected", "" );
-
-    if ( $additionalItem->type() == 2 )
+    foreach ( $additionalList as $additionalItem )
     {
-        $t->parse( "fixed_values", "fixed_values_tpl" );
-        $t->set_var( "2_is_selected", "selected" );
-    }
-    else
-        $t->set_var( "2_is_selected", "" );
+        $t->set_var( "additional_id", $additionalItem->id() );
 
-    if ( ( $i % 2 ) == 0 )
-    {
-        $t->set_var( "td_class", "bglight" );
-    }
-    else
-    {
-        $t->set_var( "td_class", "bgdark" );
-    }
+        $t->set_var( "additional_name", $additionalItem->name() );
+
+        $t->set_var( "fixed_values", "" );
+        if ( $additionalItem->type() == 1 )
+            $t->set_var( "1_is_selected", "selected" );
+        else
+            $t->set_var( "1_is_selected", "" );
+
+        if ( $additionalItem->type() == 2 )
+        {
+            $t->parse( "fixed_values", "fixed_values_tpl" );
+            $t->set_var( "2_is_selected", "selected" );
+        }
+        else
+            $t->set_var( "2_is_selected", "" );
+
+        if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "td_class", "bglight" );
+        }
+        else
+        {
+            $t->set_var( "td_class", "bgdark" );
+        }
     
-    if ( $i > 0 && isset( $move_item ) )
-    {
-        $t->parse( "item_move_up", "item_move_up_tpl" );
-    }
-    else
-    {
-        $t->parse( "no_item_move_up", "no_item_move_up_tpl" );
-    }
-        
-    if ( $i > 0 && $i < $count - 1 && isset( $move_item ) )
-    {
-        $t->parse( "item_separator", "item_separator_tpl" );
-    }
-    else
-    {
-        $t->parse( "no_item_separator", "no_item_separator_tpl" );
-    }
-        
-    if ( $i < $count - 1 && isset( $move_item ) )
-    {
-        $t->parse( "item_move_down", "item_move_down_tpl" );
-    }
-    else
-    {
-        $t->parse( "no_item_move_down", "no_item_move_down_tpl" );
-    }
-
     
-    $t->parse( "additional_item", "additional_item_tpl", true );
-    $i++;
+        $t->parse( "additional_item", "additional_item_tpl", true );
+        $i++;
+    }
 }
 
 if ( count( $additionalList ) > 0 )    
