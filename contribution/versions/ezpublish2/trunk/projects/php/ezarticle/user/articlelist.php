@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.23 2001/01/22 14:42:59 jb Exp $
+// $Id: articlelist.php,v 1.24 2001/01/24 11:53:53 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -150,34 +150,7 @@ if ( $CategoryID == 0 )
 } 
 else
 {
-    switch ( $category->sortMode() )
-    {
-        case 1 :
-        {
-            $SortMode = "time";
-        }
-        break;
-
-        case 2 :
-        {
-            $SortMode = "alpha";
-        }
-        break;
-
-        case 3 :
-        {
-            $SortMode = "alphadesc";
-        }
-        break;
-        
-        default :
-        {
-            $SortMode = "time";
-        }
-
-    }
-    
-    $articleList = $category->articles( $SortMode, false, false, $Offset, $Limit );
+    $articleList = $category->articles( $category->sortMode(), false, false, $Offset, $Limit );
     $articleCount = $category->articleCount( false, false );    
 }
 

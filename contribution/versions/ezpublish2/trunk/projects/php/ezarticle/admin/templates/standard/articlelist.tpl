@@ -110,6 +110,12 @@
 <tr>
 	<th>{intl-article}:</th>
 	<th>{intl-published}:</th>
+
+	<!-- BEGIN absolute_placement_header_tpl -->
+	<th>{intl-move_up}:</th>
+	<th>{intl-move_down}:</th>
+	<!-- END absolute_placement_header_tpl -->
+
 	<th colspan="2">&nbsp;</th>
 </tr>
 
@@ -130,6 +136,18 @@
 	<!-- END article_not_published_tpl -->
 	&nbsp;
 	</td>
+	<!-- BEGIN absolute_placement_item_tpl -->
+	<td class="{td_class}">
+	<a href="/article/archive/{category_id}/?MoveUp={article_id}">
+	{intl-move_up}
+	</a>
+	</td>
+	<td class="{td_class}">
+	<a href="/article/archive/{category_id}/?MoveDown={article_id}">
+	{intl-move_down}
+	</a>
+	</td>
+	<!-- END absolute_placement_item_tpl -->
 	<td width="1%" class="{td_class}">
 	<a href="/article/articleedit/edit/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-red','','/ezarticle/admin/images/redigerminimrk.gif',1)"><img name="ezaa{article_id}-red" border="0" src="/ezarticle/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>

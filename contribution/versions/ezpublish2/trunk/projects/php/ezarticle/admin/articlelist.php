@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.11 2001/01/22 14:42:59 jb Exp $
+// $Id: articlelist.php,v 1.12 2001/01/24 11:53:53 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -54,8 +54,14 @@ $t->set_block( "category_list_tpl", "category_item_tpl", "category_item" );
 // article
 $t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
 $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
+
 $t->set_block( "article_item_tpl", "article_is_published_tpl", "article_is_published" );
 $t->set_block( "article_item_tpl", "article_not_published_tpl", "article_not_published" );
+
+// move up / down
+$t->set_block( "article_list_tpl", "absolute_placement_header_tpl", "absolute_placement_header" );
+$t->set_block( "article_item_tpl", "absolute_placement_item_tpl", "absolute_placement_item" );
+
 
 // prev/next
 $t->set_block( "article_list_page_tpl", "previous_tpl", "previous" );
@@ -63,6 +69,22 @@ $t->set_block( "article_list_page_tpl", "next_tpl", "next" );
 
 
 $category = new eZArticleCategory( $CategoryID );
+
+
+// move articles up / down
+
+if ( $category->sortMode() == "absolute_placement" )
+{
+    if ( is_numeric( $MoveUp ) )
+    {
+        $category->moveUp( $MoveUp );
+    }
+
+    if ( is_numeric( $MoveDown ) )
+    {
+        $category->moveDown( $MoveDown );
+    }
+}
 
 $t->set_var( "current_category_id", $category->id() );
 $t->set_var( "current_category_name", $category->name() );
@@ -83,7 +105,7 @@ foreach ( $pathArray as $path )
 
 
 
-$categoryList = $category->getByParent( $category, true );
+$categoryList =& $category->getByParent( $category, true );
 
 
 // categories
@@ -127,12 +149,22 @@ if ( !isset( $Limit ) )
     $Limit = $AdminListLimit;
 
 // articles
-$articleList = $category->articles( "time", true, true, $Offset, $Limit );
+$articleList =& $category->articles( $category->sortMode(), true, true, $Offset, $Limit );
 $articleCount = $category->articleCount( true, true );
 
 $locale = new eZLocale( $Language );
 $i=0;
 $t->set_var( "article_list", "" );
+
+if ( $category->sortMode() == "absolute_placement" )
+{
+    $t->parse( "absolute_placement_header", "absolute_placement_header_tpl" );
+}
+else
+{
+    $t->set_var( "absolute_placement_header", "" );
+}
+
 foreach ( $articleList as $article )
 {
     if ( $article->name() == "" )
@@ -161,6 +193,16 @@ foreach ( $articleList as $article )
     {
         $t->set_var( "td_class", "bgdark" );
     }
+
+    if ( $category->sortMode() == "absolute_placement" )
+    {
+        $t->parse( "absolute_placement_item", "absolute_placement_item_tpl" );
+    }
+    else
+    {
+        $t->set_var( "absolute_placement_item", "" );
+    }
+    
 
     $t->parse( "article_item", "article_item_tpl", true );
     $i++;

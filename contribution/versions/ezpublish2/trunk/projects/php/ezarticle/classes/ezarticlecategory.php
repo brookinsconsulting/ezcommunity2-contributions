@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.19 2001/01/22 14:42:59 jb Exp $
+// $Id: ezarticlecategory.php,v 1.20 2001/01/24 11:53:53 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -334,8 +334,40 @@ class eZArticleCategory
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        return $this->SortMode;
+
+       switch( $this->SortMode )
+       {
+           case 1 :
+           {
+               $SortMode = "time";
+           }
+           break;
+           
+           case 2 :
+           {
+               $SortMode = "alpha";
+           }
+           break;
+           
+           case 3 :
+           {
+               $SortMode = "alphadesc";
+           }
+           break;
+           
+           case 4 :
+           {
+               $SortMode = "absolute_placement";
+           }
+           break;
+           
+           default :
+           {
+               $SortMode = "time";
+           }           
+       }
+       
+       return $SortMode;
     }
 
     /*!
@@ -461,7 +493,7 @@ class eZArticleCategory
       also returned. If the $getExcludedArticles is set to true the articles which are
       excluded from search is also returned.
     */
-    function articles( $sortMode="time",
+    function &articles( $sortMode="time",
                        $fetchNonPublished=true,
                        $getExcludedArticles=false,
                        $offset=0,
@@ -472,9 +504,14 @@ class eZArticleCategory
 
        $this->dbInit();
 
-       $OrderBy = "eZArticle_Article.Published DESC";
        switch( $sortMode )
        {
+           case "time" :
+           {
+               $OrderBy = "eZArticle_Article.Published DESC";
+           }
+           break;
+
            case "alpha" :
            {
                $OrderBy = "eZArticle_Article.Name ASC";
@@ -486,8 +523,18 @@ class eZArticleCategory
                $OrderBy = "eZArticle_Article.Name DESC";
            }
            break;
-       }
 
+           case "absolute_placement" :
+           {
+               $OrderBy = "eZArticle_ArticleCategoryLink.Placement ASC";
+           }
+           break;
+           
+           default :
+           {
+               $OrderBy = "eZArticle_Article.Published DESC";
+           }
+       }
        $return_array = array();
        $article_array = array();
 
@@ -579,6 +626,72 @@ class eZArticleCategory
 
        return $article_array[0]["Count"];
     }
+
+    /*!
+      Moves the article placement with the given ID up.
+    */
+    function moveUp( $id )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $db =& eZDB::globalDatabase();
+
+       $db->query_single( $qry, "SELECT * FROM eZArticle_ArticleCategoryLink
+                                  WHERE ArticleID='$id' AND CategoryID='$this->ID'" );
+
+       if ( is_numeric( $qry["ID"] ) )
+       {
+           $linkID = $qry["ID"];
+           
+           $placement = $qry["Placement"];
+           
+           $db->query_single( $qry, "SELECT ID, Placement FROM eZArticle_ArticleCategoryLink
+                                    WHERE Placement<'$placement' AND eZArticle_ArticleCategoryLink.CategoryID='$this->ID' ORDER BY Placement DESC LIMIT 1" );
+
+           $newPlacement = $qry["Placement"];
+           $listid = $qry["ID"];
+
+           if ( is_numeric( $listid ) )
+           {           
+               $db->query( "UPDATE eZArticle_ArticleCategoryLink SET Placement='$newPlacement' WHERE ID='$linkID'" );
+               $db->query( "UPDATE eZArticle_ArticleCategoryLink SET Placement='$placement' WHERE ID='$listid'" );
+           }           
+       }       
+    }
+
+    /*!
+      Moves the article placement with the given ID down.
+    */
+    function moveDown( $id )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $db =& eZDB::globalDatabase();
+
+       $db->query_single( $qry, "SELECT * FROM eZArticle_ArticleCategoryLink
+                                  WHERE ArticleID='$id' AND CategoryID='$this->ID'" );
+
+       if ( is_numeric( $qry["ID"] ) )
+       {
+           $linkID = $qry["ID"];
+           
+           $placement = $qry["Placement"];
+           
+           $db->query_single( $qry, "SELECT ID, Placement FROM eZArticle_ArticleCategoryLink
+                                    WHERE Placement>'$placement' AND eZArticle_ArticleCategoryLink.CategoryID='$this->ID' ORDER BY Placement ASC LIMIT 1" );
+
+           $newPlacement = $qry["Placement"];
+           $listid = $qry["ID"];
+
+           if ( is_numeric( $listid ) )
+           {
+               $db->query( "UPDATE eZArticle_ArticleCategoryLink SET Placement='$newPlacement' WHERE ID='$linkID'" );
+               $db->query( "UPDATE eZArticle_ArticleCategoryLink SET Placement='$placement' WHERE ID='$listid'" );
+           }
+       }       
+    }
     
     /*!
       Private function.
@@ -588,7 +701,7 @@ class eZArticleCategory
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = eZDB::globalDatabase();
+            $this->Database =& eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }
