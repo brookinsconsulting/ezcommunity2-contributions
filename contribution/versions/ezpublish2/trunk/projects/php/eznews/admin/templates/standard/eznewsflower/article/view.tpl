@@ -46,10 +46,11 @@
 </tr>
 </table>
 
-<!-- <a href="/{this_path}/{this_canonical_parent_id}">{intl-go_to_parent} {this_canonical_parent_name}</a><br /> -->
+<!--
+<a href="/{this_path}/{this_canonical_parent_id}">{intl-go_to_parent} {this_canonical_parent_name}</a><br /> 
 <a href="/{this_path}/{this_id}?edit+this">{intl-edit_this_article}</a><br />
 <a href="/{this_path}/{this_id}?delete+this">{intl-delete_this_article}</a><br /> 
-
+-->
 
 <!-- END article_item_template -->
 
