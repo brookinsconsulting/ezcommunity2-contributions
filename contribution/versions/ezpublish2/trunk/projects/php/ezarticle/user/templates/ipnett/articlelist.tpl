@@ -1,6 +1,6 @@
 <!-- BEGIN header_item_tpl -->
 <!-- BEGIN latest_headline_tpl -->	
-<h1>{intl-head_line} </h1>
+<h1>{intl-head_line}</h1>
 <!-- END latest_headline_tpl -->	
 <!-- BEGIN category_headline_tpl -->	
 <h1>{current_category_name}</h1>
@@ -105,7 +105,7 @@
 
 <!-- BEGIN type_list_tpl -->
 <br />
-<table cellpadding="0" cellspacing="0" border="0">
+<table cellpadding="0" cellspacing="0" border="0" align="center">
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>

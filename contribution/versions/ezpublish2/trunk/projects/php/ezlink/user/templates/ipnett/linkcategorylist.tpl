@@ -3,8 +3,7 @@
     <td align="left" valign="bottom">
         <h1>{intl-headline}</h1>
      </td>
-<!--
-     <td align="right">
+<!--     <td align="right">
 	 <form action="/link/search/" method="post">
 	       <input type="text" name="QueryString" size="12" />
 	       <input class="stdbutton" type="submit" name="search" value="{intl-search}" />
@@ -30,23 +29,33 @@
 
 <!-- END path_item_tpl -->
 
+<br /><br />
 <!-- BEGIN category_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<!--
 <tr>
-	<td>
+	<td colspan="2">
 	<h2>{categories}</h2>
 	</td>
 </tr>
+-->
 <!-- BEGIN category_item_tpl -->
 <tr>
-	<td class="{td_class}" valign="top" width="99%">
-	<b><a href="/link/category/{linkcategory_id}/">{linkcategory_name}</a></b><br />
-	<div class="spacer"><span class="p">{linkcategory_description}</span></div>
+	<td class="{td_class}" valign="top" width="1%">
+	<img src="/images/folder.gif" height="16" width="16" border="0" alt="" /><br />
+	</td>
+	<td class="{td_class}" valign="top" width="98%" colspan="2">
+	<span class="boxtext"><a href="/link/category/{linkcategory_id}/">{linkcategory_name}</a></span>
+	</td>
+</tr>
+<tr>
+    <td class="{td_class}" width="99%" colspan="2">
+	<span class="p">{linkcategory_description}</span><br />
 	</td>
     <td class="{td_class}" width="1%">
 	<!-- BEGIN image_item_tpl -->
 	<a href="/link/category/{linkcategory_id}/">
-	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" /></a>
+	<img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" /></a>
 	<!-- END image_item_tpl -->
 	<!-- BEGIN no_image_tpl -->
 	&nbsp;
@@ -61,27 +70,35 @@
 <!-- BEGIN link_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<td>
+	<td colspan="3">
+<!--
 	<h2>{links}</h2>
+-->
 	<div class="boxtext">({link_start}-{link_end}/{link_total})</div>
 	</td>
 </tr>
 <!-- BEGIN link_item_tpl -->
 <tr class="{td_class}">
-	<td valign="top" width="99%">
-	<p class="boxtext"><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}" target="_blank">{link_name}</a></p>
- 	<span class="p">
+	<td class="{td_class}" valign="top" width="1%">
+	<img src="/images/link.gif" height="16" width="16" border="0" alt="" /><br />
+	</td>
+	<td valign="top" width="99%" colspan="2">
+	<span class="boxtext"><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}" target="_blank">{link_name}</a></span>
+	</td>
+</tr>
+    <td class="{td_class}" width="99%" valign="top" colspan="2">
+	<span class="p">{link_description}</span></br />
+	</td>
+    <td class="{td_class}" width="1%" valign="top">
 	<!-- BEGIN link_image_item_tpl -->
-	<a href="/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank"><img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" align="right" /></a>
+	<a href="/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank"><img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" align="right" /></a>
 	<!-- END link_image_item_tpl -->
-	{link_description}
-	</span><br />
-   	</td>
+	</td>
 </tr>
 
 <!-- BEGIN attribute_list_tpl -->
 <tr>
-	<td class="{td_class}" align="center">
+	<td colspan="3" class="{td_class}" align="center">
 	<table width="50%" cellspacing="0" cellpadding="2" border="0">
 <!-- BEGIN attribute_tpl -->
 
@@ -104,7 +121,7 @@
 </tr>
 <!-- END attribute_list_tpl -->
 <tr>
-	<td class="{td_class}"><span class="small">(Hits: {link_hits})</span></td>
+	<td colspan="3" class="{td_class}"><span class="small">(Hits: {link_hits})</span></td>
 </tr>
 <!-- END link_item_tpl -->
 </table>
