@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.9 2001/04/11 14:18:41 th Exp $
+// $Id: menubox.php,v 1.10 2001/04/25 13:47:34 ce Exp $
 //
 // 
 //
@@ -109,6 +109,7 @@ function createLinkMenu()
                        
 //      $t->pparse( "output", "link_group_list" );
 
+
     if ( $GenerateStaticPage == true )
     {
         $fp = fopen ( $menuCachedFile, "w+");
@@ -123,7 +124,7 @@ function createLinkMenu()
     else
     {
         $t->set_var( "sitedesign", $GlobalSiteDesign );
-		
+        
 		$t->pparse( "output", "menu_box_tpl" );
     }
 }
