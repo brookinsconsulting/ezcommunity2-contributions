@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezusergroup.php,v 1.12 2001/01/22 16:04:02 jb Exp $
+// $Id: ezusergroup.php,v 1.13 2001/01/23 19:56:14 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -221,7 +221,6 @@ class eZUserGroup
 
             $db->array_query( $group_array, "SELECT GroupID FROM eZUser_UserGroupLink WHERE UserID='$userID'" );
 
-                            print( $userID );
             for ( $i=0; $i<count ( $group_array ); $i++ )
             {
                 $return_array[$i] = new eZUserGroup( $group_array[$i][ "GroupID" ], 0 );
