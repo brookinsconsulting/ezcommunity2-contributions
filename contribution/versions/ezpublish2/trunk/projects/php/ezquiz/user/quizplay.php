@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: quizplay.php,v 1.7 2001/05/30 14:19:37 pkej Exp $
+// $Id: quizplay.php,v 1.8 2001/05/30 14:46:57 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -104,6 +104,9 @@ if( isset( $NextButton ) )
                 if( $QuestionNum > $game->numberOfQuestions() )
                 {
                     $score->setFinishedGame( true );
+                    include_once( "ezquiz/classes/ezquiztool.php" );
+                    eZQuizTool::deleteCache();
+                    echo "We have deleted the cache?";
                 }
                 else
                 {
@@ -173,6 +176,7 @@ if( $score->isFinishedGame() )
     $t->set_var( "your_name", $user->login() );
     $t->set_var( "your_id", $user->id() );
     $t->parse( "your_score_item", "your_score_item_tpl" );
+
 }
 
 // Find out which question this user should start on (has he saved earlier info).
