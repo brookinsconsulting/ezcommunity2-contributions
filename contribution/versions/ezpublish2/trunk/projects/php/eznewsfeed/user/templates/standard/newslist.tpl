@@ -41,7 +41,7 @@
 	</a>
 	<span class="small">( {first_news_origin} - {first_news_date} )</span>
 	<p class="newslist">{first_news_intro}</p>
-	<img src="/images/path-arrow.gif" height="10" width="15" border="0" alt=""><a class="path" href="{first_news_url}">{intl-read_more}</a>
+	<img src="/images/path-arrow.gif" height="10" width="15" border="0" alt=""><a class="path" href="{first_news_url}" onclick="return popup('{first_news_url}')">{intl-read_more}</a>
 	</td>
 </tr>
 </table>
@@ -70,7 +70,7 @@
 	<a href="{news_url}"><div class="h2">{news_name}</div></a>
 	<span class="small">( {news_origin} - {news_date} )</span>
 	<p class="newslist">{news_intro}</p>
-	<img src="/images/path-arrow.gif" height="10" width="15" border="0" alt=""><a class="path" href="{news_url}">{intl-read_more}</a>
+	<img src="/images/path-arrow.gif" height="10" width="15" border="0" alt=""><a class="path" href="{news_url}" onclick="return popup('{news_url}')">{intl-read_more}</a>
 	</td>
 {endtr}
 <!-- END news_item_tpl -->
@@ -81,7 +81,7 @@
 <!-- BEGIN short_news_item_tpl -->
 <tr>
 	<td valign="top">
-	<a href="{news_url}"><b>{news_name}</b></a>&nbsp;&nbsp;
+	<a href="{news_url}" onclick="return popup('{news_url}')"><b>{news_name}</b></a>&nbsp;&nbsp;
 	<span class="small">
 	( {news_origin} - {news_date} )
 	</span>
