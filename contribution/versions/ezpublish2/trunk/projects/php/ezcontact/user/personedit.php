@@ -239,6 +239,7 @@ if( $Action == "insert" && $error == false && $Add_User == true )
         $user->store();
         $UserID = $user->id();
         $Add_User = false;
+        eZUser::loginUser( $user );
     }
 }
 
@@ -351,14 +352,34 @@ if( $Action == "new" )
  */
 if( $Action == "edit" )
 {
+    if( is_object( $user ) )
+    {
+        $UserID = $user->id();
+    }
+
     $Action_value = "update";
     $person = new eZPerson( $PersonID, true );
     
     $t->set_var( "firstname", $person->firstName() );
     $t->set_var( "lastname", $person->lastName() );
     $t->set_var( "personno", $person->personNo() );
-    
-    $user = $person->user();
+
+    if( $UserID > 0 )
+    {
+        $user = $person->user();
+        if( $user[0]->id() != $UserID )
+        {
+            $person = $person->getByUserID( $UserID );
+            $PersonID = $person->id();
+            header( "Location: /contact/person/edit/$PersonID" );
+            exit();
+        }
+    }
+    else
+    {
+        header( "Location: /contact/person/new" );
+        exit();
+    }
     
     $t->set_var( "user_id", $user[0]->id() );
 
