@@ -25,13 +25,7 @@
 {bug_date}
 
 <p class="boxtext">{intl-bug_title}:</p>
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
-<tr>
-	<td class="bglight">
-	{name_value}
-	</td>
-</tr>
-</table>
+<span class="p">{name_value}</span>
 
 <p class="boxtext">{intl-bug_reporter}:</p>
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
@@ -51,6 +45,7 @@
 	</td>
 </tr>
 </table>
+
 <br />
 
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
