@@ -14,8 +14,6 @@
 
 {intl-fill_in_the_info}<br />
 
-{intl-make_a_copy}<br />
-
 {intl-fax_it_to_us}<br />
 
 {intl-were_exploring_options}
@@ -53,8 +51,6 @@
 {intl-print_out_this_page}.<br />
 
 {intl-fill_in_the_info}.<br />
-
-{intl-make_a_copy}.<br />
 
 {intl-fax_it_to_us}<br />
 
