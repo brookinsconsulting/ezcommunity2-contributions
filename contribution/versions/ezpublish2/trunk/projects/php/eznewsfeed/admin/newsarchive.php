@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsarchive.php,v 1.2 2000/11/16 10:29:47 bf-cvs Exp $
+// $Id: newsarchive.php,v 1.3 2000/11/16 11:04:46 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <13-Nov-2000 16:56:48 bf>
@@ -56,6 +56,5 @@ $newsImporter->importNews();
 
 //  $newsImporter = new eZNewsImporter( "freshmeat.net" );
 //  $newsImporter->importNews();
-
 
 ?>

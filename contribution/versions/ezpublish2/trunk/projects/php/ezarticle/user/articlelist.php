@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.15 2000/11/05 17:09:33 bf-cvs Exp $
+// $Id: articlelist.php,v 1.16 2000/11/16 11:04:46 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -24,7 +24,6 @@
 //
 
 
-
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
@@ -32,7 +31,6 @@ include_once( "classes/ezlocale.php" );
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
-
 
 $ini = new INIFIle( "site.ini" );
 

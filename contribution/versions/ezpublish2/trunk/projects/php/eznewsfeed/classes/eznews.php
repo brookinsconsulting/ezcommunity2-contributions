@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznews.php,v 1.2 2000/11/16 10:29:47 bf-cvs Exp $
+// $Id: eznews.php,v 1.3 2000/11/16 11:04:46 bf-cvs Exp $
 //
 // Definition of eZNews class
 //
@@ -538,7 +538,7 @@ class eZNews
 
        $this->dbInit();
 
-       $OrderBy = "eZNewsFeed_News.PublishingDate DESC";
+       $OrderBy = "eZNewsFeed_News.PublishingDate ASC";
        switch( $sortMode )
        {
            case "alpha" :
