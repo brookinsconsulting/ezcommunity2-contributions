@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.183.2.7 2002/02/08 10:53:35 bf Exp $
+// $Id: ezarticle.php,v 1.183.2.8 2002/02/08 15:24:03 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -119,12 +119,12 @@ class eZArticle
         if ( is_object( $this->StartDate ) and $this->StartDate->isValid() )
             $startDate = $this->StartDate->timeStamp();
         else
-            $startDate = "0";
+            $startDate = $this->StartDate;
         
         if ( is_object( $this->StopDate ) and $this->StopDate->isValid() )
             $stopDate = $this->StopDate->timeStamp();
         else
-            $stopDate = "0";
+            $stopDate = $this->StopDate;
         
         if ( !isSet( $this->ID ) )
         {
@@ -994,6 +994,9 @@ class eZArticle
                 }
             }
         }
+        else
+            $this->StartDate = 0;            
+            
     }
 
     /*!
@@ -1003,6 +1006,8 @@ class eZArticle
     {
         if ( get_class ( $date ) == "ezdatetime" )
             $this->StopDate = $date;
+        else
+            $this->StopDate = 0;
     }
 
     /*!
@@ -2780,8 +2785,8 @@ A.ContentsWriterID=Author.ID AND IsPublished='1' AND ContentsWriterID='$authorid
         $db->array_query( $articleArray, "SELECT ID
                                           FROM eZArticle_Article
                                           WHERE $published
-                                          AND ( StartDate !='0' OR StopDate !='0' )
-                                          AND ( StartDate <= $now AND StopDate >= $now )
+                                          AND ( StartDate !='0' AND StartDate <= $now )
+                                          AND ( StopDate !='0' OR StopDate >= $now )
                                           ORDER BY ID
                                           " );
 
@@ -2854,11 +2859,11 @@ A.ContentsWriterID=Author.ID AND IsPublished='1' AND ContentsWriterID='$authorid
         $db->array_query( $articleArray, "SELECT ID
                                           FROM eZArticle_Article
                                           WHERE $published
-                                          AND ( StartDate !='0' OR StopDate !='0')
+                                          AND ( StopDate !='0')
                                           AND StopDate <= $now
                                           ORDER BY ID
                                           " );
-        
+
         for ( $i=0; $i < count($articleArray); $i++ )
         {
             $returnArray[$i] = new eZArticle( $articleArray[$i][$db->fieldName("ID")] );

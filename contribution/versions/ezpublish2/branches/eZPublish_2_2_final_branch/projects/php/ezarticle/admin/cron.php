@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cron.php,v 1.2 2001/07/19 12:19:20 jakobn Exp $
+// $Id: cron.php,v 1.2.2.1 2002/02/08 15:24:03 bf Exp $
 //
 // Created on: <08-Jun-2001 13:16:33 ce>
 //
@@ -24,6 +24,7 @@
 //
 
 include_once( "ezarticle/classes/ezarticle.php" );
+include_once( "ezarticle/classes/ezarticletool.php" );
 
 $article = new eZArticle();
 $articleValidArray =& $article->getAllValid();
@@ -34,7 +35,16 @@ if ( count ( $articleValidArray ) > 0 )
     foreach ( $articleValidArray as $article )
     {
         $article->setIsPublished( true );
+        $d = 0;
+        $article->setStartDate( $d );
         $article->store();
+
+        $catDef = $article->categoryDefinition();
+
+        $cats = $article->categories( false ) ;
+        // clear the cache files.
+        eZArticleTool::deleteCache( $article->id(), $catDef, $cats);
+        
         print( "Publishing article: " . $article->name() . "\n" );
     }
 }
@@ -44,7 +54,14 @@ if ( count ( $articleUnValid ) > 0 )
     foreach( $articleUnValid as $article )
     {
         $article->setIsPublished( false );
+        $d  = 0;
+        $article->setStopDate( $d );
         $article->store();
+
+        $cats = $article->categories( false ) ;
+        // clear the cache files.
+        eZArticleTool::deleteCache( $article->id(), $catDef, $cats  );
+        
         print( "UnPublishing article: " . $article->name() . "\n" );
     }
 }
