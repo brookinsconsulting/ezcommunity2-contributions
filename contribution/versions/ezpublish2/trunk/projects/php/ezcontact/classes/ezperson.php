@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.20 2000/11/14 15:51:50 pkej-cvs Exp $
+// $Id: ezperson.php,v 1.21 2000/11/14 17:54:34 pkej-cvs Exp $
 //
 // Definition of eZPerson class
 //
@@ -35,6 +35,7 @@
 */
 
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/ezdb.php" );
 include_once( "ezcontact/classes/ezaddress.php" );
 include_once( "ezcontact/classes/ezphone.php" );
 // include_once( "ezcontact/classes/ezonline.php" );
@@ -222,6 +223,192 @@ class eZPerson
         return $return_array;
     }
     
+    /*!
+      Returns the address that belong to this eZPerson object.
+    */
+    function addresses( $personID )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $return_array = array();
+        $this->dbInit();
+
+        $this->Database->array_query( $address_array, "SELECT AddressID
+                                                 FROM eZContact_PersonAddressDict
+                                                 WHERE PersonID='$personID'" );
+
+        foreach( $address_array as $addressItem )
+            {
+                $return_array[] = new eZAddress( $addressItem["AddressID"] );
+            }
+
+        return $return_array;
+    }
+
+    /*!
+      Adds an address to the current Person.
+    */
+    function addAddress( $address )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $ret = false;
+       
+        $this->dbInit();
+        if ( get_class( $address ) == "ezaddress" )
+        {
+            $addressID = $address->id();
+
+            $this->Database->query( "INSERT INTO eZContact_PersonAddressDict
+                                SET PersonID='$this->ID', AddressID='$addressID'" );
+
+            $ret = true;
+        }
+        return $ret;
+    }
+
+    /*!
+      Returns the phones that belong to this eZPerson object.
+    */
+    function phones( $personID )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $return_array = array();
+        $this->dbInit();
+
+        $this->Database->array_query( $phone_array, "SELECT PhoneID
+                                                 FROM eZContact_PersonPhoneDict
+                                                 WHERE PersonID='$personID'" );
+
+        foreach( $phone_array as $phoneItem )
+            {
+                $return_array[] = new eZPhone( $phoneItem["PhoneID"] );
+            }
+
+        return $return_array;
+    }
+
+    /*!
+      Adds an phone to the current Person.
+    */
+    function addPhone( $phone )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $ret = false;
+       
+        $this->dbInit();
+        if ( get_class( $phone ) == "ezphone" )
+        {
+            $phoneID = $phone->id();
+
+            $this->Database->query( "INSERT INTO eZUser_PersonPhoneDict
+                                SET PersonID='$this->ID', PhoneID='$phoneID'" );
+
+            $ret = true;
+        }
+        return $ret;
+    }
+
+    /*!
+      Returns the onlines that belong to this eZPerson object.
+    */
+    function onlines( $onlineID )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $return_array = array();
+        $this->dbInit();
+
+        $this->Database->array_query( $online_array, "SELECT OnlineID
+                                                 FROM eZContact_PersonOnlineDict
+                                                 WHERE OnlineID='$this->onlineID'" );
+
+        foreach( $online_array as $onlineItem )
+            {
+                $return_array[] = new eZOnline( $onlineItem["OnlineID"] );
+            }
+
+        return $return_array;
+    }
+
+    /*!
+      Adds an online to the current Person.
+    */
+    function addOnline( $online )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $ret = false;
+       
+        $this->dbInit();
+
+        if ( get_class( $online ) == "ezonline" )
+        {
+            $onlineID = $online->id();
+
+            $this->Database->query( "INSERT INTO eZUser_PersonOnlineDict
+                                SET PersonID='$this->ID', OnlineID='$onlineID'" );
+
+            $ret = true;
+        }
+        return $ret;
+    }
+
+    /*!
+      Returns the user that belong to this eZPerson object.
+    */
+    function user( $userID )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $return_array = array();
+        $this->dbInit();
+
+        $this->Database->array_query( $user_array, "SELECT UserID
+                                                 FROM eZContact_PersonUserDict
+                                                 WHERE UserID='$this->userID'" );
+
+        foreach( $user_array as $userItem )
+        {
+            $return_array[] = new eZUser( $userItem["UserID"] );
+        }
+
+        return $return_array;
+    }
+
+    /*!
+      Adds a user to the current Person.
+    */
+    function addUser( $user )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $ret = false;
+       
+        $this->dbInit();
+
+        if ( get_class( $user ) == "ezuser" )
+        {
+            $userID = $user->id();
+
+            $this->Database->query( "INSERT INTO eZUser_PersonUserDict
+                                SET PersonID='$this->ID', UserID='$userID'" );
+
+            $ret = true;
+        }
+        return $ret;
+    }
+
     /*!
         Set the first name of this object to $value.
      */
