@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messagereply.php,v 1.43 2001/09/24 11:53:43 jhe Exp $
+// $Id: messagereply.php,v 1.44 2001/10/08 14:01:27 jhe Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -146,19 +146,20 @@ if ( $StartAction == "reply" )
 
                 $mail->setSubject( $subject_line );
 
-                $user =& $message->user();
+                $author =& $message->user();
 
-                $mail->setTo( $user->email() );
+                $mail->setTo( $author->email() );
                 $mail->setBody( $bodyText );
 
                 // only send replies to a user once
-                if ( !in_array( $user->id(), $emailNoticeArray ) )
+                if ( !in_array( $author->id(), $emailNoticeArray ) )
                 {
                     $mail->send();
-                    $emailNoticeArray[] = $user->id();
+                    $emailNoticeArray[] = $author->id();
                 }
             }
         }
     }
 }
+
 ?>

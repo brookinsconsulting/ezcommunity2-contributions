@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: message.php,v 1.34 2001/09/24 11:53:43 jhe Exp $
+// $Id: message.php,v 1.35 2001/10/08 14:01:27 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -115,27 +115,27 @@ $t->set_var( "message_topic", $message->topic() );
 
 $t->set_var( "topic", $message->topic() );
 
-$user = $message->user();
+$author = $message->user();
 
 if ( $message->userName() )
     $anonymous = $message->userName();
 else
     $anonymous = $ini->read_var( "eZForumMain", "AnonymousPoster" );
 
-if ( $user->id() == 0 )
+if ( $author->id() == 0 )
 {
     $MessageAuthor = $anonymous;
 }
 else
 {
-    $MessageAuthor = $user->firstName() . " " . $user->lastName();
+    $MessageAuthor = $author->firstName() . " " . $author->lastName();
 }
 
 $t->set_var( "main-user", $MessageAuthor );
 $t->set_var( "topic", $message->topic() );
 
 $time = $message->postingTime();
-$t->set_var( "main-postingtime", $locale->format( $time  ));
+$t->set_var( "main-postingtime", $locale->format( $time ) );
 
 if ( $AllowHTML == "enabled" )
     $t->set_var( "body", eZTextTool::nl2br( $message->body( true ) ) );
@@ -198,7 +198,7 @@ foreach ( $messages as $threadmessage )
     $t->set_var( "reply_topic", $threadmessage->topic() );
     $t->set_var( "reply_body", $threadmessage->body() );
 
-    $messageAge = round( $threadmessage->age() / ( 60 * 60 * 24 ) );
+    $messageAge = round( $threadmessage->age() / 86400 );
     if ( $messageAge <= $NewMessageLimit )
     {
         $t->parse( "new_icon", "new_icon_tpl" );
@@ -216,9 +216,9 @@ foreach ( $messages as $threadmessage )
 
     $t->set_var( "message_id", $threadmessage->id() );
 
-    $user = $threadmessage->user();
+    $author = $threadmessage->user();
 
-    if ( $user->id() == 0 )
+    if ( $author->id() == 0 )
     {
         if ( $threadmessage->userName() )
             $MessageAuthor = $threadmessage->userName();
@@ -227,7 +227,7 @@ foreach ( $messages as $threadmessage )
     }
     else
     {
-        $MessageAuthor = $user->firstName() . " " . $user->lastName();
+        $MessageAuthor = $author->firstName() . " " . $autor->lastName();
     }
     
     $t->set_var( "user", $MessageAuthor );
@@ -262,7 +262,7 @@ else
     
 
 
-if ( $readPermission == true )
+if ( $readPermission )
     $t->pparse( "output", "message_tpl" );
 
 ?>

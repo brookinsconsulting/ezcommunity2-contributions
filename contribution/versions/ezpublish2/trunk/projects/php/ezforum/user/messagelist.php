@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagelist.php,v 1.47 2001/10/04 10:04:42 bf Exp $
+// $Id: messagelist.php,v 1.48 2001/10/08 14:01:27 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -216,8 +216,8 @@ else
     $time = new eZDateTime();
     foreach ( $messageList as $message )
     {
-        unset( $user );
-        $user = new eZUser();
+        unset( $author );
+        $author = new eZUser();
         $t->set_var( "user", "" );
         $t->set_var( "edit_message_item", "" );
 
@@ -247,7 +247,7 @@ else
 
         $userID = $message[$db->fieldName( "UserID" )];
 
-        $user->get( $userID );
+        $author->get( $userID );
         
         if ( $showThreads == "Show" )
         {
@@ -266,7 +266,7 @@ else
             $t->set_var( "count_replies", $count );
         }
 
-        if ( $user->id() == 0 )
+        if ( $author->id() == 0 )
         {
             if ( empty( $message[$db->fieldName( "UserName" )] ) )
                  $t->set_var( "user", $ini->read_var( "eZForumMain", "AnonymousPoster" ) );
@@ -275,7 +275,7 @@ else
         }
         else
         {
-            $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
+            $t->set_var( "user", $author->firstName() . " " . $author->lastName() );
         }
         
         /*        
