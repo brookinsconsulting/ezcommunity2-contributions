@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: onepagelinklist.php,v 1.4 2001/09/03 13:30:10 br Exp $
+// $Id: onepagelinklist.php,v 1.5 2001/09/05 08:29:58 br Exp $
 //
 // Bjørn Reiten <br@ez.no>
 // Created on: Created on: <03-Sep-2001 11:09:42 br>
@@ -31,6 +31,8 @@ $ini =& $GLOBALS["GlobalSiteIni"];
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 $UserLimit = $ini->read_var( "eZLinkMain", "UserLinkLimit" );
 $languageIni = new INIFile( "ezlink/user/intl/". $Language . "/onepagelinklist.php.ini", false );
+$IDArrayStr = $ini->read_var( "eZLinkMain", "CategoryIDSequence" );
+eval( "\$IDArray = array( $IDArrayStr );" );
 
 include_once( "ezlink/classes/ezlinkcategory.php" );
 include_once( "ezlink/classes/ezlink.php" );
@@ -70,13 +72,38 @@ $t->set_var( "category_list", "" );
 
 if ( !$Offset )
     $Offset = 0;
-// $LinkCategoryID = 0; // DEBUG.
+
 // List all the categories
 $linkCategory = new eZLinkCategory( $LinkCategoryID );
 
 // Path
 $pathArray = $linkCategory->path();
 
+$linkCategory_array = $linkCategory->getByParent( $linkCategory );
+
+// correct the sequence of elements to the order of IDArray.
+// eks $IDArray = array( 2, 1, 3 );
+// this is set in site.ini as CategoryIDSequence=2, 1, 3
+
+for( $i = 0; $i < count( $IDArray ); $i++ )
+{
+    if( count( $linkCategory_array ) > $i && $linkCategory_array[$i]->id() != $IDArray[$i] )
+    {
+        $j = 0;
+        while ( ( $j < count( $linkCategory_array ) ) &&
+                ( $linkCategory_array[$j]->id() != $IDArray[$i] ) )
+        {
+            $j++;
+        }
+
+        if( $j < count( $linkCategory_array ) )
+        {
+            $tmp = $linkCategory_array[$j];
+            $linkCategory_array[$j] = $linkCategory_array[$i];
+            $linkCategory_array[$i] = $tmp;
+        }
+    }
+}
 
 $t->set_var( "path_item", "" );
 $t->set_var( "path", "" );
@@ -88,10 +115,6 @@ foreach ( $pathArray as $path )
     
     $t->parse( "path_item", "path_item_tpl", true );
 }
-
-
-$linkCategory_array =& $linkCategory->getByParent( $LinkCategoryID );
-
 
 if ( count( $linkCategory_array ) == 0 )
 {
