@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userwithaddress.php,v 1.75.2.4 2002/05/08 11:51:36 vl Exp $
+// $Id: userwithaddress.php,v 1.75.2.5 2002/07/03 10:36:23 br Exp $
 //
 // Created on: <10-ct-2000 12:52:42 bf>
 //
@@ -377,11 +377,17 @@ if ( ( isSet( $OK ) or isSet( $OK_x ) ) and $error == false )
     $user_insert->store();
 
     // add user to usergroup
-    setType( $AnonymousUserGroup, "integer" );
-    $group = new eZUserGroup( $AnonymousUserGroup );
-    $group->addUser( $user_insert );
-    $user_insert->setGroupDefinition( $group );
 
+    // Does only need to add the user to the anonymous group if
+    // it is a new user
+    if ( $new_user )
+    {
+        setType( $AnonymousUserGroup, "integer" );
+        $group = new eZUserGroup( $AnonymousUserGroup );
+        $group->addUser( $user_insert );
+        $user_insert->setGroupDefinition( $group );
+    }
+    
     if ( !$MainAddressID )
     {
         $mainAddress = eZAddress::mainAddress( $user );
