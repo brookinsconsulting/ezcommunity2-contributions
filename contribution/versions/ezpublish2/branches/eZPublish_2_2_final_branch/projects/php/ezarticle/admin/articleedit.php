@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.116.2.3 2002/02/20 09:29:27 jhe Exp $
+// $Id: articleedit.php,v 1.116.2.4 2002/02/20 13:18:12 jhe Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -195,22 +195,6 @@ if ( $Action == "Update" || ( $Action == "Insert" ) )
             }
         
 
-            // add check for publishing rights here
-            if ( $IsPublished == "on" )
-            {
-                // check if the article is published now
-                if ( $article->isPublished() == false )
-                {
-                    eZArticleTool::notificationMessage( $article );
-                }
-
-                $article->setIsPublished( true );
-            }
-            else
-            {
-                $article->setIsPublished( false );
-            }
-        
             //EP: URL translation inside articles -------------------------
 	
             if ( $UrltranslatorEnabled )
@@ -289,7 +273,24 @@ if ( $Action == "Update" || ( $Action == "Insert" ) )
             {
                 eZObjectPermission::removePermissions( $article->id(), "article_article", 'r' );
             }
+
+                        // add check for publishing rights here
+            if ( $IsPublished == "on" )
+            {
+                // check if the article is published now
+                if ( $article->isPublished() == false )
+                {
+                    eZArticleTool::notificationMessage( $article );
+                }
+
+                $article->setIsPublished( true );
+            }
+            else
+            {
+                $article->setIsPublished( false );
+            }
         
+            
             // generate keywords
             $contents = strip_tags( $contents );
             $contents = ereg_replace( "#\n#", "", $contents );

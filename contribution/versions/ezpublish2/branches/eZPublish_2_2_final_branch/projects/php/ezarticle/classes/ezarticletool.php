@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticletool.php,v 1.12.2.2 2002/02/20 10:37:11 jhe Exp $
+// $Id: ezarticletool.php,v 1.12.2.3 2002/02/20 13:18:12 jhe Exp $
 //
 // Definition of eZArticleTool class
 //
@@ -204,13 +204,13 @@ class eZArticleTool
             $bulkmail->setSubject( $subjectLine );
             $bulkmail->setBodyText( $bodyText );
             $bulkmail->setIsDraft( false );
-            $bulkmail->store( $article );
+            $bulkmail->store();
 
             $bulkmail->addToCategory( false );
             foreach ( $bulkMailCategories as $bulkMailCategory )
                 $bulkmail->addToCategory( $bulkMailCategory );
 
-            $bulkmail->send();
+            $bulkmail->send( $article );
         }
     }
 }
