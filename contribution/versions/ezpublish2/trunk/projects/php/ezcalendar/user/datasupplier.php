@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.16 2001/08/31 12:21:36 jhe Exp $
+// $Id: datasupplier.php,v 1.17 2001/09/03 11:27:52 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -28,7 +28,6 @@ $GlobalSectionID = $ini->read_var( "eZCalendarMain", "DefaultSection" );
 
 switch ( $url_array[2] )
 {
-
     case "yearview" :
     {
         $Year = $url_array[3];
@@ -96,6 +95,8 @@ switch ( $url_array[2] )
                 $Action = $url_array[3];
             }
         }
+        if ( isSet( $ChangeView ) )
+            $Action = "New";
         include( "ezcalendar/user/appointmentedit.php" );
     }
     break;

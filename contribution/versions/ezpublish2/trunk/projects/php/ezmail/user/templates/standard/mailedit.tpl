@@ -11,7 +11,7 @@
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
   <td>
-    <input type="text" size="40" name="To" value="{to_value}" />
+    <input class="box" type="text" size="40" name="To" value="{to_value}" />
   </td>
   <td>
     <input class="stdbutton" type="submit" name="ToButton" value="{intl-to}" />
@@ -21,16 +21,16 @@
 <input type="hidden" name="IDList" value="{id_value}" />
 <input type="hidden" name="CompanyList" value="{company_value}" />
 <p class="boxtext">{intl-from}:</p>
-<input type="text" size="40" name="From" value="{from_value}" />
+<input class="box" type="text" size="40" name="From" value="{from_value}" />
 
 <!-- BEGIN cc_single_tpl -->
 <p class="boxtext">{intl-cc}:</p>
-<input type="text" size="40" name="Cc" value="{cc_value}" />
+<input class="box" type="text" size="40" name="Cc" value="{cc_value}" />
 <!-- END cc_single_tpl -->
 
 <!-- BEGIN bcc_single_tpl -->
 <p class="boxtext">{intl-bcc}:</p>
-<input type="text" size="40" name="Bcc" value="{bcc_value}" />
+<input class="box" type="text" size="40" name="Bcc" value="{bcc_value}" />
 <!-- END bcc_single_tpl -->
 
 <br /><br />
@@ -48,10 +48,10 @@
 
 
 <p class="boxtext">{intl-subject}:</p>
-<input type="text" size="40" name="Subject" value="{subject_value}" />
+<input class="box" type="text" size="40" name="Subject" value="{subject_value}" />
 
 <p class="boxtext">{intl-body}:</p>
-<textarea name="MailBody" cols="40" rows="20" wrap="soft">{mail_body}</textarea>
+<textarea class="box" name="MailBody" cols="40" rows="20" wrap="soft">{mail_body}</textarea>
 <br /><br />
 
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: appointmentedit.php,v 1.44 2001/08/31 12:21:36 jhe Exp $
+// $Id: appointmentedit.php,v 1.45 2001/09/03 11:27:51 jhe Exp $
 //
 // Created on: <03-Jan-2001 12:47:22 bf>
 //
@@ -124,13 +124,9 @@ else
     $app = new eZAppointment( $AppointmentID );
 
 if ( isSet( $TrusteeUser ) && count( $TrusteeUser ) > 0 )
-{
     $session->setVariable( "ShowOtherCalenderUsers", $TrusteeUser[0] );
-}
 else
-{
     $session->setVariable( "ShowOtherCalenderUsers", $userID );
-}
 
 $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
                      "ezcalendar/user/intl/", $Language, "appointmentedit.php" );
@@ -143,6 +139,7 @@ $t->set_block( "appointment_edit_tpl", "user_error_tpl", "user_error" );
 $t->set_block( "user_error_tpl", "no_user_error_tpl", "no_user_error" );
 $t->set_block( "user_error_tpl", "wrong_user_error_tpl", "wrong_user_error" );
 
+$t->set_block( "appointment_edit_tpl", "multiple_view_tpl", "multiple_view" );
 $t->set_block( "appointment_edit_tpl", "no_error_tpl", "no_error" );
 $t->set_block( "no_error_tpl", "title_error_tpl", "title_error" );
 $t->set_block( "no_error_tpl", "start_time_error_tpl", "start_time_error" );
@@ -151,6 +148,23 @@ $t->set_block( "no_error_tpl", "trustee_user_name_tpl", "trustee_user_name" );
 $t->set_block( "no_error_tpl", "value_tpl", "value" );
 $t->set_block( "no_error_tpl", "month_tpl", "month" );
 $t->set_block( "no_error_tpl", "day_tpl", "day" );
+
+if ( isSet( $ChangeView ) || $ViewType == "multiple" )
+{
+    $typeID = $TypeID;
+    $t->set_var( "select_multiple", "multiple" );
+    $t->set_var( "multiple_view", "" );
+    $t->set_var( "view_type", "multiple" );
+}
+else
+{
+    $t->set_var( "select_multiple", "" );
+    if ( count( $user->trustees() ) > 0 )
+        $t->parse( "multiple_view", "multiple_view_tpl" );
+    else
+        $t->set_var( "multiple_view", "" );
+    $t->set_var( "view_type", "single" );
+}
 
 // no user logged on
 if ( get_class( $app ) != "ezappointment" )
@@ -301,7 +315,7 @@ if ( $Action == "Insert" || $Action == "Update" )
                 
                 $dayStopTime->setSecond( 0 );
             }
-
+            
             // start/stop time for the appointment
             $startTime = new eZDateTime( $year, $month, $day );
             $stopTime = new eZDateTime( $year, $month, $day );
@@ -340,7 +354,7 @@ if ( $Action == "Insert" || $Action == "Update" )
             {
                 $StopTimeError = true;
             }
-
+            
             $datetime = new eZDateTime( $Year, $Month, $Day );
             $datetime->setSecondsElapsedHMS( $startTime->hour(), $startTime->minute(), 0 );
             
@@ -366,55 +380,62 @@ if ( $Action == "Insert" || $Action == "Update" )
                 $month = addZero( $datetime->month() );
                 $day = addZero( $datetime->day() );
                 deleteCache( "default", $Language, $year, $month, $day, $userID );
-                
-                eZHTTPTool::header( "Location: /calendar/dayview/$year/$month/$day/" );
-                exit();
             }
             else
             {
-                $user =& eZUser::currentUser();
-                $userID = $user->ID();
-                $t->set_var( "name_value", $appointment->name() );
-                $t->set_var( "description_value", $appointment->description() );
-                
-                if ( $appointment->isPrivate() )
-                    $t->set_var( "is_private", "checked" );
-                else
-                    $t->set_var( "is_private", "" );
-
-                $appStartTime =& $appointment->startTime();
-                $appStopTime =& $appointment->stopTime();
-                if ( $appStartTime && $appStartTime->timeStamp() > 0 )
-                    $t->set_var( "start_value", addZero( $appStartTime->hour() ) . addZero( $appStartTime->minute() ) );
-                else
-                    $t->set_var( "start_value", "" );
-                if ( $appStopTime )
-                    $t->set_var( "stop_value", addZero( $appStopTime->hour() ) . addZero( $appStopTime->minute() ) );
-                else
-                    $t->set_var( "stop_value", "" );
-                
-                if ( $userID == $appointment->userID() )
-                    $t->set_var( "own_selected", "selected" );
-                else
-                    $t->set_var( "own_selected", "" );
-                
-                $t->set_var( "own_user_id", $userID );
-                $t->set_var( "own_user_name", $user->name() );
-                $t->set_var( "trustee_user_name", "" );
-                
-                $trusteeArray = $user->getByTrustee( -1, true );
-                foreach ( $trusteeArray as $trustee )
-                {
-                    $t->set_var( "user_id", $trustee->ID() );
-                    $t->set_var( "user_name", $trustee->name() );
-                    
-                    if ( $appointment->userID() == $trustee->ID() )
-                        $t->set_var( "selected", "selected" );
-                    else
-                        $t->set_var( "selected", "" );
-                    $t->parse( "trustee_user_name", "trustee_user_name_tpl", true );
-                }
+                break;
             }
+        }
+    }
+
+    if ( $TitleError == false && $StartTimeError == false && $StopTimeError == false )
+    {
+        eZHTTPTool::header( "Location: /calendar/dayview/$year/$month/$day/" );
+        exit();
+    }
+    else
+    {
+        $user =& eZUser::currentUser();
+        $userID = $user->ID();
+        $t->set_var( "name_value", $appointment->name() );
+        $t->set_var( "description_value", $appointment->description() );
+        
+        if ( $appointment->isPrivate() )
+            $t->set_var( "is_private", "checked" );
+        else
+            $t->set_var( "is_private", "" );
+        
+        $appStartTime =& $appointment->startTime();
+        $appStopTime =& $appointment->stopTime();
+        if ( $appStartTime && $appStartTime->timeStamp() > 0 )
+            $t->set_var( "start_value", addZero( $appStartTime->hour() ) . addZero( $appStartTime->minute() ) );
+        else
+            $t->set_var( "start_value", "" );
+        if ( $appStopTime )
+            $t->set_var( "stop_value", addZero( $appStopTime->hour() ) . addZero( $appStopTime->minute() ) );
+        else
+            $t->set_var( "stop_value", "" );
+        
+        if ( in_array( $userID, $TrusteeUser ) )
+            $t->set_var( "own_selected", "selected" );
+        else
+            $t->set_var( "own_selected", "" );
+        
+        $t->set_var( "own_user_id", $userID );
+        $t->set_var( "own_user_name", $user->name() );
+        $t->set_var( "trustee_user_name", "" );
+        
+        $trusteeArray = $user->getByTrustee( -1, true );
+        foreach ( $trusteeArray as $trustee )
+        {
+            $t->set_var( "user_id", $trustee->ID() );
+            $t->set_var( "user_name", $trustee->name() );
+            
+            if ( in_array( $trustee->id(), $TrusteeUser ) )
+                $t->set_var( "selected", "selected" );
+            else
+                $t->set_var( "selected", "" );
+            $t->parse( "trustee_user_name", "trustee_user_name_tpl", true );
         }
     }
 }
@@ -490,8 +511,16 @@ if ( $Action == "Edit" )
     $t->set_var( "start_value", $startHour . $startMinute );
 
     $stopTime =& $appointment->stopTime();
-    $stopHour = addZero( $stopTime->hour() );
-    $stopMinute = addZero( $stopTime->minute() );
+    if ( is_object( $stopTime ) )
+    {
+        $stopHour = addZero( $stopTime->hour() );
+        $stopMinute = addZero( $stopTime->minute() );
+    }
+    else
+    {
+        $stopHour = "";
+        $stopMinute = "";
+    }
     $t->set_var( "stop_value", $stopHour . $stopMinute );
 
     $t->set_var( "0_selected", "" );
@@ -524,7 +553,7 @@ if ( $TitleError == true )
 else
     $t->set_var( "title_error", "" );
 
-if ( $StartTimeError == true )
+if ( $StartTimeError )
 {
     $t->parse( "start_time_error", "start_time_error_tpl" );
     $t->set_var( "action_value", "insert" );
@@ -533,7 +562,7 @@ if ( $StartTimeError == true )
 else
     $t->set_var( "start_time_error", "" );
 
-if ( $StopTimeError == true )
+if ( $StopTimeError )
 {
     $t->parse( "stop_time_error", "stop_time_error_tpl" );
     $t->set_var( "action_value", "insert" );
@@ -550,41 +579,36 @@ if ( $Action == "New" )
 {
     $t->set_var( "action_value", "insert" );
     $t->set_var( "appointment_id", "new" );
-    $t->set_var( "name_value", "" );
-    $t->set_var( "description_value", "" );
-    $t->set_var( "is_private", "" );
-    $t->set_var( "start_value", "" );
-    $t->set_var( "stop_value", "" );
 
-    $t->set_var( "0_selected", "" );
-    $t->set_var( "1_selected", "" );
-    $t->set_var( "2_selected", "" );
-
-    if ( $Year != 0 )
-        $year = $Year;
-    else
-        $year = $today->year();
-
-    if ( $Month != 0 )
-        $month = $Month;
-    else
-        $month = $today->month();
-
-    if ( $Day != 0 )
-        $day = $Day;
-    else
-        $day = $today->day();
-
-    $tmpdate = new eZDate( $year, $month, $day );
-
-    if ( $StartTime != 0 )
-        $t->set_var( "start_value", $StartTime );
-
-    if ( $user )
+    if ( isSet( $ChangeView ) )
     {
+        $t->set_var( "name_value", $Name );
+        $t->set_var( "description_value", $Description );
+        if ( $IsPrivate == "on" )
+            $t->set_var( "is_private", "checked" );
+        else
+            $t->set_var( "is_private", "" );
+        $t->set_var( "start_value", $Start );
+        $t->set_var( "stop_value", $Stop );
+
+        $t->set_var( "0_selected", "" );
+        $t->set_var( "1_selected", "" );
+        $t->set_var( "2_selected", "" );
+        if ( $Priority == 0 )
+            $t->set_var( "0_selected", "selected" );
+        if ( $Priority == 1 )
+            $t->set_var( "1_selected", "selected" );
+        if ( $Priority == 2 )
+            $t->set_var( "2_selected", "selected" );
+
+        $tmpdate = new eZDate( $Year, $Month, $Day );
+
         $t->set_var( "own_user_id", $userID );
         $t->set_var( "own_user_name", $user->name() );
-        $t->set_var( "own_selected", "" );
+        if ( in_array( $userID, $TrusteeUser ) )
+            $t->set_var( "own_selected", "selected" );
+        else
+            $t->set_var( "own_selected", "" );
         $t->set_var( "user_name", "" );
         
         $trusteeArray = $user->getByTrustee( -1, true );
@@ -592,8 +616,60 @@ if ( $Action == "New" )
         {
             $t->set_var( "user_id", $trustee->ID() );
             $t->set_var( "user_name", $trustee->name() );
-            
+            if ( in_array( $trustee->ID(), $TrusteeUser ) )
+                $t->set_var( "selected", "selected" );
+            else
+                $t->set_var( "selected", "" );
             $t->parse( "trustee_user_name", "trustee_user_name_tpl", true );
+        }
+    }
+    else
+    {
+        $t->set_var( "name_value", "" );
+        $t->set_var( "description_value", "" );
+        $t->set_var( "is_private", "" );
+        $t->set_var( "start_value", "" );
+        $t->set_var( "stop_value", "" );
+        
+        $t->set_var( "0_selected", "" );
+        $t->set_var( "1_selected", "" );
+        $t->set_var( "2_selected", "" );
+
+        if ( $Year != 0 )
+            $year = $Year;
+        else
+            $year = $today->year();
+        
+        if ( $Month != 0 )
+            $month = $Month;
+        else
+            $month = $today->month();
+        
+        if ( $Day != 0 )
+            $day = $Day;
+        else
+            $day = $today->day();
+        
+        $tmpdate = new eZDate( $year, $month, $day );
+        
+        if ( $StartTime != 0 )
+            $t->set_var( "start_value", $StartTime );
+        
+        if ( $user )
+        {
+            $t->set_var( "own_user_id", $userID );
+            $t->set_var( "own_user_name", $user->name() );
+            $t->set_var( "own_selected", "" );
+            $t->set_var( "user_name", "" );
+            
+            $trusteeArray = $user->getByTrustee( -1, true );
+            foreach ( $trusteeArray as $trustee )
+            {
+                $t->set_var( "user_id", $trustee->ID() );
+                $t->set_var( "user_name", $trustee->name() );
+                $t->set_var( "selected", "" );
+                $t->parse( "trustee_user_name", "trustee_user_name_tpl", true );
+            }
         }
     }
 }
@@ -711,6 +787,5 @@ function addZero( $value )
     }
     return $ret;
 }
-
 
 ?>

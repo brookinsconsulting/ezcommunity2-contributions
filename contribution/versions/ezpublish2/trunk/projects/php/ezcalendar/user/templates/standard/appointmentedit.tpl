@@ -41,9 +41,7 @@
 	
 	<td valign="top"></td>
 	<td align="right">
-
 	<input {is_private} type="checkbox" name="IsPrivate" />&nbsp;<span class="check">{intl-private_appointment}</span>
-
 	</td>
 </tr>
 </table>
@@ -54,12 +52,15 @@
 	<td valign="top">
 
 <p class="boxtext">{intl-userlist}:</p>
-<select name="TrusteeUser[]">
+<select name="TrusteeUser[]" {select_multiple}>
 <option value="{own_user_id}" {own_selected}>{own_user_name}</option>
 <!-- BEGIN trustee_user_name_tpl -->
 <option value="{user_id}" {selected}>{user_name}</option>
 <!-- END trustee_user_name_tpl -->
 </select>
+<!-- BEGIN multiple_view_tpl -->
+<input class="stdbutton" type="submit" name="ChangeView" value="{intl-multiple_view}" />
+<!-- END multiple_view_tpl -->
 </td>
 </tr>
 </table>
@@ -72,7 +73,6 @@
 <p class="boxtext">{intl-type}:</p>
 
 <select name="TypeID">
-
 <!-- BEGIN value_tpl -->
 <option value="{option_value}" {selected}>{option_level}{option_name}</option>
 <!-- END value_tpl -->
@@ -166,6 +166,7 @@
 
 <input type="hidden" name="Action" value="{action_value}" />
 <input type="hidden" name="AppointmentID" value="{appointment_id}" />
+<input type="hidden" name="ViewType" value="{view_type}" />
 </form>
 
 <!-- END no_error_tpl -->

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.29 2001/08/17 13:35:58 jhe Exp $
+// $Id: monthview.php,v 1.30 2001/09/03 11:27:52 jhe Exp $
 //
 // Created on: <27-Dec-2000 14:09:56 bf>
 //
@@ -27,7 +27,6 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/ezlocale.php" );
-
 include_once( "classes/ezdatetime.php" );
 include_once( "classes/ezdate.php" );
 
@@ -54,13 +53,16 @@ if ( isSet( $GetByUserID ) )
     $userID = $GetByUserID;
 }
 
-if ( ( $session->variable( "ShowOtherCalenderUsers" ) == false ) ||
-     ( isSet( $GetByUser ) ) )
+if ( $session->variable( "ShowOtherCalenderUsers" ) == false )
 {
-    $session->setVariable( "ShowOtherCalenderUsers", $GetByUserID );
+    $session->setVariable( "ShowOtherCalenderUsers", $userID );
+}
+else
+{
+    $userID = $session->variable( "ShowOtherCalenderUsers" );
 }
 
-$appOwnerUser = new eZUser( $session->variable( "ShowOtherCalenderUsers" ) );
+$appOwnerUser = new eZUser( $userID );
 
 $date = new eZDate();
 
@@ -185,36 +187,36 @@ $t->set_file( "month_view_page_tpl", "monthview.tpl" );
                     }
 
                     // fetch the consultations for today
-                    $endDate = new eZDateTime();
-                    $endDate->setTimeStamp( $tmpDate->timeStamp() + 86400 );
-                    $consultations =& eZConsultation::findConsultationsByDate( $userID, $tmpDate, $endDate );
-                    foreach ( $consultations as $consultation )
-                    {
-                        $t->set_var( "consultation_id", $consultation->id() );
-
-                        $company_id = $consultation->company( $userID );
-                        if ( $company_id )
-                        {
-                            $company = new eZCompany( $company_id );
-                            $t->set_var( "consultation_desc", $consultation->shortDescription() );
-                            $t->set_var( "consultation_company", $company->name() );
-                            $t->set_var( "company_id", $company_id );
-                            $t->parse( "public_consultation", "public_consultation_company_tpl", true );
-                        }
-                        else
-                        {
-                            $person_id = $consultation->person( $userID );
-                            if ( $person_id )
-                            {
-                                $person = new eZPerson( $person_id );
-                                $t->set_var( "consultation_desc", $consultation->shortDescription() );
-                                $t->set_var( "consultation_person", $person->lastName() . " " .  $person->firstName() );
-                                $t->set_var( "person_id", $person_id );
-                                $t->parse( "public_consultation", "public_consultation_person_tpl", true );
-                            }
-                        }
-                    }
-
+/*                    $endDate = new eZDateTime();
+                      $endDate->setTimeStamp( $tmpDate->timeStamp() + 86400 );
+                      $consultations =& eZConsultation::findConsultationsByDate( $userID, $tmpDate, $endDate );
+                      foreach ( $consultations as $consultation )
+                      {
+                      $t->set_var( "consultation_id", $consultation->id() );
+                      
+                      $company_id = $consultation->company( $userID );
+                      if ( $company_id )
+                      {
+                      $company = new eZCompany( $company_id );
+                      $t->set_var( "consultation_desc", $consultation->shortDescription() );
+                      $t->set_var( "consultation_company", $company->name() );
+                      $t->set_var( "company_id", $company_id );
+                      $t->parse( "public_consultation", "public_consultation_company_tpl", true );
+                      }
+                      else
+                      {
+                      $person_id = $consultation->person( $userID );
+                      if ( $person_id )
+                      {
+                      $person = new eZPerson( $person_id );
+                      $t->set_var( "consultation_desc", $consultation->shortDescription() );
+                      $t->set_var( "consultation_person", $person->lastName() . " " .  $person->firstName() );
+                      $t->set_var( "person_id", $person_id );
+                      $t->parse( "public_consultation", "public_consultation_person_tpl", true );
+                      }
+                      }
+                      }
+                      /*
                     // fetch todos for today
                     if ( !$userID )
                         $todos = array();
