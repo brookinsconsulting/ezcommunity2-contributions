@@ -48,7 +48,6 @@ h2
 	color: #000000;
 	margin-top: 8px;
 	margin-bottom: 8px;	
-	text-decoration : none;
 }
 
 h3 
@@ -66,6 +65,11 @@ a
 	font-size: 13px;		
 	color : #000000;
 	text-decoration : underline;
+}
+
+.noline
+{
+	text-decoration : none;
 }
 
 .underline

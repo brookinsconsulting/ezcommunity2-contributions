@@ -57,7 +57,7 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
-	<div class="listheadline"><a class="listheadline" href="/article/articleview/{article_id}/">{article_name}</a></div>
+	<div class="listheadline"><a class="listheadline" href="/article/articleview/{article_id}/"><span class="noline">{article_name}</span></a></div>
 	<div class="small">{article_published}</div>
 
 	<!-- BEGIN article_image_tpl -->
