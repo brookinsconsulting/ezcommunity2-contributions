@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: headlines.php,v 1.15 2001/06/18 14:44:40 th Exp $
+// $Id: headlines.php,v 1.16 2001/06/22 14:23:51 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 10:51:34 bf>
@@ -74,6 +74,8 @@ function printNewsHeaderList( $CategoryID, $GenerateStaticPage, $cachedFile )
 
     $t->set_block( "headlines_page_tpl", "head_line_item_tpl", "head_line_item" );
 
+	$t->set_var( "head_line_item", "" );
+	
     if ( $CategoryID != "" )
     {
         $category = new eZNewsCategory( $CategoryID );
