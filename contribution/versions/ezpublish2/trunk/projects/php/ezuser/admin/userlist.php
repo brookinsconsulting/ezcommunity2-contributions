@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userlist.php,v 1.25 2001/10/09 14:15:35 bf Exp $
+// $Id: userlist.php,v 1.26 2001/11/05 09:08:14 jhe Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -42,10 +42,7 @@ $t = new eZTemplate( "ezuser/admin/" . $ini->read_var( "eZUserMain", "AdminTempl
                      "ezuser/admin/" . "/intl", $Language, "userlist.php" );
 $t->setAllStrings();
 
-$t->set_file( array(
-    "user_list_page" => "userlist.tpl"
-      ) );
-
+$t->set_file( "user_list_page", "userlist.tpl" );
 
 $t->set_block( "user_list_page", "user_item_tpl", "user_item" );
 $t->set_block( "user_item_tpl", "user_email_item_tpl", "user_email_item" );
@@ -63,7 +60,7 @@ if ( !is_numeric( $Max ) )
 if ( !is_numeric( $Index ) )
     $Index = 0;
 
-if( isset( $Search ) && $SearchText != "" )
+if ( isSet( $Search ) && $SearchText != "" )
 {
     $userList = $user->search( $SearchText );
 }
@@ -82,20 +79,20 @@ else
 $t->set_var( "user_count", count( $userList ) );
 $t->set_var( "total_user_count", $TotalTypes );
 
-if ( count ( $userList ) == 0 )
+if ( count( $userList ) == 0 )
 {
     $error = $errorIni->read_var( "strings", "no_users" );
     $t->set_var( "user_item", $error );
 }
 else
 {
-    $i=0;
-    foreach( $userList as $userItem )
+    $i = 0;
+    foreach ( $userList as $userItem )
     {
         $t->set_var( "user_email_item", "" );
         $t->set_var( "user_empty_email_item", "" );
 
-        if ( ( $i %2 ) == 0 )
+        if ( ( $i % 2 ) == 0 )
             $t->set_var( "td_class", "bglight" );
         else
             $t->set_var( "td_class", "bgdark" );
@@ -132,7 +129,7 @@ $group = new eZUserGroup();
 $groupList = $group->getAll();
     
 
-foreach( $groupList as $groupItem )
+foreach ( $groupList as $groupItem )
 {
 
 //  print( $GroupID . " " . $groupItem->id() . "<br>" );

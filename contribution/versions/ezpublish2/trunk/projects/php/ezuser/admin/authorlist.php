@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: authorlist.php,v 1.6 2001/07/20 11:45:40 jakobn Exp $
+// $Id: authorlist.php,v 1.7 2001/11/05 09:08:14 jhe Exp $
 //
 // Created on: <31-May-2001 13:27:04 bf>
 //
@@ -30,37 +30,39 @@ include_once( "classes/INIFile.php" );
 
 include_once( "ezuser/classes/ezauthor.php" );
 
-if ( isset( $NewAuthor ) )
+if ( isSet( $NewAuthor ) )
 {
     $author = new eZAuthor( );
     $author->store();    
 }
 
-if ( isset( $DeleteAuthor ) )
+if ( isSet( $DeleteAuthor ) )
 {
     if ( count( $DeleteIDArray )  > 0 )
-    foreach ( $DeleteIDArray as $id )
     {
-        eZAuthor::delete( $id );
+        foreach ( $DeleteIDArray as $id )
+        {
+            eZAuthor::delete( $id );
+        }
     }
 }
 
-
-if ( ( isset( $Store ) ) || ( isset ( $NewAuthor ) ) ||( isset ( $DeleteAuthor ) ) )
+if ( ( isSet( $Store ) ) || ( isSet( $NewAuthor ) ) || ( isSet( $DeleteAuthor ) ) )
 {
-    $i=0;
+    $i = 0;
 
     if ( count( $IDArray )  > 0 )
-    foreach ( $IDArray as $id )
     {
-        $author = new eZAuthor( $id );
-        $author->setEMail( $EMail[$i] );
-        $author->setName( $Name[$i] );
-        $author->store();
-
-        $i++;
+        foreach ( $IDArray as $id )
+        {
+            $author = new eZAuthor( $id );
+            $author->setEMail( $EMail[$i] );
+            $author->setName( $Name[$i] );
+            $author->store();
+            
+            $i++;
+        }
     }
-
 }
 
 $t = new eZTemplate( "ezuser/admin/" . $ini->read_var( "eZUserMain", "AdminTemplateDir" ),
@@ -77,12 +79,13 @@ $t->set_block( "author_list_tpl", "author_item_tpl", "author_item" );
 
 $t->set_var( "author_item", "" );
 
-$author = new eZAuthor( );
+$author = new eZAuthor();
 
 $authorArray = $author->getAll();
 
-$i=0;
-if ( count ( $authorArray ) > 0 )
+$i = 0;
+
+if ( count( $authorArray ) > 0 )
 {
     foreach ( $authorArray as $author )
     {
@@ -90,15 +93,15 @@ if ( count ( $authorArray ) > 0 )
         $t->set_var( "author_name", $author->name() );
         $t->set_var( "author_email", $author->email() );
         
+        if ( ( $i % 2 ) == 0 )
+            $t->set_var( "td_class", "bglight" );
+        else
+            $t->set_var( "td_class", "bgdark" );
+        
         $t->parse( "author_item", "author_item_tpl", true );
 
-    if ( ( $i %2 ) == 0 )
-        $t->set_var( "td_class", "bgdark" );
-    else
-        $t->set_var( "td_class", "bglight" );
-    $i++;
+        $i++;
 	}
-    
 }
 $t->parse( "author_list", "author_list_tpl" );
 
