@@ -1,4 +1,14 @@
 <?
+/*!
+    $Id: ezlinkgroup.php,v 1.17 2000/08/14 09:18:57 bf-cvs Exp $
+
+    Author: Bård Farstad <bf@ez.no>
+    
+    Created on: 
+    
+    Copyright (C) 2000 eZ systems. All rights reserved.
+*/
+
 class eZLinkGroup
 {
     /*
@@ -94,7 +104,7 @@ class eZLinkGroup
         $this->dbInit();
         $parent_array = 0;
 
-        array_query( $parent_array, "SELECT * FROM eZLink_LinkGroup WHERE Parent='$id'" );
+        array_query( $parent_array, "SELECT * FROM eZLink_LinkGroup WHERE Parent='$id' ORDER BY Title" );
 
         return $parent_array;
     }
@@ -207,12 +217,20 @@ class eZLinkGroup
         return $this->Parent;
 
     }
-/*
-          Initiering av database
-        */
+    
+	/*
+      Initiering av database
+    */
     function dbInit()
     {
-        include( "ezlink/dbsettings.php" );
+        include_once( "class.INIFile.php" );
+        $ini = new INIFile( "site.ini" );
+        
+        $SERVER = $ini->read_var( "eZLinkMain", "Server" );
+        $DATABASE = $ini->read_var( "eZLinkMain", "Database" );
+        $USER = $ini->read_var( "eZLinkMain", "User" );
+        $PWD = $ini->read_var( "eZLinkMain", "Password" );
+        
         mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }

@@ -1,7 +1,17 @@
 <?
+/*!
+    $Id: ezhit.php,v 1.9 2000/08/14 09:18:57 bf-cvs Exp $
+
+    Author: Bård Farstad <bf@ez.no>
+    
+    Created on: 
+    
+    Copyright (C) 2000 eZ systems. All rights reserved.
+*/
+
 class eZHit
 {
-    /*
+    /*!
       Constructor
     */
 
@@ -10,7 +20,7 @@ class eZHit
         
     }
 
-    /*
+    /*!
       Lagrer i databasen
     */
     function store()
@@ -22,8 +32,7 @@ class eZHit
                 Link='$this->Link'" );
     }
 
-
-    /*
+    /*!
       Oppgraderer databasen
     */
     function update()
@@ -35,7 +44,7 @@ class eZHit
                 WHERE ID='$this->ID'" );
     }
 
-    /*
+    /*!
       Sletter fra databasen
     */
     function delete()
@@ -44,7 +53,7 @@ class eZHit
         query( "DELETE FROM eZLink_Hit WHERE ID='$ID'" );
     }
 
-    /*
+    /*!
       Henter ut antall hits på en bestemt link.
      */
 
@@ -55,6 +64,10 @@ class eZHit
         $count = count( $hit_array );
         return $count;
     }
+    
+    /*!
+      Henter ut antall hits på en bestemt link.
+     */
     function get( $id )
     {
         $this->dbInit();
@@ -62,16 +75,15 @@ class eZHit
         return count( $hit_array );
     }
 
-    /*
+    /*!
       Setter link id'en
     */
-
     function setLink( $value )
     {
         $this->Link = ( $value );
     }
 
-    /*
+    /*!
       Setter ip'en til brukeren.
     */
     function setRemoteIP( $value )
@@ -79,16 +91,15 @@ class eZHit
         $this->RemoteIP = ( $value );
     }
     
-    /*
+    /*!
       Returnerer description
     */
-
     function link()
     {
         return $this->Link;
     }
 
-    /*
+    /*!
       Returnerer description
     */
     function time()
@@ -96,7 +107,7 @@ class eZHit
         return $this->Time;
     }
 
-    /*
+    /*!
       Returnerer ip'en til brukeren.
     */
     function remoteIP( )
@@ -104,9 +115,19 @@ class eZHit
         return $this->RemoteIP;
     }
     
+    /*!
+      Initierer database koplingen.
+    */
     function dbInit()
     {
-        include( "ezlink/dbsettings.php" );
+        include_once( "class.INIFile.php" );
+        $ini = new INIFile( "site.ini" );
+        
+        $SERVER = $ini->read_var( "eZLinkMain", "Server" );
+        $DATABASE = $ini->read_var( "eZLinkMain", "Database" );
+        $USER = $ini->read_var( "eZLinkMain", "User" );
+        $PWD = $ini->read_var( "eZLinkMain", "Password" );
+        
         mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }

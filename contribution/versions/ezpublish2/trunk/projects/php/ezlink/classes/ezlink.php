@@ -1,4 +1,13 @@
 <?
+/*!
+    $Id: ezlink.php,v 1.20 2000/08/14 09:18:57 bf-cvs Exp $
+
+    Author: Bård Farstad <bf@ez.no>
+    
+    Created on: 
+    
+    Copyright (C) 2000 eZ systems. All rights reserved.
+*/
 
 class eZLink
 {
@@ -333,7 +342,16 @@ class eZLink
     */
     function dbInit()
     {
-        include( "ezlink/dbsettings.php" );
+        include_once( "class.INIFile.php" );
+
+        $ini = new INIFile( "site.ini" );
+        
+        $SERVER = $ini->read_var( "eZLinkMain", "Server" );
+        $DATABASE = $ini->read_var( "eZLinkMain", "Database" );
+        $USER = $ini->read_var( "eZLinkMain", "User" );
+        $PWD = $ini->read_var( "eZLinkMain", "Password" );
+        
+//        include( "ezlink/dbsettings.php" );
         mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }

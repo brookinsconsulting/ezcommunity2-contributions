@@ -1,6 +1,15 @@
 <?
+/*!
+    $Id: ezquery.php,v 1.4 2000/08/14 09:18:57 bf-cvs Exp $
 
-/*
+    Author: Bård Farstad <bf@ez.no>
+    
+    Created on: 
+    
+    Copyright (C) 2000 eZ systems. All rights reserved.
+*/
+
+/*!
   En klasse som håndterer SQL queries. Lager query setninger fra
   tekststrenger. 
   
@@ -23,15 +32,6 @@ class eZQuery
         $QueryText = trim( $QueryText );
         $QueryText = ereg_replace( "[ ]+", " ", $QueryText );
         $queryArray = explode( " ", $QueryText );
-
-//          {
-//              $queryArray2 = explode( " ", stripSlashes( $QueryText ) );
-
-//              for ( $i=0; $i<count($queryArray2); $i++ )
-//              {
-//                  print( $queryArray2[$i] . "." );
-//              }
-//          }        
 
         $query = "";
         for ( $i=0; $i<count($queryArray); $i++ )            
