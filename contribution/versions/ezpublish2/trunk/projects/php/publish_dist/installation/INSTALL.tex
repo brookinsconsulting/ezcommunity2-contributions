@@ -586,7 +586,8 @@ It might save you for hours with debugging
 \section{Apache Configuration}
 
 If you don't want to change the Apache configuration, go to chapter
-2.
+2. Please take notice of the rewrite rules. They have been changed
+since the previously versions.
 
 
 \subsection{Dual Virtual Host\label{sec: dual virtualhost}}
@@ -620,39 +621,29 @@ online tool.
 
 \texttt{\scriptsize ~~~~\# User site}{\scriptsize \par}
 
-\texttt{\scriptsize ~~~~<VirtualHost~your.domain.com>}{\scriptsize \par}
+\texttt{\scriptsize ~~~~<VirtualHost~your.ip.addr.no>}{\scriptsize \par}
 
-\texttt{\scriptsize ~~~~~~<Directory~/your/apache/documentroot/publish\_dist>}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~<Directory /your/docroot>}{\scriptsize \par}
 
-\texttt{\scriptsize ~~~~~~~~Options~FollowSymLinks}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~~~Options FollowSymLinks}{\scriptsize \par}
 
-\texttt{\scriptsize ~~~~~~~~AllowOverride None}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~~~AllowOverride None }{\scriptsize \par}
 
 \texttt{\scriptsize ~~~~~~</Directory>}{\scriptsize \par}
 
 \texttt{\scriptsize ~~~~~~RewriteEngine On}{\scriptsize \par}
 
-\texttt{\scriptsize ~~~~~~RewriteRule \textasciicircum{}/stats/store/(.{*}).gif\$}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~RewriteRule \textasciicircum{}/stats/store/(.{*}).gif\$~
+/your/docroot/ezstats/user/storestats.php {[}S=3{]}}{\scriptsize \par}
 
-\texttt{\scriptsize ~~~~~~/your/path/to/publish/ezstats/user/storestats.php
-{[}S=2{]}}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~RewriteRule \textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$~
+/your/docroot/ezfilemanager/files/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},S=2{]}}{\scriptsize \par}
 
-\texttt{\scriptsize ~~~~~~\#~The~lines~above~should~appear~on~the~same}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~RewriteRule \textasciicircum{}/mediacatalogue/catalogue/(.{*})\$~
+/your/docroot/ezmediacatalogue/catalogue/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}{\scriptsize \par}
 
-\texttt{\scriptsize ~~~~~~\#~line~in~your~configuration~file!}{\scriptsize \par}
-
-\texttt{\scriptsize ~~~~~~RewriteRule~\textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$}{\scriptsize \par}
-
-\texttt{\scriptsize ~~~~~~/your/apache/documentroot/publish\_dist/ezfilemanager/files/\$1}{\scriptsize \par}
-
-\texttt{\scriptsize ~~~~~~{[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}{\scriptsize \par}
-
-\texttt{\scriptsize ~~~~~~\#~The~lines~above~should~appear~on~the~same}{\scriptsize \par}
-
-\texttt{\scriptsize ~~~~~~\#~line~in~your~configuration~file!}{\scriptsize \par}
-
-\texttt{\scriptsize ~~~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
-/your/apache/documentroot/publish\_dist/index.php}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png|jar)\$
+/your/docroot/index.php}{\scriptsize \par}
 
 \texttt{\scriptsize ~~~~~~ServerAdmin your.e-mail@address}{\scriptsize \par}
 
@@ -667,20 +658,23 @@ online tool.
 
 \texttt{\footnotesize ~~\# Admin site }{\footnotesize \par}
 
-\texttt{\footnotesize ~~<VirtualHost admin.yourdomain.org>}{\footnotesize \par}
+\texttt{\footnotesize ~~<VirtualHost your.ip.addr.no>}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~<Directory /your/apache/documentroot/publish\_dist>}{\footnotesize \par}
+\texttt{\footnotesize ~~~~}\texttt{\scriptsize <Directory /your/docroot>}{\scriptsize \par}
 
-\texttt{\footnotesize ~~~~~~Options FollowSymLinks}{\footnotesize \par}
+\texttt{\scriptsize ~~~~~~~ Options FollowSymLinks}{\scriptsize \par}
 
-\texttt{\footnotesize ~~~~~~AllowOverride None}{\footnotesize \par}
+\texttt{\scriptsize ~~~~~~~ AllowOverride None }{\scriptsize \par}
 
-\texttt{\footnotesize ~~~~~~RewriteEngine On}{\footnotesize \par}
+\texttt{\footnotesize ~~~~}\texttt{\scriptsize </Directory>}{\scriptsize \par}
 
-\texttt{\footnotesize ~~~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
-/your/apache/documentroot/publish\_dist/index\_admin.php}{\footnotesize \par}
+\texttt{\footnotesize ~~~~}\texttt{\scriptsize RewriteEngine On}{\scriptsize \par}
 
-\texttt{\footnotesize ~~~~</Directory>}{\footnotesize \par}
+\texttt{\footnotesize ~~~~}\texttt{\scriptsize RewriteRule \textasciicircum{}/mediacatalogue/catalogue/(.{*})\$~
+/your/docroot/ezmediacatalogue/catalogue/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}{\scriptsize \par}
+
+\texttt{\footnotesize ~~~~}\texttt{\scriptsize RewriteRule !\textbackslash{}.(gif|css|jpg|png|jar)
+/your/docroot/index\_admin.php}{\scriptsize \par}
 
 \texttt{\footnotesize ~~~~ServerAdmin your\_mail@domain.no}{\footnotesize \par}
 
@@ -695,8 +689,8 @@ The format of the {}``httpd.conf'' file is covered at http://httpd.apache.org/do
 for a complete understanding of the above information you'll need
 to read that documentation.
 
-The directory {}``/your/apache/documentroot/publish\_dist'' is the
-directory where you extracted eZ publish.
+The directory {}``/your/docroot/'' is the directory where you extracted
+eZ publish.
 
 
 \paragraph{Error Checking}
@@ -710,14 +704,18 @@ you can read to check for errors.
 \paragraph{Explanation of the Rewrite Rules}
 
 The rewrite rules do the following:\\
+\\
+\texttt{\scriptsize ~~~~~~RewriteRule \textasciicircum{}/stats/store/(.{*}).gif\$~
+/your/docroot/ezstats/user/storestats.php {[}S=3{]}}~\\
+{\scriptsize \par}
 
+This says that everything served from {}``/stats/store/'' should
+be served by the storestats.php script. This is used by the statistical
+module
 
-\texttt{\footnotesize ~~~~RewriteRule \textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$}{\footnotesize \par}
-
-\texttt{\footnotesize ~~~~/your/apache/documentroot/publish\_dist/ezfilemanager/files/\$1}{\footnotesize \par}
-
-\texttt{\footnotesize ~~~~{[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}~\\
-{\footnotesize \par}
+\texttt{\scriptsize ~~~~~~RewriteRule \textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$~
+/your/docroot/ezfilemanager/files/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},S=2{]}}~\\
+{\scriptsize \par}
 
 This says that everything served from {}``/filemanager/filedownload/''
 should be redirected to fetch information from {}``publish\_dist/ezfilemanager/files''.
@@ -732,18 +730,27 @@ part from the first slash after your domain name.
 The {}``\$'' sign is used to mark the end of line, in order to remember
 the full line.
 
-The part \texttt{\scriptsize {}``{[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}''}
+The part \texttt{\scriptsize {}``{[}T=\char`\"{}application/oct-stream\char`\"{},S=2{]}''}
 means that everything which is matched shall be of the specific mime
 type ({}``application/oct-stream'', ie. binary download). The {}``S=1''
 part means that if we match this rule, we should skip one rule ahead
 before trying to match again.
 
-The next rewrite rule:\\
+The next rewrite rule:
+
+\texttt{\scriptsize ~~~~~~RewriteRule \textasciicircum{}/mediacatalogue/catalogue/(.{*})\$~
+/your/docroot/ezmediacatalogue/catalogue/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}~\\
+{\scriptsize \par}
+
+This rewriterule basicly does the same as the previously, but it fixes
+so that the files stored in the media catalogue is served correctly\\
 
 
-\texttt{\footnotesize ~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
-/your/apache/documentroot/publish\_dist/index.php}~\\
-{\footnotesize \par}
+The last rewrite rule
+
+\texttt{\scriptsize ~~~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png|jar)\$
+/your/docroot/index.php}~\\
+{\scriptsize \par}
 
 is found in both sites (admin and user). This means that every file,
 except gif, css, jpg and png (and files matched against the previous
@@ -761,73 +768,23 @@ host section:\\
 \texttt{\footnotesize ~~~~php\_flag magic\_quotes\_gpc off}~\\
 {\footnotesize \par}
 
-\emph{NOTE: It isn't possible to use the form http://mysite.com/admin
-at all; since the admin module assumes that the url {}``/'' is the
-start of the admin pages. If you do change eZ publish code in order
-to do this anyway; please send the code to bf@ez.no for future inclusion.
-The only correct way to access the admin site is through its own virtual
-host address.}
-
 
 \subsubsection{Configuring Through .htaccess}
 
-Instead of using httpd.conf and rewrite rules in the virtual hosts,
-you can also do the rewrite rules in the .htaccess filesm directory
-specific configuration files.
+At present, configuring the rewrite rules in .htaccess files is not
+supported. However, you may switch of magic quotes in an .htaccess
+file.
 
-\emph{Note: You must set up apache to accept this. You still need
-two domains for this operation!}
+\emph{Note: You must set up apache to accept this.}
 
 
 \paragraph{User Site}
 
-In your main directory (/path/to/index.php/) create a file called
-\char`\"{}.htaccess\char`\"{} containing the following text:\\
+In your document root (/path/to/index.php/) create a file called \char`\"{}.htaccess\char`\"{}
+containing the following text:\\
 
 
 \texttt{\footnotesize ~~~~php\_flag magic\_quotes\_gpc off}{\footnotesize \par}
-
-\texttt{\footnotesize ~~~~Options FollowSymLinks}{\footnotesize \par}
-
-\texttt{\footnotesize ~~~~RewriteEngine On} \foreignlanguage{english}{}
-
-\texttt{\footnotesize ~~~~RewriteRule \textasciicircum{}/stats/store/(.{*}).gif\$} \foreignlanguage{english}{}
-
-\texttt{\footnotesize ~~~~/publish/ezstats/user/storestats.php
-{[}S=2{]}} \foreignlanguage{english}{}
-
-\texttt{\footnotesize ~~~~\# The two lines above should appear
-on the} \foreignlanguage{english}{}
-
-\texttt{\footnotesize ~~~~\# same line in your configuration file.}{\footnotesize \par}
-
-\texttt{\footnotesize ~~~~RewriteRule \textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$}{\footnotesize \par}
-
-\texttt{\footnotesize ~~~~/path/to/website/ezfilemanager/files/\$1}{\footnotesize \par}
-
-\texttt{\footnotesize ~~~~{[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}{\footnotesize \par}
-
-\texttt{\footnotesize ~~~~\# The three lines above should appear
-on the}{\footnotesize \par}
-
-\texttt{\footnotesize ~~~~\# same line in your configuration file!}{\footnotesize \par}
-
-\texttt{\footnotesize ~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
-/path/to/website/index.php}{\footnotesize \par}
-
-
-\paragraph{Admin Site}
-
-In your admin subdomain home directory, create a file with the following
-text:\\
-
-
-\texttt{\footnotesize ~~~~php\_flag magic\_quotes\_gpc off}{\footnotesize \par}
-
-\texttt{\footnotesize ~~~~RewriteEngine On}{\footnotesize \par}
-
-\texttt{\footnotesize ~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
-/path/to/website/index\_admin.php}{\footnotesize \par}
 
 
 \section{eZ publish Installation}
@@ -1396,8 +1353,20 @@ For example:\\
 
 \texttt{\footnotesize ~~~~~~RewriteEngine On}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
-/your/site/root/index.php}{\footnotesize \par}
+\texttt{\footnotesize ~}\texttt{\scriptsize ~~~~~~RewriteRule
+\textasciicircum{}/stats/store/(.{*}).gif\$~ /your/site/root/ezstats/user/storestats.php
+{[}S=3{]}}{\scriptsize \par}
+
+\texttt{\footnotesize ~}\texttt{\scriptsize ~~~~~~RewriteRule
+\textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$~
+/your/site/root/ezfilemanager/files/\$1 {[}T=\char`\"{}application/oct-stream\char`\"{},S=2{]}}{\scriptsize \par}
+
+\texttt{\footnotesize ~}\texttt{\scriptsize ~~~~~~RewriteRule
+\textasciicircum{}/mediacatalogue/catalogue/(.{*})\$~ /your/site/root/ezmediacatalogue/catalogue/\$1
+{[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}{\scriptsize \par}
+
+\texttt{\footnotesize ~}\texttt{\scriptsize ~~~~~~RewriteRule
+!\textbackslash{}.(gif|css|jpg|png|jar)\$ /your/site/root/index.php}{\scriptsize \par}
 
 \texttt{\footnotesize ~~~~~~ServerAdmin your\_mail@domain.no}{\footnotesize \par}
 
@@ -1410,7 +1379,7 @@ For example:\\
 
 \texttt{\footnotesize ~~~~<VirtualHost admin.yourdomain.org>}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~~~<Directory /your/site/root/admin>}{\footnotesize \par}
+\texttt{\footnotesize ~~~~~~<Directory /your/site/root>}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~~~~~Options~FollowSymLinks}{\footnotesize \par}
 
@@ -1420,12 +1389,16 @@ For example:\\
 
 \texttt{\footnotesize ~~~~~~RewriteEngine On}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
-/your/site/root/admin/index.php}{\footnotesize \par}
+\texttt{\footnotesize ~~~~~~}\texttt{\scriptsize RewriteRule
+\textasciicircum{}/mediacatalogue/catalogue/(.{*})\$~ /your/site/root/ezmediacatalogue/catalogue/\$1
+{[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}{\scriptsize \par}
+
+\texttt{\footnotesize ~~~~~~}\texttt{\scriptsize RewriteRule
+!\textbackslash{}.(gif|css|jpg|png|jar) /your/site/root/index\_admin.php}{\scriptsize \par}
 
 \texttt{\footnotesize ~~~~~~ServerAdmin your\_mail@domain.no}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~~~DocumentRoot /your/site/root/admin}{\footnotesize \par}
+\texttt{\footnotesize ~~~~~~DocumentRoot /your/site/root}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~~~ServerName admin.yourdomain.org}{\footnotesize \par}
 

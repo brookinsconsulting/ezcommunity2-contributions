@@ -1251,6 +1251,8 @@ Apache Configuration
 \layout Standard
 
 If you don't want to change the Apache configuration, go to chapter 2.
+ Please take notice of the rewrite rules.
+ They have been changed since the previously versions.
 \layout Subsection
 
 Dual Virtual Host
@@ -1362,7 +1364,7 @@ User Site
 \SpecialChar ~
 \SpecialChar ~
 <VirtualHost\SpecialChar ~
-your.domain.com>
+your.ip.addr.no>
 \layout Standard
 
 
@@ -1374,23 +1376,7 @@ your.domain.com>
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-<Directory\SpecialChar ~
-/your/apache/documentroot/publish_dist>
-\layout Standard
-
-
-\family typewriter 
-\size scriptsize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-Options\SpecialChar ~
-FollowSymLinks
+<Directory /your/docroot>
 \layout Standard
 
 
@@ -1404,7 +1390,21 @@ FollowSymLinks
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-AllowOverride None
+Options FollowSymLinks
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+AllowOverride None 
 \layout Standard
 
 
@@ -1440,7 +1440,9 @@ RewriteEngine On
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-RewriteRule ^/stats/store/(.*).gif$
+RewriteRule ^/stats/store/(.*).gif$\SpecialChar ~
+ /your/docroot/ezstats/user/storestats.php
+ [S=3]
 \layout Standard
 
 
@@ -1452,7 +1454,9 @@ RewriteRule ^/stats/store/(.*).gif$
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-/your/path/to/publish/ezstats/user/storestats.php [S=2]
+RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$\SpecialChar ~
+ /your/docroot/ezfilemanager/
+files/$1 [T="application/oct-stream",S=2]
 \layout Standard
 
 
@@ -1464,106 +1468,9 @@ RewriteRule ^/stats/store/(.*).gif$
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-#\SpecialChar ~
-The\SpecialChar ~
-lines\SpecialChar ~
-above\SpecialChar ~
-should\SpecialChar ~
-appear\SpecialChar ~
-on\SpecialChar ~
-the\SpecialChar ~
-same
-\layout Standard
-
-
-\family typewriter 
-\size scriptsize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-#\SpecialChar ~
-line\SpecialChar ~
-in\SpecialChar ~
-your\SpecialChar ~
-configuration\SpecialChar ~
-file!
-\layout Standard
-
-
-\family typewriter 
-\size scriptsize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-RewriteRule\SpecialChar ~
-^/filemanager/filedownload/([^/]+)/(.*)$
-\layout Standard
-
-
-\family typewriter 
-\size scriptsize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-/your/apache/documentroot/publish_dist/ezfilemanager/files/$1
-\layout Standard
-
-
-\family typewriter 
-\size scriptsize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-[T="application/oct-stream",S=1]
-\layout Standard
-
-
-\family typewriter 
-\size scriptsize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-#\SpecialChar ~
-The\SpecialChar ~
-lines\SpecialChar ~
-above\SpecialChar ~
-should\SpecialChar ~
-appear\SpecialChar ~
-on\SpecialChar ~
-the\SpecialChar ~
-same
-\layout Standard
-
-
-\family typewriter 
-\size scriptsize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-#\SpecialChar ~
-line\SpecialChar ~
-in\SpecialChar ~
-your\SpecialChar ~
-configuration\SpecialChar ~
-file!
+RewriteRule ^/mediacatalogue/catalogue/(.*)$\SpecialChar ~
+ /your/docroot/ezmediacatalogue/catal
+ogue/$1 [T="application/oct-stream",S=1]
 \layout Standard
 
 
@@ -1577,7 +1484,7 @@ file!
 \SpecialChar ~
 RewriteRule !
 \backslash 
-.(gif|css|jpg|png)$ /your/apache/documentroot/publish_dist/index.php
+.(gif|css|jpg|png|jar)$ /your/docroot/index.php
 \layout Standard
 
 
@@ -1642,7 +1549,7 @@ Admin Site
 \size footnotesize 
 \SpecialChar ~
 \SpecialChar ~
-<VirtualHost admin.yourdomain.org>
+<VirtualHost your.ip.addr.no>
 \layout Standard
 
 
@@ -1652,7 +1559,35 @@ Admin Site
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-<Directory /your/apache/documentroot/publish_dist>
+
+\size scriptsize 
+<Directory /your/docroot>
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ Options FollowSymLinks
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ AllowOverride None 
 \layout Standard
 
 
@@ -1662,9 +1597,9 @@ Admin Site
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-Options FollowSymLinks
+
+\size scriptsize 
+</Directory>
 \layout Standard
 
 
@@ -1674,20 +1609,8 @@ Options FollowSymLinks
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-AllowOverride None
-\layout Standard
 
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
+\size scriptsize 
 RewriteEngine On
 \layout Standard
 
@@ -1698,11 +1621,11 @@ RewriteEngine On
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-RewriteRule !
-\backslash 
-.(gif|css|jpg|png)$ /your/apache/documentroot/publish_dist/index_admin.php
+
+\size scriptsize 
+RewriteRule ^/mediacatalogue/catalogue/(.*)$\SpecialChar ~
+ /your/docroot/ezmediacatalogue/catal
+ogue/$1 [T="application/oct-stream",S=1]
 \layout Standard
 
 
@@ -1712,7 +1635,11 @@ RewriteRule !
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-</Directory>
+
+\size scriptsize 
+RewriteRule !
+\backslash 
+.(gif|css|jpg|png|jar) /your/docroot/index_admin.php
 \layout Standard
 
 
@@ -1771,7 +1698,7 @@ The directory
 \begin_inset Quotes eld
 \end_inset 
 
-/your/apache/documentroot/publish_dist
+/your/docroot/
 \begin_inset Quotes erd
 \end_inset 
 
@@ -1801,36 +1728,47 @@ Explanation of the Rewrite Rules
 The rewrite rules do the following:
 \newline 
 
+\newline 
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule ^/stats/store/(.*).gif$\SpecialChar ~
+ /your/docroot/ezstats/user/storestats.php
+ [S=3]
+\newline 
+
+\layout Standard
+
+This says that everything served from 
+\begin_inset Quotes eld
+\end_inset 
+
+/stats/store/
+\begin_inset Quotes erd
+\end_inset 
+
+ should be served by the storestats.php script.
+ This is used by the statistical module
 \layout Standard
 
 
 \family typewriter 
-\size footnotesize 
+\size scriptsize 
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
 \SpecialChar ~
 \SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-/your/apache/documentroot/publish_dist/ezfilemanager/files/$1
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-[T="application/oct-stream",S=1]
+RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$\SpecialChar ~
+ /your/docroot/ezfilemanager/
+files/$1 [T="application/oct-stream",S=2]
 \newline 
 
 \layout Standard
@@ -1897,7 +1835,7 @@ The part
 \begin_inset Quotes eld
 \end_inset 
 
-[T="application/oct-stream",S=1]
+[T="application/oct-stream",S=2]
 \begin_inset Quotes erd
 \end_inset 
 
@@ -1928,20 +1866,45 @@ S=1
 \layout Standard
 
 The next rewrite rule:
-\newline 
-
 \layout Standard
 
 
 \family typewriter 
-\size footnotesize 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule ^/mediacatalogue/catalogue/(.*)$\SpecialChar ~
+ /your/docroot/ezmediacatalogue/catal
+ogue/$1 [T="application/oct-stream",S=1]
+\newline 
+
+\layout Standard
+
+This rewriterule basicly does the same as the previously, but it fixes so
+ that the files stored in the media catalogue is served correctly
+\newline 
+
+\layout Standard
+
+The last rewrite rule
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
 RewriteRule !
 \backslash 
-.(gif|css|jpg|png)$ /your/apache/documentroot/publish_dist/index.php
+.(gif|css|jpg|png|jar)$ /your/docroot/index.php
 \newline 
 
 \layout Standard
@@ -1969,46 +1932,55 @@ If you compiled PHP with magic quotes; or other software relies on PHP using
 \SpecialChar ~
 \SpecialChar ~
 php_flag magic_quotes_gpc off
-\newline 
-
 \layout Standard
 
 
-\emph on 
-NOTE: It isn't possible to use the form http://mysite.com/admin at all; since
- the admin module assumes that the url 
-\begin_inset Quotes eld
-\end_inset 
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+php_flag magic_quotes_runtime off
+\newline 
 
-/
-\begin_inset Quotes erd
-\end_inset 
+\layout Subsubsection
 
- is the start of the admin pages.
- If you do change eZ publish code in order to do this anyway; please send
- the code to bf@ez.no for future inclusion.
- The only correct way to access the admin site is through its own virtual
- host address.
+Configuring php.ini
+\layout Standard
+
+Magic quotes may also be turned of in php.
+ This will disable magic quotes:
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+magic_quotes_gpc = Off
+\layout Standard
+
+
+\family typewriter 
+\size scriptsize 
+magic_quotes_runtime= Off
 \layout Subsubsection
 
 Configuring Through .htaccess
 \layout Standard
 
-Instead of using httpd.conf and rewrite rules in the virtual hosts, you can
- also do the rewrite rules in the .htaccess filesm directory specific configurati
-on files.
+At present, configuring the rewrite rules in .htaccess files is not supported.
+ However, you may switch of magic quotes in an .htaccess file.
 \layout Standard
 
 
 \emph on 
 Note: You must set up apache to accept this.
- You still need two domains for this operation!
 \layout Paragraph
 
 User Site
 \layout Standard
 
-In your main directory (/path/to/index.php/) create a file called ".htaccess"
+In your document root (/path/to/index.php/) create a file called ".htaccess"
  containing the following text:
 \newline 
 
@@ -2022,185 +1994,6 @@ In your main directory (/path/to/index.php/) create a file called ".htaccess"
 \SpecialChar ~
 \SpecialChar ~
 php_flag magic_quotes_gpc off
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-Options FollowSymLinks
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-RewriteEngine On
-\family default 
-\size default 
-\lang english
- 
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-RewriteRule ^/stats/store/(.*).gif$
-\family default 
-\size default 
-\lang english
- 
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-/publish/ezstats/user/storestats.php [S=2]
-\family default 
-\size default 
-\lang english
- 
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-# The two lines above should appear on the
-\family default 
-\size default 
-\lang english
- 
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-# same line in your configuration file.
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-/path/to/website/ezfilemanager/files/$1
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-[T="application/oct-stream",S=1]
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-# The three lines above should appear on the
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-# same line in your configuration file!
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-RewriteRule !
-\backslash 
-.(gif|css|jpg|png)$ /path/to/website/index.php
-\layout Paragraph
-
-Admin Site
-\layout Standard
-
-In your admin subdomain home directory, create a file with the following
- text:
-\newline 
-
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-php_flag magic_quotes_gpc off
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-RewriteEngine On
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-RewriteRule !
-\backslash 
-.(gif|css|jpg|png)$ /path/to/website/index_admin.php
 \layout Section
 
 eZ publish Installation
@@ -3856,6 +3649,60 @@ RewriteEngine On
 \family typewriter 
 \size footnotesize 
 \SpecialChar ~
+
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule ^/stats/store/(.*).gif$\SpecialChar ~
+ /your/site/root/ezstats/user/storestats.php
+ [S=3]
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$\SpecialChar ~
+ /your/site/root/ezfilemanage
+r/files/$1 [T="application/oct-stream",S=2]
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\size scriptsize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule ^/mediacatalogue/catalogue/(.*)$\SpecialChar ~
+ /your/site/root/ezmediacatalogue/cat
+alogue/$1 [T="application/oct-stream",S=1]
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\size scriptsize 
+\SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
@@ -3863,7 +3710,7 @@ RewriteEngine On
 \SpecialChar ~
 RewriteRule !
 \backslash 
-.(gif|css|jpg|png)$ /your/site/root/index.php
+.(gif|css|jpg|png|jar)$ /your/site/root/index.php
 \layout Standard
 
 
@@ -3931,7 +3778,7 @@ DocumentRoot /your/site/root/
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-<Directory /your/site/root/admin>
+<Directory /your/site/root>
 \layout Standard
 
 
@@ -3996,9 +3843,27 @@ RewriteEngine On
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
+
+\size scriptsize 
+RewriteRule ^/mediacatalogue/catalogue/(.*)$\SpecialChar ~
+ /your/site/root/ezmediacatalogue/cat
+alogue/$1 [T="application/oct-stream",S=1]
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+
+\size scriptsize 
 RewriteRule !
 \backslash 
-.(gif|css|jpg|png)$ /your/site/root/admin/index.php
+.(gif|css|jpg|png|jar) /your/site/root/index_admin.php
 \layout Standard
 
 
@@ -4022,7 +3887,7 @@ ServerAdmin your_mail@domain.no
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-DocumentRoot /your/site/root/admin
+DocumentRoot /your/site/root
 \layout Standard
 
 

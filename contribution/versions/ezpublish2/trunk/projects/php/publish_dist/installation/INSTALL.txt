@@ -42,7 +42,8 @@ Chapter 2 Installing eZ publish (standard method)
     2.3 Apache Configuration
         2.3.1 Dual Virtual Host
             2.3.1.1 Configuring Through httpd.conf
-            2.3.1.2 Configuring Through .htaccess
+            2.3.1.2 Configuring php.ini
+            2.3.1.3 Configuring Through .htaccess
     2.4 eZ publish Installation
         2.4.1 Program Files
         2.4.2 Database 
@@ -621,7 +622,8 @@ It might save you for hours with debugging
 2.3 Apache Configuration
 
 If you don't want to change the Apache configuration, go
-to chapter 2.
+to chapter 2. Please take notice of the rewrite rules. They
+have been changed since the previously versions.
 
 2.3.1 Dual Virtual Host<sec: dual virtualhost>
 
@@ -654,38 +656,29 @@ User Site
 
     # User site
 
-    <VirtualHost your.domain.com>
+    <VirtualHost your.ip.addr.no>
 
-      <Directory /your/apache/documentroot/publish_dist>
+      <Directory /your/docroot>
 
         Options FollowSymLinks
 
-        AllowOverride None
+        AllowOverride None 
 
       </Directory>
 
       RewriteEngine On
 
-      RewriteRule ^/stats/store/(.*).gif$
+      RewriteRule ^/stats/store/(.*).gif$ 
+/your/docroot/ezstats/user/storestats.php [S=3]
 
-      /your/path/to/publish/ezstats/user/storestats.php
-[S=2]
+      RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$ 
+/your/docroot/ezfilemanager/files/$1 [T="application/oct-stream",S=2]
 
-      # The lines above should appear on the same
+      RewriteRule ^/mediacatalogue/catalogue/(.*)$ 
+/your/docroot/ezmediacatalogue/catalogue/$1 [T="application/oct-stream",S=1]
 
-      # line in your configuration file!
-
-      RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$
-
-      /your/apache/documentroot/publish_dist/ezfilemanager/files/$1
-
-      [T="application/oct-stream",S=1]
-
-      # The lines above should appear on the same
-
-      # line in your configuration file!
-
-      RewriteRule !\.(gif|css|jpg|png)$ /your/apache/documentroot/publish_dist/index.php
+      RewriteRule !\.(gif|css|jpg|png|jar)$
+/your/docroot/index.php
 
       ServerAdmin your.e-mail@address
 
@@ -699,19 +692,22 @@ Admin Site
 
   # Admin site 
 
-  <VirtualHost admin.yourdomain.org>
+  <VirtualHost your.ip.addr.no>
 
-    <Directory /your/apache/documentroot/publish_dist>
+    <Directory /your/docroot>
 
-      Options FollowSymLinks
+        Options FollowSymLinks
 
-      AllowOverride None
-
-      RewriteEngine On
-
-      RewriteRule !\.(gif|css|jpg|png)$ /your/apache/documentroot/publish_dist/index_admin.php
+        AllowOverride None 
 
     </Directory>
+
+    RewriteEngine On
+
+    RewriteRule ^/mediacatalogue/catalogue/(.*)$ 
+/your/docroot/ezmediacatalogue/catalogue/$1 [T="application/oct-stream",S=1]
+
+    RewriteRule !\.(gif|css|jpg|png|jar) /your/docroot/index_admin.php
 
     ServerAdmin your_mail@domain.no
 
@@ -727,7 +723,7 @@ file is covered at http://httpd.apache.org/docs/ for a complete
 understanding of the above information you'll need to read
 that documentation.
 
-The directory "/your/apache/documentroot/publish_dist"
+The directory "/your/docroot/"
 is the directory where you extracted eZ publish.
 
 Error Checking
@@ -742,12 +738,16 @@ Explanation of the Rewrite Rules
 
 The rewrite rules do the following:
 
+      RewriteRule ^/stats/store/(.*).gif$ 
+/your/docroot/ezstats/user/storestats.php [S=3]
 
-    RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$
 
-    /your/apache/documentroot/publish_dist/ezfilemanager/files/$1
+This says that everything served from "/stats/store/"
+should be served by the storestats.php script. This is used
+by the statistical module
 
-    [T="application/oct-stream",S=1]
+      RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$ 
+/your/docroot/ezfilemanager/files/$1 [T="application/oct-stream",S=2]
 
 
 This says that everything served from "/filemanager/filedownload/"
@@ -765,7 +765,7 @@ slash after your domain name.
 The "$" sign is used to mark the end of line, in
 order to remember the full line.
 
-The part "[T="application/oct-stream",S=1]"
+The part "[T="application/oct-stream",S=2]"
 means that everything which is matched shall be of the specific
 mime type ("application/oct-stream",
 ie. binary download). The "S=1"
@@ -774,8 +774,19 @@ rule ahead before trying to match again.
 
 The next rewrite rule:
 
+      RewriteRule ^/mediacatalogue/catalogue/(.*)$ 
+/your/docroot/ezmediacatalogue/catalogue/$1 [T="application/oct-stream",S=1]
 
-    RewriteRule !\.(gif|css|jpg|png)$ /your/apache/documentroot/publish_dist/index.php
+
+This rewriterule basicly does the same as the previously,
+but it fixes so that the files stored in the media catalogue
+is served correctly
+
+
+The last rewrite rule
+
+      RewriteRule !\.(gif|css|jpg|png|jar)$
+/your/docroot/index.php
 
 
 is found in both sites (admin and user). This means that
@@ -794,66 +805,33 @@ line into each virtual host section:
 
     php_flag magic_quotes_gpc off
 
+    php_flag magic_quotes_runtime off
 
-NOTE: It isn't possible to use the form http://mysite.com/admin
-at all; since the admin module assumes that the url "/"
-is the start of the admin pages. If you do change eZ publish
-code in order to do this anyway; please send the code to
-bf@ez.no for future inclusion. The only correct way to access
-the admin site is through its own virtual host address.
 
-2.3.1.2 Configuring Through .htaccess
+2.3.1.2 Configuring php.ini
 
-Instead of using httpd.conf and rewrite rules in the virtual
-hosts, you can also do the rewrite rules in the .htaccess
-filesm directory specific configuration files.
+Magic quotes may also be turned of in php. This will disable
+magic quotes:
 
-Note: You must set up apache to accept this. You still need
-two domains for this operation!
+magic_quotes_gpc = Off
+
+magic_quotes_runtime= Off
+
+2.3.1.3 Configuring Through .htaccess
+
+At present, configuring the rewrite rules in .htaccess files
+is not supported. However, you may switch of magic quotes
+in an .htaccess file.
+
+Note: You must set up apache to accept this.
 
 User Site
 
-In your main directory (/path/to/index.php/) create a file
+In your document root (/path/to/index.php/) create a file
 called ".htaccess" containing the following text:
 
 
     php_flag magic_quotes_gpc off
-
-    Options FollowSymLinks
-
-    RewriteEngine On 
-
-    RewriteRule ^/stats/store/(.*).gif$ 
-
-    /publish/ezstats/user/storestats.php [S=2] 
-
-    # The two lines above should appear on the 
-
-    # same line in your configuration file.
-
-    RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$
-
-    /path/to/website/ezfilemanager/files/$1
-
-    [T="application/oct-stream",S=1]
-
-    # The three lines above should appear on the
-
-    # same line in your configuration file!
-
-    RewriteRule !\.(gif|css|jpg|png)$ /path/to/website/index.php
-
-Admin Site
-
-In your admin subdomain home directory, create a file with
-the following text:
-
-
-    php_flag magic_quotes_gpc off
-
-    RewriteEngine On
-
-    RewriteRule !\.(gif|css|jpg|png)$ /path/to/website/index_admin.php
 
 2.4 eZ publish Installation
 
@@ -1429,7 +1407,17 @@ For example:
 
       RewriteEngine On
 
-      RewriteRule !\.(gif|css|jpg|png)$ /your/site/root/index.php
+       RewriteRule ^/stats/store/(.*).gif$ 
+/your/site/root/ezstats/user/storestats.php [S=3]
+
+       RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$ 
+/your/site/root/ezfilemanager/files/$1 [T="application/oct-stream",S=2]
+
+       RewriteRule ^/mediacatalogue/catalogue/(.*)$ 
+/your/site/root/ezmediacatalogue/catalogue/$1 [T="application/oct-stream",S=1]
+
+       RewriteRule !\.(gif|css|jpg|png|jar)$
+/your/site/root/index.php
 
       ServerAdmin your_mail@domain.no
 
@@ -1442,7 +1430,7 @@ For example:
 
     <VirtualHost admin.yourdomain.org>
 
-      <Directory /your/site/root/admin>
+      <Directory /your/site/root>
 
         Options FollowSymLinks
 
@@ -1452,11 +1440,15 @@ For example:
 
       RewriteEngine On
 
-      RewriteRule !\.(gif|css|jpg|png)$ /your/site/root/admin/index.php
+      RewriteRule ^/mediacatalogue/catalogue/(.*)$ 
+/your/site/root/ezmediacatalogue/catalogue/$1 [T="application/oct-stream",S=1]
+
+      RewriteRule !\.(gif|css|jpg|png|jar)
+/your/site/root/index_admin.php
 
       ServerAdmin your_mail@domain.no
 
-      DocumentRoot /your/site/root/admin
+      DocumentRoot /your/site/root
 
       ServerName admin.yourdomain.org
 
