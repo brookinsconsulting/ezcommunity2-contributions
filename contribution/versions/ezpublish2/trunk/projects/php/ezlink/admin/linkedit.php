@@ -63,7 +63,7 @@ if ( $Action == "insert" )
     print ( "akseptert: " . $accepted );
     $newlink->store();
 
-//      printRedirect( "../index.php?page=" . $DOCUMENTROOT . "admin/linklist.php" );
+    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "admin/linklist.php" );
 }
 
 // Sette template filer

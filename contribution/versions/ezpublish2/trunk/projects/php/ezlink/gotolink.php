@@ -19,6 +19,7 @@ if ( $Action == "addhit" )
 {
     $hit = new eZHit();
     $hit->setLink( $LID );
+    $hit->setRemoteIP( $REMOTE_ADDR );
     $hit->store();
 
 }

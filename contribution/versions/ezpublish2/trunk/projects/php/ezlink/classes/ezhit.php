@@ -16,6 +16,7 @@ class eZHit
     {
         $this->dbInit();
         query( "INSERT INTO Hit SET
+				RemoteIP='$this->RemoteIP',
                 ID='$this->ID',
                 Link='$this->Link'" );
     }
@@ -28,6 +29,7 @@ class eZHit
     {
         $this->dbInit();
         query( "UPDATE Hit SET
+				RemoteIP='$this->RemoteIP',
                 Link='$this->Link',
                 WHERE ID='$this->ID'" );
     }
@@ -59,15 +61,22 @@ class eZHit
         return count( $hit_array );
     }
 
-
     /*
-      Setter om linken er akseptert
+      Setter link id'en
     */
     function setLink( $value )
     {
         $this->Link = ( $value );
     }
-   
+
+    /*
+      Setter ip'en til brukeren.
+    */
+    function setRemoteIP( $value )
+    {
+        $this->RemoteIP = ( $value );
+    }
+    
     /*
       Returnerer description
     */
@@ -84,6 +93,15 @@ class eZHit
         return $this->Time;
     }
 
+    /*
+      Returnerer ip'en til brukeren.
+    */
+    function remoteIP( )
+    {
+        return $this->RemoteIP;
+    }
+    
+
     function dbInit()
     {
         require "ezlink/dbsettings.php";
@@ -92,10 +110,10 @@ class eZHit
     }
 
         
-
+    var $ID;
     var $Link;
     var $Time;
-    var $ID;
+    var $RemoteIP;    
 
 }
 
