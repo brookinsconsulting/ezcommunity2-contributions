@@ -141,22 +141,6 @@ CREATE TABLE `eZGroupEventCalendar_EventFileLink` (
   PRIMARY KEY  (`ID`)
 ) TYPE=MyISAM;
 
-
-
-#
-# Dumping data for table 'eZUser_Module'
-#
-
-#INSERT INTO eZUser_Module (Name) VALUES ('eZGroupEventCalendar');
-
-#
-# Dumping data for table 'eZUser_Permission'
-#
-
-#INSERT INTO eZUser_Permission (ModuleID, Name) SELECT ID AS ModuleID, 'Read' AS Name FROM eZUser_Module WHERE Name='eZGroupEventCalendar';
-#INSERT INTO eZUser_Permission (ModuleID, Name) SELECT ID AS ModuleID, 'WriteToRoot' AS Name FROM eZUser_Module WHERE Name='eZGroupEventCalendar';
-
-
 # 
 # Dumping data for table `eZForum_Category`
 # 
