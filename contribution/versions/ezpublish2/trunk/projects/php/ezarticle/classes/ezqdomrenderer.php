@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.12 2001/07/05 14:17:17 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.13 2001/07/06 11:14:01 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -39,6 +39,7 @@
   <iconlink ez.no text to the link> - anchor
   <mail adresse@domain.tld subject line, link text> - anchor to email address with subject
   <image 42 align size> - image tag, 42 is the id, alignment (left|center|right|float), size (small|medium|large|original)
+  <image 42 align size link> - image tag, 42 is the id, alignment (left|center|right|float), size (small|medium|large|original), the link is optional
 
   <ezanchor anchorname>
 

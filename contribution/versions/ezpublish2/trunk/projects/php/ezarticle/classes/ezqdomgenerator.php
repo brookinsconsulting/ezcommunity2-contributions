@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.10 2001/07/05 14:17:17 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.11 2001/07/06 11:14:01 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -137,12 +137,12 @@ class eZQDomGenerator
     */
     function &generateImage( $tmpPage )
     {
-        $tmpPage = preg_replace( "/(<image\s+([0-9]+)\s+([a-z]+)\s+([a-z]+)\s*>)/", "<image id=\"\\2\" align=\"\\3\" size=\"\\4\" />", $tmpPage );
+        $tmpPage = preg_replace( "/(<image\s+([0-9]+)\s+([a-z]+)\s+([a-z]+?)\s*>)/", "<image id=\"\\2\" align=\"\\3\" size=\"\\4\" />", $tmpPage );
         
         // parse the <image id align size link> tag and convert it
         // link is optional
         // to <image id="id" align="align" size="size" href="link" />
-        $tmpPage = preg_replace( "/(<image\s+([0-9]+)\s+([a-z]+)\s+([a-z]+)\s+([^ ]+)\s*>)/", "<image id=\"\\2\" align=\"\\3\" size=\"\\4\" href=\"\\5\" />", $tmpPage );
+        $tmpPage = preg_replace( "/(<image\s+([0-9]+)\s+([a-z]+)\s+([a-z]+)\s+([^ ]+?)\s*>)/", "<image id=\"\\2\" align=\"\\3\" size=\"\\4\" href=\"\\5\" />", $tmpPage );
 
         // default image tag <image id>
         $tmpPage = preg_replace( "/(<image\s+?([0-9]+?)\s*?>)/", "<image id=\"\\2\" align=\"center\" size=\"medium\" />", $tmpPage );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.97 2001/07/04 14:28:15 bf Exp $
+// $Id: articleedit.php,v 1.98 2001/07/06 11:14:01 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -95,12 +95,13 @@ if ( $Action == "Insert" )
     $stopDate->setHour( $StopHour );
     $stopDate->setMinute( $StopMinute );
     $stopDate->setSecond( 0 );
+    
+    $article->setStartDate( $startDate );
+    $article->setStopDate( $stopDate );
 
-    $article->setStartDate( &$startDate );
-    $article->setStopDate( &$stopDate );
 
     $article->store(); // to get the ID
-
+    
     if( isset( $WriteGroupArray ) )
     {
         if( $WriteGroupArray[0] == 0 )

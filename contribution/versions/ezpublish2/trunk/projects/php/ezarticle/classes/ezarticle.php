@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.113 2001/07/05 17:24:01 br Exp $
+// $Id: ezarticle.php,v 1.114 2001/07/06 11:14:01 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -84,6 +84,9 @@ class eZArticle
     {
         // default value
         $this->IsPublished = "0";
+        $this->StartDate = 0;
+        $this->StopDate = 0;
+        
         
         if ( $id != "" )
         {
@@ -110,12 +113,12 @@ class eZArticle
         if ( is_object( $this->StartDate ) and $this->StartDate->isValid() )
             $startDate = $this->StartDate->timeStamp();
         else
-            $startDate = "";
+            $startDate = "0";
         
         if ( is_object( $this->StopDate ) and $this->StopDate->isValid() )
             $stopDate = $this->StopDate->timeStamp();
         else
-            $stopDate = "";
+            $stopDate = "0";
         
         if ( !isset( $this->ID ) )
         {
