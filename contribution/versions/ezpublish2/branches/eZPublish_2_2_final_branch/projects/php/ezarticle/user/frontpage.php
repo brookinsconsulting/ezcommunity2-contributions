@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.28.2.1 2001/10/30 19:34:55 master Exp $
+// $Id: frontpage.php,v 1.28.2.2 2001/10/30 19:49:02 master Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -37,10 +37,7 @@ include_once( "ezsitemanager/classes/ezsection.php" );
 include_once( "ezad/classes/ezadcategory.php" );
 include_once( "ezad/classes/ezad.php" );
 
-
 $CategoryID = $url_array[3];
-
-print ($CategoryID);
 
 $ini =& INIFile::globalINI();
 
