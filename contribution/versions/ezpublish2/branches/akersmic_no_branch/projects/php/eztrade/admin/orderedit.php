@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: orderedit.php,v 1.31.8.7 2002/02/15 13:05:48 ce Exp $
+// $Id: orderedit.php,v 1.31.8.8 2002/04/24 10:34:16 br Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -113,17 +113,12 @@ else if ( $Action == "payment" )
             Header( "Location: /trade/transaction/$OrderID/" );
             exit();
         }
-        else if ( $PaymentAmount <= $maxAmount )
+        else
         {
             $session->setVariable( "OrderPaymentAmount", $PaymentAmount );
             $session->setVariable( "OrderPaymentMode", "transaction" );
 
             Header( "Location: /trade/transaction/$OrderID/" );
-            exit();
-        }
-        else
-        {
-            Header( "Location: /trade/orderedit/$OrderID/" );
             exit();
         }
     }
@@ -206,6 +201,9 @@ $t->set_block( "online_payment_list_tpl", "online_payment_item_tpl", "online_pay
 $t->set_block( "order_edit_tpl", "online_payment_pay_tpl", "online_payment_pay" );
 $t->set_block( "order_edit_tpl", "refunded_amount_tpl", "refunded_amount" );
 $t->set_block( "order_edit_tpl", "online_payment_verified_tpl", "online_payment_verified" );
+
+$t->set_block( "online_payment_pay_tpl", "online_payment_cancel_item_tpl", "online_payment_cancel_item" );
+$t->set_block( "online_payment_pay_tpl", "online_payment_info_tpl", "online_payment_info" );
 
 $order = new eZOrder( $OrderID );
 
@@ -635,12 +633,22 @@ $maxAmount = $total["inctax"] - $totalPaidAmount - $refundAmount;
 
 // set the minimum and maximum amount which can be
 // paid on this order.
-if ( $maxAmount > 0 && $pnutr )
+if ( $pnutr )
 {
     $currency->setValue( 0 );
     $t->set_var( "lowest_amount", $locale->format( $currency ) );
-    $currency->setValue( $maxAmount );
-    $t->set_var( "highest_amount", $locale->format( $currency ) );
+    if ( $maxAmount <= 0 )
+    {
+        $t->set_var( "online_payment_info", "" );
+        $t->set_var( "online_payment_cancel_item", "" );
+    }
+    else
+    {
+        $currency->setValue( $maxAmount );
+        $t->set_var( "highest_amount", $locale->format( $currency ) );
+        $t->parse( "online_payment_info", "online_payment_info_tpl" );
+        $t->parse( "online_payment_cancel_item", "online_payment_cancel_item_tpl" );
+    }
 
     $t->parse( "online_payment_pay", "online_payment_pay_tpl" );
 }

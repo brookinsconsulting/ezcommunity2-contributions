@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: transaction.php,v 1.1.2.1 2002/01/29 14:02:30 br Exp $
+// $Id: transaction.php,v 1.1.2.2 2002/04/24 10:34:16 br Exp $
 //
 // Definition of ||| class
 //
@@ -140,8 +140,6 @@ if ( is_Numeric( $Amount ) && $Amount > 0 )
     
     if ( $PaymentMode == "transaction" )
     {
-        if ( $Amount <= $maxAmount )
-        {
             $continueTransaction = true;
             // includes the payment transaction if the amount is verified.
             if( isSet( $TransactionOK ) )
@@ -153,12 +151,6 @@ if ( is_Numeric( $Amount ) && $Amount > 0 )
                 Header( "Location: /trade/orderedit/$OrderID/" );
                 exit();
             }
-        }
-        if ( $continueTransaction == false )
-        {
-            Header( "Location: /trade/orderedit/$OrderID/" );
-            exit();
-        }
         $t->set_var( "refund_amount", "" );
         $t->parse( "new_transaction", "new_transaction_tpl" );
     }
