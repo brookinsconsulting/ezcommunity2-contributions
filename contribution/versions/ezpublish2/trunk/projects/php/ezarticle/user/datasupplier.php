@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.69 2001/08/02 16:12:05 kaid Exp $
+// $Id: datasupplier.php,v 1.70 2001/08/16 13:33:55 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -251,12 +251,15 @@ switch ( $url_array[2] )
 
         if ( $PageCaching == "enabled" )
         {
+            $article = new eZArticle( $ArticleID );
+            $definition = $article->categoryDefinition();
+            $definition = $definition->id();
             $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber . "," . $CategoryID . "," . $groupstr  .".cache";
             if ( eZFile::file_exists( $cachedFile ) )
             {
                 include( $cachedFile );
             }
-            else if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'r' )
+            else if( eZObjectPermission::hasPermissionWithDefinition( $ArticleID, "article_article", 'r', false, $definition )
                      || eZArticle::isAuthor( $user, $ArticleID ) )
             {
                 $GenerateStaticPage = "true";
@@ -264,7 +267,7 @@ switch ( $url_array[2] )
                 include( "ezarticle/user/articleview.php" );
             }
         }
-        else if ( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'r' )
+        else if ( eZObjectPermission::hasPermissionWithDefinition( $ArticleID, "article_article", 'r', false, $definition )
         || eZArticle::isAuthor( $user, $ArticleID ) )
         {
             include( "ezarticle/user/articleview.php" );
