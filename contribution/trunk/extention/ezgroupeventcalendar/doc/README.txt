@@ -60,7 +60,7 @@ Step 3: Add the following lines to your eZ publish's site.ini file and modify th
 	LinkModules=eZGroupEventCalendar:1000
 	YearsPrint=19
 
-Step 4: Add these lines to the head of your sitedesign frame, in the html head section, just below the default eZ publish stylesheet include (in ie: sitedesign/standard/frame.php)
+Step 4: Add these lines to the head of your sitedesign frame, in the html head section, just below the default eZ publish stylesheet include (in ie: sitedesign/standard/frame.php), for a proven installation example see ezgroupeventcalendar/doc/frame.php and ezgroupeventcalendar/doc/site.ini.add
 
 <style type="text/css">
 @import url(/ezgroupeventcalendar/user/templates/standard/style.css);

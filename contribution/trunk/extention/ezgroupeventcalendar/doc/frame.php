@@ -8,7 +8,7 @@
 $SiteTitle = $ini->read_var( "site", "SiteTitle" );
 
 if ( isset( $SiteTitleAppend ) )
-    print( $SiteTitle . " - " . $SiteTitleAppend );
+    print( $SiteTitle . " : " . $SiteTitleAppend );
 else
     print( $SiteTitle );
 
@@ -25,28 +25,65 @@ if ( isset( $MetaRedirectLocation ) && isset( $MetaRedirectTimer ) )
 
 ?>
 
-<link rel="stylesheet" type="text/css" href="<? print $GlobalSiteIni->WWWDir; ?>/design/<? print ($GlobalSiteDesign); ?>/style.css" />
-<link rel="stylesheet" type="text/css" href="/ezgroupeventcalendar/user/templates/standard/style.css" />
+<style type="text/css">
+<? /*
+@import url(/design/ezno/stylesheets/core.css);
+@import url(/design/ezno/stylesheets/ezmain.css);
+@import url(/design/ezno/stylesheets/ezsystems.css);
 
-<script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/overlib/overlib.js"></script>
-<script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/dom-drag.js"></script>
+@import url(/ezgroupeventcalendar/user/templates/standard/style/style.css);
+
+*/ ?>
+@import url(/design/<? print ($GlobalSiteDesign); ?>/main.css);
+
+@import url(/ezgroupeventcalendar/user/templates/standard/style/style.css);
+
+</style>
 <?
-if ($url_array[1] == "groupeventcalendar" && $url_array[2] == "eventedit" ){
+if ($url_array[1] == "groupeventcalendar"){
 ?>
-    <link rel="alternate stylesheet" type="text/css" media="all" href="/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-system.css" title="system" />
-
-    <!-- eZGroupEventCalendar:jscalendar script dependancies -->
-    <script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar.js"></script>
-    <script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-setup.js"></script>
-    <script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/jscalendar/lang/calendar-en.js"></script>
-
-    <script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-setup-instance.js">
-</script>
+<script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/js/dom-drag.js"></script>
+<script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/overlib/overlib.js"></script>
 <?
 }
 ?>
 
-<script language="JavaScript1.2">
+<? /*
+<!--
+<link rel="stylesheet" type="text/css" href="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/style.css" />
+-->
+*/ ?>
+
+<?
+/*
+<script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/js/ypSlideOutMenusC.js"></script>
+
+<script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/js/main.js"></script>
+
+
+<script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/js/browserdetect_lite.js"></script>
+
+<script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/js/opacity.js"></script>
+
+<script type="text/javascript">
+function init() {
+  var layerObject = null;
+  if (pngAlpha) {
+    for (i=0;i<document.getElementsByTagName("td").length; i++) {
+      if (document.getElementsByTagName("td").item(i).className == "bgdark"){
+	document.getElementsByTagName("td").item(i).style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='//ezgroupeventcalendar/user/templates/standard/images/gcalEventTransBg.png', sizingMethod='scale')";
+	// alert("Message from resident coder: Sorry guys, almost done... " + document.getElementsByTagName("td").item(i).style.filter);
+      }
+    }
+    //document.getElementById("bgdark").style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../skin1/images/background/infobg40.png', sizingMethod='scale')";
+  }
+}
+</script>
+
+*/
+?>
+
+<script language="JavaScript1.2" type="text/javascript">
 <!--//
 
    function MM_swapImgRestore()
@@ -120,43 +157,172 @@ else
 <meta name="MSSmartTagsPreventParsing" content="TRUE" />
 
 <meta name="generator" content="eZ publish" />
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
+
+<!--[if gte IE 5.5000]>
+<script type="text/javascript" src="/design/ezc_developer/pngfix.js"></script>
+<![endif]-->
+
+<? /*
+xxx
+*/ ?>
+
+<?
+/*
+<!-- ################################################## -->
+
+<!-- eZGroupEventCalendar:jscalendar style dependancies -->
+<!--
+<link rel="alternate stylesheet" type="text/css" media="all" href="http://ezcommunity.net/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-blue.css" title="winter" />
+<link rel="alternate stylesheet" type="text/css" media="all" href="http://ezcommunity.net/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-blue2.css" title="blue" />
+
+<link rel="alternate stylesheet" type="text/css" media="all" href="http://ezcommunity.net/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-brown.css" title="summer" />
+<link rel="alternate stylesheet" type="text/css" media="all" href="http://ezcommunity.net/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-green.css" title="green" />
+
+<link rel="stylesheet" type="text/css" media="all" href="http://ezcommunity.net/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-win2k-1.css" title="win2k-1" />
+<link rel="alternate stylesheet" type="text/css" media="all" href="http://ezcommunity.net/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-win2k-2.css" title="win2k-2" />
+
+<link rel="alternate stylesheet" type="text/css" media="all" href="http://ezcommunity.net/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-win2k-cold-1.css" title="win2k-cold-1" />
+<link rel="alternate stylesheet" type="text/css" media="all" href="http://ezcommunity.net/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-win2k-cold-2.css" title="win2k-cold-2" />
+-->
+*/
+?>
+
+<?
+if ($url_array[1] == "groupeventcalendar" && $url_array[2] == "eventedit" ){
+?>
+
+    <link rel="alternate stylesheet" type="text/css" media="all" href="http://ezcommunity.net/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-system.css" title="system" />
+
+    <!-- eZGroupEventCalendar:jscalendar script dependancies -->
+
+    <script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar.js"></script>
+    <script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-setup.js"></script>
+    <script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/jscalendar/lang/calendar-en.js"></script>
+
+    <script type="text/javascript" src="/ezgroupeventcalendar/user/templates/standard/jscalendar/calendar-setup-instance.js"></script>
+<?
+}
+?>
 </head>
 
-<body bgcolor="#999999" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6"  onload="MM_preloadImages('<? print $GlobalSiteIni->WWWDir; ?>/images/redigerminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/slettminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/downloadminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/addminimrk.gif')">
+<body bgcolor="#000000" onload="MM_preloadImages('<? print $GlobalSiteIni->WWWDir; ?>/images/document/filemanager/redigerminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/document/slettminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/document/filemanager/downloadminimrk.gif','<? print $GlobalSiteIni->WWWDir; ?>/images/admin_edit_images/addminimrk.gif')">
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<div align="center">
+<table width="91%" border="0" cellspacing="1" cellpadding="1" style="background-color: #000000; border: 0px dashed;">
 <tr>
    <td>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-   <td class="tdmini" width="99%">
-     <a href="<? print $GlobalSiteIni->WWWDir; ?>/"><img src="<? print $GlobalSiteIni->WWWDir; ?>/design/<? print ($GlobalSiteDesign); ?>/images/ezpublish-yourcontentmadeeasy.gif" height="20" width="290" border="0" alt="" /></a><br />
+   <td class="tdmini" width="99%" align="left">
+<?php
+/*
+<!--
+<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/ez_systems_branding/ezpublish-yourcontentmadeeasy.gif" height="20" width="290" border="0" alt="" /><br />
+-->
+
+<!--
+<span style=""><a href="/" style="font-size: 23px; text-decoration: none; ">eZ&nbsp;Community&nbsp;.&nbsp;net</a></span><br />
+-->
+*/
+?>
+<a href="/" style="font-size: 24px; color: #ffffff; text-decoration: none; padding-left: 3px; padding-botom: 4px;"><img src="/design/ezc_standard/images/logo-grey-mini.png" height="28" width="28" border="0" align="middle" alt="icon" />&nbsp;eZ&nbsp;Community</a>
+<?php
+/*
+<!--
+&nbsp;
+<span>&nbsp;&nbsp; <a href="/" style="font-size: 17px; color: #ffffff; text-decoration: none; "><span style="color: #2372c9;">&nbsp;</span>eZ&nbsp;Community</a></span>
+-->
+*/
+?>
    </td>
-   <td class="tdmini" width="1%" align="right">
+   <td class="tdmini" width="1%" valign="bottom" align="right">
+    <img src="<? print $GlobalSiteIni->WWWDir; ?>/images/document/1x1.gif" width="1" height="10" border="0" alt="" />
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
    <td class="tdmini" width="1%">
-   <img src="<? print $GlobalSiteIni->WWWDir; ?>/design/<? print ($GlobalSiteDesign); ?>/images/tab-mrk-left.gif" height="20" width="20" border="0" alt="" /><br />
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-left.gif" height="20" width="20" border="0" alt="" /><br />
    </td>
-   <td class="tab" bgcolor="#ffffff" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-standard/">Standard</a>&nbsp;&nbsp;</td>
+
+   <td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/community/">Community</a>&nbsp;&nbsp;</td>
+
    <td class="tdmini" width="1%">
-   <img src="<? print $GlobalSiteIni->WWWDir; ?>/design/<? print ($GlobalSiteDesign); ?>/images/tab-mrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
+<img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
+
+<!--
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-mrk-left.gif" height="20" width="20" border="0" alt="" /><br />
+-->
    </td>
-   <td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-intranet/">Intranet</a>&nbsp;&nbsp;</td>
+
+   <td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/forums/">Forum</a>&nbsp;&nbsp;</td>
+
    <td class="tdmini" width="1%">
-   <img src="<? print $GlobalSiteIni->WWWDir; ?>/design/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
+
+<!--
+
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-left.gif" heigh\
+t="20" width="20" border="0" alt="" /><br />
+
+-->
+   </td>
+
+   <td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/community/developer/">Developer</a>&nbsp;&nbsp;</td>
+
+   <td class="tdmini" width="1%">
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-mrk.gif" height="20" width="20" border="0" alt="" /><br />
+
+<!--
+
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-left.gif" height="20" width="20" border="0" alt="" /><br />
+
+-->
+   </td>
+
+   <td class="tab" bgcolor="#ffffff" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/calendar/">Calendar</a>&nbsp;&nbsp;</td>
+
+   <td class="tdmini" width="1%">
+
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-mrk-right.gif" height="20" width="20" border="0" alt="" /><br />
+
+<!--
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
+-->
+   </td>
+
+<? /*
+
+<!--
+   <td class="tdmini" width="1%">
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-left.gif" height="20" width="20" border="0" alt="" /><br />
+   </td>
+-->
+
+   <td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-standard/">Standard</a>&nbsp;&nbsp;</td>
+
+   <td class="tdmini" width="1%">
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
    </td>
    <td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-trade/">Trade</a>&nbsp;&nbsp;</td>
+
+
    <td class="tdmini" width="1%">
-   <img src="<? print $GlobalSiteIni->WWWDir; ?>/design/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
+   </td>
+   <td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-intranet/">Intranet</a>&nbsp;&nbsp;</td>
+
+   <td class="tdmini" width="1%">
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-unmrk.gif" height="20" width="20" border="0" alt="" /><br />
    </td>
    <td class="tab" bgcolor="#dcdcdc" width="23%">&nbsp;&nbsp;<a href="<? print $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index; ?>/section-news/">News</a>&nbsp;&nbsp;</td>
    <td class="tdmini" width="1%">
-   <img src="<? print $GlobalSiteIni->WWWDir; ?>/design/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-right.gif" height="20" width="20" border="0" alt="" /><br />
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/tab-unmrk-right.gif" height="20" width="20" border="0" alt="" /><br />
    </td>
+
+   */ ?>
 </tr>
 </table>
 
@@ -166,97 +332,170 @@ else
 
 <table width="100%" border="0" cellspacing="0" cellpadding="4">
 <tr valign="top">
-    <td width="1%" bgcolor="#f0f0f0">
-   <!-- Left menu start -->
 
+   <td width="1%" bgcolor="#ffffff"><img src="<? print $GlobalSiteIni->WWWDir; ?>/images/document/1x1.gif" width="2" height="1" border="0" alt="" /></td>
+   <td width="96%" bgcolor="#ffffff" align="left">
+    <?
+   //    <!-- Banner start -->
+   //    $CategoryID = 1;
+     $CategoryID = 2;
+    $Limit = 1;
+    include( "ezad/user/adlist.php" );
+    //    <!-- Banner end-->
+    ?>
+
+    <?
+    // <!-- Main content view start -->
+    print( $MainContents );
+    ?>
+    <!-- Main content view end -->
+    <br />
+    </td>
+    <td width="1%" bgcolor="#ffffff"><img src="<? print $GlobalSiteIni->WWWDir; ?>/images/document/1x1.gif" width="2" height="1" border="0" alt="" /></td>
+
+    <td width="1%" bgcolor="#ffffff" align="left">
+    <div class="bglight">
+    <?
+    // a short list of articles from the given category
+    // shows $Limit number starting from offset $Offset
+    //    $CategoryID=1;
+    $CategoryID=8;
+    $Offset=1;
+    $Limit=0;
+    include( "ezarticle/user/smallarticlelist.php" );
+    ?>
+
+
+<?
+          include_once( "classes/ezdate.php" );
+          include_once( "ezuser/classes/ezuser.php" );
+          $bdate = new ezdate();
+          $now_date = ucfirst($bdate->monthName()) . " " . $bdate->day() . ", " .  $bdate->year();
+         ?>
+         <style type="text/css">
+         .LayerMenuDate {
+         position:relative;
+         left:0px; right:0px;
+         color : rgb(0, 0, 0);
+         font-family : Arial, Helvetica, sans-serif;
+         font-size : 12px;
+         font-weight: bold;
+
+         padding-top: 3px;
+         padding-bottom: 6px;
+         }
+         </style>
+         <div class="LayerMenuDate" style="text-align: center;"><span class=navitem onclick='rdrctMain(""); return true;'><? print($now_date); ?></span></div>
+
+
+    <?
+    //  include( "ezsearch/user/menubox.php" );
+    ?>
+
+<!--
+    <div align="center" style="border: 4px;"><a class="path" href="?PrintableVersion=enabled">
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/<? print ($GlobalSiteDesign); ?>/images/button-printpage.gif" border="0"/></a><br /><br /></div>
+-->
+
+
+    <?
+    $NoAddress = true;
+    include( "ezuser/user/userbox.php" );
+
+//    include("ezgroupeventcalendar/user/menubox.php" );
+    ?>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="4">
+<tr valign="top">
+    <td width="1%" bgcolor="#f0f0f0" align="left">
+
+   <? /*Left menu start */ ?>
    <?
-    $CategoryID = 0;
+    // include the static pages for category 2
+//    $CategoryID = 1;
+    $CategoryID = 8;
+//    include( "ezarticle/user/articlelinks.php" );
+   ?>
+   <?
+    $CategoryID = 7;
    include( "ezarticle/user/menubox.php" );
    ?>
 
     <?
-    $CategoryID = 1;
-   include( "ezarticle/user/headlines.php" );
+
+    //    $CategoryID = 1;
+    $CategoryID = 8;
+//    include( "ezarticle/user/headlines.php" );
+
     ?>
 
-   <?
-   include( "ezlink/user/menubox.php" );
-   ?>
+</td>
+</tr>
 
-   <?
-    // include the static pages for category 2
-    $CategoryID = 1;
-    include( "ezarticle/user/articlelinks.php" );
-   ?>
+<tr rowspan="2" valign="bottom">
+    <td width="1%" bgcolor="#fffff" align="left">
 
-   <!-- Left menu end -->
+  <br /><br />
+  <div align="center">
 
-   <img src="<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/design/1x1.gif" width="130" height="8" border="0"><br />
-   </td>
+   <a target="_blank" style="text-decoration: none;" href="http://developer.berlios.de/projects/ezcommunity" title="eZ Community is a BerliOS Developer Project">
+<img src="http://developer.berlios.de/bslogo.php?group_id=2154" width="100px" height="32px" border="0" alt="BerliOS Developer Logo">
+    <br /><a href="/article/articleview/161" style="text-decoration: none;">eZ Community's BerliOS Project</a>
 
-   <td width="1%" bgcolor="#ffffff"><img src="<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/design/1x1.gif" width="2" height="1" border="0" alt="" /></td>
-   <td width="96%" bgcolor="#ffffff">
-<!--
-    <?
-//    $CategoryID = 1;
-//    $Limit = 1;
-//   include( "ezad/user/adlist.php" );
-    ?>
--->
+    <br /><br />
 
-
-    <!-- Banner start -->
-
-    <!-- Banner end-->
-
-<!-- Main content view start -->
-
-   <?
-   print( $MainContents );
-   ?>
-
-<!-- Main content view end -->
-
+    <a target="_blank" href="http://firebright.com/" style="text-decoration: none;" title="Sponsored By FireBright">
+    <img src="/images/firebright/firebright_sponsor.png" border="0" width="85" height="35" alt= "Sponsored By FireBright" />
     <br />
-    </td>
-    <td width="1%" bgcolor="#ffffff"><img src="<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/design/1x1.gif" width="2" height="1" border="0" alt="" /></td>
+    <a href="/article/articleview/153/1/13/" style="text-decoration: none;">Sponsored By FireBright</a>
 
-    <td width="1%" bgcolor="#f0f0f0">
+    </div>
 
-    <!-- Right menu start -->
-
-    <?
-    $NoAddress = true;
-   include( "ezuser/user/userbox.php" );
-    ?>
+    <br /><br />
 
     <?
-    // a short list of articles from the given category
-    // shows $Limit number starting from offset $Offset
-    $CategoryID=1;
-    $Offset=1;
-    $Limit=1;
-    include( "ezarticle/user/smallarticlelist.php" );
+//    include( "ezlink/user/menubox.php" );
     ?>
+
+</td>
+</tr>
+</table>
 
     <?
-    include( "ezpoll/user/votebox.php" );
-    ?>
-    <?
-    include( "ezsearch/user/menubox.php" );
+//    include( "ezpoll/user/votebox.php" );
     ?>
 
-<!-- Right menu end -->
+<? /*
+   <!-- Right menu end -->
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/images/document/1x1.gif" width="80" height="20" border="0" alt="" /><br />
 
-   <img src="<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/design/1x1.gif" width="130" height="20" border="0" alt="" /><br />
-
-   <div align="center"><a class="path" href="?PrintableVersion=enabled">Printable page</a></div><br />
-
+*/ ?>
    <div align="center">
-   <a target="_blank" href="http://ez.no/developer"><img src="<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/ezsystems/powered-by-ezpublish-100x35-trans-lgrey.gif" width="100" height="35" border="0" alt="Powered by eZ publish" /></a>
+
+    <?
+//    include( "ezlink/user/menubox.php" );
+    ?>
+
+<? /*
+   <!--
+   <br /><br />
+   <span>ezcommunity : ezcommunity v1 in development</span>
+   <span>ezcommunity : gpublish v1 in development</span>
+   -->
+*/
+?>
+
+     <?
+     // include( "eznewsfeed/user/menubox.php" );
+     ?>
+     <?
+     $CategoryID = 6;
+     // include( "eznewsfeed/user/headlines.php" );
+     ?>
+
    </div>
 
-   <img src="<? print $GlobalSiteIni->WWWDir; ?>/design/base/images/design/1x1.gif" width="130" height="8" border="0" alt="" /><br />
+   <img src="<? print $GlobalSiteIni->WWWDir; ?>/images/document/1x1.gif" width="100" height="8" border="0" alt="" /><br />
 
    </td>
 </tr>
@@ -265,6 +504,9 @@ else
    </td>
 </tr>
 </table>
+
+
+</div>
 
 <?
 // Store the statistics with a callback image.
@@ -279,10 +521,14 @@ if ( $StoreStats == "enabled" )
     $seed = md5( microtime() );
     // callback for storing the stats
     $imgSrc = $GlobalSiteIni->WWWDir . "/stats/store/rx$seed-" . $REQUEST_URI . "1x1.gif";
-    print( "<img src=\"$imgSrc\" height=\"1\" width=\"1\" border=\"0\" alt=\"\" />" );
+    print( "       ". "<span><img src=\"$imgSrc\" height=\"1\" width=\"1\" border=\"0\" alt=\"\" /></span>" );
 }
 
 ?>
 
 </body>
 </html>
+
+<?php 
+// phpinfo(); 
+?>

@@ -78,6 +78,7 @@ $t->set_block( "view_tpl", "valid_editor_tpl", "valid_editor" );
 
 $t->set_block( "view_tpl", "attached_file_list_tpl", "attached_file_list" );
 $t->set_block( "attached_file_list_tpl", "attached_file_tpl", "attached_file" );
+$t->set_block( "attached_file_list_tpl", "attached_image_tpl", "attached_image" );
 
 $t->set_block( "view_tpl", "recurring_event_tpl", "recurring_event");
 $t->set_block( "recurring_event_tpl", "recurring_days_week_tpl", "recurring_days_week");
@@ -451,20 +452,42 @@ else
 		$t->set_var( "td_class", "bgdark" );
 	      }
 
-	    $t->set_var( "file_id", $file->id() );
-	    $t->set_var( "original_file_name", $file->fileName() );
-	    $t->set_var( "file_name", $file->name() );
-	    $t->set_var( "file_url", $file->name() );
-	    $t->set_var( "file_description", $file->description() );
+	    $image_types = array("png", "jpg", "gif", "bmp", "jpeg");
+	    $image_condition = false;
+
+	    $fn = $file->name();
+	    $atype = explode(".", $fn);
+	    $atype = $atype[1];
+	    
+	    if( in_array($atype, $image_types ) ) {
+	      $image_condition = true;
+	    }
+	          
+	    if ($image_condition) {
+    	      $t->set_var( "image_id", $file->id() );
+	      $t->set_var( "image_name", $file->name() );
+	      $t->set_var( "image_description", $file->description() );
+
+	      $t->parse( "attached_image", "attached_image_tpl", true );
+	      $t->set_var( "attached_file", "" );
+            } else { 
+    
+              $t->set_var( "file_id", $file->id() );
+              $t->set_var( "original_file_name", $file->fileName() );
+              $t->set_var( "file_name", $file->name() );
+              $t->set_var( "file_url", $file->name() );
+              $t->set_var( "file_description", $file->description() );
+
+	      $t->parse( "attached_file", "attached_file_tpl", true );
+	      $t->set_var( "attached_image", "" );
+	    }
 
 	    $size = $file->siFileSize();
 	    $t->set_var( "file_size", $size["size-string"] );
 	    $t->set_var( "file_unit", $size["unit"] );
 
 	    $i++;
-	    $t->parse( "attached_file", "attached_file_tpl", true );
 	  }
-
 	$t->parse( "attached_file_list", "attached_file_list_tpl" );
       }
     else

@@ -254,6 +254,24 @@
      </td>
 </tr>
 <!-- END attached_file_tpl -->
+
+<!-- BEGIN attached_image_tpl -->
+<tr>
+     <td width="50%" class="{td_class}">
+     <img src="{www_dir}{index}/filemanager/download/{image_id}/" alt="{image_name}" title="{image_name}" /><br />
+     </td>
+     <td width="50%" class="{td_class}" align="right">
+     <a style="text-decoration: none;" href="{www_dir}{index}/filemanager/download/{image_id}/">{image_name}</a>
+     <div class="p">( <a href="{www_dir}{index}/filemanager/download/{image_id}/">{file_size}&nbsp;{file_unit}</a> )</div>
+     </td>
+</tr>
+<tr>
+     <td colspan="2" valign="top" class="{td_class}">
+        {image_description}
+     </td>
+</tr>
+<!-- END attached_image_tpl -->
+
 </table>
 <br />
 <!-- END attached_file_list_tpl -->
