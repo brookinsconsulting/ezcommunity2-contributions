@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproductattribute.php,v 1.11 2001/07/30 07:45:46 br Exp $
+// $Id: ezproductattribute.php,v 1.12 2001/07/30 12:15:57 ce Exp $
 //
 // Definition of eZProductAttribute class
 //
@@ -304,11 +304,11 @@ class eZProductAttribute
                 $nextID = $db->nextID( "eZTrade_AttributeValue", "ID" );
                 $res[] = $db->query( "INSERT INTO eZTrade_AttributeValue
                                ( ID,
-                                 ProductID='$productID',
-                                 AttributeID='$this->ID',
-                                 Value='$value' )
+                                 ProductID,
+                                 AttributeID,
+                                 Value )
                                VALUES
-                               ( '$nextID'
+                               ( '$nextID',
                                  '$productID',
                                  '$this->ID',
                                  '$value' )" );

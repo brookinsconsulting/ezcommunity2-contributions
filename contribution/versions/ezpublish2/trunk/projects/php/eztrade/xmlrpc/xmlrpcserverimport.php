@@ -956,7 +956,7 @@ function insert( $args )
     
     $attribue->get( 1 );
     $attribue->setValue( $product, $attributeTotalWeight );
-    
+
     $attribue->get( 2 );
     $attribue->setValue( $product, $attributeGoldColor );
     

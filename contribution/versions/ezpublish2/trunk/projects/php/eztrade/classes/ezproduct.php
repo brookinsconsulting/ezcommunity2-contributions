@@ -1,6 +1,6 @@
-%<?php
+<?php
 // 
-// $Id: ezproduct.php,v 1.69 2001/07/30 07:45:46 br Exp $
+// $Id: ezproduct.php,v 1.70 2001/07/30 12:15:57 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -131,7 +131,23 @@ class eZProduct
             $nextID = $db->nextID( "eZTrade_Product", "ID" );            
 
             $res = $db->query( "INSERT INTO eZTrade_Product
-                                  ( ID, Name, Brief, Description, Keywords, ProductNumber, Price, ShowPrice, ShowProduct, Discontinued, ExternalLink, RemoteID, IsHotDeal, VATTypeID, ProductType, ShippingGroupID, Published )
+                                  ( ID,
+                                    Name,
+                                    Brief,
+                                    Description,
+                                    Keywords,
+                                    ProductNumber,
+                                    Price,
+                                    ShowPrice,
+                                    ShowProduct,
+                                    Discontinued,
+                                    ExternalLink,
+                                    RemoteID,
+                                    IsHotDeal,
+                                    VATTypeID,
+                                    ProductType,
+                                    ShippingGroupID,
+                                    Published )
                                   VALUES
                                   ( '$nextID',
 		                            '$this->Name',
@@ -148,7 +164,7 @@ class eZProduct
                                     '$this->IsHotDeal',
                                     '$this->VATTypeID',
                                     '$this->ProductType',
-                                    '$this->ShippingGroupID'
+                                    '$this->ShippingGroupID',
                                     '$timeStamp' )" );
 			$this->ID = $nextID;
         }
@@ -176,7 +192,9 @@ class eZProduct
         $db->unlock();
     
         if ( $res == false )
+        {
             $db->rollback( );
+        }
         else
             $db->commit();
         
