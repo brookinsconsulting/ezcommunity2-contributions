@@ -5,6 +5,9 @@ Changes from 2.2.x to 3.0
 ---------------------------
 * Added support system for handling e-mail support and bug repports
 * Added support for showing related consultations
+* Added support for absolute placement for categories in eZLink
+* Added support for sort mode for links ( publishing date, modification date, alphabetic asc,
+  alphabetic desc and absolute placement ). 
 
 Changes from 2.2 final to 2.2....
 ---------------------------
