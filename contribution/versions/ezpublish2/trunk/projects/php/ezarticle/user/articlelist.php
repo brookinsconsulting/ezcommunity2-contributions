@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.84 2001/11/17 10:54:24 bf Exp $
+// $Id: articlelist.php,v 1.85 2001/11/20 14:14:29 ce Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -107,9 +107,14 @@ $t->set_block( "article_item_tpl", "link_url_tpl", "link_url" );
 
 $t->set_block( "article_item_tpl", "article_date_tpl", "article_date" );
 $t->set_block( "article_item_tpl", "headline_with_link_tpl", "headline_with_link" );
+$t->set_block( "article_item_tpl", "headline_with_defined_link_tpl", "headline_with_defined_link" );
 $t->set_block( "article_item_tpl", "headline_without_link_tpl", "headline_without_link" );
-
+             
 $t->set_block( "article_item_tpl", "article_image_tpl", "article_image" );
+$t->set_block( "article_image_tpl", "image_with_link_tpl", "image_with_link" );
+$t->set_block( "article_image_tpl", "image_def_link_tpl", "image_def_link" );
+$t->set_block( "article_image_tpl", "link_end_tag_tpl", "link_end_tag" );
+
 $t->set_block( "article_item_tpl", "read_more_tpl", "read_more" );
 $t->set_block( "article_item_tpl", "article_topic_tpl", "article_topic" );
 
@@ -349,7 +354,9 @@ foreach ( $articleList as $article )
     $SiteDescriptionOverride .= $article->name() . " ";
         
     $t->set_var( "author_text", $article->authorText() );
-
+    
+    $urlLink = $article->linkURL();
+    
     // check for topic
     $topic =& $article->topic();
 
@@ -364,30 +371,6 @@ foreach ( $articleList as $article )
         $t->set_var( "article_topic", "" );        
     }
     
-    // preview image
-    $thumbnailImage =& $article->thumbnailImage();
-    if ( $thumbnailImage )
-    {
-        if ( $GrayScaleImageList == "enabled" )
-            $convertToGray = true;
-        else
-            $convertToGray = false;
-
-        $variation =& $thumbnailImage->requestImageVariation( $ThumbnailImageWidth, $ThumbnailImageHeight, $convertToGray );
-    
-        $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
-        $t->set_var( "thumbnail_image_width", $variation->width() );
-        $t->set_var( "thumbnail_image_height", $variation->height() );
-        $t->set_var( "thumbnail_image_caption", $thumbnailImage->caption() );
-
-        $t->parse( "article_image", "article_image_tpl" );
-    }
-    else
-    {
-        $t->set_var( "article_image", "" );    
-    }
-    
-
     if ( ( $i % 2 ) == 0 )
     {
         $t->set_var( "tr_start", "<tr>" );
@@ -439,10 +422,10 @@ foreach ( $articleList as $article )
     
     if ( $article->linkText() != "" )
     {
-        if ( $article->linkURL() != "" )
+        if ( $urlLink != "" )
         {
             $t->set_var( "link_url_default", "" );
-            $t->set_var( "article_link_url", $article->linkURL() );
+            $t->set_var( "article_link_url", $urlLink );
             $t->parse( "link_url", "link_url_tpl" );
         }
         else
@@ -462,19 +445,71 @@ foreach ( $articleList as $article )
     // check if the article contains more than intro
     $contents =& $renderer->renderPage();
 
-    if ( trim( $contents[1] ) == "" && count( $article->attributes( false ) ) <= 0 )
+    if ( ( trim( $article->linkURL() ) == "" ) and ( trim( $contents[1] ) == "" and count( $article->attributes( false ) ) <= 0 ) )
     {
         $t->set_var( "read_more", "" );
+        $t->set_var( "link_end_tag", "" );
         $t->parse( "headline_without_link", "headline_without_link_tpl" );
         $t->set_var( "headline_with_link", "" );
+        $t->set_var( "headline_with_defined_link", "" );
     }
     else
     {
-        $t->parse( "read_more", "read_more_tpl" );
-        $t->parse( "headline_with_link", "headline_with_link_tpl" );
+        if ( $urlLink != "" )
+        {
+            $t->set_var( "headline_url", $urlLink );
+            $t->set_var( "headline_with_link", "" );
+            $t->parse( "headline_with_defined_link", "headline_with_defined_link_tpl" );
+        }
+        else
+        {
+            $t->set_var( "headline_with_defined_link", "" );
+            $t->parse( "headline_with_link", "headline_with_link_tpl" );
+        }
         $t->set_var( "headline_without_link", "" );
+        $t->parse( "read_more", "read_more_tpl" );
     }
 
+    // preview image
+    $thumbnailImage =& $article->thumbnailImage();
+    if ( $thumbnailImage )
+    {
+        if ( $GrayScaleImageList == "enabled" )
+            $convertToGray = true;
+        else
+            $convertToGray = false;
+
+        $variation =& $thumbnailImage->requestImageVariation( $ThumbnailImageWidth, $ThumbnailImageHeight, $convertToGray );
+    
+        $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
+        $t->set_var( "thumbnail_image_width", $variation->width() );
+        $t->set_var( "thumbnail_image_height", $variation->height() );
+        $t->set_var( "thumbnail_image_caption", $thumbnailImage->caption() );
+
+        $t->set_var( "image_def_link", "" );
+        $t->set_var( "image_with_link", "" );
+
+        if ( $urlLink != "" )
+        {
+            $t->set_var( "image_url", $urlLink );
+            $t->parse( "image_def_link", "image_def_link_tpl" );
+            $t->parse( "link_end_tag", "link_end_tag_tpl" );
+        }
+        else
+        {
+            if ( trim( $contents[1] ) != "" or count( $article->attributes( false ) ) > 0 )
+            {                
+                $t->parse( "image_with_link", "image_with_link_tpl" );
+                $t->parse( "link_end_tag", "link_end_tag_tpl" );
+            }
+        }
+
+        $t->parse( "article_image", "article_image_tpl" );
+    }
+    else
+    {
+        $t->set_var( "article_image", "" );    
+    }
 
     $t->parse( "article_item", "article_item_tpl", true );
     $i++;

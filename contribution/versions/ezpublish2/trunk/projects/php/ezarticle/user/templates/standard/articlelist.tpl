@@ -84,6 +84,9 @@
         <!-- BEGIN headline_with_link_tpl -->
         <div class="listheadline"><a class="listheadline" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_name}</a></div>
         <!-- END headline_with_link_tpl -->
+        <!-- BEGIN headline_with_defined_link_tpl -->
+        <div class="listheadline"><a class="listheadline" href="{headline_url}">{article_name}</a></div>
+        <!-- END headline_with_defined_link_tpl -->
         <!-- BEGIN headline_without_link_tpl -->
         <div class="listheadline">{article_name} </div>
         <!-- END headline_without_link_tpl -->
@@ -95,8 +98,18 @@
 	    <table width="1%" align="right" width="{thumbnail_image_width}">
 	        <tr>
 			<td>
-			<a href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/"><img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" /></a>
-            </td>
+			<!-- BEGIN image_def_link_tpl -->
+			<a href="{headline_url}">
+			<!-- END image_def_link_tpl -->
+
+			<!-- BEGIN image_with_link_tpl -->
+			<a href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">
+			<!-- END image_with_link_tpl -->
+			<img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
+			<!-- BEGIN link_end_tag_tpl -->
+			</a>
+			<!-- END link_end_tag_tpl -->
+			</td>
                 </tr>
                 <tr>
                          <td class="pictext">
