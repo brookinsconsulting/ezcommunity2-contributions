@@ -206,36 +206,43 @@ switch ( $url_array[2] )
     {
         if ( $url_array[3] == "list" )
         {
+            $Action = "list";
             include( "ezcontact/admin/personlist.php" );
         }
         elseif ( $url_array[3] == "new" )
         {
+            $Action = "new";
             include( "ezcontact/admin/personedit.php" );
         }
         else if ( $url_array[3] == "insert" )
         {
-            $AID = $url_array[4];
+            $PersonID = $url_array[4];
             $Action = "insert";
-            include( "ezcontact/admin/addresstypeedit.php" );
+            include( "ezcontact/admin/personview.php" );
         }
-
+        else if ( $url_array[3] == "view" )
+        {
+            $PersonID = $url_array[4];
+            $Action = "view";
+            include( "ezcontact/admin/personview.php" );
+        }
         else if ( $url_array[3] == "edit" )
         {
-            $AID = $url_array[4];
+            $PersonID = $url_array[4];
             $Action = "edit";
-            include( "ezcontact/admin/addresstypeedit.php" );
+            include( "ezcontact/admin/personedit.php" );
         }
         else if ( $url_array[3] == "update" )
         {
-            $AID = $url_array[4];
+            $PersonID = $url_array[4];
             $Action = "update";
-            include( "ezcontact/admin/addresstypeedit.php" );
+            include( "ezcontact/admin/personedit.php" );
         }
         else if ( $url_array[3] == "delete" )
         {
-            $AID = $url_array[4];
+            $PersonID = $url_array[4];
             $Action = "delete";
-            include( "ezcontact/admin/addresstypeedit.php" );
+            include( "ezcontact/admin/persondelete.php" );
         }
     }
     break;
