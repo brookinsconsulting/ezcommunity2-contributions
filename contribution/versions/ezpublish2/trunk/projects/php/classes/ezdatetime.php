@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdatetime.php,v 1.17 2001/01/12 16:25:12 gl Exp $
+// $Id: ezdatetime.php,v 1.18 2001/01/15 18:56:29 gl Exp $
 //
 // Definition of eZCompany class
 //
@@ -227,7 +227,7 @@ class eZDateTime
     */
     function &date()
     {
-        return $Date;
+        return $this->Date;
     }
     
     /*!
@@ -236,7 +236,7 @@ class eZDateTime
     */
     function &time()
     {
-        return $Time;
+        return $this->Time;
     }
     
     /*!

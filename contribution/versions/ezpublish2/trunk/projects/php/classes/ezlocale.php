@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.17 2001/01/12 16:25:12 gl Exp $
+// $Id: ezlocale.php,v 1.18 2001/01/15 18:56:29 gl Exp $
 //
 // Definition of eZLocale class
 //
@@ -38,6 +38,7 @@ a - "am" or "pm"
 A - "AM" or "PM" 
 d - day of the month, 2 digits with leading zeros; i.e. "01" to "31" 
 D - day of the week, textual, 3 letters; i.e. "Fri" 
+E - day of the week, textual, long; i.e. "Friday" 
 F - month, textual, long; i.e. "January" 
 g - hour, 12-hour format without leading zeros; i.e. "1" to "12" 
 G - hour, 24-hour format without leading zeros; i.e. "0" to "23" 
@@ -156,13 +157,27 @@ class eZLocale
             case "ezdatetime" :
             {
                 // Date
-                $date = $this->DateFormat;
+                if ( $isShort == true )
+                    $date = $this->ShortDateFormat;
+                else
+                    $date = $this->DateFormat;
 
                 // d - day of the month, 2 digits with leading zeros; i.e. "01" to "31"
-                
                 $date =& str_replace( "%d", "" . $obj->day() . "", $date );
                      
-                // m - month; i.e. "01" to "12" 
+                // D - day of the week, textual, 3 letters; i.e. "Fri"
+                $date =& str_replace( "%D", "" . $this->dayName( $obj->dayName() ) . "", $date );
+                     
+                // E - day of the week, textual, long; i.e. "Friday"
+                $date =& str_replace( "%E", "" . $this->dayName( $obj->dayName(), false ) . "", $date );
+                     
+                // F - month, textual, long; i.e. "January"
+                $date =& str_replace( "%F", "" . $this->monthName( $obj->monthName(), false ) . "", $date );
+                     
+                // M - month, textual, 3 letters; i.e. "Jan"
+                $date =& str_replace( "%M", "" . $this->monthName( $obj->monthName() ) . "", $date );
+                     
+                // m - month; i.e. "01" to "12"
                 $date =& str_replace( "%m", "" . $obj->month(), $date );
 
                 // Y - year, 4 digits; i.e. "1999"
@@ -202,11 +217,26 @@ class eZLocale
             
             case "ezdate" :
             {
-                $date = $this->DateFormat;
+                if ( $isShort == true )
+                    $date = $this->ShortDateFormat;
+                else
+                    $date = $this->DateFormat;
 
                 // d - day of the month, 2 digits with leading zeros; i.e. "01" to "31" 
                 $date =& str_replace( "%d", "" . $obj->day() . "", $date );
                 
+                // D - day of the week, textual, 3 letters; i.e. "Fri"
+                $date =& str_replace( "%D", "" . $this->dayName( $obj->dayName() ) . "", $date );
+                     
+                // E - day of the week, textual, long; i.e. "Friday"
+                $date =& str_replace( "%E", "" . $this->dayName( $obj->dayName(), false ) . "", $date );
+                     
+                // F - month, textual, long; i.e. "January"
+                $date =& str_replace( "%F", "" . $this->monthName( $obj->monthName(), false ) . "", $date );
+                     
+                // M - month, textual, 3 letters; i.e. "Jan"
+                $date =& str_replace( "%M", "" . $this->monthName( $obj->monthName() ) . "", $date );
+                     
                 // m - month; i.e. "01" to "12" 
                 $date =& str_replace( "%m", "" . $obj->month(), $date );
 
