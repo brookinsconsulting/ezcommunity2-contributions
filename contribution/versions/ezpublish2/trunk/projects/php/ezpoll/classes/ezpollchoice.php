@@ -1,5 +1,5 @@
 <?// 
-// $Id: ezpollchoice.php,v 1.2 2000/09/20 11:13:46 ce-cvs Exp $
+// $Id: ezpollchoice.php,v 1.3 2000/09/25 07:33:47 ce-cvs Exp $
 //
 // Definition of eZPollChoice class
 //
@@ -41,7 +41,7 @@ class eZPollChoice
         {
             $this->ID = $id;
             if ( $fetch == true )
-y            {
+            {
                 $this->get( $this->ID );
             }
             else
@@ -62,16 +62,43 @@ y            {
     {
         $this->dbInit();
 
-        $this->Database->query( "INSERT INTO eZPoll_PollChoice SET
+        if ( !isset ( $this->ID ) )
+        {
+        
+            $this->Database->query( "INSERT INTO eZPoll_PollChoice SET
                                  Name='$this->Name',
-                                 Description='$this->Description',
-                                 IsEnabled='$this->IsEnabled',
-                                 IsClosed='$this->IsClosed' ");
+                                 PollID='$this->PollID',
+                                 Offset='$this->Offset' ");
 
-        $this->ID = mysql_insert_id();
+            $this->ID = mysql_insert_id();
 
+            $this->State_ = "Coherent";
+        }
+        else
+        {
+            $this->Database->query( "UPDATE eZPoll_PollChoice SET
+                                 Name='$this->Name',
+                                 Offset='$this->Offset' WHERE ID='$this->ID'" );
+
+            $this->State_ = "Coherent";
+        }
         return true;
     }
+
+    /*!
+      Deletes a eZPollChoice object from the database.
+    */
+    function delete()
+    {
+        $this->dbInit();
+
+        if ( isset ( $this->ID ) )
+        {
+            $this->Database->query( "DELETE FROM eZPoll_PollChoice WHERE ID='$this->ID'" );
+        }
+        return true;
+    }
+   
 
     /*!
       Fetches the poll object from the database.
@@ -82,7 +109,7 @@ y            {
 
         if ( $id != -1 )
         {
-            $this->Database->array_query( $poll_array, "SELECT * FROM eZPoll_Poll" );
+            $this->Database->array_query( $poll_array, "SELECT * FROM eZPoll_PollChoice WHERE ID='$id'" );
 
             if ( count( $poll_array ) > 1 )
             {
@@ -91,8 +118,10 @@ y            {
             else if( count( $poll_array ) == 1 )
             {
                 $this->ID = $poll_array[0][ "ID" ];
-                $this->
-                     }
+                $this->Name = $poll_array[0][ "Name" ];
+                $this->PollID = $poll_array[0][ "PollID" ];
+                $this->Offset = $poll_array[0][ "Offset" ];
+            }
 
         }
     }
@@ -100,18 +129,18 @@ y            {
     /*!
       Fetches the poll id from the database. And returns a array of eZPoll objects.
     */
-    function getAll()
+    function getAll( $ID )
     {
         $this->dbInit();
 
         $return_array = array();
         $poll_array = array();
 
-        $this->Database->array_query( $poll_array, "SELECT ID FROM ezPoll" );
+        $this->Database->array_query( $poll_array, "SELECT ID FROM eZPoll_PollChoice WHERE PollID='$ID' " );
 
         for ( $i=0; $i<count( $poll_array ); $i++ )
         {
-            $return_array[$i] = new eZPoll( $poll_array[$i][ "ID" ], 0 );
+            $return_array[$i] = new eZPollChoice( $poll_array[$i][ "ID" ], 0 );
         }
 
         return $return_array;
@@ -128,6 +157,31 @@ y            {
         return $this->Name;
     }
 
+        /*!
+      Returns the name of the pollchoice.
+    */
+    function id()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return $this->ID;
+    }
+
+
+    /*!
+      Returns the name of the pollchoice.
+    */
+    function offset()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return $this->Offset;
+    }
+
+
+    
     /*!
       Returns the PollID of the Pollchoice.
     */
@@ -150,6 +204,18 @@ y            {
         $this->Name = $value;
     }
 
+    /*!
+      Sets the name of the poll.
+    */
+    function setOffset( $value )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $this->Offset = $value;
+    }
+
+    
     /*!
       Sets the name of the poll.
     */
@@ -177,4 +243,5 @@ y            {
     var $ID;
     var $Name;
     var $PollID;
+    var $Offset;
 }

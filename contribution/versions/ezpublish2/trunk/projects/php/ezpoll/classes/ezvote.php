@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvote.php,v 1.2 2000/09/20 11:13:46 ce-cvs Exp $
+// $Id: ezvote.php,v 1.3 2000/09/25 07:33:47 ce-cvs Exp $
 //
 // Definition of eZVote class
 //
@@ -114,7 +114,7 @@ class eZVote
             $return_array[$i] = new eZVote( $vote_array[$i][ "ID" ], 0 );
         }
 
-        return $return_array;
+
     }
 
     /*!
@@ -127,6 +127,15 @@ class eZVote
 
         return $this->PollID;
     }
+
+    function getCountByChoiceID( $id )
+    {
+        $this->dbInit();
+        $this->Database->array_query( $votecount, "SELECT COUNT(*) AS NUMBER FROM eZPoll_Vote WHERE PollID='$id'" );
+        
+        return $votecount[0][ "NUMBER" ];
+    }
+        
 
    /*!
       Returns the choiceid of the vote.
