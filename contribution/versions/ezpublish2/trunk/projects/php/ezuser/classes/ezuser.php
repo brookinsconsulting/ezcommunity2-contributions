@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.35 2001/01/18 13:43:34 ce Exp $
+// $Id: ezuser.php,v 1.36 2001/01/20 22:49:37 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -79,7 +79,6 @@ class eZUser
     */
     function eZUser( $id=-1, $fetch=true )
     {
-        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
@@ -103,11 +102,11 @@ class eZUser
     */
     function store()
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZUser_User SET
+            $db->query( "INSERT INTO eZUser_User SET
 		                         Login='$this->Login',
                                  Password=PASSWORD('$this->Password'),
                                  Email='$this->Email',
@@ -118,7 +117,7 @@ class eZUser
         }
         else
         {
-            $this->Database->query( "UPDATE eZUser_User SET
+            $db->query( "UPDATE eZUser_User SET
 		                         Login='$this->Login',
                                  Email='$this->Email',
                                  InfoSubscription='$this->InfoSubscription',
@@ -129,7 +128,7 @@ class eZUser
             // update password if set.
             if ( isset( $this->Password ) )
             {
-                $this->Database->query( "UPDATE eZUser_User SET
+                $db->query( "UPDATE eZUser_User SET
                                  Password=PASSWORD('$this->Password')
                                  WHERE ID='$this->ID'" );
             }
@@ -145,14 +144,14 @@ class eZUser
     */
     function delete()
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         if ( isset( $this->ID ) )
         {
-            $this->Database->query( "DELETE FROM eZUser_UserGroupLink WHERE UserID='$this->ID'" );
-            $this->Database->query( "DELETE FROM eZUser_UserAddressLink WHERE UserID='$this->ID'" );
+            $db->query( "DELETE FROM eZUser_UserGroupLink WHERE UserID='$this->ID'" );
+            $db->query( "DELETE FROM eZUser_UserAddressLink WHERE UserID='$this->ID'" );
 
-            $this->Database->query( "DELETE FROM eZUser_User WHERE ID='$this->ID'" );
+            $db->query( "DELETE FROM eZUser_User WHERE ID='$this->ID'" );
         }
         
         return true;
@@ -165,12 +164,12 @@ class eZUser
     */
     function get( $id=-1 )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         $ret = false;
         if ( $id != "" )
         {
-            $this->Database->array_query( $user_array, "SELECT * FROM eZUser_User WHERE ID='$id'" );
+            $db->array_query( $user_array, "SELECT * FROM eZUser_User WHERE ID='$id'" );
             if ( count( $user_array ) > 1 )
             {
                 die( "Error: User's with the same ID was found in the database. This shouldent happen." );
@@ -202,16 +201,34 @@ class eZUser
     */
     function getAll( $order="Login" )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         switch ( $order )
         {
             case "name" :
             {
+                $orderBy = "LastName, FirstName";
+            }
+            break;
+            
+            case "lastname" :
+            {
+                $orderBy = "LastName";
+            }
+            break;
+
+            case "firstname" :
+            {
                 $orderBy = "FirstName";
             }
             break;
             
+            case "lastname" :
+            {
+                $orderBy = "LastName";
+            }
+            break;
+
             case "email" :
             {
                 $orderBy = "Email";
@@ -226,7 +243,7 @@ class eZUser
         $return_array = array();
         $user_array = array();
 
-        $this->Database->array_query( $user_array, "SELECT ID FROM eZUser_User ORDER By $orderBy" );
+        $db->array_query( $user_array, "SELECT ID FROM eZUser_User ORDER By $orderBy" );
 
         for ( $i=0; $i<count ( $user_array ); $i++ )
         {
@@ -244,10 +261,10 @@ class eZUser
     */
     function getUser( $login )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         $ret = false;
         
-        $this->Database->array_query( $user_array, "SELECT * FROM eZUser_User
+        $db->array_query( $user_array, "SELECT * FROM eZUser_User
                                                     WHERE Login='$login'" );
         if ( count( $user_array ) == 1 )
         {
@@ -263,10 +280,10 @@ class eZUser
     */
     function validateUser( $login, $password )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         $ret = false;
         
-        $this->Database->array_query( $user_array, "SELECT * FROM eZUser_User
+        $db->array_query( $user_array, "SELECT * FROM eZUser_User
                                                     WHERE Login='$login'
                                                     AND Password=PASSWORD('$password')" );
         if ( count( $user_array ) == 1 )
@@ -284,10 +301,10 @@ class eZUser
     */
     function exists( $login )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         $ret = false;
         
-        $this->Database->array_query( $user_array, "SELECT * FROM eZUser_User
+        $db->array_query( $user_array, "SELECT * FROM eZUser_User
                                                     WHERE Login='$login'" );
 
         if ( count( $user_array ) == 1 )
@@ -348,14 +365,22 @@ class eZUser
     }
 
     /*!
-      Returns the users fist name.
+      Returns the users first and last name with a space in between.
+    */
+    function name()
+    {
+        return $this->firstName() . " " . $this->lastName();
+    }
+
+    /*!
+      Returns the users first name.
     */
     function firstName( )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       return $this->FirstName;
+        return $this->FirstName;
     }
 
     /*!
@@ -363,10 +388,10 @@ class eZUser
     */
     function lastName( )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       return $this->LastName;
+        return $this->LastName;
     }
     
     /*!
@@ -577,21 +602,21 @@ class eZUser
     */
     function groups()
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $ret = array();
-       $this->dbInit();
+        $ret = array();
+        $db = eZDB::globalDatabase();
         
-       $this->Database->array_query( $user_group_array, "SELECT * FROM eZUser_UserGroupLink
+        $db->array_query( $user_group_array, "SELECT * FROM eZUser_UserGroupLink
                                                     WHERE UserID='$this->ID'" );
 
-       foreach ( $user_group_array as $group )
-       {
-           $ret[] = new eZUserGroup( $group["GroupID"] );
-       }
+        foreach ( $user_group_array as $group )
+        {
+            $ret[] = new eZUserGroup( $group["GroupID"] );
+        }
 
-       return $ret;
+        return $ret;
     }
 
     /*!
@@ -599,12 +624,12 @@ class eZUser
     */
     function removeGroups()
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->dbInit();
+        $db = eZDB::globalDatabase();
        
-       $this->Database->query( "DELETE FROM eZUser_UserGroupLink
+        $db->query( "DELETE FROM eZUser_UserGroupLink
                                 WHERE UserID='$this->ID'" );
     }
 
@@ -613,18 +638,16 @@ class eZUser
     */
     function addAddress( $address )
     {
-       if ( $this->State_ == "Dirty" )
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->dbInit();
-       if ( get_class( $address ) == "ezaddress" )
-       {
-           $addressID = $address->id();
-
-           $this->Database->query( "INSERT INTO eZUser_UserAddressLink
-                                SET UserID='$this->ID', AddressID='$addressID'" );
-           
-       }
+        $db = eZDB::globalDatabase();
+        if ( get_class( $address ) == "ezaddress" )
+        {
+            $addressID = $address->id();
+            $db->query( "INSERT INTO eZUser_UserAddressLink
+                                SET UserID='$this->ID', AddressID='$addressID'" );   
+        }
     }
 
     /*!
@@ -635,16 +658,16 @@ class eZUser
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->dbInit();
-       if ( get_class( $address ) == "ezaddress" )
-       {
-           $addressID = $address->id();
+        $db = eZDB::globalDatabase();
+        if ( get_class( $address ) == "ezaddress" )
+        {
+            $addressID = $address->id();
 
-           $this->Database->query( "DELETE FROM eZUser_UserAddressLink
+            $db->query( "DELETE FROM eZUser_UserAddressLink
                                 WHERE AddressID='$addressID'" );
-           $this->Database->query( "DELETE FROM eZContact_Address
+            $db->query( "DELETE FROM eZContact_Address
                                 WHERE ID='$addressID'" );
-       }
+        }
     }
     
 
@@ -658,9 +681,9 @@ class eZUser
 
        $ret = array();
        
-       $this->dbInit();
+        $db = eZDB::globalDatabase();
 
-       $this->Database->array_query( $address_array, "SELECT AddressID FROM eZUser_UserAddressLink
+       $db->array_query( $address_array, "SELECT AddressID FROM eZUser_UserAddressLink
                                 WHERE UserID='$this->ID'" );
 
        foreach ( $address_array as $address )
@@ -682,9 +705,9 @@ class eZUser
 
        $ret = 30;
        
-       $this->dbInit();
+        $db = eZDB::globalDatabase();
 
-       $this->Database->array_query( $timeout_array, "SELECT eZUser_Group.SessionTimeout
+       $db->array_query( $timeout_array, "SELECT eZUser_Group.SessionTimeout
                                                       FROM eZUser_User, eZUser_UserGroupLink, eZUser_Group
                                                       WHERE eZUser_User.ID=eZUser_UserGroupLink.UserID
                                                       AND eZUser_Group.ID=eZUser_UserGroupLink.GroupID
@@ -700,20 +723,6 @@ class eZUser
        return $ret;
     }
       
-    
-    /*!
-      \private
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit( )
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
-
     var $ID;
     var $Login;
     var $Password;
@@ -722,13 +731,8 @@ class eZUser
     var $LastName;
     var $InfoSubscription;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
     /// Indicates the state of the object. In regard to database information.
     var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>
