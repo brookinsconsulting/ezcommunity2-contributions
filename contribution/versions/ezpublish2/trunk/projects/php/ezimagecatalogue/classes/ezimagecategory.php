@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagecategory.php,v 1.33 2001/09/07 12:16:20 ce Exp $
+// $Id: ezimagecategory.php,v 1.34 2001/09/12 12:46:08 br Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -679,7 +679,6 @@ class eZImageCategory
         array( "Limit" => $limit,
                "Offset" => $offset ) );
 
-        print( $file_array["Count"] );
         return $file_array["Count"];
     } 
 
