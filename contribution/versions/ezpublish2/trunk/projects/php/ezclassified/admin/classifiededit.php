@@ -14,7 +14,6 @@ include_once( "ezcontact/classes/ezcompany.php" );
 include_once( "ezcontact/classes/ezonline.php" );
 include_once( "ezcontact/classes/ezaddress.php" );
 
-
 if ( isSet ( $Back ) )
 {
     header( "Location: /contact/companytype/list/" );
@@ -44,15 +43,15 @@ if ( $Action == "insert" )
     $position->setPay( $Pay );
     $position->setWorkTime( $WorkTime );
     $position->setDuration( $Duration );
-//      $position->setContactPerson( $ContactPerson );
     $position->setWorkPlace( $WorkPlace );
     $position->setValidUntil( $Year, $Month, $Day );
     $position->setPositionType( $PositionType );
     $position->setInitiateType( $InitiateType );
+    $position->setReference( $Reference );
     $position->store();
 
     $company = new eZCompany( $CompanyID );
-    $position->addCompany( $company );
+    $position->setCompany( $company );
 
     $category_show = false;
     // Add classifed to categories
@@ -90,12 +89,18 @@ if ( $Action == "update" )
     $position->setPay( $Pay );
     $position->setWorkTime( $WorkTime );
     $position->setDuration( $Duration );
-//      $position->setContactPerson( $ContactPerson );
     $position->setWorkPlace( $WorkPlace );
     $position->setValidUntil( $Year, $Month, $Day );
 
+    $company = new eZCompany( $CompanyID );
+    $position->setCompany( $company );
+
     $position->setPositionType( $PositionType );
     $position->setInitiateType( $InitiateType );
+    if ( $Reference )
+        $position->setReference( $Reference );
+    else
+        $position->setReference( $ClassifiedID );
 
     $position->store();
 
@@ -190,10 +195,10 @@ if ( $Action == "new" )
     $t->set_var( "classified_worktime", "" );
     $t->set_var( "classified_duration", "" );
     $t->set_var( "classified_workplace", "" );
-//      $t->set_var( "classified_contact_person", "" );
     $t->set_var( "classified_year", "" );
     $t->set_var( "classified_month", "" );
     $t->set_var( "classified_day", "" );
+    $t->set_var( "classified_reference", "" );
     $Action_value = "insert";
 }
 
@@ -205,7 +210,6 @@ if ( $Action == "edit" )
     $t->set_var( "classified_title", $position->title() );
     $t->set_var( "classified_id", $position->id() );
     $t->set_var( "classified_description", $position->description() );
-//      $t->set_var( "classified_contact_person", $position->contactPerson() );
     $t->set_var( "classified_pay", $position->pay() );
     $t->set_var( "classified_pay_edit_def", "" );
     $t->parse( "classified_pay_edit", "classified_pay_edit_tpl" );
@@ -219,6 +223,11 @@ if ( $Action == "edit" )
     $t->set_var( "classified_year", $date->year() );
     $t->set_var( "classified_month", $date->month() );
     $t->set_var( "classified_day", $date->day() );
+    $reference = $position->reference();
+    if ( $reference )
+        $t->set_var( "classified_reference", $reference );
+    else
+        $t->set_var( "classified_reference", $position->id() );
 
     $t->parse( "delete_button", "delete_button_tpl" );
 
@@ -311,102 +320,121 @@ for( $i=0; $i < count( $initiateTypeList ); $i++ )
 
 if ( $position )
 {
-    $company = $position->company();
+    $company = new eZCompany();
+    $companyList = $company->getAll();
 
-    $t->set_var( "company_name", $company->name() );
-    $t->set_var( "company_id", $company->id() );
-    $t->set_var( "company_description", $company->comment() );
-    $t->set_var( "company_companyno", $company->companyNo() );
-
-    // View logo.
-    $logoImage = $company->logoImage();
-
-    if ( ( get_class ( $logoImage ) == "ezimage" ) && ( $logoImage->id() != 0 ) )
+    foreach( $companyList as $companyItem )
     {
-        $variation = $logoImage->requestImageVariation( 150, 150 );
+        $t->set_var( "company_name", $companyItem->name() );
+        $t->set_var( "company_id", $companyItem->id() );
+        $cur_company = $position->company();
+        if ( $companyItem->id() == $cur_company->id() )
+            $t->set_var( "is_selected", "selected" );
+        else
+            $t->set_var( "is_selected", "" );
 
-        $t->set_var( "logo_image_src", "/" . $variation->imagePath() );
-        $t->set_var( "logo_name", $logoImage->name() );
-        $t->set_var( "logo_id", $logoImage->id() );
+        $t->parse( "company_item", "company_item_tpl", true );
+    }
+    $t->parse( "company_select", "company_select_tpl" );
+
+    $t->set_var( "company_view", "" );
+//      $company = $position->company();
+
+//      $t->set_var( "company_name", $company->name() );
+//      $t->set_var( "company_id", $company->id() );
+//      $t->set_var( "company_description", $company->comment() );
+//      $t->set_var( "company_companyno", $company->companyNo() );
+
+//      // View logo.
+//      $logoImage = $company->logoImage();
+
+//      if ( ( get_class ( $logoImage ) == "ezimage" ) && ( $logoImage->id() != 0 ) )
+//      {
+//          $variation = $logoImage->requestImageVariation( 150, 150 );
+
+//          $t->set_var( "logo_image_src", "/" . $variation->imagePath() );
+//          $t->set_var( "logo_name", $logoImage->name() );
+//          $t->set_var( "logo_id", $logoImage->id() );
         
-        $t->set_var( "no_logo", "" );
-        $t->parse( "logo_view", "logo_view_tpl" );
-    }
-    else
-    {
-        $t->set_var( "logo_view", "" );
-        $t->parse( "no_logo", "no_logo_tpl" );
-    }
-    // Telephone list
-    $phoneList = $company->phones( $company->id() );
+//          $t->set_var( "no_logo", "" );
+//          $t->parse( "logo_view", "logo_view_tpl" );
+//      }
+//      else
+//      {
+//          $t->set_var( "logo_view", "" );
+//          $t->parse( "no_logo", "no_logo_tpl" );
+//      }
+//      // Telephone list
+//      $phoneList = $company->phones( $company->id() );
 
-    if ( count( $phoneList ) <= 2 )
-    {
-        for( $i=0; $i<count ( $phoneList ); $i++ )
-        {
-            if ( $phoneList[$i]->phoneTypeID() == 5 )
-            {
-                $t->set_var( "tele_phone_id", $phoneList[$i]->id() );
-                $t->set_var( "telephone", $phoneList[$i]->number() );
-            }
-            if ( $phoneList[$i]->phoneTypeID() == 8 )
-            {
-                $t->set_var( "fax_phone_id", $phoneList[$i]->id() );
-                $t->set_var( "fax", $phoneList[$i]->number() );
-            }
+//      if ( count( $phoneList ) <= 2 )
+//      {
+//          for( $i=0; $i<count ( $phoneList ); $i++ )
+//          {
+//              if ( $phoneList[$i]->phoneTypeID() == 5 )
+//              {
+//                  $t->set_var( "tele_phone_id", $phoneList[$i]->id() );
+//                  $t->set_var( "telephone", $phoneList[$i]->number() );
+//              }
+//              if ( $phoneList[$i]->phoneTypeID() == 8 )
+//              {
+//                  $t->set_var( "fax_phone_id", $phoneList[$i]->id() );
+//                  $t->set_var( "fax", $phoneList[$i]->number() );
+//              }
 
-            $t->parse( "phone_item", "phone_item_tpl" );
-            $t->parse( "fax_item", "fax_item_tpl" );
-        }
-    }
+//              $t->parse( "phone_item", "phone_item_tpl" );
+//              $t->parse( "fax_item", "fax_item_tpl" );
+//          }
+//      }
 
-// Address list
-    $addressList = $company->addresses( $company->id() );
-    if ( count ( $addressList ) == 1 )
-    {
-        foreach( $addressList as $addressItem )
-            {
-                $t->set_var( "address_id", $addressItem->id() );
-                $t->set_var( "street1", $addressItem->street1() );
-                $t->set_var( "street2", $addressItem->street2() );
-                $t->set_var( "zip", $addressItem->zip() );
-                $t->set_var( "place", $addressItem->place() );
+//  // Address list
+//      $addressList = $company->addresses( $company->id() );
+//      if ( count ( $addressList ) == 1 )
+//      {
+//          foreach( $addressList as $addressItem )
+//              {
+//                  $t->set_var( "address_id", $addressItem->id() );
+//                  $t->set_var( "street1", $addressItem->street1() );
+//                  $t->set_var( "street2", $addressItem->street2() );
+//                  $t->set_var( "zip", $addressItem->zip() );
+//                  $t->set_var( "place", $addressItem->place() );
             
-                $t->set_var( "company_id", $CompanyID );
+//  //                  $t->set_var( "company_id", $CompanyID );
             
-                $t->set_var( "script_name", "companyedit.php" );
+//                  $t->set_var( "script_name", "companyedit.php" );
 
-                $t->parse( "address_item", "address_item_tpl", true );
+//                  $t->parse( "address_item", "address_item_tpl", true );
             
-            }
-    }
+//              }
+//      }
 
-// Online list
-    $onlineList = $company->onlines( $company->id() );
+//  // Online list
+//      $onlineList = $company->onlines( $company->id() );
 
-    if ( count ( $onlineList ) <= 2 )
-    {
-        for( $i=0; $i<count ( $onlineList ); $i++ )
-        {
-            if ( $onlineList[$i]->onlineTypeID() == 4 )
-            {
-                $t->set_var( "web_online_id", $onlineList[$i]->id() );
-                $t->set_var( "web", $onlineList[$i]->URL() );
-            }
-            if ( $onlineList[$i]->onlineTypeID() == 5 )
-            {
-                $t->set_var( "email_online_id", $onlineList[$i]->id() );
-                $t->set_var( "email", $onlineList[$i]->URL() );
-            }
+//      if ( count ( $onlineList ) <= 2 )
+//      {
+//          for( $i=0; $i<count ( $onlineList ); $i++ )
+//          {
+//              if ( $onlineList[$i]->onlineTypeID() == 4 )
+//              {
+//                  $t->set_var( "web_online_id", $onlineList[$i]->id() );
+//                  $t->set_var( "web", $onlineList[$i]->URL() );
+//              }
+//              if ( $onlineList[$i]->onlineTypeID() == 5 )
+//              {
+//                  $t->set_var( "email_online_id", $onlineList[$i]->id() );
+//                  $t->set_var( "email", $onlineList[$i]->URL() );
+//              }
             
-        }
-        $t->parse( "web_item", "web_item_tpl" );
-        $t->parse( "email_item", "email_item_tpl" );
+//          }
+//          $t->parse( "web_item", "web_item_tpl" );
+//          $t->parse( "email_item", "email_item_tpl" );
 
-    }
-	$t->set_var( "company_select", "" ); // Dette er min kode! (Hellstrøm)
-    $t->set_var( "company_id", $company->id() );
-    $t->parse( "company_view", "company_view_tpl" );
+//      }
+//  //  	$t->set_var( "company_select", "" ); // Dette er min kode! (Hellstrøm)
+//      $t->set_var( "company_id", $company->id() );
+//      $t->parse( "company_view", "company_view_tpl" );
+    $t->set_var( "company_view", "" );
 }
 else
 {
@@ -425,7 +453,7 @@ else
     $t->parse( "company_select", "company_select_tpl" );
 }
 
-    
+
 // Templateoun variabler.
 
 $t->set_var( "error", $error );
