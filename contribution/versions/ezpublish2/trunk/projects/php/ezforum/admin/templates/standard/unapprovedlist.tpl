@@ -43,11 +43,11 @@
 <input type="hidden" name="MessageID[]" value="{message_id}" />
 <textarea wrap="soft" rows="3" cols="40" name="RejectReason[]">{reject_message}</textarea>
 
+
+<!-- END message_item_tpl -->
 <br /><br />
 
 <hr noshade="noshade" size="4" />
-
-<!-- END message_item_tpl -->
 
 
 <input class="stdbutton" type="submit" value="{intl-update}">
