@@ -9,7 +9,7 @@
 	</td>
 	<td align="right">
 	<br />
-	<span class="boxtext">Best. Nr:</span> [Bestillingsnummer]
+	<span class="boxtext">Best. Nr:</span> {product_number}
 	</td>
 </tr>
 <tr>
@@ -92,7 +92,7 @@
 
 <br />
 
-<span class="boxtext">Pris:</span> [pris]
+<span class="boxtext">Pris:</span> {product_price}
 
 <br />
 

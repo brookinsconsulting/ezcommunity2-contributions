@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productpreview.php,v 1.4 2000/10/10 14:37:26 bf-cvs Exp $
+// $Id: productpreview.php,v 1.5 2000/10/23 09:27:33 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -124,6 +124,8 @@ foreach ( $options as $option )
 
 
 $t->set_var( "product_id", $product->id() );
+$t->set_var( "product_number", $product->productNumber() );
+$t->set_var( "product_price", $product->price() );
 
 
 $t->pparse( "output", "product_preview_tpl" );
