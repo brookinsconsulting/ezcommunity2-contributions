@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filedownload.php,v 1.2 2001/01/16 17:32:46 bf Exp $
+// $Id: filedownload.php,v 1.3 2001/01/18 14:17:35 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:39:10 bf>
@@ -28,10 +28,16 @@ ob_end_clean();
 
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 
+
 $file = new eZVirtualFile( $FileID );
 $fileName = $file->name();
 $originalFileName = $file->originalFileName();
 $filePath = $file->filePath( true );
+
+// store the statistics
+
+$file->addPageView( $GlobalPageView );
+
 
 //  print( $filePath );
 

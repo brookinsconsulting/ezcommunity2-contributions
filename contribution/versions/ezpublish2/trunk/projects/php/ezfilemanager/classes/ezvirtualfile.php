@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.8 2001/01/08 15:34:04 ce Exp $
+// $Id: ezvirtualfile.php,v 1.9 2001/01/18 14:17:35 bf Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -680,6 +680,27 @@ class eZVirtualfile
 
        $query = ( "DELETE FROM eZFileManager_FileFolderLink WHERE FileID='$this->ID'" );
        $this->Database->query( $query );
+    }
+
+    /*!
+      Adds a pagview to the file.
+    */
+    function addPageView( $pageView )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( get_class( $pageView ) == "ezpageview" )
+       {
+           $this->dbInit();
+
+           $pageViewID = $pageView->id();
+
+           $query = ( "INSERT INTO eZFileManager_FilePageViewLink
+           SET PageViewID='$pageViewID', FileID='$this->ID' " );
+           
+           $this->Database->query( $query );
+       }
     }
     
     /*!
