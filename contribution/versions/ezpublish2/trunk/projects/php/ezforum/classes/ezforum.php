@@ -1,6 +1,6 @@
 <?
 //
-// $Id: ezforum.php,v 1.37 2001/07/03 11:37:56 bf Exp $
+// $Id: ezforum.php,v 1.38 2001/07/03 13:20:56 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -252,14 +252,14 @@ class eZForum
 
         $query = new eZQuery( array( "Topic", "Body" ), $queryString );
 
-        $query_str = "SELECT count(ID) AS Count, PostingTime FROM eZForum_Message WHERE (" . $query->buildQuery() . ") ORDER BY PostingTime";
+        $query_str = "SELECT count(*) AS Count FROM eZForum_Message WHERE (" . $query->buildQuery() . ")";
 
         $db->array_query( $message_array, $query_str );
 
         $ret = 0;
         if ( count( $message_array ) == 1 )
             $ret = $message_array[0][$db->fieldName("Count")];
-
+        settype( $ret, "integer" );
         return $ret;
     }
 
