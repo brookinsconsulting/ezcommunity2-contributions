@@ -3,6 +3,7 @@ eZ publish changelog:
 
 Changes from 2.2 final to 2.2.1
 -------------------------------
+* Added delete buttons in eZ mediacatalogue
 * Fixed correct storing of stats first time a page is visited.
 * Fixed bug in storing sizes of textlines in form
 * Added setting for user defined stopword frequency
