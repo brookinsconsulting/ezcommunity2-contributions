@@ -8,17 +8,19 @@
 <!-- BEGIN consultation_item_tpl -->
 <tr>
     <td valign="top">
-    <a class="menu" href="/contact/consultation/view/{consultation_id}">{consultation_desc}</a>
+    <a href="/contact/consultation/view/{consultation_id}">{consultation_desc}</a>
     </td>
     <td valign="top">
-<!--  	<a class="menu" href="/contact/consultation/view/{consultation_id}"> -->
 	<!-- BEGIN consultation_person_item_tpl -->
+	<a href="/contact/person/view/{person_id}">
 	{contact_lastname}, {contact_firstname}
+	</a>
 	<!-- END consultation_person_item_tpl -->
 	<!-- BEGIN consultation_company_item_tpl -->
+	<a href="/contact/company/view/{company_id}">
 	{contact_name}
+	</a>
 	<!-- END consultation_company_item_tpl -->
-<!--  	</a> -->
     </td>
 </tr>
 <!-- END consultation_item_tpl -->

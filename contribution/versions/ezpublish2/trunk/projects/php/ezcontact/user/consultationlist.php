@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: consultationlist.php,v 1.1 2001/01/17 14:50:37 jb Exp $
+// $Id: consultationlist.php,v 1.2 2001/01/17 15:21:46 jb Exp $
 //
 // 
 //
@@ -79,6 +79,7 @@ if ( $user )
             {
                 $company = new eZCompany( $company_id );
                 $t->set_var( "contact_name", $company->name() );
+                $t->set_var( "company_id", $company->id() );
                 $t->parse( "consultation_company_item", "consultation_company_item_tpl" );
             }
             else
@@ -87,6 +88,7 @@ if ( $user )
                 if ( $person_id )
                 {
                     $person = new eZPerson( $person_id );
+                    $t->set_var( "person_id", $person->id() );
                     $t->set_var( "contact_lastname", $person->lastName() );
                     $t->set_var( "contact_firstname", $person->firstName() );
                     $t->parse( "consultation_person_item", "consultation_person_item_tpl" );
