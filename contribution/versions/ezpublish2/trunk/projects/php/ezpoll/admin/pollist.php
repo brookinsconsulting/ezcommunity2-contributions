@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: pollist.php,v 1.11 2000/11/01 12:03:15 bf-cvs Exp $
+// $Id: pollist.php,v 1.12 2000/11/02 11:55:16 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -33,6 +33,13 @@ $errorIni = new INIFIle( "ezpoll/admin/intl/" . $Language . "/pollist.php.ini", 
 include_once( "ezpoll/classes/ezpoll.php" );
 
 require( "ezuser/admin/admincheck.php" );
+
+// Language
+$LangaugeIni = new INIFile( "ezpoll/admin/" . "intl/" . $Language . "/pollist.php.ini", false );
+$yes = $LangaugeIni->read_var( "strings", "yes" );
+$no = $LangaugeIni->read_var( "strings", "no" );
+$closed = $LangaugeIni->read_var( "strings", "closed" );
+$notClosed = $LangaugeIni->read_var( "strings", "not_closed" );
 
 if ( $Action == "StoreMainPoll" )
 {
@@ -91,14 +98,14 @@ foreach( $pollList as $pollItem )
         $t->set_var( "td_class", "bglight" );
         
     if ( $pollItem->isEnabled() == "true" )
-        $t->set_var( "poll_is_enabled", "Ja" );
+        $t->set_var( "poll_is_enabled", $yes );
     else
-        $t->set_var( "poll_is_enabled", "Nei" );
+        $t->set_var( "poll_is_enabled", $no );
 
-    if ( $pollItem->anonymous() == "true" )
-        $t->set_var( "anonymous", "Ja" );
-    else
-        $t->set_var( "anonymous", "Nei" );
+//      if ( $pollItem->anonymous() == "true" )
+//          $t->set_var( "anonymous", "Ja" );
+//      else
+//          $t->set_var( "anonymous", "Nei" );
 
     
     if ( $pollItem->id() == $mainPollID )
@@ -108,11 +115,11 @@ foreach( $pollList as $pollItem )
 
     if ( $pollItem->isClosed() == "true" )
     {
-        $t->set_var( "poll_is_closed", "Avsluttet" );
+        $t->set_var( "poll_is_closed", $closed );
     }
     else
     {
-        $t->set_var( "poll_is_closed", "Ikke avsluttet" );
+        $t->set_var( "poll_is_closed", $notClosed );
     }
     $t->set_var( "poll_id", $pollItem->id() );
     $t->set_var( "poll_name", $pollItem->name() );

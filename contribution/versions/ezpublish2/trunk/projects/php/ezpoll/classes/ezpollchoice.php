@@ -1,5 +1,5 @@
 <?
-// $Id: ezpollchoice.php,v 1.8 2000/10/31 09:46:45 ce-cvs Exp $
+// $Id: ezpollchoice.php,v 1.9 2000/11/02 11:55:16 ce-cvs Exp $
 //
 // Definition of eZPollChoice class
 //
@@ -121,7 +121,7 @@ class eZPollChoice
 
         if ( $id != -1 )
         {
-            $this->Database->array_query( $poll_array, "SELECT * FROM eZPoll_PollChoice WHERE ID='$id'" );
+            $this->Database->array_query( $poll_array, "SELECT * FROM eZPoll_PollChoice WHERE ID='$id' ORDER By ID" );
 
             if ( count( $poll_array ) > 1 )
             {
@@ -148,7 +148,7 @@ class eZPollChoice
         $return_array = array();
         $poll_array = array();
 
-        $this->Database->array_query( $poll_array, "SELECT ID FROM eZPoll_PollChoice WHERE PollID='$ID' " );
+        $this->Database->array_query( $poll_array, "SELECT ID FROM eZPoll_PollChoice WHERE PollID='$ID' ORDER By ID" );
 
         for ( $i=0; $i<count( $poll_array ); $i++ )
         {

@@ -61,7 +61,7 @@
 	<a href="/poll/polledit/edit/{poll_id}/">{poll_name}</a>
 	</td>
 	<td class="{td_class}">
-	{poll_description}
+	{poll_description}&nbsp;
 	</td>
 
 	<td class="{td_class}">
