@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezaddress.php,v 1.18 2000/11/01 09:35:23 ce-cvs Exp $
+// $Id: ezaddress.php,v 1.19 2000/11/01 17:59:18 ce-cvs Exp $
 //
 // Definition of eZAddress class
 //
@@ -99,8 +99,8 @@ class eZAddress
                     Street2='$this->Street2',
                     Zip='$this->Zip',
                     Place='$this->Place',
-                    AddressType='$this->AddressType'
-                    CountryID='$this->CountryID',
+                    AddressType='$this->AddressType',
+                    CountryID='$this->CountryID'
                     WHERE ID='$this->ID'" );            
 
             $this->State_ = "Coherent";

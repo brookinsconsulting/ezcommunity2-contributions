@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.4 2000/11/01 14:34:52 ce-cvs Exp $
+// $Id: userwithaddress.php,v 1.5 2000/11/01 17:59:19 ce-cvs Exp $
 //
 // 
 //
@@ -129,6 +129,22 @@ if ( $Action == "Update" )
             $user->setEmail( $Email );
             $user->setFirstName( $FirstName );
             $user->setLastName( $LastName );
+
+            $address = new eZAddress();
+            $address->get( $AddressID );
+            $address->setStreet1( $Street1 );
+            $address->setStreet2( $Street2 );
+            $address->setZip( $Zip );
+            $address->setPlace( $Place );
+            
+            if ( isset( $CountryID ) )
+            {
+                $country = new eZCountry( $CountryID );
+                $address->setCountry( $country );
+                
+            }
+                
+            $address->store();
             
             if ( !$PasswordError )
                 $user->store();
@@ -177,7 +193,9 @@ if ( $Action == "Edit" )
 
     $t->set_var( "readonly", "readonly" );
     
+
 // print out the addresses
+    // Dosent work with multiplie addresses.
 
     $addressArray = $user->addresses();
 
@@ -187,6 +205,8 @@ if ( $Action == "Edit" )
         $Street2 = $address->street2();
         $Zip = $address->zip();
         $Place = $address->place();
+
+        $t->set_var( "address_id", $address->id() );
 
 //        $country = $address->country();
 //        $t->set_var( "country", $country->name() );

@@ -68,6 +68,7 @@
 
 <hr noshade="noshade" size="4" />
 
+<input type="hidden" name="AddressID" value="{address_id}">
 <input type="hidden" name="UserID" value="{user_id}" />
 <input class="okbutton" type="submit" value="{intl-ok}" />
 
