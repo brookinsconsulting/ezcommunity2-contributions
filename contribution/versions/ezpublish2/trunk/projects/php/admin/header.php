@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: header.php,v 1.28 2001/03/20 13:26:07 bf Exp $
+// $Id: header.php,v 1.29 2001/04/11 14:38:40 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Jan-2001 16:06:07 bf>
@@ -28,17 +28,25 @@ include_once( "classes/ezlocale.php" );
 
 $ini =& INIFile::globalINI();
 $Language =& $ini->read_var( "eZUserMain", "Language" );
+$ModuleTab = $ini->read_var( "site", "ModuleTab" ) == "enabled";
 $Locale = new eZLocale( $Language );
 $iso = $Locale->languageISO();
+$site_modules = $ini->read_array( "site", "EnabledModules" );
 
+include_once( "ezsession/classes/ezpreferences.php" );
+$preferences = new eZPreferences();
+$modules =& $preferences->variableArray( "EnabledModules" );
+$single_module = $preferences->variable( "SingleModule" ) == "enabled";
 
 $t = new eZTemplate( "admin/templates/" . $SiteStyle,
                      "admin/intl/", $Language, "header.php" );
 
 
-$t->set_file( array(
-    "header_tpl" => "header.tpl"
-    ) );
+$t->set_file( "header_tpl", "header.tpl" );
+
+$t->set_block( "header_tpl", "module_list_tpl", "module_list" );
+$t->set_block( "module_list_tpl", "module_item_tpl", "module_item" );
+$t->set_block( "module_list_tpl", "module_control_tpl", "module_control" );
 
 $SiteURL =& $ini->read_var( "site", "SiteURL" );
 
@@ -64,7 +72,40 @@ $t->set_var( "module_name", $moduleName );
 
 $t->set_var( "charset", $iso );
 
+$t->set_var( "module_list", "" );
+$t->set_var( "module_item", "" );
+$t->set_var( "module_control", "" );
+
+if ( $ModuleTab == true )
+{
+    foreach( $site_modules as $site_module )
+    {
+        $module = strtolower( $site_module );
+        if ( file_exists( $module ) )
+        {
+            if ( $single_module )
+            {
+                $t->set_var( "module_action", "activate" );
+            }
+            else
+            {
+                $t->set_var( "module_action", in_array( $site_module, $modules ) ? "deactivate" : "activate" );
+            }
+            $t->set_var( "ez_module_name", $site_module );
+            $t->set_var( "ez_dir_name", $module );
+            $lang_file = new INIFile( "$module/admin/intl/$Language/menubox.php.ini" );
+            $mod_name = $lang_file->read_var( "strings", "module_name" );
+            $t->set_var( "module_name", $mod_name );
+            $t->parse( "module_item", "module_item_tpl", true );
+        }
+    }
+    if ( !$single_module )
+        $t->parse( "module_control", "module_control_tpl" );
+    $t->parse( "module_list", "module_list_tpl" );
+}
+
 $t->setAllStrings();
+
 
 $t->pparse( "output", "header_tpl" );
     
