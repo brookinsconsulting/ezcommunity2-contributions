@@ -110,7 +110,7 @@ switch ( $url_array[2] )
                 include( "ezarticle/admin/articleedit.php" );
             }
             break;
-
+		
             case "new" :
             {
                 $Action = "New";
@@ -179,6 +179,35 @@ switch ( $url_array[2] )
                 if( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' )
                     || eZArticle::isAuthor( $user, $ArticleID ) )
                     include( "ezarticle/admin/filelist.php" );
+            }
+            break;
+
+            case "imagemap" :
+            {
+                switch ( $url_array[4] )
+                {
+                    case "edit" :
+                    {
+                        $ArticleID = $url_array[6];
+                        $ImageID = $url_array[5];
+                        $Action = "Edit";
+                        if( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' )
+                            || eZArticle::isAuthor( $user, $ArticleID ) )
+                            include( "ezarticle/admin/imagemap.php" );
+                    }
+                    break;
+                    
+                    case "store" :
+                    {
+                        $ArticleID = $url_array[6];
+                        $ImageID = $url_array[5];
+                        $Action = "Store";
+                        if( eZObjectPermission::hasPermission(  $ArticleID, "article_article", 'w' )
+                            || eZArticle::isAuthor( $user, $ArticleID ) )
+                            include( "ezarticle/admin/imagemap.php" );
+                    }
+                    break;
+                }
             }
             break;
             

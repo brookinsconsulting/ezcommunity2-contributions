@@ -24,7 +24,7 @@
 	<td width="1%" class="{td_class}">
 	{image_number}
 	</td>
-	<td width="95%" class="{td_class}">
+	<td width="94%" class="{td_class}">
 	{image_name}
 	</td>
 	<td width="1%" class="{td_class}">
@@ -32,6 +32,9 @@
 	</td>
 	<td width="1%" class="{td_class}">
 	<input type="radio" {thumbnail_image_checked} name="ThumbnailImageID" value="{image_id}" />
+	</td>
+	<td width="1%" class="{td_class}">
+	<a href="/article/articleedit/imagemap/edit/{image_id}/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp2{image_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="eztp2{image_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Map" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
 	<a href="/article/articleedit/imageedit/edit/{image_id}/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{image_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="eztp{image_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
