@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.54.8.2 2002/01/16 17:17:19 bf Exp $
+// $Id: datasupplier.php,v 1.54.8.3 2002/01/17 11:31:10 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -63,6 +63,13 @@ if ( $user )
 
 switch ( $url_array[2] )
 {
+    case "mailtofriend" :
+    {
+        $ProductID = $url_array[3];
+        include( "eztrade/user/mailtofriend.php" );
+    }
+    break;
+    
     case "productlist" :
     {
         $CategoryID = $url_array[3];
@@ -365,7 +372,7 @@ switch ( $url_array[2] )
         eZHTTPTool::header( "Location: /error/404" );
         exit();
     }
-        break;
+    break;
 }
 
 ?>
