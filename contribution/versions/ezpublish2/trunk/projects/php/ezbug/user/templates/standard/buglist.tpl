@@ -66,11 +66,12 @@
 </tr>
 <!-- END module_item_tpl -->
 </table>
-<hr noshade size="4"/>
 <!-- END module_list_tpl -->
 
 
 <!-- BEGIN bug_list_tpl -->
+<hr noshade size="4"/>
+
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th width="70%">{intl-bug}:</th>

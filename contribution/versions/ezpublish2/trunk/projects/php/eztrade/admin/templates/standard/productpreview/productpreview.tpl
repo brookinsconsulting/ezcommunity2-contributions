@@ -20,7 +20,7 @@
 <br />
 
 <!-- BEGIN main_image_tpl -->	
-<table align="right" cellspacing="0" cellpadding="0" border="0">
+<table width="1%" align="right" cellspacing="0" cellpadding="2" border="0">
 <tr>
 	<td>
 	<img src="{main_image_uri}" border="0" width="{main_image_width}" height="{main_image_height}" />
@@ -44,11 +44,13 @@
 <!-- BEGIN image_tpl -->
 <tr>
 <td class="bglight">
-<table cellspacing="0" cellpadding="0" border="0" border="0">
+<table cellspacing="0" cellpadding="2" border="0" border="0">
 <tr>
 	<td valign="top">
-	<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}" hspace="5" />
+	<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}" />
 	</td>
+</tr>
+<tr>
 	<td valign="top">
 	<p class="pictext">
 	{image_caption}

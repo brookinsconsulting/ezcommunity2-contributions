@@ -29,7 +29,7 @@
 <br />
 <!-- BEGIN main_image_tpl -->
 
-<table align="right" cellspacing="0" cellpadding="0" border="0">
+<table width="1%" align="right" cellspacing="0" cellpadding="2" border="0">
 <tr>
 	<td>
 	<a href="/imagecatalogue/imageview/{main_image_id}/?RefererURL=/{module}/{module_view}/{product_id}/{category_id}/">
@@ -51,11 +51,11 @@
 
 <br clear="all" />
 
-<table width="100%" cellspacing="0" cellpadding="7" border="0">
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
 	<td width="70%">
 <!-- BEGIN image_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="7" border="0">
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
 <!-- BEGIN image_tpl -->
 <tr>
 <td width="1%" valign="top">
@@ -63,17 +63,18 @@
 	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/{module}/{module_view}/{product_id}/{category_id}/">
 	<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}"/></a>
 </td>
-
+</tr>
+<tr>
 <td valign="top">
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th valign="top">
-	{image_title}:
+	<!-- {image_title}: -->
 	</th>
 </tr>
 <tr>
-	<td valign="top">
+	<td valign="top" class="pictext">
 	{image_caption}
 	</td>
 </tr>
