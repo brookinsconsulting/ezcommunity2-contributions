@@ -27,13 +27,6 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td>
-	<p class="boxtext">{intl-real_name}:</p>
-	<input type="text" class="box" size="40" name="RealName" value="{real_name}" />*
-	<br /><br />
-	</td>
-</tr>
-<tr>
-    <td>
 	<p class="boxtext">{intl-send_to}:</p>
 	<input type="text" class="box" size="40" name="SendTo" value="{send_to}" />*
 	<br /><br />

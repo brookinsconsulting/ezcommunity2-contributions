@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: mailtofriend.php,v 1.3 2001/07/02 07:26:06 br Exp $
+// $Id: mailtofriend.php,v 1.4 2001/07/05 17:24:01 br Exp $
 //
 // Bjørn Reiten <br@ez.no>
 // Created on: <18-Jun-2001 16:37:47 br>
@@ -89,10 +89,9 @@ $sendmail_tpl->set_var( "mail_comment", "" );
 
 if ( isset( $Submit ) || isset( $RealName ) ||  isset( $SendTo  ) || isset( $From ) )
 {
-
     $errorArr = array();
-    if ( (  trim( $RealName ) == "" ) )
-        $errorArr["real_name"] = true;
+//    if ( (  trim( $RealName ) == "" ) )
+//        $errorArr["real_name"] = true;
     
     if (! ( eZMail::validate( $SendTo ) ) )
         $errorArr["send_to"] = true;
@@ -140,6 +139,7 @@ function sendmail ( $article_id, $tpl, $sendmail_tpl, $real_name, $to_name, $fro
     $sendmail_tpl->set_var( "intro", $intro );
     $mail_body = $sendmail_tpl->parse( "mail_body", "mail_body_tpl" );
 
+    $sendmail_tpl->set_var( "real_name", $real_name );
     $sendmail_tpl->set_var( "site_url", $site_url );
     $sendmail_tpl->set_var( "art_id", $article_id );
     $mail_body .= $sendmail_tpl->parse( "article_url", "article_url_tpl" );

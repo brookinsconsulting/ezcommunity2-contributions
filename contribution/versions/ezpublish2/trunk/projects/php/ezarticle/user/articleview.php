@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.49 2001/07/05 17:11:31 bf Exp $
+// $Id: articleview.php,v 1.50 2001/07/05 17:24:01 br Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -98,6 +98,7 @@ $t->set_block( "article_view_page_tpl", "prev_page_link_tpl", "prev_page_link" )
 $t->set_block( "article_view_page_tpl", "numbered_page_link_tpl", "numbered_page_link" );
 $t->set_block( "article_view_page_tpl", "print_page_link_tpl", "print_page_link" );
 
+$t->set_block( "article_view_page_tpl", "mail_to_tpl", "mail_to" );
 $t->set_block( "article_view_page_tpl", "attribute_list_tpl", "attribute_list" );
 $t->set_block( "attribute_list_tpl", "type_item_tpl", "type_item" );
 $t->set_block( "type_item_tpl", "attribute_item_tpl", "attribute_item" );
@@ -222,6 +223,10 @@ if ( $article->get( $ArticleID ) )
     $t->set_var( "article_created", $locale->format( $published ) );
  
 }
+
+// set the variables in the mail_to form
+$t->set_var( "send_to", $SendTo );
+$t->set_var( "from", $From );
 
 $types = $article->types();
 

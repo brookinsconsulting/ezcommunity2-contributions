@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.112 2001/07/04 14:22:09 jb Exp $
+// $Id: ezarticle.php,v 1.113 2001/07/05 17:24:01 br Exp $
 //
 // Definition of eZArticle class
 //
@@ -259,8 +259,7 @@ class eZArticle
             $db->rollback( );
         else
             $db->commit();
-        
-        
+
         return true;
     }
 

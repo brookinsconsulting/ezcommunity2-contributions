@@ -54,6 +54,7 @@
 {article_body}
 </p>
 
+
 <!-- BEGIN attribute_list_tpl -->
 <!-- BEGIN type_item_tpl -->
 <h2>{type_name}</h2>
@@ -86,6 +87,30 @@
 </table>
 <!-- END attached_file_list_tpl -->
 
+<form method="post" action="/article/mailtofriend/{article_id}">
+<table width="100%" cellpadding="5" cellspacing="0" border="0">
+<tr>
+    <td>
+	<p class="boxtext">{intl-send_to}:</p>
+	<input type="text" class="box" size="5" name="SendTo" value="{send_to}" />*
+	<br /><br />
+    </td>
+</tr>
+<tr>
+    <td>
+	<p class="boxtext">{intl-from_mail}:</p>
+	<input type="text" class="box" size="5" name="From" value="{from}">*
+	<br />
+    </td>
+</tr>
+<tr>
+    <td>
+        <input class="stdbutton" type="submit" value="{intl-send_mail}">
+    </td>
+</tr>
+</table>
+</form>
+
 <br clear="all" />
 
 <div align="center">
@@ -117,6 +142,5 @@
 <!-- END print_page_link_tpl -->
 
 | <a class="path" href="/article/mailtofriend/{article_id}/">{intl-send_mailtofriend}</a> |
-
 
 </div>
