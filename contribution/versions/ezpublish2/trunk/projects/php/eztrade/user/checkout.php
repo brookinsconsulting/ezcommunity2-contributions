@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.64 2001/07/05 16:17:46 jhe Exp $
+// $Id: checkout.php,v 1.65 2001/07/16 14:56:56 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -136,7 +136,6 @@ if ( isset( $SendOrder ) )
 
 
 // show the shipping types
-
 $type = new eZShippingType();
 $types = $type->getAll();
 
@@ -173,7 +172,11 @@ foreach ( $types as $type )
     $t->parse( "shipping_type", "shipping_type_tpl", true );
 }
 
-
+// calculate the vat of the shiping
+$shippingCost = $cart->shippingCost( $currentShippingType );
+$t->set_var( "shipping_cost_value", $shippingCost );
+$shippingVAT = $cart->shippingVAT( $currentShippingType );
+$t->set_var( "shipping_vat_value", $shippingVAT );
 
 $can_checkout = true;
 
@@ -317,12 +320,6 @@ $can_checkout = true;
         }
         
         $price = $priceobj->value();    
-
-
-
-
-
-
         
         // product price
         $currency->setValue( $price );
@@ -401,15 +398,6 @@ $can_checkout = true;
         $i++;
     }
 
-
-    $shippingCost = $cart->shippingCost( $currentShippingType );
-    $t->set_var( "shipping_cost_value", $shippingCost );
-
-    // calculate the vat of the shiping
-    $shippingVAT = $cart->shippingVAT( $currentShippingType );
-    $t->set_var( "shipping_vat_value", $shippingVAT );
-
-    
     $currency->setValue( $shippingCost );
     $t->set_var( "shipping_cost", $locale->format( $currency ) );
 
