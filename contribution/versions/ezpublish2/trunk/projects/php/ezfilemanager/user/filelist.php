@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.28 2001/03/08 21:43:25 fh Exp $
+// $Id: filelist.php,v 1.29 2001/03/09 14:29:44 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -132,7 +132,7 @@ foreach ( $folderList as $folderItem )
         $t->parse( "folder_read", "folder_read_tpl" );
     }
 
-    if( ( $user && eZObjectPermission::hasPermission( $folderItem->id(), "filemanager_folder", "w", $user ) ) ||
+    if( ( eZObjectPermission::hasPermission( $folderItem->id(), "filemanager_folder", "w", $user ) ) ||
         eZVirtualFolder::isOwner( $user, $folderItem->id()) )
     {
         $t->parse( "folder_write", "folder_write_tpl" );
@@ -142,12 +142,17 @@ foreach ( $folderList as $folderItem )
     $i++;
 }
 
-if ( $user )
+if( $FolderID == 0 && eZPermission::checkPermission( eZUser::currentUser(), "eZFileManager", "WriteToRoot" ) )
+{
+    $t->parse( "write_menu", "write_menu_tpl" );
+}
+else if( eZObjectPermission::hasPermission( $FolderID, "filemanager_folder", 'w' ) ||
+    eZVirtualFolder::isOwner( eZUser::currentUser(), $FolderID ) )
 {
     $t->parse( "write_menu", "write_menu_tpl" );
 }
 
-if ( count( $folderList ) > 0 )
+if( count( $folderList ) > 0 )
 {
     $t->parse( "folder_list", "folder_list_tpl" );
 }
@@ -188,7 +193,7 @@ foreach ( $fileList as $file )
         $t->set_var( "read", "" );
     }
     
-    if( $user && ( eZObjectPermission::hasPermission( $file->id(), "filemanager_file", "w", $user ) ) ||
+    if(  eZObjectPermission::hasPermission( $file->id(), "filemanager_file", "w", $user )  ||
         eZVirtualFile::isOwner( $user, $file->id() ))
     {
         $t->parse( "write", "write_tpl" );
