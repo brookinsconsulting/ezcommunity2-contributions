@@ -1,5 +1,5 @@
 <?php
-// $Id: linkedit.php,v 1.59 2001/07/09 06:25:35 jhe Exp $
+// $Id: linkedit.php,v 1.60 2001/07/09 08:02:31 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -45,7 +45,7 @@ include_once( "ezlink/classes/ezlinkattribute.php" );
 include_once( "ezlink/classes/ezmeta.php" );
 require( "ezuser/admin/admincheck.php" );
 
-if ( isSet ( $DeleteLinks ) )
+if ( isSet( $DeleteLinks ) )
 {
     $Action = "DeleteLinks";
 }
@@ -67,7 +67,7 @@ if ( isSet( $Back ) )
 }
 
 // Get images from the image browse function.
-if ( ( isSet ( $AddImages ) ) and ( is_numeric( $LinkID ) ) and ( is_numeric ( $LinkID ) ) )
+if ( ( isSet( $AddImages ) ) and ( is_numeric( $LinkID ) ) and ( is_numeric( $LinkID ) ) )
 {
     $image = new eZImage( $ImageID );
     $link = new eZLink( $LinkID );
@@ -86,7 +86,6 @@ if ( $GetSite )
             $real_url = $Url;
 
         $metaList = fetchURLInfo( $real_url );
-
         if ( $metaList == false )
         {
             // Change this to use an external message
@@ -97,7 +96,6 @@ if ( $GetSite )
             $inierror = new INIFile( "ezlink/user/" . "/intl/" . $Language . "/suggestlink.php.ini", false );
             $terror_msg = $inierror->read_var( "strings", "nometa" );
         }
-
         if ( $metaList["description"] )
             $tdescription = $metaList["description"];
         else
@@ -108,8 +106,8 @@ if ( $GetSite )
         else
             $tkeywords = $keywords;
         
-        if ( $metaList["name"] )
-            $tname = $metaList["name"];
+        if ( $metaList["title"] )
+            $tname = $metaList["title"];
         else if ( $metaList["abstract"] )
             $tname = $metaList["abstract"];
         else
@@ -122,6 +120,7 @@ if ( $GetSite )
 
     }
 
+    $LinkCategoryIDArray = $CategoryArray;
     $action_value = "insert";
     $Action = "new";
 
@@ -459,6 +458,8 @@ if ( $Action == "new" )
 
     $t->set_var( "image_item", "" );
     $t->set_var( "no_image_item", "" );
+    if ( !isSet( $LinkCategoryIDArray ) )
+        $LinkCategoryIDArray = array();
 }
 // set accepted link as default.
 $yes_selected = "selected";

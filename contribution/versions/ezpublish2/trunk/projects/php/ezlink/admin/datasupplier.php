@@ -1,4 +1,4 @@
-<?
+<?php
 // $url_array = explode( "/", $REQUEST_URI );
 
 $user =& eZUser::currentUser();

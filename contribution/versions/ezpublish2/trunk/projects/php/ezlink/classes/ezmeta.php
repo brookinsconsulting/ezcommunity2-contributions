@@ -1,5 +1,5 @@
-<?
-// $Id: ezmeta.php,v 1.3 2001/01/22 14:43:01 jb Exp $
+<?php
+// $Id: ezmeta.php,v 1.4 2001/07/09 08:02:31 jhe Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <01-Nov-2000 16:44:39 bf>
@@ -25,27 +25,29 @@
 function &fetchURLInfo( $url )
 {
     $list = array();
-    $fp = @fopen( $url, "r" );
+    $fp = fopen( $url, "r" );
+
     if ( $fp )
     {
         $output = fread( $fp, 5000 ); // First 5k should be enough
         fclose( $fp );
         if ( preg_match( "#<title>([^<]+)</title>#i", $output, $regs ) )
         {
+            
             $title = trim( $regs[1] );
             $list["title"] = $title;
         }
-        if ( preg_match( "#<meta[ \t\n]+name[ \t\n]*=[ \t\n]*\"abstract\"[ \t\n]+content[ \t\n]*=[ \t\n]*\"([^\"]+)\"[ \t\n]*>#i", $output, $regs ) )
+        if ( preg_match( "#<meta[ \t\n]+name[ \t\n]*=[ \t\n]*\"abstract\"[ \t\n]+content[ \t\n]*=[ \t\n]*\"([^\"]+)\"[ \t\n\/]*>#i", $output, $regs ) )
         {
             $abstract = trim( $regs[1] );
             $list["abstract"] = $abstract;
         }
-        if ( preg_match( "#<meta[ \t\n]+name[ \t\n]*=[ \t\n]*\"description\"[ \t\n]+content[ \t\n]*=[ \t\n]*\"([^\"]+)\"[ \t\n]*>#i", $output, $regs ) )
+        if ( preg_match( "#<meta[ \t\n]+name[ \t\n]*=[ \t\n]*\"description\"[ \t\n]+content[ \t\n]*=[ \t\n]*\"([^\"]+)\"[ \t\n\/]*>#i", $output, $regs ) )
         {
             $description = trim( $regs[1] );
             $list["description"] = $description;
         }
-        if ( preg_match( "#<meta[ \t\n]+name[ \t\n]*=[ \t\n]*\"keywords\"[ \t\n]+content[ \t\n]*=[ \t\n]*\"([^\"]+)\"[ \t\n]*>#i", $output, $regs ) )
+        if ( preg_match( "#<meta[ \t\n]+name[ \t\n]*=[ \t\n]*\"keywords\"[ \t\n]+content[ \t\n]*=[ \t\n]*\"([^\"]+)\"[ \t\n\/]*>#i", $output, $regs ) )
         {
             $keywords = trim( $regs[1] );
             $list["keywords"] = $keywords;
