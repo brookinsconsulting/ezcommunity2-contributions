@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpccall.php,v 1.8.2.1 2001/11/15 19:36:18 bf Exp $
+// $Id: ezxmlrpccall.php,v 1.8.2.2 2001/11/15 19:36:44 bf Exp $
 //
 // Definition of eZXMLRPCCall class
 //
@@ -224,7 +224,7 @@ class eZXMLRPCCall
                     {
                         foreach ( $callItem->children as $value )
                         {
-                            if ( $value->name == "#text" )
+                            if ( $value->name == "#text" || $value->name == "text" )
                             {
                                 $this->MethodName = $value->content;
                             }
