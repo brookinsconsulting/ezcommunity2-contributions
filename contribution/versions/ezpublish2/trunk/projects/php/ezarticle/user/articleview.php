@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.15 2000/11/07 14:19:43 ce-cvs Exp $
+// $Id: articleview.php,v 1.16 2000/11/15 18:14:14 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -67,7 +67,16 @@ $article = new eZArticle(  );
 // check if the article exists
 if ( $article->get( $ArticleID ) )
 {
-
+    if ( $article->isPublished() )
+    {
+        // published article.
+    }
+    else
+    {
+        Header( "Location: /404" );
+        exit();
+    }
+    
     $renderer = new eZArticleRenderer( $article );
 
     $t->set_var( "article_name", $article->name() );

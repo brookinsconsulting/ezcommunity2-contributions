@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.39 2000/11/15 14:04:17 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.40 2000/11/15 18:14:14 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -581,23 +581,24 @@ class eZTechRenderer
         
         $string = preg_replace ( "#(/\*.+?\*/)#ms", "<font color=\"orange\">\\1</font>", $string );
 
-        $string = preg_replace ( "#(\\$.+?)[\s|\;]#", "<font color=\"#00aaaa\">\\1</font>", $string );        
+
 
         $reservedWords = array( "/(function)/",
                                 "/( as )/",
                                 "/(class )/",
                                 "/(var )/",
                                 "/(^var )/",
-                                "/( for)/"
+                                "/(for )/"
                                 );
 
         $string = preg_replace( $reservedWords, "<font color=\"blue\">\\1</font>", $string );
 
-
         $string = preg_replace( "/( [0-9]+)/", "<font color=\"green\">\\1</font>", $string );
 
-        $string = preg_replace( "/(\$[a-zA-Z0-9]+)/", "<font color=\"#00ffff\">\\1</font>", $string );
+        $string = preg_replace( "#(\\$[a-zA-Z0-9]+)#", "<font color=\"#00aaaa\">\\1</font>", $string );
 
+//          $string = preg_replace ( "#(\\$.+?)[\s|\;]#", "<font color=\"#00aaaa\">\\1</font>", $string );
+        
         // indenting
         
         $string = "<br clear=\"all\"><p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .

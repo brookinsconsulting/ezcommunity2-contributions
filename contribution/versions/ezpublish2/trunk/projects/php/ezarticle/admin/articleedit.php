@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.24 2000/11/12 17:03:39 bf-cvs Exp $
+// $Id: articleedit.php,v 1.25 2000/11/15 18:14:14 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -509,19 +509,33 @@ foreach ( $categoryArray as $catItem )
     {
         $defCat = $article->categoryDefinition( );
         
-        if ( $article->existsInCategory( $catItem ) &&
-             ( $defCat->id() != $catItem->id() ) )
+        if ( get_class( $defCat ) == "ezarticlecategory" )
         {
-            $t->set_var( "multiple_selected", "selected" );
+            if ( $article->existsInCategory( $catItem ) &&
+                ( $defCat->id() != $catItem->id() ) )
+            {
+                $t->set_var( "multiple_selected", "selected" );
+            }
+            else
+            {
+                $t->set_var( "multiple_selected", "" );
+            }
         }
         else
         {
-            $t->set_var( "multiple_selected", "" );
+            $t->set_var( "selected", "" );
         }
-
-        if ( $defCat->id() == $catItem->id() )
+            
+        if ( get_class( $defCat ) == "ezarticlecategory" )
         {
-            $t->set_var( "selected", "selected" );
+            if ( $defCat->id() == $catItem->id() )
+            {
+                $t->set_var( "selected", "selected" );
+            }
+            else
+            {
+                $t->set_var( "selected", "" );
+            }
         }
         else
         {
