@@ -30,7 +30,7 @@
 	</td>
 </tr>
 <!-- END visitor_tpl -->
-<table>
+</table>
 
 <!-- BEGIN type_list_tpl -->
 <table border="0" cellspacing="0" cellpadding="0">

@@ -44,6 +44,7 @@
 	</td>
 </tr>
 <!-- END referer_tpl -->
+</table>
 
 <!-- BEGIN type_list_tpl -->
 <table border="0" cellspacing="0" cellpadding="0">
