@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.42 2001/03/11 13:33:29 bf Exp $
+// $Id: ezproduct.php,v 1.43 2001/03/12 10:46:55 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -464,7 +464,7 @@ class eZProduct
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       return $this->ExternalLink;
+       return htmlspecialchars( $this->ExternalLink );
     }
 
     /*!
