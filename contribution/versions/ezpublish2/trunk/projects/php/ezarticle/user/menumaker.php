@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menumaker.php,v 1.2 2001/09/03 15:55:32 br Exp $
+// $Id: menumaker.php,v 1.3 2001/09/04 14:10:22 br Exp $
 //
 // Definition of ||| class
 //
@@ -84,7 +84,7 @@ function menuMaker()
         $t->set_var( "menu_category", "" );
 
         $article_cat_array = $categoryItem->getByParent( $categoryItem );
-        $article_art_array =& $categoryItem->articles( 1, false, true, 0, 50 );
+        $article_art_array =& $categoryItem->articles( "absolute_placement", false, true, 0, 50 );
         
         
         if ( count( $article_cat_array ) > 0 )
