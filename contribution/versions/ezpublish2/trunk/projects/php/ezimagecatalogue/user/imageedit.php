@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.18 2001/03/06 19:42:29 fh Exp $
+// $Id: imageedit.php,v 1.19 2001/03/07 13:04:34 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -198,6 +198,16 @@ if ( $Action == "Insert" || $Action == "Update" )
     if ( $error )
     {
         $t->parse( "errors", "errors_tpl" );
+        foreach( $WriteGroupArrayID as $unf )
+        {
+            if( $unf == 0 ) $writeGroupArrayID[] = -1;
+            else $writeGroupArrayID[] = $unf;
+        }
+        foreach( $ReadGroupArrayID as $unf )
+        {
+            if( $unf == 0 ) $readGroupArrayID[] = -1;
+            else $readGroupArrayID[] = $unf;
+        }
     }
 }
 
@@ -339,9 +349,9 @@ if ( $Action == "Edit" )
     $t->parse( "image", "image_tpl" );
 
     $objectPermission = new eZObjectPermission();
-    
-    $readGroupArrayID =& $objectPermission->getGroups( $image->id(), "imagecatalogue_image", "r", false );
 
+    $readGroupArrayID =& $objectPermission->getGroups( $image->id(), "imagecatalogue_image", "r", false );
+    
     $writeGroupArrayID =& $objectPermission->getGroups( $image->id(), "imagecatalogue_image", "w", false );
 }
 
