@@ -20,9 +20,10 @@
     <a class="path" href="/forum/forumlist/{category_id}/">{category_name}</a>
 	<img src="/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
 	<a class="path" href="/forum/messagelist/{forum_id}/">{forum_name}</a>
+<!--
 	<img src="/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />	
     <a class="path" href="/forum/message/{message_id}/">{message_topic}</a>
-
+-->
 <hr noshade="noshade" size="4" />
 
 <br />

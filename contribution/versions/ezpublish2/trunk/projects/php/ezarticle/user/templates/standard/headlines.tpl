@@ -28,7 +28,7 @@
 <tr>
 	</td>
 	<td class="small" align="right">
-	{article_published}
+	(&nbsp;{article_published}&nbsp;)
 	</td>
 </tr>
 <!-- END article_item_tpl -->
