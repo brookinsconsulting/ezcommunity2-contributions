@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezhit.php,v 1.27.2.1 2003/06/05 10:59:11 br Exp $
+// $Id: ezhit.php,v 1.27.2.2 2003/07/10 08:17:50 br Exp $
 //
 // Definition of eZHit class
 //
@@ -100,7 +100,7 @@ class eZHit
     function &getLinkHits( $id )
     {
         $db =& eZDB::globalDatabase();
-        $db->array_query( $hit_array, "SELECT COUNT(ID) as Count FROM eZLink_Hit WHERE Link='$id'" );        
+        $db->query_single( $hit_array, "SELECT COUNT(ID) as Count FROM eZLink_Hit WHERE Link='$id'" );        
         $count = $hit_array[$db->fieldName( "Count" )];
 
         return $count;
