@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewschangetype.php,v 1.3 2000/09/28 08:27:14 pkej-cvs Exp $
+// $Id: eznewschangetype.php,v 1.4 2000/09/30 22:17:03 pkej-cvs Exp $
 //
 // Definition of eZNewsChangeType class
 //
@@ -30,92 +30,187 @@
     \sa eZNewsItem eZNewsChangeTicket
 */
 
-include_once( "classes/ezdb.php" );
+include_once( "eznews/classes/eznewsutility.php" );       
 
-class eZNewsChangeType
+class eZNewsChangeType extends eZNewsUtility
 {
     /*!
-      Constructs a new eZNewsChangeType object.
+        Constructs a new eZNewsChangeType object.
 
-      If $id is set the object's values are fetched from the
-      database.
+        If $inData is set the object's values are fetched from the
+        database. $inData might be a name or an ID. If it is an object name
+        then the first object with that name will be fetched. In other words
+        there is no guarantee that you will get what you want using a name.
+      
+        \variables
+        \in
+            \$inData    Either the ID or the Name of the row we want
+            \$fetch     Should we fetch the row now, or later
     */
-    function eZNewsChangeType( $id=-1, $fetch=true )
+    function eZNewsChangeType( $inData = "", $fetch = true )
     {
-        $this->dbInit();
-        
-        $IsConnected = false;
-        if ( $id != -1 )
-        {
-            $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
-        }
+        eZNewsUtility::eZNewsUtility( $inData, $fetch );
     }
-
-
+    
+    
     /*!
-      Stores a eZNewsChangeType object to the database.
-
-      Returns the ID to the stored type.
-    */
-    function store( $reason="created")
-    {
-        $this->dbInit();
-
-        $this->Database->query( "INSERT INTO eZNews_ChangeType SET
-                                 Name='$this->Name'");
-        $this->ID = mysql_insert_id();
-
-        return $this->ID;
-    }
-
-
-
-    /*!
-      Fetches the object information from the database.
-    */
-    function get( $id=-1 )
-    {
-        $this->dbInit();
+        Update this eZNewsChangeType object and related items.
         
-        if ( $id != "-1" )
+        \variables
+        \out
+            \ID     The ID returned after the insert/update.
+        \return
+            Returns true if we are successful.
+     */
+    function updateThis( &$ID )
+    {
+        $value = false;
+        
+        $query =
+        "
+            UPDATE
+                eZNews_ChangeType
+            SET
+                Name = '%s',
+                Description = '%s'
+            WHERE
+                ID = '%s'
+        ";
+        
+        $query = sprintf
+        (
+            $query,
+            $this->Name,
+            $this->Description,
+            $this->ID
+        );
+        
+        $this->Database->query( $query );
+        $insertID = mysql_insert_id();
+
+        if( $insertID )
         {
-            $changetype_array = array();
-            
-            $query="
-            SELECT * FROM eZNews_ChangeType
-            WHERE ID='$id'
+            $outID = $insertID;
+            $this->ID = $insertID;
+            $value = true;
+        }
+        
+        return $value;
+    }
+    
+    
+    
+    /*!
+        Store this eZNewsChangeType object and related items.
+        
+        \variables
+        \out
+            \ID     The ID returned after the insert/update.
+        \return
+            Returns true if we are successful.
+     */
+    function storeThis( &$ID )
+    {
+        $value = false;
+        
+        $query =
+        "
+            INSERT INTO
+                eZNews_ChangeType
+            SET
+                Name = '%s',
+                Description = '%s'
+        ";
+        
+        $query = sprintf
+        (
+            $query,
+            $this->Name,
+            $this->Description
+        );
+        
+        $this->Database->query( $query );
+        $insertID = mysql_insert_id();
+
+        if( $insertID )
+        {
+            $outID = $insertID;
+            $this->ID = $insertID;
+            $value = true;
+        }
+        
+        return $value;
+    }
+    
+    
+    
+    /*!
+        Fetches the object information from the database.
+      
+        \variables
+        \in
+            \$inData    Either the ID or the Name of the row we want this object
+                    to get data from.
+        \out
+            \$outID     An array of all IDs from the result of the query.
+        \return
+            Returns true if only one data item was returned.
+    */
+    function getThis( &$outID, &$inData )
+    {
+        $value = false;
+        $changeTypeArray = array();
+        $outID = array();
+        
+        if( is_numeric( $inData ) )
+        {
+            $query = "
+                SELECT
+                    *
+                FROM
+                    eZNews_ChangeType
+                WHERE ID = %s
             ";
             
-            $this->Database->array_query( $changetype_array, $query );
-            
-            if ( count( $changetype_array ) > 1 )
-            {
-                die( "Error: Change type's with the same ID was found in the database. This shouldn't happen." );
-            }
-            else if( count( $changetype_array ) == 1 )
-            {
-                $this->ID = $changetype_array[0][ "ID" ];
-                $this->Name = $changetype_array[0][ "Name" ];
-            }
-                 
-            $this->State_ = "Coherent";
+            $query = sprintf( $query2, $inData );
         }
         else
         {
-            $this->State_ = "Dirty";
+            $query2 = "
+                SELECT
+                    *
+                FROM
+                    eZNews_ChangeType
+                WHERE Name = %s
+            ";
+            
+            $query = sprintf( $query2, $inData );
         }
+
+        $this->Database->array_query( $changetype_array, $query );
+
+        if ( count( $changetype_array ) > 1 )
+        {
+            $this->Error[] = "intl-eznews-eznewschangetype-more-than-one-object-found";
+            
+            foreach( $changeTypeArray as $changeType )
+            {
+                $outID[] = $changeType[ "ID" ];
+            }
+        }
+        else if( count( $changeTypeArray ) == 1 )
+        {
+            $this->ID = $changeTypeArray[0][ "ID" ];
+            $this->Name = $changeTypeArray[0][ "Name" ];
+            $this->Description = $changeTypeArray[0][ "Description" ];
+            $value = true;
+        }
+        else
+        {
+            $this->Error[] = "intl-eznews-eznewschangetype-no-object-found";
+        }
+        
+        return $value;
     }
 
 
@@ -149,70 +244,44 @@ class eZNewsChangeType
 
 
     /*!
-      Returns the object ID to the change type. This is the unique ID stored in the database.
-    */
-    function id()
-    {
-        $returnValue = 0;
-        if ( $this->State_ != "New" )
-        {
-            $returnValue=$this->ID;
-        }
-       
-        return $returnValue;
-    }
-
-
-
-    /*!
-      Returns the name of the change type.
-    */
-    function name()
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        Sets the descritption of the object.
         
-        return $this->Name;
-    }
-
-
-
-    /*!
-      Sets the name of the change type.
+        \variables
+        \in
+            \$inDescription    The new name of this object
+        \return
+            Will always return true.
     */
-    function setName( $value )
+    function setDescription( $inDescription )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        $this->dirtyUpdate();
         
-        $this->Name = $value;
-    }
-
-
-
-    /*!
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $IsConnected == false )
-        {
-            $this->Database = new eZDB( "site.ini", "eZNewsMain" );
-            $IsConnected = true;
-        }
+        $this->Description = $inDescription;
+        
+        $this->alterState();
+        
+        return true;
     }
     
-    var $ID;
-    var $Name;
-    
-    ///  Variable for keeping the database connection.
-    var $Database;
 
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
-}
+
+    /*!
+        Returns the object description.
+        
+        \variables
+        \return
+            Returns the description of the object.
+    */
+    function description()
+    {
+        $this->dirtyUpdate();
+        
+        return $this->Description;
+    }
+
+    // The data members
+
+    var $Description;
+};
 
 ?>
