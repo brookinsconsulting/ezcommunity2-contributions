@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: latestmessages.php,v 1.4 2001/07/06 08:48:49 bf Exp $
+// $Id: latestmessages.php,v 1.5 2001/07/09 12:45:58 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Jul-2001 11:45:17 bf>
@@ -48,9 +48,13 @@ $user =& eZUser::currentUser();
 $db =& eZDB::globalDatabase();
 $messages =& eZForumMessage::lastMessages( 5 );
 
+global $GlobalSiteDesign;
+
 $i=0;
 foreach ( $messages as $message )
 {
+    $t->set_var( "sitedesign", $GlobalSiteDesign );
+	
     $nr = ( $i % 2 ) + 1;
     $t->set_var( "alt_nr", $nr );
 

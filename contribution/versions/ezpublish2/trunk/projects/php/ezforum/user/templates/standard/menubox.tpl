@@ -10,8 +10,5 @@
 </tr>
 <!-- END category_tpl -->
 
-<tr>
-	<td colspan="2" class="menuspacer">&nbsp;</td>
-</tr>
 </table>
 
