@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.16 2000/11/02 15:46:58 pkej-cvs Exp $
+// $Id: checkout.php,v 1.17 2000/11/02 19:58:04 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -68,7 +68,7 @@ if ( !$session->fetch() )
 $cart = $cart->getBySession( $session, "Cart" );
 if ( !$cart )
 {
-    print( "ERROR: no cart." );
+    Header( "Location: /trade/cart/" );
 }
 
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),

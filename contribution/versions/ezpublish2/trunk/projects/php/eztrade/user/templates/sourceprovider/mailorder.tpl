@@ -18,7 +18,7 @@
 <!-- BEGIN order_item_tpl -->
 {order}{count}{price} 
 <!-- BEGIN option_item_tpl -->
-{name}{value}
+{name}: {value}
 <!-- END option_item_tpl -->
 <!-- END order_item_tpl -->
 {stringline}
