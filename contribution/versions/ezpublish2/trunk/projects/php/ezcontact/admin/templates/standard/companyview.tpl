@@ -98,11 +98,9 @@
 <!-- END no_image_tpl -->
 
 <p class="boxtext">{intl-description}:</p>
-
 <!-- BEGIN image_view_tpl -->
 <img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" align="right" vspace="2" hspace="6" />
 <!-- END image_view_tpl -->
-
 <div class="p">{description}</div>
 <br />
 
@@ -234,6 +232,7 @@
 
 <!-- END consultation_table_item_tpl -->
 
+<br />
 <form method="post" action="/contact/company/edit/{company_id}/">
 
 <hr noshade="noshade" size="4" />
@@ -241,10 +240,10 @@
 <!-- BEGIN consultation_buttons_tpl -->
 <input class="stdbutton" type="submit" name="ListConsultation" value="{intl-consultation_list}">
 <input class="stdbutton" type="submit" name="NewConsultation" value="{intl-consultation}">
-<hr noshade="noshade" size="4" />
 <!-- END consultation_buttons_tpl -->
 
 <!-- BEGIN company_edit_button_tpl -->
+<hr noshade="noshade" size="4" />
 <input class="okbutton" type="submit" name="Edit" value="{intl-edit}">
 <!-- END company_edit_button_tpl -->
 <!--

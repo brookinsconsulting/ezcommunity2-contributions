@@ -51,6 +51,10 @@
 
 <hr noshade="noshade" size="4" />
 
+<input class="stdbutton" type="submit" name="DeleteSelected" value="{intl-delete_selected}" />
+
+<hr noshade="noshade" size="4" />
+
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top">
@@ -63,10 +67,6 @@
 	<td>&nbsp;</td>
 	<td>
 	<input class="stdbutton" type="submit" name="NoMiniImage" value="{intl-image_no_mini}" />
-	</td>
-	<td>&nbsp;</td>
-	<td>
-	<input class="stdbutton" type="submit" name="DeleteSelected" value="{intl-delete_selected}" />
 	</td>
 </tr>
 </table>

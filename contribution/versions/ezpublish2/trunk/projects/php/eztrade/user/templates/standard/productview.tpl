@@ -38,7 +38,8 @@
 </tr>
 <tr>
 	<td class="pictext">
-	{main_image_caption}
+	{main_image_caption}<br />
+	<br />
 	</td>
 </tr>
 </table>
@@ -90,7 +91,7 @@
 <br />
 <!-- END image_list_tpl -->
 	</td>
-	<td width="30%">
+	<td width="30%" valign="top">
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <!-- BEGIN section_item_tpl -->
 <tr>
@@ -232,11 +233,10 @@
 
 <!-- BEGIN quantity_item_tpl -->
 <p class="boxtext">{intl-availability}:</p>
-{product_quantity}
+<div class="p">{product_quantity}</div>
 <!-- END quantity_item_tpl -->
 
-{extra_product_info}
-<br />
+<div class="p">{extra_product_info}</p>
 
 <hr noshade="noshade" size="4" />
 
