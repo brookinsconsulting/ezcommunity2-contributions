@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.5 2001/03/01 14:06:24 jb Exp $
+// $Id: filelist.php,v 1.6 2001/05/29 13:01:24 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Dec-2000 17:43:40 bf>
@@ -51,6 +51,21 @@ $t->set_block( "file_list_tpl", "file_tpl", "file" );
 
 $article = new eZArticle( $ArticleID );
 
+$session = new eZSession();
+$session->setVariable( "FileListReturnTo", $REQUEST_URI );
+$session->setVariable( "NameInBrowse", $article->name() );
+
+if ( isSet ( $AddFiles ) )
+{
+    if ( count ( $FileArrayID ) > 0 )
+    {
+        foreach( $FileArrayID as $fileID )
+        {
+            $file = new eZVirtualFile( $fileID );
+            $article->addFile( $file );
+        }
+    }
+}
 
 $t->set_var( "article_name", $article->name() );
 

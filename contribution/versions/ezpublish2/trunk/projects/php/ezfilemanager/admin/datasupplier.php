@@ -4,7 +4,7 @@ switch ( $url_array[2] )
 {
     case "browse":
     {
-        $CategoryID = $url_array[3];
+        $FolderID = $url_array[3];
         include( "ezfilemanager/admin/browse.php" );
     }
     break;

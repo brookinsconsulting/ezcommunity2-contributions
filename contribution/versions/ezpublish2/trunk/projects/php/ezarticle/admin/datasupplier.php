@@ -218,6 +218,11 @@ switch ( $url_array[2] )
 
             case "fileedit" :
             {
+                if ( isSet ( $Browse ) )
+                {
+                    include ( "ezfilemanager/admin/browse.php" );
+                    break;
+                }
                 switch ( $url_array[4] )
                 {
                     case "new" :

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.15 2001/05/29 11:59:19 ce Exp $
+// $Id: imagelist.php,v 1.16 2001/05/29 13:01:24 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Sep-2000 10:32:19 bf>
@@ -71,7 +71,6 @@ if ( isSet ( $AddImages ) )
             $article->addImage( $image );
         }
     }
-    
 }
 
 $images = $article->images();
