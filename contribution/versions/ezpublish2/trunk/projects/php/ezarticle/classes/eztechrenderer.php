@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.16 2000/10/25 18:44:32 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.17 2000/10/27 10:58:34 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -51,6 +51,7 @@
   
   <bold>
   bold text
+
   </bold>
 
   <italic>
@@ -280,8 +281,15 @@ class eZTechRenderer
                                 break;
                             }
                         }
-                        
-                        $pageContent .= "<a href=\"http://$href\">" . $text . "</a>";
+
+                        if ( $href[0] == "/" )
+                        {
+                            $pageContent .= "<a href=\"$href\">" . $text . "</a>";
+                        }
+                        else
+                        {
+                            $pageContent .= "<a href=\"http://$href\">" . $text . "</a>";
+                        }
                     }
                     
 
@@ -345,6 +353,12 @@ class eZTechRenderer
                                     $ini->read_var( "eZArticleMain", "LargeImageHeight" ) );
                                 }
                                 break;
+
+                                default :
+                                {
+                                    $variation =& $image->requestImageVariation( $ini->read_var( "eZArticleMain", "MediumImageWidth" ),
+                                    $ini->read_var( "eZArticleMain", "MediumImageHeight" ) );
+                                }
                             }
                             
                             $imageURL = "/" . $variation->imagePath();
@@ -352,7 +366,7 @@ class eZTechRenderer
                             $imageHeight = $variation->height();
                             $imageCaption = $image->caption();
                             
-                            $imageTags = "<table width=\"$imageWidth\" align=\"$imageAlignment\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
+                            $imageTags = "<table width=\"$imageWidth\" align=\"$imageAlignment\" border=\"0\" cellspacing=\"0\" cellpadding=\"4\">
                                             <tr>
                                             <td>
                                                         <img src=\"$imageURL\" border=\"0\" width=\"$imageWidth\" height=\"$imageHeight\" />

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.3 2000/10/26 13:08:34 ce-cvs Exp $
+// $Id: search.php,v 1.4 2000/10/27 10:58:35 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <15-Sep-2000 14:40:06 bf>
@@ -160,6 +160,7 @@ else
     $t->parse( "empty_result", "empty_result_tpl" );
 } 
 
+$t->set_var( "url_query_string", urlencode( $QueryString ) );
 
 $t->set_var( "hit_count", $total_count );
 

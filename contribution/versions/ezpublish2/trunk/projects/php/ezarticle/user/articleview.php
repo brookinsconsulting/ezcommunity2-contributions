@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.9 2000/10/26 19:19:57 bf-cvs Exp $
+// $Id: articleview.php,v 1.10 2000/10/27 10:58:34 bf-cvs Exp $
 //
 // 
 //
@@ -128,7 +128,7 @@ if ( $GenerateStaticPage == "true" )
 {
     $fp = fopen ( $cachedFile, "w+");
 
-    $output = $t->parse($target, "article_view_page_tpl" );
+    $output = $t->parse( $target, "article_view_page_tpl" );
     
     // print the output the first time while printing the cache file.
     print( $output );
