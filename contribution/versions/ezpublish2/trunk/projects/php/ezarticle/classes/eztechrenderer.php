@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.54 2001/02/12 08:57:29 bf Exp $
+// $Id: eztechrenderer.php,v 1.55 2001/02/26 06:33:48 bf Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -49,6 +49,10 @@
   
   </bullet>
 
+  <html>
+  html code, this will print out the HTML code..
+  </html>
+  
   <cpp>
   cpp code
   </cpp>
@@ -633,6 +637,12 @@ class eZTechRenderer
             $pageContent .= $this->htmlHighlight( trim( $paragraph->children[0]->content ) );
         }
 
+        // html code 
+        if ( $paragraph->name == "html" )
+        {
+            $pageContent .= trim( $paragraph->children[0]->content );
+        }
+        
         // sql code 
         if ( $paragraph->name == "sql" )
         {

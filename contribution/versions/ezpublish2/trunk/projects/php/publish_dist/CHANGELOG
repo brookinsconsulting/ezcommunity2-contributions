@@ -4,6 +4,8 @@ eZ publish changelog:
 
 Changes from version 2.0 beta 2 to version 2.0 beta 3
 -----------------------------------------------------
+* Added <html> tag to eZArticle, you can now write HTML code in the articles.
+* Added alternative currency to eZ trade
 * Added VAT handling in eZ trade
 * Added images to link groups and links
 * Latest article cache is properly deleted when articles change.
@@ -28,15 +30,15 @@ Changes from version 2.0 beta 2 to version 2.0 beta 3
 * Auto redirect URL hackers in bugs to default page.
 * Added banner ads in templates
 * eZ forum
-  * Unified system, now all postings/editing are done through the same forms
-  * Preview of postings
-  * No duplicates possible (visually, they exist as temporary objects, temporaries might be duplicated in one case only).
-  * Deletion of temporaries missing.
-  * Probably no spamming possible.
-  * Permission checks for all operations w/regards to posting
-  * Added user side delete (no menu, yet).
-  * Anonymous posting has been prepared.
-  * Cleaned up templates.
+* Unified system, now all postings/editing are done through the same forms
+* Preview of postings
+* No duplicates possible (visually, they exist as temporary objects, temporaries might be duplicated in one case only).
+* Deletion of temporaries missing.
+* Probably no spamming possible.
+* Permission checks for all operations w/regards to posting
+* Added user side delete (no menu, yet).
+* Anonymous posting has been prepared.
+* Cleaned up templates.
 * Documentation updated
 * Removed some status/type admin pages, added buttons in listings instead
 * Changed over to use mass update forms for category types and similar short lists with litle information

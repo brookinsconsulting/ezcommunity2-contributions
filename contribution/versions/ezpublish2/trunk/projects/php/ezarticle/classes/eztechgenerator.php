@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.33 2001/02/06 14:28:05 bf Exp $
+// $Id: eztechgenerator.php,v 1.34 2001/02/26 06:33:48 bf Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -115,7 +115,7 @@ class eZTechGenerator
     function &generateUnknowns( $tmpPage )
     {
         // make unknown tags readable.. look-ahead assertion is used ( ?! ) 
-        $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|hea|lin|iconlink|per|bol|ita|und|str|pre|ver|lis|ezhtml|java|ezanchor|mail|module|bullet))/", "&lt;", $tmpPage );
+        $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|hea|lin|iconlink|per|bol|ita|und|str|pre|ver|lis|ezhtml|html|java|ezanchor|mail|module|bullet))/", "&lt;", $tmpPage );
 
         // look-behind assertion is used here (?<!) 
         // the expression must be fixed width eg just use the 3 last letters of the tag
@@ -133,8 +133,11 @@ class eZTechGenerator
         // replace all < and >  between <ezhtml> and </ezhtml>
         // and to the same for <php> </php>
         // ok this is a bit slow code, but it works
-        $startHTMLTag = "<ezhtml>";
-        $endHTMLTag = "</ezhtml>";
+        $startHTMLTag = "<html>";
+        $endHTMLTag = "</html>";
+        
+        $starteZHTMLTag = "<ezhtml>";
+        $endeZHTMLTag = "</ezhtml>";
 
         $startPHPTag = "<php>";
         $endPHPTag = "</php>";
@@ -142,11 +145,19 @@ class eZTechGenerator
         $numberBeginHTML = substr_count( $tmpPage, $startHTMLTag );
         $numEndHTML = substr_count( $tmpPage, $endHTMLTag );
 
-        if ( $numberBegin != $numEnd )
+        if ( $numberBeginHTML != $numEndHTML )
         {
             print( "Unmatched ezhtml tags, check that you have end tags for all begin tags" );
         }
-            
+
+        $numberBegineZHTML = substr_count( $tmpPage, $starteZHTMLTag );
+        $numEndeZHTML = substr_count( $tmpPage, $endeZHTMLTag );
+
+        if ( $numberBegineZHTML != $numEndeZHTML )
+        {
+            print( "Unmatched ezhtml tags, check that you have end tags for all begin tags" );
+        }
+        
         $numberBeginPHP = substr_count( $tmpPage, $startPHPTag );
         $numEndPHP = substr_count( $tmpPage, $endPHPTag );
             
@@ -155,10 +166,11 @@ class eZTechGenerator
             print( "Unmatched PHP tags, check that you have end tags for all begin tags" );
         }
 
-        if ( ( $numberBeginPHP > 0 ) || ( $numberBeginHTML > 0 ) )
+        if ( ( $numberBeginPHP > 0 ) || ( $numberBegineZHTML > 0 ) || ( $numberBeginHTML > 0 ) )
         {
             $resultPage = "";
             $isInsideHTML = false;
+            $isInsideeZHTML = false;
             $isInsidePHP = false;
             for ( $i=0; $i<strlen( $tmpPage ); $i++ )
             {    
@@ -172,6 +184,16 @@ class eZTechGenerator
                     $isInsideHTMLTag = false;
                 }
 
+                if ( substr( $tmpPage, $i - strlen( $starteZHTMLTag ), strlen( $starteZHTMLTag ) ) == $starteZHTMLTag )
+                {
+                    $isInsideeZHTMLTag = true;
+                }
+
+                if ( substr( $tmpPage, $i, strlen( $endeZHTMLTag ) ) == $endeZHTMLTag )
+                {
+                    $isInsideeZHTMLTag = false;
+                }
+                
                 if ( substr( $tmpPage, $i - strlen( $startPHPTag ), strlen( $startPHPTag ) ) == $startPHPTag )
                 {
                     $isInsidePHPTag = true;
@@ -182,7 +204,7 @@ class eZTechGenerator
                     $isInsidePHPTag = false;
                 }
                 
-                if ( ( $isInsideHTMLTag == true ) ||  ( $isInsidePHPTag == true ) )
+                if ( ( $isInsideHTMLTag == true ) || ( $isInsideeZHTMLTag == true ) ||  ( $isInsidePHPTag == true ) )
                 {
                     switch ( $tmpPage[$i] )
                     {
@@ -378,12 +400,18 @@ class eZTechGenerator
             $pageContent .= "<php>" . $paragraph->children[0]->content . "</php>";
         }
 
-        // html code 
+        // ezhtml code 
         if ( $paragraph->name == "ezhtml" )
         {
             $pageContent .= "<ezhtml>" . $paragraph->children[0]->content . "</ezhtml>";
         }
 
+        // html code 
+        if ( $paragraph->name == "html" )
+        {
+            $pageContent .= "<html>" . $paragraph->children[0]->content . "</html>";
+        }
+        
         // java code 
         if ( $paragraph->name == "java" )
         {
