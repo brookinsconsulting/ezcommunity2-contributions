@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlink.php,v 1.70 2001/09/06 09:47:02 br Exp $
+// $Id: ezlink.php,v 1.71 2001/10/16 13:36:29 br Exp $
 //
 // Definition of eZLink class
 //
@@ -88,13 +88,14 @@ class eZLink
         $name = $db->escapeString( $this->Name );
         $url = $db->escapeString( $this->Url );
         $keywords = $db->escapeString( $this->KeyWords );
-
-        $db->lock( "eZLink_Link" );
-
-        $nextID = $db->nextID( "eZLink_Link", "ID" );
         $timeStamp =& eZDateTime::timeStamp( true );
-
-        $res = $db->query( "INSERT INTO eZLink_Link 
+       
+        if ( !isSet( $this->ID) )
+        {
+            $db->lock( "eZLink_Link" );
+            $nextID = $db->nextID( "eZLink_Link", "ID" );
+            
+            $res = $db->query( "INSERT INTO eZLink_Link 
                 ( ID,
                   Name,
                   Description,
@@ -115,10 +116,23 @@ class eZLink
                   '$this->ImageID',
                   '$this->Accepted' )" );
 
-        $this->ID = $nextID;
+            $this->ID = $nextID;
 
-        $db->unlock();
-    
+            $db->unlock();
+        }
+        else
+        {
+            $res = $db->query( "UPDATE eZLink_Link SET
+                Name='$name',
+                Description='$description',
+                KeyWords='$keywords',
+                Modified='$timeStamp',
+                Url='$url',
+                ImageID='$this->ImageID',
+                Accepted='$this->Accepted'
+                WHERE ID='$this->ID'" );
+        }
+            
         if ( $res == false )
         {
             $db->rollback();
@@ -127,7 +141,6 @@ class eZLink
         {
             $db->commit();
         }
-        
     }
 
     /*!
