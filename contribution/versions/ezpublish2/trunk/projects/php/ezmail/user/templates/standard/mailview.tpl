@@ -68,6 +68,8 @@
   <td><input class="stdbutton" type="submit" Name="Forward" value="{intl-forward}" /></td>
   <td>&nbsp;</td>
   <td><input class="stdbutton" type="submit" Name="Delete" value="{intl-delete}" /></td>
+  <td>&nbsp;</td>
+  <td><input class="stdbutton" type="submit" Name="Link" value="{intl-link}" /></td>
 </tr>
 </table>
 <hr noshade="noshade" size="4" />

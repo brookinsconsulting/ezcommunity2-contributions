@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.21 2001/08/13 13:50:22 jhe Exp $
+// $Id: datasupplier.php,v 1.22 2001/08/17 08:43:48 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -140,13 +140,20 @@ switch ( $url_array[2] )
         $FilterID = $url_array[3];
         if ( $FilterID == "" )
             $FilterID = 0;
-        include_once( "ezmail/user/filteredit.php" );
+        include( "ezmail/user/filteredit.php" );
     }
     break;
 
     case "search" :
     {
-        include_once( "ezmail/user/search.php" );
+        include( "ezmail/user/search.php" );
+    }
+    break;
+
+    case "link" :
+    {
+        $MailID = $url_array[3];
+        include( "ezmail/user/link.php" );
     }
     break;
     

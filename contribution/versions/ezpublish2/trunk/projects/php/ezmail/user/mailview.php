@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: mailview.php,v 1.16 2001/08/15 13:06:14 jhe Exp $
+// $Id: mailview.php,v 1.17 2001/08/17 08:43:48 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -90,6 +90,12 @@ if ( isSet( $Delete ) )
     $folderID = $mail->folder( false );
     eZMail::delete( $MailID );
     eZHTTPTool::header( "Location: /mail/folder/$folderID" );
+    exit();
+}
+
+if ( isSet( $Link ) )
+{
+    eZHTTPTool::header( "Location: /mail/link/$MailID" );
     exit();
 }
 

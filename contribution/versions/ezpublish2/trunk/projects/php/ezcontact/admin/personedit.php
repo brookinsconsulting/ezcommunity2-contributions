@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.45 2001/08/14 14:12:15 jhe Exp $
+// $Id: personedit.php,v 1.46 2001/08/17 08:43:48 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -929,7 +929,6 @@ if ( !$confirm )
             if ( !is_string( $top_name ) )
                 $top_name = "";
             $companyTypeList = eZCompanyType::getTree( 0, 0, true, $top_name );
-
             $categoryList = array();
             $categoryList = eZPerson::companies( $PersonID, false );
             $category_values = array_values( $categoryList );

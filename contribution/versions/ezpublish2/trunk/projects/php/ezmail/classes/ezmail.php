@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmail.php,v 1.42 2001/08/16 13:57:04 jhe Exp $
+// $Id: ezmail.php,v 1.43 2001/08/17 08:43:48 jhe Exp $
 //
 // Definition of eZMail class
 //
@@ -167,9 +167,17 @@ class eZMail
         return true;
     }    
 
-    function addContact( $mailID, $contactID, $companyID )
+    function removeContacts( $mailID )
     {
-        if ( $companyID )
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $res[] = $db->query( "DELETE FROM eZMail_MailContactLink WHERE MailID='$mailID'" );
+        eZDB::finish( $res, $db );
+    }
+    
+    function addContact( $mailID, $contactID, $companyEdit = true )
+    {
+        if ( $companyEdit )
             $contact = "CompanyID";
         else
             $contact = "PersonID";
@@ -705,7 +713,27 @@ class eZMail
         }
         return $return_array;
     }
-        
+
+    function getContacts( $mailID = false )
+    {
+        if ( !$mailID )
+            $mailID = $this->ID;
+
+        $return_array = array();
+        $return_array["PersonID"] = array();
+        $return_array["CompanyID"] = array();
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $res, "SELECT * FROM eZMail_MailContactLink WHERE MailID='$mailID'" );
+        foreach ( $res as $resItem )
+        {
+            if ( $resItem[$db->fieldName( "PersonID" )] > 0 )
+                $return_array["PersonID"][] = $resItem[$db->fieldName( "PersonID" )];
+            else
+                $return_array["CompanyID"][] = $resItem[$db->fieldName( "CompanyID" )];
+        }
+        return $return_array;
+    }
+    
     /*
       Adds an attachment to this mail
       Recalculates the size of the mail.
