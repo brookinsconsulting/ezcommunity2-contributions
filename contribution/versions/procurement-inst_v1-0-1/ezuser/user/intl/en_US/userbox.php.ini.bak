@@ -1,0 +1,14 @@
+[strings]
+head_line=Login
+username=User name
+password=Password
+forgot=Account reminder
+userinfo=User info
+ok=OK
+register=Create new account
+change_user_info=Preferences
+
+#userlogin=Logged in
+userlogin=Welcome Back!
+login=Login
+logout=Log out

@@ -1,0 +1,347 @@
+<?php
+// 
+// $Id: productreport.php,v 1.7 2001/07/20 11:28:54 jakobn Exp $
+//
+// Created on: <11-Jan-2001 14:47:56 bf>
+//
+// This source file is part of eZ publish, publishing software.
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
+//
+
+include_once( "classes/INIFile.php" );
+$ini =& INIFile::globalINI();
+$Language = $ini->read_var( "eZStatsMain", "Language" );
+
+include_once( "classes/eztemplate.php" );
+include_once( "classes/ezdate.php" );
+
+include_once( "ezstats/classes/ezpageview.php" );
+include_once( "ezstats/classes/ezpageviewquery.php" );
+
+
+include_once( "ezrfp/classes/ezrfp.php" );
+include_once( "ezuser/classes/ezuser.php" );
+
+//include_once( "eztrade/classes/ezproduct.php" );
+//include_once( "eztrade/classes/ezorder.php" );
+
+$t = new eZTemplate( "ezstats/admin/" . $ini->read_var( "eZStatsMain", "AdminTemplateDir" ),
+                     "ezstats/admin/intl", $Language, "rfpreport.php" );
+
+$t->setAllStrings();
+
+$t->set_file( array(
+    "rfp_report_tpl" => "rfpreport.tpl"
+    ) );
+
+$t->set_block( "rfp_report_tpl", "most_viewed_rfp_tpl", "most_viewed_rfp" );
+
+$t->set_block( "rfp_report_tpl", "viewed_by_user_tpl", "viewed_by_user" );
+
+$t->set_block( "rfp_report_tpl", "most_added_to_cart_rfps_tpl", "most_added_to_cart_rfps" );
+$t->set_block( "rfp_report_tpl", "most_added_to_wishlist_rfps_tpl", "most_added_to_wishlist_rfps" );
+$t->set_block( "rfp_report_tpl", "most_bought_rfps_tpl", "most_bought_rfps" );
+
+$t->set_block( "rfp_report_tpl", "month_tpl", "month" );
+$t->set_block( "month_tpl", "month_previous_tpl", "month_previous" );
+$t->set_block( "month_tpl", "month_previous_inactive_tpl", "month_previous_inactive" );
+$t->set_block( "month_tpl", "month_next_tpl", "month_next" );
+$t->set_block( "month_tpl", "month_next_inactive_tpl", "month_next_inactive" );
+
+
+
+        function extArray($arr)
+        {
+//      echo '<td>';
+//      echo '<table cellpadding="0" cellspacing="0" border="1">';
+        foreach ($arr as $key => $elem) {
+//      echo '<tr>';
+        echo ''.$key.'&nbsp;';
+        if (is_array($elem)) { extArray($elem); }
+        else { echo ''.htmlspecialchars($elem).'&nbsp;'; }
+//      echo '</tr>';
+        }
+//      echo '</table>';
+//      echo '</td>';
+        }
+
+
+        function viewArray($arr)
+        {
+           echo '';
+           foreach ($arr as $key1 => $elem1) {
+               echo '';
+               echo ''.$key1.' ';
+               if (is_array($elem1)) { extArray($elem1); }
+               else { echo ''.$elem1."\n"; }
+               echo '<br />';
+           }
+           echo "\n\n";
+        }
+
+
+if ( !is_numeric( $Year ) || !is_numeric( $Month ) )
+{
+    $cur_date = new eZDate();
+    $Year = $cur_date->year();
+    $Month = $cur_date->month();
+}
+
+$query = new eZPageViewQuery();
+
+$tmpRfp = new eZRfp();
+$tmpRfpFile = new eZFile();
+
+// most viewed rfps
+$rfpReport =& $query->topRfpRequests( );
+//viewArray($rfpReport);
+
+$rfpArray = array();
+foreach ( $rfpReport as $rfp )
+{
+
+//    if ( preg_match( "#^/rfp/view/(.*?)/#", $rfp["URI"], $regArray )  )
+/*
+if ( preg_match( "#^/rfp/view/(.*?)/(.*?)/(.*?)/#", $rfp["URI"], $regArray ) or preg_match( "#^/rfp/download/(.*?)/#", $rfp["URI"], $regArray ) or preg_match( "#^/filemanager/download/(.*?)/#", $rfp["URI"], $regArray ))
+
+    {
+*/
+        $idx = $regArray[1];
+
+	$rfp_url_array = explode( "/", $rfp["URI"] );
+	$rfpArray[$idx]["URLID"] = $rfp_url_array[3];
+ 
+//print($rfp_url_array[3] ."<br />");
+       
+        $count = $rfpArray[$idx]["Count"];
+        
+//        $rfpArray[$idx]["Count"] = $count + $rfp["Count"];
+        $rfpArray[$idx]["Count"] = $rfp["Count"];
+ 
+       $rfpArray[$idx]["ID"] = $regArray[1];
+//        $rfpArray[$idx]["UserID"] = $regArray[2];
+         $rfpArray[$idx]["UserID"] = $rfp["UserID"];
+         $rfpArray[$idx]["URI"] = $rfp["URI"];
+
+//    }
+}
+
+//viewArray($rfpReport);
+
+//viewArray($rfpArray);
+
+
+print("<br /><br />");
+
+if ( !empty( $rfpArray ) )
+{
+    $i = 0;
+    $id = 0;
+    $loopID = 0;
+    $bgcolor = 0;
+
+    foreach ( $rfpReport as $rfpItem )
+    {
+//	if ( $loopID != $rfpItem["ID"] ) {
+	//	$loopID = $rfpItem["ID"];
+
+	//print($rfpItem["URLID"]);
+
+        $rfp_url_array = explode( "/", $rfpItem["URI"] );
+	$rfp_url_id = $rfp_url_array[3];
+        $module_action = $rfp_url_array[2];
+        $module_name = $rfp_url_array[1];
+
+
+	//        $rfpArray[$idx]["URLID"] = $rfp_url_array[3];
+
+	//print($rfpItem["URI"] ."<br />");
+
+if ( $loopID == $rfpItem["ID"] ) {
+
+$blank=0;
+
+} elseif ( $loopID != $rfpItem["ID"] ) {
+
+$loopID = $rfpItem["ID"];
+print("$i::".$rfp_url_id ."<br />");
+
+		if ($module_name == "rfp"){
+			// $tmpRfp->get( $rfpItem["ID"]);
+			 $tmpRfp->get( $rfp_url_id );
+		}else {
+			include_once( "ezfilemanager/classes/ezvirtualfile.php" );
+			$tmpRfp = new eZVirtualFile( $rfp_url_id );
+			//$fileName = $file->name();
+			// $tmpRfpFile->get( $rfp_url_id );
+		}
+
+	        $t->set_var( "bg_color", $i % 2 == 0 ? "bglight" : "bgdark" );
+	        $t->set_var( "rfp_name", $tmpRfp->name() );
+	        //        $t->set_var( "view_count", '.....'.$rfpItem["Count"] );
+	        $t->set_var( "view_count", '.....'.$rfpItem["Count"] );
+	
+		//print($i);
+	
+	        $t->parse( "most_viewed_rfp", "most_viewed_rfp_tpl", true );
+		++$i;
+}
+
+//		} else {
+//		 $loopID = $rfpItem["ID"];
+//		  $t->set_var( "most_viewed_rfp", '' );
+//		}
+
+
+//################################
+
+//viewArray($rfpArray);
+
+//if ( !empty( $rfpArray ) )
+//{
+//    $i = 0;
+//    foreach ( $rfpArray as $rfpItem )
+//   {
+
+	 //               $rfpUserID = $rfp["UserID"];
+	 $rfpUserID = $rfpItem["UserID"];
+
+	// print($rfpItem["UserID"]);
+
+	//               $rfpUser = new eZUser;
+
+        //      $rfpUser = $rfpUser->get( $rfpUserID );
+
+		$rfpUser = new eZUser($rfpItem["UserID"]);
+
+//                $rfpUserName = $rfpUserID;
+		
+//viewArray($rfpUser);
+
+$rfpUserName = $rfpUser->name();
+
+//                $rfpUserName =  $rfpUser->name();  
+//                $rfpUserID = $rfpUser->id();
+
+                // rhinkinf
+                $rfpQuery = new eZPageViewQuery();
+
+                // most viewed rfps
+//              $rfpReport =& $rfpQuery->topRfpDownloads(5,50);
+//                $rfpReport =& $rfpQuery->topRfpDownloads(5,50);
+
+//                $rfpsViewed = $rfpReport;
+
+
+        $t->set_var( "bg_color", $i % 2 == 0 ? "bglight" : "bgdark" );
+        $t->set_var( "rfp_download_user_name", $rfpUserName );
+        $t->set_var( "rfp_downloaded_user_id", $rfpItem["UserID"] );
+ 
+        $t->set_var( "rfp_uri", $rfpItem["URI"] );
+        $t->parse( "viewed_by_user", "viewed_by_user_tpl", true );
+	++$i;
+
+// }
+//}
+//else
+//{
+//    $t->set_var( "viewed_by_user", "" );
+//}
+
+
+    }
+}
+else
+{
+    $t->set_var( "most_viewed_rfp", "" );
+}
+
+//####################################
+
+/*
+
+if ( !is_numeric( $Year ) || !is_numeric( $Month ) )
+{
+    $cur_date = new eZDate();
+    $Year = $cur_date->year();
+    $Month = $cur_date->month();
+}
+
+$query = new eZPageViewQuery();
+$tmprfp = new eZrfp();
+
+// most viewed rfps
+$rfpReport =& $query->topRfpRequests( );
+
+
+$rfpUserViewArray = array();
+foreach ( $rfpReport as $rfp )
+{
+if ( preg_match( "#^/rfp/rfpview/(.*?)/#", $rfp["URI"], $regTwoArray ) or preg_match( "#^/rfp/view/(.*?)/#", $rfp["URI"], $regTwoArray ) )    
+  {
+        $idx = $regTwoArray[1];
+
+        $count = $rfpUserViewArray[$idx]["Count"];
+
+        $rfpUserViewArray[$idx]["Count"] = $count + $rfp["Count"];
+        $rfpUserViewArray[$idx]["ID"] = $regTwoArray[1];
+//        $rfpUserViewArray[$idx]["UserID"] = $regTwoArray[2];
+	 $rfpUserViewArray[$idx]["UserID"] = $rfp["UserID"];
+         $rfpUserViewArray[$idx]["URI"] = $rfp["URI"];
+
+    }
+//print("b:<hr/>");
+
+
+}
+*/
+
+//############################################
+    
+$next_month = new eZDate( $Year, $Month, 1, 0, 1, 0 );
+$prev_month = new eZDate( $Year, $Month, 1, 0, -1, 0 );
+
+$t->set_var( "next_month", $next_month->month() );
+$t->set_var( "previous_month", $prev_month->month() );
+$t->set_var( "next_year", $next_month->year() );
+$t->set_var( "previous_year", $prev_month->year() );
+
+$t->set_var( "month_next_inactive", "" );
+$t->set_var( "month_next", "" );
+$t->set_var( "month_previous", "" );
+$t->set_var( "month_previous_inactive", "" );
+
+$cur_date = new eZDate();
+
+if ( $cur_date->isGreater( $next_month ) )
+    $t->parse( "month_next_inactive", "month_next_inactive_tpl" );
+else
+    $t->parse( "month_next", "month_next_tpl" );
+
+$t->parse( "month_previous", "month_previous_tpl" );
+
+$t->parse( "month", "month_tpl" );
+
+$t->set_var( "this_month", $Month );
+$t->set_var( "this_year", $Year );
+
+
+$t->pparse( "output", "rfp_report_tpl" );
+ 
+
+?>

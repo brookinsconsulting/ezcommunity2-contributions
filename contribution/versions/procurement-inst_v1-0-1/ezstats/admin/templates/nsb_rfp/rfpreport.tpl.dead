@@ -1,0 +1,142 @@
+<!--
+*nbsp;
+	<link rel="stylesheet" type="text/css" href="/admin/templates/clear/style.css" />
+-->
+
+<h1>{intl-rfp_report} : {intl-most_viewed_rfps}</h1>
+<br />
+
+<!--
+<hr noshade size="4" />
+{month}
+<h2>{intl-most_viewed_rfps}</h2>
+border="0" style="border: 1px dashed black;">
+-->
+
+<!-- BEGIN empty_rfp_header_tpl -->
+<br />
+<br />
+
+<br />
+<br />
+<br />
+<table class="list" width="75%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+        <th>
+        {intl-rfp_empty_record_set}
+	</th>     
+</tr>
+</table>
+<!-- END empty_rfp_header_tpl -->
+
+<!-- BEGIN most_viewed_rfp_header_tpl -->
+<table class="list" width="75%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<th>
+	{intl-rfp_name}:
+	</th>
+	<td align="right">
+	<b>{intl-view_count}:</b>
+	</td>
+</tr>
+<tr>
+        <th>
+	&nbsp;
+        </th>
+        <td align="right">
+	&nbsp;
+        </td>
+</tr>
+<!-- END most_viewed_rfp_header_tpl -->
+
+<!-- BEGIN most_viewed_rfp_tpl -->
+<tr>
+        <th>
+        &nbsp;
+        </th>
+        <td align="right">
+        &nbsp;
+        </td>
+</tr>
+<tr class="{bg_color}">
+	<td>
+	<a class="subdiv" style="font-weight:normal; text-decoration: none;" href="http://ladivaloca.org/index.php{rfp_uri}">{rfp_name}</a>
+	<br />
+        <span class="subdiv">{rfp_uri}</span>
+	</td>
+ 	<td align="right">
+<!--
+	<div style="font-decoration: underline;"><b>|{view_count}|</b></div>
+
+	<br />
+-->
+        <span style="font-decoration: underline;">
+	<b>{item_view_count}</b></span>
+	</td>
+</tr>
+
+<!-- BEGIN viewed_by_user_tpl -->
+<tr class="{user_bg_color}">
+        <td>
+<!--
+        <a class="subdiv" href="http://ladivaloca.org/index.php/rfp/author/view/{rfp_downloaded_user_id}">{rfp_download_user_name}??????????</a>
+
+-->
+   <a class="subdiv" href="http://ladivaloca.org/index.php/rfp/author/view/{rfp_downloaded_user_id}">{rfp_download_user_name}</a>
+
+        </td>
+        <td align="right">
+   <!--
+        {rfp_downloaded_user_id}
+	| {rfp_user}
+	
+        <br/> 
+   -->
+	{user_view_count}
+<!--
+<br />
+	<span class="subdiv">{rfp_uri}</span>
+-->
+        </td>
+</tr>
+<!-- END viewed_by_user_tpl -->
+<!-- END most_viewed_rfp_tpl -->
+</table>
+
+<!-- BEGIN month_tpl -->
+
+
+<br />
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<!-- BEGIN month_previous_tpl -->
+	<td>
+	<a class="path" href="{www_dir}{index}/stats/rfpreport/{previous_year}/{previous_month}">&lt;&lt;&nbsp;{intl-previous}</a>
+	</td>
+	<!-- END month_previous_tpl -->
+	
+	<!-- BEGIN month_previous_inactive_tpl -->
+	<td>
+	&nbsp;
+	</td>
+	<!-- END month_previous_inactive_tpl -->
+	<!-- BEGIN month_next_tpl -->
+	<td align="right">
+	<a class="path" href="{www_dir}{index}/stats/rfpreport/{next_year}/{next_month}">{intl-next}&nbsp;&gt;&gt;</a>
+	</td>
+	<!-- END month_next_tpl -->
+
+	<!-- BEGIN month_next_inactive_tpl -->
+	<td>
+	&nbsp;
+	</td>
+	<!-- END month_next_inactive_tpl -->
+
+</tr>
+</table>
+
+<br />
+
+<!-- END month_tpl -->
+

@@ -1,0 +1,15 @@
+#!/bin/sh
+
+#/home/ladiva/public_html/rfp_cron.sh
+#echo "rfp,cron,more"
+
+#//change directory
+cd /home/ladiva/public_html/;
+
+#// run ez publish php rfp cron n script
+/usr/local/bin/php -a /home/ladiva/public_html/rfp_cron.php
+
+
+
+
+

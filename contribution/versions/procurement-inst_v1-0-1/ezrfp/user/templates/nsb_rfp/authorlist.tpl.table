@@ -1,0 +1,62 @@
+<h1>{intl-head_line}</h1>
+<!--
+<hr noshade="noshade" size="4" />
+-->
+
+<p>{intl-author_info}</p>
+
+
+
+		<div class="bglight" style="position:relative; left:0px; right:0px; padding: 3px; z-index:1">
+		   <span class="bglight" style="font-size: 12px">
+		     <a href="/filemanager/download/6/Addendum No 2.pdf">Project No. 57-235/Wainwright Wheel Loader Add2</a>
+		     <span class="bglight" style="font-size: 10px; padding: 7px; position:absolute; right:0px;"> 
+		      <a href="/filemanager/download/6/Addendum No 2.pdf"> 65.08&nbsp;KB</a>
+     	             </span>
+                     <span style="font-size: 11px"><br />Project No. 57-235/Wainwright Wheel Loader Addendum 2</span> 
+		   </span>
+		</div>
+
+
+<!--
+<table class="list" width="40%" cellspacing="0" cellpadding="4" border="0">
+
+<tr>
+	<th><span class="subdiv"><a href="{www_dir}{index}/rfp/author/list/name">{intl-author}</a>:</span></th>
+	<th class="right"><span class="subdiv"><a href="{www_dir}{index}/rfp/author/list/count">{intl-count}</a>:</span></th>
+</tr>
+-->
+<!-- BEGIN author_item_tpl -->
+
+		<div class="{td_class}" style="position:relative; left:0px; right:0px; padding: 3px; z-index:1">
+		   <span class="{td_class}" style="font-size: 12px">
+			<a href="{www_dir}{index}/rfp/author/view/{author_id}/">{author_name}</a></span>
+
+		     <span class="{td_class}" style="font-size: 10px; padding: 7px; position:absolute; right:0px;"> 
+			  <span class="subdiv">
+			        {rfp_count}
+       			  </span>
+  	             </span>
+                     <span style="font-size: 11px">&nbsp;<br />Project No. 57-235/Wainwright Wheel Loader Addendum 2</span> 
+		   </span>
+		</div>
+
+
+
+<!--
+<tr>
+	<td class="{td_class}">
+	<span class="subdiv">
+	<a href="{www_dir}{index}/rfp/author/view/{author_id}/">{author_name}</a></span>
+	</td>
+	<td align="right" class="{td_class}">
+	<span class="subdiv">
+	{rfp_count}
+	</span>
+	</td>
+</tr>
+-->
+<!-- END author_item_tpl -->
+<!--
+</table>
+-->

@@ -1,0 +1,10 @@
+User-Agent: Googlebot
+	    Disallow: /*.gif$
+User-Agent: Googlebot
+            Disallow: /*.html$
+User-Agent: Googlebot
+            Disallow: /*.php$
+User-Agent: Googlebot
+            Disallow: /
+User-Agent: Googlebot
+            Disallow: /*$
