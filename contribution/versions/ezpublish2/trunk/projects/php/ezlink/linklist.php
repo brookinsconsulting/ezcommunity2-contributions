@@ -56,7 +56,7 @@ if ( ( $LGID == 0 ) && ( $LGID != "incoming" ) )
     $t->set_var( "bg_color", "#ffffdd" );
 
     $t->set_var( "linkgroup_id", "incoming" );
-    $t->set_var( "linkgroup_title", "Ikke godkjente liker..." );
+    $t->set_var( "linkgroup_title", "Innkommende linker" );
     $t->set_var( "linkgroup_parent", "" );
 
     $t->set_var( "document_root", $DOCUMENTROOT );
