@@ -20,6 +20,22 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
 \providecommand{\LyX}{L\kern-.1667em\lower.25em\hbox{Y}\kern-.125emX\@}
+%% Special footnote code from the package 'stblftnt.sty'
+%% Author: Robin Fairbairns -- Last revised Dec 13 1996
+\let\SF@@footnote\footnote
+\def\footnote{\ifx\protect\@typeset@protect
+    \expandafter\SF@@footnote
+  \else
+    \expandafter\SF@gobble@opt
+  \fi
+}
+\expandafter\def\csname SF@gobble@opt \endcsname{\@ifnextchar[%]
+  \SF@gobble@twobracket
+  \@gobble
+}
+\edef\SF@gobble@opt{\noexpand\protect
+  \expandafter\noexpand\csname SF@gobble@opt \endcsname}
+\def\SF@gobble@twobracket[#1]#2{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
 \renewcommand{\headrulewidth}{0.4pt}
@@ -57,13 +73,54 @@ its primary point of distribution and information is http://developer.ez.no/
 
 \begin{quote}
 \textbf{{}``He who asks is a fool for five minutes, but he who does
-not ask remains a fool forever.''} - \-
+not ask remains a fool forever.''} - \- Chinese proverb
 \end{quote}
 eZ publish is a content management system, among a lot of other things.
 This installation manual will try to cover the job of installing eZ
 publish on your server.
 
-This manual is mainly intended for installation on a Red Hat Linux
+Since version 2.2 eZ publish has a new possible way to be installed:
+without virtual hosts and mod\_rewrite. This makes it possible for
+people, who don't have a dedicated server or a specialized eZ publish
+hoster, to install eZ publish on their accounts as long as they have
+PHP and a supported database (e.g. mySQL or PostgreSQL). 
+
+This opens some new options for installing:
+
+If you have an account at a webhoster with PHP and mySQL, your option
+should be chapter \ref{chpt: nVH}, because you won't be able to install
+eZ publish as it's explained in chapter \ref{chpt: dedicated server}.
+
+If you have a dedicated server with Apache and mySQL already running
+and you don't want to mess with the Apache configuration, then chapter
+\ref{chpt: nVH} might be of interest of you. 
+
+If you have a dedicated server and want some help on how to install
+all needed software and eZ publish on it, then chapter \ref{chpt: dedicated server}
+is for you.
+
+
+\section{Pre-Configured Hosting}
+
+It is possible to get pre-configured hosting services where you can
+install and manage your eZ publish site with ease. Read more about
+our hosting partners at eZ systems web site (\texttt{\footnotesize http://}ez.no/shop/hosting).
+
+
+\section{Pre-Configured Hardware}
+
+It is possible to order pre-configured hardware from eZ systems. You
+can order through or web shop (\texttt{\footnotesize http://}shop.ez.no).
+
+A line starting with a hash-sign {}``\#'' are input from the user
+to the shell.
+
+
+\chapter{\label{chpt: dedicated server}Installing eZ publish (standard\footnote{%
+An alternative install method is described in chapter \ref{chpt: nVH}
+} method)}
+
+This chapter is mainly intended for installation on a Red Hat Linux
 system, but a lot of friendly people have contributed information
 for installation on other operating systems, take a look at chapter
 2 and learn which systems those are.
@@ -89,7 +146,7 @@ Different distribution sites for different Unix systems are:
 \item SuSE Linux (\texttt{\footnotesize http://www.suse.com/us/support/download/index.html)}{\footnotesize \par}
 \item Sun \texttt{\footnotesize (http://www.sunfreeware.com/)}{\footnotesize \par}
 \end{itemize}
-The addresses to the software developers will be given where apropriate
+The addresses to the software developers will be given where appropriated
 in the text.
 
 You can also try \char`\"{}The Written Word\char`\"{} (\texttt{\footnotesize ftp://ftp.thewrittenword.com/packages/free/by-name/gcc-2.95.2/})
@@ -97,30 +154,13 @@ for binaries for Solaris 2.5.1, 2.6, 2.7/SPARC, 2.7/Intel, IRIX 6.2,
 6.5, Digital UNIX 4.0D, HP-UX 10.20, and HP-UX.
 
 
-\section{Pre-Configured Hosting}
-
-It is possible to get pre-configured hosting services where you can
-install and manage your eZ publish site with ease. Read more about
-our hosting partners at eZ systems web site (\texttt{\footnotesize http://en.ez.no/article/articlestatic/73}).
+\section{Prerequisites\label{chptr: pre-requisites}}
 
 
-\section{Pre-Configured Hardware}
+\subsection{Needed Privileges}
 
-It is possible to order pre-configured hardware from eZ systems. You
-can order through or web shop (\texttt{\footnotesize http://sourceprovider.com/}).
-
-A line starting with a hash-sign {}``\#'' are input from the user
-to the shell.
-
-
-\chapter{Pre-requisites\label{chptr: pre-requisites}}
-
-
-\section{Needed Privileges}
-
-For the standard installation (and for the moment the only method)
-of eZ publish you will need to have the following privileges on your
-system:
+For the standard installation of eZ publish you will need to have
+the following privileges on your system:
 
 \begin{itemize}
 \item Access to Apache's httpd.conf for creating two virtual hosts and for
@@ -145,7 +185,7 @@ and submit it to us (pkej@ez.no) for inclusion in future versions
 of this manual.
 
 
-\section{Needed Software}
+\subsection{Needed Software}
 
 You also need to download and install the following packages, if they
 aren't present on your system already:
@@ -187,10 +227,10 @@ http://developer.ez.no. The software is listed in the order of installation.
 You should also find a list of RPMs at http://www.brandish.co.uk/phprpm
 
 
-\section{Which Software is Already Installed?}
+\subsection{Which Software is Already Installed?}
 
 
-\subsection{Systems Using RPM}
+\subsubsection{Systems Using RPM}
 
 RPM is a system for distributing pre-compiled software. The packages
 also contain pre-configured settings and initialisation files, leaving
@@ -201,17 +241,19 @@ following command (RPM based systems {}``rpm -qa | grep <name of
 program/library>''. If you need to know where you can find the different
 files from that package you can follow up on the previous command
 with the following {}``rpm -ql <rpm name>''. RPM name is one of
-the returned names from the previous command, example:\\
+the returned names from the previous command, example\footnote{%
+A line starting with a hash-sign \char`\"{}\#\char`\"{} are input
+from the user to the shell.
+}:\\
 
 
-\texttt{\footnotesize ~~~~\# pkej@vogol:/etc/httpd > rpm -qa |
-grep libxml}{\footnotesize \par}
+\texttt{\footnotesize ~~~~\# rpm -qa | grep libxml}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~libxml-1.8.7-80}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~libxmld-1.8.7-80}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~\# pkej@vogol:/etc/httpd > rpm -ql libxml-1.8.7-80}{\footnotesize \par}
+\texttt{\footnotesize ~~~~\# rpm -ql libxml-1.8.7-80}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~/usr/bin/xml-config}{\footnotesize \par}
 
@@ -234,7 +276,7 @@ grep libxml}{\footnotesize \par}
 \texttt{\footnotesize ~~~~/usr/share/doc/packages/libxml/TODO}{\footnotesize \par}
 
 
-\section{FreeBSD}
+\subsection{FreeBSD}
 
 When installing and compiling PHP on a FreeBSD system you might encounter
 an error when using --with-dom which says you have a conifgure error
@@ -255,13 +297,13 @@ other options are available from the port GUI.
 Thanks to David Touitou for pointing this out.
 
 
-\section{Mandrake}
+\subsection{Mandrake}
 
 First read chapter \ref{chptr: mandrake}, then continue reading the
 manual from here.
 
 
-\section{IRIX}
+\subsection{IRIX}
 
 By accessing the software manager (you must be root) you can get a
 list of installed software, scroll or search that list to find the
@@ -269,18 +311,18 @@ packages you're interested in. Double click on the tabs to the left
 to get information about where specific files are installed.
 
 
-\section{RAQ 3}
+\subsection{RAQ 3}
 
 There is a separate chapter \ref{chptr: raq 3} in this manual describing
 installation on a RAQ 3 server. It was kindly provided by Chris Mason, 
 
 
-\section{Windows}
+\subsection{Windows}
 
 Windows installation is described in its own chapter \ref{chptr: windows}.
 
 
-\section{Other Systems}
+\subsection{Other Systems}
 
 On other systems you should read the documentation for that system
 to learn how to find out what software is already installed.
@@ -294,7 +336,7 @@ you to learn how to use the proper installation features of your system
 to find the software already installed.
 
 
-\section{Installation of Required Software}
+\subsection{Installation of Required Software}
 
 If you've found pre-compiled versions of all the software packaged
 for use with an installation tool, you just have to install that software
@@ -311,7 +353,7 @@ This manual will only cover configuration of the software needed and
 compilation of PHP to use the other software.
 
 
-\section{Important Notice}
+\subsection{Important Notice}
 
 You should read all the README, INSTALL and similar files found with
 the software packages you download. They often contain tips on how
@@ -327,10 +369,10 @@ seem to help you, you should check the support forums at our site.
 You should always do a search of the forums before posting any questions.
 
 
-\chapter{Compile Configuration}
+\section{Compile Configuration}
 
 
-\section{PHP}
+\subsection{PHP}
 
 Important : YOU NEED TO RECOMPILE PHP. No known Linux distros does
 yet have all the php features required by eZ~publish. This means
@@ -339,7 +381,7 @@ You may find precompiled binaries for your system at the eZ publish web site,  \
 Take a look at the {}``Contributions'' section in the download area.
 
 
-\subsection{Unpacking}
+\subsubsection{Unpacking}
 
 After you have downloaded PHP you need to unpack it somewhere where
 you can compile and configure the software. To unpack run the command:\\
@@ -355,7 +397,7 @@ to move into the directory you extracted php into:\\
 \texttt{\footnotesize ~~~~\# cd php-4.0.x}{\footnotesize \par}
 
 
-\subsection{Configuration}
+\subsubsection{Configuration}
 
 You'll need either an apache module or a command line (CGI) version
 of PHP to use eZ publish on your website. We recommend you use PHP
@@ -367,7 +409,7 @@ Thus for our recommended installation of PHP you need both the command
 line and module versions of PHP.
 
 
-\subsubsection{Common}
+\paragraph{Common}
 
 Both the command line and apache module versions need to have the
 following configurations added to the configuration tool:
@@ -382,9 +424,10 @@ used.\\
 \item [--disable-magic-quotes]This tells PHP to disable magic quotes by
 default. you can also turn this feature on and off on a directory
 by directory basis in either the {}``.htaccess'' files (if you use
-them) or in the setup of the virtual server in {}``httpd.conf''. 
-\item [IMORTANT]: From version 2.1 onwards magic quotes must be turned off
-for eZ publish to work properly.\\
+them) or in the setup of the virtual server in {}``httpd.conf''.
+\item [IMORTANT]: From version 2.1\footnote{%
+eZ publish versions prior to 2.1 required magic quotes to be enabled
+} onwards magic quotes must be turned off for eZ publish to work properly.\\
 ({\footnotesize http://www.php.net/manual/en/install.configure.php\#install.configure.enable-magic-quotes})
 \item [--with-dom]This configures PHP to include libxml. {\footnotesize }\\
 {\footnotesize (http://www.php.net/manual/en/install.configure.php\#install.configure.with-dom)}{\footnotesize \par}
@@ -405,13 +448,13 @@ and make sure that there isn't other functionality you would like
 to have included.
 
 
-\subsubsection{Command Line}
+\paragraph{Command Line}
 
 The default is to create a command line version of PHP. Therefore
 you don't need to add more configuration options for this.
 
 
-\subsubsection{Apache Module}
+\paragraph{Apache Module}
 
 To build an apache module you need to add:
 
@@ -420,14 +463,14 @@ To build an apache module you need to add:
 {\footnotesize (http://www.php.net/manual/en/install.configure.php\#install.configure.with-apxs)}{\footnotesize \par}
 \end{description}
 
-\subsubsection{Other Web Servers}
+\paragraph*{Other Web Servers}
 
 We haven't tested our software with other web servers than apache.
 If you need to try out other web servers, read this document {\footnotesize http://www.php.net/manual/en/install.configure.php\#install.configure.servers}
 to learn how you configure for the web server you will be using.
 
 
-\subsubsection{Creating the Configuration}
+\paragraph{Creating the Configuration}
 
 Now you just have to run the {}``./configure'' program with the
 apropriate configuration directives which we discussed in the preceeding
@@ -448,7 +491,7 @@ that line to:\\
 \texttt{\footnotesize ~~~~-{}-with-dom -{}-with-qtdom}{\footnotesize \par}
 
 
-\subsection{Compilation}
+\subsubsection{Compilation}
 
 To compile you need to run the command {}``make'':\\
 
@@ -456,7 +499,7 @@ To compile you need to run the command {}``make'':\\
 \texttt{\footnotesize ~~~~\# make}{\footnotesize \par}
 
 
-\subsection{Installation}
+\subsubsection{Installation}
 
 To install your new PHP package you need to run the following command:\\
 
@@ -464,7 +507,7 @@ To install your new PHP package you need to run the following command:\\
 \texttt{\footnotesize ~~~~\# make install}{\footnotesize \par}
 
 
-\subsection{Compiling the php module on RedHat 7.x, step by step}
+\subsubsection{Compiling the php module on RedHat 7.x, step by step}
 
 First download the source from www.php.net. You should get a file
 called something like
@@ -539,16 +582,16 @@ Especially, take note of chapter \ref{chptr: openssl problem on redhat}.
 It might save you for hours with debugging
 
 
-\chapter{Apache Configuration}
+\section{Apache Configuration}
 
-For the moment we have only one solution for configuring apache, and
-that is using two virtual hosts.
-
-
-\section{Dual Virtual Host\label{sec: dual virtualhost}}
+If you don't want to change the Apache configuration, go to chapter
+2.
 
 
-\subsection{Configuring Through httpd.conf}
+\subsection{Dual Virtual Host\label{sec: dual virtualhost}}
+
+
+\subsubsection{Configuring Through httpd.conf}
 
 This set up is based on having two different virtual hosts for your
 administration back-end and the main site. The main site would typically
@@ -572,7 +615,7 @@ configuration herein might be slightly outdated, so we recommend the
 online tool.
 
 
-\subsubsection{User Site}
+\paragraph{User Site}
 
 \texttt{\scriptsize ~~~~\# User site}{\scriptsize \par}
 
@@ -619,7 +662,7 @@ online tool.
 \texttt{\scriptsize ~~~~</VirtualHost>}{\scriptsize \par}
 
 
-\subsubsection{Admin Site}
+\paragraph{Admin Site}
 
 \texttt{\footnotesize ~~\# Admin site }{\footnotesize \par}
 
@@ -655,7 +698,7 @@ The directory {}``/your/apache/documentroot/publish\_dist'' is the
 directory where you extracted eZ publish.
 
 
-\subsubsection{Error Checking}
+\paragraph{Error Checking}
 
 You can check that everything is correct with your rewrite rules by
 running {}``apache -s'', which will check for virtual hosts. There
@@ -663,7 +706,7 @@ should also be an error log (consult the apache documentation) which
 you can read to check for errors.
 
 
-\subsubsection{Explanation of the Rewrite Rules}
+\paragraph{Explanation of the Rewrite Rules}
 
 The rewrite rules do the following:\\
 
@@ -725,7 +768,7 @@ The only correct way to access the admin site is through its own virtual
 host address.}
 
 
-\subsection{Configuring Through .htaccess}
+\subsubsection{Configuring Through .htaccess}
 
 Instead of using httpd.conf and rewrite rules in the virtual hosts,
 you can also do the rewrite rules in the .htaccess filesm directory
@@ -735,7 +778,7 @@ specific configuration files.
 two domains for this operation!}
 
 
-\subsubsection{User Site}
+\paragraph{User Site}
 
 In your main directory (/path/to/index.php/) create a file called
 \char`\"{}.htaccess\char`\"{} containing the following text:\\
@@ -772,7 +815,7 @@ on the}{\footnotesize \par}
 /path/to/website/index.php}{\footnotesize \par}
 
 
-\subsubsection{Admin Site}
+\paragraph{Admin Site}
 
 In your admin subdomain home directory, create a file with the following
 text:\\
@@ -783,14 +826,13 @@ text:\\
 \texttt{\footnotesize ~~~~RewriteEngine On}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
-/path/to/website/index\_admin.php}~\\
-{\footnotesize \par}
+/path/to/website/index\_admin.php}{\footnotesize \par}
 
 
-\chapter{eZ publish Installation}
+\section{eZ publish Installation}
 
 
-\section{Program Files}
+\subsection{Program Files}
 
 The next step is to install the eZ publish package in your document
 root directory. First you need to unpack the software in a temporary
@@ -823,34 +865,21 @@ to add information about the username, hostname and password of your
 database. More information on what you can do with {}``site.ini''
 can be found in the {}``eZ publish Customisation Guide''.
 
-The next important step is to run the script {}``secure\_modfix.sh''.
-\\
+The next important step is to run the script {}``modfix.sh''. \\
 
 
-\texttt{\footnotesize ~~~~\# ./secure\_modfix.sh}~\\
+\texttt{\footnotesize ~~~~\# ./modfix.sh}~\\
 {\footnotesize \par}
 
-Then you need to create cache directories:\\
 
-
-\texttt{\footnotesize ~~~~\# su}~\\
-\texttt{\footnotesize ~~~~\# ./secure\_cachefix.sh {[}package\_user{]}
-{[}apache\_process\_group{]}}~\\
-{\footnotesize \par}
-
-Where \texttt{\footnotesize {[}package\_user{]}} is the web admin
-user and \texttt{\footnotesize {[}apache\_process\_group{]}} is the
-group of the running apache process.
-
-
-\section{Database}
+\subsection{\label{sec: Database (dual hosts)}Database }
 
 Some people might prefer to use phpMyAdmin (http://www.phpwizard.net/projects/phpMyAdmin/)
 for most of this part; we can not help you with installation of that
 program, though.
 
 
-\subsection{First Time Installation}
+\subsubsection{First time installation (MySQL)}
 
 Now you need to create a database in MySQL, the default name we use
 is publish, but you can change that to whatever pleases you.\\
@@ -873,10 +902,10 @@ where secret is your password. Then you need to add the default eZ
 publish data into your newly created database:\\
 
 
-\texttt{\footnotesize ~~~~\# mysql -uroot -p publish < sql/data.sql}{\footnotesize \par}
+\texttt{\footnotesize ~~~~\# mysql -uroot -p publish < sql/publish\_mysql.sql}{\footnotesize \par}
 
 
-\subsubsection{Adding Pre-Defined Data}
+\paragraph{Adding Pre-Defined Data}
 
 If you want to add the pre-defined data of the distribution you shouldn't
 add any data manually to the site before executing these commands.
@@ -887,28 +916,81 @@ First we need to add files and images which are needed by the database.\\
 \texttt{\footnotesize ~~~~\# tar zpxvf data.tar.gz}~\\
 {\footnotesize \par}
 
-Then we need to run {}``secure\_modfix.sh'' to make sure that everything
+Then we need to run {}``modfix.sh'' to make sure that everything
 is readable.\\
 
 
-\texttt{\footnotesize ~~~~\# ./secure\_modfix.sh}~\\
+\texttt{\footnotesize ~~~~\# ./modfix.sh}~\\
 {\footnotesize \par}
 
 Then we need to send the SQL data into the database:\\
 
 
 \texttt{\footnotesize ~~~~\# mysql -upublish -ppublish publish
-< sql/data.sql}~\\
+< sql/data\_mysql.sql}~\\
 {\footnotesize \par}
 
-Finally we run clearcache to make sure that everything presented is
-cached correctly:\\
+Finally we run clearcache\footnote{%
+A new feature in eZ publish 2.2 is the possibility of clearing the
+cache from the admin site
+} to make sure that everything presented is cached correctly:\\
 
 
-\texttt{\footnotesize ~~~~\# ./clearcache\_secure.sh}{\footnotesize \par}
+\texttt{\footnotesize ~~~~\# ./clearcache.sh}{\footnotesize \par}
 
 
-\subsection{Updating the Installation}
+\subsubsection{PostgreSQL configuration}
+
+Important note regarding PostgreSQL support in eZ publish:
+
+PostgreSQL has one limitation which is not good for eZ publish:
+
+\#define NAMEDATALEN 32
+
+This is the max length of indentifiers used in the database, table
+names, column names etc..
+
+eZ publish uses names which sometimes are longer, e.g: eZImageCatalogue\_ImageVariationGroup
+
+Therefore you need to recompile PostgreSQL to support a larger value
+by altering: 
+
+\begin{verse}
+\#define NAMEDATALEN 64
+\end{verse}
+in the file : postgres\_ext.h
+
+
+\subsubsection{First time installation (PostgreSQL)}
+
+Login as user postgres
+
+\texttt{\footnotesize ~~~~\# su - postgres}~\\
+{\footnotesize \par}
+
+Create a database
+
+\texttt{\footnotesize ~~~~\$ createdb publish}~\\
+{\footnotesize \par}
+
+Create a dabase user
+
+\texttt{\footnotesize ~~~~\$ createuser publish -W}~\\
+{\footnotesize \par}
+
+Create tables
+
+\texttt{\footnotesize ~~~~\$ psql -Upublish <sql/data\_mysql.sql}~\\
+{\footnotesize \par}
+
+You also need to enable PostgreSQL in site.ini. Change the'' DatabaseImplementation''
+configuration so it reads:
+
+\begin{verse}
+DatabaseImplementation=postgresql
+\end{verse}
+
+\subsubsection{Updating the Installation}
 
 This section is for users who are updating from a previous version
 of eZ publish. There should be several files ending with {}``.sql''
@@ -917,7 +999,7 @@ version to the current. You need to apply all the updates for every
 version since your version.
 
 
-\chapter{Now What?}
+\section{Now What?}
 
 After installing eZ publish you can test your site through the URL
 \texttt{\footnotesize http://www.yoursite.com/} and you can administrate
@@ -939,7 +1021,7 @@ for updates, articles about eZ publish and how to work with it, as
 well as keeping abreast of new developments.
 
 
-\section{Post Install Checklist}
+\subsection{Post Install Checklist}
 
 \begin{enumerate}
 \item Does Apache run?
@@ -971,19 +1053,19 @@ about features of the software.
 site.
 \end{enumerate}
 
-\chapter{\label{chptr: Troubleshooting}Troubleshooting}
+\section{\label{chptr: Troubleshooting}Troubleshooting}
 
 
-\section{Problems During Installation}
+\subsection{Problems During Installation}
 
 
-\subsection{FreeBSD 4.2 and libxml2}
+\subsubsection{FreeBSD 4.2 and libxml2}
 
 The current version (2.2.11) installs itself as /usr/local/lib/libxml2.a|so
 and goes unrecognized by configure (PHP). Link the files to /usr/local/lib/libxml.a|so.
 
 
-\subsection{Missing Compiler/Can not Compile (C++/C)}
+\subsubsection{Missing Compiler/Can not Compile (C++/C)}
 
 When compiling php and other support programs (like ImageMagick) you
 need the GCC compiler. It is recommended that you use the GCC compiler
@@ -993,7 +1075,7 @@ you can download pre-compiled versions of software for some different
 Unix versions. Please note that you must compile php on your own.
 
 
-\subsection{I am getting linking errors when trying to build PHP}
+\subsubsection{I am getting linking errors when trying to build PHP}
 
 The PHP module you have compiled will be linked agains kerberos. This
 causes some linking problems on RedHat Linux. The workaround for this
@@ -1003,39 +1085,41 @@ problem is to type this command before you compile :
 -lkrb5 -lgssapi\_krb5 -lpam\char`\"{}}{\footnotesize \par}
 
 
-\section{Problems After Installation}
+\subsection{Problems After Installation}
 
 
-\subsection{Permission Denied}
+\subsubsection{Permission Denied}
 
 \texttt{\small Warning: fopen(\char`\"{}site.ini\char`\"{},\char`\"{}r+\char`\"{})}{\small \par}
 
 \texttt{\small Permission denied in classes/INIFile.php on line 80}{\small \par}
 
-If you get this error message you need to run the {}``secure\_modfix.sh''
+If you get this error message you need to run the {}``modfix.sh''
 script.
 
 
-\subsection{Can not see Images}
+\subsubsection{Can not see Images}
 
 ImageMagick is not working, make sure that it is working by using
 the command line command {}``convert''.
 
 
-\subsection{Warning about Temp Directory}
+\subsubsection{Warning about Temp Directory}
 
 If you get any such warning you need to set the temp directory in
 php.ini.
 
 
-\subsection{\label{chptr: openssl problem on redhat}After installing my new
+\subsubsection{\label{chptr: openssl problem on redhat}After installing my new
 php module, apache dies immediately.}
 
 RedHat as released new versions of the openssl packages for RedHat
-7.x. If these erratas is installed before you compile php, your php
-module will be linked agains these. This will however brake mod\_ssl,
-which is linked to the old openssl libraries. There is two different
-ways to fix this:\\
+7.x\footnote{%
+The problem described here may only apply to RedHat 7.0
+}. If these erratas is installed before you compile php, your php module
+will be linked agains these. This will however brake mod\_ssl, which
+is linked to the old openssl libraries. There are two different ways
+to fix this:\\
 Uninstall mod\_ssl:
 
 \# rpm -e mod\_ssl\\
@@ -1047,7 +1131,7 @@ and install it.\\
 If this doesn't help, look for clues in /var/log/httpd/error\_messages
 
 
-\chapter{Installing on RAQ 3\label{chptr: raq 3}}
+\section{Installing on RAQ 3\label{chptr: raq 3}}
 
 \emph{Installing ezPublish on raq3 without messing up the GUI or voiding
 the warranty.}
@@ -1369,7 +1453,7 @@ to get it to work.
 If all is well, your site should work.
 
 
-\section{Getting SSL to Work}
+\subsection{Getting SSL to Work}
 
 This is a bit tougher! Enable SSL for the site in your GUI. Generate
 your certificates. Disable SSL in the GUI. Add this to the end of
@@ -1423,7 +1507,7 @@ This should work. IF you can't get it, give me an email and I'll help
 if I have time: chris@net.ai
 
 
-\chapter{Installing on Windows }
+\section{Installing on Windows \label{chptr: windows}}
 
 Please download and read the Windows documentation from the eZ publish
 site (http://developer.ez.no). Check the {}``File Archive'' link
@@ -1431,7 +1515,7 @@ under {}``Downloads'' . It covers all the steps needed for a working
 installation under Windows using Apache.
 
 
-\chapter{Mandrake\label{chptr: mandrake}}
+\section{Mandrake\label{chptr: mandrake}}
 
 Thanks to Mark Polsen for giving us this information.
 
@@ -1440,11 +1524,127 @@ without any form of guarantee or endorsement, either explicitly or
 implicitly.
 
 
-\section{Download the Following}
+\subsection{Download the Following}
 
 Download what you need from \texttt{\footnotesize http://developer.ez.no/filemanager/list/23/}
 and install the rpms!
 
 That's all; read the manual from the start after that, and install
 eZ publish as described.
+
+
+\chapter{\label{chpt: nVH}Installing eZ publish without virtual hosts and
+mod\_rewrite}
+
+Installing eZ publish this way has several advantages:
+
+\begin{itemize}
+\item no root rights needed
+\item no virtual/dual hosts or mod\_rewrite needed
+\item no subdomains needed
+\item no change of Apache configuration needed
+\item installation in subdirectories possible
+\item you can keep your old documents on the server
+\end{itemize}
+The disadvantages are:
+
+\begin{itemize}
+\item the URLs will be \char`\"{}{[}...{]}/index.php/article/articleedit/{[}...{]}\char`\"{}
+instead of \char`\"{}{[}...{]}/article/articleedit/{[}...{]}\char`\"{}
+\item new feature in 2.2, so it's not as well tested as normal dual hosts
+install
+\end{itemize}
+
+\section{Prerequisites}
+
+The following software must be running on your server and you must
+have permissions to use it:
+
+\begin{itemize}
+\item PHP (\url{http://www.php.net}) version 4.0.4pl1 or later.
+\item A supported database:
+
+\begin{itemize}
+\item MySQL (\url{http://www.mysql.com}) version 3.23 or later
+\item PostgreSQL (\url{http://www.postgresql.org})
+\end{itemize}
+\end{itemize}
+The following software is optional, but required for some modules
+of eZ publish:
+
+\begin{itemize}
+\item libQdom (\url{http://www.trolltech.com}) is a part of QT, you need
+version 2.2.3 or later. (Needed by eZ news feed's parsers. If you
+wish to include headlines from external sites (example developer.ez.no
+or slashdot.org) then you need this installed. You can create your
+own parsers if you don't want to use the default.)
+\item ImageMagick (\url{http://www.imagemagick.org}) newest version (Needed
+by eZ article, eZ image catalogue, and all modules using images. You
+need only the command line version.)
+\end{itemize}
+
+\section{eZ publish installation}
+
+
+\subsection{Installing in one directory (Recommended install)}
+
+
+\subsubsection{Installing the files for eZ publish}
+
+\begin{enumerate}
+\item Extract the eZ publish files (if you want some example data, extract
+\texttt{\footnotesize data.tar.gz} too) and if they are not on the
+server yet, transfer them to the server in a directory of your choice.\\
+(example: \texttt{\footnotesize /home/userA/ezpublish} reachable by
+\texttt{\footnotesize http://www.yourserver.com/ezpublish})
+\item Copy \texttt{\footnotesize installation/htaccess-nVH} to \texttt{\footnotesize .htaccess}
+in the top directory of your eZ publish installation.\\
+(example: \texttt{\footnotesize /home/userA/ezpublish/.htaccess})
+\item Edit the file \texttt{\footnotesize sitedir.ini} and set the right
+directory.\\
+(example: \texttt{\footnotesize /home/userA/ezpublish/})
+\end{enumerate}
+
+\subsubsection{Database installation}
+
+If you have shell access to create the database, see section \ref{sec: Database (dual hosts)}.
+
+\begin{enumerate}
+\item Create a database (e.g. \texttt{\footnotesize publish})
+\item Create a user and give him permissions to access it
+\item Create the data structures for eZ publish with file \texttt{\footnotesize sql/publish\_mysql.sql}
+or \texttt{\footnotesize sql/publish\_postgresql.sql}{\footnotesize \par}
+\item If you extracted \texttt{\footnotesize data.tar.gz} before, you should
+also fill the database with the example data in file \texttt{\footnotesize sql/data\_mysql.sql}{\footnotesize \par}
+\end{enumerate}
+
+\subsubsection{Finishing the install}
+
+\begin{enumerate}
+\item Rename \texttt{\footnotesize site.ini} to \texttt{\footnotesize site.ini.php}
+and edit it.
+\item Test if you can access \texttt{\footnotesize sitedir.ini} with a WWW
+browser\\
+(example: \texttt{\footnotesize http://www.yourserver.com/ezpublish/sitedir.ini}).\\
+\\
+a) If you get a {}``Forbidden'', everything is good and safe.\\
+b) If you get the file, then your server doesn't obey \texttt{\footnotesize .htaccess}
+files. Try the next install in section \ref{sec: Install without shell},
+it is much safer then. Otherwise you can still use eZ publish, but
+have to remember that it is not as safe as it could be.
+\item Finished!!\\
+Go to \texttt{\footnotesize http://www.yourserver.com/ezpublish/index\_admin.php},
+login as \texttt{\footnotesize admin} with password \texttt{\footnotesize publish}
+and change your password. Then go to \texttt{\footnotesize http://www.yourserver.com/ezpublish}.
+Have fun.
+\end{enumerate}
+
+\subsection{\label{sec: Install without shell}Installing with shell access on
+server and two separate directories for eZ publish}
+
+If you have shell access on your server and you have the possibility
+to create directories which are not accessible by WWW browsers, you
+can use the script \texttt{\footnotesize ezinstaller.sh}. It will
+ask you all relevant questions and install eZ publish in a very secure
+way.
 \end{document}

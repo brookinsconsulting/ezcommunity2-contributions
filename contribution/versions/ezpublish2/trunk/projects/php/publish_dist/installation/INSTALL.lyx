@@ -113,38 +113,8 @@ Since version 2.2 eZ publish has a new possible way to be installed: without
  This makes it possible for people, who don't have a dedicated server or
  a specialized eZ publish hoster, to install eZ publish on their accounts
  as long as they have PHP and a supported database (e.g.
- mySQL).
-\layout Standard
-
-Installing eZ publish this way has several advantages:
-\layout Itemize
-
-no root rights needed
-\layout Itemize
-
-no virtual/dual hosts or mod_rewrite needed
-\layout Itemize
-
-no subdomains needed
-\layout Itemize
-
-no change of Apache configuration needed
-\layout Itemize
-
-installation in subdirectories possible
-\layout Itemize
-
-you can keep your old documents on the server
-\layout Standard
-
-The disadvantages are:
-\layout Itemize
-
-the URLs will be "[...]/index.php/article/articleedit/[...]" instead of "[...]/article/art
-icleedit/[...]"
-\layout Itemize
-
-new feature in 2.2, so it's not as well tested as normal dual hosts install
+ mySQL or PostgreSQL).
+ 
 \layout Standard
 
 This opens some new options for installing:
@@ -192,10 +162,10 @@ It is possible to get pre-configured hosting services where you can install
  Read more about our hosting partners at eZ systems web site (
 \family typewriter 
 \size footnotesize 
-http://en.ez.no/article/articlestatic/73
+http://
 \family default 
 \size default 
-).
+ez.no/shop/hosting).
 \layout Section
 
 Pre-Configured Hardware
@@ -205,10 +175,10 @@ It is possible to order pre-configured hardware from eZ systems.
  You can order through or web shop (
 \family typewriter 
 \size footnotesize 
-http://sourceprovider.com/
+http://
 \family default 
 \size default 
-).
+shop.ez.no).
 \layout Standard
 
 A line starting with a hash-sign 
@@ -223,319 +193,22 @@ A line starting with a hash-sign
 \layout Chapter
 
 
-\begin_inset LatexCommand \label{chpt: nVH}
-
-\end_inset 
-
-Installing eZ publish without virtual hosts and mod_rewrite
-\layout Section
-
-Prerequisites
-\layout Standard
-
-The following software must be running on your server and you must have
- permissions to use it:
-\layout Itemize
-
-PHP (
-\begin_inset LatexCommand \url{http://www.php.net}
-
-\end_inset 
-
-) version 4.0.4pl1 or later.
-\layout Itemize
-
-A supported database:
-\begin_deeper 
-\layout Itemize
-
-MySQL (
-\begin_inset LatexCommand \url{http://www.mysql.com}
-
-\end_inset 
-
-) version 3.23 or later
-\layout Itemize
-
-PostgreSQL (
-\begin_inset LatexCommand \url{http://www.postgresql.org}
-
-\end_inset 
-
-)
-\end_deeper 
-\layout Standard
-
-The following software is optional, but required for some modules of eZ
- publish:
-\layout Itemize
-
-libQdom (
-\begin_inset LatexCommand \url{http://www.trolltech.com}
-
-\end_inset 
-
-) is a part of QT, you need version 2.2.3 or later.
- (Needed by eZ news feed's parsers.
- If you wish to include headlines from external sites (example developer.ez.no
- or slashdot.org) then you need this installed.
- You can create your own parsers if you don't want to use the default.)
-\layout Itemize
-
-ImageMagick (
-\begin_inset LatexCommand \url{http://www.imagemagick.org}
-
-\end_inset 
-
-) newest version (Needed by eZ article, eZ image catalogue, and all modules
- using images.
- You need only the command line version.)
-\layout Section
-
-eZ publish installation
-\layout Subsection
-
-Installing in one directory (Recommended install)
-\layout Subsubsection
-
-Installing the files for eZ publish
-\layout Enumerate
-
-Extract the eZ publish files (if you want some example data, extract 
-\family typewriter 
-\size footnotesize 
-data.tar.gz
-\family default 
-\size default 
- too) and if they are not on the server yet, transfer them to the server
- in a directory of your choice.
-\newline 
-(example: 
-\family typewriter 
-\size footnotesize 
-/home/userA/ezpublish
-\family default 
-\size default 
- reachable by 
-\family typewriter 
-\size footnotesize 
-http://www.yourserver.com/ezpublish
-\family default 
-\size default 
-)
-\layout Enumerate
-
-Copy
-\family typewriter 
-\size footnotesize 
- installation/htaccess-nVH
-\family default 
-\size default 
- to 
-\family typewriter 
-\size footnotesize 
-.htaccess
-\family default 
-\size default 
- in the top directory of your eZ publish installation.
-\newline 
-(example: 
-\family typewriter 
-\size footnotesize 
-/home/userA/ezpublish/.htaccess
-\family default 
-\size default 
-)
-\layout Enumerate
-
-Edit the file 
-\family typewriter 
-\size footnotesize 
-sitedir.ini
-\family default 
-\size default 
- and set the right directory.
-\newline 
-(example: 
-\family typewriter 
-\size footnotesize 
-/home/userA/ezpublish/
-\family default 
-\size default 
-)
-\layout Subsubsection
-
-Database installation
-\layout Standard
-
-If you have shell access to create the database, see section 
-\begin_inset LatexCommand \ref{sec: Database (dual hosts)}
-
-\end_inset 
-
-.
-\layout Enumerate
-
-Create a database (e.g.
- 
-\family typewriter 
-\size footnotesize 
-publish
-\family default 
-\size default 
-)
-\layout Enumerate
-
-Create a user and give him permissions to access it
-\layout Enumerate
-
-Create the data structures for eZ publish with file 
-\family typewriter 
-\size footnotesize 
-sql/publish_mysql.sql
-\family default 
-\size default 
- or 
-\family typewriter 
-\size footnotesize 
-sql/publish_postgresql.sql
-\layout Enumerate
-
-If you extracted 
-\family typewriter 
-\size footnotesize 
-data.tar.gz
-\family default 
-\size default 
- before, you should also fill the database with the example data in file
- 
-\family typewriter 
-\size footnotesize 
-sql/data_mysql.sql
-\layout Subsubsection
-
-Finishing the install
-\layout Enumerate
-
-Rename 
-\family typewriter 
-\size footnotesize 
-site.ini
-\family default 
-\size default 
- to 
-\family typewriter 
-\size footnotesize 
-site.ini.php
-\family default 
-\size default 
- and edit it.
-\layout Enumerate
-
-Test if you can access 
-\family typewriter 
-\size footnotesize 
-sitedir.ini
-\family default 
-\size default 
- with a WWW browser
-\newline 
-(example: 
-\family typewriter 
-\size footnotesize 
-http://www.yourserver.com/ezpublish/sitedir.ini
-\family default 
-\size default 
-).
-\newline 
-
-\newline 
-a) If you get a 
-\begin_inset Quotes eld
-\end_inset 
-
-Forbidden
-\begin_inset Quotes erd
-\end_inset 
-
-, everything is good and safe.
-\newline 
-b) If you get the file, then your server doesn't obey 
-\family typewriter 
-\size footnotesize 
-.htaccess
-\family default 
-\size default 
- files.
- Try the next install in section 
-\begin_inset LatexCommand \ref{sec: Install without shell}
-
-\end_inset 
-
-, it is much safer then.
- Otherwise you can still use eZ publish, but have to remember that it is
- not as safe as it could be.
-\layout Enumerate
-
-Finished!!
-\newline 
-Go to 
-\family typewriter 
-\size footnotesize 
-http://www.yourserver.com/ezpublish/index_admin.php
-\family default 
-\size default 
-, login as 
-\family typewriter 
-\size footnotesize 
-admin
-\family default 
-\size default 
- with password 
-\family typewriter 
-\size footnotesize 
-publish
-\family default 
-\size default 
- and change your password.
- Then go to 
-\family typewriter 
-\size footnotesize 
-http://www.yourserver.com/ezpublish
-\family default 
-\size default 
-.
- Have fun.
-\layout Subsection
-
-
-\begin_inset LatexCommand \label{sec: Install without shell}
-
-\end_inset 
-
-Installing with shell access on server and two separate directories for
- eZ publish
-\layout Standard
-
-If you have shell access on your server and you have the possibility to
- create directories which are not accessible by WWW browsers, you can use
- the script 
-\family typewriter 
-\size footnotesize 
-ezinstaller.sh
-\family default 
-\size default 
-.
- It will ask you all relevant questions and install eZ publish in a very
- secure way.
-\layout Chapter
-
-
 \begin_inset LatexCommand \label{chpt: dedicated server}
 
 \end_inset 
 
-Installing eZ publish on a dedicated server
+Installing eZ publish (standard
+\begin_float footnote 
+\layout Standard
+
+An alternative install method is described in chapter 
+\begin_inset LatexCommand \ref{chpt: nVH}
+
+\end_inset 
+
+
+\end_float 
+ method)
 \layout Standard
 
 This chapter is mainly intended for installation on a Red Hat Linux system,
@@ -601,7 +274,7 @@ Sun
 (http://www.sunfreeware.com/)
 \layout Standard
 
-The addresses to the software developers will be given where apropriate
+The addresses to the software developers will be given where appropriated
  in the text.
 \layout Standard
 
@@ -626,8 +299,8 @@ Prerequisites
 Needed Privileges
 \layout Standard
 
-For the standard installation (and for the moment the only method) of eZ
- publish you will need to have the following privileges on your system:
+For the standard installation of eZ publish you will need to have the following
+ privileges on your system:
 \layout Itemize
 
 Access to Apache's httpd.conf for creating two virtual hosts and for enabling
@@ -766,7 +439,13 @@ rpm -ql <rpm name>
 \end_inset 
 
 .
- RPM name is one of the returned names from the previous command, example:
+ RPM name is one of the returned names from the previous command, example
+\begin_float footnote 
+\layout Standard
+
+A line starting with a hash-sign "#" are input from the user to the shell.
+\end_float 
+:
 \newline 
 
 \layout Standard
@@ -778,7 +457,7 @@ rpm -ql <rpm name>
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-# pkej@vogol:/etc/httpd > rpm -qa | grep libxml
+# rpm -qa | grep libxml
 \layout Standard
 
 
@@ -808,7 +487,7 @@ libxmld-1.8.7-80
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-# pkej@vogol:/etc/httpd > rpm -ql libxml-1.8.7-80
+# rpm -ql libxml-1.8.7-80
 \layout Standard
 
 
@@ -1190,11 +869,15 @@ httpd.conf
 \end_inset 
 
 .
- 
 \layout Description
 
-IMORTANT : From version 2.1 onwards magic quotes must be turned off for eZ
- publish to work properly.
+IMORTANT : From version 2.1
+\begin_float footnote 
+\layout Standard
+
+eZ publish versions prior to 2.1 required magic quotes to be enabled
+\end_float 
+ onwards magic quotes must be turned off for eZ publish to work properly.
 \newline 
 (
 \size footnotesize 
@@ -2636,7 +2319,7 @@ The next important step is to run the script
 \begin_inset Quotes eld
 \end_inset 
 
-secure_modfix.sh
+modfix.sh
 \begin_inset Quotes erd
 \end_inset 
 
@@ -2653,47 +2336,9 @@ secure_modfix.sh
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-# ./secure_modfix.sh
+# ./modfix.sh
 \newline 
 
-\layout Standard
-
-Then you need to create cache directories:
-\newline 
-
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-# su
-\newline 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-# ./secure_cachefix.sh [package_user] [apache_process_group]
-\newline 
-
-\layout Standard
-
-Where 
-\family typewriter 
-\size footnotesize 
-[package_user]
-\family default 
-\size default 
- is the web admin user and 
-\family typewriter 
-\size footnotesize 
-[apache_process_group]
-\family default 
-\size default 
- is the group of the running apache process.
 \layout Subsection
 
 
@@ -2709,7 +2354,7 @@ yAdmin/) for most of this part; we can not help you with installation of
  that program, though.
 \layout Subsubsection
 
-First Time Installation
+First time installation (MySQL)
 \layout Standard
 
 Now you need to create a database in MySQL, the default name we use is publish,
@@ -2806,7 +2451,7 @@ Then we need to run
 \begin_inset Quotes eld
 \end_inset 
 
-secure_modfix.sh
+modfix.sh
 \begin_inset Quotes erd
 \end_inset 
 
@@ -2822,7 +2467,7 @@ secure_modfix.sh
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-# ./secure_modfix.sh
+# ./modfix.sh
 \newline 
 
 \layout Standard
@@ -2844,8 +2489,14 @@ Then we need to send the SQL data into the database:
 
 \layout Standard
 
-Finally we run clearcache to make sure that everything presented is cached
- correctly:
+Finally we run clearcache
+\begin_float footnote 
+\layout Standard
+
+A new feature in eZ publish 2.2 is the possibility of clearing the cache
+ from the admin site
+\end_float 
+ to make sure that everything presented is cached correctly:
 \newline 
 
 \layout Standard
@@ -2857,7 +2508,115 @@ Finally we run clearcache to make sure that everything presented is cached
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-# ./secure_clearcache.sh
+# ./clearcache.sh
+\layout Subsubsection
+
+PostgreSQL configuration
+\layout Standard
+
+Important note regarding PostgreSQL support in eZ publish:
+\layout Standard
+
+PostgreSQL has one limitation which is not good for eZ publish:
+\layout Standard
+
+#define NAMEDATALEN 32
+\layout Standard
+
+This is the max length of indentifiers used in the database, table names,
+ column names etc..
+\layout Standard
+
+eZ publish uses names which sometimes are longer, e.g: eZImageCatalogue_ImageVari
+ationGroup
+\layout Standard
+
+Therefore you need to recompile PostgreSQL to support a larger value by
+ altering: 
+\layout Verse
+
+#define NAMEDATALEN 64
+\layout Standard
+
+in the file : postgres_ext.h
+\layout Subsubsection
+
+First time installation (PostgreSQL)
+\layout Standard
+
+Login as user postgres
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+# su - postgres
+\newline 
+
+\layout Standard
+
+Create a database
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+$ createdb publish
+\newline 
+
+\layout Standard
+
+Create a dabase user
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+$ createuser publish -W
+\newline 
+
+\layout Standard
+
+Create tables
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+$ psql -Upublish <sql/data_mysql.sql
+\newline 
+
+\layout Standard
+
+You also need to enable PostgreSQL in site.ini.
+ Change the
+\begin_inset Quotes erd
+\end_inset 
+
+ DatabaseImplementation
+\begin_inset Quotes erd
+\end_inset 
+
+ configuration so it reads:
+\layout Verse
+
+DatabaseImplementation=postgresql
 \layout Subsubsection
 
 Updating the Installation
@@ -3100,7 +2859,7 @@ If you get this error message you need to run the
 \begin_inset Quotes eld
 \end_inset 
 
-secure_modfix.sh
+modfix.sh
 \begin_inset Quotes erd
 \end_inset 
 
@@ -3136,11 +2895,17 @@ If you get any such warning you need to set the temp directory in php.ini.
 After installing my new php module, apache dies immediately.
 \layout Standard
 
-RedHat as released new versions of the openssl packages for RedHat 7.x.
+RedHat as released new versions of the openssl packages for RedHat 7.x
+\begin_float footnote 
+\layout Standard
+
+The problem described here may only apply to RedHat 7.0
+\end_float 
+.
  If these erratas is installed before you compile php, your php module will
  be linked agains these.
  This will however brake mod_ssl, which is linked to the old openssl libraries.
- There is two different ways to fix this:
+ There are two different ways to fix this:
 \newline 
 Uninstall mod_ssl:
 \layout Standard
@@ -4715,4 +4480,343 @@ http://developer.ez.no/filemanager/list/23/
 
 That's all; read the manual from the start after that, and install eZ publish
  as described.
+\layout Chapter
+
+
+\begin_inset LatexCommand \label{chpt: nVH}
+
+\end_inset 
+
+Installing eZ publish without virtual hosts and mod_rewrite
+\layout Standard
+
+Installing eZ publish this way has several advantages:
+\layout Itemize
+
+no root rights needed
+\layout Itemize
+
+no virtual/dual hosts or mod_rewrite needed
+\layout Itemize
+
+no subdomains needed
+\layout Itemize
+
+no change of Apache configuration needed
+\layout Itemize
+
+installation in subdirectories possible
+\layout Itemize
+
+you can keep your old documents on the server
+\layout Standard
+
+The disadvantages are:
+\layout Itemize
+
+the URLs will be "[...]/index.php/article/articleedit/[...]" instead of "[...]/article/art
+icleedit/[...]"
+\layout Itemize
+
+new feature in 2.2, so it's not as well tested as normal dual hosts install
+\layout Section
+
+Prerequisites
+\layout Standard
+
+The following software must be running on your server and you must have
+ permissions to use it:
+\layout Itemize
+
+PHP (
+\begin_inset LatexCommand \url{http://www.php.net}
+
+\end_inset 
+
+) version 4.0.4pl1 or later.
+\layout Itemize
+
+A supported database:
+\begin_deeper 
+\layout Itemize
+
+MySQL (
+\begin_inset LatexCommand \url{http://www.mysql.com}
+
+\end_inset 
+
+) version 3.23 or later
+\layout Itemize
+
+PostgreSQL (
+\begin_inset LatexCommand \url{http://www.postgresql.org}
+
+\end_inset 
+
+)
+\end_deeper 
+\layout Standard
+
+The following software is optional, but required for some modules of eZ
+ publish:
+\layout Itemize
+
+libQdom (
+\begin_inset LatexCommand \url{http://www.trolltech.com}
+
+\end_inset 
+
+) is a part of QT, you need version 2.2.3 or later.
+ (Needed by eZ news feed's parsers.
+ If you wish to include headlines from external sites (example developer.ez.no
+ or slashdot.org) then you need this installed.
+ You can create your own parsers if you don't want to use the default.)
+\layout Itemize
+
+ImageMagick (
+\begin_inset LatexCommand \url{http://www.imagemagick.org}
+
+\end_inset 
+
+) newest version (Needed by eZ article, eZ image catalogue, and all modules
+ using images.
+ You need only the command line version.)
+\layout Section
+
+eZ publish installation
+\layout Subsection
+
+Installing in one directory (Recommended install)
+\layout Subsubsection
+
+Installing the files for eZ publish
+\layout Enumerate
+
+Extract the eZ publish files (if you want some example data, extract 
+\family typewriter 
+\size footnotesize 
+data.tar.gz
+\family default 
+\size default 
+ too) and if they are not on the server yet, transfer them to the server
+ in a directory of your choice.
+\newline 
+(example: 
+\family typewriter 
+\size footnotesize 
+/home/userA/ezpublish
+\family default 
+\size default 
+ reachable by 
+\family typewriter 
+\size footnotesize 
+http://www.yourserver.com/ezpublish
+\family default 
+\size default 
+)
+\layout Enumerate
+
+Copy
+\family typewriter 
+\size footnotesize 
+ installation/htaccess-nVH
+\family default 
+\size default 
+ to 
+\family typewriter 
+\size footnotesize 
+.htaccess
+\family default 
+\size default 
+ in the top directory of your eZ publish installation.
+\newline 
+(example: 
+\family typewriter 
+\size footnotesize 
+/home/userA/ezpublish/.htaccess
+\family default 
+\size default 
+)
+\layout Enumerate
+
+Edit the file 
+\family typewriter 
+\size footnotesize 
+sitedir.ini
+\family default 
+\size default 
+ and set the right directory.
+\newline 
+(example: 
+\family typewriter 
+\size footnotesize 
+/home/userA/ezpublish/
+\family default 
+\size default 
+)
+\layout Subsubsection
+
+Database installation
+\layout Standard
+
+If you have shell access to create the database, see section 
+\begin_inset LatexCommand \ref{sec: Database (dual hosts)}
+
+\end_inset 
+
+.
+\layout Enumerate
+
+Create a database (e.g.
+ 
+\family typewriter 
+\size footnotesize 
+publish
+\family default 
+\size default 
+)
+\layout Enumerate
+
+Create a user and give him permissions to access it
+\layout Enumerate
+
+Create the data structures for eZ publish with file 
+\family typewriter 
+\size footnotesize 
+sql/publish_mysql.sql
+\family default 
+\size default 
+ or 
+\family typewriter 
+\size footnotesize 
+sql/publish_postgresql.sql
+\layout Enumerate
+
+If you extracted 
+\family typewriter 
+\size footnotesize 
+data.tar.gz
+\family default 
+\size default 
+ before, you should also fill the database with the example data in file
+ 
+\family typewriter 
+\size footnotesize 
+sql/data_mysql.sql
+\layout Subsubsection
+
+Finishing the install
+\layout Enumerate
+
+Rename 
+\family typewriter 
+\size footnotesize 
+site.ini
+\family default 
+\size default 
+ to 
+\family typewriter 
+\size footnotesize 
+site.ini.php
+\family default 
+\size default 
+ and edit it.
+\layout Enumerate
+
+Test if you can access 
+\family typewriter 
+\size footnotesize 
+sitedir.ini
+\family default 
+\size default 
+ with a WWW browser
+\newline 
+(example: 
+\family typewriter 
+\size footnotesize 
+http://www.yourserver.com/ezpublish/sitedir.ini
+\family default 
+\size default 
+).
+\newline 
+
+\newline 
+a) If you get a 
+\begin_inset Quotes eld
+\end_inset 
+
+Forbidden
+\begin_inset Quotes erd
+\end_inset 
+
+, everything is good and safe.
+\newline 
+b) If you get the file, then your server doesn't obey 
+\family typewriter 
+\size footnotesize 
+.htaccess
+\family default 
+\size default 
+ files.
+ Try the next install in section 
+\begin_inset LatexCommand \ref{sec: Install without shell}
+
+\end_inset 
+
+, it is much safer then.
+ Otherwise you can still use eZ publish, but have to remember that it is
+ not as safe as it could be.
+\layout Enumerate
+
+Finished!!
+\newline 
+Go to 
+\family typewriter 
+\size footnotesize 
+http://www.yourserver.com/ezpublish/index_admin.php
+\family default 
+\size default 
+, login as 
+\family typewriter 
+\size footnotesize 
+admin
+\family default 
+\size default 
+ with password 
+\family typewriter 
+\size footnotesize 
+publish
+\family default 
+\size default 
+ and change your password.
+ Then go to 
+\family typewriter 
+\size footnotesize 
+http://www.yourserver.com/ezpublish
+\family default 
+\size default 
+.
+ Have fun.
+\layout Subsection
+
+
+\begin_inset LatexCommand \label{sec: Install without shell}
+
+\end_inset 
+
+Installing with shell access on server and two separate directories for
+ eZ publish
+\layout Standard
+
+If you have shell access on your server and you have the possibility to
+ create directories which are not accessible by WWW browsers, you can use
+ the script 
+\family typewriter 
+\size footnotesize 
+ezinstaller.sh
+\family default 
+\size default 
+.
+ It will ask you all relevant questions and install eZ publish in a very
+ secure way.
 \the_end

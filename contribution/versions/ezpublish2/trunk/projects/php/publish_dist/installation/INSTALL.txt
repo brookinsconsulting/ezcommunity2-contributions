@@ -18,64 +18,63 @@ Table of Contents
 Chapter 1 Introduction
     1.1 Pre-Configured Hosting
     1.2 Pre-Configured Hardware
-Chapter 2 Pre-requisites
-    2.1 Needed Privileges
-    2.2 Needed Software
-    2.3 Which Software is Already Installed?
-        2.3.1 Systems Using RPM
-    2.4 FreeBSD
-    2.5 Mandrake
-    2.6 IRIX
-    2.7 RAQ 3
-    2.8 Windows
-    2.9 Other Systems
-    2.10 Installation of Required Software
-    2.11 Important Notice
-Chapter 3 Compile Configuration
-    3.1 PHP
-        3.1.1 Unpacking
-        3.1.2 Configuration
-            3.1.2.1 Common
-            3.1.2.2 Command Line
-            3.1.2.3 Apache Module
-            3.1.2.4 Other Web Servers
-            3.1.2.5 Creating the Configuration
-        3.1.3 Compilation
-        3.1.4 Installation
-        3.1.5 Compiling the php module on RedHat 7.x, step by step
-Chapter 4 Apache Configuration
-    4.1 Dual Virtual Host
-        4.1.1 Configuring Through httpd.conf
-            4.1.1.1 User Site
-            4.1.1.2 Admin Site
-            4.1.1.3 Error Checking
-            4.1.1.4 Explanation of the Rewrite Rules
-        4.1.2 Configuring Through .htaccess
-            4.1.2.1 User Site
-            4.1.2.2 Admin Site
-Chapter 5 eZ publish Installation
-    5.1 Program Files
-    5.2 Database
-        5.2.1 First Time Installation
-            5.2.1.1 Adding Pre-Defined Data
-        5.2.2 Updating the Installation
-Chapter 6 Now What?
-    6.1 Post Install Checklist
-Chapter 7 Troubleshooting
-    7.1 Problems During Installation
-        7.1.1 FreeBSD 4.2 and libxml2
-        7.1.2 Missing Compiler/Can not Compile (C++/C)
-        7.1.3 I am getting linking errors when trying to build PHP
-    7.2 Problems After Installation
-        7.2.1 Permission Denied
-        7.2.2 Can not see Images
-        7.2.3 Warning about Temp Directory
-        7.2.4 After installing my new php module, apache dies immediately.
-Chapter 8 Installing on RAQ 3
-    8.1 Getting SSL to Work
-Chapter 9 Installing on Windows 
-Chapter 10 Mandrake
-    10.1 Download the Following
+Chapter 2 Installing eZ publish (standard method)
+    2.1 Prerequisites
+        2.1.1 Needed Privileges
+        2.1.2 Needed Software
+        2.1.3 Which Software is Already Installed?
+            2.1.3.1 Systems Using RPM
+        2.1.4 FreeBSD
+        2.1.5 Mandrake
+        2.1.6 IRIX
+        2.1.7 RAQ 3
+        2.1.8 Windows
+        2.1.9 Other Systems
+        2.1.10 Installation of Required Software
+        2.1.11 Important Notice
+    2.2 Compile Configuration
+        2.2.1 PHP
+            2.2.1.1 Unpacking
+            2.2.1.2 Configuration
+            2.2.1.3 Compilation
+            2.2.1.4 Installation
+            2.2.1.5 Compiling the php module on RedHat 7.x, step by step
+    2.3 Apache Configuration
+        2.3.1 Dual Virtual Host
+            2.3.1.1 Configuring Through httpd.conf
+            2.3.1.2 Configuring Through .htaccess
+    2.4 eZ publish Installation
+        2.4.1 Program Files
+        2.4.2 Database 
+            2.4.2.1 First time installation (MySQL)
+            2.4.2.2 PostgreSQL configuration
+            2.4.2.3 First time installation (PostgreSQL)
+            2.4.2.4 Updating the Installation
+    2.5 Now What?
+        2.5.1 Post Install Checklist
+    2.6 Troubleshooting
+        2.6.1 Problems During Installation
+            2.6.1.1 FreeBSD 4.2 and libxml2
+            2.6.1.2 Missing Compiler/Can not Compile (C++/C)
+            2.6.1.3 I am getting linking errors when trying to build PHP
+        2.6.2 Problems After Installation
+            2.6.2.1 Permission Denied
+            2.6.2.2 Can not see Images
+            2.6.2.3 Warning about Temp Directory
+            2.6.2.4 After installing my new php module, apache dies immediately.
+    2.7 Installing on RAQ 3
+        2.7.1 Getting SSL to Work
+    2.8 Installing on Windows 
+    2.9 Mandrake
+        2.9.1 Download the Following
+Chapter 3 Installing eZ publish without virtual hosts and mod_rewrite
+    3.1 Prerequisites
+    3.2 eZ publish installation
+        3.2.1 Installing in one directory (Recommended install)
+            3.2.1.1 Installing the files for eZ publish
+            3.2.1.2 Database installation
+            3.2.1.3 Finishing the install
+        3.2.2 Installing with shell access on server and two separate directories for eZ publish
 
 
 
@@ -83,13 +82,54 @@ Introduction<chptr: introduction>
 
 "He who asks is a fool for five minutes, but he who does
 not ask remains a fool forever."
-- 
+-  Chinese proverb
 
 eZ publish is a content management system, among a lot of
 other things. This installation manual will try to cover
 the job of installing eZ publish on your server.
 
-This manual is mainly intended for installation on a Red
+Since version 2.2 eZ publish has a new possible way to be
+installed: without virtual hosts and mod_rewrite. This makes
+it possible for people, who don't have a dedicated server
+or a specialized eZ publish hoster, to install eZ publish
+on their accounts as long as they have PHP and a supported
+database (e.g. mySQL or PostgreSQL). 
+
+This opens some new options for installing:
+
+If you have an account at a webhoster with PHP and mySQL,
+your option should be chapter [chpt: nVH],
+because you won't be able to install eZ publish as it's
+explained in chapter [chpt: dedicated server].
+
+If you have a dedicated server with Apache and mySQL already
+running and you don't want to mess with the Apache configuration,
+then chapter [chpt: nVH] might be of interest
+of you. 
+
+If you have a dedicated server and want some help on how
+to install all needed software and eZ publish on it, then
+chapter [chpt: dedicated server] is for you.
+
+1.1 Pre-Configured Hosting
+
+It is possible to get pre-configured hosting services where
+you can install and manage your eZ publish site with ease.
+Read more about our hosting partners at eZ systems web site
+(http://ez.no/shop/hosting).
+
+1.2 Pre-Configured Hardware
+
+It is possible to order pre-configured hardware from eZ systems.
+You can order through or web shop (http://shop.ez.no).
+
+A line starting with a hash-sign "#"
+are input from the user to the shell.
+
+<chpt: dedicated server>Installing eZ publish (standard([footnote] An alternative install method is described in
+chapter [chpt: nVH])  method)
+
+This chapter is mainly intended for installation on a Red
 Hat Linux system, but a lot of friendly people have contributed
 information for installation on other operating systems,
 take a look at chapter 2 and learn which systems those are.
@@ -120,34 +160,18 @@ Different distribution sites for different Unix systems are:
 * Sun (http://www.sunfreeware.com/)
 
 The addresses to the software developers will be given where
-apropriate in the text.
+appropriated in the text.
 
 You can also try "The Written Word" (ftp://ftp.thewrittenword.com/packages/free/by-name/gcc-2.95.2/)
 for binaries for Solaris 2.5.1, 2.6, 2.7/SPARC, 2.7/Intel,
 IRIX 6.2, 6.5, Digital UNIX 4.0D, HP-UX 10.20, and HP-UX.
 
-1.1 Pre-Configured Hosting
+2.1 Prerequisites<chptr: pre-requisites>
 
-It is possible to get pre-configured hosting services where
-you can install and manage your eZ publish site with ease.
-Read more about our hosting partners at eZ systems web site
-(http://en.ez.no/article/articlestatic/73).
+2.1.1 Needed Privileges
 
-1.2 Pre-Configured Hardware
-
-It is possible to order pre-configured hardware from eZ systems.
-You can order through or web shop (http://sourceprovider.com/).
-
-A line starting with a hash-sign "#"
-are input from the user to the shell.
-
-Pre-requisites<chptr: pre-requisites>
-
-2.1 Needed Privileges
-
-For the standard installation (and for the moment the only
-method) of eZ publish you will need to have the following
-privileges on your system:
+For the standard installation of eZ publish you will need
+to have the following privileges on your system:
 
 * Access to Apache's httpd.conf for creating two virtual
   hosts and for enabling the rewrite engine and creating
@@ -179,7 +203,7 @@ other configurations. If you do try another web server,
 please keep a log of what you do and submit it to us (pkej@ez.no)
 for inclusion in future versions of this manual.
 
-2.2 Needed Software
+2.1.2 Needed Software
 
 You also need to download and install the following packages,
 if they aren't present on your system already:
@@ -233,9 +257,9 @@ the order of installation.
 
 You should also find a list of RPMs at http://www.brandish.co.uk/phprpm
 
-2.3 Which Software is Already Installed?
+2.1.3 Which Software is Already Installed?
 
-2.3.1 Systems Using RPM
+2.1.3.1 Systems Using RPM
 
 RPM is a system for distributing pre-compiled software. The
 packages also contain pre-configured settings and initialisation
@@ -249,16 +273,17 @@ If you need to know where you can find the different files
 from that package you can follow up on the previous command
 with the following "rpm -ql <rpm name>".
 RPM name is one of the returned names from the previous
-command, example:
+command, example([footnote] A line starting with a hash-sign "#" are input
+from the user to the shell.) :
 
 
-    # pkej@vogol:/etc/httpd > rpm -qa | grep libxml
+    # rpm -qa | grep libxml
 
     libxml-1.8.7-80
 
     libxmld-1.8.7-80
 
-    # pkej@vogol:/etc/httpd > rpm -ql libxml-1.8.7-80
+    # rpm -ql libxml-1.8.7-80
 
     /usr/bin/xml-config
 
@@ -280,7 +305,7 @@ command, example:
 
     /usr/share/doc/packages/libxml/TODO
 
-2.4 FreeBSD
+2.1.4 FreeBSD
 
 When installing and compiling PHP on a FreeBSD system you
 might encounter an error when using --with-dom which says
@@ -301,12 +326,12 @@ port GUI.
 
 Thanks to David Touitou for pointing this out.
 
-2.5 Mandrake
+2.1.5 Mandrake
 
 First read chapter [chptr: mandrake],
 then continue reading the manual from here.
 
-2.6 IRIX
+2.1.6 IRIX
 
 By accessing the software manager (you must be root) you
 can get a list of installed software, scroll or search that
@@ -314,17 +339,17 @@ list to find the packages you're interested in. Double click
 on the tabs to the left to get information about where specific
 files are installed.
 
-2.7 RAQ 3
+2.1.7 RAQ 3
 
 There is a separate chapter [chptr: raq 3]
 in this manual describing installation on a RAQ 3 server.
 It was kindly provided by Chris Mason, 
 
-2.8 Windows
+2.1.8 Windows
 
 Windows installation is described in its own chapter [chptr: windows].
 
-2.9 Other Systems
+2.1.9 Other Systems
 
 On other systems you should read the documentation for that
 system to learn how to find out what software is already
@@ -340,7 +365,7 @@ computer. Therefore we urge you to learn how to use the
 proper installation features of your system to find the
 software already installed.
 
-2.10 Installation of Required Software
+2.1.10 Installation of Required Software
 
 If you've found pre-compiled versions of all the software
 packaged for use with an installation tool, you just have
@@ -358,7 +383,7 @@ confident about the job.
 This manual will only cover configuration of the software
 needed and compilation of PHP to use the other software.
 
-2.11 Important Notice
+2.1.11 Important Notice
 
 You should read all the README, INSTALL and similar files
 found with the software packages you download. They often
@@ -376,9 +401,9 @@ check the support forums at our site.
 You should always do a search of the forums before posting
 any questions.
 
-Compile Configuration
+2.2 Compile Configuration
 
-3.1 PHP
+2.2.1 PHP
 
 Important : YOU NEED TO RECOMPILE PHP. No known Linux distros
 does yet have all the php features required by eZ publish.
@@ -388,7 +413,7 @@ You may find precompiled binaries for your system at [http://developer.ez.no||th
 Take a look at the "Contributions"
 section in the download area.
 
-3.1.1 Unpacking
+2.2.1.1 Unpacking
 
 After you have downloaded PHP you need to unpack it somewhere
 where you can compile and configure the software. To unpack
@@ -404,7 +429,7 @@ you need to move into the directory you extracted php into:
 
     # cd php-4.0.x
 
-3.1.2 Configuration
+2.2.1.2 Configuration
 
 You'll need either an apache module or a command line (CGI)
 version of PHP to use eZ publish on your website. We recommend
@@ -415,7 +440,7 @@ periodical updates of the eZ news feed module.
 Thus for our recommended installation of PHP you need both
 the command line and module versions of PHP.
 
-3.1.2.1 Common
+Common
 
 Both the command line and apache module versions need to
 have the following configurations added to the configuration
@@ -434,11 +459,12 @@ tool:
   quotes by default. you can also turn this feature on and
   off on a directory by directory basis in either the ".htaccess"
   files (if you use them) or in the setup of the virtual
-  server in "httpd.conf". 
+  server in "httpd.conf".
 
-IMORTANT : From version 2.1 onwards magic quotes must be
-  turned off for eZ publish to work properly.
-  (http://www.php.net/manual/en/install.configure.php#install.configure.enable-magic-quotes)
+IMORTANT : From version 2.1([footnote] eZ publish versions prior to 2.1 required magic
+quotes to be enabled)  onwards magic quotes must be turned off for eZ publish to
+work properly.
+(http://www.php.net/manual/en/install.configure.php#install.configure.enable-magic-quotes)
 
 --with-dom This configures PHP to include libxml. 
   (http://www.php.net/manual/en/install.configure.php#install.configure.with-dom)
@@ -462,19 +488,19 @@ You should also go through the web page: http://www.php.net/manual/en/install.co
 and make sure that there isn't other functionality you would
 like to have included.
 
-3.1.2.2 Command Line
+Command Line
 
 The default is to create a command line version of PHP. Therefore
 you don't need to add more configuration options for this.
 
-3.1.2.3 Apache Module
+Apache Module
 
 To build an apache module you need to add:
 
 --with-apxs This compiles PHP as an apache module. 
   (http://www.php.net/manual/en/install.configure.php#install.configure.with-apxs)
 
-3.1.2.4 Other Web Servers
+Other Web Servers
 
 We haven't tested our software with other web servers than
 apache. If you need to try out other web servers, read this
@@ -482,7 +508,7 @@ document http://www.php.net/manual/en/install.configure.php#install.configure.se
 to learn how you configure for the web server you will be
 using.
 
-3.1.2.5 Creating the Configuration
+Creating the Configuration
 
 Now you just have to run the "./configure"
 program with the apropriate configuration directives which
@@ -501,14 +527,14 @@ to change that line to:
     # ./configure --enable-trans-sid --with-mysql
     --with-dom --with-qtdom
 
-3.1.3 Compilation
+2.2.1.3 Compilation
 
 To compile you need to run the command "make":
 
 
     # make
 
-3.1.4 Installation
+2.2.1.4 Installation
 
 To install your new PHP package you need to run the following
 command:
@@ -516,7 +542,7 @@ command:
 
     # make install
 
-3.1.5 Compiling the php module on RedHat 7.x, step by step
+2.2.1.5 Compiling the php module on RedHat 7.x, step by step
 
 First download the source from www.php.net. You should get
 a file called something like
@@ -591,14 +617,14 @@ When compiling php, please read chapter [chptr: Troubleshooting].
 Especially, take note of chapter [chptr: openssl problem on redhat].
 It might save you for hours with debugging
 
-Apache Configuration
+2.3 Apache Configuration
 
-For the moment we have only one solution for configuring
-apache, and that is using two virtual hosts.
+If you don't want to change the Apache configuration, go
+to chapter 2.
 
-4.1 Dual Virtual Host<sec: dual virtualhost>
+2.3.1 Dual Virtual Host<sec: dual virtualhost>
 
-4.1.1 Configuring Through httpd.conf
+2.3.1.1 Configuring Through httpd.conf
 
 This set up is based on having two different virtual hosts
 for your administration back-end and the main site. The
@@ -623,7 +649,7 @@ it will generate a setup with the latest needed information.
 The presented configuration herein might be slightly outdated,
 so we recommend the online tool.
 
-4.1.1.1 User Site
+User Site
 
     # User site
 
@@ -668,7 +694,7 @@ so we recommend the online tool.
 
     </VirtualHost>
 
-4.1.1.2 Admin Site
+Admin Site
 
   # Admin site 
 
@@ -703,7 +729,7 @@ that documentation.
 The directory "/your/apache/documentroot/publish_dist"
 is the directory where you extracted eZ publish.
 
-4.1.1.3 Error Checking
+Error Checking
 
 You can check that everything is correct with your rewrite
 rules by running "apache -s",
@@ -711,7 +737,7 @@ which will check for virtual hosts. There should also be
 an error log (consult the apache documentation) which you
 can read to check for errors.
 
-4.1.1.4 Explanation of the Rewrite Rules
+Explanation of the Rewrite Rules
 
 The rewrite rules do the following:
 
@@ -775,7 +801,7 @@ code in order to do this anyway; please send the code to
 bf@ez.no for future inclusion. The only correct way to access
 the admin site is through its own virtual host address.
 
-4.1.2 Configuring Through .htaccess
+2.3.1.2 Configuring Through .htaccess
 
 Instead of using httpd.conf and rewrite rules in the virtual
 hosts, you can also do the rewrite rules in the .htaccess
@@ -784,7 +810,7 @@ filesm directory specific configuration files.
 Note: You must set up apache to accept this. You still need
 two domains for this operation!
 
-4.1.2.1 User Site
+User Site
 
 In your main directory (/path/to/index.php/) create a file
 called ".htaccess" containing the following text:
@@ -816,7 +842,7 @@ called ".htaccess" containing the following text:
 
     RewriteRule !\.(gif|css|jpg|png)$ /path/to/website/index.php
 
-4.1.2.2 Admin Site
+Admin Site
 
 In your admin subdomain home directory, create a file with
 the following text:
@@ -828,10 +854,9 @@ the following text:
 
     RewriteRule !\.(gif|css|jpg|png)$ /path/to/website/index_admin.php
 
+2.4 eZ publish Installation
 
-eZ publish Installation
-
-5.1 Program Files
+2.4.1 Program Files
 
 The next step is to install the eZ publish package in your
 document root directory. First you need to unpack the software
@@ -866,29 +891,19 @@ can do with "site.ini"
 can be found in the "eZ publish Customisation
 Guide".
 
-The next important step is to run the script "secure_modfix.sh". 
+The next important step is to run the script "modfix.sh". 
 
 
-    # ./secure_modfix.sh
+    # ./modfix.sh
 
 
-Then you need to create cache directories:
-
-
-    # su
-    # ./secure_cachefix.sh [package_user] [apache_process_group]
-
-
-Where [package_user] is the web admin user and [apache_process_group]
-is the group of the running apache process.
-
-5.2 Database
+2.4.2 <sec: Database (dual hosts)>Database 
 
 Some people might prefer to use phpMyAdmin (http://www.phpwizard.net/projects/phpMyAdmin/)
 for most of this part; we can not help you with installation
 of that program, though.
 
-5.2.1 First Time Installation
+2.4.2.1 First time installation (MySQL)
 
 Now you need to create a database in MySQL, the default name
 we use is publish, but you can change that to whatever pleases
@@ -911,9 +926,9 @@ where secret is your password. Then you need to add the default
 eZ publish data into your newly created database:
 
 
-    # mysql -uroot -p publish < sql/data.sql
+    # mysql -uroot -p publish < sql/publish_mysql.sql
 
-5.2.1.1 Adding Pre-Defined Data
+Adding Pre-Defined Data
 
 If you want to add the pre-defined data of the distribution
 you shouldn't add any data manually to the site before executing
@@ -926,26 +941,74 @@ the database.
     # tar zpxvf data.tar.gz
 
 
-Then we need to run "secure_modfix.sh"
+Then we need to run "modfix.sh"
 to make sure that everything is readable.
 
 
-    # ./secure_modfix.sh
+    # ./modfix.sh
 
 
 Then we need to send the SQL data into the database:
 
 
-    # mysql -upublish -ppublish publish < sql/data.sql
+    # mysql -upublish -ppublish publish < sql/data_mysql.sql
 
 
-Finally we run clearcache to make sure that everything presented
-is cached correctly:
+Finally we run clearcache([footnote] A new feature in eZ publish 2.2 is the possibility
+of clearing the cache from the admin site)  to make sure that everything presented is cached correctly:
 
 
-    # ./clearcache_secure.sh
+    # ./clearcache.sh
 
-5.2.2 Updating the Installation
+2.4.2.2 PostgreSQL configuration
+
+Important note regarding PostgreSQL support in eZ publish:
+
+PostgreSQL has one limitation which is not good for eZ publish:
+
+#define NAMEDATALEN 32
+
+This is the max length of indentifiers used in the database,
+table names, column names etc..
+
+eZ publish uses names which sometimes are longer, e.g: eZImageCatalogue_ImageVariationGroup
+
+Therefore you need to recompile PostgreSQL to support a larger
+value by altering: 
+
+#define NAMEDATALEN 64
+
+in the file : postgres_ext.h
+
+2.4.2.3 First time installation (PostgreSQL)
+
+Login as user postgres
+
+    # su - postgres
+
+
+Create a database
+
+    $ createdb publish
+
+
+Create a dabase user
+
+    $ createuser publish -W
+
+
+Create tables
+
+    $ psql -Upublish <sql/data_mysql.sql
+
+
+You also need to enable PostgreSQL in site.ini. Change the"
+DatabaseImplementation" configuration
+so it reads:
+
+DatabaseImplementation=postgresql
+
+2.4.2.4 Updating the Installation
 
 This section is for users who are updating from a previous
 version of eZ publish. There should be several files ending
@@ -954,7 +1017,7 @@ Run the files needed to update your version to the current.
 You need to apply all the updates for every version since
 your version.
 
-Now What?
+2.5 Now What?
 
 After installing eZ publish you can test your site through
 the URL http://www.yoursite.com/ and you can administrate
@@ -978,7 +1041,7 @@ http://developer.ez.no for updates, articles about eZ publish
 and how to work with it, as well as keeping abreast of new
 developments.
 
-6.1 Post Install Checklist
+2.5.1 Post Install Checklist
 
 1. Does Apache run?
 
@@ -1025,17 +1088,17 @@ developments.
 13. Check that ImageMagick is working. Try to upload an image
   to your site.
 
-<chptr: Troubleshooting>Troubleshooting
+2.6 <chptr: Troubleshooting>Troubleshooting
 
-7.1 Problems During Installation
+2.6.1 Problems During Installation
 
-7.1.1 FreeBSD 4.2 and libxml2
+2.6.1.1 FreeBSD 4.2 and libxml2
 
 The current version (2.2.11) installs itself as /usr/local/lib/libxml2.a|so
 and goes unrecognized by configure (PHP). Link the files
 to /usr/local/lib/libxml.a|so.
 
-7.1.2 Missing Compiler/Can not Compile (C++/C)
+2.6.1.2 Missing Compiler/Can not Compile (C++/C)
 
 When compiling php and other support programs (like ImageMagick)
 you need the GCC compiler. It is recommended that you use
@@ -1045,7 +1108,7 @@ it listed some sites where you can download pre-compiled
 versions of software for some different Unix versions. Please
 note that you must compile php on your own.
 
-7.1.3 I am getting linking errors when trying to build PHP
+2.6.1.3 I am getting linking errors when trying to build PHP
 
 The PHP module you have compiled will be linked agains kerberos.
 This causes some linking problems on RedHat Linux. The workaround
@@ -1054,35 +1117,36 @@ for this problem is to type this command before you compile :
 $ export LDFLAGS="-L/usr/kerberos/lib -lkrb5 -lgssapi_krb5
 -lpam"
 
-7.2 Problems After Installation
+2.6.2 Problems After Installation
 
-7.2.1 Permission Denied
+2.6.2.1 Permission Denied
 
 Warning: fopen("site.ini","r+")
 
 Permission denied in classes/INIFile.php on line 80
 
-If you get this error message you need to run the "secure_modfix.sh"
+If you get this error message you need to run the "modfix.sh"
 script.
 
-7.2.2 Can not see Images
+2.6.2.2 Can not see Images
 
 ImageMagick is not working, make sure that it is working
 by using the command line command "convert".
 
-7.2.3 Warning about Temp Directory
+2.6.2.3 Warning about Temp Directory
 
 If you get any such warning you need to set the temp directory
 in php.ini.
 
-7.2.4 <chptr: openssl problem on redhat>After installing
+2.6.2.4 <chptr: openssl problem on redhat>After installing
   my new php module, apache dies immediately.
 
 RedHat as released new versions of the openssl packages for
-RedHat 7.x. If these erratas is installed before you compile
-php, your php module will be linked agains these. This will
-however brake mod_ssl, which is linked to the old openssl
-libraries. There is two different ways to fix this:
+RedHat 7.x([footnote] The problem described here may only apply to
+RedHat 7.0) . If these erratas is installed before you compile php, your
+php module will be linked agains these. This will however
+brake mod_ssl, which is linked to the old openssl libraries.
+There are two different ways to fix this:
 Uninstall mod_ssl:
 
 # rpm -e mod_ssl
@@ -1093,7 +1157,7 @@ recompile and install it.
 
 If this doesn't help, look for clues in /var/log/httpd/error_messages
 
-Installing on RAQ 3<chptr: raq 3>
+2.7 Installing on RAQ 3<chptr: raq 3>
 
 Installing ezPublish on raq3 without messing up the GUI or
 voiding the warranty.
@@ -1419,7 +1483,7 @@ directories to get it to work.
 
 If all is well, your site should work.
 
-8.1 Getting SSL to Work
+2.7.1 Getting SSL to Work
 
 This is a bit tougher! Enable SSL for the site in your GUI.
 Generate your certificates. Disable SSL in the GUI. Add
@@ -1477,7 +1541,7 @@ None
 This should work. IF you can't get it, give me an email and
 I'll help if I have time: chris@net.ai
 
-Installing on Windows 
+2.8 Installing on Windows <chptr: windows>
 
 Please download and read the Windows documentation from the
 eZ publish site (http://developer.ez.no). Check the "File
@@ -1485,7 +1549,7 @@ Archive" link under "Downloads"
 . It covers all the steps needed for a working installation
 under Windows using Apache.
 
-Mandrake<chptr: mandrake>
+2.9 Mandrake<chptr: mandrake>
 
 Thanks to Mark Polsen for giving us this information.
 
@@ -1493,10 +1557,127 @@ This is untested by eZ systems, and we provide this "as
 is" without any form of guarantee or endorsement, either
 explicitly or implicitly.
 
-10.1 Download the Following
+2.9.1 Download the Following
 
 Download what you need from http://developer.ez.no/filemanager/list/23/
 and install the rpms!
 
 That's all; read the manual from the start after that, and
 install eZ publish as described.
+
+<chpt: nVH>Installing eZ publish without virtual hosts and
+mod_rewrite
+
+Installing eZ publish this way has several advantages:
+
+* no root rights needed
+
+* no virtual/dual hosts or mod_rewrite needed
+
+* no subdomains needed
+
+* no change of Apache configuration needed
+
+* installation in subdirectories possible
+
+* you can keep your old documents on the server
+
+The disadvantages are:
+
+* the URLs will be "[...]/index.php/article/articleedit/[...]"
+  instead of "[...]/article/articleedit/[...]"
+
+* new feature in 2.2, so it's not as well tested as normal
+  dual hosts install
+
+3.1 Prerequisites
+
+The following software must be running on your server and
+you must have permissions to use it:
+
+* PHP ([http://www.php.net]) version 4.0.4pl1 or later.
+
+* A supported database:
+
+  * MySQL ([http://www.mysql.com]) version 3.23
+    or later
+
+  * PostgreSQL ([http://www.postgresql.org])
+
+The following software is optional, but required for some
+modules of eZ publish:
+
+* libQdom ([http://www.trolltech.com]) is a part
+  of QT, you need version 2.2.3 or later. (Needed by eZ
+  news feed's parsers. If you wish to include headlines
+  from external sites (example developer.ez.no or slashdot.org)
+  then you need this installed. You can create your own
+  parsers if you don't want to use the default.)
+
+* ImageMagick ([http://www.imagemagick.org])
+  newest version (Needed by eZ article, eZ image catalogue,
+  and all modules using images. You need only the command
+  line version.)
+
+3.2 eZ publish installation
+
+3.2.1 Installing in one directory (Recommended install)
+
+3.2.1.1 Installing the files for eZ publish
+
+1. Extract the eZ publish files (if you want some example
+  data, extract data.tar.gz too) and if they are not on
+  the server yet, transfer them to the server in a directory
+  of your choice.
+  (example: /home/userA/ezpublish reachable by http://www.yourserver.com/ezpublish)
+
+2. Copy installation/htaccess-nVH to .htaccess in the top
+  directory of your eZ publish installation.
+  (example: /home/userA/ezpublish/.htaccess)
+
+3. Edit the file sitedir.ini and set the right directory.
+  (example: /home/userA/ezpublish/)
+
+3.2.1.2 Database installation
+
+If you have shell access to create the database, see section
+[sec: Database (dual hosts)].
+
+1. Create a database (e.g. publish)
+
+2. Create a user and give him permissions to access it
+
+3. Create the data structures for eZ publish with file sql/publish_mysql.sql
+  or sql/publish_postgresql.sql
+
+4. If you extracted data.tar.gz before, you should also fill
+  the database with the example data in file sql/data_mysql.sql
+
+3.2.1.3 Finishing the install
+
+1. Rename site.ini to site.ini.php and edit it.
+
+2. Test if you can access sitedir.ini with a WWW browser
+  (example: http://www.yourserver.com/ezpublish/sitedir.ini).
+  
+  a) If you get a "Forbidden",
+  everything is good and safe.
+  b) If you get the file, then your server doesn't obey .htaccess
+  files. Try the next install in section [sec: Install without shell],
+  it is much safer then. Otherwise you can still use eZ
+  publish, but have to remember that it is not as safe as
+  it could be.
+
+3. Finished!!
+  Go to http://www.yourserver.com/ezpublish/index_admin.php,
+  login as admin with password publish and change your password.
+  Then go to http://www.yourserver.com/ezpublish. Have fun.
+
+3.2.2 <sec: Install without shell>Installing with shell
+  access on server and two separate directories for eZ publish
+
+If you have shell access on your server and you have the
+possibility to create directories which are not accessible
+by WWW browsers, you can use the script ezinstaller.sh.
+It will ask you all relevant questions and install eZ publish
+in a very secure way.
