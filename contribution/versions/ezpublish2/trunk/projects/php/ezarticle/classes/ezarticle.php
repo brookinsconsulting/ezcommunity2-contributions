@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.108 2001/07/03 13:16:30 bf Exp $
+// $Id: ezarticle.php,v 1.109 2001/07/03 14:33:50 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -130,7 +130,7 @@ class eZArticle
 
             if ( $db->isA() == "informix" )
             {                
-                $textid = ifx_create_blob( 0, 0, $contents );
+                $textid = ifx_create_blob( 0, 0, $this->Contents );
                 
 //                $textid = ifx_create_char( $contents );                
                 $blobIDArray[] = $textid;                
@@ -191,7 +191,7 @@ class eZArticle
 
                 $bid = $res[0][$db->fieldName("Contents")];                
                 // fetch the blob id
-                $res = ifx_update_blob( $bid, $contents );
+                $res = ifx_update_blob( $bid, $this->Contents );
 
                 if ( !$res  )
                 {
@@ -766,9 +766,12 @@ class eZArticle
     /*!
       Returns the contentswriter of the article.
     */
-    function contentsWriter( )
+    function contentsWriter( $returnObject = true )
     {
-        return new eZAuthor( $this->ContentsWriterID );
+        if ( $returnObject )
+            return new eZAuthor( $this->ContentsWriterID );
+        else
+            return $this->ContentsWriterID;
     }
     
 
