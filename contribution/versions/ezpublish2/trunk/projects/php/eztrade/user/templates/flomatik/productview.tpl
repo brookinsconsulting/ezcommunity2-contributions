@@ -111,19 +111,19 @@
 	</th>
 </tr>
 <tr>
-	<td width="60%">
+	<td>
 
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
 	<!-- BEGIN value_price_header_tpl -->
 	<tr>
 		<th>
-		ArtNr
+		ArtNr:
 		</th>
 		<th>
-		Price
+		Price:
 		</th>
 		<th colspan="{currency_count}"> 
-		Alternative currency
+		Alternative currency:
 		</th>
 	</tr>
 
@@ -153,8 +153,9 @@
 	<!-- END value_tpl -->
 </table>
 	</td>
-
-	<td width="60%">
+</tr>
+<tr>
+	<td>
 	{option_description}
 	</td>
 </tr>
