@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezsession.php,v 1.2 2000/08/22 09:35:02 bf-cvs Exp $
+    $Id: ezsession.php,v 1.3 2000/08/30 09:42:11 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no> (Bård Farstad <bf@ez.no>)
     
@@ -28,7 +28,7 @@ class eZSession
     */    
     function store( )
     {
-        $this->openDB();
+        $this->dbInit();
         $this->Hash = md5( time() );
 
         setcookie ( "AuthenticatedSession", $this->Hash, 0, "/",  "", 0 )
@@ -51,8 +51,7 @@ class eZSession
     {
 
         $ret = 1;
-
-        $this->openDB();
+        $this->dbInit();
         if ( $hash != "" )
         {
             array_query( $session_array, "SELECT * FROM SessionTable WHERE sid='$hash'" );
@@ -117,7 +116,7 @@ class eZSession
     {
         global $PREFIX;
         
-        $this->openDB();
+        $this->dbInit();
         mysql_query("DELETE FROM SessionTable WHERE sid='$hash'")
             or die("delete session $hash failed, dying...");
     }
@@ -126,7 +125,7 @@ class eZSession
       Privat funksjon, skal kun brukes ac ezuser klassen.
       Funksjon for å åpne databasen.
     */
-    function openDB( )
+    function dbInit( )
     {
         include_once( "class.INIFile.php" );
 

@@ -1,27 +1,14 @@
 <?
 /*!
-    $Id: ezdb.php,v 1.2 2000/08/22 09:35:02 bf-cvs Exp $
+    $Id: ezdb.php,v 1.3 2000/08/30 09:42:11 ce-cvs Exp $
 
-    Author: Lars Wilhelmsen <lw@ez.no>
+    Author: Bård Farstad <bf@ez.no>
     
-    Created on: Created on: <14-Jul-2000 13:01:15 lw>
+    Created on: Created on: <14-Jul-2000 13:01:15 bf>
     
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 
-//  /*!
-//    openDB() : opens the database for queries
-//  */
-//  function openDB()
-//  {
-//      global $HOST;
-//      global $USER;
-//      global $PWD;
-//      global $DB;
-    
-//      mysql_pconnect($HOST,$USER,$PWD);
-//      mysql_select_db($DB);
-//  }
 
 class eZDB
 {
@@ -46,10 +33,10 @@ class eZDB
     */
     function query($sql)
     {
-        $r = mysql_query($sql);
+        $result = mysql_query($sql);
   
-        if ($r)
-            return $r;
+        if ( $result )
+            return $result;
                             
         echo "<code>" . htmlentities($sql) . "</code><br>\n<b>" . htmlentities(mysql_error()) . "</b>\n" ;
         exit()					;
@@ -78,13 +65,13 @@ class eZDB
      */    
     function array_query_append(&$array, $sql)
     {
-        $r = query($sql);
+        $result = query($sql);
 
         $offset = count( $array );
-        if ( count( $r ) > 0 )
+        if ( count( $result ) > 0 )
         { 
-            for($i = 0; $i < mysql_num_rows($r); $i++)
-                $array[$i + $offset] = mysql_fetch_array($r);
+            for($i = 0; $i < mysql_num_rows($result); $i++)
+                $array[$i + $offset] = mysql_fetch_array($result);
         }
     }
 
