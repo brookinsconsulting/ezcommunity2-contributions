@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: replymessage.php,v 1.12 2000/10/12 18:51:53 bf-cvs Exp $
+// $Id: replymessage.php,v 1.13 2000/10/13 12:56:31 bf-cvs Exp $
 //
 // 
 //
@@ -80,6 +80,12 @@ if ( $Action == "Reply" )
             }
         }
     }    
+
+
+    // delete the cache
+
+ 
+    unlink( "ezforum/cache/forum," . $forum_id . ".cache" );
     
     Header( "Location: /forum/category/forum/$forum_id/" );
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forum.php,v 1.47 2000/10/13 10:14:41 bf-cvs Exp $
+// $Id: forum.php,v 1.48 2000/10/13 12:56:31 bf-cvs Exp $
 //
 // 
 //
@@ -47,8 +47,6 @@ $t->set_var( "forum_id", $forum->id() );
 $t->set_var( "forum_name", $forum->name() );
 
 
-// make to $Action .. elo!
-
 $msg = new eZForumMessage( $forum_id );
 
 // new posting
@@ -74,7 +72,12 @@ if ( $Action == "post" )
 
     $message->store();
 
-    Header( "Location: /forum/category/forum/$forum_id/" );
+    // delete the cache file
+
+
+    unlink( "ezforum/cache/forum," . $forum_id . ".cache" );
+
+//      Header( "Location: /forum/category/forum/$forum_id/" );
 }
 
 $locale = new eZLocale( $Language );
