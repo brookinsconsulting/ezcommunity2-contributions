@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoption.php,v 1.6 2000/09/14 12:44:17 bf-cvs Exp $
+// $Id: ezoption.php,v 1.7 2000/09/14 18:04:47 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -105,7 +105,7 @@ class eZOption
         
         $this->ID = mysql_insert_id();
         
-        return mysql_insert_id();
+        return true;
     }
 
     /*!
@@ -250,10 +250,10 @@ class eZOption
     */
     function dbInit()
     {
-        if ( $IsConnected == false )
+        if ( $this->IsConnected == false )
         {
             $this->Database = new eZDB( "site.ini", "eZTradeMain" );
-            $IsConnected = true;
+            $this->IsConnected = true;
         }
     }
 

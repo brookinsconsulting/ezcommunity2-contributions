@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: categorylist.php,v 1.5 2000/09/07 15:44:44 bf-cvs Exp $
+    $Id: categorylist.php,v 1.6 2000/09/14 18:04:47 bf-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -82,8 +82,6 @@ else
 
     }
 }
-
-
 
 $t->set_var( "linkgroup_id", $LGID );
 $t->set_var( "document_root", $DOC_ROOT );

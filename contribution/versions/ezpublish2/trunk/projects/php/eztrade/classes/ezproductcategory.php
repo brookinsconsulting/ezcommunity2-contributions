@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.6 2000/09/14 12:44:17 bf-cvs Exp $
+// $Id: ezproductcategory.php,v 1.7 2000/09/14 18:04:47 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -102,7 +102,7 @@ class eZProductCategory
 
         $this->ID = mysql_insert_id();
         
-        return mysql_insert_id();
+        return true;
     }
 
     /*!
@@ -193,10 +193,11 @@ class eZProductCategory
     */
     function id()
     {
-       if ( $this->State_ == "Dirty" )
+        $ret = 1;
+        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
        
-       return $this->ID;
+        return $this->ID;
     }
 
     
@@ -326,10 +327,10 @@ class eZProductCategory
     */
     function dbInit()
     {
-        if ( $IsConnected == false )
+        if ( $this->IsConnected == false )
         {
             $this->Database = new eZDB( "site.ini", "eZTradeMain" );
-            $IsConnected = true;
+            $this->IsConnected = true;
         }
     }
     

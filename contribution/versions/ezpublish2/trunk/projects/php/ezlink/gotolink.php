@@ -1,10 +1,10 @@
 <?
 /*!
-    $Id: gotolink.php,v 1.7 2000/09/07 15:44:44 bf-cvs Exp $
+    $Id: gotolink.php,v 1.8 2000/09/14 18:04:47 bf-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
-    Created on: 
+    Created on: <14-Sep-2000 19:37:17 bf>
     
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
@@ -13,18 +13,16 @@
   Legger inn hits og redirecter til korrekt side.
 */
 
-
 include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 
 include_once( "classes/template.inc" );
-include_once( "common/ezphputils.php" );
 
-require $DOC_ROOT . "classes/ezlinkgroup.php";
-require $DOC_ROOT . "classes/ezlink.php";
-require $DOC_ROOT . "classes/ezhit.php";
+include_once( $DOC_ROOT . "classes/ezlinkgroup.php" );
+include_once( $DOC_ROOT . "classes/ezlink.php" );
+include_once( $DOC_ROOT . "classes/ezhit.php" );
 
 
 //print( $HTTP_REFERER );
@@ -37,8 +35,6 @@ if ( $Action == "addhit" )
     $hit->store();
 }
 
-printRedirect( "http://" . $Url );
-
-
+Header( "Location: http://" . $Url );
 
 ?>

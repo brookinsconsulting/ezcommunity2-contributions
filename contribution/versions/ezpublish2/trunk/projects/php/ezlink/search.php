@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: search.php,v 1.15 2000/09/07 15:44:44 bf-cvs Exp $
+    $Id: search.php,v 1.16 2000/09/14 18:04:47 bf-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -27,7 +27,7 @@ include_once( "ezlink/classes/ezhit.php" );
 
 $Language= "no_NO";
 
-require $DOC_ROOT . "classes/ezquery.php";
+include_once( $DOC_ROOT . "classes/ezquery.php" );
 
 // setter template filer
 $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZLinkMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "search.php" );
@@ -45,7 +45,6 @@ $linkGroup = new eZLinkGroup();
 $linkGroup->get ( $LGID );
 
 $t->set_var( "printpath", $linkGroup->printPath( $LGID, $DOC_ROOT . "linklist.php" ) );
-
 
 $link = new eZLink();
 

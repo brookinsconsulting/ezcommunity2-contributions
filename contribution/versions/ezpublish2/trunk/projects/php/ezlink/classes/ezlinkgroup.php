@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezlinkgroup.php,v 1.20 2000/09/08 13:00:51 bf-cvs Exp $
+    $Id: ezlinkgroup.php,v 1.21 2000/09/14 18:04:47 bf-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -17,7 +17,7 @@
 
 class eZLinkGroup
 {
-    /*
+    /*!
       Counstructor
     */
     function eZLinkGroup( )
@@ -25,7 +25,7 @@ class eZLinkGroup
 
     }
 
-    /*
+    /*!
       Lager linkgruppe i databasen
     */
     function store()
@@ -37,7 +37,7 @@ class eZLinkGroup
                 Parent='$this->Parent'" );
     }
 
-    /*
+    /*!
       Oppgraderer databasen
     */
     function update()
@@ -49,7 +49,7 @@ class eZLinkGroup
                 WHERE ID='$this->ID'" );
     }
 
-    /*
+    /*!
       Slette fra databasen
     */
     function delete( )
@@ -58,7 +58,7 @@ class eZLinkGroup
         query( "DELETE FROM eZLink_LinkGroup WHERE ID='$this->ID'" );
     }
 
-    /*
+    /*!
       Henter ut alle gruppene fra databasen.
     */
     function get( $id )
@@ -77,10 +77,9 @@ class eZLinkGroup
         }
     }
 
-    /*
+    /*!
       Rekursiv funksjon, skriver ut hele pathen til gruppen.
     */
-
     function printPath( $id, $url )
     {
         $lg = new eZLinkGroup();
@@ -94,17 +93,16 @@ class eZLinkGroup
         }
         else
         {
-            $path .= "<img src=\"ezlink/images/pil.gif\" border=\"0\" height=\"10\" width=\"10\"> <a href=\"index.php?page=$url&LGID=0\">" . "Kategorier" . "</a>";
+            $path .= "<img src=\"/ezlink/images/pil.gif\" border=\"0\" height=\"10\" width=\"10\"> <a href=\"/link/?LGID=0\">" . "Kategorier" . "</a>";
         }
-        $path .= " <img src=\"ezlink/images/pil.gif\" border=\"0\" height=\"10\" width=\"10\"> <a href=\"index.php?page=$url&LGID=$id\">" . $lg->title() . "</a>";
+        $path .= " <img src=\"/ezlink/images/pil.gif\" border=\"0\" height=\"10\" width=\"10\"> <a href=\"/link/?LGID=$id\">" . $lg->title() . "</a>";
         return $path;
     }
 
 
-    /*
+    /*!
       Henter ut parent
     */
-
     function getByParent( $id )
     {
         $this->dbInit();
@@ -115,7 +113,7 @@ class eZLinkGroup
         return $parent_array;
     }
 
-    /*
+    /*!
       Returnerer antall linker i alle underkategoriene.
      */
     function getTotalSubLinks( $id, $start_id )
@@ -139,7 +137,7 @@ class eZLinkGroup
         return $count;
     }
 
-    /*
+    /*!
       Returnerer antall nye linker i alle underkategoriene.
       Alle linker som er nyere enn $new_limit antall dager blir regnet som nye.
      */
@@ -165,7 +163,7 @@ class eZLinkGroup
         return $count;
     }
 
-    /*
+    /*!
       Returnerer antall i incoming.
      */
     function getTotalIncomingLinks()
@@ -176,7 +174,7 @@ class eZLinkGroup
         return $count;
     }
     
-    /*
+    /*!
       Henter ut _alt_
     */
     function getAll()
@@ -189,16 +187,15 @@ class eZLinkGroup
         return $parent_array;
     }
 
-    /*
+    /*!
       Setter navn.
     */
-
     function setTitle( $value )
     {
         $this->Title = ( $value );
     }
 
-    /*
+    /*!
       Setter parent.
     */
     function setParent( $value )
@@ -206,7 +203,7 @@ class eZLinkGroup
         $this->Parent = ( $value );
     }
 
-    /*
+    /*!
       returnerer navn.
     */
 
@@ -215,7 +212,7 @@ class eZLinkGroup
         return $this->Title;
     }
 
-    /*
+    /*!
       returnerer parent.
     */
     function parent()
@@ -224,7 +221,7 @@ class eZLinkGroup
 
     }
     
-	/*
+	/*!
       Initiering av database
     */
     function dbInit()
