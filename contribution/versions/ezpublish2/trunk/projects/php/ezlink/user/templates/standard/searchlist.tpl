@@ -45,7 +45,7 @@
 <tr>
 
 	<td bgcolor="{bg_color}">
-	<a href="/link/gotolink/addhit/{link_id}/?Url={link_url}">{link_title}</a> ( {intl-max} {link_hits} )<br>
+	<b><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}">{link_title}</a></b> ( {intl-max} {link_hits} )<br>
         {link_description}<br><br>
         
      </td>

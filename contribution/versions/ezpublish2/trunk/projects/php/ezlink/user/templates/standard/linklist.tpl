@@ -22,7 +22,7 @@
 <!-- BEGIN group_list_tpl -->
 {start_tr}
 	<td class="{td_class}">
-	<a href="/link/group/{linkgroup_id}/">{linkgroup_title}</a> &nbsp;({total_links}, {new_links} {intl-new})
+	<b><a href="/link/group/{linkgroup_id}/">{linkgroup_title}</a></b> &nbsp;({total_links}, {new_links} {intl-new})
 	</td>
 {stop_tr}
 <!-- END group_list_tpl -->
@@ -32,7 +32,7 @@
 <!-- BEGIN link_list_tpl -->
 <tr>
 	<td bgcolor="{bg_color}">
-	<a href="/link/gotolink/addhit/{link_id}/{link_url}/"  target="_blank">{link_title}</a><br />
+	<b><a href="/link/gotolink/addhit/{link_id}/{link_url}/"  target="_blank">{link_title}</a></b><br />
         {link_description}
 	</td>
 	<td bgcolor="{bg_color}" width="80" align="right">
