@@ -1,6 +1,6 @@
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
-	<td><span class="listheadline">Nye artikler</span></td>
+	<td><span class="listheadline">Siste nytt</span></td>
 </tr>
 
 <!-- BEGIN path_item_tpl -->
