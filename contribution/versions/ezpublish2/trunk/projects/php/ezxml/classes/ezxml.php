@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxml.php,v 1.8 2001/11/19 15:31:06 bf Exp $
+// $Id: ezxml.php,v 1.9 2001/11/19 15:37:41 bf Exp $
 //
 // Definition of eZXML class
 //
@@ -99,6 +99,13 @@ class eZXML
                     $currentNode =& $lastNode;
                     
                     $tagName = substr( $tagName, 1, strlen( $tagName ) );
+
+                    // strip out namespace; nameSpace:Name
+                    $colonPos = strpos( $tagName, ":" );
+
+                    if ( $colonPos > 0 )
+                        $tagName = substr( $tagName, $colonPos + 1, strlen( $tagName ) );                    
+                    
                     
                     if ( $lastTag != $tagName )
                     {
@@ -128,6 +135,14 @@ class eZXML
                     else
                         $justName = $tagName;
 
+                    // strip out namespace; nameSpace:Name
+                    $colonPos = strpos( $justName, ":" );
+
+                    if ( $colonPos > 0 )
+                        $justName = substr( $justName, $colonPos + 1, strlen( $justName ) );
+
+                    
+                    
                     // remove trailing / from the name if exists
                     if ( $justName[strlen($justName) - 1]  == "/" )
                     {
@@ -162,6 +177,13 @@ class eZXML
                                 $attributeTmpArray = explode( "=", $attributePart );
 
                                 $attributeName = $attributeTmpArray[0];
+
+                                // strip out namespace; nameSpace:Name
+                                $colonPos = strpos( $attributeName, ":" );
+                                
+                                if ( $colonPos > 0 )
+                                    $attributeName = substr( $attributeName, $colonPos + 1, strlen( $attributeName ) );                    
+                                
                                 $attributeValue = $attributeTmpArray[1];
 
                                 // remove " from value part
