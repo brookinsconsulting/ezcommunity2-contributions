@@ -1,23 +1,18 @@
 <h1>Bekreft bestilling</h1>
 
-<h2>Dette er bestilt</h2>
+<hr noshade="noshade" size="4" />
+
+<h2>Dette er bestilt:</h2>
 
 <!-- BEGIN cart_item_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="3" border="0">
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>
-	Bilde:	
-	</th>
-	<th>
-	Varenavn:
-	</th>
-	<th>
-	Opsjoner:
-	</th>
-	<th>
-	Pris:
-	</th>
+	<th>Bilde:</th>
+	<th>Varenavn:</th>
+	<th>Opsjoner:</th>
+	<td class="path" align="right">Pris:</td>
 </tr>
+
 <!-- BEGIN cart_item_tpl -->
 <tr>
 	<td class="{td_class}">
@@ -28,35 +23,26 @@
 	</td>
 	<td class="{td_class}">
         <!-- BEGIN cart_item_option_tpl -->
-	{option_name}-
+	{option_name}:
 	{option_value}<br>
         <!-- END cart_item_option_tpl -->
-	</td>
+	&nbsp;</td>
 	<td class="{td_class}" align="right">
 	{product_price}
 	</td>
 </tr>
 <!-- END cart_item_tpl -->
+
 <tr>
-	<td>
-	</td>
-	<td>
-	</td>
-	<td>
-	Frakt:
-	</td>
+	<td colspan="2">&nbsp;</td>
+	<th>Frakt:</th>
 	<td align="right">
 	{shipping_cost}
 	</td>
 </tr>
 <tr>
-	<td>
-	</td>
-	<td>
-	</td>
-	<td>
-	Totalt:
-	</td>
+	<td colspan="2">&nbsp;</td>
+	<th>Totalt:</th>
 	<td align="right">
 	{cart_sum}
 	</td>
@@ -64,19 +50,23 @@
 </table>
 <!-- END cart_item_list_tpl -->
 
-<h2>Varene sendes til</h2>
+<h2>Varene sendes til:</h2>
 
 {customer_first_name} {customer_last_name} 
-<br>
+<br />
+
 <!-- BEGIN address_tpl -->
-{street1} <br>
-{street2}<br>
-{zip} {place}<br>
+{street1} <br />
+{street2}<br />
+{zip} {place}<br />
 <!-- END address_tpl -->
 
 <form action="/trade/checkout/" method="post">
+
+<hr noshade="noshade" size="4" />
+
 <input type="hidden" name="SendOrder" value="true" />
-<input type="submit" value="Send ordre" />
+<input class="okbutton" type="submit" value="Send ordre" />
 </form>
 
 

@@ -31,7 +31,7 @@
 </table>
 
 <p class="boxtext">Tekst:</p>
-<textarea wrap="soft" name="Body" rows="14" cols="70" rows="10">{body}</textarea>
+<textarea wrap="soft" name="Body" rows="14" cols="40" rows="10">{body}</textarea>
 <br /><br />
     
 <input type="checkbox" name="notice">Email notis

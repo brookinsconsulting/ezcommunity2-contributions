@@ -1,16 +1,22 @@
 <h1>Produktoversikt</h1>
 
-<hr noshade size="4"/>
-/ <a href="/trade/productlist/0/">Hovedkategori</a> / 
+<hr noshade="noshade" size="4"/>
+
+<img src="/ezforum/images/path-arrow.gif" height="10" width="15" border="0">
+<a class="path" href="/trade/productlist/0/">Hovedkategori</a>
 
 <!-- BEGIN path_tpl -->
-<a href="/trade/productlist/{category_id}/">{category_name}</a> / 
+<img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">
+<a class="path" href="/trade/productlist/{category_id}/">{category_name}</a>
 <!-- END path_tpl -->
 
-<hr noshade size="4"/>
+<hr noshade="noshade" size="4" />
 
-
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<th>Kategori:</th>
+	<th>Beskrivelse:</th>
+</tr>
 
 <!-- BEGIN category_tpl -->
 <tr>
@@ -43,24 +49,19 @@
         </td>
     </tr>
     <tr>
-        <td>
+        <td class="pictext">
         {thumbnail_image_caption}
         </td>
     </tr>
     </table>
 <!-- END product_image_tpl -->
 
-
-    {product_intro_text}
-
-<br>
-	{product_price}<br>
+<p>{product_intro_text}</p>
+<p class="pris">{product_price}</p>
 
 	</td>
 </tr>
 <!-- END product_tpl -->
 
 </table>
-
-
 

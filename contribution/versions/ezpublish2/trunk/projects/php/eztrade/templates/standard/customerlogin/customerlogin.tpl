@@ -1,16 +1,27 @@
-<h1>{intl-new_customer}</h1>
+<h1>{intl-head_line}</h1>
 
-<a href="/user/userwithaddress/new/?RedirectURL=/trade/customerlogin/">registrer ny bruker </a>
+<hr noshade="noshade" size="4" />
 
-<h1>{intl-customer_login}</h1>
+
+<h2>{intl-customer_login}</h2>
 
 
 <form method="post" action="/user/login/login/">
-	{intl-username}<br>
-	<input type="text" size="10" name="Username"/><br>
-	{intl-password}<br>
-	<input type="password" size="10" name="Password"/><br>
-	<input type="submit" value="OK" />
-	<input type="hidden" name="RedirectURL" value="{redirect_url}" />
+<p class="boxtext">{intl-username}</p>
+<input type="text" size="20" name="Username"/>
+
+<p class="boxtext">{intl-password}</p>
+<input type="password" size="20" name="Password"/><br />
+
+<input class="okbutton" type="submit" value="OK" />
+<input type="hidden" name="RedirectURL" value="{redirect_url}" />
+</form>
+
+<h2>{intl-new_customer}</h2>
+
+<form method="post" action="/user/userwithaddress/new/?RedirectURL=/trade/customerlogin/">
+<input class="okbutton" class="stdbutton" type="submit" value="Registrer ny bruker" />
+
+<a href="/user/userwithaddress/new/?RedirectURL=/trade/customerlogin/">registrer ny bruker </a>
 </form>
 

@@ -1,5 +1,5 @@
 <!-- cart.tpl --> 
-<!-- $Id: cart.tpl,v 1.5 2000/10/03 16:47:19 bf-cvs Exp $ -->
+<!-- $Id: cart.tpl,v 1.6 2000/10/20 12:57:03 th-cvs Exp $ -->
 
 <!-- BEGIN cart_header_tpl -->
 <h1>{intl-cart}</h1>
@@ -9,26 +9,23 @@
 <h1>{intl-wishlist}</h1>
 <!-- END wishlist_header_tpl -->
 
+<hr noshade="noshade" size="4" />
+
 <!-- BEGIN empty_cart_tpl -->
 <h2>{intl-empty_cart}</h2>
 <!-- END empty_cart_tpl -->
 
+
+
 <!-- BEGIN cart_item_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="3" border="0">
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>
-	Bilde:	
-	</th>
-	<th>
-	Varenavn:
-	</th>
-	<th>
-	Opsjoner:
-	</th>
-	<th>
-	Pris:
-	</th>
+	<th>Bilde:</th>
+	<th>Varenavn:</th>
+	<th>Opsjoner:</th>
+	<td class="path" align="right">Pris:</td>
 </tr>
+
 <!-- BEGIN cart_item_tpl -->
 <tr>
 	<td class="{td_class}">
@@ -39,35 +36,26 @@
 	</td>
 	<td class="{td_class}">
         <!-- BEGIN cart_item_option_tpl -->
-	{option_name}-
+	{option_name}:
 	{option_value}<br>
         <!-- END cart_item_option_tpl -->
-	</td>
+	&nbsp;</td>
 	<td class="{td_class}" align="right">
 	{product_price}
 	</td>
 </tr>
 <!-- END cart_item_tpl -->
+
 <tr>
-	<td>
-	</td>
-	<td>
-	</td>
-	<td>
-	Frakt:
-	</td>
+	<td colspan="2">&nbsp;</td>
+	<th>Frakt:</th>
 	<td align="right">
 	{shipping_cost}
 	</td>
 </tr>
 <tr>
-	<td>
-	</td>
-	<td>
-	</td>
-	<td>
-	Totalt:
-	</td>
+	<td colspan="2">&nbsp;</td>
+	<th>Totalt:</th>
 	<td align="right">
 	{cart_sum}
 	</td>
@@ -77,6 +65,9 @@
 
 <!-- BEGIN cart_checkout_tpl -->
 <form action="/trade/customerlogin/" method="post">
-<input type="submit" value="Gå til kasse" />
+
+<hr noshade="noshade" size="4" />
+
+<input class="okbutton" type="submit" value="Gå til kasse" />
 </form>
 <!-- END cart_checkout_tpl -->
