@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: image.php,v 1.14 2001/09/20 14:57:16 jb Exp $
+// $Id: image.php,v 1.15 2001/09/25 08:10:01 jb Exp $
 //
 // Created on: <14-Jun-2001 13:18:27 amos>
 //
@@ -116,6 +116,7 @@ else if ( $Command == "storedata" )
         $writegroups = $Data["WriteGroups"]->value();
         $category_id = $Data["Category"]->value();
         $categories = $Data["Categories"]->value();
+
         $image = new eZImage();
         if ( $ID != 0 )
         {
@@ -143,6 +144,7 @@ else if ( $Command == "storedata" )
             if ( !$Error )
             {
                 $image->store();
+                $ID = $image->id();
 
                 $category = new eZImageCategory( $category_id );
                 $image->setCategoryDefinition( $category );
