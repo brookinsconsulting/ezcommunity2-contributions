@@ -1,20 +1,29 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
+<tr>
+    <td class="tdmini"><img src="/images/1x1.gif" width="1" height="38"></td>
+</tr>
+<tr>
+	<td class="toppathbottom"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+</tr>	
+</table>
+
+<br />
 
 <table width="100%" border="0">
 <tr>
 	<td valign="bottom">
-	<h1>{intl-search} - ( {query_text} )</h1>
+	<h1>Bug search</h1>
 	</td>
 	<td rowspan="2" align="right">
 	<form action="/bug/search/" method="post">
 	<input type="text" name="SearchText" size="12" />	
-	<input type="submit" value="{intl-search}" />
+	<input class="stdbutton" type="submit" value="{intl-search}" />
 	</form>	
 	</td>
 </tr>
 </table>
 
-<hr noshade="noshade" size="4" />
-
+<h2>Search for: "{query_text}"</h2>
 
 <!-- BEGIN bug_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
