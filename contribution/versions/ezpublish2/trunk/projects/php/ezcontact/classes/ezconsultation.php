@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezconsultation.php,v 1.20 2001/07/20 12:01:50 jakobn Exp $
+// $Id: ezconsultation.php,v 1.21 2001/07/23 14:54:24 jhe Exp $
 //
 // Definition of eZConsultation class
 //
@@ -156,7 +156,7 @@ class eZConsultation
             $this->Description = $consult_array[ $db->fieldName( "Description" ) ];
             $this->State = $consult_array[ $db->fieldName( "StateID" ) ];
             $this->EmailNotice = $consult_array[ $db->fieldName( "EmailNotifications" ) ];
-            $this->Date = new eZDateTime();
+            $this->Date = new eZDate();
             $this->Date->setTimeStamp( $consult_array[ $db->fieldName( "Date" ) ] );
 
             $ret = true;
@@ -441,12 +441,12 @@ class eZConsultation
         $db->array_query( $qry_array, "SELECT CPUD.ConsultationID
                                        FROM
                                        eZContact_ConsultationPersonUserDict AS CPUD,
-                                       eZContact_Consultation AS C,
+                                       eZContact_Consultation AS C
                                        WHERE
                                        CPUD.UserID='$user' AND
                                        CPUD.ConsultationID = C.ID AND
-                                       C.Date>='$startTime->timeStamp()' AND
-                                       C.Date<'$endTime->timeStamp()'",
+                                       C.Date>='" . $startTime->timeStamp() . "' AND
+                                       C.Date<'" . $endTime->timeStamp() . "'",
                                        $limit );
         $ret_array = array();
         foreach ( $qry_array as $qry )
@@ -456,12 +456,12 @@ class eZConsultation
         $db->array_query( $qry_array, "SELECT CPCD.ConsultationID
                                        FROM
                                        eZContact_ConsultationCompanyUserDict AS CPCD,
-                                       eZContact_Consultation AS C,
+                                       eZContact_Consultation AS C
                                        WHERE
                                        CPCD.UserID='$user' AND
                                        CPCD.ConsultationID = C.ID AND
-                                       C.Date>='$startTime->timeStamp()' AND
-                                       C.Date<'$endTime->timeStamp()'",
+                                       C.Date>='" . $startTime->timeStamp() . "' AND
+                                       C.Date<'" . $endTime->timeStamp() . "'",
                                        $limit );
         foreach ( $qry_array as $qry )
         {

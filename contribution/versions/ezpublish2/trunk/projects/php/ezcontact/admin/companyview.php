@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companyview.php,v 1.24 2001/07/20 12:01:50 jakobn Exp $
+// $Id: companyview.php,v 1.25 2001/07/23 14:54:24 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -24,7 +24,7 @@
 //
 
 /*
-  Editere firma.
+  Edit company.
 */
 
 include_once( "classes/INIFile.php" );
@@ -42,13 +42,13 @@ include_once( "classes/ezdate.php" );
 include_once( "classes/ezlist.php" );
 include_once( "classes/eztexttool.php" );
 
-include_once( "ezcontact/classes/ezcompany.php" );
 include_once( "ezaddress/classes/ezaddress.php" );
 include_once( "ezaddress/classes/ezaddresstype.php" );
 include_once( "ezaddress/classes/ezphone.php" );
 include_once( "ezaddress/classes/ezphonetype.php" );
 include_once( "ezaddress/classes/ezonline.php" );
 include_once( "ezaddress/classes/ezonlinetype.php" );
+include_once( "ezcontact/classes/ezcompany.php" );
 include_once( "ezcontact/classes/ezcompanytype.php" );
 include_once( "ezcontact/classes/ezprojecttype.php" );
 include_once( "ezcontact/classes/ezconsultation.php" );
@@ -387,8 +387,11 @@ else
     $user = eZUser::currentUser();
     if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
     {
+        if ( !isSet( $OrderBy ) )
+            $OrderBy = "Date";
+        
         $max = $ini->read_var( "eZContactMain", "MaxCompanyConsultationList" );
-        $consultations = eZConsultation::findConsultationsByContact( $CompanyID, $user->id(), "Date", false, 0, $max );
+        $consultations = eZConsultation::findConsultationsByContact( $CompanyID, $user->id(), $OrderBy, false, 0, $max );
         $t->set_var( "consultation_type", "company" );
         $t->set_var( "company_id", $CompanyID  );
 

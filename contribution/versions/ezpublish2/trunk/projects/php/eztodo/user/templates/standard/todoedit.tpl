@@ -141,7 +141,7 @@
 
 	<!-- BEGIN send_mail_tpl -->
 	<td>
-	<input type="checkbox" name="SendMail"  >&nbsp;<span class="boxtext">{intl-send_mail}</span>
+	<input type="checkbox" name="SendMail">&nbsp;<span class="boxtext">{intl-send_mail}</span>
 	</td>
 	<!-- END send_mail_tpl -->
 </tr>

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: consultationedit.php,v 1.18 2001/07/20 12:01:50 jakobn Exp $
+// $Id: consultationedit.php,v 1.19 2001/07/23 14:54:24 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -108,6 +108,7 @@ $t->set_block( "consultation_edit", "consultation_item_tpl", "consultation_item"
 
 $t->set_block( "consultation_item_tpl", "consultation_date_item_tpl", "consultation_date_item" );
 $t->set_block( "consultation_item_tpl", "group_notice_select_tpl", "group_notice_select" );
+$t->set_block( "consultation_item_tpl", "day_item_tpl", "day_item" );
 
 $t->set_block( "consultation_item_tpl", "no_status_item_tpl", "no_status_item" );
 $t->set_block( "consultation_item_tpl", "status_item_tpl", "status_item" );
@@ -150,18 +151,18 @@ $t->set_var( "consultant_type", "" );
 $t->set_var( "person_id_item", "" );
 $t->set_var( "company_id_item", "" );
 
-if ( isset( $PersonID ) and !isset( $PersonContact ) )
+if ( isSet( $PersonID ) and !isSet( $PersonContact ) )
     $PersonContact = $PersonID;
-if ( isset( $CompanyID ) and !isset( $CompanyContact ) )
+if ( isset( $CompanyID ) and !isSet( $CompanyContact ) )
     $CompanyContact = $CompanyID;
 
-if ( isset( $PersonID ) )
+if ( isSet( $PersonID ) )
 {
     $t->set_var( "consultant_type", "person/" );
     $t->set_var( "person_id", $PersonID );
     $t->parse( "person_id_item", "person_id_item_tpl" );
 }
-else if ( isset( $CompanyID ) )
+else if ( isSet( $CompanyID ) )
 {
     $t->set_var( "consultant_type", "company/" );
     $t->set_var( "company_id", $CompanyID );
@@ -230,7 +231,7 @@ if ( $Action == "insert" || $Action == "update" )
    }
 }
 
-if( $error == false )
+if ( $error == false )
 {
     $t->set_var( "errors_item", "" );
 }
@@ -248,7 +249,7 @@ if ( !$user )
     exit();
 }
 
-if( ( $Action == "insert" || $Action == "update" ) && $error == false )
+if ( ( $Action == "insert" || $Action == "update" ) && $error == false )
 {
     if ( $ConsultationID > 0 )
     {
@@ -260,7 +261,7 @@ if( ( $Action == "insert" || $Action == "update" ) && $error == false )
     }
     $consultation->setShortDescription( $ShortDescription );
     $consultation->setDescription( $Description );
-    $consultation->setDate( new eZDateTime() );
+    $consultation->setDate( new eZDateTime( $ConsultationYear, $ConsultationMonth, $ConsultationDay ) );
     $consultation->setState( $StatusID );
     $consultation->setEmail( $EmailNotice );
     $consultation->store();
@@ -272,7 +273,7 @@ if( ( $Action == "insert" || $Action == "update" ) && $error == false )
         $consultation->removeConsultationFromCompany( $CompanyContact, $user->id() );
         $consultation->addConsultationToCompany( $CompanyContact, $user->id() );
     }
-    else if ( isset( $PersonContact ) )
+    else if ( isSet( $PersonContact ) )
     {
         $contact_type = "person";
         $contact_id = $PersonContact;
@@ -281,7 +282,7 @@ if( ( $Action == "insert" || $Action == "update" ) && $error == false )
     }
 
     $consultation->removeGroups();
-    foreach( $GroupNotice as $group )
+    foreach ( $GroupNotice as $group )
     {
         $consultation->addGroup( $group );
     }
@@ -291,13 +292,13 @@ if( ( $Action == "insert" || $Action == "update" ) && $error == false )
     $t->set_var( "consultation_id", $ConsultationID );
 
     $consult_id = $ConsultationID. "-" . $user->id();
-    if ( isset( $CompanyContact ) )
+    if ( isSet( $CompanyContact ) )
     {
         $company = new eZCompany( $CompanyContact );
         $consult_name = $company->name();
         $consult_id .= "-" . $CompanyContact;
     }
-    else if ( isset( $PersonContact ) )
+    else if ( isSet( $PersonContact ) )
     {
         $person = new eZPerson( $PersonContact );
         $consult_name = $person->name();
@@ -333,16 +334,16 @@ if( ( $Action == "insert" || $Action == "update" ) && $error == false )
     $mail->setBody( $mail_t->get_var( "body" ) );
 
     $emails = $consultation->emailList();
-    foreach( $emails as $email )
+    foreach ( $emails as $email )
     {
         $mail->setTo( $email );
         $mail->send();
     }
 
-    foreach( $GroupNotice as $groupid )
+    foreach ( $GroupNotice as $groupid )
     {
         $users = eZUserGroup::users( $groupid );
-        foreach( $users as $mail_user )
+        foreach ( $users as $mail_user )
         {
             $mail->setTo( $mail_user->namedEmail() );
             $mail->send();
@@ -367,22 +368,22 @@ if( ( $Action == "insert" || $Action == "update" ) && $error == false )
 
     We present an empty form.
  */
-if( $Action == "new" )
+if ( $Action == "new" )
 {
-    if( $ConsultationID != 0 ) // 1
+    if ( $ConsultationID != 0 ) // 1
     {
         include_once( "classes/ezhttptool.php" );
         eZHTTPTool::header( "Location: /contact/consultation/edit/$ConsultationID" );
         exit();
     }
 
-    if ( isset( $CompanyID ) )
+    if ( isSet( $CompanyID ) )
     {
         $t->set_var( "company_contact", $CompanyID );
         $t->parse( "hidden_company_contact_item", "hidden_company_contact_item_tpl" );
         $t->set_var( "hidden_person_contact_item", "" );
     }
-    else if ( isset( $PersonID ) )
+    else if ( isSet( $PersonID ) )
     {
         $t->set_var( "person_contact", $PersonID );
         $t->parse( "hidden_person_contact_item", "hidden_person_contact_item_tpl" );
@@ -393,6 +394,81 @@ if( $Action == "new" )
         $t->set_var( "hidden_company_contact_item", "" );
         $t->set_var( "hidden_person_contact_item", "" );
     }
+
+    $currentDate = new eZDateTime();
+    for ( $i = 1; $i <= 31; $i++ )
+    {
+        $t->set_var( "day_id", $i );
+        $t->set_var( "day_value", $i );
+        if ( $currentDate->day() == $i )
+            $t->set_var( "day_selected", "selected" );
+        else
+            $t->set_var( "day_selected", "" );
+        
+        $t->parse( "day_item", "day_item_tpl", true );
+    }
+    
+    if ( $currentDate->month() == 1 )
+        $t->set_var( "select_january", "selected" );
+    else
+        $t->set_var( "select_january", "" );
+    
+    if ( $currentDate->month() == 2 )
+        $t->set_var( "select_february", "selected" );
+    else
+        $t->set_var( "select_february", "" );
+        
+    if ( $currentDate->month() == 3 )
+        $t->set_var( "select_march", "selected" );
+    else
+        $t->set_var( "select_march", "" );
+    
+    if ( $currentDate->month() == 4 )
+        $t->set_var( "select_april", "selected" );
+    else
+        $t->set_var( "select_april", "" );
+
+    if ( $currentDate->month() == 5 )
+        $t->set_var( "select_may", "selected" );
+    else
+        $t->set_var( "select_may", "" );
+
+    if ( $currentDate->month() == 6 )
+        $t->set_var( "select_june", "selected" );
+    else
+        $t->set_var( "select_june", "" );
+
+    if ( $currentDate->month() == 7 )
+        $t->set_var( "select_july", "selected" );
+    else
+        $t->set_var( "select_july", "" );
+
+    if ( $currentDate->month() == 8 )
+        $t->set_var( "select_august", "selected" );
+    else
+        $t->set_var( "select_august", "" );
+
+    if ( $currentDate->month() == 9 )
+        $t->set_var( "select_september", "selected" );
+    else
+        $t->set_var( "select_september", "" );
+
+    if ( $currentDate->month() == 10 )
+        $t->set_var( "select_october", "selected" );
+    else
+        $t->set_var( "select_october", "" );
+
+    if ( $currentDate->month() == 11 )
+        $t->set_var( "select_november", "selected" );
+    else
+        $t->set_var( "select_november", "" );
+
+    if ( $currentDate->month() == 12 )
+        $t->set_var( "select_december", "selected" );
+    else
+        $t->set_var( "select_december", "" );
+    
+    $t->set_var( "consultationyear", $currentDate->year() );
 
     $Action_value = "insert";
     $t->set_var( "consultation_id", "0" );
@@ -407,7 +483,7 @@ $groups = array();
     
     We present a form with the info.
  */
-if( $Action == "edit" )
+if ( $Action == "edit" )
 {
     $Action_value = "update";
     $consultation = new eZConsultation( $ConsultationID );
@@ -434,6 +510,81 @@ if( $Action == "edit" )
         $t->set_var( "hidden_company_contact_item", "" );
     }
 
+    $currentDate = $consultation->date();
+    for ( $i = 1; $i <= 31; $i++ )
+    {
+        $t->set_var( "day_id", $i );
+        $t->set_var( "day_value", $i );
+        if ( $currentDate->day() == $i )
+            $t->set_var( "day_selected", "selected" );
+        else
+            $t->set_var( "day_selected", "" );
+        
+        $t->parse( "day_item", "day_item_tpl", true );
+    }
+    
+    if ( $currentDate->month() == 1 )
+        $t->set_var( "select_january", "selected" );
+    else
+        $t->set_var( "select_january", "" );
+    
+    if ( $currentDate->month() == 2 )
+        $t->set_var( "select_february", "selected" );
+    else
+        $t->set_var( "select_february", "" );
+        
+    if ( $currentDate->month() == 3 )
+        $t->set_var( "select_march", "selected" );
+    else
+        $t->set_var( "select_march", "" );
+    
+    if ( $currentDate->month() == 4 )
+        $t->set_var( "select_april", "selected" );
+    else
+        $t->set_var( "select_april", "" );
+
+    if ( $currentDate->month() == 5 )
+        $t->set_var( "select_may", "selected" );
+    else
+        $t->set_var( "select_may", "" );
+
+    if ( $currentDate->month() == 6 )
+        $t->set_var( "select_june", "selected" );
+    else
+        $t->set_var( "select_june", "" );
+
+    if ( $currentDate->month() == 7 )
+        $t->set_var( "select_july", "selected" );
+    else
+        $t->set_var( "select_july", "" );
+
+    if ( $currentDate->month() == 8 )
+        $t->set_var( "select_august", "selected" );
+    else
+        $t->set_var( "select_august", "" );
+
+    if ( $currentDate->month() == 9 )
+        $t->set_var( "select_september", "selected" );
+    else
+        $t->set_var( "select_september", "" );
+
+    if ( $currentDate->month() == 10 )
+        $t->set_var( "select_october", "selected" );
+    else
+        $t->set_var( "select_october", "" );
+
+    if ( $currentDate->month() == 11 )
+        $t->set_var( "select_november", "selected" );
+    else
+        $t->set_var( "select_november", "" );
+
+    if ( $currentDate->month() == 12 )
+        $t->set_var( "select_december", "selected" );
+    else
+        $t->set_var( "select_december", "" );
+    
+    $t->set_var( "consultationyear", $currentDate->year() );
+
     $groups = $consultation->groupIDList();
 
     $t->set_var( "consultation_id", $ConsultationID );
@@ -441,7 +592,7 @@ if( $Action == "edit" )
     $t->parse( "consultation_item", "consultation_item_tpl" );
 }
 
-if( $Action == "formdata" )
+if ( $Action == "formdata" )
 {
     $Action_value = "insert";
     $t->set_var( "consultation_id", $ConsultationID );
@@ -450,7 +601,7 @@ if( $Action == "formdata" )
     $t->set_var( "email_notification", $EmailNotice );
     $status_id = $StatusID;
     $groups = $GroupNotice;
-    if ( !isset( $groups ) )
+    if ( !isSet( $groups ) )
         $groups = array();
 
     // Group list here
@@ -458,13 +609,13 @@ if( $Action == "formdata" )
     $t->parse( "consultation_item", "consultation_item_tpl" );
 }
 
-if ( !( isset( $CompanyID ) || isset( $PersonID ) ) )
+if ( !( isSet( $CompanyID ) || isSet( $PersonID ) ) )
 {
     $company = new eZCompany();
     $companies = $company->getAll();
     if ( !is_array( $companies ) )
         $companies = array();
-    foreach( $companies as $company )
+    foreach ( $companies as $company )
     {
         $t->set_var( "contact_id", $company->id() );
         $t->set_var( "contact_name", $company->name() );
@@ -480,7 +631,7 @@ if ( !( isset( $CompanyID ) || isset( $PersonID ) ) )
     $persons = $person->getAll();
     if ( !is_array( $persons ) )
         $persons = array();
-    foreach( $persons as $person )
+    foreach ( $persons as $person )
     {
         $t->set_var( "contact_id", $person->id() );
         $t->set_var( "contact_firstname", $person->firstName() );
@@ -499,14 +650,14 @@ if ( !( isset( $CompanyID ) || isset( $PersonID ) ) )
 else
 {
     $t->set_var( "contact_item" );
-    if ( isset( $CompanyID ) )
+    if ( isSet( $CompanyID ) )
     {
         $t->parse( "company_contact_item", "company_contact_item_tpl" );
         $t->set_var( "person_contact_item", "" );
         $company = new eZCompany( $CompanyID );
         $t->set_var( "company_name", $company->name() );
     }
-    else if ( isset( $PersonID ) )
+    else if ( isSet( $PersonID ) )
     {
         $t->parse( "person_contact_item", "person_contact_item_tpl" );
         $t->set_var( "company_contact_item", "" );
@@ -525,16 +676,16 @@ $types = eZConsultationType::findTypes();
 if ( count( $types ) > 0 )
 {
     foreach ( $types as $type )
-        {
-            $t->set_var( "status_id", $type->id() );
-            if ( $type->id() == $status_id )
-                $t->set_var( "selected", "selected" );
-            else
-                $t->set_var( "selected", "" );
-            $t->set_var( "status_name", $type->name() );
-
-            $t->parse( "status_select", "status_select_tpl", true );
-        }
+    {
+        $t->set_var( "status_id", $type->id() );
+        if ( $type->id() == $status_id )
+            $t->set_var( "selected", "selected" );
+        else
+            $t->set_var( "selected", "" );
+        $t->set_var( "status_name", $type->name() );
+        
+        $t->parse( "status_select", "status_select_tpl", true );
+    }
     $t->parse( "status_item", "status_item_tpl" );
     $t->set_var( "no_status_item", "" );
 }
@@ -547,7 +698,7 @@ else
 // Group list
 $group = new eZUserGroup();
 $group_list = $group->getAll();
-foreach( $group_list as $group_item )
+foreach ( $group_list as $group_item )
 {
     if ( in_array( $group_item->id(), $groups ) )
         $t->set_var( "is_selected", "selected" );

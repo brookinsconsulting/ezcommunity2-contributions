@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.24 2001/07/20 11:57:16 jakobn Exp $
+// $Id: monthview.php,v 1.25 2001/07/23 14:54:24 jhe Exp $
 //
 // Created on: <27-Dec-2000 14:09:56 bf>
 //
@@ -32,6 +32,8 @@ include_once( "classes/ezdatetime.php" );
 include_once( "classes/ezdate.php" );
 
 include_once( "ezcalendar/classes/ezappointment.php" );
+include_once( "ezcontact/classes/ezconsultation.php" );
+include_once( "eztodo/classes/eztodo.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -52,7 +54,8 @@ if ( $GetByUserID == false )
     $GetByUserID = $userID;
 }
 
-if ( ( $session->variable( "ShowOtherCalenderUsers" ) == false ) || ( isSet( $GetByUser ) ) )
+if ( ( $session->variable( "ShowOtherCalenderUsers" ) == false ) ||
+     ( isSet( $GetByUser ) ) )
 {
     $session->setVariable( "ShowOtherCalenderUsers", $GetByUserID );
 }
@@ -83,12 +86,12 @@ $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "Tem
 
 $t->set_file( "month_view_page_tpl", "monthview.tpl" );
 
-//if ( $t->hasCache() )
+if ( $t->hasCache() )
 {
 //    print( "cached<br />" );
-//    print( $t->cache() );
+    print( $t->cache() );
 }
-//else
+else
 {
 //    print( "not cached<br />" );
     $t->setAllStrings();
@@ -100,7 +103,11 @@ $t->set_file( "month_view_page_tpl", "monthview.tpl" );
     $t->set_block( "week_tpl", "day_tpl", "day" );
     $t->set_block( "day_tpl", "public_appointment_tpl", "public_appointment" );
     $t->set_block( "day_tpl", "private_appointment_tpl", "private_appointment" );
-
+    $t->set_block( "day_tpl", "public_consultation_tpl", "public_consultation" );
+    $t->set_block( "day_tpl", "public_todo_tpl", "public_todo" );
+    $t->set_block( "public_consultation_tpl", "public_consultation_company_tpl", "public_consultation_company" );
+    $t->set_block( "public_consultation_tpl", "public_consultation_person_tpl", "public_consultation_person" );
+                   
     $t->set_var( "month_name", $Locale->monthName( $date->monthName(), false ) );
     $t->set_var( "month_number", $Month );
     $t->set_var( "year_number", $Year );
@@ -162,6 +169,8 @@ $t->set_file( "month_view_page_tpl", "monthview.tpl" );
 
                     $t->set_var( "public_appointment", "" );
                     $t->set_var( "private_appointment", "" );
+                    $t->set_var( "public_consultation", "" );
+                    $t->set_var( "public_todo", "" );
 
                     foreach ( $appointments as $appointment )
                     {
@@ -180,27 +189,45 @@ $t->set_file( "month_view_page_tpl", "monthview.tpl" );
                     }
 
                     // fetch the consultations for today
-/*
                     $endDate = new eZDateTime();
-                    $endDate->setTimeStamp( $endDate->timeStamp() + 60 * 60 * 24 );
-                    $consultations =& eZConsultations::findConsultationsByDate( $user, $tmpDate, $endDate );
+                    $endDate->setTimeStamp( $tmpDate->timeStamp() + 86400 );
+                    $consultations =& eZConsultation::findConsultationsByDate( $user, $tmpDate, $endDate );
                     foreach ( $consultations as $consultation )
                     {
-                        $t->set_var( "appointment_id", $appointment->id() );
-                        $t->set_var( "start_time", $Locale->format( $appointment->startTime(), true ) );
-                        $t->set_var( "stop_time", $Locale->format( $appointment->stopTime(), true ) );
+                        $t->set_var( "consultation_id", $consultation->id() );
 
-                        if ( $appointment->isPrivate() == false || $userID == $appointment->userID() )
+                        $company_id = $consultation->company( $user->id() );
+                        if ( $company_id )
                         {
-                            $t->parse( "public_appointment", "public_appointment_tpl", true );
+                            $company = new eZCompany( $company_id );
+                            $t->set_var( "consultation_desc", $consultation->shortDescription() );
+                            $t->set_var( "consultation_company", $company->name() );
+                            $t->set_var( "company_id", $company_id );
+                            $t->parse( "public_consultation", "public_consultation_company_tpl", true );
                         }
                         else
                         {
-                            $t->parse( "private_appointment", "private_appointment_tpl", true );
+                            $person_id = $consultation->person( $user->id() );
+                            if ( $person_id )
+                            {
+                                $person = new eZPerson( $person_id );
+                                $t->set_var( "consultation_desc", $consultation->shortDescription() );
+                                $t->set_var( "consultation_person", $person->lastName() . " " .  $person->firstName() );
+                                $t->set_var( "person_id", $person_id );
+                                $t->parse( "public_consultation", "public_consultation_person_tpl", true );
+                            }
                         }
-                        
                     }
-*/                  
+
+                    // fetch todos for today
+                    $todos =& eZTodo::getByDate( $userID, $tmpDate );
+                    foreach ( $todos as $todo )
+                    {
+                        $t->set_var( "todo_id", $todo->id() );
+                        $t->set_var( "todo_desc", $todo->name() );
+                        $t->parse( "public_todo", "public_todo_tpl", true );
+                    }
+                                        
                     // set special colours for today and weekend
                     if ( $tmpDate->equals( $today ) )
                     {

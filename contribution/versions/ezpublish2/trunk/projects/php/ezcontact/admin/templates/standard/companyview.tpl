@@ -210,9 +210,9 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>{intl-consultation_date}:</th>
-	<th>{intl-consultation_short_description}:</th>
-	<th>{intl-consultation_status}:</th>
+	<th><a href="/contact/company/view/{company_id}?OrderBy=Date">{intl-consultation_date}:</a></th>
+	<th><a href="/contact/company/view/{company_id}?OrderBy=Description">{intl-consultation_short_description}:</a></th>
+	<th><a href="/contact/company/view/{company_id}?OrderBy=Status">{intl-consultation_status}:</a></th>
 </tr>
 
 <!-- BEGIN consultation_item_tpl -->

@@ -130,6 +130,49 @@
 	    <input type="text" size="30" name="EmailNotice" value="{email_notification}"/>
 	    </td>
     </tr>
+    <tr>
+            <td width="50%" valign="top">
+            
+  
+	    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+            <tr>	    
+                <td width="1%" valign="bottom">
+                <select name="ConsultationDay">
+          	<!-- BEGIN day_item_tpl -->
+         	<option value="{day_id}" {day_selected}>{day_value}</option>
+        	<!-- END day_item_tpl -->
+	        </select>
+            </td>
+            <td width="1%" valign="bottom">
+                <select name="ConsultationMonth" >
+                <option value="1" {select_january}>{intl-january}</option>
+                <option value="2" {select_february}>{intl-february}</option>
+                <option value="3" {select_march}>{intl-march}</option>
+                <option value="4" {select_april}>{intl-april}</option>
+                <option value="5" {select_may}>{intl-may}</option>
+                <option value="6" {select_june}>{intl-june}</option>
+                <option value="7" {select_july}>{intl-july}</option>
+                <option value="8" {select_august}>{intl-august}</option>
+                <option value="9" {select_september}>{intl-september}</option>
+                <option value="10" {select_october}>{intl-october}</option>
+                <option value="11" {select_november}>{intl-november}</option>
+                <option value="12" {select_december}>{intl-december}</option>
+                </select>
+            </td>
+            <td width="1%" valign="bottom">
+                <input type="text" size="4" name="ConsultationYear" value="{consultationyear}" />
+            </td>
+            <td width="97%" valign="bottom">
+            &nbsp;
+            </td>
+    </tr>
+</table>
+
+
+
+
+            </td>
+    </tr>
 </table>
 <!-- END consultation_item_tpl -->
 

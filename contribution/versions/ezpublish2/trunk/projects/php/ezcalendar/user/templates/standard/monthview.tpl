@@ -1,4 +1,3 @@
-
 <h1>{intl-appointments}: {intl-month_view}</h1>
 <hr noshade size="4" />
 
@@ -58,6 +57,27 @@
 <img src="/images/1x1.gif" height="4" width="2" border="0" alt="" /><br />
 
 <!-- END public_appointment_tpl -->
+
+<!-- BEGIN public_consultation_tpl -->
+<!-- BEGIN public_consultation_company_tpl -->
+<a class="small" href="/contact/consultation/view/{consultation_id}/">{consultation_desc}</a>
+ - 
+<a class="small" href="/contact/company/view/{company_id}/">{consultation_company}</a><br />
+<img src="/images/1x1.gif" height="4" width="2" border="0" alt="" /><br />
+<!-- END public_consultation_company_tpl -->
+
+<!-- BEGIN public_consultation_person_tpl -->
+<a class="small" href="/contact/consultation/view/{consultation_id}/">{consultation_desc}</a>
+ - 
+<a class="small" href="/contact/person/view/{person_id}/">{consultation_person}</a><br />
+<img src="/images/1x1.gif" height="4" width="2" border="0" alt="" /><br />
+<!-- END public_consultation_person_tpl -->
+<!-- END public_consultation_tpl -->
+
+<!-- BEGIN public_todo_tpl -->
+<a class="small" href="/todo/todoview/{todo_id}">{todo_desc}</a><br />
+<img src="/images/1x1.gif" height="4" width="2" border="0" alt="" /><br />
+<!-- END public_todo_tpl -->
 
 <br />
 <br />

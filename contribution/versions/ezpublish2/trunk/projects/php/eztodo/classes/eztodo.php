@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: eztodo.php,v 1.26 2001/07/20 11:36:07 jakobn Exp $
+// $Id: eztodo.php,v 1.27 2001/07/23 14:54:24 jhe Exp $
 //
 // Definition of eZTodo class
 //
@@ -277,6 +277,31 @@ class eZTodo
         } 
 
         return $return_array;         
+    }
+
+    /*!
+      \static
+      Gets all todos for one spesific date
+    */
+    function &getByDate( $user, $date )
+    {
+        if ( get_class( $date ) == "ezdate" )
+        {
+            if ( is_numeric( $user ) )
+                $userid = $user;
+            else
+                $userid = $user->id();
+            $return_array = array();
+            $enddate = new eZDate();
+            $enddate->setTimeStamp( $date->timeStamp() + 86400 );
+            $db =& eZDB::globalDatabase();
+    	    $db->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE Due>='" . $date->timeStamp() . "' AND Due<'" . $enddate->timeStamp() . "' AND UserID='" . $userid . "' AND IsPublic='1' ORDER BY Priority" );
+            for ( $i = 0; $i < count( $todo_array ); $i++ )
+            { 
+                $return_array[$i] = new eZTodo( $todo_array[$i][ $db->fieldName( "ID" ) ], 0 );
+            } 
+            return $return_array;         
+        }
     }
     
     /*!

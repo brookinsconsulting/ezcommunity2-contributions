@@ -1,8 +1,6 @@
 <?php
 // 
-// $Id: consultationlist.php,v 1.8 2001/07/20 12:01:51 jakobn Exp $
-//
-// 
+// $Id: consultationlist.php,v 1.9 2001/07/23 14:54:24 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -60,9 +58,7 @@ if ( get_class( $user ) == "ezuser" and
 
     $t->setAllStrings();
 
-    $t->set_file( array(
-        "consultation_tpl" => "consultation.tpl"
-        ) );
+    $t->set_file( "consultation_tpl", "consultation.tpl" );
 
     $t->set_block( "consultation_tpl", "last_consultations_item_tpl", "last_consultations_item" );
     $t->set_block( "last_consultations_item_tpl", "consultation_item_tpl", "consultation_item" );
