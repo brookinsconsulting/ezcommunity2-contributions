@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.20 2000/11/23 07:57:44 bf-cvs Exp $
+// $Id: articleview.php,v 1.21 2000/11/24 10:18:13 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -115,6 +115,7 @@ if ( $article->get( $ArticleID ) )
 
 $t->set_var( "current_page_link", "" );
 
+// page links
 if ( $pageCount > 1 && $PageNumber != -1 && $PrintableVersion != "enabled" )
 {
     for ( $i=0; $i<$pageCount; $i++ )
@@ -138,6 +139,7 @@ else
     
 }
 
+// non-printable version link
 if ( ( $PageNumber == -1 ) && ( $PrintableVersion != "enabled" ) )
 {
     $t->parse( "numbered_page_link", "numbered_page_link_tpl" );
@@ -147,7 +149,8 @@ else
     $t->set_var( "numbered_page_link", "" );
 }
 
-if ( ( $PrintableVersion != "enabled" ) &&  ( $StaticRendering != true ) )
+// printable version link
+if ( ( $PrintableVersion != "enabled" ) &&  ( $StaticRendering != true )  )
 {
     $t->parse( "print_page_link", "print_page_link_tpl" );
 }
@@ -156,6 +159,7 @@ else
     $t->set_var( "print_page_link", "" );
 }
 
+// previous page link
 if ( ( $PageNumber > 1 ) && ( $PrintableVersion != "enabled" ) )
 {
     $t->set_var( "prev_page_number", $PageNumber - 1 );    
@@ -166,6 +170,7 @@ else
     $t->set_var( "prev_page_link", "" );
 }
 
+// next page link
 if ( $PageNumber < $pageCount && $PageNumber != -1 && $PrintableVersion != "enabled" )
 {
     $t->set_var( "next_page_number", $PageNumber + 1 );    
