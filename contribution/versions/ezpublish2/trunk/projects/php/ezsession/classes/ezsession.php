@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsession.php,v 1.54 2001/07/16 11:23:55 bf Exp $
+// $Id: ezsession.php,v 1.55 2001/07/16 13:50:30 bf Exp $
 //
 // Definition of eZSession class
 //
@@ -441,7 +441,7 @@ class eZSession
         $value_array = array();
         $timeStamp = eZDateTime::timeStamp( true );
         
-        $db->array_query( $value_array, "SELECT ID, ( $timeStamp- LastAccessed  ) AS Idle
+        $db->array_query( $value_array, "SELECT ID, ( $timeStamp - LastAccessed  ) AS Idle
                           FROM eZSession_Session
                           HAVING Idle>(60*60*$maxIdle)" );
 
@@ -464,7 +464,10 @@ class eZSession
 
         $dbError = false;
         $db->begin( );
-
+        
+        // lock the table
+        $db->lock( "eZSession_SessionVariable" );
+        
         $value = $db->escapeString( $value );
     
         if ( isset( $this->StoredVariables[$group][$name] ) )
@@ -484,6 +487,7 @@ class eZSession
          AND $group_sql";
 
         $db->array_query( $value_array, $query );
+
         
         if ( count( $value_array ) == 1 )
         {
@@ -498,9 +502,6 @@ class eZSession
                 $group_sql = "";
             else
                 $group_sql = "'$group'";
-
-            // lock the table
-            $db->lock( "eZSession_SessionVariable" );
 
             $nextID = $db->nextID( "eZSession_SessionVariable", "ID" );
 
