@@ -46,17 +46,6 @@
 		<td><hr noshade size="1" /></td>
 	</tr>
 	<!-- END product_tpl -->
-	<tr>
-		<td>
-			<!-- BEGIN previous_tpl -->
-			<a href="/trade/search/?Offset={prev_offset}&URLQueryString={url_query_string}">{intl-prev}</a>
-			<!-- END previous_tpl -->
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<!-- BEGIN next_tpl -->
-			<a href="/trade/search/?Offset={next_offset}&URLQueryString={url_query_string}">{intl-next}</a>
-			<!-- END next_tpl -->
-		</td>
-	</tr>
 </table>
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -68,7 +57,7 @@
 		<tr>
 		    <!-- BEGIN type_list_previous_tpl -->
 		    <td>
-			&lt;&lt;&nbsp;<a class="path" href="/trade/search/move/{url_text}/{url_range}/{url_category}/{item_previous_index}">{intl-previous}</a>&nbsp;|
+			&lt;&lt;&nbsp;<a class="path" href="/trade/search/move/{url_text}/{item_previous_index}">{intl-previous}</a>&nbsp;|
 		    </td>
 		    <!-- END type_list_previous_tpl -->
 		    

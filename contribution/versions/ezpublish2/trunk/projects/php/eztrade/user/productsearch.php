@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.14 2001/03/22 08:31:20 ce Exp $
+// $Id: productsearch.php,v 1.15 2001/03/22 08:37:01 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 17:49:05 bf>
@@ -70,9 +70,6 @@ $t->set_var( "module_print", $ModulePrint );
 
 $t->set_block( "product_tpl", "image_tpl", "image" );
 $t->set_block( "product_tpl", "price_tpl", "price" );
-
-$t->set_block( "product_search_tpl", "previous_tpl", "previous" );
-$t->set_block( "product_search_tpl", "next_tpl", "next" );
 
 $t->set_var( "next", "" ); 
 $t->set_var( "previous", "" );
@@ -164,38 +161,10 @@ if ( isSet( $Query ) )
             $t->set_var( "td_class", "bgdark" );
         }
 
-        $prevOffs = $Offset - $Limit;
-        $nextOffs = $Offset + $Limit;
-        
-        if ( $prevOffs >= 0 )
-        {
-            $t->set_var( "prev_offset", $prevOffs  );
-            $t->parse( "previous", "previous_tpl" );
-        }
-        else
-        {
-            $t->set_var( "previous", "" );
-        }
-        
-        if ( $nextOffs <= $total_count )
-        {
-            $t->set_var( "next_offset", $nextOffs  );
-            $t->parse( "next", "next_tpl" );
-        }
-        else
-        {
-            $t->set_var( "next", "" );
-        }
-
         $t->parse( "product", "product_tpl", true );
         $i++;
     }
 }
-
-print( "template:" . $t ."\n" .
-       "total:" . $total_count . "\n" . 
-       "limit:" . $Limit . "\n" .
-       "offset:" . $Offset . "\n" );
 
 eZList::drawNavigator( $t, $total_count, $Limit, $Offset, "product_search_tpl" );
 
