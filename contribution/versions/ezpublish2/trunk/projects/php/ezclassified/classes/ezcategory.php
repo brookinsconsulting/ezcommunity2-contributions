@@ -1,7 +1,7 @@
 <?
 
 // 
-// $Id: ezcategory.php,v 1.1 2000/11/28 14:30:11 ce-cvs Exp $
+// $Id: ezcategory.php,v 1.2 2000/11/29 18:43:31 ce-cvs Exp $
 //
 // Definition of eZCategory class
 //
@@ -283,7 +283,7 @@ class eZCategory
        
        $ret = false;
 
-       if ( get_class( $classified ) == "ezclassified" )
+       if ( get_class( $classified ) )
        {
            $this->dbInit();
 

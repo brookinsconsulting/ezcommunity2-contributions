@@ -56,13 +56,35 @@ if ( $Action == "insert" )
     $position->setUser( $user );
     $position->setDescription( $Description );
     $position->setPrice( $Price );
-
+    
     $position->setPay( $Pay );
     $position->setWorkTime( $WorkTime );
     $position->setDuration( $Duration );
     $position->setContactPerson( $ContactPerson );
     $position->setWorkPlace( $WorkPlace );
     $position->store();
+
+    $company = new eZCompany( $CompanyID );
+    $position->addCompany( $company );
+
+    // Add classifed to categories
+    if ( ( $CategoryArray ) != "" )
+    {
+        $category = new eZCategory();
+
+
+
+
+        for( $i=0; $i<count( $CategoryArray ); $i++ )
+        {
+            print( $CategoryArray[$i] );
+            $category->get( $CategoryArray[$i] );
+            $category->addClassified( $position );
+        }
+    }
+
+    Header( "Location: /classified/classifiededit/new" );
+    exit();
 }
 
 if ( $Action == "update" )
@@ -119,6 +141,9 @@ if ( $Action == "new" )
     $t->set_var( "worktime", "" );
     $t->set_var( "duration", "" );
     $t->set_var( "workplace", "" );
+    $t->set_var( "contactperson", "" );
+    $Action_value = "insert";
+    
 }
 
 // Redigering av firma.
@@ -172,6 +197,7 @@ $companyList = $company->getByUser( $user );
 if ( count ( $companyList ) == 1 )
 {
     $t->set_var( "company_name", $companyList[0]->name() );
+    $t->set_var( "company_id", $companyList[0]->id() );
     $t->set_var( "company_description", $companyList[0]->comment() );
     $t->set_var( "company_companyno", $companyList[0]->companyNo() );
 
@@ -194,7 +220,6 @@ if ( count ( $companyList ) == 1 )
         $t->set_var( "logo_view", "" );
         $t->parse( "no_logo", "no_logo_tpl" );
     }
-
     // Telephone list
     $phoneList = $companyList[0]->phones( $companyList[0]->id() );
 
@@ -262,8 +287,10 @@ if ( count ( $companyList ) == 1 )
         $t->parse( "email_item", "email_item_tpl" );
 
     }
+    $t->set_var( "company_id", $companyList[0]->id() );
     $t->parse( "company_view", "company_view_tpl" );
 }
+
     
 // Templateoun variabler.
 

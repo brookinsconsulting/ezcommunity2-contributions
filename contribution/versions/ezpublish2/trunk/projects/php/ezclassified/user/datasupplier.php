@@ -14,6 +14,27 @@ switch ( $url_array[2] )
                 include( "ezclassified/user/classifiededit.php" );
             }
             break;
+            case "insert":
+            {
+                $Action = "insert";
+                include( "ezclassified/user/classifiededit.php" );
+            }
+            break;
+
+        }
+    }
+    break;
+
+    case "classifiedlist":
+    {
+        switch( $url_array[3] )
+        {
+            case "list":
+            {
+                $CategoryID = $url_array[4];
+                include( "ezclassified/user/classifiedlist.php" );
+            }
+            break;
         }
     }
     break;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezclassified.php,v 1.2 2000/11/29 15:49:35 ce-cvs Exp $
+// $Id: ezclassified.php,v 1.3 2000/11/29 18:43:31 ce-cvs Exp $
 //
 // Definition of eZProduct class
 //
@@ -42,12 +42,7 @@
 
 //require "ezphputils.php";
 
-include_once( "ezcontact/classes/ezaddress.php" );
-include_once( "ezcontact/classes/ezcompanytype.php" );
-include_once( "ezcontact/classes/ezphone.php" );
-include_once( "classes/ezimagefile.php" );
-include_once( "ezimagecatalogue/classes/ezimage.php" );
-
+include_once( "ezcontact/classes/ezcompany.php" );
 // include_once( "ezcontact/classes/ezonline.php" );
 
 class eZClassified
@@ -205,7 +200,7 @@ class eZClassified
         $classified_array = array();
         $return_array = array();
     
-        $this->Database->array_query( $classified_array, "SELECT ClassifiedID FROM eZClassified_ClassifiedTypeDict WHERE CategoryID='$categoryID'" );
+        $this->Database->array_query( $classified_array, "SELECT ClassifiedID FROM eZClassified_ClassifiedCategoryLink WHERE CategoryID='$categoryID'" );
 
         foreach( $classified_array as $classifiedItem )
         {
@@ -233,6 +228,61 @@ class eZClassified
     }
 
     /*!
+      Add a company to the eZClassified object.
+    */
+    function addCompany( $company )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $ret = false;
+        
+        $this->dbInit();
+        
+        if ( get_class( $company ) == "ezcompany" )
+        {
+            $companyID = $company->id();
+
+            $this->Database->query( "INSERT INTO eZClassified_ClassifiedCompanyLink
+                                     SET CompanyID='$companyID', ClassifiedID='$this->ID'" );
+            $ret = true;
+        }
+        return $ret;
+    }
+
+    /*!
+      Returns the logo image of the company as a eZImage object.
+    */
+    function company( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = false;
+       $this->dbInit();
+
+
+       $this->Database->array_query( $res_array, "SELECT CompanyID FROM eZClassified_ClassifiedCompanyLink
+                                     WHERE
+                                     ClassifiedID='$this->ID'
+                                   " );
+
+       print( count( $res_array ) );
+       if ( count( $res_array ) == 1 )
+       {
+           if ( $res_array[0]["CompanyID"] != "NULL" )
+           {
+               $ret = new eZCompany( $res_array[0]["CompanyID"], false );
+               print( "ka" );
+               exit();
+           }               
+       }
+       
+       return $ret;
+    }
+
+
+    /*!
       Removes the company from every user category.
     */
     function removeCategoryies()
@@ -242,7 +292,7 @@ class eZClassified
 
        $this->dbInit();
        
-       $this->Database->query( "DELETE FROM eZClassified_ClassifiedTypeDict
+       $this->Database->query( "DELETE FROM eZClassified_ClassifiedCategoryLink
                                 WHERE ClassifiedID='$this->ID'" );
     }
 
@@ -258,7 +308,7 @@ class eZClassified
         $this->dbInit();
 
         $this->Database->array_query( $categories_array, "SELECT CategoryID
-                                                 FROM eZClassified_ClassifiedTypeDict
+                                                 FROM eZClassified_ClassifiedCategoryLink
                                                  WHERE ClassifiedID='$companyID'" );
 
         foreach( $categories_array as $categoriesItem )

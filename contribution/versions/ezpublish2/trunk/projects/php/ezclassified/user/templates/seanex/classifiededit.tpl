@@ -73,6 +73,9 @@
 <p class="boxtext">{intl-description}:</p>
 <textarea cols="40" rows="8" name="Description">{description}</textarea>
 
+<p class="boxtext">{intl-contact_person}:</p>
+<textarea cols="40" rows="8" name="ContactPerson">{contact_person}</textarea>
+
 <p class="boxtext">{intl-pay}:</p>
 <input type="text" size="20" name="Pay" value="{pay}"/>
 
@@ -86,13 +89,14 @@
 <input type="text" size="20" name="WorkPlace" value="{workplace}"/>
 
 <p class="boxtext">{intl-category}:</p>
-<select multiple size="10" name="CategoryID[]">
+<select multiple size="10" name="CategoryArray[]">
 <!-- BEGIN category_item_tpl -->
 <option value="{category_id}" {is_selected}>{category_name}</option>
 <!-- END category_item_tpl -->
 </select>
 <br />
 
+<input type="hidden" value="{company_id}" name="CompanyID">
 <input type="submit" value="{intl-ok}">
 
 </form>
