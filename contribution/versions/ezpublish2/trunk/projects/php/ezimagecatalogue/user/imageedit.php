@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.20 2001/03/07 16:01:08 fh Exp $
+// $Id: imageedit.php,v 1.21 2001/03/08 10:42:05 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -268,6 +268,34 @@ if ( $Action == "Update" && $error == false )
     $image->setCaption( $Caption );
 
     $image->setDescription( $Description );
+
+    eZObjectPermission::removePermissions( $ImageID, "imagecatalogue_image", 'r' );
+    if ( count ( $ReadGroupArrayID ) > 0 )
+    {
+        foreach ( $ReadGroupArrayID as $Read )
+        {
+            if ( $Read == 0 )
+                $group = -1;
+            else
+                $group = new eZUserGroup( $Read );
+
+            eZObjectPermission::setPermission( $group, $image->id(), "imagecatalogue_image", "r" );
+        }
+    }
+
+    eZObjectPermission::removePermissions( $ImageID, "imagecatalogue_image", 'w' );
+    if ( count ( $WriteGroupArrayID ) > 0 )
+    {
+        foreach ( $WriteGroupArrayID as $Write )
+        {
+            if ( $Write == 0 )
+                $group = -1;
+            else
+                $group = new eZUserGroup( $Write );
+            
+            eZObjectPermission::setPermission( $group, $image->id(), "imagecatalogue_image", "w" );
+        }
+    }
 
     $category = new eZImageCategory( $CategoryID );
     

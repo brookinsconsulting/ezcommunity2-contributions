@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.14 2001/03/07 16:01:08 fh Exp $
+// $Id: categoryedit.php,v 1.15 2001/03/08 10:42:05 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -241,9 +241,9 @@ if ( $Action == "Update" && $error == false )
 
     $category->store();
 
+    eZObjectPermission::removePermissions( $CategoryID, "imagecatalogue_category", 'r' );
     if ( count ( $ReadGroupArrayID ) > 0 )
     {
-        eZObjectPermission::removePermissions( $CategoryID, "imagecatalogue_category", 'r' );
         foreach ( $ReadGroupArrayID as $Read )
         {
             if ( $Read == 0 )
@@ -255,9 +255,9 @@ if ( $Action == "Update" && $error == false )
         }
     }
     
+    eZObjectPermission::removePermissions( $CategoryID, "imagecatalogue_category", 'w' );
     if ( count ( $WriteGroupArrayID ) > 0 )
     {
-        eZObjectPermission::removePermissions( $CategoryID, "imagecatalogue_category", 'w' );
         foreach ( $WriteGroupArrayID as $Write )
         {
             if ( $Write == 0 )

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagecategory.php,v 1.8 2001/02/28 13:03:23 ce Exp $
+// $Id: ezimagecategory.php,v 1.9 2001/03/08 10:42:05 fh Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -119,6 +119,7 @@ class eZImageCategory
 
         $categoryID = $category->id();
         $this->Database->query( "DELETE FROM eZImageCatalogue_Category WHERE ID='$categoryID'" );
+        $this->Database->query( "DELETE FROM eZImageCatalogue_CategoryPermission WHERE ObjectID='$this->ID'" );
     }
     
     /*!
