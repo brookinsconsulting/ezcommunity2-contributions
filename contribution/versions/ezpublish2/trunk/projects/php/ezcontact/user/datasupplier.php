@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.34 2001/09/05 11:57:07 jhe Exp $
+// $Id: datasupplier.php,v 1.35 2001/09/12 09:55:03 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -189,13 +189,16 @@ switch ( $url_array[2] )
                 else
                 {
                     if ( isSet( $NewCompany ) )
-                        $Action = "new";
+                    {
+                        include_once( "classes/ezhttptool.php" );
+                        eZHTTPTool::header( "Location: /contact/company/new/$CompanyID" );
+                        exit;
+                    }
                     if ( $Action == "new" )
                         if ( isSet( $url_array[4] ) and is_numeric( $url_array[4] ) )
                             $NewCompanyCategory = $url_array[4];
-                        else
-                            if ( !isSet( $CompanyID ) and isSet( $url_array[4] ) and is_numeric( $url_array[4] ) )
-                                $CompanyID = $url_array[4];
+//                        else if ( !isSet( $CompanyID ) and isSet( $url_array[4] ) and is_numeric( $url_array[4] ) )
+//                            $CompanyID = $url_array[4];
                     include( "ezcontact/admin/companyedit.php" );
                 }
                 break;

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.48 2001/09/05 11:57:06 jhe Exp $
+// $Id: personedit.php,v 1.49 2001/09/12 09:55:03 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -300,7 +300,6 @@ if ( isSet( $CompanyEdit ) )
 {
     $t->set_block( "edit_tpl", "company_item_tpl", "company_item" );
     $t->set_block( "company_item_tpl", "company_type_select_tpl", "company_type_select" );
-
     $t->set_block( "edit_tpl", "logo_item_tpl", "logo_item" );
     $t->set_block( "edit_tpl", "image_item_tpl", "image_item" );
 }
@@ -382,7 +381,6 @@ if ( $Action == "delete" )
 
 if ( !$confirm )
 {
-
     $t->set_var( "confirm_item", "" );
 
     if ( isSet( $CompanyEdit ) )
@@ -839,7 +837,7 @@ if ( !$confirm )
         }
 
         $ContactID = $item->contact();
-        if ( get_clasS( $item ) == "ezcompany" )
+        if ( get_class( $item ) == "ezcompany" )
             $ContactType = $item->contactType();
         else
             $ContactType = "ezuser";
@@ -886,15 +884,20 @@ if ( !$confirm )
             // Company type selector
             $companyTypeList = eZCompanyType::getTree();
 
-            if ( !isSet( $CompanyCategoryID ) )
-                $categoryList =& eZCompany::categories( $CompanyID, false );
-            else
-                $categoryList =& $CompanyCategoryID;
+            if ( $Action != "new" )
+            {
+                if ( !isSet( $CompanyCategoryID ) )
+                    $categoryList =& eZCompany::categories( $CompanyID, false );
+                else
+                    $categoryList =& $CompanyCategoryID;
+            }
+
             if ( isSet( $NewCompanyCategory ) and !is_numeric( $NewCompanyCategory ) )
                 $NewCompanyCategory = 0;
             if ( isSet( $NewCompanyCategory ) and is_numeric( $NewCompanyCategory ) )
                 $categoryList =& array_unique( array_merge( $NewCompanyCategory, $categoryList ) );
             $category_values = array_values( $categoryList );
+
             $t->set_var( "is_top_selected", in_array( 0, $category_values ) ? "selected" : "" );
             foreach ( $companyTypeList as $companyTypeItem )
             {

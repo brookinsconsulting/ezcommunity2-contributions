@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: consultationedit.php,v 1.25 2001/09/11 10:56:15 jhe Exp $
+// $Id: consultationedit.php,v 1.26 2001/09/12 09:55:03 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -88,36 +88,51 @@ if ( $Action == "delete" or isSet( $Delete ) )
 {
     unset( $person );
     unset( $company );
-    foreach ( $ConsultationList as $consultation_id )
+    if ( isSet( $ConsultationList ) )
     {
-        $consultation = new eZConsultation( $consultation_id );
-        if ( !isSet( $person ) and !isSet( $company ) )
+        foreach ( $ConsultationList as $consultation_id )
         {
-            $person = $consultation->person( $user );
-            $company = $consultation->company( $user );
+            $consultation = new eZConsultation( $consultation_id );
+            if ( !isSet( $person ) and !isSet( $company ) )
+            {
+                $person = $consultation->person( $user );
+                $company = $consultation->company( $user );
+            }
+            $consultation->delete();
         }
-        $consultation->delete();
+        if ( is_numeric( $person ) )
+        {
+            $contact_type = "person";
+            $contact_id = $person;
+        }
+        else if ( is_numeric( $company ) )
+        {
+            $contact_type = "company";
+            $contact_id = $company;
+        }
     }
-    if ( is_numeric( $person ) )
+    else
     {
-        $contact_type = "person";
-        $contact_id = $person;
-    }
-    else if ( is_numeric( $company ) )
-    {
-        $contact_type = "company";
-        $contact_id = $company;
+        $contact_type = $SubAction;
+        if ( $contact_type = "company" )
+        {
+            $contact_id = $CompanyID;
+        }
+        else
+        {
+            $contact_id = $PersonID;
+        }
     }
 
     if ( isSet( $contact_type ) && isSet( $contact_id ) )
     {
         include_once( "classes/ezhttptool.php" );
-        eZHTTPTool::header( "Location: contact/consultation/$contact_type/list/$contact_id" );
+        eZHTTPTool::header( "Location: /contact/consultation/$contact_type/list/$contact_id" );
     }
     else
     {
         include_once( "classes/ezhttptool.php" );
-        eZHTTPTool::header( "Location: contact/consultation/list" );
+        eZHTTPTool::header( "Location: /contact/consultation/list" );
     }
     exit;
 }
@@ -633,6 +648,83 @@ if ( $Action == "formdata" )
     $t->set_var( "short_description", $ShortDescription );
     $t->set_var( "description", $Description );
     $t->set_var( "email_notification", $EmailNotice );
+
+
+
+    for ( $i = 1; $i <= 31; $i++ )
+    {
+        $t->set_var( "day_id", $i );
+        $t->set_var( "day_value", $i );
+        if ( $ConsultationDay == $i )
+            $t->set_var( "day_selected", "selected" );
+        else
+            $t->set_var( "day_selected", "" );
+        
+        $t->parse( "day_item", "day_item_tpl", true );
+    }
+    
+    if ( $ConsultationMonth == 1 )
+        $t->set_var( "select_january", "selected" );
+    else
+        $t->set_var( "select_january", "" );
+    
+    if ( $ConsultationMonth == 2 )
+        $t->set_var( "select_february", "selected" );
+    else
+        $t->set_var( "select_february", "" );
+        
+    if ( $ConsultationMonth == 3 )
+        $t->set_var( "select_march", "selected" );
+    else
+        $t->set_var( "select_march", "" );
+    
+    if ( $ConsultationMonth == 4 )
+        $t->set_var( "select_april", "selected" );
+    else
+        $t->set_var( "select_april", "" );
+
+    if ( $ConsultationMonth == 5 )
+        $t->set_var( "select_may", "selected" );
+    else
+        $t->set_var( "select_may", "" );
+
+    if ( $ConsultationMonth == 6 )
+        $t->set_var( "select_june", "selected" );
+    else
+        $t->set_var( "select_june", "" );
+
+    if ( $ConsultationMonth == 7 )
+        $t->set_var( "select_july", "selected" );
+    else
+        $t->set_var( "select_july", "" );
+
+    if ( $ConsultationMonth == 8 )
+        $t->set_var( "select_august", "selected" );
+    else
+        $t->set_var( "select_august", "" );
+
+    if ( $ConsultationMonth == 9 )
+        $t->set_var( "select_september", "selected" );
+    else
+        $t->set_var( "select_september", "" );
+
+    if ( $ConsultationMonth == 10 )
+        $t->set_var( "select_october", "selected" );
+    else
+        $t->set_var( "select_october", "" );
+
+    if ( $ConsultationMonth == 11 )
+        $t->set_var( "select_november", "selected" );
+    else
+        $t->set_var( "select_november", "" );
+
+    if ( $ConsultationMonth == 12 )
+        $t->set_var( "select_december", "selected" );
+    else
+        $t->set_var( "select_december", "" );
+    
+    $t->set_var( "consultationyear", $ConsultationYear );
+
     $status_id = $StatusID;
     $groups = $GroupNotice;
     if ( !isSet( $groups ) )
