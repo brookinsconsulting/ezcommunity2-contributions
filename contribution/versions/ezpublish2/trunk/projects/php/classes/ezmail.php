@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.12 2001/01/22 14:42:59 jb Exp $
+// $Id: ezmail.php,v 1.13 2001/02/06 13:29:08 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -195,6 +195,28 @@ class eZMail
         
         mail( $this->To, $this->Subject, $this->Body, $headers )
             or warn( "Error: could not send email." );
+    }
+
+    /*!
+      \static
+      Splits a list of email addresses into an array where each entry is an email address.
+    */
+    function &splitList( $emails )
+    {
+        $emails =& preg_split( "/[,;]/", $emails );
+        return $emails;
+    }
+
+    /*!
+      \static
+      Merges an array of email addresses into a list of email addresses.
+    */
+    function &mergeList( $emails )
+    {
+        if ( !is_array( $emails ) )
+            return false;
+        $emails =& implode( ",", $emails );
+        return $emails;
     }
 
     /*!
