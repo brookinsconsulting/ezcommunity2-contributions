@@ -89,15 +89,15 @@ class eZGroupEvent
                              EventAlarmNotice='$this->EventAlarmNotice',
                              EventCategoryID='$this->EventCategoryID',
                              IsRecurring='$this->IsRecurring',
-			     RecurExceptions='$this->RecurExceptions',
+                             RecurExceptions='$this->RecurExceptions',
                              RecurDay='$this->RecurDay',
                              RecurMonthly='$this->RecurMonthly',
                              RecurMonthlyType='$this->RecurMonthlyType',
                              RecurMonthlyTypeInfo='$this->RecurMonthlyTypeInfo',
-			     RecurType='$this->RecurType',
-			     RecurFreq='$this->RecurFreq',
-			     RepeatForever='$this->RepeatForever',
-			     RepeatTimes='$this->RepeatTimes',
+                             RecurType='$this->RecurType',
+                             RecurFreq='$this->RecurFreq',
+                             RepeatForever='$this->RepeatForever',
+                             RepeatTimes='$this->RepeatTimes',
                              RepeatUntilDate='$this->RepeatUntilDate',                             
                              EMailNotice='$this->EMailNotice',
                              IsPrivate='$this->IsPrivate',
@@ -122,22 +122,22 @@ class eZGroupEvent
                              EventAlarmNotice='$this->EventAlarmNotice',
                              EventCategoryID='$this->EventCategoryID',
                              IsRecurring='$this->IsRecurring',
-			     RecurExceptions='$this->RecurExceptions',
+                             RecurExceptions='$this->RecurExceptions',
                              RecurDay='$this->RecurDay',
                              RecurMonthly='$this->RecurMonthly',
                              RecurMonthlyType='$this->RecurMonthlyType',
                              RecurMonthlyTypeInfo='$this->RecurMonthlyTypeInfo',
-			     RecurType='$this->RecurType',
-			     RecurFreq='$this->RecurFreq',
-			     RepeatForever='$this->RepeatForever',
-			     RepeatTimes='$this->RepeatTimes',
+                             RecurType='$this->RecurType',
+                             RecurFreq='$this->RecurFreq',
+                             RepeatForever='$this->RepeatForever',
+                             RepeatTimes='$this->RepeatTimes',
                              RepeatUntilDate='$this->RepeatUntilDate',   
                              EMailNotice='$this->EMailNotice',
                              IsPrivate='$this->IsPrivate',
                              Priority='$this->Priority',
                              EventTypeID='$this->EventTypeID',
-			     GroupID='$this->GroupID'
-			     WHERE ID='$this->ID'" );
+                             GroupID='$this->GroupID'
+                             WHERE ID='$this->ID'" );
         }
         
         return true;
@@ -181,13 +181,13 @@ class eZGroupEvent
                 $this->Name =& $event_array[0][ "Name" ];
                 $this->Description =& $event_array[0][ "Description" ];
                 $this->EventTypeID =& $event_array[0][ "EventTypeID" ];
-	        $this->GroupID =& $event_array[0][ "GroupID" ];
+                $this->GroupID =& $event_array[0][ "GroupID" ];
                 $this->Date =& $event_array[0][ "Date" ];
                 $this->Duration =& $event_array[0][ "Duration" ];
                 $this->IsPrivate =& $event_array[0][ "IsPrivate" ];
                 $this->Priority =& $event_array[0][ "Priority" ];
 
-		$this->Url =& $event_array[0][ "Url" ];
+                $this->Url =& $event_array[0][ "Url" ];
                 $this->Location =& $event_array[0][ "Location" ];
 
                 $this->Status =& $event_array[0][ "Status" ];
@@ -197,16 +197,16 @@ class eZGroupEvent
                 $this->EventAlarmNotice =& $event_array[0][ "EventAlarmNotice" ];
 
                 $this->EventCategoryID =& $event_array[0][ "EventCategoryID" ];
-                $this->IsRecurring =& $event_array[0][ "IsRecurring" ];
-		$this->RecurDay =& $event_array[0][ "RecurDay" ];
-		$this->RecurFreq =& $event_array[0][ "RecurFreq" ];
-		$this->RecurForever =& $event_array[0][ "RecurForever" ];
-		$this->RecurMonthly =& $event_array[0][ "RecurMonthly" ]
+                $this->IsRecurring =& $event_array[0][ "IsRecurring" ]; 
+                $this->RecurDay =& $event_array[0][ "RecurDay" ];
+                $this->RecurFreq =& $event_array[0][ "RecurFreq" ];
+                $this->RecurForever =& $event_array[0][ "RecurForever" ];
+                $this->RecurMonthly =& $event_array[0][ "RecurMonthly" ]
                 $this->RecurMonthlyType =& $event_array[0][ "RecurMonthlyType" ];
                 $this->RecurMonthlyTypeInfo =& $event_array[0][ "RecurMonthlyTypeInfo" ];
                 $this->RecurType =& $event_array[0] [ "RecurType" ];
-		$this->RecurExceptions =& $event_array[0][ "RecurExceptions" ]
-		$this->RepeatForever =& $event_array[0][ "RepeatForever" ];
+                $this->RecurExceptions =& $event_array[0][ "RecurExceptions" ]
+                $this->RepeatForever =& $event_array[0][ "RepeatForever" ];
                 $this->RepeatTimes =& $event_array[0][ "RepeatTimes" ];
                 $this->RepeatUntilDate =& $event_array[0][ "RepeatUntilDate" ];
 
@@ -1144,8 +1144,8 @@ class eZGroupEvent
     var $RecurMonthlyType;
     var $RecurMonthlyTypeInfo;
     var $RecurType;
-    var	$RecurFreq;
-    var $RepeatForever
+    var $RecurFreq;
+    var $RepeatForever;
     var $RepeatTimes;
     var $RepeatUntilDate;   
 
