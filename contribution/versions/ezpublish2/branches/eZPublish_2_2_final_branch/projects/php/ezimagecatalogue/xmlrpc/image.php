@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: image.php,v 1.17.2.4 2002/04/26 14:59:11 jb Exp $
+// $Id: image.php,v 1.17.2.5 2002/05/08 12:58:43 jb Exp $
 //
 // Created on: <14-Jun-2001 13:18:27 amos>
 //
@@ -118,6 +118,7 @@ else if( $Command == "data" ) // Dump image info!
                     eZLog::writeNotice( "Language = $section_lang" );
                 }
 
+                $photoid = $image->photographer( false );
                 $ret = array(
                     "Name" => new eZXMLRPCString( $image->name( false ) ),
                     "Caption" => new eZXMLRPCString( $image->caption( false ) ),
@@ -126,7 +127,7 @@ else if( $Command == "data" ) // Dump image info!
                     "OriginalFileName" => new eZXMLRPCString( $image->originalFileName() ),
                     "FileSize" => new eZXMLRPCInt( $size ),
                     "UserID" => new eZXMLRPCInt( $user_id ),
-                    "PhotographerID" => new eZXMLRPCInt( $image->photographer( false ) ),
+                    "PhotographerID" => new eZXMLRPCInt( $photoid > 0 ? $photoid : 0 ),
                     "ReadGroups" => new eZXMLRPCArray( $rgp ),
                     "WriteGroups" => new eZXMLRPCArray( $wgp ),
                     "Categories" => new eZXMLRPCArray( $cats, "integer" ),
@@ -182,8 +183,8 @@ else if ( $Command == "storedata" )
             $image->setName( $title );
             $image->setCaption( $caption );
             $image->setDescription( $description );
-            eZLog::writeNotice( "photo: $photographer" );
-            $image->setPhotographer( $photographer );
+            eZLog::writeNotice( "Photographer = $photographer" );
+            $image->setPhotographer( $photographer > 0 ? $photographer : 0 );
             if ( isset( $Data["Image"] ) and isset( $Data["ImageFileName"] ) )
             {
                 $image_data = $Data["Image"]->value();
