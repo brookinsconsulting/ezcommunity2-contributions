@@ -89,7 +89,7 @@ function byParent( $inParentID, $indent, $maxLevel = 3 )
     {
         $indent == $maxLevel;
     }
-    $indentLine = str_pad( $indentLine, $indent * 2, "_" );
+    $indentLine = str_pad( $indentLine, $indent * 6, "&nbsp;" );
     
     foreach( $typeArray as $ct )
     {
@@ -98,6 +98,7 @@ function byParent( $inParentID, $indent, $maxLevel = 3 )
         $t->set_var( "category_value", $indentLine . $ct->name() );
         $t->set_var( "category_selected", "" );
         
+        if( is_array( $CategoryArray ) )
         foreach( $CategoryArray as $Category )
         {
             if( $CategoryID == $Category )
@@ -117,8 +118,8 @@ if( $Action == "advanced" )
     byParent( $ParentID, 0 );
     
     $companyArray = array();
-    $count = count( $companyArray );
-    
+    $count = count( $CategoryArray );
+
     if( $count )
     {
         foreach( $CategoryArray as $Category )
