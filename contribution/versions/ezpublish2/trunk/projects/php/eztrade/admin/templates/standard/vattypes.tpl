@@ -7,15 +7,15 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-    <td>
+    <th>
         {intl-name}:
-    </td>
-    <td>
+    </th>
+    <th>
         {intl-percentage}:
-    </td>
-    <td>
+    </th>
+    <th>
         &nbsp;
-    </td>
+    </th>
 </tr>
 <!-- BEGIN vat_item_tpl -->
 <tr>
