@@ -51,6 +51,7 @@ class eZLink
     function delete( )
     {
         $this->dbInit();
+        query( "DELETE FROM Hit WHERE Link='$this->ID'" );        
         query( "DELETE FROM Link WHERE ID='$this->ID'" );
     }
 
