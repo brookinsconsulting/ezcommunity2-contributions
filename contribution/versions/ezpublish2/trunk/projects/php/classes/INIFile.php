@@ -51,7 +51,8 @@ class  INIFile
                 $this->error( "This file ($inifilename) does not exist!"); 
                 return; 
             } 
-        $this->parse($inifilename); 
+        $this->parse($inifilename);
+
     } 
 
 
@@ -89,9 +90,9 @@ class  INIFile
     } 
 
     function save_data() 
-    { 
-        $fp = fopen($this->INI_FILE_NAME, "w"); 
-         
+    {
+        $fp = fopen($this->INI_FILE_NAME, "w");
+
         if(empty($fp)) 
         { 
             $this->Error( "Cannot create file $this->INI_FILE_NAME"); 
@@ -103,8 +104,15 @@ class  INIFile
          
         for($i=0; $i<$group_cnt; $i++) 
         { 
-            $group_name = $groups[$i]; 
-            $res = sprintf( "[%s]\n",$group_name); 
+            $group_name = $groups[$i];
+            if ( $i == 0 )
+            {
+                $res = sprintf( "[%s]\n",$group_name);
+            }
+            else
+            {
+                $res = sprintf( "\n[%s]\n",$group_name);
+            }
             fwrite($fp, $res); 
             $group = $this->read_group($group_name); 
             for(reset($group); $key=key($group);next($group)) 
@@ -192,7 +200,7 @@ class  INIFile
      //sets a variable in a group 
     function set_var($group, $var_name, $var_value) 
     {
-        $this->GROUPS[$group][$var_name]=$var_value; 
+        $this->GROUPS[$group][$var_name]=$var_value;
     }     
 
 // ERROR FUNCTION 
