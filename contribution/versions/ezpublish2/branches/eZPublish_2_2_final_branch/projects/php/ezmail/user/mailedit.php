@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: mailedit.php,v 1.20.2.1 2002/01/04 09:26:57 jhe Exp $
+// $Id: mailedit.php,v 1.20.2.2 2002/03/23 13:24:54 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -69,7 +69,7 @@ if ( isSet( $AddAttachment ) )
 
 if ( isSet( $DeleteAttachments ) && count( $AttachmentArrayID ) > 0 )
 {
-    foreach ( $AttachmentArrayID as $attachmmentID )
+    foreach ( $AttachmentArrayID as $attachmentID )
     {
         $mail = new eZMail( $MailID );
         $file = new eZVirtualFile( $attachmentID );
