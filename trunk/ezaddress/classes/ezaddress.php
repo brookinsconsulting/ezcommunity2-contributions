@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezaddress.php 8683 2001-12-05 14:14:01Z br $
+// $Id: ezaddress.php,v 1.19.2.1 2001/12/05 14:14:01 br Exp $
 //
 // Definition of eZAddress class
 //
@@ -34,6 +34,7 @@
 
 include_once( "classes/ezdb.php" );
 include_once( "ezaddress/classes/ezcountry.php" );
+include_once( "ezaddress/classes/ezregion.php" );
 include_once( "ezaddress/classes/ezaddresstype.php" );
 
 class eZAddress
@@ -65,6 +66,11 @@ class eZAddress
         else
             $country_id = "$this->CountryID";
 
+        if ( $this->RegionID <= 0 )
+            $region_id = "NULL";
+        else
+            $region_id = "$this->RegionID";
+
         $street1 = $db->escapeString( $this->Street1 );
         $street2 = $db->escapeString( $this->Street2 );
         $name = $db->escapeString( $this->Name );
@@ -74,7 +80,7 @@ class eZAddress
             $db->lock( "eZAddress_Address" );
 			$this->ID = $db->nextID( "eZAddress_Address", "ID" );
             $res[] = $db->query( "INSERT INTO eZAddress_Address
-                                  (ID, Street1, Street2, Zip, Place, CountryID, AddressTypeID, Name)
+                                  (ID, Street1, Street2, Zip, Place, CountryID, RegionID, AddressTypeID, Name)
                                   VALUES
                                   ('$this->ID',
                                    '$street1',
@@ -82,6 +88,7 @@ class eZAddress
                                    '$this->Zip',
                                    '$place',
                                    '$country_id',
+				   '$region_id',
                                    '$this->AddressTypeID',
                                    '$name')" );
             $db->unlock();
@@ -93,10 +100,11 @@ class eZAddress
                                   SET Street1='$street1',
                                   Street2='$street2',
                                   Zip='$this->Zip',
-                                  Place='$place',
-                                  AddressTypeID='$this->AddressTypeID',
+	                          Place='$place',
+				  AddressTypeID='$this->AddressTypeID',
                                   Name='$name',
-                                  CountryID=$country_id
+                                  CountryID='$country_id',
+			          RegionID='$region_id'
                                   WHERE ID='$this->ID'" );            
             $ret = true;            
         }
@@ -127,12 +135,15 @@ class eZAddress
                 $this->Zip =& $address_array[0][$db->fieldName( "Zip" )];
                 $this->Place =& $address_array[0][$db->fieldName( "Place" )];
                 $this->CountryID =& $address_array[0][$db->fieldName( "CountryID" )];
+                $this->RegionID =& $address_array[0][$db->fieldName( "RegionID" )];
                 $this->AddressTypeID =& $address_array[0][$db->fieldName( "AddressTypeID" )];
                 $this->Name =& $address_array[0][$db->fieldName( "Name" )];
                 $ret = true;
             }
             if ( $this->CountryID == "NULL" )
                 $this->CountryID = -1;
+	    if ( $this->RegionID == "NULL" )
+                $this->RegionID = -1;
         }
         return $ret;
     }
@@ -393,6 +404,24 @@ class eZAddress
     }
 
     /*!
+      Sets the region, takes an eZRegion object as argument.
+    */
+    function setRegion( $region )
+    {
+       if ( get_class( $region ) == "ezregion" )
+       {
+           $this->RegionID = $region->id();
+       }
+	   if ( $region == "" ) {
+	   		$this->RegionID = "";
+			}
+       else if ( is_numeric( $region ) )
+       {
+           $this->RegionID = $region;
+       }
+    }
+
+    /*!
      Returns the place.
     */
     function place()
@@ -406,17 +435,34 @@ class eZAddress
     function country()
     {
         if ( is_numeric( $this->CountryID ) and $this->CountryID > 0 )
-            return new eZCountry( $this->CountryID );
+           {
+
+return new eZCountry( $this->CountryID );
+
+}
+
+        else
+            return false;
+
+    }
+
+    /*!
+      Returns the region as an eZRegion object.
+    */
+    function region()
+    {
+        if ( is_numeric( $this->RegionID ) and $this->RegionID > 0 )
+            return new eZRegion( $this->RegionID );
         else
             return false;
     }
-
     
     var $ID;
     var $Street1;
     var $Street2;
     var $Zip;
     var $Place;
+    var $RegionID;
     var $CountryID;
     var $Name;
     

@@ -10,7 +10,7 @@ CREATE TABLE eZAddress_Address (
   PRIMARY KEY (ID)
 );
 
-INSERT INTO eZAddress_Address VALUES (1,'Adminstreet1','Adminstreet2',0,'Noplace','42',0,'Default address');
+INSERT INTO eZAddress_Address VALUES (1,'Adminstreet1','Adminstreet2',0,'No Place','42',0,'Default address');
 
 CREATE TABLE eZAddress_AddressDefinition (
   UserID int(11) DEFAULT '0' NOT NULL,
@@ -27,6 +27,8 @@ CREATE TABLE eZAddress_AddressType (
 );
 
 INSERT INTO eZAddress_AddressType VALUES (1,'Home address',1,0);
+INSERT INTO eZAddress_AddressType VALUES (2,'Office address',1,0);
+INSERT INTO eZAddress_AddressType VALUES (3,'Offsite address',1,0);
 
 CREATE TABLE eZAddress_Country (
   ID int(11) NOT NULL,
@@ -296,6 +298,9 @@ CREATE TABLE eZAddress_OnlineType (
 );
 
 INSERT INTO eZAddress_OnlineType VALUES (1,'Email',1,'mailto:',1,0,0);
+INSERT INTO eZAddress_OnlineType VALUES (2,'Email : Secondary',1,'mailto:',1,0,0);
+INSERT INTO eZAddress_OnlineType VALUES (3,'Website : Personal',1,'',1,0,0);
+INSERT INTO eZAddress_OnlineType VALUES (4,'Website : Office',1,'',1,0,0);
 
 CREATE TABLE eZAddress_Phone (
   ID int(11) NOT NULL,
@@ -312,6 +317,12 @@ CREATE TABLE eZAddress_PhoneType (
   PRIMARY KEY (ID)
 );
 
-INSERT INTO eZAddress_PhoneType VALUES (1,'Phone',1,0);
+INSERT INTO eZAddress_PhoneType VALUES (1,'Personal Phone',1,0);
+INSERT INTO eZAddress_PhoneType VALUES (2,'Personal Cell',1,0);
+INSERT INTO eZAddress_PhoneType VALUES (3,'Personal Fax',1,0);
+INSERT INTO eZAddress_PhoneType VALUES (4,'Office Phone',1,0);
+INSERT INTO eZAddress_PhoneType VALUES (5,'Office Cell',1,0);
+INSERT INTO eZAddress_PhoneType VALUES (6,'Office Fax',1,0);
+
 
 
