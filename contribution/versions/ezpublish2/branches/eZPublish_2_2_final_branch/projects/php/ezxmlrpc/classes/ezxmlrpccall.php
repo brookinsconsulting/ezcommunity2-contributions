@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpccall.php,v 1.8.2.3 2001/11/16 16:21:00 bf Exp $
+// $Id: ezxmlrpccall.php,v 1.8.2.4 2001/11/16 17:19:33 bf Exp $
 //
 // Definition of eZXMLRPCCall class
 //
@@ -198,7 +198,7 @@ class eZXMLRPCCall
 
 //        $rawResponse = eZXMLRPCResponse::stripHTTPHeader( $rawResponse );
 
-        eZLog::writeNotice( "empty?: " . $rawResponse . "<-" );
+//        eZLog::writeNotice( "empty?: " . $rawResponse . "<-" );
 //        $domTree =& qdom_tree( $rawResponse );
 //        $domTree =& xmltree( $rawResponse );
  
