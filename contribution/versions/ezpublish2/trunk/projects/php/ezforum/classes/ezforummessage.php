@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.80 2001/03/13 13:59:41 pkej Exp $
+// $Id: ezforummessage.php,v 1.81 2001/03/13 16:43:22 pkej Exp $
 //
 // Definition of eZCompany class
 //
@@ -479,11 +479,11 @@ class eZForumMessage
        
        if( $htmlchars == true )
        {
-            return  htmlspecialchars( $this->Body );
+            return  htmlspecialchars( stripslashes( $this->Body ) );
        }
        else
        {
-            return $this->Body;
+            return stripslashes( $this->Body );
        }  
     }
 
