@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eztime.php,v 1.9 2001/06/07 10:01:41 ce Exp $
+// $Id: eztime.php,v 1.10 2001/06/29 11:31:58 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -280,6 +280,41 @@ class eZTime
         $second = $this->addZero( $this->second() );
 
         return $hour . ":" . $minute . ":" . $second;
+    }
+
+    /*!
+      Sets the time according to the UNIX timestamp given as argument.
+    */
+    function setTimeStamp( $value )
+    {
+        $formattedTime =& date('His', $value );
+        
+        if ( ereg( "([0-9]{2})([0-9]{2})([0-9]{2})", $formattedTime, $valueArray ) )
+        {
+            $this->setHour( min( $valueArray[1], 23 ) );
+            $this->setMinute( min( $valueArray[2], 59 ) );
+            $this->setSecound( min( $valueArray[3], 59 ) );
+        }
+        else
+        {
+            print( "<b>Error:</b> eZTime::setTimeStamp() received wrong time format." );
+        }
+        
+    }
+
+    /*!
+      \static
+      Returns the time as a UNIX timestamp.
+
+      If returnNow is set to true a timestamp of the current time is returned.
+    */
+    function timeStamp( $returnNow=false )
+    {
+        if ( $returnNow == true )
+            return mktime();
+        else
+            return mktime( $this->hour(), $this->minute(), $this->second(),
+                           0, 0, 0 );
     }
 
     /*!

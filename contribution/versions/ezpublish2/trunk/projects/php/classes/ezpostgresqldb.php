@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpostgresqldb.php,v 1.3 2001/06/23 11:09:44 bf Exp $
+// $Id: ezpostgresqldb.php,v 1.4 2001/06/29 11:31:58 ce Exp $
 //
 // Definition of eZPostgreSQLLDB class
 //
@@ -99,7 +99,7 @@ class eZPostgreSQLDB
         }
 
         $offset = count( $array );
-        
+
         if ( pg_numrows( $result ) > 0 )
         { 
             if ( !is_string( $column ) )
