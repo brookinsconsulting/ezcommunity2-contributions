@@ -1,5 +1,5 @@
 <?
-// $Id: messageedit.php,v 1.12 2001/03/01 14:06:25 jb Exp $
+// $Id: messageedit.php,v 1.13 2001/03/05 13:46:35 pkej Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
@@ -123,8 +123,17 @@ if ( $Action == "DeleteMessages" )
             $message->delete();
 
         }
-        eZHTTPTool::header( "Location: /forum/messagelist/$forumID" );
-        exit();
+        
+        if( empty( $RefererURL ) )
+        {
+            eZHTTPTool::header( "Location: /forum/messagelist/$forumID" );
+            exit();
+        }
+        else
+        {
+            eZHTTPTool::header( "Location: /forum/search/$RefererURL" );
+            exit();
+        }
     }
 }
 

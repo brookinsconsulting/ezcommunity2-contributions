@@ -6,9 +6,12 @@ change: added user_edit=Some text
 mod: ezforum/ admin, forumedit.php.ini
 change: added no_moderator=No moderator selected
 
-change: added moderator_info_message_1=You are the moderator of the forum
+mod: ezforum/ admin, search.php.ini
+change: added deletemessages=Delete selected messages
+
 mod: ezforum/ user, mailreply.php.ini
 change: added moderator_subject=Message posted to your moderated forum
+change: added moderator_info_message_1=You are the moderator of the forum
 change: added moderator_info_message_4=The new message is presented below
 
 mod: ezbug/ admin, mailreply.php.ini

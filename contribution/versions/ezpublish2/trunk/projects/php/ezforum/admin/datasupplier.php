@@ -33,7 +33,7 @@ switch ( $url_array[2] )
     {
         include( "ezforum/admin/search.php" );
     }
-        break;
+    break;
 
 
     case "message":

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.6 2001/03/01 14:06:25 jb Exp $
+// $Id: search.php,v 1.7 2001/03/05 13:46:35 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Oct-2000 20:33:02 bf>
@@ -51,6 +51,7 @@ $t->set_block( "search_tpl", "search_result_tpl", "search_result" );
 
 $t->set_block( "search_tpl", "previous_tpl", "previous" );
 $t->set_block( "search_tpl", "next_tpl", "next" );
+$t->set_var( "site_style", $SiteStyle );
 
 
 if ( isSet( $URLQueryString ) )
@@ -76,6 +77,9 @@ if ( $QueryString != "" )
     if ( !isset( $Limit ) )
         $Limit = 30;
 
+$t->set_var( "this_offset", "$Offset" );
+$t->set_var( "this_limit", "$Limit" );
+
     $forum = new eZForum();
     
     // do a search in all forums
@@ -87,6 +91,7 @@ if ( $QueryString != "" )
     $level = 0;
     $i = 0;
 
+    $AnonymousPoster = $ini->read_var( "eZForumMain", "AnonymousPoster" );
 
     foreach ( $messages as $message )
     {
@@ -103,7 +108,14 @@ if ( $QueryString != "" )
         
         $user = $message->user();
         
-        $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
+        if( $user->id() != 0 )
+        {
+            $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
+        }
+        else
+        {
+            $t->set_var( "user", $AnonymousPoster );
+        }
 
         $prevOffs = $Offset - $Limit;
         $nextOffs = $Offset + $Limit;
