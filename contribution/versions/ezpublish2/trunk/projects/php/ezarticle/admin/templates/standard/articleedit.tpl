@@ -20,10 +20,10 @@
 </select> <br />
 
 {intl-intro}:<br />
-<textarea name="Contents[]" cols="20" rows="5">{article_contents_0}</textarea><br />
+<textarea name="Contents[]" cols="40" rows="5">{article_contents_0}</textarea><br />
 
 {intl-contents}:<br />
-<textarea name="Contents[]" cols="20" rows="10">{article_contents_1}</textarea>
+<textarea name="Contents[]" cols="40" rows="10">{article_contents_1}</textarea>
 
 <hr noshade="noshade" size="4" />
 <input class="stdbutton" type="submit" name="Image" value="{intl-pictures}" />

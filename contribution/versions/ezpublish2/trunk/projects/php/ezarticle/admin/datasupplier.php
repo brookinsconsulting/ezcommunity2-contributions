@@ -77,9 +77,17 @@ switch ( $url_array[2] )
             case "imageedit" :
             {
                 if ( $url_array[4] == "new" )
-                    $Action == "New";
-                
-                $ArticleID = $url_array[5];
+                {
+                    $Action = "New";
+                    $ArticleID = $url_array[5];
+                }
+
+                if ( $url_array[4] == "storedef" )
+                {
+                    $Action = "StoreDef";
+                    $ArticleID = $url_array[5];                    
+                }                
+            
                 include( "ezarticle/admin/imageedit.php" );
             }
             break;
