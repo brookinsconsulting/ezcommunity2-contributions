@@ -635,6 +635,7 @@ CREATE TABLE eZSession_Session (
 # Dumping data for table 'eZSession_Session'
 #
 
+
 #
 # Table structure for table 'eZSession_SessionVariable'
 #
@@ -649,6 +650,7 @@ CREATE TABLE eZSession_SessionVariable (
 #
 # Dumping data for table 'eZSession_SessionVariable'
 #
+
 
 #
 # Table structure for table 'eZUser_Forgot'
@@ -680,8 +682,8 @@ CREATE TABLE eZUser_Group (
 # Dumping data for table 'eZUser_Group'
 #
 
-INSERT INTO eZUser_Group VALUES (2,'Anonyme brukere','Brukere som har opprettet seg selv, eks shopping brukere.');
-INSERT INTO eZUser_Group VALUES (1,'Administrasjon','Alle rettigheter');
+INSERT INTO eZUser_Group VALUES (2,'Anonymous','Users that register themself on the user page, eg forum users.');
+INSERT INTO eZUser_Group VALUES (1,'Adminitrators','All rights');
 
 #
 # Table structure for table 'eZUser_GroupPermissionLink'
