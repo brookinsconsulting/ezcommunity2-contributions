@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: topiclist.php,v 1.3 2001/09/14 11:32:24 bf Exp $
+// $Id: topiclist.php,v 1.4 2001/09/28 10:03:02 bf Exp $
 //
 // Created on: <03-Sep-2001 15:35:07 bf>
 //
@@ -29,6 +29,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/INIFile.php" );
 
 include_once( "ezarticle/classes/eztopic.php" );
+$Language = $ini->read_var( "eZArticleMain", "Language" );
 
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl", $Language, "topiclist.php" );
