@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.17 2001/02/23 09:22:41 pkej Exp $
+// $Id: ezforum.php,v 1.18 2001/02/26 09:40:58 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -475,9 +475,13 @@ class eZForum
             $this->get( $this->ID );
 
        if ( $value == true )
+       {
            $this->IsModerated = 1;
+       }
        else
+       {
            $this->IsModerated = 0;
+       }
     }
 
     /*!

@@ -1,5 +1,5 @@
 <?
-// $Id: forumedit.php,v 1.17 2001/02/13 13:34:04 gl Exp $
+// $Id: forumedit.php,v 1.18 2001/02/26 09:40:58 ce Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -105,9 +105,13 @@ if ( $Action == "update" )
             $forum->setModerator( $user );
 
             if ( $IsModerated == "on" )
+            {
                 $forum->setIsModerated( true );
+            }
             else
+            {
                 $forum->setIsModerated( false );
+            }
             
             $forum->setName( $Name );
             $forum->setDescription( $Description );
