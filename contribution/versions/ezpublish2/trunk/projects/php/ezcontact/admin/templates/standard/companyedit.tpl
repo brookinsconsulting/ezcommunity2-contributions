@@ -26,7 +26,7 @@
 
 <p class="boxtext">{intl-companytype}:</p>
 
-<select name="CompanyTypeID">
+<select multiple size="10" name="CompanyCategoryID[]">
 <!-- BEGIN company_type_select_tpl -->
 <option value="{company_type_id}" {is_selected}>{company_type_name}</option>
 <!-- END company_type_select_tpl -->
@@ -97,7 +97,7 @@
         </td>
     <td>
     	<p class="boxtext">{intl-logo}</p>
-	<input size="20" name="userfile" type="file" />
+	<input size="20" name="image" type="file" />
     </td>
     <td>
 	<p class="boxtext">{intl-delete}</p>
@@ -116,7 +116,8 @@
         </td>
     <td>
     	<p class="boxtext">{intl-logo}</p>
-	<input size="20" name="userfile" type="file" />
+	<input size="20" name="logo" type="file" />
+	<input type="hidden" name="LogoID" value="{logo_id}">
     </td>
     <td>
 	<p class="boxtext">{intl-delete}</p>

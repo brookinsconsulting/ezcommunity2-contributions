@@ -1,7 +1,7 @@
 <?
 
 // 
-// $Id: ezcompanytype.php,v 1.14 2000/11/15 15:31:43 ce-cvs Exp $
+// $Id: ezcompanytype.php,v 1.15 2000/11/16 17:49:56 ce-cvs Exp $
 //
 // Definition of eZCompanyType class
 //
@@ -76,21 +76,16 @@ class eZCompanyType
         
         if ( !isSet( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZContact_CompanyType set Name='$this->Name', Description='$this->Description'" );
+            $this->Database->query( "INSERT INTO eZContact_CompanyType set Name='$this->Name', Description='$this->Description', ParentID='$this->ParentID" );
 
             $this->ID = mysql_insert_id();
-            
-            $this->Database->query( "INSERT INTO eZContact_CompanyTypeHiearchy set CompanyTypeID='$this->ID', ParentID='$this->ParentID'" );
-
-            $this->ParentID = mysql_insert_id();
 
             $this->State_ = "Coherent";
             $ret = true;
         }
         else
         {
-            $this->Database->query( "UPDATE eZContact_CompanyType set Name='$this->Name', Description='$this->Description' WHERE ID='$this->ID'" );
-            $this->Database->query( "UPDATE eZContact_CompanyTypeHiearchy set ParentID='$this->ParentID' WHERE CompanyTypeID='$this->ID'" );
+            $this->Database->query( "UPDATE eZContact_CompanyType set Name='$this->Name', Description='$this->Description', ParentID='$this->ParentID WHERE ID='$this->ID'" );
 
             $this->State_ = "Coherent";
             $ret = true;
@@ -106,7 +101,6 @@ class eZCompanyType
     {
         $this->dbInit();
         $this->Database->query( "DELETE FROM eZContact_CompanyType WHERE ID='$this->ID'" );
-        $this->Database->query( "DELETE FROM eZContact_CompanyTypeHiearchy WHERE CompanyTypeID='$this->ID'" );
     }
 
     /*
@@ -118,7 +112,6 @@ class eZCompanyType
         if ( $id != "" )
         {
             $this->Database->array_query( $company_type_array, "SELECT * FROM eZContact_CompanyType WHERE ID='$id'" );
-            $this->Database->array_query( $company_type_hiearchy_array, "SELECT ParentID FROM eZContact_CompanyTypeHiearchy WHERE CompanyTypeID='$this->ID'" );
             
             if ( count( $company_type_array ) > 1 )
             {
@@ -129,15 +122,7 @@ class eZCompanyType
                 $this->ID = $company_type_array[ 0 ][ "ID" ];
                 $this->Name = $company_type_array[ 0 ][ "Name" ];
                 $this->Description = $company_type_array[ 0 ][ "Description" ];
-            }
-            
-            if( count( $company_type_hiearchy_array ) > 1 )
-            {
-                die( "Error: A company type is only allowed one parent at the moment. " );
-            }
-            elseif( count( $company_type_hiearchy_array ) == 1 )
-            {
-                $this->ParentID = $company_type_hiearchy_array[ 0 ][ "ParentID" ];
+                $this->ParentID = $company_type_array[ 0 ][ "ParentID" ];
             }
         }
     }
@@ -158,10 +143,90 @@ class eZCompanyType
         {
             $return_array[] = new eZCompanyType( $companyTypeItem["ID"] );
         }
-    
         return $return_array;
     }
-  
+ 
+    /*!
+        Fetches all the company types in the db and return them as an array of objects.
+     */
+    function getByParentID( $id )
+    {
+        $this->dbInit();
+        $company_type_array = array();
+        $return_array = array();
+
+        $this->Database->array_query( $company_type_array, "SELECT ID FROM eZContact_CompanyType WHERE ParentID='$id' ORDER BY Name" );
+
+        foreach( $company_type_array as $companyTypeItem )
+        {
+            $return_array[] = new eZCompanyType( $companyTypeItem["ID"] );
+        }
+        return $return_array;
+    }
+
+    /*!
+      Print out the group path.
+    */
+    function path( $categoryID=0 )
+    {
+        $this->dbInit();
+        
+        if ( $categoryID == 0 )
+        {
+            $categoryID = $this->ID;
+        }
+        
+        $category = new eZCompanyType( $categoryID );
+        
+        $path = array();
+        
+        $parent = $category->parentID();
+        
+        if ( $parent != 0 )
+        {
+            $path = array_merge( $path, $this->path( $parent ) );
+        }
+        else
+        {
+//              array_push( $path, $category->name() );
+        }
+
+        if ( $categoryID != 0 )
+            array_push( $path, array( $category->id(), $category->name() ) );
+        
+        return $path;
+    }
+
+    /*!
+      Adds a company to the current user category.
+
+      Returns true if successful, false if not.
+    */
+    function addCompany( $company )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $ret = false;
+
+       if ( get_class( $company ) == "ezcompany" )
+       {
+           $this->dbInit();
+
+           $companyID = $company->id();
+
+//             if ( $this->ID > 1 )
+           {
+               $this->Database->query( "INSERT INTO eZContact_CompanyTypeDict
+                                    SET
+                                    CompanyID='$companyID',
+                                    CompanyTypeID='$this->ID'" );
+               $ret = true;
+           }
+       }
+       return $ret;
+    }
+
   
     /*!
       Set the name.
@@ -187,7 +252,7 @@ class eZCompanyType
     /*!
       Set parent
     */
-    function setParent( $value )
+    function setParentID( $value )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -226,7 +291,7 @@ class eZCompanyType
     /*!
       Returns the parent.
     */
-    function parent( )
+    function parentID( )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );

@@ -30,21 +30,48 @@
 //-->
 </SCRIPT> 
 
+
 <h1>{intl-headline}</h1>
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+
+<!-- BEGIN path_tpl -->
+
+<img src="/ezarticle/admin/images/path-arrow.gif" height="10" width="15" border="0">
+
+<a class="path" href="/contact/companylist/0/">{intl-top}</a>
+
+<!-- END path_tpl -->
+
+<!-- BEGIN path_item_tpl -->
+
+<img src="/ezarticle/admin/images/path-slash.gif" height="10" width="20" border="0">
+
+<a class="path" href="/contact/companylist/{category_id}/">{category_name}</a>
+<!-- END path_item_tpl -->
+
+<hr noshade size="4"/>
+
+<!-- BEGIN category_list_tpl -->
+<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<th>
-	<a href="/user/userlist/name">{intl-name}:</a>
-	</th>
+	<td>
+	<h2>{categories}</h2>
+	</td>
+</tr>
+<!-- BEGIN category_item_tpl -->
+<tr>
+	<td>
+	<a href=/contact/companylist/{category_id}>{category_name}</a>
+	</td>
+</tr>
+<!-- END category_item_tpl -->
+</table>
+<!-- END category_list_tpl -->
 
-	<th>
-	&nbsp;
-	</th>
 
-	<th>
-	&nbsp;
-	</th>
-
+<!-- BEGIN company_list_tpl -->
+<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<h2>{companys}</h2>
 </tr>
 <!-- BEGIN company_item_tpl -->
 <tr>
@@ -59,17 +86,6 @@
 	<a href="/contact/companyedit/Delete/{company_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{company_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezuser{company_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>	
 </tr>
-
 <!-- END company_item_tpl -->
-
-<!-- BEGIN error_tpl -->
-<tr>
-	<td class="{td_class}">
-	<p class="error">{error_msg}</p>
-	</td>	
-</tr>
-<!-- END error_tpl -->
-
 </table>
-
-
+<!-- END company_list_tpl -->

@@ -11,7 +11,8 @@ switch ( $url_array[2] )
 
     case "companylist":
     {
-     include( "ezcontact/admin/companylist.php" );
+        $CategoryID = $url_array[3];
+        include( "ezcontact/admin/companylist.php" );
     }
     break;
     

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.28 2000/11/16 12:16:55 ce-cvs Exp $
+// $Id: ezcompany.php,v 1.29 2000/11/16 17:49:56 ce-cvs Exp $
 //
 // Definition of eZProduct class
 //
@@ -43,6 +43,7 @@
 //require "ezphputils.php";
 
 include_once( "ezcontact/classes/ezaddress.php" );
+include_once( "ezcontact/classes/ezcompanytype.php" );
 include_once( "ezcontact/classes/ezphone.php" );
 include_once( "classes/ezimagefile.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
@@ -90,7 +91,6 @@ class eZCompany
         
             $this->Database->query( "INSERT INTO eZContact_Company set Name='$this->Name',
 	                                              Comment='$this->Comment',
-                                                  ContactType='$this->ContactType',
                                                   CompanyNo='$this->CompanyNo',
 	                                              CreatorID='$this->CreatorID'" );
             $this->ID = mysql_insert_id();
@@ -101,7 +101,6 @@ class eZCompany
         {
             $this->Database->query( "UPDATE eZContact_Company set Name='$this->Name',
                                             	 Comment='$this->Comment',
-                                              	 ContactType='$this->ContactType',
                                                  CompanyNo='$this->CompanyNo',
                                                	 CreatorID='$this->CreatorID' WHERE ID='$this->ID'" );
             $this->State_ = "Coherent";
@@ -184,7 +183,6 @@ class eZCompany
                 $this->Name = $company_array[0]["Name"];
                 $this->Comment = $company_array[0]["Comment"];
                 $this->CreatorID = $company_array[0]["CreatorID" ];        
-                $this->ContactType = $company_array[0]["ContactType"];
                 $this->CompanyNo = $company_array[0]["CompanyNo"];
                      
                 $ret = true;
@@ -220,6 +218,27 @@ class eZCompany
         return $return_array;
     }
 
+    /*
+      Returns all the company found in the database.
+      
+      The company are returned as an array of eZCompany objects.
+    */
+    function getByCategory( $categoryID )
+    {
+        $this->dbInit();
+        
+        $company_array = array();
+        $return_array = array();
+    
+        $this->Database->array_query( $company_array, "SELECT CompanyID FROM eZContact_CompanyTypeDict WHERE CompanyTypeID='$categoryID'" );
+
+        foreach( $company_array as $companyItem )
+            {
+                $return_array[] = new eZCompany( $companyItem["CompanyID"] );
+            }
+        return $return_array;
+    }
+    
     /*
       Henter ut alle firma i databasen som inneholder søkestrengen.
     */
@@ -259,6 +278,44 @@ class eZCompany
             }
         return $return_array;
     }
+
+    /*!
+      Removes the company from every user category.
+    */
+    function removeCategorys()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+       
+       $this->Database->query( "DELETE FROM eZContact_CompanyTypeDict
+                                WHERE CompanyID='$this->ID'" );
+    }
+
+    /*!
+      Returns the categories that belong to this eZCompany object.
+    */
+    function categories( $companyID )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $return_array = array();
+        $this->dbInit();
+
+        $this->Database->array_query( $categories_array, "SELECT CompanyTypeID
+                                                 FROM eZContact_CompanyTypeDict
+                                                 WHERE CompanyID='$companyID'" );
+
+        foreach( $categories_array as $categoriesItem )
+            {
+                $return_array[] = new eZCompanyType( $categoriesItem["CompanyTypeID"] );
+            }
+
+        return $return_array;
+    }
+   
 
     /*!
       Returns the address that belong to this eZCompany object.
@@ -591,17 +648,6 @@ class eZCompany
     }
 
     /*!
-      Sets the contact type of the company.
-    */
-    function setContactType( $value )
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $this->ContactType = $value;
-    }
-
-    /*!
       Sets the comment of the company.
     */
     function setComment( $value )
@@ -670,17 +716,6 @@ class eZCompany
     }
     
     /*!
-      Returnerer kontakttype.
-    */
-    function contactType()
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        return $this->ContactType;
-    }
-  
-    /*!
       Returnerer kommentar.
     */
     function comment()
@@ -720,7 +755,6 @@ class eZCompany
     var $CreatorID;
     var $Name;
     var $Comment;
-    var $ContactType;
     var $Online;
     var $CompanyNo;
 

@@ -31,7 +31,6 @@ if ( $Action == "insert" )
 {
     $company = new eZCompany();
     $company->setName( $Name );  
-    $company->setContactType( $CompanyTypeID );
     $company->setCompanyNo( $CompanyNo );
     $company->setComment( $Description );
 
@@ -45,6 +44,19 @@ if ( $Action == "insert" )
     $address->setPlace( $Place );
     $address->setAddressType( $AddressType );
     $address->store();
+
+    // Add company to categories
+
+    if ( isSet( $CompanyCategoryID ) )
+    {
+        $category = new eZCompanyType();
+        
+        for( $i=0; $i<count( $CompanyCategoryID ); $i++ )
+        {
+            $category->get( $CompanyCategoryID[$i] );
+            $category->addCompany( $company );
+        }
+    }
 
     for( $i=0; $i<count( $Phone ); $i++ )
     {
@@ -87,7 +99,7 @@ if ( $Action == "insert" )
     $file = new eZImageFile();
     if ( $file->getUploadedFile( "image" ) )
     {
-        $image = new eZImage();
+        $image = new eZImage( );
         $image->setName( "Image" );
         $image->setImage( $file );
 
@@ -117,7 +129,50 @@ if ( $Action == "update" )
     $company->setName( $Name );  
     $company->setComment( $Description );
     $company->setCompanyNo( $CompanyNo );
-    $company->setContactType( $CompanyTypeID );
+    
+    // Store or update images
+    if ( $logo != "" )
+    {
+        // Upload images
+        $file = new eZImageFile();
+        if ( $file->getUploadedFile( "logo" ) )
+        {
+            $logo = new eZImage( $LogoID );
+            $logo->setName( "Logo" );
+            $logo->setImage( $file );
+            $logo->store();
+            
+            $company->setLogoImage( $logo );
+        }
+        else
+        {
+            exit();
+            print( $file->name() . " not uploaded successfully" );
+        }
+    }
+
+        // Store or update images
+    if ( $image != "" )
+    {
+        // Upload images
+        $file = new eZImageFile();
+        if ( $file->getUploadedFile( "image" ) )
+        {
+            $image = new eZImage( $ImageID );
+            $image->setName( "Image" );
+            $image->setImage( $file );
+            $image->store();
+            
+            $company->setLogoImage( $image );
+        }
+        else
+        {
+            exit();
+            print( $file->name() . " not uploaded successfully" );
+        }
+    }
+
+    
 
     // Update or store address
     $addressList = $company->addresses( $CompanyID );
@@ -141,11 +196,9 @@ if ( $Action == "update" )
         $address->setZip( $Zip );
         $address->setPlace( $Place );
         $address->store();
-       
     }
 
-
-// Update or store phone
+    // Update or store phone
     $phoneList = $company->phones( $CompanyID );
 
     if ( ( count ( $phoneList ) == 1 ) || ( count ( $phoneList ) == 2 )  )
@@ -165,7 +218,6 @@ if ( $Action == "update" )
         for( $i=0; $i<count( $Phone ); $i++ )
         {
             $phone = new eZPhone( );
-     // telefonnummer
             $phone->setNumber( $Phone[$i] );
             $phone->setPhoneTypeID( $PhoneTypeID[$i] );
             $phone->store();
@@ -203,7 +255,6 @@ if ( $Action == "update" )
 
     Header( "Location: /contact/companylist/" );
     exit();
-
 }
 
 // Slette fra company list.
@@ -215,7 +266,6 @@ if ( $Action == "delete" )
 
     Header( "Location: /contact/companylist/" );
 }
-
 
 // Setter template.
 $t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
@@ -297,6 +347,7 @@ if ( $Action == "edit" )
         
         $t->set_var( "logo_image_src", "/" . $variation->imagePath() );
         $t->set_var( "logo_name", $logoImage->name() );
+        $t->set_var( "logo_id", $logoImage->id() );
         
         $t->set_var( "logo_add", "" );
         $t->parse( "logo_edit", "logo_edit_tpl" );
@@ -383,57 +434,11 @@ if ( $Action == "edit" )
             $t->parse( "email_item", "email_item_tpl" );
         }
     }
-
-//      // Image list
-//      print ( count ( $imageList ) );
-//      if ( count ( $imageList ) <= 2 )
-//      {
-//          for( $i=0; $i<count( $imageList ); $i++ )
-//          {
-//              if ( $imageList[$i]->name() == "Logo" )
-//              {
-//                  $variation = $imageList[$i]->requestImageVariation( 150, 150 );
-
-//                  $t->set_var( "logo_image_src", "/" . $variation->imagePath() );
-//                  $t->set_var( "logo_name", $imageList[$i]->name() );
-                
-//                  $t->set_var( "logo_add", "" );
-//                  $t->parse( "logo_edit", "logo_edit_tpl" );
-//                  print( "5555" );
-//              }
-//              else
-//              {
-//                  print( "6666" );
-//                  $t->set_var( "logo_edit", "" );
-//                  $t->parse( "logo_add", "logo_add_tpl" );
-//              }
-
-//              if ( $imageList[$i]->name() == "Image" )
-//              {
-//                  $variation = $imageList[$i]->requestImageVariation( 150, 150 );
-
-//                  $t->set_var( "image_src", "/" . $variation->imagePath() );
-//                  $t->set_var( "image_name", $imageList[$i]->name() );
-
-//                  $t->set_var( "image_add", "" );
-//                  $t->parse( "image_edit", "image_edit_tpl" );
-//              }
-//              else
-//              {
-//                  $t->set_var( "image_edit", "" );
-//                  $t->parse( "image_add", "image_add_tpl" );
-//              }
-                 
-//          }
-        // Template variabler.
+    // Template variabler.
     $Action_value = "Update";
-
-    }
     
-
-
-
-
+}
+    
 // Company type selector
 $companyType = new eZCompanyType();
 $companyTypeList = $companyType->getAll();
@@ -445,15 +450,27 @@ foreach( $companyTypeList as $companyTypeItem )
 
     if ( $company )
     {
-        if ( $company->contactType() == $companyTypeItem->id() )
+        $categoryList = $company->categories( $CompanyID );
+        $found = false;
+        foreach ( $categoryList as $category )
         {
+            if ( $category->id() == $companyTypeItem->id() )
+            {
+                print( "hey" );
+                $found = true;
+            }
+        }
+        if ( $found  == true )
             $t->set_var( "is_selected", "selected" );
-        }
         else
-        {
             $t->set_var( "is_selected", "" );
-        }
     }
+    else
+    {
+        $t->set_var( "is_selected", "" );
+    }
+
+
     $t->parse( "company_type_select", "company_type_select_tpl", true );
 }
 
