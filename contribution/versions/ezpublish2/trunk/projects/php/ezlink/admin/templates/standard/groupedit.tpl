@@ -5,8 +5,8 @@
      </td>
      <td align="right">
 	 <form action="/link/search/" method="post">
-	       <input type="text" name="QueryString">
-	       <input type="submit" name="search" value="{intl-search}">
+	       <input type="text" size="12" name="QueryString">
+	       <input class="stdbutton" type="submit" name="search" value="{intl-search}">
          </form>
      </td>
 </tr>
@@ -21,7 +21,7 @@
 <p class="error">{error_msg}</p>
 
 <p class="boxtext">{intl-name}:</p>
-<input type="text" name="Title" size="40" value="{category_name}">
+<input type="text" class="box" name="Title" size="40" value="{category_name}">
 
 <p class="boxtext">{intl-where}:</p>
 <select name="ParentCategory">
@@ -32,7 +32,7 @@
 </select>
 
 <p class="boxtext">{intl-description}:</p>
-<textarea cols="40" rows="4" name="Description">{category_description}</textarea>
+<textarea cols="40" class="box" rows="4" name="Description">{category_description}</textarea>
 
 <!-- BEGIN image_item_tpl -->
 <p class="boxtext">{intl-th_type_current_image}:</p>
@@ -44,12 +44,11 @@
 <!-- BEGIN no_image_item_tpl -->
 
 <!-- END no_image_item_tpl -->
-<input size="40" name="ImageFile" type="file" />&nbsp;
-<input class="stdbutton" type="submit" name="Browse" value="{intl-browse}" />
+<input size="40" class="box" name="ImageFile" type="file" />&nbsp;
+<br /><br /><input class="stdbutton" type="submit" name="Browse" value="{intl-browse}" />
 <br /><br />
-<hr noshade="noshade" size="4" />
 
-<br />
+<hr noshade="noshade" size="4" />
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>

@@ -21,7 +21,7 @@
 
 <p class="boxtext">{intl-bug_title}:</p>
 <input class="box" type="text" size="40" name="Name" value="{title_value}"/>
-<br />
+<br /><br />
 
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>

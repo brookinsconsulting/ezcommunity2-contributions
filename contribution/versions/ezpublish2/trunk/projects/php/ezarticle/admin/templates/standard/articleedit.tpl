@@ -120,9 +120,6 @@
 	<td width="50%" colspan="5">
 	<p class="boxtext">{intl-start_date}:</p>
 	</td>
-	<td width="50%" colspan="5">
-	<p class="boxtext">{intl-stop_date}:</p>
-	</td>
 </tr>
 <tr>
 	<td >
@@ -139,23 +136,6 @@
 	<span class="small">{intl-hour}:</span>
 	</td>
 	<td >
-	<span class="small">{intl-minute}:</span>
-	</td>
-
-	<td>
-	<span class="small">{intl-day}:</span>
-	</td>
-	<td>
-	<span class="small">{intl-month}:</span>
-	</td>
-	<td>
-	<span class="small">{intl-year}:</span>
-	</td>
-
-	<td>
-	<span class="small">{intl-hour}:</span>
-	</td>
-	<td>
 	<span class="small">{intl-minute}:</span>
 	</td>
 </tr>
@@ -175,7 +155,35 @@
 	<td>
 	<input type="text" size="2" name="StartMinute" value="{start_minute}" />
 	</td>
+</tr>
+</table>
 
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td width="50%" colspan="5">
+	<br />
+	<p class="boxtext">{intl-stop_date}:</p>
+	</td>
+</tr>
+<tr>
+	<td>
+	<span class="small">{intl-day}:</span>
+	</td>
+	<td>
+	<span class="small">{intl-month}:</span>
+	</td>
+	<td>
+	<span class="small">{intl-year}:</span>
+	</td>
+
+	<td>
+	<span class="small">{intl-hour}:</span>
+	</td>
+	<td>
+	<span class="small">{intl-minute}:</span>
+	</td>
+</tr>
+</tr>
 	<td>
 	<input type="text" size="2" name="StopDay" value="{stop_day}" />&nbsp;
 	</td>

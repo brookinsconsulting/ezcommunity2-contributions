@@ -5,8 +5,8 @@
      </td>
      <td align="right">
 	 <form action="/forum/search/" method="post">
-	       <input type="text" name="QueryString">
-	       <input type="submit" name="search" value="{intl-search}">
+	       <input size="12" type="text" name="QueryString">
+	       <input class="stdbutton" type="submit" name="search" value="{intl-search}">
          </form>
      </td>
 </tr>
@@ -20,10 +20,10 @@
 <p class="error">{error_msg}</p>
 
 <p class="boxtext">{intl-name}:</p>
-<input type="text" size="20" value="{category_name}" name="Name">
+<input type="text" class="box" size="40" value="{category_name}" name="Name">
 
 <p class="boxtext">{intl-description}:</p>
-<input type="text" size="40" value="{category_description}" name="Description">
+<input type="text" class="box" size="40" value="{category_description}" name="Description">
 
 <br /><br />
 

@@ -5,8 +5,8 @@
      </td>
      <td align="right">
 	 <form action="/forum/search/" method="post">
-	       <input type="text" name="QueryString">
-	       <input type="submit" name="search" value="{intl-search}">
+	       <input size="12" type="text" name="QueryString">
+	       <input class="stdbutton" type="submit" name="search" value="{intl-search}">
          </form>
      </td>
 </tr>
@@ -32,10 +32,10 @@
 </table>
 	
 <p class="boxtext">{intl-time}:</p>
-{message_postingtime}
+<span class="p">{message_postingtime}</span>
 
 <p class="boxtext">{intl-body}:</p>
-<textarea rows="10" cols="80" name="Body">{message_body}</textarea>
+<textarea rows="10" class="box" cols="40" name="Body">{message_body}</textarea>
 
 <br /><br />
 

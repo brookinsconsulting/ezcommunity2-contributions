@@ -4,6 +4,7 @@ header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT");
 header("Cache-Control: no-cache, must-revalidate"); 
 header("Pragma: no-cache");
 
+
 include_once( "classes/ezbenchmark.php" );
 
 // Run benchmark test.

@@ -6,11 +6,11 @@
 <p class="error">{error_msg}</p>
 
 <p class="boxtext">{intl-name}:</p>
-<textarea wrap="soft" rows="3" cols="40" name="Name">{name_value}</textarea>
+<textarea wrap="soft" class="box" rows="3" cols="40" name="Name">{name_value}</textarea>
 <br /><br />
 
 <p class="boxtext">{intl-desc}:</p>
-<textarea wrap="soft" rows="5" cols="40" name="Description">{description_value}</textarea>
+<textarea wrap="soft" class="box" rows="5" cols="40" name="Description">{description_value}</textarea>
 
 <br /><br />
 
@@ -48,33 +48,15 @@
 
 <hr noshade size="4" />
 
-<table cellspacing="0" cellpadding="0" border="0">
-<tr>
-     <td>
-     <input class="stdbutton" type="submit" name="Choice" value="{intl-newanswer}" />
-     </td>
-     <td>&nbsp;</td>
-     <td>
-     <input type="submit" class="stdbutton" Name="DeleteChoice" value="{intl-removeanswer}" />
-     </td>
-</tr>
-</table>
+<input class="stdbutton" type="submit" name="Choice" value="{intl-newanswer}" />
+<input type="submit" class="stdbutton" Name="DeleteChoice" value="{intl-removeanswer}" />
 
 <hr noshade size="4" />
 
 <input type="hidden" name="PollID" value="{poll_id}" />
 
-<table cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td>
-	<input class="okbutton" name="Ok" type="submit" value="{intl-ok}" />
-	</td>
-	<td>&nbsp;</td>
-	<td>
-	<input class="okbutton" type="submit" name="Back" value="{intl-back}">
-	</td>
-</tr>
-</table>
+<input class="okbutton" name="Ok" type="submit" value="{intl-ok}" />
+<input class="okbutton" type="submit" name="Back" value="{intl-back}">
 
 </form>
 

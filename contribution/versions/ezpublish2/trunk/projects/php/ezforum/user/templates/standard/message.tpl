@@ -120,7 +120,7 @@
 	</table>
 	</td>
     	<td class="{td_class}" valign="top">
-	{user}
+	<span class="small">{user}</span>
 	</td>
     	<td class="{td_class}" align="right" valign="top">
 	<span class="small">{postingtime}</span>

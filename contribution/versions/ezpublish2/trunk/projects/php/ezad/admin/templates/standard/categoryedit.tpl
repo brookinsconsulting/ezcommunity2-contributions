@@ -9,7 +9,7 @@
 <tr>
 	<td>
 	<p class="boxtext">{intl-name}:</p>
-	<input type="text" size="40" name="Name" value="{name_value}"/>
+	<input type="text" class="box" size="40" name="Name" value="{name_value}"/>
 	</td>	
 </tr>
 </table>
@@ -27,23 +27,14 @@
 </select>
 
 <p class="boxtext">{intl-description}:</p>
-<textarea rows="5" cols="40" name="Description">{description_value}</textarea>
+<textarea class="box" rows="5" cols="40" name="Description">{description_value}</textarea>
 <br /><br />
 
 <hr noshade="noshade" size="4" />
 
-<table cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td>
     <input type="hidden" name="CategoryID" value="{category_id}" />
     <input class="okbutton" type="submit" value="OK" />
-	</td>
-	<td>&nbsp;</td>
-	<td>
-       <input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />
-	</td>
-</tr>
-</table>
+    <input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />
 
 </form>
 	

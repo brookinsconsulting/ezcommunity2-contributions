@@ -5,8 +5,8 @@
      </td>
      <td align="right">
 	 <form action="/link/search/" method="post">
-	       <input type="text" name="QueryString">
-	       <input type="submit" name="search" value="{intl-search}">
+	       <input type="text" size="12" name="QueryString">
+	       <input class="stdbutton" type="submit" name="search" value="{intl-search}">
          </form>
      </td>
 </tr>
@@ -21,7 +21,7 @@
 
 <p class="boxtext">{intl-title}:</p>
 <!-- {intl-titleedit} -->
-<input type="text" name="Title" size="40" value="{title}">
+<input type="text" class="box" name="Title" size="40" value="{title}">
 
 <p class="boxtext">{intl-linkgroup}:</p>
 <!-- {intl-choosegroup} -->
@@ -33,7 +33,7 @@
 
 <p class="boxtext">{intl-url}: <a href="/link/gotolink/addhit/{link_id}/?Url={url}">{url}</a> </p>
 <!-- {intl-urledit} -->
-http://<input type="text" name="Url" size="40" value="{url}">
+http://<input type="text" class="halfbox" name="Url" size="40" value="{url}">
 
 <br />
 
@@ -41,13 +41,13 @@ http://<input type="text" name="Url" size="40" value="{url}">
 
 <p class="boxtext">{intl-key}:</p>
 <!-- {intl-search} -->
-<textarea rows="5" cols="40" name="Keywords">{keywords}</textarea>
+<textarea class="box" rows="5" cols="40" name="Keywords">{keywords}</textarea>
 
 <br />
 
 <p class="boxtext">{intl-desc}:</p>
 <!-- {intl-discedit} -->
-<textarea rows="5" cols="40" name="Description">{description}</textarea>
+<textarea class="box" rows="5" cols="40" name="Description">{description}</textarea>
 <br />
 
 <p class="boxtext">{intl-accepted}</p>
@@ -60,9 +60,9 @@ http://<input type="text" name="Url" size="40" value="{url}">
 
 <!-- BEGIN image_item_tpl -->
 <p class="boxtext">{intl-current_image}:</p>
-<p><img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
-</p>
-<input type="checkbox" name="DeleteImage">{intl-delete_image}
+<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
+
+<input type="checkbox" name="DeleteImage" />&nbsp;{intl-delete_image}
 <!-- END image_item_tpl -->
 
 <!-- BEGIN no_image_item_tpl -->
@@ -71,7 +71,7 @@ http://<input type="text" name="Url" size="40" value="{url}">
 
 <p class="boxtext">{intl-upload_image}:</p>
 <input size="40" name="ImageFile" type="file" />&nbsp;
-<input class="stdbutton" type="submit" name="Browse" value="{intl-browse}" />
+<br /><br /><input class="stdbutton" type="submit" name="Browse" value="{intl-browse}" />
 <br /><br />
 
 

@@ -29,12 +29,12 @@
 
 <hr noshade="noshade" size="4" />
 
-<img src="/admin/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 
 <a class="path" href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/0">{intl-root_category}</a>
 
 <!-- BEGIN path_item_tpl -->
-<img src="/admin/images/path-slash.gif" height="10" width="16" border="0" alt="" />
+<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="" />
 <a class="path" href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/{parent_id}">{parent_name}</a>
 <!-- END path_item_tpl -->
 

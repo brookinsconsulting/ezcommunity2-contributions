@@ -48,11 +48,11 @@
 <!-- BEGIN module_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/bug/archive/{module_id}/">{module_name}</a>&nbsp;
+	<a href="/bug/archive/{module_id}/">{module_name}</a>
 	</td>
 
 	<td class="{td_class}">
-	{module_description}&nbsp;
+	<span class="small">{module_description}</span>
 	</td>
 
 	<td class="{td_class}">
@@ -84,25 +84,25 @@
 <tr>
 	<td class="{td_class}">
 	<a href="/bug/bugview/{bug_id}/">
-	{bug_name}&nbsp;
+	{bug_name}
 	</a>
 	</td>
 
 	<td class="{td_class}">
-	{bug_status}&nbsp;
+	<span class="small">{bug_status}</span>
 	</td>
 
 	<td class="{td_class}">
-	{bug_priority}&nbsp;
+	<span class="small">{bug_priority}</span>
 	</td>
 
 	<td class="{td_class}">
 	<!-- BEGIN bug_is_closed_tpl -->
-	{intl-is_closed}&nbsp;
+	<span class="small">{intl-is_closed}</span>
 	<!-- END bug_is_closed_tpl -->
 
 	<!-- BEGIN bug_is_open_tpl -->
-	{intl-is_open}&nbsp;
+	<span class="small">{intl-is_open}</span>
 	<!-- END bug_is_open_tpl -->
 	
 	<!-- BEGIN bug_edit_tpl -->
@@ -122,7 +122,7 @@
 <!-- END bug_list_tpl -->
 
 <!-- BEGIN bug_edit_buttons_tpl -->
-<hr noshade size="4"/>
+<hr noshade size="4" />
 <input class="stdbutton" type="submit" name="Delete" value="{intl-delete_bugs}" />
 <!-- END bug_edit_buttons_tpl -->
 </form>

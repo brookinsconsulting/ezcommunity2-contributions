@@ -29,14 +29,13 @@
 <br />
 <!-- END errors_tpl -->
 
-
-<br>
+<br />
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td class="br" colspan="2">
 	<p class="boxtext">{intl-name}:</p>
-	<input type="text" size="30" name="Name" value="{name}">
+	<input type="text" class="box" size="40" name="Name" value="{name}">
 	<br><br>
 	</td>
 </tr>
@@ -79,7 +78,7 @@
 <tr>
 	<td colspan="2">
 	<p class="boxtext">{intl-desc}:</p>
-	<textarea wrap="soft" cols="30" rows="10" name="Description">{description}</textarea>
+	<textarea wrap="soft" class="box" cols="40" rows="10" name="Description">{description}</textarea>
 	<br><br>
 	</td>
 </tr>
@@ -98,11 +97,11 @@
 	</td>
 
 	<td>
-	<div class="check"><input type="checkbox" name="IsPublic" {todo_is_public} >&nbsp;{intl-is_public}</div>
+	<input type="checkbox" name="IsPublic" {todo_is_public} >&nbsp;<span class="boxtext">{intl-is_public}</span>
 	</td>
 	<!-- BEGIN send_mail_tpl -->
 	<td>
-	<div class="check"><input type="checkbox" name="SendMail"  >&nbsp;{intl-send_mail}</div>
+	<input type="checkbox" name="SendMail"  >&nbsp;<span class="boxtext">{intl-send_mail}</span>
 	</td>
 	<!-- END send_mail_tpl -->
 </tr>
