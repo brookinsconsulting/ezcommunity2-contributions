@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.26 2001/05/08 10:41:57 ce Exp $
+// $Id: messagelist.php,v 1.27 2001/05/08 10:49:56 ce Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -132,10 +132,11 @@ else
 {
     $level = 0;
     $i = 0;
-    $user = new eZUser( );
     $time = new eZDateTime();
     foreach ( $messageList as $message )
-    {        
+    {
+        $user = new eZUser( );
+        $t->set_var( "user", "" );
         $t->set_var( "edit_message_item", "" );
 
         if ( ( $i % 2 ) == 0 )
@@ -151,6 +152,7 @@ else
         $t->set_var( "message_id", $message["ID"] );
         
         $userID = $message["UserID"];
+
         $user->get( $userID );
         
         if ( $showThreads == "Show" )
