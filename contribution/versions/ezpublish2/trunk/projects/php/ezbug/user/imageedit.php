@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.3 2001/03/02 16:15:30 ce Exp $
+// $Id: imageedit.php,v 1.4 2001/03/06 17:10:53 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <16-Feb-2001 14:32:36 fh>
@@ -49,23 +49,22 @@ if ( $Action == "Insert" )
     {
         $bug = new eZBug( $BugID );
         $image = new eZImage();
-        $image->setName( $Name );
-        $image->setCaption( $Caption );
+        if( $image->checkImage( $file ) && $image->setImage( $file ) )
+        {
+            $image->setName( $Name );
+            $image->setCaption( $Caption );
 
-        $image->setImage( $file );
+            $image->store();
         
-        $image->store();
-        
-        $bug->addImage( $image );
-
-        eZLog::writeNotice( "Picture added to bug: $BugID  from IP: $REMOTE_ADDR" );
+            $bug->addImage( $image );
+            eZLog::writeNotice( "Picture added to bug: $BugID  from IP: $REMOTE_ADDR" );
+        }
     }
     else
     {
         print( $file->name() . " not uploaded successfully" );
     }
 
-    print( "3" );
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /bug/report/edit/" . $BugID . "/" );
     exit();
@@ -78,19 +77,18 @@ if ( $Action == "Update" )
     if ( $file->getUploadedFile( "userfile" ) )
     {
         $bug = new eZBug( $BugID );
-
-        $oldImage = new eZImage( $ImageID );
-        $bug->deleteImage( $oldImage );
-        
         $image = new eZImage();
-        $image->setName( $Name );
-        $image->setCaption( $Caption );
-
-        $image->setImage( $file );
+        if( $image->checkImage( $file ) && $image->setImage( $file ) )
+        {
+            $oldImage = new eZImage( $ImageID );
+            $bug->deleteImage( $oldImage );
         
-        $image->store();
+            $image->setName( $Name );
+            $image->setCaption( $Caption );
+            $image->store();
         
-        $bug->addImage( $image );
+            $bug->addImage( $image );
+        }
     }
     else
     {
