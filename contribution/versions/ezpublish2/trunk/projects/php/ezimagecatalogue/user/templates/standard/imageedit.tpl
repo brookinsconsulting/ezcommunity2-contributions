@@ -106,16 +106,12 @@
 	<input type="hidden" name="ImageID" value="{image_id}" />
 	<input type="hidden" name="Action" value="{action_value}" />
 	<input class="okbutton" type="submit" value="{intl-ok}" />
-	</form>
 	</td>
 	<td>&nbsp;</td>
 	<td>
-
-	<form method="post" action="/article/articleedit/imagelist/{article_id}/">
-	<input class="okbutton" type="submit" value="{intl-cancel}" />
-	</form>
-
+	<input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />
 	</td>
 
 </tr>
 </table>
+</form>

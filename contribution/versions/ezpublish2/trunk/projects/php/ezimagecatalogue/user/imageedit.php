@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.3 2001/01/12 09:14:18 ce Exp $
+// $Id: imageedit.php,v 1.4 2001/01/16 16:19:52 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -26,7 +26,14 @@
 if ( isSet ( $NewCategory ) )
 {
     Header( "Location: /imagecatalogue/category/new" );
-} 
+    exit();
+}
+if ( isSet ( $Cancel ) )
+{
+    header( "Location: /imagecatalogue/image/list/" . $CategoryID . "/" );
+    exit();
+}
+
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
@@ -271,7 +278,7 @@ if ( $Action == "Edit" )
     $t->set_var( "name_value", $image->name() );
     $t->set_var( "caption_value", $image->caption() );
     $t->set_var( "image_description", $image->description() );
-    $t->set_var( "action_value", "Update" );
+    $t->set_var( "action_value", "update" );
 
     
     $t->set_var( "image_alt", $image->caption() );

@@ -42,6 +42,13 @@ switch ( $url_array[2] )
             }
             break;
 
+            case "update" :
+            {
+                $ImageID = $url_array[4];
+                $Action = "Update";
+                include( "ezimagecatalogue/user/imageedit.php" );
+            }
+            break;
         }
     }
     break;
