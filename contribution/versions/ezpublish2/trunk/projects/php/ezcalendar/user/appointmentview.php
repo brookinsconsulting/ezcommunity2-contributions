@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: appointmentview.php,v 1.14 2001/09/05 11:55:50 jhe Exp $
+// $Id: appointmentview.php,v 1.15 2001/09/05 12:51:13 jhe Exp $
 //
 // Created on: <08-Jan-2001 11:53:05 bf>
 //
@@ -22,7 +22,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
@@ -86,15 +85,16 @@ else
     $showPrivate = false;
 }
 
-$appointment = new eZAppointment();
-$appointments =& $appointment->getByUser( $tmpUser, $showPrivate );
+$appointment = new eZAppointment( $AppointmentID );
+$foundAppointment = false;
 
-foreach ( $appointments as $appointment )
+if ( $appointment->id() > 0 )
 {
-    if ( $appointment->id() == $AppointmentID )
+    $ownerUser = new eZUser( $appointment->userID() );
+    $trusteeList = $ownerUser->trustees();
+    if ( in_array( $user->id(), $trusteeList ) )
         $foundAppointment = true;
 }
-
 
 if ( $foundAppointment == false )
 {
@@ -133,7 +133,6 @@ else
         $t->parse( "public", "public_tpl" );
         $t->set_var( "private", "" );
     }
-
     switch ( $appointment->priority() )
     {
         case 0:

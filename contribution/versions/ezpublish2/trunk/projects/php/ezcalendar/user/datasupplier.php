@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.17 2001/09/03 11:27:52 jhe Exp $
+// $Id: datasupplier.php,v 1.18 2001/09/05 12:51:13 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -104,7 +104,6 @@ switch ( $url_array[2] )
     case "appointmentview" :
     {
         $AppointmentID = $url_array[3];
-
         include( "ezcalendar/user/appointmentview.php" );
     }
     break;
