@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.46 2001/10/17 12:50:22 bf Exp $
+// $Id: eztemplate.php,v 1.47 2001/11/08 11:59:11 bf Exp $
 //
 // Definition of eZTemplate class
 //
@@ -112,6 +112,23 @@ class eZTemplate
                          $phpFile = "", $style = false, $module_dir = false,
                          $state = false, $mod_time = false )
     {
+        // check for PHP version, if > 4.0.5 use new and improved str_replace
+        // instead of preg_replace. Enables usage of $ in template variables.
+        $versionArray = explode( ".", phpversion() );
+        
+        $major = $versionArray[0]; 
+        $minor = $versionArray[1]; 
+        $release = $versionArray[2];
+
+        if ( $major >= 4 && $minor >= 0 && $release >= 5 )
+        {        
+            $this->ReplaceFunc = "str_replace";
+        }
+        else
+        {
+            $this->ReplaceFunc = "preg_replace";
+        }            
+        
         // section override variables
         $languageOverride = $GLOBALS["eZLanguageOverride"];
         if ( $languageOverride != "" )
@@ -540,22 +557,34 @@ class eZTemplate
     {
         if (!is_array($varname))
         {
-            $this->varkeys[$varname] =& preg_quote("/{".$varname."}/");
-            $this->varvals[$varname] =& $value;
-//              $var = "{".$varname."}";
-//              $this->varkeys[$varname] =& $value;
-//              $this->varvals[$var] =& $value;
+            if ( $this->ReplaceFunc != "str_replace" )
+            {
+                $this->varkeys[$varname] =& preg_quote("/{".$varname."}/");
+                $this->varvals[$varname] =& $value;
+            }
+            else
+            {                
+              $var = "{".$varname."}";
+              $this->varkeys[$varname] =& $var;
+              $this->varvals[$varname] =& $value;
+            }
         }
         else
         {
             reset($varname);
             while(list($k, $v) = each($varname))
             {
-                $this->varkeys[$k] =& preg_quote("/{".$k."}/");
-                $this->varvals[$k] =& $v;
-//                  $var = "{".$k."}";
-//                  $this->varkeys[$k] =& $v;
-//                  $this->varvals[$var] =& $v;
+                if ( $this->ReplaceFunc != "str_replace" )
+                {                
+                    $this->varkeys[$k] =& preg_quote("/{".$k."}/");
+                    $this->varvals[$k] =& $v;
+                }
+                else
+                {
+                  $var = "{".$k."}";
+                  $this->varkeys[$k] =& $var;
+                  $this->varvals[$k] =& $v;
+                }
             }
         }
     }
@@ -574,8 +603,10 @@ class eZTemplate
         }
 
         $str = $this->get_var($handle);
-        $str =& preg_replace( $this->varkeys, $this->varvals, $str);
-//          $str =& strtr( $str, $this->varvals );
+
+        $rFunc = $this->ReplaceFunc;
+        $str =& $rFunc( $this->varkeys, $this->varvals, $str);
+        
         return $str;
     }
   
@@ -923,6 +954,8 @@ class eZTemplate
   
     /* last error message is retained here */
     var $last_error     = "";
+
+    var $ReplaceFunc;
 }
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.51 2001/11/06 12:40:15 jhe Exp $
+// $Id: ezdb.php,v 1.52 2001/11/08 11:59:11 bf Exp $
 //
 // Definition of eZDB class
 //
@@ -129,21 +129,25 @@ class eZDB
       \static
       Returns a reference to the global database object, if it doesn't exists it is initialized.
       This is safe to call without an object since it does not access member variables.
+
+      If $prefix is set the DB connection variables are read from the site.ini like:
+      $server =& $ini->read_var( "site", "$prefixServer" ); Using this method you can read users
+      from a different database. Example of prefix is UserServer_.      
     */
-    function &globalDatabase(  )
+    function &globalDatabase( $prefix="" )
     {
-        $impl =& $GLOBALS["eZDB"];
+        $impl =& $GLOBALS[$prefix . "eZDB"];
 
         $class =& get_class( $impl );
         if ( !preg_match( "/ez.*?db/", $class ) )
         {
             $ini =& INIFile::globalINI();
 
-            $server =& $ini->read_var( "site", "Server" );
-            $db =& $ini->read_var( "site", "Database" );
-            $user =& $ini->read_var( "site", "User" );
-            $password =& $ini->read_var( "site", "Password" );
-            $databaseImplementation =& $ini->read_var( "site", "DatabaseImplementation" );
+            $server =& $ini->read_var( "site", $prefix . "Server" );
+            $db =& $ini->read_var( "site", $prefix . "Database" );
+            $user =& $ini->read_var( "site", $prefix . "User" );
+            $password =& $ini->read_var( "site", $prefix . "Password" );
+            $databaseImplementation =& $ini->read_var( "site", $prefix . "DatabaseImplementation" );
             
             switch ( $databaseImplementation )
             {
@@ -176,8 +180,7 @@ class eZDB
                 }
                 break;
             }
-        }
-        
+        }        
 
         return $impl;
     }
