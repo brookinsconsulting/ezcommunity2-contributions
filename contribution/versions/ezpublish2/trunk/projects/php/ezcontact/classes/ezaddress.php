@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezaddress.php,v 1.20 2000/11/29 11:24:23 pkej-cvs Exp $
+// $Id: ezaddress.php,v 1.21 2000/11/29 11:26:50 pkej-cvs Exp $
 //
 // Definition of eZAddress class
 //
@@ -204,7 +204,7 @@ class eZAddress
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        if( is_numeric( $value )
+        if( is_numeric( $value ) )
         {
             $this->AddressType = $value;
         }
@@ -223,7 +223,7 @@ class eZAddress
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        if( is_numeric( $value )
+        if( is_numeric( $value ) )
         {
             $this->AddressType = $value;
         }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezonline.php,v 1.5 2000/11/29 11:23:43 pkej-cvs Exp $
+// $Id: ezonline.php,v 1.6 2000/11/29 11:26:51 pkej-cvs Exp $
 //
 // Definition of eZOnline class
 //
@@ -247,7 +247,7 @@ class eZOnline
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        if( is_numeric( $value )
+        if( is_numeric( $value ) )
         {
             $this->OnlineTypeID= $value;
         }
@@ -266,7 +266,7 @@ class eZOnline
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        if( is_numeric( $value )
+        if( is_numeric( $value ) )
         {
             $this->OnlineTypeID= $value;
         }
