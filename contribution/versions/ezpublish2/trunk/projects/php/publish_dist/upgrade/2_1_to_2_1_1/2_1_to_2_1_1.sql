@@ -211,7 +211,7 @@ CREATE TABLE eZArticle_Attribute (
   Created timestamp(14),
   PRIMARY KEY (ID),
   INDEX( Placement )
-);
+) TYPE=MyISAM;
 
 #
 # Dumping data for table 'eZArticle_Attribute'
@@ -228,7 +228,7 @@ CREATE TABLE eZArticle_AttributeValue (
   Value text,
   PRIMARY KEY (ID),
   INDEX( ArticleID, AttributeID )
-);
+) TYPE=MyISAM;
 
 #
 # Dumping data for table 'eZArticle_AttributeValue'
@@ -242,7 +242,7 @@ CREATE TABLE eZArticle_Type (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Name varchar(150),
   PRIMARY KEY (ID)
-);
+) TYPE=MyISAM;
 
 #
 # Dumping data for table 'eZArticle_Type'
@@ -257,7 +257,7 @@ CREATE TABLE eZArticle_ArticleTypeLink (
   ArticleID int(11),
   TypeID int(11),
   PRIMARY KEY (ID)
-);
+) TYPE=MyISAM;
 
 #
 # Dumping data for table 'eZArticle_ArticleTypeLink'
@@ -284,8 +284,25 @@ CREATE TABLE eZArticle_ArticleFormDict (
   ArticleID int(11),
   FormID int(11),
   PRIMARY KEY (ID)
-);
+) TYPE=MyISAM;
 
 #
 # Dumping data for table 'eZArticle_ArticleFormDict'
 #
+
+#
+# Table structure for table 'eZImageCatalogue_ImageMap'
+#
+DROP TABLE IF EXISTS eZImageCatalogue_ImageMap;
+CREATE TABLE eZImageCatalogue_ImageMap (
+  ID int(11) NOT NULL auto_increment,
+  ImageID int(11) default NULL,
+  Link varchar(50) NOT NULL default '',
+  AltText text default '',
+  Shape int(11) NOT NULL default '0',
+  StartPosX int(11) NOT NULL default '0',
+  StartPosY int(11) NOT NULL default '0',
+  EndPosX int(11) NOT NULL default '0',
+  EndPosY int(11) NOT NULL default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
