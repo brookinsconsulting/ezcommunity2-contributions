@@ -1,4 +1,4 @@
-This is version: $Id: FAQ,v 1.4 2001/03/09 08:51:39 pkej Exp $ of this faq.
+This is version: $Id: FAQ,v 1.5 2001/05/06 13:16:05 bf Exp $ of this faq.
 
 
 
@@ -196,7 +196,9 @@ the password of the administrator user through the mysql client:
 
     INSERT INTO eZUser_User SET Password=PASSWORD('publish') WHERE Login='admin';
 
+5. Can't upload big files
 
+You must configure php to handle files bigger than 2MB.
 
 
 
