@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.39 2001/02/23 14:43:50 bf Exp $
+// $Id: ezproduct.php,v 1.40 2001/02/26 17:36:56 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -627,10 +627,10 @@ class eZProduct
        $option_array = array();
        
        $this->Database->array_query( $option_array, "SELECT OptionID FROM eZTrade_ProductOptionLink WHERE ProductID='$this->ID'" );
-       
-       for ( $i=0; $i<count($option_array); $i++ )
+
+       for ( $i=0; $i < count($option_array); $i++ )
        {
-           $return_array[$i] = new eZOption( $option_array[$i]["OptionID"], false );
+           $return_array[$i] = new eZOption( $option_array[$i]["OptionID"], true );
        }
        
        return $return_array;

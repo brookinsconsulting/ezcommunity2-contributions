@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpricegroup.php,v 1.1 2001/02/26 09:23:48 jb Exp $
+// $Id: ezpricegroup.php,v 1.2 2001/02/26 17:36:56 jb Exp $
 //
 // Definition of eZPriceGroup class
 //
@@ -26,7 +26,7 @@
 //
 
 //!! 
-//! The class eZPriceGroup does
+//! The class eZPriceGroup handles price groups and prices for products and options
 /*!
 
 */
@@ -93,6 +93,9 @@ class eZPriceGroup
         $this->Placement = $array["Placement"];
     }
 
+    /*!
+      Returns all product groups from db.
+    */
     function &getAll( $as_object = true )
     {
         $db =& eZDB::globalDatabase();
@@ -106,6 +109,9 @@ class eZPriceGroup
         return $ret;
     }
 
+    /*!
+      Returns all user groups which are connected to a specific price group.
+    */
     function &userGroups( $id = false, $as_object = true )
     {
         if ( !$id )
@@ -121,6 +127,9 @@ class eZPriceGroup
         return $ret;
     }
 
+    /*!
+      Adds a user group to a price group.
+    */
     function addUserGroup( $group_id, $id = false )
     {
         if ( !$id )
@@ -134,6 +143,9 @@ class eZPriceGroup
                      PriceID='$id'" );
     }
 
+    /*!
+      Removes all user groups from a price group.
+    */
     function removeUserGroups( $id = false )
     {
         if ( !$id )
@@ -143,6 +155,9 @@ class eZPriceGroup
         $db->query( "DELETE FROM eZTrade_GroupPriceLink WHERE PriceID='$id'" );
     }
 
+    /*!
+      Returns the price group which the user group is connected to or false if none.
+    */
     function correctPriceGroup( $group_id )
     {
         $db =& eZDB::globalDatabase();
@@ -169,72 +184,108 @@ class eZPriceGroup
         return false;
     }
 
-    function correctPrice( $productid, $priceid, $optionid = 0 )
+    /*!
+      Returns the price of a product according to it's price group, option and value type.
+    */
+    function correctPrice( $productid, $priceid, $optionid = 0, $valueid = 0 )
     {
         $db =& eZDB::globalDatabase();
         $db->array_query( $array, "SELECT Price FROM eZTrade_ProductPriceLink
                                    WHERE ProductID='$productid' AND PriceID='$priceid'
-                                     AND OptionID='$optionid'" );
+                                     AND OptionID='$optionid' AND ValueID='$valueid'" );
         if ( count( $array ) == 1 )
             return $array[0]["Price"];
         return false;
     }
 
-    function prices( $productid, $optionid = 0 )
+    /*!
+      Returns all prices for a specific product with a specific option and value id.
+    */
+    function prices( $productid, $optionid = 0, $valueid = 0 )
     {
         $db =& eZDB::globalDatabase();
         $db->array_query( $array, "SELECT PriceID, Price FROM eZTrade_ProductPriceLink
-                                   WHERE ProductID='$productid' AND OptionID='$optionid'" );
+                                   WHERE ProductID='$productid' AND OptionID='$optionid'
+                                         AND ValueID='$valueid'" );
         return $array;
     }
 
-    function addPrice( $productid, $priceid, $price, $optionid = 0 )
+    /*!
+      Adds a price to a product with the specific option and value id.
+    */
+    function addPrice( $productid, $priceid, $price, $optionid = 0, $valueid = 0 )
     {
         $db =& eZDB::globalDatabase();
         $db->query( "INSERT INTO eZTrade_ProductPriceLink SET
                      PriceID='$priceid', ProductID='$productid',
-                     Price='$price', OptionID='$optionid'" );
+                     Price='$price', OptionID='$optionid', ValueID='$valueid'" );
     }
 
-    function removePrices( $productid, $optionid = 0 )
+    /*!
+      Removes all prices from a product with the specific option and value id.
+    */
+    function removePrices( $productid, $optionid = 0, $valueid = 0 )
     {
         $db =& eZDB::globalDatabase();
         if ( $optionid >= 0 )
             $option_text = "AND OptionID='$optionid'";
+        if ( $valueid >= 0 )
+            $value_text = "AND ValueID='$valueid'";
         $db->query( "DELETE FROM eZTrade_ProductPriceLink
-                     WHERE ProductID='$productid' $option_text" );
+                     WHERE ProductID='$productid' $option_text $value_text" );
     }
 
+    /*!
+      Returns the id of the group.
+    */
     function id()
     {
         return $this->ID;
     }
 
+    /*!
+      Returns the name of the group.
+    */
     function name()
     {
         return $this->Name;
     }
 
+    /*!
+      Returns the description of the group.
+    */
     function description()
     {
         return $this->Description;
     }
 
+    /*!
+      Returns the placement of the group in the list.
+    */
     function placement()
     {
         return $this->Placement;
     }
 
+    /*!
+      Sets the name of the group.
+    */
     function setName( $name )
     {
         $this->Name = $name;
     }
 
+    /*!
+      Sets the description of the group.
+    */
     function setDescription( $desc )
     {
         $this->Description = $desc;
     }
 
+    /*!
+      Sets the placement of the group in the list.
+    */
     function setPlacement( $place )
     {
         $this->Placement = $place;

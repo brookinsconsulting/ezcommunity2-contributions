@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoptionvalue.php,v 1.12 2001/01/06 16:21:01 bf Exp $
+// $Id: ezoptionvalue.php,v 1.13 2001/02/26 17:36:56 jb Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -141,7 +141,7 @@ class eZOptionValue
         
         $this->Database->array_query( $optionValue_array, "SELECT ID FROM eZTrade_OptionValue ORDER BY Name" );
         
-        for ( $i=0; $i<count($optionValue_array); $i++ )            
+        for ( $i=0; $i < count($optionValue_array); $i++ )            
         {
             $return_array[$i] = new eZOptionValue( $optionValue_array[$i]["ID"], 0 );            
         }
@@ -164,14 +164,14 @@ class eZOptionValue
             $optionValue_array = array();
 
             $id = $value->id(); 
-        
-            $this->Database->array_query( $optionValue_array, "SELECT ID FROM eZTrade_OptionValue WHERE OptionID='$id' ORDER BY Name" );
-        
-            for ( $i=0; $i<count($optionValue_array); $i++ )            
+
+            $this->Database->array_query( $optionValue_array,
+            "SELECT ID FROM eZTrade_OptionValue WHERE OptionID='$id' ORDER BY Name" );
+
+            for ( $i=0; $i < count($optionValue_array); $i++ )
             {
                 $return_array[$i] = new eZOptionValue( $optionValue_array[$i]["ID"], 0 );            
             }
-        
             return $return_array;
         }
         else
@@ -179,15 +179,17 @@ class eZOptionValue
             return 0;
         }
     }
-    
+
     /*!
       Deletes a option from the database.
     */
     function delete()
     {
         $this->dbInit();
-        
-        $this->Database->array_query( $option_array, "DELETE FROM eZTrade_OptionValue WHERE ID='$this->ID'" );
+        $this->Database->array_query( $option_array, "DELETE FROM eZTrade_OptionValue
+                                                      WHERE ID='$this->ID'" );
+        $this->Database->array_query( $option_array, "DELETE FROM eZTrade_ProductPriceLink
+                                                      WHERE ValueID='$this->ID'" );
     }
     
 
