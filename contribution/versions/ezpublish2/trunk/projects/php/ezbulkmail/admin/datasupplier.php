@@ -6,6 +6,9 @@ switch ( $url_array[2] )
     case "categorylist":
     {
         $CategoryID = $url_array[3];
+        $Offset = $url_array[4];
+        if( $Offset == "" )
+            $Offset = 0;
         include_once( "ezbulkmail/admin/categorylist.php" );
     }
     break;

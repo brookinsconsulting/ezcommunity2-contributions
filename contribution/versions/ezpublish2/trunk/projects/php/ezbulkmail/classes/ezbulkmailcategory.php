@@ -315,6 +315,21 @@ class eZBulkMailCategory
     }
 
     /*!
+      Returns the number of mail in this category.
+     */
+    function mailCount()
+    {
+       $this->dbInit();
+
+       $this->Database->query_single( $result, "
+                SELECT Count( eZBulkMail_Mail.ID ) AS Count
+                FROM eZBulkMail_Mail, eZBulkMail_MailCategoryLink
+                WHERE eZBulkMail_MailCategoryLink.CategoryID='$this->ID' AND eZBulkMail_Mail.ID=eZBulkMail_MailCategoryLink.MailID" );
+       
+       return $result["Count"];
+    }
+    
+    /*!
       Returns an array with all addresses that are subscribed to this category.
      */
     function subscribers()

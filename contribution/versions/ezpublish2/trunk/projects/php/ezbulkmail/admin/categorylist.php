@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.8 2001/04/30 09:47:32 fh Exp $
+// $Id: categorylist.php,v 1.9 2001/05/02 10:22:53 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <18-Apr-2001 10:26:26 fh>
@@ -30,6 +30,7 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/INIFile.php" );
+include_once( "classes/ezlist.php" );
 
 if( isset( $Ok ) || isset( $New ) )
 {
@@ -133,7 +134,8 @@ if( is_numeric( $CategoryID ) && $CategoryID > 0 )
     $category = new eZBulkMailCategory( $CategoryID );
     $t->set_var( "current_category_name", $category->name() );
     $t->set_var( "current_category_id", $category->id() );
-    $mail = $category->mail(0, 100000);
+    $mail = $category->mail($Offset, 10);
+    $mailCount = $category->mailCount();
     $i = 0;
     foreach( $mail as $mailItem )
     {
@@ -157,6 +159,6 @@ if( is_numeric( $CategoryID ) && $CategoryID > 0 )
     $t->parse( "bulkmail", "bulkmail_tpl" );
 
 }
-
+eZList::drawNavigator( $t, $mailCount, 10, $Offset, "category_list_tpl" );
 $t->pparse( "output", "category_list_tpl" );
 ?>
