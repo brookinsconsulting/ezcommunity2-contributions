@@ -709,12 +709,9 @@ $Day = $dateArr[2];
              if ( $FileUploadFlag ){
               eZHTTPTool::header( "Location: /groupeventcalendar/eventedit/filelist/$event->ID/" );
              } else {
-              eZHTTPTool::header( "Location: /groupeventcalendar/eventedit/edit/$event->ID/" );
+	       // eZHTTPTool::header( "Location: /groupeventcalendar/eventedit/edit/$event->ID/" );
+	       eZHTTPTool::header( "Location: /groupeventcalendar/dayview/$Year/$Month/$Day/" );;
              }
-	    /*
-	    //eZHTTPTool::header( "Location: /groupeventcalendar/dayview/$Year/$Month/$Day/" );;
-	    eZHTTPTool::header( "Location: /groupeventcalendar/eventedit/edit/$event->ID/" );
-	    */
         }
         else
         {
