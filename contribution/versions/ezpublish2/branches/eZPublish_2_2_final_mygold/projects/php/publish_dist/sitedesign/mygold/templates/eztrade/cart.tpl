@@ -15,16 +15,17 @@
     <th width="1%"><nobr>&nbsp;{intl-product_qty}:</nobr></th>
     <th width="1%"><nobr>&nbsp;&nbsp;{intl-product_number}:</nobr></th>    
     <th><nobr>&nbsp;&nbsp;{intl-product_name}:</nobr></th>
+    <th width="1%" align="center"><nobr>{intl-single_price}</nobr><br /><nobr>{intl-product_total_ex_tax}</nobr></th>    
     <!-- BEGIN header_savings_item_tpl -->
     <th class="right">&nbsp;{intl-product_savings}:</th>
     <!-- END header_savings_item_tpl -->
     <!-- BEGIN header_ex_tax_item_tpl -->
-    <th width="1%"><nobr>&nbsp;{intl-product_total_ex_tax}:</nobr></th>
+    <th width="1%"><nobr>&nbsp;{intl-price}</nobr><br /><nobr>&nbsp;{intl-product_total_ex_tax}</nobr></th>
     <!-- END header_ex_tax_item_tpl -->
     <!-- BEGIN header_inc_tax_item_tpl -->
-    <th width="1%"><nobr>&nbsp;{intl-product_total_inc_tax}:</nobr></th>
+    <th width="1%"><nobr>&nbsp;{intl-price}</nobr><br /><nobr>&nbsp;{intl-product_total_inc_tax}</nobr></th>
     <!-- END header_inc_tax_item_tpl -->
-    <th width="1%">&nbsp;</th>
+    <th width="1%">	&nbsp;</th>
     <!-- BEGIN edit_voucher_info_header_tpl -->
     <!-- -->
     <!-- END edit_voucher_info_header_tpl -->
@@ -51,6 +52,7 @@
       <!-- END option_ex_tax_item_tpl -->
       <!-- END cart_item_option_tpl -->
     </td>
+    <td class="{td_class}" align="right"><nobr>{product_price}</nobr></td>
     <!-- BEGIN cart_savings_item_tpl -->
     <td class="{td_class}" align="right">&nbsp;&nbsp;<input type="hidden" name="CartIDArray[]" value="{cart_item_id}" /></td>
     <!-- END cart_savings_item_tpl -->
@@ -79,7 +81,7 @@
   <!-- END cart_item_list_tpl -->
 
   <tr>
-    <td colspan="3" align="right">{intl-subtotal}:</td>
+    <td colspan="4" align="right">{intl-subtotal}:</td>
     <!-- BEGIN subtotal_ex_tax_item_tpl -->
     <td align="right"><nobr>{subtotal_ex_tax}</nobr></td>
     <!-- END subtotal_ex_tax_item_tpl -->
@@ -89,7 +91,7 @@
     <td>&nbsp;</td>
   </tr>
   <tr>
-    <td colspan="3" align="right">{intl-shipping}:</td>
+    <td colspan="4" align="right">{intl-shipping}:</td>
     <!-- BEGIN shipping_ex_tax_item_tpl -->
     <td align="right"><nobr>{shipping_ex_tax}</nobr></td>
     <!-- END shipping_ex_tax_item_tpl -->
@@ -99,7 +101,7 @@
     <td>&nbsp;</td>
   </tr>
   <tr>
-    <td colspan="3" align="right">{intl-total}:</td>
+    <td colspan="4" align="right">{intl-total}:</td>
     <!-- BEGIN total_ex_tax_item_tpl -->
     <td align="right"><nobr>{total_ex_tax}</nobr></td>
     <!-- END total_ex_tax_item_tpl -->

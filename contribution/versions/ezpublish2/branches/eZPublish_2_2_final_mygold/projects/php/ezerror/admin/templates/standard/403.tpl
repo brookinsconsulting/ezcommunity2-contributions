@@ -1,6 +1,6 @@
 <h1>403: {intl-error}</h1>
 
-<hr noshade="noshade" size="4" />
+<hr noshade="noshade" size="1" />
 
 <p>{intl-error_msg}</p>
 

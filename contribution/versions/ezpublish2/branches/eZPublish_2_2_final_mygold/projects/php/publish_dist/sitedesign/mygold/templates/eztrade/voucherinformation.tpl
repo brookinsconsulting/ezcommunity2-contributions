@@ -14,7 +14,7 @@
 <li>{intl-missing_fields}
 <!-- END missing_fields_tpl -->
 <!-- BEGIN too_many_letters_tpl -->
-<li>{intl-too_many_letters}
+<li>{intl-too_many_letters1} {text_size} {intl-too_many_letters2} {text_limit} {intl-too_many_letters3}
 <!-- END too_many_letters_tpl -->
 </ol>
 <!-- END errors_tpl -->
@@ -125,7 +125,7 @@
     <td>  
     <table width="100%" cellpadding="10" cellspacing="0" bgcolor="#FFFFFF">
     <tr>
-    <th style="padding-top: 1px; padding-bottom: 1px">{intl-to_header}</th>
+    <th style="padding-top: 1px; padding-bottom: 1px">{intl-from_header}</th>
     </tr>
     <tr>
     <td>     
@@ -170,6 +170,8 @@
 <hr noshade="noshade" size="1" />
 <b>{intl-text}:</b><br />
 <textarea name="Description" cols="40" rows="8">{description}</textarea>
+<br />
+<span class="small">{intl-text_limit1} {text_limit} {intl-text_limit2}</span>
 <br /><br />
 <!-- END smail_tpl -->
 

@@ -1,6 +1,6 @@
 <h1>{intl-error}</h1>
 
-<hr noshade="noshade" size="4" />
+<hr noshade="noshade" size="1" />
 
 <!-- BEGIN additional_information_tpl -->
 <p class="boxtext">{intl-additional_info}:</p>

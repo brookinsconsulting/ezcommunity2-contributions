@@ -121,7 +121,7 @@
 	      &nbsp;
 	    </td>
 	    <td align="center" valign="bottom"> 
-	      <hr noshade="noshade" size="1" />
+
     	      <table border="0"><tr><td align="left"> 
 	      <!-- BEGIN price_tpl -->
 	      {product_price}<br />
@@ -131,6 +131,7 @@
 	      <!-- END alternative_currency_tpl -->
 	      <!-- END alternative_currency_list_tpl -->
 	      <!-- END price_tpl -->
+	      
               <!-- BEGIN price_range_tpl -->
 	      <!-- BEGIN price_range_min_unlimited_tpl -->
 	      <table class="small">
@@ -150,7 +151,6 @@
               <!-- END price_range_max_limited_tpl -->
               <!-- END price_range_tpl -->
 	      </td></tr></table>	      
-	      <hr noshade="noshade" size="1" />	      
 	    </td>
 	  </tr>
           <tr>
@@ -187,6 +187,14 @@
   <input class="okbutton" type="submit" name="Cart" value="{intl-add_to_cart}" />
   <input class="okbutton" type="submit" name="WishList" value="{intl-wishlist}" />
   <!-- END add_to_cart_tpl -->
+  
+  <!-- BEGIN no_add_to_cart_tpl -->
+  <table cellpadding="5" cellspacing="5" align="center">
+    <tr>
+      <th>{intl-not_there}</th>
+    </tr>
+  </table>
+  <!-- END no_add_to_cart_tpl -->
 
 <!-- BEGIN voucher_buttons_tpl -->
 <input class="okbutton" type="submit" name="Voucher" value="{intl-next}" />

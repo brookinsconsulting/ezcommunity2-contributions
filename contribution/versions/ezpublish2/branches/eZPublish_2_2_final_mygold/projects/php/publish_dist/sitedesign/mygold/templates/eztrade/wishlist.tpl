@@ -1,25 +1,22 @@
 <!-- wishlist.tpl -->
 
 <form action="{www_dir}{index}/trade/wishlist/" method="post">
-
+<h1>{intl-wishlist}</h1>
+    <hr noshade size="1" />
+    
 <!-- BEGIN full_wishlist_tpl -->
-<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
-<tr>
-    <td>
-    <h1>{intl-wishlist}</h1>
-    </td>
-    <td align="right">
+
     <!-- BEGIN public_wishlist_tpl -->
     <input type="checkbox" name="IsPublic" checked />&nbsp;<span class="boxtext">{intl-is_public}</span>
     <!-- END public_wishlist_tpl -->
     <!-- BEGIN non_public_wishlist_tpl -->
     <input type="checkbox" name="IsPublic" />&nbsp;<span class="boxtext">{intl-is_public}</span>
     <!-- END non_public_wishlist_tpl -->
-    </td>
-<tr>
+
+<table width="100%" border="1" cellspacing="0" cellpadding="0" align="center">
     <td colspan="2">
 
-    <hr noshade size="4" />
+
     <!-- BEGIN empty_wishlist_tpl -->
     <h2>{intl-empty_wishlist}</h2>
     <!-- END empty_wishlist_tpl --> 
@@ -155,46 +152,22 @@
 </table>
 
 <!-- BEGIN tax_specification_tpl -->
-<br />
-<br />
-<br />
-<br />
-
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
-<tr>
-<th class="right">{intl-tax_basis}:</th>
-<th class="right">{intl-tax_percentage}:</th>
-<th class="right">{intl-tax}:</th>
-</tr>
-
-<!-- BEGIN tax_item_tpl -->
-
-<tr>
-    <td class="{td_class}" align="right">{sub_tax_basis}</td>
-    <td class="{td_class}" align="right">{sub_tax_percentage} %</td>
-    <td class="{td_class}" align="right">{sub_tax}</td>
-</tr>
-<!-- END tax_item_tpl -->
-
-<tr>
-    <th colspan="2" class="right">{intl-total}:</th>
-    <td align="right">{tax}</td>
-</tr>
-
-</table>
+  <!-- BEGIN tax_item_tpl -->
+  &nbsp;
+  <!-- END tax_item_tpl -->
 <!-- END tax_specification_tpl -->
 
 
-<hr noshade="noshade" size="4" />
+<hr noshade="noshade" size="1" />
 
-<input class="stdbutton" type="submit" name="DeleteItems" value="{intl-delete_slected}" />&nbsp;
-<input class="stdbutton" type="submit" value="{intl-update}" />
+<input class="okbutton" type="submit" name="DeleteItems" value="{intl-delete_slected}" />&nbsp;
+<input class="okbutton" type="submit" value="{intl-update}" />
 <!-- END full_wishlist_tpl -->
 
 
 </form>
 
-<hr noshade="noshade" size="4" />
+<hr noshade="noshade" size="1" />
 
 <!-- BEGIN wishlist_checkout_tpl -->
 <form action="{www_dir}{index}/trade/sendwishlist/" method="post">

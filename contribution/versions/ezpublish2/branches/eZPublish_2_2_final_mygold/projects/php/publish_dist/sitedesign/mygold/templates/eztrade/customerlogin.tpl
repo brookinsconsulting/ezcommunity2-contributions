@@ -7,12 +7,14 @@
 	<input type="text" size="20" name="Username"/>
 	<p>{intl-password}:</p>
 	<input type="password" size="20" name="Password"/>
-	<br /><br />
+	<br />
+	<a class="small" href="/user/forgot/?RedirectURL=/trade/customerlogin/">{intl-forgot_password}</a>
+	<br /><br />
 	<hr noshade size="1" />
 	<input class="okbutton" type="submit" value="{intl-login}" />
 	<input type="hidden" name="RedirectURL" value="{redirect_url}" />
 </form>
-<br />
+<br /><br />
 <h2>{intl-new_customer}</h2>
 <p>{intl-new_text}</p>
 <form method="post" action="{www_dir}{index}/user/userwithaddress/new/?RedirectURL=/trade/customerlogin/">
