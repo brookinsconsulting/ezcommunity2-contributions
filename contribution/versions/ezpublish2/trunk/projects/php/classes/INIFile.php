@@ -104,7 +104,7 @@ class INIFile
     } 
 
     /*!
-      Parses the variabled.
+      Parses the variable.
     */
     function parse_data( $data )
     {
@@ -117,15 +117,15 @@ class INIFile
         if ( ord( $data[strlen($data) - 1] ) == 13 )
             $data = substr( $data, 0, strlen($data) - 1 );
 
-        if( ereg( "\[([[:alnum:]]+)\]",$data,$out) ) 
-        { 
-            $this->CURRENT_GROUP=$out[1]; 
+        if( ereg( "\[([[:alnum:]]+)\]", $data, $out ) )
+        {
+            $this->CURRENT_GROUP = strtolower( $out[1] ); 
         } 
         else 
         {
-            $split_data =& split( "=", $data); 
-            $this->GROUPS[$this->CURRENT_GROUP][$split_data[0]]=$split_data[1]; 
-        } 
+            $split_data =& split( "=", $data ); 
+            $this->GROUPS[ $this->CURRENT_GROUP ][ $split_data[0] ] = $split_data[1]; 
+        }
     }
 
     /*!
@@ -143,7 +143,7 @@ class INIFile
          
         $groups = $this->read_groups(); 
         $group_cnt = count($groups); 
-         
+
         for($i=0; $i<$group_cnt; $i++) 
         { 
             $group_name = $groups[$i];
@@ -185,13 +185,14 @@ class INIFile
             $groups[]=$key; 
         return $groups; 
     } 
-     
+
     /*!
       Checks if a group exists.
     */
     function group_exists( $group_name )
-    { 
-        $group =& $this->GROUPS[$group_name]; 
+    {
+        $group_name = strtolower( $group_name );
+        $group =& $this->GROUPS[$group_name];
         if (empty($group)) return false; 
         else return true; 
     } 
@@ -200,7 +201,8 @@ class INIFile
       Returns an associative array of the variables in one group.
     */
     function read_group($group) 
-    { 
+    {
+        $group = strtolower( $group );
         $group_array =& $this->GROUPS[$group]; 
         if(!empty($group_array))  
             return $group_array; 
@@ -215,7 +217,8 @@ class INIFile
       Adds a new group to the ini file.
     */
     function add_group($group_name) 
-    { 
+    {
+        $group_name = strtolower( $group_name );
         $new_group = $this->GROUPS[$group_name]; 
         if ( empty($new_group) ) 
         { 
@@ -231,7 +234,8 @@ class INIFile
       Clears a group.
     */
     function empty_group($group_name) 
-    { 
+    {
+        $group_name = strtolower( $group_name );
         unset( $this->GROUPS[$group_name] );
         $this->GROUPS[$group_name] = array();
     } 
@@ -240,7 +244,8 @@ class INIFile
       Reads a variable from a group.
     */
     function read_var( $group, $var_name )
-    { 
+    {
+        $group = strtolower( $group );
         $var_value =& $this->GROUPS[$group][$var_name]; 
         if ( !empty($var_value) )
         {
@@ -260,7 +265,8 @@ class INIFile
       The variable is splitted on ; characters.
     */
     function read_array( $group, $var_name )
-    { 
+    {
+        $group = strtolower( $group );
         $var_value =& $this->GROUPS[$group][$var_name]; 
         if ( !empty($var_value) )
         {
@@ -279,6 +285,7 @@ class INIFile
     */
     function set_var( $group, $var_name, $var_value )
     {
+        $group = strtolower( $group );
         $this->GROUPS[$group][$var_name] = $var_value;
     }     
 
@@ -295,7 +302,7 @@ class INIFile
 
     var $INI_FILE_NAME =  ""; 
     var $ERROR =  ""; 
-    var $GROUPS = array(); 
+    var $GROUPS = array();
     var $CURRENT_GROUP =  "";
     var $WRITE_ACCESS = ""; 
     
