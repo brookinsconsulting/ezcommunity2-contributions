@@ -12,12 +12,11 @@ if( $Action == "article" ) // return all the data in the category
     $readGroups = eZObjectPermission::getGroups( $ID, "article_article", 'r', false );
     $article = new eZArticle( $ID );
     
-    $ReturnData = new eZXMLRPCStruct( array( "ID" => createURLStruct( $article->id() ),
+    $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezarticle", "article", $article->id() ),
                                              "AuthorID" => new eZXMLRPCInt( $article->author( false ) ),
                                              "Name" => new eZXMLRPCString( $article->name( false ) ), // title
                                              "Contents" => new eZXMLRPCString( $article->contents( false ) ),
-                                             "AuthorText" => new eZXMLRPCString( $article->authorText( false ) ),
-                                             "AuthorEmail" => new eZXMLRPCString( $article->authorEmail( false ) ),
+                                             "ContentsWriterID" => new eZXMLRPCString( $article->contentsWriter( true ) ),
                                              "LinkText" => new eZXMLRPCString( $article->linkText( false ) ),
                                              "ManualKeyWords" => new eZXMLRPCString( $article->manualKeywords() ),
                                              "Discuss" => new eZXMLRPCBool( $article->discuss() ),
@@ -26,10 +25,14 @@ if( $Action == "article" ) // return all the data in the category
                                              "Images" => new eZXMLRPCArray( $imageList = $article->images( false ) ),
                                              "ReadGroups" => new eZXMLRPCArray( $readGroups ),
                                              "WriteGroups" => new eZXMLRPCArray( $writeGroups )
+//                                             "StartDate" => new eZXMLRPCStruct(),
+//                                             "StopDate" => new eZXMLRPCStruct(),
+//                                             "PublishedDate" => new eZXMLRPCStruct(),
                                              )
                                       );
 
 }
+// TODO, storearticle needs work..
 else if( $Action == "storearticle" )
 {
     $ID = $Data["ID"]->value();
@@ -41,8 +44,6 @@ else if( $Action == "storearticle" )
     $article->setAuthor( $Data["AuthorID"]->value() );
     $article->setName( $Data["Name"]->value() ); // title
     $article->setContents( $Data["Contents"]->value() );
-    $article->setAuthorText( $Data["AuthorText"]->value() );
-    $article->setAuthorEmail( $Data["AuthorEmail"]->value() );
     $article->setLinkText( $Data["LinkText"]->value() );
     $article->setManualKeywords( $Data["ManualKeywords"] );
     $article->setDiscuss( $Data["Discuss"] );
@@ -68,9 +69,58 @@ else if( $Action == "storearticle" )
     foreach( $Data["WriteGroups"]->value() as $writeGroup )
         eZObjectPermission::setPermission( $writeGroup->value(), $ID, "article_article", 'w' );
     
-    $ReturnData = new eZXMLRPCStruct( array( "ErrorID" => new eZXMLRPCInt( 0 ),
-                                             "ErrorString" => new eZXMLRPCString( "" )
+    $category = eZArticleCategory::categoryDefinitionStatic( $ID )
+    $path =& $category->path();
+    if ( $category->id() != 0 )
+    {
+        $par[] = createURLStruct( "ezarticle", "category", 0 );
+    }
+    else
+    {
+        $par[] = createURLStruct( "ezarticle", "" );
+    }
+    foreach( $path as $item )
+    {
+        if ( $item[0] != $category->id() )
+            $par[] = createURLStruct( "ezarticle", "category", $item[0] );
+    }
+
+    
+    $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezarticle", "article", $ID ),
+                                             "Path" => new eZXMLRPCArray( $par ),
+                                             "UpdateType" => new eZXMLRPCString( $Command )
                                              )
                                       );
+    $Command = "update";
+
+}
+else if( $Command == "delete" )
+{
+    $category = eZArticleCategory::categoryDefinitionStatic( $ID )
+    $path =& $category->path();
+    if ( $category->id() != 0 )
+    {
+        $par[] = createURLStruct( "ezarticle", "category", 0 );
+    }
+    else
+    {
+        $par[] = createURLStruct( "ezarticle", "" );
+    }
+    foreach( $path as $item )
+    {
+        if ( $item[0] != $category->id() )
+            $par[] = createURLStruct( "ezarticle", "category", $item[0] );
+    }
+
+    
+    $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezarticle", "article", $ID ),
+                                             "Path" => new eZXMLRPCArray( $par ),
+                                             "UpdateType" => new eZXMLRPCString( $Command )
+                                             )
+                                      );
+    $Command = "update";
+    
+    $article = new eZArticle( $ID );
+    $article->delete();
 }
 ?>
