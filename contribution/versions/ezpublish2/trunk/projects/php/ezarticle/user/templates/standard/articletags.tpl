@@ -91,3 +91,30 @@
 </tr>
 </table>
 <!-- END factbox_tpl -->
+
+
+<!-- BEGIN bullet_tpl -->
+<ul>
+	<!-- BEGIN bullet_item_tpl -->
+	<li>
+	{contents}
+	</li>
+	<!-- END bullet_item_tpl -->
+</ul>
+<!-- END bullet_tpl -->
+
+<!-- BEGIN list_tpl -->
+<ol>
+	<!-- BEGIN list_item_tpl -->
+	<li>
+	{contents}
+	</li>
+	<!-- END list_item_tpl -->
+</ol>
+<!-- END list_tpl -->
+
+<!-- BEGIN quote_tpl -->
+<blockquote>
+{contents}
+</blockquote>
+<!-- END quote_tpl -->

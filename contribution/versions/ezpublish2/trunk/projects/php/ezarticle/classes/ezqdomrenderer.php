@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.16 2001/07/11 09:31:04 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.17 2001/07/13 12:02:54 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -159,6 +159,14 @@ class eZQDomrenderer
         $this->Template->set_block( "articletags_tpl", "underline_tpl", "underline"  );
         $this->Template->set_block( "articletags_tpl", "strong_tpl", "strong"  );
         $this->Template->set_block( "articletags_tpl", "factbox_tpl", "factbox"  );
+        $this->Template->set_block( "articletags_tpl", "quote_tpl", "quote"  );
+
+        // lists
+        $this->Template->set_block( "articletags_tpl", "bullet_tpl", "bullet"  );
+        $this->Template->set_block( "bullet_tpl", "bullet_item_tpl", "bullet_item"  );
+
+        $this->Template->set_block( "articletags_tpl", "list_tpl", "list"  );
+        $this->Template->set_block( "list_tpl", "list_item_tpl", "list_item"  );
         
         $this->Article = $article;
     }
@@ -554,27 +562,53 @@ class eZQDomrenderer
         switch ( $paragraph->name )
         {
             case "bullet" :
+            case "list" :
             {
                 $tmpContent = "";
+                $content = "";
                 foreach ( $paragraph->children as $child )
                 {
                     if ( $child->name == "text" )
                     {
-                        $content = $child->content;
+                        $content .= $child->content;
                     }
                     else
                     {
-                        $content = $this->renderStandards( $child );
+                        $content .= $this->renderStandards( $child );
                         $content .= $this->renderLink( $child );                        
                         $content .= $this->renderImage( $child );
                         $content .= $this->renderHeader( $child );
                     }
 
-                    $content = trim( $content );
-                    $tmpContent .= preg_replace( "#^(.*)$#m", "<li>\\1</li>", $content );
                 }
+
+                $content = trim( $content );
+                $lines = explode( "\n", $content );
                 
-                $pageContent .= "<ul>" . $tmpContent . "</ul>";
+                if ( $paragraph->name == "bullet" )
+                {
+                    $this->Template->set_var( "bullet", "" );
+                    $this->Template->set_var( "bullet_item", "" );
+
+                    foreach ( $lines as $line )
+                    {
+                        $this->Template->set_var( "contents", $line );
+                        $tmpContent = $this->Template->parse( "bullet_item", "bullet_item_tpl", true );
+                    }
+                    $pageContent = $this->Template->parse( "bullet", "bullet_tpl" );
+                }
+                else
+                {
+                    $this->Template->set_var( "list", "" );
+                    $this->Template->set_var( "list_item", "" );
+
+                    foreach ( $lines as $line )
+                    {
+                        $this->Template->set_var( "contents", $line );
+                        $tmpContent = $this->Template->parse( "list_item", "list_item_tpl", true );
+                    }
+                    $pageContent = $this->Template->parse( "list", "list_tpl" );
+                }
 
             } break;
 
@@ -583,6 +617,7 @@ class eZQDomrenderer
             case "underline" :
             case "strong" :
             case "factbox" :
+            case "quote" :
             {
                 $tmpContent = "";
                 if ( count( $paragraph->children ) )
@@ -605,19 +640,23 @@ class eZQDomrenderer
                 switch ( $paragraph->name )
                 {
                     case "bold" :
-                        $pageContent = $this->Template->parse( "bold", "bold_tpl" );
+                        $pageContent = trim( $this->Template->parse( "bold", "bold_tpl" ) );
                         break;
                     case "italic" :
-                        $pageContent = $this->Template->parse( "italic", "italic_tpl" );
+                        $pageContent = trim( $this->Template->parse( "italic", "italic_tpl" ) );
                         break;
                     case "underline" :
-                        $pageContent = $this->Template->parse( "underline", "underline_tpl" );
+                        $pageContent = trim( $this->Template->parse( "underline", "underline_tpl" ) );
                     break;
                     case "strong" :
-                        $pageContent = $this->Template->parse( "strong", "strong_tpl" );
+                        $pageContent = trim( $this->Template->parse( "strong", "strong_tpl" ) );
                     break;
                     case "factbox" :
-                        $pageContent = $this->Template->parse( "strong", "factbox_tpl" );
+                        $pageContent = trim( $this->Template->parse( "factbox", "factbox_tpl" ) );
+                    break;
+                    case "quote" :
+                        $this->Template->set_var( "contents", trim( $tmpContent ) );
+                        $pageContent = trim( $this->Template->parse( "quote", "quote_tpl" ) );
                     break;
                 }
                 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.104 2001/07/11 14:15:15 bf Exp $
+// $Id: articleedit.php,v 1.105 2001/07/13 12:02:54 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -270,7 +270,6 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
 
             $article->store();
             $ArticleID = $article->id();
-
 
             if ( isset( $AddItem ) )
             {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.12 2001/07/09 13:06:00 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.13 2001/07/13 12:02:54 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -481,12 +481,6 @@ class eZQDomGenerator
             
             switch ( $paragraph->name )
             {
-                case "bullet" :
-                {                        
-                    $pageContent .= "<bullet>" . $tmpContent . "</bullet>";
-                }
-                break;
-                
                 case "bold" :
                 {                        
                     $pageContent .= "<bold>" . $tmpContent . "</bold>";
@@ -511,9 +505,27 @@ class eZQDomGenerator
                 }
                 break;
 
+                case "bullet" :
+                {                        
+                    $pageContent .= "<bullet>" . $tmpContent . "</bullet>";
+                }
+                break;
+
+                case "list" :
+                {                        
+                    $pageContent .= "<list>" . $tmpContent . "</list>";
+                }
+                break;
+                
                 case "factbox" :
                 {                        
                     $pageContent .= "<factbox>" . $tmpContent . "</factbox>";
+                }
+                break;
+
+                case "quote" :
+                {                        
+                    $pageContent .= "<quote>" . $tmpContent . "</quote>";
                 }
                 break;
             }
