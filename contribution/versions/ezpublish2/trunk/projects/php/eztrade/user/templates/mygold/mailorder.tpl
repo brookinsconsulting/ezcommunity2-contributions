@@ -4,8 +4,9 @@
 <!-- BEGIN subject_user_tpl -->
 {intl-mail_subject_user} {site_url}
 <!-- END subject_user_tpl -->
-http://{site_url} {intl-headline}
-
+http://{site_url}
+{intl-headline}
+{stringline}
 {intl-order_no}: {order_number}
 
 <!-- BEGIN billing_address_tpl -->
@@ -48,7 +49,7 @@ http://{site_url} {intl-headline}
 
 {intl-other_instructions_on_web_site} http://{site_url}
 {stringline}
-{intl-footer1}
-{intl-footer2}
-{intl-footer3}
-{intl-footer4}
+ MyGold.com - Impetex GmbH | Tel: +49 (8041) 5562   
+ Marktstr. 24              | Fax: +49 (8041) 70932
+ D-83646 Bad Tölz          | info@mygold.com
+{stringline}

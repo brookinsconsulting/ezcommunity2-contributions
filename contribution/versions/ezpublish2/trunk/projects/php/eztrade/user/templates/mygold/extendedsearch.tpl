@@ -28,9 +28,14 @@
         <td>
 	    <select name="PriceRange">
 		<option value="-">{intl-all_range}</option>
-		<option value="50-100">50-100</option>
-		<option value="100-150">100-150</option>
-		<option value="150-200">150-200</option>
+		<option value="0-50">0-50 DM</option>
+		<option value="50-100">50-100 DM</option>
+		<option value="100-150">100-150 DM</option>
+		<option value="150-200">150-200 DM</option>		
+		<option value="200-300">200-300 DM</option>
+		<option value="300-500">300-500 DM</option>
+		<option value="500-1000">100-150 DM</option>
+		<option value="1000-100000">&gt; 1000 DM</option>		
 	    </select>
 	</td>
     </tr>

@@ -6,14 +6,19 @@
 http://{host_name}/trade/viewwishlist/{user_id}/
 
 {intl-message_from} {first_name}:
-------------------------------------------
+----------------------------------------------------
 {message}
 
 {intl-wishlist}:
-------------------------------------------
+----------------------------------------------------
 <!-- BEGIN product_tpl -->
 {product_name} ( http://{host_name}/trade/productview/{product_id}/ )
 
 <!-- END product_tpl -->
-------------------------------------------
-
+----------------------------------------------------
+MyGold.com - Impetex GmbH
+http://www.mygold.com
+info@mygold.com
+Tel: 01801-MYGOLD
+Fax: 08041-70392
+----------------------------------------------------

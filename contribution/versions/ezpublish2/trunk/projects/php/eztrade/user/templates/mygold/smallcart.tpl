@@ -1,7 +1,7 @@
 <!-- BEGIN empty_cart_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
   <tr align="center"> 
-	<th colspan="2">{intl-cart}</th>
+	<th>{intl-cart}</th>
   </tr>
   <tr> 
 	<td class="spacer5">&nbsp;</td>
@@ -12,9 +12,12 @@
   <tr>
 	<td class="spacer5">&nbsp;</td>
   </tr>
-  	<tr> 
-	  <td class="bgspacer"><img src="/sitedesign/mygold/images/shim.gif" alt="" width="1" height="2" /></td>
-	</tr>
+  <tr> 
+	<td class="bgspacer"><img src="/sitedesign/mygold/images/shim.gif" alt="" width="1" height="2" /></td>
+  </tr>
+  <tr>
+	<td class="spacer5">&nbsp</td>
+  </tr>
 </table>
 <!-- END empty_cart_tpl -->
 
@@ -98,6 +101,9 @@
 	<td class="bgspacer" colspan="2">
 	    <img src=""/sitedesign/mygold/images/shim.gif" alt="" width="1" height="2" />
 	</td>
+    </tr>
+    <tr>
+	<td class="spacer5" colspan="2">&nbsp</td>
     </tr>
 </table>
 <!-- END cart_item_list_tpl -->

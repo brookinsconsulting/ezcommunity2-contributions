@@ -104,7 +104,6 @@
 								<!-- END value_price_currency_list_tpl -->
 								<!-- END value_tpl -->
 							</select>
-							{option_description} 
 							<!-- END option_tpl -->
 						</td>
 						<td align="right" valign="bottom"> 
