@@ -34,6 +34,15 @@ switch( $url_array[2] )
         include( "ezmail/user/configure.php" );
     }
     break;
+
+    case "accountedit" :
+    {
+        $AccountID = $url_array[3];
+        if( $AccountID == "" )
+            $AccountID = 0;
+        include( "ezmail/user/accountedit.php" );
+    }
+    break;
     
     default:
     {

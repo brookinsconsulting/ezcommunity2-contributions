@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.6 2001/03/24 21:52:48 fh Exp $
+// $Id: ezmail.php,v 1.7 2001/03/25 14:13:54 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -524,7 +524,7 @@ class eZMail
     }
 
     /*
-      Returns the first folder that this mail is a member of
+      Returns the first folder that this mail is a member of.
      */
     function folder( $AsObject = true )
     {
@@ -543,6 +543,36 @@ class eZMail
         }
 
         return false;
+    }
+
+    /*!
+      \static
+      Returns all mail that belongs to this user as an array of eZMail objects.
+     */
+    function getByUser( $user = false, $onlyUnread = false )
+    {
+        if( get_class( $user ) != "ezuser" )
+            $user = eZUser::currentUser();
+
+        $unreadOnlySQL = "";
+        if( $onlyUnread == false )
+        {
+            $unreadOnlySQL = "AND IsRead='0'";
+        }
+        
+        $return_array = array();
+        $res = array();
+        $userid = $user->id();
+        $database = eZDB::globalDatabase();
+        $query = "SELECT ID FROM eZMail_Mail WHERE UserID='$userid' $unreadOnlySQL";
+        $database->array_query( $res, $query );
+
+        for ( $i=0; $i < count($res); $i++ )
+        {
+            $return_array[$i] = new eZMail( $res[$i]["ID"] );
+        }
+
+        return $return_array;
     }
 
     

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailaccount.php,v 1.7 2001/03/24 18:08:43 fh Exp $
+// $Id: ezmailaccount.php,v 1.8 2001/03/25 14:13:54 fh Exp $
 //
 // eZMailAccount class
 //
@@ -173,6 +173,14 @@ class eZMailAccount
 
     
 /****************** BORING SET AND GET FUNCTIONS ***************************/
+
+    /*
+      Returns the ID of this object.
+     */
+    function id()
+    {
+        return $this->ID;
+    }
     
   /*!
     */
@@ -336,6 +344,24 @@ class eZMailAccount
     }
 
 /********** INTERESTING FUNCTIONS *********************/
+    /*!
+      \static
+      
+      Returns true if the given account belongs to the given user.
+     */
+    function isOwner( $user, $accountID )
+    {
+        if( get_class( $user ) == "ezuser" )
+            $user = $user->id();
+        
+        $database =& eZDB::globalDatabase();
+        $database->query_single( $res, "SELECT UserID from eZMail_Account WHERE ID='$accountID'" );
+        if( $res["UserID"] == $user )
+            return true;
+        
+        return false;
+    }
+
     /*!
       \static
       

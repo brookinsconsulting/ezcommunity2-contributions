@@ -36,9 +36,9 @@
 
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
-  <td><input class="stdbutton" type="submit" name="Move" value="{intl-new}" /></td>
+  <td><input class="stdbutton" type="submit" name="NewAccount" value="{intl-new}" /></td>
   <td>&nbsp;</td>
-  <td><input class="stdbutton" type="submit" name="NewFolder" value="{intl-delete}" /></td>
+  <td><input class="stdbutton" type="submit" name="DeleteAccounts" value="{intl-delete}" /></td>
 </tr>
 </table>
 <hr noshade="noshade" size="4">

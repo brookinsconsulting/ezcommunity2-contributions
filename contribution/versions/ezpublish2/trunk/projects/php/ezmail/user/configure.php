@@ -8,6 +8,17 @@ include_once( "classes/ezhttptool.php" );
 include_once( "ezmail/classes/ezmailaccount.php" );
 include_once( "ezmail/classes/ezmailfolder.php" );
 
+if( isset( $NewAccount ) )
+{
+    eZHTTPTool::header( "Location: /mail/accountedit" );
+    exit();
+}
+
+if( isset( $DeleteAccounts ) )
+{
+}
+
+
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZMailMain", "Language" ); 
 
@@ -27,6 +38,7 @@ $user = eZUser::currentUser();
 $accounts = eZMailAccount::getByUser( $user->id() );
 foreach( $accounts as $account )
 {
+    $t->set_var( "account_id", $account->id() );
     $t->set_var( "account_name", htmlspecialchars( $account->name() ) );
     $t->set_var( "account_type", $account->serverType() );
     $t->set_var( "account_folder", "" );
