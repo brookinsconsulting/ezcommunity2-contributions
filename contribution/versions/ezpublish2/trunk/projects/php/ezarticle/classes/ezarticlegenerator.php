@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlegenerator.php,v 1.10 2001/03/01 14:06:25 jb Exp $
+// $Id: ezarticlegenerator.php,v 1.11 2001/03/06 13:41:57 jb Exp $
 //
 // Definition of eZArticleGenerator class
 //
@@ -91,7 +91,6 @@ class eZArticleGenerator
 
         $ret =& $generator->generateXML();
 
-        print( $this->GeneratorClass );
         $this->PageCount = $generator->pageCount();
              
         return $ret;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.52 2001/03/06 09:48:41 fh Exp $
+// $Id: articleedit.php,v 1.53 2001/03/06 13:41:57 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -329,7 +329,6 @@ if ( $Action == "Update" )
     $article->setAuthorText( $AuthorText );
     
     $article->setLinkText( $LinkText );
-
 
     if( isset( $WriteGroupArray ) )
     {
