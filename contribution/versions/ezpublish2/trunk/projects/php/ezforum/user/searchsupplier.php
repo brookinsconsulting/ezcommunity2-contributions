@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: searchsupplier.php,v 1.2 2001/07/19 13:17:55 jakobn Exp $
+// $Id: searchsupplier.php,v 1.3 2001/10/01 17:47:24 br Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -34,9 +34,9 @@ include_once( "ezforum/classes/ezforum.php" );
 
 $forum = new eZForum();
 
-$article = new eZArticle();
-$SearchResult = $forum->search( $SearchText, 0, $Limit );
-$SearchCount = $forum->getQueryCount( $SearchText );
+$SearchResult = $forum->search( $SearchText, 0, $Limit, $SearchCount );
+
+// $SearchCount = $forum->getQueryCount( $SearchText );
 
 
 ?>
