@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsuser.php,v 1.3 2000/10/16 12:17:43 pkej-cvs Exp $
+// $Id: eznewsuser.php,v 1.4 2000/10/16 12:24:42 pkej-cvs Exp $
 //
 // Definition of eZNewsUser class
 //
@@ -104,11 +104,23 @@ class eZNewsUser
                     // Else we try with the last element.
                     if( $count == 1 )
                     {
-                        $value = $this->doItem( $urlPathOne );
+                        if( $inMeta == true )
+                        {
+                        }
+                        else
+                        {
+                            $value = $this->doItem( $urlPathOne );
+                        }
                     }
                     else
                     {
-                        $value = $this->doItem( $urlPathLast );
+                        if( $inMeta == true )
+                        {
+                        }
+                        else
+                        {
+                            $value = $this->doItem( $urlPathLast );
+                        }
                     }
                     break;
                 
@@ -117,7 +129,13 @@ class eZNewsUser
         
         if( $value == false )
         {
-            $value = $this->doDefault();
+            if( $inMeta == true )
+            {
+            }
+            else
+            {
+                $value = $this->doDefault();
+            }
         }
         
         return $value;
