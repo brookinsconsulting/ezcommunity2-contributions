@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezrdfimporter.php,v 1.14.2.3 2001/11/19 16:56:19 bf Exp $
+// $Id: ezrdfimporter.php,v 1.14.2.4 2001/11/19 16:58:11 bf Exp $
 //
 // Definition of ezrdfimporter class
 //
@@ -69,7 +69,6 @@ class eZRDFImporter
         {
             foreach ( $doc->children as $child )
             {
-                print( $child->name );
                 if ( $child->name == "RDF" )
                 {
                     foreach ( $child->children as $channel )
