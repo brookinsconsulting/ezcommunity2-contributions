@@ -1,6 +1,6 @@
 <?
 //
-// $Id: messageedit.php,v 1.47 2001/05/16 09:12:47 wojciechp Exp $
+// $Id: messageedit.php,v 1.48 2001/06/21 15:07:02 br Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -28,6 +28,9 @@ include_once( "classes/eztemplate.php" );
 include_once( "ezforum/classes/ezforum.php" );
 include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
+
+$ini =& INIFile::globalINI();
+$Language = $ini->read_var( "eZUserMain", "Language" );
 
 if( isset( $EditButton ) )
 {
