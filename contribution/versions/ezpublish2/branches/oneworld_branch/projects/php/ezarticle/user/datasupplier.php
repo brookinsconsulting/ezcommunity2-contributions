@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.95.2.10.2.2 2002/06/03 10:44:27 pkej Exp $
+// $Id: datasupplier.php,v 1.95.2.10.2.3 2002/06/03 11:22:44 pkej Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -214,60 +214,6 @@ switch ( $url_array[2] )
     }
     break;
 
-    case "latest":
-    {
-        $CategoryID = 0;
-        if ( !isset( $CategoryID ) || ( $CategoryID == "" ) )
-            $CategoryID = 0;
-
-        $Offset = $url_array[3];
-        if ( !is_numeric( $Offset ) )
-            $Offset = 0;
-
-
-        // if file exists... evrything is ok..
-        // if not.. check permission, then run page if ok
-        $user =& eZUser::currentUser();
-        $groupstr = "";
-        if ( get_class( $user ) == "ezuser" )
-        {
-            $groupstr = $user->groupString();
-        }
-        else
-            $user = 0;
-
-
-        if ( $PageCaching == "enabled" )
-        {
-
-            include_once( "classes/ezcachefile.php" );
-            $file = new eZCacheFile( "ezarticle/cache/", array( "articlelist", $CategoryID, $Offset, $groupstr ),
-                                     "cache", "," );
-
-            $cachedFile = $file->filename( true );
-
-            if ( $file->exists() )
-            {
-                include( $cachedFile );
-            }
-            else if ( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' ) ||
-            eZArticleCategory::isOwner( $user, $CategoryID) )
-                // check if user really has permissions to browse this category
-            {
-                $GenerateStaticPage = "true";
-
-                include( "ezarticle/user/latest.php" );
-            }
-        }
-        else if ( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' )
-        || eZArticleCategory::isOwner( $user, $CategoryID ) )
-        {
-            include( "ezarticle/user/latest.php" );
-        }
-    }
-    break;
-
-
     case "search":
     {
         if ( $url_array[3] == "advanced" )
@@ -357,6 +303,109 @@ switch ( $url_array[2] )
             $CategoryID = 0;
 
         include( "ezarticle/user/articleheaderlist.php" );
+    }
+    break;
+    
+    case "latest":
+    {
+        $CategoryID = $url_array[3];
+        
+        $articles = eZArticleCategory::articles( "time", false, true, 0, 1, $CategoryID );
+
+        foreach( $articles as $article )
+        {
+            $article->id();
+            $i++;
+        }
+
+        if ( $i != 1 )
+        {
+            include_once( "classes/ezhttptool.php" );
+            eZHTTPTool::header( "Location: /article/archive/$CategoryID/" );
+            exit();
+           
+        }
+
+        $StaticRendering = false;
+        $ArticleID = $article->id();
+        $PageNumber= $url_array[4];
+        
+        if ( $PageNumber != -1 )
+            if ( !isset( $PageNumber ) || ( $PageNumber == "" ) || ( $PageNumber < 1 ) )
+                $PageNumber= 1;
+
+        // if file exists... evrything is ok..
+        // if not.. check permission, then run page if ok
+        $user =& eZUser::currentUser();
+        $groupstr = "";
+        if ( get_class( $user ) == "ezuser" )
+        {
+            $groupIDArray =& $user->groups( false );
+            sort( $groupIDArray );
+            $first = true;
+            foreach ( $groupIDArray as $groupID )
+            {
+                $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
+                $first = false;
+            }
+        }
+        else
+            $user = 0;
+
+        $article = new eZArticle( $ArticleID );
+        $definition = $article->categoryDefinition( false );
+
+        $showComments = false;
+        if ( $PageCaching == "enabled" )
+        {
+            $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber . "," . $CategoryID . "," . ( $PrintableVersion == "enabled" )  . "," . $groupstr  .".cache";
+            if ( eZFile::file_exists( $cachedFile ) )
+            {
+                include( $cachedFile );
+                $showComments = true;
+            }
+            else if ( eZObjectPermission::hasPermissionWithDefinition( $ArticleID, "article_article", 'r', false, $definition )
+                      || eZArticle::isAuthor( $user, $ArticleID ) )
+            {
+                $GenerateStaticPage = "true";
+
+                include( "ezarticle/user/articleview.php" );
+                $showComments = true;
+            }
+            else
+            {
+            }
+        }
+        else if ( eZObjectPermission::hasPermissionWithDefinition( $ArticleID, "article_article", 'r', false, $definition )
+                  || eZArticle::isAuthor( $user, $ArticleID ) )
+        {
+            include( "ezarticle/user/articleview.php" );
+            $showComments = true;
+        }
+
+        /* Should there be permissions here? */
+        if ( $showComments == true )
+        {
+            if  ( ( $PrintableVersion != "enabled" ) && ( $UserComments == "enabled" ) )
+            {
+                $RedirectURL = "/article/view/$ArticleID/$PageNumber/";
+                $article = new eZArticle( $ArticleID );
+                if ( ( $article->id() >= 1 ) && $article->discuss() )
+                {
+                    for ( $i = 0; $i < count( $url_array ); $i++ )
+                    {
+                        if ( ( $url_array[$i] ) == "parent" )
+                        {
+                            $next = $i + 1;
+                            $Offset = $url_array[$next];
+                        }
+                    }
+                    $forum = $article->forum();
+                    $ForumID = $forum->id();
+                    include( "ezforum/user/messagesimplelist.php" );
+                }
+            }
+        }
     }
     break;
     

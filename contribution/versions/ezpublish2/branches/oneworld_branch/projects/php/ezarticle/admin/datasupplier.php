@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.56.2.3.2.1 2002/06/03 07:27:13 pkej Exp $
+// $Id: datasupplier.php,v 1.56.2.3.2.2 2002/06/03 11:22:44 pkej Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -76,6 +76,28 @@ switch ( $url_array[2] )
         if ( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' )  ||
              eZArticleCategory::isOwner( $user, $CategoryID ) )
             include( "ezarticle/admin/articlelist.php" );
+    }
+    break;
+
+    case "latest":
+    {
+        if ( !is_numeric( eZHTTPTool::getVar( "CategoryID", true ) ) )
+        {
+            $CategoryID = $url_array[3];
+            if  ( !isset( $CategoryID ) || ( $CategoryID == "" ) )
+                $CategoryID = 0;
+        }
+        else
+        {
+            $CategoryID = 0;
+        }
+        
+        if ( $url_array[4] == "parent" )
+            $Offset = $url_array[5];
+
+        if ( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' )  ||
+             eZArticleCategory::isOwner( $user, $CategoryID ) )
+            include( "ezarticle/admin/latest.php" );
     }
     break;
 
