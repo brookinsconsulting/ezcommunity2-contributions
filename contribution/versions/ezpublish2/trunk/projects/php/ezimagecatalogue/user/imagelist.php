@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.23 2001/04/24 15:03:06 fh Exp $
+// $Id: imagelist.php,v 1.24 2001/05/09 10:44:12 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -180,8 +180,9 @@ foreach ( $categoryList as $categoryItem )
     }
 
     // Check if user have write permission
-    if ( ( eZObjectPermission::hasPermission( $categoryItem->id(), "imagecatalogue_category", "w", $user ) ) ||
-         eZImageCategory::isOwner( $user, $categoryItem->id() ) )
+    if ( ( $user ) &&
+         ( eZObjectPermission::hasPermission( $categoryItem->id(), "imagecatalogue_category", "w", $user ) ) ||
+         ( eZImageCategory::isOwner( $user, $categoryItem->id() ) ) )
     {
         $t->parse( "category_write", "category_write_tpl" );
         $t->parse( "delete_categories_button", "delete_categories_button_tpl" );
@@ -290,8 +291,9 @@ foreach ( $imageList as $image )
     }
 
     // Check if user have write permission
-    if ( ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "w", $user ) ) ||
-         eZImage::isOwner( $user, $image->id() ) )
+    if ( ( $user ) &&
+         ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "w", $user ) ) ||
+         ( eZImage::isOwner( $user, $image->id() ) ) )
     {
         $can_write = true;
         if ( isSet ( $DetailView ) )
@@ -348,7 +350,8 @@ else
 // Print out the category/image menu
 if ( $category->id() != 0 )
 {
-    if ( eZObjectPermission::hasPermission( $category->id(), "imagecatalogue_category", "w", $user ) && $user )
+    if ( ( $user ) &&
+         ( eZObjectPermission::hasPermission( $category->id(), "imagecatalogue_category", "w", $user ) ) )
     {
         $t->parse( "default_new", "default_new_tpl" );
         $t->parse( "write_menu", "write_menu_tpl" );
