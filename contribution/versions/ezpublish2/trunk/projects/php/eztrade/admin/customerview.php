@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: customerview.php,v 1.1 2001/09/21 15:11:24 bf Exp $
+// $Id: customerview.php,v 1.2 2001/09/24 09:27:10 bf Exp $
 //
 // Created on: <21-Sep-2001 16:06:44 bf>
 //
@@ -40,6 +40,11 @@ $t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTem
 
 $t->set_file( "customer_view_tpl", "customerview.tpl" );
 
+// address
+$t->set_block( "customer_view_tpl", "address_list_tpl", "address_list" );
+$t->set_block( "address_list_tpl", "address_item_tpl", "address_item" );
+
+// order
 $t->set_block( "customer_view_tpl", "order_list_tpl", "order_list" );
 $t->set_block( "order_list_tpl", "order_item_tpl", "order_item" );
 
@@ -57,6 +62,26 @@ $orders =& eZOrder::getByCustomer( $customer );
 $locale = new eZLocale( $Language );
 $currency = new eZCurrency();
 
+// address list
+
+$addressArray = $customer->addresses();
+
+foreach ( $addressArray as $address )
+{    
+    $t->set_var( "street1", $address->street1() );
+    $t->set_var( "street2", $address->street1() );
+    $t->set_var( "zip", $address->zip() );
+    $t->set_var( "place", $address->place() );
+    
+    $country = $address->country();
+    $t->set_var( "country", $country->name() );
+    $t->parse( "address_item", "address_item_tpl", true );
+}
+
+$t->parse( "address_list", "address_list_tpl" );
+
+
+// order list
 $t->set_var( "order_count", count( $orders ) );
 foreach ( $orders as $order )
 {
