@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.49 2001/01/30 16:31:27 bf Exp $
+// $Id: eztechrenderer.php,v 1.50 2001/02/04 17:50:03 bf Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -427,7 +427,17 @@ class eZTechRenderer
                 }
             }
 
-            $moduleFile = "ezarticle/modules/" . $name . ".php";
+            $localModuleFile = "modules/" . $name . ".php";
+            
+            if ( file_exists( $localModuleFile ) )
+            {
+                $moduleFile = $localModuleFile;
+            }
+            else
+            {
+                $moduleFile = "ezarticle/modules/" . $name . ".php";                
+            }
+
             if ( file_exists( $moduleFile ) )
             {
                 // save the buffer contents

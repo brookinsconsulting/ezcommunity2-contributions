@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.36 2001/01/28 12:22:40 bf Exp $
+// $Id: articleedit.php,v 1.37 2001/02/04 17:50:03 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -478,8 +478,9 @@ if ( $Action == "DeleteArticles" )
         }
         eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
         exit();
-
-    }    
+    }
+    eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
+    exit();    
 }
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
