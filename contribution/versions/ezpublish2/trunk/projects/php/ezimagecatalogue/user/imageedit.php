@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imageedit.php,v 1.32 2001/07/05 09:03:42 jhe Exp $
+// $Id: imageedit.php,v 1.33 2001/07/09 08:52:56 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -471,7 +471,7 @@ foreach ( $treeArray as $catItem )
     {
         if ( $Action == "Edit" )
         {
-            $defCat = $image->categoryDefinition( );
+            $defCat = $image->categoryDefinition();
         
             if ( get_class( $defCat ) == "ezimagecategory" )
             {
@@ -508,7 +508,11 @@ foreach ( $treeArray as $catItem )
         }
         else
         {
-            $t->set_var( "selected", "" );
+            if ( $CategoryID == $catItem[0]->id() )
+                $t->set_var( "selected", "selected" );
+            else
+                $t->set_var( "selected", "" );
+            
             $t->set_var( "multiple_selected", "" );
         }
         
