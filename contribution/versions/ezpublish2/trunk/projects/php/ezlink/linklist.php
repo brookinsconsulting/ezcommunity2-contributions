@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: linklist.php,v 1.29 2000/09/01 08:17:10 bf-cvs Exp $
+    $Id: linklist.php,v 1.30 2000/09/01 08:18:10 bf-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -99,34 +99,34 @@ else
     }
 }
 
-if ( ( $LGID == 0 ) && ( $LGID != "incoming" ) )
-{
-                  if ( ( ( $i / 2 ) % 2 ) == 0 )
-        {
-            $t->set_var( "bg_color", "#f0f0f0" );
-        }
-        else
-        {
-            $t->set_var( "bg_color", "#dcdcdc" );
-        }  
+//  if ( ( $LGID == 0 ) && ( $LGID != "incoming" ) )
+//  {
+//                    if ( ( ( $i / 2 ) % 2 ) == 0 )
+//          {
+//              $t->set_var( "bg_color", "#f0f0f0" );
+//          }
+//          else
+//          {
+//              $t->set_var( "bg_color", "#dcdcdc" );
+//          }  
 
-    $t->set_var( "bg_color", "#ffffff" );
+//      $t->set_var( "bg_color", "#ffffff" );
 
-    $t->set_var( "linkgroup_id", "incoming" );
-    $t->set_var( "linkgroup_title", "<br>Innkommende linker" );
-    $t->set_var( "linkgroup_parent", "" );
+//      $t->set_var( "linkgroup_id", "incoming" );
+//      $t->set_var( "linkgroup_title", "<br>Innkommende linker" );
+//      $t->set_var( "linkgroup_parent", "" );
 
     
-    $total_sub_links = $linkGroup->getTotalIncomingLinks();
+//      $total_sub_links = $linkGroup->getTotalIncomingLinks();
     
-    $t->set_var( "total_links", $total_sub_links );
-    $t->set_var( "new_links", "X" );
+//      $t->set_var( "total_links", $total_sub_links );
+//      $t->set_var( "new_links", "X" );
      
 
-    $t->set_var( "document_root", $DOC_ROOT );
+//      $t->set_var( "document_root", $DOC_ROOT );
     
-    $t->parse( "group_list", "linkgroup_item", true );
-}
+//      $t->parse( "group_list", "linkgroup_item", true );
+//  }
 
 
 // Lister alle linker i kategori
