@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filedownload.php,v 1.8 2001/02/28 15:24:58 ce Exp $
+// $Id: filedownload.php,v 1.9 2001/03/07 11:04:34 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:39:10 bf>
@@ -26,6 +26,7 @@
 // clear what might be in the output buffer and stop the buffer.
 ob_end_clean();
 
+
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
@@ -45,22 +46,19 @@ $originalFileName = $file->originalFileName();
 $filePath = $file->filePath( true );
 
 // store the statistics
-
 $file->addPageView( $GlobalPageView );
-
-
+ 
+$filePath = preg_replace( "#.*/(.*)#", "\\1", $filePath );
+ 
 //  print( $filePath );
 
-//  # the file may be a local file with full path. 
-$fileSize = filesize( $filePath );
-$fp = fopen( $filePath, "r" );
-$content =& fread( $fp, $fileSize );
+$originalFileName = str_replace( " ", "%20", $originalFileName );
+                                
+//print( "Location: /filemanager/filedownload/$filePath/$originalFileName"  );
+//exit();
+ 
+Header( "Location: /filemanager/filedownload/$filePath/$originalFileName" );
 
-Header("Content-type: application/oct-stream"); 
-Header("Content-length: $fileSize"); 
-Header("Content-disposition: attachment; filename=\"$originalFileName\"");
-
-echo($content);
 exit();
 
 ?> 
