@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.72 2001/09/12 11:28:22 bf Exp $
+// $Id: articlelist.php,v 1.73 2001/09/12 12:39:50 jhe Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -411,7 +411,7 @@ foreach ( $articleList as $article )
     $i++;
 }
 
-eZList::drawNavigator( $t, $articleCount, $UserListLimit, $Offset, "article_list_page_tpl", $Limit );
+eZList::drawNavigator( $t, $articleCount, $UserListLimit, $Offset, "article_list_page_tpl" );
 
 if ( count( $articleList ) > 0 )    
     $t->parse( "article_list", "article_list_tpl" );
