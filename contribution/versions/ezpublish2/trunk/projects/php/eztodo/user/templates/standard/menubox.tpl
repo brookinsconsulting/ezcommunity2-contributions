@@ -11,6 +11,6 @@
 	<td width="99%"><a class="menu" href="/todo/todoedit/new/">{intl-new_todo}</a></td>
 </tr>
 <tr>
-	<td class="menuspacer">&nbsp;</td>
+	<td colspan="2" class="menuspacer">&nbsp;</td>
 </tr>
 </table>

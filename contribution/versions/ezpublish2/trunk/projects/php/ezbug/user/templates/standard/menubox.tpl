@@ -11,7 +11,7 @@
 	<td width="99%"><a class="menu" href="/bug/archive/">{intl-bug_archive}</a></td>
 </tr>
 <tr>
-	<td class="menuspacer">&nbsp;</td>
+	<td colspan="2" class="menuspacer">&nbsp;</td>
 </tr>
 </table>
 

@@ -23,7 +23,7 @@
 	<td width="99%"><a class="menu" href="{user_edit_url}/{user_id}/">{intl-change_user_info}</a></td>
 </tr>
 <tr>
-	<td class="menuspacer">&nbsp;</td>
+	<td colspan="2" class="menuspacer">&nbsp;</td>
 </tr>
 </form>
 </table>

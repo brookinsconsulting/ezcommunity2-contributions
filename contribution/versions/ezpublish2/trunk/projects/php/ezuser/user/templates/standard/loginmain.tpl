@@ -37,7 +37,7 @@
 	<td width="99%"><a class="menu" href="{user_edit_url}">{intl-register}</a></td>
 </tr>
 <tr>
-	<td class="menuspacer">&nbsp;</td>
+	<td colspan="2" class="menuspacer">&nbsp;</td>
 </tr>
 <input type="hidden" name="RedirectURL" value="{redirect_url}">
 </form>

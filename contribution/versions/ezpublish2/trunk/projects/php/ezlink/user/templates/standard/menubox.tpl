@@ -15,7 +15,7 @@
 	<td width="99%"><a  class="menu" href=/link/suggestlink/>{intl-suggest_link}</a></td>
 </tr>
 <tr>
-	<td class="menuspacer">&nbsp;</td>
+	<td colspan="2" class="menuspacer">&nbsp;</td>
 </tr>
 </table>
 

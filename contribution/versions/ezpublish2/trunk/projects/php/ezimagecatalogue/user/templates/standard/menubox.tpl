@@ -15,6 +15,6 @@
 	<td width="99%"><a class="menu" href="/imagecatalogue/image/new/">{intl-new_image}</a></td>
 </tr>
 <tr>
-	<td class="menuspacer">&nbsp;</td>
+	<td colspan="2" class="menuspacer">&nbsp;</td>
 </tr>
 </table>

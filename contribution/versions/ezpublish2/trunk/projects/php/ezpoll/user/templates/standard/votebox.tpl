@@ -21,7 +21,7 @@
 
 <!-- BEGIN novote_item_tpl -->
 <tr>
-	<td class="menutext">
+	<td colspan="2" class="menutext">
 	{novote_item}
 	</td>
 </tr>
@@ -46,7 +46,7 @@
 	<td width="99%"><a class="menu" href="/poll/polls">{intl-polls}</a></td>
 </tr>
 <tr>
-	<td class="menuspacer">&nbsp;</td>
+	<td colspan="2" class="menuspacer">&nbsp;</td>
 </tr>
 </table>
 
