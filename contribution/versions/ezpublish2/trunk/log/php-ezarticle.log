@@ -3454,3 +3454,12 @@ Maintainer(s) : bf@ez.no
     * xmlrpc/article.php:
     send over created and modified dates for DE to display them
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-08-02  Baard Farstad  <bf@ez.no>
+
+    * user/headlines.php:
+    Made it possible to reuse headlines more than one time pr page.
+
