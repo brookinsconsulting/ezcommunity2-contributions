@@ -272,3 +272,20 @@ alter table eZArticle_Log add UserID int not null;
 
 alter table eZArticle_Article add StartDate timestamp default 0;  
 alter table eZArticle_Article add StopDate timestamp default 0;
+
+alter table eZArticle_Category add SectionID int(11) default 0;
+
+#
+# Table structure for table 'eZArticle_ArticleFormDict'
+#
+DROP TABLE IF EXISTS eZArticle_ArticleFormDict;
+CREATE TABLE eZArticle_ArticleFormDict (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  ArticleID int(11),
+  FormID int(11),
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZArticle_ArticleFormDict'
+#
