@@ -9,3 +9,7 @@
    </tr>
    {forums}
 </table>
+<form action="index.php4" method="post">
+<input type="hidden" name="page" value="{docroot}/admin/category.php4">
+<input type="submit" value="Gå tilbake til kategorier">
+</form>
