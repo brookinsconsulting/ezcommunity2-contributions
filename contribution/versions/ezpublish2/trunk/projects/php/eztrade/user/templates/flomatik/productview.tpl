@@ -119,7 +119,7 @@
 	<!-- BEGIN value_price_header_tpl -->
 	<tr>
 		<th>
-		ArtNr:
+		Art. Nr:
 		</th>
 		<th>
 		Price:
@@ -154,6 +154,7 @@
 	</tr>
 	<!-- END value_tpl -->
 </table>
+
 	</td>
 </tr>
 <tr>
