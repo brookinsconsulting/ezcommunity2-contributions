@@ -95,3 +95,12 @@ update eZTrade_ProductCategoryLink set Placement=ProductID;
 alter table eZTrade_Product add Published timestamp; 
 alter table eZTrade_Product add Altered timestamp;    
 
+
+Rigths to image and file:
+insert into eZUser_Module set Name='eZFileManager';
+insert into eZUser_Module set Name='eZImageCatalogue';
+insert into eZUser_Permission set ModuleID='9', Name='WritePermission';
+insert into eZUser_Permission set ModuleID='10', Name='WritePermission';
+insert into eZUser_Permission set Name='WriteToRoot', ModuleID='9';
+insert into eZUser_Permission set Name='WriteToRoot', ModuleID='10';
+

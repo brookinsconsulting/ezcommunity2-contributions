@@ -38,7 +38,6 @@
 
 <!-- BEGIN folder_list_tpl -->
 <table width="100%" border="0" cellspacing="0" cellpadding="4" >
-
 <!-- BEGIN folder_tpl -->
 <tr>
         <!-- BEGIN folder_read_tpl -->
@@ -50,13 +49,15 @@
 	</td>
         <!-- END folder_read_tpl -->
         <!-- BEGIN folder_write_tpl -->
-	<td width="1%">
-	<a href="/filemanager/folder/delete/{folder_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{folder_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezf{folder_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a><br />
+	<td class="{td_class}" width="1%">
+	<a href="/filemanager/folder/edit/{folder_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{file_id}-red','','/ezfilemanager/user/{image_dir}/redigerminimrk.gif',1)"><img name="ezf{file_id}-red" border="0" src="/ezfilemanager/user/{image_dir}/redigermini.gif" width="16" height="16" align="top"></a><br />
+	</td>
+	<td class="{td_class}" width="1%" align="center">
+	<input type="checkbox" name="FolderArrayID[]" value="{folder_id}">
 	</td>
         <!-- END folder_write_tpl -->
 </tr>
 <!-- END folder_tpl -->
-
 </table>
 <!-- END folder_list_tpl -->
 

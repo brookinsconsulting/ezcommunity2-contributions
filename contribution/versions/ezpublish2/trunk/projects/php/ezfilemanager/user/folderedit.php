@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: folderedit.php,v 1.6 2001/01/25 13:21:29 ce Exp $
+// $Id: folderedit.php,v 1.7 2001/01/25 19:08:20 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -33,6 +33,15 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
+
+$user = eZUser::currentUser();
+
+if ( ( !$user ) || ( eZPermission::checkPermission( $user, "eZFileManager", "WritePermission" ) == false ) )
+{
+    eZHTTPTool::header( "Location: /" );
+    exit();
+}
+
 
 $ini = new INIFIle( "site.ini" );
 
@@ -81,7 +90,7 @@ if ( $Action == "Insert" || $Action == "Update" )
         $t->set_block( "errors_tpl", "error_write_permission", "error_write" );
         $t->set_var( "error_write", "" );
 
-        if ( $FolderID == 0 )
+        if ( $ParentID == 0 )
         {
             if ( eZPermission::checkPermission( $user, "eZFileManager", "WriteToRoot"  ) == false )
             {
@@ -92,7 +101,7 @@ if ( $Action == "Insert" || $Action == "Update" )
         else
         {
             $user = eZUser::currentUser();
-            $parentFolder = new eZVirtualFolder( $FolderID );
+            $parentFolder = new eZVirtualFolder( $ParentID );
             
             if ( $parentFolder->checkWritePermission( $user ) == false )
             {
@@ -158,36 +167,28 @@ if ( $Action == "Insert" || $Action == "Update" )
 }
 
 
-if ( $Action == "Insert" && $error == false )
+if ( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
 {
-    $folder = new eZVirtualFolder();
+    if ( $Action == "Update" )
+        $folder = new eZVirtualFolder( $FolderID );
+    else
+        $folder = new eZVirtualFolder();
+
     $folder->setName( $Name );
     $folder->setDescription( $Description );
 
     $folder->setReadPermission( $Read );
     $folder->setWritePermission( $Write );
     
-    $user = eZUser::currentUser();
-    
-    if ( !$user )
-    {
-        eZHTTPTool::header( "Location: /" );
-        exit();
-    }
-    
     $folder->setUser( $user );
 
-    $parent = new eZVirtualFolder( $FolderID );
+    $parent = new eZVirtualFolder( $ParentID );
     $folder->setParent( $parent );
 
     $folder->store();
 
-    eZHTTPTool::header( "Location: /filemanager/list/$FolderID" );
+    eZHTTPTool::header( "Location: /filemanager/list/$ParentID" );
     exit();
-}
-
-if ( $Action == "Update" && $error == false )
-{
 }
 
 if ( $Action == "Delete" && $error == false )
@@ -205,11 +206,48 @@ if ( $Action == "New" || $error )
 
 if ( $Action == "Edit" )
 {
+    $folder = new eZVirtualFolder( $FolderID );
+
+    $t->set_var( "name_value", $folder->name() );
+    $t->set_var( "folder_id", $folder->id() );
+    $t->set_var( "description_value", $folder->description() );
+
+    $write = $folder->writePermission();
+
+    if ( $write == "User" )
+    {
+        $t->set_var( "user_write_checked", "checked" );
+    }
+    else if ( $write == "Group" )
+    {
+        $t->set_var( "group_write_checked", "checked" );
+    }
+    else if ( $write == "All" )
+    {
+        $t->set_var( "all_write_checked", "checked" );
+    }
+
+    $read = $folder->readPermission();
+
+    if ( $read == "User" )
+    {
+        $t->set_var( "user_read_checked", "checked" );
+    }
+    else if ( $read == "Group" )
+    {
+        $t->set_var( "group_read_checked", "checked" );
+    }
+    else if ( $read == "All" )
+    {
+        $t->set_var( "all_read_checked", "checked" );
+    }
+
+    $t->set_var( "action_value", "update" );
 }
 
 $folder = new eZVirtualFolder() ;
 
-$folderList = $folder->getTree( );
+$folderList =& $folder->getTree( );
 
 if ( count ( $folderList ) == 0 )
 {

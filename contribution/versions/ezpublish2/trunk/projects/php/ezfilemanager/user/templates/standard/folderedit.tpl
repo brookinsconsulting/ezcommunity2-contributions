@@ -1,4 +1,3 @@
-
 <form method="post" action="/filemanager/folder/{action_value}/{folder_id}" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="30000000">
 
@@ -38,7 +37,7 @@
 
 <p class="boxtext">{intl-folder}:</p>
 
-<select name="FolderID">
+<select name="ParentID">
 <option value="0" {selected}>{option_level}{intl-top_folder}</option>
 <!-- BEGIN value_tpl -->
 <option value="{option_value}" {selected}>{option_level}{option_name}</option>
@@ -86,7 +85,6 @@
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<input type="hidden" name="ArticleID" value="{article_id}" />
 	<input type="hidden" name="Action" value="{action_value}" />
 	<input class="okbutton" type="submit" value="{intl-ok}" />
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfolder.php,v 1.8 2001/01/25 13:21:29 ce Exp $
+// $Id: ezvirtualfolder.php,v 1.9 2001/01/25 19:08:20 ce Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -256,6 +256,8 @@ class eZVirtualFolder
 
     function &getTree( $parentID=0, $level=0 )
     {
+        $user = eZUser::currentUser();
+        
         $category = new eZVirtualFolder( $parentID );
 
         $categoryList = $category->getByParent( $category );
@@ -263,19 +265,19 @@ class eZVirtualFolder
         $tree = array();
         $level++;
         foreach ( $categoryList as $category )
-            {
+        {
                 array_push( $tree, array( $return_array[] = new eZVirtualFolder( $category->id() ), $level ) );
 
             if ( $category != 0 )
             {
                 $tree = array_merge( $tree, $this->getTree( $category->id(), $level ) );
             }
-
+                
         }
-
+        
         return $tree;
     }
-
+    
     /*!
       Check what read permission the user have to this eZVirtualFolder object.
 
@@ -288,11 +290,11 @@ class eZVirtualFolder
     function &checkReadPermission( &$currentUser )
     {
         $ret = false;
-
+        
+        $read = eZVirtualFolder::readPermission();
+        
         if ( get_class( $currentUser ) == "ezuser" )
         {
-            $read = eZVirtualFolder::readPermission();
-
             if ( $read == "User" )
             {
                 if ( $this->UserID != 0 )
@@ -336,6 +338,15 @@ class eZVirtualFolder
                 $ret = "Group";
             }
         }
+        else
+        {
+
+            if ( $read == "All" )
+            {
+                $ret = "All";
+            }
+        }
+
 
         return $ret;
 
@@ -354,9 +365,10 @@ class eZVirtualFolder
     {
         $ret = false;
 
+        $write = eZVirtualFile::writePermission();
+
         if ( get_class( $currentUser ) == "ezuser" )
         {
-            $write = eZVirtualFile::writePermission();
 
             if ( $write == "User" )
             {
@@ -399,6 +411,13 @@ class eZVirtualFolder
             else if ( $write == "All" )
             {
                 $ret = "Group";
+            }
+        }
+        else
+        {
+            if ( $write == "All" )
+            {
+                $ret = "All";
             }
         }
 
@@ -521,7 +540,7 @@ class eZVirtualFolder
            default:
                $ret = "User";
        }
-       
+
        return $ret;
     }
 
@@ -567,7 +586,7 @@ class eZVirtualFolder
     /*!
       Sets the parent category.
     */
-    function setParent( $value )
+    function setParent( &$value )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.10 2001/01/25 13:21:29 ce Exp $
+// $Id: filelist.php,v 1.11 2001/01/25 19:08:20 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -217,7 +217,7 @@ foreach ( $fileList as $file )
     {
     }
 
-    $t->parse( "file_file", "file_file_tpl", true );
+    $t->parse( "file", "file_tpl", true );
     
     $i++;
 }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpermission.php,v 1.6 2001/01/22 14:43:02 jb Exp $
+// $Id: ezpermission.php,v 1.7 2001/01/25 19:08:20 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -435,8 +435,11 @@ class eZPermission
 
             $moduleID = $module->id();
 
+            $test = "SELECT * FROM eZUser_Permission WHERE Name='$permissionName' AND ModuleID='$moduleID'";
+            
             $this->Database->array_query( $value_array, "SELECT * FROM eZUser_Permission
-                                                    WHERE Name='$permissionName' AND ModuleID='$moduleID'" );
+                                                    WHERE Name='$permissionName' AND ModuleID='$moduleID'", true );
+
 
             if ( count( $value_array ) == 1 )
             {

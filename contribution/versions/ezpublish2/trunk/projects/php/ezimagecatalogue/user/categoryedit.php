@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.5 2001/01/23 13:16:57 jb Exp $
+// $Id: categoryedit.php,v 1.6 2001/01/25 19:08:20 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -30,9 +30,17 @@ include_once( "classes/ezlog.php" );
 include_once( "classes/ezhttptool.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "ezimagecatalogue/classes/ezimagecategory.php" );
                
+$user = eZUser::currentUser();
+
+if ( ( !$user ) || ( eZPermission::checkPermission( $user, "eZImageCatalogue", "WritePermission" ) == false ) )
+{
+    eZHTTPTool::header( "Location: /" );
+    exit();
+}
 
 $ini = new INIFIle( "site.ini" );
 

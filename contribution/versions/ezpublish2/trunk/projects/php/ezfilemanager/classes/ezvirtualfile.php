@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.11 2001/01/25 13:21:29 ce Exp $
+// $Id: ezvirtualfile.php,v 1.12 2001/01/25 19:08:20 ce Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -203,10 +203,10 @@ class eZVirtualfile
     {
         $ret = false;
 
+        $read = eZVirtualFile::readPermission();
+        
         if ( get_class( $currentUser ) == "ezuser" )
         {
-            $read = eZVirtualFile::readPermission();
-
             if ( $read == "User" )
             {
                 if ( $this->UserID != 0 )
@@ -250,6 +250,11 @@ class eZVirtualfile
                 $ret = "Group";
             }
         }
+        else if ( $read == "All" )
+        {
+            $ret = "All";
+        }
+
 
         return $ret;
 
@@ -268,10 +273,10 @@ class eZVirtualfile
     {
         $ret = false;
 
+        $write = eZVirtualFile::writePermission();
+
         if ( get_class( $currentUser ) == "ezuser" )
         {
-            $write = eZVirtualFile::writePermission();
-
             if ( $write == "User" )
             {
                 if ( $this->UserID != 0 )
@@ -314,6 +319,10 @@ class eZVirtualfile
             {
                 $ret = "Group";
             }
+        }
+        else if ( $read == "All" )
+        {
+            $ret = "All";
         }
 
         return $ret;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileupload.php,v 1.10 2001/01/23 13:16:57 jb Exp $
+// $Id: fileupload.php,v 1.11 2001/01/25 19:08:20 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 15:49:57 bf>
@@ -30,8 +30,17 @@ include_once( "classes/ezfile.php" );
 include_once( "classes/ezhttptool.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
+
+$user = eZUser::currentUser();
+
+if ( ( !$user ) || ( eZPermission::checkPermission( $user, "eZFileManager", "WritePermission" ) == false ) )
+{
+    eZHTTPTool::header( "Location: /" );
+    exit();
+}
 
 if ( isSet ( $NewFile ) )
 {

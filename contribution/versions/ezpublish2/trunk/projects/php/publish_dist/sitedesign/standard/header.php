@@ -37,6 +37,11 @@
 	<?
 	include( "ezlink/user/menubox.php" );
 	?>
+
+    <?
+	include( "ezfilemanager/user/menubox.php" );
+	?>
+
 	
 	<table width="100%" cellspacing="0" cellpadding="2" border="0">
 	<tr>

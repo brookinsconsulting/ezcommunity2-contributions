@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.7 2001/01/23 13:16:57 jb Exp $
+// $Id: imageedit.php,v 1.8 2001/01/25 19:08:20 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -24,6 +24,16 @@
 //
 
 include_once( "classes/ezhttptool.php" );
+include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/ezpermission.php" );
+
+$user = eZUser::currentUser();
+
+if ( ( !$user ) || ( eZPermission::checkPermission( $user, "eZImageCatalogue", "WritePermission" ) == false ) )
+{
+    eZHTTPTool::header( "Location: /" );
+    exit();
+}
 
 if ( isSet ( $NewCategory ) )
 {
