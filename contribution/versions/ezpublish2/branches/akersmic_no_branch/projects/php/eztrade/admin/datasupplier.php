@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: datasupplier.php,v 1.42.8.1 2002/01/14 10:28:53 ce Exp $
+// $Id: datasupplier.php,v 1.42.8.2 2002/01/22 16:54:43 br Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
@@ -54,6 +54,13 @@ switch ( $url_array[2] )
         $Action = $url_array[4];
         include( "eztrade/admin/orderedit.php" );
         break;
+
+    case "transaction" :
+    {
+        $OrderID = $url_array[3];
+        include( "eztrade/admin/transaction.php" );
+    }
+    break;
 
     case "customerlist" :
     {

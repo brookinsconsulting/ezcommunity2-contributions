@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.8.8.1 2002/01/18 09:13:25 br Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.8.8.2 2002/01/22 16:54:43 br Exp $ -->
 
 <h1>{intl-head_line} ({order_id})</h1>
 
@@ -317,10 +317,22 @@
 <!-- BEGIN online_payment_pay_tpl -->
 <form action="{www_dir}{index}/trade/orderedit/{order_id}/payment/" method="post">
 <p class="boxtext">{intl-charge_amount} ({lowest_amount} - {highest_amount}):</p>
-<input type="text" size="20" name="PaymentAmount" value="{payment_amount}"/>
-<input class="stdbutton" type="submit" value="{intl-ok}" />
+<input type="text" size="20" name="PaymentAmount" value="{payment_amount}" />
+<input class="stdbutton" type="submit" name="OK" value="{intl-ok}" />
+
+<br />
+<br />
+<p class="boxtext">{intl-cancel_rest} ({highest_amount}):</p>
+<input type="submit" name="CancelAmount" value="{intl-cancel_amount}">
+
 </form>
 <!-- END online_payment_pay_tpl -->
+
+<!-- BEGIN refunded_amount_tpl -->
+<p class="boxtext">{intl-refund_amount}:</p>
+{refund_amount}
+<!-- END refunded_amount_tpl -->
+
 <br />
 <br />
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.61.8.2 2002/01/21 12:03:24 br Exp $
+// $Id: ezorder.php,v 1.61.8.3 2002/01/22 16:54:43 br Exp $
 //
 // Definition of eZOrder class
 //
@@ -925,7 +925,7 @@ class eZOrder
     /*!
       Set the amount which will be refunded.
     */
-    function refundAmount( $value )
+    function setRefundAmount( $value )
     {
         $this->RefundAmount = $value;
     }
@@ -1324,6 +1324,22 @@ class eZOrder
         return $return_array;
     }
 
+
+    /*!
+      Add a paid amount transaction.
+     */
+    function &addPaidAmount( $amount, $pnutr )
+    {
+        $db =& eZDB::globalDatabase();
+        $timeStamp =& eZDateTime::timeStamp( true );
+        
+        $db->lock( "eZTrade_OrderPaid" );
+        $nextID = $db->nextID( "eZTrade_OrderPaid", "ID" );
+        
+        $db->query( "INSERT INTO eZTrade_OrderPaid ( ID, OrderID, Paid, Date, Pnutr )
+                                                   VALUES
+                                                   ( $nextID, $this->ID, $amount, $timeStamp, $pnutr )" );
+    }
     
     var $ID;
     var $UserID;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderedit.php,v 1.31.8.1 2002/01/18 09:13:25 br Exp $
+// $Id: orderedit.php,v 1.31.8.2 2002/01/22 16:54:43 br Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -60,6 +60,7 @@ include_once( "eztrade/classes/ezpricegroup.php" );
 
 include_once( "eztrade/classes/ezorderstatustype.php" );
 
+
 if ( $Action == "newstatus" )
 {
     $status = new eZOrderStatus();
@@ -77,44 +78,62 @@ if ( $Action == "newstatus" )
     $status->setAdmin( $user );
     $status->store();
 
-
-
     Header( "Location: /trade/orderlist/" );
     exit();
 }
-
-if ( $Action == "payment" )
+else if ( $Action == "payment" )
 {
-    // handle payment info
-    if ( is_Numeric( $PaymentAmount ) && $PaymentAmount > 0  )
+    // handle payment info and verify the amount.
+    if ( is_Numeric( $PaymentAmount ) && $PaymentAmount > 0 || isSet( $CancelAmount ) )
     {
+        $session =& eZSession::globalSession();
         $order = new eZOrder( $OrderID );
         $order->orderTotals( $tax, $total );
 
+        // get the total amount which is
+        // already paid.
         $paidArray = $order->paidAmount();
         $totalPaidAmount = 0;
         if ( count( $paidArray > 0 ) )
         {
-            $j=0;
             foreach( $paidArray as $paid )
             {
                 $totalPaidAmount += $paid["Paid"];
             }
         }
-        $maxAmount = $total["inctax"] - $totalPaidAmount;
-        
-        if ( $PaymentAmount <= $maxAmount )
+        $refundAmount = $order->refundAmount();
+        // includes the payment transaction if the amount is verified.
+        $maxAmount = $total["inctax"] - $totalPaidAmount - $refundAmount;
+
+        if ( isSet( $CancelAmount ) )
         {
-            // includes the payment transaction if the amount is verified.
-//             include()
-            print( "saver ..." );
+            $session->setVariable( "OrderPaymentAmount", $maxAmount );
+            $session->setVariable( "OrderPaymentMode", "refund" );
+            
+            Header( "Location: /trade/transaction/$OrderID/" );
+            exit();
+        }        
+        else if ( $PaymentAmount <= $maxAmount )
+        {
+            $session->setVariable( "OrderPaymentAmount", $PaymentAmount );
+            $session->setVariable( "OrderPaymentMode", "transaction" );
+
+            Header( "Location: /trade/transaction/$OrderID/" );
+            exit();
+        }
+        else
+        {
+            Header( "Location: /trade/orderedit/$OrderID/" );
+            exit();
         }
     }
-    Header( "Location: /trade/orderedit/$OrderID/" );
-    exit();
+    else
+    {
+        Header( "Location: /trade/orderedit/$OrderID/" );
+        exit();
+    }
 }
-
-if ( $Action == "delete" )
+else if ( $Action == "delete" )
 {
     $order = new eZOrder( $OrderID );
     $order->delete();
@@ -185,6 +204,7 @@ $t->set_block( "tax_specification_tpl", "tax_item_tpl", "tax_item" );
 $t->set_block( "order_edit_tpl", "online_payment_list_tpl", "online_payment_list" );
 $t->set_block( "online_payment_list_tpl", "online_payment_item_tpl", "online_payment_item" );
 $t->set_block( "order_edit_tpl", "online_payment_pay_tpl", "online_payment_pay" );
+$t->set_block( "order_edit_tpl", "refunded_amount_tpl", "refunded_amount" );
 
 $order = new eZOrder( $OrderID );
 
@@ -559,7 +579,9 @@ if ( count ( $usedVouchers ) > 0 )
 $paidArray = $order->paidAmount();
 $totalPaidAmount = 0;
 
-if ( count( $paidArray > 0 ) )
+$pnutr = $order->pnutr();
+
+if ( count( $paidArray ) > 0 && $pnutr )
 {
     $j=0;
     foreach( $paidArray as $paid )
@@ -591,19 +613,40 @@ else
     $t->set_var( "online_payment_list", "" );
 }
 
+
 $t->set_var( "payment_amount", "" );
+$refundAmount = $order->refundAmount();
+$maxAmount = $total["inctax"] - $totalPaidAmount - $refundAmount;
 
-$currency->setValue( $total["inctax"] - $totalPaidAmount );
-$t->set_var( "highest_amount", $locale->format( $currency ) );
+// set the minimum and maximum amount which can be
+// paid on this order.
+if ( $maxAmount > 0 && $pnutr )
+{
+    $currency->setValue( 0 );
+    $t->set_var( "lowest_amount", $locale->format( $currency ) );
+    $currency->setValue( $maxAmount );
+    $t->set_var( "highest_amount", $locale->format( $currency ) );
+    
+    $t->parse( "online_payment_pay", "online_payment_pay_tpl" );
+}
+else
+{
+    $t->set_var( "online_payment_pay", "" );
+}
 
-$currency->setValue( 0 );
-$t->set_var( "lowest_amount", $locale->format( $currency ) );
+// print the refunded amount if any.
+if ( $refundAmount > 0 )
+{
+    $currency->setValue( $refundAmount );
+    $t->set_var( "refund_amount", $locale->format( $currency ) );
+    $t->parse( "refunded_amount", "refunded_amount_tpl" );
+}
+else
+{
+    $t->set_var( "refunded_amount", "" );
+}
 
-$t->parse( "online_payment_pay", "online_payment_pay_tpl" );
-
-
-
-
+// print the status for the order.
 $statusType = new eZOrderStatusType();
 $statusTypeArray = $statusType->getAll();
 foreach ( $statusTypeArray as $status )

@@ -161,6 +161,8 @@ CREATE TABLE eZTrade_Order (
   CompanyID int(11) default '0',
   PersonID int(11) default '0',
   RefundAmount float(10,2) default '0',
+  EDate int(11) default NULL,
+  Pnutr int(11) default NULL,
   Comment text,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
@@ -190,6 +192,7 @@ CREATE TABLE eZTrade_OrderPaid (
   OrderID int default NULL,
   Paid float(10,2) default NULL,
   Date int(11) default NULL,
+  Pnutr int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 

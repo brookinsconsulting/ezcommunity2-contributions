@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.84 2001/10/17 13:14:38 ce Exp $
+// $Id: payment.php,v 1.84.8.1 2002/01/22 16:54:43 br Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -77,6 +77,9 @@ $PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" );
 // Set some variables to defaults.
 $ShowCart = false;
 $ShowSavingsColumn = false;
+
+// Id number for paynet.
+$Pnutr = 0;
 
 function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
 {
@@ -174,6 +177,12 @@ if ( $PaymentSuccess == "true" )
     $user =& eZUser::currentUser();
     $order->setUser( $user );
 
+    // set pnutr id to paynet.
+    if ( $Pnutr != 0 )
+    {
+        $order->setPnutr( $Pnutr );
+    }
+    
     if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) != "enabled" )
     {
         $billingAddressID = $shippingAddressID;
