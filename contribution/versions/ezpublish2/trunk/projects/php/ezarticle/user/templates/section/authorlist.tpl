@@ -21,7 +21,7 @@
 <!-- BEGIN author_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/article/author/view/{author_id}/">{author_firstname} {author_lastname}</a>
+	<a href="/article/author/view/{author_id}/">{author_name}</a>
 	</td>
 	<td class="{td_class}">
 	{article_count}
@@ -29,4 +29,3 @@
 </tr>
 <!-- END author_item_tpl -->
 </table>
-

@@ -33,10 +33,10 @@
 		<td colspan="2">
 		<table width="100%" cellspacing="0" cellpadding="0">
 		<tr>
-		<td width="{choice_percent}%" bgcolor="#ffee00">
+		<td width="{choice_percent}%" bgcolor="#e2ddd4">
 		&nbsp;
 		</td>
-		<td width="{choice_inverted_percent}%"  bgcolor="#eeeeee">
+		<td width="{choice_inverted_percent}%"  bgcolor="#f7f4ef">
 		&nbsp;
 		</td>
 		</tr>
