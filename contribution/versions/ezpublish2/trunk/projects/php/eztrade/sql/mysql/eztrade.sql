@@ -337,7 +337,7 @@ CREATE TABLE eZTrade_ProductPriceLink (
 
 CREATE TABLE eZTrade_ProductQuantityDict (
   ProductID int(11) NOT NULL default '0',
-  QuantityID int(11) NOT NULL default '0',
+  QuantityID int(11) NOT NULL default '0'
   PRIMARY KEY (ProductID,QuantityID)
 ) TYPE=MyISAM;
 
