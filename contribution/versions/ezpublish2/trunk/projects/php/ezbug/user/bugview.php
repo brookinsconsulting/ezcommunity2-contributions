@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugview.php,v 1.2 2001/01/28 11:04:55 bf Exp $
+// $Id: bugview.php,v 1.3 2001/01/30 10:15:00 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <04-Dec-2000 11:44:31 bf>
@@ -62,6 +62,8 @@ $t->set_var( "name_value", $bug->name() );
 $t->set_var( "description_value", eZTextTool::nl2br( $bug->description() ) );
 $t->set_var( "action_value", "Update" );
 
+$date =& $bug->created();
+$t->set_var( "bug_date", $locale->format( $date ) );    
 
 $pri =& $bug->priority();
 $status =& $bug->status();

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugmodule.php,v 1.3 2000/12/09 18:59:02 bf Exp $
+// $Id: ezbugmodule.php,v 1.4 2001/01/30 10:15:00 bf Exp $
 //
 // Definition of eZBugModule class
 //
@@ -427,17 +427,17 @@ class eZBugModule
        $unhandledSQL = "";
        if ( $countUnhandled == false )
        {
-           $unhandledSQL = "AND IsHandled='true'";
+           $unhandledSQL = "AND eZBug_Bug.IsHandled='true'";
        }
 
        $openSQL = "";
        if ( $excludeClosed == true )
        {
-           $openSQL = "AND IsClosed='false'";
+           $openSQL = "AND eZBug_Bug.IsClosed!='false'";
        }
-       
-       $this->Database->array_query( $bug_array, "
-                SELECT count( eZBug_Bug.ID ) AS Count
+
+       $query = "
+                SELECT count( * ) AS Count
                 FROM eZBug_Bug, eZBug_Module, eZBug_BugModuleLink
                 WHERE 
                 eZBug_BugModuleLink.BugID = eZBug_Bug.ID
@@ -447,9 +447,11 @@ class eZBugModule
                 $openSQL
                 AND
                 eZBug_Module.ID='$this->ID'
-                " );
- 
-       $ret =  $bug_array[0]["Count"];       
+                ";
+       
+       $this->Database->array_query( $bug_array, $query );
+
+       $ret =& $bug_array[0]["Count"];
 
        return $ret;
     }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugpreview.php,v 1.2 2000/12/04 10:47:52 bf-cvs Exp $
+// $Id: bugpreview.php,v 1.3 2001/01/30 10:15:00 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Dec-2000 18:56:58 bf>
@@ -29,9 +29,9 @@ include_once( "classes/ezlog.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/eztexttool.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
-$Language = $ini->read_var( "eZBugMain", "Language" );
+$Language =& $ini->read_var( "eZBugMain", "Language" );
 
 include_once( "ezbug/classes/ezbug.php" );
 include_once( "ezbug/classes/ezbugcategory.php" );
@@ -61,6 +61,9 @@ $t->set_var( "bug_id", $bug->id() );
 $t->set_var( "name_value", $bug->name() );
 $t->set_var( "description_value", eZTextTool::nl2br( $bug->description() ) );
 $t->set_var( "action_value", "Update" );
+
+$date =& $bug->created();
+$t->set_var( "bug_date", $locale->format( $date ) );    
 
 
 $pri =& $bug->priority();

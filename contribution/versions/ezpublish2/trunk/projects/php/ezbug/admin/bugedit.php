@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.8 2000/12/09 19:38:17 bf Exp $
+// $Id: bugedit.php,v 1.9 2001/01/30 10:15:00 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -30,7 +30,7 @@ include_once( "classes/ezmail.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/eztexttool.php" );
 
-$ini = new INIFile( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZBugMain", "Language" );
 
@@ -181,6 +181,7 @@ if ( $Action == "Update" )
 }
 
 
+$t->set_var( "bug_date", "" );    
 $t->set_var( "action_value", "Insert" );
 
 if ( $Action == "Edit" )
@@ -193,6 +194,10 @@ if ( $Action == "Edit" )
     $t->set_var( "name_value", $bug->name() );
     $t->set_var( "description_value", eZTextTool::nl2br( $bug->description() ) );
     $t->set_var( "action_value", "Update" );
+
+    $date =& $bug->created();
+    $t->set_var( "bug_date", $locale->format( $date ) );    
+
 
     $bugLog = new eZBugLog();
     $logList = $bugLog->getByBug( $bug );
