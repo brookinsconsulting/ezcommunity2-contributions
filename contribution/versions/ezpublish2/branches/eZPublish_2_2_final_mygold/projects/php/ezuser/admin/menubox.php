@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.20 2001/07/20 11:45:40 jakobn Exp $
+// $Id: menubox.php,v 1.20.4.1 2001/12/18 14:08:09 sascha Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -26,12 +26,12 @@
 // Supply $menuItems to get a menubox
 
 $menuItems = array(
+    array( "/user/sessioninfo/", "{intl-session_info}" ),
     array( "/user/userlist/", "{intl-userlist}" ),
     array( "/user/grouplist/", "{intl-grouplist}" ),
     array( "/user/useredit/new/", "{intl-newuser}" ),
     array( "/user/groupedit/new/", "{intl-newgroup}" ),
-    array( "/user/authorlist/", "{intl-authorlist}" ),
-    array( "/user/sessioninfo/", "{intl-session_info}" )
+    array( "/user/authorlist/", "{intl-authorlist}" )
     );
 
 ?>
