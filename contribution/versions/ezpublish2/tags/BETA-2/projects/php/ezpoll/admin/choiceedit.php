@@ -1,0 +1,120 @@
+<?
+// 
+// $Id: choiceedit.php,v 1.6 2000/10/26 13:08:34 ce-cvs Exp $
+//
+// Christoffer A. Elo <ce@ez.no>
+// Created on: <21-Sep-2000 10:39:19 ce>
+//
+// This source file is part of eZ publish, publishing software.
+// Copyright (C) 1999-2000 eZ systems as
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
+//
+
+include_once( "classes/INIFile.php" );
+include_once( "classes/eztemplate.php" );
+
+$ini = new INIFIle( "site.ini" );
+
+$Language = $ini->read_var( "eZPollMain", "Language" );
+$DOC_ROOT = $ini->read_var( "eZPollMain", "DocumentRoot" );
+
+include_once( $DOC_ROOT . "/classes/ezpoll.php" );
+include_once( $DOC_ROOT . "/classes/ezpollchoice.php" );
+include_once( $DOC_ROOT . "/classes/ezvote.php" );
+
+require( "ezuser/admin/admincheck.php" );
+
+// Insert
+if ( $Action == "insert" )
+{
+    $choice = new eZPollChoice();
+    $choice->setName( $Name );
+    $choice->setPollID( $PollID );
+    $choice->setOffset( $Offset );
+    $choice->store();
+
+    Header( "Location: /poll/polledit/edit/" . $PollID . "/" );
+    exit();
+}
+
+// Update
+if ( $Action == "update" )
+{
+    $choice = new eZPollChoice();
+    $choice->get( $ChoiceID );
+    $choice->setName( $Name );
+    $choice->setPollID( $PollID );
+    $choice->setOffset( $Offset );
+    $choice->store();
+
+    Header( "Location: /poll/polledit/edit/" . $PollID );
+    exit();
+}
+
+// Delete
+if ( $Action == "delete" )
+{
+    $choice = new eZPollChoice();    
+    $choice->get( $ChoiceID );
+    $choice->delete();
+
+    Header( "Location: /poll/polledit/edit/" . $PollID );
+    exit();
+}
+
+$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZPollMain", "TemplateDir" ),
+                     $DOC_ROOT . "/admin/intl/", $Language, "choiceedit.php" );
+
+$t->setAllStrings();
+
+$t->set_file( array( "choice_edit_page" => "choiceedit.tpl" ) );
+
+$Name = "";
+$Offset = "";
+$Action_value = "insert";
+
+// Edit
+if ( $Action == "edit" )
+{
+    $choice = new eZPollChoice();
+    $choice->get( $ChoiceID );
+
+    $Name =  $choice->name();
+    $Offset =  $choice->offset();
+    $Action_value = "update";
+
+    $ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/choiceedit.php.ini", false );
+    $headline =  $ini->read_var( "strings", "head_line_edit" );
+
+}
+
+$t->set_var( "choice_id", $ChoiceID );
+$t->set_var( "poll_id", $PollID );
+$t->set_var( "name_value", $Name );
+$t->set_var( "offset_value", $Offset );
+$t->set_var( "action_value", $Action_value );
+
+if ( !isset ( $headline ) )
+{
+    $ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/choiceedit.php.ini", false );
+    $headline =  $ini->read_var( "strings", "head_line_insert" );
+}
+
+$t->set_var( "head_line", $headline );
+
+$t->pparse( "output", "choice_edit_page" );
+
+?>

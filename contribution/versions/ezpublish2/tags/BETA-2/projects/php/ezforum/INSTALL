@@ -1,0 +1,38 @@
+eZ Forum - Installasjonsguide
+
+ $Id: INSTALL,v 1.2 2000/08/02 13:53:06 lw-cvs Exp $
+
+(c) 2000 by eZ systems, All rights reserved.
+Author: Lars Wilhelmsen <lw@ez.no>
+---
+
+En fil 'ezforum/dbsettings.php4' maa ligge i path'en.
+(f.eks i /usr/www/include/...)
+
+Den maa inneholde:
+
+ $USER : database bruker
+ $PWD : database passord
+ $HOST : database maskin
+ $DB : database navn
+ $DOCROOT : dokumentroten - relativt til et eksisterende tre.
+
+ ezforum.sql benyttes for aa sette opp databasen.
+
+ Denne filen + .sql filene slettes naar systemet er satt opp.
+
+ main.php4 er "hovedsiden" til forumet - og det er denne som skal
+ lenkes. ( i.e: index.php4?page=ezforum/main.php4 )
+
+ CSS:
+
+ disse stilene er brukt:
+   body, table, tr, .head, .choices, h2, a, a:visited, a:hover,
+   .body .topic .author / .time
+
+ ezforum.css ligger i treet og kan benyttes som mal / cut'n paste objekt
+
+ ezforum.ini-dist kopieres til $DOCROOT og rename's til ezforum.ini med
+ rettigheter 666.
+ --
+  Lars Wilhelmsen, 050700
