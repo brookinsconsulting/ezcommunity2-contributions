@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.62 2001/09/15 13:26:23 pkej Exp $
+// $Id: cart.php,v 1.63 2001/09/15 13:53:39 pkej Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -410,8 +410,6 @@ foreach ( $items as $item )
     $i++;
     $t->set_var( "cart_item_id", $item->id() );
     $product =& $item->product();
-    $vatPercentage = $product->vatPercentage();
-    $productHasVAT = $product->priceIncVAT();
     
     $t->set_var( "product_id", $product->id() );
     $t->set_var( "product_name", $product->name() );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcart.php,v 1.28 2001/09/15 12:37:17 pkej Exp $
+// $Id: ezcart.php,v 1.29 2001/09/15 13:53:39 pkej Exp $
 //
 // Definition of eZCart class
 //
@@ -301,15 +301,14 @@ class eZCart
      */
     function cartTotals( &$tax, &$total )
     {
-        $inUser =& eZUser::currentUser();
         $items = $this->items( );
         foreach( $items as $item )
         {
             $product =& $item->product();
             $vatPercentage = $product->vatPercentage();
             
-            $exTax = $item->correctPrice( true, true, $user, false );
-            $incTax = $item->correctPrice( true, true, $user, true );
+            $exTax = $item->correctPrice( true, true, false );
+            $incTax = $item->correctPrice( true, true, true );
 
             $totalExTax += $exTax;
             $totalIncTax += $incTax;
