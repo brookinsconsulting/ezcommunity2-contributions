@@ -329,7 +329,6 @@ if( is_numeric( $CVID ) )
 
     foreach( $courseArray as $course )
     {
-        print_r( $course );
         if ( ( $i %2 ) == 0 )
         {
             $t->set_var( "theme-type_class", "bglight" );
