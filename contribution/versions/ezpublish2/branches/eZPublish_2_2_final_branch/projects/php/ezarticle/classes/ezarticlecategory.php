@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.103.2.3 2001/11/01 13:08:38 bf Exp $
+// $Id: ezarticlecategory.php,v 1.103.2.4 2001/12/03 10:57:25 kaid Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -369,6 +369,8 @@ class eZArticleCategory
             if ( !$showAll )
                 $show_str = "AND ExcludeFromSearch='0'";
 
+			if ( !isset( $groupSQL ) )
+				$groupSQL = "";
             if ( $user )
             {
                 $groups =& $user->groups( false );
@@ -599,7 +601,10 @@ class eZArticleCategory
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT SectionID from eZArticle_Category WHERE ID='$categoryID'");
         
-        $sectionID = $res[$db->fieldName("SectionID")];
+		if ( isset( $res[$db->fieldName("SectionID")] ) )
+	        $sectionID = $res[$db->fieldName("SectionID")];
+		else
+			$sectionID = "";
 
         if ( $sectionID > 0 )
             return $sectionID;

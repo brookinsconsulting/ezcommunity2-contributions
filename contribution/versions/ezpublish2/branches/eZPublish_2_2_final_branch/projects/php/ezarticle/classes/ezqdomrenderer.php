@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.55.2.5 2001/11/22 12:49:17 jhe Exp $
+// $Id: ezqdomrenderer.php,v 1.55.2.6 2001/12/03 10:53:42 kaid Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -248,7 +248,7 @@ class eZQDomrenderer
             $articleID = $this->Article->id();
 
             $i=0;
-            $this->$PrevTag = "";
+            $this->PrevTag = "";
             foreach ( $xml->children as $child )
             {
                 if ( $child->name == "article" )
@@ -359,26 +359,26 @@ class eZQDomrenderer
                 if ( $page->name == "page" )
                 {
                     $pageContent = "";
-                    $this->$PrevTag = "";
+                    $this->PrevTag = "";
                     // loop on the contents of the pages
-                    if ( count( $page->children ) > 0 )
-                    foreach ( $page->children as $paragraph )
-                    {
-                        $pageContent .= $this->renderHeader( $paragraph );
-                        $pageContent .= $this->renderStandards( $paragraph );
-                        $pageContent .= $this->renderCustom( $paragraph );
-                        $pageContent .= $this->renderPlain( $paragraph );
-                        $pageContent .= $this->renderImage( $paragraph );
-                        $pageContent .= $this->renderMedia( $paragraph );
-                        $pageContent .= $this->renderFile( $paragraph );
-                        $pageContent .= $this->renderLink( $paragraph );
-                        $pageContent .= $this->renderHr( $paragraph );
-                        $pageContent .= $this->renderTable( $paragraph );
+                    if ( isset( $page->children ) && count( $page->children ) > 0 )
+						foreach ( $page->children as $paragraph )
+						{
+							$pageContent .= $this->renderHeader( $paragraph );
+							$pageContent .= $this->renderStandards( $paragraph );
+							$pageContent .= $this->renderCustom( $paragraph );
+							$pageContent .= $this->renderPlain( $paragraph );
+							$pageContent .= $this->renderImage( $paragraph );
+							$pageContent .= $this->renderMedia( $paragraph );
+							$pageContent .= $this->renderFile( $paragraph );
+							$pageContent .= $this->renderLink( $paragraph );
+							$pageContent .= $this->renderHr( $paragraph );
+							$pageContent .= $this->renderTable( $paragraph );
 
 
-                        $this->PrevTag = $paragraph->name;
-                        
-                    }
+							$this->PrevTag = $paragraph->name;
+							
+						}
                     $pageArray[] = $pageContent;
                 }
             }
@@ -816,7 +816,7 @@ class eZQDomrenderer
                 if ( $this->PrevTag != "link" )
                     $paragraph_text[0] = " ";
             }
-            $pageContent .= eZTextTool::nl2br( $paragraph_text, $this->BrOverride );
+            $pageContent = eZTextTool::nl2br( $paragraph_text, $this->BrOverride );
         }
         return $pageContent;
     }
@@ -1093,6 +1093,8 @@ class eZQDomrenderer
                 $href = "http://" . $href;
             
             $this->Template->set_var( "href", $href );
+			if ( !isset( $target ) )
+				$target = "";
             $this->Template->set_var( "target", $target );
             $this->Template->set_var( "link_text", $text );
             $pageContent =& trim( $this->Template->parse( "link", "link_tpl" ) );
