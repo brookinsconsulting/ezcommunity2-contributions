@@ -22,48 +22,48 @@ switch ( $url_array[2] )
             {
                 $PersonID = $url_array[4];
                 $Action = "list";
-                include( "ezcontact/admin/personlist.php" );
+                include( "ezcontact/user/personlist.php" );
                 break;
             }
             case "new":
             {
                 $Action = "new";
-                include( "ezcontact/admin/personedit.php" );
+                include( "ezcontact/user/personedit.php" );
                 break;
             }
             case "insert":
             {
                 $PersonID = $url_array[4];
                 $Action = "insert";
-                include( "ezcontact/admin/personedit.php" );
+                include( "ezcontact/user/personedit.php" );
                 break;
             }
             case "view":
             {
                 $PersonID = $url_array[4];
                 $Action = "view";
-                include( "ezcontact/admin/personview.php" );
+                include( "ezcontact/user/personview.php" );
                 break;
             }
             case "edit":
             {
                 $PersonID = $url_array[4];
                 $Action = "edit";
-                include( "ezcontact/admin/personedit.php" );
+                include( "ezcontact/user/personedit.php" );
                 break;
             }
             case "update":
             {
                 $PersonID = $url_array[4];
                 $Action = "update";
-                include( "ezcontact/admin/personedit.php" );
+                include( "ezcontact/user/personedit.php" );
                 break;
             }
             case "delete":
             {
                 $PersonID = $url_array[4];
                 $Action = "delete";
-                include( "ezcontact/admin/persondelete.php" );
+                include( "ezcontact/user/persondelete.php" );
                 break;
             }
         }
