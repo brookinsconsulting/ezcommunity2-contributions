@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.22 2001/01/24 19:04:25 bf Exp $
+// $Id: ezproductcategory.php,v 1.23 2001/02/04 16:59:12 bf Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -655,15 +655,21 @@ class eZProductCategory
            $placement = $qry["Placement"];
            
            $db->query_single( $qry, "SELECT ID, Placement FROM eZTrade_ProductCategoryLink
-                                    WHERE Placement<'$placement' AND eZTrade_ProductCategoryLink.CategoryID='$this->ID' ORDER BY Placement DESC LIMIT 1" );
+                                    WHERE Placement<='$placement' AND eZTrade_ProductCategoryLink.CategoryID='$this->ID' ORDER BY Placement DESC LIMIT 1" );
 
            $newPlacement = $qry["Placement"];
            $listid = $qry["ID"];
 
+           if ( $newPlacement == $placement )
+           {
+               $placement += 1;
+           }
+           
+
            if ( is_numeric( $listid ) )
            {           
-               $db->query( "UPDATE eZTrade_ProductCategoryLink SET Placement='$newPlacement' WHERE ID='$linkID'" );
                $db->query( "UPDATE eZTrade_ProductCategoryLink SET Placement='$placement' WHERE ID='$listid'" );
+               $db->query( "UPDATE eZTrade_ProductCategoryLink SET Placement='$newPlacement' WHERE ID='$linkID'" );
            }           
        }       
     }
@@ -687,16 +693,21 @@ class eZProductCategory
            
            $placement = $qry["Placement"];
            
-           $db->query_single( $qry, "SELECT ID, Placement FROM eZTrade_ProductCategoryLink
-                                    WHERE Placement>'$placement' AND eZTrade_ProductCategoryLink.CategoryID='$this->ID' ORDER BY Placement ASC LIMIT 1" );
+           $db->query_single( $qry_2, "SELECT ID, Placement FROM eZTrade_ProductCategoryLink
+                                    WHERE Placement>='$placement' AND eZTrade_ProductCategoryLink.CategoryID='$this->ID' ORDER BY Placement ASC LIMIT 1" );
 
-           $newPlacement = $qry["Placement"];
-           $listid = $qry["ID"];
+           $newPlacement = $qry_2["Placement"];
+           $listid = $qry_2["ID"];
+
+           if ( $newPlacement == $placement )
+           {
+               $newPlacement += 1;
+           }
 
            if ( is_numeric( $listid ) )
            {
-               $db->query( "UPDATE eZTrade_ProductCategoryLink SET Placement='$newPlacement' WHERE ID='$linkID'" );
                $db->query( "UPDATE eZTrade_ProductCategoryLink SET Placement='$placement' WHERE ID='$listid'" );
+               $db->query( "UPDATE eZTrade_ProductCategoryLink SET Placement='$newPlacement' WHERE ID='$linkID'" );               
            }
        }       
     }
