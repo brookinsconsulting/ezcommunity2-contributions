@@ -765,3 +765,11 @@ Maintainer(s) : bf@ez.no
     * admin/intl/es_MX/menubox.php.ini
       user/intl/es_MX/useredit.php.ini: es_MX update for 2.2.2
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-12-02  Kai Duebbert  <kai@duebbert.de>
+
+    * user/userbox.php: small fixes to uninitialized variables.
+

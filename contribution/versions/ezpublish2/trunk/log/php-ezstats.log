@@ -310,3 +310,11 @@ Maintainer(s) : br@ez.no
       admin/intl/se_SE/visitorlist.php.ini
       admin/intl/se_SE/yearreport.php.ini: se_SE swedish 2.2.1
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2001-12-02  Kai Duebbert  <kai@duebbert.de>
+
+    * classes/ezpageview.php: small fixes to uninitialized variables.
+

@@ -495,3 +495,11 @@ Maintainer(s) : bf@ez.no
 
     * eztime.php: fix
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-12-02  Kai Duebbert  <kai@duebbert.de>
+
+    * eztemplate.php: small fixes to uninitialized variables.
+
