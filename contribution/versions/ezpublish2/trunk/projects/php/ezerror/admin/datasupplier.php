@@ -12,6 +12,12 @@ switch( $url_array[2] )
         include( "ezerror/admin/404.php" );
     }
     break;
+
+    case "error" :
+    {
+        include( "ezerror/admin/error.php" );
+    }
+    break;
 }
 
 ?>
