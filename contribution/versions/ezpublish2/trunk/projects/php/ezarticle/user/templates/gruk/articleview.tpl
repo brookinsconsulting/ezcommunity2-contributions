@@ -59,7 +59,7 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <!-- BEGIN image_tpl -->
 <tr>
-	<td width="1%" class="{td_class}" valign="top">
+	<td width="1%" valign="top">
 	<img src="{www_dir}{image_url}" width="{image_width}" height="{image_height}" border="0" alt="{image_caption}" align="left" />
 	<span class="p">{image_caption}</span>
 	</td>

@@ -2,7 +2,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td align="center">
-	<h3>{intl-found}: http://{article_url}</h3>
+	<h3>Denne artikkelen er funnet på: http://{article_url}</h3>
 	</td>
 </tr>
 </table>
@@ -48,7 +48,7 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <!-- BEGIN image_tpl -->
 <tr>
-	<td width="1%" class="{td_class}">
+	<td width="1%">
 	<img src="{www_dir}{image_url}" width="{image_width}" height="{image_height}" border="2" />
 	{image_caption}
 	</td>
