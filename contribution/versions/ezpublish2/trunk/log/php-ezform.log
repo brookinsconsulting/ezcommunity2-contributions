@@ -507,3 +507,58 @@ Maintainer(s) : pkej@ez.no
       admin/templates/standard/tableedit.tpl
       classes/ezformtable.php: added table edit
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-12-17  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/templates/standard/formrenderer.tpl
+      classes/ezform.php
+      classes/ezformrenderer.php
+      sql/mysql/ezform.sql: fixed buttons
+
+2001-12-17  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezformpage.php: added updates.
+
+    * classes/ezformpage.php
+      admin/datasupplier.php
+      admin/pageedit.php
+      admin/templates/standard/elementlist.tpl: updated files.
+
+    * admin/pageedit.php: updated pageedit.
+
+2001-12-17  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/datasupplier.php
+      classes/ezformrenderer.php: redering i ok
+
+2001-12-17  Bjoern Reiten  <br@ez.no>
+
+    * admin/pageedit.php
+      admin/templates/standard/pageedit.tpl: added updates.
+
+2001-12-17  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/pageedit.php
+      admin/templates/standard/pageedit.tpl
+      classes/ezformrenderer.php: div fixes
+
+    * admin/pageedit.php
+      admin/templates/standard/formrenderer.tpl
+      classes/ezform.php
+      classes/ezformelement.php
+      classes/ezformpage.php
+      classes/ezformrenderer.php
+      sql/mysql/ezform.sql: moved a lot from eZForm to eZFormPage
+
+2001-12-17  Bjoern Reiten  <br@ez.no>
+
+    * admin/formedit.php
+      admin/intl/en_GB/pageedit.php.ini
+      admin/pageedit.php
+      admin/templates/standard/pageedit.tpl
+      admin/templates/standard/pagelist.tpl
+      classes/ezformpage.php: added updates.
+
