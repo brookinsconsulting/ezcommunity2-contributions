@@ -1,5 +1,5 @@
 <?
-// $Id: categoryedit.php,v 1.6 2000/11/01 07:48:39 bf-cvs Exp $
+// $Id: categoryedit.php,v 1.7 2000/11/01 11:15:38 ce-cvs Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -43,7 +43,8 @@ if ( $Action == "insert" )
     if ( eZPermission::checkPermission( $user, "eZForum", "CategoryAdd" ) )
     {
         // clear the menu cache
-        unlink( "ezforum/cache/menubox.cache" );
+        if ( file_exists( "ezforum/cache/menubox.cache" ) )
+            unlink( "ezforum/cache/menubox.cache" );
         
         if ( $Name != "" &&
         $Description != "" )
@@ -72,7 +73,8 @@ if ( $Action == "delete" )
     if ( eZPermission::checkPermission( $user, "eZForum", "CategoryDelete" ) )
     {
         // clear the menu cache
-        unlink( "ezforum/cache/menubox.cache" );
+        if ( file_exists( "ezforum/cache/menubox.cache" ) )
+            unlink( "ezforum/cache/menubox.cache" );
         
         if ( $CategoryID != "" )
         {
@@ -100,7 +102,8 @@ if ( $Action == "update" )
     if ( eZPermission::checkPermission( $user, "eZForum", "CategoryModify" ) )
     {
         // clear the menu cache
-        unlink( "ezforum/cache/menubox.cache" );
+        if ( file_exists( "ezforum/cache/menubox.cache" ) )
+            unlink( "ezforum/cache/menubox.cache" );
         
         if ( $Name != "" &&
         $Description != "" )
