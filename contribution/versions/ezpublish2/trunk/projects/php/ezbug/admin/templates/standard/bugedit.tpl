@@ -93,8 +93,7 @@
 
 <br />
 
-
-<!-- inserted files -->
+<!-- BEGIN file_headers_tpl -->
 <p class="boxtext">{intl-avaliable_patches}:</p>
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -103,7 +102,6 @@
 	<th>&nbsp;</th>
 	<th>&nbsp;</th>
 </tr>
-
 <!-- BEGIN file_tpl -->
 <tr>
 	<td width="1%" class="{td_class}">
@@ -121,8 +119,10 @@
 </tr>
 <!-- END file_tpl -->
 </table>
+<!-- END file_headers_tpl -->
 
 <!-- inserted Images -->
+<!-- BEGIN image_headers_tpl -->
 <p class="boxtext">{intl-avaliable_screenshots}:</p>
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -149,6 +149,7 @@
 </tr>
 <!-- END image_tpl -->
 </table>
+<!-- END image_headers_tpl -->
 
 <p class="boxtext">{intl-log_message}:</p>
 <textarea name="LogMessage" cols="40" rows="5" wrap="soft"></textarea>

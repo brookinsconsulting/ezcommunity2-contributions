@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.2 2001/02/19 18:33:54 fh Exp $
+// $Id: imageedit.php,v 1.3 2001/03/02 16:15:30 ce Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <16-Feb-2001 14:32:36 fh>
@@ -37,12 +37,16 @@ $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZBugMain", "Language" );
 
+$session = new eZSession();
+
+$BugID = $session->variable( "BugID" );
+
 if ( $Action == "Insert" )
 {
     $file = new eZImageFile();
 
     if ( $file->getUploadedFile( "userfile" ) )
-    { 
+    {
         $bug = new eZBug( $BugID );
         $image = new eZImage();
         $image->setName( $Name );
@@ -61,6 +65,7 @@ if ( $Action == "Insert" )
         print( $file->name() . " not uploaded successfully" );
     }
 
+    print( "3" );
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /bug/report/edit/" . $BugID . "/" );
     exit();

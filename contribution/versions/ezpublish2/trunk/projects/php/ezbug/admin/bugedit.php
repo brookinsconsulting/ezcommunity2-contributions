@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.22 2001/03/02 14:20:46 ce Exp $
+// $Id: bugedit.php,v 1.23 2001/03/02 16:15:30 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -43,6 +43,8 @@ include_once( "ezbug/classes/ezbugpriority.php" );
 include_once( "ezbug/classes/ezbugstatus.php" );
 include_once( "ezbug/classes/ezbuglog.php" );
 
+$session = new eZSession();
+
 if ( isSet ( $Cancel ) )
 {
     $bug = new eZBug( $BugID );
@@ -75,8 +77,10 @@ $t->set_block( "bug_edit_tpl", "status_item_tpl", "status_item" );
 $t->set_block( "bug_edit_tpl", "owner_item_tpl", "owner_item" );
 
 $t->set_block( "bug_edit_tpl", "log_item_tpl", "log_item" );
-$t->set_block( "bug_edit_tpl", "file_tpl", "file" );
-$t->set_block( "bug_edit_tpl", "image_tpl", "image" );
+$t->set_block( "bug_edit_tpl", "file_headers_tpl", "file_headers" );
+$t->set_block( "file_headers_tpl", "file_tpl", "file" );
+$t->set_block( "bug_edit_tpl", "image_headers_tpl", "image_headers" );
+$t->set_block( "image_headers_tpl", "image_tpl", "image" );
 
 
 if ( $Action == "Insert" )
@@ -258,14 +262,16 @@ $t->set_var( "action_value", "Insert" );
 if( isset( $InsertFile ) ) 
 {
     $Action = "";
-    include( "ezbug/admin/fileedit.php" );
+    $session->setVariable( "BugID", $BugID );
+    eZHTTPTool::header( "Location: /bug/report/fileedit/" );
     exit();
 }
 
 if( isset( $InsertImage ) )
 {
     $Action = "";
-    include( "ezbug/admin/imageedit.php" );
+    $session->setVariable( "BugID", $BugID );
+    eZHTTPTool::header( "Location: /bug/report/imageedit/" );
     exit();
 }
 
@@ -357,8 +363,10 @@ if ( $Action == "Edit" )
 
 // get the files
     $files = $bug->files();
+    
     if( count( $files ) > 0 )
     {
+        $t->parse( "file_headers", "file_headers_tpl" );
         $i = 0;
         foreach( $files as $file )
         {
@@ -383,6 +391,7 @@ if ( $Action == "Edit" )
     }
     else
     {
+        $t->set_var( "file_headers", "" );
         $t->set_var( "file", "" );
     }
 
@@ -390,6 +399,7 @@ if ( $Action == "Edit" )
     $images = $bug->images();
     if( count( $images ) > 0  )
     {
+        $t->parse( "image_headers", "image_headers_tpl" );
         $i = 0;
         foreach( $images as $image )
         {
@@ -413,6 +423,7 @@ if ( $Action == "Edit" )
     }
     else
     {
+        $t->set_var( "image_headers", "" );
         $t->set_var( "image", "" );
     }
     

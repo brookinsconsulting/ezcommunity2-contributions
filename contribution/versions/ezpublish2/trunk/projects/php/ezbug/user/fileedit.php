@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileedit.php,v 1.3 2001/02/20 17:57:36 fh Exp $
+// $Id: fileedit.php,v 1.4 2001/03/02 16:15:30 ce Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <16-Feb-2001 14:33:48 fh>
@@ -35,6 +35,10 @@ include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZBugMain", "Language" );
+
+$session = new eZSession();
+
+$BugID = $session->variable( "BugID" );
 
 if ( $Action == "Insert" )
 {

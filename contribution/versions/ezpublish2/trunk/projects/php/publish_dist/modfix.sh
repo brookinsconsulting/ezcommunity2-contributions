@@ -43,6 +43,8 @@ eztodo/admin/cache
 eztrade/admin/cache
 eztrade/cache
 ezuser/admin/cache
+ezfilemanager/admin/cache
+ezimagecatalogue/admin/cache
 "
 
 for dir in $dirs
