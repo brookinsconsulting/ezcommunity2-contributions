@@ -1,0 +1,1070 @@
+#LyX 1.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 218
+\textclass book
+\begin_preamble
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\lhead{\resizebox{1in}{!}{\includegraphics{screenshots/2.0/ezsystems.eps}}}
+\rhead{}
+\chead{}
+\end_preamble
+\language british
+\inputencoding latin1
+\fontscheme times
+\graphics default
+\float_placement !htbp
+\paperfontsize 10
+\spacing single 
+\papersize Default
+\paperpackage widemarginsa4
+\use_geometry 0
+\use_amsmath 0
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip smallskip
+\quotes_language english
+\quotes_times 2
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+
+\layout Title
+
+eZ publish Installation Guide
+\layout Author
+
+
+\begin_inset Figure size 223 44
+file icons/ezpublish.eps
+width 4 75
+flags 11
+
+\end_inset 
+
+
+\layout Standard
+
+
+\begin_inset Figure size 60 14
+file icons/ezsystems.eps
+height 2 0.2
+flags 11
+
+\end_inset 
+
+The double squares and eZ are trademarks belonging to eZ systems of Norway,
+ registration number NO 981 601 564 (http://www.brreg.no/oppslag/enhet/detalj.ssc?o
+rgnr=981601564).
+\layout Standard
+
+All images and text herein is Copyright 2001 eZ systems.
+\layout Standard
+
+eZ publish is a software package released under the GPL lisence (http://www.gnu.or
+g/copyleft/gpl.html), its primary point of distribution and information is
+ http://devel.ez.no/
+\layout Standard
+
+
+\begin_inset LatexCommand \tableofcontents{}
+
+\end_inset 
+
+
+\layout Chapter
+
+Introduction
+\layout Quote
+
+
+\series bold 
+
+\begin_inset Quotes eld
+\end_inset 
+
+He who asks is a fool for five minutes, but he who does not ask remains
+ a fool forever.
+\begin_inset Quotes erd
+\end_inset 
+
+
+\series default 
+ - \SpecialChar \-
+
+\layout Standard
+
+eZ publish is a content management system, among a lot of other things.
+ This installation manual will try to cover the job of installing eZ publish
+ on your server.
+\layout Standard
+
+This manual covers installation on a Red Hat Linux system; most of what
+ is described here can also be applied to other installations, especially
+ if your system uses RPM for installation.
+ For other systems you would need to do a lot of compiling yourself to make
+ this work, or apply the system's own package manager.
+\layout Standard
+
+Finding packages can be done dirctly from vendor sites, though you might
+ not be guaranteed that you'll find the package you need.
+ In such instances you need to download the source directly from the software
+ developer.
+\layout Standard
+
+Different distribution sites for different Unix systems are:
+\layout Itemize
+
+Debian http://www.debian.org/distrib/ftplist
+\layout Itemize
+
+IRIX http://freeware.sgi.com/
+\layout Itemize
+
+Red Hat Linux http://www.redhat.com/apps/download
+\layout Itemize
+
+SuSE Linux http://www.suse.com/us/support/download/index.html
+\layout Itemize
+
+Sun http://www.sunfreeware.com/
+\layout Standard
+
+The addresses to the software developers will be given where apropriate
+ in the text.
+\layout Standard
+
+A line starting with a hash-sign 
+\begin_inset Quotes eld
+\end_inset 
+
+#
+\begin_inset Quotes erd
+\end_inset 
+
+ are input from the user to the shell.
+\layout Chapter
+
+Pre-requisites
+\begin_inset LatexCommand \label{chptr: pre-requisites}
+
+\end_inset 
+
+
+\layout Section
+
+Needed Privileges
+\layout Standard
+
+For the standard installation (and for the moment the only method) of eZ
+ publish you will need to have the following privileges on your system:
+\layout Itemize
+
+Access to Apache's httpd.conf
+\layout Itemize
+
+Access to compiler
+\layout Itemize
+
+Access to Apache's modules
+\layout Itemize
+
+Access to a MySQL database
+\layout Itemize
+
+You might also need the privilege to add new libraries to your system.
+\layout Standard
+
+You might also use other web servers than apache, but then you're on your
+ own since we haven't tested eZ publish on other configurations.
+ If you do try another web server, please keep a log of what you do and
+ submit it to us (pkej@ez.no) for inclusion in future versions of this manual.
+\layout Section
+
+Needed Software
+\layout Standard
+
+You also need to download and install the following packages, if they aren't
+ present on your system already:
+\layout Itemize
+
+MySQL (http://www.mysql.com) version 3.23 or later.
+\layout Itemize
+
+libXml (http://xmlsoft.org/#Downloads) version 2.2.7
+\layout Itemize
+
+libQdom () version 
+\layout Itemize
+
+ImageMagick (http://www.imagemagick.org/) newest version
+\layout Itemize
+
+Apache (http://httpd.apache.org/) latest 1.3 release.
+\layout Itemize
+
+Any and all modules you need for apache in addition to mod_php.
+ (http://modules.apache.org/)
+\layout Itemize
+
+PHP (http://www.php.net/) version 4.0.4pl1 or later, you need the source code
+ version.
+\layout Itemize
+
+eZ publish (http://developer.ez.no/) verision 2.0 or later stable releases.
+\layout Standard
+
+The libraries and php will appear pre-compiled for Linux i386 on http://develope
+r.ez.no in the future.
+ The software is listed in the order of installation.
+\layout Section
+
+Which Software is Already Installed?
+\layout Subsection
+
+Systems Using RPM
+\layout Standard
+
+RPM is a system for distributing pre-compiled software.
+ The packages also contain pre-configured settings and initialisation files,
+ leaving almost nothing to the user, except deciding what to install.
+\layout Standard
+
+To check if a package is available on your system you can run the following
+ command (RPM based systems 
+\begin_inset Quotes eld
+\end_inset 
+
+rpm -qa | grep <name of program/library>
+\begin_inset Quotes erd
+\end_inset 
+
+.
+ If you need to know where you can find the different files from that package
+ you can follow up on the previous command with the following 
+\begin_inset Quotes eld
+\end_inset 
+
+rpm -ql <rpm name>
+\begin_inset Quotes erd
+\end_inset 
+
+.
+ RPM name is one of the returned names from the previous command, example:
+ 
+\layout Standard
+\added_space_top medskip \pextra_type 1 \pextra_width 5mm
+
+
+\family typewriter 
+# pkej@vogol:/etc/httpd > rpm -qa | grep libxml
+\layout Standard
+\pextra_type 1 \pextra_width 5mm
+
+
+\family typewriter 
+libxml-1.8.7-80
+\layout Standard
+\pextra_type 1 \pextra_width 5mm
+
+
+\family typewriter 
+libxmld-1.8.7-80
+\layout Standard
+\pextra_type 1 \pextra_width 5mm
+
+
+\family typewriter 
+# pkej@vogol:/etc/httpd > rpm -ql libxml-1.8.7-80
+\layout Standard
+\pextra_type 1 \pextra_width 5mm
+
+
+\family typewriter 
+/usr/bin/xml-config
+\layout Standard
+\pextra_type 1 \pextra_width 5mm
+
+
+\family typewriter 
+/usr/lib/libxml.so.1
+\layout Standard
+\pextra_type 1 \pextra_width 5mm
+
+
+\family typewriter 
+/usr/lib/libxml.so.1.8.7
+\layout Standard
+\pextra_type 1 \pextra_width 5mm
+
+
+\family typewriter 
+/usr/share/doc/packages/libxml
+\layout Standard
+\pextra_type 1 \pextra_width 5mm
+
+
+\family typewriter 
+/usr/share/doc/packages/libxml/AUTHORS
+\layout Standard
+\pextra_type 1 \pextra_width 5mm
+
+
+\family typewriter 
+/usr/share/doc/packages/libxml/COPYING
+\layout Standard
+\pextra_type 1 \pextra_width 5mm
+
+
+\family typewriter 
+/usr/share/doc/packages/libxml/COPYING.LIB
+\layout Standard
+\pextra_type 1 \pextra_width 5mm
+
+
+\family typewriter 
+/usr/share/doc/packages/libxml/NEWS
+\layout Standard
+\pextra_type 1 \pextra_width 5mm
+
+
+\family typewriter 
+/usr/share/doc/packages/libxml/README
+\layout Standard
+\pextra_type 1 \pextra_width 5mm
+
+
+\family typewriter 
+/usr/share/doc/packages/libxml/TODO
+\layout Section
+
+FreeBSD
+\layout Standard
+
+When installing and compiling PHP on a FreeBSD system you might encounter
+ an error when using --with-dom which says you have a conifgure error on
+ the lib.
+ It turns out that the current port of libxml installs itself as /usr/local/lib/
+libxml2.a|so and it goes unrecognised by configure.
+ You can easily get around this problem by linking the libs to libxml.a|so.
+\layout Section
+
+IRIX
+\layout Standard
+
+By accessing the software manager (you must be root) you can get a list
+ of installed software, scroll or search that list to find the packages
+ you're interested in.
+ Double click on the tabs to the left to get information about where specific
+ files are installed.
+\layout Section
+
+Other Systems
+\layout Standard
+
+On other systems you should read the documentation for that system to learn
+ how to find out what software is already installed.
+\layout Standard
+
+You could try to use the command 
+\begin_inset Quotes eld
+\end_inset 
+
+find
+\begin_inset Quotes erd
+\end_inset 
+
+ to find the software.
+ It is used thus: 
+\begin_inset Quotes eld
+\end_inset 
+
+find .
+ -name 
+\backslash 
+*<program name>
+\backslash 
+*
+\begin_inset Quotes erd
+\end_inset 
+
+ from the /usr/, /local/ , /lib/, /share/ directories.
+ In extreme cases you could try from the root of the system, but this will
+ take a long time and will also hog resources on your computer.
+ Therefore we urge you to learn how to use the proper installation features
+ of your system to find the software already installed.
+\layout Section
+
+Installation of Required Software
+\layout Standard
+
+If you've found pre-compiled versions of all the software packaged for use
+ with an installation tool, you just have to install that software using
+ the tool.
+ Instructioins for its usage is often found using the command 
+\begin_inset Quotes eld
+\end_inset 
+
+man <installation tool name>
+\begin_inset Quotes erd
+\end_inset 
+
+ or by reading your system's documentation or the supplier's website.
+\layout Standard
+
+If you've had to download source code you will find instructions on how
+ to compile and install the software you've downloaded at the software developer
+'s website.
+ This requires a bit of knowledge and you should only undertake this if
+ you feel confident about the job.
+\layout Standard
+
+This manual will only cover configuration of the software needed and compilation
+ of PHP to use the other software.
+\layout Chapter
+
+Compile Configuration
+\layout Section
+
+PHP
+\layout Subsection
+
+Unpacking
+\layout Standard
+
+After you have downloaded PHP you need to unpack it somewhere where you
+ can compile and configure the software.
+ To unpack run the command:
+\layout Itemize
+
+
+\family typewriter 
+# tar zxvf php-4.0.x.tar.gz
+\layout Standard
+
+Where the x is the version of php you've downloaded.
+ Then you need to move into the directory you extracted php into:
+\layout Itemize
+
+
+\family typewriter 
+# cd php-4.0.x
+\layout Subsection
+
+Configuration
+\layout Standard
+
+You'll need either an apache module or a command line version of PHP to
+ use eZ publish on your website.
+ We recommend you use PHP as an apache module.
+ You will also need the command line version if you want to use the cron
+ jobs for periodical updates of the eZ news feed module.
+\layout Standard
+
+Thus for our recommended installation of PHP you need both the command line
+ and module versions of PHP.
+\layout Subsubsection
+
+Common
+\layout Standard
+
+Both the command line and apache module versions need to have the following
+ configurations added to the configuration tool:
+\layout Description
+
+--enable-trans-sid This lets PHP use session id's which don't rely on cookies.
+ It does not disable normal cookie based sessions.
+\newline 
+(
+\size footnotesize 
+http://www.php.net/manual/en/install.configure.php#install.configure.enable-trans-sid
+\size default 
+)
+\layout Description
+
+--with-mysql This tells PHP that the mysql functionality should be used.
+\newline 
+(
+\size footnotesize 
+http://www.php.net/manual/en/install.configure.php#install.configure.with-mysql
+\size default 
+)
+\layout Description
+
+--enable-magic-quotes This tells PHP to enable magic quotes by default.
+ you can also turn this feature on and off on a directory by directory basis
+ in either the 
+\begin_inset Quotes eld
+\end_inset 
+
+.htaccess
+\begin_inset Quotes erd
+\end_inset 
+
+ files (if you use them) or in the setup of the virtual server in 
+\begin_inset Quotes eld
+\end_inset 
+
+httpd.conf
+\begin_inset Quotes erd
+\end_inset 
+
+.
+\newline 
+(
+\size footnotesize 
+http://www.php.net/manual/en/install.configure.php#install.configure.enable-magic-quot
+es
+\size default 
+)
+\layout Description
+
+--with-dom This configures PHP to include libxml.
+ 
+\size footnotesize 
+
+\newline 
+(http://www.php.net/manual/en/install.configure.php#install.configure.with-dom)
+\layout Description
+
+--with-qtdom This configures PHP to include libqdom.
+ It isn't up on the PHP site with a link, but it works as --with-dom.
+\layout Standard
+
+You should also go through the web page: 
+\size footnotesize 
+http://www.php.net/manual/en/install.configure.php
+\size default 
+ and make sure that there isn't other functionality you would like to have
+ included.
+\layout Subsubsection
+
+Command Line
+\layout Standard
+
+The default is to create a command line version of PHP.
+ Therefore you don't need to add more configuration options for this.
+\layout Subsubsection
+
+Apache Module
+\layout Standard
+
+To build an apache module you need to add:
+\layout Description
+
+--with-apxs This compiles PHP as an apache module.
+
+\size footnotesize 
+ 
+\newline 
+(http://www.php.net/manual/en/install.configure.php#install.configure.with-apxs)
+\layout Subsubsection
+
+Other Web Servers
+\layout Standard
+
+We haven't tested our software with other web servers than apache.
+ If you need to try out other web servers, read this document 
+\size footnotesize 
+http://www.php.net/manual/en/install.configure.php#install.configure.servers
+\size default 
+ to learn how you configure for the web server you will be using.
+\layout Subsubsection
+
+Creating the Configuration
+\layout Standard
+
+Now you just have to run the 
+\begin_inset Quotes eld
+\end_inset 
+
+./configure
+\begin_inset Quotes erd
+\end_inset 
+
+ program with the apropriate configuration directives which we discussed
+ in the preceeding sections, for an apache module you'd do the following:
+\layout Itemize
+
+
+\family typewriter 
+# ./configure --enable-trans-sid --with-mysql --with-magic-quotes --with-apxs
+ --with-dom --with-qtdom
+\layout Standard
+
+Remember that to compile a script/cgi version you'd need to change that
+ line to:
+\layout Itemize
+
+
+\family typewriter 
+# ./configure --enable-trans-sid --with-mysql --with-magic-quotes --with-dom
+ --with-qtdom
+\layout Subsection
+
+Compilation
+\layout Standard
+
+To compile you need to run the command 
+\begin_inset Quotes eld
+\end_inset 
+
+make
+\begin_inset Quotes erd
+\end_inset 
+
+:
+\layout Itemize
+
+
+\family typewriter 
+make
+\layout Subsection
+
+Installation
+\layout Standard
+
+To install your new PHP package you need to run the following command:
+\layout Itemize
+
+
+\family typewriter 
+make install
+\layout Chapter
+
+Apache Configuration
+\layout Standard
+
+For the moment we have only one solution for configuring apache.
+ There are other methods, and we'll document them in the future.
+\layout Section
+
+Dual Virtual Host
+\layout Standard
+
+This set up is based on having two different virtual hosts for your administrati
+on back-end and the main site.
+ The main site would typically be known as 
+\begin_inset Quotes eld
+\end_inset 
+
+www.yoursite.com
+\begin_inset Quotes erd
+\end_inset 
+
+ and the administration would be 
+\begin_inset Quotes eld
+\end_inset 
+
+admin.yoursite.com
+\begin_inset Quotes erd
+\end_inset 
+
+; the names are up to you, theoretically you could have different names,
+ for example 
+\begin_inset Quotes eld
+\end_inset 
+
+mysite.yoursite.com
+\begin_inset Quotes erd
+\end_inset 
+
+ and 
+\begin_inset Quotes eld
+\end_inset 
+
+administration.mysite.com
+\begin_inset Quotes erd
+\end_inset 
+
+.
+\layout Standard
+
+The virtual host is configured through the 
+\begin_inset Quotes eld
+\end_inset 
+
+httpd.conf
+\begin_inset Quotes erd
+\end_inset 
+
+ file which is the main configuration of Apache.
+ Following is an example of such a host, remember to exchange everything
+ within brackets (
+\begin_inset Quotes eld
+\end_inset 
+
+[
+\begin_inset Quotes eld
+\end_inset 
+
+ and 
+\begin_inset Quotes eld
+\end_inset 
+
+]
+\begin_inset Quotes erd
+\end_inset 
+
+) with your preferred and local settings and also remove the brackets.
+\layout Standard
+\pextra_type 1 \pextra_width 2mm
+
+
+\family typewriter 
+\size scriptsize 
+# User site 
+\layout Standard
+\pextra_type 1 \pextra_width 2mm
+
+
+\family typewriter 
+\size scriptsize 
+<VirtualHost yourdomain.org> 
+\layout Standard
+\pextra_type 1 \pextra_width 4mm
+
+
+\family typewriter 
+\size scriptsize 
+<Directory [/your/apache/documentroot/]> 
+\layout Standard
+\pextra_type 1 \pextra_width 6mm
+
+
+\family typewriter 
+\size scriptsize 
+Options FollowSymLinks Indexes ExecCGI 
+\layout Standard
+\pextra_type 1 \pextra_width 6mm
+
+
+\family typewriter 
+\size scriptsize 
+AllowOverride None 
+\layout Standard
+\pextra_type 1 \pextra_width 4mm
+
+
+\family typewriter 
+\size scriptsize 
+</Directory>
+\layout Standard
+\pextra_type 1 \pextra_width 4mm
+
+
+\family typewriter 
+\size scriptsize 
+RewriteEngine On
+\layout Standard
+\pextra_type 1 \pextra_width 4mm
+
+
+\family typewriter 
+\size scriptsize 
+RewriteRule !
+\backslash 
+.(gif|css|jpg|png)$ [/your/apache/documentroot/index.php] 
+\layout Standard
+\pextra_type 1 \pextra_width 4mm
+
+
+\family typewriter 
+\size scriptsize 
+ServerAdmin [your_mail@domain.no]
+\layout Standard
+\pextra_type 1 \pextra_width 4mm
+
+
+\family typewriter 
+\size scriptsize 
+DocumentRoot [/your/apache/documentroot/]
+\layout Standard
+\pextra_type 1 \pextra_width 4mm
+
+
+\family typewriter 
+\size scriptsize 
+ServerName [yourdomain.org]
+\layout Standard
+\pextra_type 1 \pextra_width 4mm
+
+
+\family typewriter 
+\size scriptsize 
+ServerAlias [www.yourdomain.org]
+\layout Standard
+\pextra_type 1 \pextra_width 2mm
+
+
+\family typewriter 
+\size scriptsize 
+</VirtualHost>
+\layout Standard
+\pextra_type 1 \pextra_width 2mm
+
+
+\family typewriter 
+\size scriptsize 
+# Admin site 
+\layout Standard
+\pextra_type 1 \pextra_width 2mm
+
+
+\family typewriter 
+\size scriptsize 
+<VirtualHost admin.yourdomain.org> 
+\layout Standard
+\pextra_type 1 \pextra_width 4mm
+
+
+\family typewriter 
+\size scriptsize 
+<Directory [/your/apache/documentroot/admin]> 
+\layout Standard
+\pextra_type 1 \pextra_width 6mm
+
+
+\family typewriter 
+\size scriptsize 
+Options FollowSymLinks Indexes ExecCGI 
+\layout Standard
+\pextra_type 1 \pextra_width 6mm
+
+
+\family typewriter 
+\size scriptsize 
+AllowOverride None 
+\layout Standard
+\pextra_type 1 \pextra_width 4mm
+
+
+\family typewriter 
+\size scriptsize 
+</Directory> 
+\layout Standard
+\pextra_type 1 \pextra_width 4mm
+
+
+\family typewriter 
+\size scriptsize 
+RewriteEngine On 
+\layout Standard
+\pextra_type 1 \pextra_width 4mm
+
+
+\family typewriter 
+\size scriptsize 
+RewriteRule !
+\backslash 
+.(gif|css|jpg|png)$ [/your/apache/documentroot/admin/index.php]
+\layout Standard
+\pextra_type 1 \pextra_width 4mm
+
+
+\family typewriter 
+\size scriptsize 
+ServerAdmin [your_mail@domain.no]
+\layout Standard
+\pextra_type 1 \pextra_width 4mm
+
+
+\family typewriter 
+\size scriptsize 
+DocumentRoot [/your/apache/documentroot/admin]
+\layout Standard
+\pextra_type 1 \pextra_width 4mm
+
+
+\family typewriter 
+\size scriptsize 
+ServerName [admin.yourdomain.org]
+\layout Standard
+\pextra_type 1 \pextra_width 4mm
+
+
+\family typewriter 
+\size scriptsize 
+ServerAlias [admin.yourdomain.org]
+\layout Standard
+\pextra_type 1 \pextra_width 2mm
+
+
+\family typewriter 
+\size scriptsize 
+</VirtualHost>
+\layout Standard
+
+The format of the 
+\begin_inset Quotes eld
+\end_inset 
+
+httpd.conf
+\begin_inset Quotes erd
+\end_inset 
+
+ file is covered at http://httpd.apache.org/docs/ for a complete understanding
+ of the above information you'll need to read that documentation.
+\layout Standard
+
+If you didn't compile PHP with magic quotes; or other software relies on
+ PHP not using magic quotes you can add the following line into each virtual
+ host section:
+\layout Itemize
+
+
+\family typewriter 
+php_value magic_quotes_gpc 1
+\layout Chapter
+
+eZ publish Installation
+\layout Section
+
+Database
+\layout Standard
+
+Now you need to create a database in MySQL, the default name we use is publish,
+ but you can change that to whatever pleases you.
+\layout Itemize
+
+
+\family typewriter 
+# mysql -uroot -p publish < sql/publish.sql
+\layout Standard
+
+Add a publish user in MySQL.
+ To add a user you can use the MySQL client to log on to mysql and then
+ create the user:
+\layout Itemize
+
+
+\family typewriter 
+# mysql>grant all on publish.* to publish@localhost identified by "secret";
+\layout Standard
+
+where secret is your password.
+ Then you need to add the default eZ publish data into your newly created
+ database: 
+\layout Itemize
+
+
+\family typewriter 
+# mysql -uroot -p publish < sql/publish.sql
+\layout Section
+
+Program Files
+\layout Standard
+
+The next step is to install the eZ publish package in your document root
+ directory.
+ First you need to unpack the software in a temporary directory:
+\layout Itemize
+
+
+\family typewriter 
+# cd /tmp
+\layout Itemize
+
+
+\family typewriter 
+# tar zxvf /path/to/ezpublish-2.0.tar.gz
+\layout Standard
+
+The next step is to move the files to your document root:
+\layout Itemize
+
+
+\family typewriter 
+# mv /tmp/publish_dist /your/apache/documentroot
+\layout Standard
+
+When all this is done you need to tell eZ publish a little about the site
+ you're running.
+ You'll need to edit the 
+\begin_inset Quotes eld
+\end_inset 
+
+site.ini
+\begin_inset Quotes erd
+\end_inset 
+
+ file which you will find in the document root:
+\layout Itemize
+
+
+\family typewriter 
+# cd /your/apache/documentroot
+\layout Itemize
+
+
+\family typewriter 
+# vi site.ini
+\layout Standard
+
+Instead of vi you can use your preferred text editor.
+ You'll need to add information about the username, hostname and password
+ of your database.
+ More information on what you can do with 
+\begin_inset Quotes eld
+\end_inset 
+
+site.ini
+\begin_inset Quotes erd
+\end_inset 
+
+ can be found in the 
+\begin_inset Quotes eld
+\end_inset 
+
+eZ publish Customisation Guide
+\begin_inset Quotes erd
+\end_inset 
+
+.
+\layout Standard
+
+The next important step is to run the script modfix.
+ This script will create symbolic links needed and set permissions.
+\layout Itemize
+
+
+\family typewriter 
+# ./modfix.sh
+\layout Chapter
+
+Now What?
+\layout Standard
+
+After installing eZ publish you can test your site through the URL http://www.you
+rsite.com/ and you can administrate your site from the URL http://admin.yoursite.co
+m/, of course, if you did anything different the names of the admin and
+ the public site might be different.
+\layout Standard
+
+
+\emph on 
+NOTE: 
+\emph default 
+The default user name and password for your site will be admin/publish.
+ Remember to change the password.
+\layout Standard
+
+The next manual you should read is the 
+\begin_inset Quotes eld
+\end_inset 
+
+eZ publish Customisation Guide
+\begin_inset Quotes erd
+\end_inset 
+
+, it tells you how to configure the software to use the functionality you
+ want, as well as how you change the templates to suit your needs.
+\layout Standard
+
+When you're finished with the design and the initial testing you can head
+ over to http://zez.org/ for articles about community building as well as
+ programming, or you can visit http://developer.ez.no for updates, articles
+ about eZ publish and how to work with it, as well as keeping abreast of
+ new developments.
+\the_end
