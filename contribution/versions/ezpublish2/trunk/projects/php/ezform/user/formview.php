@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formview.php,v 1.4 2001/12/18 09:37:40 jhe Exp $
+// $Id: formview.php,v 1.5 2001/12/18 18:29:20 jhe Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -50,14 +50,41 @@ if ( isset( $Cancel ) )
     exit();
 }
 
+$Language = $ini->read_var( "eZFormMain", "Language" );
+
+$t = new eZTemplate( "ezform/user/" . $ini->read_var( "eZFormMain", "AdminTemplateDir" ),
+                     "ezform/user/intl/", $Language, "form.php" );
+
+$t->setAllStrings();
+
+$t->set_file( "form_view_page_tpl", "formview.tpl" );
+
+$t->set_block( "form_view_page_tpl", "mail_preview_tpl", "mail_preview" );
+
 $renderer =& new eZFormRenderer( $form );
+$form = new eZForm( $FormID );
 
 if ( isSet( $Next ) )
 {
-    $output =& $renderer->verifyPage( $page_array[count( $page_array ) - 1] );
+    $currentPage = $page_array[count( $page_array ) - 1];
+    $output =& $renderer->verifyPage( $currentPage );
     if ( $output == "" )
     {
-        $nextPage = 7;
+        $renderer->storePage( $currentPage );
+        $nextPage = $renderer->findNextPage( $currentPage );
+        if ( $nextPage == -1 )
+        {
+//            if ( $form->
+            if ( $form->useDatabaseStorage() )
+            {
+                $form->setActiveResult();
+            }
+            else
+            {
+                $form->deleteResult();
+            }
+            $renderer->storeForm();
+        }
         $pageList .= ":" . $nextPage;
     }
     else
@@ -75,8 +102,6 @@ else if ( isSet( $Previous ) )
 
 $ActionValue="process";
 
-$form = new eZForm( $FormID );
-
 if ( !( $form->id() > 0 ) )
 {
     eZHTTPTool::header( "Location: /" );
@@ -84,25 +109,14 @@ if ( !( $form->id() > 0 ) )
 
 $errorMessages = array();
 
-$Language = $ini->read_var( "eZFormMain", "Language" );
-
 // init the section
-if ( isset( $SectionIDOverride ) )
+if ( isSet( $SectionIDOverride ) )
 {
     include_once( "ezsitemanager/classes/ezsection.php" );
     
     $sectionObject =& eZSection::globalSectionObject( $SectionIDOverride );
     $sectionObject->setOverrideVariables();
 }
-
-$t = new eZTemplate( "ezform/user/" . $ini->read_var( "eZFormMain", "AdminTemplateDir" ),
-                     "ezform/user/intl/", $Language, "form.php" );
-
-$t->setAllStrings();
-
-$t->set_file( "form_view_page_tpl", "formview.tpl" );
-
-$t->set_block( "form_view_page_tpl", "mail_preview_tpl", "mail_preview" );
 
 $t->set_var( "error", "" );
 $t->set_var( "form", "" );
@@ -112,7 +126,6 @@ $t->set_var( "form_name", $form->name() );
 $t->set_var( "form_completed_page", $form->completedPage() );
 $t->set_var( "form_instruction_page", $form->instructionPage() );
 $t->set_var( "page_list", $pageList );
-
 $renderer->setPage( $nextPage );
 $output =& $renderer->renderForm( $form );
 $t->set_var( "form", $output );

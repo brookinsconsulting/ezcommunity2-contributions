@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.15 2001/12/18 09:34:45 br Exp $
+// $Id: ezformelement.php,v 1.16 2001/12/18 18:29:20 jhe Exp $
 //
 // ezformelement class
 //
@@ -157,7 +157,7 @@ class eZFormElement
                 $this->fill( &$formArray[0] );
                 $ret = true;
             }
-            elseif( count( $formArray ) != 1 )
+            elseif ( count( $formArray ) != 1 )
             {
                 $this->ID = 0;
             }
@@ -196,8 +196,7 @@ class eZFormElement
         {
             $db->array_query( $formArray, "SELECT ID
                                            FROM eZForm_FormElement
-                                           ORDER BY Name DESC
-                                           " );
+                                           ORDER BY Name DESC" );
 
         }
         else
@@ -254,6 +253,21 @@ class eZFormElement
         return htmlspecialchars( $this->Size );
     }
 
+    function getConditions()
+    {
+        $db =& eZDB::globalDatabase();
+        $condArray = array();
+        $db->array_query( $condArray, "SELECT * FROM eZForm_FormCondition WHERE ElementID='$this->ID'" );
+        $returnArray = array();
+        foreach ( $condArray as $cond )
+        {
+            $returnArray[]["Min"] = $cond[$db->fieldName( "Min" )];
+            $returnArray[]["Max"] = $cond[$db->fieldName( "Max" )];
+            $returnArray[]["Page"] = $cond[$db->fieldName( "PageID" )];
+        }
+        return $returnArray;
+    }
+    
     /*!
       Returns true if this element is required
     */
@@ -445,7 +459,74 @@ class eZFormElement
         return $returnArray;
     }
 
+    /*!
+      Returns the value of the element
+    */
+    function result( $hash = -1 )
+    {
+        $result = array();
+        $session =& eZSession::globalSession();
+        if ( $hash == -1 )
+            $hash = $session->hash();
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $result, "SELECT fer.Result AS Result FROM eZForm_FormResults AS fr,
+                                     eZForm_FormElementResult AS fer WHERE
+                                     fer.ResultID=fr.ID AND ElementID='$this->ID'
+                                     AND fr.UserHash='$hash'" );
+        if ( count( $result ) == 1 )
+            return $result[0][$db->fieldName( "Result" )];
+        else
+            return false;
+    }
 
+    function setResult( $value, $hash = -1 )
+    {
+        $session =& eZSession::globalSession();
+        if ( $hash == -1 )
+            $hash = $session->hash();
+        $res = array();
+        $result = array();
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $db->array_query( $result, "SELECT ID FROM eZForm_FormResults
+                                     WHERE UserHash='$hash'" );
+        if ( count( $result ) == 1 )
+        {
+            $resultID = $result[0][$db->fieldName( "ID" )];
+        }
+        else
+        {
+            $db->lock( "eZForm_FormResults" );
+            $resultID = $db->nextID( "eZForm_FormResults", "ID" );
+            $res[] = $db->query( "INSERT INTO eZForm_FormResults (ID, UserHash, IsRegistered)
+                                  VALUES
+                                  ('$resultID', '$hash', '0')" );
+            $db->unlock();
+        }
+        $resultArray = array();
+        $db->array_query( $resultArray, "SELECT ID FROM eZForm_FormElementResult
+                          WHERE ElementID='$this->ID' AND ResultID='$resultID'" );
+
+        if ( count( $resultArray ) == 0 )
+        {
+            $db->lock( "eZForm_FormElementResult", "ID" );
+            $nextID = $db->nextID( "eZForm_FormElementResult", "ID" );
+            $res[] = $db->query( "INSERT INTO eZForm_FormElementResult
+                                  (ID, ElementID, ResultID, Result)
+                                  VALUES
+                                  ('$nextID','$this->ID','$resultID','$value')" );
+            $db->unlock();
+        }
+        else
+        {
+            $res[] = $db->query( "UPDATE eZForm_FormElementResult SET
+                                Result='$value'
+                                WHERE ElementID='$this->ID' AND
+                                ResultID='$resultID'" );
+        }
+        eZDB::finish( $res, $db );
+    }
+    
     var $ID;
     var $Name;
     var $Required;

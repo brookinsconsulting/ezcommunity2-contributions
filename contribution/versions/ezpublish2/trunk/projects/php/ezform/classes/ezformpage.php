@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformpage.php,v 1.7 2001/12/18 16:54:14 br Exp $
+// $Id: ezformpage.php,v 1.8 2001/12/18 18:29:20 jhe Exp $
 //
 // Definition of ||| class
 //
@@ -33,6 +33,8 @@
   \endcode
 
 */
+
+include_once( "ezform/classes/ezformelement.php" );
        
 class eZFormPage
 {

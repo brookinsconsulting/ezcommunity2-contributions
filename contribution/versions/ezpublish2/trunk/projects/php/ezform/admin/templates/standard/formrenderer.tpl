@@ -60,7 +60,7 @@
 <p class="boxtext">{element_name}:</p>
 <select name="{field_name}[]" multiple="multiple" >
 <!-- BEGIN multiple_select_item_sub_item_tpl -->
-<option value="{sub_value}">{sub_value}</option>
+<option value="{sub_value}" {selected}>{sub_value}</option>
 <!-- END multiple_select_item_sub_item_tpl -->
 </select>
 <!-- END multiple_select_item_tpl -->
@@ -69,7 +69,7 @@
 <p class="boxtext">{element_name}:</p>
 <select name="{field_name}">
 <!-- BEGIN dropdown_item_sub_item_tpl -->
-<option value="{sub_value}">{sub_value}</option>
+<option value="{sub_value}" {selected}>{sub_value}</option>
 <!-- END dropdown_item_sub_item_tpl -->
 </select>
 <!-- END dropdown_item_tpl -->
@@ -77,14 +77,14 @@
 <!-- BEGIN radiobox_item_tpl -->
 <p class="boxtext">{element_name}:</p>
 <!-- BEGIN radiobox_item_sub_item_tpl -->
-{sub_value}: <input type="radio" value="{sub_value}" name="{field_name}" />
+{sub_value}: <input type="radio" value="{sub_value}" name="{field_name}" {selected} />
 <!-- END radiobox_item_sub_item_tpl -->
 <!-- END radiobox_item_tpl -->
 
 <!-- BEGIN checkbox_item_tpl -->
 <p class="boxtext">{element_name}:</p>
 <!-- BEGIN checkbox_item_sub_item_tpl -->
-{sub_value}: <input type="checkbox" value="{sub_value}" name="{field_name}[]" />
+{sub_value}: <input type="checkbox" value="{sub_value}" name="{field_name}[]" {selected} />
 <!-- END checkbox_item_sub_item_tpl -->
 <!-- END checkbox_item_tpl -->
 
@@ -142,7 +142,7 @@
 <tr>
 	<td valign="top">
 <!-- BEGIN previous_button_tpl -->
-	<input class="okbutton" type="submit" name="Previous" value="{intl-prev}" />
+	<input class="okbutton" type="submit" name="Previous" value="{intl-previous}" />
 <!-- END previous_button_tpl -->
 <!-- BEGIN ok_button_tpl -->
 	<input class="okbutton" type="submit" name="OK" value="{intl-ok}" />

@@ -13,7 +13,7 @@ CREATE TABLE eZForm_Form (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-CREATE TABLE eZForm_FormContition (
+CREATE TABLE eZForm_FormCondition (
   ID int(11) NOT NULL,
   ElementID int(11) NOT NULL,
   PageID int(11) NOT NULL,
@@ -87,8 +87,23 @@ CREATE TABLE eZForm_FormTableElementDict (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;    
 
-CREATE TABLE eZForm_FormElementNumerical (
-  ElementID int(11) NOT NULL default '0',
+CREATE TABLE eZForm_FormResults (
+  ID int(11) NOT NULL default '0',
+  UserHash char(33) NOT NULL,
+  IsRegistered int(1) NOT NULL default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZForm_FormElementResult (
+  ID int(11) NOT NULL default '0',
+  ElementID int(11),
+  ResultID int(11),
+  Result varchar(50),
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZForm_NumericalElement (
+  ElementID NOT NULL default '0',
   MaxValue varchar(10),
   MinValue varchar(10),
   PRIMARY KEY (ElementID)

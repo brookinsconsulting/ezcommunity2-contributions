@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezform.php,v 1.15 2001/12/18 17:18:36 pkej Exp $
+// $Id: ezform.php,v 1.16 2001/12/18 18:29:20 jhe Exp $
 //
 // ezform class
 //
@@ -341,7 +341,7 @@ class eZForm
      /*!
       Returns true if the data the user sends in for this form should be saved in the database.
     */
-    function &useDatabaseStorage()
+    function useDatabaseStorage()
     {
         $ret = true;
         
@@ -477,15 +477,19 @@ class eZForm
         }*/
 
 
-    function &formPage( $page = -1 )
+    function &formPage( $page = -1, $as_object = true )
     {
         $whereString = "";
         $element = array();
-        if ( $page != -1 )
-            $whereString = "AND ID = $page ";
+        if ( $page != -1 && $page != "" )
+            $whereString = "AND ID = $page";
         $db =& eZDB::globalDatabase();
         $db->array_query( $element, "SELECT * FROM eZForm_FormPage WHERE FormID='$this->ID' $whereString ORDER BY Placement" );
-        $formpage = new eZFormPage( $element[0] );
+        if ( $as_object )
+            $formpage = new eZFormPage( $element[0] );
+        else
+            $formpage = $element[0][$db->fieldName( "ID" )];
+        
         return $formpage;
     }
 
@@ -615,7 +619,40 @@ class eZForm
         }
     }
 
+    function setActiveResult( $hash = -1 )
+    {
+        $session =& eZSession::globalSession();
+        if ( $hash == -1 )
+            $hash = $session->hash();
 
+        $db =& eZDB::globalDatabase();
+        $db->query( "UPDATE eZForm_FormResults
+                     SET IsRegistered='1'
+                     WHERE UserHash='$hash'" );
+    }
+
+    function deleteResult( $hash = -1 )
+    {
+        $session =& eZSession::globalSession();
+        if ( $hash == -1 )
+            $hash = $session->hash();
+
+        $qa = array();
+        $ret = array();
+        $db->begin();
+        $db->array_query( $qa, "SELECT ID FROM eZForm_FormResults
+                                WHERE UserHash='$hash'" );
+        foreach ( $qa as $q )
+        {
+            $ret = $db->query( "DELETE FROM eZForm_FormElementResult WHERE
+                                ResultID='" . $q[$db->fieldName( "ID" )] . "'" );
+        }
+        
+        $ret[] = $db->query( "DELETE eZForm_FormResults
+                              WHERE UserHash='$hash'" );
+        eZDB::finish( $ret, $db );
+    }
+    
     var $ID;
     var $Name;
     var $Receiver;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.29 2001/12/18 18:15:19 pkej Exp $
+// $Id: ezformrenderer.php,v 1.30 2001/12/18 18:29:20 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -204,6 +204,9 @@ class eZFormRenderer
                 $elementValue = $$elementName;
             
             $this->Template->set_var( "field_name", $elementName );
+            if ( !( isSet( $elementValue ) && $elementValue != "" ) )
+                $elementValue = $element->result();
+
             $this->Template->set_var( "field_value", $elementValue );
             $this->Template->set_var( "element_name", $element->name() );
 
@@ -259,8 +262,24 @@ class eZFormRenderer
 
             $this->Template->set_var( $name . "_sub_item", "" );
 
+            $checked = "";
+            $elementType = $element->elementType();
+            if ( $elementType == "checkbox_item" ||
+                 $elementType == "dropdown_item" ||
+                 $elementType == "radiobox_item" )
+            {
+                $checked = "checked";
+            }
+
+            $result = $element->result();
+            
             foreach ( $subItems as $subItem )
             {
+                if ( $subItem->value() == $result )
+                    $this->Template->set_var( "selected", $checked );
+                else
+                    $this->Template->set_var( "selected", "" );
+                
                 $this->Template->set_var( "sub_value", $subItem->value() );
                 $this->Template->parse( $name . "_sub_item", $name . "_sub_item_tpl", true );
             }
@@ -296,6 +315,10 @@ class eZFormRenderer
             }
         }
 
+        if ( $this->Page == -1 )
+        {
+            $this->Page = $this->Form->formPage( -1, false );
+        }
         $currentPage = $this->Form->formPage( $this->Page );
         if ( $render == true )
         {
@@ -305,7 +328,7 @@ class eZFormRenderer
             $this->Template->set_var( "form_id", $this->Form->id() );
             $this->Template->set_var( "form_name", $this->Form->name() );
             $this->Template->set_var( "form_completed_page", $this->Form->completedPage() );
-            if ( $this->Page == -1 )
+            if ( $pageList == "" )
                 $this->Template->set_var( "page_list", $this->Page );
             else
                 $this->Template->set_var( "page_list", $pageList );
@@ -409,7 +432,7 @@ class eZFormRenderer
                     $this->Template->parse( "form_end_tag", "form_end_tag_tpl" );
                 }
 
-                if ( $this->Page == -1 )
+                if ( $pageList == "" || !strstr( $pageList, ":" ) )
                 {
                     if ( $this->Form->pages() > 1 )
                     {
@@ -439,6 +462,22 @@ class eZFormRenderer
         return $output;
     }
 
+    function storePage( $page )
+    {
+        $page = new eZFormPage( $page );
+        $elements = $page->pageElements();
+
+        foreach ( $elements as $element )
+        {
+            $elementName = "eZFormElement_" . $element->id();
+
+            global $$elementName;
+            $value = $$elementName;
+            if ( isSet( $value ) && $value != "" )
+                $element->setResult( $value );
+        }
+    }
+
     function setPage( $page = -1 )
     {
         $this->Page = $page;
@@ -447,6 +486,39 @@ class eZFormRenderer
     function page()
     {
         return $this->Page;
+    }
+
+    function findNextPage( $pageID )
+    {
+        $page = new eZFormPage( $pageID );
+        $elements = $page->pageElements();
+        foreach ( $elements as $element )
+        {
+            $elementName = "eZFormElement_" . $element->id();
+
+            global $$elementName;
+            $value = $$elementName;
+
+            $conditionArray = $element->getConditions();
+            foreach ( $conditionArray as $condition )
+            {
+                if ( $condition["Min"] <= $value &&
+                     $condition["Max"] >= $value )
+                {
+                    return $condition["Page"];
+                }
+            }
+        }
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $qa, "SELECT FormID, Placement FROM eZForm_FormPage WHERE ID='$pageID'" );
+        $next = $qa[$db->fieldName( "Placement" )] + 1;
+        $db->query_single( $nextPage, "SELECT ID FROM eZForm_FormPage
+                                       WHERE FormID='" . $qa[$db->fieldName( "FormID" )] . "' AND
+                                       Placement='$next'" );
+        if ( count( $nextPage ) != 0 )
+            return $nextPage[$db->fieldName( "ID" )];
+        else
+            return -1;
     }
     
     /*!
@@ -470,7 +542,7 @@ class eZFormRenderer
 
         if ( $this->Form->isSendAsUser() )
         {
-            if ( isset( $formSender ) )
+            if ( isSet( $formSender ) )
             {
                 if ( eZMail::validate( $formSender ) == false )
                 {
