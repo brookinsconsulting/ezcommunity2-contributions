@@ -41,6 +41,10 @@
 
 <br />
 
+	<!-- BEGIN image_tpl -->
+	<img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
+	<!-- END image_tpl -->
+
 <p class="boxtext">{intl-imagetitle}:</p>
 <input type="text" size="40" name="Name" value="{name_value}"/>
 
@@ -51,10 +55,6 @@
 <option value="{option_value}" {selected}>{option_level}{option_name}</option>
 <!-- END value_tpl -->
 </select>
-
-	<!-- BEGIN image_tpl -->
-	<img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
-	<!-- END image_tpl -->
 
 <p class="boxtext">{intl-imagefile}:</p>
 <input size="40" name="userfile" type="file" />

@@ -88,16 +88,21 @@ if ( $Design == 3 )
 	<h2>Alternative sitedesigns:</h2>
     <a href="<? print( $REQUEST_URI . "?Design=1"); ?>"><b>Portal</b></a><br />
     <a href="<? print( $REQUEST_URI . "?Design=3"); ?>"><b>Intranet</b></a><br />
-    <a href="<? print( $REQUEST_URI . "?Design=2"); ?>"><b>E-commerce</b></a><br />
+    <a href="<? print( $REQUEST_URI . "?Design=2"); ?>"><b>Trade</b></a><br />
 
     <!-- Oppslagstavle fram til hit! -->
 
-    <img src="/images/1x1.gif" width="130" height="8" border="0"><br />
+	<img src="/images/1x1.gif" width="130" height="20" border="0"><br />
+	
+	<div align="center">
+	<a target="_blank" href="http://publish.ez.no"><img src="/images/powered-by-ezpublish-100x35-trans-lgrey.gif" width="100" height="35" border="0" alt="Powered by eZ publish" /></a>
+	</div>
+	
+	<img src="/images/1x1.gif" width="130" height="8" border="0"><br />
 	 
 	</td>
   </tr>
 </table>
-<div class="credit" align="center" valign="bottom"><br />Powered by <a class="credit" href="http://publish.ez.no">eZ publish</a> made by <img src="/images/ezsystems-symbol-12x12.gif" width="12" height="12" border="0" alt="0" align="absmiddle" /> <a class="credit" href="http://www.ez.no">eZ systems</a></div>
 
 </body>
 </html>
