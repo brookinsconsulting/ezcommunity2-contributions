@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcint.php,v 1.1 2001/01/25 09:23:53 bf Exp $
+// $Id: ezxmlrpcint.php,v 1.2 2001/02/21 09:32:51 ce Exp $
 //
 // Definition of eZXMLRPCInt class
 //
@@ -39,9 +39,11 @@ class eZXMLRPCInt
     */
     function eZXMLRPCInt( $value=0 )
     {
-        if ( !isset( $value ) )
-             $value = 0;
+        if ( !is_numeric( $value ) )
+            $value = 0;
+        
         $this->Value = $value;
+
     }
 
     /*!
@@ -55,7 +57,7 @@ class eZXMLRPCInt
         $ret .= "</int>";
         $ret .= "</value>";
 
-        return $ret;             
+        return $ret;
     }
     
     /*!
@@ -65,8 +67,7 @@ class eZXMLRPCInt
     {
         return $this->Value;
     }
-      
-    
+
     // The string value
     var $Value;
 }

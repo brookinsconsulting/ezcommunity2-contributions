@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpccall.php,v 1.4 2001/02/15 18:31:46 ce Exp $
+// $Id: ezxmlrpccall.php,v 1.5 2001/02/21 09:32:51 ce Exp $
 //
 // Definition of eZXMLRPCCall class
 //
@@ -176,8 +176,10 @@ class eZXMLRPCCall
              "<methodName>" . $this->MethodName . "</methodName>\n" .
              $parameters .
              "</methodCall>\n";
-             
+
         return $payload;
+
+        
     }
 
     /*!

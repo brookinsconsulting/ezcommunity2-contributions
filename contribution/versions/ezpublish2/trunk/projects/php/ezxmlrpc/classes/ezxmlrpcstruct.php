@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcstruct.php,v 1.2 2001/01/25 16:31:03 bf Exp $
+// $Id: ezxmlrpcstruct.php,v 1.3 2001/02/21 09:32:51 ce Exp $
 //
 // Definition of eZXMLRPCStruct class
 //
@@ -96,6 +96,7 @@ class eZXMLRPCStruct
         }
         
         $ret .= "</struct></value>";
+
         return $ret;
     }
 

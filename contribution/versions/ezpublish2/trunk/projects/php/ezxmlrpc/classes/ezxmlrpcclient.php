@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcclient.php,v 1.3 2001/02/15 18:28:14 bf Exp $
+// $Id: ezxmlrpcclient.php,v 1.4 2001/02/21 09:32:51 ce Exp $
 //
 // Definition of eZXMLRPCClient class
 //
@@ -123,7 +123,6 @@ class eZXMLRPCClient
 
             $payload =& $call->payload();
 
-
             // send the XML-RPC call
             if ( $fp != 0 )
             {
@@ -140,14 +139,14 @@ class eZXMLRPCClient
                     return 0;
                 }
             }
-
+            
             $rawResponse = "";
+            unSet( $rawResponse );
             // fetch the XML-RPC response
             while( $data=fread( $fp, 32768 ) )
             {
                 $rawResponse .= $data;
             }
-
             // close the socket
             fclose( $fp );
         }
