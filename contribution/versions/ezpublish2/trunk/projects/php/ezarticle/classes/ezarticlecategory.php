@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.55 2001/04/07 14:25:29 bf Exp $
+// $Id: ezarticlecategory.php,v 1.56 2001/04/10 13:39:52 jb Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -109,43 +109,38 @@ class eZArticleCategory
 
     /*!
       Deletes a eZArticleGroup object from the database.
-
     */
     function delete( $catID=-1 )
     {
         if ( $catID == -1 )
             $catID = $this->ID;
 
+        $db =& eZDB::globalDatabase();
+
         $category = new eZArticleCategory( $catID );
-
         $categoryList = $category->getByParent( $category );
-
         foreach( $categoryList as $categoryItem )
         {
-            $this->delete( $categoryItem->id() );
+            eZArticleCategory::delete( $categoryItem->id() );
         }
 
         $categoryID = $category->id();
-        
         foreach( $this->articles() as $article )
         {
             $categoryDefinition = $article->categoryDefinition();
-
             if ( $categoryDefinition->id() == $category->id() )
             {
-                $this->Database->query( "DELETE FROM eZArticle_ArticleCategoryDefinition WHERE CategoryID='$categoryID'" );
-                $this->Database->query( "DELETE FROM eZArticle_ArticleCategoryLink WHERE CategoryID='$categoryID'" );
-               
                 $article->delete();
             }
             else
             {
-                $this->Database->query( "DELETE FROM eZArticle_ArticleCategoryLink WHERE CategoryID='$categoryID'" );
+                $articleID = $article->id();
+                $db->query( "DELETE FROM eZArticle_ArticleCategoryLink
+                             WHERE CategoryID='$categoryID' AND ArticleID='$articledID'" );
             }
         }
-        $this->Database->query( "DELETE FROM eZArticle_CategoryPermission WHERE ObjectID='$categoryID'" );
-        
-        $this->Database->query( "DELETE FROM eZArticle_Category WHERE ID='$categoryID'" );
+        $db->query( "DELETE FROM eZArticle_CategoryPermission WHERE ObjectID='$categoryID'" );
+        $db->query( "DELETE FROM eZArticle_Category WHERE ID='$categoryID'" );
     }
     
     /*!

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.63 2001/04/09 11:58:22 bf Exp $
+// $Id: ezarticle.php,v 1.64 2001/04/10 13:39:52 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -229,17 +229,15 @@ class eZArticle
     */
     function delete()
     {
-        $this->dbInit();
-
+        $db =& eZDB::globalDatabase();
         if ( isset( $this->ID ) )
         {
-            $this->Database->query( "DELETE FROM eZArticle_ArticleCategoryLink WHERE ArticleID='$this->ID'" );
-            $this->Database->query( "DELETE FROM eZArticle_ArticleCategoryDefinition WHERE ArticleID='$this->ID'" );
-            $this->Database->query( "DELETE FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID'" );
-            $this->Database->query( "DELETE FROM eZArticle_ArticleImageDefinition WHERE ArticleID='$this->ID'" );
-            $this->Database->query( "DELETE FROM eZArticle_ArticlePermission WHERE ObjectID='$this->ID'" );
-            
-            $this->Database->query( "DELETE FROM eZArticle_Article WHERE ID='$this->ID'" );
+            $db->query( "DELETE FROM eZArticle_ArticleCategoryLink WHERE ArticleID='$this->ID'" );
+            $db->query( "DELETE FROM eZArticle_ArticleCategoryDefinition WHERE ArticleID='$this->ID'" );
+            $db->query( "DELETE FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID'" );
+            $db->query( "DELETE FROM eZArticle_ArticleImageDefinition WHERE ArticleID='$this->ID'" );
+            $db->query( "DELETE FROM eZArticle_ArticlePermission WHERE ObjectID='$this->ID'" );
+            $db->query( "DELETE FROM eZArticle_Article WHERE ID='$this->ID'" );
         }
         
         return true;
