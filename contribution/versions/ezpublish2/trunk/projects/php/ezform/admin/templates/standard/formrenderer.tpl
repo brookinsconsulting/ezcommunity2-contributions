@@ -252,11 +252,11 @@
 <!-- END min25median75max_tpl -->
 
 <!-- BEGIN list_tpl -->
-<table cellspacing="0" cellpadding="0" width="100%">
+<table cellspacing="3" cellpadding="3" border="0" width="100%">
 <!-- BEGIN list_row_tpl -->
 <tr>
-<td class="boxtext">{header_value}</td>
-<td>{element_value}</td>
+<td class="boxtext" valign="top">{header_value}</td>
+<td valign="top">{element_value}</td>
 </tr>
 <!-- END list_row_tpl -->
 </table>
