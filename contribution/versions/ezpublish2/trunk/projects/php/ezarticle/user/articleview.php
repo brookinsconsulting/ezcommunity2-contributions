@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.13 2000/11/02 20:14:35 bf-cvs Exp $
+// $Id: articleview.php,v 1.14 2000/11/07 12:35:50 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -50,6 +50,8 @@ $t->set_block( "article_view_page_tpl", "page_link_tpl", "page_link" );
 $t->set_block( "article_view_page_tpl", "current_page_link_tpl", "current_page_link" );
 $t->set_block( "article_view_page_tpl", "next_page_link_tpl", "next_page_link" );
 $t->set_block( "article_view_page_tpl", "prev_page_link_tpl", "prev_page_link" );
+$t->set_block( "article_view_page_tpl", "numbered_page_link_tpl", "numbered_page_link" );
+$t->set_block( "article_view_page_tpl", "print_page_link_tpl", "print_page_link" );
 
 if ( $StaticRendering == true )
 {
@@ -75,7 +77,10 @@ if ( $article->get( $ArticleID ) )
     if ( $PageNumber > $pageCount )
         $PageNumber = $pageCount;
 
-    $t->set_var( "article_body", $renderer->renderPage( $PageNumber - 1 ) );
+    if ( $PageNumber == -1 )
+        $t->set_var( "article_body", $renderer->renderPage( -1 ) );
+    else
+        $t->set_var( "article_body", $renderer->renderPage( $PageNumber - 1 ) );
 
     $t->set_var( "link_text", $article->linkText() );
 
@@ -90,7 +95,7 @@ if ( $article->get( $ArticleID ) )
 
 $t->set_var( "current_page_link", "" );
 
-if ( $pageCount > 1 )
+if ( $pageCount > 1 && $PageNumber != -1 && $PrintableVersion != "enabled" )
 {
     for ( $i=0; $i<$pageCount; $i++ )
     {
@@ -114,9 +119,25 @@ else
 }
 
 
+if ( $PageNumber == -1 && $PrintableVersion != "enabled" )
+{
+    $t->parse( "numbered_page_link", "numbered_page_link_tpl" );
+}
+else
+{
+    $t->set_var( "numbered_page_link", "" );
+}
 
+if ( $PrintableVersion != "enabled" )
+{
+    $t->parse( "print_page_link", "print_page_link_tpl" );
+}
+else
+{
+    $t->set_var( "print_page_link", "" );
+}
 
-if ( $PageNumber > 1 )
+if ( $PageNumber > 1 && $PrintableVersion != "enabled" )
 {
     $t->set_var( "prev_page_number", $PageNumber - 1 );    
     $t->parse( "prev_page_link", "prev_page_link_tpl" );
@@ -126,7 +147,7 @@ else
     $t->set_var( "prev_page_link", "" );
 }
 
-if ( $PageNumber < $pageCount )
+if ( $PageNumber < $pageCount && $PageNumber != -1 && $PrintableVersion != "enabled" )
 {
     $t->set_var( "next_page_number", $PageNumber + 1 );    
     $t->parse( "next_page_link", "next_page_link_tpl" );
