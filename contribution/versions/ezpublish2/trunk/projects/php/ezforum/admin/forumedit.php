@@ -1,5 +1,5 @@
 <?
-// $Id: forumedit.php,v 1.22 2001/03/05 12:17:16 pkej Exp $
+// $Id: forumedit.php,v 1.23 2001/03/05 12:19:10 pkej Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -324,7 +324,15 @@ $t->set_var( "user_id", 0 );
 $t->set_var( "user_name", "testing" );
 $noModeratorString = $t->Ini->read_var( "strings", "no_moderator" );
 $t->set_var( "user_name", $noModeratorString );
-$moderator = $forum->moderator();
+if( $fourm )
+{
+    $moderator = $forum->moderator();
+}
+else
+{
+    $moderator = 0;
+}
+
 if ( $moderator == 0 )
 {
     $t->set_var( "is_selected", "" );
