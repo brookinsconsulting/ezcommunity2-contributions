@@ -8,14 +8,16 @@ create table eZBulkMail_UserSubscriptionCategorySettings( CategoryID int default
 alter table eZArticle_ArticleWordLink add Frequency float default 0.2;
 alter table eZArticle_Word add Frequency float default 0.2;
 
+# cache of article index
+CREATE TABLE eZArticle_ArticleKeywordFirstLetter (
+  ID int(11) NOT NULL default '0',
+  Letter char(1) NOT NULL default ''
+);
+
 alter table eZTrade_Voucher add UserID int default 0; 
-
 alter table eZTrade_VoucherUsed add OrderID int default 0;
-
 create table eZTrade_ProductPriceRange( ID int NOT NULL, Min int default 0, Max int default 0, ProductID int default 0 );        
-
 alter table eZTrade_CartItem add PriceRange int default 0;
-
 alter table eZTrade_Product add IncludesVAT int(1) default '0';
 
-alter table eZArticle_Category add ListLimit int default NULL;
+alter table eZArticle_Category add ListLimit int default NULL'0';
