@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.12 2000/12/12 18:11:48 bf Exp $
+// $Id: cart.php,v 1.13 2000/12/14 20:32:15 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Sep-2000 11:57:49 bf>
@@ -90,8 +90,9 @@ if ( $Action == "AddToBasket" )
 
         foreach ( $items as $item )
         {
+            $productItem =  $item->product();
             // the same product
-            if ( ( $ProductID == $product->id() ) && ( $productAddedToBasket == false ) )
+            if ( ( $ProductID == $productItem->id() ) && ( $productAddedToBasket == false ) )
             {
                 $optionValues =& $item->optionValues();
 
@@ -175,9 +176,8 @@ if ( $Action == "AddToBasket" )
         }
     }
     
-    Header( "Location: /trade/cart/" );
-    
-    exit();
+//      Header( "Location: /trade/cart/" );
+//      exit();
 }
 
 if ( $Action == "Refresh" )

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: hotdealslist.php,v 1.4 2000/12/13 17:56:09 bf Exp $
+// $Id: hotdealslist.php,v 1.5 2000/12/14 20:32:15 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Nov-2000 19:34:40 bf>
@@ -28,9 +28,12 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini = new INIFile( "site.ini" );
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
+$hotDealColumns  = $ini->read_var( "eZTradeMain", "HotDealColumns" );
+$hotDealImageWidth  = $ini->read_var( "eZTradeMain", "HotDealImageWidth" );
+$hotDealImageHeight  = $ini->read_var( "eZTradeMain", "HotDealImageHeight" );
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
@@ -61,7 +64,7 @@ $locale = new eZLocale( $Language );
 $i=0;
 foreach ( $productList as $product )
 {
-    if ( ( $i % 2 ) == 0 )
+    if ( ( $i % $hotDealColumns ) == 0 )
     {
         $t->set_var( "begin_tr", "<tr>" );
         $t->set_var( "end_tr", "" );        

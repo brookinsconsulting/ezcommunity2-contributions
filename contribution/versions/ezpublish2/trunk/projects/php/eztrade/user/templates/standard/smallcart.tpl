@@ -1,10 +1,9 @@
 
-<!-- cart.tpl --> 
 
 <!-- BEGIN empty_cart_tpl -->
 <table width="100%" cellspacing="0" cellpadding="1" border="0">
 <tr>
-<td class="menuhead" bgcolor="#323296">{intl-cart}</td>
+<th>{intl-cart}</th>
 </tr>
 <tr>
 	<td>{intl-empty_cart}</td>
