@@ -1,5 +1,4 @@
 <?
-
 $PageCaching = $ini->read_var( "eZTradeMain", "PageCaching");
 
 switch ( $url_array[2] )
