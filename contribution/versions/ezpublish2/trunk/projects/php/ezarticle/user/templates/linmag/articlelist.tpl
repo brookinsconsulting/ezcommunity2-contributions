@@ -73,7 +73,12 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
-	<div class="listheadline"><a class="listheadline" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_name}</a></div>
+        <!-- BEGIN headline_with_link_tpl -->
+        <div class="listheadline"><a class="listheadline" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_name}</a></div>
+        <!-- END headline_with_link_tpl -->
+        <!-- BEGIN headline_without_link_tpl -->
+        <div class="listheadline">{article_name} </div>
+        <!-- END headline_without_link_tpl -->
 <!-- BEGIN article_date_tpl -->
 	<div class="small">( {article_published} )</div>
 <!-- END article_date_tpl -->
