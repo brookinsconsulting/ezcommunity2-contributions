@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.15 2001/01/21 18:15:51 jb Exp $
+// $Id: dayview.php,v 1.16 2001/01/21 18:35:19 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -106,12 +106,9 @@ $tmpAppointment = new eZAppointment();
 // fetch the appointments for the selected day
 $appointments = $tmpAppointment->getByDate( $tmpDate, $tmpUser, $showPrivate );
 
-//$appointmentColumns = array();
-//$rowSpanColumns = array();
-
-$startTime = new eZTime( 8, 0, 0 );
-$interval = new eZTime( 0, 30, 0 );
-$stopTime = new eZTime( 18, 0, 0 );
+$startTime = $tmpAppointment->dayStartTime();
+$interval = $tmpAppointment->dayInterval();
+$stopTime = $tmpAppointment->dayStopTime();
 
 
 
@@ -225,19 +222,19 @@ for ( $col=0; $col<$numCols; $col++ )
 
 
 
-// debug entire contents table
-print( "Rows: " . $numRows . "   Cols: " . $numCols . "<br />" );
-print( "<table border=\"1\">" );
-for ( $row=0; $row<$numRows; $row++ )
-{
-    print( "<tr>" );
-    for ( $col=0; $col<$numCols; $col++ )
-    {
-        print( "<td>" . $tableCellsId[$row][$col] . " / " . $tableCellsRowSpan[$row][$col] . "</td>" );
-    }
-    print( "</tr>" );
-}
-print( "</table>" );
+// debug contents table
+//  print( "Rows: " . $numRows . "   Cols: " . $numCols . "<br />" );
+//  print( "<table border=\"1\">" );
+//  for ( $row=0; $row<$numRows; $row++ )
+//  {
+//      print( "<tr>" );
+//      for ( $col=0; $col<$numCols; $col++ )
+//      {
+//          print( "<td>" . $tableCellsId[$row][$col] . " / " . $tableCellsRowSpan[$row][$col] . "</td>" );
+//      }
+//      print( "</tr>" );
+//  }
+//  print( "</table>" );
 
 
 
@@ -289,15 +286,16 @@ while ( $startTime->isGreater( $stopTime ) == true )
         }
     }
 
-    $startTime = $startTime->add( $interval );
-    $row++;
-
     $t->set_var( "td_class", "" );
-    if ( $date->equals( $today ) && $nowSet == false && $now->isGreater( $startTime ) )
+    if ( $date->equals( $today ) && $nowSet == false &&
+         $startTime->isGreater( $now, true ) && $now->isGreater( $startTime->add( $interval ) ) )
     {
         $t->set_var( "td_class", "bgcurrent" );
         $nowSet = true;
     }
+
+    $startTime = $startTime->add( $interval );
+    $row++;
 
     $t->parse( "time_table", "time_table_tpl", true );
 }
@@ -326,55 +324,7 @@ function appointmentRowSpan( &$appointment, &$startTime, &$interval )
 }
 
 
-// returns the number of empty rows before an appointment.
-//  function emptyRowSpan( &$appointmentArray, &$startTime, &$stopTime, &$interval )
-//  {
-//      $ret = 0;
-//      $tmpTime = new eZTime( $startTime->hour(), $startTime->minute(), $startTime->second() );
-//      $foundAppointment = false;
-
-//      while ( $foundAppointment == false && $tmpTime->isGreater( $stopTime ) == true )
-//      {
-//          $tmpTime = $tmpTime->add( $interval );
-//          $ret++;
-
-//          foreach ( $appointmentArray as $app )
-//          {
-//              if ( intersects( $app, $tmpTime, $tmpTime->add( $interval ) ) == true )
-//              {
-//  //                print( "empty span <br />" );
-//                  $foundAppointment = true;
-//              }
-//          }
-//      }
-
-//      return $ret;
-//  }
-
-
-// checks if the appointment crashes with other appointments in the array given
-//  function isFree( &$appointmentArray, &$appointment )
-//  {
-//  //    print( "isfree " . $appointment->id() . " " . $ret . "<br / >" );
-//      $ret = true;
-//      foreach( $appointmentArray as $app )
-//      {
-//  //        print( "check " . $appointment->id() . " against " . $app->id() . "<br / >" );
-//          $intervalEnd = $app->startTime();
-//          $intervalEnd = $intervalEnd->add( $interval );
-//  //        if ( intersects( $appointment, $app->startTime(), $app->stopTime() ) == true )
-//          if ( intersects( $appointment, $app->startTime(), $intervalEnd ) == true )
-//          {
-//  //            print( "crash " . $appointment->id() . " " . $app->id() . "<br / >" );
-//              $ret = false;
-//          }
-//      }
-//  //    print( "isfree " . $appointment->id() . " " . $ret . "<br / >" );
-//      return $ret;
-//  }
-
-
-// checks if an appointment intersects with a time interval
+// checks if an appointment intersects with a given time interval
 function intersects( &$app, &$startTime, &$stopTime )
 {
     $ret = false;
