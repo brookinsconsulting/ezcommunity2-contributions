@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: wishlist.php,v 1.20.4.5 2001/11/22 12:39:38 ce Exp $
+// $Id: wishlist.php,v 1.20.4.6 2001/11/22 12:48:25 ce Exp $
 //
 // Created on: <21-Oct-2000 18:09:45 bf>
 //
@@ -643,7 +643,7 @@ if ( $ShowWishlist == true )
     
     $t->set_var( "totals_span_size", $ColSpanSizeTotals );
     $t->parse( "wishlist_item_list", "wishlist_item_list_tpl" );
-
+    $t->parse( "full_wishlist", "full_wishlist_tpl" );
 
     $currency->setValue( $total["tax"] );
     $t->set_var( "tax", $locale->format( $currency ) );
