@@ -17,6 +17,24 @@ MinutesSelectInterval=15
 UserComments=enabled
 TruncateTitle=enabled
 
+[eZGroupEventCalendarRSS]
+# Channel Title, Link, Description and Language
+Title=eZ publish 2 News
+Link=http://ezcommunity.net/
+Description=Calendar Events, stuff that matters . . .
+Encoding=ISO-8859-1
+#RssVersion=0.9|1.0|2.0
+RssVersion=1.0
+Language=en
+# Channel Image, Width should be 1-144, Height should be 1-400 (default: 31)
+Image=/design/standard/images/rss_image.gif
+# Group, from which the events will be fetched (0=all groups)
+GroupID=0
+Limit=50
+
+#
+#[eZGroupEventCalendarMain]
+#
 # DayStartTime:           The time that you would like the Calendar to start printing each day.
 #
 # DayStopTime:            The time that you would like the Calendar to stop printing each day.
@@ -40,3 +58,27 @@ TruncateTitle=enabled
 # UserComments            The option to enable users to login and create comments on an event
 #
 # TruncateTitle           The option to truncate event title text in calendar views
+
+
+#
+#[eZGroupEventCalendarRSS]
+#
+#
+# Title			  RSS Feed Channel Title
+#
+# Link			  RSS Feed Channel Link to Originating Website
+#
+# Description		  RSS Feed Channel Calendar Events, stuff that matters . . .
+#
+# Encoding                RSS Feed XML Encoding Format / Standard ( ISO-8859-1 )
+#
+# RssVersion	 	  RSS Feed RssVersion ( 0.9|1.0|2.0 )
+#
+# Language		  RSS Feed Language ( Must be an iso639 Language Abbreviation, ie: en )
+#
+# Image 		  RSS Feed Channel Image, Width should be 1-144, Height should be 1-400 ( Default, 31 )
+#
+# GroupID		  Group, which the events will be fetched ( 0=all groups ) 
+#
+# Limit			  RSS Feed Event List Limit ( Default, 50 )
+#
