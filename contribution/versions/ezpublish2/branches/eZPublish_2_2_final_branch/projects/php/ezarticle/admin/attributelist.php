@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: attributelist.php,v 1.4 2001/07/19 12:19:20 jakobn Exp $
+// $Id: attributelist.php,v 1.4.2.1 2003/01/14 16:20:19 br Exp $
 //
 // Created on: <05-Jun-2001 13:07:24 pkej>
 //
@@ -50,14 +50,28 @@ if( isset( $DeleteSelected ) )
 
 if( isset( $NewType ) )
 {
-    $type = new eZArticleType( $TypeID );
-    $attributes = $type->attributes();
-    
-    foreach( $attributes as $attribute )
-    {
-        $attribute->setValue( $article, htmlspecialchars( "" ) );
-    }
-    
+
+     $types = $article->types();
+     $typeExists = false;
+
+     foreach ( $types as $type )
+     {
+         if( $type->id() == $TypeID )
+         {
+             $typeExists = true;
+         }
+     }
+
+     if( !$typeExists )
+     {
+         $type = new eZArticleType( $TypeID );
+         $attributes = $type->attributes();
+
+         foreach( $attributes as $attribute )
+         {
+             $attribute->setValue( $article, htmlspecialchars( "" ) );
+         }
+     } 
 }
 
 $ini =& INIFile::globalINI();
