@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.22 2001/08/17 13:35:58 jhe Exp $
+// $Id: datasupplier.php,v 1.23 2001/08/29 10:37:22 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -52,15 +52,15 @@ switch ( $url_array[2] )
 {
     case "edit" :
     {
-        if( $url_array[3] == "edit" && hasPermission( $url_array[4] ) )
+        if ( $url_array[3] == "edit" && hasPermission( $url_array[4] ) )
         {
             $Action = "Edit";
             $BugID = $url_array[4];
             include( "ezbug/admin/bugedit.php" );
         }
-        else if( $url_array[3] == "fileedit" && hasPermission( $BugID ) )
+        else if ( $url_array[3] == "fileedit" && hasPermission( $BugID ) )
         {
-            switch( $url_array[4] )
+            switch ( $url_array[4] )
             {
                 case  "new" :
                 {
@@ -92,9 +92,9 @@ switch ( $url_array[2] )
                 break;
             }
         }
-        else if( $url_array[3] == "imageedit" && hasPermission( $BugID ) )
+        else if ( $url_array[3] == "imageedit" && hasPermission( $BugID ) )
         {
-            switch( $url_array[4] )
+            switch ( $url_array[4] )
             {
                 case "new":
                 {
@@ -126,7 +126,7 @@ switch ( $url_array[2] )
                 break;
             }
         }
-        else if( hasPermission( $BugID ) )
+        else if ( hasPermission( $BugID ) )
         {
             $Action = "Update";
             include( "ezbug/admin/bugedit.php" );
@@ -171,7 +171,7 @@ switch ( $url_array[2] )
     
     case "report" :
     {
-        switch( $url_array[3] )
+        switch ( $url_array[3] )
         {
             case "create" :
             {
@@ -191,7 +191,7 @@ switch ( $url_array[2] )
             {
                 $BugID = $url_array[4];
                 $Action = "Edit";
-                if( $session->variable( "CurrentBugEdit" ) == $BugID && $BugID != 0 )
+                if ( $session->variable( "CurrentBugEdit" ) == $BugID && $BugID != 0 )
                 {
                     $session->setVariable( "CurrentBugEdit", 0 );
                     include( "ezbug/user/bugreport.php" );
@@ -214,20 +214,20 @@ switch ( $url_array[2] )
             
             case "fileedit" :
             {
-                if( $url_array[4] == "new")
+                if ( $url_array[4] == "new")
                 {
                     $Action = "New";
                     $BugID = $url_array[5];
                     include( "ezbug/user/fileedit.php" );
                 }
-                else if( $url_array[4] == "edit" )
+                else if ( $url_array[4] == "edit" )
                 {
                     $Action = "Edit";
                     $BugID = $url_array[6];
                     $FileID = $url_array[5];
                     include( "ezbug/user/fileedit.php" );
                 }
-                else if( $url_array[4] == "delete" )
+                else if ( $url_array[4] == "delete" )
                 {
                     $Action = "Delete";
                     $BugID = $url_array[6];
@@ -242,20 +242,20 @@ switch ( $url_array[2] )
             break;
             case "imageedit" :
             {
-                if( $url_array[4] == "new")
+                if ( $url_array[4] == "new")
                 {
                     $Action = "New";
                     $BugID = $url_array[5];
                     include( "ezbug/user/imageedit.php" );
                 }
-                else if( $url_array[4] == "edit" )
+                else if ( $url_array[4] == "edit" )
                 {
                     $Action = "Edit";
                     $BugID = $url_array[6];
                     $ImageID = $url_array[5];
                     include( "ezbug/user/imageedit.php" );
                 }
-                else if( $url_array[4] == "delete" )
+                else if ( $url_array[4] == "delete" )
                 {
                     $Action = "Delete";
                     $BugID = $url_array[6];

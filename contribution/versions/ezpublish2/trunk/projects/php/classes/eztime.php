@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztime.php,v 1.14 2001/07/19 12:15:03 jhe Exp $
+// $Id: eztime.php,v 1.15 2001/08/29 10:37:22 jhe Exp $
 //
 // Definition of eZCompany class
 //
@@ -327,13 +327,12 @@ class eZTime
 
       If returnNow is set to true a timestamp of the current time is returned.
     */
-    function timeStamp( $returnNow=false )
+    function timeStamp( $returnNow = false )
     {
         if ( $returnNow == true )
             return mktime();
         else
-            return mktime( $this->hour(), $this->minute(), $this->second(),
-                           0, 0, 0 );
+            return $this->hour() * 3600 + $this->minute() * 60 + $this->second();
     }
 
     /*!

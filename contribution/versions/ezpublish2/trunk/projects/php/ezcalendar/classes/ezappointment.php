@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezappointment.php,v 1.20 2001/07/30 06:51:46 jhe Exp $
+// $Id: ezappointment.php,v 1.21 2001/08/29 10:37:22 jhe Exp $
 //
 // Definition of eZAppointment class
 //
@@ -142,15 +142,15 @@ class eZAppointment
             }
             else if ( count( $appointment_array ) == 1 )
             {
-                $this->ID =& $appointment_array[0][ $db->fieldName( "ID" ) ];
-                $this->Name =& $appointment_array[0][ $db->fieldName( "Name" ) ];
-                $this->Description =& $appointment_array[0][ $db->fieldName( "Description" ) ];
-                $this->AppointmentTypeID =& $appointment_array[0][ $db->fieldName( "AppointmentTypeID" ) ];
-                $this->Date =& $appointment_array[0][ $db->fieldName( "Date" ) ];
-                $this->Duration =& $appointment_array[0][ $db->fieldName( "Duration" ) ];
-                $this->IsPrivate =& $appointment_array[0][ $db->fieldName( "IsPrivate" ) ];
-                $this->UserID =& $appointment_array[0][ $db->fieldName( "UserID" ) ];
-                $this->Priority =& $appointment_array[0][ $db->fieldName( "Priority" ) ];
+                $this->ID =& $appointment_array[0][$db->fieldName( "ID" )];
+                $this->Name =& $appointment_array[0][$db->fieldName( "Name" )];
+                $this->Description =& $appointment_array[0][$db->fieldName( "Description" )];
+                $this->AppointmentTypeID =& $appointment_array[0][$db->fieldName( "AppointmentTypeID" )];
+                $this->Date =& $appointment_array[0][$db->fieldName( "Date" )];
+                $this->Duration =& $appointment_array[0][$db->fieldName( "Duration" )];
+                $this->IsPrivate =& $appointment_array[0][$db->fieldName( "IsPrivate" )];
+                $this->UserID =& $appointment_array[0][$db->fieldName( "UserID" )];
+                $this->Priority =& $appointment_array[0][$db->fieldName( "Priority" )];
             }
         }
     }

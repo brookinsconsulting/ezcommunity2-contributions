@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbug.php,v 1.31 2001/08/09 14:17:42 jhe Exp $
+// $Id: ezbug.php,v 1.32 2001/08/29 10:37:22 jhe Exp $
 //
 // Definition of eZBug class
 //
@@ -204,19 +204,19 @@ class eZBug
             }
             else if ( count( $module_array ) == 1 )
             {
-                $this->ID =& $module_array[0][ $db->fieldName( "ID" ) ];
-                $this->Name =& $module_array[0][ $db->fieldName( "Name" ) ];
-                $this->Description =& $module_array[0][ $db->fieldName( "Description" ) ];
-                $this->UserID =& $module_array[0][ $db->fieldName( "UserID" ) ];
-                $this->UserEmail =& $module_array[0][ $db->fieldName( "UserEmail" ) ];
-                $this->Created =& $module_array[0][ $db->fieldName( "Created" ) ];
-                $this->IsHandled =& $module_array[0][ $db->fieldName( "IsHandled" ) ];
-                $this->IsClosed =& $module_array[0][ $db->fieldName( "IsClosed" ) ];
-                $this->PriorityID =& $module_array[0][ $db->fieldName( "PriorityID" ) ];
-                $this->StatusID =& $module_array[0][ $db->fieldName( "StatusID" ) ];
-                $this->OwnerID =& $module_array[0][ $db->fieldName( "OwnerID" ) ];
-                $this->IsPrivate =& $module_array[0][ $db->fieldName( "IsPrivate" ) ];
-                $this->Version =& $module_array[0][ $db->fieldName( "Version" ) ];
+                $this->ID =& $module_array[0][$db->fieldName( "ID" )];
+                $this->Name =& $module_array[0][$db->fieldName( "Name" )];
+                $this->Description =& $module_array[0][$db->fieldName( "Description" )];
+                $this->UserID =& $module_array[0][$db->fieldName( "UserID" )];
+                $this->UserEmail =& $module_array[0][$db->fieldName( "UserEmail" )];
+                $this->Created =& $module_array[0][$db->fieldName( "Created" )];
+                $this->IsHandled =& $module_array[0][$db->fieldName( "IsHandled" )];
+                $this->IsClosed =& $module_array[0][$db->fieldName( "IsClosed" )];
+                $this->PriorityID =& $module_array[0][$db->fieldName( "PriorityID" )];
+                $this->StatusID =& $module_array[0][$db->fieldName( "StatusID" )];
+                $this->OwnerID =& $module_array[0][$db->fieldName( "OwnerID" )];
+                $this->IsPrivate =& $module_array[0][$db->fieldName( "IsPrivate" )];
+                $this->Version =& $module_array[0][$db->fieldName( "Version" )];
             }
         }
     }
@@ -236,7 +236,7 @@ class eZBug
         
         for ( $i = 0; $i < count( $module_array ); $i++ )
         {
-            $return_array[$i] = new eZBug( $module_array[$i][ $db->fieldName( "ID" ) ], 0 );
+            $return_array[$i] = new eZBug( $module_array[$i][$db->fieldName( "ID" )], 0 );
         }
         
         return $return_array;
@@ -260,7 +260,7 @@ class eZBug
         
         for ( $i = 0; $i < count( $module_array ); $i++ )
         {
-            $return_array[$i] = new eZBug( $module_array[$i][ $db->fieldName( "ID" ) ], 0 );
+            $return_array[$i] = new eZBug( $module_array[$i][$db->fieldName( "ID" )], 0 );
         }
         
         return $return_array;
@@ -371,7 +371,7 @@ class eZBug
     function user()
     {
        $ret = false;
-       $user = new eZUser( );
+       $user = new eZUser();
        
        if ( $user->get( $this->UserID ) )
            $ret = $user;
@@ -387,7 +387,7 @@ class eZBug
     function owner()
     {
        $ret = false;
-       $user = new eZUser( );
+       $user = new eZUser();
        
        if ( $user->get( $this->OwnerID ) )
            $ret = $user;

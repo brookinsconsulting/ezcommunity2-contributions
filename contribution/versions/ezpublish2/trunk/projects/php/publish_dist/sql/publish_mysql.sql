@@ -739,7 +739,9 @@ CREATE TABLE eZBulkMail_Forgot (
   Hash varchar(33),
   Time int,
   PRIMARY KEY (ID)
-) TYPE=MyISAM;CREATE TABLE eZCalendar_Appointment (
+) TYPE=MyISAM;
+
+CREATE TABLE eZCalendar_Appointment (
   ID int NOT NULL,
   UserID int DEFAULT '0' NOT NULL,
   Date int,

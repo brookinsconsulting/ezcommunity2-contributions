@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: bugreport.php,v 1.28 2001/08/17 13:35:58 jhe Exp $
+// $Id: bugreport.php,v 1.29 2001/08/29 10:37:22 jhe Exp $
 //
 // Created on: <27-Nov-2000 20:31:00 bf>
 //
@@ -44,9 +44,7 @@ $t = new eZTemplate( "ezbug/user/" . $ini->read_var( "eZBugMain", "TemplateDir" 
 $t->setAllStrings();
 $t->set_var( "site_style", $SiteStyle );
 
-$t->set_file( array(
-    "bug_report_tpl" => "bugreport.tpl"
-    ) );
+$t->set_file( "bug_report_tpl", "bugreport.tpl" );
 
 $t->set_block( "bug_report_tpl", "module_item_tpl", "module_item" );
 $t->set_block( "bug_report_tpl", "category_item_tpl", "category_item" );
@@ -70,7 +68,7 @@ $t->set_var( "inserted_images", "" );
 // you must save the bug before you can add images/files.
 $successfull = 0;
 $actionValue = "new";
-if( $Action == "New" )
+if ( $Action == "New" )
 {
     $bug = new eZBug();
     $bug->setName( $Name );
@@ -85,12 +83,12 @@ if( $Action == "New" )
     $module->addBug( $bug );
 
     $user =& eZUser::currentUser();
-    if( $user )
+    if ( $user )
         $bug->setUser( $user );
     else
         $bug->setUserEmail( $Email );
 
-    if( $IsPrivate == "true" )
+    if ( $IsPrivate == "true" )
         $bug->setIsPrivate( true );
 
     $bug->setVersion( $Version );
@@ -101,7 +99,7 @@ if( $Action == "New" )
     $BugID = $bug->id();
 }
 
-if( $Action == "Update" )
+if ( $Action == "Update" )
 {
     $bug = new eZBug( $BugID );
     $bug->setName( $Name );
@@ -353,11 +351,11 @@ foreach ( $categories as $category )
     $t->set_var( "category_id", $category->id() );
     $t->set_var( "category_name", $category->name() );
 
-    if( $category->name() == $catName )
+    if ( $category->name() == $catName )
         $t->set_var( "selected", "selected" );
     else
         $t->set_var( "selected", "" );
-        
+    
     $t->parse( "category_item", "category_item_tpl", true );
 }
 
@@ -368,11 +366,10 @@ foreach ( $modules as $module )
     $t->set_var( "module_id", $module->id() );
     $t->set_var( "module_name", $module->name() );
 
-    if( $module->name() == $modName )
+    if ( $module->name() == $modName )
         $t->set_var( "selected", "selected" );
     else
         $t->set_var( "selected", "" );
-
     
     $t->parse( "module_item", "module_item_tpl", true );
 }

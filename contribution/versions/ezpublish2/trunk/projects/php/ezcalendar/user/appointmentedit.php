@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: appointmentedit.php,v 1.41 2001/08/17 13:35:58 jhe Exp $
+// $Id: appointmentedit.php,v 1.42 2001/08/29 10:37:22 jhe Exp $
 //
 // Created on: <03-Jan-2001 12:47:22 bf>
 //
@@ -152,7 +152,7 @@ $t->set_block( "no_error_tpl", "month_tpl", "month" );
 $t->set_block( "no_error_tpl", "day_tpl", "day" );
 
 // no user logged on
-if( get_class( $app ) != "ezappointment" )
+if ( get_class( $app ) != "ezappointment" )
 {
     $t->set_var( "no_error", "" );
     $t->set_var( "wrong_user_error", "" );
@@ -165,7 +165,7 @@ if( get_class( $app ) != "ezappointment" )
 // only the appointment owner or a trustee is allowed to edit or delete an appointment
 if ( $Action == "Edit" &&
      ( !in_array( $userID, eZUser::trustees( $app->userID() ) )
-       || $app->userID() == $user->ID() ) )
+       && $app->userID() != $userID ) )
 {
     $t->set_var( "no_error", "" );
     $t->set_var( "no_user_error", "" );
@@ -176,7 +176,6 @@ if ( $Action == "Edit" &&
 
     $UserError = true;
 }
-
 
 if ( $Action == "DeleteAppointment" )
 {
@@ -209,14 +208,13 @@ if ( $Action == "DeleteAppointment" )
         $year = addZero( $datetime->year() );
         $month = addZero( $datetime->month() );
         $day = addZero( $datetime->day() );
-        deleteCache( "default", $Language, $year, $month, $day, $trusteduser->ID() );
+        deleteCache( "default", $Language, $year, $month, $day, $tmpAppointment->ID() );
     }
 
     eZHTTPTool::header( "Location: /calendar/dayview/$year/$month/$day/" );
     exit();
 
 }
-
 
 // Allowed format for start and stop time:
 // 14 14:30 14:0 1430
@@ -363,6 +361,8 @@ if ( $Action == "Insert" || $Action == "Update" )
         }
         else
         {
+            $user =& eZUser::currentUser();
+            $userID = $user->ID();
             $t->set_var( "name_value", $appointment->name() );
             $t->set_var( "description_value", $appointment->description() );
 
@@ -373,12 +373,39 @@ if ( $Action == "Insert" || $Action == "Update" )
 
             $appStartTime =& $appointment->startTime();
             $appStopTime =& $appointment->stopTime();
-            $t->set_var( "start_value", addZero( $appStartTime->hour() ) . addZero( $appStartTime->minute() ) );
-            $t->set_var( "stop_value", addZero( $appStopTime->hour() ) . addZero( $appStopTime->minute() ) );
+            if ( $appStartTime && $appStartTime->timeStamp() > 0 )
+                $t->set_var( "start_value", addZero( $appStartTime->hour() ) . addZero( $appStartTime->minute() ) );
+            else
+                $t->set_var( "start_value", "" );
+            if ( $appStopTime )
+                $t->set_var( "stop_value", addZero( $appStopTime->hour() ) . addZero( $appStopTime->minute() ) );
+            else
+                $t->set_var( "stop_value", "" );
+
+            if ( $userID == $appointment->userID() )
+                $t->set_var( "own_selected", "selected" );
+            else
+                $t->set_var( "own_selected", "" );
+            
+            $t->set_var( "own_user_id", $userID );
+            $t->set_var( "own_user_name", $user->name() );
+            $t->set_var( "trustee_user_name", "" );
+            
+            $trusteeArray = $user->getByTrustee( -1, true );
+            foreach ( $trusteeArray as $trustee )
+            {
+                $t->set_var( "user_id", $trustee->ID() );
+                $t->set_var( "user_name", $trustee->name() );
+                
+                if ( $appointment->userID() == $trustee->ID() )
+                    $t->set_var( "selected", "selected" );
+                else
+                    $t->set_var( "selected", "" );
+                $t->parse( "trustee_user_name", "trustee_user_name_tpl", true );
+            }
         }
     }
 }
-
 
 $t->set_var( "user_error", "" );
 
@@ -432,8 +459,6 @@ if ( $Action == "Edit" )
             $t->set_var( "selected", "" );
         $t->parse( "trustee_user_name", "trustee_user_name_tpl", true );
     }
-
-
 }
 
 
@@ -448,8 +473,8 @@ if ( $Action == "Edit" )
     $typeID = $type->id();
 
     $startTime =& $appointment->startTime();
-    $startHour = ( addZero( $startTime->hour() ) );
-    $startMinute = ( addZero( $startTime->minute() ) );
+    $startHour = addZero( $startTime->hour() );
+    $startMinute = addZero( $startTime->minute() );
     $t->set_var( "start_value", $startHour . $startMinute );
 
     $stopTime =& $appointment->stopTime();
