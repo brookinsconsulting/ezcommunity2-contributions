@@ -24,7 +24,7 @@ if ( $StoreStats == "enabled" )
 <tr valign="top">
     <td width="1%" bgcolor="#f6f6fa">
 
-	<!-- Meny start! -->
+	<!-- Left menu start -->
 
 	<?
 	include( "ezarticle/user/menubox.php" );
@@ -32,9 +32,14 @@ if ( $StoreStats == "enabled" )
 
 	<?
     $CategoryID = 0;
-    include( "eztrade/user/categorylist.php" ); ?>
+    include( "eztrade/user/categorylist.php" ); 
+	?>
     
-    <? include( "eztrade/user/hotdealslist.php" ); ?>     
+    <?
+	include( "eztrade/user/hotdealslist.php" ); 
+	?>     
+
+   	<!-- Left menu end -->
 
 	<img src="/images/1x1.gif" width="130" height="8" border="0" alt="" /><br />
 	</td>
@@ -42,7 +47,7 @@ if ( $StoreStats == "enabled" )
 	<td width="1%" bgcolor="#ffffff"><img src="/images/1x1.gif" width="2" height="1" border="0" alt="0" /></td>
     <td width="96%" bgcolor="#ffffff">
 
-    <!-- Banner -->
+    <!-- Banner start -->
 
     <div align="center">
         <?
@@ -54,3 +59,6 @@ if ( $StoreStats == "enabled" )
         ?>
     </div><br />
 
+    <!-- Banner end-->
+
+	<!-- Main content view start -->

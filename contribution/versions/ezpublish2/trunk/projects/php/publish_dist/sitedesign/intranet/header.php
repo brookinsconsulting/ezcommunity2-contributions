@@ -23,7 +23,8 @@ if ( $StoreStats == "enabled" )
 <table width="100%" border="0" cellspacing="0" cellpadding="4">
 <tr valign="top">
     <td width="1%" bgcolor="#f4fbf4">
-	<!-- Meny start! -->
+
+   	<!-- Left menu start -->
 
 	<?
 	include( "ezarticle/user/menubox.php" );
@@ -36,7 +37,6 @@ if ( $StoreStats == "enabled" )
 	<?
 	include( "ezcontact/user/menubox.php" );
 	?>
-
     
 	<?
 	include( "ezforum/user/menubox.php" );
@@ -66,15 +66,15 @@ if ( $StoreStats == "enabled" )
 ?>
 	</table>
 
-	<!-- Meny end! -->
-	
+   	<!-- Left menu end -->
+		
 	<img src="/images/1x1.gif" width="130" height="8" border="0" alt="" /><br />
 	</td>
 
 	<td width="1%" bgcolor="#ffffff"><img src="/images/1x1.gif" width="2" height="1" border="0" alt="0" /></td>
     <td width="96%" bgcolor="#ffffff">
 	
-    <!-- Banner -->
+    <!-- Banner start -->
 
     <div align="center">
         <?
@@ -86,3 +86,6 @@ if ( $StoreStats == "enabled" )
         ?>
     </div><br />
 
+    <!-- Banner end -->
+
+	<!-- Main content view start -->

@@ -24,10 +24,10 @@ if ( $StoreStats == "enabled" )
 <table width="100%" border="0" cellspacing="0" cellpadding="4">
 <tr valign="top">
     <td width="1%" bgcolor="#f0f0f0">
-	<!-- Meny start! -->
+	<!-- Left menu start -->
 
 	<?
-     $CategoryID = 0;
+    $CategoryID = 0;
 	include( "ezarticle/user/menubox.php" );
 	?>
    
@@ -60,12 +60,12 @@ if ( $StoreStats == "enabled" )
 
 	
 	<?
-	     // include the static pages for category 2
-	     $CategoryID = 2;
-	     include( "ezarticle/user/articlelinks.php" );
+    // include the static pages for category 2
+    $CategoryID = 2;
+    include( "ezarticle/user/articlelinks.php" );
 	?>
 
-	<!-- Meny end! -->
+	<!-- Left menu end -->
 	
 	<img src="/images/1x1.gif" width="130" height="8" border="0"><br />
 	</td>
@@ -73,6 +73,8 @@ if ( $StoreStats == "enabled" )
 	<td width="1%" bgcolor="#ffffff"><img src="/images/1x1.gif" width="2" height="1" border="0" alt="0" /></td>
     <td width="96%" bgcolor="#ffffff">
 
+    <!-- Banner start -->
 
-    <!-- Banner -->
+    <!-- Banner end-->
 
+	<!-- Main content view start -->

@@ -1,32 +1,31 @@
+	<!-- Main content view end -->
+
 	<br />
     </td>
    	<td width="1%" bgcolor="#ffffff"><img src="/images/1x1.gif" width="2" height="1" border="0" alt="" /></td>
 
 	<td width="1%" bgcolor="#f0f0f0">
 
-   	<!-- Oppslagstavle kommer her! -->
+   	<!-- Right menu start -->
     
     <?
-        include( "ezuser/user/userbox.php" );
+    include( "ezuser/user/userbox.php" );
 	?>
 
     <?
-    	$CategoryID = 1;
-        include( "ezarticle/user/smallarticlelist.php" );
+  	$CategoryID = 1;
+    include( "ezarticle/user/smallarticlelist.php" );
     ?>
 
 
     <?
-        include( "ezpoll/user/votebox.php" );
+    include( "ezpoll/user/votebox.php" );
     ?>
 
     <?
-        include( "ezquiz/user/menubox.php" );
+    include( "ezquiz/user/menubox.php" );
     ?>
         
-	<!-- Oppslagstavle fram til hit! -->
-
-
 	<hr noshade="noshade" size="4" />
 	
     <?
@@ -85,8 +84,8 @@ if ( $Design == 3 )
     <a href="<? print( $REQUEST_URI . "?Design=2"); ?>"><b>Trade</b></a><br />
     <a href="<? print( $REQUEST_URI . "?Design=3"); ?>"><b>News</b></a><br />
 
-    <!-- Oppslagstavle fram til hit! -->
-
+   	<!-- Right menu end -->
+	
 	<img src="/images/1x1.gif" width="130" height="20" border="0" alt="" /><br />
 	
 	<div align="center">

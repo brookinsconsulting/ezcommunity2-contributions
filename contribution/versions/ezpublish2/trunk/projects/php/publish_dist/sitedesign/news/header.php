@@ -23,7 +23,8 @@ if ( $StoreStats == "enabled" )
 <table width="100%" border="0" cellspacing="0" cellpadding="4">
 <tr valign="top">
     <td width="1%" bgcolor="#fbf7f7">
-	<!-- Meny start! -->
+
+	<!-- Left menu start -->
 
 	<?
 	include( "ezarticle/user/menubox.php" );
@@ -41,21 +42,13 @@ if ( $StoreStats == "enabled" )
     include( "ezbulkmail/user/menubox.php" );
     ?>
     
-	<table width="100%" cellspacing="0" cellpadding="2" border="0">
-	<tr>
-		<td colspan="2" class="menuhead">Static pages</td>
-	</tr>
 	<?
-	     // include the static pages for category 2
-	     $CategoryID = 2;
-	     include( "ezarticle/user/articlelinks.php" );
+    // include the static pages for category 2
+    $CategoryID = 2;
+    include( "ezarticle/user/articlelinks.php" );
 	?>
-	<tr>
-		<td colspan="2" class="menuspacer">&nbsp;</td>
-	</tr>
-	</table>
 
-	<!-- Meny end! -->
+	<!-- Left menu end -->
 	
 	<img src="/images/1x1.gif" width="130" height="8" border="0" alt="" /><br />
 	</td>
@@ -63,8 +56,8 @@ if ( $StoreStats == "enabled" )
 	<td width="1%" bgcolor="#ffffff"><img src="/images/1x1.gif" width="2" height="1" border="0" alt="" /></td>
     <td width="96%" bgcolor="#ffffff">
 
-    <!-- Banner -->
-
+    <!-- Banner start -->
+	s
     <div align="center">
         <?
         $CategoryID = 4;
@@ -72,3 +65,7 @@ if ( $StoreStats == "enabled" )
         include( "ezad/user/adlist.php" );
         ?>
     </div><br />
+
+    <!-- Banner end-->
+		
+	<!-- Main content view start -->

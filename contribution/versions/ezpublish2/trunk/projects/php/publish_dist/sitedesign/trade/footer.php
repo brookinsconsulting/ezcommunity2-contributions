@@ -1,22 +1,26 @@
+	<!-- Main content view end -->
+	
 	<br />
     </td>
    	<td width="1%" bgcolor="#ffffff"><img src="/images/1x1.gif" width="2" height="1" border="0" alt="0" /></td>
 
 	<td width="1%" bgcolor="#f6f6fa">
 
-   	<!-- Oppslagstavle kommer her! -->
-
-    <? include( "ezuser/user/userbox.php" ); ?>
+   	<!-- Right menu start -->
 	
-	<? include( "eztrade/user/menubox.php" ); ?>
+    <?
+	include( "ezuser/user/userbox.php" ); 
+	?>
+	
+	<?
+	include( "eztrade/user/menubox.php" );
+	?>
 
-    <? include( "eztrade/user/smallcart.php" );    ?>
+    <?
+	include( "eztrade/user/smallcart.php" );    
+	?>
     
-	<!-- Oppslagstavle fram til hit! -->
-
-
 	<hr noshade="noshade" size="4" />
-
 
     <?
     // change design on the fly
@@ -86,8 +90,8 @@ if ( $Design == 3 )
     <a href="<? print( $REQUEST_URI . "?Design=2"); ?>"><b>Intranet</b></a><br />
     <a href="<? print( $REQUEST_URI . "?Design=3"); ?>"><b>News</b></a><br />
 
-    <!-- Oppslagstavle fram til hit! -->
-
+   	<!-- Right menu end -->
+	
 	<img src="/images/1x1.gif" width="130" height="20" border="0" alt="" /><br />
 	
 	<div align="center">
