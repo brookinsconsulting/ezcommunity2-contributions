@@ -1,9 +1,8 @@
 <?php
-<?php
 // 
-// $Id: ezgpg.php,v 1.2 2001/04/09 14:31:44 bf Exp $
+// $Id: ezgpg.php,v 1.3 2001/04/09 14:37:39 chrism Exp $
 //
-// Definition of eZDB class
+// Definition of eZGPG class
 //
 // Chris Mason <chris@net.ai>
 // Created on: <09-Apr-2001 16:36:08 bf>
@@ -41,7 +40,7 @@ class eZGPG
     */
 	function eZGPG( $plaintxt, $keyname, $wwwuser)
     {	
-		putenv("HOME=/var/www");
+		putenv($home);
 		$boundary = md5( uniqid( time() ) );
 		
 		$this->keyname=$keyname;
@@ -66,7 +65,7 @@ class eZGPG
 		
 	}
 
-    var $body;
+    	var $body;
 	var $keyname = array();
 	var $pathtogpg = "/usr/bin/";
 	var $pp;
@@ -77,3 +76,4 @@ class eZGPG
 	var $home="HOME=/var/www";
 
 }
+?>
