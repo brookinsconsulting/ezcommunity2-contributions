@@ -51,5 +51,10 @@ CREATE TABLE eZFileManager_Folder (
 #
 # Dumping data for table 'eZFileManager_Folder'
 #
-
-create table eZFileManager_FilePageViewLink( ID int primary key auto_increment, PageViewID int not null, FileID int not null );      
+DROP TABLE IF EXISTS eZFileManager_FilePageViewLink;
+CREATE TABLE eZFileManager_FilePageViewLink (
+  ID int(11) NOT NULL auto_increment,
+  PageViewID int(11) NOT NULL,
+  FileID int(11) NOT NULL,
+  PRIMARY KEY(ID)
+);
