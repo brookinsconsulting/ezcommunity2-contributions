@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezqdomrenderer.php,v 1.55.2.12 2002/01/23 12:02:19 ce Exp $
+// $Id: ezqdomrenderer.php,v 1.55.2.13 2002/02/15 08:09:53 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -953,8 +953,8 @@ class eZQDomrenderer
                         $tmpContent .= $this->renderCustom( $child );
                         $tmpContent .= $this->renderLink( $child );
                         $tmpContent .= $this->renderImage( $child );
-                        $tmpContent .= $this->renderMedia( $media );
-                        $tmpContent .= $this->renderFile( $media );
+                        $tmpContent .= $this->renderMedia( $child );
+                        $tmpContent .= $this->renderFile( $child );
                         $tmpContent .= $this->renderHeader( $child );
                         $tmpContent .= $this->renderHr( $child );
                         $tmpContent .= $this->renderTable( $child );
