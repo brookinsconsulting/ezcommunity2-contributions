@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: editmessage.php,v 1.2 2000/07/25 20:00:44 lw-cvs Exp $
+    $Id: editmessage.php,v 1.3 2000/07/25 20:07:50 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -29,15 +29,25 @@ $t->set_var( "forum_id", $forum_id );
 $t->parse( "navigation-bar", "navigation", true);
 
 // rest
-$t->set_var( "user", eZUser::resolveUser( $message_id ) );
+$t->set_var( "user", eZUser::resolveUser( $msg->userId() ) );
+$t->set_var( "topic", $msg->topic() );
 $t->set_var( "body", $msg->body() );
 
-$t->set_var( "link1-url", "main.php");
+if ( $msg->emailNotice() == "Y" )
+{
+    $t->set_var( "email-notice", "checked");
+}
+else
+{
+    $t->set_var( "email-notice", "");
+}
+
+$t->set_var( "link1-url", "admin/category.php");
 $t->set_var( "link1-caption", "Gå til topp");
 $t->set_var( "link2-url", "search.php");
 $t->set_var( "link2-caption", "Søk");
 
-$t->set_var( "back-url", "main.php");
+$t->set_var( "back-url", "admin/message.php");
 $t->parse( "navigation-bar-bottom", "navigation-bottom", true);
 $t->pparse( "output", "edit" );
 ?>

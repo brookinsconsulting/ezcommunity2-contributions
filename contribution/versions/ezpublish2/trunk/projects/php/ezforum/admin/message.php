@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.4 2000/07/25 20:00:45 lw-cvs Exp $
+    $Id: message.php,v 1.5 2000/07/25 20:07:50 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -32,9 +32,9 @@ for ($i = 0; $i < count( $headers ); $i++)
     $t->set_var( "message_id", $headers[$i]["Id"] );
     $t->set_var( "topic", $headers[$i]["Topic"] );
     $t->set_var( "parent", $headers[$i]["Parent"] );
-    $t->set_var( "user_id", $headers[$i]["UserId"] );
+    // $t->set_var( "user_id", $headers[$i]["UserId"] ); // getHeaders() resolves the user name
     $t->set_var( "user", $headers[$i]["UserId"] );
-    $t->set_var( "postingtime", $headers[$i]["PostingTime"] );
+    $t->set_var( "postingtime", $headers[$i]["PostingTimeFormated"] );
 
     if ( $headers[$i]["EmailNotice"] == "Y" )
         $t->set_var( "emailnotice", "checked" );

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.16 2000/07/25 14:33:54 bf-cvs Exp $
+    $Id: ezforummessage.php,v 1.17 2000/07/25 20:07:50 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -72,7 +72,7 @@ class eZforumMessage
             $optstr = "Parent='$Parent'";
         }
             
-        $query_string = "SELECT Id,Topic, Body, UserId,
+        $query_string = "SELECT Id,Topic, Body, UserId, Parent, EmailNotice
                  DATE_FORMAT(PostingTime,'%k:%i:%s %e/%c/%y') AS PostingTimeFormated
                  FROM MessageTable WHERE ForumId='$forum_id' AND " . $optstr . " ORDER BY PostingTime DESC";
             
@@ -82,7 +82,7 @@ class eZforumMessage
         for ($i = 0;$i < mysql_num_rows($query_id); $i++)
         {
             $resultArray[$i] = mysql_fetch_array($query_id);
-            $resultArray[$i]["UserId"] = $usr->resolveUser($resultArray[$i]["UserId"]);
+            $resultArray[$i]["UserId"] = $usr->resolveUser( $resultArray[$i]["UserId"] );
         }
             
         return $resultArray;
