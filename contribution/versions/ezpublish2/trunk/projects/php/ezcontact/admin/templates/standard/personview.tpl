@@ -6,7 +6,7 @@
 <span class="p">{firstname} {lastname}</span>
 
 <p class="boxtext">{intl-birthday_headline}: </p>
-<span class="p">{birthdate} {personno}</span>
+<span class="p">{birthdate}</span>
 
 <!-- BEGIN address_item_tpl -->
 <h2>{intl-addresses_headline}</h2>

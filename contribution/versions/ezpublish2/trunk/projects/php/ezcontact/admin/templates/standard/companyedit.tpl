@@ -71,10 +71,10 @@
 
 <!-- END company_item_tpl -->
 
-<!-- BEGIN address_item_tpl -->
 <h2>{intl-address_headline}</h2>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <!-- BEGIN address_table_item_tpl -->
+<!-- BEGIN address_item_tpl -->
 <tr>
 	<td>
 	    <p class="boxtext">{intl-address_pos} {address_position}</p>
@@ -118,9 +118,9 @@
 	</select>
 	</td>
 </tr>
+<!-- END address_item_tpl -->
 <!-- END address_table_item_tpl -->
 </table>
-<!-- END address_item_tpl -->
 
 <h2>{intl-telephone_headline}</h2><br />
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -293,12 +293,6 @@
 </tr>
 </table>
 
-<hr noshade="noshade" size="4" />
-
-<input class="stdbutton" type="submit" name="Update" value="{intl-update}">
-<input class="stdbutton" type="submit" name="Preview" value="{intl-preview}">
-<input class="stdbutton" type="submit" name="Delete" value="{intl-delete}" />
-
 <!-- END edit_tpl -->
 
 <!-- BEGIN confirm_tpl -->
@@ -319,6 +313,9 @@
 
 <input class="okbutton" type="submit" name="OK" value="{intl-ok}" />
 <input type="submit" name="Back" value="{intl-back}">
+<!-- BEGIN delete_item_tpl -->
+<input class="stdbutton" type="submit" name="Delete" value="{intl-delete}" />
+<!-- END delete_item_tpl -->
 
 </form>
 

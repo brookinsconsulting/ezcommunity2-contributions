@@ -1,5 +1,7 @@
 <form method="post" action="/contact/person/{action_value}/{person_id}" enctype="multipart/form-data">
 
+<!-- BEGIN edit_tpl -->
+
 <h1>{intl-edit_headline}</h1>
 
 <hr noshade="noshade" size="4" />
@@ -21,10 +23,6 @@
 <!-- BEGIN error_birthdate_item_tpl -->
 <li>{intl-error_birthdate}
 <!-- END error_birthdate_item_tpl -->
-
-<!-- BEGIN error_personno_item_tpl -->
-<li>{intl-error_personno}
-<!-- END error_personno_item_tpl -->
 
 <!-- BEGIN error_address_item_tpl -->
 <li>{intl-error_address}{error_address_position}
@@ -99,10 +97,10 @@
 <textarea name="Comment" rows="4" cols="40" wrap="soft">{comment}</textarea>
 <!-- END person_item_tpl -->
 
-<!-- BEGIN address_item_tpl -->
 <h2>{intl-address_headline}</h2>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <!-- BEGIN address_table_item_tpl -->
+<!-- BEGIN address_item_tpl -->
 <tr>
 	<td>
 	    <p class="boxtext">{intl-address_pos} {address_position}</p>
@@ -146,9 +144,9 @@
 	</select>
 	</td>
 </tr>
+<!-- END address_item_tpl -->
 <!-- END address_table_item_tpl -->
 </table>
-<!-- END address_item_tpl -->
 
 <h2>{intl-telephone_headline}</h2><br />
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -248,32 +246,41 @@
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td>
-	<input type="submit" name="NewAddress" value="{intl-new_address}">
+	<input class="stdbutton" type="submit" name="NewAddress" value="{intl-new_address}">
 	</td>
 	<td>
-	<input type="submit" name="NewPhone" value="{intl-new_phone}">
+	<input class="stdbutton" type="submit" name="NewPhone" value="{intl-new_phone}">
 	</td>
 	<td>
-	<input type="submit" name="NewOnline" value="{intl-new_online}">
+	<input class="stdbutton" type="submit" name="NewOnline" value="{intl-new_online}">
 	</td>
 	<td>
-	<input type="submit" name="DeleteMarked" value="{intl-delete_marked}">
+	<input class="stdbutton" type="submit" name="DeleteMarked" value="{intl-delete_marked}">
 	</td>
 </tr>
 </table>
 
+<!-- END edit_tpl -->
+
+<!-- BEGIN confirm_tpl -->
+
+<h1>{intl-confirm_headline}</h1>
+
+<hr noshade size="4"/>
+
+<br />
+
+<h2>{intl-confirm_delete}{lastname}, {firstname}{intl-confirm_delete_end}</h2>
+
+<input type="hidden" name="Confirm" value="confirm">
+
+<!-- END confirm_tpl -->
 <hr noshade="noshade" size="4" />
 
-<table cellpadding="0" cellspacing="0" border="0">
-<tr>
-    <td>
-	<input class="okbutton" type="submit" name="OK" value="{intl-ok}" />
-	</td>
-	<td>&nbsp;</td>
-	<td>
-	<input class="okbutton" type="submit" name="Back" value="{intl-back}">
-	</td>
-</tr>
-</table>
+<input class="okbutton" type="submit" name="OK" value="{intl-ok}" />
+<input class="stdbutton" type="submit" name="Back" value="{intl-back}">
+<!-- BEGIN delete_item_tpl -->
+<input class="stdbutton" type="submit" name="Delete" value="{intl-delete}" />
+<!-- END delete_item_tpl -->
 
 </form>
