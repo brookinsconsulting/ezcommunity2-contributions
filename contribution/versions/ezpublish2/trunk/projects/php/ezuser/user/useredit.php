@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.12 2000/11/28 09:25:02 ce-cvs Exp $
+// $Id: useredit.php,v 1.13 2000/12/13 00:53:49 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 12:52:42 bf>
@@ -30,7 +30,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezmail.php" );
 include_once( "classes/ezlog.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZUserMain", "Language" );
 $AnonymousUserGroup = $ini->read_var( "eZUserMain", "AnonymousUserGroup" );

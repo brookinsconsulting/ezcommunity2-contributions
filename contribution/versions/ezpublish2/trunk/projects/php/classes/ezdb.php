@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.15 2000/12/13 00:15:15 bf Exp $
+// $Id: ezdb.php,v 1.16 2000/12/13 00:53:49 bf Exp $
 //
 // Definition of eZDB class
 //
@@ -35,7 +35,7 @@
 */
 
 /*!TODO
-  Add a generic query builder for use with search. A more adwanced version of the query
+  Add a generic query builder for use with search. A more advanced version of the query
   class found in ezlink/class/ezquery.
 */
 
@@ -71,7 +71,7 @@ class eZDB
     */
     function &query( $sql )
     {
-        $result = mysql_query( $sql );
+        $result =& mysql_query( $sql );
   
         if ( $result )
             return $result;
