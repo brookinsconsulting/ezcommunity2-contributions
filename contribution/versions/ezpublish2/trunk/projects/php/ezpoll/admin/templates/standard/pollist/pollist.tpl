@@ -30,7 +30,7 @@
 //-->
 </SCRIPT> 
 
-<div onLoad="MM_preloadImages('../images/redigerminimrk.gif','../images/slettminimrk.gif')"></div>
+<div onLoad="MM_preloadImages('/images/redigerminimrk.gif','/images/slettminimrk.gif')"></div>
 
 <form action="/poll/pollist/">
 

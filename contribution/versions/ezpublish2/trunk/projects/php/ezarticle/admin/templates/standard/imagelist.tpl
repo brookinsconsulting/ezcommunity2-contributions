@@ -30,7 +30,7 @@
 //-->
 </SCRIPT> 
 
-<div onLoad="MM_preloadImages('../ezarticle/images/redigerminimrk.gif','../ezarticle/images/slettminimrk.gif')"></div>
+<div onLoad="MM_preloadImages('/ezarticle/images/redigerminimrk.gif','/ezarticle/images/slettminimrk.gif')"></div>
 
 <form action="/article/articleedit/imageedit/storedef/{article_id}/" method="post">
 
