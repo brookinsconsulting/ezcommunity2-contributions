@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: precheckout.php,v 1.2 2001/04/25 08:48:53 ce Exp $
+// $Id: precheckout.php,v 1.3 2001/04/25 13:10:48 ce Exp $
 //
 // Christoffer A. Elo <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -82,6 +82,7 @@ elseif ( $ForceSSL == "choose" )
         "precheckout_tpl" => "precheckout.tpl"
         ) );
 
+    $t->set_var( "host", $HTTP_HOST );
 
     $t->pparse( "output", "precheckout_tpl" );
 }

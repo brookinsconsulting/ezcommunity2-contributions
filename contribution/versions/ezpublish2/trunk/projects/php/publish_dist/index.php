@@ -90,7 +90,6 @@ $REQUEST_URI = $regs[1];
 
 $url_array = explode( "/", $REQUEST_URI );
 
-
 if ( ( $requireUserLogin == "disabled" ) ||
     ( ( $requireUserLogin == "enabled" )   & ( get_class( $user ) == "ezuser" ) && ( $user->id() != 0 ) ) ) 
 {
@@ -138,7 +137,6 @@ if ( ( $requireUserLogin == "disabled" ) ||
     ob_start();
     print( $buffer );
     
-
 
     $meta_page = "ez" . $url_array[1] . "/metasupplier.php";
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.49 2001/04/19 13:07:24 ce Exp $
+// $Id: userwithaddress.php,v 1.50 2001/04/25 13:10:48 ce Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
@@ -22,6 +22,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
 
 require( "ezuser/user/usercheck.php" );
 
@@ -565,6 +566,7 @@ if ( $deleted )
 }
 
 // Render addresses
+
 for ( $i = 0; $i < count( $AddressID ); ++$i )
 {
     $address_id = $AddressID[$i];

@@ -25,6 +25,7 @@ switch ( $url_array[2] )
     case "user" :
     case "userwithaddress" :
     {
+
         if ( $url_array[3] == "new" )
             $Action = "New";
         if ( $url_array[3] == "edit" )
@@ -49,6 +50,7 @@ switch ( $url_array[2] )
 
         if ( $url_array[3] == "insert" )
             $Action = "Insert";
+
         include( "ezuser/user/userwithaddress.php" );
     }
     break;

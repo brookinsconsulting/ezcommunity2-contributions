@@ -9,7 +9,7 @@
     </td>
     <td align="right">
       <!-- BEGIN public_wishlist_tpl -->
-      <input type="checkbox" name="IsPublic" checked/>&nbsp;{intl-is_public}
+      <input type="checkbox" name="IsPublic" checked />&nbsp;{intl-is_public}
       <!-- END public_wishlist_tpl -->
       <!-- BEGIN non_public_wishlist_tpl -->
       <input type="checkbox" name="IsPublic" />&nbsp;{intl-is_public}
@@ -101,5 +101,17 @@
 	</td>
 </td>
 </table>
+</form>
+<hr noshade size="1" />
 
+<!-- BEGIN wishlist_checkout_tpl -->
+<form action="/trade/sendwishlist/" method="post">
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+        <td>
+        <input class="okbutton" type="submit" value="{intl-send_wishlist}" />
+	</td>
+</tr>
+</table>
+<!-- END wishlist_checkout_tpl -->
 </form>

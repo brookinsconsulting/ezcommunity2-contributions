@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpermission.php,v 1.9 2001/04/05 08:52:44 fh Exp $
+// $Id: ezpermission.php,v 1.10 2001/04/25 13:10:48 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -362,7 +362,6 @@ class eZPermission
            {
                $isEnabled = "false";
            }
-           print( $this->ID );
            
            $this->Database->array_query( $value_array, "SELECT ID FROM eZUser_GroupPermissionLink
                                                     WHERE PermissionID='$this->ID' AND GroupID='$groupID'" );
@@ -439,20 +438,23 @@ class eZPermission
             $moduleID = $module->id();
 
             $test = "SELECT * FROM eZUser_Permission WHERE Name='$permissionName' AND ModuleID='$moduleID'";
-            
+
             $this->Database->array_query( $value_array, "SELECT * FROM eZUser_Permission
                                                     WHERE Name='$permissionName' AND ModuleID='$moduleID'", true );
 
 
             if ( count( $value_array ) == 1 )
             {
+
                 $permission = new eZPermission( );
                 $permission->get( $value_array[0]["ID"] ); 
 
                 if ( get_class( $user ) == "ezuser" )
                 {
+
                     $group = new eZUserGroup();
                     $groupArray = $group->getByUser( $user );
+
 
                     foreach ( $groupArray as $group )
                     {
