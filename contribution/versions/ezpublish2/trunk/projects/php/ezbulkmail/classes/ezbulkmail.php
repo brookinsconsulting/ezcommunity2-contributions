@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmail.php,v 1.17 2001/07/03 11:50:58 br Exp $
+// $Id: ezbulkmail.php,v 1.18 2001/07/03 12:57:38 br Exp $
 //
 // eZBulkMail class
 //
@@ -82,7 +82,6 @@ class eZBulkMail
                                   '$replyto',
                                   '$subject',
                                   '$bodytext',
-                                  '$bodyText',
                                   '$this->IsDraft' )
                                 " );
 			$this->ID = $nextID;
@@ -347,9 +346,8 @@ class eZBulkMail
            {
                $db->begin();
                $db->lock( "eZBulkMail_MailCategoryLink" );
-               $nextID = $db->nextID( "eZBulkMail_MailCategoryLink", "ID" );
 
-               $result = $db->query( "INSERT INTO eZBulkMail_MailCategoryLink ( ID, CategoryID, MailID ) VALUES ( '$nextID', '$value', '$this->ID' ) " );
+               $result = $db->query( "INSERT INTO eZBulkMail_MailCategoryLink ( CategoryID, MailID ) VALUES ( '$value', '$this->ID' ) " );
 
                $db->unlock();
                
