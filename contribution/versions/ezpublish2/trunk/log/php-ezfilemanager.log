@@ -781,3 +781,11 @@ Maintainer(s) : jhe@ez.no
     * user/Attic/menufilelist.php
       user/templates/standard/Attic/menufilelist.tpl: New file.
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2003-02-24  Bjoern Reiten  <br@ez.no>
+
+    * user/filedownload.php: uncommented filepermissions.
+
