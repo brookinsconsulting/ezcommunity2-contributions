@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherinformation.php,v 1.12.4.9 2001/11/19 12:10:07 ce Exp $
+// $Id: voucherinformation.php,v 1.12.4.10 2001/11/19 12:23:18 ce Exp $
 //
 // Created on: <06-Aug-2001 13:02:18 ce>
 //
@@ -125,7 +125,7 @@ if ( isSet ( $OK ) )
             $error = true;
             $t->parse( "too_many_letters", "too_many_letters_tpl" );
         }
-        if ( $ToName == "" or $ToStreet1 == "" or $ToZip == "" or $ToPlace == "" or $FromName == "" or $FromStreet1 == "" or $FromZip == "" or $FromPlace == "" )
+        if ( $ToName == "" or $ToStreet1 == "" or $ToZip == "" or $ToPlace == "" )
         {
             $error = true;
             $t->parse( "missing_fields", "missing_fields_tpl" );
