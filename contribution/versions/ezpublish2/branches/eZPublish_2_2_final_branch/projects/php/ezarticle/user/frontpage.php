@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.28.2.2 2001/10/30 19:49:02 master Exp $
+// $Id: frontpage.php,v 1.28.2.3 2001/11/01 12:57:14 master Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -46,6 +46,9 @@ $ImageDir = $ini->read_var( "eZArticleMain", "ImageDir" );
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 $DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
 $GrayScaleImageList = $ini->read_var( "eZArticleMain", "GrayScaleImageList" );
+
+$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+$sectionObject->setOverrideVariables();
 
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", $Language, "frontpage.php" );
@@ -114,7 +117,7 @@ $articleCount = 0;
 $productCount = 0;
 $adCount = 0;
 
-$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+//$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
 
 $rows =& $sectionObject->frontPageRows();
 
@@ -178,7 +181,7 @@ if ( is_array ( $rows ) and count ( $rows ) > 0 )
 
 $user =& eZUser::currentUser();
 
-$sectionObject->setOverrideVariables();
+//$sectionObject->setOverrideVariables();
 
 if ( $adCount > 0 )
 {
