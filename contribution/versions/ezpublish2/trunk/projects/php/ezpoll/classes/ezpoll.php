@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpoll.php,v 1.19 2001/05/05 11:16:04 bf Exp $
+// $Id: ezpoll.php,v 1.20 2001/06/26 11:31:35 bf Exp $
 //
 // Definition of eZPoll class
 //
@@ -37,7 +37,7 @@
   // Create a new poll object.
   $poll = new eZPoll();
 
-  $poll->setName( "Policy" );
+  $poll->setName( "Politics" );
   $poll->setDescription(  "What do you think about Carl I. Hagen" );
 
   // Stores the poll information into the database.
@@ -64,24 +64,12 @@ class eZPoll
       Constructor a new eZPoll object. Retrieves the data from the database
       if a valid id is given as an argument.
     */
-    function eZPoll( $id=-1, $fetch=true )
+    function eZPoll( $id=-1 )
     {
-        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -90,27 +78,36 @@ class eZPoll
     */
     function store()
     {
-        $this->dbInit();
-        $name = addslashes( $this->Name );
-        $description = addslashes( $this->Description );
+        $db =& eZDB::globalDatabase();
+
+        $dbError = false;
+        $db->begin( );
+
+        $name = $db->escapeString( $this->Name );
+        $description = $db->escapeString( $this->Description );
+        
         if ( !isset( $this->ID ) )
         {
-            
-            $this->Database->query( "INSERT INTO eZPoll_Poll SET
-                                 Name='$name',
-                                 Description='$description',
-                                 IsEnabled='$this->IsEnabled',
-                                 ShowResult='$this->ShowResult',
-                                 Anonymous='$this->Anonymous',
-                                 IsClosed='$this->IsClosed' ");
+            $db->lock( "eZPoll_Poll" );
+    
+            $nextID = $db->nextID( "eZSession_Session", "ID" );
 
-			$this->ID = $this->Database->insertID();
+            $res = $db->query( "INSERT INTO eZPoll_Poll
+            ( ID, Name, Description, IsEnabled, ShowResult, Anonymous, IsClosed )
+            VALUES
+            ( '$nextID',
+              '$name',
+              '$description',
+              '$this->IsEnabled',
+              '$this->ShowResult',
+              '$this->Anonymous',
+              '$this->IsClosed' ) ");
 
-            $this->State_ = "Coherent";
+			$this->ID = $nextID;
         }
         else
         {
-            $this->Database->query( "UPDATE eZPoll_Poll SET
+            $res = $db->query( "UPDATE eZPoll_Poll SET
                                  Name='$name',
                                  Description='$description',
                                  IsEnabled='$this->IsEnabled',
@@ -118,8 +115,15 @@ class eZPoll
                                  Anonymous='$this->Anonymous',
                                  IsClosed='$this->IsClosed' WHERE ID='$this->ID'" );
 
-            $this->State_ = "Coherent";    
         }
+
+        $db->unlock();
+    
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
+        
         return true;
     }
 
@@ -128,13 +132,13 @@ class eZPoll
     */
     function delete()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         if ( isset( $this->ID ) )
         {
-            $this->Database->query( "DELETE FROM eZPoll_Vote WHERE PollID='$this->ID'" );
-            $this->Database->query( "DELETE FROM eZPoll_PollChoice WHERE PollID='$this->ID'" );
-            $this->Database->query( "DELETE FROM eZPoll_Poll WHERE ID='$this->ID'" );
+            $db->query( "DELETE FROM eZPoll_Vote WHERE PollID='$this->ID'" );
+            $db->query( "DELETE FROM eZPoll_PollChoice WHERE PollID='$this->ID'" );
+            $db->query( "DELETE FROM eZPoll_Poll WHERE ID='$this->ID'" );
         }
         return true;
     }
@@ -144,43 +148,26 @@ class eZPoll
     */
     function get( $id=-1 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         if ( $id != -1 )
         {
-            $this->Database->array_query( $poll_array, "SELECT * FROM eZPoll_Poll WHERE ID='$id'" );
+            $db->array_query( $poll_array, "SELECT * FROM eZPoll_Poll WHERE ID='$id'" );
 
             if ( count( $poll_array ) > 1 )
             {
                 die( "Error: Poll's with the same ID was found in the database." );
             }
             
-            else if( count( $poll_array ) == 1 )
+            else if ( count( $poll_array ) == 1 )
             {
-
-                $this->ID = $poll_array[0][ "ID" ];
-                $this->Name = $poll_array[0][ "Name" ];
-                $this->Description = $poll_array[0][ "Description" ];
-
-                if ( $poll_array[0][ "Anonymous" ] == "true" )
-                    $this->Anonymous = true;
-                else
-                    $this->Anonymous = false;
-                
-                if ( $poll_array[0][ "IsEnabled" ] == "true" )
-                    $this->IsEnabled = true;
-                else
-                    $this->IsEnabled = false;
-
-                if ( $poll_array[0][ "IsClosed" ] == "true" )
-                    $this->IsClosed = true;
-                else
-                    $this->IsClosed = false;
-
-                if ( $poll_array[0][ "ShowResult" ] == "true" )
-                    $this->ShowResult = true;
-                else
-                    $this->ShowResult = false;
+                $this->ID = $poll_array[0][$db->fieldName("ID")];
+                $this->Name = $poll_array[0][$db->fieldName("Name")];
+                $this->Description = $poll_array[0][$db->fieldName("Description")];
+                $this->Anonymous = $poll_array[0][$db->fieldName("Anonymous")];                
+                $this->IsEnabled = $poll_array[0][$db->fieldName("IsEnabled")];
+                $this->IsClosed = $poll_array[0][$db->fieldName("IsClosed")];
+                $this->ShowResult =  $poll_array[0][$db->fieldName("ShowResult")];
             }
         }
     }
@@ -190,16 +177,16 @@ class eZPoll
     */
     function getAll()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $return_array = array();
         $poll_array = array();
 
-        $this->Database->array_query( $poll_array, "SELECT ID FROM eZPoll_Poll ORDER BY Name" );
+        $db->array_query( $poll_array, "SELECT ID FROM eZPoll_Poll ORDER BY Name" );
 
         for ( $i=0; $i<count( $poll_array ); $i++ )
         {
-            $return_array[$i] = new eZPoll( $poll_array[$i][ "ID" ], 0 );
+            $return_array[$i] = new eZPoll( $poll_array[$i][$db->fieldName("ID")], 0 );
         }
 
         return $return_array;
@@ -210,16 +197,16 @@ class eZPoll
     */
     function getAllActive()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $return_array = array();
         $poll_array = array();
 
-        $this->Database->array_query( $poll_array, "SELECT ID FROM eZPoll_Poll WHERE IsEnabled='true' ORDER BY Name" );
+        $db->array_query( $poll_array, "SELECT ID FROM eZPoll_Poll WHERE IsEnabled='1' ORDER BY Name" );
 
         for ( $i=0; $i<count( $poll_array ); $i++ )
         {
-            $return_array[$i] = new eZPoll( $poll_array[$i][ "ID" ], 0 );
+            $return_array[$i] = new eZPoll( $poll_array[$i][$db->fieldName("ID")], 0 );
         }
 
         return $return_array;
@@ -231,9 +218,6 @@ class eZPoll
     */
     function id()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->ID;
     }
 
@@ -243,9 +227,6 @@ class eZPoll
     */
     function name( $html = true )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         if( $html )
             return htmlspecialchars( $this->Name );
         else
@@ -257,9 +238,6 @@ class eZPoll
     */
     function description( $html = true )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         if( $html )
             return htmlspecialchars( $this->Description );
         else
@@ -271,10 +249,10 @@ class eZPoll
     */
     function isEnabled()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        return $this->IsEnabled;
+        if ( $this->IsEnabled == 1 )            
+            return true;
+        else
+            return false;
     }
 
     /*!
@@ -282,10 +260,10 @@ class eZPoll
     */
     function isClosed()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        return $this->IsClosed;
+        if ( $this->IsClosed == 1 )
+            return true;
+        else
+            return false;
     }
 
     /*!
@@ -293,10 +271,10 @@ class eZPoll
     */
     function showResult()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        return $this->ShowResult;
+        if ( $this->ShowResult == 1 )
+            return true;
+        else
+            return false;
     }
 
     /*!
@@ -304,10 +282,10 @@ class eZPoll
     */
     function anonymous()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        return $this->Anonymous;
+        if ( $this->Anonymous == 1 )
+            return true;
+        else
+            return false;
     }
 
     
@@ -318,15 +296,15 @@ class eZPoll
     */
     function mainPoll(  )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         // sets the current poll as main poll
-        $this->Database->array_query( $poll_array, "SELECT PollID FROM eZPoll_MainPoll" );
+        $db->array_query( $poll_array, "SELECT PollID FROM eZPoll_MainPoll" );
 
         $ret = false;
         if ( count( $poll_array ) == 1 )
         {
-            $ret = new eZPoll( $poll_array[0]["PollID"] );
+            $ret = new eZPoll( $poll_array[0][$db->fieldName("PollID")] );
         }
         return $ret;
     }
@@ -336,9 +314,6 @@ class eZPoll
     */
     function setName( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Name = $value;
     }
 
@@ -347,9 +322,6 @@ class eZPoll
     */
     function setDescription( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Description = $value;
     }
 
@@ -358,13 +330,10 @@ class eZPoll
     */
     function setIsEnabled( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        if ( $value  )
-            $this->IsEnabled = "true";
+        if ( $value )
+            $this->IsEnabled = 1;
         else
-            $this->IsEnabled = "false";
+            $this->IsEnabled = 0;
     }
     
     /*!
@@ -372,13 +341,10 @@ class eZPoll
     */
     function setIsClosed( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         if ( $value  )
-            $this->IsClosed = "true";
+            $this->IsClosed = 1;
         else
-            $this->IsClosed = "false";
+            $this->IsClosed = 0;
     }
 
     /*!
@@ -386,13 +352,10 @@ class eZPoll
     */
     function setShowResult( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         if ( $value )
-            $this->ShowResult = "true";
+            $this->ShowResult = 1;
         else
-            $this->ShowResult = "false";
+            $this->ShowResult = 0;
     }
 
     /*!
@@ -400,13 +363,10 @@ class eZPoll
     */
     function setAnonymous( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         if ( $value )
-            $this->Anonymous = "true";
+            $this->Anonymous = 1;
         else
-            $this->Anonymous = "false";
+            $this->Anonymous = 0;
     }
     
     /*!
@@ -414,10 +374,11 @@ class eZPoll
     */
     function totalVotes( )
     {
-        $this->dbInit();
-        $this->Database->array_query( $votecount, "SELECT COUNT(*) AS NUMBER FROM eZPoll_Vote WHERE PollID='$this->ID'" );
+        $db =& eZDB::globalDatabase();
         
-        return $votecount[0][ "NUMBER" ];
+        $db->array_query( $votecount, "SELECT COUNT(*) AS NUMBER FROM eZPoll_Vote WHERE PollID='$this->ID'" );
+        
+        return $votecount[0][$db->fieldName("NUMBER")];
     }
 
     /*!
@@ -425,34 +386,18 @@ class eZPoll
     */
     function setMainPoll( $poll )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         if ( get_class( $poll ) == "ezpoll" )
         {
-            $this->dbInit();
+            $db =& eZDB::globalDatabase();
             
             // delete old main poll
-            $this->Database->query( "DELETE FROM eZPoll_MainPoll" );
+            $db->query( "DELETE FROM eZPoll_MainPoll" );
             
             // sets the current poll as main poll
-            $this->Database->query( "INSERT INTO eZPoll_MainPoll SET PollID='$this->ID'" );
+            $db->query( "INSERT INTO eZPoll_MainPoll ( ID, PollID ) VALUES ( '1', '$this->ID' )" );
         }
     }
     
-
-    /*!
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = new eZDB( "site.ini", "site" );
-            $this->IsConnected = true;
-        }
-    }
 
     var $ID;
     var $Name;
@@ -462,9 +407,6 @@ class eZPoll
     var $ShowResult;
     var $Anonymous;
 
-    var $Database;
-    var $State_;
-    var $IsConnected;
 }
 
 ?>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: polledit.php,v 1.25 2001/02/26 14:51:39 fh Exp $
+// $Id: polledit.php,v 1.26 2001/06/26 11:31:35 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <21-Sep-2000 10:39:19 ce>
@@ -125,8 +125,10 @@ if ( isset ( $Choice ) )
     $item->setName( $errorIni->read_var( "strings", "newitem") );
     $item->setPollID( $PollID );
     $item->store();
+    
 }
-if( isset( $DeleteChoice ) )
+
+if ( isset( $DeleteChoice ) )
 {
     if( count( $PollArrayID ) > 0 )
     {

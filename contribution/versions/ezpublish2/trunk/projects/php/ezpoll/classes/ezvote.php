@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvote.php,v 1.18 2001/05/05 11:16:04 bf Exp $
+// $Id: ezvote.php,v 1.19 2001/06/26 11:31:35 bf Exp $
 //
 // Definition of eZVote class
 //
@@ -47,24 +47,12 @@ class eZVote
       Constructor a new eZVote object. Retrieves the data from the database
       if a valid id is given as an argument.
     */
-    function eZVote( $id=-1, $fetch=true )
+    function eZVote( $id=-1 )
     {
-        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
     /*!
@@ -72,15 +60,30 @@ class eZVote
     */
     function store()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-        $this->Database->query( "INSERT INTO eZPoll_Vote SET
-                                 VotingIP='$this->IP',
-                                 PollID='$this->PollID',
-                                 ChoiceID='$this->ChoiceID',
-                                 UserID='$this->UserID'
-                                 ");
-		$this->ID = $this->Database->insertID();
+        $db->begin();
+
+        $db->lock( "eZPoll_Vote" );
+        $nextID = $db->nextID( "eZPoll_Vote", "ID" );        
+        
+        $res = $db->query( "INSERT INTO eZPoll_Vote
+        ( ID, VotingIP, PollID, ChoiceID, UserID )
+        VALUES
+        ( '$nextID',
+          '$this->IP',
+          '$this->PollID',
+          '$this->ChoiceID',
+          '$this->UserID' ) ");
+        
+		$this->ID = $nextID;
+
+        $db->unlock();
+    
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
 
         return true;
     }
@@ -90,11 +93,11 @@ class eZVote
     */
     function get( $id=-1 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         if ( $id != -1 )
         {
-            $this->Database->array_query( $vote_array, "SELECT * FROM eZPoll_Vote" );
+            $db->array_query( $vote_array, "SELECT * FROM eZPoll_Vote" );
 
             if ( count( $vote_array ) > 1 )
             {
@@ -102,11 +105,11 @@ class eZVote
             }
             else if( count( $vote_array ) == 1 )
             {
-                $this->ID = $vote_array[0][ "ID" ];
-                $this->IP = $vote_array[0][ "VotingIP" ];
-                $this->PollID = $vote_array[0][ "PollID" ];
-                $this->ChoiceID = $vote_array[0][ "ChoiceID" ];
-                $this->UserID = $vote_array[0][ "UserID" ];
+                $this->ID = $vote_array[0][$db->fieldName("ID")];
+                $this->IP = $vote_array[0][$db->fieldName("VotingIP")];
+                $this->PollID = $vote_array[0][$db->fieldName("PollID")];
+                $this->ChoiceID = $vote_array[0][$db->fieldName("ChoiceID")];
+                $this->UserID = $vote_array[0][$db->fieldName("UserID")];
             }
 
         }
@@ -117,7 +120,7 @@ class eZVote
     */
     function getAll( $id )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $return_array = array();
         $vote_array = array();
@@ -126,7 +129,7 @@ class eZVote
 
         for ( $i=0; $i<count( $vote_array ); $i++ )
         {
-            $return_array[$i] = new eZVote( $vote_array[$i][ "ID" ], 0 );
+            $return_array[$i] = new eZVote( $vote_array[$i][$db->fieldName("ID")], 0 );
         }
     }
     
@@ -135,9 +138,6 @@ class eZVote
     */
     function pollID()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->PollID;
     }
 
@@ -146,9 +146,6 @@ class eZVote
     */
     function choiceID()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->choiceID;
     }
 
@@ -158,9 +155,6 @@ class eZVote
     */
     function votingIP()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->IP;
     }
 
@@ -169,9 +163,6 @@ class eZVote
     */
     function id()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->ID;
     }
 
@@ -180,9 +171,6 @@ class eZVote
     */
     function userID()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->userID;
     }
 
@@ -192,9 +180,6 @@ class eZVote
     */
     function setVotingIP( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->IP = $value;
     }
 
@@ -203,9 +188,6 @@ class eZVote
     */
     function setPollID( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->PollID = $value;
     }
 
@@ -214,9 +196,6 @@ class eZVote
     */
     function setChoiceID( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->ChoiceID = $value;
     }
     
@@ -225,9 +204,6 @@ class eZVote
     */
     function setUserID( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->UserID = $value;
     }
 
@@ -241,9 +217,9 @@ class eZVote
 
         $vote_array = array();
 
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-        $this->Database->array_query( $vote_array, "SELECT * FROM eZPoll_Vote
+        $db->array_query( $vote_array, "SELECT * FROM eZPoll_Vote
                                                     WHERE UserID='$userID' AND PollID='$pollID'" );
         if ( count( $vote_array ) == 0 )
         {
@@ -253,7 +229,7 @@ class eZVote
         return $ret;
     }
 
-        /*!
+    /*!
       \static
       Check if the user already have voted. If voted, return true.
     */
@@ -263,9 +239,9 @@ class eZVote
 
         $vote_array = array();
 
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-        $this->Database->array_query( $vote_array, "SELECT * FROM eZPoll_Vote
+        $db->array_query( $vote_array, "SELECT * FROM eZPoll_Vote
                                                     WHERE VotingIP='$IP' AND PollID='$pollID'" );
         if ( count( $vote_array ) == 0 )
         {
@@ -275,29 +251,11 @@ class eZVote
         return $ret;
     }
 
-    
-    /*!
-      \private
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = new eZDB( "site.ini", "site" );
-            $this->IsConnected = true;
-        }
-    }
-
     var $ID;
     var $IP;
     var $PollID;
     var $ChoiceIP;
     var $UserID;
-
-    var $Database;
-    var $State_;
-    var $IsConnected;
 }
 
 ?>

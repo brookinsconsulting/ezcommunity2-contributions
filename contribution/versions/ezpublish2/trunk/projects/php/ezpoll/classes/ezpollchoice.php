@@ -1,5 +1,5 @@
 <?
-// $Id: ezpollchoice.php,v 1.15 2001/05/05 11:16:04 bf Exp $
+// $Id: ezpollchoice.php,v 1.16 2001/06/26 11:31:35 bf Exp $
 //
 // Definition of eZPollChoice class
 //
@@ -46,24 +46,12 @@ class eZPollChoice
       Constructor a new eZPoll object. Retrieves the data from the database
       if a valid id is given as an argument.
     */
-    function eZPollChoice( $id=-1, $fetch=true )
+    function eZPollChoice( $id=-1 )
     {
-        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -72,28 +60,40 @@ class eZPollChoice
     */
     function store()
     {
-        $this->dbInit();
-        $name = addslashes( $this->Name );
+        $db =& eZDB::globalDatabase();
+
+        $db->begin();
+
+        $name = $db->escapeString( $this->Name );
+        
         if ( !isset ( $this->ID ) )
         {
-        
-            $this->Database->query( "INSERT INTO eZPoll_PollChoice SET
-                                 Name='$name',
-                                 PollID='$this->PollID',
-                                 Offset='$this->Offset' ");
+            $db->lock( "eZPoll_PollChoice" );
+            $nextID = $db->nextID( "eZPoll_PollChoice", "ID" );
+            
+            $res = $db->query( "INSERT INTO eZPoll_PollChoice
+            ( ID, Name, PollID, Offs ) VALUES
+            ( '$nextID',
+              '$name',
+              '$this->PollID',
+              '$this->Offset' ) ");
 
-			$this->ID = $this->Database->insertID();
-
-            $this->State_ = "Coherent";
+			$this->ID = $nextID;
         }
         else
         {
-            $this->Database->query( "UPDATE eZPoll_PollChoice SET
+            $res = $db->query( "UPDATE eZPoll_PollChoice SET
                                  Name='$name',
-                                 Offset='$this->Offset' WHERE ID='$this->ID'" );
-
-            $this->State_ = "Coherent";
+                                 Offs='$this->Offset' WHERE ID='$this->ID'" );
         }
+
+        $db->unlock();
+    
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
+        
         return true;
     }
 
@@ -118,25 +118,29 @@ class eZPollChoice
     */
     function get( $id=-1 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
+        $ret = false;
 
         if ( $id != -1 )
         {
-            $this->Database->array_query( $poll_array, "SELECT * FROM eZPoll_PollChoice WHERE ID='$id' ORDER By ID" );
+            $db->array_query( $poll_array, "SELECT * FROM eZPoll_PollChoice WHERE ID='$id' ORDER By ID" );
 
             if ( count( $poll_array ) > 1 )
             {
                 die( "Error: Poll's wit the same ID was found in the database." );
             }
-            else if( count( $poll_array ) == 1 )
+            else if ( count( $poll_array ) == 1 )
             {
-                $this->ID = $poll_array[0][ "ID" ];
-                $this->Name = $poll_array[0][ "Name" ];
-                $this->PollID = $poll_array[0][ "PollID" ];
-                $this->Offset = $poll_array[0][ "Offset" ];
-            }
+                $this->ID = $poll_array[0][$db->fieldName("ID")];
+                $this->Name = $poll_array[0][$db->fieldName("Name")];
+                $this->PollID = $poll_array[0][$db->fieldName("PollID")];
+                $this->Offset = $poll_array[0][$db->fieldName("Offs")];
 
+                $ret = true;
+            }
         }
+
+        return $ret;
     }
 
     /*!
@@ -144,16 +148,16 @@ class eZPollChoice
     */
     function getAll( $ID )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $return_array = array();
         $poll_array = array();
 
-        $this->Database->array_query( $poll_array, "SELECT ID FROM eZPoll_PollChoice WHERE PollID='$ID' ORDER By ID" );
+        $db->array_query( $poll_array, "SELECT ID FROM eZPoll_PollChoice WHERE PollID='$ID' ORDER By ID" );
 
         for ( $i=0; $i<count( $poll_array ); $i++ )
         {
-            $return_array[$i] = new eZPollChoice( $poll_array[$i][ "ID" ], 0 );
+            $return_array[$i] = new eZPollChoice( $poll_array[$i][$db->fieldName("ID")], 0 );
         }
 
         return $return_array;
@@ -164,9 +168,6 @@ class eZPollChoice
     */
     function name( $html = true )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         if( $html )
             return htmlspecialchars( $this->Name );
         else
@@ -178,9 +179,6 @@ class eZPollChoice
     */
     function id()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->ID;
     }
 
@@ -190,12 +188,8 @@ class eZPollChoice
     */
     function offset()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->Offset;
     }
-
 
     
     /*!
@@ -203,9 +197,6 @@ class eZPollChoice
     */
     function pollID()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->PollID;
     }
 
@@ -214,9 +205,6 @@ class eZPollChoice
     */
     function setName( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Name = $value;
     }
 
@@ -225,21 +213,14 @@ class eZPollChoice
     */
     function setOffset( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Offset = $value;
     }
-
     
     /*!
       Sets the name of the poll.
     */
     function setPollID( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->PollID = $value;
     }
 
@@ -248,32 +229,15 @@ class eZPollChoice
     */
     function voteCount( )
     {
-        $this->dbInit();
-        $this->Database->array_query( $votecount, "SELECT COUNT(*) AS NUMBER FROM eZPoll_Vote WHERE ChoiceID='$this->ID'" );
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $votecount, "SELECT COUNT(*) AS NUMBER FROM eZPoll_Vote WHERE ChoiceID='$this->ID'" );
         
-        return $votecount[0][ "NUMBER" ];
+        return $votecount[0][$db->fieldName("NUMBER")];
     }
     
-    /*!
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = new eZDB( "site.ini", "site" );
-            $this->IsConnected = true;
-        }
-    }
-
     var $ID;
     var $Name;
     var $PollID;
     var $Offset;
-
-    var $Database;
-    var $State_;
-    var $IsConnected;
 }
 ?>
