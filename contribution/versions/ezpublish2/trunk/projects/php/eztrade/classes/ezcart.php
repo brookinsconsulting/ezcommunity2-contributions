@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcart.php,v 1.13 2001/03/12 12:24:07 bf Exp $
+// $Id: ezcart.php,v 1.14 2001/03/12 13:07:53 bf Exp $
 //
 // Definition of eZCart class
 //
@@ -318,22 +318,32 @@ class eZCart
            $i++;
        }
 
-       $vatType =& $shippingType->vatType();
-       
-       
-       print( "shipping: $cost" );
-       print( "vat: "  . $vatType->value() );
+       return $cost;
+    }
 
-       $vat = 0;
+    /*!
+      Returns the shipping VAT. That is the VAT value
+      of the shipping cost.
+
+      The argument must be a eZShippingType object.
+    */
+    function shippingVAT( $shippingType )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $vatType =& $shippingType->vatType();
+
+       $shippingCost = $this->shippingCost( $shippingType );
+       
+       $shippingVAT = 0;
        if ( $vatType )
        {
            $value =& $vatType->value();
-           $vat = ( $cost / ( $value + 100  ) ) * $value;        
+           $shippingVAT = ( $shippingCost / ( $value + 100  ) ) * $value;
        }
-       print( "vat: $vat " );
-       
-       
-       return $cost;
+
+       return $shippingVAT;
     }
 
     /*!
