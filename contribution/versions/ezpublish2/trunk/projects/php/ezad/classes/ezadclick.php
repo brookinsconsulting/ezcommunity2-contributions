@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezadclick.php,v 1.8 2001/08/20 16:58:29 br Exp $
+// $Id: ezadclick.php,v 1.9 2001/08/22 18:02:03 br Exp $
 //
 // Definition of eZAdClick class
 //
@@ -131,7 +131,7 @@ class eZAdClick
 
         if ( isset( $this->ID ) )
         {
-            $res[] = $db->query( "DELETE FROM eZAd_Click WHERE ID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZAd_Click WHERE ID='$this->ID'" );
         }
 
         eZDB::finish( $res, $db );
