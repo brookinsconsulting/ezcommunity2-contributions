@@ -1,4 +1,4 @@
-<form method="post" href="{www_dir}{index}{link_list_url}{item_id}">
+<form method="post" action="{www_dir}{index}{link_list_url}{item_id}">
 
 <h1>{intl-head_line}</h1>
 <hr noshade="noshade" size="4" />
