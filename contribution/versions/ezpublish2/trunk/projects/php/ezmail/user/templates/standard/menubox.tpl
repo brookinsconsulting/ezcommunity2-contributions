@@ -27,7 +27,7 @@
 
 <tr>
 	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
-	<td width="99%">{intl-folders}</a></td>
+	<td width="99%"><a class="menu" href="/mail/folderlist">{intl-folders}</a></td>
 </tr>
 <!-- BEGIN mail_folder_tpl -->
 <tr>

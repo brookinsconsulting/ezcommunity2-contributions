@@ -56,6 +56,8 @@
     </select>
   <td>&nbsp;</td>
   <td><input class="stdbutton" type="submit" name="NewFolder" value="{intl-new_folder}" /></td>
+  <td>&nbsp;</td>
+  <td><input class="stdbutton" type="submit" name="Delete" value="{intl-delete}" /></td>
 </tr>
 </table>
 

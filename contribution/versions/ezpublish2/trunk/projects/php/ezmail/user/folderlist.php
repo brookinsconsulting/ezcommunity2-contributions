@@ -9,7 +9,7 @@ include_once( "ezmail/classes/ezmailaccount.php" );
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezmail/classes/ezmailfolder.php" );
 
-
+/** If user wants to move folders **/
 if( isset( $Move ) && count( $FolderArrayID ) > 0 && $FolderSelectID != -1)
 {
     foreach( $FolderArrayID as $folderID )
@@ -25,6 +25,14 @@ if( isset( $Move ) && count( $FolderArrayID ) > 0 && $FolderSelectID != -1)
     exit();
 }
 
+/** If user wants to delete folders **/
+if( isset( $Delete ) && count( $FolderArrayID ) > 0 )
+{
+    foreach( $FolderArrayID as $folderID )
+        eZMailFolder::delete( $folderID );
+}
+
+/** If user wants to create a folder **/
 if( isset( $NewFolder ) )
 {
     eZHTTPTool::header( "Location: /mail/folderedit/" );

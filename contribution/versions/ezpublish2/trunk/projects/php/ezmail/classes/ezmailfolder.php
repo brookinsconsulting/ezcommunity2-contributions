@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfolder.php,v 1.10 2001/03/28 15:44:54 fh Exp $
+// $Id: ezmailfolder.php,v 1.11 2001/03/28 16:31:27 fh Exp $
 //
 // eZMailFolder class
 //
@@ -82,17 +82,15 @@ class eZMailFolder
     */
     function delete( $id = -1 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
+        if( $id == -1 )
+            $id = $this->ID;
+        
+        $db->query( "DELETE FROM eZMail_Folder WHERE ID='$id'" );
 
-        if ( isset( $this->ID ) && $id == -1 )
-        {
-            $this->Database->query( "DELETE FROM eZMail_Folder WHERE ID='$this->ID'" );
-        }
-        else
-        {
-            $this->Database->query( "DELETE FROM eZMail_Folder WHERE ID='$id'" );
-        }
-        return true;
+        $mail = eZMailFolder::mail( "subject", 0, 10000, $id );
+        foreach( $mail as $mailItem )
+            $mailItem->delete();
     }
 
 /***************** Get / fetch from database *******************************/
@@ -411,20 +409,23 @@ class eZMailFolder
       subject, sender, date, subjectdec, senderdesc, datedesc.
       $offset and $limit sets how many mail to return in one bunch and where in the list to start.
      */
-    function &mail( $sortmode="subject", $offset=0, $limit=50 )
+    function &mail( $sortmode="subject", $offset=0, $limit=50, $folderID = -1 )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        
+        if( $folderID == -1 )
+            $folderID = $this->ID;
+
+        $db =& eZDB::globalDatabase();
         $query = "SELECT Mail.ID FROM eZMail_Mail AS Mail, eZMail_MailFolderLink AS Link
-                  WHERE Mail.ID=Link.MailID AND Link.FolderID='$this->ID'
+                  WHERE Mail.ID=Link.MailID AND Link.FolderID='$folderID'
                   ORDER BY Mail.UDate ASC
                   LIMIT $offset,$limit";
 
         $mail_array = array();
         $return_array = array();
-        $this->Database->array_query( $mail_array, $query );  
+        $db->array_query( $mail_array, $query );  
         for ( $i=0; $i < count($mail_array); $i++ )
         {
             $return_array[$i] = new eZMail( $mail_array[$i]["ID"] );

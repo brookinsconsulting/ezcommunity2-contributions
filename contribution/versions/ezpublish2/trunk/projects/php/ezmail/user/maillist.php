@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: maillist.php,v 1.13 2001/03/27 18:32:51 fh Exp $
+// $Id: maillist.php,v 1.14 2001/03/28 16:31:27 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <19-Mar-2000 20:25:22 fh>
@@ -64,6 +64,7 @@ $t->set_block( "mail_list_page_tpl", "mail_render_tpl", "mail_render" );
 $t->set_block( "mail_list_page_tpl", "folder_item_tpl", "folder_item" );
 $t->set_var( "mail_item", "" );
 $t->set_var( "mail_item_unread", "" );
+$t->set_var( "mail_render", "" );
 
 $folder = new eZMailFolder( $FolderID );
 $t->set_var( "current_folder_id", $FolderID );
