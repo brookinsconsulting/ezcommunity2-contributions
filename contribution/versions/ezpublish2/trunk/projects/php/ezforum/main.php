@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: main.php,v 1.20 2000/08/09 14:55:18 lw-cvs Exp $
+    $Id: main.php,v 1.21 2000/08/16 13:04:10 th-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -20,7 +20,7 @@ include_once( "$DOCROOT/classes/ezsession.php" );
 include_once( "$DOCROOT/classes/ezforummessage.php" );
 include_once( "$DOCROOT/classes/eztemplate.php" );
 
-echo "yo";
+echo "";
 $session = new eZSession();
 
 $ini = new INIFile( "ezforum.ini" ); // get language settings
