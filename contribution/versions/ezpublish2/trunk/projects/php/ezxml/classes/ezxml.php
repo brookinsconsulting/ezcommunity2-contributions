@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxml.php,v 1.26 2002/01/11 11:15:37 bf Exp $
+// $Id: ezxml.php,v 1.27 2002/01/11 18:58:09 kaid Exp $
 //
 // Definition of eZXML class
 //
@@ -243,6 +243,9 @@ class eZXML
             {
                 // content tag
                 $tagContent = substr( $xmlDoc, $endTagPos + 1, $pos - ( $endTagPos + 1 ) );
+
+				if ( !isset( $params["TrimWhiteSpace"] ) )
+					$params["TrimWhiteSpace"] = false;
 
                 if ( ( ( $params["TrimWhiteSpace"] == true ) and ( trim( $tagContent ) != "" ) ) or ( $params["TrimWhiteSpace"] == false ) )
                 {
