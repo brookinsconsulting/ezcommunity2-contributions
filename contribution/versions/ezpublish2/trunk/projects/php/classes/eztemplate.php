@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.29 2001/02/03 21:21:56 jb Exp $
+// $Id: eztemplate.php,v 1.30 2001/02/13 11:12:12 jb Exp $
 //
 // Definition of eZTemplate class
 //
@@ -415,14 +415,14 @@ class eZTemplate
       If $parent is an array each entry is extracted and set as a block,
       each entry is assumed to contain a parent, a handle and a name.
     */
-    function set_block($parent, $handle = "", $name = "")
+    function set_block($parent, $handle = "", $name = "", $required = true)
     {
         if ( !is_array( $parent ) )
         {
-//              print( "<br>\"$parent\", \"$handle\", \"$name\"<br>" );
             if (!$this->loadfile($parent))
             {
-                $this->halt("subst: unable to load $parent.");
+                if ( $required )
+                    $this->halt("subst: unable to load $parent.");
                 return false;
             }
             if ($name == "")
@@ -439,10 +439,10 @@ class eZTemplate
         {
             foreach( $parent as $block )
             {
-//                  print( "<br>#\"$block[0]\", \"$block[1]\", \"$block[2]\"<br>" );
                 $this->set_block( $block[0], $block[1], $block[2] );
             }
         }
+        return true;
     }
 
     /*!
