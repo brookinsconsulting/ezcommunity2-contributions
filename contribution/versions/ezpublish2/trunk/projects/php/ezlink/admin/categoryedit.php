@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categoryedit.php,v 1.3 2001/07/20 11:15:21 jakobn Exp $
+// $Id: categoryedit.php,v 1.4 2001/09/21 16:28:34 br Exp $
 //
 // Created on: <26-Oct-2000 14:57:28 ce>
 //
@@ -41,6 +41,8 @@ include_once( "ezlink/classes/ezhit.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "ezimagecatalogue/classes/ezimagecategory.php" );
 
+include_once( "ezsitemanager/classes/ezsection.php" );
+
 
 require( "ezuser/admin/admincheck.php" );
 
@@ -60,6 +62,7 @@ if ( ( isSet ( $AddImages ) ) and ( is_numeric( $LinkCategoryID ) ) and ( is_num
 }
 
 // Insert a category.
+
 if ( $Action == "insert" )
 {
     // clear the menu cache
@@ -81,6 +84,7 @@ if ( $Action == "insert" )
             
             $category->setName( $Name );
             $category->setDescription( $Description );
+            $category->setSectionID( $SectionID );
             $category->setParent( $ParentCategory );
             $ttile = "";
 
@@ -211,6 +215,7 @@ if ( $Action == "update" )
             $category->get ( $LinkCategoryID );
             $category->setName ( $Name );
             $category->setDescription( $Description );
+            $category->setDescription( $SectionID );
             $category->setParent( $ParentCategory );
 
             $file = new eZImageFile();
@@ -268,6 +273,7 @@ $t->set_file( array(
 $languageIni = new INIFIle( "ezlink/admin/intl/" . $Language . "/categoryedit.php.ini", false );
 $headline = $languageIni->read_var( "strings", "headline_insert" );
 
+$t->set_block( "category_edit", "section_item_tpl", "section_item" );
 $t->set_block( "category_edit", "parent_category_tpl", "parent_category" );
 $t->set_block( "category_edit", "image_item_tpl", "image_item" );
 $t->set_block( "category_edit", "no_image_item_tpl", "no_image_item" );
@@ -306,6 +312,7 @@ if ( $Action == "edit" )
         $linkCategory->get ( $LinkCategoryID );
 
         $parentID = $linkCategory->parent();
+        $sectionID = $linkCategory->sectionID();
         
         $t->set_var( "category_name", $linkCategory->name() );
         $t->set_var( "category_description", $linkCategory->description() );
@@ -343,7 +350,6 @@ if ( $Action == "edit" )
 
 }
 
-
 // Selecter
 $category_select_dict = "";
 foreach( $categoryLinkList as $categoryLinkItem )
@@ -374,6 +380,31 @@ foreach( $categoryLinkList as $categoryLinkItem )
 
     $t->parse( "parent_category", "parent_category_tpl", true );
 }
+
+
+// Get all sections
+
+$sectionList =& eZSection::getAll();
+
+if ( count( $sectionList ) > 0 )
+{
+    foreach ( $sectionList as $section )
+    {
+        $t->set_var( "section_id", $section->id() );
+        $t->set_var( "section_name", $section->name() );
+        
+        if ( $sectionID == $section->id() )
+            $t->set_var( "section_is_selected", "selected" );
+        else
+            $t->set_var( "section_is_selected", "" );
+        
+        $t->parse( "section_item", "section_item_tpl", true );
+    }
+}
+else
+    $t->set_var( "section_item", "" );
+
+
 
 $t->set_var( "headline", $headline );
 

@@ -23,13 +23,24 @@
 <p class="boxtext">{intl-name}:</p>
 <input type="text" class="box" name="Name" size="40" value="{category_name}">
 
-<p class="boxtext">{intl-where}:</p>
-<select name="ParentCategory">
-<option value="0">{intl-topcat}</option>
-<!-- BEGIN parent_category_tpl -->
-<option {is_selected} value="{categorylink_id}">{option_level}{categorylink_name}</option>
-<!-- END parent_category_tpl -->
-</select>
+<table with="100%" border="0">
+<tr>
+     <td><p class="boxtext">{intl-where}:</p>
+     <select name="ParentCategory">
+     <option value="0">{intl-topcat}</option>
+     <!-- BEGIN parent_category_tpl -->
+     <option {is_selected} value="{categorylink_id}">{option_level}{categorylink_name}</option>
+     <!-- END parent_category_tpl -->
+     </select></td>
+
+     <td><p class="boxtext">{intl-section_select}:</p>
+     <select name="SectionID">
+     <!-- BEGIN section_item_tpl -->
+     <option value="{section_id}" {section_is_selected}>{section_name}</option>
+     <!-- END section_item_tpl -->
+     </select></td>
+</tr>
+</table>
 
 <p class="boxtext">{intl-description}:</p>
 <textarea cols="40" class="box" rows="4" name="Description">{category_description}</textarea>
