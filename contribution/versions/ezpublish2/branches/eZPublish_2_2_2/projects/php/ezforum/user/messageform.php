@@ -1,0 +1,288 @@
+<?php
+// 
+// $Id: messageform.php,v 1.16.2.2 2001/11/01 11:25:46 jhe Exp $
+//
+// Created on: <21-Feb-2001 18:00:00 pkej>
+//
+// This source file is part of eZ publish, publishing software.
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
+//
+
+include_once( "classes/ezlocale.php" );
+$AllowHTML = $ini->read_var( "eZForumMain", "AllowHTML" );
+$author = eZUser::currentUser();
+
+if ( $ShowMessageForm )
+{
+    if ( $ShowVisibleMessageForm )
+    {
+        $t->set_file( "form", "messageform.tpl"  );
+        $t->set_block( "form", "author_field_tpl", "author_field" );
+        $t->set_block( "author_field_tpl", "author_logged_in_tpl", "author_logged_in" );
+        $t->set_block( "author_field_tpl", "author_not_logged_in_tpl", "author_not_logged_in" );
+        
+        $t->set_block( "form", "message_body_info_tpl", "message_body_info_item" );
+        $t->set_block( "form", "message_reply_info_tpl", "message_reply_info_item" );
+        $t->set_block( "form", "message_notice_checkbox_tpl", "message_notice_checkbox" );
+        $t->set_var( "message_body_info_item", "" );
+        $t->set_var( "message_reply_info_item", "" );
+        $t->set_var( "message_notice_checkbox", "" );
+        
+        $t->set_var( "headline", $t->Ini->read_var( "strings", $Action . "_headline" ) );
+    }
+    
+    if ( $ShowHiddenMessageForm )
+    {
+        $t->set_file( "hidden_form", "messagehiddenform.tpl" );
+    }
+
+    if ( $BodyInfo )
+    {
+        $t->parse( "message_body_info_item", "message_body_info_tpl" );
+    }
+
+    if ( $ShowVisibleMessageForm && get_class( eZUser::currentUser() ) == "ezuser" )
+    {
+        $t->parse( "message_notice_checkbox", "message_notice_checkbox_tpl" );
+    }
+
+    if ( $ReplyInfo )
+    {
+        $t->parse( "message_reply_info_item", "message_reply_info_tpl" );
+    }
+    
+    if ( $Error )
+    {
+        $t->set_block( "errors_tpl", "error_missing_body_item_tpl", "error_missing_body_item" );
+        $t->set_block( "errors_tpl", "error_missing_topic_item_tpl", "error_missing_topic_item" );
+        
+        if ( empty( $NewMessageTopic ) )
+        {
+            $t->parse( "error_missing_topic_item", "error_missing_topic_item_tpl" );
+        }
+        else
+        {
+            $t->set_var( "error_missing_topic_item", "" );
+        }
+
+        if ( empty( $NewMessageBody ) )
+        {
+            $t->parse( "error_missing_body_item", "error_missing_body_item_tpl" );
+        }
+        else
+        {
+            $t->set_var( "error_missing_body_item", "" );
+        }
+        
+        $t->parse( "errors_item", "errors_tpl" );
+    }
+
+    if ( !$ShowEmptyMessageForm )
+    {
+        if ( !is_object( $msg ) )
+        {
+            $msg = new eZForumMessage( $MessageID );
+        }
+        
+        if ( isSet( $NewMessageTopic ) )
+        {
+            $MessageTopic = $NewMessageTopic;
+        }
+        else
+        {
+            $MessageTopic = $msg->topic();
+        }
+        
+        if ( isSet( $NewMessageBody ) )
+        {
+            $MessageBody = $NewMessageBody;
+        }
+        else
+        {
+            if ( $AllowHTML == "enabled" )
+            {
+                $MessageBody = $msg->body( true );
+            }
+            else
+            {
+                $MessageBody = $msg->body( false );
+            }
+        }
+
+        $MessageNotice = $msg->emailNotice();
+        $ForumID = $msg->forumId();
+        
+        if ( isSet( $NewMessageAuthor ) )
+        {
+            $MessageAuthor = $NewMessageAuthor;
+        }
+        else
+        {
+            if ( !is_object( $author ) )
+            {
+                $author = new eZUser( $msg->userId() );
+            }
+        }
+        
+        if ( isSet( $NewMessagePostedAt ) )
+        {
+            $MessagePostedAt = $NewMessagePostedAt;
+        }
+        else
+        {
+            $MessagePostedAt = $Locale->format( $msg->postingTime() );
+        }
+        
+        if ( isSet( $NewMessageNotice ) )
+        {
+            $MessageNotice = $NewMessageNotice;
+        }
+    }
+    else
+    {
+        if ( isSet( $NewMessageAuthor ) )
+        {
+            $MessageAuthor = $NewMessageAuthor;
+        }
+        else
+        {
+            if ( !is_object( $author ) )
+            {
+                $author = eZUser::currentUser();
+            }
+        }
+
+        if ( isSet( $NewMessagePostedAt ) )
+        {
+            $MessagePostedAt = $NewMessagePostedAt;
+        }
+        else
+        {
+            $MessagePostedAt = $locale->format( $msg->postingTime() );
+        }
+    }
+
+    if ( is_object( $author ) && $author->id() > 0 )
+    {
+        $MessageAuthor = $author->firstName() . " " . $author->lastName();
+    }
+    else
+    {
+        $MessageAuthor = $ini->read_var( "eZForumMain", "AnonymousPoster" );
+    }
+    
+    switch ( $MessageNotice )
+    {
+        case "on":
+        case "y":
+        case "checked":
+        case 1:
+        case true:
+        {
+            $MessageNoticeText = $t->Ini->read_var( "strings", "notice_yes" );
+            $MessageNotice = "checked";
+            $NewMessageNotice = "checked";
+        }
+        break;
+        
+        case "off":
+        case "n":
+        case "unchecked":
+        case 0:
+        case false:
+        {
+            $MessageNoticeText = $t->Ini->read_var( "strings", "notice_no" );
+            $MessageNotice = "";
+            $NewMessageNotice = "";
+        }
+        break;
+    }
+    $quote = chr( 34 );
+    $MessageTopic = ereg_replace( $quote, "&#034;", $MessageTopic ); 
+    $MessageBody = ereg_replace( $quote, "&#034;", $MessageBody );
+    
+    include_once( "classes/eztexttool.php" );
+
+    $t->set_var( "message_topic", $MessageTopic );
+    $t->set_var( "new_message_topic", $MessageTopic );
+    $t->set_var( "message_body", $MessageBody );
+    $t->set_var( "new_message_body", $MessageBody );
+    $t->set_var( "message_posted_at", $MessagePostedAt );
+    $t->set_var( "message_author", $MessageAuthor );
+    $t->set_var( "message_id", $MessageID );
+    $t->set_var( "message_notice_text", $MessageNoticeText );
+    $t->set_var( "message_notice", $MessageNotice );
+    $t->set_var( "new_message_notice", $NewMessageNotice );
+
+    $t->set_var( "reply_to_id", $ReplyToID );
+    $t->set_var( "preview_id", $PreviewID );
+    $t->set_var( "original_id", $OriginalID );
+
+    $t->set_var( "forum_id", $ForumID );
+
+    $t->set_var( "redirect_url", $RedirectURL );      
+    $t->set_var( "end_action", $EndAction );      
+    $t->set_var( "start_action", $StartAction );      
+    $t->set_var( "action_value", $ActionValue );
+    
+    $AllowedTags = $ini->read_var( "eZForumMain", "AllowedTags" );
+    $t->set_var( "allowed_tags", htmlspecialchars( $AllowedTags ) );      
+
+    if ( $ShowVisibleMessageForm )
+    {
+        if ( is_object( $author ) && $author->id() > 0 )
+        {
+            $t->parse( "author_field", "author_logged_in_tpl" );
+        }
+        else
+        {
+            $t->parse( "author_field", "author_not_logged_in_tpl" );
+        }
+    }
+    
+    if ( $ShowHiddenMessageForm )
+    {
+        if ( $doPrint )
+        {
+            $t->pparse( "message_hidden_form_file", "hidden_form" );
+        }
+        else
+        {
+            $t->parse( "message_hidden_form_file", "hidden_form" );
+        }
+    }
+    
+    if ( $ShowVisibleMessageForm )
+    {
+        if ( $doPrint )
+        {
+            $t->pparse( "message_form_file", "form" );
+        }
+        else
+        {
+            $t->parse( "message_form_file", "form" );
+        }
+    }
+}
+else
+{
+    $t->parse( "message_form_file", "" );
+    $t->parse( "message_hidden_form_file", "" );
+}
+
+?>
