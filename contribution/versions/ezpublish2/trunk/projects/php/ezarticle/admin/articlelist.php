@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.15 2001/02/04 16:45:16 bf Exp $
+// $Id: articlelist.php,v 1.16 2001/02/14 13:21:20 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -33,7 +33,9 @@ include_once( "ezarticle/classes/ezarticle.php" );
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
+$Locale = new eZLocale( $Language );
 $AdminListLimit = $ini->read_var( "eZArticleMain", "AdminListLimit" );
+$languageIni = new INIFIle( "ezarticle/admin/intl/" . $Language . "/articlelist.php.ini", false );
 
 $t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
                      "ezarticle/admin/intl/", $Language, "articlelist.php" );
@@ -87,8 +89,11 @@ if ( $category->sortMode() == "absolute_placement" )
     }
 }
 
+if ( $category->name() == "" )
+    $t->set_var( "current_category_name", $languageIni->read_var( "strings", "topcategory" ) );
+else
+    $t->set_var( "current_category_name", $category->name() );
 $t->set_var( "current_category_id", $category->id() );
-$t->set_var( "current_category_name", $category->name() );
 $t->set_var( "current_category_description", $category->description() );
 
 // path
@@ -117,7 +122,6 @@ foreach ( $categoryList as $categoryItem )
     $t->set_var( "category_name", $categoryItem->name() );
 
     $parent = $categoryItem->parent();
-    
 
     if ( ( $i % 2 ) == 0 )
     {
@@ -151,7 +155,6 @@ if ( !isset( $Limit ) )
 $articleList =& $category->articles( $category->sortMode(), true, true, $Offset, $Limit );
 $articleCount = $category->articleCount( true, true );
 
-$locale = new eZLocale( $Language );
 $i=0;
 $t->set_var( "article_list", "" );
 
