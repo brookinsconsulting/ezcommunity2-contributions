@@ -420,10 +420,11 @@ ALTER TABLE eZForum_Message  MODIFY  IsApproved int(1) DEFAULT '1' NOT NULL;
 # eZForum_Message uses y and n instead of 0 and 1. These fixes that:
 SELECT ID, EmailNotice from eZForum_Message;
 
-UPDATE eZForum_Message SET EmailNotice='N' WHERE EmailNotice = "";  
+UPDATE eZForum_Message SET EmailNotice='N', PostingTime=PostingTime WHERE EmailNotice = "";  
 ALTER TABLE eZForum_Message  MODIFY  EmailNotice int(1) DEFAULT '0' NOT NULL; 
-UPDATE eZForum_Message SET EmailNotice='0' WHERE EmailNotice = "1";   
-UPDATE eZForum_Message SET EmailNotice='1' WHERE EmailNotice = "2";
+UPDATE eZForum_Message SET EmailNotice='0', PostingTime=PostingTime  WHERE EmailNotice = "1";   
+UPDATE eZForum_Message SET EmailNotice='1', PostingTime=PostingTime  WHERE EmailNotice = "2";
+
 
 # eZForum_Category uses y and n instead of 0 and 1. These fixes that:
 select ID, Private from eZForum_Category;
@@ -450,7 +451,7 @@ ALTER TABLE eZArticle_Category ADD OwnerGroupID int(11) DEFAULT NULL;
 ALTER TABLE eZArticle_Article ADD OwnerGroupID int(11) DEFAULT NULL;
 ALTER TABLE eZArticle_Category ADD ReadPermission int(1) DEFAULT '0';
 ALTER TABLE eZArticle_Article ADD ReadPermission int(1) DEFAULT '0';
-UPDATE eZArticle_Article SET ReadPermission='2';
+UPDATE eZArticle_Article SET ReadPermission='2', Published=Published, Created=Created, Modified=Modified ;
 UPDATE eZArticle_Category SET ReadPermission='2';
 
 CREATE TABLE eZArticle_CategoryReaderLink (
