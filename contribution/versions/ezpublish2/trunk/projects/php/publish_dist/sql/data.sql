@@ -783,28 +783,13 @@ INSERT INTO eZPoll_Vote VALUES (1,1,1,'10.0.2.3',1);
 # Dumping data for table 'eZSession_Preferences'
 #
 
-INSERT INTO eZSession_Preferences VALUES (1,1,'EnabledModules','eZForum');
-INSERT INTO eZSession_Preferences VALUES (2,1,'SingleModule','enabled');
-INSERT INTO eZSession_Preferences VALUES (3,1,'ModuleTab','enabled');
-INSERT INTO eZSession_Preferences VALUES (4,1,'ezarticle_status','open');
-INSERT INTO eZSession_Preferences VALUES (5,1,'eztrade_status','open');
-INSERT INTO eZSession_Preferences VALUES (6,1,'ezcontact_status','open');
-INSERT INTO eZSession_Preferences VALUES (7,1,'ezforum_status','open');
-
 #
 # Dumping data for table 'eZSession_Session'
 #
 
-INSERT INTO eZSession_Session VALUES (1,'d826975c8aba769e9ea0f5fb44fa215d',20010420172243,20010420172321,20010420172243);
-INSERT INTO eZSession_Session VALUES (2,'229b163a50337e5a77b9e44bd99bbda0',20010420172258,20010420172318,20010420172318);
-
 #
 # Dumping data for table 'eZSession_SessionVariable'
 #
-
-INSERT INTO eZSession_SessionVariable VALUES (1,1,'SessionIP','10.0.2.3');
-INSERT INTO eZSession_SessionVariable VALUES (2,2,'SessionIP','10.0.2.3');
-INSERT INTO eZSession_SessionVariable VALUES (3,2,'AuthenticatedUser','1');
 
 #
 # Dumping data for table 'eZStats_BrowserType'
