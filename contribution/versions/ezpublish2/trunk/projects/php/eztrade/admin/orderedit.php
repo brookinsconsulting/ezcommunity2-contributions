@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderedit.php,v 1.11 2001/01/18 18:52:43 bf Exp $
+// $Id: orderedit.php,v 1.12 2001/02/08 13:40:58 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Sep-2000 13:03:13 bf>
@@ -44,6 +44,7 @@ $languageINI = new INIFIle( "eztrade/admin/intl/" . $Language . "/orderedit.php.
 include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezorder.php" );
+include_once( "eztrade/classes/ezcheckout.php" );
 
 include_once( "eztrade/classes/ezorderstatustype.php" );
 
@@ -244,30 +245,13 @@ $t->set_var( "visa", "" );
 $t->set_var( "mastercard", "" );
 $t->set_var( "cod", "" );
 $t->set_var( "invoice", "" );
-switch ( $order->paymentMethod() )
-{
-    case "1" :
-    {// VISA
-        $t->parse( "visa", "visa_tpl" );        
-    }
-    break;
-    case "2" :
-    {// Mastercard
-        $t->parse( "mastercard", "mastercard_tpl" );
-    }
-    break;
-    case "3" :
-    {// Cash on delivery
-        $t->parse( "cod", "cod_tpl" );
-    }
-    break;
-    case "4" :
-    {// Invoice
-        $t->parse( "invoice", "invoice_tpl" );
-    }
-    break;
-}
 
+
+$checkout = new eZCheckout();
+$instance =& $checkout->instance();
+$paymentMethod = $instance->paymentName( $order->paymentMethod() );
+
+$t->set_var( "payment_method", $paymentMethod );
 
 $t->set_var( "order_id", $order->id() );
 

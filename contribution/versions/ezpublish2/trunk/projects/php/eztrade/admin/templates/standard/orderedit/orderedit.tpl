@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.13 2001/02/01 12:05:03 th Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.14 2001/02/08 13:40:58 ce Exp $ -->
 
 <h1>{intl-head_line}</h1>
 
@@ -37,21 +37,7 @@
 
 <h2>{intl-payment_method}</h2>
 <div class="p">
-<!-- BEGIN visa_tpl -->
-{intl-visa_text}
-<!-- END visa_tpl -->
-
-<!-- BEGIN mastercard_tpl -->
-{intl-mastercard_text}
-<!-- END mastercard_tpl -->
-
-<!-- BEGIN cod_tpl -->
-{intl-cod_text}
-<!-- END cod_tpl -->
-
-<!-- BEGIN invoice_tpl -->
-{intl-invoice_text}
-<!-- END invoice_tpl -->
+{intl-payment_by} {payment_method}
 </div>
 
 <h2>{intl-productlist}</h2>
