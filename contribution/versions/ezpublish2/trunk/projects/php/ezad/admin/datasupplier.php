@@ -33,21 +33,19 @@ switch ( $url_array[2] )
         if ( $url_array[3] == "edit" )
         {
             $Action = "Edit";
-            $AdID = $url_array[4];
         }
 
-        if ( $url_array[3] == "Update" )
+        if ( $url_array[3] == "update" )
         {
             $Action = "Update";
-            $AdID = $url_array[4];
         }
 
         if ( $url_array[3] == "delete" )
         {
             $Action = "Delete";
-            $AdID = $url_array[4];
         }
         
+        $AdID = $url_array[4];
         include( "ezad/admin/adedit.php" );
     }
     break;
@@ -67,10 +65,9 @@ switch ( $url_array[2] )
         if ( $url_array[3] == "edit" )
         {
             $Action = "Edit";
-            $CategoryID = $url_array[4];
         }
 
-        if ( $url_array[3] == "Update" )
+        if ( $url_array[3] == "update" )
         {
             $Action = "Update";
             $CategoryID = $url_array[4];
@@ -79,9 +76,9 @@ switch ( $url_array[2] )
         if ( $url_array[3] == "delete" )
         {
             $Action = "Delete";
-            $CategoryID = $url_array[4];
         }
         
+        $CategoryID = $url_array[4];
         include( "ezad/admin/categoryedit.php" );
     }
     break;
