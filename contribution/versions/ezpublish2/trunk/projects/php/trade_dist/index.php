@@ -15,6 +15,7 @@ ob_start();
 
 include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
+$GlobalSiteIni =& $ini;
 
 // parse the URI
 $meta_page = "";

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.14 2000/12/01 10:01:46 bf-cvs Exp $
+// $Id: ezdb.php,v 1.15 2000/12/13 00:15:15 bf Exp $
 //
 // Definition of eZDB class
 //
@@ -51,14 +51,7 @@ class eZDB
     */
     function eZDB( $iniFile, $category )
     {
-        include_once( "classes/INIFile.php" );
-        
-//          $ini =& $GLOBALS["ini"];
-        
-//          if ( get_class( $ini ) != "inifile" )
-//          {
-            $ini = new INIFile( "site.ini" );
-//          }
+        $ini =& $GLOBALS["GlobalSiteIni"];
         
         $this->Server =& $ini->read_var( "site", "Server" );
         $this->DB =& $ini->read_var( "site", "Database" );

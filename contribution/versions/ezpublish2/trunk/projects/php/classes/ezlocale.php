@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.12 2000/11/29 17:59:28 bf-cvs Exp $
+// $Id: ezlocale.php,v 1.13 2000/12/13 00:15:15 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -102,8 +102,9 @@ class eZLocale
     */
     function eZLocale( $iso="" )
     {
-        $ini = new INIFile( "site.ini", false );
-//          $SERVER_ROOT = $ini->read_var( "site", "ServerRoot" );
+        $ini =& $GLOBALS["GlobalSiteIni"];
+
+//          $ini = new INIFile( "site.ini", false );
         
         if ( file_exists( "classes/locale/" . $iso . ".ini" ) )
         {
