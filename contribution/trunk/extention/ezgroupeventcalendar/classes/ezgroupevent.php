@@ -79,7 +79,7 @@ class eZGroupEvent
 
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZGroupEventCalendar_Event SET
+	  $this->Database->query( "INSERT INTO eZGroupEventCalendar_Event SET
                              Name='$Name',
                              Description='$Description',
                              Date='$this->Date',
@@ -1033,6 +1033,65 @@ class eZGroupEvent
         }
     }
 
+    /*!
+      Public function.
+      Email Notice to all Members of an Group the Event is Acociated with (including all) 
+    */
+    function notification()
+      {
+	/*
+        if ( $this->IsConnected == false )
+	  {
+            $this->Database = eZDB::globalDatabase();
+            $this->IsConnected = true;
+	  }
+        */
+
+
+	$db =& eZDB::globalDatabase();
+	$event_array =& new eZGroupEvent();
+	
+	$current_date = new eZDate();
+	$current_date_stamp = $current_date->timeStamp();
+
+	print( $current_date_stamp ."\n" ); $future_date = new eZDate();
+	$future_date->move(0,0,-7);
+	$future_date_stamp = $future_date->timeStamp();
+
+	print( $future_date_stamp ."\n");
+
+	$date_gt = $future_date->isGreater($current_date);
+	// $date_gt = $current_date->isGreater($future_date);
+	$date_gt = count(event_array);
+	print($date_gt."\n");
+
+	// if ($future_date_stamp < $current_date_stamp ) {
+
+	if (  $future_date->isGreater($current_date) ) {
+	  print("Future Date is Greateer Then Current Date <br />");
+	} else {
+	  print("Future Date is not Greater Then Current Date <br />");
+	}
+
+	$eventResponceDateMysql = $future_date_stamp;
+	// $eventResponceDateMysql = "bob";
+
+	//      $date = new eZDate( 2000, 9, 2 );
+	//       $eventResponceDeadline = $event->responceDueDate(true);
+
+	// responce due date & printable
+	//        $eventResponceDeadline = $event->responceDueDate();
+	//
+
+	//         $eventResponceDeadlineStamp = $eventResponceDeadline->timeStamp();
+
+	//        $eventResponceDateMysql = $db->escapeString( $current_date_stamp );
+	//   $eventResponceDateCheck = $db->escapeString( $eventResponseDueDate );
+
+	// the rest of the script is bogus!
+	return false;
+
+      }
 
     /*!
       Returns every file to a event as an array of eZFile objects.
