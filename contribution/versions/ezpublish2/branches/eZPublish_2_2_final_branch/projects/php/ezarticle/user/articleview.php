@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.84.2.13 2002/08/23 14:41:17 bf Exp $
+// $Id: articleview.php,v 1.84.2.14 2002/11/22 11:15:06 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -145,6 +145,11 @@ $t->set_block( "type_item_tpl", "attribute_item_tpl", "attribute_item" );
 // read user override variables for image size
 $ListImageWidth = $ini->read_var( "eZArticleMain", "ListImageWidth" );
 $ListImageHeight = $ini->read_var( "eZArticleMain", "ListImageHeight" );
+
+// Make the manual keywords available in the articleview template
+$ManualKeywords =& $article->manualKeywords();
+$t->set_var( "article_keywords", $ManualKeywords );
+
 
 $listImageWidthOverride =& $t->get_user_variable( "article_view_page_tpl",  "ListImageWidth" );
 if ( $listImageWidthOverride )
@@ -583,6 +588,7 @@ if ( isset( $GenerateStaticPage ) && $GenerateStaticPage == "true" )
 
     // add PHP code in the cache file to store variables
     $output = "<?php\n";
+    $output .= "\$ManualKeywords=\"$ManualKeywords\";\n";
     $output .= "\$GlobalSectionID=\"$GlobalSectionID\";\n";
     $output .= "\$SiteTitleAppend=\"$SiteTitleAppend\";\n";
     $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";
@@ -604,7 +610,5 @@ else
 {
     $t->pparse( "output", "article_view_page_tpl" );
 }
-
-
 
 ?>
