@@ -856,7 +856,6 @@ alter table eZAd_View change DateTmp Date int;
 
 alter table eZAd_View add ViewOffsetCount int;
 
-alter table eZTrade_Product add ExpiryTime int;             
 alter table eZTrade_OrderItem add ExpiryDate int;             
 
 #
