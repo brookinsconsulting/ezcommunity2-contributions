@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sqlquery.php,v 1.5 2001/10/09 07:43:14 bf Exp $
+// $Id: sqlquery.php,v 1.6 2001/10/11 11:39:51 bf Exp $
 //
 // Created on: <26-Sep-2001 19:23:56 bf>
 //
@@ -86,7 +86,20 @@ if ( ! $QueryText )
 }
 else
 {
-    $db->array_query( $return_array, $QueryText );
+    $QueryText = trim( $QueryText );
+    $QueryArray = explode( " ", $QueryText );
+
+    if ( $QueryArray[0] == "insert" ||
+         $QueryArray[0] == "update" ||
+         $QueryArray[0] == "create" ||
+    $QueryArray[0] == "alter" )
+    {
+        $db->query( $QueryText );
+    }
+    else
+    {
+        $db->array_query( $return_array, $QueryText );
+    }
 
     if ( $return_array )
     {
