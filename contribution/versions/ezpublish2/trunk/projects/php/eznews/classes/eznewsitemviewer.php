@@ -244,6 +244,8 @@ class eZNewsItemViewer
     
     function doAdminEdit( &$itemNo )
     {
+        include_once( "eznews/admin/eznewsitem/eznewsitemcreator.php" );
+        $item = new eZNewsItemCreator( $this->Ini, $this->ItemQuery, $itemNo );
     }
     
     

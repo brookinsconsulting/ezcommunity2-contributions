@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.25 2000/10/10 16:21:54 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.26 2000/10/10 19:19:38 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -1969,6 +1969,20 @@ class eZNewsItem extends eZNewsUtility
         return $value;
     }
     
+
+
+    /*!
+        Returns the object isCanonical.
+        
+        \return
+            Returns the isCanonical of the object.
+    */
+    function getIsCanonical()
+    {
+        $this->dirtyUpdate();
+        return $this->isCanonical;
+    }
+
 
 
     /*!
