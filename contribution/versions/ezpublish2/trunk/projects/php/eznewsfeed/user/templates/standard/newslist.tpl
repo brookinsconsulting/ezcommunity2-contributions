@@ -6,7 +6,7 @@
 <!-- BEGIN news_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<td colspan="2">
+	<td>
 	<a href="{first_news_url}">
 	<div class="h1">{first_news_name}</div>
 	</a>
@@ -15,8 +15,14 @@
 	<img src="/images/path-arrow.gif" height="10" width="15" border="0" alt=""><a class="path" href="{first_news_url}">{intl-read_more}</a>
 	</td>
 </tr>
+</table>
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td class="tdmini" colspan="2" align="center">
+	<td class="mini"><img src="/images/1x1.gif" height="4" width="1" border="0" alt=""><br /></td>
+</tr>
+<tr>
+	<td class="tdmini" align="center">
 
 	<!-- Reklamebanner herfra! -->
 
@@ -26,6 +32,9 @@
 
 	</td>
 </tr>
+</table>
+
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
 <!-- BEGIN news_item_tpl -->
 {starttr}
 	<td valign="top" width="50%">
