@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.9 2001/05/02 10:22:53 fh Exp $
+// $Id: categorylist.php,v 1.10 2001/05/02 10:57:10 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <18-Apr-2001 10:26:26 fh>
@@ -134,7 +134,7 @@ if( is_numeric( $CategoryID ) && $CategoryID > 0 )
     $category = new eZBulkMailCategory( $CategoryID );
     $t->set_var( "current_category_name", $category->name() );
     $t->set_var( "current_category_id", $category->id() );
-    $mail = $category->mail($Offset, 10);
+    $mail = $category->mail($Offset, 20);
     $mailCount = $category->mailCount();
     $i = 0;
     foreach( $mail as $mailItem )
