@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmailsubscriptionaddress.php,v 1.1 2001/04/17 11:46:46 fh Exp $
+// $Id: ezbulkmailsubscriptionaddress.php,v 1.2 2001/04/17 12:30:12 fh Exp $
 //
 // eZBulkMailSubscriptionAddress class
 //
@@ -70,7 +70,7 @@ class eZBulkMailSubscriptionAddress
         }
         else
         {
-            $this->Database->query( "UPDATE eZBulkMail_Mail SET
+            $this->Database->query( "UPDATE eZBulkMail_SubscriptionAddress SET
                                  EMail='$this->EMail'
                                  WHERE ID='$this->ID'" );
         }
