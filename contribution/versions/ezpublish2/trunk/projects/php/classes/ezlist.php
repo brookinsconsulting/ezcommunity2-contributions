@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlist.php,v 1.3 2001/02/09 11:43:21 jb Exp $
+// $Id: ezlist.php,v 1.4 2001/02/09 15:31:09 jb Exp $
 //
 // Definition of eZList class
 //
@@ -150,20 +150,24 @@ class eZList
             }
 
             $total = $total_types;
+            $page = ($index / ($max_types * 10));
+            settype( $page, "integer" );
             $i = 1;
-            while ( $total > 0 && $i <= 100 )
+            while ( $total > 0 && $i <= 50 )
             {
                 $cur_i = $i;
                 $t->set_var( $item, "" );
                 $t->set_var( $item_inactive, "" );
-                if ( $i <= 10 )
+                $cur_page = (($i-1) / (10));
+                settype( $cur_page, "integer" );
+                if ( $cur_page == $page )
                 {
                     $t->set_var( $item_index, ($i - 1)*$max_types );
                     $t->set_var( $item_name, $i );
                     $i++;
                     $total = $total - $max_types;
                 }
-                else if ( $i <= 50 )
+                else
                 {
                     $i_start = $i;
                     $i_end = $i + 9;
@@ -176,20 +180,6 @@ class eZList
                         $t->set_var( $item_name, $i_start );
                     $i += 10;
                     $total = $total - $max_types*10;
-                }
-                else
-                {
-                    $i_start = $i;
-                    $i_end = $i + 49;
-                    if ( $i_end > $total_types )
-                        $i_end = $total_types;
-                    $t->set_var( $item_index, ($i - 1)*$max_types );
-                    if ( $i_start != $i_end )
-                        $t->set_var( $item_name, $i_start . "-" . $i_end );
-                    else
-                        $t->set_var( $item_name, $i_start );
-                    $i += 50;
-                    $total = $total - $max_types*50;
                 }
                 if ( ($cur_i - 1)*$max_types == $index )
                 {
