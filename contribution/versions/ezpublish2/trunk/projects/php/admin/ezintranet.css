@@ -156,6 +156,11 @@ td
 	background-repeat: no-repeat;
 }
 
+.tdmini
+{
+	font-size: 1px;
+}
+
 .repeatx
 {
 	background-repeat: repeat-x;
