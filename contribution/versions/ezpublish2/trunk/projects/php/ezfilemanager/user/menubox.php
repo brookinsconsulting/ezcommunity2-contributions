@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.6 2001/03/08 19:00:41 jb Exp $
+// $Id: menubox.php,v 1.7 2001/03/08 19:28:02 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <16-Jan-2001 13:23:02 ce>
@@ -34,6 +34,7 @@ $Language = $ini->read_var( "eZFileManagerMain", "Language" );
     
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdb.php" );
+include_once( "ezuser/classes/ezpermission.php" );
 
 $t = new eZTemplate( "ezfilemanager/user/" . $ini->read_var( "eZFileManagerMain", "TemplateDir" ),
                      "ezfilemanager/user/intl", $Language, "menubox.php" );
