@@ -34,10 +34,8 @@ Postnummer:<br>
 Kommentar:<br>
 <textarea rows="5" name="Comment">{comment}</textarea><br>
 
-
-<input type="hidden" name="Insert" value="TRUE">
-
-<input type="hidden" name="EditMode" value="{edit_mode}">
+<input type="hidden" name="Action" value="{action_value}">
+<input type="hidden" name="PID" value="{person_id}">
 <input type="submit" value="{submit_text}">
 
 </form>

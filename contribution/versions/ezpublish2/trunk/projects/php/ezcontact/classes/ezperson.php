@@ -38,7 +38,16 @@ class eZPerson
     */  
     function update()
     {
-        $this->dbInit();    
+        $this->dbInit();
+        query( "UPDATE Person set
+    FirstName='$this->FirstName',
+	LastName='$this->LastName',
+	Owner='$this->Owner',
+	Comment='$this->Comment',
+	PersonNr='$this->PersonNr',
+	Company='$this->Company',
+	ContactType='$this->ContactType' WHERE ID='$this->ID'" );
+        
     }
 
     /*

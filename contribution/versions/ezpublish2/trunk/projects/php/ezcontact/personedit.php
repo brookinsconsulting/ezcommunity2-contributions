@@ -13,12 +13,11 @@ require $DOCUMENTROOT . "classes/ezuser.php";
 require $DOCUMENTROOT . "classes/ezpersonphonedict.php";
 require $DOCUMENTROOT . "classes/ezpersonaddressdict.php";
 
-
-
 // Oppdatere informasjon
 if ( $Action == "update" )
 {
     $updatePerson = new eZPerson();
+    $updatePerson->get( $PID );
     $updatePerson->setFirstName( $FirstName );
     $updatePerson->setLastName( $LastName );
     $updatePerson->setContactType( $PersonType );
@@ -26,7 +25,6 @@ if ( $Action == "update" )
     $updatePerson->setComment( $Comment );
     $updatePerson->update();
 }
-
 
 // Legge til kontakt person
 if ( $Action == "insert" )
@@ -59,9 +57,6 @@ if ( $Action == "insert" )
   $link->setAddressID( $aid );
   $link->store();
 
-  $message = "Legg til ny kontakt person informasjon";
-  $submit_text = "Legg til";
-  $action_value = "insert";
 }
 
 // sjekke session
@@ -77,6 +72,10 @@ $t->set_file( array(
                     "address_type_select" => $DOCUMENTROOT . "templates/addresstypeselect.tpl"
                     ) );
 
+$message = "Legg til ny kontakt person informasjon";
+$submit_text = "Legg til";
+$action_value = "insert";
+
 $person = new eZPerson();
 $personType = new eZPersonType();
 $company = new eZCompany();
@@ -89,7 +88,6 @@ $address_type_array = $addressType->getAll( );
 // Editere kontakt person
 if ( $Action == "edit" )
 {
-    print ( "banan" );
     $editPerson = new eZPerson();
     $editPerson->get( $PID );
     
@@ -99,11 +97,10 @@ if ( $Action == "edit" )
     $Company = $editPerson->company();
     $Comment = $editPerson->comment();
 
-    print ( "eple" );
-
     $message = "Rediger kontakt person informasjon";
-    $submit_text = "Endre informasjon";
+    $submit_text = "Endre informasjon";    
     $action_value = "update";
+    $person_id = $PID;
 }
 
 
@@ -164,7 +161,6 @@ for ( $i=0; $i<count( $address_type_array ); $i++ )
   $t->parse( "address_type", "address_type_select", true );
 }
 
-
 $t->set_var( "comment", $Comment );
 
 $t->set_var( "street_1", $Street1 );
@@ -177,6 +173,7 @@ $t->set_var( "action_value", $action_value );
 $t->set_var( "message", $message );
 
 $t->set_var( "document_root", $DOCUMENTROOT );
+$t->set_var( "person_id", $PID );
 
 $t->pparse( "output", "person_edit"  );
 ?>
