@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.20 2001/03/14 10:41:49 pkej Exp $
+// $Id: payment.php,v 1.20.2.1 2001/03/16 15:34:01 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -189,7 +189,7 @@ if ( $PaymentSuccess == "true" )
     $instance =& $checkout->instance();
     $paymentMethod = $instance->paymentName( $order->paymentMethod() );
 
-    $t->set_var( "payment_method", $paymentMethod );
+    $mailTemplate->set_var( "payment_method", $paymentMethod );
     
     
     // print out the addresses
