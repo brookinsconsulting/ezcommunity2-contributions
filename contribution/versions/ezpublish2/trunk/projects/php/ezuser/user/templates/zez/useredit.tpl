@@ -24,7 +24,7 @@
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td>
+	<td width="50%">
 	<p class="boxtext">{intl-firstname}:</p>
 	<input type="text" size="20" name="FirstName" value="{first_name_value}"/>
 	</td>
@@ -46,7 +46,7 @@
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td>
+	<td width="50%">
 	<p class="boxtext">{intl-password}:</p>
 	<input type="password" size="20" name="Password" value="{password_value}"/>
 	</td>
@@ -55,15 +55,12 @@
 	<input type="password" size="20" name="VerifyPassword" value="{verify_password_value}"/>
 	</td>
 </tr>
-<tr>
-	<td>
-	<p class="boxtext">{intl-infosubscription}:</p>
-	<input {info_subscription} type="checkbox" name="InfoSubscription" /
-	</td>
-</tr>
 </table>
 
-<br />
+<p class="boxtext">{intl-infosubscription}:</p>
+<input {info_subscription} type="checkbox" name="InfoSubscription" /
+
+<br /><br />
 
 <hr noshade="noshade" size="4" />
 
