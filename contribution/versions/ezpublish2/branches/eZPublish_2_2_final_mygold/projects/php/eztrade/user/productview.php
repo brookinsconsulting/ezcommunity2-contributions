@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.77.4.7 2001/11/22 14:41:49 ce Exp $
+// $Id: productview.php,v 1.77.4.8 2001/11/27 10:30:59 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -353,7 +353,9 @@ foreach ( $options as $option )
              !$RequireQuantity or ( $RequireQuantity and $value_quantity > 0 ) )
         {
             if ( !$value->hasQuantity( $RequireQuantity ) )
+            {
                 $can_checkout = false;
+            }
             $t->set_var( "value_td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
             $id = $value->id();
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: optionedit.php,v 1.25 2001/10/15 11:32:17 ce Exp $
+// $Id: optionedit.php,v 1.25.4.1 2001/11/27 10:30:58 ce Exp $
 //
 // Created on: <20-Sep-2000 10:18:33 bf>
 //
@@ -105,7 +105,7 @@ if ( isset( $Abort ) )
     exit();
 }
 
-if ( isset( $OK ) )
+if ( isset( $OK ) or isset ( $Update ) )
 {
     $option = new eZOption( $OptionID );
     $option->setName( $OptionName );
@@ -184,9 +184,12 @@ if ( isset( $OK ) )
     {
         $file->delete();
     }
-
-    eZHTTPTool::header( "Location: /trade/productedit/optionlist/$ProductID/" );
-    exit();
+    
+    if ( isset ( $OK ) )
+    {
+        eZHTTPTool::header( "Location: /trade/productedit/optionlist/$ProductID/" );
+        exit();
+    }
 }
 
 $t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ),
