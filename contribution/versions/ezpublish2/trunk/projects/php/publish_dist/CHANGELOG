@@ -3,6 +3,7 @@ eZ publish changelog:
  
 Changes from 2.0.0 to 2.0.1
 ---------------------------
+* Added todo status in eZTodo module, now user can create/edit todo status.
 * Added article category placement.
 * Magic quotes are no longer needed (Must now be turned off).
 * Article discussion can now be turned on pr article.
