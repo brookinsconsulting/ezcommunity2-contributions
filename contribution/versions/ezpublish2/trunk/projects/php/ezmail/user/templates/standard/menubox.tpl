@@ -3,10 +3,13 @@
 	<td colspan="2" class="menuhead">{intl-mail}</td>
 </tr>
 
+<!-- BEGIN mail_check_tpl -->
 <tr>
 	<td width="1%" valign="top"><img src="{www_dir}/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
 	<td width="99%"><a class="menu" href="{www_dir}{index}/mail/check/">{intl-check_mail}</a></td>
 </tr>
+<!-- END mail_check_tpl -->
+
 <tr>
 	<td width="1%" valign="top"><img src="{www_dir}/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
 	<td width="99%"><a class="menu" href="{www_dir}{index}/mail/folderlist">{intl-folder_list}</a></td>
@@ -34,7 +37,7 @@
 <tr>
 <!--	<td width="1%" valign="top"><img src="{www_dir}/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>-->
 	<td width="1%" valign="top">{indent}<img src="{www_dir}/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
-	<td width="99%"><a class="menu" href="{www_dir}{index}/mail/folder/{folder_id}">{folder_name}</a></td>
+	<td width="99%"><a class="menu" href="{www_dir}{index}/mail/folder/{folder_id}">{folder_name} {unread}</a></td>
 </tr>
 <!-- END mail_folder_tpl -->
 

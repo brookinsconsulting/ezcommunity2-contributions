@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: configure.php,v 1.10 2001/09/04 10:34:55 fh Exp $
+// $Id: configure.php,v 1.11 2001/09/04 13:20:15 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -67,6 +67,16 @@ if( isset( $Ok ) || isset( $NewAccount ) || isset( $NewFilter ) ||
             eZPreferences::setVariable( "eZMail_AutoSignature", "true" );
         else
             eZPreferences::setVariable( "eZMail_AutoSignature", "false" );
+
+        if( isset( $ShowUnread ) )
+            eZPreferences::setVariable( "eZMail_ShowUnread", "true" );
+        else
+            eZPreferences::setVariable( "eZMail_ShowUnread", "false" );
+
+        if( isset( $AutoCheckMail ) )
+            eZPreferences::setVariable( "eZMail_AutoCheckMail", "true" );
+        else
+            eZPreferences::setVariable( "eZMail_AutoCheckMail", "false" );
     }
 }
 
@@ -135,6 +145,16 @@ if( $user )
     $auto_signature =& eZPreferences::variable( "eZMail_AutoSignature" );
     if( $auto_signature && $auto_signature == "true" )
         $t->set_var( "signature_checked", "checked" );
+
+    $t->set_var( "show_unread_checked", "" );
+    $show_unread = eZPreferences::variable( "eZMail_ShowUnread" );
+    if( $show_unread == "true" )
+        $t->set_var( "show_unread_checked", "checked" );
+
+    $t->set_var( "check_mail_checked", "" );
+    $auto_check_mail = eZPreferences::variable( "eZMail_AutoCheckMail" );
+    if( $auto_check_mail == "true" )
+        $t->set_var( "check_mail_checked", "checked" );
 }
 
 $accounts = eZMailAccount::getByUser( $user->id() );

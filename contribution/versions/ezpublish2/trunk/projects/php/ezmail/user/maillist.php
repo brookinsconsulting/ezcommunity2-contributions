@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: maillist.php,v 1.22 2001/08/14 14:12:15 jhe Exp $
+// $Id: maillist.php,v 1.23 2001/09/04 13:20:15 fh Exp $
 //
 // Created on: <19-Mar-2000 20:25:22 fh>
 //
@@ -36,8 +36,6 @@ include_once( "ezmail/classes/ezmailfolder.php" );
 include_once( "classes/ezlist.php" );
 include_once( "ezsession/classes/ezpreferences.php" );
 
-$Limit = 50;
-
 if ( isSet( $NewFolder ) )
 {
     eZHTTPTool::header( "Location: /mail/folderedit/" );
@@ -52,8 +50,22 @@ if ( isSet( $Move ) && $FolderSelectID != -1 && count( $MailArrayID ) > 0 ) // r
 }
 
 $ini =& INIFile::globalINI();
-$Language = $ini->read_var( "eZMailMain", "Language" ); 
+if( isset( $NumMessages ) )
+{
+    eZPreferences::setVariable( "eZMail_MessagesPerPage", $NumMessages );
+}
+else
+{
+    $NumMessages = eZPreferences::variable( "eZMail_MessagesPerPage" );
+    if( !$NumMessages )
+    {
+        $NumMessages = $ini->read_var( "eZMailMain", "MailPerPageDefault" );
+        if( !$NumMessages )
+            $NumMessages = 20; // hardcoded default in case all other fails.
+    }
+}
 
+$Language = $ini->read_var( "eZMailMain", "Language" ); 
 $t = new eZTemplate( "ezmail/user/" . $ini->read_var( "eZMailMain", "TemplateDir" ),
                      "ezmail/user/intl/", $Language, "maillist.php" );
 $t->setAllStrings();
@@ -66,6 +78,7 @@ $t->set_block( "mail_item_tpl", "mail_edit_item_tpl", "mail_edit_item" );
 $t->set_block( "mail_list_page_tpl", "mail_item_unread_tpl", "mail_item_unread" );
 $t->set_block( "mail_list_page_tpl", "mail_render_tpl", "mail_render" );
 $t->set_block( "mail_list_page_tpl", "folder_item_tpl", "folder_item" );
+$t->set_block( "mail_list_page_tpl", "num_mail_element_tpl", "num_mail_element" );
 $t->set_var( "mail_edit_item", "" );
 $t->set_var( "mail_item", "" );
 $t->set_var( "mail_item_unread", "" );
@@ -86,13 +99,20 @@ $t->set_var( "mail_repliedall", "" );
 $t->set_var( "mail_status_renderer", "" );
 
 $user =& eZUser::currentUser();
-$accounts = eZMailAccount::getByUser( $user->id() );
 
-foreach ( $accounts as $account )
+$limit_array = array_unique( array( 20, 30, 40, 50, 60, 80, 100, 150, 200, $NumMessages ) );
+$currentMethod = eZPreferences::variable( "eZMail_MessagesPerPage" );
+sort( $limit_array );
+foreach ( $limit_array as $element_number )
 {
-    if ( $account->isActive() )
-        $account->checkMail();
+    $t->set_var( "messages_number", $element_number );
+    if ( $element_number == $NumMessages )
+        $t->set_var( "is_selected", "selected" );
+    else
+        $t->set_var( "is_selected", "" );
+    $t->parse( "num_mail_element", "num_mail_element_tpl", true );
 }
+
 
 $folder = new eZMailFolder( $FolderID );
 $isDraftsFolder = false;
@@ -141,7 +161,7 @@ $t->set_var( "current_folder_id", $FolderID );
 $t->set_var( "current_folder_name", htmlspecialchars( $folder->name() ) );
 
 $sort = $preferences->variable( "MailSortMethod");
-$mail = $folder->mail( $sort, $Offset, $Limit );
+$mail = $folder->mail( $sort, $Offset, $NumMessages );
 $mailCount = $folder->mailCount();
 $i = 0;
 foreach ( $mail as $mailItem )
@@ -192,7 +212,7 @@ foreach ( $folders as $folderItem )
     $t->parse( "folder_item", "folder_item_tpl", true );
 }
 
-eZList::drawNavigator( $t, $mailCount, $Limit, $Offset, "mail_list_page_tpl" );
+eZList::drawNavigator( $t, $mailCount, $NumMessages, $Offset, "mail_list_page_tpl" );
 
 $t->pparse( "output", "mail_list_page_tpl" );
 

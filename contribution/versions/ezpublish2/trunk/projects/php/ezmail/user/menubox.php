@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.9 2001/07/20 11:18:28 jakobn Exp $
+// $Id: menubox.php,v 1.10 2001/09/04 13:20:15 fh Exp $
 //
 // Created on: <23-Mar-2001 10:57:04 fh>
 //
@@ -33,8 +33,10 @@ $Language = $ini->read_var( "eZMailMain", "Language" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdb.php" );
 include_once( "ezmail/classes/ezmailfolder.php" );
+include_once( "ezsession/classes/ezpreferences.php" );
 
-if( eZUser::currentUser() )
+$user =& eZUser::currentUser();
+if( $user )
 {
     $t = new eZTemplate( "ezmail/user/" . $ini->read_var( "eZMailMain", "TemplateDir" ),
                          "ezmail/user/intl", $Language, "menubox.php" );
@@ -46,13 +48,39 @@ if( eZUser::currentUser() )
         ) );
 
     $t->set_block( "menu_box_tpl", "mail_folder_tpl", "mail_folder" );
+    $t->set_block( "menu_box_tpl", "mail_check_tpl", "mail_check" );
+    $t->set_var( "mail_check", "" );
+    
+    // auto check mail if enabled.
+    if( eZPreferences::variable( "eZMail_AutoCheckMail" ) == "true" )
+    {
+        include_once( "ezmail/classes/ezmailaccount.php" );
+        $accounts = eZMailAccount::getByUser( $user->id() );
+        foreach( $accounts as $account )
+        {
+            if( $account->isActive() )
+                $account->checkMail();
+        }
+    }
+    else
+    {
+        $t->parse( "mail_check", "mail_check_tpl", false );
+    }
 
+    $showUnread = eZPreferences::variable( "eZMail_ShowUnread" ) == "true" ? true : false;
     foreach( array( INBOX, SENT, DRAFTS, TRASH ) as $specialfolder )
     {
         $folderItem = eZMailFolder::getSpecialFolder( $specialfolder );
         $t->set_var( "folder_id", $folderItem->id() );
         $t->set_var( "folder_name", htmlspecialchars( $folderItem->name() ) );
         $t->set_var( "indent", "");
+        $t->set_var( "unread", "" );
+        if( $showUnread )
+        {
+            $num = $folderItem->count( true );
+            if( $num > 0 )
+                $t->set_var( "unread", "($num)" );
+        }
         $t->parse( "mail_folder", "mail_folder_tpl", true );
     }
 
@@ -62,6 +90,13 @@ if( eZUser::currentUser() )
         $t->set_var( "folder_id", $folderItem[0] );
         $t->set_var( "folder_name", htmlspecialchars( $folderItem[1] ) );
         $t->set_var( "indent", str_repeat( "&nbsp;", 2 * $folderItem[2] ) );
+        $t->set_var( "unread", "" );
+        if( $showUnread )
+        {
+            $num = $folderItem->count( true );
+            if( $num > 0 )
+                $t->set_var( "unread", "($num)" );
+        }
         $t->parse( "mail_folder", "mail_folder_tpl", true );
     }
     

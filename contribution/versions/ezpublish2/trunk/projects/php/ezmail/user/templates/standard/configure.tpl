@@ -7,14 +7,36 @@
 <p class="boxtext">{intl-signature}:</p>
 <textarea class="box" name="Signature" cols="40" rows="5" wrap="soft">{signature}</textarea>
 
-<p class="boxtext">{intl-auto_signature}:</p>
-<input type="checkbox" value="true" name="AutoSignature" {signature_checked} />
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+  <td>
+    <p class="boxtext">{intl-auto_signature}:</p>
+    <input type="checkbox" value="true" name="AutoSignature" {signature_checked} />
+  </td>
+  
+  <td>
+    <p class="boxtext">{intl-on_delete}:</p>
+    <input type="radio" value="trash" name="OnDelete" {trash_checked} />
+    <span>{intl-trash_on_del}</span><br />
+    <input type="radio" value="del" name="OnDelete" {delete_checked} />
+    <span>{intl-del_on_del}</span><br />
+  </td>
 
-<p class="boxtext">{intl-on_delete}:</p>
-<input type="radio" value="trash" name="OnDelete" {trash_checked} />
-<span>{intl-trash_on_del}</span><br />
-<input type="radio" value="del" name="OnDelete" {delete_checked} />
-<span>{intl-del_on_del}</span><br />
+</tr>
+<tr>
+  <td>
+    <p class="boxtext">{intl-show_unread}:</p>
+    <input type="checkbox" value="true" name="ShowUnread" {show_unread_checked} />
+    <span>{intl-unread_text}</span><br />
+  </td>
+
+  <td>
+    <p class="boxtext">{intl-auto_check_mail}:</p>
+    <input type="checkbox" value="true" name="AutoCheckMail" {check_mail_checked} />
+    <span>{intl-auto_text}</span><br />
+  </td>
+</tr>
+</table>
 
 <h2>{intl-account_setup}:</h2>
 
