@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpoll.php,v 1.16 2001/03/10 13:46:28 bf Exp $
+// $Id: ezpoll.php,v 1.17 2001/04/04 16:10:48 fh Exp $
 //
 // Definition of eZPoll class
 //
@@ -91,12 +91,14 @@ class eZPoll
     function store()
     {
         $this->dbInit();
+        $name = addslashes( $this->Name );
+        $description = addslashes( $this->Description );
         if ( !isset( $this->ID ) )
         {
-
+            
             $this->Database->query( "INSERT INTO eZPoll_Poll SET
-                                 Name='$this->Name',
-                                 Description='$this->Description',
+                                 Name='$name',
+                                 Description='$description',
                                  IsEnabled='$this->IsEnabled',
                                  ShowResult='$this->ShowResult',
                                  Anonymous='$this->Anonymous',
@@ -109,8 +111,8 @@ class eZPoll
         else
         {
             $this->Database->query( "UPDATE eZPoll_Poll SET
-                                 Name='$this->Name',
-                                 Description='$this->Description',
+                                 Name='$name',
+                                 Description='$description',
                                  IsEnabled='$this->IsEnabled',
                                  ShowResult='$this->ShowResult',
                                  Anonymous='$this->Anonymous',
@@ -239,23 +241,29 @@ class eZPoll
     /*!
       Returns the name of the poll.
     */
-    function name()
+    function name( $html = true )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        return htmlspecialchars( $this->Name );
+        if( $html )
+            return htmlspecialchars( $this->Name );
+        else
+            return $this->Name;
     }
 
     /*!
       Returns the poll description.
     */
-    function description()
+    function description( $html = true )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        return htmlspecialchars( $this->Description );
+        if( $html )
+            return htmlspecialchars( $this->Description );
+        else
+            return $this->Description;
     }
 
     /*!

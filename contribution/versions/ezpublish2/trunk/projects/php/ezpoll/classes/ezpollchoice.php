@@ -1,5 +1,5 @@
 <?
-// $Id: ezpollchoice.php,v 1.12 2001/03/10 13:46:28 bf Exp $
+// $Id: ezpollchoice.php,v 1.13 2001/04/04 16:10:48 fh Exp $
 //
 // Definition of eZPollChoice class
 //
@@ -73,12 +73,12 @@ class eZPollChoice
     function store()
     {
         $this->dbInit();
-
+        $name = addslashes( $this->Name );
         if ( !isset ( $this->ID ) )
         {
         
             $this->Database->query( "INSERT INTO eZPoll_PollChoice SET
-                                 Name='$this->Name',
+                                 Name='$name',
                                  PollID='$this->PollID',
                                  Offset='$this->Offset' ");
 
@@ -89,7 +89,7 @@ class eZPollChoice
         else
         {
             $this->Database->query( "UPDATE eZPoll_PollChoice SET
-                                 Name='$this->Name',
+                                 Name='$name',
                                  Offset='$this->Offset' WHERE ID='$this->ID'" );
 
             $this->State_ = "Coherent";
@@ -162,12 +162,15 @@ class eZPollChoice
     /*!
       Returns the name of the pollchoice.
     */
-    function name()
+    function name( $html = true )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        return htmlspecialchars( $this->Name );
+        if( $html )
+            return htmlspecialchars( $this->Name );
+        else
+            return $this->Name;
     }
 
         /*!
