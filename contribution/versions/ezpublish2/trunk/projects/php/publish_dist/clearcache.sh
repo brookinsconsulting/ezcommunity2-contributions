@@ -14,6 +14,7 @@ eznewsfeed
 ezad
 ezuser
 ezaddress
+ezcalendar/user
 "
 
 for dir in $dirs
