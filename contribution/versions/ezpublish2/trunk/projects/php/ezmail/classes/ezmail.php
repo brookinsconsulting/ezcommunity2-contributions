@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmail.php,v 1.45 2001/10/25 10:21:36 fh Exp $
+// $Id: ezmail.php,v 1.46 2001/10/26 07:55:30 jhe Exp $
 //
 // Definition of eZMail class
 //
@@ -1036,17 +1036,20 @@ class eZMail
 
       returns every mail that is containing the search string
     */
-    function search( $text )
+    function search( $text, $user = -1 )
     {
         $db =& eZDB::globalDatabase();
         $return_array = array();
+        if ( $user == -1 )
+            $user =& eZUser::currentUser();
         
         $db->array_query( $id_array, "SELECT ID FROM eZMail_Mail WHERE
-                                          ToField LIKE '%$text%' OR
-                                          FromField LIKE '%$text%' OR
-                                          CC LIKE '%$text%' OR
-                                          Subject LIKE '%$text%' OR
-                                          BodyText LIKE '%$text%'
+                                          (ToField LIKE '%$text%' OR
+                                           FromField LIKE '%$text%' OR
+                                           CC LIKE '%$text%' OR
+                                           Subject LIKE '%$text%' OR
+                                           BodyText LIKE '%$text%') AND
+                                           UserID='" . $user->ID() . "'
                                           ORDER BY Subject" );
         foreach ( $id_array as $id )
         {
