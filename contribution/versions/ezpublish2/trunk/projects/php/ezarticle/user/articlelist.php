@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.16 2000/11/16 11:04:46 bf-cvs Exp $
+// $Id: articlelist.php,v 1.17 2000/11/22 09:35:43 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -36,6 +36,7 @@ $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 $ImageDir = $ini->read_var( "eZArticleMain", "ImageDir" );
+$CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", $Language, "articlelist.php" );
@@ -75,7 +76,15 @@ foreach ( $pathArray as $path )
 {
     $t->set_var( "category_id", $path[0] );
 
-    $t->set_var( "category_name", $path[1] );
+    if ( $CapitalizeHeadlines == "enabled" )
+    {
+        include_once( "classes/eztexttool.php" );
+        $t->set_var( "category_name", eZTextTool::capitalize(  $path[1] ) );
+    }
+    else
+    {
+        $t->set_var( "category_name", $path[1] );
+    }
     
     $t->parse( "path_item", "path_item_tpl", true );
 }

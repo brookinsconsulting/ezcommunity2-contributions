@@ -1,7 +1,10 @@
 
 <!-- BEGIN path_item_tpl -->
-
+<h1 class="small">{category_name}</h1>
 <!-- END path_item_tpl -->
+
+<hr noshade="noshade" size="4" />
+
 
 <!-- BEGIN category_list_tpl -->
 

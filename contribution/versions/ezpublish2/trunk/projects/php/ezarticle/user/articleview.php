@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.18 2000/11/19 09:41:03 bf-cvs Exp $
+// $Id: articleview.php,v 1.19 2000/11/22 09:35:43 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -90,7 +90,7 @@ if ( $article->get( $ArticleID ) )
     {
         $t->set_var( "article_name", $article->name() );
     }
-    
+
     $t->set_var( "author_text", $article->authorText() );
 
     $pageCount = $article->pageCount();
