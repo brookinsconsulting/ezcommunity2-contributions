@@ -6,8 +6,8 @@
 </tr>
 </table>
 
-Velkommen til eZ shop. Vårt utvalg vil vokse i tiden framover. Denne siden viser alle våre nyheter,
-du kan begynne å handle ved å trykke på "Produkter".
+Velkommen til eZ shop. Vårt utvalg vil vokse i tiden framover. Denne siden viser alle våre nyheter.
+Du kan begynne å handle ved å trykke på "Produkter".
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
