@@ -3,7 +3,6 @@
   Viser liste over kontakt typer.
 */
 include_once( "classes/INIFile.php" );
-
 $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZTodoMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZTodoMain", "DocumentRoot" );
@@ -45,13 +44,14 @@ $t->setAllStrings();
             $t->set_var( "bg_color", "#dddddd" );
         }  
 
-        $t->set_var( "document_root", $DOC_ROOT );
+        
         $t->set_var( "category_type_id", $category_type_array[$i]->id() );
         $t->set_var( "category_type_name", $category_type_array[$i]->title() );
 
         $t->parse( "category_type_list", "category_type_item", true );
     } 
 
+    $t->set_var( "document_root", $DOC_ROOT );
     $t->pparse( "output", "category_type_page" );
     }
 

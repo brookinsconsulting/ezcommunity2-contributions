@@ -26,11 +26,10 @@
 </select>
 </p>
 
-<p>
 {intl-date}<br>
-Klokke: 
-<input size="4" type="text" name="Hour" value="{hour}">
-Dato:<input size="4" type="text" name="Mnd" value="{mnd}">
+<p>
+Klokke:<input size="2" type="text" name="Hour" value="{hour}">:<input size="2" type="text" name="Hour" value="{minutes}">
+Dato:<input size="2" type="text" name="Mnd" value="{mnd}">-<input size="2" type="text" name="Day" value="{day}">
 År:<input size="4" type="text" name="Year" value="2000">
 </p>
 

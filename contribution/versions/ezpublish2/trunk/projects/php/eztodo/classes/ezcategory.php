@@ -1,5 +1,5 @@
 <?
-// $Id: ezcategory.php,v 1.3 2000/09/12 07:54:39 bf-cvs Exp $
+// $Id: ezcategory.php,v 1.4 2000/09/13 13:11:25 ce-cvs Exp $
 //
 // Definition of eZCategory class
 //
@@ -52,8 +52,7 @@ class eZCategory
         $this->dbInit();
         query( "INSERT INTO eZTodo_Category SET
                 ID='$this->ID',
-                Title='$this->Title',
-                Description='$this->Description'," );
+                Title='$this->Title' ");
         return mysql_insert_id();
     }
 
@@ -74,8 +73,7 @@ class eZCategory
         $this->dbInit();
         query( "UPDATE eZTodo_Category SET
                 ID='$this->ID',
-                Title='$this->Title',
-                Description='$this->Description'
+                Title='$this->Title'
                 WHERE ID='$this->ID' ");
     }
 

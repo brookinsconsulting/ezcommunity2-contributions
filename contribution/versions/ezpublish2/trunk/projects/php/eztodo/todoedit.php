@@ -1,5 +1,5 @@
 <?
-// $Id: todoedit.php,v 1.2 2000/09/08 14:00:19 ce-cvs Exp $
+// $Id: todoedit.php,v 1.3 2000/09/13 13:11:25 ce-cvs Exp $
 //
 // Definition of todo list.
 //
@@ -12,7 +12,7 @@
 // your own programs or libraries.
 //
 
-include_once( "classes/class.INIFile.php" );
+include_once( "classes/INIFile.php" );
 
 $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZTodoMain", "Language" );
@@ -22,8 +22,9 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezsession.php" );
 include_once( "classes/ezuser.php" );
 include_once( "classes/ezusergroup.php" );
+include_once( "classes/ezregional.php" );
+include_once( "classes/ezdatetime.php" );
 include_once( "common/ezphputils.php" );
-
 include_once( "eztodo/classes/eztodo.php" );
 include_once( "eztodo/classes/ezcategory.php" );
 include_once( "eztodo/classes/ezpriority.php" );
@@ -44,7 +45,14 @@ if ( $Action == "insert" )
     $todo->setPriorityID( $PriorityID );
     $todo->setUserID( $UserID );
     $todo->setOwnerID( $OwnerID );
-    if ( $Public == "on" )
+
+    print( $Date );
+    die();
+
+    $date = new eZDateTime();
+    $todo->setDate( $date->setMySQLDateTime( $Date ) );
+    
+    if ( $Permission == "on" )
     {
         $todo->setPermission( "Public" );
     }

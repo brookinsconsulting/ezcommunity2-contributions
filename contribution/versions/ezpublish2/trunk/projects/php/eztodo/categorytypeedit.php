@@ -14,64 +14,88 @@ include_once( "classes/ezsession.php" );
 include_once( "classes/ezusergroup.php" );
 include_once( "common/ezphputils.php" );
 
-include_once( "../ezcontact/classes/ezphonetype.php" );
+include_once( "../eztodo/classes/ezcategory.php" );
 
 // Chekc rights
 //  $session = new eZSession();
 //  if( $session->get( $AuthenticatedSession ) == 0 )
 //  {
-    // Insert a category.
-    if ( $Action == "insert" )
-    {
-        $type = new eZCategory();
-        $type->setTitle( $Title );
-        $type->store();
+// Insert a category.
+if ( $Action == "insert" )
+{
+    $type = new eZCategory();
+    $type->setTitle( $Title );
+    $type->store();
 
-        Header( "Location: index.php?page=" . $DOC_ROOT . "categorytypelist.php" );
-    }
+    Header( "Location: index.php?page=" . $DOC_ROOT . "categorytypelist.php" );
+}
 
-    // Update a category.
-    if ( $Action == "update" )
-    {
-        $type = new eZCategory();
-        $type->get( $CategoryID );
-        $type->setTitle( $Title );
-        $type->update();
+// Update a category.
+if ( $Action == "update" )
+{
+    $type = new eZCategory();
+    $type->get( $CategoryID );
+    $type->setTitle( $Title );
+    $type->update();
 
-        Header( "Location: index.php?page=" . $DOC_ROOT . "categorytypelist.php" );
-    }
+    Header( "Location: index.php?page=" . $DOC_ROOT . "categorytypelist.php" );
+}
 
-    // Delete a category.
-    if ( $Action == "delete" )
-    {
-        $type = new eZCategory();
-        $type->get( $CategoryID );
-        $type->delete();
+// Delete a category.
+if ( $Action == "delete" )
+{
+    $type = new eZCategory();
+    $type->get( $CategoryID );
+    $type->delete();
 
-        Header( "Location: index.php?page=" . $DOC_ROOT . "categorytypelist.php" );
-    }
+    Header( "Location: index.php?page=" . $DOC_ROOT . "categorytypelist.php" );
+}
 
-    $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZTodoMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "categorytypeedit.php" );
-    $t->setAllStrings();
+$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZTodoMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "categorytypeedit.php" );
+$t->setAllStrings();
 
-    $t->set_file( array(
-        "categorytypeedit" => "categorytypeedit.tpl"
-        ) );
+$t->set_file( array(
+    "categorytypeedit" => "categorytypeedit.tpl"
+    ) );
 
-    $t->set_var( "action_value", "insert" );
+
+$ini = new INIFIle( "./eztodo/intl/" . $Language . "/categorytypeedit.php.ini" );
+$headline = $ini->read_var( "strings", "head_line_insert" );
+$submittext = $ini->read_var( "strings", "submit_text_insert" );
+$t->set_var( "action_value", "insert" );
 
     // Edit a category.
-    if ( $Action == "edit" )
-    {
-        $type = new eZCategory();
-        $type->get( $CategoryID );
+if ( $Action == "edit" )
+{
+    $type = new eZCategory();
+    $type->get( $CategoryID );
 
-        $t->set_var( "action_value", "update" );
+    $ini = new INIFIle( "./eztodo/intl/" . $Language . "/categorytypeedit.php.ini" );
+    $headline = $ini->read_var( "strings", "head_line_edit" );
+    $submittext = $ini->read_var( "strings", "submit_text_edit" );
+
+    $CategoryName = $type->title();
+
+    {
+        $type_array = $type->get( $CategoryID );
+
+        for ( $i=0; $i<count( $type_array); $i++ )
+        {
+            print( $type_array[$i][ "Title" ] );
+        }
     }
 
-    $t->set_var( "document_root", $DOC_ROOT );
+    $t->set_var( "category_type_id", $CategoryID );
+    $t->set_var( "action_value", "update" );
+}
 
-    $t->pparse( "output", "categorytypeedit" );
+$t->set_var( "category_type_name", $CategoryName );
+$t->set_var( "head_line", $headline );
+$t->set_var( "submit_text", $submittext );
+$t->set_var( "document_root", $DOC_ROOT );
+
+$t->pparse( "output", "categorytypeedit" );
+
 //  }
 //
 ?>

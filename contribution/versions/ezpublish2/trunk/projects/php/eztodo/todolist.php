@@ -1,5 +1,5 @@
 <?
-// $Id: todolist.php,v 1.2 2000/09/08 14:00:19 ce-cvs Exp $
+// $Id: todolist.php,v 1.3 2000/09/13 13:11:25 ce-cvs Exp $
 //
 // Definition of todo list.
 //
@@ -71,20 +71,37 @@ else
         $t->set_var( "user_lastname", $user_array[ $i ][ "last_name" ] );
 
         // User select
-        if ( $GetByUserID == $user_array[ $i ][ "id"] )
+        // if ( $GetByUserID == $user_array[ $i ][ "id"] )
+
+        if ( $GetByUserID == $session->userID() )
         {
-            $t->set_var( "user_is_selected", "selected" );
+            if ( $session->userID() == $user_array[ $i ][ "id" ] )
+            {
+                $t->set_var( "user_is_selected", "selected" );
+            }
+            else
+            {
+                $t->set_var( "user_is_selected", "" );
+            }
+
+            $t->parse( "user_select", "user_item", true );
         }
         else
         {
-            $t->set_var( "user_is_selected", "" );
+            if ( $GetByUserID == $user_array[ $i ][ "id" ] )
+            {
+                $t->set_var( "user_is_selected", "selected" );
+            }
+            else
+            {
+                $t->set_var( "user_is_selected", "" );
+            }
+            $t->parse( "user_select", "user_item", true );
         }
-
-        $t->parse( "user_select", "user_item", true );
     }
 
     // Todo list
-    if ( count( $todo_array < 0 ) )
+    if ( count( $todo_array ) == 0 )
     {
         $t->set_var( "todos", "Ingen todo'er funnet" );
     }
@@ -113,66 +130,6 @@ else
 
         $t->parse( "todos", "todo_item", true );
     }
-
-//  else
-//  {
-//      // User selector.
-//      $user = new eZUser();
-//      $user_array = $user->getAll();
-//      for( $i=0; $i<count( $user_array ); $i++ )
-//      {
-//          $t->set_var( "user_id", $user_array[ $i ][ "id" ] );
-//          $t->set_var( "user_firstname", $user_array[ $i ][ "first_name" ] );
-//          $t->set_var( "user_lastname", $user_array[ $i ][ "last_name" ] );
-
-//          // User select
-//          if ( $UserID == $user_array[ $i ][ "id"] )
-//          {
-//              $t->set_var( "user_is_selected", "selected" );
-//          }
-//          else
-//          {
-//              $t->set_var( "user_is_selected", "" );
-//          }
-
-//          $t->parse( "user_select", "user_item", true );
-//      }
-
-//  // Todo list
-//      $todo = new eZTodo();
-//      $todo_array = $todo->getByUserID( $user->id() );
-//      if ( count( $todo_array > 0 ) )
-//      {
-//          $t->set_var( "todos", "Ingen todo'er funnet" );
-//      }
-//      for ( $i=0; $i<count( $todo_array ); $i++ )
-//      {
-//          if ( ( $i % 2 ) == 0 )
-//          {
-//              $t->set_var( "bg_color", "#f0f0f0" );
-//          }
-//          else
-//          {
-//              $t->set_var( "bg_color", "#dcdcdc" );
-//          }
-
-//          $t->set_var( "todo_id", $todo_array[ $i ]->id() );
-//          $t->set_var( "todo_title", $todo_array[ $i ]->title() );
-//          $t->set_var( "todo_text", $todo_array[ $i ]->text() );
-//          $cat = new eZCategory( $todo_array[ $i ]->categoryID() );
-//          $t->set_var( "todo_category_id", $cat->title() );
-//          $pri = new eZPriority( $todo_array[ $i ]->priorityID() );
-//          $t->set_var( "todo_priority_id", $pri->title() );
-//          $t->set_var( "todo_due", $todo_array[ $i ]->due() );
-//          $t->set_var( "todo_userid", $todo_array[ $i ]->userID() );
-//          $t->set_var( "todo_permission", $todo_array[ $i ]->permission() );
-//          $t->set_var( "todo_date", $todo_array[ $i ]->date() );
-//          $t->set_var( "todo_status", $todo_array[ $i ]->status() );
-
-//          $t->parse( "todos", "todo_item", true );
-//      }
-
-//  }
 
 $t->set_var( "document_root", $DOC_ROOT );
 

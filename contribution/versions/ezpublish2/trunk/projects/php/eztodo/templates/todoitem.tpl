@@ -1,7 +1,7 @@
 <tr>
 	<tr>
 	<td bgcolor="{bg_color}">
-	<a href="javascript:NewWindow( 200, 150, '{document_root}noteinfo.php?NID={note_id}' );">{todo_title}</a>
+	<a href="index.php?page={document_root}todoinfo.php&TodoID={todo_id}">{todo_title}</a>
 	</td>
 
 	<td bgcolor="{bg_color}">
