@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.50 2001/10/02 14:03:27 ce Exp $
+// $Id: ezdb.php,v 1.51 2001/11/06 12:40:15 jhe Exp $
 //
 // Definition of eZDB class
 //
@@ -189,6 +189,8 @@ class eZDB
     function finish( &$resultArray, &$db )
     {
         $db->unlock();
+        if ( !is_array( $resultArray ) )
+            $resultArray = array( $resultArray );
         if ( in_array( false, $resultArray ) )
             $db->rollback();
         else
