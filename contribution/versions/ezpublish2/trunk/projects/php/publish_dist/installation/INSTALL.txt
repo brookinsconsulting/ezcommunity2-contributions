@@ -41,21 +41,25 @@ Chapter 3 Compile Configuration
 Chapter 4 Apache Configuration
     4.1 Dual Virtual Host
         4.1.1 Configuring Through httpd.conf
-            4.1.1.1 User Side
-            4.1.1.2 Admin Side
+            4.1.1.1 User Site
+            4.1.1.2 Admin Site
         4.1.2 Configuring Through .htaccess
-            4.1.2.1 User Side
-            4.1.2.2 Admin Side
+            4.1.2.1 User Site
+            4.1.2.2 Admin Site
 Chapter 5 eZ publish Installation
     5.1 Database
     5.2 Program Files
 Chapter 6 Now What?
+    6.1 Post Install Checklist
 Chapter 7 Installing on RAQ 3
-Chapter 8 Install eZ publish on a Windows System Running Apache
+Chapter 8 Installing on Windows 
     8.1 Programs to Install
     8.2 Configuration of PHP
     8.3 Apache Configuration
-    8.4 eZ publish Installation
+    8.4 Configuration of Virtual Host for win2000
+        8.4.1 User Site
+        8.4.2 Admin Site
+    8.5 eZ publish Installation
 
 
 
@@ -402,7 +406,7 @@ within brackets ("["
 and "]") with your preferred and local settings
 and also remove the brackets.
 
-4.1.1.1 User Side
+4.1.1.1 User Site
 
     # User site
 
@@ -430,7 +434,7 @@ and also remove the brackets.
 
       RewriteRule !\.(gif|css|jpg|png)$ [/your/apache/documentroot]/publish_dist/index.php
 
-      ServerAdmin ce@ez.no
+      ServerAdmin [your e-mail address]
 
       DocumentRoot [/your/apache/documentroot]/publish_dist
 
@@ -440,7 +444,7 @@ and also remove the brackets.
 
     </VirtualHost>
 
-4.1.1.2 Admin Side
+4.1.1.2 Admin Site
 
   # Admin site 
 
@@ -543,11 +547,13 @@ filesm directory specific configuration files.
 Note: You must set up apache to accept this. You still need
 two domains for this operation!
 
-4.1.2.1 User Side
+4.1.2.1 User Site
 
 In your main directory (/path/to/index.php/) create a file
 called ".htaccess" containing the following text:
 
+
+    Options FollowSymLinks Indexes ExecCGI
 
     RewriteEngine On
 
@@ -563,7 +569,7 @@ called ".htaccess" containing the following text:
 
     RewriteRule !\.(gif|css|jpg|png)$ /path/to/website/index.php
 
-4.1.2.2 Admin Side
+4.1.2.2 Admin Site
 
 In your admin subdomain home directory, create a file with
 the following text:
@@ -669,10 +675,46 @@ http://developer.ez.no for updates, articles about eZ publish
 and how to work with it, as well as keeping abreast of new
 developments.
 
+6.1 Post Install Checklist
+
+1. Consider this: all eZ publish sites has an admin site,
+  perhaps you should call the admin host something different
+  than admin?
+
+2. Check that you've downloaded and read the configuration
+  manual. A quick tip is to read through the file "site.ini"
+  and change any e-mail addresses, passwords etc. to fit
+  your own choices.
+
+3. Log in on your admin site (http://admin.yoursite.com/).
+  You will be presented with a page which will list any
+  install problems. If any problems appear read the error
+  message presented and follow any instructions. If that
+  fails, read the FAQ. Then go to http://developer.ez.no
+  and search the forum for anyone who have had the same
+  problem. Also check the bug list for any open bugs covering
+  your problem. Finally you should register to the mailing
+  list and try asking for help there.
+
+4. If everything is okay go to the "user"
+  module and change the e-mail address of the site administrator
+  immediatly.
+
+5. Change the password of the administration user to something
+  only you know.
+
+6. Start browsing the public part of your site, just to check
+  that everything is working; some of the articles supplied
+  as default will inform you about features of the software.
+
 Installing on RAQ 3<chptr: raq 3>
 
 Installing ezPublish on raq3 without messing up the GUI or
 voiding the warranty.
+
+This is untested by eZ systems, and we provide this "as
+is" without any form of guarantee or endorsement, either
+explicitly or implicitly.
 
 First, add the domain into the DNS, but do not create a virtual
 site.
@@ -993,10 +1035,18 @@ directories to get it to work.
 
 If all is well, your site should work.
 
-Install eZ publish on a Windows System Running Apache<chptr: windows>
+Installing on Windows 
+
+eZ publish on a Windows System Running Apache<chptr: windows>
 
 Thanks to Øyvind Wærendskjold <werenskjold@disippel.net>
-for giving us this information.
+for giving us this information. You can find a file called
+"install_ezpublish_win.zip" at
+the eZ publish site (http://developer.ez.no).
+
+This is untested by eZ systems, and we provide this "as
+is" without any form of guarantee or endorsement, either
+explicitly or implicitly.
 
 8.1 Programs to Install
 
@@ -1008,13 +1058,14 @@ Install MySQL 3.23.x (http://www.mysql.com/downloads/os-win32.html)
 
 8.2 Configuration of PHP
 
-Remember to place php_domxml.dll in the "extension_dir" directory.
-Modify php.ini:
+Remember to place php_domxml.dll in the "extension_dir" directory
+of apache. Modify php.ini:
 
 
-    session.save_path = \WinNT\temp
-    extension=php_domxml.dll
-    extension_dir = C:\Program Files\Apache Group\Apache\extensions 
+    session.save_path=\WinNT\temp
+    extension=php_domxml.dll # remove the comment on
+this line in the ini file.
+    extension_dir=C:\Program Files\Apache Group\Apache\extensions 
 
 8.3 Apache Configuration
 
@@ -1034,17 +1085,67 @@ Also remember to enable the rewrite module in httpd.conf:
 
 
 LoadModule rewrite_module modules/ApacheModuleRewrite.dll
- 
 
-8.4 eZ publish Installation
+8.4 Configuration of Virtual Host for win2000
 
-Decompress eZ publish to "c:\ezpublish"
+8.4.1 User Site
+
+    # User site
+
+    Options FollowSymLinks Indexes ExecCGI 
+
+    RewriteEngine On
+
+    RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$
+
+    [/your/apache/documentroot]/ezfilemanager/files/$1
+
+    [T="application/octet-stream",S=1]
+    RewriteRule !(\.(gif|css|jpg|png)$) [/your/apache/documentroot]/index.php
+
+    DocumentRoot [/your/apache/documentroot] ServerName
+[yourdomain.org] 
+
+    ServerAlias [www.yourdomain.org]
+
+8.4.2 Admin Site
+
+    # Admin site
+    Options FollowSymLinks Indexes ExecCGI
+    #If the following value is set directly in the
+    #php.ini file it will affect all domains on your
+    #site and create problems
+    php_value include_path \
+    ".;/;[/your/apache/documentroot]; \
+    [/your/apache/documentroot]/admin/"
+    RewriteEngine On
+    RewriteRule !.(gif|jpg|css|png)$ \
+    [/your/apache/documentroot]/admin/index.php
+
+    RewriteRule ^/ez(.*(gif|jpg|png)$) \
+    [/your/apache/documentroot]/ez$1
+    DocumentRoot [/your/apache/documentroot]/admin
+    ServerName [admin.yourdomain.org] 
+    ServerAlias [admin.yourdomain.org]
+
+8.5 eZ publish Installation
+
+Decompress eZ publish to "c:\ezpublish",
+then run "modfix.bat" from
+the "ezpublish-win.files.zip"
+distribution in that catalog.
 
 Add the file "winINIFile.php"
-to "c:\ezpublish\classes":
+from the "ezpublish-win.files.zip"
+distribution to "c:\ezpublish\classes":
 
-replace c:\ezpublish\classes\INIFile.php
+* replace c:\ezpublish\classes\INIFile.php with the file from
+  the "ezpublish-win.files.zip"
+  distribution.
 
-replace c:\ezpublish\classes\eztemplate.php
+* replace c:\ezpublish\classes\eztemplate.php with the file
+  from the "ezpublish-win.files.zip"
+  distribution.
 
-replace c:\ezpublish\admin\index.php
+* replace c:\ezpublish\admin\index.php with the file from the
+  "ezpublish-win.files.zip" distribution.

@@ -384,7 +384,7 @@ and {}``{]}{}'') with your preferred and local settings and also
 remove the brackets.
 
 
-\subsubsection{User Side}
+\subsubsection{User Site}
 
 \texttt{\scriptsize ~~~~\# User site}{\scriptsize \par}
 
@@ -413,7 +413,7 @@ remove the brackets.
 \texttt{\scriptsize ~~~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
 {[}/your/apache/documentroot{]}/publish\_dist/index.php}{\scriptsize \par}
 
-\texttt{\scriptsize ~~~~~~ServerAdmin ce@ez.no}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~ServerAdmin {[}your e-mail address{]}}{\scriptsize \par}
 
 \texttt{\scriptsize ~~~~~~DocumentRoot {[}/your/apache/documentroot{]}/publish\_dist}{\scriptsize \par}
 
@@ -424,7 +424,7 @@ remove the brackets.
 \texttt{\scriptsize ~~~~</VirtualHost>}{\scriptsize \par}
 
 
-\subsubsection{Admin Side}
+\subsubsection{Admin Site}
 
 \texttt{\footnotesize ~~\# Admin site }{\footnotesize \par}
 
@@ -526,11 +526,13 @@ specific configuration files.
 two domains for this operation!}
 
 
-\subsubsection{User Side}
+\subsubsection{User Site}
 
 In your main directory (/path/to/index.php/) create a file called
 \char`\"{}.htaccess\char`\"{} containing the following text:\\
 
+
+\texttt{\footnotesize ~~~~Options FollowSymLinks Indexes ExecCGI}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~RewriteEngine On}{\footnotesize \par}
 
@@ -549,7 +551,7 @@ the same}{\footnotesize \par}
 /path/to/website/index.php}{\footnotesize \par}
 
 
-\subsubsection{Admin Side}
+\subsubsection{Admin Site}
 
 In your admin subdomain home directory, create a file with the following
 text:\\
@@ -637,9 +639,10 @@ create symbolic links needed and set permissions.\\
 \chapter{Now What?}
 
 After installing eZ publish you can test your site through the URL
-http://www.yoursite.com/ and you can administrate your site from the
-URL http://admin.yoursite.com/, of course, if you did anything different
-the names of the admin and the public site might be different.
+\texttt{\footnotesize http://www.yoursite.com/} and you can administrate
+your site from the URL \texttt{\footnotesize http://admin.yoursite.com/},
+of course, if you did anything different the names of the admin and
+the public site might be different.
 
 \emph{NOTE:} The default user name and password for your site will
 be admin/publish. Remember to change the password.
@@ -650,16 +653,44 @@ functionality you want, as well as how you change the templates to
 suit your needs.
 
 When you're finished with the design and the initial testing you can
-head over to http://zez.org/ for articles about community building
-as well as programming, or you can visit http://developer.ez.no for
-updates, articles about eZ publish and how to work with it, as well
-as keeping abreast of new developments.
+head over to \texttt{\footnotesize http://zez.org/} for articles about
+community building as well as programming, or you can visit \texttt{\footnotesize http://developer.ez.no}
+for updates, articles about eZ publish and how to work with it, as
+well as keeping abreast of new developments.
 
+
+\section{Post Install Checklist}
+
+\begin{enumerate}
+\item Consider this: all eZ publish sites has an admin site, perhaps you
+should call the admin host something different than admin?
+\item Check that you've downloaded and read the configuration manual. A
+quick tip is to read through the file {}``site.ini{}'' and change
+any e-mail addresses, passwords etc. to fit your own choices.
+\item Log in on your admin site (\texttt{\footnotesize http://admin.yoursite.com/}).
+You will be presented with a page which will list any install problems.
+If any problems appear read the error message presented and follow
+any instructions. If that fails, read the FAQ. Then go to \texttt{\footnotesize http://developer.ez.no}
+and search the forum for anyone who have had the same problem. Also
+check the bug list for any open bugs covering your problem. Finally
+you should register to the mailing list and try asking for help there.
+\item If everything is okay go to the {}``user{}'' module and change the
+e-mail address of the site administrator immediatly.
+\item Change the password of the administration user to something only you
+know.
+\item Start browsing the public part of your site, just to check that everything
+is working; some of the articles supplied as default will inform you
+about features of the software.
+\end{enumerate}
 
 \chapter{Installing on RAQ 3\label{chptr: raq 3}}
 
 \emph{Installing ezPublish on raq3 without messing up the GUI or voiding
 the warranty.}
+
+This is untested by eZ systems, and we provide this {}``as is{}''
+without any form of guarantee or endorsement, either explicitly or
+implicitly.
 
 First, add the domain into the DNS, but do not create a virtual site.
 
@@ -976,10 +1007,17 @@ to get it to work.
 If all is well, your site should work.
 
 
-\chapter{Install eZ publish on a Windows System Running Apache\label{chptr: windows}}
+\chapter{Installing on Windows }
+
+\emph{eZ publish on a Windows System Running Apache\label{chptr: windows}}
 
 Thanks to Øyvind Wærendskjold \texttt{\footnotesize <werenskjold@disippel.net>}
-for giving us this information.
+for giving us this information. You can find a file called {}``install\_ezpublish\_win.zip{}''
+at the eZ publish site (\texttt{\footnotesize http://developer.ez.no}).
+
+This is untested by eZ systems, and we provide this {}``as is{}''
+without any form of guarantee or endorsement, either explicitly or
+implicitly.
 
 
 \section{Programs to Install}
@@ -994,12 +1032,13 @@ Install MySQL 3.23.x (\texttt{\footnotesize http://www.mysql.com/downloads/os-wi
 \section{Configuration of PHP}
 
 Remember to place php\_domxml.dll in the \char`\"{}extension\_dir\char`\"{}
-directory. Modify php.ini:\\
+directory of apache. Modify php.ini:\\
 
 
-\texttt{\footnotesize ~~~~session.save\_path = \textbackslash{}WinNT\textbackslash{}temp}~\\
-\texttt{\footnotesize ~~~~extension=php\_domxml.dll}~\\
-\texttt{\footnotesize ~~~~extension\_dir = C:\textbackslash{}Program
+\texttt{\footnotesize ~~~~session.save\_path=\textbackslash{}WinNT\textbackslash{}temp}~\\
+\texttt{\footnotesize ~~~~extension=php\_domxml.dll \# remove
+the comment on this line in the ini file.}~\\
+\texttt{\footnotesize ~~~~extension\_dir=C:\textbackslash{}Program
 Files\textbackslash{}Apache Group\textbackslash{}Apache\textbackslash{}extensions }{\footnotesize \par}
 
 
@@ -1018,19 +1057,74 @@ at the bottom of httpd.conf should do the trick:\\
 
 Also remember to enable the rewrite module in httpd.conf: {\selectlanguage{english}}\\
 \\
-\texttt{\footnotesize LoadModule rewrite\_module modules/ApacheModuleRewrite.dll}\\
- {\selectlanguage{english}}
+\texttt{\footnotesize LoadModule rewrite\_module modules/ApacheModuleRewrite.dll}{\footnotesize \par}
+
+
+\section{Configuration of Virtual Host for win2000}
+
+
+\subsection{User Site}
+
+\texttt{\footnotesize ~~~~\# User site}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~Options~FollowSymLinks~Indexes~ExecCGI }{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~RewriteEngine On}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~RewriteRule \textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$
+}~\\
+\texttt{\footnotesize ~~~~{[}/your/apache/documentroot{]}/ezfilemanager/files/\$1}
+{\selectlanguage{english}}\texttt{\footnotesize }~\\
+\texttt{\footnotesize ~~~~{[}T=\char`\"{}application/octet-stream\char`\"{},S=1{]}}~\\
+\texttt{\footnotesize ~~~~RewriteRule !(\textbackslash{}.(gif|css|jpg|png)\$)
+{[}/your/apache/documentroot{]}/index.php}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~DocumentRoot {[}/your/apache/documentroot{]}
+ServerName {[}yourdomain.org{]} }{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~ServerAlias {[}www.yourdomain.org{]}}{\footnotesize \par}
+
+
+\subsection{\texttt{\footnotesize Admin Site}}
+
+\texttt{\footnotesize ~~~~\# Admin site}~\\
+\texttt{\footnotesize ~~~~Options~FollowSymLinks~Indexes~ExecCGI}~\\
+\texttt{\footnotesize ~~~~\#If the following value is set directly
+in the}~\\
+\texttt{\footnotesize ~~~~\#php.ini file} {\selectlanguage{english}}\texttt{\footnotesize it
+will affect all domains on your}~\\
+\texttt{\footnotesize ~~~~\#site and create problems}~\\
+\texttt{\footnotesize ~~~~php\_value~include\_path~\textbackslash{}}~\\
+\texttt{\footnotesize ~~~~\char`\"{}.;/;{[}/your/apache/documentroot{]};~\textbackslash{}}~\\
+\texttt{\footnotesize ~~~~{[}/your/apache/documentroot{]}/admin/\char`\"{}}~\\
+\texttt{\footnotesize ~~~~RewriteEngine On}~\\
+\texttt{\footnotesize ~~~~RewriteRule !.(gif|jpg|css|png)\$~\textbackslash{}}~\\
+\texttt{\footnotesize ~~~~{[}/your/apache/documentroot{]}/admin/index.php}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~RewriteRule \textasciicircum{}/ez(.{*}(gif|jpg|png)\$)~\textbackslash{}}~\\
+\texttt{\footnotesize ~~~~{[}/your/apache/documentroot{]}/ez\$1}~\\
+\texttt{\footnotesize ~~~~DocumentRoot {[}/your/apache/documentroot{]}/admin}~\\
+\texttt{\footnotesize ~~~~ServerName {[}admin.yourdomain.org{]}
+}~\\
+\texttt{\footnotesize ~~~~ServerAlias {[}admin.yourdomain.org{]}}{\footnotesize \par}
 
 
 \section{eZ publish Installation}
 
-Decompress eZ publish to {}``c:\textbackslash{}ezpublish{}''
+Decompress eZ publish to {}``c:\textbackslash{}ezpublish{}'', then
+run {}``modfix.bat{}'' from the {}``ezpublish-win.files.zip{}''
+distribution in that catalog.
 
-Add the file {}``winINIFile.php{}'' to {}``c:\textbackslash{}ezpublish\textbackslash{}classes{}'':
+Add the file {}``winINIFile.php{}'' from the {}``ezpublish-win.files.zip{}''
+distribution to {}``c:\textbackslash{}ezpublish\textbackslash{}classes{}'':
 
-replace c:\textbackslash{}ezpublish\textbackslash{}classes\textbackslash{}INIFile.php
+\begin{itemize}
+\item replace c:\textbackslash{}ezpublish\textbackslash{}classes\textbackslash{}INIFile.php
+with the file from the {}``ezpublish-win.files.zip{}'' distribution.
+\item replace c:\textbackslash{}ezpublish\textbackslash{}classes\textbackslash{}eztemplate.php
+with the file from the {}``ezpublish-win.files.zip{}'' distribution.
+\item replace c:\textbackslash{}ezpublish\textbackslash{}admin\textbackslash{}index.php
+with the file from the \char`\"{}ezpublish-win.files.zip\char`\"{}
+distribution.\end{itemize}
 
-replace c:\textbackslash{}ezpublish\textbackslash{}classes\textbackslash{}eztemplate.php
-
-replace c:\textbackslash{}ezpublish\textbackslash{}admin\textbackslash{}index.php
 \end{document}
