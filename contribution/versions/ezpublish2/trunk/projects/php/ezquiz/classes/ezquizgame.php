@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizgame.php,v 1.3 2001/05/28 13:39:01 pkej Exp $
+// $Id: ezquizgame.php,v 1.4 2001/05/28 14:03:16 pkej Exp $
 //
 // ezquizgame class
 //
@@ -288,15 +288,12 @@ class eZQuizGame
     */
     function question( $placement )
     {
-        $returnArray = array();
         $db =& eZDB::globalDatabase();
-        $db->array_query( $questionArray, "SELECT ID FROM eZQuiz_Question WHERE GameID='$this->ID' AND Placement='$placement'" );
+        $db->query_single( $question, "SELECT ID FROM eZQuiz_Question WHERE GameID='$this->ID' AND Placement='$placement'" );
 
-       for ( $i=0; $i < count($questionArray); $i++ )
-       {
-           $returnArray[$i] = new eZQuizQuestion( $questionArray[$i]["ID"], true );
-       }
-       return $returnArray;
+        $return = new eZQuizQuestion( $question[$i]["ID"], true );
+           
+        return $return;
     }
     
     
