@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.21 2001/12/20 10:20:46 jhe Exp $
+// $Id: ezformelement.php,v 1.22 2001/12/21 14:22:37 br Exp $
 //
 // ezformelement class
 //
@@ -434,13 +434,13 @@ class eZFormElement
     }
 
 
-    function getConditionMaxByPage( $value )
+    function getConditionMaxByPage( $min=0, $max=0 )
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
 
         $db->query_single( $pageID, "SELECT PageID FROM eZForm_FormCondition WHERE
-                     ElementID='$this->ID' AND Max='$value'" );
+                     ElementID='$this->ID' AND Min='$min' AND Max='$max'" );
 
         return $pageID[$db->fieldName( "PageID" )];
         

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.25 2001/12/21 12:04:25 jhe Exp $
+// $Id: pageedit.php,v 1.26 2001/12/21 14:22:37 br Exp $
 //
 // Definition of ||| class
 //
@@ -174,6 +174,9 @@ if ( isSet( $DeleteSelected ) )
 
 
 $errorMessages = array();
+// set the elements from page.
+$elements = $page->pageElements();
+$count = $page->numberOfElements();
 
 if ( isSet( $OK ) || isSet( $Update ) || isSet( $NewElement ) )
 {
@@ -256,44 +259,60 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $NewElement ) )
     
     
 // store the page jumps.
-    $elementID = $ElementChoiceID[0];
-    $element = new eZFormElement( $elementID );
-    $values =& $element->fixedValues();
-    $elementType =& $element->elementType();
-    $page->store();
-    if ( ( get_class( $elementType ) == "ezformelementtype" && $elementType->name() == "text_field_item" ) ||
-         $elementType == "text_field_item" )
+
+    // if $ElementChoiceID[0] == -1, the choice is go to table
+    if ( $ElementChoiceID[0] == -1 )
     {
-        if ( count( $ElementRange ) > 0 )
+        $firstElementID = $elements[0]->id();
+        $element = new eZFormElement( $firstElementID );
+        if ( isSet( $FixedPage_1 ) )
         {
-            $i = 0;
             $element->removeCondition();
-            foreach ( $ElementRange as $range )
-            {
-                $checkID = "FixedPage_" . $range;
-                $pageID = $$checkID;
-                
-                $element->addCondition( $pageID[0], $TextFieldFrom[$i], $TextFieldTo[$i] );
-                
-                $i++;
-            }
+            $pageID = $FixedPage_1;
+            $element->addCondition( $pageID[0], -1000, 1000 );
         }
     }
     else
     {
-        if ( count( $values ) > 0 )
+        $elementID = $ElementChoiceID[0];
+        $element = new eZFormElement( $elementID );
+        $values =& $element->fixedValues();
+        $elementType =& $element->elementType();
+        $page->store();
+        if ( ( get_class( $elementType ) == "ezformelementtype" &&
+               $elementType->name() == "text_field_item" ) ||
+             $elementType == "text_field_item" )
         {
-            $element->removeCondition();
-            foreach ( $values as $value )
+            if ( count( $ElementRange ) > 0 )
             {
-                $checkID = "FixedPage_" . $value->id();
-                $pageID = $$checkID;
-                $element->addCondition( $pageID[0] , $value->id(), $value->id() );
+                $i = 0;
+                $element->removeCondition();
+                foreach ( $ElementRange as $range )
+                {
+                    $checkID = "FixedPage_" . $range;
+                    $pageID = $$checkID;
+                    
+                    $element->addCondition( $pageID[0], $TextFieldFrom[$i], $TextFieldTo[$i] );
+                    
+                    $i++;
+                }
+            }
+        }
+        else
+        {
+            if ( count( $values ) > 0 )
+            {
+                $element->removeCondition();
+                foreach ( $values as $value )
+                {
+                    $checkID = "FixedPage_" . $value->id();
+                    $pageID = $$checkID;
+                    $element->addCondition( $pageID[0] , $value->id(), $value->id() );
+                }
             }
         }
     }
-    
-    
+        
     if ( isSet( $OK ) && count( $errorMessages ) == 0 )
     {
         eZHTTPTool::header( "Location: /form/form/edit/$FormID/" );
@@ -338,9 +357,6 @@ if ( $page->numberOfElements() == 0 )
 }
 
 
-// check the jump conditions.
-$elements = $page->pageElements();
-$count = $page->numberOfElements();
 
 
 if ( is_Numeric( $ElementChoiceID[0] ) && $ElementChoiceID[0] != 0 )
@@ -423,7 +439,11 @@ if ( $count > 0 )
                 if ( $name == "multiple_select_item" ||
                      $name == "dropdown_item" ||
                      $name == "radiobox_item" ||
-                     $name == "checkbox_item" )
+                     $name == "checkbox_item" ||
+                     $name == "numerical_float_item" ||
+                     $name == "numerical_integer_item" ||
+                     $name == "text_field_item" )
+
                 {
                     $elementTemplate->parse( "fixed_values", "fixed_values_tpl" );
                 }
@@ -517,8 +537,15 @@ if ( count( $errorMessages ) > 0 && !isSet( $NewElement ) && !isSet( $DeleteSele
 
 
 // parse the jump choices.
+if ( $elementChoiceID == -1 )
+{
+    $element = new eZFormElement( $elements[0]->id() );
+}
+else
+{   
+    $element = new eZFormElement( $elementChoiceID );
+}
 
-$element = new eZFormElement( $elementChoiceID );
 if ( $element )
 {
     $values =& $element->fixedValues();
@@ -537,10 +564,12 @@ if ( $element )
                 $name = $elementType;
             
             if ( $name == "multiple_select_item" ||
-            $name == "dropdown_item" ||
-            $name == "radiobox_item" ||
-            $name == "checkbox_item" ||
-            $name == "text_field_item" )
+                 $name == "dropdown_item" ||
+                 $name == "radiobox_item" ||
+                 $name == "checkbox_item" ||
+                 $name == "numerical_float_item" ||
+                 $name == "numerical_integer_item" ||
+                 $name == "text_field_item" )
             {
                 if ( $pageElement->id() == $elementChoiceID )
                 {
@@ -557,9 +586,56 @@ if ( $element )
                 $t->parse( "element_choice", "element_choice_tpl", true );
             }
         }
+
+        if ( $elementChoiceID == -1 )
+        {
+            $t->set_var( "goto_selected", "selected" );
+        }
     }
     
-    if ( isSet( $elementChoiceID ) )
+    if ( $elementChoiceID == -1 )
+    {
+        $t->set_var( "fixed_value_name", "" );
+        $t->set_var( "fixed_value_text_field", "" );
+        $pages =& eZFormPage::getByFormID( $FormID );
+        
+        if ( count( $pages ) > 0 )
+        {
+            
+            $check = $FixedPage_to_page;
+                    
+            if ( !$check )
+            {
+                $check = $element->getConditionMaxByPage( -1000, 1000 );
+            }
+            $t->set_var( "fixed_value_id", 1 );
+            
+            foreach ( $pages as $pageValue )
+            {
+                if ( $page->id() != $pageValue->id() )
+                {
+                    if ( $check == $pageValue->id() )
+                    {
+                        $t->set_var( "selected", "selected" );
+                    }
+                    else
+                    {
+                        $t->set_var( "selected", "" );
+                    }
+                    $t->set_var( "page_id", $pageValue->id() );
+                    $t->set_var( "page_name", $pageValue->name() );
+                    $t->parse( "fixed_value", "fixed_value_tpl", true );
+                }
+            }                            
+        }
+        
+        $t->parse( "fixed_value_select", "fixed_value_select_tpl", true );
+        $t->parse( "fixed_value_item", "fixed_value_item_tpl", true );
+        $t->parse( "fixed_value_list", "fixed_value_list_tpl", true );
+
+        
+    }
+    else if ( isSet( $elementChoiceID ) )
     {
         
         $elementType =& $element->elementType();

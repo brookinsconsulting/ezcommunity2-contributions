@@ -13,6 +13,7 @@
 <!-- BEGIN element_choice_tpl -->
     <option value="{element_choice_id}" {selected}>{element_choice_name}</option>
 <!-- END element_choice_tpl -->
+    <option value="-1" {goto_selected}>{intl-go_to_page}</option>
 </select>
 <br />
 <br />
