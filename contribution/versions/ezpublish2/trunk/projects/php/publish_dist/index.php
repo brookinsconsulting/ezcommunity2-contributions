@@ -14,10 +14,14 @@ session_start();
 
 // settings for sessions
 // max timeout is set to 48 hours
+
 ini_alter("session.gc_maxlifetime", "172800");
 ini_alter("session.entropy_file","/dev/urandom"); 
 ini_alter("session.entropy_length", "512");
 
+ini_alter("session.cache_expire", "172800");
+
+//phpinfo();
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezdb.php" );
