@@ -3681,3 +3681,11 @@ Maintainer(s) : bf@ez.no
     * user/frontpage.php:
     Fixed bug with eZAd view count in frame.php and frontpage
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2003-07-10  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezarticletool.php: Fixed bug with non-virtualhosts.
+
