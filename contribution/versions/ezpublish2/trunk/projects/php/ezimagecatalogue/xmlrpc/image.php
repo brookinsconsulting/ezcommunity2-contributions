@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: image.php,v 1.7 2001/07/20 11:06:39 jakobn Exp $
+// $Id: image.php,v 1.8 2001/07/25 10:38:32 jb Exp $
 //
 // Created on: <14-Jun-2001 13:18:27 amos>
 //
@@ -25,6 +25,7 @@
 
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "ezimagecatalogue/classes/ezimagevariation.php" );
+include_once( "ezimagecatalogue/classes/ezimagecategory.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcarray.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcbool.php" );
@@ -76,6 +77,7 @@ if( $Command == "data" ) // Dump image info!
                     "OriginalFileName" => new eZXMLRPCString( $image->originalFileName() ),
                     "FileSize" => new eZXMLRPCInt( $size ),
                     "UserID" => new eZXMLRPCInt( $user_id ),
+                    "PhotographerID" => new eZXMLRPCInt( $image->photographer( false ) ),
                     "ReadGroups" => new eZXMLRPCArray( $rgp ),
                     "WriteGroups" => new eZXMLRPCArray( $wgp ),
                     "WebURL" => new eZXMLRPCString( "/" . $variation->imagePath() ),
@@ -99,11 +101,12 @@ if( $Command == "data" ) // Dump image info!
 }
 else if ( $Command == "storedata" )
 {
-    if ( isset( $Data["Title"] ) and isset( $Data["Caption"] ) and isset( $Data["Description"] ) )
+    if ( isset( $Data["Title"] ) and isset( $Data["Caption"] ) and isset( $Data["Description"] ) and isset( $Data["PhotographerID"] ) )
     {
         $title = $Data["Title"]->value();
         $caption = $Data["Caption"]->value();
         $description = $Data["Description"]->value();
+        $photographer = $Data["PhotographerID"]->value();
         $image = new eZImage();
         if ( $ID != 0 )
         {
@@ -115,6 +118,7 @@ else if ( $Command == "storedata" )
             $image->setName( $title );
             $image->setCaption( $caption );
             $image->setDescription( $description );
+            $image->setPhotographer( $photographer );
             if ( isset( $Data["Image"] ) and isset( $Data["ImageFileName"] ) )
             {
                 $image_data = $Data["Image"]->value();
@@ -147,6 +151,29 @@ else if ( $Command == "storedata" )
     {
         $Error = createErrorMessage( EZERROR_BAD_REQUEST_DATA );
     }
+}
+else if ( $Command == "search" )
+{
+    $keywords = $Data["Keywords"]->value();
+    $texts = array();
+    foreach( $keywords as $keyword )
+    {
+        $texts[] = $keyword->value();
+    }
+    $elements = array();
+    $result =& eZImage::search( $texts, true );
+    foreach( $result as $item )
+    {
+        $cat =& $item->categoryDefinition();
+        $elements[] = new eZXMLRPCStruct( array( "Name" => new eZXMLRPCString( $item->name() ),
+                                                 "CategoryName" => new eZXMLRPCString( $cat->name() ),
+                                                 "Location" => createURLStruct( "ezimagecatalogue", "image", $item->id() ),
+                                                 "CategoryLocation" => createURLStruct( "ezimagecatalogue", "category", $cat->id() ),
+                                                 "HasPreview" => new eZXMLRPCBool( true ) ) );
+    }
+    $ret = array( "Elements" => new eZXMLRPCArray( $elements ) );
+    handleSearchData( $ret );
+    $ReturnData = new eZXMLRPCStruct( $ret );
 }
 
 ?>
