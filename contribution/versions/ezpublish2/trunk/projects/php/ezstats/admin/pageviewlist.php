@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageviewlist.php,v 1.8 2001/08/27 15:26:48 br Exp $
+// $Id: pageviewlist.php,v 1.9 2001/09/05 09:52:06 br Exp $
 //
 // Created on: <06-Jan-2001 17:11:01 bf>
 //
@@ -71,7 +71,7 @@ if ( count( $latest ) > 0 )
         
         $dateTime = $pageview->dateTime();
         $time =& $dateTime->time();        
-        $t->set_var( "request_time", $locale->format( $time ) );
+        $t->set_var( "request_time", $locale->format( $dateTime ) );
         $t->set_var( "remote_ip", $pageview->remoteIP() );
         $t->set_var( "remote_host_name", $pageview->remoteHostName() );
         $t->set_var( "request_page", $pageview->requestPage() );
