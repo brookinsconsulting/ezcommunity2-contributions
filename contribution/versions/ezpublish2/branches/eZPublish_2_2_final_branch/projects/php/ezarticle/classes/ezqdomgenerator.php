@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.39.2.6 2002/01/15 10:12:34 kaid Exp $
+// $Id: ezqdomgenerator.php,v 1.39.2.7 2002/07/30 06:55:29 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -922,8 +922,8 @@ class eZQDomGenerator
                             }
                             $tdContent .= "<td";
                             if ( $tdWidth!="" ) $tdContent .= " $tdWidth";
-                            if ( $tdColspan!="" ) $tdContent .= " $tdColspan";
-                            if ( $tdRowspan!="" ) $tdContent .= " $tdRowspan";
+                            if ( $tdColspan!="" ) $tdContent .= " colspan=\"$tdColspan\"";
+                            if ( $tdRowspan!="" ) $tdContent .= " rowspan=\"$tdRowspan\"";
                             $tdContent .= ">$tmpData</td>";
                             
                         }
