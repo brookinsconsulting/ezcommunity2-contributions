@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cron.php,v 1.1.2.1 2001/12/10 06:50:01 jhe Exp $
+// $Id: cron.php,v 1.1.2.2 2002/06/04 11:43:47 jhe Exp $
 //
 // Created on: <08-Aug-2001 14:28:11 jhe>
 //
@@ -54,31 +54,25 @@ $t->set_block( "confirmation_mail_tpl", "reply_body_tpl", "reply_body" );
 foreach ( $mail_array as $mail )
 {
     $makebug = true;
-    if ( strstr( $mail->subject(), "#" ) )
+    if ( eZBug::bugExists( $list[1] ) )
     {
-        if ( ereg( "#([0-9]*)", $mail->subject(), $list ) )
+        $bug = new eZBug( $list[1] );
+        $log = new eZBugLog();
+        $body = "";
+        foreach ( split( "\n", $mail->body() ) as $line )
         {
-            if ( eZBug::bugExists( $list[1] ) )
+            if ( !ereg( "^[ ]*>", $line ) )
             {
-                $bug = new eZBug( $list[1] );
-                $log = new eZBugLog();
-                $body = "";
-                foreach ( split( "\n", $mail->body() ) as $line )
-                {
-                    if ( !ereg( "^[ ]*>", $line ) )
-                    {
-                        $body .= $line . "\n";
-                    }
-                }
-                $log->setDescription( $body );
-                $log->setBug( $bug );
-                $log->store();
-                $makebug = false;
-                $t->set_var( "prefix", $ini->read_var( "eZMailMain", "ReplyPrefix" ) );
-                $mailSubject = $mail->subject();
-                $mailBody = $t->parse( "dummy", "reply_body_tpl" );
+                $body .= $line . "\n";
             }
         }
+        $log->setDescription( $body );
+        $log->setBug( $bug );
+        $log->store();
+        $makebug = false;
+        $t->set_var( "prefix", $ini->read_var( "eZMailMain", "ReplyPrefix" ) );
+        $mailSubject = $mail->subject();
+        $mailBody = $t->parse( "dummy", "reply_body_tpl" );
     }
     
     if ( $makebug )
