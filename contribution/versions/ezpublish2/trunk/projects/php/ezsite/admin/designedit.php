@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: designedit.php,v 1.1 2000/11/22 09:12:27 ce-cvs Exp $
+// $Id: designedit.php,v 1.2 2000/11/22 10:55:21 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -68,6 +68,8 @@ if ( $Action == "update" )
         $image->setCaption( $Caption );
         $image->store();
     }
+
+
     
     $hex1R = decHex( $Color1_R );
     $hex1G = decHex( $Color1_G );
@@ -80,6 +82,53 @@ if ( $Action == "update" )
     $hex3R = decHex( $Color3_R );
     $hex3G = decHex( $Color3_G );
     $hex3B = decHex( $Color3_B );
+
+    if ( strlen( $hex1R ) == 1 )
+    {
+        $hex1R = ( "0" . $hex1R );
+    }
+
+    if ( strlen( $hex1G ) == 1 )
+    {
+        $hex1G = ( "0" . $hex1G );
+    }
+
+    if ( strlen( $hex1B ) == 1 )
+    {
+        $hex1B = ( "0" . $hex1B );
+    }
+
+    if ( strlen( $hex2R ) == 1 )
+    {
+        $hex2R = ( "0" . $hex2R );
+    }
+
+    if ( strlen( $hex2G ) == 1 )
+    {
+        $hex2G = ( "0" . $hex2G );
+    }
+
+    if ( strlen( $hex2B ) == 1 )
+    {
+        $hex2B = ( "0" . $hex2B );
+    }
+
+
+
+    if ( strlen( $hex3R ) == 1 )
+    {
+        $hex3R = ( "0" . $hex3R );
+    }
+
+    if ( strlen( $hex3G ) == 1 )
+    {
+        $hex3G = ( "0" . $hex3G );
+    }
+
+    if ( strlen( $hex3B ) == 1 )
+    {
+        $hex3B = ( "0" . $hex3B );
+    }
     
     $color1 = ( $hex1R . $hex1G . $hex1B );
     $color2 = ( $hex2R . $hex2G . $hex2B );
