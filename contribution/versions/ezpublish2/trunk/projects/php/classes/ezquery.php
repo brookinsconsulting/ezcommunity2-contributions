@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquery.php,v 1.2 2000/10/02 18:06:15 pkej-cvs Exp $
+// $Id: ezquery.php,v 1.3 2000/10/02 19:05:32 pkej-cvs Exp $
 //
 // Definition of eZQuery class
 //
@@ -40,6 +40,7 @@ class eZQuery
     {
         global $QUERY_STRING;
         global $SERVER_NAME;
+        global $REQUEST_URI;
             
         $this->URLArray = explode( "/", $REQUEST_URI );
         $this->QueryArray = explode( "&", $QUERY_STRING );
@@ -101,17 +102,20 @@ class eZQuery
      */
     function removeRegexpDuplicates( $regexp )
     {
-        #$this->printQueries( "pre removeRegexpDuplicates" );
+        $this->printQueries( "pre removeRegexpDuplicates" );
         
         $newQueryArray = array();
         $tempQueryArray = $this->QueryArray;
         $currentQuery;
         
-        for( $i = $this->count; $i > 0; $i-- )
+        for( $i = $this->count; $i >= 0; $i-- )
         { 
             $currentQuery = $tempQueryArray[$i];
             
-            for( $j = $this->count; $j > $i; $j-- )
+            echo "curr: " . $currentQuery . "<br>";
+            
+#            for( $j = $this->count; $j > 0; $j-- )
+            for( $j = 0; $j <= $this->count; $j++ )
             {
                 $arrayItem = $tempQueryArray[$j];
                 
@@ -129,7 +133,7 @@ class eZQuery
         
         $this->QueryArray = $newQueryArray;
         
-        #$this->printQueries( "post removeRegexpDuplicates" );
+        $this->printQueries( "post removeRegexpDuplicates" );
     }
 
 
@@ -145,17 +149,20 @@ class eZQuery
      */
     function getQueries( &$returnArray, $regexp )
     {
-        $this->printQueries( "post getQueries" );
+        #$this->printQueries( "post getQueries" );
         $value = false;
         
         $returnArray = array(); 
 
         $i = $this->count;
+        
+        #echo $i . "<br>";
+        
         for( $i; $i >= 0; $i-- )
         {
             $arrayItem = $this->QueryArray[$i];
             
-            echo "$i $arrayItem <br>";
+            #echo " $i $arrayItem <br>";
             
             if( ereg( $regexp,  $arrayItem ) )
             {
@@ -164,7 +171,7 @@ class eZQuery
             }
         }   
 
-        $this->printQueries( "post getQueries" );
+        #$this->printQueries( "post getQueries" );
         
         return $value;     
     }
@@ -228,6 +235,18 @@ class eZQuery
         }
         echo "</blockquote><br>\n";
         
+    }
+    
+    /*!
+        This function returns the $no item in the url path.
+        
+        \return
+            Returns a path-level.
+     */
+    function getURLPart( $no )
+    {
+        #echo $no . " " . $this->URLArray[ $no ] . "<br>";
+        return $this->URLArray[ $no ];
     }
     
     var $QueryArray;
