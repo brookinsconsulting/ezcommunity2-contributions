@@ -29,8 +29,10 @@ ob_start( );
 chdir( "../../" );
 
 $REQUEST_URI = preg_replace( "#/stats/store(.*?)1x1.gif$#", "\\1", $REQUEST_URI );
+//$REQUEST_URI = preg_replace( "#/stats/store(.*?)1x1.png$#", "\\1", $REQUEST_URI );
 
 $REQUEST_URI = preg_replace( "#/rx.*?-(.*)$#", "\\1", $REQUEST_URI );
+//$REQUEST_URI = preg_replace( "#/rx.*?-(.*)$#", "\\1", $REQUEST_URI );
 
 // do the statistics
 include_once( "ezstats/classes/ezpageview.php" );
@@ -44,6 +46,7 @@ ob_end_clean();
 
 //  # the file may be a local file with full path.
 // $filePath = "images/1x1.gif";
+// $filePath = "design/base/images/design/1x1.png";
 
 $filePath = "design/base/images/design/1x1.gif";
 $fileSize = eZFile::filesize( $filePath );
@@ -51,7 +54,9 @@ $fp = eZFile::fopen( $filePath, "r" );
 $content =& fread( $fp, $fileSize );
 
 $originalFileName = "1x1.gif";
+// $originalFileName = "1x1.png";
 
+//Header("Content-type: image/png");
 Header("Content-type: image/gif"); 
 Header("Content-length: $fileSize"); 
 Header("Content-disposition: attachment; filename=\"$originalFileName\"");
