@@ -1,13 +1,13 @@
 <h1>Siste nytt</h1>
 
 <hr noshade="noshade" size="4" />
-<br />
+
 <!-- BEGIN news_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<td colspan="2">
-	<a href="{first_news_url}/">
 	<p class="newslist">
+	<a href="{first_news_url}/">
 	<span class="h1">{first_news_name}</span>
 	</a><br />
 	<span class="small">( {first_news_origin} - {first_news_date} )</span>
@@ -17,22 +17,16 @@
 	</td>
 </tr>
 <tr>
-	<td colspan="2">
+	<td colspan="2" align="center">
+	<br/>
+
 	<!-- Reklamebanner herfra! -->
-	<table width="100%" cellspacing="0" cellpadding="0" border="0">
-	<tr>
-		<td>&nbsp;</td>
-	</tr>
-	<tr>
-		<td align="center">
-     		<img src="/images/reklame.gif" width="468" height="60" align="center" border="0" alt="" />
-		</td>
-	</tr>
-	<tr>
-		<td>&nbsp;</td>
-	</tr>
-	</table>
+
+	<img src="/images/reklame.gif" width="468" height="60" align="center" border="0" alt="" /><br />
+
 	<!-- Reklamebanner fram til hit! -->
+
+	<br/>
 	</td>
 </tr>
 <!-- BEGIN news_item_tpl -->
@@ -53,6 +47,8 @@
 <!-- END news_list_tpl -->
 
 <hr noshade="noshade" size="4" />
+
+<br />
 
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
