@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index_xmlrpc.php,v 1.17 2001/07/20 12:04:13 jakobn Exp $
+// $Id: index_xmlrpc.php,v 1.18 2001/07/25 10:39:04 jb Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -128,31 +128,33 @@ function Call( $args )
         $Command = $call["Command"]->value();
         $GLOBALS["Command"] =& $Command;
 
-//          eZLog::writeNotice( "XML-RPC call. $Command, $Module:/$RequestType/$ID" );
-
         $ReturnData = array();
         $GLOBALS["ReturnData"] =& $ReturnData;
 
         $Error = false;
         $GLOBALS["XMLRPC_Error"] =& $Error;
+        $ret = "";
+        $GLOBALS["ret"] =& $ret;
         $datasupplier = $Module . "/xmlrpc/datasupplier.php";
-        // check for module implementation
-        if ( $Command == "search" && $Module == "" && $RequestType == "" )
+        if ( ( $Command == "search" && $Module == "" && $RequestType == "" ) ||
+             file_exists( $datasupplier )  ||
+             ( $Module == "ezpublish" && $RequestType == "modules" ) )
         {
-            // We handle global search ourselves
-            $modules = array( "ezarticle", "ezimagecatalogue" );
-            foreach( $modules as $module )
+            // check for module implementation
+            if ( $Command == "search" && $Module == "" && $RequestType == "" )
             {
-                $search_file = $module . "/xmlrpc/search.php";
-                if ( file_exists( $search_file ) )
+                // We handle global search ourselves
+                $modules = array( "ezarticle", "ezimagecatalogue" );
+                foreach( $modules as $module )
                 {
-                    include( $search_file );
+                    $search_file = $module . "/xmlrpc/search.php";
+                    if ( file_exists( $search_file ) )
+                    {
+                        include( $search_file );
+                    }
                 }
             }
-        }
-        else if ( file_exists( $datasupplier )  || ( $Module == "ezpublish" && $RequestType == "modules" ) )
-        {
-            if ( $Module == "ezpublish" && $RequestType == "modules" )
+            else if ( $Module == "ezpublish" && $RequestType == "modules" )
             {
                 // return the modules in the system
                 $dir = dir( "." );
@@ -255,8 +257,22 @@ function appendSearchURLS( $urls )
         $ret["NextSearch"] = new eZXMLRPCArray( $next );
     if ( !isset( $ret["Keywords"] ) )
         $ret["Keywords"] = $Data["Keywords"];
+    if ( isset( $Data["Parameters"] ) && !isset( $ret["Parameters"] ) )
+        $ret["Parameters"] = $Data["Parameters"];
     if ( !is_object( $ReturnData ) )
         $ReturnData = new eZXMLRPCStruct( $ret );
+}
+
+function handleSearchData( &$ret )
+{
+    global $Data;
+    if ( isset( $Data["NextSearch"] ) )
+    {
+        $ret["NextSearch"] = $Data["NextSearch"];
+        $ret["Keywords"] = $Data["Keywords"];
+    }
+    if ( isset( $Data["Parameters"] ) )
+        $ret["Parameters"] = $Data["Parameters"];
 }
 
 function xmlrpcErrorHandler ($errno, $errmsg, $filename, $linenum, $vars)
