@@ -160,7 +160,7 @@ CREATE TABLE eZContact_PhoneType (
 DROP TABLE IF EXISTS eZContact_ContactType;
 CREATE TABLE eZContact_ContactType (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
-  Name char(50),
+  Name char(50) NOT NULL,
   Description text,
   ParentID int(11) DEFAULT '0' NOT NULL,
   INDEX (ParentID),
