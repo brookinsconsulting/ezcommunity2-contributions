@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.29 2001/11/17 10:54:24 bf Exp $
+// $Id: frontpage.php,v 1.30 2001/11/22 11:24:57 pkej Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -728,6 +728,8 @@ function &renderFrontpageProductDouble( &$t, &$locale, &$product1, &$product2 )
 {
     global $ini;
     $pid = $product1->id();
+
+    $PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" );
 
     $ThumbnailImageWidth = $ini->read_var( "eZTradeMain", "ThumbnailImageWidth" );
     $ThumbnailImageHeight = $ini->read_var( "eZTradeMain", "ThumbnailImageHeight" );
