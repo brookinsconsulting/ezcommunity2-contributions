@@ -1,7 +1,3 @@
-<form method="post" action="{www_dir}{index}{action_url}" enctype="multipart/form-data">
-
-<input type="hidden" name="CategoryID" value="{main_category_id}">
-
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -18,6 +14,11 @@
 	</td>
 </tr>
 </table>
+
+
+<form method="post" action="{www_dir}{index}{action_url}" enctype="multipart/form-data">
+
+<input type="hidden" name="CategoryID" value="{main_category_id}">
 
 
 <!-- BEGIN current_category_tpl -->
