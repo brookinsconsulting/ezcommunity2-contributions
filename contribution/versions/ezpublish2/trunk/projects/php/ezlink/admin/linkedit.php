@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: linkedit.php,v 1.64 2001/08/24 14:21:44 th Exp $
+// $Id: linkedit.php,v 1.65 2001/10/05 14:26:27 br Exp $
 //
 // Created on: <26-Oct-2000 14:58:57 ce>
 //
@@ -67,7 +67,7 @@ if ( isSet( $Back ) )
     }
     else
     {
-        $LinkCategoryIDID = 0;
+        $LinkCategoryID = 0;
     }
 
     eZHTTPTool::header( "Location: /link/category/$LinkCategoryID/" );

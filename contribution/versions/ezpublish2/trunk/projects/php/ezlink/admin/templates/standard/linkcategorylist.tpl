@@ -113,6 +113,7 @@
 </table>
 <hr noshade="noshade" size="4" />
 <input class="stdbutton" type="submit" Name="DeleteLinks" value="{intl-delete_links}">
+<input type="hidden" Name="LinkCategoryID" value="{category_id}">
 </form>
 <!-- END link_list_tpl -->
 
