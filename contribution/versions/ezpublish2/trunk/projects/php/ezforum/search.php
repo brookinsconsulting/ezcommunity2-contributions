@@ -1,107 +1,84 @@
 <?
-/*!
-    $Id: search.php,v 1.9 2000/09/07 15:44:44 bf-cvs Exp $
-
-    Author: Lars Wilhelmsen <lw@ez.no>
-    
-    Created on: Created on: <26-Jul-2000 17:22:47 lw>
-    
-    Copyright (C) 2000 eZ systems. All rights reserved.
-*/
+// 
+// $Id: search.php,v 1.10 2000/10/12 18:47:08 bf-cvs Exp $
+//
+// 
+//
+// Bård Farstad <bf@ez.no
+// Created on: <12-Oct-2000 20:33:02 bf>
+//
+// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
+//
+// IMPORTANT NOTE: You may NOT copy this file or any part of it into
+// your own programs or libraries.
+//
 
 include_once( "classes/INIFile.php" );
+include_once( "ezforum/classes/ezforumforum.php" );
 
-$ini = new INIFile( "site.ini" ); // get language settings
-$DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
+include_once( "classes/ezlocale.php" );
+include_once( "ezuser/classes/ezuser.php" );
 
-include_once( "common/ezphputils.php" );
-include_once( $DOC_ROOT . "/classes/ezforummessage.php" );
+$ini = new INIFile( "site.ini" );
+
 include_once( "classes/eztemplate.php" );
-include_once( "classes/ezuser.php" );
-include_once( "classes/ezsession.php" );
 
-$ini = new INIFile( "site.ini" ); // get language settings
 $Language = $ini->read_var( "eZForumMain", "Language" );
 
+$t = new eZTemplate( "ezforum/templates", "ezforum/intl", $Language, "search.php" );
 
-//preliminary setup
-$usr = new eZUser;
-$session = new eZSession;
-
-$t = new eZTemplate( "$DOC_ROOT/templates", "$DOC_ROOT/intl", $Language, "main.php" );
 $t->setAllStrings();
 
-$t->set_file( Array("main" => "search.tpl",
-                    "search" => "main-search.tpl",
-                    "search-elements" =>"main-search-results-elements.tpl",
-                    "results" => "main-search-results.tpl",                    
-                    "navigation" => "navigation.tpl",
-                    "login" => "login.tpl",                    
-                    "logout" => "logout.tpl"                    
-                    ) );
+$t->set_file( "search_tpl", "search.tpl" );
 
-$t->set_var( "docroot", $DOC_ROOT);
-$t->set_var( "forum_path", "");
+$t->set_block( "search_tpl", "message_tpl", "message" );
 
-if ( $session->get( $AuthenticatedSession ) == 0 )
+if ( $QueryString != "" )
 {
-    $user = new eZUser();
-    $t->set_var( "user", $user->resolveUser( $session->UserID() ) );
-    $t->parse( "logout-message", "logout", true);
-}
-else
-{
-   $t->set_var( "user", "Anonym" );
-   $t->set_var( "logout-message", "" );
-}
-$t->parse( "navigation-bar", "navigation", true);
+    $t->set_var( "query_string", $QueryString );
 
-//search field
-if ( $search )
-{
-    $criteria = addslashes( $criteria );
-    $message = new eZForumMessage();
-    $headers = $message->search( $criteria );
+    if ( !isset( $Offset ) )
+        $Offset = 0;
 
-    if ( count( $headers ) == 0 )
-        $t->set_var( "fields", "<b>Ingen treff</b>");
+    if ( !isset( $Limit ) )
+        $Limit = 30;
 
-    $user = new eZUser();    
-    for ( $i = 0; $i < count ( $headers ); $i++)
+    $forum = new eZForumForum();
+    
+    // do a search in all forums
+    $messages = $forum->search( $QueryString, $Offset, $Limit );
+
+    $locale = new eZLocale( $Language );
+
+    $level = 0;
+    $i = 0;
+    foreach ( $messages as $message )
     {
-        $message->get( $headers[$i][ "Id" ] );
-
-
-     
-
-        if ( $message->userID() == 0 )
-            $userName = "Anonym";
+        if ( ( $i % 2 ) == 0 )
+            $t->set_var( "td_class", "bglight" );
         else
-        {
-            $user->get( $message->userID() );
-            $userName = $user->firstName() . " " . $user->lastName();
-        }
-                
+            $t->set_var( "td_class", "bgdark" );
+    
+        $t->set_var( "message_topic", $message->topic() );
+
+        $t->set_var( "postingtime", $locale->format( $message->postingTime() ) );
+
         $t->set_var( "message_id", $message->id() );
-        $t->set_var( "topic", $message->topic() );
-        $t->set_var( "author", $userName );
-        $t->set_var( "time", $message->postingTime() );
-        
-        $t->set_var( "forum", "&nbsp;" );
 
-        $t->set_var( "color", switchColor( $i, "#f0f0f0", "#dcdcdc" ) );
-        
-        $t->parse( "fields", "search-elements", true );
+        $user = $message->user();
+    
+        $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
+
+        $t->set_var( "limit", $Limit );
+        $t->set_var( "prev_offset", $Offset - $Limit );
+        $t->set_var( "next_offset", $Offset + $Limit );    
+    
+        $t->parse( "message", "message_tpl", true );
+        $i++;
     }
-    $t->parse( "searchfield", "results", true );
-}
-else
-{
-    $t->parse( "searchfield", "search" );
 }
 
 
-//$t->parse( "searchfield", "search", true );
+$t->pparse("output","search_tpl");
 
-$t->pparse("output","main");
 ?>

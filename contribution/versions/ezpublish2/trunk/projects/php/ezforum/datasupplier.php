@@ -9,6 +9,10 @@ switch ( $url_array[2] )
         include( "ezforum/main.php" );
         break;
 
+    case "search" :
+        include( "ezforum/search.php" );
+        break;
+        
     case "reply" :
     {
         $Action = "Reply";

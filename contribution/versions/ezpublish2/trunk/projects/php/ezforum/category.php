@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: category.php,v 1.34 2000/10/11 14:58:38 bf-cvs Exp $
+// $Id: category.php,v 1.35 2000/10/12 18:47:08 bf-cvs Exp $
 //
 // 
 //
@@ -46,7 +46,11 @@ foreach( $forums as $forum )
     $t->set_var( "forum_id", $forum->id() );
 
     $t->set_var( "name", $forum->name() );    
-    $t->set_var( "description", $forum->description() );    
+    $t->set_var( "description", $forum->description() );
+
+    $t->set_var( "threads", $forum->threadCount() );    
+    $t->set_var( "messages", $forum->messageCount() );    
+    
 
     if ( ( $i %2 ) == 0 )
         $t->set_var( "td_class", "bglight"  );

@@ -1,10 +1,10 @@
 <?
 // 
-// $Id: ezforumforum.php,v 1.22 2000/10/12 17:45:06 bf-cvs Exp $
+// $Id: ezforumforum.php,v 1.23 2000/10/12 18:47:08 bf-cvs Exp $
 //
-// Definition of eZCompany class
+// 
 //
-// Lars Wilhelmsen <lw@ez.no>
+// Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
 // Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
@@ -28,6 +28,10 @@
   Moderated='$this->Moderated',  Private='$this->Private' to use enum( 'true', 'false' )
   and use bool in the class. Rename the functions an variables to IsModerated and IsPrivate.  
 */
+
+include_once( "classes/ezdb.php" );
+include_once( "ezforum/classes/ezforummessage.php" );
+
 
 class eZForumForum
 {
@@ -166,6 +170,29 @@ class eZForumForum
                                                        ezforum_MessageTable
                                                        WHERE ForumId='$this->ID' ORDER BY PostingTime DESC" );
 
+       $ret = array();
+
+       foreach ( $message_array as $message )
+       {
+           $ret[] = new eZForumMessage( $message["ID"] );
+       }
+       
+       return $ret;
+    }
+
+    /*!
+      Returns the messages in every forum matching the query string.
+    */
+    function search( $query, $offset, $limit )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+       $this->dbInit();
+
+       $this->Database->array_query( $message_array, "SELECT Id as ID FROM
+                                                       ezforum_MessageTable
+                                                       WHERE Topic LIKE '%$query%' OR Body LIKE '%$query%'" );
        $ret = array();
 
        foreach ( $message_array as $message )
@@ -354,16 +381,43 @@ class eZForumForum
     }
 
     /*!
-      Returns the treeID. The tree id is an integer which
-      indicates the position of the message in the forum.
-      Higher number is newer/higher up in the tree. 0 is the
-      first message.
+      Returns the number of threads in the forum.
     */
-    function treeID()
+    function threadCount()
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
 
+       $this->dbInit();
+
+       $this->Database->array_query( $message_array, "SELECT Id as ID FROM
+                                                       ezforum_MessageTable
+                                                       WHERE ForumId='$this->ID' GROUP BY ThreadID" );
+
+       $ret = count( $message_array );
+
+       return $ret;
     }
 
+    /*!
+      Returns the number of messages in the forum.
+    */
+    function messageCount()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $this->Database->array_query( $message_array, "SELECT Id as ID FROM
+                                                       ezforum_MessageTable
+                                                       WHERE ForumId='$this->ID'" );
+
+       $ret = count( $message_array );
+
+       return $ret;
+    }
+    
     /*!
       \private
       Opens the database for read and write.
