@@ -10,6 +10,42 @@ INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'CVT
 INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'CVTypeView' FROM eZUser_Module AS Module WHERE Module.Name='eZCV';
 INSERT INTO eZUser_Permission ( ModuleID, Name ) SELECT DISTINCT Module.ID, 'CVTypeList' FROM eZUser_Module AS Module WHERE Module.Name='eZCV';
 
+DROP TABLE IF EXISTS eZCV_MaritalStatus;
+CREATE TABLE eZCV_MaritalStatus
+(
+    ID int(2) DEFAULT '0' NOT NULL auto_increment,
+    Name varchar(32) DEFAULT 'unknown' NOT NULL,
+    UNIQUE INDEX( NAME ),
+    PRIMARY KEY(ID)
+);
+
+DROP TABLE IF EXISTS eZCV_Sex;
+CREATE TABLE eZCV_Sex
+(
+    ID int(2) DEFAULT '0' NOT NULL auto_increment,
+    Name varchar(32) DEFAULT 'unknown' NOT NULL,
+    UNIQUE INDEX( NAME ),
+    PRIMARY KEY(ID)
+);
+
+DROP TABLE IF EXISTS eZCV_ArmyStatus;
+CREATE TABLE eZCV_ArmyStatus
+(
+    ID int(2) DEFAULT '0' NOT NULL auto_increment,
+    Name varchar(32) DEFAULT 'unknown' NOT NULL,
+    UNIQUE INDEX( NAME ),
+    PRIMARY KEY(ID)
+);
+
+DROP TABLE IF EXISTS eZCV_WorkStatus;
+CREATE TABLE eZCV_WorkStatus
+(
+    ID int(2) DEFAULT '0' NOT NULL auto_increment,
+    Name varchar(32) DEFAULT 'unknown' NOT NULL,
+    UNIQUE INDEX( NAME ),
+    PRIMARY KEY(ID)
+);
+
 DROP TABLE IF EXISTS eZCV_CV;
 CREATE TABLE eZCV_CV
 (
