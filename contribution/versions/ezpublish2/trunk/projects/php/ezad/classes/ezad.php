@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezad.php,v 1.28 2001/10/14 14:11:34 br Exp $
+// $Id: ezad.php,v 1.29 2001/11/23 09:41:43 br Exp $
 //
 // Definition of eZAd class
 //
@@ -216,7 +216,7 @@ class eZAd
     */
     function &url()
     {
-       return htmlspecialchars( $this->URL );
+       return $this->URL;
     }
 
     /*!
@@ -235,14 +235,6 @@ class eZAd
        return $this->ViewPrice;
     }
 
-    /*!
-      Returns the ad's url.
-    */
-    function &url()
-    {
-       return htmlspecialchars( $this->URL );
-    }
-    
     /*!
       Returns true if the ad is active false if not.
     */
