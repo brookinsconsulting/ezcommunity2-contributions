@@ -6,14 +6,180 @@ crouded.*/
 function getHeaders( &$Mail, $imap_stream, $msgno )
 {
     $headers = imap_headerinfo( $imap_stream, $msgno );
-//    echo "<pre>"; print_r( $headers ); echo "</pre>";
-    print( "To " . $headers->toaddress . "<br>");
-    print( "From " . $headers->fromaddress . "<br>"); // from NAME
-    print( "Reply " . $headers->reply_toaddress ."<br>");
-    print( "Subject " . $headers->subject ."<br>");
-    print( "MessageID " . $headers->message_id . "<br>" );
-    print( "Date " . $headers->date . "<br>" );
-    print( "ReplyID " . $headers->in_reply_to . "<br>" );
+    print( "To: " . getDecodedHeader( $headers->toaddress ). "<br>" );
+    print( "From: " . getDecodedHeader( $headers->fromaddress ). "<br>"); // from NAME
+    print( "Reply: " . getDecodedHeader( $headers->reply_toaddress ) ."<br>");
+    print( "Subject: " . getDecodedHeader( $headers->subject )."<br>");
+    print( "MessageID: " . getDecodedHeader( $headers->message_id ). "<br>" );
+    print( "Date: " . getDecodedHeader( $headers->date ) . "<br>" );
+    print( "ReplyID: " . getDecodedHeader( $headers->in_reply_to ). "<br>" );
+}
+
+/*
+  
+ */
+function getDecodedHeader( $headervalue )
+{
+    $decode = imap_mime_header_decode( $headervalue );
+    $ret = "";
+    for( $i = 0; $i < count( $decode ); $i++ )
+    {
+        $ret = $i == 0 ? $decode[$i]->text : $ret . $decode[$i]->text;
+    }
+    return $ret;
+}
+
+
+
+//How to call this function:
+//$msg_struct = imap_fetchstructure($mconn, $msg_no);
+//
+//disectThisPart($msg_struct, "");
+function disectThisPart($this_part, $part_no, $mbox, $msgnum, $level=0 )
+{
+	if ($this_part->ifdisposition)
+    {
+		if ($this_part->disposition == "ATTACHMENT")
+        {
+			// If it is an attachment, then we let people download it
+			
+			// First see if they sent a filename
+			$att_name = "unknown";
+            for ($lcv = 0; $lcv < count($this_part->parameters); $lcv++)
+            {
+                $param = $this_part->parameters[$lcv];
+
+                if ($param->attribute == "NAME")
+                {
+                    $att_name = $param->value;
+                    break;
+	            }
+	        }
+
+			// You could give a link to download the attachment here....
+            print( "Mail has an attachment named: $att_name <br>" );
+        }
+        else
+        {
+			// disposition can also be used for images in HTML (Inline)
+		}
+	}
+    else
+    {
+		// Not an attachment, lets see what this part is...
+		switch ($this_part->type)
+        {
+            case TYPETEXT:
+            {
+                $mime_type = "text";
+                $value = decode( $this_part->encoding, fetch_part( $part_no, $mbox, $msgnum ) );
+                echo "$value";
+            }
+			break;
+            case TYPEMULTIPART:
+            {
+                $mime_type = "multipart";
+                for ($i = 0; $i < count($this_part->parts); $i++)
+                {
+                    if ( $level != 0 )
+                        $part_no = $part_no.".";
+                    else
+                        $part_no = "";
+                
+                    for ($i = 0; $i < count($this_part->parts); $i++)
+                    {
+                        disectThisPart($this_part->parts[$i], $part_no.($i + 1), $mbox, $msgnum, 1);
+                    }
+                }
+            }
+			break;
+            case TYPEMESSAGE:
+                $mime_type = "message";
+			break;
+            case TYPEAPPLICATION:
+                $mime_type = "application";
+			break;
+            case TYPEAUDIO:
+                $mime_type = "audio";
+			break;
+            case TYPEIMAGE:
+                $mime_type = "image";
+			break;
+            case TYPEVIDEO:
+                $mime_type = "video";
+			break;
+            case TYPEMODEL:
+                $mime_type = "model";
+			break;
+            default:
+                $mime_type = "unknown";
+            break;
+		}
+		$full_mime_type = $mime_type."/".$this_part->subtype;
+
+        /*
+        if( $mime_type != "multipart"  )
+        {
+            echo "$full_mime_type in part $part_no<BR>";
+            
+            switch ($this_part->encoding)
+            {
+                case ENC7BIT:
+                    break;
+                case ENC8BIT:
+                    break;
+                case ENCBINARY:
+                    break;
+                case ENCBASE64:
+                    // use imap_base64 to decode
+                    break;
+                case ENCQUOTEDPRINTABLE:
+                    // use imap_qprint to decode
+                    break;
+                case ENCOTHER:
+                    // not sure if this needs decoding at all
+                    break;
+                default:
+                    // it is either not encoded or we don't know about it
+            }
+        }
+        */
+	}
+}
+
+function decode( $enctype, $value )
+{
+    $ret = "";
+    switch ($enctype)
+    {
+        case ENC7BIT:
+            $ret = $value;
+            break;
+        case ENC8BIT:
+            $ret = $value;
+            break;
+        case ENCBINARY:
+            $ret = $value;
+            break;
+        case ENCBASE64:
+            $ret = imap_base64( $value );
+            break;
+        case ENCQUOTEDPRINTABLE:
+            $ret = imap_qprint( $value );
+            break;
+        case ENCOTHER:
+            $ret = $value;
+            // not sure if this needs decoding at all
+            break;
+        default: // what is this???
+            $ret = $value;
+    }
+}
+
+function fetch_part( $partnum, $mbox, $msgnum )
+{
+    $part = imap_fetchbody( $mbox, $msgnum, $partnum );
+    echo "$part <BR>";
 }
 
 function get_mime_type(&$structure)
@@ -27,8 +193,10 @@ return "TEXT/PLAIN";
 }
 
 
-//Right now only the first part with the matching MIME type is returned. A more useful version would create an array and return all matching parts (for GIFs, for instance).
-function get_part($stream, $msg_number, $mime_type, $structure = false, $part_number = false)
+//Right now only the first part with the matching MIME type is returned.
+//A more useful version would create an array and return all matching parts
+//(for GIFs, for instance).
+function getPart($stream, $msg_number, $mime_type, $structure = false, $part_number = false)
 {
     if(!$structure)
     {
@@ -74,112 +242,6 @@ function get_part($stream, $msg_number, $mime_type, $structure = false, $part_nu
     }
     return false;
 }           
-
-
-//How to call this function:
-//$msg_struct = imap_fetchstructure($mconn, $msg_no);
-//
-//DisectThisPart($msg_struct, "");
-
-function DisectThisPart($this_part, $part_no)
-{
-	if ($this_part->ifdisposition)
-    {
-		// See if it has a disposition
-		// The only thing I know of that this
-		// would be used for would be an attachment
-		// Lets check anyway
-		if ($this_part->disposition == "ATTACHMENT")
-        {
-			// If it is an attachment, then we let people download it
-			
-			// First see if they sent a filename
-			$att_name = "unknown";
-            for ($lcv = 0; $lcv < count($this_part->parameters); $lcv++)
-            {
-                $param = $this_part->parameters[$lcv];
-
-                if ($param->attribute == "NAME")
-                {
-                    $att_name = $param->value;
-                    break;
-	            }
-	        }
-
-			// You could give a link to download the attachment here....
-        }
-        else
-        {
-			// disposition can also be used for images in HTML (Inline)
-		}
-	}
-    else
-    {
-		// Not an attachment, lets see what this part is...
-		switch ($this_part->type)
-        {
-            case TYPETEXT:
-                $mime_type = "text";
-			break;
-            case TYPEMULTIPART:
-                $mime_type = "multipart";
-			// Hey, why not use this function to deal with all the parts
-			// of this multipart part :)
-			for ($i = 0; $i < count($this_part->parts); $i++)
-            {
-				if ($part_no != "")
-                {
-					$part_no = $part_no.".";
-				}
-				for ($i = 0; $i < count($this_part->parts); $i++)
-                {
-					DisectThisPart($this_part->parts[$i], $part_no.($i + 1));
-				}
-			}
-			break;
-            case TYPEMESSAGE:
-                $mime_type = "message";
-			break;
-            case TYPEAPPLICATION:
-                $mime_type = "application";
-			break;
-            case TYPEAUDIO:
-                $mime_type = "audio";
-			break;
-            case TYPEIMAGE:
-                $mime_type = "image";
-			break;
-            case TYPEVIDEO:
-                $mime_type = "video";
-			break;
-            case TYPEMODEL:
-                $mime_type = "model";
-			break;
-            default:
-                $mime_type = "unknown";
-			// hmmm....
-		}
-		$full_mime_type = $mime_type."/".$this_part->subtype;
-		
-		// Decide what you what to do with this part
-		// If you want to show it, figure out the encoding and echo away
-		switch ($this_part->encoding)
-        {
-            case ENCBASE64:
-                // use imap_base64 to decode
-                break;
-            case ENCQUOTEDPRINTABLE:
-                // use imap_qprint to decode
-                break;
-            case ENCOTHER:
-                // not sure if this needs decoding at all
-                break;
-            default:
-                // it is either not encoded or we don't know about it
-		}
-	}
-}
-
 
 
 ?>

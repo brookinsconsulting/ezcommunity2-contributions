@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailaccount.php,v 1.4 2001/03/21 16:28:41 fh Exp $
+// $Id: ezmailaccount.php,v 1.5 2001/03/22 17:09:28 fh Exp $
 //
 // eZMailAccount class
 //
@@ -369,6 +369,11 @@ class eZMailAccount
         $mbox = imap_open( $server, $this->LoginName, $this->Password, OP_HALFOPEN)
              or die("can't connect: ".imap_last_error());
 
+//debug!!!!        
+//        $struct = imap_fetchstructure( $mbox, 1 );
+//        echo "<pre>"; print_r( $struct ); echo "</pre>";
+//        exit;
+
         $num = imap_num_msg( $mbox );         // fetch numbers of all new mails
         for( $i=1; $i <= $num; $i++ )  // go through each mail in inbox
         {
@@ -377,6 +382,9 @@ class eZMailAccount
             {
                 $mail = new eZMail();
                 getHeaders( $mail, $mbox, $i ); // fetch header information
+                $mailstructure = imap_fetchstructure( $mbox, $i );
+                disectThisPart( $mailstructure, "1", $mbox, $i );
+                echo "--------------------------<BR>";
             }
             
         }

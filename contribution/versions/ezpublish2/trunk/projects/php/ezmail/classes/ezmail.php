@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.2 2001/03/20 20:51:03 fh Exp $
+// $Id: ezmail.php,v 1.3 2001/03/22 17:09:28 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -494,6 +494,13 @@ class eZMail
     var $Subject;
     var $BodyText;
 
+    // we need a state so we can store if this mail is replyed/forwarded...
+    // I suggest
+    // 0 - Unread
+    // 1 - Read
+    // 2 - Replied
+    // 3 - Forwarded
+    
     var $IsRead;
     /* database specific variables */
     var $ID;
