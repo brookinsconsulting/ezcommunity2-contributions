@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categorylist.php,v 1.14 2001/08/08 13:34:21 jb Exp $
+// $Id: categorylist.php,v 1.15 2001/08/22 06:11:49 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -32,6 +32,7 @@ include_once( "ezxmlrpc/classes/ezxmlrpcstring.php" );
 
 if ( $Command == "list" )
 {
+//      usleep( 1000000 );
 
     $list_categories = false;
     $list_articles = false;
@@ -59,8 +60,9 @@ if ( $Command == "list" )
         $Part = $Data["Part"]->value();
         $offset = $Part["Offset"]->value();
         $max = $Part["Max"]->value();
-//      eZLog::writeNotice( "Article: Offset: $offset, Max: $max" );
+//        eZLog::writeNotice( "Article: Offset: $offset, Max: $max" );
     }
+//      eZLog::writeNotice( "Article: Command: $Command, URL: $Module/$Type/$ID, offs: $offset, max: $max" );
 
 
     $category = new eZArticleCategory( $ID );
@@ -144,10 +146,28 @@ if ( $Command == "list" )
     }
     $part = new eZXMLRPCStruct( $part_arr );
 
-    $ReturnData = new eZXMLRPCStruct( array( "Catalogues" => $cat,
-                                             "Elements" => $art,
-                                             "Path" => $par,
-                                             "Part" => $part ) ); // array starting with top level catalogue, ending with parent.
+    if ( $articleCount >= count( $art ) && $categoryCount >= count( $cat ) )
+    {
+        $ReturnData = new eZXMLRPCStruct( array( "Catalogues" => $cat,
+                                                 "Elements" => $art,
+                                                 "Path" => $par,
+                                                 "Part" => $part ) ); // array starting with top level catalogue, ending with parent.
+    }
+    else
+    {
+        if ( $articleCount < count( $art ) )
+        {
+            $Error = createErrorMessage( EZERROR_CUSTOM,
+                                         "The article count was lower than listed articles, probably a bug in eZ article",
+                                         EZARTICLE_WRONG_ARTICLE_COUNT );
+        }
+        else if ( $categoryCount < count( $cat ) )
+        {
+            $Error = createErrorMessage( EZERROR_CUSTOM,
+                                         "The category count was lower than listed categories, probably a bug in eZ article",
+                                         EZARTICLE_WRONG_CATEGORY_COUNT );
+        }
+    }
 }
 else if ( $Command == "tree" )
 {
