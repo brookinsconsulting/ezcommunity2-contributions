@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.23 2000/11/02 16:40:59 bf-cvs Exp $
+// $Id: ezarticle.php,v 1.24 2000/11/05 16:19:03 bf-cvs Exp $
 //
 // Definition of eZArticle class
 //
@@ -678,9 +678,14 @@ class eZArticle
        }
 
        if ( $fetchNonPublished == true )
-           $fetchText = "false";
+       {
+           $fetchText = "eZArticle_Article.IsPublished = 'true'
+                    AND";           
+       }
        else
-           $fetchText = "true";
+       {           
+           $fetchText = "";
+       }
 
        $return_array = array();
        $article_array = array();
@@ -695,8 +700,6 @@ class eZArticle
                     )
                     AND
                     eZArticle_ArticleCategoryLink.ArticleID = eZArticle_Article.ID
-                    AND
-                    eZArticle_Article.IsPublished = '$fetchText'
                     AND
                     eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
                     AND

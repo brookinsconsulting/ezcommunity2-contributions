@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.3 2000/11/01 09:30:58 ce-cvs Exp $
+// $Id: search.php,v 1.4 2000/11/05 16:19:03 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Oct-2000 15:56:58 bf>
@@ -65,7 +65,9 @@ else
 
 // articles
 $article = new eZArticle();
-$articleList = $article->search( $SearchText, true );
+$articleList = $article->search( $SearchText, "time",true );
+
+$t->set_var( "search_text", $SearchText );
 
 $locale = new eZLocale( $Language );
 $i=0;
