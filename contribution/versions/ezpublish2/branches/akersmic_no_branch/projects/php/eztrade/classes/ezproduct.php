@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.9 2002/01/18 11:55:37 bf Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.10 2002/01/18 12:18:42 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -1653,10 +1653,12 @@ class eZProduct
                     case "AdvancedMusic" :
                     {
                         $OrderBy = "eZTrade_Product.Name DESC";
-                        if ( $musicType != 0 )
+
+                        if ( $musicType != "All" )
                         {
                             $attributeValueTables = ", eZTrade_AttributeValue ";
-                            $attributeSQL = " AND  eZTrade_AttributeValue.ProductID=eZTrade_Product.ID ";
+                            $attributeSQL = " AND  eZTrade_AttributeValue.ProductID=eZTrade_Product.ID
+                                              AND  eZTrade_AttributeValue.AttributeID='2' ";
                         }
 
                         if ( $albumTitle != "" )
@@ -1664,14 +1666,12 @@ class eZProduct
                             $albumSQL = " AND eZTrade_Product.Name LIKE '%$albumTitle%' ";
                         }
 
+
                         $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID ) SELECT DISTINCT eZTrade_Product.ID AS ProductID
-                 FROM eZTrade_Product,
-                      eZTrade_ProductTypeLink
+                 FROM eZTrade_Product
                       $attributeValueTables
                  WHERE
-                         eZTrade_Product.ID=eZTrade_ProductTypeLink.ProductID
-                         AND
-                         eZTrade_ProductTypeLink.TypeID='1'
+                         eZTrade_Product.TypeID='1'
                          $attributeSQL
                          $albumSQL
                        ORDER BY $OrderBy";
@@ -1712,6 +1712,8 @@ class eZProduct
                 }
 
                 $db->query( $queryString );
+
+                print( $queryString );
 
                 // check if this is a stop word
 //                $queryString = "SELECT Frequency FROM eZTrade_Word WHERE Word='$queryWord'";
