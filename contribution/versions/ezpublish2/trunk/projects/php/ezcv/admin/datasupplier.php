@@ -217,6 +217,96 @@ switch ( $url_array[2] )
         break;
     }
 
+    case "armystatus":
+    {
+        $Action = $url_array[3];
+        $ArmyStatusID = $url_array[4];
+        switch( $url_array[3] )
+        {
+            // intentional fall through
+            case "new":
+            case "insert":
+            case "edit":
+            case "update":
+            case "delete":
+            {
+                include( "ezcv/admin/armystatusedit.php" );
+                break;
+            }
+            case "list":
+            {
+                include( "ezcv/admin/armystatuslist.php" );
+                break;
+            }
+            case "view":
+            {
+                include( "ezcv/admin/armystatusview.php" );
+                break;
+            }
+        }
+        break;
+    }
+
+    case "workstatus":
+    {
+        $Action = $url_array[3];
+        $WorkStatusID = $url_array[4];
+        switch( $url_array[3] )
+        {
+            // intentional fall through
+            case "new":
+            case "insert":
+            case "edit":
+            case "update":
+            case "delete":
+            {
+                include( "ezcv/admin/workstatusedit.php" );
+                break;
+            }
+            case "list":
+            {
+                include( "ezcv/admin/workstatuslist.php" );
+                break;
+            }
+            case "view":
+            {
+                include( "ezcv/admin/workstatusview.php" );
+                break;
+            }
+        }
+        break;
+    }
+
+    case "maritalstatus":
+    {
+        $Action = $url_array[3];
+        $MaritalStatusID = $url_array[4];
+        switch( $url_array[3] )
+        {
+            // intentional fall through
+            case "new":
+            case "insert":
+            case "edit":
+            case "update":
+            case "delete":
+            {
+                include( "ezcv/admin/maritalstatusedit.php" );
+                break;
+            }
+            case "list":
+            {
+                include( "ezcv/admin/maritalstatuslist.php" );
+                break;
+            }
+            case "view":
+            {
+                include( "ezcv/admin/maritalstatusview.php" );
+                break;
+            }
+        }
+        break;
+    }
+
     default :
         header( "Location: /error.php?type=404&reason=missingpage&hint[]=/contact/company/list/&hint[]=/contact/person/list&module=ezcv" );
         break;
