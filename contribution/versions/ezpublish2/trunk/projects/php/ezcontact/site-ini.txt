@@ -29,6 +29,12 @@ OnlineMinimum:       The minimum number of online items shown in new company and
                      if the number goes below this empty onlines are shown.
 OnlineWidth:         The maximum number of online to show on a row,
                      if the number goes above the items are wrapped onto a new line.
+CompanyViewLogin     Set to true if viewing companies requires login, if not anyone can view
+                     companies.
+CompanyEditLogin     Set to true if editing companies requires login, if not anyone can edit
+                     companies.
+ShowCompanyContact   If set to true show contact part of a company when viewing a company.
+ShowCompanyStatus    If set to true show status part of a company when viewing a company.
 
 Example group:
 [eZContactMain]
@@ -50,3 +56,7 @@ PhoneMinimum=3
 PhoneWidth=3
 OnlineMinimum=2
 OnlineWidth=3
+CompanyViewLogin=true
+CompanyEditLogin=true
+ShowCompanyContact=true
+ShowCompanyStatus=true
