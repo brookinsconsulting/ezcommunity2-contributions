@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.58 2001/11/01 19:59:00 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.59 2001/11/07 16:36:08 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -435,7 +435,7 @@ class eZQDomrenderer
                 {
                     if ( $child->name == "text" )
                     {
-                        $content = $child->content;
+                        $content = htmlspecialchars( $child->content );
                     }
                     else
                     {
@@ -806,7 +806,8 @@ class eZQDomrenderer
         // ordinary text
         if ( $paragraph->name == "#text" || $paragraph->name == "text" )
         {
-            $paragraph_text = $paragraph->content;
+            $paragraph_text = htmlspecialchars( $paragraph->content );
+
             if ( $paragraph_text[0] == "\n" )
             {
                 if ( $this->PrevTag != "link" )
@@ -843,7 +844,7 @@ class eZQDomrenderer
                             $content = "";
                             if ( $listItem->name == "text" )
                             {
-                                $content .= $listItem->content;                                
+                                $content .= $listItem->content;                 
                             }
                             else
                             {
@@ -1295,7 +1296,7 @@ class eZQDomrenderer
             foreach ( $paragraph->children as $child )
             {
                 if ( $child->name == "text" )
-                {                
+                {
                     $tmpContent .= eZTextTool::nl2br( $child->content, $this->BrOverride );
                 }
                 else

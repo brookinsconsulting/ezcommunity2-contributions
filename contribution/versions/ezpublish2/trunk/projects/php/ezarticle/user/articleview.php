@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.87 2001/10/31 12:25:19 bf Exp $
+// $Id: articleview.php,v 1.88 2001/11/07 16:36:08 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -575,8 +575,8 @@ $db =& eZDB::globalDatabase();
 
 foreach ( $relatedArticles as $related )
 {
-    $t->set_var( "article_id", $related["ID"] );
-    $t->set_var( "article_name", $related["Name"] );
+    $t->set_var( "related_article_id", $related["ID"] );
+    $t->set_var( "related_article_name", $related["Name"] );
 
     $t->parse( "related_article", "related_article_tpl", true );
 }

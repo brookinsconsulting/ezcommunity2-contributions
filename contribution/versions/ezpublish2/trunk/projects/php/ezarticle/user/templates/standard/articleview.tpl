@@ -96,7 +96,7 @@
 <h2>{intl-related_articles}</h2>
 
 <!-- BEGIN related_article_tpl -->
-* <a class="path" href="{www_dir}{index}/article/view/{article_id}/"> {article_name}</a><br />
+* <a class="path" href="{www_dir}{index}/article/view/{related_article_id}/"> {related_article_name}</a><br />
 <!-- END related_article_tpl -->
 
 <!-- END related_article_list_tpl -->

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: export.php,v 1.3 2001/11/06 11:57:54 bf Exp $
+// $Id: export.php,v 1.4 2001/11/07 16:36:08 bf Exp $
 //
 // Created on: <23-Sep-2001 16:55:39 bf>
 //
@@ -33,7 +33,7 @@ include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
 
 
-$Language = $ini->read_var( "eZArticleMain", "Language" );
+$Language = $ini->read_var( "eZArticleMain", "Language" ); 
 $TemplateDir = $ini->read_var( "eZArticleMain", "TemplateDir" );
 
 $t = new eZTemplate( "ezarticle/user/" . $TemplateDir,                     
@@ -44,52 +44,99 @@ $t->set_file( "article_view_tex_tpl", "tex.tpl"  );
 
 $t->setAllStrings();
 
-$ArticleID = 3;
+$ArticleID = 20;
+$ArticleIDArray = array( 2, 1, 14, 16 );
+//$ArticleIDArray = array( 2, 14, 16, 3, 19, 20, 45, 54, 52, 49, 86, 87, 88, 89, 90, 91, 92 );
 
 $article = new eZArticle( );
 
-if ( $article->get( $ArticleID ) )
+
+foreach ( $ArticleIDArray as $ArticleID )
 {
-    if ( $article->isPublished() )
+    if ( $article->get( $ArticleID ) )
     {
-        // published article.
-    }
-    else
-    {
-        eZHTTPTool::header( "Location: /error/404" );
-        exit();
-    }
+        print( "<b>Convering article:</b> $ArticleID" . $article->name() . " <br />" );
+        if ( $article->isPublished() )
+        {
+            // published article.
+        }
+        else
+        {
+            eZHTTPTool::header( "Location: /error/404" );
+            exit();
+        }
 
-    // convert images to eps
+        // convert images to eps
 
-    $images =& $article->images();
+        $images =& $article->images();
 
-    foreach ( $images as $image )
-    {
-        $image = $image["Image"];
-        $fileName = $image->fileName();
+        foreach ( $images as $image )
+        {
+            $image = $image["Image"];
+            $fileName = $image->fileName();
         
-        print( system( "convert ezimagecatalogue/catalogue/$fileName ezimagecatalogue/catalogue/" . $fileName . ".eps  " ) );
+            print( system( "convert ezimagecatalogue/catalogue/$fileName ezimagecatalogue/catalogue/" . $fileName . ".eps  " ) );
 
         
-        print( $image->fileName() . "<br>" );
-    }
+            print( $image->fileName() . "<br>" );
+        }
     
-    $template = "tex";
-    $renderer = new eZArticleRenderer( $article, $template );
+        $template = "tex";
+        $renderer = new eZArticleRenderer( $article, $template );
 
-    $articleContents = $renderer->renderPage( -1 );
+        $articleContents = $renderer->renderPage( -1 );
     
-    $t->set_var( "article_name", $article->name() );
-    $t->set_var( "author_name", $article->authorText() );
+        $t->set_var( "article_name", $article->name() );
+        $t->set_var( "author_name", $article->authorText() );
 
-    $t->set_var( "article_intro", $articleContents[0] );
-    $t->set_var( "article_body", $articleContents[1] );
+        $t->set_var( "article_intro", $articleContents[0] );
+        $t->set_var( "article_body", $articleContents[1] );
 
+        $doc .= "\chapter{" . $article->name() . "}";
+
+        $doc .= $t->parse( "output", "article_view_tex_tpl" );
+    }    
 }
 
+$doc = "\documentclass[dvips,12pt]{book}
+\usepackage[dvips]{graphics}
+\usepackage[T1]{fontenc}
+\usepackage{a4,graphics,palatino,fancyhdr}
+
+% header
+\lhead{}
+\chead{}
+\\rhead{Copyright 2001 eZ systems as}
+\lfoot{eZ publish user manual}
+\cfoot{}
+\\rfoot{\\thepage}
+
+\addtolength{\evensidemargin}{-1cm}
+\addtolength{\oddsidemargin}{-1cm}
+\addtolength{\\textwidth}{2cm}
+
+\begin{document}
+
+\\title{ eZ article user manual}
+\author{ eZ systems as}
+\maketitle
+% \\thispagestyle{empty}
+
+% \pagestyle{empty}
+\\tableofcontents
+\listoffigures
+\pagestyle{fancy}
+
+\\renewcommand{\familydefault}{\sfdefault}
+
+
+"
+. $doc .
+"\end{document}";
+
+$doc = str_replace( "#", "\#", $doc );
+$doc = str_replace( "&", "\&", $doc );
 print( "<pre>" );
-$doc =& $t->parse( "output", "article_view_tex_tpl" );
 
 $outputFile = "ezarticle/cache/article.tex";
 
@@ -101,7 +148,7 @@ fclose( $fp );
 // convert to dvi
 //print( system( "cd ezarticle/cache/ && latex -interaction=batchmode $outputFile && cd .." ) );
 
-print( htmlspecialchars( $doc ) );
+//print( htmlspecialchars( $doc ) );
 print( "</pre>" );
 
 ?>
