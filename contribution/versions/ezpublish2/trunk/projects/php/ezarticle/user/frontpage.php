@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.32 2002/05/14 11:48:51 chrism Exp $
+// $Id: frontpage.php,v 1.33 2002/05/17 09:51:19 fh Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -643,6 +643,7 @@ function &renderFrontpageProduct( &$t, &$locale, &$product )
 	
     // preview image
     $thumbnailImage = $product->thumbnailImage();
+    $t->set_var( "product_id", $product->id() );
 
     if ( $thumbnailImage )
     {
@@ -661,7 +662,6 @@ function &renderFrontpageProduct( &$t, &$locale, &$product )
     }
 
     $t->set_var( "product_name", $product->name() );
-    $t->set_var( "product_id", $product->id() );
 
     $t->set_var( "product_intro_text", eZTextTool::nl2br( $product->brief() ) );
 
