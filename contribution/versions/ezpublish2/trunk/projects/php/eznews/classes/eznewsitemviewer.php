@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitemviewer.php,v 1.16 2000/10/13 13:36:19 pkej-cvs Exp $
+// $Id: eznewsitemviewer.php,v 1.17 2000/10/13 14:49:57 pkej-cvs Exp $
 //
 // Definition of eZNewsItemViewer class
 //
@@ -476,7 +476,7 @@ class eZNewsItemViewer
     
     function doAdminBrowse( &$inItemNo )
     {
-        #echo "eZNewsItemViewer::doAdminBrowse( \$inItemNo = $inItemNo )<br>\n";
+        echo "eZNewsItemViewer::doAdminBrowse( \$inItemNo = $inItemNo )<br>\n";
         $value = true;
         
         // Checks if we''re dealing with a special customer.
@@ -486,7 +486,7 @@ class eZNewsItemViewer
             global $ItemID;
             $ItemID = $inItemNo;
             $tempItem = new eZNewsItem( $inItemNo );
-            $itemType = new eZNewsItemType( $tempItem->itemTypeID() );
+            $itemType = new eZNewsItemType( $tempItem->itemTypeID(), true );
 
             $class = $itemType->eZClass();
             $class = $class . "Creator";

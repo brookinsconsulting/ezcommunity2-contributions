@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewscategory.php,v 1.9 2000/10/13 11:59:02 pkej-cvs Exp $
+// $Id: eznewscategory.php,v 1.10 2000/10/13 14:49:57 pkej-cvs Exp $
 //
 // Definition of eZNewsCategory class
 //
@@ -207,28 +207,41 @@ class eZNewsCategory extends eZNewsItem
      */
     function setPublicDescriptionID( $inPPID )
     {
-        #echo "eZNews "eZNewsCategory::setPublicDescriptionID( \$inPPID=$inPPID )<br />\n";
+        echo "eZNewsCategory::setPublicDescriptionID( \$inPPID=$inPPID )<br />\n";
         $oldPPID = $this->PublicDescriptionID;
         
         $value = false;
         
-        $oldObject = new eZNewsArticle( $oldPPID );
-        $newObject = new eZNewsArticle( $inPPID );
         
         if( $inPPID != $oldPPID )
         {
-            $this->dirtyUpdate();
-        
-            $this->PublicDescriptionID = $inPPID;
+            if( $oldPPID != 0 )
+            {
+                $oldObject = new eZNewsArticle( $oldPPID );
+                $newObject = new eZNewsArticle( $inPPID );
 
-            $this->alterState();
-            $value = true;
-            
-            $this->createLogItem( $this->ID . ": PublicDescriptionID changed from " . $oldObject->Name() . "(" . $oldObject->ID()  .")" . " to " . $inObject->Name() . "(" . $inObject->ID()  .")", $this->Status );
-        }
-        else
-        {
-            $value = true;
+                $this->dirtyUpdate();
+
+                $this->PublicDescriptionID = $inPPID;
+
+                $this->alterState();
+                $value = true;
+
+                $this->createLogItem( $this->ID . ": PublicDescriptionID changed from " . $oldObject->ID() . " ( " . $oldObject->name()  ." )" . " to " . $newObject->ID() . " ( " . $newObject->name()  ." )", $this->Status );
+            }
+            else
+            {
+                $newObject = new eZNewsArticle( $inPPID );
+
+                $this->dirtyUpdate();
+
+                $this->PublicDescriptionID = $inPPID;
+
+                $this->alterState();
+                $value = true;
+
+                $this->createLogItem( $this->ID . ": PublicDescriptionID changed from 0 (nothing) to " . $newObject->ID() . " ( " . $newObject->name()  ." )", $this->Status );
+            }
         }
         
         return true;
@@ -283,11 +296,7 @@ class eZNewsCategory extends eZNewsItem
             $this->alterState();
             $value = true;
             
-            $this->createLogItem( $this->ID . ": PrivateDescriptionID changed from " . $oldObject->Name() . "(" . $oldObject->ID()  .")" . " to " . $inObject->Name() . "(" . $inObject->ID()  .")", $this->Status );
-        }
-        else
-        {
-            $value = true;
+            $this->createLogItem( $this->ID . ": PrivateDescriptionID changed from " . $oldObject->ID() . "(" . $oldObject->name()  .")" . " to " . $newObject->ID() . "(" . $newObject->name()  .")", $this->Status );
         }
         
         return true;

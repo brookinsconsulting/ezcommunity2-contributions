@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsarticle.php,v 1.11 2000/10/13 13:15:38 pkej-cvs Exp $
+// $Id: eznewsarticle.php,v 1.12 2000/10/13 14:49:57 pkej-cvs Exp $
 //
 // Definition of eZNewsArticle class
 //
@@ -234,11 +234,10 @@ class eZNewsArticle extends eZNewsItem
 
         if( strcmp( $inAuthorText, $oldAuthorText ) )
         {
-            $this->AuthorText = $inAuthorText;
-
-            $this->alterState();
             $value = true;
 
+            $this->AuthorText = $inAuthorText;
+            $this->alterState();
             $this->createLogItem( $this->ID . ": Author text has changed from $oldAuthorText to $inAuthorText", $this->Status );
         }
         
