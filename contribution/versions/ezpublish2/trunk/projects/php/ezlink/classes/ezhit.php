@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: ezhit.php,v 1.22 2001/02/23 13:07:15 ce Exp $
+// $Id: ezhit.php,v 1.23 2001/07/09 11:56:42 jhe Exp $
 //
 // Definition of eZHit class
 //
