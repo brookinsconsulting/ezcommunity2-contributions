@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.1 2000/10/19 10:43:29 bf-cvs Exp $
+// $Id: ezarticle.php,v 1.2 2000/10/19 12:10:16 bf-cvs Exp $
 //
 // Definition of eZArticle class
 //
@@ -90,7 +90,9 @@ class eZArticle
                                  Contents='$this->Contents',
                                  AuthorText='$this->AuthorText',
                                  AuthorID='$this->AuthorID',
-                                 LinkText='$this->LinkText'
+                                 LinkText='$this->LinkText',
+                                 Modified=now(),
+                                 Created=now()
                                  " );
 
             $this->ID = mysql_insert_id();
@@ -105,6 +107,7 @@ class eZArticle
                                  AuthorText='$this->AuthorText',
                                  LinkText='$this->LinkText',
                                  AuthorID='$this->AuthorID'
+                                 Modified=now(),
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -137,6 +140,8 @@ class eZArticle
                 $this->AuthorText =& $article_array[0][ "AuthorText" ];
                 $this->AuthorID =& $article_array[0][ "AuthorID" ];
                 $this->LinkText =& $article_array[0][ "LinkText" ];
+                $this->Modified =& $article_array[0][ "Modified" ];
+                $this->Created =& $article_array[0][ "Created" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -311,6 +316,8 @@ class eZArticle
     var $Contents;
     var $AuthorText;
     var $LinkText;
+    var $Modified;
+    var $Created;
 
     
     ///  Variable for keeping the database connection.
