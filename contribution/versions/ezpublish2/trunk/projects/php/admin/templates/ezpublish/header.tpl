@@ -1,9 +1,8 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 
 <head>
-<title>eZ publish Administration - MyGold.com</title>
+<title>eZ publish administration</title>
 <link rel="stylesheet" type="text/css" href="/admin/{site_style}.css"/>
 <meta http-equiv="Content-Type" content="text/html; charset={charset}"/>
 
