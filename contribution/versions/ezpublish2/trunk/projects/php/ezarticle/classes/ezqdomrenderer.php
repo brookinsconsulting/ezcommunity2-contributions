@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.11 2001/07/04 14:28:15 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.12 2001/07/05 14:17:17 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -157,6 +157,7 @@ class eZQDomrenderer
         $this->Template->set_block( "articletags_tpl", "italic_tpl", "italic"  );
         $this->Template->set_block( "articletags_tpl", "underline_tpl", "underline"  );
         $this->Template->set_block( "articletags_tpl", "strong_tpl", "strong"  );
+        $this->Template->set_block( "articletags_tpl", "factbox_tpl", "factbox"  );
         
         $this->Article = $article;
     }
@@ -551,6 +552,7 @@ class eZQDomrenderer
                     {
                         $content = $this->renderStandards( $child );
                         $content .= $this->renderLink( $child );                        
+                        $content .= $this->renderImage( $child );
                     }
 
                     $content = trim( $content );
@@ -565,6 +567,7 @@ class eZQDomrenderer
             case "italic" :                
             case "underline" :
             case "strong" :
+            case "factbox" :
             {
                 $tmpContent = "";
                 if ( count( $paragraph->children ) )
@@ -578,6 +581,7 @@ class eZQDomrenderer
                     {
                         $tmpContent .= $this->renderStandards( $child );
                         $tmpContent .= $this->renderLink( $child );
+                        $tmpContent .= $this->renderImage( $child );
                     }
                 }
 
@@ -595,6 +599,9 @@ class eZQDomrenderer
                     break;
                     case "strong" :
                         $pageContent = $this->Template->parse( "strong", "strong_tpl" );
+                    break;
+                    case "factbox" :
+                        $pageContent = $this->Template->parse( "strong", "factbox_tpl" );
                     break;
                 }
                 

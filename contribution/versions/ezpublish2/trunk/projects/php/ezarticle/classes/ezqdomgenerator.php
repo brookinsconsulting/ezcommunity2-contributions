@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.9 2001/07/04 12:10:06 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.10 2001/07/05 14:17:17 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -471,7 +471,8 @@ class eZQDomGenerator
                 else
                 {
                     $content = $this->decodeStandards( $child );
-                    $content = $this->decodeLink( $child );
+                    $content .= $this->decodeLink( $child );
+                    $content .= $this->decodeImage( $child );
                 }
                 
                 $tmpContent .=  $content;
@@ -506,6 +507,12 @@ class eZQDomGenerator
                 case "strong" :
                 {                        
                     $pageContent .= "<strong>" . $tmpContent . "</strong>";
+                }
+                break;
+
+                case "factbox" :
+                {                        
+                    $pageContent .= "<factbox>" . $tmpContent . "</factbox>";
                 }
                 break;
             }

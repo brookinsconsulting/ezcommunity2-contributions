@@ -81,3 +81,13 @@
 </tr>
 </table>
 <!-- END strong_tpl -->
+
+<!-- BEGIN factbox_tpl -->
+<table bgcolor="#555555" width="250" align="right" cellspacing="2" cellpadding="2" >
+<tr>
+	<td bgcolor="#eeeeee" >
+	{contents}
+	</td>
+</tr>
+</table>
+<!-- END factbox_tpl -->
