@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezquote.php,v 1.1 2001/01/30 20:12:10 jb Exp $
+// $Id: ezquote.php,v 1.2 2001/01/31 18:58:08 gl Exp $
 //
 // Definition of eZQuote class
 //
@@ -120,7 +120,8 @@ class eZQuote
         $this->Date = new eZDate();
         $this->Date->setMySQLDate( $exchange_array[ "Date" ] );
         $this->ExpireDays = $exchange_array[ "ExpireDays" ];
-        $this->ExpireDate = $exchange_array[ "ExpireDate" ];
+        $this->ExpireDate = new eZDate();
+        $this->ExpireDate->setMySQLDate( $exchange_array[ "ExpireDate" ] );
         $this->Quantity = $exchange_array[ "Quantity" ];
         $this->Price = $exchange_array[ "Price" ];
         $this->Type = $exchange_array[ "Type" ];
@@ -363,6 +364,30 @@ class eZQuote
                                         WHERE UPQD.ProductID='$productid' AND Q.ExpireDate >= CURDATE()
                                           AND UPQD.QuoteID=Q.ID AND Q.Price='$price'" );
         return $qry_array["Count"];
+    }
+
+    // not finished
+    function match( $quote )
+    {
+        $match = false;
+
+        if ( get_class( $quote ) == "ezquote" )
+        {
+            if ( $this->ID == $quote->ID )
+            {
+                if ( $this->Type == "QUOTE_TYPE" && $quote->type() == "OFFER_TYPE")
+                {
+                    if ( $this->Date->isGreater( $quote->date(), true ) )
+                    {
+                    }
+                }
+                else if ( $this->Type == "OFFER_TYPE" && $quote->type() == "QUOTE_TYPE")
+                {
+                }
+            }
+        }
+
+        return $match;
     }
 
     var $ID;

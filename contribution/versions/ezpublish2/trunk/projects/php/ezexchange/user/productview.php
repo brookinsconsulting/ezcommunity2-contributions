@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.1 2001/01/30 20:12:10 jb Exp $
+// $Id: productview.php,v 1.2 2001/01/31 18:58:08 gl Exp $
 //
 // Definition of productview class
 //
@@ -37,8 +37,10 @@ function listQuotes( &$t, &$product_id )
     $locale = new eZLocale( $Language );
 
     $t->set_var( "quote_item", "" );
+    $t->set_var( "rfq_item", "" );
     $t->set_var( "offer_item", "" );
     $quotes = eZQuote::getAllQuotes( $product_id, true );
+    $rfqs = eZQuote::getAllRFQs( $product_id, true );
     $offers = eZQuote::getAllOffers( $product_id, true );
     foreach( $quotes as $quote )
     {
@@ -48,10 +50,22 @@ function listQuotes( &$t, &$product_id )
         $t->set_var( "quote_price", $locale->format( $price ) );
         $t->parse( "quote_item", "quote_item_tpl", true );
     }
+    foreach( $rfqs as $rfq )
+    {
+        $t->set_var( "rfq_customers", eZQuote::getTotalUsers( $product_id, $rfq->price() ) );
+        $t->set_var( "rfq_quantity", eZQuote::getTotalQuantity( $product_id, $rfq->price() ) );
+        $price = new eZCurrency( $rfq->price() );
+        $t->set_var( "rfq_price", $locale->format( $price ) );
+        $t->parse( "rfq_item", "rfq_item_tpl", true );
+    }
     foreach( $offers as $offer )
     {
         $t->set_var( "offer_suppliers", eZQuote::getTotalUsers( $product_id, $offer->price() ) );
-        $t->set_var( "offer_quantity", eZQuote::getTotalQuantity( $product_id, $offer->price() ) );
+        // fix: missing quantity
+        $offer_quantity = eZQuote::getTotalQuantity( $product_id, $offer->price() );
+        if ( $offer_quantity == "" )
+            $offer_quantity = "&nbsp;";
+        $t->set_var( "offer_quantity", $offer_quantity );
         $price = new eZCurrency( $offer->price() );
         $t->set_var( "offer_price", $locale->format( $price ) );
         $t->parse( "offer_item", "offer_item_tpl", true );
@@ -61,12 +75,19 @@ function listQuotes( &$t, &$product_id )
     $t->set_var( "no_quote_item", "" );
     $t->set_var( "your_quote_info_item", "" );
     $t->set_var( "no_quote_info_item", "" );
+
+    $t->set_var( "your_rfq_item", "" );
+    $t->set_var( "no_rfq_item", "" );
+    $t->set_var( "your_rfq_info_item", "" );
+    $t->set_var( "no_rfq_info_item", "" );
+
     $t->set_var( "your_offer_item", "" );
     $t->set_var( "no_offer_item", "" );
     $t->set_var( "your_offer_info_item", "" );
     $t->set_var( "no_offer_info_item", "" );
 
     $quote = eZQuote::getUserQuote( $product_id, true );
+    $rfq = eZQuote::getUserRFQ( $product_id, true );
     $offer = eZQuote::getUserOffer( $product_id, true );
 
     if ( get_class( $quote ) == "ezquote" )
@@ -81,6 +102,20 @@ function listQuotes( &$t, &$product_id )
     {
         $t->parse( "no_quote_item", "no_quote_item_tpl" );
         $t->parse( "no_quote_info_item", "no_quote_info_item_tpl" );
+    }
+
+    if ( get_class( $rfq ) == "ezquote" )
+    {
+        $t->set_var( "your_rfq_quantity", $rfq->quantity() );
+        $price = new eZCurrency( $rfq->price() );
+        $t->set_var( "your_rfq_price", $locale->format( $price ) );
+        $t->parse( "your_rfq_item", "your_rfq_item_tpl" );
+        $t->parse( "your_rfq_info_item", "your_rfq_info_item_tpl" );
+    }
+    else
+    {
+        $t->parse( "no_rfq_item", "no_rfq_item_tpl" );
+        $t->parse( "no_rfq_info_item", "no_rfq_info_item_tpl" );
     }
 
     if( get_class( $offer ) == "ezquote" )
@@ -99,6 +134,8 @@ function listQuotes( &$t, &$product_id )
 
     $t->set_var( "do_quote_item", "" );
     $t->set_var( "no_do_quote_item", "" );
+    $t->set_var( "do_rfq_item", "" );
+    $t->set_var( "no_do_rfq_item", "" );
     $t->set_var( "do_offer_item", "" );
     $t->set_var( "no_do_offer_item", "" );
 
@@ -115,10 +152,12 @@ function listQuotes( &$t, &$product_id )
     if ( $can_buy )
     {
         $t->parse( "do_quote_item", "do_quote_item_tpl" );
+        $t->parse( "do_rfq_item", "do_rfq_item_tpl" );
     }
     else
     {
         $t->parse( "no_do_quote_item", "no_do_quote_item_tpl" );
+        $t->parse( "no_do_rfq_item", "no_do_rfq_item_tpl" );
     }
 
     if ( $can_sell )
@@ -142,12 +181,18 @@ $template_array = array( "extra_productview_tpl" =>
                                 "productview.tpl" ) );
 $variable_array = array( "extra_product_info" => "extra_productview_tpl" );
 $block_array = array( array( "extra_productview_tpl", "quote_item_tpl", "quote_item" ),
+                      array( "extra_productview_tpl", "rfq_item_tpl", "rfq_item" ),
                       array( "extra_productview_tpl", "offer_item_tpl", "offer_item" ),
 
                       array( "extra_productview_tpl", "your_quote_item_tpl", "your_quote_item" ),
                       array( "extra_productview_tpl", "no_quote_item_tpl", "no_quote_item" ),
                       array( "extra_productview_tpl", "your_quote_info_item_tpl", "your_quote_info_item" ),
                       array( "extra_productview_tpl", "no_quote_info_item_tpl", "no_quote_info_item" ),
+
+                      array( "extra_productview_tpl", "your_rfq_item_tpl", "your_rfq_item" ),
+                      array( "extra_productview_tpl", "no_rfq_item_tpl", "no_rfq_item" ),
+                      array( "extra_productview_tpl", "your_rfq_info_item_tpl", "your_rfq_info_item" ),
+                      array( "extra_productview_tpl", "no_rfq_info_item_tpl", "no_rfq_info_item" ),
 
                       array( "extra_productview_tpl", "your_offer_item_tpl", "your_offer_item" ),
                       array( "extra_productview_tpl", "no_offer_item_tpl", "no_offer_item" ),
@@ -156,6 +201,8 @@ $block_array = array( array( "extra_productview_tpl", "quote_item_tpl", "quote_i
 
                       array( "extra_productview_tpl", "do_quote_item_tpl", "do_quote_item" ),
                       array( "extra_productview_tpl", "no_do_quote_item_tpl", "no_do_quote_item" ),
+                      array( "extra_productview_tpl", "do_rfq_item_tpl", "do_rfq_item" ),
+                      array( "extra_productview_tpl", "no_do_rfq_item_tpl", "no_do_rfq_item" ),
                       array( "extra_productview_tpl", "do_offer_item_tpl", "do_offer_item" ),
                       array( "extra_productview_tpl", "no_do_offer_item_tpl", "no_do_offer_item" )
                       );
