@@ -48,7 +48,7 @@
 
 <p>{intro_text}</p>
 
-<p>{description_text}</p>
+<div class="p">{description_text}</div>
 
 <br clear="all" />
 

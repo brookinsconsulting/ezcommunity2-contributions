@@ -29,8 +29,8 @@
     <td width="1%" bgcolor="#90a0b0"><img src="images/1x1.gif" width="1" height="1" alt="" /></td>
 </tr>
 <tr>
-    <td colspan="2" width="99%" bgcolor="#90a0b0" background="/images/menufade-right2.jpg" class="menuhead"><img src="images/1x1.gif" width="1" height="1" alt="" /></td>
-    <td width="1%" bgcolor="#90a0b0"><img src="images/1x1.gif" width="1" height="1" alt="" /></td>
+    <td colspan="2" width="99%" bgcolor="#90a0b0" background="/images/menufade-right2.jpg" class="tdbottommini"><img src="/images/1x1.gif" width="1" height="1" alt="" /><br /></td>
+    <td class="tdbottommini" width="1%" bgcolor="#90a0b0"><img src="/images/1x1.gif" width="1" height="1" alt="" /><br /></td>
 </tr>
 <tr>
 	<td colspan="3" class="menuspacer">&nbsp;</td>
