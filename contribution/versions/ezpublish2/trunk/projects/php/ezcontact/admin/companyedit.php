@@ -529,7 +529,13 @@ foreach( $companyTypeList as $companyTypeItem )
 
 // Template variabler.
 
-$t->set_var( "error", $error );
+
+$t->set_var( "errors_item", $error );
+$t->set_var( "logo_add}" , "" );
+$t->set_var( "image_add", "" );
+$t->set_var( "image_edit", "" );
+$t->set_var( "logo_edit", "" );
+$t->set_var( "logo_add", "" );
 
 $t->set_var( "action_value", $Action_value );
 
