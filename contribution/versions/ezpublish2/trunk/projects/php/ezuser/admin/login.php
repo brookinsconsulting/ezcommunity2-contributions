@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.11 2000/10/28 12:29:01 bf-cvs Exp $
+// $Id: login.php,v 1.12 2000/11/20 10:35:45 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -59,7 +59,9 @@ if ( $Action == "login" )
         eZLog::writeNotice( "Admin login: $Username from IP: $REMOTE_ADDR" );
 
         eZUser::loginUser( $user );
+
         Header( "Location: /" );
+        exit();
     }
     else
     {

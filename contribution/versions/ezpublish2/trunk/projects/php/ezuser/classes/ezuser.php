@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.20 2000/11/20 09:53:03 bf-cvs Exp $
+// $Id: ezuser.php,v 1.21 2000/11/20 10:35:45 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -500,16 +500,10 @@ class eZUser
         {            
             $user = new eZUser( $session->variable( "AuthenticatedUser" ) );
 
-            if ( $session->isValid( $user->timeoutValue() ) == false )
+            if ( ( $user->id() != 0 ) && ( $user->id() != "" ) )
             {
-                $user->logout( );
-            }
-            else
-            {            
-                if ( ( $user->id() != 0 ) && ( $user->id() != "" ) )
-                {
+                    print( "not valid  session" );                    
                     $ret = $user;
-                }
             }
         }
         
@@ -538,7 +532,7 @@ class eZUser
 
             if ( $session->isValid( $user->timeoutValue() ) == false )
             {
-                $session->delete( );
+//                  $session->delete( );
             }
             else
             {
