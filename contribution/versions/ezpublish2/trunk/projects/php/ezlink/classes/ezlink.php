@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.26 2000/10/13 09:38:35 bf-cvs Exp $
+// $Id: ezlink.php,v 1.27 2000/10/17 10:27:29 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -46,6 +46,7 @@
 */
 
 include_once( "classes/ezquery.php" );
+include_once( "classes/ezdb.php" );
 
 class eZLink
 {
@@ -397,17 +398,11 @@ class eZLink
     */
     function dbInit()
     {
-        include_once( "classes/INIFile.php" );
-
-        $ini = new INIFile( "site.ini" );
-        
-        $SERVER = $ini->read_var( "eZLinkMain", "Server" );
-        $DATABASE = $ini->read_var( "eZLinkMain", "Database" );
-        $USER = $ini->read_var( "eZLinkMain", "User" );
-        $PWD = $ini->read_var( "eZLinkMain", "Password" );
-        
-        mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
-        mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
+        if ( $this->IsConnected == false )
+        {
+            $this->Database = new eZDB( "site.ini", "site" );
+            $this->IsConnected = true;
+        }
     }
 
     var $ID;
@@ -420,5 +415,8 @@ class eZLink
     var $Accepted;
     var $Url;
     var $url_array;
+
+    /// Is true if the object has database connection, false if not.
+    var $IsConnected;
 }
 ?>

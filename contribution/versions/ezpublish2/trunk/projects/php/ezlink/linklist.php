@@ -1,13 +1,17 @@
 <?
-/*!
-    $Id: linklist.php,v 1.34 2000/10/10 11:41:59 ce-cvs Exp $
-
-    Author: Bård Farstad <bf@ez.no>
-    
-    Created on: <16-Aug-2000 14:41:32 ce>
-    
-    Copyright (C) 2000 eZ systems. All rights reserved.
-*/
+// 
+// $Id: linklist.php,v 1.35 2000/10/17 10:27:29 bf-cvs Exp $
+//
+// 
+//
+// Bård Farstad <bf@ez.no>
+// Created on: <17-Oct-2000 12:17:13 bf>
+//
+// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
+//
+// IMPORTANT NOTE: You may NOT copy this file or any part of it into
+// your own programs or libraries.
+//
 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/INIFile.php" );
@@ -15,7 +19,6 @@ include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 
 $Language = $ini->read_var( "eZLinkMain", "Language" );
-$DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 
 include_once( "common/ezphputils.php" );
 
@@ -24,10 +27,10 @@ include_once( "ezlink/classes/ezlink.php" );
 include_once( "ezlink/classes/ezhit.php" );
 
 
-$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZLinkMain", "TemplateDir" ). "/linklist/",
-$DOC_ROOT . "/intl", $Language, "linklist.php" );
-$t->setAllStrings();
+$t = new eZTemplate( "ezlink/" . $ini->read_var( "eZLinkMain", "TemplateDir" ). "/linklist/",
+                     "ezlink/intl", $Language, "linklist.php" );
 
+$t->setAllStrings();
 
 $t->set_file( array(
     "link_page" => "linkpage.tpl"
@@ -70,7 +73,6 @@ else
         $t->set_var( "total_links", $total_sub_links );
         $t->set_var( "new_links", $new_sub_links );
         
-        $t->set_var( "document_root", $DOC_ROOT );
         
         if ( $i %2 == 0 )
         {
@@ -141,13 +143,12 @@ else
         $hit = new eZHit();
         $hits = $hit->getLinkHits( $link_array[ $i ][ "ID" ] );
         $t->set_var( "link_hits", $hits );
-        $t->set_var( "document_root", $DOC_ROOT );
 
         $t->parse( "link_list", "link_list_tpl", true );
     }
 }
 
-$t->set_var( "printpath", $linkGroup->printPath( $LGID, $DOC_ROOT . "linklist.php" ) );
+$t->set_var( "printpath", $linkGroup->printPath( $LGID, "ezlink/linklist.php" ) );
 
 $t->set_var( "linkgroup_id", $LGID );
 $t->set_var( "document_root", $DOC_ROOT );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezhit.php,v 1.13 2000/09/15 12:47:35 bf-cvs Exp $
+// $Id: ezhit.php,v 1.14 2000/10/17 10:27:29 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -20,6 +20,8 @@
 
    \sa eZLink eZLinkgroup eZQuery
 */
+
+include_once( "classes/ezdb.php" );
 
 class eZHit
 {
@@ -131,16 +133,11 @@ class eZHit
     */
     function dbInit()
     {
-        include_once( "classes/INIFile.php" );
-        $ini = new INIFile( "site.ini" );
-        
-        $SERVER = $ini->read_var( "eZLinkMain", "Server" );
-        $DATABASE = $ini->read_var( "eZLinkMain", "Database" );
-        $USER = $ini->read_var( "eZLinkMain", "User" );
-        $PWD = $ini->read_var( "eZLinkMain", "Password" );
-        
-        mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
-        mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
+        if ( $this->IsConnected == false )
+        {
+            $this->Database = new eZDB( "site.ini", "site" );
+            $this->IsConnected = true;
+        }
     }
 
         
@@ -149,6 +146,8 @@ class eZHit
     var $Time;
     var $RemoteIP;    
 
+    /// Is true if the object has database connection, false if not.
+    var $IsConnected;
 }
 
 ?>

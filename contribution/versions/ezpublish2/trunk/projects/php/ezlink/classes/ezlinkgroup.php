@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.26 2000/10/12 09:24:06 th-cvs Exp $
+// $Id: ezlinkgroup.php,v 1.27 2000/10/17 10:27:29 bf-cvs Exp $
 //
 // Definition of eZLinkGroup class
 //
@@ -29,11 +29,12 @@
   $group->store();
 
   \endcode
-
-  
   
   \sa eZLink eZHit eZQuery
 */
+
+
+include_once( "classes/ezdb.php" );
 
 class eZLinkGroup
 {
@@ -246,23 +247,19 @@ class eZLinkGroup
     */
     function dbInit()
     {
-        include_once( "classes/INIFile.php" );
-        $ini = new INIFile( "site.ini" );
-        
-        $SERVER = $ini->read_var( "eZLinkMain", "Server" );
-        $DATABASE = $ini->read_var( "eZLinkMain", "Database" );
-        $USER = $ini->read_var( "eZLinkMain", "User" );
-        $PWD = $ini->read_var( "eZLinkMain", "Password" );
-        
-        mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
-        mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
+        if ( $this->IsConnected == false )
+        {
+            $this->Database = new eZDB( "site.ini", "site" );
+            $this->IsConnected = true;
+        }
     }
 
-var $ID;
-var $Title;
-var $Parent;
+    var $ID;
+    var $Title;
+    var $Parent;
 
-
+    /// Is true if the object has database connection, false if not.
+    var $IsConnected;
 }
 
 ?>
