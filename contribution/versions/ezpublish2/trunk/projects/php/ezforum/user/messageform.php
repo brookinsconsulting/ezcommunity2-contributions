@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messageform.php,v 1.17 2001/10/30 13:24:32 jhe Exp $
+// $Id: messageform.php,v 1.18 2001/10/31 09:22:14 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -25,6 +25,7 @@
 
 include_once( "classes/ezlocale.php" );
 $AllowHTML = $ini->read_var( "eZForumMain", "AllowHTML" );
+$author = eZUser::currentUser();
 
 if ( $ShowMessageForm )
 {
@@ -91,7 +92,7 @@ if ( $ShowMessageForm )
         $t->parse( "errors_item", "errors_tpl" );
     }
 
-    if ( $ShowEmptyMessageForm == false )
+    if ( !$ShowEmptyMessageForm )
     {
         if ( !is_object( $msg ) )
         {
@@ -115,7 +116,6 @@ if ( $ShowMessageForm )
         {
             if ( $AllowHTML == "enabled" )
             {
-                die();
                 $MessageBody = $msg->body( true );
             }
             else
@@ -163,7 +163,7 @@ if ( $ShowMessageForm )
         {
             if ( !is_object( $author ) )
             {
-                $author =& eZUser::currentUser();
+                $author = eZUser::currentUser();
             }
         }
 
@@ -176,6 +176,8 @@ if ( $ShowMessageForm )
             $MessagePostedAt = $locale->format( $msg->postingTime() );
         }
     }
+
+    print_r( $author );
     if ( is_object( $author ) && $author->id() > 0 )
     {
         $MessageAuthor = $author->firstName() . " " . $author->lastName();
@@ -254,9 +256,9 @@ if ( $ShowMessageForm )
         }
     }
     
-    if ( $ShowHiddenMessageForm == true )
+    if ( $ShowHiddenMessageForm )
     {
-        if ( $doPrint == true )
+        if ( $doPrint )
         {
             $t->pparse( "message_hidden_form_file", "hidden_form" );
         }
@@ -266,9 +268,9 @@ if ( $ShowMessageForm )
         }
     }
     
-    if ( $ShowVisibleMessageForm == true )
+    if ( $ShowVisibleMessageForm )
     {
-        if ( $doPrint == true )
+        if ( $doPrint )
         {
             $t->pparse( "message_form_file", "form" );
         }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezforummessage.php,v 1.104 2001/10/16 11:33:52 ce Exp $
+// $Id: ezforummessage.php,v 1.105 2001/10/31 09:22:14 jhe Exp $
 //
 // Definition of eZForumMessage class
 //
@@ -641,9 +641,9 @@ class eZForumMessage
     */      
     function &user()
     {
-       $user =& new eZUser( $this->UserID );
+       $owner =& new eZUser( $this->UserID );
         
-       return $user;
+       return $owner;
     }
 
     function setUserName( $username )
