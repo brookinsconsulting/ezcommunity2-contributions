@@ -949,6 +949,4 @@ CREATE TABLE eZUser_UserGroupLink (
 #
 
 INSERT INTO eZUser_UserGroupLink VALUES (42,27,1);
-INSERT INTO eZUser_UserGroupLink VALUES (39,28,2);
-INSERT INTO eZUser_UserGroupLink VALUES (41,13,1);
 
