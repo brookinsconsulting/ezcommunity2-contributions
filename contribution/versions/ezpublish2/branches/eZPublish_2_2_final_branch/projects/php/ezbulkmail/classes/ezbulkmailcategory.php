@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailcategory.php,v 1.25.2.2 2001/10/30 17:35:04 fh Exp $
+// $Id: ezbulkmailcategory.php,v 1.25.2.3 2001/11/19 11:29:38 jhe Exp $
 //
 // Definition of eZBulkMailCategory class
 //
@@ -363,7 +363,7 @@ class eZBulkMailCategory
         else
             $db->array_query( $mail_array, $query );
 
-        for( $i=0; $i<count($mail_array); $i++ )
+        for ( $i = 0; $i < count( $mail_array ); $i++ )
         {
             $return_array[$i] = new eZBulkMail( $mail_array[$i][$db->fieldName( "MailID" )] );
         }
@@ -395,7 +395,7 @@ class eZBulkMailCategory
     {
         $db =& eZDB::globalDatabase();
 
-        if( $categoryID == 0 )
+        if ( $categoryID == 0 )
             $categoryID = $this->ID;
         $subscribe_array = array();
         $return_array = array();
@@ -404,7 +404,7 @@ class eZBulkMailCategory
                                              WHERE eZBulkMail_SubscriptionAddress.ID=eZBulkMail_SubscriptionLink.AddressID
                                              AND eZBulkMail_SubscriptionLink.CategoryID='$categoryID'" );
 
-        for( $i=0; $i<count($subscribe_array); $i++ )
+        for ( $i = 0; $i < count( $subscribe_array ); $i++ )
         {
             if ( $asObject )
                 $return_array[$i] = new eZBulkMailSubscriptionAddress( $subscribe_array[$i][$db->fieldName( "ID" )], $this->ID );
@@ -430,7 +430,7 @@ class eZBulkMailCategory
         $db->array_query( $subscribe_array, "SELECT UserID FROM eZBulkMail_UserCategoryLink
                                              WHERE CategoryID='$categoryID'" );
 
-        for( $i = 0; $i < count( $subscribe_array ); $i++ )
+        for ( $i = 0; $i < count( $subscribe_array ); $i++ )
         {
             $return_array[$i] = new eZBulkMailUserSubscripter( $subscribe_array[$i][$db->fieldName( "UserID" )], $this->ID );
         }
@@ -447,8 +447,15 @@ class eZBulkMailCategory
         $db->query_single( $result, "SELECT COUNT( EMail ) as Count FROM eZBulkMail_SubscriptionAddress, eZBulkMail_SubscriptionLink
                                              WHERE eZBulkMail_SubscriptionAddress.ID=eZBulkMail_SubscriptionLink.AddressID
                                              AND eZBulkMail_SubscriptionLink.CategoryID='$this->ID'" );
-
-        return $result[$db->fieldName( "Count" )];
+        
+        $count =  $result[$db->fieldName( "Count" )];
+        $result_array = array();
+        $db->array_query( $result_array, "SELECT GroupID FROM eZBulkMail_GroupCategoryLink WHERE CategoryID='$this->ID'" );
+        foreach ( $result_array as $result )
+        {
+            $count += count( eZUserGroup::users( $result["GroupID"] ) );
+        }
+        return $count;
     }
     
     /*!

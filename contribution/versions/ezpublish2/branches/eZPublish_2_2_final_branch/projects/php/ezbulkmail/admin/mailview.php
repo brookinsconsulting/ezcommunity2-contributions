@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: mailview.php,v 1.8 2001/09/08 12:16:19 ce Exp $
+// $Id: mailview.php,v 1.8.2.1 2001/11/19 11:29:37 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -33,27 +33,27 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezhttptool.php" );
 
 
-if( isset( $Edit ) )
+if ( isset( $Edit ) )
 {
     eZHTTPTool::header( "Location: /bulkmail/mailedit/$MailID" );
     exit();
 }
 
-if( isset( $Send ) )
+if ( isset( $Send ) )
 {
     $mail = new eZBulkMail( $MailID );
     $categoryArray = $mail->categories();
-    if( count( $categoryArray ) > 0 )
+    if ( count( $categoryArray ) > 0 )
     {
         $mail->send();
 
-        foreach( $categoryArray as $category )
+        foreach ( $categoryArray as $category )
         {
             $subscribers = $category->subscribers( true );
-            foreach( $subscribers as $subscripter )
+            foreach ( $subscribers as $subscripter )
             {
                 $settings = $category->settings( $subscripter );
-                if ( ( get_class ( $setting ) == "ezbulkmailcategorysettings" ) && ( $settings->delay() != 0 ) );
+                if ( ( get_class( $setting ) == "ezbulkmailcategorysettings" ) && ( $settings->delay() != 0 ) )
                 {
                     $mail->addToDelayList( $subscripter->id(), $category->id(), $settings->delay() );
                 }
@@ -77,9 +77,7 @@ $t = new eZTemplate( "ezbulkmail/admin/" . $ini->read_var( "eZBulkMailMain", "Ad
                      "ezbulkmail/admin/intl/", $Language, "mailview.php" );
 $t->setAllStrings();
 
-$t->set_file( array(
-    "mail_view_page_tpl" => "mailview.tpl"
-    ) );
+$t->set_file( "mail_view_page_tpl", "mailview.tpl" );
 
 
 $t->set_var( "site_style", $SiteStyle );
@@ -89,13 +87,13 @@ $t->set_var( "send_button", "" );
 $t->set_var( "edit_button", "" );
 
 /** Check if we want the buttons enabled **/
-if( $SendButton == true )
+if ( $SendButton == true )
     $t->parse( "send_button", "send_button_tpl", false );
-if( $EditButton == true )
+if ( $EditButton == true )
     $t->parse( "edit_button", "edit_button_tpl", false );
 
 $mail = new eZBulkMail( $MailID );
-if( is_object( $mail ) )
+if ( is_object( $mail ) )
 {
     $fromString = $mail->fromName() . " &lt;" . $mail->sender() ."&gt;";
     $t->set_var( "current_mail_id", $MailID );
@@ -105,12 +103,12 @@ if( is_object( $mail ) )
     /** check if this mail has a template associated with it **/
     $body = $mail->body();
     $template = $mail->template();
-    if( is_object( $template ) )
+    if ( is_object( $template ) )
         $body = $template->header() . $body . $template->footer();
     $t->set_var( "mail_body", nl2br( $body ) );
 
     $category = $mail->categories();
-    if( count( $category ) > 0 )
+    if ( count( $category ) > 0 )
     {
         $t->set_var( "category", $category[0]->name() );
     }

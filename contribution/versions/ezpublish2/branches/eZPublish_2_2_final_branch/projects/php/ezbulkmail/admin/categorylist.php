@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categorylist.php,v 1.12 2001/07/19 12:36:31 jakobn Exp $
+// $Id: categorylist.php,v 1.12.2.1 2001/11/19 11:29:37 jhe Exp $
 //
 // Created on: <18-Apr-2001 10:26:26 fh>
 //
@@ -32,33 +32,33 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezlist.php" );
 
-if( isset( $Ok ) || isset( $New ) )
+if ( isset( $Ok ) || isset( $New ) )
 {
     eZBulkMailCategory::setSingleList( false );
-    if( isset( $SingleListID ) && $SingleListID != -1 )
+    if ( isset( $SingleListID ) && $SingleListID != -1 )
     {
         eZBulkMailCategory::setSingleList( $SingleListID );
     }
 }
 
-if( isset( $New ) )
+if ( isset( $New ) )
 {
     eZHTTPTool::header( "Location: /bulkmail/categoryedit/0" );
     exit();
 }
 
-if( isset( $Delete ) )
+if ( isset( $Delete ) )
 {
-    if( count( $CategoryArrayID ) > 0 )
+    if ( count( $CategoryArrayID ) > 0 )
     {
-        foreach( $CategoryArrayID as $categoryID )
+        foreach ( $CategoryArrayID as $categoryID )
         {
             eZBulkMailCategory::delete( $categoryID );
         }
     }
-    if( count( $BulkMailArrayID ) > 0 )
+    if ( count( $BulkMailArrayID ) > 0 )
     {
-        foreach( $BulkMailArrayID as $bulkmailID )
+        foreach ( $BulkMailArrayID as $bulkmailID )
         {
             eZBulkMail::delete( $bulkmailID );
         }
@@ -72,9 +72,7 @@ $t = new eZTemplate( "ezbulkmail/admin/" . $ini->read_var( "eZBulkMailMain", "Ad
 $iniLanguage = new INIFile( "ezbulkmail/admin/intl/" . $Language . "/categorylist.php.ini", false );
 
 $locale = new eZLocale( $Language ); 
-$t->set_file( array(
-    "category_list_tpl" => "categorylist.tpl"
-    ) );
+$t->set_file( "category_list_tpl", "categorylist.tpl" );
 
 $t->setAllStrings();
 $t->set_var( "site_style", $SiteStyle );
@@ -94,14 +92,14 @@ $t->set_var( "current_category_id", "" );
 
 /** List all the avaliable categories **/
 $singleListCategoryID = eZBulkMailCategory::singleList( false );
-if( $singleListCategoryID == false )
+if ( $singleListCategoryID == false )
     $t->set_var( "multi_list_selected", "selected" );
 else
     $t->set_var( "multi_list_selected", "" );
 
 $categories = eZBulkMailCategory::getAll();
 $i = 0;
-foreach( $categories as $categoryitem )
+foreach ( $categories as $categoryitem )
 {
     $t->set_var( "category_name", $categoryitem->name() );
     $t->set_var( "category_description", $categoryitem->description() );
