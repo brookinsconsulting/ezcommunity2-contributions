@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.7 2000/10/31 17:53:58 bf-cvs Exp $
+// $Id: checkout.php,v 1.8 2000/10/31 19:53:56 bf-cvs Exp $
 //
 // 
 //
@@ -87,6 +87,7 @@ if ( $SendOrder == "true" )
     $order->setUser( $user );
     $order->setAddress( 42 );
     $order->setShippingCharge( $ShippingCost );
+    $order->setPaymentMethod( $PaymentMethod );
     $order->store();
 
     $order_id = $order->id();

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.5 2000/10/31 17:53:58 bf-cvs Exp $
+// $Id: ordersendt.php,v 1.6 2000/10/31 19:53:56 bf-cvs Exp $
 //
 // 
 //
@@ -74,6 +74,9 @@ if ( $user )
 
 // fetch the order items
 $items = $order->items( $OrderType );
+
+print( $order->PaymentMethod() );
+
 
 $locale = new eZLocale( $Language );
 $currency = new eZCurrency();

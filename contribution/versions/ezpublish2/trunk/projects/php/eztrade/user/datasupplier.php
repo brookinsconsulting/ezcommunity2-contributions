@@ -82,12 +82,10 @@ switch ( $url_array[2] )
         
         if ( isset( $WishList ) )
         {
-            print( "wishlist<br>" );
             include( "eztrade/user/wishlist.php" );
         }
         else
         {
-            print( "cart<br>" );            
             include( "eztrade/user/cart.php" );
         }
         

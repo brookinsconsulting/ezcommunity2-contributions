@@ -1,17 +1,28 @@
-<h1>Bekreft bestilling</h1>
+<h1>{intl-confirm_order}</h1>
+
+<hr noshade="noshade" size="4" />
+<form action="/trade/checkout/" method="post">
+Here is the description of the payment methods........
+
+<select name="PaymentMethod">
+<option value="1">VISA</option>
+<option value="2">Mastercard</option>
+<option value="3">Postordre</option>
+<option value="4">Faktura</option>
+</select>
 
 <hr noshade="noshade" size="4" />
 
-<h2>Dette er bestilt:</h2>
+<h2>{intl-products_about_to_order}:</h2>
 
 <!-- BEGIN cart_item_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>Bilde:</th>
-	<th>Varenavn:</th>
-	<th>Opsjoner:</th>
-	<th>Antall:</th>
-	<td class="path" align="right">Pris:</td>
+	<th>{intl-picture}:</th>
+	<th>{intl-product_name}:</th>
+	<th>{intl-options}:</th>
+	<th>{intl-qty}:</th>
+	<td class="path" align="right">{intl-price}:</td>
 </tr>
 
 <!-- BEGIN cart_item_tpl -->
@@ -70,7 +81,7 @@
 
 <!-- END address_tpl -->
 
-<form action="/trade/checkout/" method="post">
+
 
 <hr noshade="noshade" size="4" />
 

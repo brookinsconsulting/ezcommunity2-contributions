@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.8 2000/10/31 17:53:58 bf-cvs Exp $
+// $Id: cart.php,v 1.9 2000/10/31 19:53:56 bf-cvs Exp $
 //
 // 
 //
@@ -58,7 +58,6 @@ $cart = $cart->getBySession( $session );
 
 if ( !$cart )
 {
-    print( "creating a cart" );
     $cart = new eZCart();
     $cart->setSession( $session );
     
@@ -109,6 +108,7 @@ if ( $Action == "Refresh" )
 {
 
     $i=0;
+    if ( count( $CartIDArray ) > 0 )
     foreach ( $CartIDArray as $cartID )
     {
         $cartItem = new eZCartItem( $cartID );

@@ -1,4 +1,4 @@
-<h1>Produktvisning</h1>
+<h1>{intl-head_line}</h1>
 
 
 <!-- BEGIN path_tpl -->
@@ -14,7 +14,7 @@
 	</td>
 	<td align="right">
 	<br />
-	<span class="boxtext">Best. Nr:</span> {product_number}
+	<span class="boxtext">{intl-order_number}:</span> {product_number}
 	</td>
 </tr>
 <tr>

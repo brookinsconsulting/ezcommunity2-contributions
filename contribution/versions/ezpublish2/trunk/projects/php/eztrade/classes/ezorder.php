@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.10 2000/10/27 09:26:27 bf-cvs Exp $
+// $Id: ezorder.php,v 1.11 2000/10/31 19:53:56 bf-cvs Exp $
 //
 // Definition of eZOrder class
 //
@@ -76,6 +76,7 @@ class eZOrder
             $this->Database->query( "INSERT INTO eZTrade_Order SET
 		                         UserID='$this->UserID',
 		                         AddressID='$this->AddressID',
+		                         PaymentMethod='$this->PaymentMethod',
 		                         ShippingCharge='$this->ShippingCharge'
                                  " );
 
@@ -83,7 +84,7 @@ class eZOrder
 
             // store the status
             $statusType = new eZOrderStatusType( );
-            $statusType = $statusType->getByName( "Initial" );
+            $statusType = $statusType->getByName( "intl-initial" );
 
             $status = new eZOrderStatus();
             $status->setType( $statusType );
@@ -103,6 +104,7 @@ class eZOrder
             $this->Database->query( "UPDATE eZTrade_Order SET
 		                         UserID='$this->UserID',
 		                         AddressID='$this->AddressID',
+		                         PaymentMethod='$this->PaymentMethod',
 		                         ShippingCharge='$this->ShippingCharge'
                                  WHERE ID='$this->ID'
                                  " );
@@ -161,6 +163,7 @@ class eZOrder
                 $this->UserID = $cart_array[0][ "UserID" ];
                 $this->AddressID = $cart_array[0][ "AddressID" ];
                 $this->ShippingCharge = $cart_array[0][ "ShippingCharge" ];
+                $this->PaymentMethod = $cart_array[0][ "PaymentMethod" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -294,6 +297,29 @@ class eZOrder
 
        return $this->ShippingCharge;
     }
+
+    /*!
+      Returns the payment method text.
+    */
+    function paymentMethod()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->PaymentMethod;
+    }
+
+    /*!
+      Sets the payment method.
+    */
+    function setPaymentMethod( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->PaymentMethod = $value;
+    }
+    
 
     /*!
       Sets the user.
@@ -497,6 +523,7 @@ class eZOrder
     var $UserID;
     var $AddressID;
     var $ShippingCharge;
+    var $PaymentMethod;
 
     var $OrderStatus_;
     
