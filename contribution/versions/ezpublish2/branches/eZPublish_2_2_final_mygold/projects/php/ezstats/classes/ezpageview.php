@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpageview.php,v 1.16 2001/08/17 13:36:00 jhe Exp $
+// $Id: ezpageview.php,v 1.16.4.1 2001/11/12 08:19:38 sascha Exp $
 //
 // Definition of eZPageView class
 //
@@ -41,6 +41,8 @@
 
 include_once( "classes/ezdb.php" );
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "classes/ezdate.php" );
+include_once( "classes/eztime.php" );
 
 class eZPageView
 {
