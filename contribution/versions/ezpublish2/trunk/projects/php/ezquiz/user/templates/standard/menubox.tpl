@@ -2,6 +2,13 @@
 <tr>
 	<td colspan="2" class="menuhead">{intl-title}</td>
 </tr>
+<!-- BEGIN no_game_item_tpl -->
+<tr>
+	<tr>
+		<td colspan="2" class="menusubhead">{intl-no_game}</td>
+	</tr>
+</tr>
+<!-- END no_game_item_tpl -->
 <!-- BEGIN current_game_item_tpl -->
 <tr>
 	<tr>

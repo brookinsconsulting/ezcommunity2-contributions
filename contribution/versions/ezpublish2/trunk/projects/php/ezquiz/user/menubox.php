@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.2 2001/05/30 13:16:28 pkej Exp $
+// $Id: menubox.php,v 1.3 2001/05/30 13:52:57 pkej Exp $
 //
 // 
 //
@@ -27,6 +27,7 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezcachefile.php" );
+include_once( "classes/ezlocale.php" );
 
 $Language = $ini->read_var( "eZQuizMain", "Language" );
 $PageCaching = $ini->read_var( "eZQuizMain", "PageCaching" );
@@ -45,6 +46,7 @@ function createQuizMenu()
         
     include_once( "classes/eztemplate.php" );
     include_once( "ezquiz/classes/ezquizgame.php" );
+    include_once( "ezquiz/classes/ezquizscore.php" );
 
     $t = new eZTemplate( "ezquiz/user/" . $ini->read_var( "eZQuizMain", "TemplateDir" ),
                          "ezquiz/user/intl", $Language, "menubox.php" );
@@ -57,6 +59,7 @@ function createQuizMenu()
 
     $t->set_block( "menu_box_tpl", "current_game_item_tpl", "current_game_item" );
     $t->set_block( "menu_box_tpl", "next_game_item_tpl", "next_game_item" );
+    $t->set_block( "menu_box_tpl", "no_game_item_tpl", "no_game_item" );
     $t->set_block( "menu_box_tpl", "quiz_menu_item_tpl", "quiz_menu_item" );
     $t->set_block( "menu_box_tpl", "my_quiz_item_tpl", "my_quiz_item" );
 
@@ -64,12 +67,20 @@ function createQuizMenu()
     $t->set_var( "next_game_item", "" );
     $t->set_var( "quiz_menu_item", "" );
     $t->set_var( "my_quiz_item", "" );
+    $t->set_var( "no_game_item", "" );
     
     $t->set_var( "sitedesign", $GlobalSiteDesign );
 
+    $userMenuUp = false;
+
+    $game = new eZQuizGame();
+    
     if( eZUser::currentUser() != false )
     {
+        
         $t->parse( "my_quiz_item", "my_quiz_item_tpl" );
+        $userMenuUp = true;
+        $user = eZUser::currentUser();
     }
     
     if( true )
@@ -77,22 +88,40 @@ function createQuizMenu()
         $t->parse( "quiz_menu_item", "quiz_menu_item_tpl" );
     }
 
-    $game = new eZQuizGame();
     $games = $game->openGames( 0, 1 );
     $count = count( $games );
-    
-    if( $count >= 1 )
+
+    if( $count > 0 )
     {
         $game = $games[0];
-        $t->set_var( "game_id", $game->id() );
-        $t->set_var( "game_name", $game->name() );
-        $t->parse( "current_game_item", "current_game_item_tpl" );
+        $finished = false;
+
+        if( $userMenuUp )
+        {
+            $score = new eZQuizScore();
+            $score->getUserGame( $user, $game );
+
+            if( $score->isFinishedGame() )
+            {
+                $finished = true;
+            }
+        }
+        
+        if( $finished == false )
+        {
+            $t->set_var( "game_id", $game->id() );
+            $t->set_var( "game_name", $game->name() );
+            $t->parse( "current_game_item", "current_game_item_tpl" );
+        }
+        
+        
     }
-    else
+    
+    if( $count == 0 || $finished )
     {
         $games = $game->opensNext( 0, 1 );
         $count = count( $games );
-        
+
         if( $count >= 1 )
         {
             $game = $games[0];
@@ -100,11 +129,18 @@ function createQuizMenu()
             $t->set_var( "game_name", $game->name() );
             
             $start = $game->startDate();
+            
+            $locale = new eZLocale( $Language );
+            
             if( $start->day() != 0  )
             {
-                $t->set_var( "game_start", $locale->format( $start, true ) );
+                $t->set_var( "game_start_date", $locale->format( $start, true ) );
             }
             $t->parse( "next_game_item", "next_game_item_tpl" );
+        }
+        else
+        {
+            $t->parse( "no_game_item", "no_game_item_tpl" );
         }
     }
 
@@ -119,10 +155,6 @@ function createQuizMenu()
 		$t->pparse( "output", "menu_box_tpl" );
     }
     
-}
-
-function createMyQuizMenu()
-{
 }
 
 ?>

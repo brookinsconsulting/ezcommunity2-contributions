@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizscore.php,v 1.3 2001/05/30 10:39:40 pkej Exp $
+// $Id: ezquizscore.php,v 1.4 2001/05/30 13:52:57 pkej Exp $
 //
 // eZQuizScore class
 //
@@ -338,10 +338,9 @@ class eZQuizScore
     function isFinishedGame()
     {
         $ret = false;
-        
-        if( $this->FinishedGame == 1 )
+        if( $this->FinishedGame )
         {
-            $ret = 1;
+            $ret = true;
         }
         
         return $ret;
