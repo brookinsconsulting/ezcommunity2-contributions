@@ -615,3 +615,23 @@ Maintainer(s) : fh@ez.no
     * classes/ezmail.php:
     removed codepage "fix" because it caused problems with long subjects
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2002-04-17  fh  <fh@zev.ez.no>
+
+    * classes/ezimapmail.php
+      classes/ezimapmailfolder.php
+      classes/imapfunctions.php
+      user/datasupplier.php
+      user/menubox.php:
+    This huge patch fixes the speed problems when using IMAP. They
+    where due to some strange behaviour of PHP when using hostNames
+    instead of ip's and not specifying the port even when you are
+    already connected. This patch also makes sure only one connection
+    is opened to each imap server through the whole script run.
+
+    * classes/ezimapmailfolder.php
+      user/folderlist.php: IMAP deleting bugfix
+
