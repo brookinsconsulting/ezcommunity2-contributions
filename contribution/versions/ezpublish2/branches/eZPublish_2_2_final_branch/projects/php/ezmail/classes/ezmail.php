@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmail.php,v 1.44.2.4 2002/02/15 18:16:53 master Exp $
+// $Id: ezmail.php,v 1.44.2.5 2002/04/02 18:42:04 fh Exp $
 //
 // Definition of eZMail class
 //
@@ -993,7 +993,7 @@ class eZMail
             $mime .= "Cc: " . $this->Cc . "\n";
         if ( !empty( $this->Bcc ) )
             $mime .= "Bcc: " . $this->Bcc . "\n";
-        if ( !empty( $this->Bcc ) )
+        if ( !empty( $this->ReplyTo ) )
             $mime .= "Reply-To: " . $this->ReplyTo . "\n";
         if ( !empty( $this->BodyText ) )
             $this->add_attachment( $this->BodyText, "", "text/plain");   
