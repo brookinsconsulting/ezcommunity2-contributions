@@ -1,4 +1,22 @@
 #
+# Table structure for table 'eZExample_Test'
+#
+
+DROP TABLE IF EXISTS eZExample_Test;
+CREATE TABLE eZExample_Test (
+  ID int(11) NOT NULL auto_increment,
+  Text char(100) default NULL,
+  Created timestamp,
+  PRIMARY KEY (ID)
+);
+
+
+#
+# Dumping data for table 'eZExample_Test'
+#
+
+
+#
 # Table structure for table 'eZQuiz_Alternative'
 #
 
