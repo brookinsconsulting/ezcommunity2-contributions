@@ -61,9 +61,12 @@
 </tr>
 </table>
 
+<!--
 <br />
 <div class="p"><input {info_subscription} type="checkbox" name="InfoSubscription" />&nbsp;{intl-infosubscription}</div>
+-->
 <br />
+
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>

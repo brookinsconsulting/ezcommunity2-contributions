@@ -159,10 +159,11 @@
 
 <!-- END address_tpl -->
 
-
+<!--
 <br /><br />
 
 <div class="boxtext"><input {info_subscription} type="checkbox" name="InfoSubscription" />&nbsp;{intl-infosubscription}</div>
+-->
 <br />
 
 <!-- BEGIN address_actions_tpl -->
