@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.44 2001/03/06 12:07:31 fh Exp $
+// $Id: ezlink.php,v 1.45 2001/03/06 12:13:48 fh Exp $
 //
 // Definition of eZLink class
 //
@@ -98,7 +98,7 @@ class eZLink
         $this->Created = date( "Y-m-d G:i:s" );        
         $this->Database->query( "INSERT INTO eZLink_Link SET
                 ID='$this->ID',
-                Title='$this->$Name',
+                Title='$this->Title',
                 Description='$this->Description',
                 LinkGroup='$this->LinkGroupID',
                 KeyWords='$this->Keywords',
