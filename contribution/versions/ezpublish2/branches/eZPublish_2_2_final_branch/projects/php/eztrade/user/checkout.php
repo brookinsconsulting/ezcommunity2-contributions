@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.96.2.6 2001/11/28 17:35:28 br Exp $
+// $Id: checkout.php,v 1.96.2.7 2001/12/04 17:23:21 br Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -677,7 +677,7 @@ foreach ( $addressArray as $address )
     if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) == "enabled" )
         $t->parse( "billing_option", "billing_option_tpl", true );
     else
-        $t->set_var( "billing_option" );
+        $t->set_var( "billing_option", "" );
     
     $t->parse( "shipping_address", "shipping_address_tpl", true );
 }
@@ -686,7 +686,7 @@ foreach ( $addressArray as $address )
 if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) == "enabled" )
     $t->parse( "billing_address", "billing_address_tpl", true );
 else
-    $t->set_var( "billing_address" );
+    $t->set_var( "billing_address", "" );
 
 
 // show the checkout types

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.71.2.4 2001/11/27 20:33:10 br Exp $
+// $Id: cart.php,v 1.71.2.5 2001/12/04 17:23:20 br Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -459,9 +459,7 @@ foreach ( $items as $item )
         $t->set_var( "option_name", $option->name() );
         $t->set_var( "option_value", $descriptions[0] );
         $t->set_var( "option_price", $value->localePrice( $PricesIncludeVAT, $product ) );
-        $t->set_var( "option_savings_item", "" );
-        $t->set_var( "option_ex_tax_item", "" );
-        $t->set_var( "option_inc_tax_item", "" );
+
         $t->parse( "cart_item_option", "cart_item_option_tpl", true );
 
         $numberOfOptions++;
