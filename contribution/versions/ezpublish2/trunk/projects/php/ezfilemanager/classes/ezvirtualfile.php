@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.22 2001/03/10 13:46:28 bf Exp $
+// $Id: ezvirtualfile.php,v 1.23 2001/04/04 15:46:18 fh Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -75,13 +75,18 @@ class eZVirtualfile
     {
         $this->dbInit();
 
+        $name = addslashes( $this->Name );
+        $description = addslashes( $this->Description );
+        $filename = addslashes( $this->FileName );
+        $originalfilename = addslashes( $this->OriginalFileName );
+        
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZFileManager_File SET
-                                 Name='$this->Name',
-                                 Description='$this->Description',
-                                 FileName='$this->FileName',
-                                 OriginalFileName='$this->OriginalFileName',
+                                 Name='$name',
+                                 Description='$description',
+                                 FileName='$filname',
+                                 OriginalFileName='$originalfilename',
                                  UserID='$this->UserID'
                                  " );
             $this->ID = mysql_insert_id();
@@ -89,10 +94,10 @@ class eZVirtualfile
         else
         {
             $this->Database->query( "UPDATE eZFileManager_File SET
-                                 Name='$this->Name',
-                                 Description='$this->Description',
-                                 FileName='$this->FileName',
-                                 OriginalFileName='$this->OriginalFileName'
+                                 Name='$name',
+                                 Description='$description',
+                                 FileName='$filename',
+                                 OriginalFileName='$originalfilename'
                                  WHERE ID='$this->ID'
                                  " );
         }
@@ -107,7 +112,7 @@ class eZVirtualfile
     {
         // Delete from the database
         $this->dbInit();
-
+        
         if ( isset( $this->ID ) )
         {
             $this->removeWritePermissions();
@@ -212,23 +217,29 @@ class eZVirtualfile
     /*!
       Returns the name of the virtual file.
     */
-    function &name()
+    function &name( $html = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        return htmlspecialchars( $this->Name );
+
+       if( $html )
+           return htmlspecialchars( $this->Name );
+       else
+           return $this->Name;
     }
 
     /*!
       Returns the description of the virtual file.
     */
-    function &description()
+    function &description( $html = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        return htmlspecialchars( $this->Description );
+
+       if( $html )
+           return htmlspecialchars( $this->Description );
+       else
+           return $this->Description;
     }    
 
     /*!

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfolder.php,v 1.15 2001/03/10 13:46:28 bf Exp $
+// $Id: ezvirtualfolder.php,v 1.16 2001/04/04 15:46:18 fh Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -73,13 +73,15 @@ class eZVirtualFolder
     function store()
     {
         $this->dbInit();
+        $name = addslashes( $this->Name );
+        $description = addslashes( $this->Description );
 
         if ( !isset( $this->ID ) )
         {
 
             $this->Database->query( "INSERT INTO eZFileManager_Folder SET
-		                         Name='$this->Name',
-                                 Description='$this->Description',
+		                         Name='$name',
+                                 Description='$description',
                                  UserID='$this->UserID',
                                  ParentID='$this->ParentID'", true );
             $this->ID = mysql_insert_id();
@@ -87,8 +89,8 @@ class eZVirtualFolder
         else
         {
             $this->Database->query( "UPDATE eZFileManager_Folder SET
-		                         Name='$this->Name',
-                                 Description='$this->Description',
+		                         Name='$name',
+                                 Description='$description',
                                  UserID='$this->UserID',
                                  ParentID='$this->ParentID' WHERE ID='$this->ID'", true );
         }
@@ -287,12 +289,15 @@ class eZVirtualFolder
     /*!
       Returns the name of the category.
     */
-    function &name()
+    function &name( $html = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return htmlspecialchars( $this->Name );
+       if( $html )
+           return htmlspecialchars( $this->Name );
+       else
+           return $this->Name;
     }
 
     /*!
@@ -303,7 +308,10 @@ class eZVirtualFolder
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return htmlspecialchars( $this->Description );
+       if( $html )
+           return htmlspecialchars( $this->Description );
+       else
+           return $this->Description;
     }
     
     /*!
