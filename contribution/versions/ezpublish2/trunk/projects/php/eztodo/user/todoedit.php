@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: todoedit.php,v 1.27 2001/08/17 13:36:00 jhe Exp $
+// $Id: todoedit.php,v 1.28 2001/08/29 14:18:07 jhe Exp $
 //
 // Definition of todo list.
 //
@@ -312,7 +312,10 @@ if ( $Action == "update" && $error == false )
     $todo->get( $TodoID );
     $oldDue = $todo->due();
 
-    deleteCache( "default", $Language, $oldDue->year(), addZero( $oldDue->month() ) , addZero( $oldDue->day() ), $userID );
+    if ( $oldDue )
+    {
+        deleteCache( "default", $Language, $oldDue->year(), addZero( $oldDue->month() ) , addZero( $oldDue->day() ), $userID );
+    }
     deleteCache( "default", $Language, $DeadlineYear, addZero( $DeadlineMonth ), addZero( $DeadlineDay ), $userID );
 
     $oldstatus = $todo->statusID();

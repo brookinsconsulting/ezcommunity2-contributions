@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: message.php,v 1.26 2001/08/02 16:14:13 kaid Exp $
+// $Id: message.php,v 1.27 2001/08/29 14:18:07 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -43,8 +43,9 @@ $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateD
                      "ezforum/user/intl", $Language, "message.php" );
 $t->setAllStrings();
 
-$t->set_file( "message_tpl", "message.tpl"  );
+$t->set_file( "message_tpl", "message.tpl" );
 
+$t->set_block( "message_tpl", "header_list_tpl", "header_list" );
 $t->set_block( "message_tpl", "message_item_tpl", "message_item" );
 $t->set_block( "message_tpl", "edit_current_message_item_tpl", "edit_current_message_item" );
 $t->set_block( "message_item_tpl", "edit_message_item_tpl", "edit_message_item" );
@@ -52,6 +53,7 @@ $t->set_block( "message_item_tpl", "edit_message_item_tpl", "edit_message_item" 
 $t->set_block( "message_item_tpl", "new_icon_tpl", "new_icon" );
 $t->set_block( "message_item_tpl", "old_icon_tpl", "old_icon" );
 
+$t->set_var( "header_list", "" );
 $t->set_var( "edit_current_message_item", "" );
 
 $message = new eZForumMessage( $MessageID );
@@ -62,7 +64,7 @@ $group =& $forum->group();
 $viewer = $user;
 if ( ( get_class( $group ) == "ezusergroup" ) && ( $group->id() != 0 ) )
 {
-    if ( get_class ( $viewer ) == "ezuser" )
+    if ( get_class( $viewer ) == "ezuser" )
     {
         $groupList =& $viewer->groups();
         
@@ -81,14 +83,18 @@ else
     $readPermission = true;
 }
 
-$categories = $forum->categories();
-
-if ( count( $categories ) > 0 )
+if ( $group )
 {
-    $category = new eZForumCategory( $categories[0]->id() );
-    
-    $t->set_var( "category_id", $category->id( ) );
-    $t->set_var( "category_name", $category->name( ) );
+    $categories = $forum->categories();
+
+    if ( count( $categories ) > 0 )
+    {
+        $category = new eZForumCategory( $categories[0]->id() );
+        
+        $t->set_var( "category_id", $category->id() );
+        $t->set_var( "category_name", $category->name() );
+    }
+    $t->parse( "header_list", "header_list_tpl" );
 }
 
 $t->set_var( "forum_id", $forum->id() );
@@ -101,9 +107,9 @@ $t->set_var( "topic", $message->topic() );
 
 $user = $message->user();
 
-$anonymous=$ini->read_var( "eZForumMain", "AnonymousPoster" );
+$anonymous = $ini->read_var( "eZForumMain", "AnonymousPoster" );
 
-if( $user->id() == 0 )
+if ( $user->id() == 0 )
 {
     $MessageAuthor = $anonymous;
 }
@@ -126,9 +132,9 @@ $t->set_var( "reply_id", $message->id() );
 
 $t->set_var( "forum_id", $forum->id() );
 
-if( get_class( $viewer ) == "ezuser" )
+if ( get_class( $viewer ) == "ezuser" )
 {
-    if( $viewer->id() == $message->userId() && eZForumMessage::countReplies( $message->id() ) == 0 )
+    if ( $viewer->id() == $message->userId() && eZForumMessage::countReplies( $message->id() ) == 0 )
     {
         $t->parse( "edit_current_message_item", "edit_current_message_item_tpl" );
     }
@@ -145,7 +151,7 @@ $messages = $forum->messageThreadTree( $message->threadID() );
 
 $level = 0;
 
-$i=0;
+$i = 0;
 foreach ( $messages as $message )
 {
     $t->set_var( "edit_message_item", "" );
@@ -200,7 +206,7 @@ foreach ( $messages as $message )
 
     $user = $message->user();
     
-    if( $user->id() == 0 )
+    if ( $user->id() == 0 )
     {
         $MessageAuthor = $anonymous;
     }
@@ -224,7 +230,7 @@ foreach ( $messages as $message )
     $i++;
 }
 
-if ( !isset( $RedirectURL ) )
+if ( !isSet( $RedirectURL ) )
     $RedirectURL = "";
 $t->set_var( "redirect_url", $RedirectURL );
 

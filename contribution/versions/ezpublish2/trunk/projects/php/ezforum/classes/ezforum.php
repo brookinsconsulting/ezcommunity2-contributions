@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezforum.php,v 1.42 2001/08/02 16:14:13 kaid Exp $
+// $Id: ezforum.php,v 1.43 2001/08/29 14:18:06 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -69,7 +69,7 @@ class eZForum
         $name = $db->escapeString( $this->Name );
         $description = $db->escapeString( $this->Description );
 
-        if ( !isset( $this->ID ) )
+        if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZForum_Forum" );
             $nextID = $db->nextID( "eZForum_Forum", "ID" );
@@ -91,10 +91,9 @@ class eZForum
                            '$this->IsAnonymous',
                            '$this->ModeratorID',
                            '$this->GroupID',
-                           '$this->IsPrivate' )
-                                 " );
+                           '$this->IsPrivate' )" );
 
-                        $this->ID = $nextID;
+            $this->ID = $nextID;
         }
         else
         {
@@ -518,7 +517,7 @@ class eZForum
     /*!
       Sets the forum moderator.
     */
-   function setModerator( &$group )
+    function setModerator( &$group )
     {
        if ( get_class( $group  ) == "ezusergroup" )
        {
