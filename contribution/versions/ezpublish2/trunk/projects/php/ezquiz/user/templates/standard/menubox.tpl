@@ -27,7 +27,7 @@
 	</tr>
 	<tr>
 	<td width="1%" valign="top"><img src="/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
-	<td width="99%"><a class="menu" href="/quiz/game/play/{game_id}/">{game_name}</a><br />starts at {game_start_date}</td>
+	<td width="99%"><a class="menu" href="/quiz/game/play/{game_id}/">{game_name}</a><br /><span class="menu">starts at {game_start_date}</span></td>
 	</tr>
 </tr>
 <!-- END next_game_item_tpl -->

@@ -1,26 +1,29 @@
+<h1>{intl-header_quiz_list}</h1>
+
+<hr noshade="noshade" size="4" />
+<br />
 
 <!-- BEGIN game_list_item_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
     <th>Name:</th>
     <th>Description:</th>
-    <th>{intl-start_date}:</th>
-    <th>{intl-end_date}:</th>
-    <th>{intl-questions}:</th>
-    <th>{intl-players}:</th>
-    <th colspan="2">&nbsp;</th>
+    <th>{intl-valid}:</th>
+<!--    <th>{intl-questions}:</th> -->
+<!--    <th>{intl-players}:</th> -->
+	<th>&nbsp;</th>
+<!--	<th>&nbsp;</th>  -->
 </tr>
 
 <!-- BEGIN game_item_tpl -->
 <tr class="{td_class}">
     <td><a href="/quiz/game/view/{game_id}">{game_name}</a></td>
     <td>{game_description}&nbsp;</td>
-    <td class="small">{game_start}&nbsp;</td>
-    <td class="small">{game_stop}&nbsp;</td>
-    <td>{game_questions}&nbsp;</td>
-    <td>{game_players}&nbsp;</td>
+    <td class="small">{game_start}<br />{game_stop}</td>
+<!--    <td>{game_questions}&nbsp;</td> -->
+<!--    <td>{game_players}&nbsp;</td> -->
     <td><a href="/quiz/game/scores/{game_id}">{intl-scores}</a></td>
-    <td><a href="/quiz/game/play/{game_id}">{intl-play}</a></td>
+<!--	<td><a href="/quiz/game/play/{game_id}">{intl-play}</a></td> -->
 </tr>
 <!-- END game_item_tpl -->
 </table>

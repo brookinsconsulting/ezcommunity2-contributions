@@ -1,24 +1,25 @@
-<h1>{intl-high_score_list} {game_name}</h1>
+<h1>{intl-high_score_list}: {game_name}</h1>
 
 <hr noshade="noshade" size="4" />
+
 <!-- BEGIN error_item_tpl -->
 <h2 class="error">{intl-error}</h2>
 <p class="error">{error_message}</p>
 <!-- END error_item_tpl -->
 
 <!-- BEGIN score_list_item_tpl -->
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th width="1%">{intl-position}</td>
-	<th>{intl-score}</td>
-	<th>{intl-player}</td>
+	<th width="1%">{intl-position}:</td>
+	<th>{intl-player}:</td>
+	<th class="right">{intl-score}:</td>
 </tr>
 
 <!-- BEGIN score_item_tpl -->
 <tr class="{td_class}">
 	<td width="1%">{score_position}</td>
-	<td>{score}</td>
 	<td>{player}<!-- {player_id} --></td>
+	<td align="right">{score}</td>
 </tr>
 <!-- END score_item_tpl -->
 
