@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxml.php,v 1.24 2002/01/04 12:00:57 bf Exp $
+// $Id: ezxml.php,v 1.25 2002/01/07 09:03:17 bf Exp $
 //
 // Definition of eZXML class
 //
@@ -216,7 +216,7 @@ class eZXML
                         $attr =& eZXML::parseAttributes( $attributePart );
 
                         if ( $attr != false )
-                            $subNode->attributes[] =& $attr;
+                            $subNode->attributes =& $attr;
                     }
 
                     // check it it's a oneliner: <tagname /> or a cdata section
@@ -244,7 +244,7 @@ class eZXML
                 // content tag
                 $tagContent = substr( $xmlDoc, $endTagPos + 1, $pos - ( $endTagPos + 1 ) );
 
-                if ( ( $params["TrimWhiteSpace"] == true and ( trim( $tagContent ) != "" ) ) or $params["TrimWhiteSpace"] == false )
+                if ( ( ( $params["TrimWhiteSpace"] == true ) and ( trim( $tagContent ) != "" ) ) or ( $params["TrimWhiteSpace"] == false ) )
                 {
                     unset( $subNode );
                     $subNode = new eZDOMNode();
@@ -328,7 +328,6 @@ class eZXML
 
             }
         }
-        print_r( $ret );
         return $ret;         
     }
  
