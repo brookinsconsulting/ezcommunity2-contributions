@@ -52,3 +52,7 @@ CREATE TABLE eZForm_FormElementFixedValueLink (
 
 INSERT INTO eZForm_FormElementType VALUES (1,'text_field_item','HTML text field (input type="text")');
 INSERT INTO eZForm_FormElementType VALUES (2,'text_area_item','HTML text area (textarea)');
+INSERT INTO eZForm_FormElementType VALUES (3,'dropdown_item','HTML Select');
+INSERT INTO eZForm_FormElementType VALUES (4,'multiple_select_item','HTML Multiple Select');
+INSERT INTO eZForm_FormElementType VALUES (6,'radiobox_item','HTML RadioBox');
+INSERT INTO eZForm_FormElementType VALUES (5,'checkbox_item','HTML CheckBox');
