@@ -68,6 +68,10 @@ function Call( $args )
         if ( is_object( $call["Caller"] ) )
             $caller = $call["Caller"];
 
+        $RefID = false;
+        if ( is_object( $call["RefID"] ) )
+            $RefID = $call["RefID"];
+
         // decode URL
         $REQUEST_URI = $call["URL"]->value();
         $Module = $REQUEST_URI["Module"]->value();
@@ -117,6 +121,11 @@ function Call( $args )
                 eZLog::writeNotice( "XML-RPC returning standard data." );
                 include( $datasupplier );
 
+            }
+
+            if ( !is_object( $RefID ) )
+            {
+                $RefID = new eZXMLRPCString( md5( microtime() ) );
             }
 
             // create the return struct...
