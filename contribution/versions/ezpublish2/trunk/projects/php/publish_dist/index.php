@@ -1,8 +1,8 @@
 <?
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
-header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT"); 
-header("Cache-Control: no-cache, must-revalidate"); 
-header("Pragma: no-cache");
+//  header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
+//  header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT"); 
+//  header("Cache-Control: no-cache, must-revalidate"); 
+//  header("Pragma: no-cache");
 
 // turn on output buffering
 ob_start();
@@ -42,6 +42,7 @@ $GlobalPageView->store();
 $meta_page = "";
 $content_page = "";
 
+// Check if userlogin is required
 $user = eZUser::currentUser();
 if ( ( get_class( $user ) == "ezuser" ) && ( $user->id() != 0 ) && ( $ini->read_var( "eZUserMain", "RequireUserLogin" ) == "enabled" ) )
 {
@@ -121,7 +122,6 @@ if ( ( get_class( $user ) == "ezuser" ) && ( $user->id() != 0 ) && ( $ini->read_
 }
 else
 {
-    print( $user );
     include( "sitedesign/$siteDesign/preamble.php" );
     include( "sitedesign/$siteDesign/loginheader.php" );
 

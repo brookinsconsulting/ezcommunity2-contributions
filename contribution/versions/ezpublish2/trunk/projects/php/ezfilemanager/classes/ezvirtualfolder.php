@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfolder.php,v 1.5 2001/01/09 10:56:08 ce Exp $
+// $Id: ezvirtualfolder.php,v 1.6 2001/01/18 09:42:42 ce Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -76,13 +76,14 @@ class eZVirtualFolder
 
         if ( !isset( $this->ID ) )
         {
+
             $this->Database->query( "INSERT INTO eZFileManager_Folder SET
 		                         Name='$this->Name',
                                  Description='$this->Description',
                                  ReadPermission='$this->ReadPermission',
                                  WritePermission='$this->WritePermission',
                                  UserID='$this->UserID',
-                                 ParentID='$this->ParentID'" );
+                                 ParentID='$this->ParentID'", true );
             $this->ID = mysql_insert_id();
         }
         else

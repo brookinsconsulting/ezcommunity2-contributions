@@ -42,7 +42,7 @@
 	<a href="/calendar/appointmentedit/edit/{appointment_id}/">{edit_button}</a>
 <!--	<a href="/calendar/appointmentview/{appointment_id}/">{delete_button}</a><br /> -->
         <!-- BEGIN delete_check_tpl -->
-        <input type="checkbox" name="AppointmentArrayID[]" value={appointment_id}>
+        <input type="checkbox" name="AppointmentArrayID[]" value={appointment_id}><br />
         <!-- END delete_check_tpl -->
 	{appointment_description}<br />
 	</td>

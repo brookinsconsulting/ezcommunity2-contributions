@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.7 2001/01/09 10:56:08 ce Exp $
+// $Id: filelist.php,v 1.8 2001/01/18 09:42:42 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -81,6 +81,7 @@ if ( $FolderID == 0 )
 }
 
 $t->set_var( "current_folder", "" );
+$t->set_var( "current_folder_description", "" );
 if ( $folder->id() != 0 )
 {
     $t->set_var( "current_folder_description", $folder->description() );
