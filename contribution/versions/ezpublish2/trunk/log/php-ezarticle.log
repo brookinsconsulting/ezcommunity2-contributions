@@ -3267,3 +3267,29 @@ Maintainer(s) : bf@ez.no
     * user/searchform.php:
     fixed permission check. Check on read access instead of write access.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-05-02  Baard Farstad  <bf@ez.no>
+
+    * user/datasupplier.php: Fixed security bug with printable version.
+
+    * user/search.php: Fixed security bug.
+
+    * admin/articleedit.php: Fixed bug with POST variables and new PHP.
+
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-05-07  Jan Borsodi  <jb@ez.no>
+
+    * classes/ezarticlecategory.php:
+    Fixed permission bugs with DE listings, now DE will only get categories and articles with read AND write permissions.
+
+2002-05-07  Vidar Langseid  <vl@ez.no>
+
+    * user/templates/standard/articletags.tpl: Added fixes for nvh setup.
+    link_tpl and popuplink_tpl should work again now
+
