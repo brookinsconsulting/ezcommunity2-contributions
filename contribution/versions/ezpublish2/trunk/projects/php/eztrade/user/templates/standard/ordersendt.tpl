@@ -43,6 +43,11 @@
 	</td>
 </tr>
 </table>
+
+<p class="boxtext">{intl-comment}:</p>
+{payment_method}
+
+
 <br />
 
 <h2>{intl-goods_list}:</h2>

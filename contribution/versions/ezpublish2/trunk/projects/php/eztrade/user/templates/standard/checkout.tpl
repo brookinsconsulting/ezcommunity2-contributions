@@ -132,6 +132,11 @@
 <!-- END wish_user_tpl -->
 </select>
 
+<br /><br />
+<p class="boxtext">{intl-comment}:</p>
+<textarea name="Comment" cols="40" rows="5"></textarea>
+
+
 <!-- BEGIN show_payment_tpl -->
 <br /><br />
 <hr noshade="noshade" size="4" />

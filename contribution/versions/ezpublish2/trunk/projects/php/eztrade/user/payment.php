@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.65 2001/09/03 11:13:38 ce Exp $
+// $Id: payment.php,v 1.66 2001/09/03 12:27:22 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -124,6 +124,9 @@ $ChargeTotal = $session->variable( "TotalCost" ) ;
 // this is the total vat.
 $ChargeVATTotal = $session->variable( "TotalVAT" ) ;
 
+// The comment from the user.
+$Comment = $session->variable( "Comment" ) ;
+
 
 $checkout = new eZCheckout();
 $instance =& $checkout->instance();
@@ -172,6 +175,8 @@ if ( $PaymentSuccess == "true" )
     $order->setPaymentMethod( $session->variable( "PaymentMethod" ) );
 
     $order->setShippingTypeID( $session->variable( "ShippingTypeID" ) );
+
+    $order->setComment( $Comment );
 
     $order->setPersonID( $cart->personID() );
     $order->setCompanyID( $cart->companyID() );
@@ -418,8 +423,9 @@ if ( $PaymentSuccess == "true" )
     $paymentMethod = $instance->paymentName( $order->paymentMethod() );
 
     $mailTemplate->set_var( "payment_method", $paymentMethod );
-    
-    
+
+    $mailTemplate->set_var( "comment", $Comment );
+        
     // print out the addresses
     $mailTemplate->set_var( "billing_street1", $billingAddress->street1() );
     $mailTemplate->set_var( "billing_street2", $billingAddress->street2() );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.83 2001/09/03 11:13:38 ce Exp $
+// $Id: checkout.php,v 1.84 2001/09/03 12:27:22 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -161,6 +161,8 @@ if ( isSet( $SendOrder ) )
     $session->setVariable( "TotalCost", eZHTTPTool::getVar( "TotalCost", true ) );
     $session->setVariable( "TotalVAT", eZHTTPTool::getVar( "TotalVAT", true ) );
     $session->setVariable( "PaymentMethod", eZHTTPTool::getVar( "PaymentMethod", true ) );
+
+    $session->setVariable( "Comment", eZHTTPTool::getVar( "Comment", true ) );
 
 //    $session->setVariable( "ShippingCost", eZHTTPTool::getVar( "ShippingCost", true ) );
 //    $session->setVariable( "ShippingVAT", eZHTTPTool::getVar( "ShippingVAT", true ) );

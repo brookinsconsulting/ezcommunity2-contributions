@@ -19,6 +19,9 @@ http://{site_url} {intl-headline}
 {intl-payment_method}:
 {payment_method}
 
+{intl-comment}:
+{comment}
+
 <!-- BEGIN shipping_address_tpl -->
 {intl-shipping_address}:
 {shipping_customer_first_name} {shipping_customer_last_name}

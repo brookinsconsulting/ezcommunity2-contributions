@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.47 2001/08/30 07:47:03 ce Exp $
+// $Id: ezorder.php,v 1.48 2001/09/03 12:27:22 ce Exp $
 //
 // Definition of eZOrder class
 //
@@ -93,7 +93,8 @@ class eZOrder
 		                           IsVATInc,
 		                           ShippingCharge,
                                    PersonID,
-                                   CompanyID)
+                                   CompanyID,
+                                   Comment )
                                   VALUES
                                   ('$nextID',
 		                           '$this->UserID',
@@ -107,7 +108,8 @@ class eZOrder
                                    '$this->IsVATInc',
 		                           '$this->ShippingCharge',
                                    '$this->PersonID',
-                                   '$this->CompanyID')" );
+                                   '$this->CompanyID',
+                                   '$this->Comment') " );
             $db->unlock();
 			$this->ID = $nextID;
 
@@ -140,6 +142,7 @@ class eZOrder
 		                         ShippingCharge='$this->ShippingCharge',
                                  PersonID='$this->PersonID',
                                  CompanyID='$this->CompanyID',
+                                 Comment='$this->Comment'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -207,6 +210,7 @@ class eZOrder
                 $this->IsExported =& $cart_array[0][$db->fieldName( "IsExported" )];
                 $this->PersonID =& $cart_array[0][$db->fieldName( "PersonID" )];
                 $this->CompanyID =& $cart_array[0][$db->fieldName( "CompanyID" )];
+                $this->Comment =& $cart_array[0][$db->fieldName( "Comment" )];
                 $ret = true;
             }
         }
@@ -498,6 +502,14 @@ class eZOrder
     }
 
     /*!
+      Returns the user comment.
+    */
+    function comment()
+    {
+       return $this->Comment;
+    }
+
+    /*!
       Returns the shipping type as a eZShippingType object.
 
       Will return false if an error occured.
@@ -568,6 +580,15 @@ class eZOrder
            $this->UserID = $user->id();
        }
     }
+
+    /*!
+      Sets the user comment.
+    */
+    function setComment( $value )
+    {
+        $this->Comment = $value;
+    }
+
 
     /*!
       Sets the shipping address.
@@ -896,6 +917,7 @@ class eZOrder
     var $PersonID;
     var $CompanyID;
     var $IsVATInc;
+    var $Comment;
     
     var $ShippingTypeID;
     var $OrderStatus_;

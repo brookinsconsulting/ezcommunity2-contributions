@@ -48,6 +48,7 @@
 	<a href="{www_dir}{index}/trade/cart/remove/{cart_item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztrade{cart_item_id}-slett','','/images/slettminimrk.gif',1)"><img name="eztrade{cart_item_id}-slett" border="0" src="{www_dir}/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
 </tr>
+<!-- BEGIN cart_item_option_tpl -->
 <tr>
 	<td class="{td_class}">&nbsp;</td>
 	<td class="{td_class}"><div class="small"><b>{intl-option_name}:</b></div></td>
@@ -55,7 +56,7 @@
 </tr>
 <tr>
 	<td class="{td_class}">
-        <!-- BEGIN cart_item_option_tpl -->
+
 	<td class="{td_class}"><div class="small">{option_name}</div></td> 
         <td class="{td_class}"><div class="small">{option_value}
         <!-- BEGIN cart_item_option_availability_tpl -->
@@ -69,10 +70,10 @@
 	<td class="{td_class}" >
 	<a href="{www_dir}{index}/trade/cart/remove/{cart_item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztrade{cart_item_id}-slett','','/images/slettminimrk.gif',1)"><img name="eztrade{cart_item_id}-slett" border="0" src="{www_dir}/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
-        <!-- END cart_item_option_tpl -->
 	&nbsp;</td>
 
 </tr>
+<!-- END cart_item_option_tpl -->
 <!-- END cart_item_tpl -->
 <tr>
         <td>&nbsp;</td>

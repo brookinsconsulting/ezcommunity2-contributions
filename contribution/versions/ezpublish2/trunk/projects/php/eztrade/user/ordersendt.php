@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.41 2001/09/03 11:13:38 ce Exp $
+// $Id: ordersendt.php,v 1.42 2001/09/03 12:27:22 ce Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -306,6 +306,8 @@ $instance =& $checkout->instance();
 $paymentMethod = $instance->paymentName( $order->paymentMethod() );
 
 $t->set_var( "payment_method", $paymentMethod );
+
+$t->set_var( "comment", $order->comment() );
 
 $shippingType = $order->shippingType();
 if ( $shippingType )

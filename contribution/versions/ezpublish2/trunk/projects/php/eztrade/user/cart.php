@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.52 2001/09/03 11:13:38 ce Exp $
+// $Id: cart.php,v 1.53 2001/09/03 12:27:22 ce Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -83,29 +83,33 @@ if ( ( $Action == "Refresh" ) || isSet( $DoCheckOut ) )
         }
     }
     $i = 0;
-    foreach ( $ValueIDArray as $valueID )
+
+    if ( count ( $ValueIDArray ) > 0 )
     {
-        $value = new eZCartOptionValue( $valueID );
-        $valueOption = $value->optionValue();
+        foreach ( $ValueIDArray as $valueID )
+        {
+            $value = new eZCartOptionValue( $valueID );
+            $valueOption = $value->optionValue();
 
-        if ( ( $valueOption->totalQuantity() < $ValueCountArray[$i] ) and ( $valueOption->totalQuantity() != false ) )
-        {
-            $value->setCount( $valueOption->totalQuantity() );
-        }
-        else
-        {
+            if ( ( $valueOption->totalQuantity() < $ValueCountArray[$i] ) and ( $valueOption->totalQuantity() != false ) )
+            {
+                $value->setCount( $valueOption->totalQuantity() );
+            }
+            else
+            {
 //            print( $ValueCountArray[$i] );
-            $value->setCount( $ValueCountArray[$i] );
-        }
+                $value->setCount( $ValueCountArray[$i] );
+            }
 
-        $value->store();
+            $value->store();
 
-        $i++;
+            $i++;
 
-        // Check for negative entries
-        if ( ( $value->count() < 1 ) )
-        {
-            $value->delete();
+            // Check for negative entries
+            if ( ( $value->count() < 1 ) )
+            {
+                $value->delete();
+            }
         }
     }
 }

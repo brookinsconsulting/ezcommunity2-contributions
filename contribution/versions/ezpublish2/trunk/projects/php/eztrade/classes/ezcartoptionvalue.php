@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartoptionvalue.php,v 1.15 2001/09/03 11:13:38 ce Exp $
+// $Id: ezcartoptionvalue.php,v 1.16 2001/09/03 12:27:22 ce Exp $
 //
 // Definition of eZCartOptionValue class
 //
@@ -128,6 +128,26 @@ class eZCartOptionValue
         }
         return $ret;
     }
+
+    /*!
+      Deletes a eZCartOptionValue object from the database.
+
+    */
+    function delete()
+    {
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+            
+        $res[] = $db->query( "DELETE FROM eZTrade_CartOptionValue WHERE ID='$this->ID'" );
+        
+        if ( in_array( false, $res ) )
+            $db->rollback( );
+        else
+            $db->commit();            
+
+        return true;
+    }
+
 
     /*!
       Returns the object id.
