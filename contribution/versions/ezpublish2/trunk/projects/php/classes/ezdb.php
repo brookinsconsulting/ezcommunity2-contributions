@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezdb.php,v 1.6 2000/09/12 12:15:37 bf-cvs Exp $
+    $Id: ezdb.php,v 1.7 2000/09/26 10:07:55 bf-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -70,7 +70,7 @@ class eZDB
     function array_query(&$array, $sql)
     {
         $array = array();
-        $r = query($sql);
+        $r = $this->query($sql);
 
         if ( count( $r ) > 0 )
         { 
