@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imagelist.php,v 1.2 2001/09/27 16:19:19 br Exp $
+// $Id: imagelist.php,v 1.2.2.1 2002/05/02 17:09:58 br Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -238,6 +238,8 @@ foreach ( $imageList as $image )
 {
     ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
 
+    $t->set_var( "main_category_id", $CategoryID . "/" . $Offset );
+    
     $t->set_var( "end_tr", "" );        
     $t->set_var( "begin_tr", "" );
 
@@ -376,11 +378,13 @@ foreach ( $imageList as $image )
 
     $counter++;
 }
-
+$t->set_var( "main_category_id", $CategoryID );
 eZList::drawNavigator( $t, $count, $limit, $Offset, "image_list_page_tpl" );
 
 $t->set_var( "detail_button", "" );
 $t->set_var( "normal_button", "" );
+$t->set_var( "pos", $Offset );
+
 if ( isSet ( $DetailView ) )
 {
     $t->set_var( "is_detail_view", "true" );

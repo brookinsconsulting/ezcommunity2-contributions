@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.9 2001/09/28 09:36:51 br Exp $
+// $Id: datasupplier.php,v 1.9.2.1 2002/05/02 17:09:58 br Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -101,8 +101,15 @@ switch ( $url_array[2] )
                 if ( !is_numeric($CategoryID ) )
                     $CategoryID = 0;
                 $Offset = $url_array[6];
-                if ( $Offset == "" )
+
+                if ( $Offset == "" && is_Numeric( $url_array[4] ) && is_Numeric( $url_array[5] ) )
+                {
+                    $Offset = $url_array[5];
+                }
+                else if ( $Offset == "" )
+                {
                     $Offset = 0;
+                }
                 include( "ezimagecatalogue/admin/imagelist.php" );
             }
             break;
