@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezmysqldb.php,v 1.24 2001/08/28 11:48:16 bf Exp $
+// $Id: ezmysqldb.php,v 1.25 2001/08/28 15:10:17 bf Exp $
 //
 // Definition of eZMySQLDB class
 //
@@ -40,6 +40,8 @@ class eZMySQLDB
         $this->Server = $server;
         $this->User = $user;
         $this->Password = $password;
+
+        $ini =& INIFile::globalINI();
 
         $socketPath =& $ini->read_var( "site", "MySQLSocket" );
 
