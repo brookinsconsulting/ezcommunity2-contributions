@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.20.8.9 2002/01/23 10:11:38 bf Exp $
+// $Id: productsearch.php,v 1.20.8.10 2002/01/28 08:26:07 ceaker Exp $
 //
 // Created on: <10-Oct-2000 17:49:05 bf>
 //
@@ -165,9 +165,9 @@ if ( isSet( $Query ) && ( count ( $productList ) > 0 ) )
         }
         else
         {
-            $t->set_var( "thumbnail_image_uri", "/sitedesign/am/img/a_95x95.gif" );
-            $t->set_var( "thumbnail_image_width", "95" );
-            $t->set_var( "thumbnail_image_height", "95" );
+            $t->set_var( "thumbnail_image_uri", "/sitedesign/am/img/a_50x50.gif" );
+            $t->set_var( "thumbnail_image_width", "50" );
+            $t->set_var( "thumbnail_image_height", "50" );
             $t->set_var( "thumbnail_image_caption", "" );
                 
             $t->parse( "image", "image_tpl" );

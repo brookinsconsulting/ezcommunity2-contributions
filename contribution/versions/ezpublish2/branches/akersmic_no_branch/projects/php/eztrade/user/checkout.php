@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.96.2.2.4.2 2002/01/24 12:26:30 bf Exp $
+// $Id: checkout.php,v 1.96.2.2.4.3 2002/01/28 08:26:07 ceaker Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -327,7 +327,7 @@ $items = $cart->items( );
 
 foreach ( $items as $item )
 {
-    $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
+    $t->set_var( "td_class", ( $i % 2 ) == 0 ? "cart1" : "cart2" );
     $i++;
     $t->set_var( "cart_item_id", $item->id() );
     $product =& $item->product();

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.49.2.1 2001/11/04 12:33:48 bf Exp $
+// $Id: ordersendt.php,v 1.49.2.1.4.1 2002/01/28 08:26:07 ceaker Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -334,9 +334,9 @@ $totalVAT = 0.0;
 //     $t->set_var( "order_item_count", $item->count() );
 //     
 //     if ( ( $i % 2 ) == 0 )
-//         $t->set_var( "td_class", "bglight" );
+//         $t->set_var( "td_class", "1" );
 //     else
-//         $t->set_var( "td_class", "bgdark" );
+//         $t->set_var( "td_class", "2" );
 // 
 //     $optionValues =& $item->optionValues();
 // 
@@ -396,7 +396,7 @@ $j = 0;
 
 foreach ( $items as $item )
 {
-    $t->set_var( "td_class", ( $j % 2 ) == 0 ? "bglight" : "bgdark" );
+    $t->set_var( "td_class", ( $j % 2 ) == 0 ? "1" : "2" );
     $j++;  
     $t->set_var( "cart_item_id", $item->id() );
     $product =& $item->product();
