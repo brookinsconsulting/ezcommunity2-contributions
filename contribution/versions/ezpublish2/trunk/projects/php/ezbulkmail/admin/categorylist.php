@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.4 2001/04/20 12:22:09 fh Exp $
+// $Id: categorylist.php,v 1.5 2001/04/20 12:57:05 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <18-Apr-2001 10:26:26 fh>
@@ -24,6 +24,7 @@
 //
 
 include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
+include_once( "ezbulkmail/classes/ezbulkmail.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezhttptool.php" );
@@ -38,9 +39,19 @@ if( isset( $New ) )
 
 if( isset( $Delete ) )
 {
-    foreach( $CategoryArrayID as $categoryID )
+    if( count( $CategoryArrayID ) > 0 )
     {
-        eZBulkMailCategory::delete( $categoryID );
+        foreach( $CategoryArrayID as $categoryID )
+        {
+            eZBulkMailCategory::delete( $categoryID );
+        }
+    }
+    if( count( $BulkMailArrayID ) > 0 )
+    {
+        foreach( $BulkMailArrayID as $bulkmailID )
+        {
+            eZBulkMail::delete( $bulkmailID );
+        }
     }
 }
 
@@ -65,6 +76,7 @@ $t->set_var( "category_item", "" );
 $t->set_var( "bulkmail", "" );
 $t->set_var( "bulkmail_item", "" );
 $t->set_var( "current_category_name", "" );
+$t->set_var( "current_category_id", "" );
 
 /** List all the avaliable categories **/
 $categories = eZBulkMailCategory::getAll();
@@ -87,6 +99,7 @@ if( is_numeric( $CategoryID ) && $CategoryID > 0 )
 {
     $category = new eZBulkMailCategory( $CategoryID );
     $t->set_var( "current_category_name", $category->name() );
+    $t->set_var( "current_category_id", $category->id() );
     $mail = $category->mail(0, 100000);
     $i = 0;
     foreach( $mail as $mailItem )

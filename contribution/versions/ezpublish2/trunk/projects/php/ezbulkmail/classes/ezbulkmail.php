@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmail.php,v 1.7 2001/04/20 12:37:11 fh Exp $
+// $Id: ezbulkmail.php,v 1.8 2001/04/20 12:57:05 fh Exp $
 //
 // eZBulkMail class
 //
@@ -100,19 +100,15 @@ class eZBulkMail
       Deletes a eZBulkMail object from the database.
 
     */
-    function delete()
+    function delete( $id = -1 )
     {
-        $this->dbInit();
-
-        if ( isset( $this->ID ) )
-        {
-            // delete from BulkMailCategoryLink
-            $this->Database->query( "DELETE FROM eZBulkMail_MailCategoryLink WHERE MailID='$this->ID'" );
-            // delete actual group entry
-            $this->Database->query( "DELETE FROM eZBulkMail_Mail WHERE ID='$this->ID'" );            
-        }
+        $db =& eZDB::globalDatabase();
         
-        return true;
+        if ( $id==-1 )
+            $id = $this->ID;
+            
+        $db->query( "DELETE FROM eZBulkMail_MailCategoryLink WHERE MailID='$id'" );
+        $db->query( "DELETE FROM eZBulkMail_Mail WHERE ID='$id'" );
     }
     
     /*!

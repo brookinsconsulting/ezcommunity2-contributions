@@ -1,7 +1,7 @@
 <h1>{intl-template_list}</h1>
 
 <hr noshade="noshade" size="4">
-<form action="/bulkmail/categorylist" method="post">
+<form action="/bulkmail/templatelist" method="post">
 <!-- BEGIN template_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>

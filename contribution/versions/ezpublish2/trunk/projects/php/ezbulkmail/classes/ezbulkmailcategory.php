@@ -83,13 +83,14 @@ class eZBulkMailCategory
     }
 
     /*!
-      Deletes a eZBulkMail object from the database.
+      Deletes a eZBulkMailCategory object from the database.
     */
     function delete( $id = -1 )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         if( $id == -1 )
             $id = $this->ID;
+        
         // delete from BulkMailCategoryLink
         $db->query( "DELETE FROM eZBulkMail_MailCategoryLink WHERE CategoryID='$id'" );
         // delete actual group entry
