@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.57 2001/03/07 09:43:35 jb Exp $
+// $Id: eztechrenderer.php,v 1.58 2001/03/07 09:48:54 jb Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -1108,7 +1108,7 @@ class eZTechRenderer
                                 "/(void )/",
                                 "/(class )/",
                                 "/(float )/",
-                                "/(doble )/",
+                                "/(double )/",
                                 "/(int )/",
                                 "/(var )/",
                                 "/(private )/",
