@@ -1,11 +1,20 @@
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<tr>
+	<td class="menuhead">{category_name}</td>
+</tr>
+
 <!-- BEGIN head_line_item_tpl -->
 <tr>
-	<td width="1%" align="left" valign="top"><img src="/images/news-bullet.gif" width="5" height="8" border="0" alt="" /><br /></td>
 	<td>
-	<a href="{head_line_url}" class="newshead" onclick="return popup('{head_line_url}')">{head_line}</a><br />
-	<span class="newscredit">({head_line_origin}, {head_line_date})</span>
+	<a href="{head_line_url}" class="menu" onclick="return popup('{head_line_url}')">{head_line}</a><br />
+	<span class="menutext">({head_line_origin}, {head_line_date})</span>
 	</td>
 </tr>
 <!-- END head_line_item_tpl -->
+
+<tr>
+	<td class="menuspacer">&nbsp;</td>
+</tr>
+</table>
 
 
