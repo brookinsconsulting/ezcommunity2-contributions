@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimage.php,v 1.70 2001/07/24 11:49:56 jhe Exp $
+// $Id: ezimage.php,v 1.71 2001/07/25 10:37:04 jb Exp $
 //
 // Definition of eZImage class
 //
@@ -177,6 +177,26 @@ class eZImage
             $db->rollback();
         else
             $db->commit();
+    }
+
+    function &search( $name, $literal = false )
+    {
+        $db =& eZDB::globalDatabase();
+        $topic = array();
+
+        $query = new eZQuery( array( "Name", "Caption", "Description" ),
+                              $name );
+        $query->setIsLiteral( $literal );
+        $where =& $query->buildQuery();
+
+        $db->array_query( $author_array,
+                          "SELECT ID FROM eZImageCatalogue_Image WHERE $where" );
+
+        foreach( $author_array as $author )
+        {
+            $topic[] =& new eZImage( $author[$db->fieldName("ID")] );
+        }
+        return $topic;
     }
 
     /*!
@@ -1252,9 +1272,9 @@ class eZImage
     /*!
       Returns the photographer og the image
     */
-    function photographer()
+    function photographer( $as_object = true )
     {
-        return new eZAuthor( $this->PhotographerID );
+        return $as_object ? new eZAuthor( $this->PhotographerID ) : $this->PhotographerID;
     }
 
     
