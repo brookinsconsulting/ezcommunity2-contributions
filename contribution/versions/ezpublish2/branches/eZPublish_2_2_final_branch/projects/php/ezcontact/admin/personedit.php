@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.57.2.8 2002/11/21 08:49:51 jhe Exp $
+// $Id: personedit.php,v 1.57.2.9 2003/06/03 05:56:24 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -209,7 +209,7 @@ if ( $Action == "delete" )
             eZPerson::delete( $contactItem );
         }
     }
-    
+
     deleteCache( "default" );
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /contact/$item_type/list/$id" );
@@ -360,7 +360,7 @@ if ( !$confirm )
         {
             deleteCache( "default" );
         }
-        
+
         if ( $CompanyEdit )
         {
             $t->set_var( "error_name_item", "" );
@@ -393,7 +393,7 @@ if ( !$confirm )
                 $t->parse( "error_firstname_item", "error_firstname_item_tpl" );
                 $error = true;
             }
-    
+
             if ( $LastName == "" )
             {
                 $t->parse( "error_lastname_item", "error_lastname_item_tpl" );
@@ -410,7 +410,7 @@ if ( !$confirm )
                 }
             }
         }
-    
+
         $count = max( count( $AddressTypeID ), count( $AddressID ),
                       count( $Street1 ), count( $Street2 ),
                       count( $Zip ), count( $Place ), 1 );
@@ -459,7 +459,7 @@ if ( !$confirm )
                 }
             }
         }
-        
+
         $count = max( count( $OnlineTypeID ), count( $OnlineID ), count( $Online ) );
         for ( $i = 0; $i < $count; $i++ )
         {
@@ -514,14 +514,14 @@ if ( !$confirm )
                 print( "deleteimage $CompanyID" );
                 eZCompany::deleteImage( $CompanyID );
             }
-            
+
             if ( isSet( $DeleteLogo ) )
             {
                 print( "deletelogo $CompanyID" );
                 eZCompany::deleteLogo( $CompanyID );
             }
         }
-        
+
         if ( $error && isSet( $OK ) )
         {
             $t->set_var( "action_value", $Action );
@@ -546,7 +546,7 @@ if ( !$confirm )
                 $company = new eZCompany();
             else
                 $company = new eZCompany( $CompanyID );
-            
+
             $company->setName( $Name );
 
             $company->setCompanyNo( $CompanyNo );
@@ -649,20 +649,20 @@ if ( !$confirm )
                 {
                     $image->store();
                     $person->setImage( $image );
-                }                            
+                }
             }
-            
+
             if ( $DeleteImage == "on" )
                 $person->setImage(0);
 
             $person->store();
-            
+
             $person->removeCompanies();
             for ( $i = 0; $i < count( $CompanyID ); $i++ )
             {
                 eZCompany::addPerson( $person->id(), $CompanyID[$i] );
             }
-            
+
             $item_id = $person->id();
             $PersonID = $item_id;
             $item_cat_id = "";
@@ -677,13 +677,12 @@ if ( !$confirm )
         $count = max( count( $AddressTypeID ), count( $AddressID ),
                       count( $Street1 ), count( $Street2 ),
                       count( $Zip ), count( $Place ) );
-        
         for ( $i = 0; $i < $count; $i++ )
         {
             if ( $Street1[$i] != "" && $Place[$i] != "" &&
                  $Country[$i] != "" && $AddressTypeID != -1 )
             {
-                if ( in_array( $i + 1, $AddressID ) && $AddressTypeID[$i] != -1 )
+                if ( !in_array( $i + 1, $AddressDelete ) && $AddressTypeID[$i] != -1 )
                 {
                     $address = new eZAddress();
                     $address->setStreet1( $Street1[$i] );
@@ -693,7 +692,7 @@ if ( !$confirm )
                     $address->setAddressType( $AddressTypeID[$i] );
                     $address->setCountry( $Country[$i] );
                     $address->store();
-                    
+
                     $item->addAddress( $address );
                 }
             }
@@ -750,7 +749,7 @@ if ( !$confirm )
 
 /*
     The user wants to edit an existing person.
-    
+
     We fetch the appropriate variables.
 */
 
@@ -797,11 +796,11 @@ if ( !$confirm )
                 $imageWidth = $variation->width();
                 $imageHeight = $variation->height();
                 $imageCaption = $image->caption();
-                $t->set_var( "image_width", $imageWidth );	
+                $t->set_var( "image_width", $imageWidth );
                 $t->set_var( "image_height", $imageHeight );
-                $t->set_var( "image_url", $imageURL );	
+                $t->set_var( "image_url", $imageURL );
                 $t->set_var( "image_caption", $imageCaption );
-                $t->parse( "image_item", "image_item_tpl" );  
+                $t->parse( "image_item", "image_item_tpl" );
             }*/
         }
 
@@ -853,7 +852,7 @@ if ( !$confirm )
 
 /*
     The user wants to create a new person/company.
-    
+
     We present an empty form.
  */
     if ( ( $Action == "new" || $Action == "formdata" || $Action == "edit" || isSet( $RefreshUsers ) ) )
@@ -1301,7 +1300,7 @@ if ( !$confirm )
                     $t->set_var( "logo_image_alt", eZTextTool::htmlspecialchars( $logoImage->caption() ) );
                     $t->set_var( "logo_name", eZTextTool::htmlspecialchars( $logoImage->name() ) );
                     $t->set_var( "logo_id", $logoImage->id() );
-                    
+
                     $t->parse( "logo_item", "logo_item_tpl" );
                 }
             }
