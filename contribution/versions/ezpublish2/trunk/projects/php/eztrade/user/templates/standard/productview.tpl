@@ -32,7 +32,7 @@
 <table align="right" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<a href="/imagecatalogue/imageview/{main_image_id}/?RefererURL=/{module}/{module_view}/{product_id}/">
+	<a href="/imagecatalogue/imageview/{main_image_id}/?RefererURL=/{module}/{module_view}/{product_id}/{category_id}/">
 	<img src="{main_image_uri}" border="0" width="{main_image_width}" height="{main_image_height}" /></a>
 	</td>
 </tr>
@@ -57,7 +57,7 @@
 <tr>
 <td width="1%" valign="top">
 
-	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/{module}/{module_view}/{product_id}/">
+	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/{module}/{module_view}/{product_id}/{category_id}/">
 	<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}"/></a>
 </td>
 

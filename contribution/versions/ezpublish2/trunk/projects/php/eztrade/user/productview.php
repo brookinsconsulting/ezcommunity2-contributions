@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.34 2001/03/12 16:12:42 ce Exp $
+// $Id: productview.php,v 1.35 2001/03/14 16:55:39 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -94,7 +94,6 @@ $t->set_block( "price_tpl", "alternative_currency_list_tpl", "alternative_curren
 $t->set_block( "alternative_currency_list_tpl", "alternative_currency_tpl", "alternative_currency" );
 
 $t->set_block( "product_view_tpl", "add_to_cart_tpl", "add_to_cart" );
-
 $t->set_block( "product_view_tpl", "path_tpl", "path" );
 $t->set_block( "product_view_tpl", "image_list_tpl", "image_list" );
 $t->set_block( "image_list_tpl", "image_tpl", "image" );
@@ -131,11 +130,19 @@ $t->set_var( "module_list", $ModuleList );
 $t->set_var( "module_view", $ModuleView );
 $t->set_var( "module_print", $ModulePrint );
 
-$category = new eZProductCategory(  );
-$category->get( $CategoryID );
+$product = new eZProduct( $ProductID );
+
+if ( $CategoryID == "" )
+{
+    $category = $product->categoryDefinition();
+}
+else
+{
+    $category = new eZProductCategory(  );
+    $category->get( $CategoryID );
+}
 
 $pathArray =& $category->path();
-
 
 $t->set_var( "path", "" );
 foreach ( $pathArray as $path )
@@ -146,8 +153,6 @@ foreach ( $pathArray as $path )
     
     $t->parse( "path", "path_tpl", true );
 }
-
-$product = new eZProduct( $ProductID );
 
 $mainImage = $product->mainImage();
 if ( $mainImage )
