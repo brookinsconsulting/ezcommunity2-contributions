@@ -17,7 +17,21 @@ switch ( $url_array[2] )
     
     case "companyedit":
     {
-        include( "ezcontact/admin/companyedit.php" );
+        switch ( $url_array[3] )
+        {
+            case "new":
+            {
+                $Action = "new";
+                include( "ezcontact/admin/companyedit.php" );
+            }
+            break;
+            case "Insert":
+            {
+                $Action = "insert";
+                include( "ezcontact/admin/companyedit.php" );
+            }
+            break;
+        }
     }
     break;
     case "phonetypelist" :
