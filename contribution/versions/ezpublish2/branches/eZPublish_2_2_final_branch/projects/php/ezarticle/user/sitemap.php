@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sitemap.php,v 1.9.2.3 2002/04/05 11:41:23 br Exp $
+// $Id: sitemap.php,v 1.9.2.4 2002/08/07 09:37:31 br Exp $
 //
 // Created on: <06-Jun-2001 17:05:38 bf>
 //
@@ -69,6 +69,42 @@ $user =& eZUser::currentUser();
 
 $t->set_var( "category_value", "" );
 $t->set_var( "article_value", "" );
+$t->set_var( "value", "" );
+
+if ( $CategoryID != 0 && is_numeric( $CategoryID ) )
+{
+    $frontCategory = new eZArticleCategory( $CategoryID );
+    if ( eZObjectPermission::hasPermission( $frontCategory->id(), "article_category", 'r', $user ) == true  ||
+         eZArticleCategory::isOwner( eZUser::currentUser(), $frontCategory->id() ) )
+    {    
+        $articleFrontList =& $frontCategory->articles( 1, false, true, 0, 50 );
+        $itemCount++;
+
+        foreach ( $articleFrontList as $article )
+        {
+
+            if ( ( $itemCount % 2 ) == 0 )
+            {
+                $t->set_var( "td_alt", "1" );
+                $t->set_var( "td_class", "bglight" );
+            }
+            else
+            {
+                $t->set_var( "td_alt", "2" );
+                $t->set_var( "td_class", "bgdark" );
+            }
+
+            $t->set_var( "option_level", $option_level );
+                
+            $t->set_var( "option_value", $article->id() );
+            $t->set_var( "option_name", $article->name() );
+            $t->set_var( "category_id", $frontCategory->id() );
+            $t->parse( "value", "article_value_tpl", true );
+            $itemCount++;
+        }
+        unset( $articleFrontList );
+    }
+}
 
 $itemCount = 0;
 foreach ( $treeArray as $catItem )
@@ -78,7 +114,6 @@ foreach ( $treeArray as $catItem )
     {    
 
         $category = new eZArticleCategory( $catItem[0]->id() );
-	
         if ( $category->excludeFromSearch() == false )
         {
             $placement = $catItem[1] - 1;
@@ -122,7 +157,7 @@ foreach ( $treeArray as $catItem )
                 
                 $t->set_var( "option_value", $article->id() );
                 $t->set_var( "option_name", $article->name() );
-		$t->set_var( "category_id", $category->id() );
+                $t->set_var( "category_id", $category->id() );
                 $t->parse( "value", "article_value_tpl", true );
                 $itemCount++;
             }
