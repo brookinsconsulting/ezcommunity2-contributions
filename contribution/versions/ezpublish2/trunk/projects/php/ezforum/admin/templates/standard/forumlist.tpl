@@ -21,13 +21,14 @@
 
 <hr noshade="noshade" size="4" />
 
-<table width="100%" cellspacing="0" cellpadding="4" border="0">
+<form method="post" action="/forum/forumedit/edit/" enctype="multipart/form-data">
+
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-name}:</th>
 	<th>{intl-description}:</th>
 </tr>
 
-<form method="post" action="/forum/forumedit/edit/" enctype="multipart/form-data">
 <!-- BEGIN forum_item_tpl -->
 <tr>
     <td class={td_class}>

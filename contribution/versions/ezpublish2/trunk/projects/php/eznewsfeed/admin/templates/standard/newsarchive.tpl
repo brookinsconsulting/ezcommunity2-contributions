@@ -10,9 +10,6 @@
 	</form>	
 	</td>
 </tr>
-<tr>
-	<td>{current_category_description}</td>
-</tr>
 </table>
 
 <hr noshade="noshade" size="4" />
@@ -20,7 +17,7 @@
 <!-- BEGIN path_tpl -->
 
 
-<img src="/images/{site_style}/path-arrow.gif" height="10" width="15" border="0">
+<img src="/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" />
 
 <a class="path" href="/newsfeed/archive/0/">{intl-top_category}</a>
 
@@ -28,12 +25,14 @@
 
 <!-- BEGIN path_item_tpl -->
 
-<img src="/images/{site_style}/path-slash.gif" height="10" width="20" border="0">
+<img src="/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
 
 <a class="path" href="/newsfeed/archive/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
 
 <hr noshade="noshade" size="4" />
+
+<div class="spacer"><div class="p">{current_category_description}</div></div>
 
 <!-- BEGIN category_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
