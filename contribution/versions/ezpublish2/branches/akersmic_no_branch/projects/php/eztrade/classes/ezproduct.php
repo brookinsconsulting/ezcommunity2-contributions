@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.28 2002/01/30 15:12:19 bf Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.29 2002/01/31 14:52:11 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -2812,6 +2812,8 @@ class eZProduct
         {
             $forum = new eZForum();
             $forum->setName( $db->escapeString( $this->Name ) );
+            $forum->setIsModerated( true );         
+            $forum->setModerator( 1 );         
             $forum->store();
 
             $forumID = $forum->id();
