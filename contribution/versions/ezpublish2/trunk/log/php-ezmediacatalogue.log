@@ -89,3 +89,11 @@ Maintainer(s) : ce@ez.no
     * admin/categoryedit.php
       admin/templates/standard/medialist.tpl: Fixed postgres bugs
 
+
+Module : ezmediacatalogue
+Repository path : /home/cvsroot/projects/php/ezmediacatalogue
+Maintainer(s) : ce@ez.no
+2001-10-18  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezmediaattribute.php: Added referances
+

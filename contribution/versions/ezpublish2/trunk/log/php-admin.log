@@ -111,3 +111,12 @@ Maintainer(s) : bf@ez.no
 
     * help_footer.php: Updated tag documentation.
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2001-10-18  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * header.php
+      intl/en_GB/header.php.ini: ip address of admin
+

@@ -100,3 +100,26 @@ Maintainer(s) : ce@ez.no
       admin/templates/standard/countryedit.tpl
       admin/typeedit.php: Added vat handling on countires
 
+
+Module : ezaddress
+Repository path : /home/cvsroot/projects/php/ezaddress
+Maintainer(s) : ce@ez.no
+2001-10-18  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezcountry.php: fixed
+
+    * classes/ezcountry.php
+      classes/ezonline.php
+      classes/ezonlinetype.php
+      classes/ezphone.php
+      classes/ezphonetype.php
+      classes/ezaddress.php
+      classes/ezaddresstype.php:
+    Added references and updated the documentation
+
+    * classes/ezaddress.php
+      classes/ezaddresstype.php
+      classes/ezonline.php
+      classes/ezonlinetype.php
+      classes/ezphone.php: Fixed documentation for all the ezaddress classes
+
