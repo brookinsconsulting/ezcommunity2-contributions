@@ -50,7 +50,7 @@
 <br />
 
 
-<!-- inserted files -->
+<!-- BEGIN inserted_files_tpl -->
 <h2>{intl-avaliable_patches}:</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -78,10 +78,11 @@
 <!-- END file_tpl -->
 
 </table>
+<!-- END inserted_files_tpl -->
 
 
 
-<!-- inserted Images -->
+<!-- BEGIN inserted_images_tpl -->
 <h2>{intl-avaliable_screenshots}:</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -109,12 +110,14 @@
 <!-- END image_tpl -->
 
 </table>
+<!-- END inserted_images_tpl -->
 
+<!-- BEGIN delete_items_tpl -->
 <hr noshade="noshade" size="4">
 
 <input name="DeleteSelected" class="stdbutton" type="submit" value="{intl-del_selected}" />
+<!-- END delete_items_tpl -->
 
-<!-- end of inserted images -->
 
 <hr noshade="noshade" size="4">
 

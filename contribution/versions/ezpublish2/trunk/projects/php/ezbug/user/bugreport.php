@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugreport.php,v 1.18 2001/03/10 19:04:33 fh Exp $
+// $Id: bugreport.php,v 1.19 2001/03/13 13:14:33 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 20:31:00 bf>
@@ -53,8 +53,15 @@ $t->set_block( "bug_report_tpl", "category_item_tpl", "category_item" );
 $t->set_block( "bug_report_tpl", "email_address_tpl", "email_address" );
 $t->set_block( "bug_report_tpl", "all_fields_error_tpl", "all_fields_error" );
 $t->set_block( "bug_report_tpl", "email_error_tpl", "email_error" );
-$t->set_block( "bug_report_tpl", "file_tpl", "file" );
-$t->set_block( "bug_report_tpl", "image_tpl", "image" );
+
+$t->set_block( "bug_report_tpl", "delete_items_tpl", "delete_items" );
+$t->set_var( "delete_items", "" );
+$t->set_block( "bug_report_tpl", "inserted_files_tpl", "inserted_files" );
+$t->set_block( "bug_report_tpl", "inserted_images_tpl", "inserted_images" );
+$t->set_block( "inserted_files_tpl", "file_tpl", "file" );
+$t->set_block( "inserted_images_tpl", "image_tpl", "image" );
+$t->set_var( "inserted_files", "" );
+$t->set_var( "inserted_images", "" );
 
 // new inserts new bug
 // update, updates the bug with new values.
@@ -172,6 +179,7 @@ if( $Action == "Update" )
     
     $actionValue = "update";
     $BugID = $bug->id();
+    $Action = "Edit";
 }
 
 
@@ -256,8 +264,6 @@ $t->set_var( "usr_email", "" );
 
 if( $Action == "Edit" ) // load values from database
 {
-        
-
     $bug = new eZBug( $BugID );
     $module = $bug->module();
     if( $module )
@@ -302,6 +308,13 @@ if( $Action == "Edit" ) // load values from database
     
         $i++;
     }
+    $anyDeleteItems = false;
+    if( count( $files ) > 0 )
+    {
+        $t->parse( "inserted_files", "inserted_files_tpl", false );
+        $anyDeleteItems = true;
+    }
+    
     // get the images
     $images = $bug->images();
     $i = 0;
@@ -326,6 +339,14 @@ if( $Action == "Edit" ) // load values from database
     }
     $actionValue = "update";
 }
+if( count( $images ) > 0 )
+{
+    $anyDeleteItems = true;
+   $t->parse( "inserted_images", "inserted_images_tpl", false );
+}
+
+if( $anyDeleteItems )
+    $t->parse( "delete_items", "delete_items_tpl", false );
 
 // if any errors are set, lets display them to the user.
 if ( $AllFieldsError == true )
