@@ -1029,3 +1029,34 @@ Maintainer(s) : pkej@ez.no
       user/formedit.php
       user/results.php: added edit of records
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-01-18  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/datasupplier.php
+      admin/formlist.php
+      admin/formreportlist.php
+      admin/intl/en_GB/formreportlist.php.ini
+      admin/intl/en_GB/menubox.php.ini
+      admin/intl/en_GB/reportedit.php.ini
+      admin/intl/en_GB/reportsetup.php.ini
+      admin/intl/no_NO/formreportlist.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/reportedit.php.ini
+      admin/intl/no_NO/reportsetup.php.ini
+      admin/menubox.php
+      admin/reportedit.php
+      admin/reportsetup.php
+      admin/templates/standard/formreportlist.tpl
+      admin/templates/standard/reportedit.tpl
+      admin/templates/standard/reportsetup.tpl
+      classes/ezformreport.php
+      classes/ezformreportelement.php
+      sql/mysql/ezform.sql
+      user/datasupplier.php
+      user/intl/en_GB/reportlist.php.ini
+      user/reportlist.php
+      user/templates/standard/reportlist.tpl: added report features
+

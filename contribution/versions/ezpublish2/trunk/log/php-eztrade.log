@@ -2783,3 +2783,50 @@ Maintainer(s) : ce@ez.no
       admin/menubox.php
       admin/productedit.php: fi
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-01-18  Baard Farstad  <bf@ez.no>
+
+    * classes/ezproduct.php
+      user/productsearch.php: Fixed search.
+
+2002-01-18  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezpreorder.php
+      sql/mysql/eztrade.sql:
+    added Verifid check in eZPreOrder. (also added in the database)
+
+2002-01-18  Baard Farstad  <bf@ez.no>
+
+    * sql/mysql/eztrade.sql
+      user/Attic/advancedproductsearch.php
+      user/datasupplier.php
+      user/productsearch.php
+      user/productview.php: Fixed search.
+
+    * user/Attic/advancedproductsearch.php: New file.
+
+    * classes/ezproduct.php: Fixed search.
+
+    * classes/ezproduct.php: Optimized search.
+
+    * classes/ezproduct.php: Fixed search.
+
+2002-01-18  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezproduct.php: Fixed type i
+
+2002-01-18  Baard Farstad  <bf@ez.no>
+
+    * classes/ezproduct.php: Fixed indexing.
+
+2002-01-18  Bjoern Reiten  <br@ez.no>
+
+    * admin/intl/no_NO/orderedit.php.ini
+      admin/orderedit.php
+      admin/templates/standard/orderedit.tpl
+      classes/ezorder.php
+      sql/mysql/eztrade.sql: updated code for payment.
+

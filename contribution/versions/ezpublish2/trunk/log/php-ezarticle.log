@@ -2704,3 +2704,14 @@ Maintainer(s) : bf@ez.no
       classes/ezarticle.php
       admin/articleedit.php: fix
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-01-18  ceaker  <ceaker@zev.ez.no>
+
+    * user/templates/standard/Attic/articlelist_override_2.tpl:
+    *** empty log message ***
+
+    * user/templates/standard/Attic/articlelist_override_2.tpl: New file.
+
