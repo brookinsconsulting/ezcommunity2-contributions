@@ -9,7 +9,8 @@ switch ( $url_array[2] )
 {
     case "company":
     {
-        $CompanyID = $url_array[4];
+        if ( !isset( $CompanyID ) )
+            $CompanyID = $url_array[4];
         $Action = $url_array[3];
         switch ( $Action )
         {
@@ -17,8 +18,10 @@ switch ( $url_array[2] )
             case "new":
             {
                 $NewCompanyCategory = $url_array[4];
-                unset( $CompanyID );
-                include( "ezcontact/admin/companyedit.php" );
+//                  unset( $CompanyID );
+//                  include( "ezcontact/admin/companyedit.php" );
+                $CompanyEdit = true;
+                include( "ezcontact/admin/personedit.php" );
                 break;
             }
             case "edit":
@@ -26,12 +29,20 @@ switch ( $url_array[2] )
             case "delete":
             case "insert":
             {
-                include( "ezcontact/admin/companyedit.php" );
+//                  include( "ezcontact/admin/companyedit.php" );
+                $CompanyEdit = true;
+                include( "ezcontact/admin/personedit.php" );
                 break;
             }
             case "view":
             {
                 include( "ezcontact/admin/companyview.php" );
+                break;
+            }
+            case "list":
+            {
+                $TypeID = $url_array[4];
+                include( "ezcontact/admin/companytypelist.php" );
                 break;
             }
 
@@ -43,7 +54,9 @@ switch ( $url_array[2] )
                 if ( isSet ( $Delete ) )
                     $Action = "delete";
 
-                include( "ezcontact/admin/companyedit.php" );
+//                  include( "ezcontact/admin/companyedit.php" );
+                $CompanyEdit = true;
+                include( "ezcontact/admin/personedit.php" );
                 break;
             }
 
@@ -78,11 +91,11 @@ switch ( $url_array[2] )
                 include( "ezcontact/admin/companytypeedit.php" );
                 break;
             }
-            case "list":
-            {
-                include( "ezcontact/admin/companytypelist.php" );
-                break;
-            }
+//              case "list":
+//              {
+//                  include( "ezcontact/admin/companytypelist.php" );
+//                  break;
+//              }
             default:
             {
                 header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
