@@ -1,7 +1,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
         <td bgcolor="#f08c00"  width="100%">
-        <strong class="h1big"><img src="/images/1x1.gif" width="3" height="1" border="0">eZ systems Web Shop</strong>
+        <strong class="h1"><img src="/images/1x1.gif" width="3" height="1" border="0">eZ systems Web Shop</strong>
         </td>
 </tr>
 </table>
@@ -15,16 +15,7 @@ hvordan vi kan gjøre denne tjenesten bedre for deg.
 Du kan begynne å handle ved å trykke på "Produkter". Vårt utvalg vil vokse i tiden framover.
 </p>
 
-<br />
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-        <td bgcolor="#f08c00"  width="100%">
-        <strong class="h1"><img src="/images/1x1.gif" width="3" height="1" border="0">{intl-head_line}</strong>
-        </td>
-</tr>
-</table>
-<br />
 
 <!-- BEGIN path_item_tpl -->
 
