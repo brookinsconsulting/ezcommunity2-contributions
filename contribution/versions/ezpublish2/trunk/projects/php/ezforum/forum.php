@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forum.php,v 1.50 2000/10/13 14:19:59 ce-cvs Exp $
+// $Id: forum.php,v 1.51 2000/10/13 15:10:31 bf-cvs Exp $
 //
 // 
 //
@@ -76,10 +76,31 @@ if ( $Action == "post" )
 
     $message->store();
 
-    // delete the cache file
+    // delete the cache file(s)
 
-    unlink( "ezforum/cache/forum," . $forum_id . ".cache" );
+    $dir = dir( "ezforum/cache/" );
+    $files = array();
+    while( $entry = $dir->read() )
+    { 
+        if ( $entry != "." && $entry != ".." )
+        { 
+            $files[] = $entry; 
+            $numfiles++; 
+        } 
+    } 
+    $dir->close();
 
+    foreach( $files as $file )
+    {
+        if ( ereg( "forum,([^,]+),.*", $file, $regArray  ) )
+        {
+            if ( $regArray[1] == $forum_id )
+            {
+                unlink( "ezforum/cache/" . $file );
+            }
+        }
+    }    
+ 
     Header( "Location: /forum/category/forum/$forum_id/" );
 }
 

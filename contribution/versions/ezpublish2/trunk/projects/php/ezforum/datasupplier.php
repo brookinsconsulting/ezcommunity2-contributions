@@ -92,11 +92,16 @@ switch ( $url_array[2] )
                 if ( $PageCaching == "enabled" )
                 {
                     print( "cached version<br>" );
-                
+
+                    $Limit = $ini->read_var( "eZForumMain", "MessageLimit" );
+                    
                     $forum_id = $url_array[4];
                     $Action = $url_array[5];
 
-                    $cachedFile = "ezforum/cache/forum," . $forum_id . ".cache";
+                    if ( !isSet( $Offset ) )
+                        $Offset = 0;
+                    
+                    $cachedFile = "ezforum/cache/forum," . $forum_id . "," .$Offset .",". $Limit . ".cache";
                     
                     if ( file_exists( $cachedFile ) )
                     {

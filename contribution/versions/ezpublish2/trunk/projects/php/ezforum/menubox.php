@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.3 2000/10/13 13:39:32 bf-cvs Exp $
+// $Id: menubox.php,v 1.4 2000/10/13 15:10:31 bf-cvs Exp $
 //
 // 
 //
@@ -23,7 +23,7 @@ $PageCaching = $ini->read_var( "eZForumMain", "PageCaching");
 // do the caching 
 if ( $PageCaching == "enabled" )
 {
-    $cachedFile = "ezforum/cache/menubox.cache";
+    $menuCachedFile = "ezforum/cache/menubox.cache";
                     
     if ( file_exists( $cachedFile ) )
     {
@@ -66,7 +66,7 @@ function createPage()
 
     if ( $GenerateStaticPage == "true" )
     {
-        $fp = fopen ( $cachedFile, "w+");
+        $fp = fopen ( $menuCachedFile, "w+");
 
         $output = $t->parse( $target, "categorylist_tpl" );
         // print the output the first time while printing the cache file.
