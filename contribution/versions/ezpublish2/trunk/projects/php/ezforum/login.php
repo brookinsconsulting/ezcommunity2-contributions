@@ -1,6 +1,6 @@
- <?OC
+ <?
 /*!
-    $Id: login.php,v 1.1 2000/07/14 12:55:45 lw-cvs Exp $
+    $Id: login.php,v 1.2 2000/07/14 13:11:17 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -26,12 +26,12 @@ if ( $login )
         $session->setUserID( $tmp );
         $session->store();
 
-        printRedirect( $DOCROOT . "/index.php?page=main.php" );
+        printRedirect( "/index.php?page=$DOCROOT/main.php" );
     }
     else
     {
         //error message
-        printRedirect( $DOCROOT . "/index.php?page=loginfailed.php" );
+        printRedirect( "/index.php?page=$DOCROOT/loginfailed.php" );
     }
 }
 ?>
