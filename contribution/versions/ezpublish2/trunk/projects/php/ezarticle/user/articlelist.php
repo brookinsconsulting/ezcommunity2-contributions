@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.54 2001/07/29 23:30:58 kaid Exp $
+// $Id: articlelist.php,v 1.55 2001/08/01 16:22:23 kaid Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -382,7 +382,7 @@ else
     $t->set_var( "article_list", "" );
 
 
-if ( $GenerateStaticPage == "true" and $cachedFile != "" )
+if ( isset( $GenerateStaticPage ) and $GenerateStaticPage == "true" and $cachedFile != "" )
 {
     $fp = eZFile::fopen( $cachedFile, "w+");
 

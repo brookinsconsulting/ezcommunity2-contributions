@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.91 2001/08/01 16:12:41 kaid Exp $
+// $Id: index.php,v 1.92 2001/08/01 16:22:22 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -302,7 +302,7 @@ if ( ( $requireUserLogin == "disabled" ) ||
 
 
         // include framework
-        if ( $PrintableVersion == "enabled" )
+        if ( isset( $PrintableVersion ) and $PrintableVersion == "enabled" )
         {
             include( "sitedesign/$siteDesign/simpleframe.php" );
         }

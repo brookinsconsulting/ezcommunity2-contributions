@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.4 2001/07/20 11:24:09 jakobn Exp $
+// $Id: menubox.php,v 1.5 2001/08/01 16:22:23 kaid Exp $
 //
 // Created on: <17-Oct-2000 12:16:07 bf>
 //
@@ -142,7 +142,7 @@ function createQuizMenu()
         }
     }
 
-    if ( get_class( $menuCacheFile ) == "ezcachefile" )
+    if ( isset( $menuCacheFile ) and get_class( $menuCacheFile ) == "ezcachefile" )
     {
         $output = $t->parse( $target, "menu_box_tpl" );
         $menuCacheFile->store( $output );

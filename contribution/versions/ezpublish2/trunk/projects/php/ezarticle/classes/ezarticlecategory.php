@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.76 2001/08/01 16:12:41 kaid Exp $
+// $Id: ezarticlecategory.php,v 1.77 2001/08/01 16:22:23 kaid Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -577,7 +577,7 @@ class eZArticleCategory
     */
     function sortMode( $return_id = false )
     {
-       if ( $this->State_ == "Dirty" )
+       if ( isset( $this->State_ ) and $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
        switch( $this->SortMode )
@@ -894,11 +894,10 @@ class eZArticleCategory
        $user =& eZUser::currentUser();
 
        $loggedInSQL = "";
+       $groupSQL = "";
        if ( $user )
        {
            $groups =& $user->groups( true );
-
-           $groupSQL = "";
            
            $i = 0;
            foreach ( $groups as $group )
@@ -987,12 +986,11 @@ class eZArticleCategory
        $user =& eZUser::currentUser();
 
        $loggedInSQL = "";
+       $groupSQL = "";
        if ( $user )
        {
            $groups =& $user->groups( true );
 
-           $groupSQL = "";
-           
            $i = 0;
            foreach ( $groups as $group )
            {

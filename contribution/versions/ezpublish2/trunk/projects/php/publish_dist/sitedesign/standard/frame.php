@@ -187,7 +187,7 @@ if ( $session->fetch() == false )
     $session->store();
 }
 
-if ( $Design == 1 )
+if ( isset( $Design ) and $Design == 1 )
 {
     $session->setVariable( "SiteDesign", "intranet" );
     include_once( "classes/ezhttptool.php" );
@@ -195,7 +195,7 @@ if ( $Design == 1 )
     exit();
 }
 
-if ( $Design == 2 )
+if ( isset( $Design ) and $Design == 2 )
 {
     $session->setVariable( "SiteDesign", "trade" );
     include_once( "classes/ezhttptool.php" );
@@ -210,7 +210,7 @@ if ( $Design == 2 )
     exit();
 }
 
-if ( $Design == 3 )
+if ( isset( $Design ) and $Design == 3 )
 {
     $session->setVariable( "SiteDesign", "news" );
     include_once( "classes/ezhttptool.php" );

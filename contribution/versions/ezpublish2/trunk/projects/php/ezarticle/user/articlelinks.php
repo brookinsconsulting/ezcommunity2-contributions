@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelinks.php,v 1.14 2001/07/19 12:19:21 jakobn Exp $
+// $Id: articlelinks.php,v 1.15 2001/08/01 16:22:23 kaid Exp $
 //
 // Created on: <03-Jan-2001 10:47:00 bf>
 //
@@ -131,7 +131,7 @@ if ( $PureStatic != "true" )
     else
         $t->set_var( "article_list", "" );
 
-    if ( $GenerateStaticPage == "true" )
+    if ( isset( $GenerateStaticPage ) and $GenerateStaticPage == "true" )
     {
         $output = $t->parse( $target, "article_list_page_tpl" );
         // print the output the first time while printing the cache file.

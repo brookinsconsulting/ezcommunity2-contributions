@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.21 2001/07/19 12:19:21 jakobn Exp $
+// $Id: menubox.php,v 1.22 2001/08/01 16:22:23 kaid Exp $
 //
 // 
 //
@@ -146,7 +146,7 @@ function createArticleMenu( $menuCachedFile=false )
 
 
 
-    if ( get_class( $menuCacheFile ) == "ezcachefile" )
+    if ( isset( $menuCacheFile ) and get_class( $menuCacheFile ) == "ezcachefile" )
     {
         $output = $t->parse( $target, "menu_box_tpl" );
         $menuCacheFile->store( $output );
