@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userbox.php,v 1.21 2001/02/06 13:27:09 jb Exp $
+// $Id: userbox.php,v 1.22 2001/02/08 14:39:05 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -54,7 +54,8 @@ if ( !$user )
         $IniFile[] = "userbox.php";
 
     $t = new eZTemplate( "ezuser/user/" .  $ini->read_var( "eZUserMain", "TemplateDir" ),
-                         $IntlDir, $Language, $IniFile );
+                         "ezuser/user/intl/", $Language, "/userbox.php" );
+    
     $t->setAllStrings();
 
     if ( isset( $template_array ) and isset( $block_array ) )

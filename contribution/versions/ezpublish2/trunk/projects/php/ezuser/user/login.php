@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.21 2001/01/23 13:43:54 bf Exp $
+// $Id: login.php,v 1.22 2001/02/08 14:39:05 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -28,7 +28,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/ezhttptool.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZUserMain", "Language" );
 $UserWithAddress = $ini->read_var( "eZUserMain", "UserWithAddress" );
@@ -38,7 +38,6 @@ include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezmodule.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezsession/classes/ezsession.php" );
-
 
 if ( isSet( $Forgot ) )
 {
@@ -59,9 +58,12 @@ if ( isSet( $Register ) )
     exit();
 }
 
+unset ( $t );
+
 // Template
 $t = new eZTemplate( "ezuser/user/" . $ini->read_var( "eZUserMain", "TemplateDir" ),
                      "ezuser/user/intl", $Language, "login.php" );
+
 $t->setAllStrings();
 
 $t->set_file( array(
