@@ -26,14 +26,15 @@ switch ( $url_array[2] )
             else if ( $url_array[4] == "replymessage" )
             {
                 $forum_id = $url_array[5];
-                $category_id = $url_array[5];
-                $reply_id = $url_array[5];
+                $category_id = $url_array[6];
+                $parent = $url_array[7];
                 include( "ezforum/replymessage.php" );                
             }
 
             else                
             {
                 $forum_id = $url_array[4];
+                $Action = $url_array[5];
                 include( "ezforum/forum.php" );
             }
 

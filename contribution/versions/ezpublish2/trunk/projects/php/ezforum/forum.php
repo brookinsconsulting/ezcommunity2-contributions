@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forum.php,v 1.39 2000/10/11 16:47:49 bf-cvs Exp $
+// $Id: forum.php,v 1.40 2000/10/12 11:00:29 ce-cvs Exp $
 //
 // 
 //
@@ -51,7 +51,7 @@ $t->set_var( "forum_name", $forum->name() );
 $msg = new eZForumMessage( $forum_id );
 
 // new posting
-if ( $post )
+if ( $Action == "post" )
 {
     $msg->newMessage();
     $msg->setTopic( $Topic );

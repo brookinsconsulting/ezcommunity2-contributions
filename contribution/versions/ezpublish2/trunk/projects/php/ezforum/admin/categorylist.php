@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: categorylist.php,v 1.5 2000/09/07 15:44:44 bf-cvs Exp $
+    $Id: categorylist.php,v 1.6 2000/10/12 11:00:29 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -15,41 +15,45 @@ include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 
 $DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
+$Language = $ini->read_var( "eZForumMain", "Language" );
 
 
-include_once( "common/ezphputils.php" );
-include_once( "classes/template.inc" );
-include_once( "../classes/ezdb.php" );
+include_once( "classes/eztemplate.php" );
+include_once( "classes/ezdb.php" );
 include_once( $DOC_ROOT . "classes/ezforumcategory.php" );
   
 $cat = new eZforumCategory();
-$t = new Template( $DOC_ROOT . "admin/templates" );
 
-$t->set_file(array( "category" => "category.tpl",
-                    "category-add" => "category-add.tpl",
-                    "category-modify" => "category-modify.tpl",
-                    "listelements" => "category-list-elements.tpl"
+$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+$DOC_ROOT . "/admin/" . "/intl", $Language, "categorylist.php" );
+$t->setAllStrings();
+
+$t->set_file(array( "category_page" => "categorylist.tpl",
                     ) );
+
+$t->set_block( "category_page", "category_item_tpl", "category_item" );
 
 $t->set_var( "docroot", $DOC_ROOT );
 $t->set_var( "box", "" );
 
 $category = new eZforumCategory();
-$categories = $category->getAllCategories();
+$categoryList = $category->getAll();
 
-for ($i = 0; $i < count( $categories ); $i++)
+$i=0;
+foreach( $categoryList as $categoryItem )
 {
-    arrayTemplate( $t, $categories[$i], Array( Array("Id", "list-Id" ),
-                                               Array("Name", "list-Name" ),
-                                               Array("Description", "list-Description" ),
-                                               Array("Private", "list-Private" )
-                                               )
-                   );
+    if ( ( $i %2 ) == 0 )
+        $t->set_var( "td_class", "bgdark" );
+    else
+        $t->set_var( "td_class", "bglight" );
 
-    $t->set_var( "color", switchColor( $i, "#f0f0f0", "#dcdcdc" ) );
+    $t->set_var( "category_id", $categoryItem->id() );
+    $t->set_var( "category_name", $categoryItem->name() );
+    $t->set_var( "category_description", $categoryItem->description() );
 
-    $t->parse("categories","listelements",true);
+    $t->parse( "category_item", "category_item_tpl", true );
+    $i++;
 }
 
-$t->pparse("output", "category");
+$t->pparse( "output", "category_page" );
 ?>

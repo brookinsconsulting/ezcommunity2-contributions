@@ -10,9 +10,9 @@
     </td>
     
     <td width="120" align="right">
-        <a href="index.php?page={docroot}admin/category.php&action=modify&category_id={list-Id}" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ef{list-Id}-red','','/ezforum/images/redigerminimrk.gif',1)"><img name="ef{list-Id}-red" border="0" src="/ezforum/images/redigermini.gif" width="16" height="16" align="top"></a>
+        <a href="/forum/categoryedit/edit/{list-Id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ef{list-Id}-red','','/ezforum/images/redigerminimrk.gif',1)"><img name="ef{list-Id}-red" border="0" src="/ezforum/images/redigermini.gif" width="16" height="16" align="top"></a>
 		&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="index.php?page={docroot}admin/category.php&action=delete&category_id={list-Id}" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ef{list-Id}-slett','','/ezforum/images/slettminimrk.gif',1)"><img name="ef{list-Id}-slett" border="0" src="/ezforum/images/slettmini.gif" width="16" height="16" align="top"></a>
+        <a href="/forum/categoryedit/delete/{list-Id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ef{list-Id}-slett','','/ezforum/images/slettminimrk.gif',1)"><img name="ef{list-Id}-slett" border="0" src="/ezforum/images/slettmini.gif" width="16" height="16" align="top"></a>
     	&nbsp;&nbsp;
 	</td>
     

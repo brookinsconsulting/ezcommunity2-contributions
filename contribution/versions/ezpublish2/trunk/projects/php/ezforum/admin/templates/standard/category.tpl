@@ -30,18 +30,30 @@
 //-->
 </SCRIPT> 
 
-<div onLoad="MM_preloadImages('../ezforum/images/redigerminimrk.gif','../ezforum/images/slettminimrk.gif')"></div>
+<div onLoad="MM_preloadImages('/ezforum/images/redigerminimrk.gif','/ezforum/images/slettminimrk.gif')"></div>
 
-{box}
+<form action="/forum/categoryedit/{action_value}/{category_id}/" method="post">
+    <input type="hidden" name="page" value="{docroot}/admin/category.php">
+    <h1>{headline}</h1>
 
-<h1>Kategorioversikt</h1>
 <table width="100%" border="0" cellspacing="0" cellpadding="4">
-    <tr>
-        <td><p><b>Navn:</b></p></td>
-        <td><p><b>Beskrivelse:</b></p></td>
-        <td><p><b>Privat:</b></p></td>
-        <td colspan="3">&nbsp;</td>
-    </tr>
-    {categories}
+<tr>
+	<td bgcolor="#3c3c3c">
+	<p class="white"><b>{intl-ident}</b></p>
+	</td>
+</tr>
+<tr>
+	<td bgcolor="#f0f0f0">
+	<br>
+	<p>{intl-name}<br>
+	<input type="text" value="{category_name}" name="Name"></p>
+	<p>{intl-description}<br>
+	<input type="text" value="{category_description}" name="Description"></p>
+	</td>
+</tr>
+<tr><td bgcolor="#f0f0f0"><br></td></tr>
 </table>
-<br><br>
+
+<br>
+<input type="submit" name="add" value="OK">
+</form>

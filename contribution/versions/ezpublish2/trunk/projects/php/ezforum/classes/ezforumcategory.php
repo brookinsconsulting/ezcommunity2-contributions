@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumcategory.php,v 1.17 2000/10/11 13:37:29 bf-cvs Exp $
+// $Id: ezforumcategory.php,v 1.18 2000/10/12 11:00:29 ce-cvs Exp $
 //
 // Definition of eZForumCategory class
 //
@@ -94,6 +94,7 @@ class eZForumCategory
     */
     function delete()
     {
+        print( $this->ID );
         $this->dbInit();
 
         $this->Database->query( "DELETE FROM ezforum_CategoryTable WHERE ID='$this->ID'" );
@@ -146,14 +147,13 @@ class eZForumCategory
         $this->dbInit();
 
         $this->Database->array_query( $category_array, "SELECT Id as ID FROM
-                                                       ezforum_CategoryTable
-                                                       WHERE Id='$this->ID'" );
-
+                                                       ezforum_CategoryTable" );
+                                                     
         $ret = array();
 
         foreach ( $category_array as $category )
             {
-                $ret[] = new eZForumFourm( $category["ID"] );
+                $ret[] = new eZForumCategory( $category["ID"] );
             }
 
         return $ret;
