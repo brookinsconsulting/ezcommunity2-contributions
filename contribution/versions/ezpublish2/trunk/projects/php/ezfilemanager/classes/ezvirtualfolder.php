@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfolder.php,v 1.4 2001/01/08 15:34:04 ce Exp $
+// $Id: ezvirtualfolder.php,v 1.5 2001/01/09 10:56:08 ce Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -103,18 +103,28 @@ class eZVirtualFolder
       Deletes a eZArticleGroup object from the database.
 
     */
-    function delete()
+    function delete( $catID=-1 )
     {
         $this->dbInit();
-
-        if ( isset( $this->ID ) )
-        {
-            $this->Database->query( "DELETE FROM eZFileManager_FileFolderLink WHERE FolderID='$this->ID'" );
-            
-            $this->Database->query( "DELETE FROM eZFileManager_Folder WHERE ID='$this->ID'" );
-        }
+        if ( $catID == -1 )
+            $catID = $this->ID;
         
-        return true;
+        $category = new eZVirtualFolder( $catID );
+
+        $categoryList = $category->getByParent( $category );
+
+        foreach ( $categoryList as $category )
+        {
+            $this->delete( $category->id() );
+        }
+
+        foreach ( $this->files() as $file )
+        {
+            $file->delete();
+        }
+
+        $categoryID = $category->id();
+        $this->Database->query( "DELETE FROM eZFileManager_Folder WHERE ID='$categoryID'" );
     }
     
     /*!
@@ -515,6 +525,23 @@ class eZVirtualFolder
     }
 
     /*!
+      Returns a eZUser object.
+    */
+    function user()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        if ( $this->UserID != 0 )
+        {
+            $ret = new eZUser( $this->UserID );
+        }
+        
+        return $ret;
+    }
+
+
+    /*!
       Sets the name of the category.
     */
     function setName( $value )
@@ -647,6 +674,22 @@ class eZVirtualFolder
        }
        
        $this->ReadPermission = $value;
+    }
+
+    /*!
+      Sets the user of the file.
+    */
+    function setUser( $user )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        if ( get_class( $user ) == "ezuser" )
+        {
+            $userID = $user->id();
+
+            $this->UserID = $userID;
+        }
     }
 
     /*!

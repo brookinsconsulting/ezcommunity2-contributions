@@ -1,4 +1,9 @@
 <?
+
+include_once( "ezuser/classes/ezuser.php" );
+include_once( "classes/eztime.php" );
+include_once( "classes/ezlocale.php" );
+
 switch ( $url_array[2] )
 {
     case "new" :        
@@ -66,7 +71,7 @@ switch ( $url_array[2] )
                 include( "ezfilemanager/user/folderedit.php" );
             }
             break;
-            case "insert" :
+          print( $FolderID );  case "insert" :
             {
                 $Action = "Insert";
                 include( "ezfilemanager/user/folderedit.php" );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.6 2001/01/08 15:34:04 ce Exp $
+// $Id: filelist.php,v 1.7 2001/01/09 10:56:08 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -57,9 +57,28 @@ $t->set_block( "file_tpl", "write_tpl", "write" );
 $t->set_block( "file_list_page_tpl", "folder_list_tpl", "folder_list" );
 $t->set_block( "folder_list_tpl", "folder_tpl", "folder" );
 
+$t->set_block( "folder_tpl", "folder_write_tpl", "folder_write" );
+$t->set_block( "folder_tpl", "folder_read_tpl", "folder_read" );
+
 $t->set_var( "read", "" );
 
+$user = eZUser::currentUser();
+
 $folder = new eZVirtualFolder( $FolderID );
+
+$readPermission = $folder->checkReadPermission( $user );
+
+$error = true;
+
+if ( ( $readPermission == "User" ) || ( $readPermission == "Group" ) || ( $readPermission == "All" ) )
+{
+    $error = false;
+}
+
+if ( $FolderID == 0 )
+{
+    $error = false;
+}
 
 $t->set_var( "current_folder", "" );
 if ( $folder->id() != 0 )
@@ -108,6 +127,28 @@ foreach ( $folderList as $folderItem )
 
     $t->set_var( "folder_name", $folderItem->name() );
     $t->set_var( "folder_id", $folderItem->id() );
+
+    $writePermission = $folderItem->checkWritePermission( $user );
+    $readPermission = $folderItem->checkReadPermission( $user );
+
+    $t->set_var( "folder_read", "" );
+    $t->set_var( "folder_write", "" );
+
+    if ( ( $readPermission == "User" ) || ( $readPermission == "Group" ) || ( $readPermission == "All" ) )
+    {
+        $t->parse( "folder_read", "folder_read_tpl" );
+    }
+    else
+    {
+    }
+
+    if ( ( $writePermission == "User" ) || ( $writePermission == "Group" ) || ( $writePermission == "All" ) )
+    {
+        $t->parse( "folder_write", "folder_write_tpl" );
+    }
+    else
+    {
+    }
 
     $t->parse( "folder", "folder_tpl", true );
     $i++;
@@ -163,8 +204,6 @@ foreach ( $fileList as $file )
         $t->set_var( "file_size", $size );
     }
 
-    $user = eZUser::currentUser();
-
     $writePermission = $file->checkWritePermission( $user );
     $readPermission = $file->checkReadPermission( $user );
 
@@ -185,7 +224,6 @@ foreach ( $fileList as $file )
     }
     else
     {
-//        $t->parse( "no_write", "no_write_tpl" );
     }
 
     $t->parse( "file", "file_tpl", true );
@@ -207,7 +245,9 @@ else
 $t->set_var( "image_dir", $ImageDir );
 $t->set_var( "main_folder_id", $FolderID );
 
-$t->pparse( "output", "file_list_page_tpl" );
+
+if ( $error == false )
+    $t->pparse( "output", "file_list_page_tpl" );
 
 
 ?>

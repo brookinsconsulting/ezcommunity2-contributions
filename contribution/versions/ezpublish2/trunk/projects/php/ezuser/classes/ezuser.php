@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.32 2001/01/06 16:21:01 bf Exp $
+// $Id: ezuser.php,v 1.33 2001/01/09 10:56:08 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -67,6 +67,7 @@ include_once( "classes/ezdb.php" );
 include_once( "ezcontact/classes/ezaddress.php" );
 include_once( "classes/ezdatetime.php" );
 include_once( "ezsession/classes/ezsession.php" );
+include_once( "ezuser/classes/ezusergroup.php" );
 
 class eZUser
 {
@@ -176,13 +177,12 @@ class eZUser
             }
             else if( count( $user_array ) == 1 )
             {
-                $this->ID = $user_array[0][ "ID" ];
-                $this->Login = $user_array[0][ "Login" ];
-//                  $this->Password = $user_array[0][ "Password" ];
-                $this->Email = $user_array[0][ "Email" ];
-                $this->InfoSubscription = $user_array[0][ "InfoSubscription" ];
-                $this->FirstName = $user_array[0][ "FirstName" ];
-                $this->LastName = $user_array[0][ "LastName" ];
+                $this->ID =& $user_array[0][ "ID" ];
+                $this->Login =& $user_array[0][ "Login" ];
+                $this->Email =& $user_array[0][ "Email" ];
+                $this->InfoSubscription =& $user_array[0][ "InfoSubscription" ];
+                $this->FirstName =& $user_array[0][ "FirstName" ];
+                $this->LastName =& $user_array[0][ "LastName" ];
 
                 $this->State_ = "Coherent";                
                 $ret = true;

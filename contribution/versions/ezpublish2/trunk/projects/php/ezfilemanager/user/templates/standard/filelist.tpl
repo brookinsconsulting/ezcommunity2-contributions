@@ -32,9 +32,14 @@
 
 <!-- BEGIN folder_tpl -->
 <tr>
+        <!-- BEGIN folder_read_tpl -->
 	<td>
 	<a href="/filemanager/list/{folder_id}/"><img src="/ezfilemanager/user/{image_dir}/folder.png" alt="" width="32" height="32" />{folder_name}</a><br />
 	</td>
+        <!-- END folder_read_tpl -->
+        <!-- BEGIN folder_write_tpl -->
+
+        <!-- END folder_write_tpl -->
 </tr>
 <!-- END folder_tpl -->
 
@@ -45,6 +50,7 @@
 <!-- BEGIN file_list_tpl -->
 <table width="100%" border="0" cellspacing="0" cellpadding="4" >
 <tr>
+
         <th>
 	{intl-name}:
 	</th>
@@ -60,8 +66,6 @@
         <th>
 	{intl-delete}:
 	</th>
-
-
 </tr>
 <!-- BEGIN file_tpl -->
 <tr>
