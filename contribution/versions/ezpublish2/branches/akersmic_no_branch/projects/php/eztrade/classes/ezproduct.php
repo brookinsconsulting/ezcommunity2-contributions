@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.12 2002/01/18 13:43:41 bf Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.13 2002/01/21 14:19:41 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -130,6 +130,7 @@ class eZProduct
         $keywords = $db->escapeString( $this->Keywords );
         $productNumber = $db->escapeString( $this->ProductNumber );
         $contents = $db->escapeString( $this->Contents );
+        $artist = $db->escapeString( $this->Artist );
 
         if ( !isSet( $this->ID ) )
         {
@@ -156,6 +157,8 @@ class eZProduct
                                   Published,
                                   ExpiryTime,
                                   IncludesVAT,
+                                  Artist,
+                                  Innspilling,
                                   TypeID )
                                   VALUES
                                   ( '$nextID',
@@ -176,6 +179,8 @@ class eZProduct
                                     '$timeStamp',
                                     '$this->ExpiryTime',
                                     '$this->IncludesVAT',
+                                    '$this->Artist',
+                                    '$this->Innspilling',
                                     '$this->TypeID')" );
             $db->unlock();
 			$this->ID = $nextID;
@@ -199,6 +204,8 @@ class eZProduct
                                  Published=Published,
                                  ExpiryTime='$this->ExpiryTime',
                                  IncludesVAT='$this->IncludesVAT',
+                                 Artist='$this->Artist',
+                                 Innspilling='$this->Innspilling',
                                  TypeID='$this->TypeID'
                                  WHERE ID='$this->ID'
                                  " );
@@ -1155,6 +1162,22 @@ class eZProduct
     }
 
     /*!
+      Sets the artist field for the product, this is used to optimize the search query.
+    */
+    function setArtist( $value )
+    {
+       $this->Artist = $value;
+    }
+
+    /*!
+      Sets the innspilling field for the product, this is used to optimize the search query.
+    */
+    function setInnspilling( $value )
+    {
+       $this->Innspilling = $value;
+    }
+
+    /*!
       Sets the Discontinued value. This indicates that the product is no longer
       available. The product is still shown in the store.
     */
@@ -1607,8 +1630,7 @@ class eZProduct
 
         if ( !is_numeric( $productTypeID ) )
             $productTypeID = 0;
-            
-             
+
         // Build the ORDER BY
         $OrderBy = "eZTrade_ProductWordLink.Frequency DESC";
         switch( $sortMode )
@@ -1635,12 +1657,12 @@ class eZProduct
         // stop word frequency
         $ini =& INIFile::globalINI();
         $StopWordFrequency = $ini->read_var( "eZTradeMain", "StopWordFrequency" );
-       
+
         $query = new eZQuery( "eZTrade_Word.Word", $queryText );
         $query->setIsLiteral( true );
 //        $query->setStopWordColumn(  "eZTrade_Word.Frequency" );
 //        $query->setStopWordPercent( 1 );
-        $searchSQL = $query->buildQuery();        
+        $searchSQL = $query->buildQuery();
 
         {
             $queryArray = explode( " ", trim( $queryText ) );
@@ -1649,7 +1671,7 @@ class eZProduct
 
             $count = 1;
             foreach ( $queryArray as $queryWord )
-            {                
+            {
                 $queryWord = trim( $queryWord );
 
                 switch ( $searchType )
@@ -1677,7 +1699,7 @@ class eZProduct
                                               AND  eZTrade_AttributeValue.Value LIKE '%$artist%' ) ";
 
                         }
-                        
+
 
                         $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, Price ) SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name AS Name, eZTrade_Product.Price as Price
                  FROM eZTrade_Product
@@ -1688,7 +1710,7 @@ class eZProduct
                          $albumSQL
                          $artistSQL
                        ORDER BY $OrderBy";
-                        
+
                     }break;
 
                     case "AdvancedDVD" :
@@ -1706,12 +1728,12 @@ class eZProduct
                          eZTrade_Product.TypeID='2'
                          $dvdSQL
                        ORDER BY $OrderBy";
-                        
+
                     }break;
-                    
+
                     default:
                     {
-                     
+
                         $searchSQL = " ( eZTrade_Word.Word = '$queryWord'  )  AND ";
 
                         if ( $productTypeID != 0 )
@@ -1738,7 +1760,7 @@ class eZProduct
                         )
                        ORDER BY $OrderBy";
 
-                        
+
                     }break;
                 }
 
@@ -1748,13 +1770,13 @@ class eZProduct
 //                $queryString = "SELECT Frequency FROM eZTrade_Word WHERE Word='$queryWord'";
 //                $db->query_single( $WordFreq, $queryString, array( "LIMIT" => 1 ) );
 //                if ( $WordFreq["Frequency"] <= $StopWordFrequency )
-                
+
                 $count += 1;
             }
             $count -= 1;
 
             $queryString = "SELECT ProductID, Name, Price, Count(*) AS Count FROM eZTrade_SearchTemp GROUP BY ProductID HAVING Count='$count'";
-            
+
             $db->array_query( $product_array, $queryString );
 
             $db->query( "DROP  TABLE eZTrade_SearchTemp" );
@@ -1772,7 +1794,7 @@ class eZProduct
             $return_array[$i] = new eZProduct( $product_array[$i][$db->fieldName("ProductID")], false );
         }
         */
-       
+
         return $return_array;
     }
 
@@ -2707,6 +2729,8 @@ class eZProduct
     var $ExpiryTime;
     var $IncludesVAT;
     var $TypeID;
+    var $Artist;
+    var $Innspilling;
 }
 
 ?>
