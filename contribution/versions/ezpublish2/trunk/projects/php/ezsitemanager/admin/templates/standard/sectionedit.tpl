@@ -50,6 +50,8 @@
 	<td width="98%">
 	<!-- BEGIN article_category_list_tpl -->
         <select Name="CategoryID[]">
+	<option value="0">{intl-all}</option>
+
 	<!-- BEGIN article_category_item_tpl -->
 	<option value="{option_value}" {selected}>{option_level}{option_name}</option>
 	<!-- END article_category_item_tpl -->
