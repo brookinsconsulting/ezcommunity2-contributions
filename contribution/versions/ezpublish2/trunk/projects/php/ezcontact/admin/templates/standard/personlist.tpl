@@ -118,3 +118,7 @@
 <!-- END person_list_tpl -->
 
 <!-- END person_table_tpl -->
+
+<form method="post" action="/contact/person/new">
+<input class="okbutton" type="submit" value="{intl-new_person}">
+</form>
