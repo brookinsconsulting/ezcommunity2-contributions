@@ -13,7 +13,7 @@
 </tr>
 </table>
 
-<form method="post" href="{www_dir}{index}{action_url}" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}{action_url}" enctype="multipart/form-data">
 <!-- BEGIN current_folder_tpl -->
 <!--
 <table width="100%" border="0" cellspacing="0" cellpadding="4" >

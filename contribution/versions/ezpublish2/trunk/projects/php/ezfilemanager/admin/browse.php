@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: browse.php,v 1.3 2001/08/17 13:35:59 jhe Exp $
+// $Id: browse.php,v 1.4 2001/08/28 16:07:02 bf Exp $
 //
 // Created on: <29-May-2001 14:58:11 ce>
 //
@@ -71,7 +71,7 @@ $folder = new eZVirtualFolder( $FolderID );
 
 $error = true;
 
-$session = new eZSession();
+$session =& eZSession::globalSession();
 
 $returnUrl = $session->variable( "FileListReturnTo" );
 $t->set_var( "name", $session->variable( "NameInBrowse" ) );
