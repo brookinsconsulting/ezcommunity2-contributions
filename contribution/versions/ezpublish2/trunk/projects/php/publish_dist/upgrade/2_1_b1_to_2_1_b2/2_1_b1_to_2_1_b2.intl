@@ -47,4 +47,8 @@ change: new file
 head_line=Keyword index
 
 mod: ezarticle/admin categoryedit.php.ini
-change: added bulkmail_category_select, no_bulkmail
+change: added bulkmail_category_select, no_bulkmail>>>>>>> 1.11
+
+mod: ezcontact/admin, consultationdetaillist.php.ini
+change: added
+delete_consultations=Delete consultations
