@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumcategory.php,v 1.26 2001/01/22 14:43:00 jb Exp $
+// $Id: ezforumcategory.php,v 1.27 2001/01/25 10:43:16 ce Exp $
 //
 // Definition of eZForumCategory class
 //
@@ -106,12 +106,14 @@ class eZForumCategory
     */
     function delete()
     {
-        print( $this->ID );
         $this->dbInit();
 
-        $forum = new eZForum();
-        $forum->get( $this->ID );
-        $forum->delete();
+        $forumList = $this->forums();
+
+        foreach( $forumList as $forum )
+        {
+            $forum->delete();
+        }
 
         $this->Database->query( "DELETE FROM eZForum_ForumCategoryLink WHERE CategoryID='$this->ID'" );
         

@@ -1,5 +1,5 @@
 <?
-// $Id: categoryedit.php,v 1.12 2001/01/23 13:16:57 jb Exp $
+// $Id: categoryedit.php,v 1.13 2001/01/25 10:43:15 ce Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -37,6 +37,11 @@ include_once( "classes/ezlog.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
 
 require( "ezuser/admin/admincheck.php" );
+
+if ( isset ( $DeleteCategories ) )
+{
+    $Action = "DeleteCategories";
+}
 
 $cat = new eZForumCategory();
 
@@ -99,6 +104,22 @@ if ( $Action == "delete" )
     else
     {
         eZHTTPTool::header( "Location: /forum/norights" );
+        exit();
+    }
+}
+
+if ( $Action == "DeleteCategories" )
+{
+    if ( count ( $CategoryArrayID ) != 0 )
+    {
+        foreach( $CategoryArrayID as $CategoryID )
+        {
+            $cat = new eZForumCategory( $CategoryID );
+            $categoryName = $cat->name();
+            $cat->delete( );
+            eZLog::writeNotice( "Forum category deleted: $categoryName from IP: $REMOTE_ADDR" );
+        }
+        eZHTTPTool::header( "Location: /forum/categorylist/" );
         exit();
     }
 }

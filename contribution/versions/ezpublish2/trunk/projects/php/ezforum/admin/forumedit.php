@@ -1,5 +1,5 @@
 <?
-// $Id: forumedit.php,v 1.14 2001/01/23 13:16:57 jb Exp $
+// $Id: forumedit.php,v 1.15 2001/01/25 10:43:15 ce Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -36,6 +36,11 @@ include_once( "ezforum/classes/ezforumcategory.php" );
 include_once( "ezforum/classes/ezforum.php" );
 
 require( "ezuser/admin/admincheck.php" );
+
+if ( isset ( $DeleteForums ) )
+{
+    $Action = "DeleteForums";
+}
 
 if ( $Action == "insert" )
 {
@@ -151,6 +156,28 @@ if ( $Action == "delete" )
     else
     {
         eZHTTPTool::header( "Location: /forum/norights" );
+    }
+}
+
+if ( $Action == "DeleteForums" )
+{
+    if ( count ( $ForumArrayID ) != 0 )
+    {
+        foreach( $ForumArrayID as $ForumID )
+        {
+            $forum = new eZForum( $ForumID );
+            $forumName = $forum->name();
+            $categories = $forum->categories();
+
+            $categoryID = $categories[0]->id();
+            
+            $forum->delete();
+
+            eZLog::writeNotice( "Forum deleted: $forumName from IP: $REMOTE_ADDR" );
+            
+        }
+        eZHTTPTool::header( "Location: /forum/forumlist/$categoryID/" );
+        exit();
     }
 }
 

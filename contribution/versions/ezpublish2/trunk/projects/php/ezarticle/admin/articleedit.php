@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.34 2001/01/24 10:42:08 ce Exp $
+// $Id: articleedit.php,v 1.35 2001/01/25 10:43:15 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -38,7 +38,6 @@ include_once( "ezarticle/classes/ezarticlerenderer.php" );
 
 if ( isset ( $DeleteArticles ) )
 {
-    print( "innE" );
     $Action = "DeleteArticles";
 }
 
@@ -417,7 +416,6 @@ if ( $Action == "DeleteArticles" )
     {
         foreach( $ArticleArrayID as $ArticleID )
         {
-
             $article = new eZArticle( $ArticleID );
 
             // get the category to redirect to

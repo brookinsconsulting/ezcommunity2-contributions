@@ -1,5 +1,5 @@
 <?
-// $Id: messageedit.php,v 1.10 2001/01/23 13:16:57 jb Exp $
+// $Id: messageedit.php,v 1.11 2001/01/25 10:43:15 ce Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
@@ -36,6 +36,12 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 
 require( "ezuser/admin/admincheck.php" );
+
+
+if ( isset ( $DeleteMessages ) )
+{
+    $Action = "DeleteMessages";
+}
 
 if ( $Action == "insert" )
 {
@@ -103,6 +109,22 @@ if ( $Action == "delete" )
     else
     {
         eZHTTPTool::header( "Location: /forum/norights" );
+    }
+}
+
+if ( $Action == "DeleteMessages" )
+{
+    if ( count ( $MessageArrayID ) != 0 )
+    {
+        foreach( $MessageArrayID as $MessageID )
+        {
+            $message = new eZForumMessage( $MessageID );
+            $forumID = $message->forumID();
+            $message->delete();
+
+        }
+        eZHTTPTool::header( "Location: /forum/messagelist/$forumID" );
+        exit();
     }
 }
 

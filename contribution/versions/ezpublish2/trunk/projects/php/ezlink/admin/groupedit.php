@@ -1,6 +1,6 @@
 <?
 //
-// $Id: groupedit.php,v 1.35 2001/01/23 13:16:57 jb Exp $
+// $Id: groupedit.php,v 1.36 2001/01/25 10:43:16 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:57:28 ce>
@@ -41,6 +41,11 @@ include( "ezlink/classes/ezlink.php" );
 include( "ezlink/classes/ezhit.php" );
 
 require( "ezuser/admin/admincheck.php" );
+
+if ( isSet ( $DeleteCategories ) )
+{
+    $Action = "DeleteCategories";
+}
 
 // Insert a group.
 if ( $Action == "insert" )
@@ -89,6 +94,22 @@ if ( $Action == "delete" )
     else
     {
         eZHTTPTool::header( "Location: /link/norights" );
+    }
+}
+
+if ( $Action == "DeleteCategories" )
+{
+    if ( count ( $CategoryArrayID ) != 0 )
+    {
+        foreach( $CategoryArrayID as $CategoryID )
+        {
+            $group = new eZLinkGroup();
+            $group->get( $CategoryID );
+            $parentID = $group->parent();
+            $group->delete();
+        }
+        eZHTTPTool::header( "Location: /link/group/$parentID" );
+        exit();
     }
 }
 

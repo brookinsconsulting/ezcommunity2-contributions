@@ -67,6 +67,7 @@
 <hr noshade size="4"/>
 
 <!-- BEGIN group_list_tpl -->
+<form method="post" action="/link/groupedit/edit/" enctype="multipart/form-data">
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<td>
@@ -82,17 +83,23 @@
 	<td width="1%" bgcolor="{bg_color}">
 	<a href="/link/groupedit/edit/{linkgroup_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ela{linkgroup_id}-red','','/ezlink/images/redigerminimrk.gif',1)"><img name="ela{linkgroup_id}-red" border="0" src="/ezlink/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
-	<td width="1%" bgcolor="{bg_color}">
-	<a href="#" onClick="verify( '{intl-delete}', '/link/groupedit/delete/{linkgroup_id}/'); return false;"
-onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ela{linkgroup_id}-slett','','/ezlink/images/slettminimrk.gif',1)"><img name="ela{linkgroup_id}-slett" border="0" src="/ezlink/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<td class="{td_class}" width="1%" align="center">
+	<input type="checkbox" name="CategoryArrayID[]" value="{linkgroup_id}">
 	</td>
 </tr>
 <!-- END group_item_tpl -->
+<tr>
+        <td>
+	<input type="submit" Name="DeleteCategories" value="{intl-deletecategories}">
+	</td>
+</tr>
+</form>
 </table>
 <!-- END group_list_tpl -->
 
 
 <!-- BEGIN link_list_tpl -->
+<form method="post" action="/link/linkedit/edit/" enctype="multipart/form-data">
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<h2>{links}</h2>
@@ -109,11 +116,16 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ela{linkgroup_id}-sl
 	<td class="{td_class}" width="1%" bgcolor="{bg_color}">
 	<a href="/link/linkedit/edit/{link_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('el{link_id}-red','','/ezlink/images/redigerminimrk.gif',1)"><img name="el{link_id}-red" border="0" src="/ezlink/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
-	<td class="{td_class}" width="1%" bgcolor="{bg_color}">
-	<a href="#" onClick="verify( '{intl-deletelink}', '/link/linkedit/delete/{link_id}/'); return false;"
-onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('el{link_id}-slett','','/ezlink/images/slettminimrk.gif',1)"><img name="el{link_id}-slett" border="0" src="/ezlink/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<td class="{td_class}" width="1%" align="center">
+	<input type="checkbox" name="LinkArrayID[]" value="{link_id}">
 	</td>
 </tr>
 <!-- END link_item_tpl -->
+<tr>
+        <td>
+	<input type="submit" Name="DeleteLinks" value="{intl-delete_links}">
+	</td>
+</tr>
+</form>
 </table>
 <!-- END link_list_tpl -->

@@ -1,5 +1,5 @@
 <?
-// $Id: linkedit.php,v 1.41 2001/01/23 13:16:57 jb Exp $
+// $Id: linkedit.php,v 1.42 2001/01/25 10:43:16 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -43,6 +43,10 @@ include_once( "ezlink/classes/ezmeta.php" );
 
 require( "ezuser/admin/admincheck.php" );
 
+if ( isSet ( $DeleteLinks ) )
+{
+    $Action = "DeleteLinks";
+}
 
 if ( isSet( $Delete ) )
 {
@@ -160,8 +164,6 @@ if ( $Action == "delete" )
             exit();
         }
        
-        eZHTTPTool::header( "Location: /link/group/$LinkGroupID" );
-        exit();
         
     }
     else
@@ -170,6 +172,30 @@ if ( $Action == "delete" )
     }
 }
 
+if ( $Action == "DeleteLinks" )
+{
+    if ( count ( $LinkArrayID ) != 0 )
+    {
+        foreach( $LinkArrayID as $LinkID )
+        {
+            $deletelink = new eZLink();
+            $deletelink->get( $LinkID );
+            $LinkGroupID = $deletelink->linkGroupID();
+            $deletelink->delete();
+            
+        }
+        if ( $deletelink )
+        {
+            if ( $deletelink->accepted() == "N" )
+            {
+                eZHTTPTool::header( "Location: /link/group/incoming" );
+                exit();
+            }
+        }
+        eZHTTPTool::header( "Location: /link/group/$LinkGroupID" );
+        exit();
+    }
+}
 
 // Insert a link.
 if ( $Action == "insert" )
