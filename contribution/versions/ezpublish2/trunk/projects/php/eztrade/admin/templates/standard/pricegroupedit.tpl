@@ -42,7 +42,7 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<input class="stdbutton" type="submit" name="Cancel" value="{intl-cancel}" />	
+	<input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />	
 	</td>
 	</form>
 </tr>
