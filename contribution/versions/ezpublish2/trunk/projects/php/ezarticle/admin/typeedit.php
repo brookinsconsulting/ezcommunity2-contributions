@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: typeedit.php,v 1.2 2001/06/06 12:12:24 pkej Exp $
+// $Id: typeedit.php,v 1.3 2001/06/06 12:40:43 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Dec-2000 18:24:06 bf>
@@ -42,24 +42,21 @@ $move_item = true;
 include_once( "ezarticle/classes/ezarticletype.php" );
 include_once( "ezarticle/classes/ezarticleattribute.php" );
 
-if ( $Action == "insert" )
+if( isset( $OK ) || isset( $NewAttribute ) )
 {
-    $type = new eZArticleType();
-    $type->setName( htmlspecialchars( $Name ) );
+    if( is_numeric( $TypeID ) )
+    {
+        $type = new eZArticleType( $TypeID );
+    }
+    else
+    {
+        $type = new eZArticleType();
+    }
 
+    $type->setName( htmlspecialchars( $Name ) );
     $type->store();
 
     $TypeID = $type->id();
-    $Action = "edit";
-    $ActionValue = "update";
-}
-
-if ( ( $Action == "update" ) || ( isset ( $Update ) ) )
-{
-    $type = new eZArticleType( $TypeID );
-    $type->setName( $Name );
-
-    $type->store();
 
     // update attributes
     $i =0;
@@ -79,6 +76,17 @@ if ( ( $Action == "update" ) || ( isset ( $Update ) ) )
     $Action = "edit";
     $ActionValue = "update";
 }
+
+if ( isset( $NewAttribute ) )
+{
+    $attribute = new eZArticleAttribute();
+    $attribute->setType( $type );
+    $attribute->setName( "New attribute" );
+    $attribute->store();
+    $ActionValue = "update";
+    $Action = "edit";
+}
+
 
 if( $Action == "up" )
 {
@@ -116,17 +124,6 @@ if ( isset ( $DeleteSelected ) )
     }
     $Action = "edit";
     $ActionValue = "update";
-}
-
-
-if ( isset( $NewAttribute ) )
-{
-    $attribute = new eZArticleAttribute();
-    $attribute->setType( $type );
-    $attribute->setName( "New attribute" );
-    $attribute->store();
-    $ActionValue = "update";
-    $Action = "edit";
 }
 
 
@@ -184,7 +181,7 @@ if ( $Action == "edit" )
     $t->set_var( "name_value", $type->name() );
     
     $t->set_var( "action_value", $ActionValue );
-    $t->set_var( "type_id", $type->id() );
+    $t->set_var( "type_id", $TypeID );
 
 
     $attributes = $type->attributes();
