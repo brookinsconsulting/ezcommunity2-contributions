@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: gotolink.php,v 1.13 2001/07/20 11:15:21 jakobn Exp $
+// $Id: gotolink.php,v 1.14 2001/07/25 11:06:15 jhe Exp $
 //
 // Created on: <26-Oct-2000 15:02:25 ce>
 //
@@ -37,7 +37,6 @@ if ( $Action == "addhit" )
     $hit->setRemoteIP( $REMOTE_ADDR );
     $hit->store();
 }
-
 $link = new eZLink( $LinkID );
 $location =& $link->url();
 
@@ -46,4 +45,5 @@ if ( !preg_match( "%^([a-z]+://)%", $location ) )
 
 Header( "Location: " . $location );
 exit();
+
 ?>

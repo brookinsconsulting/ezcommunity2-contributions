@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezmysqldb.php,v 1.14 2001/07/19 11:33:57 jakobn Exp $
+// $Id: ezmysqldb.php,v 1.15 2001/07/25 11:06:14 jhe Exp $
 //
 // Definition of eZMySQLDB class
 //
@@ -73,7 +73,6 @@ class eZMySQLDB
     function &query( $sql, $print=false )
     {
         $result =& mysql_query( $sql, $this->Database );
-
 //          eZLog::writeNotice( $sql );
 
         if ( $print )
@@ -91,7 +90,7 @@ class eZMySQLDB
         else
         {
             $this->unlock();
-            $this->Error = "<code>" . htmlentities( $sql ) . "</code><br>\n<b>" . htmlentities(mysql_error( $this->database)) . "</b>\n" ;
+            $this->Error = "<code>" . htmlentities( $sql ) . "</code><br>\n<b>" . htmlentities(mysql_error( $this->Database)) . "</b>\n" ;
             if ( $GLOBALS["DEBUG"] == true )
             {
                 print( "<b>MySQL Query Error</b>: " . htmlentities( $sql ) . " error message:" . mysql_errno( $this->Database ) . ": ".mysql_error( $this->Database ) ."<br>" );

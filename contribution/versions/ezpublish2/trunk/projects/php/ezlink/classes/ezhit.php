@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezhit.php,v 1.26 2001/07/20 11:15:21 jakobn Exp $
+// $Id: ezhit.php,v 1.27 2001/07/25 11:06:15 jhe Exp $
 //
 // Definition of eZHit class
 //
@@ -62,14 +62,13 @@ class eZHit
 
         $nextID = $db->nextID( "eZLink_Hit", "ID" );
 
-        $res = $db->query( "INSERT INTO eZLink_Hit
+        $res[] = $db->query( "INSERT INTO eZLink_Hit
                                         ( RemoteIP, ID, Link)
                                         VALUES
                                         ('$this->RemoteIP','$nextID','$this->Link')" );
-        if ( $res == false )
-            $db->rollback( );
-        else
-            $db->commit();
+        $db->unlock();
+
+        eZDB::finish( $res, $db );
     }
 
     /*!

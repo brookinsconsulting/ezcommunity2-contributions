@@ -4,7 +4,7 @@
         <h1>{intl-view_headline}</h1>
         </td>
         <td rowspan="2" align="right">
-        <form action="/contact/person/search/" method="post">
+        <form action="/contact/search/person/" method="post">
         <input type="text" name="SearchText" size="12" />       
         <input class="stdbutton" type="submit" value="{intl-search}" />
         </form> 
@@ -173,8 +173,4 @@
 <!-- END consultation_buttons_tpl -->
 
 <input class="okbutton" type="submit" name="Edit" value="{intl-edit}">
-<!--
-<input type="submit" name="Delete" value="{intl-delete}" />
-<input type="submit" name="Back" value="{intl-list}">
--->
 </form>

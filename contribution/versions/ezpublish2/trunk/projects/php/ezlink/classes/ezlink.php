@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlink.php,v 1.66 2001/07/20 11:15:21 jakobn Exp $
+// $Id: ezlink.php,v 1.67 2001/07/25 11:06:15 jhe Exp $
 //
 // Definition of eZLink class
 //
@@ -65,7 +65,7 @@ class eZLink
     /*!
       Constructor
     */
-    function eZLink( $id=-1  )
+    function eZLink( $id = -1  )
     {
         $this->ImageID = 0;
         if ( $id != -1 )
@@ -270,6 +270,7 @@ class eZLink
         
         if ( $id != "" )
         {
+            $link_array = array();
             $db->array_query( $link_array, "SELECT * FROM eZLink_Link WHERE ID='$id'" );
             if ( count( $link_array ) > 1 )
             {
@@ -307,7 +308,6 @@ class eZLink
         {
             $return_array[] = new eZLink( $link_array[$i][$db->fieldName("ID")] );
         }
-
 
         return $return_array;
     }

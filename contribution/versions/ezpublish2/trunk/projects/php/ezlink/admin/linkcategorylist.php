@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: linkcategorylist.php,v 1.6 2001/07/20 11:15:21 jakobn Exp $
+// $Id: linkcategorylist.php,v 1.7 2001/07/25 11:06:15 jhe Exp $
 //
 // Created on: <26-Oct-2000 14:55:24 ce>
 //
@@ -241,6 +241,7 @@ else
     }
     $t->parse( "link_list", "link_list_tpl", true );
 }
+
 eZList::drawNavigator( $t, $linkCount, $AdminLimit, $Offset, "link_page_tpl" );
 
 $t->set_var( "categories", $categories );
@@ -251,6 +252,5 @@ $t->set_var( "link_start", $Offset + 1 );
 $t->set_var( "link_end", min( $Offset + $AdminLimit, $linkCount ) );
 $t->set_var( "link_total", $linkCount );
 
-                       
 $t->pparse( "output", "link_page_tpl" );
 ?>
