@@ -31,6 +31,10 @@
 <a class="path" href="{www_dir}{index}/article/archive/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
 
+<!-- BEGIN article_topic_tpl -->
+<a class="path" href="/article/topiclist/{topic_id}">{topic_name}</a>
+<!-- END article_topic_tpl -->
+
 <hr noshade="noshade" size="4" />
 <br />
 <!-- BEGIN article_header_tpl -->
