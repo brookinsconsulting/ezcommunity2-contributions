@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.45 2002/01/04 13:10:30 jhe Exp $
+// $Id: ezformrenderer.php,v 1.46 2002/01/04 13:39:24 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -779,7 +779,7 @@ class eZFormRenderer
                 {
                     $elementName = "eZFormElement_" . $te->id();
 
-                    $value = $element->result();
+                    $value = $te->result();
                     
                     // convert array to multiple textlines.
                     $tmpValue = "";
@@ -815,7 +815,6 @@ class eZFormRenderer
                 $elementName = "eZFormElement_" . $element->id();
 
                 $value = $element->result();
-                                
                 // convert array to multiple textlines.
                 $tmpValue = "";
                 if ( is_array( $value ) )
@@ -844,7 +843,6 @@ class eZFormRenderer
                 }
             }
         }
-
         if ( $emailDefaults == false )
         {
             $mail->setSubject( $form->name() );
