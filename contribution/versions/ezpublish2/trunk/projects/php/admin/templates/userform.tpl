@@ -12,7 +12,6 @@
 </tr>
 <tr>
 	<td bgcolor="#f0f0f0">
-	<br>
 	<p>
 	Brukernavn:<br>
 	<input type=text name="UserName" value="{nick_name}"><br></p>
@@ -24,19 +23,11 @@
 	</select>
 	</p>
 	</td>
-</tr>
-<tr>
-	<td bgcolor="#f0f0f0">
-	<br>
-	</td>
+	<img src="../images/1x1.gif" width="1" height="4" border="0"><br>
 </tr>
 </table>
 
-<table width="100%" height="4" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td bgcolor="ffffff"><img src="../images/1x1.gif" width="1" height="4" border="0"></td>
-</tr>
-</table>
+<img src="../images/1x1.gif" width="1" height="4" border="0"><br>
 
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -48,7 +39,6 @@
 </tr>
 <tr>
 	<td bgcolor="#f0f0f0">
-	<br>
 	<p>Fornavn:<br>
 	<input type="text" name="FirstName" value="{first_name}"><br></p>
 	
@@ -60,19 +50,11 @@
 	E-postadresse:<br>
 	<input type=text name="EMail" value="{email}"><br></p>
 	</td>
-</tr>
-<tr>
-	<td bgcolor="#f0f0f0">
-	<br>
-	</td>
+	<img src="../images/1x1.gif" width="1" height="4" border="0"><br>
 </tr>
 </table>
 
-<table width="100%" height="4" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td bgcolor="ffffff"><img src="../images/1x1.gif" width="1" height="4" border="0"></td>
-</tr>
-</table>
+<img src="../images/1x1.gif" width="1" height="4" border="0"><br>
 
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -84,7 +66,6 @@
 </tr>
 <tr>
 	<td bgcolor="#f0f0f0">
-	<br>
 	<p>Skriv inn ønsket passord (x-y tegn):<br>
 	<input type="password" name="Password1" value="{password}"><br>
 	</p>
@@ -93,11 +74,7 @@
 	<input type="password" name="Password2" value="{password}"><br>
 	</p>
 	</td>
-</tr>
-<tr>
-	<td bgcolor="#f0f0f0">
-	<br>
-	</td>
+	<img src="../images/1x1.gif" width="1" height="4" border="0"><br>
 </tr>
 </table>
 <br>

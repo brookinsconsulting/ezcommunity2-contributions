@@ -21,8 +21,8 @@
 	Gi en beskrivelse av gruppen:<br>
 	<input type="text" name="Description" value="{description}">
 	</p>
-	<img src="../images/1x1.gif" width="1" height="4" border="0"><br>
 	</td>
+	<img src="../images/1x1.gif" width="1" height="4" border="0"><br>
 </tr>
 </table>
 
