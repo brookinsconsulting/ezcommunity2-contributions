@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcountry.php,v 1.3 2001/01/19 12:15:26 jb Exp $
+// $Id: ezcountry.php,v 1.4 2001/01/21 18:13:11 jb Exp $
 //
 // Definition of eZCountry class
 //
@@ -142,7 +142,7 @@ class eZCountry
     */
     function &getAllArray( )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $country_array = 0;
     
         $db->array_query( $country_array, "SELECT * FROM eZContact_Country ORDER BY Name" );
