@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.36 2000/11/05 17:09:33 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.37 2000/11/07 12:37:35 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -248,9 +248,17 @@ class eZTechRenderer
                 $pageArray[] = $pageContent;
                 
             }
-            
 
-            if ( $pageNumber != 0 )
+            if ( $pageNumber == -1 )
+            {
+                $newArticle = $intro . "\n</p><p>\n";
+                if ( count( $pageArray ) > 0 )
+                    foreach ( $pageArray as $page )
+                    {
+                        $newArticle .= $page;
+                    }
+            }
+            else if ( $pageNumber != 0 )
             {
                 $newArticle = $pageArray[$pageNumber];
             }
