@@ -16,11 +16,15 @@
 	</td>
 </tr>
 <!-- END vote_item_tpl -->
+<!-- BEGIN no_items_tpl -->
+<p class="error">{intl-no_items_found}</p>
+<!-- END no_items_tpl -->
 
 </table>
 <br />
 <hr noshade="noshade" size="4">
 
+<!-- BEGIN vote_buttons_tpl -->
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top">
@@ -35,5 +39,5 @@
 	</form>
 	</td>
 </tr>
-
 </table>
+<!-- END vote_buttons_tpl -->

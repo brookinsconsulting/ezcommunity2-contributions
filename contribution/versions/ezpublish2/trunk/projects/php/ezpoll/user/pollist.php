@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: pollist.php,v 1.8 2001/01/22 14:43:01 jb Exp $
+// $Id: pollist.php,v 1.9 2001/05/09 13:22:13 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -48,11 +48,8 @@ $t->set_file( array(
 
 $t->set_block( "poll_list_page", "poll_item_tpl", "poll_item" );
 
-
 $poll = new eZPoll();
-
 $pollList = $poll->getAllActive( );
-
 
 $languageIni = new INIFile( "ezpoll/user/intl/" . $Language . "/pollist.php.ini", false );
 $nonActive =  $languageIni->read_var( "strings", "non_active" );
@@ -60,13 +57,21 @@ $active =  $languageIni->read_var( "strings", "active" );
 
 if ( !$pollList )
 {
-    
     $t->set_var( "poll_item", $noItem );
-
 }
 
+$i=0;
 foreach( $pollList as $pollItem )
 {
+    if ( ( $i % 2 ) == 0 )
+    {
+        $t->set_var( "td_class", "bglight" );
+    }
+    else
+    {
+        $t->set_var( "td_class", "bgdark" );
+    }
+
     $t->set_var( "poll_id", $pollItem->id() );
     $t->set_var( "poll_name", $pollItem->name() );
     $t->set_var( "poll_description", $pollItem->description() );
@@ -74,17 +79,14 @@ foreach( $pollList as $pollItem )
     {
         $t->set_var( "action", "result" );
         $t->set_var( "poll_is_closed", $nonActive );
-
     }
     else
     {
         $t->set_var( "action", "votepage" );
         $t->set_var( "poll_is_closed", $active );
-
     }
-
+    $i++;
     $t->parse( "poll_item", "poll_item_tpl", true );
-
 }
 
 $t->set_var( "document_root", $DOC_ROOT );

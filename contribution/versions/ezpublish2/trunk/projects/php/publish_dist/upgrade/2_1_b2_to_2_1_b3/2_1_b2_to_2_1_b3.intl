@@ -41,3 +41,7 @@ idle=Idle
 
 mod: ezbug/user, search.php.ini
 change: added previous, next
+
+mod: ezpoll/user, votepage.php.ini
+change: added
+no_items_found=No poll items found.

@@ -15,8 +15,8 @@
 	</th>
 </tr>
 <!-- BEGIN poll_item_tpl -->
-<tr>
-	<td>
+<tr class="{td_class}">
+	<td> 
 	<a href="/poll/{action}/{poll_id}/">{poll_name}</a>
 	</td>
 	<td>

@@ -52,6 +52,8 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "vote_box", "vote_item_tpl", "vote_item" );
+$t->set_block( "vote_box", "vote_buttons_tpl", "vote_buttons" );
+$t->set_block( "vote_box", "no_items_tpl", "no_items" );
 
 $choice = new eZPollChoice();
 
@@ -62,9 +64,22 @@ foreach( $choiceList as $choiceItem )
     $t->set_var( "choice_name", $choiceItem->name() );
     $t->set_var( "choice_id", $choiceItem->id() );
 
+    $t->set_var( "no_items", "" );
     $t->parse( "vote_item", "vote_item_tpl", true );
-    
+
 }
+
+if ( count ( $choiceList ) == 0 )
+{
+    $t->set_var( "vote_buttons", "" );
+    $t->parse( "no_items", "no_items_tpl" );
+    $t->set_var( "vote_item", "" );
+}
+else
+{
+    $t->parse( "vote_buttons", "vote_buttons_tpl");
+}
+
 
 $poll = new eZPoll();
 $poll->get( $PollID );
