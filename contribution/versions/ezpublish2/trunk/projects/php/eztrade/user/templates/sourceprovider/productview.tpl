@@ -115,7 +115,7 @@
 	<!-- BEGIN price_tpl -->
 	<p class="boxtext">{intl-price}:</p>
 	{product_price}
-	<!-- END price_tpl -->
+	<!-- END price_tpl -->	
 	</td>
 	<td align="right">
 	<!-- BEGIN external_link_tpl -->
