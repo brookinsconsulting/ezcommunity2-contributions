@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: cron.php,v 1.14 2001/09/27 14:28:45 bf Exp $
+// $Id: cron.php,v 1.14.2.1 2001/11/01 20:57:20 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -63,6 +63,7 @@ foreach ( $articles as $article )
 
 // index all form messages
 // uncomment this section to index all old forum messages
+/*
 set_time_limit( 0 );
 include_once( "ezforum/classes/ezforummessage.php" );
 
@@ -75,7 +76,7 @@ foreach ( $messages as $message )
     print( "indexing message: " .  $message->topic() . "<br>\n" );    
     $message->createIndex();
 }
-
+*/
 
 // do session cleanup
 include( "ezsession/admin/cron.php" );
@@ -87,7 +88,7 @@ include( "ezarticle/admin/cron.php" );
 include_once( "ezmail/classes/ezmail.php" );
 
 // syncronize local files
-include( "ezfilemanager/admin/cron.php" );
+// include( "ezfilemanager/admin/cron.php" );
 
 // add bug report mails to eZBug
 include( "ezbug/admin/cron.php" );
