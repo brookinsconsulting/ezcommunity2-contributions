@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imagelist.php,v 1.37 2001/09/04 15:18:14 ce Exp $
+// $Id: imagelist.php,v 1.38 2001/09/06 08:52:15 ce Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -121,6 +121,8 @@ $t->set_var( "delete_images_button" , "" );
 $t->set_var( "delete_categories_button" , "" );
 $t->set_var( "default_new" , "" );
 $t->set_var( "default_delete" , "" );
+$t->set_var( "main_category_id", $CategoryID );
+
 
 $category = new eZImageCategory( $CategoryID );
 
