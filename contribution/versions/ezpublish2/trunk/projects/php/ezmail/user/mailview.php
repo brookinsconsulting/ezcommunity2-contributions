@@ -1,5 +1,15 @@
 <?
+include_once( "classes/ezhttptool.php" );
 include_once( "ezmail/classes/ezmail.php" );
+
+if( isset( $Delete ) )
+{
+    $mail = new eZMail( $MailID );
+    $folderID = $mail->folder( false );
+    eZMail::delete( $MailID );
+    eZHTTPTool::header( "Location: /mail/folder/$folderID" );
+    exit();
+}
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZMailMain", "Language" ); 

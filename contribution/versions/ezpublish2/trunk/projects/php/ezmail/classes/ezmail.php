@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.5 2001/03/24 13:17:21 fh Exp $
+// $Id: ezmail.php,v 1.6 2001/03/24 21:52:48 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -500,7 +500,6 @@ class eZMail
     */
     function validate( $address )
     {
-        
         $pos = ( ereg('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+'.'@'.'[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.'.'[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$', $address) );
         
         return $pos;
@@ -523,6 +522,29 @@ class eZMail
         
         return $ret;    
     }
+
+    /*
+      Returns the first folder that this mail is a member of
+     */
+    function folder( $AsObject = true )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $res = array();
+        $this->Database->array_query( $res, "SELECT FolderID FROM eZMail_MailFolderLink WHERE MailID='$this->ID'" );
+
+        if( count( $res ) > 0 )
+        {
+            if( $AsObject == true )
+                return eZMailFolder( $res[0]["FolderID"] );
+
+            return $res[0]["FolderID"];
+        }
+
+        return false;
+    }
+
     
     /*!
       \private
