@@ -1,5 +1,5 @@
-<form method="get" action="/search/">
 <!-- goooooodbye worthless table, Love Dylan 
+<form method="get" action="/search/">
 <table width="100%" cellspacing="0" cellpadding="2" border="0" align="center">
   <tr>
    <!-- BEGIN header_item_tpl --\commentbreaklovedylan\>
@@ -8,12 +8,12 @@
     </td>
     <td align="right" height="19" width="50%"> 
 	&nbsp;
-	
     </td>
   </tr>
 </table>
--->
+
 </form>
+-->
 
 <br />
 
@@ -133,7 +133,11 @@
 	<table width="100%" cellspacing="0" cellpadding="4" border="0" >
 	<tr>
 		<td width="98%" valign="top" class="gcalEventTopBar">
+		<!--
 		<a class='gcalDayEventText' href="/groupeventcalendar/eventview/{event_id}/">{event_groupName} - {event_name}</a><br />
+-->
+		<a class='gcalDayEventText' href="/groupeventcalendar/eventview/{event_id}/">{event_name}</a><br />
+
 		</td>
 
 		<!-- BEGIN delete_check_tpl -->
