@@ -46,7 +46,7 @@
 	{article_name}
 	</a>
 	</td>
-	<td align="right">
+	<td class="small" align="right">
 	{article_published}
 	</td>
 </tr>
