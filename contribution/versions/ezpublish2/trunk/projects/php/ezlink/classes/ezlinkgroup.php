@@ -102,14 +102,14 @@ class eZLinkGroup
         $count = 0;
         $sibling_array = $this->getByParent( $id );
 
-        array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM Link WHERE LinkGroup='$id' AND Accepted='N'" );
+        array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM Link WHERE LinkGroup='$id' AND Accepted='Y'" );
         $count += $link_count[0][ "LinkCount" ];            
         
         for ( $i=0; $i<count( $sibling_array ); $i++ )
         {
             $group_id =  $sibling_array[ $i][ "ID" ];
             $count += $this->getTotalSubLinks( $group_id );
-            array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM Link WHERE LinkGroup='$group_id' AND Accepted='N'" );
+            array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM Link WHERE LinkGroup='$group_id' AND Accepted='Y'" );
             $count += $link_count[0][ "LinkCount" ];            
         }
         return $count;
