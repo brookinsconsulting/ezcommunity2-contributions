@@ -7,16 +7,16 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>
-	{intl-currency_name}
+	{intl-currency_name}:
 	</th>
 	<th>
-	{intl-currency_sign}
+	{intl-currency_sign}:
 	</th>
 	<th>
-	{intl-prefixed_currency_sign}
+	{intl-prefixed_currency_sign}:
 	</th>
 	<th>
-	{intl-currency_ratio}
+	{intl-currency_ratio}:
 	</th>
 <tr>
 
@@ -30,8 +30,8 @@
 	  <input type="text" size="6" name="CurrencySign[]" value="{currency_sign}" />
 	</td>
 	<td class="{td_class}">
-	  <input type="radio" name="CurrencyPrefix_{currency_id}[]" {currency_prefixed} value="1" />
-	  <input type="radio" name="CurrencyPrefix_{currency_id}[]" {currency_not_prefixed} value="0" />
+	  {intl-yes}: <input type="radio" name="CurrencyPrefix_{currency_id}[]" {currency_prefixed} value="1" />&nbsp;
+	  {intl-no}: <input type="radio" name="CurrencyPrefix_{currency_id}[]" {currency_not_prefixed} value="0" />
 	</td>
 	<td class="{td_class}">
 	  <input type="text" size="6" name="CurrencyValue[]" value="{currency_value}" />
