@@ -142,7 +142,9 @@ if ( $user )
                 unset( $menuItems );
                 include( "$module_dir/admin/menubox.php" );
                 if ( isset( $menuItems ) )
-                    eZMenuBox::createBox( $module, $module_dir, "admin", $SiteStyle, $menuItems );
+                    eZMenuBox::createBox( $module, $module_dir, "admin",
+                                          $SiteStyle, $menuItems, true, false,
+                                          "$module_dir/admin/menubox.php" );
             }
         }
 
