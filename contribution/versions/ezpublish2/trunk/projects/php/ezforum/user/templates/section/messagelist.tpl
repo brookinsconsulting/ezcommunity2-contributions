@@ -53,9 +53,9 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-    <th width="45%">{intl-topic}:</th>
-    <th width="25%">{intl-author}:</th>
-    <th width="29%"><div align="right">{intl-time}:</div></th>
+    <th width="55%">{intl-topic}:</th>
+    <th width="24%">{intl-author}:</th>
+    <th class="right" width="20%">{intl-time}:</th>
     <th width="1%"></th>
 </tr>
 
@@ -82,7 +82,7 @@
 	</table>
     </td>
     <td class="{td_class}">
-        {user}
+        <span class="small">{user}</span>
     </td>
     <td class="{td_class}" align="right">
         <span class="small">{postingtime}</span>
@@ -144,7 +144,9 @@
 
 </tr>
 </table>
+<br />
 <!-- END type_list_tpl -->
+
 
 <input class="stdbutton" type="submit" value="{intl-new-posting}" />
 </form>
