@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.28 2001/09/08 16:06:06 bf Exp $
+// $Id: categoryedit.php,v 1.29 2001/09/11 10:28:13 jhe Exp $
 //
 // Created on: <18-Sep-2000 14:46:19 bf>
 //
@@ -56,7 +56,7 @@ if ( ( $Action == "insert" ) || ( $Action == "update" ) )
 }
 
 // Get images from the image browse function.
-if ( ( isSet ( $AddImages ) ) and ( is_numeric( $CategoryID ) ) and ( is_numeric ( $ImageID ) ) )
+if ( ( isSet( $AddImages ) ) and ( is_numeric( $CategoryID ) ) and ( is_numeric( $ImageID ) ) )
 {
     $image = new eZImage( $ImageID );
     $category = new eZArticleCategory( $CategoryID );
@@ -72,7 +72,7 @@ if ( $Action == "insert" && !$error )
     $files = eZCacheFile::files( "ezarticle/cache/",
                                  array( "menubox", NULL, NULL, NULL ),
                                  "cache", "," );
-    foreach( $files as $file )
+    foreach ( $files as $file )
     {
         $file->delete();
     }
@@ -82,7 +82,7 @@ if ( $Action == "insert" && !$error )
     $category->setName( $Name );
     
     $parentCategory = new eZArticleCategory();
-    if (  $parentCategory->get( $ParentID ) == true )
+    if ( $parentCategory->get( $ParentID ) == true )
     {
         $category->setParent( $parentCategory );
     }    
@@ -90,7 +90,7 @@ if ( $Action == "insert" && !$error )
     $category->setDescription( $Description );
     $category->setSectionID( $SectionID );
     $category->setEditorGroup( $EditorGroupID );
-
+    $category->setListLimit( $ListLimit );
     $category->setSortMode( $SortMode );
     
     if ( $ExcludeFromSearch == "on" )
@@ -118,7 +118,7 @@ if ( $Action == "insert" && !$error )
     $category->store();
     $categoryID = $category->id();
 
-    if( isset( $BulkMailID ) && $BulkMailID != -1 )
+    if ( isset( $BulkMailID ) && $BulkMailID != -1 )
         $category->setBulkMailCategory( $BulkMailID );
     else
         $category->setBulkMailCategory( false );
@@ -127,16 +127,16 @@ if ( $Action == "insert" && !$error )
         $category->setImage( 0 );
 
     /* write access select */
-    if( isset( $WriteGroupArray ) )
+    if ( isset( $WriteGroupArray ) )
     {
-        if( $WriteGroupArray[0] == 0 )
+        if ( $WriteGroupArray[0] == 0 )
         {
             eZObjectPermission::setPermission( -1, $categoryID, "article_category", 'w' );
         }
         else
         {
             eZObjectPermission::removePermissions( $categoryID, "article_category", 'w' ); 
-            foreach( $WriteGroupArray as $groupID )
+            foreach ( $WriteGroupArray as $groupID )
             {
                 eZObjectPermission::setPermission( $groupID, $categoryID, "article_category", 'w' );
             }
@@ -150,7 +150,7 @@ if ( $Action == "insert" && !$error )
     /* read access thingy */
     if ( isset( $GroupArray ) )
     {
-        if( $GroupArray[0] == 0 )
+        if ( $GroupArray[0] == 0 )
         {
             eZObjectPermission::setPermission( -1, $categoryID, "article_category", 'r' );
         }
@@ -171,12 +171,12 @@ if ( $Action == "insert" && !$error )
     $files =& eZCacheFile::files( "ezarticle/cache/",
                                   array( "articlelist", $ParentID, NULL ),
                                   "cache", "," );
-    foreach( $files as $file )
+    foreach ( $files as $file )
     {
         $file->delete();
     }
 
-    if ( isSet ( $Browse ) )
+    if ( isSet( $Browse ) )
     {
         $session = eZSession::globalSession();
         $session->setVariable( "SelectImages", "single" );
@@ -196,7 +196,7 @@ if ( $Action == "update" && !$error )
     $files = eZCacheFile::files( "ezarticle/cache/",
                                  array( NULL, NULL, NULL, NULL ),
                                  "cache", "," );
-    foreach( $files as $file )
+    foreach ( $files as $file )
     {
         $file->delete();
     }
@@ -206,7 +206,7 @@ if ( $Action == "update" && !$error )
     $category->setName( $Name );
 
     $parentCategory = new eZArticleCategory();
-    if (  $parentCategory->get( $ParentID ) == true )
+    if ( $parentCategory->get( $ParentID ) == true )
     {
         $category->setParent( $parentCategory );
     }
@@ -214,10 +214,11 @@ if ( $Action == "update" && !$error )
     {
         $category->setParent( 0 );
     }
-        
+    
     $category->setDescription( $Description );
     $category->setSectionID( $SectionID );
     $category->setEditorGroup( $EditorGroupID );
+    $category->setListLimit( $ListLimit );
 
     $category->setSortMode( $SortMode );
 
@@ -246,7 +247,7 @@ if ( $Action == "update" && !$error )
 
 
 //    $ownerGroup = new eZUserGroup( $OwnerID );
-//    if( isset( $Recursive ) )
+//    if ( isset( $Recursive ) )
 //        $category->setOwnerGroup( $ownerGroup, true );
 //    else
 //        $category->setOwnerGroup( $ownerGroup, false );
@@ -254,15 +255,15 @@ if ( $Action == "update" && !$error )
     $categoryID = $category->id();
     /* write access select */
     eZObjectPermission::removePermissions( $categoryID, "article_category", 'w' ); //not really necessary..
-    if( isset( $WriteGroupArray ) )
+    if ( isset( $WriteGroupArray ) )
     {
-        if( $WriteGroupArray[0] == 0 )
+        if ( $WriteGroupArray[0] == 0 )
         {
             eZObjectPermission::setPermission( -1, $categoryID, "article_category", 'w' );
         }
         else
         {
-            foreach( $WriteGroupArray as $groupID )
+            foreach ( $WriteGroupArray as $groupID )
             {
                 eZObjectPermission::setPermission( $groupID, $categoryID, "article_category", 'w' );
             }
@@ -277,7 +278,7 @@ if ( $Action == "update" && !$error )
     eZObjectPermission::removePermissions( $categoryID, "article_category", 'r' ); 
     if ( isset( $GroupArray ) )
     {
-        if( $GroupArray[0] == 0 )
+        if ( $GroupArray[0] == 0 )
         {
             eZObjectPermission::setPermission( -1, $categoryID, "article_category", 'r' );
         }
@@ -296,7 +297,7 @@ if ( $Action == "update" && !$error )
     
     $category->store();
 
-    if( isset( $BulkMailID ) && $BulkMailID != -1 )
+    if ( isset( $BulkMailID ) && $BulkMailID != -1 )
         $category->setBulkMailCategory( $BulkMailID );
     else
         $category->setBulkMailCategory( false );
@@ -306,12 +307,12 @@ if ( $Action == "update" && !$error )
     $files =& eZCacheFile::files( "ezarticle/cache/",
                                   array( "articlelist", array( $CategoryID, $ParentID ), NULL ),
                                   "cache", "," );
-    foreach( $files as $file )
+    foreach ( $files as $file )
     {
         $file->delete();
     }
 
-    if ( isSet ( $Browse ) )
+    if ( isSet( $Browse ) )
     {
         $session = eZSession::globalSession();
         $session->setVariable( "SelectImages", "single" );
@@ -330,7 +331,7 @@ if ( $Action == "delete" )
     $files = eZCacheFile::files( "ezarticle/cache/",
                                  array( "menubox", NULL, NULL, NULL ),
                                  "cache", "," );
-    foreach( $files as $file )
+    foreach ( $files as $file )
     {
         $file->delete();
     }
@@ -342,7 +343,7 @@ if ( $Action == "delete" )
                                   array( "articlelist",
                                          array( $CategoryID, $category->parent( false ) ), NULL ),
                                   "cache", "," );
-    foreach( $files as $file )
+    foreach ( $files as $file )
     {
         $file->delete();
     }
@@ -358,7 +359,7 @@ $t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "Admi
 
 $t->setAllStrings();
 
-$t->set_file( array( "category_edit_tpl" => "categoryedit.tpl" ) );
+$t->set_file( "category_edit_tpl", "categoryedit.tpl" );
 
 
 $t->set_block( "category_edit_tpl", "value_tpl", "value" );
@@ -371,13 +372,13 @@ $t->set_block( "category_edit_tpl", "error_permission_tpl", "error_permission" )
 
 $t->set_block( "category_edit_tpl", "image_item_tpl", "image_item" );
 
-
 $category = new eZArticleCategory();
 
 $categoryArray = $category->getAll( );
 
-$t->set_var( "description_value", "$Description" );
-$t->set_var( "name_value", "$Name" );
+$t->set_var( "description_value", $Description );
+$t->set_var( "name_value", $Name );
+$t->set_var( "list_limit_value", $ListLimit );
 $t->set_var( "action_value", "insert" );
 $t->set_var( "exclude_checked", "" );
 $t->set_var( "all_selected", "selected" );
@@ -393,7 +394,7 @@ $readGroupsID = array();
 if ( $permissionError )
     $t->parse( "error_permission", "error_permission_tpl" );
 else
-$t->set_var( "error_permission", "" );
+    $t->set_var( "error_permission", "" );
 
 $t->set_var( "1_selected", "" );
 $t->set_var( "2_selected", "" );
@@ -408,6 +409,7 @@ if ( $Action == "edit" )
     $category->get( $CategoryID );
 
     $t->set_var( "name_value", $category->name() );
+    $t->set_var( "list_limit_value", $category->listLimit() ? $category->listLimit() : "" );
     $t->set_var( "description_value", $category->description() );
     $t->set_var( "action_value", "update" );
     $t->set_var( "category_id", $category->id() );
@@ -442,7 +444,7 @@ if ( $Action == "edit" )
 
     }
 
-    if( is_object( $parent ) )
+    if ( is_object( $parent ) )
     {
         $parentID = $parent->id();
     }
@@ -457,14 +459,14 @@ if ( $Action == "edit" )
 
     $editorGroupID = $category->editorGroup( false );
 
-    if( $writeGroupsID[0] != -1 )
+    if ( $writeGroupsID[0] != -1 )
         $t->set_var( "all_write_selected", "" );
-    if( $readGroupsID[0] != -1 )
+    if ( $readGroupsID[0] != -1 )
         $t->set_var( "all_selected", "" );
 
     // check bulkmail dep
     $bulkMailCategoryID = $category->bulkMailCategory( false );
-    if( $category == false )
+    if ( $category == false )
         $t->set_var( "no_bulkmail_selected", "selected" );
     else
         $t->set_var( "no_bulkmail_selected", "" );
@@ -475,9 +477,9 @@ $category = new eZArticleCategory();
 
 $tree = $category->getTree();
 
-foreach( $tree as $item )
+foreach ( $tree as $item )
 {
-    if( eZObjectPermission::hasPermission( $item[0]->id(), "article_category", 'w' ) && $CategoryID != $item[0]->id() )
+    if ( eZObjectPermission::hasPermission( $item[0]->id(), "article_category", 'w' ) && $CategoryID != $item[0]->id() )
     {
         $t->set_var( "option_value", $item[0]->id() );
         $t->set_var( "option_name", $item[0]->name() );
@@ -506,13 +508,13 @@ $group = new eZUserGroup();
 $groupList = $group->getAll();
 
 $t->set_var( "selected", "" );
-foreach( $groupList as $groupItem )
+foreach ( $groupList as $groupItem )
 {
     /* for the group owner selector */
     $t->set_var( "module_owner_id", $groupItem->id() );
     $t->set_var( "module_owner_name", $groupItem->name() );
 
-    if( in_array( $groupItem->id(), $writeGroupsID ) )
+    if ( in_array( $groupItem->id(), $writeGroupsID ) )
         $t->set_var( "is_selected", "selected" );
     else
         $t->set_var( "is_selected", "" );
@@ -523,7 +525,7 @@ foreach( $groupList as $groupItem )
     $t->set_var( "group_name", $groupItem->name() );
     $t->set_var( "group_id", $groupItem->id() );
 
-    if( in_array( $groupItem->id() , $readGroupsID ) )
+    if ( in_array( $groupItem->id() , $readGroupsID ) )
         $t->set_var( "selected", "selected" );
     else
         $t->set_var( "selected", "" );
@@ -536,7 +538,7 @@ foreach( $groupList as $groupItem )
 
     if ( $editorGroupID != 0 )
     {
-        if( $groupItem->id() == $editorGroupID )
+        if ( $groupItem->id() == $editorGroupID )
             $t->set_var( "editor_selected", "selected" );
         else
             $t->set_var( "editor_selected", "" );
@@ -549,9 +551,9 @@ foreach( $groupList as $groupItem )
 
 $sectionList =& eZSection::getAll();
 
-if ( count ( $sectionList ) > 0 )
+if ( count( $sectionList ) > 0 )
 {
-    foreach( $sectionList as $section )
+    foreach ( $sectionList as $section )
     {
         $t->set_var( "section_id", $section->id() );
         $t->set_var( "section_name", $section->name() );
@@ -565,16 +567,16 @@ if ( count ( $sectionList ) > 0 )
     }
 }
 else
-$t->set_var( "section_item", "" );
+    $t->set_var( "section_item", "" );
 
 // bulkmail selector
 $categories = eZBulkMailCategory::getAll();
-foreach( $categories as $categoryItem )
+foreach ( $categories as $categoryItem )
 {
     $t->set_var( "bulkmail_category_id", $categoryItem->id() );
     $t->set_var( "bulkmail_category_name", $categoryItem->name() );
 
-    if( isset( $bulkMailCategoryID ) && $bulkMailCategoryID == $categoryItem->id() )
+    if ( isset( $bulkMailCategoryID ) && $bulkMailCategoryID == $categoryItem->id() )
         $t->set_var( "bulkmail_selected", "selected" );
     else
         $t->set_var( "bulkmail_selected", "" );

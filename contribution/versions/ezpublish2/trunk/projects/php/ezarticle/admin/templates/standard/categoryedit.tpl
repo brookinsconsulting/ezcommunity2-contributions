@@ -16,7 +16,8 @@
 
 <input type="checkbox" name="ExcludeFromSearch" {exclude_checked} />
 <span class="boxtext">{intl-exclude_from_search}</span><br />
-
+<p class="boxtext">{intl-list_limit}:</p>
+<input type="text" size="2" name="ListLimit" value="{list_limit_value}" />
 <br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">

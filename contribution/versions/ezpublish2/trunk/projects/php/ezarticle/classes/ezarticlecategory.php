@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.94 2001/09/08 16:06:06 bf Exp $
+// $Id: ezarticlecategory.php,v 1.95 2001/09/11 10:28:13 jhe Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -80,7 +80,7 @@ class eZArticleCategory
             $res = $db->query( "INSERT INTO eZArticle_Category
             ( ID, Name, Description, ExcludeFromSearch,
               SortMode, Placement, OwnerID, SectionID,
-              ImageID, ParentID, EditorGroupID )
+              ImageID, ParentID, EditorGroupID, ListLimit )
             VALUES
             ( '$nextID',
               '$name',
@@ -92,8 +92,10 @@ class eZArticleCategory
               '$this->SectionID',
               '$this->ImageID',
               '$this->ParentID',
-              '$this->EditorGroupID')" );
+              '$this->EditorGroupID',
+              '$this->ListLimit')" );
             
+            $db->unlock();
 			$this->ID = $nextID;
         }
         else
@@ -108,11 +110,11 @@ class eZArticleCategory
                                  SectionID='$this->SectionID',
                                  ImageID='$this->ImageID',
                                  EditorGroupID='$this->EditorGroupID',
-                                 ParentID='$this->ParentID' WHERE ID='$this->ID'" );
+                                 ParentID='$this->ParentID',
+                                 ListLimit='$this->ListLimit'
+                                 WHERE ID='$this->ID'" );
         }
 
-        $db->unlock();
-    
         if ( $res == false )
             $db->rollback( );
         else
@@ -134,15 +136,13 @@ class eZArticleCategory
 
         $category = new eZArticleCategory( $catID );
         $categoryList = $category->getByParent( $category );
-        foreach( $categoryList as $categoryItem )
+        foreach ( $categoryList as $categoryItem )
         {
             eZArticleCategory::delete( $categoryItem->id() );
         }
 
-
-
         $categoryID = $category->id();
-        foreach( $category->articles() as $article )
+        foreach ( $category->articles() as $article )
         {
             $categoryDefinition = $article->categoryDefinition();
             if ( $categoryDefinition->id() == $category->id() )
@@ -176,19 +176,20 @@ class eZArticleCategory
             {
                 die( "Error: Category's with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $category_array ) == 1 )
+            else if ( count( $category_array ) == 1 )
             {
-                $this->ID = $category_array[0][$db->fieldName("ID")];
-                $this->Name = $category_array[0][$db->fieldName("Name")];
-                $this->Description = $category_array[0][$db->fieldName("Description")];
-                $this->ParentID = $category_array[0][$db->fieldName("ParentID")];
-                $this->ExcludeFromSearch = $category_array[0][$db->fieldName("ExcludeFromSearch")];
-                $this->SortMode = $category_array[0][$db->fieldName("SortMode")];
-                $this->OwnerID = $category_array[0][$db->fieldName("OwnerID")];
-                $this->Placement = $category_array[0][$db->fieldName("Placement")];
-                $this->SectionID = $category_array[0][$db->fieldName("SectionID")];
-                $this->ImageID = $category_array[0][$db->fieldName("ImageID")];
-                $this->EditorGroupID = $category_array[0][$db->fieldName("EditorGroupID")];
+                $this->ID = $category_array[0][$db->fieldName( "ID" )];
+                $this->Name = $category_array[0][$db->fieldName( "Name" )];
+                $this->Description = $category_array[0][$db->fieldName( "Description" )];
+                $this->ParentID = $category_array[0][$db->fieldName( "ParentID" )];
+                $this->ExcludeFromSearch = $category_array[0][$db->fieldName( "ExcludeFromSearch" )];
+                $this->SortMode = $category_array[0][$db->fieldName( "SortMode" )];
+                $this->OwnerID = $category_array[0][$db->fieldName( "OwnerID" )];
+                $this->Placement = $category_array[0][$db->fieldName( "Placement" )];
+                $this->SectionID = $category_array[0][$db->fieldName( "SectionID" )];
+                $this->ImageID = $category_array[0][$db->fieldName( "ImageID" )];
+                $this->EditorGroupID = $category_array[0][$db->fieldName( "EditorGroupID" )];
+                $this->ListLimit = $category_array[0][$db->fieldName( "ListLimit" )];
                 $ret = true;
             }
         }
@@ -232,11 +233,11 @@ class eZArticleCategory
         
         $name = $db->escapeString( $name );
 
-        if( $name != "" )
+        if ( $name != "" )
         {
             $db->array_query( $author_array, "SELECT * FROM eZArticle_Category WHERE Name='$name'" );
 
-            if( count( $author_array ) == 1 )
+            if ( count( $author_array ) == 1 )
             {
                 $category =& new eZArticleCategory( $author_array[0][$db->fieldName("ID")] );
             }
@@ -261,7 +262,7 @@ class eZArticleCategory
         if ( is_array( $name ) )
         {
             $searches = "";
-            foreach( $name as $n )
+            foreach ( $name as $n )
             {
                 $n = $db->escapeString( $n );
                 if ( $searches != "" )
@@ -270,7 +271,7 @@ class eZArticleCategory
             }
             $search = "$searches";
         }
-        else if( $name == "" )
+        else if ( $name == "" )
         {
             $search = "";
         }
@@ -281,7 +282,7 @@ class eZArticleCategory
         }
 
         $sortbySQL = "Name";
-        switch( $sortby )
+        switch ( $sortby )
         {
             case "name" : $sortbySQL = "Name"; break;
             case "placement" : $sortbySQL = "Placement"; break;
@@ -328,7 +329,7 @@ class eZArticleCategory
                            GROUP BY Category.ID, Category.Placement
                            ORDER BY $sortbySQL" );
 
-        foreach( $author_array as $author )
+        foreach ( $author_array as $author )
         {
             $topic[] =& new eZArticleCategory( $author[$db->fieldName("ID")] );
         }
@@ -351,7 +352,7 @@ class eZArticleCategory
             $user =& eZUser::currentUser();
             
             $sortbySQL = "Name";
-            switch( $sortby )
+            switch ( $sortby )
             {
                 case "name" : $sortbySQL = "Name"; break;
                 case "placement" : $sortbySQL = "Placement"; break;
@@ -634,7 +635,7 @@ class eZArticleCategory
     {
 	   if ( isset( $this->Name ) )
 	   {
-           if( $asHTML )
+           if ( $asHTML )
                return htmlspecialchars( $this->Name );
 
            return $this->Name;
@@ -659,6 +660,19 @@ class eZArticleCategory
 	       return;
     }
 
+    /*!
+      Returns the limit of article in list in this category
+    */
+    function listLimit()
+    {
+        if ( isset( $this->ListLimit ) )
+        {
+            return $this->ListLimit;
+        }
+        else
+            return;
+    }
+    
     /*!
       Returns the placement.
     */
@@ -732,13 +746,13 @@ class eZArticleCategory
      */
     function isOwner( $user, $categoryID )
     {
-        if( get_class( $user ) != "ezuser" )
+        if ( get_class( $user ) != "ezuser" )
             return false;
         
         $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT OwnerID from eZArticle_Category WHERE ID='$categoryID'");
         $ownerID = $res[$db->fieldName("OwnerID")];
-        if( $ownerID == $user->id() )
+        if ( $ownerID == $user->id() )
             return true;
 
         return false;
@@ -756,49 +770,49 @@ class eZArticleCategory
     */
     function sortMode( $return_id = false )
     {
-       switch( $this->SortMode )
-       {
-           case 1 :
-           {
-               $SortMode = "time";
-           }
-           break;
-           
-           case 2 :
-           {
-               $SortMode = "alpha";
-           }
-           break;
-           
-           case 3 :
-           {
-               $SortMode = "alphadesc";
-           }
-           break;
-           
-           case 4 :
-           {
-               $SortMode = "absolute_placement";
-           }
-           break;
-
-           case 5 :
-           {
-               $SortMode = "modification";
-           }
-           break;
-           
-           default :
-           {
-               $SortMode = "time";
-           }           
-       }
-
-       if ( $return_id == true )       
-           return $this->SortMode;
-       else
-           return $SortMode;
-           
+        switch ( $this->SortMode )
+        {
+            case 1 :
+            {
+                $SortMode = "time";
+            }
+            break;
+            
+            case 2 :
+            {
+                $SortMode = "alpha";
+            }
+            break;
+            
+            case 3 :
+            {
+                $SortMode = "alphadesc";
+            }
+            break;
+            
+            case 4 :
+            {
+                $SortMode = "absolute_placement";
+            }
+            break;
+            
+            case 5 :
+            {
+                $SortMode = "modification";
+            }
+            break;
+            
+            default :
+            {
+                $SortMode = "time";
+            }           
+        }
+        
+        if ( $return_id == true )       
+            return $this->SortMode;
+        else
+            return $SortMode;
+        
     }
 
     /*!
@@ -807,13 +821,13 @@ class eZArticleCategory
     */
     function excludeFromSearch( )
     {
-       $ret = false;
-       if ( $this->ExcludeFromSearch  == "1" )
-       {
-           $ret = true;
-       }
-
-       return $ret;
+        $ret = false;
+        if ( $this->ExcludeFromSearch  == "1" )
+        {
+            $ret = true;
+        }
+        
+        return $ret;
     }
     
 
@@ -826,6 +840,14 @@ class eZArticleCategory
         $this->Name = $value;
     }
 
+    /*!
+      Sets the limit of article per page in this category
+    */
+    function setListLimit( $value )
+    {
+        $this->ListLimit = $value;
+    }
+    
     /*!
       Sets the placement of the category.
     */
@@ -847,10 +869,10 @@ class eZArticleCategory
     */
     function setImage( $value )
     {
-       if ( get_class( $value ) == "ezimage" )
-           $value = $value->id();
-       
-       $this->ImageID = $value;
+        if ( get_class( $value ) == "ezimage" )
+            $value = $value->id();
+        
+        $this->ImageID = $value;
     }
 
     /*!
@@ -866,50 +888,50 @@ class eZArticleCategory
     */
     function setParent( $value )
     {
-       if ( get_class( $value ) == "ezarticlecategory" )
-       {
-           $this->ParentID = $value->id();
-       }
-       else
-       {
-           $this->ParentID = $value;
-           setType( $this->ParentID, "integer" );
-           
-       }
+        if ( get_class( $value ) == "ezarticlecategory" )
+        {
+            $this->ParentID = $value->id();
+        }
+        else
+        {
+            $this->ParentID = $value;
+            setType( $this->ParentID, "integer" );
+            
+        }
     }
-
+    
     /*!
       Sets the editor group.
     */
     function setEditorGroup( $value )
     {
-       if ( get_class( $value ) == "ezusergroup" )
-       {
-           $this->EditorGroupID = $value->id();
-       }
-       else
-       {
-           $this->EditorGroupID = $value;
-           setType( $this->EditorGroupID, "integer" );
-           
-       }
+        if ( get_class( $value ) == "ezusergroup" )
+        {
+            $this->EditorGroupID = $value->id();
+        }
+        else
+        {
+            $this->EditorGroupID = $value;
+            setType( $this->EditorGroupID, "integer" );
+            
+        }
     }
-
+    
     /*!
       Sets the owner of this category.
     */
     function setOwner( $value )
     {
-       if ( get_class( $value ) == "ezuser" )
-       {
-           $this->OwnerID = $value->id();
-       }
-       else
-       {
-           $this->OwnerID = $value;
-       }
+        if ( get_class( $value ) == "ezuser" )
+        {
+            $this->OwnerID = $value->id();
+        }
+        else
+        {
+            $this->OwnerID = $value;
+        }
     }
-
+    
     
     /*!
       Sets the sort mode.
@@ -921,7 +943,7 @@ class eZArticleCategory
     */
     function setSortMode( $value )
     {
-       $this->SortMode = $value;
+        $this->SortMode = $value;
     }
     
     /*!
@@ -930,14 +952,14 @@ class eZArticleCategory
     */
     function setExcludeFromSearch( $value )
     {
-       if ( $value == true )
-       {
-           $this->ExcludeFromSearch = "1";
-       }
-       else
-       {
-           $this->ExcludeFromSearch = "0";
-       }
+        if ( $value == true )
+        {
+            $this->ExcludeFromSearch = "1";
+        }
+        else
+        {
+            $this->ExcludeFromSearch = "0";
+        }
     }
    
     /*!
@@ -953,10 +975,10 @@ class eZArticleCategory
             $articleID = $value;
         else
             return false;
-
+        
         if ( !$categoryid )
             $categoryid = $this->ID;
-
+        
         $db =& eZDB::globalDatabase();
         $query = "DELETE FROM eZArticle_ArticleCategoryLink
                   WHERE CategoryID='$categoryid' AND
@@ -1036,7 +1058,7 @@ class eZArticleCategory
     {
         $db =& eZDB::globalDatabase();
 
-       switch( $sortMode )
+       switch ( $sortMode )
        {
            case "time" :
            {
@@ -1160,12 +1182,12 @@ class eZArticleCategory
        }
        else
        {
-           $db->array_query( $article_array, $query, array ( "Limit" => $limit, "Offset" => $offset ) );
+           $db->array_query( $article_array, $query, array( "Limit" => $limit, "Offset" => $offset ) );
        }
  
-       for ( $i=0; $i < count($article_array); $i++ )
+       for ( $i=0; $i < count( $article_array ); $i++ )
        {
-           $return_array[$i] = new eZArticle( $article_array[$i][$db->fieldName("ArticleID")] );
+           $return_array[$i] = new eZArticle( $article_array[$i][$db->fieldName( "ArticleID" )] );
        }
 
        return $return_array;
@@ -1428,13 +1450,13 @@ class eZArticleCategory
      */
     function setBulkMailCategory( $value )
     {
-        if( get_class( $value ) == "ezbulkmailcategory" )
+        if ( get_class( $value ) == "ezbulkmailcategory" )
             $value = $value->id();
 
         $db =& eZDB::globalDatabase();
         $db->query( "DELETE FROM eZArticle_BulkMailCategoryLink WHERE ArticleCategoryID='$this->ID'" );
 
-        if( $value != false )
+        if ( $value != false )
             $db->query( "INSERT INTO eZArticle_BulkMailCategoryLink SET ArticleCategoryID='$this->ID', BulkMailCategoryID='$value'" );
     }
 
@@ -1448,7 +1470,7 @@ class eZArticleCategory
         $result = false;
         $db->array_query( $result_array, "SELECT BulkMailCategoryID FROM eZArticle_BulkMailCategoryLink WHERE ArticleCategoryID='$this->ID'" );
 
-        if( count( $result_array ) > 0 )
+        if ( count( $result_array ) > 0 )
             $result = ( $asObject == true ) ? new eZBulkMailCategory( $result_array[0][$db->fieldName("BulkMailCategoryID")] ) :  $result_array[0][$db->fieldName("BulkMailCategoryID")];
 
         return $result;
@@ -1456,6 +1478,7 @@ class eZArticleCategory
   
     var $ID;
     var $Name;
+    var $ListLimit;
     var $ParentID;
     var $Description;
     var $ExcludeFromSearch;
