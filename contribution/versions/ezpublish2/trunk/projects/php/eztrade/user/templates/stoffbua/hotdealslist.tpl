@@ -1,4 +1,4 @@
-<h2>{intl-hot_deals}:</h2>
+<!-- <h1>{intl-hot_deals}</h1> -->
 
 <hr noshade="noshade" size="4" />
 <!-- BEGIN category_list_tpl -->
@@ -6,7 +6,7 @@
 
 <!-- BEGIN product_list_tpl -->
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
 
 <!-- BEGIN product_tpl -->
 {begin_tr}

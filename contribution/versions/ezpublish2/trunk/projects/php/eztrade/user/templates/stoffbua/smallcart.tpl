@@ -22,7 +22,7 @@
 <!-- BEGIN cart_item_tpl -->
 <tr>
 	<td colspan="4" class="{td_class}">
-	<a class="menulink" href="/trade/productview/{product_id}/">{product_name}</a>
+	<a class="menucart" href="/trade/productview/{product_id}/">{product_name}</a>
 	<div class="small" align="right">{product_price}</div>
 	</td>
 
