@@ -38,4 +38,4 @@ U P G R A D E:
 --------------
 
 For information about how you can upgrade your database to fit a new eZ publish release
-consult the SQL_UPDATES file.
+consult the files ending with sql in the directories in the upgrade directory.
