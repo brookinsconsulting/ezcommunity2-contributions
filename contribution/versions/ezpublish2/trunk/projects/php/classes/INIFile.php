@@ -102,7 +102,9 @@ class INIFile
                 reset( $groupVal );
                 while ( list( $key, $val ) = each ( $groupVal ) )
                 {
-                    $buffer .= "\$Array_". $i . "[\"$key\"] = \"$val\";\n";
+                    $tmpVal = str_replace( "\"", "\\\"", $val );
+
+                    $buffer .= "\$Array_". $i . "[\"$key\"] = \"$tmpVal\";\n";
                 }
 
                 $buffer .= "\$this->GROUPS[\"$groupKey\"] =& \$Array_". $i .";\n";
