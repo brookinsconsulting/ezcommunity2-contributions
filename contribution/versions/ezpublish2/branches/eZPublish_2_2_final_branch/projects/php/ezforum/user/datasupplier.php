@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.23.2.1 2001/10/22 12:55:38 jhe Exp $
+// $Id: datasupplier.php,v 1.23.2.2 2002/01/04 14:29:07 kaid Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -190,7 +190,7 @@ switch ( $url_array[2] )
         
     case "search" :
     {
-        if ( $url_array[3] == "parent" )
+        if ( isset( $url_array[3] ) and $url_array[3] == "parent" )
         {
             $QueryString = urldecode( $url_array[4] );
             $Offset = $url_array[5];
