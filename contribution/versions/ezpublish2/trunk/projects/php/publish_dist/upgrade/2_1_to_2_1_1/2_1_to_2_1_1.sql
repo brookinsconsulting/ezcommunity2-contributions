@@ -685,6 +685,42 @@ update eZBulkMail_Forgot set TimeTmp= UNIX_TIMESTAMP( Time );
 alter table eZBulkMail_Forgot drop Time; 
 alter table eZBulkMail_Forgot change TimeTmp Time int; 
 
+
+## fulltext search index tables
+Create table eZArticle_Word
+( 
+  ID int not null,
+   Word varchar(50) not null,
+   PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZArticle_ArticleWordLink
+(
+	ArticleID int not null,
+	WordID int not null
+);
+
+
+CREATE INDEX ArticleWord_Word ON eZArticle_Word (Word);
+CREATE INDEX ArticleWordLink_ArticleID ON eZArticle_ArticleWordLink (ArticleID);
+CREATE INDEX ArticleWordLink_WordID ON eZArticle_ArticleWordLink (WordID);
+
+CREATE INDEX ArticlePermissionObjectID ON eZArticle_ArticlePermission (ObjectID);
+CREATE INDEX ArticlePermissionGroupID ON eZArticle_ArticlePermission (GroupID);
+CREATE INDEX ArticlePermissionWritePermission ON eZArticle_ArticlePermission (WritePermission);
+CREATE INDEX ArticlePermissionReadPermission ON eZArticle_ArticlePermission (ReadPermission);
+
+
+CREATE INDEX Article_Name ON eZArticle_Article (Name);
+CREATE INDEX Article_Published ON eZArticle_Article (Published);
+
+CREATE INDEX Link_ArticleID ON eZArticle_ArticleCategoryLink (ArticleID);
+CREATE INDEX Link_CategoryID ON eZArticle_ArticleCategoryLink (CategoryID);
+CREATE INDEX Link_Placement ON eZArticle_ArticleCategoryLink (Placement);
+
+CREATE INDEX Def_ArticleID ON eZArticle_ArticleCategoryDefinition (ArticleID);
+CREATE INDEX Def_CategoryID ON eZArticle_ArticleCategoryDefinition (CategoryID);
+
 # eZ mediacatalogue
 
 DROP TABLE IF EXISTS eZMediaCatalouge_Category;
