@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: folderedit.php,v 1.22 2001/05/08 08:16:23 fh Exp $
+// $Id: folderedit.php,v 1.23 2001/05/10 14:56:51 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -36,7 +36,7 @@ include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 //om folder ID finnes 
 

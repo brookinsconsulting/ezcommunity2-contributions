@@ -387,8 +387,11 @@ switch ( $url_array[2] )
     }
     
     default :
-        print( "<h1>Sorry, Your PRODUCT page could not be found. </h1>" );
-        break;
+    {
+        eZHTTPTool::header( "Location: /error/404" );
+        exit();
+    }
+    break;
 }
 
 ?>

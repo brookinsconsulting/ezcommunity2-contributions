@@ -21,7 +21,14 @@ alter table eZUser_Group add IsRoot int(1) default '0';
 #
 alter table eZArticle_Category add SectionID int not null; 
 
-create table eZSection_Section( ID int primary key auto_increment, Name char(200) );  
+CREATE TABLE eZSiteManager_Section (
+  ID int(11) NOT NULL auto_increment,
+  Name varchar(200) default NULL,
+  Created timestamp(14) NOT NULL,
+  Description text,
+  SiteDesign varchar(30) default NULL,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
 
 ALTER TABLE eZTrade_Link ADD ModuleType int(11) NOT NULL;
 CREATE TABLE eZModule_LinkModuleType
@@ -60,3 +67,6 @@ alter table eZTrade_CartOptionValue add RemoteID varchar(100);
 ALTER TABLE eZTrade_Product MODIFY Price float(10,5);
 
 insert into eZUser_Permission set ModuleID='12', Name='WriteToRoot';
+
+insert into eZUser_Module set Name='eZSiteManager';    
+insert into eZUser_Permission set ModuleID='16', Name='ModuleEdit';   

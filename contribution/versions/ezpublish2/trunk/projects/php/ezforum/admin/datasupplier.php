@@ -172,8 +172,11 @@ switch ( $url_array[2] )
     break;
 
     default :
-        print( "<h1>Sorry, Your link page could not be found. </h1>" );
-        break;
+    {
+        eZHTTPTool::header( "Location: /error/404" );
+        exit();
+    }
+    break;
 }
 
 ?>
