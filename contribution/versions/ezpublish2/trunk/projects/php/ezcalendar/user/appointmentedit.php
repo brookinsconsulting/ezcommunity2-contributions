@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.24 2001/01/25 14:04:58 gl Exp $
+// $Id: appointmentedit.php,v 1.25 2001/01/25 16:21:02 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -67,6 +67,17 @@ else if ( isSet( $GoYear ) )
     $year = $session->variable( "Year" );
 
     eZHTTPTool::header( "Location: /calendar/yearview/$year" );
+    exit();
+}
+else if ( isSet( $GoToday ) )
+{
+    $today = new eZDate();
+
+    $year = addZero( $today->year() );
+    $month = addZero( $today->month() );
+    $day = addZero( $today->day() );
+
+    eZHTTPTool::header( "Location: /calendar/dayview/$year/$month/$day" );
     exit();
 }
 
