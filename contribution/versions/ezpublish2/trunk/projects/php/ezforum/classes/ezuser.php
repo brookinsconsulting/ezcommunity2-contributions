@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezuser.php,v 1.11 2000/07/25 11:43:57 lw Exp $
+    $Id: ezuser.php,v 1.12 2000/07/25 11:58:43 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -524,23 +524,22 @@ class eZUser {
 
     function resolveUser( $Id )
     {
-       openDB();
+        openDB();
 
-       if ( ( $Id ) && ( $Id != 0 ) )
-{
-       $q = mysql_query( "SELECT nick_name, first_name, last_name FROM UserTable WHERE Id = $Id " )
-            or die("Could not resolve user name, dying...");
-}
-else
-{
-  return "Anonym";
-}
-       $name = mysql_fetch_array( $q );
-       if ( $name["nick_name"] == "")
-          return ( $name["first_name"] . " " . $name["last_name"] );
-       else
-          return $name["nick_name"];
-
+        if ( ( $Id ) && ( $Id != 0 ) )
+        {
+            $q = mysql_query( "SELECT nick_name, first_name, last_name FROM UserTable WHERE Id = $Id " )
+                 or die("Could not resolve user name, dying...");
+        }
+        else
+        {
+            return "Anonym";
+        }
+        $name = mysql_fetch_array( $q );
+        if ( $name["nick_name"] == "")
+            return ( $name["first_name"] . " " . $name["last_name"] );
+        else
+            return $name["nick_name"];
     }
 
     function getByAuthHash( $AuthHash )

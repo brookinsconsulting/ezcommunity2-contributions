@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.2 2000/07/19 12:36:55 lw-cvs Exp $
+    $Id: message.php,v 1.3 2000/07/25 11:58:43 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -19,10 +19,14 @@ $usr = new eZUser;
 $t = new Template(".");
     
 $t->set_file( array("message" => "$DOCROOT/templates/message.tpl",
-                        "elements" => "$DOCROOT/templates/message-elements.tpl") );
+                    "elements" => "$DOCROOT/templates/message-elements.tpl",
+                    "navigation" => "$DOCROOT/templates/navigation.tpl",
+                    "navigation-bottom" => "navigation-bottom.tpl" ) );
 
 $t->set_var( "docroot", $DOCROOT);
 $t->set_var( "category_id", $category_id);
+
+$t->parse( "navigation-bar", "navigation", true );
 
 $msg->get( $message_id );
     
@@ -58,6 +62,14 @@ else
         $t->parse("replies", "elements", true);
     }
 }
+
+$t->set_var( "link1-url", "main.php");
+$t->set_var( "link1-caption", "Gå til topp");
+$t->set_var( "link2-url", "search.php");
+$t->set_var( "link2-caption", "Søk");
+
+$t->set_var( "back-url", "forum.php");
+$t->parse( "navigation-bar-bottom", "navigation-bottom", true);
     
 $t->pparse("output","message");
-?> 
+?>
