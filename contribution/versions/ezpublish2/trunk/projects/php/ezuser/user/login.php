@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.9 2000/11/03 10:39:35 ce-cvs Exp $
+// $Id: login.php,v 1.10 2000/11/07 13:31:50 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -45,7 +45,6 @@ if ( isSet( $Forgot ) )
 
 if ( isSet( $Register ) )
 {
-    print( "wg!" );
     Header( "Location: /user/userwithaddress/new/" );
     exit();
 }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userbox.php,v 1.6 2000/10/30 11:33:37 ce-cvs Exp $
+// $Id: userbox.php,v 1.7 2000/11/07 13:31:50 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -36,7 +36,6 @@ include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezmodule.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezsession/classes/ezsession.php" );
-
 
 $user = eZUser::currentUser();
 if ( !$user ) 
