@@ -81,7 +81,7 @@
     <!-- BEGIN message_item_tpl -->
 <tr>
     	<td class="{td_class}">
-	   {spacer}
+	   {spacer}&nbsp;
 	<a href="/forum/message/{message_id}/">
 	{reply_topic}
 	</a>
