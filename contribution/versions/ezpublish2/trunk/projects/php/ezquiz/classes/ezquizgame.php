@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizgame.php,v 1.6 2001/05/29 09:07:05 ce Exp $
+// $Id: ezquizgame.php,v 1.7 2001/05/30 07:31:31 ce Exp $
 //
 // ezquizgame class
 //
@@ -166,23 +166,34 @@ class eZQuizGame
 
       The categories are returned as an array of eZQuizGame objects.
     */
-    function getAll( $offset=0, $limit=20)
+    function &getAll( $offset=0, $limit=20 )
     {
         $db =& eZDB::globalDatabase();
         
         $returnArray = array();
         $quizArray = array();
-        
-        $db->array_query( $quizArray, "SELECT ID
+
+        if ( $limit == false )
+        {
+            $db->array_query( $quizArray, "SELECT ID
+                                           FROM eZQuiz_Game
+                                           ORDER BY StartDate DESC
+                                           " );
+
+        }
+        else
+        {
+            $db->array_query( $quizArray, "SELECT ID
                                            FROM eZQuiz_Game
                                            ORDER BY StartDate DESC
                                            LIMIT $offset, $limit" );
-        
+        }
+
         for ( $i=0; $i < count($quizArray); $i++ )
         {
             $returnArray[$i] = new eZQuizGame( $quizArray[$i]["ID"] );
         }
-        
+
         return $returnArray;
     }
 
@@ -211,7 +222,7 @@ class eZQuizGame
     /*!
       Returns the name of the game.
     */
-    function name()
+    function &name()
     {
         return htmlspecialchars( $this->Name );
     }
@@ -219,7 +230,7 @@ class eZQuizGame
     /*!
       Returns the description of the game.
     */
-    function description()
+    function &description()
     {
         return htmlspecialchars( $this->Description );
     }
@@ -227,7 +238,7 @@ class eZQuizGame
     /*!
       Returns the start date of the game.
     */
-    function startDate()
+    function &startDate()
     {
         return $this->StartDate;
     }
@@ -235,7 +246,7 @@ class eZQuizGame
     /*!
       Returns the stop date of the game.
     */
-    function stopDate()
+    function &stopDate()
     {
         return $this->StopDate;
     }
@@ -278,7 +289,7 @@ class eZQuizGame
       Returns every questions to this quiz game
       The questions is returned as an array of eZQuizQuestion objects.
     */
-    function questions()
+    function &questions()
     {
         $returnArray = array();
         $db =& eZDB::globalDatabase();
@@ -295,7 +306,7 @@ class eZQuizGame
       Returns a specific question based on the placement (number)
       The question is returned as eZQuizQuestion objects.
     */
-    function question( $placement )
+    function &question( $placement )
     {
         $db =& eZDB::globalDatabase();
         $db->query_single( $question, "SELECT ID FROM eZQuiz_Question WHERE GameID='$this->ID' AND Placement='$placement'" );
@@ -310,7 +321,7 @@ class eZQuizGame
     /*!
       Returns the number of questions to this quiz game
     */
-    function numberOfQuestions()
+    function &numberOfQuestions()
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
@@ -324,7 +335,7 @@ class eZQuizGame
     /*!
       Returns the number of players for this quiz game
     */
-    function numberOfPlayers()
+    function &numberOfPlayers()
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
@@ -338,7 +349,7 @@ class eZQuizGame
     /*!
       Returns all the open games
     */
-    function openGames( $offset = 0, $limit = 20 )
+    function &openGames( $offset = 0, $limit = 20 )
     {
         $db =& eZDB::globalDatabase();
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: gameedit.php,v 1.5 2001/05/29 09:07:05 ce Exp $
+// $Id: gameedit.php,v 1.6 2001/05/30 07:31:31 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <22-May-2001 13:44:13 ce>
@@ -33,7 +33,7 @@ include_once( "ezquiz/classes/ezquiztool.php" );
 
 if ( isSet ( $OK ) )
 {
-    $Action = "Update";
+    $Action = "Insert";
 }
 
 if ( isSet ( $Delete ) )
@@ -70,7 +70,6 @@ if ( isSet ( $DeleteQuestions ) )
     }
 }
 
-
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZQuizMain", "Language" );
 
@@ -84,6 +83,7 @@ $t->set_file( array(
 
 $t->set_block( "game_edit_page", "question_list_tpl", "question_list" );
 $t->set_block( "question_list_tpl", "question_item_tpl", "question_item" );
+$t->set_block( "game_edit_page", "error_date_tpl", "error_date" );
 
 $t->set_var( "game_name", "$Name" );
 $t->set_var( "game_description", "$Description" );
@@ -97,16 +97,12 @@ $t->set_var( "stop_day", "$StopDay" );
 $t->set_var( "stop_year", "$StopYear" );
 
 $t->set_var( "game_id", "$GameID" );
+$t->set_var( "error_date", "" );
 
-if ( ( $Action == "Insert" ) || ( $Action == "Update" ) && ( $user ) )
+$error = false;
+$checkDate = true;
+if ( ( $Action == "Insert" ) )
 {
-    if ( is_numeric( $GameID ) )
-        $game = new eZQuizGame( $GameID);
-    else
-        $game = new eZQuizGame();
-    $game->setName( $Name );
-    $game->setDescription( $Description );
-
     $startDate = new eZDate();
     $startDate->setMonth( $StartMonth );
     $startDate->setDay( $StartDay );
@@ -116,6 +112,50 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) && ( $user ) )
     $stopDate->setMonth( $StopMonth );
     $stopDate->setDay( $StopDay );
     $stopDate->setYear( $StopYear );
+
+    if ( $checkDate )
+    {
+        $checkList =& eZQuizGame::getAll( false, false );
+
+        foreach( $checkList as $checkItem )
+        {
+            if ( $GameID == $checkItem->id() )
+            {
+            }
+            else
+            {
+                $stopDateCheck =& $checkItem->stopDate();
+                if ( $startDate->isGreater( $stopDateCheck, true ) )
+                {
+                    $startDateCheck =& $checkItem->startDate();
+                    
+                    $t->set_var( "error_game_start_day", $startDateCheck->day() );
+                    $t->set_var( "error_game_start_month", $startDateCheck->month() );
+                    $t->set_var( "error_game_start_year", $startDateCheck->year() );
+                    $t->set_var( "error_game_stop_day", $stopDateCheck->day() );
+                    $t->set_var( "error_game_stop_month", $stopDateCheck->month() );
+                    $t->set_var( "error_game_stop_year", $stopDateCheck->year() );
+                    
+                    $t->set_var( "error_game_name", $checkItem->name() );
+                    $t->set_var( "error_game_id", $checkItem->id() );
+                    $t->parse( "error_date", "error_date_tpl" );
+                    $error = true;
+                }
+            }
+        }
+    }
+}
+
+
+
+if ( ( $Action == "Insert" ) && ( $error == false ) )
+{
+    if ( is_numeric( $GameID ) )
+        $game = new eZQuizGame( $GameID);
+    else
+        $game = new eZQuizGame();
+    $game->setName( $Name );
+    $game->setDescription( $Description );
 
     $game->setStartDate( $startDate );
     $game->setStopDate( $stopDate );
@@ -141,8 +181,6 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) && ( $user ) )
         eZHTTPTool::header( "Location: /quiz/game/list/" );
         exit();
     }
-    
-    
 }
 
 if ( $Action == "Delete" )

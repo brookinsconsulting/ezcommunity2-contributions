@@ -4,6 +4,10 @@
 
 <hr noshade="noshade" size="4" />
 
+<!-- BEGIN error_date_tpl -->
+<p class="error">{intl-this_game_crash_with} {error_game_name} - ({error_game_start_day}-{error_game_start_month}-{error_game_start_year} / {error_game_stop_day}-{error_game_stop_month}-{error_game_stop_year})</p>
+<!-- END error_date_tpl -->
+
 <p class="boxtext">{intl-name}:</p>
 <input class="box" type="text" size="40" name="Name" value="{game_name}" />
 <br /><br />
