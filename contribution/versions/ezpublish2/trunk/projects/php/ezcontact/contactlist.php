@@ -34,6 +34,7 @@ else
 if ( count( $company_array ) == 0 )
     $t->set_var( "company_list", "<h2>Ingen treff.</h2>", true );
 
+$color_count = 0;
 for ( $i=0; $i<count( $company_array ); $i++ )
 {
  // sjekke rettigheter for sletting av firma og person
@@ -52,13 +53,13 @@ for ( $i=0; $i<count( $company_array ); $i++ )
       $usrGroup->get( $usr->group() );
   }
     
-  if ( ( $i % 2 ) == 0 )
+  if ( ( $color_count % 2 ) == 0 )
   {
-    $t->set_var( "bg_color", "#eeeedd" );
+    $t->set_var( "bg_color", "#F0F0F0" );
   }
   else
   {
-    $t->set_var( "bg_color", "#ddddcc" );
+    $t->set_var( "bg_color", "#DCDCDC" );
   }
   $cid = $company_array[$i][ "ID" ];
   $t->set_var( "company_id", $cid );
@@ -79,15 +80,17 @@ for ( $i=0; $i<count( $company_array ); $i++ )
           $person_array = $person->getByCompany( $cid );
       }
 
+      
       for ( $j=0; $j<count( $person_array ); $j++ )
       {
-          if ( ( $j % 2 ) == 0 )      
+          $color_count++;
+          if ( ( $color_count % 2 ) == 0 )      
           {
-              $t->set_var( "person_bg_color", "#ddeeee" );
+              $t->set_var( "person_bg_color", "#F0F0F0" );
           }
           else
           {
-              $t->set_var( "person_bg_color", "#ccdddd" );
+              $t->set_var( "person_bg_color", "#DCDCDC" );
           }
   
           $t->set_var( "person_id", $person_array[$j][ "ID" ] );
@@ -98,12 +101,13 @@ for ( $i=0; $i<count( $company_array ); $i++ )
           // utøve rettigheter
           if ( $usrGroup->personDelete() == 'Y' )
           {
-              $t->set_var( "delete_person", "<a href=\"#\" onClick=\"verify( 'Slette kontakt person?', 'index.php?prePage=" . $DOCUMENTROOT . "personedit.php&Action=delete&PID=" .  $person_array[$j][ "ID" ] . "'); return false;\">Slette person</a>" );
+              $t->set_var( "delete_person", "<a href=\"#\" onClick=\"verify( 'Slette kontakt person?', 'index.php?prePage=" . $DOCUMENTROOT . "personedit.php&Action=delete&PID=" .  $person_array[$j][ "ID" ] . "'); return false;\"><img src=\"" . $DOCUMENTROOT ."images/slettmini.gif\" width=\"16\" height=\"16\"  border=\"0\"></a>" );
           }
           else
           {
               $t->set_var( "delete_person", "" );
-          }          
+          }
+
           $t->parse( "person_list", "person_item", true );          
       }
   }
@@ -111,12 +115,14 @@ for ( $i=0; $i<count( $company_array ); $i++ )
   // utøve rettigheter
   if ( $usrGroup->companyDelete() == 'Y' )
   {
-      $t->set_var( "delete_company", "<a href=\"#\" onClick=\"verify( 'Slette firma?', 'index.php?prePage=" . $DOCUMENTROOT . "companyedit.php&Action=delete&CID=" . $cid . "'); return false;\">Slette firma</a>" );
+      $t->set_var( "delete_company", "<a href=\"#\" onClick=\"verify( 'Slette firma?', 'index.php?prePage=" . $DOCUMENTROOT .  "companyedit.php&Action=delete&CID=" . $cid . "'); return false;\"><img src=\"" . $DOCUMENTROOT ."images/slettmini.gif\" width=\"16\" height=\"16\"  border=\"0\"></a>" );
   }
   else
   {
       $t->set_var( "delete_company", "" );
   }
+
+  $color_count++;
 
   $t->parse( "company_list", "company_item", true );
   $t->set_var( "person_list", "" );
