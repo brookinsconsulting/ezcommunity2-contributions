@@ -1,21 +1,15 @@
 <?
-if ( $ReturnCatalogues == true )
+switch ( $RequestType )
 {
-    $Catalogues[] = new eZXMLRPCString( "categorylist" );
-}
-else
-{
-    switch ( $RequestType )
+    case "category" :
     {
-        case "category" :
+        switch( $Command )
         {
-            switch( $Command )
+            case "list":
             {
-                case "list":
-                {
-                    include( "ezimagecatalogue/xmlrpc/categorylist.php" );
-                    break;
-                }
+                include( "ezimagecatalogue/xmlrpc/categorylist.php" );
+                break;
+            }
 //                  case "data":
 //                  case "storedata":
 //                  case "delete":
@@ -23,33 +17,32 @@ else
 //                      include( "ezarticle/xmlrpc/category.php" );
 //                      break;
 //                  }
-                default:
-                    $Error = true;
-            }
-        } break;
-
-        case "image" :
-        {
-            switch( $Command )
-            {
-                case "data":
-                case "storedata":
-                case "delete":
-                {
-                    include( "ezimagecatalogue/xmlrpc/image.php" );
-                    break;
-                }
-                default:
-                    $Error = true;
-            }
+            default:
+                $Error = true;
         }
-        break;
-        
-        default :
+    } break;
+
+    case "image" :
+    {
+        switch( $Command )
         {
-            $Error = true;
-        } break;
+            case "data":
+            case "storedata":
+            case "delete":
+            {
+                include( "ezimagecatalogue/xmlrpc/image.php" );
+                break;
+            }
+            default:
+                $Error = true;
+        }
     }
+    break;
+        
+    default :
+    {
+        $Error = true;
+    } break;
 }
 
 ?>

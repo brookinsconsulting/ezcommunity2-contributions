@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcarray.php,v 1.7 2001/06/29 12:11:16 bf Exp $
+// $Id: ezxmlrpcarray.php,v 1.8 2001/07/03 15:17:38 jb Exp $
 //
 // Definition of eZXMLRPCArray class
 //
@@ -83,7 +83,7 @@ class eZXMLRPCArray
     */
     function &serialize( )
     {
-        $ret .= $this->serializeArray( $this->Array, $this->Type, $this->Recursive );        
+        $ret = $this->serializeArray( $this->Array, $this->Type, $this->Recursive );        
         return $ret;
     }
 
@@ -116,7 +116,7 @@ class eZXMLRPCArray
     */
     function serializeArray( $array, $type = false, $rec = false )
     {
-        $ret .= "<value><array><data>";
+        $ret = "<value><array><data>";
         foreach ( $array as $value )
         {
             $val_type = gettype($value);

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: image.php,v 1.2 2001/06/28 10:31:50 jb Exp $
+// $Id: image.php,v 1.3 2001/07/03 15:17:09 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <14-Jun-2001 13:18:27 amos>
@@ -49,6 +49,8 @@ if( $Command == "data" ) // Dump image info!
         $writeGroups = eZObjectPermission::getGroups( $ID, "imagecatalogue_image", 'w', false );
         $readGroups = eZObjectPermission::getGroups( $ID, "imagecatalogue_image", 'r', false );
 
+        $rgp = array();
+        $wgp = array();
         foreach( $readGroups as $group )
             $rgp[] = new eZXMLRPCInt( $group );
         foreach( $writeGroups as $group )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcdatatypedecoder.php,v 1.5 2001/05/15 13:21:09 bf Exp $
+// $Id: ezxmlrpcdatatypedecoder.php,v 1.6 2001/07/03 15:17:38 jb Exp $
 //
 // Definition of eZXMLRPCDataTypeDecoder class
 //
@@ -232,19 +232,19 @@ class eZXMLRPCDataTypeDecoder
         {
             if ( $data->name == "data" )
             {
-                if ( count( $data->children ) > 0 )
-                foreach ( $data->children as $dataValue )
+                if ( isset( $data->children ) and count( $data->children ) > 0 )
                 {
-                    if ( $dataValue->name == "value" )
+                    foreach ( $data->children as $dataValue )
                     {
-                        $array[] = $this->decodeDataTypes( $dataValue );
+                        if ( $dataValue->name == "value" )
+                        {
+                            $array[] = $this->decodeDataTypes( $dataValue );
+                        }
+                        if ( $dataValue->name == "array" )
+                        {
+                            $array[] = $this->decodeDataTypes( $dataValue );
+                        }
                     }
-
-                    if ( $dataValue->name == "array" )
-                    {
-                        $array[] = $this->decodeDataTypes( $dataValue );
-                    }
-
                 }
             }
         }
