@@ -109,6 +109,42 @@ if ( get_class( $user ) == "ezuser"  and eZPermission::checkPermission( $user, "
             }
         }
         break;
+
+                case "login" :
+        {
+            $Action = $url_array[3];
+            include( "ezuser/admin/login.php" );
+        }
+        break;
+
+        case "success" :
+        {
+            $Action = $url_array[3];
+            include( "ezuser/admin/success.php" );
+        }
+        break;
+
+        case "logout" :
+        {
+            $Action = $url_array[3];
+            include( "ezuser/admin/login.php" );
+        }
+        break;
+
+        case "passwordchange" :
+        {
+            $Action = $url_array[3];
+            include( "ezuser/admin/passwordchange.php" );
+        }
+        break;
+
+        case "settings" :
+        {
+            $Action = $url_array[3];
+            include( "ezuser/admin/settings.php" );
+        }
+        break;
+
     }
 }
 else
