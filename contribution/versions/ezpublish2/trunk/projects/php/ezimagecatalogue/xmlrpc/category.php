@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: category.php,v 1.1 2001/09/25 08:10:32 jb Exp $
+// $Id: category.php,v 1.2 2001/09/25 08:16:35 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -135,26 +135,26 @@ else if( $Command == "delete" )
     $path =& $category->path();
     if ( $category->id() != 0 )
     {
-        $par[] = createURLStruct( "ezimage", "category", 0 );
+        $par[] = createURLStruct( "ezimagecatalogue", "category", 0 );
     }
     else
     {
-        $par[] = createURLStruct( "ezimage", "" );
+        $par[] = createURLStruct( "ezimagecatalogue", "" );
     }
     foreach( $path as $item )
     {
         if ( $item[0] != $category->id() )
-            $par[] = createURLStruct( "ezimage", "category", $item[0] );
+            $par[] = createURLStruct( "ezimagecatalogue", "category", $item[0] );
     }
 
     
-    $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezimage", "category", $ID ),
+    $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezimagecatalogue", "category", $ID ),
                                              "Path" => new eZXMLRPCArray( $par ),
                                              "UpdateType" => new eZXMLRPCString( $Command )
                                              )
                                       );
     $Command = "update";
-    eZImageCategory::delete( $ID ); // finally, delete the imagecategory..
+    $category->delete( $ID ); // finally, delete the imagecategory..
 }
 
 ?>
