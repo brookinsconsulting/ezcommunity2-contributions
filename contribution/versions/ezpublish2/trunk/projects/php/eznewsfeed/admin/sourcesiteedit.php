@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sourcesiteedit.php,v 1.7 2001/02/09 13:25:19 fh Exp $
+// $Id: sourcesiteedit.php,v 1.8 2001/03/09 09:43:10 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Nov-2000 17:55:31 bf>
@@ -24,6 +24,7 @@
 //
 
 include_once( "classes/INIFile.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini = new INIFIle( "site.ini" );
 
@@ -72,7 +73,7 @@ if ( $Action == "Insert" )
     
     $sourcesite->store();
 
-    Header( "Location: /newsfeed/importnews/" );
+    eZHTTPTool::header( "Location: /newsfeed/importnews/" );
     exit();
 }
 
@@ -109,7 +110,7 @@ if ( $Action == "Update" )
     
     $sourcesite->store();
 
-    Header( "Location: /newsfeed/importnews/" );
+    eZHTTPTool::header( "Location: /newsfeed/importnews/" );
     exit();
 }
 
@@ -118,7 +119,7 @@ if ( $Action == "Delete" )
     $sourcesite = new eZSourceSite( $SourceSiteID );
     $sourcesite->delete();
 
-    Header( "Location: /newsfeed/importnews/" );
+    eZHTTPTool::header( "Location: /newsfeed/importnews/" );
     exit();
 
 }
