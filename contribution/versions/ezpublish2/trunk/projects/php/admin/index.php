@@ -1,8 +1,7 @@
 <?php
-if ( !isset( $TEST_COOKIE ) )
-    setcookie ( "TEST_COOKIE", "svada", 0, "/",  "", 0 )
-    or die( "Error: could not set cookie." );
-
+//  if ( !isset( $TEST_COOKIE ) )
+//      setcookie ( "TEST_COOKIE", "svada", 0, "/",  "", 0 )
+//      or die( "Error: could not set cookie." );
 
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT"); 
@@ -14,13 +13,19 @@ ob_start();
 include_once( "classes/ezdb.php" );
 include_once( "classes/INIFile.php" );
 include_once( "classes/template.inc" );
-include_once( "../common/ezphputils.php" );
 
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezmodule.php" );
 include_once( "ezuser/classes/ezpermission.php" );
+
+// set session if not already set
+//  $session = new eZSession( );
+//  if ( !$session->fetch() )
+//      $session->store();
+
+
 
 $ini = new INIFile( "site.ini" );
 $t = new Template( "." );
@@ -191,13 +196,14 @@ include( "footer.php" );
 <?php
 ob_end_flush();
 
-  $session = new eZSession( );
-  $session->fetch();
+//  $session = new eZSession( );
+//  $session->fetch();
 
-print( "<font color=\"white\">" );
+//  print( "<font color=\"white\">" );
 
-print( "cookie: " . $TEST_COOKIE  ."<br>");
-print( "cookie: " . $TEST_COOKIE  ."<br>");
-print( "</font>" );
+//  print( "session: " . $session->id()  ."<br>");
+//  print( "htvar: " . print_r( getAllHeaders() )  ."<br>");
+//  print( "cookie: " . $TEST_COOKIE  ."<br>");
+//  print( "</font>" );
 ?>
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.11 2000/10/25 08:52:08 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.12 2000/10/25 09:22:57 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -455,6 +455,7 @@ class eZTechRenderer
                                 "/(void )/",
                                 "/(class )/",
                                 "/(var )/",
+                                "/(int )/",
                                 "/( for)/"
                                 );
         

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.5 2000/10/24 19:03:13 bf-cvs Exp $
+// $Id: ezsession.php,v 1.6 2000/10/25 09:22:57 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -151,10 +151,13 @@ class eZSession
         
         $hash = $GLOBALS["eZSession"];
 
-        $this->Database->array_query( $session_array, "SELECT ID FROM eZSession_Session WHERE Hash='$hash'" );
+        $this->Database->array_query( $session_array, "SELECT ID
+                                      FROM eZSession_Session
+                                      WHERE Hash='$hash'" );
 
         if ( count( $session_array ) == 1 )
         {
+            print( "found a cookie" );
             $ret = $this->get( $session_array[0]["ID"] );
         }
         
