@@ -46,6 +46,8 @@ if ( $StoreStats == "enabled" )
 	
 	<?
 	include( "ezforum/user/menubox.php" );
+
+    include( "ezforum/user/latestmessages.php" );
 	?>
 	
 	<?

@@ -310,7 +310,7 @@ CREATE TABLE eZArticle_ArticleFormDict (
 #
 # Table structure for table 'eZImageCatalogue_ImageCategoryDefinition'
 #
-DROP TABLE IF EXISTS eZImageCatalogue_ImageCategoryDefinition
+DROP TABLE IF EXISTS eZImageCatalogue_ImageCategoryDefinition;
 CREATE TABLE eZImageCatalogue_ImageCategoryDefinition (
   ID int(11) NOT NULL auto_increment,
   ImageID int,
@@ -414,6 +414,78 @@ update eZArticle_Article set IsPublishedTmp='1' where IsPublished='true';
 alter table eZArticle_Article drop IsPublished;
 alter table eZArticle_Article change IsPublishedTmp IsPublished int;
 alter table eZArticle_Article add ImportID varchar(255); 
+
+
+alter table eZArticle_Article add CreatedTmp int;
+update eZArticle_Article set CreatedTmp= UNIX_TIMESTAMP( Created );
+alter table eZArticle_Article drop Created; 
+alter table eZArticle_Article change CreatedTmp Created int; 
+
+alter table eZArticle_Article add ModifiedTmp int;
+update eZArticle_Article set ModifiedTmp= UNIX_TIMESTAMP( Modified );
+alter table eZArticle_Article drop Modified; 
+alter table eZArticle_Article change ModifiedTmp Modified int; 
+
+alter table eZArticle_Article add PublishedTmp int;
+update eZArticle_Article set PublishedTmp= UNIX_TIMESTAMP( Published );
+alter table eZArticle_Article drop Published; 
+alter table eZArticle_Article change PublishedTmp Published int; 
+
+alter table eZArticle_Article add StartDateTmp int;
+update eZArticle_Article set StartDateTmp= UNIX_TIMESTAMP( StartDate );
+alter table eZArticle_Article drop StartDate; 
+alter table eZArticle_Article change StartDateTmp StartDate int; 
+
+alter table eZArticle_Article add StopDateTmp int;
+update eZArticle_Article set StopDateTmp= UNIX_TIMESTAMP( StopDate );
+alter table eZArticle_Article drop StopDate; 
+alter table eZArticle_Article change StopDateTmp StopDate int; 
+
+
+alter table eZArticle_ArticleFileLink add CreatedTmp int;
+update eZArticle_ArticleFileLink set CreatedTmp= UNIX_TIMESTAMP( Created );
+alter table eZArticle_ArticleFileLink drop Created; 
+alter table eZArticle_ArticleFileLink change CreatedTmp Created int; 
+
+alter table eZArticle_ArticleImageLink add CreatedTmp int;
+update eZArticle_ArticleImageLink set CreatedTmp= UNIX_TIMESTAMP( Created );
+alter table eZArticle_ArticleImageLink drop Created; 
+alter table eZArticle_ArticleImageLink change CreatedTmp Created int; 
+
+
+alter table eZArticle_Attribute add CreatedTmp int;
+update eZArticle_Attribute set CreatedTmp= UNIX_TIMESTAMP( Created );
+alter table eZArticle_Attribute drop Created; 
+alter table eZArticle_Attribute change CreatedTmp Created int; 
+
+alter table eZArticle_Article add ExcludeFromSearchTmp int default '0';
+update eZArticle_Article set ExcludeFromSearchTmp='1' where ExcludeFromSearch='true';
+alter table eZArticle_Article drop ExcludeFromSearch;
+alter table eZArticle_Article change ExcludeFromSearchTmp ExcludeFromSearch int;
+
+
+alter table eZArticle_CategoryReaderLink add CreatedTmp int;
+update eZArticle_CategoryReaderLink set CreatedTmp= UNIX_TIMESTAMP( Created );
+alter table eZArticle_CategoryReaderLink drop Created; 
+alter table eZArticle_CategoryReaderLink change CreatedTmp Created int; 
+
+alter table eZArticle_Log add CreatedTmp int;
+update eZArticle_Log set CreatedTmp= UNIX_TIMESTAMP( Created );
+alter table eZArticle_Log drop Created; 
+alter table eZArticle_Log change CreatedTmp Created int; 
+
+alter table eZArticle_Topic add CreatedTmp int;
+update eZArticle_Topic set CreatedTmp= UNIX_TIMESTAMP( Created );
+alter table eZArticle_Topic drop Created; 
+alter table eZArticle_Topic change CreatedTmp Created int; 
+
+
+# eZ forum
+alter table eZForum_Message add PostingTimeTmp int;
+update eZForum_Message set PostingTimeTmp= UNIX_TIMESTAMP( PostingTime );
+alter table eZForum_Message drop PostingTime; 
+alter table eZForum_Message change PostingTimeTmp PostingTime int; 
+
 
 # eZ poll
 

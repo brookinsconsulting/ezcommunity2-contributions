@@ -172,33 +172,3 @@ CREATE TABLE eZArticle_Type (
   PRIMARY KEY (ID)
 );
 
-
-# fix:
-article:
-  Modified timestamp(14) NOT NULL,
-  Created timestamp(14) NOT NULL,
-  Published timestamp(14) NOT NULL,
-  StartDate timestamp(14) NOT NULL,
-  StopDate timestamp(14) NOT NULL,
-
-  IsPublished int default '0',
-
-file link
-  Created timestamp(14) NOT NULL,
-image link
-  Created int NOT NULL,
-
-eZArticle_Attribute:
-  Created timestamp(14) NOT NULL,
-
-article category:
-  ExcludeFromSearch enum('true','false') default 'false',
-
-CREATE TABLE eZArticle_CategoryReaderLink:
-created timestamp
-
-CREATE TABLE eZArticle_Log:
-  Created timestamp(14) NOT NULL,
-
-eZArticle_Topic :
-  Created int NOT NULL,
