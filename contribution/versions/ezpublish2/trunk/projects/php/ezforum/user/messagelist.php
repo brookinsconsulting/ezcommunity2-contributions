@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.24 2001/05/08 09:55:04 ce Exp $
+// $Id: messagelist.php,v 1.25 2001/05/08 09:58:30 ce Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -146,8 +146,9 @@ else
         }
         else
         {
+            $count = $message["Count"] -1;
             $t->set_var( "spacer", "" );
-            $t->set_var( "count_replies", "(" . $message["Count"] . ")" );
+            $t->set_var( "count_replies", "(" . $count . ")" );
         }
 
         if ( $user->id() == 0 )
