@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsgroup.php,v 1.6 2001/09/07 11:22:05 bf Exp $
+// $Id: newsgroup.php,v 1.7 2001/09/11 10:00:11 bf Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -50,6 +50,8 @@ $articleLimit = 2;
 
 $t->setAllStrings();
 
+
+$GlobalSectionID = eZArticleCategory::sectionIDStatic( $CategoryID );
 
 // override template for the current category
 $override = "_override_$CategoryID";
