@@ -90,6 +90,14 @@ CREATE TABLE eZMediaCatalogue_Type (
   PRIMARY KEY (ID)
 );
 
+CREATE TABLE eZMediaCatalogue_TypeLink (
+  ID int NOT NULL,		  
+  TypeID int default 0,
+  MediaID int default 0,
+  PRIMARY KEY (ID)
+);
+
+
 INSERT INTO eZMediaCatalogue_Type VALUES (1,'QuickTime');
 INSERT INTO eZMediaCatalogue_Type VALUES (2,'Windows Media Player');
 INSERT INTO eZMediaCatalogue_Type VALUES (3,'ShockWave Flash');

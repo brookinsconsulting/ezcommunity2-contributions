@@ -90,6 +90,13 @@ CREATE TABLE eZMediaCatalogue_Type (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
+CREATE TABLE eZMediaCatalogue_TypeLink (
+  ID int(11) NOT NULL,		  
+  TypeID int(11) default 0,
+  MediaID int(11) default 0,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
 INSERT INTO eZMediaCatalogue_Type VALUES (1,'QuickTime');
 INSERT INTO eZMediaCatalogue_Type VALUES (2,'Windows Media Player');
 INSERT INTO eZMediaCatalogue_Type VALUES (3,'ShockWave Flash');
