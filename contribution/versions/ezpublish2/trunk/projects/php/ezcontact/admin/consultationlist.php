@@ -6,6 +6,23 @@ $Language = $ini->read_var( "eZContactMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
 
+include_once( "ezuser/classes/ezusergroup.php" );
+include_once( "ezuser/classes/ezpermission.php" );
+
+$user = eZUser::currentUser();
+if ( get_class( $user ) != "ezuser" )
+{
+    eZHTTPTool::header( "Location: /contact/nopermission/login" );
+    exit();
+}
+
+if ( !eZPermission::checkPermission( $user, "eZContact", "Consultation" ) )
+{
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /contact/nopermission/consultation" );
+   exit();
+}
+
 if ( isset( $ConsultationList ) )
 {
     $templatefile = "consultationdetaillist.tpl";

@@ -25,6 +25,22 @@ include_once( "ezcontact/classes/ezconsultation.php" );
 
 include_once( "classes/ezimagefile.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
+include_once( "ezuser/classes/ezusergroup.php" );
+include_once( "ezuser/classes/ezpermission.php" );
+
+$user = eZUser::currentUser();
+if ( get_class( $user ) != "ezuser" )
+{
+    eZHTTPTool::header( "Location: /contact/nopermission/login" );
+    exit();
+}
+
+if ( !eZPermission::checkPermission( $user, "eZContact", "CompanyView" ) )
+{
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /contact/nopermission/company/view" );
+    exit();
+}
 
 $t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
                      "ezcontact/admin/intl", $Language, "companyview.php" );

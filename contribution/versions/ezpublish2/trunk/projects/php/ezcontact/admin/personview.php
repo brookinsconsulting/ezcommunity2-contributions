@@ -22,6 +22,23 @@ include_once( "ezaddress/classes/ezonlinetype.php" );
 include_once( "ezcontact/classes/ezprojecttype.php" );
 include_once( "ezcontact/classes/ezconsultation.php" );
 
+include_once( "ezuser/classes/ezusergroup.php" );
+include_once( "ezuser/classes/ezpermission.php" );
+
+$user = eZUser::currentUser();
+if ( get_class( $user ) != "ezuser" )
+{
+    eZHTTPTool::header( "Location: /contact/nopermission/login" );
+    exit();
+}
+
+if ( !eZPermission::checkPermission( $user, "eZContact", "PersonView" ) )
+{
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /contact/nopermission/person/view" );
+    exit();
+}
+
 $error = false;
 
 $t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),

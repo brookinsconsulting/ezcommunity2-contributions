@@ -12,42 +12,43 @@ include_once( "classes/eztemplate.php" );
 include_once( "ezcontact/classes/ezcompanytype.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "classes/ezimagefile.php" );
-//include_once( "");
+include_once( "ezuser/classes/ezusergroup.php" );
+include_once( "ezuser/classes/ezpermission.php" );
 
-//  if( !eZPermission::checkPermission( $user, "eZContact", "TypeAdd" ) && $Action == "new" )
-//  {
-//      include_once( "classes/ezhttptool.php" );
-//      eZHTTPTool::header( "Location: /error.php?type=500&reason=missingpermission&permission=TypeAdd&tried=new&module=ezcontact" );
-//      exit();
-//  }
+$user = eZUser::currentUser();
+if ( get_class( $user ) != "ezuser" )
+{
+    eZHTTPTool::header( "Location: /contact/nopermission/login" );
+    exit();
+}
 
-//  if( !eZPermission::checkPermission( $user, "eZContact", "TypeAdd" ) && $Action == "insert" )
-//  {
-//      include_once( "classes/ezhttptool.php" );
-//      eZHTTPTool::header( "Location: /error.php?type=500&reason=missingpermission&permission=TypeAdd&tried=insert&module=ezcontact" );
-//      exit();
-//  }
-
-//  if( !eZPermission::checkPermission( $user, "eZContact", "TypeModify" ) && $Action == "update" )
-//  {
-//      include_once( "classes/ezhttptool.php" );
-//      eZHTTPTool::header( "Location: /error.php?type=500&reason=missingpermission&permission=TypeModify&tried=update&module=ezcontact" );
-//      exit();
-//  }
-
-//  if( !eZPermission::checkPermission( $user, "eZContact", "TypeModify" ) && $Action == "edit" )
-//  {
-//      include_once( "classes/ezhttptool.php" );
-//      eZHTTPTool::header( "Location: /error.php?type=500&reason=missingpermission&permission=TypeModify&tried=edit&module=ezcontact" );
-//      exit();
-//  }
-
-//  if( !eZPermission::checkPermission( $user, "eZContact", "TypeDelete" ) && $Action == "delete" )
-//  {
-//      include_once( "classes/ezhttptool.php" );
-//      eZHTTPTool::header( "Location: /error.php?type=500&reason=missingpermission&permission=TypeDelete&tried=delete&module=ezcontact" );
-//      exit();
-//  }
+if ( $Action == "edit" || $Action == "update" )
+{
+    if ( !eZPermission::checkPermission( $user, "eZContact", "CategoryEdit" ) )
+    {
+        include_once( "classes/ezhttptool.php" );
+        eZHTTPTool::header( "Location: /contact/nopermission/category/edit" );
+        exit();
+    }
+}
+else if ( $Action == "new" || $Action ==  "insert" )
+{
+    if ( !eZPermission::checkPermission( $user, "eZContact", "CategoryAdd" ) )
+    {
+        include_once( "classes/ezhttptool.php" );
+        eZHTTPTool::header( "Location: /contact/nopermission/category/new" );
+        exit();
+    }
+}
+else if ( $Action == "delete" )
+{
+    if ( !eZPermission::checkPermission( $user, "eZContact", "CategoryDelete" ) )
+    {
+        include_once( "classes/ezhttptool.php" );
+        eZHTTPTool::header( "Location: /contact/nopermission/category/delete" );
+        exit();
+    }
+}
 
 if( empty( $TypeID ) )
 {

@@ -18,6 +18,22 @@ $t->setAllStrings();
 include_once( "ezcontact/classes/ezperson.php" );
 include_once( "ezcontact/classes/ezprojecttype.php" );
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/ezusergroup.php" );
+include_once( "ezuser/classes/ezpermission.php" );
+
+$user = eZUser::currentUser();
+if ( get_class( $user ) != "ezuser" )
+{
+    eZHTTPTool::header( "Location: /contact/nopermission/login" );
+    exit();
+}
+
+if ( !eZPermission::checkPermission( $user, "eZContact", "PersonList" ) )
+{
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /contact/nopermission/person/list" );
+    exit();
+}
 
 $t->set_file( array(
     "person_page" => "personlist.tpl"
@@ -30,7 +46,12 @@ $t->set_block( "person_table_tpl", "person_item_tpl", "person_item" );
 
 $t->set_block( "person_item_tpl", "person_state_tpl", "person_state" );
 $t->set_block( "person_item_tpl", "no_person_state_tpl", "no_person_state" );
+$t->set_block( "person_item_tpl", "person_view_button_tpl", "person_view_button" );
+$t->set_block( "person_item_tpl", "no_person_view_button_tpl", "no_person_view_button" );
 $t->set_block( "person_item_tpl", "person_consultation_button_tpl", "person_consultation_button" );
+$t->set_block( "person_item_tpl", "person_edit_button_tpl", "person_edit_button" );
+$t->set_block( "person_item_tpl", "person_delete_button_tpl", "person_delete_button" );
+$t->set_block( "person_page", "person_new_button_tpl", "person_new_button" );
 
 $t->set_block( "person_table_tpl", "person_list_tpl", "person_list" );
 
@@ -77,14 +98,24 @@ $count = count( $persons );
 $t->set_var( "person_table", "" );
 $t->set_var( "no_persons", "" );
 
-$user = eZUser::currentUser();
-if ( get_class( $user ) == "ezuser" )
-{
+$t->set_var( "person_consultation_button", "" );
+$t->set_var( "person_edit_button", "" );
+$t->set_var( "person_delete_button", "" );
+$t->set_var( "person_view_button", "" );
+$t->set_var( "no_person_view_button", "" );
+if ( eZPermission::checkPermission( $user, "eZContact", "Consultation" ) )
     $t->parse( "person_consultation_button", "person_consultation_button_tpl" );
+if ( eZPermission::checkPermission( $user, "eZContact", "PersonModify" ) )
+    $t->parse( "person_edit_button", "person_edit_button_tpl" );
+if ( eZPermission::checkPermission( $user, "eZContact", "PersonDelete" ) )
+    $t->parse( "person_delete_button", "person_delete_button_tpl" );
+if ( eZPermission::checkPermission( $user, "eZContact", "PersonView" ) )
+{
+    $t->parse( "person_view_button", "person_view_button_tpl" );
 }
 else
 {
-    $t->set_var( "person_consultation_button", "" );
+    $t->parse( "no_person_view_button", "no_person_view_button_tpl" );
 }
 
 if( $count == 0 )
@@ -127,6 +158,10 @@ else
 
     $t->parse( "person_table", "person_table_tpl" );
 }
+
+$t->set_var( "person_new_button", "" );
+if ( eZPermission::checkPermission( $user, "eZContact", "PersonAdd" ) )
+    $t->parse( "person_new_button", "person_new_button_tpl" );
 
 if ( $total_persons > $Max || $Index > 0 )
 {
