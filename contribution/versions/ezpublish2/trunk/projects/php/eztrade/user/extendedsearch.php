@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: extendedsearch.php,v 1.5 2001/03/21 13:51:35 bf Exp $
+// $Id: extendedsearch.php,v 1.6 2001/03/21 14:49:46 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 17:49:05 bf>
@@ -58,9 +58,12 @@ $t->setAllStrings();
 
 $t->set_file(  "extended_search_tpl", "extendedsearch.tpl" );
 
+
 $t->set_block( "extended_search_tpl", "extended_tpl", "product" );
 $t->set_block( "extended_search_tpl", "product_search_list_tpl", "product_search_list" );
 $t->set_block( "extended_search_tpl", "category_item_tpl", "category_item" );
+
+$t->set_block( "extended_search_tpl", "empty_search_tpl", "empty_search" );
 
 $t->set_block( "product_search_list_tpl", "image_tpl", "image" );
 $t->set_block( "product_search_list_tpl", "price_tpl", "price" );
@@ -79,7 +82,7 @@ $product = new eZProduct();
 
 if ( $Action == "SearchButton" )
 {
-        if ( $Limit == "" )
+    if ( $Limit == "" )
         $Limit = 10;
     if ( $Offset == "" )
         $Offset = 0;
@@ -88,6 +91,7 @@ if ( $Action == "SearchButton" )
     {
         if ( $CategoryArray != "" )
             $CategoryArrayID = explode( "-", $CategoryArray );
+        
         $productList =& $product->extendedSearch( $PriceLower, $PriceHigher, $Text, $Offset, $Limit, $CategoryArrayID );
         $totalCount = $product->extendedSearchCount( $PriceLower, $PriceHigher, $Text, $CategoryArrayID );
     }
@@ -107,8 +111,7 @@ if ( $Action == "SearchButton" )
     $t->set_var( "text", $Text );
 
     $t->set_var( "url_text", urlencode( $Text ) );
-    $t->set_var( "url_lower", urlencode( $PriceLower ) );
-    $t->set_var( "url_higher", urlencode( $PriceHigher ) );
+    $t->set_var( "url_range", urlencode( $PriceRange ) );
 
     if ( is_array ( $CategoryArrayID ) )
     {
@@ -197,10 +200,14 @@ if ( count ( $productList ) > 0 )
         $t->parse( "product_search_list", "product_search_list_tpl", true );
         $i++;
     }
+
+    $t->set_var( "empty_search_list", "" );    
 }
 else
 {
     $t->set_var( "product_search_list", "" );
+    $t->parse( "empty_search", "empty_search_tpl" );
+     
 }
 
 eZList::drawNavigator( $t, $totalCount, $Limit, $Offset, "extended_search_tpl" );
@@ -223,9 +230,9 @@ foreach( $categoryList as $categoryItem )
     
     if ( is_array ( $CategoryArrayID ) )
     {
-        foreach ( $CategoryArrayID as $CategoryID )
+        foreach ( $CategoryArrayID as $categoryID )
         {
-            if ( $CategoryID == $categoryItem[0]->id() )
+            if ( $categoryID == $categoryItem[0]->id() )
                 $t->set_var( "is_selected", "selected" );
         }
     }

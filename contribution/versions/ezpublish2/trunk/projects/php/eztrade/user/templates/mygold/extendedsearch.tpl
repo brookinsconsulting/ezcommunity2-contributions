@@ -56,6 +56,11 @@
 <!-- END product_search_form_tpl -->
 
 
+<!-- BEGIN empty_search_tpl -->        
+<h2>{intl-empty_search}</h2>
+<!-- END empty_search_tpl -->        
+
+
 <!-- BEGIN product_search_list_tpl -->        
 <br>
 
@@ -102,7 +107,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/trade/extendedsearch/move/{url_text}/{url_lower}/{url_higher}/{url_category}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;|
+	<a class="path" href="/trade/extendedsearch/move/{url_text}/{url_range}/{url_category}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;|
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -116,7 +121,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	&nbsp;<a class="path" href="/trade/extendedsearch/move/{url_text}/{url_lower}/{url_higher}/{url_category}/{item_index}">{type_item_name}</a>&nbsp;|
+	&nbsp;<a class="path" href="/trade/extendedsearch/move/{url_text}/{url_range}/{url_category}/{item_index}">{type_item_name}</a>&nbsp;|
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -130,7 +135,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	&nbsp;<a class="path" href="/trade/extendedsearch/move/{url_text}/{url_lower}/{url_higher}/{url_category}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	&nbsp;<a class="path" href="/trade/extendedsearch/move/{url_text}/{url_range}/{url_category}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 

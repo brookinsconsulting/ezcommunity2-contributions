@@ -217,10 +217,9 @@ switch ( $url_array[2] )
         if ( $url_array[3] == "move" )
         {
             $Text = urldecode( $url_array[4] );
-            $PriceLower = urldecode( $url_array[5] );
-            $PriceHigher = urldecode ( $url_array[6] );
-            $CategoryArray = urldecode ( $url_array[7] );
-            $Offset = urldecode ( $url_array[8] );
+            $PriceRange = urldecode( $url_array[5] );
+            $CategoryArray = urldecode ( $url_array[6] );
+            $Offset = urldecode ( $url_array[7] );
 
             $Action = "SearchButton";
             $Next = true;
