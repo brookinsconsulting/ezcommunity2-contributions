@@ -1690,7 +1690,7 @@ CREATE TABLE eZNewsFeed_SourceSite (
   PRIMARY KEY (ID)
 );
 
-INSERT INTO eZNewsFeed_SourceSite VALUES (1,'http://freshmeat.net/backend/fm.rdf','','',1,'Freshmeat','',0,0);
+INSERT INTO eZNewsFeed_SourceSite VALUES (1,'http://freshmeat.net/backend/fm.rdf','','',1,'Freshmeat','rdf',0,0);
 
 CREATE TABLE eZPoll_MainPoll (
   ID int NOT NULL,
