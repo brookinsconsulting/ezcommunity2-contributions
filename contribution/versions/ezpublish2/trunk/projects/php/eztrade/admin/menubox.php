@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.15 2001/01/24 11:11:27 ce Exp $
+// $Id: menubox.php,v 1.16 2001/02/19 13:23:50 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -31,7 +31,8 @@ $menuItems = array(
     array( "/trade/productedit/", "{intl-newproduct}" ),
     array( "/trade/orderlist/", "{intl-orderlist}" ),
     array( "/trade/typelist/", "{intl-typelist}" ),
-    array( "/trade/typeedit/", "{intl-newtype}" )
+    array( "/trade/typeedit/", "{intl-newtype}" ),
+    array( "/trade/vattypes/", "{intl-vattypes}" )
     );
 
 ?>

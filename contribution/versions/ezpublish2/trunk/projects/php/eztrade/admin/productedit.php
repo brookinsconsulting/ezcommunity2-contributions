@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.29 2001/02/07 16:31:33 jb Exp $
+// $Id: productedit.php,v 1.30 2001/02/19 13:23:50 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -50,7 +50,7 @@ function deleteCache( $ProductID, $CategoryID, $CategoryArray )
     }
 }
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: hotdealslist.php,v 1.11 2001/02/09 10:03:02 bf Exp $
+// $Id: hotdealslist.php,v 1.12 2001/02/19 13:23:50 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Nov-2000 19:34:40 bf>
@@ -147,7 +147,10 @@ foreach ( $productList as $product )
     }
     
     $defCat = $product->categoryDefinition();
-    $t->set_var( "category_id", $defCat->id() );
+    if ( $defCat )
+    {
+        $t->set_var( "category_id", $defCat->id() );
+    }
 
     $t->parse( "product", "product_tpl", true );
     $i++;
