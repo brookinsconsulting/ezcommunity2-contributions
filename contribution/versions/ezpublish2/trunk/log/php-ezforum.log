@@ -72,3 +72,17 @@ Maintainer(s) : jhe@ez.no
 
     * user/search.php: fixed strange code
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-09-11  Thomas Hellstroem  <th@ez.no>
+
+    * user/templates/linmag/message.tpl
+      user/templates/linmag/messageform.tpl
+      user/templates/linmag/messagelist.tpl: Layout
+
+2001-09-11  Bjoern Reiten  <br@ez.no>
+
+    * user/intl/no_NO/messagelist.php.ini: translation for show.
+

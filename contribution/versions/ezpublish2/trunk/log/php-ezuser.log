@@ -89,3 +89,19 @@ Maintainer(s) : bf@ez.no
 
     * user/templates/mygold/userwithaddress.tpl: fic
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-09-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezobjectpermission.php:
+    link in articlelist when article has no text but attributes
+
+2001-09-11  fh  <fh@zev.ez.no>
+
+    * admin/useredit.php
+      classes/ezpermission.php
+      admin/groupedit.php:
+    Fixed huge security bug. Users with group and or person edit but without root access where able to give themselves root.
+

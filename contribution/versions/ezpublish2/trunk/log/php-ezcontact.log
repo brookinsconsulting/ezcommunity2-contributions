@@ -19,3 +19,12 @@ Maintainer(s) : jhe@ez.no
 
     * user/intl/id_ID/personedit.php.ini: added id_ID
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-09-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/consultationedit.php:
+    link in articlelist when article has no text but attributes
+

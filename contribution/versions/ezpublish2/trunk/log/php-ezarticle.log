@@ -229,3 +229,66 @@ Maintainer(s) : bf@ez.no
 
     * user/articlelist.php: updated cvs to current intelhosting version
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-09-11  fh  <fh@zev.ez.no>
+
+    * admin/templates/standard/search.tpl
+      classes/ezarticle.php
+      admin/datasupplier.php
+      admin/search.php
+      admin/searchform.php: Advanced search in admin.
+
+2001-09-11  Baard Farstad  <bf@ez.no>
+
+    * classes/ezqdomgenerator.php
+      classes/ezqdomrenderer.php
+      classes/eztechgenerator.php
+      user/templates/standard/articletags.tpl: Added file tag in article.
+
+2001-09-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/articlelist.php: small bug
+
+2001-09-11  Baard Farstad  <bf@ez.no>
+
+    * user/articlelist.php: Fixed list limit.
+
+2001-09-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/templates/standard/search.tpl: search now uses get instead of post
+
+    * user/articlelist.php:
+    link in articlelist when article has no text but attributes
+
+2001-09-11  Baard Farstad  <bf@ez.no>
+
+    * classes/ezqdomgenerator.php
+      classes/ezqdomrenderer.php
+      sql/mysql/ezarticle.sql: SQL fixed and rendering fixes.
+
+2001-09-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/categoryedit.php
+      admin/intl/en_GB/categoryedit.php.ini
+      admin/intl/no_NO/categoryedit.php.ini
+      admin/templates/standard/categoryedit.tpl
+      classes/ezarticlecategory.php
+      user/articlelist.php
+      user/templates/standard/articlelist.tpl:
+    support for overriding ListLimit in site.ini per category
+
+2001-09-11  Baard Farstad  <bf@ez.no>
+
+    * user/articlelist.php
+      user/templates/standard/articlelist.tpl: Added author on category image.
+
+    * user/newsgroup.php: Fixed section ID.
+
+    * user/articleview.php
+      user/templates/standard/articletags.tpl: Added target to image link.
+
+    * user/articleview.php: Fixed bug.
+
