@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimage.php,v 1.73 2001/08/01 16:12:41 kaid Exp $
+// $Id: ezimage.php,v 1.74 2001/08/23 08:19:44 pkej Exp $
 //
 // Definition of eZImage class
 //
@@ -114,6 +114,7 @@ class eZImage
         $caption = $db->escapeString( $this->Caption );
         $filename = $db->escapeString( $this->FileName );
         $originalfilename = $db->fieldName( $this->OriginalFileName );
+        $keywords = $db->escapeString( $this->Keywords );
         
         if ( !isSet( $this->ID ) )
         {
@@ -133,6 +134,7 @@ class eZImage
                                              ReadPermission,
                                              OriginalFileName,
                                              PhotographerID,
+                                             Keywords,
                                              Created )
                                     VALUES ( '$this->ID',
                                              '$name',
@@ -144,6 +146,7 @@ class eZImage
                                              '$this->ReadPermission',
                                              '$originalfilename',
                                              '$this->PhotographerID',
+                                             '$keywords',
                                              '$timeStamp' )");
             $db->unlock();
         }
@@ -168,7 +171,8 @@ class eZImage
                                  WritePermission='$this->WritePermission',
                                  ReadPermission='$this->ReadPermission',
                                  OriginalFileName='$originalfilename',
-                                 PhotographerID='$this->PhotographerID'
+                                 PhotographerID='$this->PhotographerID',
+                                 Keywords='$keywords'
                                  WHERE ID='$this->ID'
                                  " );
         }
@@ -256,6 +260,7 @@ class eZImage
                 $this->WritePermission =& $image_array[0][$db->fieldName("WritePermission")];
                 $this->ReadPermission =& $image_array[0][$db->fieldName("ReadPermission")];
                 $this->PhotographerID =& $image_array[0][$db->fieldName("PhotographerID")];
+                $this->Keywords =& $image_array[0][$db->fieldName("Keywords")];
 
                 $ret = true;
             }
@@ -1280,6 +1285,25 @@ class eZImage
         return $as_object ? new eZAuthor( $this->PhotographerID ) : $this->PhotographerID;
     }
 
+    /*!
+      Sets the keywords of the image
+    */
+    function setKeywords( $keywords )
+    {
+        if( $keywords != "" )
+        {
+            $this->Keywords = $keywords;
+        }
+    }
+
+    /*!
+      Returns the photographer og the image
+    */
+    function keywords()
+    {
+        return $this->Keywords;
+    }
+
     
     var $ID;
     var $Name;
@@ -1292,6 +1316,7 @@ class eZImage
     var $UserID;
     var $PhotographerID;
     var $NewImage;
+    var $Keywords;
 }
 
 ?>
