@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.46 2000/12/14 11:18:12 ce Exp $
+// $Id: ezcompany.php,v 1.47 2000/12/14 15:50:22 pkej Exp $
 //
 // Definition of eZProduct class
 //
@@ -205,7 +205,7 @@ class eZCompany
     }
     
     /*
-      Henter ut alle firma i databasen som inneholder søkestrengen.
+      Search the company database in a single category, using query as the search string in company name.
     */
     function searchByCategory( $categoryID, $query )
     {
