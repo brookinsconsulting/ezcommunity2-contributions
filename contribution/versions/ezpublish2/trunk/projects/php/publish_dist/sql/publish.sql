@@ -115,6 +115,9 @@ CREATE TABLE eZAd_View (
 INSERT INTO eZAd_View VALUES (1,1,'2001-02-13',83,83);
 INSERT INTO eZAd_View VALUES (2,2,'2001-02-13',83,83);
 INSERT INTO eZAd_View VALUES (3,3,'2001-02-13',83,83);
+INSERT INTO eZAd_View VALUES (4,1,'2001-03-05',2,2);
+INSERT INTO eZAd_View VALUES (5,2,'2001-03-05',2,2);
+INSERT INTO eZAd_View VALUES (6,3,'2001-03-05',2,2);
 
 #
 # Table structure for table 'eZAddress_Address'
@@ -523,8 +526,6 @@ CREATE TABLE eZArticle_Article (
   IsPublished enum('true','false') default 'false',
   Published timestamp(14) NOT NULL,
   Keywords text,
-  OwnerGroupID int(11) default NULL,
-  ReadPermission int(1) default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -532,13 +533,13 @@ CREATE TABLE eZArticle_Article (
 # Dumping data for table 'eZArticle_Article'
 #
 
-INSERT INTO eZArticle_Article VALUES (1,'Demo article','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>This article will show the tags you can use in eZ publish.</intro><body><page><header>Standard tags</header>\r\n\r\nThis is <bold>bold</bold> text.\r\nThis is <strike>strike</strike> text.\r\nThis is <underline>underline</underline> text.\r\n\r\n<pre>\r\nPre defined text\r\n  indented\r\n    as \r\n      written.\r\n</pre>\r\n<bullet>\r\nItem one\r\nItem two\r\nItem three\r\n</bullet>\r\n\r\n<header>Image tags</header>\r\n\r\n<image id=\"1\" align=\"left\" size=\"medium\" /> Fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text.\r\n\r\n<image id=\"2\" align=\"center\" size=\"medium\" />\r\n\r\nImages on a row\r\n\r\n<image id=\"1\" align=\"float\" size=\"small\" /> <image id=\"2\" align=\"float\" size=\"small\" /> <image id=\"1\" align=\"float\" size=\"small\" /> <image id=\"2\" align=\"float\" size=\"small\" /></page></body></article>','admin user','See demo',27,20010226214703,20010126100350,1,'true',20010126100350,'tech\nThis article will show the tags you can use in eZ publish.Standard tags\r\n\r\nThis is bold text.\r\nThis strike underline text.\r\n\r\n\r\nPre defined text\r\n  indented\r\n as \r\n written.\r\n\r\n\r\nItem one\r\nItem two\r\nItem three\r\n\r\n\r\nImage tags\r\n\r\n Fill text fill text.\r\n\r\n\r\n\r\nImages on a row\r\n\r\n ',NULL,2);
-INSERT INTO eZArticle_Article VALUES (5,'What is New in 2.0?','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>This is a major new release of eZ publish, we\'ve added lots of new information.</intro><body><page><bullet>Merged eZ trade with eZ publish\r\nAdded about module\r\nAdded ad module\r\nAdded address module\r\nAdded bug tracking module\r\nAdded calendar module\r\nAdded contact module\r\nAdded newsfeed module\r\nAdded statistics module\r\nAdded todo module\r\nAdded cookie-less sessions \r\nAdded absolute positioning of products and articles\r\nAdded choosable sort mode on article categories\r\nAdded choosable sort mode on product categories\r\nAdded previous/next paging of article lists (admin &amp; user )\r\nAdded previous/next paging of product lists (admin &amp; user )\r\nAdded RSS headlines\r\nAdded forum moderation with assignment of moderator\r\nAdded notification when articles are published\r\nAdded file uploads on articles.\r\nAdded dynamically updating of menues with static pages.\r\nAdded file upload to eZ article\r\nAdded word wrap of message replies in eZ forum. Nicer looking replies.\r\nAdded new tags in articles (bullet lists/includes of php files)\r\nAdded preferred layout for users\r\nMade the menus in the admin module expandable/collapsable as well as moveable. This is remembered by the preferences for each user. We\'ve also changed the design to a more sleek version.\r\nLanguage updates\r\nRemoved java script which were a problem for lynx users.\r\nRemoved strip tags from messages in eZ forum\r\nSpeeded up many features among them database connections, localisation, rendering of articles, templates and HTML.\r\nFixed bugs</bullet>\r\n\r\n\r\nRead on to learn how to use some of the new features.\r\n</page><page>\r\n<header>RSS Headlines</header>\r\nYou can access the RSS Headlines of eZ publish from the URL \"/article/rssheadlines\".\r\n\r\nIn \"site.ini\" you can configure some of its options; read more in the \"eZ article Admin\'s Guide\" and \"eZ publish Customisation Guide\".\r\n\r\n<header>About</header>\r\nIf you write in the URL \"/about\" you\'ll be presented with an about box for eZ publish.\r\n\r\n<header>User Preferences</header>\r\nWe\'ve added preference functionality. If you take a look into the left hand column of this site you\'ll find some links which are called \"intranet\", \"portal site\" and \"E-commerce\". Those links take you to different designs for eZ publish (only two links will be shown at any time).\r\n\r\nAn example of its usage might be to give users the option of reading your site with different amounts of graphics, or different text sizes.\r\n\r\n<header>Cookie-less Sessions</header>\r\nWe\'ve added cookie-less sessions.\r\n\r\n<header>Moderated Forums</header>\r\nWe\'ve added the much requested moderation functionality to forums. Now you can assign a moderator to each and every forum.\r\n\r\nUsage for this function might, in addition to plain old moderation, is to protect forums so that you can use them as an FAQ.</page></body></article>','admin user','Read the changelog...',27,20010226214703,20010126102640,2,'true',20010126102640,'tech\nThis is a major new release of eZ publish, we\'ve added lots information.Merged trade with publish\r\nAdded about module\r\nAdded ad address bug tracking calendar contact newsfeed statistics todo cookie-less sessions \r\nAdded absolute positioning products and articles\r\nAdded choosable sort mode on article categories\r\nAdded product previous/next paging lists (admin &amp; user )\r\nAdded RSS headlines\r\nAdded forum moderation assignment moderator\r\nAdded notification when articles are published\r\nAdded file uploads articles.\r\nAdded dynamically updating menues static pages.\r\nAdded upload to article\r\nAdded word wrap message replies in forum. Nicer looking replies.\r\nAdded tags (bullet lists/includes php files)\r\nAdded preferred layout for users\r\nMade the menus admin module expandable/collapsable as well moveable. This remembered by preferences each user. We\'ve also changed design more sleek version.\r\nLanguage updates\r\nRemoved java script which were problem lynx users.\r\nRemoved strip from messages forum\r\nSpeeded up many features among them database connections, localisation, rendering articles, templates HTML.\r\nFixed bugs\r\n\r\n\r\nRead learn how use some features.\r\n\r\nRSS Headlines\r\nYou can access Headlines publish URL \"/article/rssheadlines\".\r\n\r\nIn \"site.ini\" you configure its options; read \"eZ Admin\'s Guide\" Customisation Guide\".\r\n\r\nAbout\r\nIf write \"/about\" you\'ll be presented an box publish.\r\n\r\nUser Preferences\r\nWe\'ve preference functionality. If take look into left hand column this site find links called \"intranet\", \"portal site\" \"E-commerce\". Those different designs (only two will shown at any time).\r\n\r\nAn example usage might give users option reading your amounts graphics, or text sizes.\r\n\r\nCookie-less Sessions\r\nWe\'ve sessions.\r\n\r\nModerated Forums\r\nWe\'ve much requested functionality forums. Now assign moderator every forum.\r\n\r\nUsage function might, addition plain old moderation, protect forums so that FAQ. ',NULL,2);
-INSERT INTO eZArticle_Article VALUES (4,'How does static pages work?','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>Static pages are articles entered into the normal article system, but which belong to a category which has specific settings.</intro><body><page>All categories can have that special setting, which is called \"Exclude from search\". Not only does this disallow normal search functions, but those articles will not be shown in normal archive listings, nor latest article listings or the rss headlines.\r\n\r\nYou will neither see the name of the author of a static page; it is anonymous to the reader.\r\n\r\n<header>Intended Usage</header>\r\n\r\nThe usage of such pages is intended to create copyright notices, address info and other static information; thus the name.\r\n\r\nThat doesn\'t exclude any or all other methods you would like to use, but this is how we use it.\r\n\r\n<header>Tricks of the Trade</header>\r\n\r\nA category listing for static pages might be used on the front page; when you add a new page it will be added to the menu.\r\n\r\nBy changing the category sort method to \"Absolute positioning\" you can order the rendering of the menu to suit your desires.\r\n\r\nYou could also create several static page groups, and use those to good effect to distinguish information.\r\n\r\nFor all other intents and purposes articles written as static pages are the same as normal articles.</page></body></article>','admin user','',27,20010226214703,20010126101612,1,'true',20010126101612,'tech\nStatic pages are articles entered into the normal article system, but which belong to a category has specific settings.All categories can have that special setting, is called \"Exclude from search\". Not only does this disallow search functions, those will not be shown in archive listings, nor latest listings or rss headlines.\r\n\r\nYou neither see name of author static page; it anonymous reader.\r\n\r\nIntended Usage\r\n\r\nThe usage such intended create copyright notices, address info and other information; thus name.\r\n\r\nThat doesn\'t exclude any all methods you would like use, how we use it.\r\n\r\nTricks Trade\r\n\r\nA listing for might used on front when add new page added menu.\r\n\r\nBy changing sort method \"Absolute positioning\" order rendering menu suit your desires.\r\n\r\nYou could also several groups, good effect distinguish information.\r\n\r\nFor intents purposes written as same articles. ',NULL,2);
-INSERT INTO eZArticle_Article VALUES (8,'eZ Trade','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>eZ Trade has had a couple of face lifts as well.</intro><body><page><header>Category Sorting</header>\r\nYou can set the sorting methods of both article and trade categories.\r\n\r\nAmong other sorting methods we\'ve added absolute positioning. This feature might be good for presenting a front page of your site where certain items appear at specific places.\r\n\r\nBy \"cross posting\" news and products to both their main category and the category with absolute positioning you can have items appear on the front page at a certain position within the time limit you want.\r\n\r\n<header>Types</header>\r\nYou can define a product type, where you set what kind of information that type requires. Then when creating a product you can set the type of the product and enter the required data.\r\n\r\nLooks great and can be used for comparision of features.\r\n\r\nCombine this with options for your products to create really compelling product pages.\r\n</page></body></article>','admin user','',27,20010226214703,20010126112654,1,'true',20010126112654,'tech\neZ Trade has had a couple of face lifts as well.Category Sorting\r\nYou can set the sorting methods both article and trade categories.\r\n\r\nAmong other we\'ve added absolute positioning. This feature might be good for presenting front page your site where certain items appear at specific places.\r\n\r\nBy \"cross posting\" news products to their main category with positioning you have on position within time limit want.\r\n\r\nTypes\r\nYou define product type, what kind information that type requires. Then when creating enter required data.\r\n\r\nLooks great used comparision features.\r\n\r\nCombine this options create really compelling pages.\r\n ',NULL,2);
-INSERT INTO eZArticle_Article VALUES (6,'eZ Newsfeed','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>eZ newsfeed is a new module from 2.0. It fetches RSS headlines from other sites.</intro><body><page>The news feed is a module which fetches headlines from RSS enabled sites, pluss a couple of speciality sites.\r\n\r\nFetching RSS headlines is easy, just point eZ publish to the URL you want, and it will fetch the info into a queue. You can then select which items you want to publish from that queue.\r\n\r\nIt is possible to create your own fetch methods which fetches headlines from other sites. PHP programming required.</page></body></article>','admin user','',27,20010226214703,20010126111844,1,'true',20010126111844,'tech\neZ newsfeed is a new module from 2.0. It fetches RSS headlines other sites.The news feed which enabled sites, pluss couple of speciality sites.\r\n\r\nFetching easy, just point eZ publish to the URL you want, and it will fetch info into queue. You can then select items want that queue.\r\n\r\nIt possible create your own methods sites. PHP programming required. ',NULL,2);
-INSERT INTO eZArticle_Article VALUES (7,'eZ Article','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>Some additions were made to eZ article, the main points are presented here.</intro><body><page><header>Article Comments</header>\r\nWhen readers comment on an article eZ publish will now send an e-mail to the user who published the article.\r\n\r\n<header>File Attachments</header>\r\nAs you can see from this article it is now possible to add files to an article; thus you can use the article for distributing files.\r\n\r\n<header>Category Sorting</header>\r\nYou can set the sorting methods of article categories.\r\n\r\nAmong other sorting methods we\'ve added absolute positioning. This feature might be good for presenting a front page of your site where certain items appear at specific places\r\n\r\n<header>Include Generated Content</header>\r\neZ Article now accepts a tag called module it takes a second argument, a file name, sans extension. The extension is assumed to be .php.\r\n\r\nThe article will parse and include that file from \"ezarticle/modules\". Thus you can create much fancier lay outs than what you\'d normally get from the standard renderer.</page></body></article>','admin user','',27,20010226214703,20010126112242,1,'true',20010126112242,'tech\nSome additions were made to eZ article, the main points are presented here.Article Comments\r\nWhen readers comment on an article publish will now send e-mail user who published article.\r\n\r\nFile Attachments\r\nAs you can see from this it is possible add files article; thus use for distributing files.\r\n\r\nCategory Sorting\r\nYou set sorting methods of categories.\r\n\r\nAmong other we\'ve added absolute positioning. This feature might be good presenting a front page your site where certain items appear at specific places\r\n\r\nInclude Generated Content\r\neZ Article accepts tag called module takes second argument, file name, sans extension. The extension assumed .php.\r\n\r\nThe parse and include that \"ezarticle/modules\". Thus create much fancier lay outs than what you\'d normally get standard renderer. ',NULL,2);
-INSERT INTO eZArticle_Article VALUES (9,'What can eZ publish Do?','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>eZ publish is a web based application suite. It delivers functionality ranging from publishing of news, web logs and diaries, through web shop functionality like shopping carts and wishlists and forums to intranet functions like contact handling and bug reporting.\r\n\r\nThe software uses caching and other optimization techniques to speed up page serving. It handles users, user preferences and user tracking through a user database and both cookie-based and non-cookie sessions.\r\n\r\nIt supports statistics for page views, links followed and banner ads, both images and HTML with presentation logic.\r\n\r\nThe package lends itself easily to customization, from changing the look and feel by changing templates, localizing the languages and other internationalization issues to adding new functionality.\r\n\r\nThe target audience for eZ publish are e-commerce, ASP (Application Service Providers), BSP (Business Service Providers), news publishing, intranets, bug reporting, content management, discussion boards, FAQ and knowledge handling, file and image management, group ware, calendaring, polls, todo lists, appointments as well as personal web sites.\r\n</intro><body><page>eZ publish is a web based application suite which delivers the following functionality:\r\n\r\n<bullet>Advertising with statistics\r\nArticle publication and management\r\nBug handling and reporting\r\nCalendar functionality for creating appointments and events\r\nContact handling for keeping track of people and businesses\r\nFile manager for keeping track of uploaded files\r\nModerated forums for discussions\r\nImage manager for keeping track of uploaded images\r\nLink manager which is used to categorize links\r\nNews feed importing, fetch news and headlines from other sites and incorporate them in your own(1)\r\nPoll module for creating user polls.\r\nSession module for keeping track of users and their preferences\r\nStatistics module for information about page views and visitors\r\nTo-do module for assigning tasks to people\r\nTrade module which is an online shop, with shopping cart and wishlist\r\nUser management for registering users, giving access to different groups to different parts of the site</bullet>\r\n\r\nThe software does not believe in limits(2):\r\n\r\n<bullet>No limits on categories and items in categories\r\nArticles, products and links might belong to several different categories\r\nNo limits on people associated with a company, or the number of people and companies registered totally\r\nNo limits of addresses, phone numbers and other contact points for people and businesses\r\nNo limits on users, the groups they might belong to and number of user groups</bullet>\r\n      \r\nBased on PHP, the leading programming language module for the Apache web server software, eZ publish draws on the speed from this renown software. The backend database is MySQL which is fast and reliable, proven on thousands of Internet sites.\r\n\r\nFurther speed enhancements are made in the eZ publish by using caching of data and reduced connections to the database.\r\n\r\nAll the default templates delivered with eZ publish are tested on a diverse mix of browsers, Opera, Internet Explorer, Netscape, Konqueror and Lynx, thus enabling all users to gain access to your site.\r\n\r\nSo called cookie-less sessions are supported, a method used to enable user recognition even for those who objects to use cookies, no-one will feel left out or overseen.\r\n\r\neZ publish keeps track of the statistics of your site. How many visitors, from where, what do they buy and what are they looking at.\r\n\r\nThe package has been translated to several languages, you can even translate it yourself through the eZ Babel software we\'ve developed for this purpose specifically.\r\n\r\nChanging the design of your site is easy because of separation of content and design. You don\'t have to know anything about PHP or coding, just something about HTML.\r\n\r\nFor those proficient in programming PHP the source code is available, it can be used as a basis for adding new modules and functionality tailored to your specific needs.\r\n\r\nThe target audience for eZ publish are e-commerce, ASP (Application Service Providers), news publishing, intranets, bug reporting, content management, discussion boards, FAQ and knowledge handling, file and image management, group ware, calendaring, appointments.\r\n\r\n     \r\n(1) We do not encourage copyright infringements with this feature. Our default templates will not pass these news items as the site\'s own. \r\n\r\nAsk permission from copyright holder before publishing other site\'s news on your site.\r\n\r\n(2) There are limits, of course, since the system is based on other software, and because it will run on systems with different sizes of hard disks and ram, as well as processor speed.\r\n</page></body></article>','admin user','',27,20010226214703,20010126115247,1,'true',20010126115247,'tech\neZ publish is a web based application suite. It delivers functionality ranging from publishing of news, logs and diaries, through shop like shopping carts wishlists forums to intranet functions contact handling bug reporting.\r\n\r\nThe software uses caching other optimization techniques speed up page serving. handles users, user preferences tracking database both cookie-based non-cookie sessions.\r\n\r\nIt supports statistics for views, links followed banner ads, images HTML with presentation logic.\r\n\r\nThe package lends itself easily customization, changing the look feel by templates, localizing languages internationalization issues adding new functionality.\r\n\r\nThe target audience eZ are e-commerce, ASP (Application Service Providers), BSP (Business news publishing, intranets, reporting, content management, discussion boards, FAQ knowledge handling, file image group ware, calendaring, polls, todo lists, appointments as well personal sites.\r\neZ suite which following functionality:\r\n\r\nAdvertising statistics\r\nArticle publication management\r\nBug reporting\r\nCalendar creating events\r\nContact keeping track people businesses\r\nFile manager uploaded files\r\nModerated discussions\r\nImage images\r\nLink used categorize links\r\nNews feed importing, fetch headlines sites incorporate them in your own(1)\r\nPoll module polls.\r\nSession users their preferences\r\nStatistics information about views visitors\r\nTo-do assigning tasks people\r\nTrade an online shop, cart wishlist\r\nUser management registering giving access different groups parts site\r\n\r\nThe does not believe limits(2):\r\n\r\nNo limits on categories items categories\r\nArticles, products might belong several categories\r\nNo associated company, or number companies registered totally\r\nNo addresses, phone numbers points businesses\r\nNo they groups\r\n  \r\nBased PHP, leading programming language Apache server software, draws this renown software. The backend MySQL fast reliable, proven thousands Internet sites.\r\n\r\nFurther enhancements made using data reduced connections database.\r\n\r\nAll default templates delivered tested diverse mix browsers, Opera, Explorer, Netscape, Konqueror Lynx, thus enabling all gain site.\r\n\r\nSo called cookie-less sessions supported, method enable recognition even those who objects use cookies, no-one will left out overseen.\r\n\r\neZ keeps site. How many visitors, where, what do buy looking at.\r\n\r\nThe has been translated languages, you can translate it yourself Babel we\'ve developed purpose specifically.\r\n\r\nChanging design site easy because separation design. You don\'t have know anything PHP coding, just something HTML.\r\n\r\nFor proficient source code available, be basis modules tailored specific needs.\r\n\r\nThe appointments.\r\n\r\n \r\n(1) We encourage copyright infringements feature. Our pass these site\'s own. \r\n\r\nAsk permission holder before site.\r\n\r\n(2) There limits, course, since system run systems sizes hard disks ram, processor speed.\r\n ',NULL,2);
+INSERT INTO eZArticle_Article VALUES (1,'Demo article','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>This article will show the tags you can use in eZ publish.</intro><body><page><header>Standard tags</header>\r\n\r\nThis is <bold>bold</bold> text.\r\nThis is <strike>strike</strike> text.\r\nThis is <underline>underline</underline> text.\r\n\r\n<pre>\r\nPre defined text\r\n  indented\r\n    as \r\n      written.\r\n</pre>\r\n<bullet>\r\nItem one\r\nItem two\r\nItem three\r\n</bullet>\r\n\r\n<header>Image tags</header>\r\n\r\n<image id=\"1\" align=\"left\" size=\"medium\" /> Fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text.\r\n\r\n<image id=\"2\" align=\"center\" size=\"medium\" />\r\n\r\nImages on a row\r\n\r\n<image id=\"1\" align=\"float\" size=\"small\" /> <image id=\"2\" align=\"float\" size=\"small\" /> <image id=\"1\" align=\"float\" size=\"small\" /> <image id=\"2\" align=\"float\" size=\"small\" /></page></body></article>','admin user','See demo',27,20010226214703,20010126100350,1,'true',20010126100350,'tech\nThis article will show the tags you can use in eZ publish.Standard tags\r\n\r\nThis is bold text.\r\nThis strike underline text.\r\n\r\n\r\nPre defined text\r\n  indented\r\n as \r\n written.\r\n\r\n\r\nItem one\r\nItem two\r\nItem three\r\n\r\n\r\nImage tags\r\n\r\n Fill text fill text.\r\n\r\n\r\n\r\nImages on a row\r\n\r\n ');
+INSERT INTO eZArticle_Article VALUES (5,'What is New in 2.0?','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>This is a major new release of eZ publish, we\'ve added lots of new information.</intro><body><page><bullet>Merged eZ trade with eZ publish\r\nAdded about module\r\nAdded ad module\r\nAdded address module\r\nAdded bug tracking module\r\nAdded calendar module\r\nAdded contact module\r\nAdded newsfeed module\r\nAdded statistics module\r\nAdded todo module\r\nAdded cookie-less sessions \r\nAdded absolute positioning of products and articles\r\nAdded choosable sort mode on article categories\r\nAdded choosable sort mode on product categories\r\nAdded previous/next paging of article lists (admin &amp; user )\r\nAdded previous/next paging of product lists (admin &amp; user )\r\nAdded RSS headlines\r\nAdded forum moderation with assignment of moderator\r\nAdded notification when articles are published\r\nAdded file uploads on articles.\r\nAdded dynamically updating of menues with static pages.\r\nAdded file upload to eZ article\r\nAdded word wrap of message replies in eZ forum. Nicer looking replies.\r\nAdded new tags in articles (bullet lists/includes of php files)\r\nAdded preferred layout for users\r\nMade the menus in the admin module expandable/collapsable as well as moveable. This is remembered by the preferences for each user. We\'ve also changed the design to a more sleek version.\r\nLanguage updates\r\nRemoved java script which were a problem for lynx users.\r\nRemoved strip tags from messages in eZ forum\r\nSpeeded up many features among them database connections, localisation, rendering of articles, templates and HTML.\r\nFixed bugs</bullet>\r\n\r\n\r\nRead on to learn how to use some of the new features.\r\n</page><page>\r\n<header>RSS Headlines</header>\r\nYou can access the RSS Headlines of eZ publish from the URL \"/article/rssheadlines\".\r\n\r\nIn \"site.ini\" you can configure some of its options; read more in the \"eZ article Admin\'s Guide\" and \"eZ publish Customisation Guide\".\r\n\r\n<header>About</header>\r\nIf you write in the URL \"/about\" you\'ll be presented with an about box for eZ publish.\r\n\r\n<header>User Preferences</header>\r\nWe\'ve added preference functionality. If you take a look into the left hand column of this site you\'ll find some links which are called \"intranet\", \"portal site\" and \"E-commerce\". Those links take you to different designs for eZ publish (only two links will be shown at any time).\r\n\r\nAn example of its usage might be to give users the option of reading your site with different amounts of graphics, or different text sizes.\r\n\r\n<header>Cookie-less Sessions</header>\r\nWe\'ve added cookie-less sessions.\r\n\r\n<header>Moderated Forums</header>\r\nWe\'ve added the much requested moderation functionality to forums. Now you can assign a moderator to each and every forum.\r\n\r\nUsage for this function might, in addition to plain old moderation, is to protect forums so that you can use them as an FAQ.</page></body></article>','admin user','Read the changelog...',27,20010226214703,20010126102640,2,'true',20010126102640,'tech\nThis is a major new release of eZ publish, we\'ve added lots information.Merged trade with publish\r\nAdded about module\r\nAdded ad address bug tracking calendar contact newsfeed statistics todo cookie-less sessions \r\nAdded absolute positioning products and articles\r\nAdded choosable sort mode on article categories\r\nAdded product previous/next paging lists (admin &amp; user )\r\nAdded RSS headlines\r\nAdded forum moderation assignment moderator\r\nAdded notification when articles are published\r\nAdded file uploads articles.\r\nAdded dynamically updating menues static pages.\r\nAdded upload to article\r\nAdded word wrap message replies in forum. Nicer looking replies.\r\nAdded tags (bullet lists/includes php files)\r\nAdded preferred layout for users\r\nMade the menus admin module expandable/collapsable as well moveable. This remembered by preferences each user. We\'ve also changed design more sleek version.\r\nLanguage updates\r\nRemoved java script which were problem lynx users.\r\nRemoved strip from messages forum\r\nSpeeded up many features among them database connections, localisation, rendering articles, templates HTML.\r\nFixed bugs\r\n\r\n\r\nRead learn how use some features.\r\n\r\nRSS Headlines\r\nYou can access Headlines publish URL \"/article/rssheadlines\".\r\n\r\nIn \"site.ini\" you configure its options; read \"eZ Admin\'s Guide\" Customisation Guide\".\r\n\r\nAbout\r\nIf write \"/about\" you\'ll be presented an box publish.\r\n\r\nUser Preferences\r\nWe\'ve preference functionality. If take look into left hand column this site find links called \"intranet\", \"portal site\" \"E-commerce\". Those different designs (only two will shown at any time).\r\n\r\nAn example usage might give users option reading your amounts graphics, or text sizes.\r\n\r\nCookie-less Sessions\r\nWe\'ve sessions.\r\n\r\nModerated Forums\r\nWe\'ve much requested functionality forums. Now assign moderator every forum.\r\n\r\nUsage function might, addition plain old moderation, protect forums so that FAQ. ');
+INSERT INTO eZArticle_Article VALUES (4,'How does static pages work?','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>Static pages are articles entered into the normal article system, but which belong to a category which has specific settings.</intro><body><page>All categories can have that special setting, which is called \"Exclude from search\". Not only does this disallow normal search functions, but those articles will not be shown in normal archive listings, nor latest article listings or the rss headlines.\r\n\r\nYou will neither see the name of the author of a static page; it is anonymous to the reader.\r\n\r\n<header>Intended Usage</header>\r\n\r\nThe usage of such pages is intended to create copyright notices, address info and other static information; thus the name.\r\n\r\nThat doesn\'t exclude any or all other methods you would like to use, but this is how we use it.\r\n\r\n<header>Tricks of the Trade</header>\r\n\r\nA category listing for static pages might be used on the front page; when you add a new page it will be added to the menu.\r\n\r\nBy changing the category sort method to \"Absolute positioning\" you can order the rendering of the menu to suit your desires.\r\n\r\nYou could also create several static page groups, and use those to good effect to distinguish information.\r\n\r\nFor all other intents and purposes articles written as static pages are the same as normal articles.</page></body></article>','admin user','',27,20010226214703,20010126101612,1,'true',20010126101612,'tech\nStatic pages are articles entered into the normal article system, but which belong to a category has specific settings.All categories can have that special setting, is called \"Exclude from search\". Not only does this disallow search functions, those will not be shown in archive listings, nor latest listings or rss headlines.\r\n\r\nYou neither see name of author static page; it anonymous reader.\r\n\r\nIntended Usage\r\n\r\nThe usage such intended create copyright notices, address info and other information; thus name.\r\n\r\nThat doesn\'t exclude any all methods you would like use, how we use it.\r\n\r\nTricks Trade\r\n\r\nA listing for might used on front when add new page added menu.\r\n\r\nBy changing sort method \"Absolute positioning\" order rendering menu suit your desires.\r\n\r\nYou could also several groups, good effect distinguish information.\r\n\r\nFor intents purposes written as same articles. ');
+INSERT INTO eZArticle_Article VALUES (8,'eZ Trade','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>eZ Trade has had a couple of face lifts as well.</intro><body><page><header>Category Sorting</header>\r\nYou can set the sorting methods of both article and trade categories.\r\n\r\nAmong other sorting methods we\'ve added absolute positioning. This feature might be good for presenting a front page of your site where certain items appear at specific places.\r\n\r\nBy \"cross posting\" news and products to both their main category and the category with absolute positioning you can have items appear on the front page at a certain position within the time limit you want.\r\n\r\n<header>Types</header>\r\nYou can define a product type, where you set what kind of information that type requires. Then when creating a product you can set the type of the product and enter the required data.\r\n\r\nLooks great and can be used for comparision of features.\r\n\r\nCombine this with options for your products to create really compelling product pages.\r\n</page></body></article>','admin user','',27,20010226214703,20010126112654,1,'true',20010126112654,'tech\neZ Trade has had a couple of face lifts as well.Category Sorting\r\nYou can set the sorting methods both article and trade categories.\r\n\r\nAmong other we\'ve added absolute positioning. This feature might be good for presenting front page your site where certain items appear at specific places.\r\n\r\nBy \"cross posting\" news products to their main category with positioning you have on position within time limit want.\r\n\r\nTypes\r\nYou define product type, what kind information that type requires. Then when creating enter required data.\r\n\r\nLooks great used comparision features.\r\n\r\nCombine this options create really compelling pages.\r\n ');
+INSERT INTO eZArticle_Article VALUES (6,'eZ Newsfeed','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>eZ newsfeed is a new module from 2.0. It fetches RSS headlines from other sites.</intro><body><page>The news feed is a module which fetches headlines from RSS enabled sites, pluss a couple of speciality sites.\r\n\r\nFetching RSS headlines is easy, just point eZ publish to the URL you want, and it will fetch the info into a queue. You can then select which items you want to publish from that queue.\r\n\r\nIt is possible to create your own fetch methods which fetches headlines from other sites. PHP programming required.</page></body></article>','admin user','',27,20010226214703,20010126111844,1,'true',20010126111844,'tech\neZ newsfeed is a new module from 2.0. It fetches RSS headlines other sites.The news feed which enabled sites, pluss couple of speciality sites.\r\n\r\nFetching easy, just point eZ publish to the URL you want, and it will fetch info into queue. You can then select items want that queue.\r\n\r\nIt possible create your own methods sites. PHP programming required. ');
+INSERT INTO eZArticle_Article VALUES (7,'eZ Article','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>Some additions were made to eZ article, the main points are presented here.</intro><body><page><header>Article Comments</header>\r\nWhen readers comment on an article eZ publish will now send an e-mail to the user who published the article.\r\n\r\n<header>File Attachments</header>\r\nAs you can see from this article it is now possible to add files to an article; thus you can use the article for distributing files.\r\n\r\n<header>Category Sorting</header>\r\nYou can set the sorting methods of article categories.\r\n\r\nAmong other sorting methods we\'ve added absolute positioning. This feature might be good for presenting a front page of your site where certain items appear at specific places\r\n\r\n<header>Include Generated Content</header>\r\neZ Article now accepts a tag called module it takes a second argument, a file name, sans extension. The extension is assumed to be .php.\r\n\r\nThe article will parse and include that file from \"ezarticle/modules\". Thus you can create much fancier lay outs than what you\'d normally get from the standard renderer.</page></body></article>','admin user','',27,20010226214703,20010126112242,1,'true',20010126112242,'tech\nSome additions were made to eZ article, the main points are presented here.Article Comments\r\nWhen readers comment on an article publish will now send e-mail user who published article.\r\n\r\nFile Attachments\r\nAs you can see from this it is possible add files article; thus use for distributing files.\r\n\r\nCategory Sorting\r\nYou set sorting methods of categories.\r\n\r\nAmong other we\'ve added absolute positioning. This feature might be good presenting a front page your site where certain items appear at specific places\r\n\r\nInclude Generated Content\r\neZ Article accepts tag called module takes second argument, file name, sans extension. The extension assumed .php.\r\n\r\nThe parse and include that \"ezarticle/modules\". Thus create much fancier lay outs than what you\'d normally get standard renderer. ');
+INSERT INTO eZArticle_Article VALUES (9,'What can eZ publish Do?','<?xml version=\"1.0\"?><article><generator>tech</generator>\n<intro>eZ publish is a web based application suite. It delivers functionality ranging from publishing of news, web logs and diaries, through web shop functionality like shopping carts and wishlists and forums to intranet functions like contact handling and bug reporting.\r\n\r\nThe software uses caching and other optimization techniques to speed up page serving. It handles users, user preferences and user tracking through a user database and both cookie-based and non-cookie sessions.\r\n\r\nIt supports statistics for page views, links followed and banner ads, both images and HTML with presentation logic.\r\n\r\nThe package lends itself easily to customization, from changing the look and feel by changing templates, localizing the languages and other internationalization issues to adding new functionality.\r\n\r\nThe target audience for eZ publish are e-commerce, ASP (Application Service Providers), BSP (Business Service Providers), news publishing, intranets, bug reporting, content management, discussion boards, FAQ and knowledge handling, file and image management, group ware, calendaring, polls, todo lists, appointments as well as personal web sites.\r\n</intro><body><page><image id=\"1\" align=\"right\" size=\"medium\" />eZ publish is a web based application suite which delivers the following functionality:\r\n\r\n<bullet>Advertising with statistics\r\nArticle publication and management\r\nBug handling and reporting\r\nCalendar functionality for creating appointments and events\r\nContact handling for keeping track of people and businesses\r\nFile manager for keeping track of uploaded files\r\nModerated forums for discussions\r\nImage manager for keeping track of uploaded images\r\nLink manager which is used to categorize links\r\nNews feed importing, fetch news and headlines from other sites and incorporate them in your own(1)\r\nPoll module for creating user polls.\r\nSession module for keeping track of users and their preferences\r\nStatistics module for information about page views and visitors\r\nTo-do module for assigning tasks to people\r\nTrade module which is an online shop, with shopping cart and wishlist\r\nUser management for registering users, giving access to different groups to different parts of the site</bullet>\r\n\r\nThe software does not believe in limits(2):\r\n\r\n<bullet>No limits on categories and items in categories\r\nArticles, products and links might belong to several different categories\r\nNo limits on people associated with a company, or the number of people and companies registered totally\r\nNo limits of addresses, phone numbers and other contact points for people and businesses\r\nNo limits on users, the groups they might belong to and number of user groups</bullet>\r\n      \r\nBased on PHP, the leading programming language module for the Apache web server software, eZ publish draws on the speed from this renown software. The backend database is MySQL which is fast and reliable, proven on thousands of Internet sites.\r\n\r\nFurther speed enhancements are made in the eZ publish by using caching of data and reduced connections to the database.\r\n\r\nAll the default templates delivered with eZ publish are tested on a diverse mix of browsers, Opera, Internet Explorer, Netscape, Konqueror and Lynx, thus enabling all users to gain access to your site.\r\n\r\nSo called cookie-less sessions are supported, a method used to enable user recognition even for those who objects to use cookies, no-one will feel left out or overseen.\r\n\r\neZ publish keeps track of the statistics of your site. How many visitors, from where, what do they buy and what are they looking at.\r\n\r\nThe package has been translated to several languages, you can even translate it yourself through the eZ Babel software we\'ve developed for this purpose specifically.\r\n\r\nChanging the design of your site is easy because of separation of content and design. You don\'t have to know anything about PHP or coding, just something about HTML.\r\n\r\nFor those proficient in programming PHP the source code is available, it can be used as a basis for adding new modules and functionality tailored to your specific needs.\r\n\r\nThe target audience for eZ publish are e-commerce, ASP (Application Service Providers), news publishing, intranets, bug reporting, content management, discussion boards, FAQ and knowledge handling, file and image management, group ware, calendaring, appointments.\r\n\r\n     \r\n(1) We do not encourage copyright infringements with this feature. Our default templates will not pass these news items as the site\'s own. \r\n\r\nAsk permission from copyright holder before publishing other site\'s news on your site.\r\n\r\n(2) There are limits, of course, since the system is based on other software, and because it will run on systems with different sizes of hard disks and ram, as well as processor speed.\r\n</page></body></article>','admin user','',27,20010305175915,20010126115247,1,'true',20010126115247,'tech\neZ publish is a web based application suite. It delivers functionality ranging from publishing of news, logs and diaries, through shop like shopping carts wishlists forums to intranet functions contact handling bug reporting.\r\n\r\nThe software uses caching other optimization techniques speed up page serving. handles users, user preferences tracking database both cookie-based non-cookie sessions.\r\n\r\nIt supports statistics for views, links followed banner ads, images HTML with presentation logic.\r\n\r\nThe package lends itself easily customization, changing the look feel by templates, localizing languages internationalization issues adding new functionality.\r\n\r\nThe target audience eZ are e-commerce, ASP (Application Service Providers), BSP (Business news publishing, intranets, reporting, content management, discussion boards, FAQ knowledge handling, file image group ware, calendaring, polls, todo lists, appointments as well personal sites.\r\neZ suite which following functionality:\r\n\r\nAdvertising statistics\r\nArticle publication management\r\nBug reporting\r\nCalendar creating events\r\nContact keeping track people businesses\r\nFile manager uploaded files\r\nModerated discussions\r\nImage images\r\nLink used categorize links\r\nNews feed importing, fetch headlines sites incorporate them in your own(1)\r\nPoll module polls.\r\nSession users their preferences\r\nStatistics information about views visitors\r\nTo-do assigning tasks people\r\nTrade an online shop, cart wishlist\r\nUser management registering giving access different groups parts site\r\n\r\nThe does not believe limits(2):\r\n\r\nNo limits on categories items categories\r\nArticles, products might belong several categories\r\nNo associated company, or number companies registered totally\r\nNo addresses, phone numbers points businesses\r\nNo they groups\r\n  \r\nBased PHP, leading programming language Apache server software, draws this renown software. The backend MySQL fast reliable, proven thousands Internet sites.\r\n\r\nFurther enhancements made using data reduced connections database.\r\n\r\nAll default templates delivered tested diverse mix browsers, Opera, Explorer, Netscape, Konqueror Lynx, thus enabling all gain site.\r\n\r\nSo called cookie-less sessions supported, method enable recognition even those who objects use cookies, no-one will left out overseen.\r\n\r\neZ keeps site. How many visitors, where, what do buy looking at.\r\n\r\nThe has been translated languages, you can translate it yourself Babel we\'ve developed purpose specifically.\r\n\r\nChanging design site easy because separation design. You don\'t have know anything PHP coding, just something HTML.\r\n\r\nFor proficient source code available, be basis modules tailored specific needs.\r\n\r\nThe appointments.\r\n\r\n \r\n(1) We encourage copyright infringements feature. Our pass these site\'s own. \r\n\r\nAsk permission holder before site.\r\n\r\n(2) There limits, course, since system run systems sizes hard disks ram, processor speed.\r\n ');
 
 #
 # Table structure for table 'eZArticle_ArticleCategoryDefinition'
@@ -562,7 +563,7 @@ INSERT INTO eZArticle_ArticleCategoryDefinition VALUES (10,6,1);
 INSERT INTO eZArticle_ArticleCategoryDefinition VALUES (4,4,2);
 INSERT INTO eZArticle_ArticleCategoryDefinition VALUES (17,7,1);
 INSERT INTO eZArticle_ArticleCategoryDefinition VALUES (15,8,1);
-INSERT INTO eZArticle_ArticleCategoryDefinition VALUES (16,9,1);
+INSERT INTO eZArticle_ArticleCategoryDefinition VALUES (21,9,1);
 
 #
 # Table structure for table 'eZArticle_ArticleCategoryLink'
@@ -652,6 +653,7 @@ CREATE TABLE eZArticle_ArticleImageDefinition (
 
 INSERT INTO eZArticle_ArticleImageDefinition VALUES (4,20);
 INSERT INTO eZArticle_ArticleImageDefinition VALUES (1,1);
+INSERT INTO eZArticle_ArticleImageDefinition VALUES (9,12);
 
 #
 # Table structure for table 'eZArticle_ArticleImageLink'
@@ -672,24 +674,33 @@ CREATE TABLE eZArticle_ArticleImageLink (
 
 INSERT INTO eZArticle_ArticleImageLink VALUES (1,1,1,20010126100427);
 INSERT INTO eZArticle_ArticleImageLink VALUES (2,1,2,20010126100445);
+INSERT INTO eZArticle_ArticleImageLink VALUES (3,9,12,20010305175808);
 
 #
-# Table structure for table 'eZArticle_ArticleReaderLink'
+# Table structure for table 'eZArticle_ArticlePermission'
 #
 
-DROP TABLE IF EXISTS eZArticle_ArticleReaderLink;
-CREATE TABLE eZArticle_ArticleReaderLink (
+DROP TABLE IF EXISTS eZArticle_ArticlePermission;
+CREATE TABLE eZArticle_ArticlePermission (
   ID int(11) NOT NULL auto_increment,
-  ArticleID int(11) NOT NULL default '0',
-  GroupID int(11) NOT NULL default '0',
-  Created timestamp(14) NOT NULL,
+  ObjectID int(11) default NULL,
+  GroupID int(11) default NULL,
+  ReadPermission int(11) default '0',
+  WritePermission int(11) default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'eZArticle_ArticleReaderLink'
+# Dumping data for table 'eZArticle_ArticlePermission'
 #
 
+INSERT INTO eZArticle_ArticlePermission VALUES (1,1,-1,1,1);
+INSERT INTO eZArticle_ArticlePermission VALUES (2,4,-1,1,1);
+INSERT INTO eZArticle_ArticlePermission VALUES (3,5,-1,1,1);
+INSERT INTO eZArticle_ArticlePermission VALUES (4,6,-1,1,1);
+INSERT INTO eZArticle_ArticlePermission VALUES (5,7,-1,1,1);
+INSERT INTO eZArticle_ArticlePermission VALUES (6,8,-1,1,1);
+INSERT INTO eZArticle_ArticlePermission VALUES (7,9,-1,1,1);
 
 #
 # Table structure for table 'eZArticle_Category'
@@ -703,8 +714,7 @@ CREATE TABLE eZArticle_Category (
   ParentID int(11) default '0',
   ExcludeFromSearch enum('true','false') default 'false',
   SortMode int(11) NOT NULL default '1',
-  OwnerGroupID int(11) default NULL,
-  ReadPermission int(1) default '0',
+  OwnerID int(11) default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -712,10 +722,33 @@ CREATE TABLE eZArticle_Category (
 # Dumping data for table 'eZArticle_Category'
 #
 
-INSERT INTO eZArticle_Category VALUES (1,'News','',0,'false',4,NULL,2);
-INSERT INTO eZArticle_Category VALUES (2,'Static pages','',0,'true',4,NULL,2);
-INSERT INTO eZArticle_Category VALUES (3,'Category three','',0,'false',3,NULL,2);
-INSERT INTO eZArticle_Category VALUES (4,'Category four','',0,'false',3,NULL,2);
+INSERT INTO eZArticle_Category VALUES (1,'News','',0,'false',4,27);
+INSERT INTO eZArticle_Category VALUES (2,'Static pages','',0,'true',4,27);
+INSERT INTO eZArticle_Category VALUES (3,'Category three','',0,'false',3,27);
+INSERT INTO eZArticle_Category VALUES (4,'Category four','',0,'false',3,27);
+
+#
+# Table structure for table 'eZArticle_CategoryPermission'
+#
+
+DROP TABLE IF EXISTS eZArticle_CategoryPermission;
+CREATE TABLE eZArticle_CategoryPermission (
+  ID int(11) NOT NULL auto_increment,
+  ObjectID int(11) default NULL,
+  GroupID int(11) default NULL,
+  ReadPermission int(11) default '0',
+  WritePermission int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'eZArticle_CategoryPermission'
+#
+
+INSERT INTO eZArticle_CategoryPermission VALUES (1,1,-1,1,1);
+INSERT INTO eZArticle_CategoryPermission VALUES (2,2,-1,1,1);
+INSERT INTO eZArticle_CategoryPermission VALUES (3,3,-1,1,1);
+INSERT INTO eZArticle_CategoryPermission VALUES (4,4,-1,1,1);
 
 #
 # Table structure for table 'eZArticle_CategoryReaderLink'
@@ -752,6 +785,7 @@ CREATE TABLE eZBug_Bug (
   IsClosed enum('true','false') default 'false',
   UserEmail varchar(100) default '',
   OwnerID int(11) default NULL,
+  IsPrivate enum('true','false') default 'false',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -759,7 +793,7 @@ CREATE TABLE eZBug_Bug (
 # Dumping data for table 'eZBug_Bug'
 #
 
-INSERT INTO eZBug_Bug VALUES (1,'Help!','It dosent work!',33,20010125202931,'false',0,0,'','',NULL);
+INSERT INTO eZBug_Bug VALUES (1,'Help!','It dosent work!',33,20010125202931,'false',0,0,'','',NULL,'false');
 
 #
 # Table structure for table 'eZBug_BugCategoryLink'
@@ -890,6 +924,25 @@ CREATE TABLE eZBug_Module (
 #
 
 INSERT INTO eZBug_Module VALUES (1,0,'My program','',0);
+
+#
+# Table structure for table 'eZBug_ModulePermission'
+#
+
+DROP TABLE IF EXISTS eZBug_ModulePermission;
+CREATE TABLE eZBug_ModulePermission (
+  ID int(11) NOT NULL auto_increment,
+  ObjectID int(11) default NULL,
+  GroupID int(11) default NULL,
+  ReadPermission int(11) default '0',
+  WritePermission int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'eZBug_ModulePermission'
+#
+
 
 #
 # Table structure for table 'eZBug_Priority'
@@ -1371,8 +1424,8 @@ CREATE TABLE eZContact_UserCompanyDict (
   UserID int(11) NOT NULL default '0',
   CompanyID int(11) NOT NULL default '0',
   PRIMARY KEY (UserID,CompanyID),
-  UNIQUE KEY UserID(UserID),
-  UNIQUE KEY CompanyID(CompanyID)
+  UNIQUE KEY CompanyID(CompanyID),
+  UNIQUE KEY UserID(UserID)
 ) TYPE=MyISAM;
 
 #
@@ -1389,8 +1442,8 @@ CREATE TABLE eZContact_UserPersonDict (
   UserID int(11) NOT NULL default '0',
   PersonID int(11) NOT NULL default '0',
   PRIMARY KEY (UserID,PersonID),
-  UNIQUE KEY UserID(UserID),
-  UNIQUE KEY PersonID(PersonID)
+  UNIQUE KEY PersonID(PersonID),
+  UNIQUE KEY UserID(UserID)
 ) TYPE=MyISAM;
 
 #
@@ -1463,6 +1516,25 @@ INSERT INTO eZFileManager_FilePageViewLink VALUES (6,221,1);
 INSERT INTO eZFileManager_FilePageViewLink VALUES (7,223,1);
 
 #
+# Table structure for table 'eZFileManager_FilePermission'
+#
+
+DROP TABLE IF EXISTS eZFileManager_FilePermission;
+CREATE TABLE eZFileManager_FilePermission (
+  ID int(11) NOT NULL auto_increment,
+  ObjectID int(11) default NULL,
+  GroupID int(11) default NULL,
+  ReadPermission int(11) default '0',
+  WritePermission int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'eZFileManager_FilePermission'
+#
+
+
+#
 # Table structure for table 'eZFileManager_FileReadGroupLink'
 #
 
@@ -1514,6 +1586,25 @@ CREATE TABLE eZFileManager_Folder (
 
 #
 # Dumping data for table 'eZFileManager_Folder'
+#
+
+
+#
+# Table structure for table 'eZFileManager_FolderPermission'
+#
+
+DROP TABLE IF EXISTS eZFileManager_FolderPermission;
+CREATE TABLE eZFileManager_FolderPermission (
+  ID int(11) NOT NULL auto_increment,
+  ObjectID int(11) default NULL,
+  GroupID int(11) default NULL,
+  ReadPermission int(11) default '0',
+  WritePermission int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'eZFileManager_FolderPermission'
 #
 
 
@@ -1669,6 +1760,25 @@ CREATE TABLE eZImageCatalogue_Category (
 INSERT INTO eZImageCatalogue_Category VALUES (1,'Images',' ',0,27,2,3);
 
 #
+# Table structure for table 'eZImageCatalogue_CategoryPermission'
+#
+
+DROP TABLE IF EXISTS eZImageCatalogue_CategoryPermission;
+CREATE TABLE eZImageCatalogue_CategoryPermission (
+  ID int(11) NOT NULL auto_increment,
+  ObjectID int(11) default NULL,
+  GroupID int(11) default NULL,
+  ReadPermission int(11) default '0',
+  WritePermission int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'eZImageCatalogue_CategoryPermission'
+#
+
+
+#
 # Table structure for table 'eZImageCatalogue_Image'
 #
 
@@ -1701,6 +1811,7 @@ INSERT INTO eZImageCatalogue_Image VALUES (8,'','','','php7CTbzs.gif','ezsystems
 INSERT INTO eZImageCatalogue_Image VALUES (9,'','','','phpA9uCUK.gif','ezpublish-banner.gif',0,0,0);
 INSERT INTO eZImageCatalogue_Image VALUES (10,'','','','phpUCtzjC.gif','ezpublish-anim-banner.gif',0,0,0);
 INSERT INTO eZImageCatalogue_Image VALUES (11,'','','','phpd7Wkys.jpg','DSCN1722.JPG',0,0,0);
+INSERT INTO eZImageCatalogue_Image VALUES (12,'','','','phpQcEEE7.jpg','pus.jpg',0,0,0);
 
 #
 # Table structure for table 'eZImageCatalogue_ImageCategoryLink'
@@ -1721,6 +1832,25 @@ CREATE TABLE eZImageCatalogue_ImageCategoryLink (
 INSERT INTO eZImageCatalogue_ImageCategoryLink VALUES (1,2,5);
 INSERT INTO eZImageCatalogue_ImageCategoryLink VALUES (2,2,6);
 INSERT INTO eZImageCatalogue_ImageCategoryLink VALUES (3,2,7);
+
+#
+# Table structure for table 'eZImageCatalogue_ImagePermission'
+#
+
+DROP TABLE IF EXISTS eZImageCatalogue_ImagePermission;
+CREATE TABLE eZImageCatalogue_ImagePermission (
+  ID int(11) NOT NULL auto_increment,
+  ObjectID int(11) default NULL,
+  GroupID int(11) default NULL,
+  ReadPermission int(11) default '0',
+  WritePermission int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'eZImageCatalogue_ImagePermission'
+#
+
 
 #
 # Table structure for table 'eZImageCatalogue_ImageVariation'
@@ -1762,6 +1892,8 @@ INSERT INTO eZImageCatalogue_ImageVariation VALUES (18,1,6,'ezimagecatalogue/cat
 INSERT INTO eZImageCatalogue_ImageVariation VALUES (19,2,6,'ezimagecatalogue/catalogue/variations/2-400x500.jpg',400,300);
 INSERT INTO eZImageCatalogue_ImageVariation VALUES (20,3,9,'ezimagecatalogue/catalogue/variations/3-109x109.jpg',109,81);
 INSERT INTO eZImageCatalogue_ImageVariation VALUES (21,4,9,'ezimagecatalogue/catalogue/variations/4-109x109.jpg',109,81);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (22,12,1,'ezimagecatalogue/catalogue/variations/12-150x150.jpg',150,112);
+INSERT INTO eZImageCatalogue_ImageVariation VALUES (23,12,2,'ezimagecatalogue/catalogue/variations/12-200x200.jpg',200,150);
 
 #
 # Table structure for table 'eZImageCatalogue_ImageVariationGroup'
@@ -2087,7 +2219,7 @@ CREATE TABLE eZSession_Preferences (
 # Dumping data for table 'eZSession_Preferences'
 #
 
-INSERT INTO eZSession_Preferences VALUES (1,27,'EnabledModules','eZArticle;eZContact;eZTrade;eZForum;eZLink;eZPoll;eZAd;eZUser;eZStats;eZAddress;eZNewsfeed;eZBug;eZTodo;eZExample;eZCalendar');
+INSERT INTO eZSession_Preferences VALUES (1,27,'EnabledModules','eZArticle;eZContact;eZTrade;eZForum;eZLink;eZPoll;eZAd;eZUser;eZStats;eZAddress;eZNewsfeed;eZBug;eZTodo;eZExample;eZCalendar;eZFileManager;eZImageCatalogue');
 
 #
 # Table structure for table 'eZSession_Session'
@@ -2342,6 +2474,8 @@ INSERT INTO eZSession_Session VALUES (232,'afc7c8776d33a523cf53505ab0f9cb1d',200
 INSERT INTO eZSession_Session VALUES (233,'9d56b1e4eeebe0aa9c215043a5921b8a',20010213170048,20010213170048,20010213170048);
 INSERT INTO eZSession_Session VALUES (234,'ace4e394c316ba4038a6be69fb2d0054',20010226214725,20010226214834,20010226214834);
 INSERT INTO eZSession_Session VALUES (235,'c63fdfb5e04e04150617a43a2467dbed',20010226214745,20010226214816,20010226214816);
+INSERT INTO eZSession_Session VALUES (236,'f3ee2dd3db23bfe29bf0e70ec5a1df80',20010305175717,20010305175915,20010305175915);
+INSERT INTO eZSession_Session VALUES (237,'06aff8d18c93bbafd59a000cae552574',20010305175841,20010305180949,20010305180945);
 
 #
 # Table structure for table 'eZSession_SessionVariable'
@@ -2598,6 +2732,9 @@ INSERT INTO eZSession_SessionVariable VALUES (235,234,'SessionIP','10.0.2.3');
 INSERT INTO eZSession_SessionVariable VALUES (236,234,'SiteDesign','standard');
 INSERT INTO eZSession_SessionVariable VALUES (237,235,'SessionIP','10.0.2.3');
 INSERT INTO eZSession_SessionVariable VALUES (238,235,'AuthenticatedUser','27');
+INSERT INTO eZSession_SessionVariable VALUES (239,236,'SessionIP','10.0.2.3');
+INSERT INTO eZSession_SessionVariable VALUES (240,236,'AuthenticatedUser','27');
+INSERT INTO eZSession_SessionVariable VALUES (241,237,'SessionIP','10.0.2.3');
 
 #
 # Table structure for table 'eZStats_BrowserType'
@@ -2614,8 +2751,7 @@ CREATE TABLE eZStats_BrowserType (
 # Dumping data for table 'eZStats_BrowserType'
 #
 
-INSERT INTO eZStats_BrowserType VALUES (1,'Mozilla/4.76 [en] (X11; U; Linux 2.4.0-0.26smp i686)');
-INSERT INTO eZStats_BrowserType VALUES (2,'PHP/4.0.4pl1');
+INSERT INTO eZStats_BrowserType VALUES (1,'Mozilla/5.0 (compatible; Konqueror/2.1; X11)');
 
 #
 # Table structure for table 'eZStats_PageView'
@@ -2642,6 +2778,9 @@ CREATE TABLE eZStats_PageView (
 # Dumping data for table 'eZStats_PageView'
 #
 
+INSERT INTO eZStats_PageView VALUES (1,0,1,1,1,20010305180734,1,'2001-03-05','18:07:34');
+INSERT INTO eZStats_PageView VALUES (2,0,1,1,2,20010305180945,1,'2001-03-05','18:09:45');
+INSERT INTO eZStats_PageView VALUES (3,0,1,1,2,20010305180949,1,'2001-03-05','18:09:49');
 
 #
 # Table structure for table 'eZStats_RefererURL'
@@ -2659,18 +2798,8 @@ CREATE TABLE eZStats_RefererURL (
 # Dumping data for table 'eZStats_RefererURL'
 #
 
-INSERT INTO eZStats_RefererURL VALUES (1,'trade.php.ez.no','/article/archive/4/');
-INSERT INTO eZStats_RefererURL VALUES (2,'trade.php.ez.no','/article/articleview/1/');
-INSERT INTO eZStats_RefererURL VALUES (3,'trade.php.ez.no','/article/articleview/1/?PHPSESSID=245dc16d1ef23acf9ba619437c589051');
-INSERT INTO eZStats_RefererURL VALUES (4,'trade.php.ez.no','/newsfeed/allcategories/');
-INSERT INTO eZStats_RefererURL VALUES (5,'','');
-INSERT INTO eZStats_RefererURL VALUES (6,'trade.php.ez.no','/article/archive/0/');
-INSERT INTO eZStats_RefererURL VALUES (7,'trade.php.ez.no','/link/group/1/');
-INSERT INTO eZStats_RefererURL VALUES (8,'trade.php.ez.no','/forum/forumlist/1/');
-INSERT INTO eZStats_RefererURL VALUES (9,'trade.php.ez.no','/forum/messagelist/1/');
-INSERT INTO eZStats_RefererURL VALUES (10,'trade.php.ez.no','/forum/message/1/');
-INSERT INTO eZStats_RefererURL VALUES (11,'publish.php.ez.no','/article/archive/0/');
-INSERT INTO eZStats_RefererURL VALUES (12,'publish.php.ez.no','/article/archive/0/?PHPSESSID=56a747fd862294aa31d4b3026b56ea4e');
+INSERT INTO eZStats_RefererURL VALUES (1,'publish.php.ez.no','/article/articleview/9/');
+INSERT INTO eZStats_RefererURL VALUES (2,'','');
 
 #
 # Table structure for table 'eZStats_RemoteHost'
@@ -2689,7 +2818,6 @@ CREATE TABLE eZStats_RemoteHost (
 #
 
 INSERT INTO eZStats_RemoteHost VALUES (1,'10.0.2.3',NULL);
-INSERT INTO eZStats_RemoteHost VALUES (2,'10.0.2.200',NULL);
 
 #
 # Table structure for table 'eZStats_RequestPage'
@@ -2706,14 +2834,7 @@ CREATE TABLE eZStats_RequestPage (
 # Dumping data for table 'eZStats_RequestPage'
 #
 
-INSERT INTO eZStats_RequestPage VALUES (1,'/article/articleview/1/');
-INSERT INTO eZStats_RequestPage VALUES (2,'/newsfeed/allcategories/');
-INSERT INTO eZStats_RequestPage VALUES (3,'/article/archive/4/');
-INSERT INTO eZStats_RequestPage VALUES (4,'/article/archive/0/');
-INSERT INTO eZStats_RequestPage VALUES (5,'/link/group/1/');
-INSERT INTO eZStats_RequestPage VALUES (6,'/forum/forumlist/1/');
-INSERT INTO eZStats_RequestPage VALUES (7,'/forum/messagelist/1/');
-INSERT INTO eZStats_RequestPage VALUES (8,'/forum/message/1/');
+INSERT INTO eZStats_RequestPage VALUES (1,'/article/archive/0/');
 
 #
 # Table structure for table 'eZTodo_Category'
@@ -2965,13 +3086,49 @@ CREATE TABLE eZTrade_Option (
 DROP TABLE IF EXISTS eZTrade_OptionValue;
 CREATE TABLE eZTrade_OptionValue (
   ID int(11) NOT NULL auto_increment,
-  Name char(100) default NULL,
   OptionID int(11) default NULL,
+  Placement int(11) NOT NULL default '1',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
 #
 # Dumping data for table 'eZTrade_OptionValue'
+#
+
+
+#
+# Table structure for table 'eZTrade_OptionValueContent'
+#
+
+DROP TABLE IF EXISTS eZTrade_OptionValueContent;
+CREATE TABLE eZTrade_OptionValueContent (
+  ID int(11) NOT NULL auto_increment,
+  Value varchar(30) default NULL,
+  ValueID int(11) NOT NULL default '0',
+  Placement int(11) NOT NULL default '1',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'eZTrade_OptionValueContent'
+#
+
+
+#
+# Table structure for table 'eZTrade_OptionValueHeader'
+#
+
+DROP TABLE IF EXISTS eZTrade_OptionValueHeader;
+CREATE TABLE eZTrade_OptionValueHeader (
+  ID int(11) NOT NULL auto_increment,
+  Name varchar(30) default NULL,
+  OptionID int(11) NOT NULL default '0',
+  Placement int(11) NOT NULL default '1',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'eZTrade_OptionValueHeader'
 #
 
 
