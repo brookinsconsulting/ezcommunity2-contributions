@@ -28,10 +28,13 @@ switch ( $url_array[2] )
     
     case "archive":
     {
-        $CategoryID = $url_array[3];
-        if  ( !isset( $CategoryID ) || ( $CategoryID == "" ) )
-            $CategoryID = 0;
-
+        if ( !is_numeric(  eZHTTPTool::getVar( "CategoryID", true ) ) )
+        {
+            $CategoryID = $url_array[3];
+            if  ( !isset( $CategoryID ) || ( $CategoryID == "" ) )
+                $CategoryID = 0;
+        }
+        
         if ( $url_array[4] == "parent" )
             $Offset = $url_array[5];
 

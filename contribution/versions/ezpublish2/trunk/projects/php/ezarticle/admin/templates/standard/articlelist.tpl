@@ -26,20 +26,33 @@
 
 <hr noshade="noshade" size="4" />
 
-<!-- BEGIN path_tpl -->
+<table width="100%" border="0">
+<tr>
+	<td align="left" width="70%">
+	<img src="/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" />
 
-<img src="/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="" />
+	<a class="path" href="/article/archive/0/">{intl-topcategory}</a>
+	<!-- BEGIN path_item_tpl -->
 
-<a class="path" href="/article/archive/0/">{intl-topcategory}</a>
+	<img src="/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
 
-<!-- END path_tpl -->
+	<a class="path" href="/article/archive/{category_id}/">{category_name}</a>
+	<!-- END path_item_tpl -->
 
-<!-- BEGIN path_item_tpl -->
+	</td>
+	<td align="right" width="30%">
 
-<img src="/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
+	<form action="/article/archive/" method="post">
+	<select name="CategoryID">
 
-<a class="path" href="/article/archive/{category_id}/">{category_name}</a>
-<!-- END path_item_tpl -->
+	<!-- BEGIN category_tree_id_tpl -->
+	<option value="{category_id}" {selected}>{category_name}</option>
+	<!-- END category_tree_id_tpl -->
+	</select>
+	<input type="submit" value="{intl-go}" />
+	</form>
+</td>
+</table>
 
 <hr noshade="noshade" size="4" />
 

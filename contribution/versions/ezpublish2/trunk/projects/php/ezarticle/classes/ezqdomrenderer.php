@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.14 2001/07/09 13:06:00 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.15 2001/07/10 19:07:43 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -149,8 +149,8 @@ class eZQDomrenderer
         $this->Template->set_block( "image_tpl", "ext_link_tpl", "ext_link"  );
        
         $this->Template->set_block( "articletags_tpl", "image_float_tpl", "image_float" );
-        $this->Template->set_block( "image_float_tpl", "image_link_tpl", "image_link" );
-        $this->Template->set_block( "image_float_tpl", "ext_link_tpl", "ext_link"  );        
+        $this->Template->set_block( "image_float_tpl", "image_link_float_tpl", "image_link_float" );
+        $this->Template->set_block( "image_float_tpl", "ext_link_float_tpl", "ext_link_float"  );        
 
         $this->Template->set_block( "articletags_tpl", "link_tpl", "link"  );        
         
@@ -253,7 +253,7 @@ class eZQDomrenderer
                             if ( count( $article->children ) > 0 )
                                 foreach ( $article->children as $paragraph )
                                 {
-                                    $intro .= $this->renderHeader( $paragraph );                                    
+                                    $intro .= $this->renderHeader( $paragraph );
                                     $intro .= $this->renderPlain( $paragraph );
                                     $intro .= $this->renderStandards( $paragraph );
                                     $intro .= $this->renderImage( $paragraph );
@@ -487,29 +487,42 @@ class eZQDomrenderer
                 $this->Template->set_var( "view_mode", $viewMode );
                 $this->Template->set_var( "caption", $imageCaption );
 
-
-                if ( $imageHref != "" )
-                {
-                    // convert link
-                    if ( !preg_match( "%^(([a-z]+://)|/|#)%", $imageHref ) )
-                        $imageHref = "http://" . $imageHref;
-                    $this->Template->set_var( "image_href", $imageHref );
-                    $this->Template->set_var( "image_link", "" );
-                    $this->Template->parse( "ext_link", "ext_link_tpl" );
-                }
-                else
-                {
-                    $this->Template->set_var( "ext_link", "" );
-                    $this->Template->parse( "image_link", "image_link_tpl" );
-                }
-                
-                
                 if ( $imageAlignment != "float"  )
-                {                    
+                {                
+                    if ( $imageHref != "" )
+                    {
+                        // convert link
+                        if ( !preg_match( "%^(([a-z]+://)|/|#)%", $imageHref ) )
+                            $imageHref = "http://" . $imageHref;
+                        $this->Template->set_var( "image_href", $imageHref );
+                        $this->Template->set_var( "image_link", "" );
+                        $this->Template->parse( "ext_link", "ext_link_tpl" );
+                    }
+                    else
+                    {
+                        $this->Template->set_var( "ext_link", "" );
+                        $this->Template->parse( "image_link", "image_link_tpl" );
+                    }
+
                     $pageContent = $this->Template->parse( "image", "image_tpl" );
                 }
                 else
                 {
+                    if ( $imageHref != "" )
+                    {
+                        // convert link
+                        if ( !preg_match( "%^(([a-z]+://)|/|#)%", $imageHref ) )
+                            $imageHref = "http://" . $imageHref;
+                        $this->Template->set_var( "image_href", $imageHref );
+                        $this->Template->set_var( "image_link_float", "" );
+                        $this->Template->parse( "ext_link_float", "ext_link_float_tpl" );
+                    }
+                    else
+                    {
+                        $this->Template->set_var( "ext_link_float", "" );
+                        $this->Template->parse( "image_link_float", "image_link_float_tpl" );
+                    }
+                    
                     $pageContent = $this->Template->parse( "image_float", "image_float_tpl" );
                 }
             }

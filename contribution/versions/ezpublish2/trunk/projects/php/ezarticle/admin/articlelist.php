@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.40 2001/05/25 14:13:37 bf Exp $
+// $Id: articlelist.php,v 1.41 2001/07/10 19:07:43 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -155,6 +155,10 @@ $t->set_file( array(
 // path
 $t->set_block( "article_list_page_tpl", "path_item_tpl", "path_item" );
 
+// category selector
+
+$t->set_block( "article_list_page_tpl", "category_tree_id_tpl", "category_tree_id" );
+
 // category
 $t->set_block( "article_list_page_tpl", "category_list_tpl", "category_list" );
 $t->set_block( "category_list_tpl", "category_item_tpl", "category_item" );
@@ -171,6 +175,7 @@ $t->set_block( "article_item_tpl", "article_not_published_tpl", "article_not_pub
 $t->set_block( "article_list_tpl", "absolute_placement_header_tpl", "absolute_placement_header" );
 $t->set_block( "article_item_tpl", "absolute_placement_item_tpl", "absolute_placement_item" );
 $t->set_block( "article_item_tpl", "article_edit_tpl", "article_edit" );
+
 
 $t->set_var( "site_style", $SiteStyle );
 
@@ -239,6 +244,24 @@ foreach ( $pathArray as $path )
 }
 
 $categoryList =& $category->getByParent( $category, true, "placement" );
+
+// category "tree" selector
+$tree = new eZArticleCategory();
+$treeArray =& $tree->getTree();
+
+foreach ( $treeArray as $catItem )
+{
+    $t->set_var( "category_id", $catItem[0]->id() );
+    $t->set_var( "category_name", $catItem[0]->name() );
+
+    if ( $catItem[1] > 0 )
+        $t->set_var( "category_level", str_repeat( "&nbsp;", $catItem[1] ) );
+    else
+        $t->set_var( "category_level", "" );
+    
+    
+    $t->parse( "category_tree_id", "category_tree_id_tpl", true );    
+}
 
 
 // categories
