@@ -129,3 +129,5 @@ done
 #  	ln -sf ../override admin/override
 #      fi
 #  fi
+ln -s ../../../sitedesign/mygold/templates/eztrade eztrade/user/templates/mygold
+ln -s ../../../sitedesign/mygold/templates/ezarticle ezarticle/user/templates/mygold
