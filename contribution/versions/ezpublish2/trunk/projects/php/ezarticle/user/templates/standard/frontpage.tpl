@@ -206,7 +206,7 @@
 	{product_price}
 	<!-- END right_price_tpl -->
 	<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
-	<a class="path" href="{www_dir}{index}/trade/productview/{product_id}/{category_id}/">Get more info in the shop</a>
+	<a class="path" href="{www_dir}{index}/trade/productview/{product_id}/{category_id}/">{intl-get_more_info}</a>
 	</div>
 	</td>
 	</tr>
