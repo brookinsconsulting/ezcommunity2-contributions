@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.2 2001/07/19 12:19:22 jakobn Exp $
+// $Id: search.php,v 1.3 2001/07/25 10:35:25 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -22,12 +22,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
-include_once( "ezarticle/classes/ezarticlecategory.php" );
-include_once( "ezarticle/classes/ezarticle.php" );
-include_once( "ezxmlrpc/classes/ezxmlrpcarray.php" );
-include_once( "ezxmlrpc/classes/ezxmlrpcstruct.php" );
-include_once( "ezxmlrpc/classes/ezxmlrpcstring.php" );
 
 if ( $Command == "search" )
 {

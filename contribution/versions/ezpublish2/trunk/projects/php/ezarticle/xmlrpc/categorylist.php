@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categorylist.php,v 1.12 2001/07/19 12:19:22 jakobn Exp $
+// $Id: categorylist.php,v 1.13 2001/07/25 10:35:25 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -168,7 +168,7 @@ else if ( $Command == "search" )
     $result =& eZArticleCategory::search( $texts );
     foreach( $result as $item )
     {
-        $catid = $item->parent( false);
+        $catid = $item->parent( false );
         $cat = new eZArticleCategory();
         $cat->get( $catid );
         $element = array();
@@ -179,11 +179,7 @@ else if ( $Command == "search" )
         $elements[] = new eZXMLRPCStruct( $element );
     }
     $ret = array( "Elements" => new eZXMLRPCArray( $elements ) );
-    if ( isset( $Data["NextSearch"] ) )
-    {
-        $ret["NextSearch"] = $Data["NextSearch"];
-        $ret["Keywords"] = $Data["Keywords"];
-    }
+    handleSearchData( $ret );
     $ReturnData = new eZXMLRPCStruct( $ret );
 }
 
