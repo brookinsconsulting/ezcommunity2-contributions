@@ -11,12 +11,24 @@ switch ( $url_array[2] )
     case "category" :
         if ( $url_array[3] == "forum" )
         {
-            include( "ezforum/forum.php" );
+            if ( $url_array[4] == "message" )
+            {
+                include( "ezforum/message.php" );
+            }
+            else if ( $url_array[4] == "newpost" )
+            {
+                include( "ezforum/newmessage.php" );                
+            }
+            else                
+            {                
+                include( "ezforum/forum.php" );
+            }
+            
         }
         else
         {
-            include( "ezforum/category.php" );            
-        }        
+            include( "ezforum/category.php" );
+        }
         break;
     case "gotolink" :
         include( "ezlink/gotolink.php" );        
