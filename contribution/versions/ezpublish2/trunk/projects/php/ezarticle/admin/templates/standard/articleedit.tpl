@@ -186,10 +186,10 @@
 	<input type="text" size="4" name="StopYear" value="{stop_year}" />
 	</td>
 	<td>
-	<input type="text" size="2" name="StopHour" value="{start_hour}" />
+	<input type="text" size="2" name="StopHour" value="{stop_hour}" />
 	</td>
 	<td>
-	<input type="text" size="2" name="StopMinute" value="{start_minute}" />
+	<input type="text" size="2" name="StopMinute" value="{stop_minute}" />
 	</td>
 </tr>
 </table>

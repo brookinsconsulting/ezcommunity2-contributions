@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.89 2001/06/08 12:24:55 ce Exp $
+// $Id: articleedit.php,v 1.90 2001/06/08 13:42:25 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -87,12 +87,14 @@ if ( $Action == "Insert" )
     $startDate->setYear( $StartYear );
     $startDate->setHour( $StartHour );
     $startDate->setMinute( $StartMinute );
+    $startDate->setSecond( 0 );
     $stopDate = new eZDateTime();
     $stopDate->setDay( $StopDay );
     $stopDate->setMonth( $StopMonth );
     $stopDate->setYear( $StopYear );
     $stopDate->setHour( $StopHour );
     $stopDate->setMinute( $StopMinute );
+    $stopDate->setSecond( 0 );
 
     $article->setStartDate( &$startDate );
     $article->setStopDate( &$stopDate );
@@ -320,13 +322,15 @@ if ( $Action == "Update" )
     $startDate->setYear( $StartYear );
     $startDate->setHour( $StartHour );
     $startDate->setMinute( $StartMinute );
+    $startDate->setSecond( 0 );
     $stopDate = new eZDateTime();
     $stopDate->setDay( $StopDay );
     $stopDate->setMonth( $StopMonth );
     $stopDate->setYear( $StopYear );
     $stopDate->setHour( $StopHour );
     $stopDate->setMinute( $StopMinute );
-
+    $stopDate->setSecond( 0 );
+    
     $article->setStartDate( &$startDate );
     $article->setStopDate( &$stopDate );
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.95 2001/06/08 13:05:45 bf Exp $
+// $Id: ezarticle.php,v 1.96 2001/06/08 13:42:25 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -2002,7 +2002,7 @@ class eZArticle
                                           FROM eZArticle_Article
                                           WHERE $published
                                           AND ( StartDate !='00000000000000' OR StopDate !='00000000000000')
-                                          AND ( StartDate >= now() AND StopDate <= now() )
+                                          AND StopDate <= now()
                                           ORDER BY ID
                                           " );
         
