@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlist.php,v 1.5 2001/02/12 14:45:10 jb Exp $
+// $Id: ezlist.php,v 1.6 2001/02/13 11:26:04 jb Exp $
 //
 // Definition of eZList class
 //
@@ -171,8 +171,12 @@ class eZList
                 {
                     $i_start = $i;
                     $i_end = $i + 9;
-                    if ( $i_end > $total_types )
-                        $i_end = $total_types;
+                    $total_pages = (($total_types-1)/$max_types) + 1;
+                    settype( $total_pages, "integer" );
+                    if ( $i_end > $total_pages )
+                    {
+                        $i_end = $total_pages;
+                    }
                     $t->set_var( $item_index, ($i - 1)*$max_types );
                     if ( $i_start != $i_end )
                         $t->set_var( $item_name, $i_start . "-" . $i_end );
