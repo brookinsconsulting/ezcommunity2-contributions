@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.6 2000/10/31 14:15:30 bf-cvs Exp $
+// $Id: checkout.php,v 1.7 2000/10/31 17:53:58 bf-cvs Exp $
 //
 // 
 //
@@ -68,6 +68,7 @@ $t->set_file( array(
 $t->set_block( "checkout_tpl", "cart_item_list_tpl", "cart_item_list" );
 $t->set_block( "cart_item_list_tpl", "cart_item_tpl", "cart_item" );
 $t->set_block( "cart_item_tpl", "cart_item_option_tpl", "cart_item_option" );
+$t->set_block( "cart_item_tpl", "cart_image_tpl", "cart_image" );
 
 $t->set_block( "checkout_tpl", "address_tpl", "address" );
 
@@ -176,13 +177,22 @@ if ( $SendOrder == "true" )
 
         $image = $product->thumbnailImage();
 
-        $thumbnail =& $image->requestImageVariation( 35, 35 );        
+        if ( $image )
+        {
+            $thumbnail =& $image->requestImageVariation( 35, 35 );        
 
-        $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
-        $t->set_var( "product_image_width", $thumbnail->width() );
-        $t->set_var( "product_image_height", $thumbnail->height() );
-        $t->set_var( "product_image_caption", $image->caption() );
-
+            $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
+            $t->set_var( "product_image_width", $thumbnail->width() );
+            $t->set_var( "product_image_height", $thumbnail->height() );
+            $t->set_var( "product_image_caption", $image->caption() );
+            
+            $t->parse( "cart_image", "cart_image_tpl" );            
+        }
+        else
+        {
+            $t->set_var( "cart_image", "" );
+        }
+        
         $price = $product->price() * $item->count();
         $currency->setValue( $price );
 

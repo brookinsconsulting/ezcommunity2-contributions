@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.4 2000/10/31 14:15:30 bf-cvs Exp $
+// $Id: ordersendt.php,v 1.5 2000/10/31 17:53:58 bf-cvs Exp $
 //
 // 
 //
@@ -36,6 +36,7 @@ $t->set_block( "order_sendt_tpl", "address_tpl", "address" );
 
 $t->set_block( "order_sendt_tpl", "order_item_list_tpl", "order_item_list" );
 $t->set_block( "order_item_list_tpl", "order_item_tpl", "order_item" );
+$t->set_block( "order_item_tpl", "order_image_tpl", "order_image" );
 
 $t->set_block( "order_item_tpl", "order_item_option_tpl", "order_item_option" );
 
@@ -85,13 +86,22 @@ foreach ( $items as $item )
 
     $image = $product->thumbnailImage();
 
-    $thumbnail =& $image->requestImageVariation( 35, 35 );        
+    if ( $image )
+    {
+        $thumbnail =& $image->requestImageVariation( 35, 35 );        
 
-    $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
-    $t->set_var( "product_image_width", $thumbnail->width() );
-    $t->set_var( "product_image_height", $thumbnail->height() );
-    $t->set_var( "product_image_caption", $image->caption() );
-
+        $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
+        $t->set_var( "product_image_width", $thumbnail->width() );
+        $t->set_var( "product_image_height", $thumbnail->height() );
+        $t->set_var( "product_image_caption", $image->caption() );
+            
+        $t->parse( "order_image", "order_image_tpl" );            
+    }
+    else
+    {
+        $t->set_var( "order_image", "" );
+    }
+    
     $price = $product->price() * $item->count();
     $currency->setValue( $price );
 

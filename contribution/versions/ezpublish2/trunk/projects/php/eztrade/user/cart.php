@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.7 2000/10/31 16:32:05 bf-cvs Exp $
+// $Id: cart.php,v 1.8 2000/10/31 17:53:58 bf-cvs Exp $
 //
 // 
 //
@@ -147,7 +147,9 @@ $t->set_block( "cart_page_tpl", "empty_cart_tpl", "empty_cart" );
 
 $t->set_block( "cart_page_tpl", "cart_item_list_tpl", "cart_item_list" );
 $t->set_block( "cart_item_list_tpl", "cart_item_tpl", "cart_item" );
+
 $t->set_block( "cart_item_tpl", "cart_item_option_tpl", "cart_item_option" );
+$t->set_block( "cart_item_tpl", "cart_image_tpl", "cart_image" );
 
 
 // fetch the cart items
@@ -174,7 +176,11 @@ foreach ( $items as $item )
         $t->set_var( "product_image_width", $thumbnail->width() );
         $t->set_var( "product_image_height", $thumbnail->height() );
         $t->set_var( "product_image_caption", $image->caption() );
-
+        $t->parse( "cart_image", "cart_image_tpl" );
+    }
+    else
+    {
+        $t->set_var( "cart_image", "" );
     }
     
     $price = $product->price() * $item->count();

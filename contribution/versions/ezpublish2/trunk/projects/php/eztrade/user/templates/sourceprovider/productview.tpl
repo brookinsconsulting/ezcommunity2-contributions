@@ -116,8 +116,10 @@
 	{product_price}
 	</td>
 	<td align="right">
+	<!-- BEGIN external_link_tpl -->
 	<p class="boxtext">{intl-external_link}:</p>
-	<a href="{external_link}" target="_blank">{external_link}</a>
+	<a href="{external_link_url}" target="_blank">{external_link_url}</a>
+	<!-- END external_link_tpl -->
 	</td>
 </tr>
 </table>

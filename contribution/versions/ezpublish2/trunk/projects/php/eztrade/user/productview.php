@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.3 2000/10/28 13:40:10 bf-cvs Exp $
+// $Id: productview.php,v 1.4 2000/10/31 17:53:58 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -41,13 +41,16 @@ $t->set_block( "product_view_tpl", "image_tpl", "image" );
 $t->set_block( "product_view_tpl", "main_image_tpl", "main_image" );
 $t->set_block( "product_view_tpl", "option_tpl", "option" );
 $t->set_block( "option_tpl", "value_tpl", "value" );
+$t->set_block( "product_view_tpl", "external_link_tpl", "external_link" );
+
 
 $category = new eZProductCategory(  );
 $category->get( $CategoryID );
 
 $pathArray =& $category->path();
 
-$t->set_var( "category_path", "" );
+
+$t->set_var( "path", "" );
 foreach ( $pathArray as $path )
 {
     $t->set_var( "category_id", $path[0] );
@@ -86,7 +89,7 @@ $t->set_var( "description_text", nl2br( $product->description() ) );
 $images = $product->images();
 
 $i=0;
-$t->set_var( "image_list", "" );
+$t->set_var( "image", "" );
 foreach ( $images as $image )
 {
     if ( $image->id() != $mainImageID )
@@ -146,7 +149,16 @@ foreach ( $options as $option )
 }
 
 $t->set_var( "product_id", $product->id() );
-$t->set_var( "external_link", "http://" . $product->externalLink() );
+
+if ( trim( $product->externalLink() ) != "" )
+{
+    $t->set_var( "external_link_url", "http://" . $product->externalLink() );
+    $t->parse( "external_link", "external_link_url" );
+}
+else
+{
+    $t->set_var( "external_link", "" );
+}
 
 $locale = new eZLocale( $Language );
 $price = new eZCurrency( $product->price() );
