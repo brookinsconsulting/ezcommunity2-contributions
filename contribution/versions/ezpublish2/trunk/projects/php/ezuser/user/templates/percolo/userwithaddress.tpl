@@ -190,6 +190,10 @@
 
 <br /><br />
 
+<br />
+<div class="p"><input {info_subscription} type="checkbox" name="InfoSubscription" />&nbsp;Jeg vil gjerne motta nyheter og oppdateringer fra Percolo.</div>
+<br /><br />
+
 <input type="hidden" name="UserID" value="{user_id}" />
 <!-- BEGIN ok_button_tpl -->
 <input class="okbutton" type="submit" name="OK" value="{intl-ok}" />

@@ -106,31 +106,26 @@
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<!-- BEGIN cart_checkout_button_tpl -->
 	<td>
-	<input class="okbutton" type="submit" name="DoCheckOut" value="{intl-checkout}" />
+	<input class="okbutton" type="submit" name="ShopMore" value="Kjøp flere varer" />
 	</td>
-	<!-- END cart_checkout_button_tpl -->
-
 	<td>&nbsp;</td>
 	<td align="right">
 	<input class="okbutton" type="submit" value="Oppdater pris og antall" />
 	</td>
 </td>
 </table>
+<br />
+	<!-- BEGIN cart_checkout_button_tpl -->
+	<input class="okbutton" type="submit" name="DoCheckOut" value="{intl-checkout}" />
+	<!-- END cart_checkout_button_tpl -->
+
 <!-- END cart_checkout_tpl -->
 
 
 <input type="hidden" name="Action" value="Refresh" />
 
 </form>
-
-<br />
-
-<form action="/trade/productlist/1" method="post">
-<input class="okbutton" type="submit" value="Kjøp flere varer" />
-</form>
-
 
 </td>
 </tr>

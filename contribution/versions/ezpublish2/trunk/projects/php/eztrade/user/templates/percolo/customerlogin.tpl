@@ -16,21 +16,41 @@
 		    <td><img src="/sitedesign/percolo/images/onepix.gif" alt="luft" width="14" height="14" hspace="0" vspace="0" /><br /></td>
 			<td colspan="2">
 
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td width="50%">
+
 <h2>{intl-new_customer}</h2>
 
 <p>{intl-new_text}</p>
 
 <form method="post" action="/user/userwithaddress/new/?RedirectURL={redirect_url}">
 
-
 <input class="okbutton" class="stdbutton" type="submit" value="{intl-newuser}" />
 
 </form>
-<br /><br /><br /><br />
+
+	</td>
+	<td align="right" valign="top">
+<form method="post" action="/user/forgot/">
+
+<h2>Glemt passord?</h2>
+
+<p>Hvis du er registrert som kunde, men har glemt ditt passord så kan du få et nytt her.</p>
+
+<input class="okbutton" type="submit" value="Nytt passord" />
+
+</form>
+	</td>
+</tr>
+</table>
+
+
+<br /><br /><br />
 
 <h2>{intl-customer_login}</h2>
 
-<p>{intl-reg_text}<br />Etter at du er logget inn kan du endre dine kundedata fra menyen på venstre side.</p>
+<p>{intl-reg_text} Etter at du er logget inn kan du endre dine kundedata fra menyen på venstre side.</p>
 
 <form method="post" action="/user/login/login/">
 <p class="boxtext">Brukernavn:</p>
@@ -43,6 +63,8 @@
 <input class="okbutton" type="submit" value="Logg inn" />
 <input type="hidden" name="RedirectURL" value="{redirect_url}" />
 </form>
+
+<br />
 
 </td>
 </tr>
