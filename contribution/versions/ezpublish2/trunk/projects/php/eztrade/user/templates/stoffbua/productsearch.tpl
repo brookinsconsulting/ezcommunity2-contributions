@@ -49,7 +49,7 @@
 <!-- END product_tpl -->
 
 <!-- BEGIN previous_tpl -->
-<a href="/forum/search/?Offset={prev_offset}&URLQueryString={url_query_string}">
+<a href="/trade/search/?Offset={prev_offset}&URLQueryString={url_query_string}">
 {intl-prev}
 </a>
 <!-- END previous_tpl -->
@@ -57,7 +57,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 <!-- BEGIN next_tpl -->
-<a href="/forum/search/?Offset={next_offset}&URLQueryString={url_query_string}">
+<a href="/trade/search/?Offset={next_offset}&URLQueryString={url_query_string}">
 {intl-next}
 </a>
 <!-- END next_tpl -->

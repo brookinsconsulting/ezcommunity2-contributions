@@ -27,6 +27,7 @@
 {article_body}
 </p>
 
+<br clear="all" />
 
 <!-- BEGIN attached_file_list_tpl -->
 <h3>{intl-attached_files}:</h3>

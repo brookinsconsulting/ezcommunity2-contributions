@@ -41,7 +41,6 @@
 	</tr>
 	<tr>
 		<td>
-		Her kommer en kort forklaring på hvordan og hvorfor man skal registrere seg som bruker for å handle fra nettbutikken.
 		</td>
 	</tr>
 	
