@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezconsultation.php,v 1.18 2001/07/18 15:10:49 jhe Exp $
+// $Id: ezconsultation.php,v 1.19 2001/07/19 12:15:04 jhe Exp $
 //
 // Definition of eZConsultation class
 //
@@ -426,6 +426,49 @@ class eZConsultation
 
     /*!
       \static
+      Finds all consultations on a specific contact person or company between two timestamps.
+    */
+    function findConsultationsByDate( $user, $startTime, $endTime )
+    {
+        if ( get_class( $user ) == "ezuser" )
+            $user = $user->id();
+
+        $qry_array = array();
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $qry_array, "SELECT CPUD.ConsultationID
+                                       FROM
+                                       eZContact_ConsultationPersonUserDict AS CPUD,
+                                       eZContact_Consultation AS C,
+                                       WHERE
+                                       CPUD.UserID='$user' AND
+                                       CPUD.ConsultationID = C.ID AND
+                                       C.Date>='$startTime->timeStamp()' AND
+                                       C.Date<'$endTime->timeStamp()'",
+                                       $limit );
+        $ret_array = array();
+        foreach ( $qry_array as $qry )
+        {
+            $ret_array[] = new eZConsultation( $qry[ $db->fieldName( "ConsultationID" ) ] );
+        }
+        $db->array_query( $qry_array, "SELECT CPCD.ConsultationID
+                                       FROM
+                                       eZContact_ConsultationCompanyUserDict AS CPCD,
+                                       eZContact_Consultation AS C,
+                                       WHERE
+                                       CPCD.UserID='$user' AND
+                                       CPCD.ConsultationID = C.ID AND
+                                       C.Date>='$startTime->timeStamp()' AND
+                                       C.Date<'$endTime->timeStamp()'",
+                                       $limit );
+        foreach ( $qry_array as $qry )
+        {
+            $ret_array[] = new eZConsultation( $qry[ $db->fieldName( "ConsultationID" ) ] );
+        }
+        return $ret_array;
+    }
+    
+    /*!
+      \static
       Finds all consultations on a specific contact person or company.
     */
     function findConsultationsByContact( $contact, $user, $OrderBy = "ID", $is_person = true, $index = 0, $max = -1 )
@@ -451,7 +494,7 @@ class eZConsultation
                 $OrderBy = "ORDER BY C.Date DESC";
                 break;
             case "status":
-                $OrderBy = "ORDER BY C.StateID";
+                $OrderBy = "ORDER BY CT.Name";
                 break;
             case "id":
             case "typeid":
@@ -466,14 +509,30 @@ class eZConsultation
         $db =& eZDB::globalDatabase();
         if ( $is_person )
         {
-            $db->array_query( $qry_array, "SELECT CPUD.ConsultationID FROM eZContact_ConsultationPersonUserDict AS CPUD, eZContact_Consultation AS C
-                                           WHERE CPUD.PersonID='$contact' AND CPUD.UserID='$user' AND CPUD.ConsultationID = C.ID
+            $db->array_query( $qry_array, "SELECT CPUD.ConsultationID
+                                           FROM
+                                           eZContact_ConsultationPersonUserDict AS CPUD,
+                                           eZContact_Consultation AS C,
+                                           eZContact_ConsultationType AS CT
+                                           WHERE
+                                           CPUD.PersonID='$contact' AND
+                                           CPUD.UserID='$user' AND
+                                           CPUD.ConsultationID = C.ID AND
+                                           CT.ID=C.StateID
                                            $OrderBy", $limit );
         }
         else
         {
-            $db->array_query( $qry_array, "SELECT CPCD.ConsultationID FROM eZContact_ConsultationCompanyUserDict AS CPCD, eZContact_Consultation AS C
-                                           WHERE CPCD.CompanyID='$contact' AND CPCD.UserID='$user' AND CPCD.ConsultationID = C.ID
+            $db->array_query( $qry_array, "SELECT CPCD.ConsultationID
+                                           FROM
+                                           eZContact_ConsultationCompanyUserDict AS CPCD,
+                                           eZContact_Consultation AS C,
+                                           eZContact_ConsultationType AS CT
+                                           WHERE
+                                           CPCD.CompanyID='$contact' AND
+                                           CPCD.UserID='$user' AND
+                                           CPCD.ConsultationID = C.ID AND
+                                           CT.ID=C.StateID
                                            $OrderBy", $limit );
         }
         $ret_array = array();
@@ -495,14 +554,23 @@ class eZConsultation
         $qry_array = array();
         $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, "SELECT C.Date, C.ID
-                                          FROM eZContact_ConsultationPersonUserDict AS CPUD, eZContact_Consultation AS C
-                                           WHERE CPUD.UserID='$user' AND CPUD.ConsultationID = C.ID
-                                           ORDER BY C.Date DESC, C.ID DESC", array( "Limit" => $max ) );
-        $db->array_query_append( $qry_array,
-                                          "SELECT C.Date, C.ID
-                                           FROM eZContact_ConsultationCompanyUserDict AS CPCD, eZContact_Consultation AS C
-                                           WHERE CPCD.UserID='$user' AND CPCD.ConsultationID = C.ID
-                                           ORDER BY C.Date DESC, C.ID DESC", array( "Limit" => $max ) );
+                                       FROM
+                                       eZContact_ConsultationPersonUserDict AS CPUD,
+                                       eZContact_Consultation AS C
+                                       WHERE
+                                       CPUD.UserID='$user' AND
+                                       CPUD.ConsultationID = C.ID
+                                       ORDER BY C.Date DESC, C.ID DESC",
+                                       array( "Limit" => $max ) );
+        $db->array_query_append( $qry_array, "SELECT C.Date, C.ID
+                                              FROM
+                                              eZContact_ConsultationCompanyUserDict AS CPCD,
+                                              eZContact_Consultation AS C
+                                              WHERE
+                                              CPCD.UserID='$user' AND
+                                              CPCD.ConsultationID = C.ID
+                                              ORDER BY C.Date DESC, C.ID DESC",
+                                              array( "Limit" => $max ) );
         arsort( $qry_array );
         $ret_array = array();
         $qry_array = array_slice( $qry_array, 0, $max );

@@ -1,8 +1,7 @@
 <?php
 // 
-// $Id: dayview.php,v 1.38 2001/03/12 13:55:47 fh Exp $
+// $Id: dayview.php,v 1.39 2001/07/19 12:15:04 jhe Exp $
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
 //
 // This source file is part of eZ publish, publishing software.
@@ -92,12 +91,12 @@ $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "Tem
 $t->set_file( "day_view_page_tpl", "dayview.tpl" );
 
 
-if ( $t->hasCache() )
+//if ( $t->hasCache() )
 {
 //    print( "cached<br />" );
-    print( $t->cache() );
+//    print( $t->cache() );
 }
-else
+//else
 {
 //    print( "not cached<br />" );
     $t->setAllStrings();
@@ -124,7 +123,6 @@ else
 
     // fetch the appointments for the selected day
     $appointments =& $tmpAppointment->getByDate( $tmpDate, $tmpUser, true );
-
 
     // set start/stop and interval times
     $startTime = new eZTime();

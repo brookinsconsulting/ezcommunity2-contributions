@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztime.php,v 1.13 2001/07/19 11:33:57 jakobn Exp $
+// $Id: eztime.php,v 1.14 2001/07/19 12:15:03 jhe Exp $
 //
 // Definition of eZCompany class
 //
@@ -168,6 +168,13 @@ class eZTime
 
             $ret = $tmpTime;
         }
+        else if ( is_numeric( $time ) )
+        {
+            $tmpTime = new eZTime( $this->hour(), $this->minute(), $this->second() );
+            $tmpTime->setSecondsElapsed( $this->secondsElapsed() + $time );
+
+            $ret = $tmpTime;
+        }
         
         return $ret;
     }
@@ -305,7 +312,7 @@ class eZTime
         {
             $this->setHour( min( $valueArray[1], 23 ) );
             $this->setMinute( min( $valueArray[2], 59 ) );
-            $this->setSecound( min( $valueArray[3], 59 ) );
+            $this->setSecond( min( $valueArray[3], 59 ) );
         }
         else
         {

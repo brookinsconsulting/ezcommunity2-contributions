@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.47 2001/07/19 11:33:57 jakobn Exp $
+// $Id: ezdb.php,v 1.48 2001/07/19 12:15:03 jhe Exp $
 //
 // Definition of eZDB class
 //
@@ -189,7 +189,7 @@ class eZDB
     {
         $db->unlock();
         if ( in_array( false, $resultArray ) )
-            $db->rollback( );
+            $db->rollback();
         else
             $db->commit();
     }

@@ -1,10 +1,9 @@
-<?
+<?php
 // 
-// $Id: ezappointmenttype.php,v 1.8 2001/06/11 09:47:38 descala Exp $
+// $Id: ezappointmenttype.php,v 1.9 2001/07/19 12:15:04 jhe Exp $
 //
 // Definition of eZAppointmentType class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 09:47:13 bf>
 //
 // This source file is part of eZ publish, publishing software.
@@ -45,19 +44,14 @@ class eZAppointmentType
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZAppointmentType( $id=-1, $fetch=true )
+    function eZAppointmentType( $id = -1 )
     {
-        $this->IsConnected = false;
+        $db =& eZDB::globalDatabase();
 
         if ( $id != -1 )
         {
             $this->ID = $id;
             $this->get( $this->ID );
-            $this->State_ = "Coherent";
-        }
-        else
-        {
-            $this->State_ = "New";
         }
     }
 
@@ -66,24 +60,27 @@ class eZAppointmentType
     */
     function store()
     {
-        $this->dbInit();
-
-        if ( !isset( $this->ID ) )
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        
+        if ( !isSet( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZCalendar_AppointmentType SET
-		                         Name='$this->Name',
-                                 Description='$this->Description',
-                                 ParentID='$this->ParentID'" );
-            $this->ID = $this->Database->insertID();
+            $db->lock( "eZCalendar_AppointmentType" );
+            $this->ID = $db->nextID( "eZCalendar_AppointmentType", "ID" );
+            $res[] = $db->query( "INSERT INTO eZCalendar_AppointmentType
+                                  (ID, Name, Description, ParentID)
+                                  VALUES
+                                  ('$this->ID', '$this->Name', '$this->Description', '$this->ParentID')" );
+            $db->unlock();
         }
         else
         {
-            $this->Database->query( "UPDATE eZCalendar_AppointmentType SET
-		                         Name='$this->Name',
-                                 Description='$this->Description',
-                                 ParentID='$this->ParentID' WHERE ID='$this->ID'" );
+            $res[] = $db->query( "UPDATE eZCalendar_AppointmentType SET
+		                          Name='$this->Name',
+                                  Description='$this->Description',
+                                  ParentID='$this->ParentID' WHERE ID='$this->ID'" );
         }
-        
+        eZDB::finish( $res, $db );
         return true;
     }
 
@@ -93,44 +90,38 @@ class eZAppointmentType
     */
     function delete()
     {
-        $this->dbInit();
-
-        if ( isset( $this->ID ) )
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        if ( isSet( $this->ID ) )
         {
-            $this->Database->query( "DELETE FROM eZCalendar_AppointmentType WHERE ID='$this->ID'" );            
+            $res[] = $db->query( "DELETE FROM eZCalendar_AppointmentType WHERE ID='$this->ID'" );            
         }
-        
+        eZDB::finish( $res, $db );
         return true;
     }
     
     /*!
       Fetches the object information from the database.
     */
-    function get( $id=-1 )
+    function get( $id = -1 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $AppointmentType_array, "SELECT * FROM eZCalendar_AppointmentType WHERE ID='$id'" );
+            $db->array_query( $AppointmentType_array, "SELECT * FROM eZCalendar_AppointmentType WHERE ID='$id'" );
             if ( count( $AppointmentType_array ) > 1 )
             {
                 die( "Error: AppointmentType's with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $AppointmentType_array ) == 1 )
+            else if ( count( $AppointmentType_array ) == 1 )
             {
-                $this->ID = $AppointmentType_array[0][ "ID" ];
-                $this->Name = $AppointmentType_array[0][ "Name" ];
-                $this->Description = $AppointmentType_array[0][ "Description" ];
-                $this->ParentID = $AppointmentType_array[0][ "ParentID" ];
-                $this->ExcludeFromSearch = $AppointmentType_array[0][ "ExcludeFromSearch" ];
+                $this->ID = $AppointmentType_array[0][ $db->fieldName( "ID" ) ];
+                $this->Name = $AppointmentType_array[0][ $db->fieldName( "Name" ) ];
+                $this->Description = $AppointmentType_array[0][ $db->fieldName( "Description" ) ];
+                $this->ParentID = $AppointmentType_array[0][ $db->fieldName( "ParentID" ) ];
+                $this->ExcludeFromSearch = $AppointmentType_array[0][ $db->fieldName( "ExcludeFromSearch" ) ];
             }
-                 
-            $this->State_ = "Coherent";
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
     }
 
@@ -141,17 +132,17 @@ class eZAppointmentType
     */
     function &getAll()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         $return_array = array();
         $AppointmentType_array = array();
         
-        $this->Database->array_query( $AppointmentType_array, "SELECT ID FROM eZCalendar_AppointmentType ORDER BY Name" );
+        $db->array_query( $AppointmentType_array, "SELECT ID FROM eZCalendar_AppointmentType ORDER BY Name" );
         
-        for ( $i=0; $i<count($AppointmentType_array); $i++ )
-        {
-            $return_array[$i] = new eZAppointmentType( $AppointmentType_array[$i]["ID"], 0 );
-        }
+        for ( $i = 0; $i < count( $AppointmentType_array ); $i++ )
+        { 
+            $return_array[$i] = new eZAppointmentType( $AppointmentType_array[$i][ $db->fieldName( "ID" ) ], 0 );
+        } 
         
         return $return_array;
     }
@@ -168,7 +159,7 @@ class eZAppointmentType
     {
         if ( get_class( $parent ) == "ezappointmenttype" )
         {
-            $this->dbInit();
+            $db =& eZDB::globalDatabase();
         
             $return_array = array();
             $appointmenttype_array = array();
@@ -177,22 +168,21 @@ class eZAppointmentType
 
             if ( $showAll == true )
             {
-                $this->Database->array_query( $appointmenttype_array, "SELECT ID, Name FROM eZCalendar_AppointmentType
+                $db->array_query( $appointmenttype_array, "SELECT ID, Name FROM eZCalendar_AppointmentType
                                           WHERE ParentID='$parentID'
                                           ORDER BY Name" );
             }
             else
             {
-                $this->Database->array_query( $appointmenttype_array, "SELECT ID, Name FROM eZCalendar_AppointmentType
+                $db->array_query( $appointmenttype_array, "SELECT ID, Name FROM eZCalendar_AppointmentType
                                           WHERE ParentID='$parentID' AND ExcludeFromSearch='false'
                                           ORDER BY Name" );
             }
 
-            for ( $i=0; $i<count($appointmenttype_array); $i++ )
-            {
-                $return_array[$i] = new eZAppointmentType( $appointmenttype_array[$i]["ID"], 0 );
+            for ( $i = 0; $i < count( $appointmenttype_array ); $i++ )
+            { 
+                $return_array[$i] = new eZAppointmentType( $appointmenttype_array[$i][ $db->fieldName( "ID" ) ], 0 );
             }
-
             return $return_array;
         }
         else
@@ -203,11 +193,11 @@ class eZAppointmentType
 
     /*!
       Returns the current path as an array of arrays.
-
+      
       The array is built up like: array( array( id, name ), array( id, name ) );
-
+      
       See detailed description for an example of usage.
-    */
+    */ 
     function path( $AppointmentTypeID=0 )
     {
         if ( $AppointmentTypeID == 0 )
@@ -326,9 +316,6 @@ class eZAppointmentType
     */
     function setName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Name = $value;
     }
 
@@ -351,31 +338,11 @@ class eZAppointmentType
        }
     }
 
-    /*!
-      Private function.      
-      Open the database for read and write. Gets all the database information from site.ini.      
-    */    
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database =& eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
-    
     var $ID;
     var $Name;
     var $ParentID;
     var $Description;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>

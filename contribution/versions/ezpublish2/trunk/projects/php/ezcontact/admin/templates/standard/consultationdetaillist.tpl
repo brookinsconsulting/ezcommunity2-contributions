@@ -11,18 +11,30 @@
 
 <!-- BEGIN new_person_consultation_item_tpl -->
 <form method="post" action="/contact/consultation/person/new/{person_id}">
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<th width="30%"><a href="/contact/consultation/person/list/{person_id}/?OrderBy=Date">
+                        {intl-consultation_date}:</a></th>
+	<th><a href="/contact/consultation/person/list/{person_id}/?OrderBy=Description">
+                        {intl-consultation_short_description}:</a></th>
+	<th><a href="/contact/consultation/person/list/{person_id}/?OrderBy=Status">
+                        {intl-consultation_status}:</a></th>
+	<th colspan="2">&nbsp;</th>
+</tr>
 <!-- END new_person_consultation_item_tpl -->
 <!-- BEGIN new_company_consultation_item_tpl -->
 <form method="post" action="/contact/consultation/company/new/{company_id}">
-<!-- END new_company_consultation_item_tpl -->
-
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th width="30%">{intl-consultation_date}:</th>
-	<th>{intl-consultation_short_description}:</th>
-	<th>{intl-consultation_status}:</th>
+	<th width="30%"><a href="/contact/consultation/company/list/{company_id}/?OrderBy=Date">
+                        {intl-consultation_date}:</a></th>
+	<th><a href="/contact/consultation/company/list/{company_id}/?OrderBy=Description">
+                        {intl-consultation_short_description}:</a></th>
+	<th><a href="/contact/consultation/company/list/{company_id}/?OrderBy=Status">
+                        {intl-consultation_status}:</a></th>
 	<th colspan="2">&nbsp;</th>
 </tr>
+<!-- END new_company_consultation_item_tpl -->
 
 <!-- BEGIN consultation_item_tpl -->
 <tr class="{bg_color}">

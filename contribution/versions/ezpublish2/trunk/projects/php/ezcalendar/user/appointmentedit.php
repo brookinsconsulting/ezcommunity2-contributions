@@ -1,8 +1,7 @@
-<?
+<?php
 // 
-// $Id: appointmentedit.php,v 1.36 2001/03/12 13:55:47 fh Exp $
+// $Id: appointmentedit.php,v 1.37 2001/07/19 12:15:04 jhe Exp $
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
 //
 // This source file is part of eZ publish, publishing software.
@@ -102,7 +101,6 @@ $StopTimeStr = $ini->read_var( "eZCalendarMain", "DayStopTime" );
 
 $Locale = new eZLocale( $Language );
 
-
 $user = eZUser::currentUser();
 
 if ( $user == false )
@@ -139,13 +137,11 @@ $t->set_block( "no_error_tpl", "value_tpl", "value" );
 $t->set_block( "no_error_tpl", "month_tpl", "month" );
 $t->set_block( "no_error_tpl", "day_tpl", "day" );
 
-
 // no user logged on
-if( $app == false )
+if( get_class( $app ) != "ezappointment" )
 {
     $t->set_var( "no_error", "" );
     $t->set_var( "wrong_user_error", "" );
-
     $t->parse( "no_user_error", "no_user_error_tpl" );
     $t->parse( "user_error", "user_error_tpl" );
     $t->pparse( "output", "appointment_edit_tpl" );
@@ -177,7 +173,7 @@ if ( $Action == "DeleteAppointment" )
 
         if ( $tmpAppointment->userID() == $userID )
         {
-            foreach( $AppointmentArrayID as $ID )
+            foreach ( $AppointmentArrayID as $ID )
             {
                 $appointment = new eZAppointment( $ID );
                 $appointment->delete();
@@ -254,8 +250,8 @@ if ( $Action == "Insert" || $Action == "Update" )
         }
 
         // start/stop time for the day
-        $dayStartTime = new eZTime();
-        $dayStopTime = new eZTime();
+        $dayStartTime = new eZDateTime( $year, $month, $day );
+        $dayStopTime = new eZDateTime( $year, $month, $day );
 
         if ( preg_match( "#(^([0-9]{1,2})[^0-9]{0,1}([0-9]{0,2})$)#", $StartTimeStr, $dayStartArray ) )
         {
@@ -280,8 +276,8 @@ if ( $Action == "Insert" || $Action == "Update" )
         }
 
         // start/stop time for the appointment
-        $startTime = new eZTime();
-        $stopTime = new eZTime();
+        $startTime = new eZDateTime( $year, $month, $day );
+        $stopTime = new eZDateTime( $year, $month, $day );
 
         $startTime->setSecond( 0 );
         $stopTime->setSecond( 0 );
@@ -290,9 +286,7 @@ if ( $Action == "Insert" || $Action == "Update" )
         {
             $hour = $startArray[2];
             settype( $hour, "integer" );
-
             $startTime->setHour( $hour );
-
             $min = $startArray[3];
             settype( $min, "integer" );
 
@@ -332,10 +326,9 @@ if ( $Action == "Insert" || $Action == "Update" )
         }
         else
         {
-            $duration = new eZTime( $stopTime->hour() - $startTime->hour(),
-                                    $stopTime->minute() - $startTime->minute() );
-
-            $appointment->setDuration( $duration );
+            $duration = new eZDateTime();
+            $duration->setTimeStamp( $stopTime->timeStamp() - $startTime->timeStamp() );
+            $appointment->setDuration( $duration->timeStamp() );
         }
 
         if ( $TitleError == false && $StartTimeError == false && $StopTimeError == false )
@@ -372,7 +365,7 @@ if ( $Action == "Insert" || $Action == "Update" )
 $t->set_var( "user_error", "" );
 
 
-if ( $Action == "Update" )
+if ( $Action == "Edit" )
 {
     $t->set_var( "name_value", $Name );
     $t->set_var( "description_value", $Description );
@@ -453,12 +446,20 @@ else
     $t->set_var( "title_error", "" );
 
 if ( $StartTimeError == true )
+{
     $t->parse( "start_time_error", "start_time_error_tpl" );
+    $t->set_var( "action_value", "insert" );
+    $t->set_var( "appointment_id", "new" );
+}
 else
     $t->set_var( "start_time_error", "" );
 
 if ( $StopTimeError == true )
+{
     $t->parse( "stop_time_error", "stop_time_error_tpl" );
+    $t->set_var( "action_value", "insert" );
+    $t->set_var( "appointment_id", "new" );
+}
 else
     $t->set_var( "stop_time_error", "" );
 
@@ -475,6 +476,10 @@ if ( $Action == "New" )
     $t->set_var( "is_private", "" );
     $t->set_var( "start_value", "" );
     $t->set_var( "stop_value", "" );
+
+    $t->set_var( "0_selected", "" );
+    $t->set_var( "1_selected", "" );
+    $t->set_var( "2_selected", "" );
 
     if ( $Year != 0 )
         $year = $Year;

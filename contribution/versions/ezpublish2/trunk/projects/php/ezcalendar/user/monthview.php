@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.22 2001/03/12 13:55:47 fh Exp $
+// $Id: monthview.php,v 1.23 2001/07/19 12:15:04 jhe Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 14:09:56 bf>
@@ -75,20 +75,20 @@ else
 $session->setVariable( "Year", $Year );
 $session->setVariable( "Month", $Month );
 
-$zMonth = addZero($Month);
-$isMyCalendar = ( $userID && $userID == $GetByUserID )? "-private" :"";
+$zMonth = addZero( $Month );
+$isMyCalendar = ( $userID && $userID == $GetByUserID ) ? "-private" : "";
 $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
                      "ezcalendar/user/intl", $Language, "monthview.php",
                      "default", "ezcalendar" . "/user", "$Year-$zMonth-$GetByUserID" . $isMyCalendar );
 
 $t->set_file( "month_view_page_tpl", "monthview.tpl" );
 
-if ( $t->hasCache() )
+//if ( $t->hasCache() )
 {
 //    print( "cached<br />" );
-    print( $t->cache() );
+//    print( $t->cache() );
 }
-else
+//else
 {
 //    print( "not cached<br />" );
     $t->setAllStrings();
@@ -122,7 +122,7 @@ else
         $headerDate->setMonth( 4 );
     }
 
-    for ( $week_day=1; $week_day<=7; $week_day++ )
+    for ( $week_day = 1; $week_day <= 7; $week_day++ )
     {
         $headerDate->setDay( $week_day );
         $t->set_var( "week_day_name", $Locale->dayName( $headerDate->dayName( $Locale->mondayFirst() ), false ) );
@@ -134,8 +134,8 @@ else
     $tmpDate = new eZDate();
     $tmpAppointment = new eZAppointment();
 
-    for ( $week=0; $week<6; $week++ )
-    {
+    for ( $week = 0; $week < 6; $week++ )
+    { 
         $t->set_var( "day", "" );
 
         if ( ( ( $week * 7 ) - $firstDay + 1 ) < ( $date->daysInMonth()  ) )
@@ -143,7 +143,7 @@ else
             $date->setDay( 1 );
             $firstDay = $date->dayOfWeek( $Locale->mondayFirst() );
 
-            for ( $day=1; $day<=7; $day++ )
+            for ( $day = 1; $day <= 7; $day++ )
             {
                 $currentDay = $day + ( $week * 7 ) - $firstDay + 1;
 
@@ -157,8 +157,9 @@ else
                     $tmpDate->setYear( $date->year() );
                     $tmpDate->setMonth( $date->month() );
                     $tmpDate->setDay( $date->day() );
-
+                    
                     $appointments =& $tmpAppointment->getByDate( $tmpDate, $appOwnerUser, true );
+
                     $t->set_var( "public_appointment", "" );
                     $t->set_var( "private_appointment", "" );
 
@@ -178,6 +179,28 @@ else
                         }
                     }
 
+                    // fetch the consultations for today
+/*
+                    $endDate = new eZDateTime();
+                    $endDate->setTimeStamp( $endDate->timeStamp() + 60 * 60 * 24 );
+                    $consultations =& eZConsultations::findConsultationsByDate( $user, $tmpDate, $endDate );
+                    foreach ( $consultations as $consultation )
+                    {
+                        $t->set_var( "appointment_id", $appointment->id() );
+                        $t->set_var( "start_time", $Locale->format( $appointment->startTime(), true ) );
+                        $t->set_var( "stop_time", $Locale->format( $appointment->stopTime(), true ) );
+
+                        if ( $appointment->isPrivate() == false || $userID == $appointment->userID() )
+                        {
+                            $t->parse( "public_appointment", "public_appointment_tpl", true );
+                        }
+                        else
+                        {
+                            $t->parse( "private_appointment", "private_appointment_tpl", true );
+                        }
+                        
+                    }
+*/                  
                     // set special colours for today and weekend
                     if ( $tmpDate->equals( $today ) )
                     {
