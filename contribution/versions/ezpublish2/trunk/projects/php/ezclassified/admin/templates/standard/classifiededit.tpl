@@ -8,7 +8,7 @@
 
 <!-- BEGIN company_select_tpl -->
 <p class="boxtext">{intl-company}:</p>
-<select name="CompanyID[]">
+<select single size="10" name="CompanyID">
 <!-- BEGIN company_item_tpl -->
 <option value="{company_id}" {is_selected}>{company_name}</option>
 <!-- END company_item_tpl -->
@@ -104,7 +104,7 @@
 <p class="boxtext">{intl-description}:</p>
 <textarea cols="40" rows="8" name="Description">{classified_description}</textarea>
 
-<p class="boxtext">{intl-contact_person}:</p>
+<p class="boxtext">{intl-contact_persons}:</p>
 <!-- <textarea cols="40" rows="8" name="ContactPerson">{classified_contact_person}</textarea> -->
 <br /><br />
 
@@ -164,10 +164,19 @@
 	</td>
 </tr>
 </table>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td width="50%">
+	<p class="boxtext">{intl-reference}:</p>
+	<input type="text" size="20" name="Reference" value="{classified_reference}"/>
+	<br /><br />
+	</td>
+</tr>
+</table>
 <br /><br />
 
 <input type="hidden" value="{classified_id}" name="PositionID">
-<input type="hidden" value="{company_id}" name="CompanyID">
+<!-- <input type="hidden" value="{company_id}" name="CompanyID"> -->
 
 <hr noshade="noshade" size="4" />
 
