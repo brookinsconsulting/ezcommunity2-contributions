@@ -64,3 +64,13 @@ mod: ezcalendar/user, dayview.php.ini
 change: added
 previous_day=Previous day
 next_day=Next day
+
+mod: eztrade/admin, optionedit.php.ini
+change: added
+value_description=Value description
+value_header=Header
+new_description=New description
+
+mod: eztrade/admin, optionlist.php.ini
+change: added
+delete_selected=Delete selected options

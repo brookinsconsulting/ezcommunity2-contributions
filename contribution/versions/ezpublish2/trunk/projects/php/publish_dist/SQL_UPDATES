@@ -529,6 +529,28 @@ create table eZImageCatalogue_CategoryPermission( ID int primary key auto_increm
 create table eZFileManager_FilePermission( ID int primary key auto_increment, ObjectID int, GroupID int, ReadPermission int default 0, WritePermission int default 0 );     
 create table eZFileManager_FolderPermission( ID int primary key auto_increment, ObjectID int, GroupID int, ReadPermission int default 0, WritePermission int default 0 );      
 
+# Option and option values
+CREATE TABLE eZTrade_OptionValueHeader (
+  ID int(11) NOT NULL auto_increment,
+  Name varchar(30) default NULL,
+  OptionID int(11) NOT NULL default '0',
+  Placement int(11) NOT NULL default '1',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZTrade_OptionValueContent (
+  ID int(11) NOT NULL auto_increment,
+  Value varchar(30) default NULL,
+  ValueID int(11) NOT NULL default '0',
+  Placement int(11) NOT NULL default '1',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+INSERT INTO eZTrade_OptionValueContent (Value, ValueID ) SELECT Name,ID FROM eZTrade_OptionValue;
+INSERT INTO eZTrade_OptionValueHeader (Name,OptionID) SELECT 'Name', ID FROM eZTrade_Option;
+ALTER TABLE eZTrade_OptionValue DROP Name;
+ALTER TABLE eZTrade_OptionValue ADD Placement int(11) NOT NULL default '1';
+
 # Permission for eZBug
 create table eZBug_ModulePermission( ID int primary key auto_increment, ObjectID int, GroupID int, ReadPermission int default 0, WritePermission int default 0 );     
 
