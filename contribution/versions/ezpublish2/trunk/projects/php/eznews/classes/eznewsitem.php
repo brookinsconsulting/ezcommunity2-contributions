@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.20 2000/10/01 17:41:53 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.21 2000/10/01 18:55:34 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -133,7 +133,10 @@ class eZNewsItem extends eZNewsUtility
     /*!
         \private
         
-        Fetches the object information from the database.
+        This function will get all info about an object from the database.
+        
+        If get will automatically change the class to be of the same type
+        as the data in the database tells it to use. (eZNews_ItemType)    
       
         \in
             \$inData    Either the ID or the Name of the row we want this object
@@ -150,59 +153,61 @@ class eZNewsItem extends eZNewsUtility
         $itemArray = array();
         $outID = array();
         
+        $query = "";
+
         if( is_numeric( $inData ) )
         {
             $query = "
                 SELECT
                     *
                 FROM
-                    eZNews_NewsItem
+                    eZNews_Item
                 WHERE ID = %s
             ";
             
-            $query = sprintf( $query2, $inData );
+            $query = sprintf( $query, $inData );
         }
         else
         {
-            $query2 = "
+            $query = "
                 SELECT
                     *
                 FROM
-                    eZNews_NewsItem
+                    eZNews_Item
                 WHERE Name = %s
             ";
             
-            $query = sprintf( $query2, $inData );
+            $query = sprintf( $query, $inData );
         }
 
         $this->Database->array_query( $itemArray, $query );
+        $count = count( $itemArray );
+        switch( $count )
+        {
+            case 0:
+                $this->Error[] = "intl-eznews-eznewschangetype-no-object-found";
+                break;
+            case 1:
+                $outID[] = $itemArray[0][ "ID" ];
+                $this->Name = $itemArray[0][ "Name" ];
+                $this->ItemTypeID = $itemArray[0][ "ItemTypeID" ];
+                $this->Status = $itemArray[0][ "Status" ];
+                $this->CreatedAt = $changeTypeArray[0][ "CreatedAt" ];
+                $this->CreatedBy = $changeTypeArray[0][ "CreatedBy" ];
+                $this->CreastionIP = $changeTypeArray[0][ "CreastionIP" ];
 
-        if ( count( $itemArray ) > 1 )
-        {
-            $this->Error[] = "intl-eznews-eznewsitem-more-than-one-object-found";
-            
-            foreach( $itemArray as $item )
-            {
-                $outID[] = $item[ "ID" ];
-            }
-        }
-        else if( count( $itemArray ) == 1 )
-        {
-            $this->ID = $itemArray[0][ "ID" ];
-            $this->Name = $itemArray[0][ "Name" ];
-            $this->ItemTypeID = $itemArray[0][ "ItemTypeID" ];
-            $this->Status = $itemArray[0][ "Status" ];
-            $this->CreatedAt = $changeTypeArray[0][ "CreatedAt" ];
-            $this->CreatedBy = $changeTypeArray[0][ "CreatedBy" ];
-            $this->CreastionIP = $changeTypeArray[0][ "CreastionIP" ];
-            
-            // fetch more info.
-            
-            $value = true;
-        }
-        else
-        {
-            $this->Error[] = "intl-eznews-eznewsitem-no-object-found";
+                // fetch more info.
+
+                $value = true;
+                break;
+            default:
+                $this->Error[] = "intl-eznews-eznewsitem-more-than-one-object-found";
+
+                foreach( $itemArray as $item )
+                {
+                    $outID[] = $item[ "ID" ];
+                }
+                break;
         }
         
         return $value;
@@ -695,12 +700,160 @@ class eZNewsItem extends eZNewsUtility
     }
     
     /*!
-        This function will get all info about an object from the database.
+        This function will return all IDs of the items in the db which doesn't have a parent.
         
-        If get will automatically change the class to be of the same type
-        as the data in the database tells it to use. (eZNews_ItemType)
+        \in
+            \$inOrderBy  This is the columnname to order the returned array
+                        by.
+            \accepts
+                ID - The id of the row in the table
+                Name - Name of item
+                CreatedAt - SQL timestamp
+                CreatedBy - eZUser.ID
+                CreationIP - ip / port
+                Status  - eZNews_ChangeType.ID
+                \default is ID
+            \$direction  This is the direction to do the ordering in
+            \accepts
+                asc - ascending order
+                desc - descending order
+                \default is asc
+            \$startAt   This is the result number we want to start at
+                \default is 0
+            \$noOfResults This is the number of results we want.
+                \default is all
+        \out
+            \$returnArray    This is the array of found elements
+        \return
+            Returns false if it fails, the error message from SQL is
+            retained in $this->SQLErrors. Use getSQLErrors() to read
+            the error message.
+                      
      */
-    
+    function getOrphans( &$returnArray, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = ""  )
+    {
+        $this->dbInit();
+        $value = false;
+        
+        $returnArray = array();
+        $itemArray = array();
+        
+        $query =
+        "
+            SELECT
+                eZNews_Item.*
+            FROM
+                eZNews_Item
+            LEFT JOIN
+                eZNews_Hiearchy
+            ON
+                eZNews_Item.ID = eZNews_Hiearchy.ItemID
+            WHERE
+                eZNews_Hiearchy.ItemID IS NULL
+            %s
+            %s
+        ";
+        $orderBy = $this->createOrderBy( $inOrderBy, $direction );
+        $limits = $this->createLimit( $startAt, $noOfResults );
+        
+        $query = sprintf( $query, $orderBy, $limits );
+        
+        $this->Database->array_query( $itemArray, $query );
+        
+        for( $i = 0; $i < count( $itemArray ); $i++ )
+        {   
+            $returnArray[$i] = new eZNewsItem( $itemArray[$i][ "ID" ], 0 );
+        }
+        
+        if( $returnArray )
+        {
+            $value = true;
+        }
+        
+        return $value;
+    }
+
+
+
+    /*!
+        This function will return all IDs of the items in the db which doesn't have any children.
+        
+        \in
+            \$inOrderBy  This is the columnname to order the returned array
+                        by.
+            \accepts
+                ID - The id of the row in the table
+                Name - Name of item
+                CreatedAt - SQL timestamp
+                CreatedBy - eZUser.ID
+                CreationIP - ip / port
+                Status  - eZNews_ChangeType.ID
+                \default is ID
+            \$direction  This is the direction to do the ordering in
+            \accepts
+                asc - ascending order
+                desc - descending order
+                \default is asc
+            \$startAt   This is the result number we want to start at
+                \default is 0
+            \$noOfResults This is the number of results we want.
+                \default is all
+        \out
+            \$returnArray    This is the array of found elements
+        \return
+            Returns false if it fails, the error message from SQL is
+            retained in $this->SQLErrors. Use getSQLErrors() to read
+            the error message.
+                      
+     */
+    function getWidows( &$returnArray, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = "" )
+    {
+        #echo "getWidows( \&\$returnArray, \$inOrderBy = \"$inOrderBy\", 
+        #\$direction = \"$direction\" , \$startAt = \"$startAt\", \$noOfResults = \"$noOfResults\" )
+        #<br>";
+        $this->dbInit();
+        $value = false;
+        
+        $returnArray = array();
+        $itemArray = array();
+        
+        $query =
+        "
+            SELECT
+                eZNews_Item.*
+            FROM
+                eZNews_Item
+            LEFT JOIN
+                eZNews_Hiearchy
+            ON
+                eZNews_Item.ID = eZNews_Hiearchy.ParentID
+            WHERE
+                eZNews_Hiearchy.ParentID IS NULL
+            %s
+            %s
+        ";
+        $orderBy = $this->createOrderBy( $inOrderBy, $direction );
+        $limits = $this->createLimit( $startAt, $noOfResults );
+        
+        $query = sprintf( $query, $orderBy, $limits );
+
+        $this->Database->array_query( $itemArray, $query );
+        
+        for( $i = 0; $i < count( $itemArray ); $i++ )
+        {   
+            $returnArray[$i] = new eZNewsItem( $itemArray[$i][ "ID" ], 0 );
+        }
+        
+        if( $returnArray )
+        {
+            $value = true;
+        }
+        
+        return $value;
+    }
+
+
+
     /*!
         This function will return all IDs of the children of this class.
         
@@ -743,7 +896,7 @@ class eZNewsItem extends eZNewsUtility
         $query =
         "
             SELECT
-                Item.ItemID AS ID,
+                Item.ID AS ID,
                 Item.Name AS Name,
                 Item.CreatedAt AS CreatedAt,
                 Item.CreatedBy AS CreatedBy,
@@ -841,12 +994,13 @@ class eZNewsItem extends eZNewsUtility
             %s
             %s
         ";
-
+        
         $orderBy = $this->createOrderBy( $inOrderBy, $direction );
         $limits = $this->createLimit( $startAt, $noOfResults );
-
+echo $this->ID . "<br>";
         $query = sprintf( $query, $this->ID, $orderBy, $limits );
         
+echo $query . "<br>";
         $this->Database->array_query( $itemArray, $query );
         
         for( $i = 0; $i < count( $itemArray ); $i++ )

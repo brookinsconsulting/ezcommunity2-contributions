@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsutility.php,v 1.5 2000/10/01 17:41:53 pkej-cvs Exp $
+// $Id: eznewsutility.php,v 1.6 2000/10/01 18:55:34 pkej-cvs Exp $
 //
 // Definition of eZNewsUtility class
 //
@@ -266,13 +266,14 @@ class eZNewsUtility
      */
     function createLimit( $startAt, $noOfResults )
     {
+        #echo "eznewsutility::createLimit( \$startAt = $startAt, \$noOfResults = $noOfResults )<br>";
         unset( $returnString );
         
-        if( !empty( $startAt ) && !empty( $noOfResults ) )
+        if( $startAt >= 0 && !empty( $noOfResults ) )
         {
             $returnString = "LIMIT " . $startAt  . ", " . $noOfResults ;
         }
-        
+
         return $returnString;
     }
     
