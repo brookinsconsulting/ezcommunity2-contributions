@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.31 2000/11/23 11:10:58 ce-cvs Exp $
+// $Id: ezcompany.php,v 1.32 2000/11/27 09:36:59 ce-cvs Exp $
 //
 // Definition of eZProduct class
 //
@@ -105,6 +105,8 @@ class eZCompany
                                                	 CreatorID='$this->CreatorID' WHERE ID='$this->ID'" );
             $this->State_ = "Coherent";
         }
+
+        return true;
     }
 
     /*
@@ -736,6 +738,7 @@ class eZCompany
     }  
 
     /*!
+      \private
       Private function.
       Open the database for read and write. Gets all the database information from site.ini.
     */
