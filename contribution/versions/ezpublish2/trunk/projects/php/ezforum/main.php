@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: main.php,v 1.4 2000/07/24 12:32:51 lw-cvs Exp $
+    $Id: main.php,v 1.5 2000/07/24 12:34:03 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -30,7 +30,7 @@ $t->set_file( array("main" => "$DOCROOT/templates/main.tpl",
                     "logout" => "$DOCROOT/templates/main-logout.tpl",
                     "search" => "$DOCROOT/templates/main-search.tpl",
                     "results" => "$DOCROOT/templates/main-search-results.tpl",
-                    "elements" => "$DOCROOT/templates/main-search-results-elements.tpl"
+                    "search-elements" => "$DOCROOT/templates/main-search-results-elements.tpl"
                     ) );
 
 $t->set_var( "docroot", $DOCROOT);
@@ -71,7 +71,7 @@ if ( $search )
         //$t->set_var( "forum",  );
         $t->set_var( "forum", "&nbsp;" );
 
-        $t->parse( "fields", "elements", true );
+        $t->parse( "fields", "search-elements", true );
     }
     $t->parse( "searchfield", "results", true );
 }
