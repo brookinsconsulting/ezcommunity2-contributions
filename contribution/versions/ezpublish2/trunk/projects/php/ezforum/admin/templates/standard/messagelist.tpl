@@ -1,7 +1,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td align="left" valign="bottom">
-        <h1>{intl-headline}</h1>
+        <h1>{intl-headline} - ({forum_start}-{forum_end}/{forum_total})</h1>
      </td>
      <td align="right">
 	 <form action="/forum/search/" method="post">

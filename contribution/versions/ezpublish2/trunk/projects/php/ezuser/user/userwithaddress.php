@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.51 2001/05/10 08:56:16 ce Exp $
+// $Id: userwithaddress.php,v 1.52 2001/05/10 10:14:12 ce Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>

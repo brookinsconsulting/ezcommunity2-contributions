@@ -1,5 +1,5 @@
 <?
-// $Id: messagelist.php,v 1.16 2001/05/04 12:55:43 ce Exp $
+// $Id: messagelist.php,v 1.17 2001/05/10 10:14:12 ce Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
@@ -119,6 +119,10 @@ else
         }
 } 
 eZList::drawNavigator( $t, $messageCount, $AdminLimit, $Offset, "message_page" );
+
+$t->set_var( "forum_start", $Offset + 1 );
+$t->set_var( "forum_end", min( $Offset + $AdminLimit, $messageCount ) );
+$t->set_var( "forum_total", $messageCount );
 
 $t->set_var( "link1-url", "");
 $t->set_var( "link2-url", "search.php");

@@ -1,5 +1,5 @@
 <?
-// $Id: todoview.php,v 1.7 2001/05/09 13:36:35 ce Exp $
+// $Id: todoview.php,v 1.8 2001/05/10 10:14:12 ce Exp $
 //
 // Definition of todo list.
 //
@@ -56,6 +56,8 @@ $t->set_block( "list_logs_tpl", "log_item_tpl", "log_item" );
 
 $t->set_block( "todo_edit_page", "errors_tpl", "errors" );
 $t->set_var( "errors", "&nbsp;" );
+$t->set_var( "log_item", "&nbsp;" );
+$t->set_var( "list_logs", "&nbsp;" );
 
 $todo = new eZTodo();
 $todo->get( $TodoID );
@@ -87,8 +89,8 @@ if ( count ( $logs ) > 0 )
         
         $t->parse( "log_item", "log_item_tpl", true );
     }
+    $t->parse( "list_logs", "list_logs_tpl" );
 }
-$t->parse( "list_logs", "list_logs_tpl" );
 
 $owner = new eZUser( $todo->ownerID() );
 $t->set_var( "first_name", $owner->firstName() );

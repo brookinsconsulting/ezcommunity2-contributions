@@ -1,5 +1,5 @@
 <?
-// $Id: todoedit.php,v 1.20 2001/05/09 13:36:35 ce Exp $
+// $Id: todoedit.php,v 1.21 2001/05/10 10:14:12 ce Exp $
 //
 // Definition of todo list.
 //
@@ -232,20 +232,19 @@ if ( $Action == "insert" && $error == false )
 
         if ( $todo->IsPublic() )
         {
-            $mailTemplate->set_var( "todo_is_not_public_tpl", "" );
+            $mailTemplate->set_var( "todo_is_not_public", "" );
             $mailTemplate->parse( "todo_is_public", "todo_is_public_tpl" );
         }
         else
         {
-            $mailTemplate->set_var( "todo_is_public_tpl", "" );
+            $mailTemplate->set_var( "todo_is_public", "" );
             $mailTemplate->parse( "todo_is_not_public", "todo_is_not_public_tpl" );
         }
-        
+
         $mailTemplate->set_var( "todo_name", $Name );
         $mailTemplate->set_var( "todo_category", $category->name() );
         $mailTemplate->set_var( "todo_priority", $priority->name() );
         $mailTemplate->set_var( "todo_status", $status->name() );
-        $mailTemplate->set_var( "todo_is_public", $isPublic );
         $mailTemplate->set_var( "todo_owner", $owner->firstName() . " " . $owner->lastName() );
         $mailTemplate->set_var( "todo_description", $Description );
         
@@ -309,12 +308,12 @@ if ( $Action == "update" && $error == false )
 
         if ( $todo->IsPublic() )
         {
-            $mailTemplate->set_var( "todo_is_not_public_tpl", "" );
+            $mailTemplate->set_var( "todo_is_not_public", "" );
             $mailTemplate->parse( "todo_is_public", "todo_is_public_tpl" );
         }
         else
         {
-            $mailTemplate->set_var( "todo_is_public_tpl", "" );
+            $mailTemplate->set_var( "todo_is_public", "" );
             $mailTemplate->parse( "todo_is_not_public", "todo_is_not_public_tpl" );
         }
 
@@ -323,7 +322,6 @@ if ( $Action == "update" && $error == false )
         $mailTemplate->set_var( "todo_category", $category->name() );
         $mailTemplate->set_var( "todo_priority", $priority->name() );
         $mailTemplate->set_var( "todo_status", $status->name() );
-        $mailTemplate->set_var( "todo_is_public", $isPublic );
         $mailTemplate->set_var( "todo_owner", $owner->firstName() . " " . $owner->lastName() );
         $mailTemplate->set_var( "todo_description", $Description );
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.29 2001/05/09 12:53:54 ce Exp $
+// $Id: messagelist.php,v 1.30 2001/05/10 10:14:12 ce Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -227,6 +227,10 @@ else
     }
 }
 eZList::drawNavigator( $t, $messageCount, $UserLimit, $Offset, "messagelist" );
+
+$t->set_var( "forum_start", $Offset + 1 );
+$t->set_var( "forum_end", min( $Offset + $UserLimit, $messageCount ) );
+$t->set_var( "forum_total", $messageCount );
 
 $t->set_var( "newmessage", $newmessage );
 
