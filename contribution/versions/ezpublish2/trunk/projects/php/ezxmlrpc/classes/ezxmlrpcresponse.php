@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcresponse.php,v 1.16 2001/11/05 10:44:12 bf Exp $
+// $Id: ezxmlrpcresponse.php,v 1.17 2001/11/05 10:53:28 bf Exp $
 //
 // Definition of eZXMLRPCResponse class
 //
@@ -66,8 +66,20 @@ class eZXMLRPCResponse
         
         $stream = $this->stripHTTPHeader( $stream );
 
-//        $domTree =& qdom_tree( $stream );
-        $domTree =& xmltree( $stream );
+        // coose XML parser
+        if ( function_exists( "xmltree" ) )
+        {
+            $domTree =& xmltree( $stream );
+        }
+        else if ( function_exists( "qdom_tree" ) )
+        {
+            $domTree =& qdom_tree( $stream );
+        }
+        else
+        {
+            $domTree->children = array();
+            $this->setError( 10, "XML parser not found. Server not properly configured." );
+        }            
 
         foreach ( $domTree->children as $response )
         {
