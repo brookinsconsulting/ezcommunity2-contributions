@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: pollist.php,v 1.4 2000/10/21 13:12:02 bf-cvs Exp $
+// $Id: pollist.php,v 1.5 2000/10/25 10:05:41 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -74,6 +74,12 @@ foreach( $pollList as $pollItem )
     else
         $t->set_var( "poll_is_enabled", "Nei" );
 
+    if ( $pollItem->anonymous() == "true" )
+        $t->set_var( "anonymous", "Ja" );
+    else
+        $t->set_var( "anonymous", "Nei" );
+
+    
     if ( $pollItem->id() == $mainPollID )
         $t->set_var( "is_checked", "checked" );
     else

@@ -1,9 +1,6 @@
-<tr bgcolor="#aaaaaa"> 
-	<td>
-        <p class="smallhead">
-	Bruker informasjon
-        </p>
-        </td>
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<tr>
+	<td class="menuhead" bgcolor="#c82828">{intl-userinfo}</td>
 </tr>
 
 <tr>
@@ -16,3 +13,4 @@
         </form>
 	</td>
 </tr>
+</table>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpoll.php,v 1.8 2000/10/22 13:10:40 bf-cvs Exp $
+// $Id: ezpoll.php,v 1.9 2000/10/25 10:05:43 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -87,6 +87,7 @@ class eZPoll
                                  Description='$this->Description',
                                  IsEnabled='$this->IsEnabled',
                                  ShowResult='$this->ShowResult',
+                                 Anonymous='$this->Anonymous',
                                  IsClosed='$this->IsClosed' ");
 
             $this->ID = mysql_insert_id();
@@ -100,6 +101,7 @@ class eZPoll
                                  Description='$this->Description',
                                  IsEnabled='$this->IsEnabled',
                                  ShowResult='$this->ShowResult',
+                                 Anonymous='$this->Anonymous',
                                  IsClosed='$this->IsClosed' WHERE ID='$this->ID'" );
 
             $this->State_ = "Coherent";    
@@ -144,6 +146,11 @@ class eZPoll
                 $this->ID = $poll_array[0][ "ID" ];
                 $this->Name = $poll_array[0][ "Name" ];
                 $this->Description = $poll_array[0][ "Description" ];
+
+                if ( $poll_array[0][ "Anonymous" ] == "true" )
+                    $this->Anonymous = true;
+                else
+                    $this->Anonymous = false;
                 
                 if ( $poll_array[0][ "IsEnabled" ] == "true" )
                     $this->IsEnabled = true;
@@ -272,6 +279,18 @@ class eZPoll
     }
 
     /*!
+      Returns the Anonymous.
+    */
+    function anonymous()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return $this->Anonymous;
+    }
+
+    
+    /*!
       Returns the main poll as a eZPoll object.
 
       False is returned if no poll is set as main poll.
@@ -356,6 +375,20 @@ class eZPoll
     }
 
     /*!
+      Sets the anonymous of the poll.
+    */
+    function setAnonymous( $value )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        if ( $value )
+            $this->Anonymous = "true";
+        else
+            $this->Anonymous = "false";
+    }
+    
+    /*!
       Fetches the total number of votes for the poll.
     */
     function totalVotes( )
@@ -406,4 +439,5 @@ class eZPoll
     var $IsEnabled;
     var $IsClosed;
     var $ShowResult;
+    var $Anonymous;
 }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvote.php,v 1.10 2000/10/09 14:15:08 ce-cvs Exp $
+// $Id: ezvote.php,v 1.11 2000/10/25 10:05:43 ce-cvs Exp $
 //
 // Definition of eZVote class
 //
@@ -223,7 +223,7 @@ class eZVote
       \static
       Check if the user already have voted. If voted, return true.
     */
-    function oneVoteCheck( $userID, $pollID )
+    function isVoted( $userID, $pollID )
     { 
         $ret = true;
 

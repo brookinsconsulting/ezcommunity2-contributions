@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: polledit.php,v 1.7 2000/10/23 07:24:06 ce-cvs Exp $
+// $Id: polledit.php,v 1.8 2000/10/25 10:05:41 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -57,6 +57,15 @@ if ( $Action == "Insert" )
         $poll->setShowResult ( false );
     }
 
+    if ( $Anonymous == "on" )
+    {
+        $poll->setAnonymous ( true );
+    }
+    else
+    {
+        $poll->setAnonymous ( false );
+    }
+
     if ( !$Description )
     {
         $ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/polledit.php.ini", false );
@@ -110,6 +119,15 @@ if ( $Action == "Update" )
         $poll->setShowResult ( false );
     }
 
+    if ( $Anonymous == "on" )
+    {
+        $poll->setAnonymous ( true );
+    }
+    else
+    {
+        $poll->setAnonymous ( false );
+    }
+
     $poll->setName( $Name );
     $poll->setDescription( $Description );
     $poll->store();
@@ -150,6 +168,7 @@ $Name = "";
 $Description = "";
 $IsEnabled = "";
 $IsClosed = "";
+$Anonymous = "";
 $nopolls = "";
 // Edit
 if ( $Action == "Edit" )
@@ -174,7 +193,12 @@ if ( $Action == "Edit" )
     {
         $ShowResult = "checked";
     }
-    
+
+    if ( $poll->anonymous() == true )
+    {
+        $Anonymous = "checked";
+    }
+
     $Action_value = "update";
     $ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/polledit.php.ini", false );
     $headline =  $ini->read_var( "strings", "head_line_edit" );
@@ -216,6 +240,7 @@ $t->set_var( "description_value", $Description );
 $t->set_var( "is_enabled", $IsEnabled );
 $t->set_var( "is_closed", $IsClosed );
 $t->set_var( "show_result", $ShowResult );
+$t->set_var( "anonymous", $Anonymous );
 
 $t->set_var( "document_root", $DOC_ROOT );
 $t->set_var( "action_value", $Action_value );

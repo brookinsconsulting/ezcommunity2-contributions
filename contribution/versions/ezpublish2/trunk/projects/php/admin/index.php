@@ -1,4 +1,5 @@
 <?php
+
 //  if ( !isset( $TEST_COOKIE ) )
 //      setcookie ( "TEST_COOKIE", "svada", 0, "/",  "", 0 )
 //      or die( "Error: could not set cookie." );
