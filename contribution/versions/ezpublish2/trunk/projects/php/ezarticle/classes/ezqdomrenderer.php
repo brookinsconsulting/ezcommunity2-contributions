@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.48 2001/09/24 15:29:53 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.49 2001/09/27 10:53:28 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -821,6 +821,7 @@ class eZQDomrenderer
                     if ( $child->name == "li" )
                     {
                         $oldBullet = false;
+                        if ( count( $child->children ) > 0 )
                         foreach ( $child->children as $listItem )
                         {
                             $content = "";
