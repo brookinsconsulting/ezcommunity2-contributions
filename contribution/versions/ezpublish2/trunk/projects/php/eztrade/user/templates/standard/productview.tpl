@@ -238,9 +238,9 @@
 
 <div class="p">{extra_product_info}</p>
 
-<hr noshade="noshade" size="4" />
 
 <!-- BEGIN add_to_cart_tpl -->
+<hr noshade="noshade" size="4" />
 <input class="okbutton" type="submit" name="Cart" value="{intl-add_to_cart}" />
 
 <input class="okbutton" type="submit" name="WishList" value="{intl-wishlist}" />
