@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.56 2001/03/29 11:15:47 jakobn Exp $
+// $Id: ezuser.php,v 1.57 2001/03/29 11:27:26 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -125,7 +125,7 @@ class eZUser
                                  FirstName='$this->FirstName',
                                  Signature='$this->Signature',
                                  LastName='$this->LastName',
-                                 SimultaneousLogins='$this->SimultaneousLogins',
+                                 SimultaneousLogins='$this->SimultaneousLogins'
                                  WHERE ID='$this->ID'" );
 
             // update password if set.
