@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.10 2000/11/07 12:41:10 ce-cvs Exp $
+// $Id: useredit.php,v 1.11 2000/11/21 16:23:12 ce-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 12:52:42 bf>
@@ -23,6 +23,8 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+require( "ezuser/user/usercheck.php" );
+
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezmail.php" );
@@ -35,6 +37,8 @@ $AnonymousUserGroup = $ini->read_var( "eZUserMain", "AnonymousUserGroup" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
+
+$user = eZUser::currentUser();
 
 if ( $Action == "Insert" )
 {

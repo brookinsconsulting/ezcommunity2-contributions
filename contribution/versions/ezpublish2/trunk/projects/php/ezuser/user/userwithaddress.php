@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.13 2000/11/07 13:36:41 bf-cvs Exp $
+// $Id: userwithaddress.php,v 1.14 2000/11/21 16:23:12 ce-cvs Exp $
 //
 // 
 //
@@ -23,6 +23,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
+require( "ezuser/user/usercheck.php" );
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );

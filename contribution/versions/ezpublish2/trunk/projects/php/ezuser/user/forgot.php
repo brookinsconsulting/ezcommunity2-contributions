@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forgot.php,v 1.8 2000/10/30 12:04:17 ce-cvs Exp $
+// $Id: forgot.php,v 1.9 2000/11/21 16:23:11 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -22,6 +22,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
+require( "ezuser/user/usercheck.php" );
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
