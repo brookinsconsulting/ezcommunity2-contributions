@@ -66,7 +66,7 @@
 <tr>
         <td colspan="2">
         <p class="boxtext">{intl-simultaneouslogins}</p>
-	<input type="text" {read_only} size="5" name="SimultaneousLogins" value="{simultaneouslogins_value}"/>
+	<input type="text" size="5" name="SimultaneousLogins" value="{simultaneouslogins_value}"/>
 	<br /><br />
 	</td>
 </tr>
