@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.41 2001/05/05 11:16:04 bf Exp $
+// $Id: ezsession.php,v 1.42 2001/05/10 16:46:36 bf Exp $
 //
 // Definition of eZSession class
 //
@@ -384,7 +384,7 @@ class eZSession
         $db =& eZDB::globalDatabase();
 
         $value_array = array();
-        $db->array_query( $value_array, "SELECT ID,UNIX_TIMESTAMP( LastAccessed ) AS LAST, UNIX_TIMESTAMP( now() + 0 ) AS NOW, LastAccessed
+        $db->array_query( $value_array, "SELECT ID, UNIX_TIMESTAMP( LastAccessed ) AS LAST, UNIX_TIMESTAMP( now() + 0 ) AS NOW, LastAccessed
                                                     FROM eZSession_Session WHERE ID='$this->ID'" );
 
         $ret = false;            

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsection.php,v 1.2 2001/05/10 15:41:45 ce Exp $
+// $Id: ezsection.php,v 1.3 2001/05/10 16:46:36 bf Exp $
 //
 // ezsection class
 //
@@ -35,7 +35,7 @@
 
 */
 	      
-class ezsection
+class eZSection
 {
 
     /*!
@@ -200,6 +200,7 @@ class ezsection
     }
     
     /*!
+      \static
       Returns the SiteDesign of the section.
 
       If $sectionID is a number, the function will return the sitedesign for that section ID.
@@ -212,7 +213,7 @@ class ezsection
        if ( is_numeric ( $sectionID ) )
        {
            $db =& eZDB::globalDatabase();
-           $db->query_single( $siteDesign, "SELECT SiteDesign FROM eZSiteManager WHERE ID='$sectionID'" );
+           $db->query_single( $siteDesign, "SELECT SiteDesign FROM eZSiteManager_Section WHERE ID='$sectionID'" );
            return $siteDesign["SiteDesign"];
        }
        else
@@ -275,7 +276,7 @@ class ezsection
     }
 
     /*!
-      Private function.
+      \private
       Open the database for read and write. Gets all the database information from site.ini.
     */
     function dbInit()
