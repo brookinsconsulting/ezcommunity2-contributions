@@ -2607,3 +2607,22 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezarticle.php: Added import script.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-01-04  Kai Duebbert  <kai@duebbert.de>
+
+    * classes/ezqdomgenerator.php
+      classes/ezqdomrenderer.php:
+    new eztag: <ezarticle id text> links to article with "id" and linktext "text"
+    new eztag: <ezcategory id text> links to category with "id" and linktext "text"
+    new eztag: <ezstatic id text> links to static article with "id" and linktext "text"
+
+2002-01-04  Baard Farstad  <bf@ez.no>
+
+    * classes/ezqdomgenerator.php
+      user/datasupplier.php
+      user/templates/standard/articletags.tpl:
+    Fixed permission bug with viewing articles.
+

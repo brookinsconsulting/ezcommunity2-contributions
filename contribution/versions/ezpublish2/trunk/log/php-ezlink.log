@@ -660,3 +660,15 @@ Maintainer(s) : br@ez.no
       classes/ezlinkcategory.php:
     fixed template bugs, and is_numeric type fix.
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2002-01-04  Kai Duebbert  <kai@duebbert.de>
+
+    * user/menubox.php: small fixes
+
+    * user/search.php: tiny fixes
+
+    * user/datasupplier.php: test variables
+

@@ -843,3 +843,40 @@ Maintainer(s) : br@ez.no
       admin/templates/standard/unassigned.tpl:
     fixed missing {www_dir} in templates
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-12-18  Sascha Frinken  <sascha@impetex.de>
+
+    * user/templates/mygold/imageview.tpl: Commitng the mygold cahnges
+
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-12-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/pt_PT/browse.php.ini
+      admin/intl/pt_PT/categoryedit.php.ini
+      admin/intl/pt_PT/imageedit.php.ini
+      admin/intl/pt_PT/imagelist.php.ini
+      admin/intl/pt_PT/imageview.php.ini
+      admin/intl/pt_PT/menubox.php.ini
+      admin/intl/pt_PT/unassigned.php.ini
+      user/intl/pt_PT/categoryedit.php.ini
+      user/intl/pt_PT/imageedit.php.ini
+      user/intl/pt_PT/imagelist.php.ini
+      user/intl/pt_PT/imageview.php.ini
+      user/intl/pt_PT/menubox.php.ini
+      user/intl/pt_PT/menucategorylist.php.ini
+      user/intl/pt_PT/slideshow.php.ini: pt_PT (Portuguese) version 2.2.2
+
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2002-01-04  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/categoryedit.php: speed improvement
+

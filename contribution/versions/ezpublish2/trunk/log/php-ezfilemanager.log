@@ -639,3 +639,29 @@ Maintainer(s) : jhe@ez.no
 
     * user/filedownload.php: fixed bug when opening documents
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-12-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/pt_PT/browse.php.ini
+      admin/intl/pt_PT/menubox.php.ini
+      admin/intl/pt_PT/unassigned.php.ini
+      user/intl/pt_PT/filelist.php.ini
+      user/intl/pt_PT/fileupload.php.ini
+      user/intl/pt_PT/fileview.php.ini
+      user/intl/pt_PT/folderedit.php.ini
+      user/intl/pt_PT/menubox.php.ini
+      user/intl/pt_PT/menufolderlist.php.ini
+      user/intl/pt_PT/search.php.ini: pt_PT (Portuguese) version 2.2.2
+
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2002-01-04  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/fileupload.php
+      user/folderedit.php: small speed fixed and code standard compliance
+

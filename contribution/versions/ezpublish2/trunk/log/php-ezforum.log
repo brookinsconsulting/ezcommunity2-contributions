@@ -960,3 +960,22 @@ Maintainer(s) : jhe@ez.no
     * classes/ezforummessage.php:
     return UserID for lastmessages(). shouldn't break anything.
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-01-04  Kai Duebbert  <kai@duebbert.de>
+
+    * user/search.php:
+    $NewMessageLimit wasn't defined. (I wish people would turn on all error reporting when programming.</rant>)
+
+    * user/search.php:
+    Use $SearchText if $QueryString is not defined... stay compatible
+
+    * user/datasupplier.php: small fix
+
+2002-01-04  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezforummessage.php
+      user/messagelist.php: fixed bug when counting replies
+

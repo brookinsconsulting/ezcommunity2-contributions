@@ -867,3 +867,67 @@ Maintainer(s) : bf@ez.no
       admin/useredit.php
       user/userwithaddress.php: Added additional fields to the admin interface
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-12-18  Sascha Frinken  <sascha@impetex.de>
+
+    * admin/intl/de_MG/menubox.php.ini
+      admin/intl/de_MG/sessioninfo.php.ini
+      admin/menubox.php
+      user/intl/de_MG/forgot.php.ini
+      user/intl/de_MG/forgotmessage.php.ini
+      user/templates/mygold/userwithaddress.tpl
+      user/templates/standard/missingemailmessage.tpl
+      user/userwithaddress.php: Commitng the mygold cahnges
+
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-12-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/pt_PT/authorlist.php.ini
+      admin/intl/pt_PT/groupedit.php.ini
+      admin/intl/pt_PT/grouplist.php.ini
+      admin/intl/pt_PT/login.php.ini
+      admin/intl/pt_PT/menubox.php.ini
+      admin/intl/pt_PT/passwordchange.php.ini
+      admin/intl/pt_PT/sessioninfo.php.ini
+      admin/intl/pt_PT/settings.php.ini
+      admin/intl/pt_PT/useredit.php.ini
+      admin/intl/pt_PT/userlist.php.ini
+      admin/intl/pt_PT/welcome.php.ini
+      user/intl/pt_PT/addressedit.php.ini
+      user/intl/pt_PT/forgot.php.ini
+      user/intl/pt_PT/forgotmessage.php.ini
+      user/intl/pt_PT/login.php.ini
+      user/intl/pt_PT/missingemailmessage.php.ini
+      user/intl/pt_PT/norights.php.ini
+      user/intl/pt_PT/userbox.php.ini
+      user/intl/pt_PT/useredit.php.ini
+      user/intl/pt_PT/userwithaddress.php.ini:
+    pt_PT (Portuguese) version 2.2.2
+
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-01-04  Kai Duebbert  <kai@duebbert.de>
+
+    * user/intl/de_DE/userwithaddress.php.ini: ugly mispelling
+
+    * user/userbox.php: initialization of variables.
+
+    * user/userbox.php: uninitialized variable
+
+2002-01-04  Baard Farstad  <bf@ez.no>
+
+    * admin/templates/standard/welcome.tpl
+      admin/welcome.php: Removed obsolete libxml checking.
+
+2002-01-04  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezobjectpermission.php: faster removePermissions
+
