@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.14 2000/11/27 15:34:52 bf-cvs Exp $
+// $Id: ezsession.php,v 1.15 2000/12/08 09:32:36 bf-cvs Exp $
 //
 // Definition of eZSession class
 //
@@ -169,7 +169,7 @@ class eZSession
 
       Returnes false if unsuccessful.
     */
-    function fetch( )
+    function fetch( $refresh=true )
     {
         $this->dbInit();
         $ret = false;
@@ -184,7 +184,10 @@ class eZSession
         {
             $ret = $this->get( $session_array[0]["ID"] );
 
-            $this->refresh();
+            if ( $refresh == true )
+            {
+                $this->refresh();
+            }
         }
         
         return $ret;        
@@ -207,7 +210,6 @@ class eZSession
                                  LastAccessed=now()
                                  WHERE ID='$this->ID'
                                  " );        
-
     }
         
 
@@ -350,17 +352,20 @@ class eZSession
        $this->dbInit();
 
        $value_array = array();
-       $this->Database->array_query( $value_array, "SELECT ID, LastAccessed, ( now() + 0 ) AS NOW, SecondLastAccessed
+       $this->Database->array_query( $value_array, "SELECT ID,UNIX_TIMESTAMP( LastAccessed ) AS LAST, UNIX_TIMESTAMP( now() + 0 ) AS NOW, LastAccessed
                                                     FROM eZSession_Session WHERE ID='$this->ID'" );
        
        $ret = false;            
        if ( count( $value_array ) == 1 )
        {
            $now = $value_array[0]["NOW"];
-           $lastAccessed = $value_array[0]["SecondLastAccessed"];
+           $lastAccessed = $value_array[0]["LAST"];
 
            $diff = $now - $lastAccessed;
-
+//             print( "$lastAccessed - $now = $diff<br>" );
+//             echo "now: " .  date( "l dS of F Y h:i:s A", $now ) . "<br>";
+//             echo "last: " .  date( "l dS of F Y h:i:s A", $lastAccessed ) . "<br>";
+           
            $ret = $diff;
        }
 

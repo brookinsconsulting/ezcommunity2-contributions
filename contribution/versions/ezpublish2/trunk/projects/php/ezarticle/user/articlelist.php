@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.18 2000/11/29 18:45:42 bf-cvs Exp $
+// $Id: articlelist.php,v 1.19 2000/12/08 09:32:35 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -174,6 +174,11 @@ foreach ( $articleList as $article )
     {
         $t->set_var( "td_class", "bgdark" );
     }
+
+    $published = $article->published();
+
+    $t->set_var( "article_published", $locale->format( $published ) );
+    
 
     $renderer = new eZArticleRenderer( $article );
 

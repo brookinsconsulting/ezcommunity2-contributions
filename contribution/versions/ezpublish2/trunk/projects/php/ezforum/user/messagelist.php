@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.5 2000/11/24 14:15:55 bf-cvs Exp $
+// $Id: messagelist.php,v 1.6 2000/12/08 09:32:35 bf-cvs Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -44,6 +44,8 @@ $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateD
 $t->set_file( "messagelist", "messagelist.tpl"  );
 
 $t->set_block( "messagelist", "message_item_tpl", "message_item" );
+$t->set_block( "messagelist", "previous_tpl", "previous" ); 
+$t->set_block( "messagelist", "next_tpl", "next" ); 
 
 $t->setAllStrings();
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: votebox.php,v 1.7 2000/11/02 14:38:37 ce-cvs Exp $
+// $Id: votebox.php,v 1.8 2000/12/08 09:32:35 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -27,7 +27,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 
 $ini = new INIFIle( "site.ini" );
-$Language = $ini->read_var( "eZUserMain", "Language" );
+$Language = $ini->read_var( "eZPollMain", "Language" );
 $PageCaching = $ini->read_var( "eZPollMain", "PageCaching" );
 $errorIni = new INIFIle( "ezpoll/user/intl/" . $Language . "/votebox.php.ini", false );
 

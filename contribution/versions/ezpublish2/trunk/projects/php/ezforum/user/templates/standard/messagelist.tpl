@@ -50,11 +50,11 @@
 </table>
 
 <a href="/forum/category/forum/{forum_id}/?Offset={prev_offset}&Limit={limit}">
-{previous}
+{intl-previous}
 </a>
 
 <a href="/forum/category/forum/{forum_id}/?Offset={next_offset}&Limit={limit}">
-{next}
+{intl-next}
 </a>
 
 <form action="/forum/userlogin/new/{forum_id}">

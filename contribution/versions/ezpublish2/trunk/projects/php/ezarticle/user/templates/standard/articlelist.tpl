@@ -66,7 +66,7 @@
 	<a href="/article/articleview/{article_id}/">
 	<h2>{article_name}</h2>
 	</a>
-	
+	{article_published}
 
 	<!-- BEGIN article_image_tpl -->
 	    <table align="right">
