@@ -80,7 +80,7 @@ if( $Action == "delete" )
 
 $error = false;
 
-$t = new eZTemplate( "ezcv/user/" . $ini->read_var( "eZCVMain", "AdminTemplateDir" ),
+$t = new eZTemplate( "ezcv/user/" . $ini->read_var( "eZCVMain", "TemplateDir" ),
                      "ezcv/user/intl", $Language, "cv.php" );
 $intl = new INIFile( "ezcv/user/intl/" . $Language . "/cv.php.ini", false );
 

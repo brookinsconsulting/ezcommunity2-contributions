@@ -20,7 +20,7 @@ if( !is_numeric( $CVID ) )
 
 $error = false;
 
-$t = new eZTemplate( "ezcv/user/" . $ini->read_var( "eZCVMain", "AdminTemplateDir" ),
+$t = new eZTemplate( "ezcv/user/" . $ini->read_var( "eZCVMain", "TemplateDir" ),
                      "ezcv/user/intl", $Language, "certificate.php" );
 $intl = new INIFile( "ezcv/user/intl/" . $Language . "/certificate.php.ini", false );
 $t->set_file( array(                    

@@ -18,7 +18,7 @@ if( !is_numeric( $CVID ) && $Action == "new" )
 
 $error = false;
 
-$t = new eZTemplate( "ezcv/user/" . $ini->read_var( "eZCVMain", "AdminTemplateDir" ),
+$t = new eZTemplate( "ezcv/user/" . $ini->read_var( "eZCVMain", "TemplateDir" ),
                      "ezcv/user/intl", $Language, "education.php" );
 $intl = new INIFile( "ezcv/user/intl/" . $Language . "/education.php.ini", false );
 $t->set_file( array(                    
