@@ -25,20 +25,28 @@
 <!-- BEGIN fixed_value_select_tpl -->
 <td>
 <!-- BEGIN fixed_value_text_field_tpl -->
-    <input type="text" size="4" name="TextFieldFrom" value="{from_value}" /> - 
-    <input type="text" size="4" name="TextFieldTo" value="{to_value}" />
+    <input type="text" size="4" name="TextFieldFrom[]" value="{from_value}" /> - 
+    <input type="text" size="4" name="TextFieldTo[]" value="{to_value}" />
     <input type="hidden" name="ElementRange[]" value="{element_range}">
 <!-- END fixed_value_text_field_tpl -->
 <select name="FixedPage_{fixed_value_id}[]">
    <!-- BEGIN fixed_value_tpl -->
    <option value="{page_id}" {selected}>{page_name}</option>
    <!-- END fixed_value_tpl -->
-</select></td>
+</select>
+<!-- BEGIN delete_range_tpl -->
+&nbsp;<input type="checkbox" name="DeleteRangeArrayID[]" value="{element_range}">
+<!-- END delete_range_tpl -->
+</td>
 <!-- END fixed_value_select_tpl -->
 </tr>
 <!-- BEGIN add_more_ranges_tpl -->
 <tr>
-<td colspace="2"><input class="stdbutton" type="submit" name="NewTextFieldRange" value="{intl-add_range}" /></td>
+<td colspace="2"><input class="stdbutton" type="submit" name="NewTextFieldRange" value="{intl-add_range}" />
+<!-- BEGIN delete_range_button_tpl -->
+<input class="stdbutton" type="submit" name="DeleteTextFieldRange" value="{intl-delete_range}" />
+<!-- END delete_range_button_tpl -->
+</td>
 </tr>
 <!-- END add_more_ranges_tpl -->
 <!-- END fixed_value_item_tpl -->

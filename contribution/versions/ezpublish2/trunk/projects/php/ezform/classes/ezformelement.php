@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.16 2001/12/18 18:29:20 jhe Exp $
+// $Id: ezformelement.php,v 1.17 2001/12/19 12:49:02 br Exp $
 //
 // ezformelement class
 //
@@ -419,6 +419,83 @@ class eZFormElement
         return $ret;
     }
 
+
+    function &getConditionByPage( $pageID )
+    {
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+
+        $db->query_single( $pageID, "SELECT ElementID FROM eZForm_FormCondition WHERE
+                     PageID='$pageID' GROUP BY ElementID" );
+        
+        return $pageID[$db->fieldName( "ElementID" )];
+    }
+
+
+    function getConditionMaxByPage( $value )
+    {
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+
+        $db->query_single( $pageID, "SELECT PageID FROM eZForm_FormCondition WHERE
+                     ElementID='$this->ID' AND Max='$value'" );
+
+        return $pageID[$db->fieldName( "PageID" )];
+        
+        
+    }
+    
+    function elementInCondition()
+    {
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $ret = false;
+
+        $db->query_single( $elementID, "SELECT ElementID FROM eZForm_FormCondition WHERE
+                     ElementID='$this->ID' GROUP BY ElementID" );
+
+        if ( $elementID[$db->fieldName( "ElementID" )] )
+            $ret = true;
+        
+        return $ret;
+    }
+    
+    
+    /*!
+      Removes all Conditions which have the given ID.
+     */
+    function removeCondition()
+    {
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+
+        $res[] = $db->query( "DELETE FROM eZForm_FormCondition WHERE
+                              ElementID='$this->ID'" );
+        
+        eZDB::finish( $res, $db );               
+    }
+
+    
+    /*!
+      Add a form condition to the database.
+    */
+    function addCondition( $page_id, $min=0, $max=0 )
+    {
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+
+        
+        $db->lock( "eZForm_FormCondition" );
+        $nextID = $db->nextID( "eZForm_FormCondition", "ID" );
+        
+        $res[] = $db->query( "INSERT INTO eZForm_FormCondition
+                         ( ID, ElementID, PageID, Min, Max )
+                         VALUES
+                         ( '$nextID', '$this->ID', '$page_id', $min, $max )" );
+        eZDB::finish( $res, $db );               
+    }
+
+    
     /*!
       Sets if this element has fixed values.
     */

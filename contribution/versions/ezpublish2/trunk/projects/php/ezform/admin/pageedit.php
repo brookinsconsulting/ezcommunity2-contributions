@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.12 2001/12/18 16:54:14 br Exp $
+// $Id: pageedit.php,v 1.13 2001/12/19 12:49:02 br Exp $
 //
 // Definition of ||| class
 //
@@ -68,6 +68,9 @@ $t->set_block( "fixed_value_item_tpl", "fixed_value_select_tpl", "fixed_value_se
 $t->set_block( "fixed_value_select_tpl", "fixed_value_text_field_tpl", "fixed_value_text_field" );
 $t->set_block( "fixed_value_select_tpl", "fixed_value_tpl", "fixed_value" );
 $t->set_block( "fixed_value_item_tpl", "add_more_ranges_tpl", "add_more_ranges" );
+$t->set_block( "fixed_value_select_tpl", "delete_range_tpl", "delete_range" );
+$t->set_block( "add_more_ranges_tpl", "delete_range_button_tpl", "delete_range_button" );
+
 
 $t->setAllStrings();
 
@@ -78,6 +81,8 @@ $t->set_var( "element_choice_name", "" );
 $t->set_var( "fixed_value_select", "" );
 $t->set_var( "fixed_value_item", "" );
 $t->set_var( "fixed_value_list", "" );
+$t->set_var( "delete_range", "" );
+$t->set_var( "delete_range_button", "" );
 
 
 // Make sub template for elements.
@@ -128,6 +133,16 @@ else
     $pageName = $page->name();
 }
 
+if ( isSet( $NewTextFieldRange ) )
+{
+    $next = max( $ElementRange ) + 1;
+    $ElementRange[] = $next;
+}
+
+if ( isSet( $DeleteTextFieldRange ) && count( $DeleteRangeArrayID ) > 0 )
+{
+    $ElementRange = array_diff( $ElementRange, $DeleteRangeArrayID );
+}
 
 if ( $Action == "up" )
 {
@@ -238,8 +253,49 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $NewElement ) )
                 $table->setElementID( $element->id() );
                 $table->store();
             }
+
+            
         }
     }
+
+    // store the page jumps.
+    $elementID = $ElementChoiceID[0];
+    $element = new eZFormElement( $elementID );
+    $values =& $element->fixedValues();
+    $elementType =& $element->elementType();
+    
+    if ( $elementType && $elementType->name() == "text_field_item" )
+    {
+        if ( count( $ElementRange ) > 0 )
+        {
+            $i=0;
+            $element->removeCondition();
+            foreach( $ElementRange as $range )
+            {
+                $checkID = "FixedPage_" . $range;
+                $pageID = $$checkID;
+                
+                $element->addCondition( $pageID[0], $TextFieldFrom[$i], $TextFieldTo[$i] );
+                
+                $i++;
+            }
+        }
+    }
+    else
+    {
+        if ( count( $values ) > 0 )
+        {
+            $element->removeCondition();
+            foreach ( $values as $value )
+            {
+                $checkID = "FixedPage_" . $value->id();
+                $pageID = $$checkID;
+                $element->addCondition( $pageID[0] , $value->id(), $value->id() );
+            }
+        }
+    }
+    
+    
     if ( isSet( $OK ) && count( $errorMessages ) == 0 )
     {
         $page->store();
@@ -297,6 +353,42 @@ if ( $page->numberOfElements() == 0 )
 
 $elements = $page->pageElements();
 $count = $page->numberOfElements();
+
+
+if ( is_Numeric( $ElementChoiceID[0] ) && $ElementChoiceID[0] != 0 )
+{
+    $elementChoiceID = $ElementChoiceID[0];
+}
+else if ( isSet( $PageID ) )
+{
+    foreach( $elements as $element )
+    {
+        if ( $element->elementInCondition() == true )
+        {
+            $elementChoiceID = $element->id();
+            break;
+        }
+    }
+
+    if ( $elementChoiceID == 0 )
+        unset( $elementChoiceID );
+
+    foreach ( $elements as $element )
+    {
+        $elementType = $element->elementType();
+        $name = $elementType->name();
+        
+        if ( $name == "multiple_select_item" ||
+        $name == "dropdown_item" ||
+        $name == "radiobox_item" ||
+        $name == "checkbox_item" ||
+        $name == "text_field_item" )
+        {
+            $elementChoiceID = $element->id();
+            break;
+        }
+    }
+}
 
 if ( $count > 0 )
 {
@@ -439,31 +531,10 @@ if ( $count > 0 )
         {
             $elementTemplate->parse( "item_move_down", "item_move_down_tpl" );
         }
-
         $elementTemplate->parse( "element_item", "element_item_tpl", true );
-        // parse the valid jump elements.
-        if ( $name == "multiple_select_item" ||
-        $name == "dropdown_item" ||
-        $name == "radiobox_item" ||
-        $name == "checkbox_item" ||
-        $name == "text_field_item" )
-        {
-            if( $element->id() == $ElementChoiceID[0] )
-            {
-                $t->set_var( "selected", "selected" );
-            }
-            else
-            {
-                $t->set_var( "selected", "" );
-            }
-            $t->set_var( "element_choice_id", $element->id() );
-            $t->set_var( "element_choice_name", $element->name() );
-            
-            $t->parse( "element_choice", "element_choice_tpl", true );
-        }
+
         $i++;
     }
-    
     $elementTemplate->parse( "element_list", "element_list_tpl" );
 }
 
@@ -494,107 +565,162 @@ if ( count( $errorMessages ) > 0 && !isSet( $NewElement ) && !isSet( $DeleteSele
 
 // parse the jump choices.
 
-if ( isSet( $ElementChoiceID ) )
+if ( isSet( $elementChoiceID ) )
 {
-    foreach( $ElementChoiceID as $elementID )
+    $element = new eZFormElement( $elementChoiceID );
+    if ( $element )
     {
-        $element = new eZFormElement( $elementID );
-        if ( $element )
+        $values =& $element->fixedValues();
+        
+        // parse the valid jump elements.
+        $elements = $page->pageElements();
+        
+        if ( count( $elements ) > 0 )
         {
-            $values =& $element->fixedValues();
-            $elementType =& $element->elementType();
-
-            if ( $elementType && $elementType->name() == "text_field_item" )
+            foreach ( $elements as $pageElement )
             {
-                foreach( $ElementRange as $range_id )
-                {
-                    $t->set_var( "fixed_value_name", $element->name() );
-                    $t->set_var( "fixed_value_id", $element->id() );
-                    $t->set_var( "from_value", $TextFieldFrom );
-                    $t->set_var( "to_value", $TextFieldTo );
-                    $t->set_var( "element_range", 1 );
+                $elementType =& $pageElement->elementType();
+                $name = $elementType->name();
 
-                    $pages =& eZFormPage::getByFormID( $FormID );
-                    if( count( $pages ) > 0 )
+                if ( $name == "multiple_select_item" ||
+                $name == "dropdown_item" ||
+                $name == "radiobox_item" ||
+                $name == "checkbox_item" ||
+                $name == "text_field_item" )
+                {
+                    if( $pageElement->id() == $elementChoiceID )
                     {
-                        foreach( $pages as $pageValue )
-                        {
-                            if ( $page->id() != $pageValue->id() )
-                            {
-                                $check_id = "FixedPage_" . $element->id();
-                                $check = $$check_id;
-                                
-                                if ( $check[0] == $pageValue->id() )
-                                {
-                                    $t->set_var( "selected", "selected" );
-                                }
-                                else
-                                {
-                                    $t->set_var( "selected", "" );
-                                }
-                                
-                                $t->set_var( "page_id", $pageValue->id() );
-                                $t->set_var( "page_name", $pageValue->name() );
-                                
-                                $t->parse( "fixed_value", "fixed_value_tpl", true );
-                            }
-                        }
+                        $t->set_var( "selected", "selected" );
                     }
-                }
-                $t->parse( "fixed_value_text_field", "fixed_value_text_field_tpl" );
-                $t->parse( "fixed_value_select", "fixed_value_select_tpl" );
-                $t->parse( "add_more_ranges", "add_more_ranges_tpl" );
-                $t->parse( "fixed_value_item", "fixed_value_item_tpl" );                
-                $t->parse( "fixed_value_list", "fixed_value_list_tpl" );
-            }
-            else if ( count( $values ) > 0 )
-            {
-                $t->set_var( "fixed_value_text_field", "" );
-                
-                foreach( $values as $value )
-                {
-                    $t->set_var( "fixed_value_name", $value->value() );
-                    $t->set_var( "fixed_value_id", $value->id() );
-                    $t->set_var( "fixed_value_select", "" );
-                    $t->set_var( "fixed_value", "" );
+                    else
+                    {
+                        $t->set_var( "selected", "" );
+                    }
                     
-                    $pages =& eZFormPage::getByFormID( $FormID );
-
-                    if( count( $pages ) > 0 )
-                    {
-
-                        foreach( $pages as $pageValue )
-                        {
-                            if ( $page->id() != $pageValue->id() )
-                            {
-                                $check_id = "FixedPage_" . $value->id();
-                                $check = $$check_id;
-
-                                if ( $check[0] == $pageValue->id() )
-                                {
-                                    $t->set_var( "selected", "selected" );
-                                }
-                                else
-                                {
-                                    $t->set_var( "selected", "" );
-                                }
-                                
-                                $t->set_var( "page_id", $pageValue->id() );
-                                $t->set_var( "page_name", $pageValue->name() );
-                                
-                                $t->parse( "fixed_value", "fixed_value_tpl", true );
-                            }
-                        }                            
-                    }
-                    $t->parse( "fixed_value_select", "fixed_value_select_tpl", true );
-                    $t->parse( "fixed_value_item", "fixed_value_item_tpl", true );
+                    $t->set_var( "element_choice_id", $pageElement->id() );
+                    $t->set_var( "element_choice_name", $pageElement->name() );
+                    
+                    $t->parse( "element_choice", "element_choice_tpl", true );
                 }
-                $t->parse( "fixed_value_list", "fixed_value_list_tpl" );
             }
         }
         
-        // We will only get one element.
-        break;
+        $elementType =& $element->elementType();
+        $name = $elementType->name();
+        
+        if ( $elementType && $elementType->name() == "text_field_item" )
+        {
+            $i=0;
+            if ( count( $ElementRange ) == 0 )
+                $ElementRange = array( 1 );
+            
+            foreach ( $ElementRange as $range_id )
+            {
+                $t->set_var( "fixed_value_text_field", "" );
+                $t->set_var( "fixed_value_select", "" );
+                $t->set_var( "delete_range", "" );
+                $t->set_var( "fixed_value_name", $element->name() );
+                $t->set_var( "fixed_value_id", $range_id );
+                $t->set_var( "from_value", $TextFieldFrom[$i] );
+                $t->set_var( "to_value", $TextFieldTo[$i] );
+                
+                
+                $t->set_var( "element_range", $i );
+                
+                $pages =& eZFormPage::getByFormID( $FormID );
+                if ( count( $pages ) > 0 )
+                {
+                    $t->set_var( "fixed_value", "" );
+                    foreach ( $pages as $pageValue )
+                    {
+                        if ( $page->id() != $pageValue->id() )
+                        {
+                            $check_id = "FixedPage_" . $i;
+                            $check = $$check_id;
+
+                            if ( $check[0] == $pageValue->id() )
+                            {
+                                $t->set_var( "selected", "selected" );
+                            }
+                            else
+                            {
+                                $t->set_var( "selected", "" );
+                            }
+                            
+                            $t->set_var( "page_id", $pageValue->id() );
+                            $t->set_var( "page_name", $pageValue->name() );
+                            
+                            $t->parse( "fixed_value", "fixed_value_tpl", true );
+                        }
+                    }
+                }
+                $i++;
+
+                if ( $i != 1 )
+                    $t->parse( "delete_range", "delete_range_tpl", true );
+                
+                $t->parse( "fixed_value_text_field", "fixed_value_text_field_tpl", true );
+                $t->parse( "fixed_value_select", "fixed_value_select_tpl", true );
+                
+                if ( count( $ElementRange ) == $i )
+                    $t->parse( "add_more_ranges", "add_more_ranges_tpl" );
+                if ( count( $ElementRange ) != 1 )
+                    $t->parse( "delete_range_button", "delete_range_button_tpl" );
+                
+                
+                $t->parse( "fixed_value_item", "fixed_value_item_tpl", true );
+            }
+            $t->parse( "fixed_value_list", "fixed_value_list_tpl" );
+        }
+        else if ( count( $values ) > 0 )
+        {
+            $t->set_var( "fixed_value_text_field", "" );
+            
+            foreach( $values as $value )
+            {
+                $t->set_var( "fixed_value_name", $value->value() );
+                $t->set_var( "fixed_value_id", $value->id() );
+                $t->set_var( "fixed_value_select", "" );
+                $t->set_var( "fixed_value", "" );
+                
+                $pages =& eZFormPage::getByFormID( $FormID );
+                
+                if( count( $pages ) > 0 )
+                {
+                    
+                    $check_id = "FixedPage_" . $value->id();
+                    $check = $$check_id;
+                    
+                    if ( !$check )
+                    {
+                        $check[0] = $element->getConditionMaxByPage( $value->id() );
+                    }
+                    
+                    foreach( $pages as $pageValue )
+                    {
+                        if ( $page->id() != $pageValue->id() )
+                        {
+                            
+                            
+                            if ( $check[0] == $pageValue->id() )
+                            {
+                                $t->set_var( "selected", "selected" );
+                            }
+                            else
+                            {
+                                $t->set_var( "selected", "" );
+                            }
+                            $t->set_var( "page_id", $pageValue->id() );
+                            $t->set_var( "page_name", $pageValue->name() );
+                            $t->parse( "fixed_value", "fixed_value_tpl", true );
+                        }
+                    }                            
+                }
+                $t->parse( "fixed_value_select", "fixed_value_select_tpl", true );
+                $t->parse( "fixed_value_item", "fixed_value_item_tpl", true );
+            }
+            $t->parse( "fixed_value_list", "fixed_value_list_tpl" );
+        }
     }
 }
 
