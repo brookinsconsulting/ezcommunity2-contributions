@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmailtemplate.php,v 1.7 2001/06/29 15:19:14 ce Exp $
+// $Id: ezbulkmailtemplate.php,v 1.8 2001/07/09 14:17:22 fh Exp $
 //
 // eZBulkMailTemplate class
 //
@@ -41,7 +41,6 @@ class eZBulkMailTemplate
     */
     function eZBulkMailTemplate( $id=-1 )
     {
-        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
@@ -60,10 +59,12 @@ class eZBulkMailTemplate
         $header = $db->escapeString( $this->Header );
         $footer = $db->escapeString( $this->Footer );
         $description = $db->escapeString( $this->Description );
-        
+
         if ( !isset( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZBulkMail_Template
+            $db->lock( "eZBulkMail_Template" );
+            $nextID = $db->nextID( "eZBulkMail_Template", "ID" );
+            $result = $db->query( "INSERT INTO eZBulkMail_Template
                                   ( ID, Header, Name, Footer, Description )
                                   VALUES
                                   ( '$nextID',
@@ -76,7 +77,7 @@ class eZBulkMailTemplate
         }
         else
         {
-            $db->query( "UPDATE eZBulkMail_Template SET
+            $result = $db->query( "UPDATE eZBulkMail_Template SET
                                  Header='$header',
                                  Name='$name',
                                  Footer='$footer',
@@ -103,7 +104,7 @@ class eZBulkMailTemplate
             $id = $this->ID;
 
         $db->begin();
-        $result = $db->query( "DELETE FROM eZBulkMail_Template WHERE ID='$this->ID'" );
+        $result = $db->query( "DELETE FROM eZBulkMail_Template WHERE ID='$id'" );
         $db->unlock();
         if ( $result == false )
             $db->rollback( );
@@ -147,7 +148,7 @@ class eZBulkMailTemplate
         $return_array = array();
         $template_array = array();
         
-        $db->array_query( $template_array, "SELECT ID FROM eZBulkMail_Template ORDER BY Name" );
+        $db->array_query( $template_array, "SELECT ID, Name FROM eZBulkMail_Template ORDER BY Name" );
         for ( $i=0; $i<count($template_array); $i++ )
         { 
             $return_array[$i] = new eZBulkMailTemplate( $template_array[$i][$db->fieldName( "ID" )] );
@@ -242,15 +243,6 @@ class eZBulkMailTemplate
     var $Footer;
     var $Name;
     var $Description;
-    
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
-
 }
 
 ?>

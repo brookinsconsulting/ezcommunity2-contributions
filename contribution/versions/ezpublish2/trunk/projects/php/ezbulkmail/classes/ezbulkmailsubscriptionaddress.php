@@ -1,13 +1,13 @@
 <?
 // 
-// $Id: ezbulkmailsubscriptionaddress.php,v 1.12 2001/06/29 15:19:14 ce Exp $
+// $Id: ezbulkmailsubscriptionaddress.php,v 1.13 2001/07/09 14:17:22 fh Exp $
 //
 // eZBulkMailSubscriptionAddress class
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <17-Apr-2001 13:21:53 fh>
 //
-// Copyright (C) .  All rights reserved.
+// Copyright (C) Frederik Holljen.  All rights reserved.
 //
 // This source file is part of eZ publish, publishing software.
 // Copyright (C) 1999-2000 eZ systems as
@@ -43,7 +43,6 @@ class eZBulkMailSubscriptionAddress
     */
     function eZBulkMailSubscriptionAddress( $id=-1 )
     {
-        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
@@ -56,23 +55,40 @@ class eZBulkMailSubscriptionAddress
     */
     function store()
     {
-        $password = addslashes( $this->Password );
-        $this->dbInit();
+        $password = md5( $this->Password );
+        
+        $db =& eZDB::globalDatabase();
+        $db->begin();
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZBulkMail_SubscriptionAddress SET
-                                 EMail='$this->EMail',
-                                 Password=PASSWORD('$password')
+            $db->lock( "eZBulkMail_Forgot" );
+            $nextID = $db->nextID( "eZBulkMail_Mail", "ID" );
+
+            $result = $db->query( "INSERT INTO eZBulkMail_SubscriptionAddress ( ID, EMail, Password )
+                                 VALUES
+                                 (
+                                  '$nextID',
+                                  '$this->EMail',
+                                  '$password'
+                                 )
                                  " );
-			$this->ID = $this->Database->insertID();
+			if( $result )
+                $this->ID = $nextID;
         }
         else
         {
-            $this->Database->query( "UPDATE eZBulkMail_SubscriptionAddress SET
+            $result = $db->query( "UPDATE eZBulkMail_SubscriptionAddress SET
                                  EMail='$this->EMail',
                                  Password='$password'
                                  WHERE ID='$this->ID'" );
         }
+
+        $db->unlock();
+
+        if ( $result == false )
+            $db->rollback( );
+        else
+            $db->commit();
         return true;
     }
 
@@ -80,17 +96,28 @@ class eZBulkMailSubscriptionAddress
       Deletes a eZBulkMail object from the database.
 
     */
-    function delete()
+    function delete( $id = -1 )
     {
-        $this->dbInit();
-
-        if ( isset( $this->ID ) )
+        $db =& eZDB::globalDatabase();
+        if( $id == -1 )
+            $id = $this->ID;
+        
+        $db->begin();
+        // delete from BulkMailCategoryLink
+        $results[] = $db->query( "DELETE FROM eZBulkMail_SubscriptionLink WHERE AddressID='$id'" );
+        // delete actual group entry
+        $results[] = $db->query( "DELETE FROM eZBulkMail_SubscriptionAddress WHERE ID='$id'" );            
+        $commit = true;
+        foreach(  $results as $result )
         {
-            // delete from BulkMailCategoryLink
-            $this->Database->query( "DELETE FROM eZBulkMail_SubscriptionLink WHERE AddressID='$this->ID'" );
-            // delete actual group entry
-            $this->Database->query( "DELETE FROM eZBulkMail_SubscriptionAddress WHERE ID='$this->ID'" );            
+            if ( $result == false )
+                $commit = false;
         }
+        if ( $commit == false )
+            $db->rollback( );
+        else
+            $db->commit();
+
     }
     
     /*!
@@ -98,11 +125,11 @@ class eZBulkMailSubscriptionAddress
     */
     function get( $id=-1 )
     {
-        $this->dbInit();
-        
+        $db =& eZDB::globalDatabase();
+
         if ( $id != "-1" )
         {
-            $this->Database->array_query( $address_array, "SELECT * FROM eZBulkMail_SubscriptionAddress WHERE ID='$id'" );
+            $db->array_query( $address_array, "SELECT * FROM eZBulkMail_SubscriptionAddress WHERE ID='$id'" );
             if( count( $address_array ) > 1 )
             {
                 die( "Error: Subscription addresses with the same ID was found in the database. This shouldn't happen." );
@@ -113,12 +140,6 @@ class eZBulkMailSubscriptionAddress
                 $this->EMail = $address_array[0][ "EMail" ];
                 $this->Password = $address_array[0][ "Password" ];
             }
-                 
-            $this->State_ = "Coherent";
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
     }
 
@@ -215,8 +236,9 @@ class eZBulkMailSubscriptionAddress
      */
     function subscriptions( $asObjects = true )
     {
+        $db =& eZDB::globalDatabase();
         $final_result = array();
-        $this->Database->array_query( $result_array, "SELECT CategoryID FROM eZBulkMail_SubscriptionLink WHERE AddressID='$this->ID'" );
+        $db->array_query( $result_array, "SELECT CategoryID FROM eZBulkMail_SubscriptionLink WHERE AddressID='$this->ID'" );
         if( count( $result_array ) > 0 )
         {
             foreach( $result_array as $result )
@@ -234,18 +256,31 @@ class eZBulkMailSubscriptionAddress
             $categoryID = $categoryID->id();
 
         $db = eZDB::globalDatabase();
+        $db->begin();
+        $db->lock( "eZBulkMail_SubscriptionLink" );
         $db->array_query( $check, "SELECT AddressID
                                                FROM eZBulkMail_SubscriptionLink
                                                WHERE CategoryID='$categoryID'
                                                AND AddressID='$this->ID'
                                                " );
+        $result = false;
         if ( count ( $check ) == 0 )
         {
             $db->query( "INSERT INTO eZBulkMail_SubscriptionLink SET AddressID='$this->ID', CategoryID='$categoryID'" );
+
+            $db->unlock();
+            if ( $result == false )
+                $db->rollback( );
+            else
+                $db->commit();
             return true;
         }
         else
+        {
+            $db->rollback( );
+            $db->unlock();
             return false;
+        }
     }
 
     /*!
@@ -253,14 +288,15 @@ class eZBulkMailSubscriptionAddress
      */
     function unsubscribe( $category )
     {
+        $db =& eZDB::globalDatabase();
         if( get_class( $category ) == "ezbulkmailcategory" )
         {
             $categoryID = $category->id();
-            $this->Database->query( "DELETE FROM eZBulkMail_SubscriptionLink WHERE AddressID='$categoryID'" );
+            $db->query( "DELETE FROM eZBulkMail_SubscriptionLink WHERE AddressID='$categoryID'" );
         }
         else if( $category == true )
         {
-            $this->Database->query( "DELETE FROM eZBulkMail_SubscriptionLink WHERE AddressID='$this->ID'" );
+            $db->query( "DELETE FROM eZBulkMail_SubscriptionLink WHERE AddressID='$this->ID'" );
         }
     }
 
@@ -271,40 +307,20 @@ class eZBulkMailSubscriptionAddress
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+        $md5 = md5( $password );
         $db->array_query( $subscription_array, "SELECT * FROM eZBulkMail_SubscriptionAddress
                                                     WHERE EMail='$email'
-                                                    AND Password=PASSWORD('$password')" );
+                                                    AND Password='$md5'" );
         if ( count( $subscription_array ) == 1 )
             $ret = true;
         
         return $ret;
     }
     
-    /*!
-      \private
-      
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database =& eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
-
     var $ID;
     var $EMail;
     
-    ///  Variable for keeping the database connection.
-    var $Database;
     var $Password;
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>

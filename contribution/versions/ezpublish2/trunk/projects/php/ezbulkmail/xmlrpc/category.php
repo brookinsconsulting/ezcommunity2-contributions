@@ -15,8 +15,8 @@ if( $Command == "list" ) // Return a list of all bulkmail categories..
                                        );
     }
     $ReturnData = new eZXMLRPCStruct( array( "Catalogues" => new eZXMLRPCArray(),
-                                         "Elements" => $categories,
-                                         "Path" => new eZXMLRPCArray() ) ); // array starting with top level catalogue, ending with parent.
+                                             "Elements" => $categories,
+                                             "Path" => new eZXMLRPCArray() ) ); // array starting with top level catalogue, ending with parent.
 
 }
 

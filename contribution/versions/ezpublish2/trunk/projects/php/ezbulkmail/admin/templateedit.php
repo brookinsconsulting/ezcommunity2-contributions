@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: templateedit.php,v 1.2 2001/04/20 12:22:09 fh Exp $
+// $Id: templateedit.php,v 1.3 2001/07/09 14:17:22 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <18-Apr-2001 17:15:33 fh>
@@ -49,8 +49,8 @@ if( isset( $Ok ) ) // cancel pressed, redirect to templatelist page...
     $template->setFooter( $Footer );
     
     $template->store();
-    eZHTTPTool::header( "Location: /bulkmail/templatelist/" );
-    exit();
+//    eZHTTPTool::header( "Location: /bulkmail/templatelist/" );
+//    exit();
 }
 
 

@@ -1,13 +1,13 @@
 <?
 // 
-// $Id: ezbulkmail.php,v 1.18 2001/07/03 12:57:38 br Exp $
+// $Id: ezbulkmail.php,v 1.19 2001/07/09 14:17:22 fh Exp $
 //
 // eZBulkMail class
 //
-//  Frederik Holljen<fh@ez.no>
+// Frederik Holljen <fh@ez.no>
 // Created on: <17-Apr-2001 11:53:30 fh>
 //
-// Copyright (C) .  All rights reserved.
+// Copyright (C) Frederik Holljen.  All rights reserved.
 //
 //
 // This source file is part of eZ publish, publishing software.
@@ -45,10 +45,14 @@ include_once( "ezmail/classes/ezmail.php" );
 class eZBulkMail
 {
     /*!
+      Constructor.
     */
     function eZBulkMail( $id=-1 )
     {
-        $this->IsConnected = false;
+        // default values...
+        $this->isDraft = 1;
+        $this->UserID = 0;
+        
         if ( $id != -1 )
         {
             $this->ID = $id;
@@ -117,7 +121,7 @@ class eZBulkMail
         $db =& eZDB::globalDatabase();
         $db->begin();
         
-        if ( $id==-1 )
+        if ( $id == -1 )
             $id = $this->ID;
 
         $results[] = $db->query( "DELETE FROM eZBulkMail_MailCategoryLink WHERE MailID='$id'" );
@@ -180,7 +184,7 @@ class eZBulkMail
         if( $draftsOnly == true )
             $draftsSQL = "WHERE IsDraft='1'";
         
-        $db->array_query( $mail_array, "SELECT ID FROM eZBulkMail_Mail $draftsSQL  ORDER BY SentDate" );
+        $db->array_query( $mail_array, "SELECT ID, SentDate FROM eZBulkMail_Mail $draftsSQL  ORDER BY SentDate" );
         
         for ( $i=0; $i<count($mail_array); $i++ )
         {
@@ -535,11 +539,7 @@ class eZBulkMail
     var $BodyText;
     var $SentDate;
     var $IsDraft;
-    ///  Variable for keeping the database connection.
-    var $Database;
 
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
     /// Is true if the object has database connection, false if not.
     var $IsConnected;
     

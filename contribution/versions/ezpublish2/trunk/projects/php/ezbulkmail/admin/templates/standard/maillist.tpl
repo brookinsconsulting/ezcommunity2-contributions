@@ -22,7 +22,7 @@
 	<td class="{td_class}">
         <a href="/bulkmail/mailedit/{bulkmail_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{bulkmail_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezb{bulkmail_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
         </td>
-	<td class="{td_class}"><input type="checkbox" name="MailArrayID[]" value="{bulkbulkmail_id}" /></td>
+	<td class="{td_class}"><input type="checkbox" name="MailArrayID[]" value="{bulkmail_id}" /></td>
 </tr>
 <!-- END bulkmail_item_tpl -->
 </table>

@@ -79,7 +79,7 @@ class eZBulkMailForgot
         $db->begin();
 
         $this->Hash = md5( microTime() );
-        $password = $db->escapeStrings( $this->Password );
+        $password = $db->escapeString( $this->Password );
         
         if ( !isset( $this->ID ) )
         {

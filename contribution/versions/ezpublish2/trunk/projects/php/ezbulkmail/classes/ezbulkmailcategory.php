@@ -44,7 +44,9 @@ class eZBulkMailCategory
     */
     function eZBulkMailCategory( $id=-1 )
     {
-        $this->IsConnected = false;
+        $this->IsPublic = 0;
+        $this->IsSingleCategory = 0;
+
         if ( $id != -1 )
         {
             $this->ID = $id;
@@ -152,7 +154,7 @@ class eZBulkMailCategory
         $db = eZDB::globaldatabase();
         $category_array = array();
 
-        $name = addslashes( $name );
+        $name =& $db->escapeString( $name );
         $db->array_query( $category_array, "SELECT ID FROM eZBulkMail_Category WHERE Name='$name'" );
 
         $return_value = false;
@@ -177,7 +179,7 @@ class eZBulkMailCategory
         if( $withPrivate == false )
             $privateSQL = "WHERE IsPublic='1'";
         
-        $db->array_query( $category_array, "SELECT ID FROM eZBulkMail_Category $privateSQL ORDER BY Name" );
+        $db->array_query( $category_array, "SELECT ID, Name FROM eZBulkMail_Category $privateSQL ORDER BY Name" );
         
         for ( $i=0; $i<count($category_array); $i++ )
         {
@@ -260,12 +262,10 @@ class eZBulkMailCategory
             $groupID = $groupID->id();
 
         $db->lock( "eZBulkMail_GroupCategoryLink" );
-        $nextID = $db->nextID( "eZBulkMail_GroupCategoryLink", "ID" );
         $result = $db->query( "INSERT INTO eZBulkMail_GroupCategoryLink
-                  ( ID, CategoryID, GroupID )
+                  ( CategoryID, GroupID )
                   VALUES
-                  ( '$nextID',
-                    '$this->ID',
+                  ( '$this->ID',
                     '$groupID'
                   ) " );
 
@@ -445,13 +445,6 @@ class eZBulkMailCategory
     var $Description;
     var $IsPublic;
     
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>

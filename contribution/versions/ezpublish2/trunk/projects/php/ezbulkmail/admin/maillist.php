@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: maillist.php,v 1.3 2001/04/30 15:04:23 fh Exp $
+// $Id: maillist.php,v 1.4 2001/07/09 14:17:22 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <18-Apr-2001 10:26:26 fh>
@@ -39,8 +39,7 @@ if( isset( $New ) )
 if( isset( $Delete ) )
 {
     foreach( $MailArrayID as $mailID )
-    {
-    }
+        eZBulkMail::delete( $mailID );
 }
 
 $t = new eZTemplate( "ezbulkmail/admin/" . $ini->read_var( "eZBulkMailMain", "AdminTemplateDir" ),
