@@ -33,17 +33,17 @@
 <div onLoad="MM_preloadImages('../ezforum/images/redigerminimrk.gif','../ezforum/images/slettminimrk.gif')"></div>
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
-  <tr>
+<tr>
     <td align="left" valign="bottom">
-    <h1>{intl-headline}</h1>
-    </td>
-    <td align="right">
-    <form action="/forum/search/" method="post">
-      <input type="text" name="criteria">
-      <input type="submit" name="search" value="{intl-search}">
-    </form>
-    </td>
-  </tr>
+        <h1>{intl-headline}</h1>
+     </td>
+     <td align="right">
+	 <form action="/forum/search/" method="post">
+	       <input type="text" name="QueryString">
+	       <input type="submit" name="search" value="{intl-search}">
+         </form>
+     </td>
+</tr>
 </table>
 
 <hr noshade="noshade" size="4" />
@@ -51,7 +51,7 @@
 <img src="/ezforum/images/path-arrow.gif" height="10" width="15" border="0">
 <a class="path" href="/forum/categorylist/">{intl-forum-main}</a> 
 <img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">
-<a class="path" href="/forum/category/{category_id}/">{category_name}</a>
+<a class="path" href="/forum/forumlist/{category_id}/">{category_name}</a>
 
 <hr noshade="noshade" size="4" />
 
@@ -64,16 +64,16 @@
 <!-- BEGIN forum_item_tpl -->
 <tr>
         <td class={td_class}>
-	<a href="/forum/messagelist/{category_id}/{forum_id}/">{forum_name}</a>
+	<a href="/forum/messagelist/{forum_id}/">{forum_name}</a>
 	</td>
 	<td class={td_class}>
 	{forum_description}
 	</td>
     <td width="1%" class={td_class}>
-	<a href="/forum/forumedit/edit/{category_id}/{forum_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eff{forum_id}-red','','/ezforum/images/redigerminimrk.gif',1)"><img name="eff{forum_id}-red" border="0" src="/ezforum/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="/forum/forumedit/edit/{forum_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eff{forum_id}-red','','/ezforum/images/redigerminimrk.gif',1)"><img name="eff{forum_id}-red" border="0" src="/ezforum/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%" class={td_class}>
-	<a href="/forum/forumedit/delete/{category_id}/{forum_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eff{forum_id}-slett','','/ezforum/images/slettminimrk.gif',1)"><img name="eff{forum_id}-slett" border="0" src="/ezforum/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<a href="/forum/forumedit/delete/{forum_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eff{forum_id}-slett','','/ezforum/images/slettminimrk.gif',1)"><img name="eff{forum_id}-slett" border="0" src="/ezforum/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
 </tr>
 <!-- END forum_item_tpl -->

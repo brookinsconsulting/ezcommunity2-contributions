@@ -32,9 +32,21 @@
 
 <div onLoad="MM_preloadImages('../ezforum/images/redigerminimrk.gif','../ezforum/images/slettminimrk.gif')"></div>
 
-<form action="/forum/forumedit/{action_value}/{category_id}/{forum_id}/" method="get">
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td align="left" valign="bottom">
+        <h1>{headline}</h1>
+     </td>
+     <td align="right">
+	 <form action="/forum/search/" method="post">
+	       <input type="text" name="QueryString">
+	       <input type="submit" name="search" value="{intl-search}">
+         </form>
+     </td>
+</tr>
+</table>
 
-<h1>{headline}</h1>
+<form action="/forum/forumedit/{action_value}/{forum_id}/" method="get">
 
 <hr noshade="noshade" size="4" />
 
@@ -66,7 +78,9 @@
 	&nbsp;
 	</td>
 	<td>
-	Avbrytknapp!
+	<forum method="post" action="/forum/categorylist">
+	<input class="okbutton" type="submit" value="{intl-cancel}">
+	</forum>
 	</td>
 </tr>
 </table>

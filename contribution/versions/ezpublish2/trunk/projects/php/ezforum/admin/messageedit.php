@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: messageedit.php,v 1.2 2000/10/17 11:40:49 ce-cvs Exp $
+    $Id: messageedit.php,v 1.3 2000/10/20 13:31:31 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -16,23 +16,10 @@ $DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
 $Language = $ini->read_var( "eZForumMain", "Language" );
 
 include_once( "ezforum/classes/ezforummessage.php" );
+include_once( "ezforum/classes/ezforum.php" );
+include_once( "ezforum/classes/ezforumcategory.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
-
-
-$t = new eZTemplate( "ezforum/admin/templates", "ezforum/intl", $Language, "forum.php" );
-$t->setAllStrings();
-
-$t->set_file( Array( "messages" => "message.tpl",
-                     "elements" => "message-elements.tpl",
-                     "navigation" => "navigation.tpl",
-                     "navigation-bottom" => "navigation-bottom.tpl" ) );
-
-$t->set_var( "docroot", $DOC_ROOT );
-$t->set_var( "category_id", $category_id );
-$t->set_var( "forum_id", $forum_id );
-
-$t->parse( "navigation-bar", "navigation" );
 
 if ( $Action == "insert" )
 {
@@ -43,13 +30,17 @@ if ( $Action == "update" )
     $msg->get( $MessageID );
     $msg->setTopic( $Topic );
     $msg->setBody( $Body );
+
     if ( $notice )
         $msg->enableEmailNotice();
     else 
         $msg->disableEmailNotice();
-    
+
+    $ForumID = $msg->forumID();
+    $forum = new eZForum( $ForumID );
+    $CategoryID = $forum->categoryID();
     $msg->store();
-    Header( "Location: /forum/messagelist/". $CategoryID. "/". $ForumID );
+    Header( "Location: /forum/messagelist/$ForumID/" );
     exit();
 }
 
@@ -58,7 +49,12 @@ if ( $Action == "delete" )
     $msg = new eZForumMessage();
     $msg->get( $MessageID );
     $msg->delete();
-    Header( "Location: /forum/messagelist/". $CategoryID. "/". $ForumID );
+
+    $ForumID = $msg->forumID();
+    $forum = new eZForum( $ForumID );
+    $CategoryID = $forum->categoryID();
+
+    Header( "Location: /forum/messagelist/$ForumID" );
     exit();
 }
 
@@ -87,9 +83,9 @@ if ( $Action == "edit" )
     $headline =  $ini->read_var( "strings", "head_line_edit" );
     $t->set_var( "action_value", "update" );
     $t->set_var( "message_id", $MessageID );
+    $t->set_var( "forum_id", $msg->forumID() );
 }
 $t->set_var( "category_id", $CategoryID );
-$t->set_var( "forum_id", $ForumID );
 $t->set_var( "headline", $headline );
 $t->pparse( "output", "message_page" );
 ?>

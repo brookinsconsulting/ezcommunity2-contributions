@@ -36,8 +36,8 @@
 <tr>
     <td align="left" valign="bottom">
         <h1>{intl-headline}</h1>
-    </td>
-    <td align="right">
+     </td>
+     <td align="right">
 	 <form action="/forum/search/" method="post">
 	       <input type="text" name="QueryString">
 	       <input type="submit" name="search" value="{intl-search}">
@@ -50,10 +50,12 @@
 
 <img src="/ezforum/images/path-arrow.gif" height="10" width="15" border="0">
 <a class="path" href="/forum/categorylist/">{intl-forum-main}</a>
+
 <img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">
-<a class="path" href="/forum/category/{category_id}/">{category_name}</a>
+<a class="path" href="/forum/forumlist/{category_id}/">{category_name}</a>
+
 <img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">
-<a class="path" href="/forum/category/forum/{forum_id}/">{forum_name}</a>
+<a class="path" href="/forum/messagelist/{forum_id}/">{forum_name}</a>
 
 <hr noshade="noshade" size="4" />
 
@@ -71,7 +73,7 @@
 <tr bgcolor="{color}">
      <td class="{td_class}">
      {spacer}
-     <a href="/forum/message/{category_id}/{forum_id}/{message_id}">{message_topic}</a>
+     <a href="/forum/message/{message_id}">{message_topic}</a>
      </td>
      <td class="{td_class}">
      {message_user}
@@ -83,10 +85,10 @@
      {emailnotice}&nbsp;
      </td class="{td_class}">
      <td width="1%" class="{td_class}">
-	 <a href="/forum/messageedit/edit/{category_id}/{forum_id}/{message_id}/"  onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('efm{message_id}-red','','/ezforum/images/redigerminimrk.gif',1)"><img name="efm{message_id}-red" border="0" src="/ezforum/images/redigermini.gif" width="16" height="16" align="top"></a>
+	 <a href="/forum/messageedit/edit/{message_id}/"  onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('efm{message_id}-red','','/ezforum/images/redigerminimrk.gif',1)"><img name="efm{message_id}-red" border="0" src="/ezforum/images/redigermini.gif" width="16" height="16" align="top"></a>
      </td>
 	 <td width="1%" class="{td_class}">
-	 <a href="/forum/messageedit/delete/{category_id}/{forum_id}/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('efm{message_id}-slett','','/ezforum/images/slettminimrk.gif',1)"><img name="efm{message_id}-slett" border="0" src="/ezforum/images/slettmini.gif" width="16" height="16" align="top"></a>
+	 <a href="/forum/messageedit/delete/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('efm{message_id}-slett','','/ezforum/images/slettminimrk.gif',1)"><img name="efm{message_id}-slett" border="0" src="/ezforum/images/slettmini.gif" width="16" height="16" align="top"></a>
 	 </td>
 </tr>
 

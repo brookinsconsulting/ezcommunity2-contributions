@@ -12,45 +12,43 @@ switch ( $url_array[2] )
 
     case "messagelist":
     {
-        $CategoryID = $url_array[3];
-        $ForumID = $url_array[4];
+        $ForumID = $url_array[3];
         include( "ezforum/admin/messagelist.php" );
     }
     break;
 
-//      case "message":
-//      {
-//          $CategoryID = $url_array[3];
-//          $ForumID = $url_array[4];
-//          $MessageID = $url_array[5];
-//          include( "ezforum/admin/message.php" );
-//      }
-//      break;
+    case "search" :
+    {
+        include( "ezforum/admin/search.php" );
+    }
+        break;
+
+
+    case "message":
+    {
+        $MessageID = $url_array[3];
+        include( "ezforum/admin/message.php" );
+    }
+    break;
 
     case "messageedit":
     {
         if ( $url_array[3] == "edit" )
         {
             $Action = "edit";
-            $CategoryID = $url_array[4];
-            $ForumID = $url_array[5];
-            $MessageID = $url_array[6];
+            $MessageID = $url_array[4];
             include( "ezforum/admin/messageedit.php" );
         }
         if ( $url_array[3] == "update" )
         {
             $Action = "update";
-            $CategoryID = $url_array[4];
-            $ForumID = $url_array[5];
-            $MessageID = $url_array[6];
+            $MessageID = $url_array[4];
             include( "ezforum/admin/messageedit.php" );
         }
         if ( $url_array[3] == "delete" )
         {
             $Action = "delete";
-            $CategoryID = $url_array[4];
-            $ForumID = $url_array[5];
-            $MessageID = $url_array[6];
+            $MessageID = $url_array[4];
             include( "ezforum/admin/messageedit.php" );
         }
     }
@@ -73,23 +71,20 @@ switch ( $url_array[2] )
         if ( $url_array[3] == "edit" )
         {
             $Action = "edit";
-            $CategoryID = $url_array[4];
-            $ForumID = $url_array[5];
+            $ForumID = $url_array[4];
             include( "ezforum/admin/forumedit.php" );
         }
         if ( $url_array[3] == "update" )
         {
             
             $Action = "update";
-            $CategoryID = $url_array[4];
-            $ForumID = $url_array[5];
+            $ForumID = $url_array[4];
             include( "ezforum/admin/forumedit.php" );
         }
         if ( $url_array[3] == "delete" )
         {
             $Action = "delete";
-            $CategoryID = $url_array[4];
-            $ForumID = $url_array[5];
+            $ForumID = $url_array[4];
             include( "ezforum/admin/forumedit.php" );
         }
     }

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forumedit.php,v 1.2 2000/10/17 11:40:49 ce-cvs Exp $
+    $Id: forumedit.php,v 1.3 2000/10/20 13:31:31 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -26,7 +26,7 @@ if ( $Action == "insert" )
     $forum->setDescription( $description );
     
     $forum->store();
-    Header( "Location: /forum/categorylist/" );
+    Header( "Location: /forum/forumlist/$CategorySelectID" );
 }
 
 if ( $Action == "update" )
@@ -38,7 +38,7 @@ if ( $Action == "update" )
     $forum->setDescription( $description );
 
     $forum->store();
-    Header( "Location: /forum/categorylist/" );
+    Header( "Location: /forum/forumlist/$CategorySelectID" );
 }
 
 if ( $Action == "delete" )
@@ -47,7 +47,8 @@ if ( $Action == "delete" )
     $forum->get( $ForumID );
     $forum->delete();
 
-    Header( "Location: /forum/categorylist/" );
+    $CategoryID = $forum->categoryID();
+    Header( "Location: /forum/forumlist/$CategoryID" );
 }
 
 $t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
@@ -65,6 +66,9 @@ $ini = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/forumedit.php.ini
 $headline =  $ini->read_var( "strings", "head_line_insert" );
 $t->set_var( "forum_name", "" );
 $t->set_var( "forum_description", "" );
+
+$forum = new eZForum( $ForumID );
+$CategoryID = $forum->categoryID();
 
 $category = new eZForumCategory();
 $categoryList = $category->getAll();

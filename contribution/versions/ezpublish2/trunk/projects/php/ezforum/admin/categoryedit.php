@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: categoryedit.php,v 1.2 2000/10/17 11:40:49 ce-cvs Exp $
+    $Id: categoryedit.php,v 1.3 2000/10/20 13:31:31 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -77,7 +77,6 @@ $t->set_var( "category_id", $CategoryID );
 
 if ( $Action == "edit" )
 {
-    die();
     $cat = new eZForumCategory();
     $cat->get( $CategoryID );    
     $t->set_var( "category_name", $cat->name() );

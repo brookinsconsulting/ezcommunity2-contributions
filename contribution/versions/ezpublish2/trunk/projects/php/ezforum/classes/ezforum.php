@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.3 2000/10/17 14:16:49 ce-cvs Exp $
+// $Id: ezforum.php,v 1.4 2000/10/20 13:31:32 ce-cvs Exp $
 //
 // 
 //
@@ -81,7 +81,7 @@ class eZForum
         }
         else
         {
-            $this->Database->query( "UPDATE ezforum_Forum SET
+            $this->Database->query( "UPDATE eZForum_Forum SET
 		                         CategoryID='$this->CategoryID',
 		                         Name='$this->Name',
 		                         Description='$this->Description',

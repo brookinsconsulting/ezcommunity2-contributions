@@ -1,6 +1,19 @@
-<form method="post" action="/forum/messageedit/{action_value}/{category_id}/{forum_id}/{message_id}">
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td align="left" valign="bottom">
+        <h1>{headline}</h1>
+     </td>
+     <td align="right">
+	 <form action="/forum/search/" method="post">
+	       <input type="text" name="QueryString">
+	       <input type="submit" name="search" value="{intl-search}">
+         </form>
+     </td>
+</tr>
+</table>
 
-<h1>{headline}</h1>
+
+<form method="post" action="/forum/messageedit/{action_value}/{message_id}">
 
 <hr noshade="noshade" size="4" />
 
@@ -14,7 +27,7 @@
 	</td>
 	<td>
 	<p class="boxtext">{intl-author}</p>
-	<input type="text" size="40" name="User" value="{message_user}">
+	{message_user}
 	</td>
 </tr>
 </table>
@@ -37,7 +50,9 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	Avbryt!
+	<form method="post" action="/forum/messagelist/{forum_id}">
+	<input class="okbutton" type="submit" value="{intl-cancel}">
+	</forum>
 	</td>
 </tr>
 </table>
