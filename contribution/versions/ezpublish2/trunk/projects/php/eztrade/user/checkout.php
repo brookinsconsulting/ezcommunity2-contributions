@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.13 2000/11/02 09:25:24 bf-cvs Exp $
+// $Id: checkout.php,v 1.14 2000/11/02 15:40:32 pkej-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -163,46 +163,160 @@ if ( $SendOrder == "true" )
     // fetch the cart items
     $items = $cart->items( $CartType );
 
-    foreach ( $items as $item )
+    // Get the strings for the headers
+
+    $headProduct = $mailTemplateIni->read_var( "strings", "product" );
+    $headCount = $mailTemplateIni->read_var( "strings", "count" );
+    $headPrice = $mailTemplateIni->read_var( "strings", "price" );
+    $footTotal = $mailTemplateIni->read_var( "strings", "total" );
+    $footSandH = $mailTemplateIni->read_var( "strings", "ship_hand" );
+    $footSubT = $mailTemplateIni->read_var( "strings", "sub_total" );
+
+    $productString = substr( $headProduct, 0, 56 );
+    $productString = $productString . ": ";
+    $productString = str_pad( $productString, 58, " " );
+
+    $countString = substr( $headCount, 0, 5 );
+    $countString = $countString . ": ";
+    $countString = str_pad( $countString, 7, " ", STR_PAD_LEFT );
+
+    $priceString = substr( $headPrice, 0, 13 );
+    $priceString = $priceString . ": ";
+    $priceString = str_pad( $priceString, 15, " ", STR_PAD_LEFT );
+
+    $totalString = substr( $footTotal, 0, 56 );
+    $totalString = $totalString . ": ";
+    $totalString = str_pad( $totalString, 58, " ", STR_PAD_LEFT );
+    
+    $tshString = substr( $footSandH, 0, 56 );
+    $tshString = $tshString . ": ";
+    $tshString = str_pad( $tshString, 58, " ", STR_PAD_LEFT );
+
+    $subTotalString = substr( $footSubT, 0, 56 );
+    $subTotalString = $subTotalString . ": ";
+    $subTotalString = str_pad( $subTotalString, 58, " ", STR_PAD_LEFT );
+    
+    $lineString = str_pad( $lineString, 78, "-");
+    
+    $mailTemplate->set_var( "product_string", $productString );
+    $mailTemplate->set_var( "count_string", $countString );
+    $mailTemplate->set_var( "price_string", $priceString );
+    $mailTemplate->set_var( "stringline", $lineString );
+    $mailTemplate->set_var( "product_total_string", $totalString );
+    $mailTemplate->set_var( "product_sub_total_string", $subTotalString );
+    $mailTemplate->set_var( "product_ship_hand_string", $tshString );
+    
+    $user = $order->user();
+    
+    $mailTemplate->set_var( "user_first_name", $user->firstName() );
+    $mailTemplate->set_var( "user_last_name", $user->lastName() );
+
+    $addressArray = $user->addresses();
+
+        $mailTemplate->set_var( "user_street", "" );
+        $mailTemplate->set_var( "user_street2", "" );
+        $mailTemplate->set_var( "user_city", "" );
+        $mailTemplate->set_var( "user_zip", "" );
+
+        $mailTemplate->set_var( "user_country", "" );
+
+    foreach ( $addressArray as $address )
+    {
+        // Select correct later PKEJ
+        $mailTemplate->set_var( "user_street", $address->street1() );
+        $mailTemplate->set_var( "user_street2", $address->street2() );
+        $mailTemplate->set_var( "user_city", $address->place() );
+        $mailTemplate->set_var( "user_zip", $address->zip() );
+
+        $country = $address->country();
+        $mailTemplate->set_var( "user_country", $country->name() );
+    }
+
+    foreach( $items as $item )
+    {        
+        $product = $item->product();
+        // create a new order item
+        $orderItem = new eZOrderItem();
+        $orderItem->setOrder( $order );
+        $orderItem->setProduct( $product );
+        $orderItem->setCount( $item->count() );
+        $orderItem->setPrice( $product->price() );
+        $orderItem->store();
+        $price = $product->price() * $item->count();
+        $currency->setValue( $price );
+
+        $mailTemplate->set_var( "debug", $debug );
+        
+        $nameString = substr(  $product->name(), 0, 56 );
+        $nameString = str_pad( $nameString, 58, " " );
+        
+        $countString = substr(  $item->count(), 0, 5 );
+        $countString = str_pad( $countString, 7, " ", STR_PAD_LEFT );
+        
+        $priceString = substr(  $locale->format( $currency ), 0, 13 );
+        $priceString = str_pad( $priceString, 15, " ", STR_PAD_LEFT );
+
+        $mailTemplate->set_var( "order", $nameString );
+        $mailTemplate->set_var( "count", $countString );
+        $mailTemplate->set_var( "price", $priceString );
+
+        $optionValues =& $item->optionValues();
+
+        $mailTemplate->set_var( "cart_item_option", "" );
+        $mailTemplate->set_var( "option_item", "" );
+
+        $optionNameLength = 0;
+
+        $optionValues =& $item->optionValues();
+        
+        foreach ( $optionValues as $optionValue )
         {
-            $product = $item->product();
-            // create a new order item
-            $orderItem = new eZOrderItem();
-            $orderItem->setOrder( $order );
-            $orderItem->setProduct( $product );
-            $orderItem->setCount( $item->count() );
-            $orderItem->setPrice( $product->price() );
-            $orderItem->store();
-            $price = $product->price() * $item->count();
-            $currency->setValue( $price );
+            $option =& $optionValue->option();
+            $value =& $optionValue->optionValue();
 
-            $mailTemplate->set_var( "order", $product->name() );
-            $mailTemplate->set_var( "count", $item->count() );
-            $mailTemplate->set_var( "price", $locale->format( $currency  ));
+            $orderOptionValue = new eZOrderOptionValue();
+            $orderOptionValue->setOrderItem( $orderItem );
+            $orderOptionValue->setOptionName( $option->name() );
+            $orderOptionValue->setValueName( $value->name() );
+            $orderOptionValue->store();
 
-            $optionValues =& $item->optionValues();
-
-            $mailTemplate->set_var( "cart_item_option", "" );
-            $mailTemplate->set_var( "option_item", "" );
-            foreach ( $optionValues as $optionValue )
-                {
-                    $option =& $optionValue->option();
-                    $value =& $optionValue->optionValue();
-
-                    $orderOptionValue = new eZOrderOptionValue();
-                    $orderOptionValue->setOrderItem( $orderItem );
-                    $orderOptionValue->setOptionName( $option->name() );
-                    $orderOptionValue->setValueName( $value->name() );
-                    $orderOptionValue->store();
-
-                    $mailTemplate->set_var( "name", $option->name() );
-                    $mailTemplate->set_var( "value", $value->name() );
-                    $mailTemplate->parse( "option_item", "option_item_tpl", true );
-                }
-
-            $mailTemplate->parse( "order_item", "order_item_tpl", true );
+            $optionString = substr( $option->name(), 0, 35 );
+            $optionString = str_pad( $optionString, 36, " ", STR_PAD_LEFT );
+            $valueString = substr( $value->name(), 0, 38 );
+            $valueString = str_pad( $valueString, 39, " " );
+    
+            $mailTemplate->set_var( "name", $optionString );
+            $mailTemplate->set_var( "value", $valueString );
+            $mailTemplate->parse( "option_item", "option_item_tpl", true );
         }
 
+        $mailTemplate->parse( "order_item", "order_item_tpl", true );
+    }
+
+    $totalPrice = $order->totalPrice();
+    $currency->setValue( $totalPrice );
+    
+    $priceString = substr(  $locale->format( $currency ), 0, 13 );
+    $priceString = str_pad( $totalPriceString, 15, " ", STR_PAD_LEFT );
+    $mailTemplate->set_var( "product_sub_total", $priceString );
+
+    $shippinglPrice = $order->shippingCharge();
+    $currency->setValue( $shippinglPrice );
+    
+    $shippingPriceString = substr(  $locale->format( $currency ), 0, 13 );
+    $shippingPriceString = str_pad( $shippingPriceString, 15, " ", STR_PAD_LEFT );
+    $mailTemplate->set_var( "product_ship_hand", $shippingPriceString );
+
+    $grandTotal = $order->totalPrice() + $order->shippingCharge();
+    $currency->setValue( $grandTotal );
+
+    $grandTotalString = substr(  $locale->format( $currency ), 0, 13 );
+    $grandTotalString = str_pad( $grandTotalString, 15, " ", STR_PAD_LEFT );
+    $mailTemplate->set_var( "product_total", $grandTotalString );
+    
+    
+    $mailTemplate->set_var( "order_number", $order->id() );
+    
     // Send E-mail
     
     $mail = new eZMail();
