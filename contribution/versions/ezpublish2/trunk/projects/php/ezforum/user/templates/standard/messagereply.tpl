@@ -1,70 +1,54 @@
+<form action="/forum/reply/insert/{msg_id}/" method="post">
 
-<hr noshade size="4" />
+<h1>{intl-headline}</h1>
 
-	/
+<hr noshade="noshade" size="4" />
+
+	<img src="/ezforum/images/path-arrow.gif" height="10" width="15" border="0">
 	<a class="path" href="/forum/categorylist/">{intl-forum-main}</a>
-	/
+	<img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">
     <a class="path" href="/forum/forumlist/{category_id}/">{category_name}</a>
-	/
+	<img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">
 	<a class="path" href="/forum/messagelist/{forum_id}/">{forum_name}</a>
-	/	
+	<img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">
     <a class="path" href="/forum/message/{message_id}/">{topic}</a>
 
-<hr noshade size="4" />
+<hr noshade="noshade" size="4" />
+  
+<br />
 
-<h1>{info}</h1>
-
-<form action="/forum/reply/insert/{msg_id}/" method="post">
-    
-<table width="100%" border="0" cellspacing="0" cellpadding="4">
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th>
-    Emne:
-    </th>
-</tr>
-<tr>
-    <td>
-    <input type="text" name="Topic" size="40" value="{topic}">
-    </td>
-</tr>
-<tr>
-	<th>
-	Forfatter:
-        </th>
-<tr>
-</tr>
 	<td>
+	<p class="boxtext">{intl-topic}</p>
+	<input type="text" name="Topic" size="40" value="{topic}">
+	</td>
+	<td>
+	<p class="boxtext">{intl-author}</p>
 	{user}
-        </td>
-</tr>
-<tr>
-    <th>
-    Besvarer:
-    </th>
-<tr>
-</tr>
-    <td>
-    {replier}
-    </td>
-</tr>
-<tr>
-	<th>
-	Tekst:
-        </th>
-<tr>
-<tr>
-	<td>
-    <textarea wrap="soft" name="Body" rows="14" cols="70" rows="10">{body}</textarea>
-    </td>
-</tr>
-    
-<tr>
-    <td colspan="2">
-       <input type="checkbox" name="notice">Email notis
-       <input type="submit" name="reply" value="Svar!">
-      </td>
+	</td>
 </tr>
 </table>
 
-<input type="hidden" name="Action" value="Insert" />
-</form>
+<p class="boxtext">Tekst:</p>
+<textarea wrap="soft" name="Body" rows="14" cols="70" rows="10">{body}</textarea>
+<br /><br />
+    
+<input type="checkbox" name="notice">Email notis
+<br /><br />
+
+<hr noshade="noshade" size="4" />
+
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	<input class="okbutton" type="submit" name="reply" value="{intl-answer}">
+	<input type="hidden" name="Action" value="Insert" />
+	</form>
+	</td>
+	<td>&nbsp;</td>
+	<td>
+	{intl-abort}knapp!
+	</td>
+</tr>
+</table>

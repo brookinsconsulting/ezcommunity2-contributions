@@ -13,58 +13,59 @@
 </tr>
 </table>
 
-<hr noshade size="4" />
+<hr noshade="noshade" size="4" />
 
-	/
+	<img src="/ezforum/images/path-arrow.gif" height="10" width="15" border="0">
 	<a class="path" href="/forum/categorylist/">{intl-forum-main}</a>
-	/
+	<img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">
     <a class="path" href="/forum/category/{category_id}/">{category_name}</a>
-	/
+	<img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">
 	<a class="path" href="/forum/messagelist/{forum_id}/">{forum_name}</a>
-	/	
+	<img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">	
     <a class="path" href="/forum/message/{message_id}/">{message_topic}</a>
 
-<hr noshade size="4" />
+<hr noshade="noshade" size="4" />
 
-<table class="list" width="100%" border="0" cellspacing="0" cellpadding="4">
+<br />
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>        
-   	<td colspan="2">
-	<p class="boxtext">{intl-topic}:</p>
-    <p>{topic}</p>
+   	<td>
+	<p class="boxtext">{intl-topic}</p>
+    {topic}
 	</td>
-</tr>
-<tr>
     <td>
 	<p class="boxtext">{intl-author}</p>
-    <p>{user}</p>
+    {user}
 	</td>
-</tr>
-<tr>
-    <td>
+	<td>
 	<p class="boxtext">{intl-time}</p>
-    <p>{postingtime}</p>
+	<span class="small">{postingtime}</span>
 	</td>
-</tr>
-<tr>
- 	<td colspan="2">
-	<br />
-	<p>
-	{body}
-	</p>
-	<br />
-	</td>
-</tr>
-<tr>
-    <td colspan="2">
-    <form method="post" action="/forum/reply/reply/{reply_id}/">
-    <input class="okbutton" type="submit" value="{intl-answer}" />
-    <!-- <a href="/forum/reply/reply/{reply_id}/">[{intl-reply}]</a> -->
-    </form>
-
 </tr>
 </table>
 
-<br /><br />
+
+<p class="boxtext">{intl-text}</p>
+<table width="100%" border="0" cellspacing="0" cellpadding="4">
+<tr>        
+   	<td class="bglight">
+	{body}
+	</td>
+</tr>
+</table>
+
+<br />
+
+<form method="post" action="/forum/reply/reply/{reply_id}/">
+
+<hr noshade="noshade" size="4" />
+
+<input class="okbutton" type="submit" value="{intl-answer}" />
+<!-- <a href="/forum/reply/reply/{reply_id}/">[{intl-reply}]</a> -->
+</form>
+
+<br />
 
 <h2>{intl-message_thread}</h2>
 
@@ -87,18 +88,18 @@
 	{user}
 	</td>
     	<td class="{td_class}">
-	{postingtime}
+	<span class="small">{postingtime}</span>
 	</td>
 </tr>
     <!-- END message_item_tpl -->
 
 </table>
 
-<form action="/forum/userlogin/{forum_id}/?Action=NewPost">
+<form action="/forum/messageedit/new/{forum_id}">
 
-<hr noshade size="4" />
+<hr noshade="noshade" size="4" />
     
-<input class="okbutton" type="submit" value="New posting" />
+<input class="okbutton" type="submit" value="{intl-new-posting}" />
 
 </form>
 

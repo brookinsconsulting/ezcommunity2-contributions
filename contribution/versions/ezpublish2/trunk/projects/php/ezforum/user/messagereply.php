@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagereply.php,v 1.1 2000/10/18 11:56:07 ce-cvs Exp $
+// $Id: messagereply.php,v 1.2 2000/10/18 13:59:40 th-cvs Exp $
 //
 // 
 //
@@ -138,7 +138,6 @@ $user = eZUser::currentUser();
 $t->set_var( "forum_id", $ForumID );
 
 $t->set_var( "msg_id", $msg->id() );
-$t->set_var( "info",  $infoString);
 
 $t->set_var( "topic", ("SV: " . stripslashes( $msg->topic() ) ) );
 

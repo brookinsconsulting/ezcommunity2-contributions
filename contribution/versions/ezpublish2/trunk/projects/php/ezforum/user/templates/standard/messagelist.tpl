@@ -14,11 +14,11 @@
 
 <hr noshade size="4" />
 
-	/
+	<img src="/ezforum/images/path-arrow.gif" height="10" width="15" border="0">
 	<a class="path" href="/forum/categorylist/">{intl-forum-main}</a>
-	/
+	<img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">
     <a class="path" href="/forum/forumlist/{category_id}/">{category_name}</a>
-	/
+	<img src="/ezforum/images/path-slash.gif" height="10" width="20" border="0">
 	<a class="path" href="/forum/messagelist/{forum_id}">{forum_name}</a>
 
 <hr noshade size="4" />
@@ -42,7 +42,7 @@
 	    {user}
 	    </td>
     	<td class="{td_class}">
-	   {postingtime}
+	   <span class="small">{postingtime}</span>
 	   </td>
     </tr>
     <!-- END message_item_tpl -->
@@ -53,8 +53,6 @@
 {previous}
 </a>
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
 <a href="/forum/category/forum/{forum_id}/?Offset={next_offset}&Limit={limit}">
 {next}
 </a>
@@ -63,6 +61,6 @@
 
 <hr noshade size="4" />
 
-<input class="okbutton" type="submit" value="New posting" />
+<input class="okbutton" type="submit" value="{intl-new-posting}" />
 </form>
 

@@ -12,12 +12,12 @@
   </tr>
 </table>
 
-<hr noshade size="4" />
+<hr noshade="noshade" size="4" />
 
-	/
+	<img src="/ezforum/images/path-arrow.gif" height="10" width="15" border="0">
 	<a class="path" href="/forum/categorylist/">{intl-forum-main}</a>
 
-<hr noshade size="4" />
+<hr noshade="noshade" size="4" />
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
