@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.34 2001/04/27 14:03:18 bf Exp $
+// $Id: articlelist.php,v 1.35 2001/04/27 14:36:56 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -38,10 +38,8 @@ $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 $Locale = new eZLocale( $Language );
 $AdminListLimit = $ini->read_var( "eZArticleMain", "AdminListLimit" );
-$languageIni = new INIFIle( "ezarticle/admin/intl/" . $Language . "/articlelist.php.ini", false );
 
 $session =& eZSession::globalSession();
-
 
 if ( isset( $StoreSelection ) )
 {
@@ -223,10 +221,6 @@ if ( $category->sortMode() == "absolute_placement" )
     }
 }
 
-if ( $category->name() == "" )
-    $t->set_var( "current_category_name", $languageIni->read_var( "strings", "topcategory" ) );
-else
-    $t->set_var( "current_category_name", $category->name() );
 $t->set_var( "current_category_id", $category->id() );
 $t->set_var( "current_category_description", $category->description() );
 
@@ -304,12 +298,20 @@ if ( is_numeric( $CategoryID ) && ( $CategoryID > 0 ) )
     {
         case "Published" :
         {
+            $t->set_var( "published_selected", "selected" );
+            $t->set_var( "un_published_selected", "" );
+            $t->set_var( "all_selected", "" );
+            
             $articleList =& $category->articles( $category->sortMode(), false, true, $Offset, $Limit );
             $articleCount = $category->articleCount( false, true  );        
         }break;
 
         case "Unpublished" :
         {
+            $t->set_var( "published_selected", "" );
+            $t->set_var( "un_published_selected", "selected" );
+            $t->set_var( "all_selected", "" );
+            
             $articleList =& $category->articles( $category->sortMode(), false, false, $Offset, $Limit );
             $articleCount = $category->articleCount( false, false  );
         }break;
@@ -317,6 +319,10 @@ if ( is_numeric( $CategoryID ) && ( $CategoryID > 0 ) )
         case "All" :
         default  :
         {
+            $t->set_var( "published_selected", "" );
+            $t->set_var( "un_published_selected", "" );
+            $t->set_var( "all_selected", "selected" );
+            
             $articleList =& $category->articles( $category->sortMode(), true, true, $Offset, $Limit );
             $articleCount = $category->articleCount( true, true  );        
         }
@@ -340,6 +346,8 @@ else
 {
     $t->set_var( "absolute_placement_header", "" );
 }
+
+$locale = new eZLocale( $Language );
 
 foreach ( $articleList as $article )
 {
@@ -381,6 +389,10 @@ foreach ( $articleList as $article )
         {
             $t->set_var( "absolute_placement_item", "" );
         }
+
+        $published = $article->published();
+        $t->set_var( "article_published_date", $locale->format( $published ) );
+
 
         if( eZObjectPermission::hasPermission( $article->id(), "article_article", 'w') ||
             eZArticle::isAuthor( eZUser::currentUser(), $article->id() ) )

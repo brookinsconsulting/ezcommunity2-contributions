@@ -1,15 +1,15 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
 <tr>
 	<td valign="bottom">
-	<h1>{intl-head_line} - {current_category_name}</h1>
+	<h1>{intl-head_line}</h1>
 	</td>
 	<td rowspan="2" align="right">
 	<form action="/article/archive/{current_category_id}/" method="post">
 
 	<select name="ArticleSelection" >
-	<option value="Published"> {intl-published_articles} </option>
-	<option value="Unpublished"> {intl-un_published_articles} </option>
-	<option value="All"> {intl-all_articles} </option>
+	<option value="Published" {published_selected} > {intl-published_articles} </option>
+	<option value="Unpublished" {un_published_selected}> {intl-un_published_articles} </option>
+	<option value="All" {all_selected}> {intl-all_articles} </option>
 	</select>
 
 	<input class="stdbutton" type="submit" name="StoreSelection" value="{intl-ok}" />
