@@ -12,6 +12,9 @@
 
 <!-- END logo_view_tpl -->
 
+<p class="boxtext">{intl-company_no}:</p>
+{company_no}:
+
 <!-- BEGIN address_item_tpl -->
 <p class="boxtext">{intl-address}:</p>
 {street1}<br/>
@@ -20,45 +23,59 @@
 <!-- END address_item_tpl -->
 
 <br clear="all" />
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
-<tr>
-	<td width="50%">
-<!-- BEGIN phone_item_tpl -->
-<p class="boxtext">{intl-telephone}:</p>
-{telephone}
-<!-- END phone_item_tpl -->
-	</td>
-	<td>
-<!-- BEGIN fax_item_tpl -->
-<p class="boxtext">{intl-fax}:</p>
-{fax}
-<!-- END fax_item_tpl -->
-	</td>
-</tr>
-</table>
 
 <br />
+
+
+<p class="boxtext">{intl-telephone_headline}:</p>
+
+<!-- BEGIN phone_item_tpl -->
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<td width="50%">
-<!-- BEGIN web_item_tpl -->
-<p class="boxtext">{intl-web}:</p>
-<a href="http://{web}">{web}</a>
-<!-- END web_item_tpl -->
-	</td>
-	<td>
-<!-- BEGIN email_item_tpl -->
-<p class="boxtext">{intl-email}:</p>
-<a href="mailto:{email}">{email}</a>
-<!-- END email_item_tpl -->
-	</td>
+    <!-- BEGIN phone_line_tpl -->
+    <td width="{phone_width}%">
+        <span class="boxtext">{phone_type_name}:</span>
+        <span>{phone}</span>
+    </td>
+    <!-- END phone_line_tpl -->
 </tr>
 </table>
+<!-- END phone_item_tpl -->
+
+<!-- BEGIN no_phone_item_tpl -->
+<p class="boxtext">{intl-telephone_headline}:</p>
+<p>{intl-error_no_phones}</p>
+<!-- END no_phone_item_tpl -->
+
+<p class="boxtext">{intl-online_headline}:</p>
+<!-- BEGIN online_item_tpl -->
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+    <!-- BEGIN online_line_tpl -->
+    <td width="{online_width}%">
+        <span class="boxtext">{online_type_name}:</span>
+        <a href="{online_url_type}:{online}">{online}</a>
+    </td>
+    <!-- END online_line_tpl -->
+</tr>
+</table>
+<!-- END online_item_tpl -->
+
+<!-- BEGIN no_online_item_tpl -->
+<p class="boxtext">{intl-online_headline}:</p>
+<p>{intl-error_no_onlines}</p>
+<!-- END no_online_item_tpl -->
+
+
+
+
+
 
 
 <!-- BEGIN no_image_tpl -->
-<p>{intl-no_logo}</p>
+&nbsp;
 <!-- END no_image_tpl -->
+
 
 <!-- BEGIN image_view_tpl -->
 <!--     <p class="boxtext">{intl-company_image}:</p> -->

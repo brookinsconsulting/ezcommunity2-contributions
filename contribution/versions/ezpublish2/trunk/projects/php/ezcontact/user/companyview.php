@@ -25,6 +25,7 @@ include_once( "ezimagecatalogue/classes/ezimage.php" );
 
 $t = new eZTemplate( "ezcontact/user/" . $ini->read_var( "eZContactMain", "TemplateDir" ),
                      "ezcontact/user/intl", $Language, "companyview.php" );
+$intl = new INIFile( "ezcontact/user/intl/$Language/companyview.php.ini", false );
 $t->setAllStrings();
 
 $t->set_file( array(                    
@@ -32,22 +33,37 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "company_edit", "address_item_tpl", "address_item" );
-$t->set_block( "company_edit", "phone_item_tpl", "phone_item" );
-$t->set_block( "company_edit", "fax_item_tpl", "fax_item" );
-$t->set_block( "company_edit", "web_item_tpl", "web_item" );
-$t->set_block( "company_edit", "email_item_tpl", "email_item" );
+$t->set_var( "address_item", "&nbsp;" );
 $t->set_block( "company_edit", "image_view_tpl", "image_view" );
+$t->set_var( "image_view", "&nbsp;" );
 $t->set_block( "company_edit", "logo_view_tpl", "logo_view" );
+$t->set_var( "logo_view", "&nbsp;" );
 $t->set_block( "company_edit", "no_image_tpl", "no_image" );
+$t->set_var( "no_image", "&nbsp;" );
 $t->set_block( "company_edit", "no_logo_tpl", "no_logo" );
-                                            
+$t->set_var( "no_logo", "&nbsp;" );
+
+$t->set_block( "company_edit", "online_item_tpl", "online_item" );
+$t->set_var( "online_item", "&nbsp;" );
+$t->set_block( "online_item_tpl", "online_line_tpl", "online_line" );
+$t->set_var( "online_line", "&nbsp;" );
+$t->set_block( "company_edit", "no_online_item_tpl", "no_online_item" );
+$t->set_var( "no_online_item", "&nbsp;" );
+                                           
+$t->set_block( "company_edit", "phone_item_tpl", "phone_item" );
+$t->set_var( "phone_item", "&nbsp;" );
+$t->set_block( "phone_item_tpl", "phone_line_tpl", "phone_line" );
+$t->set_var( "phone_line", "&nbsp;" );
+$t->set_block( "company_edit", "no_phone_item_tpl", "no_phone_item" );
+$t->set_var( "no_phone_item", "&nbsp;" );
+                                           
 $company = new eZCompany();
 $company->get( $CompanyID );
 
 
 $t->set_var( "name", $company->name() );
 $t->set_var( "description", $company->comment() );
-$t->set_var( "companyno", $company->companyNo() );
+$t->set_var( "company_no", $company->companyNo() );
 
 
 // View logo.
@@ -61,12 +77,10 @@ if ( ( get_class ( $logoImage ) == "ezimage" ) && ( $logoImage->id() != 0 ) )
     $t->set_var( "logo_name", $logoImage->name() );
     $t->set_var( "logo_id", $logoImage->id() );
 
-    $t->set_var( "no_logo", "" );
     $t->parse( "logo_view", "logo_view_tpl" );
 }
 else
 {
-    $t->set_var( "logo_view", "" );
     $t->parse( "no_logo", "no_logo_tpl" );
 }
     
@@ -82,40 +96,16 @@ if ( ( get_class ( $companyImage ) == "ezimage" ) && ( $companyImage->id() != 0 
     $t->set_var( "image_name", $companyImage->name() );
     $t->set_var( "image_id", $companyImage->id() );
 
-    $t->set_var( "no_image", "" );
     $t->parse( "image_view", "image_view_tpl" );
 }
 else
 {
-    $t->set_var( "image_view", "" );
     $t->parse( "no_image", "no_image_tpl" );
 }
 
 
 $message = "Rediger firmainformasjon";
 
-    // Telephone list
-$phoneList = $company->phones( $company->id() );
-
-if ( count( $phoneList ) <= 2 )
-{
-    for( $i=0; $i<count ( $phoneList ); $i++ )
-    {
-        if ( $phoneList[$i]->phoneTypeID() == 1 )
-        {
-            $t->set_var( "tele_phone_id", $phoneList[$i]->id() );
-            $t->set_var( "telephone", $phoneList[$i]->number() );
-        }
-        if ( $phoneList[$i]->phoneTypeID() == 2 )
-        {
-            $t->set_var( "fax_phone_id", $phoneList[$i]->id() );
-            $t->set_var( "fax", $phoneList[$i]->number() );
-        }
-
-        $t->parse( "phone_item", "phone_item_tpl" );
-        $t->parse( "fax_item", "fax_item_tpl" );
-    }
-}
 
 // Address list
 $addressList = $company->addresses( $company->id() );
@@ -138,33 +128,66 @@ if ( count ( $addressList ) == 1 )
         }
 }
 
-// Online list
-$onlineList = $company->onlines( $company->id() );
 
-if ( count ( $onlineList ) <= 2 )
+
 {
-    for( $i=0; $i<count ( $onlineList ); $i++ )
+    // Telephone list
+    $phoneList = $company->phones( $company->id() );
+
+    $count = count( $phoneList );
+
+    if( $count != 0 )
     {
-        if ( $onlineList[$i]->onlineTypeID() == 1 )
+        for( $i=0; $i < $count; $i++ )
         {
-            $t->set_var( "web_online_id", $onlineList[$i]->id() );
-            $t->set_var( "web", $onlineList[$i]->URL() );
+            $t->set_var( "phone_id", $phoneList[$i]->id() );
+            $t->set_var( "phone", $phoneList[$i]->number() );
+
+            $phoneType = $phoneList[$i]->phoneType();
+
+            $t->set_var( "phone_type_id", $phoneType->id() );
+            $t->set_var( "phone_type_name", $intl->read_var( "strings", "phone_" . $phoneType->name() ) );
+
+            $t->set_var( "phone_width", 100/$count );
+            $t->parse( "phone_line", "phone_line_tpl", true );
         }
-        if ( $onlineList[$i]->onlineTypeID() == 2 )
+        $t->parse( "phone_item", "phone_item_tpl" );
+    }
+    else
+    {
+        $t->parse( "no_phone_item", "no_phone_item_tpl" );
+    }
+    
+    
+    
+    // Online list
+    $OnlineList = $company->onlines( $company->id() );
+    $count = count( $OnlineList );
+    if ( $count != 0)
+    {
+        for( $i=0; $i< $count; $i++ )
         {
-            $t->set_var( "email_online_id", $onlineList[$i]->id() );
-            $t->set_var( "email", $onlineList[$i]->URL() );
-        }
+            $t->set_var( "online_id", $OnlineList[$i]->id() );
+            $t->set_var( "online", $OnlineList[$i]->URL() );
+            $t->set_var( "online_url_type", $OnlineList[$i]->URLType() );
             
+            $onlineType = $OnlineList[$i]->onlineType();
+
+            $t->set_var( "online_type_id", $onlineType->id() );
+            $t->set_var( "online_type_name", $intl->read_var( "strings", "online_" . $onlineType->name() ) );
+            $t->set_var( "online_url_type", $OnlineList[$i]->urlType() );
+            $t->set_var( "online_width", 100/$count );
+            $t->parse( "online_line", "online_line_tpl", true );
+        }
+        $t->parse( "online_item", "online_item_tpl" );
+    }
+    else
+    {
+        $t->parse( "no_online_item", "no_online_item_tpl" );
     }
 }
-$t->parse( "web_item", "web_item_tpl" );
-$t->parse( "email_item", "email_item_tpl" );
-
 // Template variabler.
 $Action_value = "update";
-
-$t->set_var( "error", "" );
 
 $t->pparse( "output", "company_edit"  );
 
