@@ -68,7 +68,7 @@ CREATE TABLE eZLink_AttributeValue (
 
 
 CREATE TABLE eZLink_LinkGroup (
-  ID int NOT NULL auto_increment,
+  ID int NOT NULL,
   Parent int default '0',
   Title varchar(100) default NULL,
   ImageID int default NULL,
