@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.38 2001/02/26 12:30:08 jb Exp $
+// $Id: productedit.php,v 1.39 2001/02/26 17:56:49 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -40,7 +40,8 @@ function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
         $ProductID = $ProductID->id();
     }
 
-    $files = eZCacheFile::files( "eztrade/cache/", array( "productview", $ProductID, $CategoryID ),
+    $files = eZCacheFile::files( "eztrade/cache/", array( array( "productview", "productprint" ),
+                                                          $ProductID, $CategoryID ),
                                  "cache", "," );
     foreach( $files as $file )
     {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: optionedit.php,v 1.8 2000/11/01 09:24:18 ce-cvs Exp $
+// $Id: optionedit.php,v 1.9 2001/02/26 17:56:49 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Sep-2000 10:18:33 bf>
@@ -27,6 +27,8 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
+include_once( "classes/ezcachefile.php" );
+include_once( "classes/ezhttptool.php" );
 
 $ini = new INIFIle( "site.ini" );
 
@@ -36,110 +38,92 @@ include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezoption.php" );
 include_once( "eztrade/classes/ezoptionvalue.php" );
+include_once( "eztrade/classes/ezpricegroup.php" );
 
 $product = new eZProduct( $ProductID );
 
-if ( $Action == "Insert" )
+if ( isset( $Delete ) )
 {
-    $option = new eZOption();
-    $option->setName( $Name );
-    $option->setDescription( $Description );
-
-    $option->store();
-
-    $product->addOption( $option );
-    
-    $optionArray = explode( "\n", $OptionValues );
-    
-    foreach ( $optionArray as $optionValue )
+    foreach( $OptionDelete as $del )
     {
-        $name = $optionValue;
-
-        $name = trim( $name );
-
-        if ( $name != "" )
-        {
-            $value = new eZOptionValue();
-
-            
-            $value->setName( $name );
-            $option->addValue( $value );
-        }
+        unset( $OptionValue[$del] );
+        unset( $OptionPrice[$del] );
     }
-
-    Header( "Location: /trade/productedit/optionlist/$ProductID/" );
-    exit();    
 }
 
-if ( $Action == "Update" )
+if ( isset( $Abort ) )
 {
-    $optionArray = explode( "\n", $OptionValues );
+    eZHTTPTool::header( "Location: /trade/productedit/optionlist/$ProductID/" );
+    exit();
+}
 
+if ( isset( $OK ) )
+{
     $option = new eZOption( $OptionID );
-
-    $option->setName( $Name );
+    $option->setName( $OptionName );
     $option->setDescription( $Description );
 
     $option->store();
 
-    $i=0;
-    foreach ( $optionArray as $optionValue )
-    {
-        $name = $optionValue;
-        $name = trim( $name );
+    if ( !is_numeric( $OptionID ) )
+        $product->addOption( $option );
 
+    $option->removeValues();
+    $i = 0;
+    foreach ( $OptionValue as $name )
+    {
         if ( $name != "" )
         {
             $value = new eZOptionValue();
-
-            if ( $ChoiceIDArray[$i] == "" )
-            { // new item
-                $value->setName( $name );                
-                $option->addValue( $value );
+            $value->setName( $name );
+            $option->addValue( $value );
+            $option_price = $OptionPrice[$i];
+            eZPriceGroup::removePrices( $ProductID, $option->id(), $value->id() );
+            reset( $option_price );
+            while( list($group,$price) = each( $option_price ) )
+            {
+                if ( $price != "" )
+                {
+                    eZPriceGroup::addPrice( $ProductID, $group, $price, $option->id(), $value->id() );
+                }
             }
-            else
-            { // item exists update
-                $value->get( $ChoiceIDArray[$i] );
-                $value->setName( $name );
-
-                $value->store();                
-            }
-                 
-        }
-        else
-        {
-            if ( $ChoiceIDArray[$i] != "" )
-            { 
-                $value->get( $ChoiceIDArray[$i] );
-
-                $value->delete();       
-            }            
         }
         $i++;
     }
-    Header( "Location: /trade/productedit/optionlist/$ProductID/" );
-    exit();    
+
+    $files = eZCacheFile::files( "eztrade/cache/", array( array( "productview", "productprint" ),
+                                                          $ProductID, NULL ),
+                                 "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
+
+    eZHTTPTool::header( "Location: /trade/productedit/optionlist/$ProductID/" );
+    exit();
 }
 
 if ( $Action == "Delete" )
 {
     $option = new eZOption( $OptionID );
-    $option->delete();    
-    
-    Header( "Location: /trade/productedit/optionlist/$ProductID/" );
-    exit();    
+    $option->delete();
+
+    eZHTTPTool::header( "Location: /trade/productedit/optionlist/$ProductID/" );
+    exit();
 }
 
-$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/optionedit/",
+$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" )
+                     . "/optionedit/",
                      "eztrade/admin/intl/", $Language, "optionedit.php" );
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "option_edit_page" => "optionedit.tpl"
-    ) );
+$t->set_file( "option_edit_page", "optionedit.tpl" );
 
+$t->set_block( "option_edit_page", "group_item_tpl", "group_item" );
 
+$t->set_block( "option_edit_page", "option_item_tpl", "option_item" );
+$t->set_block( "option_item_tpl", "option_price_item_tpl", "option_price_item" );
 
 //default values
 $t->set_var( "name_value", "" );
@@ -148,8 +132,25 @@ $t->set_var( "option_values", "" );
 $t->set_var( "hidden_fields", "" );
 $t->set_var( "action_value", "Insert" );
 $t->set_var( "option_id", "" );
-    
+
 $t->set_var( "product_name", $product->name() );
+
+$groups = eZPriceGroup::getAll( false );
+$t->set_var( "group_item", "" );
+foreach( $groups as $group )
+{
+    $price_group = new eZPriceGroup( $group );
+    $t->set_var( "price_group_name", $price_group->name() );
+    $t->parse( "group_item", "group_item_tpl", true );
+}
+$count = count ( $groups );
+
+if ( $Action == "New" )
+{
+    $OptionValue = array();
+    $OptionPrice = array();
+    $NewValue = true;
+}
 
 if ( $Action == "Edit" )
 {
@@ -158,24 +159,67 @@ if ( $Action == "Edit" )
 
     $hiddenArray = "";
     $valueText = "";
-    $i=0;
+    $OptionValue = array();
+    $OptionPrice = array();
     foreach ( $values as $value )
     {
-        $valueText .= $value->name() . "\n";
-        $id = $value->id();
-        $hiddenArray .= "<input type=\"hidden\" name=\"ChoiceIDArray[$i]\" value=\"$id\" />\n";
+        $OptionValue[] = $value->name();
+        $valueid = $value->id();
+        $ValueID[] = $valueid;
+        $prices = eZPriceGroup::prices( $ProductID, $OptionID, $value->id() );
+        foreach( $groups as $group )
+        {
+            foreach( $prices as $price )
+            {
+                if ( $price["PriceID"] == $group )
+                    $OptionPrice[$valueid][$group] = $price["Price"];
+            }
+        }
+    }
+
+    $OptionName = $option->name();
+    $Description = $option->description();
+}
+
+if ( isset( $NewValue ) or max( count( $OptionValue ), count( $ValueID ), count( $OptionPrice ) ) == 0 )
+{
+    $OptionValue[] = "";
+    $ValueID[] = "";
+    $option_price = array();
+    for( $i = 0; $i < $count; ++$i )
+    {
+        $option_price[$groups[$i]] = "";
+    }
+    $OptionPrice[] = $option_price;
+}
+
+reset( $OptionPrice );
+$index = 0;
+$t->set_var( "option_item", "" );
+foreach ( $OptionValue as $value )
+{
+    $t->set_var( "option_value", $value );
+    $t->set_var( "value_index", $index );
+
+    $t->set_var( "option_price_item", "" );
+    $option_price = each( $OptionPrice );
+    $i = 0;
+    foreach( $groups as $group )
+    {
+        $t->set_var( "price_value", $option_price[1][$group] );
+        $t->set_var( "price_group", $group );
+        $t->set_var( "index", $i );
+        $t->parse( "option_price_item", "option_price_item_tpl", true );
         $i++;
     }
 
-    $t->set_var( "option_id", $OptionID );
-    $t->set_var( "hidden_fields", $hiddenArray );
-    $t->set_var( "name_value", $option->name() );
-    $t->set_var( "description_value", $option->description() );    
-    $t->set_var( "option_values", $valueText );
-
-    $t->set_var( "action_value", "Update" );
+    $t->parse( "option_item", "option_item_tpl", true );
+    $index++;
 }
 
+$t->set_var( "option_id", $OptionID );
+$t->set_var( "name_value", $OptionName );
+$t->set_var( "description_value", $Description );
 
 $t->set_var( "product_id", $ProductID );
 

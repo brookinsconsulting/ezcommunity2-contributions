@@ -161,6 +161,7 @@ switch ( $url_array[2] )
                 }
                 else if ( $url_array[4] == "new" )
                 {
+                    $Action = "New";
                     $ProductID = $url_array[5];
                     include( "eztrade/admin/optionedit.php" );
                 }
