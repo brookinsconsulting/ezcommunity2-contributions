@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: main.php,v 1.22 2000/08/23 07:02:29 bf-cvs Exp $
+    $Id: main.php,v 1.23 2000/08/23 07:08:48 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -40,7 +40,8 @@ $t->set_file( Array("main" => "main.tpl",
                     ) );
 
 $t->set_var( "docroot", $DOCROOT);
-$categories = eZforumCategory::getAllCategories();
+$category = new eZForumCategory();
+$categories = $category->getAllCategories();
 
 if ( $session->get( $AuthenticatedSession ) == 0 )
 {
