@@ -1,5 +1,5 @@
 <?
-// $Id: latest.php,v 1.3 2000/10/26 13:08:34 ce-cvs Exp $
+// $Id: latest.php,v 1.4 2000/12/19 13:52:05 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:50:13 ce>
@@ -24,7 +24,7 @@
 
 
 include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );

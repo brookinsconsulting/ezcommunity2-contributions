@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.12 2000/11/01 11:42:20 ce-cvs Exp $
+// $Id: menubox.php,v 1.13 2000/12/19 13:52:04 ce Exp $
 //
 // 
 //
@@ -26,7 +26,7 @@
 //
 
 include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 

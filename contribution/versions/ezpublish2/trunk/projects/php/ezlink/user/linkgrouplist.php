@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: linkgrouplist.php,v 1.6 2000/11/22 12:11:06 bf-cvs Exp $
+// $Id: linkgrouplist.php,v 1.7 2000/12/19 13:52:05 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:02:09 ce>
@@ -26,7 +26,7 @@
 include_once( "classes/eztemplate.php" );
 include_once( "classes/INIFile.php" );
 
-$ini = new INIFile( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 

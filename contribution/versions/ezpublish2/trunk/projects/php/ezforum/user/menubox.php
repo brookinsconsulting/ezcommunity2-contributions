@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.5 2000/11/02 16:45:28 bf-cvs Exp $
+// $Id: menubox.php,v 1.6 2000/12/19 13:52:04 ce Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -25,7 +25,7 @@
 
 include_once( "classes/INIFile.php" );
 
-//  $ini = new INIFile( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.8 2000/12/08 16:46:16 bf-cvs Exp $
+// $Id: messagelist.php,v 1.9 2000/12/19 13:52:04 ce Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -25,7 +25,7 @@
 
 include_once( "classes/INIFile.php" );
 
-$ini = new INIFile( "site.ini" ); // get language settings
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
@@ -35,7 +35,6 @@ include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
 include_once( "ezforum/classes/ezforum.php" );
 
-$ini = new INIFile( "site.ini" ); // get language settings
 $Language = $ini->read_var( "eZForumMain", "Language" );
 $Limit = $ini->read_var( "eZForumMain", "MessageLimit" );
 
@@ -74,8 +73,8 @@ $messageList = $forum->messageTree( $Offset, $Limit );
 
 if ( !$messageList )
 {
-    $ini = new INIFile( "ezforum/user/intl/" . $Language . "/messagelist.php.ini", false );
-    $noitem =  $ini->read_var( "strings", "noitem" );
+    $languageIni = new INIFile( "ezforum/user/intl/" . $Language . "/messagelist.php.ini", false );
+    $noitem =  $languageIni->read_var( "strings", "noitem" );
 
     $t->set_var( "message_item", $noitem );
     $t->set_var( "next", "" );

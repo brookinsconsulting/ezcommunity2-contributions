@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.9 2000/11/05 11:31:36 bf-cvs Exp $
+// $Id: search.php,v 1.10 2000/12/19 13:52:05 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <15-Sep-2000 14:40:06 bf>
@@ -24,7 +24,7 @@
 //
 
 include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: polledit.php,v 1.18 2000/12/18 14:37:12 ce Exp $
+// $Id: polledit.php,v 1.19 2000/12/19 13:52:05 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <21-Sep-2000 10:39:19 ce>
@@ -27,7 +27,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 
-// $ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZPollMain", "Language" );
 $errorIni = new INIFIle( "ezpoll/admin/intl/" . $Language . "/polledit.php.ini", false );

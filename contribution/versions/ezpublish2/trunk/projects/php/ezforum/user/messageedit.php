@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.9 2000/11/22 13:09:35 bf-cvs Exp $
+// $Id: messageedit.php,v 1.10 2000/12/19 13:52:04 ce Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -25,8 +25,6 @@
 
 include_once( "classes/INIFile.php" );
 
-$ini = new INIFile( "site.ini" ); // get language settings
-
 include_once( "classes/ezlocale.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
@@ -34,8 +32,7 @@ include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
 include_once( "ezforum/classes/ezforum.php" );
 
-
-$ini = new INIFile( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
 

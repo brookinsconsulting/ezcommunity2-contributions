@@ -1,5 +1,5 @@
 <?
-// $Id: categoryedit.php,v 1.9 2000/11/23 10:57:59 bf-cvs Exp $
+// $Id: categoryedit.php,v 1.10 2000/12/19 13:52:04 ce Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -24,7 +24,8 @@
 
 include_once( "classes/INIFile.php" );
 
-$ini = new INIFile( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
+
 $Language = $ini->read_var( "eZForumMain", "Language" );
 $error = new INIFIle( "ezforum/admin/intl/" . $Language . "/categoryedit.php.ini", false );
 
@@ -159,13 +160,13 @@ if ( $Action == "new" )
     $action_value = "insert";
 }
 
-$ini = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/categoryedit.php.ini", false );
-$headline =  $ini->read_var( "strings", "head_line_insert" );
+$languageIni = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/categoryedit.php.ini", false );
+$headline =  $languageIni->read_var( "strings", "head_line_insert" );
 
 if ( $Action == "edit" )
 {
-    $ini = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/categoryedit.php.ini", false );
-    $headline =  $ini->read_var( "strings", "head_line_edit" );
+    $languageIni = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/categoryedit.php.ini", false );
+    $headline =  $languageIni->read_var( "strings", "head_line_edit" );
 
     if ( !eZPermission::checkPermission( $user, "eZForum", "CategoryAdd" ) )
     {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.4 2000/11/23 10:57:59 bf-cvs Exp $
+// $Id: categorylist.php,v 1.5 2000/12/19 13:52:04 ce Exp $
 //
 // Christoffer A. Elo
 // Created on: <17-Oct-2000 13:50:26 ce>
@@ -24,7 +24,7 @@
 //
 
 include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
 
@@ -44,8 +44,8 @@ $category = new eZForumCategory();
 $categoryList = $category->getAllCategories();
 if ( !$categoryList )
 {
-    $ini = new INIFile( "ezforum/user/intl/" . $Language . "/categorylist.php.ini", false );
-    $noitem =  $ini->read_var( "strings", "noitem" );
+    $languageIni = new INIFile( "ezforum/user/intl/" . $Language . "/categorylist.php.ini", false );
+    $noitem =  $languageIni->read_var( "strings", "noitem" );
 
     $t->set_var( "next", "" );
     $t->set_var( "previous", "" );

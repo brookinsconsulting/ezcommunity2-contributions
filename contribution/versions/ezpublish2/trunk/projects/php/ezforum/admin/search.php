@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.3 2000/12/03 14:09:48 bf-cvs Exp $
+// $Id: search.php,v 1.4 2000/12/19 13:52:04 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Oct-2000 20:33:02 bf>
@@ -30,7 +30,8 @@ include_once( "classes/ezlocale.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
-$ini = new INIFile( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
+
 $Language = $ini->read_var( "eZForumMain", "Language" );
 
 include_once( "classes/eztemplate.php" );

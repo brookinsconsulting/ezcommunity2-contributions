@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagesimpleedit.php,v 1.4 2000/11/23 09:12:51 bf-cvs Exp $
+// $Id: messagesimpleedit.php,v 1.5 2000/12/19 13:52:04 ce Exp $
 //
 // Bård Farstad
 // Created on: <21-Nov-2000 16:04:30 bf>
@@ -31,8 +31,6 @@ if ( isset( $Cancel ) )
 
 include_once( "classes/INIFile.php" );
 
-$ini = new INIFile( "site.ini" );
-
 include_once( "classes/ezlocale.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
@@ -40,7 +38,7 @@ include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
 include_once( "ezforum/classes/ezforum.php" );
 
-$ini = new INIFile( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
 

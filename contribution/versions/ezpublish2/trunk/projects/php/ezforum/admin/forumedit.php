@@ -1,5 +1,5 @@
 <?
-// $Id: forumedit.php,v 1.10 2000/11/23 10:57:59 bf-cvs Exp $
+// $Id: forumedit.php,v 1.11 2000/12/19 13:52:04 ce Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -23,7 +23,8 @@
 //
 
 include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
+
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
 $error = new INIFIle( "ezforum/admin/intl/" . $Language . "/forumedit.php.ini", false );
@@ -144,8 +145,8 @@ $t->set_file( array( "forum_page" => "forumedit.tpl"
 
 $t->set_block( "forum_page", "category_item_tpl", "category_item" );
 
-$ini = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/forumedit.php.ini", false );
-$headline =  $ini->read_var( "strings", "head_line_insert" );
+$languageIni = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/forumedit.php.ini", false );
+$headline =  $languageIni->read_var( "strings", "head_line_insert" );
 
 $t->set_var( "forum_name", "" );
 $t->set_var( "forum_description", "" );
@@ -168,8 +169,8 @@ if ( $Action == "edit" )
     $forum = new eZForum( $ForumID );
     $categories = $forum->categories();
     
-    $ini = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/forumedit.php.ini", false );
-    $headline =  $ini->read_var( "strings", "head_line_edit" );
+    $languageIni = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/forumedit.php.ini", false );
+    $headline =  $languageIni->read_var( "strings", "head_line_edit" );
 
     if ( !eZPermission::checkPermission( $user, "eZForum", "ForumModify" ) )
     {

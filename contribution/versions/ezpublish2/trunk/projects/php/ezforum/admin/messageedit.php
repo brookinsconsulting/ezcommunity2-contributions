@@ -1,5 +1,5 @@
 <?
-// $Id: messageedit.php,v 1.7 2000/11/22 16:46:26 bf-cvs Exp $
+// $Id: messageedit.php,v 1.8 2000/12/19 13:52:04 ce Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
@@ -23,7 +23,7 @@
 //
 
 include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
 $error = new INIFIle( "ezforum/admin/intl/" . $Language . "/messageedit.php.ini", false );
@@ -111,8 +111,8 @@ $t->setAllStrings();
 
 $t->set_file( Array( "message_page" => "messageedit.tpl" ) );
 
-$ini = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/messageedit.php.ini", false );
-$headline =  $ini->read_var( "strings", "head_line_insert" );
+$languageIni = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/messageedit.php.ini", false );
+$headline =  $languageIni->read_var( "strings", "head_line_insert" );
 
 $t->set_block( "message_page", "message_edit_tpl", "message_edit" );
 $locale = new eZLocale( $Language );
@@ -137,8 +137,8 @@ if ( $Action == "new" )
 
 if ( $Action == "edit" )
 {
-    $ini = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/messageedit.php.ini", false );
-    $headline =  $ini->read_var( "strings", "head_line_edit" );
+    $languageIni = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/messageedit.php.ini", false );
+    $headline =  $languageIni->read_var( "strings", "head_line_edit" );
 
     if ( !eZPermission::checkPermission( $user, "eZForum", "MessageModify" ) )
     {

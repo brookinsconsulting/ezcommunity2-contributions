@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagesimplereply.php,v 1.3 2000/11/23 09:12:51 bf-cvs Exp $
+// $Id: messagesimplereply.php,v 1.4 2000/12/19 13:52:04 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -32,7 +32,7 @@ if ( isset( $Cancel ) )
 
 include_once( "classes/INIFile.php" );
 
-$ini = new INIFile( "site.ini" ); // get language settings
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
 $ReplyPrefix = $ini->read_var( "eZForumMain", "ReplyPrefix" );

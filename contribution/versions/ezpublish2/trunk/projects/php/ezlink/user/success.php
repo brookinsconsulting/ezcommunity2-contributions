@@ -1,6 +1,6 @@
 <?
 //
-// $Id: success.php,v 1.2 2000/10/26 12:59:18 ce-cvs Exp $
+// $Id: success.php,v 1.3 2000/12/19 13:52:05 ce Exp $
 //
 // <real-name> <<mail-name>>    
 // Created on: <14-Sep-2000 19:37:17 bf>
@@ -32,7 +32,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 
-$ini = new INIFile( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );

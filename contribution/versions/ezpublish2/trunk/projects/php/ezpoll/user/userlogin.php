@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userlogin.php,v 1.3 2000/12/18 14:37:12 ce Exp $
+// $Id: userlogin.php,v 1.4 2000/12/19 13:52:05 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <14-Oct-2000 15:41:17 bf>
@@ -28,7 +28,7 @@ include_once( "classes/eztemplate.php" );
 
 include_once( "ezpoll/classes/ezpoll.php" );
 
-// $ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZPollMain", "Language" );
 

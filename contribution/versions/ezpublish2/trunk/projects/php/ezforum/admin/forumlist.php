@@ -1,5 +1,5 @@
 <?
-// $Id: forumlist.php,v 1.8 2000/11/23 10:57:59 bf-cvs Exp $
+// $Id: forumlist.php,v 1.9 2000/12/19 13:52:04 ce Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
@@ -23,7 +23,7 @@
 //
 
 include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
 
@@ -56,8 +56,8 @@ $t->set_var( "category_name", $category->name() );
 
 if ( !$forumList )
 {
-    $ini = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/forumlist.php.ini", false );
-    $noitem =  $ini->read_var( "strings", "noitem" );
+    $languageIni = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/forumlist.php.ini", false );
+    $noitem =  $languageIni->read_var( "strings", "noitem" );
 
     $t->set_var( "forum_item", $noitem );
 }

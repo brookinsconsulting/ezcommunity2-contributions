@@ -1,5 +1,5 @@
 <?
-// $Id: categorylist.php,v 1.14 2000/11/23 10:57:59 bf-cvs Exp $
+// $Id: categorylist.php,v 1.15 2000/12/19 13:52:04 ce Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -25,7 +25,7 @@
 //include( "ezforum/dbsettings.php" );
 
 include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
 
@@ -50,8 +50,8 @@ $categoryList = $category->getAll();
 
 if ( !$categoryList )
 {
-    $ini = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/categorylist.php.ini", false );
-    $noitem =  $ini->read_var( "strings", "noitem" );
+    $languageIni = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/categorylist.php.ini", false );
+    $noitem =  $languageIni->read_var( "strings", "noitem" );
 
     $t->set_var( "category_item", $noitem );
 }

@@ -1,5 +1,5 @@
 <?
-// $Id: linklist.php,v 1.32 2000/11/22 12:11:06 bf-cvs Exp $
+// $Id: linklist.php,v 1.33 2000/12/19 13:52:04 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:55:24 ce>
@@ -25,7 +25,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 
-$ini = new INIFile( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
