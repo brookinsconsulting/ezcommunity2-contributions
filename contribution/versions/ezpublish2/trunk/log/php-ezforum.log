@@ -1032,3 +1032,17 @@ Maintainer(s) : jhe@ez.no
     * classes/ezforummessage.php:
     deleting from word list when deleting messages
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-02-05  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezforummessage.php
+      user/message.php
+      user/messagebody.php
+      user/messageedit.php
+      user/messageform.php
+      user/messagereply.php
+      user/messagesimplelist.php: fixed bug with html in forum messages
+

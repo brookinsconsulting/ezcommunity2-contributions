@@ -741,3 +741,11 @@ Maintainer(s) : jhe@ez.no
     * admin/personedit.php:
     fixed bug with category Id collecting company id when adding new company in an category
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2002-02-05  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/personedit.php: fixed bug when deleting after a search
+

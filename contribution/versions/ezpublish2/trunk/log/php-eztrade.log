@@ -3165,3 +3165,16 @@ Maintainer(s) : ce@ez.no
 
     * user/productlist.php: *** empty log message ***
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-02-05  Christoffer Elo  <ce@ez.no>
+
+    * user/Attic/biglist.php
+      user/Attic/similarproducts.php
+      user/datasupplier.php
+      user/productview.php: add
+
+    * user/Attic/biglist.php: New file.
+
