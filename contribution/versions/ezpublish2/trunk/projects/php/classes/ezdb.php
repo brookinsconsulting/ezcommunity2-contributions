@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.20 2000/12/27 16:37:02 bf Exp $
+// $Id: ezdb.php,v 1.21 2001/01/04 19:24:13 jb Exp $
 //
 // Definition of eZDB class
 //
@@ -94,6 +94,12 @@ class eZDB
         $array = array();
         $result =& $this->query( $sql );
 
+        if ( $result == false )
+        {
+            print( $this->Error );
+            return false;
+        }
+
         if ( mysql_num_rows( $result ) > 0 )
         {
             for($i = 0; $i < mysql_num_rows( $result ); $i++ )
@@ -108,6 +114,12 @@ class eZDB
     function array_query_append( &$array, $sql)
     {
         $result =& query($sql);
+
+        if ( $result == false )
+        {
+            print( $this->Error );
+            return false;
+        }
 
         $offset = count( $array );
         if ( count( $result ) > 0 )
@@ -125,6 +137,20 @@ class eZDB
         return $this->Error;
     }
 
+    /*!
+      \static
+      Returns the global database object, if it doesn't exists it is initialized.
+      This is safe to call without an object since it does not access member variables.
+    */
+    function globalDatabase()
+    {
+        if ( get_class( $eZDB ) != "ezdb" )
+        {
+            $eZDB = new eZDB( "site.ini", "site" );
+        }
+        return $eZDB;
+    }
+
     /// the server to connect to
     var $Server;
     /// the database to use
@@ -136,19 +162,6 @@ class eZDB
 
     // the last error message
     var $Error;
-}
-
-/*!
-  Returns the global database object, if it doesn't exists it is initialized.
-*/
-
-function eZGlobalDatabase()
-{
-    if ( get_class( $eZDB ) != "ezdb" )
-    {
-        $eZDB = new eZDB( "site.ini", "site" );
-    }
-    return $eZDB;
 }
 
 ?>
