@@ -1,4 +1,4 @@
-<h1>{intl-head_line}</h1>
+<h1>Nyhetsarkiv</h1>
 
 <!-- BEGIN path_item_tpl -->
 
