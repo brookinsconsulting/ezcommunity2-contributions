@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userwithaddress.php,v 1.75.2.5 2002/07/03 10:36:23 br Exp $
+// $Id: userwithaddress.php,v 1.75.2.6 2002/07/08 15:16:41 bf Exp $
 //
 // Created on: <10-ct-2000 12:52:42 bf>
 //
@@ -375,8 +375,6 @@ if ( ( isSet( $OK ) or isSet( $OK_x ) ) and $error == false )
         $user_insert->setCookieLogin( false );
 
     $user_insert->store();
-
-    // add user to usergroup
 
     // Does only need to add the user to the anonymous group if
     // it is a new user

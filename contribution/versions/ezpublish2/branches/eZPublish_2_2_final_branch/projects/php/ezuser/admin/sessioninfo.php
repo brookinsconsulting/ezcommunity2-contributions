@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sessioninfo.php,v 1.13 2001/08/17 13:36:01 jhe Exp $
+// $Id: sessioninfo.php,v 1.13.2.1 2002/07/08 15:16:41 bf Exp $
 //
 // Created on: <01-Nov-2000 14:34:30 bf>
 //
@@ -92,10 +92,15 @@ foreach( $userSessionList as $userSessionItem )
 
     if ( $idle == 0 )
         $idle = 1;
-    
-    $time = new eZTime(  ( $idle / 60 ) / 60, ( $idle / 60 ) % 60, ( $idle % 60 ) );
-    
-    $t->set_var( "idle", $locale->format( $time ) );
+
+    $idle = 60*60*50 +60*60*2+1+60;
+
+    $seconds = $idle % 60;
+    $minutes = ( ( $idle - $seconds ) / 60 ) % 60;
+    $hours = ( $idle - $seconds - ( $minutes * 60 ) ) / (60*60);
+    $time = eZLocale::addZero( $hours ) . ":" . eZLocale::addZero( $minutes ) . ":" . eZLocale::addZero( $seconds );
+
+    $t->set_var( "idle", $time  );
 
     $t->parse( "user_item", "user_item_tpl", true );
     $i++;
