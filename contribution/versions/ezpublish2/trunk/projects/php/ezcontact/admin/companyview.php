@@ -9,16 +9,20 @@ $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZContactMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
-include_once( "ezcontact/classes/ezperson.php" );
+include_once( "classes/ezlocale.php" );
+include_once( "classes/ezdate.php" );
+
 include_once( "ezcontact/classes/ezcompany.php" );
 include_once( "ezcontact/classes/ezaddress.php" );
 include_once( "ezcontact/classes/ezaddresstype.php" );
-include_once( "ezcontact/classes/ezcompanytype.php" );
 include_once( "ezcontact/classes/ezphone.php" );
 include_once( "ezcontact/classes/ezphonetype.php" );
 include_once( "ezcontact/classes/ezonline.php" );
-include_once( "ezcontact/classes/ezonline.php" );
+include_once( "ezcontact/classes/ezonlinetype.php" );
 include_once( "ezcontact/classes/ezcompanytype.php" );
+include_once( "ezcontact/classes/ezprojecttype.php" );
+include_once( "ezcontact/classes/ezconsultation.php" );
+
 include_once( "classes/ezimagefile.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 
@@ -27,7 +31,7 @@ $t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "Admi
 $intl = new INIFile( "ezcontact/admin/intl/$Language/companyview.php.ini", false );
 $t->setAllStrings();
 
-$t->set_file( array(                    
+$t->set_file( array(
     "company_edit" => "companyview.tpl"
     ) );
 
@@ -35,6 +39,9 @@ $t->set_block( "company_edit", "contact_person_tpl", "contact_person" );
 $t->set_block( "company_edit", "no_contact_person_tpl", "no_contact_person" );
 $t->set_block( "company_edit", "project_status_tpl", "project_status" );
 $t->set_block( "company_edit", "no_project_status_tpl", "no_project_status" );
+
+$t->set_block( "company_edit", "consultation_table_item_tpl", "consultation_table_item" );
+$t->set_block( "consultation_table_item_tpl", "consultation_item_tpl", "consultation_item" );
 
 $t->set_block( "company_edit", "address_item_tpl", "address_item" );
 $t->set_var( "address_item", "" );
@@ -46,8 +53,6 @@ $t->set_block( "company_edit", "logo_view_tpl", "logo_view" );
 $t->set_var( "logo_view", "&nbsp;" );
 $t->set_block( "company_edit", "no_image_tpl", "no_image" );
 $t->set_var( "no_image", "&nbsp;" );
-$t->set_block( "company_edit", "no_logo_tpl", "no_logo" );
-$t->set_var( "no_logo", "&nbsp;" );
 
 $t->set_block( "company_edit", "online_item_tpl", "online_item" );
 $t->set_var( "online_item", "&nbsp;" );
@@ -88,10 +93,6 @@ if ( ( get_class ( $logoImage ) == "ezimage" ) && ( $logoImage->id() != 0 ) )
 
     $t->parse( "logo_view", "logo_view_tpl" );
 }
-else
-{
-    $t->parse( "no_logo", "no_logo_tpl" );
-}
     
 
 // View company image.
@@ -128,6 +129,8 @@ if ( count ( $addressList ) != 0 )
         $t->set_var( "street2", $addressItem->street2() );
         $t->set_var( "zip", $addressItem->zip() );
         $t->set_var( "place", $addressItem->place() );
+        $addressType = $addressItem->addressType();
+        $t->set_var( "address_type_name", $addressType->name() );
         $country = $addressItem->country();
         $t->set_var( "country", $country->name() );
         
@@ -245,13 +248,52 @@ $t->set_var( "no_project_status", "" );
 $statusid = $company->projectState();
 if ( $statusid )
 {
-    $status = new eZProjectStatus( $statusid );
+    $status = new eZProjectType( $statusid );
     $t->set_var( "project_status", $status->name() );
     $t->parse( "project_status", "project_status_tpl" );
 }
 else
 {
     $t->parse( "no_project_status", "no_project_status_tpl" );
+}
+
+// Consultation list
+$max = $ini->read_var( "eZContactMain", "MaxCompanyConsultationList" );
+$user = eZUser::currentUser();
+$consultations = eZConsultation::findConsultationsByContact( $CompanyID, $user->id(), false, 0, $max );
+$t->set_var( "consultation_type", "company" );
+$t->set_var( "company_id", $CompanyID  );
+
+$locale = new eZLocale( $Language );
+$i = 0;
+
+foreach ( $consultations as $consultation )
+{
+    if( ( $i % 2 ) == 0 )
+    {
+        $t->set_var( "bg_color", "bglight" );
+    }
+    else
+    {
+        $t->set_var( "bg_color", "bgdark" );
+    }
+
+    $t->set_var( "consultation_id", $consultation->id() );
+    $t->set_var( "consultation_date", $locale->format( $consultation->date() ) );
+    $t->set_var( "consultation_short_description", $consultation->shortDescription() );
+    $t->set_var( "consultation_status_id", $consultation->state() );
+    $t->set_var( "consultation_status", eZConsultation::stateName( $consultation->state() ) );
+    $t->parse( "consultation_item", "consultation_item_tpl", true );
+    $i++;
+}
+
+if ( count( $consultations ) > 0 )
+{
+    $t->parse( "consultation_table_item", "consultation_table_item_tpl", true );
+}
+else
+{
+    $t->set_var( "consultation_table_item", "" );
 }
 
 // Template variabler.

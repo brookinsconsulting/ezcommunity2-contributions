@@ -13,6 +13,14 @@ include_once( "classes/ezlocale.php" );
 include_once( "classes/ezdate.php" );
 
 include_once( "ezcontact/classes/ezperson.php" );
+include_once( "ezcontact/classes/ezaddress.php" );
+include_once( "ezcontact/classes/ezaddresstype.php" );
+include_once( "ezcontact/classes/ezphone.php" );
+include_once( "ezcontact/classes/ezphonetype.php" );
+include_once( "ezcontact/classes/ezonline.php" );
+include_once( "ezcontact/classes/ezonlinetype.php" );
+include_once( "ezcontact/classes/ezprojecttype.php" );
+include_once( "ezcontact/classes/ezconsultation.php" );
 
 $error = false;
 
@@ -36,12 +44,23 @@ $t->set_block( "person_view", "online_item_tpl", "online_item" );
 $t->set_block( "online_item_tpl", "online_line_tpl", "online_line" );
 $t->set_block( "person_view", "no_online_item_tpl", "no_online_item" );
 
+$t->set_block( "person_view", "contact_person_tpl", "contact_person" );
+$t->set_block( "person_view", "no_contact_person_tpl", "no_contact_person" );
+$t->set_block( "person_view", "project_status_tpl", "project_status" );
+$t->set_block( "person_view", "no_project_status_tpl", "no_project_status" );
+
+$t->set_block( "person_view", "consultation_table_item_tpl", "consultation_table_item" );
+$t->set_block( "consultation_table_item_tpl", "consultation_item_tpl", "consultation_item" );
+
+$t->set_var( "consultation_item", "" );
+$t->set_var( "consultation_table_item", "" );
+
 $t->set_var( "firstname", "" );
 $t->set_var( "lastname", "" );
 $t->set_var( "birthday", "" );
 $t->set_var( "birthmonth", "" );
 $t->set_var( "birthyear", "" );
-$t->set_var( "comment", "" );
+$t->set_var( "description", "" );
 
 $t->set_var( "user_name", "" );
 $t->set_var( "old_password", "" );
@@ -76,7 +95,7 @@ if ( $Action == "view" )
     $locale = new eZLocale( $Language );
     $t->set_var( "birthdate", $locale->format( $Birth ) );
     
-    $t->set_var( "comment", $person->comment() );
+    $t->set_var( "description", $person->comment() );
 
     // Telephone list
     $phoneList = $person->phones( $person->id() );
@@ -195,6 +214,77 @@ if ( $Action == "view" )
     }
     
     $t->set_var( "person_id", $PersonID );
+
+    // Project info
+    $t->set_var( "contact_person", "" );
+    $t->set_var( "no_contact_person", "" );
+
+    $contact = $person->contact();
+    if ( $contact )
+    {
+        $user = new eZUser( $contact );
+        $t->set_var( "contact_firstname", $user->firstName() );
+        $t->set_var( "contact_lastname", $user->lastName() );
+        $t->parse( "contact_person", "contact_person_tpl" );
+    }
+    else
+    {
+        $t->parse( "no_contact_person", "no_contact_person_tpl" );
+    }
+
+    $t->set_var( "project_status", "" );
+    $t->set_var( "no_project_status", "" );
+
+    $statusid = $person->projectState();
+    if ( $statusid )
+    {
+        $status = new eZProjectType( $statusid );
+        $t->set_var( "project_status", $status->name() );
+        $t->parse( "project_status", "project_status_tpl" );
+    }
+    else
+    {
+        $t->parse( "no_project_status", "no_project_status_tpl" );
+    }
+
+    // Consultation list
+    $max = $ini->read_var( "eZContactMain", "MaxPersonConsultationList" );
+    $user = eZUser::currentUser();
+    $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), true, 0, $max );
+    $t->set_var( "consultation_type", "person" );
+    $t->set_var( "person_id", $PersonID  );
+
+    $locale = new eZLocale( $Language );
+    $i = 0;
+
+    foreach ( $consultations as $consultation )
+    {
+        if( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "bg_color", "bglight" );
+        }
+        else
+        {
+            $t->set_var( "bg_color", "bgdark" );
+        }
+
+        $t->set_var( "consultation_id", $consultation->id() );
+        $t->set_var( "consultation_date", $locale->format( $consultation->date() ) );
+        $t->set_var( "consultation_short_description", $consultation->shortDescription() );
+        $t->set_var( "consultation_status_id", $consultation->state() );
+        $t->set_var( "consultation_status", eZConsultation::stateName( $consultation->state() ) );
+        $t->parse( "consultation_item", "consultation_item_tpl", true );
+        $i++;
+    }
+
+    if ( count( $consultations ) > 0 )
+    {
+        $t->parse( "consultation_table_item", "consultation_table_item_tpl", true );
+    }
+    else
+    {
+        $t->set_var( "consultation_table_item", "" );
+    }
 }
 
 $t->set_var( "action_value", $Action_value );

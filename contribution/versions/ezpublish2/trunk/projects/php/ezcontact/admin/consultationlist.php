@@ -83,12 +83,16 @@ if ( isset( $ConsultationList ) )
         $consultations = eZConsultation::findConsultationsByContact( $CompanyID, $user->id(), false );
         $t->set_var( "consultation_type", "company" );
         $t->set_var( "company_id", $CompanyID  );
+        $company = new eZCompany( $CompanyID );
+        $t->set_var( "contact_name", $company->name() );
     }
     else if ( isset( $PersonID ) )
     {
         $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), true );
         $t->set_var( "consultation_type", "person" );
         $t->set_var( "person_id", $PersonID  );
+        $person = new eZPerson( $PersonID );
+        $t->set_var( "contact_name", $person->name() );
     }
 
     $count = count( $consultations );

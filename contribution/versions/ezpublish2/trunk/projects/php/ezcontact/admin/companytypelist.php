@@ -273,7 +273,8 @@ else
                 $variationObj = $logoObj->requestImageVariation( 150, 150 );
             
                 $t->set_var( "company_logo_src", "/" . $variationObj->imagePath() );
-            
+                $image = new eZImage( $variationObj->imageID() );
+                $t->set_var( "image_alt", $image->caption() );
                 $t->set_var( "no_image", "" );
                 $t->parse( "image_view", "image_view_tpl" );
             }
