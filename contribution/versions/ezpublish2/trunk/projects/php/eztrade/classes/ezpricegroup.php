@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpricegroup.php,v 1.3 2001/02/27 10:47:35 jb Exp $
+// $Id: ezpricegroup.php,v 1.4 2001/03/12 11:21:50 fh Exp $
 //
 // Definition of eZPriceGroup class
 //
@@ -218,9 +218,23 @@ class eZPriceGroup
     function addPrice( $productid, $priceid, $price, $optionid = 0, $valueid = 0 )
     {
         $db =& eZDB::globalDatabase();
-        $db->query( "INSERT INTO eZTrade_ProductPriceLink SET
+
+        $db->query( $exist, "SELECT count( PriceID ) AS Count FROM eZTrade_ProductPriceLink WHERE
+                     PriceID='$priceid', ProductID='$productid',
+                     OptionID='$optionid', ValueID='$valueid'" );
+
+        if( $exist[ "Count" ] == 0 )
+        {
+            $db->query( "INSERT INTO eZTrade_ProductPriceLink SET
                      PriceID='$priceid', ProductID='$productid',
                      Price='$price', OptionID='$optionid', ValueID='$valueid'" );
+        }
+        else if( $exist[ "Count" ] == 1 )
+        {
+            $db->query( "UPDATE eZTrade_ProductPriceLink SET Price='$price' WHERE
+                     PriceID='$priceid', ProductID='$productid',
+                     OptionID='$optionid', ValueID='$valueid'" );
+        }
     }
 
     /*!

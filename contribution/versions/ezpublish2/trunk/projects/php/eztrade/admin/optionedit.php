@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: optionedit.php,v 1.13 2001/03/11 13:33:29 bf Exp $
+// $Id: optionedit.php,v 1.14 2001/03/12 11:21:50 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Sep-2000 10:18:33 bf>
@@ -123,7 +123,7 @@ if ( isset( $OK ) )
             $value->addDescription( $name );
             $option_price = $OptionPrice[$i];
             
-            eZPriceGroup::removePrices( $ProductID, $option->id(), $value->id() );
+//            eZPriceGroup::removePrices( $ProductID, $option->id(), $value->id() );
             
             reset( $option_price );
             while( list($group,$price) = each( $option_price ) )
