@@ -52,7 +52,7 @@
 
 		<!-- BEGIN help_tpl -->
 		<td>
-		<a target="_help_window" href="{www_dir}{index}{help_url}" onclick="return popup('{help_url}','_help_window')"><img src="{www_dir}/admin/images/{site_style}/icon-help.gif" width="32" height="32" border="0" alt="Help" /></a>
+		<a target="_help_window" href="{www_dir}{index}{help_url}" onclick="return popup('{www_dir}{index}{help_url}','_help_window')"><img src="{www_dir}/admin/images/{site_style}/icon-help.gif" width="32" height="32" border="0" alt="Help" /></a>
 		</td>
 		<!-- END help_tpl -->
 
