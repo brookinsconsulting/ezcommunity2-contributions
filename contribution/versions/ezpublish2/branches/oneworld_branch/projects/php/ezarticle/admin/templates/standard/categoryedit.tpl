@@ -70,6 +70,7 @@
 	<p class="boxtext">{intl-category}:</p>
 	
 	<select name="ExtraCategoryID">
+	<option value="0">{intl-categorynone}</option>
 
 	<!-- BEGIN value2_tpl -->
 	<option value="{option_value}" {selected}>{option_level}{option_name}</option>

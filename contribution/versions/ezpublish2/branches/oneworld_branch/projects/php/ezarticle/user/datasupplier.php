@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.95.2.10.2.1 2002/06/03 07:27:14 pkej Exp $
+// $Id: datasupplier.php,v 1.95.2.10.2.2 2002/06/03 10:44:27 pkej Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -39,6 +39,12 @@ switch ( $url_array[2] )
     case "export_yahoo":
     {
         include( "ezarticle/admin/cron_yahoo.php" );
+    }
+    break;
+
+    case "cron":
+    {
+        include( "ezarticle/admin/cron.php" );
     }
     break;
 

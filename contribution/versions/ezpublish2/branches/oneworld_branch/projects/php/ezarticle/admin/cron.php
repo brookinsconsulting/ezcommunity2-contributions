@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: cron.php,v 1.2.2.2 2002/04/25 12:15:56 bf Exp $
+// $Id: cron.php,v 1.2.2.2.2.1 2002/06/03 10:44:27 pkej Exp $
 //
 // Created on: <08-Jun-2001 13:16:33 ce>
 //
@@ -56,17 +56,42 @@ if ( count ( $articleUnValid ) > 0 )
 {
     foreach( $articleUnValid as $article )
     {
-	$article->setIsPublished( false );
-	$d  = 0;
-	$article->setStopDate( $d );
-	$article->store();
+	    $d  = 0;
 
-	$cats = $article->categories( false ) ;
-	// clear the cache files.
-	eZArticleTool::deleteCache( $article->id(), $catDef, $cats  );
+	    $cats = $article->categories( false ) ;
+	    // clear the cache files.
+	    eZArticleTool::deleteCache( $article->id(), $catDef, $cats  );
+	    $article->removeFromCategories( false ) ;
 
-	print( "UnPublishing article: " . $article->name() . "\n" );
+        $category = $article->categoryDefinition();
+        $categories = $category->categories();
+        $categoryDef = $category->categoryDefinition();
+        
+        foreach( $categories as $tmpCategory )
+        {
+             $tmpCategory->addArticle( $article );
+        }
+
+        $article->setCategoryDefinition( $categoryDef );
+
+	    $article->setStopDate( $d );
+	    $article->store();
+	    print( "UnPublishing article: " .$article->id() . " " . $article->name() . "\n" );
     }
 }
+
+// Old expire.
+// if ( count ( $articleUnValid ) > 0 )
+// {
+//     foreach( $articleUnValid as $article )
+//     {
+//         $article->setIsPublished( false );
+// 	    $d  = 0;
+// 	    $article->setStopDate( $d );
+//         $article->store();
+//         print( "UnPublishing article: " . $article->name() . "\n" );
+//     }
+// }
+
 
 ?>
