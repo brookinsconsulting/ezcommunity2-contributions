@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: topiclist.php,v 1.3 2001/06/14 13:53:19 th Exp $
+// $Id: topiclist.php,v 1.4 2001/07/03 13:29:52 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <01-Jun-2001 11:58:53 bf>
@@ -33,6 +33,7 @@ include_once( "ezarticle/classes/eztopic.php" );
 if ( isset( $NewTopic ) )
 {
     $i=0;
+    if ( count( $IDArray ) > 0 )
     foreach ( $IDArray as $id )
     {
         $topic = new eZTopic( $id );
@@ -59,6 +60,7 @@ if ( isset( $DeleteTopic ) )
 if ( isset( $Store ) )
 {
     $i=0;
+    if ( count( $IDArray ) > 0 )
     foreach ( $IDArray as $id )
     {
         $topic = new eZTopic( $id );
@@ -86,6 +88,7 @@ $topic = new eZTopic( );
 
 $topicArray = $topic->getAll();
 
+$t->set_var( "topic_item", "" );
 $i=0;
 foreach ( $topicArray as $topic )
 {
