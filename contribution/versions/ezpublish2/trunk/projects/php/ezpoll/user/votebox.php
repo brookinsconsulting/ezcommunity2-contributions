@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: votebox.php,v 1.13 2001/02/23 13:22:27 th Exp $
+// $Id: votebox.php,v 1.14 2001/03/06 13:43:26 th Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -113,7 +113,7 @@ function createPollMenu( $generateStaticPage = false )
 
     $poll = new eZPoll();
     $poll->get( $PollID );
-    $t->set_var( "head_line", $poll->description() );
+    $t->set_var( "head_line", $poll->name() );
     $t->set_var( "poll_id", $PollID );
 
     if ( $generateStaticPage == true )
