@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: mediaview.php,v 1.3.2.1 2001/11/01 08:31:40 ce Exp $
+// $Id: mediaview.php,v 1.3.2.2 2001/11/01 17:17:56 ce Exp $
 //
 // Created on: <24-Jul-2001 17:08:10 ce>
 //
@@ -52,6 +52,8 @@ $media = new eZMedia( $MediaID );
 //    eZHTTPTool::header( "Location: /error/403/" );
 //    exit();
 //}
+
+print( $media->mediaPath() );
 
 $t->set_var( "media_uri", $media->mediaPath( false ) );
 $t->set_var( "media_caption", $media->caption() );

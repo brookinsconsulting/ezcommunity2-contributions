@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: mediaedit.php,v 1.3 2001/09/08 11:49:28 fh Exp $
+// $Id: mediaedit.php,v 1.3.2.1 2001/11/01 17:17:56 ce Exp $
 //
 // Created on: <24-Jul-2001 13:35:07 ce>
 //
@@ -232,15 +232,18 @@ if ( $Action == "Insert" || $Action == "Update" )
 }
 
 // Insert if error == false
-if ( $Action == "Insert" && $error == false )
+if ( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
 {
-    $media = new eZMedia();
+    $media = new eZMedia( $MediaID );
     $media->setName( $Name );
     $media->setCaption( $Caption );
     $media->setDescription( $Description );
     $media->setUser( $user );
 
-    $media->setMedia( $file );
+    if ( $fileOK )
+    {
+        $media->setMedia( $file );
+    }
 
     if ( trim( $NewCreatorName ) != "" &&
          trim( $NewCreatorEmail ) != ""
@@ -258,6 +261,7 @@ if ( $Action == "Insert" && $error == false )
     }
 
     $media->store();
+
     if ( $TypeID == -1 )
     {
         $media->removeType();
@@ -308,142 +312,57 @@ if ( $Action == "Insert" && $error == false )
         }
     }
 
-    $category = new eZMediaCategory( $CategoryID );
-    
-    $media->setCategoryDefinition( $category );
-
-    $categories = array_unique( array_merge( $CategoryArray, $CategoryID ) );
-    
-    foreach ( $categories as $categoryItem )
+    if ( $Action == "Insert" )
     {
-        eZMediaCategory::addMedia( $media, $categoryItem );
-    }
-    eZLog::writeNotice( "Video added to catalogue: $media->name() from IP: $REMOTE_ADDR" );
+        $category = new eZMediaCategory( $CategoryID );
+        
+        $media->setCategoryDefinition( $category );
+        
+        $categories = array_unique( array_merge( $CategoryArray, $CategoryID ) );
 
+        foreach ( $categories as $categoryItem )
+        {
+            eZMediaCategory::addMedia( $media, $categoryItem );
+        }
+        eZLog::writeNotice( "Video added to catalogue: $media->name() from IP: $REMOTE_ADDR" );
+    }
+    elseif ( $Action == "Update" )
+    {
+        $categoryArray = $media->categories();
+        // Calculate new and unused categories
+        $old_maincategory = $media->categoryDefinition();
+        
+        if ( $old_maincategory > -1 )
+            $old_categories =& array_unique( array_merge( $old_maincategory->id(),
+                                                          $media->categories( false ) ) );
+        
+        $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
+        
+        $category = new eZMediaCategory( $CategoryID );
+        $media->setCategoryDefinition( $category );
+        
+        $remove_categories = array_diff( $old_categories, $new_categories );
+        $add_categories = array_diff( $new_categories, $old_categories );
+
+        foreach ( $remove_categories as $categoryItem )
+        {
+            eZMediaCategory::removeMedia( $media, $categoryItem );
+        }
+        foreach ( $add_categories as $categoryItem )
+        {
+            eZMediaCategory::addMedia( $media, $categoryItem );
+        }
+    }
+    
     if ( !isset ( $Update ) )
     {
         eZHTTPTool::header( "Location: /mediacatalogue/media/list/" . $CategoryID . "/" );
         exit();
     }
-}
-
-// Update if error == false
-if ( $Action == "Update" && $error == false )
-{
-    $media = new eZMedia( $MediaID );
-    $media->setName( $Name );
-    $media->setPhotographer( $PhotoID );
-    $media->setCaption( $Caption );
-
-    if ( trim( $NewCreatorName ) != "" &&
-         trim( $NewCreatorEmail ) != ""
-         )
-    {
-        $author = new eZAuthor( );
-        $author->setName( $NewCreatorName );
-        $author->setEmail( $NewCreatorEmail );
-        $author->store();
-        $media->setPhotographer( $author );
-    }
     else
     {
-        $media->setPhotographer( $PhotoID );
-    }
-
-    
-    $media->setDescription( $Description );
-    
-    eZObjectPermission::removePermissions( $MediaID, "mediacatalogue_media", 'r' );
-    if ( count ( $ReadGroupArrayID ) > 0 )
-    {
-        foreach ( $ReadGroupArrayID as $Read )
-        {
-            if ( $Read == 0 )
-                $group = -1;
-            else
-                $group = new eZUserGroup( $Read );
-            
-            eZObjectPermission::setPermission( $group, $media->id(), "mediacatalogue_media", "r" );
-        }
-    }
-    
-    eZObjectPermission::removePermissions( $MediaID, "mediacatalogue_media", 'w' );
-    if ( count ( $WriteGroupArrayID ) > 0 )
-    {
-        foreach ( $WriteGroupArrayID as $Write )
-        {
-            if ( $Write == 0 )
-                $group = -1;
-            else
-                $group = new eZUserGroup( $Write );
-            
-            eZObjectPermission::setPermission( $group, $media->id(), "mediacatalogue_media", "w" );
-        }
-    }
-
-    if ( $TypeID == -1 )
-    {
-        $media->removeType();
-    }
-    else
-    {
-        $media->removeType();
-                
-        $media->setType( new eZMediaType( $TypeID ) );
-                
-        $i = 0;
-        if ( count( $AttributeValue ) > 0 )
-        {
-            foreach ( $AttributeValue as $attribute )
-            {
-                $att = new eZMediaAttribute( $AttributeID[$i] );
-                        
-                $att->setValue( $media, $attribute );
-                        
-                $i++;
-            }
-        }
-    }
-
-    $categoryArray = $media->categories();
-    // Calculate new and unused categories
-    $old_maincategory = $media->categoryDefinition();
-    
-    if ( $old_maincategory > -1 )
-        $old_categories =& array_unique( array_merge( $old_maincategory->id(),
-                                                      $media->categories( false ) ) );
-
-    $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
-
-    $category = new eZMediaCategory( $CategoryID );
-    $media->setCategoryDefinition( $category );
-
-    $remove_categories = array_diff( $old_categories, $new_categories );
-    $add_categories = array_diff( $new_categories, $old_categories );
-
-    foreach ( $remove_categories as $categoryItem )
-    {
-        eZMediaCategory::removeMedia( $media, $categoryItem );
-    }
-    foreach ( $add_categories as $categoryItem )
-    {
-        eZMediaCategory::addMedia( $media, $categoryItem );
-    }
-    if ( $fileOK )
-    {
-        $media->setMedia( $file );
-    }
-    
-    $media->store();
-    $t->set_var( "action_value", "update" );
-    $t->set_var( "media_id", $media->id() );
-
-
-    include_once( "classes/ezhttptool.php" );
-    if ( !isset ( $Update ) )
-    {
-        eZHTTPTool::header( "Location: /mediacatalogue/media/list/" . $CurrentCategoryID . "/" );
-        exit();
+        $Action = "Edit";
+        $MediaID = $media->id();
     }
 }
 
