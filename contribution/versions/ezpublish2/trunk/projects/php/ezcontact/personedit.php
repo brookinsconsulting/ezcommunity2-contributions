@@ -23,7 +23,7 @@ if ( $Action == "update" )
     $updatePerson->setFirstName( $FirstName );
     $updatePerson->setLastName( $LastName );
     $updatePerson->setContactType( $PersonType );
-    $updatePerson->setCompany( $Company );
+    $updatePerson->setCompany( $CompanyID );
     $updatePerson->setComment( $Comment );
     $updatePerson->update();
 }
@@ -58,16 +58,16 @@ if ( $Action == "insert" )
   $newPerson->setOwner( $usr->id() );
   $pid = $newPerson->store();
     
-  $newAddress = new eZAddress();
-  $newAddress->setStreet1( $Street1 );
-  $newAddress->setStreet2( $Street2 );
-  $newAddress->setZip( $Zip );
-  $aid = $newAddress->store();
+//    $newAddress = new eZAddress();
+//    $newAddress->setStreet1( $Street1 );
+//    $newAddress->setStreet2( $Street2 );
+//    $newAddress->setZip( $Zip );
+//    $aid = $newAddress->store();
 
-  $link = new eZPersonAddressDict();
-  $link->setPersonID( $pid );
-  $link->setAddressID( $aid );
-  $link->store();
+//    $link = new eZPersonAddressDict();
+//    $link->setPersonID( $pid );
+//    $link->setAddressID( $aid );
+//    $link->store();
 }
 
 // Legge til telefon

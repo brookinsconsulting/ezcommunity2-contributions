@@ -128,6 +128,20 @@ class eZPerson
     }
 
     /*
+      Henter ut alle personene lagret i databasen.
+    */
+    function getByCompany( $id )
+    {
+        $this->dbInit();
+        $person_array = 0;
+    
+        array_query( $person_array, "SELECT * FROM Person WHERE Company='$id' ORDER BY LastName" );
+
+        print( "antall: $id" . count( $person_array ) );
+        return $person_array;
+    }
+    
+    /*
       Henter ut alle personene hvor etternavn eller fornavn inneholder søkestrengen.
     */
     function search( $query )
