@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: forgot.php,v 1.22 2002/04/16 10:30:55 ce Exp $
+// $Id: forgot.php,v 1.23 2002/05/17 11:02:14 fh Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -45,7 +45,7 @@ if ( isSet( $ChangeButton ) && ( $user == false ) )
     exit();
 }
 
-// Store the user with a unic hash and mail the hash variable to the user.
+// Store the user with a unique hash and mail the hash variable to the user.
 if ( $user )
 {
     if ( eZMail::validate( $user->email() ) == false )
@@ -72,7 +72,7 @@ if ( $user )
     $mailpassword->setFrom( $reminderMailFromAddress  );                                               //SF
     
     $body = ( $bodyText . "\n");
-    $body .= ( "http://" . $headersInfo["Host"] . "/user/forgot/change/" . $forgot->Hash() );
+    $body .= ( "http://" . $headersInfo["Host"] . $ini->WWWDir . $ini->Index . "/user/forgot/change/" . $forgot->Hash() . " " );
     $body .= ( $bodyFooter );                                                                      //SF
     
     $mailpassword->setBody( $body );
