@@ -27,7 +27,7 @@ header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" );
 header( "Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" ); 
 header( "Cache-Control: no-cache, must-revalidate" ); 
 header( "Pragma: no-cache" );
-header( "X-Powered-By: eZ publish" );
+header( "X-Powered-By: eZ publish 2" );
 
 // Find out, where our files are.
 if ( ereg( "(.*/)([^\/]+\.php)$", $SCRIPT_FILENAME, $regs ) )
@@ -45,7 +45,9 @@ else
 {
 	// Fallback... doesn't work with virtual-hosts, but better than nothing
 	$siteDir = "./";
-	$index = "/index.php";
+	// kracker: changed from 2.2 to run on firebright vhost w/out index.php 
+	// $index = "/index.php";
+	$index = "/";
 }
 
 // What OS-type are we using?
@@ -76,10 +78,14 @@ if ( ! ereg( ".*index\.php.*", $PHP_SELF ) )
 else 
 {
 	// Get the right $REQUEST_URI, when using nVH setup.
+        // x
+
     if ( ereg( "^$wwwDir$index(.+)", $PHP_SELF, $req ) )
         $REQUEST_URI = $req[1];
     else
-        $REQUEST_URI = "/";
+      // $REQUEST_URI = "/";
+      // kracker: changed from 2.2 to run on firebright vhost w/out index.php
+      $REQUEST_URI = $REQUEST_URI;
 }
 
 // Remove url parameters
@@ -106,6 +112,9 @@ if ( $UsePHPSessions == true )
 ini_alter( "session.gc_maxlifetime", "172800" );
 ini_alter( "session.entropy_file","/dev/urandom" ); 
 ini_alter( "session.entropy_length", "512" );
+
+// kracker: changed from 2.2 to run on firebright vhost w/out index.php in auto generated urls
+$index = "";
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezdb.php" );
