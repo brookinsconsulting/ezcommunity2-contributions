@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.50 2002/01/17 08:19:33 jhe Exp $
+// $Id: ezformrenderer.php,v 1.51 2002/01/17 13:43:41 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -686,12 +686,10 @@ class eZFormRenderer
     {
         $page = new eZFormPage( $page );
         $elements = $page->pageElements();
-        print "<pre>";
         $i = 0;
         foreach ( $elements as $element )
         {
             $i++;
-            print_r( $element );
             $elementType = $element->elementType();
             if ( $elementType->name() == "table_item" )
             {
