@@ -118,7 +118,7 @@ if ( $build == true )
             $t->set_var( "begin_tr", "" );
             $t->set_var( "end_tr", "" );        
         }
-    
+
         $date->setMonth( $month );
         $t->set_var( "month_number", $month );
         $t->set_var( "month_name", $Locale->monthName( $date->month(), false ) );
@@ -141,16 +141,16 @@ if ( $build == true )
                 {
                     $date->setDay( $currentDay );
 
-                    $t->set_var( "td_class", "bglight" );
+                    $t->set_var( "td_class", "gcalYearViewReg" );
                     if ( $date->equals( $today ) )
-                        $t->set_var( "td_class", "bgcurrent" );
+                        $t->set_var( "td_class", "gcalYearViewCur" );
 
                     $t->set_var( "day_number", $currentDay );
                     $t->parse( "day", "day_tpl", true );
                 }
                 else
                 {
-                    $t->set_var( "td_class", "bglight" );                
+                    $t->set_var( "td_class", "gcalYearViewOff" );
                     $t->parse( "day", "empty_day_tpl", true );
                 }
             }
@@ -162,7 +162,7 @@ if ( $build == true )
             }
         }
         $t->parse( "month", "month_tpl", true );
-        
+
 
         $i++;
     }

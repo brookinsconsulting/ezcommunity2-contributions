@@ -1537,6 +1537,17 @@ class eZGroupEvent
        return $ret;
     }
     /*!
+    Returns RecurMonthlyTypeInfo
+    */
+    function RecurMonthlyTypeInfo()
+    {
+    	if ( $this->State_ == "Dirty" )
+        $this->get( $this->ID );
+       $ret = $this->RecurMonthlyTypeInfo;
+
+       return $ret;
+    }
+    /*!
       Returns RepeatUntilDate or false
     */
     function &repeatUntilDate()

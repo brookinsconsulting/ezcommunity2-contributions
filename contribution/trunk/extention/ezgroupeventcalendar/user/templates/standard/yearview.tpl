@@ -25,15 +25,14 @@
 <!-- BEGIN month_tpl -->
      <td valign="top">
 
-<a class="black" href="{www_dir}{index}/groupeventcalendar/monthview/{year_number}/{month_number}/"><b>{month_name}:</b></a>
-<br />
-<table width="100%" border="1" cellspacing="0" cellpadding="2">
+<div class="gcalYearViewHeading"><a href="{www_dir}{index}/groupeventcalendar/monthview/{year_number}/{month_number}/">{month_name}:</a></div>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="gcalYearViewTable">
 <!-- BEGIN week_tpl -->
 <tr>
 
 <!-- BEGIN day_tpl -->
 <td class="{td_class}">
-<a class="small" href="{www_dir}{index}/groupeventcalendar/dayview/{year_number}/{month_number}/{day_number}/">{day_number}</a>
+<a class="{td_class}" href="{www_dir}{index}/groupeventcalendar/dayview/{year_number}/{month_number}/{day_number}/">{day_number}</a>
 </td>
 <!-- END day_tpl -->
 
