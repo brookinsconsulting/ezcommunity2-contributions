@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.19 2000/11/22 09:35:43 bf-cvs Exp $
+// $Id: articleview.php,v 1.20 2000/11/23 07:57:44 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -147,7 +147,7 @@ else
     $t->set_var( "numbered_page_link", "" );
 }
 
-if ( $PrintableVersion != "enabled" )
+if ( ( $PrintableVersion != "enabled" ) &&  ( $StaticRendering != true ) )
 {
     $t->parse( "print_page_link", "print_page_link_tpl" );
 }
@@ -156,7 +156,7 @@ else
     $t->set_var( "print_page_link", "" );
 }
 
-if ( $PageNumber > 1 && $PrintableVersion != "enabled" )
+if ( ( $PageNumber > 1 ) && ( $PrintableVersion != "enabled" ) )
 {
     $t->set_var( "prev_page_number", $PageNumber - 1 );    
     $t->parse( "prev_page_link", "prev_page_link_tpl" );

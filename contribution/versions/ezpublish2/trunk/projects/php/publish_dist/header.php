@@ -45,6 +45,12 @@ include( "ezlink/user/menubox.php" );
 	<tr>
 		<td class="menuspacer">&nbsp;</td>
 	</tr>
+    <tr>
+		<td class="menuhead" bgcolor="#c82828">Static pages</td>
+	</tr>
+	<tr>
+		<td><img src="/images/dot.gif" width="12" height="10"><a class="menu" href="/article/static/2/">About eZ publish</a></td>
+	</tr>
         
 	</table>
 	<!-- Meny end! -->

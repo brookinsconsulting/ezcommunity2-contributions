@@ -17,7 +17,7 @@
 	<hr noshade="noshade" size="4" />
 
 	
-	<p class="smallbold" align="center"><a href="publish.ez.no"><img src="/images/poweredbyezpublish.gif" width="70" height="70" align="center" border="0"></a></p>
+	<p class="smallbold" align="center"><a href="http://publish.ez.no"><img src="/images/poweredbyezpublish.gif" width="70" height="70" align="center" border="0"></a></p>
 	
 	<!-- Oppslagstavle fram til hit! -->
 
