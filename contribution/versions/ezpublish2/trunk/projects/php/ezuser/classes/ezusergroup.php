@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezusergroup.php,v 1.20 2001/04/27 21:47:40 fh Exp $
+// $Id: ezusergroup.php,v 1.21 2001/05/04 08:20:45 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -100,7 +100,8 @@ class eZUserGroup
             $db->query( "INSERT INTO eZUser_Group SET
                                  Name='$name',
                                  Description='$description',
-                                 SessionTimeout='$this->SessionTimeout'" );
+                                 SessionTimeout='$this->SessionTimeout',
+                                 IsRoot='$this->IsRoot'" );
             $this->ID = mysql_insert_id();
         }
         else
@@ -108,7 +109,8 @@ class eZUserGroup
             $db->query( "UPDATE eZUser_Group SET
                                  Name='$name',
                                  Description='$description',
-                                 SessionTimeout='$this->SessionTimeout'
+                                 SessionTimeout='$this->SessionTimeout',
+                                 IsRoot='$this->IsRoot'
                                  WHERE ID='$this->ID'" );            
         }
         
@@ -163,6 +165,7 @@ class eZUserGroup
         $this->Name = $user_group_array[ "Name" ];
         $this->Description = $user_group_array[ "Description" ];
         $this->SessionTimeout = $user_group_array[ "SessionTimeout" ];
+        $this->IsRoot = $user_group_array["IsRoot"];
     }
 
     /*!
@@ -351,6 +354,22 @@ class eZUserGroup
     }
     
     /*!
+      Returns true if this group has root permissions.
+     */
+    function isRoot()
+    {
+        return $this->IsRoot;
+    }
+
+    /*!
+      Sets if this group has root permissions.
+     */
+    function setIsRoot( $value )
+    {
+        $this->IsRoot = $value;
+    }
+    
+    /*!
       Returns the user group name.
     */
     function name( $html = true )
@@ -436,6 +455,7 @@ class eZUserGroup
     var $Name;
     var $Description;
     var $SessionTimeout;
+    var $IsRoot;
 }
 
 ?>

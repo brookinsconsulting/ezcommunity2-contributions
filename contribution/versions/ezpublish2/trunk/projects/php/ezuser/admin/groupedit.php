@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: groupedit.php,v 1.17 2001/03/20 16:15:39 fh Exp $
+// $Id: groupedit.php,v 1.18 2001/05/04 08:20:45 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -71,6 +71,10 @@ if ( $Action == "insert" )
             $group->setDescription( $Description );
             $group->setSessionTimeout( $SessionTimeout );
 
+            if( isset( $IsRoot ) )
+                $group->setIsRoot( true );
+            else
+                $group->setIsRoot( false );
             $permission = new eZPermission(); 
 
             $group->store();
@@ -130,6 +134,11 @@ if ( $Action == "update" )
         $group->setDescription( $Description );
         $group->setSessionTimeout( $SessionTimeout );
 
+        if( isset( $IsRoot ) )
+            $group->setIsRoot( true );
+        else
+            $group->setIsRoot( false );
+
         $permissionList = $permission->getAll();
 
         foreach( $permissionList as $permissionItem )
@@ -185,7 +194,8 @@ if ( $Action == "edit" )
 
     $Name = $group->Name();
     $Description = $group->description();
-    $SessionTimeout = $group->sessionTimeout();    
+    $SessionTimeout = $group->sessionTimeout();
+    $IsRoot = $group->isRoot();
     $ActionValue = "update";
 
     $headline = new INIFIle( "ezuser/admin/intl/" . $Language . "/groupedit.php.ini", false );
@@ -232,6 +242,7 @@ $t->set_var( "name_value", $Name );
 $t->set_var( "description_value", $Description );
 $t->set_var( "session_timeout_value", $SessionTimeout );
 $t->set_var( "action_value", $ActionValue );
+( $IsRoot == true ) ? $t->set_var( "root_checked", "checked" ) : $t->set_var( "root_checked", "" );
 
 $t->set_var( "group_id", $GroupID );
 

@@ -9,12 +9,20 @@
 <p class="boxtext">{intl-name}:</p>
 <input type="text" size="20" name="Name" value="{name_value}" />
 
+
 <p class="boxtext">{intl-description}:</p>
 <textarea cols="40" rows="4" name="Description">{description_value}</textarea>
+
+<br /><br />
+<input type="checkbox" name="IsRoot"  value="HasRoot" {root_checked} /><span class="boxtext">&nbsp;{intl-root_permission}</span><br>
 
 <p class="boxtext">{intl-session_timeout}:</p>
 <input type="text" size="10" name="SessionTimeout" value="{session_timeout_value}" />
 
+<br /><br />
+
+        <h2>{intl-module_permissions}</h2>
+        <hr noshade size="4"/>
 	<!-- BEGIN module_list_header_tpl -->
 	<p class="checkhead">{module_name}:</p>
 
