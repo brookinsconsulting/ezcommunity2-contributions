@@ -19,7 +19,7 @@ CREATE TABLE eZPoll_PollChoice (
   ID int NOT NULL,
   PollID int default NULL,
   Name varchar(100) default NULL,
-  Offset int default NULL,
+  Offs int default NULL,
   PRIMARY KEY (ID)
 );
 
@@ -33,7 +33,3 @@ CREATE TABLE eZPoll_Vote (
 );
 
 
-  Anonymous enum('true','false') default NULL,
-  IsEnabled enum('true','false') default 'false',
-  IsClosed enum('true','false') default 'false',
-  ShowResult enum('true','false') default 'false',

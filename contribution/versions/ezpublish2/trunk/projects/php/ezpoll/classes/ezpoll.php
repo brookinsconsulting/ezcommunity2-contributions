@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpoll.php,v 1.20 2001/06/26 11:31:35 bf Exp $
+// $Id: ezpoll.php,v 1.21 2001/06/26 11:44:39 bf Exp $
 //
 // Definition of eZPoll class
 //
@@ -90,7 +90,7 @@ class eZPoll
         {
             $db->lock( "eZPoll_Poll" );
     
-            $nextID = $db->nextID( "eZSession_Session", "ID" );
+            $nextID = $db->nextID( "eZPoll_Poll", "ID" );
 
             $res = $db->query( "INSERT INTO eZPoll_Poll
             ( ID, Name, Description, IsEnabled, ShowResult, Anonymous, IsClosed )

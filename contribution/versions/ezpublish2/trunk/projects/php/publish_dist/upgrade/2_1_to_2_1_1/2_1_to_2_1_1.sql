@@ -401,6 +401,49 @@ update eZLink_Link set CreatedTmp= UNIX_TIMESTAMP( Created );
 alter table eZLink_Link drop Created; 
 alter table eZLink_Link change CreatedTmp Created int; 
 
+# eZ urltranslator
+alter table eZURLTranslator_URL add CreatedTmp int;
+update eZURLTranslator_URL set CreatedTmp= UNIX_TIMESTAMP( Created );
+alter table eZURLTranslator_URL drop Created; 
+alter table eZURLTranslator_URL change CreatedTmp Created int; 
+
+
+# eZ article
+alter table eZArticle_Article add IsPublishedTmp int default '0';
+update eZArticle_Article set IsPublishedTmp='1' where IsPublished='true';
+alter table eZArticle_Article drop IsPublished;
+alter table eZArticle_Article change IsPublishedTmp IsPublished int;
+
+# eZ poll
+
+# rename field:
+alter table eZPoll_PollChoice add Offs int;
+update eZPoll_PollChoice set Offs=Offset;
+alter table eZPoll_PollChoice drop Offset; 
+
+alter table eZPoll_Poll add AnonymousTmp int default '0';
+update eZPoll_Poll set AnonymousTmp='1' where Anonymous='true';
+alter table eZPoll_Poll drop Anonymous;
+alter table eZPoll_Poll change AnonymousTmp Anonymous int;
+
+alter table eZPoll_Poll add IsEnabledTmp int default '0';
+update eZPoll_Poll set IsEnabledTmp='1' where IsEnabled='true';
+alter table eZPoll_Poll drop IsEnabled;
+alter table eZPoll_Poll change IsEnabledTmp IsEnabled int;
+
+alter table eZPoll_Poll add IsClosedTmp int default '0';
+update eZPoll_Poll set IsClosedTmp='1' where IsClosed='true';
+alter table eZPoll_Poll drop IsClosed;
+alter table eZPoll_Poll change IsClosedTmp IsClosed int;
+
+alter table eZPoll_Poll add ShowResultTmp int default '0';
+update eZPoll_Poll set ShowResultTmp='1' where ShowResult='true';
+alter table eZPoll_Poll drop ShowResult;
+alter table eZPoll_Poll change ShowResultTmp ShowResult int;
+
+
+
+
 alter table eZImageCatalogue_Image add Photographer int;
 
 
