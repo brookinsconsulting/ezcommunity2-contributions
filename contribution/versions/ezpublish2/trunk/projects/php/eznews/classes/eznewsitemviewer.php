@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitemviewer.php,v 1.10 2000/10/12 13:08:01 pkej-cvs Exp $
+// $Id: eznewsitemviewer.php,v 1.11 2000/10/12 13:49:06 pkej-cvs Exp $
 //
 // Definition of eZNewsItemViewer class
 //
@@ -342,9 +342,8 @@ class eZNewsItemViewer
         
         if( $count && $continue )
         {
-            include_once( "eznews/admin/eznewsitem/eznewsitemcreator.php" );
             $item = new eZNewsItemCreator( $this->inNewsConfigFileName, $itemNo );
- 
+        
             if( !$item->doAction( "create", "child" ) )
             {
                 $continue = false;
