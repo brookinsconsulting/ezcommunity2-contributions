@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: urledit.php,v 1.5 2001/09/06 12:39:59 vl Exp $
+// $Id: urledit.php,v 1.6 2001/10/16 17:22:36 fh Exp $
 //
 // Created on: <24-Apr-2001 11:09:30 bf>
 //
@@ -30,7 +30,7 @@ include_once( "classes/INIFile.php" );
 
 include_once( "ezurltranslator/classes/ezurltranslator.php" );
 
-if ( isset( $DeleteURL ) )
+if ( isset( $DeleteURL ) && count( $DeleteIDArray ) > 0 )
 {
     $url = new eZURLTranslator( );
     foreach ( $DeleteIDArray as $id )
