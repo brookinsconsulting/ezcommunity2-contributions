@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: customerlogin.php,v 1.19 2001/08/10 12:15:26 jhe Exp $
+// $Id: customerlogin.php,v 1.20 2001/10/17 07:17:03 ce Exp $
 //
 // Created on: <03-Oct-2000 16:45:30 bf>
 //
@@ -29,11 +29,14 @@ include_once( "classes/ezhttptool.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
+include_once( "ezsession/classes/ezsession.php" );
+
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
+$session =& eZSession::globalSession();
 
 $user =& eZUser::currentUser();
 if ( $user  )
@@ -43,10 +46,10 @@ if ( $user  )
         eZHTTPTool::header( "Location: $RedirectURL" );
         exit();
     }
-    
+
+    $session->setVariable( "RedirectURL", "/trade/customerlogin/" );
     if ( count( $user->addresses() ) == 0 )
     {
-        $session->setVariable( "RedirectURL", "/trade/customerlogin/" );
         $userID = $user->id();
         eZHTTPTool::header( "Location: /user/userwithaddress/edit/$userID/MissingAddress" );
         exit();

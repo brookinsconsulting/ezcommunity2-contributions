@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userwithaddress.php,v 1.74 2001/10/08 15:20:03 bf Exp $
+// $Id: userwithaddress.php,v 1.75 2001/10/17 07:17:03 ce Exp $
 //
 // Created on: <10-ct-2000 12:52:42 bf>
 //
@@ -29,6 +29,7 @@ require( "ezuser/user/usercheck.php" );
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezhttptool.php" );
+include_once( "ezsession/classes/ezsession.php" );
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZUserMain", "Language" );
@@ -37,6 +38,7 @@ $AnonymousUserGroup = $ini->read_var( "eZUserMain", "AnonymousUserGroup" );
 
 $AutoCookieLogin = eZHTTPTool::getVar( "AutoCookieLogin" );
 
+$session =& eZSession::globalSession();
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
@@ -442,8 +444,10 @@ if ( isSet( $OK ) and $error == false )
     if ( !$new_user )
         $Updated = true;
 
-    if( !isSet( $RedirectURL ) )
+    if( $RedirectURL == "" )
+    {
         $RedirectURL = $session->variable( "RedirectURL" );
+    }
 
     if ( isSet( $RedirectURL )  && ( $RedirectURL != "" ) )
     {
