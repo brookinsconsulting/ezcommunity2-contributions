@@ -2838,3 +2838,15 @@ Maintainer(s) : ce@ez.no
 
     * user/productsearch.php: Fixed correct link on image in product search.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-01-21  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezproduct.php: Added Artist and Innspilling to the product table
+
+2002-01-21  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezorder.php: added EDate and Pnutr for paynet transactions.
+

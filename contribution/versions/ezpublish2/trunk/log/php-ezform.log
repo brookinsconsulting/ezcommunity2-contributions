@@ -1060,3 +1060,40 @@ Maintainer(s) : pkej@ez.no
       user/reportlist.php
       user/templates/standard/reportlist.tpl: added report features
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-01-21  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezformreportelement.php: fixed bug
+
+    * user/intl/no_NO/reportlist.php.ini
+      classes/ezformreportelement.php: trim'ed frequence, addded no_NO
+
+    * admin/intl/en_GB/reportsetup.php.ini
+      admin/intl/no_NO/reportsetup.php.ini
+      admin/reportsetup.php
+      admin/templates/standard/formrenderer.tpl
+      classes/ezformrenderer.php
+      classes/ezformreportelement.php: fixed bugs
+
+    * admin/intl/en_GB/reportsetup.php.ini
+      admin/intl/no_NO/reportsetup.php.ini
+      admin/templates/standard/formrenderer.tpl
+      classes/ezformrenderer.php
+      classes/ezformreportelement.php: added sum and average
+
+    * admin/intl/en_GB/reportsetup.php.ini
+      admin/intl/no_NO/reportsetup.php.ini
+      admin/reportsetup.php
+      admin/templates/standard/formrenderer.tpl
+      admin/templates/standard/reportsetup.tpl
+      classes/ezformrenderer.php
+      classes/ezformreportelement.php
+      user/datasupplier.php
+      user/intl/en_GB/viewreport.php.ini
+      user/intl/no_NO/viewreport.php.ini
+      user/templates/standard/viewreport.tpl
+      user/viewreport.php: added report
+

@@ -2715,3 +2715,12 @@ Maintainer(s) : bf@ez.no
 
     * user/templates/standard/Attic/articlelist_override_2.tpl: New file.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-01-21  Baard Farstad  <bf@ez.no>
+
+    * user/templates/standard/mailtofriend.tpl:
+    Fixed wrong link when running in nvh setup.
+
