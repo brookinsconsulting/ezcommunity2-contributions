@@ -1,5 +1,5 @@
 <?
-// $Id: ezpollchoice.php,v 1.9 2000/11/02 11:55:16 ce-cvs Exp $
+// $Id: ezpollchoice.php,v 1.10 2000/11/02 16:47:07 ce-cvs Exp $
 //
 // Definition of eZPollChoice class
 //
@@ -23,6 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
 //!! eZPoll
 //! The eZPollChoice class handles the options for polls.
 /*!

@@ -1,5 +1,5 @@
 <?
-// $Id: linkgrouplist.php,v 1.3 2000/10/31 12:43:26 bf-cvs Exp $
+// $Id: linkgrouplist.php,v 1.4 2000/11/02 16:47:06 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:55:24 ce>
@@ -29,6 +29,7 @@ $ini = new INIFile( "site.ini" );
 
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
+$languageIni = new INIFile( "ezlink/admin/intl/" . $Language . "/linkgrouplist.php.ini", false );
 
 include_once( "ezlink/classes/ezlinkgroup.php" );
 include_once( "ezlink/classes/ezlink.php" );
@@ -50,7 +51,11 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "link_page_tpl", "group_list_tpl", "group_list" );
+$t->set_block( "group_list_tpl", "group_item_tpl", "group_item" );
+
 $t->set_block( "link_page_tpl", "link_list_tpl", "link_list" );
+$t->set_block( "link_list_tpl", "link_item_tpl", "link_item" );
+
 $t->set_block( "link_page_tpl", "path_item_tpl", "path_item" );
 
 
@@ -71,9 +76,6 @@ foreach ( $pathArray as $path )
     $t->parse( "path_item", "path_item_tpl", true );
 }
 
-
-// $linkGroup->printPath( $LinkGroupID, "../ezlink/admin/linklist.php" );
-
 $linkGroupList = $linkGroup->getByParent( $LinkGroupID );
 
 if ( $LinkGroupID == "incoming" )
@@ -81,73 +83,48 @@ if ( $LinkGroupID == "incoming" )
     $linkGroupList = array();
 }
 
-$i=0;
-foreach( $linkGroupList as $linkGroupItem )
+if ( count( $linkGroupList ) == 0 )
 {
-    if ( ( ( $i ) % 2 ) == 0 )
+    $t->set_var( "categories", "" );
+    $t->set_var( "group_list", "" );
+}
+else
+{
+    $i=0;
+    foreach( $linkGroupList as $linkGroupItem )
     {
-        $t->set_var( "bg_color", "#f0f0f0" );
-    }
-    else
-    {
-        $t->set_var( "bg_color", "#dcdcdc" );
-    }  
+        if ( ( ( $i ) % 2 ) == 0 )
+        {
+            $t->set_var( "bg_color", "#f0f0f0" );
+        }
+        else
+        {
+            $t->set_var( "bg_color", "#dcdcdc" );
+        }  
         
-    $link_group_id = $linkGroupItem->id();
-    $t->set_var( "linkgroup_id", $link_group_id );
-    $t->set_var( "linkgroup_title", $linkGroupItem->title() );
-    $t->set_var( "linkgroup_parent", $linkGroupItem->parent() );
-
+        $link_group_id = $linkGroupItem->id();
+        $t->set_var( "linkgroup_id", $link_group_id );
+        $t->set_var( "linkgroup_title", $linkGroupItem->title() );
+        $t->set_var( "linkgroup_parent", $linkGroupItem->parent() );
+        
 //      $total_sub_links = $linkGroup->getTotalSubLinks( $link_group_id, $link_group_id );
 //      $new_sub_links = $linkGroup->getNewSubLinks( $link_group_id, $link_group_id, 1 );
         
-    $t->set_var( "total_links", $total_sub_links );
-    $t->set_var( "new_links", $new_sub_links );
+        $t->set_var( "total_links", $total_sub_links );
+        $t->set_var( "new_links", $new_sub_links );
         
-    $t->set_var( "document_root", $DOC_ROOT );
-    
-    $t->parse( "group_list", "group_list_tpl", true );
+        $t->set_var( "document_root", $DOC_ROOT );
 
-    $i++;
-}
-if ( !$linkGroupList )
-{
-   $noitem = new INIFIle( "ezlink/admin/intl/" . $Language . "/linkgrouplist.php.ini", false );
-   $t->set_var( "group_list", $noitem->read_var( "strings", "no_group" ) );
-}
-
-if ( ( $LinkGroupID == 0 ) && ( $LinkGroupID != "incoming" ) )
-{
-    if ( ( ( $i / 2 ) % 2 ) == 0 )
-    {
-        $t->set_var( "bg_color", "#f0f0f0" );
+        $categories = $languageIni->read_var( "strings", "categories" );
+        
+        $t->parse( "group_item", "group_item_tpl", true );
+        $i++;
     }
-    else
-    {
-        $t->set_var( "bg_color", "#dcdcdc" );
-    }  
-
-
-    $acceptedIni = new INIFIle( "ezlink/admin/intl/" . $Language . "/linkgrouplist.php.ini", false );
-
-    $t->set_var( "linkgroup_id", "incoming" );
-    $t->set_var( "linkgroup_title", $acceptedIni->read_var( "strings", "noacceptedlinks" ) );
-    $t->set_var( "linkgroup_parent", "" );
-
-    $total_sub_links = $linkGroup->getTotalIncomingLinks();
-    
-    $t->set_var( "total_links", $total_sub_links );
-    $t->set_var( "new_links", "X" );
-    
-    $t->set_var( "document_root", $DOC_ROOT );
-    
     $t->parse( "group_list", "group_list_tpl", true );
 }
-
 
 // List all the links in category
 $link = new eZLink();
-
 if ( $LinkGroupID == "incoming" )
 {
     $linkList = $link->getNotAccepted( $LinkGroupID );
@@ -157,42 +134,45 @@ else
     $linkList = $link->getByGroup( $LinkGroupID );
 } 
 
-$i=0;
-foreach( $linkList as $linkItem )
-{
-    if ( ( $i %2 ) == 0 )
-        $t->set_var( "td_class", "bglight" );
-    else
-        $t->set_var( "td_class", "bgdark" );
-
-    $t->set_var( "link_id", $linkItem->id() );
-    $t->set_var( "link_title", $linkItem->title() );
-    $t->set_var( "link_description", $linkItem->description() );
-    $t->set_var( "link_groupid", $linkItem->linkgroupid() );
-    $t->set_var( "link_keywords", $linkItem->keywords() );
-    $t->set_var( "link_created", $linkItem->created() );
-    $t->set_var( "link_modified", $linkItem->modified() );
-    $t->set_var( "link_accepted", $linkItem->id() );
-
-    $hit = new eZHit();
-    $hits = $hit->getLinkHits( $linkItem->id() );
-
-    $t->set_var( "link_hits", $hits );
-
-    $t->set_var( "document_root", $DOC_ROOT );
-
-    $t->parse( "link_list", "link_list_tpl", true );
-    $i++;
-}
-
 if ( !$linkList )
 {
-       $noitem = new INIFIle( "ezlink/admin/intl/" . $Language . "/linkgrouplist.php.ini", false );
-       $t->set_var( "link_list", $noitem->read_var( "strings", "no_link" ) );
+    $t->set_var( "links", "" );
+    $t->set_var( "link_list", "" );
+}
+else
+{
+    $i=0;
+    foreach( $linkList as $linkItem )
+    {
+        if ( ( $i %2 ) == 0 )
+            $t->set_var( "td_class", "bglight" );
+        else
+            $t->set_var( "td_class", "bgdark" );
+        
+        $t->set_var( "link_id", $linkItem->id() );
+        $t->set_var( "link_title", $linkItem->title() );
+        $t->set_var( "link_description", $linkItem->description() );
+        $t->set_var( "link_groupid", $linkItem->linkgroupid() );
+        $t->set_var( "link_keywords", $linkItem->keywords() );
+        $t->set_var( "link_created", $linkItem->created() );
+        $t->set_var( "link_modified", $linkItem->modified() );
+        $t->set_var( "link_accepted", $linkItem->id() );
+        
+        $hit = new eZHit();
+        $hits = $hit->getLinkHits( $linkItem->id() );
+        
+        $t->set_var( "link_hits", $hits );
+
+        $links = $languageIni->read_var( "strings", "links" );
+        
+        $t->parse( "link_item", "link_item_tpl", true );
+        $i++;
+    }
+    $t->parse( "link_list", "link_list_tpl", true );
 }
 
-// $t->set_var( "printpath", $linkGroup->printPath( $LinkGroupID, $DOC_ROOT . "linklist.php" ) );
-
+$t->set_var( "categories", $categories );
+$t->set_var( "links", $links );
 $t->set_var( "document_root", $DOC_ROOT );
                        
 $t->pparse( "output", "link_page_tpl" );

@@ -66,12 +66,14 @@
 
 <hr noshade size="4"/>
 
+<!-- BEGIN group_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th colspan="3">{intl-category}</th>
+	<td>
+	<h2>{categories}</h2>
+	</td>
 </tr>
-
-<!-- BEGIN group_list_tpl -->
+<!-- BEGIN group_item_tpl -->
 <tr>
 	<td bgcolor="{bg_color}">
 	<a href="/link/group/{linkgroup_id}/">{linkgroup_title}</a>
@@ -84,18 +86,18 @@
 	<a href="#" onClick="verify( '{intl-delete}', '/link/groupedit/delete/{linkgroup_id}/'); return false;"
 onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ela{linkgroup_id}-slett','','/ezlink/images/slettminimrk.gif',1)"><img name="ela{linkgroup_id}-slett" border="0" src="/ezlink/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
-
 </tr>
+<!-- END group_item_tpl -->
+</table>
 <!-- END group_list_tpl -->
 
-</table>
-
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
-<tr>
-	<th colspan="3">{intl-link}</th>
-</tr>
 
 <!-- BEGIN link_list_tpl -->
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+	<h2>{links}</h2>
+</tr>
+<!-- BEGIN link_item_tpl -->
 <tr>
 	<td class="{td_class}">
 	<a href="/link/linkedit/edit/{link_id}/">{link_title}</a><br />
@@ -112,6 +114,6 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ela{linkgroup_id}-sl
 onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('el{link_id}-slett','','/ezlink/images/slettminimrk.gif',1)"><img name="el{link_id}-slett" border="0" src="/ezlink/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
 </tr>
-<!-- END link_list_tpl -->
-
+<!-- END link_item_tpl -->
 </table>
+<!-- END link_list_tpl -->

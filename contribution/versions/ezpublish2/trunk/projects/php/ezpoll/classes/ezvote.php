@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvote.php,v 1.13 2000/10/31 09:46:45 ce-cvs Exp $
+// $Id: ezvote.php,v 1.14 2000/11/02 16:47:07 ce-cvs Exp $
 //
 // Definition of eZVote class
 //
@@ -24,6 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
 //!! eZPoll
 //! The eZVote class handles the options for votes.
 /*!
