@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.51 2001/07/09 06:25:35 jhe Exp $
+// $Id: payment.php,v 1.52 2001/07/16 13:17:28 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -321,19 +321,24 @@ if ( $PaymentSuccess == "true" )
     // Get the strings for the headers
 
     $headProduct = $mailTemplateIni->read_var( "strings", "product" );
+    $headProductNumber = $mailTemplateIni->read_var( "strings", "product_number" );
     $headCount = $mailTemplateIni->read_var( "strings", "count" );
     $headPrice = $mailTemplateIni->read_var( "strings", "price" );
     $footTotal = $mailTemplateIni->read_var( "strings", "total" );
     $footSandH = $mailTemplateIni->read_var( "strings", "ship_hand" );
     $footSubT = $mailTemplateIni->read_var( "strings", "sub_total" );
 
-    $productString = substr( $headProduct, 0, 56 );
+    $productString = substr( $headProduct, 0, 27 );
     $productString = $productString . ": ";
-    $productString = str_pad( $productString, 58, " " );
+    $productString = str_pad( $productString, 29, " " );
 
-    $countString = substr( $headCount, 0, 5 );
+    $productNumberString = substr( $headProductNumber, 0, 20 );
+    $productNumberString = $productNumberString . ": ";
+    $productNumberString = str_pad( $productNumberString, 22, " ", STR_PAD_LEFT );
+    
+    $countString = substr( $headCount, 0, 10 );
     $countString = $countString . ": ";
-    $countString = str_pad( $countString, 7, " ", STR_PAD_LEFT );
+    $countString = str_pad( $countString, 12, " ", STR_PAD_LEFT );
 
     $priceString = substr( $headPrice, 0, 13 );
     $priceString = $priceString . ": ";
@@ -354,6 +359,7 @@ if ( $PaymentSuccess == "true" )
     $lineString = str_pad( $lineString, 78, "-");
     
     $mailTemplate->set_var( "product_string", $productString );
+    $mailTemplate->set_var( "product_number_string", $productNumberString );
     $mailTemplate->set_var( "count_string", $countString );
     $mailTemplate->set_var( "price_string", $priceString );
     $mailTemplate->set_var( "stringline", $lineString );
@@ -506,16 +512,20 @@ if ( $PaymentSuccess == "true" )
 
         $mailTemplate->set_var( "debug", $debug );
         
-        $nameString = substr(  $product->name(), 0, 56 );
-        $nameString = str_pad( $nameString, 58, " " );
+        $nameString = substr(  $product->name(), 0, 33 );
+        $nameString = str_pad( $nameString, 35, " " );
+
+        $numberString = substr(  $product->productNumber(), 0, 8 );
+        $numberString = str_pad( $numberString, 10, " " );
+
+        $countString = substr(  $item->count(), 0, 10 );
+        $countString = str_pad( $countString, 12, " ", STR_PAD_LEFT );
         
-        $countString = substr(  $item->count(), 0, 5 );
-        $countString = str_pad( $countString, 7, " ", STR_PAD_LEFT );
-        
-        $priceString = substr(  $locale->format( $currency ), 0, 13 );
-        $priceString = str_pad( $priceString, 15, " ", STR_PAD_LEFT );
+        $priceString = substr(  $locale->format( $currency ), 0, 21 );
+        $priceString = str_pad( $priceString, 23, " ", STR_PAD_LEFT );
 
         $mailTemplate->set_var( "order", $nameString );
+        $mailTemplate->set_var( "number", $numberString );
         $mailTemplate->set_var( "count", $countString );
         $mailTemplate->set_var( "price", $priceString );
 

@@ -32,10 +32,10 @@ http://{site_url}
 {shipping_type}
 
 {stringline}
-{product_string}{count_string}{price_string}
+{product_string}{product_number_string}{count_string}{price_string}
 {stringline}
 <!-- BEGIN order_item_tpl -->
-{order}{count}{price} 
+{order}{number}{count}{price} 
 <!-- BEGIN option_item_tpl -->
 {name}: {value}
 <!-- END option_item_tpl -->
