@@ -628,6 +628,89 @@ CREATE TABLE eZSession_SessionVariable (
 #
 
 #
+# Table structure for table 'eZTrade_Attribute'
+#
+DROP TABLE IF EXISTS eZTrade_Attribute;
+CREATE TABLE eZTrade_Attribute (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  TypeID int(11),
+  Name char(150),
+  Created timestamp(14),
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZTrade_Attribute'
+#
+
+INSERT INTO eZTrade_Attribute VALUES (1,1,'Size',20001221094209);
+INSERT INTO eZTrade_Attribute VALUES (2,1,'Color',20001221094320);
+
+#
+# Table structure for table 'eZTrade_AttributeValue'
+#
+DROP TABLE IF EXISTS eZTrade_AttributeValue;
+CREATE TABLE eZTrade_AttributeValue (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  ProductID int(11),
+  AttributeID int(11),
+  Value char(200),
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZTrade_AttributeValue'
+#
+
+INSERT INTO eZTrade_AttributeValue VALUES (2,2,2,'Yellow');
+INSERT INTO eZTrade_AttributeValue VALUES (1,2,1,'BIG');
+
+#
+# Table structure for table 'eZTrade_ProductTypeLink'
+#
+DROP TABLE IF EXISTS eZTrade_ProductTypeLink;
+CREATE TABLE eZTrade_ProductTypeLink (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  ProductID int(11),
+  TypeID int(11),
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZTrade_ProductTypeLink'
+#
+
+INSERT INTO eZTrade_ProductTypeLink VALUES (1,2,1);
+
+#
+# Table structure for table 'eZTrade_Type'
+#
+DROP TABLE IF EXISTS eZTrade_Type;
+CREATE TABLE eZTrade_Type (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  Name varchar(150),
+  Description text,
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZTrade_Type'
+#
+
+INSERT INTO eZTrade_Type VALUES (1,'Flowers','This is flowers');
+
+#
+# Table structure for table 'eZTrade_WishList'
+#
+DROP TABLE IF EXISTS eZTrade_WishList;
+CREATE TABLE eZTrade_WishList (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  UserID int(11),
+  PRIMARY KEY (ID)
+);
+
+
+#
 # Table structure for table 'eZTrade_Cart'
 #
 DROP TABLE IF EXISTS eZTrade_Cart;
