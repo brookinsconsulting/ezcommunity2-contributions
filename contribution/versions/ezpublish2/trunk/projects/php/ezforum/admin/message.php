@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: message.php,v 1.30 2001/03/05 13:50:34 pkej Exp $
+// $Id: message.php,v 1.31 2001/04/23 12:30:30 fh Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -38,7 +38,7 @@ include_once( "ezforum/classes/ezforum.php" );
 
 require( "ezuser/admin/admincheck.php" );
 
-$t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+$t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "AdminTemplateDir" ),
                      "ezforum/admin/intl", $Language, "message.php" );
 $t->setAllStrings();
 

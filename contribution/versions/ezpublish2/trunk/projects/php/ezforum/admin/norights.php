@@ -1,5 +1,5 @@
 <?
-// $Id: norights.php,v 1.5 2001/03/01 14:06:25 jb Exp $
+// $Id: norights.php,v 1.6 2001/04/23 12:30:30 fh Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -32,7 +32,7 @@ $Language = $ini->read_var( "eZForumMain", "Language" );
 include_once( "classes/ezdb.php" );
 include_once( "classes/eztemplate.php" );
 
-$t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+$t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "AdminTemplateDir" ),
 "ezforum/admin/" . "/intl", $Language, "noright.php" );
 $t->setAllStrings();
 
