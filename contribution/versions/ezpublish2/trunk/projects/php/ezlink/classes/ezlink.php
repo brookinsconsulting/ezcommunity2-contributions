@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.54 2001/06/29 07:08:39 bf Exp $
+// $Id: ezlink.php,v 1.55 2001/06/29 07:54:49 br Exp $
 //
 // Definition of eZLink class
 //
@@ -195,6 +195,7 @@ class eZLink
                 $this->ImageID =& $link_array[0][$db->fieldName("ImageID")];
             }
         }
+      
     }
 
     /*!
@@ -384,7 +385,84 @@ class eZLink
         return $this->ID;
     }
 
+    /*!
+      Set's the link's defined category. This is the main category for the link.
+      Additional categories can be added with eZLinkCategory::addLink();
+    */
+    function setCategoryDefinition( $value )
+    {
+        if ( get_class( $value ) == "ezlinkcategory" )
+        {
+            $db =& eZDB::globalDatabase();
 
+            $categoryID = $value->id();
+            
+            $db->query( "DELETE FROM eZLink_LinkCategoryDefinition
+                         WHERE LinkID='$this->ID'" );
+            $nextID = $db->nextID( "eZLink_LinkCategoryDefinition", "ID");
+            $db->query( "INSERT INTO eZLink_LinkCategoryDefinition
+                         (ID, LinkID, CategoryID )
+                         VALUES
+                         ('ID=$nextID',
+                          'LinkID=$this->ID;',
+                          'CategoryID=$categoryID' )" );
+        }
+    }
+
+    
+    /*!
+      Returns the link's definition category
+    */
+    function categoryDefinition( )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $res, "SELECT CategoryID FROM
+                            eZLink_LinkCategoryDefinition
+                            WHERE LinkID='$this->ID'" );
+        
+        $category = false;
+        if ( count( $res ) == 1 )
+        {
+            $category = new eZLinkCategory( $res[0]["CategoryID"] );
+        }
+        else
+        {
+            print ( "<br><b>Failed to get link category definition for ID $this->ID</b>" );
+        }
+
+        return $category;
+    }
+    
+    /*!
+      Returns the categories an article is assigned to.
+      The categories are returned as an array of eZLinkCategory objects
+     */
+    function categories( $as_object = true )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $ret = array();
+        $db->array_query( $category_array, "SELECT * FROM eZLink_LinkCategoryLink
+                                       WHERE LinkID='$this->ID'" );
+        if ( $as_object )
+        {
+            foreach ( $category_array as $category )
+            {
+                $ret[] = new eZLinkCategory( $category["CategoryID"] );
+            }
+        }
+        else
+        {
+            foreach ( $category_array as $category )
+            {
+                $ret[] = $category["CategoryID"];
+            }
+        }
+        return $ret;
+    } 
+
+    
     /*!
       Sets the link title.
     */
