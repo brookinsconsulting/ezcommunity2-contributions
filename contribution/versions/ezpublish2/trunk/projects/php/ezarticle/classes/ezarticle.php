@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.117 2001/07/09 20:01:13 bf Exp $
+// $Id: ezarticle.php,v 1.118 2001/07/10 13:24:11 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -2105,7 +2105,7 @@ class eZArticle
     /*!
       Returns an array of the forms for the current article.
     */
-    function forms()
+    function forms( $as_object = true)
     {
         $db =& eZDB::globalDatabase();
         
@@ -2121,7 +2121,8 @@ class eZArticle
         $count = count( $ret_array );
         for( $i = 0; $i < $count; $i++ )
         {
-            $return_array[] =& new eZForm( $ret_array[$i][$db->fieldName("FormID")] );
+            $id = $ret_array[$i][$db->fieldName("FormID")];
+            $return_array[] = $as_object ? new eZForm( $id ) : $id;
         }
         return $return_array;
     }
