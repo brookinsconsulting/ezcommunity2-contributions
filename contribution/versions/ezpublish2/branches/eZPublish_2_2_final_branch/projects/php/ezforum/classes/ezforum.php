@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezforum.php,v 1.54.2.1 2002/05/03 11:57:15 jhe Exp $
+// $Id: ezforum.php,v 1.54.2.2 2002/10/02 14:50:11 bf Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -229,27 +229,23 @@ class eZForum
         $query->setStopWordColumn(  "eZForum_Word.Frequency" );        
         $searchSQL = $query->buildQuery();
 
+        $groupString = "eZForum_Forum.GroupID=0";
+
         $user =& eZUser::currentUser();
         if ( $user )
         {
             $groups =& $user->groups( false );
-            $groupString = "";
             $i = 0;
-            
+
             foreach ( $groups as $userGroup )
             {
-                if ( $i > 0 )
-                    $groupString .= " OR ";
-                
-                $groupString .= "eZForum_Forum.GroupID=" . $userGroup;
+                $groupString .= " OR ";
+
+                $groupString .= "eZForum_Forum.GroupID='" . $userGroup . "'";
                 $i++;
             }
         }
-        else
-        {
-            $groupString = "eZForum_Forum.GroupID=0";
-        }
-        
+
         // special search for MySQL, mimic subselects ;)
         if ( $db->isA() == "mysql" )
         {
@@ -259,10 +255,10 @@ class eZForum
 
             $count = 1;
             foreach ( $queryArray as $queryWord )
-            {                
+            {
                 $queryWord = trim( $queryWord );
 
-                $searchSQL = " ( eZForum_Word.Word = '$queryWord' AND eZForum_Word.Frequency < '0.5' ) ";
+                $searchSQL = " ( eZForum_Word.Word = '$queryWord' AND eZForum_Word.Frequency < '0.9' ) ";
                 
                 $queryString = "INSERT INTO eZForum_SearchTemp ( MessageID )
                                 SELECT DISTINCT eZForum_Message.ID AS MessageID
@@ -278,13 +274,12 @@ class eZForum
                                 ORDER BY eZForum_MessageWordLink.Frequency";
 
                 $db->query( $queryString );
-
                 // check if this is a stop word
                 $queryString = "SELECT Frequency FROM eZForum_Word WHERE Word='$queryWord'";
                 
                 $db->query_single( $WordFreq, $queryString, array( "LIMIT" => 1 ) );
 
-                if ( $WordFreq["Frequency"] <= 0.5 )                    
+                if ( $WordFreq["Frequency"] <= 0.7 )
                     $count += 1;
             }
             $count -= 1;

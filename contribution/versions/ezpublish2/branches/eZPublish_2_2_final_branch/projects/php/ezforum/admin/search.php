@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.13 2001/10/10 13:18:28 jhe Exp $
+// $Id: search.php,v 1.13.2.1 2002/10/02 14:50:10 bf Exp $
 //
 // Created on: <12-Oct-2000 20:33:02 bf>
 //
@@ -66,8 +66,7 @@ if ( $QueryString != "" )
     $forum = new eZForum();
     
     // do a search in all forums
-    $messages =& $forum->search( $QueryString, $Offset, $Limit );
-    $total_count =& $forum->getQueryCount( $QueryString );
+    $messages =& $forum->search( $QueryString, $Offset, $Limit, $total_count);
 
     $locale = new eZLocale( $Language );
 
@@ -76,6 +75,7 @@ if ( $QueryString != "" )
 
     $AnonymousPoster = $ini->read_var( "eZForumMain", "AnonymousPoster" );
 
+    if ( count( $messages ) > 0 )
     foreach ( $messages as $message )
     {
         if ( ( $i % 2 ) == 0 )
