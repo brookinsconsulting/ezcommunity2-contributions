@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companytypeedit.php,v 1.32 2001/10/08 14:02:04 jhe Exp $
+// $Id: companytypeedit.php,v 1.32.2.1 2001/10/31 11:08:22 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -29,7 +29,8 @@
 
 include_once( "classes/INIFile.php" );
 
-// $ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["SiteIni"];
+
 $Language = $ini->read_var( "eZContactMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
@@ -233,7 +234,6 @@ if ( $Action == "edit" || $Action == "new" )
         
     if ( is_numeric( $ImageID ) && $ImageID != 0 )
     {
-        $ini = new INIFile( "site.ini" );
         $imageWidth = $ini->read_var( "eZContactMain", "CategoryImageWidth" );
         $imageHeight = $ini->read_var( "eZContactMain", "CategoryImageHeight" );
 

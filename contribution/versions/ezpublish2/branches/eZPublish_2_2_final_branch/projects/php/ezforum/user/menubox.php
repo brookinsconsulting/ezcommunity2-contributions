@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.13 2001/08/30 08:34:09 jhe Exp $
+// $Id: menubox.php,v 1.13.2.1 2001/10/31 11:08:04 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -26,7 +26,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezcachefile.php" );
 
-$ini =& INIFile::globalINI();
+$ini =& $GLOBALS["SiteIni"];
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
 
@@ -82,14 +82,6 @@ function createPage( $menuCacheFile = false )
 
     if ( !$categories )
     {
-        if ( isSet( $GLOBALS["SiteIni"] ) )
-        {
-            $ini =& $GLOBALS["SiteIni"];
-        }
-        else
-        {
-            $ini = new INIFile( "site.ini" );
-        }
         $Language = $ini->read_var( "eZForumMain", "Language" );
         $nofound = new INIFile( "ezforum/user/intl/" . $Language . "/categorylist.php.ini", false );
         $noitem =  $nofound->read_var( "strings", "noitem" );

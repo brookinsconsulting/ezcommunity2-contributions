@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companytypelist.php,v 1.33 2001/09/20 11:34:23 jhe Exp $
+// $Id: companytypelist.php,v 1.33.2.1 2001/10/31 11:08:22 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -29,7 +29,8 @@
 
 include_once( "classes/INIFile.php" );
 
-// $ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["SiteIni"];
+
 $Language = $ini->read_var( "eZContactMain", "Language" );
 $MaxCompanyList = $ini->read_var( "eZContactMain", "MaxCompanyList" );
 $CompanyOrder = $ini->read_var( "eZContactMain", "CompanyOrder" );
@@ -199,7 +200,6 @@ else
 
     if ( is_numeric( $ImageID ) && $ImageID != 0 )
     {
-        $ini = new INIFile( "site.ini" );
         $imageWidth = $ini->read_var( "eZContactMain", "CategoryImageWidth" );
         $imageHeight = $ini->read_var( "eZContactMain", "CategoryImageHeight" );
 
