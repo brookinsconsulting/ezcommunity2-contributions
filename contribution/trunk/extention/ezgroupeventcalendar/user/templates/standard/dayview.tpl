@@ -197,7 +197,7 @@ onmouseout="return nd();">{all_day_name}</a></td>
     background-color: #6699CC; background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalEventTransBg.png') repeat;">
  	<table width="100%" cellspacing="0" cellpadding="0" border="0">
 	<tr>
-		<td width="98%" nowrap valign="top" class="gcalEventTopBar" style="height:15px;">&nbsp;
+		<td width="88%" nowrap valign="top" class="gcalEventTopBar" style="height:15px;">&nbsp;
 		<a class='gcalDayEventText' href="{www_dir}{index}/groupeventcalendar/eventview/{event_id}/" onmouseover="
 return overlib('<div class=\'olList\'>Name</div>{overlib_event_name}<div class=\'olList\'>Time</div> {event_start} - {event_stop}<div class=\'olList\'>Description </div>{overlib_event_description}');"
 onmouseout="return nd();">{event_name}&nbsp;&nbsp;</a>
@@ -205,9 +205,9 @@ onmouseout="return nd();">{event_name}&nbsp;&nbsp;</a>
 		</td>
 
 		<!-- BEGIN fifteen_delete_check_tpl -->
-		<td width="1%" valign="top" align="right" class="gcalEventTopBar" style="vertical-align: middle;">
-		  <a href="{www_dir}{index}/groupeventcalendar/eventedit/edit/{event_id}/">
-          <img name="ezcal{event_id}-red" border="0" src="/images/redigermini.gif" width="12" height="12" align="top" alt="Edit" /></a>
+		<td width="10%" valign="top" align="right" class="gcalEventTopBar" style="vertical-align: middle;">
+                  <input type="checkbox" name="eventArrayID[]" value={event_id} style="width: 10px; height: 10px; text-decoration: none;"><a href="{www_dir}{index}/groupeventcalendar/eventedit/edit/{event_id}/">
+                  <img name="ezcal{event_id}-red" border="0" src="/images/redigermini.gif" width="12" height="12" align="top" alt="Edit" style="padding-top: 2px;" /></a>
 		</td>
 		<td width="1%" valign="top" align="right" class="gcalEventTopBar">
 		  &nbsp;
