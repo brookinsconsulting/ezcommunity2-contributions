@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoption.php,v 1.14 2001/01/06 16:21:01 bf Exp $
+// $Id: ezoption.php,v 1.15 2001/02/26 17:29:02 jb Exp $
 //
 // Definition of eZOption class
 //
@@ -85,7 +85,6 @@ class eZOption
     */
     function eZOption( $id=-1, $fetch=true )
     {
-        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
@@ -93,14 +92,6 @@ class eZOption
             {
                 $this->get( $this->ID );
             }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
         }
     }
 
@@ -109,25 +100,23 @@ class eZOption
     */
     function store()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-        if ( !isset( $this->ID ) )
+        if ( !is_numeric( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZTrade_Option SET
+            $db->query( "INSERT INTO eZTrade_Option SET
 		                         Name='$this->Name',
                                  Description='$this->Description'" );
-        
+
             $this->ID = mysql_insert_id();
-            $this->State_ = "Coherent";
         }
         else
         {
-            $this->Database->query( "UPDATE eZTrade_Option SET
+            $db->query( "UPDATE eZTrade_Option SET
 		                         Name='$this->Name',
                                  Description='$this->Description' WHERE ID='$this->ID'" );
-            $this->State_ = "Coherent";
         }
-        
+
         return true;
     }
 
@@ -136,12 +125,12 @@ class eZOption
     */
     function get( $id=-1 )
     {
-        $this->dbInit();
-        
+        $db =& eZDB::globalDatabase();
+
         if ( $id != -1  )
         {
-            $this->Database->array_query( $option_array, "SELECT * FROM eZTrade_Option WHERE ID='$id'" );
-            
+            $db->array_query( $option_array, "SELECT * FROM eZTrade_Option WHERE ID='$id'" );
+
             if ( count( $option_array ) > 1 )
             {
                 die( "Error: Option's with the same ID was found in the database. This shouldent happen." );
@@ -151,13 +140,7 @@ class eZOption
                 $this->ID =& $option_array[0][ "ID" ];
                 $this->Name =& $option_array[0][ "Name" ];
                 $this->Description =& $option_array[0][ "Description" ];
-                
-                $this->State_ = "Coherent";                
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
     }
 
@@ -166,14 +149,14 @@ class eZOption
     */
     function &getAll()
     {
-        $this->dbInit();
-        
+        $db =& eZDB::globalDatabase();
+
         $return_array = array();
         $option_array = array();
         
-        $this->Database->array_query( $option_array, "SELECT ID FROM eZTrade_Option ORDER BY Name" );
+        $db->array_query( $option_array, "SELECT ID FROM eZTrade_Option ORDER BY Name" );
         
-        for ( $i=0; $i<count($option_array); $i++ )
+        for ( $i=0; $i < count($option_array); $i++ )
         {
             $return_array[$i] = new eZOption( $option_array[$i]["ID"], 0 );
         }
@@ -186,11 +169,13 @@ class eZOption
     */
     function delete()
     {
-        $this->dbInit();
-        
-        $this->Database->array_query( $option_array, "DELETE FROM eZTrade_OptionValue WHERE OptionID='$this->ID'" );
-        $this->Database->array_query( $option_array, "DELETE FROM eZTrade_ProductOptionLink WHERE OptionID='$this->ID'" );
-        $this->Database->array_query( $option_array, "DELETE FROM eZTrade_Option WHERE ID='$this->ID'" );
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $option_array, "DELETE FROM eZTrade_OptionValue WHERE OptionID='$this->ID'" );
+        $db->array_query( $option_array, "DELETE FROM eZTrade_ProductOptionLink WHERE OptionID='$this->ID'" );
+        $db->array_query( $option_array, "DELETE FROM eZTrade_Option WHERE ID='$this->ID'" );
+        $db->array_query( $option_array, "DELETE FROM eZTrade_ProductPriceLink
+                                          WHERE OptionID='$this->ID'" );
     }
 
     /*!
@@ -198,9 +183,6 @@ class eZOption
     */
     function id()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
        return $this->ID;
     }
 
@@ -209,9 +191,6 @@ class eZOption
     */
     function name()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
- 
         return $this->Name;
     }
 
@@ -220,9 +199,6 @@ class eZOption
     */
     function description()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         return $this->Description;
     }
 
@@ -242,9 +218,6 @@ class eZOption
     */
     function setName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Name = $value;
     }
 
@@ -253,10 +226,18 @@ class eZOption
     */
     function setDescription( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Description = $value;
+    }
+
+    /*!
+      Removes all values connected to this option.
+    */
+    function removeValues( $id = false )
+    {
+        if ( !$id )
+            $id = $this->ID;
+        $db =& eZDB::globalDatabase();
+        $db->query( "DELETE FROM eZTrade_OptionValue WHERE OptionID='$id'" );
     }
 
     /*!
@@ -264,31 +245,12 @@ class eZOption
       
       NOTE: It stores the value object to the database. 
     */
-    function addValue( $value )
+    function addValue( &$value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         if ( get_class( $value ) == "ezoptionvalue" )
         {
-            $this->dbInit();
-
             $value->setOptionID( $this->ID );
-            
-            $value->store();            
-        }
-    }
-    
-    /*!
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
+            $value->store();
         }
     }
 
@@ -296,13 +258,6 @@ class eZOption
     var $Name;
     var $Description;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>
