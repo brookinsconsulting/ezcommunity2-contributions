@@ -197,3 +197,68 @@ alter table eZArticle_ArticleTmp rename eZArticle_Article;
 # Article topic
 create table eZArticle_Topic( ID int primary key auto_increment, Name char(255), Description text );
 alter table eZArticle_Article add TopicID int not null default 0;   
+
+
+#
+# Table structure for table 'eZArticle_Attribute'
+#
+DROP TABLE IF EXISTS eZArticle_Attribute;
+CREATE TABLE eZArticle_Attribute (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  TypeID int(11),
+  Name char(150),
+  Placement int(11),
+  Created timestamp(14),
+  PRIMARY KEY (ID),
+  INDEX( Placement )
+);
+
+#
+# Dumping data for table 'eZArticle_Attribute'
+#
+
+#
+# Table structure for table 'eZArticle_AttributeValue'
+#
+DROP TABLE IF EXISTS eZArticle_AttributeValue;
+CREATE TABLE eZArticle_AttributeValue (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  ArticleID int(11),
+  AttributeID int(11),
+  Value text,
+  PRIMARY KEY (ID),
+  INDEX( ArticleID, AttributeID )
+);
+
+#
+# Dumping data for table 'eZArticle_AttributeValue'
+#
+
+#
+# Table structure for table 'eZArticle_Type'
+#
+DROP TABLE IF EXISTS eZArticle_Type;
+CREATE TABLE eZArticle_Type (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  Name varchar(150),
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZArticle_Type'
+#
+
+#
+# Table structure for table 'eZArticle_ArticleTypeLink'
+#
+DROP TABLE IF EXISTS eZArticle_ArticleTypeLink;
+CREATE TABLE eZArticle_ArticleTypeLink (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  ArticleID int(11),
+  TypeID int(11),
+  PRIMARY KEY (ID)
+);
+
+#
+# Dumping data for table 'eZArticle_ArticleTypeLink'
+#
