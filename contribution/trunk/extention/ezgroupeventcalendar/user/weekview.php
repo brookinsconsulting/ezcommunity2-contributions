@@ -326,8 +326,8 @@ if( $user )
 		      $appointmentName = $appointment->name();
 				$t->set_var ( "appointment_name", stripslashes($appointmentName) );
 				$t->set_var ( "appointment_full_name", stripslashes($appointmentName) );
-                $t->set_var ( "overlib_full_name", htmlentities($appointmentFullName));
-                $t->set_var ( "overlib_description", htmlentities($appointment->description()) );
+                $t->set_var ( "overlib_full_name", addslashes($appointmentFullName));
+                $t->set_var ( "overlib_description", addslashes($appointment->description()) );
 				$t->set_var ( "appointment_id" , $appointment->id() );
                 $t->set_var ( "event_description", stripslashes($appointment->description()) );
                 $eStartTime = $appointment->startTime();

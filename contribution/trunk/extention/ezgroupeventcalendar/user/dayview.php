@@ -366,7 +366,7 @@ if (isset($allDayEvents))
  foreach ($allDayEvents as $adEvent)
  {
   $t->set_var("all_day_name", stripslashes($adEvent->name()));
-  $t->set_var ( "all_day_overlib_name", htmlentities($adEvent->name()));
+  $t->set_var ( "all_day_overlib_name", addslashes($adEvent->name()));
   $adStartTime = $adEvent->startTime();
   $adStart = addZero($adStartTime->hour()) .':'. addZero($adStartTime->minute());
   $adStopTime = $adEvent->stopTime();
@@ -375,7 +375,7 @@ if (isset($allDayEvents))
   $t->set_var("all_day_id", $adEvent->id());
   $t->set_var("all_day_start", $adStart);
   $t->set_var("all_day_stop", $adStop);
-  $t->set_var("all_day_desc", htmlentities($adEvent->description()));
+  $t->set_var("all_day_desc", addslashes($adEvent->description()));
   $t->set_var("all_day_location", ($adEvent->location()) ? $adEvent->location() : "");
 
   $event_editor = false;
@@ -621,9 +621,9 @@ if (isset($allDayEvents))
                     $t->set_var( "rowspan_value", $tableCellsRowSpan[$row][$col] );
                     $t->set_var( "event_id", $event->id() );
                     $t->set_var( "event_name", stripslashes($event->name()) );
-                    $t->set_var( "overlib_event_name", htmlentities($event->name()) );
+                    $t->set_var( "overlib_event_name", addslashes($event->name()) );
                     $t->set_var( "event_description", stripslashes($event->description(false)) );
-                    $t->set_var( "overlib_event_description", htmlentities($event->description(false)) );
+                    $t->set_var( "overlib_event_description", addslashes($event->description(false)) );
                     $t->set_var( "edit_button", "Edit" );
                     $eventDivHeight = getEventHeight( $event );
                     $t->set_var( "event_div_height", $eventDivHeight );
