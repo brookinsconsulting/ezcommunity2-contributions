@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.18 2001/12/19 13:44:58 jhe Exp $
+// $Id: ezformelement.php,v 1.19 2001/12/19 14:42:17 br Exp $
 //
 // ezformelement class
 //
@@ -453,11 +453,15 @@ class eZFormElement
         $db->begin();
         $ret = false;
 
-        $db->query_single( $elementID, "SELECT ElementID FROM eZForm_FormCondition WHERE
-                     ElementID='$this->ID' GROUP BY ElementID" );
+        $db->array_query( $elementID, "SELECT PageID, Min, Max FROM eZForm_FormCondition WHERE
+                     ElementID='$this->ID'" );
 
-        if ( $elementID[$db->fieldName( "ElementID" )] )
-            $ret = true;
+        for ( $i = 0; $i < count( $elementID ); $i++ )
+        {
+            $ret[$i]["Page"] = $elementID[$i][$db->fieldName( "PageID" )];
+            $ret[$i]["Min"] = $elementID[$i][$db->fieldName( "Min" )];
+            $ret[$i]["Max"] = $elementID[$i][$db->fieldName( "Max" )];
+        }
         
         return $ret;
     }
@@ -493,7 +497,7 @@ class eZFormElement
         $res[] = $db->query( "INSERT INTO eZForm_FormCondition
                          ( ID, ElementID, PageID, Min, Max )
                          VALUES
-                         ( '$nextID', '$this->ID', '$page_id', $min, $max )" );
+                         ( '$nextID', '$this->ID', '$page_id', '$min', '$max' )" );
         eZDB::finish( $res, $db );               
     }
 
