@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.101 2001/06/28 10:29:31 jb Exp $
+// $Id: ezarticle.php,v 1.102 2001/06/28 14:50:58 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -1070,7 +1070,7 @@ class eZArticle
             $nextID = $db->nextID( "eZArticle_ArticleFileLink", "ID" );
 
             $res = $db->query( "INSERT INTO eZArticle_ArticleFileLink
-                         ( ID, ArticleID, FileID ) VALUES ( '$nextID', '$this->ID', FileID='$fileID'" );
+                         ( ID, ArticleID, FileID ) VALUES ( '$nextID', '$this->ID', '$fileID')" );
             
             $db->unlock();
             
