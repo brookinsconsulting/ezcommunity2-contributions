@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.45 2001/02/28 16:39:09 fh Exp $
+// $Id: ezarticle.php,v 1.46 2001/03/01 11:32:01 fh Exp $
 //
 // Definition of eZArticle class
 //
@@ -1367,7 +1367,7 @@ class eZArticle
     }
 
     /*!
-      Returns a list of authors and their article count.
+      Returns a all articles an author has written.
     */
     function authorArticleList( $authorid, $offset = 0, $limit = -1, $sort = false )
     {
@@ -1413,7 +1413,7 @@ class eZArticle
     }
     
     /*!
-      Returns a list of authors and their article count.
+      Returns the number of articles this author has written.
     */
     function authorArticleCount( $authorid )
     {

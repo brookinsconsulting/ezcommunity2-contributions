@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.10 2001/02/23 15:29:03 gl Exp $
+// $Id: articleedit.php,v 1.11 2001/03/01 11:32:01 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -36,7 +36,7 @@ include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlegenerator.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
-
+include_once( "ezuser/classes/ezobjectpermission.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -64,13 +64,11 @@ if ( $Action == "Insert" )
     $article->setAuthorText( $AuthorText );
     
     $article->setLinkText( $LinkText );
-
+    $article->store(); // to get ID
+    
 // Which group should a user-published article be set to?
-//    $ownerGroup = new eZUserGroup( $OwnerGroupID );
-//    $article->setOwnerGroup( $ownerGroup );
-
-    // Read permission: Everyone
-    $article->setReadPermission( 0 );
+    eZObjectPermission::setPermission( -1, $article->id(), "article_article", 'w' );
+    eZObjectPermission::setPermission( -1, $article->id(), "article_article", 'r' );
 
     // user-submitted articles are never directly published
     $article->setIsPublished( false );

@@ -149,7 +149,7 @@ switch ( $url_array[2] )
             {
                 include( $cachedFile );
             }
-            else if( eZObjectPermisson::hasPermission( $ArticleID, "article_article", 'r' )
+            else if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'r' )
                      || eZArticle::isAuthor( $user, $ArticleID ) )
             {
                 $GenerateStaticPage = "true";
@@ -157,7 +157,7 @@ switch ( $url_array[2] )
                 include( "ezarticle/user/articleview.php" );
             }
         }
-        else if( eZObjectPermisson::hasPermission( $ArticleID, "article_article", 'r' )
+        else if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'r' )
         || eZArticle::isAuthor( $user, $ArticleID ) )
         {
             include( "ezarticle/user/articleview.php" );
@@ -200,6 +200,25 @@ switch ( $url_array[2] )
         $ArticleID = $url_array[3];
         $PageNumber= $url_array[4];
 
+        // if file exists... evrything is ok..
+        // if not.. check permission, then run page if ok
+        $user = eZUser::currentUser();
+        $groupstr = "";
+        if( get_class( $user ) == "ezuser" )
+        {
+            $groupIDArray = $user->groups( true );
+            sort( $groupIDArray );
+            $first = true;
+            foreach( $groupIDArray as $groupID )
+            {
+                $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
+                $first = false;
+            }
+        }
+        else
+            $user = 0;
+
+        
         if ( $PageNumber != -1 )
         {
             if ( !isset( $PageNumber ) || ( $PageNumber == "" ) )
@@ -212,19 +231,21 @@ switch ( $url_array[2] )
         {
             $CategoryID = $url_array[3];
 
-            $cachedFile = "ezarticle/cache/articleprint," . $ArticleID . ",". $PageNumber .".cache";
+            $cachedFile = "ezarticle/cache/articleprint," . $ArticleID . ",". $PageNumber . "," . $groupstr . ".cache";
             if ( file_exists( $cachedFile ) )
             {
                 include( $cachedFile );
             }
-            else
+            else if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'r' )
+                     || eZArticle::isAuthor( $user, $ArticleID ) )
             {
                 $GenerateStaticPage = "true";
                 
                 include( "ezarticle/user/articleview.php" );
             }
         }
-        else
+        else if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'r' )
+                 || eZArticle::isAuthor( $user, $ArticleID ) )
         {
             include( "ezarticle/user/articleview.php" );
         }
@@ -239,6 +260,24 @@ switch ( $url_array[2] )
         $StaticRendering = true;
         $ArticleID = $url_array[3];
         $PageNumber= $url_array[4];
+
+        // if file exists... evrything is ok..
+        // if not.. check permission, then run page if ok
+        $user = eZUser::currentUser();
+        $groupstr = "";
+        if( get_class( $user ) == "ezuser" )
+        {
+            $groupIDArray = $user->groups( true );
+            sort( $groupIDArray );
+            $first = true;
+            foreach( $groupIDArray as $groupID )
+            {
+                $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
+                $first = false;
+            }
+        }
+        else
+            $user = 0;
         
         if ( !isset( $PageNumber ) || ( $PageNumber == "" ) ||  ( $PageNumber < 1 ) )
             $PageNumber= 1;
@@ -247,19 +286,21 @@ switch ( $url_array[2] )
         {
             $CategoryID = $url_array[3];
 
-            $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber .".cache";
+            $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber . "," . $groupstr .".cache";
             if ( file_exists( $cachedFile ) )
             {
                 include( $cachedFile );
             }
-            else
+            else if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'r' )
+                     || eZArticle::isAuthor( $user, $ArticleID ) )
             {
                 $GenerateStaticPage = "true";
                 
                 include( "ezarticle/user/articleview.php" );
             }            
         }
-        else
+        else if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'r' )
+                 || eZArticle::isAuthor( $user, $ArticleID ) )
         {
             include( "ezarticle/user/articleview.php" );
         }
