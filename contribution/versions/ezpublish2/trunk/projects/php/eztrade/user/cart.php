@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.42 2001/08/01 15:15:48 ce Exp $
+// $Id: cart.php,v 1.43 2001/08/23 08:58:09 th Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -72,6 +72,12 @@ if ( ( $Action == "Refresh" ) || isSet( $DoCheckOut ) )
     }
 }
 
+
+if ( isset( $ShopMore ) ) 
+{
+    eZHTTPTool::header( "Location: /trade/productlist/1" );
+    exit();
+}
 
 // checkout
 if ( isSet( $DoCheckOut ) )
