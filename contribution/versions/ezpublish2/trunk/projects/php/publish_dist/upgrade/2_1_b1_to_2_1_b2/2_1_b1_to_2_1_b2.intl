@@ -3,6 +3,12 @@ Example:
 mod: bug/user, fileedit.php.ini
 change: added user_edit=Some text
 --------------------------------------------------------------------
+mod: ezbulkmail/admin categorylist.php.ini
+change: added yes, no and category_is_public
+
+mod: ezbulkmail/admin categoryedit.php.ini
+change: added subscibed_usergroups and public_list
+
 mod: ezbug/user bugreport.php.ini
 change: added program_version=Program version
 

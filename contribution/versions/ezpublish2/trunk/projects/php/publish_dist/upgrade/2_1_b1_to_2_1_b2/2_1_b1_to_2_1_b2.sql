@@ -18,3 +18,16 @@ CREATE TABLE eZBulkMail_Forgot (
 ALTER TABLE eZArticle_Article ADD Content varchar(100) NOT NULL;
 ALTER TABLE eZBug_Bug ADD Version varchar(150) DEFAULT '';
 alter table eZArticle_Article add AuthorEmail varchar(100);
+
+alter table eZBulkMail_Category ADD IsPublic int(1) default '0';
+#
+# Table structure for table 'eZBulkMail_GroupCategoryLink'
+#
+
+DROP TABLE IF EXISTS eZBulkMail_GroupCategoryLink;
+CREATE TABLE eZBulkMail_GroupCategoryLink (
+  CategoryID int(11) NOT NULL default '0',
+  GroupID int(11) NOT NULL default '0',
+  PRIMARY KEY (GroupID, CategoryID)
+) TYPE=MyISAM;
+
