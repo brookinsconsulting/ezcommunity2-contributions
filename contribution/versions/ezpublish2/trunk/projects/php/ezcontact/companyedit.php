@@ -485,16 +485,6 @@ if( $session->get( $AuthenticatedSession ) == 0 )
         $t->set_var( "company_id", $CID );
 
         $t->pparse( "output", "company_edit"  );
-    }
-//      else
-//      {
-//          print( "\nDu har ikke rettigheter\n" );
-//      }
-}
-else
-{
-    Header( "Location: index.php?page=common/error.php" );
-}
-
+    
 
 ?>

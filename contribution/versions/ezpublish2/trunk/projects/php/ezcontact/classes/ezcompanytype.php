@@ -1,7 +1,7 @@
 <?
 
 // 
-// $Id: ezcompanytype.php,v 1.13 2000/11/14 18:31:32 pkej-cvs Exp $
+// $Id: ezcompanytype.php,v 1.14 2000/11/15 15:31:43 ce-cvs Exp $
 //
 // Definition of eZCompanyType class
 //
@@ -120,7 +120,6 @@ class eZCompanyType
             $this->Database->array_query( $company_type_array, "SELECT * FROM eZContact_CompanyType WHERE ID='$id'" );
             $this->Database->array_query( $company_type_hiearchy_array, "SELECT ParentID FROM eZContact_CompanyTypeHiearchy WHERE CompanyTypeID='$this->ID'" );
             
-            
             if ( count( $company_type_array ) > 1 )
             {
                 die( "Error: More than one company type with the same ID found. Major problem, clean up the table eZContact_CompanyType. " );
@@ -184,6 +183,7 @@ class eZCompanyType
 
         $this->Description = $value;
     }
+
     /*!
       Set parent
     */

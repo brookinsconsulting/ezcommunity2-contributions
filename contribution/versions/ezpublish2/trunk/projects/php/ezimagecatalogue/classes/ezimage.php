@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.16 2000/11/02 18:14:11 bf-cvs Exp $
+// $Id: ezimage.php,v 1.17 2000/11/15 15:31:43 ce-cvs Exp $
 //
 // Definition of eZImage class
 //
@@ -119,6 +119,8 @@ class eZImage
     {
         $this->dbInit();
 
+        print( "hello" );
+        die();
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZImageCatalogue_Image SET

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezonlinetype.php,v 1.2 2000/11/14 12:24:32 ce-cvs Exp $
+// $Id: ezonlinetype.php,v 1.3 2000/11/15 15:31:43 ce-cvs Exp $
 //
 // Definition of eZOnline class
 //
@@ -147,7 +147,7 @@ class eZOnlineType
             $return_array[] = new eZOnlineType( $onlineTypeItem["ID"] );
         }
     
-        return $online_type_array;
+        return $return_array;
     }
 
   /*!

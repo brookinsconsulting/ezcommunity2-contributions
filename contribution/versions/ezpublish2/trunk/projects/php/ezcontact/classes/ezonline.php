@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezonline.php,v 1.2 2000/11/14 18:59:27 ce-cvs Exp $
+// $Id: ezonline.php,v 1.3 2000/11/15 15:31:43 ce-cvs Exp $
 //
 // Definition of eZOnline class
 //
@@ -201,7 +201,7 @@ class eZOnline
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        return $this->OnlineURLID;
+        return $this->OnlineTypeID;
     }
 
     /*!

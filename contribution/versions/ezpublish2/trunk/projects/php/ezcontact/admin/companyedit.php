@@ -23,7 +23,7 @@ include_once( "ezcontact/classes/ezphone.php" );
 include_once( "ezcontact/classes/ezphonetype.php" );
 include_once( "ezcontact/classes/ezonline.php" );
 include_once( "ezcontact/classes/ezonline.php" );
-
+include_once( "ezcontact/classes/ezcompanytype.php" );
 include_once( "classes/ezimagefile.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 
@@ -32,7 +32,7 @@ if ( $Action == "insert" )
 {
     $company = new eZCompany();
     $company->setName( $Name );  
-    $company->setContactType( $CompanyType );
+    $company->setContactType( $CompanyTypeID );
     $company->setCompanyNo( $CompanyNo );
     $company->setComment( $Description );
 
@@ -70,18 +70,15 @@ if ( $Action == "insert" )
     // Upload images
 
     $file = new eZImageFile();
-    print( $userfile );
-    die();
     if ( $file->getUploadedFile( $userfile ) )
     {
-        die();
         $logo = new eZImage();
         $logo->setName( "Logo" );
         
         $logo->setImage( $file );
-        
-        $logo->store();
 
+        $logo->store();
+      
         $company->addImage( $logo );
     }
     else
@@ -128,7 +125,7 @@ if ( $Action == "update" )
     $company->setName( $Name );  
     $company->setComment( $Description );
     $company->setCompanyNo( $CompanyNo );
-
+    $company->setContactType( $CompanyTypeID );
 
     // Update or store address
     $addressList = $company->addresses( $CompanyID );
@@ -154,43 +151,60 @@ if ( $Action == "update" )
         $address->store();
        
     }
-    // Update or store phone
+
+
+// Update or store phone
     $phoneList = $company->phones( $CompanyID );
 
-    if ( count ( $phoneList ) == 1 )
+    if ( ( count ( $phoneList ) == 1 ) || ( count ( $phoneList ) == 2 )  )
     {
-        $PhoneID = $phoneList[0]->id();
-
-        $phone = new eZPhone( $PhoneID );
-        $phone->setNumber( $Telephone );
-        $phone->store();
+        for( $i=0; $i<count ( $phoneList ); $i++ )
+        {
+            $PhoneID = $phoneList[$i]->id();
+            
+            $phone = new eZPhone( $PhoneID );
+            $phone->setNumber( $Phone[$i] );
+            $phone->store();
+        }
     }
+
     else if ( count ( $phoneList ) == 0 )
     {
-        $phone = new eZPhone( );
-        $phone->setNumber( $Telephone );
-        $phone->store();
+        for( $i=0; $i<count( $Phone ); $i++ )
+        {
+            $phone = new eZPhone( );
+     // telefonnummer
+            $phone->setNumber( $Phone[$i] );
+            $phone->setPhoneTypeID( $PhoneTypeID[$i] );
+            $phone->store();
+            $company->addPhone( $phone );
+        }
     }
 
     // Update or store online
     $onlineList = $company->onlines( $CompanyID );
-    if ( count ( $onlineList ) == 1 )
+    if ( count ( $onlineList ) == 2 )
     {
-        $onlineID = $onlineList[0]->id();
-
-        $online = new eZOnline( $onlineID );
-        $online->setURL( $Web );
-        $online->setURLType( $URLType );
-        $online->setOnlineTypeID( $OnlineTypeID );
-        $online->store();
+        for( $i=0; $i<count( $onlineList ); $i++ )
+        {
+            $onlineID = $onlineList[$i]->id();
+            
+            $online = new eZOnline( $onlineID );
+            $online->setURL( $Online[$i] );
+            $online->store();
+        }
     }
     else if ( count ( $onlineList ) == 0 )
     {
-        $online = new eZOnline( );
-        $online->setURL( $URL );
-        $online->setURLType( $URLType );
-        $online->setOnlineTypeID( $OnlineTypeID );
-        $online->store();
+        for( $i=0; $i<count( $Online ); $i++ )
+        {
+            $online = new eZOnline();
+            $online->setURL( $Online[$i] );
+            $online->setURLType( $URLType[$i] );
+            $online->setOnlineTypeID( $OnlineTypeID[$i] );
+            $online->store();
+            $company->addOnline( $online );
+        }
     }
 
     $company->store();
@@ -203,12 +217,11 @@ if ( $Action == "update" )
 // Slette fra company list.
 if ( $Action == "delete" )
 {
-    $deleteCompany = new eZCompany();
-    $deleteCompany->get( $CompanyID );
-    print( "tjo" . $CompanyID );
-    $deleteCompany->delete();
+    $company = new eZCompany();
+    $company->get( $CompanyID );
+    $company->delete();
 
-    Header( "Location: index.php?page=" . $DOC_ROOT . "contactlist.php" );
+    Header( "Location: /contact/companylist/" );
 }
 
 
@@ -226,13 +239,17 @@ $t->set_block( "company_edit", "company_item_tpl", "company_item" );
 $t->set_block( "company_edit", "address_item_tpl", "address_item" );
 
 $t->set_block( "company_edit", "phone_item_tpl", "phone_item" );
+$t->set_block( "company_edit", "fax_item_tpl", "fax_item" );
 
-$t->set_block( "company_edit", "online_item_tpl", "online_item" );
+$t->set_block( "company_edit", "web_item_tpl", "web_item" );
+$t->set_block( "company_edit", "email_item_tpl", "email_item" );
 
 $t->set_block( "company_edit", "logo_add_tpl", "logo_add" );
 $t->set_block( "company_edit", "image_add_tpl", "image_add" );
 $t->set_block( "company_edit", "logo_delete_tpl", "logo_delete" );
 $t->set_block( "company_edit", "image_delete_tpl", "image_delete" );
+
+$t->set_block( "company_edit", "company_type_select_tpl", "company_type_select" );
 
 if ( !isset( $Action ) )
     $Action = "insert";
@@ -265,6 +282,9 @@ if ( $Action == "new" )
 
     $t->parse( "address_item", "address_item_tpl" );
     $t->parse( "phone_item", "phone_item_tpl" );
+    $t->parse( "fax_item", "fax_item_tpl" );
+    $t->parse( "web_item", "web_item_tpl" );
+    $t->parse( "email_item", "email_item_tpl" );
 }
 
 // Redigering av firma.
@@ -282,17 +302,23 @@ if ( $Action == "edit" )
     // Telephone list
     $phoneList = $company->phones( $company->id() );
 
-    if ( count( $phoneList ) == 1 )
+    if ( count( $phoneList ) <= 2 )
     {
-        foreach( $phoneList as $phoneItem )
+        for( $i=0; $i<count ( $phoneList ); $i++ )
         {
-            $t->set_var( "phone_id", $phoneItem->id() );
-            $t->set_var( "telephone", $phoneItem->number() );
-            
-            $t->set_var( "script_name", "companyedit.php" );
-            $t->set_var( "company_id", $CompanyID );
+            if ( $phoneList[$i]->phoneTypeID() == 1 )
+            {
+                $t->set_var( "tele_phone_id", $phoneList[$i]->id() );
+                $t->set_var( "telephone", $phoneList[$i]->number() );
+            }
+            if ( $phoneList[$i]->phoneTypeID() == 2 )
+            {
+                $t->set_var( "fax_phone_id", $phoneList[$i]->id() );
+                $t->set_var( "fax", $phoneList[$i]->number() );
+            }
 
-            $t->parse( "phone_item", "phone_item_tpl", true );
+            $t->parse( "phone_item", "phone_item_tpl" );
+            $t->parse( "fax_item", "fax_item_tpl" );
         }
     }
 
@@ -319,12 +345,23 @@ if ( $Action == "edit" )
 
     // Online list
     $onlineList = $company->onlines( $company->id() );
-    if ( count ( $onlineList ) == 1 )
+    if ( count ( $onlineList ) <= 2 )
     {
-        foreach( $onlineList as $onlineItem )
+        for( $i=0; $i<count ( $onlineList ); $i++ )
         {
-            $t->set_var( "online_id", $onlineItem->id() );
-            $t->set_var( "web", $onlineItem->URL() );
+            if ( $onlineList[$i]->onlineTypeID() == 1 )
+            {
+                $t->set_var( "web_online_id", $onlineList[$i]->id() );
+                $t->set_var( "web", $onlineList[$i]->URL() );
+            }
+            if ( $onlineList[$i]->onlineTypeID() == 2 )
+            {
+                $t->set_var( "email_online_id", $onlineList[$i]->id() );
+                $t->set_var( "email", $onlineList[$i]->URL() );
+            }
+            
+            $t->parse( "web_item", "web_item_tpl" );
+            $t->parse( "email_item", "email_item_tpl" );
         }
     }
 
@@ -364,6 +401,30 @@ if ( $Action == "edit" )
     $Action_value = "Update";
 
 }
+
+// Company type selector
+$companyType = new eZCompanyType();
+$companyTypeList = $companyType->getAll();
+
+foreach( $companyTypeList as $companyTypeItem )
+{
+    $t->set_var( "company_type_name", $companyTypeItem->name() );
+    $t->set_var( "company_type_id", $companyTypeItem->id() );
+
+    if ( $company )
+    {
+        if ( $company->contactType() == $companyTypeItem->id() )
+        {
+            $t->set_var( "is_selected", "selected" );
+        }
+        else
+        {
+            $t->set_var( "is_selected", "" );
+        }
+    }
+    $t->parse( "company_type_select", "company_type_select_tpl", true );
+}
+
 
 // Template variabler.
 

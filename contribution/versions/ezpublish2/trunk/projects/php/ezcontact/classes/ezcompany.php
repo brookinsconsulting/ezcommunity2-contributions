@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.25 2000/11/14 18:16:25 ce-cvs Exp $
+// $Id: ezcompany.php,v 1.26 2000/11/15 15:31:43 ce-cvs Exp $
 //
 // Definition of eZProduct class
 //
@@ -114,19 +114,20 @@ class eZCompany
 
         if ( isSet( $this->ID ) )
         {
-            $this->Database->array_query( $address_array, "SELECT eZContact_Address.ID AS 'AID', eZContact_CompanyAddressDict.ID AS 'DID'
+            $this->Database->array_query( $address_array, "SELECT eZContact_Address.ID AS 'AID', eZContact_CompanyAddressDict.CompanyID AS 'DID'
                                                FROM eZContact_Address, eZContact_CompanyAddressDict
                                                WHERE eZContact_Address.ID=eZContact_CompanyAddressDict.AddressID AND eZContact_CompanyAddressDict.CompanyID='$this->ID' " );
 
             foreach( $address_array as $addressItem )
-                {
-                    $addressID = $addressItem["AID"];
-                    $addressDictID = $addressItem["DID"];
-                    $this->Database->query( "DELETE FROM eZContact_Address WHERE ID='$addressID'" );
-                    $this->Database->query( "DELETE FROM eZContact_CompanyAddressDict WHERE ID='$addressDictID'" );
-                }
-           
-            $this->Database->array_query( $phone_item, "SELECT eZContact_Phone.ID AS 'PID', eZContact_CompanyPhoneDict.ID AS 'DID'
+            {
+                $addressID = $addressItem["AID"];
+                $addressDictID = $addressItem["DID"];
+
+                $this->Database->query( "DELETE FROM eZContact_Address WHERE ID='$addressID'" );
+                $this->Database->query( "DELETE FROM eZContact_CompanyAddressDict WHERE CompanyID='$this->ID'" );
+            }
+
+            $this->Database->array_query( $phone_array, "SELECT eZContact_Phone.ID AS 'PID', eZContact_CompanyPhoneDict.CompanyID AS 'DID'
                                      FROM eZContact_Phone, eZContact_CompanyPhoneDict
                                      WHERE eZContact_Phone.ID=eZContact_CompanyPhoneDict.PhoneID AND eZContact_CompanyPhoneDict.CompanyID='$this->ID' " );
 
@@ -135,10 +136,25 @@ class eZCompany
                     $phoneID = $phoneItem["PID"];
                     $phoneDictID = $phoneItem["DID"];
                     $this->Database->query( "DELETE FROM eZContact_Phone WHERE ID='$phoneID'" );
-                    $this->Database->query( "DELETE FROM eZContact_CompanyPhoneDict WHERE ID='$phoneDictID'" );
+                    $this->Database->query( "DELETE FROM eZContact_CompanyPhoneDict WHERE CompanyID='$this->ID'" );
                 }
+
+            $this->Database->array_query( $online_array, "SELECT eZContact_Online.ID AS 'OID', eZContact_CompanyOnlineDict.CompanyID AS 'DID'
+                                     FROM eZContact_Online, eZContact_CompanyOnlineDict
+                                     WHERE eZContact_Online.ID=eZContact_CompanyOnlineDict.OnlineID AND eZContact_CompanyOnlineDict.CompanyID='$this->ID' " );
+
+            foreach( $online_array as $onlineItem )
+                {
+                    $onlineID = $onlineItem["OID"];
+                    $onlineDictID = $onlineItem["DID"];
+                    $this->Database->query( "DELETE FROM eZContact_Online WHERE ID='$onlineID'" );
+                    $this->Database->query( "DELETE FROM eZContact_CompanyOnlineDict WHERE CompanyID='$this->ID'" );
+                }
+
             
             $this->Database->query( "DELETE FROM eZContact_Company WHERE ID='$this->ID'" );
+
+            
         }
         return true;
     }
