@@ -111,6 +111,11 @@ CREATE TABLE eZContact_Address (
 );
 
 #
+# Dumping data for table 'eZContact_Address'
+#
+
+
+#
 # Table structure for table 'eZContact_Country'
 #
 CREATE TABLE eZContact_Country (
@@ -422,6 +427,10 @@ CREATE TABLE eZForum_Message (
 # Dumping data for table 'eZForum_Message'
 #
 
+INSERT INTO eZForum_Message VALUES (1,'First post!','This is the first post!',27,0,'N',20001101195844,1,0,0,1);
+INSERT INTO eZForum_Message VALUES (1,'SV: First post!','> This is the first post!\r\nThis is the reply!',27,1,'N',20001101195844,0,0,1,2);
+INSERT INTO eZForum_Message VALUES (2,'First post!','YES!',27,0,'N',20001101200642,3,1,0,3);
+INSERT INTO eZForum_Message VALUES (2,'RE: First post!','> YES!\r\nhmm',27,3,'N',20001101200642,2,1,1,4);
 
 #
 # Table structure for table 'eZImageCatalogue_Image'
@@ -496,6 +505,11 @@ CREATE TABLE eZLink_Hit (
 # Dumping data for table 'eZLink_Hit'
 #
 
+INSERT INTO eZLink_Hit VALUES (1,1,20001101194225,'10.0.2.3');
+INSERT INTO eZLink_Hit VALUES (2,1,20001101194230,'10.0.2.3');
+INSERT INTO eZLink_Hit VALUES (3,1,20001101194347,'10.0.2.3');
+INSERT INTO eZLink_Hit VALUES (4,1,20001101194442,'10.0.2.3');
+INSERT INTO eZLink_Hit VALUES (5,1,20001101201636,'10.0.2.3');
 
 #
 # Table structure for table 'eZLink_Link'
@@ -535,7 +549,6 @@ CREATE TABLE eZLink_LinkGroup (
 
 INSERT INTO eZLink_LinkGroup VALUES (1,0,'Cool links');
 INSERT INTO eZLink_LinkGroup VALUES (2,0,'Not so cool links');
-
 
 #
 # Table structure for table 'eZPoll_MainPoll'
@@ -608,13 +621,6 @@ CREATE TABLE eZPoll_Vote (
 # Dumping data for table 'eZPoll_Vote'
 #
 
-INSERT INTO eZPoll_Vote VALUES (1,6,24,'10.0.2.9',0);
-INSERT INTO eZPoll_Vote VALUES (2,6,22,'10.0.2.3',0);
-INSERT INTO eZPoll_Vote VALUES (3,6,24,'10.0.2.2',0);
-INSERT INTO eZPoll_Vote VALUES (4,3,17,'10.0.2.2',26);
-INSERT INTO eZPoll_Vote VALUES (5,5,21,'10.0.2.2',26);
-INSERT INTO eZPoll_Vote VALUES (6,1,5,'10.0.2.2',0);
-INSERT INTO eZPoll_Vote VALUES (7,4,19,'10.0.2.2',0);
 
 #
 # Table structure for table 'eZSession_Session'
@@ -630,6 +636,7 @@ CREATE TABLE eZSession_Session (
 #
 
 INSERT INTO eZSession_Session VALUES (1,'9fe562c032dc9fc54498626eb2019f6c');
+INSERT INTO eZSession_Session VALUES (2,'d0398e957e39baa51eb3a42a61f40a7c');
 
 #
 # Table structure for table 'eZSession_SessionVariable'
@@ -647,6 +654,8 @@ CREATE TABLE eZSession_SessionVariable (
 #
 
 INSERT INTO eZSession_SessionVariable VALUES (1,1,'AuthenticatedUser','27');
+INSERT INTO eZSession_SessionVariable VALUES (2,2,'VoteOnID1','true');
+INSERT INTO eZSession_SessionVariable VALUES (3,2,'AuthenticatedUser','27');
 
 #
 # Table structure for table 'eZUser_Forgot'
