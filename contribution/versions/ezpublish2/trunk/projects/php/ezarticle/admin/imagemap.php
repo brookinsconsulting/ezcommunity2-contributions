@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagemap.php,v 1.2 2001/06/19 07:37:34 jhe Exp $
+// $Id: imagemap.php,v 1.3 2001/06/19 10:32:18 jhe Exp $
 //
 // Jo Henrik Endrerud <jhe@ez.no>
 // Created on: <12-Jun-2001 14:47:19 jhe>
@@ -73,7 +73,7 @@ switch ( $Action )
     case "Store" :
     {
         $map->store( $Values );
-        eZHTTPTool::header( "Location: /article/articleedit/imagelist/" . $ImageID . "/" . $ArticleID );
+        eZHTTPTool::header( "Location: /article/articleedit/imagelist/" . $ArticleID );
     }
 	break;
 }

@@ -33,7 +33,7 @@ function getValue()
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<form action="/article/articleedit/imagelist/edit/{image_id}/{article_id}/" method="post">
+	<form action="/article/articleedit/imagelist/{article_id}/" method="post">
 	<input class="okbutton" type="submit" value="{intl-abort}" />
 	</form>
 	</td>
