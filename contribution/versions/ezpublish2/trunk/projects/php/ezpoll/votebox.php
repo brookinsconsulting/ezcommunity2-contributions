@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: votebox.php,v 1.1 2000/09/25 07:33:47 ce-cvs Exp $
+// $Id: votebox.php,v 1.2 2000/09/27 11:41:58 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -45,13 +45,16 @@ foreach( $choiceList as $choiceItem )
     $t->set_var( "choice_id", $choiceItem->id() );
 
     $t->parse( "vote_list", "vote_item", true );
+    
 }
 
 $poll = new eZPoll();
 $poll->get( $PollID );
 $t->set_var( "head_line", $poll->name() );
+$t->set_var( "poll_id", $PollID );
 
-   
+
+  
 $t->pparse( "output", "vote_form" );
 
 ?>

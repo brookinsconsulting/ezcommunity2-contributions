@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvote.php,v 1.3 2000/09/25 07:33:47 ce-cvs Exp $
+// $Id: ezvote.php,v 1.4 2000/09/27 11:41:58 ce-cvs Exp $
 //
 // Definition of eZVote class
 //
@@ -55,7 +55,6 @@ class eZVote
             $this->State_ = "New";
         }
     }
-
     /*!
       Stores a eZVote object to the database.
     */
@@ -64,7 +63,7 @@ class eZVote
         $this->dbInit();
 
         $this->Database->query( "INSERT INTO eZPoll_Vote SET
-                                 IP='$this->IP',   
+                                 VotingIP='$this->IP',
                                  PollID='$this->PollID',
                                  ChoiceID='$this->ChoiceID',
                                  UserID='$this->UserID'
@@ -92,6 +91,10 @@ class eZVote
             else if( count( $vote_array ) == 1 )
             {
                 $this->ID = $vote_array[0][ "ID" ];
+                $this->IP = $vote_array[0][ "VotingIP" ];
+                $this->PollID = $vote_array[0][ "PollID" ];
+                $this->ChoiceID = $vote_array[0][ "ChoiceID" ];
+                $this->UserID = $vote_array[0][ "UserID" ];
             }
 
         }
@@ -100,14 +103,14 @@ class eZVote
     /*!
       Fetches the vote id from the database. And returns a array of eZVote objects.
     */
-    function getAll()
+    function getAll( $id )
     {
         $this->dbInit();
 
         $return_array = array();
         $vote_array = array();
 
-        $this->Database->array_query( $vote_array, "SELECT ID FROM eZPoll_Vote" );
+        $this->Database->array_query( $vote_array, "SELECT ID FROM eZPoll_Vote WHERE PollID='$id'" );
 
         for ( $i=0; $i<count( $vote_array ); $i++ )
         {
@@ -116,6 +119,18 @@ class eZVote
 
 
     }
+
+    /*!
+      Fetches the vote number from eZPoll_Vote where PollID=$id'".
+    */
+    function getCountByChoiceID( $id )
+    {
+        $this->dbInit();
+        $this->Database->array_query( $votecount, "SELECT COUNT(*) AS NUMBER FROM eZPoll_Vote WHERE ChoiceID='$id'" );
+        
+        return $votecount[0][ "NUMBER" ];
+    }
+
 
     /*!
       Returns the pollid of the vote.
@@ -128,46 +143,63 @@ class eZVote
         return $this->PollID;
     }
 
-    function getCountByChoiceID( $id )
-    {
-        $this->dbInit();
-        $this->Database->array_query( $votecount, "SELECT COUNT(*) AS NUMBER FROM eZPoll_Vote WHERE PollID='$id'" );
-        
-        return $votecount[0][ "NUMBER" ];
-    }
-        
-
-   /*!
-      Returns the choiceid of the vote.
+    /*!
+      Returns the pollid of the vote.
     */
-    function voteID()
+    function choiceID()
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        return $this->VoteID;
+        return $this->choiceID;
     }
 
+       
     /*!
       Returns the IP of the vote.
     */
-    function ip()
+    function votingIP()
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
         return $this->IP;
     }
+
+    /*!
+      Returns the ID of the vote.
+    */
+    function id()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return $this->ID;
+    }
+
+    /*!
+      Returns the ID of the vote.
+    */
+    function userID()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return $this->userID;
+    }
+
+    
     /*!
       Sets the IP of the vote.
     */
-    function setIP( $value )
+    function setVotingIP( $value )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
         $this->IP = $value;
     }
+
     /*!
       Sets the Pollid of the vote.
     */
@@ -178,15 +210,27 @@ class eZVote
         
         $this->PollID = $value;
     }
+
     /*!
-      Sets the ChoiceID of the vote.
+      Sets the Pollid of the vote.
     */
-    function setName( $value )
+    function setChoiceID( $value )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        $this->Name = $value;
+        $this->ChoiceID = $value;
+    }
+    
+    /*!
+      Sets the ChoiceID of the vote.
+    */
+    function setUserID( $value )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $this->UserID = $value;
     }
 
     /*!
@@ -205,4 +249,5 @@ class eZVote
     var $IP;
     var $PollID;
     var $ChoiceIP;
+    var $UserID;
 }
