@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.21 2000/10/01 18:55:34 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.22 2000/10/02 19:07:02 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -34,29 +34,33 @@
     See eZNewsArticle and eZNewsCategory for examples of this usage.
 
     \code
+    // Example - including this class
+    
+    include_once( "eznews/classes/eznewsitem.php" );
+    
     // Example - creating an item
     
     $object = new eZNewsItem();
     
     // Example - adding a front image to the object.
     
-    $object->referenceImage( $ImageID, true );
+    $object->addImage( $ImageID, true );
     
     // Example - adding an image to the object.
     
-    $object->referenceImage( $ImageID );
+    $object->addImage( $ImageID );
     
     // Example - adding a file to the object.
     
-    $object->referenceFile( $FileID );
+    $object->addFile( $FileID );
     
     // Example - adding a parent to the object.
     
-    $object->referenceParent( $ParentID );
+    $object->addParent( $ParentID );
    
     // Example - adding a canonical parent to the object.
     
-    $object->referenceParent( $ParentID, true );
+    $object->addParent( $ParentID, true );
 
     // Example - Storing an object.
     
@@ -99,6 +103,10 @@
     New examples.
     
     Add logging
+    
+    Add functions for removing items.
+    
+    Add functions for getting only dependant data.
     
  */
  
@@ -182,6 +190,7 @@ class eZNewsItem extends eZNewsUtility
 
         $this->Database->array_query( $itemArray, $query );
         $count = count( $itemArray );
+        
         switch( $count )
         {
             case 0:
@@ -192,9 +201,9 @@ class eZNewsItem extends eZNewsUtility
                 $this->Name = $itemArray[0][ "Name" ];
                 $this->ItemTypeID = $itemArray[0][ "ItemTypeID" ];
                 $this->Status = $itemArray[0][ "Status" ];
-                $this->CreatedAt = $changeTypeArray[0][ "CreatedAt" ];
-                $this->CreatedBy = $changeTypeArray[0][ "CreatedBy" ];
-                $this->CreastionIP = $changeTypeArray[0][ "CreastionIP" ];
+                $this->CreatedAt = $itemArray[0][ "CreatedAt" ];
+                $this->CreatedBy = $itemArray[0][ "CreatedBy" ];
+                $this->CreastionIP = $itemArray[0][ "CreastionIP" ];
 
                 // fetch more info.
 
@@ -276,15 +285,16 @@ class eZNewsItem extends eZNewsUtility
         
         Only one image can be the front image.
         
-        \varaiables
         \in
             \$ImageID   The id of the image that shall be added
+
             \$isFrontImage  If the incoming image is a front image
                             set this to true. Default is false.
+        
         \return
             Returns true if an reference is made.
      */
-    function referenceImage( $ImageID,  $isFrontImage = false )
+    function addImage( $ImageID,  $isFrontImage = false )
     {
         $value = true;
         
@@ -298,7 +308,19 @@ class eZNewsItem extends eZNewsUtility
                     $this->Errors[] = "intl-eznews-eznewsitem-image-reference-exists";
                 }
             }
-
+            
+            // Check if the image actually exists in the db...
+            
+            include_once( "ezimagecatalogue/classes/ezimage.php" );
+            
+            $image = new eZImage( $ImageID );
+            
+            if( $image->isCoherent() == false )
+            {
+                $value = false;
+                $this->Errors[] = "intl-eznews-eznewsitem-image-doesnt-exist";
+            }
+            
             if( $value == true )
             {
                 if( $isFrontImage == true )
@@ -334,9 +356,13 @@ class eZNewsItem extends eZNewsUtility
         
         Needs store() afterwards.
         
-        Returns true if an reference is made.
+        \in
+            \$FileID A legal ID of a file stored in the database.
+        
+        \return
+            Returns true if an reference is made.
      */
-    function referenceFile( $FileID )
+    function addFile( $FileID )
     {
         $value = true;
         if( !$this->isDirty() )
@@ -368,9 +394,13 @@ class eZNewsItem extends eZNewsUtility
         
         Needs store() afterwards.
         
-        Returns true if an reference is made.
+        \in
+            \$ChangeTicketID A legal ID or name of a change ticket.
+        
+        \return
+            Returns true if an reference is made.
      */
-    function referenceLog( $ChangeTicketID )
+    function addLog( $ChangeTicketID )
     {
         $value = true;
         if( !$this->isDirty() )
@@ -382,6 +412,15 @@ class eZNewsItem extends eZNewsUtility
                     $value = false;
                     $this->Errors[] = "intl-eznews-eznewsitem-log-reference-exists";
                 }
+            }
+            $include_once( "eznews/classes/eznewschangeticket.php" );
+
+            $ct = new eZNewsChangeTicket( $ChangeTicketID, true );
+    
+            if( $ct->isCoherent() == false )
+            {
+                $value = false;
+                $this->Errors[] = "intl-eznews-eznewsitem-changeticket-doesnt-exist";
             }
 
             if( $value == true )
@@ -407,9 +446,14 @@ class eZNewsItem extends eZNewsUtility
         
         Only one parent can be the canonical parent.
         
-        Returns true if an reference is made.
+        \in
+            \$ParentID A legal name or ID of a eznews_item entry.
+            \$isCanonical This new parent should be the new canonical.
+        
+        \return
+            Returns true if an reference is made.
      */
-    function referenceParent( $ParentID, $isCanonical = false )
+    function addParent( $ParentID, $isCanonical = false )
     {
         $value = true;
         
@@ -422,6 +466,14 @@ class eZNewsItem extends eZNewsUtility
                     $value = false;
                     $this->Errors[] = "intl-eznews-eznewsitem-parent-reference-exists";
                 }
+            }
+
+            $item = new eZNewsItem( $ParentID );
+            
+            if( $item->isCoherent() == false )
+            {
+                $value = false;
+                $this->Errors[] = "intl-eznews-eznewsitem-parent-doesnt-exist";
             }
 
             if( $value == true )
@@ -637,6 +689,7 @@ class eZNewsItem extends eZNewsUtility
         
         \out
             \$outID     The ID returned after the insert/update.
+            
         \return
             Returns true if we are successful.
      */
@@ -713,17 +766,21 @@ class eZNewsItem extends eZNewsUtility
                 CreationIP - ip / port
                 Status  - eZNews_ChangeType.ID
                 \default is ID
+
             \$direction  This is the direction to do the ordering in
             \accepts
                 asc - ascending order
                 desc - descending order
                 \default is asc
+
             \$startAt   This is the result number we want to start at
                 \default is 0
+
             \$noOfResults This is the number of results we want.
                 \default is all
         \out
             \$returnArray    This is the array of found elements
+
         \return
             Returns false if it fails, the error message from SQL is
             retained in $this->SQLErrors. Use getSQLErrors() to read
@@ -920,10 +977,131 @@ class eZNewsItem extends eZNewsUtility
         
         $this->Database->array_query( $itemArray, $query );
         
-        for( $i = 0; $i < count( $itemArray ); $i++ )
+        for( $i = 0; $i != count( $itemArray ); $i++ )
         {   
             $returnArray[$i] = new eZNewsItem( $itemArray[$i][ "ID" ], 0 );
         }
+        
+        if( $returnArray )
+        {
+            $value = true;
+        }
+        
+        return $value;
+    }
+    
+    
+    
+    /*!
+        This function will return an array of items with an array of children of that type.
+        
+        \in
+            \$inOrderBy  This is the columnname to order the returned array
+                        by.
+            \accepts
+                ID - The id of the row in the table
+                Name - Name of item
+                CreatedAt - SQL timestamp
+                CreatedBy - eZUser.ID
+                CreationIP - ip / port
+                Status  - eZNews_ChangeType.ID
+                \default is ID
+            \$direction  This is the direction to do the ordering in
+            \accepts
+                asc - ascending order
+                desc - descending order
+                \default is asc
+            \$startAt   This is the result number we want to start at
+                \default is 0
+            \$noOfResults This is the number of results we want.
+                \default is all
+        \out
+            \$returnArray    This is the array of arrays of found elements. The first level is keyed
+                             by the item types of it's children. The item "Types" in the first level
+                             is an array of all the types returned.
+        \return
+            Returns false if it fails, the error message from SQL is
+            retained in $this->SQLErrors. Use getSQLErrors() to read
+            the error message.
+                      
+     */
+    function getChildrenGroups( &$returnArray, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = ""  )
+    {
+        $this->dbInit();
+        $value = false;
+        $continue = false;
+        
+        $returnArray = array();
+        $categoryArray = array();
+        $itemArray = array();
+        
+        $query =
+        "
+            SELECT
+                Type.Name AS Name
+            FROM
+                eZNews_Item AS Item,
+                eZNews_Hiearchy AS Hier,
+                eZNews_ItemType AS Type
+            WHERE
+                Type.eZClass LIKE 'eZNews%%' 
+            AND
+                Type.ID = Item.ItemTypeID
+            AND
+                Hier.ParentID = %s
+            AND
+                Item.ID = Hier.ItemID 
+            GROUP BY Type.Name
+        ";
+
+        $query = sprintf( $query, $this->ID );
+
+        $this->Database->array_query( $categoryArray, $query );
+         
+        $count = count( $categoryArray );
+        for( $i = 0; $i != $count; $i++ )
+        {
+            $typeName = $categoryArray[$i][ "Name" ];
+            $returnArray[ "Types" ][] = $typeName;
+            $returnArray[ $typeName ] = array();
+
+            $query =
+            "
+                SELECT
+                    Item.*
+                FROM
+                    eZNews_Item AS Item,
+                    eZNews_Hiearchy AS Hier,
+                    eZNews_ItemType AS Type
+                WHERE
+                    Type.Name LIKE '%s'
+                AND
+                    Type.eZClass LIKE 'eZNews%%' 
+                AND
+                    Type.ID = Item.ItemTypeID
+                AND
+                    Hier.ParentID = %s
+                AND
+                    Item.ID = Hier.ItemID
+                %s
+                %s
+            ";
+            $orderBy = $this->createOrderBy( $inOrderBy, $direction );
+            $limits = $this->createLimit( $startAt, $noOfResults );
+        
+            $query = sprintf( $query, $typeName, $this->ID, $orderBy, $limits );
+            
+            $this->Database->array_query( $itemArray, $query );   
+            
+            $count2 = count( $itemArray );
+            
+            for( $j = 0; $j != $count2; $j++ )
+            {   
+                $returnArray[ $typeName ][$j] = new eZNewsItem( $itemArray[$j][ "ID" ], false );
+            }        
+        }
+        
+        
         
         if( $returnArray )
         {
@@ -1218,6 +1396,42 @@ echo $query . "<br>";
         //
         }
         return $this->invariantCheck();
+    }
+
+
+
+    /*!
+        Sets the CreatedAt of the object.
+        
+        \in
+            \$inDescription    The new CreatedAt of this object
+        \return
+            Will always return true.
+    */
+    function setCreatedAt( $inCreatedAt )
+    {
+        $this->dirtyUpdate();
+        
+        $this->CreatedAt = $inCreatedAt;
+        
+        $this->alterState();
+        
+        return true;
+    }
+    
+
+
+    /*!
+        Returns the object CreatedAt.
+        
+        \return
+            Returns the CreatedAt of the object.
+    */
+    function createdAt()
+    {
+        $this->dirtyUpdate();
+        
+        return $this->CreatedAt;
     }
 
 

@@ -1,5 +1,5 @@
 #
-# $Id: eznews.sql,v 1.4 2000/09/28 08:27:15 pkej-cvs Exp $
+# $Id: eznews.sql,v 1.5 2000/10/02 19:07:03 pkej-cvs Exp $
 #
 # eZNews database schema.
 #
@@ -52,7 +52,7 @@ CREATE TABLE eZNews_ChangeType
 (
     ID              int(11) DEFAULT '0' NOT NULL AUTO_INCREMENT,
     Name            varchar(255) NOT NULL,
-    CommandName     varchar(255) NOT NULL,
+    Description     varchar(255) NOT NULL,
     eZArguments     int(2) DEFAULT '0' NOT NULL,
     eZSelect        text NOT NULL,
 
@@ -60,16 +60,17 @@ CREATE TABLE eZNews_ChangeType
     UNIQUE KEY (Name)
 );
 
-INSERT INTO eZNews_ChangeType (Name, CommandName) VALUES ('Deleted',       'delete'   );
-INSERT INTO eZNews_ChangeType (Name, CommandName) VALUES ('Created',       'create'   );
-INSERT INTO eZNews_ChangeType (Name, CommandName) VALUES ('Drafted',       'draft'    );
-INSERT INTO eZNews_ChangeType (Name, CommandName) VALUES ('Other',         'other'    );
-INSERT INTO eZNews_ChangeType (Name, CommandName) VALUES ('Published',     'publish'  );
+INSERT INTO eZNews_ChangeType (Description, Name) VALUES ('The item has been deleted',       'delete'   );
+INSERT INTO eZNews_ChangeType (Description, Name) VALUES ('The item has been created',       'create'   );
+INSERT INTO eZNews_ChangeType (Description, Name) VALUES ('The item has been drafted',       'draft'    );
+INSERT INTO eZNews_ChangeType (Description, Name) VALUES ('We don''t know how to categorize this change',         'other'    );
+INSERT INTO eZNews_ChangeType (Description, Name) VALUES ('The item has been published',     'publish'  );
 
-INSERT INTO eZNews_ChangeType (Name, CommandName) VALUES ('Refused',       'refuse'   );
-INSERT INTO eZNews_ChangeType (Name, CommandName) VALUES ('Retracted',     'retract'  );
-INSERT INTO eZNews_ChangeType (Name, CommandName) VALUES ('Translated',    'translate');
-INSERT INTO eZNews_ChangeType (Name, CommandName) VALUES ('Updated',       'update'   );
+INSERT INTO eZNews_ChangeType (Description, Name) VALUES ('The item has been refused',       'refuse'   );
+INSERT INTO eZNews_ChangeType (Description, Name) VALUES ('The item has been retracted',     'retract'  );
+INSERT INTO eZNews_ChangeType (Description, Name) VALUES ('The item has been translated',    'translate');
+INSERT INTO eZNews_ChangeType (Description, Name) VALUES ('The item has been updated',       'update'   );
+INSERT INTO eZNews_ChangeType (Description, Name) VALUES ('The item has been copied',        'copy'   );
 
 
 # This table keeps track of all items in the hiearcy,
@@ -104,7 +105,7 @@ CREATE TABLE eZNews_Item
     Views       int(11) DEFAULT '0' NOT NULL,
 
     # Shall we show this page or not for the current user?
-    Status      int(11) DEFAULT 'SELECT ID FROM eZNews_ChangeType WHERE CommandType = \'create\'' NOT NULL REFERENCES eZNews_ChangeType(ID),
+    Status      int(11) DEFAULT 'SELECT ID FROM eZNews_ChangeType WHERE Name = \'create\'' NOT NULL REFERENCES eZNews_ChangeType(ID),
 
     PRIMARY KEY (ID),
     KEY (ItemTypeID),
@@ -267,6 +268,20 @@ CREATE TABLE eZNews_ItemImagePreference
 
     # Is this image the main thumbnail? (Ie. front page image.)
     isFrontImage    enum('Y','N') DEFAULT 'N' NOT NULL,
+    
+    # This is the image width which the user has elected to use.
+    ImageWidth  int(11) DEFAULT '0',
+    
+    # This is the image height which the user has elected to use.
+    ImageHeight  int(11) DEFAULT '0',
+
+    # This is the image width which the user has elected to use
+    # for the thumbnail image.
+    ThumbImageWidth  int(11) DEFAULT '0',
+    
+    # This is the image height which the user has elected to use
+    # for the thumbnail image.
+    ThumbImageHeight  int(11) DEFAULT '0',
 
     PRIMARY KEY (ID)
 );
@@ -320,15 +335,16 @@ DROP TABLE eZNews_ChangeTicket;
 CREATE TABLE eZNews_ChangeTicket
 (
     ID              int(11) DEFAULT '0' NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    Name            varchar(255) DEFAULT '' NOT NULL,
     ChangeInfo      int(11) DEFAULT '0' NOT NULL REFERENCES eZNews_Article(ID),
     ChangeTypeID    int(11) NOT NULL REFERENCES eZNews_ChangeType(ID),
-    ChangeText      varchar(255),
     ChangedBy       int(11) NOT NULL REFERENCES ezCommon_User(ID),
     ChangedAt       timestamp DEFAULT 'now()' NOT NULL,
 
     # Keep track of the IP address of the person who made the change.
     ChangeIP        varchar(50),
 
+    INDEX (Name),
     INDEX (ChangeInfo),
     INDEX (ChangedBy),
     INDEX (ChangeTypeID)

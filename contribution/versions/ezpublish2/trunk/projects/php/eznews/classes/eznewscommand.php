@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewscommand.php,v 1.7 2000/09/28 13:30:18 th-cvs Exp $
+// $Id: eznewscommand.php,v 1.8 2000/10/02 19:07:02 pkej-cvs Exp $
 //
 // Definition of eZNewsCommand class
 //
@@ -26,175 +26,226 @@
     http://www.site.com/news/path/to/somewhere  - view a category or article based on it's path
     http://www.site.com/news/
     \endcode
+    
+    This class adds the following directives to the ini files [eZNewsAdmin] group:
+    
+    <dl>
+        <dt>Adminsite
+        <dd>A regexp to determine if we're doing admin work. The two normal set ups are:
+        <ul>
+        <li>^admin for site admin through "admin.site.com".
+        <li>^/admin/ for site admin through "site.com/admin/".
+        </ul>
+        <dt>OrphansMainPage
+        <dd>The number of orphaned items in the site displayed on the main page.
+    </dl>
  */
  
 class eZNewsCommand
 {
     function eZNewsCommand()
     {
-        global $REQUEST_URI;
-        $URLArray = explode( "/", $REQUEST_URI );
+        include_once( "classes/INIFile.php" );
+        include_once( "classes/eztemplate.php" );
+        include_once( "classes/ezquery.php" );
 
-        #echo "0 " . $URLArray[0] . "<br>";
-        #echo "1 " . $URLArray[1] . "<br>";
-        #echo "2 " . $URLArray[2] . "<br>";
-        #echo "3 " . $URLArray[3] . "<br>";
-        #echo "4 " . $URLArray[4] . "</table></table></table>heheheheheh";
-
-        $this->decodeTopLevel( $URLArray );
-        $title_string = ereg_replace('/$', '', $REQUEST_URI);
-        $title_string = ereg_replace('^/', '', $title_string);
-        $title_string = ereg_replace('^news', '', $title_string);
-        $title_string = ereg_replace('/', ' : ', $title_string);
+        $this->Ini = new INIFile( "site.ini" );
+        $this->Query = new eZQuery();
+        
+        $this->decodeTopLevel(  );
     }
     
-    function eZNewsCommand2()
+    function decodeTopLevel()
     {
-        global $QUERY_STRING;
-        global $URLArray;
+        global $SERVER_NAME;
         global $REQUEST_URI;
-        echo $REQUEST_URI . "<br>";
-        echo $QUERY_STRING . "<br>";
-        echo $URLArray[1] . "<br>";
-        $title_string = ereg_replace('/$', '', $REQUEST_URI);
-        $title_string = ereg_replace('^/news/', '', $title_string);
-        $title_string = ereg_replace('/', ' : ', $title_string);
-        echo $title_string . "<br>";
-    }
-    
-    
-    function admin()
-    {
-    }
-    
-    function decodeTopLevel( $URLArray )
-    {
-        switch ( $URLArray[2] )
+        
+        $this->Customer = $this->Ini->read_var( "eZNewsMain", "Customer" );
+        $this->Adminsite = $this->Ini->read_var( "eZNewsAdmin", "Adminsite" );
+
+        if( ereg( $this->Adminsite, $SERVER_NAME ) || ereg( $this->Adminsite, $REQUEST_URI ) )
         {
-            case "date":
-                $this->decodeDate( $URLArray );
+            if( is_numeric( $this->Query->getURLPart( 2 ) ) )
+            {
+                include_once( "eznews/classes/eznewsitem.php" );  
+                $this->AI = new eZNewsItem( 2 );
+            }
+            else
+            {
+                $this->doAdmin();
+            }
+        }
+        else
+        {        
+            if( $this->Customer == "true" )
+            {
+                $this->CustomerName = $this->Ini->read_var( "eZNewsCustomer", "Name" );
+                $CustomerClass = $this->Ini->read_var( "eZNewsCustomer", "Class" );
+
+                $path = "eznews/classes/" . strtolower( $CustomerClass ) .".php";
+
+                if( include_once( $path ) )
+                {
+                    $customer = new $CustomerClass( $this->URLArray );
+
+                }
+                else
+                {
+                    echo "The customer " . $this->CustomerName . " has no class defined.";
+                }
+            }
+        }
+    }
+    
+    function doAdmin()
+    {
+        include_once( "classes/eztemplate.php" );
+        include_once( "eznews/classes/eznewsitem.php" );
+
+        $Language = $this->Ini->read_var( "eZNewsMain", "Language" );
+        $DOC_ROOT = $this->Ini->read_var( "eZNewsMain", "DocumentRoot" );
+        
+        $TEMPLATE_DIR = $this->Ini->read_var( "eZTradeMain", "TemplateDir" );
+        $strings = "$DOC_ROOT/admin/intl/$Language/eznewscommand.php.ini";
+                
+        $this->AS = new INIFile( $strings, false );
+        $this->AT = new eZTemplate( $DOC_ROOT . "/admin/" . $TEMPLATE_DIR . "/",  $DOC_ROOT . "/admin/intl/", $Language, "eznewscommand.php" );
+        $this->AI = new eZNewsItem( 1 );
+        
+        $this->AT->set_file( array( "eznewscommand" => "eznewscommand.tpl" ) );
+        
+        $this->doAdminOrphans();
+        $this->doAdminNavigate();
+
+        // Output the admin page
+        $this->AT->setAllStrings();
+        $this->AT->pparse( "output", "eznewscommand" );
+
+    }
+    
+    function pluralize( $outputString, $insertString, $count )
+    {
+        if( $count == 1 )
+        {
+            $this->AT->set_var( $outputString, $this->AS->read_var( "strings", $insertString . "_singular" ) );
+        }
+        else
+        {
+            $this->AT->set_var( $outputString, $this->AS->read_var( "strings", $insertString . "_plural" ) );
+        }
+    }
+    
+    function orphansDirection()
+    {
+        $returnString = "";
+        $continue = false;
+        
+        $this->Query->removeRegexpDuplicates( "^orphan=sortby." );
+        $this->Query->getQueries( $QueryArray, "^orphan=sortby." );
+        
+        $count = count( $QueryArray );
+        #echo $count;
+        switch( $count )
+        {
+            case 0:
+                $returnString = $this->AS->read_var( "strings", "sort_date_adverb" );
+                $this->OrphansSortBy = "CreatedAt";
                 break;
-            case "author":
-                #$this->decode_author();
-                break;
-            case "admin":
-                $this->admin();
+            case 1:
+                $continue = true;
                 break;
             default:
-                $this->decodeItem( $URLArray );
-                break;          
+                $returnString = $this->AS->read_var( "strings", "sort_date_adverb" );
+                $this->OrphansSortBy = "CreatedAt";
+                break;
         }
+        
+        if( $continue )
+        {
+            $stringArray = explode( "=", $QueryArray[0] );
+            $string = explode( "+", $stringArray[1] );
+            echo $stringArray[0];
+        }
+        
+        return $returnString;
     }
     
-    function decodeItem( $URLArray )
+    function doAdminOrphans()
     {
-        $itemInfo = $URLArray[2];
+        $this->AT->set_block( "eznewscommand", "orphans_template", "orphans" );
+        $this->AT->set_block( "orphans_template", "orphan_item_template", "orphan_item" );
         
-        if( is_numeric( $itemInfo ) )
+        $maxItems = $this->Ini->read_var( "eZNewsAdmin", "OrphansMainPage" );
+        
+        // Show orphans
+        $this->AI->getOrphans( $returnArray, $this->OrphansSortBy, "asc", 0, $maxItems );
+        
+        if( $returnArray )
         {
-            include_once( "eznews/classes/eznewsitem.php" );
-            include_once( "eznews/classes/eznewsitemtype.php" );
+            $count = count( $returnArray );
             
-            $item = new eZNewsItem( $itemInfo );
+            $direction = $this->orphansDirection();
             
-            $itemType = new eZNewsItemType( $item->itemTypeID() );
+            $this->pluralize( "orphans_string", "orphan", $count );
+            
+            $this->AT->set_var( "orphans_count", $count );
+            $this->AT->set_var( "orphans_direction", $direction );
+            $this->AT->set_var( "query_string", $this->Query->createQueryString( "&" ) );
 
-            $class = $itemType->eZClass();
-            if( !empty( $class ) )
+            foreach( $returnArray as $item )
             {
-                $viewer = $class . "viewer";
-                $path = "eznews/classes/" . strtolower( $viewer ) . ".php";
-                if( include_once( $path ) )
-                {
-                    new $viewer( $item, $URLArray );
-                }
-                else
-                {
-                    echo "The viewer for this article doesn't work";
-                }
-            }            
+                $item->get($outID, $item->ID() );
+                $this->AT->set_var( "orphan_id", $item->ID() );
+                $this->AT->set_var( "orphan_name", $item->Name() );
+                $this->AT->set_var( "orphan_createdat", $item->CreatedAt() );
+                $this->AT->parse( "orphan_item", "orphan_item_template", true );
+            }
+            
+            $this->AT->parse( "orphans", "orphans_template" );
         }
         else
         {
-            include_once( "eznews/classes/eznewsitem.php" );
-            include_once( "eznews/classes/eznewsitemtype.php" );
-            
-            $item = new eZNewsItem();
-                     
-            $item->getByName( $itemInfo );
-            
-            $itemType = new eZNewsItemType( $item->itemTypeID() );
-
-            $class = $itemType->eZClass();
-            if( !empty( $class ) )
-            {
-                $viewer = $class . "viewer";
-                $path = "eznews/classes/" . strtolower( $viewer ) . ".php";
-                if( include_once( $path ) )
-                {
-                    new $viewer( $item, $URLArray );
-                }
-                else
-                {
-                    echo "The viewer for this article doesn't work";
-                }
-            }
+            $this->AT->set_var( "orphans", "" );
         }
         
     }
     
-    /*
-        We accept urls on the form:
-        <ul>
-        <li>/date/YYYY/MM/DD
-        <li>/date/YYYY/MM/DD/CategoryPath
-        <li>/date/YYYY/MM/DD/HH
-        <li>/date/YYYY/MM/DD/HH/CategoryPath
-        </ul>
-        
-        How this function works:
-        <ol>
-        <li>checking that we have enough for a full date. (Might change
-        this to list everything within month, year, etc.)
-        <li>now check if we have more info to parse.
-        <li>if we don't, then create time limits for search.
-        <li>else we need to check if we have more numeric info for the hour...
-        <li>create time limits for search.
-        </ol>
-        
-     */
-    function decodeDate( $URLArray )
+    function doAdminNavigate()
     {
-
-/* 1 */ if( is_numeric( $URLArray[3] ) || is_numeric( $URLArray[4] ) || is_numeric( $URLArray[5] ) )
+        $this->AT->set_block( "eznewscommand", "navigate_template", "navigate" );
+        $this->AT->set_block( "navigate_template", "navigate_item_template", "navigate_item" );
+        
+        $maxItems = $this->Ini->read_var( "eZNewsAdmin", "NavigationMainPage" );
+        
+        // Show navigate
+        $this->AI->getChildren( $returnArray, $this->NavigatesSortBy, "asc", 0, $maxItems );
+        
+        if( $returnArray )
         {
-            include_once("eznews/classes/eznewsitem.php");
+            $count = count( $returnArray );
             
-            $ourDate = $URLArray[3] . $URLArray[4] . $URLArray[5];
+            #$direction = $this->navigateDirection();
+            
+            $this->pluralize( "navigate_string", "navigate", $count );
+            
+            $this->AT->set_var( "navigate_count", $count );
+            $this->AT->set_var( "navigate_direction", $direction );
+            $this->AT->set_var( "query_string", $this->Query->createQueryString( "&" ) );
 
-/* 2 */     if( empty( $URLArray[6] ) )
+            foreach( $returnArray as $item )
             {
-/* 3 */         $arguments[] = $ourDate . "000000";
-                $arguments[] = $ourDate . "235959";
-                $this->SearchLimits[] = sprintf( $this->OrderBy["between_timestamps"], $arguments[0], $arguments[1]);
+                $item->get($outID, $item->ID() );
+                $this->AT->set_var( "navigate_id", $item->ID() );
+                $this->AT->set_var( "navigate_name", $item->Name() );
+                $this->AT->set_var( "navigate_createdat", $item->CreatedAt() );
+                $this->AT->parse( "navigate_item", "navigate_item_template", true );
             }
-/* 4 */     else
-            {
-                if( is_numeric( $URLArray[6] ) )
-                {
-/* 5 */             $arguments[] = $ourDate . $URLArray[6] . "0000";
-                    $arguments[] = $ourDate . $URLArray[6] . "5959";                    
-                    $this->SearchLimits[] = sprintf( $this->OrderBy["between_timestamps"], $arguments[0], $arguments[1]);
-                }
-                else
-                {
-                    
-                }
-            }
+            
+            $this->AT->parse( "navigate", "navigate_template" );
         }
         else
         {
-            die("error handling here: need a numeric value as the second, and consequtive parts of the path<br></table></table>");
+            $this->AT->set_var( "navigate", "" );
         }
     }
     
@@ -209,27 +260,21 @@ class eZNewsCommand
         }
     }
     
-    var $SQL = array(
-        "get_articles" => "SELECT * FROM eZNews_Article, eZNews_Item, eZNews_ItemCategory WHERE eZNews_Article.ItemID = %s AND eZNews_Item.ID = eZNews_Article.ItemID"
-        );
+    var $Query;
+    var $Adminsite;
+    var $Usersite;
+    var $Customer;
+    var $CustomerName;
+    var $Ini;
+    var $OrphansSortBy;
     
-    var $Limits = array(
-        "between_timestamps" => "AND eZNews_Item.CreatedAt > '%s' AND eZNews_Item.CreatedAt < '%s'",
-        "in_category" => "AND eZNews_ItemHiearchy.ParentID = %s"
-        );
-
-    var $OrderBy = array(
-        "none" => "",
-        "title" => "ORDER BY Title",
-        "author" => "ORDER BY Author",
-        "date" => "ORDER BY Date",
-        "forward" => "ASC",
-        "reverse" => "DESC",
-        );
-
-    var $Path = array();
-    var $Arguments = array();
-    var $SearchLimits = array();
-    var $SearchOrder;
+    /// Admin template
+    var $AT;
+    
+    /// Admin item
+    var $AI;
+    
+    /// Admin internationalization
+    var $AS;
 };
-
+?>

@@ -880,6 +880,7 @@ echo $this->objectFooter() . "<br>\n\n";
             AND
                 Item.ID = Hier.ItemID
             %s
+            %s
         ";
         
         $query = sprintf( $query, $this->ID, $orderBy );

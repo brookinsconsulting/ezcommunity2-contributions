@@ -1,6 +1,6 @@
 <?
-    include_once("eznews/admin/eznewsadmin.php");
+    include_once("eznews/classes/eznewscommand.php");
 
-    $item=new eZNewsAdmin();
+    $item=new eZNewsCommand();
 
 ?> 

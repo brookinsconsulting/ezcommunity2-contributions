@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsutility.php,v 1.6 2000/10/01 18:55:34 pkej-cvs Exp $
+// $Id: eznewsutility.php,v 1.7 2000/10/02 19:07:02 pkej-cvs Exp $
 //
 // Definition of eZNewsUtility class
 //
@@ -167,7 +167,7 @@ class eZNewsUtility
         \return
             Returns true if only one data item was returned.
      */
-    function get( &$outID, &$inData )
+    function get( &$outID, $inData = "" )
     {
         #echo "eZUtility::get( \$outID, \$inData=$inData ) <br>";
         $value = false;

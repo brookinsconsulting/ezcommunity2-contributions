@@ -1,16 +1,11 @@
 <?
 // 
-// $Id: eznewsxml.php,v 1.2 2000/09/28 12:48:35 pkej-cvs Exp $
+// $Id: eznewsxml.php,v 1.3 2000/10/02 19:07:02 pkej-cvs Exp $
 //
 // Definition of eZNewsXML class and support functions.
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-Sep-2000 13:42:10 pkej>
-//
-// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
-//
-// IMPORTANT NOTE: You may NOT copy this file or any part of it into
-// your own programs or libraries.
 //
 
 //!! eZNews
@@ -63,8 +58,6 @@ class eZNewsXML
      */
     function eZNewsXML()
     {
-        global $theXMLParser;
-        $theViewer = &$this;
     }
     
     //!! eZNews
@@ -75,20 +68,23 @@ class eZNewsXML
      */
     function startElement( $parser, $inName, $attrs='' )
     {
-        die("Take care of startElement() in a subclass of eZNewsXML,
-         and make sure that you override the functions
-         startElement and endElement. ");
-        $this->currentTag = $inName;
+//         die("Take care of startElement() in a subclass of eZNewsXML,
+//          and make sure that you override the functions
+//          startElement and endElement. ");
+
+        global $theXMLParser;
+
+        $theXMLParser->currentTag = $inName;
 
         if ( $format == $openTags[$inName] )
         {
             switch( $inName )
             {
                 case 'pictureid':
-                    $this->parsedXMLAttributes[ $this->currentTag ]["value"] = $attrs["value"];
+                    $theXMLParser->parsedXMLAttributes[ $theXMLParser->currentTag ]["value"] = $attrs["value"];
                     break;
                 case 'categoryid':
-                    $this->parsedXMLAttributes[ $this->currentTag ]["value"] = $attrs["value"];
+                    $theXMLParser->parsedXMLAttributes[ $theXMLParser->currentTag ]["value"] = $attrs["value"];
                     break;
                 default:
                     break;
@@ -104,25 +100,74 @@ class eZNewsXML
      */
     function endElement( $parser, $inName, $attrs='' )
     {
-        die("Take care of endElement() in a subclass of eZNewsXML,
-         and make sure that you override the functions
-         startElement and endElement. ");
+//         die("Take care of endElement() in a subclass of eZNewsXML,
+//          and make sure that you override the functions
+//          startElement and endElement. ");
+
+        global $theXMLParser;
 
         if( $format == $closeTags[ $inName ] )
         {
             switch( $inName )
             {
                 case 'ezflower':
-                    $this->printPage(  );
-                    $this->parsedXML = '';
+                    $theXMLParser->page( );
+                    $theXMLParser->parsedXML = '';
                     break;
                 case 'product':
-                    $this->printItem(  );
-                    $this->parsedXML = '';
+                echo "extremt";
+                    $theXMLParser->item( );
+                    $theXMLParser->parsedXML = '';
                     break;
                 default:
                     break;
             }
+        }
+    }
+    
+    
+    //!! eZNews
+    //! addToOldTag adds data from the stream to the last tag parsed.
+    /*
+     This function does the magic of ensuring that all character data
+     is stored in the correct data element of the $temp array.
+     */
+    function addToOldTag( $data )
+    {
+        global $theXMLParser;
+        
+        $data = utf8_decode( $data );
+
+        $this->parsedXML[ $this->lastTag ] = $theXMLParser->parsedXML[ $theXMLParser->lastTag ] . $data;
+        if( $data == "\n" || $data == "\r" )
+        {
+                $theXMLParser->parsedXML[ $theXMLParser->lastTag ] = $theXMLParser->parsedXML[ $theXMLParser->lastTag ] . "<br>\n";
+        }
+        if( $data == "\t"  )
+        {
+                $theXMLParser->parsedXML[ $theXMLParser->lastTag ] = $theXMLParser->parsedXML[ $theXMLParser->lastTag ] . "\t";
+        }
+    }
+    
+
+    //!! eZNews
+    //! characterData stores data in the value array.
+    /*
+     This function takes character data and stores it in an array where
+     the key is the tag name.
+     */
+    function characterData( $parser, $data )
+    {
+        global $theXMLParser;
+        if( empty( $theXMLParser->currentTag ) )
+        {
+            $theXMLParser->addToOldTag( $data );
+        }
+        else
+        {
+            $theXMLParser->parsedXML[ $theXMLParser->currentTag ] = utf8_decode( $data );
+            $theXMLParser->lastTag = $theXMLParser->currentTag;
+            $theXMLParser->currentTag = '';
         }
     }
 
@@ -133,131 +178,9 @@ class eZNewsXML
     var $parsedXMLAttributes = array();
     
     var $currentTag;
+    var $lastTag;
+    var $item;
+    var $page;
 
 }
-
-//!! eZNews
-//! theXMLParser the global xml object needed by the parser callbacks.
-
-global $theXMLParser;
-
-//!! eZNews
-//! startElement global callback used by the XML parser.
-/*
- This function is a callback. It requires a global instance of an object.
- That object must have a function called startElement.
- */
-function startElement( $parser, $name, $attrs='' )
-{
-    global $theXMLParser;
-    $theXMLParser->startElement( $parser, $name, $attrs='' );
-}
-
-//!! eZNews
-//! endElement global callback used by the XML parser.
-/*
- This function is a callback. It requires a global instance of an object.
- That object must have a function called endElement.
- */
- 
-function endElement($parser, $name, $attrs='')
-{
-    global $theXMLParser;
-    $theXMLParser->endElement( $parser, $name, $attrs='' );
-}
-
-
-
-
-
-//!! eZNews
-//! addToOldTag global callback used by the XML parser.
-/*
- This function does the magic of ensuring that all character data
- is stored in the correct data element of the $temp array.
- */
-function addToOldTag( $data )
-{
-    global $last_tag;
-    global $parsedXML;
-    
-    $data = utf8_decode( $data );
-    
-    $parsedXML[ $last_tag ] = $parsedXML[ $last_tag ] . $data;
-    if( $data == "\n" || $data == "\r" )
-    {
-            $parsedXML[ $last_tag ] = $parsedXML[ $last_tag ] . "<br>\n";
-    }
-    if( $data == "\t"  )
-    {
-            $parsedXML[ $last_tag ] = $parsedXML[ $last_tag ] . "\t";
-    }
-}
-
-//!! eZNews
-//! characterData global callback used by the XML parser.
-/*
- This function takes character data and stores it in an array where
- the key is the tag name.
- */
-
-function characterData($parser, $data)
-{
-    global $current_tag;
-    global $parsedXML;
-    global $last_tag;
-    
-    if( empty( $current_tag ) )
-    {
-        addToOldTag( $data );
-    }
-    else
-    {
-        $parsedXML[ $current_tag ] = utf8_decode( $data );
-        $last_tag = $current_tag;
-        $current_tag = '';
-    }
-}
-    
-
-//!! eZNews
-//! $data an unfortunate item which is needed by the parser.
-global $data;
-
-// declare the character set - UTF-8 is the default
-$type = 'US-ASCII';
-$type = 'ISO-8859-1';
-$type = 'UTF-8';
-
-// create our parser
-$xml_parser = xml_parser_create($type);
-
-// set some parser options 
-xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, false);
-xml_parser_set_option($xml_parser, XML_OPTION_TARGET_ENCODING, $type);
-
-// this tells PHP what functions to call when it finds an element
-// these funcitons also handle the element s attributes
-xml_set_element_handler($xml_parser, 'startElement','endElement');
-
-// this tells PHP what function to use on the character data
-xml_set_character_data_handler($xml_parser, 'characterData');
-
-#if (!($fp = fopen($xml_file, 'r'))) {
-#    die("Could not open $xml_file for parsing!\n");
-#}
-// loop through the file and parse baby!
-    if( !( $data = utf8_encode($data) ) )
-    {
-        
-    }
-    
-    if( !xml_parse( $xml_parser, $data ) )
-    {
-        die(sprintf( "XML error: %s at line %d\n\n",
-        xml_error_string(xml_get_error_code($xml_parser)),
-        xml_get_current_line_number($xml_parser)));
-    }
-
-xml_parser_free($xml_parser);
 ?>
