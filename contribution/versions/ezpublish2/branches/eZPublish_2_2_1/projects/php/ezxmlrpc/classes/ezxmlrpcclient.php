@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcclient.php,v 1.22 2001/09/05 12:21:54 ce Exp $
+// $Id: ezxmlrpcclient.php,v 1.22.6.1 2001/11/09 10:01:55 jb Exp $
 //
 // Definition of eZXMLRPCClient class
 //
@@ -179,7 +179,6 @@ class eZXMLRPCClient
                     $rawResponse .= $data;
                 }
 
-                print( $rawResponse );
                 if ( $this->Debug == true )
                 {
                     print( "<pre>" );

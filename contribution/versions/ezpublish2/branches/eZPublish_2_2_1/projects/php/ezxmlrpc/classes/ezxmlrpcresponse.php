@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcresponse.php,v 1.15 2001/07/05 09:25:01 bf Exp $
+// $Id: ezxmlrpcresponse.php,v 1.15.6.1 2001/11/09 10:01:56 jb Exp $
 //
 // Definition of eZXMLRPCResponse class
 //
@@ -32,6 +32,7 @@
 */
 
 // datatypes
+include_once( "ezxmlrpc/classes/ezxmlrpcserver.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcstring.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcint.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcdouble.php" );
@@ -66,7 +67,22 @@ class eZXMLRPCResponse
         
         $stream = $this->stripHTTPHeader( $stream );
 
-        $domTree =& qdom_tree( $stream );
+        // coose XML parser
+        if ( function_exists( "xmltree" ) )
+        {
+            $domTree =& xmltree( $stream );
+        }
+        else if ( function_exists( "qdom_tree" ) )
+        {
+            $domTree =& qdom_tree( $stream );
+        }
+        else
+        {
+            $domTree->children = array();
+            $this->setError( EZXMLRPC_NO_DOM_PARSER,
+                             "DOM XML parser not found. Server not properly configured.\n" .
+                             "Please install either libxml or QDom.\n");
+        }            
 
         foreach ( $domTree->children as $response )
         {
@@ -127,13 +143,23 @@ class eZXMLRPCResponse
     }
 
     /*!
+      Sets the version number, it's expected to be a float with a major and minor version.
+      Example: 2.2
+    */
+    function setVersion( $version )
+    {
+        $this->Version = $version;
+    }
+
+    /*!
       Sets an error message.
     */
     function setError( $faultCode, $faultString, $faultSubCode = false )
     {
         $this->IsFault = true;
         $error = array( "faultCode" => new eZXMLRPCInt( $faultCode ),
-                        "faultString" => new eZXMLRPCString( $faultString ) );
+                        "faultString" => new eZXMLRPCString( $faultString ),
+                        "version" => new eZXMLRPCDouble( $this->Version ) );
         if ( !is_bool( $faultSubCode ) )
             $error["faultSubCode"] = $faultSubCode;
         $this->Error = new eZXMLRPCStruct( $error );
@@ -243,6 +269,9 @@ class eZXMLRPCResponse
 
     /// Is true if the response is a fault
     var $IsFault;
+
+    /// The version number, is sent on error responses
+    var $Version;
 }
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categorylist.php,v 1.8 2001/10/11 10:34:43 jb Exp $
+// $Id: categorylist.php,v 1.8.6.1 2001/11/09 10:07:19 jb Exp $
 //
 // Created on: <26-Oct-2000 19:40:18 bf>
 //
@@ -97,9 +97,10 @@ if ( $Command == "list" )
             $imageList =& $category->images( "time", $loc_offset, $loc_max );
             foreach( $imageList as $imageItem )
             {
+                $fileName = basename( $imageItem->originalFileName() );
                 $cols = array( "Caption" => new eZXMLRPCString( $imageItem->caption( false ) ),
                                "Description" => new eZXMLRPCString( $imageItem->description( false ) ),
-                               "FileName" => new eZXMLRPCString( $imageItem->originalFileName() )
+                               "FileName" => new eZXMLRPCString( $fileName )
                                );
                 $art[] = new eZXMLRPCStruct( array( "URL" => createURLStruct( "ezimagecatalogue",
                                                                               "image",
@@ -148,8 +149,8 @@ if ( $Command == "list" )
 
     if ( $offset == 0 )
         $cols = new eZXMLRPCStruct( array( "Caption" => new eZXMLRPCString( "text" ),
-                                           "Description" => new eZXMLRPCString( "text" ),
-                                           "FileName" => new eZXMLRPCString( "text" )
+                                           "FileName" => new eZXMLRPCString( "text" ),
+                                           "Description" => new eZXMLRPCString( "text" )
                                            ) );
     $ret = array( "Catalogues" => $cat,
                   "Elements" => $art,

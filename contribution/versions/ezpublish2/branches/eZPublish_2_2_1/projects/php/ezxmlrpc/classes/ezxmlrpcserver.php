@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcserver.php,v 1.4 2001/05/15 13:18:46 bf Exp $
+// $Id: ezxmlrpcserver.php,v 1.4.6.1 2001/11/09 10:01:56 jb Exp $
 //
 // Definition of eZXMLRPCServer class
 //
@@ -61,6 +61,9 @@
   Implement extensive checks and error messages.
 
 */
+
+// eZXMLRPC error messages
+define( "EZXMLRPC_NO_DOM_PARSER", -1 );
 
 include_once( "ezxmlrpc/classes/ezxmlrpcfunction.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcresponse.php" );
