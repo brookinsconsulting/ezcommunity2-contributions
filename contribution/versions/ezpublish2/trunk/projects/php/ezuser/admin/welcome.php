@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: welcome.php,v 1.1 2000/11/13 12:03:41 bf-cvs Exp $
+// $Id: welcome.php,v 1.2 2000/11/13 13:39:35 pkej-cvs Exp $
 //
 // Christoffer A. Elo <bf@ez.no>
 // Created on: <13-Nov-2000 10:57:15 bf>
@@ -26,7 +26,7 @@ include_once( "ezsession/classes/ezsession.php" );
 
 
 // Template
-$t = new eZTemplate( "ezuser/admin/" . $ini->read_var( "eZUserMain", "TemplateDir" ),
+$t = new eZTemplate( "ezuser/admin/" . $ini->read_var( "eZUserMain", "AdminTemplateDir" ),
                      "ezuser/admin/intl", $Language, "welcome.php" );
 $t->setAllStrings();
 
