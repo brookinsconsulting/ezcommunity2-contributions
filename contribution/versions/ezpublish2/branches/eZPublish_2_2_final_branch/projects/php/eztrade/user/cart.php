@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.71.2.5 2001/12/04 17:23:20 br Exp $
+// $Id: cart.php,v 1.71.2.6 2002/04/10 11:49:02 br Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -33,7 +33,6 @@ include_once( "classes/ezcurrency.php" );
 include_once( "eztrade/classes/ezcart.php" );
 
 // Load settings
-
 $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
@@ -53,6 +52,10 @@ if ( isset( $ShopMore ) )
     eZHTTPTool::header( "Location: /trade/productlist/1" );
     exit();
 }
+
+// These are the common objects regardless of Action
+$session =& eZSession::globalSession();
+
 
 // Set some variables to defaults.
 $ShowCart = false;
@@ -173,9 +176,6 @@ if ( isSet( $DoCheckOut ) )
     eZHTTPTool::header( "Location: /trade/customerlogin/" );
     exit();
 }
-
-// These are the common objects regardless of Action
-$session =& eZSession::globalSession();
 
 $cart = new eZCart();
 $cart = $cart->getBySession( $session );

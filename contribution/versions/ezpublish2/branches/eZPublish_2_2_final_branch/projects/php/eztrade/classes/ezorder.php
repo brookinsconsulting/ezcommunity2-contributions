@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.61.2.2 2002/01/31 17:05:15 br Exp $
+// $Id: ezorder.php,v 1.61.2.3 2002/04/10 11:49:02 br Exp $
 //
 // Definition of eZOrder class
 //
@@ -35,6 +35,7 @@
 include_once( "classes/ezdb.php" );
 include_once( "classes/ezdatetime.php" );
 
+include_once( "eztrade/classes/ezpreorder.php" );
 include_once( "eztrade/classes/ezorderstatustype.php" );
 include_once( "eztrade/classes/ezorderstatus.php" );
 include_once( "eztrade/classes/ezorderitem.php" );
@@ -265,8 +266,9 @@ class eZOrder
                            eZTrade_Order.Date as Date,
                            max( eZTrade_OrderStatus.Altered ) as Altered,
                            max( eZTrade_OrderStatus.StatusID ) as StatusID
-                           FROM eZTrade_Order, eZTrade_OrderStatus
-                           WHERE eZTrade_Order.ID = eZTrade_OrderStatus.OrderID
+                           FROM eZTrade_Order, eZTrade_PreOrder, eZTrade_OrderStatus
+                           WHERE eZTrade_Order.ID = eZTrade_OrderStatus.OrderID AND
+                           eZTrade_Order.ID = eZTrade_PreOrder.OrderID
                            GROUP BY eZTrade_Order.ID, eZTrade_Order.Date
                            ORDER BY $OrderBy",
                            array( "Limit" => $limit, "Offset" => $offset ) );
@@ -326,8 +328,9 @@ class eZOrder
                            eZTrade_Order.Date as Date,
                            max( eZTrade_OrderStatus.Altered ) as Altered,
                            max( eZTrade_OrderStatus.StatusID ) as StatusID
-                           FROM eZTrade_Order, eZTrade_OrderStatus
-                           WHERE eZTrade_Order.ID = eZTrade_OrderStatus.OrderID AND UserID='$userID'
+                           FROM eZTrade_Order, eZTrade_PreOrder, eZTrade_OrderStatus
+                           WHERE eZTrade_Order.ID = eZTrade_OrderStatus.OrderID AND UserID='$userID' AND
+                           eZTrade_Order.ID = eZTrade_PreOrder.OrderID
                            GROUP BY eZTrade_Order.ID, eZTrade_Order.Date
                            ORDER BY $OrderBy",
                            array( "Limit" => $limit, "Offset" => $offset ) );
@@ -384,8 +387,9 @@ class eZOrder
 
         $db->query_single( $res,
                           "SELECT COUNT(eZTrade_Order.ID) as Count
-                           FROM eZTrade_Order, eZTrade_OrderStatus
-                           WHERE eZTrade_Order.ID = eZTrade_OrderStatus.OrderID AND UserID='$userID'" );
+                           FROM eZTrade_Order, eZTrade_OrderStatus, eZTrade_PreOrder
+                           WHERE eZTrade_Order.ID = eZTrade_OrderStatus.OrderID AND
+                           eZTrade_Order.ID = eZTrade_PreOrder.OrderID AND UserID='$userID' " );
 
         return $res[$db->fieldName( "Count" )];
     }
@@ -403,7 +407,8 @@ class eZOrder
             $condition = "CompanyID";
         
         $db->array_query( $order_array,
-                          "SELECT ID FROM eZTrade_Order WHERE $condition='$contact'",
+                          "SELECT eZTrade_Order.ID FROM eZTrade_Order WHERE $condition='$contact' AND" .
+                          "eZTrade_Order.ID = eZTrade_PreOrder.OrderID",
                           array( "Limit" => $limit, "Offset" => $offset ) );
 
         for ( $i = 0; $i < count( $order_array ); $i++ )
@@ -426,7 +431,8 @@ class eZOrder
 
         $userID = $user->id();        
         $db->array_query( $order_array,
-                          "SELECT ID FROM eZTrade_Order WHERE UserID='$userID'" );
+                          "SELECT eZTrade_Order.ID FROM eZTrade_Order, eZTrade_PreOrder WHERE
+                           UserID='$userID' AND eZTrade_Order.ID = eZTrade_PreOrder.OrderID" );
 
         for ( $i = 0; $i < count( $order_array ); $i++ )
         {
@@ -447,8 +453,8 @@ class eZOrder
         $order_array = array();
 
         $db->array_query( $order_array,
-        "SELECT ID FROM eZTrade_Order
-         WHERE IsExported='0'" );
+        "SELECT eZTrade_Order.ID FROM eZTrade_Order, eZTrade_PreOrder
+         WHERE IsExported='0' AND eZTrade_Order.ID = eZTrade_PreOrder.OrderID" );
 
         for ( $i=0; $i < count( $order_array ); $i++ )
         {
@@ -470,9 +476,10 @@ class eZOrder
         $return_array = array();
         $order_array = array();
 
-        $db->array_query( $order_array, "SELECT ID
-                                         FROM eZTrade_Order
-                                         WHERE ID LIKE '%$queryText%'",
+        $db->array_query( $order_array, "SELECT eZTrade_Order.ID
+                                         FROM eZTrade_Order, eZTrade_PreOrder
+                                         WHERE ID LIKE '%$queryText%' AND
+                                         eZTrade_Order.ID = eZTrade_PreOrder.OrderID",
                                          array( "Limit" => $limit, "Offset" => $offset ) );
 
         for ( $i = 0; $i < count( $order_array ); $i++ )
@@ -490,9 +497,10 @@ class eZOrder
     {
         $db =& eZDB::globalDatabase();
 
-        $db->array_query( $order_array, "SELECT count(ID) as Count
-                                                     FROM eZTrade_Order
-                                                     WHERE ID LIKE '%$queryText%'" );
+        $db->array_query( $order_array, "SELECT count(eZTrade_Order.ID) as Count
+                                                     FROM eZTrade_Order, eZTrade_PreOrder
+                                                     WHERE ID LIKE '%$queryText%' AND
+                                                     eZTrade_Order.ID = eZTrade_PreOrder.OrderID" );
 
         $ret = 0;
         if ( count( $order_array ) == 1 )
@@ -510,8 +518,9 @@ class eZOrder
     {
         $db =& eZDB::globalDatabase();
 
-        $db->array_query( $order_array, "SELECT count(ID) as Count
-                                                     FROM eZTrade_Order" );
+        $db->array_query( $order_array, "SELECT count(eZTrade_Order.ID) as Count
+                                                     FROM eZTrade_Order, eZTrade_PreOrder
+                                                     WHERE eZTrade_Order.ID = eZTrade_PreOrder.OrderID" );
 
         $ret = 0;
         if ( count( $order_array ) == 1 )
@@ -1052,11 +1061,10 @@ class eZOrder
 
        $userID = $user->id();
        $ret = false;
-       $db->query_single( $res, "SELECT ID FROM
-                                                    eZTrade_Order
+       $db->query_single( $res, "SELECT ID FROM eZTrade_Order
                                                     WHERE ID='$this->ID' AND UserID='$userID'" );
        if ( is_numeric ( $res[$db->fieldName( "ID" )] ) )
-            $ret = true;
+           $ret = true;
 
        return $ret;       
     }
@@ -1226,8 +1234,8 @@ class eZOrder
         $return_array = array();
         $user_array = array();
 
-        $db->array_query( $user_array, "SELECT eZTrade_Order.UserID, eZUser_User.FirstName FROM eZTrade_Order, eZUser_User
-                                        WHERE eZTrade_Order.UserID=eZUser_User.ID
+        $db->array_query( $user_array, "SELECT eZTrade_Order.UserID, eZUser_User.FirstName FROM eZTrade_Order, eZTrade_PreOrder, eZUser_User
+                                        WHERE eZTrade_Order.UserID=eZUser_User.ID AND eZTrade_Order.ID = eZTrade_PreOrder.OrderID 
                                         GROUP BY eZTrade_Order.UserID, eZUser_User.FirstName ORDER BY eZUser_User.FirstName " );
 
         for ( $i = 0; $i < count( $user_array ); $i++ )

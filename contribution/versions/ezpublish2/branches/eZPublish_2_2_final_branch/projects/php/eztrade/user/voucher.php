@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucher.php,v 1.4 2001/09/24 10:19:16 ce Exp $
+// $Id: voucher.php,v 1.4.2.1 2002/04/10 11:49:02 br Exp $
 //
 // Created on: <08-Feb-2001 14:11:48 ce>
 //
@@ -76,7 +76,7 @@ if ( $Action == "Verify" )
     }
     
     $t->parse( "error", "error_tpl" );
-    $PaymentSuccess = "false";
+    $PaymentSuccess = false;
 }
 
 

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: precheckout.php,v 1.6.2.1 2002/03/04 12:38:38 ce Exp $
+// $Id: precheckout.php,v 1.6.2.2 2002/04/10 11:49:02 br Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -27,6 +27,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezhttptool.php" );
+
 
 $ini =& INIFile::globalINI();
 $ForceSSL = $ini->read_var( "eZTradeMain", "ForceSSL" );

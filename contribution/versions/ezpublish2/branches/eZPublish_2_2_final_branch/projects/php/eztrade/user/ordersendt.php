@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.49.2.1 2001/11/04 12:33:48 bf Exp $
+// $Id: ordersendt.php,v 1.49.2.2 2002/04/10 11:49:02 br Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -35,6 +35,7 @@ include_once( "eztrade/classes/ezorder.php" );
 include_once( "eztrade/classes/ezproduct.php" ); 
 include_once( "eztrade/classes/ezcheckout.php" );
 
+
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
 $PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" );
@@ -47,7 +48,6 @@ $ColSpanSizeTotals = $ini->read_var( "eZTradeMain", "ColSpanSizeTotals" );
 $locale = new eZLocale( $Language );
 $currency = new eZCurrency();
     
-
 
 // Set some variables to defaults.
 $ShowCart = false;

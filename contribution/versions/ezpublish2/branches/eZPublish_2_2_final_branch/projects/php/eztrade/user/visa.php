@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: visa.php,v 1.8 2001/08/24 07:21:08 ce Exp $
+// $Id: visa.php,v 1.8.2.1 2002/04/10 11:49:02 br Exp $
 //
 // Created on: <08-Feb-2001 14:11:48 ce>
 //
@@ -38,7 +38,7 @@ if ( $Action == "Verify" )
 {
     // add clearing code here
     if ( eZCCTool::checkCC( $CCNumber, $ExpierMonth, $ExpierYear ) )
-        $PaymentSuccess = "true";
+        $PaymentSuccess = true;
 }
 
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),

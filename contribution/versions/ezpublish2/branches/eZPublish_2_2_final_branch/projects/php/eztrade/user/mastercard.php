@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: mastercard.php,v 1.3 2001/07/20 11:42:02 jakobn Exp $
+// $Id: mastercard.php,v 1.3.2.1 2002/04/10 11:49:02 br Exp $
 //
 // Created on: <02-Feb-2001 17:42:45 bf>
 //
@@ -37,7 +37,7 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 if ( $Action == "Verify" )
 {
     // add CC clearing code here:
-    $PaymentSuccess = "true";        
+    $PaymentSuccess = true;        
 }
 
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),

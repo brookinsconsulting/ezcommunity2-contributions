@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartitem.php,v 1.27.2.3 2001/11/27 20:33:09 br Exp $
+// $Id: ezcartitem.php,v 1.27.2.4 2002/04/10 11:49:02 br Exp $
 //
 // Definition of eZCartItem class
 //
@@ -399,6 +399,16 @@ class eZCartItem
         return $price;        
     }
 
+    /*!
+      Return the vat for the product.
+    */
+    function vat( $calcCount=true, $withOptions=true )
+    {
+        $vat = $this->correctPrice( $calcCount, $withOptions, true ) -
+             $this->correctPrice( $calcCount, $withOptions, false );
+        return $vat;
+    }
+    
     /*!
       Sets the product.
     */

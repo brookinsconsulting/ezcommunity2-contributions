@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: invoice.php,v 1.2 2001/07/20 11:42:02 jakobn Exp $
+// $Id: invoice.php,v 1.2.2.1 2002/04/10 11:49:02 br Exp $
 //
 // Created on: <02-Feb-2001 18:28:36 bf>
 //
@@ -25,6 +25,6 @@
 
 
 // bypass the payment.
-$PaymentSuccess = "true";
+$PaymentSuccess = true;
 
 ?>
