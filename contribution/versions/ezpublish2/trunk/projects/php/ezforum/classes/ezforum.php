@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.21 2001/03/10 12:10:35 bf Exp $
+// $Id: ezforum.php,v 1.22 2001/04/04 16:20:02 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -72,11 +72,14 @@ class eZForum
     {
         $db =& eZDB::globalDatabase();
 
+        $name = addslashes( $this->Name );
+        $description = addslashes( $this->Description );
+        
         if ( !isset( $this->ID ) )
         {
             $db->query( "INSERT INTO eZForum_Forum SET
-		                         Name='$this->Name',
-		                         Description='$this->Description',
+		                         Name='$name',
+		                         Description='$description',
 		                         IsModerated='$this->IsModerated',
 		                         IsAnonymous='$this->IsAnonymous',
 		                         ModeratorID='$this->ModeratorID',
@@ -91,8 +94,8 @@ class eZForum
         else
         {
             $db->query( "UPDATE eZForum_Forum SET
-		                         Name='$this->Name',
-		                         Description='$this->Description',
+		                         Name='$name',
+		                         Description='$description',
 		                         IsModerated='$this->IsModerated',
 		                         IsAnonymous='$this->IsAnonymous',
 		                         ModeratorID='$this->ModeratorID',
@@ -359,13 +362,12 @@ class eZForum
     /*!
       Returns the name of the forum.
     */
-    function &name()
+    function &name( $html = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        
-        return htmlspecialchars( $this->Name );
+       return htmlspecialchars( $this->Name );
     }
         
     /*!

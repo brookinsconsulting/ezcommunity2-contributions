@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.82 2001/03/15 09:27:57 pkej Exp $
+// $Id: ezforummessage.php,v 1.83 2001/04/04 16:20:02 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -105,11 +105,12 @@ class eZForumMessage
                 {
                     $this->ThreadID = 0;
                 }                
-                     
+                $topic = addslashes( $this->Topic );
+                $body = addslashes( $this->Body );
                 $db->query( "INSERT INTO eZForum_Message SET
 		                         ForumID='$this->ForumID',
-		                         Topic='$this->Topic',
-		                         Body='$this->Body',
+		                         Topic='$topic',
+		                         Body='$body',
 		                         UserID='$this->UserID',
 		                         Parent='$this->ParentID',
 		                         TreeID='$this->TreeID',

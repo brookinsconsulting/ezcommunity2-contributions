@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumcategory.php,v 1.33 2001/03/10 12:10:35 bf Exp $
+// $Id: ezforumcategory.php,v 1.34 2001/04/04 16:20:02 fh Exp $
 //
 // Definition of eZForumCategory class
 //
@@ -73,12 +73,14 @@ class eZForumCategory
     function store()
     {
         $db =& eZDB::globalDatabase();
+        $name = addslashes( $this->Name );
+        $description = addslashes( $this->Description );
 
         if ( !isset( $this->ID ) )
         {
             $db->query( "INSERT INTO eZForum_Category SET
-		                         Name='$this->Name',
-		                         Description='$this->Description',
+		                         Name='$name',
+		                         Description='$description',
 		                         IsPrivate='$this->IsPrivate'
                                  " );
 
@@ -89,8 +91,8 @@ class eZForumCategory
         else
         {
             $db->query( "UPDATE eZForum_Category SET
-		                         Name='$this->Name',
-		                         Description='$this->Description',
+		                         Name='$name',
+		                         Description='$description',
 		                         IsPrivate='$this->IsPrivate'
                                  WHERE ID='$this->ID'
                                  " );
