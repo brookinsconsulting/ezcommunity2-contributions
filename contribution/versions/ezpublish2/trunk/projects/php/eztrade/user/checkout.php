@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.81 2001/08/31 10:15:27 ce Exp $
+// $Id: checkout.php,v 1.82 2001/08/31 11:28:38 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -137,7 +137,6 @@ if ( isSet ( $RemoveVoucher ) )
             if ( !in_array( $voucherID, $payWithVoucher ) )
                 $newArray[] = $voucherID;
         }
-        print_r( $newArray );
         $session->setArray( "PayWithVoucher", $newArray );
     }
 }
@@ -523,8 +522,6 @@ $can_checkout = true;
 
     // Vouchers
     $vouchers = $session->arrayValue( "PayWithVocuher" );
-
-    print_r( $vouchers );
 
     $i=1;
     $t->set_var( "vouchers", "" );

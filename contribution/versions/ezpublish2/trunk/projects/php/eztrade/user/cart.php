@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.49 2001/08/30 10:58:29 ce Exp $
+// $Id: cart.php,v 1.50 2001/08/31 11:28:38 ce Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -444,7 +444,7 @@ foreach ( $items as $item )
             $price = $item->price();
         }
         
-        $priceobj->setValue( $price * $item->count() );
+        $priceobj->setValue( $price );
     }
 
     $price = $priceobj->value();

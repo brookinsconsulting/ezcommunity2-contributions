@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlocale.php,v 1.39 2001/07/29 23:30:57 kaid Exp $
+// $Id: ezlocale.php,v 1.40 2001/08/31 11:28:38 ce Exp $
 //
 // Definition of eZLocale class
 //
@@ -127,13 +127,13 @@ class eZLocale
 
         if ( eZFile::file_exists( "classes/locale/" . $iso . ".ini" ) )
         {
-            $this->LocaleIni = new INIFile( "classes/locale/" . $iso . ".ini", false );
+             $this->LocaleIni = new INIFile( "classes/locale/" . $iso . ".ini", false );
         }
         else
         {
-            $this->LocaleIni = new INIFile( "classes/locale/en_GB.ini", false );
+             $this->LocaleIni = new INIFile( "classes/locale/en_GB.ini", false );
         }
-
+ 
         $this->LanguageISO =& $this->LocaleIni->read_var( "RegionalSettings", "LanguageISO" );
         $this->CurrencySymbol =& $this->LocaleIni->read_var( "RegionalSettings", "CurrencySymbol" );
         $this->DecimalSymbol =& $this->LocaleIni->read_var( "RegionalSettings", "DecimalSymbol" );
@@ -148,6 +148,7 @@ class eZLocale
         $this->DateFormat =& $this->LocaleIni->read_var( "RegionalSettings", "DateFormat" );
         $this->ShortDateFormat =& $this->LocaleIni->read_var( "RegionalSettings", "ShortDateFormat" );
         $this->MondayFirst =& $this->LocaleIni->read_var( "RegionalSettings", "MondayFirst" );
+ 
     }
 
     /*!

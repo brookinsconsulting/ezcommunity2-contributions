@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.39 2001/08/30 11:06:37 ce Exp $
+// $Id: ordersendt.php,v 1.40 2001/08/31 11:28:38 ce Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -187,6 +187,8 @@ $currency = new eZCurrency();
 $i = 0;
 $sum = 0.0;
 $totalVAT = 0.0;
+
+
 foreach ( $items as $item )
 {
     $product = $item->product();
@@ -215,6 +217,7 @@ foreach ( $items as $item )
          $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
     {
         $found_price = false;
+
         if ( $ShowPriceGroups and $PriceGroup > 0 )
         {
             $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
@@ -234,8 +237,10 @@ foreach ( $items as $item )
                 $priceobj->setValue( $price * $item->count() );
             }
         }
+
         if ( !$found_price )
         {
+
             if ( $PricesIncludeVAT == "enabled" )
             {
                 $totalVAT = $product->addVAT( $product->price() );
@@ -249,6 +254,7 @@ foreach ( $items as $item )
 
             $priceobj->setValue( $price * $item->count() );
         }
+
         $t->set_var( "product_price", $locale->format( $priceobj ) );
     }
     else
@@ -263,10 +269,11 @@ foreach ( $items as $item )
             $totalVAT = $product->extractVAT( $item->price() );
             $price = $item->price();
         }
-        
-        $priceobj->setValue( $price * $item->count() );
+
+        $priceobj->setValue( $price );
+
     }
-    
+
     $price = $priceobj->value();
    
     $currency->setValue( $price );
@@ -299,6 +306,7 @@ foreach ( $items as $item )
     $i++;
 }
 
+
 $t->parse( "order_item_list", "order_item_list_tpl" );
 
 $checkout = new eZCheckout();
@@ -329,6 +337,7 @@ $currency->setValue( $totalVAT + $shippingVAT );
 $t->set_var( "order_vat_sum", $locale->format( $currency ) );
 
 $t->set_var( "order_id", $OrderID );
+
 
 $t->pparse( "output", "order_sendt_tpl" );
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallcart.php,v 1.25 2001/08/30 07:47:03 ce Exp $
+// $Id: smallcart.php,v 1.26 2001/08/31 11:28:38 ce Exp $
 //
 // Created on: <12-Dec-2000 15:21:10 bf>
 //
@@ -90,12 +90,14 @@ $items = $cart->items( );
 
 $locale = new eZLocale( $Language );
 $currency = new eZCurrency();
-    
+
+
 $i = 0;
 $sum = 0.0;
 $totalVAT = 0.0;
 $can_checkout = true;
 $t->set_var( "cart_item", "" );
+
 
 foreach ( $items as $item )
 {
