@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: groupedit.php,v 1.15 2001/03/01 14:06:26 jb Exp $
+// $Id: groupedit.php,v 1.16 2001/03/14 09:59:57 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -223,7 +223,8 @@ foreach ( $moduleList as $moduleItem )
             $t->parse( "permission_item", "permission_list_tpl", true );
         }
 
-    $t->parse( "module_header", "module_list_header_tpl", true );
+    if( count( $permissionList ) > 0 )
+        $t->parse( "module_header", "module_list_header_tpl", true );
 }
 
 $t->set_var( "error_msg", $error_msg );
