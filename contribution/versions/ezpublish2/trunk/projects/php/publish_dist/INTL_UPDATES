@@ -75,5 +75,9 @@ mod: eztrade/admin, optionlist.php.ini
 change: added
 delete_selected=Delete selected options
 
+mod: ezcontact/admin personedit.php.ini
+change: added
+top_category=Top
+
 mod: ezbug/admin, mailreply.php.ini
 change: added bug_title=Bug title, original_bug_report=Original bug report
