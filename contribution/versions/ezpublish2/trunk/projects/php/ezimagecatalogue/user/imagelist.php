@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.15 2001/03/01 14:06:25 jb Exp $
+// $Id: imagelist.php,v 1.16 2001/03/01 19:32:21 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -221,6 +221,7 @@ foreach ( $imageList as $image )
     
     $variation =& $image->requestImageVariation( $width, $height );
 
+    $t->set_var( "image_description",$image->description() ); 
     $t->set_var( "image_alt", $image->name() );
     $t->set_var( "image_src", "/" .$variation->imagePath() );
     $t->set_var( "image_width", $variation->width() );
