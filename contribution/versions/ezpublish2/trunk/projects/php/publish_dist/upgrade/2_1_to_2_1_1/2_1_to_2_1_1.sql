@@ -925,3 +925,10 @@ CREATE TABLE eZTrade_ProductPermission (
 ) TYPE=MyISAM;
 
 alter table eZAddress_Address add Name varchar(30);
+
+# eZTrade_Product
+
+alter table eZTrade_Product add PublishedTmp int;
+update eZTrade_Product set PublishedTmp= UNIX_TIMESTAMP( Published );
+alter table eZTrade_Product drop Published; 
+alter table eZTrade_Product change PublishedTmp Published int;
