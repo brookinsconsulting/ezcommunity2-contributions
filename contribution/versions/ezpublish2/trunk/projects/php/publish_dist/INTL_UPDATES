@@ -118,6 +118,11 @@ new_consultation=New consultation with company
 edit_person=Edit company/category information
 delete_person=Delete company/category
 
+mod: ezcontact/admin companyedit.php.ini
+change: added
+error_logo=Invalid image format for company logo
+error_image=Invalid image format for company image
+
 mod: eztodo/user todolist.php.ini
 change: added
 show=Show
