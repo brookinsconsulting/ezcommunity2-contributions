@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filedownload.php,v 1.11 2001/03/25 08:45:43 bf Exp $
+// $Id: filedownload.php,v 1.12 2001/04/09 08:50:31 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:39:10 bf>
@@ -44,6 +44,15 @@ $file = new eZVirtualFile( $FileID );
 $fileName = $file->name();
 $originalFileName = $file->originalFileName();
 $filePath = $file->filePath( true );
+
+include_once( "ezstats/classes/ezpageview.php" );
+
+if ( get_class( $GlobalPageView ) != "ezpageview" )
+{
+    $GlobalPageView = new eZPageView();
+    $GlobalPageView->store();
+}
+
 
 // store the statistics
 $file->addPageView( $GlobalPageView );

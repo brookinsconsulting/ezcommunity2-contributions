@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: gotoad.php,v 1.4 2001/02/13 15:37:13 jb Exp $
+// $Id: gotoad.php,v 1.5 2001/04/09 08:50:31 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <25-Nov-2000 16:26:08 bf>
@@ -27,8 +27,17 @@ include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "ezad/classes/ezad.php" );
 include_once( "ezad/classes/ezadclick.php" );
+include_once( "ezstats/classes/ezpageview.php" );
 
-$user = eZUser::currentUser();
+
+if ( get_class( $GlobalPageView ) != "ezpageview" )
+{
+    $GlobalPageView = new eZPageView();
+    $GlobalPageView->store();
+}
+
+
+$user =& eZUser::currentUser();
 
 $ad = new eZAd( $AdID );
 
