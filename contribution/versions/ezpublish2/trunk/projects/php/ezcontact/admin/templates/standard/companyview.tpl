@@ -4,12 +4,12 @@
         <td valign="bottom">
         <h1>{intl-view_headline}</h1>
         </td>
-<!--          <td rowspan="2" align="right"> -->
-<!--          <form action="/contact/company/search/" method="post"> -->
-<!--          <input type="text" name="SearchText" size="12" />        -->
-<!--          <input class="stdbutton" type="submit" value="{intl-search}" /> -->
-<!--          </form>  -->
-<!--          </td> -->
+              <td rowspan="2" align="right">  
+              <form action="/contact/search/company/" method="post">
+              <input type="text" name="SearchText" size="12" />
+              <input class="stdbutton" type="submit" value="{intl-search}" />
+              </form>
+        </td>
 </tr>
 </table>
 
@@ -242,6 +242,9 @@
 <input class="stdbutton" type="submit" name="NewConsultation" value="{intl-consultation}">
 <!-- END consultation_buttons_tpl -->
 
+<!-- BEGIN file_button_tpl -->
+<input class="stdbutton" type="submit" name="FileButton" value="{intl-files}">
+<!-- END file_button_tpl -->
 <!-- BEGIN company_edit_button_tpl -->
 <hr noshade="noshade" size="4" />
 <input class="okbutton" type="submit" name="Edit" value="{intl-edit}">

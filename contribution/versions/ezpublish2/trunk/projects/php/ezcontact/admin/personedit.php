@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.39 2001/07/24 11:49:56 jhe Exp $
+// $Id: personedit.php,v 1.40 2001/07/25 12:49:14 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -135,6 +135,11 @@ if ( isSet( $NewConsultation ) )
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /contact/consultation/$item_type/new/$item_id" );
     exit;
+}
+
+if ( isSet( $FileButton ) )
+{
+    
 }
 
 if ( isSet( $Back ) )
