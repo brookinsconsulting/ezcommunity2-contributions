@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.5 2000/10/20 15:42:26 bf-cvs Exp $
+// $Id: eztechgenerator.php,v 1.6 2000/10/21 17:06:14 bf-cvs Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -58,7 +58,7 @@ class eZTechGenerator
         foreach ( $pages as $page )
         {
 
-            $tmpPage = strip_tags( $page, "<page>,<php>,</php>,<image>,</image>" );
+            $tmpPage = strip_tags( $page, "<page>,<php>,</php>,<image>,</image>,<cpp>,</cpp>,<shell>,</shell>,<sql>,</sql>" );
             
             // replace & with &amp; to prevent killing the xml parser..
             // is that a bug in the xmltree(); function ? answer to bf@ez.no
