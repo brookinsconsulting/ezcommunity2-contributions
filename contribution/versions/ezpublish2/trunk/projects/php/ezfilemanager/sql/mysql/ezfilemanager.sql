@@ -41,6 +41,7 @@ CREATE TABLE eZFileManager_FolderPermission (
   GroupID int(11) default NULL,
   ReadPermission int(11) default '0',
   WritePermission int(11) default '0',
+  UploadPermission int(11) default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 

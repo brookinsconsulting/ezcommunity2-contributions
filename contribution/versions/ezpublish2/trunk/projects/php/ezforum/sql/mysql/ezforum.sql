@@ -9,10 +9,10 @@ CREATE TABLE eZForum_Category (
 
 
 CREATE TABLE eZForum_Forum (
+  ID int NOT NULL,
   Name varchar(20) NOT NULL default '',
   Description varchar(40) default NULL,
   IsPrivate int default NULL,
-  ID int NOT NULL,
   ModeratorID int NOT NULL default '0',
   IsModerated int NOT NULL default '0',
   GroupID int default '0',
@@ -28,6 +28,7 @@ CREATE TABLE eZForum_ForumCategoryLink (
 );
 
 CREATE TABLE eZForum_Message (
+  ID int NOT NULL,
   ForumID int NOT NULL default '0',
   Topic varchar(60) default NULL,
   Body text,
@@ -39,7 +40,6 @@ CREATE TABLE eZForum_Message (
   TreeID int default NULL,
   ThreadID int default NULL,
   Depth int default NULL,
-  ID int NOT NULL,
   IsApproved int NOT NULL default '1',
   IsTemporary int NOT NULL default '0',
   PRIMARY KEY (ID)

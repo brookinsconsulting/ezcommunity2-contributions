@@ -28,7 +28,7 @@ CREATE TABLE eZFileManager_Folder (
   ID int NOT NULL,
   Name varchar(100),
   Description text,
-  ParentID int NOT NULL,
+  ParentID int NOT NULL DEFAULT '0',
   ReadPermission int DEFAULT '1',
   WritePermission int DEFAULT '1',
   UserID int,
@@ -41,6 +41,7 @@ CREATE TABLE eZFileManager_FolderPermission (
   GroupID int default NULL,
   ReadPermission int default '0',
   WritePermission int default '0',
+  UploadPermission int default '0',
   PRIMARY KEY (ID)
 );
 
