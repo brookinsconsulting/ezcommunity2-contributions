@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.18 2000/10/27 15:41:48 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.19 2000/10/28 20:26:06 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -32,6 +32,14 @@
   <php>
   php code
   </php>
+
+  <java>
+  java code
+  </java>
+
+  <ezhtml>
+  html code
+  </ezhtml>
   
   <shell>
   shell code
@@ -83,16 +91,6 @@
 
 */
 
-//  $tmpPage = "<image 1 center big> <image 43 large large>";
-//  $tmpPage = preg_replace( "/(<image\s+?([^ ]+)\s+?([^ ]+)\s+?([^( |>)]+)([^>]*?)>)/", "<image id=\"\\2\" align=\"\\3\" size=\"\\4\" />", $tmpPage );
-
-//  $tmpPage = "<link ez.no ez systems> <link ez.no ez systems>";
-//  $tmpPage = preg_replace( "#(<link\s+?([^ ]+)\s+?([^>]+)>)#", "<link href=\"\\2\" text=\"\\3\" />", $tmpPage );
-
-//  $tmpPage = preg_replace( "#(?<!(age|php|age|cpp|ell|sql|der))>#", "&gt;", $tmpPage );
-//  $tmpPage = preg_replace( "#/&gt;#", "/>", $tmpPage );
-
-//  print( htmlspecialchars( $tmpPage ) );
 
 include_once( "classes/eztexttool.php" );
 include_once( "classes/ezlog.php" );
@@ -192,6 +190,18 @@ class eZTechRenderer
                         $pageContent .= $this->phpHighlight( trim( $paragraph->children[0]->content ) );
                     }
 
+                    // java code 
+                    if ( $paragraph->name == "java" )
+                    {
+                        $pageContent .= $this->javaHighlight( trim( $paragraph->children[0]->content ) );
+                    }
+
+                    // html code 
+                    if ( $paragraph->name == "ezhtml" )
+                    {
+                        $pageContent .= $this->htmlHighlight( trim( $paragraph->children[0]->content ) );
+                    }
+                    
                     
                     // header
                     if ( $paragraph->name == "header" )
@@ -430,6 +440,7 @@ class eZTechRenderer
                 if ( $child->name == "intro" )
                 {
                     $intro = $child->children[0]->content;
+                    $intro = preg_replace( "#(http://.*?)(\s|\))#", "<a href=\"\\1\">\\1</a>", $intro );                    
                 }
             }
 
@@ -475,8 +486,8 @@ class eZTechRenderer
 
         // indenting
         
-        $string = "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
-             $string . "</pre></td></tr></table>";
+        $string = "<p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
+             $string . "</pre></td></tr></table></p>";
         
         return $string;
     }
@@ -521,7 +532,9 @@ class eZTechRenderer
         // some special characters
         $string = ereg_replace ( "([;,])", "<font color=\"red\">\\1</font>", $string );
         
-        $string = "<pre>" . $string . "</pre>";
+        $string = "<p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
+             $string . "</pre></td></tr></table></p>";
+        
         return $string;
     }
 
@@ -561,7 +574,9 @@ class eZTechRenderer
         // newlines
 //        $string = ereg_replace ( "\n", "<br />\n newline", $string );
 
-        $string = "<pre>" . $string . "</pre>";
+        $string = "<p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
+             $string . "</pre></td></tr></table></p>";
+        
         return $string;
     }
 
@@ -586,7 +601,9 @@ class eZTechRenderer
         $string = ereg_replace ( "([;,]|\]|\[)", "<font color=\"red\">\\1</font>", $string );
 
         
-        $string = "<pre>" . $string . "</pre>";
+        $string = "<p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
+             $string . "</pre></td></tr></table></p>";
+        
         return $string;
     }
 
@@ -624,9 +641,10 @@ class eZTechRenderer
         // indenting
         $string = preg_replace( "/^( )+/m", "&nbsp;", $string );
         
-        $string = "<p>" . $string . "</p>";
+        $string = "<p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
+             $string . "</pre></td></tr></table></p>";
         
-        return eZTextTool::nl2br( $string );
+        return $string;
     }
 
 
@@ -655,11 +673,69 @@ class eZTechRenderer
         // indenting
         $string = preg_replace( "/^( )+/m", "&nbsp;", $string );
         
-        $string = "<p>" . $string . "</p>";
+        $string = "<p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
+             $string . "</pre></td></tr></table></p>";
         
-        return eZTextTool::nl2br( $string );
+        return $string;
     }
 
+    /*!
+      Returns a java highlighted string.
+    */
+    function &javaHighlight( $string )
+    {        
+        $string = ereg_replace ( "(<)", "&lt;", $string );
+        $string = ereg_replace ( "(>)", "&gt;", $string );
+        
+        // some special characters
+        $string = ereg_replace ( "([(){},+-;]|=|\[|\])", "<font color=\"red\">\\1</font>", $string );
+
+        // comments
+        $string = ereg_replace ( "(//[^\n]+)", "<font color=\"orange\">\\1</font>", $string );
+        $string = ereg_replace ( "(/\*[^\*]+\*/)", "<font color=\"orange\">\\1</font>", $string );
+
+        // reserved words
+        $reservedWords = array( "/(function)/",
+                                "/( as )/",
+                                "/(void )/",
+                                "/(class )/",
+                                "/(float )/",
+                                "/(doble )/",
+                                "/(int )/",
+                                "/(var )/",
+                                "/(private )/",
+                                "/(public )/",
+                                "/(int )/",
+                                "/( for)/"
+                                );
+        
+        $string = preg_replace( $reservedWords, "<font color=\"blue\">\\1</font>", $string );
+
+        $string = preg_replace( "/( [0-9]+)/", "<font color=\"green\">\\1</font>", $string );
+        
+        $string = preg_replace( "/(\$[a-zA-Z0-9]+)/", "<font color=\"#00ffff\">\\1</font>", $string );
+
+        // newlines
+//        $string = ereg_replace ( "\n", "<br />\n newline", $string );
+
+        $string = "<p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
+             $string . "</pre></td></tr></table></p>";
+        
+        return $string;
+    }
+
+    /*!
+      Returns a html highlighted string.
+    */
+    function &htmlHighlight( $string )
+    {        
+        $string =& htmlspecialchars( $string );
+        $string = "<p><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\"><tr><td bgcolor=\"#f0f0f0\"><pre>" .
+             $string . "</pre></td></tr></table></p>";
+        
+        return $string;
+    }
+    
     
     var $Article;
 }

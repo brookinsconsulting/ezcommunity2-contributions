@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.19 2000/10/28 14:35:21 bf-cvs Exp $
+// $Id: ezarticle.php,v 1.20 2000/10/28 20:26:06 bf-cvs Exp $
 //
 // Definition of eZArticle class
 //
@@ -37,6 +37,11 @@
   \endcode
 
   \sa eZArticleCategory
+
+*/
+
+/*!TODO
+  Add delayed fetching of the article contents.
 
 */
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.14 2000/10/25 18:19:56 bf-cvs Exp $
+// $Id: eztechgenerator.php,v 1.15 2000/10/28 20:26:06 bf-cvs Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -57,10 +57,10 @@ class eZTechGenerator
         foreach ( $pages as $page )
         {
             $tmpPage = $page;
+   
 
             // parse the <image id align size> tag and convert it
             // to <image id="id" align="align" size="size" />
-
             $tmpPage = preg_replace( "/(<image\s+?([^ ]+)\s+?([^ ]+)\s+?([^( |>)]+)([^>]*?)>)/", "<image id=\"\\2\" align=\"\\3\" size=\"\\4\" />", $tmpPage );
 
             // convert <link ez.no ez systems> to valid xml
@@ -70,14 +70,78 @@ class eZTechGenerator
             // replace & with &amp; to prevent killing the xml parser..
             // is that a bug in the xmltree(); function ? answer to bf@ez.no
             $tmpPage = ereg_replace ( "&", "&amp;", $tmpPage );
+
+ 
+            // Begin html tag replacer
+            // replace all < and >  between <ezhtml> and </ezhtml>
+            // and to the same for <php> </php>
+            // ok this is a bit slow code, but it works
+            $startTag = "<ezhtml>";
+            $endTag = "</ezhtml>";
+
+            $numberBegin = substr_count( $tmpPage, $startTag );
+            $numEnd = substr_count( $tmpPage, $endTag );
+
+            if ( $numberBegin != $numEnd )
+            {
+                print( "Unmatched tags, check that you have end tags for all begin tags" );
+            }
+
+            $checkString = $tmpPage;
+
+            $resultPage = "";
+            $isInsideHTML = false;
+            for ( $i=0; $i<strlen( $checkString ); $i++ )
+            {    
+                if ( substr( $checkString, $i - strlen( $startTag ), strlen( $startTag ) ) == $startTag )
+                {
+                    //        print( "Tag start" . ( $i + strlen( $startTag ) ) . "<br>" );
+                    $isInsideTag = true;
+                }
+
+                if ( substr( $checkString, $i, strlen( $endTag ) ) == $endTag )
+                {
+                    //        print( "Tag end" . ( $i + strlen( $endTag ) ) . "<br>" );
+                    $isInsideTag = false;
+                }
+
+                if ( $isInsideTag == true )
+                {
+                    switch ( $tmpPage[$i] )
+                    {
+                        case "<" :
+                        {
+                            $resultPage .= "&lt;";
+                        }
+                        break;
+
+                        case ">" :
+                        {
+                            $resultPage .= "&gt;";
+                        }
+                        break;
+            
+                        default:
+                        {
+                            $resultPage .= $tmpPage[$i];
+                        }
+                    }
+                }
+                else
+                {
+                    $resultPage .= $tmpPage[$i];
+                }
+            }
+
+            $tmpPage =& $resultPage;
             
             // make unknown tags readable.. look-ahead assertion is used ( ?! ) 
-            $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|hea|lin|per|bol|ita|und|str|pre|ver|lis))/", "&lt;", $tmpPage );
+            $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|hea|lin|per|bol|ita|und|str|pre|ver|lis|ezhtml|java))/", "&lt;", $tmpPage );
 
             // look-behind assertion is used here (?<!) 
             // the expression must be fixed with eg just use the 3 last letters of the tag
 
-            $tmpPage = preg_replace( "#(?<!(age|php|age|cpp|ell|sql|der|erl|old|lic|ine|ike|pre|tim|isp))>#", "&gt;", $tmpPage );
+            $tmpPage = preg_replace( "#(?<!(age|php|age|cpp|ell|sql|der|erl|old|lic|ine|ike|pre|tim|isp|tml|ava))>#", "&gt;", $tmpPage );
             // make better..
             $tmpPage = preg_replace( "#/&gt;#", "/>", $tmpPage );
             
@@ -156,6 +220,18 @@ class eZTechGenerator
                         $pageContent .= "<php>" . $paragraph->children[0]->content . "</php>";
                     }
 
+                    // html code 
+                    if ( $paragraph->name == "ezhtml" )
+                    {
+                        $pageContent .= "<ezhtml>" . $paragraph->children[0]->content . "</ezhtml>";
+                    }
+
+                    // java code 
+                    if ( $paragraph->name == "java" )
+                    {
+                        $pageContent .= "<java>" . $paragraph->children[0]->content . "</java>";
+                    }
+                    
                     // image 
                     if ( $paragraph->name == "image" )
                     {
