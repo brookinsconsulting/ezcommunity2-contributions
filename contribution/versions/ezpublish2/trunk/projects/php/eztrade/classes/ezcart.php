@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcart.php,v 1.15 2001/03/14 14:04:51 bf Exp $
+// $Id: ezcart.php,v 1.16 2001/05/25 16:12:42 jb Exp $
 //
 // Definition of eZCart class
 //
@@ -271,7 +271,7 @@ class eZCart
 
        $items =& $this->items( );
        $ShippingCostValues = array();
-       
+
        foreach ( $items as $item )
        {
            $product =& $item->product();
@@ -279,47 +279,47 @@ class eZCart
            if ( $shippingGroup )
            {
                $values =& $shippingGroup->startAddValue( $shippingType );
-           
-               for ( $i=0; $i<$item->count(); $i++  )
-               {
-                   $ShippingCostValues[] = $values;
-                   
-               }
-           }           
-       }
 
-       
-       // find the max start value
-       $max = 0;
-       $maxIndex = -1;
-       $i=0;
-       foreach ( $ShippingCostValues as $value )
-       {
-           if ( $value["StartValue"] > $max )
-           {
-               $maxIndex = $i;
-               $max = $value["StartValue"];
+               $shipid = $shippingGroup->id();
+               $count = $item->count() + $ShippingCostValues[$shipid]["Count"];
+               $ShippingCostValues[$shipid]["Count"] = $count;
+               $ShippingCostValues[$shipid]["ID"] = $shipid;
+               $ShippingCostValues[$shipid]["Values"] = $values;
            }
-           
-           $i++;
        }
-
-       // calculate the shipping cost.
        $cost = 0;
-       $i=0;
-       foreach ( $ShippingCostValues as $value )
+
+       $max = 0;
+       // Find largest start sum first
+       foreach( $ShippingCostValues as $value )
        {
-           if ( $i == $maxIndex )
+           $val = $value["Values"]["StartValue"];
+           if ( $val > $max )
            {
-               $cost += $max;
+               $max = $val;
+               $max_id = $value["ID"];
            }
-           else
-           {
-               $cost += $value["AddValue"];
-           }
-        
-           $i++;
        }
+       $cost += $max;
+//         if ( isset( $max_id ) )
+//         {
+//             print( $max );
+//         }
+
+       foreach( $ShippingCostValues as $value )
+       {
+           $count = $value["Count"];
+           if ( $value["ID"] == $max_id )
+               --$count;
+           // Add additional values if any
+           $cost += $value["Values"]["AddValue"]*$count;
+//             print( "+ " . $value["Values"]["AddValue"]*$count ."(".$value["Values"]["AddValue"]."*".$count.") " );
+       }
+//         print( "= $cost" );
+//         print( "<pre>" );
+//         print_r( $ShippingCostValues );
+//         print( "</pre>" );
+//         exit();
 
        return $cost;
     }
