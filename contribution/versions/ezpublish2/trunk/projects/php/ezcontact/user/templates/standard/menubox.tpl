@@ -19,7 +19,6 @@
 	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
 	<td width="99%"><a class="menu" href="/contact/consultation/list">{intl-consultation_list}</a></td>
 </tr>
-<tr>
 <!-- END consultation_item_tpl -->
 <!-- BEGIN company_new_tpl -->
 <tr>
@@ -33,6 +32,7 @@
 	<td width="99%"><a class="menu" href="/contact/person/new">{intl-person_new}</a></td>
 </tr>
 <!-- END person_new_tpl -->
+<tr>
 	<td colspan="2" class="menuspacer">&nbsp;</td>
 </tr>
 </table>
