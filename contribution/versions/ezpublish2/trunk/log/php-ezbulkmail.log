@@ -513,3 +513,31 @@ Maintainer(s) : fh@ez.no
       user/intl/es_AR/subscriptionmail.php.ini
       user/intl/es_AR/usermessages.php.ini: updated es_AR for 2.2.2
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2001-11-22  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/se_SE/categoryedit.php.ini
+      admin/intl/se_SE/categorylist.php.ini
+      admin/intl/se_SE/mailedit.php.ini
+      admin/intl/se_SE/maillist.php.ini
+      admin/intl/se_SE/mailview.php.ini
+      admin/intl/se_SE/masssubscribe.php.ini
+      admin/intl/se_SE/menubox.php.ini
+      admin/intl/se_SE/sendmail.php.ini
+      admin/intl/se_SE/templateedit.php.ini
+      admin/intl/se_SE/templatelist.php.ini
+      admin/intl/se_SE/userlist.php.ini
+      user/intl/se_SE/bulklist.php.ini
+      user/intl/se_SE/categoryedit.php.ini
+      user/intl/se_SE/mailview.php.ini
+      user/intl/se_SE/menubox.php.ini
+      user/intl/se_SE/subscriptionlist.php.ini
+      user/intl/se_SE/subscriptionlogin.php.ini
+      user/intl/se_SE/subscriptionmail.php.ini
+      user/intl/se_SE/usermessages.php.ini: se_SE swedish 2.2.1
+
+    * admin/intl/es_MX/userlist.php.ini: es_MX update for 2.2.2
+

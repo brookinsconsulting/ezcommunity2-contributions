@@ -130,3 +130,14 @@ Maintainer(s) : bf@ez.no
       admin/intl/es_AR/messagelist.php.ini
       admin/intl/es_AR/messageview.php.ini: updated es_AR for 2.2.2
 
+
+Module : ezmessage
+Repository path : /home/cvsroot/projects/php/ezmessage
+Maintainer(s) : bf@ez.no
+2001-11-22  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/se_SE/menubox.php.ini
+      admin/intl/se_SE/messageedit.php.ini
+      admin/intl/se_SE/messagelist.php.ini
+      admin/intl/se_SE/messageview.php.ini: se_SE swedish 2.2.1
+

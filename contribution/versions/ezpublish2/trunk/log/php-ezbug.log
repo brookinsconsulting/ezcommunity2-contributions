@@ -518,3 +518,36 @@ Maintainer(s) : vl@ez.no
       user/intl/es_AR/menumodulelist.php.ini
       user/intl/es_AR/unhandledbugs.php.ini: updated es_AR for 2.2.2
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-11-22  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/se_SE/unhandledbugs.php.ini
+      admin/intl/se_SE/bugedit.php.ini
+      admin/intl/se_SE/buglist.php.ini
+      admin/intl/se_SE/bugpreview.php.ini
+      admin/intl/se_SE/categorylist.php.ini
+      admin/intl/se_SE/confirmationmail.php.ini
+      admin/intl/se_SE/mailgotbug.php.ini
+      admin/intl/se_SE/mailreply.php.ini
+      admin/intl/se_SE/menubox.php.ini
+      admin/intl/se_SE/moduleedit.php.ini
+      admin/intl/se_SE/modulelist.php.ini
+      admin/intl/se_SE/prioritylist.php.ini
+      admin/intl/se_SE/search.php.ini
+      admin/intl/se_SE/statuslist.php.ini
+      admin/intl/se_SE/unhandledbugs.php.ini
+      user/intl/se_SE/buglist.php.ini
+      user/intl/se_SE/bugreport.php.ini
+      user/intl/se_SE/bugview.php.ini
+      user/intl/se_SE/fileedit.php.ini
+      user/intl/se_SE/imageedit.php.ini
+      user/intl/se_SE/mailnewbug.php.ini
+      user/intl/se_SE/menubox.php.ini
+      user/intl/se_SE/reportsuccess.php.ini
+      user/intl/se_SE/search.php.ini: se_SE swedish 2.2.1
+
+    * user/intl/es_MX/bugreport.php.ini: es_MX update for 2.2.2
+

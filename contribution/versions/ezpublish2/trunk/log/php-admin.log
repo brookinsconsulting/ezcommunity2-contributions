@@ -211,3 +211,16 @@ Maintainer(s) : bf@ez.no
     * intl/es_AR/error.ini
       intl/es_AR/header.php.ini: updated es_AR for 2.2.2
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2001-11-22  Gunnstein Lye  <gl@ez.no>
+
+    * intl/se_SE/error.ini
+      intl/se_SE/header.php.ini
+      intl/se_SE/help_header.php.ini
+      intl/se_SE/print_header.php.ini: se_SE swedish 2.2.1
+
+    * intl/es_MX/header.php.ini: es_MX update for 2.2.2
+

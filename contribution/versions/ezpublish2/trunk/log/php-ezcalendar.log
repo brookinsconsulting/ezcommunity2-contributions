@@ -320,3 +320,20 @@ Maintainer(s) : jhe@ez.no
       user/intl/es_AR/trustees.php.ini
       user/intl/es_AR/yearview.php.ini: updated es_AR for 2.2.2
 
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@ez.no
+2001-11-22  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/se_SE/appointmentedit.php.ini
+      user/intl/se_SE/appointmentview.php.ini
+      user/intl/se_SE/dayview.php.ini
+      user/intl/se_SE/menubox.php.ini
+      user/intl/se_SE/monthview.php.ini
+      user/intl/se_SE/trustees.php.ini
+      user/intl/se_SE/yearview.php.ini
+      admin/intl/se_SE/menubox.php.ini
+      admin/intl/se_SE/typeedit.php.ini
+      admin/intl/se_SE/typelist.php.ini: se_SE swedish 2.2.1
+

@@ -291,3 +291,19 @@ Maintainer(s) : ce@ez.no
       admin/intl/es_AR/typeedit.php.ini
       admin/intl/es_AR/typelist.php.ini: updated es_AR for 2.2.2
 
+
+Module : ezmediacatalogue
+Repository path : /home/cvsroot/projects/php/ezmediacatalogue
+Maintainer(s) : ce@ez.no
+2001-11-22  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/se_SE/attributeedit.php.ini
+      admin/intl/se_SE/browse.php.ini
+      admin/intl/se_SE/categoryedit.php.ini
+      admin/intl/se_SE/mediaedit.php.ini
+      admin/intl/se_SE/medialist.php.ini
+      admin/intl/se_SE/mediaview.php.ini
+      admin/intl/se_SE/menubox.php.ini
+      admin/intl/se_SE/typeedit.php.ini
+      admin/intl/se_SE/typelist.php.ini: se_SE swedish 2.2.1
+

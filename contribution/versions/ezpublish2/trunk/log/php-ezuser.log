@@ -735,3 +735,33 @@ Maintainer(s) : bf@ez.no
     * classes/ezobjectpermission.php
       classes/ezuser.php: speed improvement and coding standard fixes
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-11-22  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/se_SE/authorlist.php.ini
+      admin/intl/se_SE/groupedit.php.ini
+      admin/intl/se_SE/grouplist.php.ini
+      admin/intl/se_SE/login.php.ini
+      admin/intl/se_SE/menubox.php.ini
+      admin/intl/se_SE/passwordchange.php.ini
+      admin/intl/se_SE/sessioninfo.php.ini
+      admin/intl/se_SE/settings.php.ini
+      admin/intl/se_SE/useredit.php.ini
+      admin/intl/se_SE/userlist.php.ini
+      admin/intl/se_SE/welcome.php.ini
+      user/intl/se_SE/addressedit.php.ini
+      user/intl/se_SE/forgot.php.ini
+      user/intl/se_SE/forgotmessage.php.ini
+      user/intl/se_SE/login.php.ini
+      user/intl/se_SE/missingemailmessage.php.ini
+      user/intl/se_SE/norights.php.ini
+      user/intl/se_SE/userbox.php.ini
+      user/intl/se_SE/useredit.php.ini
+      user/intl/se_SE/userwithaddress.php.ini: se_SE swedish 2.2.1
+
+    * admin/intl/es_MX/menubox.php.ini
+      user/intl/es_MX/useredit.php.ini: es_MX update for 2.2.2
+

@@ -319,3 +319,22 @@ Maintainer(s) : fh@ez.no
       user/intl/es_AR/mailview.php.ini
       user/intl/es_AR/search.php.ini: updated es_AR for 2.2.2
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2001-11-22  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/se_SE/accountedit.php.ini
+      user/intl/se_SE/configure.php.ini
+      user/intl/se_SE/fileedit.php.ini
+      user/intl/se_SE/filteredit.php.ini
+      user/intl/se_SE/folderedit.php.ini
+      user/intl/se_SE/folderlist.php.ini
+      user/intl/se_SE/link.php.ini
+      user/intl/se_SE/mailedit.php.ini
+      user/intl/se_SE/maillist.php.ini
+      user/intl/se_SE/mailview.php.ini
+      user/intl/se_SE/menubox.php.ini
+      user/intl/se_SE/search.php.ini: se_SE swedish 2.2.1
+

@@ -2158,3 +2158,177 @@ Maintainer(s) : ce@ez.no
       user/intl/es_AR/voucherview.php.ini
       user/intl/es_AR/wishlist.php.ini: updated es_AR for 2.2.2
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-11-22  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * user/cart.php
+      user/checkout.php: Fixed minor bugs.
+
+    * user/cart.php
+      user/checkout.php: Its a long dark road. Fixed minor bugs.
+
+2001-11-22  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/se_SE/attributeedit.php.ini
+      admin/intl/se_SE/categoryedit.php.ini
+      admin/intl/se_SE/categorylist.php.ini
+      admin/intl/se_SE/currency.php.ini
+      admin/intl/se_SE/customerlist.php.ini
+      admin/intl/se_SE/customerview.php.ini
+      admin/intl/se_SE/formlist.php.ini
+      admin/intl/se_SE/imageedit.php.ini
+      admin/intl/se_SE/imagelist.php.ini
+      admin/intl/se_SE/linklist.php.ini
+      admin/intl/se_SE/linkselect.php.ini
+      admin/intl/se_SE/menubox.php.ini
+      admin/intl/se_SE/optionedit.php.ini
+      admin/intl/se_SE/optionlist.php.ini
+      admin/intl/se_SE/orderedit.php.ini
+      admin/intl/se_SE/orderlist.php.ini
+      admin/intl/se_SE/pricegroupedit.php.ini
+      admin/intl/se_SE/pricegroups.php.ini
+      admin/intl/se_SE/productedit.php.ini
+      admin/intl/se_SE/productpreview.php.ini
+      admin/intl/se_SE/productsearch.php.ini
+      admin/intl/se_SE/shippingtypes.php.ini
+      admin/intl/se_SE/typeedit.php.ini
+      admin/intl/se_SE/typelist.php.ini
+      admin/intl/se_SE/vattypes.php.ini
+      admin/intl/se_SE/voucheredit.php.ini
+      admin/intl/se_SE/voucherlist.php.ini
+      user/intl/se_SE/cart.php.ini
+      user/intl/se_SE/categorylist.php.ini
+      user/intl/se_SE/checkout.php.ini
+      user/intl/se_SE/customerlogin.php.ini
+      user/intl/se_SE/extendedsearch.php.ini
+      user/intl/se_SE/findwishlist.php.ini
+      user/intl/se_SE/hotdealslist.php.ini
+      user/intl/se_SE/mailorder.php.ini
+      user/intl/se_SE/mastercard.php.ini
+      user/intl/se_SE/menubox.php.ini
+      user/intl/se_SE/orderlist.php.ini
+      user/intl/se_SE/ordersendt.php.ini
+      user/intl/se_SE/orderview.php.ini
+      user/intl/se_SE/precheckout.php.ini
+      user/intl/se_SE/productlist.php.ini
+      user/intl/se_SE/productsearch.php.ini
+      user/intl/se_SE/productview.php.ini
+      user/intl/se_SE/sendwishlist.php.ini
+      user/intl/se_SE/smallcart.php.ini
+      user/intl/se_SE/smallproductlist.php.ini
+      user/intl/se_SE/viewwishlist.php.ini
+      user/intl/se_SE/visa.php.ini
+      user/intl/se_SE/voucher.php.ini
+      user/intl/se_SE/voucheremail.php.ini
+      user/intl/se_SE/voucherinformation.php.ini
+      user/intl/se_SE/voucherview.php.ini
+      user/intl/se_SE/wishlist.php.ini
+      user/intl/se_SE/wishlistmail.php.ini: se_SE swedish 2.2.1
+
+    * admin/intl/es_MX/customerview.php.ini
+      admin/intl/es_MX/orderedit.php.ini
+      admin/intl/es_MX/orderlist.php.ini
+      user/intl/es_MX/checkout.php.ini
+      user/intl/es_MX/extendedsearch.php.ini
+      user/intl/es_MX/mailorder.php.ini
+      user/intl/es_MX/orderlist.php.ini
+      user/intl/es_MX/voucherview.php.ini: es_MX update for 2.2.2
+
+2001-11-22  Baard Farstad  <bf@ez.no>
+
+    * classes/ezproduct.php: Fixed search.
+
+2001-11-22  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezproduct.php
+      user/productview.php: Fixed a search bug
+
+2001-11-22  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * user/cart.php
+      user/checkout.php: Fixed a bug in show savings
+
+    * classes/ezoptionvalue.php
+      classes/ezpricegroup.php
+      classes/ezproduct.php:
+    Fixed problems where user groups were used where price groups should have been.
+
+2001-11-22  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezproduct.php: f
+
+    * classes/ezproduct.php
+      classes/ezorder.php: fix
+
+    * classes/ezproduct.php: Fixed a bug
+
+    * user/wishlist.php: Fixed a parse bug
+
+2001-11-22  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * user/cart.php
+      user/checkout.php
+      user/templates/standard/cart.tpl
+      user/templates/standard/checkout.tpl: Fixed missing savings.
+
+    * user/cart.php
+      user/checkout.php
+      user/templates/standard/cart.tpl
+      user/templates/standard/checkout.tpl: Fixed missing savings column.
+
+2001-11-22  Christoffer Elo  <ce@ez.no>
+
+    * user/wishlist.php: Fixed the wishlist for mygold
+
+2001-11-22  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * classes/ezcartitem.php
+      classes/ezoptionvalue.php
+      classes/ezproduct.php: Added functions for calculation of savings.
+
+2001-11-22  Sascha Frinken  <sascha@impetex.de>
+
+    * user/checkout.php
+      user/intl/de_MG/wishlist.php.ini: Fixed templates
+
+2001-11-22  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * user/productlist.php: Fixed price printing.
+
+    * user/productlist.php: Fixed the printing of prices.
+
+    * classes/ezproduct.php: Fixed correctPriceRange to use vat calculatoins.
+
+    * classes/ezproduct.php:
+    Fixed "correctPriceRange" to use the correct VAT calculation.
+
+2001-11-22  Baard Farstad  <bf@ez.no>
+
+    * classes/ezproduct.php
+      sql/mysql/eztrade.sql: Optimized search.
+
+2001-11-22  Bjoern Reiten  <br@ez.no>
+
+    * admin/templates/standard/orderedit.tpl: fixed link.
+
+2001-11-22  Sascha Frinken  <sascha@impetex.de>
+
+    * user/checkout.php
+      user/intl/de_MG/Attic/orderview.php.ini
+      user/intl/de_MG/mailorder.php.ini
+      user/intl/de_MG/ordersendt.php.ini
+      user/intl/de_MG/voucherinformation.php.ini
+      user/intl/de_MG/wishlist.php.ini
+      user/orderlist.php
+      user/payment.php
+      user/productview.php: Added design
+
+2001-11-22  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezorder.php
+      user/checkout.php
+      user/ordersendt.php: Added payment metnod
+

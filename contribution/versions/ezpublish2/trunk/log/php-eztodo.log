@@ -321,3 +321,26 @@ Maintainer(s) : ce@ez.no
       user/intl/es_AR/todolist.php.ini
       user/intl/es_AR/todoview.php.ini: updated es_AR for 2.2.2
 
+
+Module : eztodo
+Repository path : /home/cvsroot/projects/php/eztodo
+Maintainer(s) : ce@ez.no
+2001-11-22  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/se_SE/categorytypeedit.php.ini
+      admin/intl/se_SE/categorytypelist.php.ini
+      admin/intl/se_SE/menubox.php.ini
+      admin/intl/se_SE/prioritytypeedit.php.ini
+      admin/intl/se_SE/prioritytypelist.php.ini
+      admin/intl/se_SE/statustypeedit.php.ini
+      admin/intl/se_SE/statustypelist.php.ini
+      user/intl/se_SE/maillog.php.ini
+      user/intl/se_SE/menubox.php.ini
+      user/intl/se_SE/sendmail.php.ini
+      user/intl/se_SE/todoedit.php.ini
+      user/intl/se_SE/todolist.php.ini
+      user/intl/se_SE/todomenulist.php.ini
+      user/intl/se_SE/todoview.php.ini: se_SE swedish 2.2.1
+
+    * user/intl/es_MX/maillog.php.ini: es_MX update for 2.2.2
+

@@ -291,3 +291,22 @@ Maintainer(s) : br@ez.no
       admin/intl/es_AR/visitorlist.php.ini
       admin/intl/es_AR/yearreport.php.ini: updated es_AR for 2.2.2
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2001-11-22  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/se_SE/browserlist.php.ini
+      admin/intl/se_SE/dayreport.php.ini
+      admin/intl/se_SE/entryexitpages.php.ini
+      admin/intl/se_SE/menubox.php.ini
+      admin/intl/se_SE/monthreport.php.ini
+      admin/intl/se_SE/overview.php.ini
+      admin/intl/se_SE/pageviewlist.php.ini
+      admin/intl/se_SE/productreport.php.ini
+      admin/intl/se_SE/refererlist.php.ini
+      admin/intl/se_SE/requestpagelist.php.ini
+      admin/intl/se_SE/visitorlist.php.ini
+      admin/intl/se_SE/yearreport.php.ini: se_SE swedish 2.2.1
+

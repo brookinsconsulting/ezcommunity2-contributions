@@ -468,3 +468,17 @@ Maintainer(s) : bf@ez.no
       admin/intl/es_AR/linkselect.php.ini
       locale/es_AR.ini: updated es_AR for 2.2.2
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-11-22  Gunnstein Lye  <gl@ez.no>
+
+    * locale/se_SE.ini
+      admin/intl/se_SE/linklist.php.ini
+      admin/intl/se_SE/linkselect.php.ini: se_SE swedish 2.2.1
+
+2001-11-22  Baard Farstad  <bf@ez.no>
+
+    * ezpublish.php: New version.
+

@@ -2271,3 +2271,77 @@ Maintainer(s) : bf@ez.no
       user/intl/es_AR/topiclist.php.ini
       user/intl/es_AR/urlsupplier.php.ini: updated es_AR for 2.2.2
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-11-22  Baard Farstad  <bf@ez.no>
+
+    * classes/ezarticle.php: Fixed transaction start posistion.
+
+2001-11-22  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/se_SE/articleedit.php.ini
+      admin/intl/se_SE/articlelist.php.ini
+      admin/intl/se_SE/articlelog.php.ini
+      admin/intl/se_SE/articlepreview.php.ini
+      admin/intl/se_SE/attribute.php.ini
+      admin/intl/se_SE/categoryedit.php.ini
+      admin/intl/se_SE/fileedit.php.ini
+      admin/intl/se_SE/filelist.php.ini
+      admin/intl/se_SE/formlist.php.ini
+      admin/intl/se_SE/imageedit.php.ini
+      admin/intl/se_SE/imagelist.php.ini
+      admin/intl/se_SE/imagemap.php.ini
+      admin/intl/se_SE/mailtemplate.php.ini
+      admin/intl/se_SE/mediaedit.php.ini
+      admin/intl/se_SE/medialist.php.ini
+      admin/intl/se_SE/menubox.php.ini
+      admin/intl/se_SE/pendinglist.php.ini
+      admin/intl/se_SE/pendingmail.php.ini
+      admin/intl/se_SE/search.php.ini
+      admin/intl/se_SE/searchform.php.ini
+      admin/intl/se_SE/sitemap.php.ini
+      admin/intl/se_SE/topiclist.php.ini
+      admin/intl/se_SE/typeedit.php.ini
+      admin/intl/se_SE/typelist.php.ini
+      admin/intl/se_SE/unpublishedlist.php.ini
+      user/intl/se_SE/articleedit.php.ini
+      user/intl/se_SE/articleheaderlist.php.ini
+      user/intl/se_SE/articlelinks.php.ini
+      user/intl/se_SE/articlelist.php.ini
+      user/intl/se_SE/articleview.php.ini
+      user/intl/se_SE/authorlist.php.ini
+      user/intl/se_SE/authorview.php.ini
+      user/intl/se_SE/extendedsearch.php.ini
+      user/intl/se_SE/fileedit.php.ini
+      user/intl/se_SE/filelist.php.ini
+      user/intl/se_SE/frontpage.php.ini
+      user/intl/se_SE/headlines.php.ini
+      user/intl/se_SE/imageedit.php.ini
+      user/intl/se_SE/imagelist.php.ini
+      user/intl/se_SE/index.php.ini
+      user/intl/se_SE/mailtofriend.php.ini
+      user/intl/se_SE/menubox.php.ini
+      user/intl/se_SE/newsgroup.php.ini
+      user/intl/se_SE/search.php.ini
+      user/intl/se_SE/searchform.php.ini
+      user/intl/se_SE/sendmailtofriend.php.ini
+      user/intl/se_SE/sitemap.php.ini
+      user/intl/se_SE/topiclist.php.ini
+      user/intl/se_SE/urlsupplier.php.ini: se_SE swedish 2.2.1
+
+    * user/intl/es_MX/articlelist.php.ini
+      admin/intl/es_MX/medialist.php.ini: es_MX update for 2.2.2
+
+2001-11-22  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezqdomrenderer.php: removed trailing / in file attachments
+
+2001-11-22  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * user/frontpage.php: Fixed the missing variable read.
+
+    * user/frontpage.php:
+    Need to read the correct variable, or else the price will be wrong.
+

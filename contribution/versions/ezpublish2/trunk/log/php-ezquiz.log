@@ -158,3 +158,18 @@ Maintainer(s) : pkej@ez.no
       user/intl/es_AR/menubox.php.ini
       user/intl/es_AR/quiz.php.ini: updated es_AR for 2.2.2
 
+
+Module : ezquiz
+Repository path : /home/cvsroot/projects/php/ezquiz
+Maintainer(s) : pkej@ez.no
+2001-11-22  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/se_SE/gameedit.php.ini
+      admin/intl/se_SE/gamelist.php.ini
+      admin/intl/se_SE/menubox.php.ini
+      admin/intl/se_SE/questionedit.php.ini
+      user/intl/se_SE/menubox.php.ini
+      user/intl/se_SE/quiz.php.ini: se_SE swedish 2.2.1
+
+    * admin/intl/es_MX/gamelist.php.ini: es_MX update for 2.2.2
+

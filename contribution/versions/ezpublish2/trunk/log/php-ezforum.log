@@ -780,3 +780,35 @@ Maintainer(s) : jhe@ez.no
       user/intl/es_AR/search.php.ini
       user/intl/es_AR/userlogin.php.ini: updated es_AR for 2.2.2
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-11-22  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/se_SE/categoryedit.php.ini
+      admin/intl/se_SE/categorylist.php.ini
+      admin/intl/se_SE/forumedit.php.ini
+      admin/intl/se_SE/forumlist.php.ini
+      admin/intl/se_SE/mailreject.php.ini
+      admin/intl/se_SE/menubox.php.ini
+      admin/intl/se_SE/message.php.ini
+      admin/intl/se_SE/messageedit.php.ini
+      admin/intl/se_SE/messagelist.php.ini
+      admin/intl/se_SE/noright.php.ini
+      admin/intl/se_SE/search.php.ini
+      admin/intl/se_SE/unapprovedlist.php.ini
+      user/intl/se_SE/categorylist.php.ini
+      user/intl/se_SE/forumlist.php.ini
+      user/intl/se_SE/latestmessages.php.ini
+      user/intl/se_SE/mailreply.php.ini
+      user/intl/se_SE/menubox.php.ini
+      user/intl/se_SE/message.php.ini
+      user/intl/se_SE/messagelist.php.ini
+      user/intl/se_SE/messagesimplelist.php.ini
+      user/intl/se_SE/noaccess.php.ini
+      user/intl/se_SE/search.php.ini
+      user/intl/se_SE/userlogin.php.ini: se_SE swedish 2.2.1
+
+    * user/intl/es_MX/userlogin.php.ini: es_MX update for 2.2.2
+

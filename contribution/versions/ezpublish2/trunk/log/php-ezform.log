@@ -381,3 +381,18 @@ Maintainer(s) : pkej@ez.no
       admin/intl/es_AR/form.php.ini
       admin/intl/es_AR/menubox.php.ini: updated es_AR for 2.2.2
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-11-22  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/se_SE/fixedvalues.php.ini
+      admin/intl/se_SE/form.php.ini
+      admin/intl/se_SE/menubox.php.ini
+      user/intl/se_SE/errors.php.ini
+      user/intl/se_SE/form.php.ini: se_SE swedish 2.2.1
+
+    * admin/intl/es_MX/form.php.ini
+      user/intl/es_MX/form.php.ini: es_MX update for 2.2.2
+

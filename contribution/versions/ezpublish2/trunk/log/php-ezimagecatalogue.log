@@ -793,3 +793,23 @@ Maintainer(s) : br@ez.no
       user/intl/es_AR/menucategorylist.php.ini
       user/intl/es_AR/slideshow.php.ini: updated es_AR for 2.2.2
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-11-22  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/se_SE/browse.php.ini
+      admin/intl/se_SE/categoryedit.php.ini
+      admin/intl/se_SE/imageedit.php.ini
+      admin/intl/se_SE/imagelist.php.ini
+      admin/intl/se_SE/imageview.php.ini
+      admin/intl/se_SE/menubox.php.ini
+      admin/intl/se_SE/unassigned.php.ini
+      user/intl/se_SE/categoryedit.php.ini
+      user/intl/se_SE/imageedit.php.ini
+      user/intl/se_SE/imagelist.php.ini
+      user/intl/se_SE/imageview.php.ini
+      user/intl/se_SE/menubox.php.ini
+      user/intl/se_SE/slideshow.php.ini: se_SE swedish 2.2.1
+

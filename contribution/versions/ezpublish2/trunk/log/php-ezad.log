@@ -235,3 +235,15 @@ Maintainer(s) : br@ez.no
       admin/intl/es_AR/categoryedit.php.ini
       admin/intl/es_AR/menubox.php.ini: updated es_AR for 2.2.2
 
+
+Module : ezad
+Repository path : /home/cvsroot/projects/php/ezad
+Maintainer(s) : br@ez.no
+2001-11-22  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/se_SE/adedit.php.ini
+      admin/intl/se_SE/adlist.php.ini
+      admin/intl/se_SE/adstatistics.php.ini
+      admin/intl/se_SE/categoryedit.php.ini
+      admin/intl/se_SE/menubox.php.ini: se_SE swedish 2.2.1
+

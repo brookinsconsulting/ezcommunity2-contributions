@@ -272,3 +272,26 @@ Maintainer(s) : vl@ez.no
       user/intl/es_AR/newslist.php.ini
       user/intl/es_AR/search.php.ini: updated es_AR for 2.2.2
 
+
+Module : eznewsfeed
+Repository path : /home/cvsroot/projects/php/eznewsfeed
+Maintainer(s) : vl@ez.no
+2001-11-22  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/se_SE/categoryedit.php.ini
+      admin/intl/se_SE/importnews.php.ini
+      admin/intl/se_SE/menubox.php.ini
+      admin/intl/se_SE/newsarchive.php.ini
+      admin/intl/se_SE/newsedit.php.ini
+      admin/intl/se_SE/newssearch.php.ini
+      admin/intl/se_SE/sourcesiteedit.php.ini
+      admin/intl/se_SE/unpublished.php.ini
+      user/intl/se_SE/allcategories.php.ini
+      user/intl/se_SE/headlines.php.ini
+      user/intl/se_SE/menubox.php.ini
+      user/intl/se_SE/newslist.php.ini
+      user/intl/se_SE/search.php.ini: se_SE swedish 2.2.1
+
+    * user/intl/es_MX/headlines.php.ini
+      user/intl/es_MX/menubox.php.ini: es_MX update for 2.2.2
+

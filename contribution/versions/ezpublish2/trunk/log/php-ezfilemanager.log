@@ -561,3 +561,21 @@ Maintainer(s) : jhe@ez.no
       user/intl/es_AR/menufolderlist.php.ini
       user/intl/es_AR/search.php.ini: updated es_AR for 2.2.2
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-11-22  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/se_SE/browse.php.ini
+      admin/intl/se_SE/menubox.php.ini
+      admin/intl/se_SE/unassigned.php.ini
+      user/intl/se_SE/filelist.php.ini
+      user/intl/se_SE/fileupload.php.ini
+      user/intl/se_SE/fileview.php.ini
+      user/intl/se_SE/folderedit.php.ini
+      user/intl/se_SE/menubox.php.ini
+      user/intl/se_SE/search.php.ini: se_SE swedish 2.2.1
+
+    * admin/intl/es_MX/browse.php.ini: es_MX update for 2.2.2
+

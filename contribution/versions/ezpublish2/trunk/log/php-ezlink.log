@@ -548,3 +548,28 @@ Maintainer(s) : br@ez.no
       user/intl/es_AR/success.php.ini
       user/intl/es_AR/suggestlink.php.ini: updated es_AR for 2.2.2
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-11-22  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/se_SE/attributeedit.php.ini
+      admin/intl/se_SE/categoryedit.php.ini
+      admin/intl/se_SE/categorylist.php.ini
+      admin/intl/se_SE/linkcategorylist.php.ini
+      admin/intl/se_SE/linkedit.php.ini
+      admin/intl/se_SE/menubox.php.ini
+      admin/intl/se_SE/noright.php.ini
+      admin/intl/se_SE/search.php.ini
+      admin/intl/se_SE/typeedit.php.ini
+      admin/intl/se_SE/typelist.php.ini
+      admin/intl/se_SE/unacceptedlist.php.ini
+      user/intl/se_SE/categorylist.php.ini
+      user/intl/se_SE/linkcategorylist.php.ini
+      user/intl/se_SE/linklist.php.ini
+      user/intl/se_SE/onepagelinklist.php.ini
+      user/intl/se_SE/search.php.ini
+      user/intl/se_SE/success.php.ini
+      user/intl/se_SE/suggestlink.php.ini: se_SE swedish 2.2.1
+
