@@ -914,3 +914,18 @@ Maintainer(s) : pkej@ez.no
 
     * sql/mysql/ezform.sql: fixed result type
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-01-09  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/exportform.php
+      classes/ezformelement.php: speed improvement
+
+    * admin/exportform.php: speed improvment
+
+    * admin/exportform.php: fixed bug
+
+    * admin/exportform.php: reports now includes table fileds
+
