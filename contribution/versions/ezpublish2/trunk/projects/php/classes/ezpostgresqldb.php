@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpostgresqldb.php,v 1.7 2001/07/12 14:49:30 bf Exp $
+// $Id: ezpostgresqldb.php,v 1.8 2001/07/16 11:23:43 bf Exp $
 //
 // Definition of eZPostgreSQLLDB class
 //
@@ -34,7 +34,11 @@ class eZPostgreSQLDB
 {
     function eZPostgreSQLDB( $server, $db, $user, $password  )
     {
-        $this->Database = pg_pconnect( "host=$server dbname=$db user=$user password=$password" );
+        $this->Database = @pg_pconnect( "host=$server dbname=$db user=$user password=$password" );
+        if ( $this->Database == false and $GLOBALS["DEBUG"] == true)
+        {        
+            print( "PostgreSQL error: could not connect to database." );
+        }
     }
 
     /*!
@@ -47,11 +51,16 @@ class eZPostgreSQLDB
 
     function &query( $sql )
     {
-        $result = pg_exec( $this->Database, $sql );
+        $result = @pg_exec( $this->Database, $sql );
 
         if ( !$result )
-            print( "PostgreSQL error: error executing query: $sql ".
-                   pg_errormessage ( $this->Database ) );
+        {
+            if ( $GLOBALS["DEBUG"] == true )
+            {
+                print( "PostgreSQL error: error executing query: $sql ".
+                       pg_errormessage ( $this->Database ) );
+            }
+        }
 
         return $result;
     }
@@ -92,7 +101,10 @@ class eZPostgreSQLDB
 
         if ( $result == false )
         {
-            print( $this->Error );
+            if ( $GLOBALS["DEBUG"] == true )
+            {
+                print( $this->Error );
+            }
             eZLog::writeWarning( $this->Error );
             return false;
         }
@@ -131,19 +143,6 @@ class eZPostgreSQLDB
         return $ret;
     }
     
-
-    function dateToNative( &$date )
-    {
-        $ret = false;
-        if ( get_class( $date ) == "ezdate" )
-        {
-            $ret = $date->year() . "-" . eZDate::addZero( $date->month() ) . "-" . eZDate::addZero( $date->day() );
-        }
-        else
-            print( "Wrong date type, must be an eZDate object." );
-
-        return $ret;
-    }
 
     /*!
       Locks a table
@@ -191,7 +190,7 @@ class eZPostgreSQLDB
     */
     function nextID( $table, $field="ID" )
     {
-        $result = pg_exec( $this->Database, "SELECT $field FROM $table Order BY $field DESC LIMIT 1" );
+        $result = @pg_exec( $this->Database, "SELECT $field FROM $table Order BY $field DESC LIMIT 1" );
 
         $id = 1;
         if ( $result )
@@ -231,7 +230,7 @@ class eZPostgreSQLDB
     */
     function close()
     {
-        pg_close();
+        @pg_close();
     }
     
     /// database connection
