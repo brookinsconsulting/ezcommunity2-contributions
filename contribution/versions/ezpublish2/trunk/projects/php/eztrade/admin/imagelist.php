@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imagelist.php,v 1.14 2001/07/20 11:42:01 jakobn Exp $
+// $Id: imagelist.php,v 1.15 2001/08/27 08:12:58 ce Exp $
 //
 // Created on: <21-Sep-2000 10:32:19 bf>
 //
@@ -52,9 +52,10 @@ $t->set_var( "site_style", $SiteStyle );
 
 $product = new eZProduct( $ProductID );
 
-$session = new eZSession();
+$session =& eZSession::globalSession();
 $session->setVariable( "ImageListReturnTo", $REQUEST_URI );
 $session->setVariable( "SelectImages", "multi" );
+$session->setVariable( "NameInBrowse", $product->name() );
 
 $thumbnail = $product->thumbnailImage();
 $main = $product->mainImage();
