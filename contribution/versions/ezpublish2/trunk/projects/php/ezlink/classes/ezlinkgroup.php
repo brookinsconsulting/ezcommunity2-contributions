@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.50 2001/03/05 14:27:05 ce Exp $
+// $Id: ezlinkgroup.php,v 1.51 2001/04/05 08:23:07 fh Exp $
 //
 // Definition of eZLinkGroup class
 //
@@ -86,11 +86,14 @@ class eZLinkGroup
     */
     function store()
     {
+        $title = addslashes( $this->Title );
+        $description = addslashes( $this->Description );
+
         $this->dbInit();
         $this->Database->query( "INSERT INTO eZLink_LinkGroup SET
                 ID='$this->ID',
-                Title='$this->Title',
-                Description='$this->Description',
+                Title='$title',
+                Description='$description',
                 ImageID='$this->ImageID',
                 Parent='$this->Parent'" );
     }
@@ -100,10 +103,13 @@ class eZLinkGroup
     */
     function update()
     {
+        $title = addslashes( $this->Title );
+        $description = addslashes( $this->Description );
+
         $this->dbInit();
         $this->Database->query( "UPDATE eZLink_LinkGroup SET 
-                Title='$this->Title',
-                Description='$this->Description',
+                Title='$title',
+                Description='$description',
                 Parent='$this->Parent',
                 ImageID='$this->ImageID'
                 WHERE ID='$this->ID'" );

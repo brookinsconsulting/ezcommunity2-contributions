@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.46 2001/03/09 11:05:35 jb Exp $
+// $Id: ezlink.php,v 1.47 2001/04/05 08:23:07 fh Exp $
 //
 // Definition of eZLink class
 //
@@ -94,16 +94,21 @@ class eZLink
     function store()
     {
         $this->dbInit();
-       // Sets the created to the system clock
+
+        $description = addslashes( $this->Description );
+        $title = addslashes( $this->Title );
+        $url = addslashes( $this->Url );
+        $keywords = addslashes( $this->KeyWords );
+        // Sets the created to the system clock
         $this->Created = date( "Y-m-d G:i:s" );        
         $this->Database->query( "INSERT INTO eZLink_Link SET
                 ID='$this->ID',
-                Title='$this->Title',
-                Description='$this->Description',
+                Title='$title',
+                Description='$description',
                 LinkGroup='$this->LinkGroupID',
-                KeyWords='$this->KeyWords',
+                KeyWords='$keywords',
                 Created='$this->Created',
-                Url='$this->Url',
+                Url='$url',
                 ImageID='$this->ImageID',
                 Accepted='$this->Accepted'" );
     }
@@ -116,11 +121,11 @@ class eZLink
         $GLOBALS["DEBUG"] = true;
         $this->dbInit();
         $this->Database->query( "UPDATE eZLink_Link SET
-                Title='$this->Title',
-                Description='$this->Description',
+                Title='$title',
+                Description='$description',
                 LinkGroup='$this->LinkGroupID',
-                KeyWords='$this->KeyWords',
-                Url='$this->Url',
+                KeyWords='$keywords',
+                Url='$url',
                 ImageID='$this->ImageID',
                 Accepted='$this->Accepted'
                 WHERE ID='$this->ID'" );
