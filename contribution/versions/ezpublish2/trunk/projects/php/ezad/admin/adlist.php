@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: adlist.php,v 1.13 2001/03/19 15:16:17 th Exp $
+// $Id: adlist.php,v 1.14 2001/04/30 16:04:47 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Nov-2000 21:08:34 bf>
@@ -56,6 +56,7 @@ $t->set_block( "ad_list_tpl", "ad_item_tpl", "ad_item" );
 $t->set_block( "ad_item_tpl", "ad_is_active_tpl", "ad_is_active" );
 $t->set_block( "ad_item_tpl", "ad_not_active_tpl", "ad_not_active" );
 $t->set_block( "ad_item_tpl", "image_item_tpl", "image_item" );
+$t->set_block( "ad_item_tpl", "html_item_tpl", "html_item" );
 $t->set_block( "ad_item_tpl", "no_image_tpl", "no_image" );
 
 $t->set_var( "site_style", $SiteStyle );
@@ -144,21 +145,35 @@ foreach ( $adList as $ad )
     }
 
     $image = $ad->image();
-    if ( get_class ( $image ) == "ezimage" )
-    {
-        $imageURL = $image->filePath();
 
-        $t->set_var( "image_width", $image->width() );
-        $t->set_var( "image_height", $image->height() );
-        $t->set_var( "image_url", $imageURL );
-        $t->set_var( "image_caption", $image->caption() );
-        $t->parse( "image_item", "image_item_tpl" );
+    if ( $ad->useHTML() )
+    {
+        $t->set_var( "image_item", "" );
         $t->set_var( "no_image", "" );
+
+        $t->set_var( "html_banner", $ad->htmlBanner() );
+        $t->parse( "html_item", "html_item_tpl" );
     }
     else
     {
-        $t->set_var( "image_item", "" );
-        $t->parse( "no_image", "no_image_tpl" );
+        if ( get_class ( $image ) == "ezimage" )
+        {
+            $imageURL = $image->filePath();
+            
+            $t->set_var( "image_width", $image->width() );
+            $t->set_var( "image_height", $image->height() );
+            $t->set_var( "image_url", $imageURL );
+            $t->set_var( "image_caption", $image->caption() );
+            $t->parse( "image_item", "image_item_tpl" );
+            $t->set_var( "no_image", "" );
+            $t->set_var( "html_item", "" );
+        }
+        else
+        {
+            $t->set_var( "html_item", "" );
+            $t->set_var( "image_item", "" );
+            $t->parse( "no_image", "no_image_tpl" );
+        }
     }
     
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adstatistics.php,v 1.8 2001/03/01 14:06:24 jb Exp $
+// $Id: adstatistics.php,v 1.9 2001/04/30 16:04:47 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Nov-2000 11:47:03 bf>
@@ -49,6 +49,8 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "ad_edit_page_tpl", "image_tpl", "image" );
+$t->set_block( "ad_edit_page_tpl", "html_item_tpl", "html_item" );
+
 
 $ad = new eZAd( $AdID );
 
@@ -61,6 +63,7 @@ $t->set_var( "ad_view_count", $ad->viewCount() );
 $t->set_var( "ad_click_count", $ad->clickCount() );
 
 $clickRevenue =& $ad->totalClickRevenue();
+
 $viewRevenue =& $ad->totalViewRevenue();
 
 $t->set_var( "ad_view_revenue", $clickRevenue );
@@ -88,17 +91,31 @@ else
     $t->set_var( "ad_is_active", "" );
 }
 
-$image = $ad->image();
 
-if ( $image )
+if ( $ad->useHTML() )
 {
-    $t->set_var( "image_src",  $image->filePath() );
-    $t->set_var( "image_alt", $image->caption() );
-    $t->set_var( "image_width", $image->width() );
-    $t->set_var( "image_height", $image->height() );
-    $t->set_var( "image_file_name", $image->originalFileName() );
+    $t->set_var( "image", "" );
     
-    $t->parse( "image", "image_tpl" );
+    $t->set_var( "html_banner", $ad->htmlBanner() );
+    $t->parse( "html_item", "html_item" );
+
+}    
+else
+{
+    $image = $ad->image();
+    
+    if ( $image )
+    {
+        $t->set_var( "image_src",  $image->filePath() );
+        $t->set_var( "image_alt", $image->caption() );
+        $t->set_var( "image_width", $image->width() );
+        $t->set_var( "image_height", $image->height() );
+        $t->set_var( "image_file_name", $image->originalFileName() );
+
+        $t->set_var( "html_item", "" );
+
+        $t->parse( "image", "image_tpl" );
+    }
 }
 
 

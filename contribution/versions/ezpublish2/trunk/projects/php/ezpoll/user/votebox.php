@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: votebox.php,v 1.16 2001/04/11 14:18:41 th Exp $
+// $Id: votebox.php,v 1.17 2001/04/30 16:04:47 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -38,7 +38,7 @@ unset( $menuCachedFile );
 // do the caching
 if ( $PageCaching == "enabled" )
 {
-    $menuCachedFile = "ezpoll/cache/menubox," . $groupstr . ",". $GlobalSiteDesign .".cache";
+    $menuCachedFile = "ezpoll/cache/menubox,". $GlobalSiteDesign .".cache";
     
     if ( file_exists( $menuCachedFile ) )
     {

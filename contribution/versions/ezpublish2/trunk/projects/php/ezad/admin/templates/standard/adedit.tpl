@@ -49,6 +49,7 @@
 
 
 
+
 <br /><br />
 <input type="checkbox" name="IsActive" {ad_is_active} />
 <span class="boxtext">{intl-ad_is_active}</span><br /><br />

@@ -111,18 +111,14 @@ if ( ( $requireUserLogin == "disabled" ) ||
     // if uri == / show default page or article list
     if ( $REQUEST_URI == "/" )
     {
-        if ( $ini->read_var( "site", "DefaultPage" ) != "disabled" )
-        {
-            $REQUEST_URI = ( $ini->read_var( "site", "DefaultPage" ) );
-        }
-        else
+        if ( $ini->read_var( "site", "DefaultPage" ) == "disabled" )
         {
             $REQUEST_URI = "/article/archive/0/";
+            $url_array = explode( "/", $REQUEST_URI );
         }
-        $url_array = explode( "/", $REQUEST_URI );
      }
     
-
+    
     // Load the main contents and store in a variable
     $content_page = "ez" . $url_array[1] . "/user/datasupplier.php";
 
@@ -237,6 +233,7 @@ eZDB::close();
 $bench->stop();
 
 $bench->printResults();
+
 
 ob_end_flush();
 ?>

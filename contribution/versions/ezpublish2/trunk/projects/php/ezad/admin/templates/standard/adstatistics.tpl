@@ -11,6 +11,10 @@
 <img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
 <!-- END image_tpl -->
 
+<!-- BEGIN html_item_tpl -->
+{html_banner}
+<!-- END html_item_tpl -->
+
 <p class="boxtext">{intl-total_view_count}:</p>
 {ad_view_count}
 

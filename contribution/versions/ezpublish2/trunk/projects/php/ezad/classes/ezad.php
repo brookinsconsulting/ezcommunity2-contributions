@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezad.php,v 1.17 2001/04/11 16:05:16 bf Exp $
+// $Id: ezad.php,v 1.18 2001/04/30 16:04:47 bf Exp $
 //
 // Definition of eZAd class
 //
@@ -531,7 +531,8 @@ class eZAd
     {
        $this->dbInit();
 
-       $this->Database->array_query( $view_result, "SELECT SUM(ViewPrice) AS Revenue FROM eZAd_View WHERE AdID='$this->ID'" );
+       $this->Database->array_query( $view_result, "SELECT SUM(ViewPrice) AS Revenue
+                                                    FROM eZAd_View WHERE AdID='$this->ID'" );
 
        return $view_result[0]["Revenue"];
     }

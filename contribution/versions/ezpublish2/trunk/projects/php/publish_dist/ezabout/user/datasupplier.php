@@ -1,4 +1,10 @@
-<h1>About eZ publish v 2.1.0 Beta 1 </h1>
+<?
+include_once( "classes/ezpublish.php" );
+
+$version = eZPublish::version();
+
+?>
+<h1>About eZ publish v <? echo $version; ?></h1>
 <hr noshade="noshade" size="4" />
 <br />
 

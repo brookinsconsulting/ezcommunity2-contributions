@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adedit.php,v 1.17 2001/03/02 13:29:03 fh Exp $
+// $Id: adedit.php,v 1.18 2001/04/30 16:04:47 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -238,6 +238,7 @@ $t->set_file( array(
 $t->set_block( "ad_edit_page_tpl", "value_tpl", "value" );
 $t->set_block( "ad_edit_page_tpl", "image_tpl", "image" );
 
+
 $t->set_var( "action_value", "insert" );
 
 $t->set_var( "ad_title_value", "" );
@@ -287,6 +288,7 @@ if ( $Action == "Edit" )
     
     $image = $ad->image();
 
+    
     if ( $image )
     {
         $t->set_var( "image_src",  $image->filePath() );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: pollist.php,v 1.19 2001/02/12 18:12:51 fh Exp $
+// $Id: pollist.php,v 1.20 2001/04/30 16:04:47 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -25,6 +25,7 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezcachefile.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 $Language = $ini->read_var( "eZPollMain", "Language" );
@@ -44,8 +45,15 @@ $notClosed = $LangaugeIni->read_var( "strings", "not_closed" );
 if ( $Action == "StoreMainPoll" )
 {
     // clear the menu cache
-    if ( file_exists("ezpoll/cache/menubox.cache" )  )
-         unlink( "ezpoll/cache/menubox.cache" );
+    $files =& eZCacheFile::files( "ezpoll/cache/",
+                                  array( "menubox",
+                                         NULL ),
+                                  "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
+    
     
     $mainPoll = new eZPoll( $MainPollID );
     if ( $mainPoll->isClosed() )
@@ -62,9 +70,18 @@ if ( $Action == "StoreMainPoll" )
     }
 }
 
-// added FH
-if( $Action == "Delete" )
+if ( $Action == "Delete" )
 {
+    // clear the menu cache
+    $files =& eZCacheFile::files( "ezpoll/cache/",
+                                  array( "menubox",
+                                         NULL ),
+                                  "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
+    
     if( count( $PollArrayID ) > 0 )
     {
         foreach( $PollArrayID as $doomedPoll )

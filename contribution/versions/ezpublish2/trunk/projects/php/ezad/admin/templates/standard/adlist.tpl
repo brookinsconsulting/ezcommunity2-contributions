@@ -86,6 +86,9 @@
 	<!-- <p class="boxtext">{intl-th_type_current_image}:</p> -->
 	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
 	<!-- END image_item_tpl -->
+	<!-- BEGIN html_item_tpl -->
+	{html_banner}
+	<!-- END html_item_tpl -->
 	<!-- BEGIN no_image_tpl -->
 	<p class="error">{intl-no_image}</p>
 	<!-- END no_image_tpl -->

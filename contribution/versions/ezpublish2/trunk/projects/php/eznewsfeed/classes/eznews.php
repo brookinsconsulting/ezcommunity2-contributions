@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznews.php,v 1.12 2001/04/04 16:47:25 fh Exp $
+// $Id: eznews.php,v 1.13 2001/04/30 16:04:47 bf Exp $
 //
 // Definition of eZNews class
 //
@@ -104,7 +104,7 @@ class eZNews
         $this->dbInit();
 
         $name = addslashes( $this->Name );
-        $into = addslashes( $this->Intro );
+        $intro = addslashes( $this->Intro );
         $url = addslashes( $this->URL );
         $keywords = addslashes( $this->KeyWords );
         $origin = addslashes( $this->Origin );
