@@ -87,9 +87,21 @@ switch ( $ListType )
                 include( "ezcontact/admin/companyview.php" );
                 break;
             }
+            case "stats":
+            {
+                $Year = $url_array[6];
+                $Month = $url_array[7];
+                $Day = $url_array[8];
+                $DateType = $url_array[4];
+                if ( !isset( $CompanyID ) and isset( $url_array[5] ) and is_numeric( $url_array[5] ) )
+                    $CompanyID = $url_array[5];
+                include( "ezcontact/admin/companystats.php" );
+                break;
+            }
             case "list":
             {
                 $TypeID = $url_array[4];
+                $ShowStats = true;
                 include( "ezcontact/admin/companytypelist.php" );
                 break;
             }

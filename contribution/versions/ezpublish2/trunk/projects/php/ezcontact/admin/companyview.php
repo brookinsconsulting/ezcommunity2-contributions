@@ -7,6 +7,10 @@ include_once( "classes/INIFile.php" );
 
 $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZContactMain", "Language" );
+$CompanyViewLogin = $ini->read_var( "eZContactMain", "CompanyViewLogin" ) == "true";
+$CompanyEditLogin = $ini->read_var( "eZContactMain", "CompanyEditLogin" ) == "true";
+$ShowCompanyContact = $ini->read_var( "eZContactMain", "ShowCompanyContact" ) == "true";
+$ShowCompanyStatus = $ini->read_var( "eZContactMain", "ShowCompanyStatus" ) == "true";
 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
@@ -31,14 +35,14 @@ include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
 $user = eZUser::currentUser();
-if ( get_class( $user ) != "ezuser" )
+if ( $CompanyViewLogin and get_class( $user ) != "ezuser" )
 {
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /contact/nopermission/login" );
     exit();
 }
 
-if ( !eZPermission::checkPermission( $user, "eZContact", "CompanyView" ) )
+if ( $CompanyViewLogin and !eZPermission::checkPermission( $user, "eZContact", "CompanyView" ) )
 {
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /contact/nopermission/company/view" );
@@ -55,10 +59,12 @@ $t->set_file( "company_edit", "companyview.tpl" );
 $t->set_block( "company_edit", "company_information_tpl", "company_information" );
 $t->set_block( "company_edit", "no_company_tpl", "no_company" );
 
-$t->set_block( "company_information_tpl", "contact_person_tpl", "contact_person" );
-$t->set_block( "company_information_tpl", "no_contact_person_tpl", "no_contact_person" );
-$t->set_block( "company_information_tpl", "project_status_tpl", "project_status" );
-$t->set_block( "company_information_tpl", "no_project_status_tpl", "no_project_status" );
+$t->set_block( "company_information_tpl", "contact_item_tpl", "contact_item" );
+$t->set_block( "contact_item_tpl", "contact_person_tpl", "contact_person" );
+$t->set_block( "contact_item_tpl", "no_contact_person_tpl", "no_contact_person" );
+$t->set_block( "company_information_tpl", "status_item_tpl", "status_item" );
+$t->set_block( "status_item_tpl", "project_status_tpl", "project_status" );
+$t->set_block( "status_item_tpl", "no_project_status_tpl", "no_project_status" );
 
 $t->set_block( "company_information_tpl", "consultation_buttons_tpl", "consultation_buttons" );
 
@@ -96,6 +102,8 @@ $t->set_block( "phone_item_tpl", "phone_line_tpl", "phone_line" );
 $t->set_var( "phone_line", "&nbsp;" );
 $t->set_block( "company_information_tpl", "no_phone_item_tpl", "no_phone_item" );
 $t->set_var( "no_phone_item", "&nbsp;" );
+$t->set_block( "company_information_tpl", "company_edit_button_tpl", "company_edit_button" );
+$t->set_var( "company_edit_button", "" );
 
 $t->set_var( "company_information", "" );
 $t->set_var( "no_company", "" );
@@ -276,41 +284,51 @@ else
     $t->set_var( "contact_person", "" );
     $t->set_var( "no_contact_person", "" );
 
-    $contact = $company->contact();
-    if ( $contact )
+    $t->set_var( "contact_item", "" );
+    if ( $ShowCompanyContact )
     {
-        if ( $company->contactType() == "ezperson" )
-            $user = new eZPerson( $contact );
+        $contact = $company->contact();
+        if ( $contact )
+        {
+            if ( $company->contactType() == "ezperson" )
+                $user = new eZPerson( $contact );
+            else
+                $user = new eZUser( $contact );
+            $t->set_var( "contact_firstname", eZTextTool::htmlspecialchars( $user->firstName() ) );
+            $t->set_var( "contact_lastname", eZTextTool::htmlspecialchars( $user->lastName() ) );
+            $t->parse( "contact_person", "contact_person_tpl" );
+        }
         else
-            $user = new eZUser( $contact );
-        $t->set_var( "contact_firstname", eZTextTool::htmlspecialchars( $user->firstName() ) );
-        $t->set_var( "contact_lastname", eZTextTool::htmlspecialchars( $user->lastName() ) );
-        $t->parse( "contact_person", "contact_person_tpl" );
-    }
-    else
-    {
-        $t->parse( "no_contact_person", "no_contact_person_tpl" );
+        {
+            $t->parse( "no_contact_person", "no_contact_person_tpl" );
+        }
+        $t->parse( "contact_item", "contact_item_tpl" );
     }
 
-    $t->set_var( "project_status", "" );
-    $t->set_var( "no_project_status", "" );
+    $t->set_var( "status_item", "" );
+    if ( $ShowCompanyStatus )
+    {
+        $t->set_var( "project_status", "" );
+        $t->set_var( "no_project_status", "" );
 
-    $statusid = $company->projectState();
-    if ( $statusid )
-    {
-        $status = new eZProjectType( $statusid );
-        $t->set_var( "project_status", eZTextTool::htmlspecialchars( $status->name() ) );
-        $t->parse( "project_status", "project_status_tpl" );
-    }
-    else
-    {
-        $t->parse( "no_project_status", "no_project_status_tpl" );
+        $statusid = $company->projectState();
+        if ( $statusid )
+        {
+            $status = new eZProjectType( $statusid );
+            $t->set_var( "project_status", eZTextTool::htmlspecialchars( $status->name() ) );
+            $t->parse( "project_status", "project_status_tpl" );
+        }
+        else
+        {
+            $t->parse( "no_project_status", "no_project_status_tpl" );
+        }
+        $t->parse( "status_item", "status_item_tpl" );
     }
 
 // Person list
     $user = eZUser::currentUser();
     $t->set_var( "person_consultation_button", "" );
-    if ( eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
+    if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
     {
         $t->parse( "person_consultation_button", "person_consultation_button_tpl" );
     }
@@ -343,7 +361,7 @@ else
 
 // Consultation list
     $user = eZUser::currentUser();
-    if ( eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
+    if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
     {
         $max = $ini->read_var( "eZContactMain", "MaxCompanyConsultationList" );
         $consultations = eZConsultation::findConsultationsByContact( $CompanyID, $user->id(), false, 0, $max );
@@ -367,7 +385,7 @@ else
         }
     }
 
-    if ( eZPermission::checkPermission( $user, "eZContact", "consultation" ) and count( $consultations ) > 0 )
+    if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "consultation" ) and count( $consultations ) > 0 )
     {
         $t->parse( "consultation_table_item", "consultation_table_item_tpl", true );
     }
@@ -376,13 +394,18 @@ else
         $t->set_var( "consultation_table_item", "" );
     }
 
-    if ( eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
+    if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
     {
         $t->parse( "consultation_buttons", "consultation_buttons_tpl" );
     }
     else
     {
         $t->set_var( "consultation_buttons", "" );
+    }
+
+    if ( !$CompanyEditLogin or ($CompanyEditLogin and eZPermission::checkPermission( $user, "eZContact", "companyedit" ) ) )
+    {
+        $t->parse( "company_edit_button", "company_edit_button_tpl" );
     }
 
 // Template variabler.

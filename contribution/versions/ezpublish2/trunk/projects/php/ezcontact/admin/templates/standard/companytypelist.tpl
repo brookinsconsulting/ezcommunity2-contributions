@@ -162,6 +162,9 @@
 <tr>
 	<th>{intl-name}:</th>
 	<th>&nbsp;</th>
+	<!-- BEGIN company_stats_header_tpl -->
+	<th>{intl-views}:</th>
+	<!-- END company_stats_header_tpl -->
 	<th colspan="2">&nbsp;</th>
 </tr>
 
@@ -184,6 +187,12 @@
 	<!-- <p>{intl-no_image}</p> -->
 	<!-- END no_image_tpl -->	
 	</td>
+
+	<!-- BEGIN company_stats_item_tpl -->
+	<td class="{td_class}">
+	<a href="/contact/company/stats/year/{company_id}/">{company_views}</a>
+	</td>
+	<!-- END company_stats_item_tpl -->
 
 	<!-- BEGIN company_consultation_button_tpl -->
 	<td class="{td_class}" width="1%">

@@ -78,6 +78,7 @@ else
     $t->set_block( "company_item_tpl", "image_view_tpl", "image_view" );
     $t->set_block( "type_page", "no_companies_tpl", "no_companies" );
     $t->set_block( "type_page", "companies_table_tpl", "companies_table" );
+    $t->set_block( "companies_table_tpl", "company_stats_header_tpl", "company_stats_header" );
 
     $t->set_block( "company_item_tpl", "no_image_tpl", "no_image" );
     $t->set_block( "company_item_tpl", "company_view_button_tpl", "company_view_button" );
@@ -85,6 +86,7 @@ else
     $t->set_block( "company_item_tpl", "company_consultation_button_tpl", "company_consultation_button" );
     $t->set_block( "company_item_tpl", "company_edit_button_tpl", "company_edit_button" );
     $t->set_block( "company_item_tpl", "company_delete_button_tpl", "company_delete_button" );
+    $t->set_block( "company_item_tpl", "company_stats_item_tpl", "company_stats_item" );
     $t->set_block( "type_page", "company_new_button_tpl", "company_new_button" );
 
     $t->set_var( "image_item", "" );
@@ -299,6 +301,11 @@ else
     }
     else
     {
+        $can_view_stats = eZPermission::checkPermission( $user, "eZContact", "CompanyStats" ) && $ShowStats;
+        $t->set_var( "company_stats_header", "" );
+        if ( $can_view_stats )
+            $t->parse( "company_stats_header", "company_stats_header_tpl" );
+        $t->set_var( "company_stats_item", "" );
         for( $index = 0; $index < count( $companyList ); $index++ )
         {
             if ( ( $index %2 ) == 0 )
@@ -308,6 +315,12 @@ else
         
             $t->set_var( "company_id", $companyList[$index]->id() );
             $t->set_var( "company_name", $companyList[$index]->name() );
+            if ( $can_view_stats )
+            {
+                $count = $companyList[$index]->totalViewCount();
+                $t->set_var( "company_views", $count );
+                $t->parse( "company_stats_item", "company_stats_item_tpl" );
+            }
 
             unSet( $logoObj );
             $logoObj = $companyList[$index]->logoImage();

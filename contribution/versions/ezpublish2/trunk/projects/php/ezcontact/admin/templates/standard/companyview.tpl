@@ -108,6 +108,7 @@
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
+	<!-- BEGIN contact_item_tpl -->
 	<td width="50%">
 	<p class="boxtext">{intl-contact_person}:</p>
 	<!-- BEGIN contact_person_tpl -->
@@ -117,7 +118,9 @@
 	{intl-no_contact_person}
 	<!-- END no_contact_person_tpl -->
 	</td>
+	<!-- END contact_item_tpl -->
 
+	<!-- BEGIN status_item_tpl -->
 	<td width="50%">
 	<p class="boxtext">{intl-project_status}:</p>
 	<!-- BEGIN project_status_tpl -->
@@ -127,6 +130,7 @@
 	{intl-no_project_status}
 	<!-- END no_project_status_tpl -->
 	</td>
+	<!-- END status_item_tpl -->
 </tr>
 </table>
 
@@ -240,7 +244,9 @@
 <hr noshade="noshade" size="4" />
 <!-- END consultation_buttons_tpl -->
 
+<!-- BEGIN company_edit_button_tpl -->
 <input class="okbutton" type="submit" name="Edit" value="{intl-edit}">
+<!-- END company_edit_button_tpl -->
 <!--
 <input type="submit" name="Delete" value="{intl-delete}" />
 <input type="submit" name="Back" value="{intl-list}">
