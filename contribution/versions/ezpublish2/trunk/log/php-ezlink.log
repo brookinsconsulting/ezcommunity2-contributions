@@ -224,3 +224,38 @@ Maintainer(s) : br@ez.no
       sql/mysql/ezlink.sql: Fixed SQL bugs
     Fixed a percent bug in cart
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-10-19  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/no_NO/linkedit.php.ini
+      admin/intl/no_NO/search.php.ini
+      admin/intl/no_NO/unacceptedlist.php.ini
+      user/intl/no_NO/categorylist.php.ini
+      user/intl/no_NO/search.php.ini: updated no_NO
+
+    * admin/intl/en_GB/linkcategorylist.php.ini
+      admin/intl/en_GB/linkedit.php.ini
+      admin/intl/en_GB/menubox.php.ini
+      admin/intl/en_GB/search.php.ini
+      admin/intl/en_GB/typeedit.php.ini
+      admin/intl/en_GB/unacceptedlist.php.ini
+      user/intl/en_GB/linkcategorylist.php.ini
+      user/intl/en_GB/onepagelinklist.php.ini
+      user/intl/en_GB/suggestlink.php.ini: newline
+
+    * admin/intl/no_NO/attributeedit.php.ini
+      admin/intl/no_NO/categoryedit.php.ini
+      admin/intl/no_NO/categorylist.php.ini
+      admin/intl/no_NO/linkcategorylist.php.ini
+      admin/intl/no_NO/linkedit.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/search.php.ini
+      admin/intl/no_NO/typeedit.php.ini
+      admin/intl/no_NO/unacceptedlist.php.ini
+      user/intl/no_NO/categorylist.php.ini
+      user/intl/no_NO/search.php.ini
+      user/intl/no_NO/suggestlink.php.ini: updated no_NO
+

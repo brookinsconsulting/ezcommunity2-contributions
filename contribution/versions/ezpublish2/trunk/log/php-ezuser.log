@@ -416,3 +416,31 @@ Maintainer(s) : bf@ez.no
 
     * user/userwithaddress.php: Fixed a redirect
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-10-19  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/no_NO/menubox.php.ini
+      user/intl/no_NO/addressedit.php.ini
+      user/intl/no_NO/forgot.php.ini
+      user/intl/no_NO/forgotmessage.php.ini
+      user/intl/no_NO/useredit.php.ini
+      user/intl/no_NO/userwithaddress.php.ini: updated no_NO
+
+    * admin/intl/en_GB/groupedit.php.ini
+      admin/intl/en_GB/userlist.php.ini
+      admin/intl/en_GB/welcome.php.ini: newline
+
+    * user/intl/no_NO/userbox.php.ini
+      user/intl/no_NO/useredit.php.ini
+      user/intl/no_NO/userwithaddress.php.ini
+      admin/intl/no_NO/authorlist.php.ini
+      admin/intl/no_NO/grouplist.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/welcome.php.ini
+      user/intl/no_NO/addressedit.php.ini
+      user/intl/no_NO/forgot.php.ini
+      user/intl/no_NO/forgotmessage.php.ini: updated no_NO
+

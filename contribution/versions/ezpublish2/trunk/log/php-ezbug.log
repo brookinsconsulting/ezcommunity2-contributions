@@ -192,3 +192,41 @@ Maintainer(s) : vl@ez.no
       user/intl/de_DE/bugview.php.ini
       user/intl/de_DE/reportsuccess.php.ini: updated de_DE for 2.2 beta2
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-10-19  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/no_NO/confirmationmail.php.ini
+      user/intl/no_NO/bugreport.php.ini: updated no_NO
+
+    * admin/intl/en_GB/bugedit.php.ini
+      admin/intl/en_GB/mailgotbug.php.ini
+      admin/intl/en_GB/mailreply.php.ini
+      admin/intl/en_GB/modulelist.php.ini
+      user/intl/en_GB/buglist.php.ini
+      user/intl/en_GB/bugreport.php.ini
+      user/intl/en_GB/bugview.php.ini
+      user/intl/en_GB/fileedit.php.ini
+      user/intl/en_GB/mailnewbug.php.ini
+      user/intl/en_GB/menubox.php.ini
+      user/intl/en_GB/reportsuccess.php.ini
+      user/intl/en_GB/search.php.ini: newline
+
+    * admin/intl/no_NO/bugedit.php.ini
+      admin/intl/no_NO/confirmationmail.php.ini
+      admin/intl/no_NO/mailgotbug.php.ini
+      admin/intl/no_NO/mailreply.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/moduleedit.php.ini
+      admin/intl/no_NO/modulelist.php.ini
+      admin/intl/no_NO/search.php.ini
+      user/intl/no_NO/bugreport.php.ini
+      user/intl/no_NO/bugview.php.ini
+      user/intl/no_NO/fileedit.php.ini
+      user/intl/no_NO/mailnewbug.php.ini
+      user/intl/no_NO/menubox.php.ini
+      user/intl/no_NO/reportsuccess.php.ini
+      user/intl/no_NO/search.php.ini: updated no_NO
+

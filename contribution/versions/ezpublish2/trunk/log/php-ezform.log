@@ -208,3 +208,30 @@ Maintainer(s) : pkej@ez.no
       admin/formedit.php:
     fixed bug with error message printed on a new form + fixed several errors in coding stadard
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-10-19  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/no_NO/form.php.ini
+      user/intl/no_NO/form.php.ini: updated no_NO
+
+    * admin/intl/en_GB/fixedvalues.php.ini
+      admin/intl/en_GB/form.php.ini: newline
+
+2001-10-19  Baard Farstad  <bf@ez.no>
+
+    * admin/templates/standard/formrenderer.tpl: FIxed template.
+
+2001-10-19  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/no_NO/fixedvalues.php.ini
+      admin/intl/no_NO/form.php.ini
+      user/intl/no_NO/form.php.ini: updated no_NO
+
+2001-10-19  Baard Farstad  <bf@ez.no>
+
+    * admin/templates/standard/formrenderer.tpl
+      classes/ezformrenderer.php: Added bg color cwitching.
+

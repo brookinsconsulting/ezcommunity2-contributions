@@ -361,3 +361,22 @@ Maintainer(s) : jhe@ez.no
       classes/ezvirtualfile.php: Fixed SQL bugs
     Fixed a percent bug in cart
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-10-19  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/no_NO/fileupload.php.ini
+      user/intl/no_NO/folderedit.php.ini: updated no_NO
+
+    * admin/intl/en_GB/browse.php.ini
+      user/intl/en_GB/fileupload.php.ini
+      user/intl/en_GB/folderedit.php.ini
+      user/intl/en_GB/search.php.ini: newline
+
+    * user/intl/no_NO/filelist.php.ini
+      user/intl/no_NO/fileupload.php.ini
+      user/intl/no_NO/folderedit.php.ini
+      user/intl/no_NO/search.php.ini: updated no_NO
+

@@ -1336,3 +1336,96 @@ Maintainer(s) : ce@ez.no
     * admin/intl/en_GB/customerview.php.ini
       user/customerlogin.php: Fixed a redirect
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-10-19  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/no_NO/categorylist.php.ini
+      admin/intl/no_NO/productsearch.php.ini
+      user/intl/no_NO/cart.php.ini
+      user/intl/no_NO/checkout.php.ini
+      user/intl/no_NO/productsearch.php.ini
+      user/intl/no_NO/productview.php.ini
+      admin/intl/no_NO/customerlist.php.ini
+      admin/intl/no_NO/customerview.php.ini
+      admin/intl/no_NO/orderedit.php.ini
+      admin/intl/no_NO/productedit.php.ini
+      user/intl/no_NO/extendedsearch.php.ini
+      user/intl/no_NO/mailorder.php.ini
+      user/intl/no_NO/menubox.php.ini
+      user/intl/no_NO/ordersendt.php.ini
+      user/intl/no_NO/voucherview.php.ini: updated no_NO
+
+    * user/intl/en_GB/voucherview.php.ini: spell check
+
+    * admin/intl/en_GB/categorylist.php.ini
+      admin/intl/en_GB/orderedit.php.ini
+      user/intl/en_GB/checkout.php.ini
+      user/intl/en_GB/extendedsearch.php.ini
+      user/intl/en_GB/mailorder.php.ini
+      user/intl/en_GB/voucherview.php.ini: removed duplicate keys
+
+    * admin/intl/en_GB/categoryedit.php.ini
+      admin/intl/en_GB/customerlist.php.ini
+      admin/intl/en_GB/customerview.php.ini
+      admin/intl/en_GB/imagelist.php.ini
+      admin/intl/en_GB/menubox.php.ini
+      admin/intl/en_GB/orderlist.php.ini
+      admin/intl/en_GB/typeedit.php.ini
+      admin/intl/en_GB/voucheredit.php.ini
+      admin/intl/en_GB/voucherlist.php.ini
+      user/intl/en_GB/extendedsearch.php.ini
+      user/intl/en_GB/mastercard.php.ini
+      user/intl/en_GB/orderlist.php.ini
+      user/intl/en_GB/orderview.php.ini
+      user/intl/en_GB/productview.php.ini
+      user/intl/en_GB/smallproductlist.php.ini
+      user/intl/en_GB/visa.php.ini
+      user/intl/en_GB/voucher.php.ini
+      user/intl/en_GB/voucheremail.php.ini
+      user/intl/en_GB/voucherinformation.php.ini
+      user/intl/en_GB/voucherview.php.ini
+      user/intl/en_GB/wishlist.php.ini: newline
+
+    * admin/intl/no_NO/categoryedit.php.ini
+      admin/intl/no_NO/categorylist.php.ini
+      admin/intl/no_NO/customerlist.php.ini
+      admin/intl/no_NO/customerview.php.ini
+      admin/intl/no_NO/formlist.php.ini
+      admin/intl/no_NO/imageedit.php.ini
+      admin/intl/no_NO/imagelist.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/optionedit.php.ini
+      admin/intl/no_NO/optionlist.php.ini
+      admin/intl/no_NO/orderedit.php.ini
+      admin/intl/no_NO/orderlist.php.ini
+      admin/intl/no_NO/productedit.php.ini
+      admin/intl/no_NO/productsearch.php.ini
+      admin/intl/no_NO/typeedit.php.ini
+      admin/intl/no_NO/vattypes.php.ini
+      admin/intl/no_NO/voucheredit.php.ini
+      user/intl/no_NO/cart.php.ini
+      user/intl/no_NO/categorylist.php.ini
+      user/intl/no_NO/checkout.php.ini
+      user/intl/no_NO/extendedsearch.php.ini
+      user/intl/no_NO/mailorder.php.ini
+      user/intl/no_NO/mastercard.php.ini
+      user/intl/no_NO/menubox.php.ini
+      user/intl/no_NO/orderlist.php.ini
+      user/intl/no_NO/ordersendt.php.ini
+      user/intl/no_NO/orderview.php.ini
+      user/intl/no_NO/precheckout.php.ini
+      user/intl/no_NO/productlist.php.ini
+      user/intl/no_NO/productsearch.php.ini
+      user/intl/no_NO/productview.php.ini
+      user/intl/no_NO/smallproductlist.php.ini
+      user/intl/no_NO/viewwishlist.php.ini
+      user/intl/no_NO/visa.php.ini
+      user/intl/no_NO/voucher.php.ini
+      user/intl/no_NO/voucheremail.php.ini
+      user/intl/no_NO/voucherinformation.php.ini
+      user/intl/no_NO/voucherview.php.ini
+      user/intl/no_NO/wishlist.php.ini: updated no_NO
+

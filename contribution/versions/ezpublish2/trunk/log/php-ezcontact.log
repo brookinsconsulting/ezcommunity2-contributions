@@ -343,3 +343,32 @@ Maintainer(s) : jhe@ez.no
     * sql/mysql/ezcontact.sql: Fixed SQL bugs
     Fixed a percent bug in cart
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-10-19  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/no_NO/companysearch.php.ini
+      user/intl/no_NO/personsearch.php.ini
+      admin/intl/no_NO/personedit.php.ini: updated no_NO
+
+    * admin/intl/en_GB/personedit.php.ini: removed duplicate keys
+
+    * admin/intl/en_GB/consultationmail.ini: added newline
+
+    * admin/intl/en_GB/companytype.php.ini
+      admin/intl/en_GB/consultationdetaillist.php.ini
+      admin/intl/en_GB/menubox.php.ini: newline
+
+    * admin/intl/no_NO/companytype.php.ini
+      admin/intl/no_NO/consultationdetaillist.php.ini
+      admin/intl/no_NO/consultationlist.php.ini
+      admin/intl/no_NO/consultationmail.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/personedit.php.ini
+      admin/intl/no_NO/personview.php.ini
+      user/intl/no_NO/companysearch.php.ini
+      user/intl/no_NO/personsearch.php.ini
+      user/intl/no_NO/search.php.ini: updated no_NO
+

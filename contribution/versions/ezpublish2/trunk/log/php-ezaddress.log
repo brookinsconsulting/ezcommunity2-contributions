@@ -123,3 +123,17 @@ Maintainer(s) : ce@ez.no
       classes/ezonlinetype.php
       classes/ezphone.php: Fixed documentation for all the ezaddress classes
 
+
+Module : ezaddress
+Repository path : /home/cvsroot/projects/php/ezaddress
+Maintainer(s) : ce@ez.no
+2001-10-19  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/no_NO/country.php.ini: updated no_NO
+
+    * admin/intl/en_GB/addresstype.php.ini
+      admin/intl/en_GB/onlinetype.php.ini
+      admin/intl/en_GB/phonetype.php.ini: newline
+
+    * admin/intl/no_NO/country.php.ini: updated no_NO
+

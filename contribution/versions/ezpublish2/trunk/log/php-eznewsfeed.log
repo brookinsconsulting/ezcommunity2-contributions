@@ -66,3 +66,28 @@ Maintainer(s) : vl@ez.no
     * admin/intl/de_DE/categoryedit.php.ini
       user/intl/de_DE/headlines.php.ini: updated de_DE for 2.2 beta2
 
+
+Module : eznewsfeed
+Repository path : /home/cvsroot/projects/php/eznewsfeed
+Maintainer(s) : vl@ez.no
+2001-10-19  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/no_NO/newssearch.php.ini: updated no_NO
+
+    * admin/intl/en_GB/categoryedit.php.ini
+      admin/intl/en_GB/importnews.php.ini
+      admin/intl/en_GB/newsedit.php.ini
+      admin/intl/en_GB/sourcesiteedit.php.ini
+      admin/intl/en_GB/unpublished.php.ini
+      user/intl/en_GB/allcategories.php.ini: newline
+
+    * admin/intl/no_NO/categoryedit.php.ini
+      admin/intl/no_NO/importnews.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/newsedit.php.ini
+      admin/intl/no_NO/newssearch.php.ini
+      admin/intl/no_NO/sourcesiteedit.php.ini
+      admin/intl/no_NO/unpublished.php.ini
+      user/intl/no_NO/allcategories.php.ini
+      user/intl/no_NO/newslist.php.ini: updated no_NO
+

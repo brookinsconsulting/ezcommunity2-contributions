@@ -518,3 +518,34 @@ Maintainer(s) : br@ez.no
       user/intl/de_DE/menubox.php.ini
       user/intl/de_DE/slideshow.php.ini: updated de_DE for 2.2 beta2
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-10-19  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/no_NO/imageedit.php.ini
+      user/intl/no_NO/imageedit.php.ini: updated no_NO
+
+    * admin/intl/en_GB/categoryedit.php.ini
+      admin/intl/en_GB/imageedit.php.ini
+      admin/intl/en_GB/imagelist.php.ini
+      user/intl/en_GB/categoryedit.php.ini
+      user/intl/en_GB/imageedit.php.ini
+      user/intl/en_GB/imagelist.php.ini
+      user/intl/en_GB/slideshow.php.ini: newline
+
+    * admin/intl/no_NO/browse.php.ini
+      admin/intl/no_NO/categoryedit.php.ini
+      admin/intl/no_NO/imageedit.php.ini
+      admin/intl/no_NO/imagelist.php.ini
+      admin/intl/no_NO/imageview.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/unassigned.php.ini
+      user/intl/no_NO/categoryedit.php.ini
+      user/intl/no_NO/imageedit.php.ini
+      user/intl/no_NO/imagelist.php.ini
+      user/intl/no_NO/imageview.php.ini
+      user/intl/no_NO/menubox.php.ini
+      user/intl/no_NO/slideshow.php.ini: updated no_NO
+

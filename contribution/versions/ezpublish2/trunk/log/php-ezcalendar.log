@@ -213,3 +213,13 @@ Maintainer(s) : jhe@ez.no
     * user/intl/de_DE/appointmentedit.php.ini
       user/intl/de_DE/trustees.php.ini: updated de_DE for 2.2 beta2
 
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@ez.no
+2001-10-19  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/en_GB/appointmentedit.php.ini: newline
+
+    * user/intl/no_NO/appointmentedit.php.ini: updated no_NO
+

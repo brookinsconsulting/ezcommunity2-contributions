@@ -300,3 +300,32 @@ Maintainer(s) : vl@ez.no
       sql/postgresql/ezsitemanager.sql: Fixed SQL bugs
     Fixed a percent bug in cart
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-10-19  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/sectionedit.php.ini
+      admin/intl/no_NO/sqlquery.php.ini
+      admin/intl/no_NO/menuedit.php.ini: updated no_NO
+
+    * admin/intl/en_GB/menuedit.php.ini: removed duplicate keys
+
+    * admin/intl/en_GB/fileedit.php.ini
+      admin/intl/en_GB/filelist.php.ini
+      admin/intl/en_GB/menuedit.php.ini
+      admin/intl/en_GB/menulist.php.ini
+      admin/intl/en_GB/sectionlist.php.ini
+      admin/intl/en_GB/siteconfig.php.ini
+      admin/intl/en_GB/templateedit.php.ini: newline
+
+    * admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/menuedit.php.ini
+      admin/intl/no_NO/menulist.php.ini
+      admin/intl/no_NO/sectionedit.php.ini
+      admin/intl/no_NO/sqlquery.php.ini
+      admin/intl/no_NO/templateedit.php.ini
+      admin/intl/no_NO/templatelist.php.ini: updated no_NO
+

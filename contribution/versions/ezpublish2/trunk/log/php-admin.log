@@ -120,3 +120,15 @@ Maintainer(s) : bf@ez.no
     * header.php
       intl/en_GB/header.php.ini: ip address of admin
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2001-10-19  Gunnstein Lye  <gl@ez.no>
+
+    * intl/no_NO/error.ini: updated no_NO
+
+    * intl/en_GB/header.php.ini: newline
+
+    * intl/no_NO/header.php.ini: updated no_NO
+

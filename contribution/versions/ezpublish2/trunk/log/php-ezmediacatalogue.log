@@ -97,3 +97,28 @@ Maintainer(s) : ce@ez.no
 
     * classes/ezmediaattribute.php: Added referances
 
+
+Module : ezmediacatalogue
+Repository path : /home/cvsroot/projects/php/ezmediacatalogue
+Maintainer(s) : ce@ez.no
+2001-10-19  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/no_NO/mediaedit.php.ini: updated no_NO
+
+    * admin/intl/en_GB/browse.php.ini
+      admin/intl/en_GB/categoryedit.php.ini
+      admin/intl/en_GB/mediaedit.php.ini
+      admin/intl/en_GB/medialist.php.ini
+      admin/intl/en_GB/menubox.php.ini
+      admin/intl/en_GB/typeedit.php.ini: newline
+
+    * admin/intl/no_NO/attributeedit.php.ini
+      admin/intl/no_NO/browse.php.ini
+      admin/intl/no_NO/categoryedit.php.ini
+      admin/intl/no_NO/mediaedit.php.ini
+      admin/intl/no_NO/medialist.php.ini
+      admin/intl/no_NO/mediaview.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/typeedit.php.ini
+      admin/intl/no_NO/typelist.php.ini: updated no_NO
+

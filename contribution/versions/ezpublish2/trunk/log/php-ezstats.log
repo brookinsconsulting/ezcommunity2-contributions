@@ -122,3 +122,16 @@ Maintainer(s) : br@ez.no
     * sql/mysql/ezstats.sql: Fixed SQL bugs
     Fixed a percent bug in cart
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2001-10-19  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/pageviewlist.php.ini
+      admin/intl/en_GB/refererlist.php.ini
+      admin/intl/en_GB/requestpagelist.php.ini
+      admin/intl/en_GB/visitorlist.php.ini: newline
+
+    * admin/intl/no_NO/pageviewlist.php.ini: updated no_NO
+

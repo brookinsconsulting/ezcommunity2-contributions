@@ -56,3 +56,19 @@ Maintainer(s) : vl@ez.no
       admin/intl/de_DE/menubox.php.ini
       admin/intl/de_DE/sysinfo.php.ini: updated de_DE for 2.2 beta2
 
+
+Module : ezsysinfo
+Repository path : /home/cvsroot/projects/php/ezsysinfo
+Maintainer(s) : vl@ez.no
+2001-10-19  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/hwinfo.php.ini
+      admin/intl/en_GB/meminfo.php.ini
+      admin/intl/en_GB/menubox.php.ini
+      admin/intl/en_GB/sysinfo.php.ini: newline
+
+    * admin/intl/no_NO/hwinfo.php.ini
+      admin/intl/no_NO/meminfo.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/sysinfo.php.ini: updated no_NO
+

@@ -45,3 +45,16 @@ Maintainer(s) : pkej@ez.no
       user/intl/de_DE/menubox.php.ini
       user/intl/de_DE/quiz.php.ini: updated de_DE for 2.2 beta2
 
+
+Module : ezquiz
+Repository path : /home/cvsroot/projects/php/ezquiz
+Maintainer(s) : pkej@ez.no
+2001-10-19  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/no_NO/quiz.php.ini
+      admin/intl/no_NO/gameedit.php.ini
+      admin/intl/no_NO/gamelist.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/questionedit.php.ini
+      user/intl/no_NO/menubox.php.ini: updated no_NO
+

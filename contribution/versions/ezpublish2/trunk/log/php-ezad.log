@@ -130,3 +130,14 @@ Maintainer(s) : br@ez.no
     * sql/mysql/ezad.sql
       sql/postgresql/ezad.sql: fixed sql schema.
 
+
+Module : ezad
+Repository path : /home/cvsroot/projects/php/ezad
+Maintainer(s) : br@ez.no
+2001-10-19  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/adedit.php.ini: newline
+
+    * admin/intl/no_NO/adlist.php.ini
+      admin/intl/no_NO/adstatistics.php.ini: updated no_NO
+

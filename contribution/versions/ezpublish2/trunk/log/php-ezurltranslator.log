@@ -58,3 +58,13 @@ Maintainer(s) : vl@ez.no
 
     * admin/urledit.php: Added delete on empty list check.
 
+
+Module : ezurltranslator
+Repository path : /home/cvsroot/projects/php/ezurltranslator
+Maintainer(s) : vl@ez.no
+2001-10-19  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/menubox.php.ini: newline
+
+    * admin/intl/no_NO/menubox.php.ini: updated no_NO
+

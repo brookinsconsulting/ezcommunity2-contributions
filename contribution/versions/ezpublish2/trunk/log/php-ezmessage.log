@@ -40,3 +40,18 @@ Maintainer(s) : bf@ez.no
     * sql/mysql/ezmessage.sql: Fixed SQL bugs
     Fixed a percent bug in cart
 
+
+Module : ezmessage
+Repository path : /home/cvsroot/projects/php/ezmessage
+Maintainer(s) : bf@ez.no
+2001-10-19  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/en_GB/messageedit.php.ini
+      admin/intl/en_GB/messagelist.php.ini
+      admin/intl/en_GB/messageview.php.ini: newline
+
+    * admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/messageedit.php.ini
+      admin/intl/no_NO/messagelist.php.ini
+      admin/intl/no_NO/messageview.php.ini: updated no_NO
+

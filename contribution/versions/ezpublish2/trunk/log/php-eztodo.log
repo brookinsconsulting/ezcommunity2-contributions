@@ -138,3 +138,41 @@ Maintainer(s) : ce@ez.no
       user/intl/de_DE/todomenulist.php.ini
       user/intl/de_DE/todoview.php.ini: updated de_DE for 2.2 beta2
 
+
+Module : eztodo
+Repository path : /home/cvsroot/projects/php/eztodo
+Maintainer(s) : ce@ez.no
+2001-10-19  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/no_NO/todoedit.php.ini
+      user/intl/no_NO/todolist.php.ini
+      user/intl/no_NO/todoview.php.ini
+      user/intl/no_NO/maillog.php.ini: updated no_NO
+
+    * user/intl/en_GB/maillog.php.ini: removed duplicate keys
+
+    * admin/intl/en_GB/categorytypeedit.php.ini
+      admin/intl/en_GB/menubox.php.ini
+      admin/intl/en_GB/prioritytypeedit.php.ini
+      admin/intl/en_GB/statustypeedit.php.ini
+      user/intl/en_GB/maillog.php.ini
+      user/intl/en_GB/sendmail.php.ini
+      user/intl/en_GB/todoedit.php.ini
+      user/intl/en_GB/todolist.php.ini
+      user/intl/en_GB/todomenulist.php.ini
+      user/intl/en_GB/todoview.php.ini: newline
+
+    * admin/intl/no_NO/categorytypeedit.php.ini
+      admin/intl/no_NO/categorytypelist.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/prioritytypeedit.php.ini
+      admin/intl/no_NO/prioritytypelist.php.ini
+      admin/intl/no_NO/statustypeedit.php.ini
+      user/intl/no_NO/maillog.php.ini
+      user/intl/no_NO/menubox.php.ini
+      user/intl/no_NO/sendmail.php.ini
+      user/intl/no_NO/todoedit.php.ini
+      user/intl/no_NO/todolist.php.ini
+      user/intl/no_NO/todomenulist.php.ini
+      user/intl/no_NO/todoview.php.ini: updated no_NO
+

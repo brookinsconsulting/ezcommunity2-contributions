@@ -117,3 +117,39 @@ Maintainer(s) : fh@ez.no
       user/intl/de_DE/menubox.php.ini
       user/intl/de_DE/search.php.ini: updated de_DE for 2.2 beta2
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2001-10-19  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/no_NO/configure.php.ini
+      user/intl/no_NO/folderlist.php.ini
+      user/intl/no_NO/mailedit.php.ini
+      user/intl/no_NO/menubox.php.ini: updated no_NO
+
+    * user/intl/en_GB/accountedit.php.ini
+      user/intl/en_GB/configure.php.ini
+      user/intl/en_GB/fileedit.php.ini
+      user/intl/en_GB/filteredit.php.ini
+      user/intl/en_GB/folderedit.php.ini
+      user/intl/en_GB/folderlist.php.ini
+      user/intl/en_GB/link.php.ini
+      user/intl/en_GB/mailedit.php.ini
+      user/intl/en_GB/maillist.php.ini
+      user/intl/en_GB/mailview.php.ini
+      user/intl/en_GB/search.php.ini: newline
+
+    * user/intl/no_NO/accountedit.php.ini
+      user/intl/no_NO/configure.php.ini
+      user/intl/no_NO/fileedit.php.ini
+      user/intl/no_NO/filteredit.php.ini
+      user/intl/no_NO/folderedit.php.ini
+      user/intl/no_NO/folderlist.php.ini
+      user/intl/no_NO/link.php.ini
+      user/intl/no_NO/mailedit.php.ini
+      user/intl/no_NO/maillist.php.ini
+      user/intl/no_NO/mailview.php.ini
+      user/intl/no_NO/menubox.php.ini
+      user/intl/no_NO/search.php.ini: updated no_NO
+
