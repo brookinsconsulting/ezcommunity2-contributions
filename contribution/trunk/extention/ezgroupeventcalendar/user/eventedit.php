@@ -703,8 +703,15 @@ $Day = $dateArr[2];
         {
             $resultz = $event->store();
             //exec("secure_clearcache.sh");
+	    /*
+              $year = addZero( $datetime->year() );
+              $month = addZero( $datetime->month() );
+              $day = addZero( $datetime->day() );
+	    */
+
             deleteCache( "default", $Language, $Year, $Month, $Day, $groupID );
-	    eZHTTPTool::header( "Location: /groupeventcalendar/dayview/$Year/$Month/$Day/" );;
+	    //eZHTTPTool::header( "Location: /groupeventcalendar/dayview/$Year/$Month/$Day/" );;
+	    eZHTTPTool::header( "Location: /groupeventcalendar/eventedit/edit/$event->ID/" );
         }
         else
         {
