@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.11 2001/02/04 16:45:49 bf Exp $
+// $Id: categoryedit.php,v 1.12 2001/02/07 12:56:10 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -193,14 +193,17 @@ foreach ( $categoryArray as $catItem )
 
         if ( $Action == "Edit" )
         {
-            if ( $catItem[0]->id() == $parent->id() )
-            {
-                $t->set_var( "selected", "selected" );
-            }
-            else
-            {            
-                $t->set_var( "selected", "" );
-            }
+		    if ( $parent )
+			{
+            	if ( $catItem[0]->id() == $parent->id() )
+            	{
+                	$t->set_var( "selected", "selected" );
+            	}
+            	else
+            	{            
+               		$t->set_var( "selected", "" );
+            	}
+			}
             
         }
         else
