@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.37 2002/04/11 07:55:13 ce Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.38 2002/04/15 07:01:05 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -1682,6 +1682,7 @@ class eZProduct
 
         $dvdTitle = $params["DVDTitle"];
         $dvdActor = $params["DVDActor"];
+        $dvdDirector = $params["DVDDirector"];
 
         $gameType = $params["MultimediaType"];
         $gameTitle = $params["GameTitle"];
@@ -1792,6 +1793,14 @@ class eZProduct
                 {
                     $OrderBy = "eZTrade_Product.Name DESC";
 
+                    if ( $dvdDirector != "" )
+                    {
+                        $attributeValueTables = ", eZTrade_AttributeValue ";
+                        $attributeSQL = " AND  eZTrade_AttributeValue.ProductID=eZTrade_Product.ID
+                                              AND  eZTrade_AttributeValue.AttributeID='11'
+                                              AND  eZTrade_AttributeValue.Value LIKE '%$dvdDirector%' ";
+                    }
+
                     if ( $dvdTitle != "" )
                     {
                         $dvdSQL = " AND eZTrade_Product.Name LIKE '%$dvdTitle%' ";
@@ -1827,6 +1836,34 @@ class eZProduct
 
                 }break;
 
+                case "AdvancedHIFI" :
+                {
+                    $OrderBy = "eZTrade_Product.Name DESC";
+
+                    if ( $queryText != "" )
+                    {
+                        $hifiSQL = " AND eZTrade_Product.Name LIKE '%$queryText%' ";
+                    }
+
+
+
+                    $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, DefName, Price, TypeName ) SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name AS Name, eZTrade_Product.CategoryDefinitionName AS DefName, eZTrade_Product.Price as Price, eZTrade_Type.Name AS TypeName
+                 FROM eZTrade_Product,
+                      eZTrade_Type
+                 WHERE
+                         eZTrade_Product.TypeID='5'
+                         AND
+                         eZTrade_Type.ID=eZTrade_Product.TypeID
+                         $hifiSQL
+                       ORDER BY $OrderBy  LIMIT 800";
+
+                    $db->query( $queryString );
+
+                    $queryString = "SELECT ProductID, Name, DefName, Price, DefName,  TypeName FROM eZTrade_SearchTemp GROUP BY ProductID";
+
+
+                }break;
+                
                 case "AdvancedMultimedia" :
                 {
                     $OrderBy = "eZTrade_Product.Name DESC";
