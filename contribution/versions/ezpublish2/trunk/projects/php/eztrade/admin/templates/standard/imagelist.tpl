@@ -4,6 +4,11 @@
 
 <hr noshade="noshade" size="4" />
 
+<!-- BEGIN no_images_tpl -->
+{intl-no_images}
+<!-- END no_images_tpl -->
+
+<!-- BEGIN image_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-nr}:</th>
@@ -35,24 +40,43 @@
 	<td width="1%" class="{td_class}">
 	<a href="/trade/productedit/imageedit/edit/{image_id}/{product_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{image_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="eztp{image_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
-	<td width="1%" class="{td_class}">
-	<a href="#" onClick="verify( '{intl-delete}', '/trade/productedit/imageedit/delete/{image_id}/{product_id}/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{image_id}-slett','','/images/{site_style}/slettminimrk.gif',1)"><img name="eztp{image_id}-slett" border="0" src="/images/{site_style}/slettmini.gif" width="16" height="16" align="top"></a>
+	<td class="{td_class}" width="1%" align="center">
+	<input type="checkbox" name="ImageArrayID[]" value="{image_id}">
 	</td>
 </tr>
 <!-- END image_tpl -->
 
 </table>
-
-<hr noshade="noshade" size="4" />
-
-<input class="stdbutton" type="submit" name="NewImage"value="{intl-newimage}" />
+<!-- END image_list_tpl -->
 
 <hr noshade="noshade" size="4" />
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top">
-	<input class="okbutton" type="submit" value="OK" />
+	<input class="stdbutton" type="submit" name="NewImage"value="{intl-newimage}" />
+	</td>
+	<td>&nbsp;</td>
+	<td>
+	<input class="stdbutton" type="submit" name="NoMainImage" value="{intl-image_no_main}" />
+	</td>
+	<td>&nbsp;</td>
+	<td>
+	<input class="stdbutton" type="submit" name="NoMiniImage" value="{intl-image_no_mini}" />
+	</td>
+	<td>&nbsp;</td>
+	<td>
+	<input class="stdbutton" type="submit" name="DeleteSelected" value="{intl-delete_selected}" />
+	</td>
+</tr>
+</table>
+
+<hr noshade="noshade" size="4" />
+
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td valign="top">
+	<input class="okbutton" type="submit" value="{intl-ok}" />
 	</form>
 	</td>
 	<td>&nbsp;</td>

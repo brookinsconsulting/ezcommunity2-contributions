@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.10 2001/02/01 12:05:03 th Exp $
+// $Id: imagelist.php,v 1.11 2001/02/21 18:35:20 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Sep-2000 10:32:19 bf>
@@ -45,7 +45,9 @@ $t->set_file( array(
     "image_list_page_tpl" => "imagelist.tpl"
     ) );
 
-$t->set_block( "image_list_page_tpl", "image_tpl", "image" );
+$t->set_block( "image_list_page_tpl", "no_images_tpl", "no_images" );
+$t->set_block( "image_list_page_tpl", "image_list_tpl", "image_list" );
+$t->set_block( "image_list_tpl", "image_tpl", "image" );
 
 $t->set_var( "site_style", $SiteStyle );
 
@@ -58,55 +60,64 @@ $main = $product->mainImage();
 $t->set_var( "product_name", $product->name() );
 
 $images = $product->images();
-
-$i=0;
-$t->set_var( "image", "" );
-foreach ( $images as $image )
+if ( count( $images ) == 0 )
 {
-    if ( ( $i % 2 ) == 0 )
-    {
-        $t->set_var( "td_class", "bglight" );
-    }
-    else
-    {
-        $t->set_var( "td_class", "bgdark" );
-    }
+    $t->set_var( "image_list", "" );
+    $t->parse( "no_images", "no_images_tpl", true );
+}
+else
+{
+    $t->set_var( "no_images", "" );
 
-    $t->set_var( "main_image_checked", "" );
-    if ( $main != 0 )
+    $i=0;
+    $t->set_var( "image", "" );
+    foreach ( $images as $image )
     {
-        if ( $main->id() == $image->id() )
+        if ( ( $i % 2 ) == 0 )
         {
-            $t->set_var( "main_image_checked", "checked" );
+            $t->set_var( "td_class", "bglight" );
         }
-    }
-
-    $t->set_var( "thumbnail_image_checked", "" );
-    if ( $thumbnail != 0 )
-    {
-        if ( $thumbnail->id() == $image->id() )
+        else
         {
-            $t->set_var( "thumbnail_image_checked", "checked" );
+            $t->set_var( "td_class", "bgdark" );
         }
+
+        $t->set_var( "main_image_checked", "" );
+        if ( $main != 0 )
+        {
+            if ( $main->id() == $image->id() )
+            {
+                $t->set_var( "main_image_checked", "checked" );
+            }
+        }
+
+        $t->set_var( "thumbnail_image_checked", "" );
+        if ( $thumbnail != 0 )
+        {
+            if ( $thumbnail->id() == $image->id() )
+            {
+                $t->set_var( "thumbnail_image_checked", "checked" );
+            }
+        }
+
+        $t->set_var( "image_number", $i + 1 );
+
+        $t->set_var( "image_name", $image->caption() );
+        $t->set_var( "image_id", $image->id() );
+        $t->set_var( "product_id", $ProductID );
+
+        $variation = $image->requestImageVariation( 150, 150 );
+
+        $t->set_var( "image_url", "/" .$variation->imagePath() );
+        $t->set_var( "image_width", $variation->width() );
+        $t->set_var( "image_height",$variation->height() );
+
+        $t->parse( "image", "image_tpl", true );
+
+        $i++;
     }
-    
-    $t->set_var( "image_number", $i + 1 );
 
-    $t->set_var( "image_name", $image->caption() );
-    $t->set_var( "image_id", $image->id() );
-    $t->set_var( "product_id", $ProductID );
-
-    $variation = $image->requestImageVariation( 150, 150 );
-    
-    $t->set_var( "image_url", "/" .$variation->imagePath() );
-    $t->set_var( "image_width", $variation->width() );
-    $t->set_var( "image_height",$variation->height() );
-    
-//      $t->set_var( "image_url", $image->filePath() );
-
-    $t->parse( "image", "image_tpl", true );
-    
-    $i++;
+    $t->parse( "image_list", "image_list_tpl", true );
 }
 
 

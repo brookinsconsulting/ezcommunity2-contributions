@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.35 2001/02/21 15:16:32 jb Exp $
+// $Id: ezproduct.php,v 1.36 2001/02/21 18:35:20 gl Exp $
 //
 // Definition of eZProduct class
 //
@@ -699,7 +699,7 @@ class eZProduct
     /*!
       Sets the main image for the product.
 
-      The argument must be a eZImage object.
+      The argument must be a eZImage object, or false to unset the main image.
     */
     function setMainImage( $image )
     {
@@ -713,24 +713,40 @@ class eZProduct
             $imageID = $image->id();
 
             $this->Database->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZTrade_ProductImageDefinition
-                                     WHERE
-                                     ProductID='$this->ID'
-                                   " );
+                                                       WHERE
+                                                       ProductID='$this->ID'" );
 
             if ( $res_array[0]["Number"] == "1" )
             {            
                 $this->Database->query( "UPDATE eZTrade_ProductImageDefinition
-                                     SET
-                                     MainImageID='$imageID'
-                                     WHERE
-                                     ProductID='$this->ID'" );
+                                         SET
+                                         MainImageID='$imageID'
+                                         WHERE
+                                         ProductID='$this->ID'" );
             }
             else
             {
                 $this->Database->query( "INSERT INTO eZTrade_ProductImageDefinition
-                                     SET
-                                     ProductID='$this->ID',
-                                     MainImageID='$imageID'" );
+                                         SET
+                                         ProductID='$this->ID',
+                                         MainImageID='$imageID'" );
+            }
+        }
+        else if ( $image == false )
+        {
+            $this->dbInit();
+
+            $this->Database->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZTrade_ProductImageDefinition
+                                                       WHERE
+                                                       ProductID='$this->ID'" );
+
+            if ( $res_array[0]["Number"] == "1" )
+            {
+                $this->Database->query( "UPDATE eZTrade_ProductImageDefinition
+                                         SET
+                                         MainImageID='0'
+                                         WHERE
+                                         ProductID='$this->ID'" );
             }
         }
     }    
@@ -738,7 +754,7 @@ class eZProduct
     /*!
       Sets the thumbnail image for the product.
 
-      The argument must be a eZImage object.
+      The argument must be a eZImage object, or false to unset the thumbnail image.
     */
     function setThumbnailImage( $image )
     {
@@ -752,24 +768,40 @@ class eZProduct
             $imageID = $image->id();
 
             $this->Database->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZTrade_ProductImageDefinition
-                                     WHERE
-                                     ProductID='$this->ID'
-                                   " );
+                                                       WHERE
+                                                       ProductID='$this->ID'" );
 
             if ( $res_array[0]["Number"] == "1" )
             {            
                 $this->Database->query( "UPDATE eZTrade_ProductImageDefinition
-                                     SET
-                                     ThumbnailImageID='$imageID'
-                                     WHERE
-                                     ProductID='$this->ID'" );
+                                         SET
+                                         ThumbnailImageID='$imageID'
+                                         WHERE
+                                         ProductID='$this->ID'" );
             }
             else
             {
                 $this->Database->query( "INSERT INTO eZTrade_ProductImageDefinition
-                                     SET
-                                     ProductID='$this->ID',
-                                     ThumbnailImageID='$imageID'" );
+                                         SET
+                                         ProductID='$this->ID',
+                                         ThumbnailImageID='$imageID'" );
+            }
+        }
+        else if ( $image == false )
+        {
+            $this->dbInit();
+
+            $this->Database->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZTrade_ProductImageDefinition
+                                                       WHERE
+                                                       ProductID='$this->ID'" );
+
+            if ( $res_array[0]["Number"] == "1" )
+            {
+                $this->Database->query( "UPDATE eZTrade_ProductImageDefinition
+                                         SET
+                                         ThumbnailImageID='0'
+                                         WHERE
+                                         ProductID='$this->ID'" );
             }
         }
     }

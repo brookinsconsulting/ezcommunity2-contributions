@@ -119,6 +119,8 @@ switch ( $url_array[2] )
                 else if ( $url_array[4] == "storedef" )
                 {
                     $Action = "StoreDef";
+                    if ( isset( $DeleteSelected ) )
+                        $Action = "Delete";
                     $ProductID = $url_array[5];
                     include( "eztrade/admin/imageedit.php" );
                 }
