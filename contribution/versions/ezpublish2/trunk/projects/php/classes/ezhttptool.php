@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezhttptool.php,v 1.7 2001/02/23 14:49:54 bf Exp $
+// $Id: ezhttptool.php,v 1.8 2001/03/07 15:52:18 bf Exp $
 //
 // Definition of eZTextTool class
 //
@@ -77,10 +77,16 @@ class eZHTTPTool
     {
         $sid =& $GLOBALS["PHPSESSID"];
 
-        if ( isset( $sid ) )
+        $cookie_vars = $GLOBALS["HTTP_COOKIE_VARS"];
+        
+        // fix location if session is not by cookie
+        if ( ( !isset( $cookie_vars["PHPSESSID"] ) ) )
         {
-            $string = eZHTTPTool::removeVariable( $string, "PHPSESSID" );
-            $string = eZHTTPTool::addVariable( $string, "PHPSESSID", $sid );
+            if ( isset( $sid ) )
+            {
+                $string = eZHTTPTool::removeVariable( $string, "PHPSESSID" );
+                $string = eZHTTPTool::addVariable( $string, "PHPSESSID", $sid );
+            }
         }
         
         header( $string );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.30 2001/03/02 15:51:33 jb Exp $
+// $Id: productview.php,v 1.31 2001/03/07 15:52:18 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -454,7 +454,7 @@ if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
 
     if ( count( $currencies ) > 0 )
     {
-        $t->parse( "alternative_currency_list", "alternative_currency_list_tpl" );        
+        $t->parse( "alternative_currency_list", "alternative_currency_list_tpl" );
     }
     else
     {

@@ -12,7 +12,7 @@ session_start();
 
 // settings for sessions
 // max timeout is set to 48 hours
-ini_alter("session.cookie_lifetime", "172800"); 
+ini_alter("session.gc_maxlifetime", "172800");
 ini_alter("session.entropy_file","/dev/urandom"); 
 ini_alter("session.entropy_length", "512");  
 

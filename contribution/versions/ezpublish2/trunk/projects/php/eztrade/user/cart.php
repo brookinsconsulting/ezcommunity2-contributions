@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.18 2001/03/05 15:06:02 bf Exp $
+// $Id: cart.php,v 1.19 2001/03/07 15:52:18 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Sep-2000 11:57:49 bf>
@@ -287,8 +287,8 @@ foreach ( $items as $item )
                  
         $t->set_var( "option_name", $option->name() );
 
-        $description = $value->descriptions();
-        $t->set_var( "option_value", $description );
+        $descriptions = $value->descriptions();
+        $t->set_var( "option_value", $descriptions[0] );
             
         $t->parse( "cart_item_option", "cart_item_option_tpl", true );
     }
