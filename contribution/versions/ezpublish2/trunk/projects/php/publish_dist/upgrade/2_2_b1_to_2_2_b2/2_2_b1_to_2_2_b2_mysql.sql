@@ -43,3 +43,18 @@ alter table eZFileManager_Folder add SectionID int default 1;
 alter table eZImageCatalogue_Category add SectionID int default '1';
 
 alter table eZLink_Category add SectionID int default '1';
+
+
+
+CREATE TABLE eZForum_MessageWordLink (
+  MessageID int(11) NOT NULL default '0',
+  Frequency float default 0.2,
+  WordID int(11) NOT NULL default '0'
+);
+
+
+CREATE TABLE eZForum_Word (
+  ID int(11) NOT NULL default '0',
+  Frequency float default 0.2,
+  Word varchar(50) NOT NULL default ''
+);
