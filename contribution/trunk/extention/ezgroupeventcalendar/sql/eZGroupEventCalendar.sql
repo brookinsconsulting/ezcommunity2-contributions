@@ -29,8 +29,6 @@ CREATE TABLE eZGroupEventCalendar_Event (
    RepeatTimes int(11) DEFAULT '0' NOT NULL,
    RepeatUntilDate timestamp(14),
    RecurExceptions text default NULL,
-   EventAttachedFilesID int(11) DEFAULT '0' NOT NULL,
-   EventCommentsID int(11) DEFAULT '0' NOT NULL,
    PRIMARY KEY (ID)
 );
 DROP TABLE IF EXISTS eZGroupEventCalendar_EventCategory;
@@ -44,6 +42,33 @@ CREATE TABLE eZGroupEventCalendar_EventCategory (
    Name varchar(255),
    PRIMARY KEY (ID)
 );
+
+#
+# Dumping data for table 'ezGroupEventCalendar_Event
+#
+
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (1,0,'Personal Events','Personal');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (2,1,'Birthdays Events','Birthdays');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (3,1,'Vacation Event','Vacation');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (4,1,'Travel Event','Travel');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (5,0,'Business Event','Business');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (6,5,'Business Calls','Calls');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (7,5,'Clients Events','Clients');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (8,5,'Competition Events','Competition');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (9,5,'Customer Events','Customer');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (10,5,'Favorites Events','Favorites');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (11,5,'Follow up Events','Follow up');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (12,5,'Gifts Events','Gifts');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (13,5,'Holidays Events','Holidays');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (14,5,'Ideas Events','Ideas');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (15,5,'Issues Events','Issues');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (16,5,'Miscellaneous Events','Miscellaneous');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (17,5,'Projects Events','Projects');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (18,5,'Public Holiday Events','Public Holiday');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (19,5,'Status Events','Status');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (20,5,'Suppliers Events','Suppliers');
+INSERT INTO eZGroupEventCalendar_EventCategory VALUES (21,5,'Travel Events','Travel');
+
 
 DROP TABLE IF EXISTS eZGroupEventCalendar_EventType;
 #
@@ -97,33 +122,6 @@ CREATE TABLE `eZGroupEventCalendar_EventForumLink` (
 #
 
 INSERT INTO eZUser_Module (Name) VALUES ('eZGroupEventCalendar');
-
-#
-# Dumping data for table 'ezGroupEventCalendar_Event
-#
-
-INSERT INTO eZGroupEventCalendar_EventCategory VALUES (1,0,'Personal Events','Personal');
-INSERT INTO eZGroupEventCalendar_EventCategory VALUES (2,1,'Birthdays Events','Birthdays');
-INSERT INTO eZGroupEventCalendar_EventCategory VALUES (3,1,'Vacation Event','Vacation');
-INSERT INTO eZGroupEventCalendar_EventCategory VALUES (4,1,'Travel Event','Travel');
-INSERT INTO eZGroupEventCalendar_EventCategory VALUES (5,0,'Business Event','Business');
-INSERT INTO eZGroupEventCalendar_EventCategory VALUES (6,5,'Business Calls','Calls');
-INSERT INTO eZGroupEventCalendar_EventCategory VALUES (7,5,'Clients Events','Clients');
-INSERT INTO eZGroupEventCalendar_EventCategory VALUES (7,5,'Clients Events','Clients');
-INSERT INTO eZGroupEventCalendar_EventCategory VALUES (8,5,'Competition Events','Competition');
-INSERT INTO eZGroupEventCalendar_EventCategory VALUES (9,5,'Customer Events','Customer');
-INSERT INTO eZGroupEventCalendar_EventCategory VALUES (10,5,'Favorites Events','Favorites');
-INSERT INTO eZGroupEventCalendar_EventCategory VALUES (11,5,'Follow up Events','Follow up');
-INSERT INTO eZGroupEventCalendar_EventCategory VALUES (12,5,'Gifts Events','Gifts');
-INSERT INTO eZGroupEventCalendar_EventCategory VALUES (13,5,'Holidays Events','Holidays');
-INSERT INTO eZGroupEventCalendar_EventCategory VALUES (14,5,'Ideas Events','Ideas');
-INSERT INTO eZGroupEventCalendar_EventCategory VALUES (15,5,'Issues Events','Issues');
-INSERT INTO eZGroupEventCalendar_EventCategory VALUES (16,5,'Miscellaneous Events','Miscellaneous');
-INSERT INTO eZGroupEventCalendar_EventCategory VALUES (17,5,'Projects Events','Projects');
-INSERT INTO eZGroupEventCalendar_EventCategory VALUES (18,5,'Public Holiday Events','Public Holiday');
-INSERT INTO eZGroupEventCalendar_EventCategory VALUES (19,5,'Status Events','Status');
-INSERT INTO eZGroupEventCalendar_EventCategory VALUES (20,5,'Suppliers Events','Suppliers');
-INSERT INTO eZGroupEventCalendar_EventCategory VALUES (21,5,'Travel Events','Travel');
 
 #
 # Dumping data for table 'eZUser_Permission'
