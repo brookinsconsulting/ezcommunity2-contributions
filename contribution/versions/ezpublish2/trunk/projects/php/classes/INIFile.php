@@ -59,7 +59,7 @@ class INIFile
     /*!
       Constructs a new INIFile object.
     */
-    function INIFile( $inifilename="", $write=true )
+    function INIFile( $inifilename="", $write=false )
     {
         // echo "INIFile::INIFile( \$inifilename = $inifilename,\$write = $write )<br />\n";
         $this->load_data( $inifilename, $write );
