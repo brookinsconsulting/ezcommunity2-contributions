@@ -13,12 +13,20 @@
 
 <hr noshade size="4">
 
-<input type="hidden" name="PollID" value="{poll_id}" />
-<input class="okbutton" type="submit" value="{intl-ok}" />
-
-</form>
-<form action="/poll/polledit/edit/{poll_id}/">
-<input class="okbutton" type="submit" value="{intl-back}">
-</form>	
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td>
+	<input type="hidden" name="PollID" value="{poll_id}" />
+	<input class="okbutton" type="submit" value="{intl-ok}" />
+	</form>
+	</td>
+	<td>&nbsp;</td>
+	<td>
+	<form action="/poll/polledit/edit/{poll_id}/">
+	<input class="okbutton" type="submit" value="{intl-back}">
+	</form>	
+	</td>
+</tr>
+</table>
 
 
