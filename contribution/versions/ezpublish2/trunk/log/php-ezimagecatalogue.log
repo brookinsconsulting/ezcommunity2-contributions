@@ -1118,3 +1118,17 @@ Maintainer(s) : br@ez.no
     * xmlrpc/image.php:
     Fix for bug 1523: Permission is not set for images attached to article
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2002-08-15  Gunnstein Lye  <gl@ez.no>
+
+    * classes/ezimage.php: added missing include
+
+    * classes/ezimage.php
+      classes/ezimagecategory.php:
+    Added eZTextTool::fixhtmlentities(), which fixes errors made by the
+    over-enthusiastic htmlspecialchars(). Used in eZArticle and
+    eZImageCatalogue.
+

@@ -1445,3 +1445,16 @@ Maintainer(s) : bf@ez.no
 
     * admin/userlist.php: fixed sorting of user list in admin area
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-08-15  Gunnstein Lye  <gl@ez.no>
+
+    * classes/ezauthor.php: added missing include
+
+    * classes/ezauthor.php:
+    Added eZTextTool::fixhtmlentities(), which fixes errors made by the
+    over-enthusiastic htmlspecialchars(). Used in eZArticle and
+    eZImageCatalogue.
+

@@ -3491,3 +3491,15 @@ Maintainer(s) : bf@ez.no
     * xmlrpc/article.php
       xmlrpc/datasupplier.php: Fix for bug report 1514: Preview with nVH-setup
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-08-15  Gunnstein Lye  <gl@ez.no>
+
+    * classes/ezarticle.php
+      classes/ezarticlecategory.php:
+    Added eZTextTool::fixhtmlentities(), which fixes errors made by the
+    over-enthusiastic htmlspecialchars(). Used in eZArticle and
+    eZImageCatalogue.
+

@@ -804,3 +804,14 @@ Maintainer(s) : bf@ez.no
 
     * ezpublish.php: Changed version.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2002-08-15  Gunnstein Lye  <gl@ez.no>
+
+    * eztexttool.php:
+    Added eZTextTool::fixhtmlentities(), which fixes errors made by the
+    over-enthusiastic htmlspecialchars(). Used in eZArticle and
+    eZImageCatalogue.
+
