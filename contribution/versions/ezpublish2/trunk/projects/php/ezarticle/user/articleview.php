@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.52 2001/07/09 09:14:25 th Exp $
+// $Id: articleview.php,v 1.53 2001/07/09 09:29:27 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -320,7 +320,7 @@ if ( $pageCount > 1 && $PageNumber != -1 && $PrintableVersion != "enabled" )
     {
         $t->set_var( "article_id", $article->id() );
         $t->set_var( "page_number", $i+1 );
-        $t->set_var( "category_number", $CategoryID );
+        $t->set_var( "category_id", $CategoryID );
 
         if ( ( $i + 1 )  == $PageNumber )
         {

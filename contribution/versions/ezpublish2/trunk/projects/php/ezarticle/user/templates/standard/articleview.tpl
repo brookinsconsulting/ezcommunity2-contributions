@@ -115,17 +115,16 @@
 
 <div align="center">
 <!-- BEGIN prev_page_link_tpl -->
-<a class="path" href="/article/articleview/{article_id}/{prev_page_number}/{category_number}/">&lt;&lt; {intl-prev_page}</a>
+<a class="path" href="/article/articleview/{article_id}/{prev_page_number}/{category_id}/">&lt;&lt; {intl-prev_page}</a>
 <!-- END prev_page_link_tpl -->
 
 <!-- BEGIN page_link_tpl -->
-| <a class="path" href="/article/articleview/{article_id}/{page_number}/{category_number}/">{page_number}</a>	
+| <a class="path" href="/article/articleview/{article_id}/{page_number}/{category_id}/">{page_number}</a>	
 <!-- END page_link_tpl -->
 
 <!-- BEGIN current_page_link_tpl -->
 | <span class="p"> &lt;&nbsp;{page_number}&nbsp;&gt; </span>
 <!-- END current_page_link_tpl -->
-
 
 <!-- BEGIN next_page_link_tpl -->
 | <a class="path" href="/article/articleview/{article_id}/{next_page_number}/{category_number}/">{intl-next_page} &gt;&gt;</a>
