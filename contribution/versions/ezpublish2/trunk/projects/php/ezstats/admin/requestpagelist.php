@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: requestpagelist.php,v 1.7 2001/07/20 11:28:54 jakobn Exp $
+// $Id: requestpagelist.php,v 1.8 2001/08/24 11:46:14 br Exp $
 //
 // Created on: <07-Jan-2001 16:25:31 bf>
 //
@@ -88,7 +88,7 @@ else
     $t->set_var( "request_list", "" );
 }
 
-eZList::drawNavigator( $t, $ItemCount, $ViewLimit, $Offset, "request_list" );
+eZList::drawNavigator( $t, $ItemCount, $ViewLimit, $Offset, "request_list_tpl" );
 
 $t->pparse( "output", "request_page_tpl" );
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: visitorlist.php,v 1.6 2001/07/20 11:28:54 jakobn Exp $
+// $Id: visitorlist.php,v 1.7 2001/08/24 11:46:14 br Exp $
 //
 // Created on: <07-Jan-2001 12:56:58 bf>
 //
@@ -45,6 +45,7 @@ $t->set_file( "visitor_page_tpl", "visitorlist.tpl" );
 $t->set_block( "visitor_page_tpl", "visitor_list_tpl", "visitor_list" );
 $t->set_block( "visitor_list_tpl", "visitor_tpl", "visitor" );
 
+
 if ( !isset( $Offset ) or !is_numeric( $Offset ) )
     $Offset = 0;
 
@@ -81,7 +82,7 @@ else
     $t->set_var( "visitor_list", "" );
 }
 
-eZList::drawNavigator( $t, $ItemCount, $ViewLimit, $Offset, "visitor_list" );
+eZList::drawNavigator( $t, $ItemCount, $ViewLimit, $Offset, "visitor_list_tpl" );
 
 $t->pparse( "output", "visitor_page_tpl" );
 

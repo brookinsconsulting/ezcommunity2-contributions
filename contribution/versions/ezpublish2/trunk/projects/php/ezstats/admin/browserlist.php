@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: browserlist.php,v 1.3 2001/07/20 11:28:54 jakobn Exp $
+// $Id: browserlist.php,v 1.4 2001/08/24 11:46:14 br Exp $
 //
 // Created on: <07-Jan-2001 16:13:21 bf>
 //
@@ -82,7 +82,7 @@ else
 $t->set_var( "view_mode", $ViewMode );
 $t->set_var( "view_limit", $ViewLimit );
 
-eZList::drawNavigator( $t, $ItemCount, $ViewLimit, $Offset, "browser_list" );
+eZList::drawNavigator( $t, $ItemCount, $ViewLimit, $Offset, "browser_list_tpl" );
 
 $t->pparse( "output", "browser_page_tpl" );
 
