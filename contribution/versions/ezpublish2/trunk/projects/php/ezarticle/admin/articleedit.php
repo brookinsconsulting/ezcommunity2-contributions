@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.28 2000/12/11 15:56:43 ce Exp $
+// $Id: articleedit.php,v 1.29 2000/12/12 11:06:40 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -203,6 +203,9 @@ if ( $Action == "Update" )
     $article = new eZArticle( $ArticleID );
     $article->setName( $Name );
 
+    $oldCategory = $article->categoryDefinition();
+    $oldCategoryID = $oldCategory->id();
+
     $generator = new eZArticleGenerator();
 
     $contents = $generator->generateXML( $Contents );
@@ -335,7 +338,7 @@ if ( $Action == "Update" )
         $category = $article->categoryDefinition( );
         $categoryID = $category->id();
 
-        Header( "Location: /article/archive/$categoryID/" );
+        Header( "Location: /article/archive/$oldCategoryID/" );
         exit();
     }
     else

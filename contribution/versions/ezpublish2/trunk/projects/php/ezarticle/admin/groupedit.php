@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: groupedit.php,v 1.10 2000/12/11 15:56:43 ce Exp $
+// $Id: groupedit.php,v 1.11 2000/12/12 11:06:40 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -98,7 +98,7 @@ if ( $Action == "update" )
 
     $categoryID = $category->id();
 
-    Header( "Location: /article/archive/$categoryID/" );
+    Header( "Location: /article/archive/$ParentID/" );
     exit();
 }
 

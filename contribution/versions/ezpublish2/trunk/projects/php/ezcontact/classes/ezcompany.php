@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.40 2000/12/11 15:56:43 ce Exp $
+// $Id: ezcompany.php,v 1.41 2000/12/12 11:06:40 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -848,6 +848,53 @@ class eZCompany
             {
                 $user = new eZUser( $userItem["UserID"] );
                 $user->delete();
+            }
+        }
+
+        $this->Database->query( "DELETE FROM eZContact_UserCompanyDict WHERE CompanyID='$this->ID'" );
+    }
+
+
+    /*!
+      Add an article to the current eZCompany object 
+     */
+    function addArticle( $article )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $ret = false;
+       
+        $this->dbInit();
+
+        if ( get_class ( $article ) == "ezarticle" )
+        {
+            $articleID = $article->id();
+
+            $this->Database->query( "INSERT INTO eZContact_CompanyArticleDict
+                                     SET CompanyID='$this->ID', ArticleID='$articleID'" );
+        }
+    }
+
+    /*!
+      Remove all the article relation.
+    */
+    function removeArticle()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $found = false;
+        $this->dbInit();
+
+        $this->Database->array_query( $articleArray, "SELECT ArticleID FROM eZContact_CompanyArticleDict WHERE CompanyID='$this->ID'" );
+
+        if ( count ( $articleArray ) != 0 )
+        {
+            foreach( $articleArray as $articleItem )
+            {
+                $article = new eZArticle( $articleItem["ArticleID"] );
+                $article->delete();
             }
         }
 
