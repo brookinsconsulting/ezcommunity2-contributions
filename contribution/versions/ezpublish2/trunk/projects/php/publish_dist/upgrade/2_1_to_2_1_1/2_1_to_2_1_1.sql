@@ -514,6 +514,40 @@ update eZPoll_Poll set ShowResultTmp='1' where ShowResult='true';
 alter table eZPoll_Poll drop ShowResult;
 alter table eZPoll_Poll change ShowResultTmp ShowResult int;
 
+# ez newfeed 
+
+alter table eZNewsFeed_News add IsPublishedTmp int default '0';
+update eZNewsFeed_News set IsPublishedTmp='1' where IsPublished='true';
+alter table eZNewsFeed_News drop IsPublished;
+alter table eZNewsFeed_News change IsPublishedTmp IsPublished int;
+
+alter table eZNewsFeed_News add PublishingDateTmp int;
+update eZNewsFeed_News set PublishingDateTmp= UNIX_TIMESTAMP( PublishingDate );
+alter table eZNewsFeed_News drop PublishingDate; 
+alter table eZNewsFeed_News change PublishingDateTmp PublishingDate int; 
+
+alter table eZNewsFeed_News add OriginalPublishingDateTmp int;
+update eZNewsFeed_News set OriginalPublishingDateTmp= UNIX_TIMESTAMP( OriginalPublishingDate );
+alter table eZNewsFeed_News drop OriginalPublishingDate;
+alter table eZNewsFeed_News change OriginalPublishingDateTmp OriginalPublishingDate int; 
+
+alter table eZNewsFeed_SourceSite add IsActiveTmp int default '0';
+update eZNewsFeed_SourceSite set IsActiveTmp='1' where IsActive='true';
+alter table eZNewsFeed_SourceSite drop IsActive;
+alter table eZNewsFeed_SourceSite change IsActiveTmp IsActive int; 
+
+alter table eZNewsFeed_Category change Name Name varchar(150);
+
+alter table eZNewsFeed_News change Name Name varchar(150);
+alter table eZNewsFeed_News change KeyWords KeyWords varchar(200);
+alter table eZNewsFeed_News change URL URL varchar(200);
+alter table eZNewsFeed_News change Origin Origin varchar(150);
+
+alter table eZNewsFeed_SourceSite change URL URL varchar(250);
+alter table eZNewsFeed_SourceSite change Login Login varchar(30);
+alter table eZNewsFeed_SourceSite change Password Password varchar(30);
+alter table eZNewsFeed_SourceSite change Decoder Decoder varchar(50);
+
 
 alter table eZImageCatalogue_Image add PhotographerID int;
 alter table eZImageCatalogue_Image add Created int;
