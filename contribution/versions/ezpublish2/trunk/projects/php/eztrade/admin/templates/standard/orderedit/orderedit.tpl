@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.3 2000/10/19 13:49:10 th-cvs Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.4 2000/10/20 10:07:49 bf-cvs Exp $ -->
 
 <h1>{intl-head_line}</h1>
 
@@ -43,6 +43,7 @@
 	{option_name}:
 	{option_value}<br>
         <!-- END order_item_option_tpl -->
+	&nbsp;
 	</td>
 	<td class="{td_class}" align="right">
 	{product_price}

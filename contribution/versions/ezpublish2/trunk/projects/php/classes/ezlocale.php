@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.9 2000/10/14 15:04:56 bf-cvs Exp $
+// $Id: ezlocale.php,v 1.10 2000/10/20 10:07:48 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -237,6 +237,9 @@ class eZLocale
                 if ( $integerValue[0] == "$this->ThousandsSymbol" )                    
                     $integerValue = ereg_replace( "^.(.*)", "\\1", $integerValue );
 
+                if ( $fracts < 10 )
+                    $fracts = "0" . $fracts;
+                
                 $value = $integerValue . $this->DecimalSymbol . $fracts;
 
                 if ( $obj->isNegative )

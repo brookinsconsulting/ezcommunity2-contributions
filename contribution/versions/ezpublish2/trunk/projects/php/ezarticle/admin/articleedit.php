@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.3 2000/10/19 18:39:59 bf-cvs Exp $
+// $Id: articleedit.php,v 1.4 2000/10/20 10:07:48 bf-cvs Exp $
 //
 // 
 //
@@ -43,6 +43,15 @@ if ( $Action == "Insert" )
     
     $category->addArticle( $article );
 
+    $articleID = $article->id();
+
+    // add images
+    if ( isset( $Image ) )
+    {
+        Header( "Location: /article/articleedit/imagelist/$articleID/" );
+        exit();
+    }
+    
     Header( "Location: /article/archive/$CategoryID/" );
     exit();
 }

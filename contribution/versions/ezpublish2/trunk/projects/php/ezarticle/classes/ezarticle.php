@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.3 2000/10/19 18:03:40 bf-cvs Exp $
+// $Id: ezarticle.php,v 1.4 2000/10/20 10:07:49 bf-cvs Exp $
 //
 // Definition of eZArticle class
 //
@@ -42,6 +42,8 @@
 
 include_once( "classes/ezdb.php" );
 include_once( "ezuser/classes/ezuser.php" );
+
+include_once( "ezimagecatalogue/classes/ezimage.php" );
 
 class eZArticle
 {
@@ -310,6 +312,134 @@ class eZArticle
         
     }
 
+    /*!
+      Adds an image to the article.
+    */
+    function addImage( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        if ( get_class( $value ) == "ezimage" )
+        {
+            $this->dbInit();
+
+            $imageID = $value->id();
+            
+            $this->Database->query( "INSERT INTO eZArticle_ArticleImageLink SET ArticleID='$this->ID', ImageID='$imageID'" );
+        }
+    }
+
+    /*!
+      Deletes an image from the article.
+
+      NOTE: the image does not get deleted from the image catalogue.
+    */
+    function deleteImage( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        if ( get_class( $value ) == "ezimage" )
+        {
+            $this->dbInit();
+
+            $imageID = $value->id();
+            
+            $this->Database->query( "DELETE FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' AND ImageID='$imageID'" );
+        }
+    }
+    
+    /*!
+      Returns every image to a article as a array of eZImage objects.
+    */
+    function images()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+       
+       $return_array = array();
+       $image_array = array();
+       
+       $this->Database->array_query( $image_array, "SELECT ImageID FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID'" );
+       
+       for ( $i=0; $i<count($image_array); $i++ )
+       {
+           $return_array[$i] = new eZImage( $image_array[$i]["ImageID"], false );
+       }
+       
+       return $return_array;
+    }
+
+    /*!
+      Sets the thumbnail image for the article.
+
+      The argument must be a eZImage object.
+    */
+    function setThumbnailImage( $image )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        if ( get_class( $image ) == "ezimage" )
+        {
+            $this->dbInit();
+
+            $imageID = $image->id();
+
+            $this->Database->array_query( $res_array, "SELECT COUNT(*) AS Number FROM eZArticle_ArticleImageDefinition
+                                     WHERE
+                                     ArticleID='$this->ID'
+                                   " );
+
+            if ( $res_array[0]["Number"] == "1" )
+            {            
+                $this->Database->query( "UPDATE eZArticle_ArticleImageDefinition
+                                     SET
+                                     ThumbnailImageID='$imageID'
+                                     WHERE
+                                     ArticleID='$this->ID'" );
+            }
+            else
+            {
+                $this->Database->query( "INSERT INTO eZArticle_ArticleImageDefinition
+                                     SET
+                                     ArticleID='$this->ID',
+                                     ThumbnailImageID='$imageID'" );
+            }
+        }
+    }
+
+    /*!
+      Returns the thumbnail image of the article as a eZImage object.
+    */
+    function thumbnailImage( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = false;
+       $this->dbInit();
+       
+       $this->Database->array_query( $res_array, "SELECT * FROM eZArticle_ArticleImageDefinition
+                                     WHERE
+                                     ArticleID='$this->ID'
+                                   " );
+       
+       if ( count( $res_array ) == 1 )
+       {
+           if ( $res_array[0]["ThumbnailImageID"] != "NULL" )
+           {
+               $ret = new eZImage( $res_array[0]["ThumbnailImageID"], false );
+           }               
+       }
+       
+       return $ret;
+       
+    }
+    
     
     
     /*!

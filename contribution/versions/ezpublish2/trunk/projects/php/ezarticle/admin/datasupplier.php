@@ -27,31 +27,64 @@ switch ( $url_array[2] )
     
     case "articleedit":
     {
-        if ( $url_array[3] == "insert" )
-            $Action = "Insert";
-
-        if ( $url_array[3] == "update" )
+        switch ( $url_array[3] )
         {
-            $Action = "Update";
-            $ArticleID = $url_array[4];            
-        }
-        
-        if ( $url_array[3] == "new" )
-            $Action = "New";
+            case "insert" :
+            {
+                $Action = "Insert";
+                include( "ezarticle/admin/articleedit.php" );
+            }
+            break;
 
-        if ( $url_array[3] == "edit" )
-        {
-            $Action = "Edit";
-            $ArticleID = $url_array[4];
-        }
+            case "update" :
+            {
+                $Action = "Update";
+                $ArticleID = $url_array[4];
+                include( "ezarticle/admin/articleedit.php" );
+            }
+            break;
 
-        if ( $url_array[3] == "delete" )
-        {
-            $Action = "Delete";
-            $ArticleID = $url_array[4];
-        }
+            case "new" :
+            {
+                $Action = "New";
+                include( "ezarticle/admin/articleedit.php" );
+            }
+            break;
+            
+            case "edit" :
+            {
+                $Action = "Edit";
+                $ArticleID = $url_array[4];
+                include( "ezarticle/admin/articleedit.php" );
+            }
+            break;
 
-        include( "ezarticle/admin/articleedit.php" );
+            case "delete" :
+            {
+                $Action = "Delete";
+                $ArticleID = $url_array[4];
+                include( "ezarticle/admin/articleedit.php" );
+            }
+            break;
+
+            case "imagelist" :
+            {
+                $ArticleID = $url_array[4];
+                include( "ezarticle/admin/imagelist.php" );
+            }
+            break;
+
+            case "imageedit" :
+            {
+                if ( $url_array[4] == "new" )
+                    $Action == "New";
+                
+                $ArticleID = $url_array[5];
+                include( "ezarticle/admin/imageedit.php" );
+            }
+            break;
+            
+        }
     }
     break;
 

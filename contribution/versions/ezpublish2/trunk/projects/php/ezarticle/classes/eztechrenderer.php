@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.2 2000/10/19 18:03:40 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.3 2000/10/20 10:07:49 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -21,6 +21,10 @@
   \sa eZTechGenerator  
 */
 
+/*!TODO
+  Add better syntax highlighting.
+
+*/
 include_once( "classes/eztexttool.php" );
 
 class eZTechRenderer
@@ -170,11 +174,45 @@ class eZTechRenderer
         $string = ereg_replace ( "([(){}+-]|=|\[|\])", "<font color=\"red\">\\1</font>", $string );
 
         // reserved words
-        $string = ereg_replace ( "(foreach|function|for|while|switch|as)", "<font color=\"blue\">\\1</font>", $string );
+//          $string = ereg_replace ( "(foreach|function|for|while|switch|as)", "<font color=\"blue\">\\1</font>", $string );
 
         // comments
-        $string = ereg_replace ( "(//[^\n]+)", "<font color=\"orange\">\\1</font>", $string );        
-        $string = ereg_replace ( "(/\*[^\*]+\*/)", "<font color=\"orange\">\\1</font>", $string );        
+        $string = ereg_replace ( "(//[^\n]+)", "<font color=\"orange\">\\1</font>", $string );
+        $string = ereg_replace ( "(/\*[^\*]+\*/)", "<font color=\"orange\">\\1</font>", $string );
+
+        $reservedWords = array( "/(function)/",
+                                "/( as )/",
+                                "/(class )/",
+                                "/(var )/",
+                                "/( for)/"
+                                );
+        
+        $string = preg_replace( $reservedWords, "<font color=\"blue\">\\1</font>", $string );
+
+
+        $string = preg_replace( "/( [0-9]+)/", "<font color=\"green\">\\1</font>", $string );
+
+        
+        $string = preg_replace( "/(\$[a-zA-Z0-9]+)/", "<font color=\"#00ffff\">\\1</font>", $string );
+             
+        //  	    $source =~ s/( [0-9]+)/\<span class=\"number\"\>$1\<\/span\>/g;
+        
+//    	    $source =~ s/\</\&lt;/g;
+//    	    $source =~ s/\>/\&gt;/g;
+
+
+//  	    $source =~ s/(\"[^\"]{0,}\")/\<span class=\"string\"\>$1\<\/span\>/g;
+//  	    $source =~ s/( [0-9]+)/\<span class=\"number\"\>$1\<\/span\>/g;
+
+
+//  	    $source =~ s/([(){}+-])/\<span class\=\"specialChar\"\>$1\<\/span\>/g;
+//  	    $source =~ s/function/\<span class\=\"reservedWord\"\>function\<\/span\>/g;
+//  	    $source =~ s/class /\<span class\=\"reservedWord\"\>class \<\/span\>/g;
+//  	    $source =~ s/var /\<span class\=\"reservedWord\"\>var \<\/span\>/g;
+//  	    $source =~ s/(\$[a-zA-Z0-9]+)/\<span class\=\"variable\"\>$1\<\/span\>/g;
+//  	    $source =~ s/(\/\/.*\n)/\<span class\=\"comment\"\>$1\<\/span\>/g;
+//  	    $source =~ s/(\/\*[^*]*\*\/)/\<span class\=\"comment\"\>$1\<\/span\>/g;
+        
 
         
         $string = "<pre>" . $string . "</pre>";

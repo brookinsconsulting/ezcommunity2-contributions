@@ -1,5 +1,7 @@
 <h1>{intl-head_line}</h1>
 
+<hr noshade="noshade" size="4" />
+
 <form method="post" action="/article/articleedit/{action_value}/{article_id}/" >
 
 {intl-article_name}:<br />
@@ -23,7 +25,9 @@
 {intl-contents}:<br />
 <textarea name="Contents[]" cols="20" rows="10">{article_contents_1}</textarea>
 
+<hr noshade="noshade" size="4" />
+<input class="stdbutton" type="submit" name="Image" value="{intl-pictures}" />
+<hr noshade="noshade" size="4" />
+<input  class="okbutton" type="submit" value="OK" />
 
-<br />
-<input type="submit" value="OK" />
 </form>
