@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.95.2.5 2002/01/10 17:47:07 kaid Exp $
+// $Id: datasupplier.php,v 1.95.2.6 2002/02/08 10:53:35 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -163,17 +163,11 @@ switch ( $url_array[2] )
         $groupstr = "";
         if ( get_class( $user ) == "ezuser" )
         {
-            $groupIDArray =& $user->groups( false );
-            sort( $groupIDArray );
-            $first = true;
-            foreach ( $groupIDArray as $groupID )
-            {
-                $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
-                $first = false;
-            }
+            $groupstr = $user->groupString();
         }
         else
             $user = 0;
+
 //        print( "Checking category: $CategoryID <br>" );
 
         if ( $PageCaching == "enabled" )
@@ -186,6 +180,7 @@ switch ( $url_array[2] )
             
             $cachedFile = $file->filename( true );
 //            print( "Cache file name: $cachedFile" );
+            
             if ( $file->exists() )
             {
                 include( $cachedFile );

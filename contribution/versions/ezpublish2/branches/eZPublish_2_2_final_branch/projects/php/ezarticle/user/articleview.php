@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.84.2.9 2002/01/10 17:44:34 kaid Exp $
+// $Id: articleview.php,v 1.84.2.10 2002/02/08 10:53:35 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -586,10 +586,13 @@ if ( isset( $GenerateStaticPage ) && $GenerateStaticPage == "true" )
     $output .= "\$eZLanguageOverride=\"$eZLanguageOverride\";\n";
     $output .= "?>\n";
 
-    $output .= $t->parse( $target, "article_view_page_tpl" );
+    $printOut = $t->parse( $target, "article_view_page_tpl" );
     
     // print the output the first time while printing the cache file.
-    print( $output );
+    print( $printOut );
+    
+    $output .= $printOut;
+         
     fwrite ( $fp, $output );
     fclose( $fp );
 }

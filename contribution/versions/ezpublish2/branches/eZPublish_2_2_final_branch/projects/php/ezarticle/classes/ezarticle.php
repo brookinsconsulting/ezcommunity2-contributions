@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.183.2.6 2002/01/07 11:59:35 bf Exp $
+// $Id: ezarticle.php,v 1.183.2.7 2002/02/08 10:53:35 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -2508,35 +2508,41 @@ class eZArticle
             }
         }
         
-
         $user =& eZUser::currentUser();
         $currentUserSQL = "";
         $groupSQL = "";
+        $usePermission = true;
         if ( $user )
         {
-            $groups = $user->groups( false );
+            $groups =& $user->groups( false );
 
-            $i = 0;
             foreach ( $groups as $group )
-            {
-                if ( $i == 0 )
-                    $groupSQL .= "P.GroupID=$group OR";
-                else
-                    $groupSQL .= " P.GroupID=$group OR";
-               
-                $i++;
+            { 
+                $groupSQL .= " ( P.GroupID='$group' AND CP.GroupID='$group' ) OR
+                              ( P.GroupID='$group' AND CP.GroupID='-1' ) OR
+                              ( P.GroupID='-1' AND CP.GroupID='$group' ) OR
+                            ";
             }
             $currentUserID = $user->id();
             $currentUserSQL = "A.AuthorID=$currentUserID OR";
-        }
-        $loggedInSQL = "( $currentUserSQL ( ( $groupSQL P.GroupID='-1' ) AND P.ReadPermission='1') ) AND";
-        
 
+            if ( $user->hasRootAccess() )
+                $usePermission = false;
+        }
+        $loggedInSQL = "( $currentUserSQL ( ( $groupSQL P.GroupID='-1' AND CP.GroupID='-1' ) AND P.ReadPermission='1' AND CP.ReadPermission='1' ) ) ";
+        
         $query = "SELECT A.ID, A.Name, Author.Name as AuthorName, A.Published, C.ID as CategoryID, C.Name as CategoryName
-                     FROM eZArticle_Article AS A, eZArticle_Category as C, eZArticle_ArticleCategoryDefinition as ACL, eZArticle_ArticlePermission AS P, eZUser_Author as Author
-                     WHERE A.ID=ACL.ArticleID AND C.ID=ACL.CategoryID AND A.ContentsWriterID=Author.ID AND
-                     IsPublished='1' AND ContentsWriterID='$authorid' AND $loggedInSQL
-                     A.ID=P.ObjectID  $sort_text ";
+                     FROM
+eZArticle_Article AS A,
+eZArticle_Category as C,
+eZArticle_ArticleCategoryDefinition as ACL,
+eZArticle_ArticlePermission AS P,
+eZArticle_CategoryPermission AS CP,
+eZUser_Author as Author
+                     WHERE $loggedInSQL AND A.ID=ACL.ArticleID AND C.ID=ACL.CategoryID AND A.ContentsWriterID=Author.ID AND
+                     IsPublished='1' AND ContentsWriterID='$authorid' AND
+                     CP.ObjectID=ACL.CategoryID AND
+                     A.ID=P.ObjectID GROUP BY A.ID $sort_text ";
 
         $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, $query, array( "Limit" => $limit, "Offset" => $offset ) );
@@ -2552,32 +2558,36 @@ class eZArticle
         $user =& eZUser::currentUser();
         $currentUserSQL = "";
         $groupSQL = "";
+        $usePermission = true;
         if ( $user )
         {
             $groups =& $user->groups( false );
 
-            $i = 0;
             foreach ( $groups as $group )
-            {
-                if ( $i == 0 )
-                    $groupSQL .= "P.GroupID=$group OR";
-                else
-                    $groupSQL .= " P.GroupID=$group OR";
-               
-                $i++;
+            { 
+                $groupSQL .= " ( P.GroupID='$group' AND CP.GroupID='$group' ) OR
+                              ( P.GroupID='$group' AND CP.GroupID='-1' ) OR
+                              ( P.GroupID='-1' AND CP.GroupID='$group' ) OR
+                            ";
             }
             $currentUserID = $user->id();
             $currentUserSQL = "A.AuthorID=$currentUserID OR";
+
+            if ( $user->hasRootAccess() )
+                $usePermission = false;
         }
-        $loggedInSQL = "( $currentUserSQL ( ( $groupSQL P.GroupID='-1' ) AND P.ReadPermission='1') ) AND";
-       
+        $loggedInSQL = "( $currentUserSQL ( ( $groupSQL P.GroupID='-1' AND CP.GroupID='-1' ) AND P.ReadPermission='1' AND CP.ReadPermission='1' ) ) ";
 
         $query = "SELECT count( A.ID ) AS Count 
                      FROM eZArticle_Article AS A,
-                     eZArticle_ArticlePermission AS P,
+eZArticle_ArticleCategoryDefinition AS Def,
+eZArticle_ArticlePermission AS P,
+eZArticle_CategoryPermission AS CP,
                      eZUser_Author as Author
-                     WHERE A.ContentsWriterID=Author.ID AND IsPublished='1' AND ContentsWriterID='$authorid' AND $loggedInSQL
-                     A.ID=P.ObjectID GROUP BY A.ContentsWriterID";
+                     WHERE
+$loggedInSQL AND CP.ObjectID=Def.CategoryID AND A.ID=P.ObjectID AND  A.ID=Def.ArticleID AND
+A.ContentsWriterID=Author.ID AND IsPublished='1' AND ContentsWriterID='$authorid'
+                      GROUP BY A.ContentsWriterID";
 
         $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, $query );
