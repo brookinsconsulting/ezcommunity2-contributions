@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.14 2001/09/03 13:08:42 br Exp $
+// $Id: datasupplier.php,v 1.14.2.1 2002/01/04 14:48:21 kaid Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -44,7 +44,7 @@ switch ( $url_array[2] )
     
     case "search" :
     {
-        if ( $url_array[3] == "parent" )
+        if ( isset( $url_array[3] ) and $url_array[3] == "parent" )
         {
             $QueryString = urldecode( $url_array[4] );
             $Offset = $url_array[5];
@@ -60,7 +60,7 @@ switch ( $url_array[2] )
     case "category" :
     case "group" :
     {
-        if ( $url_array[4] == "parent" )
+        if ( isset( $url_array[4] ) and $url_array[4] == "parent" )
             $Offset = $url_array[5];
         $LinkCategoryID = $url_array[3];
         include( "ezlink/user/linkcategorylist.php" );
@@ -76,7 +76,7 @@ switch ( $url_array[2] )
 
     case "suggestlink" :
     {
-        if ( $url_array[3] == "insert" )
+        if ( isset( $url_array[3] ) and $url_array[3] == "insert" )
         {
             $Action = "insert";
             include( "ezlink/user/suggestlink.php" );
