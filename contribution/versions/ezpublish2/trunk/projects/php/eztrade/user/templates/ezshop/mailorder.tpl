@@ -5,7 +5,9 @@
 {intl-mail_subject_user} shop.ez.no
 <!-- END subject_user_tpl -->
 
-http://shop.ez.no <!-- {intl-headline} -->
+http://shop.ez.no 
+
+{intl-payment_method}: {payment_method}
 
 {intl-lead_in}
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.7 2001/02/09 14:43:00 ce Exp $
+// $Id: payment.php,v 1.8 2001/02/09 15:20:05 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -258,10 +258,19 @@ if ( $PaymentSuccess == "true" )
 
     $mailSubjectAdmin = $mailTemplate->parse( "subject_admin", "subject_admin_tpl" );
     $mailTemplate->set_var( "subject_admin", "" );
+
+
+    // payment method
+    $checkout = new eZCheckout();
+    $instance =& $checkout->instance();
+    $paymentMethod = $instance->paymentName( $order->paymentMethod() );
+    
+    $mailTemplate->set_var( "payment_method", $paymentMethod );
+    
     
     // Send E-mail    
     $mail = new eZMail();
-    $mailToAdmin = $ini->read_var( "eZTradeMain", "mailToAdmin" );
+    $mailToAdmin = $ini->read_var( "eZTradeMain", "mailToAdmin" );    
     
     $mailBody = $mailTemplate->parse( "dummy", "mail_order_tpl" );
     $mail->setFrom( $OrderSenderEmail );
