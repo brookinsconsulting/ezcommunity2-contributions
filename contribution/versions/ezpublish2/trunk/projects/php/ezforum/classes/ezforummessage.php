@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.51 2000/10/13 09:38:34 bf-cvs Exp $
+// $Id: ezforummessage.php,v 1.52 2000/10/16 10:01:37 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -13,14 +13,10 @@
 // your own programs or libraries.
 //
 
-// REQUIRES class eZUser
-//  include( "ezforum/dbsettings.php" );
-//  include_once( "$DOCROOT/classes/ezmail.php" );
-
 //!! eZForum
 //! The eZForumMessage handles a forum message in the database.
 /*!
-  
+  Handles messages in forums..
 */
 
 /*!TODO

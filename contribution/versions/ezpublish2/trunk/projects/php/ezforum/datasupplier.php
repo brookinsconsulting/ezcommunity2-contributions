@@ -1,8 +1,5 @@
 <?
 
-
-
-
 $PageCaching = $ini->read_var( "eZForumMain", "PageCaching");
 
 switch ( $url_array[2] )

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.13 2000/10/14 15:33:09 bf-cvs Exp $
+// $Id: search.php,v 1.14 2000/10/16 10:01:37 bf-cvs Exp $
 //
 // 
 //
@@ -34,18 +34,26 @@ $t->set_file( "search_tpl", "search.tpl" );
 
 $t->set_block( "search_tpl", "message_tpl", "message" );
 
+$t->set_block( "search_tpl", "empty_result_tpl", "empty_result" );
+$t->set_block( "search_tpl", "search_result_tpl", "search_result" );
+
 $t->set_block( "search_tpl", "previous_tpl", "previous" );
 $t->set_block( "search_tpl", "next_tpl", "next" );
 
 
 if ( isSet( $URLQueryString ) )
 {
-    print( "decoding" );
     $QueryString = urldecode( $URLQueryString );
 }
 
+$t->set_var( "query_string", $QueryString );
 
-$t->set_var( "query_text", $QueryString );
+$t->set_var( "previous", "" );
+$t->set_var( "next", "" );
+
+$t->set_var( "search_result", "" );
+
+
 
 if ( $QueryString != "" )
 {
@@ -67,6 +75,8 @@ if ( $QueryString != "" )
 
     $level = 0;
     $i = 0;
+
+
     foreach ( $messages as $message )
     {
         if ( ( $i % 2 ) == 0 )
@@ -112,9 +122,24 @@ if ( $QueryString != "" )
         $t->parse( "message", "message_tpl", true );
         $i++;
     }
+    
+    if ( count( $messages ) == 0 )
+    {
+        $t->parse( "empty_result", "empty_result_tpl" );
+    }
+    else
+    {
+        $t->parse( "search_result", "search_result_tpl", true );
+        $t->set_var( "empty_result", "" );
+    }
+    
 }
+else
+{
+    $t->parse( "empty_result", "empty_result_tpl" );
+} 
 
-$t->set_var( "query_string", urlencode( $QueryString ) );
+$t->set_var( "url_query_string", urlencode( $QueryString ) );
 
 
 $t->pparse("output","search_tpl");
