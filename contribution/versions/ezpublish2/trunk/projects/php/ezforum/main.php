@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: main.php,v 1.15 2000/08/01 10:14:19 lw-cvs Exp $
+    $Id: main.php,v 1.16 2000/08/02 10:06:17 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -44,7 +44,7 @@ if ( $session->get( $AuthenticatedSession ) == 0 )
 else
 {
    $t->set_var( "user", "Anonym" );
-   $t->set_var( "logout-message", "");
+   $t->set_var( "logout-message", "" );
 }
 $t->parse( "navigation-bar", "navigation", true);
 

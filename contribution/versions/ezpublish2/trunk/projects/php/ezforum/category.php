@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.13 2000/08/01 10:14:19 lw-cvs Exp $
+    $Id: category.php,v 1.14 2000/08/02 10:06:17 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -24,6 +24,7 @@ $t->set_file( array("category" => "category.tpl",
                     "navigation" => "navigation.tpl",
                     "navigation-bottom" => "navigation-bottom.tpl",
                     "no-forums" => "noforums.tpl",
+                    "login" => "login.tpl",
                     "logout" => "logout.tpl"
                     )
               );
@@ -39,7 +40,7 @@ if ( $session->get( $AuthenticatedSession ) == 0 )
 else
 {
    $t->set_var( "user", "Anonym" );
-   $t->set_var( "logout-message", "" );
+   $t->parse( "logout-message", "login", true);
 }
 $t->parse( "navigation-bar", "navigation", true);
 

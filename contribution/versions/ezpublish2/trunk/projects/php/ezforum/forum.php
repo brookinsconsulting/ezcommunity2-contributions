@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.19 2000/08/01 10:14:19 lw-cvs Exp $
+    $Id: forum.php,v 1.20 2000/08/02 10:06:17 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -16,7 +16,6 @@ include_once( "$DOCROOT/classes/ezuser.php" );
 include_once( "$DOCROOT/classes/ezforummessage.php" );
 include_once( "$DOCROOT/classes/ezsession.php" );
 
-
 $msg = new eZforumMessage( $forum_id );
 $t = new Template( "$DOCROOT/templates" );
 $session = new eZSession();
@@ -26,6 +25,7 @@ $t->set_file( Array("forum" => "forum.tpl",
                     "preview" => "forum-preview.tpl",
                     "navigation" => "navigation.tpl",
                     "navigation-bottom" => "navigation-bottom.tpl",
+                    "login" => "login.tpl",
                     "logout" => "logout.tpl"
                    )
             );
@@ -47,7 +47,7 @@ else
 {
     $UserID = 0;
     $t->set_var( "user", "Anonym" );
-    $t->set_var( "logout-message", "" );
+    $t->parse( "logout-message", "login", true );
 }
 $t->parse( "navigation-bar", "navigation", true );
 
