@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezhttptool.php,v 1.2 2001/01/23 21:11:16 bf Exp $
+// $Id: ezhttptool.php,v 1.3 2001/01/25 00:22:40 jb Exp $
 //
 // Definition of eZTextTool class
 //
@@ -33,6 +33,7 @@ class eZHTTPTool
 
         if ( isset( $sid ) )
         {
+            $string = eZHTTPTool::removeVariable( $string, "PHPSESSID" );
             $string = eZHTTPTool::addVariable( $string, "PHPSESSID", $sid );
         }
         
@@ -57,6 +58,30 @@ class eZHTTPTool
         }
 
         return $string;
+    }
+
+    /*!
+      \static
+      Returns a url with the variable removed from the url.
+    */
+    function &removeVariable( $url, $variable, $value = "" )
+    {
+        $pos = strpos( $url, "?" );
+
+        if ( $pos )
+        {
+            $start = substr( $url, 0, $pos );
+            $end = substr( $url, $pos );
+            if ( $value )
+                $end = preg_replace( "/&?$variable"."=".$value."/", "", $end );
+            else
+                $end = preg_replace( "/&?$variable"."=[^&]+/", "", $end );
+            if ( $end == "?" )
+                $end = "";
+            $url = $start . $end;
+        }
+
+        return $url;
     }
 }
 
