@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.6 2001/02/27 17:49:49 ce Exp $
+// $Id: ezobjectpermission.php,v 1.7 2001/02/27 17:51:11 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -231,9 +231,19 @@ function getTableName( $name )
         case "article_article" :
             $ret = "eZArticle_ArticlePermission";
         break;
+
         case "article_category" :
             $ret = "eZArticle_CategoryPermission";
         break;
+
+        case "imagecatalogue_image" :
+            $ret = "eZImageCatalogue_ImagePermission";
+        break;
+
+        case "imagecatalogue_category" :
+            $ret = "eZImageCatalogue_CategoryPermission";
+        break;
+
         default :
             $ret = "";
         break;
