@@ -1,5 +1,5 @@
 <!-- goooooodbye worthless table, Love Dylan 
-<form method="get" action="/search/">
+<form method="get" action="{www_dir}{index}/search/">
 <table width="100%" cellspacing="0" cellpadding="2" border="0" align="center">
   <tr>
    <!-- BEGIN header_item_tpl --\commentbreaklovedylan\>
@@ -20,7 +20,7 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td valign="top">
-		<form method="post" action="/groupeventcalendar/dayview/">
+		<form method="post" action="{www_dir}{index}/groupeventcalendar/dayview/">
 		<p class="boxtext">{intl-group}:</p>
 		<select name="GetByGroupID">
 		<option value="0">{intl-default}</option>
@@ -41,16 +41,16 @@
 		<input class="stdbutton" type="submit" Name="GetByGroup" value="{intl-show}">
 	</td>
 	<td align="center">
-		<a class="menu" href="/groupeventcalendar/dayview/{pm_year_number}/{pm_month_number}/{pm_day_number}/{group_print_id}/">&lt;&lt;&nbsp;</a>
-		<a class="menu" href="/groupeventcalendar/monthview/{year_number}/{month_number}/{group_print_id}/">{month_name}</a>
-		<a class="menu" href="/groupeventcalendar/dayview/{nm_year_number}/{nm_month_number}/{nm_day_number}/{group_print_id}/">&nbsp;&gt;&gt;</a>
+		<a class="menu" href="{www_dir}{index}/groupeventcalendar/dayview/{pm_year_number}/{pm_month_number}/{pm_day_number}/{group_print_id}/">&lt;&lt;&nbsp;</a>
+		<a class="menu" href="{www_dir}{index}/groupeventcalendar/monthview/{year_number}/{month_number}/{group_print_id}/">{month_name}</a>
+		<a class="menu" href="{www_dir}{index}/groupeventcalendar/dayview/{nm_year_number}/{nm_month_number}/{nm_day_number}/{group_print_id}/">&nbsp;&gt;&gt;</a>
 
 		<table width="100" border="1" cellspacing="0" cellpadding="1">
 		<!-- BEGIN week_tpl -->
 		<tr>
 			<!-- BEGIN day_tpl -->
 			<td class="{td_class}">
-			<a class="small" href="/groupeventcalendar/dayview/{year_number}/{month_number}/{day_number}/{group_print_id}/">{day_number}</a>
+			<a class="small" href="{www_dir}{index}/groupeventcalendar/dayview/{year_number}/{month_number}/{day_number}/{group_print_id}/">{day_number}</a>
 			</td>
 			<!-- END day_tpl -->
 
@@ -70,7 +70,7 @@
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-	<form method="post" action="/groupeventcalendar/eventedit/edit/">
+	<form method="post" action="{www_dir}{index}/groupeventcalendar/eventedit/edit/">
 	<td align="right" colspan="10" style="padding: 5px;">
 	 <input class="stdbutton" type="submit" name="GoDay" value="{intl-day}">	 
          <input class="stdbutton" type="submit" name="GoWeek" value="{intl-week}">
@@ -87,15 +87,15 @@
 </tr>
 <!-- BEGIN day_view_long_date_header_tpl -->
 <tr>
-	<td id="gcalDayViewLongDateHeader" colspan="10"><span class="gcalDayViewLongDateHeader"><a style="font-size: large; text-decoration: none;" href="/groupeventcalendar/monthview/{year_number}/{month_number}/{group_print_id}/">{long_date}</a></span></td> 
+	<td id="gcalDayViewLongDateHeader" colspan="10"><span class="gcalDayViewLongDateHeader"><a style="font-size: large; text-decoration: none;" href="{www_dir}{index}/groupeventcalendar/monthview/{year_number}/{month_number}/{group_print_id}/">{long_date}</a></span></td> 
 <tr>
 	<!-- removing this shit so I can replace it with some more shit, love Dylan 
 	<td class="gcalDayViewTopBar">
-	<a class="menu" href="/groupeventcalendar/dayview/{pd_year_number}/{pd_month_number}/{pd_day_number}/{group_print_id}/">&lt;&lt;&nbsp;{intl-previous_day}</a>
+	<a class="menu" href="{www_dir}{index}/groupeventcalendar/dayview/{pd_year_number}/{pd_month_number}/{pd_day_number}/{group_print_id}/">&lt;&lt;&nbsp;{intl-previous_day}</a>
 	</td>
 	//-->
 	<!-- DUMMY links, love Dylan -->
-	<td width="4.5%" class="gcalDayViewTopBar"><a class="gcalSmallLink" href="/groupeventcalendar/dayview/{pd_year_number}/{pd_month_number}/{pd_day_number}/{group_print_id}/"> &lt;&lt; </a></td>
+	<td width="4.5%" class="gcalDayViewTopBar"><a class="gcalSmallLink" href="{www_dir}{index}/groupeventcalendar/dayview/{pd_year_number}/{pd_month_number}/{pd_day_number}/{group_print_id}/"> &lt;&lt; </a></td>
 	<td width="13%" onmouseover="this.className='gcalDayViewTopBarSelect'" onmouseout="this.className='gcalDayViewTopBar'" class="gcalDayViewTopBar">Monday</td>
 	<td width="13%" onmouseover="this.className='gcalDayViewTopBarSelect'" onmouseout="this.className='gcalDayViewTopBar'" class="gcalDayViewTopBar">Tuesday</td>
 	<td width="13%" onmouseover="this.className='gcalDayViewTopBarSelect'" onmouseout="this.className='gcalDayViewTopBarSelect'" class="gcalDayViewTopBarSelect">Wedensday</td>
@@ -105,11 +105,11 @@
 	</td>
 	<td width="13%" onmouseover="this.className='gcalDayViewTopBarSelect'" onmouseout="this.className='gcalDayViewTopBar'" class="gcalDayViewTopBar">Sunday
 	</td>
-	<td width="4.5%" class="gcalDayViewTopBar"><a class="gcalSmallLink" href="/groupeventcalendar/dayview/{nd_year_number}/{nd_month_number}/{nd_day_number}/{group_print_id}/"> &gt;&gt; </a></td>
+	<td width="4.5%" class="gcalDayViewTopBar"><a class="gcalSmallLink" href="{www_dir}{index}/groupeventcalendar/dayview/{nd_year_number}/{nd_month_number}/{nd_day_number}/{group_print_id}/"> &gt;&gt; </a></td>
 	<!-- End dummy links -->
 	<!-- removing this shit so I can replace it with some more shit, love Dylan 
 	<td class="gcalDayViewTopBar">
-	<a class="menu" href="/groupeventcalendar/dayview/{nd_year_number}/{nd_month_number}/{nd_day_number}/{group_print_id}/">{intl-next_day}&nbsp;&gt;&gt;</a>
+	<a class="menu" href="{www_dir}{index}/groupeventcalendar/dayview/{nd_year_number}/{nd_month_number}/{nd_day_number}/{group_print_id}/">{intl-next_day}&nbsp;&gt;&gt;</a>
 	</td>
 	-->
 </tr>
@@ -120,7 +120,7 @@
 <tr>
 	<!-- BEGIN new_event_link_tpl -->
 	<td class="{td_class}" width="5%" style="height: 60px; border: 1px solid gray; border-right: 2px solid gray;">
-	<a class="path" href="/groupeventcalendar/eventedit/new/{year_number}/{month_number}/{day_number}/{start_time}/{group_print_id}/">{short_time}</a>
+	<a class="path" href="{www_dir}{index}/groupeventcalendar/eventedit/new/{year_number}/{month_number}/{day_number}/{start_time}/{group_print_id}/">{short_time}</a>
 	</td>
 	<!-- END new_event_link_tpl -->
 
@@ -134,15 +134,15 @@
 	<tr>
 		<td width="98%" valign="top" class="gcalEventTopBar">
 		<!--
-		<a class='gcalDayEventText' href="/groupeventcalendar/eventview/{event_id}/">{event_groupName} - {event_name}</a><br />
+		<a class='gcalDayEventText' href="{www_dir}{index}/groupeventcalendar/eventview/{event_id}/">{event_groupName} - {event_name}</a><br />
 -->
-		<a class='gcalDayEventText' href="/groupeventcalendar/eventview/{event_id}/">{event_name}</a><br />
+		<a class='gcalDayEventText' href="{www_dir}{index}/groupeventcalendar/eventview/{event_id}/">{event_name}</a><br />
 
 		</td>
 
 		<!-- BEGIN delete_check_tpl -->
 		<td width="1%" valign="top" align="right" class="gcalEventTopBar">
-		  <a href="/groupeventcalendar/eventedit/edit/{event_id}/">
+		  <a href="{www_dir}{index}/groupeventcalendar/eventedit/edit/{event_id}/">
           <img name="ezcal{event_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 		</td>
 		<td width="1%" valign="top" align="right" class="gcalEventTopBar">
@@ -169,7 +169,7 @@
 	</td>
 	<!-- END private_event_tpl -->
 	<!-- BEGIN no_event_tpl -->
-	<td style="background: url('/ezgroupeventcalendar/user/templates/standard/images/gcalDayViewBg.png') repeat;" valign="top" rowspan="{rowspan_value}">&nbsp;</td>
+	<td style="background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalDayViewBg.png') repeat;" valign="top" rowspan="{rowspan_value}">&nbsp;</td>
 	<!-- END no_event_tpl -->
 </tr>
 <!-- END time_table_tpl -->

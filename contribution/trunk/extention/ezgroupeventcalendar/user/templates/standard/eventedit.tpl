@@ -36,7 +36,7 @@
 <p class="error">{intl-stop_time_error}</p>
 <!-- END stop_time_error_tpl -->
 
-<form method="post" onSubmit="return formCheck(this)" name="EventEdit" action="/groupeventcalendar/eventedit/{action_value}/{event_id}/">
+<form method="post" onSubmit="return formCheck(this)" name="EventEdit" action="{www_dir}{index}/groupeventcalendar/eventedit/{action_value}/{event_id}/">
 
 <br />
 
@@ -724,8 +724,10 @@ function formCheck(form)
 // stop hiding -->
 </script>
 
+<input class="stdbutton" type="submit" name="AddFile" value="{intl-event_file_list}" />
 
 <hr noshade size="4" />
+
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
 <tr>
     <td>

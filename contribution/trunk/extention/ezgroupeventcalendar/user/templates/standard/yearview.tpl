@@ -12,10 +12,10 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<a class="menu" href="/groupeventcalendar/yearview/{prev_year_number}/">&lt;&lt; {intl-previous_year}</a>
+	<a class="menu" href="{www_dir}{index}/groupeventcalendar/yearview/{prev_year_number}/">&lt;&lt; {intl-previous_year}</a>
 	</td>
 	<td align="right">
-	<a class="menu" href="/groupeventcalendar/yearview/{next_year_number}/">{intl-next_year} &gt;&gt;</a>
+	<a class="menu" href="{www_dir}{index}/groupeventcalendar/yearview/{next_year_number}/">{intl-next_year} &gt;&gt;</a>
 	</td>
 </tr>
 </table>
@@ -25,7 +25,7 @@
 <!-- BEGIN month_tpl -->
      <td valign="top">
 
-<a class="black" href="/groupeventcalendar/monthview/{year_number}/{month_number}/"><b>{month_name}:</b></a>
+<a class="black" href="{www_dir}{index}/groupeventcalendar/monthview/{year_number}/{month_number}/"><b>{month_name}:</b></a>
 <br />
 <table width="100%" border="1" cellspacing="0" cellpadding="2">
 <!-- BEGIN week_tpl -->
@@ -33,7 +33,7 @@
 
 <!-- BEGIN day_tpl -->
 <td class="{td_class}">
-<a class="small" href="/groupeventcalendar/dayview/{year_number}/{month_number}/{day_number}/">{day_number}</a>
+<a class="small" href="{www_dir}{index}/groupeventcalendar/dayview/{year_number}/{month_number}/{day_number}/">{day_number}</a>
 </td>
 <!-- END day_tpl -->
 
@@ -53,7 +53,7 @@
 <!-- END month_tpl -->
 </table>
 
-<form action="/groupeventcalendar/eventedit/edit/">
+<form action="{www_dir}{index}/groupeventcalendar/eventedit/edit/">
 
 <hr noshade size="4" />
 
