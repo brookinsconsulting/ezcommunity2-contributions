@@ -263,3 +263,23 @@ Maintainer(s) : bf@ez.no
 
     * print_footer.php: fixed bug in template directory
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2002-02-19  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * header.php: autoswitch languages in administrator edit
+
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2002-02-22  Bjoern Reiten  <br@ez.no>
+
+    * templates/ezpublish/print_header.tpl:
+    changed header info (norwegian to english translation)
+
+    * templates/ezpublish/print_header.tpl:
+    There was a norwegian translation on title in header.
+

@@ -1074,3 +1074,12 @@ Maintainer(s) : jhe@ez.no
     * classes/ezforummessage.php
       user/messageedit.php: Added fixes
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-02-22  Baard Farstad  <bf@ez.no>
+
+    * user/latestmessages.php:
+    Added code for showing user names and time of postings.
+

@@ -2889,3 +2889,12 @@ Maintainer(s) : bf@ez.no
 
     * classes/eztechrenderer.php: fixed bug when render the page.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-02-22  Baard Farstad  <bf@ez.no>
+
+    * classes/ezarticle.php:
+    Fixed search problem with artile search when having unpublished articles in an exclude from search category.
+
