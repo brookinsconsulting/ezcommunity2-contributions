@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdate.php,v 1.2 2000/09/08 12:13:53 bf-cvs Exp $
+// $Id: ezdate.php,v 1.3 2000/09/08 12:42:52 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -31,16 +31,15 @@ class eZDate
         if ( ( $year == 0 )  && ( $month == 0 ) && ( $day == 0 ) )
         {
             $now = localTime();
-            $this->Year = $now["tm_year"];
-            $this->Month = $now["tm_mon"];
-            $this->Day = $now["tm_mday"];
-            
+            $this->setYear( $now["tm_year"] );
+            $this->setMonth( $now["tm_mon"] );
+            $this->setDay( $now["tm_mday"] );            
         }
         else
         {        
-            $this->Year = $year;
-            $this->Month = $month;
-            $this->Day = $day;
+            $this->setYear( $year );
+            $this->setMonth( $month );
+            $this->setDay( $day );
         }
     }
 

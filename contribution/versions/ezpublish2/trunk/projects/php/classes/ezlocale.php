@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.2 2000/09/08 12:13:53 bf-cvs Exp $
+// $Id: ezlocale.php,v 1.3 2000/09/08 12:42:52 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -41,7 +41,6 @@ m - month; i.e. "01" to "12"
 M - month, textual, 3 letters; i.e. "Jan" 
 n - month without leading zeros; i.e. "1" to "12" 
 s - seconds; i.e. "00" to "59" 
-S - English ordinal suffix, textual, 2 characters; i.e. "th", "nd" 
 t - number of days in the given month; i.e. "28" to "31" 
 T - Timezone setting of this machine; i.e. "MDT" 
 U - seconds since the epoch 
@@ -121,14 +120,16 @@ class eZLocale
             }
             case "eztime" :
             {
-                $time = "" . $obj->value();
+                $time = $this->TimeFormat;
+                
                 // H - hour, 24-hour format; i.e. "00" to "23"
-
-                $time = chunk_split( $time, 3, "a " );
-                    
+                $time = ereg_replace( "\%H", "" . $obj->hour() . "", $time );
                 
                 // i - minutes; i.e. "00" to "59"
-                
+                $time = ereg_replace( "\%i", "" . $obj->minute() . "", $time );
+
+                // s - seconds; i.e. "00" to "59"
+                $time = ereg_replace( "\%s", "" . $obj->second() . "", $time );                                
 
                 $returnString = $time;
                 break;
@@ -146,10 +147,8 @@ class eZLocale
                 $fracts = $valueArray[1] . "<br>";
                 $integerValue = $valueArray[0];          
 
-                $revInteger = strrev( $integerValue );
-                
+                $revInteger = strrev( $integerValue );                
                 $revInteger = ereg_replace( "([0-9]{3})", "\\1$this->ThousandsSymbol", $revInteger );
-
                 $integerValue = strrev( $revInteger );
 
                 $value = $integerValue . $this->DecimalSymbol . $fracts;
