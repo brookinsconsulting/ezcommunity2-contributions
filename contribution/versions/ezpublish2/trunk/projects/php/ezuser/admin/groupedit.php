@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: groupedit.php,v 1.13 2001/01/23 13:16:58 jb Exp $
+// $Id: groupedit.php,v 1.14 2001/02/12 17:09:53 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -37,6 +37,16 @@ include_once( "ezuser/classes/ezmodule.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
 require( "ezuser/admin/admincheck.php" );
+
+if ( isset( $DeleteGroups ) and isset( $GroupArrayID ) )
+{
+    foreach( $GroupArrayID as $groupid )
+    {
+        eZUserGroup::delete( $groupid );
+    }
+    eZHTTPTool::header( "Location: /user/grouplist" );
+    exit();
+}
 
 if ( isSet( $Back ) )
 {
