@@ -17,17 +17,17 @@
 
 <!-- BEGIN path_tpl -->
 
-<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 
-<a class="path" href="/link/category/0/">{intl-top}</a>
+<a class="path" href="{www_dir}{index}/link/category/0/">{intl-top}</a>
 
 <!-- END path_tpl -->
 
 <!-- BEGIN path_item_tpl -->
 
-<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="" />
+<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />
 
-<a class="path" href="/link/category/{category_id}/">{category_name}</a>
+<a class="path" href="{www_dir}{index}/link/category/{category_id}/">{category_name}</a>
 
 <!-- END path_item_tpl -->
 
@@ -47,11 +47,11 @@
 	</td>
 	 <td width="1%">
 	<!-- BEGIN image_item_tpl -->
-	<a href="/link/category/{linkcategory_id}/">
-	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" /></a>
+	<a href="{www_dir}{index}/link/category/{linkcategory_id}/">
+	<img src="{www_dir}{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" /></a>
 	<!-- END image_item_tpl -->
 	<!-- BEGIN no_image_tpl -->
-	<img src="/images/1x1.gif" height="1" width="1" border="0" alt="" /><br />
+	<img src="{www_dir}/images/1x1.gif" height="1" width="1" border="0" alt="" /><br />
 	<!-- END no_image_tpl -->
     </td>
 </tr>
@@ -63,10 +63,10 @@
 <!-- BEGIN link_item_tpl -->
 <tr>
 	<td class="{td_class}" valign="top" width="1%">
-	<img src="/images/link.gif" height="16" width="16" border="0" alt="" /><br />
+	<img src="{www_dir}/images/link.gif" height="16" width="16" border="0" alt="" /><br />
 	</td>
 	<td class="{td_class}" valign="top" width="99%">
-	<span class="boxtext"><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank">{link_name}</a></span>
+	<span class="boxtext"><a href="{www_dir}{index}/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank">{link_name}</a></span>
    	</td>
 </tr>
 <tr>
@@ -123,7 +123,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/link/category/{category_id}/parent/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
+	<a class="path" href="{www_dir}{index}/link/category/{category_id}/parent/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -137,7 +137,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/link/category/{category_id}/parent/{item_index}">{type_item_name}</a>&nbsp;
+	|&nbsp;<a class="path" href="{www_dir}{index}/link/category/{category_id}/parent/{item_index}">{type_item_name}</a>&nbsp;
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -151,7 +151,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	|&nbsp;<a class="path" href="/link/category/{category_id}/parent/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	|&nbsp;<a class="path" href="{www_dir}{index}/link/category/{category_id}/parent/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 

@@ -16,7 +16,7 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td colspan="2">
-	<a href="/article/view/{article_id}/">{article_name}</a>
+	<a href="{www_dir}{index}/article/view/{article_id}/">{article_name}</a>
 </tr>
 <!-- END article_item_tpl -->
 

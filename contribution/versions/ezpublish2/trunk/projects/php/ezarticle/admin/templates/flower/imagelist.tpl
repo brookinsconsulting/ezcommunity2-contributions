@@ -67,7 +67,7 @@
 	</td>
 	<td width="1%" class="{td_class}">
 
-<a href="#" onClick="verify( 'delete', '/article/articleedit/imageedit/delete/{image_id}/{article_id}/'); return false;"
+<a href="#" onClick="verify( 'delete', '{www_dir}{index}/article/articleedit/imageedit/delete/{image_id}/{article_id}/'); return false;"
 onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-slett','','{www_dir}/ezarticle/images/slettminimrk.gif',1)"><img name="ezaa{article_id}-slett" border="0" src="{www_dir}/ezarticle/images/slettmini.gif" width="16" height="16" align="top">
 </a>
 	</td>
