@@ -80,6 +80,36 @@
 	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" />
 	<!-- END link_image_item_tpl -->
 	</td>
+
+<!-- BEGIN attribute_list_tpl -->
+</tr><tr class="{td_class}">
+<td>
+<table width="60%" cellspacing="0" cellpadding="2" border="0" align="center">
+<!-- BEGIN attribute_tpl -->
+
+<!-- END attribute_tpl -->
+
+<!-- BEGIN attribute_value_tpl -->
+<tr> 
+	<th>{attribute_name}:</th>
+	<td align="right">{attribute_value_var} {attribute_unit}</td>
+</tr>
+<!-- END attribute_value_tpl -->
+<!-- BEGIN attribute_header_tpl -->
+<tr> 
+	<th colspan="2">{attribute_name}:</th>
+</tr>
+<!-- END attribute_header_tpl -->
+
+</table>
+<!-- END attribute_list_tpl -->
+
+
+
+
+
+
+
 </tr>
 <!-- END link_item_tpl -->
 </table>

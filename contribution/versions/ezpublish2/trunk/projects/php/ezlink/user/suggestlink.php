@@ -1,5 +1,6 @@
 <?php
-// $Id: suggestlink.php,v 1.18 2001/07/09 13:49:27 jhe Exp $
+//
+// $Id: suggestlink.php,v 1.19 2001/07/10 12:17:10 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -22,7 +23,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "ezuser/classes/ezpermission.php" );
@@ -30,7 +30,7 @@ include_once( "ezuser/classes/ezpermission.php" );
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZLinkMain", "Language" );
-$error = new INIFile( "ezuser/user/intl/" . $Language . "/suggestlink.php.ini", false );
+$error = new INIFile( "ezlink/user/intl/" . $Language . "/suggestlink.php.ini", false );
 
 include_once( "classes/eztemplate.php" );
 
@@ -90,13 +90,11 @@ if ( $GetSite )
 
         if ( $metaList == false )
         {
-            // Change this to use an external message
-            $terror_msg = "The site does not exists";
+            $error_msg = $error->read_var( "strings", "error_nosite" );
         }
         else if( count( $metaList ) == 0 )
         {
-            $inierror = new INIFile( "ezlink/user/intl/" . $Language . "/suggestlink.php.ini", false );
-            $terror_msg = $inierror->read_var( "strings", "nometa" );
+            $error_msg = $error->read_var( "strings", "error_nometa" );
         }
 
         if ( $metaList["description"] )

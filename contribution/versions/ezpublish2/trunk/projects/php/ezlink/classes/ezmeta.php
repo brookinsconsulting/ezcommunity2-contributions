@@ -1,5 +1,6 @@
 <?php
-// $Id: ezmeta.php,v 1.5 2001/07/09 13:49:27 jhe Exp $
+//
+// $Id: ezmeta.php,v 1.6 2001/07/10 12:17:10 jhe Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <01-Nov-2000 16:44:39 bf>
@@ -26,7 +27,8 @@ function &fetchURLInfo( $url )
 {
     $list = array();
     $fp = @fopen( $url, "r" );
-
+    if ( !$fp )
+        $fp = @fopen( $url . "/", "r" );
     if ( $fp )
     {
         $output = fread( $fp, 5000 ); // First 5k should be enough

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: linkcategorylist.php,v 1.5 2001/07/09 08:05:04 jhe Exp $
+// $Id: linkcategorylist.php,v 1.6 2001/07/10 12:17:10 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:02:09 ce>
@@ -35,7 +35,7 @@ $languageIni = new INIFile( "ezlink/user/intl/". $Language . "/linkcategorylist.
 include_once( "ezlink/classes/ezlinkcategory.php" );
 include_once( "ezlink/classes/ezlink.php" );
 include_once( "ezlink/classes/ezhit.php" );
-
+include_once( "ezlink/classes/ezlinktype.php" );
 
 $t = new eZTemplate( "ezlink/user/" . $ini->read_var( "eZLinkMain", "TemplateDir" ),
                      "ezlink/user/intl", $Language, "linkcategorylist.php" );
@@ -54,8 +54,18 @@ $t->set_block( "link_page_tpl", "link_list_tpl", "link_list" );
 $t->set_block( "link_list_tpl", "link_item_tpl", "link_item" );
 
 $t->set_block( "link_item_tpl", "link_image_item_tpl", "link_image_item" );
+$t->set_block( "link_item_tpl", "attribute_list_tpl", "attribute_list" );
+
+$t->set_block( "attribute_list_tpl", "attribute_tpl", "attribute" );
+$t->set_block( "attribute_list_tpl", "attribute_value_tpl", "attribute_value" );
+$t->set_block( "attribute_list_tpl", "attribute_header_tpl", "attribute_header" );
 
 $t->set_block( "link_page_tpl", "path_item_tpl", "path_item" );
+
+
+$t->set_var( "attribute_header", "" );
+$t->set_var( "attribute_value", "" );
+
 
 if ( !$Offset )
     $Offset = 0;
@@ -153,8 +163,8 @@ if ( count( $links ) == 0 )
 }
 else
 {
-    $i=0;
-    foreach( $links as $linkItem )
+    $i = 0;
+    foreach ( $links as $linkItem )
     {
         if ( ( $i % 2 ) == 0 )
         {
@@ -203,11 +213,52 @@ else
 
         $links = $languageIni->read_var( "strings", "links" );
         $t->set_var( "links", $links );
-        $t->parse( "link_item", "link_item_tpl", true );
         $i++;
+        $t->set_var( "attribute", "" );
+        // attribute list
+        $type = $linkItem->type();
+        if ( $type )    
+        {
+            $attributes = $type->attributes();
+            for( $i2 = 0; $i2 < count( $attributes ); $i2++ )
+            {
+                if ( ( $i2 % 2 ) == 0 )
+                {
+                    $t->set_var( "begin_tr", "<tr>" );
+                    $t->set_var( "end_tr", "" );        
+                }
+                else
+                {
+                    $t->set_var( "begin_tr", "" );
+                    $t->set_var( "end_tr", "</tr>" );
+                }
+                
+                $value =& $attributes[$i2]->value( $linkItem );
+                $t->set_var( "attribute_id", $attributes[$i2]->id( ) );
+                $t->set_var( "attribute_name", $attributes[$i2]->name( ) );
+                $t->set_var( "attribute_unit", $attributes[$i2]->unit( ) );
+                $t->set_var( "attribute_value_var", $value );
+
+                if ( ( is_numeric( $value ) and ( $value > 0 ) ) || ( !is_numeric( $value ) and $value != "" ) )
+                {
+                    $t->parse( "attribute", "attribute_value_tpl", true );
+                }
+            }
+        }
+
+        if ( count( $attributes ) > 0 )
+        {
+            $t->parse( "attribute_list", "attribute_list_tpl" );
+        }
+        else
+        {
+            $t->set_var( "attribute_list", "" );
+        }
+        $t->parse( "link_item", "link_item_tpl", true );
     }
     $t->parse( "link_list", "link_list_tpl", true );
 }
+
 eZList::drawNavigator( $t, $linkCount, $UserLimit, $Offset, "link_page_tpl" );
 
 $t->set_var( "link_start", $Offset + 1 );

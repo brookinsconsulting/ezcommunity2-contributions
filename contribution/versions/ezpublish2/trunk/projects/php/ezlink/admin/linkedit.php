@@ -1,5 +1,5 @@
 <?php
-// $Id: linkedit.php,v 1.60 2001/07/09 08:02:31 jhe Exp $
+// $Id: linkedit.php,v 1.61 2001/07/10 12:17:10 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -57,14 +57,28 @@ if ( isSet( $Delete ) )
 
 if ( isSet( $Back ) )
 {
-    $link = new eZLink();
-    $link->get( $LinkID );
-    $catDef = $link->categoryDefinition();
-    $LinkCategoryID = $catDef->id();
+    if ( $LinkID != "" )
+    {
+        $link = new eZLink();
+        $link->get( $LinkID );
+        $catDef = $link->categoryDefinition();
+        $LinkCategoryID = $catDef->id();
+    }
+    else
+    {
+        $LinkCategoryIDID = 0;
+    }
 
     eZHTTPTool::header( "Location: /link/category/$LinkCategoryID/" );
     exit();
 }
+
+if ( isSet( $CategoryArray ) )
+    $LinkCategoryIDArray = $CategoryArray;
+else
+    $LinkCategoryIDArray = array();
+
+
 
 // Get images from the image browse function.
 if ( ( isSet( $AddImages ) ) and ( is_numeric( $LinkID ) ) and ( is_numeric( $LinkID ) ) )
@@ -120,7 +134,6 @@ if ( $GetSite )
 
     }
 
-    $LinkCategoryIDArray = $CategoryArray;
     $action_value = "insert";
     $Action = "new";
 
@@ -458,8 +471,6 @@ if ( $Action == "new" )
 
     $t->set_var( "image_item", "" );
     $t->set_var( "no_image_item", "" );
-    if ( !isSet( $LinkCategoryIDArray ) )
-        $LinkCategoryIDArray = array();
 }
 // set accepted link as default.
 $yes_selected = "selected";
@@ -564,11 +575,6 @@ if ( $Action == "AttributeList" )
     $t->parse( "no_image_item", "no_image_item_tpl" );
     $t->set_var( "image_item", "" );
 
-    if ( isset( $CategoryArray ) )
-        $LinkCategoryIDArray = $CategoryArray;
-    else
-        $LinkCategoryIDArray = array();
-
     if ( $Accepted == true )
     {
         $yes_selected = "selected";
@@ -609,7 +615,8 @@ foreach( $linkCategoryList as $linkCategoryItem )
         $t->set_var( "option_level", "" );
 
     $link_select_dict[ $linkCategoryItem[0]->id() ] = $i;
-    if ( in_array( $linkCategoryItem[0]->id(), $LinkCategoryIDArray ) and ( $LinkCategoryID != $linkCategoryItem[0]->id() ) )
+    if ( in_array( $linkCategoryItem[0]->id(), $LinkCategoryIDArray )
+         and ( $LinkCategoryID != $linkCategoryItem[0]->id() ) )
     {
         $t->set_var( "multiple_selected", "selected" );
         $i++;
