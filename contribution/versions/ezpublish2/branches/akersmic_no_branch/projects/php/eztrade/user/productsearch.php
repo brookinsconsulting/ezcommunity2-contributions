@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productsearch.php,v 1.20.8.19 2002/04/12 08:24:08 bf Exp $
+// $Id: productsearch.php,v 1.20.8.20 2002/04/15 07:02:59 bf Exp $
 //
 // Created on: <10-Oct-2000 17:49:05 bf>
 //
@@ -121,7 +121,7 @@ if ( $Query  || ( $SearchType == "AdvancedMusic" ) || ( $SearchType == "Advanced
     if ( $Type == 9 )
     {
         $SearchType = "AdvancedDVD";
-        $DVDTitle = $Query;
+        $DVDDirector = $Query;
     }
 
     if ( $Type == 10 )
@@ -136,6 +136,12 @@ if ( $Query  || ( $SearchType == "AdvancedMusic" ) || ( $SearchType == "Advanced
         $GameTitle = $Query;
         $MultimediaType = "All";
     }
+
+    if ( $Type == 12 )
+    {
+        $SearchType = "AdvancedHIFI";
+        $Query = $Query;
+    }
     
     $MusicType = urldecode ( $MusicType );
     $productList =& $product->search( $Query, $Offset, $Limit, array( "ProductType" => $Type,
@@ -146,6 +152,7 @@ if ( $Query  || ( $SearchType == "AdvancedMusic" ) || ( $SearchType == "Advanced
                                                                       "Recording" => $Recording,
                                                                       "DVDTitle" => $DVDTitle,
                                                                       "DVDActor" => $DVDActor,
+                                                                      "DVDDirector" => $DVDDirector,
                                                                       "MultimediaType" => $MultimediaType,
                                                                       "GameTitle" => $GameTitle
                                                                       ), $total_count, $ignoredWords );
@@ -275,7 +282,7 @@ switch ( $SearchType )
 
     case "AdvancedDVD" :
     {
-        $advQuery ="?SearchType=$SearchType&DVDTitle=$DVDTitle&DVDActor=$DVDActor";
+        $advQuery ="?SearchType=$SearchType&DVDTitle=$DVDTitle&DVDDirector=$DVDDirector&DVDActor=$DVDActor";
     }
     break;
 
@@ -285,6 +292,12 @@ switch ( $SearchType )
     }
     break;
 
+    case "AdvancedHIFI" :
+    {
+        $advQuery = "?SearchType=$SearchType";
+    }
+    break;
+    
     default:
     {
         $advQuery = "";
