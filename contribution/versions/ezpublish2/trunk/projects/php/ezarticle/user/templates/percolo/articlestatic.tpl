@@ -2,52 +2,45 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td align="center">
-	<h3>{intl-found}: http://{article_url}</h3>
+	<h3>Artikkelen er funnet på http://{article_url}</h3>
 	</td>
 </tr>
 </table>
 <!-- END article_url_item_tpl -->
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td>
-	<h1>{article_name}</h1>
-	</td>
-	<td align="right">
-	<form action="/article/search/" method="post">
-	<input type="text" name="SearchText" size="12" />	
-	<input class="stdbutton" type="submit" value="{intl-search}" />
-	</form>	
-	</td>
-</tr>
-</table>
 
-<hr noshade="noshade" size="4" />
+        <table width="530" height="100" border="0" vspace="0" hspace="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td width="1%"><img src="/sitedesign/percolo/images/onepix.gif" alt="" width="14" height="14" hspace="0" vspace="0" /><br /></td>
+			<td width="98%" valign="top"><img src="/sitedesign/percolo/images/onepix.gif" alt="" width="1" height="14" hspace="0" vspace="0" /><br /></td>
+            <td rowspan="3" valign="top" width="1%" align="right"><img src="/sitedesign/percolo/images/helikopter.gif" alt="helikopter" width="140" height="100" /><br /></td>
+        </tr>
+        <tr>
+            <td bgcolor="#009ebf" valign="top"><img src="/sitedesign/percolo/images/onepix.gif" alt="" width="14" height="32" hspace="0" vspace="0" /><br /></td>
+            <td bgcolor="#009ebf" valign="top"><h1 class="sidetittel">{article_name}</h1></td>
+        </tr>
+        <tr>
+            <td><img src="/sitedesign/percolo/images/onepix.gif" alt="" width="14" height="14" hspace="0" vspace="0" /><br /></td>
+            <td><img src="/sitedesign/percolo/images/onepix.gif" alt="" width="50" height="60" hspace="0" vspace="0"></td>
+        </tr>
+		</table>
 
-<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="">
-<a class="path" href="/article/archive/0/">{intl-top_level}</a>
+        <table width="530" height="100" border="0" vspace="0" hspace="0" cellpadding="0" cellspacing="0">
+		<tr>
+		    <td width="1%"><img src="/sitedesign/percolo/images/onepix.gif" alt="" width="14" height="14" hspace="0" vspace="0" /><br /></td>
+			<td width="99%">
 
 <!-- BEGIN path_item_tpl -->
-<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="">
-<a class="path" href="/article/archive/{category_id}/">{category_name}</a>
+
 <!-- END path_item_tpl -->
 
-<hr noshade="noshade" size="4" />
-<br />
 <!-- BEGIN article_header_tpl -->
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td>
-	<p class="byline">{intl-article_author}: <a class="byline" href="/article/author/view/{author_id}">{author_text}</a></p>
-	</td>
-	<td align="right">
-	<p class="byline">{intl-article_date}: {article_created}</p>
-	</td>
-</tr>
-</table>
+
 <!-- END article_header_tpl -->
 
 
+<p>
 {article_intro}
+</p>
 <p>
 {article_body}
 </p>
@@ -88,3 +81,7 @@
 | <a class="path" href="/article/articleprint/{article_id}/">{intl-print_page}</a> |
 <!-- END print_page_link_tpl -->
 </div>
+
+</td>
+</tr>
+</table>

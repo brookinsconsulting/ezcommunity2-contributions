@@ -1,7 +1,7 @@
 <?
 include_once( "classes/ezhttptool.php" );
 include_once( "classes/eztemplate.php" );
-include_once( "classes/ezmail.php" );
+include_once( "ezmail/classes/ezmail.php" );
 
 $eZFormOperation = $url_array[2];
 $eZFormName = $url_array[3];
