@@ -1,7 +1,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td bgcolor="#f08c00">
-	<div class="headline">Produkter</div>
+	<div class="headline">{category_name}</div>
 	</td>
 </tr>
 </table>
