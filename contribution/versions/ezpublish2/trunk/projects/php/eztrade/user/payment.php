@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.30 2001/03/23 16:16:20 bf Exp $
+// $Id: payment.php,v 1.31 2001/03/23 16:57:59 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -343,11 +343,14 @@ if ( $PaymentSuccess == "true" )
     
     $country = $shippingAddress->country();
 
-    if ( $ini->read_var( "eZUserMain", "SelectCountry" ) == "enabled" )
-        $mailTemplate->set_var( "shipping_country", $country->name() );
-    else
-        $mailTemplate->set_var( "shipping_country", "" );
-    
+    if ( $country )
+    {
+        if ( $ini->read_var( "eZUserMain", "SelectCountry" ) == "enabled" )
+            $mailTemplate->set_var( "shipping_country", $country->name() );
+        else
+            $mailTemplate->set_var( "shipping_country", "" );
+    }
+        
     $mailTemplate->parse( "shipping_address", "shipping_address_tpl" );
 
     foreach( $items as $item )
