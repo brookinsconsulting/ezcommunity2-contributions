@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.10 2001/01/17 10:23:29 bf Exp $
+// $Id: productsearch.php,v 1.11 2001/02/03 22:11:35 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 17:49:05 bf>
@@ -48,6 +48,19 @@ $t->set_file(  "product_search_tpl", "productsearch.tpl" );
 
 $t->set_block( "product_search_tpl", "product_tpl", "product" );
 
+if ( !isset( $ModuleName ) )
+    $ModuleName = "trade";
+if ( !isset( $ModuleList ) )
+    $ModuleList = "productlist";
+if ( !isset( $ModuleView ) )
+    $ModuleView = "productview";
+if ( !isset( $ModulePrint ) )
+    $ModulePrint = "productprint";
+
+$t->set_var( "module", $ModuleName );
+$t->set_var( "module_list", $ModuleList );
+$t->set_var( "module_view", $ModuleView );
+$t->set_var( "module_print", $ModulePrint );
 
 $t->set_block( "product_tpl", "image_tpl", "image" );
 $t->set_block( "product_tpl", "price_tpl", "price" );
