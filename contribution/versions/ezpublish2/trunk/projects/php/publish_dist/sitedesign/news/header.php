@@ -20,7 +20,11 @@
 	<?
 	include( "ezforum/user/menubox.php" );
 	?>
-	
+
+    <?
+    include( "ezbulkmail/user/menubox.php" );
+    ?>
+    
 	<table width="100%" cellspacing="0" cellpadding="2" border="0">
 	<tr>
 		<td colspan="2" class="menuhead">Static pages</td>
