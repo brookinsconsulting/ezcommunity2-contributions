@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsitem.php,v 1.2 2000/09/15 10:53:48 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.3 2000/09/15 11:29:45 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -34,10 +34,11 @@
         echo "The object was stored. The object contains this data: <P>";
         echo $item->objectHeader();
         echo $item->objectInfo();
+        echo $item->objectFooter();
     }
     else
     {
-        echo "<br>The object wasn't store, the number one reason given was: <p>";
+        echo "<br>The object wasn't stored, the reason(s) given was/were: <p>";
         foreach ( $item->InvariantError as $something )
         {
             echo $something . "<br>";       
@@ -59,6 +60,7 @@
     {
         print( $something->objectInfo() );
     }
+    echo $item->objectFooter();
 
 
   \endcode
@@ -123,15 +125,16 @@ class eZNewsItem
 
             if( $session->get( $AuthenticatedSession ) == 0 )
             { 
-                $UserID = $session->userID();
+                $this->CreatedBy = $session->userID();
             }
 
             $this->dbInit();
 
-            $query=sprintf($this->SQL["insert_item"], $this->Name);
+            $query=sprintf($this->SQL["insert_item"], $this->Name, $this->CreatedBy);
 
             $this->Database->query( $query );
             $this->ID = mysql_insert_id();
+            $this->get($this->ID);
 
             if($this->noLog == false)
             {
@@ -146,7 +149,7 @@ class eZNewsItem
                     INSERT INTO eZNews_ChangeTicket SET
                     ChangeType='$this->ChangeTypeID',
                     ChangeText='Class eZNewsItem $reason this item',
-                    ChangedBy='$UserID'
+                    ChangedBy='$this->ChangedBy'
                 ";
 
                 $this->Database->query( $query );
@@ -241,6 +244,8 @@ class eZNewsItem
                     $this->Name = $newsitem_array[0][ "Name" ];
                     $this->ItemTypeID = $newsitem_array[0][ "ItemTypeID" ];
                     $this->isVisible = $newsitem_array[0][ "isVisible" ];
+                    $this->CreatedBy = $newsitem_array[0][ "CreatedBy" ];
+                    $this->CreatedAt = $newsitem_array[0][ "CreatedAt" ];
                     $this->State_ = "Coherent";
                     $returnValue="true";
                     break;
@@ -269,7 +274,8 @@ class eZNewsItem
       <li>name
       <li>visibility
       <li>type
-      <li>id
+      <li>creatorID
+      <li>date
       </ul>
       $direction can be:
       <ul>
@@ -308,7 +314,8 @@ class eZNewsItem
       <li>name
       <li>visibility
       <li>type
-      <li>id
+      <li>creatorID
+      <li>date
       </ul>
       $direction can be:
       <ul>
@@ -351,7 +358,8 @@ class eZNewsItem
       <li>name
       <li>visibility
       <li>type
-      <li>id
+      <li>creatorID
+      <li>date
       </ul>
       $direction can be:
       <ul>
@@ -394,7 +402,8 @@ class eZNewsItem
       <li>name
       <li>visibility
       <li>type
-      <li>id
+      <li>creatorID
+      <li>date
       </ul>
       $direction can be:
       <ul>
@@ -437,7 +446,8 @@ class eZNewsItem
       <li>name
       <li>visibility
       <li>type
-      <li>id
+      <li>creatorID
+      <li>date
       </ul>
       $direction can be:
       <ul>
@@ -555,6 +565,11 @@ class eZNewsItem
             $this->InvariantError[]="Object is missing: ItemTypeID";
         }
 
+        if( !isset( $this->CreatedBy ) && $this->overrideDefault == true)
+        {
+            $this->InvariantError[]="Object is missing: CreatedBy";
+        }
+
         if( !isset( $this->InvariantError ) )
         {
             $returnValue = true;
@@ -565,12 +580,15 @@ class eZNewsItem
 
     function objectInfo()
     {
+        $output;
         if( $this->checkInvariant() == true )
         {
-            printf("<TABLE WIDTH=100%%><TR><TD WIDTH=5%%>%s</TD><TD>%s</TD><TD WIDTH=5%%>%s</TD><TD WIDTH=3%%>%s</TD></TR></TABLE>",
+            $output = sprintf("<TR><TD WIDTH=5%%>%s</TD><TD>%s</TD><TD WIDTH=5%%>%s</TD><TD WIDTH=5%%>%s</TD><TD WIDTH=10%%>%s</TD><TD WIDTH=3%%>%s</TD></TR>",
                     $this->ID,
                     $this->Name,
                     $this->ItemTypeID,
+                    $this->CreatedBy,
+                    $this->CreatedAt,
                     $this->isVisible
                    );
             if( $this->noLog == false )
@@ -585,19 +603,24 @@ class eZNewsItem
                 echo $something . "<br>";       
             }
         }
+        
+        return $output;
     }
     
     function objectHeader()
     {
-        if( $this->checkInvariant() == true )
-        {
-            printf("<TABLE WIDTH=100%%><TR><TD WIDTH=5%%>%s</TD><TD>%s</TD><TD WIDTH=5%%>%s</TD><TD WIDTH=3%%>%s</TD></TR></TABLE><hr>",
-                    "ID",
-                    "Name",
-                    "TypeID",
-                    "vis"
-                   );
-        }
+        return sprintf("<TABLE WIDTH=100%%><TR><TD WIDTH=5%%>%s</TD><TD>%s</TD><TD WIDTH=5%%>%s</TD><TD WIDTH=5%%>%s</TD><TD WIDTH=10%%>%s</TD><TD WIDTH=3%%>%s</TD></TR></TABLE><hr><TABLE WIDTH=100%%>",
+                "ID",
+                "Name",
+                "TypeID",
+                "CreatedBy",
+                "CreatedAt",
+                "vis"
+               );
+    }
+    function objectFooter()
+    {
+        return sprintf("</TABLE>");
     }
 
     /*!
@@ -617,6 +640,8 @@ class eZNewsItem
     var $ItemTypeID;
     var $Name;
     var $isVisible = "N";
+    var $createdBy;
+    var $createdAt;
     
     /// Error variables
     
@@ -625,7 +650,7 @@ class eZNewsItem
     /// SQL Queries and such.
     
     var $SQL = array(
-        "insert_item" => "INSERT INTO eZNews_Item SET ItemTypeID=0, Name='%s', isVisible='N'"
+        "insert_item" => "INSERT INTO eZNews_Item SET ItemTypeID=0, Name='%s', isVisible='N', CreatedBy='%s'"
         );
 
     var $orderBy = array(
@@ -634,6 +659,8 @@ class eZNewsItem
         "id" => "ORDER BY ID",
         "visibility" => "ORDER BY isVisible",
         "type" => "ORDER BY ItemTypeID",
+        "authorID" => "ORDER BY CreatedBy",
+        "date" => "ORDER BY CreatedAt",
         "forward" => "ASC",
         "reverse" => "DESC",
         );
@@ -642,6 +669,7 @@ class eZNewsItem
     
     /// Turn on/off logging of changes to articles. Default is on.
     var $noLog;
+    var $overrideDefault = false;
 
     ///  Variable for keeping the database connection.
     var $Database;
