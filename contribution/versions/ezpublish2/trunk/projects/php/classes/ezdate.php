@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdate.php,v 1.16 2001/01/23 16:36:10 gl Exp $
+// $Id: ezdate.php,v 1.17 2001/01/31 17:04:24 gl Exp $
 //
 // Definition of eZCompany class
 //
@@ -390,6 +390,49 @@ class eZDate
             $ret = true;
         }
 
+        return $ret;
+    }
+
+    /*!
+      Returns true if the eZDate object given as argument is
+      greater than the internal values.
+
+      If $equal is set to true then true is returned if the date
+      is greater than or equal.
+
+      Returns false is the object is not a eZDate object.
+    */
+    function isGreater( &$date, $equal=false )
+    {
+        $ret = false;
+
+        if ( get_class( $date ) == "ezdate" )
+        {
+            if ( $date->year() > $this->Year )
+                $ret = true;
+            else
+            {
+                if ( $date->month() > $this->Month )
+                    $ret = true;
+                else
+                {
+                    if ( $equal == false )
+                    {
+                        if ( $date->day() > $this->Day )
+                        {
+                            $ret = true;
+                        }
+                    }
+                    else
+                    {
+                        if ( $date->day() >= $this->Day )
+                        {
+                            $ret = true;
+                        }
+                    }
+                }
+            }
+        }
         return $ret;
     }
 
