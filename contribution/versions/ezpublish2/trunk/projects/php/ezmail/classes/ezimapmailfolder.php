@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimapmailfolder.php,v 1.4 2001/12/20 12:11:35 fh Exp $
+// $Id: ezimapmailfolder.php,v 1.5 2002/01/20 17:14:06 fh Exp $
 //
 // eZIMAPMailFolder class
 //
@@ -49,7 +49,7 @@ class eZIMAPMailFolder
     function eZIMAPMailFolder( $id )
     {
         $elements = $this->decodeFolderID( $id );
-        $this->Account = new eZMailAccount( $elements[0] );
+        $this->Account = $elements[0]; //new eZMailAccount( $elements[0] );
         $this->Name = $elements[1];
     }
 
@@ -62,7 +62,7 @@ class eZIMAPMailFolder
     {
         if( $accountID == -1 || $folderName == -1 )
         {
-            $accountID = $this->account->id();
+            $accountID = $this->Account;
             $folderName = $this->Name;
         }
 //        echo "Was here: $accountID, $folderName";
@@ -309,8 +309,10 @@ class eZIMAPMailFolder
     {
     }
 
+    
     /*!
       Imap spesific. Returns all folders in this account.
+      TODO: caching.
      */
     function &getImapTree( $account )
     {
@@ -326,8 +328,10 @@ class eZIMAPMailFolder
             foreach( $mailBoxes as $mailBox )
             {
                 $key = explode( "}", $mailBox->name );
-                $resultArray[$i]->Name = $key[1];
-                $resultArray[$i]->FullName = $mailBox->name;
+                $resultArray[$i] = new eZImapMailFolder(
+                    eZImapMailFolder::encodeFolderID( $account->id(), $key[1] ) );
+//                $resultArray[$i]->Name = $key[1];
+//                $resultArray[$i]->FullName = $mailBox->name;
 //            echo "<pre>"; print_r( $resultArray ); echo "</pre>";
             $i++;
             }
@@ -341,6 +345,28 @@ class eZIMAPMailFolder
         return $resultArray;
     }
 
+    /*!
+      Imap spesific. Returns all folders of all given accounts.
+      TODO: caching..
+     */
+    function &getAllImapFolders( $accounts = 0 )
+    {
+        if( $accounts == 0 )
+            $accounts = eZMailAccount::getByUser( eZUser::currentUser(), IMAP );
+        
+        $folders = array();
+        if( count( $accounts ) > 0 )
+        {
+            foreach( $accounts as $account )
+            {
+                $folders = array_merge( $folders, eZImapMailFolder::getImapTree( $account ) );
+            }
+        }
+//        echo "<PRE>";
+//        print_r( $folders );
+//        echo "</PRE>";
+        return $folders;
+    }
     
     /*!
       Returns all the mail in the folder. $sortmode can be one of the following:
@@ -372,8 +398,8 @@ class eZIMAPMailFolder
 //            case "size_asc" : $orderBySQL = "Mail.Size ASC"; break;
 //            case "size_desc" : $orderBySQL = "Mail.Size DESC"; break;
 //        }
-        
-        $mbox = imapConnect( $this->Account, $this->Name );
+        $account = new eZMailAccount( $this->Account );
+        $mbox = imapConnect( $account, $this->Name );
         
         $MC = imap_check( $mbox ); 
         $MN = $MC->Nmsgs; 

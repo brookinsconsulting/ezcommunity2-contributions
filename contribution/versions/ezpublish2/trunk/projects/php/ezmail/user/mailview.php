@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: mailview.php,v 1.23 2001/12/19 15:30:11 fh Exp $
+// $Id: mailview.php,v 1.24 2002/01/20 17:14:06 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 fh>
 //
@@ -35,11 +35,11 @@ include_once( "ezsession/classes/ezpreferences.php" );
 
 // Check if this really is your mail we are talking about here..
 // TODO: This is different for IMAP and NORMAL
-if ( !eZMail::isOwner( eZUser::currentUser(), $MailID ) )
-{
-    eZHTTPTool::header( "Location: /error/403/" );
-    exit();
-}
+//if ( !eZMail::isOwner( eZUser::currentUser(), $MailID ) )
+//{
+//    eZHTTPTool::header( "Location: /error/403/" );
+//    exit();
+//}
 
 if ( isSet( $Cancel ) )
 {
@@ -176,11 +176,22 @@ $files = $mail->files();
 $i = 0;
 foreach ( $files as $file )
 {
-    $t->set_var( "file_name", "<a href=\"$GlobalSiteIni->WWWDir$GlobalSiteIni->Index/filemanager/download/" . $file->id() . "/" . $file->originalFileName() . "/ \">" . htmlspecialchars( $file->originalFileName() ) . "</a>" );
-    $t->set_var( "file_id", $file->id() );
-    
-    $size = $file->siFileSize();
-    $t->set_var( "file_size", $size["size-string"] . $size["unit"] );
+    // here we have to pull some IMAP/non IMAP spesific stuff (try to keep it to a minimum)
+    if( $AccountType == "local" )
+    {
+        $t->set_var( "file_name", "<a href=\"$GlobalSiteIni->WWWDir$GlobalSiteIni->Index/filemanager/download/" . $file->id() . "/" . $file->originalFileName() . "/ \">" . htmlspecialchars( $file->originalFileName() ) . "</a>" );
+        $t->set_var( "file_id", $file->id() );
+        
+        $size = $file->siFileSize();
+        $t->set_var( "file_size", $size["size-string"] . $size["unit"] );
+    }
+    else
+    {
+        $t->set_var( "file_name", "<a href=\"$GlobalSiteIni->WWWDir$GlobalSiteIni->Index/mail/imapdownload/" . $file["part"] . "/" . $file["filename"] . "/ \">" . htmlspecialchars( $file["filename"] ) . "</a>" );
+        $t->set_var( "file_id", $file["part"] );
+        $t->set_var( "file_size", "U/A" );
+    }
+
     
     ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
     

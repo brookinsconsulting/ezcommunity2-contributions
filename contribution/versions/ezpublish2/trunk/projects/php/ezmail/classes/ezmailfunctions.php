@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezmailfunctions.php,v 1.13 2001/12/19 23:11:28 fh Exp $
+// $Id: ezmailfunctions.php,v 1.14 2002/01/20 17:14:06 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -28,7 +28,7 @@ include_once( "classes/ezfile.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 
 /* This file contains a list of functions that are used by the various classes.
- They are put here because they are generall and to keep the classes from beeing
+ They are put here because they are general and to keep the classes from beeing
 crouded.*/
 
 
@@ -83,15 +83,15 @@ function getDecodedHeader( $headervalue )
 /*!
   This is the main function that fetches the body parts of a message.
   Basicly there can be two types of body parts. Normal parts and multiparts which can contain several underparts.
-  In case this is a multipart we just call ourselves recursivly.
-  If not this is either a text part which we add to the main text body, or it is something else, an attachment.
+  In case we find a multipart we just call ourselves recursivly.
+  If not this is either a text part which we add to the main text body, or it is something else possibly an attachment.
   In addition to this there is also a special disposition part where attachments and inlines CAN be stored.
   TODO:
   -If we get text/HTML we should strip the crappy html/header tags and show it as HTML.. for this we need some special function in eZMail
   either indication that the body of this mail is html or we need to store it completely seperatly from the usual body.
   -fetch inline images in html mail.
  */
-function disectThisPart( $this_part, $part_no, $mbox, $msgnum, &$mail, $level=0 )
+function disectThisPart( $this_part, $part_no, $mbox, $msgnum, &$mail, $level=0, $imap = false )
 {
     /** Check for disposition parts **/
 	if ( $this_part->ifdisposition )
@@ -110,7 +110,22 @@ function disectThisPart( $this_part, $part_no, $mbox, $msgnum, &$mail, $level=0 
                     break;
 	            }
 	        }
-            addAttachment( $mail, decode( $this_part->encoding, imap_fetchbody( $mbox, $msgnum, $part_no ) ), $att_name );
+            // If we are in IMAP mode, only get the part number and filename. Add it to the mail.
+            if( $imap )
+            {
+                $file = array();
+                $file["filename"] = $att_name;
+                $file["part"] = $part_no;
+                $file["encoding"] = $this_part->encoding;
+//                echo "<PRE>";
+//                print_r( $file );
+//                echo "</PRE>";
+                $mail->addFile( $file );
+            }
+            else
+            {
+                addAttachment( $mail, decode( $this_part->encoding, imap_fetchbody( $mbox, $msgnum, $part_no ) ), $att_name );
+            }
         }
         else // INLINE should be here! For now just handle it as an attachment.
         {
@@ -130,7 +145,7 @@ function disectThisPart( $this_part, $part_no, $mbox, $msgnum, &$mail, $level=0 
                 $mail->setBodyText( $value );
             }
 			break;
-            /** O no.. multipart we must do it all over again. Lets call ourselves then **/
+            /** Oh no.. multipart we must do it all over again. Lets call ourselves then **/
             case TYPEMULTIPART:
             {
                 $mime_type = "multipart";
@@ -143,7 +158,7 @@ function disectThisPart( $this_part, $part_no, $mbox, $msgnum, &$mail, $level=0 
                 
                     for ( $i = 0; $i < count( $this_part->parts ); $i++ )
                     {
-                        disectThisPart( $this_part->parts[$i], $part_no.( $i + 1 ), $mbox, $msgnum, $mail, 1 );
+                        disectThisPart( $this_part->parts[$i], $part_no.( $i + 1 ), $mbox, $msgnum, $mail, 1, $imap );
                     }
                 }
             }
@@ -174,9 +189,23 @@ function disectThisPart( $this_part, $part_no, $mbox, $msgnum, &$mail, $level=0 
                         break;
                     }
                 }
-                addAttachment( $mail, decode( $this_part->encoding, imap_fetchbody( $mbox, $msgnum, $part_no ) ), $att_name );
+                // If we are in IMAP mode, only get the part number and filename. Add it to the mail.
+                if( $imap )
+                {
+                    $file = array();
+                    $file["filename"] = $att_name;
+                    $file["part"] = $part_no;
+//                    echo "<PRE>";
+//                    print_r( $file );
+//                    echo "</PRE>";
+                    $mail->addFile( $file );
+                }
+                else
+                {
+                    addAttachment( $mail, decode( $this_part->encoding, imap_fetchbody( $mbox, $msgnum, $part_no ) ), $att_name );
+                }
 
-                /** Hm... someone sent us something we don't know what is... lets leave it alone **/
+                /** Hm... someone sent us something and we don't know what is... lets leave it alone **/
             default:
                 $mime_type = "unknown";
             break;

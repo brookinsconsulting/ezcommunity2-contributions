@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimapmail.php,v 1.3 2001/12/20 12:11:35 fh Exp $
+// $Id: ezimapmail.php,v 1.4 2002/01/20 17:14:06 fh Exp $
 //
 // Definition of eZIMAPMail class
 //
@@ -55,11 +55,12 @@ class eZIMAPMail
     function eZIMAPMail( $id = -1  )
     {
         $this->FilesAttached = false;
+        $this->Files = array();
         $this->UDate = time();
         if( $id != -1 )
         {
             $elements = $this->decodeMailID( $id );
-            $this->Account = new eZMailAccount( $elements[0] );
+            $this->Account = $elements[0];
             $this->ID = $elements[1];
             $this->Folder = $elements[2];
             $this->get();
@@ -76,7 +77,7 @@ class eZIMAPMail
     {
         if( $accountID == -1 || $mailID == -1 )
         {
-            $accountID = $this->Account->id();
+            $accountID = $this->Account;
             $id = $this->ID;
             $folder = $this->Folder;
         }
@@ -167,13 +168,14 @@ class eZIMAPMail
     */
     function get( $id = "" )
     {
-        $mbox = imapConnect( $this->Account, $this->Folder );
+        $account = new eZMailAccount( $this->Account );
+        $mbox = imapConnect( $account, $this->Folder );
 //        $header = imap_header( $mbox, $this->ID );
         
 //        $this->UDate( $header->udate );
         getHeaders( $this, $mbox, $this->ID ); // fetch header information
         $mailstructure = imap_fetchstructure( $mbox, $this->ID );
-        disectThisPart( $mailstructure, "1", $mbox, $this->ID, $this );
+        disectThisPart( $mailstructure, "1", $mbox, $this->ID, $this,0, true );
         
 //        echo "<pre>";print_r( $this );echo "</pre>";
         
@@ -213,11 +215,11 @@ class eZIMAPMail
     {
         if( get_class( $account ) == "ezmailaccount" )
         {
-            $this->Account = $account;
+            $this->Account = $account->id();
         }
         else
         {
-            $this->Account = new eZMailAccount( $account );
+            $this->Account = $account;
         }
     }
 
@@ -638,15 +640,6 @@ class eZIMAPMail
     }
 
     /*!
-      Returns all attachments associatied with this mail.
-      TODO:Returns array of virtual files... Don't know what to do here yet.
-    */
-    function files()
-    {
-        return array();
-    }
-
-    /*!
       Returns all the images associated with this mail.
       TODO:
      */
@@ -664,11 +657,54 @@ class eZIMAPMail
     {
     }
 
-    // dummy function for eZ mail compliance.
+    /*
+    Adds an attachment
+    With IMAP this is just an array containing pointers to the filename and to the part number where it can be found.
+    $file["filename"] = "filename.txt";
+    $file["part"] = 5;
+    */
     function addFile( $param )
     {
+        $this->Files[] = $param;
     }
-    
+
+    /*!
+      Returns all attachments associatied with this mail.
+      Returns an array of arrays. Where each subarray is an attachment, having a "filename" containing the filename and
+      a "part" containg the full id of the attachment (account, message, partnr).
+    */
+    function files()
+    {
+        $returnArray = array();
+        if( count( $this->Files ) > 0 )
+        {
+            foreach( $this->Files as $file )
+            {
+//                        return rawurlencode( $accountID . "-" . $id . "-" . $folder );
+                $file["part"] = rawurlencode( $this->Account . "-". $this->ID. "-" . $file["part"] . "-" .$file["encoding"] . "-". $this->Folder);
+                $returnArray[] = $file;
+            }
+        }
+        return $returnArray;
+    }
+
+    /*!
+      Fetches an attachment from the server and returns it.
+      TODO: Put some sort of upper attachment limit here. (downloading 20mb+ files into memory doesn't seem like a good idea to me).
+     */
+    function &fetchAttachment( $accountID, $mailID, $partID, $encoding, $folderID )
+    {
+        $account = new eZMailAccount( $accountID );
+        $mbox = imapConnect( $account, $folderID );
+//        $header = imap_header( $mbox, $this->ID );
+        
+        $file = decode( $encoding, imap_fetchbody( $mbox, $mailID, $partID ) );
+//        echo "<pre>";print_r( $this );echo "</pre>";
+        
+        imapDisconnect( $mbox );
+        return $file;
+    }
+
     /*!
       TODO: Implement this? Then we need addfile etc.
      */
@@ -708,6 +744,7 @@ class eZIMAPMail
     var $Status;
     
     var $FilesAttached;
+    var $Files;
     
     /* database specific variables */
     var $ID;

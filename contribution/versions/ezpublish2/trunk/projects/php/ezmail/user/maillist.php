@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: maillist.php,v 1.27 2001/12/19 23:11:28 fh Exp $
+// $Id: maillist.php,v 1.28 2002/01/20 17:14:06 fh Exp $
 //
 // Created on: <19-Mar-2000 20:25:22 fh>
 //
@@ -187,37 +187,39 @@ $sort = $preferences->variable( "MailSortMethod");
 $mail = $folder->mail( $sort, $Offset, $NumMessages );
 $mailCount = $folder->mailCount();
 $i = 0;
-foreach ( $mail as $mailItem )
+if( count( $mail ) > 0 )
 {
-    $t->set_var( "mail_id", $mailItem->id() );
-    $t->set_var( "mail_subject", $mailItem->subject() , "-" );
-    $t->set_var( "mail_sender",  $mailItem->sender() );
-
-    switch ( $mailItem->status() )
+    foreach ( $mail as $mailItem )
     {
-        case UNREAD : $t->parse( "mail_status_renderer", "mail_unread_tpl", false ); break;
-        case READ : $t->parse( "mail_status_renderer", "mail_read_tpl", false ); break;
-        case REPLIED : $t->parse( "mail_status_renderer", "mail_replied_tpl", false ); break;
-        case FORWARDED : $t->parse( "mail_status_renderer", "mail_forwarded_tpl", false ); break;
-        case MAIL_SENT : $t->parse( "mail_status_renderer", "mail_read_tpl", false ); break;
-    }
+        $t->set_var( "mail_id", $mailItem->id() );
+        $t->set_var( "mail_subject", $mailItem->subject() , "-" );
+        $t->set_var( "mail_sender",  $mailItem->sender() );
 
-    $siSize = $mailItem->siSize();
-    $t->set_var( "mail_size" , $siSize["size-string"] . $siSize["unit"] );
-    $t->set_var( "mail_date", date("D M d H:i Y ", $mailItem->uDate() ) );
-    ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
+        switch ( $mailItem->status() )
+        {
+            case UNREAD : $t->parse( "mail_status_renderer", "mail_unread_tpl", false ); break;
+            case READ : $t->parse( "mail_status_renderer", "mail_read_tpl", false ); break;
+            case REPLIED : $t->parse( "mail_status_renderer", "mail_replied_tpl", false ); break;
+            case FORWARDED : $t->parse( "mail_status_renderer", "mail_forwarded_tpl", false ); break;
+            case MAIL_SENT : $t->parse( "mail_status_renderer", "mail_read_tpl", false ); break;
+        }
+
+        $siSize = $mailItem->siSize();
+        $t->set_var( "mail_size" , $siSize["size-string"] . $siSize["unit"] );
+        $t->set_var( "mail_date", date("D M d H:i Y ", $mailItem->uDate() ) );
+        ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
     
-    if ( $mailItem->status() == UNREAD )
-        $t->parse( "mail_render", "mail_item_unread_tpl", true );
-    else
-    {
-        $isDraftsFolder ? $t->parse( "mail_edit_item", "mail_edit_item_tpl", false ) : $t->set_var( "mail_edit_item", "&nbsp;" );
-        $t->parse( "mail_render", "mail_item_tpl", true );
+        if ( $mailItem->status() == UNREAD )
+            $t->parse( "mail_render", "mail_item_unread_tpl", true );
+        else
+        {
+            $isDraftsFolder ? $t->parse( "mail_edit_item", "mail_edit_item_tpl", false ) : $t->set_var( "mail_edit_item", "&nbsp;" );
+            $t->parse( "mail_render", "mail_item_tpl", true );
+        }
+
+        $i++;
     }
-
-    $i++;
 }
-
 /* insert the standard folders first */
 foreach ( array( INBOX, SENT, DRAFTS, TRASH ) as $specialfolder )
 {
@@ -227,9 +229,12 @@ foreach ( array( INBOX, SENT, DRAFTS, TRASH ) as $specialfolder )
     $t->parse( "folder_item", "folder_item_tpl", true );
 }
 
-$folders = eZMailFolder::getByUser();
+$folders = eZMailFolder::getByUser(); // get normal folders
+// TODO: Is it wice to let people move mail between IMAP accounts?!?
+$folders = array_merge( eZImapMailFolder::getAllImapFolders(), $folders ); // get imap folders
 foreach ( $folders as $folderItem )
 {
+    
     $t->set_var( "folder_id", $folderItem->id() );
     $t->set_var( "folder_name", $folderItem->name() );
     $t->parse( "folder_item", "folder_item_tpl", true );

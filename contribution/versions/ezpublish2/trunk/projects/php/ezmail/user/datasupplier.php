@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.26 2001/12/19 23:11:28 fh Exp $
+// $Id: datasupplier.php,v 1.27 2002/01/20 17:14:06 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -152,6 +152,14 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "imapdownload" :
+    {
+        $AttachmentID = $url_array[3];
+        $FileName = $url_array[4];
+        include( "ezmail/user/fetchimapattachment.php" );
+    }
+    break;
+        
     case "test":
     {
         include( "ezmail/user/imap.php" );
