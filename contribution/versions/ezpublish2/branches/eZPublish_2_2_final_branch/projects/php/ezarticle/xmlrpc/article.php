@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: article.php,v 1.20.2.12 2002/08/13 16:12:28 gl Exp $
+// $Id: article.php,v 1.20.2.13 2003/02/11 13:04:22 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -437,6 +437,11 @@ else if( $Command == "delete" )
     $Command = "update";
 
     $article = new eZArticle( $ID );
+    $category = $article->categoryDefinition( );
+    $CategoryID = $category->id();
+    $CategoryArray =& $article->categories( false );
+    eZArticleTool::deleteCache( $ID, $CategoryID, $CategoryArray );
+
     $article->delete();
 }
 else if ( $Command == "search" )
