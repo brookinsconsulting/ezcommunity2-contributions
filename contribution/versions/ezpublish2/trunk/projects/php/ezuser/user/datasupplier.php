@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.30 2001/09/07 10:46:54 pkej Exp $
+// $Id: datasupplier.php,v 1.31 2001/09/17 13:08:15 pkej Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -27,6 +27,7 @@
 
 $ini =& INIFile::globalINI();
 $GlobalSectionID = $ini->read_var( "eZUserMain", "DefaultSection" );
+
 switch ( $url_array[2] )
 {
 
@@ -80,7 +81,24 @@ switch ( $url_array[2] )
         if ( $url_array[3] == "insert" )
             $Action = "Insert";
 
-        include( "ezuser/user/userwithaddress.php" );
+        $OverrideUserWithAddress = $ini->read_var( "eZUserMain", "OverrideUserWithAddress" );
+
+        if ( empty( $OverrideUserWithAddress ) )
+        {
+            include( "ezuser/user/userwithaddress.php" );
+        }
+        else
+        {
+            if ( is_file( $OverrideUserWithAddress ) )
+            {
+                include( $OverrideUserWithAddress );
+            }
+            else
+            {
+                include( "ezuser/user/userwithaddress.php" );
+            }
+        }
+
     }
     break;
 
