@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezclassified.php,v 1.6 2000/12/05 11:26:04 ce-cvs Exp $
+// $Id: ezclassified.php,v 1.7 2000/12/12 12:58:07 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -240,9 +240,9 @@ class eZClassified
     }
 
     /*!
-        Get all valid CVs.
+        Get all valid classified.
      */
-    function getAllValid( $companyID, $valid=true )
+    function getAllValid( $categoryID, $valid=true )
     {
         $this->dbInit();
         $item_array = 0;
@@ -263,15 +263,16 @@ class eZClassified
         {
             $ClassifiedID = $item_array[$i]["ClassifiedID"];
 
-            $query = ( "SELECT ClassifiedID FROM eZClassified_ClassifiedCompanyLink WHERE CompanyID='$companyID' AND ClassifiedID='$ClassifiedID'" );
+            $query = ( "SELECT ClassifiedID FROM eZClassified_ClassifiedCategoryLink WHERE CategoryID='$categoryID' AND ClassifiedID='$ClassifiedID'" );
             $this->Database->array_query( $classified_array, $query );
             
             foreach( $classified_array as $item )
             {
                 $return_array[] = new eZClassified( $item["ClassifiedID"] );
             }
-            return $return_array;
+        
         }
+            return $return_array;
     }
 
 
@@ -310,7 +311,7 @@ class eZClassified
         {
             $companyID = $company->id();
 
-            $this->Database->query( "INSERT INTO eZClassified_ClassifiedCompanyLink
+            $this->Database->query( "INSERT INTO eZContact_CompanyClassifiedDict
                                      SET CompanyID='$companyID', ClassifiedID='$this->ID'" );
             $ret = true;
         }
@@ -329,7 +330,7 @@ class eZClassified
        $this->dbInit();
 
 
-       $this->Database->array_query( $res_array, "SELECT CompanyID FROM eZClassified_ClassifiedCompanyLink
+       $this->Database->array_query( $res_array, "SELECT CompanyID FROM eZContact_CompanyClassifiedDict
                                      WHERE
                                      ClassifiedID='$this->ID'
                                    " );

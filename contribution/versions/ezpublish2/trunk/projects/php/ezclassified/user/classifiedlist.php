@@ -90,9 +90,9 @@ else
         $t->set_var( "classified_name", $positionList[$i]->name() );
         $t->set_var( "classified_id", $positionList[$i]->id() );
 
-        $company = $positionList[$i]->company();
+//          $company = $positionList[$i]->company();
 
-        $t->set_var( "company_name", $company->name() );
+//          $t->set_var( "company_name", $company->name() );
         
         $t->parse( "classified_item", "classified_item_tpl" );
     }
