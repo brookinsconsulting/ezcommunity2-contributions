@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.27 2002/01/30 15:09:54 bf Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.28 2002/01/30 15:12:19 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -268,7 +268,7 @@ class eZProduct
         $contents = str_replace ("_", " ", $contents );
         $contents = str_replace ("\"", " ", $contents );
         $contents = str_replace ("'", " ", $contents );
-        $contents = str_replace (":", " ", $contents );
+//        $contents = str_replace (":", " ", $contents );
         $contents = str_replace ("?", " ", $contents );
         $contents = str_replace ("!", " ", $contents );
         $contents = str_replace ("\"", " ", $contents );
