@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimage.php,v 1.74 2001/08/23 08:19:44 pkej Exp $
+// $Id: ezimage.php,v 1.75 2001/08/30 12:29:23 ce Exp $
 //
 // Definition of eZImage class
 //
@@ -570,8 +570,6 @@ class eZImage
         else
             return;
     }
-
-    
     
     /*!
       Returns the name of the image.
