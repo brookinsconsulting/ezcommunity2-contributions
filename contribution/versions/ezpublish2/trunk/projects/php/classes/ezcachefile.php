@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcachefile.php,v 1.4 2001/02/07 14:19:53 jb Exp $
+// $Id: ezcachefile.php,v 1.5 2001/02/07 14:23:43 jb Exp $
 //
 // Definition of eZCacheFile class
 //
@@ -114,18 +114,18 @@ class eZCacheFile
     function &contents()
     {
         if ( !$this->exists() )
-            print( "<br><b>Cache: File \"" . $this->filename() . "\" does not exist</b><br>" );
+            print( "<br><b>Cache: File \"" . $this->filename( true ) . "\" does not exist</b><br>" );
         else
         {
-            $file = fopen( $this->filename(), "r" );
+            $file = fopen( $this->filename( true ), "r" );
             if ( $file )
             {
-                $content =& fread( $file, filesize( $this->filename() ) );
+                $content =& fread( $file, filesize( $this->filename( true ) ) );
                 fclose( $file );
             }
             else
             {
-                print( "<br><b>Cache: Cannot read contents of file \"" . $this->filename() . "\"</b><br>" );
+                print( "<br><b>Cache: Cannot read contents of file \"" . $this->filename( true ) . "\"</b><br>" );
             }
         }
         return $content;
@@ -136,7 +136,7 @@ class eZCacheFile
     */
     function store( $content )
     {
-        $file = fopen( $this->filename(), "w" );
+        $file = fopen( $this->filename( true ), "w" );
         if ( $file )
         {
             fwrite( $file, $content );
@@ -144,7 +144,7 @@ class eZCacheFile
         }
         else
         {
-            print( "<br><b>Cache: Cannot write contents to file \"" . $this->filename() . "\"</b><br>" );
+            print( "<br><b>Cache: Cannot write contents to file \"" . $this->filename( true ) . "\"</b><br>" );
         }
         return $content;
     }
