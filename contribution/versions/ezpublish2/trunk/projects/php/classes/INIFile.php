@@ -31,6 +31,11 @@
 //!! eZCommon
 //! The INIFile class provides .ini file functions.
 /*!
+  The INI file class supports comments which starts with a # and stops at the end of the line,
+  this means that one cannot use these characters in groups, keys or values.
+
+  The INI file can also read MS-DOS text files,
+  which has an extra carriage return to signal an end of line.
 
   \code
   include_once( "classes/INIFile.php" );
