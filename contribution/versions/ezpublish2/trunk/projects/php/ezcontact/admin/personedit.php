@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.52 2001/09/17 14:25:38 jhe Exp $
+// $Id: personedit.php,v 1.53 2001/09/20 10:22:03 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -840,6 +840,8 @@ if ( !$confirm )
                 $NewCompanyCategory = 0;
             if ( isSet( $NewCompanyCategory ) and is_numeric( $NewCompanyCategory ) )
                 $categoryList =& array_unique( array_merge( $NewCompanyCategory, $categoryList ) );
+            if ( isSet( $CompanyCategoryID ) )
+                $categoryList =& array_unique( array_merge( $CompanyCategoryID, $categoryList ) );
             if ( count( $categoryList ) > 0 )
                 $category_values = array_values( $categoryList );
             else
