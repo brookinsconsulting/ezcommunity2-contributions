@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: ezbugcategory.php,v 1.8 2001/05/05 11:16:03 bf Exp $
+// $Id: ezbugcategory.php,v 1.9 2001/07/11 14:12:40 jhe Exp $
 //
 // Definition of eZBugCategory class
 //
@@ -58,24 +58,12 @@ class eZBugCategory
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZBugCategory( $id=-1, $fetch=true )
+    function eZBugCategory( $id = -1 )
     {
-        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -84,25 +72,36 @@ class eZBugCategory
     */
     function store()
     {
-        $this->dbInit();
-        $name = addslashes( $this->Name );
-        $description = addslashes( $this->Description );
+        $db =& eZDB::globalDatabase();
+
+        $name = $db->escapeString( $this->Name );
+        $description = $db->escapeString( $this->Description );
+
+        $db->begin();
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZBug_Category SET
-		                         Name='$name',
-                                 Description='$description'" );
-			$this->ID = $this->Database->insertID();
+            $db->lock( "eZBug_Category" );
+			$this->ID = $db->nextID( "eZBug_Category", "ID" );
+            $res = $db->query( "INSERT INTO eZBug_Category
+                                       (ID, Name, Description) VALUES
+                                       ('$this->ID', '$name', '$description')" );
+            $db->unlock();
 			
         }
         else
         {
-            $this->Database->query( "UPDATE eZBug_Category SET
-		                         Name='$name',
-                                 Description='$description'
-                                 WHERE ID='$this->ID'" );
+            $db->query( "UPDATE eZBug_Category SET
+		                      Name='$name',
+                              Description='$description'
+                              WHERE ID='$this->ID'" );
         }
+
+        if ( $res == false )
+            $db->rollback();
+        else
+            $db->commit();
         
+
         return true;
     }
 
@@ -112,14 +111,20 @@ class eZBugCategory
     */
     function delete()
     {
-        $this->dbInit();
-
+        $db =& eZDB::globalDatabase();
+        
         if ( isset( $this->ID ) )
         {
+            $db->begin();
             // delete from BugCategoryLink
-            $this->Database->query( "DELETE FROM eZBug_BugCategoryLink WHERE CategoryID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZBug_BugCategoryLink WHERE CategoryID='$this->ID'" );
             // delete actual group entry
-            $this->Database->query( "DELETE FROM eZBug_Category WHERE ID='$this->ID'" );            
+            $res[] = $db->query( "DELETE FROM eZBug_Category WHERE ID='$this->ID'" );
+
+            if ( in_array( false, $res ) )
+                $db->rollback();
+            else
+                $db->commit();
         }
         
         return true;
@@ -130,27 +135,21 @@ class eZBugCategory
     */
     function get( $id=-1 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $category_array, "SELECT * FROM eZBug_Category WHERE ID='$id'" );
+            $db->array_query( $category_array, "SELECT * FROM eZBug_Category WHERE ID='$id'" );
             if ( count( $category_array ) > 1 )
             {
                 die( "Error: Category's with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $category_array ) == 1 )
+            else if ( count( $category_array ) == 1 )
             {
                 $this->ID = $category_array[0][ "ID" ];
                 $this->Name = $category_array[0][ "Name" ];
                 $this->Description = $category_array[0][ "Description" ];
             }
-                 
-            $this->State_ = "Coherent";
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
     }
 
@@ -161,16 +160,16 @@ class eZBugCategory
     */
     function getAll()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         $return_array = array();
         $category_array = array();
         
-        $this->Database->array_query( $category_array, "SELECT ID FROM eZBug_Category ORDER BY Name" );
+        $db->array_query( $category_array, "SELECT ID FROM eZBug_Category ORDER BY Name" );
         
         for ( $i=0; $i<count($category_array); $i++ )
         {
-            $return_array[$i] = new eZBugCategory( $category_array[$i]["ID"], 0 );
+            $return_array[$i] = new eZBugCategory( $category_array[$i][$db->fieldName( "ID" )], 0 );
         }
         
         return $return_array;
@@ -189,11 +188,8 @@ class eZBugCategory
     */
     function name( $html = true )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       if( $html )
-           return  htmlspecialchars( $this->Name );
+       if ( $html )
+           return htmlspecialchars( $this->Name );
        else
            return $this->Name;
     }
@@ -203,9 +199,6 @@ class eZBugCategory
     */
     function description( $html = true )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if( $html )
            return htmlspecialchars( $this->Description );
        else
@@ -217,9 +210,6 @@ class eZBugCategory
     */
     function setName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Name = $value;
     }
 
@@ -228,9 +218,6 @@ class eZBugCategory
     */
     function setDescription( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Description = $value;
     }
 
@@ -239,23 +226,25 @@ class eZBugCategory
     */
     function addBug( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
        if ( get_class( $value ) == "ezbug" )
        {
-            $this->dbInit();
+           $bugID = $value->id();
 
-            $bugID = $value->id();
-            
-            $query = "INSERT INTO
-                           eZBug_BugCategoryLink
-                      SET
-                           CategoryID='$this->ID',
-                           BugID='$bugID'";
-            
-            $this->Database->query( $query );
-       }       
+           $db =& eZDB::globalDatabase();
+           $db->begin();
+           $db->lock( "eZBug_BugCategoryLink" );
+           $nextid = $db->nextID( "eZBug_BugCategoryLink", "ID" );
+           $res = $query = "INSERT INTO eZBug_BugCategoryLink
+                            (ID, CategoryID, BugID)
+                            VALUES
+                            ('$nextID','$this->ID','$bugID')";
+           $db->query( $query );
+           $db->unlock();
+       }
+       if ( $res == false )
+           $db->rollback();
+       else
+           $db->commit();
     }
 
     /*!
@@ -269,11 +258,8 @@ class eZBugCategory
                        $offset=0,
                        $limit=50 )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->dbInit();
-
+        $db =& eZDB::globalDatabase();
+        
 //         $OrderBy = "eZBug_Bug.Published DESC";
 //         switch( $sortMode )
 //         {
@@ -297,7 +283,7 @@ class eZBugCategory
        }
        
 
-       $this->Database->array_query( $bug_array, "
+       $db->array_query( $bug_array, "
                 SELECT eZBug_Bug.ID AS BugID, eZBug_Bug.Name, eZBug_Category.ID, eZBug_Category.Name
                 FROM eZBug_Bug, eZBug_Category, eZBug_BugCategoryLink
                 WHERE 
@@ -309,39 +295,17 @@ class eZBugCategory
                 $excludedCode  
                 GROUP BY eZBug_Bug.ID ORDER BY $OrderBy LIMIT $offset,$limit" );
  
-       for ( $i=0; $i<count($bug_array); $i++ )
+       for ( $i = 0; $i < count( $bug_array ); $i++ )
        {
-           $return_array[$i] = new eZBug( $bug_array[$i]["BugID"], false );
+           $return_array[$i] = new eZBug( $bug_array[$i][$db->fieldName( "BugID" )], false );
        }
        
        return $return_array;
     }
 
-
-    /*!
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = new eZDB( "site.ini", "site" );
-            $this->IsConnected = true;
-        }
-    }
-    
     var $ID;
     var $Name;
     var $Description;
-
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>

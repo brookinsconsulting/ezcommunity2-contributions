@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlinkattribute.php,v 1.5 2001/07/11 08:09:37 jhe Exp $
+// $Id: ezlinkattribute.php,v 1.6 2001/07/11 14:12:40 jhe Exp $
 //
 // Definition of eZLinkAttribute class
 //
@@ -34,24 +34,12 @@ class eZLinkAttribute
       Constructs a new eZLinkAttribute object. Retrieves the data from the database
       if a valid id is given as an argument.
     */
-    function eZLinkAttribute( $id=-1, $fetch=true )
+    function eZLinkAttribute( $id=-1 )
     {
-        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -60,15 +48,14 @@ class eZLinkAttribute
     */
     function store()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-        $this->Database->begin();
-        $this->Database->lock( "eZLink_Attribute" );
+        $db->begin();
+        $db->lock( "eZLink_Attribute" );
 
-        if ( !isset( $this->ID ) )
+        if ( !isSet( $this->ID ) )
         {
-
-            $this->Database->array_query( $attribute_array, "SELECT Placement FROM eZLink_Attribute" );
+            $db->array_query( $attribute_array, "SELECT Placement FROM eZLink_Attribute" );
 
             if ( count ( $attribute_array ) > 0 )
             {
@@ -79,8 +66,8 @@ class eZLinkAttribute
 
             $timeStamp =& eZDateTime::timeStamp( true );
 
-			$this->ID = $this->Database->nextID( "eZLink_Attribute", "ID" );
-            $res = $this->Database->query( "INSERT INTO eZLink_Attribute
+			$this->ID = $db->nextID( "eZLink_Attribute", "ID" );
+            $res = $db->query( "INSERT INTO eZLink_Attribute
                                             (ID,
                                              Name,
                                              TypeID,
@@ -95,20 +82,18 @@ class eZLinkAttribute
                                              '$this->Unit',
                                              '$timeStamp')" );
         
-            $this->State_ = "Coherent";
         }
         else
         {
-            $res = $this->Database->query( "UPDATE eZLink_Attribute SET
+            $res = $db->query( "UPDATE eZLink_Attribute SET
 		                                    Name='$this->Name',
                                             Created=Created,
 		                                    Unit='$this->Unit',
 		                                    TypeID='$this->TypeID' WHERE ID='$this->ID'" );
 
-            $this->State_ = "Coherent";
         }
 
-        $this->Database->unlock();
+        $db->unlock();
         
         if ( $res == false )
             $db->rollback( );
@@ -121,13 +106,13 @@ class eZLinkAttribute
     /*!
       Fetches the link attribute object values from the database.
     */
-    function get( $id=-1 )
+    function get( $id = -1 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         if ( $id != -1  )
         {
-            $this->Database->array_query( $attribute_array, "SELECT * FROM eZLink_Attribute WHERE ID='$id'" );
+            $db->array_query( $attribute_array, "SELECT * FROM eZLink_Attribute WHERE ID='$id'" );
             
             if ( count( $attribute_array ) > 1 )
             {
@@ -135,18 +120,12 @@ class eZLinkAttribute
             }
             else if( count( $attribute_array ) == 1 )
             {
-                $this->ID =& $attribute_array[0][ "ID" ];
-                $this->Name =& $attribute_array[0][ "Name" ];
-                $this->TypeID =& $attribute_array[0][ "TypeID" ];
-                $this->Placement =& $attribute_array[0][ "Placement" ];
-                $this->Unit =& $attribute_array[0][ "Unit" ];
-                
-                $this->State_ = "Coherent";                
+                $this->ID =& $attribute_array[0][ $db->fieldName( "ID" ) ];
+                $this->Name =& $attribute_array[0][ $db->fieldName( "Name" ) ];
+                $this->TypeID =& $attribute_array[0][ $db->fieldName( "TypeID" ) ];
+                $this->Placement =& $attribute_array[0][ $db->fieldName( "Placement" ) ];
+                $this->Unit =& $attribute_array[0][ $db->fieldName( "Unit" ) ];
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
     }
 
@@ -155,31 +134,35 @@ class eZLinkAttribute
     */
     function &getAll()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         $return_array = array();
         $attribute_array = array();
         
-        $this->Database->array_query( $attribute_array, "SELECT ID FROM eZLink_Attribute ORDER BY Created" );
+        $db->array_query( $attribute_array, "SELECT ID FROM eZLink_Attribute ORDER BY Created" );
         
-        for ( $i=0; $i<count($attribute_array); $i++ )
-        {
-            $return_array[$i] = new eZLinkAttribute( $attribute_array[$i]["ID"], 0 );
+        for ( $i = 0; $i < count( $attribute_array ); $i++ )
+        { 
+            $return_array[$i] = new eZLinkAttribute( $attribute_array[$i][ $db->fieldName( "ID" ) ], 0 );
         }
         
         return $return_array;
     }
 
-    /*! 
-      Deletes a option from the database. 
+    /*!
+      Deletes a option from the database.
     */
     function delete()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-        $this->Database->query( "DELETE FROM eZLink_AttributeValue WHERE AttributeID='$this->ID'" );
-        
-        $this->Database->query( "DELETE FROM eZLink_Attribute WHERE ID='$this->ID'" );
+        $db->begin();
+        $res[] = $db->query( "DELETE FROM eZLink_AttributeValue WHERE AttributeID='$this->ID'" );
+        $res[] = $db->query( "DELETE FROM eZLink_Attribute WHERE ID='$this->ID'" );
+        if ( in_array( false, $res ) )
+            $db->rollback();
+        else
+            $db->commit();
     }
 
     /*!
@@ -187,10 +170,7 @@ class eZLinkAttribute
     */
     function id()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
-       return $this->ID;
+        return $this->ID;
     }
 
     /*!
@@ -198,9 +178,6 @@ class eZLinkAttribute
     */
     function name()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
- 
         return $this->Name;
     }
 
@@ -209,9 +186,6 @@ class eZLinkAttribute
     */
     function unit()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
- 
         return $this->Unit;
     }
 
@@ -220,12 +194,8 @@ class eZLinkAttribute
     */
     function type()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $type = new eZLinkType( $this->TypeID );
- 
-       return $type;
+        $type = new eZLinkType( $this->TypeID );
+        return $type;
     }
 
 
@@ -234,9 +204,6 @@ class eZLinkAttribute
     */
     function setName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Name = $value;
     }
 
@@ -245,9 +212,6 @@ class eZLinkAttribute
     */
     function setUnit( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Unit = $value;
     }
 
@@ -256,13 +220,10 @@ class eZLinkAttribute
     */
     function setType( $type )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       if ( get_class( $type ) == "ezlinktype" )
-       {
-           $this->TypeID = $type->id();
-       }
+        if ( get_class( $type ) == "ezlinktype" )
+        {
+            $this->TypeID = $type->id();
+        }
     }
 
     /*!
@@ -270,33 +231,32 @@ class eZLinkAttribute
     */
     function setValue( $link, $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
+        $db =& eZDB::globalDatabase();
+        
         if ( get_class( $link ) == "ezlink" )
         {
             $linkID = $link->id();
             
             // check if the attribute is already set, if so update
-            $this->Database->array_query( $value_array,
+            $db->array_query( $value_array,
             "SELECT ID FROM eZLink_AttributeValue WHERE LinkID='$linkID' AND AttributeID='$this->ID'" );
             
-            $this->Database->begin();
+            $db->begin();
             
             if ( count( $value_array ) > 0 )
             {
                 $valueID = $value_array[0]["ID"];
                 
-                $res = $this->Database->query( "UPDATE eZLink_AttributeValue SET
+                $res = $db->query( "UPDATE eZLink_AttributeValue SET
                                                 Value='$value'
                                                 WHERE ID='$valueID'" );
             }
             else
             {
-                $this->Database->lock( "eZLink_AttributeValue" );
-                $nextID = $this->Database->nextID( "eZLink_AttributeValue", "ID" );
+                $db->lock( "eZLink_AttributeValue" );
+                $nextID = $db->nextID( "eZLink_AttributeValue", "ID" );
                 
-                $res = $this->Database->query( "INSERT INTO eZLink_AttributeValue
+                $res = $db->query( "INSERT INTO eZLink_AttributeValue
                                                 (ID, LinkID, AttributeID, Value)
                                                 VALUES
 		                                        ('$nextID','$linkID','$this->ID','$value')" );
@@ -314,25 +274,23 @@ class eZLinkAttribute
     */
     function value( $link )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        $db =& eZDB::globalDatabase();
+        $ret = "";
+        if ( get_class( $link ) == "ezlink" )
+        {
+            $linkID = $link->id();
 
-       $ret = "";
-       if ( get_class( $link ) == "ezlink" )
-       {
-           $linkID = $link->id();
+            // check if the attribute is already set, if so update
+            $db->array_query( $value_array,
+            "SELECT Value FROM eZLink_AttributeValue WHERE LinkID='$linkID'
+             AND AttributeID='$this->ID'" );
 
-           // check if the attribute is already set, if so update
-           $this->Database->array_query( $value_array,
-           "SELECT Value FROM eZLink_AttributeValue WHERE LinkID='$linkID'
-           AND AttributeID='$this->ID'" );
-
-           if ( count( $value_array ) > 0 )
-           {
-               $ret = $value_array[0]["Value"];
-           }    
-       }
-       return $ret;
+            if ( count( $value_array ) > 0 )
+            {
+                $ret = $value_array[0][ $db->fieldName( "Value" ) ];
+            }    
+        }
+        return $ret;
     }
 
     /*!
@@ -340,15 +298,22 @@ class eZLinkAttribute
     */
     function moveUp()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT ID, Placement FROM eZLink_Attribute
-                                  WHERE Placement<'$this->Placement' ORDER BY Placement DESC LIMIT 1" );
-        $listorder = $qry["Placement"];
-        $listid = $qry["ID"];
-        $db->query( "UPDATE eZLink_Attribute SET Placement='$listorder' WHERE ID='$this->ID'" );
-        $db->query( "UPDATE eZLink_Attribute SET Placement='$this->Placement' WHERE ID='$listid'" );
+                                  WHERE Placement<'$this->Placement' ORDER BY Placement DESC",
+                                  array( "Limit" => 1 ) );
+        $listorder = $qry[ $db->fieldName( "Placement" ) ];
+        $listid = $qry[ $db->fieldName( "ID" ) ];
+        $db->begin();
+        $db->lock( "eZLink_Attribute" );
+        $res[] = $db->query( "UPDATE eZLink_Attribute SET Placement='$listorder' WHERE ID='$this->ID'" );
+        $res[] = $db->query( "UPDATE eZLink_Attribute SET Placement='$this->Placement' WHERE ID='$listid'" );
+        $db->unlock();
+        
+        if ( in_array( false, $res ) )
+            $db->rollback();
+        else
+            $db->commit();
     }
 
     /*!
@@ -356,29 +321,21 @@ class eZLinkAttribute
     */
     function moveDown()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT ID, Placement FROM eZLink_Attribute
-                                  WHERE Placement>'$this->Placement' ORDER BY Placement ASC LIMIT 1" );
-        $listorder = $qry["Placement"];
-        $listid = $qry["ID"];
-        $db->query( "UPDATE eZLink_Attribute SET Placement='$listorder' WHERE ID='$this->ID'" );
-        $db->query( "UPDATE eZLink_Attribute SET Placement='$this->Placement' WHERE ID='$listid'" );
-    }
-
-    
-    /*!
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
+                                  WHERE Placement>'$this->Placement' ORDER BY Placement ASC",
+                                  array( "Limit" => 1 ) );
+        $listorder = $qry[ $db->fieldName( "Placement" ) ];
+        $listid = $qry[ $db->fieldName( "ID" ) ];
+        $db->begin();
+        $db->lock( "eZLink_Attribute" );
+        $res[] = $db->query( "UPDATE eZLink_Attribute SET Placement='$listorder' WHERE ID='$this->ID'" );
+        $res[] = $db->query( "UPDATE eZLink_Attribute SET Placement='$this->Placement' WHERE ID='$listid'" );
+        $db->unlock();
+        if ( in_array( false, $res ) )
+            $db->rollback();
+        else
+            $db->commit();
     }
 
     var $ID;
@@ -387,13 +344,6 @@ class eZLinkAttribute
     var $Placement;
     var $Unit;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>

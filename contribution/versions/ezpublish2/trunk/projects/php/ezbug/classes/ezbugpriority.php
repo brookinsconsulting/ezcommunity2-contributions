@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: ezbugpriority.php,v 1.6 2001/05/05 11:16:03 bf Exp $
+// $Id: ezbugpriority.php,v 1.7 2001/07/11 14:12:40 jhe Exp $
 //
 // Definition of eZBugPriority class
 //
@@ -57,24 +57,12 @@ class eZBugPriority
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZBugPriority( $id=-1, $fetch=true )
+    function eZBugPriority( $id = -1 )
     {
-        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -83,20 +71,26 @@ class eZBugPriority
     */
     function store()
     {
-        $this->dbInit();
-        $name = addslashes( $this->Name );
-        if ( !isset( $this->ID ) )
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $name = $db->escapeString( $this->Name );
+        if ( !isSet( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZBug_Priority SET
-		                         Name='$name'" );
-			$this->ID = $this->Database->insertID();
+            $db->lock( "eZBug_Priority", "ID" );
+            $this->ID = $db->nextID( "eZBug_Priority", "ID" );
+            $res = $db->query( "INSERT INTO eZBug_Priority (ID, Name)
+                                            VALUES ('$this->ID', '$name')" );
+            $db->unlock();
         }
         else
         {
-            $this->Database->query( "UPDATE eZBug_Priority SET
-		                         Name='$name'
-                                 WHERE ID='$this->ID'" );
+            $res = $db->query( "UPDATE eZBug_Priority SET
+		                        Name='$name' WHERE ID='$this->ID'" );
         }
+        if ( $res == false )
+            $db->rollback();
+        else
+            $db->commit();
         
         return true;
     }
@@ -107,16 +101,15 @@ class eZBugPriority
     */
     function delete()
     {
-        $this->dbInit();
-
-        if ( isset( $this->ID ) )
+        $db =& eZDB::globalDatabase();
+        
+        if ( isSet( $this->ID ) )
         {
             // remove all bugs from the database that have this priority.
-            $this->Database->query( "DELETE FROM eZBug_Bug WHERE PriorityID='$this->ID'" );
+            $db->query( "DELETE FROM eZBug_Bug WHERE PriorityID='$this->ID'" );
             // remove the priority itself. 
-            $this->Database->query( "DELETE FROM eZBug_Priority WHERE ID='$this->ID'" );
+            $db->query( "DELETE FROM eZBug_Priority WHERE ID='$this->ID'" );
         }
-        
         return true;
     }
     
@@ -125,26 +118,20 @@ class eZBugPriority
     */
     function get( $id=-1 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $priority_array, "SELECT * FROM eZBug_Priority WHERE ID='$id'" );
+            $db->array_query( $priority_array, "SELECT * FROM eZBug_Priority WHERE ID='$id'" );
             if ( count( $priority_array ) > 1 )
             {
                 die( "Error: Priority's with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $priority_array ) == 1 )
+            else if ( count( $priority_array ) == 1 )
             {
-                $this->ID = $priority_array[0][ "ID" ];
-                $this->Name = $priority_array[0][ "Name" ];
+                $this->ID = $priority_array[0][ $db->fieldName( "ID" ) ];
+                $this->Name = $priority_array[0][ $db->fieldName( "Name" ) ];
             }
-                 
-            $this->State_ = "Coherent";
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
     }
 
@@ -155,18 +142,17 @@ class eZBugPriority
     */
     function getAll()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         $return_array = array();
         $priority_array = array();
         
-        $this->Database->array_query( $priority_array, "SELECT ID FROM eZBug_Priority ORDER BY Name" );
+        $db->array_query( $priority_array, "SELECT ID FROM eZBug_Priority ORDER BY Name" );
         
-        for ( $i=0; $i<count($priority_array); $i++ )
+        for ( $i = 0; $i < count( $priority_array ); $i++ )
         {
-            $return_array[$i] = new eZBugPriority( $priority_array[$i]["ID"], 0 );
+            $return_array[$i] = new eZBugPriority( $priority_array[$i][ $db->fieldName( "ID" ) ], 0 );
         }
-        
         return $return_array;
     }
     
@@ -184,9 +170,7 @@ class eZBugPriority
     */
     function name( $html = true )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       if( $html )
+       if ( $html )
            return htmlspecialchars( $this->Name );
        else
            return $this->Name;
@@ -197,35 +181,12 @@ class eZBugPriority
     */
     function setName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Name = $value;
     }
 
-    /*!
-      Private function.      
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = new eZDB( "site.ini", "site" );
-            $this->IsConnected = true;
-        }
-    }
-    
     var $ID;
     var $Name;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>

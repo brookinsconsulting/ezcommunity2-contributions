@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: ezbugmodule.php,v 1.22 2001/05/05 11:16:03 bf Exp $
+// $Id: ezbugmodule.php,v 1.23 2001/07/11 14:12:40 jhe Exp $
 //
 // Definition of eZBugModule class
 //
@@ -59,24 +59,12 @@ class eZBugModule
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZBugModule( $id=-1, $fetch=true )
+    function eZBugModule( $id=-1 )
     {
-        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -85,27 +73,39 @@ class eZBugModule
     */
     function store()
     {
-        $this->dbInit();
-        $name = addslashes( $this->Name );
-        $description = addslashes( $this->Description );
+        $db =& eZDB::globalDatabase();
+        $name = $db->escapeString( $this->Name );
+        $description = $db->escapeString( $this->Description );
+        $db->begin();
         
-        if ( !isset( $this->ID ) )
+        if ( !isSet( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZBug_Module SET
-		                         Name='$name',
-                                 Description='$description',
-                                 ParentID='$this->ParentID',
-                                 OwnerGroupID='$this->OwnerGroupID'" );
-			$this->ID = $this->Database->insertID();
+            $db->lock( "eZBug_Module", "ID" );
+			$this->ID = $db->nextID( "eZBug_Module", "ID" );
+            $res = $db->query( "INSERT INTO eZBug_Module
+                                (ID, Name, Description, ParentID, OwnerGroupID)
+                                VALUES
+                                ('$this->ID',
+                                 '$name',
+                                 '$description',
+                                 '$this->ParentID',
+                                 '$this->OwnerGroupID')" );
+            $db->unlock();
         }
         else
         {
-            $this->Database->query( "UPDATE eZBug_Module SET
-		                         Name='$name',
-                                 Description='$description',
-                                 ParentID='$this->ParentID',
-                                 OwnerGroupID='$this->OwnerGroupID' WHERE ID='$this->ID'" );
+            $res = $db->query( "UPDATE eZBug_Module SET
+		                        Name='$name',
+                                Description='$description',
+                                ParentID='$this->ParentID',
+                                OwnerGroupID='$this->OwnerGroupID'
+                                WHERE ID='$this->ID'" );
         }
+
+        if ( $res == false )
+            $db->rollback();
+        else
+            $db->commit();
         
         return true;
     }
@@ -116,16 +116,16 @@ class eZBugModule
     */
     function delete()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-        if ( isset( $this->ID ) )
+        if ( isSet( $this->ID ) )
         {
             // delete all bugs!
             $bugs = array();
-            $this->Database->array_query( $bugs, "SELECT eZBug_BugModuleLink.BugID FROM eZBug_BugModuleLink WHERE ModuleID='$this->ID'" );
-            foreach( $bugs as $bugID )
+            $db->array_query( $bugs, "SELECT eZBug_BugModuleLink.BugID FROM eZBug_BugModuleLink WHERE ModuleID='$this->ID'" );
+            foreach ( $bugs as $bugID )
             {
-                $doomedBug =  new eZBug( $bugID["BugID"] );
+                $doomedBug =  new eZBug( $bugID[ $db->fieldName( "BugID" ) ] );
                 $doomedBug->delete();
             }
 
@@ -139,45 +139,35 @@ class eZBugModule
                 }
             }
 
-
-            $this->Database->query( "DELETE FROM eZBug_ModulePermission WHERE ObjectID='$this->ID'" );
-            
-            $this->Database->query( "DELETE FROM eZBug_BugModuleLink WHERE ModuleID='$this->ID'" );
-            
-            $this->Database->query( "DELETE FROM eZBug_Module WHERE ID='$this->ID'" );            
+            $db->query( "DELETE FROM eZBug_ModulePermission WHERE ObjectID='$this->ID'" );
+            $db->query( "DELETE FROM eZBug_BugModuleLink WHERE ModuleID='$this->ID'" );
+            $db->query( "DELETE FROM eZBug_Module WHERE ID='$this->ID'" );            
         }
-        
         return true;
     }
     
     /*!
       Fetches the object information from the database.
     */
-    function get( $id=-1 )
+    function get( $id = -1 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $module_array, "SELECT * FROM eZBug_Module WHERE ID='$id'" );
+            $db->array_query( $module_array, "SELECT * FROM eZBug_Module WHERE ID='$id'" );
             if ( count( $module_array ) > 1 )
             {
                 die( "Error: Module's with the same ID was found in the database. This should not happen." );
             }
-            else if( count( $module_array ) == 1 )
+            else if ( count( $module_array ) == 1 )
             {
-                $this->ID = $module_array[0][ "ID" ];
-                $this->Name = $module_array[0][ "Name" ];
-                $this->Description = $module_array[0][ "Description" ];
-                $this->ParentID = $module_array[0][ "ParentID" ];
-                $this->OwnerGroupID = $module_array[0][ "OwnerGroupID" ];
+                $this->ID = $module_array[0][ $db->fieldName( "ID" ) ];
+                $this->Name = $module_array[0][ $db->fieldName( "Name" ) ];
+                $this->Description = $module_array[0][ $db->fieldName( "Description" ) ];
+                $this->ParentID = $module_array[0][ $db->fieldName( "ParentID" ) ];
+                $this->OwnerGroupID = $module_array[0][ $db->fieldName( "OwnerGroupID" ) ];
             }
-                 
-            $this->State_ = "Coherent";
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
     }
 
@@ -188,17 +178,17 @@ class eZBugModule
     */
     function getAll()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         $return_array = array();
         $module_array = array();
         
-        $this->Database->array_query( $module_array, "SELECT ID FROM eZBug_Module ORDER BY Name" );
+        $db->array_query( $module_array, "SELECT ID FROM eZBug_Module ORDER BY Name" );
         
-        for ( $i=0; $i<count($module_array); $i++ )
+        for ( $i = 0; $i < count( $module_array ); $i++ )
         {
-            $return_array[$i] = new eZBugModule( $module_array[$i]["ID"], 0 );
-        }
+            $return_array[$i] = new eZBugModule( $module_array[$i][ $db->fieldName( "ID" ) ], 0 );
+        } 
         
         return $return_array;
     }
@@ -210,33 +200,32 @@ class eZBugModule
     */
     function getByParent( $parent, $sortby=name, $recursive=false )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         $return_array = array();
         $module_array = array();
         
         $parentID = $parent->id();
         
-        $this->Database->array_query( $module_array, "SELECT ID, Name FROM eZBug_Module
+        $db->array_query( $module_array, "SELECT ID, Name FROM eZBug_Module
                                           WHERE ParentID='$parentID'
                                           ORDER BY Name" );
         
-        if ( is_array ( $recursive ) )
+        if ( is_array( $recursive ) )
         {
             $recursive[] = $parentID;
         }
         
-        for ( $i=0; $i < count ( $module_array); $i++ )
+        for ( $i = 0; $i < count( $module_array); $i++ )
         {
-            if ( is_array ( $recursive ) )
+            if ( is_array( $recursive ) )
             {
-                $mod = new eZBugModule( $module_array[$i]["ID"] );
-                
+                $mod = new eZBugModule( $module_array[$i][ $db->fieldName( "ID" ) ] );
                 $recursive = $mod->getByParent( $mod, "name", $recursive );
             }
             else
             {
-                $return_array[$i] = new eZBugModule( $module_array[$i]["ID"], 0 );
+                $return_array[$i] = new eZBugModule( $module_array[$i][ $db->fieldName( "ID" ) ], 0 );
             }
         }
         
@@ -292,15 +281,12 @@ class eZBugModule
     */
     function name( $html = true )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       if ( $this->Name == false )
-           return "";
-       else if( $html )
-           return htmlspecialchars( $this->Name );
-       else
-           return $this->Name;
+        if ( $this->Name == false )
+            return "";
+        else if ( $html )
+            return htmlspecialchars( $this->Name );
+        else
+            return $this->Name;
     }
 
     /*!
@@ -308,13 +294,10 @@ class eZBugModule
     */
     function description( $html = true )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
-       if( $html )
-           return htmlspecialchars( $this->Description );
-       else
-           return $this->Description;
+        if ( $html )
+            return htmlspecialchars( $this->Description );
+        else
+            return $this->Description;
     }
     
     /*!
@@ -322,17 +305,14 @@ class eZBugModule
     */
     function parent()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       if ( $this->ParentID != 0 )
-       {
-           return new eZBugModule( $this->ParentID );
-       }
-       else
-       {
-           return 0;           
-       }
+        if ( $this->ParentID != 0 )
+        {
+            return new eZBugModule( $this->ParentID );
+        }
+        else
+        {
+            return 0;           
+        }
     }
 
     /*!
@@ -341,9 +321,6 @@ class eZBugModule
      */
     function ownerGroup()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $group = new eZUserGroup( $this->OwnerGroupID );
         return $group;
     }
@@ -353,9 +330,6 @@ class eZBugModule
     */
     function setName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Name = $value;
     }
 
@@ -364,9 +338,6 @@ class eZBugModule
     */
     function setDescription( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Description = $value;
     }
 
@@ -376,9 +347,6 @@ class eZBugModule
     */
     function setParent( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $value ) == "ezbugmodule" )
        {
            $this->ParentID = $value->id();
@@ -392,9 +360,6 @@ class eZBugModule
      */
     function setOwnerGroup( $newOwner, $recursive = false )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         if( get_class( $newOwner ) == "ezusergroup" )
         {
             $this->OwnerGroupID = $newOwner->id();
@@ -415,23 +380,28 @@ class eZBugModule
     */
     function addBug( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
-       if ( get_class( $value ) == "ezbug" )
-       {
-            $this->dbInit();
-
+        if ( get_class( $value ) == "ezbug" )
+        {
+            $db =& eZDB::globalDatabase();
+            
             $bugID = $value->id();
             
-            $query = "INSERT INTO
-                           eZBug_BugModuleLink
-                      SET
-                           ModuleID='$this->ID',
-                           BugID='$bugID'";
+            $db->begin();
+            $db->lock( "eZBug_BugModuleLink" );
+            $nextID = $db->nextID( "eZBug_BugModuleLink", "ID" );
             
-            $this->Database->query( $query );
-       }       
+            $res = $query = "INSERT INTO eZBug_BugModuleLink
+                             (ID, ModuleID, BugID) VALUES
+                             ('$nextID', '$this->ID', '$bugID')";
+            
+            $db->query( $query );
+            $db->unlock();
+            
+            if ( $res == false )
+                $db->rollback();
+            else
+                $db->commit();
+        }       
     }
 
     /*!
@@ -446,36 +416,33 @@ class eZBugModule
                        $offset=0,
                        $limit=50)
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->dbInit();
-
-       $OrderBy = "eZBug_Bug.Created DESC";
-       switch( $sortMode )
-       {
-           case "alpha" :
-           {
-                 $OrderBy = "eZBug_Bug.Name ASC";
-           }
-           break;
-       }
-         
-       $return_array = array();
-       $bug_array = array();
-
-       $unhandledSQL = "";
-       if ( $fetchUnhandled == false )
-       {
-           $unhandledSQL = "AND IsHandled='true'";
-       }
-       $privateSQL = "";
-       if( $withPrivate == false )
-       {
-           $privateSQL="AND IsPrivate!='true'";
-       }
-
-       $this->Database->array_query( $bug_array, "
+        $db =& eZDB::globalDatabase();
+        
+        $OrderBy = "eZBug_Bug.Created DESC";
+        switch( $sortMode )
+        {
+            case "alpha" :
+            {
+                $OrderBy = "eZBug_Bug.Name ASC";
+            }
+            break;
+        }
+        
+        $return_array = array();
+        $bug_array = array();
+        
+        $unhandledSQL = "";
+        if ( $fetchUnhandled == false )
+        {
+            $unhandledSQL = "AND IsHandled='true'";
+        }
+        $privateSQL = "";
+        if( $withPrivate == false )
+        {
+            $privateSQL="AND IsPrivate!='true'";
+        }
+        
+        $db->array_query( $bug_array, "
                 SELECT eZBug_Bug.ID AS BugID, eZBug_Bug.Name, eZBug_Module.ID, eZBug_Module.Name
                 FROM eZBug_Bug, eZBug_Module, eZBug_BugModuleLink
                 WHERE 
@@ -487,51 +454,48 @@ class eZBugModule
                 AND
                 eZBug_Module.ID='$this->ID'
                 GROUP BY eZBug_Bug.ID ORDER BY $OrderBy LIMIT $offset,$limit" );
- 
-       for ( $i=0; $i<count($bug_array); $i++ )
-       {
-           $return_array[$i] = new eZBug( $bug_array[$i]["BugID"], false );
-       }
-       
-       return $return_array;
+        
+        for ( $i=0; $i<count($bug_array); $i++ )
+        {
+            $return_array[$i] = new eZBug( $bug_array[$i][ $db->fieldName( "BugID" ) ], false );
+        }
+        
+        return $return_array;
     }
 
-    /*!
+    /*! 
       Returns the bug count in the module.
-
-      If $countUnhandled == true all bugs are counted if not, only
-      handled bugs are counted.
-
-      If $excludeClosed == true the closed bugs does not get counted.
-
-      If $recursive == true it will also count the bug in the submodules.
-    */
+ 
+      If $countUnhandled == true all bugs are counted if not, only 
+      handled bugs are counted. 
+ 
+      If $excludeClosed == true the closed bugs does not get counted. 
+ 
+      If $recursive == true it will also count the bug in the submodules. 
+    */ 
     function countBugs( $countUnhandled=true, $excludeClosed=false, $recursive=false, $withPrivate=false )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        $db =& eZDB::globalDatabase();
+        
+        $unhandledSQL = "";
+        if ( $countUnhandled == false )
+        {
+            $unhandledSQL = "AND eZBug_Bug.IsHandled='true'";
+        }
 
-       $this->dbInit();
+        $openSQL = "";
+        if ( $excludeClosed == true )
+        {
+            $openSQL = "AND eZBug_Bug.IsClosed!='true'";
+        }
+        
+        $privateSQL = "";
+        if( $withPrivate == false )
+        {
+            $privateSQL = "AND eZBug_Bug.IsPrivate!='true'";
+        }
 
-       $unhandledSQL = "";
-       if ( $countUnhandled == false )
-       {
-           $unhandledSQL = "AND eZBug_Bug.IsHandled='true'";
-       }
-
-       $openSQL = "";
-       if ( $excludeClosed == true )
-       {
-           $openSQL = "AND eZBug_Bug.IsClosed!='true'";
-       }
-
-       $privateSQL = "";
-       if( $withPrivate == false )
-       {
-           $privateSQL = "AND eZBug_Bug.IsPrivate!='true'";
-       }
-
-       $query = "
+        $query = "
                 SELECT count( * ) AS Count
                 FROM eZBug_Bug, eZBug_Module, eZBug_BugModuleLink
                 WHERE 
@@ -544,28 +508,26 @@ class eZBugModule
                 AND
                 eZBug_Module.ID='$this->ID'
                 ";
-       
-       $this->Database->array_query( $bug_array, $query );
-       $ret =& $bug_array[0]["Count"];
+        
+        $db->array_query( $bug_array, $query );
+        $ret =& $bug_array[0][ $db->fieldName( "Count" ) ];
 
-       if( $recursive == true )  // Count bugs in modules under this one.
-       {
-           $query = "
+        if( $recursive == true )  // Count bugs in modules under this one.
+        {
+            $query = "
                     SELECT ID
                     FROM eZBug_Module
                     WHERE
                     eZBug_Module.ParentID = '$this->ID'
                     ";
-           $this->Database->array_query( $modules, $query );
-           for ( $i=0; $i< count($modules); $i++ )
-           {
-               $mod = new eZBugModule( $modules[$i]["ID"] );
-               $ret += $mod->countBugs( $countUnhandled, $excludeClosed, true );
-           }
-       
-       }
-       
-       return $ret;
+            $db->array_query( $modules, $query );
+            for ( $i = 0; $i < count( $modules ); $i++ )
+            {
+                $mod = new eZBugModule( $modules[$i][ $db->fieldName( "ID" ) ] );
+                $ret += $mod->countBugs( $countUnhandled, $excludeClosed, true );
+            }
+        }
+        return $ret;
     }
 
     /*!
@@ -575,7 +537,7 @@ class eZBugModule
     function isChild( $moduleID, $check_for_self = false )
     {
         $return_value = false;
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
 
         if( get_class( $moduleID ) == "ezbugmodule" )
             $moduleID = $moduleID->id();
@@ -586,24 +548,11 @@ class eZBugModule
         while( $moduleID != 0 )
         {
             $db->query_single( $result, "SELECT ParentID FROM eZBug_Module WHERE ID='$moduleID'" );
-            $moduleID = $result["ParentID"];
+            $moduleID = $result[ $db->fieldName( "ParentID" ) ];
             if( $moduleID == $this->ID )
                 return true;
         }
         return $return_value;
-    }
-    
-    /*!
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
     }
     
     var $ID;
@@ -611,14 +560,6 @@ class eZBugModule
     var $ParentID;
     var $Description;
     var $OwnerGroupID;
-    
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>

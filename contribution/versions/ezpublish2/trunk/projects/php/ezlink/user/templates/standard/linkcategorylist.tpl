@@ -43,7 +43,7 @@
 <tr>
 	<td class="{td_class}" valign="top" width="99%">
 	<b><a href="/link/category/{linkcategory_id}/">{linkcategory_name}</a></b><br />
-<!--	<div class="spacer"><span class="p">{linkcategory_description}</span></div> -->
+	<div class="spacer"><span class="p">{linkcategory_description}</span></div>
 	</td>
     <td class="{td_class}" width="1%">
 	<!-- BEGIN image_item_tpl -->

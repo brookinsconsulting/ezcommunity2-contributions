@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imageedit.php,v 1.35 2001/07/11 08:09:37 jhe Exp $
+// $Id: imageedit.php,v 1.36 2001/07/11 14:12:40 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -562,6 +562,8 @@ foreach ( $groups as $group )
         }
     }
 
+    if ( $Action = "new" )
+        $t->set_var( "read_everybody", "selected" );
     $t->parse( "read_group_item", "read_group_item_tpl", true );
 
     if ( $writeGroupArrayID )

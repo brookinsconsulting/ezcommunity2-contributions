@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: ezbug.php,v 1.27 2001/05/14 15:31:15 fh Exp $
+// $Id: ezbug.php,v 1.28 2001/07/11 14:12:40 jhe Exp $
 //
 // Definition of eZBug class
 //
@@ -83,24 +83,12 @@ class eZBug
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZBug( $id=-1, $fetch=true )
+    function eZBug( $id=-1)
     {
-        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -109,47 +97,73 @@ class eZBug
     */
     function store()
     {
-        $this->dbInit();
-        $name = addslashes( $this->Name );
-        $description = addslashes( $this->Description );
-        $useremail = addslashes( $this->UserEmail );
-        $version = addslashes( $this->Version );
+        $db =& eZDB::globalDatabase();
+        
+        $name = $db->escapeString( $this->Name );
+        $description = $db->escapeString( $this->Description );
+        $useremail = $db->escapeString( $this->UserEmail );
+        $version = $db->escapeString( $this->Version );
+
+        $db->begin();
         
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZBug_Bug SET
-		                         Name='$name',
-                                 Description='$description',
-                                 IsHandled='$this->IsHandled',
-                                 IsClosed='$this->IsClosed',
-                                 PriorityID='$this->PriorityID',
-                                 StatusID='$this->StatusID',
-                                 UserEmail='$useremail',
-                                 Created=now(),
-                                 UserID='$this->UserID',
-                                 OwnerID='$this->OwnerID',
-                                 Version='$version',
-                                 IsPrivate='$this->IsPrivate'" );
-			$this->ID = $this->Database->insertID();
+            $db->lock( "eZBug_Bug" );
+			$this->ID = $db->nextID( "eZBug_Bug", "ID" );
+
+            $res = $db->query( "INSERT INTO eZBug_Bug
+                                            (ID,
+                                             Name,
+                                             Description,
+                                             IsHandled,
+                                             IsClosed,
+                                             PriorityID,
+                                             StatusID,
+                                             UserEmail,
+                                             Created,
+                                             UserID,
+                                             OwnerID,
+                                             Version,
+                                             IsPrivate)
+                                        VALUES
+                                            ('$this->ID',
+                                             '$name',
+                                             '$description',
+                                             '$this->IsHandled',
+                                             '$this->IsClosed',
+                                             '$this->PriorityID',
+                                             '$this->StatusID',
+                                             '$useremail',
+                                             '$timeStamp',
+                                             '$this->UserID',
+                                             '$this->OwnerID',
+                                             '$version',
+                                             '$this->IsPrivate')" );
+            $db->unlock();
 
         }
         else
         {
-            $this->Database->query( "UPDATE eZBug_Bug SET
-		                         Name='$name',
-                                 Description='$description',
-                                 IsHandled='$this->IsHandled',
-                                 IsClosed='$this->IsClosed',
-                                 Created=Created,
-                                 PriorityID='$this->PriorityID',
-                                 StatusID='$this->StatusID',
-                                 UserEmail='$useremail',
-                                 UserID='$this->UserID',
-                                 OwnerID='$this->OwnerID',
-                                 Version='$version',
-                                 IsPrivate='$this->IsPrivate'
-                                 WHERE ID='$this->ID'" );
+            $res = $db->query( "UPDATE eZBug_Bug SET
+		                        Name='$name',
+                                Description='$description',
+                                IsHandled='$this->IsHandled',
+                                IsClosed='$this->IsClosed',
+                                Created=Created,
+                                PriorityID='$this->PriorityID',
+                                StatusID='$this->StatusID',
+                                UserEmail='$useremail',
+                                UserID='$this->UserID',
+                                OwnerID='$this->OwnerID',
+                                Version='$version',
+                                IsPrivate='$this->IsPrivate'
+                                WHERE ID='$this->ID'" );
         }
+
+        if ( $res == false )
+            $db->rollback();
+        else
+            $db->commit();
         
         return true;
     }
@@ -159,16 +173,20 @@ class eZBug
     */
     function delete()
     {
-        $this->dbInit();
-
-        if ( isset( $this->ID ) )
-        {
-            $this->Database->query( "DELETE FROM eZBug_BugModuleLink WHERE BugID='$this->ID'" );
-            $this->Database->query( "DELETE FROM eZBug_BugCategoryLink WHERE BugID='$this->ID'" );
-
-            $this->Database->query( "DELETE FROM eZBug_Bug WHERE ID='$this->ID'" );
-        }
+        $db =& eZDB::globalDatabase();
         
+        if ( isSet( $this->ID ) )
+        {
+            $db->begin();
+            $res[] = $db->query( "DELETE FROM eZBug_BugModuleLink WHERE BugID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZBug_BugCategoryLink WHERE BugID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZBug_Bug WHERE ID='$this->ID'" );
+
+            if ( in_array( false, $res ) )
+                $db->rollback();
+            else
+                $db->commit();
+        }
         return true;
     }
     
@@ -177,37 +195,31 @@ class eZBug
     */
     function get( $id=-1 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $module_array, "SELECT * FROM eZBug_Bug WHERE ID='$id'" );
+            $db->array_query( $module_array, "SELECT * FROM eZBug_Bug WHERE ID='$id'" );
             if ( count( $module_array ) > 1 )
             {
                 die( "Error: Bugs with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $module_array ) == 1 )
+            else if ( count( $module_array ) == 1 )
             {
-                $this->ID =& $module_array[0][ "ID" ];
-                $this->Name =& $module_array[0][ "Name" ];
-                $this->Description =& $module_array[0][ "Description" ];
-                $this->UserID =& $module_array[0][ "UserID" ];
-                $this->UserEmail =& $module_array[0][ "UserEmail" ];
-                $this->Created =& $module_array[0][ "Created" ];
-                $this->IsHandled =& $module_array[0][ "IsHandled" ];
-                $this->IsClosed =& $module_array[0][ "IsClosed" ];
-                $this->PriorityID =& $module_array[0][ "PriorityID" ];
-                $this->StatusID =& $module_array[0][ "StatusID" ];
-                $this->OwnerID =& $module_array[0][ "OwnerID" ];
-                $this->IsPrivate =& $module_array[0][ "IsPrivate" ];
-                $this->Version =& $module_array[0][ "Version" ];
+                $this->ID =& $module_array[0][ $db->fieldName( "ID" ) ];
+                $this->Name =& $module_array[0][ $db->fieldName( "Name" ) ];
+                $this->Description =& $module_array[0][ $db->fieldName( "Description" ) ];
+                $this->UserID =& $module_array[0][ $db->fieldName( "UserID" ) ];
+                $this->UserEmail =& $module_array[0][ $db->fieldName( "UserEmail" ) ];
+                $this->Created =& $module_array[0][ $db->fieldName( "Created" ) ];
+                $this->IsHandled =& $module_array[0][ $db->fieldName( "IsHandled" ) ];
+                $this->IsClosed =& $module_array[0][ $db->fieldName( "IsClosed" ) ];
+                $this->PriorityID =& $module_array[0][ $db->fieldName( "PriorityID" ) ];
+                $this->StatusID =& $module_array[0][ $db->fieldName( "StatusID" ) ];
+                $this->OwnerID =& $module_array[0][ $db->fieldName( "OwnerID" ) ];
+                $this->IsPrivate =& $module_array[0][ $db->fieldName( "IsPrivate" ) ];
+                $this->Version =& $module_array[0][ $db->fieldName( "Version" ) ];
             }
-                 
-            $this->State_ = "Coherent";
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
     }
 
@@ -218,16 +230,15 @@ class eZBug
     */
     function getAll()
     {
-        $this->dbInit();
-        
+        $db =& eZDB::globalDatabase();
         $return_array = array();
         $module_array = array();
         
-        $this->Database->array_query( $module_array, "SELECT ID FROM eZBug_Bug ORDER BY Name" );
+        $db->array_query( $module_array, "SELECT ID FROM eZBug_Bug ORDER BY Name" );
         
-        for ( $i=0; $i<count($module_array); $i++ )
+        for ( $i = 0; $i < count( $module_array ); $i++ )
         {
-            $return_array[$i] = new eZBug( $module_array[$i]["ID"], 0 );
+            $return_array[$i] = new eZBug( $module_array[$i][ $db->fieldName( "ID" ) ], 0 );
         }
         
         return $return_array;
@@ -240,18 +251,18 @@ class eZBug
     */
     function &getUnhandled()
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
         $return_array = array();
         $module_array = array();
         
-        $this->Database->array_query( $module_array, "SELECT ID FROM eZBug_Bug
-                                                      WHERE IsHandled='false'
-                                                      ORDER BY Created" );
+        $db->array_query( $module_array, "SELECT ID FROM eZBug_Bug
+                                          WHERE IsHandled='false'
+                                          ORDER BY Created" );
         
-        for ( $i=0; $i<count($module_array); $i++ )
+        for ( $i = 0; $i < count( $module_array ); $i++ )
         {
-            $return_array[$i] = new eZBug( $module_array[$i]["ID"], 0 );
+            $return_array[$i] = new eZBug( $module_array[$i][ $db->fieldName( "ID" ) ], 0 );
         }
         
         return $return_array;
@@ -263,9 +274,6 @@ class eZBug
     */
     function id()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         return $this->ID;
     }
 
@@ -274,8 +282,6 @@ class eZBug
     */
     function name( $html = true )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
        if( $html )
            return htmlspecialchars( $this->Name );
        else
@@ -287,10 +293,7 @@ class eZBug
     */
     function userEmail( $html = true )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       if( $html )
+       if ( $html )
            return htmlspecialchars( $this->UserEmail );
        else
            return $this->UserEmail;
@@ -302,9 +305,6 @@ class eZBug
     */
     function description( $html = true )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if( $html )
            return htmlspecialchars( $this->Description );
        else
@@ -318,11 +318,8 @@ class eZBug
     */
     function &created()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $dateTime = new eZDateTime();
-       $dateTime->setMySQLTimeStamp( $this->Created );
+       $dateTime->setTimeStamp( $this->Created );
        
        return $dateTime;
     }
@@ -333,9 +330,6 @@ class eZBug
     */
     function isHandled()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = false;
        if ( $this->IsHandled == "true" )
        {
@@ -349,9 +343,6 @@ class eZBug
     */
     function isClosed()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = false;
        if ( $this->IsClosed == "true" )
        {
@@ -366,9 +357,6 @@ class eZBug
      */
     function isPrivate()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $ret = false;
         if ( $this->IsPrivate == "true" )
         {
@@ -386,9 +374,6 @@ class eZBug
     */
     function user()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = false;
        $user = new eZUser( );
        
@@ -405,9 +390,6 @@ class eZBug
     */
     function owner()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = false;
        $user = new eZUser( );
        
@@ -422,9 +404,6 @@ class eZBug
     */
     function setName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Name = $value;
     }
 
@@ -435,9 +414,6 @@ class eZBug
     */
     function setUserEmail( $mail )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = false;
        
        if ( eZMail::validate( $mail ) )
@@ -445,7 +421,6 @@ class eZBug
            $this->UserEmail = $mail;
            $ret = true;
        }
-       
        return $ret;
     }
     
@@ -454,9 +429,6 @@ class eZBug
     */
     function setDescription( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Description = $value;
     }
 
@@ -465,9 +437,6 @@ class eZBug
     */
     function setIsHandled( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( $value == true )
        {
            $this->IsHandled = "true";
@@ -483,9 +452,6 @@ class eZBug
     */
     function setIsCLosed( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( $value == true )
        {
            $this->IsClosed = "true";
@@ -501,9 +467,6 @@ class eZBug
     */
     function setUser( $user )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $user ) == "ezuser" )
        {
            $this->UserID = $user->id();
@@ -515,9 +478,6 @@ class eZBug
     */
     function setPriority( $pri )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $pri ) == "ezbugpriority" )
        {
            $this->PriorityID = $pri->id();
@@ -529,9 +489,6 @@ class eZBug
     */
     function setStatus( $status )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $status ) == "ezbugstatus" )
        {
            $this->StatusID = $status->id();
@@ -544,9 +501,6 @@ class eZBug
      */
     function setOwner( $user )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if( get_class( $user ) == "ezuser" )
        {
            $this->OwnerID = $user->id();
@@ -563,9 +517,6 @@ class eZBug
      */
     function setIsPrivate( $priv )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         if ( $priv == true )
         {
             $this->IsPrivate = "true";
@@ -581,8 +532,6 @@ class eZBug
      */
     function setVersion( $value )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         $this->Version = $value;
     }
 
@@ -591,8 +540,6 @@ class eZBug
      */
     function version( $asHTML = true )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         if( $asHTML )
             return htmlspecialchars( $this->Version );
         return $this->Version;
@@ -606,9 +553,6 @@ class eZBug
     */
     function priority()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $ret = false;
 
         if ( $this->PriorityID != 0 )
@@ -627,11 +571,7 @@ class eZBug
     */
     function status()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $ret = false;
-
         if ( $this->StatusID != 0 )
         {
             $ret = new eZBugStatus( $this->StatusID );
@@ -647,22 +587,18 @@ class eZBug
     */
     function module( $IDOnly=false )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
-        $this->Database->array_query( $module_array, "SELECT ModuleID
-                                                   FROM eZBug_BugModuleLink
-                                                   WHERE BugID='$this->ID'" );
+        $db->array_query( $module_array, "SELECT ModuleID
+                                          FROM eZBug_BugModuleLink
+                                          WHERE BugID='$this->ID'" );
 
         $ret = false;
         if ( count( $module_array ) == 1 )
         {
-            $ret = $IDOnly ? $module_array[0]["ModuleID"] :
-                new eZBugModule( $module_array[0]["ModuleID"] );
+            $ret = $IDOnly ? $module_array[0][ $db->fieldName( "ModuleID" ) ] :
+                new eZBugModule( $module_array[0][ $db->fieldName( "ModuleID" ) ] );
         }
-
         return $ret;
     }
 
@@ -673,19 +609,15 @@ class eZBug
     */
     function category()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
         
-        $this->Database->array_query( $category_array, "SELECT CategoryID
-                                                   FROM eZBug_BugCategoryLink
-                                                   WHERE BugID='$this->ID'" );
-
+        $db->array_query( $category_array, "SELECT CategoryID
+                                            FROM eZBug_BugCategoryLink
+                                            WHERE BugID='$this->ID'" );
         $ret = false;
         if ( count( $category_array ) == 1 )
         {
-            $ret = new eZBugCategory( $category_array[0]["CategoryID"] );
+            $ret = new eZBugCategory( $category_array[0][ $db->fieldName( "CategoryID" ) ] );
         }
 
         return $ret;
@@ -696,15 +628,15 @@ class eZBug
     */
     function removeFromCategories()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
+        $db->begin();
         
-        $this->Database->query( "DELETE
-                                 FROM eZBug_BugCategoryLink
-                                 WHERE BugID='$this->ID'" );
-
+        $res = $db->query( "DELETE FROM eZBug_BugCategoryLink
+                            WHERE BugID='$this->ID'" );
+        if ( $res == false )
+            $db->rollback();
+        else
+            $db->commit();
     }
 
     /*!
@@ -712,15 +644,17 @@ class eZBug
     */
     function removeFromModules()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
+        $db->begin();
         
-        $this->Database->query( "DELETE
-                                 FROM eZBug_BugModuleLink
-                                 WHERE BugID='$this->ID'" );
-
+        $res = $db->query( "DELETE
+                            FROM eZBug_BugModuleLink
+                            WHERE BugID='$this->ID'" );
+        
+        if ( $res == false )
+            $db->rollback();
+        else
+            $db->commit();
     }
     
     /*!
@@ -731,7 +665,8 @@ class eZBug
     */
     function search( $query, $offset=0, $limit=25 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
+        
         $link_array = array();
         $return_array = array();
 
@@ -741,12 +676,12 @@ class eZBug
              $query->buildQuery()  .
              ") ORDER BY Name LIMIT $offset, $limit";
 
-        $this->Database->array_query( $bug_array, $query_str );
+        $db->array_query( $bug_array, $query_str );
         $ret = array();
 
         foreach( $bug_array as $bugItem )
         {
-            $ret[] = new eZBug( $bugItem["ID"] );
+            $ret[] = new eZBug( $bugItem[ $db->fieldName( "ID" ) ] );
         }
         return $ret;
     }
@@ -756,7 +691,7 @@ class eZBug
     */
     function searchCount( $query )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
         $query = new eZQuery( array( "Name", "Description" ), $query );
         
@@ -764,9 +699,9 @@ class eZBug
              $query->buildQuery()  .
              ") ";
 
-        $this->Database->array_query( $bug_array, $query_str );
+        $db->array_query( $bug_array, $query_str );
 
-        return $bug_array[0]["Count"];
+        return $bug_array[0][ $db->fieldName( "Count" ) ];
     }
 
     /*!
@@ -774,14 +709,22 @@ class eZBug
      */
     function addImage( $image )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         if( get_class( $image ) == "ezimage" )
         {
             $imageID = $image->id();
-            $this->dbInit();
-            $this->Database->query( "INSERT INTO eZBug_BugImageLink SET BugID='$this->ID', ImageID='$imageID'" );
+            $db =& eZDB::globalDatabase();
+            $db->begin();
+            $db->lock( "eZBug_BugImageLink" );
+            $nextID = $db->nextID( "eZBug_BugImageLink", "ID" );
+            $res = $db->query( "INSERT INTO eZBug_BugImageLink
+                                (ID, BugID, ImageID)
+                                VALUES ('$nextID','$this->ID','$imageID')" );
+            $db->unlock();
+
+            if ( $res == false )
+                $db->rollback();
+            else
+                $db->commit();
         }
     }
 
@@ -790,16 +733,17 @@ class eZBug
      */
     function deleteImage( $image )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         if( get_class( $image ) == "ezimage" )
         {
-            $this->dbInit();
-
+            $db =& eZDB::globalDatabase();
             $imageID = $image->id();
             $image->delete();
-            $this->Database->query( "DELETE FROM eZBug_BugImageLink WHERE BugID='$this->ID' AND ImageID='$imageID'" );
+            $db->begin();
+            $res = $db->query( "DELETE FROM eZBug_BugImageLink WHERE BugID='$this->ID' AND ImageID='$imageID'" );
+            if ( $res == false )
+                $db->rollback();
+            else
+                $db->commit();
         }
     }
 
@@ -808,40 +752,43 @@ class eZBug
      */
     function images()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->dbInit();
+        $db =& eZDB::globalDatabase();
        
-       $return_array = array();
-       $image_array = array();
+        $return_array = array();
+        $image_array = array();
        
-       $this->Database->array_query( $image_array, "SELECT ImageID FROM eZBug_BugImageLink WHERE BugID='$this->ID' ORDER BY Created" );
-       
-       for ( $i=0; $i<count($image_array); $i++ )
-       {
-           $return_array[$i] = new eZImage( $image_array[$i]["ImageID"], false );
-       }
-       return $return_array;
-    }
-
-
-
-    /*!
-      Adds an file to the bug.
-    */
-    function addFile( $file )
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        $db->array_query( $image_array, "SELECT ImageID FROM eZBug_BugImageLink WHERE BugID='$this->ID' ORDER BY Created" );
         
+        for ( $i = 0; $i < count( $image_array ); $i++ )
+        {
+            $return_array[$i] = new eZImage( $image_array[$i][ $db->fieldName( "ImageID" ) ], false );
+        }
+        return $return_array;
+    } 
+
+    /*! 
+      Adds an file to the bug. 
+    */ 
+    function addFile( $file ) 
+    { 
         if ( get_class( $file ) == "ezvirtualfile" )
         {
-            $this->dbInit();
+            $db =& eZDB::globalDatabase();
 
             $fileID = $file->id();
+            $db->begin();
+            $db->lock( "eZBug_BugFileLink" );
+            $nextID = $db->nextID( "eZBug_BugFileLink", "ID" );
+            $res = $db->query( "INSERT INTO eZBug_BugFileLink
+                                (ID, BugID, FileID)
+                                VALUES
+                                ('$nextID','$this->ID','$fileID')" );
+            $db->unlock();
 
-            $this->Database->query( "INSERT INTO eZBug_BugFileLink SET BugID='$this->ID', FileID='$fileID'" );
+            if ( $res == false )
+                $db->rollback();
+            else
+                $db->commit();
         }
     }
 
@@ -850,16 +797,19 @@ class eZBug
     */
     function deleteFile( $file )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         if ( get_class( $file ) == "ezvirtualfile" )
         {
-            $this->dbInit();
+            $db =& eZDB::globalDatabase();
 
             $fileID = $file->id();
             $file->delete();
-            $this->Database->query( "DELETE FROM eZBug_BugFileLink WHERE BugID='$this->ID' AND FileID='$fileID'" );
+            $db->begin();
+            $res = $db->query( "DELETE FROM eZBug_BugFileLink WHERE BugID='$this->ID' AND FileID='$fileID'" );
+            
+            if ( $res == false )
+                $db->rollback();
+            else
+                $db->commit();
         }
     }
     
@@ -868,38 +818,19 @@ class eZBug
     */
     function files()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->dbInit();
+        $db =& eZDB::globalDatabase();
+        $return_array = array();
+        $file_array = array();
        
-       $return_array = array();
-       $file_array = array();
+        $db->array_query( $file_array, "SELECT FileID FROM eZBug_BugFileLink WHERE BugID='$this->ID' ORDER BY Created" );
        
-       $this->Database->array_query( $file_array, "SELECT FileID FROM eZBug_BugFileLink WHERE BugID='$this->ID' ORDER BY Created" );
-       
-       for ( $i=0; $i<count($file_array); $i++ )
+       for ( $i = 0; $i < count( $file_array ); $i++ )
        {
-           $return_array[$i] = new eZVirtualFile( $file_array[$i]["FileID"], false );
+           $return_array[$i] = new eZVirtualFile( $file_array[$i][ $db->fieldName( "FileID" ) ], false );
        }
-       
        return $return_array;
     }
 
-
-    
-    /*!
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = new eZDB( "site.ini", "site" );
-            $this->IsConnected = true;
-        }
-    }
     
     var $ID;
     var $Name;
@@ -915,13 +846,6 @@ class eZBug
     var $IsPrivate="false";
     var $Version;
     
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>
