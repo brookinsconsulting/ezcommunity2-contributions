@@ -1,0 +1,242 @@
+#LyX 1.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 2.16
+\textclass article
+\language default
+\inputencoding latin1
+\fontscheme default
+\graphics default
+\paperfontsize default
+\spacing single 
+\papersize Default
+\paperpackage a4
+\use_geometry 0
+\use_amsmath 0
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\quotes_times 2
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+
+\layout Title
+
+eZ publish installation guide
+\layout Section
+
+Dependencies
+\layout Itemize
+
+MySQL-3.22.32 (www.mysql.org)
+\layout Itemize
+
+PHP-4.0.3 (www.php.net)
+\layout Itemize
+
+ImageMagick-4.2.9 (www.imagemagick.org)
+\layout Itemize
+
+Apache-1.3.14 (www.apache.org)
+\layout Itemize
+
+libxml-2.1.1 (www.xmlsoft.org)
+\layout Section
+
+PHP install:
+\layout Subsection
+
+Unpack your php-4.0.x.tar.gz package: 
+\layout LyX-Code
+
+# tar zxvf php-4.0.x.tar.gz
+\layout Subsection
+
+Howto configure php 
+\layout LyX-Code
+
+# cd php-4.0.x 
+\layout LyX-Code
+
+# ./configure --with-xml --enable-trans-sid --with-mysql --with-magic-quotes
+ --with-apxs --with-dom
+\layout Subsection
+
+Compile and install the PHP package 
+\layout LyX-Code
+
+# make # make install
+\layout Section
+
+Apache config
+\layout Subsection
+
+Apache modules
+\layout Standard
+
+The rewrite and php modules needs to be active to use publish.
+ 
+\layout Subsection
+
+Apache configuration
+\layout Standard
+
+This is an example of a httpd.conf virtalhost (change publish.org to your
+ own domain).
+\layout LyX-Code
+
+NameVirtaulHost publish.org:80
+\layout LyX-Code
+
+# User site 
+\layout LyX-Code
+
+<VirtualHost publish.org> 
+\layout LyX-Code
+
+  <Directory /home/publish/www> 
+\layout LyX-Code
+
+         Options FollowSymLinks Indexes ExecCGI 
+\layout LyX-Code
+
+         AllowOverride None 
+\layout LyX-Code
+
+\layout LyX-Code
+
+  </Directory> 
+\layout LyX-Code
+
+RewriteEngine On 
+\layout LyX-Code
+
+RewriteRule !
+\backslash 
+.(gif|css|jpg|png) /home/publish/www/index.php 
+\layout LyX-Code
+
+ServerAdmin your_mail@domain.no 
+\layout LyX-Code
+
+DocumentRoot /home/publish/www
+\layout LyX-Code
+
+ServerName publish.org 
+\layout LyX-Code
+
+ServerAlias www.publish.org 
+\layout LyX-Code
+
+</VirtualHost>
+\layout LyX-Code
+
+\layout LyX-Code
+
+# Admin site 
+\layout LyX-Code
+
+<VirtualHost admin.publish.org> 
+\layout LyX-Code
+
+  <Directory /home/publish/www/admin> 
+\layout LyX-Code
+
+         Options FollowSymLinks Indexes ExecCGI 
+\layout LyX-Code
+
+         AllowOverride None 
+\layout LyX-Code
+
+  </Directory> 
+\layout LyX-Code
+
+RewriteEngine On 
+\layout LyX-Code
+
+RewriteRule !
+\backslash 
+.(gif|css|jpg|png) /home/publish/www/admin/index.php 
+\layout LyX-Code
+
+ServerAdmin your_mail@domain.no 
+\layout LyX-Code
+
+DocumentRoot /home/publish/www/admin 
+\layout LyX-Code
+
+ServerName admin.publish.org 
+\layout LyX-Code
+
+ServerAlias admin.publish.org 
+\layout LyX-Code
+
+</VirtualHost>
+\layout Section
+
+Install eZ publish
+\layout Subsection
+
+Database install
+\layout Itemize
+
+Create a database, name it publish or whatever you like .
+\layout LyX-Code
+
+# mysqladmin -uroot -p create database publish
+\layout Itemize
+
+Add a publish user in MySQL, to add a user you can use the MySQL client
+\layout LyX-Code
+
+mysql>grant all on publish.* to publish@localhost identified by "secret";
+\layout Itemize
+
+Dump all the sql data from sql/publish.sql into your database.
+ Remember that this command will remove the existing publish tables.
+\layout LyX-Code
+
+# mysql -uroot -p publish < sql/publish.sql
+\layout Subsection
+
+Install the php files
+\layout Itemize
+
+Put all the publish files in your apache documentroot.
+\layout LyX-Code
+
+# cd /path/to/apache/documentroot/ 
+\layout LyX-Code
+
+# tar zxvf /path/to/ezpublish-1.0.tar.gz
+\layout Itemize
+
+Edit site.ini and add all the modules you need, and set the username and
+ password.
+\layout Itemize
+
+Run modfix, this is important.
+ This script will create symbolic links needed and set permissions.
+\layout LyX-Code
+
+# ./modfix.sh
+\layout Itemize
+
+Start konqueror and have fun!
+\layout LyX-Code
+
+# konqueror http://yoursite.com
+\layout LyX-Code
+
+\layout Itemize
+
+
+\emph on 
+NOTE!: The default admin username and password will be admin/publish.
+ Remember to change the password!!\SpecialChar ~
+
+\layout LyX-Code
+
+\the_end
