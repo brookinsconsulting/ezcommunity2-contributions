@@ -18,18 +18,24 @@
 <!-- BEGIN article_item_template -->
 <hr noshade size="3" />
 
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td>
+	<br />
+
+	{this_picture}
+	<h2>{this_name}</h2>
+	<p>
+	{this_description}
+	
+	</p>
+	<p class="pris">
+	{this_price}
+	</p>
+	</td>
+</tr>
+</table>
 <br />
-
-{this_picture}
-<h2>{this_name}</h2>
-<p>
-{this_description}
-
-</p>
-<p class="pris">
-{this_price}
-</p>
-
 <!-- END article_item_template -->
 
 
