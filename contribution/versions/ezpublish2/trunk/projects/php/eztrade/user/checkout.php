@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.66 2001/07/20 11:42:02 jakobn Exp $
+// $Id: checkout.php,v 1.67 2001/07/30 14:19:03 jhe Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -43,6 +43,8 @@ $RequireQuantity = $ini->read_var( "eZTradeMain", "RequireQuantity" ) == "true";
 $ShowOptionQuantity = $ini->read_var( "eZTradeMain", "ShowOptionQuantity" ) == "true";
 
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/ezuser.php" );
+
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezoption.php" );
 include_once( "eztrade/classes/ezoptionvalue.php" );
@@ -55,12 +57,12 @@ include_once( "eztrade/classes/ezwishlist.php" );
 // shipping
 include_once( "eztrade/classes/ezshippingtype.php" );
 include_once( "eztrade/classes/ezshippinggroup.php" );
-
-
 include_once( "eztrade/classes/ezcheckout.php" );
 
+include_once( "ezcontact/classes/ezperson.php" );
+include_once( "ezcontact/classes/ezcompany.php" );
+
 include_once( "ezsession/classes/ezsession.php" );
-include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "ezmail/classes/ezmail.php" );
 
@@ -85,9 +87,7 @@ $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateD
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "checkout_tpl" => "checkout.tpl"
-    ) );
+$t->set_file( "checkout_tpl", "checkout.tpl" );
 
 $t->set_block( "checkout_tpl", "payment_method_tpl", "payment_method" );
 
@@ -109,7 +109,7 @@ $t->set_block( "checkout_tpl", "wish_user_tpl", "wish_user" );
 
 $t->set_block( "checkout_tpl", "sendorder_item_tpl", "sendorder_item" );
 
-if ( isset( $SendOrder ) ) 
+if ( isSet( $SendOrder ) ) 
 {
     // set the variables as session variables and make sure that it is not read by
     // the HTTP GET variables for security.
@@ -234,13 +234,13 @@ $can_checkout = true;
             {
                 $wishUser = $wishList->user();
 
-                if ( get_class ( $wishUser ) == "ezuser" )
+                if ( get_class( $wishUser ) == "ezuser" )
                 {
                     $address = new eZAddress();
                 
                     $mainAddress =& $address->mainAddress( $wishUser );
 
-                    if ( get_class ( $mainAddress ) == "ezaddress" )
+                    if ( get_class( $mainAddress ) == "ezaddress" )
                     {
                         $t->set_var( "wish_user_address_id", $mainAddress->id() );
                         $t->set_var( "wish_first_name", $wishUser->firstName() );
@@ -281,13 +281,13 @@ $can_checkout = true;
             $priceArray = "";
             $priceArray = "";
             $options =& $product->options();
-            if ( count ( $options ) == 1 )
+            if ( count( $options ) == 1 )
             {
                 $option = $options[0];
-                if ( get_class ( $option ) == "ezoption" )
+                if ( get_class( $option ) == "ezoption" )
                 {
                     $optionValues =& $option->values();
-                    if ( count ( $optionValues ) > 1 )
+                    if ( count( $optionValues ) > 1 )
                     {
                         $i=0;
                         foreach ( $optionValues as $optionValue )
@@ -296,7 +296,7 @@ $can_checkout = true;
                             if ( $ShowPriceGroups and $PriceGroup > 0 )
                             {
                                 $priceArray[$i] = eZPriceGroup::correctPrice( $product->id(), $PriceGroup, $option->id(), $optionValue->id() );
-                                if( $priceArray[$i] )
+                                if ( $priceArray[$i] )
                                 {
                                     $found_price = true;
                                     $priceArray[$i] = $priceArray[$i];
@@ -417,12 +417,32 @@ $t->parse( "cart_item_list", "cart_item_list_tpl" );
 
 $user = eZUser::currentUser();
 
-$t->set_var( "customer_first_name", $user->firstName() );
-$t->set_var( "customer_last_name", $user->lastName() );
-
 // print out the addresses
 
-$addressArray = $user->addresses();
+if ( $cart->personID() == 0 && $cart->companyID() == 0 )
+{
+    $t->set_var( "customer_first_name", $user->firstName() );
+    $t->set_var( "customer_last_name", $user->lastName() );
+
+    $addressArray = $user->addresses();
+}
+else
+{
+    if ( $cart->personID() > 0 )
+    {
+        $customer = new eZPerson( $cart->personID() );
+        $t->set_var( "customer_first_name", $customer->firstName() );
+        $t->set_var( "customer_last_name", $customer->lastName() );
+    }
+    else
+    {
+        $customer = new eZCompany( $cart->companyID() );
+        $t->set_var( "customer_first_name", $customer->name() );
+        $t->set_var( "customer_last_name", "" );
+    }
+    
+    $addressArray = $customer->addresses();
+}   
 
 foreach ( $addressArray as $address )
 {
@@ -431,23 +451,23 @@ foreach ( $addressArray as $address )
     $t->set_var( "street2", $address->street2() );
     $t->set_var( "zip", $address->zip() );
     $t->set_var( "place", $address->place() );
-
+    
     $country = $address->country();
-
+    
     if ( $country )
     {
         $country = ", " . $country->name();
     }
-
+    
     if ( $ini->read_var( "eZUserMain", "SelectCountry" ) == "enabled" )
         $t->set_var( "country", $country );
     else
         $t->set_var( "country", "" );
-
+    
     unset( $mainAddress );
     $t->set_var( "is_selected", "" );
     $mainAddress = $address->mainAddress( $user );
-
+    
     if ( get_class( $mainAddress ) == "ezaddress" )
     {
         if ( $mainAddress->id() == $address->id() )
@@ -455,19 +475,20 @@ foreach ( $addressArray as $address )
             $t->set_var( "is_selected", "selected" );
         }
     }
-
+    
     if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) == "enabled" )
         $t->parse( "billing_option", "billing_option_tpl", true );
     else
         $t->set_var( "billing_option" );
-        
+    
     $t->parse( "shipping_address", "shipping_address_tpl", true );
 }
+
 
 if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) == "enabled" )
     $t->parse( "billing_address", "billing_address_tpl", true );
 else
-$t->set_var( "billing_address" );
+    $t->set_var( "billing_address" );
 
 
 // show the checkout types

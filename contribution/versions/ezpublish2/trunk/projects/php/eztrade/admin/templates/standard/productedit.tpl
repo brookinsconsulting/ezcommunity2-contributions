@@ -157,16 +157,20 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 </table>
 
 <hr noshade="noshade" size="4" />
-
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+<td>
 <div class="divider">
-	<input type="hidden" name="ProductID" value="{product_id}" />
 	<input class="okbutton" type="submit" value="{intl-ok}" />
+	<input type="hidden" name="ProductID" value="{product_id}" />
 </div>
 	</form>
-
+</td><td>
 <div class="divider">
 	<form method="post" action="{www_dir}{index}/trade/productedit/cancel/">
 	<input type="hidden" name="ProductID" value="{product_id}" />
 	<input class="okbutton" type="submit" value="{intl-cancel}" />
 	</form>
 </div>
+</td></tr>
+</table>

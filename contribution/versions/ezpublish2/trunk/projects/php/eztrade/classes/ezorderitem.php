@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorderitem.php,v 1.15 2001/07/30 07:45:46 br Exp $
+// $Id: ezorderitem.php,v 1.16 2001/07/30 14:19:03 jhe Exp $
 //
 // Definition of eZOrderItem class
 //
@@ -48,6 +48,7 @@ class eZOrderItem
     */
     function eZOrderItem( $id="" )
     {
+        $this->ExpiryDate = 0;
         if ( $id != "" )
         {
             $this->ID = $id;
@@ -62,23 +63,25 @@ class eZOrderItem
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        if ( !isset( $this->ID ) )
+        if ( !isSet( $this->ID ) )
         {
             
             $db->lock( "eZTrade_OrderItem" );
             $nextID = $db->nextID( "eZTrade_OrderItem", "ID");
             $ret[] = $db->query( "INSERT INTO eZTrade_OrderItem
-                               ( ID,
-		                         OrderID,
-		                         Count,
-		                         Price,
-		                         ProductID )
-                               VALUES
-                               ( '$nextID',
-		                         '$this->OrderID',
-		                         '$this->Count',
-		                         '$this->Price',
-		                         '$this->ProductID' )" );
+                                  ( ID,
+	                                OrderID,
+		                            Count,
+		                            Price,
+		                            ProductID,
+                                    ExpiryDate )
+                                  VALUES
+                                  ( '$nextID',
+		                            '$this->OrderID',
+		                            '$this->Count',
+		                            '$this->Price',
+		                            '$this->ProductID',
+                                    '$this->ExpiryDate' )" );
 
 			$this->ID = $nextID;
 
@@ -89,7 +92,8 @@ class eZOrderItem
 		                         OrderID='$this->OrderID',
 		                         Count='$this->Count',
 		                         Price='$this->Price',
-		                         ProductID='$this->ProductID'
+		                         ProductID='$this->ProductID',
+                                 ExpiryDate='$this->ExpiryDate'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -113,14 +117,14 @@ class eZOrderItem
             {
                 die( "Error: Cart's with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $cart_array ) == 1 )
+            else if ( count( $cart_array ) == 1 )
             {
                 $this->ID =& $cart_array[0][$db->fieldName("ID")];
                 $this->OrderID =& $cart_array[0][$db->fieldName("OrderID")];
                 $this->Count =& $cart_array[0][$db->fieldName("Count")];
                 $this->Price =& $cart_array[0][$db->fieldName("Price")];
                 $this->ProductID =& $cart_array[0][$db->fieldName("ProductID")];
-
+                $this->ExpiryDate =& $cart_array[0][$db->fieldName("ExpiryDate")];
                 $ret = true;
             }
         }
@@ -134,7 +138,7 @@ class eZOrderItem
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-
+        
         $ret[] = $db->query( "DELETE FROM eZTrade_OrderOptionValue WHERE OrderItemID='$this->ID'" );
         $ret[] = $db->query( "DELETE FROM eZTrade_OrderItem WHERE ID='$this->ID'" );
 
@@ -155,41 +159,49 @@ class eZOrderItem
     */
     function count( )
     {
-       return $this->Count;
+        return $this->Count;
     }
 
     /*!
       Returns the price of the order item.
     */
-    function price( )
+    function price()
     {
-       return $this->Price;
+        return $this->Price;
     }
     
     /*!
       Returns the product.
     */
-    function product( )
+    function product()
     {
-       $ret = new eZProduct( $this->ProductID );
+        $ret = new eZProduct( $this->ProductID );
             
-       return $ret;
+        return $ret;
     }
 
     /*!
+      returns a timestamp of the date when this product expires
+    */
+    function expiryDate()
+    {
+        return $this->ExpiryDate();
+    }
+    
+    /*!
       Returns all the option values.
      */
-    function optionValues( )
+    function optionValues()
     {
         $db =& eZDB::globalDatabase();
 
         $return_array = array();
-       
+        
         $db->array_query( $res_array, "SELECT ID FROM eZTrade_OrderOptionValue
-                                     WHERE
-                                     OrderItemID='$this->ID'
+                                       WHERE
+                                       OrderItemID='$this->ID'
                                    " );
-
+        
         foreach ( $res_array as $item )
         {
             $return_array[] = new eZOrderOptionValue( $item[$db->fieldName("ID")] );
@@ -203,10 +215,10 @@ class eZOrderItem
     */
     function setOrder( $order )
     {
-       if ( get_class( $order ) == "ezorder" )
-       {
-           $this->OrderID = $order->id();
-       }       
+        if ( get_class( $order ) == "ezorder" )
+        {
+            $this->OrderID = $order->id();
+        }       
     }
 
     /*!
@@ -214,10 +226,10 @@ class eZOrderItem
     */
     function setProduct( $product )
     {
-       if ( get_class( $product ) == "ezproduct" )
-       {
-           $this->ProductID = $product->id();
-       }
+        if ( get_class( $product ) == "ezproduct" )
+        {
+            $this->ProductID = $product->id();
+        }
     }
 
     /*!
@@ -225,8 +237,8 @@ class eZOrderItem
     */
     function setCount( $value )
     {
-       $this->Count = $value;
-       setType( $this->Count, "integer" );
+        $this->Count = $value;
+        setType( $this->Count, "integer" );
     }
 
     /*!
@@ -234,8 +246,23 @@ class eZOrderItem
     */
     function setPrice( $value )
     {
-       $this->Price = $value;
-       setType( $this->Price, "double" );
+        $this->Price = $value;
+        setType( $this->Price, "double" );
+    }
+
+    /*!
+      Sets the date when this product expires
+    */
+    function setExpiryDate( $date )
+    {
+        if ( get_class( $date ) == "ezdate" || get_class( $date ) == "ezdatetime" )
+            $timestamp = $date->timeStamp();
+        else if ( is_numeric( $date ) )
+            $timestamp = $date;
+        else
+            return false;
+        
+        $this->ExpiryDate = $timestamp;
     }
     
     var $ID;
@@ -243,7 +270,7 @@ class eZOrderItem
     var $Count;
     var $Price;
     var $ProductID;
-
+    var $ExpiryDate;
 }
 
 ?>

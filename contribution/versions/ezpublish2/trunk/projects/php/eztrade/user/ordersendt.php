@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.30 2001/07/20 11:42:02 jakobn Exp $
+// $Id: ordersendt.php,v 1.31 2001/07/30 14:19:03 jhe Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -27,6 +27,8 @@
 include_once( "classes/eztemplate.php" ); 
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" ); 
+include_once( "ezcontact/classes/ezperson.php" );
+include_once( "ezcontact/classes/ezcompany.php" );
 include_once( "eztrade/classes/ezorder.php" ); 
 include_once( "eztrade/classes/ezproduct.php" ); 
 include_once( "eztrade/classes/ezcheckout.php" ); 
@@ -42,10 +44,7 @@ $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateD
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "order_sendt_tpl" => "ordersendt.tpl"
-    ) );
-
+$t->set_file( "order_sendt_tpl", "ordersendt.tpl" );
 
 $t->set_block( "order_sendt_tpl", "billing_address_tpl", "billing_address" );
 $t->set_block( "order_sendt_tpl", "shipping_address_tpl", "shipping_address" );
@@ -56,9 +55,7 @@ $t->set_block( "order_item_tpl", "order_image_tpl", "order_image" );
 
 $t->set_block( "order_item_tpl", "order_item_option_tpl", "order_item_option" );
 
-
 $order = new eZOrder( $OrderID );
-
 
 // get the customer
 $user = $order->user();
@@ -84,9 +81,27 @@ if ( $user )
     // print out the addresses
     $billingAddress = $order->billingAddress();
 
-    $t->set_var( "customer_first_name", $user->firstName() );
-    $t->set_var( "customer_last_name", $user->lastName() );
-
+    if ( $order->personID() == 0 && $order->companyID() == 0 )
+    {
+        $t->set_var( "customer_first_name", $user->firstName() );
+        $t->set_var( "customer_last_name", $user->lastName() );
+    }
+    else
+    {
+        if ( $order->personID() > 0 )
+        {
+            $customer = new eZPerson( $order->personID() );
+            $t->set_var( "customer_first_name", $customer->firstName() );
+            $t->set_var( "customer_last_name", $customer->lastName() );
+        }
+        else
+        {
+            $customer = new eZCompany( $order->companyID() );
+            $t->set_var( "customer_first_name", $customer->name() );
+            $t->set_var( "customer_last_name", "" );
+        }
+    }
+    
     $t->set_var( "billing_street1", $billingAddress->street1() );
     $t->set_var( "billing_street2", $billingAddress->street2() );
     $t->set_var( "billing_zip", $billingAddress->zip() );
@@ -101,21 +116,42 @@ if ( $user )
         else
             $t->set_var( "billing_country", "" );
     }
-        
+    else
+    {
+        $t->set_var( "billing_country", "" );
+    }
+    
     if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) == "enabled" )
         $t->parse( "billing_address", "billing_address_tpl" );
     else
         $t->set_var( "billing_address", "" );
 
-    $shippingUser = $order->shippingUser();
-
-    if ( $shippingUser )
+    if ( $order->personID() == 0 && $order->companyID() == 0 )
     {
-        $t->set_var( "shipping_first_name", $shippingUser->firstName() );
-        $t->set_var( "shipping_last_name", $shippingUser->lastName() );
-        
-    }
+        $shippingUser = $order->shippingUser();
 
+        if ( $shippingUser )
+        {
+            $t->set_var( "shipping_first_name", $shippingUser->firstName() );
+            $t->set_var( "shipping_last_name", $shippingUser->lastName() );
+        }
+    }
+    else
+    {
+        if ( $order->personID() > 0 )
+        {
+            $customer = new eZPerson( $order->personID() );
+            $t->set_var( "shipping_first_name", $customer->firstName() );
+            $t->set_var( "shipping_last_name", $customer->lastName() );
+        }
+        else
+        {
+            $customer = new eZCompany( $order->companyID() );
+            $t->set_var( "shipping_first_name", $customer->name() );
+            $t->set_var( "shipping_last_name", "" );
+        }
+    }
+    
     $shippingAddress = $order->shippingAddress();
 
     $t->set_var( "shipping_street1", $shippingAddress->street1() );
@@ -132,7 +168,11 @@ if ( $user )
         else
             $t->set_var( "shipping_country", "" );
     }
-        
+    else
+    {
+        $t->set_var( "shipping_country", "" );
+    }
+    
     $t->parse( "shipping_address", "shipping_address_tpl" );
 }
 
@@ -212,7 +252,7 @@ foreach ( $items as $item )
                         if ( $ShowPriceGroups and $PriceGroup > 0 )
                         {
                             $priceArray[$i] = eZPriceGroup::correctPrice( $product->id(), $PriceGroup, $option->id(), $optionValue->id() );
-                            if( $priceArray[$i] )
+                            if ( $priceArray[$i] )
                             {
                                 $found_price = true;
                                 $priceArray[$i] = $priceArray[$i];
@@ -235,12 +275,7 @@ foreach ( $items as $item )
             $t->set_var( "product_price", "" );
     }
     
-    $price = $priceobj->value();    
-
-
-
-
-
+    $price = $priceobj->value();
    
     $currency->setValue( $price );
 
@@ -302,10 +337,7 @@ $t->set_var( "order_sum", $locale->format( $currency ) );
 $currency->setValue( $totalVAT + $shippingVAT );
 $t->set_var( "order_vat_sum", $locale->format( $currency ) );
 
-
 $t->set_var( "order_id", $OrderID );
-
-
 
 $t->pparse( "output", "order_sendt_tpl" );
 

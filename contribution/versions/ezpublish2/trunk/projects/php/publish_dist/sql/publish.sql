@@ -3125,10 +3125,13 @@ CREATE TABLE eZTrade_WishListOptionValue (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-#
-# Dumping data for table 'eZTrade_WishListOptionValue'
-#
+ALTER TABLE eZTrade_Cart ADD PersonID int;
+ALTER TABLE eZTrade_Cart ADD CompanyID int;
 
+ALTER TABLE eZTrade_Order ADD PersonID int;
+ALTER TABLE eZTrade_Order ADD CompanyID int;
+
+ALTER TABLE eZTrade_OrderItem ADD ExpiryDate int;
 
 #
 # Table structure for table 'eZUser_Cookie'

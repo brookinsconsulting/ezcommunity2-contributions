@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezperson.php,v 1.56 2001/07/20 12:01:51 jakobn Exp $
+// $Id: ezperson.php,v 1.57 2001/07/30 14:19:03 jhe Exp $
 //
 // Definition of eZPerson class
 //
@@ -420,10 +420,13 @@ class eZPerson
 
 
         $db->array_query( $address_array, "SELECT PAD.AddressID
-                                           FROM eZContact_PersonAddressDict AS PAD, eZAddress_Address AS A,
+                                           FROM eZContact_PersonAddressDict AS PAD,
+                                                eZAddress_Address AS A,
                                                 eZAddress_AddressType AS AT
-                                           WHERE PAD.AddressID = A.ID AND A.AddressTypeID = AT.ID
-                                                 AND PAD.PersonID='$PersonID' AND AT.Removed=0" );
+                                           WHERE PAD.AddressID = A.ID
+                                                 AND A.AddressTypeID = AT.ID
+                                                 AND PAD.PersonID='$PersonID'
+                                                 AND AT.Removed=0" );
 
         foreach( $address_array as $addressItem )
         {
@@ -885,7 +888,7 @@ class eZPerson
     /*!
       Returns the comment for this person.
     */
-    function comment( )
+    function comment()
     {
         return $this->Comment;
     }
@@ -893,7 +896,7 @@ class eZPerson
     /*!
       Returns the contact for this person.
     */
-    function contact( )
+    function contact()
     {
         return $this->ContactType;
     }
@@ -947,7 +950,7 @@ class eZPerson
     /*!
       Returns the birthday of this person.
     */
-    function birthDate( )
+    function birthDate()
     {
         return $this->BirthDate;
     }

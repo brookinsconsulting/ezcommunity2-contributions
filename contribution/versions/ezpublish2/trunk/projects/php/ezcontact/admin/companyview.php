@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companyview.php,v 1.26 2001/07/26 08:29:48 jhe Exp $
+// $Id: companyview.php,v 1.27 2001/07/30 14:19:03 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -41,6 +41,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "classes/ezdate.php" );
 include_once( "classes/ezlist.php" );
 include_once( "classes/eztexttool.php" );
+include_once( "classes/ezimagefile.php" );
 
 include_once( "ezaddress/classes/ezaddress.php" );
 include_once( "ezaddress/classes/ezaddresstype.php" );
@@ -48,12 +49,12 @@ include_once( "ezaddress/classes/ezphone.php" );
 include_once( "ezaddress/classes/ezphonetype.php" );
 include_once( "ezaddress/classes/ezonline.php" );
 include_once( "ezaddress/classes/ezonlinetype.php" );
+
 include_once( "ezcontact/classes/ezcompany.php" );
 include_once( "ezcontact/classes/ezcompanytype.php" );
 include_once( "ezcontact/classes/ezprojecttype.php" );
 include_once( "ezcontact/classes/ezconsultation.php" );
 
-include_once( "classes/ezimagefile.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
@@ -91,6 +92,7 @@ $t->set_block( "status_item_tpl", "project_status_tpl", "project_status" );
 $t->set_block( "status_item_tpl", "no_project_status_tpl", "no_project_status" );
 
 $t->set_block( "company_information_tpl", "consultation_buttons_tpl", "consultation_buttons" );
+$t->set_block( "company_information_tpl", "buy_button_tpl", "buy_button" );
 
 $t->set_block( "company_information_tpl", "person_table_item_tpl", "person_table_item" );
 $t->set_block( "person_table_item_tpl", "person_item_tpl", "person_item" );
@@ -352,10 +354,17 @@ else
 // Person list
     $user = eZUser::currentUser();
     $t->set_var( "person_consultation_button", "" );
+    $t->set_var( "buy_button", "" );
     if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
     {
         $t->parse( "person_consultation_button", "person_consultation_button_tpl" );
     }
+    
+    if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "Buy" ) )
+    {
+        $t->parse( "buy_button", "buy_button_tpl" );
+    }
+    
     if ( !isset( $PersonLimit ) or !is_numeric( $PersonLimit ) )
         $PersonLimit = 5;
     if ( !isset( $PersonOffset ) or !is_numeric( $PersonOffset ) )

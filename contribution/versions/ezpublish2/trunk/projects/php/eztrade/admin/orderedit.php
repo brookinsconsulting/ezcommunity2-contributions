@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderedit.php,v 1.21 2001/07/20 11:42:01 jakobn Exp $
+// $Id: orderedit.php,v 1.22 2001/07/30 14:19:03 jhe Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -23,7 +23,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-if ( isset( $Cancel ) )
+if ( isSet( $Cancel ) )
 {
     Header( "Location: /trade/orderlist/" );
     exit();
@@ -33,6 +33,9 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
+include_once( "ezcontact/classes/ezperson.php" );
+include_once( "ezcontact/classes/ezcompany.php" );
+
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZTradeMain", "Language" );
@@ -55,7 +58,6 @@ if ( $Action == "newstatus" )
     
     // store the status
     $statusType = new eZOrderStatusType( $StatusID );
-
 
     $status = new eZOrderStatus();
     $status->setType( $statusType );
@@ -93,7 +95,6 @@ $t->set_block( "order_edit_tpl", "cod_tpl", "cod" );
 $t->set_block( "order_edit_tpl", "invoice_tpl", "invoice" );
 
 $t->set_block( "order_edit_tpl", "order_status_option_tpl", "order_status_option" );
-
 $t->set_block( "order_edit_tpl", "order_status_history_tpl", "order_status_history" );
 
 $t->set_block( "order_edit_tpl", "order_item_list_tpl", "order_item_list" );
@@ -101,20 +102,38 @@ $t->set_block( "order_item_list_tpl", "order_item_tpl", "order_item" );
 
 $t->set_block( "order_item_tpl", "order_item_option_tpl", "order_item_option" );
 
-
-
 $order = new eZOrder( $OrderID );
 
 // get the customer
 
 $user = $order->user();
 
-
 if ( $user )
 {
-    $t->set_var( "customer_email", $user->email() );    
-    $t->set_var( "customer_first_name", $user->firstName() );
-    $t->set_var( "customer_last_name", $user->lastName() );
+    if ( $order->personID() == 0 && $order->companyID() == 0 )
+    {
+        $t->set_var( "customer_email", $user->email() );    
+        $t->set_var( "customer_first_name", $user->firstName() );
+        $t->set_var( "customer_last_name", $user->lastName() );
+    }
+    else
+    {
+        if ( $order->personID() > 0 )
+        {
+            $customer = new eZPerson( $order->personID() );
+            $t->set_var( "customer_first_name", $customer->firstName() );
+            $t->set_var( "customer_last_name", $customer->lastName() );
+        }
+        else
+        {
+            $customer = new eZCompany( $order->companyID() );
+            $t->set_var( "customer_first_name", $customer->name() );
+            $t->set_var( "customer_last_name", "" );
+        }
+        $emailList = $customer->emailAddress();
+        $t->set_var( "customer_email", $emailList[0] );
+    }
+
 
     // print out the addresses
     $shippingAddress =& $order->shippingAddress();
@@ -124,16 +143,34 @@ if ( $user )
     $t->set_var( "shipping_zip", $shippingAddress->zip() );
     $t->set_var( "shipping_place", $shippingAddress->place() );
 
-    $shippingUser = $order->shippingUser();
+    if ( $order->personID() == 0 && $order->companyID() == 0 )
+    {    
+        $shippingUser = $order->shippingUser();
 
-    if ( $shippingUser )
-    {
-        $t->set_var( "shipping_first_name", $shippingUser->firstName() );
-        $t->set_var( "shipping_last_name", $shippingUser->lastName() );
-        
+        if ( $shippingUser )
+        {
+            $t->set_var( "shipping_first_name", $shippingUser->firstName() );
+            $t->set_var( "shipping_last_name", $shippingUser->lastName() );   
+        }
     }
+    else
+    {
+        if ( $order->personID() > 0 )
+        {
+            $customer = new eZPerson( $order->personID() );
+            $t->set_var( "shipping_first_name", $customer->firstName() );
+            $t->set_var( "shipping_last_name", $customer->lastName() );
+        }
+        else
+        {
+            $customer = new eZCompany( $order->companyID() );
+            $t->set_var( "shipping_first_name", $customer->name() );
+            $t->set_var( "shipping_last_name", "" );
+        }
+    }
+
     $country = $shippingAddress->country();
-    if( is_object( $country ) )
+    if ( is_object( $country ) )
     {
         $t->set_var( "shipping_country", $country->name() );
     }
@@ -151,7 +188,7 @@ if ( $user )
     $PriceGroup = eZPriceGroup::correctPriceGroup( $user->groups( true ) );
 
     $country = $billingAddress->country();
-    if( is_object( $country ) )
+    if ( is_object( $country ) )
     {
         $t->set_var( "billing_country", $country->name() );
     }
@@ -161,10 +198,8 @@ if ( $user )
     }
 }
 
-
 // fetch the order items
 $items = $order->items( $OrderType );
-
 $locale = new eZLocale( $Language );
 $currency = new eZCurrency();
 
@@ -244,7 +279,9 @@ foreach ( $items as $item )
             }
         }
         else
+        {
             $t->set_var( "product_price", "" );
+        }
     }
     
     $price = $priceobj->value();    
@@ -274,7 +311,6 @@ foreach ( $items as $item )
             
         $t->parse( "order_item_option", "order_item_option_tpl", true );
     }
-        
     $t->parse( "order_item", "order_item_tpl", true );
         
     $i++;

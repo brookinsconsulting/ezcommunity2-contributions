@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: groupedit.php,v 1.20 2001/07/20 11:45:40 jakobn Exp $
+// $Id: groupedit.php,v 1.21 2001/07/30 14:19:03 jhe Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -38,9 +38,9 @@ include_once( "ezuser/classes/ezpermission.php" );
 
 require( "ezuser/admin/admincheck.php" );
 
-if ( isset( $DeleteGroups ) and isset( $GroupArrayID ) )
+if ( isSet( $DeleteGroups ) and isSet( $GroupArrayID ) )
 {
-    foreach( $GroupArrayID as $groupid )
+    foreach ( $GroupArrayID as $groupid )
     {
         eZUserGroup::delete( $groupid );
     }
@@ -71,7 +71,7 @@ if ( $Action == "insert" )
             $group->setDescription( $Description );
             $group->setSessionTimeout( $SessionTimeout );
 
-            if( isset( $IsRoot ) )
+            if ( isSet( $IsRoot ) )
                 $group->setIsRoot( true );
             else
                 $group->setIsRoot( false );
@@ -83,12 +83,12 @@ if ( $Action == "insert" )
 
             $permissionList = $permission->getAll();
 
-            foreach( $permissionList as $permissionItem )
+            foreach ( $permissionList as $permissionItem )
             {
                 $permissionItem->setEnabled( $group, false );
             }
     
-            foreach( $PermissionArray as $PermissionID )
+            foreach ( $PermissionArray as $PermissionID )
             {
                 $permission->get( $PermissionID );
                 $permission->setEnabled( $group, true );
@@ -135,23 +135,23 @@ if ( $Action == "update" )
         $group->setDescription( $Description );
         $group->setSessionTimeout( $SessionTimeout );
 
-        if( isset( $IsRoot ) )
+        if ( isSet( $IsRoot ) )
             $group->setIsRoot( true );
         else
             $group->setIsRoot( false );
 
         $permissionList = $permission->getAll();
 
-        foreach( $permissionList as $permissionItem )
-            {
-                $permissionItem->setEnabled( $group, false );
-            }
+        foreach ( $permissionList as $permissionItem )
+        {
+            $permissionItem->setEnabled( $group, false );
+        }
     
-        foreach( $PermissionArray as $PermissionID )
-            {
-                $permission->get( $PermissionID );
-                $permission->setEnabled( $group, true );
-            }
+        foreach ( $PermissionArray as $PermissionID )
+        {
+            $permission->get( $PermissionID );
+            $permission->setEnabled( $group, true );
+        }
 
         $group->store();
         
@@ -170,15 +170,13 @@ $t = new eZTemplate( "ezuser/admin/" . $ini->read_var( "eZUserMain", "AdminTempl
 "ezuser/admin/" . "/intl", $Language, "groupedit.php" );
 $t->setAllStrings();
 
-$t->set_file( array(
-    "group_edit" => "groupedit.tpl"
-    ) );
+$t->set_file( "group_edit", "groupedit.tpl" );
 
 $t->set_block( "group_edit", "module_list_header_tpl", "module_header" );
 $t->set_block( "module_list_header_tpl", "permission_list_tpl", "permission_item" );
 $t->set_block( "permission_list_tpl", "permission_enabled_tpl", "is_enabled_item" );
 
-$headline = new INIFIle( "ezuser/admin/intl/" . $Language . "/groupedit.php.ini", false );
+$headline = new INIFile( "ezuser/admin/intl/" . $Language . "/groupedit.php.ini", false );
 $t->set_var( "head_line", $headline->read_var( "strings", "head_line_insert" ) );
 
 if ( $Action == "new" )
@@ -200,7 +198,7 @@ if ( $Action == "edit" )
     $IsRoot = $group->isRoot();
     $ActionValue = "update";
 
-    $headline = new INIFIle( "ezuser/admin/intl/" . $Language . "/groupedit.php.ini", false );
+    $headline = new INIFile( "ezuser/admin/intl/" . $Language . "/groupedit.php.ini", false );
     $t->set_var( "head_line", $headline->read_var( "strings", "head_line_edit" ) );
 }
 
@@ -219,23 +217,23 @@ foreach ( $moduleList as $moduleItem )
     $t->set_var( "permission_item", "" );
 
     foreach ( $permissionList as $permissionItem )
-        {
-            $t->set_var( "permission_name", $permissionItem->name() );
-            $t->set_var( "permission_id", $permissionItem->id() );
-
-            if ( $permissionItem->isEnabled( $group ) )
-            {
-                $t->set_var( "is_enabled", "checked" );
-            }
-            else
-            {
-                $t->set_var( "is_enabled", "" );
-            }
+    {
+        $t->set_var( "permission_name", $permissionItem->name() );
+        $t->set_var( "permission_id", $permissionItem->id() );
         
-            $t->parse( "permission_item", "permission_list_tpl", true );
+        if ( $permissionItem->isEnabled( $group ) )
+        {
+            $t->set_var( "is_enabled", "checked" );
         }
+        else
+        {
+            $t->set_var( "is_enabled", "" );
+        }
+        
+        $t->parse( "permission_item", "permission_list_tpl", true );
+    }
 
-    if( count( $permissionList ) > 0 )
+    if ( count( $permissionList ) > 0 )
         $t->parse( "module_header", "module_list_header_tpl", true );
 }
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.54 2001/07/20 11:42:02 jakobn Exp $
+// $Id: payment.php,v 1.55 2001/07/30 14:19:03 jhe Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -25,7 +25,6 @@
 
 unset( $PaymentSuccess );
 
-
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
@@ -35,26 +34,21 @@ include_once( "classes/ezhttptool.php" );
 include_once( "classes/ezcachefile.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
+
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezoption.php" );
 include_once( "eztrade/classes/ezoptionvalue.php" );
-
 include_once( "eztrade/classes/ezcart.php" );
-
-
 include_once( "eztrade/classes/ezcartitem.php" );
 include_once( "eztrade/classes/ezcartoptionvalue.php" );
 include_once( "eztrade/classes/ezpreorder.php" );
 include_once( "eztrade/classes/ezorder.php" );
-
 include_once( "eztrade/classes/ezorderitem.php" );
 include_once( "eztrade/classes/ezorderoptionvalue.php" );
 include_once( "eztrade/classes/ezwishlist.php" );
-
 include_once( "eztrade/classes/ezcheckout.php" );
 
 include_once( "ezsession/classes/ezsession.php" );
-include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "classes/ezgpg.php" );
 
@@ -80,14 +74,14 @@ function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
     $files = eZCacheFile::files( "eztrade/cache/", array( array( "productview", "productprint" ),
                                                           $ProductID, $CategoryID ),
                                  "cache", "," );
-    foreach( $files as $file )
+    foreach ( $files as $file )
     {
         $file->delete();
     }
     $files = eZCacheFile::files( "eztrade/cache/", array( "productlist",
                                                           array_merge( $CategoryID, $CategoryArray ) ),
                                  "cache", "," );
-    foreach( $files as $file )
+    foreach ( $files as $file )
     {
         $file->delete();
     }
@@ -95,7 +89,7 @@ function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
     {
         $files = eZCacheFile::files( "eztrade/cache/", array( "hotdealslist", NULL ),
                                      "cache", "," );
-        foreach( $files as $file )
+        foreach ( $files as $file )
         {
             $file->delete();
         }
@@ -167,27 +161,26 @@ if ( $PaymentSuccess == "true" )
     $order->setShippingAddress( $shippingAddress );
     $order->setBillingAddress( $billingAddress );
 
-
     $order->setShippingCharge( $session->variable( "ShippingCost" ) );
     $order->setShippingVAT( $session->variable( "ShippingVAT" ) );
     $order->setPaymentMethod( $session->variable( "PaymentMethod" ) );
 
     $order->setShippingTypeID( $session->variable( "ShippingTypeID" ) );
-
-
+    $order->setPersonID( $cart->personID() );
+    $order->setCompanyID( $cart->companyID() );
+    
     $order->store();
 
     $order_id = $order->id();
 
     // fetch the cart items
-    $items = $cart->items(  );
+    $items = $cart->items();
 
-    foreach( $items as $item )
+    foreach ( $items as $item )
     {
         $product = $item->product();
 
         // product price
-
 
         $priceobj = new eZCurrency();
         
@@ -214,13 +207,13 @@ if ( $PaymentSuccess == "true" )
             $priceArray = "";
             $priceArray = "";
             $options =& $product->options();
-            if ( count ( $options ) == 1 )
+            if ( count( $options ) == 1 )
             {
                 $option = $options[0];
-                if ( get_class ( $option ) == "ezoption" )
+                if ( get_class( $option ) == "ezoption" )
                 {
                     $optionValues =& $option->values();
-                    if ( count ( $optionValues ) > 1 )
+                    if ( count( $optionValues ) > 1 )
                     {
                         $i=0;
                         foreach ( $optionValues as $optionValue )
@@ -229,7 +222,7 @@ if ( $PaymentSuccess == "true" )
                             if ( $ShowPriceGroups and $PriceGroup > 0 )
                             {
                                 $priceArray[$i] = eZPriceGroup::correctPrice( $product->id(), $PriceGroup, $option->id(), $optionValue->id() );
-                                if( $priceArray[$i] )
+                                if ( $priceArray[$i] )
                                 {
                                     $found_price = true;
                                     $priceArray[$i] = $priceArray[$i];
@@ -261,6 +254,13 @@ if ( $PaymentSuccess == "true" )
         $orderItem->setProduct( $product );
         $orderItem->setCount( $item->count() );
         $orderItem->setPrice( $price );
+
+        $expiryTime = $product->expiryTime();
+        if ( $expiryTime > 0 )
+            $orderItem->setExpiryDate( eZDateTime::timeStamp( true ) + $expiryTime );
+        else
+            $orderItem->setExpiryDate( 0 );
+
         $orderItem->store();
         
         $optionValues =& $item->optionValues();
@@ -289,9 +289,7 @@ if ( $PaymentSuccess == "true" )
 
     //
     // Send mail confirmation
-    //
-    
-    
+    //  
     $locale = new eZLocale( $Language );
     $currency = new eZCurrency();
     
@@ -299,7 +297,7 @@ if ( $PaymentSuccess == "true" )
 
     // Setup the template for email
     $mailTemplate = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
-                                        "eztrade/user/intl", $Language, "mailorder.php" );
+                                    "eztrade/user/intl", $Language, "mailorder.php" );
 
     $mailTemplateIni = new INIFile( "eztrade/user/intl/" . $Language . "/mailorder.php.ini", false );
     $mailTemplate->set_file( "mail_order_tpl", "mailorder.tpl" );
@@ -331,7 +329,7 @@ if ( $PaymentSuccess == "true" )
     $productString = substr( $headProduct, 0, 27 );
     $productString = $productString . ": ";
     $productString = str_pad( $productString, 29, " " );
-
+    
     $productNumberString = substr( $headProductNumber, 0, 20 );
     $productNumberString = $productNumberString . ": ";
     $productNumberString = str_pad( $productNumberString, 22, " ", STR_PAD_LEFT );
@@ -339,11 +337,11 @@ if ( $PaymentSuccess == "true" )
     $countString = substr( $headCount, 0, 10 );
     $countString = $countString . ": ";
     $countString = str_pad( $countString, 12, " ", STR_PAD_LEFT );
-
+    
     $priceString = substr( $headPrice, 0, 13 );
     $priceString = $priceString . ": ";
     $priceString = str_pad( $priceString, 15, " ", STR_PAD_LEFT );
-
+    
     $totalString = substr( $footTotal, 0, 56 );
     $totalString = $totalString . ": ";
     $totalString = str_pad( $totalString, 58, " ", STR_PAD_LEFT );
@@ -351,7 +349,7 @@ if ( $PaymentSuccess == "true" )
     $tshString = substr( $footSandH, 0, 56 );
     $tshString = $tshString . ": ";
     $tshString = str_pad( $tshString, 58, " ", STR_PAD_LEFT );
-
+    
     $subTotalString = substr( $footSubT, 0, 56 );
     $subTotalString = $subTotalString . ": ";
     $subTotalString = str_pad( $subTotalString, 58, " ", STR_PAD_LEFT );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.39 2001/07/20 11:42:02 jakobn Exp $
+// $Id: cart.php,v 1.40 2001/07/30 14:19:03 jhe Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -76,20 +76,19 @@ if ( ( $Action == "Refresh" ) || isset( $DoCheckOut ) )
 
 
 // checkout
-if ( isset( $DoCheckOut ) )
+if ( isSet( $DoCheckOut ) )
 {
     eZHTTPTool::header( "Location: /trade/customerlogin/" );
     exit();
 }
 
-$cart = new eZCart();
 $session = new eZSession();
-
 // if no session exist create one.
 if ( !$session->fetch() )
 {
     $session->store();
 }
+$cart = new eZCart();
 
 $user = eZUser::currentUser();
 
@@ -113,8 +112,6 @@ if ( $Action == "AddToBasket" )
         eZHTTPTool::header( "Location: /error/404/" );
         exit();
     }
-        
-     
 
     // check if a product like this is already in the basket.
     // if so-> add the count value.
@@ -209,7 +206,6 @@ if ( $Action == "AddToBasket" )
                 $cartItem->setCart( $cart );
 
                 $cartItem->store();
-
                 if ( count( $OptionValueArray ) > 0 )
                 {
                     $i = 0;

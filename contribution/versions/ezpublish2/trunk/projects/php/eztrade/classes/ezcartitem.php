@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartitem.php,v 1.15 2001/07/20 11:42:01 jakobn Exp $
+// $Id: ezcartitem.php,v 1.16 2001/07/30 14:19:03 jhe Exp $
 //
 // Definition of eZCartItem class
 //
@@ -91,9 +91,11 @@ class eZCartItem
                         '$this->ProductID',
                         '$this->CartID',
                         '$this->Count',
-                        '$this->WishListItemID'
+                        '$this->WishListItemID' )
                       " );
 
+            $db->unlock();
+            
 			$this->ID = $nextID;
         }
         else
@@ -107,8 +109,6 @@ class eZCartItem
                                  " );
         }
 
-        $db->unlock();
-    
         if ( $res == false )
             $db->rollback( );
         else

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.82 2001/07/27 13:05:57 jhe Exp $
+// $Id: ezuser.php,v 1.83 2001/07/30 14:19:03 jhe Exp $
 //
 // Definition of eZUser class
 //
@@ -468,7 +468,7 @@ class eZUser
     /*!
       Returns the users InfoSubscription.
     */
-    function infoSubscription( )
+    function infoSubscription()
     {
        $ret = false;
        
@@ -483,7 +483,7 @@ class eZUser
     /*!
       Returns the users e-mail address.
     */
-    function email( )
+    function email()
     {
        return $this->Email;
     }
@@ -527,7 +527,7 @@ class eZUser
     /*!
       Returns the auto cookie login value.
     */
-    function cookieLogin( )
+    function cookieLogin()
     {
         $ret = false;
         if ( $this->CookieLogin == 1 )
@@ -539,7 +539,7 @@ class eZUser
     /*!
       Returns the number og simultaneous logins allowed on this account.
     */
-    function simultaneousLogins( )
+    function simultaneousLogins()
     {
         return htmlspecialchars( $this->SimultaneousLogins );
     }
@@ -702,7 +702,7 @@ class eZUser
       \static
       Logs out a user.
     */
-    function logout( )
+    function logout()
     {
         $session =& eZSession::globalSession();
         if ( $session->fetch() )
@@ -843,7 +843,7 @@ class eZUser
     /*!
       Static function..check if the user given has root access
      */
-    function hasRootAccess( )
+    function hasRootAccess()
     {
         $db =& eZDB::globalDatabase();
         $db->query_single( $result, "SELECT count( * ) as Count FROM eZUser_UserGroupLink, eZUser_Group
@@ -1100,8 +1100,7 @@ class eZUser
                                                       AND eZUser_Group.ID=eZUser_UserGroupLink.GroupID
                                                       AND eZUser_User.ID='$this->ID'
                                                       ORDER BY eZUser_Group.SessionTimeout ASC
-                                                      ",
-        array( "Limit" => "1" ) );
+                                                      ", array( "Limit" => "1" ) );
 
        if ( count( $timeout_array ) == 1 )
        {
@@ -1137,11 +1136,10 @@ class eZUser
                   ORDER BY $orderBy";
 
         $db->array_query( $user_array, $query );
-        for ( $i=0; $i < count($user_array); $i++ )
+        for ( $i = 0; $i < count( $user_array ); $i++ )
         {
             $return_array[$i] = new eZUser( $user_array[$i][$db->fieldName("ID")] );
         }
-
         return $return_array;
     }
     

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.70 2001/07/30 12:15:57 ce Exp $
+// $Id: ezproduct.php,v 1.71 2001/07/30 14:19:03 jhe Exp $
 //
 // Definition of eZProduct class
 //
@@ -72,6 +72,7 @@ class eZProduct
     */
     function eZProduct( $id="" )
     {
+        $this->ExpiryTime = 0;
         if ( $id != "" )
         {
             $this->ID = $id;
@@ -109,7 +110,7 @@ class eZProduct
         else
             $discontinued = 0;
 
-        if ( isset( $this->Price ) and $this->Price != "" and is_numeric( $this->Price ) )
+        if ( isSet( $this->Price ) and $this->Price != "" and is_numeric( $this->Price ) )
         {
             $price = "'$this->Price'";
         }
@@ -124,30 +125,31 @@ class eZProduct
         $keywords = $db->escapeString( $this->Keywords );
         $productNumber = $db->escapeString( $this->ProductNumber );
         
-        if ( !isset( $this->ID ) )
+        if ( !isSet( $this->ID ) )
         {
             $timeStamp = eZDateTime::timeStamp( true );
             $db->lock( "eZTrade_Product" );
             $nextID = $db->nextID( "eZTrade_Product", "ID" );            
 
             $res = $db->query( "INSERT INTO eZTrade_Product
-                                  ( ID,
-                                    Name,
-                                    Brief,
-                                    Description,
-                                    Keywords,
-                                    ProductNumber,
-                                    Price,
-                                    ShowPrice,
-                                    ShowProduct,
-                                    Discontinued,
-                                    ExternalLink,
-                                    RemoteID,
-                                    IsHotDeal,
-                                    VATTypeID,
-                                    ProductType,
-                                    ShippingGroupID,
-                                    Published )
+                                ( ID,
+                                  Name,
+                                  Brief,
+                                  Description,
+                                  Keywords,
+                                  ProductNumber,
+                                  Price,
+                                  ShowPrice,
+                                  ShowProduct,
+                                  Discontinued,
+                                  ExternalLink,
+                                  RemoteID,
+                                  IsHotDeal,
+                                  VATTypeID,
+                                  ProductType,
+                                  ShippingGroupID,
+                                  Published,
+                                  ExpiryTime )
                                   VALUES
                                   ( '$nextID',
 		                            '$this->Name',
@@ -165,7 +167,8 @@ class eZProduct
                                     '$this->VATTypeID',
                                     '$this->ProductType',
                                     '$this->ShippingGroupID',
-                                    '$timeStamp' )" );
+                                    '$timeStamp',
+                                    '$this->ExpiryTime' )" );
 			$this->ID = $nextID;
         }
         else
@@ -185,7 +188,8 @@ class eZProduct
                                  VATTypeID='$this->VATTypeID',
                                  ShippingGroupID='$this->ShippingGroupID',
                                  ProductType='$this->ProductType',
-                                 Published=Published
+                                 Published=Published,
+                                 ExpiryTime='$this->ExpiryTime'
                                  WHERE ID='$this->ID'
                                  " );
         }
@@ -216,7 +220,7 @@ class eZProduct
             {
                 die( "Error: Category's with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $category_array ) == 1 )
+            else if ( count( $category_array ) == 1 )
             {
                 $this->ID =& $category_array[0][$db->fieldName( "ID" )];
                 $this->Name =& $category_array[0][$db->fieldName( "Name" )];
@@ -231,6 +235,7 @@ class eZProduct
                 $this->VATTypeID =& $category_array[0][$db->fieldName( "VATTypeID" )];
                 $this->ShippingGroupID =& $category_array[0][$db->fieldName( "ShippingGroupID" )];
                 $this->ProductType =& $category_array[0][$db->fieldName( "ProductType" )];
+                $this->ExpiryTime =& $cateogry_array[0][$db->fieldName( "ExpiryTime" )];
                 if ( $this->Price == "NULL" )
                     unset( $this->Price );
 
@@ -262,7 +267,7 @@ class eZProduct
     {
         $db =& eZDB::globalDatabase();
 
-        if ( isset( $this->ID ) )
+        if ( isSet( $this->ID ) )
         {
             $db->begin();
             $res[] = $db->query( "DELETE FROM eZTrade_ProductTypeLink WHERE ProductID='$this->ID'" );
@@ -338,7 +343,7 @@ class eZProduct
     */
     function hasPrice()
     {
-       return isset( $this->Price );
+       return isSet( $this->Price );
     }    
 
     /*!
@@ -413,6 +418,14 @@ class eZProduct
     }
 
     /*!
+      Returns the products expiry time
+    */
+    function expiryTime()
+    {
+        return $this->ExpiryTime;
+    }
+    
+    /*!
       Sets the product type.
 
       1 = normal product
@@ -422,7 +435,6 @@ class eZProduct
     {
         $this->ProductType = $type;
     }
-
 
     /*!
       Sets the total quantity of the product.
@@ -460,6 +472,14 @@ class eZProduct
             $db->rollback();
         else
             $db->commit();            
+    }
+
+    /*!
+      Sets the expiry time for this product
+    */
+    function setExpiryTime( $time )
+    {
+        $this->ExpiryTime = $time;
     }
 
     /*!
@@ -770,7 +790,7 @@ class eZProduct
        
        $db->array_query( $option_array, "SELECT OptionID FROM eZTrade_ProductOptionLink WHERE ProductID='$this->ID'" );
 
-       for ( $i=0; $i < count($option_array); $i++ )
+       for ( $i = 0; $i < count( $option_array ); $i++ )
        {
            $return_array[$i] = new eZOption( $option_array[$i][$db->fieldName( "OptionID" )], true );
        }
@@ -1086,7 +1106,7 @@ class eZProduct
 
         $tables = array();
 
-        foreach( $categoryArrayID as $cat )
+        foreach ( $categoryArrayID as $cat )
         {
             $id = $cat[$db->fieldName( "id" )];
             $table = "eZTrade_ExtendedTemp$id";
@@ -1096,7 +1116,7 @@ class eZProduct
             $cats =& $cat["categories"];
             $catSQL = "";
             $i = 0;
-            foreach( $cats as $cat_item )
+            foreach ( $cats as $cat_item )
             {
                 if ( $i > 0 )
                     $catSQL .= " OR ";
@@ -1367,11 +1387,9 @@ class eZProduct
     function categoryDefinition( $as_object = true )
     {
        $db =& eZDB::globalDatabase();
-
        $db->array_query( $res, "SELECT CategoryID FROM
                                             eZTrade_ProductCategoryDefinition
                                             WHERE ProductID='$this->ID'" );
-
        $category = false;
        if ( count( $res ) == 1 )
        {
@@ -1586,7 +1604,7 @@ class eZProduct
     var $ShippingGroupID;
     var $ProductType;
     var $Price;
-    
+    var $ExpiryTime;
 }
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.42 2001/07/29 23:31:02 kaid Exp $
+// $Id: personedit.php,v 1.43 2001/07/30 14:19:03 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -75,6 +75,23 @@ if ( get_class( $user ) != "ezuser" )
 {
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /contact/nopermission/login" );
+    exit();
+}
+
+if ( isSet( $BuyButton ) )
+{
+    include_once( "eztrade/classes/ezcart.php" );
+    $cart = new eZCart();
+    if ( isSet( $CompanyEdit ) )
+    {
+        $cart->setCompanyID( $CompanyID );
+    }
+    else
+    {
+        $cart->setPersonID( $PersonID );
+    }
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /trade/productlist/0/" );
     exit();
 }
 

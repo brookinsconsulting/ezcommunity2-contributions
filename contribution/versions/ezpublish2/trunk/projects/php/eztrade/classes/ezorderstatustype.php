@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorderstatustype.php,v 1.9 2001/07/30 07:45:46 br Exp $
+// $Id: ezorderstatustype.php,v 1.10 2001/07/30 14:19:03 jhe Exp $
 //
 // Definition of eZOrderStatus class
 //
@@ -175,17 +175,19 @@ class eZOrderStatusType
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
+        $db->array_query( $value_array[], "SELECT ID FROM eZTrade_OrderStatusType WHERE Name='$name'" );
 
-        $db->array_query( $value_array, "SELECT ID FROM eZTrade_OrderStatusType
-                                                    WHERE Name='$name'" );       
-        
         if ( count( $value_array ) == 1 )
         {
             $ret = new eZOrderStatusType( $value_array[0][$db->fieldName("ID")] );
         }
+        else
+        {
+            return false;
+        }
 
         return $ret;
-    }    
+    }
     
     var $ID;
     var $Name;

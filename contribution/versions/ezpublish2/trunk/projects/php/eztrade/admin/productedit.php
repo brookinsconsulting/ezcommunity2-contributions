@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.54 2001/07/30 07:11:55 br Exp $
+// $Id: productedit.php,v 1.55 2001/07/30 14:19:03 jhe Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -43,14 +43,14 @@ function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
     $files = eZCacheFile::files( "eztrade/cache/", array( array( "productview", "productprint" ),
                                                           $ProductID, $CategoryID ),
                                  "cache", "," );
-    foreach( $files as $file )
+    foreach ( $files as $file )
     {
         $file->delete();
     }
     $files = eZCacheFile::files( "eztrade/cache/", array( "productlist",
                                                           array_merge( $CategoryID, $CategoryArray ) ),
                                  "cache", "," );
-    foreach( $files as $file )
+    foreach ( $files as $file )
     {
         $file->delete();
     }
@@ -58,7 +58,7 @@ function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
     {
         $files = eZCacheFile::files( "eztrade/cache/", array( "hotdealslist", NULL ),
                                      "cache", "," );
-        foreach( $files as $file )
+        foreach ( $files as $file )
         {
             $file->delete();
         }
@@ -77,7 +77,7 @@ include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezvattype.php" );
 include_once( "eztrade/classes/ezshippinggroup.php" );
 
-if ( isset( $SubmitPrice ) )
+if ( isSet( $SubmitPrice ) )
 {
     for ( $i = 0; $i < count( $ProductEditArrayID ); $i++ )
     {
@@ -86,17 +86,18 @@ if ( isset( $SubmitPrice ) )
             $product = new eZProduct( $ProductEditArrayID[$i] );
             $product->setPrice( $Price[$i] );
             $product->store();
-          deleteCache( $product, false, false, false );
+            deleteCache( $product, false, false, false );
         }
     }
-    if ( isset( $Query ) )
+    if ( isSet( $Query ) )
         eZHTTPTool::header( "Location: /trade/search/$Offset/$Query" );
     else
         eZHTTPTool::header( "Location: /trade/categorylist/parent/$CategoryID/$Offset" );
+
     exit();
 }
 
-if ( isset ( $DeleteProducts ) )
+if ( isSet( $DeleteProducts ) )
 {
     $Action = "DeleteProducts";
 }
@@ -105,7 +106,6 @@ if ( $Action == "Insert" )
 {
     $parentCategory = new eZProductCategory();
     $parentCategory->get( $CategoryID );
-
 
     $product = new eZProduct();
     $product->setName( $Name );
@@ -193,6 +193,7 @@ if ( $Action == "Insert" )
         }
     }
 
+    $product->store();
 
     $productID = $product->id();
 
@@ -206,10 +207,9 @@ if ( $Action == "Insert" )
     // clear the cache files.
     deleteCache( $ProductID, $CategoryID, $categoryIDArray, $product->isHotDeal() );
 
-
-    if( isset( $AddItem ) )
+    if ( isSet( $AddItem ) )
     {
-        switch( $ItemToAdd )
+        switch ( $ItemToAdd )
         {
             // add options
             case "Option":
@@ -246,7 +246,7 @@ if ( $Action == "Insert" )
     }
     
     // preview
-    if( isset ( $Preview ))
+    if ( isSet ( $Preview ))
     {
         eZHTTPTool::header( "Location: /trade/productedit/productpreview/$productID/" );
         exit();
@@ -254,7 +254,7 @@ if ( $Action == "Insert" )
 
 
     // get the category to redirect to
-    $category = $product->categoryDefinition( );
+    $category = $product->categoryDefinition();
     $categoryID = $category->id();
     
     eZHTTPTool::header( "Location: /trade/categorylist/parent/$categoryID" );
@@ -280,8 +280,7 @@ if ( $Action == "Update" )
     $product->setVATType( $vattype );
 
     $shippingGroup = new eZShippingGroup( $ShippingGroupID );
-    $product->setShippingGroup( $shippingGroup );    
-    
+    $product->setShippingGroup( $shippingGroup );
     
     if ( $ShowPrice == "on" )
     {
@@ -354,15 +353,15 @@ if ( $Action == "Update" )
     deleteCache( $ProductID, $CategoryID, $old_categories, $was_hotdeal or $product->isHotDeal() );
 
     // preview
-    if ( isset( $Preview ) )
+    if ( isSet( $Preview ) )
     {
         eZHTTPTool::header( "Location: /trade/productedit/productpreview/$productID/" );
         exit();
     }
 
-    if( isset( $AddItem ) )
+    if( isSet( $AddItem ) )
     {
-        switch( $ItemToAdd )
+        switch ( $ItemToAdd )
         {
             // add options
             case "Option":
@@ -408,7 +407,7 @@ if ( $Action == "Update" )
 
 if ( $Action == "Cancel" )
 {
-    if ( isset( $ProductID ) )
+    if ( isSet( $ProductID ) )
     {
         $product = new eZProduct( $ProductID );
         $category = $product->categoryDefinition();
@@ -427,7 +426,7 @@ if ( $Action == "DeleteProducts" )
 {
     if ( count ( $ProductArrayID ) != 0 )
     {
-        foreach( $ProductArrayID as $ProductID )
+        foreach ( $ProductArrayID as $ProductID )
         {
             $product = new eZProduct();
             $product->get( $ProductID );
@@ -454,7 +453,7 @@ if ( $Action == "DeleteProducts" )
         }
     }
 
-    if ( isset( $Query ) )
+    if ( isSet( $Query ) )
         eZHTTPTool::header( "Location: /trade/search/$Offset/$Query" );
     else
         eZHTTPTool::header( "Location: /trade/categorylist/parent/$categoryID/$Offset" );
@@ -492,8 +491,7 @@ if ( $Action == "Delete" )
 $t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ),
                      "eztrade/admin/intl/", $Language, "productedit.php" );
 
-
-$t->set_file( array( "product_edit_tpl" => "productedit.tpl" ) );
+$t->set_file( "product_edit_tpl", "productedit.tpl" );
 
 $t->set_block( "product_edit_tpl", "value_tpl", "value" );
 $t->set_block( "product_edit_tpl", "multiple_value_tpl", "multiple_value" );
@@ -511,7 +509,7 @@ $t->set_block( "price_groups_item_tpl", "price_group_item_tpl", "price_group_ite
 $t->set_block( "price_group_list_tpl", "price_groups_no_item_tpl", "price_groups_no_item" );
 
 $t->setAllStrings();
-               
+
 $t->set_var( "brief_value", "" );
 $t->set_var( "description_value", "" );
 $t->set_var( "name_value", "" );
@@ -535,7 +533,6 @@ if ( $Action == "Edit" )
 {
     $product = new eZProduct();
     $product->get( $ProductID );
-
     $t->set_var( "name_value", $product->name() );
     $t->set_var( "keywords_value", $product->keywords() );
     $t->set_var( "product_nr_value", $product->productNumber() );
@@ -567,7 +564,7 @@ if ( $Action == "Edit" )
     $prices = eZPriceGroup::prices( $ProductID );
     $PriceGroup = array();
     $PriceGroupID = array();
-    foreach( $prices as $price )
+    foreach ( $prices as $price )
     {
         $PriceGroup[] = $price["Price"];
         $PriceGroupID[] = $price["PriceID"];
@@ -583,8 +580,7 @@ foreach ( $categoryArray as $catItem )
 {
     if ( $Action == "Edit" )
     {
-        $defCat = $product->categoryDefinition( );
-        
+        $defCat = $product->categoryDefinition();
         if ( $product->existsInCategory( $catItem[0] ) &&
              ( $defCat->id() != $catItem[0]->id() ) )
         {
@@ -603,7 +599,6 @@ foreach ( $categoryArray as $catItem )
         {
             $t->set_var( "selected", "" );
         }
-        die();
     }
     else
     {
@@ -707,7 +702,7 @@ if ( $ShowPriceGroups )
     $prices = array();
     $price_ids = array();
     $price_names = array();
-    foreach( $price_groups as $price_group )
+    foreach ( $price_groups as $price_group )
     {
         $price_id = $price_group->id();
         $prices[] = $NewPriceGroup[$price_id];
@@ -736,7 +731,7 @@ if ( $ShowPriceGroups )
 //        $t->parse( "price_groups_no_item", "price_groups_no_item_tpl" );
 }
 
-    if ( $ShippingGroup  and  ( $ShippingGroup->id() == $group->id() ) )
+    if ( $ShippingGroup and ( $ShippingGroup->id() == $group->id() ) )
     {
         $t->set_var( "selected", "selected" );
     }

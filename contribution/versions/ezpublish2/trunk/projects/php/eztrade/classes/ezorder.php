@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.38 2001/07/30 07:45:46 br Exp $
+// $Id: ezorder.php,v 1.39 2001/07/30 14:19:03 jhe Exp $
 //
 // Definition of eZOrder class
 //
@@ -56,7 +56,8 @@ class eZOrder
     function eZOrder( $id="" )
     {
         $this->IsExported = 0;
-
+        $this->PersonID = 0;
+        $this->CompanyID = 0;
         if ( $id != "" )
         {
             $this->ID = $id;
@@ -76,31 +77,35 @@ class eZOrder
         
         if ( !isset( $this->ID ) )
         {
-            $db->lock( "eZTrade_Order" );
-            $db->nextID = $db->nextID( "eZTrade_Order", "ID" );
             $timeStamp =& eZDateTime::timeStamp( true );
+            $db->lock( "eZTrade_Order" );
+            $nextID = $db->nextID( "eZTrade_Order", "ID" );
             $ret[] = $db->query( "INSERT INTO eZTrade_Order
-                               ( ID,
-		                         UserID,
-		                         ShippingAddressID,
-		                         BillingAddressID,
-		                         PaymentMethod,
-		                         IsExported,
-                                 ShippingVAT,
-                                 ShippingTypeID,
-		                         Date,
-		                         ShippingCharge )
-                               VALUES
-                               ( '$nextID'
-		                         '$this->UserID',
-		                         '$this->ShippingAddressID',
-		                         '$this->BillingAddressID',
-		                         '$this->PaymentMethod',
-		                         '$this->IsExported',
-                                 '$this->ShippingVAT',
-                                 '$this->ShippingTypeID',
-		                         '$timeStamp',
-		                         '$this->ShippingCharge' )" );
+                                  ( ID,
+	     	                        UserID,
+		                            ShippingAddressID,
+		                            BillingAddressID,
+		                            PaymentMethod,
+		                            IsExported,
+                                    ShippingVAT,
+                                    ShippingTypeID,
+		                            Date,
+		                            ShippingCharge,
+                                    PersonID,
+                                    CompanyID )
+                                  VALUES
+                                  ( '$nextID',
+		                            '$this->UserID',
+		                            '$this->ShippingAddressID',
+		                            '$this->BillingAddressID',
+		                            '$this->PaymentMethod',
+		                            '$this->IsExported',
+                                    '$this->ShippingVAT',
+                                    '$this->ShippingTypeID',
+		                            '$timeStamp',
+		                            '$this->ShippingCharge',
+                                    '$this->PersonID',
+                                    '$this->CompanyID' )" );
 
 			$this->ID = $nextID;
 
@@ -131,7 +136,9 @@ class eZOrder
                                  ShippingVAT='$this->ShippingVAT',
                                  ShippingTypeID='$this->ShippingTypeID',
 		                         Date=Date,
-		                         ShippingCharge='$this->ShippingCharge'
+		                         ShippingCharge='$this->ShippingCharge',
+                                 PersonID='$this->PersonID',
+                                 CompanyID='$this->CompanyID',
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -149,6 +156,7 @@ class eZOrder
         $db =& eZDB::globalDatabase();
 
         $items = $this->items();
+        $db->begin();
 
         if  ( $items )
         {
@@ -158,10 +166,7 @@ class eZOrder
                 $item->delete();
             }
         }
-        $db->begin();
         $ret[] = $db->query( "DELETE FROM eZTrade_OrderStatus WHERE OrderID='$this->ID'" );
-
-        
         $ret[] = $db->query( "DELETE FROM eZTrade_Order WHERE ID='$this->ID'" );
 
         eZDB::finish( $ret, $db );
@@ -186,7 +191,7 @@ class eZOrder
             {
                 die( "Error: Cart's with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $cart_array ) == 1 )
+            else if ( count( $cart_array ) == 1 )
             {
                 $this->ID =& $cart_array[0][$db->fieldName("ID")];
                 $this->UserID =& $cart_array[0][$db->fieldName("UserID")];
@@ -198,7 +203,8 @@ class eZOrder
                 $this->PaymentMethod =& $cart_array[0][$db->fieldName("PaymentMethod")];
                 $this->Date =& $cart_array[0][$db->fieldName("Date")];
                 $this->IsExported =& $cart_array[0][$db->fieldName("IsExported")];
-
+                $this->PersonID =& $cart_array[0][$db->fieldName("PersonID")];
+                $this->CompanyID =& $cart_array[0][$db->fieldName("CompanyID")];
                 $ret = true;
             }
         }
@@ -221,7 +227,7 @@ class eZOrder
         "SELECT ID FROM eZTrade_Order",
         array( "Limit" => $limit, "Offset" => $offset ) );
 
-        for ( $i=0; $i < count( $order_array ); $i++ )
+        for ( $i = 0; $i < count( $order_array ); $i++ )
         {
             $return_array[$i] = new eZOrder( $order_array[$i][$db->fieldName("ID")], 0 );
         }
@@ -268,7 +274,7 @@ class eZOrder
                                          WHERE ID LIKE '%$queryText%'",
                                          array( "Limit" => $limit, "Offset" => $offset ) );
 
-        for ( $i=0; $i < count( $order_array ); $i++ )
+        for ( $i = 0; $i < count( $order_array ); $i++ )
         {
             $return_array[$i] = new eZOrder( $order_array[$i][$db->fieldName("ID")], 0 );
         }
@@ -389,21 +395,23 @@ class eZOrder
         $address_array = array();
         
         $retUser = false;
-       
-        $db->array_query( $address_array,
-        "SELECT * FROM eZUser_UserAddressLink WHERE AddressID=$this->ShippingAddressID" );
-       
-        if ( count( $address_array ) == 1 )
-        {
-            $retUser = new eZUser( $address_array[0][$db->fieldName("UserID")] );
-        }
-        else
-        {
-            print( "Error: eZOrder::shippingUser() " . count( $address_array ) . " uses found, should be 1." );
-        }
 
-        return $retUser;
-       
+        if ( $this->PersonID == 0 && $this->CompanyID == 0 )
+        {
+            $db->array_query( $address_array,
+            "SELECT * FROM eZUser_UserAddressLink WHERE AddressID=$this->ShippingAddressID" );
+            
+            if ( count( $address_array ) == 1 )
+            {
+                $retUser = new eZUser( $address_array[0][$db->fieldName("UserID")] );
+            }
+            else
+            {
+                print( "Error: eZOrder::shippingUser() " . count( $address_array ) . " users found, should be 1." );
+            }
+            return $retUser;
+        }
+        return false;
     }
 
     /*!
@@ -452,6 +460,22 @@ class eZOrder
            return false;
     }
 
+    /*!
+      Returns the person we are shopping for
+    */
+    function personID()
+    {
+        return $this->PersonID;
+    }
+
+    /*!
+      Returns the company we are shopping for
+    */
+    function companyID()
+    {
+        return $this->CompanyID;
+    }
+    
     /*!
       Sets the payment method.
     */
@@ -546,6 +570,32 @@ class eZOrder
     }
 
     /*!
+      Sets the person we are shopping for
+    */
+    function setPersonID( $userID )
+    {
+        if ( get_class( $userID ) == "ezuser" )
+            $id = $userID->ID();
+        else
+            $id = $userID;
+        if ( is_numeric( $id ) )
+        {
+            $this->PersonID = $id;
+        }
+    }
+            
+    /*!
+      Sets the company we are shopping for
+    */
+    function setCompanyID( $ID )
+    {
+        if ( is_numeric( $id ) )
+        {
+            $this->CompanyID = $id;
+        }
+    }
+            
+    /*!
       Returns the initial status as a eZOrderStatus object.
     */
     function initialStatus( )
@@ -553,7 +603,7 @@ class eZOrder
         $db =& eZDB::globalDatabase();
         $statusType = new eZOrderStatusType();
        
-        $statusType->getByName( "Initial" );
+        $statusType->getByName( "intl-initial" );
         
         $db->array_query( $status_array, "SELECT ID FROM eZTrade_OrderStatus
                                                     WHERE OrderID='$this->ID'
@@ -574,7 +624,7 @@ class eZOrder
         $db =& eZDB::globalDatabase();
         $statusType = new eZOrderStatusType();
         
-        $statusType->getByName( "Initial" );
+        $statusType->getByName( "intl-initial" );
        
         $db->array_query( $status_array, "SELECT ID FROM eZTrade_OrderStatus
                                                     WHERE OrderID='$this->ID'
@@ -596,7 +646,7 @@ class eZOrder
 
         $statusType = new eZOrderStatusType();
         
-        $statusType->getByName( "Initial" );
+        $statusType->getByName( "intl-initial" );
        
         $db->array_query( $status_array, "SELECT ID FROM eZTrade_OrderStatus
                                                     WHERE OrderID='$this->ID'
@@ -619,7 +669,7 @@ class eZOrder
        
         $db =& eZDB::globalDatabase();
 
-        $dbarray_query( $order_array, "SELECT * FROM
+        $db->array_query( $order_array, "SELECT * FROM
                                        eZTrade_OrderItem
                                        WHERE OrderID='$this->ID'" );
 
@@ -694,11 +744,11 @@ class eZOrder
     var $ShippingVAT;
     var $PaymentMethod;
     var $Date;
-
-    var $ShippingTypeID;
+    var $PersonID;
+    var $CompanyID;
     
+    var $ShippingTypeID;
     var $OrderStatus_;
-
     var $IsExported;
 
 }

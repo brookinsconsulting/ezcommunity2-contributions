@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcart.php,v 1.19 2001/07/20 11:42:01 jakobn Exp $
+// $Id: ezcart.php,v 1.20 2001/07/30 14:19:03 jhe Exp $
 //
 // Definition of eZCart class
 //
@@ -42,7 +42,7 @@
   $items = $cart->items();
   
   // print contents of the cart if it exists
-  if  ($items )
+  if  ( $items )
   {
       foreach ( $items as $item )
       {
@@ -66,8 +66,10 @@ class eZCart
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZCart( $id="" )
+    function eZCart( $id = "" )
     {
+        $PersonID = 0;
+        $CompanyID = 0;
         if ( $id != "" )
         {
             $this->ID = $id;
@@ -89,16 +91,25 @@ class eZCart
             $nextID = $db->nextID( "eZTrade_Cart", "ID" );            
 
             $res = $db->query( "INSERT INTO eZTrade_Cart
-                             ( ID, SessionID )
-                             VALUES ( '$nextID', $this->SessionID )
-                             " );
+                                ( ID,
+                                  SessionID,
+                                  PersonID,
+                                  CompanyID )
+                                VALUES
+                                ( '$nextID',
+                                  '$this->SessionID',
+                                  '$this->PersonID',
+                                  '$this->CompanyID' )
+                               " );
 
             $this->ID = $nextID;
         }
         else
         {
             $res = $db->query( "UPDATE eZTrade_Cart SET
-		                         SessionID='$this->SessionID'
+		                         SessionID='$this->SessionID',
+                                 PersonID='$this->PersonID',
+                                 CompanyID='$this->CompanyID',
                                  WHERE ID='$this->ID'
                                  " );
         }
@@ -111,6 +122,22 @@ class eZCart
 
         return true;
     }    
+
+    /*!
+      Returns the person we are shopping for
+    */
+    function personID()
+    {
+        return $this->PersonID;
+    }
+
+    /*!
+      Returns the company we are shopping for
+    */
+    function companyID()
+    {
+        return $this->CompanyID;
+    }
 
     /*!
       Fetches the object information from the database.
@@ -127,11 +154,12 @@ class eZCart
             {
                 die( "Error: Cart's with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $cart_array ) == 1 )
+            else if ( count( $cart_array ) == 1 )
             {
                 $this->ID = $cart_array[0][$db->fieldName( "ID" )];
                 $this->SessionID = $cart_array[0][$db->fieldName( "SessionID" )];
-
+                $this->PersonID = $cart_array[0][$db->fieldName( "PersonID" )];
+                $this->CompanyID = $cart_array[0][$db->fieldName( "CompanyID" )];
                 $ret = true;
             }
         }
@@ -156,7 +184,7 @@ class eZCart
 
             if ( count( $cart_array ) == 1 )
             {
-                $ret = new eZCart( $cart_array[0][$db->fieldName( "ID" )]);
+                $ret = new eZCart( $cart_array[0][$db->fieldName( "ID" )] );
             }
         }
         return $ret;
@@ -195,7 +223,7 @@ class eZCart
     /*!
       Returns the object ID.
     */
-    function id( )
+    function id()
     {
         return $this->ID;
     }
@@ -212,6 +240,32 @@ class eZCart
             $this->SessionID = $session->id();
         }
     }
+
+    /*!
+      Sets the person we are shopping for
+    */
+    function setPersonID( $userID )
+    {
+        if ( get_class( $userID ) == "ezuser" )
+            $id = $userID->ID();
+        else
+            $id = $userID;
+        if ( is_numeric( $id ) )
+        {
+            $this->PersonID = $id;
+        }
+    }
+            
+    /*!
+      Sets the company we are shopping for
+    */
+    function setCompanyID( $ID )
+    {
+        if ( is_numeric( $id ) )
+        {
+            $this->CompanyID = $id;
+        }
+    }            
 
     /*!
       Returns all the cart items in the cart.
@@ -286,7 +340,7 @@ class eZCart
 //             print( $max );
 //         }
 
-       foreach( $ShippingCostValues as $value )
+       foreach ( $ShippingCostValues as $value )
        {
            $count = $value["Count"];
            if ( $value["ID"] == $max_id )
@@ -362,6 +416,8 @@ class eZCart
 
     var $ID;
     var $SessionID;
+    var $PersonID;
+    var $CompanyID;
 }
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsession.php,v 1.56 2001/07/20 11:25:45 jakobn Exp $
+// $Id: ezsession.php,v 1.57 2001/07/30 14:19:03 jhe Exp $
 //
 // Definition of eZSession class
 //
@@ -103,7 +103,7 @@ class eZSession
 
         $remoteIP = $GLOBALS["REMOTE_ADDR"];
         
-        if ( !isset( $this->ID ) )
+        if ( !isSet( $this->ID ) )
         {
             $nextID = $db->nextID( "eZSession_Session", "ID" );
 
@@ -198,7 +198,7 @@ class eZSession
 
       Returnes false if unsuccessful.
     */
-    function fetch( $refresh=true )
+    function fetch( $refresh = true )
     {
         $ret = false;
         
@@ -208,7 +208,7 @@ class eZSession
             $ret = false;
 
             // prefer cookie
-            if ( isset( $GLOBALS["eZSessionCookie"] ) )
+            if ( isSet( $GLOBALS["eZSessionCookie"] ) )
             {
                 $hash = $GLOBALS["eZSessionCookie"];
             }
@@ -258,32 +258,26 @@ class eZSession
     {
         if ( !$this->HasRefreshed )
         {
-            $db =& eZDB::globalDatabase();
-            
-            $db->begin( );
+            $db =& eZDB::globalDatabase();       
+            $db->begin();
             
             $timeStamp = eZDateTime::timeStamp( true );
             
             // update session
             $ret = $db->query( "UPDATE eZSession_Session SET
-                                 Created=Created,
                                  LastAccessed='$timeStamp'
-                                 WHERE ID='$this->ID'
-                                 " );
-
+                                 WHERE ID='$this->ID'" );
             if ( $ret == false )
             {
-                $db->rollback( );
-
+                $db->rollback();
             }
             else
             {
-                $db->commit();            
+                $db->commit();
                 $this->HasRefreshed = true;
             }
         }
     }
-        
 
     /*!
       Deletes an eZSession object from the database.

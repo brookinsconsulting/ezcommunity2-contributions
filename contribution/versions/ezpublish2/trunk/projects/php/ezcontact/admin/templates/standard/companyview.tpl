@@ -245,6 +245,9 @@
 <!-- BEGIN file_button_tpl -->
 <input class="stdbutton" type="submit" name="FileButton" value="{intl-files}">
 <!-- END file_button_tpl -->
+<!-- BEGIN buy_button_tpl -->
+<input class="stdbutton" type="submit" name="BuyButton" value="{intl-buy}">
+<!-- END buy_button_tpl -->
 <!-- BEGIN company_edit_button_tpl -->
 <hr noshade="noshade" size="4" />
 <input class="okbutton" type="submit" name="Edit" value="{intl-edit}">
