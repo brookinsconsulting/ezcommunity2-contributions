@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: linklist.php,v 1.1 2001/04/30 17:42:15 jb Exp $
+// $Id: linklist.php,v 1.2 2001/05/03 14:26:58 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <30-Apr-2001 18:50:47 amos>
@@ -63,16 +63,19 @@ if ( isset( $ItemInsert ) )
 {
     list($ModuleName,$Type) = explode( "/", $ModuleType );
     $module_lower = strtolower( $ModuleName );
+    if ( !isset( $LinkID ) )
+         $LinkID = false;
     switch( $ModuleName )
     {
         case "std":
         {
             if ( $Type == "url" )
             {
-                $link_item = new eZLinkItem( false, $ClientModuleName );
+                $link_item = new eZLinkItem( $LinkID, $ClientModuleName );
                 $link_item->setName( $URLName );
                 $link_item->setURL( $URL );
                 $link_item->setSection( $SectionID );
+                $link_item->setType( $ModuleName,$Type );
                 $link_item->store();
                 $Funcs["delete"]( $ItemID );
             }
@@ -98,19 +101,26 @@ if ( isset( $ItemInsert ) )
                     foreach( $CategorySelect as $category )
                     {
                         $category_info = $Supplier->item( $Type, $category, true );
-                        $link_item = new eZLinkItem( false, $ClientModuleName );
+                        $link_item = new eZLinkItem( $LinkID, $ClientModuleName );
                         $link_item->setName( $category_info["name"] );
                         $link_item->setURL( $category_info["url"] );
                         $link_item->setSection( $SectionID );
+                        $link_item->setType( $ModuleName,$Type );
                         $link_item->store();
                     }
                     foreach( $ItemSelect as $item )
                     {
-                        $item_info = $Supplier->item( $Type, $item, false );
-                        $link_item = new eZLinkItem( false, $ClientModuleName );
+                        if ( isset( $LinkID ) and $item < 0 )
+                        {
+                            $item_info = $Supplier->item( $Type, -$item, true );
+                        }
+                        else
+                            $item_info = $Supplier->item( $Type, $item, false );
+                        $link_item = new eZLinkItem( $LinkID, $ClientModuleName );
                         $link_item->setName( $item_info["name"] );
                         $link_item->setURL( $item_info["url"] );
                         $link_item->setSection( $SectionID );
+                        $link_item->setType( $ModuleName,$Type );
                         $link_item->store();
                     }
                     $Funcs["delete"]( $ItemID );
@@ -131,7 +141,12 @@ $t->set_block( "link_list_tpl", "value_tpl", "value" );
 $t->set_block( "link_list_tpl", "section_item_tpl", "section_item" );
 $t->set_block( "section_item_tpl", "link_item_tpl", "link_item" );
 
+$t->set_block( "link_item_tpl", "link_edit_item_tpl", "link_edit_item" );
+
 $t->set_var( "value", "" );
+
+$t->set_var( "client_name", $ClientModuleName );
+$t->set_var( "client_type", $ClientModuleType );
 
 include_once( "ezsession/classes/ezpreferences.php" );
 $preferences = new eZPreferences();
@@ -194,10 +209,31 @@ foreach( $sections as $section )
     $i = 0;
     foreach( $links as $link )
     {
+        $t->set_var( "link_edit_item", "" );
         $t->set_var( "td_class", ($i%2) == 0 ? "bglight" : "bgdark" );
         $t->set_var( "link_name", $link->name() );
         $t->set_var( "link_url", $link->url() );
         $t->set_var( "link_id", $link->id() );
+        $m_name = "std";
+        $m_type = "url";
+        if ( $link->type() != 0 )
+        {
+            $type_array = $link->type( true );
+            $m_name = $type_array["Module"];
+            $m_type = $type_array["Type"];
+        }
+        $t->set_var( "link_module_name", $m_name );
+        $t->set_var( "link_module_type", $m_type );
+        if ( $m_name != "std" )
+        {
+            $url_str = $URLS["linkedit"];
+        }
+        else
+        {
+            $url_str = $URLS["urledit"];
+        }
+        $t->set_var( "item_edit_command", sprintf( $url_str, $ItemID , "$m_name/$m_type", $section->id(), $link->id() ) );
+        $t->parse( "link_edit_item", "link_edit_item_tpl" );
         $t->parse( "link_item", "link_item_tpl", true );
         ++$i;
     }
@@ -205,7 +241,7 @@ foreach( $sections as $section )
     ++$item;
 }
 
-$t->set_var( "link_list_url", sprintf( $URLS["linkselect"], "", "", "", "", "" ) );
+$t->set_var( "link_list_url", $URLS["linkselect_basic"] );
 
 $t->setAllStrings();
 

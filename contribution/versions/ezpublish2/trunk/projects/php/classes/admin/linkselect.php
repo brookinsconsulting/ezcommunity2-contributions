@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: linkselect.php,v 1.1 2001/04/30 17:42:15 jb Exp $
+// $Id: linkselect.php,v 1.2 2001/05/03 14:26:58 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <30-Apr-2001 18:33:53 amos>
@@ -70,7 +70,8 @@ if ( is_array( $SectionIDList ) )
 $Funcs["delete"]( $ItemID );
 if ( isset( $SubmitInfo ) )
 {
-    eZHTTPTool::header( sprintf( "Location: " . $URLS["linklist"], $ItemID ) );
+    eZHTTPTool::header( sprintf( "Location: " . $URLS["back"], $ItemID ) );
+//      eZHTTPTool::header( sprintf( "Location: " . $URLS["linklist"], $ItemID ) );
     exit();
 }
 
@@ -136,7 +137,14 @@ if ( !isset( $ModuleName ) or !isset( $Type ) )
     $module_lower = strtolower( $ModuleName );
     if ( $Type == "" )
         $Type = "null";
-    eZHTTPTool::header( sprintf( "Location: " . $URLS["linkselect"], $ItemID, $module_lower, $Type, $SectionID, "" ) );
+    if ( $module_lower == "std" )
+    {
+        eZHTTPTool::header( sprintf( "Location: " . $URLS["linkselect_std"], $ItemID, $module_lower, $Type, $SectionID, $LinkID ) );
+    }
+    else
+    {
+        eZHTTPTool::header( sprintf( "Location: " . $URLS["linkselect"], $ItemID, $module_lower, $Type, $SectionID, "0", $LinkID ) );
+    }
     exit();
 }
 
@@ -146,12 +154,15 @@ include_once( "classes/ezlist.php" );
 
 $intl_dirs = array( $ClientIntlDir );
 $php_files = array( "linkselect.php" );
-$dir = strtolower( $ModuleName ) . "/user/intl/";
-$file = strtolower( $ModuleName ) . "/user/urlsupplier.php";
-if ( file_exists( $file ) )
+foreach( $Modules as $module )
 {
-    $intl_dirs[] = $dir;
-    $php_files[] = "urlsupplier.php";
+    $dir = strtolower( $module ) . "/user/intl/";
+    $file = strtolower( $module ) . "/user/urlsupplier.php";
+    if ( file_exists( $file ) )
+    {
+        $intl_dirs[] = $dir;
+        $php_files[] = "urlsupplier.php";
+    }
 }
 
 $t = new eZTemplate( $ClientRoot . $ini->read_var( $INIGroup, "AdminTemplateDir" ),
@@ -162,20 +173,34 @@ $t->set_file( "link_select_tpl", "linkselect.tpl" );
 $t->set_block( "link_select_tpl", "normal_select_tpl", "normal_select" );
 $t->set_block( "normal_select_tpl", "tree_select_tpl", "tree_select" );
 $t->set_block( "normal_select_tpl", "url_select_tpl", "url_select" );
+$t->set_block( "url_select_tpl", "url_selector_tpl", "url_selector" );
+$t->set_block( "url_selector_tpl", "url_value_tpl", "url_value" );
 
 $t->set_block( "tree_select_tpl", "category_list_tpl", "category_list" );
+$t->set_block( "tree_select_tpl", "path_item_tpl", "path_item" );
+$t->set_block( "path_item_tpl", "path_arrow_item_tpl", "path_arrow_item" );
+$t->set_block( "path_item_tpl", "path_slash_item_tpl", "path_slash_item" );
 $t->set_block( "category_list_tpl", "category_item_tpl", "category_item" );
+$t->set_block( "category_item_tpl", "category_checkbox_item_tpl", "category_checkbox_item" );
+$t->set_block( "category_item_tpl", "category_radio_item_tpl", "category_radio_item" );
+$t->set_block( "tree_select_tpl", "tree_selector_tpl", "tree_selector" );
+$t->set_block( "tree_selector_tpl", "tree_value_tpl", "tree_value" );
 
 $t->set_block( "tree_select_tpl", "object_list_tpl", "object_list" );
 $t->set_block( "object_list_tpl", "object_item_tpl", "object_item" );
+$t->set_block( "object_item_tpl", "object_checkbox_item_tpl", "object_checkbox_item" );
+$t->set_block( "object_item_tpl", "object_radio_item_tpl", "object_radio_item" );
 
 $t->set_block( "link_select_tpl", "module_select_tpl", "module_select" );
 $t->set_block( "module_select_tpl", "module_item_tpl", "module_item" );
+$t->set_block( "module_select_tpl", "module_selector_tpl", "module_selector" );
+$t->set_block( "module_selector_tpl", "module_value_tpl", "module_value" );
 
 $t->set_var( "category_list", "" );
 $t->set_var( "object_list", "" );
 
-$t->set_var( "link_select_url", sprintf( $URLS["linkselect"], "", "", "", "", "" ) );
+$t->set_var( "link_select_url", sprintf( $URLS["linkselect"], "", "", "", "", "", "" ) );
+$t->set_var( "link_type_select_url", $URLS["linkselect_basic"] );
 $t->set_var( "link_list_url", sprintf( $URLS["linklist"], "" ) );
 
 $module = $ModuleName;
@@ -185,6 +210,7 @@ $t->set_var( "object_id", $ItemID );
 $t->set_var( "module_type", "$ModuleName/$Type" );
 $t->set_var( "category_id", $Category );
 $t->set_var( "section_id", $SectionID );
+$t->set_var( "link_id", $LinkID );
 
 if ( !isset( $Offset ) or !is_numeric( $Offset ) )
     $Offset = 0;
@@ -194,12 +220,64 @@ $t->set_var( "module_select", "" );
 $t->set_var( "tree_select", "" );
 $t->set_var( "url_select", "" );
 
+$t->set_var( "client_name", $ClientModuleName );
+$t->set_var( "client_type", $ClientModuleType );
+
+include_once( "ezsession/classes/ezpreferences.php" );
+$preferences = new eZPreferences();
+$LinkType = $preferences->variable( $PreferencesSetting );
+if ( is_bool( $LinkType ) )
+    $LinkType = $ModuleType;
+
 switch( $module )
 {
     case "std":
     {
         if ( $type == "url" )
         {
+            $LinkID = $Category;
+            $t->set_var( "url_selector", "" );
+            if ( isset( $LinkID ) and is_numeric( $LinkID ) )
+            {
+                foreach( $Modules as $module )
+                {
+                    $module_lower = strtolower( $module );
+                    $file = $module_lower . "/user/urlsupplier.php";
+                    if ( file_exists( $file ) )
+                    {
+                        unset( $Supplier );
+                        include( $file );
+                        if ( isset( $Supplier ) and get_class( $Supplier ) )
+                        {
+                            $module_lower = strtolower( $module );
+
+                            $types =& $Supplier->urlTypes();
+                            $t->set_var( "type_level", "" );
+                            $t->set_var( "selected", $LinkType == $module_lower ? "selected" : "" );
+                            $t->set_var( "module_select_type", $module_lower );
+                            $t->set_var( "type_name", $Supplier->moduleName() );
+                            $t->parse( "url_value", "url_value_tpl", true );
+                            $t->set_var( "type_level", "&nbsp;" );
+                            reset( $types );
+                            while( list($key,$val) = each($types) )
+                            {
+                                $mod_type = "$module_lower/$key";
+                                $t->set_var( "module_select_type", $mod_type );
+                                $t->set_var( "type_name", $val );
+                                $t->set_var( "selected", $LinkType == $mod_type ? "selected" : "" );
+                                $t->parse( "url_value", "url_value_tpl", true );
+                            }
+                            $t->set_var( "url_selected", $LinkType == "std/url" ? "selected" : "" );
+                        }
+                    }
+                }
+                $t->parse( "url_selector", "url_selector_tpl" );
+            }
+
+            $t->set_var( "link_id", $LinkID );
+            $link = new eZLinkItem( $LinkID, $ClientModuleName );
+            $t->set_var( "url_name", $link->name() );
+            $t->set_var( "url_src", $link->url() );
             $t->parse( "url_select", "url_select_tpl" );
             $t->parse( "normal_select", "normal_select_tpl" );
         }
@@ -217,6 +295,41 @@ switch( $module )
         if ( $Type == "null" )
         {
             $t->set_var( "module_item", "" );
+            $t->set_var( "module_selector", "" );
+            if ( isset( $LinkID ) and is_numeric( $LinkID ) )
+            {
+                foreach( $Modules as $file_module )
+                {
+                    $module_lower = strtolower( $file_module );
+                    $file = $module_lower . "/user/urlsupplier.php";
+                    if ( file_exists( $file ) )
+                    {
+                        unset( $Supplier );
+                        include( $file );
+                        if ( isset( $Supplier ) and get_class( $Supplier ) )
+                        {
+                            $types =& $Supplier->urlTypes();
+                            $t->set_var( "type_level", "" );
+                            $t->set_var( "selected", $LinkType == $module_lower ? "selected" : "" );
+                            $t->set_var( "module_type", $module_lower );
+                            $t->set_var( "type_name", $Supplier->moduleName() );
+                            $t->parse( "module_value", "module_value_tpl", true );
+                            $t->set_var( "type_level", "&nbsp;" );
+                            reset( $types );
+                            while( list($key,$val) = each($types) )
+                            {
+                                $mod_type = "$module_lower/$key";
+                                $t->set_var( "module_type", $mod_type );
+                                $t->set_var( "type_name", $val );
+                                $t->set_var( "selected", $LinkType == $mod_type ? "selected" : "" );
+                                $t->parse( "module_value", "module_value_tpl", true );
+                            }
+                            $t->set_var( "url_selected", $LinkType == "std/url" ? "selected" : "" );
+                        }
+                    }
+                }
+                $t->parse( "module_selector", "module_selector_tpl" );
+            }
             $file = strtolower( $module ) . "/user/urlsupplier.php";
             if ( file_exists( $file ) )
             {
@@ -224,6 +337,7 @@ switch( $module )
                 include( $file );
                 if ( isset( $Supplier ) and get_class( $Supplier ) )
                 {
+                    $module_lower = strtolower( $module );
                     $types =& $Supplier->urlTypes();
                     $t->set_var( "module_name", $module );
                     reset( $types );
@@ -231,6 +345,7 @@ switch( $module )
                     {
                         $t->set_var( "module_type", $key );
                         $t->set_var( "module_type_name", $val );
+                        $t->set_var( "link_select_url", sprintf( $URLS["linkselect"], $ItemID, $module, $key, $SectionID, 0, $LinkID ) );
                         $t->parse( "module_item", "module_item_tpl", true );
                     }
                 }
@@ -239,6 +354,42 @@ switch( $module )
         }
         else
         {
+            $t->set_var( "tree_selector", "" );
+            if ( isset( $LinkID ) and is_numeric( $LinkID ) )
+            {
+                $module_lower = strtolower( $module );
+                foreach( $Modules as $file_module )
+                {
+                    $module_lower = strtolower( $file_module );
+                    $file = $module_lower . "/user/urlsupplier.php";
+                    if ( file_exists( $file ) )
+                    {
+                        unset( $Supplier );
+                        include( $file );
+                        if ( isset( $Supplier ) and get_class( $Supplier ) )
+                        {
+                            $types =& $Supplier->urlTypes();
+                            $t->set_var( "type_level", "" );
+                            $t->set_var( "selected", $LinkType == $module_lower ? "selected" : "" );
+                            $t->set_var( "module_type", $module_lower );
+                            $t->set_var( "type_name", $Supplier->moduleName() );
+                            $t->parse( "tree_value", "tree_value_tpl", true );
+                            $t->set_var( "type_level", "&nbsp;" );
+                            reset( $types );
+                            while( list($key,$val) = each($types) )
+                            {
+                                $mod_type = "$module_lower/$key";
+                                $t->set_var( "module_type", $mod_type );
+                                $t->set_var( "type_name", $val );
+                                $t->set_var( "selected", $LinkType == $mod_type ? "selected" : "" );
+                                $t->parse( "tree_value", "tree_value_tpl", true );
+                            }
+                            $t->set_var( "url_selected", $LinkType == "std/url" ? "selected" : "" );
+                        }
+                    }
+                }
+                $t->parse( "tree_selector", "tree_selector_tpl" );
+            }
             $file = strtolower( $module ) . "/user/urlsupplier.php";
             if ( file_exists( $file ) )
             {
@@ -248,18 +399,57 @@ switch( $module )
                 {
                     $list =& $Supplier->urlList( $type, $Category, $Offset );
                     $categories =& $list["categories"];
+                    $path =& $list["path"];
                     $t->set_var( "category_item", "" );
                     $i = 0;
+                    $link = false;
+                    if ( isset( $LinkID ) and is_numeric( $LinkID ) )
+                    {
+                        $link = new eZLinkItem( $LinkID, $ClientModuleName );
+                    }
+                    $t->set_var( "path_item", "" );
+                    $path = array_merge( array( array( "id" => 0, "name" => "{intl-root}" ) ),
+                                         $path );
+                    $i = 0;
+                    foreach( $path as $path_item )
+                    {
+                        $t->set_var( "path_arrow_item", "" );
+                        $t->set_var( "path_slash_item", "" );
+                        $url = sprintf( $URLS["linkselect"], $ItemID, $module_lower, $type, $SectionID, $path_item["id"], $LinkID );
+                        $t->set_var( "path_url", $url );
+                        $t->set_var( "path_name", $path_item["name"] );
+                        if ( $i > 0 )
+                            $t->parse( "path_slash_item", "path_slash_item_tpl" );
+                        else
+                            $t->parse( "path_arrow_item", "path_arrow_item_tpl" );
+                        $t->parse( "path_item", "path_item_tpl", true );
+                        ++$i;
+                    }
                     foreach( $categories as $category )
                     {
+                        $t->set_var( "category_checkbox_item", "" );
+                        $t->set_var( "category_radio_item", "" );
                         $t->set_var( "td_class", ($i % 2 ) == 0 ? "bglight" : "bgdark" );
                         $category_id = $category["id"];
-                        $module_lower = strtolower( $module );
-                        $url = sprintf( $URLS["linkselect"], $ItemID, $module_lower, $type, $SectionID, $category_id );
+                        $url = sprintf( $URLS["linkselect"], $ItemID, $module_lower, $type, $SectionID, $category_id, $LinkID );
                         $t->set_var( "category_item_id", $category_id );
                         $t->set_var( "category_url", $url );
                         $t->set_var( "category_name", $category["name"] );
                         $t->set_var( "category_orig_url", $category["url"] );
+                        $t->set_var( "radio_select", "selected" );
+                        if ( get_class( $link ) == "ezlinkitem" and $link->url() == $category["url"] )
+                        {
+                            $t->set_var( "td_class", "bgcurrent" );
+                            $t->set_var( "radio_select", "checked" );
+                        }
+                        if ( get_class( $link ) == "ezlinkitem" )
+                        {
+                            $t->parse( "category_radio_item", "category_radio_item_tpl" );
+                        }
+                        else
+                        {
+                            $t->parse( "category_checkbox_item", "category_checkbox_item_tpl" );
+                        }
                         $t->parse( "category_item", "category_item_tpl", true );
                         ++$i;
                     }
@@ -271,12 +461,24 @@ switch( $module )
                     $i = 0;
                     foreach( $objects as $object )
                     {
+                        $t->set_var( "object_checkbox_item", "" );
+                        $t->set_var( "object_radio_item", "" );
                         $t->set_var( "td_class", ($i % 2 ) == 0 ? "bglight" : "bgdark" );
                         $object_id = $object["id"];
                         $module_lower = strtolower( $module );
                         $t->set_var( "item_id", $object_id );
                         $t->set_var( "object_name", $object["name"] );
                         $t->set_var( "object_orig_url", $object["url"] );
+                        $t->set_var( "radio_select", "selected" );
+                        if ( get_class( $link ) == "ezlinkitem" and $link->url() == $object["url"] )
+                        {
+                            $t->set_var( "td_class", "bgcurrent" );
+                            $t->set_var( "radio_select", "checked" );
+                        }
+                        if ( get_class( $link ) == "ezlinkitem" )
+                            $t->parse( "object_radio_item", "object_radio_item_tpl" );
+                        else
+                            $t->parse( "object_checkbox_item", "object_checkbox_item_tpl" );
                         $t->parse( "object_item", "object_item_tpl", true );
                         ++$i;
                     }
