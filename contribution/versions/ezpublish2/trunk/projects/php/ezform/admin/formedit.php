@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formedit.php,v 1.22 2001/12/18 14:43:41 pkej Exp $
+// $Id: formedit.php,v 1.23 2001/12/18 15:22:44 pkej Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -110,65 +110,60 @@ $errorMessages = array();
 
 if ( isSet( $OK ) || isSet( $Update ) || isSet( $Preview ) )
 {
-    // CHANGE THIS NOW!
-    if ( empty( $formSender ) )
-    {
-        if ( isSet( $formSendAsUser ) == false )
-        {
-            $errorMessages[] = "form_must_have_sender";
-        }
-    }
-    else
-    {
-        if ( isSet( $formSendAsUser ) )
-        {
-            $errorMessages[] = "form_cant_have_both";
-        }
-        else
-        {
-            if ( eZMail::validate( $formReceiver ) == false )
-            {
-                $errorMessages[] = "form_sender_not_valid";
-            }
-        }
-    }
-
     if ( empty( $formName ) )
     {
         $errorMessages[] = "form_name_not_set";
     }
 
-    if ( empty( $formReceiver ) )
+    if ( $DataSender == "predefined" )
     {
-        $errorMessages[] = "form_receiver_not_set";
-    }
-    else
-    {
-        if ( eZMail::validate( $formReceiver ) == false )
+        if ( empty( $formSender ) )
         {
-            $errorMessages[] = "form_receiver_not_valid";
+            $errorMessages[] = "form_must_have_sender";
         }
+        else
+        {
+            if ( eZMail::validate( $formSender ) == false )
+            {
+                $errorMessages[] = "form_sender_not_valid";
+            }
+        }        
     }
 
+    if ( $DataHandlingSend == "send" )
+    {
+        if ( empty( $formReceiver ) )
+        {
+            $errorMessages[] = "form_receiver_not_set";
+        }
+        else
+        {
+            if ( eZMail::validate( $formReceiver ) == false )
+            {
+                $errorMessages[] = "form_receiver_not_valid";
+            }
+        }
+
+        if ( !empty( $formCC ) )
+        {
+            if ( eZMail::validate( $formCC ) == false )
+            {
+                $errorMessages[] = "form_cc_not_valid";
+            }
+        }
+    }
+    
     if ( empty( $formCompletedPage ) )
     {
         $errorMessages[] = "form_completed_page_not_set";
     }
 
-    if ( empty( $formCC ) == false )
-    {
-        if ( eZMail::validate( $formCC ) == false )
-        {
-            $errorMessages[] = "form_cc_not_valid";
-        }
-    }
-    
     if ( $hasInstructions == "no" )
     {
         $formInstructionPage = "no";
     }
 
-    if ( count( $errorMessages ) == 0 || isSet( $Update ) || isSet( $OK ) )
+    if ( count( $errorMessages ) == 0 )
     {
         $form->setName( $formName );
         
@@ -394,8 +389,6 @@ else
     $t->set_var( "check_send_in_DataHandling", "checked" );    
 }
 
-print_r( $form );
-
 if ( $form->useDatabaseStorage() )
 {
     $t->set_var( "check_database_in_DataHandling", "checked" );    
@@ -405,17 +398,18 @@ else
     $t->set_var( "check_database_in_DataHandling", "" );    
 }
 
-if ( $form->isSendAsUser() || $form->sender() == "" )
-{
-    $t->set_var( "form_sender", "" );
-    $t->set_var( "DataSender_is_user", "checked" );
-    $t->set_var( "DataSender_is_predefined", "" );
-}
-else
+
+if ( $form->isSendAsUser() )
 {
     $t->set_var( "form_sender", $form->sender() );
     $t->set_var( "DataSender_is_user", "" );
     $t->set_var( "DataSender_is_predefined", "checked" );
+}
+else
+{
+    $t->set_var( "form_sender", "" );
+    $t->set_var( "DataSender_is_user", "checked" );
+    $t->set_var( "DataSender_is_predefined", "" );
 }
 
 if ( $FormID )
