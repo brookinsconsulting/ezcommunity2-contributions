@@ -24,7 +24,7 @@
 	<td>
 	<p class="boxtext">{intl-stop_date}:</p>
 	<input type="text" size="2" name="StopMonth" value="{stop_month}" />&nbsp;
-	<input type="text" size="2" name="StopMonth" value="{stop_month}" />&nbsp;
+	<input type="text" size="2" name="StopDay" value="{stop_day}" />&nbsp;
 	<input type="text" size="4" name="StopYear" value="{stop_year}" />
 	</td>
 </tr>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: gameedit.php,v 1.2 2001/05/28 11:14:35 ce Exp $
+// $Id: gameedit.php,v 1.3 2001/05/28 12:06:52 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <22-May-2001 13:44:13 ce>
@@ -149,6 +149,12 @@ if ( is_numeric( $GameID ) )
     $stopDate =& $game->stopDate();
 
     $t->set_var( "start_day", $startDate->day() );
+    $t->set_var( "start_month", $startDate->month() );
+    $t->set_var( "start_year", $startDate->year() );
+
+    $t->set_var( "stop_day", $stopDate->day() );
+    $t->set_var( "stop_month", $stopDate->month() );
+    $t->set_var( "stop_year", $stopDate->year() );
 
     $questionList =& $game->questions();
 }
@@ -172,6 +178,8 @@ if ( count ( $questionList ) > 0 )
     }
     $t->parse( "question_list", "question_list_tpl", true );
 }
+else
+$t->set_var( "question_list", "" );
 
 $t->set_var( "site_style", $SiteStyle );
 $t->pparse( "output", "game_edit_page" );
