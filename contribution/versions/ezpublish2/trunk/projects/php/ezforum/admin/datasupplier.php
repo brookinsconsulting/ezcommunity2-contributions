@@ -33,6 +33,12 @@ switch ( $url_array[2] )
     case "messagelist":
     {
         $ForumID = $url_array[3];
+
+        if ( $url_array[4] == "parent" )
+            $Offset = $url_array[5];
+        else
+            $Offset = 0;
+
         include( "ezforum/admin/messagelist.php" );
     }
     break;

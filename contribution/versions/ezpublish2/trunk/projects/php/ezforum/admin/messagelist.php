@@ -1,5 +1,5 @@
 <?
-// $Id: messagelist.php,v 1.15 2001/03/05 13:14:51 pkej Exp $
+// $Id: messagelist.php,v 1.16 2001/05/04 12:55:43 ce Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
@@ -26,9 +26,11 @@ include_once( "classes/INIFile.php" );
 $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
+$AdminLimit = $ini->read_var( "eZForumMain", "MessageAdminLimit" );
 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
+include_once( "classes/ezlist.php" );
 
 include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "ezforum/classes/ezforum.php" );
@@ -59,18 +61,16 @@ if ( count( $categories ) > 0 )
 
 $locale = new eZLocale( $Language );
 
-if ( !isset( $Offset ) )
-    $Offset = 0;
-
-if ( !isset( $Limit ) )
-    $Limit = 30;
-
-$messages = $forum->messageTree( $Offset, $Limit );
+$messages = $forum->messageTree( $Offset, $AdminLimit );
+$messageCount = $forum->messageCount();
 
 $languageIni = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/messagelist.php.ini", false );
+
 $true =  $languageIni->read_var( "strings", "true" );
 $false =  $languageIni->read_var( "strings", "false" );
+
 $AnonymousPoster = $ini->read_var( "eZForumMain", "AnonymousPoster" );
+
 if ( !$messages )
 {
     $noitem = $languageIni->read_var( "strings", "noitem" );
@@ -78,7 +78,6 @@ if ( !$messages )
 }
 else
 {
-
     $level = 0;
     $i = 0;
     foreach ( $messages as $message )
@@ -115,15 +114,11 @@ else
             else
                 $t->set_var( "emailnotice", $false );
 
-
-            $t->set_var( "limit", $Limit );
-            $t->set_var( "prev_offset", $Offset - $Limit );
-            $t->set_var( "next_offset", $Offset + $Limit );    
-    
             $t->parse( "message_item", "message_item_tpl", true );
             $i++;
         }
 } 
+eZList::drawNavigator( $t, $messageCount, $AdminLimit, $Offset, "message_page" );
 
 $t->set_var( "link1-url", "");
 $t->set_var( "link2-url", "search.php");
