@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezperson.php,v 1.58 2001/08/29 10:37:23 jhe Exp $
+// $Id: ezperson.php,v 1.59 2001/09/17 14:25:38 jhe Exp $
 //
 // Definition of eZPerson class
 //
@@ -159,10 +159,15 @@ class eZPerson
                 $res[] = $db->query( "DELETE FROM eZAddress_Online WHERE ID='$onlineDictID'" );
             }
             $res[] = $db->query( "DELETE FROM eZContact_PersonOnlineDict WHERE PersonID='$id'" );
-
             $res[] = $db->query( "DELETE FROM eZContact_CompanyPersonDict WHERE PersonID='$id'" );
-
             $res[] = $db->query( "DELETE FROM eZContact_Person WHERE ID='$id'" );
+            $db->array_query( $res_array, "SELECT ID FROM eZTrade_Order WHERE PersonID='$id'" );
+            include_once( "eztrade/classes/ezorder.php" );
+            foreach ( $res_array as $order )
+            {
+                $orderObject = new eZOrder( $order[$db->fieldName( "ID" )] );
+                $orderObject->delete();
+            }
         }
         eZDB::finish( $res, $db );
         return true;

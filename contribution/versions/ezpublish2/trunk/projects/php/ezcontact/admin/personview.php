@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personview.php,v 1.22 2001/09/05 11:57:06 jhe Exp $
+// $Id: personview.php,v 1.23 2001/09/17 14:25:38 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -383,8 +383,11 @@ if ( $Action == "view" )
 if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "buy" ) )
 {
     $max = $ini->read_var( "eZContactMain", "MaxCompanyConsultationList" );
-    $orders = eZOrder::getByContact( $CompanyID, false, 0, $max );
-    
+    if ( $CompanyEdit )
+        $orders = eZOrder::getByContact( $CompanyID, false, 0, $max );
+    else
+        $orders = eZOrder::getByContact( $PersonID, false, 0, $max );
+
     $locale = new eZLocale( $Language );
     $i = 0;
     $currency = new eZCurrency();

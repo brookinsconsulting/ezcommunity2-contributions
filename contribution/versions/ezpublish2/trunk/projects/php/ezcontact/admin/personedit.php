@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.51 2001/09/14 13:25:57 jhe Exp $
+// $Id: personedit.php,v 1.52 2001/09/17 14:25:38 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -685,10 +685,12 @@ if ( !$confirm )
         if ( isSet( $CompanyEdit ) )
         {
             $CompanyID = $company->id();
+            $item_cat_id = $CompanyID;
         }
         else
         {
             $PersonID = $person->id();
+            $item_cat_id = $PersonID;
         }
 
         $t->set_var( "user_id", $UserID );
@@ -696,7 +698,7 @@ if ( !$confirm )
         $t->set_var( "company_id", $CompanyID );
 
         include_once( "classes/ezhttptool.php" );
-        eZHTTPTool::header( "Location: /contact/$item_type/list/$item_cat_id" );
+        eZHTTPTool::header( "Location: /contact/$item_type/view/$item_cat_id" );
     }
 
 /*

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcompany.php,v 1.77 2001/09/05 11:57:07 jhe Exp $
+// $Id: ezcompany.php,v 1.78 2001/09/17 14:25:38 jhe Exp $
 //
 // Definition of eZProduct class
 //
@@ -176,6 +176,13 @@ class eZCompany
             $res[] = $db->query( "DELETE FROM eZContact_CompanyTypeDict WHERE CompanyID='$id'" );
             $res[] = $db->query( "DELETE FROM eZContact_Company WHERE ID='$id'" );
             $res[] = $db->query( "DELETE FROM eZContact_CompanyPersonDict WHERE CompanyID='$id'" );
+            $db->array_query( $res_array, "SELECT ID FROM eZTrade_Order WHERE CompanyID='$id'" );
+            include_once( "eztrade/classes/ezorder.php" );
+            foreach ( $res_array as $order )
+            {
+                $orderObject = new eZOrder( $order[$db->fieldName( "ID" )] );
+                $orderObject->delete();
+            }
         }
         eZCompany::removePersons( $id );
         eZDB::finish( $res, $db );
@@ -199,7 +206,7 @@ class eZCompany
             {
                 die( "Error: More than one company with the same id was found. " );
             }
-            else if ( count( $company_array ) == 1 )
+            elseif ( count( $company_array ) == 1 )
             {
                 $this->ID = $company_array[0][$db->fieldName( "ID" )];
                 $this->Name = $company_array[0][$db->fieldName( "Name" )];
