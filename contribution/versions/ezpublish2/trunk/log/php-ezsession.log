@@ -114,3 +114,11 @@ Maintainer(s) : bf@ez.no
     * classes/ezpreferences.php
       classes/ezsession.php: Major commit for the mygold project
 
+
+Module : ezsession
+Repository path : /home/cvsroot/projects/php/ezsession
+Maintainer(s) : bf@ez.no
+2002-07-09  Baard Farstad  <bf@ez.no>
+
+    * classes/ezsession.php: Added sorting of session list.
+

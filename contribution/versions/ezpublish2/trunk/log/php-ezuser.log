@@ -1426,3 +1426,14 @@ Maintainer(s) : bf@ez.no
       user/userwithaddress.php:
     Fixed correct display of session idle time when > 24 h.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-07-09  Baard Farstad  <bf@ez.no>
+
+    * admin/intl/en_GB/sessioninfo.php.ini
+      admin/sessioninfo.php
+      admin/templates/standard/sessioninfo.tpl
+      classes/ezuser.php: Added user id to session list.
+
