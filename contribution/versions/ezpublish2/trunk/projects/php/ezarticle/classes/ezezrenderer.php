@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezezrenderer.php,v 1.16 2001/01/22 14:42:59 jb Exp $
+// $Id: ezezrenderer.php,v 1.17 2001/02/06 16:37:00 th Exp $
 //
 // Definition of eZEzRenderer class
 //
@@ -184,12 +184,12 @@ class eZEzRenderer
                              <tr>
                              <td bgcolor=\"#c0c0c0\" width=\"100%\">
                              
-                             <strong class=\"h2\"><img src=\"/images/1x1.gif\" width=\"3\" height=\"1\" border=\"0\">&nbsp;"
+                             <div class=\"listheadline\"><img src=\"/images/1x1.gif\" width=\"4\" height=\"1\" border=\"0\">"
                              .
                              $paragraph->children[0]->content
                              .
                              "
-                             </strong>
+                             </div>
                              </td>
                          </tr>
                        </table>";

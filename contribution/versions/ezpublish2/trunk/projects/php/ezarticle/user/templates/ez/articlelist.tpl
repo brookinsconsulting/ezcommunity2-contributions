@@ -31,7 +31,7 @@
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td bgcolor="#b5b5b5">
+	<td bgcolor="#c0c0c0">
 	<div class="listheadline"><a class="listheadline" href="/article/articleview/{article_id}/">{article_name}</a></div>
 	</td>
 </tr>

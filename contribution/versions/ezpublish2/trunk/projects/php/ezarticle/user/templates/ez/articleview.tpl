@@ -34,7 +34,7 @@
 
 <!-- END attached_file_list_tpl -->
 
-<br />
+<br /><br />
 <div align="center">
 <!-- BEGIN prev_page_link_tpl -->
 <a class="path" href="/article/articleview/{article_id}/{prev_page_number}/">&lt;&lt; {intl-prev_page}</a>
