@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezusergroup.php,v 1.17 2001/03/09 11:50:16 fh Exp $
+// $Id: ezusergroup.php,v 1.18 2001/03/09 11:52:56 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -328,7 +328,6 @@ class eZUserGroup
                                                    WHERE ( $userSQL ) AND UGL.UserID=U.ID
                                                    AND ( " . $query->buildQuery() . " )
                                                    ORDER By $orderBy" );
-        print_r( $user_array );
         foreach ( $user_array as $user )
         {
             $ret[] = new eZUser( $user["UserID"] );

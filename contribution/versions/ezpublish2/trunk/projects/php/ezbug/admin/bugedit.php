@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.29 2001/03/09 11:50:36 fh Exp $
+// $Id: bugedit.php,v 1.30 2001/03/09 11:52:56 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -542,7 +542,6 @@ $currentOwner = -1;
 if( $ownerGroup[0]  != "" )
 {
     $users = eZUserGroup::users( $ownerGroup );
-   print( "<pre>"); print_r( $users );   print( "</pre>");
     if( count( $users ) > 0 )
     {
         foreach( $users as $userItem )
