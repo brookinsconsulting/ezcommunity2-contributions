@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.15 2001/01/11 11:46:01 ce Exp $
+// $Id: login.php,v 1.16 2001/01/11 11:48:19 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -77,7 +77,6 @@ if ( $Action == "login" )
         eZLog::writeNotice( "User login: $Username from IP: $REMOTE_ADDR" );
         
         eZUser::loginUser( $user );
-                exit();
 
         if ( isSet( $RedirectURL ) )
         {
