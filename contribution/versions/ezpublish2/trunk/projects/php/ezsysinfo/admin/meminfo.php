@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: meminfo.php,v 1.1 2001/04/22 12:32:10 bf Exp $
+// $Id: meminfo.php,v 1.2 2001/04/22 14:44:36 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Apr-2001 13:32:08 bf>
@@ -57,8 +57,8 @@ $t->set_var( "physical_percent", $mem['ram']['percent'] );
 $t->set_var( "physical_invert_percent", 100 - $mem['ram']['percent'] );
 
 
-$t->set_var( "swap_free", eZSysinfo::format_bytesize($mem['swap']['t_free']) );
-$t->set_var( "swap_used", eZSysinfo::format_bytesize($mem['swap']['t_used']) );
+$t->set_var( "swap_free", eZSysinfo::format_bytesize($mem['swap']['free']) );
+$t->set_var( "swap_used", eZSysinfo::format_bytesize($mem['swap']['used']) );
 $t->set_var( "swap_total", eZSysinfo::format_bytesize($mem['swap']['total']) );
 
 $t->set_var( "swap_percent", $mem['swap']['percent'] );

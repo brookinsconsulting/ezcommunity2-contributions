@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileinfo.php,v 1.1 2001/04/22 12:32:10 bf Exp $
+// $Id: fileinfo.php,v 1.2 2001/04/22 14:44:36 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Apr-2001 14:16:46 bf>
@@ -70,9 +70,9 @@ $sum_percent = round( ($sum['used'] * 100) / $sum['size'] );
 $t->set_var( "sum_capacity_percent", $sum_percent );
 $t->set_var( "sum_capacity_inverted_percent", 100 - $sum_percent );
 
-$t->set_var( "sum_free", eZSysinfo::format_bytesize( $sum[$i]['free'] ) );
-$t->set_var( "sum_used", eZSysinfo::format_bytesize( $sum[$i]['used'] ) );
-$t->set_var( "sum_total", eZSysinfo::format_bytesize( $sum[$i]['size'] ) );
+$t->set_var( "sum_free", eZSysinfo::format_bytesize( $sum['free'] ) );
+$t->set_var( "sum_used", eZSysinfo::format_bytesize( $sum['used'] ) );
+$t->set_var( "sum_total", eZSysinfo::format_bytesize( $sum['size'] ) );
 
 $t->pparse( "output", "file_info_tpl" );
 
