@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.24 2000/11/05 16:19:03 bf-cvs Exp $
+// $Id: ezarticle.php,v 1.25 2000/11/05 17:09:33 bf-cvs Exp $
 //
 // Definition of eZArticle class
 //
@@ -717,7 +717,10 @@ class eZArticle
     /*!
       Returns every article in every category sorted by time.
     */
-    function articles( $sortMode=time, $fetchNonPublished=true )
+    function articles( $sortMode=time,
+                       $fetchNonPublished=true,
+                       $offset=0,
+                       $limit=50 )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -749,7 +752,8 @@ class eZArticle
                     eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
                     AND
                     eZArticle_Category.ExcludeFromSearch = 'false'
-                    GROUP BY eZArticle_Article.ID ORDER BY $OrderBy" );
+                    GROUP BY eZArticle_Article.ID ORDER BY $OrderBy
+                    LIMIT $offset,$limit" );
            
        }
        else
@@ -765,7 +769,8 @@ class eZArticle
                     eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
                     AND
                     eZArticle_Category.ExcludeFromSearch = 'false'
-                    GROUP BY eZArticle_Article.ID ORDER BY $OrderBy" );
+                    GROUP BY eZArticle_Article.ID ORDER BY $OrderBy
+                    LIMIT $offset,$limit" );
        }
  
        for ( $i=0; $i<count($article_array); $i++ )

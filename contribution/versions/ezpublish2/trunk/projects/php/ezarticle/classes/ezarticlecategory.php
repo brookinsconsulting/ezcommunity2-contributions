@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.10 2000/11/01 09:30:58 ce-cvs Exp $
+// $Id: ezarticlecategory.php,v 1.11 2000/11/05 17:09:33 bf-cvs Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -203,7 +203,7 @@ class eZArticleCategory
             {
                 $return_array[$i] = new eZArticleCategory( $category_array[$i]["ID"], 0 );
             }
-            
+
             return $return_array;
         }
         else
@@ -403,7 +403,11 @@ class eZArticleCategory
       also returned. If the $getExcludedArticles is set to true the articles which are
       excluded from search is also returned.
     */
-    function articles( $sortMode="time", $fetchNonPublished=true, $getExcludedArticles=false )
+    function articles( $sortMode="time",
+                       $fetchNonPublished=true,
+                       $getExcludedArticles=false,
+                       $offset=0,
+                       $limit=50 )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -445,7 +449,7 @@ class eZArticleCategory
                 AND
                 eZArticle_Category.ID='$this->ID'
                 $excludedCode  
-                GROUP BY eZArticle_Article.ID ORDER BY $OrderBy" );
+                GROUP BY eZArticle_Article.ID ORDER BY $OrderBy LIMIT $offset,$limit" );
        }
        else
        {
@@ -461,7 +465,7 @@ class eZArticleCategory
                 AND
                 eZArticle_Category.ID='$this->ID'
                 $excludedCode
-                GROUP BY eZArticle_Article.ID ORDER BY $OrderBy" );
+                GROUP BY eZArticle_Article.ID ORDER BY $OrderBy LIMIT $offset,$limit" );
        }
  
        for ( $i=0; $i<count($article_array); $i++ )

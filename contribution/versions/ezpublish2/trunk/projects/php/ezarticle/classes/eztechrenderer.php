@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.35 2000/11/02 18:11:54 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.36 2000/11/05 17:09:33 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -148,6 +148,7 @@ class eZTechRenderer
                 if ( $child->name == "intro" )
                 {
 
+                    if ( count( $child->children ) > 0 )
                     foreach ( $child->children as $paragraph )
                     {
                         $intro = $this->renderPlain( $intro, $paragraph );

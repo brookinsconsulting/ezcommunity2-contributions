@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.14 2000/11/01 09:30:59 ce-cvs Exp $
+// $Id: articlelist.php,v 1.15 2000/11/05 17:09:33 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -123,7 +123,7 @@ else
 if ( $CategoryID == 0 )
 {
     $article = new eZArticle();
-    $articleList = $article->articles( $SortMode, false );
+    $articleList = $article->articles( $SortMode, false, 0, 10 );
 } 
 else
 {
