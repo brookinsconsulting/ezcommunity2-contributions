@@ -39,6 +39,17 @@ include_once( "ezgroupeventcalendar/classes/ezgroupeventtype.php" );
 include_once( "ezgroupeventcalendar/classes/ezgroupnoshow.php" );
 include_once( "ezgroupeventcalendar/classes/ezgroupeditor.php" );
 
+function shortenText($text, $chars=25) {
+  //$text = $text."||";
+  // print(strlen($text));
+  $text = substr($text,0,$chars);
+  //$text = substr($text,0,strrpos($text,'||'));
+  //  die($text);
+  $text .= "...";
+
+  return $text;
+}
+
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $SiteDesign = $ini->read_var( "site", "SiteDesign" );
@@ -286,10 +297,21 @@ if( $user )
                     $t->set_var( "public_appointment", "" );
                     $t->set_var( "private_appointment", "" );
 
+
                     foreach ( $appointments as $appointment )
                     {	
-						$t->set_var ( "appointment_name", $appointment->name() );
-						$t->set_var ( "appointment_id" , $appointment->id() );
+		      // kracker : trim apointment name to keep the calendar easy to read
+		      $appointmentName = $appointment->name();
+		      $appointmentNameLen = strlen($appointmentName);
+		      $appointmentNameLenHalf = 12;
+
+		      if ( $appointmentNameLen > $appointmentNameLenHalf ){
+			$appointmentNameLenHalf = $appointmentNameLen / 2;
+			$appointmentName = shortenText($appointmentName, 12);
+		      }
+
+				$t->set_var ( "appointment_name", $appointmentName );
+				$t->set_var ( "appointment_id" , $appointment->id() );
 
 						if( $groupsList != "-1" )
 						{
