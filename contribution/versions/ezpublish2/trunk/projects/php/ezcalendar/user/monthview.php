@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.34 2001/09/12 12:35:59 jhe Exp $
+// $Id: monthview.php,v 1.35 2001/09/14 12:21:33 jhe Exp $
 //
 // Created on: <27-Dec-2000 14:09:56 bf>
 //
@@ -163,8 +163,16 @@ $t->set_file( "month_view_page_tpl", "monthview.tpl" );
                     foreach ( $appointments as $appointment )
                     {
                         $t->set_var( "appointment_id", $appointment->id() );
-                        $t->set_var( "start_time", $Locale->format( $appointment->startTime(), true ) );
-                        $t->set_var( "stop_time", $Locale->format( $appointment->stopTime(), true ) );
+                        if ( $appointment->allDay() )
+                        {
+                            $t->set_var( "start_time", $ini->read_var( "eZCalendarMain", "DayStartTime" ) );
+                            $t->set_var( "stop_time", $ini->read_var( "eZCalendarMain", "DayStopTime" ) );
+                        }
+                        else
+                        {
+                            $t->set_var( "start_time", $Locale->format( $appointment->startTime(), true ) );
+                            $t->set_var( "stop_time", $Locale->format( $appointment->stopTime(), true ) );
+                        }
 
                         if ( $appointment->isPrivate() == false || $userID == $appointment->userID() )
                             $t->parse( "public_appointment", "public_appointment_tpl", true );

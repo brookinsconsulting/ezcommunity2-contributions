@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.49 2001/09/12 09:55:03 jhe Exp $
+// $Id: personedit.php,v 1.50 2001/09/14 12:21:34 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -76,17 +76,7 @@ if ( get_class( $user ) != "ezuser" )
 
 if ( isSet( $BuyButton ) )
 {
-    include_once( "eztrade/classes/ezcart.php" );
-    $cart = new eZCart();
-    $session =& eZSession::globalSession();
-    $cart->setSession( $session );
-    $cart->setCompanyID( $CompanyID );
-    $cart->setPersonID( $PersonID );
-    
-    $cart->store();
-    include_once( "classes/ezhttptool.php" );
-    eZHTTPTool::header( "Location: /trade/productlist/0/" );
-    exit();
+    include( "ezcontact/admin/buy.php" );
 }
 
 if ( isSet( $CompanyEdit ) )
@@ -153,55 +143,7 @@ if ( isSet( $NewConsultation ) )
 
 if ( isSet( $FileButton ) )
 {
-    include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
-    $top = eZVirtualFolder::getIDByParent( "Contact" );
-    if ( !$top )
-    {
-        $contact = new eZVirtualFolder();
-        $contact->setName( "Contact" );
-        $contact->setParent( new eZVirtualFolder( 0 ) );
-        $contact->store();
-        $top = $contact->ID();
-    }
-    
-    if ( isSet( $CompanyEdit ) )
-    {
-        $parent = eZVirtualFolder::getIDByParent( "Company", $top );
-        if ( !$parent )
-        {
-            $companyFolder = new eZVirtualFolder();
-            $companyFolder->setName( "Company" );
-            $companyFolder->setParent( new eZVirtualFolder( $top ) );
-            $companyFolder->store();
-            $parent = $companyFolder->ID();
-        }
-        $element = new eZCompany( $item_id );
-    }
-    else
-    {
-        $parent = eZVirtualFolder::getIDByParent( "Person", $top );
-        if ( !$parent )
-        {
-            $personFolder = new eZVirtualFolder();
-            $personFolder->setName( "Person" );
-            $personFolder->setParent( new eZVirtualFolder( $top ) );
-            $personFolder->store();
-            $parent = $personFolder->ID();
-        }
-        $element = new eZPerson( $item_id );
-    }
-    $id = eZVirtualFolder::getIDByParent( $element->name(), $parent );
-    if ( !$id )
-    {
-        $newFolder = new eZVirtualFolder();
-        $newFolder->setName( $element->name() );
-        $newFolder->setParent( new eZVirtualFolder( $parent ) );
-        $newFolder->store();
-        $id = $newFolder->ID();
-    }
-    include_once( "classes/ezhttptool.php" );
-    eZHTTPTool::header( "Location: /filemanager/list/$id/" );
-    exit;
+    include( "ezcontact/admin/folder.php" );
 }
 
 if ( isSet( $Back ) )

@@ -30,9 +30,9 @@
 	    </td>
     </tr>
     <tr>
-	    <td width="50%" rowspan="2" valign="top">
+	    <td width="50%" valign="top">
 	    <p class="boxtext">{intl-description}:</p>
-	    {description}<br />
+	    {description}<br /><br />
 	    </td>
 
 	    <td>
@@ -43,13 +43,21 @@
 	    <!-- BEGIN no_group_notice_tpl -->
 	    {intl-no_group_notice}
 	    <!-- END no_group_notice_tpl -->
-		<br />
-	    <td>
+		<br /><br />
+	    </td>
+    </tr>
+    <tr>
+	    <td width="50%" valign="top">
+	    <p class="boxtext">{intl-email_notice}:</p>
+	    {email_notification}<br /><br />
+	    </td>
+
+	    <td width="50%">
+	    <p class="boxtext">{intl-owner}:</p>
+	    {owner}<br /><br />
+	    </td>
     </tr>
 </table>
-
-<p class="boxtext">{intl-email_notice}:</p>
-<div class="p">{email_notification}</div>
 
 <!-- END consultation_item_tpl -->
 

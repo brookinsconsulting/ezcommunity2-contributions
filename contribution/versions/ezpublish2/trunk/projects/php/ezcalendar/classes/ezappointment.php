@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezappointment.php,v 1.22 2001/09/12 11:44:52 jhe Exp $
+// $Id: ezappointment.php,v 1.23 2001/09/14 12:21:32 jhe Exp $
 //
 // Definition of eZAppointment class
 //
@@ -48,6 +48,7 @@ class eZAppointment
     */
     function eZAppointment( $id = -1 )
     {
+        $this->AllDay = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
@@ -77,7 +78,8 @@ class eZAppointment
                                    EMailNotice,
                                    IsPrivate,
                                    Priority,
-                                   AppointmentTypeID)
+                                   AppointmentTypeID,
+                                   AllDay)
                                   VALUES
                                   ('$this->ID',
                                    '$this->UserID',
@@ -88,7 +90,8 @@ class eZAppointment
                                    '$this->EMailNotice',
                                    '$this->IsPrivate',
                                    '$this->Priority',
-                                   '$this->AppointmentTypeID')" );
+                                   '$this->AppointmentTypeID',
+                                   '$this->AllDay')" );
             $db->unlock();
         }
         else
@@ -102,7 +105,8 @@ class eZAppointment
                                   EMailNotice='$this->EMailNotice',
                                   IsPrivate='$this->IsPrivate',
                                   Priority='$this->Priority',
-                                  AppointmentTypeID='$this->AppointmentTypeID'
+                                  AppointmentTypeID='$this->AppointmentTypeID',
+                                  AllDay='$this->AllDay'
                                   WHERE ID='$this->ID'" );
         }
         eZDB::finish( $res, $db );
@@ -151,6 +155,7 @@ class eZAppointment
                 $this->IsPrivate =& $appointment_array[0][$db->fieldName( "IsPrivate" )];
                 $this->UserID =& $appointment_array[0][$db->fieldName( "UserID" )];
                 $this->Priority =& $appointment_array[0][$db->fieldName( "Priority" )];
+                $this->AllDay =& $appointment_array[0][$db->fieldName( "AllDay" )];
             }
         }
     }
@@ -171,7 +176,7 @@ class eZAppointment
         
         for ( $i = 0; $i < count( $appointment_array ); $i++ )
         { 
-            $return_array[$i] = new eZAppointment( $appointment_array[$i][ $db->fieldName( "ID" ) ], 0 );
+            $return_array[$i] = new eZAppointment( $appointment_array[$i][$db->fieldName( "ID" )], 0 );
         } 
         
         return $return_array;
@@ -194,7 +199,7 @@ class eZAppointment
         
         for ( $i = 0; $i < count( $appointment_array ); $i++ )
         { 
-            $return_array[$i] = new eZAppointment( $appointment_array[$i][ $db->fieldName( "ID" ) ], 0 );
+            $return_array[$i] = new eZAppointment( $appointment_array[$i][$db->fieldName( "ID" )], 0 );
         } 
         
         return $return_array;
@@ -238,7 +243,7 @@ class eZAppointment
                 
             for ( $i = 0; $i < count( $appointment_array ); $i++ )
             { 
-                $return_array[] = new eZAppointment( $appointment_array[$i][ $db->fieldName( "ID" ) ], 0 );
+                $return_array[] = new eZAppointment( $appointment_array[$i][$db->fieldName( "ID" )], 0 );
             } 
 
             $ret =& $return_array;            
@@ -279,11 +284,11 @@ class eZAppointment
                 
             for ( $i = 0; $i < count( $appointment_array ); $i++ )
             { 
-                $return_array[] = new eZAppointment( $appointment_array[$i][ $db->fieldName( "ID" ) ], 0 );
-            } 
+                $return_array[] = new eZAppointment( $appointment_array[$i][$db->fieldName( "ID" )], 0 );
+            }
 
-            $ret =& $return_array;            
-        } 
+            $ret =& $return_array;
+        }
         return $ret;
     }
 
@@ -318,7 +323,7 @@ class eZAppointment
     function description( $htmlchars = true )
     {
         if ( $htmlchars == true )
-        {           
+        {
             return htmlspecialchars( $this->Description );
         }
         else
@@ -376,6 +381,22 @@ class eZAppointment
        return $time;
     }
 
+    /*!
+      Returns if the appointment lasts all day
+    */
+    function allDay()
+    {
+        return $this->AllDay;
+    }
+
+    /*!
+      Sets if the appointment lasts all day
+    */
+    function setAllDay( $value )
+    {
+        $this->AllDay = $value;
+    }
+    
     /*!
       Returns the priority, can be 0,1,2.
     */
@@ -502,7 +523,7 @@ class eZAppointment
     var $ID;
     var $Name;
     var $Description;
-
+    var $AllDay;
     var $UserID;
     var $Date;
     var $Duration;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.44 2001/09/05 11:55:50 jhe Exp $
+// $Id: dayview.php,v 1.45 2001/09/14 12:21:33 jhe Exp $
 //
 // Created on: <08-Jan-2001 12:48:35 bf>
 //
@@ -100,11 +100,11 @@ $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "Tem
 
 $t->set_file( "day_view_page_tpl", "dayview.tpl" );
 
-if ( $t->hasCache() )
+//if ( $t->hasCache() )
 {
-    print( $t->cache() );
+//    print( $t->cache() );
 }
-else
+//else
 {
     $t->setAllStrings();
 
@@ -177,26 +177,40 @@ else
 
     foreach ( $appointments as $appointment )
     {
-        $appStartTime =& $appointment->startTime();
-        $appStopTime =& $appointment->stopTime();
-
-        if ( $appStartTime->isGreater( $firstInterval ) )
-            $startTime = $midNight;
-
-        while ( $appStartTime->isGreater( $startTime ) )
+        if ( !$appointment->allDay() )
         {
-            $startTime = $startTime->subtract( $interval );
-        }
-
-        if ( $lastInterval->isGreater( $appStopTime ) )
-            $stopTime = new eZTime( 23, 59 );
-
-        while ( $stopTime->isGreater( $appStopTime ) )
-        {
-            $stopTime = $stopTime->add( $interval );
+            $appStartTime =& $appointment->startTime();
+            $appStopTime =& $appointment->stopTime();
+            if ( $appStartTime->isGreater( $firstInterval ) )
+                $startTime = $midNight;
+            
+            while ( $appStartTime->isGreater( $startTime ) )
+            {
+                $startTime = $startTime->subtract( $interval );
+            }
+            
+            if ( $lastInterval->isGreater( $appStopTime ) )
+                $stopTime = new eZTime( 23, 59 );
+            
+            while ( $stopTime->isGreater( $appStopTime ) )
+            {
+                $stopTime = $stopTime->add( $interval );
+            }
         }
     }
 
+    foreach ( $appointments as $appointment )
+    {
+        if ( $appointment->allDay() )
+        {
+            $dateTime = new eZDateTime( $date->year(), $date->month(), $date->day() );
+            $dateTime->setSecondsElapsed( $startTime->secondsElapsed() );
+            $appointment->setDateTime( $dateTime );
+
+            $appointment->setDuration( $stopTime->secondsElapsed() - $startTime->secondsElapsed() );
+            $appointment->store();
+        }
+    }
 
     // places appointments into columns, creates extra columns as necessary
     $numRows = 0;
@@ -212,15 +226,15 @@ else
     while ( $tmpTime->isGreater( $stopTime ) == true )
     {
         $numRows++;
-        $tableCellsId[$numRows-1] = array();
-        $tableCellsRowSpan[$numRows-1] = array();
+        $tableCellsId[$numRows - 1] = array();
+        $tableCellsRowSpan[$numRows - 1] = array();
 
         // marks cells as taken, -1
-        for ( $col=0; $col<$numCols; $col++ )
+        for ( $col = 0; $col < $numCols; $col++ )
         {
             if ( $colTaken[$col] > 0 )
             {
-                $tableCellsId[$numRows-1][$col] = -1;
+                $tableCellsId[$numRows - 1][$col] = -1;
             }
         }
 
@@ -237,7 +251,7 @@ else
             {
                 $foundFreeColumn = false;
                 $col = 0;
-                while ( $foundFreeColumn == false  )
+                while ( $foundFreeColumn == false )
                 {
                     // the column is free, insert appointment here
                     if ( $tableCellsId[$numRows-1][$col] == 0 )
@@ -254,8 +268,8 @@ else
 
                         if ( $emptyRows[$col] > 0 )
                         {
-                            $tableCellsId[ $numRows - 1 - $emptyRows[$col] ][$col] = -2;
-                            $tableCellsRowSpan[ $numRows - 1 - $emptyRows[$col] ][$col] = $emptyRows[$col];
+                            $tableCellsId[$numRows - 1 - $emptyRows[$col]][$col] = -2;
+                            $tableCellsRowSpan[$numRows - 1 - $emptyRows[$col]][$col] = $emptyRows[$col];
                             $emptyRows[$col] = 0;
                         }
                     }
@@ -269,14 +283,14 @@ else
         }
 
         // decrease/increase counts as we move down
-        for ( $col=0; $col<$numCols; $col++ )
+        for ( $col = 0; $col < $numCols; $col++ )
         {
             if ( $colTaken[$col] > 0 )
             {
                 $colTaken[$col]--;
             }
 
-            if ( $tableCellsId[$numRows-1][$col] == 0 )
+            if ( $tableCellsId[$numRows - 1][$col] == 0 )
             {
                 $emptyRows[$col]++;
             }
@@ -289,12 +303,12 @@ else
     }
 
     // mark remaining empty spaces as empty, -2
-    for ( $col=0; $col<$numCols; $col++ )
+    for ( $col = 0; $col < $numCols; $col++ )
     {
         if ( $emptyRows[$col] > 0 )
         {
-            $tableCellsId[ $numRows - $emptyRows[$col] ][$col] = -2;
-            $tableCellsRowSpan[ $numRows - $emptyRows[$col] ][$col] = $emptyRows[$col];
+            $tableCellsId[$numRows - $emptyRows[$col]][$col] = -2;
+            $tableCellsRowSpan[$numRows - $emptyRows[$col]][$col] = $emptyRows[$col];
         }
     }
 
@@ -335,7 +349,7 @@ else
         $t->set_var( "no_appointment", "" );
         $t->set_var( "delete_check", "" );
 
-        for ( $col=0; $col<$numCols; $col++ )
+        for ( $col = 0; $col < $numCols; $col++ )
         {
             $appointmentId = $tableCellsId[$row][$col];
 
@@ -500,12 +514,12 @@ else
     $t->set_var( "month_name", $Locale->monthName( $date->monthName(), false ) );
 
     $t->set_var( "week", "" );
-    for ( $week=0; $week<6; $week++ )
-    {
+    for ( $week = 0; $week < 6; $week++ )
+    { 
         $t->set_var( "day", "" );
         $t->set_var( "empty_day", "" );
 
-        for ( $day=1; $day<=7; $day++ )
+        for ( $day = 1; $day <= 7; $day++ )
         {
             $date->setDay( 1 );
             $firstDay = $date->dayOfWeek( $Locale->mondayFirst() );

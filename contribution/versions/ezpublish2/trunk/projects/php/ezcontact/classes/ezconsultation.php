@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezconsultation.php,v 1.26 2001/09/13 12:06:26 jhe Exp $
+// $Id: ezconsultation.php,v 1.27 2001/09/14 12:21:35 jhe Exp $
 //
 // Definition of eZConsultation class
 //
@@ -769,6 +769,23 @@ class eZConsultation
         eZDB::finish( $res, $db );
     }
 
+    /*!
+      Returns the owner of the consultation
+    */
+    function owner( $id = -1, $is_person = true )
+    {
+        if ( $id == -1 )
+            $id = $this->ID;
+        if ( $is_person )
+            $table = "eZContact_ConsultationPersonUserDict";
+        else
+            $table = "eZContact_ConsultationCompanyUserDict";
+        
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $res, "SELECT UserID FROM $table WHERE ConsultationID='$id'" );
+        return $res[0][$db->fieldName( "UserID" )];
+    }
+    
     /*!
       \static
       Returns the name of the state id.

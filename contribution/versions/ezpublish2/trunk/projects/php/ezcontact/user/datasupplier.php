@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.35 2001/09/12 09:55:03 jhe Exp $
+// $Id: datasupplier.php,v 1.36 2001/09/14 12:21:35 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -159,6 +159,17 @@ switch ( $url_array[2] )
                 include( "ezcontact/admin/personview.php" );
                 break;
             }
+            case "folder":
+            {
+                $item_id = $url_array[4];
+                include( "ezcontact/admin/folder.php" );
+                break;
+            }
+            case "buy":
+            {
+                include( "ezcontact/admin/buy.php" );
+                break;
+            }
             default:
             {
                 include_once( "classes/ezhttptool.php" );
@@ -221,7 +232,18 @@ switch ( $url_array[2] )
                 include( "ezcontact/admin/companytypelist.php" );
                 break;
             }
-
+            case "folder":
+            {
+                $item_id = $url_array[4];
+                $CompanyEdit = true;
+                include( "ezcontact/admin/folder.php" );
+                break;
+            }
+            case "buy":
+            {
+                include( "ezcontact/admin/buy.php" );
+                break;
+            }
             default:
             {
                 include_once( "classes/ezhttptool.php" );

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companytypelist.php,v 1.31 2001/08/14 14:12:15 jhe Exp $
+// $Id: companytypelist.php,v 1.32 2001/09/14 12:21:33 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -111,6 +111,8 @@ else
     $t->set_block( "company_item_tpl", "company_view_button_tpl", "company_view_button" );
     $t->set_block( "company_item_tpl", "no_company_view_button_tpl", "no_company_view_button" );
     $t->set_block( "company_item_tpl", "company_consultation_button_tpl", "company_consultation_button" );
+    $t->set_block( "company_item_tpl", "company_buy_button_tpl", "company_buy_button" );
+    $t->set_block( "company_item_tpl", "company_folder_button_tpl", "company_folder_button" );
     $t->set_block( "company_item_tpl", "company_edit_button_tpl", "company_edit_button" );
     $t->set_block( "company_item_tpl", "company_delete_button_tpl", "company_delete_button" );
     $t->set_block( "company_item_tpl", "company_stats_item_tpl", "company_stats_item" );
@@ -295,10 +297,15 @@ else
     $total_companies = $company->countByCategory( $TypeID );
 
     $t->set_var( "company_consultation_button", "" );
+    $t->set_var( "company_buy_button", "" );
     $t->set_var( "company_edit_button", "" );
     $t->set_var( "company_delete_button", "" );
     $t->set_var( "company_view_button", "" );
     $t->set_var( "no_company_view_button", "" );
+    
+    $t->parse( "company_folder_button", "company_folder_button_tpl" );
+    if ( eZPermission::checkPermission( $user, "eZContact", "Buy" ) )
+        $t->parse( "company_buy_button", "company_buy_button_tpl" );
     if ( eZPermission::checkPermission( $user, "eZContact", "Consultation" ) )
         $t->parse( "company_consultation_button", "company_consultation_button_tpl" );
     if ( eZPermission::checkPermission( $user, "eZContact", "CompanyModify" ) )

@@ -3,6 +3,7 @@ CREATE TABLE eZCalendar_Appointment (
   UserID int DEFAULT '0' NOT NULL,
   Date int,
   Duration int,
+  AllDay int,
   AppointmentTypeID int DEFAULT '0' NOT NULL,
   EMailNotice int DEFAULT '0',
   IsPrivate int,

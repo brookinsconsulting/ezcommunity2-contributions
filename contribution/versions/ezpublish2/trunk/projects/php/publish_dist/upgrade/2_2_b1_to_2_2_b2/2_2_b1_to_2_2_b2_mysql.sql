@@ -21,5 +21,9 @@ alter table eZTrade_CartItem add PriceRange int default 0;
 alter table eZTrade_Product add IncludesVAT int(1) default '0';
 
 alter table eZArticle_Category add ListLimit int default '0';
+
+alter table eZCalendar_Appointment add AllDay int default 0;
 alter table eZFileManager_FolderPermission add UploadPermission int(11) default '0';
 alter table eZImageCatalogue_CategoryPermission add UploadPermission int(11) default '0';
+
+insert into eZUser_Permission (ModuleID, Name) VALUES ('6', 'Buy');

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: consultationedit.php,v 1.26 2001/09/12 09:55:03 jhe Exp $
+// $Id: consultationedit.php,v 1.27 2001/09/14 12:21:34 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -340,7 +340,7 @@ if ( ( $Action == "insert" || $Action == "update" ) && $error == false )
 
     $t->set_var( "consultation_id", $ConsultationID );
 
-    $consult_id = $ConsultationID. "-" . $user->id();
+    $consult_id = $ConsultationID . "-" . $user->id();
     if ( isSet( $CompanyContact ) )
     {
         $company = new eZCompany( $CompanyContact );

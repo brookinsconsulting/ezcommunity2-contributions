@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: consultationview.php,v 1.11 2001/09/13 12:06:26 jhe Exp $
+// $Id: consultationview.php,v 1.12 2001/09/14 12:21:34 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -124,6 +124,7 @@ else
         $t->set_var( "person_contact_item", "" );
         $company = new eZCompany( $companyid );
         $t->set_var( "company_name", eZTextTool::htmlspecialchars( $company->name() ) );
+        $user = new eZUser( $consultation->owner( -1, false ) );
     }
     else if ( $personid )
     {
@@ -132,8 +133,9 @@ else
         $person = new eZPerson( $personid );
         $t->set_var( "person_lastname", eZTextTool::htmlspecialchars( $person->lastName() ) );
         $t->set_var( "person_firstname", eZTextTool::htmlspecialchars( $person->firstName() ) );
+        $user = new eZUser( $consultation->owner( -1, true ) );
     }
-
+    $t->set_var( "owner", $user->name() );
     $t->set_var( "consultation_id", $ConsultationID );
 
     $t->parse( "consultation_item", "consultation_item_tpl" );

@@ -127,6 +127,10 @@
 
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
 <tr>
+        <td>
+	<input {all_day_selected} type="checkbox" name="AllDay" />&nbsp;<span class="check">{intl-all_day}</span>
+        </td>
+
 	<td valign="top">
 	<p class="boxtext">{intl-appointment_start}:</p>
 	<input type="text" size="6" name="Start" value="{start_value}" />

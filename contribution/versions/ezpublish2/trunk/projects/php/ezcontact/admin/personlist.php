@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personlist.php,v 1.16 2001/09/04 12:06:16 jhe Exp $
+// $Id: personlist.php,v 1.17 2001/09/14 12:21:34 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -73,6 +73,8 @@ $t->set_block( "person_item_tpl", "person_state_tpl", "person_state" );
 $t->set_block( "person_item_tpl", "no_person_state_tpl", "no_person_state" );
 $t->set_block( "person_item_tpl", "person_view_button_tpl", "person_view_button" );
 $t->set_block( "person_item_tpl", "no_person_view_button_tpl", "no_person_view_button" );
+$t->set_block( "person_item_tpl", "person_buy_button_tpl", "person_buy_button" );
+$t->set_block( "person_item_tpl", "person_folder_button_tpl", "person_folder_button" );
 $t->set_block( "person_item_tpl", "person_consultation_button_tpl", "person_consultation_button" );
 $t->set_block( "person_item_tpl", "person_edit_button_tpl", "person_edit_button" );
 $t->set_block( "person_item_tpl", "person_delete_button_tpl", "person_delete_button" );
@@ -165,10 +167,15 @@ $t->set_var( "person_table", "" );
 $t->set_var( "no_persons", "" );
 
 $t->set_var( "person_consultation_button", "" );
+$t->set_var( "person_buy_button", "" );
 $t->set_var( "person_edit_button", "" );
 $t->set_var( "person_delete_button", "" );
 $t->set_var( "person_view_button", "" );
 $t->set_var( "no_person_view_button", "" );
+
+$t->parse( "person_folder_button", "person_folder_button_tpl" );
+if ( eZPermission::checkPermission( $user, "eZContact", "Buy" ) )
+    $t->parse( "person_buy_button", "person_buy_button_tpl" );
 if ( eZPermission::checkPermission( $user, "eZContact", "Consultation" ) )
     $t->parse( "person_consultation_button", "person_consultation_button_tpl" );
 if ( eZPermission::checkPermission( $user, "eZContact", "PersonModify" ) )
