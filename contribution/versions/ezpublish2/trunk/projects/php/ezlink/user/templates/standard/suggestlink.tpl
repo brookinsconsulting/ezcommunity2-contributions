@@ -49,9 +49,7 @@
 
 <p class="boxtext">{intl-url}: <a href="{www_dir}{index}/link/gotolink/addhit/{link_id}/?Url={url}">{url}</a> </p>
 <!-- {intl-urledit} -->
-http://<input type="text" class="halfbox" name="Url" size="40" value="{url}">
-
-<br />
+<span class="p">http://</span><input type="text" class="halfbox" name="Url" size="40" value="{url}">
 
 <input class="stdbutton" type="submit" value="{intl-meta}" name="GetSite" />
 

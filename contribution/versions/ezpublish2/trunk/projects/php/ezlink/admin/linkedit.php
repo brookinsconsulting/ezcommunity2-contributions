@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: linkedit.php,v 1.63 2001/07/20 11:15:21 jakobn Exp $
+// $Id: linkedit.php,v 1.64 2001/08/24 14:21:44 th Exp $
 //
 // Created on: <26-Oct-2000 14:58:57 ce>
 //
@@ -657,18 +657,26 @@ foreach ( $types as $typeItem )
 }
 
 
+$i = 0;
 if ( get_class( $linkType) == "ezlinktype" )    
 {
     $attributes = $linkType->attributes();
 
     foreach ( $attributes as $attribute )
     {
+	
+	       if ( ( $i %2 ) == 0 )
+	          $t->set_var( "td_class", "bglight" );
+	      else
+	          $t->set_var( "td_class", "bgdark" );
+
         $t->set_var( "attribute_id", $attribute->id( ) );
         $t->set_var( "attribute_name", $attribute->name( ) );
 
         $t->set_var( "attribute_value", $attribute->value( $editLink ) );
         
         $t->parse( "attribute", "attribute_tpl", true );
+	$i++;
     }
 }
 

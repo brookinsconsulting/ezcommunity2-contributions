@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: linkcategorylist.php,v 1.7 2001/07/25 11:06:15 jhe Exp $
+// $Id: linkcategorylist.php,v 1.8 2001/08/24 14:21:44 th Exp $
 //
 // Created on: <26-Oct-2000 14:55:24 ce>
 //
@@ -108,11 +108,11 @@ else
     {
         if ( ( ( $i ) % 2 ) == 0 )
         {
-            $t->set_var( "bg_color", "#f0f0f0" );
+            $t->set_var( "bg_color", "bglight" );
         }
         else
         {
-            $t->set_var( "bg_color", "#dcdcdc" );
+            $t->set_var( "bg_color", "bgdark" );
         }  
         
         $link_category_id = $linkCategoryItem->id();

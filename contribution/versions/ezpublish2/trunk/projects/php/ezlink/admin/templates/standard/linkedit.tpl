@@ -49,9 +49,7 @@
 
 <p class="boxtext">{intl-url}: <a href="{www_dir}{index}/link/gotolink/addhit/{link_id}/?Url={url}">{url}</a> </p>
 <!-- {intl-urledit} -->
-http://<input type="text" class="halfbox" name="Url" size="40" value="{url}">
-
-<br />
+<span class="p">http://</span><input type="text" class="halfbox" name="Url" size="40" value="{url}">
 
 <input class="stdbutton" type="submit" value="{intl-meta}" name="GetSite" />
 
@@ -90,6 +88,31 @@ http://<input type="text" class="halfbox" name="Url" size="40" value="{url}">
 <br /><br /><input class="stdbutton" type="submit" name="Browse" value="{intl-browse}" />
 <br /><br />
 
+<!-- BEGIN attribute_list_tpl -->
+<h2>{intl-attributes}</h2>
+<table width="100%" cellspacing="0" cellpadding="4" border="0" class="list">
+<tr>
+	<th>{intl-attribute_name}:</th>
+	<th class="right">{intl-attribute_value}:</th>
+</tr>
+<!-- BEGIN attribute_tpl -->
+<tr>
+	<td class="{td_class}">
+	{attribute_name}: 
+	</td>
+	<td class="{td_class}" align="right">
+	<input type="hidden" name="AttributeID[]" value="{attribute_id}" />
+	<input type="text" class="halfbox" size="20" name="AttributeValue[]" value="{attribute_value}" />
+	</td>
+</tr>
+
+<!-- END attribute_tpl -->
+</table>
+<br />
+<!-- END attribute_list_tpl -->
+
+<hr noshade size="4" />
+
 <select name="TypeID">
 <option value="-1">{intl-no_attributes}</option>
 <!-- BEGIN type_tpl -->
@@ -97,35 +120,8 @@ http://<input type="text" class="halfbox" name="Url" size="40" value="{url}">
 <!-- END type_tpl -->
 </select>&nbsp;<input class="stdbutton" type="submit" name="Update" value="{intl-update}" />
 
-<br /><br />
-
-<!-- BEGIN attribute_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
-<tr>
-	<th>{intl-attribute_name}:</th>
-	<th>{intl-attribute_value}:</th>
-</tr>
-<!-- BEGIN attribute_tpl -->
-<tr>
-	<td>
-	{attribute_name}: 
-	</td>
-	<td>
-	<input type="hidden" name="AttributeID[]" value="{attribute_id}" />
-	<input type="text" name="AttributeValue[]" value="{attribute_value}" />
-	</td>
-</tr>
-
-<!-- END attribute_tpl -->
-</table>
-<!-- END attribute_list_tpl -->
-
-<br />
 
 <hr noshade size="4" />
-
-
-<hr noshade size="4"/>
 
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
