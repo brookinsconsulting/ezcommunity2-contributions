@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.96 2001/09/20 14:18:27 bf Exp $
+// $Id: ezarticlecategory.php,v 1.97 2001/09/20 14:29:02 ce Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -1046,7 +1046,7 @@ class eZArticleCategory
       Returns every article in a category as a array of eZArticle objects.
 
       If $fetchAll is set to true, both published and unpublished articles will be returned.
-      If it is set to false, then $fetchPublished will determine: If $fetchPublished is
+      If it is set to false, then $fetchPublished will determine: If $fetchPublished iss
       set to true then only published articles will be returned. If it is false, then only
       non-published articles will be returned. 
     */
@@ -1217,14 +1217,12 @@ class eZArticleCategory
         {
             $groups =& $user->groups( true );
            
-            $i = 0;
             foreach ( $groups as $group )
             {
-                if ( $i == 0 )
-                    $groupSQL .= "( Permission.GroupID=$group AND CategoryPermission.GroupID=$group ) OR";
-                else
-                    $groupSQL .= " ( Permission.GroupID=$group AND CategoryPermission.GroupID=$group ) OR";
-                $i++;
+                $groupSQL .= " ( Permission.GroupID='$group' AND CategoryPermission.GroupID='$group' ) OR
+                              ( Permission.GroupID='$group' AND CategoryPermission.GroupID='-1' ) OR
+                              ( Permission.GroupID='-1' AND CategoryPermission.GroupID='$group' ) OR
+                            ";
             }
             $currentUserID = $user->id();
             $loggedInSQL = "Article.AuthorID=$currentUserID OR";

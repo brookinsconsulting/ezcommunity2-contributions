@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.171 2001/09/17 10:01:19 jb Exp $
+// $Id: ezarticle.php,v 1.172 2001/09/20 14:29:01 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -2419,15 +2419,12 @@ class eZArticle
         {
             $groups =& $user->groups( true );
            
-            $i = 0;
             foreach ( $groups as $group )
             {
-                if ( $i == 0 )
-                    $groupSQL .= "( Permission.GroupID=$group AND CategoryPermission.GroupID=$group ) OR";
-                else
-                    $groupSQL .= " ( Permission.GroupID=$group AND CategoryPermission.GroupID=$group ) OR";
-               
-                $i++;
+                $groupSQL .= " ( Permission.GroupID='$group' AND CategoryPermission.GroupID='$group' ) OR
+                              ( Permission.GroupID='$group' AND CategoryPermission.GroupID='-1' ) OR
+                              ( Permission.GroupID='-1' AND CategoryPermission.GroupID='$group' ) OR
+                            ";
             }
             $currentUserID = $user->id();
             $currentUserSQL = "Article.AuthorID=$currentUserID OR";
@@ -2526,15 +2523,12 @@ class eZArticle
         {
             $groups =& $user->groups( true );
 
-            $i = 0;
             foreach ( $groups as $group )
-            {
-                if ( $i == 0 )
-                    $groupSQL .= "( Permission.GroupID=$group AND CategoryPermission.GroupID=$group ) OR";
-                else
-                    $groupSQL .= " ( Permission.GroupID=$group AND CategoryPermission.GroupID=$group ) OR";
-               
-                $i++;
+            { 
+                $groupSQL .= " ( Permission.GroupID='$group' AND CategoryPermission.GroupID='$group' ) OR
+                              ( Permission.GroupID='$group' AND CategoryPermission.GroupID='-1' ) OR
+                              ( Permission.GroupID='-1' AND CategoryPermission.GroupID='$group' ) OR
+                            ";
             }
             $currentUserID = $user->id();
             $currentUserSQL = "Article.AuthorID=$currentUserID OR";
