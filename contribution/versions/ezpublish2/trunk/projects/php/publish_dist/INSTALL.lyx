@@ -164,7 +164,7 @@ RewriteRule !
 ServerAdmin your_mail@domain.no 
 \layout LyX-Code
 
-DocumentRoot /home/publish/admin/www 
+DocumentRoot /home/publish/www/admin 
 \layout LyX-Code
 
 ServerName admin.publish.org 

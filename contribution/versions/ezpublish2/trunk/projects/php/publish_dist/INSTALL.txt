@@ -88,7 +88,7 @@ RewriteRule !\.(gif|css|jpg|png) /home/publish/www/admin/index.php
 
 ServerAdmin your_mail@domain.no 
 
-DocumentRoot /home/publish/admin/www 
+DocumentRoot /home/publish/www/admin 
 
 ServerName admin.publish.org 
 
