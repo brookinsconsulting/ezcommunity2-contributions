@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: customerlogin.php,v 1.3 2000/11/01 09:24:19 ce-cvs Exp $
+// $Id: customerlogin.php,v 1.4 2000/11/06 16:00:18 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Oct-2000 16:45:30 bf>
@@ -31,6 +31,10 @@ $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 
 include_once( "ezuser/classes/ezuser.php" );
+print("bla" );
+exit();
+Header( "Location: /user/addressedit/new/" );
+exit();
 
 if ( eZUser::currentUser() )
 {
