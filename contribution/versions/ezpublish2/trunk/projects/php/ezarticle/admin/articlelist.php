@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.27 2001/03/23 16:49:33 pkej Exp $
+// $Id: articlelist.php,v 1.28 2001/04/04 11:07:04 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -142,9 +142,21 @@ $t->set_var( "site_style", $SiteStyle );
 
 $category = new eZArticleCategory( $CategoryID );
 
+/** move article categories up/down **/
+if( is_numeric( $MoveCategoryUp ) )
+{
+    $mvcategory = new eZArticleCategory( $MoveCategoryUp );
+    $mvcategory->moveCategoryUp();
+}
+
+if( is_numeric( $MoveCategoryDown ) )
+{
+    $mvcategory = new eZArticleCategory( $MoveCategoryDown );
+    $mvcategory->moveCategoryDown();
+}
+
 
 // move articles up / down
-
 if ( $category->sortMode() == "absolute_placement" )
 {
     if ( is_numeric( $MoveUp ) )
@@ -178,7 +190,7 @@ foreach ( $pathArray as $path )
     $t->parse( "path_item", "path_item_tpl", true );
 }
 
-$categoryList =& $category->getByParent( $category, true );
+$categoryList =& $category->getByParent( $category, true, "placement" );
 
 
 // categories

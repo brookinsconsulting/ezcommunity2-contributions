@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.51 2001/03/19 09:44:48 bf Exp $
+// $Id: ezarticlecategory.php,v 1.52 2001/04/04 11:07:04 fh Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -84,9 +84,11 @@ class eZArticleCategory
                                  Description='$this->Description',
                                  ExcludeFromSearch='$this->ExcludeFromSearch',
                                  SortMode='$this->SortMode',
+                                 Placement='$this->Placement',  
                                  OwnerID='$this->OwnerID',
                                  ParentID='$this->ParentID'" );
             $this->ID = mysql_insert_id();
+            $this->Database->query( "UPDATE eZArticle_Category SET Placement=ID WHERE ID='$this->ID'" );
         }
         else
         {
@@ -95,6 +97,7 @@ class eZArticleCategory
                                  Description='$this->Description',
                                  ExcludeFromSearch='$this->ExcludeFromSearch',
                                  SortMode='$this->SortMode',
+                                 Placement='$this->Placement',  
                                  OwnerID='$this->OwnerID',
                                  ParentID='$this->ParentID' WHERE ID='$this->ID'" );
         }
@@ -166,6 +169,7 @@ class eZArticleCategory
                 $this->ExcludeFromSearch = $category_array[0][ "ExcludeFromSearch" ];
                 $this->SortMode = $category_array[0][ "SortMode" ];
                 $this->OwnerID = $category_array[0][ "OwnerID" ];
+                $this->Placement = $category_array[0][ "Placement" ];
             }
                  
             $this->State_ = "Coherent";
@@ -206,12 +210,19 @@ class eZArticleCategory
 
       The categories are returned as an array of eZArticleCategory objects.      
     */
-    function getByParent( $parent, $showAll=false, $sortby=name )
+    function getByParent( $parent, $showAll=false, $sortby=placement )
     {
         if ( get_class( $parent ) == "ezarticlecategory" )
         {
             $this->dbInit();
-        
+
+            $sortbySQL = "Name";
+            switch( $sortby )
+            {
+                case "name" : $sortbySQL = "Name"; break;
+                case "placement" : $sortbySQL = "Placement"; break;
+            }
+            
             $return_array = array();
             $category_array = array();
 
@@ -221,13 +232,13 @@ class eZArticleCategory
             {
                 $this->Database->array_query( $category_array, "SELECT ID, Name FROM eZArticle_Category
                                           WHERE ParentID='$parentID'
-                                          ORDER BY Name" );
+                                          ORDER BY $sortbySQL" );
             }
             else
             {
                 $this->Database->array_query( $category_array, "SELECT ID, Name FROM eZArticle_Category
                                           WHERE ParentID='$parentID' AND ExcludeFromSearch='false'
-                                          ORDER BY Name" );
+                                          ORDER BY $sortbySQL" );
             }
 
             for ( $i=0; $i < count($category_array); $i++ )
@@ -939,6 +950,61 @@ class eZArticleCategory
            }
        }       
     }
+
+
+    /*!
+      Moves the article category with the given ID down.
+     */
+    function moveCategoryUp(  )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $db =& eZDB::globalDatabase();
+
+        $query = "SELECT ID, Placement FROM eZArticle_Category
+                 WHERE Placement<'$this->Placement' AND ParentID='$this->ParentID' ORDER BY Placement DESC LIMIT 1";
+
+        $db->query_single( $qry, $query );
+        if ( is_numeric( $qry["ID"] ) )
+        {
+           $swapCatPlacement = $qry["Placement"];
+           $swapCatID = $qry["ID"];
+
+           if ( is_numeric( $swapCatPlacement ) )
+           {           
+               $db->query( "UPDATE eZArticle_Category SET Placement='$swapCatPlacement' WHERE ID='$this->ID'" );
+               $db->query( "UPDATE eZArticle_Category SET Placement='$this->Placement' WHERE ID='$swapCatID'" );
+           }
+        }       
+    }
+
+     /*!
+      Moves the article category with the given ID down.
+     */
+    function moveCategoryDown( )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $db =& eZDB::globalDatabase();
+        $query = "SELECT ID, Placement FROM eZArticle_Category
+                 WHERE Placement>'$this->Placement' AND ParentID='$this->ParentID' ORDER BY Placement ASC LIMIT 1";
+
+        $db->query_single( $qry, $query );
+        if ( is_numeric( $qry["ID"] ) )
+        {
+           $swapCatPlacement = $qry["Placement"];
+           $swapCatID = $qry["ID"];
+
+           if ( is_numeric( $swapCatPlacement ) )
+           {           
+               $db->query( "UPDATE eZArticle_Category SET Placement='$swapCatPlacement' WHERE ID='$this->ID'" );
+               $db->query( "UPDATE eZArticle_Category SET Placement='$this->Placement' WHERE ID='$swapCatID'" );
+           }
+        }
+
+    }
     
     /*!
       Private function.
@@ -960,6 +1026,7 @@ class eZArticleCategory
     var $ExcludeFromSearch;
     var $SortMode;
     var $OwnerID;
+    var $Placement;
     
     ///  Variable for keeping the database connection.
     var $Database;

@@ -40,6 +40,8 @@
 <tr>
 	<th>{intl-category}:</th>
 	<th>{intl-description}:</th>
+	<th>&nbsp;</th>
+	<th>&nbsp;</th>
 	<th colspan="2">&nbsp;</th>
 </tr>
 	
@@ -51,6 +53,13 @@
 	<td class="{td_class}">
 	{category_description}&nbsp;
 	</td>
+	<td width="1%" class="{td_class}">
+	<a href="/article/archive/{current_category_id}/?MoveCategoryDown={category_id}"><img src="/admin/images/{site_style}/move-down.gif" height="12" width="12" border="0" alt="Down" /></a>
+	</td>
+	<td width="1%" class="{td_class}">
+	<a href="/article/archive/{current_category_id}/?MoveCategoryUp={category_id}"><img src="/admin/images/{site_style}/move-up.gif" height="12" width="12" border="0" alt="Up" /></a>
+	</td>
+
 <!-- BEGIN category_edit_tpl -->
 	<td width="1%" class="{td_class}">
 	<a href="/article/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top"></a>
