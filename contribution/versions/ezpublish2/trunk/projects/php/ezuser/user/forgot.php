@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: forgot.php,v 1.18 2001/07/20 11:45:40 jakobn Exp $
+// $Id: forgot.php,v 1.19 2001/08/10 12:54:02 jhe Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -17,13 +17,8 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
-//
 
-require( "ezuser/user/usercheck.php" );
+//require( "ezuser/user/usercheck.php" );
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
@@ -45,9 +40,8 @@ if ( $Login )
     $user = $getUser->getUser( $Login );
 }
 
-if ( isSet ( $ChangeButton ) && ( $user == false ) )
+if ( isSet( $ChangeButton ) && ( $user == false ) )
 {
-
     eZHTTPTool::header( "Location: /user/unsuccessfull/" );
     exit();
 }
