@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallcart.php,v 1.2 2000/12/12 16:15:24 bf Exp $
+// $Id: smallcart.php,v 1.3 2000/12/12 16:18:29 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Dec-2000 15:21:10 bf>
@@ -82,8 +82,6 @@ $t->set_block( "cart_page_tpl", "empty_cart_tpl", "empty_cart" );
 $t->set_block( "cart_page_tpl", "cart_item_list_tpl", "cart_item_list" );
 $t->set_block( "cart_item_list_tpl", "cart_item_tpl", "cart_item" );
 
-$t->set_block( "cart_item_tpl", "cart_item_option_tpl", "cart_item_option" );
-
 
 // fetch the cart items
 $items = $cart->items( );
@@ -116,22 +114,6 @@ foreach ( $items as $item )
     else
         $t->set_var( "td_class", "bgdark" );
 
-    $optionValues =& $item->optionValues();
-
-    $t->set_var( "cart_item_option", "" );
-    foreach ( $optionValues as $optionValue )
-    {
-        $option =& $optionValue->option();
-        $value =& $optionValue->optionValue();
-                 
-        $t->set_var( "option_name", $option->name() );
-        $t->set_var( "option_value", $value->name() );
-            
-        $t->parse( "cart_item_option", "cart_item_option_tpl", true );
-    }
-
-
-        
     $t->parse( "cart_item", "cart_item_tpl", true );
         
     $i++;

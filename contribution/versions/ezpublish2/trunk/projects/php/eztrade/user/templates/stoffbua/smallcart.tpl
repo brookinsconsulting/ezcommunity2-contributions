@@ -21,19 +21,12 @@
 	<td class="{td_class}">
 	<a href="/trade/productview/{product_id}/">{product_name}</a>
 	</td>
-	<td class="{td_class}">
-        <!-- BEGIN cart_item_option_tpl -->
-	{option_name}:
-	{option_value}<br>
-        <!-- END cart_item_option_tpl -->
-	&nbsp;</td>
 	<td class="{td_class}" align="right">
 	{product_price}
 	</td>
-	<td class="{td_class}" align="right">
+
 </tr>
 <!-- END cart_item_tpl -->
-
 <tr>
 	<td colspan="3">&nbsp;</td>
 	<th>{intl-shipping}:</th>
