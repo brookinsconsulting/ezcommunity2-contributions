@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.28 2001/01/23 13:16:58 jb Exp $
+// $Id: userwithaddress.php,v 1.29 2001/01/23 13:31:26 ce Exp $
 //
 // 
 //
@@ -105,6 +105,7 @@ $t->set_var( "verify_password_value", "$VerifyPassword" );
 // Check if there are addresses
 if ( count ( $AddressID ) != 0 )
 {
+    $address_number = 1;
     for ( $i=0; $i < count ( $AddressID ); $i++ )
     {
         $t->set_var( "address_number", "$i" );
@@ -130,7 +131,7 @@ if ( count ( $AddressID ) != 0 )
                     }
                     else
                         $t->set_var( "is_selected", "" );
-                    
+
                     $t->set_var( "country_id", $country["ID"] );
                     $t->set_var( "country_name", $country["Name"] );
                     $t->parse( "country_option", "country_option_tpl", true );
@@ -142,6 +143,8 @@ if ( count ( $AddressID ) != 0 )
             $t->set_var( "country", "" );
         }
 
+        $t->set_var( "address_number", $address_number );
+        $address_number++;
         $t->parse( "address", "address_tpl", true );
     }
 
@@ -157,7 +160,7 @@ $emailCheck = true;
 $firstNameCheck = true;
 $lastNameCheck = true;
 $loginCheck = true;
-$passordCheck = true;
+$passwordCheck = true;
 $street1Check = true;
 $street2Check = false;
 $zipCheck = true;
@@ -181,11 +184,10 @@ else
 if ( ( $Action == "Insert" || $Action == "Update" || isSet ( $NewAddress ) ) && $DeleteAddress == false )
 {
 
-    if ( $loginCheck && $Action == "insert" )
+    if ( $loginCheck && $Action == "Insert" )
     {
         if ( empty ( $Login ) )
         {
-
             $t->parse( "error_login", "error_login_tpl" );
             $error = true;
 
@@ -195,7 +197,7 @@ if ( ( $Action == "Insert" || $Action == "Update" || isSet ( $NewAddress ) ) && 
             $user = new eZUser();
             if ( $user->exists( $Login ) == true )
             {
-                $t->parse( "error_login_exits", "error_login_exists_tpl" );
+                $t->parse( "error_login_exists", "error_login_exists_tpl" );
                 $error = true;
             }
         }
@@ -240,13 +242,13 @@ if ( ( $Action == "Insert" || $Action == "Update" || isSet ( $NewAddress ) ) && 
     {
         if ( $Password != $VerifyPassword )
         {
-            $t->parse( "error_passwword_match", "error_pasword_match_tpl" );
+            $t->parse( "error_password_match", "error_password_match_tpl" );
             $error = true;
             
         }
         if ( strlen( $VerifyPassword ) < 2 )
         {
-            $t->parse( "error_passwword_too_short", "error_pasword_too_short_tpl" );
+            $t->parse( "error_password_too_short", "error_password_too_short_tpl" );
             $error = true;
         }
     }
@@ -539,7 +541,7 @@ if ( $Action == "Edit" )
     $addressArray = $user->addresses();
 
     $i = 0;
-
+    $address_number = 1;
     foreach ( $addressArray as $address )
     {
         $Street1 =  $address->street1();
@@ -608,9 +610,10 @@ if ( $Action == "Edit" )
             $t->set_var( "country", "" );
         }
 
-        $t->set_var( "address_number", $i );
+        $t->set_var( "address_number", $address_number );
         
         $i++;
+        $address_number++;
         $t->parse( "address", "address_tpl", true );
     }
 
