@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: viewwishlist.php,v 1.8 2001/08/17 13:36:01 jhe Exp $
+// $Id: viewwishlist.php,v 1.8.8.1 2002/01/31 13:40:06 ce Exp $
 //
 // Created on: <21-Oct-2000 18:09:45 bf>
 //
@@ -63,7 +63,7 @@ if ( $Action == "MoveToCart" )
         $curUser =& eZUser::currentUser();
 
         if ( $curUser && ( $tmpUser->id() == $curUser->id() ) )
-        {        
+        {
             $wishListItem->delete();
         }
     }
@@ -89,7 +89,7 @@ if ( is_numeric( $url_array[3] ) )
 else
 {
     Header( "Location: /trade/customerlogin/?RedirectURL=/trade/wishlist/" );
-    exit();    
+    exit();
 }
 
 {
@@ -120,8 +120,8 @@ $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateD
 $t->setAllStrings();
 
 $t->set_file( array(
-    "wishlist_page_tpl" => "viewwishlist.tpl"
-    ) );
+                  "wishlist_page_tpl" => "viewwishlist.tpl"
+                  ) );
 
 
 $t->set_block( "wishlist_page_tpl", "empty_wishlist_tpl", "empty_wishlist" );
@@ -165,121 +165,126 @@ $i = 0;
 $sum = 0.0;
 foreach ( $items as $item )
 {
-    $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
     $product = $item->product();
-
-    $t->set_var( "wishlist_item_id", $item->id() );
-
-    $image = $product->thumbnailImage();
-
-    if ( $image )
+    if ( get_class ( $product ) == "ezproduct" )
     {
-        $thumbnail =& $image->requestImageVariation( 35, 35 );
+        $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
 
-        $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
-        $t->set_var( "product_image_width", $thumbnail->width() );
-        $t->set_var( "product_image_height", $thumbnail->height() );
-        $t->set_var( "product_image_caption", $image->caption() );
-        $t->parse( "wishlist_image", "wishlist_image_tpl" );
-    }
-    else
-    {
-        $t->set_var( "wishlist_image", "&nbsp;" );
-    }
 
-    if ( $item->isBought() == true )
-    {
-        $t->set_var( "is_not_bought", "" );
-        $t->parse( "is_bought", "is_bought_tpl" );
-    }
-    else
-    {
-        $t->set_var( "is_bought", "" );
-        $t->parse( "is_not_bought", "is_not_bought_tpl" );
-    }
+        $t->set_var( "wishlist_item_id", $item->id() );
 
-    $currency->setValue( $product->price() * $item->count() );
+    
+        $image = $product->thumbnailImage();
 
-    $sum += $product->price();
-    $t->set_var( "product_id", $product->id() );
-    $t->set_var( "product_name", $product->name() );
+        if ( $image )
+        {
+            $thumbnail =& $image->requestImageVariation( 35, 35 );
 
-    $Quantity = $product->totalQuantity();
-    if ( !$product->hasPrice() )
-    {
-        $Quantity = 0;
+            $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
+            $t->set_var( "product_image_width", $thumbnail->width() );
+            $t->set_var( "product_image_height", $thumbnail->height() );
+            $t->set_var( "product_image_caption", $image->caption() );
+            $t->parse( "wishlist_image", "wishlist_image_tpl" );
+        }
+        else
+        {
+            $t->set_var( "wishlist_image", "&nbsp;" );
+        }
+
+        if ( $item->isBought() == true )
+        {
+            $t->set_var( "is_not_bought", "" );
+            $t->parse( "is_bought", "is_bought_tpl" );
+        }
+        else
+        {
+            $t->set_var( "is_bought", "" );
+            $t->parse( "is_not_bought", "is_not_bought_tpl" );
+        }
+
+        $currency->setValue( $product->price() * $item->count() );
+
+        $sum += $product->price();
+        $t->set_var( "product_id", $product->id() );
+        $t->set_var( "product_name", $product->name() );
+
+        $Quantity = $product->totalQuantity();
+        if ( !$product->hasPrice() )
+        {
+            $Quantity = 0;
+            foreach ( $optionValues as $optionValue )
+            {
+                $option =& $optionValue->option();
+                $value =& $optionValue->optionValue();
+                $value_quantity = $value->totalQuantity();
+                if ( $value_quantity > 0 )
+                    $Quantity = $value_quantity;
+            }
+        }
+        $t->set_var( "product_available_item", "" );
+        if ( $ShowQuantity )
+        {
+            $NamedQuantity = $Quantity;
+            if ( $ShowNamedQuantity )
+                $NamedQuantity = eZProduct::namedQuantity( $Quantity );
+            $t->set_var( "product_availability", $NamedQuantity );
+            $t->parse( "product_available_item", "product_available_item_tpl" );
+        }
+        $t->set_var( "wishlist_item_count", $item->count() );
+
+        $t->set_var( "product_price", $locale->format( $currency ) );
+
+        $optionValues =& $item->optionValues();
+
+        $t->set_var( "wishlist_item_option", "" );
+        $min_quantity = $Quantity;
         foreach ( $optionValues as $optionValue )
         {
             $option =& $optionValue->option();
             $value =& $optionValue->optionValue();
             $value_quantity = $value->totalQuantity();
-            if ( $value_quantity > 0 )
-                $Quantity = $value_quantity;
-        }
-    }
-    $t->set_var( "product_available_item", "" );
-    if ( $ShowQuantity )
-    {
-        $NamedQuantity = $Quantity;
-        if ( $ShowNamedQuantity )
-            $NamedQuantity = eZProduct::namedQuantity( $Quantity );
-        $t->set_var( "product_availability", $NamedQuantity );
-        $t->parse( "product_available_item", "product_available_item_tpl" );
-    }
-    $t->set_var( "wishlist_item_count", $item->count() );
-    
-    $t->set_var( "product_price", $locale->format( $currency ) );
 
-    $optionValues =& $item->optionValues();
+            $t->set_var( "option_name", $option->name() );
 
-    $t->set_var( "wishlist_item_option", "" );
-    $min_quantity = $Quantity;
-    foreach ( $optionValues as $optionValue )
-    {
-        $option =& $optionValue->option();
-        $value =& $optionValue->optionValue();
-        $value_quantity = $value->totalQuantity();
+            $descriptions =& $value->descriptions();
+            $t->set_var( "option_value", $descriptions[0] );
 
-        $t->set_var( "option_name", $option->name() );
-
-        $descriptions =& $value->descriptions();
-        $t->set_var( "option_value", $descriptions[0] );
-
-        $t->set_var( "wishlist_item_option_availability", "" );
-        if ( !(is_bool( $value_quantity ) and !$value_quantity) )
-        {
-            if ( is_bool( $min_quantity ) )
-                $min_quantity =  $value_quantity;
-            else
-                $min_quantity = min( $min_quantity , $value_quantity );
-            $named_quantity = $value_quantity;
-            if ( $ShowNamedQuantity )
-                $named_quantity = eZProduct::namedQuantity( $value_quantity );
-            if ( $ShowOptionQuantity )
+            $t->set_var( "wishlist_item_option_availability", "" );
+            if ( !(is_bool( $value_quantity ) and !$value_quantity) )
             {
-                $t->set_var( "option_availability", $named_quantity );
-                $t->parse( "wishlist_item_option_availability", "wishlist_item_option_availability_tpl" );
+                if ( is_bool( $min_quantity ) )
+                    $min_quantity =  $value_quantity;
+                else
+                    $min_quantity = min( $min_quantity , $value_quantity );
+                $named_quantity = $value_quantity;
+                if ( $ShowNamedQuantity )
+                    $named_quantity = eZProduct::namedQuantity( $value_quantity );
+                if ( $ShowOptionQuantity )
+                {
+                    $t->set_var( "option_availability", $named_quantity );
+                    $t->parse( "wishlist_item_option_availability", "wishlist_item_option_availability_tpl" );
+                }
             }
+
+            $t->parse( "wishlist_item_option", "wishlist_item_option_tpl", true );
         }
 
-        $t->parse( "wishlist_item_option", "wishlist_item_option_tpl", true );
-    }
+        $t->set_var( "move_to_cart_item", "" );
+        $t->set_var( "no_move_to_cart_item", "" );
+        if ( (is_bool( $min_quantity ) and !$min_quantity) or
+             !$RequireQuantity or ( $RequireQuantity and $min_quantity > 0 ) )
+        {
+            $t->parse( "move_to_cart_item", "move_to_cart_item_tpl" );
+        }
+        else
+        {
+            $t->parse( "no_move_to_cart_item", "no_move_to_cart_item_tpl" );
+        }
 
-    $t->set_var( "move_to_cart_item", "" );
-    $t->set_var( "no_move_to_cart_item", "" );
-    if ( (is_bool( $min_quantity ) and !$min_quantity) or
-         !$RequireQuantity or ( $RequireQuantity and $min_quantity > 0 ) )
-    {
-        $t->parse( "move_to_cart_item", "move_to_cart_item_tpl" );
-    }
-    else
-    {
-        $t->parse( "no_move_to_cart_item", "no_move_to_cart_item_tpl" );
-    }
+        $t->parse( "wishlist_item", "wishlist_item_tpl", true );
 
-    $t->parse( "wishlist_item", "wishlist_item_tpl", true );
-
-    $i++;
+        $i++;
+    }
 }
 
 //  $shippingCost = $ini->read_var( "eZTradeMain", "ShippingCost" );
@@ -307,4 +312,3 @@ else
 $t->pparse( "output", "wishlist_page_tpl" );
 
 ?>
-
