@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imagelist.php,v 1.42.2.6 2002/05/02 17:03:07 br Exp $
+// $Id: imagelist.php,v 1.42.2.7 2003/06/02 10:21:27 jhe Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -405,8 +405,7 @@ else
 // Print out the category/image menu
 if ( $category->id() != 0 )
 {
-    if ( ( $user ) &&
-         ( eZObjectPermission::hasPermission( $category->id(), "imagecatalogue_category", "w", $user ) ) )
+    if ( eZObjectPermission::hasPermission( $category->id(), "imagecatalogue_category", "w", $user ) )
     {
         $t->parse( "default_new", "default_new_tpl" );
         $t->parse( "write_menu", "write_menu_tpl" );
