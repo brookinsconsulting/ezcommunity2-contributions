@@ -1,6 +1,6 @@
 <?php 
 // 
-// $Id: INIFile.php,v 1.47.2.1 2001/12/03 15:55:32 kaid Exp $
+// $Id: INIFile.php,v 1.47.2.2 2001/12/12 21:56:17 kaid Exp $
 //
 // Implements a simple INI-file parser
 //
@@ -127,7 +127,7 @@ class INIFile
                 }
                 else
                 {
-                    $this->error( "This file ( " . $inifilename . " ) does not exist!" );
+                    $this->error( "The file \"" . $inifilename . "\" or \"" . $inifilename . ".php\" does not exist!" );
                 }
             }
             else
