@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eztime.php,v 1.2 2000/09/08 12:42:52 bf-cvs Exp $
+// $Id: eztime.php,v 1.3 2000/11/17 13:43:17 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -31,7 +31,10 @@ class eZTime
     {
         if ( ( $hour == 0 )  && ( $minute == 0 ) && ( $second == 0 ) )
         {
-            
+            $now = getdate();
+            $this->setHour( $now["hours"] );
+            $this->setMinute( $now["minutes"] );
+            $this->setSecond( $now["seconds"] );
         }
         else
         {
