@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.9 2000/11/10 10:44:41 bf-cvs Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.10 2000/12/08 11:22:05 pkej-cvs Exp $ -->
 
 <h1>{intl-head_line}</h1>
 
@@ -91,7 +91,7 @@
 </table>
 <!-- END order_item_list_tpl -->
 
-<h2>Ordrestatus</h2>
+<h2>{intl-order_status}Ordrestatus</h2>
 
 <table width="100%">
 <tr>
@@ -100,7 +100,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<p class="boxtext">Velg status:</p>
+	<p class="boxtext">{intl-choose_status}</p>
 	<select name="StatusID">
 	<!-- BEGIN order_status_option_tpl -->	
 	<option value="{option_id}">
@@ -113,7 +113,7 @@
 </tr>
 <tr>
 	<td>
-	<p class="boxtext">Kommentar til statusendring:</p>
+	<p class="boxtext">{intl-comments_for_status_chage}:</p>
 	<textarea cols="40" rows="5" name="StatusComment" wrap="soft"></textarea>
 	</td>
 </tr>
@@ -126,7 +126,7 @@
 	<td width="50%" valign="top">
 	<table width="100%" cellspacing="0" cellpadding="4" border="0">
 	<tr>
-		<th colspan="3">Statushistorie:</th>
+		<th colspan="3">{intl-status_history}:</th>
 	</tr>
 	<!-- BEGIN order_status_history_tpl -->	
 	<tr>
@@ -155,11 +155,11 @@
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<input class="okbutton" type="submit" value="Endre status"/>
+	<input class="okbutton" type="submit" value="{intl-button_change_status}"/>
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<input class="okbutton" type="submit" name="Cancel" value="Avbryt"/>
+	<input class="okbutton" type="submit" name="Cancel" value="{intl-button_cancel}"/>
 	</td>
 </tr>
 </table>
