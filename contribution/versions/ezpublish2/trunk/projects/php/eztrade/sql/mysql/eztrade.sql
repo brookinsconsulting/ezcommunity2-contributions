@@ -45,6 +45,7 @@ CREATE TABLE eZTrade_CartItem (
   Count int(11) default NULL,
   CartID int(11) default NULL,
   WishListItemID int(11) NOT NULL default '0',
+  VoucherInformationID int(11) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -55,6 +56,7 @@ CREATE TABLE eZTrade_CartOptionValue (
   OptionID int(11) default NULL,
   OptionValueID int(11) default NULL,
   RemoteID varchar(100) default NULL,
+  Count int(11) default NULL,	
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -67,6 +69,7 @@ CREATE TABLE eZTrade_Category (
   ImageID int(11) default NULL,
   SortMode int(11) NOT NULL default '1',
   RemoteID varchar(100) default NULL,
+  SectionID int(11) NOT NULL default '1',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -118,6 +121,7 @@ CREATE TABLE eZTrade_Option (
   ID int NOT NULL,
   Name varchar(100) default NULL,
   Description text,
+  RemoteID varchar(100) default NULL,	
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -164,6 +168,7 @@ CREATE TABLE eZTrade_Order (
   IsVATInc int(11) default '0',
   CompanyID int(11) default '0',
   PersonID int(11) default '0',
+  Comment text,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -250,7 +255,7 @@ CREATE TABLE eZTrade_Product (
   ProductType int(11) default '1',
   ExpiryTime int(11) NOT NULL default '0',
   Published int(11) default NULL,
-  IncludesVAT int(1) default '0',
+  IncludesVAT int(1) default '1',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -425,9 +430,12 @@ CREATE TABLE eZTrade_Voucher (
   Created int(11) default '0',
   Price float default '0',
   Available int(11) default '0',
-  KeyNumber varchar(50) default NULL
+  KeyNumber varchar(50) default NULL,
+  MailMethod int(11) default '1',
+  UserID int(11) default '0',
+  ProductID int(11) default '0'
+  PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
 
 CREATE TABLE eZTrade_VoucherEMail (
   ID int(11) default '0',
