@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsession.php,v 1.67.2.3 2002/07/09 07:25:04 bf Exp $
+// $Id: ezsession.php,v 1.67.2.4 2003/05/16 13:15:58 br Exp $
 //
 // Definition of eZSession class
 //
@@ -85,6 +85,7 @@ class eZSession
     {
         $db =& eZDB::globalDatabase();
 
+        
         $dbError = false;
         $db->begin( );
     
@@ -115,6 +116,9 @@ class eZSession
 
         $remoteIP = $GLOBALS["REMOTE_ADDR"];
         
+        // escape hash
+        $hash = $db->escapeString( $this->Hash );
+
         if ( !isSet( $this->ID ) )
         {
             $nextID = $db->nextID( "eZSession_Session", "ID" );
@@ -126,7 +130,7 @@ class eZSession
                              VALUES ( '$nextID',
                                       '$timeStamp',
                                       '$timeStamp',
-                                      '$this->Hash'
+                                      '$hash'
                                     )" );
             if ( $res == false )
                 $dbError = true;
@@ -142,7 +146,7 @@ class eZSession
             $db->query( "UPDATE eZSession_Session SET
                                  Created=Created,
                                  LastAccessed='$timeStamp',
-		                         Hash='$this->Hash'
+		                         Hash='$hash'
                                  WHERE ID='$this->ID'
                                  " );
             $this->HasRefreshed = true;
@@ -232,6 +236,9 @@ class eZSession
                 }
             }
 
+            // escape the hash value.
+            $hash = $db->escapeString( $hash );
+            
 			if ( isset( $hash ) )
 			{
 				$db->array_query( $session_array, "SELECT *

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezforgot.php,v 1.12 2001/07/20 11:45:40 jakobn Exp $
+// $Id: ezforgot.php,v 1.12.2.1 2003/05/16 13:15:58 br Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -164,6 +164,8 @@ class eZForgot
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
+
+        $hash = $db->escapeString( $hash );
         
         $db->array_query( $forgot_array, "SELECT ID FROM eZUser_Forgot WHERE Hash='$hash'" );
 

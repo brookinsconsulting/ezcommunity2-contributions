@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailforgot.php,v 1.10.2.2 2001/12/07 15:38:28 br Exp $
+// $Id: ezbulkmailforgot.php,v 1.10.2.3 2003/05/16 13:15:58 br Exp $
 //
 // Created on: <20-Apr-2001 13:32:11 fh>
 //
@@ -198,7 +198,7 @@ class eZBulkMailForgot
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        
+        $hash = $db->escapeString( $hash );
         $db->array_query( $forgot_array, "SELECT ID FROM eZBulkMail_Forgot WHERE Hash='$hash'" );
 
         if ( count( $forgot_array ) == 1 )
