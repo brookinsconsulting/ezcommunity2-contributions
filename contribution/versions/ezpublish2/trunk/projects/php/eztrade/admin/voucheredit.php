@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucheredit.php,v 1.4 2001/09/26 07:09:32 ce Exp $
+// $Id: voucheredit.php,v 1.5 2001/11/12 08:03:47 ce Exp $
 //
 // Created on: <20-Dec-2000 18:24:06 bf>
 //
@@ -108,7 +108,7 @@ if ( $Action == "Edit" )
 
     if ( $voucherInfo->mailMethod() == 1 )
     {
-        $mail =& $voucherInfo->online();
+        $mail =& $voucherInfo->toOnline();
         $t->set_var( "sent_email", $mail->url() );
         $t->set_var( "sent_description", $voucherInfo->description() );
     }

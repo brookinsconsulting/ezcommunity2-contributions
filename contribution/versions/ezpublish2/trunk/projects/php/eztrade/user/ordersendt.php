@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.52 2001/11/04 12:36:07 bf Exp $
+// $Id: ordersendt.php,v 1.53 2001/11/12 08:03:47 ce Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -34,6 +34,8 @@ include_once( "ezcontact/classes/ezcompany.php" );
 include_once( "eztrade/classes/ezorder.php" ); 
 include_once( "eztrade/classes/ezproduct.php" ); 
 include_once( "eztrade/classes/ezcheckout.php" );
+
+include_once( "ezlicense/classes/ezlicensecost.php" );
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
@@ -558,7 +560,8 @@ if ( $ShowCart == true )
 
     if ( $licenseView == true )
     {
-        $t->parse( "license_item", "license_item_tpl" );
+        $t->parse( "license_item", "license_item_tpl", true );
+
     }
     
     $t->set_var( "totals_span_size", $ColSpanSizeTotals );

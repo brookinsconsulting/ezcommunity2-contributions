@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: customerview.php,v 1.7 2001/10/26 14:21:35 bf Exp $
+// $Id: customerview.php,v 1.8 2001/11/12 08:03:47 ce Exp $
 //
 // Created on: <21-Sep-2001 16:06:44 bf>
 //
@@ -70,11 +70,13 @@ $t->setAllStrings();
 $customer = new eZUser( $CustomerID );
 
 $t->set_var( "customer_id", $customer->id() );
+
 $title = $customer->title();
 $t->set_var( "customer_title", $title->name() );
 $t->set_var( "customer_first_name", $customer->firstName() );
 $t->set_var( "customer_last_name", $customer->lastName() );
 $t->set_var( "customer_email", $customer->email() );
+
 
 $orders =& eZOrder::getByCustomer( $customer );
 

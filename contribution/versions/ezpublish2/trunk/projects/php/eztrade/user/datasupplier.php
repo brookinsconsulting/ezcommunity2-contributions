@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.55 2001/10/22 11:21:14 ce Exp $
+// $Id: datasupplier.php,v 1.56 2001/11/12 08:03:47 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -222,19 +222,6 @@ switch ( $url_array[2] )
     }
     break;
     
-    case "vouchermain" :
-    {
-        include( "eztrade/user/vouchermain.php" );
-    }
-    break;    
-
-    case "voucheremailsample" :
-    {
-        include( "eztrade/user/voucheremailsample.php" );
-    }
-    break;        
-
-    case "orderview" :
     {
         $OrderID = $url_array[3];
         include( "eztrade/user/orderview.php" );

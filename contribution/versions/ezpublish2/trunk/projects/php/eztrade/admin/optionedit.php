@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: optionedit.php,v 1.25 2001/10/15 11:32:17 ce Exp $
+// $Id: optionedit.php,v 1.26 2001/11/12 08:03:47 ce Exp $
 //
 // Created on: <20-Sep-2000 10:18:33 bf>
 //
@@ -352,6 +352,7 @@ if ( !$SimpleOptionHeaders )
 
 reset( $OptionPrice );
 $index = 0;
+$j = 0;
 $t->set_var( "option_item", "" );
 $t->set_var( "group_count", $count );
 $main_price = each( $OptionMainPrice );
@@ -359,6 +360,7 @@ foreach ( $OptionValue as $value )
 {
     $t->set_var( "value_pos", $index + 1 );
     $t->set_var( "value_index", $index );
+    $t->set_var( "number_run", $j );
     $t->set_var( "option_value_id", $OptionValueID[$index] );
     $t->set_var( "value_item", "" );
     reset( $value );
@@ -393,6 +395,7 @@ foreach ( $OptionValue as $value )
     $t->parse( "option_item", "option_item_tpl", true );
     $main_price = each( $OptionMainPrice );
     $index++;
+    $j++;
 }
 
 $t->set_var( "option_id", $OptionID );

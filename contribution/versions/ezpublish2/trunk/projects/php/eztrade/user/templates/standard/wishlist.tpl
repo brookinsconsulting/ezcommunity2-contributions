@@ -110,6 +110,7 @@
 	<!-- END wishlist_inc_tax_item_tpl -->
 	<td class="{td_class}" align="right">
         <input type="checkbox" name="DeleteItem[]" value="{wishlist_item_id}" />
+	</td>
     </tr>
     <!-- BEGIN wishlist_item_basis_tpl -->
     <tr>

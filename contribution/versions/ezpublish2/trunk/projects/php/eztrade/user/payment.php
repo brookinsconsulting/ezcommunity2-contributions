@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.86 2001/11/02 10:10:58 pkej Exp $
+// $Id: payment.php,v 1.87 2001/11/12 08:03:47 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -325,7 +325,7 @@ if ( $PaymentSuccess == "true" )
         $billingAddress = $order->billingAddress();
 
         $title =& $user->title();
-        #$mailTemplate->set_var( "customer_title", $title->name() );
+        $mailTemplate->set_var( "customer_title", $title->name() );
         if ( $order->personID() == 0 && $order->companyID() == 0 )
         {
             $mailTemplate->set_var( "customer_first_name", $user->firstName() );
@@ -915,11 +915,12 @@ if ( $PaymentSuccess == "true" )
                 $voucher->setUser( $user );
                 $voucher->setPrice( $voucherInfo->price() );
                 $voucher->setTotalValue( $voucherInfo->price() );
-                $voucher->setProduct( $voucherInfo->product() );
+                $voucher->setProduct( $item->product() );
                 $voucher->store();
                 $voucherInfo->setVoucher( $voucher );
                 $voucherInfo->store();
                 $voucherInfo->sendMail();
+
             }
         }
     }
@@ -930,7 +931,7 @@ if ( $PaymentSuccess == "true" )
         include( "checkout/user/postpayment.php" );
     }
     
-    //  $cart->clear();
+    $cart->clear();
 
     $OrderID = $order->id();
 
@@ -962,7 +963,7 @@ if ( $PaymentSuccess == "true" )
         $session->setVariable( "PayedWith", "" );
         $session->setVariable( "PayWithVoucher", "" );
     }
-    
+
     $cart->delete();
 
     // call the payment script after the payment is successful.

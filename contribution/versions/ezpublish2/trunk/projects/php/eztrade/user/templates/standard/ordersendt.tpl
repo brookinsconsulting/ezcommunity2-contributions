@@ -296,7 +296,8 @@
 <hr noshade="noshade" size="4" />
 <div>{intl-license_information}</div>
 <div>{intl-license_information2}</div><br /><br />
-<form action="{www_dir}{index}/license/license/verify/{order_id}" method="get">
+<form action="{www_dir}{index}/license/license/verify/" method="post">
+<input class="okbutton" type="hidden" name="OrderID" value="{order_id}" />
 <input class="okbutton" type="submit" name="Verify" value="{intl-verify_licenses}" />
 </form>
 <!-- END license_item_tpl -->

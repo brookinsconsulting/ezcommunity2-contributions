@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherinformation.php,v 1.13 2001/10/22 11:21:14 ce Exp $
+// $Id: voucherinformation.php,v 1.14 2001/11/12 08:03:47 ce Exp $
 //
 // Created on: <06-Aug-2001 13:02:18 ce>
 //
@@ -56,6 +56,13 @@ $t->set_block( "voucher_tpl", "smail_tpl", "smail" );
 $t->set_block( "voucher_tpl", "price_to_high_tpl", "price_to_high" );
 $t->set_block( "voucher_tpl", "price_to_low_tpl", "price_to_low" );
 
+$t->set_block( "smail_tpl", "to_country_tpl", "to_country" );
+$t->set_block( "smail_tpl", "from_country_tpl", "from_country" );
+
+$t->set_block( "to_country_tpl", "to_country_option_tpl", "to_country_option" );
+$t->set_block( "from_country_tpl", "from_country_option_tpl", "from_country_option" );
+
+$GLOBALS["DEBUG"] = true;
 
 setType( $PriceRange, "integer" );
 
@@ -65,11 +72,16 @@ $t->set_var( "from_name", "" );
 $t->set_var( "smail_var", "" );
 $t->set_var( "description", "" );
 $t->set_var( "next", "" );
-$t->set_var( "name_value", "" );
-$t->set_var( "street1_value", "" );
-$t->set_var( "street2_value", "" );
-$t->set_var( "zip_value", "" );
-$t->set_var( "place_value", "" );
+$t->set_var( "to_name_value", "" );
+$t->set_var( "to_street1_value", "" );
+$t->set_var( "to_street2_value", "" );
+$t->set_var( "to_zip_value", "" );
+$t->set_var( "to_place_value", "" );
+$t->set_var( "from_name_value", "" );
+$t->set_var( "from_street1_value", "" );
+$t->set_var( "from_street2_value", "" );
+$t->set_var( "from_zip_value", "" );
+$t->set_var( "from_place_value", "" );
 $t->set_var( "country_name", "" );
 $t->set_var( "smail", "" );
 $t->set_var( "email", "" );
@@ -102,14 +114,20 @@ $user =& eZUser::currentUser();
 if ( ( $product ) and ( isSet( $OK ) and $error == false ) )
 {
     $voucherInfo = new eZVoucherInformation( $VoucherInformationID );
+    $voucherInfo->setUser( $user );
     
-            
     if ( $Mail == 1 )
     {
         $online = new eZOnline();
         $online->setUrl( $Email );
         $online->store();
         $voucherInfo->setToOnline( $online );
+
+        $online = new eZOnline();
+        $online->setUrl( $FromEmail );
+        $online->store();
+        $voucherInfo->setFromOnline( $online );
+        
     }
     else if ( $Mail == 2 )
     {
@@ -128,19 +146,14 @@ if ( ( $product ) and ( isSet( $OK ) and $error == false ) )
         $fromAddress->setStreet2( $FromStreet2 );
         $fromAddress->setZip( $FromZip );
         $fromAddress->setPlace( $FromPlace );
-        $fromAddress->sfromre();
+        $fromAddress->store();
         $voucherInfo->setFromAddress( $fromAddress );
     }
 
-    $online = new eZOnline();
-    $online->setUrl( $FromEmail );
-    $online->store();
-    $voucherInfo->setFromOnline( $online );
     $voucherInfo->setMailMethod( $Mail );
     $voucherInfo->setFromName( $FromName );
     $voucherInfo->setFromName( $FromName );
     $voucherInfo->setToName( $ToName );
-    $voucherInfo->setProduct( $product );
     
     $voucherInfo->setDescription( $Description );
 
@@ -161,7 +174,7 @@ if ( ( $product ) and ( isSet( $OK ) and $error == false ) )
     if ( isSet ( $OK ) && $id )
     {
         if ( $VoucherInformationID != "" )
-            eZHTTPTool::header( "Location: /trade/cart/" );
+                      eZHTTPTool::header( "Location: /trade/cart/" );
         else
             eZHTTPTool::header( "Location: /trade/cart/add/$ProductID/" );
         exit();
@@ -185,8 +198,18 @@ else if ( $product ) // Print out the addresses forms
     if ( $VoucherInformationID != 0 )
     {
         $info = new eZVoucherInformation( $VoucherInformationID );
+
+        $infoUser =& $info->user();
+        if ( $user->id() != $infoUser->id() )
+        {
+            eZHTTPTool::header( "Location: /error/403/" );
+            exit();
+        }
+        
         $t->set_var( "description", $info->description() );
 
+        $t->set_var( "price_range", $info->price() );
+        
         if ( $info->mailMethod() == 1 )
         {
             $from =& $info->fromOnline();
@@ -196,11 +219,35 @@ else if ( $product ) // Print out the addresses forms
             $t->set_var( "to_email", $to->url() );
             $t->set_var( "to_name", $info->toName() );
             $t->set_var( "from_name", $info->fromName() );
-            $t->set_var( "price_range", $info->price() );
+        }
+        else if ( $info->mailMethod() == 2 )
+        {
+            $toAddress =& $info->toAddress();
+            $t->set_var( "to_name", $toAddress->name() );
+            $t->set_var( "to_street1_value", $toAddress->street1() );
+            $t->set_var( "to_street2_value", $toAddress->street2() );
+            $t->set_var( "to_zip_value", $toAddress->zip() );
+            $t->set_var( "to_place_value", $toAddress->place() );
+            $toCountry =& $toAddress->country();
+            if ( $toCountry )
+                $toCountryID = $toCountry->id();
+
+            $fromAddress =& $info->fromAddress();
+
+            $t->set_var( "from_name_value", $fromAddress->name() );
+            $t->set_var( "from_street1_value", $fromAddress->street1() );
+            $t->set_var( "from_street2_value", $fromAddress->street2() );
+            $t->set_var( "from_zip_value", $fromAddress->zip() );
+            $t->set_var( "from_place_value", $fromAddress->place() );
+            $fromCountry =& $fromAddress->country();
+            if ( $fromCountry )
+                $fromCountryID = $fromCountry->id();
+
         }
     }
     else
     {
+        $t->set_var( "voucher_info_id", "" );
         $t->set_var( "price_range", "" );
     }
 
@@ -214,6 +261,22 @@ else if ( $product ) // Print out the addresses forms
         $t->set_var( "email", "" );
         $t->parse( "smail", "smail_tpl" );
     }
+
+    $countryList =& eZCountry::getAll();
+    
+    foreach ( $countryList as $country )
+    {
+        $t->set_var( "to_is_selected", $country->id() == $toCountryID ? "selected" : "" );
+        $t->set_var( "from_is_selected", $country->id() == $fromCountryID ? "selected" : "" );
+        $t->set_var( "country_id", $country->id() );
+        $t->set_var( "country_name", $country->name() );
+        $t->parse( "to_country_option", "to_country_option_tpl", true );
+        $t->parse( "from_country_option", "from_country_option_tpl", true );
+    }
+    $t->parse( "to_country", "to_country_tpl" );
+    $t->parse( "from_country", "from_country_tpl" );
+
+
 
 }
 

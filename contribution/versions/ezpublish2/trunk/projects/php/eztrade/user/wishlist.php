@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: wishlist.php,v 1.22 2001/10/29 08:26:07 ce Exp $
+// $Id: wishlist.php,v 1.23 2001/11/12 08:03:47 ce Exp $
 //
 // Created on: <21-Oct-2000 18:09:45 bf>
 //
@@ -268,7 +268,7 @@ if ( $Action == "MoveToCart" )
                     $Quantity = $value_quantity;
             }
         }
-        if ( !$RequireQuantity or ( $RequireQuantity and $Quantity > 0 ) )
+        if ( $product->hasQuantity( $RequireQuantity ) )
         {
             $wishListItem->moveToCart();
             $wishListItem->delete();

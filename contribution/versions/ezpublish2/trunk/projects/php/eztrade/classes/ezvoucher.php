@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucher.php,v 1.13 2001/10/16 09:21:04 ce Exp $
+// $Id: ezvoucher.php,v 1.14 2001/11/12 08:03:47 ce Exp $
 //
 // eZVoucher class
 //
@@ -88,7 +88,7 @@ class eZVoucher
             $password = md5( $this->Password );
 
             $res = $db->query( "INSERT INTO eZTrade_Voucher
-                      ( ID, Created, Price, Available, KeyNumber, UserID, ProductID, TotalValue )
+                      ( ID, Created, Price, Available, KeyNumber, UserID, ProductID, TotalValue, ValidUntil )
                       VALUES
                       ( '$nextID',
                         '$timeStamp',
@@ -97,7 +97,21 @@ class eZVoucher
                         '$this->KeyNumber',
                         '$this->UserID',
                         '$this->ProductID',
-                        '$this->TotalValue'
+                        '$this->TotalValue',
+                        '$this->ValidUntil'
+                            )" );
+            print ( "INSERT INTO eZTrade_Voucher
+                      ( ID, Created, Price, Available, KeyNumber, UserID, ProductID, TotalValue, ValidUntil )
+                      VALUES
+                      ( '$nextID',
+                        '$timeStamp',
+                        '$this->Price',
+                        '$this->Available',
+                        '$this->KeyNumber',
+                        '$this->UserID',
+                        '$this->ProductID',
+                        '$this->TotalValue',
+                        '$this->ValidUntil'
                             )" );
 
 			$this->ID = $nextID;
@@ -111,7 +125,8 @@ class eZVoucher
                                      KeyNumber='$this->KeyNumber',
                                      UserID='$this->UserID',
                                      ProductID='$this->ProductID',
-                                     TotalValue='$this->TotalValue'
+                                     TotalValue='$this->TotalValue',
+                                     ValidUntil='$this->ValidUntil'
                                      WHERE ID='$this->ID'" );
         }
         $db->unlock();
@@ -185,6 +200,7 @@ class eZVoucher
         $this->UserID =& $voucherArray[$db->fieldName( "UserID" )];
         $this->ProductID =& $voucherArray[$db->fieldName( "ProductID" )];
         $this->TotalValue =& $voucherArray[$db->fieldName( "TotalValue" )];
+        $this->ValidUntil =& $voucherArray[$db->fieldName( "ValidUntil" )];
     }
 
     /*!
@@ -250,6 +266,17 @@ class eZVoucher
     {
         $dateTime = new eZDateTime();
         $dateTime->setTimeStamp( $this->Created );
+
+        return $dateTime;
+    }
+
+    /*!
+      Returns the date when the voucher will be unvalid.
+    */
+    function &validUntil()
+    {
+        $dateTime = new eZDateTime();
+        $dateTime->setTimeStamp( $this->ValidUntil );
 
         return $dateTime;
     }
@@ -325,6 +352,14 @@ class eZVoucher
     {
        $this->Price = $value;
        setType( $this->Price, "integer" );
+    }
+
+    /*!
+      Sets when the voucher should expire.
+    */
+    function setValidUntil( $value=0 )
+    {
+       $this->ValidUntil = $value;
     }
 
     /*!
@@ -509,6 +544,7 @@ class eZVoucher
     var $ID;
     var $KeyNumber;
     var $Created;
+    var $ValidUntil;
     var $Available;
     var $Price;
     var $UserID;
