@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.81.2.2 2001/11/17 10:49:14 bf Exp $
+// $Id: articlelist.php,v 1.81.2.3 2001/12/12 14:09:41 br Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -28,6 +28,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezlist.php" );
+include_once( "classes/eztexttool.php" );
 
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
@@ -156,7 +157,7 @@ $t->set_var( "section_id", $GlobalSectionID );
 $category = new eZArticleCategory( $CategoryID );
 
 $t->set_var( "current_category_name", $category->name() );
-$t->set_var( "current_category_description", $category->description() );
+$t->set_var( "current_category_description", eZTextTool::nl2br( $category->description() ) );
 
 if ( isSet( $NoArticleHeader ) and $NoArticleHeader )
 {
