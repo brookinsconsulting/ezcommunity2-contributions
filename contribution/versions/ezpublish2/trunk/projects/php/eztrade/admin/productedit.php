@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.28 2001/02/07 16:20:36 jb Exp $
+// $Id: productedit.php,v 1.29 2001/02/07 16:31:33 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -354,34 +354,7 @@ if ( $Action == "Delete" )
     
 
     // clear the cache files.
-    $dir = dir( "eztrade/cache/" );
-    while( $entry = $dir->read() )
-    { 
-        if ( $entry != "." && $entry != ".." )
-        {
-            if ( ereg( "productview,(.*),.*", $entry, $regArray  ) )
-            {
-                if ( $regArray[1] == $productID )
-                {
-                    unlink( "eztrade/cache/" . $entry );
-                }
-            }
-            
-            if ( ereg( "productlist,(.*)\..*", $entry, $regArray  ) )
-            {
-                if ( in_array( $regArray[1], $categoryIDArray )  )
-                {
-                    unlink( "eztrade/cache/" . $entry );
-                }
-            }
-
-            if ( ereg( "hotdealslist.cache", $entry, $regArray  ) )
-            {
-                unlink( "eztrade/cache/" . $entry );
-            }            
-        } 
-    }
-    $dir->close();
+    deleteCache( $ProductID, $CategoryID, $categoryIDArray );
 
     $category = $product->categoryDefinition( );
     $categoryID = $category->id();
