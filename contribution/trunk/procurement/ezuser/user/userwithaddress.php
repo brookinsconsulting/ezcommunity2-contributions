@@ -155,6 +155,8 @@ $t->set_block( "errors_item_tpl", "error_missing_country_tpl", "error_missing_co
 $t->set_block( "errors_item_tpl", "error_missing_region_tpl", "error_missing_region" );
 $t->set_block( "errors_item_tpl", "error_missing_company_tpl", "error_missing_company" );
 $t->set_block( "errors_item_tpl", "error_missing_phone_tpl", "error_missing_phone" );
+$t->set_block( "errors_item_tpl", "error_missing_online_tpl", "error_missing_online" );
+
 
 $t->set_block( "user_edit_tpl", "new_user_tpl", "new_user" );
 $t->set_block( "user_edit_tpl", "edit_user_tpl", "edit_user" );
@@ -251,6 +253,7 @@ $placeCheck = true;
 $addressCheck = true;
 $companyCheck = true;
 $phoneCheck = true;
+$onlineCheck = true;
 
 
 // If the user is trying to buy without having a address
@@ -320,6 +323,30 @@ if ( isSet( $OK ) or isSet( $OK_x ) )
 
     if ($phoneCheck)
     {
+      if ($Phone[0] == "" || $PhoneTypeID[0] == "-1")
+      {
+	$t->parse( "error_missing_phone", "error_missing_phone_tpl" );
+	
+	$error = true;
+      }
+      else
+      {
+	$t->set_var( "error_missing_phone", "");
+      }
+    }
+
+    if ($onlineCheck)
+    {
+      if ($Online[0] == "" || $OnlineTypeID[0] == "-1")
+      {
+	$t->parse( "error_missing_online", "error_missing_online_tpl" );
+
+	$error = true;
+      }
+      else
+      {
+	$t->set_var( "error_missing_online", "");
+      }
     }
 
     if ( $firstNameCheck and $FirstName == "" )
@@ -1446,10 +1473,6 @@ if ( $SelectRegion == "enabled" ) {
 
 }
 */
-
-
-
-
 
 // Make sure the MainAddressID is set to something sensible
 $deleted = false;

@@ -3559,8 +3559,7 @@ if ( !empty($writersArray) ){
     /*!
       Returns every rfp in every category sorted by time.
     */
-    function &rfps( $sortMode="time", $fetchNonPublished=true,
-                        $offset=0, $limit=50 )
+    function &rfps( $sortMode="time", $fetchNonPublished=true, $offset=0, $limit=50 )
     {
         $db =& eZDB::globalDatabase();
 
@@ -3591,6 +3590,8 @@ if ( !empty($writersArray) ){
         $currentUserSQL = "";
         $groupSQL = "";
         $usePermission = true;
+
+	/*
         if ( $user )
         {
             $groups =& $user->groups( false );
@@ -3608,6 +3609,8 @@ if ( !empty($writersArray) ){
             if ( $user->hasRootAccess() )
                 $usePermission = false;
         }
+
+	*/
         $loggedInSQL = "( $currentUserSQL ( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1' ) ) ";
 
         if ( $usePermission )

@@ -1,4 +1,4 @@
-<div id="LayerContent" class="LayerContentL" style=""> 
+<div id="LayerContent" class="LayerContentL" style="height: 340px;"> 
 
 <div class="header" style="position:relative;">
 
@@ -100,5 +100,7 @@
 </div>
 <!-- END type_list_tpl -->
 
+
+</div>
 
 </div>

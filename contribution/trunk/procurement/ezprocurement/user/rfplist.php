@@ -142,8 +142,6 @@ else
     $t->set_var( "latest_headline_item", "" );
 }
 
-
-
 // read user override variables for image size
 $ThumbnailImageWidth = $ini->read_var( "eZRfpMain", "ThumbnailImageWidth" );
 $ThumbnailImageHeight = $ini->read_var( "eZRfpMain", "ThumbnailImageHeight" );
@@ -159,7 +157,6 @@ if ( $thumbnailImageHeightOverride )
 {
     $ThumbnailImageHeight = $thumbnailImageHeightOverride;
 }
-
 
 // image dir
 $t->set_var( "image_dir", $ImageDir );
@@ -233,36 +230,33 @@ foreach ( $pathArray as $path )
 
     $SiteTitleAppend .= $path[1] . " : ";
     
-if ( $CategoryID == '10' )
-{
-//    $t->parse( "path_item", "path_item_tpl", true );
-}else {
+    if ( $CategoryID == '10' )
+    {
+      // $t->parse( "path_item", "path_item_tpl", true );
+    }else {
+      $t->parse( "path_item", "path_item_tpl", true );
+    }
 
-    $t->parse( "path_item", "path_item_tpl", true );
+    $t->set_var( "rfp_path_header", "" );
+    $t->set_var( "rfp_path_headers", "" );
+    $t->set_var( "rfp_path_headers2", "" );
 
-}
-
-
-        $t->set_var( "rfp_path_header", "" );
-        $t->set_var( "rfp_path_headers", "" );
+    if ( $CategoryID == '10' )
+    {
+      
+      $t->set_var( "rfp_path_header", "" );
+      $t->set_var( "rfp_path_headers2", "" );
+      
+      $t->parse( "rfp_path_headers", "rfp_path_headers_tpl", true );
+      // $t->parse( "rfp_path_header", "rfp_path_header_tpl", true ); 
+      
+    }else {
+      $t->set_var( "rfp_path_header", "" );
+      $t->set_var( "rfp_path_headers", "" );
         $t->set_var( "rfp_path_headers2", "" );
-
-if ( $CategoryID == '10' )
-{
-
-	$t->set_var( "rfp_path_header", "" );
-        $t->set_var( "rfp_path_headers2", "" );
-
-    $t->parse( "rfp_path_headers", "rfp_path_headers_tpl", true );
-//    $t->parse( "rfp_path_header", "rfp_path_header_tpl", true ); 
-
-}else {
-	$t->set_var( "rfp_path_header", "" );
-        $t->set_var( "rfp_path_headers", "" );
-        $t->set_var( "rfp_path_headers2", "" );
-}
-
-
+    }
+    
+    
 }
 
 $categoryList = $category->getByParent( $category );
@@ -391,8 +385,6 @@ if ( ( $category->listLimit() > 0 ) && $Offset == 0 )
 else
     $Limit = $UserListLimit;
 
-	// tinker here to chane softe mode / style from ick, to ordered by published date/ aks tyler about what order is beast
-	
 if ( $CategoryID == 0 )
 {
     // do not set offset for the main page news
@@ -403,16 +395,10 @@ if ( $CategoryID == 0 )
 }
 else
 {
-
-/// this should be important?
-
-
-    $rfpList =& $category->rfps( $category->sortMode(), false, true, $Offset, $Limit );
-    $rfpCount = $category->rfpCount( false, true  );
+  // this should be important?
+  $rfpList =& $category->rfps( $category->sortMode(), false, true, $Offset, $Limit );
+  $rfpCount = $category->rfpCount( false, true  );
 }
-//    $rfpList =& $category->rfps( $category->sortMode(), false, true, $Offset, $Limit );
-//	  $rfpDownloadReportUsers($uri); based on incomming URI, returns array of user, count
-// then add for eachloop to render the looped list of author(info linked), download count, for each user.
 
 $t->set_var( "category_current_id", $CategoryID );
 
@@ -422,24 +408,16 @@ $t->set_var( "rfp_list", "" );
 
 $SiteDescriptionOverride = "";
 
-
-
-
-
-
-
-
-
+/*
+include_once("classes/ezvardump.php");
+Var_Dump::display($rfpList);
+*/
 
 foreach ( $rfpList as $rfp )
 {
     $categoryDef =& $rfp->categoryDefinition();
 
     $t->set_var( "category_id", $CategoryID );
-
-
-
-
 
     if ( $ForceCategoryDefinition == "enabled" )
     {
@@ -449,7 +427,6 @@ foreach ( $rfpList as $rfp )
     {
         $t->set_var( "category_id", $categoryDef->id() );
     }
-        
 
     $t->set_var( "category_def_name", $categoryDef->name() );
     $t->set_var( "category_def_id", $categoryDef->id() );
@@ -462,39 +439,6 @@ foreach ( $rfpList as $rfp )
     $SiteDescriptionOverride .= $rfp->name() . " ";
         
     $t->set_var( "author_text", $rfp->authorText() );
-
-
-/*
-
-        $t->set_var( "rfp_topic", "" );
-        $t->set_var( "topic_name", "" );
-
-from outpad:
-
-
-        <!-- BEGIN rfp_topic_tpl -->
-        <a href="{www_dir}{index}/rfp/topiclist/{topic_id}">{topic_name}</a></p>
-        <!-- END rfp_topic_tpl -->
-
-
-
-*/
-    // check for topic
-//    $topic =& $rfp->topic();
-
-//    if ( ( get_class( $topic ) == "eztopic" ) && ( $topic->name() != "" ) )
-//    {
-/*
-        $t->set_var( "topic_id", $topic->id() );
-        $t->set_var( "topic_name", $topic->name() );
-        $t->parse( "rfp_topic", "rfp_topic_tpl" );
-    }
-    else
-    {
-*/    
-        $t->set_var( "rfp_topic", "" );        
-//    }
-
 
     // preview image
     $thumbnailImage =& $rfp->thumbnailImage();
@@ -518,7 +462,6 @@ from outpad:
     {
         $t->set_var( "rfp_image", "" );    
     }
-    
 
     if ( ( $i % 2 ) == 0 )
     {
@@ -563,48 +506,44 @@ from outpad:
 
     $t->set_var( "rfp_responce_due_datevalue", $locale->format( $responceDueDateValue ) );
     $t->set_var( "rfp_responce_due_timevalue", $locale->format( $responceDueTimeValue ) );
-
-	if ( $authorText == "" || $authorText[0] == "-" )
-	{
-		$t->set_var( "rfp_published", $locale->format( $published ) );
-        $t->set_var( "rfp_date", "" );    
-	}
-	else
+    
+    if ( $authorText == "" || $authorText[0] == "-" )
     {
-		$t->set_var( "rfp_published", $locale->format( $published ) );
-        $t->parse( "rfp_date", "rfp_date_tpl" );
-	}
-	
-	
-	if ( $authorText == "" || $authorText[0] == "-" )
-	{
-		$t->set_var( "rfp_modified_date", $locale->format( $modified ) );
-//        $t->set_var( "rfp_modified_date", "" );    
-	}
-	else
+      $t->set_var( "rfp_published", $locale->format( $published ) );
+      $t->set_var( "rfp_date", "" );    
+    }
+    else
     {
-		$t->set_var( "rfp_modified_date", $locale->format( $modified ) );
-//        $t->parse( "rfp_modified_date", "rfp_modified_date_tpl" );
-	}
-	
-        if ( $authorText == "" || $authorText[0] == "-" )
-        {
-                $t->set_var( "rfp_responce_due_date", $locale->format( $responceDue ) );
-//        $t->set_var( "rfp_responce_due_date", "" );
-        }
-        else
+      $t->set_var( "rfp_published", $locale->format( $published ) );
+      $t->parse( "rfp_date", "rfp_date_tpl" );
+    }
+    
+    if ( $authorText == "" || $authorText[0] == "-" )
     {
-                $t->set_var( "rfp_responce_due_date", $locale->format( $responceDue ) );
- //       $t->parse( "rfp_responce_due_date", "rfp_responce_due_date_tpl" );
-        }
+      $t->set_var( "rfp_modified_date", $locale->format( $modified ) );
+      //        $t->set_var( "rfp_modified_date", "" );    
+    }
+    else
+    {
+      $t->set_var( "rfp_modified_date", $locale->format( $modified ) );
+      //        $t->parse( "rfp_modified_date", "rfp_modified_date_tpl" );
+    }
+    
+    if ( $authorText == "" || $authorText[0] == "-" )
+    {
+      $t->set_var( "rfp_responce_due_date", $locale->format( $responceDue ) );
+      //        $t->set_var( "rfp_responce_due_date", "" );
+    }
+    else
+    {
+      $t->set_var( "rfp_responce_due_date", $locale->format( $responceDue ) );
+      //       $t->parse( "rfp_responce_due_date", "rfp_responce_due_date_tpl" );
+    }
 
-
-	
     $renderer = new eZRfpRenderer( $rfp );
-
 	
-//    $t->set_var( "rfp_intro", $renderer->renderIntro(  ) );
-//	$t->set_var( "rfp_intro", " " );
+    // $t->set_var( "rfp_intro", $renderer->renderIntro(  ) );
+    // $t->set_var( "rfp_intro", " " );
         
     if ( $rfp->linkText() != "" )
     {
@@ -615,13 +554,10 @@ from outpad:
         $t->set_var( "rfp_link_text", $DefaultLinkText );
     }
 
-//xx
-
     // check if the rfp contains more than intro
     $contents =& $renderer->renderPage();
 
-// link or no link based on rfp attributes . . . hmmm.
-
+    // link or no link based on rfp attributes . . . hmmm.
     if ( trim( $contents[1] ) == "" && count( $rfp->attributes( false ) ) <= 0 )
     {
         $t->set_var( "read_more", "" );
@@ -634,7 +570,6 @@ from outpad:
         $t->parse( "headline_with_link", "headline_with_link_tpl" );
         $t->set_var( "headline_without_link", "" );
     }
-
 
     $t->parse( "rfp_item", "rfp_item_tpl", true );
     $i++;

@@ -358,7 +358,7 @@ print( "Insert procurementdownload.php function <br /> Check for Authenticated S
         else
             $user = 0;
 
-//        print( "Checking category: $CategoryID <br>" );
+	//        print( "Checking category: $CategoryID <br>" );
 
         if ( $PageCaching == "enabled" )
         {
@@ -390,9 +390,10 @@ print( "Insert procurementdownload.php function <br /> Check for Authenticated S
 
             }
         }
-        else if ( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "rfp_category", 'r' )
-        || eZRfpCategory::isOwner( $user, $CategoryID ) )
+	else if ( $CategoryID || $CategoryID == 0 )
         {
+	  /* else if ( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "rfp_category", 'r' ) || eZRfpCategory::isOwner( $user, $CategoryID ) )
+	  */
             include( "ezrfp/user/rfplist.php" );
         }
         else

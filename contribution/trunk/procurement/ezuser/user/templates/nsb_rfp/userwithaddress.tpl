@@ -93,6 +93,9 @@
     <!-- BEGIN error_missing_phone_tpl -->
     <li>{intl-error_missing_phone}</li>
     <!-- END error_missing_phone_tpl -->
+    <!-- BEGIN error_missing_online_tpl -->
+    <li>{intl-error_missing_online}</li>
+    <!-- END error_missing_online_tpl -->
 </ul>
 
 <hr noshade size="4"/>

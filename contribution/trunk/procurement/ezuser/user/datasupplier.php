@@ -60,6 +60,9 @@ switch ( $url_array[2] )
     case "user" :
     case "userwithaddress" :
     {
+      // require user address
+      $NewAddress = true;
+
         if ( $url_array[3] == "new" )
         {
             $Action = "New";
