@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezclassified.php,v 1.14 2000/12/21 12:12:01 jb Exp $
+// $Id: ezclassified.php,v 1.15 2000/12/21 20:20:07 jb Exp $
 //
 // Definition of eZClassified class
 //
@@ -337,26 +337,39 @@ class eZClassified
         return $return_array;
     }
     /*!
-      Add a company to the eZClassified object.
+      Set the company to the eZClassified object.
     */
-    function addCompany( $company )
+    function setCompany( $company )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
         $ret = false;
-        
+
         $this->dbInit();
         
         if ( get_class( $company ) == "ezcompany" )
         {
             $companyID = $company->id();
 
-//              $this->Database->query( "INSERT INTO eZContact_CompanyClassifiedDict
-//                                       SET CompanyID='$companyID', ClassifiedID='$this->ID'" );
-            $this->Database->query( "INSERT INTO eZClassified_ClassifiedCompanyLink
+            $ret_array = array();
+            $this->Database->array_query( $ret_array, "SELECT * FROM eZClassified_ClassifiedCompanyLink
+                                     WHERE ClassifiedID='$this->ID'" );
+            $update = false;
+            if ( count( $ret_array ) != 0 )
+                $update = true;
+
+            if ( $update )
+                $this->Database->query( "UPDATE eZClassified_ClassifiedCompanyLink
+                                     SET CompanyID='$companyID' WHERE ClassifiedID='$this->ID'" );
+            else
+                $this->Database->query( "INSERT INTO eZClassified_ClassifiedCompanyLink
                                      SET CompanyID='$companyID', ClassifiedID='$this->ID'" );
             $ret = true;
+        }
+        else
+        {
+            die( "eZClassified::setCompany(): cannot set the company relation without a company object" );
         }
         return $ret;
     }
