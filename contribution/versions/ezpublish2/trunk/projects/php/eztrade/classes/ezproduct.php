@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.98 2001/09/18 12:01:30 pkej Exp $
+// $Id: ezproduct.php,v 1.99 2001/09/18 12:48:54 pkej Exp $
 //
 // Definition of eZProduct class
 //
@@ -390,12 +390,11 @@ class eZProduct
                     $vat =& $vatType->value();
                 }
                 
-                $price = $price - ( $price / 100 + $vat );
+                $price = $price - ( $price / ( 100 + $vat ) ) * $vat;
                 
             }
         }
-        
-        return $price;
+       return $price;
     }    
 
     /*!
@@ -426,45 +425,10 @@ class eZProduct
             $lowPrice += $tmpLowPrice;
             $maxPrice += $tmpMaxPrice;
         }
-        
-        if ( empty( $lowPrice ) )
-        {
-            $lowPrice = $this->correctPrice( $calcVAT  );
-        }
-        else
-        {
-            $lowPrice += $this->correctPrice( $calcVAT );
-        }
-        
-        if ( empty( $maxPrice ) )
-        {
-            $maxPrice = $this->correctPrice( $calcVAT );
-        }
-        else
-        {
-            $maxPrice += $this->correctPrice( $calcVAT );
-        }
-        
-        if ( $calcVAT == true )
-        {
-            if ( $this->excludedVAT() )
-            {
-                $tmpLow = $this->priceIncVAT( $lowPrice );
-                $tmpMax = $this->priceIncVAT( $maxPrice );
-                $lowPrice = $tmpLow["Price"];
-                $maxPrice = $tmpMax["Price"];
-            }
-        }
-        else
-        {
-            if ( $this->includesVAT() )
-            {
-                $lowPrice = $this->priceExVAT( $lowPrice );
-                $maxPrice = $this->priceExVAT( $maxPrice );
-            }
 
-        }
-        
+        $lowPrice += $this->correctPrice( $calcVAT );
+        $maxPrice += $this->correctPrice( $calcVAT );
+
         $price["max"] = $maxPrice;
         $price["min"] = $lowPrice;
         return $price;
@@ -488,7 +452,6 @@ class eZProduct
             $lowCurrency = new eZCurrency();
             
             $prices = $this->correctPriceRange( $calcVAT );
-            
             $highCurrency->setValue( $prices["max"] );
             $lowCurrency->setValue( $prices["min"] );
             
@@ -517,7 +480,7 @@ class eZProduct
       If a value is given as argument this value is used for VAT calculation.
       This is used in carts where you have multiple products and prices on options.
     */
-    function &priceExVAT( $price="" )
+    function &priceExVAT( $price="", $calcVAT = true )
     {
        if ( $price == "" )
        {
@@ -530,16 +493,20 @@ class eZProduct
        
        $vatType =& $this->vatType();
 
-       $vat = 0;
-       
-       if ( $vatType )
-       {
-           $value =& $vatType->value();
+        if ( $this->hasVAT() )
+        {
+           $vat = 0;
 
-           $vat = ( $calcPrice / ( $value + 100  ) ) * $value;
-       }
-      
-       $priceExVat = $calcPrice - $vat;
+           if ( $vatType )
+           {
+               $value =& $vatType->value();
+
+               $vat = ( $calcPrice / ( $value + 100  ) ) * $value;
+           }
+
+           $priceExVat = $calcPrice - $vat;
+        }
+
 
        return $priceExVat;
     }
@@ -563,21 +530,35 @@ class eZProduct
        {
            $calcPrice = $price;
        }
+
+        $vatType =& $this->vatType();
+
+        $vat = 0;
        
-       $vatType =& $this->vatType();
+        $priceExVat = $calcPrice;
+            
+        if ( $this->excludedVAT() )
+        {
+            if ( $vatType )
+            {
+                $value =& $vatType->value();
 
-       $vat = 0;
-       
-       if ( $vatType )
-       {
-           $value =& $vatType->value();
-
-           $vat = ( $calcPrice / ( $value + 100  ) ) * $value;
-       }
-      
-       $priceExVat = $calcPrice + $vat;
-
-       return array( "Price" => $priceExVat, "VAT" => $vat );
+                $vat = $priceExVat / 100 * $value ;
+            }
+            
+        }
+        else
+        {
+            if ( $vatType )
+            {
+                $value =& $vatType->value();
+                $vat = $calcPrice /  ( 100 + $value ) * $value;
+                $priceExVat = $calcPrice - ( $calcPrice / ( 100 + $value ) * $value);
+            }
+        }
+        
+        $returnArray = array( "Price" => $priceExVat, "VAT" => $vat );
+        return $returnArray;
     }
 
     /*!
@@ -609,15 +590,25 @@ class eZProduct
            $calcPrice = $price;
        }
        
-       $vatType =& $this->vatType();
-       $vat = 0;
-       if ( $vatType )
-       {
-           $value =& $vatType->value();
-           $vat = ( $calcPrice / ( $value + 100  ) ) * $value;        
-       }
-
-       return $vat;
+        $vatType =& $this->vatType();
+        $vat = 0;
+        if ( $this->hasVAT() )
+        {
+           if ( $vatType )
+           {
+               $value =& $vatType->value();
+               $vat = ( $calcPrice / ( $value + 100  ) ) * $value;        
+           }
+        }
+        else
+        {
+           if ( $vatType )
+           {
+               $value =& $vatType->value();
+               $vat = $calcPrice - ( $calcPrice / $value + 100 );        
+          }
+        }
+        return $vat;
     }
 
     /*!
