@@ -42,6 +42,7 @@ switch ( $RequestType )
         switch( $Command )
         {
             case "list":
+            case "tree":
             {
                 include( "ezarticle/xmlrpc/categorylist.php" );
                 break;
