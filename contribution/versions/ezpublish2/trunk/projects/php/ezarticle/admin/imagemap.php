@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: imagemap.php,v 1.3 2001/06/19 10:32:18 jhe Exp $
+// $Id: imagemap.php,v 1.4 2001/07/09 11:29:55 jhe Exp $
 //
 // Jo Henrik Endrerud <jhe@ez.no>
 // Created on: <12-Jun-2001 14:47:19 jhe>
@@ -33,15 +33,13 @@ $Language = $ini->read_var( "eZArticleMain", "Language" );
 
 $map = new eZImageMap( $ImageID );
 
-$db = new eZDB( $ini, "site" );
-
 switch ( $Action )
 {
     case "Edit" :
     {
         $t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
                              "ezarticle/admin/intl/", $Language, "imagemap.php" );
-	
+        
         $t->setAllStrings();
         
         $t->set_file( "image_map_tpl", "imagemap.tpl" );
@@ -51,11 +49,11 @@ switch ( $Action )
         $image = new eZImage( $ImageID );
         
         $t->set_var( "article_name", $article->name() );
-
+        
         $t->set_var( "image_id", $ImageID );
         $t->set_var( "article_id", $ArticleID );
         $t->set_var( "image", $image->filePath( true ) );
-
+        
         $elements = $map->get();
         $t->set_var( "element", "" );
         
