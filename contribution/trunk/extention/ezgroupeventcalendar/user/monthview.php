@@ -309,6 +309,7 @@ if( $user )
                     {	
 		      // kracker : trim apointment name to keep the calendar easy to read
 		      $appointmentName = $appointment->name();
+		      $appointmentFullName = $appointment->name();
 		      if ($TruncateTitle == "enabled"){
 		        $appointmentNameLen = strlen($appointmentName);
 		        $appointmentNameLenHalf = 12;
@@ -319,8 +320,15 @@ if( $user )
 		        }
 		      }
 				$t->set_var ( "appointment_name", $appointmentName );
+				$t->set_var ( "appointment_full_name", $appointmentFullName );
 				$t->set_var ( "appointment_id" , $appointment->id() );
-
+                $t->set_var ( "event_description", $appointment->description() );
+                $eStartTime = $appointment->startTime();
+                $eStopTime = $appointment->stopTime();
+                $event_start_time = addZero($eStartTime->hour()) . ':'. addZero( $eStartTime->minute() );
+                $event_stop_time =  addZero($eStopTime->hour()) . ':'. addZero( $eStopTime->minute() );
+                $t->set_var ( "event_start_time", $event_start_time  );
+                $t->set_var ( "event_stop_time", $event_stop_time );
 						if( $groupsList != "-1" )
 						{
 							foreach ( $groupsList as $groups )
@@ -336,7 +344,7 @@ if( $user )
 
 						$groupName = new eZUserGroup( $appointment->groupID() );
 						$t->set_var ( "appointment_group", $groupName->name() );
-					
+
                         if ( ( $appointment->isPrivate() == true && $user_groupID == $appointment->groupID() ) || ( $appointment->isPrivate() == true && eZPermission::checkPermission( $user, "eZGroupEventCalendar", "Read" ) ) || $appointment->isPrivate() == false )
                         {
                             $t->parse( "public_appointment", "public_appointment_tpl", true );
