@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.90 2001/09/17 11:27:17 pkej Exp $
+// $Id: checkout.php,v 1.91 2001/09/18 06:05:58 br Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -673,7 +673,7 @@ else
 $payment = true;
 
 // the total cost of the payment
-$t->set_var( "total_cost_value", $sum );
+$t->set_var( "total_cost_value", $total["inctax"] );
 $t->set_var( "total_vat_value", $totalVAT ); 
 
 
