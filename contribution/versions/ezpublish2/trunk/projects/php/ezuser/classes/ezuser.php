@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.99 2001/10/11 11:44:30 ce Exp $
+// $Id: ezuser.php,v 1.100 2001/10/16 11:05:53 bf Exp $
 //
 // Definition of eZUser class
 //
@@ -723,7 +723,8 @@ class eZUser
         $db =& eZDB::globalDatabase();
 
         setCookie( "eZUser_AutoCookieLogin", "", 0, "/",  "", 0 );
-
+        setCookie( "eZUser_AutoCookieLogin" );
+        
         if ( $user )
         {
             $userID = $user->id();
