@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelementfixedvalue.php,v 1.2 2002/01/03 07:58:53 jhe Exp $
+// $Id: ezformelementfixedvalue.php,v 1.3 2002/01/23 08:50:29 jhe Exp $
 //
 // ezformelementtype class
 //
@@ -194,9 +194,12 @@ class eZFormElementFixedValue
     /*!
       Returns the value of the object.
     */
-    function &value()
+    function &value( $as_html = true )
     {
-        return htmlspecialchars( $this->Value );
+        if ( $as_html )
+            return htmlspecialchars( $this->Value );
+        else
+            return $this->Value;
     }
 
     /*!

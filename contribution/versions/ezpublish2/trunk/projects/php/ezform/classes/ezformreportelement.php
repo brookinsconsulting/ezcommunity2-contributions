@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.11 2002/01/23 08:30:02 jhe Exp $
+// $Id: ezformreportelement.php,v 1.12 2002/01/23 08:50:29 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -247,14 +247,16 @@ class eZFormReportElement
         if ( $element->ElementType->name() == "checkbox_item" )
         {
             $fixedElements = $element->fixedValues();
+            print "<pre>";
+            print_r( $fixedElements );
             foreach ( $fixedElements as $fElement )
             {
                 $db->array_query( $res, "SELECT eZForm_FormElementResult.ID, eZForm_FormElementResult.Result FROM
                                          eZForm_FormElementResult, eZForm_FormElementFixedValues, eZForm_FormElementFixedValueLink
                                          WHERE eZForm_FormElementResult.ElementID = eZForm_FormElementFixedValueLink.ElementID AND
                                          eZForm_FormElementFixedValues.ID = eZForm_FormElementFixedValueLink.FixedValueID AND
-                                         eZForm_FormElementResult.ElementID=705 AND
-                                         eZForm_FormElementResult.Result LIKE '%" . $fElement->value() . "%'
+                                         eZForm_FormElementResult.ElementID='" . $element->id() . "' AND
+                                         eZForm_FormElementResult.Result LIKE '%" . $fElement->value( false ) . "%'
                                          GROUP BY eZForm_FormElementResult.ID " );
                 $template->set_var( "result", $fElement->value() );
                 $template->set_var( "count", count( $res ) );
