@@ -1,6 +1,10 @@
 eZ trade changelog:
 -------------------
 
+Changes from version 1.0.5
+--------------------------
+* Added showing of hours, minutes and seconds idle on session info
+
 Changes from version 1.0.4
 --------------------------
 * Added image previews in hot deals list.

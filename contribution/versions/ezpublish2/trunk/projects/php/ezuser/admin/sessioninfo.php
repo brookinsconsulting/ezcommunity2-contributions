@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: sessioninfo.php,v 1.4 2000/12/19 13:52:05 ce Exp $
+// $Id: sessioninfo.php,v 1.5 2000/12/23 18:05:36 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <01-Nov-2000 14:34:30 bf>
@@ -27,6 +27,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezdatetime.php" );
+include_once( "classes/eztime.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
@@ -84,7 +85,14 @@ foreach( $userSessionList as $userSessionItem )
 
     $t->set_var( "session_ip", $userSessionItem[1]->variable( "SessionIP" ) );
 
-    $t->set_var( "idle", $userSessionItem[1]->idle() );
+    $idle = $userSessionItem[1]->idle();
+
+    if ( $idle == 0 )
+        $idle = 1;
+    
+    $time = new eZTime(  ( $idle / 60 ) / 60, ( $idle / 60 ) % 60, ( $idle % 60 ) );
+    
+    $t->set_var( "idle", $locale->format( $time ) );
 
     $t->parse( "user_item", "user_item_tpl", true );
     $i++;
