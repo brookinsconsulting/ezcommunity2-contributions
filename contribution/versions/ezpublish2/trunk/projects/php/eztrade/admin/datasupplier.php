@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: datasupplier.php,v 1.40 2001/09/21 14:31:49 bf Exp $
+// $Id: datasupplier.php,v 1.41 2001/10/01 10:27:11 pkej Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
@@ -245,6 +245,14 @@ switch ( $url_array[2] )
                 include( "eztrade/admin/attributeedit.php" );
             }
             break;
+
+            case "formlist":
+            {
+                $ProductID = $url_array[4];
+                include( "eztrade/admin/formlist.php" );
+            }
+            break;
+
                 
             case "link" :
             {

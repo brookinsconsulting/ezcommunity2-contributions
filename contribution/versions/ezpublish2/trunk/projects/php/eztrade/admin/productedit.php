@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.66 2001/09/28 11:14:36 ce Exp $
+// $Id: productedit.php,v 1.67 2001/10/01 10:27:11 pkej Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -335,6 +335,14 @@ if ( $Action == "Update"  or $Action == "Insert" )
                 case "ModuleLinker":
                 {
                     eZHTTPTool::header( "Location: /trade/productedit/link/list/$productID/" );
+                    exit();
+                }
+                break;
+
+                case "Form":
+                {
+                    // add form
+                    eZHTTPTool::header( "Location: /trade/productedit/formlist/$productID/" );
                     exit();
                 }
                 break;

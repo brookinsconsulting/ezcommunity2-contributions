@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproductform.php,v 1.1 2001/10/01 10:07:23 pkej Exp $
+// $Id: ezproductform.php,v 1.2 2001/10/01 10:27:12 pkej Exp $
 //
 // ezproductform class
 //
@@ -35,7 +35,7 @@
 
 */
 
-include_once( "ezproduct/classes/ezproduct.php" );
+include_once( "eztrade/classes/ezproduct.php" );
 
 class eZProductForm
 {

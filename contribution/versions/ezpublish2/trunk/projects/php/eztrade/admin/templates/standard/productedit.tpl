@@ -195,6 +195,7 @@ $
 <!-- BEGIN module_linker_button_tpl -->
 	<option value="ModuleLinker">{intl-links}</option>
 <!-- END module_linker_button_tpl -->
+        <option value="Form">{intl-forms}</option>
         </select>
     </td>
     <td>
