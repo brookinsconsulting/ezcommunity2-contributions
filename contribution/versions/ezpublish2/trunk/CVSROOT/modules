@@ -34,6 +34,7 @@ classes         projects/php/classes
 admin           projects/php/admin
 eztrade         projects/php/eztrade
 ezimagecatalogue        projects/php/ezimagecatalogue
+ezfilemanager   projects/php/ezfilemanager
 eznews          projects/php/eznews
 eznewsfeed	projects/php/eznewsfeed
 ezpoll          projects/php/ezpoll
