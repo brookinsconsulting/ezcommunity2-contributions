@@ -31,7 +31,6 @@ include_once( "ezstats/classes/ezpageview.php" );
 
 $SiteStyle =& $ini->read_var( "site", "SiteStyle" );
 
-print( $SiteStyle );
 
 // html header
 include( "header.php" );
