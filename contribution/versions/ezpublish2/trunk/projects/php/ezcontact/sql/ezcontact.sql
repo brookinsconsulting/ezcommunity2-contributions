@@ -297,6 +297,8 @@ INSERT INTO eZContact_OnlineType VALUES ( 1, 'personal_email' );
 INSERT INTO eZContact_OnlineType VALUES ( 2, 'personal_website' );
 INSERT INTO eZContact_OnlineType VALUES ( 3, 'personal_ftpsite' );
 INSERT INTO eZContact_OnlineType VALUES ( 4, 'company_website' );
+INSERT INTO eZContact_OnlineType VALUES ( 5, 'company_email' );
+INSERT INTO eZContact_OnlineType VALUES ( 6, 'company_ftpsite' );
 
 #
 # Table structure for table 'eZContact_PersonAddressDict'
