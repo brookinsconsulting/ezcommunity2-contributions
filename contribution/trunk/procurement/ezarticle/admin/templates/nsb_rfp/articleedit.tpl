@@ -287,6 +287,16 @@
 </tr>
 </table>
 <br />
+
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+        <td>
+        <input class="okbutton" type="submit" value="{intl-ok}" />
+        </form>
+        </td>
+</tr>
+</table>
+
 <hr noshade="noshade" size="4" />
 
 <table cellspacing="0" cellpadding="0" border="0">
@@ -314,14 +324,9 @@
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<input class="okbutton" type="submit" value="{intl-ok}" />
-	</form>
-	</td>
-	<td>&nbsp;</td>
-	<td>
-	<form method="post" action="{www_dir}{index}/article/articleedit/cancel/{article_id}/">
-	<input class="okbutton" type="submit" value="{intl-cancel}" />	
-	</form>
+	 <form method="post" action="{www_dir}{index}/article/articleedit/cancel/{article_id}/">
+	   <input class="okbutton" type="submit" value="{intl-cancel}" />	
+	 </form>
 	</td>
 </tr>
 </table>

@@ -76,6 +76,12 @@ xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
         	}
 		?> 
 		<span>
+
+                 <span class="LayerMenuItem"><a href="/contact/company/list/">Company List</a></span>
+                 <span class="LayerMenuItem"><a href="/contact/person/list/">Person List</a></span>
+
+		<span class="LayerMenuItem">&nbsp;</span>
+
 	         <span class="LayerMenuItem"><a href="/proposals">Proposals</a></span>
                  <span class="LayerMenuItem"><a href="/map">Proposals Map</a></span>
 <!--
@@ -85,12 +91,14 @@ xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 -->
 	         <span class="LayerMenuItem"><a href="/areas">Areas</a></span>
 
-		 <span class="LayerMenuItem"><a href="/authors">Authors</a></span>
+		 <span class="LayerMenuItem"><a href="/planholders">Planholders</a></span>
 	         <span class="LayerMenuItem"><a href="/report">Report</a></span>
 
 		 <span class="LayerMenuItem">&nbsp;</span>
 
                  <span class="LayerMenuItem"><a href="/feedback">Feedback</a></span>
+
+                 <span class="LayerMenuItem"><a href="/about/disclaimer">Disclaimer</a></span>
 
 		 <span class="LayerMenuItem">&nbsp;</span>
 
