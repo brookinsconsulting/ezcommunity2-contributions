@@ -66,7 +66,7 @@ CREATE TABLE eZContact_Person (
   BirthDate date,
   PersonNo varchar(50),
   Comment text,
-  ContactType int(11),
+  ContactTypeID int(11),
   PRIMARY KEY (ID)
 );
 
