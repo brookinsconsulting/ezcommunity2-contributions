@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.7 2000/07/26 11:27:47 lw-cvs Exp $
+    $Id: category.php,v 1.8 2000/07/26 11:30:04 lw Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -12,6 +12,7 @@ include( "ezforum/dbsettings.php" );
 include_once( "ezphputils.php" );
 include( "template.inc" );
 include( "$DOCROOT/classes/ezforumforum.php" );
+include( "$DOCROOT/classes/ezforummessage.php" );
 include( "$DOCROOT/classes/ezsession.php" );
 include( "$DOCROOT/classes/ezuser.php" );
 
