@@ -1,6 +1,6 @@
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
-	<td colspan="2"><span class="listheadline">Nye artikler</span></td>
+	<td><span class="listheadline">Nye artikler</span></td>
 </tr>
 
 <!-- BEGIN path_item_tpl -->
@@ -20,8 +20,10 @@
 
 <!-- BEGIN article_item_tpl -->
 <tr>
+<!--
 	<td width="1%" valign="top"><img src="/sitedesign/ipnett/images/dot.gif" width="10" height="13" border="0" alt="" /><br /></td>
-	<td width="99%">
+-->
+	<td>
 <!-- BEGIN current_image_item_tpl -->
 
 <!-- END current_image_item_tpl -->
@@ -32,7 +34,7 @@
 	</td>
 </tr>
 <tr>
-	<td colspan="2" class="small" align="right">
+	<td class="small" align="right">
 	(&nbsp;{article_published}&nbsp;)
 	</td>
 </tr>
