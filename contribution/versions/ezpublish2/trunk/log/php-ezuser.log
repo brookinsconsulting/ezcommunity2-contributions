@@ -1416,3 +1416,13 @@ Maintainer(s) : bf@ez.no
 
     * admin/intl/en_GB/Attic/extsearch.php.ini: lang fixes
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-07-08  Baard Farstad  <bf@ez.no>
+
+    * admin/sessioninfo.php
+      user/userwithaddress.php:
+    Fixed correct display of session idle time when > 24 h.
+

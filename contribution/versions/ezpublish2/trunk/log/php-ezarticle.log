@@ -3403,3 +3403,12 @@ Maintainer(s) : bf@ez.no
     * classes/ezqdomrenderer.php:
     fixed bug in creation of link for embedded files ($file_uri)
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-07-08  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/article.php:
+    * Articles no longer loose their placement when using the XMLRPC interface
+
