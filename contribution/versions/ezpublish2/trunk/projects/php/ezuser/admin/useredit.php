@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.8 2000/10/25 16:44:19 ce-cvs Exp $
+// $Id: useredit.php,v 1.9 2000/10/26 09:30:41 bf-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -19,7 +19,7 @@ include_once( "classes/eztemplate.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZUserMain", "Language" );
-$DOC_ROOT = $ini->read_var( "eZUserMain", "DocumentRoot" );
+
 $error = new INIFIle( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", false );
 
 include_once( "classes/ezmail.php" );
@@ -193,8 +193,8 @@ if ( $Action == "delete" )
     }
 }
 
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZUserMain", "TemplateDir" ),
-$DOC_ROOT . "/admin/" . "/intl", $Language, "useredit.php" );
+$t = new eZTemplate( "ezuser/admin/" . $ini->read_var( "eZUserMain", "AdminTemplateDir" ),
+ "ezuser/admin/" . "/intl", $Language, "useredit.php" );
 $t->setAllStrings();
 
 $t->set_file( array(

@@ -1,7 +1,5 @@
 <form method="post" action="/article/articleedit/{action_value}/{article_id}/" >
 
-
-
 <h1>{intl-head_line}</h1>
 
 <!-- BEGIN error_message_tpl -->

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: groupedit.php,v 1.4 2000/10/25 12:25:59 bf-cvs Exp $
+// $Id: groupedit.php,v 1.5 2000/10/26 09:30:41 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -12,6 +12,12 @@
 // IMPORTANT NOTE: You may NOT copy this file or any part of it into
 // your own programs or libraries.
 //
+
+if ( isset( $Cancel ) )
+{
+    Header( "Location: /article/archive/$categoryID/" );
+    exit();
+}
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );

@@ -1,13 +1,13 @@
 <form method="post" action="/trade/categoryedit/{action_value}/">
 
-<h1>Kategoriredigering</h1>
+<h1>{intl-head_line}</h1>
 
 <hr noshade="noshade" size="4" />
 
-<p class="boxtext">Navn:</p>
+<p class="boxtext">{intl-name}:</p>
 <input type="text" size="40" name="Name" value="{name_value}"/>
 
-<p class="boxtext">Kategori:</p>
+<p class="boxtext">{intl-category}:</p>
 <select name="ParentID">
 <option value="0">topp</option>
 <!-- BEGIN value_tpl -->
@@ -15,7 +15,7 @@
 <!-- END value_tpl -->
 </select>
 
-<p class="boxtext">Beskrivelse:</p>
+<p class="boxtext">{intl-description}:</p>
 <textarea rows="5" cols="40" name="Description">{description_value}</textarea>
 <br /><br />
 
@@ -26,13 +26,12 @@
 	<td>
 	<input type="hidden" name="CategoryID" value="{category_id}" />
 	<input class="okbutton" type="submit" value="OK" />
-	</form>
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	Avbrytknapp!
+	<input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />
 	</td>
 </tr>
 </table>
 
-
+</form>
