@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcertificate.php,v 1.1 2000/12/11 12:08:19 pkej Exp $
+// $Id: ezcertificate.php,v 1.2 2000/12/21 16:58:11 ce Exp $
 //
 // Definition of eZCertificate class
 //
@@ -74,15 +74,8 @@ class eZCertificate
         
             $this->Created = gmdate( "YmdHis", time());
             
-            $this->Database->query
-            ( "
-                INSERT INTO
-                    eZCV_Certificate
-                SET
-                    CertificateTypeID='$this->CertificateTypeID',
-                    Received='$this->Received',
-                    End='$this->End'
-            " );
+            $this->Database->query( "INSERT INTO eZCV_Certificate SET CertificateTypeID='$this->CertificateTypeID', Received='$this->Received', End='$this->End'" );
+
             $this->ID = mysql_insert_id();            
             $this->State_ = "Coherent";
         }
