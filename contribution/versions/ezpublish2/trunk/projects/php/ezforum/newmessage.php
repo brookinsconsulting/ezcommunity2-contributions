@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: newmessage.php,v 1.1 2000/07/14 12:55:45 lw-cvs Exp $
+    $Id: newmessage.php,v 1.2 2000/07/17 12:44:52 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -26,7 +26,7 @@ $t->set_file("newmessage","$DOCROOT/templates/newmessage.tpl");
 $t->set_var( "category_id", $category_id);
 $t->set_var( "docroot", $DOCROOT);
 
-if ( $session->validate($AuthenticatedSession) == true)
+if ( $session->validate($AuthenticatedSession) == 0)
 {
     $UserId = $session->UserID();
 }
