@@ -9,7 +9,7 @@ $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZContactMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
-
+include_once( "classes/ezmail.php" );
 include_once( "ezcontact/classes/ezperson.php" );
 
 if( $Action == "delete" )
@@ -72,6 +72,8 @@ $t->set_block( "errors_tpl", "error_loginname_item_tpl", "error_loginname_item" 
 $t->set_block( "errors_tpl", "error_password_item_tpl", "error_password_item" );
 $t->set_block( "errors_tpl", "error_passwordmatch_item_tpl", "error_passwordmatch_item" );
 $t->set_block( "errors_tpl", "error_passwordrepeat_item_tpl", "error_passwordrepeat_item" );
+$t->set_block( "errors_tpl", "error_password_too_short_item_tpl", "error_password_too_short_item" );
+$t->set_block( "errors_tpl", "error_email_not_valid_item_tpl", "error_email_not_valid_item" );
 $t->set_block( "errors_tpl", "error_address_item_tpl", "error_address_item" );
 
 $t->set_var( "firstname", "" );
@@ -137,8 +139,19 @@ if( $Action == "insert" || $Action == "update" )
         $error = true;
     }
     else
+    {
         $t->set_var( "error_email_item", "" );
-    
+        if( eZMail::validate( $Online[0] ) )
+        {
+            $t->parse( "error_email_not_valid_item", "error_email_not_valid_item_tpl" );
+            $error = true;
+        }
+        else
+        {
+            $t->set_var( "error_email_not_valid_item", "" );
+        }
+    }
+        
     if( empty( $FirstName ) )
     {
         $t->parse( "error_firstname_item", "error_firstname_item_tpl" );
@@ -185,8 +198,18 @@ if( $Action == "insert" || $Action == "update" )
         $error = true;
     }
     else
+    {
         $t->set_var( "error_password_item", "" );
-    
+        if( strlen( $VerifyPassword ) > 3 )
+        {
+            $t->parse( "error_password_too_short_item", "error_password_too_short_item_tpl" );
+            $error = true;
+        }
+        else
+        {
+            $t->set_var( "error_password_too_short_item", "" );
+        }
+    }
     if( empty( $PasswordRepeat ) && !empty( $Password ) && empty( $UserID ) )
     {
         $t->parse( "error_passwordrepeat_item", "error_passwordrepeat_item_tpl" );
@@ -236,10 +259,18 @@ if( $Action == "insert" && $error == false && $Add_User == true )
     if( $Password == $PasswordRepeat && !empty( $Password ) )
     {
         $user->setPassword( $Password );
+        
         $user->store();
         $UserID = $user->id();
         $Add_User = false;
         eZUser::loginUser( $user );
+                    
+        // add user to usergroup
+        $AnonymousUserGroup = $ini->read_var( "eZUserMain", "AnonymousUserGroup" );
+        setType( $AnonymousUserGroup, "integer" );
+
+        $group = new eZUserGroup( $AnonymousUserGroup );
+        $group->addUser( $user );
     }
 }
 
@@ -303,7 +334,7 @@ if( ( $Action == "insert" || $Action == "update" ) && $error == false && $Add_Us
     
     if( !empty( $AddCV ) )
     {    
-        header( "Location: /cv/cv/" );
+        header( "Location: /cv/cv/edit?PersonID=$PersonID" );
         exit();
     }
     
