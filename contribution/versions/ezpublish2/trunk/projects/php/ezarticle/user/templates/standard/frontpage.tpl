@@ -157,7 +157,7 @@
 	</td>
 </tr>
 <tr>
-	<td class="tdmini"><img src="{www_dir}/images/1x1.gif" height="2" width="4" border="0" alt="" /></td>
+	<td class="tdmini"><img src="{www_dir}/images/1x1.gif" height="3" width="4" border="0" alt="" /></td>
 </tr>
 </table>
 <!-- END ad_column_tpl -->
