@@ -20,3 +20,9 @@
 <p class="boxtext">{intl-total_click_percentage}:</p>
 {ad_click_percent} %
 
+
+<hr noshade="noshade" size="4" />
+<form action="/ad/ad/edit/{ad_id}/" method="post" >
+<input type="submit" class="okbutton" value="{intl-edit}" />
+</form>
+

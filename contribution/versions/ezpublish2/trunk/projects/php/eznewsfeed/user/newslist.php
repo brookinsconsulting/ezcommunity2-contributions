@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newslist.php,v 1.2 2000/11/27 15:34:52 bf-cvs Exp $
+// $Id: newslist.php,v 1.3 2000/11/28 16:26:05 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 11:52:01 bf>
@@ -52,7 +52,7 @@ $category = new eZNewsCategory( $CategoryID );
 
 
 // newss
-$newsList = $category->newsList( "time", "no" );
+$newsList = $category->newsList( "time", "no", 0, 5 );
 
 $locale = new eZLocale( $Language );
 $i=0;
