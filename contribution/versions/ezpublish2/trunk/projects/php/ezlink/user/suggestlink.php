@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: suggestlink.php,v 1.2 2000/10/19 16:03:29 bf-cvs Exp $
+    $Id: suggestlink.php,v 1.3 2000/10/20 14:42:32 ce-cvs Exp $
 
     Author: Christoffer A. Elo <ce@ez.no>
     
@@ -24,14 +24,17 @@ include_once( "ezlink/classes/ezhit.php" );
 
 if ( $Action == "GetSite" )
 {
-    print( "Fetching site $URL: <br>"  );
-
-    $metaList =  get_meta_tags ( "http://" . $URL );
-
-    foreach ( $metaList as $meta )
+    if ( $url )
     {
-        print( $meta . "<p>");
+        
+    $metaList =  get_meta_tags ( "http://" . $url );
+
+            print_r( $metaList );
+
+    $tdescription = $metaList["description"];
+    $tkeywords = $metaList["keywords"];
     }
+    
 }
 
 if ( $Action == "insert" )

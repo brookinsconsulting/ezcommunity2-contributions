@@ -1,9 +1,3 @@
-
-<form method="post" action="/link/suggestlink/?Action=GetSite">
-<input type="text" name="URL" />
-<input class="okbutton" type="submit" value="OK">
-</form>
-
 <form method="post" action="/link/suggestlink/insert">
 
 <h1>{intl-headline}</h1>
@@ -21,7 +15,9 @@
 </select>
 
 <p class="boxtext">{intl-url}</p>
-http://<input type="text" name="url" size="40" value="{url}">
+<form method="post" action="/link/suggestlink/?Action=GetSite">
+http://<input type="text" name="url" size="40" value="{url}"><input class="okbutton" type="submit" value="{intl-meta}">
+</form>
 
 <p class="boxtext">{intl-keywords}</p>
 <textarea rows="5" cols="20" name="keywords">{keywords}</textarea>
