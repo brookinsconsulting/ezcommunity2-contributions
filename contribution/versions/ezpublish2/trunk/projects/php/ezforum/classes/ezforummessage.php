@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.4 2000/07/20 18:31:36 lw-cvs Exp $
+    $Id: ezforummessage.php,v 1.5 2000/07/20 18:36:55 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -129,6 +129,7 @@ class eZforumMessage
                                          '$this->Body', '$this->UserId', '$this->EmailNotice')";
             mysql_query($query_str)
                 or die("store() near insert");
+            $this->recursiveEmailNotice( $this->Id );
             return mysql_insert_id();
         }
     }
@@ -266,7 +267,11 @@ class eZforumMessage
                 }    
             }
         }
-        if( $this->Parent != "NULL" ) recursiveEmailNotice( $this->Parent, $liste );
+        else
+        {
+            array_push( $liste, $this->UserId );
+        }
+        if( $this->Parent != "" ) recursiveEmailNotice( $this->Parent, $liste );
     }
 }
 ?>
