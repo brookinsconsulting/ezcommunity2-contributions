@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.7 2000/10/02 09:48:47 pkej-cvs Exp $
+// $Id: ezimage.php,v 1.8 2000/10/02 10:06:07 pkej-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -159,6 +159,10 @@ class eZImage
                 $this->OriginalFileName = $image_array[0][ "OriginalFileName" ];
 
                 $this->State_ = "Coherent";
+            }
+            else if( count( $image_array ) < 1 )
+            {
+                $this->State_ = "Dirty";
             }
         }
         else
