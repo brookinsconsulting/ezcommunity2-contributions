@@ -273,7 +273,6 @@ if ( $Action == "edit" )
         $t->parse( "phone_list", "phone_item", true );
     }
 
-
     $address = new eZAddress();
     $address_dict = new eZPersonAddressDict();
     $address_dict_array = $address_dict->getByPerson( $PID );

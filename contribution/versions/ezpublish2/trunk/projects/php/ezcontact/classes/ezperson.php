@@ -40,6 +40,33 @@ class eZPerson
     function delete()
     {
         $this->dbInit();
+
+        // sletter alle adresser og relasjoner
+
+ $result = mysql_query( "SELECT Address.ID AS 'AID', PersonAddressDict.ID AS 'DID' from Address, PersonAddressDict WHERE Address.ID=PersonAddressDict.AddressID AND PersonAddressDict.PersonID='$this->ID' " )
+      or die( "Kunne ikke slette firma" );
+
+        for ( $i=0; $i<mysql_num_rows( $result ); $i++ )
+        {
+            $aid = mysql_result( $result, $i, "AID" );
+            $did = mysql_result( $result, $i, "DID" );
+            query( "DELETE FROM Address WHERE ID='$aid'" );
+            query( "DELETE FROM PersonAddressDict WHERE ID='$did'" );
+        }
+
+ $result = mysql_query( "SELECT Phone.ID AS 'PID', PersonPhoneDict.ID AS 'DID' from Phone, PersonPhoneDict WHERE Phone.ID=PersonPhoneDict.PhoneID AND PersonPhoneDict.PersonID='$this->ID' " )
+      or die( "Kunne ikke slette firma" );
+
+        for ( $i=0; $i<mysql_num_rows( $result ); $i++ )
+        {
+            $pid = mysql_result( $result, $i, "PID" );
+            $did = mysql_result( $result, $i, "DID" );
+            query( "DELETE FROM Phone WHERE ID='$pid'" );
+            query( "DELETE FROM PersonPhoneDict WHERE ID='$did'" );
+        }
+        
+
+
         query( "DELETE FROM Person WHERE ID='$this->ID'" );
     }
 
