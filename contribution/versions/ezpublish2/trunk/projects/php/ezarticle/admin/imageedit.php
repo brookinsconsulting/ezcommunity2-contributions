@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.7 2000/10/25 12:35:30 bf-cvs Exp $
+// $Id: imageedit.php,v 1.8 2000/10/25 13:12:35 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -28,8 +28,6 @@ $Language = $ini->read_var( "eZArticleMain", "Language" );
 
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
-
-print( "ArtikkelID: " . $ArticleID . " " . $Action  );
 
 if ( $Action == "Insert" )
 {

@@ -21,7 +21,9 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
+	<!-- BEGIN image_tpl -->
 	<img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
+	<!-- END image_tpl -->
 	</td>
 </tr>
 </table>

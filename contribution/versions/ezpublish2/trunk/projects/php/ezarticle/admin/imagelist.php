@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.3 2000/10/23 14:33:19 bf-cvs Exp $
+// $Id: imagelist.php,v 1.4 2000/10/25 13:12:35 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -37,8 +37,6 @@ $t->set_file( array(
 
 $t->set_block( "image_list_page_tpl", "image_tpl", "image" );
 
-print( "ArtikkelID: " . $ArticleID );
-
 $article = new eZArticle( $ArticleID );
 
 
@@ -49,6 +47,7 @@ $t->set_var( "article_name", $article->name() );
 $images = $article->images();
 
 $i=0;
+$t->set_var( "image", "" );
 foreach ( $images as $image )
 {
     if ( ( $i % 2 ) == 0 )
@@ -96,6 +95,7 @@ foreach ( $images as $image )
     
     $i++;
 }
+
 
 $t->set_var( "article_id", $article->id() );
 
