@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.2 2001/05/28 14:18:13 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.3 2001/05/28 14:56:15 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -142,6 +142,9 @@ class eZQDomrenderer
         $this->Template->set_block( "articletags_tpl", "header_4_tpl", "header_4"  );
         $this->Template->set_block( "articletags_tpl", "header_5_tpl", "header_5"  );
         $this->Template->set_block( "articletags_tpl", "header_6_tpl", "header_6"  );
+
+        $this->Template->set_block( "articletags_tpl", "image_tpl", "image"  );
+        $this->Template->set_block( "articletags_tpl", "image_float_tpl", "image_float"  );
         
         $this->Template->set_block( "articletags_tpl", "bold_tpl", "bold"  );
         $this->Template->set_block( "articletags_tpl", "italic_tpl", "italic"  );
@@ -189,10 +192,6 @@ class eZQDomrenderer
                                     $intro = $this->renderPlain( $intro, $paragraph );
                                     $intro = $this->renderStandards( $intro, $paragraph );
                                     
-//                                      $intro = $this->renderCode( $intro, $paragraph );
-//                                      $intro = $this->renderLink( $intro, $paragraph );
-//                                      $intro = $this->renderModule( $intro, $paragraph );
-//                                      $intro = $this->renderImage( $intro, $paragraph, $articleImages );
                                     
                                     $this->PrevTag = $paragraph->name;
                                 }
@@ -246,13 +245,10 @@ class eZQDomrenderer
                             if ( count( $article->children ) > 0 )
                                 foreach ( $article->children as $paragraph )
                                 {
+                                    $pageContent .= $this->renderHeader( $paragraph );                                    
                                     $intro .= $this->renderPlain( $paragraph );
                                     $intro .= $this->renderStandards( $paragraph );
-                                    
-//                                    $intro = $this->renderCode( $intro, $paragraph );
-//                                    $intro = $this->renderLink( $intro, $paragraph );
-//                                    $intro = $this->renderModule( $intro, $paragraph );
-//                                    $intro = $this->renderImage( $intro, $paragraph, $articleImages );
+                                    $intro .= $this->renderImage( $paragraph );
                                     
                                     $this->PrevTag = $paragraph->name;
                                 }
@@ -279,6 +275,8 @@ class eZQDomrenderer
                     $pageContent .= $this->renderHeader( $paragraph );
                     $pageContent .= $this->renderStandards( $paragraph );
                     $pageContent .= $this->renderPlain( $paragraph );
+                    $pageContent .= $this->renderImage( $paragraph );
+                    
 //                      $pageContent = $this->renderCode( $pageContent, $paragraph );
 //                      $pageContent = $this->renderLink( $pageContent, $paragraph );
 //                      $pageContent = $this->renderModule( $pageContent, $paragraph );
@@ -321,6 +319,9 @@ class eZQDomrenderer
         return $returnArray;
     }
 
+    /*!
+      Renders header tags.
+    */
     function &renderHeader( $paragraph )
     {
         $pageContent = "";
@@ -358,6 +359,131 @@ class eZQDomrenderer
         return $pageContent;
     }
 
+    /*!
+      Renders image tags.
+    */
+    function &renderImage( $paragraph )
+    {
+        $pageContent = "";
+        if ( $paragraph->name == "image" )
+        {
+            $articleImages = $this->Article->images();
+            $articleID = $this->Article->id();
+
+            $level = 1;
+            if  ( count( $paragraph->attributes ) > 0 )
+            foreach ( $paragraph->attributes as $attr )
+            {
+                switch ( $attr->name )
+                {
+                    case "id" :
+                    {
+                       $imageID = $attr->children[0]->content;
+                    }
+                    break;
+
+                    case "align" :
+                    {
+                       $imageAlignment = $attr->children[0]->content;
+                    }
+                    break;
+
+                    case "size" :
+                    {
+                       $imageSize = $attr->children[0]->content;
+                    }
+                    break;
+                }
+            }
+
+            setType( $imageID, "integer" );
+
+            $image = $articleImages[$imageID-1];
+
+            // add image if a valid image was found, else report an error in the log.
+            if ( get_class( $image ) == "ezimage" )
+            {
+                $ini =& INIFile::globalINI();
+
+                switch ( $imageSize )
+                {
+                    case "small" :
+                    {
+                        $variation =& $image->requestImageVariation( $ini->read_var( "eZArticleMain", "SmallImageWidth" ),
+                        $ini->read_var( "eZArticleMain", "SmallImageHeight" ) );
+                    }
+                    break;
+                    case "medium" :
+                    {
+                        $variation =& $image->requestImageVariation( $ini->read_var( "eZArticleMain", "MediumImageWidth" ),
+                        $ini->read_var( "eZArticleMain", "MediumImageHeight" ) );
+                    }
+                    break;
+                    case "large" :
+                    {
+                        $variation =& $image->requestImageVariation( $ini->read_var( "eZArticleMain", "LargeImageWidth" ),
+                        $ini->read_var( "eZArticleMain", "LargeImageHeight" ) );
+                    }
+                    break;
+
+                    case "original" :
+                    {
+                        $variation =& $image;
+                    }
+                    break;
+                    
+                    default :
+                    {
+                        $variation =& $image->requestImageVariation( $ini->read_var( "eZArticleMain", "MediumImageWidth" ),
+                        $ini->read_var( "eZArticleMain", "MediumImageHeight" ) );
+                    }
+                }
+                            
+                if ( get_class( $variation ) == "ezimage" )
+                {
+                    $imageURL = $variation->filePath();
+                }
+                else
+                {
+                    $imageURL = "/" . $variation->imagePath();
+                }
+
+                $imageWidth = $variation->width();
+                $imageHeight = $variation->height();
+                $imageCaption = $image->caption();
+                $imageID = $image->id();
+
+                $viewMode = $GLOBALS["ViewMode"];
+
+                if ( $viewMode == "" )
+                {
+                    $viewMode = "view";
+                }
+                
+                $this->Template->set_var( "image_width", $imageWidth );
+                $this->Template->set_var( "image_height", $imageHeight );
+                $this->Template->set_var( "image_alignment", $imageAlignment );
+                $this->Template->set_var( "image_id", $imageID );
+                $this->Template->set_var( "image_url", $imageURL );
+                $this->Template->set_var( "article_id", $articleID );
+                $this->Template->set_var( "view_mode", $viewMode );
+                $this->Template->set_var( "caption", $imageCaption );
+
+                
+                if ( $imageAlignment != "float"  )
+                {                    
+                    $pageContent = $this->Template->parse( "image", "image_tpl" );
+                }
+                else
+                {
+                    $pageContent = $this->Template->parse( "image_float", "image_float_tpl" );                    
+                }
+            }
+        }
+
+        return $pageContent;
+    }
+    
     function &renderPlain( $paragraph )
     {
         // ordinary text

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.34 2001/02/26 06:33:48 bf Exp $
+// $Id: eztechgenerator.php,v 1.35 2001/05/28 14:56:15 bf Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -24,6 +24,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
+
 //!! eZArticle
 //! eZTechGenerator generates  XML contents for articles.
 /*!

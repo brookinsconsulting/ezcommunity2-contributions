@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.2 2001/05/28 14:18:13 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.3 2001/05/28 14:56:15 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -89,15 +89,18 @@ class eZQDomGenerator
     */
     function &generatePage( $tmpPage )
     {
+        $tmpPage = $this->generateImage( $tmpPage );
+
+        $tmpPage = $this->generateHeader( $tmpPage );
+
+        
         // replace & with &amp; to prevent killing the xml parser..
         // is that a bug in the xmltree(); function ? answer to bf@ez.no
         $tmpPage = ereg_replace ( "&", "&amp;", $tmpPage );
 
         $tmpPage = $this->generateUnknowns( $tmpPage );        
 
-        $tmpPage = $this->generateHeader( $tmpPage );
         
-//        $tmpPage = $this->generateImage( $tmpPage );
 
 //        $tmpPage = $this->generateLink( $tmpPage );
 
@@ -132,11 +135,30 @@ class eZQDomGenerator
 
     /*!
       \private
+      Converts image tags to XML tags.
+    */
+    function &generateImage( $tmpPage )
+    {
+        // parse the <image id align size> tag and convert it
+        // to <image id="id" align="align" size="size" />
+        $tmpPage = preg_replace( "/(<image\s+?([^ ]+)\s+?([^ ]+)\s+?([^( |>)]+)([^>]*?)>)/", "<image id=\"\\2\" align=\"\\3\" size=\"\\4\" />", $tmpPage );
+
+        $tmpPage = preg_replace( "/(<image\s+?([0-9]+?)\s*?>)/", "<image id=\"\\2\" align=\"center\" size=\"medium\" />", $tmpPage );
+        
+        return $tmpPage;
+    }
+    
+
+    /*!
+      \private
       
     */
     function &generateHeader( $tmpPage )
     {
         $tmpPage = preg_replace( "/(<header\s+?([^ ]+)\s*>)/", "<header level=\"\\2\">", $tmpPage );
+
+        $tmpPage = preg_replace( "/(<header\s*?>)/", "<header level=\"1\">", $tmpPage );
+        
         return $tmpPage;
     }
     
@@ -225,6 +247,7 @@ class eZQDomGenerator
             {
                 $value .= $this->decodeStandards( $paragraph );
                 $value .= $this->decodeHeader( $paragraph );
+                $value .= $this->decodeImage( $paragraph );
             }
         }
 
@@ -275,7 +298,51 @@ class eZQDomGenerator
     }
     
 
-        function &decodeStandards(  $paragraph )
+    /*!
+      \private
+      
+    */
+    function &decodeImage( $paragraph )
+    {
+        // image 
+        if ( $paragraph->name == "image" )
+        {
+            foreach ( $paragraph->attributes as $imageItem )
+                {
+                    switch ( $imageItem->name )
+                    {
+
+                        case "id" :
+                        {
+                            $imageID = $imageItem->children[0]->content;
+                        }
+                        break;
+
+                        case "align" :
+                        {
+                            $imageAlignment = $imageItem->children[0]->content;
+                        }
+                        break;
+
+                        case "size" :
+                        {
+                            $imageSize = $imageItem->children[0]->content;
+                        }
+                        break;
+                                
+                    }
+                }
+                        
+            $pageContent = "<image $imageID $imageAlignment $imageSize>";
+        }
+        return $pageContent;
+    }
+    
+    /*!
+      \private
+      
+    */
+    function &decodeStandards(  $paragraph )
     {
         $pageContent = "";
         $tmpContent = "";
