@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentview.php,v 1.8 2001/01/24 13:17:07 gl Exp $
+// $Id: appointmentview.php,v 1.9 2001/01/26 09:50:13 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 11:53:05 bf>
@@ -59,9 +59,14 @@ $user = eZUser::currentUser();
 $session =& eZSession::globalSession();
 $session->fetch();
 
+if ( $user == false )
+    $userID = false;
+else
+    $userID = $user->id();
+
 if ( $GetByUserID == false )
 {
-    $GetByUserID = $user->id();
+    $GetByUserID = $userID;
 }
 
 if ( ( $session->variable( "ShowOtherCalenderUsers" ) == false ) || ( isSet( $GetByUser ) ) )
@@ -71,7 +76,7 @@ if ( ( $session->variable( "ShowOtherCalenderUsers" ) == false ) || ( isSet( $Ge
 
 $tmpUser = new eZUser( $session->variable( "ShowOtherCalenderUsers" ) );
 
-if ( $tmpUser->id() == $user->id() )
+if ( $tmpUser->id() == $userID )
 {
     $showPrivate = true;
 }

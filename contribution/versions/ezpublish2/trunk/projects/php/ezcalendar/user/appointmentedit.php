@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.25 2001/01/25 16:21:02 gl Exp $
+// $Id: appointmentedit.php,v 1.26 2001/01/26 09:50:13 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -103,13 +103,18 @@ $Locale = new eZLocale( $Language );
 
 $user = eZUser::currentUser();
 
+if ( $user == false )
+    $userID = false;
+else
+    $userID = $user->id();
+
 if ( $Action == "New"  )
     $app = new eZAppointment();
 else
     $app = new eZAppointment( $AppointmentID );
 
 // current user is not allowed to edit this appointment
-if ( $Action == "Edit" && $app->userID() != $user->id() )
+if ( ( $Action == "Edit" || $Action == "DeleteAppointment" ) && $app->userID() != $userID )
 {
     $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
                          "ezcalendar/user/intl/", $Language, "appointmentedit.php" );
@@ -274,7 +279,7 @@ if ( $Action == "Insert" || $Action == "Update" )
             $year = addZero( $datetime->year() );
             $month = addZero( $datetime->month() );
             $day = addZero( $datetime->day() );
-            deleteCache( "default", $Language, $year, $month, $day, $user->id() );
+            deleteCache( "default", $Language, $year, $month, $day, $userID );
 
             eZHTTPTool::header( "Location: /calendar/dayview/$year/$month/$day/" );
             exit();
@@ -298,7 +303,7 @@ if ( $Action == "DeleteAppointment" )
     $year = addZero( $datetime->year() );
     $month = addZero( $datetime->month() );
     $day = addZero( $datetime->day() );
-    deleteCache( "default", $Language, $year, $month, $day, $user->id() );
+    deleteCache( "default", $Language, $year, $month, $day, $userID );
 
     eZHTTPTool::header( "Location: /calendar/dayview/$year/$month/$day/" );
     exit();

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.18 2001/01/25 14:04:59 gl Exp $
+// $Id: monthview.php,v 1.19 2001/01/26 09:50:13 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 14:09:56 bf>
@@ -42,9 +42,14 @@ $user = eZUser::currentUser();
 $session =& eZSession::globalSession();
 $session->fetch();
 
+if ( $user == false )
+    $userID = false;
+else
+    $userID = $user->id();
+
 if ( $GetByUserID == false )
 {
-    $GetByUserID = $user->id();
+    $GetByUserID = $userID;
 }
 
 if ( ( $session->variable( "ShowOtherCalenderUsers" ) == false ) || ( isSet( $GetByUser ) ) )
@@ -54,7 +59,7 @@ if ( ( $session->variable( "ShowOtherCalenderUsers" ) == false ) || ( isSet( $Ge
 
 $tmpUser = new eZUser( $session->variable( "ShowOtherCalenderUsers" ) );
 
-if ( $tmpUser->id() == $user->id() )
+if ( $tmpUser->id() == $userID )
 {
     $showPrivate = true;
 }

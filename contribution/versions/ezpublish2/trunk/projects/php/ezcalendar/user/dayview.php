@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.28 2001/01/25 18:11:26 gl Exp $
+// $Id: dayview.php,v 1.29 2001/01/26 09:50:13 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -46,9 +46,14 @@ $user = eZUser::currentUser();
 $session =& eZSession::globalSession();
 $session->fetch();
 
+if ( $user == false )
+    $userID = false;
+else
+    $userID = $user->id();
+
 if ( $GetByUserID == false )
 {
-    $GetByUserID = $user->id();
+    $GetByUserID = $userID;
 }
 
 if ( ( $session->variable( "ShowOtherCalenderUsers" ) == false ) || ( isSet( $GetByUser ) ) )
@@ -58,7 +63,7 @@ if ( ( $session->variable( "ShowOtherCalenderUsers" ) == false ) || ( isSet( $Ge
 
 $tmpUser = new eZUser( $session->variable( "ShowOtherCalenderUsers" ) );
 
-if ( $tmpUser->id() == $user->id() )
+if ( $tmpUser->id() == $userID )
 {
     $showPrivate = true;
 }
