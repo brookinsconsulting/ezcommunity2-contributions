@@ -15,7 +15,7 @@ switch ( $ListType )
 
     case "company":
     {
-        if ( !isset( $CompanyID ) )
+        if ( !isset( $CompanyID ) and isset( $url_array[4] ) and is_numeric( $url_array[4] ) )
             $CompanyID = $url_array[4];
         $Action = $url_array[3];
         switch ( $Action )
