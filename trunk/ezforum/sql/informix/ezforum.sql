@@ -1,7 +1,7 @@
 CREATE TABLE eZForum_Category (
   ID int NOT NULL,
-  Name varchar(20) default NULL,
-  Description varchar(40) default NULL,
+  Name varchar(255) default NULL,
+  Description varchar(255) default NULL,
   IsPrivate int default NULL,
   SectionID int DEFAULT 1,
   PRIMARY KEY (ID)
@@ -9,8 +9,8 @@ CREATE TABLE eZForum_Category (
 
 CREATE TABLE eZForum_Forum (
   ID int NOT NULL,
-  Name varchar(20) NOT NULL,
-  Description varchar(40) not null,
+  Name varchar(255) NOT NULL,
+  Description varchar(255) not null,
   IsPrivate int default NULL,
   ModeratorID int NOT NULL,
   IsModerated int NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE eZForum_ForumCategoryLink (
 CREATE TABLE eZForum_Message (
   ID int NOT NULL,
   ForumID int NOT NULL,
-  Topic varchar(60) default NULL,
+  Topic varchar(255) default NULL,
   Body lvarchar,
   UserName varchar(60) DEFAULT NULL,
   UserID int default NULL,
