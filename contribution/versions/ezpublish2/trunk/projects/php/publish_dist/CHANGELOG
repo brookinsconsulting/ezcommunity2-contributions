@@ -7,8 +7,11 @@ Changes from version 2.0 beta 3 to pre-release 1
 * Added forums which accept anonymous posters.
 * Added better e-mails to forum moderators (now you'll actually get a link to the new posting:)
 * Added printable version in admin.
+* Added new permission system to eZ article, eZ image catalogue and eZ file manager.
+* Added support for multi column option value descriptions in eZ trade.
 * Fixed calculation of alternative currencies with 4 decimal points.
 * Fixed eZImage variation creation to avoid race conditions.
+* Small bugfixes around the board.
 
 Changes from version 2.0 beta 2 to version 2.0 beta 3
 -----------------------------------------------------
