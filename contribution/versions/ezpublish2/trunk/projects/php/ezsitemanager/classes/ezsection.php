@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsection.php,v 1.14 2001/10/11 20:21:32 br Exp $
+// $Id: ezsection.php,v 1.15 2001/10/15 11:20:09 bf Exp $
 //
 // ezsection class
 //
@@ -68,6 +68,9 @@ class eZSection
         $db->begin( );
         
         $name = $db->escapeString( $this->Name );
+        print( $name );
+        die();
+             
         $description = $db->escapeString( $this->Description );
         $sitedesign = $db->escapeString( $this->SiteDesign );
         $templateStyle = $db->escapeString( $this->TemplateStyle );

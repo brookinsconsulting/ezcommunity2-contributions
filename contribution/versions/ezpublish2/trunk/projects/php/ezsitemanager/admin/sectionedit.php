@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sectionedit.php,v 1.14 2001/10/12 08:10:10 br Exp $
+// $Id: sectionedit.php,v 1.15 2001/10/15 11:20:09 bf Exp $
 //
 // Created on: <10-May-2001 16:17:29 ce>
 //
@@ -81,11 +81,11 @@ $t->set_block( "setting_item_tpl", "no_item_separator_tpl", "no_item_separator" 
 $t->set_block( "setting_item_tpl", "no_item_move_down_tpl", "no_item_move_down" );
 
 
-$t->set_var( "section_name", "$Name" );
-$t->set_var( "section_sitedesign", "$SiteDesign" );
-$t->set_var( "section_templatestyle", "$TemplateStyle" );
-$t->set_var( "section_description", "$Description" );
-$t->set_var( "section_language", "$SecLanguage" );
+$t->set_var( "section_name", $Name );
+$t->set_var( "section_sitedesign", $SiteDesign );
+$t->set_var( "section_templatestyle", $TemplateStyle );
+$t->set_var( "section_description", $Description );
+$t->set_var( "section_language", $SecLanguage );
 $t->set_var( "setting_list", "" );
 
 $warning = true;
@@ -131,7 +131,6 @@ if ( $Action == "down" )
 
 if ( ( $Action == "Insert" ) || ( $Action == "Update" ) && ( $user ) )
 {
-    $Name = strtolower( $Name );
     if ( $warning )
     {
         if ( eZFile::is_dir( "sitedesign/" . $Name ) == false );
