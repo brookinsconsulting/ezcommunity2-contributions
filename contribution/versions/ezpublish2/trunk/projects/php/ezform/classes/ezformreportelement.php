@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.4 2002/01/21 17:01:54 jhe Exp $
+// $Id: ezformreportelement.php,v 1.5 2002/01/21 17:19:39 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -213,7 +213,7 @@ class eZFormReportElement
         {
             $db->array_query( $res, "SELECT Result, Count(Result) AS Count
                                      FROM eZForm_FormElementResult WHERE ElementID='$this->ElementID'
-                                     GROUP BY Result ORDER BY Result" );
+                                     GROUP BY TRIM(Result) ORDER BY Result" );
             foreach ( $res as $result )
             {
                 $template->set_var( "result", $result[$db->fieldName( "Result" )] );
