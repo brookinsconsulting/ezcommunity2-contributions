@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmediacategory.php,v 1.3 2001/11/01 17:26:51 ce Exp $
+// $Id: ezmediacategory.php,v 1.4 2001/11/01 17:29:48 ce Exp $
 //
 // Definition of eZMediaCategory class
 //

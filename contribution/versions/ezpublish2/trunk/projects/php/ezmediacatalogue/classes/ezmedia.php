@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmedia.php,v 1.6 2001/11/01 17:26:50 ce Exp $
+// $Id: ezmedia.php,v 1.7 2001/11/01 17:29:48 ce Exp $
 //
 // Definition of eZMedia class
 //
@@ -163,6 +163,7 @@ class eZMedia
             $db->query( "DELETE FROM eZMediaCatalogue_MediaPermission WHERE ObjectID='$this->ID'" );
             $db->query( "DELETE FROM eZMediaCatalogue_MediaCategoryLink WHERE MediaID='$this->ID'" );
             $db->query( "DELETE FROM eZMediaCatalogue_MediaCategoryDefinition WHERE MediaID='$this->ID'" );
+            $db->query( "DELETE FROM eZMediaCatalogue_TypeLink WHERE MediaID='$this->ID'" );
 
             // Delete from the filesystem
             if ( eZFile::file_exists( $this->filePath( true ) ) )
