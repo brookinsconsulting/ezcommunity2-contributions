@@ -19,10 +19,10 @@
 </p>
 
 <hr noshade size="1" />
-<img src="/eztrade/images/path-arrow.gif" height="10" width="15" border="0" alt="" /> 
+<img src="/sitedesign/mygold/images/path-arrow.gif" height="10" width="15" border="0" alt="" /> 
 <a class="path" href="/article/archive/0/">{intl-top_level}</a> 
 <!-- BEGIN path_item_tpl -->
-<img src="/eztrade/user/images/path-slash.gif" height="10" width="20" border="0" alt="" /> 
+<img src="/sitedesign/mygold/images/path-slash.gif" height="10" width="20" border="0" alt="" /> 
 <a class="path" href="/article/archive/{category_id}/">{category_name}</a> 
 <!-- END path_item_tpl -->
 <hr noshade="noshade" size="1" />
@@ -83,7 +83,7 @@
 	<p>
 	{article_intro}
 	</p>
-	  <img src="/eztrade/images/path-arrow.gif" height="10" width="15" border="0" alt="" /><a class="path" href="/article/articleview/{article_id}/"> 
+	  <img src="/sitedesign/mygold/images/path-arrow.gif" height="10" width="15" border="0" alt="" /><a class="path" href="/article/articleview/{article_id}/"> 
 	  {article_link_text} </a> <br />
 	<br />
 	<br />

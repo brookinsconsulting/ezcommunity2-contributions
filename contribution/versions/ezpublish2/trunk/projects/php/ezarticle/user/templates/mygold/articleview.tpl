@@ -18,6 +18,7 @@
 <br />
 
 <!-- BEGIN article_header_tpl -->
+&nbsp;
 <!-- END article_header_tpl -->
 <p>
 {article_body}
