@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sitemap.php,v 1.8 2001/09/25 13:15:13 master Exp $
+// $Id: sitemap.php,v 1.9 2001/09/29 08:20:15 kaid Exp $
 //
 // Created on: <06-Jun-2001 17:05:38 bf>
 //
@@ -51,6 +51,8 @@ if ( ($CategoryID != 0) )
 $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
 $sectionObject->setOverrideVariables();
     
+$Language = $ini->read_var( "eZArticleMain", "Language" );
+
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", $Language, "sitemap.php" );
 
