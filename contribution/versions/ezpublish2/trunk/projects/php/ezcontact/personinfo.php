@@ -24,6 +24,8 @@ include_once( "ezcontact/classes/ezzip.php" );
 include_once( "ezcontact/classes/ezpersonaddressdict.php" );
 include_once( "ezcontact/classes/ezpersonphonedict.php" );
 
+include_once( "ezcontact/topmenu.php" );
+
 // Setter template.
 $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "personedit.php" );
 $t->setAllStrings();
