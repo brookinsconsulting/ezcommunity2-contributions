@@ -1,7 +1,7 @@
 <?
 
 // 
-// $Id: ezcompanytype.php,v 1.29 2001/04/06 13:17:03 jb Exp $
+// $Id: ezcompanytype.php,v 1.30 2001/05/03 14:23:35 jb Exp $
 //
 // Definition of eZCompanyType class
 //
@@ -300,7 +300,7 @@ class eZCompanyType
         
         if ( $parent != 0 )
         {
-            $path = array_merge( $path, $this->path( $parent ) );
+            $path = array_merge( $path, eZCompanyType::path( $parent ) );
         }
         else
         {
