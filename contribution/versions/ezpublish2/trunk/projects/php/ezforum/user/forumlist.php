@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forumlist.php,v 1.8 2001/03/01 14:06:25 jb Exp $
+// $Id: forumlist.php,v 1.9 2001/03/05 14:39:04 fh Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -105,6 +105,8 @@ foreach( $forumList as $forum )
     
     $i++;
 }
+if( count( $groupList ) == 1 )
+    $t->set_var( "forum_item", "" );
 
 $t->set_var( "category_id", $CategoryID );
 
