@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: eztodo.php,v 1.30 2001/10/12 12:28:02 jhe Exp $
+// $Id: eztodo.php,v 1.31 2001/10/12 13:42:19 jhe Exp $
 //
 // Definition of eZTodo class
 //
@@ -176,9 +176,9 @@ class eZTodo
         
         $db->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo ORDER BY Priority" );
         
-        for ( $i=0; $i < count( $todo_array ); $i++ )
+        for ( $i = 0; $i < count( $todo_array ); $i++ )
         { 
-            $return_array[$i] = new eZTodo( $todo_array[$i][ $db->fieldName( "ID" ) ], 0 );
+            $return_array[$i] = new eZTodo( $todo_array[$i][$db->fieldName( "ID" )], 0 );
         } 
         
         return $return_array;
@@ -213,7 +213,7 @@ class eZTodo
        
         for ( $i = 0; $i < count( $todo_array ); $i++ )
         { 
-            $return_array[$i] = new eZTodo( $todo_array[$i][ $db->fieldName( "ID" ) ], 0 );
+            $return_array[$i] = new eZTodo( $todo_array[$i][$db->fieldName( "ID" )], 0 );
         } 
         return $return_array;        
     }
@@ -233,9 +233,9 @@ class eZTodo
 
         $db->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE ( UserID='$id' or OwnerID='$id' ) AND IsPublic='1' ORDER BY Priority");
        
-        for ( $i=0; $i < count( $todo_array ); $i++ )
+        for ( $i = 0; $i < count( $todo_array ); $i++ )
         { 
-            $return_array[$i] = new eZTodo( $todo_array[$i][ $db->fieldName( "ID" ) ], 0 );
+            $return_array[$i] = new eZTodo( $todo_array[$i][$db->fieldName( "ID" )], 0 );
         } 
         return $return_array;         
     } 
@@ -254,7 +254,7 @@ class eZTodo
       Return the array in $todo_array ordered by name.
       
     */
-    function getByLimit( $id, $limit="5", $status="0", $except="0")    
+    function getByLimit( $id, $limit = 5, $status = 0, $except = 0 )    
     {
         $db =& eZDB::globalDatabase();
         $todo_array = 0;
@@ -271,10 +271,10 @@ class eZTodo
     	    $db->array_query( $todo_array, "SELECT ID FROM eZTodo_Todo WHERE UserID='$id' AND Status!='$status' ORDER BY Priority", array( "Limit" => $limit, "Offset" => 0 ) );
         }
 
-        for ( $i=0; $i < count( $todo_array ); $i++ )
+        for ( $i = 0; $i < count( $todo_array ); $i++ )
         { 
-            $return_array[$i] = new eZTodo( $todo_array[$i][ $db->fieldName( "ID" ) ], 0 );
-        } 
+            $return_array[$i] = new eZTodo( $todo_array[$i][$db->fieldName( "ID" )], 0 );
+        }
 
         return $return_array;         
     }
@@ -526,7 +526,7 @@ class eZTodo
         {
             foreach ( $logsArray as $log )
             {
-                $returnArray[] = new eZTodoLog( $log[ $db->fieldName( "LogID" ) ] );
+                $returnArray[] = new eZTodoLog( $log[$db->fieldName( "LogID" )] );
             }
         }
         return $returnArray;
@@ -543,8 +543,11 @@ class eZTodo
             $db->begin();
             
             $logID = $value->id();
-
-            $res[] = $db->query( "INSERT INTO eZTodo_TodoLogLink SET TodoID='$this->ID', LogID='$logID'" );
+            $db->lock( "eZTodo_TodoLogLink" );
+            $nextID = $db->nextID( "eZTodo_TodoLogLink", "ID" );
+            $res[] = $db->query( "INSERT INTO eZTodo_TodoLogLink (ID, TodoID, LogID)
+                                  VALUES ('$nextID', '$this->ID', '$logID')" );
+            $db->unlock();
             eZDB::finish( $res, $db );
         }
     }

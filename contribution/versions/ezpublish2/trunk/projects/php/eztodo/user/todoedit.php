@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: todoedit.php,v 1.31 2001/09/06 10:07:22 jhe Exp $
+// $Id: todoedit.php,v 1.32 2001/10/12 13:42:20 jhe Exp $
 //
 // Definition of todo list.
 //
@@ -70,7 +70,6 @@ if ( isSet( $Cancel ) )
 
 include_once( "classes/INIFile.php" );
 
-//$ini = new INIFile( "site.ini" );
 $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTodoMain", "Language" );
@@ -389,8 +388,9 @@ if ( $Action == "update" && $error == false )
         exit();
     }
     else
+    {
         $Action = "edit";
-    
+    }
 }
 
 // Delete a todo in the database.

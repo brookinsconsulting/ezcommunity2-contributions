@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcategory.php,v 1.16 2001/08/16 13:57:05 jhe Exp $
+// $Id: ezcategory.php,v 1.17 2001/10/12 13:42:19 jhe Exp $
 //
 // Definition of eZCategory class
 //
@@ -52,24 +52,25 @@ class eZCategory
     function store()
     {
         $db =& eZDB::globalDatabase();
-        $name = $db->fieldName( $this->Name );
         $db->begin();
-        
+        $name = $db->escapeString( $this->Name );
+        $description = $db->escapeString( $this->Description );
         if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZTodo_Category" );
 			$this->ID = $db->nextID( "eZTodo_Category" );
             $res[] = $db->query( "INSERT INTO eZTodo_Category
-                                  (ID, Name)
+                                  (ID, Name, Description)
                                   VALUES
-                                  ('$this->ID', '$name')" );
+                                  ('$this->ID', '$name','$description')" );
             $db->unlock();
         }
         else
         {
             $res[] = $db->query( "UPDATE eZTodo_Category SET
                                   ID='$this->ID',
-                                  Name='$name'
+                                  Name='$name',
+                                  Description='$description'
                                   WHERE ID='$this->ID' ");
         }
         eZDB::finish( $res, $db );
@@ -106,9 +107,9 @@ class eZCategory
             }
             else if ( count( $category_array ) == 1 )
             {
-                $this->ID = $category_array[0][ $db->fieldName( "ID" ) ];
-                $this->Name = $category_array[0][ $db->fieldName( "Name" ) ];
-                $this->Description = $category_array[0][ $db->fieldName( "Description" ) ];
+                $this->ID = $category_array[0][$db->fieldName( "ID" )];
+                $this->Name = $category_array[0][$db->fieldName( "Name" )];
+                $this->Description = $category_array[0][$db->fieldName( "Description" )];
                 $ret = true;
             }
         }
@@ -132,7 +133,7 @@ class eZCategory
 
         for ( $i = 0; $i < count( $category_array ); $i++ )
         { 
-            $return_array[$i] = new eZCategory( $category_array[$i][ $db->fieldName( "ID" ) ], 0 );
+            $return_array[$i] = new eZCategory( $category_array[$i][$db->fieldName( "ID" )], 0 );
         } 
         return $return_array;
     }

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezstatus.php,v 1.6 2001/07/20 11:36:07 jakobn Exp $
+// $Id: ezstatus.php,v 1.7 2001/10/12 13:42:19 jhe Exp $
 //
 // Definition of eZStatus class
 //
@@ -54,22 +54,24 @@ class eZStatus
         $db =& eZDB::globalDatabase();
         $db->begin();
         $name = $db->escapeString( $this->Name );
+        $description = $db->escapeString( $this->Description );
 
         if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZTodo_Status" );
 			$this->ID = $db->nextID( "eZTodo_Status", "ID" );
             $res[] = $db->query( "INSERT INTO eZTodo_Status
-                                             (ID, Name)
+                                             (ID, Name, Description)
                                              VALUES
-                                             ('$this->ID', '$this->Name')" );
+                                             ('$this->ID', '$name', '$description')" );
             $db->unlock();
         }
         else
         {
             $res[] = $db->query( "UPDATE eZTodo_Status SET
                                   ID='$this->ID',
-                                  Name='$this->Name'
+                                  Name='$name',
+                                  Description='$description'
                                   WHERE ID='$this->ID' ");
         }
         eZDB::finish( $res, $db );
@@ -106,9 +108,9 @@ class eZStatus
             }
             else if ( count( $status_array ) == 1 )
             {
-                $this->ID = $status_array[0][ $db->fieldName( "ID" ) ];
-                $this->Name = $status_array[0][ $db->fieldName( "Name" ) ];
-                $this->Description = $status_array[0][ $db->fieldName( "Description" ) ];
+                $this->ID = $status_array[0][$db->fieldName( "ID" )];
+                $this->Name = $status_array[0][$db->fieldName( "Name" )];
+                $this->Description = $status_array[0][$db->fieldName( "Description" )];
                 $ret = true;
             }
         }
@@ -133,7 +135,7 @@ class eZStatus
 
         for ( $i = 0; $i < count( $status_array ); $i++ )
         { 
-            $return_array[$i] = new eZStatus( $status_array[$i][ $db->fieldName( "ID" ) ], 0 );
+            $return_array[$i] = new eZStatus( $status_array[$i][$db->fieldName( "ID" )], 0 );
         } 
         return $return_array;
     }

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezpriority.php,v 1.11 2001/07/20 11:36:07 jakobn Exp $
+// $Id: ezpriority.php,v 1.12 2001/10/12 13:42:19 jhe Exp $
 //
 // Definition of eZPriority class
 //
@@ -103,8 +103,8 @@ class eZPriority
             }
             else if ( count( $priority_array ) == 1 )
             {
-                $this->ID = $priority_array[0][ $db->fieldName( "ID" ) ];
-                $this->Name = $priority_array[0][ $db->fieldName( "Name" ) ];
+                $this->ID = $priority_array[0][$db->fieldName( "ID" )];
+                $this->Name = $priority_array[0][$db->fieldName( "Name" )];
 
                 $ret = true;
             }
@@ -129,7 +129,7 @@ class eZPriority
         
         for ( $i = 0; $i < count( $priority_array ); $i++ )
         {
-            $return_array[$i] = new eZPriority( $priority_array[$i][ $db->fieldName( "ID" ) ], 0 );
+            $return_array[$i] = new eZPriority( $priority_array[$i][$db->fieldName( "ID" )], 0 );
         } 
         return $return_array;
     }
@@ -167,7 +167,6 @@ class eZPriority
     
     var $ID;
     var $Name;
-    var $Priority;
 
 }
 

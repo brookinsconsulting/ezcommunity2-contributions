@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztodolog.php,v 1.8 2001/09/06 10:07:22 jhe Exp $
+// $Id: eztodolog.php,v 1.9 2001/10/12 13:42:19 jhe Exp $
 //
 // eZTodoLog class
 //
@@ -39,7 +39,6 @@ include_once( "classes/ezdatetime.php" );
 
 class eZTodoLog
 {
-
     /*!
       constructor
     */
@@ -60,18 +59,17 @@ class eZTodoLog
         $db =& eZDB::globalDatabase();
         $db->begin();
         
-        $GLOBALS["DEBUG"] = true;
-
         $log = $db->escapeString( $this->Log );
 
+        $timeStamp =& eZDateTime::timeStamp( true );
         if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZTodo_Log" );
 			$this->ID = $db->nextID( "eZTodo_Log", "ID" );
             $res[] = $db->query( "INSERT INTO eZTodo_Log
-		                          (ID, Log)
+		                          (ID, Log, Created)
                                   VALUES
-                                  ('$this->ID','$log')" );
+                                  ('$this->ID','$log','$timeStamp')" );
             $db->unlock();
             $this->get( $this->ID );
         }
@@ -93,7 +91,7 @@ class eZTodoLog
         $db =& eZDB::globalDatabase();
         $db->begin();
         
-        if ( isset( $this->ID ) )
+        if ( isSet( $this->ID ) )
         {
             $res[] = $db->query( "DELETE FROM eZTodoLog WHERE UserID='$this->ID'" );
         }
@@ -114,7 +112,7 @@ class eZTodoLog
         if ( $id != "" )
         {
             $db->array_query( $todoLogArray, "SELECT * FROM eZTodo_Log WHERE ID='$id'",
-                              0, 1 );
+                              array( "Offset" => 0, "Limit" => 1 ) );
             if ( count( $todoLogArray ) == 1 )
             {
                 $this->fill( $todoLogArray[0] );
@@ -171,7 +169,6 @@ class eZTodoLog
     function &created()
     {
        $dateTime = new eZDateTime();
-
        $dateTime->setTimeStamp( $this->Created );
        
        return $dateTime;
