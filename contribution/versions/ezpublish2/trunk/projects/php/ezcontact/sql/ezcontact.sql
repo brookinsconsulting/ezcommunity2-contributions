@@ -153,10 +153,10 @@ CREATE TABLE eZContact_AddressType (
 # Dumping data for table 'eZContact_AddressType'
 #
 
-INSERT INTO eZContact_AddressType VALUES ( 1, 'private_postal' );
-INSERT INTO eZContact_AddressType VALUES ( 2, 'company_postal' );
-INSERT INTO eZContact_AddressType VALUES ( 3, 'private_vacation' );
-INSERT INTO eZContact_AddressType VALUES ( 4, 'company_visiting' );
+INSERT INTO eZContact_AddressType VALUES ( 1, 'Adresse' );
+INSERT INTO eZContact_AddressType VALUES ( 2, 'Postadresse' );
+INSERT INTO eZContact_AddressType VALUES ( 3, 'Ferieadresse' );
+INSERT INTO eZContact_AddressType VALUES ( 4, 'Besøksadresse' );
 
 #
 # Table structure for table 'eZContact_PhoneType'
@@ -172,13 +172,14 @@ CREATE TABLE eZContact_PhoneType (
 # Dumping data for table 'eZContact_PhoneType'
 #
 
-INSERT INTO eZContact_PhoneType VALUES ( 1, 'private_home' );
-INSERT INTO eZContact_PhoneType VALUES ( 2, 'company_office' );
-INSERT INTO eZContact_PhoneType VALUES ( 3, 'personal_mobile' );
-INSERT INTO eZContact_PhoneType VALUES ( 4, 'personal_work' );
-INSERT INTO eZContact_PhoneType VALUES ( 5, 'company_switchboard' );
-INSERT INTO eZContact_PhoneType VALUES ( 6, 'company_mobile' );
-INSERT INTO eZContact_PhoneType VALUES ( 7, 'company_hotline' );
+INSERT INTO eZContact_PhoneType VALUES ( 1, 'Telefon hjem' );
+INSERT INTO eZContact_PhoneType VALUES ( 2, 'Telefon kontor' );
+INSERT INTO eZContact_PhoneType VALUES ( 3, 'Mobiltelefon' );
+INSERT INTO eZContact_PhoneType VALUES ( 4, 'Telefon arbeid' );
+INSERT INTO eZContact_PhoneType VALUES ( 5, 'Telefon' );
+INSERT INTO eZContact_PhoneType VALUES ( 6, 'Firmamobil' );
+INSERT INTO eZContact_PhoneType VALUES ( 7, 'Supporttelefon' );
+INSERT INTO eZContact_PhoneType VALUES ( 8, 'Fax' );
 
 
 #
@@ -196,9 +197,9 @@ CREATE TABLE eZContact_ContactType (
 # Dumping data for table 'eZContact_ContactType'
 #
 
-INSERT INTO eZContact_ContactType VALUES ( 1, 'company', '' );
-INSERT INTO eZContact_ContactType VALUES ( 2, 'person', '' );
-INSERT INTO eZContact_ContactType VALUES ( 3, 'work_applicant', '' );
+INSERT INTO eZContact_ContactType VALUES ( 1, 'Firma', '' );
+INSERT INTO eZContact_ContactType VALUES ( 2, 'Person', '' );
+INSERT INTO eZContact_ContactType VALUES ( 3, 'Arbeidssøker', '' );
 
 #
 # Table structure for table 'eZContact_CompanyType'
@@ -293,12 +294,12 @@ CREATE TABLE eZContact_OnlineType (
 # Dumping data for table 'eZContact_OnlineType'
 #
 
-INSERT INTO eZContact_OnlineType VALUES ( 1, 'personal_email' );
-INSERT INTO eZContact_OnlineType VALUES ( 2, 'personal_website' );
-INSERT INTO eZContact_OnlineType VALUES ( 3, 'personal_ftpsite' );
-INSERT INTO eZContact_OnlineType VALUES ( 4, 'company_website' );
-INSERT INTO eZContact_OnlineType VALUES ( 5, 'company_email' );
-INSERT INTO eZContact_OnlineType VALUES ( 6, 'company_ftpsite' );
+INSERT INTO eZContact_OnlineType VALUES ( 1, 'Personlig e-mail' );
+INSERT INTO eZContact_OnlineType VALUES ( 2, 'Hjemmeside' );
+INSERT INTO eZContact_OnlineType VALUES ( 3, 'Ftp-site' );
+INSERT INTO eZContact_OnlineType VALUES ( 4, 'Firma hjemmeside' );
+INSERT INTO eZContact_OnlineType VALUES ( 5, 'Firma e-mail' );
+INSERT INTO eZContact_OnlineType VALUES ( 6, 'Firm ftp-site' );
 
 #
 # Table structure for table 'eZContact_PersonAddressDict'
