@@ -12,6 +12,7 @@ Changes from 2.2.5 to 2.2.6
 * Fixed bug when adding image tag to non existant image.
 * Fixed a bug in forgot password
 * Group edit now only shows permissions from enabled modules.
+* We don't print error messages if we have missing entries in site.ini and debugging is off.
 
 Changes from 2.2.4 to 2.2.5
 ---------------------------
