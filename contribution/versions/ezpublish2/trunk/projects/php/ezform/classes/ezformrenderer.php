@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.7 2001/10/01 11:23:10 pkej Exp $
+// $Id: ezformrenderer.php,v 1.8 2001/10/01 11:52:17 pkej Exp $
 //
 // eZFormRenderer class
 //
@@ -308,8 +308,6 @@ class eZFormRenderer
             global $$elementName;
             $value = $$elementName;
 
-            $content = $GLOBALS["HTTP_REFERER"] . "\n\n";
-
             if( $emailDefaults == true )
             {
                 if( $element->name() == $this->Template->Ini->read_var( "strings", "subject_label" ) )
@@ -318,12 +316,12 @@ class eZFormRenderer
                 }
                 else
                 {
-                    $content = $content  . "\n\n" . $element->name() . ":\n". $value;
+                    $content = $element->name() . ": " . $content . "\n\n" . $value;
                 }
             }
             else
             {
-                $content = $content  . "\n\n" . $element->name() . ":\n". $value;
+                $content = $element->name() . ": " . $content . "\n\n" . $value;
             }
         }
         
@@ -352,17 +350,17 @@ class eZFormRenderer
         if( $form->isSendAsUser() )
         {
             $mail->setFrom( $formSender );
+            $mail->setCC( $form->CC() . ", " . $formSender );
         }
         else
         {
             $mail->setFrom( $form->sender() );
+            $mail->setCC( $form->CC() . ", " . $form->sender() );
         }
         
         $mail->setTo( $form->receiver() );
-        $mail->setCC( $form->CC() . "; " . $form->sender() );
         
         $mail->send();
-        
         $formSent = true;
 
         if( $formSent )
