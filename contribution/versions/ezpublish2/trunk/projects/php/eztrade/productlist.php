@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.1 2000/09/24 11:51:37 bf-cvs Exp $
+// $Id: productlist.php,v 1.2 2000/09/25 07:31:47 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -95,7 +95,7 @@ foreach ( $categoryList as $categoryItem )
 }
 
 // products
-$productList = $category->products();
+$productList = $category->activeProducts();
 
 $locale = new eZLocale( $Language );
 $i=0;
@@ -146,7 +146,21 @@ foreach ( $productList as $product )
 
 
 
+if ( $GenerateStaticPage == "true" )
+{
+    $cachedFile = "eztrade/cache/productlist," . $CategoryID .".cache";
+    $fp = fopen ( $cachedFile, "w+");
 
-$t->pparse( "output", "product_list_page" );
+    $output = $t->parse($target, "product_list_page" );
+    // print the output the first time while printing the cache file.
+    print( $output );
+    fwrite ( $fp, $output );
+    fclose( $fp );
+}
+else
+{
+    $t->pparse( "output", "product_list_page" );
+}
+
 
 ?>

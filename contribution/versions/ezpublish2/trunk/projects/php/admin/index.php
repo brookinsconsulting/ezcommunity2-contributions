@@ -1,4 +1,5 @@
 <?php
+
 ob_start();
 
 include_once( "../classes/ezdb.php" );
@@ -111,8 +112,13 @@ else
 
 // html footer
 include( "footer.php" );
+
+
 ?>
 
 <?php
+
 ob_end_flush();
+
+
 ?>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.12 2000/09/24 11:51:37 bf-cvs Exp $
+// $Id: ezproductcategory.php,v 1.13 2000/09/25 07:31:47 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -402,6 +402,32 @@ class eZProductCategory
        return $return_array;
     }
     
+    /*!
+      Returns every active product to a category as a array of eZProduct objects.
+    */
+    function activeProducts()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+       
+       $return_array = array();
+       $product_array = array();
+       
+       $this->Database->array_query( $product_array, "SELECT eZTrade_Product.ID AS ProductID from eZTrade_ProductCategoryLink,
+                                                             eZTrade_Product WHERE eZTrade_ProductCategoryLink.CategoryID='$this->ID' AND
+                                                             eZTrade_Product.ShowProduct='true'
+                                                             AND eZTrade_ProductCategoryLink.ProductID=eZTrade_Product.ID
+                                                             GROUP BY eZTrade_Product.ID" );
+       for ( $i=0; $i<count($product_array); $i++ )
+       {
+           $return_array[$i] = new eZProduct( $product_array[$i]["ProductID"], false );
+       }
+       
+       return $return_array;
+    }
+    
 
     /*!
       Adds a option to the category.
@@ -417,7 +443,7 @@ class eZProductCategory
 
             $optionID = $value->id();
             $value->store();
-            
+
             $this->Database->query( "INSERT INTO eZTrade_CategoryOptionLink SET CategoryID='$this->ID', OptionID='$optionID'" );
         }
     }
