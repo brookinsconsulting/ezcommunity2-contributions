@@ -104,6 +104,17 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "messagelistflat":
+    {
+        $ForumID = $url_array[3];
+
+        if ( $url_array[4] == "parent" )
+            $Offset = $url_array[5];
+
+        include( "ezforum/user/messagelistflat.php" );
+    }
+    break;
+    
     case "messagesimpleedit":
     case "messagesimplereply":
     case "reply":

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.92 2001/07/02 16:10:44 bf Exp $
+// $Id: ezforummessage.php,v 1.93 2001/07/03 11:37:56 bf Exp $
 //
 // Definition of eZForumMessage class
 //
@@ -729,7 +729,7 @@ class eZForumMessage
 
         $ret = array();
 
-        $db->array_query( $message_array, "SELECT ID, Topic, PostingTime FROM eZForum_Message
+        $db->array_query( $message_array, "SELECT ID, ForumID, Topic, PostingTime FROM eZForum_Message
          WHERE IsTemporary='0' ORDER BY PostingTime DESC", array( "Limit" => $limit ) );
 
         return $message_array;

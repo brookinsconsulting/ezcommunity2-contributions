@@ -1,6 +1,6 @@
 <?
 //
-// $Id: ezforum.php,v 1.36 2001/07/02 16:10:44 bf Exp $
+// $Id: ezforum.php,v 1.37 2001/07/03 11:37:56 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -316,7 +316,7 @@ class eZForum
             $timeStamp =& eZDateTime::timeStamp( true );            
            
             $db->array_query( $message_array, "SELECT ID, Topic, UserID, PostingTime, Depth,
-                                          ( $timeStamp  - PostingTime ) AS Age, TreeID
+                                          ( $timeStamp  - PostingTime ) AS Age, TreeID, Body
                                           FROM
                                           eZForum_Message
                                           WHERE ForumID='$this->ID'
@@ -329,7 +329,7 @@ class eZForum
        else
        {
            $db->array_query( $message_array, "SELECT ID, Topic, UserID, PostingTime, Depth,
-                                          ( $timeStamp  -  PostingTime ) AS Age, TreeID, ThreadID
+                                          ( $timeStamp  -  PostingTime ) AS Age, TreeID, ThreadID, Body
                                           FROM eZForum_Message
                                           WHERE ForumID='$this->ID' AND Depth='0'
                                           AND IsTemporary='0'

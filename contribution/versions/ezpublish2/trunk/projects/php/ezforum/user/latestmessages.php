@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: latestmessages.php,v 1.2 2001/07/02 16:33:30 bf Exp $
+// $Id: latestmessages.php,v 1.3 2001/07/03 11:37:56 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Jul-2001 11:45:17 bf>
@@ -53,6 +53,8 @@ foreach ( $messages as $message )
 {
     $nr = ( $i % 2 ) + 1;
     $t->set_var( "alt_nr", $nr );
+
+    $t->set_var( "forum_id", $message[$db->fieldName( "ForumID" )] );
 
     $t->set_var( "message_id", $message[$db->fieldName( "ID" )] );
     $t->set_var( "message_topic", $message[$db->fieldName( "Topic" )] );
