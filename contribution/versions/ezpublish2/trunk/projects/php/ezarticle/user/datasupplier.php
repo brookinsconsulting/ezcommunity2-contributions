@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.67 2001/07/29 23:30:58 kaid Exp $
+// $Id: datasupplier.php,v 1.68 2001/08/02 16:05:24 kaid Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -46,7 +46,10 @@ switch ( $url_array[2] )
 
     case "sitemap":
     {
-        $CategoryID = $url_array[3];
+        if ( isset( $url_array[3] ) )
+            $CategoryID = $url_array[3];
+        else
+            $CategoryID = "";
         include( "ezarticle/user/sitemap.php" );        
     }
     break;
@@ -64,7 +67,10 @@ switch ( $url_array[2] )
         {
             case "list":
             {
-                $SortOrder = $url_array[4];
+                if ( isset( $url_array[4] ) )
+                    $SortOrder = $url_array[4];
+                else
+                    $SortOrder = "Name";
                 include( "ezarticle/user/authorlist.php" );
                 break;
             }
