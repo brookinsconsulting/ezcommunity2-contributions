@@ -72,11 +72,20 @@ switch( $url_array[2] )
 
     case "check" : // check the mail for this user!
     {
+
         $user = eZUser::currentUser();
         $accounts = eZMailAccount::getByUser( $user->id() );
 
         foreach( $accounts as $account )
             $account->checkMail();
+//        $server = "{" . "zap.ez.no" . "/pop3:" . "110" ."}";
+//        $mbox = imap_open( $server, "larson", "AcRXYJJA", OP_HALFOPEN)
+//             or die("can't connect: ".imap_last_error());
+
+//        $structure = imap_fetchstructure( $mbox, 1 );
+//        echo "<pre>"; print_r( $structure ); echo "</pre>";
+//        print( imap_fetchbody( $mbox, 1, 2 ) ); 
+//        imap_close( $mbox );
     }
     break;
     

@@ -47,11 +47,24 @@ function getDecodedHeader( $headervalue )
 //$msg_struct = imap_fetchstructure($mconn, $msg_no);
 //
 //disectThisPart($msg_struct, "");
+//imap_fetchbody( $mbox, $msgnum, $partnum );
+/*!
+  This is the main function that fetches the body parts of a message.
+  Basicly there can be two types of body parts. Normal parts and multiparts which can contain several underparts.
+  In case this is a multipart we just call ourselves recursivly.
+  If not this is either a text part which we add to the main text body, or it is something else, an attachment.
+  In addition to this there is also a special disposition part where attachments and inlines CAN be stored.
+  TODO:
+  -If we get text/HTML we should strip the crappy html/header tags and show it as HTML.. for this we need some special function in eZMail
+  either indication that the body of this mail is html or we need to store it completely seperatly from the usual body.
+  -fetch inline images in html mail.
+ */
 function disectThisPart( $this_part, $part_no, $mbox, $msgnum, &$mail, $level=0 )
 {
+    /** Check for disposition parts **/
 	if ($this_part->ifdisposition)
     {
-		if ($this_part->disposition == "ATTACHMENT")
+		if ($this_part->disposition == "ATTACHMENT" || $this_part->disposition == "INLINE" )
         {
             // First see if they sent a filename
 			$att_name = "unknown";
@@ -65,25 +78,27 @@ function disectThisPart( $this_part, $part_no, $mbox, $msgnum, &$mail, $level=0 
                     break;
 	            }
 	        }
-            addAttachment( $mail, decode( $this_part->encoding, fetch_part( $part_no, $mbox, $msgnum) ) , $att_name );
+            addAttachment( $mail, decode( $this_part->encoding, imap_fetchbody( $mbox, $msgnum, $part_no ) ), $att_name );
         }
-        else
+        else // INLINE should be here! For now just handle it as an attachment.
         {
 			// disposition can also be used for images in HTML (Inline)
 		}
 	}
     else
     {
-		// Not an attachment, lets see what this part is...
+        /** Not a disposittion part, lets see what this is **/
 		switch ($this_part->type)
         {
+            /** ooh, its a text part, lets add it to the main body TODO: Unless filename supplied.. attachment in that case..**/
             case TYPETEXT:
             {
                 $mime_type = "text";
-                $value = decode( $this_part->encoding, fetch_part( $part_no, $mbox, $msgnum ) );
+                $value = decode( $this_part->encoding, imap_fetchbody( $mbox, $msgnum, $part_no ) );
                 $mail->setBodyText( $value );
             }
 			break;
+            /** O no.. multipart we must do it all over again. Lets call ourselves then **/
             case TYPEMULTIPART:
             {
                 $mime_type = "multipart";
@@ -101,60 +116,47 @@ function disectThisPart( $this_part, $part_no, $mbox, $msgnum, &$mail, $level=0 
                 }
             }
 			break;
+            /** Since we are web mail nothing special can be done with this other stuff that people may attach.
+                (Hm... autodownload and start executables?!? hehe!) **/
             case TYPEMESSAGE:
-                $mime_type = "message";
-			break;
+//                $mime_type = "message";
             case TYPEAPPLICATION:
-                $mime_type = "application";
-			break;
+//                $mime_type = "application";
             case TYPEAUDIO:
-                $mime_type = "audio";
-			break;
+//                $mime_type = "audio";
             case TYPEIMAGE:
-                $mime_type = "image";
-			break;
+//                $mime_type = "image";
+
             case TYPEVIDEO:
-                $mime_type = "video";
-			break;
+//                $mime_type = "video";
             case TYPEMODEL:
                 $mime_type = "model";
-			break;
+                $att_name = "unknown";
+                for ($lcv = 0; $lcv < count($this_part->parameters); $lcv++)
+                {
+                    $param = $this_part->parameters[$lcv];
+
+                    if ($param->attribute == "NAME")
+                    {
+                        $att_name = $param->value;
+                        break;
+                    }
+                }
+                addAttachment( $mail, decode( $this_part->encoding, imap_fetchbody( $mbox, $msgnum, $part_no ) ), $att_name );
+
+                /** Hm... someone sent us something we don't know what is... lets leave it alone **/
             default:
                 $mime_type = "unknown";
             break;
 		}
 		$full_mime_type = $mime_type."/".$this_part->subtype;
-
-        /*
-        if( $mime_type != "multipart"  )
-        {
-            echo "$full_mime_type in part $part_no<BR>";
-            
-            switch ($this_part->encoding)
-            {
-                case ENC7BIT:
-                    break;
-                case ENC8BIT:
-                    break;
-                case ENCBINARY:
-                    break;
-                case ENCBASE64:
-                    // use imap_base64 to decode
-                    break;
-                case ENCQUOTEDPRINTABLE:
-                    // use imap_qprint to decode
-                    break;
-                case ENCOTHER:
-                    // not sure if this needs decoding at all
-                    break;
-                default:
-                    // it is either not encoded or we don't know about it
-            }
-        }
-        */
 	}
 }
 
+/*!
+  Convenience function for adding an attachment to a mail. Dumps the data to a file
+  creates a virtual file and adds this to the mail.
+ */
 function addAttachment( &$mail, &$data , $fileName )
 {
     $file = new eZFile();
@@ -171,7 +173,10 @@ function addAttachment( &$mail, &$data , $fileName )
     $mail->addFile( $uploadedFile );
 }
 
-function decode( $enctype, $value )
+/*!
+  Decodes a value encoded with enctype. Returns the decoded value.
+ */
+function &decode( $enctype, &$value )
 {
     $ret = "";
     switch ($enctype)
@@ -207,6 +212,20 @@ function fetch_part( $partnum, $mbox, $msgnum )
     return $part;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+/******* FUNCTIONS BELOW THIS POINT ARE NOT USED AT THE MOMENT ******************/
+
 function get_mime_type(&$structure)
 {
 $primary_mime_type = array("TEXT", "MULTIPART", "MESSAGE", "APPLICATION", "AUDIO", "IMAGE", "VIDEO", "OTHER");
@@ -218,9 +237,6 @@ return "TEXT/PLAIN";
 }
 
 
-//Right now only the first part with the matching MIME type is returned.
-//A more useful version would create an array and return all matching parts
-//(for GIFs, for instance).
 function getPart($stream, $msg_number, $mime_type, $structure = false, $part_number = false)
 {
     if(!$structure)

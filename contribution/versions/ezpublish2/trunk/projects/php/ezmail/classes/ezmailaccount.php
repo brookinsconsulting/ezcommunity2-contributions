@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailaccount.php,v 1.14 2001/03/27 18:32:51 fh Exp $
+// $Id: ezmailaccount.php,v 1.15 2001/03/29 09:13:52 fh Exp $
 //
 // eZMailAccount class
 //
@@ -462,7 +462,7 @@ class eZMailAccount
 
                 $inbox->addMail( $mail );
 
-                if( $this->$DeleteFromServer == true )
+                if( $this->DeleteFromServer == true )
                     imap_delete( $mbox, $i );
             }
         }
