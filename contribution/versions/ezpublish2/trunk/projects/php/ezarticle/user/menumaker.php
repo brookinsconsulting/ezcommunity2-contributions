@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menumaker.php,v 1.1 2001/08/31 07:14:11 br Exp $
+// $Id: menumaker.php,v 1.2 2001/09/03 15:55:32 br Exp $
 //
 // Definition of ||| class
 //
@@ -49,7 +49,6 @@ function menuMaker()
     
     $ini =& INIFile::globalINI();
     
-    
     $Language = $ini->read_var( "eZArticleMain", "Language" );
     $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                          "ezarticle/user/intl", $Language, "menumaker.php" );
@@ -63,6 +62,8 @@ function menuMaker()
     $t->set_block( "menu_maker_tpl", "menu_box_tpl", "menu_box" );
     $t->set_block( "menu_box_tpl", "menu_article_tpl", "menu_article" );
     $t->set_block( "menu_box_tpl", "menu_category_tpl", "menu_category" );
+
+    $t->set_var( "menu_box", "" );
     
     if ( !isset( $CategoryID  ) )
     {
@@ -79,7 +80,6 @@ function menuMaker()
     
     foreach( $articleCategory_array as $categoryItem )
     {
-        $t->set_var( "menu_box", "" );
         $t->set_var( "menu_article", "" );
         $t->set_var( "menu_category", "" );
 
@@ -113,8 +113,9 @@ function menuMaker()
         {
             $t->set_var( "current_category_name", $categoryItem->name() );
             $t->parse( "menu_box", "menu_box_tpl", true );
-            $t->pparse( "output", "menu_maker_tpl" );
         }
     }
+    $t->pparse( "output", "menu_maker_tpl" );
+
 }
 ?>
