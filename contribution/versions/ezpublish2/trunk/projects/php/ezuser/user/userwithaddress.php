@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.62 2001/07/06 08:24:46 bf Exp $
+// $Id: userwithaddress.php,v 1.63 2001/07/11 07:49:25 bf Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
@@ -353,6 +353,11 @@ if ( isset( $OK ) and $error == false )
     $user_insert->setLastName( $LastName );
     $user_insert->setSignature( $Signature );
 
+    if ( $InfoSubscription == "on" )
+        $user->setInfoSubscription( true );
+    else
+        $user->setInfoSubscription( false );
+    
     if ( $AutoCookieLogin == "on" )
         $user_insert->setCookieLogin( true );
     else

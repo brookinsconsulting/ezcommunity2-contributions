@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.21 2001/05/25 12:06:05 ce Exp $
+// $Id: useredit.php,v 1.22 2001/07/11 07:49:25 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 12:52:42 bf>
@@ -61,9 +61,9 @@ if ( $Action == "Insert" )
                     $user->setEmail( $Email );
                     
                     if ( $InfoSubscription == "on" )
-                        $user->setInfoSubscription( "true" );
+                        $user->setInfoSubscription( true );
                     else
-                        $user->setInfoSubscription( "false" );
+                        $user->setInfoSubscription( false );
                     
                     $user->setFirstName( $FirstName );
                     $user->setLastName( $LastName );
@@ -149,9 +149,9 @@ if ( $Action == "Update" )
         $user->setLastName( $LastName );
 
         if ( $InfoSubscription == "on" )
-            $user->setInfoSubscription( "true" );
+            $user->setInfoSubscription( true );
         else
-            $user->setInfoSubscription( "false" );
+            $user->setInfoSubscription( false );
         
         if ( $Password )
         {
