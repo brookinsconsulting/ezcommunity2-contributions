@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.27 2001/02/28 12:54:52 jb Exp $
+// $Id: productview.php,v 1.28 2001/02/28 13:03:38 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -375,7 +375,8 @@ if ( $product->productNumber() != "" )
     $t->parse( "product_number_item", "product_number_item_tpl" );
 }
 
-if ( $ShowPrice and $product->showPrice() == true and $product->hasPrice()  )
+if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
+     $ShowPrice and $product->showPrice() == true and $product->hasPrice()  )
 {
     $found_price = false;
     if ( $ShowPriceGroups and $PriceGroup > 0 )
