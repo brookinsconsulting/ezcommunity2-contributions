@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.100 2001/10/16 11:05:53 bf Exp $
+// $Id: ezuser.php,v 1.100.2.1 2001/11/21 08:56:10 jhe Exp $
 //
 // Definition of eZUser class
 //
@@ -471,9 +471,10 @@ class eZUser
     */
     function login( $html = true )
     {
-        if( $html )
+        if ( $html )
             return htmlspecialchars( $this->Login );
-        return $this->Login;
+        else
+            return $this->Login;
     }
 
     
@@ -521,9 +522,10 @@ class eZUser
     */
     function firstName( $html = true )
     {
-        if( $html )
+        if ( $html )
             return htmlspecialchars( $this->FirstName );
-        return $this->FirstName;
+        else
+            return $this->FirstName;
     }
 
     /*!
@@ -531,9 +533,10 @@ class eZUser
     */
     function lastName( $html = true  )
     {
-        if( $html )
+        if ( $html )
             return htmlspecialchars( $this->LastName );
-        return $this->LastName;
+        else
+            return $this->LastName;
     }
 
     /*!
@@ -586,7 +589,7 @@ class eZUser
     */
     function setEmail( $value )
     {
-       $this->Email = $value;
+        $this->Email = $value;
     }
 
     /*!
@@ -597,14 +600,14 @@ class eZUser
     */
     function setInfoSubscription( $value )
     {
-       if ( $value == true )
-       {
-           $this->InfoSubscription = 1;
-       }
-       else
-       {
-           $this->InfoSubscription = 0;
-       }
+        if ( $value == true )
+        {
+            $this->InfoSubscription = 1;
+        }
+        else
+        {
+            $this->InfoSubscription = 0;
+        }
     }
 
     /*!
@@ -612,7 +615,7 @@ class eZUser
     */
     function setFirstName( $value )
     {
-       $this->FirstName = $value;
+        $this->FirstName = $value;
     }
 
     /*!
@@ -620,7 +623,7 @@ class eZUser
     */
     function setLastName( $value )
     {
-       $this->LastName = $value;
+        $this->LastName = $value;
     }
 
     /*!
@@ -721,7 +724,7 @@ class eZUser
     {
         $user =& eZUser::currentUser();
         $db =& eZDB::globalDatabase();
-
+        
         setCookie( "eZUser_AutoCookieLogin", "", 0, "/",  "", 0 );
         setCookie( "eZUser_AutoCookieLogin" );
         
@@ -799,7 +802,7 @@ class eZUser
 
         return $returnValue;
     }
-
+    
 
     /*!
       \static
@@ -822,14 +825,14 @@ class eZUser
             $idle = $session->idle();
             $idle = $idle / 60;
 
-            if ( ( $idle > $user->timeoutValue() ) && ( $user->timeoutValue() != 0  ) )
+            if ( ( $idle > $user->timeoutValue() ) && ( $user->timeoutValue() != 0 ) )
             {
                 $session->delete( );                
             }
             else            
             {
                 if ( ( $user->id() != 0 ) && ( $user->id() != "" ) )
-                {                    
+                {
                     $ret[] = array( $user, $session );
                 }
             }
@@ -844,8 +847,8 @@ class eZUser
     function getLogins( $userId )
     {
         $userSessionList =& eZUser::currentUsers();
-        $logins=0;
-        foreach( $userSessionList as $userSessionItem )
+        $logins = 0;
+        foreach ( $userSessionList as $userSessionItem )
         {
             if ( $userSessionItem[0]->id() == $userId )
                 $logins++;
@@ -899,7 +902,7 @@ class eZUser
                                                     WHERE eZUser_UserGroupLink.UserID='$this->ID'
                                                     AND eZUser_Group.ID=eZUser_UserGroupLink.GroupID
                                                     AND eZUser_Group.IsRoot='1'" );
-        if( $result[$db->fieldName("Count")] > 0 )
+        if ( $result[$db->fieldName("Count")] > 0 )
             return true;
         return false;
     }
@@ -981,7 +984,7 @@ class eZUser
             $id = $this->ID;
 
         $addresses = $this->addresses( $id, false );
-        foreach( $addresses as $address )
+        foreach ( $addresses as $address )
         {
             eZAddress::delete( $address );
         }

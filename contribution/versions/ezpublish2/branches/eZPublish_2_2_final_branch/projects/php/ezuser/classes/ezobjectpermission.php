@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.36 2001/10/16 10:08:45 ce Exp $
+// $Id: ezobjectpermission.php,v 1.36.2.1 2001/11/21 08:56:10 jhe Exp $
 //
 // Definition of eZObjectPermission class
 //
@@ -32,7 +32,7 @@
   Example code:
   \code
   Check if a user has read permission to an article object:
-  if( eZObjectPermission::hasPermission( $objectID, "article_article", 'r' ) )
+  if ( eZObjectPermission::hasPermission( $objectID, "article_article", 'r' ) )
   {
   currentuser has permission
   }
@@ -121,7 +121,7 @@ class eZObjectPermission
         {
             $SQLPermission = "AND WritePermission='1'";
         }
-        else if( $permission == 'u' )
+        else if ( $permission == 'u' )
         {
             $SQLPermission = "AND UploadPermission='1'";
         }
@@ -151,13 +151,13 @@ class eZObjectPermission
         if ( !$categoryID )
             return false;
 
-        if( $permission != 'u' && $permission != 'w' && $permission != 'r' )
+        if ( $permission != 'u' && $permission != 'w' && $permission != 'r' )
             return false;
 
         $SQLGroups = "Object.GroupID = '-1'";
         if ( get_class( $user ) == "ezuser" )
         {
-            $groups =& $user->groups( false );
+            $groups =& $user->groups( true );
             $first = true;
             if ( count( $groups ) > 0 )
             {
@@ -183,9 +183,9 @@ class eZObjectPermission
                     $first = false;
                 }
                 
-                $SQLGroups .= ") OR ( Object.GroupID = '-1' AND Category.GroupID = '-1' )
-                OR ( Object.GroupID = '$groupItem' AND Category.GroupID = '-1' )
-                OR ( Object.GroupID = '-1' AND Category.GroupID = '$groupItem' )";
+                $SQLGroups .= ") OR ( Object.GroupID = '-1' AND Category.GroupID = '-1' ) 
+                               OR ( Object.GroupID = '$groupItem' AND Category.GroupID = '-1' )
+                               OR ( Object.GroupID = '-1' AND Category.GroupID = '$groupItem' )";
             }
         }
 
@@ -212,7 +212,6 @@ class eZObjectPermission
         $database =& eZDB::globalDatabase();
 
         $database->query_single( $res, $query );
-
         if ( $res[$database->fieldName( "ID" )] != 0 )
             return true;
 
@@ -229,11 +228,11 @@ class eZObjectPermission
     */
     function setPermission( $group, $objectID, $moduleTable, $permission  )
     {
-        if( get_class( $group ) == "ezusergroup" )
+        if ( get_class( $group ) == "ezusergroup" )
         {
             $groupID = $group->id();
         }
-        else if( $group == -1 )
+        else if ( $group == -1 )
         {
             $groupID = -1;
         }
@@ -243,15 +242,15 @@ class eZObjectPermission
         }
 
         $SQLPermission = "";
-        if( $permission == 'r' )
+        if ( $permission == 'r' )
         {
             $SQLPermission = "ReadPermission";
         }
-        else if( $permission == 'w' )
+        else if ( $permission == 'w' )
         {
             $SQLPermission = "WritePermission";
         }
-        else if( $permission == 'u' )
+        else if ( $permission == 'u' )
         {
             $SQLPermission = "UploadPermission";
         }
@@ -261,7 +260,7 @@ class eZObjectPermission
         }
 
         $tableName = getTableName( $moduleTable );
-        if( $tableName == "" )
+        if ( $tableName == "" )
         {
             return false;
         }
@@ -273,7 +272,7 @@ class eZObjectPermission
         $queryexists = "SELECT count( ID ) AS ID FROM $tableName WHERE ObjectID='$objectID' AND GroupID='$groupID'";
         $db->query_single( $res, $queryexists );
 
-        if( $res[$db->fieldName("ID")] == 0 )
+        if ( $res[$db->fieldName("ID")] == 0 )
         {
             $db->lock( $tableName );
 
@@ -314,21 +313,21 @@ class eZObjectPermission
     function removePermissions( $objectID, $moduleTable, $permission )
     {
         $tableName = getTableName( $moduleTable );
-        if( $tableName == "" )
+        if ( $tableName == "" )
         {
             return false;
         }
 
         $SQLPermission = "";
-        if( $permission == 'r' )
+        if ( $permission == 'r' )
         {
             $SQLPermission = "SET ReadPermission='0'";
         }
-        else if( $permission == 'w' )
+        else if ( $permission == 'w' )
         {
             $SQLPermission = "SET WritePermission='0'";
         }
-        else if( $permission == 'u' )
+        else if ( $permission == 'u' )
         {
             $SQLPermission = "SET UploadPermission='0'";
         }
@@ -353,21 +352,21 @@ class eZObjectPermission
     {
         $ret = array();
         $tableName = getTableName( $moduleTable );
-        if( $tableName == "" )
+        if ( $tableName == "" )
         {
             return $ret;
         }
 
         $SQLPermission = "";
-        if( $permission == 'r' )
+        if ( $permission == 'r' )
         {
             $SQLPermission = "ReadPermission='1'";
         }
-        else if( $permission == 'w' )
+        else if ( $permission == 'w' )
         {
             $SQLPermission = "WritePermission='1'";
         }
-        else if( $permission == 'u' )
+        else if ( $permission == 'u' )
         {
             $SQLPermission = "UploadPermission='1'";
         }
@@ -380,13 +379,13 @@ class eZObjectPermission
         $db =& eZDB::globalDatabase();
         $db->array_query( $res, $query );
         
-        if( count( $res ) > 0 )
+        if ( count( $res ) > 0 )
         {
             $i = 0;
-            foreach( $res as $groupID )
+            foreach ( $res as $groupID )
             {
                 $id = $groupID[$db->fieldName("GroupID")];
-                if( $id  == -1 )
+                if ( $id  == -1 )
                 {
                     $res = array();
                     $res[0] = -1;
@@ -412,7 +411,7 @@ class eZObjectPermission
     {
         $ret = array();
 
-        if( $user == false )
+        if ( $user == false )
         {
             $user =& eZUser::currentUser();
         }
@@ -444,21 +443,21 @@ class eZObjectPermission
         }
 
         $tableName = getTableName( $moduleTable );
-        if( $tableName == "" )
+        if ( $tableName == "" )
         {
             return $ret;
         }
 
         $SQLPermission = "";
-        if( $permission == 'r' )
+        if ( $permission == 'r' )
         {
             $SQLPermission = "ReadPermission='1'";
         }
-        else if( $permission == 'w' )
+        else if ( $permission == 'w' )
         {
             $SQLPermission = "WritePermission='1'";
         }
-        else if( $permission == 'u' )
+        else if ( $permission == 'u' )
         {
             $SQLPermission = "UploadPermission='1'";
         }
@@ -475,16 +474,16 @@ class eZObjectPermission
             
         
         $db->array_query( $res, $query );
-        if( $count == true )
+        if ( $count == true )
         {
             return $res[0][$db->fieldName("ObjectID")];
         }
         else
         {
-            if( count( $res ) > 0 )
+            if ( count( $res ) > 0 )
             {
                 $i = 0;
-                foreach( $res as $groupID )
+                foreach ( $res as $groupID )
                 {
                     $ret[$i] = $groupID[$db->fieldName("ObjectID")];
                     $i++;
