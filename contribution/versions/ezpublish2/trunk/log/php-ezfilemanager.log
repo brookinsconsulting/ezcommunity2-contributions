@@ -760,3 +760,11 @@ Maintainer(s) : jhe@ez.no
 
     * user/fileupload.php: removed &nbsp when removing error messages
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2002-04-30  br  <br@zev.ez.no>
+
+    * user/fileview.php: fixed templatebug with fileview.
+

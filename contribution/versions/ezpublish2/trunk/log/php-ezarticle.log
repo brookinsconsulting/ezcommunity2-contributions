@@ -3258,3 +3258,12 @@ Maintainer(s) : bf@ez.no
 
     * user/headlines.php: Added limit variable.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-04-30  br  <br@zev.ez.no>
+
+    * user/searchform.php:
+    fixed permission check. Check on read access instead of write access.
+
