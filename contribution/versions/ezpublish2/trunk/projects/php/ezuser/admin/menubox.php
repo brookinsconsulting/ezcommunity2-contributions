@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.18 2001/06/12 14:32:33 ce Exp $
+// $Id: menubox.php,v 1.19 2001/06/15 14:18:47 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -31,7 +31,6 @@ $menuItems = array(
     array( "/user/useredit/new/", "{intl-newuser}" ),
     array( "/user/groupedit/new/", "{intl-newgroup}" ),
     array( "/user/authorlist/", "{intl-authorlist}" ),
-    array( "/user/photographerlist/", "{intl-photographerlist}" ),
     array( "/user/sessioninfo/", "{intl-session_info}" )
     );
 
