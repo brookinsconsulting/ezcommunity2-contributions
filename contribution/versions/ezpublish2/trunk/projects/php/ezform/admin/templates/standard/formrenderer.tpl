@@ -11,7 +11,6 @@
 <!-- BEGIN error_item_tpl -->
 <div class="error">{error_value} {error_message}.</div>
 <!-- END error_item_tpl -->
-<hr noshade="noshade" size="4" />
 <br />
 <!-- END error_list_tpl -->
 
