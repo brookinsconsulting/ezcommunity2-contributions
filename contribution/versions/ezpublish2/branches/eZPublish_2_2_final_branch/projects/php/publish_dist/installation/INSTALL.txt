@@ -73,7 +73,7 @@ Chapter 2 Installing eZ publish (standard method)
         2.8.5 phpMyAdmin
         2.8.6 ImageMagick
         2.8.7 Determing and publishing your host names
-        2.8.8 ezPublish 2.2.x
+        2.8.8 eZ publish 2.2.x
         2.8.9 Creating the database
         2.8.10 Virtual hosts and rewrite rules
         2.8.11 Sample data
@@ -1955,7 +1955,7 @@ browser should show the apache welcome screen. Repeat this
 for every host name you just entered (ez.my.intranet and
 ezadmin.my.intranet) and for every client.
 
-2.8.8 ezPublish 2.2.x
+2.8.8 eZ publish 2.2.x
 
  Unpacking the files
 
