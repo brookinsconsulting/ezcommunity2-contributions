@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: replymessage.php,v 1.13 2000/10/13 12:56:31 bf-cvs Exp $
+// $Id: replymessage.php,v 1.14 2000/10/13 13:39:32 bf-cvs Exp $
 //
 // 
 //
@@ -84,8 +84,24 @@ if ( $Action == "Reply" )
 
     // delete the cache
 
+    $dir = dir( "ezforum/cache/" ); 
+    while( $entry = $dir->read() )
+    { 
+        if ($entry != "." && $entry != "..")
+        { 
+            $files[] = $entry; 
+            $numfiles++; 
+        } 
+    } 
+    $dir->close();
+
+    foreach( $files as $file )
+    {
+        print( $file . "<br>" );
+    }    
  
     unlink( "ezforum/cache/forum," . $forum_id . ".cache" );
+    unlink( "ezforum/cache/message," . $ReplyID . ".cache" );
     
     Header( "Location: /forum/category/forum/$forum_id/" );
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forum.php,v 1.48 2000/10/13 12:56:31 bf-cvs Exp $
+// $Id: forum.php,v 1.49 2000/10/13 13:39:32 bf-cvs Exp $
 //
 // 
 //
@@ -77,7 +77,7 @@ if ( $Action == "post" )
 
     unlink( "ezforum/cache/forum," . $forum_id . ".cache" );
 
-//      Header( "Location: /forum/category/forum/$forum_id/" );
+    Header( "Location: /forum/category/forum/$forum_id/" );
 }
 
 $locale = new eZLocale( $Language );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: message.php,v 1.31 2000/10/13 08:22:19 bf-cvs Exp $
+// $Id: message.php,v 1.32 2000/10/13 13:39:32 bf-cvs Exp $
 //
 // 
 //
@@ -114,5 +114,22 @@ foreach ( $messages as $message )
     $i++;
 }
 
-$t->pparse( "output", "message_tpl" );
+if ( $GenerateStaticPage == "true" )
+{
+    $fp = fopen ( $cachedFile, "w+");
+
+    $output = $t->parse( $target, "message_tpl" );
+    // print the output the first time while printing the cache file.
+    
+    print( $output );
+    fwrite ( $fp, $output );
+    fclose( $fp );
+}
+else
+{
+    $t->pparse( "output", "message_tpl" );
+}
+
+
+
 ?>
