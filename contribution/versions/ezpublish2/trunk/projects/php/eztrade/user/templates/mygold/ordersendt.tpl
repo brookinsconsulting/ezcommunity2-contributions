@@ -1,6 +1,6 @@
 <h1>{intl-confirming-order}</h1>
 
-<hr noshade="noshade" size="4" />
+<hr noshade="noshade" size="1" />
 
 <h2>{intl-thanks_for_shopping}</h2>
 

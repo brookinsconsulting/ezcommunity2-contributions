@@ -11,13 +11,14 @@
 <!-- BEGIN cart_item_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
     <tr align="left">
-	<th>{intl-product_image}:</th>
+	<th width="1%">&nbsp;{intl-product_image}:</th>
 	<th>{intl-product_name}:</th>
-	<th>{intl-product_options}:</th>
+	<th width="1%">{intl-product_options}:</th>
 	<!-- BEGIN product_available_header_tpl -->
+	<th width="1%">&nbsp;</th>
 	<!-- END product_available_header_tpl -->
-	<th align="right">{intl-product_price}:</th>
-	<th>&nbsp;</th>
+	<th align="right" width="10%">{intl-product_price}:</th>
+	<th width="1%">&nbsp;</th>
     </tr>
     <!-- BEGIN cart_item_tpl -->
     <tr align="left">
@@ -33,13 +34,15 @@
     	    <!-- BEGIN cart_item_option_tpl -->
 	    {option_value}
 	    <!-- BEGIN cart_item_option_availability_tpl -->
-	    ({option_availability})
+	    &nbsp;
 	    <!-- END cart_item_option_availability_tpl -->
     	    <!-- END cart_item_option_tpl -->
 	    &nbsp;
+	<td class="{td_class}">
+	    <!-- BEGIN product_available_item_tpl -->
+	    &nbsp;
+	    <!-- END product_available_item_tpl -->
 	</td>
-	<!-- BEGIN product_available_item_tpl -->
-	<!-- END product_available_item_tpl -->
 	<td class="{td_class}" align="right">
 	    {product_price}
 	</td>
@@ -50,21 +53,20 @@
     <!-- END cart_item_tpl -->
     <tr>
 	<td colspan="2">&nbsp;</td>
-	<td>{intl-shipping}:</td>
+	<td align="right">{intl-shipping}:</td>
+	<td rowspan="3">&nbsp;</td>
 	<td align="right">{shipping_sum}</td>
-	<td>&nbsp;</td>
+	<td rowspan="3">&nbsp;</td>
     </tr>
     <tr>
 	<td colspan="2">&nbsp;</td>
-	<td>{intl-vat}:</td>
+	<td align="right">{intl-vat}:</td>
 	<td align="right">{cart_vat_sum}</td>
-	<td>&nbsp;</td>
     </tr>
     <tr>
 	<td colspan="2">&nbsp;</td>
-	<td>{intl-total}:</td>
+	<td align="right">{intl-total}:</td>
 	<td align="right">{cart_sum}</td>
-	<td>&nbsp;</td>
     </tr>
 </table>
 <!-- END cart_item_list_tpl -->
