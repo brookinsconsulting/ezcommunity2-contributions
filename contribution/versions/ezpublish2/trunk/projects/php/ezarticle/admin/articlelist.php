@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.35 2001/04/27 14:36:56 bf Exp $
+// $Id: articlelist.php,v 1.36 2001/04/29 14:33:31 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -64,7 +64,7 @@ if ( isset( $StoreSelection ) )
     }
 }
 
-$articleMix = $session->variable( "MixUnpublished" );
+$articleMix =& $session->variable( "MixUnpublished" );
 
 if ( $articleMix == "" )
 {
@@ -291,6 +291,32 @@ if ( !isset( $Offset ) )
 if ( !isset( $Limit ) )
     $Limit = $AdminListLimit;
 
+switch ( $articleMix )
+{
+    case "Published" :
+    {
+        $t->set_var( "published_selected", "selected" );
+        $t->set_var( "un_published_selected", "" );
+        $t->set_var( "all_selected", "" );
+    }break;
+
+    case "Unpublished" :
+    {
+        $t->set_var( "published_selected", "" );
+        $t->set_var( "un_published_selected", "selected" );
+        $t->set_var( "all_selected", "" );
+    }break;
+        
+    case "All" :
+    default  :
+    {
+        $t->set_var( "published_selected", "" );
+        $t->set_var( "un_published_selected", "" );
+        $t->set_var( "all_selected", "selected" );
+    }
+}
+
+
 // articles
 if ( is_numeric( $CategoryID ) && ( $CategoryID > 0 ) )
 {
@@ -298,20 +324,12 @@ if ( is_numeric( $CategoryID ) && ( $CategoryID > 0 ) )
     {
         case "Published" :
         {
-            $t->set_var( "published_selected", "selected" );
-            $t->set_var( "un_published_selected", "" );
-            $t->set_var( "all_selected", "" );
-            
             $articleList =& $category->articles( $category->sortMode(), false, true, $Offset, $Limit );
             $articleCount = $category->articleCount( false, true  );        
         }break;
 
         case "Unpublished" :
         {
-            $t->set_var( "published_selected", "" );
-            $t->set_var( "un_published_selected", "selected" );
-            $t->set_var( "all_selected", "" );
-            
             $articleList =& $category->articles( $category->sortMode(), false, false, $Offset, $Limit );
             $articleCount = $category->articleCount( false, false  );
         }break;
@@ -319,10 +337,6 @@ if ( is_numeric( $CategoryID ) && ( $CategoryID > 0 ) )
         case "All" :
         default  :
         {
-            $t->set_var( "published_selected", "" );
-            $t->set_var( "un_published_selected", "" );
-            $t->set_var( "all_selected", "selected" );
-            
             $articleList =& $category->articles( $category->sortMode(), true, true, $Offset, $Limit );
             $articleCount = $category->articleCount( true, true  );        
         }
@@ -331,6 +345,7 @@ if ( is_numeric( $CategoryID ) && ( $CategoryID > 0 ) )
 }
 else
 {
+  
     $articleList = array();
     $articleCount = 0;
 }
