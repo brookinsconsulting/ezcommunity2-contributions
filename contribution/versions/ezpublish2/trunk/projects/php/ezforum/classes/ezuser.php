@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezuser.php,v 1.4 2000/07/18 09:42:02 lw-cvs Exp $
+    $Id: ezuser.php,v 1.5 2000/07/18 10:19:32 lw Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -512,7 +512,7 @@ class eZUser {
         
         srand(time());
         $rnd = rand(2389,5984398);
-        $this->authHash = md5(time() . "secretStRiNg0000" . $rnd);
+        $this->AuthHash = md5(time() . "secretStRiNg0000" . $rnd);
     }
     
     /*!
@@ -595,6 +595,8 @@ class eZUser {
      */
     function passwordEmail( $email )
     {
+	global $SERVER_NAME;
+
         if ( $this->getByEmail( $email ) == 0) // OK
         {
             $this->generateAuthHash();
@@ -604,7 +606,7 @@ class eZUser {
             $msg->setTo( $email );
             $msg->setSubject( "eZ Forum @ " . $SERVER_NAME . "; New password." );
             $msg->setFrom("webmaster@" . $SERVER_NAME );
-            $msg->setBody("Hei!\nVed hjelp av denne linken, kan du opprette et nytt passord:\n" .
+            $msg->setBody("Hei!\n\nVed hjelp av denne linken, kan du opprette et nytt passord:\n" .
                           "http://" . $SERVER_NAME .
                           "/index.php?page=$DOCROOT/recreate.php&id=$this->AuthHash\n\n" .
                           "Med Vennlig hilsen\n\n" .

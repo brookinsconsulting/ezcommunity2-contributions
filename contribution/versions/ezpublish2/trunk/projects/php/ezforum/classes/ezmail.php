@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezmail.php,v 1.1 2000/07/18 09:42:02 lw-cvs Exp $
+    $Id: ezmail.php,v 1.2 2000/07/18 10:19:32 lw Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -66,7 +66,7 @@ class eZMail
         
     function send()
     {
-        mail( $this->To, $this->Subject, $This->Body, "From: " . $this->From);
+        mail( $this->To, $this->Subject, $this->Body, "From: " . $this->From);
     }
 }
 ?>
