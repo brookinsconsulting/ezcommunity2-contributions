@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.28 2001/02/22 14:28:45 jb Exp $
+// $Id: ezproductcategory.php,v 1.29 2001/03/07 16:57:52 ce Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -332,10 +332,7 @@ class eZProductCategory
     */
     function id()
     {
-        if ( $this->State_ == "New" )
-            $ret = 1;
-        else
-            $ret = $this->ID;
+        $ret = $this->ID;
        
         return $ret;
     }
@@ -476,14 +473,19 @@ class eZProductCategory
     /*!
       Sets the parent category.
     */
-    function setParent( &$value )
+    function setParent( $value )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
        if ( get_class( $value ) == "ezproductcategory" )
        {
+           print( "-->". $value->id() . "<--" );
            $this->Parent = $value->id();
+       }
+       else
+       {
+           $this->Parent = $value;
        }
     }
 
@@ -811,7 +813,29 @@ class eZProductCategory
            }
        }       
     }
-    
+
+
+    /*!
+      Check if there are a category where RemoteID == $id. Return the category if true.
+    */
+    function getByRemoteID( $id )
+    {
+        $this->dbInit();
+
+        $category = false;
+               
+        $this->Database->array_query( $res, "SELECT ID FROM
+                                            eZTrade_Category
+                                            WHERE RemoteID='$id'" );
+
+       if ( count( $res ) == 1 )
+       {
+           $category = new eZProductCategory( $res[0]["ID"] );
+       }
+
+       return $category;
+    }
+
     
     /*!
       \private

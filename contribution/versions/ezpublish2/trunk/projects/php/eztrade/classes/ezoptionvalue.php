@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoptionvalue.php,v 1.15 2001/03/02 15:51:06 jb Exp $
+// $Id: ezoptionvalue.php,v 1.16 2001/03/07 16:57:52 ce Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -75,6 +75,7 @@ class eZOptionValue
         $db =& eZDB::globalDatabase();
         $price = $this->Price == "" ? "NULL" : "'$this->Price'";
 
+        $GLOBALS["DEBUG"] = true;
         if ( !isset( $this->ID ) )
         {
             $db->array_query( $qry_array,
@@ -84,6 +85,7 @@ class eZOptionValue
             $db->query( "INSERT INTO eZTrade_OptionValue SET
 		                         Price=$price,
                                  Placement='$placement',
+                                 RemoteID='$this->RemoteID',
                                  OptionID='$this->OptionID'" );
 
             $this->ID = mysql_insert_id();
@@ -117,6 +119,7 @@ class eZOptionValue
                 $this->ID =& $optionValue_array[0][ "ID" ];
                 $this->Price =& $optionValue_array[0][ "Price" ];
                 $this->OptionID =& $optionValue_array[0][ "OptionID" ];
+                $this->RemoteID =& $optionValue_array[0][ "RemoteID" ];
             }                 
         }
     }
@@ -256,6 +259,14 @@ class eZOptionValue
     }
 
     /*!
+      Returns the remoteID of the option value.
+    */
+    function remoteID()
+    {
+        return $this->RemoteID;
+    }
+    
+    /*!
       Returns the option connected to the value.
     */
     function option()
@@ -272,6 +283,14 @@ class eZOptionValue
     }
 
     /*!
+      Sets the remoteID of the option value.
+    */
+    function setRemoteID( $value )
+    {
+        $this->RemoteID = $value;
+    }
+    
+    /*!
       
     */
     function setOptionID( $value )
@@ -282,6 +301,7 @@ class eZOptionValue
     
     var $ID;
     var $Price;
+    var $RemoteID;
     var $OptionID;
 
 }
