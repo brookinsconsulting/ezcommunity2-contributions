@@ -2,24 +2,25 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="bottom">
-	<h1>Latest news</h1>
+	<h1>{current_category_name}</h1>
 	</td>
 	<td align="right">
 	<form action="/article/search/" method="post">
 	<input type="text" name="SearchText" size="12" />	
-	<input type="submit" value="{intl-search}" />
+	<input class="stdbutton" type="submit" value="{intl-search}" />
 	</form>	
 	</td>
 </tr>
 </table>
+
+{intl-head_line}
+
+<hr noshade="noshade" size="4" />
 <!-- END header_item_tpl -->
 
 <!-- BEGIN path_item_tpl -->
 
 <!-- END path_item_tpl -->
-
-<hr noshade="noshade" size="4" />
-
 
 <!-- BEGIN category_list_tpl -->
 
@@ -32,27 +33,18 @@
 
 <!-- BEGIN article_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<tr>
-	<td>
-	</td>
-</tr>
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
-	<a class="noline" href="/article/articleview/{article_id}/">
-	<h2>{article_name}</h2>
-	</a>
-	
+	<div class="listheadline"><a class="listheadline" href="/article/articleview/{article_id}/">{article_name}</a></div>
+	<div class="small">( {article_published} )</div>
 
 	<!-- BEGIN article_image_tpl -->
-	    <table align="right" width="{thumbnail_image_width}">
+	    <table align="right">
 	        <tr>
 			<td>
-			<a href="/article/articleview/{article_id}/">
-                        <img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
-			</a>
-                        </td>
+			<a href="/article/articleview/{article_id}/"><img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" /></a>
+            </td>
                 </tr>
                 <tr>
                          <td class="pictext">
@@ -63,16 +55,10 @@
         <!-- END article_image_tpl -->
 
 
-	<p>
-	{article_intro}
-	</p>
-	<img src="/ezarticle/user/{image_dir}/path-arrow.gif" height="10" width="15" border="0" alt="">
-	<a class="path" href="/article/articleview/{article_id}/">
-	{article_link_text}
-	</a>
-	<br />
-	<br />
-	<br />
+	<div class="spacer"><div class="p">{article_intro}</div></div>
+	<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+	<a class="path" href="/article/articleview/{article_id}/">{article_link_text}</a>
+	<br /><br />
 	</td>
 </tr>
 <!-- END article_item_tpl -->
@@ -81,4 +67,51 @@
 
 
 
+<!-- BEGIN type_list_tpl -->
+<br />
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<!-- BEGIN type_list_previous_tpl -->
+	<td>
+	<a class="path" href="/article/archive/{category_current_id}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
+	</td>
+	<!-- END type_list_previous_tpl -->
+
+	<!-- BEGIN type_list_previous_inactive_tpl -->
+	<td>
+	&nbsp;
+	</td>
+	<!-- END type_list_previous_inactive_tpl -->
+
+	<!-- BEGIN type_list_item_list_tpl -->
+
+	<!-- BEGIN type_list_item_tpl -->
+	<td>
+	|&nbsp;<a class="path" href="/article/archive/{category_current_id}/{item_index}">{type_item_name}</a>&nbsp;
+	</td>
+	<!-- END type_list_item_tpl -->
+
+	<!-- BEGIN type_list_inactive_item_tpl -->
+	<td>
+	|&nbsp;&lt;&nbsp;{type_item_name}&nbsp;&gt;&nbsp;
+	</td>
+	<!-- END type_list_inactive_item_tpl -->
+
+	<!-- END type_list_item_list_tpl -->
+
+	<!-- BEGIN type_list_next_tpl -->
+	<td>
+	|&nbsp;<a class="path" href="/article/archive/{category_current_id}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	</td>
+	<!-- END type_list_next_tpl -->
+
+	<!-- BEGIN type_list_next_inactive_tpl -->
+	<td>
+	|&nbsp;
+	</td>
+	<!-- END type_list_next_inactive_tpl -->
+
+</tr>
+</table>
+<!-- END type_list_tpl -->
 
