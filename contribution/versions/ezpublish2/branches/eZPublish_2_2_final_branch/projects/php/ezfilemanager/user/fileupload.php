@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileupload.php,v 1.44.2.5 2002/01/04 08:41:10 jhe Exp $
+// $Id: fileupload.php,v 1.44.2.6 2002/03/04 07:59:35 jhe Exp $
 //
 // Created on: <10-Dec-2000 15:49:57 bf>
 //
@@ -144,7 +144,7 @@ if ( $Action == "Insert" || $Action == "Update" )
     {
         $folder = new eZVirtualFolder( $FolderID );
         // must upload to a folder
-        if( !isset( $FolderID ) || $FolderID == 0 )
+        if ( !isset( $FolderID ) || $FolderID == 0 )
         {
             $t->parse( "write_permission", "error_write_permission" ); 
             $error = true;
@@ -158,7 +158,7 @@ if ( $Action == "Insert" || $Action == "Update" )
             $error = true;
         }
         // if update but not owner or write.
-        if( $Action == "Update" &&
+        if ( $Action == "Update" &&
             !eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) &&
             !eZVirtualFolder::isOwner( $user, $FolderID ) )
         {
