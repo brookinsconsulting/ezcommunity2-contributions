@@ -21,6 +21,7 @@
 </tr>
 </table>
 
+<hr noshade="noshade" size="4" />
 
 <img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="">
 <a class="path" href="{www_dir}{index}/article/archive/0/">{intl-top_level}</a>
@@ -30,6 +31,7 @@
 <a class="path" href="{www_dir}{index}/article/archive/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
 
+<hr noshade="noshade" size="4" />
 <br />
 <!-- BEGIN article_header_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -44,11 +46,30 @@
 </table>
 <!-- END article_header_tpl -->
 
-
+<!-- BEGIN article_intro_tpl -->
+<p>
 {article_intro}
+</p>
+<!-- END article_intro_tpl -->
+
 <p>
 {article_body}
 </p>
+
+<!-- BEGIN image_list_tpl -->
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+<!-- BEGIN image_tpl -->
+<tr>
+	<td width="1%" class="{td_class}">
+	<img src="{www_dir}{image_url}" width="{image_width}" height="{image_height}" border="2" />
+	{image_caption}
+	</td>
+</tr>
+<!-- END image_tpl -->
+
+</table>
+<!-- END image_list_tpl -->
+
 
 <!-- BEGIN attribute_list_tpl -->
 <!-- BEGIN type_item_tpl -->
@@ -73,21 +94,22 @@
 
 <div align="center">
 <!-- BEGIN prev_page_link_tpl -->
-<a class="path" href="{www_dir}{index}/article/articleview/{article_id}/{prev_page_number}/">&lt;&lt; {intl-prev_page}</a>
+<a class="path" href="{www_dir}{index}/article/articleview/{article_id}/{prev_page_number}/{category_id}/">&lt;&lt; {intl-prev_page}</a>
 <!-- END prev_page_link_tpl -->
 
 <!-- BEGIN page_link_tpl -->
-| <a class="path" href="{www_dir}{index}/article/articleview/{article_id}/{page_number}/">{page_number}</a>	
+| <a class="path" href="{www_dir}{index}/article/articleview/{article_id}/{page_number}/{category_id}/">{page_number}</a>	
 <!-- END page_link_tpl -->
 
 <!-- BEGIN current_page_link_tpl -->
 | <span class="p"> &lt;&nbsp;{page_number}&nbsp;&gt; </span>
 <!-- END current_page_link_tpl -->
 
-
 <!-- BEGIN next_page_link_tpl -->
-| <a class="path" href="{www_dir}{index}/article/articleview/{article_id}/{next_page_number}/">{intl-next_page} &gt;&gt;</a>
+| <a class="path" href="{www_dir}{index}/article/articleview/{article_id}/{next_page_number}/{category_id}/">{intl-next_page} &gt;&gt;</a>
 <!-- END next_page_link_tpl -->
+
+<br /><br />
 
 <!-- BEGIN numbered_page_link_tpl -->
 | <a class="path" href="{www_dir}{index}/article/articleview/{article_id}/0/">{intl-numbered_page}</a> |

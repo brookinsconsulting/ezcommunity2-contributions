@@ -2,6 +2,10 @@
 
 <h1>{intl-head_line}</h1>
 
+<hr noshade="noshade" size="4">
+
+<br />
+
 <p class="boxtext">{intl-username}:</p>
 <input tabindex="1" type="text" size="6" name="Username"/>
 <br />
@@ -25,6 +29,7 @@
 </tr>
 </table>
 
+<hr noshade="noshade" size="4">
 <!-- END buttons_tpl -->
 
 <table cellspacing="0" cellpadding="0" border="0">

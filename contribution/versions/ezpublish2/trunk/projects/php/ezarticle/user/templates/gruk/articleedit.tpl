@@ -2,6 +2,8 @@
 
 <h1>{intl-head_line}</h1>
 
+<hr noshade="noshade" size="4" />
+
 <!-- BEGIN error_message_tpl -->
 <h3 class="error">{intl-error_parsing_xml}</h3>
 <!-- END error_message_tpl -->
@@ -30,6 +32,23 @@
 <p class="boxtext">{intl-link_text}:</p>
 <input type="text" class="halfbox" name="LinkText" size="20" value="{link_text}" />
 <br /><br />
+
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td>
+        <select name="ItemToAdd">
+        <option value="Image">{intl-pictures}</option>
+        <option value="File">{intl-files}</option>
+        </select>
+    </td>
+    <td>
+        <input class="stdbutton" type="submit" name="AddItem" value="{intl-add_item}" />
+    </td>
+<tr>
+</table>
+
+
+<hr noshade="noshade" size="4" />
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>

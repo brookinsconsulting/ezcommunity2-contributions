@@ -1,5 +1,7 @@
 <h1>{intl-head_line}</h1>
 
+<hr noshade="noshade" size="4" />
+
 <table cellpadding="0" cellspacing="0" width="100%" border="0">
 <!-- BEGIN index_item_tpl -->
 <tr>

@@ -6,12 +6,14 @@
 	</td>
 	<td align="right">
 	<form action="{www_dir}{index}/article/search/" method="post">
-	<input class="searchbox" type="text" name="SearchText" size="10" />	
+	<input class="searchbox" type="text" name="SearchText" value="{search_text}" size="10" />	
 	<input class="stdbutton" type="submit" value="{intl-search}" />
 	</form>	
 	</td>
 </tr>
 </table>
+
+<hr noshade="noshade" size="4" />
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>

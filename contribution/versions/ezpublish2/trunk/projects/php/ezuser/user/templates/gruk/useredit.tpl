@@ -2,6 +2,8 @@
 
 <h1>{head_line}</h1>
 
+<hr noshade="noshade" size="4" />
+
 <!-- BEGIN required_fields_error_tpl -->
 <h3 class="error" >{intl-required_fields_error}</h3>
 <!-- END required_fields_error_tpl -->
@@ -64,6 +66,8 @@
 <br />
 <div class="p"><input {info_subscription} type="checkbox" name="InfoSubscription" />&nbsp;{intl-infosubscription}</div>
 <br />
+
+<hr noshade="noshade" size="4" />
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>

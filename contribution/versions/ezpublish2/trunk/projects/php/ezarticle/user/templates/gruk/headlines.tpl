@@ -21,6 +21,10 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
+<!-- BEGIN current_image_item_tpl -->
+<img src="{www_dir}{current_image_url}" alt="{current_image_caption}" width="{current_image_width}" height="{current_image_height}" border="0" />
+<!-- END current_image_item_tpl -->
+
 	<a class="menutext" href="{www_dir}{index}/article/articleview/{article_id}/">
 	{article_name}
 	</a>
