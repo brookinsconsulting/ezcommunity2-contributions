@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdate.php,v 1.18 2001/02/09 14:22:34 jb Exp $
+// $Id: ezdate.php,v 1.19 2001/02/12 16:01:45 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -48,22 +48,28 @@ class eZDate
       Constructs a new eZDate object. If the parameters are set the date
       is set accordingly. If not the current local time is used.
     */
-    function eZDate( $year=0, $month=0, $day=0 )
+    function eZDate( $year = 0, $month = 0, $day = 0, $year_add = 0, $month_add = 0, $day_add = 0 )
     {
-        if ( ( $year == 0 )  && ( $month == 0 ) && ( $day == 0 ) )
+        if ( get_class( $year ) == "ezdate" )
+        {
+            $this->setYear( $year->year() );
+            $this->setMonth( $year->month() );
+            $this->setDay( $year->day() );
+        }
+        else if ( ( $year == 0 )  && ( $month == 0 ) && ( $day == 0 ) )
         {
             $now = getdate();
             $this->setYear( $now["year"] );
             $this->setMonth( $now["mon"] );
             $this->setDay( $now["mday"] );
-            
         }
         else
-        {        
+        {
             $this->setYear( $year );
             $this->setMonth( $month );
             $this->setDay( $day );
         }
+        $this->move( $year_add, $month_add, $day_add );
     }
 
     /*!
@@ -440,6 +446,19 @@ class eZDate
         return $ret;
     }
 
+    /*!
+      Moves the current date n days, m months and o years forward, or backward if negative.
+    */
+    function move( $year_num, $month_num, $day_num )
+    {
+        $date = getdate( mktime( 0, 0, 0,
+                                 $this->Month + $month_num,
+                                 $this->Day + $day_num,
+                                 $this->Year + $year_num ) );
+        $this->Year = $date["year"];
+        $this->Month = $date["mon"];
+        $this->Day = $date["mday"];
+    }
 
     var $Year;
     var $Month;
