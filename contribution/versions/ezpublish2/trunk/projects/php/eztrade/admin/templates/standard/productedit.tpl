@@ -70,12 +70,23 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 
 </tr>
 <tr>
-	<td>
+	<td valign="top">
 	<div class="check"><input type="checkbox" name="Active" {showproduct_checked} />&nbsp;{intl-active}</div>
 	</td>
-	<td>
+	<td valign="top">
 	<div class="check"><input type="checkbox" name="IsHotDeal" {is_hot_deal_checked} />{intl-is_hot_deal}</div>
 	</td>
+	<td valign="top">
+	<p class="boxtext">{intl-shipping_group}:</p>
+	<select name="ShippingGroupID">
+
+	<!-- BEGIN shipping_select_tpl -->
+	<option value="{shipping_group_id}" {selected}>{shipping_group_name}</option>
+	<!-- END shipping_select_tpl -->
+
+	</select>
+	</td>
+
 </tr>
 </table>
 

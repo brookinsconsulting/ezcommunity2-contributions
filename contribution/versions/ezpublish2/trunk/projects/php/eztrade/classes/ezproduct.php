@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.37 2001/02/22 14:28:45 jb Exp $
+// $Id: ezproduct.php,v 1.38 2001/02/23 10:07:13 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -135,8 +135,9 @@ class eZProduct
                                  Discontinued='$discontinued',
                                  ExternalLink='$this->ExternalLink',
                                  RemoteID='$this->RemoteID',
-                                 IsHotDeal='$this->IsHotDeal'
-                                 VATTypeID='$this->VATTypeID'
+                                 IsHotDeal='$this->IsHotDeal',
+                                 VATTypeID='$this->VATTypeID',
+                                 ShippingGroupID='$this->ShippingGroupID'
                                  " );
 
             $this->ID = mysql_insert_id();
@@ -157,7 +158,8 @@ class eZProduct
                                  Discontinued='$discontinued',
                                  ExternalLink='$this->ExternalLink',
                                  IsHotDeal='$this->IsHotDeal',
-                                 VATTypeID='$this->VATTypeID'
+                                 VATTypeID='$this->VATTypeID',
+                                 ShippingGroupID='$this->ShippingGroupID'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -195,6 +197,7 @@ class eZProduct
                 $this->IsHotDeal =& $category_array[0][ "IsHotDeal" ];
                 $this->RemoteID =& $category_array[0][ "RemoteID" ];
                 $this->VATTypeID =& $category_array[0][ "VATTypeID" ];
+                $this->ShippingGroupID =& $category_array[0][ "ShippingGroupID" ];
 
                 if ( $category_array[0][ "ShowPrice" ] == "true" )                    
                     $this->ShowPrice = true;
@@ -1225,6 +1228,44 @@ class eZProduct
 
        return $ret;
     }
+
+    /*!
+      Sets the shipping group
+    */
+    function setShippingGroup( $group )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $this->dbInit();
+
+       if ( get_class( $group ) == "ezshippinggroup" )
+       {
+           $this->ShippingGroupID = $group->id();
+       }
+    }
+
+
+    /*!
+      Returns the shipping group as a eZShippingGroup object.
+
+      False if no type is not assigned.
+    */
+    function shippingGroup( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $this->dbInit();
+
+       $ret = false;
+       if ( is_numeric( $this->ShippingGroupID ) and ( $this->ShippingGroupID > 0 ) )
+       {
+           $ret = new eZShippingGroupID( $this->ShippingGroupID );
+       }
+
+       return $ret;
+    }
     
     
     /*!
@@ -1254,6 +1295,7 @@ class eZProduct
     var $IsHotDeal;
     var $RemoteID;
     var $VATTypeID;
+    var $ShippingGroupID;
     
     ///  Variable for keeping the database connection.
     var $Database;
