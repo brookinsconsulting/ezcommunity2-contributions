@@ -1054,3 +1054,5 @@ alter table eZMessage_Message add CreatedTmp int;
 update  eZMessage_Message set CreatedTmp= UNIX_TIMESTAMP( Created );
 alter table  eZMessage_Message drop Created; 
 alter table  eZMessage_Message change CreatedTmp Created int;
+
+alter table eZAddress_Address add Name varchar(50);

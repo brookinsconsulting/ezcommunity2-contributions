@@ -6,6 +6,7 @@ CREATE TABLE eZAddress_Address (
   Place varchar(50),
   Zip varchar(10),
   CountryID int(11),
+  Name varchar(50),
   PRIMARY KEY (ID)
 );
 
