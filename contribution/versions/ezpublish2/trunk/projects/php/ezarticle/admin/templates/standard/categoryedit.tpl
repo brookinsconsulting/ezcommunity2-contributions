@@ -55,9 +55,9 @@
 <textarea rows="5" cols="40" name="Description">{description_value}</textarea>
 <br /><br />
 
-<table cellpadding="2" cellspacing="0" border="0" width="100%">
-<th class "boxtext" width="20%">{intl-owner}</th>
-<th class "boxtext" width="80%">{intl-recursive}
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<th class "boxtext" width="50%">{intl-owner}:</th>
+<th class "boxtext" width="50%">{intl-recursive}:</th>
 <tr>
   <td>
     <select name="OwnerID">
@@ -72,14 +72,16 @@
   </td>
 </tr>
 </table>
-<p class="boxtext">{intl-groups}:</p>
+<br />
 
+<p class="boxtext">{intl-groups}:</p>
 <select name="GroupArray[]" multiple size="7">
 <option value="0" {all_selected}>{intl-all}</option>
 <!-- BEGIN group_item_tpl -->
 <option value="{group_id}" {selected}>{group_name}</option>
 <!-- END group_item_tpl -->
 </select>
+<br /><br />
 
 
 

@@ -19,10 +19,10 @@
 <!-- BEGIN news_item_tpl -->
 {starttr}
 	<td valign="top" width="50%">
-	<a href="{news_url}" target="_vblank"><h2>{news_name}</h2></a>
+	<div class="listheadline"><a class="listheadline" href="{news_url}" target="_vblank">{news_name}</a></div>
 	<span class="small">( {news_origin} - {news_date} )</span>
-	<p class="newslist">{news_intro}</p>
-	<img src="/images/path-arrow.gif" height="10" width="15" border="0" alt=""><a class="path" href="{news_url}" onclick="return popup('{news_url}')">{intl-read_more}</a>
+	<div class="spacer"><div class="p">{news_intro}</div></div>
+	<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="">&nbsp;<a class="path" href="{news_url}" onclick="return popup('{news_url}')">{intl-read_more}</a>
 	</td>
 {endtr}
 <!-- END news_item_tpl -->
