@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcart.php,v 1.36.4.2 2001/10/22 11:52:22 ce Exp $
+// $Id: ezcart.php,v 1.36.4.3 2001/11/14 11:35:33 ce Exp $
 //
 // Definition of eZCart class
 //
@@ -325,7 +325,7 @@ class eZCart
                 {
                     $info =& $item->voucherInformation();
 
-                    if ( $info->mailMethod() == 2 )
+                    if ( ( $info ) && $info->mailMethod() == 2 )
                         $products = true;
                 }
                 
