@@ -12,3 +12,6 @@ change: added next, previous
 
 mod: ezmail/user maillist.php.ini
 change: added next, previous
+
+mod: ezmail/user/ mailview.php.ini, folderedit.php.ini
+change: added cancel
