@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.42 2001/07/19 12:19:20 jakobn Exp $
+// $Id: articlelist.php,v 1.43 2001/08/09 12:12:38 bf Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -254,8 +254,8 @@ foreach ( $treeArray as $catItem )
     $t->set_var( "category_id", $catItem[0]->id() );
     $t->set_var( "category_name", $catItem[0]->name() );
 
-    if ( $catItem[1] > 0 )
-        $t->set_var( "category_level", str_repeat( "&nbsp;", $catItem[1] ) );
+    if ( $catItem[1] > 1 )
+        $t->set_var( "category_level", str_repeat( "&nbsp;&nbsp;", $catItem[1] ) );
     else
         $t->set_var( "category_level", "" );
     

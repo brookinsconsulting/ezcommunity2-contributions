@@ -24,7 +24,7 @@
 	<select name="CategoryID">
 
 	<!-- BEGIN category_tree_id_tpl -->
-	<option value="{category_id}" {selected}>{category_name}</option>
+	<option value="{category_id}" {selected}>{category_level}{category_name}</option>
 	<!-- END category_tree_id_tpl -->
 	</select>
 	<input type="submit" class="stdbutton" value="{intl-go}" />
