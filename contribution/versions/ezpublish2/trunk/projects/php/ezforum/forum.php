@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.3 2000/07/19 09:59:25 lw-cvs Exp $
+    $Id: forum.php,v 1.4 2000/07/19 11:02:57 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -39,16 +39,6 @@ else
     $UserID = 0;
 }
 
-if ( $preview )
-{
-    $t->set_var( "topic", $Topic );
-    $t->set_var( "body", nl2br( $Body ) );
-    $t->set_var( "body-clean", $Body );
-    $t->set_var( "userid", $UserID );
-    $t->pparse( "output", "preview" );
-    die();
-}
-
 if ( $post )
 {
     $msg->newMessage();
@@ -67,47 +57,58 @@ if ( $reply )
     $msg->setParent( $parent );
     $msg->store();
 }
-    
-$headers = $msg->getHeaders( $forum_id );
 
-for ($i = 0; $i < count($headers); $i++)
+if ( $preview )
 {
-    $Id = $headers[$i]["Id"];
-    $Topic  = $headers[$i]["Topic"];
-    $User = $headers[$i]["UserId"];
-    $PostingTime = $headers[$i]["PostingTime"];
-        
-    $j = $i + 1;
-         
-    $t->set_var( "id", $Id);
-    $t->set_var( "forum_id", $forum_id);
-    $t->set_var( "topic", $Topic);
-    $t->set_var( "nr", $j );
-    $t->set_var( "user", $User );
-    $t->set_var( "postingtime", $PostingTime );
-    $t->set_var( "link",$link );
-         
-    openDB();
-         
-    $query_id = mysql_query("SELECT COUNT(Id) AS replies FROM MessageTable WHERE Parent='$Id'")
-         or die("could not count replies, dying");
-         
-    $t->set_var( "replies", mysql_result($query_id,0,"replies"));
-
-    if ( ($i % 2) != 0)
-        $t->set_var( "color", "#eeeeee");
-    else
-        $t->set_var( "color", "#bbbbbb");
-    
-    $t->parse("messages", "elements", true);
+    $t->set_var( "topic", $Topic );
+    $t->set_var( "body", nl2br( $Body ) );
+    $t->set_var( "body-clean", $Body );
+    $t->set_var( "userid", $UserID );
+    $t->pparse( "output", "preview" );
 }
-     
-if ( count($headers) == 0)
-    $t->set_var( "messages", "<tr><td colspan=\"4\">Ingen meldinger</td></tr>");
-     
-$t->set_var("newmessage", $newmessage);
+else
+{
+    $headers = $msg->getHeaders( $forum_id );
 
-$t->pparse("output","forum");
+    for ($i = 0; $i < count($headers); $i++)
+    {
+        $Id = $headers[$i]["Id"];
+        $Topic  = $headers[$i]["Topic"];
+        $User = $headers[$i]["UserId"];
+        $PostingTime = $headers[$i]["PostingTime"];
+        
+        $j = $i + 1;
+         
+        $t->set_var( "id", $Id);
+        $t->set_var( "forum_id", $forum_id);
+        $t->set_var( "topic", $Topic);
+        $t->set_var( "nr", $j );
+        $t->set_var( "user", $User );
+        $t->set_var( "postingtime", $PostingTime );
+        $t->set_var( "link",$link );
+         
+        openDB();
+         
+        $query_id = mysql_query("SELECT COUNT(Id) AS replies FROM MessageTable WHERE Parent='$Id'")
+             or die("could not count replies, dying");
+         
+        $t->set_var( "replies", mysql_result($query_id,0,"replies"));
+
+        if ( ($i % 2) != 0)
+            $t->set_var( "color", "#eeeeee");
+        else
+            $t->set_var( "color", "#bbbbbb");
+    
+        $t->parse("messages", "elements", true);
+    }
+     
+    if ( count($headers) == 0)
+        $t->set_var( "messages", "<tr><td colspan=\"4\">Ingen meldinger</td></tr>");
+     
+    $t->set_var("newmessage", $newmessage);
+
+    $t->pparse("output","forum");
+}
 ?>
     
     
