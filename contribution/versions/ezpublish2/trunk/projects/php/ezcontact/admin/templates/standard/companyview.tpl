@@ -8,6 +8,7 @@
 <!-- BEGIN no_logo_tpl -->
 <p>{intl-no_logo}</p>
 <!-- END no_logo_tpl -->
+
 <!-- BEGIN logo_view_tpl -->
        <p class="boxtext">{logo_name}</p>
        <img src="{logo_image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
@@ -66,9 +67,9 @@
 {email}
 <!-- END email_item_tpl -->
 
-<!-- BEGIN no_logo_tpl -->
+<!-- BEGIN no_image_tpl -->
 <p>{intl-no_logo}</p>
-<!-- END no_logo_tpl -->
+<!-- END no_image_tpl -->
 
 <!-- BEGIN image_view_tpl -->
      <p class="boxtext">{intl-company_image}:</p>

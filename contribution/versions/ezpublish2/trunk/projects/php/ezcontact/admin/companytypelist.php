@@ -225,52 +225,47 @@ else
     // List all the companies.
     $companyList = $company->getByCategory( $TypeID );
 
-    for( $index = 0; $index < count( $companyList ); $index++ )
-    {
-        if ( ( $index %2 ) == 0 )
-            $t->set_var( "td_class", "bglight" );
-        else
-            $t->set_var( "td_class", "bgdark" );
-        
-        $t->set_var( "company_id", $companyList[$index]->id() );
-        $t->set_var( "company_name", $companyList[$index]->name() );
-        
-        $logoObj = $companyList[$index]->logoImage();
-        
-        if ( get_class ( $logoObj ) == "ezimage" )
-        {
-            $variationObj = $logoObj->requestImageVariation( 150, 150 );
-            
-            $t->set_var( "company_logo_src", "/" . $variationObj->imagePath() );
-            
-            $imageDone = true;
-        }
-        $companyListDone = true;
-    }
-    
-
-    if ( $companyListDone == true )
-    {
-        $t->set_var( "no_companies", "" );
-        $t->parse( "company_item", "company_item_tpl" );
-
-        if ( $imageDone == true )
-        {
-            $t->set_var( "no_image", "no_image_tpl" );
-            $t->parse( "image_view", "image_view_tpl" );
-        }
-        else
-        {
-            $t->set_var( "image_view", "" );
-            $t->parse( "no_image", "no_image_tpl" );
-        }
-    }
-    else
+    if ( count ( $companyList ) == 0 )
     {
         $t->set_var( "company_item", "" );
         $t->parse( "no_companies", "no_companies_tpl" );
     }
+    else
+    {
+        for( $index = 0; $index < count( $companyList ); $index++ )
+        {
+            print( "engangbare?");
+            if ( ( $index %2 ) == 0 )
+                $t->set_var( "td_class", "bglight" );
+            else
+                $t->set_var( "td_class", "bgdark" );
+        
+            $t->set_var( "company_id", $companyList[$index]->id() );
+            $t->set_var( "company_name", $companyList[$index]->name() );
+        
+            $logoObj = $companyList[$index]->logoImage();
 
+            if ( get_class ( $logoObj ) == "ezimage" )
+            {
+                $variationObj = $logoObj->requestImageVariation( 150, 150 );
+            
+                $t->set_var( "company_logo_src", "/" . $variationObj->imagePath() );
+            
+                $t->set_var( "no_image", "" );
+                $t->parse( "image_view", "image_view_tpl", true );
+            }
+            else
+            {
+                $t->set_var( "image_view", "" );
+                $t->parse( "no_image", "no_image_tpl" );
+            }
+        
+
+            $t->set_var( "no_companies", "" );
+            $t->parse( "company_item", "company_item_tpl", true );
+        }
+    }
+    
     if( $typesDone == true )
     {
         $t->set_var( "no_type_item", "" );    

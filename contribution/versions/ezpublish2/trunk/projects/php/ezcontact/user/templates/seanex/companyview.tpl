@@ -55,6 +55,11 @@
 </tr>
 </table>
 
+
+<!-- BEGIN no_image_tpl -->
+<p>{intl-no_logo}</p>
+<!-- END no_image_tpl -->
+
 <!-- BEGIN image_view_tpl -->
 <!--     <p class="boxtext">{intl-company_image}:</p> -->
 <img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" align="right" />
