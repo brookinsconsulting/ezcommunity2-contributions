@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezadcategory.php,v 1.26 2001/10/01 11:32:24 br Exp $
+// $Id: ezadcategory.php,v 1.27 2001/10/16 14:25:05 br Exp $
 //
 // Definition of eZAdCategory class
 //
@@ -37,6 +37,7 @@
  */
 
 include_once( "classes/ezdb.php" );
+include_once( "ezad/classes/ezad.php" );
 
 class eZAdCategory
 {
@@ -111,6 +112,18 @@ class eZAdCategory
 
         if ( isset( $this->ID ) )
         {
+            $db->array_query( $ad_id_array, "SELECT AdID FROM eZAd_AdCategoryLink WHERE
+                                            CategoryID='$this->ID'");
+
+            if ( count( $ad_id_array ) > 0 )
+            {
+                foreach( $ad_id_array as $ad_id )
+                {
+                    $link = new eZAd( $ad_id[$db->fieldName( "AdID" )] );
+                    $link->delete();
+                }
+            }
+            
             $db->query( "DELETE FROM eZAd_AdCategoryLink
                                      WHERE CategoryID='$this->ID'" );
             
