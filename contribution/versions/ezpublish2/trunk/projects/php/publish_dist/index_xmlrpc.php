@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index_xmlrpc.php,v 1.20 2001/07/31 19:55:51 kaid Exp $
+// $Id: index_xmlrpc.php,v 1.21 2001/08/28 07:45:54 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -55,14 +55,14 @@ if ( isset( $siteDir ) and $siteDir != "" )
 }
 else
 {
-    // Remove url parameters
-    ereg( "([^?]+)", $REQUEST_URI, $regs );
-    $REQUEST_URI = $regs[1];
- 
     $wwwDir = "";
     $index = "";
 }
-	
+
+// Remove url parameters
+ereg( "([^?]+)", $REQUEST_URI, $regs );
+$REQUEST_URI = $regs[1];
+
 ob_end_clean();
 ob_start();
 

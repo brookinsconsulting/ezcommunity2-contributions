@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index_admin.php,v 1.15 2001/08/08 12:34:52 jhe Exp $
+// $Id: index_admin.php,v 1.16 2001/08/28 07:45:54 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -60,13 +60,13 @@ if ( isset( $siteDir ) and $siteDir != "" )
 }
 else
 {
-    // Remove url parameters
-    ereg( "([^?]+)", $REQUEST_URI, $regs );
-    $REQUEST_URI = $regs[1];
- 
     $wwwDir = "";
     $index = "";
 }
+
+// Remove url parameters
+ereg( "([^?]+)", $REQUEST_URI, $regs );
+$REQUEST_URI = $regs[1];
     
 // Start the buffer cache
 ob_start();

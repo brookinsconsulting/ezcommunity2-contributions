@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.99 2001/08/24 13:55:55 ce Exp $
+// $Id: index.php,v 1.100 2001/08/28 07:45:54 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -60,13 +60,13 @@ if ( isSet( $siteDir ) and $siteDir != "" )
 }
 else
 {
-    // Remove url parameters
-    ereg( "([^?]+)", $REQUEST_URI, $regs );
-    $REQUEST_URI = $regs[1];
- 
     $wwwDir = "";
     $index = "";
 }
+
+// Remove url parameters
+ereg( "([^?]+)", $REQUEST_URI, $regs );
+$REQUEST_URI = $regs[1];
 
 include_once( "classes/ezbenchmark.php" );
 
