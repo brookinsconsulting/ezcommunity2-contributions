@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.10 2002/01/18 12:18:42 bf Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.11 2002/01/18 12:30:34 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -1658,7 +1658,8 @@ class eZProduct
                         {
                             $attributeValueTables = ", eZTrade_AttributeValue ";
                             $attributeSQL = " AND  eZTrade_AttributeValue.ProductID=eZTrade_Product.ID
-                                              AND  eZTrade_AttributeValue.AttributeID='2' ";
+                                              AND  eZTrade_AttributeValue.AttributeID='2'
+                                              AND  eZTrade_AttributeValue.Value='$musicType' ";
                         }
 
                         if ( $albumTitle != "" )

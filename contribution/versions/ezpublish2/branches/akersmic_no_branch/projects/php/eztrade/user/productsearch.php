@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.20.8.3 2002/01/17 11:31:10 bf Exp $
+// $Id: productsearch.php,v 1.20.8.4 2002/01/18 12:30:35 bf Exp $
 //
 // Created on: <10-Oct-2000 17:49:05 bf>
 //
@@ -94,9 +94,13 @@ if ( isset( $URLQueryString ) )
     $Query = $URLQueryString;
 }
 
-if ( $Query )
+if ( $Query  || ( $SearchType == "AdvancedMusic" ) )
 {
-    $productList =& $product->search( $Query, $Offset, $Limit, array( "ProductType" => $Type ), $total_count );
+    $productList =& $product->search( $Query, $Offset, $Limit, array( "ProductType" => $Type,
+                                                                      "SearchType" => $SearchType,
+                                                                      "MusicType" => $MusicType,
+                                                                      "AlbumTitle" => $AlbumTitle
+                                                                      ), $total_count );
 } 
 
 $t->set_var( "url_text", urlencode( $Query ) );

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.54.8.4 2002/01/17 12:41:48 bf Exp $
+// $Id: datasupplier.php,v 1.54.8.5 2002/01/18 12:30:35 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -113,7 +113,13 @@ switch ( $url_array[2] )
             ob_start();
 
             $RedirectURL = "/trade/productview/$ProductID/";
-            $product = new eZProduct( $ProductID );
+            $product = new eZProduct( );
+            if ( !$product->get( $ProductID ) )
+            {
+                header( "Location: /error/404" );
+                exit();
+            }
+            
             if ( ( $product->id() >= 1 ) )
             {
                 $forum = $product->forum();
@@ -338,6 +344,17 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "advancedsearch" :
+    {
+        if ( $url_array[3] == "move" )
+        {
+            $Query = urldecode( $url_array[4] );
+            $Offset = urldecode ( $url_array[5] );
+        }
+        include( "eztrade/user/advancedproductsearch.php" );
+    }
+    break;
+    
     case "orderlist" :
     {
         if ( $url_array[3] != "" )

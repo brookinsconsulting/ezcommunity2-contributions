@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productview.php,v 1.77.2.2.4.3 2002/01/17 12:41:48 bf Exp $
+// $Id: productview.php,v 1.77.2.2.4.4 2002/01/18 12:30:35 bf Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -386,9 +386,9 @@ foreach ( $sections as $section )
 // attribute list, optimized
 $db =& eZDB::globalDatabase();
 
-$db->array_query( $attribute_value_array, "SELECT A.ID, A.TypeID, A.Name, AV.Value, A.URL, A.Unit FROM eZTrade_Product as P, eZTrade_Attribute AS A, eZTrade_AttributeValue AS AV, eZTrade_ProductTypeLink AS TL 
+$db->array_query( $attribute_value_array, "SELECT A.ID, A.TypeID, A.Name, AV.Value, A.URL, A.Unit FROM eZTrade_Product as P, eZTrade_Attribute AS A, eZTrade_AttributeValue AS AV
 WHERE
-A.TypeID=TL.TypeID AND P.ID=TL.ProductID AND AV.AttributeID=A.ID  AND AV.ProductID=P.ID
+A.TypeID=P.TypeID  AND AV.AttributeID=A.ID  AND AV.ProductID=P.ID
 AND P.ID='" . $product->id() .  "'" );
 
 if ( count( $attribute_value_array ) > 0 )
