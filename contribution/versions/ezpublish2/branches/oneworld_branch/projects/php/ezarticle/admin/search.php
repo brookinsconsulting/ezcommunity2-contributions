@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.15 2001/09/16 18:37:39 bf Exp $
+// $Id: search.php,v 1.15.10.1 2002/06/03 15:43:33 pkej Exp $
 //
 // Created on: <28-Oct-2000 15:56:58 bf>
 //
@@ -86,7 +86,6 @@ if ( checkdate ( $StopMonth, $StopDay, $StopYear ) )
     $StopStamp = $stopDate->timeStamp();
 }
 
-
 // BUILDING THE SEARCH
 // If url parameters are present when loading page, they are decoded in the datasupplier
 $paramsArray = array();
@@ -133,7 +132,6 @@ if ( $SearchText )
     $t->set_var( "search_text", $SearchText );
     $t->set_var( "url_text", urlencode ( $SearchText ) );
 }
-
 
 if ( count ( $articleList ) > 0 )
 {

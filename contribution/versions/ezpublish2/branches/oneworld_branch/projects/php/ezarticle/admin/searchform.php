@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: searchform.php,v 1.2 2001/09/11 21:12:16 fh Exp $
+// $Id: searchform.php,v 1.2.10.1 2002/06/03 15:43:33 pkej Exp $
 //
 // Created on: <08-Sep-2001 10:32:19 fh>
 //
@@ -61,7 +61,7 @@ foreach ( $authorArray as $author )
 
 
 $tree = new eZArticleCategory();
-$treeArray =& $tree->getTree();
+$treeArray =& $tree->getTree( 0, 0, true );
 $user =& eZUser::currentUser();
 
 $catCount = count( $treeArray );

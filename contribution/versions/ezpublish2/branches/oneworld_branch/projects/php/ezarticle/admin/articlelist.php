@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.50.2.4.2.1 2002/05/15 14:22:17 pkej Exp $
+// $Id: articlelist.php,v 1.50.2.4.2.2 2002/06/03 15:43:33 pkej Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -318,7 +318,7 @@ foreach ( $pathArray as $path )
     $t->parse( "path_item", "path_item_tpl", true );
 }
 
-$categoryList =& $category->getByParent( $category, true, "placement" );
+$categoryList =& $category->getByParent( $category, true, "placement", 0, -1, false, false, true );
 
 // category "tree" selector
 $tree = new eZArticleCategory();

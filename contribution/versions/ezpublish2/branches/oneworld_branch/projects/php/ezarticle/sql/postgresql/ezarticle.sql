@@ -159,6 +159,7 @@ CREATE TABLE eZArticle_Category (
   ImageID int default NULL,
   EditorGroupID int default '0',
   ListLimit int default '0',
+  VisibleInLists int default '0',
   PRIMARY KEY (ID)
 );
 

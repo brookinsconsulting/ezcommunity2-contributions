@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.116.2.9.2.2 2002/06/03 07:27:13 pkej Exp $
+// $Id: articleedit.php,v 1.116.2.9.2.3 2002/06/03 15:43:33 pkej Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -750,11 +750,11 @@ for ( $i = $RankingMin; $i <= $RankingMax; $i++ )
 
 // category select
 $category = new eZArticleCategory();
-$categoryArray = $category->getAll( );
+$categoryArray = $category->getAll( true );
 
 
 $tree = new eZArticleCategory();
-$treeArray =& $tree->getTree();
+$treeArray =& $tree->getTree( 0, 0, true );
 $user =& eZUser::currentUser();
 
 $catCount = count( $treeArray );

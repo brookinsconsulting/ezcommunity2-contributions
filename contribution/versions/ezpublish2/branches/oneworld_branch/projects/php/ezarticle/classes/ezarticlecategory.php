@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.103.2.5.2.1 2002/05/15 14:22:17 pkej Exp $
+// $Id: ezarticlecategory.php,v 1.103.2.5.2.2 2002/06/03 15:43:33 pkej Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -78,7 +78,7 @@ class eZArticleCategory
             $nextID = $db->nextID( "eZArticle_Category", "ID" );            
             
             $res = $db->query( "INSERT INTO eZArticle_Category
-            ( ID, Name, Description, ExcludeFromSearch,
+            ( ID, Name, Description, ExcludeFromSearch, VisibleInLists,
               SortMode, Placement, OwnerID, SectionID,
               ImageID, ParentID, EditorGroupID, ListLimit )
             VALUES
@@ -86,6 +86,7 @@ class eZArticleCategory
               '$name',
               '$description',
               '$this->ExcludeFromSearch',
+              '$this->VisibleInLists',
               '$this->SortMode',
               '$nextID',  
               '$this->OwnerID',
@@ -104,6 +105,7 @@ class eZArticleCategory
 		                         Name='$name',
                                  Description='$description',
                                  ExcludeFromSearch='$this->ExcludeFromSearch',
+                                 VisibleInLists='$this->VisibleInLists',
                                  SortMode='$this->SortMode',
                                  Placement='$this->Placement',  
                                  OwnerID='$this->OwnerID',
@@ -183,6 +185,7 @@ class eZArticleCategory
                 $this->Description = $category_array[0][$db->fieldName( "Description" )];
                 $this->ParentID = $category_array[0][$db->fieldName( "ParentID" )];
                 $this->ExcludeFromSearch = $category_array[0][$db->fieldName( "ExcludeFromSearch" )];
+                $this->VisibleInLists = $category_array[0][$db->fieldName( "VisibleInLists" )];
                 $this->SortMode = $category_array[0][$db->fieldName( "SortMode" )];
                 $this->OwnerID = $category_array[0][$db->fieldName( "OwnerID" )];
                 $this->Placement = $category_array[0][$db->fieldName( "Placement" )];
@@ -201,14 +204,19 @@ class eZArticleCategory
 
       The categories are returned as an array of eZArticleCategory objects.
     */
-    function getAll()
+    function getAll( $showInLists=false )
     {
         $db =& eZDB::globalDatabase();
         
         $return_array = array();
         $category_array = array();
         
-        $db->array_query( $category_array, "SELECT ID,Name FROM eZArticle_Category ORDER BY Name" );
+        if ( $showInLists == false )
+        {
+            $show = "AND VisibleInLists=1";
+        }
+        
+        $db->array_query( $category_array, "SELECT ID,Name FROM eZArticle_Category $show ORDER BY Name" );
 
         
         for ( $i=0; $i < count($category_array); $i++ )
@@ -254,10 +262,15 @@ class eZArticleCategory
 
         Returns an array of eZArticleCategory.
     */
-    function &search( $name, $showAll = false, $sortby='placement', $user = false )
+    function &search( $name, $showAll = false, $sortby='placement', $user = false, $showInLists=false )
     {
         $db =& eZDB::globalDatabase();
         $topic = array();
+
+        if ( $showInLists == false )
+        {
+            $show = "AND VisibleInLists=1";
+        }
 
         if ( is_array( $name ) )
         {
@@ -325,7 +338,7 @@ class eZArticleCategory
                            FROM eZArticle_Category AS Category,
                                 eZArticle_CategoryPermission as Permission
                            WHERE $permissionSQL ($search)
-                                 AND Permission.ObjectID=Category.ID
+                                 AND Permission.ObjectID=Category.ID $show
                            GROUP BY Category.ID, Category.Placement
                            ORDER BY $sortbySQL" );
 
@@ -345,8 +358,13 @@ class eZArticleCategory
       The categories are returned as an array of eZArticleCategory objects.      
     */
     function getByParent( $parent, $showAll=false, $sortby='placement', $offset = 0, $max = -1, $user = false,
-                          $check_write = false )
+                          $check_write = false, $showInLists = false )
     {
+        if ( $showInLists == false )
+        {
+            $show = "AND VisibleInLists=1";
+        }
+        
         if ( get_class( $parent ) == "ezarticlecategory" )
         {
             $db =& eZDB::globalDatabase();
@@ -411,7 +429,7 @@ class eZArticleCategory
                       WHERE $permissionSQL
                             ParentID='$parentID'
                             AND Permission.ObjectID=Category.ID
-                            $show_str
+                            $show_str $show
                       GROUP BY Category.ID, Category.Placement, Category.Name
                       ORDER BY $sortbySQL";
 
@@ -438,8 +456,13 @@ class eZArticleCategory
       The categories are returned as an array of eZArticleCategory objects.
       If $user is not a eZUser object the current user is used.
     */
-    function countByParent( $parent, $showAll=false, $user = false, $check_write = false )
+    function countByParent( $parent, $showAll=false, $user = false, $check_write = false, $showInLists = false )
     {
+        if ( $showInLists == false )
+        {
+            $show = "AND VisibleInLists=1";
+        }
+        
         if ( get_class( $parent ) == "ezarticlecategory" )
         {
             $db =& eZDB::globalDatabase();
@@ -494,7 +517,7 @@ class eZArticleCategory
                                            WHERE $permissionSQL
                                                  ParentID='$parentID'
                                                  AND Permission.ObjectID=Category.ID
-                                                 $show_str";
+                                                 $show_str $show";
             $db->query_single( $category_array, $query,
                                            "Count" );
 
@@ -545,11 +568,11 @@ class eZArticleCategory
       FIXME: Look at the tree function in (productcategory??!??)
       Recursive function that returns an array containing an int (tree position) and an array ( all items on that level )
      */
-    function getTree( $parentID=0, $level=0 )
+    function getTree( $parentID=0, $level=0, $showInLists = false )
     {
         $category = new eZArticleCategory( $parentID );
 
-        $categoryList = $category->getByParent( $category, true );
+        $categoryList = $category->getByParent( $category, true, "placement", 0, -1, false, false, $showInLists );
         
         $tree = array();
         $level++;
@@ -559,7 +582,7 @@ class eZArticleCategory
             
             if ( $category != 0 )
             {
-                $tree = array_merge( $tree, $this->getTree( $category->id(), $level ) );
+                $tree = array_merge( $tree, $this->getTree( $category->id(), $level, $showInLists ) );
             }
             
         }
@@ -873,6 +896,20 @@ class eZArticleCategory
         return $ret;
     }
     
+    /*!
+      Returns true if the category is to be shown in all lists
+    */
+    function visibleInLists( )
+    {
+        $ret = false;
+        if ( $this->VisibleInLists  == "1" )
+        {
+            $ret = true;
+        }
+        
+        return $ret;
+    }
+    
 
 
     /*!
@@ -1006,6 +1043,22 @@ class eZArticleCategory
         else
         {
             $this->ExcludeFromSearch = "0";
+        }
+    }
+
+    /*!
+     Sets the VisibleInLists bit.
+     The argumen can be true or false.
+    */
+    function setVisibleInLists( $value )
+    {
+        if ( $value == true )
+        {
+            $this->VisibleInLists = "1";
+        }
+        else
+        {
+            $this->VisibleInLists = "0";
         }
     }
    
@@ -1816,6 +1869,7 @@ class eZArticleCategory
     var $SectionID;
     var $ImageID;
     var $EditorGroupID;
+    var $VisibleInLists;
 }
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categoryedit.php,v 1.29.2.3.2.1 2002/05/15 14:22:17 pkej Exp $
+// $Id: categoryedit.php,v 1.29.2.3.2.2 2002/06/03 15:43:33 pkej Exp $
 //
 // Created on: <18-Sep-2000 14:46:19 bf>
 //
@@ -509,7 +509,7 @@ $t->set_block( "category_edit_tpl", "image_item_tpl", "image_item" );
 
 $category = new eZArticleCategory();
 
-$categoryArray = $category->getAll( );
+$categoryArray = $category->getAll( true );
 
 $t->set_var( "description_value", $Description );
 
@@ -622,7 +622,7 @@ if ( $Action == "edit" )
 
 $category = new eZArticleCategory();
 
-$tree = $category->getTree();
+$tree = $category->getTree( 0, 0, true );
 
 foreach ( $tree as $item )
 {
@@ -725,10 +725,10 @@ else
 // category select
     $category = new eZArticleCategory();
     $category->get( $CategoryID );
-$categoryArray = $category->getAll( );
+$categoryArray = $category->getAll( true );
 
 $tree = new eZArticleCategory();
-$treeArray =& $tree->getTree();
+$treeArray =& $tree->getTree( 0, 0, true );
 $user =& eZUser::currentUser();
 
 $catCount = count( $treeArray );

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezarticle.php,v 1.183.2.19.2.2 2002/06/03 07:27:14 pkej Exp $
+// $Id: ezarticle.php,v 1.183.2.19.2.3 2002/06/03 15:43:33 pkej Exp $
 //
 // Definition of eZArticle class
 //
@@ -1975,9 +1975,9 @@ class eZArticle
 
             foreach ( $groups as $group )
             {
-                $groupSQL .= " ( Permission.GroupID='$group' AND CategoryPermission.GroupID='$group' ) OR
-                              ( Permission.GroupID='$group' AND CategoryPermission.GroupID='-1' ) OR
-                              ( Permission.GroupID='-1' AND CategoryPermission.GroupID='$group' ) OR
+                $groupSQL .= " ( eZArticle_ArticlePermission.GroupID='$group' AND eZArticle_CategoryPermission.GroupID='$group' ) OR
+                              ( eZArticle_ArticlePermission.GroupID='$group' AND eZArticle_CategoryPermission.GroupID='-1' ) OR
+                              ( eZArticle_ArticlePermission.GroupID='-1' AND eZArticle_CategoryPermission.GroupID='$group' ) OR
                             ";
             }
             $currentUserID = $user->id();
@@ -1987,7 +1987,7 @@ class eZArticle
                 $usePermission = false;
         }
 
-        $loggedInSQL = "( $currentUserSQL ( ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1' ) ) AND";
+        $loggedInSQL = "( $currentUserSQL ( ( $groupSQL eZArticle_ArticlePermission.GroupID='-1' AND eZArticle_CategoryPermission.GroupID='-1' ) AND eZArticle_ArticlePermission.ReadPermission='1' AND eZArticle_CategoryPermission.ReadPermission='1' ) ) AND";
 
         if ( $usePermission )
             $permissionSQL = $loggedInSQL;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sitemap.php,v 1.5.2.1 2002/04/05 11:41:23 br Exp $
+// $Id: sitemap.php,v 1.5.2.1.2.1 2002/06/03 15:43:33 pkej Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -50,7 +50,7 @@ $t->set_block( "article_sitemap_page_tpl", "article_value_tpl", "article_value" 
 $t->set_block( "article_sitemap_page_tpl", "value_tpl", "value" );
 
 $tree = new eZArticleCategory();
-$treeArray =& $tree->getTree();
+$treeArray =& $tree->getTree( 0, 0, tree );
 $user =& eZUser::currentUser();
 
 $t->set_var( "category_value", "" );
