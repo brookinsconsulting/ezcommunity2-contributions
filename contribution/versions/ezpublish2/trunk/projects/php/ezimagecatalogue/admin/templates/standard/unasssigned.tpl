@@ -1,4 +1,4 @@
-<form method="post" href="{www_dir}{index}{action_url}" enctype="multipart/form-data">
+<form method="post" action="{www_dir}{index}{action_url}" enctype="multipart/form-data">
 
 <input type="hidden" name="CategoryID" value="{main_category_id}">
 
