@@ -3250,3 +3250,11 @@ Maintainer(s) : bf@ez.no
     Article listings now only displays categories and articles which you can read
     and write in XMLRPC.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-04-29  bf  <bf@zev.ez.no>
+
+    * user/headlines.php: Added limit variable.
+

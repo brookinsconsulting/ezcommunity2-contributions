@@ -1041,3 +1041,11 @@ Maintainer(s) : br@ez.no
     Article listings now only displays categories and articles which you can read
     and write in XMLRPC.
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2002-04-29  fh  <fh@zev.ez.no>
+
+    * user/datasupplier.php: Permission fix
+
