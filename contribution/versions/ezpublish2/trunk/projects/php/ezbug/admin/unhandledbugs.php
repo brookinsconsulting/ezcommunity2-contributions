@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: unhandledbugs.php,v 1.5 2001/02/12 15:43:08 fh Exp $
+// $Id: unhandledbugs.php,v 1.6 2001/02/12 18:28:52 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 22:18:56 bf>
@@ -65,7 +65,10 @@ foreach ( $unhandleBugs as $bug )
 
     $module = new eZBugModule( $bug->id() );
     $t->set_var( "bug_module_name", $module->name() );
-    
+
+    $owner = $bug->user();
+    $t->set_var( "bug_submiter", $owner->name() );
+
     $t->parse( "bug", "bug_tpl", true );
     $i++;
 }
