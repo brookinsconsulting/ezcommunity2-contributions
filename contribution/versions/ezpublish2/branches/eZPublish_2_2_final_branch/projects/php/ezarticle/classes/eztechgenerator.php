@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.37.2.1 2001/12/14 14:17:03 bf Exp $
+// $Id: eztechgenerator.php,v 1.37.2.2 2002/03/04 12:49:40 bf Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -37,6 +37,8 @@
 /*!TODO
   
 */
+
+include_once( "ezxml/classes/ezxml.php" );
 
 class eZTechGenerator
 {
@@ -296,7 +298,7 @@ class eZTechGenerator
     {
         $contentsArray = array();
 
-        $xml =& xmltree( $this->Contents );
+        $xml =& eZXML::domTree( $this->Contents );
 
 //          $xml =& qdom_tree( $this->Contents );
 
@@ -330,6 +332,7 @@ class eZTechGenerator
             }
 
             $contentsArray[] = $intro;
+
 
             $bodyContents = "";
             $i=0;
