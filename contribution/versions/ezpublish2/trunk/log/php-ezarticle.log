@@ -3503,3 +3503,11 @@ Maintainer(s) : bf@ez.no
     over-enthusiastic htmlspecialchars(). Used in eZArticle and
     eZImageCatalogue.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-08-23  Baard Farstad  <bf@ez.no>
+
+    * user/articleview.php: Removed qdom from meta keywords.
+
