@@ -73,7 +73,8 @@
 	<a href="/forum/forumedit/edit/{forum_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eff{forum_id}-red','','/ezforum/images/redigerminimrk.gif',1)"><img name="eff{forum_id}-red" border="0" src="/ezforum/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%" class={td_class}>
-	<a href="/forum/forumedit/delete/{forum_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eff{forum_id}-slett','','/ezforum/images/slettminimrk.gif',1)"><img name="eff{forum_id}-slett" border="0" src="/ezforum/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<a href="#" onClick="verify( '{intl-delete}', '/forum/forumedit/delete/{forum_id}/'); return false;"
+onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eff{forum_id}-slett','','/ezforum/images/slettminimrk.gif',1)"><img name="eff{forum_id}-slett" border="0" src="/ezforum/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
 </tr>
 <!-- END forum_item_tpl -->

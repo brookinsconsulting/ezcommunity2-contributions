@@ -85,10 +85,11 @@
      {emailnotice}&nbsp;
      </td class="{td_class}">
      <td width="1%" class="{td_class}">
-	 <a href="/forum/messageedit/edit/{message_id}/"  onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('efm{message_id}-red','','/ezforum/images/redigerminimrk.gif',1)"><img name="efm{message_id}-red" border="0" src="/ezforum/images/redigermini.gif" width="16" height="16" align="top"></a>
+	 <a href="/forum/messageedit/edit/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('efm{message_id}-red','','/ezforum/images/redigerminimrk.gif',1)"><img name="efm{message_id}-red" border="0" src="/ezforum/images/redigermini.gif" width="16" height="16" align="top"></a>
      </td>
 	 <td width="1%" class="{td_class}">
-	 <a href="/forum/messageedit/delete/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('efm{message_id}-slett','','/ezforum/images/slettminimrk.gif',1)"><img name="efm{message_id}-slett" border="0" src="/ezforum/images/slettmini.gif" width="16" height="16" align="top"></a>
+	 <a href="#" onClick="verify( '{intl-delete}', '/forum/messageedit/delete/{message_id}/'); return false;"
+onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('efm{message_id}-slett','','/ezforum/images/slettminimrk.gif',1)"><img name="efm{message_id}-slett" border="0" src="/ezforum/images/slettmini.gif" width="16" height="16" align="top"></a>
 	 </td>
 </tr>
 
