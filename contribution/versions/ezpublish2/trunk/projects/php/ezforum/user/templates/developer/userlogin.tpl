@@ -1,10 +1,14 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td>
-	<h1>{intl-new_user}</h1>
+	<h1>{intl-login_page_title}</h1>
     </td>
 </tr>
 </table>
+
+<hr noshade="noshade" size="4" />
+
+<p>{intl-explanation}</p>
 
 <hr noshade="noshade" size="4" />
 
