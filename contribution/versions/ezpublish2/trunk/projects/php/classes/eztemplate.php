@@ -1,10 +1,10 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.25 2001/01/25 00:23:16 jb Exp $
+// $Id: eztemplate.php,v 1.26 2001/01/25 00:24:24 jb Exp $
 //
 // Definition of eZTemplate class
 //
-// Originally done by Kristian Koehntopp @ NetUSE GmbH
+// Based upon template.inc by Kristian Koehntopp @ NetUSE GmbH
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
