@@ -67,7 +67,6 @@
 <br />
 
 <!-- BEGIN mark_as_done -->
-<hr noshade size="4"/>
 <!--<input class="stdbutton" type="submit" Name="Done" value="{intl-mark_as_done}">-->
 <!-- END mark_as_done -->
 

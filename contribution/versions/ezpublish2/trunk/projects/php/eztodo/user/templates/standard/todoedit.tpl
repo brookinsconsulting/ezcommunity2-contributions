@@ -87,7 +87,7 @@
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<td width="50%">
+	<td>
 	<p class="boxtext">{intl-status}:</p>
 	<select name="StatusID">
 	<!-- BEGIN status_select_tpl -->
@@ -97,10 +97,10 @@
 	<br><br>
 	</td>
 
-	<td width="25%">
+	<td>
 	<div class="check"><input type="checkbox" name="Permission" {permission}>&nbsp;{intl-view_others}</div>
 	</td>
-	<td width="25%">
+	<td>
 	<div class="check"><input type="checkbox" name="SendMail">&nbsp;{intl-send_mail}</div>
 	</td>
 
