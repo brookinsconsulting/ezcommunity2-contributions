@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.7 2000/07/20 19:44:28 lw Exp $
+    $Id: ezforummessage.php,v 1.8 2000/07/24 10:39:03 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -267,3 +267,4 @@ class eZforumMessage
     }
 }
 ?>
+
