@@ -18,7 +18,7 @@
     </tr>
     <tr>
         <td colspan="2">
-            <hr noshade="noshade" size="1" />
+            <hr noshade size="1" />
             <!-- BEGIN empty_wishlist_tpl -->
             <h2>{intl-empty_wishlist}</h2>
             <!-- END empty_wishlist_tpl -->
@@ -87,27 +87,26 @@
         </td>
     </tr>
 </table>
-<hr noshade="noshade" size="1" />
-</form>
+<hr noshade size="1" />
 
 <!-- BEGIN wishlist_checkout_tpl -->
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
     <tr>
         <td>
-            <form action="/trade/sendwishlist/" method="post">
-                <input class="okbutton" type="submit" value="{intl-send_wishlist}" />
-            </form>
-        </td>
+	        <input class="okbutton" type="submit" value="{intl-send_wishlist}" />
+				<input type="hidden" name="Action" value="Refresh" />
+			</td>
     </tr>
     <tr>
         <td>
-	    <br />
-            {intl-explain1}
-	    <br />
-            {intl-explain2}	    
-	    <br />
-            {intl-explain3}
+	    	<br />
+        	{intl-explain1}
+	   		<br />
+        	{intl-explain2}
+	    	<br />
+        	{intl-explain3}
         </td>
     </tr>
 </table>
 <!-- END wishlist_checkout_tpl -->
+</form>
