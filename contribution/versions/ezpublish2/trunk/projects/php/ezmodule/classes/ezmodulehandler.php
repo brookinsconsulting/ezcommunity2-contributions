@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmodulehandler.php,v 1.1 2001/04/18 12:49:34 jb Exp $
+// $Id: ezmodulehandler.php,v 1.2 2001/04/18 13:28:00 jb Exp $
 //
 // Definition of eZModuleHandler class
 //
@@ -25,10 +25,30 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! 
-//! The class eZModuleHandler does
+//!! eZModule
+//! The class eZModuleHandler allows for easy handling of modules
 /*!
+  Moving modules up and down, enabling/disabling and opening closing can
+  easily be done by using this class. It also allows one to get all available modules
+  as well as all active ones.
 
+  All functions are static so one can use them without an object.
+
+  \code
+  // Returning the active modules
+  $modules =& eZModuleHandler::active();
+  foreach( $modules as $module )
+  {
+      print( "$module is active" );
+  }
+
+  // Opening a module menubox
+  eZModuleHandler::setOpen( "eZTrade" );
+
+  // Moving a module upwards
+  $has_moved = false;
+  eZModuleHandler::moveUp( $modules, "eZTrade", $has_moved );
+  \endcode
 */
 
 include_once( "ezsession/classes/ezpreferences.php" );
