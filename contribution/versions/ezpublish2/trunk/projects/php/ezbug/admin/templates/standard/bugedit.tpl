@@ -73,8 +73,16 @@
 	</td>
 </tr>
 </table>
-<br />
 
+<p class="boxtext">{intl-owner}</p>
+<select name="OwnerID">
+<option value="NULL"> {intl-none}</option>
+<!-- BEGIN owner_item_tpl -->
+<option value="{owner_id}" {selected}>{owner_login}</option>
+<!-- END owner_item_tpl -->
+</select>
+<br />
+<br />
 <input type="checkbox" name="IsClosed" {is_closed} />
 <span class="boxtext">{intl-is_closed}</span><br />
 

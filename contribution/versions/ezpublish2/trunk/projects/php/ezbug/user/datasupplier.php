@@ -9,8 +9,11 @@ switch ( $url_array[2] )
 {
     case "edit" :
     {
-        $Action = "Edit";
-        $BugID = $url_array[3];
+        if( $url_array[3] == "edit" )
+        {
+            $Action = "Edit";
+            $BugID = $url_array[4];
+        }
 
         $user = eZUser::currentUser();
         $bug = new eZBug( $BugID );

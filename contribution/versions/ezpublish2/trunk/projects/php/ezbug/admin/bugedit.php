@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.14 2001/02/14 10:38:14 fh Exp $
+// $Id: bugedit.php,v 1.15 2001/02/15 14:03:46 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -53,6 +53,7 @@ $t->set_block( "bug_edit_tpl", "module_item_tpl", "module_item" );
 $t->set_block( "bug_edit_tpl", "category_item_tpl", "category_item" );
 $t->set_block( "bug_edit_tpl", "priority_item_tpl", "priority_item" );
 $t->set_block( "bug_edit_tpl", "status_item_tpl", "status_item" );
+$t->set_block( "bug_edit_tpl", "owner_item_tpl", "owner_item" );
 
 $t->set_block( "bug_edit_tpl", "log_item_tpl", "log_item" );
 
@@ -94,13 +95,15 @@ if ( $Action == "Update" )
             
             $priority = new eZBugPriority( $PriorityID );
             $status = new eZBugStatus( $StatusID );
-            
+            $owner = new eZUser( $OwnerID );
             $bug = new eZBug( $BugID );
             
             $bug->setIsHandled( true );
             
             $bug->setPriority( $priority );
             $bug->setStatus( $status );
+            // check if owner is actually among the valid owners
+            $bug->setOwner( $owner );
             
             if ( $IsClosed == 'on' )
             {
@@ -343,7 +346,37 @@ foreach ( $statuses as $status )
     $t->parse( "status_item", "status_item_tpl", true );
 }
 
+// list the possible owners
+$module = new eZBugModule( $moduleID );
+$ownerGroup = $module->ownerGroup();
+$owner = $bug->owner();
+if( get_class( $ownerGroup ) == "ezusergroup" )
+{
+    $users = $ownerGroup->users( $ownerGroup );
+    if( count( $users ) > 0 )
+    {
+        foreach( $users as $userItem )
+        {
+            $t->set_var( "owner_id", $userItem->id() );
+            $t->set_var( "owner_login", $userItem->login() );
+            if( get_class( $owner ) == "ezuser" && $userItem->id() == $owner->id() )
+            {
+                $t->set_var( "selected", "selected" );
+            }
+            else
+            {
+                $t->set_var( "selected", "" );
+            }
+            $t->parse( "owner_item", "owner_item_tpl" );
+        }
+    }
+    else
+        $t->set_var( "owner_item", "" );
+}
+else
+{
+    $t->set_var( "owner_item", "" );
+}
 
 $t->pparse( "output", "bug_edit_tpl" );
-
 ?>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbug.php,v 1.9 2001/02/04 17:00:03 bf Exp $
+// $Id: ezbug.php,v 1.10 2001/02/15 14:03:46 fh Exp $
 //
 // Definition of eZBug class
 //
@@ -120,7 +120,8 @@ class eZBug
                                  StatusID='$this->StatusID',
                                  UserEmail='$this->UserEmail',
                                  Created=now(),
-                                 UserID='$this->UserID'" );
+                                 UserID='$this->UserID'
+                                 OwnerID='$this->OwnerID'" );
             $this->ID = mysql_insert_id();
         }
         else
@@ -134,7 +135,8 @@ class eZBug
                                  PriorityID='$this->PriorityID',
                                  StatusID='$this->StatusID',
                                  UserEmail='$this->UserEmail',
-                                 UserID='$this->UserID'
+                                 UserID='$this->UserID',
+                                 OwnerID='$this->OwnerID'
                                  WHERE ID='$this->ID'" );
         }
         
@@ -185,6 +187,7 @@ class eZBug
                 $this->IsClosed = $module_array[0][ "IsClosed" ];
                 $this->PriorityID = $module_array[0][ "PriorityID" ];
                 $this->StatusID = $module_array[0][ "StatusID" ];
+                $this->OwnerID = $module_array[0][ "OwnerID" ];
             }
                  
             $this->State_ = "Coherent";
@@ -336,7 +339,7 @@ class eZBug
     }
     
     /*!
-      Returns the user as a eZUser object.
+      Returns the user as an eZUser object.
 
       Returns 0 if the user was not set.
     */
@@ -354,7 +357,25 @@ class eZBug
        return $ret;
     }
     
-    
+        /*!
+      Returns the bug owner as an eZUser object.
+
+      Returns 0 if the user was not set.
+    */
+    function owner()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = false;
+       $user = new eZUser( );
+       
+       if ( $user->get( $this->OwnerID ) )
+           $ret = $user;
+       
+       return $ret;
+    }
+
     /*!
       Sets the name of the module.
     */
@@ -476,6 +497,26 @@ class eZBug
        }
     }
 
+    /*!
+      Sets the owner of the bug.
+      If $user is not of type eZUser the owner is set to NULL.
+     */
+    function setOwner( $user )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if( get_class( $user ) == "ezuser" )
+       {
+           $this->OwnerID = $user->id();
+       }
+       else
+       {
+           $this->OwnerID = NULL;
+       }
+    }
+
+    
     /*!
       Returns the priority assigned to the bug as an
       eZBugPriority object.
@@ -651,6 +692,7 @@ class eZBug
     var $UserEmail;
     var $PriorityID;
     var $StatusID;    
+    var $OwnerID;
     
     ///  Variable for keeping the database connection.
     var $Database;
