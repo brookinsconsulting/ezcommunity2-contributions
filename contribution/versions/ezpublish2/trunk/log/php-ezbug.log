@@ -128,3 +128,15 @@ Maintainer(s) : vl@ez.no
       user/unhandledbugs.php:
     Fixed bool->int bug. ('false' and 'true' don't exist anymore.
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-10-10  fh  <fh@zev.ez.no>
+
+    * admin/bugedit.php
+      classes/ezbugmodule.php
+      user/buglist.php:
+    Fixed 'true' and != error... Also don't send url's to users that contain
+    admin URL
+

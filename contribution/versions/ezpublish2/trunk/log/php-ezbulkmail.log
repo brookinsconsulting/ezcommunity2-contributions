@@ -139,3 +139,14 @@ Maintainer(s) : fh@ez.no
       user/intl/he_IL/subscriptionlogin.php.ini
       user/intl/he_IL/usermessages.php.ini: Added he_IL (Hebrew) translation
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2001-10-10  fh  <fh@zev.ez.no>
+
+    * user/datasupplier.php
+      user/subscriptionlist.php
+      user/subscriptionlogin.php:
+    Fixed intl bugs, Fixed site.ini bug that made user login UNUSABLE.
+

@@ -1098,3 +1098,34 @@ Maintainer(s) : ce@ez.no
       user/templates/standard/voucherinformation.tpl
       user/voucherinformation.php: Added fixed values in form
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-10-10  Christoffer Elo  <ce@ez.no>
+
+    * user/productview.php: fixc
+
+    * classes/ezcart.php
+      classes/ezcartitem.php
+      classes/ezvoucherinformation.php
+      user/cart.php
+      user/datasupplier.php
+      user/productview.php
+      user/templates/mygold/productview.tpl
+      user/templates/mygold/voucherinformation.tpl
+      user/templates/standard/productview.tpl
+      user/voucherinformation.php: Added price checking
+    Fixed a price bg
+
+2001-10-10  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezproduct.php: fixed names on variables.
+
+    * admin/productedit.php
+      classes/ezproduct.php: fixed price groups.
+    If an user was logged in, the user would get the lowest price set in
+    the price groups, also from the groups the user not was member of.
+    This is now fixed, so so the user get the lowest prices from the groups
+    he is member of.
+

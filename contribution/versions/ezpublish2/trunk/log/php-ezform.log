@@ -142,3 +142,15 @@ Maintainer(s) : pkej@ez.no
       classes/ezformelement.php
       classes/ezformelementtype.php: Added fixed values in form
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-10-10  Baard Farstad  <bf@ez.no>
+
+    * classes/ezformrenderer.php: Fixed error checking.
+
+2001-10-10  Christoffer Elo  <ce@ez.no>
+
+    * sql/mysql/ezform.sql: added sql insertsc
+

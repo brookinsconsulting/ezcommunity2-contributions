@@ -387,3 +387,26 @@ Maintainer(s) : jhe@ez.no
     * classes/ezforum.php
       user/searchsupplier.php: fixed new standard for searching
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-10-10  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/messagelistflat.php
+      user/search.php
+      admin/editmessage.php
+      admin/forumedit.php
+      admin/message.php
+      admin/messageedit.php
+      admin/messagelist.php
+      admin/search.php
+      admin/unapprovededit.php
+      admin/unapprovedlist.php: fixed security bug with $user
+
+2001-10-10  Baard Farstad  <bf@ez.no>
+
+    * user/message.php: Fixed spelling error.
+
+    * user/searchsupplier.php: Count fix.
+

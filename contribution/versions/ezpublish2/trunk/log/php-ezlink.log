@@ -148,3 +148,12 @@ Maintainer(s) : br@ez.no
     when you are deleting a link, you will will come back to the category
     where you deleted the link.
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-10-10  Bjoern Reiten  <br@ez.no>
+
+    * admin/templates/standard/categoryedit.tpl:
+    removed category_id from form url, since it is not in use.
+

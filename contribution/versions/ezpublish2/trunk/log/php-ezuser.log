@@ -331,3 +331,11 @@ Maintainer(s) : bf@ez.no
       admin/userlist.php
       classes/ezuser.php: Fixed showing several users.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-10-10  Baard Farstad  <bf@ez.no>
+
+    * sql/Attic/ezuser.sql: Removed obsolete file.
+

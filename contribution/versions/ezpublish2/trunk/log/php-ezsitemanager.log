@@ -179,3 +179,15 @@ Maintainer(s) : vl@ez.no
       admin/sqlquery.php
       admin/templates/standard/sqlquery.tpl: Did some translations.
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-10-10  Bjoern Reiten  <br@ez.no>
+
+    * admin/intl/no_NO/sectionedit.php.ini: added translation.
+
+2001-10-10  Christoffer Elo  <ce@ez.no>
+
+    * admin/sectionedit.php: Fixed a bug
+

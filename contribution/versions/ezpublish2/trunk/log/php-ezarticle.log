@@ -1194,3 +1194,17 @@ Maintainer(s) : bf@ez.no
 
     * admin/templates/standard/categoryedit.tpl: Layout
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-10-10  Baard Farstad  <bf@ez.no>
+
+    * classes/ezqdomrenderer.php: removed nested tags in header.
+
+    * classes/ezqdomrenderer.php: Fixed rendering of subitems i header.
+
+    * classes/ezqdomrenderer.php
+      user/frontpage.php
+      user/searchsupplier.php: Count fix.
+

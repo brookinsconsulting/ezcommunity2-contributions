@@ -445,3 +445,12 @@ Maintainer(s) : br@ez.no
 
     * sql/mysql/ezimagecatalogue.sql: Added indeces.
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-10-10  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezimagecategory.php:
+    Added the right permission systems to the slideshow.
+

@@ -266,3 +266,15 @@ Maintainer(s) : jhe@ez.no
 
     * user/searchsupplier.php: fixed global search for contact
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-10-10  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezcompany.php
+      classes/ezperson.php
+      sql/mysql/ezcontact.sql
+      sql/postgresql/ezcontact.sql
+      user/menubox.php: fixed searching for online addresses and phones
+

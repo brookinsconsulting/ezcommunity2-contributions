@@ -202,3 +202,20 @@ Maintainer(s) : bf@ez.no
     * ezfile.php:
     fixed wrong use of eZFile::file_exists() instead of file_exists(). fixes bug.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-10-10  Christoffer Elo  <ce@ez.no>
+
+    * ezgpg.php: Jalla fix
+
+2001-10-10  Chris Mason  <chris@net.ai>
+
+    * ezgpg.php: Added homedir directory variable
+
+2001-10-10  Baard Farstad  <bf@ez.no>
+
+    * ezbenchmark.php
+      ezmysqldb.php: Added bebug possibility.
+
