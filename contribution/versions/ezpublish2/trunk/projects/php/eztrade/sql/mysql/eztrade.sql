@@ -174,8 +174,7 @@ CREATE TABLE eZTrade_OrderItem (
   Count int(11) default NULL,
   Price float(10,2) default NULL,
   ProductID int(11) default NULL,
-  PriceIncVAT float(10,2) default NULL,
-  VATValue int(11) default NULL,
+  VAT float(10,2) default NULL,
   ExpiryDate int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;

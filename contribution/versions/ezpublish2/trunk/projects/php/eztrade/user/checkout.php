@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.78 2001/08/29 10:36:35 br Exp $
+// $Id: checkout.php,v 1.79 2001/08/30 07:47:03 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -40,6 +40,7 @@ $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "tru
 $ShowNamedQuantity = $ini->read_var( "eZTradeMain", "ShowNamedQuantity" ) == "true";
 $RequireQuantity = $ini->read_var( "eZTradeMain", "RequireQuantity" ) == "true";
 $ShowOptionQuantity = $ini->read_var( "eZTradeMain", "ShowOptionQuantity" ) == "true";
+$PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezuser.php" );
@@ -140,6 +141,7 @@ if ( isSet( $SendOrder ) )
     $session->setVariable( "BillingAddressID", eZHTTPTool::getVar( "BillingAddressID", true ) );
 
     $session->setVariable( "TotalCost", eZHTTPTool::getVar( "TotalCost", true ) );
+    $session->setVariable( "TotalVAT", eZHTTPTool::getVar( "TotalVAT", true ) );
     $session->setVariable( "PaymentMethod", eZHTTPTool::getVar( "PaymentMethod", true ) );
 
 //    $session->setVariable( "ShippingCost", eZHTTPTool::getVar( "ShippingCost", true ) );
@@ -149,7 +151,6 @@ if ( isSet( $SendOrder ) )
     $session->setVariable( "ShippingVAT", $cart->shippingVAT( new eZShippingType( $currentTypeID ) ) );
     
     $session->setVariable( "ShippingTypeID", eZHTTPTool::getVar( "ShippingTypeID", true ) );
-    $session->setVariable( "IncludeVAT", eZHTTPTool::getVar( "IncludeVAT", true ) );
 
     if ( count( $VoucherIDArray ) > 0 )
     {
@@ -304,13 +305,34 @@ $can_checkout = true;
                 $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
                 if ( $price )
                 {
+                    if ( $PricesIncludeVAT == "enabled" )
+                    {
+                        $totalVAT = $product->addVAT( $price );
+                        $price += $totalVAT;
+                    }
+                    else
+                    {
+                        $totalVAT = $product->extractVAT( $price );
+                    }
+                    
                     $found_price = true;
                     $priceobj->setValue( $price * $item->count() );
                 }
             }
             if ( !$found_price )
             {
-                $priceobj->setValue( $product->price() * $item->count() );
+                if ( $PricesIncludeVAT == "enabled" )
+                {
+                    $totalVAT = $product->addVAT( $product->price() );
+                    $price = $product->price() + $totalVAT;
+                }
+                else
+                {
+                    $totalVAT = $product->extractVAT( $product->price() );
+                    $price = $product->price();
+                }
+
+                $priceobj->setValue( $price * $item->count() );
             }
             $t->set_var( "product_price", $locale->format( $priceobj ) );        
         }
@@ -362,8 +384,7 @@ $can_checkout = true;
         $currency->setValue( $price );
         
         $sum += $price;
-        $totalVAT += $product->vat( $price );
-        
+
         $t->set_var( "product_name", $product->name() );
 
         $t->set_var( "cart_item_count", $item->count() );
@@ -456,7 +477,10 @@ $can_checkout = true;
 
         $country =& $mainAddress->country();
         if ( !$country->hasVAT() )
+        {
             $vat = false;
+            $totalVAT = 0;
+        }
     }
 
     $shippingCost = $cart->shippingCost( $currentShippingType );
@@ -470,7 +494,8 @@ $can_checkout = true;
     }
     else
     {
-        $t->set_var( "shipping_vat_value", 0 );
+        $shippingVAT = 0;
+        $t->set_var( "shipping_vat_value", $shippingVAT );
     }
 
     $currency->setValue( $shippingCost );
@@ -479,22 +504,14 @@ $can_checkout = true;
 
     // Find the correct price.
     // Check if the site want VAT included or not.
-    if ( $ini->read_var( "eZTradeMain", "PricesIncludeVAT" ) == "enabled" )
+    if ( $vat )
     {
-        $t->set_var( "include_vat", "false" );
-        $sum += $shippingCost;
+        $sum = $sum + $shippingCost + $shippingVAT;
         $totalPrice = $sum;
     }
     else
     {
-        $t->set_var( "include_vat", "true" );
-        if ( $vat )
-            $sum = $sum + $shippingCost + $totalVAT + $shippingVAT;
-        else
-        {
-            $t->set_var( "include_vat", "false" );
-            $sum = $sum + $shippingCost;
-        }
+        $sum += $shippingCost;
         $totalPrice = $sum;
     }
 
@@ -558,7 +575,8 @@ $can_checkout = true;
         $payment = true;
     
     // the total cost of the payment
-    $t->set_var( "total_cost_value", $sum ); 
+    $t->set_var( "total_cost_value", $sum );
+    $t->set_var( "total_vat_value", $totalVAT ); 
 }
 
 $t->parse( "cart_item_list", "cart_item_list_tpl" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.56 2001/08/28 15:56:21 ce Exp $
+// $Id: productview.php,v 1.57 2001/08/30 07:47:03 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -402,12 +402,15 @@ foreach ( $options as $option )
         }
     }
 
-    $t->set_var( "option_name", $option->name() );
-    $t->set_var( "option_description", $option->description() );
-    $t->set_var( "option_id", $option->id() );
-    $t->set_var( "product_id", $ProductID );
-
-    $t->parse( "option", "option_tpl", true );
+    if ( $i > 0 )
+    {
+        $t->set_var( "option_name", $option->name() );
+        $t->set_var( "option_description", $option->description() );
+        $t->set_var( "option_id", $option->id() );
+        $t->set_var( "product_id", $ProductID );
+        
+        $t->parse( "option", "option_tpl", true );
+    }
 }
 
 if ( !$product->hasQuantity( $RequireQuantity ) )

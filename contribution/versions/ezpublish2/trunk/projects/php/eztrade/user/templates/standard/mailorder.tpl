@@ -42,6 +42,7 @@ http://{site_url} {intl-headline}
 {stringline}
 {product_sub_total_string}{product_sub_total}
 {product_ship_hand_string}{product_ship_hand}
+{vat_total_string}{vat_total}
 {product_total_string}{product_total}
 
 {intl-other_instructions_on_web_site} http://{site_url}

@@ -151,7 +151,7 @@
 <input type="hidden" name="ShippingCost" value="{shipping_cost_value}" />
 <input type="hidden" name="ShippingVAT" value="{shipping_vat_value}" />
 <input type="hidden" name="TotalCost" value="{total_cost_value}" />
-<input type="hidden" name="IncludeVAT" value="{include_vat}" />
+<input type="hidden" name="TotalVAT" value="{total_vat_value}" />
 
 <!-- BEGIN sendorder_item_tpl -->
 <input class="okbutton" type="submit" name="SendOrder" value="{intl-send}" />

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.46 2001/08/17 13:36:00 jhe Exp $
+// $Id: ezorder.php,v 1.47 2001/08/30 07:47:03 ce Exp $
 //
 // Definition of eZOrder class
 //
@@ -800,23 +800,7 @@ class eZOrder
     */
     function totalPriceIncVAT()
     {
-       $retPrice = 0;
-       $db =& eZDB::globalDatabase();
-
-       $db->array_query( $order_item_array, "SELECT PriceIncVAT, Count FROM
-                                                    eZTrade_OrderItem
-                                                    WHERE OrderID='$this->ID'" );
-
-       foreach ( $order_item_array as $item )
-       {
-           $price = $item["PriceIncVAT"];
-
-//           $price = $price * $item["Count"];
-
-           $retPrice += $price;
-       }
-
-       return $retPrice;       
+       return $this->totalPrice() + $this->totalVAT();       
     }
     
     /*!
@@ -827,13 +811,13 @@ class eZOrder
        $retPrice = 0;
        $db =& eZDB::globalDatabase();
 
-       $db->array_query( $order_item_array, "SELECT VATValue, Count FROM
+       $db->array_query( $order_item_array, "SELECT VAT, Count FROM
                                                     eZTrade_OrderItem
                                                     WHERE OrderID='$this->ID'" );
 
        foreach ( $order_item_array as $item )
        {
-           $price = $item["VATValue"];
+           $price = $item["VAT"];
 
 //           $price = $price * $item["Count"];
 

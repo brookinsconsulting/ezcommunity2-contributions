@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.37 2001/08/28 15:56:21 ce Exp $
+// $Id: ordersendt.php,v 1.38 2001/08/30 07:47:03 ce Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -37,6 +37,7 @@ include_once( "eztrade/classes/ezcheckout.php" );
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
+$PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" );
 
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                      "eztrade/user/intl/", $Language, "ordersendt.php" );
@@ -75,7 +76,6 @@ if ( $currentUser->id() != $user->id() )
     exit();
 }
 
-$vat = true;
 if ( $user )
 {
     // print out the addresses
@@ -115,7 +115,6 @@ if ( $user )
             $t->set_var( "billing_country", $country->name() );
         else
             $t->set_var( "billing_country", "" );
-        $vat = $country->hasVAT();
     }
     else
     {
@@ -221,13 +220,34 @@ foreach ( $items as $item )
             $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
             if ( $price )
             {
+                if ( $PricesIncludeVAT == "enabled" )
+                {
+                    $totalVAT = $product->addVAT( $price );
+                    $price += $totalVAT;
+                }
+                else
+                {
+                    $totalVAT = $product->extractVAT( $price );
+                }
+
                 $found_price = true;
                 $priceobj->setValue( $price * $item->count() );
             }
         }
         if ( !$found_price )
         {
-            $priceobj->setValue( $product->price() * $item->count() );
+            if ( $PricesIncludeVAT == "enabled" )
+            {
+                $totalVAT = $product->addVAT( $product->price() );
+                $price = $product->price() + $totalVAT;
+            }
+            else
+            {
+                $totalVAT = $product->extractVAT( $product->price() );
+                $price = $product->price();
+            }
+
+            $priceobj->setValue( $price * $item->count() );
         }
         $t->set_var( "product_price", $locale->format( $priceobj ) );
     }
@@ -280,11 +300,6 @@ foreach ( $items as $item )
 
     $sum += $price;
 
-    if ( $vat )
-        $totalVAT += $product->vat( $price );
-    else
-        $totalVAT = 0;
-    
     $t->set_var( "product_name", $product->name() );
     $t->set_var( "product_price", $locale->format( $currency ) );
 
@@ -327,31 +342,15 @@ if ( $shippingType )
 
 $shippingCost = $order->shippingCharge();
 
-if ( $vat )
-    $shippingVAT = $order->shippingVAT();
-else
-$shippingVAT = 0;
+$shippingVAT = $order->shippingVAT();
 
 $currency->setValue( $shippingCost );
 
 $t->set_var( "shipping_cost", $locale->format( $currency ) );
 
-if ( $ini->read_var( "eZTradeMain", "PricesIncludeVAT" ) == "enabled" )
-{
-    if ( $vat )
-        $sum = $sum + $shippingCost + $totalVAT + $shippingVAT;
-    else
-        $sum = $sum + $shippingCost;
-    $currency->setValue( $sum );
-    $t->set_var( "order_sum", $locale->format( $currency ) );
-
-}
-else
-{
-    $sum += $shippingCost;
-    $currency->setValue( $sum );
-    $t->set_var( "order_sum", $locale->format( $currency ) );
-}
+$sum += $shippingCost;
+$currency->setValue( $sum );
+$t->set_var( "order_sum", $locale->format( $currency ) );
 
 $currency->setValue( $totalVAT + $shippingVAT );
 $t->set_var( "order_vat_sum", $locale->format( $currency ) );

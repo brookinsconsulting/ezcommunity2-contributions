@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.62 2001/08/24 07:21:08 ce Exp $
+// $Id: payment.php,v 1.63 2001/08/30 07:47:03 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -63,6 +63,7 @@ $OrderReceiverEmail = $ini->read_var( "eZTradeMain", "OrderReceiverEmail" );
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
 $DiscontinueQuantityless = $ini->read_var( "eZTradeMain", "DiscontinueQuantityless" ) == "true";
 $SiteURL =  $ini->read_var( "site", "SiteURL" );
+$PricesIncludeVAT = $ini->read_var( "eZTradeMain", "PricesIncludeVAT" );
 
 function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
 {
@@ -120,11 +121,8 @@ $items = $cart->items();
 // this is the value to charge the customer with
 $ChargeTotal = $session->variable( "TotalCost" ) ;
 
-// Check if we want to include vat or not.
-if ( $session->variable( "IncludeVAT" ) == "true" )
-    $vat = true;
-else
-$vat = false;
+// this is the total vat.
+$ChargeVATTotal = $session->variable( "TotalVAT" ) ;
 
 
 $checkout = new eZCheckout();
@@ -204,13 +202,34 @@ if ( $PaymentSuccess == "true" )
                 $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
                 if ( $price )
                 {
+                    if ( $PricesIncludeVAT == "enabled" )
+                    {
+                        $totalVAT = $product->addVAT( $price );
+                        $price += $totalVAT;
+                    }
+                    else
+                    {
+                        $totalVAT = $product->extractVAT( $price );
+                    }
+
                     $found_price = true;
                     $priceobj->setValue( $price * $item->count() );
                 }
             }
             if ( !$found_price )
             {
-                $priceobj->setValue( $product->price() * $item->count() );
+                if ( $PricesIncludeVAT == "enabled" )
+                {
+                    $totalVAT += $product->addVAT( $product->price() );
+                    $price += $product->price() + $totalVAT;
+                }
+                else
+                {
+                    $totalVAT += $product->extractVAT( $product->price() );
+                    $price += $product->price();
+                }
+
+                $priceobj->setValue( $price * $item->count() );
             }
         }
         else
@@ -256,8 +275,7 @@ if ( $PaymentSuccess == "true" )
                 //       $t->set_var( "product_price", "" );
         }
 
-        $price = $priceobj->value();    
-
+        $price = $priceobj->value();
 
         // create a new order item
         $orderItem = new eZOrderItem();
@@ -265,13 +283,7 @@ if ( $PaymentSuccess == "true" )
         $orderItem->setProduct( $product );
         $orderItem->setCount( $item->count() );
         $orderItem->setPrice( $price );
-
-        $priceIncVAT = $product->priceIncVAT( $price );
-        $orderItem->setPriceIncVAT( $priceIncVAT["Price"] );
-        if ( $vat )
-            $orderItem->setVATValue( $priceIncVAT["VAT"] );
-        else
-            $orderItem->setVATValue( 0 );
+        $orderItem->setVAT( $totalVAT );
 
         $expiryTime = $product->expiryTime();
         if ( $expiryTime > 0 )
@@ -339,6 +351,7 @@ if ( $PaymentSuccess == "true" )
     $headCount = $mailTemplateIni->read_var( "strings", "count" );
     $headPrice = $mailTemplateIni->read_var( "strings", "price" );
     $footTotal = $mailTemplateIni->read_var( "strings", "total" );
+    $footVAT = $mailTemplateIni->read_var( "strings", "vat" );
     $footSandH = $mailTemplateIni->read_var( "strings", "ship_hand" );
     $footSubT = $mailTemplateIni->read_var( "strings", "sub_total" );
 
@@ -357,11 +370,15 @@ if ( $PaymentSuccess == "true" )
     $priceString = substr( $headPrice, 0, 13 );
     $priceString = $priceString . ": ";
     $priceString = str_pad( $priceString, 15, " ", STR_PAD_LEFT );
-    
+
+    $VATString = substr( $footVAT, 0, 56 );
+    $VATString = $VATString . ": ";
+    $VATString = str_pad( $VATString, 58, " ", STR_PAD_LEFT );
+
     $totalString = substr( $footTotal, 0, 56 );
     $totalString = $totalString . ": ";
     $totalString = str_pad( $totalString, 58, " ", STR_PAD_LEFT );
-    
+
     $tshString = substr( $footSandH, 0, 56 );
     $tshString = $tshString . ": ";
     $tshString = str_pad( $tshString, 58, " ", STR_PAD_LEFT );
@@ -378,7 +395,7 @@ if ( $PaymentSuccess == "true" )
     $mailTemplate->set_var( "price_string", $priceString );
     $mailTemplate->set_var( "stringline", $lineString );
     $mailTemplate->set_var( "product_total_string", $totalString );
-    $mailTemplate->set_var( "vat_total_string", $totalString );
+    $mailTemplate->set_var( "vat_total_string", $VATString );
     $mailTemplate->set_var( "product_sub_total_string", $subTotalString );
     $mailTemplate->set_var( "product_ship_hand_string", $tshString );
     $mailTemplate->set_var( "site_url", $SiteURL );
@@ -488,13 +505,34 @@ if ( $PaymentSuccess == "true" )
                 $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
                 if ( $price )
                 {
+                    if ( $PricesIncludeVAT == "enabled" )
+                    {
+                        $totalVAT = $product->addVAT( $price );
+                        $price += $totalVAT;
+                    }
+                    else
+                    {
+                        $totalVAT = $product->extractVAT( $price );
+                    }
+
                     $found_price = true;
                     $priceobj->setValue( $price * $item->count() );
                 }
             }
             if ( !$found_price )
             {
-                $priceobj->setValue( $product->price() * $item->count() );
+                if ( $PricesIncludeVAT == "enabled" )
+                {
+                    $totalVAT = $product->addVAT( $product->price() );
+                    $price = $product->price() + $totalVAT;
+                }
+                else
+                {
+                    $totalVAT = $product->extractVAT( $product->price() );
+                    $price = $product->price();
+                }
+
+                $priceobj->setValue( $price * $item->count() );
             }
         }
         else
@@ -536,8 +574,6 @@ if ( $PaymentSuccess == "true" )
         }
         
         $price = $priceobj->value();    
-
-        $totalPrice += $price;
 
         $currency->setValue( $price );
 
@@ -586,12 +622,8 @@ if ( $PaymentSuccess == "true" )
 
 //    $totalPrice = $order->totalPrice();
 
-    if ( $vat )
-        $currency->setValue( $order->totalPriceIncVAT() );
-    else
-        $currency->setValue( $totalPrice );
-    
-    
+    $currency->setValue( $totalPrice );
+        
     $priceString = substr(  $locale->format( $currency ), 0, 13 );
     $priceString = str_pad( $priceString, 15, " ", STR_PAD_LEFT );
     $mailTemplate->set_var( "product_sub_total", $priceString );
@@ -603,24 +635,17 @@ if ( $PaymentSuccess == "true" )
     $shippingPriceString = str_pad( $shippingPriceString, 15, " ", STR_PAD_LEFT );
     $mailTemplate->set_var( "product_ship_hand", $shippingPriceString );
 
-    if ( $vat )
-    {
-        $grantVAT = $order->totalVAT();
-        $grandTotal = $order->totalPriceIncVAT() + $order->shippingCharge();
-    }
-    else
-    {
-        $grantVAT = 0;
-        $grandTotal = $totalPrice + $order->shippingCharge();
-    }
-    
+    $grantVAT = $order->totalVAT();
+
+    $grandTotal = $order->totalPrice() + $order->shippingCharge();
+
     $currency->setValue( $grandTotal );
 
     $grandTotalString = substr(  $locale->format( $currency ), 0, 13 );
     $grandTotalString = str_pad( $grandTotalString, 15, " ", STR_PAD_LEFT );
     $mailTemplate->set_var( "product_total", $grandTotalString );
 
-    $currency->setValue( $grandVAT );
+    $currency->setValue( $grantVAT );
 
     $grandVATTotalString = substr(  $locale->format( $currency ), 0, 13 );
     $grandVATTotalString = str_pad( $grandVATTotalString, 15, " ", STR_PAD_LEFT );

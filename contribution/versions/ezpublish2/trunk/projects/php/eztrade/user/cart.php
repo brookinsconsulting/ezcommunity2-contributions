@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.45 2001/08/28 15:56:21 ce Exp $
+// $Id: cart.php,v 1.46 2001/08/30 07:47:03 ce Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -395,13 +395,35 @@ foreach ( $items as $item )
             $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
             if ( $price )
             {
+                if ( $PricesIncludeVAT == "enabled" )
+                {
+                    $totalVAT = $product->addVAT( $price );
+                    $price += $totalVAT;
+                }
+                else
+                {
+                    $totalVAT = $product->extractVAT( $price );
+                    $price = $product->price();
+                }
+                
                 $found_price = true;
                 $priceobj->setValue( $price * $item->count() );
             }
         }
         if ( !$found_price )
         {
-            $priceobj->setValue( $product->price() * $item->count() );
+            if ( $PricesIncludeVAT == "enabled" )
+            {
+                $totalVAT = $product->addVAT( $product->price() );
+                $price = $product->price() + $totalVAT;
+            }
+            else
+            {
+                $totalVAT = $product->extractVAT( $product->price() );
+                $price = $product->price();
+            }
+            
+            $priceobj->setValue( $price * $item->count() );
         }
         $t->set_var( "product_price", $locale->format( $priceobj ) );
     }
@@ -447,18 +469,10 @@ foreach ( $items as $item )
             $t->set_var( "product_price", "" );
     }
     
-    $price = $priceobj->value();    
+    $price = $priceobj->value();
+
     $currency->setValue( $price );
     $sum = $sum + $price;
-
-    if ( $PricesIncludeVAT == "enabled" )
-    {
-        $totalVAT += $product->addVAT( $price );
-    }
-    else
-    {
-        $totalVAT += $product->extractVAT( $price );
-    }
 
     $t->set_var( "product_id", $product->id() );
     $t->set_var( "product_name", $product->name() );
@@ -487,7 +501,7 @@ $shippingVAT = $cart->shippingVAT( $shippingType );
 
 if ( $PricesIncludeVAT == "enabled" )
 {
-    $currency->setValue( $sum + $totalVAT + $shippingVAT + $shippingCost );
+    $currency->setValue( $sum + $shippingVAT + $shippingCost );
     $t->set_var( "cart_sum", $locale->format( $currency ) );
     $t->set_var( "price_ex_vat", "" );
     $t->parse( "price_inc_vat", "price_inc_vat_tpl" ); 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorderitem.php,v 1.19 2001/08/03 14:08:19 jhe Exp $
+// $Id: ezorderitem.php,v 1.20 2001/08/30 07:47:03 ce Exp $
 //
 // Definition of eZOrderItem class
 //
@@ -74,8 +74,7 @@ class eZOrderItem
 	                                OrderID,
 		                            Count,
 		                            Price,
-                                    PriceIncVAT,
-		                            VATValue,
+		                            VAT,
 		                            ProductID,
                                     ExpiryDate )
                                   VALUES
@@ -83,8 +82,7 @@ class eZOrderItem
 		                            '$this->OrderID',
 		                            '$this->Count',
 		                            '$this->Price',
-		                            '$this->PriceIncVAT',
-		                            '$this->VATValue',
+		                            '$this->VAT',
 		                            '$this->ProductID',
                                     '$this->ExpiryDate' )" );
             $db->unlock();
@@ -98,8 +96,7 @@ class eZOrderItem
 		                         Count='$this->Count',
 		                         Price='$this->Price',
 		                         ProductID='$this->ProductID',
-		                         PriceIncVAT='$this->PriceIncVAT',
-		                         VATValue='$this->VATValue',
+		                         VAT='$this->VAT',
                                  ExpiryDate='$this->ExpiryDate'
                                  WHERE ID='$this->ID'
                                  " );
@@ -132,8 +129,7 @@ class eZOrderItem
                 $this->Price =& $cart_array[0][$db->fieldName("Price")];
                 $this->ProductID =& $cart_array[0][$db->fieldName("ProductID")];
                 $this->ExpiryDate =& $cart_array[0][$db->fieldName("ExpiryDate")];
-                $this->PriceIncVAT =& $cart_array[0][ "PriceIncVAT" ];
-                $this->VATValue =& $cart_array[0][ "VATValue" ];
+                $this->VAT =& $cart_array[0][ "VAT" ];
                 $ret = true;
             }
         }
@@ -194,21 +190,15 @@ class eZOrderItem
     */
     function priceIncVAT( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       return $this->PriceIncVAT;
+       return $this->Price + $this->VAT;
     }
 
     /*!
       Returns the VAT of the order item.
     */
-    function VATValue( )
+    function VAT( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       return $this->VATValue;
+       return $this->VAT;
     }
 
     /*!
@@ -273,19 +263,6 @@ class eZOrderItem
     }
 
     /*!
-      Sets the price included with VAT of one product.
-    */
-    function setPriceIncVAT( $value )
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->PriceIncVAT = $value;
-       setType( $this->PriceIncVAT, "double" );
-    }
-
-
-    /*!
       Sets the price of one product.
     */
     function setPrice( $value )
@@ -297,13 +274,13 @@ class eZOrderItem
     /*!
       Sets the VAT of one product.
     */
-    function setVATValue( $value )
+    function setVAT( $value )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->VATValue = $value;
-       setType( $this->VATValue, "double" );
+       $this->VAT = $value;
+       setType( $this->VAT, "double" );
     }
 
 
@@ -336,8 +313,7 @@ class eZOrderItem
     var $Price;
     var $ProductID;
     var $ExpiryDate;
-    var $PriceIncVAT;
-    var $VATValue;
+    var $VAT;
 
 }
 

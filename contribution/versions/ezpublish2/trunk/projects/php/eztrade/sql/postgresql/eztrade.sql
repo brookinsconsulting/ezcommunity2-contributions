@@ -172,8 +172,7 @@ CREATE TABLE eZTrade_OrderItem (
   Count int default NULL,
   Price decimal(10,2) default NULL,
   ProductID int default NULL,
-  PriceIncVAT decimal(10,2) default NULL,
-  VATValue int default NULL,
+  VAT decimal(10,2) default NULL,
   ExpiryDate int default NULL,
   PRIMARY KEY (ID)
 );

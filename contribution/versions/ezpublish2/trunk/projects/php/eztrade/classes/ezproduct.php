@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.79 2001/08/29 14:31:58 bf Exp $
+// $Id: ezproduct.php,v 1.80 2001/08/30 07:47:03 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -466,6 +466,7 @@ class eZProduct
            $value =& $vatType->value();
            $vat = ( $calcPrice * $value ) / 100;
        }
+
        return $vat;
     }
 
@@ -745,7 +746,22 @@ class eZProduct
     }
 
     /*!
-      Sets the XML contents of the product.
+      Sets the brief description of the product.
+    */
+    function setBrief( $value )
+    {
+       $this->Brief = $value;
+    }
+
+    /*!
+      Sets the product description.
+    */
+    function setDescription( $value )
+    {
+        $this->Description = $value;       
+    }
+    /*!
+        Sets the XML contents of the product.
     */
     function setContents( $value )
     {
