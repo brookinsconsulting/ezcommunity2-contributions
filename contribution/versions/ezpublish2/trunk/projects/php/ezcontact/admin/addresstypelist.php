@@ -19,12 +19,7 @@ include_once( "ezuser/classes/ezpermission.php" );
 
 include_once( "ezcontact/classes/ezaddresstype.php" );
 
-$user = eZUser::currentUser();
-if ( !$user ) 
-{
-    Header( "Location: /user/login/" );
-    exit();
-}
+require( "ezuser/admin/admincheck.php" );
 
 // Sette template.
 $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "addresstypelist.php" );

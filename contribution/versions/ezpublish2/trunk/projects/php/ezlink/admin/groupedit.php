@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: groupedit.php,v 1.17 2000/09/14 18:04:47 bf-cvs Exp $
+    $Id: groupedit.php,v 1.18 2000/10/06 10:13:34 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -26,6 +26,8 @@ include( "../ezlink/classes/ezlink.php" );
 include( "../ezlink/classes/ezhit.php" );
 
 $Language = $ini->read_var( "eZLinkMain", "Language" );
+
+require( "ezuser/admin/admincheck.php" );
 
 // Slett
 if ( $Action == "delete" )

@@ -3,8 +3,8 @@
 </tr>
 <tr> 
     <td background="/images/<? echo $SiteStyle; ?>/menu-m.gif">
-	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="small" href="/link/">Kategorioversikt</a><br>
-	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="small" href="/link/linkedit/">Ny Kategori</a><br>
+	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/link/">Kategorioversikt</a><br>
+	<img src="/images/<? echo $SiteStyle; ?>/menu-arrow.gif" width="20" height="10"><a class="menu" href="/link/linkedit/">Ny Kategori</a><br>
     </td>
 </tr>
 <tr>

@@ -20,6 +20,8 @@ include( "../ezlink/classes/ezquery.php" );
 
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 
+require( "ezuser/admin/admincheck.php" );
+
 // setter template filer
 $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZLinkMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "search.php" );
 $t->setAllStrings();

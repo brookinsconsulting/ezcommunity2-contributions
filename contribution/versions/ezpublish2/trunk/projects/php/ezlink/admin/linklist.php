@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: linklist.php,v 1.22 2000/10/03 15:17:27 ce-cvs Exp $
+    $Id: linklist.php,v 1.23 2000/10/06 10:13:34 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -29,13 +29,7 @@ include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezmodule.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
-$user = eZUser::currentUser();
-if ( !$user ) 
-{
-    Header( "Location: /user/login/" );
-    exit();
-}
-
+require( "ezuser/admin/admincheck.php" );
 
 // setter template filer
 $t = new Template( "." );

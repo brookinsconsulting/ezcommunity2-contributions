@@ -1,6 +1,6 @@
 <?
 /*!
-  $Id: linkedit.php,v 1.21 2000/09/12 07:54:39 bf-cvs Exp $
+  $Id: linkedit.php,v 1.22 2000/10/06 10:13:34 ce-cvs Exp $
 
   Author: Christoffer A. Elo <ce@ez.no>
     
@@ -26,7 +26,7 @@ include( "ezlink/classes/ezlinkgroup.php" );
 include( "ezlink/classes/ezlink.php" );
 include( "ezlink/classes/ezhit.php" );
 
-
+require( "ezuser/admin/admincheck.php" );
 
 // Oppdatere
 if ( $Action == "update" )
