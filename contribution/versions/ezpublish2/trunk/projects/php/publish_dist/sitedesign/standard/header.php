@@ -62,7 +62,6 @@
 
 
     <!-- Banner -->
-	<!--
     <div align="center">
         <?
         $CategoryID = 4;
@@ -70,4 +69,3 @@
         include( "ezad/user/adlist.php" );
         ?>
     </div>
-	-->
