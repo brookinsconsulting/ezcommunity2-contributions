@@ -172,6 +172,8 @@ releases.
 The libraries and php will appear pre-compiled for Linux i386 on http://developer.ez.no
 in the future. The software is listed in the order of installation.
 
+You should also find a list of RPMs at http://www.brandish.co.uk/phprpm
+
 
 \section{Which Software is Already Installed?}
 
@@ -348,10 +350,12 @@ on cookies. It does not disable normal cookie based sessions.\\
 \item [--with-mysql]This tells PHP that the mysql functionality should be
 used.\\
 ({\footnotesize http://www.php.net/manual/en/install.configure.php\#install.configure.with-mysql})
-\item [--enable-magic-quotes]This tells PHP to enable magic quotes by default.
-you can also turn this feature on and off on a directory by directory
-basis in either the {}``.htaccess{}'' files (if you use them) or
-in the setup of the virtual server in {}``httpd.conf{}''.\\
+\item [--disable-magic-quotes]This tells PHP to disable magic quotes by
+default. you can also turn this feature on and off on a directory
+by directory basis in either the {}``.htaccess{}'' files (if you
+use them) or in the setup of the virtual server in {}``httpd.conf{}''.
+From version 2.1 onwards magic quotes must be turned off for eZ publish
+to work properly.\\
 ({\footnotesize http://www.php.net/manual/en/install.configure.php\#install.configure.enable-magic-quotes})
 \item [--with-dom]This configures PHP to include libxml. {\footnotesize }\\
 {\footnotesize (http://www.php.net/manual/en/install.configure.php\#install.configure.with-dom)}{\footnotesize \par}
@@ -392,8 +396,7 @@ apropriate configuration directives which we discussed in the preceeding
 sections, for an apache module you'd do the following:\\
 
 
-\texttt{\footnotesize ~~~\# ./configure -{}-enable-trans-sid -{}-with-mysql
--{}-with-magic-quotes}~\\
+\texttt{\footnotesize ~~~\# ./configure -{}-enable-trans-sid -{}-with-mysql}~\\
 \texttt{\footnotesize ~~~~-{}-with-apxs} {\selectlanguage{english}}\texttt{\footnotesize -{}-with-dom
 -{}-with-qtdom}~\\
 {\footnotesize \par}
@@ -403,7 +406,7 @@ that line to:\\
 
 
 \texttt{\footnotesize ~~~~\# ./configure -{}-enable-trans-sid
--{}-with-mysql -{}-with-magic-quotes}~\\
+-{}-with-mysql}~\\
 \texttt{\footnotesize ~~~~-{}-with-dom -{}-with-qtdom}{\footnotesize \par}
 
 
@@ -429,7 +432,7 @@ For the moment we have only one solution for configuring apache, and
 that is using two virtual hosts.
 
 
-\section{Dual Virtual Host}
+\section{Dual Virtual Host\label{sec: dual virtualhost}}
 
 
 \subsection{Configuring Through httpd.conf}
@@ -443,18 +446,16 @@ and {}``administration.mysite.com{}''.
 
 The virtual host is configured through the {}``httpd.conf{}'' file
 which is the main configuration of Apache. Following is an example
-of such a host, remember to exchange everything within brackets ({}``{[}{}``
-and {}``{]}{}'') with your preferred and local settings and also
-remove the brackets.
+of such a host, modify it to reflect your own installation and preferences.
 
 
 \subsubsection{User Site}
 
 \texttt{\scriptsize ~~~~\# User site}{\scriptsize \par}
 
-\texttt{\scriptsize ~~~~<VirtualHost~{[}your.domain.com{]}>}{\scriptsize \par}
+\texttt{\scriptsize ~~~~<VirtualHost~your.domain.com>}{\scriptsize \par}
 
-\texttt{\scriptsize ~~~~~~<Directory~{[}/your/apache/documentroot/publish\_dist{]}>}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~<Directory~/your/apache/documentroot/publish\_dist>}{\scriptsize \par}
 
 \texttt{\scriptsize ~~~~~~~~Options~FollowSymLinks~Indexes~ExecCGI}{\scriptsize \par}
 
@@ -466,7 +467,7 @@ remove the brackets.
 
 \texttt{\scriptsize ~~~~~~RewriteRule~\textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$}{\scriptsize \par}
 
-\texttt{\scriptsize ~~~~~~{[}/your/apache/documentroot{]}/publish\_dist/ezfilemanager/files/\$1}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~/your/apache/documentroot/publish\_dist/ezfilemanager/files/\$1}{\scriptsize \par}
 
 \texttt{\scriptsize ~~~~~~{[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}{\scriptsize \par}
 
@@ -475,13 +476,13 @@ remove the brackets.
 \texttt{\scriptsize ~~~~~~\#~line~in~your~configuration~file!}{\scriptsize \par}
 
 \texttt{\scriptsize ~~~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
-{[}/your/apache/documentroot{]}/publish\_dist/index.php}{\scriptsize \par}
+/your/apache/documentroot/publish\_dist/index.php}{\scriptsize \par}
 
-\texttt{\scriptsize ~~~~~~ServerAdmin {[}your e-mail address{]}}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~ServerAdmin your.e-mail@address}{\scriptsize \par}
 
-\texttt{\scriptsize ~~~~~~DocumentRoot {[}/your/apache/documentroot{]}/publish\_dist}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~DocumentRoot /your/apache/documentroot/publish\_dist}{\scriptsize \par}
 
-\texttt{\scriptsize ~~~~~~ServerName {[}your.domain.com{]}}{\scriptsize \par}
+\texttt{\scriptsize ~~~~~~ServerName your.domain.com}{\scriptsize \par}
 
 \texttt{\scriptsize ~~~~~~ServerAlias publish}{\scriptsize \par}
 
@@ -494,7 +495,7 @@ remove the brackets.
 
 \texttt{\footnotesize ~~<VirtualHost admin.yourdomain.org>}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~<Directory {[}/your/apache/documentroot/admin{]}>}{\footnotesize \par}
+\texttt{\footnotesize ~~~~<Directory /your/apache/documentroot/admin>}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~~~Options FollowSymLinks Indexes ExecCGI}{\footnotesize \par}
 
@@ -505,15 +506,15 @@ remove the brackets.
 \texttt{\footnotesize ~~~~RewriteEngine On}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
-{[}/your/apache/documentroot/admin/index.php{]}}{\footnotesize \par}
+/your/apache/documentroot/admin/index.php}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~ServerAdmin {[}your\_mail@domain.no{]}}{\footnotesize \par}
+\texttt{\footnotesize ~~~~ServerAdmin your\_mail@domain.no}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~DocumentRoot {[}/your/apache/documentroot/admin{]}}{\footnotesize \par}
+\texttt{\footnotesize ~~~~DocumentRoot /your/apache/documentroot/admin}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~ServerName {[}admin.yourdomain.org{]}}{\footnotesize \par}
+\texttt{\footnotesize ~~~~ServerName admin.yourdomain.org}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~ServerAlias {[}admin.yourdomain.org{]}}{\footnotesize \par}
+\texttt{\footnotesize ~~~~ServerAlias admin.yourdomain.org}{\footnotesize \par}
 
 \texttt{\footnotesize ~~</VirtualHost>}~\\
 {\footnotesize \par}
@@ -527,7 +528,7 @@ The rewrite rules does the following:\\
 
 \texttt{\footnotesize ~~~~RewriteRule \textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~{[}/your/apache/documentroot{]}/publish\_dist/ezfilemanager/files/\$1}{\footnotesize \par}
+\texttt{\footnotesize ~~~~/your/apache/documentroot/publish\_dist/ezfilemanager/files/\$1}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~{[}T=\char`\"{}application/oct-stream\char`\"{},S=1{]}}~\\
 {\footnotesize \par}
@@ -555,7 +556,7 @@ The next rewrite rule:\\
 
 
 \texttt{\footnotesize ~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
-{[}/your/apache/documentroot{]}/publish\_dist/index.php}~\\
+/your/apache/documentroot/publish\_dist/index.php}~\\
 {\footnotesize \par}
 
 is found in both sites (admin and user). This means that every file,
@@ -565,12 +566,12 @@ second part, ie. the index.php file. The reason for this is that we
 don't want anyone trying to get direct access to anything which might
 be sensitive, or revealing about the site's operation.
 
-If you didn't compile PHP with magic quotes; or other software relies
-on PHP not using magic quotes you can add the following line into
-each virtual host section:\\
+If you compiled PHP with magic quotes; or other software relies on
+PHP using magic quotes you can add the following line into each virtual
+host section:\\
 
 
-\texttt{\footnotesize ~~~~php\_value magic\_quotes\_gpc 1}~\\
+\texttt{\footnotesize ~~~~php\_flag magic\_quotes\_gpc off}~\\
 {\footnotesize \par}
 
 \emph{NOTE: It isn't possible to use the form http://mysite.com/admin
@@ -596,6 +597,8 @@ In your main directory (/path/to/index.php/) create a file called
 \char`\"{}.htaccess\char`\"{} containing the following text:\\
 
 
+\texttt{\footnotesize ~~~~php\_flag magic\_quotes\_gpc off}{\footnotesize \par}
+
 \texttt{\footnotesize ~~~~Options FollowSymLinks Indexes ExecCGI}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~RewriteEngine On}{\footnotesize \par}
@@ -620,6 +623,8 @@ the same}{\footnotesize \par}
 In your admin subdomain home directory, create a file with the following
 text:\\
 
+
+\texttt{\footnotesize ~~~~php\_flag magic\_quotes\_gpc off}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~RewriteEngine On}{\footnotesize \par}
 
@@ -802,7 +807,7 @@ is working; some of the articles supplied as default will inform you
 about features of the software.
 \end{enumerate}
 
-\chapter{Trouble Shooting}
+\chapter{Troubleshooting}
 
 
 \section{Problems During Installation}
@@ -1020,8 +1025,6 @@ First remove any cache:\\
 \texttt{\footnotesize ~~~~-{}-with-config-file-path=/etc/httpd/conf/
 \textbackslash{}}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~-{}-enable-magic-quotes \textbackslash{}}{\footnotesize \par}
-
 \texttt{\footnotesize ~~~~-{}-with-exec-dir=/usr/sbin/httpd \textbackslash{}}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~-{}-with-dom \textbackslash{}}{\footnotesize \par}
@@ -1091,11 +1094,11 @@ For example:\\
 
 \texttt{\footnotesize ~~~~<VirtualHost yourIP>}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~~~ServerName {[}yourdomain.org{]}}{\footnotesize \par}
+\texttt{\footnotesize ~~~~~~ServerName yourdomain.org}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~~~ServerAlias {[}www.yourdomain.org{]}}{\footnotesize \par}
+\texttt{\footnotesize ~~~~~~ServerAlias www.yourdomain.org}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~~~<Directory {[}/your/site/root/{]}>}{\footnotesize \par}
+\texttt{\footnotesize ~~~~~~<Directory /your/site/root/>}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~~~~~Options~FollowSymLinks~Indexes~ExecCGI}{\footnotesize \par}
 
@@ -1106,11 +1109,11 @@ For example:\\
 \texttt{\footnotesize ~~~~~~RewriteEngine On}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
-{[}/your/site/root/index.php{]}}{\footnotesize \par}
+/your/site/root/index.php}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~~~ServerAdmin {[}your\_mail@domain.no{]}}{\footnotesize \par}
+\texttt{\footnotesize ~~~~~~ServerAdmin your\_mail@domain.no}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~~~DocumentRoot {[}/your/site/root/{]}}{\footnotesize \par}
+\texttt{\footnotesize ~~~~~~DocumentRoot /your/site/root/}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~</VirtualHost>}~\\
 {\footnotesize \par}
@@ -1119,7 +1122,7 @@ For example:\\
 
 \texttt{\footnotesize ~~~~<VirtualHost admin.yourdomain.org>}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~~~<Directory {[}/your/site/root/admin{]}>}{\footnotesize \par}
+\texttt{\footnotesize ~~~~~~<Directory /your/site/root/admin>}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~~~~~Options~FollowSymLinks~Indexes~ExecCGI}{\footnotesize \par}
 
@@ -1130,15 +1133,15 @@ For example:\\
 \texttt{\footnotesize ~~~~~~RewriteEngine On}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
-{[}/your/site/root/admin/index.php{]}}{\footnotesize \par}
+/your/site/root/admin/index.php}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~~~ServerAdmin {[}your\_mail@domain.no{]}}{\footnotesize \par}
+\texttt{\footnotesize ~~~~~~ServerAdmin your\_mail@domain.no}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~~~DocumentRoot {[}/your/site/root/admin{]}}{\footnotesize \par}
+\texttt{\footnotesize ~~~~~~DocumentRoot /your/site/root/admin}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~~~ServerName {[}admin.yourdomain.org{]}}{\footnotesize \par}
+\texttt{\footnotesize ~~~~~~ServerName admin.yourdomain.org}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~~~ServerAlias {[}admin.yourdomain.org{]}}{\footnotesize \par}
+\texttt{\footnotesize ~~~~~~ServerAlias admin.yourdomain.org}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~</VirtualHost>}~\\
 {\footnotesize \par}
@@ -1159,6 +1162,60 @@ Then chown httpd.httpd {*} on both the domain and admin.domain directories
 to get it to work.
 
 If all is well, your site should work.
+
+
+\section{Getting SSL to Work}
+
+This is a bit tougher! Enable SSL for the site in your GUI. Generate
+your certificates. Disable SSL in the GUI. Add this to the end of
+your extrasites.conf
+
+\texttt{\footnotesize ~~~~\#attempt to modify} {\selectlanguage{english}\texttt{\footnotesize }}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~SSL Listen xxx.xxx.xxx.xxx:443}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~<VirtualHost xxx.xxx.xxx.xxx:443>}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~~~ServerAdmin ubong}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~~~DocumentRoot /home/sites/yoursite/web}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~~~<Directory /home/sites/yoursite/web>}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~~~~~~~Options FollowSymLinks
+Indexes ExecCGI}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~~~~~~~AllowOverride None}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~~~</Directory>}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~~~SSLEngine on}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~~~SSLCertificateFile /home/sites/yoursite/certs/certificate}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~~~SSLCertificateKeyFile /home/sites/yoursite/certs/key}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~~~AddHandler server-parsed .shtml}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~~~AddType text/html .shtml}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~~~AddHandler cgi-wrapper .cgi}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~~~AddHandler cgi-wrapper .pl}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~~~RewriteEngine On}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~~~RewriteRule !\textbackslash{}.(gif|css|jpg|png)\$
+/home/sites/public.edge.ai/web/index.php}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~~~ErrorLog /home/sites/yoursite/logs/error\_log}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~~~~~TransferLog /home/sites/yoursite/logs/access\_log}{\footnotesize \par}
+
+\texttt{\footnotesize ~~~~</VirtualHost>}{\footnotesize \par}
+
+This should work. IF you can't get it, give me an email and I'll help
+if I have time: chris@net.ai
 
 
 \chapter{Installing on Windows }
@@ -1218,6 +1275,11 @@ Also remember to enable the rewrite module in httpd.conf: {\selectlanguage{engli
 
 \section{Configuration of Virtual Host for Apache/win2000}
 
+You should also check the virtual host configuration as described
+in section \ref{sec: dual virtualhost}, since the virtual host configuration
+is explained thoroughly there and there might be some newer information
+there.
+
 
 \subsection{User Site}
 
@@ -1229,16 +1291,16 @@ Also remember to enable the rewrite module in httpd.conf: {\selectlanguage{engli
 
 \texttt{\footnotesize ~~~~RewriteRule \textasciicircum{}/filemanager/filedownload/({[}\textasciicircum{}/{]}+)/(.{*})\$
 }~\\
-\texttt{\footnotesize ~~~~{[}/your/apache/documentroot{]}/ezfilemanager/files/\$1}
+\texttt{\footnotesize ~~~~/your/apache/documentroot/ezfilemanager/files/\$1}
 {\selectlanguage{english}}\texttt{\footnotesize }~\\
 \texttt{\footnotesize ~~~~{[}T=\char`\"{}application/octet-stream\char`\"{},S=1{]}}~\\
 \texttt{\footnotesize ~~~~RewriteRule !(\textbackslash{}.(gif|css|jpg|png)\$)
-{[}/your/apache/documentroot{]}/index.php}{\footnotesize \par}
+/your/apache/documentroot/index.php}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~DocumentRoot {[}/your/apache/documentroot{]}
-ServerName {[}yourdomain.org{]} }{\footnotesize \par}
+\texttt{\footnotesize ~~~~DocumentRoot /your/apache/documentroot}~\\
+\texttt{\footnotesize ~~~~ServerName yourdomain.org}{\footnotesize \par}
 
-\texttt{\footnotesize ~~~~ServerAlias {[}www.yourdomain.org{]}}{\footnotesize \par}
+\texttt{\footnotesize ~~~~ServerAlias www.yourdomain.org}{\footnotesize \par}
 
 
 \subsection{\texttt{\footnotesize Admin Site}}
@@ -1251,18 +1313,17 @@ in the}~\\
 will affect all domains on your}~\\
 \texttt{\footnotesize ~~~~\#site and create problems}~\\
 \texttt{\footnotesize ~~~~php\_value~include\_path~\textbackslash{}}~\\
-\texttt{\footnotesize ~~~~\char`\"{}.;/;{[}/your/apache/documentroot{]};~\textbackslash{}}~\\
-\texttt{\footnotesize ~~~~{[}/your/apache/documentroot{]}/admin/\char`\"{}}~\\
+\texttt{\footnotesize ~~~~\char`\"{}.;/;/your/apache/documentroot;~\textbackslash{}}~\\
+\texttt{\footnotesize ~~~~/your/apache/documentroot/admin/\char`\"{}}~\\
 \texttt{\footnotesize ~~~~RewriteEngine On}~\\
 \texttt{\footnotesize ~~~~RewriteRule !.(gif|jpg|css|png)\$~\textbackslash{}}~\\
-\texttt{\footnotesize ~~~~{[}/your/apache/documentroot{]}/admin/index.php}{\footnotesize \par}
+\texttt{\footnotesize ~~~~/your/apache/documentroot/admin/index.php}{\footnotesize \par}
 
 \texttt{\footnotesize ~~~~RewriteRule \textasciicircum{}/ez(.{*}(gif|jpg|png)\$)~\textbackslash{}}~\\
-\texttt{\footnotesize ~~~~{[}/your/apache/documentroot{]}/ez\$1}~\\
-\texttt{\footnotesize ~~~~DocumentRoot {[}/your/apache/documentroot{]}/admin}~\\
-\texttt{\footnotesize ~~~~ServerName {[}admin.yourdomain.org{]}
-}~\\
-\texttt{\footnotesize ~~~~ServerAlias {[}admin.yourdomain.org{]}}{\footnotesize \par}
+\texttt{\footnotesize ~~~~/your/apache/documentroot/ez\$1}~\\
+\texttt{\footnotesize ~~~~DocumentRoot /your/apache/documentroot/admin}~\\
+\texttt{\footnotesize ~~~~ServerName admin.yourdomain.org }~\\
+\texttt{\footnotesize ~~~~ServerAlias admin.yourdomain.org}{\footnotesize \par}
 
 
 \section{IIS Installation}

@@ -324,6 +324,9 @@ eZ publish (http://developer.ez.no/) verision 2.0 or later stable releases.
 The libraries and php will appear pre-compiled for Linux i386 on http://develope
 r.ez.no in the future.
  The software is listed in the order of installation.
+\layout Standard
+
+You should also find a list of RPMs at http://www.brandish.co.uk/phprpm
 \layout Section
 
 Which Software is Already Installed?
@@ -726,7 +729,7 @@ http://www.php.net/manual/en/install.configure.php#install.configure.with-mysql
 )
 \layout Description
 
---enable-magic-quotes This tells PHP to enable magic quotes by default.
+--disable-magic-quotes This tells PHP to disable magic quotes by default.
  you can also turn this feature on and off on a directory by directory basis
  in either the 
 \begin_inset Quotes eld
@@ -745,6 +748,8 @@ httpd.conf
 \end_inset 
 
 .
+ From version 2.1 onwards magic quotes must be turned off for eZ publish
+ to work properly.
 \newline 
 (
 \size footnotesize 
@@ -829,7 +834,7 @@ Now you just have to run the
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-# ./configure --enable-trans-sid --with-mysql --with-magic-quotes
+# ./configure --enable-trans-sid --with-mysql
 \newline 
 \SpecialChar ~
 \SpecialChar ~
@@ -861,7 +866,7 @@ Remember that to compile a script/cgi version you'd need to change that
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-# ./configure --enable-trans-sid --with-mysql --with-magic-quotes
+# ./configure --enable-trans-sid --with-mysql
 \newline 
 \SpecialChar ~
 \SpecialChar ~
@@ -922,6 +927,11 @@ For the moment we have only one solution for configuring apache, and that
 \layout Section
 
 Dual Virtual Host
+\begin_inset LatexCommand \label{sec: dual virtualhost}
+
+\end_inset 
+
+
 \layout Subsection
 
 Configuring Through httpd.conf
@@ -974,24 +984,8 @@ httpd.conf
 \end_inset 
 
  file which is the main configuration of Apache.
- Following is an example of such a host, remember to exchange everything
- within brackets (
-\begin_inset Quotes eld
-\end_inset 
-
-[
-\begin_inset Quotes eld
-\end_inset 
-
- and 
-\begin_inset Quotes eld
-\end_inset 
-
-]
-\begin_inset Quotes erd
-\end_inset 
-
-) with your preferred and local settings and also remove the brackets.
+ Following is an example of such a host, modify it to reflect your own installat
+ion and preferences.
 \layout Subsubsection
 
 User Site
@@ -1015,7 +1009,7 @@ User Site
 \SpecialChar ~
 \SpecialChar ~
 <VirtualHost\SpecialChar ~
-[your.domain.com]>
+your.domain.com>
 \layout Standard
 
 
@@ -1028,7 +1022,7 @@ User Site
 \SpecialChar ~
 \SpecialChar ~
 <Directory\SpecialChar ~
-[/your/apache/documentroot/publish_dist]>
+/your/apache/documentroot/publish_dist>
 \layout Standard
 
 
@@ -1108,7 +1102,7 @@ RewriteRule\SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-[/your/apache/documentroot]/publish_dist/ezfilemanager/files/$1
+/your/apache/documentroot/publish_dist/ezfilemanager/files/$1
 \layout Standard
 
 
@@ -1171,7 +1165,7 @@ file!
 \SpecialChar ~
 RewriteRule !
 \backslash 
-.(gif|css|jpg|png)$ [/your/apache/documentroot]/publish_dist/index.php
+.(gif|css|jpg|png)$ /your/apache/documentroot/publish_dist/index.php
 \layout Standard
 
 
@@ -1183,7 +1177,7 @@ RewriteRule !
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-ServerAdmin [your e-mail address]
+ServerAdmin your.e-mail@address
 \layout Standard
 
 
@@ -1195,7 +1189,7 @@ ServerAdmin [your e-mail address]
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-DocumentRoot [/your/apache/documentroot]/publish_dist
+DocumentRoot /your/apache/documentroot/publish_dist
 \layout Standard
 
 
@@ -1207,7 +1201,7 @@ DocumentRoot [/your/apache/documentroot]/publish_dist
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-ServerName [your.domain.com]
+ServerName your.domain.com
 \layout Standard
 
 
@@ -1258,7 +1252,7 @@ Admin Site
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-<Directory [/your/apache/documentroot/admin]>
+<Directory /your/apache/documentroot/admin>
 \layout Standard
 
 
@@ -1314,7 +1308,7 @@ RewriteEngine On
 \SpecialChar ~
 RewriteRule !
 \backslash 
-.(gif|css|jpg|png)$ [/your/apache/documentroot/admin/index.php]
+.(gif|css|jpg|png)$ /your/apache/documentroot/admin/index.php
 \layout Standard
 
 
@@ -1324,7 +1318,7 @@ RewriteRule !
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-ServerAdmin [your_mail@domain.no]
+ServerAdmin your_mail@domain.no
 \layout Standard
 
 
@@ -1334,7 +1328,7 @@ ServerAdmin [your_mail@domain.no]
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-DocumentRoot [/your/apache/documentroot/admin]
+DocumentRoot /your/apache/documentroot/admin
 \layout Standard
 
 
@@ -1344,7 +1338,7 @@ DocumentRoot [/your/apache/documentroot/admin]
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-ServerName [admin.yourdomain.org]
+ServerName admin.yourdomain.org
 \layout Standard
 
 
@@ -1354,7 +1348,7 @@ ServerName [admin.yourdomain.org]
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-ServerAlias [admin.yourdomain.org]
+ServerAlias admin.yourdomain.org
 \layout Standard
 
 
@@ -1401,7 +1395,7 @@ RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-[/your/apache/documentroot]/publish_dist/ezfilemanager/files/$1
+/your/apache/documentroot/publish_dist/ezfilemanager/files/$1
 \layout Standard
 
 
@@ -1522,7 +1516,7 @@ The next rewrite rule:
 \SpecialChar ~
 RewriteRule !
 \backslash 
-.(gif|css|jpg|png)$ [/your/apache/documentroot]/publish_dist/index.php
+.(gif|css|jpg|png)$ /your/apache/documentroot/publish_dist/index.php
 \newline 
 
 \layout Standard
@@ -1536,9 +1530,8 @@ is found in both sites (admin and user).
  to anything which might be sensitive, or revealing about the site's operation.
 \layout Standard
 
-If you didn't compile PHP with magic quotes; or other software relies on
- PHP not using magic quotes you can add the following line into each virtual
- host section:
+If you compiled PHP with magic quotes; or other software relies on PHP using
+ magic quotes you can add the following line into each virtual host section:
 \newline 
 
 \layout Standard
@@ -1550,7 +1543,7 @@ If you didn't compile PHP with magic quotes; or other software relies on
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-php_value magic_quotes_gpc 1
+php_flag magic_quotes_gpc off
 \newline 
 
 \layout Standard
@@ -1592,6 +1585,16 @@ In your main directory (/path/to/index.php/) create a file called ".htaccess"
  containing the following text:
 \newline 
 
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+php_flag magic_quotes_gpc off
 \layout Standard
 
 
@@ -1683,6 +1686,16 @@ In your admin subdomain home directory, create a file with the following
  text:
 \newline 
 
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+php_flag magic_quotes_gpc off
 \layout Standard
 
 
@@ -2157,7 +2170,7 @@ Start browsing the public part of your site, just to check that everything
  features of the software.
 \layout Chapter
 
-Trouble Shooting
+Troubleshooting
 \layout Section
 
 Problems During Installation
@@ -2817,18 +2830,6 @@ First remove any cache:
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
---enable-magic-quotes 
-\backslash 
-
-\layout Standard
-
-
-\family typewriter 
-\size footnotesize 
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
-\SpecialChar ~
 --with-exec-dir=/usr/sbin/httpd 
 \backslash 
 
@@ -3074,7 +3075,7 @@ For example:
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-ServerName [yourdomain.org]
+ServerName yourdomain.org
 \layout Standard
 
 
@@ -3086,7 +3087,7 @@ ServerName [yourdomain.org]
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-ServerAlias [www.yourdomain.org]
+ServerAlias www.yourdomain.org
 \layout Standard
 
 
@@ -3098,7 +3099,7 @@ ServerAlias [www.yourdomain.org]
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-<Directory [/your/site/root/]>
+<Directory /your/site/root/>
 \layout Standard
 
 
@@ -3168,7 +3169,7 @@ RewriteEngine On
 \SpecialChar ~
 RewriteRule !
 \backslash 
-.(gif|css|jpg|png)$ [/your/site/root/index.php]
+.(gif|css|jpg|png)$ /your/site/root/index.php
 \layout Standard
 
 
@@ -3180,7 +3181,7 @@ RewriteRule !
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-ServerAdmin [your_mail@domain.no]
+ServerAdmin your_mail@domain.no
 \layout Standard
 
 
@@ -3192,7 +3193,7 @@ ServerAdmin [your_mail@domain.no]
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-DocumentRoot [/your/site/root/]
+DocumentRoot /your/site/root/
 \layout Standard
 
 
@@ -3236,7 +3237,7 @@ DocumentRoot [/your/site/root/]
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-<Directory [/your/site/root/admin]>
+<Directory /your/site/root/admin>
 \layout Standard
 
 
@@ -3305,7 +3306,7 @@ RewriteEngine On
 \SpecialChar ~
 RewriteRule !
 \backslash 
-.(gif|css|jpg|png)$ [/your/site/root/admin/index.php]
+.(gif|css|jpg|png)$ /your/site/root/admin/index.php
 \layout Standard
 
 
@@ -3317,7 +3318,7 @@ RewriteRule !
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-ServerAdmin [your_mail@domain.no]
+ServerAdmin your_mail@domain.no
 \layout Standard
 
 
@@ -3329,7 +3330,7 @@ ServerAdmin [your_mail@domain.no]
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-DocumentRoot [/your/site/root/admin]
+DocumentRoot /your/site/root/admin
 \layout Standard
 
 
@@ -3341,7 +3342,7 @@ DocumentRoot [/your/site/root/admin]
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-ServerName [admin.yourdomain.org]
+ServerName admin.yourdomain.org
 \layout Standard
 
 
@@ -3353,7 +3354,7 @@ ServerName [admin.yourdomain.org]
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-ServerAlias [admin.yourdomain.org]
+ServerAlias admin.yourdomain.org
 \layout Standard
 
 
@@ -3407,6 +3408,309 @@ Then chown httpd.httpd * on both the domain and admin.domain directories to
 \layout Standard
 
 If all is well, your site should work.
+\layout Section
+
+Getting SSL to Work
+\layout Standard
+
+This is a bit tougher! Enable SSL for the site in your GUI.
+ Generate your certificates.
+ Disable SSL in the GUI.
+ Add this to the end of your extrasites.conf
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+#attempt to modify
+\lang english
+ 
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+SSL Listen xxx.xxx.xxx.xxx:443
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+<VirtualHost xxx.xxx.xxx.xxx:443>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ServerAdmin ubong
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+DocumentRoot /home/sites/yoursite/web
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+<Directory /home/sites/yoursite/web>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+Options FollowSymLinks Indexes ExecCGI
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+AllowOverride None
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+</Directory>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+SSLEngine on
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+SSLCertificateFile /home/sites/yoursite/certs/certificate
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+SSLCertificateKeyFile /home/sites/yoursite/certs/key
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+AddHandler server-parsed .shtml
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+AddType text/html .shtml
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+AddHandler cgi-wrapper .cgi
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+AddHandler cgi-wrapper .pl
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteEngine On
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+RewriteRule !
+\backslash 
+.(gif|css|jpg|png)$ /home/sites/public.edge.ai/web/index.php
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ErrorLog /home/sites/yoursite/logs/error_log
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+TransferLog /home/sites/yoursite/logs/access_log
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+</VirtualHost>
+\layout Standard
+
+This should work.
+ IF you can't get it, give me an email and I'll help if I have time: chris@net.ai
 \layout Chapter
 
 Installing on Windows 
@@ -3577,6 +3881,16 @@ LoadModule rewrite_module modules/ApacheModuleRewrite.dll
 \layout Section
 
 Configuration of Virtual Host for Apache/win2000
+\layout Standard
+
+You should also check the virtual host configuration as described in section
+ 
+\begin_inset LatexCommand \ref{sec: dual virtualhost}
+
+\end_inset 
+
+, since the virtual host configuration is explained thoroughly there and
+ there might be some newer information there.
 \layout Subsection
 
 User Site
@@ -3628,7 +3942,7 @@ RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-[/your/apache/documentroot]/ezfilemanager/files/$1
+/your/apache/documentroot/ezfilemanager/files/$1
 \family default 
 \size default 
 \lang english
@@ -3650,7 +3964,7 @@ RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$
 \SpecialChar ~
 RewriteRule !(
 \backslash 
-.(gif|css|jpg|png)$) [/your/apache/documentroot]/index.php
+.(gif|css|jpg|png)$) /your/apache/documentroot/index.php
 \layout Standard
 
 
@@ -3660,7 +3974,13 @@ RewriteRule !(
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-DocumentRoot [/your/apache/documentroot] ServerName [yourdomain.org] 
+DocumentRoot /your/apache/documentroot
+\newline 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ServerName yourdomain.org
 \layout Standard
 
 
@@ -3670,7 +3990,7 @@ DocumentRoot [/your/apache/documentroot] ServerName [yourdomain.org]
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-ServerAlias [www.yourdomain.org]
+ServerAlias www.yourdomain.org
 \layout Subsection
 
 
@@ -3737,7 +4057,7 @@ include_path\SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-".;/;[/your/apache/documentroot];\SpecialChar ~
+".;/;/your/apache/documentroot;\SpecialChar ~
 
 \backslash 
 
@@ -3746,7 +4066,7 @@ include_path\SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-[/your/apache/documentroot]/admin/"
+/your/apache/documentroot/admin/"
 \newline 
 \SpecialChar ~
 \SpecialChar ~
@@ -3767,7 +4087,7 @@ RewriteRule !.(gif|jpg|css|png)$\SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-[/your/apache/documentroot]/admin/index.php
+/your/apache/documentroot/admin/index.php
 \layout Standard
 
 
@@ -3786,25 +4106,25 @@ RewriteRule ^/ez(.*(gif|jpg|png)$)\SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-[/your/apache/documentroot]/ez$1
+/your/apache/documentroot/ez$1
 \newline 
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-DocumentRoot [/your/apache/documentroot]/admin
+DocumentRoot /your/apache/documentroot/admin
 \newline 
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-ServerName [admin.yourdomain.org] 
+ServerName admin.yourdomain.org 
 \newline 
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
 \SpecialChar ~
-ServerAlias [admin.yourdomain.org]
+ServerAlias admin.yourdomain.org
 \layout Section
 
 IIS Installation

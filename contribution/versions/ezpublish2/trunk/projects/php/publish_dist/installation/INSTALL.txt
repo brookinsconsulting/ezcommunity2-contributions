@@ -58,13 +58,14 @@ Chapter 5 eZ publish Installation
         5.2.2 Updating the Installation
 Chapter 6 Now What?
     6.1 Post Install Checklist
-Chapter 7 Trouble Shooting
+Chapter 7 Troubleshooting
     7.1 Problems During Installation
         7.1.1 FreeBSD 4.2 and libxml2
         7.1.2 Missing Compiler/Can not Compile (C++/C)
     7.2 Problems After Installation
         7.2.1 Permission Denied
 Chapter 8 Installing on RAQ 3
+    8.1 Getting SSL to Work
 Chapter 9 Installing on Windows 
     9.1 Programs to Install
     9.2 Configuration of PHP
@@ -220,6 +221,8 @@ if they aren't present on your system already:
 The libraries and php will appear pre-compiled for Linux
 i386 on http://developer.ez.no in the future. The software
 is listed in the order of installation.
+
+You should also find a list of RPMs at http://www.brandish.co.uk/phprpm
 
 2.3 Which Software is Already Installed?
 
@@ -398,11 +401,13 @@ tool:
   should be used.
   (http://www.php.net/manual/en/install.configure.php#install.configure.with-mysql)
 
---enable-magic-quotes This tells PHP to enable magic quotes
-  by default. you can also turn this feature on and off
-  on a directory by directory basis in either the ".htaccess"
+--disable-magic-quotes This tells PHP to disable magic
+  quotes by default. you can also turn this feature on and
+  off on a directory by directory basis in either the ".htaccess"
   files (if you use them) or in the setup of the virtual
   server in "httpd.conf".
+  From version 2.1 onwards magic quotes must be turned off
+  for eZ publish to work properly.
   (http://www.php.net/manual/en/install.configure.php#install.configure.enable-magic-quotes)
 
 --with-dom This configures PHP to include libxml. 
@@ -444,7 +449,7 @@ we discussed in the preceeding sections, for an apache module
 you'd do the following:
 
 
-   # ./configure --enable-trans-sid --with-mysql --with-magic-quotes
+   # ./configure --enable-trans-sid --with-mysql
     --with-apxs --with-dom --with-qtdom
 
 
@@ -452,7 +457,7 @@ Remember that to compile a script/cgi version you'd need
 to change that line to:
 
 
-    # ./configure --enable-trans-sid --with-mysql --with-magic-quotes
+    # ./configure --enable-trans-sid --with-mysql
     --with-dom --with-qtdom
 
 3.1.3 Compilation
@@ -475,7 +480,7 @@ Apache Configuration
 For the moment we have only one solution for configuring
 apache, and that is using two virtual hosts.
 
-4.1 Dual Virtual Host
+4.1 Dual Virtual Host<sec: dual virtualhost>
 
 4.1.1 Configuring Through httpd.conf
 
@@ -489,18 +494,16 @@ and "administration.mysite.com".
 
 The virtual host is configured through the "httpd.conf"
 file which is the main configuration of Apache. Following
-is an example of such a host, remember to exchange everything
-within brackets ("["
-and "]") with your preferred and local settings
-and also remove the brackets.
+is an example of such a host, modify it to reflect your
+own installation and preferences.
 
 4.1.1.1 User Site
 
     # User site
 
-    <VirtualHost [your.domain.com]>
+    <VirtualHost your.domain.com>
 
-      <Directory [/your/apache/documentroot/publish_dist]>
+      <Directory /your/apache/documentroot/publish_dist>
 
         Options FollowSymLinks Indexes ExecCGI
 
@@ -512,7 +515,7 @@ and also remove the brackets.
 
       RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$
 
-      [/your/apache/documentroot]/publish_dist/ezfilemanager/files/$1
+      /your/apache/documentroot/publish_dist/ezfilemanager/files/$1
 
       [T="application/oct-stream",S=1]
 
@@ -520,13 +523,13 @@ and also remove the brackets.
 
       # line in your configuration file!
 
-      RewriteRule !\.(gif|css|jpg|png)$ [/your/apache/documentroot]/publish_dist/index.php
+      RewriteRule !\.(gif|css|jpg|png)$ /your/apache/documentroot/publish_dist/index.php
 
-      ServerAdmin [your e-mail address]
+      ServerAdmin your.e-mail@address
 
-      DocumentRoot [/your/apache/documentroot]/publish_dist
+      DocumentRoot /your/apache/documentroot/publish_dist
 
-      ServerName [your.domain.com]
+      ServerName your.domain.com
 
       ServerAlias publish
 
@@ -538,7 +541,7 @@ and also remove the brackets.
 
   <VirtualHost admin.yourdomain.org>
 
-    <Directory [/your/apache/documentroot/admin]>
+    <Directory /your/apache/documentroot/admin>
 
       Options FollowSymLinks Indexes ExecCGI
 
@@ -548,15 +551,15 @@ and also remove the brackets.
 
     RewriteEngine On
 
-    RewriteRule !\.(gif|css|jpg|png)$ [/your/apache/documentroot/admin/index.php]
+    RewriteRule !\.(gif|css|jpg|png)$ /your/apache/documentroot/admin/index.php
 
-    ServerAdmin [your_mail@domain.no]
+    ServerAdmin your_mail@domain.no
 
-    DocumentRoot [/your/apache/documentroot/admin]
+    DocumentRoot /your/apache/documentroot/admin
 
-    ServerName [admin.yourdomain.org]
+    ServerName admin.yourdomain.org
 
-    ServerAlias [admin.yourdomain.org]
+    ServerAlias admin.yourdomain.org
 
   </VirtualHost>
 
@@ -571,7 +574,7 @@ The rewrite rules does the following:
 
     RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$
 
-    [/your/apache/documentroot]/publish_dist/ezfilemanager/files/$1
+    /your/apache/documentroot/publish_dist/ezfilemanager/files/$1
 
     [T="application/oct-stream",S=1]
 
@@ -601,7 +604,7 @@ rule ahead before trying to match again.
 The next rewrite rule:
 
 
-    RewriteRule !\.(gif|css|jpg|png)$ [/your/apache/documentroot]/publish_dist/index.php
+    RewriteRule !\.(gif|css|jpg|png)$ /your/apache/documentroot/publish_dist/index.php
 
 
 is found in both sites (admin and user). This means that
@@ -612,12 +615,12 @@ file. The reason for this is that we don't want anyone trying
 to get direct access to anything which might be sensitive,
 or revealing about the site's operation.
 
-If you didn't compile PHP with magic quotes; or other software
-relies on PHP not using magic quotes you can add the following
+If you compiled PHP with magic quotes; or other software
+relies on PHP using magic quotes you can add the following
 line into each virtual host section:
 
 
-    php_value magic_quotes_gpc 1
+    php_flag magic_quotes_gpc off
 
 
 NOTE: It isn't possible to use the form http://mysite.com/admin
@@ -641,6 +644,8 @@ In your main directory (/path/to/index.php/) create a file
 called ".htaccess" containing the following text:
 
 
+    php_flag magic_quotes_gpc off
+
     Options FollowSymLinks Indexes ExecCGI
 
     RewriteEngine On
@@ -662,6 +667,8 @@ called ".htaccess" containing the following text:
 In your admin subdomain home directory, create a file with
 the following text:
 
+
+    php_flag magic_quotes_gpc off
 
     RewriteEngine On
 
@@ -848,7 +855,7 @@ developments.
   that everything is working; some of the articles supplied
   as default will inform you about features of the software.
 
-Trouble Shooting
+Troubleshooting
 
 7.1 Problems During Installation
 
@@ -1068,8 +1075,6 @@ First remove any cache:
 
     --with-config-file-path=/etc/httpd/conf/ \
 
-    --enable-magic-quotes \
-
     --with-exec-dir=/usr/sbin/httpd \
 
     --with-dom \
@@ -1141,11 +1146,11 @@ For example:
 
     <VirtualHost yourIP>
 
-      ServerName [yourdomain.org]
+      ServerName yourdomain.org
 
-      ServerAlias [www.yourdomain.org]
+      ServerAlias www.yourdomain.org
 
-      <Directory [/your/site/root/]>
+      <Directory /your/site/root/>
 
         Options FollowSymLinks Indexes ExecCGI
 
@@ -1155,11 +1160,11 @@ For example:
 
       RewriteEngine On
 
-      RewriteRule !\.(gif|css|jpg|png)$ [/your/site/root/index.php]
+      RewriteRule !\.(gif|css|jpg|png)$ /your/site/root/index.php
 
-      ServerAdmin [your_mail@domain.no]
+      ServerAdmin your_mail@domain.no
 
-      DocumentRoot [/your/site/root/]
+      DocumentRoot /your/site/root/
 
     </VirtualHost>
 
@@ -1168,7 +1173,7 @@ For example:
 
     <VirtualHost admin.yourdomain.org>
 
-      <Directory [/your/site/root/admin]>
+      <Directory /your/site/root/admin>
 
         Options FollowSymLinks Indexes ExecCGI
 
@@ -1178,15 +1183,15 @@ For example:
 
       RewriteEngine On
 
-      RewriteRule !\.(gif|css|jpg|png)$ [/your/site/root/admin/index.php]
+      RewriteRule !\.(gif|css|jpg|png)$ /your/site/root/admin/index.php
 
-      ServerAdmin [your_mail@domain.no]
+      ServerAdmin your_mail@domain.no
 
-      DocumentRoot [/your/site/root/admin]
+      DocumentRoot /your/site/root/admin
 
-      ServerName [admin.yourdomain.org]
+      ServerName admin.yourdomain.org
 
-      ServerAlias [admin.yourdomain.org]
+      ServerAlias admin.yourdomain.org
 
     </VirtualHost>
 
@@ -1207,6 +1212,64 @@ Then chown httpd.httpd * on both the domain and admin.domain
 directories to get it to work.
 
 If all is well, your site should work.
+
+8.1 Getting SSL to Work
+
+This is a bit tougher! Enable SSL for the site in your GUI.
+Generate your certificates. Disable SSL in the GUI. Add
+this to the end of your extrasites.conf
+
+    #attempt to modify 
+
+    SSL Listen xxx.xxx.xxx.xxx:443
+
+    <VirtualHost xxx.xxx.xxx.xxx:443>
+
+        ServerAdmin ubong
+
+        DocumentRoot /home/sites/yoursite/web
+
+        <Directory /home/sites/yoursite/web>
+
+            Options
+FollowSymLinks Indexes ExecCGI
+
+            AllowOverride
+None
+
+        </Directory>
+
+        SSLEngine on
+
+        SSLCertificateFile /home/sites/yoursite/certs/certificate
+
+        SSLCertificateKeyFile
+/home/sites/yoursite/certs/key
+
+        AddHandler server-parsed
+.shtml
+
+        AddType text/html .shtml
+
+        AddHandler cgi-wrapper
+.cgi
+
+        AddHandler cgi-wrapper
+.pl
+
+        RewriteEngine On
+
+        RewriteRule !\.(gif|css|jpg|png)$
+/home/sites/public.edge.ai/web/index.php
+
+        ErrorLog /home/sites/yoursite/logs/error_log
+
+        TransferLog /home/sites/yoursite/logs/access_log
+
+    </VirtualHost>
+
+This should work. IF you can't get it, give me an email and
+I'll help if I have time: chris@net.ai
 
 Installing on Windows 
 
@@ -1263,6 +1326,11 @@ LoadModule rewrite_module modules/ApacheModuleRewrite.dll
 
 9.4 Configuration of Virtual Host for Apache/win2000
 
+You should also check the virtual host configuration as described
+in section [sec: dual virtualhost], since the
+virtual host configuration is explained thoroughly there
+and there might be some newer information there.
+
 9.4.1 User Site
 
     # User site
@@ -1273,15 +1341,15 @@ LoadModule rewrite_module modules/ApacheModuleRewrite.dll
 
     RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$
 
-    [/your/apache/documentroot]/ezfilemanager/files/$1
+    /your/apache/documentroot/ezfilemanager/files/$1
 
     [T="application/octet-stream",S=1]
-    RewriteRule !(\.(gif|css|jpg|png)$) [/your/apache/documentroot]/index.php
+    RewriteRule !(\.(gif|css|jpg|png)$) /your/apache/documentroot/index.php
 
-    DocumentRoot [/your/apache/documentroot] ServerName
-[yourdomain.org] 
+    DocumentRoot /your/apache/documentroot
+    ServerName yourdomain.org
 
-    ServerAlias [www.yourdomain.org]
+    ServerAlias www.yourdomain.org
 
 9.4.2 Admin Site
 
@@ -1291,17 +1359,17 @@ LoadModule rewrite_module modules/ApacheModuleRewrite.dll
     #php.ini file it will affect all domains on your
     #site and create problems
     php_value include_path \
-    ".;/;[/your/apache/documentroot]; \
-    [/your/apache/documentroot]/admin/"
+    ".;/;/your/apache/documentroot; \
+    /your/apache/documentroot/admin/"
     RewriteEngine On
     RewriteRule !.(gif|jpg|css|png)$ \
-    [/your/apache/documentroot]/admin/index.php
+    /your/apache/documentroot/admin/index.php
 
     RewriteRule ^/ez(.*(gif|jpg|png)$) \
-    [/your/apache/documentroot]/ez$1
-    DocumentRoot [/your/apache/documentroot]/admin
-    ServerName [admin.yourdomain.org] 
-    ServerAlias [admin.yourdomain.org]
+    /your/apache/documentroot/ez$1
+    DocumentRoot /your/apache/documentroot/admin
+    ServerName admin.yourdomain.org 
+    ServerAlias admin.yourdomain.org
 
 9.5 IIS Installation
 
