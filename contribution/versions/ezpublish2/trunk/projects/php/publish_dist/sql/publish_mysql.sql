@@ -580,12 +580,22 @@ CREATE INDEX WordLink_ArticleID ON eZArticle_ArticleWordLink (ArticleID);
 CREATE INDEX WordLink_WordID ON eZArticle_ArticleWordLink (WordID);
 CREATE INDEX Word_Word ON eZArticle_Word (Word);
 CREATE UNIQUE INDEX Word_ID ON eZArticle_Word (ID);
+CREATE UNIQUE INDEX ArticleID ON eZArticle_ArticleImageDefinition (ArticleID);
 
 CREATE INDEX ArticlePermission_ObjectID ON eZArticle_ArticlePermission (ObjectID);
 CREATE INDEX ArticlePermission_GroupID ON eZArticle_ArticlePermission (GroupID);
+CREATE INDEX ArticlePermission_WritePermission ON eZArticle_ArticlePermission (WritePermission);
+CREATE INDEX ArticlePermission_ReadPermission ON eZArticle_ArticlePermission (ReadPermission);
 
 CREATE INDEX Def_ArticleID ON eZArticle_ArticleCategoryDefinition (ArticleID);
 CREATE INDEX Def_CategoryID ON eZArticle_ArticleCategoryDefinition (CategoryID);
+
+CREATE INDEX ArticleKeyword_Keyword ON eZArticle_ArticleKeyword (Keyword);
+CREATE INDEX ArticleKeyword_ArticleID ON eZArticle_ArticleKeyword (ArticleID);
+
+CREATE INDEX ArticleAttribute_Placement ON eZArticle_Attribute (Placement);
+CREATE INDEX ArticleAttributeValue_ArticleID ON eZArticle_AttributeValue (ArticleID, AttributeID);
+
 CREATE TABLE eZBug_Bug (
   ID int NOT NULL,
   Name varchar(150),
@@ -910,6 +920,9 @@ CREATE TABLE eZContact_CompanyType (
   ImageID int DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
+
+CREATE INDEX CompanyType_ParentID ON eZContact_CompanyType (ParentID);
+CREATE INDEX CompanyType_Name ON eZContact_CompanyType (Name);
 
 CREATE TABLE eZContact_CompanyTypeDict (
   CompanyTypeID int NOT NULL,
@@ -1344,7 +1357,6 @@ CREATE TABLE eZLink_Link (
   ID int NOT NULL ,
   Name varchar(100) default NULL,
   Description text,
-  LinkGroup int default NULL,
   KeyWords text default NULL,
   Modified int NOT NULL,
   Accepted int,
@@ -1641,15 +1653,7 @@ INSERT INTO eZMediaCatalogue_AttributeValue VALUES (43,5,10,'true');
 INSERT INTO eZMediaCatalogue_AttributeValue VALUES (42,5,9,'false');
 INSERT INTO eZMediaCatalogue_AttributeValue VALUES (41,5,8,'false');
 INSERT INTO eZMediaCatalogue_AttributeValue VALUES (40,5,7,'300');
-INSERT INTO eZMediaCatalogue_AttributeValue VALUES (39,5,6,'300');CREATE TABLE eZMessage (
-  ID int(11) NOT NULL auto_increment,
-  UserID int(11) NOT NULL default '0',
-  Subject varchar(255) NOT NULL default '',
-  Description text,
-  PRIMARY KEY (ID)
-) TYPE=MyISAM;
-
-CREATE TABLE eZMessage_Message (
+INSERT INTO eZMediaCatalogue_AttributeValue VALUES (39,5,6,'300');CREATE TABLE eZMessage_Message (
   ID int(11) NOT NULL auto_increment,
   FromUserID int(11) NOT NULL default '0',
   ToUserID int(11) NOT NULL default '0',
@@ -1892,12 +1896,14 @@ CREATE TABLE eZSiteManager_Menu (
   Name varchar(40) default NULL,
   Link varchar(40) default NULL,
   Type int(11) default '1',
-  ParentID int(11) default '0'
+  ParentID int(11) default '0',
+  PRIMARY KEY  (ID)
 ) TYPE=MyISAM;
 
 CREATE TABLE eZSiteManager_MenuType (
   ID int(11) NOT NULL default '0',
-  Name varchar(30) default NULL
+  Name varchar(30) default NULL,
+  PRIMARY KEY  (ID)
 ) TYPE=MyISAM;
 
 CREATE TABLE eZStats_BrowserType (
@@ -1994,7 +2000,14 @@ CREATE TABLE eZStats_Archive_RemoteHost (
   Count int NOT NULL DEFAULT '0',
   PRIMARY KEY (ID)
 );
-CREATE TABLE eZTodo_Category (
+
+CREATE INDEX PageView_TimeValue ON eZStats_PageView (TimeValue);
+
+alter table eZTodo_Todo add IsPublic int(1) NOT NULL default '0';
+
+CREATE INDEX Trade_CartSessionID ON eZTrade_Cart (SessionID);
+CREATE INDEX TradeCategory_Name ON eZTrade_Category (Name);
+CREATE INDEX TradeCategory_ParentID ON eZTrade_Category (ParentID);CREATE TABLE eZTodo_Category (
   ID int(11) NOT NULL,
   Description text,
   Name varchar(30),
@@ -2453,7 +2466,7 @@ CREATE TABLE eZTrade_ValueQuantityDict (
 ) TYPE=MyISAM;
 
 CREATE TABLE eZTrade_Voucher (
-  ID int(11) default '0' NOT NULL,
+  ID int(11) NOT NULL default '0',
   Created int(11) default '0',
   Price float default '0',
   Available int(11) default '0',
@@ -2461,7 +2474,7 @@ CREATE TABLE eZTrade_Voucher (
   MailMethod int(11) default '1',
   UserID int(11) default '0',
   ProductID int(11) default '0',
-  PRIMARY KEY (ID)
+  PRIMARY KEY  (ID)
 ) TYPE=MyISAM;
 
 CREATE TABLE eZTrade_VoucherInformation (
@@ -2478,7 +2491,7 @@ CREATE TABLE eZTrade_VoucherInformation (
   FromOnlineID int(11) default '0',
   FromAddressID int(11) default '0',
   ProductID int(11) default '0',
-  PRIMARY KEY (ID)
+  PRIMARY KEY  (ID)
 ) TYPE=MyISAM;
 
 CREATE TABLE eZTrade_VoucherUsed (
@@ -2488,7 +2501,7 @@ CREATE TABLE eZTrade_VoucherUsed (
   VoucherID int(11) default '0',
   OrderID int(11) default '0',
   UserID int(11) default '0',
-  PRIMARY KEY (ID)
+  PRIMARY KEY  (ID)
 ) TYPE=MyISAM;
 
 CREATE TABLE eZTrade_WishList (
@@ -2516,18 +2529,18 @@ CREATE TABLE eZTrade_WishListOptionValue (
 ) TYPE=MyISAM;
 
 
-CREATE INDEX Category_Name ON eZTrade_Category (Name);
-CREATE INDEX Category_Parent ON eZTrade_Category (Parent);
-CREATE INDEX Product_Name ON eZTrade_Product (Name);
-CREATE INDEX Product_Keywords ON eZTrade_Product (Keywords);
-CREATE INDEX Product_Price ON eZTrade_Product (Price);
-CREATE INDEX ProductLink_CategoryID ON eZTrade_ProductCategoryLink (CategoryID);
-CREATE INDEX ProductLink_ProductID ON eZTrade_ProductCategoryLink (ProductID);
-CREATE INDEX ProductOption_ProductID ON eZTrade_ProductOptionLink (ProductID);
-CREATE INDEX ProductOption_OptionID ON eZTrade_ProductOptionLink (OptionID);
-CREATE INDEX ProductOption_OptionValueContent ON  eZTrade_OptionValueContent  (ValueID);
+CREATE INDEX TradeCategory_Name ON eZTrade_Category (Name);
+CREATE INDEX TradeCategory_Parent ON eZTrade_Category (Parent);
+CREATE INDEX TradeProduct_Name ON eZTrade_Product (Name);
+CREATE INDEX TradeProduct_Keywords ON eZTrade_Product (Keywords);
+CREATE INDEX TradeProduct_Price ON eZTrade_Product (Price);
+CREATE INDEX TradeProductLink_CategoryID ON eZTrade_ProductCategoryLink (CategoryID);
+CREATE INDEX TradeProductLink_ProductID ON eZTrade_ProductCategoryLink (ProductID);
+CREATE INDEX TradeProductOption_ProductID ON eZTrade_ProductOptionLink (ProductID);
+CREATE INDEX TradeProductOption_OptionID ON eZTrade_ProductOptionLink (OptionID);
+CREATE INDEX TradeProductOption_OptionValueContent ON  eZTrade_OptionValueContent  (ValueID);
 CREATE INDEX Trade_CartSessionID ON  eZTrade_Cart  (SessionID);
-CREATE INDEX ProductDef_ProductID ON eZTrade_ProductCategoryDefinition (ProductID);
+CREATE INDEX TradeProductDef_ProductID ON eZTrade_ProductCategoryDefinition (ProductID);
 CREATE TABLE eZURLTranslator_URL (
   ID int NOT NULL,
   Source varchar(200) default NULL,
@@ -2607,7 +2620,8 @@ CREATE TABLE eZUser_GroupPermissionLink (
 CREATE TABLE eZUser_Module (
   ID int NOT NULL,
   Name varchar(100) NOT NULL default '',
-  PRIMARY KEY (ID)
+  PRIMARY KEY (ID),
+  UNIQUE KEY Name (Name)
 );
 
 CREATE TABLE eZUser_Permission (
@@ -2734,3 +2748,5 @@ CREATE TABLE eZUser_Photographer (
 
 CREATE INDEX UserGroupLink_UserID ON eZUser_UserGroupLink (UserID);
 CREATE INDEX UserGroupLink_GroupID ON eZUser_UserGroupLink (GroupID);
+
+CREATE UNIQUE INDEX User_Login ON eZUser_User (Login);  
