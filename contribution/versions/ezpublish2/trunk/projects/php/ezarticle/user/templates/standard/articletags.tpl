@@ -68,7 +68,7 @@
 <!-- END image_float_tpl -->
 
 <!-- BEGIN link_tpl -->
-<a href="{www_dir}{index}{href}">{link_text}</a>
+<a href="{www_dir}{index}{href}" target="{target}" >{link_text}</a>
 <!-- END link_tpl -->
 
 <!-- BEGIN popuplink_tpl -->

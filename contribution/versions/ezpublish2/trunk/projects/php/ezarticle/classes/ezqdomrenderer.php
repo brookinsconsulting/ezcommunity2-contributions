@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.46 2001/09/13 08:19:09 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.47 2001/09/13 13:52:08 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -1044,6 +1044,12 @@ class eZQDomrenderer
                        $text = $attr->children[0]->content;
                     }
                     break;
+
+                    case "target" :
+                    {
+                       $target = $attr->children[0]->content;
+                    }
+                    break;                    
                 }
             }
 
@@ -1051,6 +1057,7 @@ class eZQDomrenderer
                 $href = "http://" . $href;
             
             $this->Template->set_var( "href", $href );
+            $this->Template->set_var( "target", $target );
             $this->Template->set_var( "link_text", $text );
             $pageContent =& trim( $this->Template->parse( "link", "link_tpl" ) );
         }    
