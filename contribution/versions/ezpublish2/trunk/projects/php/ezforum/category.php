@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.28 2000/10/11 10:05:48 bf-cvs Exp $
+    $Id: category.php,v 1.29 2000/10/11 10:09:06 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -38,20 +38,6 @@ $category->get( $category_id );
 $forumPath = "<img src=\"ezforum/images/pil.gif\" width=\"10\" height=\"10\" border=\"0\"> <a href=\"index.php?page=" . $DOC_ROOT .  "category.php&category_id=" . $category_id . "\">" . $category->name() . "</a>";
 $t->set_var( "forum_path", $forumPath );
 
-if ( $session->get( $AuthenticatedSession ) == 0 )
-{
-    $user = new eZUser();
-//      $t->set_var( "user", $user->resolveUser( $session->UserID() ) );
-//      $t->parse( "logout-message", "logout", true );
-}
-else
-{
-//      $t->set_var( "user", "Anonym" );
-//      $t->parse( "logout-message", "login", true);
-}
-
-//  $t->parse( "navigation-bar", "navigation", true);
-
 $forum = new eZForumForum();
 $forums = $forum->getAllForums( $category_id );
 
@@ -66,7 +52,10 @@ for ($i = 0; $i < count( $forums ); $i++)
 
     $message = new eZForumMessage();
     $t->set_var( "messages", $message->countMessages( $t->get_var( "forum_id" ) ) );
-    $t->set_var( "color", switchColor( $i, "#f0f0f0", "#dcdcdc" ) );
+    if ( ( $i %2 ) == 0 )
+        $t->set_var( "td_class", "bglight"  );
+    else
+        $t->set_var( "td_class", "bgdark"  );
 
     $t->parse( "forum", "forum_tpl", true );
 }
