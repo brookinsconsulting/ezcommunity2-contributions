@@ -265,7 +265,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material )
 
                 if ( $matCategory[2] == true )
                 {
-                    addProductToGroup( $parent, $product );
+//                    addProductToGroup( $parent, $product );
                 }
             }
         }
