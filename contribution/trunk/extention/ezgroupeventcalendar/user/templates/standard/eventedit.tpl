@@ -128,7 +128,7 @@
   <option value="1" {1_status_selected}>{intl-confirmed_status}</option>
   <option value="2" {2_status_selected}>{intl-cancelled_status}</option>
 </select>
-[ in development | not tested ]
+
 	</td>
 </tr>
 </table>
