@@ -1,5 +1,6 @@
 <?php
-// $Id: messageedit.php,v 1.18 2001/09/27 07:58:24 jhe Exp $
+//
+// $Id: messageedit.php,v 1.19 2001/10/10 13:18:28 jhe Exp $
 //
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
 //
@@ -43,10 +44,6 @@ if ( isset( $DeleteMessages ) )
     $Action = "DeleteMessages";
 }
 
-if ( $Action == "insert" )
-{
-    // Admin does not support insert.
-}
 if ( $Action == "update" )
 {
     if ( eZPermission::checkPermission( $user, "eZForum", "MessageModify" ) )
@@ -183,8 +180,8 @@ if ( $Action == "edit" )
         $t->set_var( "message_topic", $msg->topic() );
         $t->set_var( "message_postingtime", $locale->format( $msg->postingTime() ) );
         $t->set_var( "message_body", $msg->body() );
-        $user = $msg->user();
-        $t->set_var( "message_user", $user->firstName() . " " . $user->lastName() );
+        $author = $msg->user();
+        $t->set_var( "message_user", $author->firstName() . " " . $author->lastName() );
         $action_value = "update";
         $t->set_var( "message_id", $MessageID );
         $t->set_var( "forum_id", $msg->forumID() );

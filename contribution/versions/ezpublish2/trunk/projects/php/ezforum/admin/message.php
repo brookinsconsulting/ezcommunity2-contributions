@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: message.php,v 1.35 2001/09/24 12:13:06 jhe Exp $
+// $Id: message.php,v 1.36 2001/10/10 13:18:28 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -44,9 +44,7 @@ $t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "AdminTem
 $t->setAllStrings();
 
 $t->set_file( "message_tpl", "message.tpl"  );
-
 $t->set_block( "message_tpl", "message_item_tpl", "message_item" );
-
 $t->set_var( "site_style", $SiteStyle );
 
 $message = new eZForumMessage( $MessageID );
@@ -61,19 +59,15 @@ if ( is_object( $categories[0] ) )
     $t->set_var( "category_name", $category->name( ) );
 }
 
-
 $t->set_var( "forum_id", $forum->id() );
 $t->set_var( "forum_name", $forum->name() );
-
 $t->set_var( "message_id", $message->id() );
 $t->set_var( "message_topic", $message->topic() );
 
-$user = $message->user();
+$author = $message->user();
 
-$t->set_var( "user", $user->firstName() . " " . $user->lastName() );
-
+$t->set_var( "user", $author->firstName() . " " . $author->lastName() );
 $t->set_var( "topic", $message->topic() );
-
 $t->set_var( "postingtime", $message->postingTime() );
 
 if ( $AllowHTML == "enabled" )
@@ -82,7 +76,6 @@ else
     $t->set_var( "body", nl2br( $message->body( false ) ) );
 
 $t->set_var( "reply_id", $message->id() );
-
 $t->set_var( "forum_id", $forum->id() );
 
 $topMessage = $message->threadTop( $message );
@@ -113,14 +106,11 @@ foreach ( $messages as $message )
         $t->set_var( "spacer", "" );
     
     $t->set_var( "reply_topic", $message->topic() );
-
     $t->set_var( "postingtime", $locale->format( $message->postingTime() ) );
-
     $t->set_var( "message_id", $message->id() );
 
-    $user = $message->user();
-    
-    $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
+    $author = $message->user();
+    $t->set_var( "user", $author->firstName() . " " . $author->lastName() );
 
     $t->parse( "message_item", "message_item_tpl", true );
     $i++;

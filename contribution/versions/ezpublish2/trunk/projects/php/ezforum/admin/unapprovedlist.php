@@ -1,5 +1,6 @@
 <?php
-// $Id: unapprovedlist.php,v 1.9 2001/07/19 13:17:54 jakobn Exp $
+//
+// $Id: unapprovedlist.php,v 1.10 2001/10/10 13:18:28 jhe Exp $
 //
 // Created on: <21-Jan-2001 13:34:48 bf>
 //
@@ -78,26 +79,19 @@ else
         $t->set_var( "forum_id", $forum->id() );
 
         $categoryList =& $forum->categories();
-
         $category =& $categoryList[0];
 
         $t->set_var( "category_name", $category->name() );
         $t->set_var( "category_id", $category->id() );
-
         $t->set_var( "message_topic", $msg->topic() );
-
         $t->set_var( "message_body", $msg->body() );
-
         $t->set_var( "reject_message", $languageIni->read_var( "strings", "reject_message" ) );
-        
         $t->set_var( "message_postingtime", $locale->format( $msg->postingTime() ) );
-
         $t->set_var( "message_id", $msg->id() );
 
-        $user = $msg->user();
+        $author = $msg->user();
     
-        $t->set_var( "message_user", $user->firstName() . " " . $user->lastName() );
-
+        $t->set_var( "message_user", $author->firstName() . " " . $author->lastName() );
         $t->set_var( "i", $i );
         
         $t->parse( "message_item", "message_item_tpl", true );
@@ -108,4 +102,5 @@ else
 eZList::drawNavigator( $t, $messageCount, $UnapprovdLimit, $Offset, "message_page" );
 
 $t->pparse( "output", "message_page" );
+
 ?>

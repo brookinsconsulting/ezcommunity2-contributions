@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messagelist.php,v 1.20 2001/09/24 12:13:06 jhe Exp $
+// $Id: messagelist.php,v 1.21 2001/10/10 13:18:28 jhe Exp $
 //
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
 //
@@ -101,10 +101,10 @@ else
         
         $t->set_var( "message_id", $message->id() );
         
-        $user = $message->user();
-        if ( $user->id() != 0 )
+        $author = $message->user();
+        if ( $author->id() != 0 )
         {
-            $t->set_var( "message_user", $user->firstName() . " " . $user->lastName() );
+            $t->set_var( "message_user", $author->firstName() . " " . $author->lastName() );
         }
         else
         {

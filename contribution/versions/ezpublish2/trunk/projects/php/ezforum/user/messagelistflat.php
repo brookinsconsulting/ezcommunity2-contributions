@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagelistflat.php,v 1.3 2001/07/19 13:17:55 jakobn Exp $
+// $Id: messagelistflat.php,v 1.4 2001/10/10 13:18:29 jhe Exp $
 //
 // Created on: <03-Jul-2001 13:24:26 bf>
 //
@@ -67,7 +67,7 @@ $group =& $forum->group();
 $viewer = $user;
 if ( get_class( $group ) == "ezusergroup" )
 {
-    if ( get_class ( $viewer ) == "ezuser" )
+    if ( get_class( $viewer ) == "ezuser" )
     {
         $groupList =& $viewer->groups();
         
@@ -90,8 +90,8 @@ if ( count( $categories ) > 0 )
 {
     $category = new eZForumCategory( $categories[0]->id() );
     
-    $t->set_var( "category_id", $category->id( ) );
-    $t->set_var( "category_name", $category->name( ) );
+    $t->set_var( "category_id", $category->id() );
+    $t->set_var( "category_name", $category->name() );
 }
 
 $locale = new eZLocale( $Language );
@@ -118,7 +118,7 @@ else
     $time = new eZDateTime();
     foreach ( $messageList as $message )
     {
-        $user = new eZUser( );
+        $author = new eZUser();
         $t->set_var( "user", "" );
         $t->set_var( "edit_message_item", "" );
 
@@ -127,16 +127,16 @@ else
         else
             $t->set_var( "td_class", "articlelist2" );
         
-        $t->set_var( "topic", $message[$db->fieldName("Topic")] );
-        $t->set_var( "body", $message[$db->fieldName("Body")] );
+        $t->set_var( "topic", $message[$db->fieldName( "Topic" )] );
+        $t->set_var( "body", $message[$db->fieldName( "Body" )] );
 
-        $time->setTimeStamp( $message[$db->fieldName("PostingTime")] );
-        $t->set_var( "postingtime", $locale->format( $time  ) );
+        $time->setTimeStamp( $message[$db->fieldName( "PostingTime" )] );
+        $t->set_var( "postingtime", $locale->format( $time ) );
 
-        $t->set_var( "message_id", $message[$db->fieldName("ID")] );
+        $t->set_var( "message_id", $message[$db->fieldName( "ID" )] );
 
 
-        $messageAge = round( $message[$db->fieldName("Age")] / ( 60 * 60 * 24 ) );
+        $messageAge = round( $message[$db->fieldName( "Age" )] / 86400 );
         if ( $messageAge <= $NewMessageLimit )
         {
             $t->parse( "new_icon", "new_icon_tpl" );
@@ -148,25 +148,25 @@ else
             $t->set_var( "new_icon", "" );
         }
 
-        $userID = $message[$db->fieldName("UserID")];
+        $userID = $message[$db->fieldName( "UserID" )];
 
-        $user->get( $userID );
+        $author->get( $userID );
         
         $t->set_var( "count_replies", "" );
-        $level = $message[$db->fieldName("Depth")];
+        $level = $message[$db->fieldName( "Depth" )];
         
         if ( $level > 0 )
             $t->set_var( "spacer", str_repeat( "&nbsp;", $level ) );
         else
             $t->set_var( "spacer", "" );
 
-        if ( $user->id() == 0 )
+        if ( $author->id() == 0 )
         {
             $t->set_var( "user", $ini->read_var( "eZForumMain", "AnonymousPoster" ) );
         }
         else
         {
-            $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
+            $t->set_var( "user", $author->firstName() . " " . $author->lastName() );
         }
         
         $t->parse( "message_item", "message_item_tpl", true );
@@ -184,7 +184,7 @@ $t->set_var( "newmessage", $newmessage );
 $t->set_var( "forum_id", $forum->id() );
 $t->set_var( "forum_name", $forum->name() );
 
-if ( $readPermission == true )
+if ( $readPermission )
     $t->pparse( "output", "messagelist_tpl" );
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.12 2001/09/27 07:58:24 jhe Exp $
+// $Id: search.php,v 1.13 2001/10/10 13:18:28 jhe Exp $
 //
 // Created on: <12-Oct-2000 20:33:02 bf>
 //
@@ -89,11 +89,11 @@ if ( $QueryString != "" )
 
         $t->set_var( "message_id", $message->id() );
         
-        $user = $message->user();
+        $author = $message->user();
         
-        if ( $user->id() != 0 )
+        if ( $author->id() != 0 )
         {
-            $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
+            $t->set_var( "user", $author->firstName() . " " . $author->lastName() );
         }
         else
         {

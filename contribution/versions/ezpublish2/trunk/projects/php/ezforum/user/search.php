@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.17 2001/09/27 15:22:51 bf Exp $
+// $Id: search.php,v 1.18 2001/10/10 13:18:29 jhe Exp $
 //
 // Created on: <12-Oct-2000 20:33:02 bf>
 //
@@ -76,44 +76,46 @@ if ( $QueryString != "" )
     $i = 0;
 
     if ( count( $messages ) > 0 )
-    foreach ( $messages as $message )
     {
-        if ( ( $i % 2 ) == 0 )
-            $t->set_var( "td_class", "bglight" );
-        else
-            $t->set_var( "td_class", "bgdark" );
-    
-        $t->set_var( "message_topic", $message->topic() );
-        $t->set_var( "postingtime", $locale->format( $message->postingTime() ) );
-        $t->set_var( "message_id", $message->id() );
-
-        $messageAge = round( $message->age() / ( 60 * 60 * 24 ) );
-        if ( $messageAge <= $NewMessageLimit )
+        foreach ( $messages as $message )
         {
-            $t->parse( "new_icon", "new_icon_tpl" );
-            $t->set_var( "old_icon", "" );
+            if ( ( $i % 2 ) == 0 )
+                $t->set_var( "td_class", "bglight" );
+            else
+                $t->set_var( "td_class", "bgdark" );
+            
+            $t->set_var( "message_topic", $message->topic() );
+            $t->set_var( "postingtime", $locale->format( $message->postingTime() ) );
+            $t->set_var( "message_id", $message->id() );
+            
+            $messageAge = round( $message->age() / ( 60 * 60 * 24 ) );
+            if ( $messageAge <= $NewMessageLimit )
+            {
+                $t->parse( "new_icon", "new_icon_tpl" );
+                $t->set_var( "old_icon", "" );
+            }
+            else
+            {
+                $t->parse( "old_icon", "old_icon_tpl" );
+                $t->set_var( "new_icon", "" );
+            }
+            
+            $author = $message->user();
+            
+            if ( $author->id() == 0 )
+            {
+                $t->set_var( "user", $ini->read_var( "eZForumMain", "AnonymousPoster" ) );
+            }
+            else
+            {
+                $t->set_var( "user", $author->firstName() . " " . $author->lastName() );
+            }
+            
+            $t->parse( "message", "message_tpl", true );
+            $i++;
         }
-        else
-        {
-            $t->parse( "old_icon", "old_icon_tpl" );
-            $t->set_var( "new_icon", "" );
-        }
-        
-        $user = $message->user();
-
-        if ( $user->id() == 0 )
-        {
-            $t->set_var( "user", $ini->read_var( "eZForumMain", "AnonymousPoster" ) );
-        }
-        else
-        {
-            $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
-        }
-
-        $t->parse( "message", "message_tpl", true );
-        $i++;
     }
-    
+        
     if ( count( $messages ) == 0 )
     {
         $t->parse( "empty_result", "empty_result_tpl" );

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: forumedit.php,v 1.32 2001/09/27 07:58:24 jhe Exp $
+// $Id: forumedit.php,v 1.33 2001/10/10 13:18:28 jhe Exp $
 //
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
 //
@@ -318,8 +318,7 @@ foreach ( $categoryList as $categoryItem )
     $t->parse( "category_item", "category_item_tpl", true );
 }
 
-$user = new eZUser();          //remove?
-$userList = $user->getAll();   //remove?
+$userList = eZUser::getAll();   //remove?
 
 $group = new eZUserGroup();
 $groupList = $group->getAll();
