@@ -20,22 +20,16 @@
 	</td>
 </tr>
 <tr>
-        <td>{intl-price_lower}</td>
-        <td>{intl-price_higher}</td>
+        <td>
+	{intl-price_range}
+	</td>
 </tr>
 <tr>
         <td>
-	<select name="PriceLower">
-	<option {selected} value="50">50</option>
-	<option {selected} value="100">100</option>
-	<option {selected} value="1000">1000</option>
-	</select>
-	</td>
-        <td>
-	<select name="PriceHigher">
-	<option {selected} value="50">50</option>
-	<option {selected} value="100">100</option>
-	<option {selected} value="1000">1000</option>
+	<select name="PriceRange">
+	<option value="50-100">50-100</option>
+	<option value="100-150">100-150</option>
+	<option value="150-200">150-200</option>
 	</select>
 	</td>
 </tr>

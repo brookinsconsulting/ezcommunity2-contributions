@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.49 2001/03/16 16:46:32 ce Exp $
+// $Id: ezproduct.php,v 1.50 2001/03/21 13:51:35 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -1067,57 +1067,34 @@ class eZProduct
 
         $products = array();
 
+        $categorySQL = "";
         if ( count ( $categoryArrayID ) > 0 )
         {
             $i = 0;
             foreach( $categoryArrayID as $categoryID )
             {
                 if ( $i == 0 )
-                    $catID = "eZTrade_ProductCategoryLink.CategoryID='$categoryID'";
+                    $categorySQL = "eZTrade_ProductCategoryLink.CategoryID='$categoryID'";
                 else
-                    $catID .= " OR eZTrade_ProductCategoryLink.CategoryID='$categoryID'";
+                    $categorySQL .= " OR eZTrade_ProductCategoryLink.CategoryID='$categoryID'";
                 $i++;
             }
         }
         
-        if ( $priceLower || $priceHigher )
+        if ( $priceHigher && $priceLower )
         {
-            if ( ( is_numeric( $priceLower ) ) || ( is_numeric ( $priceHigher ) ) )
+            $price = "";
+            if ( $categorySQL )
             {
-                if ( $priceLower )
-                {
-                    $price = "";
-                    if ( $catID )
-                    {
-                        $price = " AND";
-                    }
-                    $price .= " Price > $priceLower";
-                }
-                if ( $priceHigher )
-                {
-                    $price = "";
-                    if ( $catID )
-                    {
-                        $price = " AND";
-                    }
-                    $price .= " Price < $priceHigher";
-                }
-                if ( $priceHigher && $priceLower )
-                {
-                    $price = "";
-                    if ( $catID )
-                    {
-                        $price = " AND";
-                    }
-                    $price .= " Price > $priceLower AND Price < $priceHigher";
-                }
+                $price = " AND";
             }
+            $price .= " Price > $priceLower AND Price < $priceHigher";
         }
         
         if ( $text != "" )
         {
             $query = new eZQuery( array( "Name", "Keywords", "Description" ), $text );
-            if ( $price || $catID )
+            if ( $price || $categorySQL )
                 $text = "AND (" . $query->buildQuery()  . ")";
             else
                 $text = "(" . $query->buildQuery()  . ")";
@@ -1127,7 +1104,7 @@ class eZProduct
         {
             $queryString = "SELECT DISTINCT eZTrade_ProductCategoryLink.ProductID as PID
                         FROM eZTrade_Product, eZTrade_ProductCategoryLink
-                        WHERE $catID $price $text AND eZTrade_Product.ID = eZTrade_ProductCategoryLink.ProductID LIMIT $offset, $limit";
+                        WHERE ( $categorySQL ) $price $text AND eZTrade_Product.ID = eZTrade_ProductCategoryLink.ProductID LIMIT $offset, $limit";
         }               
 
         $this->Database->array_query( $res_array, $queryString );
@@ -1169,38 +1146,14 @@ class eZProduct
             }
         }
         
-        if ( $priceLower || $priceHigher )
+        if ( $priceHigher && $priceLower )
         {
-            if ( ( is_numeric( $priceLower ) ) || ( is_numeric ( $priceHigher ) ) )
+            $price = "";
+            if ( $catID )
             {
-                if ( $priceLower )
-                {
-                    $price = "";
-                    if ( $catID )
-                    {
-                        $price = " AND";
-                    }
-                    $price .= " Price > $priceLower";
-                }
-                if ( $priceHigher )
-                {
-                    $price = "";
-                    if ( $catID )
-                    {
-                        $price = " AND";
-                    }
-                    $price .= " Price < $priceHigher";
-                }
-                if ( $priceHigher && $priceLower )
-                {
-                    $price = "";
-                    if ( $catID )
-                    {
-                        $price = " AND";
-                    }
-                    $price .= " Price > $priceLower AND Price < $priceHigher";
-                }
+                $price = " AND";
             }
+            $price .= " Price > $priceLower AND Price < $priceHigher";
         }
         
         if ( $text != "" )
@@ -1216,7 +1169,7 @@ class eZProduct
         {
             $queryString = "SELECT count(DISTINCT eZTrade_ProductCategoryLink.ProductID) as PID
                         FROM eZTrade_Product, eZTrade_ProductCategoryLink
-                        WHERE $catID $price $text AND eZTrade_Product.ID = eZTrade_ProductCategoryLink.ProductID";
+                        WHERE ( $catID ) $price $text AND eZTrade_Product.ID = eZTrade_ProductCategoryLink.ProductID";
         }
 
         $this->Database->array_query( $res_array, $queryString );

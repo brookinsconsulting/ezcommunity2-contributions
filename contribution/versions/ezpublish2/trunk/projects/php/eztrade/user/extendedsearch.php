@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: extendedsearch.php,v 1.4 2001/03/20 17:31:36 ce Exp $
+// $Id: extendedsearch.php,v 1.5 2001/03/21 13:51:35 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 17:49:05 bf>
@@ -69,6 +69,10 @@ $t->set_block( "product_search_list_tpl", "price_tpl", "price" );
 $t->set_var( "price_lower", "" );
 $t->set_var( "price_higher", "" );
 $t->set_var( "text", "" );
+
+$priceRange = explode( "-", $PriceRange );
+$PriceLower = $priceRange[0];
+$PriceHigher = $priceRange[1];
 
 // products
 $product = new eZProduct();
