@@ -77,6 +77,7 @@
 	<th colspan="2">&nbsp;</th>
 </tr>
 	
+<form method="post" action="/article/categoryedit/edit/" enctype="multipart/form-data">
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td class="{td_class}">
@@ -88,12 +89,17 @@
 	<td width="1%" class="{td_class}">
 	<a href="/article/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','/ezarticle/admin/images/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="/ezarticle/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
-	<td width="1%" class="{td_class}">
-	<a href="#" onClick="verify( '{intl-delete}', '/article/categoryedit/delete/{category_id}/'); return false;" 
-onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-slett','','/ezarticle/admin/images/slettminimrk.gif',1)"><img name="ezac{category_id}-slett" border="0" src="/ezarticle/admin/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<td class="{td_class}" width="1%" align="center">
+	<input type="checkbox" name="CategoryArrayID[]" value="{category_id}">
 	</td>
 </tr>
 <!-- END category_item_tpl -->
+<tr>
+        <td>
+	<input type="submit" Name="DeleteCategories" value="{intl-deletecategories}">
+	</td>
+</tr>
+</form>
 </table>
 
 <!-- END category_list_tpl -->
@@ -107,6 +113,7 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-sl
 	<th colspan="2">&nbsp;</th>
 </tr>
 
+<form method="post" action="/article/articleedit/edit/" enctype="multipart/form-data">
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td class="{td_class}">
@@ -126,13 +133,16 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-sl
 	<td width="1%" class="{td_class}">
 	<a href="/article/articleedit/edit/{article_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-red','','/ezarticle/admin/images/redigerminimrk.gif',1)"><img name="ezaa{article_id}-red" border="0" src="/ezarticle/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
-	<td width="1%" class="{td_class}">
-	<a href="#" onClick="verify( '{intl-delete}', '/article/articleedit/delete/{article_id}/'); return false;"
-onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{article_id}-slett','','/ezarticle/admin/images/slettminimrk.gif',1)"><img name="ezaa{article_id}-slett" border="0" src="/ezarticle/admin/images/slettmini.gif" width="16" height="16" align="top" alt="Slett" /></a>
-
-	</td>
+	<td class="{td_class}" width="1%" align="center">
+	<input type="checkbox" name="ArticleArrayID[]" value="{article_id}">
 </tr>
 <!-- END article_item_tpl -->
+<tr>
+        <td>
+	<input type="submit" Name="DeleteArticles" value="{intl-deletearticels}">
+	</td>
+</tr>
+</form>
 
 </table>
 <!-- END article_list_tpl -->

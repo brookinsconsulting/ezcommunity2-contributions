@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.33 2001/01/23 13:16:57 jb Exp $
+// $Id: articleedit.php,v 1.34 2001/01/24 10:42:08 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -35,6 +35,12 @@ include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlegenerator.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
+
+if ( isset ( $DeleteArticles ) )
+{
+    print( "innE" );
+    $Action = "DeleteArticles";
+}
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -405,75 +411,78 @@ if ( $Action == "Update" )
     }
 }
 
-
-if ( $Action == "Delete" )
+if ( $Action == "DeleteArticles" )
 {
-    $article = new eZArticle( $ArticleID );
-
-
-    // get the category to redirect to
-    $articleID = $article->id();
-
-    $categoryArray = $article->categories();
-    $categoryIDArray = array();
-    foreach ( $categoryArray as $cat )
+    if ( count ( $ArticleArrayID ) != 0 )
     {
-        $categoryIDArray[] = $cat->id();
-    }
-    
-    
-    // clear the cache files.
-    $dir = dir( "ezarticle/cache/" );
-    $files = array();
-    while( $entry = $dir->read() )
-    { 
-        if ( $entry != "." && $entry != ".." )
+        foreach( $ArticleArrayID as $ArticleID )
         {
-            if ( ereg( "articleprint,([^,]+),.*", $entry, $regArray  ) )
+
+            $article = new eZArticle( $ArticleID );
+
+            // get the category to redirect to
+            $articleID = $article->id();
+
+            $categoryArray = $article->categories();
+            $categoryIDArray = array();
+            foreach ( $categoryArray as $cat )
             {
-                if ( $regArray[1] == $articleID )
-                {
-                    unlink( "ezarticle/cache/" . $entry );
-                }
+                $categoryIDArray[] = $cat->id();
             }
+    
+    
+            // clear the cache files.
+            $dir = dir( "ezarticle/cache/" );
+            $files = array();
+            while( $entry = $dir->read() )
+            { 
+                if ( $entry != "." && $entry != ".." )
+                {
+                    if ( ereg( "articleprint,([^,]+),.*", $entry, $regArray  ) )
+                    {
+                        if ( $regArray[1] == $articleID )
+                        {
+                            unlink( "ezarticle/cache/" . $entry );
+                        }
+                    }
             
-            if ( ereg( "articleview,([^,]+),.*", $entry, $regArray  ) )
-            {
-                if ( $regArray[1] == $articleID )
-                {
-                    unlink( "ezarticle/cache/" . $entry );
-                }
-            }
+                    if ( ereg( "articleview,([^,]+),.*", $entry, $regArray  ) )
+                    {
+                        if ( $regArray[1] == $articleID )
+                        {
+                            unlink( "ezarticle/cache/" . $entry );
+                        }
+                    }
 
-            if ( ereg( "articlestatic,([^,]+),.*", $entry, $regArray  ) )
-            {
-                if ( $regArray[1] == $articleID )
-                {
-                    unlink( "ezarticle/cache/" . $entry );
-                }
-            }
+                    if ( ereg( "articlestatic,([^,]+),.*", $entry, $regArray  ) )
+                    {
+                        if ( $regArray[1] == $articleID )
+                        {
+                            unlink( "ezarticle/cache/" . $entry );
+                        }
+                    }
 
-            if ( ereg( "articlelist,(.+)\..*", $entry, $regArray  ) )
-            {
-                if ( in_array( $regArray[1], $categoryIDArray ) || ( $regArray[1] == 0 ) )
-                {
-                    unlink( "ezarticle/cache/" . $entry );
-                }
-            }
-        } 
-    } 
-    $dir->close();
+                    if ( ereg( "articlelist,(.+)\..*", $entry, $regArray  ) )
+                    {
+                        if ( in_array( $regArray[1], $categoryIDArray ) || ( $regArray[1] == 0 ) )
+                        {
+                            unlink( "ezarticle/cache/" . $entry );
+                        }
+                    }
+                } 
+            } 
+            $dir->close();
 
-    $categories = $article->categories();    
-    $categoryID = $categories[0]->id();
+            $categories = $article->categories();    
+            $categoryID = $categories[0]->id();
     
-    $article->delete();    
-    
-    eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
-    exit();
+            $article->delete();
+        }
+        eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
+        exit();
+
+    }    
 }
-
-
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 

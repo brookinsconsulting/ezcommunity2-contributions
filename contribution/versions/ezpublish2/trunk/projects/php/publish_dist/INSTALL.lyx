@@ -93,7 +93,7 @@ This is an example of a httpd.conf virtalhost.
  your system.
 \layout LyX-Code
 
-NameVirtaulHost[yourIPaddress]:80
+NameVirtualHost[yourIPaddress]:80
 \layout LyX-Code
 
 # User site 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: groupedit.php,v 1.15 2001/01/23 13:16:57 jb Exp $
+// $Id: groupedit.php,v 1.16 2001/01/24 10:42:08 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -29,6 +29,11 @@ if ( isset( $Cancel ) )
 {
     eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
     exit();
+}
+
+if ( isset ( $DeleteCategories ) )
+{
+    $Action = "DeleteCategories";
 }
 
 include_once( "classes/INIFile.php" );
@@ -124,6 +129,25 @@ if ( $Action == "delete" )
     eZHTTPTool::header( "Location: /article/archive/" );
     exit();
 }
+
+if ( $Action == "DeleteCategories" )
+{
+    if ( count ( $CategoryArrayID ) != 0 )
+    {
+        if ( file_exists( "ezarticle/cache/menubox.cache" ) )
+            unlink( "ezarticle/cache/menubox.cache" );
+
+        foreach( $CategoryArrayID as $ID )
+        {
+            $category = new eZArticleCategory( $ID );
+            $category->delete();
+        }
+    }
+
+    eZHTTPTool::header( "Location: /article/archive/" );
+    exit();
+}
+
 
 $t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
                      "ezarticle/admin/intl/", $Language, "categoryedit.php" );
