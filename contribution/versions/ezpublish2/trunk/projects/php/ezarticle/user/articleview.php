@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.86 2001/10/30 13:21:48 bf Exp $
+// $Id: articleview.php,v 1.87 2001/10/31 12:25:19 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -147,6 +147,8 @@ $t->set_block( "type_item_tpl", "attribute_item_tpl", "attribute_item" );
 $t->set_block( "article_view_page_tpl", "related_article_list_tpl", "related_article_list" );
 $t->set_block( "related_article_list_tpl", "related_article_tpl", "related_article" );
 
+$t->set_block( "article_view_page_tpl", "article_rate_tpl", "article_rate" );
+$t->set_block( "article_rate_tpl", "article_rate_value_tpl", "article_rate_value" );
 
 // read user override variables for image size
 $ListImageWidth = $ini->read_var( "eZArticleMain", "ListImageWidth" );
@@ -163,7 +165,6 @@ if ( $listImageHeightOverride )
 {
     $ListImageHeight = $listImageHeightOverride;
 }
-
 
 $SiteURL = $ini->read_var( "site", "SiteURL" );
 
@@ -584,6 +585,19 @@ if ( count( $relatedArticles ) > 0 )
     $t->parse( "related_article_list", "related_article_list_tpl" );
 else
     $t->set_var( "related_article_list", "" );
+
+
+$ArticleRatingRange = $ini->read_var( "eZArticleMain", "ArticleRatingRange" );
+
+
+for ( $i=0; $i<$ArticleRatingRange; $i++ )
+{
+    $t->set_var( "rate_value", $i+1 );
+
+    $t->parse( "article_rate_value", "article_rate_value_tpl", true );
+}
+
+$t->parse( "article_rate", "article_rate_tpl" );
 
     
 // set variables for meta information

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.95 2001/10/16 16:17:26 ce Exp $
+// $Id: datasupplier.php,v 1.96 2001/10/31 12:25:20 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -36,6 +36,12 @@ $GlobalSectionID = $ini->read_var( "eZArticleMain", "DefaultSection" );
 
 switch ( $url_array[2] )
 {
+    case "rate":
+    {
+        include( "ezarticle/user/articlerate.php" );
+    }
+    break;
+
     case "mailtofriend":
     {
         $ArticleID = $url_array[3];

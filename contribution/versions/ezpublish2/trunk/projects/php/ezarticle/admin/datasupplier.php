@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.57 2001/10/30 13:21:48 bf Exp $
+// $Id: datasupplier.php,v 1.58 2001/10/31 12:25:19 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -45,9 +45,31 @@ switch ( $url_array[2] )
 {
     case "rating":
     {
-        if ( $url_array[3] == "list" )
-            include( "ezarticle/admin/ratinglist.php" );
+        if ( $url_array[3] == "parent" )
+        {
+            $Offset = $url_array[4];
+            $sortSwitch = $url_array[5];
+        }
+        else
+        {
+            $sortSwitch = $url_array[3];
+            $Offset = 0;
+        }
+
+        if ( $sortSwitch != "avgrate" and
+             $sortSwitch != "maxrate" and
+             $sortSwitch != "minrate" and
+             $sortSwitch != "ratecount"
+             )
+        {
+            $SortMode = "avgrate";
+        }
+        else
+        {
+            $SortMode = $sortSwitch;
+        }
         
+        include( "ezarticle/admin/ratinglist.php" );
     }
     break;
 

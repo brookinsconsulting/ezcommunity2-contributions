@@ -78,6 +78,30 @@
 
 <br clear="all" />
 
+<!-- BEGIN article_rate_tpl -->
+<h2>{intl-rate_this_article}</h2>
+<form method="post" action="/article/rate/">
+<b>{intl-poor}</b>
+<!-- BEGIN article_rate_value_tpl -->
+<input type="radio" name="RateValue" value="{rate_value}" /> {rate_value}
+<!-- END article_rate_value_tpl -->
+<input type="hidden" name="ArticleID" value="{article_id}" />
+
+<b>{intl-good}</b>
+<input type="submit" name="Rate" value="{intl-rate}" />
+</form>
+<!-- END article_rate_tpl -->
+
+<!-- BEGIN related_article_list_tpl -->
+<h2>{intl-related_articles}</h2>
+
+<!-- BEGIN related_article_tpl -->
+* <a class="path" href="{www_dir}{index}/article/view/{article_id}/"> {article_name}</a><br />
+<!-- END related_article_tpl -->
+
+<!-- END related_article_list_tpl -->
+
+
 <!-- BEGIN image_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <!-- BEGIN image_tpl -->
@@ -141,15 +165,6 @@
 </form>
 
 <br clear="all" />
-
-<!-- BEGIN related_article_list_tpl -->
-<h2>{intl-related_articles}</h2>
-
-<!-- BEGIN related_article_tpl -->
-* <a class="path" href="{www_dir}{index}/article/view/{article_id}/"> {article_name}</a><br />
-<!-- END related_article_tpl -->
-
-<!-- END related_article_list_tpl -->
 
 <div align="center">
 <!-- BEGIN prev_page_link_tpl -->
