@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.21 2001/10/10 11:38:27 bf Exp $
+// $Id: frontpage.php,v 1.22 2001/10/12 07:27:23 br Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -33,6 +33,9 @@ include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "ezsitemanager/classes/ezsection.php" );
+
+include_once( "ezad/classes/ezadcategory.php" );
+include_once( "ezad/classes/ezad.php" );
 
 
 $ini =& INIFile::globalINI();
@@ -133,10 +136,11 @@ if ( is_array ( $rows ) and count ( $rows ) > 0 )
             $articleList =& array_merge( $articleList, eZArticleCategory::articles( $category->sortMode(), false, true, $offsetArticleArray[$row->categoryID()], 1, $row->categoryID() ) );
             $offsetArticleArray[$row->categoryID()] = $offsetArticleArray[$row->categoryID()] + 1;
         }
-            
         if ( $value == "ad"  )
         {
-            $adCount++;
+            $category = new eZAdCategory( $row->categoryID() );
+            $adList =& array_merge( $adList, $category->ads( "count", false, $offsetAdArray[$row->categoryID()], 1 ) );
+            $offsetAdArray[$row->categoryID()] = $offsetAdArray[$row->categoryID()] + 1;
         }
         if ( $value == "1columnProduct" )
         {
@@ -154,19 +158,11 @@ if ( is_array ( $rows ) and count ( $rows ) > 0 )
     }
 }
 
+
+
 $user =& eZUser::currentUser();
 
 $sectionObject->setOverrideVariables();
-
-if ( $adCount > 0 )
-{
-    include_once( "ezad/classes/ezadcategory.php" );
-    include_once( "ezad/classes/ezad.php" );
-
-    $adCategory = new eZAdCategory( $FrontPageAdCategory );
-
-    $adList =& $adCategory->ads( "count", false, 0, $adCount );
-}
 
 $t->set_var( "category_current_id", $CategoryID );
 
@@ -217,7 +213,6 @@ foreach ( $page_elements as $element )
         case "ad":
         {
             $ad =& $adList[$adOffset];
-
             if ( get_class( $ad ) == "ezad" )
                 $pageContents .= renderAd( $t, $locale, $ad );
                     
@@ -226,12 +221,11 @@ foreach ( $page_elements as $element )
 
         case "1columnProduct":
         {            
-            $product =& $productList[0];
-
+//            $product =& $productList[$productOffset];
 //            if ( get_class( $product ) == "ezproduct" )
 //                $pageContents .= renderFrontpageProduct( $t, $locale, $product );
-            
-            $productOffset++;
+//
+//            $productOffset++;
         }break;
 
         case "2columnProduct":
