@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.79 2001/03/10 12:10:35 bf Exp $
+// $Id: ezforummessage.php,v 1.80 2001/03/13 13:59:41 pkej Exp $
 //
 // Definition of eZCompany class
 //
@@ -477,7 +477,14 @@ class eZForumMessage
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
        
-       return  htmlspecialchars( $this->Body );
+       if( $htmlchars == true )
+       {
+            return  htmlspecialchars( $this->Body );
+       }
+       else
+       {
+            return $this->Body;
+       }  
     }
 
     /*!
