@@ -306,9 +306,15 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "sitemap";
+    {
+        include( "ezarticle/admin/sitemap.php" );
+    }
+    break;    
+
     default :
     {
-        eZHTTPTool::header( "Location: /error/403" );
+        eZHTTPTool::header( "Location: /error/404" );
         exit();
     }
     break;
