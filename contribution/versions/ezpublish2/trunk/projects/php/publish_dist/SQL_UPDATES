@@ -621,7 +621,7 @@ CREATE TABLE eZTrade_QuantityRange (
 
 INSERT INTO eZTrade_QuantityRange VALUES ('',0,'Unavailable');
 INSERT INTO eZTrade_QuantityRange VALUES ('',NULL,'Available');
-INSERT INTO eZTrade_QuantityRange VALUES ('',-1,'Not applicable);
+INSERT INTO eZTrade_QuantityRange VALUES ('',-1,'Not applicable');
 
 ALTER TABLE eZTrade_OptionValue MODIFY Price float(10,2);
 
