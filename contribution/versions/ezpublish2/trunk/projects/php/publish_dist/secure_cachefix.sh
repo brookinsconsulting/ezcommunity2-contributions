@@ -20,8 +20,8 @@ if [ -f "override/site.ini.append" ]; then
 fi
 
 touch error.log
-chmod 600 error.log
-chown $1:$1 error.log
+chmod 660 error.log
+chown $1:$2 error.log
 
 # [cache section]
 # This part will create the cache dirs which are needed and make sure
