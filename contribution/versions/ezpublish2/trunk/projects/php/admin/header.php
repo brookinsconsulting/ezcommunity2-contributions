@@ -54,7 +54,9 @@ if ( $user )
 if ( $user )
 {        
 ?>
+<!--
     <img src="/images/<? echo $SiteStyle; ?>//topmenu-arrow.gif" width="20" height="10"><a class="topmenu">Brukerstatus</a><br />
+-->
     <img src="/images/<? echo $SiteStyle; ?>/topmenu-arrow.gif" width="20" height="10" border="0"><a href="/user/passwordchange/" class="topmenu">Endre passord</a></td>
 <?
 }
