@@ -2,6 +2,15 @@
 ob_end_clean();
 ob_start();
 
+define( "EZPUBLISH_SERVER_VERSION", 0.2 );
+
+// Error codes
+define( "EZERROR_BAD_LOGIN", 1 );
+define( "EZERROR_INVALID_FUNCTION", 2 );
+define( "EZERROR_CUSTOM", 3 );
+define( "EZERROR_NO_RETURN_DATA", 4 );
+define( "EZERROR_NONEXISTING_OBJECT", 5 );
+define( "EZERROR_PHP_ERROR", 6 );
 
 // include the server
 include_once( "ezxmlrpc/classes/ezxmlrpcserver.php" );
@@ -15,20 +24,14 @@ include_once( "ezxmlrpc/classes/ezxmlrpcresponse.php" );
 
 // site information
 include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
+$ini =& INIFile::globalINI();
 $GlobalSiteIni =& $ini;
 
-define( "EZPUBLISH_SERVER_VERSION", 0.2 );
-
-// Error codes
-define( "EZERROR_BAD_LOGIN", 1 );
-define( "EZERROR_INVALID_FUNCTION", 2 );
-define( "EZERROR_CUSTOM", 3 );
-define( "EZERROR_NO_RETURN_DATA", 4 );
-define( "EZERROR_NONEXISTING_OBJECT", 5 );
+include_once( "classes/ezlog.php" );
+error_reporting(0);
+$old_error_handler = set_error_handler("xmlrpcErrorHandler");
 
 include_once( "classes/ezlocale.php" );
-include_once( "classes/ezlog.php" );
 
 
 
@@ -50,7 +53,6 @@ $server->registerFunction( "Call", array( new eZXMLRPCStruct( ) ) );
 // process the server requests
 $server->processRequest();
 
-
 /*!
   Function to handle requests.
 */
@@ -59,54 +61,55 @@ function Call( $args )
 //      eZLog::writeNotice( "XML-RPC call." );
     $call = $args[0]->value();
 
-    $GLOBALS["login"] =& $login;
     $login = $call["User"]->value();
-    $GLOBALS["password"] =& $Password;
+    $GLOBALS["login"] =& $login;
     $password = $call["Password"]->value();
+    $GLOBALS["password"] =& $Password;
 
-    $GLOBALS["User"] =& $User;
     $User = new eZUser();
     $User = $User->validateUser( $login, $password );
+    $GLOBALS["User"] =& $User;
         
     if ( ( get_class( $User ) == "ezuser" ) and eZPermission::checkPermission( $User, "eZUser", "AdminLogin" ) )
     {
 //          eZLog::writeNotice( "XML-RPC logged in." );
-        $GLOBALS["version"] =& $version;
         $version = $call["Version"]->value();
+        $GLOBALS["version"] =& $version;
 
         // Get caller ID if any
-        $GLOBALS["caller"] =& $caller;
         $caller = false;
-        if ( is_object( $call["Caller"] ) )
+        if ( isset( $call["Caller" ] ) and is_object( $call["Caller"] ) )
             $caller = $call["Caller"];
+        $GLOBALS["caller"] =& $caller;
 
-        $GLOBALS["RefID"] =& $RefID;
         $RefID = false;
-        if ( is_object( $call["RefID"] ) )
+        if ( isset( $call["RefID" ] ) and is_object( $call["RefID"] ) )
             $RefID = $call["RefID"];
+        $GLOBALS["RefID"] =& $RefID;
 
         // decode URL
         $REQUEST_URI = $call["URL"]->value();
-        $GLOBALS["Module"] =& $Module;
         $Module = $REQUEST_URI["Module"]->value();
-        $GLOBALS["RequestType"] =& $RequestType;
+        $GLOBALS["Module"] =& $Module;
         $RequestType = $REQUEST_URI["Type"]->value();
-        $GLOBALS["ID"] =& $ID;
-        if( is_object( $REQUEST_URI["ID"] ) )
+        $GLOBALS["RequestType"] =& $RequestType;
+        if( isset( $REQUEST_URI["ID"] ) and is_object( $REQUEST_URI["ID"] ) )
             $ID = $REQUEST_URI["ID"]->value();
         else
             $ID = 0;
+        $GLOBALS["ID"] =& $ID;
         
-        $GLOBALS["Data"] =& $Data;
         $Data = $call["Data"]->value();
-        $GLOBALS["Command"] =& $Command;
+        $GLOBALS["Data"] =& $Data;
         $Command = $call["Command"]->value();
+        $GLOBALS["Command"] =& $Command;
 
         $ReturnData = array();
 
         $Error = false;
+        $GLOBALS["XMLRPC_Error"] =& $Error;
         $datasupplier = $Module . "/xmlrpc/datasupplier.php";
-        // check for module implementation        
+        // check for module implementation
         if ( file_exists( $datasupplier )  || ( $Module == "ezpublish" && $RequestType == "modules" ) )
         {
             if ( $Module == "ezpublish" && $RequestType == "modules" )
@@ -137,6 +140,7 @@ function Call( $args )
             }
             else
             {
+
 //                  eZLog::writeNotice( "XML-RPC returning standard data." );
                 include( $datasupplier );
 
@@ -188,6 +192,57 @@ function Call( $args )
     }
 }
 
+function xmlrpcErrorHandler ($errno, $errmsg, $filename, $linenum, $vars)
+{
+    global $XMLRPC_Error;
+// timestamp for the error entry
+    $dt = date("Y-m-d H:i:s (T)");
+
+    // define an assoc array of error string
+    // in reality the only entries we should
+    // consider are 2,8,256,512 and 1024
+    $errortype = array (
+        1   =>  "Error",
+        2   =>  "Warning",
+        4   =>  "Parsing Error",
+        8   =>  "Notice",
+        16  =>  "Core Error",
+        32  =>  "Core Warning",
+        64  =>  "Compile Error",
+        128 =>  "Compile Warning",
+        256 =>  "User Error",
+        512 =>  "User Warning",
+        1024=>  "User Notice"
+        );
+    // set of errors for which a var trace will be saved
+    $user_errors = array(E_USER_ERROR, E_USER_WARNING, E_USER_NOTICE);
+    
+    $err = "<errorentry>\n";
+    $err .= "\t<datetime>".$dt."</datetime>\n";
+    $err .= "\t<errornum>".$errno."</errnumber>\n";
+    $err .= "\t<errortype>".$errortype[$errno]."</errortype>\n";
+    $err .= "\t<errormsg>".$errmsg."</errormsg>\n";
+    $err .= "\t<scriptname>".$filename."</scriptname>\n";
+    $err .= "\t<scriptlinenum>".$linenum."</scriptlinenum>\n";
+
+    if (in_array($errno, $user_errors))
+        $err .= "\t<vartrace>".wddx_serialize_value($vars,"Variables")."</vartrace>\n";
+    $err .= "</errorentry>\n\n";
+    
+    // for testing
+    // echo $err;
+
+    // save to the error log, and e-mail me if there is a critical user error
+//      error_log($err, 3, "/usr/local/php4/error.log");
+    if ( $errno != 8 and $errno != 2 )
+    {
+        eZLog::writeError( $err );
+//          $XMLRPC_Error = createErrorMessage( EZ_ERROR_PHP_ERROR, $err );
+    }
+//      if ($errno == E_USER_ERROR)
+//          mail("phpdev@mydomain.com","Critical User Error",$err);
+}
+
 function &createErrorMessage( $error_id, $error_msg = false )
 {
     global $ID;
@@ -221,6 +276,14 @@ function &createErrorMessage( $error_id, $error_msg = false )
             if ( $ID > 0 )
                 $id_text = $ID;
             $error_text = "Object does not exist, used command \"$Command\" for URL \"$Module:/$RequestType/$id_text\".";
+            break;
+        }
+        case EZERROR_PHP_ERROR:
+        {
+            if ( $ID > 0 )
+                $id_text = $ID;
+            $error_text = "PHP error for command \"$Command\" for URL \"$Module:/$RequestType/$id_text\".\n";
+            $error_text .= "Error was: $error_msg";
             break;
         }
         case EZERROR_CUSTOM:
