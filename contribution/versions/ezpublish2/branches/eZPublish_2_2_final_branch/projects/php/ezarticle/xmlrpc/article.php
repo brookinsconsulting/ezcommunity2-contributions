@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: article.php,v 1.20.2.5 2002/04/26 14:59:10 jb Exp $
+// $Id: article.php,v 1.20.2.6 2002/05/08 13:05:20 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -103,10 +103,8 @@ else if( $Command == "data" ) // return all the data in the category
         $section_lang = false;
         if ( $section_id != 0 )
         {
-            eZLog::writeNotice( "Section=$section_id for article $ID" );
             $section = new eZSection( $section_id );
             $section_lang = $section->language();
-            eZLog::writeNotice( "Language = $section_lang" );
         }
         $cats = $article->categories( false );
         $cats = array_diff( $cats, array( $cat_def_id ) );

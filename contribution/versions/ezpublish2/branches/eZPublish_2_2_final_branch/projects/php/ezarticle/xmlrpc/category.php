@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: category.php,v 1.14.2.2 2002/04/26 14:59:10 jb Exp $
+// $Id: category.php,v 1.14.2.3 2002/05/08 13:05:20 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -73,10 +73,8 @@ else if( $Command == "data" ) // Dump category info!
     $section_lang = false;
     if ( $section_id != 0 )
     {
-        eZLog::writeNotice( "Section=$section_id for article cat $ID" );
         $section = new eZSection( $section_id );
         $section_lang = $section->language();
-        eZLog::writeNotice( "Language = $section_lang" );
     }
 
     $ret = array( "Location" => createURLStruct( "ezarticle", "category", $category->id() ),
@@ -104,7 +102,6 @@ else if( $Command == "data" ) // Dump category info!
 }
 else if( $Command == "storedata" ) // save the category data!
 {
-//      eZLog::writeNotice( "article category $ID" );
 
     if( $ID == 0 )
         $category = new eZArticleCategory();

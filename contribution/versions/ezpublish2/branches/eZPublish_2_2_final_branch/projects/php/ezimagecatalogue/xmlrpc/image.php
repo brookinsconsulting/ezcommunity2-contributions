@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: image.php,v 1.17.2.5 2002/05/08 12:58:43 jb Exp $
+// $Id: image.php,v 1.17.2.6 2002/05/08 13:05:20 jb Exp $
 //
 // Created on: <14-Jun-2001 13:18:27 amos>
 //
@@ -112,10 +112,8 @@ else if( $Command == "data" ) // Dump image info!
                 $section_lang = false;
                 if ( $section_id != 0 )
                 {
-                    eZLog::writeNotice( "Section=$section_id for image $ID" );
                     $section = new eZSection( $section_id );
                     $section_lang = $section->language();
-                    eZLog::writeNotice( "Language = $section_lang" );
                 }
 
                 $photoid = $image->photographer( false );
@@ -183,7 +181,6 @@ else if ( $Command == "storedata" )
             $image->setName( $title );
             $image->setCaption( $caption );
             $image->setDescription( $description );
-            eZLog::writeNotice( "Photographer = $photographer" );
             $image->setPhotographer( $photographer > 0 ? $photographer : 0 );
             if ( isset( $Data["Image"] ) and isset( $Data["ImageFileName"] ) )
             {

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categorylist.php,v 1.8.2.3 2002/04/26 14:59:11 jb Exp $
+// $Id: categorylist.php,v 1.8.2.4 2002/05/08 13:05:20 jb Exp $
 //
 // Created on: <26-Oct-2000 19:40:18 bf>
 //
@@ -56,7 +56,6 @@ if ( $Command == "list" )
         $Part = $Data["Part"]->value();
         $offset = $Part["Offset"]->value();
         $max = $Part["Max"]->value();
-//      eZLog::writeNotice( "Article: Offset: $offset, Max: $max" );
     }
 
     $category = new eZImageCategory( $ID );
@@ -143,10 +142,8 @@ if ( $Command == "list" )
     $section_lang = false;
     if ( $section_id != 0 )
     {
-        eZLog::writeNotice( "Section=$section_id for image category $ID" );
         $section = new eZSection( $section_id );
         $section_lang = $section->language();
-        eZLog::writeNotice( "Language = $section_lang" );
     }
     if ( $offset == 0 )
     {

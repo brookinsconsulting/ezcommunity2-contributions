@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: unassignedlist.php,v 1.2 2001/10/11 10:34:43 jb Exp $
+// $Id: unassignedlist.php,v 1.2.2.1 2002/05/08 13:05:20 jb Exp $
 //
 // Created on: <26-Oct-2000 19:40:18 bf>
 //
@@ -36,7 +36,6 @@ if ( $Command == "list" )
         $Part = $Data["Part"]->value();
         $offset = $Part["Offset"]->value();
         $max = $Part["Max"]->value();
-//      eZLog::writeNotice( "Article: Offset: $offset, Max: $max" );
     }
 
 //      $category = new eZImageCategory( $ID );
