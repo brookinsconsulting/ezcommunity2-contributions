@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.30 2001/02/08 10:17:06 jb Exp $
+// $Id: ezproduct.php,v 1.31 2001/02/08 10:45:58 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -226,6 +226,9 @@ class eZProduct
 
         if ( isset( $this->ID ) )
         {
+            $this->Database->query( "DELETE FROM eZTrade_ProductTypeLink WHERE ProductID='$this->ID'" );
+            $this->Database->query( "DELETE FROM eZTrade_AttributeValue WHERE ProductID='$this->ID'" );
+
             $this->Database->query( "DELETE FROM eZTrade_ProductCategoryLink WHERE ProductID='$this->ID'" );
             $this->Database->query( "DELETE FROM eZTrade_ProductCategoryDefinition WHERE ProductID='$this->ID'" );
             
