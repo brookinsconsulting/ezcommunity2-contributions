@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userbox.php,v 1.5 2000/10/28 11:54:14 ce-cvs Exp $
+// $Id: userbox.php,v 1.6 2000/10/30 11:33:37 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -46,7 +46,7 @@ if ( !$user )
     $t->setAllStrings();
 
     $t->set_file( array(
-        "login" => "login.tpl"
+        "login" => "loginmain.tpl"
         ) );
 
     $t->set_var( "redirect_url", $REQUEST_URI );

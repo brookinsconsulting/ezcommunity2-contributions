@@ -1,45 +1,52 @@
 <form method="post" action="/user/login/login/">
 
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<h1>{intl-head_line}</h1>
+
+<hr noshade="noshade" size="4">
+
+<br />
+<table cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td class="menuhead" bgcolor="#c82828">{intl-head_line}</td>
-</tr>
-<tr>
-	<td class="menutext">
-	<p class="menutext">{intl-username}</p>
+	<td class="boxtext">
+	<p class="boxtext">{intl-username}</p>
 	<input type="text" size="6" name="Username"/>
 	</td>
 </tr>
 <tr>
-	<td class="menutext">
-	<p class="menutext">{intl-password}</p>
+	<td class="boxtext">
+	<p class="boxtext">{intl-password}</p>
 	<input type="password" size="6" name="Password" />
 	</td>
 </tr>
+</table>
+<br />
+<hr noshade="noshade" size="4">
+
+<table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<input type="submit" value="{intl-ok}">
+	<input class="stdbutton" type="submit" Name="Forgot" value="{intl-forgot}">
 	</td>
-</tr>
-<tr>
-	<td class="menuspacer">&nbsp;</td>
-</tr>
-<tr>
-	<td class="menutext">
-	<img src="/images/dot.gif" width="12" height="10"><a class="menu" href="/user/forgot/">{intl-forgot}</a>
+	<td>&nbsp;</td>
+	<td>
+	<input class="stdbutton" type="submit" Name="Register" value="{intl-register}">
 	</td>
-</tr>
-<tr>
-	<td class="menutext">
-	<img src="/images/dot.gif" width="12" height="10"><a class="menu" href="/user/user/new/">{intl-register}
-	</td>
-</tr>
-<tr>
-	<td class="menuspacer">&nbsp;</td>
 </tr>
 </table>
 
+<br />
+<hr noshade="noshade" size="4">
+
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td class="menuspacer">&nbsp;</td>
+</tr>
+
+<tr>
+	<td>
+	<input class="okbutton" type="submit" value="{intl-ok}">
+	</td>
+</tr>
 <input type="hidden" name="RedirectURL" value="{redirect_url}">
-
+</table>
 </form>
-

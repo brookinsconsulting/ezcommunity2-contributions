@@ -9,6 +9,14 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "loginmain" :
+    {
+        $Action = $url_array[3];
+        include( "ezuser/user/loginmain.php" );
+    }
+    break;
+
+    
     case "userwithaddress" :
     {
         if ( $url_array[3] == "new" )

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.5 2000/10/28 12:29:01 bf-cvs Exp $
+// $Id: login.php,v 1.6 2000/10/30 11:33:37 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -36,6 +36,18 @@ include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezmodule.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezsession/classes/ezsession.php" );
+
+if ( isSet( $Forgot ) )
+{
+    Header( "Location: /user/forgot/" );
+    exit();
+}
+
+if ( isSet( $Register ) )
+{
+    Header( "Location: /user/user/new/" );
+    exit();
+}
 
 // Template
 $t = new eZTemplate( "ezuser/user/" . $ini->read_var( "eZUserMain", "TemplateDir" ),
