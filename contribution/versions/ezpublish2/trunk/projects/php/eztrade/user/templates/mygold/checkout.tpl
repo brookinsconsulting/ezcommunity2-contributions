@@ -2,21 +2,20 @@
 
 <h1>{intl-confirm_order}</h1>
 
-<hr noshade="noshade" size="4" />
+<hr noshade="noshade" size="1" />
 
 <h2>{intl-products_about_to_order}:</h2>
 
 <!-- BEGIN cart_item_list_tpl -->
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
-<tr>
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
+    <tr align="left">
 	<th>{intl-picture}:</th>
 	<th>{intl-product_name}:</th>
 	<th>{intl-options}:</th>
 	<!-- BEGIN product_available_header_tpl -->
-	<th>{intl-product_availability}:</th>
+	<th>&nbsp;</th>
 	<!-- END product_available_header_tpl -->
-	<th>{intl-qty}:</th>
-	<td class="path" align="right">{intl-price}</td>
+	<th align="right">{intl-price}</th>
 </tr>
 
 <!-- BEGIN cart_item_tpl -->
@@ -31,20 +30,16 @@
 	</td>
 	<td class="{td_class}">
         <!-- BEGIN cart_item_option_tpl -->
-	<span class="small">{option_name}: {option_value}<!-- BEGIN cart_item_option_availability_tpl -->({option_availability})
-<!-- END cart_item_option_availability_tpl --></span><br />
-        <!-- END cart_item_option_tpl -->
-	&nbsp;
+	<!-- BEGIN cart_item_option_availability_tpl -->&nbsp;
+	<!-- END cart_item_option_availability_tpl -->
+        <!-- END cart_item_option_tpl -->&nbsp;
 	</td>
 	<!-- BEGIN product_available_item_tpl -->
 	<td class="{td_class}">
-	{product_availability}
+	&nbsp;
 	<!-- BEGIN product_available_item_tpl -->
 	</td>
 	<!-- END product_available_item_tpl -->
-	<td class="{td_class}">
-	{cart_item_count}
-	</td>
 	<td class="{td_class}" align="right">
 	{product_price}
 	</td>
@@ -52,17 +47,17 @@
 <!-- END cart_item_tpl -->
 
 <tr>
-	<td colspan="2" rowspan="3" valign="top">
+	<td colspan="2" rowspan="3" valign="bottom">
 	<div class="boxtext">{intl-shipping_method}:</div>
 	<select name="ShippingTypeID">
 	<!-- BEGIN shipping_type_tpl -->
 	<option value="{shipping_type_id}" {type_selected}>{shipping_type_name}</option>
 	<!-- END shipping_type_tpl -->
 	</select>
-	<input class="stdbutton" type="submit" name="Recalculate" value="{intl-recalculate}" />
+	<input class="okbutton" type="submit" name="Recalculate" value="{intl-recalculate}" />
 	</td>
 	<td align="right" colspan="2">
-	<span class="boxtext">{intl-shipping_charges}:</span>
+	{intl-shipping_charges}:
 	</td>
 
 	<td align="right">
@@ -70,15 +65,13 @@
 	</td>
 </tr>
 <tr>
-	<td>&nbsp;</td>
-	<td align="right"><span class="boxtext">{intl-vat}:</span></td>
+	<td colspan="2" align="right">{intl-vat}:</td>
 	<td align="right">
 	{cart_vat_sum}
 	</td>
 </tr>
 <tr>
-	<td>&nbsp;</td>
-	<td align="right"><span class="boxtext">{intl-total_cost_is}:</span></td>
+	<td colspan="2" align="right">{intl-total_cost_is}:</td>
 	<td align="right">
 	{cart_sum}
 	</td>
@@ -87,7 +80,7 @@
 <!-- END cart_item_list_tpl -->
 
 <!-- BEGIN billing_address_tpl -->
-<p class="boxtext">{intl-billing_to}:</p>
+<p>{intl-billing_to}:</p>
 <select name="BillingAddressID">
 <!-- BEGIN billing_option_tpl -->
 <option value="{address_id}">{customer_first_name} {customer_last_name}, {street1}, {street2}, {zip} {place} {country}</option>
@@ -95,7 +88,7 @@
 </select>
 <!-- END billing_address_tpl -->
 
-<p class="boxtext">{intl-shipping_to}:</p>
+<p>{intl-shipping_to}:</p>
 <select name="ShippingAddressID">
 <!-- BEGIN shipping_address_tpl -->
 <option value="{address_id}">{customer_first_name} {customer_last_name}, {street1}, {street2}, {zip} {place} {country}</option>
@@ -106,7 +99,7 @@
 </select>
 
 <br /><br />
-<hr noshade="noshade" size="4" />
+<hr noshade="noshade" size="1" />
 <br />
 
 {intl-payment_methods_description}:
@@ -119,7 +112,7 @@
 
 <br /><br />
 
-<hr noshade="noshade" size="4" />
+<hr noshade="noshade" size="1" />
 
 
 <input type="hidden" name="ShippingCost" value="{shipping_cost_value}" />
