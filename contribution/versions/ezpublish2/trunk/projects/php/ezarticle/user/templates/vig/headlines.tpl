@@ -1,4 +1,7 @@
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td class="menuspacer"><br /><br /><br /><br /></td>
+</tr>
 <!-- BEGIN path_item_tpl -->
 
 <!-- END path_item_tpl -->
@@ -28,7 +31,7 @@
 	</td>
 </tr>
 <tr>
-	<td class="menuspacer">&nbsp;</td>
+	<td class="menuspacer"><br /><br /><br /><br /></td>
 </tr>
 <!-- END article_item_tpl -->
 <!-- END article_list_tpl -->

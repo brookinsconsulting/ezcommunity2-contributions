@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.65 2001/04/07 13:54:19 bf Exp $
+// $Id: eztechrenderer.php,v 1.66 2001/04/26 12:54:00 th Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -304,7 +304,7 @@ class eZTechRenderer
             else
             {
 //                  $newArticle = eZTextTool::nl2br( $intro ) . "</p><p>". $pageArray[$pageNumber];
-                $newArticle = $intro . "\n</p><p>\n". $pageArray[$pageNumber];
+                $newArticle = "<span class=\"intro\">" . $intro . "</span>\n</p><p>\n". $pageArray[$pageNumber];
             }
                 
         }

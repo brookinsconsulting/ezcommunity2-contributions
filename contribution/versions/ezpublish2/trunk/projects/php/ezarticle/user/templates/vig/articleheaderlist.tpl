@@ -27,13 +27,13 @@
 	Kategori:
 	</th>
 	<th>
-	<div align="right">{intl-publishing_date}:</div>
+	<div align="right">Dato:</div>
 	</th>
 </tr>
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/article/articleview/{article_id}/">
+	<a class="noline" href="/article/articleview/{article_id}/">
 	{article_name}
 	</a>
 	</td>
