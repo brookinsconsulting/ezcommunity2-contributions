@@ -363,6 +363,8 @@ UPDATE eZUser_Permission SET Name='CategoryDelete' WHERE Name='TypeDelete' AND M
 UPDATE eZUser_Permission SET Name='CategoryModify' WHERE Name='TypeModify' AND ModuleID='6';
 INSERT INTO eZUser_Permission VALUES('41','6','CompanyView');
 INSERT INTO eZUser_Permission VALUES('42','6','CompanyList');
+INSERT INTO eZUser_Permission VALUES('43','6','TypeAdmin');
+INSERT INTO eZUser_Permission VALUES('44','6','Consultation');
 
 # add tables for Images and Files in eZBug
 CREATE TABLE eZBug_BugFileLink (
