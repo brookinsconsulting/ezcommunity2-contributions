@@ -1693,7 +1693,7 @@ CREATE TABLE eZQuiz_Score (
 #
 
 DROP TABLE IF EXISTS eZQuiz_AllTimeScore;
-CREATE TABLE eZQuiz_Score (
+CREATE TABLE eZQuiz_AllTimeScore (
   ID int(11) NOT NULL auto_increment,
   UserID int(11) default '0',
   TotalScore int(11) default '0',
