@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezobjectpermission.php,v 1.36.2.6 2002/02/13 10:14:59 jhe Exp $
+//
+// $Id: ezobjectpermission.php,v 1.36.2.7 2002/04/23 15:33:45 bf Exp $
 //
 // Definition of eZObjectPermission class
 //
@@ -40,7 +40,7 @@
   {
   He did not.
   }
-  
+
   \endcode
   \sa eZUser eZUserGroup eZModule eZForgot
 */
@@ -129,7 +129,6 @@ class eZObjectPermission
         $query = "SELECT count( ID ) as ID FROM $tableName WHERE ObjectID='$objectID' AND ( $SQLGroups ) $SQLPermission";
         $database =& eZDB::globalDatabase();
 
-        
         $database->query_single( $res, $query );
         if ( $res[$database->fieldName( "ID" )] != 0 )
             return true;
@@ -173,21 +172,28 @@ class eZObjectPermission
                     }
                     $first = false;
                 }
+
                 $first = true;
                 $SQLGroups .= ") AND ( Category.GroupID='-1' ";
                 foreach ( $groups as $groupItem )
                 {
                     $SQLGroups .= " OR Category.GroupID='$groupItem' ";
+
                 }
-                
-                $SQLGroups .= ") OR ( Object.GroupID = '-1' AND Category.GroupID = '-1' ) 
+
+                $SQLGroups .=  " ) ";
+                foreach ( $groups as $groupItem )
+                {
+                    $SQLGroups .= "OR ( ( Object.GroupID = '-1' AND Category.GroupID = '-1' )
                                OR ( Object.GroupID = '$groupItem' AND Category.GroupID = '-1' )
-                               OR ( Object.GroupID = '-1' AND Category.GroupID = '$groupItem' )";
+                               OR ( Object.GroupID = '-1' AND Category.GroupID = '$groupItem' ) )";
+                }
+
             }
         }
 
         $tableName = getTableName( $moduleTable, true );
-        
+
         if ( $tableName == "" )
         {
             return false;
@@ -208,7 +214,8 @@ class eZObjectPermission
 
         $database =& eZDB::globalDatabase();
 
-        $database->query_single( $res, $query );        
+        $database->query_single( $res, $query );
+
         if ( $res[$database->fieldName( "ID" )] != 0 )
         {
             return true;
