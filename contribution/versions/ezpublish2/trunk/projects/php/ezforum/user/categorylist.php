@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.16 2000/10/17 14:16:49 ce-cvs Exp $
+// $Id: categorylist.php,v 1.1 2000/10/18 11:56:07 ce-cvs Exp $
 //
 // Definition of || class
 //
@@ -24,7 +24,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
 include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 
@@ -35,41 +34,43 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdb.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
 
-$t = new eZTemplate( "ezforum/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
-                     "ezforum/intl", $Language, "categorylist.php" );
+$t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+                     "ezforum/user/intl", $Language, "categorylist.php" );
 $t->setAllStrings();
 
-$t->set_file( Array( "categorylist_tpl" => "categorylist.tpl" ) );
+$t->set_file( Array( "categorylist" => "categorylist.tpl" ) );
 
-$t->set_block( "categorylist_tpl", "category_tpl", "category" );
+$t->set_block( "categorylist", "category_item_tpl", "category_item" );
 
 $category = new eZForumCategory();
-$categories = $category->getAllCategories();
-if ( !$categories )
+$categoryList = $category->getAllCategories();
+if ( !$categoryList )
 {
     $ini = new INIFile( "ezforum/intl/" . $Language . "/categorylist.php.ini", false );
     $noitem =  $ini->read_var( "strings", "noitem" );
 
+    $t->set_var( "next", "" );
+    $t->set_var( "previous", "" );
     $t->set_var( "category", $noitem );
 }
 else
 {
     $i=0;
-    foreach( $categories as $categoryItem )
-        {
-            if ( ( $i %2 ) == 0 )
-                $t->set_var( "td_class", "bgdark" );
-            else
-                $t->set_var( "td_class", "bglight" );
-
-            $t->set_var("id", $categoryItem->id() );
-            $t->set_var("name", $categoryItem->name() );
-            $t->set_var("description", $categoryItem->description() );
-            $i++;
-    
-            $t->parse( "category", "category_tpl", true);
-        }
+    foreach( $categoryList as $categoryItem )
+    {
+        if ( ( $i %2 ) == 0 )
+            $t->set_var( "td_class", "bgdark" );
+        else
+            $t->set_var( "td_class", "bglight" );
+        
+        $t->set_var( "category_id", $categoryItem->id() );
+        $t->set_var( "category_name", $categoryItem->name() );
+        $t->set_var( "category_description", $categoryItem->description() );
+        $i++;
+        
+        $t->parse( "category_item", "category_item_tpl", true);
+    }
 } 
 
-$t->pparse( "output", "categorylist_tpl" );
+$t->pparse( "output", "categorylist" );
 ?>

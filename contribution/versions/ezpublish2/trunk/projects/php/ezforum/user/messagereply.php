@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: replymessage.php,v 1.21 2000/10/17 15:19:58 bf-cvs Exp $
+// $Id: messagereply.php,v 1.1 2000/10/18 11:56:07 ce-cvs Exp $
 //
 // 
 //
@@ -20,13 +20,14 @@ $ini = new INIFile( "site.ini" ); // get language settings
 include_once( "common/ezphputils.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezmail.php" );
+include_once( "classes/eztexttool.php" );
+
 include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "ezforum/classes/ezforummessage.php");
 include_once( "ezforum/classes/ezforumcategory.php");
 
-
-if ( $Action == "Insert" )
+if ( $Action == "insert" )
 {
     $original = new eZForumMessage( $ReplyID );
     
@@ -54,7 +55,7 @@ if ( $Action == "Insert" )
     $forum_id = $original->forumID();
 
     // send out email notices
-    $forum = new eZForum( $forum_id );
+    $forum = new eZForum( $original );
     $messages = $forum->messageThreadTree( $reply->threadID() );
 
     $mail = new eZMail();
@@ -109,29 +110,33 @@ if ( $Action == "Insert" )
     // add deleting of every message in the thread
     unlink( "ezforum/cache/message," . $ReplyID . ".cache" );
     
-    Header( "Location: /forum/category/forum/$forum_id/" );
+    Header( "Location: /forum/messagelist/$forum_id/" );
 
 }
 
-$t = new Template(".");
+$t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+                     "ezforum/user/intl", $Language, "messagereply.php" );
+$t->setAllStrings();
 
-$t->set_file("replymessage","ezforum/templates/replymessage.tpl");
+$t->set_file( "replymessage", "messagereply.tpl");
 
-$t->set_var( "category_id", $category_id );
+
 
 
 $category = new eZForumCategory();
 
-
-// chech for login..
-
-// add path
-
 $msg = new eZForumMessage( $ReplyID );
+$ForumID = $msg->forumID();
+$forum = new eZForum( $ForumID );
+$CategoryID = $forum->categoryID();
+$category = new eZForumCategory( $CategoryID );
+$t->set_var( "category_name", $category->name() );
 
+$t->set_var( "forum_name", $forum->name() );
 $user = eZUser::currentUser();
 
-$t->set_var( "forum_id", $forum_id );
+$t->set_var( "forum_id", $ForumID );
+
 $t->set_var( "msg_id", $msg->id() );
 $t->set_var( "info",  $infoString);
 
@@ -139,9 +144,11 @@ $t->set_var( "topic", ("SV: " . stripslashes( $msg->topic() ) ) );
 
 $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
 
-$t->set_var("body", nl2br( stripslashes( $msg->body() ) ) );
+$text = eZTextTool::addPre( $msg->body() );
 
-//  $t->set_var("replier", $user->resolveUser( $UserID ) );
+$t->set_var("body", $text );
+$t->set_var( "category_id", $CategoryID );
+$t->set_var( "message_id", $ReplyID );
 
 $t->pparse("output", "replymessage");
 ?>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: category.php,v 1.37 2000/10/17 14:16:49 ce-cvs Exp $
+// $Id: forumlist.php,v 1.1 2000/10/18 11:56:07 ce-cvs Exp $
 //
 // 
 //
@@ -25,31 +25,32 @@ include_once( "ezforum/classes/ezforumcategory.php" );
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
 
-$t = new eZTemplate( "ezforum/templates", "ezforum/intl", $Language, "category.php" );
+$t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir"),
+                     "ezforum/user/intl", $Language, "forumlist.php" );
 
 $t->setAllStrings();
 
-$t->set_file( "category_tpl", "category.tpl" );
+$t->set_file( "forumlist", "forumlist.tpl" );
 
-$t->set_block( "category_tpl", "forum_tpl", "forum" );
+$t->set_block( "forumlist", "forum_item_tpl", "forum_item" );
 
-$category = new eZForumCategory( $category_id );
+$category = new eZForumCategory( $CategoryID );
 
 $t->set_var( "category_id", $category->id( ) );
 $t->set_var( "category_name", $category->name( ) );
 
-$forums = $category->forums( );
+$forumList = $category->forums( );
 
-if ( !$forums )
+if ( !$forumList )
 {
-    $ini = new INIFile( "ezforum/intl/" . $Language . "/forum.php.ini", false );
+    $ini = new INIFile( "ezforum/intl/" . $Language . "/categorylist.php.ini", false );
     $noitem =  $ini->read_var( "strings", "noitem" );
 
     $t->set_var( "forum", $noitem );
 }
 
 $i=0;
-foreach( $forums as $forum )
+foreach( $forumList as $forum )
 {
     $t->set_var( "forum_id", $forum->id() );
 
@@ -65,13 +66,13 @@ foreach( $forums as $forum )
     else
         $t->set_var( "td_class", "bgdark"  );
 
-    $t->parse( "forum", "forum_tpl", true );
+    $t->parse( "forum_item", "forum_item_tpl", true );
 
     $i++;
 }
 
-$t->set_var( "category_id", $category_id );
+$t->set_var( "category_id", $CategoryID );
 
-$t->pparse( "output", "category_tpl" );
+$t->pparse( "output", "forumlist" );
 
 ?>

@@ -17,7 +17,6 @@ switch ( $url_array[2] )
         include( "ezforum/user/categorylist.php" );
     }
     break;
-
         
     case "forumlist":
     {
@@ -25,32 +24,61 @@ switch ( $url_array[2] )
         include( "ezforum/user/forumlist.php" );
     }
     break;
+    
+    case "messagelist":
+    {
+        $ForumID = $url_array[3];
+        include( "ezforum/user/messagelist.php" );
+    }
+    break;
+
+    case "messageedit";
+    {
+        if ( $url_array[3] == "new" )
+        {
+            $ForumID = $url_array[4];
+            include( "ezforum/user/messageedit.php" );
+        }
+
+        if ( $url_array[3] == "insert" )
+        {
+            $Action = $url_array[3];
+            $ForumID = $url_array[4];
+            include( "ezforum/user/messageedit.php" );
+        }
+    }
+    break;
+
+    case "message":
+    {
+        $MessageID = $url_array[3];
+        include( "ezforum/user/message.php" );
+    }
+    break;
         
     case "search" :
-        include( "ezforum/search.php" );
+    {
+        include( "ezforum/user/search.php" );
+    }
         break;
         
     case "reply" :
     {
-//          $Action = "Reply";
-        $ReplyID = $url_array[3];
-        include( "ezforum/replymessage.php" );
+        if ( $url_array[3] == "reply" )
+        {
+            $ReplyID = $url_array[4];
+            include( "ezforum/user/messagereply.php" );
+        }
+        if ( $url_array[3] == "insert" )
+        {
+            $Action = "insert";
+
+            $ReplyID = $url_array[4];
+            include( "ezforum/user/messagereply.php" );
+        }
     }    
     break;
 
-    case "userlogin" :
-    {
-        $ForumID = $url_array[3];
-        $MessageID = $url_array[3];
-        include( "ezforum/userlogin.php" );
-    }    
-    break;
-    
-    case "categorylist_old":
-    {
-        include( "ezforum/categorylist.php" );
-    }
-    break;
 
     case "newpost" :
     {

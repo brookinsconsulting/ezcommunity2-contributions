@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: message.php,v 1.34 2000/10/17 14:16:49 ce-cvs Exp $
+// $Id: message.php,v 1.1 2000/10/18 11:56:07 ce-cvs Exp $
 //
 // 
 //
@@ -16,6 +16,7 @@
 include_once( "classes/INIFile.php" );
 
 $ini = new INIFile( "site.ini" ); // get language settings
+$Language = $ini->read_var( "eZForumMain", "Language" );
 
 include_once( "classes/ezlocale.php" );
 
@@ -23,29 +24,22 @@ include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
 include_once( "ezforum/classes/ezforum.php" );
 
-
-$ini = new INIFile( "site.ini" ); // get language settings
-
-$Language = $ini->read_var( "eZForumMain", "Language" );
-
-$t = new eZTemplate( "ezforum/templates", "ezforum/intl", $Language, "message.php" );
-
-    
-$t->set_file( "message_tpl", "message.tpl"  );
-
-$t->set_block( "message_tpl", "reply_tpl", "reply" );
-
+$t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+                     "ezforum/user/intl", $Language, "message.php" );
 $t->setAllStrings();
 
-$t->set_var( "category_id", $category_id);
+$t->set_file( "message_tpl", "message.tpl"  );
 
-$message = new eZForumMessage( $message_id );
+$t->set_block( "message_tpl", "message_item_tpl", "message_item" );
+
+
+$message = new eZForumMessage( $MessageID );
 $forum = new eZForum( $message->forumID() );
 
-$category_id = $forum->categoryID();
+$CategoryID = $forum->categoryID();
 
 $category = new eZForumCategory( );
-$category->get( $category_id );
+$category->get( $forum->CategoryID );
 
 $t->set_var( "category_id", $category->id( ) );
 $t->set_var( "category_name", $category->name( ) );
@@ -71,9 +65,7 @@ $t->set_var( "reply_id", $message->id() );
 
 $t->set_var( "forum_id", $forum->id() );
 
-
 $topMessage = $message->threadTop( $message );
-
 
 // print out the replies tree
 
@@ -110,7 +102,7 @@ foreach ( $messages as $message )
     
     $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
 
-    $t->parse( "reply", "reply_tpl", true );
+    $t->parse( "message_item", "message_item_tpl", true );
     $i++;
 }
 
@@ -129,7 +121,5 @@ else
 {
     $t->pparse( "output", "message_tpl" );
 }
-
-
 
 ?>

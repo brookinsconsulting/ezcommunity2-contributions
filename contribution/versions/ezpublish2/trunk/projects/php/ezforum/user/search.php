@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.16 2000/10/17 14:16:49 ce-cvs Exp $
+// $Id: search.php,v 1.1 2000/10/18 11:56:07 ce-cvs Exp $
 //
 // 
 //
@@ -14,19 +14,21 @@
 //
 
 include_once( "classes/INIFile.php" );
-include_once( "ezforum/classes/ezforumforum.php" );
+include_once( "ezforum/classes/ezforum.php" );
 
 include_once( "classes/ezlocale.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
 $ini = new INIFile( "site.ini" );
+$Language = $ini->read_var( "eZForumMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
 
-$Language = $ini->read_var( "eZForumMain", "Language" );
 
-$t = new eZTemplate( "ezforum/templates", "ezforum/intl", $Language, "search.php" );
+$t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+                     "ezforum/user/intl", $Language, "search.php" );
+
 
 $t->setAllStrings();
 
@@ -65,7 +67,7 @@ if ( $QueryString != "" )
     if ( !isset( $Limit ) )
         $Limit = 30;
 
-    $forum = new eZForumForum();
+    $forum = new eZForum();
     
     // do a search in all forums
     $messages = $forum->search( $QueryString, $Offset, $Limit );
@@ -132,7 +134,6 @@ if ( $QueryString != "" )
         $t->parse( "search_result", "search_result_tpl", true );
         $t->set_var( "empty_result", "" );
     }
-    
 }
 else
 {
@@ -141,7 +142,5 @@ else
 
 $t->set_var( "url_query_string", urlencode( $QueryString ) );
 
-
 $t->pparse("output","search_tpl");
-
 ?>
