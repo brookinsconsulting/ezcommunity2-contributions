@@ -84,9 +84,9 @@ function showCalendar(id, format, showsTime, showsOtherMonths, jsCalTop, jsCalLe
   // to the button.
 
   //calendar.showAtElement(el.nextSibling, "Br");        // show the calendar
-
+    calendar.showAtElement(el.nextSibling, "right"); // show the calendar
   // calendar.showAt(jsCalTop,jsCalLeft);
-  calendar.showAt(500,660);
+  // calendar.showAt(500,660);
 
   return false;
 }
