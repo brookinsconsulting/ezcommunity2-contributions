@@ -8,27 +8,21 @@ switch ( $url_array[2] )
     case "productlist" :
         if ( $PageCaching == "enabled" )
         {
-            print( "cached version<br>" );
-
             $CategoryID = $url_array[3];
 
             $cachedFile = "eztrade/cache/productlist," . $CategoryID .".cache";
             if ( file_exists( $cachedFile ) )
             {
-                print( "pure static" );
-                
                 include( $cachedFile );
             }
             else
             {
-                print( "first time generated" );                
                 $GenerateStaticPage = "true";
                 include( "eztrade/user/productlist.php" );
             }            
         }
         else
         {
-            print( "uncached version" );
             $CategoryID = $url_array[3];        
             include( "eztrade/user/productlist.php" );
         }
@@ -37,28 +31,22 @@ switch ( $url_array[2] )
     case "productview" :
         if ( $PageCaching == "enabled" )
         {
-            print( "cached version<br>" );
             $ProductID = $url_array[3];
             $CategoryID = $url_array[4];
 
             $cachedFile = "eztrade/cache/productview," .$ProductID . "," . $CategoryID .".cache";
             if ( file_exists( $cachedFile ) )
             {
-                print( "pure static" );
-                
                 include( $cachedFile );
             }
             else
             {
-                print( "first time generated" );                
                 $GenerateStaticPage = "true";
                 include( "eztrade/user/productview.php" );
             }            
         }
         else
         {
-            print( "uncached version" );
-            
             $ProductID = $url_array[3];
             $CategoryID = $url_array[4];
             include( "eztrade/user/productview.php" );
