@@ -707,3 +707,13 @@ Maintainer(s) : bf@ez.no
 
     * eztemplate.php: Added design for akersmic
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2002-03-25  master  <master@zev.ez.no>
+
+    * INIFile.php: *** empty log message ***
+
+    * INIFile.php: multilingual admin interface
+

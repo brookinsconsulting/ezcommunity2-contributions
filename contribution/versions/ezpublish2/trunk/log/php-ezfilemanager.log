@@ -725,3 +725,12 @@ Maintainer(s) : jhe@ez.no
 
     * user/filelist.php: removed unused code
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2002-03-25  jhe  <jhe@zev.ez.no>
+
+    * user/filedownload.php:
+    fixed problem with binary files on windows servers
+

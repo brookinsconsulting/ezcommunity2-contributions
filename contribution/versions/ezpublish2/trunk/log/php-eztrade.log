@@ -3313,3 +3313,11 @@ Maintainer(s) : ce@ez.no
       classes/ezcart.php
       classes/ezproduct.php: Added design for akersmic
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-03-25  christoffer  <ce@zev.ez.no>
+
+    * user/smallproductlist.php: Fixed a cache bug.. saving to wrong file.
+

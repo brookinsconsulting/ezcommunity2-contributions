@@ -1085,3 +1085,11 @@ Maintainer(s) : bf@ez.no
     * user/forgot.php:
     fixed bug when user follows the link to get a new password.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-03-25  jhe  <jhe@zev.ez.no>
+
+    * classes/ezuser.php: coding standard fixes
+
