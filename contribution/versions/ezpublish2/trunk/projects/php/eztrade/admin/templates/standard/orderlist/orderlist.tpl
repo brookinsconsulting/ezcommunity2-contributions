@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderlist.tpl,v 1.8 2001/03/03 17:38:48 th Exp $ -->
+<!-- $Id: orderlist.tpl,v 1.9 2001/03/13 16:29:50 fh Exp $ -->
 
 <table width="100%" border="0">
 <tr>
@@ -15,6 +15,7 @@
 </tr>
 </table>
 
+<form method="post" action="/trade/orderlist/?Offset={current_offset}">
 <hr noshade="noshade" size="4" />
 
 <!-- BEGIN order_item_list_tpl -->
@@ -50,8 +51,9 @@
 	<a href="/trade/orderedit/{order_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezto{order_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezto{order_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="#" onClick="verify( '{intl-delete}', '/trade/orderedit/{order_id}/delete/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezto{order_id}-slett','','/images/{site_style}/slettminimrk.gif',1)"><img name="ezto{order_id}-slett" border="0" src="/images/{site_style}/slettmini.gif" width="16" height="16" align="top"></a>
-	</td>
+<!--	<a href="#" onClick="verify( '{intl-delete}', '/trade/orderedit/{order_id}/delete/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezto{order_id}-slett','','/images/{site_style}/slettminimrk.gif',1)"><img name="ezto{order_id}-slett" border="0" src="/images/{site_style}/slettmini.gif" width="16" height="16" align="top"></a> -->
+        <input type="checkbox" name="OrderArrayID[]" value="{order_id}" />
+     	</td>
 </tr>
 <!-- END order_item_tpl -->
 
@@ -76,4 +78,6 @@
 	</td>
 </tr>
 </table>
-	
+<hr noshade="noshade" size="4" />
+<input class="stdbutton" type="submit" name="Delete" value="{intl-delete_selected}" />
+</form>	

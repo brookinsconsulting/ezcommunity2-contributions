@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderlist.php,v 1.12 2001/03/01 14:06:26 jb Exp $
+// $Id: orderlist.php,v 1.13 2001/03/13 16:29:50 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Sep-2000 13:03:13 bf>
@@ -36,6 +36,15 @@ include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezorder.php" );
 
 include_once( "eztrade/classes/ezorderstatustype.php" );
+
+if( isset( $Delete ) && count( $OrderArrayID ) > 0 )
+{
+    foreach( $OrderArrayID as $orderid )
+    {
+        $order = new eZOrder( $orderid );
+        $order->delete();
+    }
+}
 
 $t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/orderlist/",
                      "eztrade/admin/intl/", $Language, "orderlist.php" );
@@ -74,6 +83,7 @@ if ( !isset( $Offset ) )
 if ( !isset( $Limit ) )
     $Limit = 15;
 
+$t->set_var( "current_offset", $Offset );
 
 $order = new eZOrder();
 
