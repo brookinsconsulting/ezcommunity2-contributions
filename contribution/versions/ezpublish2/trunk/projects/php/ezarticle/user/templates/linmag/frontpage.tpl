@@ -1,27 +1,9 @@
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td valign="bottom">
-	<h1>{intl-head_line}</h1>
-	</td>
-	<td align="right">
-	<form action="{www_dir}{index}/article/search/" method="post">
-	<input class="searchbox" type="text" name="SearchText" size="10" />	
-	<input class="stdbutton" type="submit" value="{intl-search}" />
-	</form>	
-	</td>
-</tr>
-</table>
-
-<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="">
-<a class="path" href="{www_dir}{index}/article/archive/0/">{intl-top_level}</a>
-
-<br />
 <!-- BEGIN article_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <!-- BEGIN article_item_tpl -->
 {start_tr}
 	<td valign="top" width="50%">
-	<div class="listheadline"><a class="listheadline" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_name}</a></div>
+	<div class="listheadline"><a class="path" href="{www_dir}/article/archive/{category_def_id}/">{category_def_name}</a><br /><a class="listheadline" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_name}</a></div>
 	<div class="small">( {article_published} )</div>
 
 	<!-- BEGIN article_image_tpl -->
@@ -60,7 +42,7 @@
 <!-- BEGIN article_short_item_tpl -->
 <tr>
 	<td>
-	<div class="listheadline"><a class="listheadline" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_name}</a></div>
+	<div class="listheadline"><a class="path" href="{www_dir}/article/archive/{category_def_id}/">{category_def_name}</a><br /><a class="listheadline" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_name}</a></div>
 	<div class="small">( {article_published} )</div>
 
 	<!-- BEGIN article_short_image_tpl -->

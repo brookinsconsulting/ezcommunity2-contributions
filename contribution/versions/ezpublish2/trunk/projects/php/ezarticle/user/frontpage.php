@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.5 2001/08/01 16:34:14 kaid Exp $
+// $Id: frontpage.php,v 1.6 2001/08/21 14:21:29 th Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -124,6 +124,11 @@ foreach (  $firstArticleList as $article )
         $t->set_var( "article_name", $article->name() );
 
         $t->set_var( "author_text", $article->authorText() );
+
+	    $categoryDef =& $article->categoryDefinition();
+	
+	    $t->set_var( "category_def_name", $categoryDef->name() );
+	    $t->set_var( "category_def_id", $categoryDef->id() );
     
         // preview image
         $thumbnailImage =& $article->thumbnailImage();
