@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforumcategory.php,v 1.5 2000/07/26 17:03:13 lw-cvs Exp $
+    $Id: ezforumcategory.php,v 1.6 2000/07/27 08:05:33 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -45,6 +45,7 @@ class eZforumCategory
         global $PREFIX;
         
         openDB();
+
         $query_id = mysql_query( "SELECT * FROM $PREFIX" . "CategoryTable" )
              or die("eZforumCategory::getAllCategories() failed, dying...");
             
