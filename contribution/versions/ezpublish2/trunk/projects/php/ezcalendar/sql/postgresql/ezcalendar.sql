@@ -15,7 +15,7 @@ CREATE TABLE eZCalendar_Appointment (
 CREATE TABLE eZCalendar_AppointmentType (
   ID int NOT NULL,
   ParentID int DEFAULT '0' NOT NULL,
-  Description text,
+  Description varchar(200) DEFAULT NULL,
   Name varchar(200),
   PRIMARY KEY (ID)
 );
