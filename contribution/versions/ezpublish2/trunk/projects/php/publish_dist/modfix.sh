@@ -93,6 +93,7 @@ ezbug
 ezexample
 ezcalendar
 ezerror
+checkout
 "
 
 for file in $files
