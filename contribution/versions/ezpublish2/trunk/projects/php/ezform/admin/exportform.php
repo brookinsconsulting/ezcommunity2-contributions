@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: exportform.php,v 1.7 2002/01/29 09:26:28 jhe Exp $
+// $Id: exportform.php,v 1.8 2002/01/31 17:03:16 jhe Exp $
 //
 // Created on: <07-Jan-2002 12:54:53 jhe>
 //
@@ -63,7 +63,7 @@ for ( $i = 0; $i < count( $elementList ); $i++ )
             $tableElements = eZFormTable::tableElements( $elementList[$i]->id() );
             foreach ( $tableElements as $te )
             {
-                $eType = $elementList[$i]->elementType();
+                $eType = $te->elementType();
                 if ( $eType->name() == "text_field_item" ||
                      $eType->name() == "text_area_item" ||
                      $eType->name() == "dropdown_item" ||
@@ -74,7 +74,7 @@ for ( $i = 0; $i < count( $elementList ); $i++ )
                      $eType->name() == "numerical_integer_item" ||
                      $eType->name() == "user_email_item" )
                 {
-                    $elements[] = $te;                    
+                    $elements[] = $te;
                 }
             }
         }
