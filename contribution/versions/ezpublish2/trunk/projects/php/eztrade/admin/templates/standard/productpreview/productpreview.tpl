@@ -94,7 +94,7 @@
 </table>
 
 <!-- BEGIN attribute_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<table width="80%" cellspacing="0" cellpadding="2" border="0" align="center">
 
 <!-- BEGIN attribute_tpl -->
 <tr>
