@@ -73,7 +73,7 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="4" >
 <!--
 <tr>
-	<th>&nbsp;</th>
+    <th>&nbsp;</th>
     <th>{intl-name}:</th>
     <th>{intl-size}:</th>
     <th>&nbsp;</th>
@@ -112,6 +112,21 @@
 </table>
 <!-- END file_list_tpl -->
 
+<table with="100%">
+<tr>
+<!-- BEGIN prev_tpl -->
+<td align="left">
+<a href="{www_dir}{index}/filemanager/list/{folder_id}/{prev_offset}">{intl-previous}</a>
+</td>
+<!-- END prev_tpl -->
+<!-- BEGIN next_tpl -->
+<td align="right">
+<a href="{www_dir}{index}/filemanager/list/{folder_id}/{next_offset}">{intl-next}</a>
+</td>
+<!-- END next_tpl -->
+</tr>
+</table>
+
 
 <!-- BEGIN delete_menu_tpl -->
 <hr noshade="noshade" size="4" />
@@ -137,11 +152,11 @@
     <td>
 	<input class="stdbutton" type="submit" name="NewFile" value="{intl-new_file}">
 	</td>
-    <td>&nbsp;</td>
+        <td>&nbsp;</td>
 	<td>
 	<input class="stdbutton" type="submit" name="NewFolder" value="{intl-new_folder}">
 	<input type="hidden" name="FolderID" value="{main_folder_id}">
-	</td>
+    </td>
 </tr>
 </table>
 <!-- END write_menu_tpl -->

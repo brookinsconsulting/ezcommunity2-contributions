@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.17 2001/09/05 11:54:47 jhe Exp $
+// $Id: datasupplier.php,v 1.18 2001/09/06 11:16:40 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -81,9 +81,11 @@ switch ( $url_array[2] )
     case "list" :
     {
         $FolderID = $url_array[3];
-        if  ( !isSet( $FolderID ) || ( $FolderID == "" ) )
+        if ( !isSet( $FolderID ) || $FolderID == "" )
             $FolderID = 0;
-        
+        $Offset = $url_array[4];
+        if ( !isSet( $Offset ) || $Offset == "" )
+            $Offset = 0;
         include( "ezfilemanager/user/filelist.php" );
     }
     break;

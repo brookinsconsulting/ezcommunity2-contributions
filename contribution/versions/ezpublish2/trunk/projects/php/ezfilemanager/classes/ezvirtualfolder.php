@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfolder.php,v 1.29 2001/09/05 11:54:47 jhe Exp $
+// $Id: ezvirtualfolder.php,v 1.30 2001/09/06 11:16:39 jhe Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -515,7 +515,7 @@ class eZVirtualFolder
                        $limit=50 )
     {
         $db =& eZDB::globalDatabase();
-
+        
         $return_array = array();
         $article_array = array();
 
@@ -529,8 +529,8 @@ class eZVirtualFolder
                 AND
                 eZFileManager_Folder.ID='$this->ID'
                 GROUP BY eZFileManager_File.ID, eZFileManager_File.OriginalFileName ORDER BY eZFileManager_File.OriginalFileName",
-       array( "Limit" => $limit,
-              "Offset" => $offset ) );
+        array( "Limit" => $limit,
+               "Offset" => $offset ) );
  
         for ( $i = 0; $i < count( $file_array ); $i++ )
         { 
@@ -540,6 +540,23 @@ class eZVirtualFolder
         return $return_array;
     }
 
+    function countFiles()
+    {
+        $db =& eZDB::globalDatabase();
+        $file_array = array();
+        
+        $db->array_query( $file_array, "SELECT count( eZFileManager_File.ID )
+                                        FROM eZFileManager_File, eZFileManager_FileFolderLink,
+                                        eZFileManager_Folder
+                                        WHERE
+                                        eZFileManager_FileFolderLink.FileID = eZFileManager_File.ID
+                                        AND
+                                        eZFileManager_FileFolderLink.FolderID='$this->ID'
+                                        AND
+                                        eZFileManager_Folder.ID='$this->ID'" );
+        return $file_array[0][0];
+    }
+    
     /*!
       Returns true if file exists in this folder
     */

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filelist.php,v 1.38 2001/09/05 11:54:47 jhe Exp $
+// $Id: filelist.php,v 1.39 2001/09/06 11:16:40 jhe Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -37,8 +37,8 @@ include_once( "ezuser/classes/ezobjectpermission.php" );
 $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZFileManagerMain", "Language" );
-
 $ImageDir = $ini->read_var( "eZFileManagerMain", "ImageDir" );
+$Limit = $ini->read_var( "eZFileManagerMain", "Limit" );
 
 $t = new eZTemplate( "ezfilemanager/user/" . $ini->read_var( "eZFileManagerMain", "TemplateDir" ),
                      "ezfilemanager/user/intl/", $Language, "filelist.php" );
@@ -54,6 +54,8 @@ $t->set_block( "file_list_page_tpl", "path_item_tpl", "path_item" );
 $t->set_block( "file_list_page_tpl", "write_menu_tpl", "write_menu" );
 $t->set_block( "file_list_page_tpl", "delete_menu_tpl", "delete_menu" );
 $t->set_block( "file_list_page_tpl", "file_list_tpl", "file_list" );
+$t->set_block( "file_list_page_tpl", "next_tpl", "next" );
+$t->set_block( "file_list_page_tpl", "prev_tpl", "prev" );
 
 $t->set_block( "file_list_tpl", "file_tpl", "file" );
 
@@ -107,7 +109,6 @@ $t->set_var( "path_item", "" );
 foreach ( $pathArray as $path )
 {
     $t->set_var( "folder_id", $path[0] );
-
     $t->set_var( "folder_name", $path[1] );
     
     $t->parse( "path_item", "path_item_tpl", true );
@@ -116,7 +117,6 @@ foreach ( $pathArray as $path )
 $t->set_var( "top_folder_name", $path[1] );
 
 // Print out the folders.
-
 $folderList =& $folder->getByParent( $folder );
 
 $i = 0;
@@ -161,7 +161,7 @@ else
 
 // Print out the files.
 
-$fileList =& $folder->files();
+$fileList =& $folder->files( "name", $Offset, $Limit );
 
 $deleteFiles = false;
 foreach ( $fileList as $file )
@@ -206,9 +206,29 @@ foreach ( $fileList as $file )
         $t->set_var( "write" );
     }
 
-
     $t->parse( "file", "file_tpl", true );
-    
+}
+
+$fileNumber = $folder->countFiles();
+
+if ( $Offset > 0 )
+{
+    $t->set_var( "prev_offset", ( $Offset - $Limit ) > 0 ? $Offset - $Limit : 0 );
+    $t->parse( "prev", "prev_tpl" );
+}
+else
+{
+    $t->set_var( "prev", "" );
+}
+
+if ( $fileNumber > $Offset + $Limit )
+{
+    $t->set_var( "next_offset", $Offset + $Limit );
+    $t->parse( "next", "next_tpl" );
+}
+else
+{
+    $t->set_var( "next", "" );
 }
 
 if ( count( $fileList ) > 0 )
