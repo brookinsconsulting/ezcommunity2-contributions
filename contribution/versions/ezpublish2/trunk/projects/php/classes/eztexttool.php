@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztexttool.php,v 1.12 2001/01/22 14:42:59 jb Exp $
+// $Id: eztexttool.php,v 1.13 2001/02/23 09:55:55 jb Exp $
 //
 // Definition of eZTextTool class
 //
@@ -100,6 +100,15 @@ class eZTextTool
         $string = str_replace ( "  ", "&nbsp;&nbsp;", $string );
         
         return  $string;
+    }
+
+    /*!
+      Performs a normal htmlspecialchars with a striplashes afterwards,
+      this is needed to avoid " and \ being slashed on web pages.
+    */
+    function &htmlspecialchars( $string )
+    {
+        return stripslashes( htmlspecialchars( $string ) );
     }
 }
 
