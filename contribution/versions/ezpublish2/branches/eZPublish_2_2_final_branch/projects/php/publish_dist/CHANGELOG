@@ -3,6 +3,10 @@ eZ publish changelog:
 
 Changes from 2.2.5 to 2.2.6
 ---------------------------
+* Forum messages doesn't show posting time when message is temporary.
+* Fixed bug with clearing of cache when using nVH and site.ini.php file.
+* Fixed bug with "goto" drop-down in article list admin.
+* Fixed bug in redirect after cancel of category edit.
 * Fixed correct redirection when already in SSL mode.
 * Fixed correct mimetype on uppercase filenames.
 * Fixed bug when adding image tag to non existant image.
