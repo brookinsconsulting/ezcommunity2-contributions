@@ -89,8 +89,8 @@ class eZLog
             include_once( "classes/INIFile.php" );
             $ini =& INIFile::globalINI();
 
-            $fileName =& $ini->read_var( "site", "LogFileName" );
-	    $logDir =& $ini->read_var( "site", "LogDir" );
+            $fileName = $ini->read_var( "site", "LogFileName" );
+	    $logDir = $ini->read_var( "site", "LogDir" );
 
 	    // build timestamp for today's date 	    
 	    include_once( "classes/ezdate.php" );
