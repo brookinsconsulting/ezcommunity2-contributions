@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.18.2.2 2002/01/04 14:37:51 kaid Exp $
+// $Id: search.php,v 1.18.2.3 2002/05/02 13:36:52 bf Exp $
 //
 // Created on: <12-Oct-2000 20:33:02 bf>
 //
@@ -67,7 +67,10 @@ if ( isset( $SearchText ) and !isset( $QueryString ) )
 
 if ( $QueryString != "" )
 {
-    $t->set_var( "url_text", $QueryString );
+    $tmpQueryString = str_replace( "<", "&lt;", $QueryString );
+    $tmpQueryString = str_replace( ">", "&gt;", $tmpQueryString );
+
+    $t->set_var( "url_text", $tmpQueryString );
     
     $forum = new eZForum();
     
