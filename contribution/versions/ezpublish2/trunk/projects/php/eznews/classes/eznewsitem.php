@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsitem.php,v 1.5 2000/09/28 08:27:14 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.6 2000/09/28 09:07:10 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -1333,7 +1333,7 @@ class eZNewsItem
     function objectInfo()
     {
         $output;
-        if( $this->checkInvariant() == true )
+        if( $this->checkInvariant() == true || true )
         {
             $output = sprintf("<TR><TD WIDTH=5%%>%s</TD><TD>%s</TD><TD WIDTH=5%%>%s</TD><TD WIDTH=5%%>%s</TD><TD WIDTH=10%%>%s</TD><TD WIDTH=10%%>%s</TD><TD WIDTH=3%%>%s</TD></TR>",
                     $this->ID,
@@ -1383,6 +1383,7 @@ class eZNewsItem
     */
     function dbInit()
     {
+            echo "eZNewsItem::dbInit(  ) <br>\n";
         if( $this->IsConnected == false )
         {
             $this->Database = new eZDB( "site.ini", "eZNewsMain" );

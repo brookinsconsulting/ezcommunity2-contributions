@@ -329,13 +329,25 @@ EOD;
         include_once( "eznews/classes/eznewscategory.php" );
         
         $cat = new eZNewsCategory();
+        
+        echo "\$cat = $cat <br>";
+        
         $cat->getByName( "Heistad Hagesenter" );
+        
+        $cat->objectHeader();
+        $cat->objectInfo();
+        $cat->objectFooter();
+        
         $categories = $cat->getAllChildrenCategories();
 
         $t->set_block( "create_page", "category", "categories" );
                         
         foreach( $categories as $category )
         {
+            $cat->objectHeader();
+            $cat->objectInfo();
+            $cat->objectFooter();
+            
             $t->set_var( "ID", $category->ID() );
             $t->set_var( "Name", $category->Name() );
             if( $category->ID == $ParentID )
