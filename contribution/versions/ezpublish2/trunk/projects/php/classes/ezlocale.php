@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.29 2001/02/28 18:56:51 gl Exp $
+// $Id: ezlocale.php,v 1.30 2001/02/28 20:07:26 gl Exp $
 //
 // Definition of eZLocale class
 //
@@ -184,12 +184,10 @@ class eZLocale
                     $date =& str_replace( "%d", "" . $obj->day() . "", $date );
 
                     // D - day of the week, textual, 3 letters; i.e. "Fri"
-                    $date =& str_replace( "%D", "" . $this->dayName( $obj->dayName(
-                        $this->mondayFirst() ) ) . "", $date );
+                    $date =& str_replace( "%D", "" . $this->dayName( $obj->day() ) . "", $date );
 
                     // E - day of the week, textual, long; i.e. "Friday"
-                    $date =& str_replace( "%E", "" . $this->dayName( $obj->dayName(
-                        $this->mondayFirst() ), false ) . "", $date );
+                    $date =& str_replace( "%E", "" . $this->dayName( $obj->day(), false ) . "", $date );
 
                     // F - month, textual, long; i.e. "January"
                     $date =& str_replace( "%F", "" . $this->monthName( $obj->month(), false ) . "", $date );
@@ -272,25 +270,73 @@ class eZLocale
     /*!
       Returns the day name, translated to the local language.
 
+      $day must either be a number from 1-7, or the three first letters of the day
+      name in English, lowercase.
       If isShort is set to false then the complete version of the name is used,
       otherwise a three letter version is used.
     */
     function &dayName( $day, $isShort=true )
     {
-        if ( $day == "unknown" )
-            return false;
-
         $errorString = "<b>Locale error</b>: unknown day name";
         $name = "";
 
+        if ( $day == "unknown" )
+            return $errorString;
+
         if ( $isShort )
-        {
-            $name =& $this->$LocaleIni->read_var( "RegionalSettings", $day );
-        }
+            $long = "long";
         else
+            $long = "";
+
+        if ( is_numeric( $day ) == true )
         {
-            $name =& $this->$LocaleIni->read_var( "RegionalSettings", "long" . $day );
+            switch ( $day )
+            {
+                case 1 :
+                {
+                    $day = ( $this->mondayFirst() ) ? "mon" : "sun";
+                    break;
+                }
+                case 2 :
+                {
+                    $day = ( $this->mondayFirst() ) ? "tue" : "mon";
+                    $day = "tue";
+                    break;
+                }
+                case 3 :
+                {
+                    $day = ( $this->mondayFirst() ) ? "wed" : "tue";
+                    $day = "wed";
+                    break;
+                }
+                case 4 :
+                {
+                    $day = ( $this->mondayFirst() ) ? "thu" : "wed";
+                    $day = "thu";
+                    break;
+                }
+                case 5 :
+                {
+                    $day = ( $this->mondayFirst() ) ? "fri" : "thu";
+                    $day = "fri";
+                    break;
+                }
+                case 6 :
+                {
+                    $day = ( $this->mondayFirst() ) ? "sat" : "fri";
+                    $day = "sat";
+                    break;
+                }
+                case 7 :
+                {
+                    $day = ( $this->mondayFirst() ) ? "sun" : "sat";
+                    $day = "sun";
+                    break;
+                }
+            }
         }
+
+        $name =& $this->$LocaleIni->read_var( "RegionalSettings", $long . $day );
 
         if ( $name == false )
         {
@@ -307,7 +353,6 @@ class eZLocale
 
       $month must either be a number from 1-12, or the three first letters of the month
       name in English, lowercase.
-
       If isShort is set to false then the complete version of the name is used,
       otherwise a three letter version is used.
     */
@@ -328,62 +373,62 @@ class eZLocale
         {
             switch ( $month )
             {
-                case "1" :
+                case 1 :
                 {
                     $month = "jan";
                     break;
                 }
-                case "2" :
+                case 2 :
                 {
                     $month = "feb";
                     break;
                 }
-                case "3" :
+                case 3 :
                 {
                     $month = "mar";
                     break;
                 }
-                case "4" :
+                case 4 :
                 {
                     $month = "apr";
                     break;
                 }
-                case "5" :
+                case 5 :
                 {
                     $month = "may";
                     break;
                 }
-                case "6" :
+                case 6 :
                 {
                     $month = "jun";
                     break;
                 }
-                case "7" :
+                case 7 :
                 {
                     $month = "jul";
                     break;
                 }
-                case "8" :
+                case 8 :
                 {
                     $month = "aug";
                     break;
                 }
-                case "9" :
+                case 9 :
                 {
                     $month = "sep";
                     break;
                 }
-                case "10" :
+                case 10 :
                 {
                     $month = "oct";
                     break;
                 }
-                case "11" :
+                case 11 :
                 {
                     $month = "nov";
                     break;
                 }
-                case "12" :
+                case 12 :
                 {
                     $month = "dec";
                     break;
