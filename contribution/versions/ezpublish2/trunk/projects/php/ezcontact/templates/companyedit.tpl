@@ -223,7 +223,7 @@
 <br>
 &nbsp;&nbsp;Konsultasjon:<br>
 &nbsp;&nbsp;<input type="text" name="ConsultTitle" value="{consult_title}">
-<br><br>
+<br>
 &nbsp;&nbsp;Tekstbeskrivelse:<br>
 &nbsp;&nbsp;<textarea rows="5" cols="40" wrap="soft"name="ConsultBody">{consult_body}</textarea>
 
