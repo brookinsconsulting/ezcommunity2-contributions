@@ -8,11 +8,21 @@
 <!-- BEGIN wishlist_empty_tpl -->
 <h1>{intl-empty_wishlist}</h1>
 
-<hr noshade size="4" />
+<hr noshade="noshade" size="4" />
 
 {intl-add_something_to_wishlist_first}
 
 <!-- END wishlist_empty_tpl -->
+
+
+<!-- BEGIN wishlist_private_tpl -->
+<h1>{intl-wishlist_is_private}</h1>
+
+<hr noshade size="4" />
+
+{intl-wishlist_must_be_public_to_send_it_to_others}
+
+<!-- END wishlist_private_tpl -->
 
 <!-- BEGIN send_wishlist_tpl -->
 

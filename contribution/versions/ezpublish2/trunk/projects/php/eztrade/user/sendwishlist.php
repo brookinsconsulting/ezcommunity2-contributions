@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: sendwishlist.php,v 1.1 2001/01/17 10:23:29 bf Exp $
+// $Id: sendwishlist.php,v 1.2 2001/01/17 12:15:23 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <15-Jan-2001 14:17:36 bf>
@@ -160,6 +160,7 @@ $t->set_file( array(
 
 $t->set_block( "sendwishlist_page_tpl", "wishlist_sendt_tpl", "wishlist_sendt" );
 $t->set_block( "sendwishlist_page_tpl", "wishlist_empty_tpl", "wishlist_empty" );
+$t->set_block( "sendwishlist_page_tpl", "wishlist_private_tpl", "wishlist_private" );
 $t->set_block( "sendwishlist_page_tpl", "send_wishlist_tpl", "send_wishlist" );
 
 if ( count( $wishlist->items() ) == 0 )
@@ -168,10 +169,20 @@ if ( count( $wishlist->items() ) == 0 )
 
     $t->set_var( "send_wishlist", "" );
     $t->set_var( "wishlist_sendt", "" );
+    $t->set_var( "wishlist_private", "" );
+}
+else if ( $wishlist->isPublic() == false )
+{
+    $t->parse( "wishlist_private", "wishlist_private_tpl" );
+    
+    $t->set_var( "wishlist_empty", "" );
+    $t->set_var( "send_wishlist", "" );
+    $t->set_var( "wishlist_sendt", "" );
 
 }
 else
 {
+    $t->set_var( "wishlist_private", "" );    
     $t->set_var( "wishlist_empty", "" );
 
     if ( $url_array[3] == "success" )

@@ -25,7 +25,7 @@
 		<b>{intl-day}:</b> {current_day}
 		</td>
 		<td align="right">
-		{page_view_count} {intl-pages} ({page_view_percent}%)
+		{page_view_count} {intl-pages} ({percent_count}%)
 		</td>
 	</tr>
 	<tr>

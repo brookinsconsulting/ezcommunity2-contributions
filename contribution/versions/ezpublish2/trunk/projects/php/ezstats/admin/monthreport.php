@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: monthreport.php,v 1.1 2001/01/12 16:08:04 bf Exp $
+// $Id: monthreport.php,v 1.2 2001/01/17 12:15:23 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <07-Jan-2001 14:47:04 bf>
@@ -52,6 +52,16 @@ $monthReport =& $query->monthStats( $Year, $Month );
 
 if ( count( $monthReport ) > 0 )
 {
+    $maxCount = 0;
+    // find the largest hit value
+    foreach ( $monthReport["Days"] as $day )
+    {
+        $count = $day["Count"];
+
+        if ( $count > $maxCount )
+            $maxCount = $count;
+    }
+     
     $i=1;
     foreach ( $monthReport["Days"] as $day )
     {
@@ -64,9 +74,16 @@ if ( count( $monthReport ) > 0 )
         $pageViewPercent = ( $count / $totalCount ) * 100;
         $pageViewPercent = round($pageViewPercent);
 
-        $t->set_var( "page_view_percent", $pageViewPercent );
-        $t->set_var( "page_view_percent_inverted", 100 - $pageViewPercent );
+        $newMax = $totalCount - $maxCount;
+        
+        $normalizedPercent = ( $count / $maxCount ) * 100;
+        $normalizedPercent = round($normalizedPercent);        
 
+        $t->set_var( "page_view_percent", $normalizedPercent );
+        $t->set_var( "page_view_percent_inverted", 100 - $normalizedPercent );
+
+        $t->set_var( "percent_count", $pageViewPercent );
+        
         $t->parse( "day", "day_tpl", true );
         $i++;
     }
