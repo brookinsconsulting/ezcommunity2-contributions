@@ -95,6 +95,7 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 
 <!-- BEGIN price_group_list_tpl -->
 <h2>{intl-price_groups}</h2>
+<!-- BEGIN price_groups_item_tpl -->
 <table cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<!-- BEGIN price_group_header_item_tpl -->
@@ -113,6 +114,10 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 </tr>
 </table>
 <br />
+<!-- END price_groups_item_tpl -->
+<!-- BEGIN price_groups_no_item_tpl -->
+<p>{intl-no_price_groups}</p>
+<!-- END price_groups_no_item_tpl -->
 <!-- END price_group_list_tpl -->
 
 <hr noshade="noshade" size="4" />
