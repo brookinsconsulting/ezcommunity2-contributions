@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: groupedit.php,v 1.11 2000/08/30 09:47:39 th-cvs Exp $
+    $Id: groupedit.php,v 1.12 2000/09/01 08:25:11 bf-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -71,7 +71,7 @@ if ( $Action == "update" )
 }
 
 // Sette template filer
-$t = new eZTemplate( $DOC_ROOT . "/" . $Ini->read_var( "eZLinkMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "groupedit.php" );
+$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZLinkMain", "TemplateDir" ), "../" . $DOC_ROOT . "intl/", $Language, "groupedit.php" );
 $t->setAllStrings();
 
 $t->set_file( array(
