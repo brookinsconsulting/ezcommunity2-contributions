@@ -1,8 +1,8 @@
 <?php
 // 
-// $Id: eztime.php,v 1.15 2001/08/29 10:37:22 jhe Exp $
+// $Id: eztime.php,v 1.15.4.1 2001/11/23 11:48:54 ce Exp $
 //
-// Definition of eZCompany class
+// Definition of eZTime class
 //
 // Created on: <08-Sep-2000 13:54:17 bf>
 //
