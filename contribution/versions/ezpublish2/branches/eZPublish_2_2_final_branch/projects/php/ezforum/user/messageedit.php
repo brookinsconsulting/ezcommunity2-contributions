@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messageedit.php,v 1.58.2.2 2001/10/31 09:21:55 jhe Exp $
+// $Id: messageedit.php,v 1.58.2.3 2001/10/31 10:57:23 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -241,7 +241,7 @@ switch ( $Action )
         include( "ezforum/user/messagepermissions.php" );
 
         include_once( "classes/ezhttptool.php" );
-        if ( $ForumPost == false )
+        if ( !$ForumPost )
         {
             eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
         }
@@ -305,7 +305,11 @@ switch ( $Action )
                         
                         $mailTemplate->set_var( "forum_name", $forum->name() );
                         $mailTemplate->set_var( "forum_link", "http://"  . $headersInfo["Host"] . "/forum/messagelist/" . $forum->id() );
-                        $mailTemplate->set_var( "link_1", "http://" . $headersInfo["Host"] . "/forum/message/" . $msg->id() );
+
+                        if ( $forum->isModerated() )
+                            $mailTemplate->set_var( "link_1", "" );
+                        else
+                            $mailTemplate->set_var( "link_1", "http://" . $headersInfo["Host"] . "/forum/message/" . $msg->id() );
                         $mailTemplate->set_var( "link_2", "http://" . $ini->read_var( "site", "AdminSiteURL" ) . "/forum/messageedit/edit/" . $msg->id() );
                         $mailTemplate->set_var( "intl-info_message_1", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_1" ) );
                         $mailTemplate->set_var( "intl-info_message_2", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_2" ) );
