@@ -109,7 +109,7 @@
 </table>
 
 <p class="boxtext">{intl-comment_headline}:</p>
-<textarea name="Comment" rows="4" columns="80" wrap="soft">{comment}</textarea>
+<textarea name="Comment" rows="4" cols="40" wrap="soft">{comment}</textarea>
 <input type="hidden" name="ContactTypeID" value="{cv_contact_type_id}" />
 <input type="hidden" name="UserID" value="{user_id}" />
 <!-- END person_item_tpl -->
