@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: linkselect.php,v 1.2 2001/05/03 14:26:58 jb Exp $
+// $Id: linkselect.php,v 1.3 2001/05/03 17:01:49 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <30-Apr-2001 18:33:53 amos>
@@ -71,7 +71,6 @@ $Funcs["delete"]( $ItemID );
 if ( isset( $SubmitInfo ) )
 {
     eZHTTPTool::header( sprintf( "Location: " . $URLS["back"], $ItemID ) );
-//      eZHTTPTool::header( sprintf( "Location: " . $URLS["linklist"], $ItemID ) );
     exit();
 }
 
@@ -210,7 +209,6 @@ $t->set_var( "object_id", $ItemID );
 $t->set_var( "module_type", "$ModuleName/$Type" );
 $t->set_var( "category_id", $Category );
 $t->set_var( "section_id", $SectionID );
-$t->set_var( "link_id", $LinkID );
 
 if ( !isset( $Offset ) or !is_numeric( $Offset ) )
     $Offset = 0;
@@ -495,6 +493,8 @@ switch( $module )
         break;
     }
 }
+
+$t->set_var( "link_id", $LinkID );
 
 $t->set_var( "site_style", $SiteStyle );
 
