@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucherinformation.php,v 1.8.4.3 2001/10/22 12:21:36 ce Exp $
+// $Id: ezvoucherinformation.php,v 1.8.4.4 2001/10/22 12:32:23 ce Exp $
 //
 // eZVoucherInformation class
 //
@@ -543,7 +543,7 @@ class eZVoucherInformation
 
         $voucher =& $this->voucher();
 
-        $fromUser =& $this->fromEmail();
+        $fromUser =& $this->fromOnline();
         
         $Language = $ini->read_var( "eZTradeMain", "Language" );
         
