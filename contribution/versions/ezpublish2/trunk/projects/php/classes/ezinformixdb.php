@@ -1,6 +1,6 @@
 <? 
 // 
-// $Id: ezinformixdb.php,v 1.12 2001/07/02 08:38:10 bf Exp $
+// $Id: ezinformixdb.php,v 1.13 2001/07/03 15:25:31 bf Exp $
 //
 // Definition of eZInformixDB class
 //
@@ -40,7 +40,7 @@ class eZInformixDB
     */
     function eZInformixDB( $server, $db, $user, $password  )
     {
-        putenv('INFORMIXSERVER=kosh');
+        putenv('INFORMIXSERVER=localhost');
         putenv('INFORMIXDIR=/opt/informix');
         ifx_textasvarchar(1);
         $BlobIDArray = false;        
