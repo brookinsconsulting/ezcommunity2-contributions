@@ -1,0 +1,84 @@
+eZDataManager
+-------------
+
+Authors: 
+Bård Farstad - bf@ez.no
+Bjørd Reiten - br@ez.no
+Christoffer A. Elo - ce@ez.no
+
+Copyright (c) 2001-2002 eZ systems as
+
+eZDataManager is a module to handle different types of information 
+in a general way. You can create your own data types and create 
+instances of these datatypes. 
+
+An example of datatype usage could be Person and Company:
+
+Person:
+- Name ( common for all datatypes )
+- E-mail
+- Age
+- Sex
+- Company ( relation to a company datatype )
+
+Company:
+- Name ( common for all datatypes )
+- VAT number
+- Address
+- Description
+
+You could use this data type definition to create a database of 
+persons and companies. The data would be searchable and browseable.
+
+
+INSTALLATION
+------------
+
+Getting the files:
+------------------
+
+First you need to copy all the files to the eZ publish document
+root.
+
+Create database:
+----------------
+
+Then you need to create the SQL tables needed for the module. The
+SQL file is located in ezdatamanager/sql/mysql/ezdatamanager.sql .
+
+Example:
+
+# mysql -upublish -p publish < ezdatamanager/sql/mysql/ezdatamanager.sql
+
+Where -upublish is the MySQL user and publish is the MySQL database you're 
+using.
+
+Set up site.ini:
+----------------
+
+Add these lines to the site.ini file:
+
+[eZDataManagerMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+Language=en_GB
+DefaultSection=1
+ListLimit=10
+
+You also need to append eZDataManager to the EnabledModules section of the 
+site.ini file:
+
+EnabledModules=eZDataManager
+
+Module URL's:
+-------------
+
+To get the list of all types you enter the url:
+
+http://site.com/datamanager/typelist/0/
+
+To search enter:
+http://site.com/datamanager/search/
+or
+http://site.com/datamanager/advancedsearch/
+
