@@ -67,3 +67,5 @@ CREATE TABLE eZForum_Word (
   Frequency float default 0.2,
   Word varchar(50) NOT NULL default ''
 );
+
+alter table eZSession_SessionVariable change Value Value text;
