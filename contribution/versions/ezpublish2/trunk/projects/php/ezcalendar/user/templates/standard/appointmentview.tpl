@@ -6,8 +6,11 @@
 <tr><td colspan="3"><br /></td></tr>
 
 <tr>
-	<th colspan="2">
+	<th>
 	{intl-title}:
+	</th>
+	<th>
+	{intl-type}:
 	</th>
 	<th>
 	<!-- BEGIN private_tpl -->
@@ -19,8 +22,13 @@
 	</th>
 </tr>
 <tr>
-	<td colspan="2">
+	<td>
 	{appointment_title}
+	</td>
+	<td>
+	{appointment_type}
+	</td>
+	<td>
 	</td>
 </tr>
 
