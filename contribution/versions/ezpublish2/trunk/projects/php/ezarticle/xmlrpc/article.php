@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: article.php,v 1.17 2001/09/17 10:02:18 jb Exp $
+// $Id: article.php,v 1.18 2001/09/26 14:24:13 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -72,6 +72,11 @@ if( $Command == "data" ) // return all the data in the category
             $img[] = new eZXMLRPCStruct( array( "Image" => new eZXMLRPCInt( $image["Image"] ),
                                                 "Placement" => new eZXMLRPCInt( $image["Placement"] ) ) );
         }
+
+        $cat_def_id = $article->categoryDefinition( false );
+        $cats = $article->categories( false );
+        $cats = array_diff( $cats, array( $cat_def_id ) );
+
         $ret = array( "Location" => createURLStruct( "ezarticle", "article", $article->id() ),
                       "AuthorID" => new eZXMLRPCInt( $article->author( false ) ),
                       "Name" => new eZXMLRPCString( $article->name( false ) ), // title
@@ -79,8 +84,8 @@ if( $Command == "data" ) // return all the data in the category
                       "ContentsWriterID" => new eZXMLRPCInt( $contentsWriter->id() ),
                       "LinkText" => new eZXMLRPCString( $article->linkText( false ) ),
                       "ManualKeyWords" => new eZXMLRPCString( $article->manualKeywords() ),
-                      "Category" => new eZXMLRPCInt( $article->categoryDefinition( false ) ),
-                      "Categories" => new eZXMLRPCArray( $article->categories( false ), "integer" ),
+                      "Category" => new eZXMLRPCInt( $cat_def_id ),
+                      "Categories" => new eZXMLRPCArray( $cats, "integer" ),
                       "Discuss" => new eZXMLRPCBool( $article->discuss() ),
                       "IsPublished" => new eZXMLRPCBool( $article->isPublished() ),
                       "PageCount" => new eZXMLRPCInt( $article->pageCount() ),
@@ -147,6 +152,9 @@ else if( $Command == "storedata" )
         $article->addLog( $Data["LogMessage"]->value(), $User );
     }
 
+    $old_cat_def_id = $article->categoryDefinition( false );
+    $old_cats = $article->categories( false );
+
     if ( isset( $Data["Category"] ) )
     {
         $cat = new eZArticleCategory( $Data["Category"]->value() );
@@ -167,6 +175,27 @@ else if( $Command == "storedata" )
             $cat = $Data["Category"]->value();
             eZArticleCategory::addArticle( $article, $cat );
         }
+    }
+
+    $add_locs = array();
+    $cur_locs = array();
+    $old_locs = array();
+    if ( isset( $Data["Category" ] ) && isset( $Data["Categories"] ) )
+    {
+        $cat = $Data["Category"]->value();
+        $cat_arr =& $Data["Categories"]->value();
+        $cats = array( $cat );
+        foreach( $cat_arr as $cat )
+        {
+            $cats[] = $cat->value();
+        }
+        $cats = array_unique( $cats );
+        $remove_categories = array_diff( $old_cats, $cats );
+        $add_categories = array_diff( $cats, $old_cats );
+        $cur_categories = array_intersect( $old_cats, $cats );
+        $add_locs =& createURLArray( $add_categories, "ezarticle", "category" );
+        $cur_locs =& createURLArray( $cur_categories, "ezarticle", "category" );
+        $old_locs =& createURLArray( $remove_categories, "ezarticle", "category" );
     }
 
     // images
@@ -288,20 +317,7 @@ else if( $Command == "storedata" )
 
     // categories
     $category = new eZArticleCategory( eZArticle::categoryDefinitionStatic( $ID ) );
-    $path =& $category->path();
-    if ( $category->id() != 0 )
-    {
-        $par[] = createURLStruct( "ezarticle", "category", 0 );
-    }
-    else
-    {
-        $par[] = createURLStruct( "ezarticle", "" );
-    }
-    foreach( $path as $item )
-    {
-        if ( $item[0] != $category->id() )
-            $par[] = createURLStruct( "ezarticle", "category", $item[0] );
-    }
+    $par =& createPath( $category, "ezarticle", "category" );
 
     $category = $article->categoryDefinition( );
     $CategoryID = $category->id();
@@ -309,7 +325,11 @@ else if( $Command == "storedata" )
     eZArticleTool::deleteCache( $ID, $CategoryID, $CategoryArray );
 
     $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezarticle", "article", $ID ),
+                                             "Name" => new eZXMLRPCString( $article->name( false ) ),
                                              "Path" => new eZXMLRPCArray( $par ),
+                                             "NewLocations" => $add_locs,
+                                             "ChangedLocations" => $cur_locs,
+                                             "RemovedLocations" => $old_locs,
                                              "UpdateType" => new eZXMLRPCString( $Command )
                                              )
                                       );

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: category.php,v 1.2 2001/09/25 08:16:35 jb Exp $
+// $Id: category.php,v 1.3 2001/09/26 14:24:13 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -82,6 +82,7 @@ else if( $Command == "storedata" ) // save the category data!
     $parentid = $Data["ParentID"]->value();
     if ( $parentid == 0 or $parent->get( $parentid ) )
     {
+        $old_category = $category->parent();
         $category->setParent( $parent );
         $category->store();
         $ID = $category->id();
@@ -99,24 +100,25 @@ else if( $Command == "storedata" ) // save the category data!
         foreach( $Data["UploadGroups"]->value() as $uploadGroup )
             eZObjectPermission::setPermission( $uploadGroup->value(), $ID, "imagecatalogue_category", 'u' );
 
-        // create the path array
-        $path =& $category->path();
-        if ( $category->id() != 0 )
-        {
-            $par[] = createURLStruct( "ezimagecatalogue", "category", 0 );
-        }
-        else
-        {
-            $par[] = createURLStruct( "ezimagecatalogue", "" );
-        }
-        foreach( $path as $item )
-        {
-            if ( $item[0] != $category->id() )
-                $par[] = createURLStruct( "ezimagecatalogue", "category", $item[0] );
-        }
+        $par =& createPath( $category, "ezimagecatalogue", "category", false );
+
+        $add_categories = array();
+        $cur_categories = array();
+        $remove_categories = array();
+        $add_categories = array_diff( array( $parent->id() ), array( $old_category->id() ) );
+        $remove_categories = array_diff( array( $old_category->id() ), array( $parent->id() ) );
+        $cur_categories = array_intersect( array( $parent->id() ), array( $old_category->id() ) );
+
+        $add_locs =& createURLArray( $add_categories, "ezimagecatalogue", "category" );
+        $cur_locs =& createURLArray( $cur_categories, "ezimagecatalogue", "category" );
+        $old_locs =& createURLArray( $remove_categories, "ezimagecatalogue", "category" );
 
         $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezimagecatalogue", "category", $ID ),
+                                                 "Name" => new eZXMLRPCString( $category->name( false ) ),
                                                  "Path" => new eZXMLRPCArray( $par ),
+                                                 "NewLocations" => $add_locs,
+                                                 "ChangedLocations" => $cur_locs,
+                                                 "RemovedLocations" => $old_locs,
                                                  "UpdateType" => new eZXMLRPCString( $Command )
                                                  )
                                           );
@@ -130,31 +132,21 @@ else if( $Command == "storedata" ) // save the category data!
 }
 else if( $Command == "delete" )
 {
-    // create the path array
-    $category = new eZImageCategory( $ID );
-    $path =& $category->path();
-    if ( $category->id() != 0 )
+    $category = new eZImageCategory();
+    if ( $category->get( $ID ) )
     {
-        $par[] = createURLStruct( "ezimagecatalogue", "category", 0 );
+        $par =& createPath( $category, "ezimagecatalogue", "category", false );
+
+        $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezimagecatalogue", "category", $ID ),
+                                                 "Path" => new eZXMLRPCArray( $par ),
+                                                 "UpdateType" => new eZXMLRPCString( $Command )
+                                                 )
+                                          );
+        $Command = "update";
+        $category->delete( $ID );
     }
     else
-    {
-        $par[] = createURLStruct( "ezimagecatalogue", "" );
-    }
-    foreach( $path as $item )
-    {
-        if ( $item[0] != $category->id() )
-            $par[] = createURLStruct( "ezimagecatalogue", "category", $item[0] );
-    }
-
-    
-    $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezimagecatalogue", "category", $ID ),
-                                             "Path" => new eZXMLRPCArray( $par ),
-                                             "UpdateType" => new eZXMLRPCString( $Command )
-                                             )
-                                      );
-    $Command = "update";
-    $category->delete( $ID ); // finally, delete the imagecategory..
+        $Error = createErrorMessage( EZERROR_NONEXISTING_OBJECT );
 }
 
 ?>

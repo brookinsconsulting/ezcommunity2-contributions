@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: category.php,v 1.12 2001/07/19 12:19:22 jakobn Exp $
+// $Id: category.php,v 1.13 2001/09/26 14:24:13 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -78,8 +78,8 @@ else if( $Command == "storedata" ) // save the category data!
     $parentid = $Data["ParentID"]->value();
     if ( $parentid == 0 or $parent->get( $parentid ) )
     {
+        $old_category = $category->parent( false );
         $category->setParent( $parent );
-//      $category->setParent( 0 );
         $category->setExcludeFromSearch( $Data["ExcludeFromSearch"]->value() );
     
         $category->setBulkMailCategory( $Data["BulkMailID"]->value() );
@@ -100,24 +100,25 @@ else if( $Command == "storedata" ) // save the category data!
         foreach( $Data["WriteGroups"]->value() as $writeGroup )
             eZObjectPermission::setPermission( $writeGroup->value(), $ID, "article_category", 'w' );
 
-        // create the path array
-        $path =& $category->path();
-        if ( $category->id() != 0 )
-        {
-            $par[] = createURLStruct( "ezarticle", "category", 0 );
-        }
-        else
-        {
-            $par[] = createURLStruct( "ezarticle", "" );
-        }
-        foreach( $path as $item )
-        {
-            if ( $item[0] != $category->id() )
-                $par[] = createURLStruct( "ezarticle", "category", $item[0] );
-        }
+        $par =& createPath( $category, "ezarticle", "category", false );
+
+        $add_categories = array();
+        $cur_categories = array();
+        $remove_categories = array();
+        $add_categories = array_diff( array( $parent->id() ), array( $old_category ) );
+        $remove_categories = array_diff( array( $old_category ), array( $parent->id() ) );
+        $cur_categories = array_intersect( array( $parent->id() ), array( $old_category ) );
+
+        $add_locs =& createURLArray( $add_categories, "ezarticle", "category" );
+        $cur_locs =& createURLArray( $cur_categories, "ezarticle", "category" );
+        $old_locs =& createURLArray( $remove_categories, "ezarticle", "category" );
 
         $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezarticle", "category", $ID ),
+                                                 "Name" => new eZXMLRPCString( $category->name( false ) ),
                                                  "Path" => new eZXMLRPCArray( $par ),
+                                                 "NewLocations" => $add_locs,
+                                                 "ChangedLocations" => $cur_locs,
+                                                 "RemovedLocations" => $old_locs,
                                                  "UpdateType" => new eZXMLRPCString( $Command )
                                                  )
                                           );

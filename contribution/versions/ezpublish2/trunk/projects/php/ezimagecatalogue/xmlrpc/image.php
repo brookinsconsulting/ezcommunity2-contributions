@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: image.php,v 1.15 2001/09/25 08:10:01 jb Exp $
+// $Id: image.php,v 1.16 2001/09/26 14:24:13 jb Exp $
 //
 // Created on: <14-Jun-2001 13:18:27 amos>
 //
@@ -70,6 +70,8 @@ if( $Command == "data" ) // Dump image info!
                 $user_id = get_class( $user ) == "ezuser" ? $user->id() : 0;
                 $cat_def = $image->categoryDefinition();
                 $cat_def_id = get_class( $cat_def ) == "ezimagecategory" ? $cat_def->id() : 0;
+                $cats = $image->categories();
+                $cats = array_diff( $cats, array( $cat_def_id ) );
 
                 $ret = array( 
                     "Name" => new eZXMLRPCString( $image->name( false ) ),
@@ -82,7 +84,7 @@ if( $Command == "data" ) // Dump image info!
                     "PhotographerID" => new eZXMLRPCInt( $image->photographer( false ) ),
                     "ReadGroups" => new eZXMLRPCArray( $rgp ),
                     "WriteGroups" => new eZXMLRPCArray( $wgp ),
-                    "Categories" => new eZXMLRPCArray( $image->categories(), "integer" ),
+                    "Categories" => new eZXMLRPCArray( $cats, "integer" ),
                     "Category" => new eZXMLRPCInt( $cat_def_id ),
                     "WebURL" => new eZXMLRPCString( "/" . $variation->imagePath() ),
                     "Size" => createSizeStruct( $variation->width(), $variation->height() ),
@@ -128,6 +130,7 @@ else if ( $Command == "storedata" )
             $image->setName( $title );
             $image->setCaption( $caption );
             $image->setDescription( $description );
+            eZLog::writeNotice( "photo: $photographer" );
             $image->setPhotographer( $photographer );
             if ( isset( $Data["Image"] ) and isset( $Data["ImageFileName"] ) )
             {
@@ -146,6 +149,8 @@ else if ( $Command == "storedata" )
                 $image->store();
                 $ID = $image->id();
 
+                $old_category = $image->categoryDefinition();
+
                 $category = new eZImageCategory( $category_id );
                 $image->setCategoryDefinition( $category );
 
@@ -158,10 +163,12 @@ else if ( $Command == "storedata" )
                 {
                     $new_categories[] = $cat->value();
                 }
+                $new_cats = $new_categories;
                 if ( $category_id > 0 )
                     $new_categories = array_unique( array_merge( $new_categories, $category_id ) );
                 $remove_categories = array_diff( $old_categories, $new_categories );
                 $add_categories = array_diff( $new_categories, $old_categories );
+                $cur_categories = array_intersect( $old_categories, $new_categories );
 
                 foreach ( $remove_categories as $categoryItem )
                 {
@@ -183,9 +190,20 @@ else if ( $Command == "storedata" )
 
                 $ID = $image->id();
 
+                $par = array();
+
+                $par =& createPath( $category, "ezimagecatalogue", "category" );
+
+                $add_locs =& createURLArray( $add_categories, "ezimagecatalogue", "category" );
+                $cur_locs =& createURLArray( $cur_categories, "ezimagecatalogue", "category" );
+                $old_locs =& createURLArray( $remove_categories, "ezimagecatalogue", "category" );
+
                 $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezimagecatalogue", "image", $ID ),
-                                                         // TODO: Fix Path
-                                                         "Path" => new eZXMLRPCArray( array() ),
+                                                         "Name" => new eZXMLRPCString( $image->name( false ) ),
+                                                         "Path" => new eZXMLRPCArray( $par ),
+                                                         "NewLocations" => $add_locs,
+                                                         "ChangedLocations" => $cur_locs,
+                                                         "RemovedLocations" => $old_locs,
                                                          "UpdateType" => new eZXMLRPCString( $Command )
                                                          )
                                                   );
@@ -235,6 +253,25 @@ else if ( $Command == "search" )
     $ret = array( "Elements" => new eZXMLRPCArray( $elements ) );
     handleSearchData( $ret );
     $ReturnData = new eZXMLRPCStruct( $ret );
+}
+else if( $Command == "delete" )
+{
+    $image = new eZImage();
+    if ( $image->get( $ID ) )
+    {
+        $category = $image->categoryDefinition();
+        $par =& createPath( $category, "ezimagecatalogue", "category" );
+
+        $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezimagecatalogue", "image", $ID ),
+                                                 "Path" => new eZXMLRPCArray( $par ),
+                                                 "UpdateType" => new eZXMLRPCString( $Command )
+                                                 )
+                                          );
+        $Command = "update";
+        $image->delete();
+    }
+    else
+        $Error = createErrorMessage( EZERROR_NONEXISTING_OBJECT );
 }
 
 ?>
