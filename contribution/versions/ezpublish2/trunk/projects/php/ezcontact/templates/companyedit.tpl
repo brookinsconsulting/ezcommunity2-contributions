@@ -138,9 +138,6 @@
 &nbsp;&nbsp;{intl-postnumber}<br>
 &nbsp;&nbsp;<input type="text" name="Zip" value="{zip_code}"><br>
 
-<input type="hidden" name="AddressID" value="{address_edit_id}">
-<input type="hidden" name="AddressAction" value="{address_action}"><br>
-
 &nbsp;&nbsp;<input type="{address_action_type}" name="AddressSubmit" value="{address_action_value}">
 <br>
 <br>
@@ -152,9 +149,6 @@
 	{address_list}
 	</table>
 	</center>
-
-<input type="hidden" name="CID" value="{company_id}">
-<input type="hidden" name="Action" value="edit">
 
 </form>
 	</td>
@@ -182,9 +176,6 @@
 
 &nbsp;&nbsp;<input type="text" name="PhoneNumber" value="{phone_edit_number}">
 
-<input type="hidden" name="PhoneID" value="{phone_edit_id}">
-<input type="hidden" name="PhoneAction" value="{phone_action}"><br><br>
-
 &nbsp;&nbsp;<input type="{phone_action_type}" name="PhoneSubmit" value="{phone_action_value}">
 <br>
 <br>
@@ -196,9 +187,6 @@
 	{phone_list}
 	</table>
 	</center>
-
-<input type="hidden" name="CID" value="{company_id}">
-<input type="hidden" name="Action" value="edit">
 
 </form>
 	</td>

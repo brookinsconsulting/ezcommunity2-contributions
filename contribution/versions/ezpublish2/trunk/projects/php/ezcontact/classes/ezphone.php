@@ -11,8 +11,28 @@ class eZPhone
     /*
 
     */
-    function eZPhone()
+    function eZPhone( $id="-1", $fetch=true )
     {
+        $this->IsConnected = false;
+        
+        if ( $id != -1 )
+        {
+            $this->ID = $id;
+            if ( $fetch == true )
+            {
+                
+                $this->get( $this->ID );
+            }
+            else
+            {
+                $this->State_ = "Dirty";
+                
+            }
+        }
+        else
+        {
+            $this->State_ = "New";
+        }
 
     }
 
@@ -23,18 +43,25 @@ class eZPhone
     {
         $this->dbInit();
         
-        query( "INSERT INTO eZContact_Phone set Number='$this->Number', Type='$this->Type' " );
-        return mysql_insert_id();
-    }
-
-    /*
-      Oppdaterer  
-    */
-    function update()
-    {
-        $this->dbInit();
+        $ret = false;
         
-        query( "UPDATE eZContact_Phone set Number='$this->Number', Type='$this->Type' WHERE ID='$this->ID' " );
+        if ( !isset( $this->ID ) )
+        {
+            $this->Database->query( "INSERT INTO eZContact_Phone set Number='$this->Number', PhoneTypeID='$this->PhoneTypeID' " );
+            $this->ID = mysql_insert_id();
+
+            $this->State_ = "Coherent";
+            $ret = true;
+        }
+        else
+        {
+            $this->Database->query( "UPDATE eZContact_Phone set Number='$this->Number', PhoneTypeID='$this->PhoneTypeID' WHERE ID='$this->ID' " );
+
+            $this->State_ = "Coherent";
+            $ret = true;            
+        }        
+        
+        return $ret;
     }
 
     /*
@@ -44,7 +71,7 @@ class eZPhone
     {
         $this->dbInit();
         
-        query( "DELETE FROM eZContact_Phone WHERE ID='$this->ID' " );
+        $this->Database->query( "DELETE FROM eZContact_Phone WHERE ID='$this->ID' " );
     }
     
     /*
@@ -55,7 +82,7 @@ class eZPhone
         $this->dbInit();    
         if ( $id != "" )
         {
-            array_query( $phone_array, "SELECT * FROM eZContact_Phone WHERE ID='$id'" );
+            $this->Database->array_query( $phone_array, "SELECT * FROM eZContact_Phone WHERE ID='$id'" );
             if ( count( $phone_array ) > 1 )
             {
                 die( "Feil: Flere telefonnummer med samme ID funnet i database, dette skal ikke være mulig. " );
@@ -64,63 +91,84 @@ class eZPhone
             {
                 $this->ID = $phone_array[ 0 ][ "ID" ];
                 $this->Number = $phone_array[ 0 ][ "Number" ];
-                $this->Type = $phone_array[ 0 ][ "Type" ];
+                $this->PhoneTypeID = $phone_array[ 0 ][ "PhoneTypeID" ];
             }
         }
-    }    
+    }
 
     function setNumber( $value )
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
         $this->Number = $value;
     }
 
-    function setType( $value )
+    function setPhoneTypeID( $value )
     {
-        $this->Type = $value;
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $this->PhoneTypeID = $value;
     }
 
     function setID( $value )
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
         $this->ID = $value;
     }
     
     function number( )
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
         return $this->Number;
     }
 
-    function type( )
+    function phoneTypeID( )
     {
-        return $this->Type;
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return $this->PhoneTypeID;
     }
     
     function id( )
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
         return $this->ID;
     }
     
     /*!
-      Privat funksjon, skal kun brukes av ezusergroup klassen.
-      Funksjon for å åpne databasen.
+      \private
+      Open the database.
     */
     function dbInit()
     {
-        include_once( "classes/INIFile.php" );
-
-        $ini = new INIFile( "site.ini" );
-        
-        $SERVER = $ini->read_var( "site", "Server" );
-        $DATABASE = $ini->read_var( "site", "Database" );
-        $USER = $ini->read_var( "site", "User" );
-        $PWD = $ini->read_var( "site", "Password" );
-        
-        mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
-        mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
+        if ( $this->IsConnected == false )
+        {
+            $this->Database = new eZDB( "site.ini", "site" );
+            $this->IsConnected = true;
+        }
     }
 
     var $ID;
     var $Number;
-    var $Type;
+    var $PhoneTypeID;
+
+    ///  Variable for keeping the database connection.
+    var $Database;
+
+    /// Indicates the state of the object. In regard to database information.
+    var $State_;
+    /// Is true if the object has database connection, false if not.
+    var $IsConnected;
+
 }
 
 ?>

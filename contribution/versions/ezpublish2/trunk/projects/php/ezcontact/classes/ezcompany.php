@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.24 2000/11/14 15:33:40 ce-cvs Exp $
+// $Id: ezcompany.php,v 1.25 2000/11/14 18:16:25 ce-cvs Exp $
 //
 // Definition of eZProduct class
 //
@@ -325,7 +325,7 @@ class eZCompany
         {
             $phoneID = $phone->id();
 
-            $this->Database->query( "INSERT INTO eZUser_CompanyPhoneDict
+            $this->Database->query( "INSERT INTO eZContact_CompanyPhoneDict
                                 SET CompanyID='$this->ID', PhoneID='$phoneID'" );
 
             $ret = true;
@@ -346,7 +346,7 @@ class eZCompany
 
         $this->Database->array_query( $online_array, "SELECT OnlineID
                                                  FROM eZContact_CompanyOnlineDict
-                                                 WHERE OnlineID='$this->onlineID'" );
+                                                 WHERE CompanyID='$this->ID'" );
 
         foreach( $online_array as $onlineItem )
             {
@@ -372,7 +372,7 @@ class eZCompany
         {
             $onlineID = $online->id();
 
-            $this->Database->query( "INSERT INTO eZUser_CompanyOnlineDict
+            $this->Database->query( "INSERT INTO eZContact_CompanyOnlineDict
                                 SET CompanyID='$this->ID', OnlineID='$onlineID'" );
 
             $ret = true;
@@ -396,7 +396,7 @@ class eZCompany
         {
             $imageID = $image->id();
 
-            $this->Database->query( "INSERT INTO eZUser_CompanyImageDict
+            $this->Database->query( "INSERT INTO eZContact_CompanyImageDict
                                      SET CompanyID='$this->ID', ImageID='$imageID'" );
                  
         }

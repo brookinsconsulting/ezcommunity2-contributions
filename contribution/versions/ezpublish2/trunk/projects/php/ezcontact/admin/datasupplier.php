@@ -31,6 +31,14 @@ switch ( $url_array[2] )
                 include( "ezcontact/admin/companyedit.php" );
             }
             break;
+            case "Edit":
+            {
+                $Action = "edit";
+                $CompanyID = $url_array[4];
+                include( "ezcontact/admin/companyedit.php" );
+            }
+            break;
+
         }
     }
     break;
