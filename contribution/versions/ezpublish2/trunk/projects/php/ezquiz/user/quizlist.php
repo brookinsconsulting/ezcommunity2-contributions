@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: quizlist.php,v 1.1 2001/05/28 15:18:42 pkej Exp $
+// $Id: quizlist.php,v 1.2 2001/05/30 14:37:22 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -51,7 +51,19 @@ $t->set_block( "game_list_item_tpl", "game_item_tpl", "game_item" );
 $t->set_block( "quiz_list_page_tpl", "no_game_list_item_tpl", "no_game_list_item" );
 
 $game = new eZQuizGame();
-$games = $game->getAll( $Offset, $Limit );
+
+switch( $Action )
+{
+    case "list":
+        $games = $game->getAll( $Offset, $Limit );
+        break;
+    case "future":
+        $games = $game->opensNext( $Offset, $Limit );
+        break;
+    case "past":
+        $games = $game->closedGames( $Offset, $Limit );
+        break;
+}
 $count = count( $games );
 $gameCount = $game->count();
 $locale = new eZLocale( $Language );

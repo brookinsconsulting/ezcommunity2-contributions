@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: datasupplier.php,v 1.3 2001/05/30 12:56:46 pkej Exp $
+// $Id: datasupplier.php,v 1.4 2001/05/30 14:37:22 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -29,7 +29,7 @@ include_once( "classes/ezhttptool.php" );
 $ini =& INIFile::globalINI();
 
 $PageCaching = $ini->read_var( "eZQuizMain", "PageCaching" );
-$PageCaching=disabled;
+
 switch ( $url_array[2] )
 {
     case "game":
@@ -38,6 +38,8 @@ switch ( $url_array[2] )
 
         switch ( $Action )
         {
+            case "future":
+            case "past":
             case "list":
             {
                 $Offset = $url_array[4];
@@ -109,10 +111,6 @@ switch ( $url_array[2] )
             }
             break;
             
-            case "closed":
-            {
-            }
-            break;
             
             case "view":
             case "play":
