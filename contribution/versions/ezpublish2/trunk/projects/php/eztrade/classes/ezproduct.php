@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.125 2001/11/22 12:31:42 pkej Exp $
+// $Id: ezproduct.php,v 1.126 2001/11/22 14:26:56 pkej Exp $
 //
 // Definition of eZProduct class
 //
@@ -355,23 +355,16 @@ class eZProduct
         
         if ( get_class( $inUser ) == "ezuser" )
         {
-            $groups = $inUser->groups( false );
+            $groups = eZPriceGroup::priceGroups( $inUser, false );
             $priceIdArr = eZPriceGroup::prices( $this->ID );
 
             for( $i=0; $i< count( $priceIdArr ); $i++ )
             {
                 $priceId = $priceIdArr[$i][$db->fieldName( "PriceID" )];
-                $groupIdArr =& eZPriceGroup::userGroups( $priceId, false );
 
-                foreach( $groupIdArr as $groupId )
-                {
-                    if ( in_array( $groupId, $groups ) )
-                    {
-                        $tmpPrice = eZPriceGroup::correctPrice( $this->ID, $priceId );
-                        if ( $tmpPrice < $price || !$price )
-                            $price = $tmpPrice;
-                    }
-                }
+                $tmpPrice = eZPriceGroup::correctPrice( $this->ID, $priceId );
+                if ( $tmpPrice < $price || !$price )
+                    $price = $tmpPrice;
             }
         }
         
@@ -447,30 +440,22 @@ class eZProduct
         $maxPrice = 0;
         if ( get_class( $inUser ) == "ezuser" )
         {
-            $groups = $inUser->groups( false );
+            $groups = eZPriceGroup::priceGroups( $inUser, false );
             $priceIdArr = eZPriceGroup::prices( $this->ID );
 
             for( $i=0; $i< count( $priceIdArr ); $i++ )
             {
                 $priceId = $priceIdArr[$i][$db->fieldName( "PriceID" )];
-                $groupIdArr =& eZPriceGroup::userGroups( $priceId, false );
 
-                foreach( $groupIdArr as $groupId )
+                $tmpPrice = eZPriceGroup::correctPrice( $this->ID, $priceId );
+                if ( $tmpPrice < $price || !$price )
                 {
-                    if ( in_array( $groupId, $groups ) )
-                    {
-                        $tmpPrice = eZPriceGroup::correctPrice( $this->ID, $priceId );
-                        if ( $tmpPrice < $price || !$price )
-                        {
-                            $price = $tmpPrice;
-                        }
-                        if ( $tmpPrice <= $maxPrice )
-                        {
-                            $maxPrice = $tmpPrice;
-                        }
-                    }
+                    $price = $tmpPrice;
                 }
-                
+                if ( $tmpPrice <= $maxPrice )
+                {
+                    $maxPrice = $tmpPrice;
+                }
             }
         }
         
@@ -544,7 +529,7 @@ class eZProduct
             $inUser = new eZUser();
         }
 
-        $groups = $inUser->groups( false );
+        $groups = eZPriceGroup::priceGroups( $inUser, false );
 
         $options = $this->options();
 
