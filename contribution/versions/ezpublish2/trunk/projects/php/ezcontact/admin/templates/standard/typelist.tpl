@@ -37,13 +37,34 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>{intl-name}:</th>
-	<th colspan="2">&nbsp;</th>
+	<th colspan="5">&nbsp;</th>
 </tr>
 <!-- BEGIN line_item_tpl -->
 <tr class="{bg_color}">
 	<td>
         {item_name}&nbsp;
 	</td>
+
+<!-- BEGIN item_move_up_tpl -->
+	<td width="1%"><a href="{item_up_command}/{item_id}">{intl-item_up}</a></td>
+<!-- END item_move_up_tpl -->
+<!-- BEGIN no_item_move_up_tpl -->
+	<td width="1%"> &nbsp; </td>
+<!-- END no_item_move_up_tpl -->
+
+<!-- BEGIN item_separator_tpl -->
+	<td width="1%">/</td>
+<!-- END item_separator_tpl -->
+<!-- BEGIN no_item_separator_tpl -->
+        <td width="1%"> &nbsp; </td>
+<!-- END no_item_separator_tpl -->
+
+<!-- BEGIN item_move_down_tpl -->
+	<td width="1%"><a href="{item_down_command}/{item_id}">{intl-item_down}</a></td>
+<!-- END item_move_down_tpl -->
+<!-- BEGIN no_item_move_down_tpl -->
+	<td width="1%"> &nbsp; </td>
+<!-- END no_item_move_down_tpl -->
 
 	<td width="1%">
 	<a href="{item_edit_command}/{item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{item_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezc{item_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
@@ -60,11 +81,11 @@
 
 <!-- BEGIN no_line_item_tpl -->
 <p class="boxtext">{intl-no_item}</p>
+<!-- END no_line_item_tpl -->
 <hr noshade="noshade" size="4" />
 <br />
 <form method="post" action="{item_new_command}/">
     <input class="okbutton" type="submit" name="Back" value="{intl-new}">
 </form>
-<!-- END no_line_item_tpl -->
 
 <!-- END list_page -->
