@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: adlist.php,v 1.4 2000/11/27 11:54:13 bf-cvs Exp $
+// $Id: adlist.php,v 1.5 2000/11/29 14:39:30 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <25-Nov-2000 15:44:37 bf>
@@ -33,7 +33,9 @@ include_once( "ezad/classes/ezad.php" );
 include_once( "ezad/classes/ezadcategory.php" );
 include_once( "ezad/classes/ezadview.php" );
 
-$ini = new INIFIle( "site.ini" );
+// no need to include this is is included in the index file.
+//  $ini = new INIFIle( "site.ini" );
+
 
 $Language = $ini->read_var( "eZAdMain", "Language" );
 
@@ -59,13 +61,8 @@ $t->set_var( "current_category_name", $category->name() );
 $t->set_var( "current_category_description", $category->description() );
 
 
-$categoryList = $category->getByParent( $category, true );
-
-
-
-
 // fetch the user if any
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 
 // ads
@@ -83,7 +80,7 @@ foreach ( $adList as $ad )
 
     $t->set_var( "ad_id", $ad->id() );
 
-    $image = $ad->image();
+    $image =& $ad->image();
 
     // ad image
     if ( $image )

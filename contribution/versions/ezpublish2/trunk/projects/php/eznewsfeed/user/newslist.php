@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newslist.php,v 1.5 2000/11/29 11:15:28 bf-cvs Exp $
+// $Id: newslist.php,v 1.6 2000/11/29 14:39:31 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <29-Nov-2000 11:35:19 bf>
@@ -112,7 +112,23 @@ if ( count( $newsList ) > 0 )
 else
     $t->set_var( "news_list", "" );
 
-$t->pparse( "output", "news_archive_page_tpl" );
+if ( $GenerateStaticPage == "true" )
+{
+    $fp = fopen ( $cachedFile, "w+");
+
+    $output = $t->parse( $target, "news_archive_page_tpl" );
+    
+    // print the output the first time while printing the cache file.
+    print( $output );
+    fwrite ( $fp, $output );
+    fclose( $fp );
+}
+else
+{
+    $t->pparse( "output", "news_archive_page_tpl" );
+}
+
+
 
 ?>
 

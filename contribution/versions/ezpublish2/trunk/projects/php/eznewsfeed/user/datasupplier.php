@@ -1,5 +1,7 @@
 <?php
 
+$PageCaching = $ini->read_var( "eZNewsFeedMain", "PageCaching" );
+
 switch ( $url_array[2] )
 {
     case "latest":
@@ -8,7 +10,25 @@ switch ( $url_array[2] )
         if  ( !isset( $CategoryID ) || ( $CategoryID == "" ) )
             $CategoryID = 0;
 
-        include( "eznewsfeed/user/newslist.php" );
+        if ( $PageCaching == "enabled" )
+        {
+            $CategoryID = $url_array[3];
+            $cachedFile = "eznewsfeed/cache/latestnews," . $CategoryID . ".cache";
+
+            if ( file_exists( $cachedFile ) )
+            {
+                include( $cachedFile );
+            }
+            else
+            {
+                $GenerateStaticPage = "true";
+                include( "eznewsfeed/user/newslist.php" );
+            }            
+        }
+        else
+        {
+            include( "eznewsfeed/user/newslist.php" );
+        }
     }
     break;
 

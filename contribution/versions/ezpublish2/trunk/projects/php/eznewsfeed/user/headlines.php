@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: headlines.php,v 1.7 2000/11/29 11:04:01 bf-cvs Exp $
+// $Id: headlines.php,v 1.8 2000/11/29 14:39:31 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 10:51:34 bf>
@@ -23,60 +23,100 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-include_once( "classes/INIFile.php" );
-include_once( "classes/eztemplate.php" );
-include_once( "classes/ezlocale.php" );
+$PageCaching = $ini->read_var( "eZNewsFeedMain", "PageCaching" );
 
-include_once( "eznewsfeed/classes/eznews.php" );
-include_once( "eznewsfeed/classes/eznewscategory.php" );
-
-include_once( "classes/ezdatetime.php" );
-
-$news = new eZNews( );
-
-$ini = new INIFIle( "site.ini" );
-
-$Language = $ini->read_var( "eZNewsFeedMain", "Language" );
-$ImageDir = $ini->read_var( "eZNewsFeedMain", "ImageDir" );
-
-$t = new eZTemplate( "eznewsfeed/user/" . $ini->read_var( "eZNewsFeedMain", "TemplateDir" ),
-                     "eznewsfeed/user/intl/", $Language, "headlines.php" );
-
-$t->setAllStrings();
-
-$t->set_file( array(
-    "headlines_page_tpl" => "headlines.tpl"
-    ) );
-
-$t->set_block( "headlines_page_tpl", "head_line_item_tpl", "head_line_item" );
-
-if ( $CategoryID != "" )
+if ( $PageCaching == "enabled" )
 {
-    $category = new eZNewsCategory( $CategoryID );
-    $newsList =& $category->newsList( "time", "no", 0, 5 );
+    $CategoryID = $url_array[3];
+    
+    $cachedFile = "eznewsfeed/cache/headlines," . $CategoryID . ".cache";
+    
+    if ( file_exists( $cachedFile ) )
+    {
+        include( $cachedFile );
+    }
+    else
+    {
+        printNewsHeaderList( $CategoryID, "true", $cachedFile );
+    }            
 }
 else
 {
-    $newsList =& $news->newsList();
+    printNewsHeaderList( $CategoryID, "false", $cachedFile );
 }
 
-$locale = new eZLocale();
-
-foreach ( $newsList as $newsItem )
+function printNewsHeaderList( $CategoryID, $GenerateStaticPage, $cachedFile )
 {
-    $t->set_var( "head_line", $newsItem->name() );
-    $t->set_var( "head_line_url", $newsItem->url() );
+    include_once( "classes/INIFile.php" );
+    include_once( "classes/eztemplate.php" );
+    include_once( "classes/ezlocale.php" );
+    
+    include_once( "eznewsfeed/classes/eznews.php" );
+    include_once( "eznewsfeed/classes/eznewscategory.php" );
+    
+    include_once( "classes/ezdatetime.php" );
+    
+    $news = new eZNews( );
+    
+    $ini = new INIFIle( "site.ini" );
+    
+    $Language = $ini->read_var( "eZNewsFeedMain", "Language" );
+    $ImageDir = $ini->read_var( "eZNewsFeedMain", "ImageDir" );
+    
+    $t = new eZTemplate( "eznewsfeed/user/" . $ini->read_var( "eZNewsFeedMain", "TemplateDir" ),
+                         "eznewsfeed/user/intl/", $Language, "headlines.php" );
+    
+    $t->setAllStrings();
 
-    $t->set_var( "head_line_origin", $newsItem->origin() );
-    $published = $newsItem->originalPublishingDate();
+    $t->set_file( array(
+    "headlines_page_tpl" => "headlines.tpl"
+    ) );
 
-    $t->set_var( "head_line_date", $locale->format( $published ) );
-
-
-    $t->parse( "head_line_item", "head_line_item_tpl", true );
+    $t->set_block( "headlines_page_tpl", "head_line_item_tpl", "head_line_item" );
+    
+    if ( $CategoryID != "" )
+    {
+        $category = new eZNewsCategory( $CategoryID );
+        $newsList =& $category->newsList( "time", "no", 0, 5 );
+    }
+    else
+    {
+        $newsList =& $news->newsList();
+    }
+    
+    $locale = new eZLocale();
+    
+    foreach ( $newsList as $newsItem )
+        {
+            $t->set_var( "head_line", $newsItem->name() );
+            $t->set_var( "head_line_url", $newsItem->url() );
+            
+            $t->set_var( "head_line_origin", $newsItem->origin() );
+            $published = $newsItem->originalPublishingDate();
+            
+            $t->set_var( "head_line_date", $locale->format( $published ) );
+            
+            
+            $t->parse( "head_line_item", "head_line_item_tpl", true );
+        }
+    
+    
+    if ( $GenerateStaticPage == "true" )
+    {
+        $fp = fopen ( $cachedFile, "w+");
+        
+        $output = $t->parse( $target, "headlines_page_tpl" );
+    
+        // print the output the first time while printing the cache file.
+        print( $output );
+        fwrite ( $fp, $output );
+        fclose( $fp );
+    }
+    else
+    {
+        $t->pparse( "output", "headlines_page_tpl" );
+    }
 }
 
-
-$t->pparse( "output", "headlines_page_tpl" );
 
 ?>
