@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.40 2001/02/22 13:57:01 jb Exp $
+// $Id: ezarticle.php,v 1.41 2001/02/22 16:29:26 fh Exp $
 //
 // Definition of eZArticle class
 //
@@ -1111,6 +1111,49 @@ class eZArticle
        return $forum;
     }
 
+    /*!
+      \static
+      Returns true if the user has permission to view this article.
+     */
+    function hasReadPermission( $user, $articleID )
+    {
+       $database =& eZDB::globalDatabase();
+       $database->array_query( $res, "SELECT ReadPermission FROM eZArticle_Article WHERE ID='$articleID'" );
+       print("<br>Inside hasReadPermission<br>");
+       $readPermission = $res[0][ "ReadPermission" ];
+       print( "This page has readpermission: $readPermission <br>" );
+
+       if( $readPermission == 0 ) //none
+           return false;
+       else if( $readPermission == 2 )// all
+           return true;
+       else if( $readPermission == 1 && get_class( $user ) == "ezuser" )//some
+       {
+           $userGroups = $user->groups( true );
+           $database->array_query( $res, "SELECT GroupID FROM eZArticle_ArticleReaderLink
+                                   WHERE ArticleID='$articleID'");
+
+           $i = 0;
+           $readGrpID = array();
+           foreach( $res as $groupItem )
+           {
+               $readGrpID[$i] = $groupItem["GroupID"];
+               $i++;
+           }
+           
+           $commonGroups = array_intersect( $readGrpID, $userGroups );
+           //         print_r( $readGrpID ); print( "<br>");
+//           print_r( $userGroups );print( "<br>");
+//           print_r( $commonGroups );print( "<br>");
+//           $count = count( $commonGroups );
+//           print( "$count");
+           if( count( $commonGroups ) > 0  )
+               return true;
+       }
+       return false; 
+    }
+    
+    
     /*!
       Returns the article which a forum is connected to.
      */
