@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagecategory.php,v 1.29 2001/07/20 11:06:38 jakobn Exp $
+// $Id: ezimagecategory.php,v 1.30 2001/07/25 10:37:23 jb Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -96,6 +96,26 @@ class eZImageCategory
 
         
         return true;
+    }
+
+    function &search( $name, $literal = false )
+    {
+        $db =& eZDB::globalDatabase();
+        $topic = array();
+
+        $query = new eZQuery( array( "Name", "Description" ),
+                              $name );
+        $query->setIsLiteral( $literal );
+        $where =& $query->buildQuery();
+
+        $db->array_query( $author_array,
+                          "SELECT ID FROM eZImageCatalogue_Category WHERE $where" );
+
+        foreach( $author_array as $author )
+        {
+            $topic[] =& new eZImageCategory( $author[$db->fieldName("ID")] );
+        }
+        return $topic;
     }
 
     /*!
@@ -394,16 +414,18 @@ class eZImageCategory
     /*!
       Returns the parent if one exist. If not 0 is returned.
     */
-    function parent()
+    function parent( $as_object = true )
     {
-       if ( $this->ParentID != 0 )
-       {
-           return new eZImageCategory( $this->ParentID );
-       }
-       else
-       {
-           return 0;           
-       }
+        if ( !$as_object )
+            return $this->ParentID;
+        if ( $this->ParentID != 0 )
+        {
+            return new eZImageCategory( $this->ParentID );
+        }
+        else
+        {
+            return 0;           
+        }
     }
 
 
