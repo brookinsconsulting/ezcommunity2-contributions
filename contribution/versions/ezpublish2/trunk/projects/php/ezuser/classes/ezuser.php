@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.81 2001/07/27 06:18:56 jhe Exp $
+// $Id: ezuser.php,v 1.82 2001/07/27 13:05:57 jhe Exp $
 //
 // Definition of eZUser class
 //
@@ -969,11 +969,11 @@ class eZUser
     function trustees( $id = -1, $as_object = false )
     {
         $db =& eZDB::globalDatabase();
-        if ( get_class( $id ) )
+        if ( get_class( $id ) == "ezuser" )
             $id = $id->ID();
         if ( $id < 0 )
             $id = $this->ID;
-        $select = $as_object ? "*" : "ID";
+        $select = $as_object ? "*" : "UserID";
         $db->array_query( $trusteeArray, "SELECT $select FROM eZUser_Trustees WHERE OwnerID='$id'" );
         $ret = array();
         if ( $as_object )
@@ -993,6 +993,62 @@ class eZUser
         return $ret;
     }
 
+    function getByTrustee( $id = -1, $as_object = false )
+    {
+        $db =& eZDB::globalDatabase();
+        if ( get_class( $id ) )
+            $id = $id->ID();
+        if ( $id < 0 )
+            $id = $this->ID;
+        $select = $as_object ? "*" : "OwnerID";
+        $db->array_query( $trusteeArray, "SELECT $select FROM eZUser_Trustees WHERE UserID='$id'" );
+        $ret = array();
+        if ( $as_object )
+        {
+            foreach ( $trusteeArray as $trustee )
+            {
+                $ret[] = new eZUser( $trustee[ $db->fieldName( "OwnerID" ) ] );
+            }
+        }
+        else
+        {
+            foreach ( $trusteeArray as $trustee )
+            {
+                $ret[] = $trustee[ $db->fieldName( "OwnerID" ) ];
+            }
+        }
+        return $ret;
+    }
+
+    function addTrustee( $user )
+    {
+        if ( get_class( $user ) == "ezuser" )
+        {
+            $user = $user->ID();
+        }
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $db->lock( "eZUser_Trustees" );
+        $nextID = $db->nextID( "eZUser_Trustees", "ID" );
+        $res[] = $db->query( "INSERT INTO eZUser_Trustees (ID, OwnerID, UserID) VALUES
+                              ('$nextID', '" . $this->ID() . "', '$user')" );
+        $db->unlock();
+        eZDB::finish( $res, $db );
+    }
+
+    function removeTrustee( $user )
+    {
+        if ( get_class( $user ) == "ezuser" )
+        {
+            $user = $user->ID();
+        }
+        $db =& eZDB::globalDatabase();
+        $db->begin();
+        $res[] = $db->query( "DELETE FROM eZUser_Trustees WHERE OwnerID='" .
+                             $this->ID() . "' AND UserID='$user'" );
+        eZDB::finish( $res, $db );
+    }
+    
     function setCookieValues()
     {
         $user =& eZUser::currentUser();

@@ -39,12 +39,28 @@
 <p class="boxtext">{intl-appointment_title}:</p>
 <input type="text" size="40" name="Name" value="{name_value}"/>
 	
-	<td valign="top">
+	<td valign="top"></td>
 	<td align="right">
 
 	<input {is_private} type="checkbox" name="IsPrivate" />&nbsp;<span class="check">{intl-private_appointment}</span>
 
 	</td>
+</tr>
+</table>
+<br />
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<td valign="top">
+
+<p class="boxtext">{intl-userlist}:</p>
+<select name="TrusteeUser">
+<option value="{own_user_id}" {own_selected}>{own_user_name}</option>
+<!-- BEGIN trustee_user_name_tpl -->
+<option value="{user_id}" {selected}>{user_name}</option>
+<!-- END trustee_user_name_tpl -->
+</select>
+</td>
 </tr>
 </table>
 <br />

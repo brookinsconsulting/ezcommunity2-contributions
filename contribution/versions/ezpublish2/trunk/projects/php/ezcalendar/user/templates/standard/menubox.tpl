@@ -12,7 +12,7 @@
 	</tr>
 	<tr>
 		<td width="1%" valign="top"><img src="/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12"><br /></td>
-		<td width="99%"><a class="menu" href="/calendar/trustees/">{intl-permissions}</a></td>
+		<td width="99%"><a class="menu" href="/calendar/trustees/">{intl-trustees}</a></td>
 	</tr>
 	<tr>
 		<td colspan="2" class="menuspacer">&nbsp;</td>

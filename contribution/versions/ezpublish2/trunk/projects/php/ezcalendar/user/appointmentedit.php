@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: appointmentedit.php,v 1.38 2001/07/20 11:57:16 jakobn Exp $
+// $Id: appointmentedit.php,v 1.39 2001/07/27 13:05:57 jhe Exp $
 //
 // Created on: <03-Jan-2001 12:47:22 bf>
 //
@@ -82,7 +82,6 @@ else if ( isSet( $GoToday ) )
     exit();
 }
 
-
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
@@ -94,7 +93,7 @@ include_once( "classes/eztime.php" );
 include_once( "ezcalendar/classes/ezappointment.php" );
 include_once( "ezcalendar/classes/ezappointmenttype.php" );
 
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini =& $GLOBALS[ "GlobalSiteIni" ];
 
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
 $StartTimeStr = $ini->read_var( "eZCalendarMain", "DayStartTime" );
@@ -102,6 +101,13 @@ $StopTimeStr = $ini->read_var( "eZCalendarMain", "DayStopTime" );
 
 $Locale = new eZLocale( $Language );
 
+if ( isSet( $TrusteeUser ) )
+{
+    $trusteduser = new eZUser( $TrusteeUser );
+}
+else
+{
+}
 $user = eZUser::currentUser();
 
 if ( $user == false )
@@ -109,15 +115,21 @@ if ( $user == false )
 else
     $userID = $user->id();
 
-if( $userID == false )
+if ( $userID == false )
     $app = false;
 else if ( $Action == "New"  )
     $app = new eZAppointment();
 else
     $app = new eZAppointment( $AppointmentID );
 
-$session->setVariable( "ShowOtherCalenderUsers", $userID );
-
+if ( isSet( $TrusteeUser ) )
+{
+    $session->setVariable( "ShowOtherCalenderUsers", $TrusteeUser );
+}
+else
+{
+    $session->setVariable( "ShowOtherCalenderUsers", $userID );
+}
 
 $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
                      "ezcalendar/user/intl/", $Language, "appointmentedit.php" );
@@ -134,6 +146,7 @@ $t->set_block( "appointment_edit_tpl", "no_error_tpl", "no_error" );
 $t->set_block( "no_error_tpl", "title_error_tpl", "title_error" );
 $t->set_block( "no_error_tpl", "start_time_error_tpl", "start_time_error" );
 $t->set_block( "no_error_tpl", "stop_time_error_tpl", "stop_time_error" );
+$t->set_block( "no_error_tpl", "trustee_user_name_tpl", "trustee_user_name" );
 $t->set_block( "no_error_tpl", "value_tpl", "value" );
 $t->set_block( "no_error_tpl", "month_tpl", "month" );
 $t->set_block( "no_error_tpl", "day_tpl", "day" );
@@ -146,13 +159,13 @@ if( get_class( $app ) != "ezappointment" )
     $t->parse( "no_user_error", "no_user_error_tpl" );
     $t->parse( "user_error", "user_error_tpl" );
     $t->pparse( "output", "appointment_edit_tpl" );
-
     $UserError = true;
 }
 
-
-// only the appointment owner is allowed to edit or delete an appointment
-if ( $Action == "Edit" && $app->userID() != $userID )
+// only the appointment owner or a trustee is allowed to edit or delete an appointment
+if ( $Action == "Edit" &&
+     ( !in_array( $userID, eZUser::trustees( $app->userID() ) )
+       || $app->userID() == $user->ID() ) )
 {
     $t->set_var( "no_error", "" );
     $t->set_var( "no_user_error", "" );
@@ -167,7 +180,7 @@ if ( $Action == "Edit" && $app->userID() != $userID )
 
 if ( $Action == "DeleteAppointment" )
 {
-    if ( count ( $AppointmentArrayID ) != 0 )
+    if ( count( $AppointmentArrayID ) != 0 )
     {
         $tmpAppointment = new eZAppointment( $AppointmentArrayID[0]);
         $datetime = $tmpAppointment->dateTime();
@@ -196,7 +209,7 @@ if ( $Action == "DeleteAppointment" )
         $year = addZero( $datetime->year() );
         $month = addZero( $datetime->month() );
         $day = addZero( $datetime->day() );
-        deleteCache( "default", $Language, $year, $month, $day, $userID );
+        deleteCache( "default", $Language, $year, $month, $day, $trusteduser->ID() );
     }
 
     eZHTTPTool::header( "Location: /calendar/dayview/$year/$month/$day/" );
@@ -221,8 +234,12 @@ if ( $Action == "Insert" || $Action == "Update" )
         exit();
     }
 
-    $user = eZUser::currentUser();
-    if ( $user )
+    if ( !isSet( $trusteduser ) )
+        $trusteduser = new eZUser( $TrusteeUser );
+    if ( !isSet( $user ) )
+        $user = eZUser::currentUser();
+    if ( $user->ID() == $user->ID() ||
+         in_array( $user->ID(), $trusteduser->getByTrustee() ) )
     {
         $type = new eZAppointmentType( $TypeID );
 
@@ -233,7 +250,7 @@ if ( $Action == "Insert" || $Action == "Update" )
         
         $appointment->setDescription( $Description );
         $appointment->setType( $type );
-        $appointment->setOwner( $user );
+        $appointment->setOwner( $trusteduser );
         $appointment->setPriority( $Priority );
 
         if ( $IsPrivate == "on" )
@@ -365,7 +382,6 @@ if ( $Action == "Insert" || $Action == "Update" )
 
 $t->set_var( "user_error", "" );
 
-
 if ( $Action == "Edit" )
 {
     $t->set_var( "name_value", $Name );
@@ -393,6 +409,31 @@ if ( $Action == "Edit" )
 
     $t->set_var( "action_value", $Action );
     $t->set_var( "appointment_id", $AppointmentID );
+
+
+    if ( $userID == $app->userID() )
+        $t->set_var( "own_selected", "selected" );
+    else
+        $t->set_var( "own_selected", "" );
+    
+    $t->set_var( "own_user_id", $userID );
+    $t->set_var( "own_user_name", $user->name() );
+    $t->set_var( "user_name", "" );
+
+    $trusteeArray = $user->getByTrustee( -1, true );
+    foreach ( $trusteeArray as $trustee )
+    {
+        $t->set_var( "user_id", $trustee->ID() );
+        $t->set_var( "user_name", $trustee->name() );
+
+        if ( $app->userID() == $trustee->ID() )
+            $t->set_var( "selected", "selected" );
+        else
+            $t->set_var( "selected", "" );
+        $t->parse( "trustee_user_name", "trustee_user_name_tpl", true );
+    }
+
+
 }
 
 
@@ -412,8 +453,8 @@ if ( $Action == "Edit" )
     $t->set_var( "start_value", $startHour . $startMinute );
 
     $stopTime =& $appointment->stopTime();
-    $stopHour = ( addZero( $stopTime->hour() ) );
-    $stopMinute = ( addZero( $stopTime->minute() ) );
+    $stopHour = addZero( $stopTime->hour() );
+    $stopMinute = addZero( $stopTime->minute() );
     $t->set_var( "stop_value", $stopHour . $stopMinute );
 
     $t->set_var( "0_selected", "" );
@@ -501,6 +542,19 @@ if ( $Action == "New" )
 
     if ( $StartTime != 0 )
         $t->set_var( "start_value", $StartTime );
+
+    $t->set_var( "own_user_id", $userID );
+    $t->set_var( "own_user_name", $user->name() );
+    $t->set_var( "user_name", "" );
+
+    $trusteeArray = $user->getByTrustee( -1, true );
+    foreach ( $trusteeArray as $trustee )
+    {
+        $t->set_var( "user_id", $trustee->ID() );
+        $t->set_var( "user_name", $trustee->name() );
+
+        $t->parse( "trustee_user_name", "trustee_user_name_tpl", true );
+    }
 }
 
 // print the appointment types
@@ -534,7 +588,7 @@ foreach ( $typeList as $type )
 
 // set day combobox
 $daysInMonth = $tmpdate->daysInMonth();
-for ( $i=1; $i<=$daysInMonth; $i++ )
+for ( $i = 1; $i <= $daysInMonth; $i++ )
 {
     if ( $tmpdate->day() == $i )
         $t->set_var( "selected", "selected" );
@@ -552,7 +606,6 @@ for ( $i=1; $i<=$daysInMonth; $i++ )
             $t->set_var( "selected", "" );
         }
     }
-    
     $t->set_var( "day_id", $i );
     $t->set_var( "day_name", $i );
 
@@ -561,8 +614,8 @@ for ( $i=1; $i<=$daysInMonth; $i++ )
 
 // set month combobox
 $month = $tmpdate->month();
-for ( $i=1; $i<13; $i++ )
-{
+for ( $i = 1; $i <= 12; $i++ )
+{ 
     if ( $month == $i )   // don't use $tmpdate->month() since it gets changed
         $t->set_var( "selected", "selected" );
     else

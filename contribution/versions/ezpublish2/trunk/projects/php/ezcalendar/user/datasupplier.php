@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.14 2001/07/27 06:18:55 jhe Exp $
+// $Id: datasupplier.php,v 1.15 2001/07/27 13:05:57 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -115,6 +115,7 @@ switch ( $url_array[2] )
         {
             case "edit":
             {
+                $Action = "edit";
                 include( "ezcalendar/user/trustees.php" );
                 break;
             }
