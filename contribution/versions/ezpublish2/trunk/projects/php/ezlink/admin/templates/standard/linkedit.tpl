@@ -25,7 +25,6 @@
 <p class="boxtext">{intl-linkgroup}:</p>
 <!-- {intl-choosegroup} -->
 <select name="LinkGroupID">
-	<option value="0">{intl-topcat}</option>
 	<!-- BEGIN link_group_tpl -->
 	<option {is_selected} value="{link_group_id}">{link_group_title}</option>
 	<!-- END link_group_tpl -->
