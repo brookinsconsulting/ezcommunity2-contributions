@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.66 2001/06/11 12:16:17 jb Exp $
+// $Id: ezarticlecategory.php,v 1.67 2001/06/12 16:29:38 fh Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -133,7 +133,7 @@ class eZArticleCategory
 
 
         $categoryID = $category->id();
-        foreach( $this->articles() as $article )
+        foreach( $category->articles() as $article )
         {
             $categoryDefinition = $article->categoryDefinition();
             if ( $categoryDefinition->id() == $category->id() )

@@ -43,7 +43,10 @@ else if( $Command == "storedata" ) // save the category data!
     if( $ID == 0 )
         $category = new eZArticleCategory();
     else
+    {
         $category = new eZArticleCategory( $ID );
+        $category->setOwner( eZUser::currentUser() );
+    }
 
     $category->setName( $Data["Name"]->value() );
     $category->setDescription( $Data["Description"]->value() );
@@ -53,7 +56,6 @@ else if( $Command == "storedata" ) // save the category data!
     
     $category->setBulkMailCategory( $Data["BulkMailID"]->value() );
     $category->setSortMode( $Data["SortMode"]->value() );
-    $category->setOwner( $Data["OwnerID"]->value() );
     $category->setSectionID( $Data["SectionID"]->value() );
 //    $category->setImage( $Data["ImageID"]->value() );
     $category->store();
@@ -64,16 +66,25 @@ else if( $Command == "storedata" ) // save the category data!
     $readGroups = $Data["ReadGroups"]->value();
     foreach( $readGroups as $readGroup )
     {
-        echo  "Am here";
         eZObjectPermission::setPermission( $readGroup->value(), $ID, "article_category", 'r' );
     }
-    eZLog::writeNotice( "Outa here" );
-
 
     eZObjectPermission::removePermissions( $ID, "article_category", 'w' );
     foreach( $Data["WriteGroups"]->value() as $writeGroup )
         eZObjectPermission::setPermission( $writeGroup->value(), $ID, "article_category", 'w' );
     
+    $ReturnData = new eZXMLRPCStruct( array( "ErrorID" => new eZXMLRPCInt( 0 ),
+                                             "ErrorString" => new eZXMLRPCString( "" )
+                                             )
+                                      );
+}
+else if( $Command == "delete" )
+{
+    eZLog::writeNotice( "Deleting: " . $ID );
+//    $category = new eZArticleCategory( $ID );
+//    $category->delete();
+    eZArticleCategory::delete( $ID );
+    eZLog::writeNotice( "Deleted: " . $ID );
     $ReturnData = new eZXMLRPCStruct( array( "ErrorID" => new eZXMLRPCInt( 0 ),
                                              "ErrorString" => new eZXMLRPCString( "" )
                                              )
