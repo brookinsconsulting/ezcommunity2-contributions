@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.53 2001/09/21 14:31:50 bf Exp $
+// $Id: ezorder.php,v 1.54 2001/09/21 15:10:55 bf Exp $
 //
 // Definition of eZOrder class
 //
@@ -276,6 +276,8 @@ class eZOrder
         return $return_array;
     }
 
+    /*!
+    */
     function getByContact( $contact, $is_person = true, $offset = 0, $limit = 40 )
     {
         $db =& eZDB::globalDatabase();
@@ -295,6 +297,28 @@ class eZOrder
         for ( $i = 0; $i < count( $order_array ); $i++ )
         {
             $return_array[$i] = new eZOrder( $order_array[$i][$db->fieldName( "ID" )], 0 );
+        }
+
+        return $return_array;
+    }
+
+    /*!
+      Returns every order one customer has made.
+    */
+    function getByCustomer( $user )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $return_array = array();
+        $order_array = array();
+
+        $userID = $user->id();        
+        $db->array_query( $order_array,
+                          "SELECT ID FROM eZTrade_Order WHERE UserID='$userID'" );
+
+        for ( $i = 0; $i < count( $order_array ); $i++ )
+        {
+            $return_array[$i] = new eZOrder( $order_array[$i][$db->fieldName( "ID" )] );
         }
 
         return $return_array;
