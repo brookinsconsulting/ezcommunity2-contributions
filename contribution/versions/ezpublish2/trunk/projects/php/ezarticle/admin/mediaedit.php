@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: mediaedit.php,v 1.2 2001/07/25 14:20:46 ce Exp $
+// $Id: mediaedit.php,v 1.3 2001/07/26 11:23:52 ce Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
@@ -224,7 +224,10 @@ if ( get_class( $mediaType) == "ezmediatype" )
         $t->set_var( "attribute_id", $attribute->id( ) );
         $t->set_var( "attribute_name", $attribute->name( ) );
 
-        $t->set_var( "attribute_value", $attribute->value( $media ) );
+        if ( !$attribute->value( $media ) )
+            $t->set_var( "attribute_value", $attribute->defaultValue() );
+        else
+            $t->set_var( "attribute_value", $attribute->value( $media ) );
         
         $t->parse( "attribute", "attribute_tpl", true );
     }

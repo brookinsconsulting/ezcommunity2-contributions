@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: medialist.php,v 1.2 2001/07/25 13:16:07 th Exp $
+// $Id: medialist.php,v 1.3 2001/07/26 11:23:52 ce Exp $
 //
 // Created on: <24-Jul-2001 11:36:48 ce>
 //
@@ -27,6 +27,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/ezfile.php" );
+include_once( "classes/ezlist.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezpermission.php" );
@@ -59,9 +60,6 @@ $t->set_block( "media_list_page_tpl", "path_item_tpl", "path_item" );
 $t->set_block( "media_list_page_tpl", "media_list_tpl", "media_list" );
 
 $t->set_block( "media_list_page_tpl", "write_menu_tpl", "write_menu" );
-
-$t->set_block( "write_menu_tpl", "next_tpl", "next" );
-$t->set_block( "write_menu_tpl", "previous_tpl", "prev" );
 
 $t->set_block( "write_menu_tpl", "default_new_tpl", "default_new" );
 $t->set_block( "write_menu_tpl", "default_delete_tpl", "default_delete" );
@@ -251,31 +249,8 @@ foreach ( $mediaList as $media )
 
     $counter++;
 }
+eZList::drawNavigator( $t, $category->mediaCount(), $limit, $Offset, "media_list_page_tpl" );
 
-if ( $category->mediaCount() > ( $Offset + $limit ) )
-{
-    $t->set_var( "next-offset", $Offset + $limit );
-    $t->parse( "next", "next_tpl" );
-}
-else
-{
-    $t->set_var( "next", "" );
-}
-
-if ( $Offset > 0 )
-{
-    if ( ( $Offset - $limit ) < 0 )
-        $t->set_var( "prev-offset", 0 );
-    else
-        $t->set_var( "prev-offset", $Offset - $limit );
-    $t->parse( "prev", "previous_tpl" );
-}
-else
-{
-    $t->set_var( "prev", "" );
-}
-
-$t->set_var( "pos", $Offset );
 
 // Print out the category/media menu
 if ( $category->id() != 0 )

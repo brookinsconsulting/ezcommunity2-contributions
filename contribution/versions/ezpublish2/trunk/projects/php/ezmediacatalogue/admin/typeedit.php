@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: typeedit.php,v 1.2 2001/07/26 10:43:30 ce Exp $
+// $Id: typeedit.php,v 1.3 2001/07/26 11:23:52 ce Exp $
 //
 // Created on: <29-Jan-2001 11:44:23 jhe>
 //
@@ -27,7 +27,7 @@ include_once( "classes/ezhttptool.php" );
 
 if ( isset( $Cancel ) )
 {
-    eZHTTPTool::header( "Location: /media/typelist/" );
+    eZHTTPTool::header( "Location: /mediacatalogue/typelist/" );
     exit();
 }
 

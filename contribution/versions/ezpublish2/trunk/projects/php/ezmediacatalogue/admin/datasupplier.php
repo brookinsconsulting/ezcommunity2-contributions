@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.2 2001/07/25 12:29:54 ce Exp $
+// $Id: datasupplier.php,v 1.3 2001/07/26 11:23:52 ce Exp $
 //
 // Created on: <24-Jul-2001 10:59:19 ce>
 //
@@ -73,9 +73,10 @@ switch ( $url_array[2] )
                 $CategoryID = $url_array[4];
                 if ( !is_numeric($CategoryID ) )
                     $CategoryID = 0;
-                $Offset = $url_array[5];
-                if ( $Offset == "" )
-                    $Offset = 0;
+
+                if ( $url_array[5] == "parent" )
+                    $Offset = $url_array[6];
+
                 include( "ezmediacatalogue/admin/medialist.php" );
             }
             break;

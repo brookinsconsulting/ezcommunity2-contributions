@@ -83,23 +83,7 @@
 <!-- END media_list_tpl -->
 
 <!-- BEGIN write_menu_tpl -->
-<table width="100%">
-<tr>
-<!-- BEGIN previous_tpl -->
-<td align="left">
-<a class="path" href="/mediacatalogue/media/list/{main_category_id}/{prev-offset}/">&lt;&lt;&nbsp;{intl-previous}</a>
-</td>
-<!-- END previous_tpl -->
-<!-- BEGIN next_tpl -->
-<td align="right">
-<a class="path" href="/mediacatalogue/media/list/{main_category_id}/{next-offset}/">{intl-next}&nbsp;&gt;&gt;</a>
-</td>
-<!-- END next_tpl -->
-</tr>
-</table>
-
 <!-- BEGIN default_delete_tpl -->
-
 <hr noshade="noshade" size="4" />
 
 <table cellspacing="0" cellpadding="0" border="0">
@@ -140,3 +124,51 @@
 <!-- END default_new_tpl -->
 <!-- END write_menu_tpl -->
 </form>
+
+<!-- BEGIN type_list_tpl -->
+<br />
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<!-- BEGIN type_list_previous_tpl -->
+	<td>
+	<a class="path" href="/mediacatalogue/media/list/{category_id}/parent/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
+	</td>
+	<!-- END type_list_previous_tpl -->
+
+	<!-- BEGIN type_list_previous_inactive_tpl -->
+	<td>
+	&nbsp;
+	</td>
+	<!-- END type_list_previous_inactive_tpl -->
+
+	<!-- BEGIN type_list_item_list_tpl -->
+
+	<!-- BEGIN type_list_item_tpl -->
+	<td>
+	|&nbsp;<a class="path" href="/mediacatalogue/media/list/{category_id}/parent/{item_index}">{type_item_name}</a>&nbsp;
+	</td>
+	<!-- END type_list_item_tpl -->
+
+	<!-- BEGIN type_list_inactive_item_tpl -->
+	<td>
+	|&nbsp;&lt;&nbsp;{type_item_name}&nbsp;&gt;&nbsp;
+	</td>
+	<!-- END type_list_inactive_item_tpl -->
+
+	<!-- END type_list_item_list_tpl -->
+
+	<!-- BEGIN type_list_next_tpl -->
+	<td>
+	|&nbsp;<a class="path" href="/mediacatalogue/media/list/{category_id}/parent/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	</td>
+	<!-- END type_list_next_tpl -->
+
+	<!-- BEGIN type_list_next_inactive_tpl -->
+	<td>
+	|&nbsp;
+	</td>
+	<!-- END type_list_next_inactive_tpl -->
+
+</tr>
+</table>
+<!-- END type_list_tpl -->

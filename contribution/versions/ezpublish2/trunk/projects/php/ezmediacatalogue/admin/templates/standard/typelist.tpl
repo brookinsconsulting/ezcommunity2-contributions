@@ -15,7 +15,7 @@
 <!-- BEGIN type_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/media/typeedit/edit/{type_id}/">{type_name}&nbsp;</a>
+	<a href="/mediacatalogue/typeedit/edit/{type_id}/">{type_name}&nbsp;</a>
 	</td>
 	<td width="1%" class="{td_class}">
 	<a href="/mediacatalogue/typeedit/edit/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztc{type_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="eztc{type_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top"></a>
