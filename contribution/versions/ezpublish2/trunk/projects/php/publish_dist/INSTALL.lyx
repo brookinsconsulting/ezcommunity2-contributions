@@ -33,7 +33,7 @@ Dependencies
 MySQL-3.22.32 (www.mysql.org)
 \layout Itemize
 
-PHP-4.0.3 (www.php.net)
+PHP-4.0.4 (www.php.net)
 \layout Itemize
 
 ImageMagick-4.2.9 (www.imagemagick.org)
@@ -63,7 +63,7 @@ Howto configure php
 # ./configure --with-xml --enable-trans-sid 
 \layout LyX-Code
 
---with-mysql --with-magic-quotes --with-apxs --with-dom
+--with-mysql --with-magic-quotes --with-apxs --with-dom --with-qtdom
 \layout Subsection
 
 Compile and install the PHP package 
@@ -218,7 +218,7 @@ Put all the publish files in your apache documentroot.
 # cd /tmp/
 \layout LyX-Code
 
-# tar zxvf /path/to/ezpublish-1.0.tar.gz
+# tar zxvf /path/to/ezpublish-2.0.tar.gz
 \layout LyX-Code
 
 # mv /tmp/publish_dist /your/apache/documentroot
@@ -235,10 +235,10 @@ Run modfix, this is important.
 # ./modfix.sh
 \layout Itemize
 
-Start konqueror and have fun!
+Start a browser
 \layout LyX-Code
 
-# konqueror http://yourdomain.org
+# brower http://yourdomain.org
 \layout LyX-Code
 
 \layout Itemize
