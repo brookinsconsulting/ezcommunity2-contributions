@@ -1,5 +1,5 @@
 <?
-// $Id: forumedit.php,v 1.23 2001/03/05 12:19:10 pkej Exp $
+// $Id: forumedit.php,v 1.24 2001/03/14 09:47:20 pkej Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -324,7 +324,10 @@ $t->set_var( "user_id", 0 );
 $t->set_var( "user_name", "testing" );
 $noModeratorString = $t->Ini->read_var( "strings", "no_moderator" );
 $t->set_var( "user_name", $noModeratorString );
-if( $fourm )
+
+$t->set_var( "is_selected", "" );
+
+if( $forum )
 {
     $moderator = $forum->moderator();
 }
@@ -333,10 +336,11 @@ else
     $moderator = 0;
 }
 
-if ( $moderator == 0 )
+if( $moderator == 0 )
 {
-    $t->set_var( "is_selected", "" );
+    $t->set_var( "is_selected", "selected" );
 }
+
 $t->parse( "moderator_item", "moderator_item_tpl", true );
 
 foreach( $userList as $userItem )
@@ -344,9 +348,9 @@ foreach( $userList as $userItem )
     $t->set_var( "user_id", $userItem->id() );
     $t->set_var( "user_name", $userItem->firstName() . " " . $userItem->lastName() );
 
-    if ( $Action == "edit" )
+    if( $Action == "edit" )
     {
-        if ( $moderator )
+        if( $moderator )
         {
             if ( $moderator->id() == $userItem->id() )
             {
