@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallarticlelist.php,v 1.9 2001/07/29 23:30:58 kaid Exp $
+// $Id: smallarticlelist.php,v 1.10 2001/08/09 15:06:36 th Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -84,6 +84,7 @@ function createSmallArticleList( $generateStaticPage = false )
 
     $t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
     $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
+    $t->set_block( "article_item_tpl", "read_more_tpl", "read_more_item" );
 
 
     $category = new eZArticleCategory( $CategoryID );
@@ -91,6 +92,7 @@ function createSmallArticleList( $generateStaticPage = false )
     $t->set_var( "current_category_name", $category->name() );
     $t->set_var( "current_category_description", $category->description() );
 
+    $t->set_var( "sitedesign", $GlobalSiteDesign );
 
     $articleList = $category->articles( $category->sortMode(), false, true, $Offset, $Limit );
 
@@ -112,10 +114,13 @@ function createSmallArticleList( $generateStaticPage = false )
         if ( $article->linkText() != "" )
         {
             $t->set_var( "article_link_text", $article->linkText() );
+        	$t->parse( "read_more_item", "read_more_tpl" );
+			
         }
         else
         {
             $t->set_var( "article_link_text", $DefaultLinkText );
+            $t->set_var( "read_more_item", "" );
         }
 
         $t->parse( "article_item", "article_item_tpl", true );
