@@ -1,10 +1,10 @@
 <?php
 //
-// $Id: vote.php,v 1.16 2001/07/25 10:04:24 chrism Exp $
+// $Id: vote.php,v 1.17 2001/07/25 10:06:12 chrism Exp $
 //
-// $Id: vote.php,v 1.16 2001/07/25 10:04:24 chrism Exp $
+// $Id: vote.php,v 1.17 2001/07/25 10:06:12 chrism Exp $
 //
-// $Id: vote.php,v 1.16 2001/07/25 10:04:24 chrism Exp $
+// $Id: vote.php,v 1.17 2001/07/25 10:06:12 chrism Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
