@@ -1,3 +1,5 @@
+alter table eZTrade_OrderItem drop PriceIncVAT;
+alter table eZTrade_OrderItem change VATValue VAT float(10,2);=======
 alter table eZContact_Person change BirthDate BirthDate int;
 
 # XML contents in trade
@@ -8,4 +10,3 @@ alter table eZTrade_ProductImageLink add Placement int not null default 0;
 
 #Languages in sections
 alter table eZSiteManager_Section add Language varchar(5) default NULL;
- 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.100 2001/08/28 07:45:54 kaid Exp $
+// $Id: index.php,v 1.101 2001/08/30 07:49:49 ce Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -69,6 +69,8 @@ ereg( "([^?]+)", $REQUEST_URI, $regs );
 $REQUEST_URI = $regs[1];
 
 include_once( "classes/ezbenchmark.php" );
+
+include_once( "eztrade/classes/ezproduct.php" );
 
 // Run benchmark test.
 $bench = new eZBenchmark();
