@@ -30,20 +30,27 @@
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td class="{td_class}">
-
-	<!-- BEGIN image_item_tpl -->
-
-	<!-- END image_item_tpl -->
-
-	<!-- BEGIN no_image_tpl -->
-
-	<!-- END no_image_tpl -->
-
 	<div class="listheadline"><a class="listheadline" href="/article/archive/{category_id}/">{category_name}</a></div>
+
+<table width="1%" align="right">
+<tr>
+	<td>
+	<!-- BEGIN image_item_tpl -->
+	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" />
+	<!-- END image_item_tpl -->
+	<!-- BEGIN no_image_tpl -->
+	&nbsp;
+	<!-- END no_image_tpl -->
+	</td>
+</tr>
+</table>
+
 	<div class="p">{category_description}</div>
 	<img src="/images/1x1.gif" height="8" width="1" border="0" alt="" /><br />
 	<a class="path" href="/article/archive/{category_id}/">{article_link_text}</a>
+
 	<br /><br />
+
 	</td>
 </tr>
 <!-- END category_item_tpl -->
