@@ -58,6 +58,7 @@ DROP TABLE IF EXISTS eZBulkMail_Template;
 CREATE TABLE eZBulkMail_Template (
   ID int(11) default '0' NOT NULL auto_increment,
   Name varchar(200) default NULL,
+  Description text,
   Header text,
   Footer text,
   PRIMARY KEY (ID)
