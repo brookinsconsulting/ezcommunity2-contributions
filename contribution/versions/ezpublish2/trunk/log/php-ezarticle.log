@@ -3551,3 +3551,14 @@ Maintainer(s) : bf@ez.no
     Fix for mail link.
     Added up / down arrows for images to an article.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2003-01-14  Bjoern Reiten  <br@ez.no>
+
+    * admin/attributelist.php
+      admin/templates/standard/attributelist.tpl:
+    fixed bug when loosing attribute data when adding a existing type
+    and some template fixes.
+
