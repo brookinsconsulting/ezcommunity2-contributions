@@ -159,7 +159,7 @@ switch ( $url_array[2] )
 
     default :
     {
-        include( "ezuser/admin/login.php" );
+//        include( "ezuser/admin/login.php" );
     }
     break;
 }
