@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.20 2001/01/17 10:17:27 gl Exp $
+// $Id: ezlocale.php,v 1.21 2001/01/22 12:50:28 gl Exp $
 //
 // Definition of eZLocale class
 //
@@ -138,6 +138,7 @@ class eZLocale
         $this->ShortTimeFormat =& $this->$LocaleIni->read_var( "RegionalSettings", "ShortTimeFormat" );
         $this->DateFormat =& $this->$LocaleIni->read_var( "RegionalSettings", "DateFormat" );
         $this->ShortDateFormat =& $this->$LocaleIni->read_var( "RegionalSettings", "ShortDateFormat" );
+        $this->MondayFirst =& $this->$LocaleIni->read_var( "RegionalSettings", "MondayFirst" );
     }
 
     /*!
@@ -380,6 +381,21 @@ class eZLocale
     }
 
     /*!
+      Returns true if monday is the first day of the week, else false.
+    */
+    function mondayFirst()
+    {
+        if ( $this->MondayFirst == "yes" )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /*!
       \private
       Adds a "0" in front of the value if it's below 10.
     */
@@ -405,6 +421,7 @@ class eZLocale
     var $ShortTimeFormat;
     var $DateFormat;
     var $ShortDateFormat;
+    var $MondayFirst;
 
     var $LocaleIni;
 }

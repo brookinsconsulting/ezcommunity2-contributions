@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdate.php,v 1.11 2001/01/19 10:40:03 gl Exp $
+// $Id: ezdate.php,v 1.12 2001/01/22 12:50:28 gl Exp $
 //
 // Definition of eZCompany class
 //
@@ -50,6 +50,12 @@ class eZDate
     */
     function eZDate( $year=0, $month=0, $day=0 )
     {
+        include_once( "classes/ezlocale.php" );
+
+        $this->Ini =& $GLOBALS["GlobalSiteIni"];
+        $this->Language = $this->Ini->read_var( "eZCalendarMain", "Language" );
+        $this->Locale = new eZLocale( $this->Language );
+
         if ( ( $year == 0 )  && ( $month == 0 ) && ( $day == 0 ) )
         {
             $now = getdate();
@@ -162,10 +168,19 @@ class eZDate
     */
     function dayOfWeek( )
     {
+
         $weekday = date ( "w", mktime ( 2, 0, 0, $this->Month, $this->Day, $this->Year ) );
 
-        if ( $weekday == 0 )
-            $weekday = 7;
+        if ( $this->Locale->mondayFirst() == true )
+        {
+            if ( $weekday == 0 )
+                $weekday = 7;
+        }
+        else
+        {
+            $weekday = $weekday + 1;
+        }
+
         return $weekday;
     }
 
@@ -176,50 +191,101 @@ class eZDate
     {
         $day = "unknown";
 
-        switch( $this->dayOfWeek() )
+        if ( $this->Locale->mondayFirst() == true )
         {
-            case 1 :
+            switch( $this->dayOfWeek() )
             {
-                $day = "mon";
-            }
-            break;
+                case 1 :
+                {
+                    $day = "mon";
+                }
+                break;
 
-            case 2 :
-            {
-                $day = "tue";
-            }
-            break;
+                case 2 :
+                {
+                    $day = "tue";
+                }
+                break;
 
-            case 3 :
-            {
-                $day = "wed";
-            }
-            break;
+                case 3 :
+                {
+                    $day = "wed";
+                }
+                break;
 
-            case 4 :
-            {
-                $day = "thu";
-            }
-            break;
+                case 4 :
+                {
+                    $day = "thu";
+                }
+                break;
 
-            case 5 :
-            {
-                $day = "fri";
-            }
-            break;
+                case 5 :
+                {
+                    $day = "fri";
+                }
+                break;
 
-            case 6 :
-            {
-                $day = "sat";
-            }
-            break;
+                case 6 :
+                {
+                    $day = "sat";
+                }
+                break;
 
-            case 7 :
-            {
-                $day = "sun";
+                case 7 :
+                {
+                    $day = "sun";
+                }
+                break;
             }
-            break;
         }
+        else
+        {
+            switch( $this->dayOfWeek() )
+            {
+                case 1 :
+                {
+                    $day = "sun";
+                }
+                break;
+
+                case 2 :
+                {
+                    $day = "mon";
+                }
+                break;
+
+                case 3 :
+                {
+                    $day = "tue";
+                }
+                break;
+
+                case 4 :
+                {
+                    $day = "wed";
+                }
+                break;
+
+                case 5 :
+                {
+                    $day = "thu";
+                }
+                break;
+
+                case 6 :
+                {
+                    $day = "fri";
+                }
+                break;
+
+                case 7 :
+                {
+                    $day = "sat";
+                }
+                break;
+            }
+        }
+
         return $day;
     }
 
@@ -336,5 +402,9 @@ class eZDate
     var $Year;
     var $Month;
     var $Day;
+
+    var $Ini;
+    var $Language;
+    var $Locale;
 }
 ?>
