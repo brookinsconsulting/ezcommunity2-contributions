@@ -143,7 +143,8 @@ class INIFile
         } 
         else 
         {
-            $split_data =& split( "=", $data ); 
+            $split_data =& split( "=", $data );
+            
             $this->GROUPS[ $this->CURRENT_GROUP ][ $split_data[0] ] = $split_data[1]; 
         }
     }
