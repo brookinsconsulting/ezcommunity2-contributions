@@ -3394,3 +3394,12 @@ Maintainer(s) : bf@ez.no
 
     * xmlrpc/category.php: delete parent cache on store()
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-07-06  Kai Duebbert  <kai@duebbert.de>
+
+    * classes/ezqdomrenderer.php:
+    fixed bug in creation of link for embedded files ($file_uri)
+
