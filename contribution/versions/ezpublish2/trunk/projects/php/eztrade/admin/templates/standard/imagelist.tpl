@@ -58,7 +58,7 @@
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top">
-	<input class="stdbutton" type="submit" name="NewImage"value="{intl-newimage}" />
+	<input class="stdbutton" type="submit" name="NewImage" value="{intl-newimage}" />
 	</td>
 	<td>&nbsp;</td>
 	<td>

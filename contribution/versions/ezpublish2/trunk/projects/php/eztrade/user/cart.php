@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.33 2001/04/04 14:42:44 ce Exp $
+// $Id: cart.php,v 1.34 2001/06/14 13:04:09 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Sep-2000 11:57:49 bf>
@@ -100,7 +100,14 @@ if ( !$cart )
 
 if ( $Action == "AddToBasket" )
 {
-    $product = new eZProduct( $ProductID );
+    $product = new eZProduct( );
+    if ( !$product->get($ProductID ) )
+    {
+        eZHTTPTool::header( "Location: /error/404/" );
+        exit();
+    }
+        
+     
 
     // check if a product like this is already in the basket.
     // if so-> add the count value.
