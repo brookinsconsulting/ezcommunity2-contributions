@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id
+// $Id: ezbulkmailforgot.php,v 1.9 2001/07/19 12:36:31 jakobn Exp $
 //
-// Frederik Holljen <fh@ez.no>
 // Created on: <20-Apr-2001 13:32:11 fh>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

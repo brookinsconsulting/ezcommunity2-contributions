@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: masssubscribe.php,v 1.5 2001/05/16 13:15:38 ce Exp $
+// $Id: masssubscribe.php,v 1.6 2001/07/19 12:36:31 jakobn Exp $
 //
-// Christoffer A. Elo <ce@ez.no>
 // Created on: <14-May-2001 15:02:02 ce>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

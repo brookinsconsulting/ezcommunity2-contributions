@@ -1,17 +1,14 @@
-<?
+<?php
 // 
-// $Id: ezbulkmail.php,v 1.19 2001/07/09 14:17:22 fh Exp $
+// $Id: ezbulkmail.php,v 1.20 2001/07/19 12:36:31 jakobn Exp $
 //
 // eZBulkMail class
 //
-// Frederik Holljen <fh@ez.no>
 // Created on: <17-Apr-2001 11:53:30 fh>
 //
-// Copyright (C) Frederik Holljen.  All rights reserved.
-//
-//
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: subscriptionlist.php,v 1.3 2001/04/27 22:16:35 fh Exp $
+// $Id: subscriptionlist.php,v 1.4 2001/07/19 12:36:31 jakobn Exp $
 //
-// Frederik Holljen <fh@ez.no>
 // Created on: <18-Apr-2001 13:36:21 fh>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

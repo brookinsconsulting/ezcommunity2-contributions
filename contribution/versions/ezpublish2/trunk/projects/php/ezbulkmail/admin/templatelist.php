@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: templatelist.php,v 1.1 2001/04/18 14:39:52 fh Exp $
+// $Id: templatelist.php,v 1.2 2001/07/19 12:36:31 jakobn Exp $
 //
-// Frederik Holljen <fh@ez.no>
 // Created on: <18-Apr-2001 16:36:22 fh>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
