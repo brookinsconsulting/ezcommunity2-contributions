@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: imageedit.php,v 1.40 2001/09/03 15:54:25 ce Exp $
+// $Id: imageedit.php,v 1.41 2001/09/06 09:05:29 ce Exp $
 //
 // Created on: <09-Jan-2001 10:45:44 ce>
 //
@@ -318,6 +318,7 @@ if ( $Action == "Update" && $error == false )
         }
     }
 
+    /*
     $categoryArray = $image->categories();
     // Calculate new and unused categories
     $old_maincategory = $image->categoryDefinition();
@@ -328,11 +329,9 @@ if ( $Action == "Update" && $error == false )
 
     $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
 
-    $category = new eZImageCategory( $CategoryID );
-    $image->setCategoryDefinition( $category );
-
     $remove_categories = array_diff( $old_categories, $new_categories );
     $add_categories = array_diff( $new_categories, $old_categories );
+
 
     foreach ( $remove_categories as $categoryItem )
     {
@@ -342,6 +341,19 @@ if ( $Action == "Update" && $error == false )
     {
         eZImageCategory::addImage( $image, $categoryItem );
     }
+    */
+
+    $categories = $image->categories();
+
+    foreach( $categories as $categoryItem )
+    {
+        eZImageCategory::removeImage( $image, $categoryItem );
+    }
+
+    $category = new eZImageCategory( $CategoryID );
+    $image->setCategoryDefinition( $category );
+    $category->addImage( $image );
+    
     if ( $fileOK )
     {
         $image->setImage( $file );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagecategory.php,v 1.30 2001/07/25 10:37:23 jb Exp $
+// $Id: ezimagecategory.php,v 1.31 2001/09/06 09:05:27 ce Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -527,8 +527,11 @@ class eZImageCategory
        $db->begin( );
        $db->lock( "eZImageCatalogue_ImageCategoryLink" );
 
+//       $query = "DELETE FROM eZImageCatalogue_ImageCategoryLink WHERE
+//                CategoryID='$categoryid' AND ImageID='$imageid'";
+
        $query = "DELETE FROM eZImageCatalogue_ImageCategoryLink WHERE
-                 CategoryID='$categoryid' AND ImageID='$imageid'";
+                ImageID='$imageid'";
 
        $db->query( $query );
        
@@ -536,7 +539,8 @@ class eZImageCategory
        
        $query = "INSERT INTO eZImageCatalogue_ImageCategoryLink ( ID, CategoryID, ImageID )
                  VALUES ( '$nextID', '$categoryid', '$imageID' )";
-       
+
+       print( $query );
        $res = $db->query( $query );
 
        $db->unlock();
