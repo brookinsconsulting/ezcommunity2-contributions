@@ -22,10 +22,11 @@
 <h3 class="error">{intl-empty_result}</h3>
 <!-- END empty_result_tpl -->
 
+<br />
 
-<br>
 <h3>{intl-result} ({intl-maxhit} {hit_count})</h3> 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
 <!-- BEGIN search_item_tpl -->
 <tr>
 
