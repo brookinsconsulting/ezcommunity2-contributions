@@ -212,52 +212,6 @@ array( "type_list" => "person_list",
        "item_name" => "item_name" )
                        );
 
-//  if ( $total_persons > $Max || $Index > 0 )
-//  {
-//      $t->set_var( "person_list_previous", "" );
-//      $t->set_var( "person_list_item", "" );
-//      $t->set_var( "person_list_next", "" );
-//      $t->set_var( "person_list_previous_inactive", "" );
-//      $t->set_var( "person_list_next_inactive", "" );
-
-//      if ( $Index > 0 )
-//      {
-//          $t->set_var( "item_previous_index", max( $Index - $Max, 0 ) );
-//          $t->parse( "person_list_previous", "person_list_previous_tpl" );
-//      }
-//      else
-//      {
-//          $t->parse( "person_list_previous_inactive", "person_list_previous_inactive_tpl" );
-//      }
-//      if ( $Index + $Max < $total_persons )
-//      {
-//          $t->set_var( "item_next_index", $Index + $Max );
-//          $t->parse( "person_list_next", "person_list_next_tpl" );
-//      }
-//      else
-//      {
-//          $t->parse( "person_list_next_inactive", "person_list_next_inactive_tpl" );
-//      }
-
-//      $total = $total_persons;
-//      $i = 0;
-//      while ( $total > 0 )
-//      {
-//          $t->set_var( "item_index", $i*$Max );
-//          $t->set_var( "item_name", $i );
-//          $t->parse( "person_list_item", "person_list_item_tpl", true );
-
-//          $total = $total - $Max;
-//          $i++;
-//      }
-
-//      $t->parse( "person_list", "person_list_tpl" );
-//  }
-//  else
-//  {
-//      $t->set_var( "person_list", "" );
-//  }
-
 $t->pparse( "output", "person_page" );
 
 ?>
