@@ -1,6 +1,6 @@
 <?
 //
-// $Id: groupedit.php,v 1.43 2001/05/08 12:41:22 ce Exp $
+// $Id: groupedit.php,v 1.44 2001/05/08 12:48:17 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:57:28 ce>
@@ -57,7 +57,7 @@ if ( isSet ( $DeleteCategories ) )
 if ( $Action == "insert" )
 {
     // clear the menu cache
-    $files =& eZCacheFile::files( "ezforum/cache/",
+    $files =& eZCacheFile::files( "ezlink/cache/",
                                   array( "menubox",
                                          NULL ),
                                   "cache", "," );
@@ -114,7 +114,7 @@ if ( $Action == "insert" )
 if ( $Action == "delete" )
 {
     // clear the menu cache
-    $files =& eZCacheFile::files( "ezforum/cache/",
+    $files =& eZCacheFile::files( "ezlink/cache/",
                                   array( "menubox",
                                          NULL ),
                                   "cache", "," );
@@ -141,7 +141,7 @@ if ( $Action == "delete" )
 if ( $Action == "DeleteCategories" )
 {
     // clear the menu cache
-    $files =& eZCacheFile::files( "ezforum/cache/",
+    $files =& eZCacheFile::files( "ezlink/cache/",
                                   array( "menubox",
                                          NULL ),
                                   "cache", "," );
@@ -175,7 +175,7 @@ if ( $Action == "DeleteCategories" )
 if ( $Action == "update" )
 {
     // clear the menu cache
-    $files =& eZCacheFile::files( "ezforum/cache/",
+    $files =& eZCacheFile::files( "ezlink/cache/",
                                   array( "menubox",
                                          NULL ),
                                   "cache", "," );
