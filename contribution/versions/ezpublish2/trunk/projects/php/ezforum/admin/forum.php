@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.7 2000/07/21 13:06:55 lw-cvs Exp $
+    $Id: forum.php,v 1.8 2000/07/21 13:08:49 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -94,7 +94,6 @@ else // default: Add forum box
     $t->parse( "box", "addbox", true);
 }
 
-echo " hei hei " . $category_id;
 // Forum list for current category
 $forum = new eZforumForum();
 
