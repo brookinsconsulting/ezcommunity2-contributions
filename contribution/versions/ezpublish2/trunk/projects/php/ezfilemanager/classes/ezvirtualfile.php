@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfile.php,v 1.49 2001/09/25 11:12:13 jhe Exp $
+// $Id: ezvirtualfile.php,v 1.50 2001/09/28 10:14:40 jhe Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -194,37 +194,15 @@ class eZVirtualfile
 
       Default limit is set to 30.
      */
-    function &search( &$queryText, $offset=0, $limit=30 )
-    {
-        $db =& eZDB::globalDatabase();
-        $returnArray = array();
-
-        $query = new eZQuery( array( "Name", "Description", "OriginalFileName" ), $queryText );
-        $query->setPartialCompare( true );
-        $queryString = ( "SELECT ID,Name FROM eZFileManager_File
-                        WHERE (" . $query->buildQuery() . ")
-                        ORDER By Name" );
-
-        $limit = array( "Limit" => $limit,
-                        "Offset" => $offset );
-
-        $db->array_query( $fileArray, $queryString, $limit );
-
-        foreach ( $fileArray as $file )
-        {
-            $returnArray[] = new eZVirtualFile( $file[$db->fieldName( "ID" )] );
-        }
-        return $returnArray;
-    }
-
-    /*!
-      Returns the total count of a query.
-     */
-    function searchCount( &$queryText, $userID = -1 )
+    function &search( &$queryText, $offset=0, $limit=30, $userID = -1 )
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
-        $user = new eZUser( $userID );
+        $returnArray = array();
+        if ( $userID > -1 )
+            $user = new eZUser( $userID );
+        else
+            $user =& eZUser::currentUser();
         $groupString = "AND f.ID=p.ObjectID AND ( ( ( p.GroupID='-1' ";
         if ( $user )
         {
@@ -234,7 +212,51 @@ class eZVirtualfile
             }
         }
         $groupString .= ") AND p.ReadPermission='1' ) OR ( f.UserID='$userID' ) )";
-        $query = new eZQuery( array( "Name", "Description", "OriginalFileName" ), $queryText );
+        $query = new eZQuery( array( "Name", "Description" ), $queryText );
+        $query->setPartialCompare( true );
+        $queryString = "SELECT f.ID, f.Name as Count FROM eZFileManager_File as f";
+        if ( $user->hasRootAccess() )
+        {
+            $groupString = "";
+        }
+        else
+        {
+            $queryString .= ", eZFileManager_FilePermission as p";
+        }
+        $queryString .= " WHERE (" . $query->buildQuery() . ") $groupString ";
+        $queryString .= " ORDER BY Name";
+        $limit = array( "Limit" => $limit,
+                        "Offset" => $offset );
+        $db->array_query( $fileArray, $queryString, $limit );
+        foreach ( $fileArray as $file )
+        {
+            $returnArray[] = new eZVirtualFile( $file[$db->fieldName( "ID" )] );
+        }
+        return $returnArray;
+
+    }
+
+    /*!
+      Returns the total count of a query.
+     */
+    function searchCount( &$queryText, $userID = -1 )
+    {
+        $db =& eZDB::globalDatabase();
+        $ret = false;
+        if ( $userID > -1 )
+            $user = new eZUser( $userID );
+        else
+            $user =& eZUser::currentUser();
+        $groupString = "AND f.ID=p.ObjectID AND ( ( ( p.GroupID='-1' ";
+        if ( $user )
+        {
+            foreach ( $user->groups( false ) as $group )
+            {
+                $groupString .= "OR p.GroupID='$group' ";
+            }
+        }
+        $groupString .= ") AND p.ReadPermission='1' ) OR ( f.UserID='$userID' ) )";
+        $query = new eZQuery( array( "Name", "Description" ), $queryText );
         $query->setPartialCompare( true );
         $queryString = "SELECT COUNT(f.ID) as Count FROM eZFileManager_File as f";
         if ( $user->hasRootAccess() )
@@ -246,7 +268,6 @@ class eZVirtualfile
             $queryString .= ", eZFileManager_FilePermission as p";
         }
         $queryString .= " WHERE (" . $query->buildQuery() . ") $groupString ";
-
         $db->query_single( $result, $queryString );
         $ret = $result[$db->fieldName( "Count" )];
 

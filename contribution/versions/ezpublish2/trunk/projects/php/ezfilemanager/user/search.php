@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.6 2001/09/25 11:12:13 jhe Exp $
+// $Id: search.php,v 1.7 2001/09/28 10:14:40 jhe Exp $
 //
 // Created on: <10-May-2001 12:48:08 ce>
 //
@@ -67,7 +67,7 @@ if ( count( $fileList ) > 0 )
     foreach ( $fileList as $file )
     {
         $t->set_var( "file_id", $file->id() );
-        $t->set_var( "original_file_name", $file->originalFileName() );
+        $t->set_var( "original_file_name", $file->name() );
         $t->set_var( "file_name", $file->name() );
         $t->set_var( "file_url", $file->name() );
         $t->set_var( "file_description", $file->description() );

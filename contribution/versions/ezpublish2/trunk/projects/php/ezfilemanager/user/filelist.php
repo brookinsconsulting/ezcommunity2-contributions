@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filelist.php,v 1.45 2001/09/28 08:18:31 jhe Exp $
+// $Id: filelist.php,v 1.46 2001/09/28 10:14:40 jhe Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -63,6 +63,7 @@ $t->set_block( "file_list_tpl", "file_tpl", "file" );
 
 $t->set_block( "file_tpl", "read_tpl", "read" );
 $t->set_block( "file_tpl", "write_tpl", "write" );
+$t->set_block( "file_tpl", "no_write_tpl", "no_write" );
 
 $t->set_block( "file_list_page_tpl", "parent_folder_tpl", "parent_folder" );
 $t->set_block( "file_list_page_tpl", "folder_list_tpl", "folder_list" );
@@ -229,11 +230,13 @@ foreach ( $fileList as $file )
         ( eZVirtualFile::isOwner( $user, $file->id() )) )
     {
         $t->parse( "write", "write_tpl" );
+        $t->set_var( "no_write", "" );
         $deleteFiles = true;
     }
     else
     {
         $t->set_var( "write", "" );
+        $t->parse( "no_write", "no_write_tpl" );
     }
 
     $t->parse( "file", "file_tpl", true );

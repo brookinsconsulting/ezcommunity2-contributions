@@ -4,7 +4,7 @@
 	<h1>{intl-files}</h1>
 	</td>
 	<td align="right">
-	<form action="{www_dir}{index}/filemanager/search/" method="post">
+	<form action="{www_dir}{index}/filemanager/search/" method="get">
 	<input type="text" name="SearchText" size="12" />	
 	<input class="stdbutton" type="submit" value="{intl-search}" />
 	</form>	
@@ -115,6 +115,10 @@
 	<input type="checkbox" name="FileArrayID[]" value="{file_id}">
 	</td>
 	<!-- END write_tpl -->
+	<!-- BEGIN no_write_tpl -->
+	<td class="{td_class}" width="1%" align="center"></td>
+	<td class="{td_class}" width="1%" align="center"></td>
+	<!-- END no_write_tpl -->
 </tr>
 <!-- END file_tpl -->
 </table>
