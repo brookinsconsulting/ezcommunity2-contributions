@@ -43,7 +43,7 @@ The array $url_array contains all the URL parts used from the first slash ("/") 
 In the above example of a data supplier, an URL like this: "http://yoursite.com/example/page" would be handled by the example module stored in the ezexample directory. The datasupplier will then based on the second part of the array select the correct operation. By default it will print an error message.
 
 <header>Modfix</header>
-Back to the root directory. You'll find a file called "modfix.sh" which must be run after CVS updates or changes in the file hiearchy of your site. The modfix script will link your module into the admin site as well as enable writing to the cache directory.
+Back to the root directory. You'll find a file called "modfix.sh" which must be run after CVS updates or changes in the file hierarchy of your site. The modfix script will link your module into the admin site as well as enable writing to the cache directory.
 
 First you'll need to find the part of the script where the link to the admin pages are made, if you use eZ publish 2.0 beta 2 or newer you can just search for "admin section", else you need to look for the info manually. You'll find a section which defines the modules which are implemented.
 There you add your own module like this:
@@ -84,7 +84,7 @@ Language=en_GB
 Preference=value
 </pre>
 
-<image 2 right medium>We also need to tell eZ publish that we wish it to recognize that module, that is done by adding the module to the end of the "EnabledModules"-list at the start of the file, in the "[site]" section.
+<image 2 right medium>We also need to tell eZ publish that we wish it to recognise that module, that is done by adding the module to the end of the "EnabledModules"-list at the start of the file, in the "[site]" section.
 
 <header>Menu Box</header>
 The next step is to create your menu items for your module. The menu box must be placed in the directory "ezexample/admin/menubox.php" and could look like this:
@@ -95,10 +95,10 @@ $menuItems = array(
     );
 </php>
 
-The first value in the array is the URL to the first operation you want to enable, here it is the URL "/example/page/". Again, the first part tells us that we want to do something in the example module, and the second part says we want to try out operation "page". The second part is the name of the variable which we will use for internationalization purposes.
+The first value in the array is the URL to the first operation you want to enable, here it is the URL "/example/page/". Again, the first part tells us that we want to do something in the example module, and the second part says we want to try out operation "page". The second part is the name of the variable which we will use for internationalisation purposes.
 
 <header>Language Files</header>
-The language files are where we tell eZ publish which text we want to replace the internationalization variables with. For this example internationalization will only be aplied to the menu box. You'll need to create a file called "ezexample/admin/intl/en_GB/menubox.php.ini" and it should look like this:
+The language files are where we tell eZ publish which text we want to replace the internationalisation variables with. For this example internationalisation will only be applied to the menu box. You'll need to create a file called "ezexample/admin/intl/en_GB/menubox.php.ini" and it should look like this:
 
 <pre>
 [strings]
@@ -182,10 +182,10 @@ switch ( $url_array[2] )
 
 Voilá, you're done, your first module for eZ publish is finished. You should now be able to point your browser to the admin site and see the menu box as the last menu box on your site. If you want to access the menu from the public part of your site, all  you have to do is add "/example/page" to the sites URL.
 
-If you want to give people permanent access to your new module you need to insert the apropriate url into the design of the public site. That is left as an exercise for you.
+If you want to give people permanent access to your new module you need to insert the appropriate url into the design of the public site. That is left as an exercise for you.
 
 <header>Getting Your Modules into eZ publish</header>
-You can send your code to the developers of eZ publish so they can add you module as an extension to eZ publish. Code can be sendt to <mail bf@ez.no eZ publish contribution, bf@ez.no>.
+You can send your code to the developers of eZ publish so they can add you module as an extension to eZ publish. Code can be sent to <mail bf@ez.no eZ publish contribution, bf@ez.no>.
 
 All the code of this example is available in the eZ publish 2.0 beta 2 release, which will be out in the near future.
 
