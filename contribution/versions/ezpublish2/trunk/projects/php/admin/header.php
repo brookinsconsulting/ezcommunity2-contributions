@@ -30,7 +30,7 @@ if ( $user )
 if ( $user )
 {        
 ?>
-     <div class="top">Innlogget bruker:</div><div class="topusername"><? print( $firstName . " " . $lastName ); ?></div> -->
+     <div class="top">Innlogget bruker:</div><div class="topusername"><? print( $firstName . " " . $lastName ); ?></div>
 <?
 }
 ?>

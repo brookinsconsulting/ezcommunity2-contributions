@@ -40,111 +40,116 @@ include( "header.php" );
 $user = eZUser::currentUser();
 if ( $user )
 {
-//      if ( $ini->read_var( "site", "eZPublish" ) == "enabled" )
-//          include( "ezpublishadmin.php" );
-
-    if ( $ini->read_var( "site", "eZArticle" ) == "enabled" )
-        include( "ezarticle/admin/menubox.php" );
+    if ( ! ( $HelpMode == "enabled" ) )
+    {
+        if ( $ini->read_var( "site", "eZArticle" ) == "enabled" )
+            include( "ezarticle/admin/menubox.php" );
     
-    if ( $ini->read_var( "site", "eZForum" ) == "enabled" )
-        include( "ezforum/admin/menubox.php" );
+        if ( $ini->read_var( "site", "eZForum" ) == "enabled" )
+            include( "ezforum/admin/menubox.php" );
 
-    if ( $ini->read_var( "site", "eZLink" ) == "enabled" )
-        include( "ezlink/admin/menubox.php" );
+        if ( $ini->read_var( "site", "eZLink" ) == "enabled" )
+            include( "ezlink/admin/menubox.php" );
 
-    if ( $ini->read_var( "site", "eZContact" ) == "enabled" )
-        include( "ezcontact/admin/menubox.php" );
+        if ( $ini->read_var( "site", "eZContact" ) == "enabled" )
+            include( "ezcontact/admin/menubox.php" );
 
-    if ( $ini->read_var( "site", "eZTodo" ) == "enabled" )
-        include( "eztodo/admin/menubox.php" );
+        if ( $ini->read_var( "site", "eZTodo" ) == "enabled" )
+            include( "eztodo/admin/menubox.php" );
 
-    if ( $ini->read_var( "site", "eZTrade" ) == "enabled" )
-        include( "eztrade/admin/menubox.php" );
+        if ( $ini->read_var( "site", "eZTrade" ) == "enabled" )
+            include( "eztrade/admin/menubox.php" );
 
-    if ( $ini->read_var( "site", "eZNews" ) == "enabled" )
-        include( "eznews/admin/intl/no_NO/menubox.php" );
+        if ( $ini->read_var( "site", "eZNews" ) == "enabled" )
+            include( "eznews/admin/intl/no_NO/menubox.php" );
 
-    if ( $ini->read_var( "site", "eZPoll" ) == "enabled" )
-        include( "ezpoll/admin/menubox.php" );
+        if ( $ini->read_var( "site", "eZPoll" ) == "enabled" )
+            include( "ezpoll/admin/menubox.php" );
 
-    if ( $ini->read_var( "site", "eZUser" ) == "enabled" )
-        include( "ezuser/admin/menubox.php" );
+        if ( $ini->read_var( "site", "eZUser" ) == "enabled" )
+            include( "ezuser/admin/menubox.php" );
 
     
     // parse the URI
-    $page = "";
+        $page = "";
     
-    // Remove url parameters
-    ereg( "([^?]+)", $REQUEST_URI, $regs) ;
+        // Remove url parameters
+        ereg( "([^?]+)", $REQUEST_URI, $regs) ;
 
-    $REQUEST_URI = $regs[1];
+        $REQUEST_URI = $regs[1];
     
-    $url_array = explode( "/", $REQUEST_URI );
+        $url_array = explode( "/", $REQUEST_URI );
     
-    // send the URI to the right decoder
-    $page = "ez" . $url_array[1] . "/admin/datasupplier.php";
+        // send the URI to the right decoder
+        $page = "ez" . $url_array[1] . "/admin/datasupplier.php";
 
 
-    // set the module logo
-    switch ( $url_array[1] )
-    {
-        case "article" :
+        // set the module logo
+        switch ( $url_array[1] )
         {
-            $ModuleLogo = "menu-news.gif";
-        }
-        break;
+            case "article" :
+            {
+                $ModuleLogo = "menu-news.gif";
+            }
+            break;
 
-        case "link" :
-        {
-            $ModuleLogo = "menu-link.gif";
-        }
-        break;
+            case "link" :
+            {
+                $ModuleLogo = "menu-link.gif";
+            }
+            break;
 
-        case "trade" :
-        {
-            $ModuleLogo = "menu-trade.gif";
-        }
-        break;
+            case "trade" :
+            {
+                $ModuleLogo = "menu-trade.gif";
+            }
+            break;
 
-        case "poll" :
-        {
-            $ModuleLogo = "menu-poll.gif";
-        }
-        break;
+            case "poll" :
+            {
+                $ModuleLogo = "menu-poll.gif";
+            }
+            break;
 
-        case "user" :
-        {
-            $ModuleLogo = "menu-user.gif";
-        }
-        break;
+            case "user" :
+            {
+                $ModuleLogo = "menu-user.gif";
+            }
+            break;
         
-        case "forum" :
-        {
-            $ModuleLogo = "menu-forum.gif";
+            case "forum" :
+            {
+                $ModuleLogo = "menu-forum.gif";
+            }
+            break;
+
+            default :
+            {
+                $ModuleLogo = "menu-news.gif";
+            }
         }
-        break;
+    
+        // break the column an draw a horizontal line
+        include( "separator.php" );
 
-        default :
+        if ( file_exists( $page ) )
         {
-            $ModuleLogo = "menu-news.gif";
+            include( $page );
         }
-
-    }
-
-    
-    // break the column an draw a horizontal line
-    include( "separator.php" );
-    
-
-
-    if ( file_exists( $page ) )
-    {
-        include( $page );
-    }
 //      else
 //      {
 //          include( "error.php" );
 //      }
+    }
+    else
+    { // show the help page
+
+        $ModuleLogo = "menu-user.gif";
+        
+        include( "separator.php" );
+
+        include( "help/datasupplier.php" );
+    }
 }
 else
 {
