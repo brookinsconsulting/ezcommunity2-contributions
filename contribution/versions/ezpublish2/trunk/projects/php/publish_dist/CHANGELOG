@@ -3,6 +3,7 @@ eZ publish changelog:
 
 Changes from 2.1 to
 -----------------
+* Added discussion to polls
 * Moved preamble/header/footer to one file.
 * Added support for PostgreSQL and Informix
 * Added cache control in site manager ( possibility to clear cache )
