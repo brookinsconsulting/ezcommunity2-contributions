@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: productlist.php,v 1.41.8.6 2002/01/16 17:17:19 bf Exp $
+//
+// $Id: productlist.php,v 1.41.8.7 2002/01/17 10:55:52 ce Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -142,12 +142,12 @@ foreach ( $categoryList as $categoryItem )
         $t->parse( "sub_category",  "sub_category_tpl", true );
     }
 
-    if ( count( $sub_category_array ) > 0 )        
+    if ( count( $sub_category_array ) > 0 )
         $t->parse( "sub_category_list",  "sub_category_list_tpl");
     else
         $t->set_var( "sub_category_list",  "");
-    
-    
+
+
     if ( ( $i % 2 ) == 0 )
     {
         $t->set_var( "td_class", "bglight" );
@@ -156,11 +156,10 @@ foreach ( $categoryList as $categoryItem )
     {
         $t->set_var( "td_class", "bgdark" );
     }
-    
+
     $t->parse( "category", "category_tpl", true );
     $i++;
 }
-eZList::drawNavigator( $t, $TotalTypes, $Limit*4, $Offset, "product_list_page_tpl" );
 
 if ( count( $categoryList ) == 0 )
 {
@@ -169,6 +168,7 @@ if ( count( $categoryList ) == 0 )
 else
 {
     $t->parse( "category_list", "category_list_tpl" );
+    eZList::drawNavigator( $t, $TotalTypes, $Limit*4, $Offset, "product_list_page_tpl" );
 }
 
 if ( !isSet( $Limit ) or !is_numeric( $Limit ) )
@@ -189,11 +189,11 @@ foreach ( $productList as $product )
 
     // preview image
     $thumbnailImage = $product->thumbnailImage();
-    
+
     if ( $thumbnailImage )
     {
         $variation =& $thumbnailImage->requestImageVariation( $ThumbnailImageWidth, $ThumbnailImageHeight );
-    
+
         $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
         $t->set_var( "thumbnail_image_width", $variation->width() );
         $t->set_var( "thumbnail_image_height", $variation->height() );
@@ -248,9 +248,9 @@ foreach ( $productList as $product )
                     }
                     $high = max( $priceArray );
                     $low = min( $priceArray );
-                    
+
                     $t->set_var( "product_price", $low . " - " . $high );
-                    
+
                     $t->parse( "price", "price_tpl" );
                 }
             }
@@ -258,7 +258,7 @@ foreach ( $productList as $product )
         else
             $t->set_var( "price", "" );
     }
-    
+
     $t->set_var( "category_id", $category->id() );
 
     if ( ( $i % 2 ) == 0 )
@@ -277,13 +277,12 @@ foreach ( $productList as $product )
 if ( count( $productList ) > 0 )
 {
     $t->parse( "product_list", "product_list_tpl" );
+    eZList::drawNavigator( $t, $TotalTypes, $Limit, $Offset, "product_list_page_tpl" );
 }
 else
 {
     $t->set_var( "product_list", "" );
 }
-if ( $TotalTypes >= 20 )
-    eZList::drawNavigator( $t, $TotalTypes, $Limit, $Offset, "product_list_page_tpl" );
 
 if ( $GenerateStaticPage == "true" )
 {
@@ -296,9 +295,9 @@ if ( $GenerateStaticPage == "true" )
     $output = "<?php\n";
     $output .= "\$GlobalSectionID=\"$GlobalSectionID\";\n";
     $output .= "\$SiteTitleAppend=\"$SiteTitleAppend\";\n";
-    $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";    
+    $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";
     $output .= "?>\n";
-    
+
     $output = $t->parse( $target, "product_list_page_tpl" );
     print( $output );
     $CacheFile->store( $output );
