@@ -52,6 +52,7 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>{intl-name}:</th>
+	{extra_type_header}
 	<th colspan="5">&nbsp;</th>
 </tr>
 <!-- BEGIN line_item_tpl -->
@@ -66,6 +67,7 @@
         <a href="{item_sort_command}/{item_id}">{item_name}</a>
 	</td>
 <!-- END item_linked_tpl -->
+	{extra_type_item}
 
 <!-- BEGIN item_move_up_tpl -->
 	<td width="1%"><a href="{item_up_command}/{item_id}">{intl-item_up}</a></td>
