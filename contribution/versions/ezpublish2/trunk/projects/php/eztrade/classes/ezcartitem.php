@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartitem.php,v 1.20 2001/09/14 08:30:51 pkej Exp $
+// $Id: ezcartitem.php,v 1.21 2001/09/14 12:29:11 ce Exp $
 //
 // Definition of eZCartItem class
 //
@@ -181,7 +181,7 @@ class eZCartItem
       Returns the product to the cart item as an eZProduct object.
 
     */
-    function product()
+    function &product()
     {
        $ret = false;
 

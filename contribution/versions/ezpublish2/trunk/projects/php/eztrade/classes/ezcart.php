@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcart.php,v 1.26 2001/09/14 08:30:51 pkej Exp $
+// $Id: ezcart.php,v 1.27 2001/09/14 12:29:11 ce Exp $
 //
 // Definition of eZCart class
 //
@@ -233,7 +233,7 @@ class eZCart
 
       Return false if the applied argument is not and eZSession object.
     */
-    function setSession( $session )
+    function setSession( &$session )
     {
         if ( get_class( $session ) == "ezsession" )
         {

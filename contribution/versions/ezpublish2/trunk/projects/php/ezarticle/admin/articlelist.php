@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.49 2001/09/08 16:24:21 bf Exp $
+// $Id: articlelist.php,v 1.50 2001/09/14 12:29:10 ce Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -67,11 +67,12 @@ if ( isset( $StoreSelection ) )
 
 $articleMix =& $session->variable( "MixUnpublished" );
 
+$ArticleSelection =& $articleMix;
+
 if ( $articleMix == "" )
 {
     $articleMix = "All";
 }
-
 
 if ( isset( $CopyCategories ) )
 {
@@ -371,7 +372,7 @@ if ( is_numeric( $CategoryID ) && ( $CategoryID > 0 ) )
 {
     switch ( $ArticleSelection )
     {
-        
+       
         case "Published" :
         {
             $articleList =& $category->articles( $category->sortMode(), false, true, $Offset, $Limit );

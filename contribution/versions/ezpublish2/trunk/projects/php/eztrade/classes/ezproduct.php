@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.88 2001/09/14 08:30:51 pkej Exp $
+// $Id: ezproduct.php,v 1.89 2001/09/14 12:29:11 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -1768,7 +1768,7 @@ class eZProduct
 
       False if no type is not assigned.
     */
-    function shippingGroup( )
+    function &shippingGroup( )
     {
        $db =& eZDB::globalDatabase();
 

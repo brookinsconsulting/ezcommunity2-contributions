@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallcart.php,v 1.27 2001/09/03 15:53:29 ce Exp $
+// $Id: smallcart.php,v 1.28 2001/09/14 12:29:11 ce Exp $
 //
 // Created on: <12-Dec-2000 15:21:10 bf>
 //
@@ -66,15 +66,17 @@ $cart = $cart->getBySession( $session );
 if ( !$cart )
 {
     $cart = new eZCart();
-    $cart->setSession( $session );
+    $cart->setSession( &$session );
     
     $cart->store();
 }
 
+
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                      "eztrade/user/intl/", $Language, "smallcart.php" );
 
-$t->setAllStrings();
+
+$t->setAllStrings( true );
 
 $t->set_file( "cart_page_tpl", "smallcart.tpl" );
 
@@ -85,8 +87,9 @@ $t->set_block( "cart_page_tpl", "empty_cart_tpl", "empty_cart" );
 $t->set_block( "cart_page_tpl", "cart_item_list_tpl", "cart_item_list" );
 $t->set_block( "cart_item_list_tpl", "cart_item_tpl", "cart_item" );
 
+
 // fetch the cart items
-$items = $cart->items( );
+$items =& $cart->items( );
 
 $locale = new eZLocale( $Language );
 $currency = new eZCurrency();

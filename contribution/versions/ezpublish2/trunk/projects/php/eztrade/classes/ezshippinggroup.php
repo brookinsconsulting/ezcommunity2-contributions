@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezshippinggroup.php,v 1.8 2001/07/31 11:33:11 jhe Exp $
+// $Id: ezshippinggroup.php,v 1.9 2001/09/14 12:29:11 ce Exp $
 //
 // Definition of eZShippingGroup class
 //
@@ -215,7 +215,7 @@ class eZShippingGroup
 
       An empty array is returned if not found.
     */
-    function startAddValue( $type )
+    function &startAddValue( $type )
     {
         $ret = array();
         

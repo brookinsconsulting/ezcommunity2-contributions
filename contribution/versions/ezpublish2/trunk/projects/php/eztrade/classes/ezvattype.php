@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvattype.php,v 1.6 2001/07/31 11:33:11 jhe Exp $
+// $Id: ezvattype.php,v 1.7 2001/09/14 12:29:11 ce Exp $
 //
 // Definition of eZVATType class
 //
@@ -165,7 +165,7 @@ class eZVATType
     /*!
       Returns the vat value of the vat type.
     */
-    function value()
+    function &value()
     {
         return $this->VATValue;
     }
