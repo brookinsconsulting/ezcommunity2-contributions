@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: userwithaddress.php,v 1.75.2.1.4.4 2002/01/30 17:09:48 ce Exp $
+// $Id: userwithaddress.php,v 1.75.2.1.4.5 2002/01/31 14:58:13 ce Exp $
 //
 // Created on: <10-ct-2000 12:52:42 bf>
 //
@@ -386,13 +386,13 @@ if ( isSet( $OK ) and $error == false )
 
     if ( !is_numeric ( $MainAddressID ) )
     {
-//        $MainAddressID = eZAddress::mainAddress( $user );
-//        if ( $MainAddressID )
-//            $MainAddressID = $MainAddressID->id();
+        $MainAddressID = eZAddress::mainAddress( $user );
+        if ( $MainAddressID )
+            $MainAddressID = $MainAddressID->id();
     }
 
-//    if ( !$MainAddressID && count( $AddressID ) > 0 )
-//        $MainAddressID = $AddressID[0];
+    if ( !$MainAddressID && count( $AddressID ) > 0 )
+        $MainAddressID = $AddressID[0];
 
 //    if ( !$new_user )
 //        $user_insert->removeAddresses();
@@ -402,8 +402,8 @@ if ( isSet( $OK ) and $error == false )
         $address_id = $AddressID[$i];
         $realAddressID = $RealAddressID[$i];
 
-        $address = new eZAddress();
-        if ( !$address->get( $realAddressID ) )
+        $address = new eZAddress( );
+        if ( !$address->get( 1, true ) )
         {
             $address = new eZAddress();
         }
@@ -424,6 +424,7 @@ if ( isSet( $OK ) and $error == false )
         }
         $address->store();
 
+
         // set correct ID
         if ( !is_numeric( $realAddressID ) )
             $RealAddressID[$i] = $address->id();
@@ -436,7 +437,9 @@ if ( isSet( $OK ) and $error == false )
 
         // add address if new
         if ( !is_numeric( $realAddressID ) )
+        {
             $user_insert->addAddress( $address );
+        }
     }
 
     if ( count( $AddressID ) > 0 )
@@ -447,7 +450,7 @@ if ( isSet( $OK ) and $error == false )
         }
         else
         {
-                eZAddress::setMainAddress( $main_id, $user_insert );
+            eZAddress::setMainAddress( $main_id, $user_insert );
         }
     }
 

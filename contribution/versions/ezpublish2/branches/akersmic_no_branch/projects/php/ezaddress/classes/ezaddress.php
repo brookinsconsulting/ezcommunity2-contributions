@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezaddress.php,v 1.19.8.1 2002/01/30 12:55:58 ce Exp $
+// $Id: ezaddress.php,v 1.19.8.2 2002/01/31 14:58:12 ce Exp $
 //
 // Definition of eZAddress class
 //
@@ -110,6 +110,7 @@ class eZAddress
     */
     function get( $id="" )
     {
+        $ret = false;
         $db =& eZDB::globalDatabase();
         if ( $id != "" )
         {
@@ -128,10 +129,12 @@ class eZAddress
                 $this->CountryID =& $address_array[ 0 ][ $db->fieldName( "CountryID" ) ];
                 $this->AddressTypeID =& $address_array[ 0 ][ $db->fieldName( "AddressTypeID" ) ];
                 $this->Name =& $address_array[ 0 ][ $db->fieldName( "Name" ) ];
+                $ret = true;
             }
             if ( $this->CountryID == "NULL" )
                 $this->CountryID = -1;
         }
+        return $ret;
     }
 
     /*!
