@@ -27,7 +27,7 @@
 	{mail_date}
 	</td>
 	<td class="{td_class}">
-	<input type="checkbox" name="MailArrayID[]" value="mail_id" />
+	<input type="checkbox" name="MailArrayID[]" value="{mail_id}" />
 	</td>
 </tr>
 <!-- END mail_item_tpl -->
@@ -39,7 +39,7 @@
 <tr>
   <td><input class="stdbutton" type="submit" name="Move" value="{intl-move}" /></td>
   <td>&nbsp;</td>
-    <select name="FolderID">
+    <select name="FolderSelectID">
         <option value="-1">{intl-choose_dest}</option>
     	<!-- BEGIN folder_item_tpl -->
 	<option value="{folder_id}">{folder_name}</option>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: maillist.php,v 1.5 2001/03/24 20:28:04 fh Exp $
+// $Id: maillist.php,v 1.6 2001/03/24 21:25:33 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <19-Mar-2000 20:25:22 fh>
@@ -57,6 +57,13 @@ if( isset( $NewFolder ) )
 {
     eZHTTPTool::header( "Location: /mail/folderedit/" );
     exit();
+}
+
+if( isset( $Move ) && $FolderSelectID != -1 && count( $MailArrayID ) > 0 ) // really move to other folder
+{
+    $folder = new eZMailFolder( $FolderSelectID );
+    foreach( $MailArrayID as $mailitemID )
+        $folder->addMail( $mailitemID );
 }
 
 $ini =& INIFile::globalINI();

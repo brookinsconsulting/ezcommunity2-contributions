@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfolder.php,v 1.4 2001/03/24 20:28:04 fh Exp $
+// $Id: ezmailfolder.php,v 1.5 2001/03/24 21:25:33 fh Exp $
 //
 // eZMailFolder class
 //
@@ -279,19 +279,21 @@ class eZMailFolder
     /*!
       Adds a mail to this folder
      */
-    function addMail( $mail )
+    function addMail( $mail, $removeFromOld = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
        if ( get_class( $mail ) == "ezmail" )
-       {
-           $mailID = $mail->id();
-            $query = "INSERT INTO eZMail_MailFolderLink
-                       SET FolderID='$this->ID', MailID='$mailID'";
+           $mail = $mail->id();
+
+       if( $removeFromOld == true )
+           $this->Database->query( "DELETE FROM eZMail_MailFolderLink WHERE MailID='$mail'" );
+       
+       $query = "INSERT INTO eZMail_MailFolderLink
+                       SET FolderID='$this->ID', MailID='$mail'";
  
-           $this->Database->query( $query );
-       }
+       $this->Database->query( $query );
     }
 
     /*!
