@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.57.2.1 2001/10/27 14:37:00 jhe Exp $
+// $Id: personedit.php,v 1.57.2.2 2001/10/30 12:51:20 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -29,7 +29,7 @@
 
 include_once( "classes/INIFile.php" );
 
-$ini = new INIFile( "site.ini" );
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZContactMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
@@ -660,14 +660,15 @@ if ( !$confirm )
         $count = max( count( $AddressTypeID ), count( $AddressID ),
                       count( $Street1 ), count( $Street2 ),
                       count( $Zip ), count( $Place ) );
+        
         for ( $i = 0; $i < $count; $i++ )
         {
             if ( $Street1[$i] != "" && $Place[$i] != "" &&
-                 $Country[$i] != "" && $AddressTypeID != "" )
+                 $Country[$i] != "" && $AddressTypeID != -1 )
             {
-                if ( !in_array( $i + 1, $AddressID ) && $AddressTypeID[$i] != "" )
+                if ( in_array( $i + 1, $AddressID ) && $AddressTypeID[$i] != -1 )
                 {
-                    $address = new eZAddress( false, true );
+                    $address = new eZAddress();
                     $address->setStreet1( $Street1[$i] );
                     $address->setStreet2( $Street2[$i] );
                     $address->setZip( $Zip[$i] );
@@ -775,17 +776,17 @@ if ( !$confirm )
         $i = 1;
         foreach ( $addresses as $address )
         {
-            $AddressTypeID[] = $address->addressTypeID();
-            $AddressID[] = $i;
-            $Street1[] = $address->street1();
-            $Street2[] = $address->street2();
-            $Zip[] = $address->zip();
-            $Place[] = $address->place();
+            $AddressTypeID[$i - 1] = $address->addressTypeID();
+            $AddressID[$i - 1] = $i;
+            $Street1[$i - 1] = $address->street1();
+            $Street2[$i - 1] = $address->street2();
+            $Zip[$i - 1] = $address->zip();
+            $Place[$i - 1] = $address->place();
             $country = $address->country();
             if ( $country )
-                $Country[] = $country->id();
+                $Country[$i - 1] = $country->id();
             else
-                $Country[] = -1;
+                $Country[$i - 1] = -1;
             $i++;
         }
 
@@ -793,9 +794,9 @@ if ( !$confirm )
         $i = 1;
         foreach ( $phones as $phone )
         {
-            $PhoneTypeID[] = $phone->phoneTypeID();
-            $PhoneID[] = $i;
-            $Phone[] = $phone->number();
+            $PhoneTypeID[$i - 1] = $phone->phoneTypeID();
+            $PhoneID[$i - 1] = $i;
+            $Phone[$i - 1] = $phone->number();
             $i++;
         }
 
@@ -803,9 +804,9 @@ if ( !$confirm )
         $i = 1;
         foreach ( $onlines as $online )
         {
-            $OnlineTypeID[] = $online->onlineTypeID();
-            $OnlineID[] = $i;
-            $Online[] = $online->url();
+            $OnlineTypeID[$i - 1] = $online->onlineTypeID();
+            $OnlineID[$i - 1] = $i;
+            $Online[$i - 1] = $online->url();
             $i++;
         }
 
@@ -998,6 +999,7 @@ if ( !$confirm )
             $Place[] = "";
             $Country[] = count( $Country ) > 0 ? $Country[count( $Country ) - 1] : "";
         }
+
         $count = max( count( $AddressTypeID ), count( $AddressID ),
                       count( $Street1 ), count( $Street2 ),
                       count( $Zip ), count( $Place ) );
