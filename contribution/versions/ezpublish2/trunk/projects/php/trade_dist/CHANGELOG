@@ -3,7 +3,7 @@ eZ trade changelog:
 
 Changes from version 1.0.4
 --------------------------
-* Speedup by 30-70%, due to more efficient ini file reading.
+* Speedup by 20-50%, due to more efficient ini file reading.
 * Added increasment of product count in basket when adding a product with the same options.
 * Fixed broken product search.
 * Fixed the article search.

@@ -69,7 +69,6 @@ class INIFile
         $this->parse($inifilename);
     } 
 
-
     /*!
       Parses the ini file.
     */
