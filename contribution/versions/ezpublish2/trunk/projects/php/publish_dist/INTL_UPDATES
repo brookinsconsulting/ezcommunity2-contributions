@@ -4,3 +4,5 @@ mod: bug/user, fileedit.php.ini
 change: added user_edit=Some text
 --------------------------------------------------------------------
 
+mod: trade, optionedit.php.ini
+change: added main_price=Price
