@@ -125,13 +125,13 @@
 <tr>
 	<!-- BEGIN person_list_previous_tpl -->
 	<td>
-	<a href="/contact/person/{action}/{item_previous_index}/{search_text}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
+	<a class="path" href="/contact/person/{action}/{item_previous_index}/{search_text}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;|
 	</td>
 	<!-- END person_list_previous_tpl -->
 
 	<!-- BEGIN person_list_previous_inactive_tpl -->
 	<td>
-	&nbsp;
+	|
 	</td>
 	<!-- END person_list_previous_inactive_tpl -->
 
@@ -139,13 +139,13 @@
 
 	<!-- BEGIN person_list_item_tpl -->
 	<td>
-	|&nbsp;<a href="/contact/person/{action}/{item_index}/{search_text}">{item_name}</a>&nbsp;
+	&nbsp;<a class="path" href="/contact/person/{action}/{item_index}/{search_text}">{item_name}</a>&nbsp;|
 	</td>
 	<!-- END person_list_item_tpl -->
 
 	<!-- BEGIN person_list_inactive_item_tpl -->
 	<td>
-	|&nbsp;&lt;&nbsp;{item_name}&nbsp;&gt;&nbsp;
+	&nbsp;&lt;&nbsp;{item_name}&nbsp;&gt;&nbsp;|
 	</td>
 	<!-- END person_list_inactive_item_tpl -->
 
@@ -153,13 +153,13 @@
 
 	<!-- BEGIN person_list_next_tpl -->
 	<td>
-	|&nbsp;<a href="/contact/person/{action}/{item_next_index}/{search_text}">{intl-next}&nbsp;&gt;&gt;</a>
+	&nbsp;<a class="path" href="/contact/person/{action}/{item_next_index}/{search_text}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END person_list_next_tpl -->
 
 	<!-- BEGIN person_list_next_inactive_tpl -->
 	<td>
-	|&nbsp;
+	&nbsp;
 	</td>
 	<!-- END person_list_next_inactive_tpl -->
 

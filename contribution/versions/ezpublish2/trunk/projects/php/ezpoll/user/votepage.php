@@ -69,6 +69,7 @@ foreach( $choiceList as $choiceItem )
 $poll = new eZPoll();
 $poll->get( $PollID );
 $t->set_var( "head_line", $poll->name() );
+$t->set_var( "description", $poll->description() );
 $t->set_var( "poll_id", $PollID );
 
   

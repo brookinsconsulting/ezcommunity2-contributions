@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: result.php,v 1.7 2001/02/26 16:46:30 pkej Exp $
+// $Id: result.php,v 1.8 2001/03/06 16:25:39 th Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -61,7 +61,8 @@ else
 foreach ( $pollArray as $poll )
 {
     $t->set_var( "poll_name", $poll->name() );
-
+    $t->set_var( "description", $poll->description() );
+	
     $pollchoice = new eZPollChoice();
     $choiceList = $pollchoice->getAll( $poll->id() );
 

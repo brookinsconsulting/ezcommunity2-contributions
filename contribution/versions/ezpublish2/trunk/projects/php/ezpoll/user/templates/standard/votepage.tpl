@@ -3,7 +3,8 @@
 
 <hr noshade="noshade" size="4">
 
-<br />
+<p>{description}</p>
+
 <table cellspacing="0" cellpadding="2" border="0">
 <!-- BEGIN vote_item_tpl -->
 <tr>
@@ -19,15 +20,15 @@
 </table>
 <br />
 <hr noshade="noshade" size="4">
-<table cellspacing="0" cellpadding="2" border="0">
+
+<table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top">
 	<input type="hidden" name="PollID" value="{poll_id}" />
 	<input class="okbutton" type="submit" value="{intl-vote}" />
+	</form>
 	</td>
 	<td>&nbsp;</td>
-	</form>
-
 	<td>
 	<form action="/poll/result/{poll_id}">
 	<input class="okbutton" type="submit" value="{intl-result}">
