@@ -17,6 +17,7 @@ ReplyEndTag:            This is the tag to end an reply block with.
 ReplyPrefix:            This is the prefix to use on a message when it is a reply.
 ReplyStartTag:          This is the tag to start an reply block with.
 ReplyTags:              If this is turned off, the normal ">" tags are pasted in front of text. Enable this if you allow html posting, make sure that the reply tags are allowed. (See example below).
+ReplyAddress		This is the reply address given in all mail sent to users from the forum, e.g "someone has replied to your post messages"
 
 Example group:
 [eZForumMain]
