@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbackslashimporter.php,v 1.11 2001/11/14 12:42:26 br Exp $
+// $Id: ezbackslashimporter.php,v 1.12 2002/02/26 17:29:46 br Exp $
 //
 // Definition of ezbackslashimporter class
 //
@@ -60,7 +60,11 @@ class eZBackslashImporter
         $db =& eZDB::globalDatabase();
         $return_array = array();
         $fp = eZFile::fopen( $this->Site, "r" );
-        $output = fread ( $fp, 100000000 );
+        $output = "";
+        while ( !feof ( $fp ) )
+        {
+            $output .= fgets( $fp, 4096 );
+        }
         fclose( $fp );
 
         $doc = xmltree( $output );
