@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: header.php,v 1.40.2.3 2002/04/23 07:34:14 jhe Exp $
+// $Id: header.php,v 1.40.2.4 2002/04/24 14:00:34 jb Exp $
 //
 // Created on: <23-Jan-2001 16:06:07 bf>
 //
@@ -50,6 +50,16 @@ if ( $session->fetch() == false )
     $session->store();
 }
 
+if ( isset( $page_charset ) )
+{
+    $session->setVariable( "charsetLanguage", $page_charset );
+}
+
+$charsetLanguage =& $session->variable( "charsetLanguage" );
+
+// Fix to avoid setting the session variable when sections change charsets.
+// This means that moving away from the section enabled pages will refetch the
+// old setting.
 //EP: autoswitch charsets in admin ------------------------------------------
 if ( $url_array[2] == "archive" )
 {
@@ -60,16 +70,9 @@ if ( $url_array[2] == "archive" )
 
     $GlobalSectionID = eZArticleCategory::sectionIDStatic( $CategoryID );
 
-    $page_charset = eZSection::language ( $GlobalSectionID );
+    $charsetLanguage = eZSection::language ( $GlobalSectionID );
 }
 //EP ------------------------------------------------------------------------
-
-if ( isset( $page_charset ) )
-{
-    $session->setVariable( "charsetLanguage", $page_charset );
-}
-
-$charsetLanguage =& $session->variable( "charsetLanguage" );
 
 if ( $charsetLanguage == "" )
 {
@@ -158,6 +161,10 @@ $t->set_var( "site_style", $SiteStyle );
 $t->set_var( "module_name", $moduleName );
 
 $t->set_var( "charset", $iso );
+
+if ( $iso != false )
+    header( "Content-type: text/html;charset=$iso" );
+
 
 $t->set_var( "module_list", "" );
 $t->set_var( "module_item", "" );
