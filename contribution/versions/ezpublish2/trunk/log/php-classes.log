@@ -640,3 +640,34 @@ Maintainer(s) : bf@ez.no
     * ezcachefile.php:
     Additional component added - GlobalSectionID, not tested yet
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2002-02-19  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * locale/Attic/en_UC.ini: New file.
+
+    * locale/Attic/en_UC.ini: Unicode stub witj correct charset code
+
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2002-02-27  Baard Farstad  <bf@ez.no>
+
+    * ezfile.php
+      eztemplate.php: Fixed problem with nvh setup.
+    VS: ----------------------------------------------------------------------
+
+2002-02-27  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * ezcachefile.php:
+    additional component - sectionID, to make caching for different sections
+
+2002-02-27  Baard Farstad  <bf@ez.no>
+
+    * ezpublish.php: New version.
+
+    * ezcachefile.php: Fixed cache file bug.
+

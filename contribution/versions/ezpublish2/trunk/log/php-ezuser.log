@@ -1048,3 +1048,11 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezobjectpermission.php: fixed bug with some permission problems
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-02-27  Baard Farstad  <bf@ez.no>
+
+    * user/forgot.php: Fixed wrong URL in nvh setup.
+

@@ -283,3 +283,15 @@ Maintainer(s) : bf@ez.no
     * templates/ezpublish/print_header.tpl:
     There was a norwegian translation on title in header.
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2002-02-27  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * templates/ezpublish/header.tpl: ip address of admin
+
+2002-02-27  Baard Farstad  <bf@ez.no>
+
+    * templates/ezpublish/separator.tpl: Fixed link for nvh setup.
+

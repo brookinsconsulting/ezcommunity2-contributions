@@ -2898,3 +2898,36 @@ Maintainer(s) : bf@ez.no
     * classes/ezarticle.php:
     Fixed search problem with artile search when having unpublished articles in an exclude from search category.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-02-27  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * user/frontpage.php: correct processing of frontpage article.categories
+
+    * user/menubox.php
+      user/templates/standard/menubox.tpl:
+    correct frontpage from the sectionID
+
+    * classes/ezarticletool.php: sending in national encoding
+
+    * admin/intl/en_GB/articleedit.php.ini
+      admin/templates/standard/articleedit.tpl
+      admin/articleedit.php: changes in admin URLtranslate
+
+    * admin/articleedit.php: changes in url edit in admin
+
+2002-02-27  Baard Farstad  <bf@ez.no>
+
+    * user/templates/standard/articletags.tpl: Added fixes for nvh setup.
+
+    * classes/ezarticletool.php
+      user/menubox.php: Fixed cache bug.
+
+    * classes/ezqdomrenderer.php:
+    Fixed rendering bug of bullet lists where list items where split
+
+    * user/articlelistrss.php
+      user/menubox.php: Added text/xml header in rss headlines.
+

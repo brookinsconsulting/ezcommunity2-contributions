@@ -284,3 +284,28 @@ Maintainer(s) : br@ez.no
     * admin/templates/standard/adlist.tpl:
     fixed missing {www_dir} in templates
 
+
+Module : ezad
+Repository path : /home/cvsroot/projects/php/ezad
+Maintainer(s) : br@ez.no
+2001-12-21  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/pt_PT/adlist.php.ini: pt_PT (Portuguese) version 2.2.2
+
+    * admin/intl/pt_PT/adedit.php.ini
+      admin/intl/pt_PT/adlist.php.ini
+      admin/intl/pt_PT/adstatistics.php.ini
+      admin/intl/pt_PT/categoryedit.php.ini
+      admin/intl/pt_PT/menubox.php.ini: pt_PT 2.2.2
+
+
+Module : ezad
+Repository path : /home/cvsroot/projects/php/ezad
+Maintainer(s) : br@ez.no
+2002-02-27  Vlad Pavlenko  <vlad@epasaule.lv>
+
+    * admin/adedit.php
+      user/gotoad.php
+      user/adlist.php:
+    internal/external banners support (using http:// or ftp:// start)
+
