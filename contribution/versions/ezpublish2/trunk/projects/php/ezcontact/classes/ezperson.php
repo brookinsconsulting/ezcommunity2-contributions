@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.32 2000/12/23 14:31:14 jb Exp $
+// $Id: ezperson.php,v 1.33 2001/01/09 15:28:25 jb Exp $
 //
 // Definition of eZPerson class
 //
@@ -115,46 +115,43 @@ class eZPerson
         {
             // Delete real world addresses
 
-            $this->Database->array_query( $address_array, "SELECT eZContact_Address.ID AS 'AID', eZContact_PersonAddressDict.ID AS 'DID'
+            $this->Database->array_query( $address_array, "SELECT eZContact_PersonAddressDict.AddressID AS 'DID'
                                                FROM eZContact_Address, eZContact_PersonAddressDict
                                                WHERE eZContact_Address.ID=eZContact_PersonAddressDict.AddressID AND eZContact_PersonAddressDict.PersonID='$this->ID' " );
 
             foreach( $address_array as $addressItem )
             {
-                $addressID = $addressItem["AID"];
                 $addressDictID = $addressItem["DID"];
-                $this->Database->query( "DELETE FROM eZContact_Address WHERE ID='$addressID'" );
-                $this->Database->query( "DELETE FROM eZContact_PersonAddressDict WHERE ID='$addressDictID'" );
+                $this->Database->query( "DELETE FROM eZContact_Address WHERE ID='$addressDictID'" );
             }
+            $this->Database->query( "DELETE FROM eZContact_PersonAddressDict WHERE PersonID='$this->ID'" );
            
             // Delete phone numbers.
 
-            $this->Database->array_query( $phone_array, "SELECT eZContact_Phone.ID AS 'PID', eZContact_PersonPhoneDict.ID AS 'DID'
+            $this->Database->array_query( $phone_array, "SELECT eZContact_PersonPhoneDict.PhoneID AS 'DID'
                                      FROM eZContact_Phone, eZContact_PersonPhoneDict
                                      WHERE eZContact_Phone.ID=eZContact_PersonPhoneDict.PhoneID AND eZContact_PersonPhoneDict.PersonID='$this->ID' " );
 
             foreach( $phone_array as $phoneItem )
             {
-                $phoneID = $phoneItem["PID"];
                 $phoneDictID = $phoneItem["DID"];
-                $this->Database->query( "DELETE FROM eZContact_Phone WHERE ID='$phoneID'" );
-                $this->Database->query( "DELETE FROM eZContact_PersonPhoneDict WHERE ID='$phoneDictID'" );
+                $this->Database->query( "DELETE FROM eZContact_Phone WHERE ID='$phoneDictID'" );
             }
-            
+            $this->Database->query( "DELETE FROM eZContact_PersonPhoneDict WHERE PersonID='$this->ID'" );
+
             // Delete online address.
 
-            $this->Database->array_query( $online_array, "SELECT eZContact_Online.ID AS 'OID', eZContact_PersonOnlineDict.ID AS 'DID'
+            $this->Database->array_query( $online_array, "SELECT eZContact_PersonOnlineDict.OnlineID AS 'DID'
                                      FROM eZContact_Online, eZContact_PersonOnlineDict
                                      WHERE eZContact_Online.ID=eZContact_PersonOnlineDict.OnlineID AND eZContact_PersonOnlineDict.PersonID='$this->ID' " );
 
             foreach( $online_array as $onlineItem )
             {
-                $onlineID = $onlineItem["OID"];
                 $onlineDictID = $onlineItem["DID"];
                 $this->Database->query( "DELETE FROM eZContact_Online WHERE ID='$onlineDictID'" );
-                $this->Database->query( "DELETE FROM eZContact_PersonOnlineDict WHERE ID='$onlineDictID'" );
             }
-            
+            $this->Database->query( "DELETE FROM eZContact_PersonOnlineDict WHERE PersonID='$this->ID'" );
+
             $this->Database->query( "DELETE FROM eZContact_Person WHERE ID='$this->ID'" );
         }
         return true;
