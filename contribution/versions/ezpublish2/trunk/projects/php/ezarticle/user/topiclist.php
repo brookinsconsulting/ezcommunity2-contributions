@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: topiclist.php,v 1.1 2001/09/04 10:49:00 bf Exp $
+// $Id: topiclist.php,v 1.2 2001/09/06 14:06:40 bf Exp $
 //
 // Created on: <03-Sep-2001 15:35:07 bf>
 //
@@ -69,6 +69,11 @@ foreach ( $topicArray as $topic )
     $t->set_var( "article_item", "" );
     foreach ( $articles as $article )
     {
+        $category = $article->categoryDefinition();
+
+        $t->set_var( "category_id", $category->id() );
+        $t->set_var( "category_name", $category->name() );
+        
         $t->set_var( "article_id", $article->id() );
         $t->set_var( "article_name", $article->name() );
         $t->parse( "article_item", "article_item_tpl", true );        

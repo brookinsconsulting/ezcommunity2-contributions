@@ -15,8 +15,12 @@
 </tr>
 <!-- BEGIN article_item_tpl -->
 <tr>
-	<td colspan="2">
+	<td>
 	<a href="{www_dir}{index}/article/view/{article_id}/">{article_name}</a>
+	</td>
+	<td>
+	<a href="{www_dir}{index}/article/archive/{category_id}/">{category_name}</a>
+	</td>
 </tr>
 <!-- END article_item_tpl -->
 
