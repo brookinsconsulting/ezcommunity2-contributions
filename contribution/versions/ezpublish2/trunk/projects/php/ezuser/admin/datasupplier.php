@@ -1,6 +1,12 @@
 <?
 switch ( $url_array[2] )
 {
+    case "welcome" :
+    {
+        include( "ezuser/admin/welcome.php" );
+    }
+    break;
+    
     case "login" :
     {
         $Action = $url_array[3];

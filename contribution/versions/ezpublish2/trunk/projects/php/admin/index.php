@@ -138,10 +138,10 @@ if ( $user )
         {
             include( $page );
         }
-//      else
-//      {
-//          include( "error.php" );
-//      }
+        else
+        {
+            include( "ezuser/admin/welcome.php" );
+        }
     }
     else
     { // show the help page
@@ -183,19 +183,6 @@ else
 // html footer
 include( "footer.php" );
 
-?>
-
-<?php
 ob_end_flush();
-
-//$session = new eZSession( );
-//$session->fetch();
-
-//print( "<font color=\"white\">" );
-
-//print( "Session: " . $session->id()  ."<br>");
-//print( "htvar: " . print_r( getAllHeaders() )  ."<br>");
-//print( "cookie: " . $TEST_COOKIE  ."<br>");
-//print( "</font>" );
 ?>
 
