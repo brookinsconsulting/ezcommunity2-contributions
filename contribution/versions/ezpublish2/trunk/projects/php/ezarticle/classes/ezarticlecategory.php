@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.13 2000/12/11 15:56:43 ce Exp $
+// $Id: ezarticlecategory.php,v 1.14 2000/12/12 12:39:44 pkej Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -251,7 +251,7 @@ class eZArticleCategory
     {
         $category = new eZArticleCategory( $parentID );
 
-        $categoryList = $category->getByParent( $category );
+        $categoryList = $category->getByParent( $category, true );
         
         $tree = array();
         $level++;
