@@ -13,7 +13,7 @@
 
 <!-- BEGIN product_tpl -->
 {begin_tr}
-	<td>
+	<td valign="top" width="50%">
 	<div class="listproducts"><a class="listproducts" href="/{module}/{module_view}/{product_id}/{category_id}/">{product_name}</a></div>
 
 	<!-- BEGIN product_image_tpl -->
@@ -36,7 +36,7 @@
 	<div class="p">{product_intro_text}</div>
 
 <!-- BEGIN price_tpl -->
-	<div class="spacer"><div class="pris">{product_price}</div></div>
+	<div class="pris">{product_price}</div>
 <!-- END price_tpl -->
 
 	</td>
