@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmail.php,v 1.44.2.8 2003/07/22 15:05:02 br Exp $
+// $Id: ezmail.php,v 1.44.2.9 2003/08/21 10:12:50 vl Exp $
 //
 // Definition of eZMail class
 //
@@ -1036,6 +1036,7 @@ class eZMail
         $mime = "";
         if ( !empty( $this->From ) )
         {
+	    $envelope = "-f " . $this->From;
             if ( !empty( $this->FromName ) )
                 $mime .= "From: " . $this->FromName . " <" . $this->From . ">\n";
             else
@@ -1054,7 +1055,16 @@ class eZMail
         }
 
         $mime .= "MIME-Version: 1.0\n" . $this->build_multipart();
-        mail( $this->To, $this->Subject, "", $mime );
+
+	if ( isset ( $envelope ) )
+	{
+	    mail( $this->To, $this->Subject, "", $mime, $envelope );
+	} else
+	{
+            mail( $this->To, $this->Subject, "", $mime );
+	}
+
+
         $this->parts = array();
     }
     
