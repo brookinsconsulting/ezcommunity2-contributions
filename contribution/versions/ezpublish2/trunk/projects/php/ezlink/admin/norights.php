@@ -1,6 +1,6 @@
 <?
 //
-// $Id: norights.php,v 1.4 2000/11/02 10:59:02 ce-cvs Exp $
+// $Id: norights.php,v 1.5 2000/11/22 12:11:06 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:56:23 ce>
@@ -32,7 +32,7 @@ $Language = $ini->read_var( "eZLinkMain", "Language" );
 include_once( "classes/ezdb.php" );
 include_once( "classes/eztemplate.php" );
 
-$t = new eZTemplate( "ezlink/admin/" . $ini->read_var( "eZLinkMain", "TemplateDir" ),
+$t = new eZTemplate( "ezlink/admin/" . $ini->read_var( "eZLinkMain", "AdminTemplateDir" ),
 "ezlink/admin/" . "/intl", $Language, "noright.php" );
 $t->setAllStrings();
 

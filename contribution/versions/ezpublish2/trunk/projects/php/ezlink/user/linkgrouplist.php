@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: linkgrouplist.php,v 1.5 2000/11/02 14:57:35 ce-cvs Exp $
+// $Id: linkgrouplist.php,v 1.6 2000/11/22 12:11:06 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:02:09 ce>
@@ -153,11 +153,11 @@ else
     {
         if ( ( $i % 2 ) == 0 )
         {
-            $t->set_var( "bg_color", "#f0f0f0" );
+            $t->set_var( "td_class", "gblight" );
         }
         else
-        {
-            $t->set_var( "bg_color", "#dcdcdc" );
+        {            
+            $t->set_var( "td_class", "gbdark" );
         }
         $t->set_var( "link_id", $linkItem->id() );
         $t->set_var( "link_title", $linkItem->title() );

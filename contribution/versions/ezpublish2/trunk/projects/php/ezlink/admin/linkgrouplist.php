@@ -1,5 +1,5 @@
 <?
-// $Id: linkgrouplist.php,v 1.5 2000/11/16 17:49:57 ce-cvs Exp $
+// $Id: linkgrouplist.php,v 1.6 2000/11/22 12:11:06 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:55:24 ce>
@@ -42,7 +42,7 @@ include_once( "ezuser/classes/ezpermission.php" );
 
 require( "ezuser/admin/admincheck.php" );
 
-$t = new eZTemplate( "ezlink/admin/" . $ini->read_var( "eZLinkMain", "TemplateDir" ),
+$t = new eZTemplate( "ezlink/admin/" . $ini->read_var( "eZLinkMain", "AdminTemplateDir" ),
 "ezlink/admin/intl/", $Language, "linkgrouplist.php" );
 $t->setAllStrings();
 

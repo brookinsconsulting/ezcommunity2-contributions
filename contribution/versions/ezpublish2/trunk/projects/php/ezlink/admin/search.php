@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.13 2000/11/02 16:14:22 ce-cvs Exp $
+// $Id: search.php,v 1.14 2000/11/22 12:11:06 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <15-Sep-2000 14:40:06 bf>
@@ -41,7 +41,7 @@ include_once( "ezlink/classes/ezhit.php" );
 //  include_once( "classes/ezquery.php" );
 
 // setter template filer
-$t = new eZTemplate( "ezlink/admin/" . $ini->read_var( "eZLinkMain", "TemplateDir" ),
+$t = new eZTemplate( "ezlink/admin/" . $ini->read_var( "eZLinkMain", "AdminTemplateDir" ),
                      "ezlink/admin/intl", $Language, "search.php" );
 
 $t->setAllStrings();

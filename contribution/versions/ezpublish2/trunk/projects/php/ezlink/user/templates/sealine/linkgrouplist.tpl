@@ -45,7 +45,7 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <!-- BEGIN link_item_tpl -->
 <tr>
-	<td bgcolor="{bg_color}">
+	<td class="{td_class}">
 	<b><a href="/link/gotolink/addhit/{link_id}/?Url={link_url}"  target="_blank">{link_title}</a></b><br />
         {link_description}
 	</td>

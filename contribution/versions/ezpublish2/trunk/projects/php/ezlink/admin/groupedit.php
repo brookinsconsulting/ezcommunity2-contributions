@@ -1,6 +1,6 @@
 <?
 //
-// $Id: groupedit.php,v 1.30 2000/11/01 08:16:43 ce-cvs Exp $
+// $Id: groupedit.php,v 1.31 2000/11/22 12:11:06 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:57:28 ce>
@@ -119,7 +119,7 @@ if ( $Action == "update" )
     }
 }
 
-$t = new eZTemplate( "ezlink/admin/" . $ini->read_var( "eZLinkMain", "TemplateDir" ),
+$t = new eZTemplate( "ezlink/admin/" . $ini->read_var( "eZLinkMain", "AdminTemplateDir" ),
  "ezlink/admin/" . "/intl/", $Language, "groupedit.php" );
 $t->setAllStrings();
 
