@@ -27,7 +27,7 @@
 </tr>
 <tr>
 	<td>
-	<a class="small" href="/trade/cart/">
+	<a class="menu" href="/trade/cart/">
 	<img src="/images/prikk.gif" width="8" heigth="8" border="0">&nbsp;
     Your cart!
 	</a>
@@ -35,7 +35,15 @@
 </tr>
 <tr>
 	<td>
-	<a class="small" href="/trade/search/">
+	<a class="menu" href="/trade/wishlist/">
+	<img src="/images/prikk.gif" width="8" heigth="8" border="0">&nbsp;
+    Your wishlist!
+	</a>
+	</td>
+</tr>
+<tr>
+	<td>
+	<a class="menu" href="/trade/search/">
 	<img src="/images/prikk.gif" width="8" heigth="8" border="0">&nbsp;
     Search
 	</a>

@@ -6,7 +6,8 @@
 </tr>
 <tr>
 	<td width="20%">
-	<select name="Option_{option_id}">
+	<input type="hidden" name="OptionIDArray[]" value="{option_id}" />
+	<select name="OptionValueArray[]">
 	{value_list}
 	</select>
 	</td>

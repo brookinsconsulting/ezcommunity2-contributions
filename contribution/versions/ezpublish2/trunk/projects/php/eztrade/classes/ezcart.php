@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcart.php,v 1.2 2000/09/27 12:17:13 bf-cvs Exp $
+// $Id: ezcart.php,v 1.3 2000/09/28 13:15:45 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -92,7 +92,8 @@ class eZCart
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZTrade_Cart SET
-		                         SessionID='$this->SessionID'
+		                         SessionID='$this->SessionID',
+		                         Type='$this->Type'
                                  " );
 
             $this->ID = mysql_insert_id();
@@ -102,7 +103,8 @@ class eZCart
         else
         {
             $this->Database->query( "UPDATE eZTrade_Cart SET
-		                         SessionID='$this->SessionID'
+		                         SessionID='$this->SessionID',
+		                         Type='$this->Type'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -131,6 +133,7 @@ class eZCart
             {
                 $this->ID = $cart_array[0][ "ID" ];
                 $this->SessionID = $cart_array[0][ "SessionID" ];
+                $this->Type = $cart_array[0][ "Type" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -146,7 +149,7 @@ class eZCart
     /*!
       Returns a eZCart object. 
     */
-    function getBySession( $session )
+    function getBySession( $session, $type )
     {
         $this->dbInit();
 
@@ -156,7 +159,7 @@ class eZCart
             $sid = $session->id();
             $this->Database->array_query( $cart_array, "SELECT * FROM
                                                     eZTrade_Cart
-                                                    WHERE SessionID='$sid'" );
+                                                    WHERE SessionID='$sid' AND Type='$type'" );
 
             if ( count( $cart_array ) == 1 )
             {
@@ -175,10 +178,19 @@ class eZCart
     {
         $this->dbInit();
 
-        if ( isset( $this->ID ) )
+        $items = $this->items();
+
+        if  ( $items )
         {
-            $this->Database->query( "DELETE FROM eZTrade_Cart WHERE ID='$this->ID'" );
+            $i = 0;
+            foreach ( $items as $item )
+            {
+                $item->delete();
+            }
         }
+            
+        $this->Database->query( "DELETE FROM eZTrade_Cart WHERE ID='$this->ID'" );
+            
         return true;
     }
 
@@ -204,7 +216,31 @@ class eZCart
         {
             $this->SessionID = $session->id();
         }
-    }    
+    }
+
+    /*!
+      Returns the cart type.
+    */
+    function type()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->Type;
+    }
+
+    /*!
+      Sets the type of cart.
+
+      Possible values are: Cart and WishList.
+    */
+    function setType( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->Type = $value;
+    }
 
     /*!
       Returns all the cart items in the cart.
@@ -252,6 +288,7 @@ class eZCart
 
     var $ID;
     var $SessionID;
+    var $Type;
     
     ///  Variable for keeping the database connection.
     var $Database;

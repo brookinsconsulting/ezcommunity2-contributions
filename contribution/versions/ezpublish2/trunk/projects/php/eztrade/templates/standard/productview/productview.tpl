@@ -32,8 +32,9 @@
 	{image_list}
 </tr>
 </table>
-
+<form action="/trade/cart/add/{product_id}/" method="post">
 {option_list}
 
-<a href="/trade/cart/add/{product_id}/">BUY NOW</a><br>
-
+<input type="submit" name="Cart" value="kjøp" />
+<input type="submit" name="WishList" value="Ønskeliste" />
+</form>
