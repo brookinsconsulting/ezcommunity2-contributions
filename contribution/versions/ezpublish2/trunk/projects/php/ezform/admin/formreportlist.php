@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: formreportlist.php,v 1.1 2002/01/18 14:05:57 jhe Exp $
+// $Id: formreportlist.php,v 1.2 2002/01/23 07:40:16 jhe Exp $
 //
 // Created on: <17-Jan-2002 11:25:28 jhe>
 //
@@ -48,7 +48,8 @@ foreach ( $reports as $rep )
     $t->set_var( "report_id", $rep->id() );
     $t->set_var( "report_name", $rep->name() );
 
-    $t->parse( "form_report", "form_report_tpl" );
+    $t->parse( "form_report", "form_report_tpl", true );
+    $i++;
 }
 
 $t->pparse( "output", "form_report_list_page_tpl" );
