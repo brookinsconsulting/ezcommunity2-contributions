@@ -1,3 +1,5 @@
+{intl-subscription_text}
+
 <h1>{intl-subscription_list}</h1>
 
 <hr noshade="noshade" size="4" />

@@ -5,3 +5,5 @@
 <!-- BEGIN mail_password_tpl -->
 {intl-you_password_is}: {password}
 <!-- END mail_password_tpl -->
+
+{intl-subscription_info}
