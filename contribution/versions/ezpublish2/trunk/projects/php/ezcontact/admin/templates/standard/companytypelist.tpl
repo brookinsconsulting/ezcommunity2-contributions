@@ -148,6 +148,10 @@
 {intl-error_no_types}
 <!-- END no_type_item_tpl -->
 
+<form method="post" action="/contact/companycategory/new/{current_id}">
+<input class="okbutton" type="submit" value="{intl-new_company_category}">
+</form>
+
 <h2>{intl-companylist_headline}</h2>
 
 <!-- BEGIN no_companies_tpl -->
@@ -192,3 +196,7 @@
 <!-- END company_item_tpl -->
 </table>
 <!-- END companies_table_tpl -->
+
+<form method="post" action="/contact/company/new/{current_id}">
+<input class="okbutton" type="submit" value="{intl-new_company}">
+</form>
