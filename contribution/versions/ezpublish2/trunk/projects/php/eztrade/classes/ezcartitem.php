@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartitem.php,v 1.3 2000/10/06 09:39:42 bf-cvs Exp $
+// $Id: ezcartitem.php,v 1.4 2000/10/25 19:21:41 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -238,6 +238,17 @@ class eZCartItem
        }        
     }
 
+    /*!
+      Sets the number of products.
+    */
+    function setCount( $count )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->Count = $count;
+    }
+    
     /*!
       Returns all the option values as an array of eZCartOptionValue objects.
 

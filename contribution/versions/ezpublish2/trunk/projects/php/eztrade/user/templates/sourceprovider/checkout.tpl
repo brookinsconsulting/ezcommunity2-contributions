@@ -10,6 +10,7 @@
 	<th>Bilde:</th>
 	<th>Varenavn:</th>
 	<th>Opsjoner:</th>
+	<th>Antall:</th>
 	<td class="path" align="right">Pris:</td>
 </tr>
 
@@ -26,7 +27,11 @@
 	{option_name}:
 	{option_value}<br>
         <!-- END cart_item_option_tpl -->
-	&nbsp;</td>
+	&nbsp;
+	</td>
+	<td class="{td_class}">
+	{cart_item_count}
+	</td>
 	<td class="{td_class}" align="right">
 	{product_price}
 	</td>

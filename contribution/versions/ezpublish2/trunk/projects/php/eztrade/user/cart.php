@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.4 2000/10/22 13:42:09 bf-cvs Exp $
+// $Id: cart.php,v 1.5 2000/10/25 19:21:42 bf-cvs Exp $
 //
 // 
 //
@@ -12,6 +12,13 @@
 // IMPORTANT NOTE: You may NOT copy this file or any part of it into
 // your own programs or libraries.
 //
+
+// checkout
+if ( isset( $DoCheckOut ) )
+{
+    Header( "Location: /trade/customerlogin/" );
+    exit();
+}
 
 
 include_once( "classes/INIFile.php" );
@@ -97,13 +104,26 @@ if ( $Action == "AddToBasket" )
     exit();
 }
 
+if ( $Action == "Refresh" )
+{
+
+    $i=0;
+    foreach ( $CartIDArray as $cartID )
+    {
+        $cartItem = new eZCartItem( $cartID );
+        $cartItem->setCount( $CartCountArray[$i] );
+        $cartItem->store();
+        $i++;
+    }
+
+}
+
 // TODO add check for user's cart.
 // So the user can't delete cart items from other users:)
 if ( $Action == "RemoveFromBasket" )
 {
     $cartItem = new eZCartItem( $CartItemID );
     $cartItem->delete();
-
     
     Header( "Location: /trade/cart/" );
     
@@ -152,11 +172,16 @@ foreach ( $items as $item )
     $t->set_var( "product_image_height", $thumbnail->height() );
     $t->set_var( "product_image_caption", $image->caption() );
 
-    $currency->setValue( $product->price() );
+    $price = $product->price() * $item->count();
+    
+    $currency->setValue( $price );
 
-    $sum += $product->price();
+    $sum += $price;
     $t->set_var( "product_id", $product->id() );
     $t->set_var( "product_name", $product->name() );
+
+    $t->set_var( "cart_item_count", $item->count() );
+    
     $t->set_var( "product_price", $locale->format( $currency ) );
 
     if ( ( $i % 2 ) == 0 )
@@ -177,6 +202,8 @@ foreach ( $items as $item )
             
         $t->parse( "cart_item_option", "cart_item_option_tpl", true );
     }
+
+
         
     $t->parse( "cart_item", "cart_item_tpl", true );
         

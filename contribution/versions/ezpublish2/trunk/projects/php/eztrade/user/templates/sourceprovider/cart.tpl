@@ -1,5 +1,5 @@
 <!-- cart.tpl --> 
-<!-- $Id: cart.tpl,v 1.1 2000/10/24 19:03:13 bf-cvs Exp $ -->
+<!-- $Id: cart.tpl,v 1.2 2000/10/25 19:21:42 bf-cvs Exp $ -->
 
 <h1>{intl-cart}</h1>
 
@@ -10,13 +10,15 @@
 <!-- END empty_cart_tpl -->
 
 
-
+<form action="/trade/cart/" method="post">
 <!-- BEGIN cart_item_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>Bilde:</th>
 	<th>Varenavn:</th>
 	<th>Opsjoner:</th>
+	<th>Antall:</th>
+
 	<td class="path" align="right">Pris:</td>
 	<td class="path" align="right">Fjern:</td>
 </tr>
@@ -35,6 +37,10 @@
 	{option_value}<br>
         <!-- END cart_item_option_tpl -->
 	&nbsp;</td>
+	<td class="{td_class}">
+	<input type="hidden" name="CartIDArray[]" value="{cart_item_id}" />
+	<input size="3" type="text" name="CartCountArray[]" value="{cart_item_count}" />
+	</td>
 	<td class="{td_class}" align="right">
 	{product_price}
 	</td>
@@ -61,11 +67,22 @@
 </table>
 <!-- END cart_item_list_tpl -->
 
-<!-- BEGIN cart_checkout_tpl -->
-<form action="/trade/customerlogin/" method="post">
-
 <hr noshade="noshade" size="4" />
+<table border="0">
+<tr>
+	<!-- BEGIN cart_checkout_tpl -->
+	<td>
+	<input class="okbutton" type="submit" name="DoCheckOut" value="Gå til kasse" />
+	</td>
+	<!-- END cart_checkout_tpl -->
 
-<input class="okbutton" type="submit" value="Gå til kasse" />
+	<td>
+	<input class="okbutton" type="submit" value="Oppdater" />
+	
+	</td>
+</td>
+</table>
+
+<input type="hidden" name="Action" value="Refresh" />
+
 </form>
-<!-- END cart_checkout_tpl -->

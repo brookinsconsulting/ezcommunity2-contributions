@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.2 2000/10/22 10:46:20 bf-cvs Exp $
+// $Id: checkout.php,v 1.3 2000/10/25 19:21:42 bf-cvs Exp $
 //
 // 
 //
@@ -136,47 +136,51 @@ if ( $SendOrder == "true" )
     $i = 0;
     $sum = 0.0;
     foreach ( $items as $item )
+    {
+        $product = $item->product();
+
+        $image = $product->thumbnailImage();
+
+        $thumbnail =& $image->requestImageVariation( 35, 35 );        
+
+        $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
+        $t->set_var( "product_image_width", $thumbnail->width() );
+        $t->set_var( "product_image_height", $thumbnail->height() );
+        $t->set_var( "product_image_caption", $image->caption() );
+
+        $price = $product->price() * $item->count();
+        $currency->setValue( $price );
+
+        $sum += $price;
+        
+        $t->set_var( "product_name", $product->name() );
+        $t->set_var( "product_price", $locale->format( $currency ) );
+
+        $t->set_var( "cart_item_count", $item->count() );
+        
+        if ( ( $i % 2 ) == 0 )
+            $t->set_var( "td_class", "bglight" );
+        else
+            $t->set_var( "td_class", "bgdark" );
+
+        $optionValues =& $item->optionValues();
+
+        $t->set_var( "cart_item_option", "" );
+        foreach ( $optionValues as $optionValue )
         {
-            $product = $item->product();
-
-            $image = $product->thumbnailImage();
-
-            $thumbnail =& $image->requestImageVariation( 35, 35 );        
-
-            $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
-            $t->set_var( "product_image_width", $thumbnail->width() );
-            $t->set_var( "product_image_height", $thumbnail->height() );
-            $t->set_var( "product_image_caption", $image->caption() );
-
-            $currency->setValue( $product->price() );
-
-            $sum += $product->price();
-            $t->set_var( "product_name", $product->name() );
-            $t->set_var( "product_price", $locale->format( $currency ) );
-
-            if ( ( $i % 2 ) == 0 )
-                $t->set_var( "td_class", "bglight" );
-            else
-                $t->set_var( "td_class", "bgdark" );
-
-            $optionValues =& $item->optionValues();
-
-            $t->set_var( "cart_item_option", "" );
-            foreach ( $optionValues as $optionValue )
-                {
-                    $option =& $optionValue->option();
-                    $value =& $optionValue->optionValue();
+            $option =& $optionValue->option();
+            $value =& $optionValue->optionValue();
                  
-                    $t->set_var( "option_name", $option->name() );
-                    $t->set_var( "option_value", $value->name() );
+            $t->set_var( "option_name", $option->name() );
+            $t->set_var( "option_value", $value->name() );
             
-                    $t->parse( "cart_item_option", "cart_item_option_tpl", true );
-                }
-        
-            $t->parse( "cart_item", "cart_item_tpl", true );
-        
-            $i++;
+            $t->parse( "cart_item_option", "cart_item_option_tpl", true );
         }
+        
+        $t->parse( "cart_item", "cart_item_tpl", true );
+        
+        $i++;
+    }
 
     $shippingCost = 100.0;
     $currency->setValue( $shippingCost );
