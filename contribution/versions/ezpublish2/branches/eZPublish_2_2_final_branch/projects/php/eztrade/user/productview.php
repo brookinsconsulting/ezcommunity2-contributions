@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: productview.php,v 1.77.2.6 2001/12/04 17:02:35 br Exp $
+//
+// $Id: productview.php,v 1.77.2.7 2002/03/04 12:38:38 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -232,7 +232,7 @@ foreach ( $pathArray as $path )
 {
     $t->set_var( "category_id", $path[0] );
     $t->set_var( "category_name", $path[1] );
-    
+
     $t->parse( "path", "path_tpl", true );
 }
 
@@ -240,7 +240,7 @@ $mainImage = $product->mainImage();
 if ( $mainImage )
 {
     $variation = $mainImage->requestImageVariation( $MainImageWidth, $MainImageHeight );
-    
+
     $t->set_var( "main_image_id", $mainImage->id() );
     $t->set_var( "main_image_uri", "/" . $variation->imagePath() );
     $t->set_var( "main_image_width", $variation->width() );
@@ -249,11 +249,11 @@ if ( $mainImage )
 
     $mainImageID = $mainImage->id();
 
-    $t->parse( "main_image", "main_image_tpl" );    
+    $t->parse( "main_image", "main_image_tpl" );
 }
 else
 {
-    $t->set_var( "main_image", "" );    
+    $t->set_var( "main_image", "" );
 }
 
 if ( $CapitalizeHeadlines == "enabled" )
@@ -262,7 +262,7 @@ if ( $CapitalizeHeadlines == "enabled" )
     $t->set_var( "title_text", eZTextTool::capitalize( $product->name() ) );
 }
 else
-{        
+{
     $t->set_var( "title_text", $product->name() );
 }
 $t->set_var( "intro_text", $product->brief() );
@@ -300,7 +300,7 @@ foreach ( $images as $imageArray )
         {
             $t->set_var( "td_class", "bgdark" );
         }
-    
+
         $t->set_var( "image_name", $image->name() );
 
         $t->set_var( "image_title", $image->name() );
@@ -309,11 +309,11 @@ foreach ( $images as $imageArray )
         $t->set_var( "product_id", $ProductID );
 
         $variation = $image->requestImageVariation( $SmallImageWidth, $SmallImageHeight );
-    
+
         $t->set_var( "image_url", "/" .$variation->imagePath() );
         $t->set_var( "image_width", $variation->width() );
         $t->set_var( "image_height", $variation->height() );
-    
+
         $t->parse( "image", "image_tpl", true );
 
         $image_count++;
@@ -351,7 +351,7 @@ foreach ( $options as $option )
 {
     $values = $option->values();
 
-    $t->set_var( "value", "" );    
+    $t->set_var( "value", "" );
     $i = 0;
     $headers = $option->descriptionHeaders();
     $t->set_var( "value_description_header", "" );
@@ -426,7 +426,7 @@ foreach ( $options as $option )
 
                 $t->set_var( "value_price_currency_list", "" );
                 if ( count( $currencies ) > 0 )
-                    $t->parse( "value_price_currency_list", "value_price_currency_list_tpl" );        
+                    $t->parse( "value_price_currency_list", "value_price_currency_list_tpl" );
             }
 
             $t->set_var( "value_availability_item", "" );
@@ -439,7 +439,7 @@ foreach ( $options as $option )
                 $t->parse( "value_availability_item", "value_availability_item_tpl" );
             }
 
-            $t->parse( "value", "value_tpl", true );    
+            $t->parse( "value", "value_tpl", true );
             $i++;
         }
     }
@@ -450,7 +450,7 @@ foreach ( $options as $option )
         $t->set_var( "option_description", $option->description() );
         $t->set_var( "option_id", $option->id() );
         $t->set_var( "product_id", $ProductID );
-        
+
         $t->parse( "option", "option_tpl", true );
     }
 }
@@ -494,7 +494,7 @@ if ( $type )
         if ( ( $i % 2 ) == 0 )
         {
             $t->set_var( "begin_tr", "<tr>" );
-            $t->set_var( "end_tr", "" );        
+            $t->set_var( "end_tr", "" );
         }
         else
         {
@@ -591,11 +591,11 @@ if ( $ShowPrice and $product->showPrice() == true and $product->hasPrice()  )
     $currency = new eZCurrency();
     $currency->setValue( $product->correctPrice( $PricesIncludeVAT ) );
     $t->set_var( "product_price", $locale->format( $currency ) );
-    
+
 //    $t->set_var( "product_price", $product->localePrice( $PricesIncludeVAT ) );
 
     $price = new eZCurrency( $product->correctPrice( $PricesIncludeVAT ) );
-    
+
     // show alternative currencies
 
     $currency = new eZProductCurrency( );
@@ -623,7 +623,7 @@ if ( $ShowPrice and $product->showPrice() == true and $product->hasPrice()  )
             {
                 $locale->setPrefixSymbol( false );
             }
-            
+
             $t->set_var( "alt_price", $locale->format( $altMinPrice ) . " - " . $locale->format( $altMaxPrice ) );
             $t->parse( "alternative_currency", "alternative_currency_tpl", true );
         }
@@ -746,10 +746,10 @@ if ( $GenerateStaticPage == "true" && !$useVoucher )
     $output .= "\$GlobalSectionID=\"$GlobalSectionID\";\n";
     $output .= "\$SiteTitleAppend=\"$SiteTitleAppend\";\n";
     $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";
-    $output .= "\$SiteKeywordsOverride=\"$SiteKeywordsOverride\";\n";    
+    $output .= "\$SiteKeywordsOverride=\"$SiteKeywordsOverride\";\n";
     $output .= "?>\n";
 
-    
+
     $output = $t->parse($target, $template_var );
     // print the output the first time while printing the cache file.
     print( $output );

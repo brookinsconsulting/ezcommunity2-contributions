@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: payment.php,v 1.84.2.3 2002/03/04 08:51:07 ce Exp $
+// $Id: payment.php,v 1.84.2.4 2002/03/04 12:38:38 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -73,6 +73,8 @@ $ColSpanSizeTotals = $ini->read_var( "eZTradeMain", "ColSpanSizeTotals" );
 $DiscontinueQuantityless = $ini->read_var( "eZTradeMain", "DiscontinueQuantityless" ) == "true";
 $SiteURL =  $ini->read_var( "site", "SiteURL" );
 
+$indexFile = $ini->Index;
+
 // Set some variables to defaults.
 $ShowCart = false;
 $ShowSavingsColumn = false;
@@ -132,7 +134,7 @@ if ( !$cart )
 
         if ( $user->id() == $orderUser->id() )
         {
-            eZHTTPTool::header( "Location: http://$HTTP_HOST/trade/ordersendt/$orderCompletedID/" );
+            eZHTTPTool::header( "Location: http://" . $HTTP_HOST . $indexFile . "/trade/ordersendt/$orderCompletedID/" );
             exit();
         }
         else
@@ -232,7 +234,7 @@ if ( $PaymentSuccess == "true" )
 
        if( $orderCompletedID > 0 )
        {
-          eZHTTPTool::header( "Location: http://$HTTP_HOST/trade/ordersendt/$orderCompletedID/" );
+          eZHTTPTool::header( "Location: http://" . $HTTP_HOST . $indexFile . "/trade/ordersendt/$orderCompletedID/" );
           exit();
        }
        else
@@ -997,7 +999,7 @@ if ( $PaymentSuccess == "true" )
 
     $session->setVariable( "SSLMode", "" );
 
-    eZHTTPTool::header( "Location: http://$HTTP_HOST/trade/ordersendt/$OrderID/" );
+    eZHTTPTool::header( "Location: http://" . $HTTP_HOST . $indexFile . "/trade/ordersendt/$OrderID/" );
     exit();
 }
 else if( $OrderID > 0 )
@@ -1008,7 +1010,7 @@ else if( $OrderID > 0 )
 
     if( $user->id() == $orderUser->id() )
     {
-        eZHTTPTool::header( "Location: http://$HTTP_HOST/trade/ordersendt/$OrderID/" );
+        eZHTTPTool::header( "Location: http://" . $HTTP_HOST . $indexFile . "/trade/ordersendt/$OrderID/" );
         exit();
     }
 }

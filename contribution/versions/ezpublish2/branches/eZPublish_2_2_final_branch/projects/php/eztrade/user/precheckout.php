@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: precheckout.php,v 1.6 2001/10/16 08:18:24 bf Exp $
+//
+// $Id: precheckout.php,v 1.6.2.1 2002/03/04 12:38:38 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -31,17 +31,18 @@ include_once( "classes/ezhttptool.php" );
 $ini =& INIFile::globalINI();
 $ForceSSL = $ini->read_var( "eZTradeMain", "ForceSSL" );
 
+$index = $ini->Index;
+
+
 // set SSL mode and redirect if not already in SSL mode.
 if ( ( $ForceSSL == "enabled" ) )
 {
     $session->setVariable( "SSLMode", "enabled" );
 
-
     // force SSL if supposed to
     if ( $SERVER_PORT != '443' )
     {
-//          print( "<font color=\"#333333\">Start: Location: https://" . $HTTP_HOST . $REQUEST_URI . "</font>" );
-        eZHTTPTool::header("Location: https://" . $HTTP_HOST . "/trade/checkout/" );
+        eZHTTPTool::header("Location: https://" . $HTTP_HOST . $index . "/trade/checkout/" );
         exit();
     }
 }
@@ -49,25 +50,25 @@ elseif ( $ForceSSL == "disabled" )
 {
     $session->setVariable( "SSLMode", "disabled" );
 
-    eZHTTPTool::header("Location: /trade/checkout/" );
+    eZHTTPTool::header("Location: http://" . $HTTP_HOST . $index . "/trade/checkout/" );
     exit();
 }
 elseif ( $ForceSSL == "choose" )
 {
     $session->setVariable( "SSLMode", "choose" );
-    
+
     if( isSet ( $WithSSL ) )
     {
-        eZHTTPTool::header( "Location: https://" . $HTTP_HOST . "/trade/checkout" );
+        eZHTTPTool::header( "Location: https://" . $HTTP_HOST . $index . "/trade/checkout" );
         exit();
-            
+
     }
 
     if( isSet ( $WithOutSSL ) )
     {
-        eZHTTPTool::header( "Location: http://" . $HTTP_HOST . "/trade/checkout" );
+        eZHTTPTool::header( "Location: http://" . $HTTP_HOST . $index . "/trade/checkout" );
         exit();
-            
+
     }
 
     $Language = $ini->read_var( "eZTradeMain", "Language" );
