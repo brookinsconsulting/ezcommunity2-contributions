@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageviewquery.php,v 1.15 2001/04/23 09:12:05 jb Exp $
+// $Id: ezpageviewquery.php,v 1.16 2001/06/28 12:12:54 ce Exp $
 //
 // Definition of eZPageViewQuery class
 //
@@ -55,15 +55,15 @@ class eZPageViewQuery
     {
         $db =& eZDB::globalDatabase();
 
-        $db->array_query( $pageview_array, "SELECT count(ID) AS Count FROM eZStats_PageView" );
+        $db->array_query( $pageview_array, "SELECT COUNT(ID) AS Count FROM eZStats_PageView" );
 
-        return $pageview_array[0]["Count"];        
+        return $pageview_array[0][$db->fieldName( "Count" )];        
     }
 
     /*!
       Returns the total number of pageviews on the given date.
 
-      returns 0 if the argument is not a  eZDate object.
+      returns 0 if the argument is not a eZDate object.
     */
     function totalPageViewsDay( $dayObject )
     {
@@ -87,9 +87,9 @@ class eZPageViewQuery
             $db->array_query( $pageview_array,
             "SELECT count(ID) AS Count
              FROM eZStats_PageView
-             WHERE Date LIKE '$dateStamp%' ");
+             WHERE Date LIKE '$dateStamp' ");
             
-            $ret = $pageview_array[0]["Count"];
+            $ret = $pageview_array[0][$db->fieldName( "Count" )];
         }
 
         return $ret;
@@ -117,11 +117,11 @@ class eZPageViewQuery
             $dateStamp = $year . $month;
             
             $db->array_query( $pageview_array,
-            "SELECT count(ID) AS Count
+            "SELECT COUNT(ID) AS Count
              FROM eZStats_PageView
              WHERE Date LIKE '$dateStamp%' ");
             
-            $ret = $pageview_array[0]["Count"];
+            $ret = $pageview_array[0][$db->fieldName( "Count" )];
         }
         return $ret;
     }
@@ -141,14 +141,14 @@ class eZPageViewQuery
 
         $db->array_query( $pageview_array,
         "SELECT ID FROM eZStats_PageView
-         ORDER BY Date DESC
-         LIMIT $offset,$limit" );
+         ORDER BY Date DESC",
+        array( "Limit" => $limit,
+               "Offset" => $offset ) );
         
         for ( $i=0; $i < count($pageview_array); $i++ )
         {
-            $return_array[$i] = new eZPageView( $pageview_array[$i]["ID"], 0 );
+            $return_array[$i] = new eZPageView( $pageview_array[$i][$db->fieldName( "ID" )], 0 );
         }
-        
         return $return_array;
     }
 
@@ -161,9 +161,9 @@ class eZPageViewQuery
         $db =& eZDB::globalDatabase();
 
         $db->array_query( $pageview_array,
-        "SELECT count( ID ) AS Count FROM eZStats_PageView" );
+        "SELECT COUNT( ID ) AS Count FROM eZStats_PageView" );
         
-        return $pageview_array[0]["Count"];
+        return $pageview_array[0][$db->fieldName( "Count" )];
     }
 
     /*!
@@ -181,30 +181,37 @@ class eZPageViewQuery
         "SELECT count(eZStats_PageView.ID) AS Count, eZStats_RemoteHost.ID, eZStats_RemoteHost.IP, eZStats_RemoteHost.HostName
          FROM eZStats_PageView, eZStats_RemoteHost
          WHERE eZStats_PageView.RemoteHostID=eZStats_RemoteHost.ID
-         GROUP BY eZStats_RemoteHost.ID ORDER BY Count DESC
-         LIMIT $offset,$limit" );
+         GROUP BY eZStats_RemoteHost.ID ORDER BY Count DESC", 
+        array( "Limit" => $limit,
+               "Offset" => $offset ) );
 
         for ( $i=0; $i < count($visitor_array); $i++ )
         {
-            $id = $visitor_array[$i]["ID"];
-            $ip = $visitor_array[$i]["IP"];
-            $hostName = $visitor_array[$i]["HostName"];
+            $id = $visitor_array[$i][$db->fieldName( "ID" )];
+            $ip = $visitor_array[$i][$db->fieldName( "IP" )];
+            $hostName = $visitor_array[$i][$db->fieldName( "HostName" )];
 
             // check if the domain name is fetched, if not try to fetch it 
             // and store the result in the table.
             if ( $hostName = "NULL" )
             {
+                $db->begin();
+                $db->lock( "eZStats_RemoteHost" );
                 $hostName =& gethostbyaddr( $ip );
-                $db->query( "UPDATE eZStats_RemoteHost SET HostName='$hostName'
+                $result = $db->query( "UPDATE eZStats_RemoteHost SET HostName='$hostName'
                                          WHERE ID='$id'" );
+                $db->unlock();
+                if ( $result == false )
+                    $db->rollback( );
+                else
+                    $db->commit();
             }            
             
             $return_array[$i] = array( "ID" => $id,
                                        "IP" => $ip,
                                        "HostName" => $hostName,
-                                       "Count" => $visitor_array[$i]["Count"] );
+                                       "Count" => $visitor_array[$i][$db->fieldName( "Count" )] );
         }
-
         return $return_array;
     }
 
@@ -219,7 +226,7 @@ class eZPageViewQuery
         $db->array_query( $visitor_array,
                           "SELECT count( ID ) AS Count FROM eZStats_RemoteHost" );
 
-        return $visitor_array[0]["Count"];
+        return $visitor_array[0][$fieldName( "Count" )];
     }
 
     /*!
@@ -250,17 +257,17 @@ class eZPageViewQuery
                eZStats_PageView.RemoteHostID=eZStats_RemoteHost.ID
          $search_text
          GROUP BY eZStats_RefererURL.ID
-         ORDER BY Count DESC
-         LIMIT $offset,$limit" );
+         ORDER BY Count DESC",
+        array( "Limit" => $limit,
+               "Offset" => $offset ) );
         
         for ( $i=0; $i < count($visitor_array); $i++ )
         {
-            $return_array[$i] = array( "ID" => $visitor_array[$i]["ID"],
-                                       "Domain" => $visitor_array[$i]["Domain"],
-                                       "URI" => $visitor_array[$i]["URI"],
-                                       "Count" => $visitor_array[$i]["Count"] );
+            $return_array[$i] = array( "ID" => $visitor_array[$i][$db->fieldName( "ID" )],
+                                       "Domain" => $visitor_array[$i][$db->fieldName( "Domain" )],
+                                       "URI" => $visitor_array[$i][$db->fieldName( "URI" )],
+                                       "Count" => $visitor_array[$i][$db->fieldName( "Count" )] );
         }
-        
         return $return_array;
     }
 
@@ -306,14 +313,15 @@ class eZPageViewQuery
          FROM eZStats_PageView, eZStats_BrowserType
          WHERE eZStats_PageView.BrowserTypeID=eZStats_BrowserType.ID
          GROUP BY eZStats_BrowserType.ID
-         ORDER BY Count DESC
-         LIMIT $offset,$limit" );
+         ORDER BY Count DESC",
+        array( "Limit" => $limit,
+               "Offset" => $offset ) );
 
         for ( $i=0; $i < count($visitor_array); $i++ )
         {
-            $return_array[$i] = array( "ID" => $visitor_array[$i]["ID"],
-                                       "Name" => $visitor_array[$i]["BrowserType"],
-                                       "Count" => $visitor_array[$i]["Count"] );
+            $return_array[$i] = array( "ID" => $visitor_array[$i][$db->fieldName( "ID" )],
+                                       "Name" => $visitor_array[$i][$db->fieldName( "BrowserType" )],
+                                       "Count" => $visitor_array[$i][$db->fieldName( "Count" )] );
         }
         
         return $return_array;
@@ -331,7 +339,7 @@ class eZPageViewQuery
         $db->array_query( $visitor_array,
         "SELECT count(eZStats_BrowserType.ID) AS Count FROM eZStats_BrowserType" );
 
-        return $visitor_array[0]["Count"];
+        return $visitor_array[0][ $db->fieldName( "Count" )];
     }
 
     /*!
@@ -350,14 +358,15 @@ class eZPageViewQuery
          FROM eZStats_PageView, eZStats_RequestPage
          WHERE eZStats_PageView.RequestPageID=eZStats_RequestPage.ID
          GROUP BY eZStats_RequestPage.ID
-         ORDER BY Count DESC
-         LIMIT $offset,$limit" );
+         ORDER BY Count DESC",
+        array( "Limit" => $limit,
+               "Offset" => $offset ) );
         
         for ( $i=0; $i < count($visitor_array); $i++ )
         {
-            $return_array[$i] = array( "ID" => $visitor_array[$i]["ID"],
-                                       "URI" => $visitor_array[$i]["URI"],
-                                       "Count" => $visitor_array[$i]["Count"] );
+            $return_array[$i] = array( "ID" => $visitor_array[$i][$db->fieldName( "ID" )],
+                                       "URI" => $visitor_array[$i][$db->fieldName( "URI" )],
+                                       "Count" => $visitor_array[$i][$db->fieldName( "Count" )] );
         }
         return $return_array;
     }
@@ -394,14 +403,15 @@ class eZPageViewQuery
          WHERE eZStats_PageView.RequestPageID=eZStats_RequestPage.ID
          AND eZStats_RequestPage.URI LIKE '/trade/productview/%'
          GROUP BY eZStats_RequestPage.ID
-         ORDER BY Count DESC
-         LIMIT 0,$limit" );
+         ORDER BY Count DESC",
+        array( "Limit" => $limit,
+               "Offset" => $offset ) );
         
         for ( $i=0; $i<count($visitor_array); $i++ )
         {
-            $return_array[$i] = array( "ID" => $visitor_array[$i]["ID"],
-                                       "URI" => $visitor_array[$i]["URI"],
-                                       "Count" => $visitor_array[$i]["Count"] );
+            $return_array[$i] = array( "ID" => $visitor_array[$i][$db->fieldName( "ID" )],
+                                       "URI" => $visitor_array[$i][$db->fieldName( "URI" )],
+                                       "Count" => $visitor_array[$i][$db->fieldName( "Count" )] );
         }
         
         return $return_array;
@@ -423,16 +433,16 @@ class eZPageViewQuery
          WHERE eZStats_PageView.RequestPageID=eZStats_RequestPage.ID
          AND eZStats_RequestPage.URI LIKE '/trade/cart/add/%'
          GROUP BY eZStats_RequestPage.ID
-         ORDER BY Count DESC
-         LIMIT 0,$limit" );
-        
+         ORDER BY Count DESC",
+        array( "Limit" => $limit,
+               "Offset" => $offset ) );
+       
         for ( $i=0; $i<count($visitor_array); $i++ )
         {
-            $return_array[$i] = array( "ID" => $visitor_array[$i]["ID"],
-                                       "URI" => $visitor_array[$i]["URI"],
-                                       "Count" => $visitor_array[$i]["Count"] );
+            $return_array[$i] = array( "ID" => $visitor_array[$i][$db->fieldName( "ID" )],
+                                       "URI" => $visitor_array[$i][$db->fieldName( "URI" )],
+                                       "Count" => $visitor_array[$i][$db->fieldName( "Count" )] );
         }
-        
         return $return_array;
     }
 
@@ -452,14 +462,15 @@ class eZPageViewQuery
          WHERE eZStats_PageView.RequestPageID=eZStats_RequestPage.ID
          AND eZStats_RequestPage.URI LIKE '/trade/wishlist/add/%'
          GROUP BY eZStats_RequestPage.ID
-         ORDER BY Count DESC
-         LIMIT 0,$limit" );
+         ORDER BY Count DESC",
+        array( "Limit" => $limit,
+               "Offset" => $offset ) );
         
         for ( $i=0; $i<count($visitor_array); $i++ )
         {
-            $return_array[$i] = array( "ID" => $visitor_array[$i]["ID"],
-                                       "URI" => $visitor_array[$i]["URI"],
-                                       "Count" => $visitor_array[$i]["Count"] );
+            $return_array[$i] = array( "ID" => $visitor_array[$i][$db->fieldName( "ID" )],
+                                       "URI" => $visitor_array[$i][$db->fieldName( "URI" )],
+                                       "Count" => $visitor_array[$i][$db->fieldName( "Count" )] );
         }
         
         return $return_array;
@@ -492,8 +503,8 @@ class eZPageViewQuery
             $db->array_query( $visitor_array,
             "SELECT count(eZStats_PageView.ID) AS Count FROM eZStats_PageView WHERE DateValue LIKE '$stamp%'" );
 
-            $TotalPages += $visitor_array[0]["Count"];
-            $month_array[] = array( "Count" => $visitor_array[0]["Count"] );
+            $TotalPages += $visitor_array[0][$db->fieldName( "Count" )];
+            $month_array[] = array( "Count" => $visitor_array[0][$db->fieldName( "Count" )] );
         }
         $now = getdate();
         $return_array = array( "TotalPages" => $TotalPages,
@@ -533,10 +544,10 @@ class eZPageViewQuery
         
             $stamp = $year . $month . $sday;
             $db->array_query( $visitor_array,
-            "SELECT count(eZStats_PageView.ID) AS Count FROM eZStats_PageView WHERE DateValue='$stamp'" );
+            "SELECT COUNT(eZStats_PageView.ID) AS Count FROM eZStats_PageView WHERE DateValue='$stamp'" );
 
-            $TotalPages += $visitor_array[0]["Count"];
-            $day_array[] = array( "Count" => $visitor_array[0]["Count"] );
+            $TotalPages += $visitor_array[0][$db->fieldName( "Count" )];
+            $day_array[] = array( "Count" => $visitor_array[0][$db->fieldName( "Count" )] );
         }
         $now = getdate();
         $return_array = array( "TotalPages" => $TotalPages,
@@ -571,11 +582,11 @@ class eZPageViewQuery
         for ( $hour = 0; $hour < 24; ++$hour )
         {
             $db->array_query( $visitor_array,
-            "SELECT count(eZStats_PageView.ID) AS Count FROM eZStats_PageView WHERE DateValue='$stamp'
+            "SELECT COUNT(eZStats_PageView.ID) AS Count FROM eZStats_PageView WHERE DateValue='$stamp'
                     AND TimeValue>='$hour:00:00' AND TimeValue<='$hour:59:59'" );
 
-            $TotalPages += $visitor_array[0]["Count"];
-            $hour_array[] = array( "Count" => $visitor_array[0]["Count"] );
+            $TotalPages += $visitor_array[0][$db->fieldName( "Count" )];
+            $hour_array[] = array( "Count" => $visitor_array[0][$db->fieldName( "Count" )] );
         }
         $now = getdate();
         $return_array = array( "TotalPages" => $TotalPages,

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageview.php,v 1.13 2001/06/11 14:04:29 bf Exp $
+// $Id: ezpageview.php,v 1.14 2001/06/28 12:12:54 ce Exp $
 //
 // Definition of eZPageView class
 //
@@ -75,35 +75,43 @@ class eZPageView
             // create a reference to it.
 
             // lock
-            $db->query( "LOCK TABLES eZStats_BrowserType WRITE" );
-
-            $userAgent = addslashes( $userAgent );
+            $db->begin();
+            $db->lock( "eZStats_BrowserType" );
+            $nextID = $db->nextID( "eZStats_BrowserType", "ID" );
+            $result = false;
+            
+            $userAgent = $db->escapeString( $userAgent );
             $db->array_query( $browser_type_array,
             "SELECT ID FROM eZStats_BrowserType
              WHERE BrowserType='$userAgent'" );
 
             if ( count( $browser_type_array ) == 0 )
             {
-
-                $db->query( "INSERT INTO eZStats_BrowserType SET
-                                 BrowserType='$userAgent'
-                                 " );
+                $result = $db->query( "INSERT INTO eZStats_BrowserType
+                                    ( ID, BrowserType )
+                                    VALUES ( '$nextID', '$userAgent' )" );
                 
-				$this->ID = $db->insertID();
+				$this->ID = $nextID;
             }
             else
             {
-                $this->BrowserTypeID = $browser_type_array[0]["ID"];
+                $this->BrowserTypeID = $browser_type_array[0][$db->fieldName( "ID" )];
             }
-
-            $db->query( "UNLOCK TABLES" );
-
+            $db->unlock();
+            if ( $result == false )
+                $db->rollback( );
+            else
+                $db->commit();
+            
             // check if the remote host is already stored in the database, if it it just
             // create a reference to it.
             
             $remoteIP = $GLOBALS["REMOTE_ADDR"];
 
-            $db->query( "LOCK TABLES eZStats_RemoteHost WRITE" );
+            $db->begin();
+            $db->lock( "eZStats_RemoteHost" );
+            $nextID = $db->nextID( "eZStats_RemoteHost", "ID" );
+            $result = false;
             
             $db->array_query( $remote_host_array,
             "SELECT ID FROM eZStats_RemoteHost
@@ -113,22 +121,25 @@ class eZPageView
             {
                 $remoteHostName =& gethostbyaddr( $remoteIP );
 
-                $db->query( "INSERT INTO eZStats_RemoteHost SET
-                                 IP='$remoteIP',
-                                 HostName='$remoteHostName'
-                                 " );
+                $result = $db->query( "INSERT INTO eZStats_RemoteHost
+                                    ( ID, IP, HostName )
+                                    VALUES ( '$nextID',
+                                             '$remoteIP',
+                                             '$remoteHostNameæ' )
+                                    " );
 
-
-				$this->ID = $db->insertID();
+				$this->ID = $nextID;
             }
             else
             {
-                $this->RemoteHostID = $remote_host_array[0]["ID"];
+                $this->RemoteHostID = $remote_host_array[0][$db->fieldName( "ID" )];
             }
-
-            $db->query( "UNLOCK TABLES" );
+            $db->unlock();
+            if ( $result == false )
+                $db->rollback( );
+            else
+                $db->commit();
             
-
             // check if the referer url is already stored in the database, if it it just
             // create a reference to it.
 
@@ -145,9 +156,12 @@ class eZPageView
                 $refererURI =& $valueArray[3];
             }
 
-            $db->query( "LOCK TABLES eZStats_RefererURL WRITE" );
+            $db->begin();
+            $db->lock( "eZStats_RefererURL" );
+            $nextID = $db->nextID( "eZStats_RefererURL", "ID" );
+            $result = false;
 
-            $refererURI = addslashes( $refererURI );
+            $refererURI = $db->escapeString( $refererURI );
             
             $db->array_query( $referer_url_array,
             "SELECT ID FROM eZStats_RefererURL
@@ -155,19 +169,23 @@ class eZPageView
             
             if ( count( $referer_url_array ) == 0 )
             {
-                $db->query( "INSERT INTO eZStats_RefererURL SET
-                                 Domain='$refererDomain',
-                                 URI='$refererURI'
-                                 " );
-                
-				$this->ID = $db->insertID();
+                $result = $db->query( "INSERT INTO eZStats_RefererURL
+                          ( ID, Domain, URI )
+                          VALUES ( '$nextID',
+                                   '$refererDomain',
+                                    '$refererURI' )
+                          " );                
+				$this->ID = $nextID;
             }
             else
             {
-                $this->RefererURLID = $referer_url_array[0]["ID"];
+                $this->RefererURLID = $referer_url_array[0][$db->fieldName( "ID" )];
             }
-
-            $db->query( "UNLOCK TABLES" );
+            $db->unlock();
+            if ( $result == false )
+                $db->rollback( );
+            else
+                $db->commit();
 
             // check if the requested page is already stored. If so store
             // the id.
@@ -177,8 +195,10 @@ class eZPageView
             ereg( "([^?]+)", $requestURI, $regs);
             $requestURI =& $regs[1];
 
-
-            $db->query( "LOCK TABLES eZStats_RequestPage WRITE" );
+            $db->begin();
+            $db->lock( "eZStats_RequestPage" );
+            $nextID = $db->nextID( "eZStats_RequestPage", "ID" );
+            $result = false;
 
             $db->array_query( $request_page_array,
             "SELECT ID FROM eZStats_RequestPage
@@ -186,18 +206,23 @@ class eZPageView
             
             if ( count( $request_page_array ) == 0 )
             {
-                $db->query( "INSERT INTO eZStats_RequestPage SET
-                                 URI='$requestURI'
-                                 " );
+                $result = $db->query( "INSERT INTO eZStats_RequestPage
+                          ( ID, URI )
+                          VALUES ( '$nextID',
+                                   '$requestURI' )
+                          " );
                 
-				$this->ID = $db->insertID();
+				$this->ID = $nextID;
             }
             else
             {
-                $this->RequestPageID = $request_page_array[0]["ID"];
+                $this->RequestPageID = $request_page_array[0][$db->fieldName( "ID" )];
             }
-
-            $db->query( "UNLOCK TABLES" );
+            $db->unlock();
+            if ( $result == false )
+                $db->rollback( );
+            else
+                $db->commit();
 
             $user = eZUser::currentUser();
             if ( $user )
@@ -209,35 +234,51 @@ class eZPageView
                 $this->UserID = 0;
             }
             
-            $db->query( "LOCK TABLES eZStats_PageView WRITE" );
-            
-            $db->query( "INSERT INTO eZStats_PageView SET
-                                 UserID='$this->UserID',
-                                 BrowserTypeID='$this->BrowserTypeID',
-                                 RemoteHostID='$this->RemoteHostID',
-                                 RefererURLID='$this->RefererURLID',
-                                 RequestPageID='$this->RequestPageID',
-                                 Date=now(),
-                                 DateValue=DATE_FORMAT( now(), \"%Y-%m-%d\" ),
-                                 TimeValue=DATE_FORMAT( now(), \"%H:%i:%S\" )
-                                 " );
+            $db->begin();
+            $db->lock( "eZStats_PageView" );
+            $nextID = $db->nextID( "eZStats_PageView", "ID" );
+            $result = false;
+            $now = eZDateTime::timeStamp( true );
+            $date = eZDate::timeStamp( true );
+            $time = eZTime::timeStamp( true );
 
-            $db->query( "UNLOCK TABLES" );
+            $result = $db->query( "INSERT INTO eZStats_PageView
+                                ( ID, UserID, BrowserTypeID, RemoteHostID, RefererURLID, RequestPageID, Date, DateValue, TimeValue )
+                                VALUES ( '$nextID',
+                                         '$this->UserID',
+                                         '$this->BrowserTypeID',
+                                         '$this->RemoteHostID',
+                                         '$this->RefererURLID',
+                                         '$this->RequestPageID',
+                                         '$now',
+                                         '$date',
+                                         '$time' )
+                                " );
+            $db->unlock();
+            if ( $result == false )
+                $db->rollback( );
+            else
+                $db->commit();
             
-			$this->ID = $db->insertID();    
+			$this->ID = $nextID;    
         }
         else
         {
-            $db->query( "UPDATE eZStats_PageView SET
+            $db->begin();
+            $db->lock( "eZStats_PageView" );
+            $result = $db->query( "UPDATE eZStats_PageView SET
                                  UserID='$this->UserID',
                                  BrowserTypeID='$this->BrowserTypeID',
                                  RemoteHostID='$this->RemoteHostID',
                                  RefererURLID='$this->RefererURLID'
                                  WHERE ID='$this->ID'
                                  " );
+            $db->unlock();
+            if ( $result == false )
+                $db->rollback( );
+            else
+                $db->commit();
         }
-        
-
     }
     
     /*!
@@ -257,43 +298,50 @@ class eZPageView
             }
             else if ( count( $pageview_array ) == 1 )
             {
-                $this->ID =& $pageview_array[0][ "ID" ];
-                $this->UserID =& $pageview_array[0][ "UserID" ];
-                $this->Date =& $pageview_array[0][ "Date" ];
-                $this->DateValue =& $pageview_array[0][ "DateValue" ];
-                $this->TimeValue =& $pageview_array[0][ "TimeValue" ];
-                $this->BrowserTypeID =& $pageview_array[0][ "Date" ];
-                $this->RemoteHostID =& $pageview_array[0][ "RemoteHostID" ];
-                $this->RefererURLID =& $pageview_array[0][ "RefererURLID" ];
-                $this->RequestPageID =& $pageview_array[0][ "RequestPageID" ];
+                $this->ID =& $pageview_array[0][$db->fieldName( "ID" )];
+                $this->UserID =& $pageview_array[0][$db->fieldName( "UserID" )];
+                $this->Date =& $pageview_array[0][$db->fieldName( "Date" )];
+                $this->DateValue =& $pageview_array[0][$db->fieldName( "DateValue" )];
+                $this->TimeValue =& $pageview_array[0][$db->fieldName( "TimeValue" )];
+                $this->BrowserTypeID =& $pageview_array[0][$db->fieldName( "Date" )];
+                $this->RemoteHostID =& $pageview_array[0][$db->fieldName( "RemoteHostID" )];
+                $this->RefererURLID =& $pageview_array[0][$db->fieldName( "RefererURLID" )];
+                $this->RequestPageID =& $pageview_array[0][$db->fieldName( "RequestPageID" )];
 
                 // fetch the remote IP and domain
                 $db->array_query( $pageview_array,
                 "SELECT IP, HostName FROM eZStats_RemoteHost WHERE ID='$this->RemoteHostID'" );
 
-                $this->RemoteIP = $pageview_array[0]["IP"];
+                $this->RemoteIP = $pageview_array[0][$db->fieldName( "IP" )];
 
-                $this->RemoteHostName = $pageview_array[0]["HostName"];
+                $this->RemoteHostName = $pageview_array[0][$db->fieldName( "HostName" )];
 
                 // check if the domain name is fetched, if not try to fetch it 
                 // and store the result in the table.
                 if ( $this->RemoteHostName = "NULL" )
                 {
+                    $db->begin();
+                    $db->lock( "eZStats_RemoteHost" );
                     $this->RemoteHostName =& gethostbyaddr( $this->RemoteIP );
-                    $db->query( "UPDATE eZStats_RemoteHost SET HostName='$this->RemoteHostName' WHERE ID='$this->RemoteHostID'" );
+
+                    $result = $db->query( "UPDATE eZStats_RemoteHost SET HostName='$this->RemoteHostName' WHERE ID='$this->RemoteHostID'" );
+
+                    $db->unlock();
+                    if ( $result == false )
+                        $db->rollback( );
+                    else
+                        $db->commit();
                 }
 
                 // fetch the requested page
                 $db->array_query( $pageview_array,
                 "SELECT URI FROM eZStats_RequestPage WHERE ID='$this->RequestPageID'" );
 
-                $this->RequestPage = $pageview_array[0]["URI"];                
+                $this->RequestPage = $pageview_array[0][$db->fieldName( "URI" )];
 
                 $ret = true;
-
             }
         }
-
         return $ret;
     }
 
@@ -333,7 +381,7 @@ class eZPageView
     function &dateTime()
     {
         $time = new eZDateTime();
-        $time->setMySQLTimeStamp( $this->Date );
+        $time->setTimeStamp( $this->Date );
        
         return $time;
     }
@@ -366,7 +414,7 @@ class eZPageView
         $db->array_query( $pageview_array,
         "SELECT URI FROM eZStats_RequestPage WHERE ID='$id'" );
         
-        return $pageview_array[0]["URI"];
+        return $pageview_array[0][$db->fieldName( "URI" )];
     }
 
     var $ID;
