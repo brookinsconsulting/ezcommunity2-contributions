@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: linklist.php,v 1.2 2001/05/03 14:26:58 jb Exp $
+// $Id: linklist.php,v 1.3 2001/05/03 16:54:21 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <30-Apr-2001 18:50:47 amos>
@@ -234,9 +234,13 @@ foreach( $sections as $section )
         }
         $t->set_var( "item_edit_command", sprintf( $url_str, $ItemID , "$m_name/$m_type", $section->id(), $link->id() ) );
         $t->parse( "link_edit_item", "link_edit_item_tpl" );
+        $t->set_var( "item_up_command", sprintf( $URLS["linkmoveup"], $ItemID, $section->id(), $link->id() ) );
+        $t->set_var( "item_down_command", sprintf( $URLS["linkmovedown"], $ItemID, $section->id(), $link->id() ) );
         $t->parse( "link_item", "link_item_tpl", true );
         ++$i;
     }
+    $t->set_var( "item_up_command", sprintf( $URLS["sectionmoveup"], $ItemID, $section->id() ) );
+    $t->set_var( "item_down_command", sprintf( $URLS["sectionmovedown"], $ItemID, $section->id() ) );
     $t->parse( "section_item", "section_item_tpl", true );
     ++$item;
 }

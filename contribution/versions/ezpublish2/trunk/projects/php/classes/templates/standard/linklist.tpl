@@ -30,6 +30,8 @@
 	</th>
 	<th>{intl-type}:
 	</th>
+	<th>&nbsp;</th>
+	<th>&nbsp;</th>
 	<th>&nbsp;
 	</th>
 	<th>&nbsp;
@@ -45,6 +47,8 @@
 	<input type="hidden" name="SectionIDList[]" value="{section_id}" />
 	</th>
 	<th>&nbsp;
+	<td width="1%"><a href="{item_down_command}"><img src="/admin/images/move-down.gif" height="12" width="12" border="0" alt="Move down" /></a></td>
+	<td width="1%"><a href="{item_up_command}"><img src="/admin/images/move-up.gif" height="12" width="12" border="0" alt="Move up" /></a></td>
 	</th>
 	<th>&nbsp;
 	</th>
@@ -62,6 +66,8 @@
 	<td class="{td_class}">
 	{link_module_name}/{link_module_type}
 	</td>
+	<td class="{td_class}" width="1%"><a href="{item_down_command}"><img src="/admin/images/move-down.gif" height="12" width="12" border="0" alt="Move down" /></a></td>
+	<td class="{td_class}" width="1%"><a href="{item_up_command}"><img src="/admin/images/move-up.gif" height="12" width="12" border="0" alt="Move up" /></a></td>
 	<td class="{td_class}" width="1%">
 	<!-- BEGIN link_edit_item_tpl -->
 	<a href="{item_edit_command}" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{link_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezc{link_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
