@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: latestmessages.php,v 1.8 2001/09/20 12:14:27 jhe Exp $
+// $Id: latestmessages.php,v 1.9 2001/09/28 13:24:30 jhe Exp $
 //
 // Created on: <02-Jul-2001 11:45:17 bf>
 //
@@ -50,6 +50,7 @@ $messages =& eZForumMessage::lastMessages( 5 );
 
 global $GlobalSiteDesign;
 
+$t->set_var( "message", "" );
 $i = 0;
 foreach ( $messages as $message )
 {
