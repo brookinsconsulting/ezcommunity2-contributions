@@ -46,7 +46,10 @@ if ( $user )
     {
         if ( $ini->read_var( "site", "eZArticle" ) == "enabled" )
             include( "ezarticle/admin/menubox.php" );
-    
+
+        if ( $ini->read_var( "site", "eZNewsFeed" ) == "enabled" )
+            include( "eznewsfeed/admin/menubox.php" );
+        
         if ( $ini->read_var( "site", "eZForum" ) == "enabled" )
             include( "ezforum/admin/menubox.php" );
 
@@ -70,9 +73,6 @@ if ( $user )
 
         if ( $ini->read_var( "site", "eZUser" ) == "enabled" )
             include( "ezuser/admin/menubox.php" );
-
-        if ( $ini->read_var( "site", "eZContact" ) == "enabled" )
-            include( "ezcontact/admin/menubox.php" );
 
     
     // parse the URI

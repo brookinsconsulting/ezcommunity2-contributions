@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsarchive.php,v 1.1 2000/11/15 18:14:14 bf-cvs Exp $
+// $Id: newsarchive.php,v 1.2 2000/11/16 10:29:47 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <13-Nov-2000 16:56:48 bf>
@@ -51,11 +51,11 @@ foreach ( $newsList as $newsItem )
     print( "<h2>". $newsItem->name() . "</h2><p>" . $newsItem->intro() . "</p>" );
 }
 
-//  $newsImporter = new eZNewsImporter( "nyheter.no" );
-//  $newsImporter->importNews();
-
-$newsImporter = new eZNewsImporter( "freshmeat.net" );
+$newsImporter = new eZNewsImporter( "nyheter.no" );
 $newsImporter->importNews();
+
+//  $newsImporter = new eZNewsImporter( "freshmeat.net" );
+//  $newsImporter->importNews();
 
 
 ?>

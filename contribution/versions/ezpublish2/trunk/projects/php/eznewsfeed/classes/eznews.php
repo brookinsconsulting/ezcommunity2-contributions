@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznews.php,v 1.1 2000/11/15 14:04:17 bf-cvs Exp $
+// $Id: eznews.php,v 1.2 2000/11/16 10:29:47 bf-cvs Exp $
 //
 // Definition of eZNews class
 //
@@ -182,6 +182,7 @@ class eZNews
                 $this->OriginalPublishingDate =& $news_array[0][ "OriginalPublishingDate" ];
                 $this->Origin =& $news_array[0][ "Origin" ];
                 $this->KeyWords =& $news_array[0][ "KeyWords" ];
+                $this->URL =& $news_array[0][ "URL" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -530,7 +531,7 @@ class eZNews
     function newsList( $sortMode=time,
                        $fetchNonPublished=true,
                        $offset=0,
-                       $limit=50 )
+                       $limit=25 )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -602,6 +603,7 @@ class eZNews
     var $IsPublished;
     var $KeyWords;
     var $Origin;
+    var $URL;
     
     
     ///  Variable for keeping the database connection.
