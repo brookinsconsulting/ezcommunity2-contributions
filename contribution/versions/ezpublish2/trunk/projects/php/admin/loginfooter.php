@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: footer.php,v 1.11 2001/01/28 10:34:51 bf Exp $
+// $Id: loginfooter.php,v 1.1 2001/01/28 10:34:51 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Jan-2001 16:06:07 bf>
@@ -24,7 +24,7 @@
 //
 
 include_once( "classes/INIFile.php" );
-$ini =& $GlobalSiteIni;
+$ini = new INIFile( "site.ini" );
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 
@@ -34,7 +34,7 @@ $t = new Template( "templates/" . $SiteStyle );
                  
 
 $t->set_file( array(
-    "footer_tpl" => "footer.tpl"
+    "footer_tpl" => "loginfooter.tpl"
     ) );
 
 $t->set_var( "site_style", $SiteStyle );

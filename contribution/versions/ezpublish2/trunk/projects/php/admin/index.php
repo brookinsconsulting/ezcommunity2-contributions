@@ -37,12 +37,13 @@ $SiteStyle =& $ini->read_var( "site", "SiteStyle" );
 
 $GLOBALS["DEBUG"] = true;
 
-// html header
-include( "header.php" );
 
 $user =& eZUser::currentUser();
 if ( $user )
 {
+    // html header
+    include( "header.php" );
+    
     require( "ezuser/admin/admincheck.php" );
     
     if ( ! ( $HelpMode == "enabled" ) )
@@ -206,15 +207,21 @@ if ( $user )
         
         include( "help/datasupplier.php" );
     }
+
+    // html footer
+    include( "footer.php" );
+    
 }
 else
 {
+    include( "loginheader.php" );
+    
     if ( $moduleName == "" )
         $moduleName = "user";
 
     $LoginSeparator = true;
 
-    include( "separator.php" );
+//      include( "separator.php" );
     
     // parse the URI
     $page = "";
@@ -234,10 +241,11 @@ else
         include( $page );
     }
 
+    // html footer
+    include( "loginfooter.php" );
+
 }
 
-// html footer
-include( "footer.php" );
 
 // flush the buffer cache
 ob_end_flush();

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: footer.php,v 1.11 2001/01/28 10:34:51 bf Exp $
+// $Id: loginheader.php,v 1.1 2001/01/28 10:34:51 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Jan-2001 16:06:07 bf>
@@ -23,26 +23,31 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-include_once( "classes/INIFile.php" );
+include_once( "classes/eztemplate.php" );
+
 $ini =& $GlobalSiteIni;
+$Language =& $ini->read_var( "eZUserMain", "Language" );
 
-$Language = $ini->read_var( "eZArticleMain", "Language" );
 
-include_once( "classes/template.inc" );
-
-$t = new Template( "templates/" . $SiteStyle );
-                 
+$t = new eZTemplate( "templates/" . $SiteStyle,
+                     "ezuser/admin/intl/", $Language, "menubox.php" );
 
 $t->set_file( array(
-    "footer_tpl" => "footer.tpl"
+    "header_tpl" => "loginheader.tpl"
     ) );
 
+$SiteURL =& $ini->read_var( "site", "SiteURL" );
+
+$t->set_var( "site_url", $SiteURL );
 $t->set_var( "site_style", $SiteStyle );
-$t->set_var( "module_dir", $moduleName );
+
+$moduleName = "user";
+$t->set_var( "module_name", $moduleName );
 
 
-$t->pparse( "output", "footer_tpl" );
+$t->setAllStrings();
+
+$t->pparse( "output", "header_tpl" );
     
 
 ?>
-
