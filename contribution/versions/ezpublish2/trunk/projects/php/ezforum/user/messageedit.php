@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.31 2001/03/05 10:34:24 pkej Exp $
+// $Id: messageedit.php,v 1.32 2001/03/05 10:43:14 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -277,9 +277,10 @@ switch( $Action )
 
                 $mailTemplate->set_var( "topic", $msg->topic() );
                 $mailTemplate->set_var( "body", $msg->body( false ) );
-                $mailTemplate->set_var( "your_link", "http://"  . $headersInfo["Host"] . "/forum/messagelist/" . $forum->id() );
-                $mailTemplate->set_var( "link", "http://" . $headersInfo["Host"] . "/forum/message/" . $msg->id() );
+                $mailTemplate->set_var( "link", "http://admin." . $headersInfo["Host"] . "/forum/messageedit/edit/" . $msg->id() );
                 $mailTemplate->set_var( "intl-info_message_1", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_1" ) );
+                $mailTemplate->set_var( "intl-info_message_2", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_2" ) );
+                $mailTemplate->set_var( "intl-info_message_3", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_3" ) );
                 $mailTemplate->set_var( "intl-info_message_4", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_4" ) );
 
                 $bodyText = ( $mailTemplate->parse( "dummy", "mailreply" ) );
