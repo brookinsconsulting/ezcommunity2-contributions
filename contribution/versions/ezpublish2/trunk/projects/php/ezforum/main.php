@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: main.php,v 1.2 2000/07/18 09:42:02 lw-cvs Exp $
+    $Id: main.php,v 1.3 2000/07/18 09:47:06 lw Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -62,6 +62,7 @@ if ( $session->validate( $AuthenticatedSession ) == 0   )
     $t->set_var( "first_name", $usr->firstName() );
     $t->set_var( "last_name", $usr->lastName() );
     $t->set_var( "email", $usr->email() );
+    $t->set_var( "login-msg", "" );
     $t->parse( "loginlogout", "logout", true);
 }
 else
