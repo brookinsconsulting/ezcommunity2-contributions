@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbug.php,v 1.16 2001/02/20 20:08:01 fh Exp $
+// $Id: ezbug.php,v 1.17 2001/02/20 20:59:41 fh Exp $
 //
 // Definition of eZBug class
 //
@@ -852,7 +852,7 @@ class eZBug
     var $PriorityID;
     var $StatusID;    
     var $OwnerID;
-    var $IsPrivate;
+    var $IsPrivate="false";
     
     ///  Variable for keeping the database connection.
     var $Database;

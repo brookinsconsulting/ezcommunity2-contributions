@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.19 2001/02/20 18:44:39 fh Exp $
+// $Id: bugedit.php,v 1.20 2001/02/20 20:59:41 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -22,7 +22,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
@@ -61,6 +60,7 @@ $t->set_block( "bug_edit_tpl", "owner_item_tpl", "owner_item" );
 $t->set_block( "bug_edit_tpl", "log_item_tpl", "log_item" );
 $t->set_block( "bug_edit_tpl", "file_tpl", "file" );
 $t->set_block( "bug_edit_tpl", "image_tpl", "image" );
+
 
 if ( $Action == "Insert" )
 {
@@ -129,10 +129,14 @@ if ( $Action == "Update" )
                 $bug->setIsClosed( false );
             }
 
-            if( $IsPrivate == 'on' )
+            if( $IsPrivate == 'on'  )
+            {
                 $bug->setIsPrivate( true );
+            }
             else
+            {
                 $bug->setIsPrivate( false );
+            }
 
             $bug->setName( addSlashes( $bug->name() ) );
             $bug->setDescription( addSlashes( $bug->description() ) );
