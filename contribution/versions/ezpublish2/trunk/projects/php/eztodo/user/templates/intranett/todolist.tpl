@@ -47,6 +47,16 @@
 <input type="hidden" name="Action" value="ShowTodosByUser">
 <input class="stdbutton" type="submit" value="Vis">
 
+<br />
+
+<select name="Show">
+<option {all_selected} value="All">{intl-show_all}</option>
+<option {not_done_selected} value="All">{intl-show_not_done}</option>
+<option {done_selected} value="All">{intl-show_done}</option>
+</select>
+
+<input class="stdbutton" type="submit" value="{intl-show}">
+
 </form>
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
