@@ -31,6 +31,10 @@ mod: eztrade/admin, productedit.php.ini
 change: added
 no_price_groups=No price groups has been defined
 
+mod: ezlink/user, categorylist.php.ini
+change: added
+no_link_groups=No link groups found.
+
 ##################### BETA 3 --- PRE 1 #############################################
 mod: ezforum/ admin, forumedit.php.ini
 change: added
