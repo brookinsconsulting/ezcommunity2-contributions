@@ -1,5 +1,5 @@
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
-<form method="post" action="/poll/userlogin/vote/{poll_id}/">
+<form method="post" action="/poll/vote/{poll_id}/">
 <tr>
 	<td colspan="2" class="menuhead" bgcolor="#c82828">{intl-headline}</td>
 </tr>
