@@ -48,7 +48,7 @@
 	<p>
 	{article_intro}
 	</p>
-	<img src="/ezarticle/user/images/standard/path-arrow.gif" height="10" width="15" border="0" alt="">
+	<img src="/images/path-arrow.gif" height="10" width="15" border="0" alt="">
 	<a class="path" href="/article/articleview/{article_id}/">
 	{article_link_text}
 	</a>

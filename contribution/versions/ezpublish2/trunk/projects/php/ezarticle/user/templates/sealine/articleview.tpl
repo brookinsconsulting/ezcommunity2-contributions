@@ -6,7 +6,13 @@
 </tr>
 </table>
 
-<hr noshade="noshade" size="4" />
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<td class="tdmini" width="1%" background="/images/gyldenlinje-strekk.gif"><img src="/images/gyldenlinje-venstre.gif" width="8" height="4" border="0" /><br /></td>
+    <td class="tdmini" width="98%" background="/images/gyldenlinje-strekk.gif"><img src="/images/1x1.gif" width="1" height="1" border="0" /><br /></td>
+    <td class="tdmini" width="1%" background="/images/gyldenlinje-strekk.gif"><img src="/images/gyldenlinje-hoyre.gif" width="8" height="4" border="0" /><br /></td>
+</tr>
+</table>
 
 <!-- BEGIN article_header_tpl -->
 
