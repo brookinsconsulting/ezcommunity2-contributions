@@ -145,7 +145,7 @@
             <table align="right">
             <tr>
                 <td>
-	        <a href="{www_dir}{index}/{module}/{module_view}/{product_id}/{category_id}/">
+	        <a href="{www_dir}{index}/eztrade/productview/{product_id}/{category_id}/">
 	        <img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
 	        </a>
 	        </td>
@@ -186,7 +186,7 @@
 	    <table align="right" cellpadding="0" cellspacing="0" border="0">
 	    <tr>
 	        <td>
-		<a href="{www_dir}{index}/{module}/{module_view}/{product_id}/{category_id}/">
+		<a href="{www_dir}{index}/eztrade/productview/{product_id}/{category_id}/">
 		<img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
 		</a>
 		</td>
@@ -232,7 +232,7 @@
             <table align="right">
             <tr>
                 <td>
-	        <a href="{www_dir}{index}/{module}/{module_view}/{product_id}/{category_id}/">
+	        <a href="{www_dir}{index}/eztrade/productview/{product_id}/{category_id}/">
 	        <img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
 	        </a>
 	        </td>
