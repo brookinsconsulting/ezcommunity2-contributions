@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlocale.php,v 1.42 2001/09/28 06:29:32 jhe Exp $
+// $Id: ezlocale.php,v 1.42.2.1 2002/02/06 12:27:56 jhe Exp $
 //
 // Definition of eZLocale class
 //
@@ -476,6 +476,16 @@ class eZLocale
         {
             return $name;
         }
+    }
+
+    function formatNumber( $value )
+    {
+        if ( $value == float( $value ) )
+            $value =& number_format( $value, 0, $this->DecimalSymbol, $this->ThousandsSymbol );
+        else
+            $value =& number_format( $value, $this->FractDigits, $this->DecimalSymbol, $this->ThousandsSymbol );
+
+        return $value;
     }
 
     /*!
