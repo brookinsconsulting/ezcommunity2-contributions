@@ -6,7 +6,7 @@
 <tr>
 	<td bgcolor="#3c3c3c">
 	<p class="white">
-	<b>Gruppe</b>
+	<b>Identifikasjon</b>
 	</p>
 	</td>
 </tr>
@@ -14,12 +14,12 @@
 	<td bgcolor="#f0f0f0">
 	<br>
 	<p>
-	Navn:<br>
+	Gruppenavn:<br>
 	<input type="text" name="Name" value="{name}">
 	</p>
 	
 	<p>
-	Beskrivelse:<br>
+	Gi en beskrivelse av gruppen:<br>
 	<input type="text" name="Description" value="{description}">
 	</p>
 	</td>

@@ -7,7 +7,7 @@
 <tr>
 	<td bgcolor="#3c3c3c">
 	<p class="white">
-	<b>Brukeridentifikasjon</b>
+	<b>Identifikasjon</b>
 	</p>
 	</td>
 </tr>

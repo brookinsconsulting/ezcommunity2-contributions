@@ -1,38 +1,26 @@
 <form action="index.php4" method="post">
     <input type="hidden" name="page" value="{docroot}/admin/category.php4">
     <h1>Legg til ny kategori</h1>
-	<table border="0" cellspacing="0" cellpadding="0">
-        <tr>
-            <td>
-                <p>Navn:</p>
-            </td>
-			<td>
-                <p>&nbsp;&nbsp;Privat:</p>
-            </td>
-		</tr>
-		<tr>  
-            <td>
-                <input type="text" name="Name"><br><br>
-            </td>
-			<td align="left">
-                &nbsp;&nbsp;<input type="checkbox" name="Private"><br><br>
-        	</td>    
-		</tr>
-		<tr>
-			<td>
-                <p>Beskrivelse:</p>
-            </td>
-			<td>
-                &nbsp;
-        	</td>
-        </tr>
-		<tr>
-		    <td>
-                <input type="text" name="Description">
-            </td>
-            <td align="center">
-                &nbsp;&nbsp;<input type="submit" name="add" value="Legg til">
-            </td>
-		</tr>    
+
+<table width="100%" border="0" cellspacing="0" cellpadding="4">
+<tr>
+	<td bgcolor="#3c3c3c">
+	<p class="white"><b>Identifikasjon</b></p>
+	</td>
+</tr>
+<tr>
+	<td bgcolor="#f0f0f0">
+	<br>
+	<p>Navn:<br>
+	<input type="text" name="Name"></p>
+	<p>Beskrivelse:<br>
+	<input type="text" name="Description"></p>
+	<input type="checkbox" name="Private">&nbsp;Privat
+	</td>
+</tr>
+<tr><td bgcolor="#f0f0f0"><br></td></tr>
 </table>
+
+<br>
+<input type="submit" name="add" value="Legg til">
 </form>

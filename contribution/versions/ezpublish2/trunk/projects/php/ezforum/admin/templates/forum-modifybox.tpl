@@ -2,32 +2,38 @@
 <input type="hidden" name="page" value="{docroot}/admin/forum.php4">
 <input type="hidden" name="forum_id" value="{forum_id}">
 <input type="hidden" name="category_id" value="{category_id}">
-<table cellspacing="0" cellpadding="0" border="0">
+
+<h1>Endre forum</h1>
+
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-<td colspan="5"><h1>Endre forum</h1></td>
+   <td colspan="3" bgcolor="#3c3c3c"><p class="white"><b>Identifikasjon</b></td>
 </tr>
 <tr>
-   <td><p>Navn:</p></td>
-   <td><p>&nbsp;&nbsp;Moderert:</p></td>
-   <td><p>&nbsp;&nbsp;Privat:</p></td>
+   	<td bgcolor="#f0f0f0">
+	<br>
+	<p>Forumnavn:<br>
+	<input type="text" name="name" value="{name}"></p>
+	<p>Beskrivelse:<br>
+	<input type="description" name="description" value="{description}"></p>
+	<p><input type="checkbox" name="moderated" {moderated}>&nbsp;Moderert
+	&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="private" {private}>&nbsp;Privat</p>
 </tr>
+<tr><td bgcolor="#f0f0f0"><br></td></tr>
+</table>
+
+<br>
+<table width="100%">
 <tr>
-   <td><input type="text" name="name" value="{name}"><br><br></td>
-   <td>&nbsp;&nbsp;<input type="checkbox" name="moderated" {moderated}><br><br></td>
-   <td>&nbsp;&nbsp;<input type="checkbox" name="private" {private}><br><br></td>
-</tr>
-<tr>
-   <td><p>Beskrivelse:</p></td>
-</tr>
-<tr>
-   <td><input type="description" name="description" value="{description}"></td>
-   <td>&nbsp;&nbsp;<input type="submit" name="modify" value="Endre"></td>
+	<td><input type="submit" name="modify" value="Endre"></td>
+	<td align="right">
+	</form>
+	<form action="index.php4" method="post">
+	<input type="hidden" name="page" value="{docroot}/admin/forum.php4">
+	<input type="hidden" name="category_id" value="{category_id}">
+	<input type="submit" name="addbox" value="Legg til nytt forum">
+	</td>
 </tr>
 </table>
-</form>
-<form action="index.php4" method="post">
-<input type="hidden" name="page" value="{docroot}/admin/forum.php4">
-<input type="hidden" name="category_id" value="{category_id}">
-<input type="submit" name="addbox" value="Legg til nytt forum">
 </form>
 <br>
