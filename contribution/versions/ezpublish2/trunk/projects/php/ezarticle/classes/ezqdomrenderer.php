@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.4 2001/05/28 17:51:41 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.5 2001/06/06 12:36:01 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -170,7 +170,6 @@ class eZQDomrenderer
         else
         {
             $intro = "";
-            $body = "";
 
             $articleImages = $this->Article->images();
             $articleID = $this->Article->id();
@@ -189,10 +188,10 @@ class eZQDomrenderer
                             {
                                 foreach ( $article->children as $paragraph )
                                 {
-                                    $intro = $this->renderPlain( $intro, $paragraph );
-                                    $intro = $this->renderStandards( $intro, $paragraph );
-                                    $intro = $this->renderImage( $intro, $paragraph );
-                                    $intro = $this->renderHeader( $intro, $paragraph );
+                                    $intro .= $this->renderPlain( $paragraph );
+                                    $intro .= $this->renderStandards( $paragraph );
+                                    $intro .= $this->renderImage( $paragraph );
+                                    $intro .= $this->renderHeader( $paragraph );
                                     
                                     
                                     $this->PrevTag = $paragraph->name;
@@ -204,9 +203,9 @@ class eZQDomrenderer
             }
                 
 //            $newArticle = eZTextTool::nl2br( $intro );
-                $newArticle = $intro;
+            $newArticle = $intro;
         }
-        
+
         return $newArticle;
     }
 
@@ -247,7 +246,7 @@ class eZQDomrenderer
                             if ( count( $article->children ) > 0 )
                                 foreach ( $article->children as $paragraph )
                                 {
-                                    $pageContent .= $this->renderHeader( $paragraph );                                    
+                                    $intro .= $this->renderHeader( $paragraph );                                    
                                     $intro .= $this->renderPlain( $paragraph );
                                     $intro .= $this->renderStandards( $paragraph );
                                     $intro .= $this->renderImage( $paragraph );
@@ -479,7 +478,7 @@ class eZQDomrenderer
                 }
                 else
                 {
-                    $pageContent = $this->Template->parse( "image_float", "image_float_tpl" );                    
+                    $pageContent = $this->Template->parse( "image_float", "image_float_tpl" );
                 }
             }
         }
