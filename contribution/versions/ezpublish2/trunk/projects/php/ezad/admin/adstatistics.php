@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adstatistics.php,v 1.6 2001/02/13 13:34:08 jb Exp $
+// $Id: adstatistics.php,v 1.7 2001/02/16 16:07:14 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Nov-2000 11:47:03 bf>
@@ -69,10 +69,11 @@ $t->set_var( "ad_click_revenue", $viewRevenue );
 
 $t->set_var( "ad_total_revenue", $clickRevenue + $viewRevenue );
 
+$view_count = $ad->viewCount();
 
-if ( $ad->viewCount() != 0 )
+if ( is_numeric( $view_count ) and $view_count != 0 )
 {
-    $t->set_var( "ad_click_percent", ( $ad->clickCount() / $ad->viewCount() ) * 100 );
+    $t->set_var( "ad_click_percent", ( $ad->clickCount() / $view_count ) * 100 );
 }
 else
 {
@@ -93,6 +94,7 @@ $image = $ad->image();
 if ( $image )
 {
     $t->set_var( "image_src",  $image->filePath() );
+    $t->set_var( "image_alt", $image->caption() );
     $t->set_var( "image_width", $image->width() );
     $t->set_var( "image_height", $image->height() );
     $t->set_var( "image_file_name", $image->originalFileName() );
