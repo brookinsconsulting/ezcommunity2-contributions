@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.95.2.12 2003/03/24 11:31:25 br Exp $
+// $Id: datasupplier.php,v 1.95.2.13 2003/09/04 16:13:04 br Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -225,17 +225,17 @@ switch ( $url_array[2] )
             $Offset = 0;
             if ( $url_array[3] == "parent" )
             {
-                $SearchText = urldecode( $url_array[4] );
-                if ( $url_array[5] != urlencode( "+" ) )
-                    $StartStamp = urldecode( $url_array[5] );
-                if ( $url_array[6] != urlencode( "+" ) )
-                    $StopStamp = urldecode( $url_array[6] );
-                if ( $url_array[7] != urlencode( "+" ) )
-                    $CategoryArray = explode( "-", urldecode( $url_array[7] ) );
-                if ( $url_array[8] != urlencode( "+" ) )
-                    $ContentsWriterID = urldecode( $url_array[8] );
-                if ( $url_array[9] != urlencode( "+" ) )
-                    $PhotographerID = urldecode( $url_array[9] );
+                $SearchText = htmlspecialchars( $url_array[4] );
+                if ( $url_array[5] != "+" )
+                    $StartStamp = htmlspecialchars( $url_array[5] );
+                if ( $url_array[6] != "+" )
+                    $StopStamp = htmlspecialchars( $url_array[6] );
+                if ( $url_array[7] != "+" )
+                    $CategoryArray = explode( "-", htmlspecialchars( $url_array[7] ) );
+                if ( $url_array[8] != "+" )
+                    $ContentsWriterID = htmlspecialchars( $url_array[8] );
+                if ( $url_array[9] != "+" )
+                    $PhotographerID = htmlspecialchars( $url_array[9] );
                 
                 $Offset = $url_array[10];
             }

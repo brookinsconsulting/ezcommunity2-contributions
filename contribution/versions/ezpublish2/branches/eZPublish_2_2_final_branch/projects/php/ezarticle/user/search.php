@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.18.2.6 2002/05/02 13:17:51 bf Exp $
+// $Id: search.php,v 1.18.2.7 2003/09/04 16:13:04 br Exp $
 //
 // Created on: <28-Oct-2000 15:56:58 bf>
 //
@@ -58,11 +58,11 @@ $t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
 $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
 
 // Init url variables - for eZList...
-$t->set_var( "url_start_stamp", urlencode( "+" ) );
-$t->set_var( "url_stop_stamp", urlencode( "+" ) );
-$t->set_var( "url_category_array", urlencode( "+" ) );
-$t->set_var( "url_contentswriter_id", urlencode( "+" ) );
-$t->set_var( "url_photographer_id", urlencode( "+" ) );
+$t->set_var( "url_start_stamp", "+" );
+$t->set_var( "url_stop_stamp", "+" );
+$t->set_var( "url_category_array", "+" );
+$t->set_var( "url_contentswriter_id", "+" );
+$t->set_var( "url_photographer_id", "+" );
 
 if ( checkdate ( $StartMonth, $StartDay, $StartYear ) )
 {
@@ -97,13 +97,13 @@ if ( $SearchText )
     if ( isset( $StartStamp ) )
     {
         $paramsArray["FromDate"] = $StartStamp;
-        $t->set_var( "url_start_stamp", urlencode( $StartStamp ) );
+        $t->set_var( "url_start_stamp", htmlspecialchars( $StartStamp ) );
     }
 
     if ( isset( $StopStamp ) )
     {
         $paramsArray["ToDate"] = $StopStamp;
-        $t->set_var( "url_stop_stamp", urlencode( $StopStamp ) );
+        $t->set_var( "url_stop_stamp", htmlspecialchars( $StopStamp ) );
     }
     
     if ( $SearchWithinSections == "enabled" )
@@ -121,13 +121,13 @@ if ( $SearchText )
     if( $ContentsWriterID != 0 )
     {
         $paramsArray["AuthorID"] = $ContentsWriterID;
-        $t->set_var( "url_contentswriter_id", urlencode( $ContentsWriterID ) );
+        $t->set_var( "url_contentswriter_id", htmlspecialchars( $ContentsWriterID ) );
     }
 
     if( $PhotographerID != 0 )
     {
         $paramsArray["PhotographerID"] = $PhotographerID;
-        $t->set_var( "url_photographer_id", urlencode( $PhotographerID ) );
+        $t->set_var( "url_photographer_id", htmlspecialchars( $PhotographerID ) );
     }
 
     if( is_array( $CategoryArray ) && count( $CategoryArray ) > 0 && !in_array( 0, $CategoryArray ) )
@@ -135,7 +135,7 @@ if ( $SearchText )
         $paramsArray["Categories"] = $CategoryArray;
 
         // fix output string for URL
-        $t->set_var( "url_category_array", urlencode( implode( "-", $CategoryArray ) ) );
+        $t->set_var( "url_category_array", htmlspecialchars( implode( "-", $CategoryArray ) ) );
     }
 
     $t->set_var( "search_text", $tmpSearchText );
@@ -145,7 +145,7 @@ if ( $SearchText )
 
 //    $totalCount = $article->searchCount( $SearchText, false, $paramsArray );
 
-    $t->set_var( "url_text", urlencode ( $SearchText ) );
+    $t->set_var( "url_text", htmlspecialchars( $SearchText ) );
 }
 
 // if ( ( $MaxSearchForArticles != 0 ) && ( $MaxSearchForArticles < $totalCount ) )
@@ -161,7 +161,7 @@ if ( count ( $articleList ) > 0 )
 
         $t->set_var( "article_id", $article->id() );
 	
-	$t->set_var( "category_id", $article->GetCategory( $SectionIDOverride ) );
+        $t->set_var( "category_id", $article->GetCategory( $SectionIDOverride ) );
 
         if ( ( $i % 2 ) == 0 )
         {
