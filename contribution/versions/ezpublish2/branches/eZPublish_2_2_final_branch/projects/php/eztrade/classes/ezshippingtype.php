@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezshippingtype.php,v 1.13 2001/10/04 14:21:41 ce Exp $
+// $Id: ezshippingtype.php,v 1.13.2.1 2001/11/21 17:34:16 br Exp $
 //
 // Definition of eZShippingType class
 //
@@ -247,32 +247,43 @@ class eZShippingType
     {
         $user =& eZUser::currentUser();
         $ret = new eZVATType();
-
+        
         $ini =& INIFile::globalINI();
-        if ( $ini->read_var( "eZTradeMain", "NoUserShowVAT" ) == "enabled" )
-            $useVAT = false;
-        else
+        if ( $ini->read_var( "eZTradeMain", "PricesIncVATBeforeLogin" ) == "enabled" )
             $useVAT = true;
+        else
+            $useVAT = false;
 
-        if ( get_class ( $user ) == "ezuser" )
-        {
-            $mainAddress = $user->mainAddress();
-            if ( get_class ( $mainAddress ) == "ezaddress" )
-            {
-                $country = $mainAddress->country();
-                if ( ( get_class ( $country ) == "ezcountry" ) and ( !$country->hasVAT() ) )
-                    $useVAT = false;
-                else
-                    $useVAT = true;
-            }
-        }
+        if ( $ini->read_var( "eZTradeMain", "CountryVATDiscrimination" ) == "enabled" )
+            $CountryDisc = true;
+        else
+            $CountryDisc = false;
+
         
-        if ( ( $useVAT ) and ( is_numeric( $this->VATTypeID ) ) and ( $this->VATTypeID > 0 ) )
-        {
-            $ret = new eZVATType( $this->VATTypeID );
-        }
-        
-        return $ret;
+       if ( get_class ( $user ) == "ezuser" && $CountryDisc == true )
+       {
+           $mainAddress = $user->mainAddress();
+           if ( get_class ( $mainAddress ) == "ezaddress" )
+           {
+               $country = $mainAddress->country();
+               if ( ( get_class ( $country ) == "ezcountry" ) and ( $country->hasVAT() == true ) )
+               {
+                   $useVAT = true;
+               }
+               else
+               {
+                   $useVAT = false;
+               }
+           }
+
+       }
+
+       if ( ( $useVAT == true ) and ( is_numeric( $this->VATTypeID ) ) and ( $this->VATTypeID > 0 ) )
+       {
+           $ret = new eZVATType( $this->VATTypeID );
+       }
+
+       return $ret;
     }
     
     var $ID;

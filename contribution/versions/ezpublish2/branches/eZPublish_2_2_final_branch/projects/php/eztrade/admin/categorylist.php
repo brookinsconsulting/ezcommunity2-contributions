@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categorylist.php,v 1.32.2.1 2001/11/21 16:10:03 br Exp $
+// $Id: categorylist.php,v 1.32.2.2 2001/11/21 17:34:16 br Exp $
 //
 // Created on: <13-Sep-2000 14:56:11 bf>
 //
@@ -202,7 +202,6 @@ foreach ( $productList as $product )
     }
     
     
-    $priceArray = "";
     $priceArray = "";
     $options =& $product->options();
     $high = 0;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderedit.php,v 1.31.2.1 2001/11/21 16:10:04 br Exp $
+// $Id: orderedit.php,v 1.31.2.2 2001/11/21 17:34:16 br Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -148,18 +148,6 @@ $t->set_block( "cart_item_basis_tpl", "basis_ex_tax_item_tpl", "basis_ex_tax_ite
 
 $t->set_block( "full_cart_tpl", "tax_specification_tpl", "tax_specification" );
 $t->set_block( "tax_specification_tpl", "tax_item_tpl", "tax_item" );
-
-
-
-
-
-
-
-
-
-
-
-
 
 $order = new eZOrder( $OrderID );
 
