@@ -20,7 +20,7 @@
 
 <br/>
 
-<form action="/trade/productedit/optionedit/{product_id}/" method="post">
+<form action="/trade/productedit/optionedit/new/{product_id}/" method="post">
 
 <input type="submit" value="ny opsjon" />
 

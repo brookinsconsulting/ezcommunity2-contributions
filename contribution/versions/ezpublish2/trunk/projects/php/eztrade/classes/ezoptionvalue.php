@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoptionvalue.php,v 1.6 2000/09/14 18:25:41 bf-cvs Exp $
+// $Id: ezoptionvalue.php,v 1.7 2000/09/20 12:14:30 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -69,11 +69,20 @@ class eZOptionValue
     {
         $this->dbInit();
 
-        $this->Database->query( "INSERT INTO eZTrade_OptionValue SET
+        if ( !isset( $this->ID ) )
+        {
+            $this->Database->query( "INSERT INTO eZTrade_OptionValue SET
 		                         Name='$this->Name',
                                  OptionID='$this->OptionID'" );
 
-        $this->ID = mysql_insert_id();
+            $this->ID = mysql_insert_id();
+        }
+        else
+        {
+            $this->Database->query( "UPDATE eZTrade_OptionValue SET
+		                         Name='$this->Name',
+                                 OptionID='$this->OptionID' WHERE ID='$this->ID'" );
+        }
         
         return true;
     }
@@ -157,6 +166,15 @@ class eZOptionValue
         }
     }    
 
+    /*!
+      Returns the id of the optionvalue.
+    */
+    function id()
+    {
+        return $this->ID;
+    }
+    
+    
     /*!
       Returns the name of the option.
     */

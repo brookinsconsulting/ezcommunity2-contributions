@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: optionedit.php,v 1.2 2000/09/20 09:17:07 bf-cvs Exp $
+// $Id: optionedit.php,v 1.3 2000/09/20 12:14:29 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -62,6 +62,56 @@ if ( $Action == "Insert" )
     exit();    
 }
 
+if ( $Action == "Update" )
+{
+    $optionArray = explode( "\n", $OptionValues );
+
+    $option = new eZOption( $OptionID );
+
+    $option->setName( $Name );
+    $option->setDescription( $Description );
+
+    $option->store();
+
+    $i=0;
+    foreach ( $optionArray as $optionValue )
+    {
+        $name = $optionValue;
+        $name = trim( $name );
+
+        if ( $name != "" )
+        {
+            $value = new eZOptionValue();
+
+            if ( $ChoiceIDArray[$i] == "" )
+            { // new item
+                $value->setName( $name );                
+                $option->addValue( $value );                
+            }
+            else
+            { // item exists update
+                $value->get( $ChoiceIDArray[$i] );
+                $value->setName( $name );
+
+                $value->store();                
+            }
+                 
+        }
+        $i++;
+    }
+    Header( "Location: /trade/productedit/optionlist/$ProductID/" );
+    exit();    
+}
+
+if ( $Action == "Delete" )
+{
+    $option = new eZOption( $OptionID );
+    $option->delete();    
+    
+    Header( "Location: /trade/productedit/optionlist/$ProductID/" );
+    exit();    
+}
+
 $t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/optionedit/",
                      $DOC_ROOT . "/admin/intl/", $Language, "optionedit.php" );
 
@@ -73,14 +123,40 @@ $t->set_file( array(
 
 
 
-
 //default values
 $t->set_var( "name_value", "" );
 $t->set_var( "description_value", "" );
 $t->set_var( "option_values", "" );
+$t->set_var( "hidden_fields", "" );
 $t->set_var( "action_value", "Insert" );
-
+$t->set_var( "option_id", "" );
+    
 $t->set_var( "product_name", $product->name() );
+
+if ( $Action == "Edit" )
+{
+    $option = new eZOption( $OptionID );
+    $values = $option->values();
+
+    $hiddenArray = "";
+    $valueText = "";
+    $i=0;
+    foreach ( $values as $value )
+    {
+        $valueText .= $value->name() . "\n";
+        $id = $value->id();
+        $hiddenArray .= "<input type=\"hidden\" name=\"ChoiceIDArray[$i]\" value=\"$id\" />\n";
+        $i++;
+    }
+
+    $t->set_var( "option_id", $OptionID );
+    $t->set_var( "hidden_fields", $hiddenArray );
+    $t->set_var( "name_value", $option->name() );
+    $t->set_var( "description_value", $option->description() );    
+    $t->set_var( "option_values", $valueText );
+
+    $t->set_var( "action_value", "Update" );
+}
 
 
 $t->set_var( "product_id", $ProductID );

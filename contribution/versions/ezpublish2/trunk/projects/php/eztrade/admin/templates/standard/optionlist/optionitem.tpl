@@ -3,9 +3,9 @@
 	{option_name}
 	</td>
 	<td>
-	<a href="/trade/categoryedit/edit/{category_id}/">[ Rediger ]</a>
+	<a href="/trade/productedit/optionedit/edit/{option_id}/{product_id}/">[ Rediger ]</a>
 	</td>
 	<td>
-	<a href="/trade/categoryedit/delete/{category_id}/">[ slett ]</a>
+	<a href="/trade/productedit/optionedit/delete/{option_id}/{product_id}/">[ Slett ]</a>
 	</td>	
 </tr>

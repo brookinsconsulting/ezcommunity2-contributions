@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoption.php,v 1.8 2000/09/14 18:25:41 bf-cvs Exp $
+// $Id: ezoption.php,v 1.9 2000/09/20 12:14:30 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -99,11 +99,22 @@ class eZOption
     {
         $this->dbInit();
 
-        $this->Database->query( "INSERT INTO eZTrade_Option SET
+        if ( !isset( $this->ID ) )
+        {
+            $this->Database->query( "INSERT INTO eZTrade_Option SET
 		                         Name='$this->Name',
                                  Description='$this->Description'" );
         
-        $this->ID = mysql_insert_id();
+            $this->ID = mysql_insert_id();
+            $this->State_ = "Coherent";
+        }
+        else
+        {
+            $this->Database->query( "UPDATE eZTrade_Option SET
+		                         Name='$this->Name',
+                                 Description='$this->Description' WHERE ID='$this->ID'" );
+            $this->State_ = "Coherent";
+        }
         
         return true;
     }
@@ -139,7 +150,7 @@ class eZOption
     }
 
     /*!
-
+      Retrieves every option from the database.
     */
     function getAll()
     {
@@ -156,6 +167,18 @@ class eZOption
         }
         
         return $return_array;
+    }
+
+    /*!
+      Deletes a option from the database.
+    */
+    function delete()
+    {
+        $this->dbInit();
+        
+        $this->Database->array_query( $option_array, "DELETE FROM eZTrade_OptionValue WHERE OptionID='$this->ID'" );
+        $this->Database->array_query( $option_array, "DELETE FROM eZTrade_ProductOptionLink WHERE OptionID='$this->ID'" );
+        $this->Database->array_query( $option_array, "DELETE FROM eZTrade_Option WHERE ID='$this->ID'" );
     }
 
     /*!

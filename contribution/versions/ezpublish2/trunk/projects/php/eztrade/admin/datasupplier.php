@@ -55,8 +55,30 @@ switch ( $url_array[2] )
                 break;
 
             case "optionedit" :
-                $ProductID = $url_array[4];
-                include( "eztrade/admin/optionedit.php" );
+                if ( $url_array[4] == "edit" )
+                {
+                    $Action = "Edit";
+                    $OptionID = $url_array[5];
+                    $ProductID = $url_array[6];
+                    include( "eztrade/admin/optionedit.php" );
+                }
+                else if ( $url_array[4] == "delete" )
+                {
+                    $Action = "Delete";
+                    $OptionID = $url_array[5];
+                    $ProductID = $url_array[6];                    
+                    include( "eztrade/admin/optionedit.php" );
+                }
+                else if ( $url_array[4] == "new" )
+                {
+                    $ProductID = $url_array[5];
+                    include( "eztrade/admin/optionedit.php" );
+                }
+                else
+                {
+                    include( "eztrade/admin/optionedit.php" );                    
+                }                
+                
                 break;
                 
             case "insert" :

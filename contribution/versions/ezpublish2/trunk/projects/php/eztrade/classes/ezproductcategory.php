@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.10 2000/09/19 15:50:46 bf-cvs Exp $
+// $Id: ezproductcategory.php,v 1.11 2000/09/20 12:14:30 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -51,7 +51,7 @@
   $category->addOption( $option );
   \endcode
 
-  \sa eZProdct eZOption eZOptionValue
+  \sa eZProduct eZOption eZOptionValue
 */
 
 include_once( "classes/ezdb.php" );
