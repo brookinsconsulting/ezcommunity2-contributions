@@ -139,60 +139,56 @@
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<th colspan="3">
-	<br />
-	{option_name}:
-	</th>
-</tr>
-<tr>
-	<td width="20%">
+	<td>
 
-	<input type="hidden" name="OptionIDArray[]" value="{option_id}" />
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
 	<!-- BEGIN value_price_header_tpl -->
-
-	<!-- BEGIN value_description_header_tpl -->
-
-	<!-- END value_description_header_tpl -->
-
-	<!-- BEGIN value_price_header_item_tpl -->
-
-	<!-- END value_price_header_item_tpl -->
-
-	<!-- BEGIN value_currency_header_item_tpl -->
-
-	<!-- END value_currency_header_item_tpl -->
+	<tr>
+		<!-- BEGIN value_description_header_tpl -->
+		<th>
+		{description_header}:
+		</th>
+		<!-- END value_description_header_tpl -->
+		<!-- BEGIN value_price_header_item_tpl -->
+		<th>
+		Price:
+		</th>
+		<!-- END value_price_header_item_tpl -->
+		<!-- BEGIN value_currency_header_item_tpl -->
+		<th colspan="{currency_count}"> 
+		Alternative currency:
+		</th>
+		<!-- END value_currency_header_item_tpl -->
+	</tr>
 
 	<!-- END value_price_header_tpl -->
-	<select name="OptionValueArray[]">
-
+	<tr>
 	<!-- BEGIN value_tpl -->
 	<!-- BEGIN value_description_tpl -->
-	<option value="{value_id}">{value_name}
+	<td class="{value_td_class}">
+	{value_name}&nbsp;&nbsp;
+	</td>
 	<!-- END value_description_tpl -->
 	<!-- BEGIN value_price_item_tpl -->
+	<td class="{value_td_class}">
 	{value_price}
+	</td>
 	<!-- END value_price_item_tpl -->
-	<!-- BEGIN value_availability_item_tpl -->
-	({value_availability})
-	<!-- END value_availability_item_tpl -->
-	 </option>
 
 	<!-- BEGIN value_price_currency_list_tpl -->
 
 	<!-- BEGIN value_price_currency_item_tpl -->
-
+	<td class="{value_td_class}">
+	{alt_value_price}
+	</td>
 	<!-- END value_price_currency_item_tpl -->
 
 	<!-- END value_price_currency_list_tpl -->
 
+	</tr>
 	<!-- END value_tpl -->
-	</select>
-	</td>
-	<td width="1%">
-	&nbsp;&nbsp;
-	</td>
-	<td width="79%">
-	{option_description}
+</table>
+
 	</td>
 </tr>
 </table>
