@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.103.2.5 2002/04/26 14:59:09 jb Exp $
+// $Id: ezarticlecategory.php,v 1.103.2.6 2002/05/07 15:39:07 jb Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -342,7 +342,8 @@ class eZArticleCategory
       If $showAll is set to true every category is shown. By default the categories
       set as exclude from search is excluded from this query.
 
-      The categories are returned as an array of eZArticleCategory objects.      
+      The categories are returned as an array of eZArticleCategory objects.
+      If $check_write is true then the result will only contain categories which has read AND write permissions.
     */
     function getByParent( $parent, $showAll=false, $sortby='placement', $offset = 0, $max = -1, $user = false,
                           $check_write = false )
@@ -391,12 +392,16 @@ class eZArticleCategory
                     $usePermission = false;
             }
 
+            $having_str = "";
             if ( $usePermission )
             {
                 if ( $check_write )
                 {
-                    $permissionSQL = "( ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' ) AND " .
-                         "( ($groupSQL Permission.GroupID='-1') AND Permission.WritePermission='1' ) AND ";
+                    $perm_str = ", MAX(Permission.WritePermission) AS MaxWritePerm, MAX(Permission.ReadPermission) AS MaxReadPerm";
+                    $PermGroupBy = "Permission.ObjectID, ";
+
+                    $permissionSQL = "( ($groupSQL Permission.GroupID='-1') ) AND ";
+                    $having_str = "HAVING MaxWritePerm=1 AND MaxReadPerm=1 ";
                 }
                 else
                     $permissionSQL = "( ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' ) AND ";
@@ -405,18 +410,19 @@ class eZArticleCategory
                 $permissionSQL = "";
 
 
-            $query = "SELECT Category.ID 
+            $query = "SELECT Category.ID $perm_str
                       FROM eZArticle_Category as Category,
                            eZArticle_CategoryPermission as Permission
                       WHERE $permissionSQL
                             ParentID='$parentID'
                             AND Permission.ObjectID=Category.ID
                             $show_str
-                      GROUP BY Category.ID, Category.Placement, Category.Name
+                      GROUP BY $PermGroupBy Category.ID, Category.Placement, Category.Name
+                      $having_str
                       ORDER BY $sortbySQL";
 
-            
             $db->array_query( $category_array, $query, array( "Limit" => $max, "Offset" => $offset ) );
+
             for ( $i=0; $i < count($category_array); $i++ )
             {
                 $return_array[$i] = new eZArticleCategory( $category_array[$i][$db->fieldName("ID")] );
@@ -437,6 +443,8 @@ class eZArticleCategory
 
       The categories are returned as an array of eZArticleCategory objects.
       If $user is not a eZUser object the current user is used.
+
+      If $check_write is true then the result will only count categories which has read AND write permissions.
     */
     function countByParent( $parent, $showAll=false, $user = false, $check_write = false )
     {
@@ -477,28 +485,41 @@ class eZArticleCategory
             }
 
             $permissionTables = "";
+            $having_str = "";
 
+            $sel_str = "count( DISTINCT Category.ID ) AS Count";
             if ( $usePermission )
             {
                 if ( $check_write )
-                    $permissionSQL = "( ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' AND Permission.WritePermission='1' ) AND ";
+                {
+                    $permissionSQL = "( ($groupSQL Permission.GroupID='-1') ) AND ";
+                    $sel_str = "max( Permission.ReadPermission ) AS MaxRead, max( Permission.WritePermission ) AS MaxWrite ";
+                    $having_str = "GROUP BY Permission.ObjectID HAVING MaxRead='1' AND MaxWrite='1'";
+                }
                 else
                     $permissionSQL = "( ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' ) AND ";
             }
             else
                 $permissionSQL = "";
 
-            $query = "SELECT count( DISTINCT Category.ID ) AS Count
+            $query = "SELECT $sel_str
                                            FROM eZArticle_Category AS Category,
                                                 eZArticle_CategoryPermission as Permission
                                            WHERE $permissionSQL
                                                  ParentID='$parentID'
                                                  AND Permission.ObjectID=Category.ID
-                                                 $show_str";
-            $db->query_single( $category_array, $query,
-                                           "Count" );
-
-            return $category_array;
+                                                 $show_str $having_str";
+            if ( $usePermission and $check_write )
+            {
+                $db->array_query( $category_array, $query );
+                return count( $category_array );
+            }
+            else
+            {
+                $db->query_single( $category_array, $query,
+                                   "Count" );
+                return $category_array;
+            }
         }
         else
         {
@@ -1078,6 +1099,8 @@ class eZArticleCategory
       If it is set to false, then $fetchPublished will determine: If $fetchPublished iss
       set to true then only published articles will be returned. If it is false, then only
       non-published articles will be returned. 
+
+      If $check_write is true then the result will only contain articles which has read AND write permissions.
     */
     function &articles( $sortMode="time",
                         $fetchAll=true,
@@ -1169,13 +1192,19 @@ class eZArticleCategory
                $usePermission = false;
        }
 
+       $perm_str = "";
+       $PermGroupBy = "";
+       $having_str;
        if ( $usePermission )
        {
            if ( $check_write )
            {
-               $permissionSQL = "( $loggedInSQL ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' )
-                                               AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1'
-                                               AND Permission.WritePermission='1' AND CategoryPermission.WritePermission='1') ";
+               $perm_str = ", MAX(Permission.WritePermission) AS MaxWritePerm, MAX(Permission.ReadPermission) AS MaxReadPerm,
+ MAX(CategoryPermission.WritePermission) AS CatMaxWritePerm, MAX(CategoryPermission.ReadPermission) AS CatMaxReadPerm";
+               $PermGroupBy = "Permission.ObjectID, ";
+
+               $permissionSQL = "( $loggedInSQL ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) ) ";
+               $having_str = "HAVING MaxReadPerm='1' AND MaxWritePerm='1' AND CatMaxReadPerm='1' AND CatMaxWritePerm='1'";
            }
            else
                $permissionSQL = "( $loggedInSQL ( $groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' )
@@ -1211,13 +1240,13 @@ class eZArticleCategory
                $publishedSQL = " AND Article.IsPublished = '0' AND ";
        }
 
-       $query = "SELECT Article.ID as ArticleID
+       $query = "SELECT Article.ID as ArticleID $perm_str
                   FROM eZArticle_ArticleCategoryDefinition as Definition,
                        eZArticle_Article as Article,
                        eZArticle_ArticleCategoryLink as Link,
                        eZArticle_CategoryPermission as CategoryPermission,
                        eZArticle_ArticlePermission AS Permission
-                  WHERE 
+                  WHERE
                         $permissionSQL
                         $publishedSQL
                         Link.CategoryID='$catID'
@@ -1225,7 +1254,8 @@ class eZArticleCategory
                         AND Link.ArticleID=Article.ID
                         AND Definition.ArticleID=Article.ID
                         AND CategoryPermission.ObjectID=Definition.CategoryID
-                 GROUP BY Article.ID, Article.Published, $GroupBy
+                 GROUP BY $PermGroupBy Article.ID, Article.Published, $GroupBy
+                 $having_str
                  ORDER BY $OrderBy";
 
        if ( $limit == -1 )
@@ -1238,7 +1268,15 @@ class eZArticleCategory
        }
        for ( $i=0; $i < count( $article_array ); $i++ )
        {
-           $return_array[$i] = new eZArticle( $article_array[$i][$db->fieldName( "ArticleID" )] );
+//            // Bad hack to make permission work with read *AND* write
+//            if ( $usePermission and $check_write  )
+//            {
+//                if ( $article_array[$i][$db->fieldName( "MaxReadPerm" )] == 1 and
+//                     $article_array[$i][$db->fieldName( "MaxWritePerm" )] == 1 )
+//                    $return_array[$i] = new eZArticle( $article_array[$i][$db->fieldName( "ArticleID" )] );
+//            }
+//            else
+               $return_array[$i] = new eZArticle( $article_array[$i][$db->fieldName( "ArticleID" )] );
        }
 
        return $return_array;
@@ -1251,6 +1289,8 @@ class eZArticleCategory
       If it is set to false, then $fetchPublished will determine: If $fetchPublished is
       set to true then only published articles will be counted. If it is false, then only
       non-published articles will be counted.       
+
+      If $check_write is true then the result will only contain articles which has read AND write permissions.
     */
     function articleCount( $fetchAll=true, $fetchPublished=true, $check_write = false )
     {
@@ -1283,28 +1323,35 @@ class eZArticleCategory
                 $usePermission = false;
         }
 
+        $sel_str = "COUNT( DISTINCT Article.ID ) as Count";
+        $group_str = "";
         if ( $usePermission )
         {
             if ( $check_write )
-                $permissionSQL = "( ( $loggedInSQL ($groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1'
-                                   AND Permission.WritePermission='1' AND CategoryPermission.WritePermission='1') ) ";
+            {
+                $sel_str = "Article.ID, max( Permission.ReadPermission ) AS MaxRead, max( Permission.WritePermission ) AS MaxWrite,
+ max( CategoryPermission.ReadPermission ) AS CatMaxRead, max( CategoryPermission.WritePermission ) AS CatMaxWrite ";
+                $permissionSQL = "( ( $loggedInSQL ($groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) ) ) ";
+                $group_str = "GROUP BY Article.ID";
+                $having_str = "HAVING MaxRead='1' AND MaxWrite='1' AND CatMaxRead='1' AND CatMaxWrite='1' ";
+            }
             else
                 $permissionSQL = "( ( $loggedInSQL ($groupSQL Permission.GroupID='-1' AND CategoryPermission.GroupID='-1' ) AND Permission.ReadPermission='1' AND CategoryPermission.ReadPermission='1') ) ";
         }
         else
             $permissionSQL = "";
-       
+
         // fetch all articles
-        if ( $fetchAll  == true )             
+        if ( $fetchAll  == true )
         {
             if ( $permissionSQL == "" )
                 $publishedSQL = "";
             else
                 $publishedSQL = " AND";
         }
-       
+
         // fetch only published articles
-        else if ( $fetchPublished  == true )  
+        else if ( $fetchPublished  == true )
         {
             if ( $permissionSQL == "" )
                 $publishedSQL = " Article.IsPublished = '1' AND ";
@@ -1313,7 +1360,7 @@ class eZArticleCategory
         }
 
         // fetch only non-published articles
-        else                                  
+        else
         {
             if ( $permissionSQL == "" )
                 $publishedSQL = " Article.IsPublished = '0' AND ";
@@ -1321,13 +1368,13 @@ class eZArticleCategory
                 $publishedSQL = " AND Article.IsPublished = '0' AND ";
         }
 
-        $query = "SELECT COUNT( DISTINCT Article.ID ) as Count
+        $query = "SELECT $sel_str
                   FROM eZArticle_ArticleCategoryDefinition as Definition,
                        eZArticle_Article as Article,
                        eZArticle_ArticleCategoryLink as Link,
                        eZArticle_CategoryPermission as CategoryPermission,
                        eZArticle_ArticlePermission AS Permission
-                  WHERE 
+                  WHERE
                         $permissionSQL
                         $publishedSQL
                         Link.CategoryID='$this->ID'
@@ -1335,11 +1382,17 @@ class eZArticleCategory
                         AND Link.ArticleID=Article.ID
                         AND Definition.ArticleID=Article.ID
                         AND CategoryPermission.ObjectID=Definition.CategoryID
+                        $group_str
+                        $having_str
                         ";
 
         $db->array_query( $article_array, $query );
 
-        return $article_array[0][$db->fieldName("Count")];
+        if ( $usePermission and $check_write )
+            $cnt = count( $article_array );
+        else
+            $cnt = $article_array[0][$db->fieldName("Count")];
+        return $cnt;
     }
 
     /*!
