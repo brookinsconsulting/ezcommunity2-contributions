@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.26 2001/10/16 09:08:28 bf Exp $
+// $Id: menubox.php,v 1.26.2.1 2001/12/11 11:38:27 th Exp $
 //
 // 
 //
@@ -46,6 +46,7 @@ if ( !(function_exists('createArticleMenu') ) )
             global $GenerateStaticPage;
             global $GlobalSiteDesign;
             global $CategoryID;
+			global $url_array;
 
         
             include_once( "classes/eztemplate.php" );
@@ -87,6 +88,18 @@ if ( !(function_exists('createArticleMenu') ) )
                 {
                     $t->set_var( "articlecategory_id", $categoryItem->id()  );
                     $t->set_var( "articlecategory_title", $categoryItem->name() );
+
+					if (
+					(( $url_array[2] == "archive" ) && ( $url_array[3] == $categoryItem->id() ))
+					|| (( $url_array[2] == "articleview" ) && ( $url_array[5] == $categoryItem->id() ))
+					)
+					{
+					    $t->set_var( "mark", "menumark" );
+					}
+					else 
+					{ 
+					    $t->set_var( "mark", "" );
+					}
 
                     $t->parse( "article_category", "article_category_tpl", true );
                     $i++;
@@ -145,6 +158,9 @@ if ( $PageCaching == "enabled" )
                                       array( "menubox",
                                              $groupstr,
                                              $GlobalSiteDesign,
+											 $url_array[2],
+											 $url_array[3],
+											 $url_array[5],
                                              $CategoryID
                                              ),
                                       "cache", "," );
