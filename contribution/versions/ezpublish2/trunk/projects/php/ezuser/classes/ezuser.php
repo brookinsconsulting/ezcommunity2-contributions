@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.52 2001/02/15 10:42:27 bf Exp $
+// $Id: ezuser.php,v 1.53 2001/02/22 14:16:47 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -637,9 +637,9 @@ class eZUser
     /*!
       Returns the user groups the current user is a member of.
 
-      The result is returned as an array of eZUserGroup objects.
+      The result is returned as an array of eZUserGroup objects if $IDOnly = false. If not only an array with the ID's is returned.
     */
-    function groups()
+    function groups( $IDOnly=false )
     {
         $ret = array();
         $db =& eZDB::globalDatabase();
@@ -649,7 +649,7 @@ class eZUser
 
         foreach ( $user_group_array as $group )
         {
-            $ret[] = new eZUserGroup( $group["GroupID"] );
+            $IDOnly ? $ret[] = $group["GroupID"]:$ret[] = new eZUserGroup( $group["GroupID"] );
         }
 
         return $ret;
