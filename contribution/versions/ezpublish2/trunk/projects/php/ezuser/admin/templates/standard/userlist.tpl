@@ -1,7 +1,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="bottom">
-	<h1>{intl-head_line} - ( {user_count} )</h1>
+	<h1>{intl-head_line} - ( {user_count} / {total_user_count} )</h1>
 	</td>
 	<td align="right">
 	<form action="{www_dir}{index}/user/userlist/" method="post">

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.96 2001/10/08 15:20:03 bf Exp $
+// $Id: ezuser.php,v 1.97 2001/10/09 14:15:35 bf Exp $
 //
 // Definition of eZUser class
 //
@@ -272,8 +272,11 @@ class eZUser
         $query = new eZQuery( array( "FirstName", "LastName",
                                      "Login", "Email" ), $search );
 
-        $db->query_single( $user_array, "SELECT count( ID ) AS Count FROM eZUser_User
+        if ( $search != false )
+            $db->query_single( $user_array, "SELECT count( ID ) AS Count FROM eZUser_User
                                          WHERE " . $query->buildQuery() );
+        else
+            $db->query_single( $user_array, "SELECT count( ID ) AS Count FROM eZUser_User" );
 
         return $user_array[$db->fieldName("Count")];
     }
