@@ -78,7 +78,10 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td width="1%" class="tdmini">
-	<a href="{admin_site_protocol}://{admin_site_host}" target=""><img src="{www_dir}/design/admin/images/{site_style}/top-ezpublishlogo.gif" width="200" height="40" border="0" alt="" /></a><br />
+<!--
+{admin_site_protocol}://{admin_site_host}
+-->
+	<a href="{www_dir}" target=""><img src="{www_dir}/design/admin/images/{site_style}/top-ezpublishlogo.gif" width="200" height="40" border="0" alt="" /></a><br />
 	</td>
 	<td width="1%"><img src="{www_dir}/design/admin/images/1x1.gif" width="10" height="10" border="0" alt="" /></td>
 	<td width="91%" valign="top">
@@ -133,9 +136,11 @@
 <!-- BEGIN module_list_tpl -->
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
+        <td align="center">
 <!-- BEGIN module_item_tpl -->
-	<td align="center"><a href="{www_dir}{index}/module/{module_action}/{ez_module_name}?RefURL={ref_url}"><img src="{www_dir}/{ez_dir_name}/admin/images/module_icon.png" width="32" height="32" border="0" alt="{module_name}" /></a></td>
+	<a href="{www_dir}{index}/module/{module_action}/{ez_module_name}?RefURL={ref_url}" onmouseover="window.status='{module_name}'; return true"><img src="{www_dir}/{ez_dir_name}/admin/images/module_icon.png" width="64" height="64" border="0" alt="{module_name}" title="{module_name}" /></a>
 <!-- END module_item_tpl -->
+	</td>
 <!-- BEGIN module_control_tpl -->
 	<td>&nbsp;&nbsp;</td>
 	<td align="left">
