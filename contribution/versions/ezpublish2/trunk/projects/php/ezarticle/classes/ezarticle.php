@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.71 2001/04/26 15:16:47 jb Exp $
+// $Id: ezarticle.php,v 1.72 2001/04/27 09:09:19 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -549,6 +549,19 @@ class eZArticle
     }
 
     /*!
+      \static
+      Returns an index of keywords found in all articles.
+      It returns an array of unique keywords.
+    */
+    function &manualKeywordIndex()
+    {
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $keywords, "SELECT Keyword FROM eZArticle_ArticleKeyword
+                                      GROUP BY Keyword ORDER BY Keyword", 0, -1, "Keyword" );
+        return $keywords;
+    }
+
+    /*!
       Sets the short content of the article.
     */
     function setShortContent( $content )
@@ -585,7 +598,7 @@ class eZArticle
       \static
       Returns an array of articles which match short contents and the keywords.
     */
-    function &searchByShortContent( $short_content, $keywords, $offset = 0, $max = 5, $as_object = true )
+    function &searchByShortContent( $short_content, $keywords, $offset = 0, $max = -1, $as_object = true )
     {
         $db =& eZDB::globalDatabase();
         $content_sql = "";
@@ -611,7 +624,7 @@ class eZArticle
             $conditions = "AND $content_sql $keyword_sql";
         }
         $limit_sql = "";
-        if ( !is_bool( $offset ) )
+        if ( !is_bool( $offset ) and $max > 0 )
         {
             $limit_sql = "LIMIT $offset, $max";
         }
