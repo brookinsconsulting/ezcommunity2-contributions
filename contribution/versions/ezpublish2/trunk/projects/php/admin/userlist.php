@@ -26,7 +26,7 @@ if( !eZUserGroup::verifyCommand( $session->userID(), "GrantUser" ) )
 if( !isset( $startno ) )
     $startno = 0;
 
-array_query( $userlist, "SELECT id, nick_name, first_name, group_id FROM UserTable ORDER BY nick_name" );
+array_query( $userlist, "SELECT id, nick_name, first_name, last_name, group_id FROM UserTable ORDER BY nick_name" );
 
 $users = count( $userlist );
 
@@ -38,7 +38,7 @@ for( $i = $startno; ( $i < ($noOfUsers + $startno) ) && ( $i < $users ); $i++ )
     
     $t->set_var( "id", $userlist[$i]["id"] );
     $t->set_var( "username", $userlist[$i]["nick_name"] );
-    $t->set_var( "name", $userlist[$i]["first_name"] . " " . $userlist[$i]["last_name"]  );
+    $t->set_var( "name", $userlist[$i]["first_name"] . " " . $userlist[$i]["last_name"] );
     $t->set_var( "group", $group->name() );
     $t->set_var( "color", switchColor( $i, "#DCDCDC", "#F0F0F0" ) );
     $t->parse( "bruker", "element", true );
