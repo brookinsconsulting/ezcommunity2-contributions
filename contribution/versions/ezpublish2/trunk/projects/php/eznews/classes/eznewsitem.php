@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.41 2000/10/13 12:28:28 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.42 2000/10/13 12:31:17 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -136,11 +136,6 @@ class eZNewsItem extends eZNewsUtility
         $this->Name = $this->CreatedAt;
         
         eZNewsUtility::eZNewsUtility( $inData, $fetch );
-        
-        if( !strcmp( $this->State_, "new" ) )
-        {
-            $this->createLogItem( $this->ID . ": " . $this->Name . " created", "create" );
-        }
     }
 
 
