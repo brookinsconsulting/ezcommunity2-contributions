@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.44 2001/02/26 13:58:27 fh Exp $
+// $Id: articleedit.php,v 1.45 2001/02/26 14:18:20 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -36,6 +36,52 @@ include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlegenerator.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
+
+function notificationMessage( &$article )
+{
+    include_once( "classes/eztexttool.php" );
+    $ini =& $GLOBALS["GlobalSiteIni"];
+
+    $PublishNoticeReceiver = $ini->read_var( "eZArticleMain", "PublishNoticeReceiver" );
+    $PublishNoticeSender = $ini->read_var( "eZArticleMain", "PublishNoticeSender" );
+    $PublishNoticePadding = $ini->read_var( "eZArticleMain", "PublishNoticePadding" );
+    $PublishSite = $ini->read_var( "site", "SiteTitle" );
+    $SiteURL = $ini->read_var( "site", "SiteURL" );
+
+    $mailTemplate = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
+                                    "ezarticle/admin/intl", $ini->read_var( "eZArticleMain", "Language" ), "mailtemplate.php" );
+    
+    $mailTemplate->set_file( "mailtemplate", "mailtemplate.tpl" );
+    $mailTemplate->setAllStrings();
+
+    $renderer = new eZArticleRenderer( $article );
+    
+    $subjectLine = $mailTemplate->Ini->read_var( "strings", "subject" );
+    $subjectLine = $subjectLine . " " . $PublishSite;
+    
+    $intro = eztexttool::linesplit(strip_tags( $renderer->renderIntro( ) ), $PublishNoticePadding, 76 );
+
+    $mailTemplate->set_var( "body", "$intro" );
+    $mailTemplate->set_var( "site", "$PublishSite" );
+    $mailTemplate->set_var( "title", $article->name() );
+    $mailTemplate->set_var( "author", $article->authorText() );
+    
+    $mailTemplate->set_var( "link", "http://" . $SiteURL . "/article/articleview/" . $article->id() );
+
+    $bodyText = $mailTemplate->parse( "dummy", "mailtemplate" );
+    
+    // send a notice mail
+    $noticeMail = new eZMail();
+
+    $noticeMail->setFrom( $PublishNoticeSender );
+    $noticeMail->setTo( $PublishNoticeReceiver );
+
+    $noticeMail->setSubject( $subjectLine );
+    $noticeMail->setBody( $bodyText );
+
+    $noticeMail->send();                        
+}
+
 
 function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
 {
@@ -80,9 +126,6 @@ if ( isset ( $DeleteArticles ) )
 }
 
 $ini =& $GLOBALS["GlobalSiteIni"];
-
-$PublishNoticeReceiver = $ini->read_var( "eZArticleMain", "PublishNoticeReceiver" );
-$PublishNoticeSender = $ini->read_var( "eZArticleMain", "PublishNoticeSender" );
 
 // insert a new article in the database
 
@@ -136,19 +179,7 @@ if ( $Action == "Insert" )
     // add check for publishing rights here
     if ( $IsPublished == "on" )
     {
-        // send a notice mail
-        $noticeMail = new eZMail();
-
-        $noticeMail->setFrom( $PublishNoticeSender );
-        $noticeMail->setTo( $PublishNoticeReceiver );
-            
-        $renderer = new eZArticleRenderer( $article );
-        $intro = strip_tags( $renderer->renderIntro( ) );
-            
-        $noticeMail->setSubject( $article->name() );
-        $noticeMail->setBody( $intro );
-
-        $noticeMail->send();                        
+        notificationMessage( $article );
         
         $article->setIsPublished( true );
     }
@@ -315,19 +346,7 @@ if ( $Action == "Update" )
         // check if the article is published now
         if ( $article->isPublished() == false )
         {
-            // send a notice mail
-            $noticeMail = new eZMail();
-
-            $noticeMail->setFrom( $PublishNoticeSender );
-            $noticeMail->setTo( $PublishNoticeReceiver );
-            
-            $renderer = new eZArticleRenderer( $article );
-            $intro = strip_tags( $renderer->renderIntro( ) );
-            
-            $noticeMail->setSubject( $article->name() );
-            $noticeMail->setBody( $intro );
-
-            $noticeMail->send();                        
+            notificationMessage( $article );
         }
         
         $article->setIsPublished( true );
@@ -666,5 +685,6 @@ foreach( $groupList as $groupItem )
 
 
 $t->pparse( "output", "article_edit_page_tpl" );
+
 
 ?>
