@@ -1220,7 +1220,7 @@ CREATE TABLE eZForum_ForumCategoryLink (
 CREATE TABLE eZForum_Message (
   ID int NOT NULL,
   ForumID int NOT NULL DEFAULT '0',
-  Topic varchar(60) DEFAULT NULL,
+  Topic varchar(255) DEFAULT NULL,
   Body text,
   UserName varchar(60) DEFAULT NULL,
   UserID int DEFAULT NULL,
