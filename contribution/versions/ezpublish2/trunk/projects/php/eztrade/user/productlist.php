@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.16 2001/02/28 10:18:50 jb Exp $
+// $Id: productlist.php,v 1.17 2001/02/28 13:01:34 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Sep-2000 14:46:20 bf>
@@ -36,6 +36,7 @@ $ini =& $GLOBALS["GlobalSiteIni"];
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $Limit = $ini->read_var( "eZTradeMain", "ProductLimit" );
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
+$RequireUserLogin = $ini->read_var( "eZTradeMain", "RequireUserLogin" ) == "true";
 
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 
@@ -171,10 +172,11 @@ foreach ( $productList as $product )
     }
 
     $t->set_var( "product_name", $product->name() );
-    
+
     $t->set_var( "product_intro_text", eZTextTool::nl2br( $product->brief() ) );
 
-    if ( $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
+    if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
+         $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
     {
         $found_price = false;
         if ( $ShowPriceGroups and $PriceGroup > 0 )
