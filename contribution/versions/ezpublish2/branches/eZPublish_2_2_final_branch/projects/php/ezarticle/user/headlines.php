@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: headlines.php,v 1.18.2.3 2002/02/18 19:55:58 master Exp $
+// $Id: headlines.php,v 1.18.2.4 2002/04/10 13:51:01 br Exp $
 //
 // Created on: <30-Nov-2000 14:35:24 bf>
 //
@@ -26,6 +26,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
+include_once( "classes/ezcachefile.php" );
 
 $ini =& INIFile::globalINI();
 
