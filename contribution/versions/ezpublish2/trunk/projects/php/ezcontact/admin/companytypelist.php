@@ -54,6 +54,7 @@ else
     $t->set_block( "type_page", "company_item_tpl", "company_item" );
     $t->set_block( "company_item_tpl", "image_view_tpl", "image_view" );
     $t->set_block( "type_page", "no_companies_tpl", "no_companies" );
+    $t->set_block( "type_page", "companies_table_tpl", "companies_table" );
     $t->set_block( "company_item_tpl", "no_image_tpl", "no_image" );
 
     
@@ -248,11 +249,11 @@ else
     {
 
         $t->set_var( "company_item", "" );
+        $t->set_var( "companies_table", "" );
         $t->parse( "no_companies", "no_companies_tpl" );
     }
     else
     {
-
         for( $index = 0; $index < count( $companyList ); $index++ )
         {
             if ( ( $index %2 ) == 0 )
@@ -285,6 +286,9 @@ else
             $t->set_var( "no_companies", "" );
             $t->parse( "company_item", "company_item_tpl", true );
         }
+
+        $t->set_var( "no_companies", "" );
+        $t->parse( "companies_table", "companies_table_tpl" );
     }
     
     if( $typesDone == true )
