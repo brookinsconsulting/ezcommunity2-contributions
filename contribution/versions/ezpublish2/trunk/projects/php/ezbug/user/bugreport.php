@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugreport.php,v 1.6 2001/02/04 17:00:03 bf Exp $
+// $Id: bugreport.php,v 1.7 2001/02/15 16:16:35 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 20:31:00 bf>
@@ -22,6 +22,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
+include_once( "classes/ezmail.php" );
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
@@ -51,6 +53,7 @@ $t->set_block( "bug_report_tpl", "email_error_tpl", "email_error" );
 
 if ( $Action == "Insert" )
 {
+    $successfull = 0;
     $user = eZUser::currentUser();
 
     if ( ( $Name != "" ) && ( $Description != "" ) )
@@ -71,9 +74,8 @@ if ( $Action == "Insert" )
             
             $category->addBug( $bug );
             $module->addBug( $bug );
-            
-            Header( "Location: /bug/reportsuccess/" );
-            exit();
+
+            $successfull = 1;
         }
         else
         {
@@ -85,8 +87,7 @@ if ( $Action == "Insert" )
                 $category->addBug( $bug );
                 $module->addBug( $bug );
                 
-                Header( "Location: /bug/reportsuccess/" );
-                exit();                
+                $successfull = 2;
             }
             else
             {
@@ -97,6 +98,62 @@ if ( $Action == "Insert" )
     else
     {
         $AllFieldsError = true;
+    }
+
+    if( $successfull != 0 ) // the bug was successfully commited.. lets send an email to the group owners.
+    {
+        // find the owners of the group, if their is now owner group, no need to send mail.
+        $ownerGroup = $module->ownerGroup();
+        if( get_class( $ownerGroup ) != "ezusergroup" )
+        {
+            Header( "Location: /bug/reportsuccess/" );
+            exit();                
+        }
+        $users = $ownerGroup->users();
+        $userEmail = "";
+        foreach( $users as $userItem )
+        {
+            if( $userEmail = "" )
+                $userEmail = $userItem->email();
+            else
+                $userEmail = $userEmail . ", " . $userItem->email();
+        }
+
+        $mail = new eZMail();
+        if( $succesfull == 1 )
+            $mail->setFrom( $user->email() );
+        else
+            $mail->setFrom( $bug->userEmail );
+
+        $mailTemplate = new eZTemplate( "ezbug/user/" . $ini->read_var( "eZBugMain", "TemplateDir" ),
+                                        "ezbug/user/intl", $Language, "mailnewbug.php" );
+        $headerInfo = ( getallheaders() );
+
+        $mailTemplate->set_file( "mailnewbug", "mailnewbug.tpl" );
+        $mailTemplate->setAllStrings();
+
+        $host = preg_replace( "/^admin\./", "", $headerInfo["Host"] );
+            
+        $mailTemplate->set_var( "bug_url", "http://" . $host . "/bug/bugview/" . $bug->id() );
+        $mailTemplate->set_var( "bug_id", $bug->id() );
+        $mailTemplate->set_var( "bug_title", $bug->name() );
+        $mailTemplate->set_var( "bug_module", $module->name() );
+        $mailTemplate->set_var( "bug_reporter", $user->namedEmail() );
+        $mailTemplate->set_var( "bug_description", $bug->description() );
+        
+        $mail->setSubject( "[Bug][" . $bug->id() ."] " . $bug->name() );
+        $bodyText = ( $mailTemplate->parse( "dummy", "mailnewbug" ) );
+        $mail->setBody( $bodyText );
+
+        if( $userEmail != "" )
+        {
+            $mail->setTo( $userEmail  );
+            print( $userEmail );
+            $mail->send();
+        }
+
+        Header( "Location: /bug/reportsuccess/" );
+        exit();                
     }
 }
 
