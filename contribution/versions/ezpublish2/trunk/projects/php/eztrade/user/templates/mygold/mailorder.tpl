@@ -30,7 +30,7 @@ http://{site_url} {intl-headline}
 {intl-shipping_type}:
 {shipping_type}
 
-
+{stringline}
 {product_string}{count_string}{price_string}
 {stringline}
 <!-- BEGIN order_item_tpl -->
@@ -43,5 +43,12 @@ http://{site_url} {intl-headline}
 {product_sub_total_string}{product_sub_total}
 {product_ship_hand_string}{product_ship_hand}
 {product_total_string}{product_total}
+{stringline}
+{stringline}
 
 {intl-other_instructions_on_web_site} http://{site_url}
+{stringline}
+{intl-footer1}
+{intl-footer2}
+{intl-footer3}
+{intl-footer4}
