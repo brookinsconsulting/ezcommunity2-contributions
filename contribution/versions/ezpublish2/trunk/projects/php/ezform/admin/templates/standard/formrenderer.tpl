@@ -1,3 +1,8 @@
+<!-- BEGIN user_email_item_tpl -->
+<p class="boxtext">{element_name}:</p>
+<input type="text" class="box" name="formSender" value="{form_sender}" />
+<!-- END user_email_item_tpl -->
+
 <!-- BEGIN text_field_item_tpl -->
 <p class="boxtext">{element_name}:</p>
 <input type="text" size="{element_size}" name="{field_name}" value="{field_value}" />
@@ -29,12 +34,20 @@
 <!-- END empty_item_tpl -->
 
 <!-- BEGIN numerical_float_item_tpl -->
-<p class="boxtext">{element_name}:</p>
+<p class="boxtext">{element_name}:
+<!-- BEGIN numerical_float_range_tpl -->
+<span class="boxtext">({intl-numerical_float_item}, {intl-range}: {min_value} - {max_value})</span>
+<!-- END numerical_float_range_tpl -->
+</p>
 <input type="text" size="{element_size}" name="{field_name}" value="{field_value}" />
 <!-- END numerical_float_item_tpl -->
 
 <!-- BEGIN numerical_integer_item_tpl -->
-<p class="boxtext">{element_name}:</p>
+<p class="boxtext">{element_name}:
+<!-- BEGIN numerical_integer_range_tpl -->
+<span class="boxtext">({intl-numerical_integer_item}, {intl-range}: {min_value} - {max_value})</span>
+<!-- END numerical_integer_range_tpl -->
+</p>
 <input type="text" size="{element_size}" name="{field_name}" value="{field_value}" />
 <!-- END numerical_integer_item_tpl -->
 
@@ -109,12 +122,6 @@
 <input type="hidden" name="mailSubject" value="{form_name}" />
 <input type="hidden" name="redirectTo" value="{form_completed_page}" />
 <input type="hidden" name="pageList" value="{page_list}" />
-<!-- BEGIN form_sender_tpl -->
-<p class="boxtext">{intl-form_sender}:</p>
-<input type="text" class="box" name="formSender" value="{form_sender_value}" />
-<br /><br />
-
-<!-- END form_sender_tpl -->
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 <!-- BEGIN form_item_tpl -->

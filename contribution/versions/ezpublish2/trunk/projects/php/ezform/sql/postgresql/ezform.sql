@@ -80,5 +80,6 @@ INSERT INTO eZForm_FormElementType VALUES (11,'hr_line_item','Horizontal rule');
 INSERT INTO eZForm_FormElementType VALUES (12,'numerical_float_item','Float value');
 INSERT INTO eZForm_FormElementType VALUES (13,'numerical_integer_item','Integer value');
 INSERT INTO eZForm_FormElementType VALUES (14,'text_block_item','Text');
+INSERT INTO eZForm_FormElementType VALUES (15,'user_email_item','E-mail field for sender');
 INSERT INTO eZForm_FormElementType VALUES (100,'empty_item','Nothing');
 

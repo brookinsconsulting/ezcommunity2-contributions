@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.28 2001/12/18 17:18:36 pkej Exp $
+// $Id: ezformrenderer.php,v 1.29 2001/12/18 18:15:19 pkej Exp $
 //
 // eZFormRenderer class
 //
@@ -41,6 +41,7 @@ include_once( "classes/ezhttptool.php" );
 include_once( "ezform/classes/ezform.php" );
 include_once( "ezform/classes/ezformelement.php" );
 include_once( "ezform/classes/ezformelementtext.php" );
+include_once( "ezform/classes/ezformelementnumerical.php" );
 include_once( "ezform/classes/ezformelementtype.php" );
 include_once( "ezform/classes/ezformtable.php" );
 include_once( "ezmail/classes/ezmail.php" );
@@ -82,6 +83,10 @@ class eZFormRenderer
         $this->Template->set_block( "multiple_select_item_tpl", "multiple_select_item_sub_item_tpl", "multiple_select_item_sub_item" );
         $this->Template->set_block( "form_renderer_page_tpl", "dropdown_item_tpl", "dropdown_item" );
         $this->Template->set_block( "dropdown_item_tpl", "dropdown_item_sub_item_tpl", "dropdown_item_sub_item" );
+        $this->Template->set_block( "form_renderer_page_tpl", "user_email_item_tpl", "user_email_item" );
+
+        $this->Template->set_block( "numerical_float_item_tpl", "numerical_float_range_tpl", "numerical_float_range" );
+        $this->Template->set_block( "numerical_integer_item_tpl", "numerical_integer_range_tpl", "numerical_integer_range" );
 
         $this->Template->set_block( "form_renderer_page_tpl", "table_item_tpl", "table_item" );
         $this->Template->set_block( "table_item_tpl", "table_item_sub_item_tpl", "table_item_sub_item" );
@@ -103,7 +108,6 @@ class eZFormRenderer
         $this->Template->set_block( "form_buttons_tpl", "ok_button_tpl", "ok_button" );
         $this->Template->set_block( "form_buttons_tpl", "next_button_tpl", "next_button" );
         
-        $this->Template->set_block( "form_list_tpl", "form_sender_tpl", "form_sender" );
         $this->Template->set_block( "form_list_tpl", "form_instructions_tpl", "form_instructions" );
         $this->Template->set_block( "form_renderer_page_tpl", "error_list_tpl", "error_list" );
         $this->Template->set_block( "error_list_tpl", "error_item_tpl", "error_item" );
@@ -131,6 +135,9 @@ class eZFormRenderer
         $this->Template->set_var( "table_item_sub_item", "" );
         $this->Template->set_var( "form_instructions", "" );
         $this->Template->set_var( "form_sender_value", "" );
+        $this->Template->set_var( "numerical_float_range", "" );
+        $this->Template->set_var( "numerical_integer_range", "" );
+        $this->Template->set_var( "user_email_item", "" );
         
 
         global $GlobalSectionID, $SectionIDOverride;
@@ -167,7 +174,30 @@ class eZFormRenderer
             $type = $elementType->name();
             $type = str_replace( " ", "_", $type );
 
-            $elementName = "eZFormElement_" . $element->id();
+            if ( $elementType->name() == "user_email_item" )
+            {
+                $elementName = formSender;
+                global $formSender;
+                if ( $formSender )
+                {
+                    $this->Template->set_var( "form_sender", $formSender );
+                }
+                else
+                {
+                    if ( $user =& eZUser::currentUser() )
+                    {
+                        $this->Template->set_var( "form_sender", $user->eMail() );
+                    }
+                    else
+                    {
+                        $this->Template->set_var( "form_sender", "" );
+                    }
+                }
+            }
+            else
+            {
+                $elementName = "eZFormElement_" . $element->id();
+            }
 
             global $$elementName;
             if ( isSet( $$elementName ) )
@@ -176,8 +206,38 @@ class eZFormRenderer
             $this->Template->set_var( "field_name", $elementName );
             $this->Template->set_var( "field_value", $elementValue );
             $this->Template->set_var( "element_name", $element->name() );
-            $elementText = new eZFormElementText( $element->id() );
-            $this->Template->set_var( "text_block", $elementText->text() );
+
+            if ( $elementType->name() == "text_block_item" )
+            {
+                $elementText = new eZFormElementText( $element->id() );
+                $this->Template->set_var( "text_block", $elementText->text() );
+            }
+            
+            if ( $elementType->name() == "numerical_float_item" ||
+                 $elementType->name() == "numerical_integer_item" )
+            {
+                $elementNumerical = new eZFormElementNumerical( $element->id() );
+                
+                if ( $elementType->name() == "numerical_float_item" )
+                {
+                    if ( $elementNumerical->minValue() != "" && $elementNumerical->maxValue() != "" )
+                    {
+                        $this->Template->set_var( "min_value", $elementNumerical->minValue() );
+                        $this->Template->set_var( "max_value", $elementNumerical->maxValue() );
+                        $this->Template->parse( "numerical_float_range", "numerical_float_range_tpl" );
+                    }
+                }
+                else
+                {
+                    if ( $elementNumerical->minValue() != "" && $elementNumerical->maxValue() != "" )
+                    {
+                        $this->Template->set_var( "min_value", $elementNumerical->minValue() );
+                        $this->Template->set_var( "max_value", $elementNumerical->maxValue() );
+                        $this->Template->parse( "numerical_integer_range", "numerical_float_range_tpl" );
+                    }
+                }
+                
+            }
 
             if ( $element->size() == 0 )
             {
@@ -341,28 +401,6 @@ class eZFormRenderer
                 }
             }
 
-            
-            if ( $form->isSendAsUser() )
-            {
-                global $formSender;
-                if ( $formSender )
-                {
-                    $this->Template->set_var( "form_sender_value", $formSender );
-                }
-                else
-                {
-                    if ( $user =& eZUser::currentUser() )
-                    {
-                        $this->Template->set_var( "form_sender", $user->eMail() );
-                    }
-                    else
-                    {
-                        $this->Template->set_var( "form_sender", "" );
-                    }
-                }
-                $this->Template->parse( "form_sender", "form_sender_tpl" );
-            }
-            
             if ( $elementCounter != 0 )
             {
                 if ( $addFormTags == true )

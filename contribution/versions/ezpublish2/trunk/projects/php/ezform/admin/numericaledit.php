@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: numericaledit.php,v 1.1 2001/12/18 16:32:46 pkej Exp $
+// $Id: numericaledit.php,v 1.2 2001/12/18 18:15:19 pkej Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -55,6 +55,13 @@ if ( isset( $OK ) )
         $elementNumerical->store();
         eZHTTPTool::header( "Location: /form/form/pageedit/$FormID/$PageID" );
         exit();
+    }
+    
+    if ( ( $MinValue == "" && $MaxValue == "" ) && $elementNumerical->id() > 0)
+    {
+        $elementNumerical->delete();
+        eZHTTPTool::header( "Location: /form/form/pageedit/$FormID/$PageID" );
+        exit();        
     }
 }
 
