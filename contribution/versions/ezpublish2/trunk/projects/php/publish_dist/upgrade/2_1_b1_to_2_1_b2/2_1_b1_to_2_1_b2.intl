@@ -3,6 +3,9 @@ Example:
 mod: bug/user, fileedit.php.ini
 change: added user_edit=Some text
 --------------------------------------------------------------------
+mod: ezbulkmail/user
+added subscriptionlogin.php.ini
+
 
 
 
