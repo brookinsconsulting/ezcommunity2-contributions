@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.38 2001/09/27 12:00:00 ce Exp $
+// $Id: productlist.php,v 1.39 2001/10/08 11:26:26 bf Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -37,6 +37,7 @@ include_once( "eztrade/classes/ezpricegroup.php" );
 
 // sections
 include_once( "ezsitemanager/classes/ezsection.php" );
+
 
 if ( $CategoryID != 0 )
 {
@@ -163,6 +164,7 @@ $productList =& $category->activeProducts( $category->sortMode(), $Offset, $Limi
 $locale = new eZLocale( $Language );
 $i = 0;
 
+            $bench->stop();
 foreach ( $productList as $product )
 {
     $t->set_var( "product_id", $product->id() );
@@ -260,6 +262,8 @@ else
 {
     $t->set_var( "product_list", "" );
 }
+
+
 
 eZList::drawNavigator( $t, $TotalTypes, $Limit, $Offset, "product_list_page_tpl" );
 

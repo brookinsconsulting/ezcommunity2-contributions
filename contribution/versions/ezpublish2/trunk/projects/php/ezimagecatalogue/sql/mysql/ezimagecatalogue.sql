@@ -57,12 +57,12 @@ CREATE TABLE eZImageCatalogue_ImageCategoryLink (
 
 CREATE TABLE eZImageCatalogue_ImageVariation (
   ID int NOT NULL,
-  ImageID int default NULL,
-  VariationGroupID int default NULL,
+  ImageID int NOT NULL,
+  VariationGroupID int NOT NULL,
   ImagePath varchar(100) default NULL,
   Width int default NULL,
   Height int default NULL,
-  Modification char(20) NOT NULL default '',
+  Modification varchar(20) NOT NULL default '',
   PRIMARY KEY (ID)
 );
 
@@ -96,3 +96,8 @@ CREATE TABLE eZImageCatalogue_ImageCategoryDefinition (
   CategoryID int default NULL,
   PRIMARY KEY (ID)
 );
+
+
+CREATE INDEX ImageCatalogue_ImageVariationGroup_VariationGroupID ON  eZImageCatalogue_ImageVariation  (VariationGroupID);
+CREATE INDEX ImageCatalogue_ImageVariationGroup_ImageID  ON  eZImageCatalogue_ImageVariation  (ImageID);
+CREATE INDEX ImageCatalogue_ImageVariationGroup_ModificationID ON  eZImageCatalogue_ImageVariation  (Modification);

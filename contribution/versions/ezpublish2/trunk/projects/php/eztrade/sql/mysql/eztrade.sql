@@ -505,6 +505,9 @@ CREATE TABLE eZTrade_WishListOptionValue (
 ) TYPE=MyISAM;
 
 
+CREATE INDEX Category_Name ON eZTrade_Category (Name);
+CREATE INDEX Category_Parent ON eZTrade_Category (Parent);
+
 CREATE INDEX Product_Name ON eZTrade_Product (Name);
 CREATE INDEX Product_Keywords ON eZTrade_Product (Keywords);
 CREATE INDEX Product_Price ON eZTrade_Product (Price);
@@ -515,3 +518,9 @@ CREATE INDEX ProductLink_ProductID ON eZTrade_ProductCategoryLink (ProductID);
 CREATE INDEX ProductOption_ProductID ON eZTrade_ProductOptionLink (ProductID);
 CREATE INDEX ProductOption_OptionID ON eZTrade_ProductOptionLink (OptionID);
 
+CREATE INDEX ProductOption_OptionValueContent ON  eZTrade_OptionValueContent  (ValueID);
+
+CREATE INDEX Trade_CartSessionID ON  eZTrade_Cart  (SessionID);
+
+
+CREATE INDEX ProductDef_ProductID ON eZTrade_ProductCategoryDefinition (ProductID);
