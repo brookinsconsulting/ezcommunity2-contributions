@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: datasupplier.php,v 1.37 2001/08/30 11:38:31 ce Exp $
+// $Id: datasupplier.php,v 1.38 2001/08/30 13:13:50 ce Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
@@ -334,8 +334,8 @@ switch ( $url_array[2] )
                 include( "eztrade/admin/productedit.php" );
                 break;
 
-            case "voucher":
-                include( "eztrade/admin/voucher.php" );
+            case "voucheredit":
+                include( "eztrade/admin/voucheredit.php" );
                 break;
 
             default:

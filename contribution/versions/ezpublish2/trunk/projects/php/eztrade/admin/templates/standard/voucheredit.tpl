@@ -84,17 +84,6 @@
 </tr>
 </table>
 
-<!-- BEGIN price_group_list_tpl -->
-<!-- BEGIN price_groups_item_tpl -->
-	<!-- BEGIN price_group_header_item_tpl -->
-	<!-- END price_group_header_item_tpl -->
-	<!-- BEGIN price_group_item_tpl -->
-	<!-- END price_group_item_tpl -->
-<!-- END price_groups_item_tpl -->
-<!-- BEGIN price_groups_no_item_tpl -->
-<!-- END price_groups_no_item_tpl -->
-<!-- END price_group_list_tpl -->
-
 <br />
 
 <hr noshade="noshade" size="4" />

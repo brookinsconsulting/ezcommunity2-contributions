@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucher.php,v 1.1 2001/08/02 12:05:03 ce Exp $
+// $Id: voucheredit.php,v 1.1 2001/08/30 13:13:50 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Jun-2001 11:03:23 ce>
@@ -35,25 +35,17 @@ if ( isSet ( $OK ) )
 }
 
 $t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ),
-                     "eztrade/admin/intl/", $Language, "voucher.php" );
+                     "eztrade/admin/intl/", $Language, "voucheredit.php" );
 
-$t->set_file( array( "voucher_edit_tpl" => "voucher.tpl" ) );
+$t->set_file( array( "voucher_edit_tpl" => "voucheredit.tpl" ) );
 
 $t->set_block( "voucher_edit_tpl", "value_tpl", "value" );
 $t->set_block( "voucher_edit_tpl", "multiple_value_tpl", "multiple_value" );
 
 $t->set_block( "voucher_edit_tpl", "vat_select_tpl", "vat_select" );
-$t->set_block( "voucher_edit_tpl", "shipping_select_tpl", "shipping_select" );
 $t->set_block( "voucher_edit_tpl", "quantity_item_tpl", "quantity_item" );
 
-$t->set_block( "voucher_edit_tpl", "price_group_list_tpl", "price_group_list" );
-$t->set_block( "price_group_list_tpl", "price_groups_item_tpl", "price_groups_item" );
-$t->set_block( "price_groups_item_tpl", "price_group_header_item_tpl", "price_group_header_item" );
-$t->set_block( "price_groups_item_tpl", "price_group_item_tpl", "price_group_item" );
-$t->set_block( "price_group_list_tpl", "price_groups_no_item_tpl", "price_groups_no_item" );
-
 $t->setAllStrings();
-
 
 $ini =& INIFile::globalINI();
 
