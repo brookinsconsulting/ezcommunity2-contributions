@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagevariation.php,v 1.31 2001/07/29 23:31:07 kaid Exp $
+// $Id: ezimagevariation.php,v 1.31.2.1 2003/06/12 14:33:53 br Exp $
 //
 // Definition of eZImageVariation class
 //
@@ -139,7 +139,7 @@ class eZImageVariation
         {
             $db->array_query( $image_variation_array, "SELECT * FROM eZImageCatalogue_ImageVariation
             WHERE VariationGroupID='$groupID'
-            AND ImageID='$imageID' AND Modification='$modification'" );
+            AND ImageID='$imageID' AND Modification='$modification'", array( "Limit" => 1, "Offset" => 0 ) );
 
             if ( count( $image_variation_array ) > 0 )
             {

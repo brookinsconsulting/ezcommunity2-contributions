@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimagevariationgroup.php,v 1.14 2001/07/20 11:06:38 jakobn Exp $
+// $Id: ezimagevariationgroup.php,v 1.14.2.1 2003/06/12 14:33:53 br Exp $
 //
 // Definition of eZImageVariationGroup class
 //
@@ -105,7 +105,7 @@ class eZImageVariationGroup
         
         $query = ( "SELECT * FROM eZImageCatalogue_ImageVariationGroup WHERE Width='$width' AND Height='$height'" );
 
-        $db->array_query( $group_array, $query );
+        $db->array_query( $group_array, $query, array( "Limit" => 1, "Offset" => 0 ) );
                                                      
         if ( count( $group_array ) == 1 )
         {
