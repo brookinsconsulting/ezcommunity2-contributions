@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.48 2001/02/02 13:57:03 bf Exp $
+// $Id: ezuser.php,v 1.49 2001/02/05 12:41:18 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -557,8 +557,8 @@ class eZUser
        
             if ( ( $idle > $user->timeoutValue() ) && ( $user->timeoutValue() != 0 ) )
             {
-                $user = false;
                 $user->logout();
+                $user = false;
             }
             else            
             {
