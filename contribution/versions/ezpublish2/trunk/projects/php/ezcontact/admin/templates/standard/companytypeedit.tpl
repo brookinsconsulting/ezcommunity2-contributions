@@ -51,7 +51,8 @@
 <!-- END path_tpl -->
 
 <!-- BEGIN current_type_tpl -->
-<form method="post" action="/{intl-module_name}/{intl-command_type}/{action_value}/{current_id}/">
+<form method="post" action="/{intl-module_name}/{intl-command_type}/{action_value}/{current_id}/" enctype="multipart/form-data">
+<input type="hidden" name="max_file_size" value="3000000">
 <p class="boxtext">{intl-th_type_name}:</p>
 <input type="text" size="40" name="TypeName" value="{current_name}">
 
@@ -70,6 +71,17 @@
 <input type="hidden" name="TypeID" value="{current_id}">
 <input type="hidden" name="OldParentID" value="{parent_id}">
 
+<!-- BEGIN image_item_tpl -->
+<p class="boxtext">{intl-th_type_current_image}:</p>
+<p><img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
+</p>
+<p>{intl-th_image_uploading_new_replaces_old}</p>
+<!-- END image_item_tpl -->
+<p class="boxtext">{intl-th_type_image}:</p>
+<!-- BEGIN no_image_item_tpl -->
+<br />
+<!-- END no_image_item_tpl -->
+<input size="40" name="ImageFile" type="file" />
 <hr noshade="noshade" size="4" />
 <input class="okbutton" type="submit" name="{intl-command_ok}" value="{intl-button_ok}" />
 </form>

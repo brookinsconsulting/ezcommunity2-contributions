@@ -1,7 +1,7 @@
 <?
 
 // 
-// $Id: ezcompanytype.php,v 1.16 2000/11/17 18:41:23 pkej-cvs Exp $
+// $Id: ezcompanytype.php,v 1.17 2000/11/21 16:38:46 pkej-cvs Exp $
 //
 // Definition of eZCompanyType class
 //
@@ -76,7 +76,7 @@ class eZCompanyType
         
         if ( !isSet( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZContact_CompanyType set Name='$this->Name', Description='$this->Description', ParentID='$this->ParentID'" );
+            $this->Database->query( "INSERT INTO eZContact_CompanyType set Name='$this->Name', Description='$this->Description',  ImageID='$this->ImageID', ParentID='$this->ParentID'" );
 
             $this->ID = mysql_insert_id();
 
@@ -85,7 +85,7 @@ class eZCompanyType
         }
         else
         {
-            $this->Database->query( "UPDATE eZContact_CompanyType set Name='$this->Name', Description='$this->Description', ParentID='$this->ParentID' WHERE ID='$this->ID'" );
+            $this->Database->query( "UPDATE eZContact_CompanyType set Name='$this->Name', Description='$this->Description', ImageID='$this->ImageID', ParentID='$this->ParentID' WHERE ID='$this->ID'" );
 
             $this->State_ = "Coherent";
             $ret = true;
@@ -123,7 +123,8 @@ class eZCompanyType
                 $this->Name = $company_type_array[ 0 ][ "Name" ];
                 $this->Description = $company_type_array[ 0 ][ "Description" ];
                 $this->ParentID = $company_type_array[ 0 ][ "ParentID" ];
-            }
+                $this->ImageID = $company_type_array[ 0 ][ "ImageID" ];
+           }
         }
     }
     
@@ -330,7 +331,26 @@ class eZCompanyType
        return $ret;
     }
 
-  
+    /*!
+        Set an image for this category.
+     */
+    function setImageID( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        if ( get_class( $value ) == "ezimage" )
+        {
+            $this->ImageID = $value->id();
+        }
+        elseif( is_numeric( $value ) )
+        {
+            $this->ImageID = $value;
+        }
+        
+    }
+    
+    
     /*!
       Set the name.
     */
@@ -403,6 +423,18 @@ class eZCompanyType
     }
     
     
+    /*!
+      Returns the image id.
+    */
+    function imageID( )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return $this->ImageID;
+    }
+    
+    
     
     /*!
       \private
@@ -421,6 +453,7 @@ class eZCompanyType
     var $ParentID;
     var $Name;
     var $Description;
+    var $ImageID;
 
     ///  Variable for keeping the database connection.
     var $Database;

@@ -10,32 +10,33 @@ $Language = $ini->read_var( "eZContactMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
 include_once( "ezcontact/classes/ezcompanytype.php" );
+include_once( "");
 
-if( eZPermission::checkPermission( $user, "eZContact", "TypeAdd" ) && $Action == "new" )
+if( !eZPermission::checkPermission( $user, "eZContact", "TypeAdd" ) && $Action == "new" )
 {
     header( "Location: /error.php?type=500&reason=missingpermission&permission=TypeAdd&tried=new&module=ezcontact" );
     exit();
 }
 
-if( eZPermission::checkPermission( $user, "eZContact", "TypeAdd" ) && $Action == "insert" )
+if( !eZPermission::checkPermission( $user, "eZContact", "TypeAdd" ) && $Action == "insert" )
 {
     header( "Location: /error.php?type=500&reason=missingpermission&permission=TypeAdd&tried=insert&module=ezcontact" );
     exit();
 }
 
-if( eZPermission::checkPermission( $user, "eZContact", "TypeModify" ) && $Action == "update" )
+if( !eZPermission::checkPermission( $user, "eZContact", "TypeModify" ) && $Action == "update" )
 {
     header( "Location: /error.php?type=500&reason=missingpermission&permission=TypeModify&tried=update&module=ezcontact" );
     exit();
 }
 
-if( eZPermission::checkPermission( $user, "eZContact", "TypeModify" ) && $Action == "edit" )
+if( !eZPermission::checkPermission( $user, "eZContact", "TypeModify" ) && $Action == "edit" )
 {
     header( "Location: /error.php?type=500&reason=missingpermission&permission=TypeModify&tried=edit&module=ezcontact" );
     exit();
 }
 
-if( eZPermission::checkPermission( $user, "eZContact", "TypeDelete" ) && $Action == "delete" )
+if( !eZPermission::checkPermission( $user, "eZContact", "TypeDelete" ) && $Action == "delete" )
 {
     header( "Location: /error.php?type=500&reason=missingpermission&permission=TypeDelete&tried=delete&module=ezcontact" );
     exit();
@@ -60,6 +61,19 @@ if( $Action == "insert" || $Action == "update" )
     $type->setName( $TypeName );
     $type->setDescription( $TypeDescription );
     $type->setParentID( $SelectParentID ); 
+
+    $file = new eZImageFile();
+    if ( $file->getUploadedFile( "ImageFile" ) )
+    {
+        $image = new eZImage( );
+        $image->setName( "Image" );
+        $image->setImage( $file );
+
+        $image->store();
+
+        $type->setImageID( $image->id() );
+    }
+        
     $type->store();
     $TypeID = $type->id();
 
@@ -104,13 +118,17 @@ else
     $t->set_block( "path_tpl", "path_item_tpl", "path_item" );
     $t->set_block( "path_tpl", "current_path_item_tpl", "current_path_item" );
     $t->set_block( "current_type_tpl", "parent_item_tpl", "parent_item" );
+    $t->set_block( "current_type_tpl", "image_item_tpl", "image_item" );
+    $t->set_block( "current_type_tpl", "no_image_item_tpl", "no_image_item" );
 
     $t->set_var( "page_args", $args );
+    $t->set_var( "no_image_item", "" );
+    $t->set_var( "image_item", "" );
+    $t->set_var( "path_item", "" );
+    $t->set_var( "current_path_item", "" );
 
     if( empty( $TypeID ) || $TypeID == 0 )
     {
-        $t->set_var( "path_item", "" );
-        $t->set_var( "current_path_item", "" );
         $t->parse( "path", "path_tpl" );
     }
     else
@@ -146,6 +164,7 @@ else
         {
             $t->set_var( "action_value", "insert" );
         }
+
         $type = new eZCompanyType();
         $type->get( $TypeID );
 
@@ -159,6 +178,34 @@ else
         $t->set_var( "current_description", $desc );
         $t->set_var( "parent_id", $parentid );
 
+        $ImageID = $type->imageID();
+        
+        if( is_numeric( $ImageID ) && $ImageID != 0 )
+        {
+            $ini = new INIFile( "site.ini" );
+            $imageWidth = $ini->read_var( "eZContactMain", "CategoryImageWidth" );
+            $imageHeight = $ini->read_var( "eZContactMain", "CategoryImageHeight" );
+
+            $image = new eZImage( $ImageID );
+
+            $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
+            
+            $imageURL = "/" . $variation->imagePath();
+            $imageWidth = $variation->width();
+            $imageHeight = $variation->height();
+            $imageCaption = $image->caption();
+            
+            $t->set_var( "image_width", $imageWidth );
+            $t->set_var( "image_height", $imageHeight );
+            $t->set_var( "image_url", $imageURL );
+            $t->set_var( "image_caption", $imageCaption );
+            $t->parse( "image_item", "image_item_tpl" );
+        }
+        else
+        {
+            $t->parse( "no_image_item", "no_image_item_tpl" );
+        }
+        
         $categories = $type->getAll();
         
         $selected = false;

@@ -54,6 +54,11 @@
 <!-- BEGIN current_type_tpl -->
 <h3>{current_name}</h3>
 <p>{current_description}</p>
+<!-- BEGIN image_item_tpl -->
+<p class="boxtext">{intl-th_type_current_image}:</p>
+<p><img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
+</p>
+<!-- END image_item_tpl -->
 <!-- END current_type_tpl -->
 
 <!-- BEGIN not_root_tpl -->

@@ -47,6 +47,9 @@ else
     $t->set_block( "type_page", "no_category_item_tpl", "no_category_item" );
     $t->set_block( "type_page", "path_tpl", "path" );
     $t->set_block( "path_tpl", "path_item_tpl", "path_item" );
+    $t->set_block( "current_type_tpl", "image_item_tpl", "image_item" );
+    
+    $t->set_var( "image_item", "" );
     
     if( !empty( $LimitBy ) || !empty( $LimitStart ) )
     {
@@ -117,6 +120,30 @@ else
     $t->set_var( "current_id", $id );
     $t->set_var( "current_name", $name );
     $t->set_var( "current_description", $desc );
+    
+    $ImageID = $type->imageID();
+
+    if( is_numeric( $ImageID ) && $ImageID != 0 )
+    {
+        $ini = new INIFile( "site.ini" );
+        $imageWidth = $ini->read_var( "eZContactMain", "CategoryImageWidth" );
+        $imageHeight = $ini->read_var( "eZContactMain", "CategoryImageHeight" );
+
+        $image = new eZImage( $ImageID );
+
+        $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
+
+        $imageURL = "/" . $variation->imagePath();
+        $imageWidth = $variation->width();
+        $imageHeight = $variation->height();
+        $imageCaption = $image->caption();
+
+        $t->set_var( "image_width", $imageWidth );
+        $t->set_var( "image_height", $imageHeight );
+        $t->set_var( "image_url", $imageURL );
+        $t->set_var( "image_caption", $imageCaption );
+        $t->parse( "image_item", "image_item_tpl" );
+    }
 
     $t->parse( "current_type", "current_type_tpl" );
     if( $TypeID != 0 && $Action == "view" )
