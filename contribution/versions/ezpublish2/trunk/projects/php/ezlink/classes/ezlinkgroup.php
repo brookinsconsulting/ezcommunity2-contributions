@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.51 2001/04/05 08:23:07 fh Exp $
+// $Id: ezlinkgroup.php,v 1.52 2001/05/09 16:41:25 ce Exp $
 //
 // Definition of eZLinkGroup class
 //
@@ -295,8 +295,6 @@ class eZLinkGroup
         return $return_array;
     }
 
-
-
     /*!
       Fetch everything and return the result in a tree.
     */
@@ -322,7 +320,61 @@ class eZLinkGroup
         return $tree;
     }
 
+    /*!
+      Returns all the links in the current category.
+
+      Default limit is set to 30.
+    */
+    function links( $offset=0, $limit=30, $fetchUnAccepted=false )
+    {
+        $this->dbInit();
+
+        $returnArray = array();
+        
+        if ( $fetchUnAccepted )
+            $fetchUnAccepted = "";
+        else
+            $fetchUnAccepted = " AND Accepted='Y' ";
+        
+        $this->Database->array_query( $linkArray, "SELECT ID
+                                                   FROM eZLink_Link
+                                                   WHERE LinkGroup='$this->ID'
+                                                   $fetchUnAccepted
+                                                   ORDER BY Title
+                                                   LIMIT $offset, $limit" );
+        foreach( $linkArray as $link )
+        {
+            $returnArray[] = new eZLink( $link["ID"] );
+        }
+        return $returnArray;
+        
+    }
     
+    
+    /*!
+      Returns the total numbers of links in the current category.
+    */
+    function linkCount( $fetchUnAccepted=false )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $this->dbInit();
+
+        if ( $fetchUnAccepted )
+            $fetchUnAccepted = "";
+        else
+            $fetchUnAccepted = " AND Accepted='Y' ";
+
+        $query = "SELECT count( ID ) AS Count 
+                  FROM eZLink_Link
+                  WHERE LinkGroup='$this->ID'
+                  $fetchUnAccepted";
+
+        $this->Database->array_query( $linkArray, $query );
+        
+        return $linkArray[0]["Count"];
+    }
 
     /*!
       Return the id of the group.
@@ -371,7 +423,7 @@ class eZLinkGroup
     /*!
       Return the title of the link.
     */
-    function &Title()
+    function &title()
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );

@@ -33,6 +33,8 @@ switch ( $url_array[2] )
 
     case "group" :
     {
+        if ( $url_array[4] == "parent" )
+            $Offset = $url_array[5];
         $LinkGroupID = $url_array[3];
         include( "ezlink/user/linkgrouplist.php" );
     }

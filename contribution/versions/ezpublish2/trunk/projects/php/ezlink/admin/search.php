@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.17 2001/03/09 11:05:35 jb Exp $
+// $Id: search.php,v 1.18 2001/05/09 16:41:24 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <15-Sep-2000 14:40:06 bf>
@@ -28,11 +28,13 @@
 */
 
 include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
 
+$ini = new INIFile( "site.ini" );
 $Language = $ini->read_var( "eZLinkMain", "Language" );
+$AdminLimit = $ini->read_var( "eZLinkMain", "AdminSearchLimit" );
 
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezlist.php" );
 
 include_once( "ezlink/classes/ezlinkgroup.php" );
 include_once( "ezlink/classes/ezlink.php"  );
@@ -55,53 +57,20 @@ $t->set_block( "search_list", "search_item_tpl", "search_item" );
 $t->set_block( "search_list", "empty_result_tpl", "empty_result" );
 $t->set_block( "search_list", "search_result_tpl", "search_result" );
 
-$t->set_block( "search_list", "previous_tpl", "previous" );
-$t->set_block( "search_list", "next_tpl", "next" );
-$t->set_block( "search_list", "path_item_tpl", "path_item" );
-
-$linkGroup = new eZLinkGroup();
-$linkGroup->get ( $LGID );
+if ( !$Offset )
+    $Offset = 0;
 
 $link = new eZLink();
 
-// path
-$pathArray = $linkGroup->path();
-
-$t->set_var( "path_item", "" );
-foreach ( $pathArray as $path )
-{
-    $t->set_var( "group_id", $path[0] );
-
-    $t->set_var( "group_name", $path[1] );
-    
-    $t->parse( "path_item", "path_item_tpl", true );
-}
-
-if ( isSet( $URLQueryString ) )
-{
-    $QueryString = urldecode( $URLQueryString );
-}
-
-$t->set_var( "query_string", $QueryString );
-
-$t->set_var( "previous", "" );
-$t->set_var( "next", "" );
-
 $t->set_var( "search_result", "" );
 
-
+$t->set_var( "query_string", "" );
 
 if ( $QueryString != "" )
 {
     $t->set_var( "query_string", $QueryString );
 
-    if ( !isset( $Offset ) )
-        $Offset = 0;
-
-    if ( !isset( $Limit ) )
-        $Limit = 30;
-
-    $link_array = $link->getQuery( $QueryString, $Limit, $Offset );    
+    $link_array = $link->getQuery( $QueryString, $AdminLimit, $Offset );    
     $total_count = $link->getQueryCount( $QueryString );
 
     $t->set_var( "empty_result", "" );
@@ -129,41 +98,11 @@ if ( $QueryString != "" )
             $t->set_var( "link_accepted", $linkItem->accepted() );
             $t->set_var( "link_url", $linkItem->url() );
                 
-            $prevOffs = $Offset - $Limit;
-            $nextOffs = $Offset + $Limit;
-                
-            if ( $prevOffs >= 0 )
-            {
-                $t->set_var( "prev_offset", $prevOffs  );
-                $t->parse( "previous", "previous_tpl" );
-            }
-            else
-            {
-                $t->set_var( "previous", "" );
-            }
-                
-            if ( $nextOffs <= $total_count )
-            {
-                $t->set_var( "next_offset", $nextOffs  );
-                $t->parse( "next", "next_tpl" );
-            }
-            else
-            {
-                $t->set_var( "next", "" );
-            }
-                
-            $t->set_var( "limit", $Limit );
-            $t->set_var( "query_text", $QueryText );
-                
-            $LGID =  ( $link_array[ $i ][ "LinkGroup" ] );
-                
             $hit = new eZHit();
             $hits = $hit->getLinkHits( $linkItem->id() );
 
             $t->set_var( "link_hits", $hits );
                 
-            $tlink_message = "Linker";
-
             $t->set_var( "empty_result", "" );
 
             $t->parse( "search_item", "search_item_tpl", true );
@@ -182,11 +121,14 @@ else
     $t->set_var( "search_item", "" );
     $t->parse( "empty_result", "empty_result_tpl" );
 }
+eZList::drawNavigator( $t, $total_count, $AdminLimit, $Offset, "search_list" );
+
+$t->set_var( "link_start", $Offset + 1 );
+$t->set_var( "link_end", min( $Offset + $AdminLimit, $total_count ) );
+$t->set_var( "link_total", $total_count );
 
 
 $t->set_var( "hit_count", $total_count );
-
-$t->set_var( "link_message", $tlink_message );
 
 $t->set_var( "linkgroup_id", $LGID );
 

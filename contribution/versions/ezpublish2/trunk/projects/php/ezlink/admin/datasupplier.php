@@ -27,6 +27,8 @@ switch ( $url_array[2] )
 
     case "group" :
     {
+        if ( $url_array[4] == "parent" )
+            $Offset = $url_array[5];
         $LinkGroupID = $url_array[3];
         include( "ezlink/admin/linkgrouplist.php" );
     }
@@ -34,6 +36,8 @@ switch ( $url_array[2] )
 
     case "unacceptedlist":
     {
+        if ( $url_array[3] )
+            $Offset = $url_array[3];
         include( "ezlink/admin/unacceptedlist.php" );
     }
     break;
@@ -116,7 +120,14 @@ switch ( $url_array[2] )
         include( "eztrade/admin/testbench.php" );
         break;
     case "search" :
-        include( "ezlink/admin/search.php" );        
+    {
+        if ( $url_array[3] == "parent" )
+        {
+            $QueryString = urlencode( $url_array[4] );
+            $Offset = $url_array[5];
+        }
+        include( "ezlink/admin/search.php" );
+    }
         break;
     case "norights" :
         include( "ezlink/admin/norights.php" );        

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.49 2001/04/22 15:36:19 bf Exp $
+// $Id: ezlink.php,v 1.50 2001/05/09 16:41:25 ce Exp $
 //
 // Definition of eZLink class
 //
@@ -197,14 +197,20 @@ class eZLink
 
     /*!
       Fetches out the links that is not accepted.
+
+      Default limit is set to 30.
     */
-    function &getNotAccepted( )
+    function &getNotAccepted( $offset=0, $limit=30 )
     {
         $this->dbInit();
         $link_array = array();
         $return_array = array();
         
-        $this->Database->array_query( $link_array, "SELECT ID FROM eZLink_Link WHERE Accepted='N' ORDER BY Title" );
+        $this->Database->array_query( $link_array, "SELECT ID
+                                                    FROM eZLink_Link
+                                                    WHERE Accepted='N'
+                                                    ORDER BY Title
+                                                    LIMIT $offset, $limit" );
 
         for ( $i=0; $i < count( $link_array ); $i++ )
         {
@@ -213,6 +219,26 @@ class eZLink
 
         return $return_array;
     }
+
+    /*!
+      Returns the total numbers of links that is not accepted.
+    */
+    function unAcceptedCount(  )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $this->dbInit();
+
+        $query = "SELECT count( ID ) AS Count 
+                  FROM eZLink_Link
+                  WHERE Accepted='N'";
+
+        $this->Database->array_query( $linkArray, $query );
+        
+        return $linkArray[0]["Count"];
+    }
+
 
     /*!
       Fetches out the last teen accpeted links.

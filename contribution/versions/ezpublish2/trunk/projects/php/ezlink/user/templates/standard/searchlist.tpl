@@ -22,6 +22,7 @@
 <h3 class="error">{intl-empty_result}</h3>
 <!-- END empty_result_tpl -->
 
+<br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <!-- BEGIN search_item_tpl -->

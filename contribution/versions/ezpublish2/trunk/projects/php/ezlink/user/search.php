@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.13 2001/05/09 14:33:43 ce Exp $
+// $Id: search.php,v 1.14 2001/05/09 16:41:25 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <15-Sep-2000 14:40:06 bf>
@@ -36,7 +36,6 @@ include_once( "ezlink/classes/ezhit.php" );
 include_once( "classes/ezlist.php" );
 include_once( "classes/ezhttptool.php" );
 
-
 $t = new eZTemplate( "ezlink/user/" . $ini->read_var( "eZLinkMain", "TemplateDir" ),
                      "ezlink/user/intl", $Language, "search.php" );
 
@@ -60,6 +59,7 @@ if ( !$Offset )
 
 $link = new eZLink();
 
+$t->set_var( "query_string", "" );
 $t->set_var( "search_result", "" );
 
 if ( $QueryString != "" )

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: linkgrouplist.php,v 1.14 2001/03/09 11:05:35 jb Exp $
+// $Id: linkgrouplist.php,v 1.15 2001/05/09 16:41:25 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:02:09 ce>
@@ -25,11 +25,11 @@
 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/INIFile.php" );
+include_once( "classes/ezlist.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
-
 $Language = $ini->read_var( "eZLinkMain", "Language" );
-
+$UserLimit = $ini->read_var( "eZLinkMain", "UserLinkLimit" );
 $languageIni = new INIFile( "ezlink/user/intl/". $Language . "/linkgrouplist.php.ini", false );
 
 include_once( "ezlink/classes/ezlinkgroup.php" );
@@ -59,6 +59,9 @@ $t->set_block( "link_item_tpl", "link_image_item_tpl", "link_image_item" );
 
 $t->set_block( "link_page_tpl", "path_item_tpl", "path_item" );
 
+if ( !$Offset )
+    $Offset = 0;
+
 // List all the categories
 $linkGroup = new eZLinkGroup();
 $linkGroup->get ( $LinkGroupID );
@@ -76,7 +79,7 @@ foreach ( $pathArray as $path )
     $t->parse( "path_item", "path_item_tpl", true );
 }
 
-$linkGroup_array = $linkGroup->getByParent( $LinkGroupID );
+$linkGroup_array =& $linkGroup->getByParent( $LinkGroupID );
 
 if ( count( $linkGroup_array ) == 0 )
 {
@@ -96,12 +99,8 @@ else
         $t->set_var( "linkgroup_description", $groupItem->description() );
         $t->set_var( "linkgroup_parent", $groupItem->parent() );
 
-//          $total_sub_links = $linkGroup->getTotalSubLinks( $link_group_id, $link_group_id );
-//          $new_sub_links = $linkGroup->getNewSubLinks( $link_group_id, $link_group_id, 1 );
-        
         $t->set_var( "total_links", $total_sub_links );
         $t->set_var( "new_links", $new_sub_links );
-
  
         $image = $groupItem->image();
 
@@ -132,7 +131,6 @@ else
             $t->set_var( "image_item", "" );
         }
 
-
         $categories = $languageIni->read_var( "strings", "categories" );
 
         $t->set_var( "categories", $categories );
@@ -145,18 +143,10 @@ else
 
 
 // List all the links in the category
-$link = new eZLink();
+$links = $linkGroup->links( $Offset, $UserLimit );
+$linkCount = $linkGroup->linkCount();
 
-if ( $Action == "search" )
-{
-    $link_array = $link->getQuery( $QueryText );    
-}
-else
-{
-    $link_array = $link->getByGroup( $LinkGroupID );
-} 
-
-if ( count( $link_array ) == 0 )
+if ( count( $links ) == 0 )
 {
     if ( $LinkGroupID == 0 )
     {
@@ -172,15 +162,15 @@ if ( count( $link_array ) == 0 )
 else
 {
     $i=0;
-    foreach( $link_array as $linkItem )
+    foreach( $links as $linkItem )
     {
         if ( ( $i % 2 ) == 0 )
         {
-            $t->set_var( "td_class", "gblight" );
+            $t->set_var( "td_class", "bglight" );
         }
         else
         {            
-            $t->set_var( "td_class", "gbdark" );
+            $t->set_var( "td_class", "bgdark" );
         }
         $t->set_var( "link_id", $linkItem->id() );
         $t->set_var( "link_title", $linkItem->title() );
@@ -227,8 +217,11 @@ else
     }
     $t->parse( "link_list", "link_list_tpl", true );
 }
+eZList::drawNavigator( $t, $linkCount, $UserLimit, $Offset, "link_page_tpl" );
 
-// $t->set_var( "printpath", $linkGroup->printPath( $LinkGroupID, "ezlink/linklist.php" ) );
+$t->set_var( "link_start", $Offset + 1 );
+$t->set_var( "link_end", min( $Offset + $UserLimit, $linkCount ) );
+$t->set_var( "link_total", $linkCount );
 
 $t->set_var( "linkgroup_id", $LinkGroupID );
                        

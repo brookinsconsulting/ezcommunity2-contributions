@@ -1,5 +1,5 @@
 <?
-// $Id: linkgrouplist.php,v 1.18 2001/03/05 14:31:52 ce Exp $
+// $Id: linkgrouplist.php,v 1.19 2001/05/09 16:41:24 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:55:24 ce>
@@ -24,10 +24,12 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezlist.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZLinkMain", "Language" );
+$AdminLimit = $ini->read_var( "eZLinkMain", "AdminLinkLimit" );
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 $languageIni = new INIFile( "ezlink/admin/intl/" . $Language . "/linkgrouplist.php.ini", false );
 
@@ -68,6 +70,9 @@ $t->set_block( "link_item_tpl", "no_image_tpl", "no_image" );
 $t->set_block( "link_page_tpl", "path_item_tpl", "path_item" );
 
 $t->set_var( "site_style", $SiteStyle );
+
+if ( !$Offset )
+    $Offset = 0;
 
 // List all the categoires
 $linkGroup = new eZLinkGroup();
@@ -165,11 +170,13 @@ else
 $link = new eZLink();
 if ( $LinkGroupID == "incoming" )
 {
-    $linkList =& $link->getNotAccepted( $LinkGroupID );
+    $linkList =& $link->links( $Offset, $AdminLimit, true );
+    $linkCount =& $link->links( true );
 }
 else
 {
-    $linkList =& $link->getByGroup( $LinkGroupID );
+    $linkList =& $linkGroup->links( $Offset, $AdminLimit );
+    $linkCount =& $linkGroup->linkCount( );
 } 
 
 if ( !$linkList )
@@ -238,10 +245,16 @@ else
     }
     $t->parse( "link_list", "link_list_tpl", true );
 }
+eZList::drawNavigator( $t, $linkCount, $AdminLimit, $Offset, "link_page_tpl" );
 
 $t->set_var( "categories", $categories );
 $t->set_var( "links", $links );
 $t->set_var( "document_root", $DOC_ROOT );
+
+$t->set_var( "link_start", $Offset + 1 );
+$t->set_var( "link_end", min( $Offset + $AdminLimit, $linkCount ) );
+$t->set_var( "link_total", $linkCount );
+
                        
 $t->pparse( "output", "link_page_tpl" );
 ?>

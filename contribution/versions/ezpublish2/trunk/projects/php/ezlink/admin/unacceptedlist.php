@@ -1,5 +1,5 @@
 <?
-// $Id: unacceptedlist.php,v 1.3 2001/03/09 11:05:35 jb Exp $
+// $Id: unacceptedlist.php,v 1.4 2001/05/09 16:41:24 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:55:24 ce>
@@ -24,10 +24,12 @@
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezlist.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZLinkMain", "Language" );
+$AdminLimit = $ini->read_var( "eZLinkMain", "AdminAcceptLimit" );
 
 include_once( "ezlink/classes/ezlinkgroup.php" );
 include_once( "ezlink/classes/ezlink.php" );
@@ -52,9 +54,13 @@ $t->set_block( "link_item_tpl", "category_item_tpl", "category_item" );
 $t->set_var( "site_style", $SiteStyle );
 $t->set_var( "link_item", "" );
 
+if ( !$Offset )
+    $Offset = 0;
+
 $link = new eZLink();
 
-$linkList = $link->getNotAccepted( );
+$linkList =& $link->getNotAccepted( $Offset, $AdminLimit );
+$linkCount = $link->unAcceptedCount();
 
 $category = new eZLinkGroup();
 
@@ -97,6 +103,12 @@ foreach( $linkList as $linkItem )
     $i++;
     $t->parse( "link_item", "link_item_tpl", true );
 }
+eZList::drawNavigator( $t, $linkCount, $AdminLimit, $Offset, "unacceptedlist" );
+
+$t->set_var( "link_start", $Offset + 1 );
+$t->set_var( "link_end", min( $Offset + $AdminLimit, $linkCount ) );
+$t->set_var( "link_total", $linkCount );
+
 
 $t->pparse( "output", "unacceptedlist" );
 ?>
