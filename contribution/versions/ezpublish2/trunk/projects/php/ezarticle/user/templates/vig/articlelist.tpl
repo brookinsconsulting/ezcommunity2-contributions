@@ -2,7 +2,7 @@
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td width="1%" valign="top">
-	<img src="/sitedesign/vig/images/vig-nytt.gif" height="116" width="130" alt="" border="0" /><br /><br />
+	<a href="/article/articleheaderlist/1/"><img src="/sitedesign/vig/images/vig-nytt.gif" height="116" width="130" alt="" border="0" /></a><br /><br />
 	<div class="p"><u>En annen nyhetssak</u></div><br />
 	<div class="p"><u>En annen nyhetssak</u></div><br />
 	<div class="p"><u>En annen nyhetssak</u></div><br />
