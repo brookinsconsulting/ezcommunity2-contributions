@@ -64,6 +64,7 @@
 	<td bgcolor="ffffff"><img src="/ezlink/images/1x1.gif" width="1" height="6" border="0"></td>
 </tr>
 </table>
+{printpath}
 
 <h2>Kategorier:</h2>
 

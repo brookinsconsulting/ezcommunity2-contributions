@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: linklist.php,v 1.25 2000/10/10 11:41:59 ce-cvs Exp $
+    $Id: linklist.php,v 1.26 2000/10/11 10:18:48 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -166,6 +166,7 @@ else
     }
 }
 
+$t->set_var( "printpath", $linkGroup->printPath( $LGID, $DOC_ROOT . "linklist.php" ) );
 
 $t->set_var( "document_root", $DOC_ROOT );
                        
