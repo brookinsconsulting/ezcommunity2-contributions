@@ -18,7 +18,7 @@
 <!-- END text_area_item_tpl -->
 
 <!-- BEGIN text_label_item_tpl -->
-<span class="boxtext">{field_name}</span>
+<span class="boxtext">{element_name}</span>
 <!-- END text_label_item_tpl -->
 
 <!-- BEGIN text_header_1_item_tpl -->
