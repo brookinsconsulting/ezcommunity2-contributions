@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimapmail.php,v 1.1 2001/12/19 15:30:11 fh Exp $
+// $Id: ezimapmail.php,v 1.2 2001/12/19 23:11:28 fh Exp $
 //
 // Definition of eZIMAPMail class
 //
@@ -137,13 +137,18 @@ class eZIMAPMail
     
     /*!
       Fetches the object information from the database.
+        TODO:
+        - fetch email address correctly. (not just name) (done)
+        - fetch email date.
+        - offset, range
+
     */
     function get( $id = "" )
     {
         $mbox = imapConnect( $this->Account );
-        $header = imap_header( $mbox, $this->ID );
+//        $header = imap_header( $mbox, $this->ID );
         
-        $this->UDate( $header->udate );
+//        $this->UDate( $header->udate );
         getHeaders( $this, $mbox, $this->ID ); // fetch header information
         $mailstructure = imap_fetchstructure( $mbox, $this->ID );
         disectThisPart( $mailstructure, "1", $mbox, $this->ID, $this );

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.25 2001/12/19 15:30:11 fh Exp $
+// $Id: datasupplier.php,v 1.26 2001/12/19 23:11:28 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -35,8 +35,9 @@ switch ( $url_array[2] )
 {
     case "foldersort" : // change the sort mode of the folder list
     {
-        $FolderID = $url_array[3];
-        $SortMethod = $url_array[4];
+        $AccountType = $url_array[3];
+        $FolderID = $url_array[4];
+        $SortMethod = $url_array[5];
         $Offset = 0;
         include( "ezmail/user/maillist.php" );
     }

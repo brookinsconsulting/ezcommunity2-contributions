@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezimapmailfolder.php,v 1.2 2001/12/19 15:30:11 fh Exp $
+// $Id: ezimapmailfolder.php,v 1.3 2001/12/19 23:11:28 fh Exp $
 //
 // eZIMAPMailFolder class
 //
@@ -314,11 +314,12 @@ class eZIMAPMailFolder
 //            case "size_desc" : $orderBySQL = "Mail.Size DESC"; break;
 //        }
         
-        $mbox = imapConnect( $this->Account );
+        $mbox = imapConnect( $this->Account, $this->Name );
         
         $MC = imap_check( $mbox ); 
         $MN = $MC->Nmsgs; 
         $overview = imap_fetch_overview( $mbox, "1:$MN", 0 );
+//        $overview = imap_headers( $mbox ); //<--- crap function, returns no useful info.
         foreach( $overview as $mailHeader )
         {
             $mailItem = new eZIMAPMail();

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: maillist.php,v 1.26 2001/12/18 20:07:02 fh Exp $
+// $Id: maillist.php,v 1.27 2001/12/19 23:11:28 fh Exp $
 //
 // Created on: <19-Mar-2000 20:25:22 fh>
 //
@@ -132,6 +132,10 @@ else if( $AccountType == "remote" )
 {
     $t->set_var( "mode", "remote" );
     $folder = new eZIMAPMailFolder( $FolderID );
+}
+else
+{
+    // serious error...
 }
 
 $isDraftsFolder = false;

@@ -137,14 +137,14 @@ function imapFetchAttachment()
 //}
 /*********** INTERAL HELPER FUNCTIONS ******************/
 
-function createServerString( $server, $port )
+function createServerString( $server, $port, $mailbox )
 {
 //    echo "{" . "$server:$port" . "}";
-    return "{" . "$server:$port" . "}";
+    return "{" . "$server:$port" . "}$mailbox";
 }
 
 // why on earth does this fail from time to time?!?
-function imapConnect( $account )
+function imapConnect( $account, $mailbox = "INBOX" )
 {
     if( get_class( $account ) != "ezmailaccount" )
         $account = new eZMailAccount( $account );
@@ -155,7 +155,7 @@ function imapConnect( $account )
     $password = $account->password();
     $port = $account->serverPort();
 
-    $serverString = createServerString( $server, $port);
+    $serverString = createServerString( $server, $port, $mailbox );
     $mbox = imap_open( $serverString, $userName, $password );
 
     return $mbox;
