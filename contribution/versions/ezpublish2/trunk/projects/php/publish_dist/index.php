@@ -44,7 +44,9 @@ $content_page = "";
 
 // Check if userlogin is required
 $user = eZUser::currentUser();
-if ( ( get_class( $user ) == "ezuser" ) && ( $user->id() != 0 ) && ( $ini->read_var( "eZUserMain", "RequireUserLogin" ) == "enabled" ) )
+
+if ( ( $ini->read_var( "eZUserMain", "RequireUserLogin" ) == "enabled" ) ||
+    ( $ini->read_var( "eZUserMain", "RequireUserLogin" ) == "enabled"  & ( get_class( $user ) == "ezuser" ) && ( $user->id() != 0 ) ) ) 
 {
 
 // Remove url parameters
