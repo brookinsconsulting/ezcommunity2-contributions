@@ -349,3 +349,4 @@ alter table eZForum_Forum add GroupID int default 0;
 alter table eZBug_Module add OwnerGroupID int default 0;
 INSERT INTO eZUser_Module VALUES (11, 'eZBug');
 INSERT INTO eZUser_Permission VALUES (40, 11,'BugEdit'); 
+alter table eZBug_Bug add OwnerID int default NULL; 
