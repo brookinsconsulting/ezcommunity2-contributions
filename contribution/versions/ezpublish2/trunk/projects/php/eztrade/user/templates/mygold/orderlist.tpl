@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderlist.tpl,v 1.1 2001/10/12 11:58:08 sascha Exp $ -->
+<!-- $Id: orderlist.tpl,v 1.2 2001/10/12 12:11:39 ce Exp $ -->
 
 <table width="100%" border="0">
 <tr>
@@ -12,11 +12,11 @@
 <hr noshade="noshade" size="1" />
 <!-- BEGIN order_item_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="2" border="0">
-<tr align="left">
-	<th><a class="th" class="th" href="/trade/orderlist/?OrderBy=No">{intl-nr}:</a></th>
+<tr >
+	<th >{intl-nr}:</th>
 	<th>{intl-created}:</th>
 	<!-- BEGIN order_status_header_tpl -->
-	<th><a class="th" href="/trade/orderlist/?OrderBy=Status">{intl-status}:</a></th>
+	<th>{intl-status}:</th>
 	<!-- END order_status_header_tpl -->
 	<th>{intl-price}:</th>
 	<th>{intl-view}:</th>
@@ -35,7 +35,6 @@
 	</td>
 </tr>
 <!-- END order_item_tpl -->
-
 </table>
 <!-- END order_item_list_tpl -->
 

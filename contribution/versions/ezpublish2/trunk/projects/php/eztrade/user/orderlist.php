@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderlist.php,v 1.1 2001/09/24 10:20:18 ce Exp $
+// $Id: orderlist.php,v 1.2 2001/10/12 12:11:39 ce Exp $
 //
 // Created on: <21-Sep-2001 17:41:07 ce>
 //
@@ -31,7 +31,7 @@ include_once( "classes/ezlist.php" );
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZTradeMain", "Language" );
-$ShowOrderStatusToUser = $ini->read_var( "eZTradeMain", "ShowOrderStatusToUser" );
+$ShowOrderStatusToUser = $ini->read_var( "eZTradeMain", "ShowOrderStatusToUser" ) == "true";
 
 include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezproduct.php" );
