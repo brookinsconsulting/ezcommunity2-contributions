@@ -1,8 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.12 2001/01/22 14:43:02 jb Exp $
-//
-// 
+// $Id: menubox.php,v 1.13 2001/01/23 16:11:32 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -26,24 +24,46 @@
 //
 
 include_once( "classes/INIFile.php" );
-$ini =& $GLOBALS["GlobalSiteIni"];
+$ini = new INIFile( "site.ini" );
 
 $Language = $ini->read_var( "eZUserMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
 
-$t = new eZTemplate( "ezuser/admin/" . $ini->read_var( "eZUserMain", "AdminTemplateDir" ),
+$t = new eZTemplate( "templates/" . $SiteStyle,
                      "ezuser/admin/intl", $Language, "menubox.php" );
-
-$t->setAllStrings();
 
 $t->set_file( array(
     "menu_box_tpl" => "menubox.tpl"
     ) );
-    
-$t->set_var( "site_style", $SiteStyle );
 
+$t->set_block( "menu_box_tpl", "menu_item_tpl", "menu_item" );
+
+$t->set_var( "site_style", $SiteStyle );
+$t->set_var( "module_dir", $module_dir );
+
+print( $module_dir );
+
+
+$menuItems = array(
+    array( "/user/userlist/", "{intl-userlist}" ),
+    array( "/user/grouplist/", "{intl-grouplist}" ),
+    array( "/user/useredit/new/", "{intl-newuser}" ),
+    array( "/user/groupedit/new/", "{intl-newgroup}" ),
+    array( "/user/sessioninfo/", "{intl-session_info}" )
+    );
+
+foreach ( $menuItems as $menuItem )
+{
+    $t->set_var( "target_url", $menuItem[0]  );
+    $t->set_var( "name", $menuItem[1]  );
+
+    $t->parse( "menu_item", "menu_item_tpl", true );
+}
+
+$t->setAllStrings();
 $t->pparse( "output", "menu_box_tpl" );
     
 
 ?>
+
