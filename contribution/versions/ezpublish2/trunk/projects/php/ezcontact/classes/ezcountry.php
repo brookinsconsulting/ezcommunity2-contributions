@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcountry.php,v 1.6 2001/01/23 11:24:19 jb Exp $
+// $Id: ezcountry.php,v 1.7 2001/01/25 00:31:10 jb Exp $
 //
 // Definition of eZCountry class
 //
@@ -52,15 +52,6 @@ class eZCountry
                 
                 $this->get( $this->ID );
             }
-            else
-            {
-                $this->State_ = "Dirty";
-                
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
         }
     }
 
@@ -81,7 +72,6 @@ class eZCountry
 
             $this->ID = mysql_insert_id();
 
-            $this->State_ = "Coherent";
             $ret = true;
         }
         else
@@ -91,7 +81,6 @@ class eZCountry
                     Name='$this->Name'
                     WHERE ID='$this->ID'" );            
 
-            $this->State_ = "Coherent";
             $ret = true;            
         }        
 
@@ -231,9 +220,6 @@ class eZCountry
     */
     function iso( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         return $this->ISO;
     }
 
@@ -242,8 +228,6 @@ class eZCountry
     */
     function name( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         return $this->Name;
     }
 
@@ -253,9 +237,6 @@ class eZCountry
     */
     function setISO( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->ISO = $value;
     }
 
@@ -264,18 +245,12 @@ class eZCountry
     */
     function setName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Name = $value;
     }
   
     var $ID;
     var $ISO;
     var $Name;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
 }
 
 ?>
