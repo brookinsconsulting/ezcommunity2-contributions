@@ -7,32 +7,35 @@
 <tr>
     <td>
 
-      <hr noshade size="4" />
+      <hr noshade="noshade" size="1" />
       <!-- BEGIN empty_wishlist_tpl -->
       <h2>{intl-empty_wishlist}</h2>
       <!-- END empty_wishlist_tpl --> <!-- BEGIN wishlist_item_list_tpl -->
-      <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
-		<tr> 
-		  <th>{intl-product_image}:</th>
+      <table width="100%" cellspacing="0" cellpadding="4" border="0">
+		<tr align="left"> 
+		  <th width="1%">{intl-product_image}:</th>
 		  <th>{intl-product_name}:</th>
-		  <th>{intl-product_options}:</th>
-		  <th>{intl-move_to_cart}:</th>
-		  <th>{intl-someone_has_bought_this}:</th>
+		  <th width="1%">{intl-product_options}:</th>
+		  <th width="1%">{intl-action}:</th>
+		  <th width="1%">{intl-someone_has_bought_this}:</th>
 		  <!-- BEGIN product_available_header_tpl -->
-		  <th>{intl-product_availability}:</th>
+	
 		  <!-- END product_available_header_tpl -->
-		  <th>{intl-product_qty}:</th>
-		  <td align="right"><b>{intl-product_price}:</b></td>
+		  <th width="1%">{intl-product_qty}:</th>
+		  <th align="right">{intl-product_price}:</th>
 		</tr>
 		<!-- BEGIN wishlist_item_tpl --> 
-		<tr> 
+		<tr align="center"> 
 		  <td class="{td_class}"> <!-- BEGIN wishlist_image_tpl --> <img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/> 
 			<!-- END wishlist_image_tpl --> </td>
-		  <td class="{td_class}"> <a href="/trade/productview/{product_id}/">{product_name}</a> 
+		  <td align="left" class="{td_class}"> <a href="/trade/productview/{product_id}/">{product_name}</a> 
 		  </td>
-		  <td class="{td_class}"> <!-- BEGIN wishlist_item_option_tpl --> {option_name}: 
-			{option_value}<!-- BEGIN wishlist_item_option_availability_tpl -->({option_availability})
-<!-- END wishlist_item_option_availability_tpl -->
+		  <td class="{td_class}"> 
+			<!-- BEGIN wishlist_item_option_tpl -->  
+			{option_value}
+			    <!-- BEGIN wishlist_item_option_availability_tpl -->
+			    ({option_availability})
+			    <!-- END wishlist_item_option_availability_tpl -->
 			<!-- END wishlist_item_option_tpl --> &nbsp;</td>
 		  <td class="{td_class}"> 
 		  <!-- BEGIN move_to_cart_item_tpl -->
@@ -57,9 +60,7 @@
    		  </td>
 
 		  <!-- BEGIN product_available_item_tpl -->
-		  <td class="{td_class}">
-		  {product_availability}
-		  </td>
+		  
 		  <!-- END product_available_item_tpl -->
 
   		  <td class="{td_class}">
@@ -68,21 +69,10 @@
 		  <td class="{td_class}" align="right"> {product_price} </td>
 		</tr>
 		<!-- END wishlist_item_tpl --> 
-		<tr> 
-		  <td colspan="5">&nbsp;</td>
-		  <th>{intl-shipping}:</th>
-		  <td align="right"> {shipping_cost} </td>
-		  <td align="right">&nbsp;</td>
-		</tr>
-		<tr> 
-		  <td colspan="5">&nbsp;</td>
-		  <th>{intl-total}:</th>
-		  <td align="right"> {wishlist_sum} </td>
-		  <td align="right">&nbsp;</td>
-		</tr>
 	  </table>
       <!-- END wishlist_item_list_tpl -->
-      <hr noshade size="4" />
+      
+     <hr noshade="noshade" size="1" />
     </td>
   </tr>
 </table>
