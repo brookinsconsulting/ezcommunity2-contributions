@@ -33,6 +33,9 @@
 <p class="boxtext">{intl-article_author}:</p>
 <input type="text" name="AuthorText" size="40" value="{author_text}" />
 
+<p class="boxtext">{intl-article_author_email}:</p>
+<input type="text" name="AuthorEmail" size="40" value="{author_email}" />
+
 <br /><br />
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>

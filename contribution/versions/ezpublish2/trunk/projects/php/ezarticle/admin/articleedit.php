@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.76 2001/04/27 13:23:42 jb Exp $
+// $Id: articleedit.php,v 1.77 2001/04/30 07:23:42 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -103,6 +103,7 @@ if ( $Action == "Insert" )
     $article->setContents( $contents );
     $article->setPageCount( $generator->pageCount() );
     $article->setAuthorText( $AuthorText );
+    $article->setAuthorEmail( $AuthorEmail );
     $article->setLinkText( $LinkText );
 
     if ( $Discuss == "on" )
@@ -292,6 +293,7 @@ if ( $Action == "Update" )
     $article->setContents( $contents  );
     $article->setPageCount( $generator->pageCount() );
     $article->setAuthorText( $AuthorText );
+    $article->setAuthorEmail( $AuthorEmail );
     $article->setLinkText( $LinkText );
 
     if ( $Discuss == "on" )
@@ -525,6 +527,7 @@ $t->set_var( "article_contents_1", stripslashes($Contents[1] ) );
 $t->set_var( "article_contents_2", stripslashes($Contents[2] ) );
 $t->set_var( "article_contents_3", stripslashes($Contents[3] ) );
 $t->set_var( "author_text", stripslashes($AuthorText ) );
+$t->set_var( "author_email", stripslashes($AuthorEmail ) );
 $t->set_var( "link_text", stripslashes($LinkText  ));
 
 $t->set_var( "action_value", "insert" );
@@ -587,6 +590,7 @@ if ( $Action == "Edit" )
     $t->set_var( "article_short_content", $article->shortContent() );
 
     $t->set_var( "author_text", $article->authorText() );
+    $t->set_var( "author_email", $article->authorEmail() );
     $t->set_var( "link_text", $article->linkText() );
 
 //    print( $article->linkText() );
