@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.51 2001/11/02 10:10:58 pkej Exp $
+// $Id: ordersendt.php,v 1.52 2001/11/04 12:36:07 bf Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -111,6 +111,7 @@ $t->set_block( "full_cart_tpl", "license_item_tpl", "license_item" );
 $t->set_var( "license_item", "" );
 
 $order = new eZOrder( $OrderID );
+unset( $user );
 
 // get the customer
 $user = $order->user();
@@ -123,6 +124,7 @@ if ( !( $currentUser && $user ) )
     eZHTTPTool::header( "Location: /trade/cart/" );
     exit();
 }
+
 
 // check if the user owns the order
 if ( $currentUser->id() != $user->id() )
