@@ -1,5 +1,5 @@
 <?
-// $Id: unapprovededit.php,v 1.4 2001/03/01 14:06:25 jb Exp $
+// $Id: unapprovededit.php,v 1.5 2001/05/04 12:47:06 ce Exp $
 //
 // Author: Bård Farstad <bf@ez.no>
 // Created on: <21-Jan-2001 13:34:48 bf>
@@ -74,7 +74,8 @@ for( $i=0; $i < count ( $ActionValueArray ); $i++ )
 
         $mailTemplate->set_var( "message_body", nl2br( $message->body() ) );
         $mailTemplate->set_var( "message_topic", $message->topic() );
-        $t->set_var( "message_postingtime", $locale->format( $message->postingTime() ) );
+
+        $mailTemplate->set_var( "message_postingtime", $locale->format( $message->postingTime() ) );
 
         $body =& $mailTemplate->parse( "dummy", "mail_reject_tpl" );
 
@@ -92,13 +93,10 @@ for( $i=0; $i < count ( $ActionValueArray ); $i++ )
 
             if ( get_class ( $forumUser ) == "ezuser" )
             {
-        
                 $mail->setFrom( $forumUser->email() );
                 $mail->setBody( $body );
 
                 $mail->send();
-
-                print( $messageUser->email() );
             }
         }
 

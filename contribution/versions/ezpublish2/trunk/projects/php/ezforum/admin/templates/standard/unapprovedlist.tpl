@@ -35,8 +35,8 @@
 </table>
  
 <p class="boxtext">{intl-action}:</p>
-<span class="p">{intl-approve}:</span> <input value="Approve" type="radio" name="ActionValueArray[{i}]" />
-<span class="p">{intl-discard}:</span> <input value="Discard" type="radio" name="ActionValueArray[{i}]" />
+<span class="p">{intl-approve}:</span> <input value="Approve" type="radio" name="ActionValueArray[{i}]" /><br />
+<span class="p">{intl-discard}:</span> <input value="Discard" type="radio" name="ActionValueArray[{i}]" /><br />
 <span class="p">{intl-reject}:</span> <input value="Reject" type="radio" name="ActionValueArray[{i}]" />
 
 <p class="boxtext">{intl-reject_reason}:</p>

@@ -60,24 +60,57 @@
 
 </table>
 
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<!-- BEGIN type_list_tpl -->
+<br />
+<table cellpadding="0" cellspacing="0" border="0">
 <tr>
-<!-- BEGIN previous_tpl -->
+	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/forum/messagelist/{forum_id}/{prev_offset}/{limit}">&lt;&lt;&nbsp;{intl-previous}</a>
+	<a class="path" href="/forum/messagelist/{forum_id}/parent/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
 	</td>
-<!-- END previous_tpl -->
+	<!-- END type_list_previous_tpl -->
 
-<!-- BEGIN next_tpl -->
-	<td align="right">
-	<a class="path" href="/forum/messagelist/{forum_id}/{next_offset}/{limit}">{intl-next}&nbsp;&gt;&gt;</a>
+	<!-- BEGIN type_list_previous_inactive_tpl -->
+	<td>
+	&nbsp;
 	</td>
-<!-- END next_tpl -->
+	<!-- END type_list_previous_inactive_tpl -->
+
+	<!-- BEGIN type_list_item_list_tpl -->
+
+	<!-- BEGIN type_list_item_tpl -->
+	<td>
+	|&nbsp;<a class="path" href="/forum/messagelist/{forum_id}/parent/{item_index}">{type_item_name}</a>&nbsp;
+	</td>
+	<!-- END type_list_item_tpl -->
+
+	<!-- BEGIN type_list_inactive_item_tpl -->
+	<td>
+	|&nbsp;&lt;&nbsp;{type_item_name}&nbsp;&gt;&nbsp;
+	</td>
+	<!-- END type_list_inactive_item_tpl -->
+
+	<!-- END type_list_item_list_tpl -->
+
+	<!-- BEGIN type_list_next_tpl -->
+	<td>
+	|&nbsp;<a class="path" href="/forum/messagelist/{forum_id}/parent/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	</td>
+	<!-- END type_list_next_tpl -->
+
+	<!-- BEGIN type_list_next_inactive_tpl -->
+	<td>
+	|&nbsp;
+	</td>
+	<!-- END type_list_next_inactive_tpl -->
+
 </tr>
 </table>
+<!-- END type_list_tpl -->
 
 <hr noshade size="4" />
 
 <input class="stdbutton" type="submit" value="{intl-new-posting}" />
 </form>
+
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.20 2001/04/23 12:00:42 fh Exp $
+// $Id: messagelist.php,v 1.21 2001/05/04 12:47:06 ce Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -30,6 +30,7 @@ $ini =& INIFile::globalINI();
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezdatetime.php" );
+include_once( "classes/ezlist.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "ezforum/classes/ezforummessage.php" );
@@ -37,7 +38,7 @@ include_once( "ezforum/classes/ezforumcategory.php" );
 include_once( "ezforum/classes/ezforum.php" );
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
-$Limit = $ini->read_var( "eZForumMain", "MessageLimit" );
+$UserLimit = $ini->read_var( "eZForumMain", "MessageUserLimit" );
 $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
                      "ezforum/user/intl", $Language, "messagelist.php" );
 
@@ -94,7 +95,8 @@ if ( !isset( $Offset ) )
 if ( !isset( $Limit ) )
     $Limit = 30;
 
-$messageList =& $forum->messageTreeArray( $Offset, $Limit );
+$messageList =& $forum->messageTreeArray( $Offset, $UserLimit );
+$messageCount =& $forum->messageCount();
 
 if ( !$messageList )
 {
@@ -102,8 +104,6 @@ if ( !$messageList )
     $noitem =  $languageIni->read_var( "strings", "noitem" );
 
     $t->set_var( "message_item", $noitem );
-    $t->set_var( "next", "" );
-    $t->set_var( "previous", "" );
 }
 else
 {
@@ -150,34 +150,6 @@ else
             $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
         }
         
-        $t->set_var( "limit", $Limit );
-        
-        $prevOffs = $Offset - $Limit;
-        $nextOffs = $Offset + $Limit;
-        
-        if ( $prevOffs >= 0 )
-        {
-            $t->set_var( "prev_offset", $prevOffs  );
-            $t->parse( "previous", "previous_tpl" );
-        }
-        else
-        {
-            $t->set_var( "previous", "" );
-        }
-        
-        if ( $nextOffs < $forum->messageCount() )
-        {
-            $t->set_var( "next_offset", $nextOffs  );
-            $t->parse( "next", "next_tpl" );
-        }
-        else
-        {
-            $t->set_var( "next", "" );
-        }
-        
-        
-//    $t->set_var( "next_offset", $Offset + $Limit );
-        
         if ( get_class( $viewer ) == "ezuser" )
         {
             if ( $viewer->id() == $userID && eZForumMessage::countReplies( $message["ID"] ) == 0 && !$forum->IsModerated() )
@@ -188,7 +160,8 @@ else
         $t->parse( "message_item", "message_item_tpl", true );
         $i++;
     }
-} 
+}
+eZList::drawNavigator( $t, $messageCount, $UserLimit, $Offset, "messagelist" );
 
 $t->set_var( "newmessage", $newmessage );
 
