@@ -270,6 +270,7 @@ switch ( $url_array[2] )
         $StaticRendering = true;
         $ArticleID = $url_array[3];
         $PageNumber= $url_array[4];
+
         
         if ( !isset( $PageNumber ) || ( $PageNumber == "" ) ||  ( $PageNumber < 1 ) )
             $PageNumber= 1;
@@ -364,6 +365,11 @@ switch ( $url_array[2] )
         else
             $user = 0;
         
+        if ( !isset( $CategoryID ) )
+            $CategoryID = eZArticle::categoryDefinitionStatic( $ArticleID );
+        
+        $GlobalSectionID = eZArticleCategory::sectionIDStatic( $CategoryID );
+
         if ( !isset( $PageNumber ) || ( $PageNumber == "" ) ||  ( $PageNumber < 1 ) )
             $PageNumber= 1;
         
