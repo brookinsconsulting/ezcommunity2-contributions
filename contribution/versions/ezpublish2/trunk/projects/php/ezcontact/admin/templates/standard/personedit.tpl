@@ -36,10 +36,6 @@
 <li>{intl-error_online}{error_online_position}
 <!-- END error_online_item_tpl -->
 
-<!-- BEGIN error_contact_item_tpl -->
-<li>{intl-error_contact}
-<!-- END error_contact_item_tpl -->
-
 </ul>
 <!-- END errors_tpl -->
 

@@ -99,7 +99,6 @@
 <p class="boxtext">{intl-description}:</p>
 
 <!-- BEGIN image_view_tpl -->
-<!--     <p class="boxtext">{intl-company_image}:</p> -->
 <img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" align="left" vspace="2" hspace="6" />
 <!-- END image_view_tpl -->
 

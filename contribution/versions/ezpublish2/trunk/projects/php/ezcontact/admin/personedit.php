@@ -234,7 +234,6 @@ else
 $t->set_block( "errors_tpl", "error_address_item_tpl", "error_address_item" );
 $t->set_block( "errors_tpl", "error_phone_item_tpl", "error_phone_item" );
 $t->set_block( "errors_tpl", "error_online_item_tpl", "error_online_item" );
-$t->set_block( "errors_tpl", "error_contact_item_tpl", "error_contact_item" );
 
 $confirm = false;
 
@@ -305,7 +304,6 @@ if ( !$confirm )
         $t->set_var( "error_address_item", "" );
         $t->set_var( "error_phone_item", "" );
         $t->set_var( "error_online_item", "" );
-        $t->set_var( "error_contact_item", "" );
 
         if ( isset( $CompanyEdit ) )
         {
