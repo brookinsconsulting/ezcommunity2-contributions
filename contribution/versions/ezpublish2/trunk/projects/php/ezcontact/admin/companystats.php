@@ -1,12 +1,12 @@
 <?php
 // 
-// $Id: companystats.php,v 1.1 2001/03/21 13:33:30 jb Exp $
+// $Id: companystats.php,v 1.2 2001/07/20 12:01:50 jakobn Exp $
 //
-// Jan Borsodi <jb@ez.no>
 // Created on: <20-Mar-2001 18:21:41 amos>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

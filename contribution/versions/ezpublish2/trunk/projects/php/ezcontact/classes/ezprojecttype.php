@@ -1,11 +1,14 @@
 <?php
 // 
-// $Id: ezprojecttype.php,v 1.9 2001/07/13 14:48:19 jhe Exp $
+// $Id: ezprojecttype.php,v 1.10 2001/07/20 12:01:51 jakobn Exp $
 //
 // Definition of eZProjectType class
 //
+// Created on: <19-Mar-2001 16:51:20 amos>
+//
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

@@ -1,13 +1,14 @@
 <?php
 // 
-// $Id: ezcompanytype.php,v 1.34 2001/07/13 14:48:19 jhe Exp $
+// $Id: ezcompanytype.php,v 1.35 2001/07/20 12:01:50 jakobn Exp $
 //
 // Definition of eZCompanyType class
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

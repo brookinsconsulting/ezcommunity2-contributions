@@ -1,12 +1,12 @@
 <?php
 // 
-// $Id: nopermission.php,v 1.2 2001/03/02 12:19:48 ce Exp $
+// $Id: nopermission.php,v 1.3 2001/07/20 12:01:50 jakobn Exp $
 //
-// Jan Borsodi <jb@ez.no>
 // Created on: <19-Feb-2001 11:11:28 amos>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -22,7 +22,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-include_once( "classes/eztemplate.php" );
 
 $ini =& $GlobalSiteIni;
 $Language = $ini->read_var( "eZContactMain", "Language" );
