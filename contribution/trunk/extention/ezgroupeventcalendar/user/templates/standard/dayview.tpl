@@ -69,6 +69,21 @@
 <br />
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<form method="post" action="/groupeventcalendar/eventedit/edit/">
+	<td align="right" colspan="10" style="padding: 5px;">
+	 <input class="stdbutton" type="submit" name="GoDay" value="{intl-day}">
+	 <input class="stdbutton" type="submit" name="GoMonth" value="{intl-month}">
+	 <input class="stdbutton" type="submit" name="GoYear" value="{intl-year}">
+	 <input class="stdbutton" type="submit" name="GoToday" value="{intl-today}">
+
+ 	 <!-- BEGIN valid_editor_tpl -->
+ 	 <hr noshade size="4" />
+	 <input class="stdbutton" type="submit" name="GoNew" value="{intl-new_event}">&nbsp;
+	 <input class="stdbutton" type="submit" name="DeleteEvents" value="{intl-delete_events}">
+	<!-- END valid_editor_tpl -->
+	</td>
+</tr>
 <!-- BEGIN day_view_long_date_header_tpl -->
 <tr>
 	<td id="gcalDayViewLongDateHeader" colspan="10"><span class="gcalDayViewLongDateHeader">{long_date}</span></td> 
@@ -98,7 +113,7 @@
 	-->
 </tr>
 </table>
-<form method="post" action="/groupeventcalendar/eventedit/edit/">
+
 <table width="100%" border="0" cellspacing="0" cellpadding="2" class="gcalBorder">
 <!-- BEGIN time_table_tpl -->
 <tr>
@@ -149,23 +164,10 @@
 	</td>
 	<!-- END private_event_tpl -->
 	<!-- BEGIN no_event_tpl -->
-	<td style="background: url('http://127.0.0.5/images/gcalDayViewBg.png') repeat;" valign="top" rowspan="{rowspan_value}">&nbsp;</td>
+	<td style="background: url('/ezgroupeventcalendar/user/templates/standard/images/gcalDayViewBg.png') repeat;" valign="top" rowspan="{rowspan_value}">&nbsp;</td>
 	<!-- END no_event_tpl -->
 </tr>
 <!-- END time_table_tpl -->
 </table>
-<br />
 
-<!-- BEGIN valid_editor_tpl -->
-<hr noshade size="4" />
-<input class="stdbutton" type="submit" name="GoNew" value="{intl-new_event}">&nbsp;
-<input class="stdbutton" type="submit" name="DeleteEvents" value="{intl-delete_events}">
-<!-- END valid_editor_tpl -->
-
-<hr noshade size="4" />
-
-<input class="stdbutton" type="submit" name="GoDay" value="{intl-day}">
-<input class="stdbutton" type="submit" name="GoMonth" value="{intl-month}">
-<input class="stdbutton" type="submit" name="GoYear" value="{intl-year}">
-<input class="stdbutton" type="submit" name="GoToday" value="{intl-today}">
 </form>

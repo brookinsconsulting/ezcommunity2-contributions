@@ -1,15 +1,12 @@
-<form method="get" action="/search/">
 <table width="100%" cellspacing="0" cellpadding="2" border="0" align="center">
+<form method="get" action="/search/">
   <tr>
     <td align="left"> 
      <h1>{month_name} - {current_year_number}</h1>
     </td>
-    <td> 
-	&nbsp;
-	</td>
   </tr>
-</table>
 </form>
+</table>
 
 <form method="post" action="/groupeventcalendar/monthview/">
 
@@ -43,6 +40,20 @@
     </td>
   </tr>
   <tr>
+	<td colspan="2" align="right" style="padding:5px;">
+	  <form action="/groupeventcalendar/eventedit/edit/">
+  	     <input class="stdbutton" type="submit" name="GoDay" value="{intl-day}">
+		<input class="stdbutton" type="submit" name="GoMonth" value="{intl-month}">
+		<input class="stdbutton" type="submit" name="GoYear" value="{intl-year}">
+		<input class="stdbutton" type="submit" name="GoToday" value="{intl-today}">
+
+		<!-- BEGIN new_event_form_tpl -->
+		<input class="stdbutton" type="submit" name="GoNew" value="{intl-new_event}">
+		<!-- END new_event_form_tpl -->
+	  </form>
+	</td>
+  </tr>
+  <tr>
 	<td>
 	<a class="menu" href="/groupeventcalendar/monthview/{prev_year_number}/{prev_month_number}/">&lt;&lt; {intl-previous_month}</a>
 	</td>
@@ -54,6 +65,7 @@
 
 </form>
 <br />
+
 <!-- BEGIN month_tpl -->
 <table width="100%" border="0" cellspacing="0" cellpadding="2">
 <tr>
@@ -93,20 +105,18 @@
   </tr>
 <!-- BEGIN private_appointment_tpl -->
  <tr valign="top">
-   <td width="8" class="tdmini"><img src="/sitedesign/{sitedesign}/images/dot.gif" border="0" alt="" /></td>
+   <td width="8" class="tdmini"><!-- <img src="/sitedesign/{sitedesign}/images/dot.gif" border="0" alt="" /> --></td>
    <td class="tdmini"><div class="small"><i>{appointment_group}</i> - <b>{intl-pvt_event}<br /></div></td>
  </tr>
 <!-- END private_appointment_tpl -->
 
 <!-- BEGIN public_appointment_tpl -->
  <tr valign="top">
-   <td width="8"><img src="/sitedesign/{sitedesign}/images/dot.gif" border="0" alt="" /></td>
-   <td><a class="small" href="/groupeventcalendar/eventview/{appointment_id}/">{appointment_group} - {appointment_name}</a></td>
+   <td width="8"> <!-- <img src="/sitedesign/{sitedesign}/images/dot.gif" border="0" alt="" /> --> </td>
+   <td style="padding-bottom:5px;"><a class="small" href="/groupeventcalendar/eventview/{appointment_id}/"><!--{appointment_group} - -->{appointment_name}</a></td>
  <tr>
 <!-- END public_appointment_tpl -->
 </table>
-<br />
-<br />
 </td>
 <!-- END day_tpl -->
 
@@ -117,18 +127,3 @@
 
 <!-- END month_tpl -->
 
-<form action="/groupeventcalendar/eventedit/edit/">
-
-<!-- BEGIN new_event_form_tpl -->
-<hr noshade size="4" />
-
-<input class="stdbutton" type="submit" name="GoNew" value="{intl-new_event}">
-<!-- END new_event_form_tpl -->
-
-<hr noshade size="4" />
-
-<input class="stdbutton" type="submit" name="GoDay" value="{intl-day}">
-<input class="stdbutton" type="submit" name="GoMonth" value="{intl-month}">
-<input class="stdbutton" type="submit" name="GoYear" value="{intl-year}">
-<input class="stdbutton" type="submit" name="GoToday" value="{intl-today}">
-</form>
