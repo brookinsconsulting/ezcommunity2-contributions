@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcart.php,v 1.14.2.1 2001/03/21 09:07:55 pkej Exp $
+// $Id: ezcart.php,v 1.14.2.2 2001/03/21 12:35:36 pkej Exp $
 //
 // Definition of eZCart class
 //
@@ -335,15 +335,18 @@ class eZCart
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $vatType =& $shippingType->vatType();
-
-       $shippingCost = $this->shippingCost( $shippingType );
-       
-       $shippingVAT = 0;
-       if ( $vatType )
+       if ( get_class( $shippingType ) == "ezshippingtype" )
        {
-           $value =& $vatType->value();
-           $shippingVAT = ( $shippingCost / ( $value + 100  ) ) * $value;
+           $vatType =& $shippingType->vatType();
+
+           $shippingCost = $this->shippingCost( $shippingType );
+       
+           $shippingVAT = 0;
+           if ( $vatType )
+           {
+               $value =& $vatType->value();
+               $shippingVAT = ( $shippingCost / ( $value + 100  ) ) * $value;
+           }
        }
 
        return $shippingVAT;
