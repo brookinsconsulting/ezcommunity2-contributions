@@ -2,19 +2,25 @@
 <tr>
 	<td colspan="2" class="menuhead">{intl-contact_headline}</td>
 </tr>
+<!-- BEGIN company_item_tpl -->
 <tr>
 	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
 	<td width="99%"><a class="menu" href="/contact/company/list">{intl-company_list}</a></td>
 </tr>
+<!-- END company_item_tpl -->
+<!-- BEGIN person_item_tpl -->
 <tr>
 	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
 	<td width="99%"><a class="menu" href="/contact/person/list">{intl-person_list}</a></td>
 </tr>
+<!-- END person_item_tpl -->
+<!-- BEGIN consultation_item_tpl -->
 <tr>
 	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
 	<td width="99%"><a class="menu" href="/contact/consultation/list">{intl-consultation_list}</a></td>
 </tr>
 <tr>
+<!-- END consultation_item_tpl -->
 	<td colspan="2" class="menuspacer">&nbsp;</td>
 </tr>
 </table>

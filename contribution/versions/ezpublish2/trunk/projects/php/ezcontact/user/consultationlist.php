@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: consultationlist.php,v 1.6 2001/02/12 18:15:10 jb Exp $
+// $Id: consultationlist.php,v 1.7 2001/02/19 13:43:01 jb Exp $
 //
 // 
 //
@@ -26,9 +26,12 @@
 //
 
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/ezusergroup.php" );
+include_once( "ezuser/classes/ezpermission.php" );
 
 $user = eZUser::currentUser();
-if ( $user )
+if ( get_class( $user ) == "ezuser" and
+     eZPermission::checkPermission( $user, "eZContact", "Consultation" ) )
 {
     include_once( "ezcontact/classes/ezconsultation.php" );
     include_once( "ezcontact/classes/ezcompany.php" );
@@ -41,6 +44,9 @@ if ( $user )
     {
         $max = 5;
     }
+
+    $view_company = eZPermission::checkPermission( $user, "eZContact", "CompanyView" );
+    $view_person = eZPermission::checkPermission( $user, "eZContact", "PersonView" );
 
     include_once( "classes/INIFile.php" );
     $ini = new INIFile( "site.ini" );
@@ -62,7 +68,9 @@ if ( $user )
     $t->set_block( "last_consultations_item_tpl", "consultation_item_tpl", "consultation_item" );
 
     $t->set_block( "consultation_item_tpl", "consultation_person_item_tpl", "consultation_person_item" );
+    $t->set_block( "consultation_item_tpl", "consultation_no_person_item_tpl", "consultation_no_person_item" );
     $t->set_block( "consultation_item_tpl", "consultation_company_item_tpl", "consultation_company_item" );
+    $t->set_block( "consultation_item_tpl", "consultation_no_company_item_tpl", "consultation_no_company_item" );
 
     $t->set_var( "consultation_item", "" );
     $t->set_var( "last_consultations_item", "" );
@@ -70,36 +78,44 @@ if ( $user )
     $consultations = eZConsultation::findLatestConsultations( $user->id(), $max );
 
     foreach( $consultations as $consultation )
+    {
+        $t->set_var( "consultation_desc", $consultation->shortDescription() );
+        $t->set_var( "consultation_id", $consultation->id() );
+        $company_id = $consultation->company( $user->id() );
+        $t->set_var( "consultation_company_item", "" );
+        $t->set_var( "consultation_no_company_item", "" );
+        $t->set_var( "consultation_person_item", "" );
+        $t->set_var( "consultation_no_person_item", "" );
+        if ( $company_id )
         {
-            $t->set_var( "consultation_desc", $consultation->shortDescription() );
-            $t->set_var( "consultation_id", $consultation->id() );
-            $company_id = $consultation->company( $user->id() );
-            $t->set_var( "consultation_company_item", "" );
-            $t->set_var( "consultation_person_item", "" );
-            if ( $company_id )
-            {
-                $company = new eZCompany( $company_id );
-                $t->set_var( "contact_name", $company->name() );
-                $t->set_var( "company_id", $company->id() );
+            $company = new eZCompany( $company_id );
+            $t->set_var( "contact_name", $company->name() );
+            $t->set_var( "company_id", $company->id() );
+            if ( $view_company )
                 $t->parse( "consultation_company_item", "consultation_company_item_tpl" );
+            else
+                $t->parse( "consultation_no_company_item", "consultation_no_company_item_tpl" );
+        }
+        else
+        {
+            $person_id = $consultation->person( $user->id() );
+            if ( $person_id )
+            {
+                $person = new eZPerson( $person_id );
+                $t->set_var( "person_id", $person->id() );
+                $t->set_var( "contact_lastname", $person->lastName() );
+                $t->set_var( "contact_firstname", $person->firstName() );
+                if ( $view_person )
+                    $t->parse( "consultation_person_item", "consultation_person_item_tpl" );
+                else
+                    $t->parse( "consultation_no_person_item", "consultation_no_person_item_tpl" );
             }
             else
             {
-                $person_id = $consultation->person( $user->id() );
-                if ( $person_id )
-                {
-                    $person = new eZPerson( $person_id );
-                    $t->set_var( "person_id", $person->id() );
-                    $t->set_var( "contact_lastname", $person->lastName() );
-                    $t->set_var( "contact_firstname", $person->firstName() );
-                    $t->parse( "consultation_person_item", "consultation_person_item_tpl" );
-                }
-                else
-                {
-                }
             }
-            $t->parse( "consultation_item", "consultation_item_tpl", true );
         }
+        $t->parse( "consultation_item", "consultation_item_tpl", true );
+    }
 
     if ( count( $consultations ) > 0 )
     {

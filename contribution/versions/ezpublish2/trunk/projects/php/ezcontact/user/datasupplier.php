@@ -22,6 +22,51 @@ else
 
 switch ( $url_array[2] )
 {
+    case "nopermission":
+    {
+        $Type = $url_array[3];
+        switch( $Type )
+        {
+            case "company":
+            {
+                $Action = $url_array[4];
+                include( "ezcontact/admin/nopermission.php" );
+                break;
+            }
+            case "category":
+            {
+                $Action = $url_array[4];
+                include( "ezcontact/admin/nopermission.php" );
+                break;
+            }
+            case "person":
+            {
+                $Action = $url_array[4];
+                include( "ezcontact/admin/nopermission.php" );
+                break;
+            }
+            case "login":
+            case "consultation":
+            {
+                include( "ezcontact/admin/nopermission.php" );
+                break;
+            }
+            case "type":
+            {
+                $Action = $url_array[4];
+                include( "ezcontact/admin/nopermission.php" );
+                break;
+            }
+            default:
+            {
+                include_once( "classes/ezhttptool.php" );
+                eZHTTPTool::header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
+                break;
+            }
+        }
+        break;
+    }
+
     case "search":
     {
         switch( $url_array[3] )
