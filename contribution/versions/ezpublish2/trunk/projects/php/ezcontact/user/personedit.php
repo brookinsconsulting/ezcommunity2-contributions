@@ -132,13 +132,34 @@ $t->set_var( "cv_email_online_id", "" );
     The user wants to create a new person.
     
     We present an empty form.
+    
+    1:      If a logged in user is trying to insert data.
+    1.1:    Try to get a person object by the logged in user's ID
+    1.2:    If the person object exists redirect to edit mode.
  */
 if( $Action == "new" )
 {
+    if( $UserID != 0 ) // 1
+    {
+        $person = new eZPerson();
+        $person = $person->getByUserID( $User_ID ); // 1.1
+        $PersonID = $person->id();
+         
+        if( empty( $PersonID ) ) // 1.2
+        {
+            echo "logged in";
+            header( "Redirect: contact/user/edit/$PersonID" );
+            exit();
+        }       
+    }
+    
     $Action_value = "insert";
 
-    $t->set_var( "person_id", "0" );    
-    $t->set_var( "user_id", $user->id() );
+    $t->set_var( "person_id", "0" );
+    if( $Add_User == false )
+    { 
+        $t->set_var( "user_id", $user->id() );
+    }
     $t->set_var( "firstname", $user->firstName() );
     $t->set_var( "lastname", $user->lastName() );
     $t->set_var( "email", $user->email() );
