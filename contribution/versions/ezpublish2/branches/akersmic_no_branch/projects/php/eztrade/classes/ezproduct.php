@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.25 2002/01/30 14:35:21 bf Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.26 2002/01/30 14:56:04 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -246,11 +246,9 @@ class eZProduct
             foreach ( $attributes as $attribute )
             {
                 $value =& $attribute->value( $this );
-                $contents .= " " . $value;
+                $contents .= " " . strtolower( $value );
             }
         }
-
-
         
         $contents = str_replace ("\n", "", $contents );
         $contents = str_replace ("\r", "", $contents );
@@ -294,6 +292,7 @@ class eZProduct
                  is_numeric( strpos( $word, "/" ) ) ||
                  is_numeric( strpos( $word, "ø" ) ) ||
                  is_numeric( strpos( $word, "å" ) ) ||
+                 is_numeric( strpos( $word, "ä" ) ) ||
                  is_numeric( strpos( $word, "ö" ) ) ||
                  is_numeric( strpos( $word, "ü" ) ) ||
                  is_numeric( strpos( $word, "æ" ) ) )
@@ -303,6 +302,7 @@ class eZProduct
                 $nWord = str_replace( "-","", $nWord );
                 $nWord = str_replace( "/","", $nWord );
                 $nWord = str_replace( "ö","o", $nWord );
+                $nWord = str_replace( "ä","a", $nWord );
                 $nWord = str_replace( "ü","u", $nWord );
                 $nWord = str_replace( "å","a", $nWord );
                 $nWord = str_replace( "æ","oe", $nWord );
@@ -1760,7 +1760,7 @@ class eZProduct
                          $albumSQL
                          $artistSQL
                          $recordingSQL
-                       ORDER BY $OrderBy";
+                       ORDER BY $OrderBy  LIMIT 800";
 
 
                     $db->query( $queryString );
@@ -1801,7 +1801,7 @@ class eZProduct
                          eZTrade_Type.ID=eZTrade_Product.TypeID
                          $dvdSQL
                          $attributeSQL
-                       ORDER BY $OrderBy";
+                       ORDER BY $OrderBy  LIMIT 800";
 
                     $db->query( $queryString );
 
@@ -1837,7 +1837,7 @@ class eZProduct
                          eZTrade_Type.ID=eZTrade_Product.TypeID
                          $titleSQL
                          $attributeSQL
-                       ORDER BY $OrderBy";
+                       ORDER BY $OrderBy  LIMIT 800";
 
 
                     $db->query( $queryString );
@@ -1870,7 +1870,8 @@ class eZProduct
                             $typeSQL = "";
                         }
 
-                        $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, Price, TypeName ) SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name AS Name, eZTrade_Product.Price as Price, eZTrade_Type.Name as TypeName
+                        $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, Price, TypeName )
+		SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name AS Name, eZTrade_Product.Price as Price, eZTrade_Type.Name as TypeName
                  FROM eZTrade_Product,
                       eZTrade_ProductWordLink,
                       eZTrade_Word,
@@ -1885,7 +1886,7 @@ class eZProduct
                          $typeSQL
                         )
                        GROUP BY eZTrade_Product.ID
-                       ORDER BY $OrderBy";
+                       ORDER BY $OrderBy LIMIT 800";
 
 
                         $db->query( $queryString );
