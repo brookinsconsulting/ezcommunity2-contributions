@@ -5,16 +5,20 @@
 <!-- BEGIN message_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-   	<th width="40%">{intl-topic}:</th>
-    <th width="30%">{intl-author}:</th>
+   	<th width="45%">{intl-topic}:</th>
+    <th width="25%">{intl-author}:</th>
     <th width="30%"><div align="right">{intl-time}:</div></th>
 </tr>
 
     <!-- BEGIN message_item_tpl -->
     <tr>
     	<td class="{td_class}">
-	   {spacer}{spacer}
-		{topic}
+	<table width="100%" cellspacing="0" cellpadding="0" border="0">
+	<tr>
+		<td width="1%">{spacer}{spacer}</td>
+		<td width="99%"><a class="{link_color}" href="/forum/message/{message_id}/">{topic}</a></td>
+	</tr>
+	</table>
 		</td>
     	<td class="{td_class}">
 	    {user}
@@ -25,13 +29,14 @@
     </tr>
     <tr>
     <td colspan="3">
-    <p>
+    <div class="p">
     {body}
-    </p>
+    </div>
+	<div class="spacer">
 	<form action="/forum/userlogin/replysimple/{forum_id}/{message_id}/?RedirectURL={redirect_url}">
 	<input class="stdbutton" type="submit" value="{intl-reply}" />
 	</form>
-	<br />
+	</div>
     </td>
     </tr>
     <!-- END message_item_tpl -->

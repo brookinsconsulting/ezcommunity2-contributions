@@ -27,8 +27,8 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-    <th width="40%">{intl-topic}:</th>
-    <th width="30%">{intl-author}:</th>
+    <th width="45%">{intl-topic}:</th>
+    <th width="25%">{intl-author}:</th>
     <th width="29%"><div align="right">{intl-time}:</div></th>
     <th width="1%"></th>
 </tr>
@@ -36,7 +36,12 @@
 <!-- BEGIN message_item_tpl -->
 <tr>
     <td class="{td_class}">
-        {spacer}{spacer}<a href="/forum/message/{message_id}/">{topic}</a>
+	<table width="100%" cellspacing="0" cellpadding="0" border="0">
+	<tr>
+		<td width="1%">{spacer}{spacer}</td>
+		<td width="99%"><a href="/forum/message/{message_id}/">{topic}</a></td>
+	</tr>
+	</table>
     </td>
     <td class="{td_class}">
         {user}
