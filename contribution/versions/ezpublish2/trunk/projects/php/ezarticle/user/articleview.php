@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.59 2001/07/29 23:30:58 kaid Exp $
+// $Id: articleview.php,v 1.60 2001/08/01 16:45:33 kaid Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -75,7 +75,7 @@ if ( $StaticPage == true )
 }
 else
 {
-    if ( $PrintableVersion == "enabled" )
+    if ( isset( $PrintableVersion ) and $PrintableVersion == "enabled" )
     {
             $t->set_file( "article_view_page_tpl", "articleprint.tpl"  );        
     }
@@ -128,7 +128,7 @@ $SiteURL = $ini->read_var( "site", "SiteURL" );
 
 $t->set_var( "article_url", $SiteURL . $REQUEST_URI );
 $t->set_var( "article_url_item", "" );
-if ( $PrintableVersion == "enabled" )
+if ( isset( $PrintableVersion ) and $PrintableVersion == "enabled" )
     $t->parse( "article_url_item", "article_url_item_tpl" );
 
 
@@ -224,10 +224,10 @@ if ( $article->get( $ArticleID ) )
     $t->set_var( "article_intro", $articleContents[0] );
 
     if ( $PageNumber == 1 )
-       	$t->parse( "article_intro", "article_intro_tpl" );
-	else
-    	$t->set_var( "article_intro", "" );
-		
+           $t->parse( "article_intro", "article_intro_tpl" );
+    else
+        $t->set_var( "article_intro", "" );
+        
     $t->set_var( "article_body", $articleContents[1] );
 
     $t->set_var( "link_text", $article->linkText() );
@@ -247,7 +247,11 @@ else
 }
 
 // set the variables in the mail_to form
+if ( !isset( $SendTo ) )
+    $SendTo = "";
 $t->set_var( "send_to", $SendTo );
+if ( !isset( $From ) )
+    $From = "";
 $t->set_var( "from", $From );
 
 $types = $article->types();

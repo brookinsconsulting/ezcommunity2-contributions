@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleheaderlist.php,v 1.10 2001/07/19 12:19:21 jakobn Exp $
+// $Id: articleheaderlist.php,v 1.11 2001/08/01 16:45:33 kaid Exp $
 //
 // Created on: <26-Oct-2000 21:15:58 bf>
 //
@@ -114,7 +114,8 @@ else
     $t->set_var( "category_list", "" );
 
 
-
+if ( !isset( $SortMode ) )
+	$SortMode = "";
 
 if ( $CategoryID == 0 )
 {
