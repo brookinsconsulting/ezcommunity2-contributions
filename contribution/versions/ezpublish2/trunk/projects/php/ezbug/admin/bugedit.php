@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.32 2001/03/14 10:31:31 fh Exp $
+// $Id: bugedit.php,v 1.33 2001/03/19 15:57:27 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -310,7 +310,7 @@ if ( $Action == "Edit" )
     $bug = new eZBug( $BugID );
     
     $t->set_var( "bug_id", $bug->id() );
-    $t->set_var( "name_value", $bug->name() );
+    $t->set_var( "name_value", htmlspecialchars( $bug->name() ) );
     $bug_user = $bug->user();
     if( $bug_user )
     {
