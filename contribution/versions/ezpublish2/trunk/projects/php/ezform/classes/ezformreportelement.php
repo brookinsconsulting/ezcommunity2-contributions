@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformreportelement.php,v 1.22 2002/01/30 10:24:33 jhe Exp $
+// $Id: ezformreportelement.php,v 1.23 2002/01/30 12:02:24 jhe Exp $
 //
 // Definition of eZFormReportElement class
 //
@@ -640,40 +640,47 @@ class eZFormReportElement
         $db =& eZDB::globalDatabase();
         $element = $this->element();
         $reference = $this->reference();
-        $db->array_query( $res, "SELECT Result, ResultID, ElementID FROM eZForm_FormElementResult
-                                 WHERE (eZForm_FormElementResult.ElementID='" . $element->id() . "' OR
-                                 eZForm_FormElementResult.ElementID='" . $reference->id() . "') AND
-                                 eZForm_FormElementResult.Result != ''
-                                 $resultString
-                                 ORDER BY ResultID" );
-
-        for ( $i = 0; $i < count( $res ) - 1; $i++ )
+        if ( get_clss( $reference ) == "ezformelement" )
         {
-            if ( $res[$i]["ElementID"] != $res[$i + 1]["ElementID"] &&
-                 $res[$i]["ResultID"] == $res[$i]["ResultID"] )
+            $db->array_query( $res, "SELECT Result, ResultID, ElementID FROM eZForm_FormElementResult
+                                     WHERE (eZForm_FormElementResult.ElementID='" . $element->id() . "' OR
+                                     eZForm_FormElementResult.ElementID='" . $reference->id() . "') AND
+                                     eZForm_FormElementResult.Result != ''
+                                     $resultString
+                                     ORDER BY ResultID" );
+
+            for ( $i = 0; $i < count( $res ) - 1; $i++ )
             {
-                if ( $res[$i]["ElementID"] == $element->id() )
+                if ( $res[$i]["ElementID"] != $res[$i + 1]["ElementID"] &&
+                     $res[$i]["ResultID"] == $res[$i]["ResultID"] )
+                {
+                    if ( $res[$i]["ElementID"] == $element->id() )
                 {
                     $t->set_var( "element_value", $res[$i]["Result"] );
                 }
-                else
-                {
-                    $t->set_var( "header_value", $res[$i]["Result"] );
+                    else
+                    {
+                        $t->set_var( "header_value", $res[$i]["Result"] );
+                    }
+                    
+                    if ( $res[$i + 1]["ElementID"] == $element->id() )
+                    {
+                        $t->set_var( "element_value", $res[$i + 1]["Result"] );
+                    }
+                    else
+                    {
+                        $t->set_var( "header_value", $res[$i + 1]["Result"] );
+                    }
+                    $t->parse( "list_row", "list_row_tpl", true );
+                    $i++;
                 }
-
-                if ( $res[$i + 1]["ElementID"] == $element->id() )
-                {
-                    $t->set_var( "element_value", $res[$i + 1]["Result"] );
-                }
-                else
-                {
-                    $t->set_var( "header_value", $res[$i + 1]["Result"] );
-                }
-                $t->parse( "list_row", "list_row_tpl", true );
-                $i++;
             }
+            $output = $t->parse( $target, "list_tpl" );
         }
-        $output = $t->parse( $target, "list_tpl" );
+        else
+        {
+            $output = "";
+        }
         return $output;
     }
     
