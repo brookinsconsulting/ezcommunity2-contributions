@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezonlinetype.php,v 1.1 2000/11/14 08:23:32 ce-cvs Exp $
+// $Id: ezonlinetype.php,v 1.2 2000/11/14 12:24:32 ce-cvs Exp $
 //
 // Definition of eZOnline class
 //
@@ -132,7 +132,7 @@ class eZOnlineType
     /*
     Fetches out all the online types that is stored in the database.
   */
-        function getAll( )
+    function getAll( )
     {
         $this->dbInit();    
         $online_type_array = 0;

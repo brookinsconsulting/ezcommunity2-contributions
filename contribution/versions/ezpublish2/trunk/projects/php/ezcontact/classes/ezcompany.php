@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.22 2000/11/14 08:23:32 ce-cvs Exp $
+// $Id: ezcompany.php,v 1.23 2000/11/14 12:24:32 ce-cvs Exp $
 //
 // Definition of eZProduct class
 //
@@ -286,7 +286,7 @@ class eZCompany
     /*!
       Returns the phones that belong to this eZCompany object.
     */
-    function phones( $phoneID )
+    function phones( $companyID )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -296,7 +296,7 @@ class eZCompany
 
         $this->Database->array_query( $phone_array, "SELECT PhoneID
                                                  FROM eZContact_CompanyPhoneDict
-                                                 WHERE PhoneID='$phoneID'" );
+                                                 WHERE CompanyID='$companyID'" );
 
         foreach( $phone_array as $phoneItem )
         {

@@ -10,9 +10,28 @@ class eZAddressType
     /*!
       Constructor.
     */
-    function eZAddressType()
+    function eZAddressType( $id="-1", $fetch=true)
     {
+        $this->IsConnected = false;
 
+        if ( $id != -1 )
+        {
+            $this->ID = $id;
+            if ( $fetch == true )
+            {
+                
+                $this->get( $this->ID );
+            }
+            else
+            {
+                $this->State_ = "Dirty";
+                
+            }
+        }
+        else
+        {
+            $this->State_ = "New";
+        }
     }
     
     /*!
@@ -21,16 +40,25 @@ class eZAddressType
     function store()
     {
         $this->dbInit();
-        query( "INSERT INTO eZContact_AddressType set Name='$this->Name'" );
-    }
 
-    /*!
-      Lagrer en addressetyperow til databasen.      
-    */
-    function update()
-    {
-        $this->dbInit();
-        query( "UPDATE eZContact_AddressType set Name='$this->Name' WHERE ID='$this->ID'" );
+        $ret = false;
+        
+        if ( !isSet( $this->ID ) )
+        {
+            $this->Database->query( "INSERT INTO eZContact_AddressType set Name='$this->Name'" );
+            $this->ID = mysql_insert_id();
+
+            $this->State_ = "Coherent";
+            $ret = true;
+        }
+        else
+        {
+            $this->Database->query( "UPDATE eZContact_AddressType set Name='$this->Name' WHERE ID='$this->ID'" );
+
+            $this->State_ = "Coherent";
+            $ret = true;
+        }
+        return $ret;
     }
 
     /*
@@ -39,7 +67,7 @@ class eZAddressType
     function delete()
     {
         $this->dbInit();
-        query( "DELETE FROM eZContact_AddressType WHERE ID='$this->ID'" );
+        $this->Database->query( "DELETE FROM eZContact_AddressType WHERE ID='$this->ID'" );
     }
     
   /*
@@ -69,11 +97,19 @@ class eZAddressType
     function getAll( )
     {
         $this->dbInit();    
-        $address_type_array = 0;
+        $online_type_array = 0;
+
+        $address_type_array = array();
+        $return_array = array();
     
-        array_query( $address_type_array, "SELECT * FROM eZContact_AddressType" );
+        $this->Database->array_query( $address_type_array, "SELECT ID FROM eZContact_AddressType" );
+
+        foreach( $address_type_array as $addressTypeItem )
+        {
+            $return_array[] = new eZAddressType( $addressTypeItem["ID"] );
+        }
     
-        return $address_type_array;
+        return $return_array;
     }
 
     /*!
@@ -101,26 +137,29 @@ class eZAddressType
     }
     
     /*!
-      Privat funksjon, skal kun brukes av ezusergroup klassen.
-      Funksjon for å åpne databasen.
+      \private
+      Open the database.
     */
     function dbInit()
     {
-        include_once( "classes/INIFile.php" );
-
-        $ini = new INIFile( "site.ini" );
-        
-        $SERVER = $ini->read_var( "site", "Server" );
-        $DATABASE = $ini->read_var( "site", "Database" );
-        $USER = $ini->read_var( "site", "User" );
-        $PWD = $ini->read_var( "site", "Password" );
-        
-        mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
-        mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
+        if ( $this->IsConnected == false )
+        {
+            $this->Database = new eZDB( "site.ini", "site" );
+            $this->IsConnected = true;
+        }
     }
 
     var $ID;
     var $Name;
+
+    ///  Variable for keeping the database connection.
+    var $Database;
+
+    /// Indicates the state of the object. In regard to database information.
+    var $State_;
+    /// Is true if the object has database connection, false if not.
+    var $IsConnected;
+
 }
 
 ?>
