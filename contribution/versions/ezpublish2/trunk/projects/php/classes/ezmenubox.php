@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmenubox.php,v 1.1 2001/01/23 17:35:49 jb Exp $
+// $Id: ezmenubox.php,v 1.2 2001/01/23 21:11:16 bf Exp $
 //
 // Definition of eZMenuBox class
 //
@@ -76,6 +76,8 @@ class eZMenuBox
 
         $t->set_var( "site_style", $SiteStyle );
         $t->set_var( "module_dir", $module_dir );
+
+        $t->set_var( "request_uri", $GLOBALS["REQUEST_URI"] );
 
         foreach ( $menuItems as $menuItem )
         {

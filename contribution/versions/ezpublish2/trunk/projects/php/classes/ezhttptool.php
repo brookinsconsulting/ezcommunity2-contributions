@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezhttptool.php,v 1.1 2001/01/23 11:42:30 bf Exp $
+// $Id: ezhttptool.php,v 1.2 2001/01/23 21:11:16 bf Exp $
 //
 // Definition of eZTextTool class
 //
@@ -33,18 +33,30 @@ class eZHTTPTool
 
         if ( isset( $sid ) )
         {
-            $pos = strpos( $string, "?" );
-
-            if ( $pos )
-            {
-                $string = $string . "&PHPSESSID=$sid";
-            }
-            else
-            {
-                $string = $string . "?PHPSESSID=$sid";    
-            }
+            $string = eZHTTPTool::addVariable( $string, "PHPSESSID", $sid );
         }
-        header( $string );    
+        
+        header( $string );
+    }
+
+    /*!
+      \static
+      Returns a url with the variable added to the url.
+    */
+    function &addVariable( $url, $variable, $value )
+    {
+        $pos = strpos( $url, "?" );
+
+        if ( $pos )
+        {
+            $string = $url . "&" . $variable. "=" . $value;
+        }
+        else
+        {
+            $string = $url . "?" . $variable. "=" . $value;
+        }
+
+        return $string;
     }
 }
 

@@ -12,7 +12,7 @@
 	<table width="100%" cellpadding="0" cellspacing="0" border="0">
 	<tr>
 		<td width="1%">
-		<a href="/">
+		<a href="{request_uri}">
 		<!-- Ikon: Start -->
 		<img src="/{module_dir}/admin/images/module_icon.gif" width="32" height="32" border="0" align="absmiddle" />
 		<!-- Ikon: Slutt -->
