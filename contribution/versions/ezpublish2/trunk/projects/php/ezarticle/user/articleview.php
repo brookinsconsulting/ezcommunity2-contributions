@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.60 2001/08/01 16:45:33 kaid Exp $
+// $Id: articleview.php,v 1.61 2001/08/02 16:12:05 kaid Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -377,7 +377,7 @@ else
 $t->set_var( "current_page_link", "" );
 
 // page links
-if ( $pageCount > 1 && $PageNumber != -1 && $PrintableVersion != "enabled" )
+if ( $pageCount > 1 && $PageNumber != -1 && ( isset( $PrintableVersion ) && $PrintableVersion != "enabled" ) )
 {
     for ( $i=0; $i<$pageCount; $i++ )
     {
@@ -413,7 +413,7 @@ else
 }
 
 // printable version link
-if ( ( $PrintableVersion != "enabled" ) && ( $StaticRendering != true )  )
+if ( ( isset( $PrintableVersion ) && $PrintableVersion != "enabled" ) && ( $StaticRendering != true )  )
 {
     $t->parse( "print_page_link", "print_page_link_tpl" );
 }
@@ -434,7 +434,7 @@ else
 }
 
 // next page link
-if ( $PageNumber < $pageCount && $PageNumber != -1 && $PrintableVersion != "enabled" )
+if ( $PageNumber < $pageCount && $PageNumber != -1 && ( isset( $PrintableVersion ) && $PrintableVersion != "enabled" ) )
 {
     $t->set_var( "next_page_number", $PageNumber + 1 );    
     $t->parse( "next_page_link", "next_page_link_tpl" );
@@ -449,7 +449,7 @@ else
 $SiteTitleAppend = $article->name();
 $SiteDescriptionOverride = str_replace( "\"", "", strip_tags( $articleContents[0] ) );
 
-if ( $GenerateStaticPage == "true" )
+if ( isset( $GenerateStaticPage ) && $GenerateStaticPage == "true" )
 {
     
     $fp = eZFile::fopen( $cachedFile, "w+");

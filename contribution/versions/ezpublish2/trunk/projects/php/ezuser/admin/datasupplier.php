@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.24 2001/07/20 11:45:40 jakobn Exp $
+// $Id: datasupplier.php,v 1.25 2001/08/02 16:16:16 kaid Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -199,7 +199,10 @@ else
     {
         case "login" :
         {
-            $Action = $url_array[3];
+            if ( isset( $url_array[3] ) )
+                $Action = $url_array[3];
+            else
+                $Action = "";
             include( "ezuser/admin/login.php" );
         }
         break;

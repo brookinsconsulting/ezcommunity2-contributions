@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezforum.php,v 1.41 2001/08/01 16:41:25 kaid Exp $
+// $Id: ezforum.php,v 1.42 2001/08/02 16:14:13 kaid Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -348,7 +348,7 @@ class eZForum
     {
        $db =& eZDB::globalDatabase();
 
-       if ( !$showUnApproved )
+       if ( !isset( $showUnApproved ) || !$showUnApproved )
            $showUnApproved = " AND IsApproved='1' ";
        else
            $showUnApproved = " AND IsApproved='0' ";

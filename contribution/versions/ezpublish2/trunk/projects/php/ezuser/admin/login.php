@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: login.php,v 1.25 2001/07/30 10:37:00 kaid Exp $
+// $Id: login.php,v 1.26 2001/08/02 16:16:16 kaid Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -127,7 +127,7 @@ if ( $Action == "logout" )
     exit();
 }
 
-if ( $error )
+if ( isset( $error ) && $error )
 {
     $t->parse( "error_message", "error_message_tpl" );
 }
@@ -136,7 +136,7 @@ else
     $t->set_var( "error_message", "" );
 }
 
-if ( $maxerror )
+if ( isset( $maxerror ) && $maxerror )
 {
     $t->parse( "max_message", "max_message_tpl" );
 }

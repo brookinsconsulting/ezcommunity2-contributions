@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: message.php,v 1.25 2001/07/19 13:17:55 jakobn Exp $
+// $Id: message.php,v 1.26 2001/08/02 16:14:13 kaid Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -224,6 +224,8 @@ foreach ( $messages as $message )
     $i++;
 }
 
+if ( !isset( $RedirectURL ) )
+    $RedirectURL = "";
 $t->set_var( "redirect_url", $RedirectURL );
 
 if ( $readPermission == true )
