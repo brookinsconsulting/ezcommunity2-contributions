@@ -70,8 +70,22 @@ class INIFile
         // check for modifications
         $cacheTime = filemtime( $cachedFile );
         $origTime = filemtime( $inifilename );
-        
-        if ( file_exists( $cachedFile ) and ( $cacheTime > $origTime ) )
+        $overrideTime = filemtime( "override/" . $inifilename );
+        $appendTime = filemtime( "override/" . $inifilename . ".append" );
+
+        $loadCache = false;
+        if ( file_exists( $cachedFile ) )
+        {
+            $loadCache = true;
+            if ( $cacheTime < $origTime )
+                $loadCache = false;
+            if ( file_exists( "override/" . $inifilename ) and $cacheTime < $overrideTime )
+                $loadCache = false;
+            if ( file_exists( "override/" . $inifilename . ".append" ) and $cacheTime < $appendTime )
+                $loadCache = false;
+        }
+
+        if ( $loadCache )
         {        
             include( $cachedFile );
         }
