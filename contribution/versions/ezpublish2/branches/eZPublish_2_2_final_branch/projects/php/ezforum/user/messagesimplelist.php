@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagesimplelist.php,v 1.15.2.2 2002/05/08 11:51:36 vl Exp $
+// $Id: messagesimplelist.php,v 1.15.2.3 2003/06/17 14:17:04 vl Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -93,7 +93,10 @@ else
         $t->set_var( "message_id", $message->id() );
         
         $muser =& $message->user();
-        $t->set_var( "user", $muser->firstName() . " " . $muser->lastName() );
+        if ( $muser->id() == 0 )
+            $t->set_var( "user", $message->userName() );
+        else
+            $t->set_var( "user", $muser->firstName() . " " . $muser->lastName() );
         
         $t->parse( "message_item", "message_item_tpl", true );
         $i++;
