@@ -82,11 +82,11 @@ if ( $PhoneAction == "AddPhone" )
     $phone->setType( $PhoneType );
     $pid = $phone->store();
 
-    $dict = new eZPersonPhoneDict();
+    $phone_dict = new eZPersonPhoneDict();
 
-    $dict->setPhoneID( $PID );
-    $dict->setPhoneID( $pid );
-    $dict->store();
+    $phone_dict->setPhoneID( $PID );
+    $phone_dict->setPhoneID( $pid );
+    $phone_dict->store();
 }
 
 // Oppdatere telefon
@@ -101,7 +101,7 @@ if ( $PhoneAction == "UpdatePhone" )
 }
 
 // Slette telefon
-if ( $PhoneAction == "delete" )
+if ( $PhoneAction == "deletePhone" )
 {
     $phone = new eZPhone();
     $phone->get( $PhoneID );
@@ -165,13 +165,13 @@ if ( $Action == "edit" )
 
         $phone = new eZPhone();
 
-         $dict = new eZPersonPhoneDict();
+         $phone_dict = new eZPersonPhoneDict();
 
-        $dict_array = $dict->getByPerson( $PID );
+        $phone_dict_array = $phone_dict->getByPerson( $PID );
     
-    for ( $i=0; $i<count( $dict_array ); $i++ )
+    for ( $i=0; $i<count( $phone_dict_array ); $i++ )
     {
-        $phone->get( $dict_array[ $i ][ "PhoneID" ] );
+        $phone->get( $phone_dict_array[ $i ][ "PhoneID" ] );
         $phoneType->get( $phone->type() );
 
         $t->set_var( "phone_id", $phone->id() );
