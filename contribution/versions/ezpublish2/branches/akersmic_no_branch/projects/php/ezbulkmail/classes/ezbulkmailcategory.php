@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezbulkmailcategory.php,v 1.25.2.3.4.1 2002/01/30 13:04:32 ce Exp $
+// $Id: ezbulkmailcategory.php,v 1.25.2.3.4.2 2002/04/10 12:00:53 ce Exp $
 //
 // Definition of eZBulkMailCategory class
 //
@@ -111,7 +111,7 @@ class eZBulkMailCategory
         if ( $id == -1 )
             $id = $this->ID;
 
-        $categoryList = $this->getByParent( $id );
+        $categoryList = eZBulkMailCategory::getByParent( $id );
         foreach( $categoryList as $category )
         {
             $this->delete( $category->id() );

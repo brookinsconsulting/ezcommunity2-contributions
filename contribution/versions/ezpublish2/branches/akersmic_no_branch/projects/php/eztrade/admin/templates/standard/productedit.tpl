@@ -18,7 +18,10 @@
 	<!-- BEGIN selected_category_item_tpl -->
 	<tr> 
 	    <td width="30%">
-	    {category_name}
+<b>/</b>
+<!-- BEGIN path_item_tpl -->
+{category_name} <b>/</b>
+<!-- END path_item_tpl -->
 	    <input type="hidden" name="SelectedCategories[]" value="{category_id}" />
 	    <input type="hidden" name="CategoryArray[]" value="{category_id}" />
 	    </td>
@@ -140,6 +143,7 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
         <div class="check">
         <input type="checkbox" name="Active" {showproduct_checked} />&nbsp;<span class="boxtext">{intl-active}</span>
         <input type="checkbox" name="ShowPrice" {showprice_checked} />&nbsp;<span class="boxtext">{intl-has_price}</span>
+        <input type="checkbox" name="Forhond" {forhond_checked} />&nbsp;<span class="boxtext">Forhåndsbestilling</span>
         </div>
     </td>
 </tr>

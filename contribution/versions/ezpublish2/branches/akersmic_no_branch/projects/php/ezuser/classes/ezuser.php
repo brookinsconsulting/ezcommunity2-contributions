@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezuser.php,v 1.100.8.2 2002/02/01 15:43:00 ce Exp $
+// $Id: ezuser.php,v 1.100.8.3 2002/04/10 12:00:54 ce Exp $
 //
 // Definition of eZUser class
 //
@@ -1226,6 +1226,21 @@ class eZUser
         }
         return $return_array;
     }
+
+function getByLogin( $login )
+{
+$db =& eZDB::globalDatabase();
+$ret = false;
+        $query = "SELECT * FROM eZUser_User WHERE Login='$login'";
+        $db->array_query( $user_array, $query );
+if ( $user_array[0]["ID"] != 0 )
+{
+$ret = new eZUser( $user_array[0]["ID"] );
+}
+
+return $ret;
+
+}
 
     var $ID;
     var $Login;

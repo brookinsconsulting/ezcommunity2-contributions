@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.42.8.3 2002/02/15 13:05:48 ce Exp $
+// $Id: datasupplier.php,v 1.42.8.4 2002/04/10 12:00:54 ce Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
@@ -484,6 +484,7 @@ switch ( $url_array[2] )
             $Search = $Query;
         else
             $Search = $url_array[4];
+        $Search = urldecode( $Search );
         include( "eztrade/admin/productsearch.php" );
         break;
     }

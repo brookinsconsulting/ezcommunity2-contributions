@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: subscriptionlist.php,v 1.10.2.2.4.1 2002/01/30 17:02:14 ce Exp $
+// $Id: subscriptionlist.php,v 1.10.2.2.4.2 2002/04/10 12:00:53 ce Exp $
 //
 // Created on: <18-Apr-2001 13:36:21 fh>
 //
@@ -82,6 +82,14 @@ if( isset ( $Ok ) )
         }
     }
 
+    if ( count ( $hifi ) > 0 )
+    {
+        foreach( $hifi as $hifiitem )
+        {
+            $subscriptionaddress->subscribe( $hifiitem );
+        }
+    }
+
     for( $i=0;$i<count($CategoryAll);$i++ )
     {
         $subscriptionaddress->addDelay( $CategoryAll[$i], $SendDelay[$i] );
@@ -116,6 +124,9 @@ $t->set_block( "musikk_tpl", "musikk_item_tpl", "musikk_item" );
 
 $t->set_block( "subscription_list_tpl", "dvd_tpl", "dvd" );
 $t->set_block( "dvd_tpl", "dvd_item_tpl", "dvd_item" );
+
+$t->set_block( "subscription_list_tpl", "hifi_tpl", "hifi" );
+$t->set_block( "hifi_tpl", "hifi_item_tpl", "hifi_item" );
 
 $t->set_var( "category", "" );
 $t->set_var( "category_item", "" );
@@ -216,6 +227,20 @@ foreach( $catArray as $cat )
             $t->parse( "dvd_item", "dvd_item_tpl", true );
         }
         $t->parse( "dvd", "dvd_tpl" );
+    }
+    // HiFi
+    if ( $cat->id() == 100 )
+    {
+        $hifi = $cat;
+        if( isset ( $haystack ) && in_array ( $hifi->id(), $haystack ) )
+            $t->set_var( "is_checked", "checked" );
+        else
+            $t->set_var( "is_checked", "" );
+
+        $t->set_var( "hifi_name", $hifi->name() );
+        $t->set_var( "hifi_id", $hifi->id() );
+        $t->parse( "hifi_item", "hifi_item_tpl", true );
+        $t->parse( "hifi", "hifi_tpl" );
     }
 }
 

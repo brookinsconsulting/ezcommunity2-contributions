@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezformelement.php,v 1.9.2.2 2001/11/16 12:53:06 jhe Exp $
+//
+// $Id: ezformelement.php,v 1.9.2.2.4.1 2002/04/10 12:00:53 ce Exp $
 //
 // ezformelement class
 //
@@ -68,40 +68,42 @@ class eZFormElement
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $name =& $db->escapeString( $this->Name );
+        $remoteID =& $db->escapeString( $this->RemoteID );
         $size =& $db->escapeString( $this->Size );
         $required =& $this->Required;
-        
+
         if ( get_class( $this->ElementType ) == "ezformelementtype" )
         {
             $elementTypeID =& $this->ElementType->id();
         }
-        
+
         if ( empty( $this->ID ) )
         {
             $db->lock( "eZForm_FormElement" );
             $nextID = $db->nextID( "eZForm_FormElement", "ID" );
             $res[] = $db->query( "INSERT INTO eZForm_FormElement
-                         ( ID, Name, Required, Size, Break, ElementTypeID )
+                         ( ID, Name, Required, Size, Break, ElementTypeID, RemoteID )
                          VALUES
-                         ( '$nextID', '$name', '$required', '$size', '$this->Break', '$elementTypeID' )" );
+                         ( '$nextID', '$name', '$required', '$size', '$this->Break', '$elementTypeID', '$remoteID' )" );
 
 			$this->ID = $nextID;
 
 
         }
         elseif ( is_numeric( $this->ID ) )
-        {    
+        {
             $res[] = $db->query( "UPDATE eZForm_FormElement SET
                                     Name='$name',
                                     Required='$required',
                                     Size='$size',
                                     Break='$this->Break',
-                                    ElementTypeID='$elementTypeID'
+                                    ElementTypeID='$elementTypeID',
+                                    RemoteID='$remoteID'
                                   WHERE ID='$this->ID'" );
         }
-        
+
         eZDB::finish( $res, $db );
         return true;
     }
@@ -122,7 +124,7 @@ class eZFormElement
                 $value->delete();
             }
         }
-        
+
         $db =& eZDB::globalDatabase();
         $db->begin();
 
@@ -172,6 +174,7 @@ class eZFormElement
         $this->Size =& $formArray[$db->fieldName( "Size" )];
         $this->Break =& $formArray[$db->fieldName( "Break" )];
         $this->ElementType =& new eZFormElementType( $formArray[$db->fieldName( "ElementTypeID" )] );
+        $this->RemoteID =& $formArray[$db->fieldName( "RemoteID" )];
     }
 
     /*!
@@ -182,7 +185,7 @@ class eZFormElement
     function &getAll( $offset=0, $limit=20 )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $returnArray = array();
         $formArray = array();
 
@@ -241,6 +244,14 @@ class eZFormElement
     }
 
     /*!
+      Returns the remote id of the object.
+    */
+    function &remoteID()
+    {
+        return htmlspecialchars( $this->RemoteID );
+    }
+
+    /*!
       Returns the size of the object.
     */
     function size()
@@ -261,7 +272,7 @@ class eZFormElement
         {
             $ret = true;
         }
-        
+
         return $ret;
     }
 
@@ -278,7 +289,7 @@ class eZFormElement
         {
             $ret = true;
         }
-        
+
         return $ret;
     }
 
@@ -296,6 +307,14 @@ class eZFormElement
     function setName( &$value )
     {
        $this->Name = $value;
+    }
+
+    /*!
+      Sets the remote id of the object.
+    */
+    function setRemoteID( &$value )
+    {
+       $this->RemoteID = $value;
     }
 
     /*!
@@ -357,7 +376,7 @@ class eZFormElement
     {
         $returnArray = array();
         $formArray = array();
-        
+
         $db =& eZDB::globalDatabase();
         $db->array_query( $formArray, "SELECT FormID FROM eZForm_FormElementDict WHERE ElementID='$this->ID'" );
 
@@ -367,8 +386,8 @@ class eZFormElement
         }
         return $returnArray;
     }
-    
-    
+
+
     /*!
       Returns the number of forms this element belongs to
     */
@@ -380,7 +399,7 @@ class eZFormElement
         $db->query_single( $result, "SELECT COUNT(ElementID) as Count
                                      FROM eZForm_FormElementDict WHERE ElementID='$this->ID'" );
         $ret = $result[$db->fieldName( "Count" )];
-        
+
         return $ret;
     }
 
@@ -395,7 +414,7 @@ class eZFormElement
         $db->query_single( $result, "SELECT COUNT(ID) as Count
                                      FROM eZForm_FormElementType" );
         $ret = $result[$db->fieldName( "Count" )];
-        
+
         return $ret;
     }
 
@@ -409,14 +428,14 @@ class eZFormElement
 
         if ( is_object( $value ) )
              $value = $value->id();
-        
+
         $db->lock( "eZForm_FormElementFixedValueLink" );
         $nextID = $db->nextID( "eZForm_FormElementFixedValueLink", "ID" );
         $res[] = $db->query( "INSERT INTO eZForm_FormElementFixedValueLink
                          ( ID, ElementID, FixedValueID )
                          VALUES
                          ( '$nextID', '$this->ID', '$value' )" );
-        
+
         eZDB::finish( $res, $db );
         return true;
     }
@@ -428,7 +447,7 @@ class eZFormElement
     {
         $returnArray = array();
         $formArray = array();
-        
+
         $db =& eZDB::globalDatabase();
         $db->array_query( $formArray, "SELECT FixedValueID FROM eZForm_FormElementFixedValueLink WHERE ElementID='$this->ID'" );
 
@@ -446,8 +465,8 @@ class eZFormElement
     var $ElementType;
     var $Break;
     var $Size;
+    var $RemoteID;
 }
 
 
 ?>
-                  

@@ -87,6 +87,7 @@
 <!-- BEGIN element_list_tpl -->
 <table width="100%" class="list" border="0" cellspacing="0" cellpadding="4">
 	<th>{intl-element_name}:</th>
+	<th>RemoteID:</th>
 	<th>&nbsp;</th>
 	<th>{intl-element_type}:</th>
 	<th>&nbsp;</th>
@@ -98,6 +99,7 @@
 <!-- BEGIN element_item_tpl -->
 <tr>
     <td class="{td_class}"><input type="hidden" name="elementID[]" value="{element_id}"><input type="text" class="halfbox" size="20" name="elementName[]" value="{element_name}"></td>
+    <td class="{td_class}"><input type="text" class="halfbox" size="20" name="remoteID[]" value="{remote_id}"></td>
     <td class="{td_class}">&nbsp;</td>
     <td class="{td_class}"><select name="elementTypeID[]">
     <option value="0">{intl-select_type}</option>

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproductattribute.php,v 1.13.8.3 2002/01/29 14:17:33 ce Exp $
+// $Id: ezproductattribute.php,v 1.13.8.4 2002/04/10 11:58:55 ce Exp $
 //
 // Definition of eZProductAttribute class
 //
@@ -297,7 +297,7 @@ class eZProductAttribute
     /*!
       Sets the attribute value for the given product.
     */
-    function setValue( &$product, &$value )
+    function setValue( &$product, $value )
     {
 	if ( get_class( $product ) == "ezproduct" )
 	{
@@ -341,13 +341,16 @@ class eZProductAttribute
     /*!
       Returns the attribute value to the given product.
     */
-    function &value( &$product )
+    function &value( &$product, $productAsObject = true )
     {
 	$db =& eZDB::globalDatabase();
 	$ret = "";
-	if ( get_class( $product ) == "ezproduct" )
+	if ( ( get_class( $product ) == "ezproduct" && $productAsObject == true ) || ($productAsObject == false ) )
 	{
-	    $productID = $product->id();
+        if ( $productAsObject == true )
+            $productID = $product->id();
+        else
+            $productID = $product;
 
 	    // check if the attribute is already set, if so update
 	    $db->array_query( $value_array,
@@ -361,6 +364,8 @@ class eZProductAttribute
 	}
 	return $ret;
     }
+
+
 
     /*!
       Moves this item up one step in the order list, this means that it will swap place with the item above.

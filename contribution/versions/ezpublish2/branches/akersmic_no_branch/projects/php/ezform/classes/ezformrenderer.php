@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformrenderer.php,v 1.17.2.2.4.1 2002/03/04 13:40:17 ce Exp $
+// $Id: ezformrenderer.php,v 1.17.2.2.4.2 2002/04/10 12:00:53 ce Exp $
 //
 // eZFormRenderer class
 //
@@ -412,10 +412,11 @@ class eZFormRenderer
 
         $mail = new eZMail();
 
-        $content = "";
+        $content = "start\r\n";
 
         foreach ( $elements as $element )
         {
+
             $elementName = "eZFormElement_" . $element->id();
 
             global $$elementName;
@@ -433,6 +434,8 @@ class eZFormRenderer
                 $value = $tmpValue;
             }
 
+            if ( $value == "" )
+                $value = 0;
             if ( $emailDefaults == true )
             {
                 if ( $element->name() == $this->Template->Ini->read_var( "strings", "subject_label" ) )
@@ -446,9 +449,13 @@ class eZFormRenderer
             }
             else
             {
-                $content .= $element->name() . ":\n " . $value . "\n\n";
+                if ( $element->remoteID() == "" )
+                    $content .= $element->name() . ":  " . $value . "\r\n";
+                else
+                    $content .= $element->remoteID() . ":  " . $value . "\r\n";
             }
         }
+        $content .= "stop\r";
 
         if ( $emailDefaults == false )
         {
@@ -462,12 +469,14 @@ class eZFormRenderer
             "form_mail_tpl" => "emailtemplate.tpl"
             ) );
 
+
         $t->set_var( "content", $content );
 
         $t->setAllStrings();
 
         $formatedContent = $t->parse( $target, "form_mail_tpl" );
 
+        $formatedContent = $content;
         if ( $form->encryptMail() == true )
         {
             $wwwUser = $ini->read_var( "eZTradeMain", "ApacheUser" );
@@ -493,7 +502,19 @@ class eZFormRenderer
 
         $mail->setTo( $form->receiver() );
 
-        $mail->send();
+if ( is_object ( $encryptedMail ) )
+{
+mail( $form->receiver(),
+      "CGI Miscellaneous Order.",
+      $encryptedMail->body,
+      "From: " . $formSender ." \r\n"
+      ."Reply-To: " . $formSender ." \r\n"
+      ."X-Mailer: PHP/" . phpversion() );
+}
+else
+{
+    $mail->send();
+}
         $formSent = true;
 
         if ( $formSent )

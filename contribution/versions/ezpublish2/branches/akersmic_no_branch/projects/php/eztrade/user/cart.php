@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.71.8.7 2002/02/04 20:40:34 br Exp $
+// $Id: cart.php,v 1.71.8.8 2002/04/10 11:57:19 ce Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -200,7 +200,6 @@ if ( !$cart )
 }
 
 $items = $cart->items( );
-
 
 if ( $Action == "AddToBasket" )
 {

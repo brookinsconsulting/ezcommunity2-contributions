@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezgpg.php,v 1.10.8.1 2002/03/05 15:59:26 ce Exp $
+// $Id: ezgpg.php,v 1.10.8.2 2002/04/10 12:00:52 ce Exp $
 //
 // Definition of eZGPG class
 //
@@ -63,6 +63,8 @@ class eZGPG
       fclose( $fp );
 
       eZFile::unlink( "/var/www/" . $boundary );
+
+
    }
 
     var $body;

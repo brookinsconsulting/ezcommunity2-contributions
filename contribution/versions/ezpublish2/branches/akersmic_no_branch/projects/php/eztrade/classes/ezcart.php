@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezcart.php,v 1.36.8.5 2002/03/07 13:59:03 ce Exp $
+// $Id: ezcart.php,v 1.36.8.6 2002/04/10 11:58:55 ce Exp $
 //
 // Definition of eZCart class
 //
@@ -181,7 +181,6 @@ class eZCart
             $sid = $session->id();
 
             $db->array_query( $cart_array, "SELECT * FROM eZTrade_Cart WHERE SessionID='$sid'" );
-
             if ( count( $cart_array ) == 1 )
             {
                 $ret = new eZCart( $cart_array[0][$db->fieldName( "ID" )] );
@@ -299,7 +298,7 @@ class eZCart
     /*
         This function calculates the totals of the cart contents.
      */
-    function cartTotals( &$tax, &$total, $voucher=false, $paymentMethod=1 )
+    function cartTotals( &$tax, &$total, $voucher=false, $paymentMethod=1, $address=false )
     {
         $tax = "";
         $total = "";
@@ -308,7 +307,26 @@ class eZCart
             $paymentMethod = 1;
         $products = false;
         $continue = true;
+        $onlyBooking = true;
         $this->ShippingType = new eZShippingType( );
+        $countryID = 162;
+        // Find the country if the user is logged in.
+        if ( !$address )
+        {
+            $user = eZUser::currentUser();
+            if ( get_class ( $user ) == "ezuser" )
+            {
+                $address = $user->mainAddress();
+            }
+        }
+        if ( get_class ( $address ) == "ezaddress" )
+        {
+            $country = $address->country();
+            if ( $country )
+            {
+                $countryID = $country->id();
+            }
+        }
         if ( !$voucher )
         {
             $items = $this->items( );
@@ -320,7 +338,7 @@ class eZCart
             {
                 $product =& $item->product();
                 $vatPercentage = $product->vatPercentage();
-
+                $type = $product->type();
                 $exTax = $item->correctPrice( true, true, false );
                 $incTax = $item->correctPrice( true, true, true );
 
@@ -348,44 +366,52 @@ class eZCart
                 {
                     if ( $type )
                     {
-                        $type = $product->type();
-                        switch( $type->id() )
+                        if ( ( $product->productType() == 3 ) and ( $onlyBooking == true ) and ( $type->id() == 4 ) )
                         {
-                            // CD, Spill og DVD
-                            case 1:
-                            case 2:
-                            case 4:
-                            default:
+                            $this->ShippingType->get( 4 ); // Forhåndsbesilling
+                        }
+                        else
+                        {
+                            $onlyBooking = false;
+                            $type = $product->type();
+                            switch( $type->id() )
                             {
-                                if ( ( $paymentMethod == 2 ) and $totalPrice <= 1000 ) // Postoppkrav
+                                // CD, Spill og DVD
+                                case 1:
+                                case 2:
+                                case 4:
+                                default:
                                 {
-                                    $this->ShippingType->get( 2 );
+                                    if ( ( $paymentMethod == 2 ) and $totalPrice <= 1000 ) // Postoppkrav
+                                    {
+                                        $this->ShippingType->get( 2 );
+                                    }
+                                    elseif ( ( $paymentMethod == 1 ) and $totalPrice <= 1000 ) // Kredittkort
+                                    {
+                                        $this->ShippingType->get( 1 );
+                                    }
+                                    elseif( $totalPrice >= 1000 )
+                                    {
+                                        $this->ShippingType->get( 3 );
+                                    }
+                                    $continue = true;
                                 }
-                                elseif ( ( $paymentMethod == 1 ) and $totalPrice <= 1000 ) // Kredittkort
+                                break;
+                                // Hifi og spillkonsoler
+                                case 5:
                                 {
-                                    $this->ShippingType->get( 1 );
+                                    if ( $paymentMethod == 2 ) // Postoppkrav
+                                    {
+                                        $this->ShippingType->get( 2 );
+                                    }
+                                    elseif ( $paymentMethod == 1 ) // Kredittkort
+                                    {
+                                        $this->ShippingType->get( 1 );
+                                    }
+                                    $continue = false;
                                 }
-                                elseif( $totalPrice >= 1000 )
-                                {
-                                    $this->ShippingType->get( 3 );
-                                }
-                                $continue = true;
+                                break;
                             }
-                            break;
-                            // Hifi og spillkonsoler
-                            case 5:
-                            {
-                                if ( $paymentMethod == 2 ) // Postoppkrav
-                                {
-                                    $this->ShippingType->get( 2 );
-                                }
-                                elseif ( $paymentMethod == 1 ) // Kredittkort
-                                {
-                                    $this->ShippingType->get( 1 );
-                                }
-                                $continue = false;
-                            }
-                            break;
                         }
                     }
                     else
@@ -412,11 +438,14 @@ class eZCart
             $tax["$vatPercentage"]["percentage"] = $vatPercentage;
         }
 
-
+        // If not the current country is Norway or Svalbard, then choose the foreign country shipping type.
+        if ( ( $countryID != 162 ) and ( $countryID != 203 ) )
+        {
+            $this->ShippingType->get( 5 );
+        }
         $total["subinctax"] = $totalIncTax;
         $total["subextax"] = $totalExTax;
         $total["subtax"] = $totalIncTax - $totalExTax;
-
 
         if ( $products == true )
         {

@@ -1,6 +1,6 @@
 <?php
-//
-// $Id: messagepermissions.php,v 1.8.8.1 2002/03/01 16:05:43 ce Exp $
+// 
+// $Id: messagepermissions.php,v 1.8.8.2 2002/04/10 12:00:53 ce Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -36,7 +36,7 @@ $MessageEdit = false;
 $MessageDelete = false;
 
 // If a message is temporary, then no replies can be added.
-$MessageReply = false;
+$MessageReply = false; 
 
 // Is it possible to add a message to this forum?
 $ForumPost = false;
@@ -76,13 +76,8 @@ else
 {
     $CheckForumPost = false;
     $CheckForumRead = false;
-
-    $MessageRead = true;
-    $MessageEdit = true;
-    $MessageDelete = true;
-    $MessageReply = true;
-    $ForumPost = true;
-    $ForumRead = true;
+    // No point in checking for reading of message if you can''t access the forum
+    $CheckMessageID = false; 
 }
 
 // If a message id isn''t provided for checking, we can''t check
@@ -91,7 +86,7 @@ if ( $CheckMessageID > 0 )
 {
     $checkMessage = new eZForumMessage( $CheckMessageID );
     // Check if the current user is the message owner.
-
+    
     if ( $checkMessage->userID() == $UserID )
     {
         $MessageRead = true;

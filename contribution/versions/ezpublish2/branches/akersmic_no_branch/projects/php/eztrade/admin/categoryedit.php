@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categoryedit.php,v 1.23.8.3 2002/01/25 14:04:45 ce Exp $
+// $Id: categoryedit.php,v 1.23.8.4 2002/04/10 12:00:54 ce Exp $
 //
 // Created on: <18-Sep-2000 14:46:19 bf>
 //
@@ -152,7 +152,11 @@ if ( $Action == "Insert" )
         exit();
     }
 
-    eZHTTPTool::header( "Location: /trade/categorylist/" );
+    if ( $parent )
+    {
+        $parentID = $parent->id();
+    }
+    eZHTTPTool::header( "Location: /trade/categorylist/parent/$ParentID" );
     exit();
 }
 
@@ -250,7 +254,11 @@ if ( $Action == "Update" )
         exit();
     }
 
-    eZHTTPTool::header( "Location: /trade/categorylist/" );
+    if ( $parent )
+    {
+        $parentID = $parent->id();
+    }
+    eZHTTPTool::header( "Location: /trade/categorylist/parent/$ParentID" );
     exit();
 }
 
@@ -312,8 +320,14 @@ if ( $Action == "DeleteCategories" )
             $category->delete();
         }
     }
-
-    eZHTTPTool::header( "Location: /trade/categorylist/" );
+    if ( is_numeric ( $parent ) )
+    {
+        eZHTTPTool::header( "Location: /trade/categorylist/parent/$parent/" );
+    }
+    else
+    {
+        eZHTTPTool::header( "Location: /trade/categorylist/" );
+    }
     exit();
 }
 
@@ -403,6 +417,11 @@ if ( $Action == "Edit" )
         break;
     }
 
+if ( $parent )
+{
+$t->set_var( "parent_id", $parent->id() );
+$t->set_var( "parent_name", $parent->name() );
+}
     $sectionID = $category->sectionID();
 
     $image =& $category->image( true );

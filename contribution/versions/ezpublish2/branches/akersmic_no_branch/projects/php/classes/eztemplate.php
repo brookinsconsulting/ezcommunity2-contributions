@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: eztemplate.php,v 1.46.2.1.4.4 2002/03/07 13:59:02 ce Exp $
+// $Id: eztemplate.php,v 1.46.2.1.4.5 2002/04/10 12:00:52 ce Exp $
 //
 // Definition of eZTemplate class
 //
@@ -441,7 +441,7 @@ class eZTemplate
       using an array, set_file( array( "file1_tpl" => "file1.tpl",
                                        "file2_tpl" => "file2.tpl" ) );
     */
-    function set_file( $handle, $filename = "" )
+    function set_file( $handle, $filename = "", $globalID=false )
     {
         if ( !is_array( $handle ) )
         {
@@ -470,6 +470,8 @@ class eZTemplate
         $this->set_var( 'www_dir', $GlobalSiteIni->WWWDir );
         $this->set_var( 'index', $GlobalSiteIni->Index );
 
+        if ( is_numeric ( $GlobalSectionID ) == false )
+            $GlobalSectionID = $globalID;
         $section =& eZSection::globalSectionObject( $GlobalSectionID );
         if ( $section->id() != 0 )
         {
@@ -479,6 +481,8 @@ class eZTemplate
             if ( ( $section->id() == 5 ) or
                  ( $section->id() == 6 ) or
                  ( $section->id() == 7 ) or
+                 ( $section->id() == 8 ) or
+                 ( $section->id() == 11 ) or
                  ( $section->id() == 9 )
                  )
             {

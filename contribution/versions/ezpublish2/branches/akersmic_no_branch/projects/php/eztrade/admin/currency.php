@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: currency.php,v 1.8.8.1 2002/03/07 13:59:03 ce Exp $
+// $Id: currency.php,v 1.8.8.2 2002/04/10 11:59:42 ce Exp $
 //
 // Created on: <23-Feb-2001 16:27:56 bf>
 //

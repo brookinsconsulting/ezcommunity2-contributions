@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezforum.php,v 1.54.8.1 2002/03/01 16:05:43 ce Exp $
+// $Id: ezforum.php,v 1.54.8.2 2002/04/10 12:00:53 ce Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -47,10 +47,10 @@ class eZForum
     function eZForum( $id = "" )
     {
         $this->IsModerated = 0;
-        $this->IsAnonymous = 1;
+        $this->IsAnonymous = 0;
         $this->IsPrivate = 0;
         $this->ModeratorID = 0;
-
+        
         if ( $id != "" )
         {
             $this->ID = $id;
@@ -73,9 +73,9 @@ class eZForum
         {
             $db->lock( "eZForum_Forum" );
             $nextID = $db->nextID( "eZForum_Forum", "ID" );
-
+            
             $res = $db->query( "INSERT INTO eZForum_Forum
-                         ( ID,
+                         ( ID, 
                            Name,
                            Description,
                            IsModerated,
@@ -92,7 +92,7 @@ class eZForum
                            '$this->ModeratorID',
                            '$this->GroupID',
                            '$this->IsPrivate' )" );
-
+            
             $this->ID = $nextID;
         }
         else
@@ -109,12 +109,12 @@ class eZForum
         }
 
         $db->unlock();
-
+    
         if ( $res == false )
             $db->rollback( );
         else
             $db->commit();
-
+        
         return true;
     }
 
@@ -206,12 +206,12 @@ class eZForum
                                            ORDER BY PostingTime DESC" );
 
         $ret = array();
-
+        
         foreach ( $message_array as $message )
         {
             $ret[] = new eZForumMessage( $message[$db->fieldName( "ID" )] );
         }
-
+        
         return $ret;
     }
 
@@ -221,14 +221,14 @@ class eZForum
     function &search( $queryText, $offset, $limit, &$SearchTotalCount, $params = array() )
     {
         $db =& eZDB::globalDatabase();
-
+        
         $queryText = $db->escapeString( $queryText );
-
+        
         $query = new eZQuery( "eZForum_Word.Word", $queryText );
         $query->setIsLiteral( true );
-        $query->setStopWordColumn(  "eZForum_Word.Frequency" );
+        $query->setStopWordColumn(  "eZForum_Word.Frequency" );        
         $searchSQL = $query->buildQuery();
-
+        
         // special search for MySQL, mimic subselects ;)
         if ( $db->isA() == "mysql" )
         {
@@ -238,11 +238,11 @@ class eZForum
 
             $count = 1;
             foreach ( $queryArray as $queryWord )
-            {
+            {                
                 $queryWord = trim( $queryWord );
 
                 $searchSQL = " ( eZForum_Word.Word = '$queryWord' AND eZForum_Word.Frequency < '0.5' ) ";
-
+                
                 $queryString = "INSERT INTO eZForum_SearchTemp ( MessageID )
                                 SELECT DISTINCT eZForum_Message.ID AS MessageID
                                 FROM eZForum_Message,
@@ -257,10 +257,10 @@ class eZForum
 
                 // check if this is a stop word
                 $queryString = "SELECT Frequency FROM eZForum_Word WHERE Word='$queryWord'";
-
+                
                 $db->query_single( $WordFreq, $queryString, array( "LIMIT" => 1 ) );
 
-                if ( $WordFreq["Frequency"] <= 0.5 )
+                if ( $WordFreq["Frequency"] <= 0.5 )                    
                     $count += 1;
             }
             $count -= 1;
@@ -285,7 +285,7 @@ class eZForum
                             ( eZForum_Message.ID=eZForum_MessageWordLink.MessageID
                             AND eZForum_MessageWordLink.WordID=eZForum_Word.ID )
                             ORDER BY eZForum_MessageWordLink.Frequency";
-
+            
             $db->array_query( $message_array, $queryString );
             $SearchTotalCount = count( $message_array );
             $message_array =& array_slice( $message_array, $offset, $limit );
@@ -295,8 +295,8 @@ class eZForum
         {
             $return_array[$i] = new eZForumMessage( $message_array[$i][$db->fieldName( "MessageID" )], false );
         }
-
-        return $return_array;
+       
+        return $return_array;        
     }
 
 
@@ -338,7 +338,7 @@ class eZForum
         {
             $approvedCode = " AND IsApproved=1 ";
         }
-
+        
         $db->array_query( $message_array, "SELECT ID, TreeID FROM
                                            eZForum_Message
                                            WHERE ForumID='$this->ID' $approvedCode
@@ -347,7 +347,7 @@ class eZForum
                           array( "Limit" => $limit, "Offset" => $offset ) );
 
         $ret = array();
-
+        
         foreach ( $message_array as $message )
         {
             $ret[] =& new eZForumMessage( $message[$db->fieldName( "ID" )] );
@@ -370,11 +370,11 @@ class eZForum
         {
             $approvedCode = " AND IsApproved=1 ";
         }
-
-        $timeStamp =& eZDateTime::timeStamp( true );
+        
+        $timeStamp =& eZDateTime::timeStamp( true );            
         if ( $showReplies )
         {
-            $db->array_query( $message_array, "SELECT ID, Topic, UserID, PostingTime, Depth, UserName,
+            $db->array_query( $message_array, "SELECT ID, Topic, UserID, PostingTime, Depth, UserName, 
                                           ( $timeStamp  - PostingTime ) AS Age, TreeID, Body
                                           FROM
                                           eZForum_Message
@@ -387,7 +387,7 @@ class eZForum
         }
         else
         {
-            $db->array_query( $message_array, "SELECT ID, Topic, UserID, PostingTime, Depth, UserName,
+            $db->array_query( $message_array, "SELECT ID, Topic, UserID, PostingTime, Depth, UserName, 
                                           ( $timeStamp  -  PostingTime ) AS Age, TreeID, ThreadID, Body
                                           FROM eZForum_Message
                                           WHERE ForumID='$this->ID' AND Depth='0'
@@ -420,7 +420,7 @@ class eZForum
                                           $showUnApproved
                                           ORDER BY TreeID DESC",
        array( "Limit" => $limit, "Offset" => $offset ) );
-
+       
        $ret = array();
 
        foreach ( $message_array as $message )
@@ -446,13 +446,13 @@ class eZForum
     function categories( $as_object = true )
     {
         $db =& eZDB::globalDatabase();
-
+        
         $db->array_query( $forum_array, "SELECT CategoryID FROM
                                          eZForum_ForumCategoryLink
                                          WHERE ForumID='$this->ID'" );
 
         $ret = array();
-
+        
         foreach ( $forum_array as $forum )
         {
             if ( $as_object )
@@ -460,7 +460,7 @@ class eZForum
             else
                 $ret[] = $forum[$db->fieldName( "CategoryID" )];
         }
-
+        
         return $ret;
     }
 
@@ -505,7 +505,7 @@ class eZForum
         $ret = false;
         if ( $this->IsModerated == 1 )
             $ret = true;
-
+        
         return $ret;
     }
 
@@ -517,7 +517,7 @@ class eZForum
         $ret = false;
         if ( $this->IsAnonymous == 1 )
             $ret = true;
-
+        
         return $ret;
     }
 
@@ -527,15 +527,15 @@ class eZForum
     function &moderator()
     {
         $group = false;
-
+        
         if ( $this->ModeratorID > 0 )
         {
             $group = new eZUserGroup( $this->ModeratorID );
         }
-
+        
         return $group;
     }
-
+    
 
     /*!
       Returns the forum moderator as a eZUser object.
@@ -543,12 +543,12 @@ class eZForum
     function &group()
     {
         $group = false;
-
+        
         if ( $this->GroupID > 0 )
         {
             $group = new eZUserGroup( $this->GroupID );
         }
-
+        
         return $group;
     }
 
@@ -631,19 +631,19 @@ class eZForum
     function threadCount( $countUnapproved = false )
     {
         $db =& eZDB::globalDatabase();
-
+        
         $unapprovedSQL = "";
         if ( $countUnapproved == false )
             $unapprovedSQL = "AND IsApproved='1'";
-
+        
         $db->array_query( $message_array, "SELECT Count(ID) AS Count FROM eZForum_Message
                                            WHERE ForumID='$this->ID' AND Depth='0'
                                            AND IsTemporary='0' $unapprovedSQL " );
-
+        
         $ret = $message_array[0][$db->fieldName( "Count" )];
-
+        
         setType( $ret, "integer" );
-
+        
         return $ret;
     }
 
@@ -653,12 +653,12 @@ class eZForum
     function messageCount( $countUnapproved = false, $showReplies = false )
     {
         $db =& eZDB::globalDatabase();
-
+        
         if ( $countUnapproved == false )
             $unapprovedSQL = "AND IsApproved='1'";
         else
             $unapprovedSQL = "";
-
+        
         if ( $showReplies )
         {
             $db->array_query( $message_array, "SELECT ID FROM eZForum_Message

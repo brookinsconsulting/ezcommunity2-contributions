@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productview.php,v 1.77.2.2.4.13 2002/03/07 13:59:04 ce Exp $
+// $Id: productview.php,v 1.77.2.2.4.14 2002/04/10 11:57:20 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -77,6 +77,11 @@ $MainImageHeight = $ini->read_var( "eZTradeMain", "MainImageHeight" );
 $SmallImageWidth = $ini->read_var( "eZTradeMain", "SmallImageWidth" );
 $SmallImageHeight = $ini->read_var( "eZTradeMain", "SmallImageHeight" );
 
+$eZDebug = false;
+if ( $GLOBALS["REMOTE_ADDR"] == "217.65.231.18" )
+{
+    $eZDebug = true;
+}
 
 // sections
 include_once( "ezsitemanager/classes/ezsection.php" );
@@ -99,7 +104,7 @@ if ( !isSet( $IniFile ) )
 $TemplateDir =  $ini->read_var( "eZTradeMain", "TemplateDir" );
 
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
-		     $IntlDir, $Language, $IniFile );
+                     $IntlDir, $Language, $IniFile );
 
 $t->setAllStrings();
 
@@ -139,6 +144,7 @@ $t->set_block( "alternative_currency_list_tpl", "alternative_currency_tpl", "alt
 $t->set_block( "product_view_tpl", "quantity_item_tpl", "quantity_item" );
 $t->set_block( "product_view_tpl", "add_to_cart_tpl", "add_to_cart" );
 $t->set_block( "product_view_tpl", "voucher_buttons_tpl", "voucher_buttons" );
+$t->set_block( "product_view_tpl", "first_tpl", "first" );
 $t->set_block( "product_view_tpl", "path_tpl", "path" );
 $t->set_block( "product_view_tpl", "image_list_tpl", "image_list" );
 
@@ -171,6 +177,10 @@ $t->set_block( "product_view_tpl", "numbered_page_link_tpl", "numbered_page_link
 $t->set_block( "product_view_tpl", "print_page_link_tpl", "print_page_link" );
 $t->set_block( "product_view_tpl", "section_item_tpl", "section_item" );
 
+$t->set_block( "add_to_cart_tpl", "kjop_item_tpl", "kjop_item" );
+$t->set_block( "add_to_cart_tpl", "bestill_item_tpl", "bestill_item" );
+
+
 $t->set_block( "section_item_tpl", "link_item_tpl", "link_item" );
 
 
@@ -199,34 +209,23 @@ if ( isSet ( $Voucher ) )
     $error = false;
     if ( ( $range->min() != 0 ) && ( $range->min() > $PriceRange ) )
     {
-	$error = true;
-	$t->parse( "price_to_low", "price_to_low_tpl" );
+        $error = true;
+        $t->parse( "price_to_low", "price_to_low_tpl" );
     }
     if ( ( $range->max() != 0 ) && ( $range->max() < $PriceRange ) )
     {
-	$error = true;
-	$t->parse( "price_to_high", "price_to_high_tpl" );
+        $error = true;
+        $t->parse( "price_to_high", "price_to_high_tpl" );
     }
 
     if ( !$error )
     {
-	eZHTTPTool::header( "Location: /trade/voucherinformation/$ProductID/$PriceRange/$MailMethod/" );
-	exit();
+        eZHTTPTool::header( "Location: /trade/voucherinformation/$ProductID/$PriceRange/$MailMethod/" );
+        exit();
     }
 }
 else
 $session->setVariable( "VoucherInformationID", 0 );
-
-$pathArray =& $category->path();
-
-$t->set_var( "path", "" );
-foreach ( $pathArray as $path )
-{
-    $t->set_var( "category_id", $path[0] );
-    $t->set_var( "category_name", $path[1] );
-
-    $t->parse( "path", "path_tpl", true );
-}
 
 $mainImage =& $product->mainImage();
 if ( $mainImage )
@@ -294,32 +293,32 @@ foreach ( $images as $imageArray )
     if ( $image->id() != $mainImageID )
     {
 
-	if ( ( $i % 2 ) == 0 )
-	{
-	    $t->set_var( "td_class", "bglight" );
-	}
-	else
-	{
-	    $t->set_var( "td_class", "bgdark" );
-	}
+        if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "td_class", "bglight" );
+        }
+        else
+        {
+            $t->set_var( "td_class", "bgdark" );
+        }
 
-	$t->set_var( "image_name", $image->name() );
+        $t->set_var( "image_name", $image->name() );
 
-	$t->set_var( "image_title", $image->name() );
-	$t->set_var( "image_caption", eZTextTool::nl2br( $image->caption() ) );
-	$t->set_var( "image_id", $image->id() );
-	$t->set_var( "product_id", $ProductID );
+        $t->set_var( "image_title", $image->name() );
+        $t->set_var( "image_caption", eZTextTool::nl2br( $image->caption() ) );
+        $t->set_var( "image_id", $image->id() );
+        $t->set_var( "product_id", $ProductID );
 
-	$variation = $image->requestImageVariation( $SmallImageWidth, $SmallImageHeight );
+        $variation = $image->requestImageVariation( $SmallImageWidth, $SmallImageHeight );
 
-	$t->set_var( "image_url", "/" .$variation->imagePath() );
-	$t->set_var( "image_width", $variation->width() );
-	$t->set_var( "image_height", $variation->height() );
+        $t->set_var( "image_url", "/" .$variation->imagePath() );
+        $t->set_var( "image_width", $variation->width() );
+        $t->set_var( "image_height", $variation->height() );
 
-	$t->parse( "image", "image_tpl", true );
+        $t->parse( "image", "image_tpl", true );
 
-	$image_count++;
-	$i++;
+        $image_count++;
+        $i++;
     }
 }
 
@@ -333,6 +332,17 @@ $t->set_var( "value_price_header", "" );
 if ( $ShowPrice and $product->showPrice() == true  )
     $t->parse( "value_price_header", "value_price_header_tpl" );
 
+if ( $product->productType() == 3 )
+{
+    $t->set_var( "kjop_item", "" );
+    $t->parse( "bestill_item", "bestill_item_tpl" );
+}
+else
+{
+    $t->set_var( "bestill_item", "" );
+    $t->parse( "kjop_item", "kjop_item_tpl" );
+}
+
 // show alternative currencies
 $currency = new eZProductCurrency( );
 $currencies =& $currency->getAll();
@@ -343,7 +353,7 @@ if ( !$RequireUserLogin or get_class( $user ) == "ezuser"  )
 {
     $t->parse( "value_price_header_item", "value_price_header_item_tpl" );
     if ( count( $currencies ) > 0 )
-	$t->parse( "value_currency_header_item", "value_currency_header_item_tpl" );
+        $t->parse( "value_currency_header_item", "value_currency_header_item_tpl" );
 }
 
 $can_checkout = true;
@@ -371,12 +381,12 @@ foreach ( $sections as $section )
     $i = 0;
     foreach ( $links as $link )
     {
-	$t->set_var( "td_class", ($i % 2) == 0 ? "bglight" : "bgdark" );
-	$t->set_var( "link_name", $link->name() );
-	$t->set_var( "link_url", $link->url() );
-	$t->set_var( "link_id", $link->id() );
-	$t->parse( "link_item", "link_item_tpl", true );
-	++$i;
+        $t->set_var( "td_class", ($i % 2) == 0 ? "bglight" : "bgdark" );
+        $t->set_var( "link_name", $link->name() );
+        $t->set_var( "link_url", $link->url() );
+        $t->set_var( "link_id", $link->id() );
+        $t->parse( "link_item", "link_item_tpl", true );
+        ++$i;
     }
     $t->parse( "section_item", "section_item_tpl", true );
 }
@@ -387,46 +397,46 @@ $db =& eZDB::globalDatabase();
 $db->array_query( $attribute_value_array, "SELECT A.ID, A.TypeID, A.Name, AV.Value, A.URL, A.Unit FROM eZTrade_Product as P, eZTrade_Attribute AS A, eZTrade_AttributeValue AS AV
 WHERE
 A.TypeID=P.TypeID  AND AV.AttributeID=A.ID  AND AV.ProductID=P.ID
-AND P.ID='" . $product->id() .  "'" );
+AND P.ID='" . $product->id() .  "' ORDER BY A.Placement" );
 
 if ( count( $attribute_value_array ) > 0 )
 {
     foreach ( $attribute_value_array as $attributeValue )
     {
-	if ( ( $i % 2 ) == 0 )
-	{
-	    $t->set_var( "begin_tr", "<tr>" );
-	    $t->set_var( "end_tr", "" );
-	}
-	else
-	{
-	    $t->set_var( "begin_tr", "" );
-	    $t->set_var( "end_tr", "</tr>" );
-	}
+        if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "begin_tr", "<tr>" );
+            $t->set_var( "end_tr", "" );
+        }
+        else
+        {
+            $t->set_var( "begin_tr", "" );
+            $t->set_var( "end_tr", "</tr>" );
+        }
 
-	$value =& $attributeValue["Value"];
-	$t->set_var( "attribute_id", $attributeValue["Name"] );
-	$t->set_var( "attribute_name", $attributeValue["Name"] );
-	$t->set_var( "attribute_unit", $attributeValue["Unit"] );
-	$t->set_var( "attribute_value_var", $attributeValue["Value"] );
+        $value =& $attributeValue["Value"];
+        $t->set_var( "attribute_id", $attributeValue["Name"] );
+        $t->set_var( "attribute_name", $attributeValue["Name"] );
+        $t->set_var( "attribute_unit", $attributeValue["Unit"] );
+        $t->set_var( "attribute_value_var", $attributeValue["Value"] );
 
-	if ( $attributeValue["URL"] != "" )
-	{
-	    $t->set_var( "attribute_non_url_item", "" );
-	    $t->set_var( "attribute_url", $attributeValue["URL"] );
-	    $t->parse( "attribute_url_item", "attribute_url_item_tpl" );
-	}
-	else
-	{
-	    $t->parse( "attribute_non_url_item", "attribute_non_url_item_tpl" );
-	    $t->set_var( "attribute_url_item", "" );
-	}
+        if ( $attributeValue["URL"] == "Last ned demo" )
+        {
+            $t->set_var( "attribute_non_url_item", "" );
+            $t->set_var( "attribute_url", $attributeValue["URL"] );
+            $t->parse( "attribute_url_item", "attribute_url_item_tpl" );
+        }
+        else
+        {
+            $t->parse( "attribute_non_url_item", "attribute_non_url_item_tpl" );
+            $t->set_var( "attribute_url_item", "" );
+        }
 
-	// don''t show empty attributes or attributes == 0.0
-	if ( ( is_numeric( $value ) and ( $value > 0 ) ) || ( !is_numeric( $value ) and $value != "" ) )
-	{
-	    $t->parse( "attribute", "attribute_value_tpl", true );
-	}
+        // don''t show empty attributes or attributes == 0.0
+        if ( ( is_numeric( $value ) and ( $value > 0 ) ) || ( !is_numeric( $value ) and $value != "" ) )
+        {
+            $t->parse( "attribute", "attribute_value_tpl", true );
+        }
     }
 }
 
@@ -469,7 +479,7 @@ if ( $ShowQuantity and $product->hasPrice() )
     $NamedQuantity = $Quantity;
     if ( $ShowNamedQuantity )
     {
-	$NamedQuantity = eZProduct::namedQuantity( $Quantity );
+        $NamedQuantity = eZProduct::namedQuantity( $Quantity );
     }
     $t->set_var( "product_quantity", $NamedQuantity );
     $t->parse( "quantity_item", "quantity_item_tpl" );
@@ -505,65 +515,275 @@ if ( isSet( $func_array ) and is_array( $func_array ) )
 {
     foreach ( $func_array as $func )
     {
-	$func( $t, $ProductID );
+        $func( $t, $ProductID );
     }
 }
+
+$pathArray =& $category->path();
+
 
 switch( $GlobalSectionID )
 {
     case 1:
     {
-	$filename = "sitedesign/am/staticpages/";
+        // path
+        $t->set_var( "path", "" );
+        foreach ( $pathArray as $path )
+        {
+            $t->set_var( "category_id", $path[0] );
+            $t->set_var( "category_name", $path[1] );
+            $t->parse( "path", "path_tpl", true );
+        }
+        $filename = "sitedesign/am/staticpages/";
     }
     break;
     case 2:
     {
-	$filename = "sitedesign/am/staticpages/musikk_content.html";
+        // path
+        $t->set_var( "path", "" );
+        for ( $i=0; $i < count ( $pathArray ); $i++ )
+        {
+            if ( $i == 0 )
+            {
+                $t->set_var( "path_url", "/musikk/" );
+                $t->set_var( "category_name", $pathArray[$i][1] );
+                $t->parse( "path", "path_tpl", true );
+            }
+            elseif ( $i == 1 )
+            {
+                $t->set_var( "path_url", "/musikk/productlist/" . $pathArray[$i][0] . "/" );
+                $t->set_var( "category_name", $pathArray[$i][1] );
+                $t->parse( "path", "path_tpl", true );
+            }
+            elseif ( $i == 2 )
+            {
+                $t->set_var( "path_url", "/musikk/productlist/" . $pathArray[$i-1][0] . "/" . $pathArray[$i][0] . "/" );
+                $t->set_var( "category_name", $pathArray[$i][1] );
+                $t->parse( "path", "path_tpl", true );
+            }
+            else
+            {
+                $t->set_var( "path_url", "/trade/productlist/" . $pathArray[$i][0] . "/" );
+                $t->set_var( "category_name", $pathArray[$i][1] );
+                $t->parse( "path", "path_tpl", true );
+            }
+        }
+
+        $filename = "sitedesign/am/staticpages/musikk_content.html";
     }
     break;
     case 3:
     {
-	$filename = "sitedesign/am/staticpages/dvd_content.html";
+        // path
+        $t->set_var( "path", "" );
+        for ( $i=0; $i < count ( $pathArray ); $i++ )
+        {
+            if ( $i == 0 )
+            {
+                $t->set_var( "path_url", "/dvd/" );
+                $t->set_var( "category_name", $pathArray[$i][1] );
+                $t->parse( "path", "path_tpl", true );
+            }
+            else
+            {
+                $t->set_var( "path_url", "/trade/productlist/" . $pathArray[$i][0] . "/" );
+                $t->set_var( "category_name", $pathArray[$i][1] );
+                $t->parse( "path", "path_tpl", true );
+            }
+        }
+
+        $filename = "sitedesign/am/staticpages/dvd_content.html";
     }
     break;
     case 4:
     {
-	$filename = "sitedesign/am/staticpages/hifi_content.html";
+        // path
+        $t->set_var( "path", "" );
+        for ( $i=0; $i < count ( $pathArray ); $i++ )
+        {
+            if ( $i == 0 )
+            {
+                $t->set_var( "path_url", "/hi-fi/" );
+                $t->set_var( "category_name", $pathArray[$i][1] );
+                $t->parse( "path", "path_tpl", true );
+            }
+            else
+            {
+                $t->set_var( "path_url", "/trade/productlist/" . $pathArray[$i][0] . "/" );
+                $t->set_var( "category_name", $pathArray[$i][1] );
+                $t->parse( "path", "path_tpl", true );
+            }
+        }
+
+        $filename = "sitedesign/am/staticpages/hifi_content.html";
     }
     break;
     case 5:
     {
-	$filename = "sitedesign/am/staticpages/multimedia_content.html";
+        // path
+        $t->set_var( "path", "" );
+        foreach ( $pathArray as $path )
+        {
+            $t->set_var( "category_id", $path[0] );
+            $t->set_var( "category_name", $path[1] );
+            $t->parse( "path", "path_tpl", true );
+
+        }
+
+        $filename = "sitedesign/am/staticpages/multimedia_content.html";
     }
     break;
 
-        case 6:
+    case 6:
     {
-	$filename = "sitedesign/am/staticpages/playstation_content.html";
+        // path
+        $t->set_var( "path", "" );
+        for ( $i=1; $i < count ( $pathArray ); $i++ )
+        {
+            if ( $i == 1 )
+            {
+                $t->set_var( "path_url", "/multimedia/playstation/" );
+                $t->set_var( "category_name", $pathArray[$i][1] );
+                $t->parse( "path", "path_tpl", true );
+            }
+            elseif ( $i == 2 )
+            {
+            }
+            else
+            {
+                $t->set_var( "path_url", "/trade/productlist/" . $pathArray[$i][0] . "/" );
+                $t->set_var( "category_name", $pathArray[$i][1] );
+                $t->parse( "path", "path_tpl", true );
+            }
+        }
+
+        $filename = "sitedesign/am/staticpages/playstation_content.html";
     }
     break;
 
 
-        case 7:
+    case 7:
     {
-	$filename = "sitedesign/am/staticpages/pc_content.html";
+        // path
+        $t->set_var( "path", "" );
+        for ( $i=1; $i < count ( $pathArray ); $i++ )
+        {
+            if ( $i == 1 )
+            {
+                $t->set_var( "path_url", "/multimedia/pc/" );
+                $t->set_var( "category_name", $pathArray[$i][1] );
+                $t->parse( "path", "path_tpl", true );
+            }
+            elseif ( $i == 2 )
+            {
+            }
+            else
+            {
+                $t->set_var( "path_url", "/trade/productlist/" . $pathArray[$i][0] . "/" );
+                $t->set_var( "category_name", $pathArray[$i][1] );
+                $t->parse( "path", "path_tpl", true );
+            }
+        }
+
+        $filename = "sitedesign/am/staticpages/pc_content.html";
     }
     break;
 
 
-        case 8:
+    case 8:
     {
-	$filename = "sitedesign/am/staticpages/nintendo_content.html";
+        // path
+        $t->set_var( "path", "" );
+        for ( $i=1; $i < count ( $pathArray ); $i++ )
+        {
+            if ( $i == 1 )
+            {
+                $t->set_var( "path_url", "/multimedia/nintendo/" );
+                $t->set_var( "category_name", $pathArray[$i][1] );
+                $t->parse( "path", "path_tpl", true );
+            }
+            elseif ( $i == 2 )
+            {
+            }
+            else
+            {
+                $t->set_var( "path_url", "/trade/productlist/" . $pathArray[$i][0] . "/" );
+                $t->set_var( "category_name", $pathArray[$i][1] );
+                $t->parse( "path", "path_tpl", true );
+            }
+        }
+
+        $filename = "sitedesign/am/staticpages/nintendo_content.html";
     }
     break;
 
 
-        case 9:
+    case 9:
     {
-	$filename = "sitedesign/am/staticpages/xbox_content.html";
+        // path
+        $t->set_var( "path", "" );
+        for ( $i=1; $i < count ( $pathArray ); $i++ )
+        {
+            if ( $i == 1 )
+            {
+                $t->set_var( "path_url", "/multimedia/xbox/" );
+                $t->set_var( "category_name", $pathArray[$i][1] );
+                $t->parse( "path", "path_tpl", true );
+            }
+            elseif ( $i == 2 )
+            {
+            }
+            else
+            {
+                $t->set_var( "path_url", "/trade/productlist/" . $pathArray[$i][0] . "/" );
+                $t->set_var( "category_name", $pathArray[$i][1] );
+                $t->parse( "path", "path_tpl", true );
+            }
+        }
+
+        $filename = "sitedesign/am/staticpages/xbox_content.html";
     }
     break;
 
+    case 11:
+    {
+        // path
+        $t->set_var( "path", "" );
+        for ( $i=1; $i < count ( $pathArray ); $i++ )
+        {
+            if ( $i == 1 )
+            {
+                $t->set_var( "path_url", "/multimedia/sega/" );
+                $t->set_var( "category_name", $pathArray[$i][1] );
+                $t->parse( "path", "path_tpl", true );
+            }
+            elseif ( $i == 2 )
+            {
+            }
+            else
+            {
+                $t->set_var( "path_url", "/trade/productlist/" . $pathArray[$i][0] . "/" );
+                $t->set_var( "category_name", $pathArray[$i][1] );
+                $t->parse( "path", "path_tpl", true );
+            }
+        }
+        $filename = "sitedesign/am/staticpages/sega_content.html";
+    }
+    break;
+
+    default:
+    {
+        // path
+        $t->set_var( "path", "" );
+        foreach ( $pathArray as $path )
+        {
+            $t->set_var( "category_id", $path[0] );
+            $t->set_var( "category_name", $path[1] );
+            $t->parse( "path", "path_tpl", true );
+
+            $SiteTitleAppend .= $path[1] . " - ";
+        }
+    }
 }
 
 if ( file_exists ( $filename ) )
@@ -571,8 +791,8 @@ if ( file_exists ( $filename ) )
     $file = eZFile::fopen( $filename, "r" );
     if ( $file )
     {
-	$content =& fread( $file, eZFile::filesize( $filename ) );
-	fclose( $file );
+        $content =& fread( $file, eZFile::filesize( $filename ) );
+        fclose( $file );
     }
 }
 $t->set_var( "content", "$content" );

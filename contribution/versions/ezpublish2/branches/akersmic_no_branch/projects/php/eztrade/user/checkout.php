@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: checkout.php,v 1.96.2.2.4.10 2002/03/27 19:28:55 br Exp $
+// $Id: checkout.php,v 1.96.2.2.4.11 2002/04/10 11:57:19 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -103,7 +103,7 @@ if ( !eZUser::currentUser() )
 
 
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
-                     "eztrade/user/intl/", $Language , "checkout.php" );
+		     "eztrade/user/intl/", $Language , "checkout.php" );
 
 $t->setAllStrings();
 
@@ -173,16 +173,16 @@ if ( isSet ( $RemoveVoucher ) )
 {
     if ( count ( $RemoveVoucherArray ) > 0 )
     {
-        $newArray = array();
-        $payWithVoucher = $session->arrayValue( "PayWithVoucher" );
+	$newArray = array();
+	$payWithVoucher = $session->arrayValue( "PayWithVoucher" );
 
-        while( list($key,$voucherID) = each( $payWithVoucher ) )
-        {
-            if ( !in_array ( $voucherID, $RemoveVoucherArray ) )
-                 $newArray[$voucherID] = $price;
-        }
+	while( list($key,$voucherID) = each( $payWithVoucher ) )
+	{
+	    if ( !in_array ( $voucherID, $RemoveVoucherArray ) )
+		 $newArray[$voucherID] = $price;
+	}
 
-        $session->setVariable( "PayWithVoucher", "" );
+	$session->setVariable( "PayWithVoucher", "" );
     }
 }
 
@@ -202,8 +202,15 @@ if ( isSet( $SendOrder ) )
 
     $session->setVariable( "PreOrderID", $preOrder->id() );
 
+    if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) != "enabled" )
+    {
+	$session->setVariable( "BillingAddressID", eZHTTPTool::getVar( "ShippingAddressID", true ) );
+    }
+    else
+    {
+	$session->setVariable( "BillingAddressID", eZHTTPTool::getVar( "BillingAddressID", true ) );
+    }
     $session->setVariable( "ShippingAddressID", eZHTTPTool::getVar( "ShippingAddressID", true ) );
-    $session->setVariable( "BillingAddressID", eZHTTPTool::getVar( "BillingAddressID", true ) );
 
     $total = eZHTTPTool::getVar( "TotalCost", true );
     $session->setVariable( "TotalCost", eZHTTPTool::getVar( "TotalCost", true ) );
@@ -211,13 +218,13 @@ if ( isSet( $SendOrder ) )
 
     if ( eZHTTPTool::getVar( "PayWithVoucher", true ) == "true" )
     {
-        if ( eZHTTPTool::getVar( "PaymentMethod", true ) )
-            $session->setArray( "PaymentMethod", array( eZHTTPTool::getVar( "PaymentMethod", true ),  "voucher_done" ) );
-        else
-            $session->setArray( "PaymentMethod", array( "voucher_done" ) );
+	if ( eZHTTPTool::getVar( "PaymentMethod", true ) )
+	    $session->setArray( "PaymentMethod", array( eZHTTPTool::getVar( "PaymentMethod", true ),  "voucher_done" ) );
+	else
+	    $session->setArray( "PaymentMethod", array( "voucher_done" ) );
     }
     else
-        $session->setArray( "PaymentMethod", array( eZHTTPTool::getVar( "PaymentMethod", true ) ) );
+	$session->setArray( "PaymentMethod", array( eZHTTPTool::getVar( "PaymentMethod", true ) ) );
 
     $session->setVariable( "Comment", eZHTTPTool::getVar( "Comment", true ) );
 
@@ -232,17 +239,12 @@ if ( isSet( $SendOrder ) )
 
     if ( get_class( $user ) != "ezuser" )
     {
-        eZLog::writeWarning( "user/payment.php: Got paymentSuccess without user logged in" );
-        eZHTTPTool::header( "Location: /trade/cart/" );
-        exit();
+	eZLog::writeWarning( "user/payment.php: Got paymentSuccess without user logged in" );
+	eZHTTPTool::header( "Location: /trade/cart/" );
+	exit();
     }
 
     $order->setUser( $user );
-
-    if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) != "enabled" )
-    {
-        $billingAddressID = $shippingAddressID;
-    }
 
     $shippingAddress = new eZAddress( $session->variable( "ShippingAddressID" ) );
     $billingAddress = new eZAddress( $session->variable( "BillingAddressID" ) );
@@ -259,11 +261,15 @@ if ( isSet( $SendOrder ) )
 
     $order->setComment( $Comment );
 
+    if ( $Rest == "on" )
+	$order->setRest( true );
+    else
+	$order->setRest( false );
+
     $order->setPersonID( $cart->personID() );
     $order->setCompanyID( $cart->companyID() );
 
     $order->setIsVATInc( false );
-
 
     // fetch the cart items
     $items = $cart->items();
@@ -277,64 +283,63 @@ if ( isSet( $SendOrder ) )
 
     $order->store();
 
-
     $order_id = $order->id();
-    
+
     $session->setVariable( "OrderID", $order_id );
-    $session->setVariable( "OrderConfirmation", $order_id );    
+    $session->setVariable( "OrderConfirmation", $order_id );
 
     foreach ( $items as $item )
     {
-        $totalVAT=0.0;
-        $price=0.0;
-        $totalPrice=0.0;
-        $product = $item->product();
+	$totalVAT=0.0;
+	$price=0.0;
+	$totalPrice=0.0;
+	$product = $item->product();
 
-        // create a new order item.
-        $orderItem = new eZOrderItem();
-        $orderItem->setOrder( $order );
-        $orderItem->setProduct( $product );
-        $orderItem->setCount( $item->count() );
+	// create a new order item.
+	$orderItem = new eZOrderItem();
+	$orderItem->setOrder( $order );
+	$orderItem->setProduct( $product );
+	$orderItem->setCount( $item->count() );
 
-        // Set the product price.
-        $price = $item->correctPrice( false, true, false );
-        $orderItem->setPrice( $price );
+	// Set the product price.
+	$price = $item->correctPrice( false, true, false );
+	$orderItem->setPrice( $price );
 
-        // Set the VAT for this product.
-        $totalVAT = $item->vat( false, true );
-        $orderItem->setVAT( $totalVAT );
+	// Set the VAT for this product.
+	$totalVAT = $item->vat( false, true );
+	$orderItem->setVAT( $totalVAT );
 
-        $expiryTime = $product->expiryTime();
-        if ( $expiryTime > 0 )
-            $orderItem->setExpiryDate( eZDateTime::timeStamp( true ) + ( $expiryTime * 86400 ) );
-        else
-            $orderItem->setExpiryDate( 0 );
+	$expiryTime = $product->expiryTime();
+	if ( $expiryTime > 0 )
+	    $orderItem->setExpiryDate( eZDateTime::timeStamp( true ) + ( $expiryTime * 86400 ) );
+	else
+	    $orderItem->setExpiryDate( 0 );
 
-        $orderItem->store();
+	$orderItem->store();
 
-        // Store the optionvalues.
-        $optionValues =& $item->optionValues();
-        if ( count( $optionValues ) > 0 )
-        {
-            foreach ( $optionValues as $optionValue )
-            {
-                $option =& $optionValue->option();
-                $value =& $optionValue->optionValue();
+	// Store the optionvalues.
+	$optionValues =& $item->optionValues();
+	if ( count( $optionValues ) > 0 )
+	{
+	    foreach ( $optionValues as $optionValue )
+	    {
+		$option =& $optionValue->option();
+		$value =& $optionValue->optionValue();
 
-                $orderOptionValue = new eZOrderOptionValue();
-                $orderOptionValue->setOrderItem( $orderItem );
+		$orderOptionValue = new eZOrderOptionValue();
+		$orderOptionValue->setOrderItem( $orderItem );
 
-                $orderOptionValue->setRemoteID( $optionValue->remoteID() );
+		$orderOptionValue->setRemoteID( $optionValue->remoteID() );
 
-                $descriptions =& $value->descriptions();
+		$descriptions =& $value->descriptions();
 
-                $orderOptionValue->setOptionName( $option->name() );
-                $orderOptionValue->setValueName( $descriptions[0] );
-                // fix
+		$orderOptionValue->setOptionName( $option->name() );
+		$orderOptionValue->setValueName( $descriptions[0] );
+		// fix
 
-                $orderOptionValue->store();
-            }
-        }
+		$orderOptionValue->store();
+	    }
+	}
     }
 
     eZHTTPTool::header( "Location: /trade/payment/" );
@@ -355,35 +360,36 @@ foreach ( $types as $type )
 
     if ( is_numeric( $currentTypeID ) )
     {
-        if ( $currentTypeID == $type->id() )
-        {
-            $currentShippingType = $type;
-            $t->set_var( "type_selected", "selected" );
-        }
-        else
-            $t->set_var( "type_selected", "" );
+	if ( $currentTypeID == $type->id() )
+	{
+	    $currentShippingType = $type;
+	    $t->set_var( "type_selected", "selected" );
+	}
+	else
+	    $t->set_var( "type_selected", "" );
     }
     else
     {
-        if ( $type->isDefault() )
-        {
-            $currentShippingType = $type;
-            $t->set_var( "type_selected", "selected" );
-        }
-        else
-            $t->set_var( "type_selected", "" );
+	if ( $type->isDefault() )
+	{
+	    $currentShippingType = $type;
+	    $t->set_var( "type_selected", "selected" );
+	}
+	else
+	    $t->set_var( "type_selected", "" );
     }
 
     $t->parse( "shipping_type", "shipping_type_tpl", true );
 }
 
 $vat = true;
+
 if ( is_numeric( $BillingAddressID ) )
 {
     $address = new eZAddress( $BillingAddressID );
     $country =& $address->country();
     if ( !$country->hasVAT() )
-        $vat = false;
+	$vat = false;
 }
 else
 {
@@ -392,15 +398,19 @@ else
 
     if ( $mainAddress == false )
     {
-        eZHTTPTool::header( "Location: /user/user/edit/" );
-        exit();
+	eZHTTPTool::header( "Location: /user/user/edit/" );
+	exit();
     }
-
     $country =& $mainAddress->country();
+    if ( get_class ( $country ) != "ezcountry" )
+    {
+	eZHTTPTool::header( "Location: /user/user/edit/" );
+	exit();
+    }
     if ( !$country->hasVAT() )
     {
-        $vat = false;
-        $totalVAT = 0;
+	$vat = false;
+	$totalVAT = 0;
     }
 }
 
@@ -417,29 +427,29 @@ function turnColumnsOnOff( $rowName )
     global $t, $ShowSavingsColumn, $ShowExTaxColumn, $ShowIncTaxColumn;
     if ( $ShowSavingsColumn == true )
     {
-        $t->parse( $rowName . "_savings_item", $rowName . "_savings_item_tpl" );
+	$t->parse( $rowName . "_savings_item", $rowName . "_savings_item_tpl" );
     }
     else
     {
-        $t->set_var( $rowName . "_savings_item", "" );
+	$t->set_var( $rowName . "_savings_item", "" );
     }
 
     if ( $ShowExTaxColumn == true )
     {
-        $t->parse( $rowName . "_ex_tax_item", $rowName . "_ex_tax_item_tpl" );
+	$t->parse( $rowName . "_ex_tax_item", $rowName . "_ex_tax_item_tpl" );
     }
     else
     {
-        $t->set_var( $rowName . "_ex_tax_item", "" );
+	$t->set_var( $rowName . "_ex_tax_item", "" );
     }
 
     if ( $ShowIncTaxColumn == true )
     {
-        $t->parse( $rowName . "_inc_tax_item", $rowName . "_inc_tax_item_tpl" );
+	$t->parse( $rowName . "_inc_tax_item", $rowName . "_inc_tax_item_tpl" );
     }
     else
     {
-        $t->set_var( $rowName . "_inc_tax_item", "" );
+	$t->set_var( $rowName . "_inc_tax_item", "" );
     }
 }
 
@@ -471,46 +481,46 @@ while ( $item = $items[$i] )
     $t->set_var( "cart_item_basis", "" );
 
     if ( $product->productType() == 2 )
-        $useVoucher = true;
+	$useVoucher = true;
     else
-        $useVoucher = false;
+	$useVoucher = false;
 
     foreach ( $optionValues as $optionValue )
     {
-        turnColumnsOnOff( "option" );
+	turnColumnsOnOff( "option" );
 
-        $option =& $optionValue->option();
-        $value =& $optionValue->optionValue();
-        $value_quantity = $value->totalQuantity();
-        $descriptions = $value->descriptions();
+	$option =& $optionValue->option();
+	$value =& $optionValue->optionValue();
+	$value_quantity = $value->totalQuantity();
+	$descriptions = $value->descriptions();
 
-        $t->set_var( "option_id", $option->id() );
-        $t->set_var( "option_name", $option->name() );
-        $t->set_var( "option_value", $descriptions[0] );
-        $t->set_var( "option_price", $value->localePrice( $PricesIncludeVAT, $product ) );
-        $t->parse( "cart_item_option", "cart_item_option_tpl", true );
+	$t->set_var( "option_id", $option->id() );
+	$t->set_var( "option_name", $option->name() );
+	$t->set_var( "option_value", $descriptions[0] );
+	$t->set_var( "option_price", $value->localePrice( $PricesIncludeVAT, $product ) );
+	$t->parse( "cart_item_option", "cart_item_option_tpl", true );
 
-        $numberOfOptions++;
+	$numberOfOptions++;
     }
     turnColumnsOnOff( "cart" );
     turnColumnsOnOff( "basis" );
 
     if ( $numberOfOptions ==  0 )
     {
-        $t->set_var( "cart_item_option", "" );
-        $t->set_var( "cart_item_basis", "" );
+	$t->set_var( "cart_item_option", "" );
+	$t->set_var( "cart_item_basis", "" );
     }
     else
     {
-        if( $product->price() > 0 )
-        {
-            $t->set_var( "basis_price", $item->localePrice( false, false, $PricesIncludeVAT ) );
-            $t->parse( "cart_item_basis", "cart_item_basis_tpl", true );
-        }
-        else
-        {
-            $t->set_var( "cart_item_basis", "" );
-        }
+	if( $product->price() > 0 )
+	{
+	    $t->set_var( "basis_price", $item->localePrice( false, false, $PricesIncludeVAT ) );
+	    $t->parse( "cart_item_basis", "cart_item_basis_tpl", true );
+	}
+	else
+	{
+	    $t->set_var( "cart_item_basis", "" );
+	}
    }
     $i++;
    $t->parse( "cart_item", "cart_item_tpl", true );
@@ -533,8 +543,8 @@ $paymentMethodID = eZHTTPTool::getVar( "PaymentMethod", true );
 if ( $ShowCart == true )
 {
     // Vouchers
-
-    $cart->cartTotals( $tax, $total, false, $paymentMethodID );
+    $shippingAddress = new eZAddress( $ShippingAddressID );
+    $cart->cartTotals( $tax, $total, false, $paymentMethodID, $shippingAddress );
 
     $t->set_var( "empty_cart", "" );
     $t->set_var( "voucher_item", "" );
@@ -546,68 +556,68 @@ if ( $ShowCart == true )
     $vouchers = $session->arrayValue( "PayWithVoucher" );
     if ( count ( $vouchers ) > 0 )
     {
-        $t->set_var( "vouchers", "" );
-        $t->set_var( "voucher_item", "" );
-        $i=1;
-        $continue = true;
+	$t->set_var( "vouchers", "" );
+	$t->set_var( "voucher_item", "" );
+	$i=1;
+	$continue = true;
 
-        foreach( $vouchers as $voucherID )
-        {
-            if ( $continue )
-            {
-                $voucher = new eZVoucher( $voucherID );
+	foreach( $vouchers as $voucherID )
+	{
+	    if ( $continue )
+	    {
+		$voucher = new eZVoucher( $voucherID );
 
-                $voucherID = $voucher->id();
+		$voucherID = $voucher->id();
 
-                $voucherPrice = $voucher->price();
+		$voucherPrice = $voucher->price();
 
-                $cart->cartTotals( $tax, $voucherPrice, $voucher );
+		$cart->cartTotals( $tax, $voucherPrice, $voucher );
 
-                if ( $voucherPrice["inctax"] > $total["inctax"] )
-                {
-                    $subtractIncVAT["inctax"] = $total["inctax"];
-                    $currency->setValue( $total["inctax"] );
-                    $t->set_var( "voucher_price_inc_vat", $locale->format( $currency ) );
+		if ( $voucherPrice["inctax"] > $total["inctax"] )
+		{
+		    $subtractIncVAT["inctax"] = $total["inctax"];
+		    $currency->setValue( $total["inctax"] );
+		    $t->set_var( "voucher_price_inc_vat", $locale->format( $currency ) );
 
-                    $subtractExTax["extax"] = $total["extax"];
-                    $currency->setValue( $total["extax"] );
-                    $t->set_var( "voucher_price_ex_vat", $locale->format( $currency ) );
-                    $continue = false;
-                }
-                else
-                {
-                    $subtractIncVAT["inctax"] = $voucherPrice["inctax"];
-                    $currency->setValue( $voucherPrice["inctax"] );
-                    $t->set_var( "voucher_price_inc_vat", $locale->format( $currency ) );
+		    $subtractExTax["extax"] = $total["extax"];
+		    $currency->setValue( $total["extax"] );
+		    $t->set_var( "voucher_price_ex_vat", $locale->format( $currency ) );
+		    $continue = false;
+		}
+		else
+		{
+		    $subtractIncVAT["inctax"] = $voucherPrice["inctax"];
+		    $currency->setValue( $voucherPrice["inctax"] );
+		    $t->set_var( "voucher_price_inc_vat", $locale->format( $currency ) );
 
-                    $subtractExTax["extax"] = $voucherPrice["extax"];
-                    $currency->setValue( $voucherPrice["extax"] );
-                    $t->set_var( "voucher_price_ex_vat", $locale->format( $currency ) );
-                }
+		    $subtractExTax["extax"] = $voucherPrice["extax"];
+		    $currency->setValue( $voucherPrice["extax"] );
+		    $t->set_var( "voucher_price_ex_vat", $locale->format( $currency ) );
+		}
 
-                $voucherSession[$voucherID] = $subtractIncVAT["inctax"];
-                $t->set_var( "number", $i );
+		$voucherSession[$voucherID] = $subtractIncVAT["inctax"];
+		$t->set_var( "number", $i );
 
-                $t->set_var( "voucher_key", $voucher->keyNumber() );
-                $t->set_var( "pay_with_voucher", "true" );
+		$t->set_var( "voucher_key", $voucher->keyNumber() );
+		$t->set_var( "pay_with_voucher", "true" );
 
-                $t->parse( "voucher_item", "voucher_item_tpl", true );
+		$t->parse( "voucher_item", "voucher_item_tpl", true );
 
-                $total["extax"] -= $subtractExTax["extax"];
-                $total["inctax"] -= $subtractIncVAT["inctax"];
+		$total["extax"] -= $subtractExTax["extax"];
+		$total["inctax"] -= $subtractIncVAT["inctax"];
 
-                $i++;
-            }
-        }
-        $t->parse( "remove_voucher", "remove_voucher_tpl" );
+		$i++;
+	    }
+	}
+	$t->parse( "remove_voucher", "remove_voucher_tpl" );
     }
     else
-        $t->set_var( "remove_voucher", "" );
+	$t->set_var( "remove_voucher", "" );
 
     if ( is_array ( $voucherSession ) )
     {
-        $t->parse( "vouchers", "vouchers_tpl" );
-        $session->setArray( "PayedWith", $voucherSession );
+	$t->parse( "vouchers", "vouchers_tpl" );
+	$session->setArray( "PayedWith", $voucherSession );
     }
 
     $currency->setValue( $total["subinctax"] );
@@ -630,55 +640,55 @@ if ( $ShowCart == true )
 
     if ( $ShowSavingsColumn == false )
     {
-        $ColSpanSizeTotals--;
+	$ColSpanSizeTotals--;
     }
 
     $SubTotalsColumns = $ColSpanSizeTotals;
 
     if ( $ShowExTaxColumn == true )
     {
-        if ( $ShowExTaxTotal == true or $ShowIncTaxColumn == false )
-        {
-            $t->parse( "total_ex_tax_item", "total_ex_tax_item_tpl" );
-            $t->parse( "subtotal_ex_tax_item", "subtotal_ex_tax_item_tpl" );
-            $t->parse( "shipping_ex_tax_item", "shipping_ex_tax_item_tpl" );
-        }
-        else
-        {
-            $t->set_var( "total_ex_tax_item", "" );
-            $t->set_var( "subtotal_ex_tax_item", "" );
-            $t->set_var( "shipping_ex_tax_item", "" );
-        }
+	if ( $ShowExTaxTotal == true or $ShowIncTaxColumn == false )
+	{
+	    $t->parse( "total_ex_tax_item", "total_ex_tax_item_tpl" );
+	    $t->parse( "subtotal_ex_tax_item", "subtotal_ex_tax_item_tpl" );
+	    $t->parse( "shipping_ex_tax_item", "shipping_ex_tax_item_tpl" );
+	}
+	else
+	{
+	    $t->set_var( "total_ex_tax_item", "" );
+	    $t->set_var( "subtotal_ex_tax_item", "" );
+	    $t->set_var( "shipping_ex_tax_item", "" );
+	}
     }
     else
     {
-        $ColSpanSizeTotals--;
-        $t->set_var( "total_ex_tax_item", "" );
-        $t->set_var( "subtotal_ex_tax_item", "" );
-        $t->set_var( "shipping_ex_tax_item", "" );
+	$ColSpanSizeTotals--;
+	$t->set_var( "total_ex_tax_item", "" );
+	$t->set_var( "subtotal_ex_tax_item", "" );
+	$t->set_var( "shipping_ex_tax_item", "" );
     }
 
     if ( $ShowIncTaxColumn == true  )
     {
-        $t->parse( "total_inc_tax_item", "total_inc_tax_item_tpl" );
-        $t->parse( "subtotal_inc_tax_item", "subtotal_inc_tax_item_tpl" );
-        $t->parse( "shipping_inc_tax_item", "shipping_inc_tax_item_tpl" );
+	$t->parse( "total_inc_tax_item", "total_inc_tax_item_tpl" );
+	$t->parse( "subtotal_inc_tax_item", "subtotal_inc_tax_item_tpl" );
+	$t->parse( "shipping_inc_tax_item", "shipping_inc_tax_item_tpl" );
     }
     else
     {
-        $ColSpanSizeTotals--;
-        $t->set_var( "total_inc_tax_item", "" );
-        $t->set_var( "subtotal_inc_tax_item", "" );
-        $t->set_var( "shipping_inc_tax_item", "" );
+	$ColSpanSizeTotals--;
+	$t->set_var( "total_inc_tax_item", "" );
+	$t->set_var( "subtotal_inc_tax_item", "" );
+	$t->set_var( "shipping_inc_tax_item", "" );
     }
 
     if ( $ShowIncTaxColumn and $ShowExTaxColumn and $ShowExTaxTotal )
     {
-        $t->set_var( "subtotals_span_size", $SubTotalsColumns - 1 );
+	$t->set_var( "subtotals_span_size", $SubTotalsColumns - 1 );
     }
     else
     {
-        $t->set_var( "subtotals_span_size", $ColSpanSizeTotals  );
+	$t->set_var( "subtotals_span_size", $ColSpanSizeTotals  );
     }
 
     $t->set_var( "totals_span_size", $ColSpanSizeTotals );
@@ -687,26 +697,26 @@ if ( $ShowCart == true )
 
     if( $vat == true )
     {
-        $currency->setValue( $total["tax"] );
-        $t->set_var( "tax", $locale->format( $currency ) );
+	$currency->setValue( $total["tax"] );
+	$t->set_var( "tax", $locale->format( $currency ) );
 
-        foreach( $tax as $taxGroup )
-        {
-            $currency->setValue( $taxGroup["basis"] );
-            $t->set_var( "sub_tax_basis", $locale->format( $currency ) );
+	foreach( $tax as $taxGroup )
+	{
+	    $currency->setValue( $taxGroup["basis"] );
+	    $t->set_var( "sub_tax_basis", $locale->format( $currency ) );
 
-            $currency->setValue( $taxGroup["tax"] );
-            $t->set_var( "sub_tax", $locale->format( $currency ) );
+	    $currency->setValue( $taxGroup["tax"] );
+	    $t->set_var( "sub_tax", $locale->format( $currency ) );
 
-            $t->set_var( "sub_tax_percentage", $taxGroup["percentage"] );
-            $t->parse( "tax_item", "tax_item_tpl", true );
-        }
-        $t->parse( "tax_specification", "tax_specification_tpl" );
+	    $t->set_var( "sub_tax_percentage", $taxGroup["percentage"] );
+	    $t->parse( "tax_item", "tax_item_tpl", true );
+	}
+	$t->parse( "tax_specification", "tax_specification_tpl" );
     }
     else
     {
-        $t->set_var( "tax_specification", "" );
-        $t->set_var( "tax_item", "" );
+	$t->set_var( "tax_specification", "" );
+	$t->set_var( "tax_item", "" );
     }
 }
 else
@@ -738,20 +748,21 @@ else
 {
     if ( $cart->personID() > 0 )
     {
-        $customer = new eZPerson( $cart->personID() );
-        $t->set_var( "customer_first_name", $customer->firstName() );
-        $t->set_var( "customer_last_name", $customer->lastName() );
+	$customer = new eZPerson( $cart->personID() );
+	$t->set_var( "customer_first_name", $customer->firstName() );
+	$t->set_var( "customer_last_name", $customer->lastName() );
     }
     else
     {
-        $customer = new eZCompany( $cart->companyID() );
-        $t->set_var( "customer_first_name", $customer->name() );
-        $t->set_var( "customer_last_name", "" );
+	$customer = new eZCompany( $cart->companyID() );
+	$t->set_var( "customer_first_name", $customer->name() );
+	$t->set_var( "customer_last_name", "" );
     }
 
     $addressArray = $customer->addresses();
 }
 
+$mainAddress = $address->mainAddress( $user );
 foreach ( $addressArray as $address )
 {
     $t->set_var( "address_id", $address->id() );
@@ -764,30 +775,35 @@ foreach ( $addressArray as $address )
 
     if ( $country )
     {
-        $country = ", " . $country->name();
+	$country = ", " . $country->name();
     }
 
     if ( $ini->read_var( "eZUserMain", "SelectCountry" ) == "enabled" )
-        $t->set_var( "country", $country );
+	$t->set_var( "country", $country );
     else
-        $t->set_var( "country", "" );
+	$t->set_var( "country", "" );
 
-    unset( $mainAddress );
     $t->set_var( "is_selected", "" );
-    $mainAddress = $address->mainAddress( $user );
-
-    if ( get_class( $mainAddress ) == "ezaddress" )
+    if ( is_numeric ( $ShippingAddressID  ) )
     {
-        if ( $mainAddress->id() == $address->id() )
-        {
-            $t->set_var( "is_selected", "selected" );
-        }
+	if ( $ShippingAddressID == $address->id() )
+	    $t->set_var( "is_selected", "selected" );
+    }
+    else
+    {
+	if ( get_class( $mainAddress ) == "ezaddress" )
+	{
+	    if ( $mainAddress->id() == $address->id() )
+	    {
+		$t->set_var( "is_selected", "selected" );
+	    }
+	}
     }
 
     if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) == "enabled" )
-        $t->parse( "billing_option", "billing_option_tpl", true );
+	$t->parse( "billing_option", "billing_option_tpl", true );
     else
-        $t->set_var( "billing_option" );
+	$t->set_var( "billing_option" );
 
     $t->parse( "shipping_address", "shipping_address_tpl", true );
 }
@@ -811,15 +827,15 @@ if ( $total["inctax"] )
 
     foreach ( $paymentMethods as $paymentMethod )
     {
-        $t->set_var( "payment_method_id", $paymentMethod["ID"] );
-        $t->set_var( "payment_method_text", $paymentMethod["Text"] );
+	$t->set_var( "payment_method_id", $paymentMethod["ID"] );
+	$t->set_var( "payment_method_text", $paymentMethod["Text"] );
 
-        if ( $paymentMethodID == $paymentMethod["ID"] )
-            $t->set_var( "is_selected", "selected" );
-        else
-            $t->set_var( "is_selected", "" );
+	if ( $paymentMethodID == $paymentMethod["ID"] )
+	    $t->set_var( "is_selected", "selected" );
+	else
+	    $t->set_var( "is_selected", "" );
 
-        $t->parse( "payment_method", "payment_method_tpl", true );
+	$t->parse( "payment_method", "payment_method_tpl", true );
     }
     $t->parse( "show_payment", "show_payment_tpl" );
 }
@@ -838,7 +854,7 @@ $t->set_var( "cart_sum", $locale->format( $currency ) );
 $t->set_var( "cart_colspan", 1 + $i );
 
 if ( $sum <= 0 )
-        $payment = false;
+	$payment = false;
 else
 $payment = true;
 
@@ -847,6 +863,19 @@ $t->set_var( "total_cost_value", $total["inctax"] );
 $t->set_var( "total_vat_value", $totalVAT );
 
 $t->set_var( "comment", $Comment );
+
+if ( $Rest == "on" )
+{
+    $t->set_var( "rest_checked", "checked" );
+}
+else
+{
+    $t->set_var( "rest_checked", "" );
+}
+
+if ( $GLOBALS["REQUEST_METHOD"] != "POST" )
+    $t->set_var( "rest_checked", "checked" );
+
 
 // A check should be done in the code above for qty.
 $can_checkout = true;

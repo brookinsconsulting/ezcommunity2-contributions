@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezimage.php,v 1.88.8.2 2002/03/07 13:59:03 ce Exp $
+// $Id: ezimage.php,v 1.88.8.3 2002/04/10 12:00:54 ce Exp $
 //
 // Definition of eZImage class
 //
@@ -83,6 +83,7 @@ include_once( "classes/ezdatetime.php" );
 
 include_once( "ezimagecatalogue/classes/ezimagevariation.php" );
 include_once( "ezimagecatalogue/classes/ezimagevariationgroup.php" );
+
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 
@@ -198,12 +199,10 @@ class eZImage
                               $name );
         $query->setIsLiteral( $literal );
         $query->setPartialCompare( true );
-
         $where =& $query->buildQuery();
 
         $db->array_query( $image_array,
                           "SELECT ID FROM eZImageCatalogue_Image WHERE $where" );
-
         foreach( $image_array as $image )
         {
             $res[] =& new eZImage( $image[$db->fieldName("ID")] );

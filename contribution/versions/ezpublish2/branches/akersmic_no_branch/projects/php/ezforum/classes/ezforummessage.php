@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezforummessage.php,v 1.104.2.1.4.1 2002/02/15 13:05:48 ce Exp $
+// $Id: ezforummessage.php,v 1.104.2.1.4.2 2002/04/10 12:00:53 ce Exp $
 //
 // Definition of eZForumMessage class
 //

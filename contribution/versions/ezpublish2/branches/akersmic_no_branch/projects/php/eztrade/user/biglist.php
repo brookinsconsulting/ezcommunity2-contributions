@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: biglist.php,v 1.1.2.4 2002/03/05 14:06:06 ce Exp $
+// $Id: biglist.php,v 1.1.2.5 2002/04/10 11:57:19 ce Exp $
 //
 // Created on: <12-Dec-2000 14:43:08 bf>
 //
@@ -48,10 +48,12 @@ function &bigList( $CategoryID, $ParentID, $Offset=0, $module, $parse=false )
     else
     {
 	global $ini, $IntlDir, $Language;
+
+    $GlobalSectionID = eZProductCategory::sectionIDStatic( $CategoryID );
 	$t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
 			     "eztrade/user/intl/", $Language, "categorytreelist.php" );
 
-	$t->set_file( "category_list_page_tpl", "biglist.tpl" );
+	$t->set_file( "category_list_page_tpl", "biglist.tpl", $GlobalSectionID );
 
 	$t->set_block( "category_list_page_tpl", "category_list_tpl", "category_list" );
 	$t->set_block( "category_list_page_tpl", "navigator_top_tpl", "navigator_top" );
@@ -65,8 +67,27 @@ function &bigList( $CategoryID, $ParentID, $Offset=0, $module, $parse=false )
 	    $Limit = 20;
 	if ( !isSet( $Offset ) or !is_numeric( $Offset ) )
 	    $Offset = 0;
+
+    $category = new eZProductCategory(  );
+	$category->get( $CategoryID );
+
+	$categoryList =& $category->getByParent( $category, "name", 100 );
+        if ( is_object ( $categoryList[0] ) == false )
+        {
+            eZHTTPTool::header( "Location: /trade/productlist/$CategoryID/" );
+            exit();
+        } 
 	if ( !isSet( $ParentID ) or !is_numeric( $ParentID ) )
-	    $ParentID = 5957;
+    {
+        if ( trim( $categoryList[0]->name() ) == "" )
+        {
+            $ParentID = $categoryList[1]->id();
+        }
+        else
+        {
+            $ParentID = $categoryList[0]->id();
+        }
+    }
 
 	$sub = new eZProductCategory(  );
 	$sub->get( $ParentID );
@@ -98,10 +119,10 @@ function &bigList( $CategoryID, $ParentID, $Offset=0, $module, $parse=false )
 	    $TotalTypes = $count["Count"];
 	    if ( count ( $category_array ) > 0 )
 	    {
-		foreach ( $category_array as $category )
+		foreach ( $category_array as $categoryItem )
 		{
-		    $t->set_var( "category_id", $category["ID"] );
-		    $t->set_var( "category_name", $category["Name"] );
+		    $t->set_var( "category_id", $categoryItem["ID"] );
+		    $t->set_var( "category_name", $categoryItem["Name"] );
 		    $t->parse( "category_item", "category_item_tpl", true );
 		}
 	    }
@@ -110,11 +131,6 @@ function &bigList( $CategoryID, $ParentID, $Offset=0, $module, $parse=false )
 	eZList::drawNavigator( $t, $TotalTypes, $Limit, $Offset, "navigator_top_tpl" );
 	$buttom =& $t->parse( "navigator_top", "navigator_top_tpl" );
 	$t->set_var( "navigator_buttom", "$buttom" );
-
-	$category = new eZProductCategory(  );
-	$category->get( $CategoryID );
-
-	$categoryList =& $category->getByParent( $category, "name", 100 );
 
 // categories
 	foreach ( $categoryList as $categoryItem )
@@ -137,7 +153,7 @@ function &bigList( $CategoryID, $ParentID, $Offset=0, $module, $parse=false )
 	}
 
 	$output =& $t->parse( "output", "category_list_page_tpl" );
-	$bigListCacheFile->store( $output );
+//	$bigListCacheFile->store( $output );
     if ( $parse )
     {
         $t->pparse( "output", "category_list_page_tpl" );

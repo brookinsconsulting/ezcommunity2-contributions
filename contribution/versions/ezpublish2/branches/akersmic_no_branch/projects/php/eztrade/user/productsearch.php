@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: productsearch.php,v 1.20.8.15 2002/03/06 15:33:17 bf Exp $
+//
+// $Id: productsearch.php,v 1.20.8.16 2002/04/10 11:57:20 ce Exp $
 //
 // Created on: <10-Oct-2000 17:49:05 bf>
 //
@@ -76,7 +76,7 @@ $t->set_var( "module_print", $ModulePrint );
 $t->set_block( "product_tpl", "image_tpl", "image" );
 $t->set_block( "product_tpl", "price_tpl", "price" );
 
-$t->set_var( "next", "" ); 
+$t->set_var( "next", "" );
 $t->set_var( "previous", "" );
 $t->set_var( "error_max_search_for_products", "" );
 
@@ -107,9 +107,9 @@ if ( $Query  || ( $SearchType == "AdvancedMusic" ) || ( $SearchType == "Advanced
                                                                       "DVDTitle" => $DVDTitle,
                                                                       "DVDActor" => $DVDActor,
                                                                       "MultimediaType" => $MultimediaType,
-                                                                      "GameTitle" => $GameTitle                                                                      
+                                                                      "GameTitle" => $GameTitle
                                                                       ), $total_count, $ignoredWords );
-} 
+}
 
 $t->set_var( "url_text", urlencode( $Query ) );
 
@@ -122,7 +122,7 @@ if ( count( $ignoredWords ) > 0 )
     }
 
     $ignoredText = "Følgende ord ble ikke søkt på:  " . $ignoredText . "";
-    
+
 }
 $t->set_var( "ignored_text", $ignoredText );
 
@@ -152,7 +152,8 @@ if ( isSet( $Query ) && ( count ( $productList ) > 0 ) )
 
         if ( count( $res_array ) == 1 )
         {
-           if ( is_numeric( $res_array[0][$db->fieldName( "ThumbnailImageID" )] ) )
+           if ( is_numeric( $res_array[0][$db->fieldName( "ThumbnailImageID" )] )
+&& ( $res_array[0][$db->fieldName( "ThumbnailImageID" )] > 0) )
            {
                $thumbnailImage = new eZImage( $res_array[0][$db->fieldName( "ThumbnailImageID" )], false );
            }
@@ -161,16 +162,28 @@ if ( isSet( $Query ) && ( count ( $productList ) > 0 ) )
         $t->set_var( "type_name", $product["TypeName"] );
         $t->set_var( "product_name", $product["Name"] );
         $t->set_var( "product_price", number_format( $product["Price"], 2, ",", " " ) );
-        
+
+        // print actors if the result is DVD
+        if ( $product["TypeName"] == "DVD" )
+        {
+            include_once( "eztrade/classes/ezproductattribute.php" );
+            $attr = new eZProductAttribute( 6 );
+            $t->set_var( "product_category_name", $attr->value( $product["ProductID"], false ) );
+        }
+        else
+        {
+            $t->set_var( "product_category_name", $product["DefName"] );
+        }
+
 //        $t->set_var( "product_intro_text", $product->brief() );
         $t->set_var( "product_intro_text", "" );
         $t->set_var( "product_id", $product["ProductID"] );
-        
-        
+
+
         if ( $thumbnailImage )
         {
             $variation =& $thumbnailImage->requestImageVariation( $SmallImageWidth, $SmallImageHeight );
-    
+
             $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
             $t->set_var( "thumbnail_image_width", $variation->width() );
             $t->set_var( "thumbnail_image_height", $variation->height() );
@@ -184,7 +197,7 @@ if ( isSet( $Query ) && ( count ( $productList ) > 0 ) )
             $t->set_var( "thumbnail_image_width", "50" );
             $t->set_var( "thumbnail_image_height", "50" );
             $t->set_var( "thumbnail_image_caption", "" );
-                
+
             $t->parse( "image", "image_tpl" );
         }
 
@@ -215,10 +228,10 @@ switch ( $SearchType )
 {
     case "AdvancedMusic" :
     {
-        $advQuery = "?MusicType=$MusicType&SearchType=$SearchType&AlbumTitle=$AlbumTitle&Artist=$Artist&Recording=$Recording";        
+        $advQuery = "?MusicType=$MusicType&SearchType=$SearchType&AlbumTitle=$AlbumTitle&Artist=$Artist&Recording=$Recording";
     }
     break;
-        
+
     case "AdvancedDVD" :
     {
         $advQuery ="?SearchType=$SearchType&DVDTitle=$DVDTitle&DVDActor=$DVDActor";
@@ -252,4 +265,3 @@ $t->set_var( "product_total", $total_count );
 
 $t->pparse( "output", "product_search_tpl" );
 ?>
-

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messagesimplelist.php,v 1.15.8.5 2002/03/07 13:59:03 ce Exp $
+// $Id: messagesimplelist.php,v 1.15.8.6 2002/04/10 12:00:53 ce Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //

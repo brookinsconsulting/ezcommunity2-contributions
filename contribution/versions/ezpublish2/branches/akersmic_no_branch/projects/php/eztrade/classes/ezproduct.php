@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.35 2002/03/07 13:59:03 ce Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.36 2002/04/10 11:58:55 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -132,6 +132,7 @@ class eZProduct
         $artist = $db->escapeString( $this->Artist );
         $innspilling = $db->escapeString( $this->Innspilling );
 
+        $productInsert = false;
         if ( !isSet( $this->ID ) )
         {
             $timeStamp = eZDateTime::timeStamp( true );
@@ -184,6 +185,7 @@ class eZProduct
                                     '$this->TypeID')" );
             $db->unlock();
 			$this->ID = $nextID;
+	    $productInsert = true;
         }
         else
         {
@@ -206,7 +208,8 @@ class eZProduct
                                  IncludesVAT='$this->IncludesVAT',
                                  Artist='$artist',
                                  Innspilling='$innspilling',
-                                 TypeID='$this->TypeID'
+                                 TypeID='$this->TypeID',
+                                 RemoteID='$this->RemoteID'
                                  WHERE ID='$this->ID'
                                  " );
         }
@@ -218,7 +221,8 @@ class eZProduct
         else
             $db->commit();
 
-        $this->createIndex();
+        if ( $productInsert )
+            $this->createIndex();
 
         return true;
     }
@@ -486,6 +490,9 @@ class eZProduct
             $res[] = $db->query( "DELETE FROM eZTrade_ProductImageLink WHERE ProductID='$this->ID'" );
             $res[] = $db->query( "DELETE FROM eZTrade_ProductImageDefinition WHERE ProductID='$this->ID'" );
 
+            $res[] = $db->query( "DELETE FROM eZTrade_CartItem WHERE ProductID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZTrade_WishListItem WHERE ProductID='$this->ID'" );
+
             $db->array_query( $qry_array, "SELECT QuantityID FROM eZTrade_ProductQuantityDict
                                                        WHERE ProductID='$this->ID'" );
             foreach( $qry_array as $row )
@@ -523,9 +530,12 @@ class eZProduct
     /*!
       Returns the name of the product.
     */
-    function &name( )
+    function &name( $useHTMLChars = true)
     {
-       return htmlspecialchars( $this->Name );
+        if ( $useHTMLChars == true )
+            return htmlspecialchars( $this->Name );
+        else
+            return $this->Name;
     }
 
     /*!
@@ -1559,7 +1569,7 @@ class eZProduct
 
         if ( count( $res_array ) == 1 )
         {
-            if ( $res_array[0][$db->fieldName( "MainImageID" )] != "NULL" )
+            if ( $res_array[0][$db->fieldName( "MainImageID" )] != false )
             {
                 $ret = new eZImage( $res_array[0][$db->fieldName( "MainImageID" )], false );
             }
@@ -1606,7 +1616,8 @@ class eZProduct
                                      WHERE
                                      ( Name LIKE '%$query%' ) OR
                                      ( Description LIKE '%$query%' ) OR
-                                     ( Keywords LIKE '%$query%' )",
+                                     ( Keywords LIKE '%$query%' ) OR
+                                     ( ProductNumber LIKE '%$query%' )",
                                      array( "Limit" => $limit, "Offset" => $offset ) );
 
        foreach ( $res_array as $product )
@@ -1629,7 +1640,8 @@ class eZProduct
                                      WHERE
                                      ( Name LIKE '%$query%' ) OR
                                      ( Description LIKE '%$query%' ) OR
-                                     ( Keywords LIKE '%$query%' )
+                                     ( Keywords LIKE '%$query%' ) OR
+                                     ( ProductNumber LIKE '%$query%' )
                                    " );
 
         return $res_array[0][$db->fieldName( "Count" )];
@@ -1703,7 +1715,7 @@ class eZProduct
         $ini =& INIFile::globalINI();
         $StopWordFrequency = $ini->read_var( "eZTradeMain", "StopWordFrequency" );
 
-        $StopWordFrequency = 0.07;
+        $StopWordFrequency = 0.04;
         $query = new eZQuery( "eZTrade_Word.Word", $queryText );
         $query->setIsLiteral( true );
         $query->setStopWordColumn(  "eZTrade_Word.Frequency" );
@@ -1715,7 +1727,7 @@ class eZProduct
 
             $db->query( "DROP TABLE IF EXISTS eZTrade_SearchTemp" );
 
-            $db->query( "CREATE TEMPORARY TABLE eZTrade_SearchTemp( ProductID int, Name varchar(150), Price float, TypeName varchar(60) )" );
+            $db->query( "CREATE TEMPORARY TABLE eZTrade_SearchTemp( ProductID int, Name varchar(150), DefName varchar(150), Price float, TypeName varchar(60) )" );
 
 //            $db->query( "CREATE TABLE eZTrade_SearchTemp( ProductID int, Name varchar(150), Price float, TypeName varchar(60) )" );
 //            $db->query( "DELETE FROM eZTrade_SearchTemp" );
@@ -1752,7 +1764,7 @@ class eZProduct
                     }
 
 
-                    $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, Price, TypeName ) SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name AS Name, eZTrade_Product.Price as Price, eZTrade_Type.Name AS TypeName
+                    $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, DefName, Price, TypeName ) SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name AS Name, eZTrade_Product.CategoryDefinitionName AS DefName, eZTrade_Product.Price as Price, eZTrade_Type.Name AS TypeName
                  FROM eZTrade_Product,
                       eZTrade_Type
                       $attributeValueTables
@@ -1770,7 +1782,7 @@ class eZProduct
 
                     $db->query( $queryString );
 
-                    $queryString = "SELECT ProductID, Name, Price, TypeName, Count(*) AS Count FROM eZTrade_SearchTemp GROUP BY ProductID";
+                    $queryString = "SELECT ProductID, Name,  DefName, Price, TypeName, Count(*) AS Count FROM eZTrade_SearchTemp GROUP BY ProductID";
 
 
 
@@ -1796,7 +1808,7 @@ class eZProduct
                     }
 
 
-                    $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, Price, TypeName ) SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name AS Name, eZTrade_Product.Price as Price, eZTrade_Type.Name AS TypeName
+                    $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, DefName, Price, TypeName ) SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name AS Name, eZTrade_Product.CategoryDefinitionName AS DefName, eZTrade_Product.Price as Price, eZTrade_Type.Name AS TypeName
                  FROM eZTrade_Product,
                       eZTrade_Type
 					$attributeValueTables
@@ -1810,7 +1822,7 @@ class eZProduct
 
                     $db->query( $queryString );
 
-                    $queryString = "SELECT ProductID, Name, Price, TypeName FROM eZTrade_SearchTemp GROUP BY ProductID";
+                    $queryString = "SELECT ProductID, Name, DefName, Price, DefName,  TypeName FROM eZTrade_SearchTemp GROUP BY ProductID";
 
 
                 }break;
@@ -1832,7 +1844,7 @@ class eZProduct
                         $titleSQL = " AND eZTrade_Product.Name LIKE '%$gameTitle%' ";
                     }
 
-                    $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, Price, TypeName ) SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name AS Name, eZTrade_Product.Price as Price, eZTrade_Type.Name AS TypeName
+                    $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, DefName, Price, TypeName ) SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name AS Name, eZTrade_Product.CategoryDefinitionName AS DefName, eZTrade_Product.Price as Price, eZTrade_Type.Name AS TypeName
                  FROM eZTrade_Product,
                       eZTrade_Type
                       $attributeValueTables
@@ -1847,7 +1859,7 @@ class eZProduct
 
                     $db->query( $queryString );
 
-                    $queryString = "SELECT ProductID, Name, Price, TypeName FROM eZTrade_SearchTemp GROUP BY ProductID";
+                    $queryString = "SELECT ProductID, Name, DefName, Price, TypeName FROM eZTrade_SearchTemp GROUP BY ProductID";
 
 
 
@@ -1880,8 +1892,8 @@ class eZProduct
                                 $typeSQL = "";
                             }
 
-                            $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, Price, TypeName )
-		SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name AS Name, eZTrade_Product.Price as Price, eZTrade_Type.Name as TypeName
+                            $queryString = "INSERT INTO eZTrade_SearchTemp ( ProductID, Name, DefName, Price, TypeName )
+		SELECT DISTINCT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name AS Name, eZTrade_Product.CategoryDefinitionName AS DefName, eZTrade_Product.Price as Price, eZTrade_Type.Name as TypeName
                  FROM eZTrade_Product,
                       eZTrade_ProductWordLink,
                       eZTrade_Word,
@@ -1896,9 +1908,9 @@ class eZProduct
                          $typeSQL
                         )
                        GROUP BY eZTrade_Product.ID
-                       ORDER BY $OrderBy LIMIT 800";
+                       ORDER BY $OrderBy";
 
-
+                            
                             $db->query( $queryString );
 
                             $count += 1;
@@ -1911,7 +1923,7 @@ class eZProduct
                     }
                     $count -= 1;
 
-                    $queryString = "SELECT ProductID, Name, Price, TypeName, Count(*) AS Count FROM eZTrade_SearchTemp GROUP BY ProductID HAVING Count='$count'";
+                    $queryString = "SELECT ProductID, Name, DefName, Price, TypeName, Count(*) AS Count FROM eZTrade_SearchTemp GROUP BY ProductID HAVING Count='$count'";
 
                 }break;
 
@@ -2215,6 +2227,10 @@ class eZProduct
       Set's the products defined category. This is the main category for the product.
       Additional categories can be added with eZProductCategory::addProduct();
     */
+    /*!
+      Set's the products defined category. This is the main category for the product.
+      Additional categories can be added with eZProductCategory::addProduct();
+    */
     function setCategoryDefinition( $value )
     {
        if ( get_class( $value ) == "ezproductcategory" )
@@ -2223,6 +2239,7 @@ class eZProduct
            $db->begin();
 
            $categoryID = $value->id();
+           $categoryDefName = $value->name();
 
            // check if product has category definition, if not create one
            $db->array_query( $def_array, "SELECT ID FROM eZTrade_ProductCategoryDefinition
@@ -2249,9 +2266,12 @@ class eZProduct
                            '$categoryID',
                            '$this->ID' )";
            }
-
-           $res[] = $db->query( $query );
            $db->unlock();
+           $res[] = $db->query( $query );
+           $categoryDefName = $db->escapeString( $categoryDefName );
+
+           $query = "UPDATE eZTrade_Product SET CategoryDefinitionName='$categoryDefName' WHERE ID='$this->ID'";
+           $res[] = $db->query( $query );
 
            eZDB::finish( $res, $db );
        }
@@ -2294,9 +2314,11 @@ class eZProduct
 
             $typeID = $type->id();
 
-
-            $res[] = $db->query( "DELETE FROM eZTrade_AttributeValue
-                                     WHERE ProductID='$this->ID'" );
+            if ( $typeID != $this->TypeID )
+            {
+                $res[] = $db->query( "DELETE FROM eZTrade_AttributeValue
+                                      WHERE ProductID='$this->ID'" );
+            }
 
             /*
             $res[] = $db->query( "DELETE FROM eZTrade_ProductTypeLink

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productedit.php,v 1.69.2.1.4.7 2002/03/07 13:59:03 ce Exp $
+// $Id: productedit.php,v 1.69.2.1.4.8 2002/04/10 12:00:54 ce Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -164,6 +164,7 @@ if ( $Action == "Update" or $Action == "Insert" or $Action == "RemoveCategories"
 
         $product->setKeywords( $Keywords  );
         $product->setProductNumber( $ProductNumber );
+        $product->setRemoteID( $ProductNumber );
         $product->setExternalLink( $ExternalLink );
 
         $vattype = new eZVATType( $VATTypeID );
@@ -181,9 +182,9 @@ if ( $Action == "Update" or $Action == "Insert" or $Action == "RemoveCategories"
             $product->setShowPrice( false );
         }
 
-        if ( $UseVoucher == true )
+        if ( $Forhond == "on" )
         {
-            $product->setProductType( 2 );
+            $product->setProductType( 3 );
         }
         else
         {
@@ -221,17 +222,6 @@ if ( $Action == "Update" or $Action == "Insert" or $Action == "RemoveCategories"
         $product->store();
 
         $productID = $product->id();
-
-        if ( $product->productType() == 2 )
-        {
-            $range =& $product->priceRange();
-            if ( !$range )
-                $range = new eZProductPriceRange();
-            $range->setMin( $MinPrice );
-            $range->setMax( $MaxPrice );
-            $range->setProduct( $product );
-            $range->store();
-        }
 
         if ( $ShowQuantity )
         {
@@ -535,6 +525,8 @@ $t->set_block( "price_group_list_tpl", "price_groups_no_item_tpl", "price_groups
 
 $t->set_block( "product_edit_tpl", "selected_category_item_tpl", "selected_category_item" );
 
+$t->set_block( "selected_category_item_tpl", "path_item_tpl", "path_item" );
+
 $t->setAllStrings();
 
 $t->set_var( "brief_value", "" );
@@ -618,6 +610,9 @@ if ( $Action == "Edit" )
 
     if ( $product->productType() == 2 )
         $t->set_var( "mark_as_voucher", "checked" );
+
+    if ( $product->productType() == 3 )
+        $t->set_var( "forhond_checked", "checked" );
 
     if ( $product->includesVAT() == true )
         $t->set_var( "include_vat", "checked" );
@@ -876,6 +871,14 @@ if ( is_array ( $SelectedCategories ) )
     foreach( $SelectedCategories as $categoryID )
     {
         $cat = new eZProductCategory( $categoryID );
+        $t->set_var( "path_item", "" );
+        foreach ( $cat->path() as $path )
+        {
+            $t->set_var( "category_id", $path[0] );
+            $t->set_var( "category_name", $path[1] );
+            $t->parse( "path_item", "path_item_tpl", true );
+        }
+
         $t->set_var( "category_id", $cat->id() );
         $t->set_var( "category_name", $cat->name() );
         if ( $categoryCount == 1 )

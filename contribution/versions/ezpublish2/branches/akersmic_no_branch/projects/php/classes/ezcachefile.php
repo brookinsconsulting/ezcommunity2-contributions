@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezcachefile.php,v 1.14.8.1 2002/02/15 13:05:48 ce Exp $
+// $Id: ezcachefile.php,v 1.14.8.2 2002/04/10 12:00:52 ce Exp $
 //
 // Definition of eZCacheFile class
 //
@@ -165,6 +165,7 @@ class eZCacheFile
         {
             fwrite( $file, $content );
             fclose( $file );
+            chmod ( $this->filename( true ), 0664);
         }
         else
         {

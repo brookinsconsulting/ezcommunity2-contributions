@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.5 2001/10/09 08:06:02 ce Exp $
+// $Id: productsearch.php,v 1.5.8.1 2002/04/10 12:00:54 ce Exp $
 //
 // Created on: <13-Sep-2000 14:56:11 bf>
 //
@@ -60,8 +60,7 @@ if ( !isset( $Limit ) or !is_numeric( $Limit ) )
 if ( !isset( $Offset ) or !is_numeric( $Offset ) )
     $Offset = 0;
 
-$t->set_var( "search_text", $Search );
-
+$t->set_var( "search_text", urlencode( $Search ) );
 // products
 $product = new eZProduct();
 $TotalTypes =& $product->activeProductSearchCount( $Search );

@@ -22,6 +22,7 @@
 	<!-- END value_tpl -->
 	</select>
         -->	
+	{parent_name}
 	</td>
   	<td width="50%">
 	<p class="boxtext">{intl-sort_mode}:</p>
@@ -34,7 +35,6 @@
 
 	</select>
 
-        {parent_name}
         <input type="hidden" name="CategoryID" value="{category_id}" />
         <input type="hidden" name="ParentID" value="{parent_id}" />
 	</td>

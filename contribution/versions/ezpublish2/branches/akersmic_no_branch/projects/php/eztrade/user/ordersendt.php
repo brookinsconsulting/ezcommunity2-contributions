@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ordersendt.php,v 1.49.2.1.4.2 2002/02/01 11:10:00 ce Exp $
+// $Id: ordersendt.php,v 1.49.2.1.4.3 2002/04/10 11:57:19 ce Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -177,10 +177,7 @@ if ( $user )
         $t->set_var( "billing_country", "" );
     }
 
-    if ( $ini->read_var( "eZTradeMain", "ShowBillingAddress" ) == "enabled" )
-        $t->parse( "billing_address", "billing_address_tpl" );
-    else
-        $t->set_var( "billing_address", "" );
+    $t->parse( "billing_address", "billing_address_tpl" );
 
     $t->set_var( "shipping_first_name", "" );
     $t->set_var( "shipping_last_name", "" );
@@ -618,6 +615,15 @@ $paymentMethod = $instance->paymentName( $order->paymentMethod() );
 $t->set_var( "payment_method", $paymentMethod );
 
 $t->set_var( "comment", $order->comment() );
+
+if ( $order->rest() )
+{
+    $t->set_var( "rest_value", "Ja" );
+}
+else
+{
+    $t->set_var( "rest_value", "Nei" );
+}
 
 $shippingType = $order->shippingType();
 if ( $shippingType )

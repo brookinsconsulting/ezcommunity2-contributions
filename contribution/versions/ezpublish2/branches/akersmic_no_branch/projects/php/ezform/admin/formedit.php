@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: formedit.php,v 1.10.2.1.4.1 2002/03/04 13:40:16 ce Exp $
+// $Id: formedit.php,v 1.10.2.1.4.2 2002/04/10 12:00:53 ce Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -189,8 +189,8 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $Preview ) || isSet( $NewElement
             }
 
             $element->setName( $elementName[$i] );
+            $element->setRemoteID( $remoteID[$i] );
             $element->setSize( $Size[$i] );
-
 
             $required = false;
             $break = false;
@@ -379,6 +379,7 @@ if ( $count > 0 )
             $t->set_var( "td_class", "bgdark" );
         }
         $t->set_var( "element_name", $element->name() );
+        $t->set_var( "remote_id", $element->remoteID() );
         $t->set_var( "element_id", $element->id() );
 
         $t->set_var( "element_size", $element->size() );

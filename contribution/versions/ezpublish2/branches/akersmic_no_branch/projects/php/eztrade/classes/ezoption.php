@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezoption.php,v 1.26 2001/09/03 11:13:38 ce Exp $
+//
+// $Id: ezoption.php,v 1.26.8.1 2002/04/10 11:58:55 ce Exp $
 //
 // Definition of eZOption class
 //
@@ -32,7 +32,7 @@
   eZOption class handles product options. The class has functions for storing
   to the database and fetching from the database.
 
-  
+
   You can add option values to options, and get the values for a option.
 
   Example code:
@@ -68,9 +68,9 @@
   // Add them to the option
   $option->addValue( $value1 );
   $option->addValue( $value2 );
-  $option->addValue( $value3 );  
+  $option->addValue( $value3 );
 
-  \endcode  
+  \endcode
   \sa eZProductCategory eZOptionValue
 */
 
@@ -102,7 +102,7 @@ class eZOption
 
         $this->Name = $db->escapeString( $this->Name );
         $this->Description = $db->escapeString( $this->Description );
-        
+
         if ( !is_numeric( $this->ID ) )
         {
             $db->lock( "eZTrade_Option" );
@@ -166,14 +166,14 @@ class eZOption
 
         $return_array = array();
         $option_array = array();
-        
+
         $db->array_query( $option_array, "SELECT ID FROM eZTrade_Option ORDER BY Name" );
-        
+
         for ( $i=0; $i < count($option_array); $i++ )
         {
             $return_array[$i] = new eZOption( $option_array[$i][$db->fieldName( "ID" )], 0 );
         }
-        
+
         return $return_array;
     }
 
@@ -184,7 +184,7 @@ class eZOption
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $db->array_query( $option_array, "SELECT ID FROM eZTrade_OptionValue WHERE OptionID='$this->ID'" );
 
         foreach( $option_array as $option_value )
@@ -197,6 +197,8 @@ class eZOption
         $res[] = $db->query( "DELETE FROM eZTrade_Option WHERE ID='$this->ID'" );
         $res[] = $db->query( "DELETE FROM eZTrade_ProductPriceLink WHERE OptionID='$this->ID'" );
         $res[] = $db->query( "DELETE FROM eZTrade_OptionValueHeader WHERE OptionID='$this->ID'" );
+        $ret[] = $db->query( "DELETE FROM eZTrade_CartOptionValue WHERE OptionID='$this->ID'" );
+        $ret[] = $db->query( "DELETE FROM eZTrade_WishlistOptionValue WHERE OptionID='$this->ID'" );
 
         eZDB::finish( $res, $db );
     }
@@ -302,20 +304,20 @@ class eZOption
         $db =& eZDB::globalDatabase();
         $db->begin();
 
-        
+
         if ( !$id )
             $id = $this->ID;
         if ( !is_array( $header ) )
             $header = array( $header );
-        
+
         $db->array_query( $qry_array, "SELECT Placement FROM eZTrade_OptionValueHeader
                                        WHERE OptionID='$id' ORDER BY Placement DESC",
                                        array( "Limit" => 1, "Offset" => 0 ) );
-        
+
         $placement = count( $qry_array ) == 0 ? 1 : $qry_array[0][$db->fieldName( "Placement" )] + 1;
 
         $db->lock( "eZTrade_OptionValueHeader" );
-        
+
         foreach( $header as $header_val )
         {
             $header_val = $db->escapeString( $header_val );
@@ -364,8 +366,8 @@ class eZOption
 
     /*!
       Adds a value to the option. The value must be of eZOptionValue type.
-      
-      NOTE: It stores the value object to the database. 
+
+      NOTE: It stores the value object to the database.
     */
     function addValue( &$value )
     {
@@ -379,9 +381,9 @@ class eZOption
     function getByRemoteID( $id )
     {
         $db =& eZDB::globalDatabase();
-        
+
         $value = false;
-        
+
         $db->array_query( $res, "SELECT ID FROM
                                             eZTrade_Option
                                             WHERE RemoteID='$id'" );
@@ -389,7 +391,7 @@ class eZOption
         {
             $value = new eZOption( $res[0][$db->fieldName("ID")] );
         }
-        
+
         return $value;
     }
 

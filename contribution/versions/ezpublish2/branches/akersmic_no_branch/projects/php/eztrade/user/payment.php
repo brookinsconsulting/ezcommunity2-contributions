@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: payment.php,v 1.84.8.8 2002/03/27 19:28:55 br Exp $
+// $Id: payment.php,v 1.84.8.9 2002/04/10 11:57:20 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
