@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezrssimporter.php,v 1.1.2.5 2002/01/24 12:50:58 br Exp $
+// $Id: ezrssimporter.php,v 1.1.2.6 2002/02/26 17:27:44 br Exp $
 //
 // Definition of ezrdfimporter class
 //
@@ -62,8 +62,13 @@ class eZRSSImporter
         $db =& eZDB::globalDatabase();
         $return_array = array();
         $fp = fopen( $this->Site, "r" );
-        $output = fread ( $fp, 10000000 );
-        
+
+        $output = "";
+        while ( !feof ( $fp ) )
+        {
+            $output .= fgets( $fp, 4096 );
+        }
+
         fclose( $fp );
 
         $params["TrimWhiteSpace"] = true;

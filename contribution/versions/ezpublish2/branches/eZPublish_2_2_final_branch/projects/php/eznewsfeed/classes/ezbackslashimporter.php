@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbackslashimporter.php,v 1.9.2.5 2002/01/24 12:50:57 br Exp $
+// $Id: ezbackslashimporter.php,v 1.9.2.6 2002/02/26 17:27:44 br Exp $
 //
 // Definition of ezbackslashimporter class
 //
@@ -61,7 +61,13 @@ class eZBackslashImporter
         $db =& eZDB::globalDatabase();
         $return_array = array();
         $fp = fopen( $this->Site, "r" );
-        $output = fread ( $fp, 100000000 );
+
+        $output = "";
+        while ( !feof ( $fp ) )
+        {
+            $output .= fgets( $fp, 4096 );
+        }
+
         fclose( $fp );
 
         $params["TrimWhiteSpace"] = true;
