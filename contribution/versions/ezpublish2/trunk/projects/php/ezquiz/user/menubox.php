@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.1 2001/05/30 12:56:46 pkej Exp $
+// $Id: menubox.php,v 1.2 2001/05/30 13:16:28 pkej Exp $
 //
 // 
 //
@@ -62,8 +62,8 @@ function createQuizMenu()
 
     $t->set_var( "current_game_item", "" );
     $t->set_var( "next_game_item", "" );
-    $t->set_var( "quiz_menu_item_tpl", "" );
-    $t->set_var( "my_quiz_item_tpl", "" );
+    $t->set_var( "quiz_menu_item", "" );
+    $t->set_var( "my_quiz_item", "" );
     
     $t->set_var( "sitedesign", $GlobalSiteDesign );
 
@@ -74,26 +74,28 @@ function createQuizMenu()
     
     if( true )
     {
-        $t->parse( "my_quiz_item", "quiz_menu_item_tpl" );
+        $t->parse( "quiz_menu_item", "quiz_menu_item_tpl" );
     }
 
     $game = new eZQuizGame();
-    $games = $game->openGames( $Offset, $Limit );
+    $games = $game->openGames( 0, 1 );
     $count = count( $games );
     
     if( $count >= 1 )
     {
+        $game = $games[0];
         $t->set_var( "game_id", $game->id() );
         $t->set_var( "game_name", $game->name() );
         $t->parse( "current_game_item", "current_game_item_tpl" );
     }
     else
     {
-        $games = $game->opensNext( $Offset, $Limit );
+        $games = $game->opensNext( 0, 1 );
         $count = count( $games );
         
         if( $count >= 1 )
         {
+            $game = $games[0];
             $t->set_var( "game_id", $game->id() );
             $t->set_var( "game_name", $game->name() );
             

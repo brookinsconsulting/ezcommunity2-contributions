@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizgame.php,v 1.9 2001/05/30 12:57:04 pkej Exp $
+// $Id: ezquizgame.php,v 1.10 2001/05/30 13:16:28 pkej Exp $
 //
 // ezquizgame class
 //
@@ -359,6 +359,29 @@ class eZQuizGame
 
         $db->array_query( $quizArray, "SELECT ID FROM eZQuiz_Game
                                        WHERE StartDate <= now() AND StopDate >= now()
+                                       ORDER BY StartDate DESC LIMIT $offset, $limit" );
+        $ret = $result["Count"];
+
+        for ( $i=0; $i < count($quizArray); $i++ )
+        {
+            $returnArray[$i] = new eZQuizGame( $quizArray[$i]["ID"] );
+        }
+        
+        return $returnArray;
+    }
+ 
+    /*!
+      Returns the games opening
+    */
+    function &opensNext( $offset = 0, $limit = 20 )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $returnArray = array();
+        $quizArray = array();
+
+        $db->array_query( $quizArray, "SELECT ID FROM eZQuiz_Game
+                                       WHERE StartDate < now()
                                        ORDER BY StartDate DESC LIMIT $offset, $limit" );
         $ret = $result["Count"];
 
