@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.119.4.8 2001/11/22 14:41:49 ce Exp $
+// $Id: ezproduct.php,v 1.119.4.9 2001/11/22 14:52:13 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -1442,6 +1442,7 @@ class eZProduct
         if ( $text != "" )
         {
             $query = new eZQuery( array( "eZTrade_Product.Name", "eZTrade_Product.Keywords", "eZTrade_Product.Description" ), $text );
+            $query->setPartialCompare( true );
             if ( $price || $categorySQL )
                 $text = "AND (" . $query->buildQuery()  . ")";
             else
@@ -1496,9 +1497,10 @@ class eZProduct
             $table_sql = "( $table_sql )";
 
         $queryString = "SELECT eZTrade_Product.ID as PID
-                        FROM eZTrade_Product  $table_from
-                        WHERE $table_sql $price $text AND eZTrade_Product.ID = $first_table.ProductID
+                        FROM eZTrade_Product  $table_from 
+                        WHERE eZTrade_Product.ID = $first_table.ProductID AND $table_sql $price $text
                          GROUP BY PID LIMIT $offset, $limit";
+
 
         $db->array_query( $res_array, $queryString );
 
@@ -1542,6 +1544,7 @@ class eZProduct
         if ( $text != "" )
         {
             $query = new eZQuery( array( "eZTrade_Product.Name", "eZTrade_Product.Keywords", "eZTrade_Product.Description" ), $text );
+            $query->setPartialCompare( true );
             if ( $price || $categorySQL )
                 $text = "AND (" . $query->buildQuery()  . ")";
             else
@@ -1569,7 +1572,7 @@ class eZProduct
             }
             $db->query( "INSERT INTO $table(ProductID)
                          SELECT eZTrade_ProductCategoryLink.ProductID FROM eZTrade_ProductCategoryLink
-                         WHERE  ( $catSQL )
+                         WHERE ( $catSQL )
                          GROUP BY eZTrade_ProductCategoryLink.ProductID" );
         }
 
@@ -1591,8 +1594,8 @@ class eZProduct
 
         $queryString = "SELECT count( DISTINCT eZTrade_Product.ID ) AS Count
                         FROM eZTrade_Product $table_from
-                        WHERE $table_sql $price $text AND
-                        eZTrade_Product.ID = $first_table.ProductID";
+                        WHERE eZTrade_Product.ID = $first_table.ProductID AND $table_sql $price $text
+                        ";
         $db->query_single( $res_array, $queryString );
 
         foreach( $tables as $table )
