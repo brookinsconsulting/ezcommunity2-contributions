@@ -1,10 +1,11 @@
 <?
-// $Id: todoedit.php,v 1.17 2001/03/14 09:50:10 ce Exp $
+// $Id: todoedit.php,v 1.18 2001/04/04 11:59:46 wojciechp Exp $
 //
 // Definition of todo list.
 //
 // <real-name> <<mail-name>>
 // Created on: <04-Sep-2000 16:53:15 ce>
+// Modified on: <28-Mar-2001 21:08:00> by: Wojciech potaczek <Wojciech@Potaczek.pl> for todo status handling
 //
 // Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
@@ -25,11 +26,7 @@ if ( isSet ( $Edit ) )
 {
     $Action = "edit";
 }
-if ( isSet ( $Done ) )
-{
-    $Action = "updateStatus";
-    $Status = "on";
-}
+
 if( isset( $Cancel ) )
 {
     eZHTTPTool::header( "Location: /todo" );
@@ -39,8 +36,11 @@ if( isset( $Cancel ) )
 
 include_once( "classes/INIFile.php" );
 
-$ini = new INIFIle( "site.ini" );
+//$ini = new INIFIle( "site.ini" );
+$ini =& INIFile::globalINI();
+
 $Language = $ini->read_var( "eZTodoMain", "Language" );
+$NotDoneID = $ini->read_var( "eZTodoMain", "NotDoneID" );
 
 $iniLanguage = new INIFile( "eztodo/user/intl/" . $Language . "/todoedit.php.ini", false );
 
@@ -49,6 +49,7 @@ include_once( "classes/ezdatetime.php" );
 include_once( "eztodo/classes/eztodo.php" );
 include_once( "eztodo/classes/ezcategory.php" );
 include_once( "eztodo/classes/ezpriority.php" );
+include_once( "eztodo/classes/ezstatus.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezdate.php" );
 include_once( "classes/eztime.php" );
@@ -69,6 +70,15 @@ if ( !$user )
     exit();
 }
 
+$CategoryID = eZHTTPTool::getVar( "CategoryID", true );
+$PriorityID = eZHTTPTool::getVar( "PriorityID", true );
+$UserID = eZHTTPTool::getVar( "UserID", true );
+$Name = eZHTTPTool::getVar( "Name", true );
+$Description = eZHTTPTool::getVar( "Description", true );
+$StatusID = eZHTTPTool::getVar( "StatusID", true );
+
+
+
 // Setup template.
 $t = new eZTemplate( "eztodo/user/" . $ini->read_var( "eZTodoMain", "TemplateDir" ),
                      "eztodo/user/intl", $Language, "todoedit.php" );
@@ -80,11 +90,11 @@ $t->set_file( array(
 
 $t->set_block( "todo_edit_page", "category_select_tpl", "category_select" );
 $t->set_block( "todo_edit_page", "priority_select_tpl", "priority_select" );
+$t->set_block( "todo_edit_page", "status_select_tpl", "status_select" );
 $t->set_block( "todo_edit_page", "user_item_tpl", "user_item" );
 
 $t->set_block( "todo_edit_page", "errors_tpl", "errors" );
 $t->set_var( "errors", "&nbsp;" );
-
 
 $t->set_var( "name", "$Name" );
 $t->set_var( "description", "$Description" );
@@ -112,7 +122,7 @@ if ( ( $userCheck ) && ( $Action == "update" ) || ( $Action == "updateStatus" ) 
 {
     $todo = new eZTodo( $TodoID );
     
-    if ( ( $todo->userID() == $user->id() ) || ( $todo->ownerID() == $user->id() ) )
+    if ( ( $todo->userID() == $user->id() ) || ( $todo->ownerID() == $user->id() ) || ( eZPermission::checkPermission( $user, "eZTodo", "EditOthers" ) == true))
     {
     }
     else
@@ -167,6 +177,7 @@ if ( $Action == "insert" && $error == false )
     $todo->setPriorityID( $PriorityID );
     $todo->setUserID( $UserID );
     $todo->setOwnerID( $user->id() );
+    $todo->setStatusID( $StatusID );
     $date = new eZDateTime();
 
     if ( $Permission == "on" )
@@ -177,14 +188,6 @@ if ( $Action == "insert" && $error == false )
     {
         $todo->setPermission( "Private" );
     }
-    if ( $Status == "on" )
-    {
-        $todo->setStatus( true );
-    }
-    else
-    {
-        $todo->setStatus( false );
-    }
 
     $todo->store();
 
@@ -192,13 +195,15 @@ if ( $Action == "insert" && $error == false )
     {
         $category = new eZCategory( $CategoryID );
         $priority = new eZPriority( $PriorityID );
+	$status = new ezStatus ( $StatusID );
         $owner = new eZUser( $user->id() );
         $user = new eZUser( $UserID );
 
         $iniName = $iniLanguage->read_var( "strings", "mail_name" );
         $iniCategory = $iniLanguage->read_var( "strings", "mail_category" );
         $iniPriority = $iniLanguage->read_var( "strings", "mail_priority" );
-        $iniIsPublic = $iniLanguage->read_var( "strings", "mail_is_public" );
+        $iniStatus = $iniLanguage->read_var( "strings", "mail_status" );
+	$iniIsPublic = $iniLanguage->read_var( "strings", "mail_is_public" );
         $iniOwner = $iniLanguage->read_var( "strings", "mail_owner" );
 
         $mail = new eZMail();
@@ -206,7 +211,8 @@ if ( $Action == "insert" && $error == false )
         $body = ( $iniName . ": " . $Name . "\n" );
         $body .= ( $iniCategory . ": " . $category->name() . "\n" );
         $body .= ( $iniPriority . ": " . $priority->name() . "\n" );
-        $body .= ( $iniIsPublic . ": " . $todo->permission() . "\n" );
+        $body .= ( $iniStatus . ": " . $status->name() . "\n" );
+	$body .= ( $iniIsPublic . ": " . $todo->permission() . "\n" );
         $body .= ( $iniOwner . ": " . ( $owner->firstName() . " " . $owner->lastName() ) . "\n" );
         $body .= "-------------\n";
         $body .= ( $Description );
@@ -223,47 +229,23 @@ if ( $Action == "insert" && $error == false )
     exit();
 }
 
-if ( $Action == "updateStatus" && $error == false )
-{
-    $todo = new eZTodo( $TodoID );
-    if ( $Status == "on" )
-    {
-        $todo->setStatus( true );
-    }
-    else
-    {
-        $todo->setStatus( false );
-    }
-    $todo->store();
-
-    eZHTTPTool::header( "Location: /todo/todolist" );
-    exit();
-}
 
 // Update a todo in the database.
 if ( $Action == "update" && $error == false )
 {
     $todo = new eZTodo();
     $todo->get( $TodoID );
-    if ( $todo->status() == false )
-    {
-        $sendMail = true;
-    }
-    
+    $oldstatus = $todo->statusID();
+        
     $todo->setName( $Name );
     $todo->setDescription( $Description );
     $todo->setCategoryID( $CategoryID );
     $todo->setPriorityID( $PriorityID );
     $todo->setDue( "" );
     $todo->setUserID( $UserID );
-    if ( $Status == "on" )
-    {
-        $todo->setStatus( true );
-    }
-    else
-    {
-        $todo->setStatus( false );
-    }
+    $todo->setStatusID( $StatusID );
+
+    
     if ( $Permission == "on" )
     {
         $todo->setPermission( "Public" );
@@ -274,15 +256,17 @@ if ( $Action == "update" && $error == false )
     }
     $todo->store();
 
-    if ( ( $sendMail == true ) && ( $todo->status() == true ) && ( $todo->userID() != $todo->ownerID() ) )
+    if ( ( $sendMail == true ) && ( $oldstatus != $todo->statusID() ) && ( $todo->userID() != $todo->ownerID() ) )
     {
+	$status = new eZStatus();  		 //need for status name in subject
+	
         $mail = new eZMail();
         $owner = new eZUser( $todo->ownerID() );
         $user = new eZUser( $todo->userID() );
 
-        $body = $iniLanguage->read_var( "strings", "mail_completed" );
+        $body = $iniLanguage->read_var( "strings", "mail_status_changed" );
 
-        $mail->setSubject( $iniLanguage->read_var( "strings", "subject_completed" ) . "Todo: " . $Name );
+        $mail->setSubject( $iniLanguage->read_var( "strings", "subject_status_changed" ) . "Todo: " . $Name . "Status: " . $status->name() );
         $mail->setFrom( $user->email() );
         $mail->setTo( $owner->email() );
         $mail->setBody( $body );
@@ -366,7 +350,8 @@ if ( $Action == "edit" )
     $priorityID = $todo->priorityID();
     $userID = $todo->userID();
     $ownerID = $todo->ownerID();
-
+    $statusID = $todo->statusID();
+    
     // Get the owner
     $owner = new eZUser( $todo->ownerID() );
     $t->set_var( "first_name", $owner->firstName() );
@@ -419,6 +404,31 @@ for( $i=0; $i<count( $priority_array ); $i++ )
 
     $t->parse( "priority_select", "priority_select_tpl", true );
 }
+
+// Status selector
+$status = new eZStatus();
+$status_array = $status->getAll();
+
+if ( $Action == "new")
+    $statusID = 1;
+    
+for( $i=0; $i<count( $status_array ); $i++ )
+{
+    $t->set_var( "status_id", $status_array[$i]->id() );
+    $t->set_var( "status_name", $status_array[$i]->name() );
+    
+    if ( $statusID == $status_array[$i]->id() )
+    {
+        $t->set_var( "is_selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "is_selected", "" );
+    }
+
+    $t->parse( "status_select", "status_select_tpl", true );
+}
+
 
 // User selector.
 

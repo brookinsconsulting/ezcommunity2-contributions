@@ -1,10 +1,11 @@
 <?
-// $Id: todolist.php,v 1.13 2001/03/13 14:47:59 fh Exp $
+// $Id: todolist.php,v 1.14 2001/04/04 11:59:46 wojciechp Exp $
 //
 // Definition of todo list.
 //
 // <real-name> <<mail-name>>
 // Created on: <04-Sep-2000 16:53:15 ce>
+// Modified on: <28-Mar-2001 21:08:00> by: Wojciech potaczek <Wojciech@Potaczek.pl> for todo status handling
 //
 // Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
@@ -32,6 +33,8 @@ include_once( "ezuser/classes/ezpermission.php" );
 include_once( "eztodo/classes/eztodo.php" );
 include_once( "eztodo/classes/ezcategory.php" );
 include_once( "eztodo/classes/ezpriority.php" );
+include_once( "eztodo/classes/ezstatus.php" );
+
 
 if( isset( $New ) )
 {
@@ -43,7 +46,7 @@ if( isset( $Delete ) )
 {
     foreach( $DeleteArrayID as $todoid )
     {
-        $todo = new eZTodo( $todoid);
+        $todo = new eZTodo( $todoid );
         $todo->delete();
     }
 }
@@ -63,42 +66,33 @@ $t->set_file( array(
     ) );
 
 $CategoryID = eZHTTPTool::getVar( "CategoryTodoID" );
+$Show = eZHTTPTool::getVar( "Show" );
+$ShowButton = eZHTTPTool::getVar( "ShowButton" );
+$StatusID = eZHTTPTool::getVar( "StatusTodoID" );
+
+if ( isSet ( $ShowTodosByUser ) )
+{
+    $GetByUserID = eZHTTPTool::getVar( "GetByUserID" );
+}
+
 
 $t->set_block( "todo_list_page", "todo_item_tpl", "todo_item" );
 $t->set_block( "todo_list_page", "user_item_tpl", "user_item" );
 $t->set_block( "todo_list_page", "no_found_tpl", "no_found" );
 $t->set_block( "todo_list_page", "category_item_tpl", "category_item" );
+$t->set_block( "todo_list_page", "status_item_tpl", "status_item" );
+
 
 if ( isSet ( $ShowButton ) )
 {
-    if ( $Show == "All" )
-    {
-        $session->setVariable( "ShowTodo", "All" );
-    }
-    if ( $Show == "NotDone" )
-    {
-        $session->setVariable( "ShowTodo", "NotDone" );
-    }
-    if ( $Show == "Done" )
-    {
-        $session->setVariable( "ShowTodo", "Done" );
-    }
 
     $session->setVariable( "TodoCategory", $CategoryID );
-}
-
-if ( $session->variable( "TodoCategory" ) == false )
-{
-    $session->setVariable( "TodoCategory", false );
-}
-
-if ( $session->variable( "ShowTodo" ) == false )
-{
-    $session->setVariable( "ShowTodo", "All" );
+    $session->setVariable( "TodoStatus", $StatusID );
 }
 
 $showCategory = $session->variable( "TodoCategory" );
-$showTodo = $session->variable( "ShowTodo" );
+$showTodo = $session->variable( "TodoStatus" );
+
 
 $todo = new eZTodo();
 
@@ -192,7 +186,9 @@ foreach( $todo_array as $todoItem )
     $pri = new eZPriority( $todoItem->priorityID() );
     $t->set_var( "todo_priority_id", $pri->name() );
     $t->set_var( "todo_userid", $todoItem->userID() );
-
+    $stat = new eZStatus( $todoItem->statusID() );
+    $t->set_var( "todo_status", $stat->name() );
+    
     if ( $todoItem->permission() == "Public" )
     {
         $t->set_var( "todo_permission", $iniLanguage->read_var( "strings", "public" ) );    
@@ -203,18 +199,6 @@ foreach( $todo_array as $todoItem )
     }
     
     $t->set_var( "todo_date", $locale->format( $todoItem->date() ) );
-
-    if ( $todoItem->status() == true )
-    {
-
-        $t->set_var( "todo_status", $iniLanguage->read_var( "strings", "completed" ) );
-    }
-    else
-    {
-        $t->set_var( "todo_status", $iniLanguage->read_var( "strings", "not_completed" ) );
-    }
-
-
 
     $t->set_var( "no_found", "" );
 
@@ -241,6 +225,27 @@ foreach ( $categoryList as $category )
 
     $t->parse( "category_item", "category_item_tpl", true );
 }
+
+$status = new eZStatus();
+$statusList =& $status->getAll();
+
+foreach ( $statusList as $status )
+{
+    $t->set_var( "status_name", $status->name() );
+    $t->set_var( "status_id", $status->id() );
+
+    if ( $status->id() == $session->variable( "TodoStatus" ) )
+    {
+        $t->set_var( "is_selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "is_selected", "" );
+    }
+
+    $t->parse( "status_item", "status_item_tpl", true );
+}
+
 
 $t->pparse( "output", "todo_list_page" );
 

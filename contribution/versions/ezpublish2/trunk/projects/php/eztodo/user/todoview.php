@@ -1,5 +1,5 @@
 <?
-// $Id: todoview.php,v 1.4 2001/01/22 14:43:02 jb Exp $
+// $Id: todoview.php,v 1.5 2001/04/04 11:59:46 wojciechp Exp $
 //
 // Definition of todo list.
 //
@@ -23,6 +23,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "eztodo/classes/eztodo.php" );
 include_once( "eztodo/classes/ezcategory.php" );
 include_once( "eztodo/classes/ezpriority.php" );
+include_once( "eztodo/classes/ezstatus.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezdatetime.php" );
 
@@ -43,7 +44,8 @@ $t->set_file( array(
 
 $t->set_block( "todo_edit_page", "category_select_tpl", "category_select" );
 $t->set_block( "todo_edit_page", "priority_select_tpl", "priority_select" );
-$t->set_block( "todo_edit_page", "mark_as_done", "mark_done" );
+$t->set_block( "todo_edit_page", "status_select_tpl", "status_select" );
+//$t->set_block( "todo_edit_page", "mark_as_done", "mark_done" );
 $t->set_block( "todo_edit_page", "user_item_tpl", "user_item" );
 
 $t->set_block( "todo_edit_page", "errors_tpl", "errors" );
@@ -52,16 +54,6 @@ $t->set_var( "errors", "&nbsp;" );
 $todo = new eZTodo();
 $todo->get( $TodoID );
 
-if ( $todo->status() == true )
-{
-    $t->set_var( "todo_status", $lanugageIni->read_var( "strings", "done" ) );
-    $t->set_var( "mark_done", "" );
-}
-else
-{
-    $t->parse( "mark_done", "mark_as_done" );
-    $t->set_var( "todo_status", $lanugageIni->read_var( "strings", "not_done" ) );
-}
 
 if ( $todo->permission() == "Public" )
 {
@@ -111,6 +103,22 @@ for( $i=0; $i<count( $priority_array ); $i++ )
         $t->set_var( "todo_priority", "" );
     }
     $t->parse( "priority_select", "priority_select_tpl", true );
+}
+
+$status = new eZStatus();
+$status_array =& $status->getAll();
+
+for( $i=0; $i<count( $status_array ); $i++ )
+{
+    if ( $todo->statusID() == $status_array[$i]->id() )
+    {
+        $t->set_var( "todo_status", $status_array[$i]->name() );
+    }
+    else
+    {
+        $t->set_var( "todo_status", "" );
+    }
+    $t->parse( "status_select", "status_select_tpl", true );
 }
 
 $user = new eZUser( $todo->userID() );
