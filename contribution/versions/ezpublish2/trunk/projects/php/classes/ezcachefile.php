@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcachefile.php,v 1.7 2001/02/08 16:24:41 gl Exp $
+// $Id: ezcachefile.php,v 1.8 2001/02/14 10:30:37 bf Exp $
 //
 // Definition of eZCacheFile class
 //
@@ -27,7 +27,7 @@
 
 include_once( "classes/ezdatetime.php" );
 
-//!! 
+//!! eZCommon
 //! The class eZCacheFile manages cache files in an easy way
 /*!
   Example:
