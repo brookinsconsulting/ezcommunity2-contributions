@@ -1141,3 +1141,13 @@ Maintainer(s) : br@ez.no
     * classes/ezimagecategory.php:
     - Made sure that permissions are correctly handled when read AND write is required.
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2002-11-11  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/Attic/searchsupplier.php: New file.
+
+    * user/Attic/searchsupplier.php: added image search in ez search
+
