@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userarticleedit.php,v 1.1 2001/02/23 09:57:20 gl Exp $
+// $Id: articleedit.php,v 1.4 2001/02/23 10:13:08 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -37,55 +37,14 @@ include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlegenerator.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
 
-function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
-{
-    $user = eZUser::currentUser();
-    $groupstr = "";
-    if( get_class( $user ) == "ezuser" )
-    {
-        $groupIDArray = $user->groups( true );
-        sort( $groupIDArray );
-        $first = true;
-        foreach( $groupIDArray as $groupID )
-        {
-            $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
-            $first = false;
-        }
-    }
-
-    $files = eZCacheFile::files( "ezarticle/cache/",
-                                 array( array( "articleprint", "articleview", "articlestatic" ),
-                                        $ArticleID, NULL, $groupstr ), "cache", "," );
-    foreach( $files as $file )
-    {
-        $file->delete();
-    }
-
-    $files = eZCacheFile::files( "ezarticle/cache/",
-                                 array( "articlelist",
-                                        array_merge( 0, $CategoryID, $CategoryArray ),
-                                        NULL, $groupstr ),
-                                 "cache", "," );
-    foreach( $files as $file )
-    {
-        $file->delete();
-    }
-
-//      exit();
-}
-
-if ( isset ( $DeleteArticles ) )
-{
-    $Action = "DeleteArticles";
-}
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $PublishNoticeReceiver = $ini->read_var( "eZArticleMain", "PublishNoticeReceiver" );
 $PublishNoticeSender = $ini->read_var( "eZArticleMain", "PublishNoticeSender" );
 
-// insert a new article in the database
 
+// insert a new article in the database
 if ( $Action == "Insert" )
 {
     $user = eZUser::currentUser();
@@ -262,206 +221,11 @@ if ( $Action == "Cancel" )
     exit();
 }
 
-// update an existing article in the database
-if ( $Action == "Update" )
-{
-    $article = new eZArticle( $ArticleID );
-    $article->setName( $Name );
-
-    $oldCategory = $article->categoryDefinition();
-    $oldCategoryID = $oldCategory->id();
-
-    $generator = new eZArticleGenerator();
-
-    $contents = $generator->generateXML( $Contents );
-    
-    $article->setContents( $contents  );
-
-    $article->setPageCount( $generator->pageCount() );
-    
-    $article->setAuthorText( $AuthorText );
-    
-    $article->setLinkText( $LinkText );
-
-    $ownerGroup = new eZUserGroup( $OwnerGroupID );
-    $article->setOwnerGroup( $ownerGroup );
-
-    /* read access thingy */
-    if ( isset( $GroupArray ) )
-    {
-        if( $GroupArray[0] == 0 )
-        {
-            $article->setReadPermission( 2 );
-        }
-        else // some groups are selected.
-        {
-            $article->removeReadGroups();
-            $article->setReadPermission( 1 );
-            foreach ( $GroupArray as $groupID )
-            {
-                $readGroup = new eZUserGroup( $groupID );
-                $article->addReadGroup( $readGroup );
-            }
-        }
-    }
-    else
-    {
-        $article->setReadPermission( 0 );
-    }
-    
-    // add check for publishing rights here
-    if ( $IsPublished == "on" )
-    {
-        // check if the article is published now
-        if ( $article->isPublished() == false )
-        {
-            // send a notice mail
-            $noticeMail = new eZMail();
-
-            $noticeMail->setFrom( $PublishNoticeSender );
-            $noticeMail->setTo( $PublishNoticeReceiver );
-            
-            $renderer = new eZArticleRenderer( $article );
-            $intro = strip_tags( $renderer->renderIntro( ) );
-            
-            $noticeMail->setSubject( $article->name() );
-            $noticeMail->setBody( $intro );
-
-            $noticeMail->send();                        
-        }
-        
-        $article->setIsPublished( true );
-    }
-    else
-    {
-        $article->setIsPublished( false );
-    }
-        
-    // check if the contents is parseable
-    if ( xmltree( $contents ) )
-    {
-
-        // generate keywords
-        $contents = strip_tags( $contents );
-        $contents = ereg_replace( "#\n#", "", $contents );
-        $contents_array =& split( " ", $contents );
-        $contents_array = array_unique( $contents_array );
-
-        $keywords = "";
-        foreach ( $contents_array as $word )
-        {
-            $keywords .= $word . " ";
-        }
-
-        $article->setKeywords( $keywords );
-
-        $article->store();
-
-        $categoryArray = $article->categories();
-        // Calculate new and unused categories
-        $old_maincategory = $article->categoryDefinition();
-        $old_categories =& array_unique( array_merge( $old_maincategory->id(),
-                                                      $article->categories( false ) ) );
-
-        $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
-
-        $remove_categories = array_diff( $old_categories, $new_categories );
-        $add_categories = array_diff( $new_categories, $old_categories );
-
-        $categoryIDArray = array();
-
-        foreach ( $categoryArray as $cat )
-        {
-            $categoryIDArray[] = $cat->id();
-        }
-
-        // clear the cache files.
-        deleteCache( $ArticleID, $CategoryID, $old_categories );
-
-        foreach ( $remove_categories as $categoryItem )
-        {
-            eZArticleCategory::removeArticle( $article, $categoryItem );
-        }
-
-        // add to categories
-        $category = new eZArticleCategory( $CategoryID );
-        $article->setCategoryDefinition( $category );
-
-        foreach ( $add_categories as $categoryItem )
-        {
-            eZArticleCategory::addArticle( $article, $categoryItem );
-        }
-
-        // add images
-        if ( isset( $Image ) )
-        {
-            eZHTTPTool::header( "Location: /article/articleedit/imagelist/$ArticleID/" );
-            exit();
-        }
-
-        // add files
-        if ( isset( $File ) )
-        {
-            eZHTTPTool::header( "Location: /article/articleedit/filelist/$ArticleID/" );
-            exit();
-        }
-
-        // preview
-        if ( isset( $Preview ) )
-        {
-            eZHTTPTool::header( "Location: /article/articlepreview/$ArticleID/" );
-            exit();
-        }
-
-        // get the category to redirect to
-        $category = $article->categoryDefinition( );
-        $categoryID = $category->id();
-
-        eZHTTPTool::header( "Location: /article/archive/$oldCategoryID/" );
-        exit();
-    }
-    else
-    {
-        $Action = "Edit";
-        $ErrorParsing = true;        
-    }
-}
-
-if ( $Action == "DeleteArticles" )
-{
-    if ( count ( $ArticleArrayID ) != 0 )
-    {
-        foreach( $ArticleArrayID as $ArticleID )
-        {
-            $article = new eZArticle( $ArticleID );
-
-            // get the category to redirect to
-            $articleID = $article->id();
-
-            $categoryArray = $article->categories();
-            $categoryIDArray = array();
-            foreach ( $categoryArray as $cat )
-            {
-                $categoryIDArray[] = $cat->id();
-            }
-            $categoryID = $article->categoryDefinition();
-            $categoryID = $categoryID->id();
-
-            // clear the cache files.
-            deleteCache( $ArticleID, $categoryID, $categoryIDArray );
-            $article->delete();
-        }
-        eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
-        exit();
-    }
-    eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
-    exit();    
-}
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 
-$t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
-                     "ezarticle/admin/intl/", $Language, "articleedit.php" );
+$t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
+                     "ezarticle/user/intl/", $Language, "articleedit.php" );
 
 $t->setAllStrings();
 
@@ -502,63 +266,62 @@ if ( $Action == "New" )
 {
     $user = eZUser::currentUser();
     $t->set_var( "author_text", $user->firstName() . " " . $user->lastName());    
-
 }
 
 
 $article = new eZArticle( $ArticleID );
 
-if ( $Action == "Edit" )
-{
-    $t->set_var( "article_id", $ArticleID );
+//  if ( $Action == "Edit" )
+//  {
+//      $t->set_var( "article_id", $ArticleID );
 
-    if (  $article->isPublished() )
-    {
-        $t->set_var( "article_is_published", "checked" );
-    }
-    else
-    {
-        $t->set_var( "article_is_published", "" );
-    }
+//      if (  $article->isPublished() )
+//      {
+//          $t->set_var( "article_is_published", "checked" );
+//      }
+//      else
+//      {
+//          $t->set_var( "article_is_published", "" );
+//      }
     
-    if ( !isset( $Name ) )        
-         $t->set_var( "article_name", $article->name() );
+//      if ( !isset( $Name ) )        
+//           $t->set_var( "article_name", $article->name() );
 
-    $generator = new eZArticleGenerator();
+//      $generator = new eZArticleGenerator();
     
-    $contentsArray = $generator->decodeXML( $article->contents() );
+//      $contentsArray = $generator->decodeXML( $article->contents() );
     
-    $i=0;
-    foreach ( $contentsArray as $content )
-    {
-        if ( !isset( $Contents[$i] ) )
-        {
-            $t->set_var( "article_contents_$i", $content );
-        }
-        $i++;
-    }
+//      $i=0;
+//      foreach ( $contentsArray as $content )
+//      {
+//          if ( !isset( $Contents[$i] ) )
+//          {
+//              $t->set_var( "article_contents_$i", $content );
+//          }
+//          $i++;
+//      }
     
-    $t->set_var( "author_text", $article->authorText() );
-    $t->set_var( "link_text", $article->linkText() );
+//      $t->set_var( "author_text", $article->authorText() );
+//      $t->set_var( "link_text", $article->linkText() );
     
-    $t->set_var( "action_value", "update" );
+//      $t->set_var( "action_value", "update" );
 
-    $ownerGroup = $article->ownerGroup();
-    if( get_class( $ownerGroup ) == "ezusergroup" )
-        $ownerGroupID = $ownerGroup->id();
+//      $ownerGroup = $article->ownerGroup();
+//      if( get_class( $ownerGroup ) == "ezusergroup" )
+//          $ownerGroupID = $ownerGroup->id();
 
-    $readPermission = $article->readPermission();
-    $t->set_var( "all_selected", "" );
-    if( $readPermission == 1 )
-    {
-        $readGroupsID = $article->readGroups( true );
-    }
-    else if( $readPermission == 2 )
-    {
-        $t->set_var( "all_selected", "selected" );
-    }
+//      $readPermission = $article->readPermission();
+//      $t->set_var( "all_selected", "" );
+//      if( $readPermission == 1 )
+//      {
+//          $readGroupsID = $article->readGroups( true );
+//      }
+//      else if( $readPermission == 2 )
+//      {
+//          $t->set_var( "all_selected", "selected" );
+//      }
 
-}
+//  }
 
 // category select
 $category = new eZArticleCategory();

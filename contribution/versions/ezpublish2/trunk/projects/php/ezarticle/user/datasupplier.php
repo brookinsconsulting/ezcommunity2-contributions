@@ -270,7 +270,7 @@ switch ( $url_array[2] )
             case "new" :
             {
                 $Action = "New";
-                include( "ezarticle/user/userarticleedit.php" );
+                include( "ezarticle/user/articleedit.php" );
                 break;
             }
         }
