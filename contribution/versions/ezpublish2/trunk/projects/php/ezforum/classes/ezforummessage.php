@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezforummessage.php,v 1.101 2001/09/24 11:53:43 jhe Exp $
+// $Id: ezforummessage.php,v 1.102 2001/09/25 14:53:05 bf Exp $
 //
 // Definition of eZForumMessage class
 //
@@ -230,7 +230,12 @@ class eZForumMessage
         if ( $res == false )
             $db->rollback( );
         else
+        {
             $db->commit();
+            $this->createIndex();
+        }
+
+
         return true;
     }
 
@@ -327,6 +332,135 @@ class eZForumMessage
     }
     
 
+    /*!
+      \private
+      will index the article keywords (fetched from Contents) and name for fulltext search.
+    */
+    function createIndex()
+    {
+        // generate keywords
+        $tmpContents = $this->Body;
+        
+        $contents = strtolower( strip_tags( $tmpContents ) ) . " " . $this->Topic;
+        $contents = str_replace ("\n", "", $contents );
+        $contents = str_replace ("\r", "", $contents );
+        $contents = str_replace ("(", " ", $contents );
+        $contents = str_replace (")", " ", $contents );
+        $contents = str_replace (",", " ", $contents );
+        $contents = str_replace (".", " ", $contents );
+        $contents = str_replace ("/", " ", $contents );
+        $contents = str_replace ("-", " ", $contents );
+        $contents = str_replace ("_", " ", $contents );
+        $contents = str_replace ("\"", " ", $contents );
+        $contents = str_replace ("'", " ", $contents );
+        $contents = str_replace (":", " ", $contents );
+        $contents = str_replace ("?", " ", $contents );
+        $contents = str_replace ("!", " ", $contents );
+        $contents = str_replace ("\"", " ", $contents );
+        $contents = str_replace ("|", " ", $contents );
+        $contents = str_replace ("qdom", " ", $contents );
+        $contents = str_replace ("tech", " ", $contents );
+
+        // strip &quot; combinations
+        $contents = preg_replace("(&.+?;)", " ", $contents );
+
+        // strip multiple whitespaces
+        $contents = preg_replace("(\s+)", " ", $contents );
+
+        $contents_array =& split( " ", $contents );
+       
+        $totalWordCount = count( $contents_array );
+        $wordCount = array_count_values( $contents_array );
+
+        $contents_array = array_unique( $contents_array );
+        
+        $keywords = "";
+        foreach ( $contents_array as $word )
+        {
+            if ( strlen( $word ) >= 2 )
+            {
+                $keywords .= $word . " ";
+            }
+        }
+
+        $this->Keywords = $keywords;
+
+        $db =& eZDB::globalDatabase();
+        $ret = array();
+
+        $ret[] = $db->query( "DELETE FROM  eZForum_MessageWordLink WHERE MessageID='$this->ID'" );
+
+        // get total number of messages
+        $db->array_query( $message_array, "SELECT COUNT(*) AS Count FROM eZForum_Message" );
+        $messageCount = $message_array[0]["Count"];        
+        
+        foreach ( $contents_array as $word )
+        {
+            if ( strlen( $word ) >= 2 )
+            {
+                $indexWord = $word;
+
+                $indexWord = $db->escapeString( $indexWord );
+
+                $db->begin( );
+
+                // find the frequency
+                $count = $wordCount[$indexWord];
+
+                $freq = ( $count / $totalWordCount );
+                
+                $query = "SELECT ID FROM eZForum_Word
+                      WHERE Word='$indexWord'";
+
+                $db->array_query( $word_array, $query );
+
+               
+                if ( count( $word_array ) == 1 )
+                {
+                    // word exists create reference
+                    $wordID = $word_array[0][$db->fieldName("ID")];
+
+                    // number of links to this word
+                    $db->array_query( $message_array, "SELECT COUNT(*) AS Count FROM eZForum_MessageWordLink WHERE WordID='$wordID'" );
+                    $wordUsageCount = $message_array[0]["Count"];
+
+                    $wordFreq = ( $wordUsageCount + 1 )  / $messageCount;
+
+                    // update word frequency
+                    $ret[] = $db->query( "UPDATE  eZForum_Word SET Frequency='$wordFreq' WHERE ID='$wordID'" );
+                    
+                
+                    $ret[] = $db->query( "INSERT INTO eZForum_MessageWordLink ( MessageID, WordID, Frequency ) VALUES
+                                      ( '$this->ID',
+                                        '$wordID',
+                                        '$freq' )" );
+                }
+                else
+                {
+                    // lock the table
+                    $db->lock( "eZForum_Word" );
+
+                    $wordFreq = 1 / $messageCount;
+
+                    // new word, create word
+                    $nextID = $db->nextID( "eZForum_Word", "ID" );
+                    $ret[] = $db->query( "INSERT INTO eZForum_Word ( ID, Word, Frequency ) VALUES
+                                      ( '$nextID',
+                                        '$indexWord',
+                                        '$wordFreq' )" );
+                    $db->unlock();
+
+                    $ret[] = $db->query( "INSERT INTO eZForum_MessageWordLink ( MessageID, WordID, Frequency ) VALUES
+                                      ( '$this->ID',
+                                        '$nextID',
+                                        '$freq' )" );
+                
+                }
+            }
+        }
+        eZDB::finish( $ret, $db );
+    }
+    
     /*!
       Returns the object id.
     */      
