@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.7 2000/07/26 13:20:35 bf-cvs Exp $
+    $Id: message.php,v 1.8 2000/07/31 21:40:49 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -16,12 +16,12 @@ include_once( "$DOCROOT/classes/ezforummessage.php" );
 
 $msg = new eZforumMessage;
 $usr = new eZUser;
-$t = new Template(".");
+$t = new Template( "$DOCROOT/templates" );
     
-$t->set_file( array("message" => "$DOCROOT/templates/message.tpl",
-                    "elements" => "$DOCROOT/templates/message-elements.tpl",
-                    "navigation" => "$DOCROOT/templates/navigation.tpl",
-                    "navigation-bottom" => "$DOCROOT/templates/navigation-bottom.tpl" ) );
+$t->set_file( array("message" => "message.tpl",
+                    "elements" => "message-elements.tpl",
+                    "navigation" => "navigation.tpl",
+                    "navigation-bottom" => "navigation-bottom.tpl" ) );
 
 $t->set_var( "docroot", $DOCROOT);
 $t->set_var( "category_id", $category_id);

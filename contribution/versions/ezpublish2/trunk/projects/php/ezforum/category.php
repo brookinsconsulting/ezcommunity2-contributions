@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.11 2000/07/31 14:45:39 lw-cvs Exp $
+    $Id: category.php,v 1.12 2000/07/31 21:40:49 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -17,13 +17,13 @@ include_once( "$DOCROOT/classes/ezsession.php" );
 include_once( "$DOCROOT/classes/ezuser.php" );
 
 $session = new eZSession;
-$forum = new eZforumForum;
-$t = new Template(".");
+$t = new Template( "$DOCROOT/templates" );
     
-$t->set_file( array("category" => "$DOCROOT/templates/category.tpl",
-                    "elements" => "$DOCROOT/templates/category-elements.tpl",
-                    "navigation" => "$DOCROOT/templates/navigation.tpl",
-                    "navigation-bottom" => "$DOCROOT/templates/navigation-bottom.tpl"
+$t->set_file( array("category" => "category.tpl",
+                    "elements" => "category-elements.tpl",
+                    "navigation" => "navigation.tpl",
+                    "navigation-bottom" => "navigation-bottom.tpl",
+                    "no-forums" => "noforums.tpl"
                     )
               );
 
@@ -39,31 +39,25 @@ else
 }
 $t->parse( "navigation-bar", "navigation", true);
 
-$forums = $forum->getAllForums( $category_id );
-        
-for ($i = 0; $i < count($forums); $i++)
-{
-    $Id = $forums[$i]["Id"];
-    $Name = $forums[$i]["Name"];
-    $Description = $forums[$i]["Description"];
+$forums = eZforumForum::getAllForums( $category_id );
 
-    $t->set_var( "forum_id", $Id);
-    $t->set_var( "category_id", $category_id);
-    $t->set_var( "link", $link);
-    $t->set_var( "name", $Name);
-    $t->set_var( "description", $Description);
-    $t->set_var( "messages", eZforumMessage::countMessages( $Id ) );
- 
-    if ( ($i % 2) != 0)
-        $t->set_var( "color", "#eeeeee");
-    else
-        $t->set_var( "color", "#bbbbbb");
-    
+for ($i = 0; $i < count( $forums ); $i++)
+{
+    arrayTemplate( $t, $forums[$i], Array( Array( "Id", "forum_id" ),
+                                           Array( "Name", "name" ),
+                                           Array( "Description", "description" ),
+                                           Array( "Id", "messages" )
+                                                  )
+                   );
+
+    $t->set_var( "messages", eZforumMessage::countMessages( $t->get_var( "forum_id" ) ) );
+    $t->set_var( "color", switchColor( $i, "#eeeeee", "#bbbbbb" ) );
+
     $t->parse("forums","elements",true);
 }
 
-if ( count( $forums) == 0 )
-    $t->set_var( "forums", "<tr><td colspan=\"3\"><b>Ingen tilgjengelige forum</td></tr></b>");
+if ( count( $forums ) == 0 )
+    $t->set_var( "forums", "noforums", true);
 
 $t->set_var( "link1-url", "main.php");
 $t->set_var( "link1-caption", "Gå til topp");

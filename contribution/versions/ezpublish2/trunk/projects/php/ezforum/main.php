@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: main.php,v 1.13 2000/07/26 12:45:08 lw-cvs Exp $
+    $Id: main.php,v 1.14 2000/07/31 21:40:49 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -18,24 +18,22 @@ include_once( "$DOCROOT/classes/ezuser.php" );
 include_once( "$DOCROOT/classes/ezsession.php" );
 include_once( "$DOCROOT/classes/ezforummessage.php" );
 
-//preliminary setup
-$cat = new eZforumCategory;
-$usr = new eZUser;
 $session = new eZSession();
 
-$t = new Template(".");
-$t->set_file( array("main" => "$DOCROOT/templates/main.tpl",
-                    "elements" => "$DOCROOT/templates/main-elements.tpl",
-                    "login" => "$DOCROOT/templates/main-login.tpl",
-                    "logout" => "$DOCROOT/templates/main-logout.tpl",
-                    "search" => "$DOCROOT/templates/main-search.tpl",
-                    "results" => "$DOCROOT/templates/main-search-results.tpl",
-                    "search-elements" =>"$DOCROOT/templates/main-search-results-elements.tpl",
-                    "navigation" => "$DOCROOT/templates/navigation.tpl"
+$t = new Template( "$DOCROOT/templates" );
+
+$t->set_file( Array("main" => "main.tpl",
+                    "elements" => "main-elements.tpl",
+                    "login" => "main-login.tpl",
+                    "logout" => "main-logout.tpl",
+                    "search" => "main-search.tpl",
+                    "results" => "main-search-results.tpl",
+                    "search-elements" =>"main-search-results-elements.tpl",
+                    "navigation" => "navigation.tpl"
                     ) );
 
 $t->set_var( "docroot", $DOCROOT);
-$categories = $cat->getAllCategories();
+$categories = eZforumCategory::getAllCategories();
 
 if ( $session->get( $AuthenticatedSession ) == 0 )
 {
@@ -50,20 +48,13 @@ $t->parse( "navigation-bar", "navigation", true);
 // category list
 for ($i = 0; $i < count($categories); $i++)
 {
-    $Id = $categories[$i]["Id"];
-    $Name = $categories[$i]["Name"];
-    $Description = $categories[$i]["Description"];
-        
-    $t->set_var("id", $Id);
-    $t->set_var("name", $Name);
-    $t->set_var("link",$link);
-    $t->set_var("description",$Description);
-        
-    if ( ($i % 2) != 0)
-        $t->set_var( "color", "#eeeeee" );
-    else
-        $t->set_var( "color", "#bbbbbb" );
-            
+    arrayTemplate( $t, $categories[$i], Array( Array( "Id", "id"),
+                                           Array( "Name", "name"),
+                                           Array( "Description", "description")
+                                           )
+                   );
+    $t->set_var( "color", switchColor( $i, "#eeeeee", "#bbbbbb" ) );
+                                       
     $t->parse( "categories", "elements", true );
 }
 
@@ -74,22 +65,25 @@ if ( $search )
     $headers = eZforumMessage::search( $criteria );
 
     if ( count( $headers ) == 0 )
-       $t->set_var( "fields", "<b>Ingen treff</b>");  
+        $t->set_var( "fields", "<b>Ingen treff</b>");
+    
     for ( $i = 0; $i < count ( $headers ); $i++)
     {
-        $t->set_var( "message_id", $headers[$i]["Id"] );
-        $t->set_var( "nr", $i + 1 );
+/*        $t->set_var( "message_id", $headers[$i]["Id"] );
         $t->set_var( "topic", $headers[$i]["Topic"] );
         $t->set_var( "author", $usr->resolveUser( $headers[$i]["UserId"] ) );
         $t->set_var( "time", eZforumMessage::formatTime( $headers[$i]["PostingTime"] ) );
-        //$t->set_var( "forum",  );
+*/
+        arrayTemplate( $t, $headers[$i], Array( Array("Id", "message_id"),
+                                                Array("Topic", "topic"),
+                                                Array("UserId", "author"),
+                                                Array("PostingTime", "time" )
+                                                )
+                       );
         $t->set_var( "forum", "&nbsp;" );
 
-        if ( ($i % 2) != 0)
-            $t->set_var( "color", "#eeeeee" );
-        else
-            $t->set_var( "color", "#bbbbbb" );
-
+        $t->set_var( "color", switchColor( $i, "#eeeeee", "#bbbbbb" ) );
+        
         $t->parse( "fields", "search-elements", true );
     }
     $t->parse( "searchfield", "results", true );
@@ -103,15 +97,6 @@ else
 
 if ( $session->validate( $AuthenticatedSession ) == 0   )
 {
-/*    //UserId = $session->UserID();
-    $usr->get( $session->UserID() );
-    $t->set_var( "nick_name", $usr->nickName() );
-    $t->set_var( "first_name", $usr->firstName() );
-    $t->set_var( "last_name", $usr->lastName() );
-    $t->set_var( "email", $usr->email() );
-    $t->set_var( "login-msg", "" );
-    $t->parse( "loginlogout", "logout", true);
-*/
     $t->set_var( "login-msg", "" );
     $t->set_var( "loginlogout", "" );
 }

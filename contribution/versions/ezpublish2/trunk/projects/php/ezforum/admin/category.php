@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.8 2000/07/31 13:08:43 lw-cvs Exp $
+    $Id: category.php,v 1.9 2000/07/31 21:40:49 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -9,46 +9,48 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 include( "ezforum/dbsettings.php" );
+include_once( "ezphputils.php" );
 include_once( "template.inc" );
 include_once( "$DOCROOT/classes/ezdb.php" );
 include_once( "$DOCROOT/classes/ezforumcategory.php" );
   
 $cat = new eZforumCategory();
-$t = new Template(".");
+$t = new Template( "$DOCROOT/admin/templates" );
 
-$t->set_file(array( "category" => "$DOCROOT/admin/templates/category.tpl",
-                    "category-add" => "$DOCROOT/admin/templates/category-add.tpl",
-                    "category-modify" => "$DOCROOT/admin/templates/category-modify.tpl",
-                    "listelements" => "$DOCROOT/admin/templates/category-list-elements.tpl"
+$t->set_file(array( "category" => "category.tpl",
+                    "category-add" => "category-add.tpl",
+                    "category-modify" => "category-modify.tpl",
+                    "listelements" => "category-list-elements.tpl"
                     ) );
+
 $t->set_var( "docroot", $DOCROOT);
 
-if ($add)
+if ( $add )
 {
-    if ($category_id)
+    if ( $category_id )
     {
         $cat->Id = $category_id;
     }
            
-    $cat->setName($Name);
-    $cat->setDescription($Description);
+    $cat->setName( $Name );
+    $cat->setDescription( $Description );
     
     if ($Private)
-        $cat->setPrivate("Y");
+        $cat->setPrivate( "Y" );
     else
-        $cat->setPrivate("N");
+        $cat->setPrivate( "N" );
     
     $cat->store();
 }
   
 if ($action == "delete")
 {
-    $cat->delete($category_id);
+    $cat->delete( $category_id );
 }
 
 if ($action == "modify")
 {
-    $cat->get($category_id);
+    $cat->get( $category_id );
 }
 
 $t->set_var("Id", $Id);
@@ -70,26 +72,18 @@ else
     $t->parse("box", "category-add", true);
 }
 
-    
-$cat = new eZforumCategory();
-$categories = $cat->getAllCategories();
+$categories = eZforumCategory::getAllCategories();
 
-for ($i = 0; $i < count($categories); $i++)
+for ($i = 0; $i < count( $categories ); $i++)
 {
-    $Id = $categories[$i]["Id"];
-    $Name = $categories[$i]["Name"];
-    $Description = $categories[$i]["Description"];
-    $Private = $categories[$i]["Private"];
-    
-    $t->set_var("list-Id", $Id);
-    $t->set_var("list-Name", $Name);
-    $t->set_var("list-Description", $Description);
-    $t->set_var("list-Private", $Private);
+    arrayTemplate( $t, $categories[$i], Array( Array("Id", "list-Id" ),
+                                               Array("Name", "list-Name" ),
+                                               Array("Description", "list-Description" ),
+                                               Array("Private", "list-Private" )
+                                               )
+                   );
 
-    if ( ($i % 2) != 0)
-        $t->set_var( "color", "#eeeeee" );
-    else
-        $t->set_var( "color", "#bbbbbb" );
+    $t->set_var( "color", switchColor( $i, "#eeeeee", "#bbbbbb" ) );
 
     $t->parse("categories","listelements",true);
 }

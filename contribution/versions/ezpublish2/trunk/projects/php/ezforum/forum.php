@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.17 2000/07/26 12:45:08 lw-cvs Exp $
+    $Id: forum.php,v 1.18 2000/07/31 21:40:49 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -18,13 +18,13 @@ include_once( "$DOCROOT/classes/ezsession.php" );
 
 
 $msg = new eZforumMessage( $forum_id );
-$t = new Template(".");
+$t = new Template( "$DOCROOT/templates" );
 
-$t->set_file( Array("forum" => "$DOCROOT/templates/forum.tpl",
-                    "elements" => "$DOCROOT/templates/forum-elements.tpl",
-                    "preview" => "$DOCROOT/templates/forum-preview.tpl",
-                    "navigation" => "$DOCROOT/templates/navigation.tpl",
-                    "navigation-bottom" => "$DOCROOT/templates/navigation-bottom.tpl"
+$t->set_file( Array("forum" => "forum.tpl",
+                    "elements" => "forum-elements.tpl",
+                    "preview" => "forum-preview.tpl",
+                    "navigation" => "navigation.tpl",
+                    "navigation-bottom" => "navigation-bottom.tpl"
                    )
             );
 
