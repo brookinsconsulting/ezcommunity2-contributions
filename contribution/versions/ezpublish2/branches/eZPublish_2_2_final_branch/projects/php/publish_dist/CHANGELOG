@@ -3,6 +3,7 @@ eZ publish changelog:
 
 Changes from 2.2.2 to 2.2.3
 ---------------------------
+* Fixed a permission problem which would sometimes not display articles, even if you had permission to it
 * Removed dependency to mysql_escape_string() when using postgresql
 * Fixed missing discount column in cart and checkout.
 * Fixed wrong computation of VAT/Tax in options
