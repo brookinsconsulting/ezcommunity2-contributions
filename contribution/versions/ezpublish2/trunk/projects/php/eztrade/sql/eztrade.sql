@@ -207,3 +207,26 @@ CREATE TABLE eZTrade_ProductOptionLink (
   OptionID int(11),
   PRIMARY KEY (ID)
 );
+
+#
+# Table structure for table 'eZTrade_Type'
+#
+DROP TABLE IF EXISTS eZTrade_Type;
+CREATE TABLE eZTrade_Type (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  Name varchar(150),
+  Description text,
+  PRIMARY KEY (ID)
+);
+
+#
+# Table structure for table 'eZTrade_Attribute'
+#
+DROP TABLE IF EXISTS eZTrade_Attribute;
+CREATE TABLE eZTrade_Attribute (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  TypeID int(11) NOT NULL,
+  Name varchar(150),
+  Created timestamp(14),
+  PRIMARY KEY (ID)
+);
