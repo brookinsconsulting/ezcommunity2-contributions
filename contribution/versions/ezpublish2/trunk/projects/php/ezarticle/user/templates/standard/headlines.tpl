@@ -2,7 +2,7 @@
 <table width="100%" border="0">
 <tr>
 	<td valign="bottom">
-	<h1>{intl-head_line}</h1>
+	<h2>{intl-head_lines}</h2>
 	</td>
 </tr>
 </table>
@@ -25,20 +25,14 @@
 
 <!-- BEGIN article_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
-<tr>
-	<th>
-	{intl-article}:
-	</th>
-	<th>
-	<div align="right">{intl-publishing_date}:</div>
-	</th>
-</tr>
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
 	<a href="/article/articleview/{article_id}/">
 	{article_name}
 	</a>
+</tr>
+<tr>
 	</td>
 	<td align="right">
 	{article_published}

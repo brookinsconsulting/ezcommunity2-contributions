@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: headlines.php,v 1.3 2001/01/22 14:42:59 jb Exp $
+// $Id: headlines.php,v 1.4 2001/02/13 11:40:35 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Nov-2000 14:35:24 bf>
@@ -31,7 +31,7 @@ include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 $ImageDir = $ini->read_var( "eZArticleMain", "ImageDir" );

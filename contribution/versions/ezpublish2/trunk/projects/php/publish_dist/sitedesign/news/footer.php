@@ -11,6 +11,11 @@
 	?>
 
     <?
+    $CategoryID=5;
+    include( "ezarticle/user/headlines.php" );
+    ?>
+    
+    <?
           include( "ezpoll/user/votebox.php" );
     ?>
         

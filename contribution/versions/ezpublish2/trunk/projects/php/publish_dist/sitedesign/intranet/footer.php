@@ -11,6 +11,8 @@
     ?>
 
     <?
+    // a short list of articles from the given category
+    // shows $Limit number starting from offset $Offset    
     $CategoryID=5;
     $Offset=0;
     $Limit=1;
