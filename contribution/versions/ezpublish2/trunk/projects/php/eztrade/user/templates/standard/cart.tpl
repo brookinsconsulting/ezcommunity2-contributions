@@ -11,7 +11,7 @@
 <!-- BEGIN cart_item_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>{intl-product_image}:</th>
+	<th>&nbsp;</th>
 	<th>{intl-product_name}:</th>
 	<!-- BEGIN product_available_header_tpl -->
 	<th>{intl-product_availability}:</th>
