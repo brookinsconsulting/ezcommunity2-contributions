@@ -2,6 +2,7 @@ alter table eZTrade_VoucherInformation add FromAddressID int default 0;
 alter table eZTrade_VoucherInformation add ProductID int default 0; 
 alter table eZTrade_VoucherInformation change AddressID ToAddressID int default 0;        
 
+
 CREATE TABLE eZBug_Log (
   ID int(11) NOT NULL auto_increment,
   BugID int(11) NOT NULL default '0',
@@ -89,3 +90,5 @@ create table eZUser_UserShippingLink ( ID int NOT NULL primary key, UserID int d
 insert into eZUser_UserShippingLink (ID, AddressID, UserID) select eZTrade_Order.ShippingAddressID, eZTrade_Order.ShippingAddressID, eZUser_UserAddressLink.UserID from eZTrade_Order, eZUser_UserAddressLink where eZTrade_Order.ShippingAddressID = eZUser_UserAddressLink.AddressID GROUP BY eZTrade_Order.ShippingAddressID;
 
 ALTER TABLE eZLink_Hit CHANGE RemoteIP RemoteIP varchar(15);
+
+alter table eZTrade_VoucherInformation add TotalValue int default 0;        
