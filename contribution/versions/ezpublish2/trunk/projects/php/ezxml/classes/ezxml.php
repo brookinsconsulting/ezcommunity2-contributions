@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxml.php,v 1.22 2001/12/21 14:29:03 bf Exp $
+// $Id: ezxml.php,v 1.23 2002/01/04 09:05:54 bf Exp $
 //
 // Definition of eZXML class
 //
@@ -29,6 +29,7 @@
 //! eZXML handles parsing of well formed XML documents.
 /*!
   eZXML will create a DOM tree from well formed XML documents.
+
 
   \code
 
