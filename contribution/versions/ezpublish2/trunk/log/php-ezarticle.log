@@ -2197,3 +2197,13 @@ Maintainer(s) : bf@ez.no
 
     * admin/articleedit.php: Removed libxml dependency.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-11-20  Christoffer Elo  <ce@ez.no>
+
+    * user/articlelist.php
+      user/templates/standard/articlelist.tpl:
+    Added custom link to images and headlines
+

@@ -509,3 +509,17 @@ Maintainer(s) : br@ez.no
       admin/search.php:
     changed new INIFile("site.ini") to INIFile::globalINI()
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-11-20  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezlink.php:
+    fixed bug when returning the url, removed htmlspecialchars() which
+    bugged with url's with get variables.
+
+    * classes/ezlink.php:
+    removed htmlspecialcars on url function. this makes a problem when you have
+    a url with get variables.
+

@@ -478,3 +478,12 @@ Maintainer(s) : fh@ez.no
       admin/categorylist.php
       admin/mailview.php: fixed several bugs
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2001-11-20  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezbulkmail.php
+      classes/ezbulkmailcategory.php: fixed bugs (some case problems)
+

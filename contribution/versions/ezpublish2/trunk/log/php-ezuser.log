@@ -669,3 +669,22 @@ Maintainer(s) : bf@ez.no
 
     * admin/welcome.php: Fixed convert.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-11-20  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezuseradditional.php
+      user/templates/standard/userwithaddress.tpl
+      user/userwithaddress.php: Added radiobuttons to user
+
+    * admin/templates/standard/additionallist.tpl
+      admin/templates/standard/fixedvalues.tpl
+      classes/ezuseradditional.php
+      user/templates/standard/userwithaddress.tpl
+      user/userwithaddress.php
+      admin/additionallist.php
+      admin/datasupplier.php
+      admin/fixedvalues.php: Added radioboxes with fixed values
+
