@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.119.2.7 2001/11/27 18:30:42 br Exp $
+// $Id: ezproduct.php,v 1.119.2.8 2001/11/27 19:00:48 br Exp $
 //
 // Definition of eZProduct class
 //
@@ -700,7 +700,6 @@ class eZProduct
                 $priceExVat = $calcPrice - ( $calcPrice / ( 100 + $value ) * $value);
             }
         }
-        print( "-$priceExVat-" );
         $returnArray = array( "Price" => $priceExVat, "VAT" => $vat );
         return $returnArray;
     }
