@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS eZForum_Category;
 CREATE TABLE eZForum_Category (
   Name varchar(20),
   Description varchar(40),
-  Private enum('Y','N') DEFAULT 'N',
+  Private int(1) DEFAULT '0' NOT NULL,
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   PRIMARY KEY (ID)
 );
@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS eZForum_Forum;
 CREATE TABLE eZForum_Forum (
   Name varchar(20) DEFAULT '' NOT NULL,
   Description varchar(40),
-  Private enum('Y','N') DEFAULT 'N',
+  Private int(1) DEFAULT '0' NOT NULL,
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   ModeratorID int(11) DEFAULT '0' NOT NULL,
   IsModerated int(1) DEFAULT '0' NOT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE eZForum_Message (
   Body text,
   UserID int(11),
   Parent int(11),
-  EmailNotice enum('N','Y') DEFAULT 'N',
+  EmailNotice int(1) DEFAULT '0' NOT NULL,
   PostingTime timestamp(14),
   TreeID int(11),
   ThreadID int(11),
