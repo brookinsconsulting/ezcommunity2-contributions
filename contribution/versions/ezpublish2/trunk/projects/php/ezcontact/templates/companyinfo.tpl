@@ -21,7 +21,9 @@
 	<td bgcolor="#ffffff">
 	
 <h1>{company_name}</h1>
-{address}<br>
+{street1}<br>
+{street2}<br>
+{zip} {place}<br>
 Registrert av: {owner}<br>
 Kommentar: <br>
 {comment}<br>

@@ -114,13 +114,21 @@ class eZCompany
   }
 
   /*!
+    Returnerer ID.
+  */
+  function id()
+  {
+    return $this->ID;
+  }
+
+  /*!
     Returnerer firmanavn.
   */
   function name()
   {
     return $this->Name;
   }
-
+    
   /*!
     Returnerer ID til eier av firma ( brukeren som opprettet det ).
   */

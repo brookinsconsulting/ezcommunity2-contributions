@@ -28,12 +28,13 @@ if ( $Insert == "TRUE" )
     $usr->get( $session->userID() );
   }
   $newCompany->setOwner( $usr->id() );
-  $pid = $newCompany->store();
+  $cid = $newCompany->store();
     
   $newAddress = new eZAddress();
   $newAddress->setStreet1( $Street1 );
   $newAddress->setStreet2( $Street2 );
   $newAddress->setZip( $Zip );
+  $newAddress->setOwner( $cid );
   $newAddress->store();
 }
 
