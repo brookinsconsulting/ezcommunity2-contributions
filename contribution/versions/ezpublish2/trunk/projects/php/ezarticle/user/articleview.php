@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.70 2001/08/24 10:26:37 bf Exp $
+// $Id: articleview.php,v 1.71 2001/08/24 13:07:16 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -257,7 +257,7 @@ if ( $article->get( $ArticleID ) )
     // image list
 
     $usedImages = $renderer->usedImageList();
-
+            print_r( $usedImages );
     $images =& $article->images();
     
     {
@@ -268,7 +268,17 @@ if ( $article->get( $ArticleID ) )
             $image = $imageArray["Image"];
             $placement = $imageArray["Placement"];
 
-            if ( !is_array( $usedImage ) ||  ( is_array( $usedImage ) && !in_array( $placement, $usedImages ) ) )
+            $showImage = true;
+
+            if ( is_array( $usedImages ) == true )
+            {
+                if ( in_array( $placement, $usedImages ) )
+                {
+                    $showImage = false;
+                }
+            }
+            
+            if (  $showImage  )
             {
                 if ( ( $i % 2 ) == 0 )
                 {
