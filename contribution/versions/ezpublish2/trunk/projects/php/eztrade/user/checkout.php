@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.89 2001/09/15 15:15:01 pkej Exp $
+// $Id: checkout.php,v 1.90 2001/09/17 11:27:17 pkej Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -390,7 +390,7 @@ if ( $ShowCart == true )
     
     $cart->cartTotals( $tax, $total );
 
-    $locale = new eZLocale( $inLanguage );
+    $locale = new eZLocale( $Language );
     $currency = new eZCurrency();
     
     $t->set_var( "empty_cart", "" );
