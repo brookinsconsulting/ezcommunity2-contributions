@@ -2969,3 +2969,36 @@ Maintainer(s) : ce@ez.no
       user/ordersendt.php
       user/productsearch.php: *** empty log message ***
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-01-29  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezproductattribute.php
+      classes/ezproductcategory.php
+      user/checkout.php
+      classes/ezproduct.php: Fixed main addresses
+
+2002-01-29  Bjoern Reiten  <br@ez.no>
+
+    * admin/intl/no_NO/Attic/transaction.php.ini: New file.
+
+    * admin/intl/no_NO/Attic/transaction.php.ini:
+    added language file for payment.
+
+    * admin/Attic/transaction.php: New file.
+
+    * admin/Attic/transaction.php: added transaction, for payment.
+
+2002-01-29  Baard Farstad  <bf@ez.no>
+
+    * user/payment.php
+      user/productsearch.php: Fixed input text in search.
+
+    * user/Attic/similarproducts.php: New file.
+
+    * user/Attic/similarproducts.php
+      user/productlist.php
+      user/productview.php: SImilar products.
+

@@ -1247,3 +1247,15 @@ Maintainer(s) : pkej@ez.no
       classes/ezformrenderer.php:
     fixed bug with overriding of text, added count of results
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-01-29  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/exportform.php: removed header in export
+
+    * classes/ezformreportelement.php: removed empty from list
+
+    * admin/templates/standard/formrenderer.tpl: fixed birder
+

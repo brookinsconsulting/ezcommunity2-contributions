@@ -972,3 +972,13 @@ Maintainer(s) : bf@ez.no
 
     * user/login.php: Fixed redirects.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-01-29  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezuser.php
+      user/login.php
+      user/userwithaddress.php: Fixed a main address bug
+
