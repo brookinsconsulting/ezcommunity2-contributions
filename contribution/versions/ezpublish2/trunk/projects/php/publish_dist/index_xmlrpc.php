@@ -11,6 +11,7 @@ define( "EZERROR_CUSTOM", 3 );
 define( "EZERROR_NO_RETURN_DATA", 4 );
 define( "EZERROR_NONEXISTING_OBJECT", 5 );
 define( "EZERROR_PHP_ERROR", 6 );
+define( "EZERROR_BAD_REQUEST_DATA", 7 );
 
 // include the server
 include_once( "ezxmlrpc/classes/ezxmlrpcserver.php" );
@@ -284,6 +285,13 @@ function &createErrorMessage( $error_id, $error_msg = false, $error_sub_id = fal
                 $id_text = $ID;
             $error_text = "PHP error for command \"$Command\" for URL \"$Module:/$RequestType/$id_text\".\n";
             $error_text .= "Error was: $error_msg";
+            break;
+        }
+        case EZERROR_BAD_REQUEST_DATA:
+        {
+            if ( $ID > 0 )
+                $id_text = $ID;
+            $error_text = "Bad request data for command \"$Command\" for URL \"$Module:/$RequestType/$id_text\".\n";
             break;
         }
         case EZERROR_CUSTOM:
