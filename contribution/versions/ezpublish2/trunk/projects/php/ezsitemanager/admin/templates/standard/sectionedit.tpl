@@ -26,8 +26,9 @@
 <br /><br />
 
 
-<!-- BEGIN setting_list_tpl -->
 <h2>{intl-settings}</h2>
+<hr noshade="noshade" size="4" /><br />
+<!-- BEGIN setting_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <!-- BEGIN setting_item_tpl -->
 <tr class="{td_class}">
@@ -89,10 +90,10 @@
 </tr>
 <!-- END setting_item_tpl -->
 </table>
+<!-- END setting_list_tpl -->
 <input class="stdbutton" type="submit" name="Store" value="{intl-store_rows}" />&nbsp;
 <input class="stdbutton" type="submit" name="AddRow" value="{intl-add_row}" />&nbsp;
 <input class="stdbutton" type="submit" name="DeleteRows" value="{intl-delete_rows}" />
-<!-- END setting_list_tpl -->
 
 <br /><br />
 
