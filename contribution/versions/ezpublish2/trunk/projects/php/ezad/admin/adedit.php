@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adedit.php,v 1.5 2000/12/11 15:56:43 ce Exp $
+// $Id: adedit.php,v 1.6 2000/12/14 17:50:30 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -221,9 +221,14 @@ if ( $Action == "Edit" )
         $t->set_var( "image_width", $image->width() );
         $t->set_var( "image_height", $image->height() );
         $t->set_var( "image_file_name", $image->originalFileName() );
+        $t->parse( "image", "image_tpl" );
+    }
+    else
+    {
+        $t->set_var( "image", "" );
     }
         
-    $t->parse( "image", "image_tpl" );
+    
     
     $cats = $ad->categories();
 

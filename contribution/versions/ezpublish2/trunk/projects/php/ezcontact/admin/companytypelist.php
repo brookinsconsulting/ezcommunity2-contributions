@@ -257,7 +257,8 @@ else
         
             $t->set_var( "company_id", $companyList[$index]->id() );
             $t->set_var( "company_name", $companyList[$index]->name() );
-        
+
+            unSet( $logoObj );
             $logoObj = $companyList[$index]->logoImage();
 
             if ( get_class ( $logoObj ) == "ezimage" )
@@ -267,7 +268,7 @@ else
                 $t->set_var( "company_logo_src", "/" . $variationObj->imagePath() );
             
                 $t->set_var( "no_image", "" );
-                $t->parse( "image_view", "image_view_tpl", true );
+                $t->parse( "image_view", "image_view_tpl" );
             }
             else
             {

@@ -67,13 +67,16 @@
 	<!-- BEGIN no_image_tpl -->
 <!--	<p>{intl-no_image}</p> -->
 	<!-- END no_image_tpl -->	
+	</td>	 
+<!-- BEGIN phone_item_tpl -->
 
-	</td>
 	<td class="{td_class}" align="right">
 	{company_telephone}
 	</td>
+<!-- END phone_item_tpl -->
 
 </tr>
+
 <!-- END company_item_tpl -->
 </table>
 <!-- END company_list_tpl -->

@@ -11,6 +11,9 @@ include_once( "classes/eztemplate.php" );
 
 include_once( "ezclassified/classes/ezcategory.php" );
 include_once( "ezclassified/classes/ezclassified.php" );
+include_once( "classes/ezlocale.php" );
+
+$locale = new eZLocale( $Language );
 
 $t = new eZTemplate( "ezclassified/user/" . $ini->read_var( "eZClassifiedMain", "TemplateDir" ),
                      "ezclassified/user/intl/", $Language, "classifiedlist.php" );
@@ -89,10 +92,16 @@ else
         
         $t->set_var( "classified_name", $positionList[$i]->name() );
         $t->set_var( "classified_id", $positionList[$i]->id() );
+        $validUntil = $positionList[$i]->validUntil();
 
-//          $company = $positionList[$i]->company();
+        $date = $locale->format( $validUntil );
 
-//          $t->set_var( "company_name", $company->name() );
+        $t->set_var( "valid_until", $date );
+    
+
+        $company = $positionList[$i]->company();
+        
+        $t->set_var( "company_name", $company->name() );
         
         $t->parse( "classified_item", "classified_item_tpl", true );
     }

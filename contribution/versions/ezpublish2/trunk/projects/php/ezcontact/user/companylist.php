@@ -32,6 +32,7 @@ $t->set_block( "company_page_tpl", "company_list_tpl", "company_list" );
 $t->set_block( "company_list_tpl", "company_item_tpl", "company_item" );
 $t->set_block( "company_item_tpl", "image_view_tpl", "image_view" );
 $t->set_block( "company_item_tpl", "no_image_tpl", "no_image" );
+$t->set_block( "company_item_tpl", "phone_item_tpl", "phone" );
 
 
 $t->set_block( "company_page_tpl", "path_item_tpl", "path_item" );
@@ -155,20 +156,23 @@ else
             $t->parse( "no_image", "no_image_tpl" );
 
         }
-
-
+        
         // Phone list
         $phoneList = $company->phones( $companyID );
         for( $i=0; $i<count( $phoneList ); $i++ )
         {
-            if ( $phoneList[$i]->phoneTypeID() == 1 )
+            if ( $phoneList[$i]->phoneTypeID() == 5 )
             {
+                print( "ey" );
                 $t->set_var( "company_telephone", $phoneList[$i]->number() );
+                $t->parse( "phone", "phone_item_tpl" );
             }
             else
             {
-                $t->set_var( "company_telephone", "" );
+                $t->set_var( "company_telephone", "&nbsp;" );
             }
+
+            
         }
 
         $count++;

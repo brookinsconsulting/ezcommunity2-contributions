@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.47 2000/12/14 15:50:22 pkej Exp $
+// $Id: ezcompany.php,v 1.48 2000/12/14 17:50:30 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -634,39 +634,6 @@ class eZCompany
        $this->Database->query( "UPDATE eZContact_CompanyImageDefinition SET LogoImageID='0' WHERE CompanyID='$this->ID'" );
     }
 
-    /*!
-      Adds a user to the current Person.
-    */
-    function addUser( $user )
-    {
-        if( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $ret = false;
-        
-        $this->dbInit();
-
-        if( get_class( $user ) == "ezuser" )
-        {
-            // Create person relation
-            $userID = $user->id();
-            
-            $checkQuery = "SELECT CompanyID FROM eZContact_UserCompanyDict WHERE UserID=$userID";
-            $this->Database->array_query( $user_array, $checkQuery );
-            
-            $count = count( $user_array );
-            
-            if( $count == 0 )
-            {
-                $this->Database->query( "INSERT INTO eZContact_UserCompanyDict
-                                SET CompanyID='$this->ID', UserID='$userID'" );
-            }
-            $ret = true;
-        }
-        return $ret;
-    }
-
-
 
     /*!
       Sets the company image for the company.
@@ -734,127 +701,7 @@ class eZCompany
        return $ret;
     }
 
-    /*!
-      Remove all relation to eZClassified if eZClassified_Classified exists.
-    */
-    function removeClassified()
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
-        $found = false;
-        $this->dbInit();
 
-        $result = mysql_list_tables ( "seanex");
-
-        $i = 0;
-        while ( $i < mysql_num_rows ( $result ) )
-        {
-            $tb_names[$i] = mysql_tablename ( $result, $i );
-
-            if ( $tb_names[$i] == "eZClassified_Classified" )
-            {
-                $found = true;
-            }
-            $i++;
-        }
-
-        if ( $found == true )
-        {
-            $this->Database->array_query( $classifiedArray, "SELECT ClassifiedID FROM eZClassified_ClassifiedCompanyLink WHERE CompanyID='$this->ID'" );
-
-            if ( count( $classifiedArray != 0 ) )
-            {
-                foreach( $classifiedArray as $classifiedItem )
-                {
-                    $classified = new eZClassified( $classifiedItem["ClassifiedID"] );
-                    $classified->delete();
-                }
-                $this->Database->query( "DELETE FROM eZContact_CompanyImageDefinition WHERE CompanyID='$this->ID'" );
-                
-                return $return_array;
-            }
-            else
-            {
-                print( "1" );
-                exit();
-            }
-        }
-    }
-
-    /*!
-      Remove all the user relation.
-    */
-    function removeUser()
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
-        $found = false;
-        $this->dbInit();
-
-        $this->Database->array_query( $userArray, "SELECT UserID FROM eZContact_UserCompanyDict WHERE CompanyID='$this->ID'" );
-
-        if ( count ( $userArray ) != 0 )
-        {
-            foreach( $userArray as $userItem )
-            {
-                $user = new eZUser( $userItem["UserID"] );
-                $user->delete();
-            }
-        }
-
-        $this->Database->query( "DELETE FROM eZContact_UserCompanyDict WHERE CompanyID='$this->ID'" );
-    }
-
-
-    /*!
-      Add an article to the current eZCompany object 
-     */
-    function addArticle( $article )
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $ret = false;
-       
-        $this->dbInit();
-
-        if ( get_class ( $article ) == "ezarticle" )
-        {
-            $articleID = $article->id();
-
-            $this->Database->query( "INSERT INTO eZContact_CompanyArticleDict
-                                     SET CompanyID='$this->ID', ArticleID='$articleID'" );
-        }
-    }
-
-    /*!
-      Remove all the article relation.
-    */
-    function removeArticle()
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
-        $found = false;
-        $this->dbInit();
-
-        $this->Database->array_query( $articleArray, "SELECT ArticleID FROM eZContact_CompanyArticleDict WHERE CompanyID='$this->ID'" );
-
-        if ( count ( $articleArray ) != 0 )
-        {
-            foreach( $articleArray as $articleItem )
-            {
-                $article = new eZArticle( $articleItem["ArticleID"] );
-                $article->delete();
-            }
-        }
-
-        $this->Database->query( "DELETE FROM eZContact_UserCompanyDict WHERE CompanyID='$this->ID'" );
-    }
-    
-    
     /*!
       Sets the name of the company.
     */

@@ -52,6 +52,7 @@
 <tr>
 	<th>{intl-name}:</th>
 	<th>{intl-company}:</th>
+	<th>{intl-valid_until}:</th>
 </tr>
 <!-- BEGIN classified_item_tpl -->
 <tr>
@@ -60,6 +61,9 @@
 	</td>
 	<td class="{td_class}">
 	{company_name}
+	</td>
+	<td class="{td_class}">
+	{valid_until}
 	</td>
 
 </tr>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezclassified.php,v 1.11 2000/12/14 16:45:21 pkej Exp $
+// $Id: ezclassified.php,v 1.12 2000/12/14 17:50:30 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -382,6 +382,20 @@ class eZClassified
        return $ret;
     }
 
+    /*!
+      Removes the company from every user category.
+    */
+    function removeCompanies()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+                                    
+       $this->Database->query( "DELETE FROM eZContact_CompanyClassifiedDict
+                                WHERE ClassifiedID='$this->ID'" );
+
+    }
 
     /*!
       Removes the company from every user category.
