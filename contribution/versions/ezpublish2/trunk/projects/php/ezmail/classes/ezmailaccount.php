@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailaccount.php,v 1.20 2001/04/03 08:46:32 fh Exp $
+// $Id: ezmailaccount.php,v 1.21 2001/04/05 15:00:22 fh Exp $
 //
 // eZMailAccount class
 //
@@ -501,7 +501,7 @@ class eZMailAccount
                 $mail->setSize( $mailstructure->bytes );
 
                 $mail->store();
-
+                $mail->markAsDownloaded();
                 $inbox->addMail( $mail ); // safety for now while we debug the filters 
                 $filters->runFilters( $mail );
 

@@ -104,3 +104,14 @@ CREATE TABLE eZMail_FilterRule (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
+
+#
+# Table structure for table 'eZMail_FetchedMail'
+#
+
+DROP TABLE IF EXISTS eZMail_FetchedMail;
+CREATE TABLE eZMail_FetchedMail (
+  UserID int(11) NOT NULL,
+  MessageID varchar(100) NOT NULL,
+  PRIMARY KEY (UserID, MessageID)
+) TYPE=MyISAM;

@@ -48,6 +48,7 @@ if( isset( $Save ) )
 if( isset( $Send ) )
 {
     $MailID = save_mail();
+    // check for valid field
     $mail = new eZMail( $MailID );
     $mail->setStatus( MAIL_SENT, true );
     $mail->send();

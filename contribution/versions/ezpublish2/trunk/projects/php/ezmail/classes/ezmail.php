@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.21 2001/04/03 09:37:55 fh Exp $
+// $Id: ezmail.php,v 1.22 2001/04/05 15:00:22 fh Exp $
 //
 // Definition of eZMail class
 //
@@ -662,7 +662,7 @@ class eZMail
         return $pos;
     }
 
-    /*
+    /*!
       \static
       
       Returns true if the mail with the given identification is allready downloaded for the given user.
@@ -671,7 +671,7 @@ class eZMail
     function isDownloaded( $mailident, $userID )
     {
         $database =& eZDB::globalDatabase();
-        $database->query_single( $res, "SELECT count( ID ) as Count FROM eZMail_Mail WHERE UserID='$userID' AND MessageID='$mailident'" );
+        $database->query_single( $res, "SELECT count(*) as Count FROM eZMail_FetchedMail WHERE UserID='$userID' AND MessageID='$mailident'" );
 
         $ret = true;
         if( $res["Count"] == 0 )
@@ -680,6 +680,19 @@ class eZMail
         return $ret;    
     }
 
+    /*!
+      Marks this mail in the downloaded database.
+     */
+    function markAsDownloaded()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $database =& eZDB::globalDatabase();
+        
+        $database->query( "INSERT INTO eZMail_FetchedMail SET UserID='$this->UserID', MessageID='$this->MessageID'" );
+    }
+    
     /*
       Returns the first folder that this mail is a member of.
      */
