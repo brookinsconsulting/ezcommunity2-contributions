@@ -49,8 +49,7 @@
 	</td>
         <td bgcolor="{bg_color}">
 	<!-- BEGIN image_item_tpl -->
-	<p><img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
-	</p>
+	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" />
 	<!-- END image_item_tpl -->
 	<!-- BEGIN no_image_tpl -->
 	&nbsp;
@@ -85,8 +84,7 @@
 	</td>
         <td bgcolor="{bg_color}">
 	<!-- BEGIN image_item_tpl -->
-	<p><img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
-	</p>
+	<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" border="0" />
 	<!-- END image_item_tpl -->
 	<!-- BEGIN no_image_tpl -->
 	&nbsp;

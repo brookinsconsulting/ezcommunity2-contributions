@@ -49,14 +49,15 @@
 
 <hr noshade size="4" />
 
-
-<input type="submit" name="Store" value="{intl-store}" />
-
-<input type="submit" name="AddType" value="{intl-add_shipping_type}" />
-<input type="submit" name="AddGroup" value="{intl-add_shipping_group}" />
-
-<input type="submit" name="Delete" value="{intl-delete_selected}" />
+<input class="stdbutton" type="submit" name="AddType" value="{intl-add_shipping_type}" />
+<input class="stdbutton" type="submit" name="AddGroup" value="{intl-add_shipping_group}" />
 
 <hr noshade size="4" />
+
+<input class="stdbutton" type="submit" name="Delete" value="{intl-delete_selected}" />
+
+<hr noshade size="4" />
+
+<input class="okbutton" type="submit" name="Store" value="{intl-store}" />
 
 </form>
