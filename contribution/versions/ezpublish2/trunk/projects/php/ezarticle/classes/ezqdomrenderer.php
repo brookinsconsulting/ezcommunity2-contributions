@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.45 2001/09/11 11:56:39 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.46 2001/09/13 08:19:09 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -730,7 +730,7 @@ class eZQDomrenderer
       Renders file tags.
     */
     function &renderFile( $paragraph )
-    {
+    {        
         $pageContent = "";
         if ( $paragraph->name == "file" )
         {
@@ -830,6 +830,7 @@ class eZQDomrenderer
                                 $content .= $this->renderLink( $listItem );                        
                                 $content .= $this->renderImage( $listItem );
                                 $content .= $this->renderMedia( $listItem );
+                                $content .= $this->renderFile( $listItem );
                                 $content .= $this->renderHeader( $listItem );
                                 $content .= $this->renderHr( $listItem );
                                 $content .= $this->renderTable( $listItem );
@@ -851,6 +852,7 @@ class eZQDomrenderer
                             $content .= $this->renderLink( $child );                        
                             $content .= $this->renderImage( $child );
                             $content .= $this->renderMedia( $child );
+                            $content .= $this->renderFile( $child );
                             $content .= $this->renderHeader( $child );
                             $content .= $this->renderHr( $child );
                             $content .= $this->renderTable( $child );
@@ -917,6 +919,7 @@ class eZQDomrenderer
                         $tmpContent .= $this->renderLink( $child );
                         $tmpContent .= $this->renderImage( $child );
                         $tmpContent .= $this->renderMedia( $media );
+                        $tmpContent .= $this->renderFile( $media );
                         $tmpContent .= $this->renderHeader( $child );
                         $tmpContent .= $this->renderHr( $child );
                         $tmpContent .= $this->renderTable( $child );
@@ -999,6 +1002,7 @@ class eZQDomrenderer
                         $tmpContent .= $this->renderLink( $child );
                         $tmpContent .= $this->renderImage( $child );
                         $tmpContent .= $this->renderMedia( $media );
+                        $tmpContent .= $this->renderFile( $media );
                         $tmpContent .= $this->renderHeader( $child );
                         $tmpContent .= $this->renderHr( $child );
                         $tmpContent .= $this->renderTable( $child );
@@ -1222,7 +1226,6 @@ class eZQDomrenderer
                                     }
                                 }
 
-
                             $childrenData =& $this->renderChildren( $data );
                             $this->Template->set_var( "contents", $childrenData );
                             $this->Template->set_var( "td_width", $tdWidth );
@@ -1262,7 +1265,8 @@ class eZQDomrenderer
                     $tmpContent .= $this->renderCustom( $child );
                     $tmpContent .= $this->renderLink( $child );
                     $tmpContent .= $this->renderImage( $child );
-                    $tmpContent .= $this->renderMedia( $media );
+                    $tmpContent .= $this->renderMedia( $child );
+                    $tmpContent .= $this->renderFile( $child );
                     $tmpContent .= $this->renderHeader( $child );
                     $tmpContent .= $this->renderHr( $child );
                     $tmpContent .= $this->renderTable( $child );
