@@ -50,14 +50,18 @@
 
 </head>
 
-<body bgcolor="#FFFFFF" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6" onLoad="MM_preloadImages('/images/{site_style}/redigerminimrk.gif','/images/{site_style}/slettminimrk.gif','/images/{site_style}/downloadminimrk.gif')">
+<body bgcolor="#FFFFFF" onLoad="MM_preloadImages('/images/{site_style}/redigerminimrk.gif','/images/{site_style}/slettminimrk.gif','/images/{site_style}/downloadminimrk.gif')">
 
-<h1>PRINT VERSION</h1>
-
-<a href="{current_url}">{intl-back_to_normal_version}</a>
-<span class="top">{intl-site_url}:</span><br />
-<span class="topusername">{site_url}</span><br />
-
-<span class="top">{intl-user_name}:</span><br />
-<span class="topusername">{first_name}&nbsp;{last_name}</span><br />
-
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td>
+		<span class="path">{intl-site}:</span> {site_url}
+	</td>
+	<td align="center">
+		<span class="path">{intl-user_name}:</span> {first_name}&nbsp;{last_name}
+	</td>
+	<td align="right">
+	<a class="path" href="{current_url}">&lt;&lt;&nbsp;{intl-back_to_normal_view}</a>
+	</td>
+</tr>
+</table>

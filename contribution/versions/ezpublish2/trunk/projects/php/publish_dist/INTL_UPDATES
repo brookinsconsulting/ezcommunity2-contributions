@@ -3,6 +3,12 @@ Example:
 mod: bug/user, fileedit.php.ini
 change: added user_edit=Some text
 --------------------------------------------------------------------
+mod: admin, print_header.php.ini
+change: added
+site=Site
+user_name=User name
+back_to_normal_view=Back to normal view
+
 mod: ezforum/admin, forumedit.php.ini
 change: added forum_is_anonymous=Anonymous posting allowed
 
