@@ -61,13 +61,23 @@ switch ( $url_array[2] )
         {
             case "new" :
             {
+                $Action = "New";
                 include( "ezbug/user/bugreport.php" );
             }
             break;
 
             case "edit" :
             {
-                $bugID = $url_array[4];
+                $BugID = $url_array[4];
+                $Action = "Edit";
+                include( "ezbug/user/bugreport.php" );
+            }
+            break;
+
+            case "update" :
+            {
+                $BugID = $url_array[4];
+                $Action = "Update";
                 include( "ezbug/user/bugreport.php" );
             }
             break;
@@ -126,10 +136,13 @@ switch ( $url_array[2] )
                 {
                 }
             }
+            break;
+            
             default :
             {
-                include( "ezbug/user/bugreport.php" );
+                print( "Error: Bug file not found" );
             }
+            break;
         }
     }
     break;

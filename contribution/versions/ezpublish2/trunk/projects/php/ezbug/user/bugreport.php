@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugreport.php,v 1.8 2001/02/16 19:23:42 fh Exp $
+// $Id: bugreport.php,v 1.9 2001/02/19 13:43:43 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 20:31:00 bf>
@@ -52,12 +52,17 @@ $t->set_block( "bug_report_tpl", "all_fields_error_tpl", "all_fields_error" );
 $t->set_block( "bug_report_tpl", "email_error_tpl", "email_error" );
 
 
-if ( $Action == "Insert" )
+// new inserts new bug
+// update, updates the bug with new values.
+// when updating and inserting values must be checked.
+// you must save the bug before you can add images/files.
+$successfull = 0;
+$actionValue == "New";
+if( $Action == "New" )
 {
-    $successfull = 0;
-    $user = eZUser::currentUser();
+    /*   $user = eZUser::currentUser();
 
-    if ( ( $Name != "" ) && ( $Description != "" ) )
+    if( ( $Name != "" ) && ( $Description != "" ) )
     {
         $category = new eZBugCategory( $CategoryID );
         $module = new eZBugModule( $ModuleID );
@@ -77,6 +82,7 @@ if ( $Action == "Insert" )
             $module->addBug( $bug );
 
             $successfull = 1;
+            $actionValue = "Update";
         }
         else
         {
@@ -89,6 +95,7 @@ if ( $Action == "Insert" )
                 $module->addBug( $bug );
                 
                 $successfull = 2;
+                $actionValue = "Update";
             }
             else
             {
@@ -100,86 +107,112 @@ if ( $Action == "Insert" )
     {
         $AllFieldsError = true;
     }
+    */
+    $bug = new eZBug();
+    $bug->store();
+    $BugID = $bug->id();
+}
 
-    if( isset( $InsertFile ) && $successfull != 0 )
-    {
-        $Action = "";
-        $BugID = $bug->id();
-        include( "ezbug/user/fileedit.php" );
-        exit();
-    }
+if( $Action == "Update" )
+{
+    $bug = new eZBug( $BugID );
+    $bug->setName( $Name );
+    $bug->setDescription( $Description );
 
-    if( isset( $InsertImage ) && $successfull != 0)
-    {
-        $Action = "";
-        $BugID = $bug->id();
-        include( "ezbug/user/imageedit.php" );
-        exit();
-    }
+    $category = new eZBugCategory( $CategoryID );
+    $module = new eZBugModule( $ModuleID );
+    $bug->removeFromCategories();
+    $bug->removeFromModules();
 
- 
-    if( $successfull != 0 ) // the bug was successfully commited.. lets send an email to the group owners.
+    if( $category )
+        $category->addBug( $bug );
+    if( $module )
+        $module->addBug( $bug );
+    
+    $user = eZUser::currentUser();
+    if( $user )
+        $bug->setUser( $user );
+    else
+        $bug->setUserEmail( $Email );
+    
+    $bug->setIsHandled( false );
+    $bug->store();
+    
+    $actionValue = "Update";
+}
+
+
+/* bug is now allways saved... lets check what the user really wanted to do..*/
+if( isset( $Ok ) ) // here check for errors. and display them if nescacary
+{
+    $user = eZUser::currentUser();
+    if( ( $Name != "" ) && ( $Description != "" ) )
     {
-        // find the owners of the group, if their is now owner group, no need to send mail.
-        $ownerGroup = $module->ownerGroup();
-        if( get_class( $ownerGroup ) != "ezusergroup" )
+        if ( $user )
         {
-            Header( "Location: /bug/reportsuccess/" );
+            $successfull = 1;
+            send_email( $bug, $ini, $Language );            
+            header( "Location: /bug/reportsuccess/" );
             exit();                
         }
-        $users = $ownerGroup->users();
-        $userEmail = "";
-        foreach( $users as $userItem )
-        {
-            if( $userEmail = "" )
-                $userEmail = $userItem->email();
-            else
-                $userEmail = $userEmail . ", " . $userItem->email();
-        }
-
-        $mail = new eZMail();
-        if( $succesfull == 1 )
-            $mail->setFrom( $user->email() );
         else
-            $mail->setFrom( $bug->userEmail );
-
-        $mailTemplate = new eZTemplate( "ezbug/user/" . $ini->read_var( "eZBugMain", "TemplateDir" ),
-                                        "ezbug/user/intl", $Language, "mailnewbug.php" );
-        $headerInfo = ( getallheaders() );
-
-        $mailTemplate->set_file( "mailnewbug", "mailnewbug.tpl" );
-        $mailTemplate->setAllStrings();
-
-        $host = preg_replace( "/^admin\./", "", $headerInfo["Host"] );
-            
-        $mailTemplate->set_var( "bug_url", "http://" . $host . "/bug/bugview/" . $bug->id() );
-        $mailTemplate->set_var( "bug_id", $bug->id() );
-        $mailTemplate->set_var( "bug_title", $bug->name() );
-        $mailTemplate->set_var( "bug_module", $module->name() );
-        $mailTemplate->set_var( "bug_reporter", $user->namedEmail() );
-        $mailTemplate->set_var( "bug_description", $bug->description() );
-        
-        $mail->setSubject( "[Bug][" . $bug->id() ."] " . $bug->name() );
-        $bodyText = ( $mailTemplate->parse( "dummy", "mailnewbug" ) );
-        $mail->setBody( $bodyText );
-
-        if( $userEmail != "" )
         {
-            $mail->setTo( $userEmail  );
-            print( $userEmail );
-            $mail->send();
-        }
-
-        Header( "Location: /bug/reportsuccess/" );
-        exit();                
+            if( $Email != "" )
+            {
+                $successfull = 2;
+                send_email( $bug, $ini, $Language );            
+                header( "Location: /bug/reportsuccess/" );
+                exit();                
+            }
+            else
+            {
+                $EmailError = true;                
+            }            
+        }       
+    }
+    else
+    {
+        $AllFieldsError = true;
     }
 }
 
-if( $Action == "Edit" ) // load values from database
+if( isset( $InsertFile ) ) 
 {
-    
+    $Action = "";
+//    $BugID = $bug->id();
+    include( "ezbug/user/fileedit.php" );
+    exit();
 }
 
+if( isset( $InsertImage ) )
+{
+    $Action = "";
+//    $BugID = $bug->id();
+    include( "ezbug/user/imageedit.php" );
+    exit();
+}
+
+/* user didn't press any buttons.. lets set up the view correctly then..*/
+$catName = "";
+$modName = "";
+$t->set_var( "description_value", "" );
+$t->set_var( "title_value", "" );
+if( $Action == "Edit" ) // load values from database
+{
+    $bug = new eZBug( $BugID );
+    $module = $bug->module();
+    if( $module )
+        $modName = $module->name();
+
+    $category = $bug->category();
+    if( $category )
+        $catName = $category->name();
+
+    $t->set_var( "description_value", $bug->description() );
+    $t->set_var( "title_value", $bug->name() );
+}
+
+// if any errors are set, lets display them to the user.
 if ( $AllFieldsError == true )
 {
     $t->parse( "all_fields_error", "all_fields_error_tpl" );
@@ -189,7 +222,7 @@ else
     $t->set_var( "all_fields_error", "" );
 }
 
-if ( $EmailError == true )
+if( $EmailError == true )
 {
     $t->parse( "email_error", "email_error_tpl" );
 }
@@ -198,6 +231,8 @@ else
     $t->set_var( "email_error", "" );
 }
 
+
+// insert values into fields.
 $category = new eZBugCategory();
 $module = new eZBugModule();
 
@@ -220,6 +255,11 @@ foreach ( $categories as $category )
     $t->set_var( "category_id", $category->id() );
     $t->set_var( "category_name", $category->name() );
 
+    if( $category->name() == $catName )
+        $t->set_var( "selected", "selected" );
+    else
+        $t->set_var( "selected", "" );
+        
     $t->parse( "category_item", "category_item_tpl", true );
 }
 
@@ -230,13 +270,81 @@ foreach ( $modules as $module )
     $t->set_var( "module_id", $module->id() );
     $t->set_var( "module_name", $module->name() );
 
+    if( $module->name() == $modName )
+        $t->set_var( "selected", "selected" );
+    else
+        $t->set_var( "selected", "" );
+
+    
     $t->parse( "module_item", "module_item_tpl", true );
 }
 
-$t->set_var( "action_value", "Insert" );
-
+//$t->set_var( "action_value", $actionValue );
+$t->set_var( "bug_id", $BugID );
 
 $t->pparse( "output", "bug_report_tpl" );
 
+
+function send_email( $bug, $ini, $Language )
+{
+    // set up some values that we need
+    $module = $bug->module();
+    
+    // find the owners of the group, if their is now owner group, no need to send mail.
+    $ownerGroup = $module->ownerGroup();
+    if( get_class( $ownerGroup ) != "ezusergroup" )
+    {
+        Header( "Location: /bug/reportsuccess/" );
+        exit();                
+    }
+    $users = $ownerGroup->users();
+    $userEmail = "";
+    foreach( $users as $userItem )
+    {
+        if( $userEmail = "" )
+            $userEmail = $userItem->email();
+        else
+            $userEmail = $userEmail . ", " . $userItem->email();
+    }
+
+    $mail = new eZMail();
+    if( $succesfull == 1 )
+        $mail->setFrom( $user->email() );
+    else
+        $mail->setFrom( $bug->userEmail );
+
+    $mailTemplate = new eZTemplate( "ezbug/user/" . $ini->read_var( "eZBugMain", "TemplateDir" ),
+                                    "ezbug/user/intl", $Language, "mailnewbug.php" );
+    $headerInfo = ( getallheaders() );
+
+    $mailTemplate->set_file( "mailnewbug", "mailnewbug.tpl" );
+    $mailTemplate->setAllStrings();
+
+    $host = preg_replace( "/^admin\./", "", $headerInfo["Host"] );
+            
+    $mailTemplate->set_var( "bug_url", "http://" . $host . "/bug/bugview/" . $bug->id() );
+    $mailTemplate->set_var( "bug_id", $bug->id() );
+    $mailTemplate->set_var( "bug_title", $bug->name() );
+    $mailTemplate->set_var( "bug_module", $module->name() );
+    if( $user )
+        $mailTemplate->set_var( "bug_reporter", $user->namedEmail() );
+    else
+        $mailTemplate->set_var( "bug_reporter", $Email );
+    $mailTemplate->set_var( "bug_description", $bug->description() );
+        
+    $mail->setSubject( "[Bug][" . $bug->id() ."] " . $bug->name() );
+    $bodyText = ( $mailTemplate->parse( "dummy", "mailnewbug" ) );
+    $mail->setBody( $bodyText );
+
+    if( $userEmail != "" )
+    {
+        $mail->setTo( $userEmail  );
+        print( $userEmail );
+        $mail->send();
+    }
+
+}
+
 ?>
+
 

@@ -1,4 +1,4 @@
-<form method="post" action="/bug/report/">
+<form method="post" action="/bug/report/update/{bug_id}">
 
 <h1>{intl-report_a_bug}</h1>
 
@@ -13,7 +13,7 @@
 <hr noshade="noshade" size="4">
 
 <p class="boxtext">{intl-bug_title}:</p>
-<input type="text" size="40" name="Name" />
+<input type="text" size="40" name="Name" value="{title_value}"/>
 <br /><br />
 
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
@@ -22,7 +22,7 @@
 	<p class="boxtext">{intl-bug_module}:</p>
 	<select name="ModuleID">
 	<!-- BEGIN module_item_tpl -->
-	<option value="{module_id}">{module_name}</option>
+	<option value="{module_id}" {selected}>{module_name}</option>
 	<!-- END module_item_tpl -->
 	</select>
 	</td>
@@ -31,7 +31,7 @@
 	<p class="boxtext">{intl-bug_category}:</p>
 	<select name="CategoryID">
 	<!-- BEGIN category_item_tpl -->
-	<option value="{category_id}">{category_name}</option>
+	<option value="{category_id}" {selected}>{category_name}</option>
 	<!-- END category_item_tpl -->
 	</select>
 	</td>
@@ -44,7 +44,7 @@
 <!-- END email_address_tpl -->
 
 <p class="boxtext">{intl-bug_description}:</p>
-<textarea name="Description" cols="40" rows="8" wrap="soft"></textarea>
+<textarea name="Description" cols="40" rows="8" wrap="soft">{description_value}</textarea>
 <br /><br />
 
 <hr noshade="noshade" size="4">
@@ -61,10 +61,10 @@
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<input class="okbutton" type="submit" value="{intl-send_bug_report}">
+	<input class="okbutton" type="submit" name="Ok" value="{intl-send_bug_report}">
 	</td>
 </tr>
 </table>
-<input type="hidden" name="Action" value="{action_value}">
+<!-- <input type="text" name="Action" value="{action_value}"> -->
 
 </form>
