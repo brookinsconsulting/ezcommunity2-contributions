@@ -10,8 +10,6 @@
 
 <hr noshade size="4" />
 
-<br />
-
 <!-- END article_here_template -->
 
 <!-- BEGIN article_item_template -->
