@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.102 2001/09/03 17:20:15 bf Exp $
+// $Id: index.php,v 1.103 2001/09/07 09:47:35 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -277,23 +277,28 @@ if ( ( $requireUserLogin == "disabled" ) ||
         // set the sitedesign from the section
         if ( $ini->read_var( "site", "Sections" ) == "enabled" )
         {
-
             if ( !is_numeric( $GlobalSectionID ) )
             {
                 $GlobalSectionID = $ini->read_var( "site", "DefaultSection" );
             }
-                 
+
             include_once( "ezsitemanager/classes/ezsection.php" );
+
+            if ( is_numeric( $SectionIDOverride ) )
+            {
+                $GlobalSectionID = $SectionIDOverride;
+            }
 
             if ( $DEBUG == true )
             {
                 print( eZSection::siteDesign( $GlobalSectionID ) );
             }
+
         
             $siteDesign = eZSection::siteDesign( $GlobalSectionID );
             $GlobalSiteDesign = $siteDesign;
         }
-        
+
         // include some html
         $Title = $ini->read_var( "site", "SiteTitle" );
 
