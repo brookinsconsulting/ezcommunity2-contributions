@@ -8,35 +8,17 @@
 </tr>
   <tr>
     <td bgcolor="#006699" width="9"><img src="/sitedesign/sailing/images/leftrounded.gif" width="9" height="20" hspace="0" vspace="0" border="0" align="left" alt=""></td>
-    <td bgcolor="#006699" width="100%"><b span="white">{current_category_name}</b></td>
+    <td bgcolor="#006699" width="100%"><b class="white">{current_category_name}</b></td>
     <td width="70"><img src="/sitedesign/sailing/images/rightrounded.gif" width="70" height="20" hspace="0" vspace="0" border="0" align="right" alt=""></td>
   </tr>
 
-<tr>
-	<td valign="bottom">
-	<h1>{intl-head_line} - {current_category_name}</h1>
-	</td>
-	<td align="right">
-	<form action="/article/search/" method="post">
-	<input type="text" name="SearchText" size="12" />	
-	<input type="submit" value="{intl-search}" />
-	</form>	
-	</td>
-</tr>
 </table>
 
-<hr noshade="noshade" size="4" />
 <!-- END header_item_tpl -->
 
-<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="">
-<a class="path" href="/article/archive/0/">{intl-top_level}</a>
-
 <!-- BEGIN path_item_tpl -->
-<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="">
-<a class="path" href="/article/archive/{category_id}/">{category_name}</a>
-<!-- END path_item_tpl -->
 
-<hr noshade="noshade" size="4" />
+<!-- END path_item_tpl -->
 
 <div class="spacer"><div class="p">{current_category_description}</div></div>
 
@@ -64,15 +46,17 @@
 <!-- BEGIN article_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<tr>
 	<td>
 	</td>
 </tr>
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
-	<div class="listheadline"><a class="listheadline" href="/article/articleview/{article_id}/">{article_name}</a></div>
-	<div class="small">( {article_published} )</div>
+	<span class="listheadline"><a class="listheadline" href="/article/articleview/{article_id}/">{article_name}</a></span>
+	<span class="small">( {article_published} )</span>
+
+	<br />
+	<b>By:</b> {author_text} <br />
 
 	<!-- BEGIN article_image_tpl -->
 	    <table align="right">
@@ -91,7 +75,6 @@
 
 
 	<div class="spacer"><div class="p">{article_intro}</div></div>
-	<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 	<a class="path" href="/article/articleview/{article_id}/">{article_link_text}</a>
 	<br /><br />
 	</td>

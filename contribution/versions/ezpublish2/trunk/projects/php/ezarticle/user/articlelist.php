@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.28 2001/02/14 15:45:03 gl Exp $
+// $Id: articlelist.php,v 1.29 2001/02/16 14:42:14 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -171,6 +171,8 @@ foreach ( $articleList as $article )
 {
     $t->set_var( "article_id", $article->id() );
     $t->set_var( "article_name", $article->name() );
+
+    $t->set_var( "author_text", $article->authorText() );
     
     // preview image
     $thumbnailImage = $article->thumbnailImage();
