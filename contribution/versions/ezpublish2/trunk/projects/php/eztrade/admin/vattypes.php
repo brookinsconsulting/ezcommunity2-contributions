@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: vattypes.php,v 1.2 2001/03/01 14:06:26 jb Exp $
+// $Id: vattypes.php,v 1.3 2001/05/21 07:29:42 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Feb-2001 13:34:10 bf>
@@ -99,6 +99,9 @@ foreach ( $types as $item )
 
     $i++;
 }
+
+if ( count ( $types ) == 0 )
+    $t->set_var( "vat_item", "" );
 
 
 $t->pparse( "output", "vat_types_tpl" );
