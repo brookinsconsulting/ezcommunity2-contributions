@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.15 2001/01/22 14:43:00 jb Exp $
+// $Id: monthview.php,v 1.16 2001/01/23 13:21:58 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 14:09:56 bf>
@@ -46,16 +46,15 @@ $t->set_file( "month_view_page_tpl", "monthview.tpl" );
 $t->setAllStrings();
 
 
+$t->set_block( "month_view_page_tpl", "user_item_tpl", "user_item" );
 $t->set_block( "month_view_page_tpl", "month_tpl", "month" );
 $t->set_block( "month_tpl", "week_tpl", "week" );
 $t->set_block( "month_tpl", "week_day_tpl", "week_day" );
 $t->set_block( "week_tpl", "day_tpl", "day" );
 $t->set_block( "day_tpl", "appointment_tpl", "appointment" );
-$t->set_block( "month_view_page_tpl", "user_item_tpl", "user_item" );
 
 $user = eZUser::currentUser();
 $session =& eZSession::globalSession();
-
 $session->fetch();
 
 if ( $GetByUserID == false )
@@ -72,11 +71,11 @@ $tmpUser = new eZUser( $session->variable( "ShowOtherCalenderUsers" ) );
 
 if ( $tmpUser->id() == $user->id() )
 {
-    $showPrivate == true;
+    $showPrivate = true;
 }
 else
 {
-    $showPrivate == false;
+    $showPrivate = false;
 }
 
 $date = new eZDate();

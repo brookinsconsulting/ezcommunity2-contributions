@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.20 2001/01/23 10:21:19 gl Exp $
+// $Id: dayview.php,v 1.21 2001/01/23 13:21:58 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -45,31 +45,35 @@ $t->set_file( "day_view_page_tpl", "dayview.tpl" );
 
 $t->setAllStrings();
 
+$t->set_block( "day_view_page_tpl", "user_item_tpl", "user_item" );
 $t->set_block( "day_view_page_tpl", "link_tpl", "link" );
 $t->set_block( "day_view_page_tpl", "time_table_tpl", "time_table" );
 $t->set_block( "time_table_tpl", "appointment_tpl", "appointment" );
 $t->set_block( "appointment_tpl", "delete_check_tpl", "delete_check" );
 
-
 $user = eZUser::currentUser();
-
 $session =& eZSession::globalSession();
 $session->fetch();
 
-if ( ( $session->variable( "ShowOtherCalenderUsers" ) == false ) )
+if ( $GetByUserID == false )
 {
-    $session->setVariable( "ShowOtherCalenderUsers", $user->id() );
+    $GetByUserID = $user->id();
+}
+
+if ( ( $session->variable( "ShowOtherCalenderUsers" ) == false ) || ( isSet( $GetByUser ) ) )
+{
+    $session->setVariable( "ShowOtherCalenderUsers", $GetByUserID );
 }
 
 $tmpUser = new eZUser( $session->variable( "ShowOtherCalenderUsers" ) );
 
 if ( $tmpUser->id() == $user->id() )
 {
-    $showPrivate == true;
+    $showPrivate = true;
 }
 else
 {
-    $showPrivate == false;
+    $showPrivate = false;
 }
 
 $date = new eZDate();
@@ -325,6 +329,29 @@ function intersects( &$app, &$startTime, &$stopTime )
     }
 
     return $ret;
+}
+
+
+// User list
+$user = new eZUser();
+$user_array =& $user->getAll();
+
+foreach( $user_array as $userItem )
+{
+    $t->set_var( "user_id", $userItem->id() );
+    $t->set_var( "user_firstname", $userItem->firstName() );
+    $t->set_var( "user_lastname", $userItem->lastName() );
+
+    if ( $tmpUser->id() == $userItem->id() )
+    {
+        $t->set_var( "user_is_selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "user_is_selected", "" );
+    }
+
+    $t->parse( "user_item", "user_item_tpl", true );
 }
 
 

@@ -1,6 +1,18 @@
 <h1>{intl-appointments}: {intl-day_view}</h1>
 <hr noshade size="4" />
 
+<form method="post" action="/calendar/dayview/">
+<p class="boxtext">{intl-user}:</p>
+<select name="GetByUserID">
+<!-- BEGIN user_item_tpl -->
+<option {user_is_selected} value="{user_id}">{user_firstname} {user_lastname}</option>
+<!-- END user_item_tpl -->
+</select>
+
+<input type="submit" Name="GetByUser" value="{intl-show}">
+
+</form>
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td rowspan="4">
