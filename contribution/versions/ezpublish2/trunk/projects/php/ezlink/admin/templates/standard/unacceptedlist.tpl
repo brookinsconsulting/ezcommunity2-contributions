@@ -2,7 +2,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<form metdod="post" action="/link/unacceptededit/">
+<form method="post" action="/link/unacceptededit/">
 
 <table cellspacing="0" cellpadding="4" border="0">
 <!-- BEGIN link_item_tpl -->
