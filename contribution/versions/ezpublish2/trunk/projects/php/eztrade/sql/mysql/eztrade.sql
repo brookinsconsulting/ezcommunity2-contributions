@@ -250,6 +250,7 @@ CREATE TABLE eZTrade_Product (
   ProductType int(11) default '1',
   ExpiryTime int(11) NOT NULL default '0',
   Published int(11) default NULL,
+  IncludesVAT int(1) default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 

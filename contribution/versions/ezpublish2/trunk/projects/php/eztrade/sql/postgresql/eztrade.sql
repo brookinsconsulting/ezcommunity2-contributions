@@ -247,6 +247,7 @@ CREATE TABLE eZTrade_Product (
   ProductType int default '1',
   ExpiryTime int NOT NULL default '0',
   Published int default NULL,
+  IncludesVAT int default '0',
   PRIMARY KEY (ID)
 );
 
