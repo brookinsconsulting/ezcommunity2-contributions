@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.50 2001/09/15 15:15:01 pkej Exp $
+// $Id: ezorder.php,v 1.51 2001/09/17 09:27:50 pkej Exp $
 //
 // Definition of eZOrder class
 //
@@ -906,15 +906,20 @@ class eZOrder
 
     /*
         This function calculates the totals of the order contents.
+        
+        
      */
     function orderTotals( &$tax, &$total )
     {
         $items = $this->items( );
+
+        $tax = "";
+        $total = "";
+        
         foreach( $items as $item )
         {
             $product =& $item->product();
             $vatPercentage = $product->vatPercentage();
-            
             $exTax = $item->correctPrice( true, true, false );
             $incTax = $item->correctPrice( true, true, true );
 
@@ -925,7 +930,7 @@ class eZOrder
             $tax["$vatPercentage"]["tax"] += $incTax - $exTax;
             $tax["$vatPercentage"]["percentage"] = $vatPercentage;
         }
-        
+
         $total["subinctax"] = $totalIncTax;
         $total["subextax"] = $totalExTax;
         $total["subtax"] = $totalIncTax - $totalExTax;

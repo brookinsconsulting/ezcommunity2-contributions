@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcart.php,v 1.29 2001/09/15 13:53:39 pkej Exp $
+// $Id: ezcart.php,v 1.30 2001/09/17 09:27:50 pkej Exp $
 //
 // Definition of eZCart class
 //
@@ -302,6 +302,10 @@ class eZCart
     function cartTotals( &$tax, &$total )
     {
         $items = $this->items( );
+        
+        $tax = "";
+        $total = "";
+        
         foreach( $items as $item )
         {
             $product =& $item->product();
