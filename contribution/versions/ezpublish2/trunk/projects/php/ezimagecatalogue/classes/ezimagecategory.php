@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagecategory.php,v 1.23 2001/06/27 14:28:42 pkej Exp $
+// $Id: ezimagecategory.php,v 1.24 2001/06/27 14:35:00 pkej Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -286,14 +286,14 @@ class eZImageCategory
 
         if( $name != "" )
         {
-            $db->array_query( $author_array, "SELECT ID, Name FROM eZArticle_Category WHERE Name='$name'" );
+            $db->array_query( $author_array, "SELECT ID, Name FROM eZImageCatalogue_Category WHERE Name='$name'" );
 
             if( count( $author_array ) == 1 )
             {
                 $topic =& new eZImageCategory( $author_array[0][$db->fieldName("ID")] );
             }
         }
-        
+
         return $topic;
     }
 
