@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: votebox.php,v 1.5 2000/11/01 07:36:47 bf-cvs Exp $
+// $Id: votebox.php,v 1.6 2000/11/01 07:48:39 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -35,11 +35,9 @@ unset( $menuCachedFile );
 if ( $PageCaching == "enabled" )
 {
     $menuCachedFile = "ezpoll/cache/menubox.cache";
-
     
     if ( file_exists( $menuCachedFile ) )
     {
-        print( "poll static" );
         include( $menuCachedFile );
     }
     else

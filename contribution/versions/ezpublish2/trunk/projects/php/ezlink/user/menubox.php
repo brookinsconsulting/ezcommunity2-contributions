@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.4 2000/11/01 07:05:39 ce-cvs Exp $
+// $Id: menubox.php,v 1.5 2000/11/01 07:48:39 bf-cvs Exp $
 //
 // 
 //
@@ -36,7 +36,6 @@ unset( $menuCachedFile );
 // do the caching 
 if ( $PageCaching == "enabled" )
 {
-
     $menuCachedFile = "ezlink/cache/menubox.cache";
                     
     if ( file_exists( $menuCachedFile ) )

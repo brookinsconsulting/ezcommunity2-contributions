@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: linkgrouplist.php,v 1.2 2000/10/31 09:30:28 bf-cvs Exp $
+// $Id: linkgrouplist.php,v 1.3 2000/11/01 07:48:39 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:02:09 ce>
@@ -170,21 +170,6 @@ else
 
 $t->set_var( "linkgroup_id", $LinkGroupID );
                        
-if ( $GenerateStaticPage == "true" )
-{
-    $fp = fopen ( $cachedFile, "w+");
-
-    $output = $t->parse($target, "link_page_tpl" );
-    
-    // print the output the first time while printing the cache file.
-    print( $output );
-    fwrite ( $fp, $output );
-    fclose( $fp );
-}
-else
-{
-    $t->pparse( "output", "link_page_tpl" );    
-}
-
+$t->pparse( "output", "link_page_tpl" );    
 
 ?>

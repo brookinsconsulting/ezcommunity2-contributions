@@ -1,5 +1,5 @@
 <?
-// $Id: categoryedit.php,v 1.5 2000/10/26 13:23:25 ce-cvs Exp $
+// $Id: categoryedit.php,v 1.6 2000/11/01 07:48:39 bf-cvs Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
@@ -25,7 +25,6 @@
 include_once( "classes/INIFile.php" );
 
 $ini = new INIFile( "site.ini" );
-$DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
 $Language = $ini->read_var( "eZForumMain", "Language" );
 $error = new INIFIle( "ezforum/admin/intl/" . $Language . "/categoryedit.php.ini", false );
 
@@ -38,12 +37,14 @@ require( "ezuser/admin/admincheck.php" );
 
 $cat = new eZForumCategory();
 
-$t->set_var( "docroot", $DOC_ROOT );
 
 if ( $Action == "insert" )
 {
     if ( eZPermission::checkPermission( $user, "eZForum", "CategoryAdd" ) )
     {
+        // clear the menu cache
+        unlink( "ezforum/cache/menubox.cache" );
+        
         if ( $Name != "" &&
         $Description != "" )
         {
@@ -70,6 +71,9 @@ if ( $Action == "delete" )
 {
     if ( eZPermission::checkPermission( $user, "eZForum", "CategoryDelete" ) )
     {
+        // clear the menu cache
+        unlink( "ezforum/cache/menubox.cache" );
+        
         if ( $CategoryID != "" )
         {
             $cat = new eZForumCategory();
@@ -95,6 +99,9 @@ if ( $Action == "update" )
 {
     if ( eZPermission::checkPermission( $user, "eZForum", "CategoryModify" ) )
     {
+        // clear the menu cache
+        unlink( "ezforum/cache/menubox.cache" );
+        
         if ( $Name != "" &&
         $Description != "" )
         {

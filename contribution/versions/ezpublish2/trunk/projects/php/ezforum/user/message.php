@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: message.php,v 1.5 2000/10/27 10:27:57 ce-cvs Exp $
+// $Id: message.php,v 1.6 2000/11/01 07:48:39 bf-cvs Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -126,20 +126,6 @@ foreach ( $messages as $message )
     $i++;
 }
 
-if ( $GenerateStaticPage == "true" )
-{
-    $fp = fopen ( $cachedFile, "w+");
-
-    $output = $t->parse( $target, "message_tpl" );
-    // print the output the first time while printing the cache file.
-    
-    print( $output );
-    fwrite ( $fp, $output );
-    fclose( $fp );
-}
-else
-{
-    $t->pparse( "output", "message_tpl" );
-}
+$t->pparse( "output", "message_tpl" );
 
 ?>

@@ -1,6 +1,6 @@
 <?
 //
-// $Id: groupedit.php,v 1.28 2000/10/26 13:08:34 ce-cvs Exp $
+// $Id: groupedit.php,v 1.29 2000/11/01 07:48:39 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:57:28 ce>
@@ -31,7 +31,6 @@
 include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 
-$DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 $error = new INIFIle( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", false );
 
@@ -45,6 +44,8 @@ require( "ezuser/admin/admincheck.php" );
 // Insert a group.
 if ( $Action == "insert" )
 {
+    unlink( "ezlink/cache/menubox.cache" );
+    
     if ( eZPermission::checkPermission( $user, "eZLink", "LinkGroupAdd" ) )
     {
         if ( $Title != "" &&
@@ -73,6 +74,8 @@ if ( $Action == "insert" )
 // Delete a group.
 if ( $Action == "delete" )
 {
+    unlink( "ezlink/cache/menubox.cache" );
+
     if ( eZPermission::checkPermission( $user, "eZLink", "LinkGroupDelete" ) )
     {
         $group = new eZLinkGroup();
@@ -91,6 +94,8 @@ if ( $Action == "delete" )
 // Update a group.
 if ( $Action == "update" )
 {
+    unlink( "ezlink/cache/menubox.cache" );
+    
     if ( eZPermission::checkPermission( $user, "eZLink", "LinkGroupModify" ) )
     {
         if ( $Title != "" &&
@@ -114,8 +119,8 @@ if ( $Action == "update" )
     }
 }
 
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZLinkMain", "TemplateDir" ),
-$DOC_ROOT . "/admin/" . "/intl/", $Language, "groupedit.php" );
+$t = new eZTemplate( "ezlink/admin/" . $ini->read_var( "eZLinkMain", "TemplateDir" ),
+ "ezlink/admin/" . "/intl/", $Language, "groupedit.php" );
 $t->setAllStrings();
 
 $t->set_file( array(
@@ -196,8 +201,6 @@ $t->set_var( "headline", $headline );
 
 $t->set_var( "title", $ttitle );
 $t->set_var( "error_msg", $error_msg );
-
-$t->set_var( "document_root", $DOC_ROOT );
 
 $t->set_var( "linkgroup_id", $LinkGroupID );
 $t->pparse( "output", "group_edit" );

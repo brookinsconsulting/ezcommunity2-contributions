@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.1 2000/10/18 11:56:07 ce-cvs Exp $
+// $Id: messagelist.php,v 1.2 2000/11/01 07:48:39 bf-cvs Exp $
 //
 // 
 //
@@ -121,26 +121,12 @@ else
 $t->set_var( "newmessage", $newmessage );
 
 
-if ( $GenerateStaticPage == "true" )
-{
-    $fp = fopen ( $cachedFile, "w+");
+$t->set_var( "category_id", $category->id( ) );
+$t->set_var( "category_name", $category->name( ) );
 
-    $output = $t->parse( $target, "forum_tpl" );
-    // print the output the first time while printing the cache file.
-    
-    print( $output );
-    fwrite ( $fp, $output );
-    fclose( $fp );
-}
-else
-{
-    $t->set_var( "category_id", $category->id( ) );
-    $t->set_var( "category_name", $category->name( ) );
+$t->set_var( "forum_id", $forum->id() );
+$t->set_var( "forum_name", $forum->name() );
 
-    $t->set_var( "forum_id", $forum->id() );
-    $t->set_var( "forum_name", $forum->name() );
-
-    $t->pparse( "output", "messagelist" );
-}
+$t->pparse( "output", "messagelist" );
 
 ?>
