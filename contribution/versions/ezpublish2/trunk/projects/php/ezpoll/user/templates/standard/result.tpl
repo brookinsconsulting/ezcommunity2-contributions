@@ -8,6 +8,8 @@
 
 <h2>{poll_name}</h2>
 
+<p>{head_line}</p>
+
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 
 <!-- BEGIN result_item_tpl -->
