@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagevariation.php,v 1.13 2001/03/06 16:04:35 fh Exp $
+// $Id: ezimagevariation.php,v 1.14 2001/03/07 09:55:18 jb Exp $
 //
 // Definition of eZImageVariation class
 //
@@ -166,6 +166,8 @@ class eZImageVariation
                 $this->State_ = "Coherent";
                 $ret = true;
             }
+            if ( !file_exists( $this->ImagePath ) )
+                $ret = false;
         }
         else
         {
