@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.24 2001/03/12 10:34:38 bf Exp $
+// $Id: ordersendt.php,v 1.25 2001/03/12 13:30:50 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <06-Oct-2000 14:04:17 bf>
@@ -204,6 +204,7 @@ $paymentMethod = $instance->paymentName( $order->paymentMethod() );
 $t->set_var( "payment_method", $paymentMethod );
 
 $shippingCost = $order->shippingCharge();
+$shippingVAT = $order->shippingVAT();
 $currency->setValue( $shippingCost );
 
 $t->set_var( "shipping_cost", $locale->format( $currency ) );
@@ -212,7 +213,7 @@ $sum += $shippingCost;
 $currency->setValue( $sum );
 $t->set_var( "order_sum", $locale->format( $currency ) );
 
-$currency->setValue( $totalVAT );
+$currency->setValue( $totalVAT + $shippingVAT );
 $t->set_var( "order_vat_sum", $locale->format( $currency ) );
 
 

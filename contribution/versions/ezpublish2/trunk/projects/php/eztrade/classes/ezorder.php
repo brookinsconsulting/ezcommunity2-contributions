@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.24 2001/02/15 10:42:26 bf Exp $
+// $Id: ezorder.php,v 1.25 2001/03/12 13:30:50 bf Exp $
 //
 // Definition of eZOrder class
 //
@@ -91,6 +91,7 @@ class eZOrder
 		                         PaymentMethod='$this->PaymentMethod',
 		                         IsExported='$this->IsExported',
                                  IsActive='$this->IsActive',
+                                 ShippingVAT='$this->ShippingVAT',
 		                         Date=now(),
 		                         ShippingCharge='$this->ShippingCharge'
                                  " );
@@ -123,6 +124,7 @@ class eZOrder
 		                         PaymentMethod='$this->PaymentMethod',
 		                         IsExported='$this->IsExported',
                                  IsActive='$this->IsActive',
+                                 ShippingVAT='$this->ShippingVAT',
 		                         Date=Date,
 		                         ShippingCharge='$this->ShippingCharge'
                                  WHERE ID='$this->ID'
@@ -183,6 +185,7 @@ class eZOrder
                 $this->ShippingAddressID = $cart_array[0][ "ShippingAddressID" ];
                 $this->BillingAddressID = $cart_array[0][ "BillingAddressID" ];
                 $this->ShippingCharge = $cart_array[0][ "ShippingCharge" ];
+                $this->ShippingVAT = $cart_array[0][ "ShippingVAT" ];
                 $this->PaymentMethod = $cart_array[0][ "PaymentMethod" ];
                 $this->IsActive = $cart_array[0][ "IsActive" ];
 
@@ -362,6 +365,17 @@ class eZOrder
     }
 
     /*!
+      Returns the shipping vat.
+    */
+    function shippingVAT()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->ShippingVAT;
+    }
+    
+    /*!
       Returns the shipping address.
     */
     function shippingAddress()
@@ -502,7 +516,7 @@ class eZOrder
     }
 
     /*!
-      Sets the shipping charge.
+      Sets the shipping charge. Inc. VAT.
     */
     function setShippingCharge( $value )
     {
@@ -513,6 +527,19 @@ class eZOrder
        $this->ShippingCharge = $value;
 
        setType( $this->ShippingCharge, "double" );       
+    }
+
+    /*!
+      Sets the shipping VAT. The VAT component of the shipping charge.
+    */
+    function setShippingVAT( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $this->ShippingVAT = $value;
+
+       setType( $this->ShippingVAT, "double" );
     }
 
     /*!
@@ -746,7 +773,10 @@ class eZOrder
     var $UserID;
     var $ShippingAddressID;
     var $BillingAddressID;
+    /// price inc. VAT
     var $ShippingCharge;
+    /// the VAT component of ShippingCharge
+    var $ShippingVAT;
     var $PaymentMethod;
     var $Date;
     var $IsActive;
