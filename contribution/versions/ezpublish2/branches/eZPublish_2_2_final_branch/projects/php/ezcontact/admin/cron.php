@@ -33,12 +33,17 @@
 //
 
 include_once( "classes/ezdb.php" );
-include_once( "classes/ezdatatime.php" );
+include_once( "classes/ezdatetime.php" );
+include_once( "classes/INIFile.php" );
 include_once( "ezcontact/classes/ezcompany.php" );
 include_once( "ezmail/classes/ezmail.php" );
 
-$db =& eZDB::globalDatabase();
-$timeStamp = eZDataTime::timeStamp( true );
+$ini = new INIFile( "site.ini", false );
+print "før\n";
+$db = eZDB::globalDatabase();
+print "etter\n";
+
+$timeStamp = eZDateTime::timeStamp( true );
 
 $db->array_query( $companies, "SELECT eZContact_Company. ID FROM
                                eZContact_Company, eZContact_ProjectType, eZContact_CompanyProjectDict WHERE
@@ -46,8 +51,14 @@ $db->array_query( $companies, "SELECT eZContact_Company. ID FROM
                                eZContact_CompanyProjectDict.ProjectID = eZContact_ProjectType.ID AND
                                eZContact_Company.SentWarning = '0' AND
                                eZContact_Company.Approved = '1' AND
-                               eZContact_Compant.WarningDate > '0' AND
+                               eZContact_Company.WarningDate > '0' AND
                                eZContact_Company.WarningDate < '$timeStamp'" );
+
+$receivers = split( ";", $ini->read_var( "eZContactMain", "PartnershipManagerEmailAddress" ) );
+$PublishNoticeSender = $ini->read_var( "eZContactMain", "NoticeSender" );
+
+print_r( $companies );
+print_r( $receivers );
 
 foreach ( $companies as $companyID )
 {
@@ -56,9 +67,9 @@ foreach ( $companies as $companyID )
     $company->store();
 
     $mailTemplate = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
-                                    "ezcontact/admin/intl", $ini->read_var( "eZContactMain", "Language" ), "mailtemplate.php" );
+                                    "ezcontact/admin/intl", $ini->read_var( "eZContactMain", "Language" ), "warningmailtemplate.php" );
     
-    $mailTemplate->set_file( "mailtemplate", "mailtemplate.tpl" );
+    $mailTemplate->set_file( "mailtemplate", "warningmailtemplate.tpl" );
     $mailTemplate->set_block( "mailtemplate", "subject_tpl", "subject" );
     $mailTemplate->setAllStrings();
 
@@ -74,10 +85,13 @@ foreach ( $companies as $companyID )
     $noticeMail->setSubject( $subject );
     $noticeMail->setBodyText( $bodyText );
 
-    foreach ( $senders as $sender )
+    foreach ( $receivers as $receiver )
     {
-        $noticeMail->setTo( $sender );
-        $noticeMail->send();
+        if ( eZMail::validate( $receiver ) )
+        {
+            $noticeMail->setTo( $receiver );
+            $noticeMail->send();
+        }
     }
 }
                                
@@ -94,6 +108,34 @@ foreach ( $companies as $companyID )
     $company = new eZCompany( $companyID[$db->fieldName( "ID" )] );
     $company->setIsApproved( false );
     $company->store();
+
+    $mailTemplate = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
+                                    "ezcontact/admin/intl", $ini->read_var( "eZContactMain", "Language" ), "warningmailtemplate.php" );
+    
+    $mailTemplate->set_file( "mailtemplate", "expirymailtemplate.tpl" );
+    $mailTemplate->set_block( "mailtemplate", "subject_tpl", "subject" );
+    $mailTemplate->setAllStrings();
+
+    $mailTemplate->set_var( "subject", "" );
+
+    $subject = $mailTemplate->parse( "dummy", "subject_tpl" );
+    $mailTemplate->set_var( "company", $company->name() );
+    $bodyText = $mailTemplate->parse( "dummy", "mailtemplate" );
+    
+    // send a notice mail
+    $noticeMail = new eZMail();
+    $noticeMail->setFrom( $PublishNoticeSender );
+    $noticeMail->setSubject( $subject );
+    $noticeMail->setBodyText( $bodyText );
+
+    foreach ( $receivers as $receiver )
+    {
+        if ( eZMail::validate( $receiver ) )
+        {
+            $noticeMail->setTo( $receiver );
+            $noticeMail->send();
+        }
+    }
 }
 
 ?>

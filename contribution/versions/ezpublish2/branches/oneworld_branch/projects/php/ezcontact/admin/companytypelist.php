@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companytypelist.php,v 1.35 2001/11/01 12:15:04 jhe Exp $
+// $Id: companytypelist.php,v 1.35.4.1 2002/06/04 06:40:22 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -53,19 +53,6 @@ $type->get( $TypeID );
 $company = new eZCompany();
 
 $user =& eZUser::currentUser();
-if ( get_class( $user ) != "ezuser" )
-{
-    include_once( "classes/ezhttptool.php" );
-    eZHTTPTool::header( "Location: /contact/nopermission/login" );
-    exit();
-}
-
-if ( !eZPermission::checkPermission( $user, "eZContact", "CompanyList" ) )
-{
-    include_once( "classes/ezhttptool.php" );
-    eZHTTPTool::header( "Location: /contact/nopermission/company/list" );
-    exit();
-}
 
 if ( !$type->id() && $TypeID != 0 )
 {
@@ -110,16 +97,17 @@ else
     $t->set_block( "company_item_tpl", "no_image_tpl", "no_image" );
     $t->set_block( "company_item_tpl", "company_view_button_tpl", "company_view_button" );
     $t->set_block( "company_item_tpl", "no_company_view_button_tpl", "no_company_view_button" );
+    $t->set_block( "company_item_tpl", "company_expires_tpl", "company_expires" );
     $t->set_block( "company_item_tpl", "company_consultation_button_tpl", "company_consultation_button" );
-    $t->set_block( "company_item_tpl", "company_buy_button_tpl", "company_buy_button" );
-    $t->set_block( "company_item_tpl", "company_folder_button_tpl", "company_folder_button" );
     $t->set_block( "company_item_tpl", "company_edit_button_tpl", "company_edit_button" );
     $t->set_block( "company_item_tpl", "company_delete_button_tpl", "company_delete_button" );
     $t->set_block( "company_item_tpl", "company_stats_item_tpl", "company_stats_item" );
+    $t->set_block( "company_item_tpl", "company_not_approved_tpl", "company_not_approved" );
     $t->set_block( "type_page", "company_new_button_tpl", "company_new_button" );
 
     $t->set_var( "image_item", "" );
     $t->set_var( "command_type", "company" );
+    $t->set_var( "company_not_approved", "" );
     
     if ( empty( $OrderBy ) )
     {
@@ -240,7 +228,8 @@ else
 
     $t->set_var( "type_edit_button", "" );
     $t->set_var( "type_delete_button", "" );
-    if ( eZPermission::checkPermission( $user, "eZContact", "CategoryModify" ) )
+    if ( eZPermission::checkPermission( $user, "eZContact", "CategoryModify" ) ||
+         $user->id() == eZCompany::user( false, $CompanyID ) )
         $t->parse( "type_edit_button", "type_edit_button_tpl" );
     if ( eZPermission::checkPermission( $user, "eZContact", "CategoryDelete" ) )
         $t->parse( "type_delete_button", "type_delete_button_tpl" );
@@ -279,6 +268,7 @@ else
             {
                 $t->set_var( "type_description", $desc );
             }
+
             $t->parse( "type_item", "type_item_tpl", true );
             $typesDone = true;
         }
@@ -293,37 +283,31 @@ else
         $MaxCompanyList = 10;
 
     // List all the companies.
-    $companyList = $company->getByCategory( $TypeID, $Offset, $MaxCompanyList, $CompanyOrder );
+    if ( eZPermission::checkPermission( $user, "eZContact", "CompanyModify" ) )
+        $companyList = $company->getByCategory( $TypeID, $Offset, $MaxCompanyList, $CompanyOrder, false, true );
+    else
+        $companyList = $company->getByCategory( $TypeID, $Offset, $MaxCompanyList, $CompanyOrder );
+    
     $total_companies = $company->countByCategory( $TypeID );
 
     $t->set_var( "company_consultation_button", "" );
-    $t->set_var( "company_buy_button", "" );
     $t->set_var( "company_edit_button", "" );
     $t->set_var( "company_delete_button", "" );
     $t->set_var( "company_view_button", "" );
     $t->set_var( "no_company_view_button", "" );
+    $t->set_var( "company_expires", "" );
     
-    $t->parse( "company_folder_button", "company_folder_button_tpl" );
-    if ( eZPermission::checkPermission( $user, "eZContact", "Buy" ) )
-        $t->parse( "company_buy_button", "company_buy_button_tpl" );
     if ( eZPermission::checkPermission( $user, "eZContact", "Consultation" ) )
         $t->parse( "company_consultation_button", "company_consultation_button_tpl" );
     if ( eZPermission::checkPermission( $user, "eZContact", "CompanyModify" ) )
         $t->parse( "company_edit_button", "company_edit_button_tpl" );
     if ( eZPermission::checkPermission( $user, "eZContact", "CompanyDelete" ) )
         $t->parse( "company_delete_button", "company_delete_button_tpl" );
-    if ( eZPermission::checkPermission( $user, "eZContact", "CompanyView" ) )
-    {
-        $t->parse( "company_view_button", "company_view_button_tpl" );
-    }
-    else
-    {
-        $t->parse( "no_company_view_button", "no_company_view_button_tpl" );
-    }
+
+    $t->parse( "company_view_button", "company_view_button_tpl" );
 
     if ( count( $companyList ) == 0 )
     {
-
         $t->set_var( "company_item", "" );
         $t->set_var( "companies_table", "" );
         $t->parse( "no_companies", "no_companies_tpl" );
@@ -344,6 +328,21 @@ else
         
             $t->set_var( "company_id", $companyList[$i]->id() );
             $t->set_var( "company_name", $companyList[$i]->name() );
+            
+            if ( eZPermission::checkPermission( $user, "eZContact", "CompanyModify" ) )
+            {
+                if ( $companyList[$i]->isApproved() )
+                    $t->set_var( "company_not_approved", "" );
+                else
+                    $t->parse( "company_not_approved", "company_not_approved_tpl" );
+
+                if ( $companyList[$i]->sentWarning() )
+                    $t->parse( "company_expires", "company_expires_tpl" );
+                else
+                    $t->set_var( "company_expires", "" );
+            }
+            
+
             if ( $can_view_stats )
             {
                 $count = $companyList[$i]->totalViewCount();

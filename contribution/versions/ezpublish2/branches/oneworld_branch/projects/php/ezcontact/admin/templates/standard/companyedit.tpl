@@ -89,35 +89,19 @@
 <!-- BEGIN address_item_tpl -->
 <p class="boxtext">{intl-address_pos}&nbsp;{address_position}:</p>
 <p><select name="AddressTypeID[]">
-	    <option value="-1">{intl-unknown_type}</option>
-	    <!-- BEGIN address_item_select_tpl -->
-	    <option value="{type_id}" {selected}>{type_name}</option>
-	    <!-- END address_item_select_tpl -->
-
-	    </select>
+        <option value="-1">{intl-unknown_type}</option>
+        <!-- BEGIN address_item_select_tpl -->
+        <option value="{type_id}" {selected}>{type_name}</option>
+        <!-- END address_item_select_tpl -->
+        </select>
 	<input type="hidden" name="AddressID[]" value="{address_id}" />
 	<input type="checkbox" name="AddressDelete[]" value="{address_index}" />
 	<span class="boxtext">{intl-delete}</span><br />
         </p>
 	<p class="boxtext">{intl-address}:</p>
-	<input type="text" class="box" size="40" name="Street1[]" value="{street1}" /><br />
-	
-	<input type="text" class="box" size="40" name="Street2[]" value="{street2}" /><br />
+        <textarea cols="40" rows="5" name="Address[]">{full_address}</textarea>
 	<br />
-
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
-<tr>
-	<td width="50%">
-        <p class="boxtext">{intl-zip}:*</p>
-        <input type="text" size="4" name="Zip[]" value="{zip}" /><br />
-		<br />
-	</td>
-	<td>
-        <p class="boxtext">{intl-place}:</p>
-        <input type="text" size="20" name="Place[]" value="{place}" /><br />
-		<br />
-	</td>
-</tr>
 <tr>
 	<td colspan="2">
         <p class="boxtext">{intl-country}:</p>
@@ -220,7 +204,6 @@
 	    </td>
     </tr>
     <!-- END project_contact_item_tpl -->
-
     <tr>
 	    <td width="1%" valign="top">
 	        <p class="boxtext">{intl-state}:</p>
@@ -237,6 +220,22 @@
     </tr>
 </table>
 <!-- END project_item_tpl -->
+
+<br />
+<!-- BEGIN expiry_dates_tpl -->
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+    <td width="50%">
+    <p class="boxtext">{intl-expires_before} <input size="2" value="{expiry_time}" name="ExpiryTime" /> {intl-expires_after}</p>
+    </td>
+    <td width="50%">
+    <p class="boxtext">{intl-warning_before} <input size="2" value="{warning_time}" name="WarningTime" /> {intl-warning_after}</p>
+    </td>
+</tr>
+</table>
+<!-- END expiry_dates_tpl -->
+<input type="hidden" name="OldExpiryTime" value="{expiry_time}" />
+<input type="hidden" name="OldWarningTime" value="{warning_time}" />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -282,6 +281,12 @@
 </table>
 
 <br />
+
+<!-- BEGIN approved_tpl -->
+<input type="checkbox" name="Approved" value="1" {approved_checked} />
+<span class="boxtext">{intl-approved}</span><br />
+<br />
+<!-- END approved_tpl -->
 
 <p>{intl-address_optional}</p>
 

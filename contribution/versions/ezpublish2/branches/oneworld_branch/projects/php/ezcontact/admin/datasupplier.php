@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.55 2001/11/01 12:15:04 jhe Exp $
+// $Id: datasupplier.php,v 1.55.4.1 2002/06/04 06:40:22 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -95,6 +95,46 @@ switch ( $ListType )
     }
     break;
 
+    case "package":
+    {
+        $Action = $url_array[3];
+        $PackageID = $url_array[4];
+        switch ( $Action )
+        {
+            case "edit":
+            case "new":
+            case "update":
+            case "insert":
+            case "delete":
+            {
+                include( "ezcontact/admin/packageedit.php" );
+            }
+            break;
+
+            case "list":
+            {
+                include( "ezcontact/admin/packagelist.php" );
+            }
+            break;
+
+            case "view":
+            {
+                $Action = $url_array[4];
+                $PackageID = $url_array[5];
+                include( "ezcontact/admin/packageview.php" );
+            }
+            break;
+
+            default:
+            {
+                include_once( "classes/ezhttptool.php" );
+                eZHTTPTool::header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
+            }
+            break;
+        }
+    }
+    break;
+    
     case "company":
     {
         $CompanyID = $url_array[4];
@@ -108,11 +148,7 @@ switch ( $ListType )
             case "insert":
             {
                 $CompanyEdit = true;
-                if ( isSet( $SendMail ) )
-                {
-                    include( "ezcontact/admin/sendmail.php" );
-                }
-                else if ( isSet( $MailButton ) )
+                if ( isSet( $MailButton ) )
                 {
                     $ContactArrayID = array( $PersonID );
                     include( "ezcontact/admin/sendmail.php" );
@@ -122,10 +158,10 @@ switch ( $ListType )
                     if ( isSet( $NewCompany ) )
                         $Action = "new";
                     if ( $Action == "new" )
-                        if ( isSet( $url_array[4] ) and is_numeric( $url_array[4] ) )
+                        if ( isSet( $url_array[4] ) && is_numeric( $url_array[4] ) )
                             $NewCompanyCategory = $url_array[4];
                         else
-                            if ( !isSet( $CompanyID ) and isSet( $url_array[4] ) and is_numeric( $url_array[4] ) )
+                            if ( !isSet( $CompanyID ) && isSet( $url_array[4] ) && is_numeric( $url_array[4] ) )
                                 $CompanyID = $url_array[4];
                     include( "ezcontact/admin/companyedit.php" );
                 }

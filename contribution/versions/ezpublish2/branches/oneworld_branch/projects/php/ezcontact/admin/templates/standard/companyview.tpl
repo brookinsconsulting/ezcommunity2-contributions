@@ -42,9 +42,7 @@
 	<!-- BEGIN address_item_tpl -->
 	<td width="50%" valign="top">
 	<p class="boxtext">{address_type_name}:</p>
-	<div class="p">{street1}</div>
-	<div class="p">{street2}</div>
-	<div class="p">{zip} {place}</div>
+	<div class="p">{full_address}</div>
 	<div class="p">{country}</div>
 	</td>
 	<!-- END address_item_tpl -->
@@ -237,60 +235,6 @@
 
 <!-- END consultation_table_item_tpl -->
 
-<!-- BEGIN order_table_item_tpl -->
-<h2>{intl-sales_headline}</h2>
-
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
-<tr>
-	<th>{intl-order_date}:</th>
-	<th>{intl-order_status}:</th>
-	<th>{intl-order_price}:</th>
-</tr>
-
-<!-- BEGIN order_item_tpl -->
-<tr class="{bg_color}">
-	<td>
-        <a href="{www_dir}{index}/trade/orderedit/{order_id}/">{order_date}</a>
-	</td>
-	<td>
-        <a href="{www_dir}{index}/trade/orderedit/{order_id}/">{order_status}</a>
-	</td>
-	<td>
-        <a href="{www_dir}{index}/trade/orderedit/{order_id}/">{order_price}</a>
-	</td>
-</tr>
-<!-- END order_item_tpl -->
-</table>
-
-<!-- END order_table_item_tpl -->
-
-<!-- BEGIN mail_table_item_tpl -->
-<h2>{intl-mail_headline}</h2>
-
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
-<tr>
-	<th>{intl-mail_date}:</th>
-	<th>{intl-mail_subject}:</th>
-	<th>{intl-mail_email}:</th>
-</tr>
-
-<!-- BEGIN mail_item_tpl -->
-<tr class="{bg_color}">
-	<td>
-        <a href="{www_dir}{index}/mail/view/{mail_id}/">{mail_date}</a>
-	</td>
-	<td>
-        <a href="{www_dir}{index}/mail/view/{mail_id}/">{mail_subject}</a>
-	</td>
-	<td>
-        <a href="{www_dir}{index}/mail/view/{mail_id}/">{mail_email}</a>
-	</td>
-</tr>
-<!-- END mail_item_tpl -->
-</table>
-
-<!-- END mail_table_item_tpl -->
-
 <br />
 <form method="post" action="{www_dir}{index}/contact/company/edit/{company_id}/">
 
@@ -301,15 +245,6 @@
 <input class="stdbutton" type="submit" name="NewConsultation" value="{intl-consultation}">
 <!-- END consultation_buttons_tpl -->
 
-<!-- BEGIN file_button_tpl -->
-<input class="stdbutton" type="submit" name="FileButton" value="{intl-files}">
-<!-- END file_button_tpl -->
-<!-- BEGIN buy_button_tpl -->
-<input class="stdbutton" type="submit" name="BuyButton" value="{intl-buy}">
-<!-- END buy_button_tpl -->
-<!-- BEGIN mail_button_tpl -->
-<input class="stdbutton" type="submit" name="MailButton" value="{intl-mail}">
-<!-- END mail_button_tpl -->
 <!-- BEGIN company_edit_button_tpl -->
 <hr noshade="noshade" size="4" />
 <input class="okbutton" type="submit" name="Edit" value="{intl-edit}">

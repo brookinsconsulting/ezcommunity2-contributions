@@ -129,23 +129,10 @@
 <span class="boxtext">{intl-delete}</span><br />
     </p>
 <p class="boxtext">{intl-address}:</p>
-<input type="text" class="box" size="40" name="Street1[]" value="{street1}" /><br />
-<input type="text" class="box" size="40" name="Street2[]" value="{street2}" /><br />
+<textarea cols="40" rows="5" name="Address[]">{full_address}</textarea>
 <br />
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
-<tr>
-	<td width="50%">
-        <p class="boxtext">{intl-zip}:*</p>
-        <input type="text" size="4" name="Zip[]" value="{zip}" />&nbsp;&nbsp;<br />
-		<br />
-	</td>
-	<td>
-        <p class="boxtext">{intl-place}:</p>
-        <input type="text" class="halfbox" size="20" name="Place[]" value="{place}" /><br />
-		<br />
-	</td>
-</tr>
 <tr>
 	<td colspan="2">
         <p class="boxtext">{intl-country}:</p>
@@ -244,7 +231,6 @@
 	    </td>
     </tr>
     <!-- END project_contact_item_tpl -->
-
     <tr>
 	    <td valign="top" colspan="2">
 	    	    <p>{intl-project_status_information}</p>

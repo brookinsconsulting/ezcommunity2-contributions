@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.61 2002/05/28 13:29:59 jhe Exp $
+// $Id: personedit.php,v 1.61.4.1 2002/06/04 06:40:22 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -93,19 +93,11 @@ if ( isSet( $OK ) )
     {
         if ( $Action == "edit" || $Action == "update" )
         {
-            if ( !eZPermission::checkPermission( $user, "eZContact", "CompanyModify" ) )
+            if ( !( eZPermission::checkPermission( $user, "eZContact", "CompanyModify" ) ||
+                    $user->id() == eZCompany::user( false, $CompanyID ) ) )
             {
                 include_once( "classes/ezhttptool.php" );
                 eZHTTPTool::header( "Location: /contact/nopermission/company/edit" );
-                exit();
-            }
-        }
-        else if ( $Action == "new" || $Action == "insert" )
-        {
-            if ( !eZPermission::checkPermission( $user, "eZContact", "CompanyAdd" ) )
-            {
-                include_once( "classes/ezhttptool.php" );
-                eZHTTPTool::header( "Location: /contact/nopermission/company/new" );
                 exit();
             }
         }
@@ -118,15 +110,6 @@ if ( isSet( $OK ) )
             {
                 include_once( "classes/ezhttptool.php" );
                 eZHTTPTool::header( "Location: /contact/nopermission/person/edit" );
-                exit();
-            }
-        }
-        else if ( $Action == "new" || $Action == "insert" )
-        {
-            if ( !eZPermission::checkPermission( $user, "eZContact", "PersonAdd" ) )
-            {
-                include_once( "classes/ezhttptool.php" );
-                eZHTTPTool::header( "Location: /contact/nopermission/person/new" );
                 exit();
             }
         }
@@ -162,7 +145,7 @@ if ( isSet( $Back ) )
     }
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /contact/$item_type/list/$id" );
-    exit;
+    exit();
 }
 
 if ( isSet( $Delete ) )
@@ -253,6 +236,7 @@ if ( $CompanyEdit )
     $t->set_block( "company_item_tpl", "company_type_select_tpl", "company_type_select" );
     $t->set_block( "edit_tpl", "logo_item_tpl", "logo_item" );
     $t->set_block( "edit_tpl", "image_item_tpl", "image_item" );
+    $t->set_block( "edit_tpl", "approved_tpl", "approved" );
 }
 else
 {
@@ -264,7 +248,6 @@ else
 $t->set_block( "edit_tpl", "address_table_item_tpl", "address_table_item" );
 $t->set_block( "address_table_item_tpl", "address_item_tpl", "address_item" );
 $t->set_block( "address_item_tpl", "address_item_select_tpl", "address_item_select" );
-
 $t->set_block( "address_item_tpl", "country_item_select_tpl", "country_item_select" );
 
 $t->set_block( "edit_tpl", "phone_table_item_tpl", "phone_table_item" );
@@ -276,6 +259,7 @@ $t->set_block( "online_table_item_tpl", "online_item_tpl", "online_item" );
 $t->set_block( "online_item_tpl", "online_item_select_tpl", "online_item_select" );
 
 $t->set_block( "edit_tpl", "project_item_tpl", "project_item" );
+$t->set_block( "edit_tpl", "expiry_dates_tpl", "expiry_dates" );
 $t->set_block( "project_item_tpl", "project_contact_item_tpl", "project_contact_item" );
 $t->set_block( "project_contact_item_tpl", "contact_group_item_select_tpl", "contact_group_item_select" );
 $t->set_block( "project_contact_item_tpl", "contact_item_select_tpl", "contact_item_select" );
@@ -411,14 +395,12 @@ if ( !$confirm )
             }
         }
     
-        $count = max( count( $AddressTypeID ), count( $AddressID ),
-                      count( $Street1 ), count( $Street2 ),
-                      count( $Zip ), count( $Place ), 1 );
+        $count = max( count( $AddressTypeID ), count( $AddressDelete ), count( $Address ), 1 );
         for ( $i = 0; $i < $count; $i++ )
         {
             if ( $AddressTypeID[$i] != -1 )
             {
-                if ( $Street1[$i] == "" || $Place[$i] == "" || $Country[$i] == "" )
+                if ( $Address[$i] == "" || $Country[$i] == "" )
                 {
                     $t->set_var( "error_address_position", $i + 1 );
                     $t->parse( "error_address_item", "error_address_item_tpl", true );
@@ -427,8 +409,7 @@ if ( !$confirm )
             }
             else
             {
-                if ( $Street1[$i] != "" || $Street2[$i] != "" || $Place[$i] != "" ||
-                   ( $Country[$i] != -1 and $Country[$i] != "" ) )
+                if ( $Address[$i] != "" || ( $Country[$i] != -1 && $Country[$i] != "" ) )
                 {
                     $t->set_var( "error_address_position", $i + 1 );
                     $t->parse( "error_address_item", "error_address_item_tpl", true );
@@ -603,7 +584,7 @@ if ( !$confirm )
             $file = new eZImageFile();
             if ( $file->getUploadedFile( "image" ) )
             {
-                $image = new eZImage( );
+                $image = new eZImage();
                 $image->setName( "Image" );
                 if ( $image->checkImage( $file ) and $image->setImage( $file ) )
                 {
@@ -619,11 +600,12 @@ if ( !$confirm )
             {
                 print( $file->name() . " not uploaded successfully" );
             }
+
             $item =& $company;
         }
         else
         {
-            $person = new eZPerson( $PersonID, true );
+            $person = new eZPerson( $PersonID );
             $person->setFirstName( $FirstName );
             $person->setLastName( $LastName );
 
@@ -656,24 +638,28 @@ if ( !$confirm )
 
         $item->setProjectState( $ProjectID );
 
+        if ( $CompanyEdit )
+        {
+            if ( $ExpiryTime != $OldExpiryTime )
+                $item->setExpiryDate( eZDateTime::timeStamp( true ) + $ExpiryTime * 86400 );
+            if ( $WarningTime != $OldWarningTime )
+                $item->setWarningDate( eZDateTime::timeStamp( true ) + $WarningTime * 86400 );
+        }
+        
         // address
         $item->removeAddresses();
-        $count = max( count( $AddressTypeID ), count( $AddressID ),
-                      count( $Street1 ), count( $Street2 ),
-                      count( $Zip ), count( $Place ) );
+        if ( !is_array( $AddressDelete ) )
+            $AddressDelete = array( $AddressDelete );
+        $count = max( count( $AddressTypeID ), count( $AddressDelete ), count( $Address ) );
         
         for ( $i = 0; $i < $count; $i++ )
         {
-            if ( $Street1[$i] != "" && $Place[$i] != "" &&
-                 $Country[$i] != "" && $AddressTypeID != -1 )
+            if ( $Address[$i] != "" && $AddressTypeID[$i] != -1 )
             {
                 if ( in_array( $i + 1, $AddressID ) && $AddressTypeID[$i] != -1 )
                 {
                     $address = new eZAddress();
-                    $address->setStreet1( $Street1[$i] );
-                    $address->setStreet2( $Street2[$i] );
-                    $address->setZip( $Zip[$i] );
-                    $address->setPlace( $Place[$i] );
+                    $address->setAddress( $Address[$i] );
                     $address->setAddressType( $AddressTypeID[$i] );
                     $address->setCountry( $Country[$i] );
                     $address->store();
@@ -724,6 +710,52 @@ if ( !$confirm )
             $item_cat_id = $PersonID;
         }
 
+        if ( $CompanyEdit )
+        {
+            if ( eZPermission::checkPermission( $user, "eZContact", "CompanyEdit" ) && $Approved == "1" )
+                $item->setIsApproved( true );
+            else
+                $item->setIsApproved( false );
+        }
+
+        $item->store();
+
+        if ( !$item->isApproved() )
+        {
+            $receivers = split( ";", $ini->read_var( "eZContactMain", "PartnershipManagerEmailAddress" ) );
+            $PublishNoticeSender = $ini->read_var( "eZContactMain", "NoticeSender" );
+
+            $mailTemplate = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
+                                            "ezcontact/admin/intl", $ini->read_var( "eZContactMain", "Language" ), "newpartnermailtemplate.php" );
+    
+            $mailTemplate->set_file( "mailtemplate", "newpartnermailtemplate.tpl" );
+            $mailTemplate->set_block( "mailtemplate", "subject_tpl", "subject" );
+            $mailTemplate->setAllStrings();
+            
+            $mailTemplate->set_var( "subject", "" );
+            
+            $subject = $mailTemplate->parse( "dummy", "subject_tpl" );
+            $mailTemplate->set_var( "company", $company->name() );
+            $mailTemplate->set_var( "id", $company->id() );
+            $mailTemplate->set_var( "admin_url", $ini->read_var( "site", "AdminSiteURL" ) );
+            $bodyText = $mailTemplate->parse( "dummy", "mailtemplate" );
+            
+            // send a notice mail
+            $noticeMail = new eZMail();
+            $noticeMail->setFrom( $PublishNoticeSender );
+            $noticeMail->setSubject( $subject );
+            $noticeMail->setBodyText( $bodyText );
+
+            foreach ( $receivers as $receiver )
+            {
+                if ( eZMail::validate( $receiver ) )
+                {
+                    $noticeMail->setTo( $receiver );
+                    $noticeMail->send();
+                }
+            }
+        }
+        
         $t->set_var( "user_id", $UserID );
         $t->set_var( "person_id", $PersonID );
         $t->set_var( "company_id", $CompanyID );
@@ -778,11 +810,8 @@ if ( !$confirm )
         foreach ( $addresses as $address )
         {
             $AddressTypeID[$i - 1] = $address->addressTypeID();
-            $AddressID[$i - 1] = $i;
-            $Street1[$i - 1] = $address->street1();
-            $Street2[$i - 1] = $address->street2();
-            $Zip[$i - 1] = $address->zip();
-            $Place[$i - 1] = $address->place();
+//            $AddressDelete[$i - 1] = $i;
+            $Address[$i - 1] = $address->address( false );
             $country = $address->country();
             if ( $country )
                 $Country[$i - 1] = $country->id();
@@ -853,9 +882,9 @@ if ( !$confirm )
                     $categoryList =& $CompanyCategoryID;
             }
 
-            if ( isSet( $NewCompanyCategory ) and !is_numeric( $NewCompanyCategory ) )
+            if ( isSet( $NewCompanyCategory ) && !is_numeric( $NewCompanyCategory ) )
                 $NewCompanyCategory = 0;
-            if ( isSet( $NewCompanyCategory ) and is_numeric( $NewCompanyCategory ) )
+            if ( isSet( $NewCompanyCategory ) && is_numeric( $NewCompanyCategory ) )
                 $categoryList =& array_unique( array_merge( $NewCompanyCategory, $categoryList ) );
             if ( isSet( $CompanyCategoryID ) )
                 $categoryList =& array_unique( array_merge( $CompanyCategoryID, $categoryList ) );
@@ -875,13 +904,40 @@ if ( !$confirm )
                 else
                     $t->set_var( "company_type_level", "" );
 
-                $t->set_var( "is_selected", in_array( $companyTypeItem[0]->id(), $category_values )
-                                            ? "selected" : "" );
+                $t->set_var( "is_selected", in_array( $companyTypeItem[0]->id(), $category_values ) ? "selected" : "" );
 
                 $t->parse( "company_type_select", "company_type_select_tpl", true );
             }
 
             $t->parse( "company_item", "company_item_tpl" );
+
+            if ( $Action == "new" || $Action == "insert" )
+            {
+                if ( eZPermission::checkPermission( $user, "eZContact", "CompanyAdd" ) )
+                {
+                    $t->set_var( "approved_checked", "" );
+                    $t->parse( "approved", "approved_tpl" );
+                }
+                else
+                {
+                    $t->set_var( "approved", "" );
+                }
+            }
+            else if ( $Action == "edit" || $Action == "update" )
+            {
+                if ( eZPermission::checkPermission( $user, "eZContact", "CompanyEdit" ) )
+                {
+                    if ( $company->isApproved() )
+                        $t->set_var( "approved_checked", "checked" );
+                    else
+                        $t->set_var( "approved_checked", "" );
+                    $t->parse( "approved", "approved_tpl" );
+                }
+                else
+                {
+                    $t->set_var( "approved", "" );
+                }
+            }
         }
         else
         {
@@ -914,13 +970,20 @@ if ( !$confirm )
                 $level = str_repeat( "&nbsp;", $companyTypeItem[1] + 1 );
                 $t->set_var( "company_level", $level );
 
-                $companies = eZCompany::getByCategory( $companyTypeItem[0]->id() );
+                if ( !eZPermission::checkPermission( $user, "eZContact", "PersonAdd" ) )
+                {
+                    $companies = eZCompany::getByCategory( $companyTypeItem[0]->id(), 0, -1, "name", $user->id() );
+                }
+                else
+                {
+                    $companies = eZCompany::getByCategory( $companyTypeItem[0]->id() );
+                }
+                
                 foreach ( $companies as $companyItem )
                 {
                     $t->set_var( "company_name", eZTextTool::htmlspecialchars( $companyItem->name() ) );
                     $t->set_var( "company_id", $companyItem->id() );
-                    $t->set_var( "is_selected", in_array( $companyItem->id(), $category_values )
-                                 ? "selected" : "" );
+                    $t->set_var( "is_selected", in_array( $companyItem->id(), $category_values ) ? "selected" : "" );
                     $t->parse( "company_select", "company_select_tpl", true );
                 }
             }
@@ -930,7 +993,7 @@ if ( !$confirm )
                 $t->set_var( "day_id", $i );
                 $t->set_var( "day_value", $i );
                 $t->set_var( "selected", "" );
-                if ( ( $BirthDay == "" and $i == 1 ) or $BirthDay == $i )
+                if ( ( $BirthDay == "" && $i == 1 ) || $BirthDay == $i )
                     $t->set_var( "selected", "selected" );
                 $t->parse( "day_item", "day_item_tpl", true );
             }
@@ -991,18 +1054,12 @@ if ( !$confirm )
         if ( isSet( $NewAddress ) )
         {
             $AddressTypeID[] = "";
-            $AddressID[] = count( $AddressID ) > 0 ? $AddressID[count( $AddressID ) - 1] + 1 : 1;
-            $Street1[] = "";
-            $Street2[] = "";
-            $Zip[] = "";
-            $Place[] = "";
+            $Address[] = "";
             $Country[] = count( $Country ) > 0 ? $Country[count( $Country ) - 1] : "";
         }
 
-        $count = max( count( $AddressTypeID ), count( $AddressID ),
-                      count( $Street1 ), count( $Street2 ),
-                      count( $Zip ), count( $Place ) );
-        $item = 0;
+        $count = max( count( $AddressTypeID ), count( $AddressDelete ), count( $Address ) );
+        $itemPos = 0;
         $AddressDeleteValues =& array_values( $AddressDelete );
         $last_id = 0;
         for ( $i = 0; $i < $count || $item < $AddressMinimum; $i++ )
@@ -1016,13 +1073,9 @@ if ( !$confirm )
                  $AddressID[$i] = ++$last_id;
             if ( !in_array( $AddressID[$i], $AddressDeleteValues ) )
             {
-                $last_id = $AddressID[$i];
-                $t->set_var( "street1", eZTextTool::htmlspecialchars( $Street1[$i] ) );
-                $t->set_var( "street2", eZTextTool::htmlspecialchars( $Street2[$i] ) );
-                $t->set_var( "zip", eZTextTool::htmlspecialchars( $Zip[$i] ) );
-                $t->set_var( "place", eZTextTool::htmlspecialchars( $Place[$i] ) );
-                $t->set_var( "address_id", $AddressID[$i] );
-                $t->set_var( "address_index", $AddressID[$i] );
+                $t->set_var( "full_address", $Address[$i] );
+                $t->set_var( "address_id", $AddressDelete[$i] );
+                $t->set_var( "address_index", $AddressDelete[$i] );
                 $t->set_var( "address_position", $i + 1 );
 
                 $t->set_var( "address_item_select", "" );
@@ -1067,12 +1120,12 @@ if ( !$confirm )
             $Phone[] = "";
         }
         $count = max( count( $PhoneTypeID ), count( $PhoneID ), count( $Phone ) );
-        $item = 0;
+        $itemPos = 0;
         $last_id = 0;
         $PhoneDeleteValues =& array_values( $PhoneDelete );
-        for ( $i = 0; $i < $count || $item < $PhoneMinimum; $i++ )
+        for ( $i = 0; $i < $count || $itemPos < $PhoneMinimum; $i++ )
         {
-            if ( ( $item % $PhoneWidth == 0 ) && $item > 0 )
+            if ( ( $itemPos % $PhoneWidth == 0 ) && $itemPos > 0 )
             {
                 $t->parse( "phone_table_item", "phone_table_item_tpl", true );
                 $t->set_var( "phone_item" );
@@ -1100,7 +1153,7 @@ if ( !$confirm )
                 }
 
                 $t->parse( "phone_item", "phone_item_tpl", true );
-                $item++;
+                $itemPos++;
             }
             else
                 $PhoneDeleteValues = array_diff( $PhoneDeleteValues, array( $PhoneID[$i] ) );
@@ -1114,12 +1167,13 @@ if ( !$confirm )
             $Online[] = "";
         }
         $count = max( count( $OnlineTypeID ), count( $OnlineID ), count( $Online ) );
-        $item = 0;
+        $itemPos = 0;
         $last_id = 0;
         $OnlineDeleteValues =& array_values( $OnlineDelete );
-        for ( $i = 0; $i < $count || $item < $OnlineMinimum; $i++ )
+
+        for ( $i = 0; $i < $count || $itemPos < $OnlineMinimum; $i++ )
         {
-            if ( ( $item % $OnlineWidth == 0 ) && $item > 0 )
+            if ( ( $itemPos % $OnlineWidth == 0 ) && $itemPos > 0 )
             {
                 $t->parse( "online_table_item", "online_table_item_tpl", true );
                 $t->set_var( "online_item" );
@@ -1147,7 +1201,7 @@ if ( !$confirm )
                 }
 
                 $t->parse( "online_item", "online_item_tpl", true );
-                $item++;
+                $itemPos++;
             }
             else
                 $OnlineDeleteValues = array_diff( $OnlineDeleteValues, array( $OnlineID[$i] ) );
@@ -1181,7 +1235,7 @@ if ( !$confirm )
             }
             else if ( $ContactGroupID < 1 )
             {
-                if ( is_numeric( $ContactID ) and $ContactID > 0 )
+                if ( is_numeric( $ContactID ) && $ContactID > 0 )
                 {
                     if ( $ContactType == "ezperson" )
                         $contact = new eZPerson( $ContactID );
@@ -1197,8 +1251,7 @@ if ( !$confirm )
             }
             foreach ( $users as $contact )
             {
-                if ( get_class( $contact ) == "ezuser" ||
-                     get_class( $contact ) == "ezperson" )
+                if ( get_class( $contact ) == "ezuser" || get_class( $contact ) == "ezperson" )
                 {
                     $t->set_var( "type_id", $contact->id() );
                     $t->set_var( "type_firstname", eZTextTool::htmlspecialchars( $contact->firstName() ) );
@@ -1248,6 +1301,27 @@ if ( !$confirm )
         $t->parse( "project_item", "project_item_tpl", true );
 
         if ( $CompanyEdit )
+        {
+            if ( get_class( $company ) != "ezcompany" || $company->expiryDate() == 0 || $company->expiryDate() < eZDateTime::timeStamp( true ) )
+                $t->set_var( "expiry_time", 0 );
+            else
+                $t->set_var( "expiry_time", round( ( $company->expiryDate() - eZDateTime::timeStamp( true ) ) / 86400 ) );
+            if ( get_class( $company ) != "ezcompany" || $company->warningDate() == 0 || $company->warningDate() < eZDateTime::timeStamp( true ) )
+                $t->set_var( "warning_time", 0 );
+            else
+                $t->set_var( "warning_time", round( ( $company->warningDate() - eZDateTime::timeStamp( true ) ) / 86400 ) );
+
+            if ( eZPermission::checkPermission( $user, "eZContact", "CompanyAdd" ) )
+            {
+                $t->parse( "expiry_dates", "expiry_dates_tpl" );
+            }
+            else
+            {
+                $t->set_var( "expiry_dates", "" );
+            }
+        }
+        
+        if ( $CompanyEdit && $Action != "new" )
         {
             // View logo.
             $logoImage = eZCompany::logoImage( $CompanyID );

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companyview.php,v 1.34 2001/11/08 11:45:36 jhe Exp $
+// $Id: companyview.php,v 1.34.4.1 2002/06/04 06:40:22 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -62,26 +62,10 @@ include_once( "ezimagecatalogue/classes/ezimage.php" );
 
 include_once( "ezmail/classes/ezmail.php" );
 
-include_once( "eztrade/classes/ezorder.php" );
-
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
 $user =& eZUser::currentUser();
-
-if ( $CompanyViewLogin and get_class( $user ) != "ezuser" )
-{
-    include_once( "classes/ezhttptool.php" );
-    eZHTTPTool::header( "Location: /contact/nopermission/login" );
-    exit();
-}
-
-if ( $CompanyViewLogin and !eZPermission::checkPermission( $user, "eZContact", "CompanyView" ) )
-{
-    include_once( "classes/ezhttptool.php" );
-    eZHTTPTool::header( "Location: /contact/nopermission/company/view" );
-    exit();
-}
 
 $t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
                      "ezcontact/admin/intl", $Language, "companyview.php" );
@@ -101,18 +85,13 @@ $t->set_block( "status_item_tpl", "project_status_tpl", "project_status" );
 $t->set_block( "status_item_tpl", "no_project_status_tpl", "no_project_status" );
 
 $t->set_block( "company_information_tpl", "consultation_buttons_tpl", "consultation_buttons" );
-$t->set_block( "company_information_tpl", "buy_button_tpl", "buy_button" );
 
 $t->set_block( "company_information_tpl", "person_table_item_tpl", "person_table_item" );
 $t->set_block( "person_table_item_tpl", "person_item_tpl", "person_item" );
 $t->set_block( "person_item_tpl", "person_consultation_button_tpl", "person_consultation_button" );
 
 $t->set_block( "company_information_tpl", "consultation_table_item_tpl", "consultation_table_item" );
-$t->set_block( "company_information_tpl", "order_table_item_tpl", "order_table_item" );
-$t->set_block( "company_information_tpl", "mail_table_item_tpl", "mail_table_item" );
 $t->set_block( "consultation_table_item_tpl", "consultation_item_tpl", "consultation_item" );
-$t->set_block( "order_table_item_tpl", "order_item_tpl", "order_item" );
-$t->set_block( "mail_table_item_tpl", "mail_item_tpl", "mail_item" );
 
 $t->set_block( "company_information_tpl", "address_item_tpl", "address_item" );
 $t->set_var( "address_item", "" );
@@ -217,10 +196,7 @@ else
         foreach ( $addressList as $addressItem )
         {
             $t->set_var( "address_id", $addressItem->id() );
-            $t->set_var( "street1", eZTextTool::htmlspecialchars( $addressItem->street1() ) );
-            $t->set_var( "street2", eZTextTool::htmlspecialchars( $addressItem->street2() ) );
-            $t->set_var( "zip", eZTextTool::htmlspecialchars( $addressItem->zip() ) );
-            $t->set_var( "place", eZTextTool::htmlspecialchars( $addressItem->place() ) );
+            $t->set_var( "full_address", $addressItem->address() );
             $addressType = $addressItem->addressType();
             $t->set_var( "address_type_name", eZTextTool::htmlspecialchars( $addressType->name() ) );
             $country = $addressItem->country();
@@ -230,7 +206,6 @@ else
                 $t->set_var( "country", "" );
 
             $t->set_var( "script_name", "companyedit.php" );
-
             $t->parse( "address_item", "address_item_tpl", true );
             
         }
@@ -257,8 +232,7 @@ else
 
             $t->set_var( "phone_type_id", $phoneType->id() );
             $t->set_var( "phone_type_name", eZTextTool::htmlspecialchars( $phoneType->name() ) );
-
-            $t->set_var( "phone_width", 100/$count );
+            $t->set_var( "phone_width", 100 / $count );
             $t->parse( "phone_line", "phone_line_tpl", true );
         }
         $t->parse( "phone_item", "phone_item_tpl" );
@@ -366,20 +340,14 @@ else
 // Person list
     $user =& eZUser::currentUser();
     $t->set_var( "person_consultation_button", "" );
-    $t->set_var( "buy_button", "" );
     if ( get_class( $user ) == "ezuser" && eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
     {
         $t->parse( "person_consultation_button", "person_consultation_button_tpl" );
     }
     
-    if ( get_class( $user ) == "ezuser" && eZPermission::checkPermission( $user, "eZContact", "Buy" ) )
-    {
-        $t->parse( "buy_button", "buy_button_tpl" );
-    }
-    
-    if ( !isSet( $PersonLimit ) or !is_numeric( $PersonLimit ) )
+    if ( !isSet( $PersonLimit ) || !is_numeric( $PersonLimit ) )
         $PersonLimit = 5;
-    if ( !isSet( $PersonOffset ) or !is_numeric( $PersonOffset ) )
+    if ( !isSet( $PersonOffset ) || !is_numeric( $PersonOffset ) )
         $PersonOffset = 0;
     $t->set_var( "person_table_item", "" );
     $persons = $company->persons( false, true, $PersonLimit, $PersonOffset );
@@ -437,7 +405,6 @@ else
         foreach ( $consultations as $consultation )
         {
             $t->set_var( "bg_color", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
-
             $t->set_var( "consultation_id", $consultation->id() );
             $t->set_var( "consultation_date", $locale->format( $consultation->date() ) );
             $t->set_var( "consultation_short_description", eZTextTool::htmlspecialchars( $consultation->shortDescription() ) );
@@ -448,7 +415,7 @@ else
         }
     }
 
-    if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "consultation" ) and count( $consultations ) > 0 )
+    if ( get_class( $user ) == "ezuser" && eZPermission::checkPermission( $user, "eZContact", "consultation" ) && count( $consultations ) > 0 )
     {
         $t->parse( "consultation_table_item", "consultation_table_item_tpl", true );
     }
@@ -457,7 +424,7 @@ else
         $t->set_var( "consultation_table_item", "" );
     }
 
-    if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
+    if ( get_class( $user ) == "ezuser" && eZPermission::checkPermission( $user, "eZContact", "consultation" ) )
     {
         $t->parse( "consultation_buttons", "consultation_buttons_tpl" );
     }
@@ -466,93 +433,10 @@ else
         $t->set_var( "consultation_buttons", "" );
     }
 
-    if ( !$CompanyEditLogin or ($CompanyEditLogin and eZPermission::checkPermission( $user, "eZContact", "companyedit" ) ) )
+    if ( !$CompanyEditLogin || ( $CompanyEditLogin && eZPermission::checkPermission( $user, "eZContact", "companyedit" ) ) )
     {
         $t->parse( "company_edit_button", "company_edit_button_tpl" );
     }
-
-// Order list
-    if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "buy" ) )
-    {
-        $max = $ini->read_var( "eZContactMain", "MaxCompanyConsultationList" );
-        $orders = eZOrder::getByContact( $CompanyID, false, 0, $max );
-
-        $locale = new eZLocale( $Language );
-        $i = 0;
-        $currency = new eZCurrency();
-        $languageINI = new INIFile( "eztrade/admin/intl/" . $Language . "/orderlist.php.ini", false );
-        $t->set_var( "admin_dir", $AdminSiteURL );
-        foreach ( $orders as $order )
-        {
-            $t->set_var( "bg_color", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
-
-            $t->set_var( "order_id", $order->id() );
-            $t->set_var( "order_date", $locale->format( $order->date() ) );
-
-            $status = $order->initialStatus( );
-            $dateTime = $status->altered();
-    
-            $status = $order->lastStatus( );
-    
-            $statusType = $status->type();
-            $statusName = preg_replace( "#intl-#", "", $statusType->name() );
-            $statusName =  $languageINI->read_var( "strings", $statusName );
-    
-            $t->set_var( "order_status", $statusName );
-            
-            if ( $order->isVATInc() == true )
-                $currency->setValue( $order->totalPriceIncVAT() + $order->shippingCharge());
-            else
-                $currency->setValue( $order->totalPrice() + $order->shippingCharge() );
-            $t->set_var( "order_price", $locale->format( $currency ) );
-
-            $t->parse( "order_item", "order_item_tpl", true );
-            $i++;
-        }
-    }
-
-    if ( get_class( $user ) == "ezuser" and eZPermission::checkPermission( $user, "eZContact", "buy" ) and count( $orders ) > 0 )
-    {
-        $t->parse( "order_table_item", "order_table_item_tpl", true );
-    }
-    else
-    {
-        $t->set_var( "order_table_item", "" );
-    }
-
-// e-mail list
-    $emails = eZMail::getByContact( $CompanyID, true, 0, $max );
-
-    $locale = new eZLocale( $Language );
-    $i = 0;
-    $currency = new eZCurrency();
-    $t->set_var( "admin_dir", $AdminSiteURL );
-    $date = new eZDateTime();
-    foreach ( $emails as $email )
-    {
-        $t->set_var( "bg_color", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
-        
-        $t->set_var( "mail_id", $email->id() );
-        $date->setTimeStamp( $email->uDate() );
-        $t->set_var( "mail_date", $locale->format( $date ) );
-        
-        $t->set_var( "mail_subject", $email->subject() );
-        $t->set_var( "mail_email", $email->sender() );
-        
-        $t->parse( "mail_item", "mail_item_tpl", true );
-        $i++;
-    }
-
-    if ( get_class( $user ) == "ezuser" and count( $emails ) > 0 )
-    {
-        $t->parse( "mail_table_item", "mail_table_item_tpl", true );
-    }
-    else
-    {
-        $t->set_var( "mail_table_item", "" );
-    }
-
-
 
 // Template variabler.
     $Action_value = "update";

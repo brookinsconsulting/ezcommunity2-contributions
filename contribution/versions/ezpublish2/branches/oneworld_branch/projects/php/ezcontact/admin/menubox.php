@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.8 2001/07/20 12:01:50 jakobn Exp $
+// $Id: menubox.php,v 1.8.12.1 2002/06/04 06:40:22 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -29,8 +29,10 @@ $menuItems = array(
     array( "/contact/company/list/", "{intl-companytypelist}" ),
     array( "/contact/person/list/", "{intl-personlist}" ),
     array( "/contact/consultation/list/", "{intl-consultationlist}" ),
+    array( "/contact/package/list/", "{intl-packagelist}" ),
     array( "/contact/company/new/", "{intl-companyadd}" ),
     array( "/contact/person/new/", "{intl-personadd}" ),
+    array( "/contact/package/new", "{intl-packageadd}" ),
     array( "/contact/projecttype/list/", "{intl-projecttypelist}" ),
     array( "/contact/consultationtype/list/", "{intl-consultationtypelist}" )
     );

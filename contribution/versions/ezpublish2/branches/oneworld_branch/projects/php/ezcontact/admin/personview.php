@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personview.php,v 1.30 2002/05/28 13:29:59 jhe Exp $
+// $Id: personview.php,v 1.30.4.1 2002/06/04 06:40:22 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -64,13 +64,6 @@ if ( get_class( $user ) != "ezuser" )
     exit();
 }
 
-if ( !eZPermission::checkPermission( $user, "eZContact", "PersonView" ) )
-{
-    include_once( "classes/ezhttptool.php" );
-    eZHTTPTool::header( "Location: /contact/nopermission/person/view" );
-    exit();
-}
-
 $error = false;
 
 $t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
@@ -124,10 +117,7 @@ $t->set_var( "description", "" );
 $t->set_var( "user_name", "" );
 $t->set_var( "old_password", "" );
 
-$t->set_var( "street1", "" );
-$t->set_var( "street2", "" );
-$t->set_var( "zip", "" );
-$t->set_var( "place", "" );
+$t->set_var( "full_address", "" );
 
 $t->set_var( "home_phone", "" );
 $t->set_var( "work_phone", "" );
@@ -202,10 +192,7 @@ if ( $Action == "view" )
         foreach ( $addressList as $addressItem )
         {
             $t->set_var( "address_id", $addressItem->id() );
-            $t->set_var( "street1", eZTextTool::htmlspecialchars( $addressItem->street1() ) );
-            $t->set_var( "street2", eZTextTool::htmlspecialchars( $addressItem->street2() ) );
-            $t->set_var( "zip", eZTextTool::htmlspecialchars( $addressItem->zip() ) );
-            $t->set_var( "place", eZTextTool::htmlspecialchars( $addressItem->place() ) );
+            $t->set_var( "full_address", $addressItem->address() );
             $country = $addressItem->country();
             if ( get_class( $country ) == "ezcountry" )
                 $t->set_var( "country", eZTextTool::htmlspecialchars( $country->name() ) );

@@ -1,0 +1,6 @@
+<!-- BEGIN subject_tpl -->
+We have a new partner application...
+<!-- END subject_tpl -->
+We have a new partner application from {company}...
+
+http://{admin_url}/contact/company/edit/{id}

@@ -56,9 +56,7 @@
 <!-- BEGIN address_line_tpl -->
 	<td>
 	<p class="boxtext">{address_type_name}:</p>
-	<div class="p">{street1}</div>
-	<div class="p">{street2}</div>
-	<div class="p">{zip} {place}</div>
+	<div class="p">{full_address}</div>
 	<div class="p">{country}</div>
 	</td>
 <!-- END address_line_tpl -->
