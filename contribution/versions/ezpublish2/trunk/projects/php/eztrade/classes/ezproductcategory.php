@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.23 2001/02/04 16:59:12 bf Exp $
+// $Id: ezproductcategory.php,v 1.24 2001/02/12 19:11:20 jb Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -229,7 +229,7 @@ class eZProductCategory
         
         $this->Database->array_query( $category_array, "SELECT ID FROM eZTrade_Category ORDER BY Name" );
         
-        for ( $i=0; $i<count($category_array); $i++ )
+        for ( $i=0; $i < count($category_array); $i++ )
         {
             $return_array[$i] = new eZProductCategory( $category_array[$i]["ID"], 0 );
         }
@@ -255,7 +255,7 @@ class eZProductCategory
                  
             $this->Database->array_query( $category_array, "SELECT ID, Name FROM eZTrade_Category WHERE Parent='$parentID' ORDER BY Name" );
         
-            for ( $i=0; $i<count($category_array); $i++ )
+            for ( $i=0; $i < count($category_array); $i++ )
             {
                 $return_array[$i] = new eZProductCategory( $category_array[$i]["ID"], 0 );
             }
@@ -493,12 +493,24 @@ class eZProductCategory
 
             $prodID = $value->id();
             print( $prodID );
-            
+
+            $this->Database->array_query( $qry, "SELECT Placement FROM eZTrade_ProductCategoryLink
+                                                 ORDER BY Placement DESC LIMIT 1" );
+            if ( count( $qry ) == 1 )
+            {
+                $placement = $qry["Placement"] + 1;
+            }
+            else
+            {
+                $placement = 1;
+            }
+
             $query = "INSERT INTO
                            eZTrade_ProductCategoryLink
                       SET
                            CategoryID='$this->ID',
-                           ProductID='$prodID'";
+                           ProductID='$prodID',
+                           Placement='$placement'";
             
             $this->Database->query( $query );
        }
@@ -574,7 +586,7 @@ class eZProductCategory
                 eZTrade_Category.ID='$this->ID'
                 GROUP BY eZTrade_Product.ID ORDER BY $OrderBy LIMIT $offset,$limit" );
        
-       for ( $i=0; $i<count($product_array); $i++ )
+       for ( $i=0; $i < count($product_array); $i++ )
        {
            $return_array[$i] = new eZProduct( $product_array[$i]["ProductID"], false );
        }
@@ -627,7 +639,7 @@ class eZProductCategory
        
        $this->Database->array_query( $option_array, "SELECT OptionID FROM eZTrade_CategoryOptionLink WHERE CategoryID='$this->ID'" );
        
-       for ( $i=0; $i<count($option_array); $i++ )
+       for ( $i=0; $i < count($option_array); $i++ )
        {
            $return_array[$i] = new eZOption( $option_array[$i]["OptionID"], false );
        }
@@ -655,23 +667,19 @@ class eZProductCategory
            $placement = $qry["Placement"];
            
            $db->query_single( $qry, "SELECT ID, Placement FROM eZTrade_ProductCategoryLink
-                                    WHERE Placement<='$placement' AND eZTrade_ProductCategoryLink.CategoryID='$this->ID' ORDER BY Placement DESC LIMIT 1" );
+                                    WHERE Placement<'$placement' AND
+                                    eZTrade_ProductCategoryLink.CategoryID='$this->ID'
+                                    ORDER BY Placement DESC LIMIT 1" );
 
            $newPlacement = $qry["Placement"];
            $listid = $qry["ID"];
-
-           if ( $newPlacement == $placement )
-           {
-               $placement += 1;
-           }
-           
 
            if ( is_numeric( $listid ) )
            {           
                $db->query( "UPDATE eZTrade_ProductCategoryLink SET Placement='$placement' WHERE ID='$listid'" );
                $db->query( "UPDATE eZTrade_ProductCategoryLink SET Placement='$newPlacement' WHERE ID='$linkID'" );
            }           
-       }       
+       }
     }
 
     /*!
@@ -694,15 +702,10 @@ class eZProductCategory
            $placement = $qry["Placement"];
            
            $db->query_single( $qry_2, "SELECT ID, Placement FROM eZTrade_ProductCategoryLink
-                                    WHERE Placement>='$placement' AND eZTrade_ProductCategoryLink.CategoryID='$this->ID' ORDER BY Placement ASC LIMIT 1" );
+                                    WHERE Placement>'$placement' AND eZTrade_ProductCategoryLink.CategoryID='$this->ID' ORDER BY Placement ASC LIMIT 1" );
 
            $newPlacement = $qry_2["Placement"];
            $listid = $qry_2["ID"];
-
-           if ( $newPlacement == $placement )
-           {
-               $newPlacement += 1;
-           }
 
            if ( is_numeric( $listid ) )
            {
