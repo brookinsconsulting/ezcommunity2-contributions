@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileupload.php,v 1.15 2001/02/26 16:59:14 ce Exp $
+// $Id: fileupload.php,v 1.16 2001/02/26 17:04:05 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 15:49:57 bf>
@@ -59,6 +59,15 @@ if ( isSet ( $Cancel ) )
     exit();
 }
 
+$user = eZUser::currentUser();
+
+if ( !$user )
+{
+    eZHTTPTool::header( "Location: /error/403/" );
+    exit();
+}
+
+
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -112,8 +121,6 @@ if ( $Action == "Insert" || $Action == "Update" )
 {
     if ( $folderPermissionCheck )
     {
-        
-        $user = eZUser::currentUser();
         $folder = new eZVirtualFolder( $FolderID );
         
         if ( $folder->hasWritePermissions( $user ) == false )

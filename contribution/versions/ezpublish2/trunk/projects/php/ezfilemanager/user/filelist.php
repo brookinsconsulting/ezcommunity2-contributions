@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.20 2001/02/26 16:59:14 ce Exp $
+// $Id: filelist.php,v 1.21 2001/02/26 17:04:05 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -182,7 +182,7 @@ foreach ( $fileList as $file )
     }
     
 
-    if ( $file->hasWritePermissions( $user ) )
+    if ( $file->hasWritePermissions( $user ) && $user )
     {
         $t->parse( "write", "write_tpl" );
     }
