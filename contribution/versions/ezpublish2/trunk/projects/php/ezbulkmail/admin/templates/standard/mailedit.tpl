@@ -2,12 +2,12 @@
 
 <hr noshade="noshade" size="4">
 
-<form method="post" action="/mail/mailedit/{current_mail_id}" enctype="multipart/form-data" >
+<form method="post" action="/bulkmail/mailedit/{current_mail_id}" enctype="multipart/form-data" >
 
 <p class="boxtext">{intl-category_select}:</p>
 <select name="CategoryID">
 <!-- BEGIN category_item_tpl -->
-<option value="{module_id}" {selected}>{category_name}</option>
+<option value="{category_id}" {selected}>{category_name}</option>
 <!-- END category_item_tpl -->
 </select>
 

@@ -2,7 +2,7 @@
 
 <hr noshade="noshade" size="4">
 
-<form method="post" action="/mail/view/{current_mail_id}" enctype="multipart/form-data" >
+<form method="post" action="/bulkmail/preview/{current_mail_id}" enctype="multipart/form-data" >
 
 <p>{intl-category}: {category}</p>
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmail.php,v 1.4 2001/04/19 12:27:26 fh Exp $
+// $Id: ezbulkmail.php,v 1.5 2001/04/19 13:51:11 fh Exp $
 //
 // eZBulkMail class
 //
@@ -39,6 +39,7 @@
 */
 include_once( "classes/ezdatetime.php" );
 include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
+include_once( "ezbulkmail/classes/ezbulkmailtemplate.php" );
 
 class eZBulkMail
 {
@@ -157,7 +158,7 @@ class eZBulkMail
     */
     function getAll( $draftsOnly = false )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         
         $return_array = array();
         $mail_array = array();
@@ -296,20 +297,54 @@ class eZBulkMail
       Returns the first category this mail is a member of.
       False if none..
      */
-    function category()
+    function category( $as_object = true )
     {
-        $db = eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();
         $category_array = array();
         
         $db->array_query( $category_array, "SELECT CategoryID FROM eZBulkMail_MailCategoryLink WHERE MailID='$this->ID'" );
 
-        if( count( $category_array ) > 0 )
+        if( count( $category_array ) > 0 && $as_object == true )
             return new eZBulkMailCategory( $category_array[0]["CategoryID"] );
+        if( count( $category_array ) > 0 && $as_object == false )
+            return $category_array[0]["CategoryID"];
         
         return false;
 
     }
-    
+
+    /*!
+      Associates a template with a bulkmail. If the parameter is false, the mail is dissassociated with all templates.
+      NOTE: A bulkmail is only associated with a template before it is sent. After it is sent the template is stored in the mail. This is because
+      templates my change, but you want to know exactly what you have sent to your custemors.
+     */
+    function useTemplate( $templateID )
+    {
+        $db =& eZDB::globalDatabase();
+        $db->query( "DELETE FROM eZBulkMail_MailTemplateLink WHERE MailID='$this->ID'" );
+        if( $templateID != false )
+            $db->query( "INSERT INTO eZBulkMail_MailTemplateLink SET MailID='$this->ID', TemplateID='$templateID'" );
+    }
+
+    /*!
+      Returns the template associated with this mail or false if none.
+     */
+    function template( $as_object = true )
+    {
+        $db =& eZDB::globalDatabase();
+        $template_array = array();
+        
+        $db->array_query( $template_array, "SELECT TemplateID FROM eZBulkMail_MailTemplateLink WHERE MailID='$this->ID'" );
+
+        if( count( $template_array ) > 0 && $as_object == true )
+            return new eZBulkMailTemplate( $template_array[0]["TemplateID"] );
+        if( count( $template_array ) > 0 && $as_object == false )
+            return $template_array[0]["TemplateID"];
+        
+        return false;
+
+    }
+
     /*!
       \private
       
@@ -319,7 +354,7 @@ class eZBulkMail
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = eZDB::globalDatabase();
+            $this->Database =& eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

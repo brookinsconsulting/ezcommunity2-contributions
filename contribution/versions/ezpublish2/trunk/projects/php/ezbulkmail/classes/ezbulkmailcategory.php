@@ -201,7 +201,8 @@ class eZBulkMailCategory
             $this->dbInit();
 
             $mailID = $value->id();
-            
+
+            $this->Database->query( "DELETE FROM eZBulkMail_MailCategoryLink WHERE MailID='$mailID'");
             $query = "INSERT INTO eZBulkMail_MailCategoryLink
                       SET CategoryID='$this->ID', MailID='$mailID'";
             

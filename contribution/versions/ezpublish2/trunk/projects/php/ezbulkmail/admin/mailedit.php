@@ -11,21 +11,29 @@ include_once( "classes/ezhttptool.php" );
 
 if( isset( $Cancel ) )
 {
-    eZHTTPTool::header( "Location: /bulkmail/folder/$inboxid" );
+    eZHTTPTool::header( "Location: /bulkmail/mailedit" );
     exit();
 }
 
 if( isset( $Preview ) )
 {
+    $id = save_mail();
+    eZHTTPTool::header( "Location: /bulkmail/preview/$id" );
+    exit();
 }
 
 if( isset( $Save ) )
 {
+    $MailID = save_mail();
+    $mail = new eZBulkMail( $MailID );
+    $mail->setIsDraft( true );
+    $mail->store();
 }
 
 if( isset( $Send ) )
 {
-    eZHTTPTool::header( "Location: /mail/folder/$sentid" );
+    $id = save_mail();
+    eZHTTPTool::header( "Location: /bulkmail/send/$id" );
     exit();
 }
 
@@ -60,7 +68,7 @@ $user = eZUser::currentUser();
 $t->set_var( "from_value", $user->email() );
 
 /** We are editing an allready existant mail... lets insert it's values **/
-if( $MailID != 0 ) // load values from disk!, check that this is really current users mail
+if( $MailID != 0 ) 
 {
     $t->set_var( "current_mail_id", $MailID );
     
@@ -71,6 +79,8 @@ if( $MailID != 0 ) // load values from disk!, check that this is really current 
     $t->set_var( "subject_value", $mail->subject() );
     $t->set_var( "mail_body", $mail->body() );
 
+    $categoryID = $mail->category( false );
+    $templateID = $mail->template( false );
 }
 
 /** Inserting values in the drop down boxes... **/
@@ -79,7 +89,11 @@ foreach( $categories as $category )
 {
     $t->set_var( "category_id", $category->id() );
     $t->set_var( "category_name", $category->name() );
-    $t->set_var( "selected", "" );
+    if( $categoryID == $category->id() )
+        $t->set_var( "selected", "selected" );
+    else
+        $t->set_var( "selected", "" );
+        
     $t->parse( "category_item", "category_item_tpl",  true );
 }
 $templates = eZBulkMailTemplate::getAll();
@@ -88,6 +102,11 @@ foreach( $templates as $template )
     $t->set_var( "template_id", $template->id() );
     $t->set_var( "template_name", $template->name() );
     $t->set_var( "selected", "" );
+    if( $templateID == $template->id() )
+        $t->set_var( "selected", "selected" );
+    else
+        $t->set_var( "selected", "" );
+
     $t->parse( "template_item", "template_item_tpl",  true );
 }
 
@@ -100,7 +119,7 @@ $t->pparse( "output", "mail_edit_page_tpl" );
  */
 function save_mail()
 {
-    global $To, $From, $Cc, $Bcc, $Subject, $MailBody, $MailID; // instead of passing them as arguments..
+    global $CategoryID,$TemplateID, $To, $From, $Subject, $MailBody, $MailID; // instead of passing them as arguments..
 
     if( $MailID == 0 )
     {
@@ -111,18 +130,17 @@ function save_mail()
     {
         $mail = new eZBulkMail( $MailID );
     }
-    $mail->setTo( $To );
-    $mail->setFrom( $From  ); // from NAME
-    $mail->setCc( $Cc );
-    $mail->setBcc( $Bcc );
-//    $mail->setReferences( );
-//    $mail->setReplyTo( $ );
+    $mail->setSender( $From  ); // from NAME
     $mail->setSubject( $Subject );
     $mail->setBodyText( $MailBody );
-    $mail->calculateSize();
-    
-    $mail->store();
 
+    if( $TemplateID != -1 )
+        $mail->useTemplate( $TemplateID );
+
+    $mail->store();
+    $category = new eZBulkMailCategory( $CategoryID );
+    $category->addMail( $mail );
+    
     return $mail->id();
 }
 

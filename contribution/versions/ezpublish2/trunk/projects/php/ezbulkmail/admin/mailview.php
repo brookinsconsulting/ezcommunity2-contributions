@@ -11,6 +11,8 @@ include_once( "classes/ezhttptool.php" );
 
 if( isset( $Edit ) )
 {
+    eZHTTPTool::header( "Location: /bulkmail/mailedit/$MailID" );
+    exit();
 }
 
 if( isset( $Send ) )
@@ -32,6 +34,8 @@ $t->set_file( array(
 $t->set_var( "site_style", $SiteStyle );
 $t->set_block( "mail_view_page_tpl", "send_button_tpl", "send_button" );
 $t->set_block( "mail_view_page_tpl", "edit_button_tpl", "edit_button" );
+$t->set_var( "send_button", "" );
+$t->set_var( "edit_button", "" );
 
 /** Check if we want the buttons enabled **/
 if( $SendButton == true )
@@ -42,6 +46,7 @@ if( $EditButton == true )
 $mail = new eZBulkMail( $MailID );
 if( is_object( $mail ) )
 {
+    $t->set_var( "current_mail_id", $MailID );
     $t->set_var( "from", $mail->sender() );
     $t->set_var( "subject", $mail->subject() );
     $t->set_var( "mail_body", $mail->body() );

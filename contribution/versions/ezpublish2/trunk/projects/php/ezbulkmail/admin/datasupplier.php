@@ -48,6 +48,7 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "send" :
     case "preview" :
     {
         $MailID = $url_array[3];
@@ -56,7 +57,8 @@ switch ( $url_array[2] )
             eZHTTPTool::header( "Location: /error/404" );
             exit();
         }
-        $SendButton = true;
+        if( $url_array[2] == "send" )
+            $SendButton = true;
         $EditButton = true;
         include_once( "ezbulkmail/admin/mailview.php" );
     }

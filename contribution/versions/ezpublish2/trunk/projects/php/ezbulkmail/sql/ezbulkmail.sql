@@ -38,6 +38,17 @@ CREATE TABLE eZBulkMail_MailCategoryLink (
   PRIMARY KEY (MailID,CategoryID)
 ) TYPE=MyISAM;
 
+#
+# Table structure for table 'eZBulkMail_MailTemplateLink'
+#
+
+DROP TABLE IF EXISTS eZBulkMail_MailTemplateLink;
+CREATE TABLE eZBulkMail_MailTemplateLink (
+  MailID int(11) NOT NULL default '0',
+  TemplateID int(11) NOT NULL default '0',
+  PRIMARY KEY (MailID)
+) TYPE=MyISAM;
+
 
 #
 # Table structure for table 'eZBulkMail_Template'
