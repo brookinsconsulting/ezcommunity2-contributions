@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezdomdocument.php,v 1.1 2001/11/16 14:42:30 bf Exp $
+// $Id: ezdomdocument.php,v 1.2 2001/11/19 15:31:06 bf Exp $
 //
 // Definition of eZDOMDocument class
 //
@@ -45,6 +45,7 @@ class eZDOMDocument
     var $standalone;
     var $type;
     var $children;
+    var $root;
 }
 
 ?>

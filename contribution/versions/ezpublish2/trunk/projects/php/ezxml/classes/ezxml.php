@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxml.php,v 1.7 2001/11/19 15:28:10 bf Exp $
+// $Id: ezxml.php,v 1.8 2001/11/19 15:31:06 bf Exp $
 //
 // Definition of eZXML class
 //
@@ -68,6 +68,8 @@ class eZXML
         $domDocument = new eZDOMDocument();
         $domDocument->version = "1.0";
 
+        $domDocument->root =& $domDocument->children;
+        
         $currentNode =& $domDocument;
 
         $pos = 0;
