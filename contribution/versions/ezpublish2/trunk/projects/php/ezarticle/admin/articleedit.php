@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.68 2001/04/17 14:13:39 bf Exp $
+// $Id: articleedit.php,v 1.69 2001/04/20 06:39:12 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -218,7 +218,7 @@ if ( $Action == "Insert" )
     }
     
     // check if the contents is parseable
-    xmltree( $contents )
+    if ( xmltree( $contents ) )
     // add document validation here
 //    if ( true )
     {
