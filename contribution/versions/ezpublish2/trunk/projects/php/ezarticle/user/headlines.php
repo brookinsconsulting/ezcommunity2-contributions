@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: headlines.php,v 1.1 2000/11/30 14:00:52 bf-cvs Exp $
+// $Id: headlines.php,v 1.2 2000/12/02 15:28:34 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Nov-2000 14:35:24 bf>
@@ -67,9 +67,10 @@ foreach ( $articleList as $article )
     $t->set_var( "article_name", $article->name() );
     
 
-    $published = $article->published();
+    $published =& $article->published();
+    $date =& $published->date();
 
-    $t->set_var( "article_published", $locale->format( $published ) );    
+    $t->set_var( "article_published", $locale->format( $date ) );    
 
     if ( ( $i % 2 ) == 0 )
     {
