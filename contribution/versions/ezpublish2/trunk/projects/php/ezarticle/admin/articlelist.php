@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.43 2001/08/09 12:12:38 bf Exp $
+// $Id: articlelist.php,v 1.44 2001/09/03 15:52:56 bf Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -73,7 +73,36 @@ if ( $articleMix == "" )
 }
 
 
-if( isset( $DeleteArticles ) )
+if ( isset( $CopyCategories ) )
+{
+    if ( count ( $CategoryArrayID ) != 0 )
+    {
+        foreach( $CategoryArrayID as $tCategoryID )
+        {
+            // copy category
+            $tmpCategory = new eZArticleCategory( $tCategoryID );
+
+            $newCategory = new eZArticleCategory( );
+            $newCategory->setName( "Copy of " . $tmpCategory->name() );            
+            $newCategory->setDescription( $tmpCategory->description() );            
+            $newCategory->setParent( $tmpCategory->parent() );            
+            $newCategory->store();
+
+            print( $newCategory->id() );
+            
+            $tmpCategory->copyTree( $tCategoryID, $newCategory );
+        }
+        /*
+        eZHTTPTool::header( "Location: /article/archive/" );
+        exit();
+        */
+    }    
+}
+
+
+
+
+if ( isset( $DeleteArticles ) )
 {
     if ( count ( $ArticleArrayID ) != 0 )
     {
@@ -104,7 +133,7 @@ if( isset( $DeleteArticles ) )
     }
 }
 
-if( isset( $DeleteCategories ) )
+if ( isset( $DeleteCategories ) )
 {
     if ( count ( $CategoryArrayID ) != 0 )
     {

@@ -107,6 +107,8 @@
 <hr noshade="noshade" size="4" />
 
 <input class="stdbutton" type="submit" Name="DeleteCategories" value="{intl-deletecategories}">
+<input class="stdbutton" type="submit" Name="CopyCategories" value="{intl-copycategories}">
+
 </form>
 
 <!-- END category_list_tpl -->

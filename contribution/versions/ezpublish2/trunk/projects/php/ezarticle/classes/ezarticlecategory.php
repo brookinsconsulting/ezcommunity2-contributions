@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.87 2001/08/24 13:30:47 ce Exp $
+// $Id: ezarticlecategory.php,v 1.88 2001/09/03 15:52:56 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -50,6 +50,7 @@ class eZArticleCategory
     */
     function eZArticleCategory( $id=-1 )
     {
+        $this->SortMode = 1;
         $this->ImageID = 0;
         $this->ParentID = 0;
         $this->ExcludeFromSearch = "0";
@@ -495,6 +496,37 @@ class eZArticleCategory
         return $tree;
     }
 
+    /*!
+      Copies the categories recursively    
+     */
+    function copyTree( $parentID, $parentCategory )
+    {
+        $category = new eZArticleCategory( $parentID );
+
+        $categoryList = $category->getByParent( $category, true );
+        
+        $tree = array();
+        $level++;
+        foreach ( $categoryList as $category )
+        {
+            array_push( $tree, array( $return_array[] = new eZArticleCategory( $category->id() ) ) );
+
+            $newCategory = new eZArticleCategory( );
+            $newCategory->setName( $category->name() );
+            $newCategory->setDescription( $category->description() );
+            $newCategory->setParent( $parentCategory );
+            $newCategory->store();
+            
+            if ( $category != 0 )
+            {
+                $tree = array_merge( $tree, $this->copyTree( $category->id(), $newCategory ) );
+            }
+            
+        }
+
+        return $tree;
+    }
+    
     /*!
       \static
       Returns the Section ID. Returns false if the Category was not found.
