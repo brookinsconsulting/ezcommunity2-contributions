@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.26 2001/01/22 14:43:00 jb Exp $
+// $Id: ezimage.php,v 1.27 2001/01/26 09:25:01 ce Exp $
 //
 // Definition of eZImage class
 //
@@ -209,10 +209,10 @@ class eZImage
     {
         $ret = false;
 
+        $read = $this->readPermission();
+        
         if ( get_class( $currentUser ) == "ezuser" )
         {
-            $read = $this->readPermission();
-
             if ( $read == "User" )
             {
                 if ( $this->UserID != 0 )
@@ -256,6 +256,13 @@ class eZImage
                 $ret = "Group";
             }
         }
+        else
+        {
+            if ( $read == "All" )
+            {
+                $ret = "All";
+            }
+        }
 
         return $ret;
 
@@ -273,10 +280,11 @@ class eZImage
     function checkWritePermission( &$currentUser )
     {
         $ret = false;
-
+        
+        $write = $this->writePermission();
+        
         if ( get_class( $currentUser ) == "ezuser" )
         {
-            $write = $this->writePermission();
 
             if ( $write == "User" )
             {
@@ -321,9 +329,19 @@ class eZImage
                 $ret = "Group";
             }
         }
+        else
+        {
+            if ( $write == "All" )
+            {
+                $ret = "All";
+            }
+        }
+
 
         return $ret;
     }
+
+
 
     
     /*!

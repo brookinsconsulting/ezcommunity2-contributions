@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageview.php,v 1.7 2001/01/22 14:43:01 jb Exp $
+// $Id: imageview.php,v 1.8 2001/01/26 09:25:01 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Oct-2000 19:40:18 bf>
@@ -55,6 +55,9 @@ if ( $ShowOriginal != "enabled" )
     $t->set_var( "image_width", $variation->width() );
     $t->set_var( "image_height", $variation->height() );
     $t->set_var( "image_caption", $image->caption() );
+    $t->set_var( "image_name", $image->name() );
+    $t->set_var( "image_description", $image->description() );
+
 
     $t->set_var( "referer_url", $RefererURL );
 }

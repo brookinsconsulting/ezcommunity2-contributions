@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.6 2001/01/25 19:08:20 ce Exp $
+// $Id: categoryedit.php,v 1.7 2001/01/26 09:25:01 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -89,16 +89,21 @@ if ( $Action == "Insert" || $Action == "Update" )
         $t->set_block( "errors_tpl", "error_write_permission", "error_write" );
         $t->set_var( "error_write", "" );
 
-        if ( $CategoryID == 0 )
+        if ( $ParentID == 0 )
         {
-            // do something smart here!
+            if ( eZPermission::checkPermission( $user, "eZImageCatalogue", "WriteToRoot"  ) == false )
+            {
+                $t->parse( "error_write", "error_write_permission" );
+                $error = true;
+            }
         }
         else
         {
             $user = eZUser::currentUser();
-            $parentCategory = new eZImageCategory( $CategoryID );
+            $parentCategory = new eZImageCategory( $ParentID );
             if ( $parentCategory->checkWritePermission( $user ) == false )
             {
+                print( "her" );
                 $t->parse( "error_write", "error_write_permission" );
                 $error = true;
             }

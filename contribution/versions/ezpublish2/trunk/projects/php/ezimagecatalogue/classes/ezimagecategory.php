@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagecategory.php,v 1.3 2001/01/22 14:43:01 jb Exp $
+// $Id: ezimagecategory.php,v 1.4 2001/01/26 09:25:01 ce Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -283,14 +283,14 @@ class eZImageCategory
       All - if the file can be read by everybody
       False - if the user don't have access
     */
-    function checkReadPermission( $currentUser )
+    function checkReadPermission( &$currentUser )
     {
         $ret = false;
 
+        $read = eZImageCategory::readPermission();
+        
         if ( get_class( $currentUser ) == "ezuser" )
         {
-            $read = eZImageCategory::readPermission();
-
             if ( $read == "User" )
             {
                 if ( $this->UserID != 0 )
@@ -334,6 +334,13 @@ class eZImageCategory
                 $ret = "Group";
             }
         }
+        else
+        {
+            if ( $read == "All" )
+            {
+                $ret = "All";
+            }
+        }
 
         return $ret;
 
@@ -348,14 +355,14 @@ class eZImageCategory
       All - if the file can be write by everybody
       False - if the user don't have access
     */
-    function checkWritePermission( $currentUser )
+    function checkWritePermission( &$currentUser )
     {
         $ret = false;
 
+        $write = eZImageCategory::writePermission();
+        
         if ( get_class( $currentUser ) == "ezuser" )
         {
-            $write = eZImageCategory::writePermission();
-
             if ( $write == "User" )
             {
                 if ( $this->UserID != 0 )
@@ -399,6 +406,14 @@ class eZImageCategory
                 $ret = "Group";
             }
         }
+        else
+        {
+            if ( $write == "All" )
+            {
+                $ret = "All";
+            }
+        }
+
 
         return $ret;
     }

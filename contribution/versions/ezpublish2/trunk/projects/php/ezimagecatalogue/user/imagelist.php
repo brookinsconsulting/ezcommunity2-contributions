@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.9 2001/01/26 08:55:48 ce Exp $
+// $Id: imagelist.php,v 1.10 2001/01/26 09:25:01 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -204,7 +204,7 @@ foreach ( $imageList as $image )
         $t->set_var( "begin_tr", "" );
         $t->set_var( "end_tr", "" );        
     }
-    print( $image->id() );
+
     $t->set_var( "image_id", $image->id() );
     $t->set_var( "original_image_name", $image->originalFileName() );
     $t->set_var( "image_name", $image->name() );
@@ -271,6 +271,7 @@ foreach ( $imageList as $image )
     }
     else
     {
+        $t->set_var( "detail_write", "" );
     }
 
     if ( isSet ( $DetailView ) )

@@ -58,9 +58,6 @@
 	<td>
 	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/image/list/{main_category_id}/"><img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a>
 	</td>
-	<td>
-	<p class="pictext">{image_caption}</p>
-	</td>
 	<!-- END read_tpl -->
 	<!-- BEGIN write_tpl -->
 
