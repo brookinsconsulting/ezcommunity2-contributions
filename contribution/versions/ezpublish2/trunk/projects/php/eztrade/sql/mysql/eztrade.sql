@@ -453,7 +453,7 @@ CREATE TABLE eZTrade_VoucherInformation (
 ) TYPE=MyISAM;
 
 CREATE TABLE eZTrade_VoucherUsed (
-  ID int(11) default '0',
+  ID int(11) NOT NULL '0',
   Used int(11) default '0',
   Price float default NULL,
   VoucherID int(11) default '0',
