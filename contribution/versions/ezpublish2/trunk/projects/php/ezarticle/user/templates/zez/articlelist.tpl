@@ -1,3 +1,4 @@
+<!-- BEGIN header_item_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="bottom">
@@ -11,8 +12,7 @@
 	</td>
 </tr>
 </table>
-
-
+<!-- END header_item_tpl -->
 
 <!-- BEGIN path_item_tpl -->
 

@@ -1,3 +1,5 @@
+<!-- BEGIN header_item_tpl -->
+<!-- END header_item_tpl -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td width="1%" class="tdmini" bgcolor="#465da1" align="left" valign="top"><img src="/images/box-tl.gif" width="4" height="4" border="0" alt="" /><br /></td>

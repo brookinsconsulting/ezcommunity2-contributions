@@ -1,5 +1,7 @@
+<!-- BEGIN header_item_tpl -->
 <h1>SourceProvider</h1>
 <hr noshade="noshade" size="4" />
+<!-- END header_item_tpl -->
 
 <p>
 We will do our best to deliver high quality products and services. If you have any views on

@@ -3,6 +3,7 @@
 <h1 class="small">{category_name}</h1>
 <!-- END path_item_tpl -->
 
+<!-- BEGIN header_item_tpl -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td class="tdmini" width="1%" background="/images/gyldenlinje-strekk.gif"><img src="/images/gyldenlinje-venstre.gif" width="8" height="4" border="0" /><br /></td>
@@ -10,6 +11,7 @@
     <td class="tdmini" width="1%" background="/images/gyldenlinje-strekk.gif"><img src="/images/gyldenlinje-hoyre.gif" width="8" height="4" border="0" /><br /></td>
 </tr>
 </table>
+<!-- END header_item_tpl -->
 
 <br />
 

@@ -1,5 +1,7 @@
 
+<!-- BEGIN header_item_tpl -->
 <h1>{current_category_name}</h1>
+<!-- END header_item_tpl -->
 
 
 <hr noshade="noshade" size="4" />

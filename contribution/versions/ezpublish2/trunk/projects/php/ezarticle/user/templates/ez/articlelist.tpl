@@ -1,9 +1,11 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
+<!-- BEGIN header_item_tpl -->
 <tr>
 	<td bgcolor="#f08c00">
 	<div class="headline">Nyheter fra eZ systems</div>
 	</td>
 </tr>
+<!-- END header_item_tpl -->
 </table>
 <br />
 <!-- BEGIN path_item_tpl -->

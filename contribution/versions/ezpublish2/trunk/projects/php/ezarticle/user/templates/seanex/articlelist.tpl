@@ -1,4 +1,7 @@
 
+<!-- BEGIN header_item_tpl -->
+<!-- END header_item_tpl -->
+
 <!-- BEGIN path_item_tpl -->
 
 <!-- END path_item_tpl -->

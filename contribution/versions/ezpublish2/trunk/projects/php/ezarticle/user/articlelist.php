@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.24 2001/01/24 11:53:53 bf Exp $
+// $Id: articlelist.php,v 1.25 2001/02/08 10:59:09 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -51,6 +51,8 @@ $t->set_file( array(
     "article_list_page_tpl" => "articlelist.tpl"
     ) );
 
+$t->set_block( "article_list_page_tpl", "header_item_tpl", "header_item" );
+
 // path
 $t->set_block( "article_list_page_tpl", "path_item_tpl", "path_item" );
 
@@ -75,6 +77,15 @@ $category = new eZArticleCategory( $CategoryID );
 
 $t->set_var( "current_category_name", $category->name() );
 $t->set_var( "current_category_description", $category->description() );
+
+if ( isset( $NoArticleHeader ) and $NoArticleHeader )
+{
+    $t->set_var( "header_item", "" );
+}
+else
+{
+    $t->parse( "header_item", "header_item_tpl" );
+}
 
 // path
 $pathArray = $category->path();
