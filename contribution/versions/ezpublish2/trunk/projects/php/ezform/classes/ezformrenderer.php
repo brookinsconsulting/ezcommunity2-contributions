@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.21 2001/12/17 11:57:05 jhe Exp $
+// $Id: ezformrenderer.php,v 1.22 2001/12/17 13:47:54 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -41,9 +41,9 @@ include_once( "classes/ezhttptool.php" );
 include_once( "ezform/classes/ezform.php" );
 include_once( "ezform/classes/ezformelement.php" );
 include_once( "ezform/classes/ezformelementtype.php" );
+include_once( "ezform/classes/ezformtable.php" );
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezuser/classes/ezuser.php" );
-
 
 class eZFormRenderer
 {
@@ -213,7 +213,6 @@ class eZFormRenderer
         if ( $render == true )
         {
             $elements =& $currentPage->pageElements();
-
             $elementCounter = 0;
 
             $this->Template->set_var( "form_id", $this->Form->id() );
@@ -233,7 +232,7 @@ class eZFormRenderer
             {
                 $eType = $element->elementType();
                 
-                if ( $element->isBreaking() or ( $eType->name() != "text_field_item" ) )
+                if ( $element->isBreaking() || ( $eType->name() != "text_field_item" ) )
                 {
                     $lastBreaked = true;
                     $breakCount = 1;
@@ -247,7 +246,7 @@ class eZFormRenderer
                 {
                     $breakCount++;
                     $maxBreakCount = max( $maxBreakCount, $breakCount );
-                }                
+                }
             }
 
             foreach ( $elements as $element )
@@ -264,17 +263,25 @@ class eZFormRenderer
                     {
                         for ( $cols = 0; $cols < $table->cols(); $cols++ )
                         {
-                            $output = $this->renderElement( $element[$i] );
+                            $output = $this->renderElement( $tableElements[$i] );
                             $this->Template->set_var( "element", $output );
-                            $this->Template->parse( "table_item_cell", "table_item_cell_tpl", true );
+
+                            if ( $cols == 0 )
+                                $this->Template->parse( "table_item_cell", "table_item_cell_tpl" );
+                            else
+                                $this->Template->parse( "table_item_cell", "table_item_cell_tpl", true );
                             $i++;
                         }
-                        $this->Template->parse( "table_item_sub_item", "table_item_sub_item_tpl", true );
+                        if ( $rows == 0 )
+                            $this->Template->parse( "table_item_sub_item", "table_item_sub_item_tpl" );
+                        else
+                            $this->Template->parse( "table_item_sub_item", "table_item_sub_item_tpl", true );
                     }
-                    $tableString = $this->Template->parse( $target, "table_item" );
+
+                    $tableString = $this->Template->parse( "table_item", "table_item_tpl" );
                     
                     $this->Template->set_var( "element", $tableString );
-                    $this->Template->set_var( "element_name", "" );
+                    $this->Template->set_var( "element_name", $element->name() );
                     $this->Template->set_var( "colspan", " colspan=\"1\"" );
                     $this->Template->set_var( "break", "" );
 
