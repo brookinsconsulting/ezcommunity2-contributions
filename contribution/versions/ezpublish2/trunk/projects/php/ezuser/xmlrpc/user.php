@@ -16,6 +16,23 @@ if( $Command == "list" ) // Return a list of users and their ID's
     }
     $ReturnData = new eZXMLRPCArray( $users );
 }
+else if( $Command == "data" )
+{
+    eZLog::writeNotice( "In user stuff" );
+
+    $user = new eZUser( $ID );
+    $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezuser", "user", $user->id() ),
+                                             "FirstName" => new eZXMLRPCString( $user->firstName( false ) ),
+                                             "LastName" => new eZXMLRPCString( $user->lastName( false ) ),
+                                             "Login" => new eZXMLRPCString( $user->login( false ) ),
+                                             "EMail" => new eZXMLRPCString( $user->email() ),
+                                             "InfoSubscription" => new eZXMLRPCBool( $user->infoSubscription() ),
+                                             "Signature" => new eZXMLRPCString( $user->signature() ),
+                                             "CookieLogin" => new eZXMLRPCBool( $user->cookieLogin() ),
+                                             "SimultaneousLogins" => new eZXMLRPCInt( $user->simultaneousLogins() )
+                                             )
+                                      );
+}
 ?>
 
 
