@@ -1,5 +1,17 @@
-<form action="{www_dir}{index}/trade/checkout/" method="post">
-
+<form name="form1" action="{www_dir}{index}/trade/checkout/" method="post">
+<script language="JavaScript" type="text/javascript">
+<!-- --> <![CDATA[ /> <!--
+function checkForm()
+{
+    Ship = document.form1.ShippingTypeID;
+    Pay = document.form1.PaymentMethod;
+    if (  Ship.options[Ship.selectedIndex].value == "2" & Pay.options[Pay.selectedIndex].value == "5" ) 
+    {
+        alert("Leider bietet die Post keine Lieferung per Express als Nachnahme an. \nBitte wählen Sie eine andere Zahlart oder Liefermethode aus.");
+    }
+}
+// --> <! ]]>
+</script>
 <h1>{intl-confirm_order}</h1>
 <hr noshade="noshade" size="1" />
 <h2>{intl-products_about_to_order}:</h2>
@@ -24,7 +36,7 @@
     <!-- BEGIN header_inc_tax_item_tpl -->
     <th width="1%" align="right"><nobr>{intl-product_total_inc_tax}:&nbsp;</nobr></th>
     <!-- END header_inc_tax_item_tpl -->
-    <th width="1%">&nbsp;</td>        
+    <th width="1%">&nbsp;</th>        
   </tr>
   
   <!-- BEGIN cart_item_tpl -->
@@ -82,7 +94,7 @@
   <!-- END cart_item_tpl -->
   <!-- END cart_item_list_tpl -->
   <tr>
-    <td colspan="3" align="right">{intl-subtotal}:</th>
+    <td colspan="3" align="right">{intl-subtotal}:</td>
     <!-- BEGIN subtotal_ex_tax_item_tpl -->
     <td align="right"><nobr>{subtotal_ex_tax}&nbsp;</nobr></td>
     <!-- END subtotal_ex_tax_item_tpl -->
@@ -92,7 +104,7 @@
     <!-- END subtotal_inc_tax_item_tpl -->
   </tr>
   <tr>
-    <td colspan="3" align="right">{intl-shipping}:</th>
+    <td colspan="3" align="right">{intl-shipping}:</td>
     <!-- BEGIN shipping_ex_tax_item_tpl -->
     <td align="right"><nobr>{shipping_ex_tax}&nbsp;</nobr></td>
     <!-- END shipping_ex_tax_item_tpl -->
@@ -114,7 +126,7 @@
   <!-- END voucher_item_tpl -->
   <!-- END vouchers_tpl --> 
   <tr>
-    <td colspan="3" align="right">{intl-total}:</th>
+    <td colspan="3" align="right">{intl-total}:</td>
     <!-- BEGIN total_ex_tax_item_tpl -->
     <td align="right"><nobr>{total_ex_tax}&nbsp;</nobr></td>
     <!-- END total_ex_tax_item_tpl -->
@@ -128,7 +140,7 @@
 <hr size="1" noshade="noshade" />
 
 <b>{intl-shipping_method}:</b><br />
-<select name="ShippingTypeID">
+<select name="ShippingTypeID" onchange="checkForm()">
   <!-- BEGIN shipping_type_tpl -->
   <option value="{shipping_type_id}" {type_selected}>{shipping_type_name}</option>
   <!-- END shipping_type_tpl -->
@@ -170,16 +182,40 @@
 
 <!-- BEGIN show_payment_tpl -->
 <br /><br />
-
-<b>{intl-payment_methods_description}:</b><br />
-  <select name="PaymentMethod">
-    <!-- BEGIN payment_method_tpl -->
-    <option value="{payment_method_id}">{payment_method_text}</option>
-    <!-- END payment_method_tpl -->
-  </select>
+<table>
+  <tr>
+    <td>
+      <b>{intl-payment_methods_description}:</b><br />
+      <select name="PaymentMethod" onchange="checkForm()">
+        <!-- BEGIN payment_method_tpl -->
+	<option value="{payment_method_id}">{payment_method_text}</option>
+        <!-- END payment_method_tpl -->
+      </select>
+    </td>
+    <td>
+       <table cellspacing="10">
+         <tr>
+           <td class="small" valign="top" width="25%">
+             <a href="http://www.campaign.paybox.de/banner.php3?merchantPayboxNo=4900011161914" target="new"><img src="/sitedesign/mygold/images/paybox_logo.gif" border="0" width="53" height=40"" alt="" /></a>
+             <br />paybox - bezahlen Sie mit Ihrem Handy
+	   </td>
+	   <td class="small" valign="top" width="25%">  
+	     <a href="http://www.visa.de" target="new"><img src="/sitedesign/mygold/images/visa_logo.gif" alt="" width="63" height="40" border="0" /></a>
+	     <br />Visa
+	   </td>	  
+	   <td class="small" valign="top" width="25%">
+	     <a href="http://www.eurocard.de" target="new"><img src="/sitedesign/mygold/images/eurocard_logo.gif" alt="" width="53" height="40" border="0" /></a>
+	     <br />Euro- Mastercard
+	   </td>
+	 </tr>
+       </table>
+    </td>
+</table>
 <!-- END show_payment_tpl -->
-
 <br /><br />
+<ul>
+  <li>Nachnahmelieferung per Express ist nicht m&ouml;glich!</li>
+</ul>
 
 <!-- BEGIN remove_voucher_tpl -->
 <input class="okbutton" type="submit" name="RemoveVoucher" value="{intl-remove_voucher}" />

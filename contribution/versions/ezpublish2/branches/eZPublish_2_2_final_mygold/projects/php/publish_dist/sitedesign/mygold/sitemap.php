@@ -7,10 +7,10 @@ Hier finden Sie eine &Uuml;bersicht &uuml;ber unser umfangreiches Sortiment an:
     <td>
       <table bgcolor="#dddddd"  border="0" cellpadding="0" cellspacing="0" align="left">
         <tr>
-          <td width="1%"><img src="/sitedesign/mygold/images/shim.gif" width="10" height="1" alt="" /></td>
-          <td width="1%"><img src="/sitedesign/mygold/images/shim.gif" width="10" height="1" alt="" /></td>
-          <td width="97%"><img src="/sitedesign/mygold/images/shim.gif" width="10" height="1" alt="" /></td>
-          <td width="1%"><img src="/sitedesign/mygold/images/shim.gif" width="10" height="1" alt="" /></td>
+          <th width="1%"><img src="/sitedesign/mygold/images/shim.gif" width="10" height="1" alt="" /></th>
+          <th width="1%"><img src="/sitedesign/mygold/images/shim.gif" width="10" height="1" alt="" /></th>
+          <th width="97%"><img src="/sitedesign/mygold/images/shim.gif" width="10" height="1" alt="" /></th>
+          <th width="1%"><img src="/sitedesign/mygold/images/shim.gif" width="10" height="1" alt="" /></th>
 	</tr>
 <?php
 
@@ -21,47 +21,58 @@ $categoryArray = $category->getTree( );
 
 $shim   =  '<td>&nbsp;</td>';
 $i = 0;
-/*
-echo "<pre>";
-print_r($categoryArray);
-echo "</pre>";
-*/
 foreach ( $categoryArray as $catItem )
 {
     $id = $catItem[0]->id();
     $name = $catItem[0]->name();
-    //$description = $catItem[0]->description();
 
-    if ( $catItem[1] == 1 )
+    if ( $catItem[1] == 1 AND $name != "Gutscheine")
     {
-        if ( $i == 0 ) $indent  = '';
-	else $indent = '<td colspan="3"><img src="/sitedesign/mygold/images/shim.gif" width="10" height="5" alt="" /></td>';
-        $indent2 = '<th colspan="3">' . $name . '</th>';
+	$indent = '';
+        $indent2 = '<th colspan="4"><a class="SiteMapLnkOne" href="/trade/productlist/' . $id . '/">' . $name . '</a></th>';
+	if ( $i != 0 )
+	    $preline = '<tr><td colspan="4"><img src="/sitedesign/mygold/images/shim.gif" width="1" height="3" alt="" /></td></tr>';
 	$i++;
     }
-    
-
     elseif  ( $catItem[1] == 2 )
     {
         $indent  =  $shim;
         $indent2 = '<td class="StMpLvTwo" colspan="2">- <a class="SiteMap" href="/trade/productlist/'.$id.'/">' . $name . '</a></td>';
     }
-
     elseif  ( $catItem[1] == 3 )
     {
         $indent  = $shim . $shim;
         $indent2 = '<td class="StMpLvThree">- <a href="/trade/productlist/' . $id . '/">' . $name . '</a></td>';
     }
 
-    if ( $indent == '' )
-        print( "<tr>$indent $indent2 <th>&nbsp;&nbsp;</th></tr>\n
-                <tr><td colspan=\"4\"><img src=\"/sitedesign/mygold/images/shim.gif\" width=\"1\" height=\"3\" alt=\"\" /></td></tr>\n" );
+    if ( $catItem[1] == 1 AND $name != "Gutscheine")
+    {
+        print( $preline );
+	print( "<tr>$indent2</tr>\n" );
+	print( "<tr><td colspan=\"4\"><img src=\"/sitedesign/mygold/images/shim.gif\" width=\"1\" height=\"3\" alt=\"\" /></td></tr>\n" );
+    }
+    elseif ( $name == "Gutscheine" )
+    {
+	print("");
+    }
     else
-        print( "<tr>$indent $indent2 <td>&nbsp;&nbsp;</td></tr>\n" );
+    {
+	print( "<tr>$indent $indent2 <td>&nbsp;&nbsp;</td></tr>\n" );
+    }
 }
 
 
 ?>
+
+	<tr>
+	  <td colspan="4"><img src="/sitedesign/mygold/images/shim.gif" width="1" height="3" alt="" /></td>
+	</tr>
+	<tr>
+	  <th colspan="4">Gutscheine</th>
+	</tr>
+	<tr>
+	  <td colspan="4"><img src="/sitedesign/mygold/images/shim.gif" width="1" height="3" alt="" /></td>
+	</tr>
 	<tr>
 	  <td>&nbsp;</td> <td class="StMpLvTwo" colspan="2">- <a class="SiteMap" href="/schmuck/gutschein/">Gutschein</a></td> <td>&nbsp;&nbsp;</td>
 	</tr>
@@ -77,12 +88,12 @@ foreach ( $categoryArray as $catItem )
       </table>
     </td>
     <td valign="top">
-      <table bgcolor="#dddddd" width="230" border="0" cellpadding="0" cellspacing="0">
+      <table bgcolor="#dddddd" border="0" cellpadding="0" cellspacing="0">
         <tr>
-          <td width="1%"><img src="/sitedesign/mygold/images/shim.gif" width="10" height="1" alt="" /></td>
-          <td width="1%"><img src="/sitedesign/mygold/images/shim.gif" width="10" height="1" alt="" /></td>
-          <td width="100%"><img src="/sitedesign/mygold/images/shim.gif" width="10" height="1" alt="" /></td>
-          <td width="1%"><img src="/sitedesign/mygold/images/shim.gif" width="10" height="1" alt="" /></td>
+          <th width="1%"><img src="/sitedesign/mygold/images/shim.gif" width="10" height="1" alt="" /></th>
+          <th width="1%"><img src="/sitedesign/mygold/images/shim.gif" width="10" height="1" alt="" /></th>
+          <th width="100%"><img src="/sitedesign/mygold/images/shim.gif" width="10" height="1" alt="" /></th>
+          <th width="1%"><img src="/sitedesign/mygold/images/shim.gif" width="10" height="1" alt="" /></th>
        </tr>
        <tr>
          <th colspan="3">Firma</th>

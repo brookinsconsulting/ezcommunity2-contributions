@@ -257,7 +257,6 @@ if ( isset( $Design ) and $Design == 3 )
       <a href="http://www.campaign.paybox.de/banner.php3?merchantPayboxNo=4900011161914" target="neu"><img src="/sitedesign/mygold/images/paybox_s.gif" alt="" width="36" height="26" hspace="1" border="0" /></a> 
       <a href="http://www.visa.de" target="neu"><img src="/sitedesign/mygold/images/visa_s.gif" alt="" width="42" height="26" hspace="1" border="0" /></a> 
       <a href="http://www.eurocard.de/" target="neu"><img src="/sitedesign/mygold/images/euro_s.gif" alt="" width="37" height="26" hspace="1" border="0" /></a> 
-      <img src="/sitedesign/mygold/images/elv_s.gif" alt="" width="26" height="26" hspace="1" /> 
     </td>
   </tr>
 </table>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucherinformation.php,v 1.8.4.5 2001/10/22 12:34:24 ce Exp $
+// $Id: ezvoucherinformation.php,v 1.8.4.6 2001/10/26 09:25:23 sascha Exp $
 //
 // eZVoucherInformation class
 //
@@ -556,6 +556,9 @@ class eZVoucherInformation
         
         $mail = new eZMail();
         
+	$t->set_block( "voucheremail", "intro", "bought" );
+	$t->set_block( "voucheremail", "intro", "free" );	
+	
         $t->set_var( "description", $this->description() );
         $t->set_var( "from_name", $this->fromName() );
         $t->set_var( "to_name", $this->toName() );
@@ -592,12 +595,27 @@ class eZVoucherInformation
         $t->set_file( "voucheremail", "voucheremail.tpl" );
         
         $mail = new eZMail();
-        
-        $t->set_var( "description", $this->description() );
+	
+	$t->set_block( "voucheremail", "intro_free_tpl", "intro_free" );
+	$t->set_block( "voucheremail", "intro_bought_tpl", "intro_bought" );
+	
+	$t->set_var( "description", $this->description() );
         $t->set_var( "from_name", $this->fromName() );
         $t->set_var( "to_name", $this->toName() );
         $t->set_var( "key_number", $voucher->keyNumber() );
-
+	
+	$voucher_is_bought = true; // Dummy Value
+	
+	if ( $voucher_is_bought == true )
+	{
+	    $t->set_var( "intro_free", "" );
+	    $t->parse( "intro_bought", "intro_bought_tpl" );
+	}
+	else
+	{
+	    $t->set_var( "intro_bought", "" );
+	    $t->parse( "intro_free", "intro_free_tpl" );	    
+	}
 
         $mailAddress = $this->toOnline();
         

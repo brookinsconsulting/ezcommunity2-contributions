@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcheckoutsupplier.php,v 1.5 2001/09/28 09:19:50 ce Exp $
+// $Id: ezcheckoutsupplier.php,v 1.5.4.1 2001/10/26 09:25:23 sascha Exp $
 //
 // Definition of eZCheckoutSupplier class
 //
@@ -41,7 +41,8 @@ class eZCheckoutSupplier
         $this->PaymentMethods = array( array( "ID" => 1, "Text" => "VISA" ),
                                        array( "ID" => 2, "Text" => "Mastercard" ),
                                        array( "ID" => 3, "Text" => "Invoice" ),
-                                       array( "ID" => 4, "Text" => "Voucher" )
+                                       array( "ID" => 4, "Text" => "Gutschein" ),
+				       array( "ID" => 5, "Text" => "Nachnahme" )
                                        );
     }
 

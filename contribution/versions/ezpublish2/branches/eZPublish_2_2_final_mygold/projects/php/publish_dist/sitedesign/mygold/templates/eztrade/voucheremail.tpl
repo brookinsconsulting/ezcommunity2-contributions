@@ -1,3 +1,4 @@
+<!-- BEGIN intro_bought_tpl -->
 Guten Tag {to_name},
 
 {from_name} hat Ihnen einen MyGold.com Geschenk Gutschein gesendet.
@@ -13,7 +14,7 @@ Filialen (http://www.mygold.com/schmuck/flilialen/) einlösen.
 Viel Spaß beim Einkaufen wünscht
 			    
 MyGold.com
-			    
+
 =========================================================================
 			    
 {intl-to}: {to_name}
@@ -24,7 +25,31 @@ MyGold.com
 		    
 {intl-key_number}: {key_number}
 {intl-valid}: {valid}
+<!-- END intro_bought_tpl -->
+<!-- BEGIN intro_free_tpl -->
+Guten Tag {to_name},
+
+Sie haben einen Gutschein von MyGold.com erhalten.
+
+Sie können Ihn im Schmuck Shop von MyGold.com oder in einer unserer 
+Filialen (http://www.mygold.com/schmuck/flilialen/) einlösen.
+
+       WICHTIG!: 
+       Bitte löschen Sie diese Nachricht nicht!
+       Sie enthält die Nummer, die Sie zum Einlösen
+       Ihres Gutscheins benötigen.
 			    
+Viel Spaß beim Einkaufen wünscht
+			    
+MyGold.com
+
+=========================================================================
+			    
+{intl-to}: {to_name}
+{intl-voucher_value}: {voucher_value}
+{intl-key_number}: {key_number}
+{intl-valid}: {valid}
+<!-- END intro_free_tpl -->
 =========================================================================
 			    
 So können Sie Ihren Geschenkgutschein im Internet einlösen:
