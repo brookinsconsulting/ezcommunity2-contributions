@@ -159,8 +159,8 @@ INSERT INTO eZArticle_ArticlePermission VALUES (4,4,-1,1,1);
 # Dumping data for table 'eZArticle_Category'
 #
 
-INSERT INTO eZArticle_Category VALUES (1,'News','This is news, fresh from the press.',0,'false',1,1,1);
-INSERT INTO eZArticle_Category VALUES (2,'Static pages','Theese are static pages.',0,'true',4,1,2);
+INSERT INTO eZArticle_Category VALUES (1,'News','This is news, fresh from the press.',0,'false',1,1,1,1);
+INSERT INTO eZArticle_Category VALUES (2,'Static pages','Theese are static pages.',0,'true',4,1,2,1);
 
 #
 # Dumping data for table 'eZArticle_CategoryPermission'
