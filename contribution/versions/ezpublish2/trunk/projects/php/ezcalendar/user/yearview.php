@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: yearview.php,v 1.14 2001/02/28 20:37:06 gl Exp $
+// $Id: yearview.php,v 1.15 2001/03/08 19:14:34 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 11:29:22 bf>
@@ -147,7 +147,7 @@ if ( $build == true )
                 else
                 {
                     $t->set_var( "td_class", "bglight" );                
-                    $t->parse( "day", "empty_day_tpl", true );
+                    $t->parse( "empty_day", "empty_day_tpl", true );
                 }
             }
             $t->parse( "week", "week_tpl", true );
