@@ -54,7 +54,7 @@
 	{extra_type_item}
 
 <!-- BEGIN item_move_down_tpl -->
-	<td width="1%"><a href="{www_dir}{index}{item_down_command}/{item_id}"><img src="{www_dir}/images/move-down.gif" height="12" width="12" border="0" alt="Move down" /></a></td>
+	<td width="1%"><a href="{www_dir}{index}{item_down_command}/{item_id}"><img src="{www_dir}/admin/images/move-down.gif" height="12" width="12" border="0" alt="Move down" /></a></td>
 <!-- END item_move_down_tpl -->
 
 <!-- BEGIN no_item_move_down_tpl -->
@@ -69,7 +69,7 @@
 <!-- END no_item_separator_tpl -->
 
 <!-- BEGIN item_move_up_tpl -->
-	<td width="1%"><a href="{www_dir}{index}{item_up_command}/{item_id}"><img src="{www_dir}/images/move-up.gif" height="12" width="12" border="0" alt="Move up" /></a></td>
+	<td width="1%"><a href="{www_dir}{index}{item_up_command}/{item_id}"><img src="{www_dir}/admin/images/move-up.gif" height="12" width="12" border="0" alt="Move up" /></a></td>
 <!-- END item_move_up_tpl -->
 <!-- BEGIN no_item_move_up_tpl -->
 	<td width="1%"> &nbsp; </td>

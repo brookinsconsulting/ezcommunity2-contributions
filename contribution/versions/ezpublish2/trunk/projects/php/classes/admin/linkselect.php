@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: linkselect.php,v 1.11 2001/10/15 11:32:17 ce Exp $
+// $Id: linkselect.php,v 1.12 2001/11/12 08:03:09 ce Exp $
 //
 // Created on: <30-Apr-2001 18:33:53 amos>
 //
@@ -128,10 +128,11 @@ if ( isset( $NewSection ) or count( $sections ) == 0 )
     $section_count = $module->sectionCount();
     $section_name = isset( $DefaultSections[$section_count] ) ? $DefaultSections[$section_count] : $DefaultSection;
     $section->setName( $section_name );
+
     $section->store();
+
     $SectionID = $section->id();
     $module->addSection( $section );
-
 
     $Funcs["delete"]( $ItemID );
 
