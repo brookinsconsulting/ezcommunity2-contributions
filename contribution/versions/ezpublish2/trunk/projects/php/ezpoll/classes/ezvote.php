@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvote.php,v 1.14 2000/11/02 16:47:07 ce-cvs Exp $
+// $Id: ezvote.php,v 1.15 2000/11/20 12:34:24 ce-cvs Exp $
 //
 // Definition of eZVote class
 //
@@ -253,6 +253,29 @@ class eZVote
         return $ret;
     }
 
+        /*!
+      \static
+      Check if the user already have voted. If voted, return true.
+    */
+    function ipHasVoted( $IP, $pollID )
+    { 
+        $ret = false;
+
+        $vote_array = array();
+
+        $this->dbInit();
+
+        $this->Database->array_query( $vote_array, "SELECT * FROM eZPoll_Vote
+                                                    WHERE VotingIP='$IP' AND PollID='$pollID'" );
+        if ( count( $vote_array ) == 0 )
+        {
+            $ret = true;
+        }
+
+        return $ret;
+    }
+
+    
     /*!
       \private
       Open the database for read and write. Gets all the database information from site.ini.

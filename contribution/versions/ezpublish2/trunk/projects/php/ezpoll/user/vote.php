@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: vote.php,v 1.5 2000/10/31 09:46:45 ce-cvs Exp $
+// $Id: vote.php,v 1.6 2000/11/20 12:34:24 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -62,15 +62,25 @@ if ( !$poll->anonymous() )
 }
 else
 {
-    if ( $session->variable( "VoteOnID".$PollID ) )
+    $vote = new eZVote();
+    if ( $vote->ipHasVoted( $REMOTE_ADDR, $PollID ) == true )
     {
-        $Voted = true;
+        $Voted = false;
     }
     else
     {
-        $session->setVariable( "VoteOnID".$PollID, "true" );
-        $Voted = false;
+        $Voted = true;
     }
+    
+//      if ( $session->variable( "VoteOnID".$PollID ) )
+//      {
+//          $Voted = true;
+//      }
+//      else
+//      {
+//          $session->setVariable( "VoteOnID".$PollID, "true" );
+//          $Voted = false;
+//      }
 }
 
 
