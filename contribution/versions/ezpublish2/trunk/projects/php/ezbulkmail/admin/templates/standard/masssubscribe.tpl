@@ -67,7 +67,7 @@
 <tr>
         <td>
 	<p class="boxtext">{intl-categories}:</p>
-	<select multiple size="5" Name="CategoryArrayID">
+	<select multiple size="5" Name="CategoryArrayID[]">
 	<!-- BEGIN category_item_tpl -->
 	<option value="{category_id}">{category_name}</option>
 	<!-- END category_item_tpl -->
@@ -75,8 +75,12 @@
 	</td>
 </tr>
 <tr>
-        <td>
+        <td width="1%">
 	<input type="submit" value="{intl-ok}" name="OK" />
+	</td>
+        <td width="99%">
+        {intl-send_welcome_message}
+	<input type="checkbox" name="SendMail" />
 	</td>
 </tr>
 </table>

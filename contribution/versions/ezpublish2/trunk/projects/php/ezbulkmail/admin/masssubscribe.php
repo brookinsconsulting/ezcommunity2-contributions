@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: masssubscribe.php,v 1.1 2001/05/15 09:26:12 ce Exp $
+// $Id: masssubscribe.php,v 1.2 2001/05/15 10:31:16 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <14-May-2001 15:02:02 ce>
@@ -41,7 +41,7 @@ $t->setAllStrings();
 
 $t->set_file( array(
     "mass_subscribe_page" => "masssubscribe.tpl"
-     ) );
+    ) );
 
 $t->set_block( "mass_subscribe_page", "new_email_list_tpl", "new_email_list" );
 $t->set_block( "new_email_list_tpl", "new_email_item_tpl", "new_email_item" );
@@ -80,17 +80,35 @@ if ( isSet ( $OK ) && ( count ( $CategoryArrayID ) > 0 ) )
                     $bulkMail->setEncryptetPassword( $passsword );
                     $bulkMail->store();
                 }
-                
-                if ( $bulkMail->subscribe( $CategoryID ) )
+
+                foreach( $CategoryArrayID as $CategoryID )
                 {
-                    $new[] = $email;
-                    if ( $sendMail )
+                    if ( $bulkMail->subscribe( $CategoryID ) )
                     {
-                        
+                        $new[] = $email;
+                        if ( $SendMail == "on" )
+                        {
+                            $mailTemplate = new eZTemplate( "ezbulkmail/admin/" . $ini->read_var( "eZBulkMailMain", "TemplateDir" ),
+                                                            "ezbulkmail/admin/intl", $Language, "sendmail.php" );
+                            
+                            $languageIni = new INIFile( "ezbulkmail/admin/intl/$Language/sendmail.php.ini" );
+                            $mailTemplate->setAllStrings();
+                            $mailTemplate->set_file( "send_mail_tpl", "sendmail.tpl" );
+
+                            $category = new eZBulkMailCategory( $CategoryID );
+                            $mailTemplate->set_var( "category_name", $category->name() );
+
+                            $mail = new eZMail();
+                            $mail->setSubject( $languageIni->read_var( "strings", "mail_subject" ) );
+                            $mail->setTo( $email );
+                            $mail->setBody( $mailTemplate->parse( "dummy", "send_mail_tpl" ) );
+
+                            $mail->send();
+                        }
                     }
+                    else
+                        $exists[] = $email;
                 }
-                else
-                    $exists[] = $email;
             }
             else
                 $notValid[] = $email;
