@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: unassignedlist.php,v 1.1 2001/09/20 12:36:25 jb Exp $
+// $Id: unassignedlist.php,v 1.2 2001/10/11 10:34:43 jb Exp $
 //
 // Created on: <26-Oct-2000 19:40:18 bf>
 //
@@ -53,6 +53,10 @@ if ( $Command == "list" )
 //          $imageList =& eZImage::getUnassigned();
         foreach( $imageList as $imageItem )
         {
+            $cols = array( "Caption" => new eZXMLRPCString( $imageItem->caption( false ) ),
+                           "Description" => new eZXMLRPCString( $imageItem->description( false ) ),
+                           "FileName" => new eZXMLRPCString( $imageItem->originalFileName() )
+                           );
             $art[] = new eZXMLRPCStruct( array( "URL" => createURLStruct( "ezimagecatalogue",
                                                                           "image",
                                                                           $imageItem->id() ),
@@ -84,10 +88,20 @@ if ( $Command == "list" )
     }
     $part = new eZXMLRPCStruct( $part_arr );
 
-    $ReturnData = new eZXMLRPCStruct( array( "Catalogues" => $cat,
-                                             "Elements" => $art,
-                                             "Path" => $par,
-                                             "Part" => $part ) );
+    if ( $offset == 0 )
+        $cols = new eZXMLRPCStruct( array( "Caption" => new eZXMLRPCString( "text" ),
+                                           "Description" => new eZXMLRPCString( "text" ),
+                                           "FileName" => new eZXMLRPCString( "text" )
+                                           ) );
+
+    $ret = array( "Catalogues" => $cat,
+                  "Elements" => $art,
+                  "Path" => $par,
+                  "Part" => $part );
+    if ( $offset == 0 )
+        $ret["Columns"] = $cols;
+
+    $ReturnData = new eZXMLRPCStruct( $ret );
 }
 
 ?>

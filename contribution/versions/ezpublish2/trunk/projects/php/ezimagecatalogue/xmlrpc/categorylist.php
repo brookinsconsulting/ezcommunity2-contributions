@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categorylist.php,v 1.7 2001/09/08 11:15:03 jb Exp $
+// $Id: categorylist.php,v 1.8 2001/10/11 10:34:43 jb Exp $
 //
 // Created on: <26-Oct-2000 19:40:18 bf>
 //
@@ -74,10 +74,12 @@ if ( $Command == "list" )
 
             foreach ( $categoryList as $catItem )
             {
+                $cols = array( "Description" => new eZXMLRPCString( $catItem->description( false ) ) );
                 $cat[] = new eZXMLRPCStruct( array( "URL" => createURLStruct( "ezimagecatalogue",
                                                                               "category",
                                                                               $catItem->id() ),
-                                                    "Name" => new eZXMLRPCString( $catItem->name( false ) )
+                                                    "Name" => new eZXMLRPCString( $catItem->name( false ) ),
+                                                    "Columns" => new eZXMLRPCStruct( $cols )
                                                     )
                                              );
             }
@@ -95,11 +97,16 @@ if ( $Command == "list" )
             $imageList =& $category->images( "time", $loc_offset, $loc_max );
             foreach( $imageList as $imageItem )
             {
+                $cols = array( "Caption" => new eZXMLRPCString( $imageItem->caption( false ) ),
+                               "Description" => new eZXMLRPCString( $imageItem->description( false ) ),
+                               "FileName" => new eZXMLRPCString( $imageItem->originalFileName() )
+                               );
                 $art[] = new eZXMLRPCStruct( array( "URL" => createURLStruct( "ezimagecatalogue",
                                                                               "image",
                                                                               $imageItem->id() ),
                                                     "Name" => new eZXMLRPCString( $imageItem->name( false ) ),
-                                                    "Thumbnail" => new eZXMLRPCBool( true )
+                                                    "Thumbnail" => new eZXMLRPCBool( true ),
+                                                    "Columns" => new eZXMLRPCStruct( $cols )
                                                     )
                                              );
             }
@@ -139,10 +146,18 @@ if ( $Command == "list" )
     }
     $part = new eZXMLRPCStruct( $part_arr );
 
-    $ReturnData = new eZXMLRPCStruct( array( "Catalogues" => $cat,
-                                             "Elements" => $art,
-                                             "Path" => $par,
-                                             "Part" => $part ) ); // array starting with top level catalogue, ending with parent.
+    if ( $offset == 0 )
+        $cols = new eZXMLRPCStruct( array( "Caption" => new eZXMLRPCString( "text" ),
+                                           "Description" => new eZXMLRPCString( "text" ),
+                                           "FileName" => new eZXMLRPCString( "text" )
+                                           ) );
+    $ret = array( "Catalogues" => $cat,
+                  "Elements" => $art,
+                  "Path" => $par,
+                  "Part" => $part );
+    if ( $offset == 0 )
+        $ret["Columns"] = $cols;
+    $ReturnData = new eZXMLRPCStruct( $ret );
 }
 else if ( $Command == "tree" )
 {
