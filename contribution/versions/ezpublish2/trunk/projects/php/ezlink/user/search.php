@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.4 2000/10/27 10:58:35 bf-cvs Exp $
+// $Id: search.php,v 1.5 2000/11/01 15:56:24 ce-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <15-Sep-2000 14:40:06 bf>
@@ -60,6 +60,18 @@ $linkGroup->get ( $LGID );
 
 $link = new eZLink();
 
+// Path
+$pathArray = $linkGroup->path();
+
+$t->set_var( "path_item", "" );
+foreach ( $pathArray as $path )
+{
+    $t->set_var( "group_id", $path[0] );
+
+    $t->set_var( "group_name", $path[1] );
+    
+    $t->parse( "path_item", "path_item_tpl", true );
+}
 
 if ( isSet( $URLQueryString ) )
 {
@@ -140,7 +152,6 @@ if ( $QueryString != "" )
                 
             $LGID =  ( $link_array[ $i ][ "LinkGroup" ] );
                 
-            $t->set_var( "printpath", $linkGroup->printPath( $LGID, "ezlink/linklist.php" ) );  
                 
             $hit = new eZHit();
             $hits = $hit->getLinkHits( $link_array[ $i ][ "ID" ] );
@@ -157,6 +168,7 @@ if ( $QueryString != "" )
 }
 else
 {
+    $t->set_var( "search_item", "" );
     $t->parse( "empty_result", "empty_result_tpl" );
 } 
 
@@ -168,7 +180,6 @@ $t->set_var( "link_message", $tlink_message );
 
 $t->set_var( "linkgroup_id", $LGID );
 
-$t->set_var( "printpath", $linkGroup->printPath( 0, "ezlink/linklist.php" ) );                       
 
 $t->pparse( "output", "search_list" );
 ?>

@@ -27,6 +27,7 @@
 <img src="/ezarticle/admin/images/path-slash.gif" height="10" width="20" border="0">
 
 <a class="path" href="/link/group/{group_id}/">{group_name}</a>
+
 <!-- END path_item_tpl -->
 
 <hr noshade size="4">

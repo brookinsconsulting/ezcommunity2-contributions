@@ -15,6 +15,21 @@
 
 <hr noshade size="4" />
 
+<!-- BEGIN path_tpl -->
+
+<img src="/ezarticle/admin/images/path-arrow.gif" height="10" width="15" border="0">
+
+<a class="path" href="/link/group/0/">{intl-top}</a>
+
+<!-- END path_tpl -->
+
+<!-- BEGIN path_item_tpl -->
+
+<!-- END path_item_tpl -->
+
+<hr noshade size="4">
+
+
 <h2>Search for: "{query_string}"</h2>
 <br>
 
@@ -30,7 +45,7 @@
 <tr>
 
 	<td bgcolor="{bg_color}">
-	<a href="/link/gotolink/addhit/{link_id}/{link_url}/">{link_title}</a> ( {intl-max} {link_hits} )<br>
+	<a href="/link/gotolink/addhit/{link_id}/?Url={link_url}">{link_title}</a> ( {intl-max} {link_hits} )<br>
         {link_description}<br><br>
         
      </td>
