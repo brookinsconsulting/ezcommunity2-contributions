@@ -1,9 +1,8 @@
-</table>
     </td>
 
     
 	<td>
-	<img src="images/1x1.gif" width="6" height="6" border="0" /><br />
+	<img src="/images/1x1.gif" width="6" height="6" border="0" /><br />
 	</td>
 	<td width="98%" valign="top">
 

@@ -1,58 +1,54 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
-
-<head>
-<title>eZ publish administrasjon</title>
-<link rel="stylesheet" type="text/css" href="/<? echo $SiteStyle; ?>.css"/>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
-
-<SCRIPT LANGUAGE="JavaScript1.2">
-<!--//
-function verify( msg, url )
-{
-    if ( confirm( msg ) )
-    {
-        this.location = url;
-    }
-}
-
-//-->
-</SCRIPT>  
-
-</head>
-
-
-
-<body bgcolor="#777777">
-
 <?
-// This page should have templates, but because of speed concerns
-// we have not implemented this yet. So this code looks ugly.
+// 
+// $Id: header.php,v 1.22 2001/01/23 19:43:24 bf Exp $
+//
+// Bård Farstad <bf@ez.no>
+// Created on: <23-Jan-2001 16:06:07 bf>
+//
+// This source file is part of eZ publish, publishing software.
+// Copyright (C) 1999-2001 eZ systems as
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
+//
+
 include_once( "classes/INIFile.php" );
-$ini = new INIFIle( "site.ini" );
-$Language = $ini->read_var( "eZUserMain", "Language" );
+$ini = new INIFile( "site.ini" );
+
+include_once( "classes/eztemplate.php" );
 
 
-$LanguageIni = new INIFIle( "intl/" . $Language . "/header.php.ini", false );
+$ini =& $GlobalSiteIni;
+$Language =& $ini->read_var( "eZUserMain", "Language" );
 
-$userLogin = $LanguageIni->read_var( "strings", "login_user" );
-$status = $LanguageIni->read_var( "strings", "status" );
-$passwordChange = $LanguageIni->read_var( "strings", "password_change" );
 
-$user =& eZUser::currentUser();
+$t = new eZTemplate( "templates/" . $SiteStyle,
+                     "intl/", $Language, "header.php" );
 
-if ( $user )
-{
-    $firstName =& $user->firstName();
-    $lastName =& $user->lastName();
-}
 
-?>
+$t->set_file( array(
+    "header_tpl" => "header.tpl"
+    ) );
 
-<h1>HEADER</h1>
+$t->set_var( "site_style", $SiteStyle );
+
+$t->set_var( "module_name", $moduleName );
+
+
+$t->setAllStrings();
+
+$t->pparse( "output", "header_tpl" );
     
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-<tr>
-	<td width="1%" valign="top">
-    <table width="150" border="0" cellspacing="0" cellpadding="0">
+?>
