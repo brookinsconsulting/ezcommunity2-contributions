@@ -78,7 +78,7 @@
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td valign="top>
+	<td valign="top">
 	<input type="hidden" name="UserID" value="{user_id}" />
 	<input class="okbutton" type="submit" value="OK" />
 	</td>
