@@ -38,7 +38,7 @@
 	<!-- END edit_tpl -->
 </tr>
 </table>
-
+<br />
 <!-- BEGIN download_tpl -->
 <input class="okbutton" type="submit" name="Download" value="{intl-download}">
 <!-- END download_tpl -->
