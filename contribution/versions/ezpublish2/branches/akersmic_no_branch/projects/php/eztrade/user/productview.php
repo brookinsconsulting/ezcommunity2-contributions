@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productview.php,v 1.77.2.2.4.7 2002/01/29 12:40:23 bf Exp $
+// $Id: productview.php,v 1.77.2.2.4.8 2002/02/01 13:21:27 bf Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -98,34 +98,27 @@ if ( !isSet( $IntlDir ) )
 if ( !isSet( $IniFile ) )
     $IniFile = "productview.php";
 
+$TemplateDir =  $ini->read_var( "eZTradeMain", "TemplateDir" );
+
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                      $IntlDir, $Language, $IniFile );
 
 $t->setAllStrings();
 
-if ( !isSet( $productview ) )
-    $productview = "productview.tpl";
+$sectionOverride = "_sectionoverride_$GlobalSectionID";
 
-if ( isSet( $template_array ) and isSet( $variable_array ) and
-     is_array( $template_array ) and is_array( $variable_array ) )
+$t->set_var( "extra_product_info", "" );
+
+
+// section override
+if ( eZFile::file_exists( "eztrade/user/$TemplateDir/productview" . $sectionOverride  . ".tpl" ) )
 {
-    $standard_array = array( "product_view_tpl" => $productview );
-    $temp_arr = array_merge( $standard_array, $template_array );
-    $t->set_file( $temp_arr );
-    $t->set_file_block( $template_array );
-    if ( isSet( $block_array ) and is_array( $block_array ) )
-        $t->set_block( $block_array );
-    $t->parse( $variable_array );
+    $t->set_file( "product_view_tpl", "productview" . $sectionOverride  . ".tpl"  );
 }
 else
 {
-    $t->set_var( "extra_product_info", "" );
-    $t->set_file( "product_view_tpl", $productview );
+    $t->set_file( "product_view_tpl", "productview.tpl" );
 }
-
-//  $t->set_file( array(
-//      "product_view_tpl" => "productview.tpl"
-//      ) );
 
 
 $t->set_block( "product_view_tpl", "product_number_item_tpl", "product_number_item" );
