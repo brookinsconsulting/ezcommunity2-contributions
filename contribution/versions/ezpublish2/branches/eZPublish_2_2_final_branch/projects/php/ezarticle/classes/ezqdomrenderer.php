@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezqdomrenderer.php,v 1.55.2.10 2002/01/16 10:33:17 kaid Exp $
+//
+// $Id: ezqdomrenderer.php,v 1.55.2.11 2002/01/23 11:30:52 ce Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -47,17 +47,17 @@
   ezrticle/modules dir.
 
   <bullet>
-  
+
   </bullet>
 
   <html>
   html code, this will print out the HTML code..
   </html>
-  
+
   <cpp>
   cpp code
   </cpp>
-  
+
   <php>
   php code
   </php>
@@ -69,11 +69,11 @@
   <ezhtml>
   html code
   </ezhtml>
-  
+
   <shell>
   shell code
   </shell>
-  
+
   <sql>
   sql code
   </sql>
@@ -85,7 +85,7 @@
   <lisp>
   lisp code
   </lisp>
-  
+
   <bold>
   bold text
 
@@ -126,9 +126,9 @@
   <td width colspan rowspan>
 
   <hr> - horiznontal line
-  
+
   \endcode
-  \sa eZQDomGenerator  
+  \sa eZQDomGenerator
 */
 
 /*!TODO
@@ -146,9 +146,9 @@ class eZQDomrenderer
       Creates a new eZQDomGenerator object.
     */
     function eZQDomrenderer( &$article, $template=false )
-    {        
+    {
         $UsedImageList = array();
-        
+
         $ini =& INIFile::globalINI();
 
         $this->Template = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
@@ -163,7 +163,7 @@ class eZQDomrenderer
             $this->Template->set_file( "articletags_tpl", "articletags.tpl"  );
 
         }
-        
+
         $this->Template->set_block( "articletags_tpl", "header_1_tpl", "header_1"  );
         $this->Template->set_block( "articletags_tpl", "header_2_tpl", "header_2"  );
         $this->Template->set_block( "articletags_tpl", "header_3_tpl", "header_3"  );
@@ -177,19 +177,19 @@ class eZQDomrenderer
         $this->Template->set_block( "image_tpl", "image_link_tpl", "image_link"  );
         $this->Template->set_block( "image_tpl", "ext_link_tpl", "ext_link"  );
         $this->Template->set_block( "image_tpl", "no_link_tpl", "no_link"  );
-	
+
         $this->Template->set_block( "image_tpl", "image_text_tpl", "image_text"  );
 
         $this->Template->set_block( "articletags_tpl", "image_float_tpl", "image_float" );
         $this->Template->set_block( "image_float_tpl", "image_link_float_tpl", "image_link_float" );
-        $this->Template->set_block( "image_float_tpl", "ext_link_float_tpl", "ext_link_float"  );        
+        $this->Template->set_block( "image_float_tpl", "ext_link_float_tpl", "ext_link_float"  );
         $this->Template->set_block( "image_float_tpl", "no_link_float_tpl", "no_link_float"  );
 
-        $this->Template->set_block( "articletags_tpl", "link_tpl", "link"  );        
+        $this->Template->set_block( "articletags_tpl", "link_tpl", "link"  );
         $this->Template->set_block( "articletags_tpl", "popuplink_tpl", "popuplink"  );
-        
+
         $this->Template->set_block( "articletags_tpl", "hr_tpl", "hr"  );
-	
+
         $this->Template->set_block( "articletags_tpl", "bold_tpl", "bold"  );
         $this->Template->set_block( "articletags_tpl", "italic_tpl", "italic"  );
         $this->Template->set_block( "articletags_tpl", "underline_tpl", "underline"  );
@@ -256,7 +256,7 @@ class eZQDomrenderer
                     foreach ( $child->children as $article )
                     {
                         if ( $article->name == "intro" )
-                        {                           
+                        {
                             if ( count( $article->children ) > 0 )
                             {
                                 foreach ( $article->children as $paragraph )
@@ -271,7 +271,7 @@ class eZQDomrenderer
                                     $intro .= $this->renderLink( $paragraph );
                                     $intro .= $this->renderHr( $paragraph );
                                     $intro .= $this->renderTable( $paragraph );
-                                    
+
                                     $this->PrevTag = $paragraph->name;
                                 }
                             }
@@ -279,7 +279,7 @@ class eZQDomrenderer
                     }
                 }
             }
-                
+
 //            $newArticle = eZTextTool::nl2br( $intro );
             $newArticle = $intro;
         }
@@ -295,13 +295,13 @@ class eZQDomrenderer
 //        $xml =& qdom_tree( $this->Article->contents() );
 
         $xml =& eZXML::domTree( $this->Article->contents() );
-                        
+
 //        $xml =& xmltree( $this->Article->contents() );
 
 //        $err = qdom_error();
 //        if ( $err )
 //            print( $err );
-        
+
         if ( !$xml )
         {
             print( "<br /><b>Error: eZQDomRenderer::docodeXML() could not decode XML</b><br />" );
@@ -315,11 +315,11 @@ class eZQDomrenderer
 
             if ( get_class( $this->Article ) == "ezarticle" )
                 $articleMedia =& $this->Article->media();
-            
+
             $articleID = $this->Article->id();
 
             $body = array();
-            
+
             foreach ( $xml->children as $child )
             {
                 if ( $child->name == "article" )
@@ -341,11 +341,11 @@ class eZQDomrenderer
                                     $intro .= $this->renderLink( $paragraph );
                                     $intro .= $this->renderHr( $paragraph );
                                     $intro .= $this->renderTable( $paragraph );
-                                    
+
                                     $this->PrevTag = $paragraph->name;
                                 }
                         }
-                        
+
                         if ( $article->name == "body" )
                         {
                             $body = $article->children;
@@ -379,7 +379,7 @@ class eZQDomrenderer
 
 
 							$this->PrevTag = $paragraph->name;
-							
+
 						}
                     $pageArray[] = $pageContent;
                 }
@@ -410,7 +410,7 @@ class eZQDomrenderer
 
         $returnArray[] =& $intro;
         $returnArray[] =& $bodyContents;
-        
+
         return $returnArray;
     }
 
@@ -448,10 +448,10 @@ class eZQDomrenderer
                         // nested tags in header ? not yet..
 //                        $content .= $this->renderStandards( $child );
 //                        $content .= $this->renderCustom( $child );
-//                        $content .= $this->renderLink( $child );                        
+//                        $content .= $this->renderLink( $child );
                     }
             }
-            
+
             $level = min( 6, $level );
             $level = max( 1, $level );
 
@@ -473,7 +473,7 @@ class eZQDomrenderer
         {
             $articleImages = $this->Article->images();
             $articleID = $this->Article->id();
-            
+
             $level = 1;
             if  ( count( $paragraph->attributes ) > 0 )
             foreach ( $paragraph->attributes as $attr )
@@ -501,7 +501,7 @@ class eZQDomrenderer
                     case "href" :
                     {
                         $imageHref = $attr->children[0]->content;
-              
+
                     }
                     break;
 
@@ -534,7 +534,7 @@ class eZQDomrenderer
                 $imageHref = $image->filePath();;
             }
 
-            
+
             // add image if a valid image was found, else report an error in the log.
             if ( get_class( $image ) == "ezimage" )
             {
@@ -542,7 +542,7 @@ class eZQDomrenderer
 
                 // store the relative ID to the image
                 $this->UsedImageList[] = $imageID;
-                
+
                 switch ( $imageSize )
                 {
                     case "small" :
@@ -569,14 +569,14 @@ class eZQDomrenderer
                         $variation =& $image;
                     }
                     break;
-                    
+
                     default :
                     {
                         $variation =& $image->requestImageVariation( $ini->read_var( "eZArticleMain", "MediumImageWidth" ),
                         $ini->read_var( "eZArticleMain", "MediumImageHeight" ) );
                     }
                 }
-                            
+
                 if ( get_class( $variation ) == "ezimage" )
                 {
                     $imageURL = $variation->filePath();
@@ -593,7 +593,7 @@ class eZQDomrenderer
                 if ( $imageCaptionOverride != "" )
                 {
                     if ( $imageCaptionOverride == "_blank" )
-                    {                    
+                    {
                         $imageCaption = "";
                     }
                     else
@@ -605,7 +605,7 @@ class eZQDomrenderer
                 {
                     $imageCaption = $image->caption();
                 }
-                
+
                 $imageID = $image->id();
 
                 $viewMode = $GLOBALS["ViewMode"];
@@ -615,7 +615,7 @@ class eZQDomrenderer
                     $viewMode = "view";
                 }
 
-                
+
                 $this->Template->set_var( "image_file_name", $image->fileName() );
 
                 $this->Template->set_var( "image_width", $imageWidth );
@@ -629,9 +629,9 @@ class eZQDomrenderer
                 $this->Template->set_var( "target", $imageTarget );
 
                 $this->Template->set_var( "referer_url", $GLOBALS["REQUEST_URI"] );
-                
+
                 if ( $imageAlignment != "float"  )
-                {                
+                {
                     if ( $imageHref == "0" )
                     {
                         $this->Template->set_var( "ext_link", "" );
@@ -663,11 +663,11 @@ class eZQDomrenderer
                     {
                         $this->Template->parse( "image_text", "image_text_tpl" );
                     }
-                    
+
                     $pageContent = $this->Template->parse( "image", "image_tpl" );
                 }
                 else
-                {                    
+                {
                     if ( $imageHref == "0" )
                     {
                         $this->Template->set_var( "ext_link_float", "" );
@@ -757,7 +757,7 @@ class eZQDomrenderer
       Renders file tags.
     */
     function &renderFile( $paragraph )
-    {        
+    {
         $pageContent = "";
         if ( $paragraph->name == "file" )
         {
@@ -792,10 +792,10 @@ class eZQDomrenderer
             if ( get_class( $file ) == "ezvirtualfile" )
             {
                 $fileID = $file->id();
-                
+
                 $ini =& INIFile::globalINI();
 
-                $this->Template->set_var( "file_uri", "/filemanager/download/" . $fileID );
+                $this->Template->set_var( "file_uri", "/filemanager/download/" . $fileID . "/" . $file->originalFileName() );
                 $this->Template->set_var( "text", $fileText );
 
                 $pageContent = $this->Template->parse( "file", "file_tpl" );
@@ -804,9 +804,9 @@ class eZQDomrenderer
         }
         return $pageContent;
     }
-    
 
-    
+
+
     function &renderPlain( $paragraph )
     {
         // ordinary text
@@ -849,13 +849,13 @@ class eZQDomrenderer
                             $content = "";
                             if ( $listItem->name == "text" )
                             {
-                                $content .= $listItem->content;                                
+                                $content .= $listItem->content;
                             }
                             else
                             {
                                 $content .= $this->renderStandards( $listItem );
                                 $content .= $this->renderCustom( $listItem );
-                                $content .= $this->renderLink( $listItem );                        
+                                $content .= $this->renderLink( $listItem );
                                 $content .= $this->renderImage( $listItem );
                                 $content .= $this->renderMedia( $listItem );
                                 $content .= $this->renderFile( $listItem );
@@ -877,7 +877,7 @@ class eZQDomrenderer
                         {
                             $content .= $this->renderStandards( $child );
                             $content .= $this->renderCustom( $child );
-                            $content .= $this->renderLink( $child );                        
+                            $content .= $this->renderLink( $child );
                             $content .= $this->renderImage( $child );
                             $content .= $this->renderMedia( $child );
                             $content .= $this->renderFile( $child );
@@ -924,7 +924,7 @@ class eZQDomrenderer
             } break;
 
             case "bold" :
-            case "italic" :                
+            case "italic" :
             case "underline" :
             case "strike" :
             case "strong" :
@@ -944,7 +944,7 @@ class eZQDomrenderer
                             $tmpContent .= $child->content;
                         else
                             $tmpContent .= eZTextTool::nl2br( $child->content, $this->BrOverride );
-                            
+
                     }
                     else
                     {
@@ -961,9 +961,9 @@ class eZQDomrenderer
                 }
 
                 $this->Template->set_var( "contents", $tmpContent );
-                
+
                 switch ( $paragraph->name )
-                {    
+                {
                     case "bold" :
                         $pageContent = trim( $this->Template->parse( "bold", "bold_tpl" ) );
                         break;
@@ -1002,13 +1002,13 @@ class eZQDomrenderer
                         {
                             $formRenderer = new eZFormRenderer();
                             $output = $formRenderer->renderForm(  $forms[0] );
-                            
+
                             $pageContent = $output;
                         }
                     }
                     break;
                 }
-                
+
             }break;
         }
 
@@ -1032,7 +1032,7 @@ class eZQDomrenderer
                 foreach ( $paragraph->children as $child )
                 {
                     if ( $child->name == "text" )
-                    {                
+                    {
                         $tmpContent .= eZTextTool::nl2br( $child->content, $this->BrOverride );
                     }
                     else
@@ -1051,13 +1051,13 @@ class eZQDomrenderer
             }
 
             $this->Template->set_var( "contents", $tmpContent );
-            
+
             $pageContent = trim( $this->Template->parse( "$tagName", $tagName ."_tpl" ) );
         }
 
         return $pageContent;
     }
-    
+
     /*!
       Renders link tags.
     */
@@ -1068,7 +1068,7 @@ class eZQDomrenderer
         {
             if ( count( $paragraph->attributes ) > 0 )
             foreach ( $paragraph->attributes as $attr )
-            {                
+            {
                 switch ( $attr->name )
                 {
                     case "href" :
@@ -1087,26 +1087,26 @@ class eZQDomrenderer
                     {
                        $target = $attr->children[0]->content;
                     }
-                    break;                    
+                    break;
                 }
             }
 
             if ( !preg_match( "%^(([a-z]+://)|/|#)%", $href ) )
                 $href = "http://" . $href;
-            
+
             $this->Template->set_var( "href", $href );
 			if ( !isset( $target ) )
 				$target = "";
             $this->Template->set_var( "target", $target );
             $this->Template->set_var( "link_text", $text );
             $pageContent =& trim( $this->Template->parse( "link", "link_tpl" ) );
-        }    
+        }
 
         if ( $paragraph->name == "popuplink" )
         {
             if ( count( $paragraph->attributes ) > 0 )
             foreach ( $paragraph->attributes as $attr )
-            {                
+            {
                 switch ( $attr->name )
                 {
                     case "href" :
@@ -1125,12 +1125,12 @@ class eZQDomrenderer
 
             if ( !preg_match( "%^(([a-z]+://)|/|#)%", $href ) )
                 $href = "http://" . $href;
-            
+
             $this->Template->set_var( "href", $href );
             $this->Template->set_var( "link_text", $text );
             $pageContent =& trim( $this->Template->parse( "popuplink", "popuplink_tpl" ) );
-        }    
-        
+        }
+
 
         // ez anchor
         if ( $paragraph->name == "ezanchor" )
@@ -1146,7 +1146,7 @@ class eZQDomrenderer
                         break;
                     }
                 }
-                        
+
             $pageContent .= "<a name=\"$href\"></a>";
         }
 
@@ -1183,7 +1183,7 @@ class eZQDomrenderer
             $this->Template->set_var( "link_text", $text );
             $pageContent =& $this->Template->parse( "link", "link_tpl" );
         }
-        
+
         // ezarticle
         if ( $paragraph->name == "ezarticle" )
         {
@@ -1286,8 +1286,8 @@ class eZQDomrenderer
     {
         return $this->UsedImageList;
     }
-    
-    
+
+
     function &renderHr( $paragraph )
     {
         $pageContent = "";
@@ -1330,10 +1330,10 @@ class eZQDomrenderer
 
             foreach ( $paragraph->children as $row )
             {
-                if ( $row->name == "tr" )            
+                if ( $row->name == "tr" )
                 {
                     $this->Template->set_var( "td", "" );
-                                
+
                     foreach ( $row->children as $data )
                     {
                         if ( $data->name == "td" )
@@ -1355,12 +1355,12 @@ class eZQDomrenderer
                                         case "colspan" :
                                         {
                                             $tdColspan = $attr->children[0]->content;
-                                        } 
+                                        }
                                         break;
                                         case "rowspan" :
                                         {
                                             $tdRowspan = $attr->children[0]->content;
-                                        } 
+                                        }
                                         break;
                                     }
                                 }
@@ -1380,7 +1380,7 @@ class eZQDomrenderer
             $this->Template->set_var( "table_border", $tableBorder );
             $pageContent =& $this->Template->parse( "table", "table_tpl" );
         }
-        
+
         return $pageContent;
     }
 
@@ -1396,7 +1396,7 @@ class eZQDomrenderer
             foreach ( $paragraph->children as $child )
             {
                 if ( $child->name == "text" )
-                {                
+                {
 					if ( !isset( $child->content ) )
 						$child->content = "";
                     $tmpContent .= eZTextTool::nl2br( $child->content, $this->BrOverride );
