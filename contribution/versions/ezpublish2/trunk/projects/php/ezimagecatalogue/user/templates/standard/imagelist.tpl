@@ -57,7 +57,7 @@
 <!-- BEGIN image_tpl -->
 {begin_tr}
 	<!-- BEGIN read_tpl -->
-	<td {col_span} align="center" valign="center">
+	<td align="center" valign="center">
 	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/image/list/{main_category_id}/"><img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a><div class="pictext">{image_caption}</div>
 	</td>
 	<!-- END read_tpl -->
@@ -115,12 +115,12 @@
 <tr>
 <!-- BEGIN previous_tpl -->
 <td align="left">
-<a href="/imagecatalogue/image/list/{main_category_id}/{prev-offset}/">{intl-previous}</a>
+<a class="path" href="/imagecatalogue/image/list/{main_category_id}/{prev-offset}/">&lt;&lt;&nbsp;{intl-previous}</a>
 </td>
 <!-- END previous_tpl -->
 <!-- BEGIN next_tpl -->
 <td align="right">
-<a href="/imagecatalogue/image/list/{main_category_id}/{next-offset}/">{intl-next}</a>
+<a class="path" href="/imagecatalogue/image/list/{main_category_id}/{next-offset}/">{intl-next}&nbsp;&gt;&gt;</a>
 </td>
 <!-- END next_tpl -->
 </tr>

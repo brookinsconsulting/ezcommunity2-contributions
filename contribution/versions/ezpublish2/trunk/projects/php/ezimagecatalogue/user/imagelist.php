@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.28 2001/06/28 09:43:35 jhe Exp $
+// $Id: imagelist.php,v 1.29 2001/06/29 14:58:22 th Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -213,6 +213,7 @@ $limit = $ini->read_var( "eZImageCatalogueMain", "ListImagesPerPage" );
 $imageList =& $category->images( "time", $Offset, $limit );
 
 $i = 0;
+$j = 0;
 $counter = 0;
 foreach ( $imageList as $image )
 {
@@ -299,11 +300,11 @@ foreach ( $imageList as $image )
         }
 
         $can_read = true;
-        if ( ( $i % $imagesPerRow ) == 0 )
+        if ( ( $j % $imagesPerRow ) == 0 )
         {
             $t->set_var( "begin_tr", "<tr>" );
         }
-        else if ( ( $i % $imagesPerRow ) == ( $imagesPerRow - 1 ) )
+        else if ( ( $j % $imagesPerRow ) == ( $imagesPerRow - 1 ) )
         {
             $t->set_var( "end_tr", "</tr>" );
         }
@@ -316,7 +317,7 @@ foreach ( $imageList as $image )
         {
             $t->parse( "read", "read_tpl" );
         }
-        $i++;
+        $j++;
     }
 
     // Check if user have write permission
