@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-# $Id: check_lang.pl,v 1.1 2001/09/12 09:05:27 gl Exp $
+# $Id: check_lang.pl,v 1.1.2.1 2001/11/15 16:32:35 bf Exp $
 #
 # This script checks the eZ publish distribution for missing
 # language files. en_GB is used as reference language.
@@ -100,6 +100,8 @@ sub checkModule
 		    }
 		    $i++;
 		}
+		push( @ref_array, "\n" );
+
 
 		$i = 0;
 		foreach $line ( @check_lines )
@@ -130,6 +132,7 @@ sub checkModule
 		    }
 		    $i++;
 		}
+		push( @check_array, "\n" );
 
 		foreach $refItem ( @ref_array ) 
 		{
