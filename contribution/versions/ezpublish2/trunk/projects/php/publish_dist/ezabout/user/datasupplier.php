@@ -1,4 +1,4 @@
-<h1>About eZ publish v 2.0 beta 3</h1>
+<h1>About eZ publish v 2.0 pre release</h1>
 <hr noshade="noshade" size="4" />
 <br />
 
