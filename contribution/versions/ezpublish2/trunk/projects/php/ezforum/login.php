@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: login.php,v 1.7 2000/08/28 13:48:03 bf-cvs Exp $
+    $Id: login.php,v 1.8 2000/08/28 14:52:43 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -8,6 +8,8 @@
     
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
+
+include_once( "class.INIFile.php" );
 
 $ini = new INIFile( "site.ini" ); // get language settings
 $DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );

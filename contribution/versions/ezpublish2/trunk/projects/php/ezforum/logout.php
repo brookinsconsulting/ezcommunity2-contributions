@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: logout.php,v 1.6 2000/08/28 14:00:22 bf-cvs Exp $
+    $Id: logout.php,v 1.7 2000/08/28 14:52:43 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -9,6 +9,7 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 
+include_once( "class.INIFile.php" );
 $ini = new INIFile( "site.ini" );
 $DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
 
