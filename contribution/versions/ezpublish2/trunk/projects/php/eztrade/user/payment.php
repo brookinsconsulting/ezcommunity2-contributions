@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.69 2001/09/07 09:54:45 ce Exp $
+// $Id: payment.php,v 1.70 2001/09/15 15:53:02 pkej Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -205,56 +205,10 @@ if ( $PaymentSuccess == "true" )
         if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser" ) and
              $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
         {
-            $found_price = false;
-            if ( $ShowPriceGroups and $PriceGroup > 0 )
-            {
-                $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
-                if ( $price )
-                {
-                    $price = $price * $item->count();
-                    
-                    if ( $PricesIncludeVAT == "enabled" )
-                    {
-                        $totalVAT = $product->addVAT( $price );
-                        $price += $totalVAT;
-                    }
-                    else
-                    {
-                        $totalVAT = $product->extractVAT( $price );
-                    }
-                }
-
-                $found_price = true;
-            }
+            $price = $item->correctPrice( false, true, false );
         }
         
-        if ( !$found_price )
-        {
-            if ( $PricesIncludeVAT == "enabled" )
-            {
-                $totalVAT += $product->addVAT( $item->price( true, true ) );
-                $price += $item->price(true, true) + $totalVAT;
-            }
-            else
-            {
-                $totalVAT += $product->extractVAT( $item->price( true, true ) );
-                $price += $item->price( true, true );
-            }
-        }
-        else
-        {
-            if ( $PricesIncludeVAT == "enabled" )
-            {
-                $totalVAT = $product->addVAT( $item->price( true, true ) );
-                $price = $item->price( true, true ) + $totalVAT;
-            }
-            else
-            {
-                $totalVAT = $product->extractVAT( $item->price( true, true ) );
-                $price = $item->price( true, true );
-            }
-        }
-
+        $totalVAT = $item->correctPrice( false, true, true ) - $price;
         $currency->setValue( $price );
         
 // create a new order item
@@ -294,6 +248,10 @@ if ( $PaymentSuccess == "true" )
             $orderOptionValue->store();
         }
     }
+    
+    $cart->cartTotals( $tax, $total );
+    
+    
     
     //
     // Send mail confirmation
@@ -480,54 +438,14 @@ if ( $PaymentSuccess == "true" )
         if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser" ) and
              $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
         {
-            $found_price = false;
-            if ( $ShowPriceGroups and $PriceGroup > 0 )
-            {
-                $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
-                if ( $price )
-                {
-                    if ( $PricesIncludeVAT == "enabled" )
-                    {
-                        $totalVAT = $product->addVAT( $price );
-                        $price += $totalVAT;
-                    }
-                    else
-                    {
-                        $totalVAT = $product->extractVAT( $price );
-                    }
-
-                    $found_price = true;
-                    $price = $price * $item->count();
-                }
-            }
-            if ( !$found_price )
-            {
-                if ( $PricesIncludeVAT == "enabled" )
-                {
-                    $totalVAT = $product->addVAT( $item->price( true, true ) );
-                    $price = $item->price( true, true ) + $totalVAT;
-                }
-                else
-                {
-                    $price = $item->price( true, true );
-                    $totalVAT = $product->extractVAT( $price );
-                }
-
-            }
+            $price = $item->correctPrice( true, true, false );
         }
-        else
-        {
-            if ( $PricesIncludeVAT == "enabled" )
-            {
-                $totalVAT = $product->addVAT( $item->price( true, true ) );
-                $price = $item->price() + $totalVAT;
-            }
-            else
-            {
-                $totalVAT = $product->extractVAT( $item->price( true, true ) );
-                $price = $item->price( true, true );
-            }
-        }
+        
+        $search = '/&nbsp;/';
+        $replace = '';
+        
+        $totalVAT = $item->correctPrice( true, true, true ) - $price;
+        $currency->setValue( $price );
         
         $currency->setValue( $price );
 
@@ -548,7 +466,7 @@ if ( $PaymentSuccess == "true" )
         $mailTemplate->set_var( "order", $nameString );
         $mailTemplate->set_var( "number", $numberString );
         $mailTemplate->set_var( "count", $countString );
-        $mailTemplate->set_var( "price", $priceString );
+        $mailTemplate->set_var( "price", preg_replace( $search, $replace, $priceString ) );
 
         $optionValues =& $item->optionValues();
 
@@ -580,7 +498,7 @@ if ( $PaymentSuccess == "true" )
         
     $priceString = substr(  $locale->format( $currency ), 0, 13 );
     $priceString = str_pad( $priceString, 15, " ", STR_PAD_LEFT );
-    $mailTemplate->set_var( "product_sub_total", $priceString );
+    $mailTemplate->set_var( "product_sub_total", preg_replace( $search, $replace, $priceString ) );
 
     $shippinglPrice = $order->shippingCharge();
     $currency->setValue( $shippinglPrice );
@@ -804,7 +722,9 @@ if ( $PaymentSuccess == "true" )
         }
         $session->setVariable( "PayedWith", "" );
     }
-
+    
+    $cart->delete();
+    
     // call the payment script after the payment is successful.
     // some systems needs this, e.g. to print out the OrderID which was cleared..
     $Action = "PostPayment";

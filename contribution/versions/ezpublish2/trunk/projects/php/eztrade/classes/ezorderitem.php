@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorderitem.php,v 1.23 2001/09/15 15:15:01 pkej Exp $
+// $Id: ezorderitem.php,v 1.24 2001/09/15 15:53:01 pkej Exp $
 //
 // Definition of eZOrderItem class
 //
@@ -317,11 +317,21 @@ class eZOrderItem
     */
     function correctPrice( $calcCount=true, $withOptions=true, $calcVAT )
     {
-        echo $this->Price . ", " . $this->VAT . ", " . ( $this->Price - $this->VAT ) . "<br>\n";
-        if( $calcVAT = true )
-            return ( $this->Price + $this->VAT ) * $this->Count;
+        if ( $calcVAT == true )
+        {
+            $price =  $this->Price + $this->VAT;
+        }
         else
-            return $this->Price * $this->Count;
+        {
+            $price = $this->Price;
+        }
+        
+        if ( $calcCount == true )
+        {
+            $price = $price * $this->Count;
+        }
+        
+        return $price;
     }
 
     /*!

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartitem.php,v 1.22 2001/09/15 12:37:17 pkej Exp $
+// $Id: ezcartitem.php,v 1.23 2001/09/15 15:53:01 pkej Exp $
 //
 // Definition of eZCartItem class
 //
@@ -245,9 +245,6 @@ class eZCartItem
         {
             $optionValues =& $this->optionValues();
             $product =& $this->product();
-            
-            $vatPercentage = $product->vatPercentage();
-            $productHasVAT = $product->priceIncVAT();
             
             $optionPrice = 0.0;
             if ( $withOptions )

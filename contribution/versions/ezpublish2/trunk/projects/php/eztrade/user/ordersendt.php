@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.44 2001/09/15 14:44:31 pkej Exp $
+// $Id: ordersendt.php,v 1.45 2001/09/15 15:53:02 pkej Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -22,8 +22,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
-echo "hokken? HOt horre?";
 
 include_once( "classes/eztemplate.php" ); 
 include_once( "classes/ezlocale.php" );
@@ -390,10 +388,10 @@ foreach ( $items as $item )
     $t->set_var( "product_id", $product->id() );
     $t->set_var( "product_name", $product->name() );
     $t->set_var( "product_number", $product->productNumber() );
-    $t->set_var( "product_price", $item->localePrice( false, true, $Language, $user, $PricesIncludeVAT ) );
+    $t->set_var( "product_price", $item->localePrice( false, true, $PricesIncludeVAT ) );
     $t->set_var( "product_count", $item->count() );
-    $t->set_var( "product_total_ex_tax", $item->localePrice( true, true, $Language, $user, false ) );
-    $t->set_var( "product_total_inc_tax", $item->localePrice( true, true, $Language, $user, true ) );
+    $t->set_var( "product_total_ex_tax", $item->localePrice( true, true, false ) );
+    $t->set_var( "product_total_inc_tax", $item->localePrice( true, true, true ) );
 
     $numberOfItems++;
 
@@ -428,7 +426,7 @@ foreach ( $items as $item )
     {
         if( false )
         {
-            $t->set_var( "basis_price", $item->localePrice( false, false, $Language, $user, $PricesIncludeVAT ) );
+            $t->set_var( "basis_price", $item->localePrice( false, false, $PricesIncludeVAT ) );
             $t->parse( "cart_item_basis", "cart_item_basis_tpl", true );
         }
         else
@@ -452,7 +450,7 @@ turnColumnsOnOff( "header" );
 if ( $ShowCart == true )
 {
     
-    $order->orderTotals( $tax, $total, $user );
+    $order->orderTotals( $tax, $total );
 
     $locale = new eZLocale( $inLanguage );
     $currency = new eZCurrency();
