@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.22 2002/01/30 13:48:23 bf Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.23 2002/01/30 13:52:20 bf Exp $
 //
 // Definition of eZProduct class
 //
@@ -1693,6 +1693,8 @@ class eZProduct
 
         {
             $queryArray = explode( " ", trim( $queryText ) );
+
+            $db->query( "DROP TABLE IF EXISTS eZTrade_SearchTemp" );
 
             $db->query( "CREATE TEMPORARY TABLE eZTrade_SearchTemp( ProductID int, Name varchar(150), Price float, TypeName varchar(60) )" );
 
