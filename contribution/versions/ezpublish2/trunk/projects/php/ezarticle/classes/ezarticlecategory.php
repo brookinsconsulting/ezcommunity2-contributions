@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.33 2001/02/23 10:21:36 fh Exp $
+// $Id: ezarticlecategory.php,v 1.34 2001/02/23 10:24:25 fh Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -502,6 +502,7 @@ class eZArticleCategory
         if( get_class( $user ) != "ezuser" )
             return false;
 
+        $database =& eZDB::globalDatabase();
         // check if group
         $database->query_single( $res, "SELECT OwnerGroupID from eZArticle_ArticleCategory WHERE ID='$categoryID'");
         $ownerGroupID = $res[ "OwnerGroupID" ];
