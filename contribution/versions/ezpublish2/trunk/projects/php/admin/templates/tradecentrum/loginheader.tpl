@@ -57,7 +57,7 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td width="1%" class="tdmini">
-	<a href="http://publish.ez.no" target="_vblank"><img src="/images/{site_style}/tradecentrum-logo.gif" width="300" height="40" border="0" alt="" /></a><br />
+	<a href="http://www.tradecentrum.com" target="_vblank"><img src="/images/{site_style}/tradecentrum-logo.gif" width="300" height="40" border="0" alt="" /></a><br />
 	</td>
 	<td width="92%">
 	<img src="/images/1x1.gif" width="20" height="10" border="0" alt="" />
