@@ -11,7 +11,7 @@
 <!-- END error_permission_tpl -->
 
 <p class="boxtext">{intl-name}:</p>
-<input type="text" size="40" name="Name" value="{name_value}" />
+<input class="box" type="text" size="40" name="Name" value="{name_value}" />
 <br /><br />
 
 <input type="checkbox" name="ExcludeFromSearch" {exclude_checked} />
@@ -76,7 +76,7 @@
 
 
 <p class="boxtext">{intl-description}:</p>
-<textarea rows="5" cols="40" name="Description">{description_value}</textarea>
+<textarea class="box" rows="5" cols="40" name="Description">{description_value}</textarea>
 <br /><br />
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
