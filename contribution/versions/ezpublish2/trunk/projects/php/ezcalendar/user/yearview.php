@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: yearview.php,v 1.11 2001/01/25 14:50:17 gl Exp $
+// $Id: yearview.php,v 1.12 2001/02/08 16:19:35 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 11:29:22 bf>
@@ -27,28 +27,46 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/ezlocale.php" );
-
 include_once( "classes/ezdate.php" );
+include_once( "classes/ezdatetime.php" );
+include_once( "classes/ezcachefile.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
 $Locale = new eZLocale( $Language );
 
-$today = new eZDate( );
-$zDay = addZero( $today->day() );
+$today = new eZDateTime();
+if ( $Year == false )
+    $Year = $today->year();
 $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
                      "ezcalendar/user/intl", $Language, "yearview.php",
-                     "default", "ezcalendar" . "/user", "$Year-$zDay" );
+                     "default", "ezcalendar" . "/user", $Year );
 
 $t->set_file( "year_view_page_tpl", "yearview.tpl" );
 
+$build = false;
 if ( $t->hasCache() )
 {
 //    print( "cached<br />" );
-    print( $t->cache() );
+    $file = new eZCacheFile( "ezcalendar/user/cache", array( "yearview.tpl", "default", $Language, $Year ), "cache", "-" );
+    $dt =& $file->lastModified();
+    if ( $Year == $today->year() && $dt->day() != $today->day() )
+    {
+        $file->delete();
+        $build = true;
+    }
+    else
+    {
+        print( $t->cache() );
+    }
 }
 else
+{
+    $build = true;
+}
+
+if ( $build == true )
 {
 //    print( "not cached<br />" );
     $t->setAllStrings();
@@ -61,7 +79,7 @@ else
     $session =& eZSession::globalSession();
     $session->fetch();
 
-    $date = new eZDate( );
+    $date = new eZDate();
 
     if ( $Year != "" )
     {
@@ -141,18 +159,5 @@ else
 
     $t->storeCache( "output", "year_view_page_tpl", true );
 }
-
-//Adds a "0" in front of the value if it's below 10.
-function addZero( $value )
-{
-    settype( $value, "integer" );
-    $ret = $value;
-    if ( $ret < 10 )
-    {
-        $ret = "0". $ret;
-    }
-    return $ret;
-}
-
 
 ?>
