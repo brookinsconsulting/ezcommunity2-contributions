@@ -5,6 +5,7 @@
 # cvs tag "tag_name" tags your current version
 # cvs tag -F "tag_name" moves allready existant tags to the newest version
 
+eZPublish_2_2_2                   Stable of 2.2.2
 eZPublish_2_2_1		          Stable of 2.2.1
 eZPublish_2_2_final		  Stable release of 2.2
 eZPublish_2_2_pre                 Pre release of 2.2
