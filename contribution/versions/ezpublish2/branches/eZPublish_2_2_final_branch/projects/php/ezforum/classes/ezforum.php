@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezforum.php,v 1.54 2001/10/11 12:00:35 jhe Exp $
+// $Id: ezforum.php,v 1.54.2.1 2002/05/03 11:57:15 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -228,6 +228,27 @@ class eZForum
         $query->setIsLiteral( true );
         $query->setStopWordColumn(  "eZForum_Word.Frequency" );        
         $searchSQL = $query->buildQuery();
+
+        $user =& eZUser::currentUser();
+        if ( $user )
+        {
+            $groups =& $user->groups( false );
+            $groupString = "";
+            $i = 0;
+            
+            foreach ( $groups as $userGroup )
+            {
+                if ( $i > 0 )
+                    $groupString .= " OR ";
+                
+                $groupString .= "eZForum_Forum.GroupID=" . $userGroup;
+                $i++;
+            }
+        }
+        else
+        {
+            $groupString = "eZForum_Forum.GroupID=0";
+        }
         
         // special search for MySQL, mimic subselects ;)
         if ( $db->isA() == "mysql" )
@@ -247,10 +268,13 @@ class eZForum
                                 SELECT DISTINCT eZForum_Message.ID AS MessageID
                                 FROM eZForum_Message,
                                      eZForum_MessageWordLink,
-                                     eZForum_Word
+                                     eZForum_Word,
+                                     eZForum_Forum
                                 WHERE $searchSQL AND
                                 ( eZForum_Message.ID=eZForum_MessageWordLink.MessageID
-                                AND eZForum_MessageWordLink.WordID=eZForum_Word.ID )
+                                AND eZForum_MessageWordLink.WordID=eZForum_Word.ID ) AND
+                                eZForum_Message.ForumID=eZForum_Forum.ID AND
+                                ($groupString)
                                 ORDER BY eZForum_MessageWordLink.Frequency";
 
                 $db->query( $queryString );
@@ -278,12 +302,15 @@ class eZForum
             $queryString = "SELECT DISTINCT eZForum_Message.ID AS MessageID
                             FROM eZForum_Message,
                             eZForum_MessageWordLink,
-                            eZForum_Word
+                            eZForum_Word,
+                            eZForum_Forum
                             WHERE
                             $searchSQL
                             AND
                             ( eZForum_Message.ID=eZForum_MessageWordLink.MessageID
                             AND eZForum_MessageWordLink.WordID=eZForum_Word.ID )
+                            eZForum_Message.ForumID=eZForum_Forum.ID AND
+                            ($groupString)
                             ORDER BY eZForum_MessageWordLink.Frequency";
             
             $db->array_query( $message_array, $queryString );
