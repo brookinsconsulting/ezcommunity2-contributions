@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userbox.php,v 1.3 2000/10/24 14:02:03 ce-cvs Exp $
+// $Id: userbox.php,v 1.1 2000/10/25 07:59:56 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -30,8 +30,8 @@ include_once( "ezsession/classes/ezsession.php" );
 $user = eZUser::currentUser();
 if ( !$user ) 
 {
-    $t = new eZTemplate( $DOC_ROOT . $ini->read_var( "eZUserMain", "TemplateDir" ). "/login/",
-    $DOC_ROOT . "/intl", $Language, "login.php" );
+    $t = new eZTemplate( "ezuser/user/" .  $ini->read_var( "eZUserMain", "TemplateDir" ),
+    "ezuser/user/intl", $Language, "login.php" );
     $t->setAllStrings();
 
     $t->set_file( array(
@@ -44,8 +44,8 @@ if ( !$user )
 }
 else
 {
-    $t = new eZTemplate( $DOC_ROOT . $ini->read_var( "eZUserMain", "TemplateDir" ). "/login/",
-    $DOC_ROOT . "/intl", $Language, "login.php" );
+    $t = new eZTemplate( "ezuser/user/" .  $ini->read_var( "eZUserMain", "TemplateDir" ),
+    "ezuser/user/intl", $Language, "userbox.php" );
     $t->setAllStrings();
 
     $t->set_file( array(

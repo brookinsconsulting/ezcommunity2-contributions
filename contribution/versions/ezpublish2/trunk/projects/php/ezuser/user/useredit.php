@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.5 2000/10/24 14:11:03 ce-cvs Exp $
+// $Id: useredit.php,v 1.1 2000/10/25 07:59:56 ce-cvs Exp $
 //
 // 
 //
@@ -130,8 +130,8 @@ if ( $Action == "Update" )
     }
 }
         
-$t = new eZTemplate( "ezuser/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
-                     "ezuser/intl/", $Language, "useredit.php" );
+$t = new eZTemplate( "ezuser/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
+                     "ezuser/user/intl/", $Language, "useredit.php" );
 
 $t->setAllStrings();
 

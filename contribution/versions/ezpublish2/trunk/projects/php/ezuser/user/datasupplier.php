@@ -5,7 +5,7 @@ switch ( $url_array[2] )
     case "login" :
     {
         $Action = $url_array[3];
-        include( "ezuser/login.php" );
+        include( "ezuser/user/login.php" );
     }
     break;
 
@@ -15,7 +15,7 @@ switch ( $url_array[2] )
             $Action = "New";
         if ( $url_array[3] == "insert" )
             $Action = "Insert";
-        include( "ezuser/userwithaddress.php" );
+        include( "ezuser/user/userwithaddress.php" );
     }
     break;
 
@@ -45,30 +45,15 @@ switch ( $url_array[2] )
         }
         
         
-        include( "ezuser/useredit.php" );
+        include( "ezuser/user/useredit.php" );
     }
     break;    
     
-    case "success" :
-    {
-        $Action = $url_array[3];
-        include( "ezuser/success.php" );
-    }
-    break;
-
     case "logout" :
     {
         $Action = $url_array[3];
-        include( "ezuser/login.php" );
+        include( "ezuser/user/login.php" );
     }
     break;
-
-    case "passwordchange" :
-    {
-        $Action = $url_array[3];
-        include( "ezuser/passwordchange.php" );
-    }
-    break;
-
 }
 ?>
