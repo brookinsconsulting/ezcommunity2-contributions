@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: subscriptionlogin.php,v 1.7 2001/08/28 19:42:03 fh Exp $
+// $Id: subscriptionlogin.php,v 1.8 2001/10/10 19:46:42 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -30,6 +30,8 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/eztemplate.php" );
 
 // check hash from mail, validate the correct email address...
+$Language = $ini->read_var( "eZBulkMailMain", "Language" ); 
+$TemplateDir = $ini->read_var( "eZBulkMailMain", "TemplateDir" ); 
 $languageIni = new INIFIle( "ezbulkmail/user/intl/" . $Language . "/subscriptionlogin.php.ini", false );
 
 if( isset( $Hash ) )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: subscriptionlist.php,v 1.9 2001/09/10 12:38:15 ce Exp $
+// $Id: subscriptionlist.php,v 1.10 2001/10/10 19:46:42 fh Exp $
 //
 // Created on: <18-Apr-2001 13:36:21 fh>
 //
@@ -31,6 +31,9 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/INIFile.php" );
+
+$Language = $ini->read_var( "eZBulkMailMain", "Language" ); 
+$TemplateDir = $ini->read_var( "eZBulkMailMain", "TemplateDir" ); 
 
 if ( $ini->read_var( "eZBulkMailMain", "UseEZUser" ) == "enabled" )
 {

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.12 2001/09/08 12:16:19 ce Exp $
+// $Id: datasupplier.php,v 1.13 2001/10/10 19:46:42 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -47,7 +47,7 @@ switch ( $url_array[2] )
         $New = "new";
     case "login" :
     {
-        if ( $ini->read_var( "eZBulkMailMain", "LoginMethod" ) == "ezuser" )
+        if ( $ini->read_var( "eZBulkMailMain", "UseEZUser" ) == "enabled" )
         {
             $user =& eZUser::currentUser();
             if ( $user )
