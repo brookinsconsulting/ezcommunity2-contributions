@@ -25,4 +25,4 @@
 </table>
 
 <br />
-<a href="{referer_url}">{intl-back}</a>
+<a class="path" href="{referer_url}">&lt;&lt; {intl-back}</a>
