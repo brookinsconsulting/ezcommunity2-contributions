@@ -46,6 +46,7 @@ ezpoll
 ezuser
 ezsession
 ezcontact
+ezstats
 "
 
 for file in $files
