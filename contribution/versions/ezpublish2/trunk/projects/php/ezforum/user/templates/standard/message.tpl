@@ -61,7 +61,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<input class="okbutton" type="submit" value="{intl-answer}" />
+<input class="stdbutton" type="submit" value="{intl-answer}" />
 <!-- <a href="/forum/reply/reply/{reply_id}/">[{intl-reply}]</a> -->
 </form>
 
@@ -102,7 +102,7 @@
 <tr>
 	<td>
 	<form action="/forum/messageedit/new/{forum_id}">
-  	<input class="okbutton" type="submit" value="{intl-new-posting}" />
+  	<input class="stdbutton" type="submit" value="{intl-new-posting}" />
 	</td>
 </tr>
 </table>

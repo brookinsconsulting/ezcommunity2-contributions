@@ -46,25 +46,28 @@
 	   </td>
     </tr>
     <!-- END message_item_tpl -->
-
 </table>
 
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
 <!-- BEGIN previous_tpl -->
-<a href="/forum/messagelist/{forum_id}/?Offset={prev_offset}&Limit={limit}">
-{intl-previous}
-</a>
+	<td>
+	<a class="path" href="/forum/messagelist/{forum_id}/?Offset={prev_offset}&Limit={limit}">&lt;&lt;&nbsp;{intl-previous}</a>
+	</td>
 <!-- END previous_tpl -->
 
 <!-- BEGIN next_tpl -->
-<a href="/forum/messagelist/{forum_id}/?Offset={next_offset}&Limit={limit}">
-{intl-next}
-</a>
+	<td align="right">
+	<a class="path" href="/forum/messagelist/{forum_id}/?Offset={next_offset}&Limit={limit}">{intl-next}&nbsp;&gt;&gt;</a>
+	</td>
 <!-- END next_tpl -->
+</tr>
+</table>
 
 <form action="/forum/userlogin/new/{forum_id}">
 
 <hr noshade size="4" />
 
-<input class="okbutton" type="submit" value="{intl-new-posting}" />
+<input class="stdbutton" type="submit" value="{intl-new-posting}" />
 </form>
 

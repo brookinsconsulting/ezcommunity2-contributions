@@ -32,7 +32,7 @@
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<input class="okbutton" type="submit" name="reply" value="{intl-answer}">
+	<input class="stdbutton" type="submit" name="reply" value="{intl-answer}">
 	<input type="hidden" name="Action" value="Insert" />
 
 	</td>

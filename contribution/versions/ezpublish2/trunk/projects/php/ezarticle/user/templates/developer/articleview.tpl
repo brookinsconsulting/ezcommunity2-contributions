@@ -27,6 +27,7 @@
 {article_body}
 </p>
 
+
 <!-- BEGIN attached_file_list_tpl -->
 <h3>{intl-attached_files}:</h3>
 <!-- BEGIN attached_file_tpl -->
@@ -35,7 +36,8 @@
 
 <!-- END attached_file_list_tpl -->
 
-<p>
+<br />
+<div align="center">
 <!-- BEGIN prev_page_link_tpl -->
 <a class="path" href="/article/articleview/{article_id}/{prev_page_number}/">&lt;&lt; {intl-prev_page}</a>
 <!-- END prev_page_link_tpl -->
@@ -52,7 +54,6 @@
 <!-- BEGIN next_page_link_tpl -->
 | <a class="path" href="/article/articleview/{article_id}/{next_page_number}/">{intl-next_page} &gt;&gt;</a>
 <!-- END next_page_link_tpl -->
-</p>
 
 <!-- BEGIN numbered_page_link_tpl -->
 | <a class="path" href="/article/articleview/{article_id}/0/">{intl-numbered_page}</a> |
@@ -61,4 +62,4 @@
 <!-- BEGIN print_page_link_tpl -->
 | <a class="path" href="/article/articleprint/{article_id}/">{intl-print_page}</a> |
 <!-- END print_page_link_tpl -->
-</p>
+</div>

@@ -38,19 +38,22 @@
 
 <!-- END message_list_tpl -->
 
-<a href="/forum/category/forum/{forum_id}/?Offset={prev_offset}&Limit={limit}">
-{previous}
-</a>
-
-<a href="/forum/category/forum/{forum_id}/?Offset={next_offset}&Limit={limit}">
-{next}
-</a>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	<a class="path" href="/forum/category/forum/{forum_id}/?Offset={prev_offset}&Limit={limit}">{previous}</a>
+	</td>
+	<td align="right">
+	<a class="path" href="/forum/category/forum/{forum_id}/?Offset={next_offset}&Limit={limit}">{next}</a>
+	</td>
+</tr>
+</table>
 
 <form action="/forum/userlogin/newsimple/{forum_id}">
 
 <hr noshade size="4" />
 
-<input class="okbutton" type="submit" value="{intl-new-posting}" />
+<input class="stdbutton" type="submit" value="{intl-new-posting}" />
 <input type="hidden" name="RedirectURL" value="{redirect_url}" />
 </form>
 
