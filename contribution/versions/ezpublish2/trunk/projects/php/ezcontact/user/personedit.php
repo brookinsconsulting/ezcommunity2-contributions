@@ -94,7 +94,7 @@ $t->set_var( "cv_email_online_id", "" );
 
 /* End of the pre-defined values */
 
-if( $Action == "insert" )
+if( $Action == "insert" || $Action == "update" )
 {
     $t->set_var( "person_id", "" );
     if( empty( $Online[0] ) )
@@ -327,11 +327,14 @@ if( $Action == "edit" )
     
     $t->set_var( "birthdate", $BirthDate );
     
-    echo $BirthDate . "Needs to be split:) <br />\n";
+    include( "classes/ezdate.php" );
     
-    $t->set_var( "birthyear", "" );
-    $t->set_var( "birthmonth", "" );
-    $t->set_var( "birthday", "" );
+    $date = new eZDate();
+    $date->setMySQLDate( $BirthDate );
+    
+    $t->set_var( "birthyear", $date->year() );
+    $t->set_var( "birthmonth", $date->month() );
+    $t->set_var( "birthday", $date->day() );
     
     $t->set_var( "comment", $person->comment() );
 

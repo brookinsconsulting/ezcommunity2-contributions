@@ -1,7 +1,7 @@
 <form method="post" action="/contact/person/{action_value}/{person_id}/" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
 
-<h1>{intl-headline}</h1>
+<h1>{intl-edit_headline}</h1>
 
 <hr noshade size="4"/>
 
@@ -149,7 +149,7 @@
 <input type="hidden" name="AddressID" value="{cv_address_id}" />
 <!-- END address_item_tpl -->
 
-<h3>{intl-telephone_headline}</h3>
+<h3>{intl-online_headline}</h3>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <td>
