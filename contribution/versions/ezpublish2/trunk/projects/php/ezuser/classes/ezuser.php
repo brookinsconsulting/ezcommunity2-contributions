@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.43 2001/01/22 14:43:02 jb Exp $
+// $Id: ezuser.php,v 1.44 2001/01/22 16:03:15 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -196,7 +196,7 @@ class eZUser
     /*!
       Fetches the user id from the database. And returns a array of eZUser objects.
     */
-    function &getAll( $order="Login", $as_object = true )
+    function &getAll( $order="Login", $as_object = true, $search = false )
     {
         $db =& eZDB::globalDatabase();
 
@@ -245,7 +245,12 @@ class eZUser
         else
             $select = "ID";
 
-        $db->array_query( $user_array, "SELECT $select FROM eZUser_User ORDER By $orderBy" );
+        $query = new eZQuery( array( "FirstName", "LastName",
+                                     "Login", "Email" ), $search );
+
+        $db->array_query( $user_array, "SELECT $select FROM eZUser_User
+                                        WHERE " . $query->buildQuery() . "
+                                        ORDER By $orderBy" );
 
         if ( $as_object )
         {
