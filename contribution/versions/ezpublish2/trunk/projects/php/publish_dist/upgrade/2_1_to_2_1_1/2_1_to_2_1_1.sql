@@ -366,6 +366,15 @@ update eZUser_GroupPermissionLink set IsEnabledTmp='1' where IsEnabled='true';
 alter table eZUser_GroupPermissionLink drop IsEnabled;
 alter table eZUser_GroupPermissionLink change IsEnabledTmp IsEnabled int;
 
+# eZ sitemanager
+
+alter table eZSiteManager_Section add CreatedTmp int;
+update eZSiteManager_Section set CreatedTmp= UNIX_TIMESTAMP( Created );
+alter table eZSiteManager_Section drop Created; 
+alter table eZSiteManager_Section change CreatedTmp Created int;
+
+
+
 # Speed up listing of categories;
 
 alter table eZArticle_ArticleCategoryLink add index ( ArticleID );

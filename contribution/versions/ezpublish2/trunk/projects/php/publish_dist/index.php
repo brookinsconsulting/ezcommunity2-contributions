@@ -23,7 +23,6 @@ if ( $UsePHPSessions == true )
     session_start();
 }
 
-
 // settings for sessions
 // max timeout is set to 48 hours
 ini_alter("session.gc_maxlifetime", "172800");
@@ -287,7 +286,9 @@ else
 }
 
 // close the database connection.
-eZDB::close();
+$db =& eZDB::globalDatabase();
+$db->close();
+print( $db->isA() );
 
 // Stop benchmark test and print the result.
 $bench->stop();

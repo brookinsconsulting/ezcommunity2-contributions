@@ -14,6 +14,12 @@ $url_array = explode( "/", $REQUEST_URI );
 
 switch ( $url_array[2] )
 {
+    case "sqladmin":
+    {
+        include( "ezsitemanager/admin/sqlquery.php" );
+    }
+    break;
+    
     case "section":
     {
         switch ( $url_array[3] )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpostgresqldb.php,v 1.2 2001/06/21 10:03:50 bf Exp $
+// $Id: ezpostgresqldb.php,v 1.3 2001/06/23 11:09:44 bf Exp $
 //
 // Definition of eZPostgreSQLLDB class
 //
@@ -51,22 +51,87 @@ class eZPostgreSQLDB
         $result = pg_exec( $this->Database, $sql );
 
         if ( !$result )
-            print( "PostgreSQL error: error executing query: $sql" );
+            print( "PostgreSQL error: error executing query: $sql ".
+                   pg_errormessage ( $this->Database ) );
 
         return $result;
     }
 
-    function array_query( &$ret_array, $query )
+    function array_query( &$array, $sql, $min = 0, $max = -1, $column = false )
     {
-        $result =& $this->query( $query );
-        
-        $rows = pg_numrows( $result );
-
-        for ( $i=0; $i < $rows; $i++)
+        $array = array();
+        return $this->array_query_append( $array, $sql, $min, $max, $column );
+    }
+    
+    function array_query_append( &$array, $sql, $min = 0, $max = -1, $column = false )
+    {
+        $limit = -1;
+        $offset = 0;
+        // check for array parameters
+        if ( is_array( $min ) )
         {
-            $ret_array[] = pg_fetch_array ( $result, $i );
+            $params = $min;
+            
+            if ( is_numeric( $params["Limit"] ) )
+            {
+                $limit = $params["Limit"];
+            }
+
+            if ( is_numeric( $params["Offset"] ) )
+            {
+                $offset = $params["Offset"];
+            }
+
+        }
+
+        if ( $limit != -1 )
+        {
+            $sql .= " LIMIT $limit, $offset";
+        }
+        
+        $result =& $this->query( $sql );
+
+        if ( $result == false )
+        {
+            print( $this->Error );
+            eZLog::writeWarning( $this->Error );
+            return false;
+        }
+
+        $offset = count( $array );
+        
+        if ( pg_numrows( $result ) > 0 )
+        { 
+            if ( !is_string( $column ) )
+            {
+                for($i = 0; $i < pg_numrows($result); $i++)
+                {
+                    $array[$i + $offset] =& pg_fetch_array ( $result, $i );
+                }
+            }
+            else
+            {
+                for($i = 0; $i < pg_numrows($result); $i++)
+                {
+                    $tmp_row =& pg_fetch_array ( $result, $i );
+                    $array[$i + $offset] =& $tmp_row[$column];
+                }
+            }
         }
     }
+    
+    /*!
+      Same as array_query() but expects to recieve 1 row only (no array), no more no less.
+      $column is the same as in array_query().
+    */
+    function query_single( &$row, $sql, $column = false )
+    {
+        $array = array();
+        $ret = $this->array_query_append( $array, $sql, 1, 1, $column );
+        $row = $array[0];
+        return $ret;
+    }
+    
 
     function dateToNative( &$date )
     {

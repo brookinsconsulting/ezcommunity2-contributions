@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.74 2001/06/23 10:17:05 bf Exp $
+// $Id: ezuser.php,v 1.75 2001/06/23 11:09:44 bf Exp $
 //
 // Definition of eZUser class
 //
@@ -105,11 +105,11 @@ class eZUser
         $dbError = false;
         $db->begin( );
 
-        $email = addslashes( $this->Email );
-        $firstname = addslashes( $this->FirstName );
-        $lastname = addslashes( $this->LastName );
-        $signature = addslashes( $this->Signature );
-        $login = addslashes( $this->Login );
+        $email = $db->escapeString( $this->Email );
+        $firstname = $db->escapeString( $this->FirstName );
+        $lastname = $db->escapeString( $this->LastName );
+        $signature = $db->escapeString( $this->Signature );
+        $login = $db->escapeString( $this->Login );
 
         if ( !isset( $this->ID ) )
         {

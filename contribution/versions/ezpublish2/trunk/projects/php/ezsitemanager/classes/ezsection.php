@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsection.php,v 1.4 2001/05/25 13:19:13 ce Exp $
+// $Id: ezsection.php,v 1.5 2001/06/23 11:09:44 bf Exp $
 //
 // ezsection class
 //
@@ -34,6 +34,9 @@
   \endcode
 
 */
+
+include_once( "classes/ezdb.php" );
+include_once( "classes/ezdatetime.php" );
 	      
 class eZSection
 {
@@ -44,25 +47,12 @@ class eZSection
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZSection( $id=-1, $fetch=true )
+    function eZSection( $id=-1 )
     {
-        $this->IsConnected = false;
-        $this->ExcludeFromSearch = "false";
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
     
@@ -73,26 +63,47 @@ class eZSection
     {
         $db =& eZDB::globalDatabase();
 
-        $name = addslashes( $this->Name );
-        $description = addslashes( $this->Description );
-        $sitedesign = addslashes( $this->SiteDesign );
+        $db->begin( );
+        
+        $name = $db->escapeString( $this->Name );
+        $description = $db->escapeString( $this->Description );
+        $sitedesign = $db->escapeString( $this->SiteDesign );
+        
         if ( !isset( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZSiteManager_Section SET
-                                     Name='$name',
-                                     SiteDesign='$sitedesign',
-                                     Description='$description'" );
+            $db->lock( "eZSiteManager_Section" );
 
-			$this->ID = $db->insertID();
+            $nextID = $db->nextID( "eZSiteManager_Section", "ID" );
+            
+            $timeStamp = eZDateTime::timeStamp( true );
+
+            $res = $db->query( "INSERT INTO eZSiteManager_Section
+                                     ( ID,  Name, Created, Description,  SiteDesign )
+                                     VALUES
+                                     ( '$nextID',
+                                       '$name',
+                                       '$timeStamp',
+                                       '$sitedesign',
+                                       '$description' )" );
+
+			$this->ID = $nextID;
         }
         else
         {
-            $db->query( "UPDATE eZSiteManager_Section SET
+            $res = $db->query( "UPDATE eZSiteManager_Section SET
 		                             Name='$name',
 		                             SiteDesign='$sitedesign',
                                      Description='$description'
                                      WHERE ID='$this->ID'" );
         }
+
+        $db->unlock();
+    
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
+        
         return true;
     }
 
@@ -115,6 +126,7 @@ class eZSection
     function get( $id=-1 )
     {
         $db =& eZDB::globalDatabase();
+        $ret = false;
         
         if ( $id != "" )
         {
@@ -125,19 +137,16 @@ class eZSection
             }
             else if( count( $section_array ) == 1 )
             {
-                $this->ID = $section_array[0][ "ID" ];
-                $this->Name = $section_array[0][ "Name" ];
-                $this->SiteDesign = $section_array[0][ "SiteDesign" ];
-                $this->Description = $section_array[0][ "Description" ];
-                $this->Created = $section_array[0][ "Created" ];
+                $this->ID = $section_array[0][$db->fieldName("ID")];
+                $this->Name = $section_array[0][$db->fieldName("Name")];
+                $this->SiteDesign = $section_array[0][$db->fieldName("SiteDesign")];
+                $this->Description = $section_array[0][$db->fieldName("Description")];
+                $this->Created = $section_array[0][$db->fieldName("Created")];
+                $ret = true;
             }
-                 
-            $this->State_ = "Coherent";
         }
-        else
-        {
-            $this->State_ = "Dirty";
-        }
+
+        return $ret;
     }
 
     /*!
@@ -154,12 +163,12 @@ class eZSection
         
         $db->array_query( $section_array, "SELECT ID
                                            FROM eZSiteManager_Section
-                                           ORDER BY Created DESC
-                                           LIMIT $offset, $limit" );
+                                           ORDER BY Created ASC",
+                          array( "Limit" => $limit, "Offset" => $offset ) );
         
         for ( $i=0; $i < count($section_array); $i++ )
         {
-            $return_array[$i] = new eZSection( $section_array[$i]["ID"], 0 );
+            $return_array[$i] = new eZSection( $section_array[$i][$db->fieldName("ID")]  );
         }
         
         return $return_array;
@@ -174,8 +183,8 @@ class eZSection
         $ret = false;
 
         $db->query_single( $result, "SELECT COUNT(ID) as Count
-                                     FROM eZQuiz_Game" );
-        $ret = $result["Count"];
+                                     FROM eZSiteManager_Section" );
+        $ret = $result[$db->fieldName("Count")];
         return $ret;
     }
 
@@ -193,9 +202,6 @@ class eZSection
     */
     function name()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         return htmlspecialchars( $this->Name );
     }
     
@@ -207,14 +213,11 @@ class eZSection
     */
     function siteDesign( $sectionID=false )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( is_numeric ( $sectionID ) )
        {
            $db =& eZDB::globalDatabase();
            $db->query_single( $siteDesign, "SELECT SiteDesign FROM eZSiteManager_Section WHERE ID='$sectionID'" );
-           return $siteDesign["SiteDesign"];
+           return $siteDesign[$db->fieldName("SiteDesign")];
        }
        else
            return htmlspecialchars( $this->SiteDesign );
@@ -225,31 +228,14 @@ class eZSection
     */
     function description()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         return htmlspecialchars( $this->Description );
     }
     
-    /*!
-      Returns the created date of this section.
-    */
-    function created()
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
-        return $this->Description;
-    }
-
     /*!
       Sets the name of the section.
     */
     function setName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Name = $value;
     }
 
@@ -258,9 +244,6 @@ class eZSection
     */
     function setSiteDesign( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->SiteDesign = $value;
     }
 
@@ -269,24 +252,9 @@ class eZSection
     */
     function setDescription( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Description = $value;
     }
 
-    /*!
-      \private
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database =& eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
 
     var $ID;
     var $Name;
@@ -294,13 +262,6 @@ class eZSection
     var $Description;
     var $Created;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>

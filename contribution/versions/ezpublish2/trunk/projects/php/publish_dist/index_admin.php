@@ -13,7 +13,7 @@ if ( $UsePHPSessions == true )
 {
     // start session handling
     session_start();
-}
+} 
 
 // settings for sessions
 // max timeout is set to 48 hours
@@ -242,6 +242,7 @@ else
 $db =& eZDB::globalDatabase();
 $db->close();
 
+print( $db->isA() );
 
 // flush the buffer cache
 ob_end_flush();

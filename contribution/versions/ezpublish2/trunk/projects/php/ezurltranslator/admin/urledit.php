@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: urledit.php,v 1.2 2001/06/11 07:15:04 ce Exp $
+// $Id: urledit.php,v 1.3 2001/06/23 11:09:44 bf Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <24-Apr-2001 11:09:30 bf>
@@ -62,6 +62,8 @@ if ( isset( $Store ) )
     }
 
 }
+
+$Language = $ini->read_var( "eZSiteManager", "Language" );
 
 $t = new eZTemplate( "ezurltranslator/admin/" . $ini->read_var( "eZURLTranslatorMain", "AdminTemplateDir" ),
                      "ezurltranslator/admin/intl", $Language, "urledit.php" );
