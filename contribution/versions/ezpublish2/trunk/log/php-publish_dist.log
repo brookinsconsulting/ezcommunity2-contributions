@@ -693,3 +693,11 @@ Maintainer(s) : vl@ez.no
 
     * clearcache.sh: fixed small bug when deleting $dir/user/cache
 
+
+Module : publish_dist
+Repository path : /home/cvsroot/projects/php/publish_dist
+Maintainer(s) : vl@ez.no
+2001-09-18  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * clearcache.sh: fixed small bug when deleting $dir/user/cache
+
