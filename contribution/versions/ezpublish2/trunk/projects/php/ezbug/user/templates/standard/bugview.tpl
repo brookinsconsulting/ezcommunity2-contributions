@@ -105,7 +105,7 @@
 <!-- END screenshots_tpl -->
 
 <!-- BEGIN patches_tpl -->
-<h2>{intl-patches}:</h2>
+<h2>{intl-patches}</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-file_id}:</th>
