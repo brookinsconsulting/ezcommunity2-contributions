@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: unhandledbugs.php,v 1.1 2000/11/28 13:42:23 bf-cvs Exp $
+// $Id: unhandledbugs.php,v 1.2 2000/11/29 16:51:37 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 22:18:56 bf>
@@ -55,7 +55,5 @@ foreach ( $unhandleBugs as $bug )
 }
 
 $t->pparse( "output", "unhandled_bugs_tpl" );
-    
 
 ?>
-

@@ -7,6 +7,8 @@
     <td class="repeaty" background="/images/{site_style}/menu-m.gif">
 	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/bug/archive/">{intl-bug_archive}</a><br>
 	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/bug/unhandled/">{intl-unhandled_bugs}</a><br>
+
+	<img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/bug/edit/new/">{intl-new_bug}</a><br>
     </td>
 </tr>
 <tr>

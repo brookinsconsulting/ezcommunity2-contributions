@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugreport.php,v 1.1 2000/11/28 13:42:23 bf-cvs Exp $
+// $Id: bugreport.php,v 1.2 2000/11/29 16:51:37 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 20:31:00 bf>
@@ -61,6 +61,10 @@ if ( $Action == "Insert" )
         $bug->setUser( $user );
         $bug->setIsHandled( false );
         $bug->store();
+
+        $category->addBug( $bug );
+        $module->addBug( $bug );
+        
         Header( "Location: /bug/reportsuccess/" );
         exit();
     }

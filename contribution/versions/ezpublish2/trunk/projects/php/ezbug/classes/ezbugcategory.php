@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugcategory.php,v 1.1 2000/11/28 13:42:23 bf-cvs Exp $
+// $Id: ezbugcategory.php,v 1.2 2000/11/29 16:51:37 bf-cvs Exp $
 //
 // Definition of eZBugCategory class
 //
@@ -181,7 +181,6 @@ class eZBugCategory
         return $this->ID;
     }
 
-    
     /*!
       Returns the name of the category.
     */

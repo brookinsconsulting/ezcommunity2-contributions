@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: buglist.php,v 1.1 2000/11/28 13:42:23 bf-cvs Exp $
+// $Id: buglist.php,v 1.2 2000/11/29 16:51:37 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 19:06:23 bf>
@@ -23,30 +23,126 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+include_once( "classes/INIFile.php" );
+include_once( "classes/eztemplate.php" );
+include_once( "classes/ezlocale.php" );
+
 include_once( "ezbug/classes/ezbugcategory.php" );
 include_once( "ezbug/classes/ezbugmodule.php" );
 include_once( "ezbug/classes/ezbug.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
-$category = new eZBugCategory();
+$ini = new INIFIle( "site.ini" );
 
-$category->setName( "GUI related" );
-$category->setDescription( "This is bugs reported which are related to GUI issues." );
-//$category->store();
+$Language = $ini->read_var( "eZBugMain", "Language" );
 
-$module = new eZBugModule();
+$t = new eZTemplate( "ezbug/admin/" . $ini->read_var( "eZBugMain", "AdminTemplateDir" ),
+                     "ezbug/admin/intl/", $Language, "buglist.php" );
 
-$module->setName( "eZ trade" );
-$module->setDescription( "Bugs reported here are related to the eZ trade module." );
-//$module->store();
+$t->setAllStrings();
 
-$bug = new eZBug();
+$t->set_file( array(
+    "bug_list_page_tpl" => "buglist.tpl"
+    ) );
 
-$bug->setUser( eZUser::currentUser() );
-$bug->setName( "Empty search result" );
-$bug->setDescription( "The product search does not return anything." );
-$bug->setIsHandled( false );
-// $bug->store();
+// path
+$t->set_block( "bug_list_page_tpl", "path_item_tpl", "path_item" );
+
+// module
+$t->set_block( "bug_list_page_tpl", "module_list_tpl", "module_list" );
+$t->set_block( "module_list_tpl", "module_item_tpl", "module_item" );
+
+// bug
+$t->set_block( "bug_list_page_tpl", "bug_list_tpl", "bug_list" );
+$t->set_block( "bug_list_tpl", "bug_item_tpl", "bug_item" );
+$t->set_block( "bug_item_tpl", "bug_is_published_tpl", "bug_is_published" );
+$t->set_block( "bug_item_tpl", "bug_not_published_tpl", "bug_not_published" );
+
+$module = new eZBugModule( $ModuleID );
+
+$t->set_var( "current_module_id", $module->id() );
+$t->set_var( "current_module_name", $module->name() );
+$t->set_var( "current_module_description", $module->description() );
+
+// path
+$pathArray = $module->path();
+
+$t->set_var( "path_item", "" );
+foreach ( $pathArray as $path )
+{
+    $t->set_var( "module_id", $path[0] );
+
+    $t->set_var( "module_name", $path[1] );
+    
+    $t->parse( "path_item", "path_item_tpl", true );
+}
+
+$moduleList = $module->getByParent( $module, true );
+
+
+// categories
+$i=0;
+$t->set_var( "module_list", "" );
+foreach ( $moduleList as $moduleItem )
+{
+    $t->set_var( "module_id", $moduleItem->id() );
+
+    $t->set_var( "module_name", $moduleItem->name() );
+
+    $parent = $moduleItem->parent();
+    
+
+    if ( ( $i % 2 ) == 0 )
+    {
+        $t->set_var( "td_class", "bglight" );
+    }
+    else
+    {
+        $t->set_var( "td_class", "bgdark" );
+    }
+    
+    $t->set_var( "module_description", $moduleItem->description() );
+
+    $t->parse( "module_item", "module_item_tpl", true );
+    $i++;
+}
+
+if ( count( $moduleList ) > 0 )    
+    $t->parse( "module_list", "module_list_tpl" );
+else
+    $t->set_var( "module_list", "" );
+
+
+// bugs
+$bugList = $module->bugs( "time", false );
+
+$locale = new eZLocale( $Language );
+$i=0;
+$t->set_var( "bug_list", "" );
+foreach ( $bugList as $bug )
+{
+    $t->set_var( "bug_id", $bug->id() );
+    $t->set_var( "bug_name", $bug->name() );
+
+    if ( ( $i % 2 ) == 0 )
+    {
+        $t->set_var( "td_class", "bglight" );
+    }
+    else
+    {
+        $t->set_var( "td_class", "bgdark" );
+    }
+
+    $t->parse( "bug_item", "bug_item_tpl", true );
+    $i++;
+}
+
+if ( count( $bugList ) > 0 )    
+    $t->parse( "bug_list", "bug_list_tpl" );
+else
+    $t->set_var( "bug_list", "" );
+
+$t->pparse( "output", "bug_list_page_tpl" );
 
 ?>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbug.php,v 1.1 2000/11/28 13:42:23 bf-cvs Exp $
+// $Id: ezbug.php,v 1.2 2000/11/29 16:51:37 bf-cvs Exp $
 //
 // Definition of eZBug class
 //
@@ -28,6 +28,22 @@
 //!! eZBug
 //! eZBug handles bug repports.
 /*!
+  The eZBug class handles bug reports. Each bug report can be a member
+  of one or more modules. The modules are handled by the eZBugModule
+  class.
+
+  Each bug report is assigned to a bug category. The categories are handled
+  by the eZBugCategory class.
+
+  A bug which gets reported is assigned to unhandled bugs list. Handled bugs
+  is stored in the archive. A handled bug is assigned a priority and a status.
+  
+  The priorities are handled by the eZBugPriority class. Priorities can be e.g. urgent,
+  medium and low.
+
+  The statuses are handled by the eZBugStatus class. Statuses ca be e.g. started, done
+  and will not be fixed.  
+  
   Example:
   \code
   // include the class
@@ -243,7 +259,7 @@ class eZBug
     }
     
     /*!
-      Returns the creation time of the article.
+      Returns the creation time of the bug.
 
       The time is returned as a eZDateTime object.
     */
@@ -260,7 +276,7 @@ class eZBug
 
 
     /*!
-      Returns true if the article is handled false if not.
+      Returns true if the bug is handled false if not.
     */
     function isHandled()
     {
@@ -311,7 +327,7 @@ class eZBug
     }
 
     /*!
-     Sets the article to handled or not. 
+     Sets the bug to handled or not. 
     */
     function setIsHandled( $value )
     {
@@ -329,7 +345,7 @@ class eZBug
     }
 
     /*!
-      Sets the user of the article.
+      Sets the user whom reported the bug.
     */
     function setUser( $user )
     {

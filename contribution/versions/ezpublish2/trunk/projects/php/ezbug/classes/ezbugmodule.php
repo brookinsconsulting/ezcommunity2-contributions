@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugmodule.php,v 1.1 2000/11/28 13:42:23 bf-cvs Exp $
+// $Id: ezbugmodule.php,v 1.2 2000/11/29 16:51:37 bf-cvs Exp $
 //
 // Definition of eZBugModule class
 //
@@ -369,28 +369,25 @@ class eZBugModule
 
        $this->dbInit();
 
-//         $OrderBy = "eZBug_Bug.Published DESC";
-//         switch( $sortMode )
-//         {
-//             case "alpha" :
-//             {
-//                 $OrderBy = "eZBug_Bug.Name ASC";
-//             }
-//             break;
-//         }
-
+       $OrderBy = "eZBug_Bug.Created DESC";
+       switch( $sortMode )
+       {
+           case "alpha" :
+           {
+                 $OrderBy = "eZBug_Bug.Name ASC";
+           }
+           break;
+       }
+         
        $return_array = array();
        $bug_array = array();
 
-       if ( $fetchUnhandled == false )
+       $unhandledSQL = "";
+       if ( $fetchUnhandled = 'false' )
        {
-           $excludedCode = " AND eZBug_Module.ExcludeFromSearch = 'false' ";
+           $unhandledSQL = "AND IsHandled='true'";
        }
-       else
-       {
-           $excludedCode = "";           
-       }
-       
+
 
        $this->Database->array_query( $bug_array, "
                 SELECT eZBug_Bug.ID AS BugID, eZBug_Bug.Name, eZBug_Module.ID, eZBug_Module.Name
@@ -399,9 +396,9 @@ class eZBugModule
                 eZBug_BugModuleLink.BugID = eZBug_Bug.ID
                 AND
                 eZBug_Module.ID = eZBug_BugModuleLink.ModuleID
+                $unhandledSQL
                 AND
                 eZBug_Module.ID='$this->ID'
-                $excludedCode  
                 GROUP BY eZBug_Bug.ID ORDER BY $OrderBy LIMIT $offset,$limit" );
  
        for ( $i=0; $i<count($bug_array); $i++ )
