@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: smallcart.php,v 1.17 2001/04/11 14:18:41 th Exp $
+// $Id: smallcart.php,v 1.18 2001/07/05 15:03:36 jhe Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Dec-2000 15:21:10 bf>
@@ -35,6 +35,7 @@ $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $RequireQuantity = $ini->read_var( "eZTradeMain", "RequireQuantity" ) == "true";
 $ShowQuantity = $ini->read_var( "eZTradeMain", "ShowQuantity" ) == "true";
+$ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
 $ShowNamedQuantity = $ini->read_var( "eZTradeMain", "ShowNamedQuantity" ) == "true";
 $ShowOptionQuantity = $ini->read_var( "eZTradeMain", "ShowOptionQuantity" ) == "true";
 
@@ -108,21 +109,86 @@ foreach ( $items as $item )
         $price = $product->price() * $item->count();
     
         $currency->setValue( $price );
+        
+        $priceobj = new eZCurrency();
 
+        if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser" ) and
+             $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
+        {
+            $found_price = false;
+            if ( $ShowPriceGroups and $PriceGroup > 0 )
+            {
+                $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
+                if ( $price )
+                {
+                    $found_price = true;
+                    $priceobj->setValue( $price );
+                }
+            }
+            if ( !$found_price )
+            {
+                $priceobj->setValue( $product->price() );
+            }
+            $t->set_var( "product_price", $locale->format( $priceobj ) );        
+        }
+        else
+        {
+            $priceArray = "";
+            $priceArray = "";
+            $options =& $product->options();
+            if ( count ( $options ) == 1 )
+            {
+                $option = $options[0];
+                if ( get_class ( $option ) == "ezoption" )
+                {
+                    $optionValues =& $option->values();
+                    if ( count ( $optionValues ) > 1 )
+                    {
+                        $i=0;
+                        foreach ( $optionValues as $optionValue )
+                        {
+                            $found_price = false;
+                            if ( $ShowPriceGroups and $PriceGroup > 0 )
+                            {
+                                $priceArray[$i] = eZPriceGroup::correctPrice( $product->id(), $PriceGroup, $option->id(), $optionValue->id() );
+                                if( $priceArray[$i] )
+                                {
+                                    $found_price = true;
+                                    $priceArray[$i] = $priceArray[$i];
+                                }
+                            }
+                            if ( !$found_price )
+                            {
+                                $priceArray[$i] = $optionValue->price();
+                            }
+                            $i++;
+                        }
+                        $high = new eZCurrency( max( $priceArray ) );
+                        $low = new eZCurrency( min( $priceArray ) );
+                        
+                        $t->set_var( "product_price", $locale->format( $low ) . " - " . $locale->format( $high ) );
+                    }
+                }
+            }
+            else
+                $t->set_var( "product_price", "" );
+        }
+        
+        $price = $priceobj->value();    
+        
         // product price
-        $price = $item->price();
         $currency->setValue( $price );
-    
+        
         $sum += $price;
         $totalVAT += $product->vat( $price );
-    
+        
         $t->set_var( "product_id", $product->id() );
         $t->set_var( "product_name", $product->name() );
-
+        
         $t->set_var( "cart_item_count", $item->count() );
-    
-        $t->set_var( "product_price", $locale->format( $currency ) );
-
+        
+//        $t->set_var( "product_price", $locale->format( $currency ) );
+        
         $optionValues =& $item->optionValues();
         $Quantity = $product->totalQuantity();
         
@@ -146,10 +212,10 @@ foreach ( $items as $item )
         if ( !(is_bool( $min_quantity ) and !$min_quantity) and
              $RequireQuantity and $min_quantity == 0 )
             $can_checkout = false;
-
+        
         if ( $product->discontinued() )
             $can_checkout = false;
-
+        
         $t->parse( "cart_item", "cart_item_tpl", true );
     }
     
