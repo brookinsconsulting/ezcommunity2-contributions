@@ -83,7 +83,9 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th width="50%">{intl-answers}</th>
+<!--
 	<th>{intl-adjust}</th>
+-->
 	<td align="right"><span class="boxtext">{intl-total_votes}</span></td>
 	<th colspan="3">&nbsp;</th>
 </tr>
@@ -96,7 +98,9 @@
 		<td class="{td_class}">
 			{poll_choice_name}
 		</td>
+<!--
 		<td class="{td_class}">&nbsp;</td>
+-->
 		<td class="{td_class}" align="right">
 			{poll_number}
 		</td>
