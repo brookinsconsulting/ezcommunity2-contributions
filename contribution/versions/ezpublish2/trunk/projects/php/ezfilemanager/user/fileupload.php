@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileupload.php,v 1.46 2001/11/06 13:58:32 jhe Exp $
+// $Id: fileupload.php,v 1.47 2001/11/15 17:45:04 jhe Exp $
 //
 // Created on: <10-Dec-2000 15:49:57 bf>
 //
@@ -86,6 +86,7 @@ $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZFileManagerMain", "Language" );
 
+
 $t = new eZTemplate( "ezfilemanager/user/" . $ini->read_var( "eZFileManagerMain", "TemplateDir" ),
                      "ezfilemanager/user/intl/", $Language, "fileupload.php" );
 
@@ -95,6 +96,7 @@ $t->setAllStrings();
 
 $t->set_block( "file_upload_tpl", "value_tpl", "value" );
 $t->set_block( "file_upload_tpl", "errors_tpl", "errors" );
+
 $t->set_block( "file_upload_tpl", "write_group_item_tpl", "write_group_item" );
 $t->set_block( "file_upload_tpl", "read_group_item_tpl", "read_group_item" );
 
@@ -144,17 +146,17 @@ if ( $Action == "Insert" || $Action == "Update" )
             $error = true;
         }
         // if not write or upload to folder...
-        if ( ( eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) == false &&
-               eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "u", $user ) == false ) &&
-             eZVirtualFolder::isOwner( $user, $FolderID ) == false )
+        if ( ( !eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) &&
+               !eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "u", $user ) ) &&
+             !eZVirtualFolder::isOwner( $user, $FolderID ) )
         {
             $t->parse( "write_permission", "error_write_permission" ); 
             $error = true;
         }
         // if update but not owner or write.
         if( $Action == "Update" &&
-           eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) == false  &&
-           !eZVirtualFolder::isOwner( $user, $FolderID ) )
+            !eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "w", $user ) &&
+            !eZVirtualFolder::isOwner( $user, $FolderID ) )
         {
             $t->parse( "upload_permission", "error_upload_permission" ); 
             $error = true;
@@ -193,9 +195,7 @@ if ( $Action == "Insert" && !$error )
 {
     $uploadedFile = new eZVirtualFile();
     $uploadedFile->setDescription( $Description );
-    
     $uploadedFile->setUser( $user );
-    
     $uploadedFile->setFile( &$file );
     
     if ( empty( $Name ) )
@@ -204,7 +204,7 @@ if ( $Action == "Insert" && !$error )
     $extension = strrchr( $uploadedFile->originalFileName(), "." );
     if ( strrchr( $Name, "." ) != $extension )
         $Name .= $extension;
-    
+
     $uploadedFile->setName( $Name );
     $uploadedFile->store();
     $FileID = $uploadedFile->id();
@@ -322,8 +322,16 @@ if ( $Action == "New" || $error )
 {
     $t->set_var( "action_value", "insert" );
     $t->set_var( "file_id", "" );
-    $t->set_var( "write_everybody", "selected" );
-    $t->set_var( "read_everybody", "selected" );
+    if ( $FolderID )
+    {
+        $readGroupArrayID =& eZObjectPermission::getGroups( $FolderID, "filemanager_folder", "r", false );
+        $writeGroupArrayID =& eZObjectPermission::getGroups( $FolderID, "filemanager_folder", "w", false );
+    }
+    else
+    {
+        $t->set_var( "write_everybody", "selected" );
+        $t->set_var( "read_everybody", "selected" );
+    }
 }
 
 if ( $Action == "Edit" )
