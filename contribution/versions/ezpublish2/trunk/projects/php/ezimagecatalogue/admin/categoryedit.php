@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.2 2001/09/28 08:05:58 br Exp $
+// $Id: categoryedit.php,v 1.3 2001/10/05 09:34:37 bf Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -56,7 +56,7 @@ $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZImageCatalogueMain", "Language" );
 
-$t = new eZTemplate( "ezimagecatalogue/admin/" . $ini->read_var( "eZImageCatalogueMain", "TemplateDir" ),
+$t = new eZTemplate( "ezimagecatalogue/admin/" . $ini->read_var( "eZImageCatalogueMain", "AdminTemplateDir" ),
                      "ezimagecatalogue/admin/intl/", $Language, "categoryedit.php" );
 
 $t->set_file( "category_edit_tpl", "categoryedit.tpl" );
