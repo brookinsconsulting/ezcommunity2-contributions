@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.38 2001/02/07 11:25:33 jb Exp $
+// $Id: articleedit.php,v 1.39 2001/02/07 15:01:37 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -27,6 +27,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezmail.php" );
+include_once( "classes/ezcachefile.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezhttptool.php" );
@@ -35,6 +36,26 @@ include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlegenerator.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
+
+function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
+{
+    $files = eZCacheFile::files( "ezarticle/cache/",
+                                 array( array( "articleprint", "articleview", "articlestatic" ),
+                                        $ArticleID, NULL ), "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
+
+    $files = eZCacheFile::files( "ezarticle/cache/",
+                                 array( "articlelist",
+                                        array_merge( $CategoryID, $CategoryArray ), NULL ),
+                                 "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
+}
 
 if ( isset ( $DeleteArticles ) )
 {
@@ -143,43 +164,7 @@ if ( $Action == "Insert" )
 
 
         // clear the cache files.
-        $dir = dir( "ezarticle/cache/" );
-        $files = array();
-        while( $entry = $dir->read() )
-        { 
-            if ( $entry != "." && $entry != ".." )
-            { 
-                if ( ereg( "articleprint,([^,]+),.*", $entry, $regArray  ) )
-                {
-                    if ( $regArray[1] == $articleID )
-                    {
-                        unlink( "ezarticle/cache/" . $entry );
-                    }
-                }
-                else if ( ereg( "articleview,([^,]+),.*", $entry, $regArray  ) )
-                {
-                    if ( $regArray[1] == $articleID )
-                    {
-                        unlink( "ezarticle/cache/" . $entry );
-                    }
-                }
-                else if ( ereg( "articlestatic,([^,]+),.*", $entry, $regArray  ) )
-                {
-                    if ( $regArray[1] == $articleID )
-                    {
-                        unlink( "ezarticle/cache/" . $entry );
-                    }
-                }
-                else if ( ereg( "articlelist,([0-9]+),([0-9]+)\..*", $entry, $regArray  ) )
-                {
-                    if ( in_array( $regArray[1], $categoryIDArray ) || ( $regArray[1] == 0 ) )
-                    {
-                        unlink( "ezarticle/cache/" . $entry );
-                    }
-                }
-            } 
-        } 
-        $dir->close();
+        deleteCache( $ArticleID, $CategoryID, $CategoryArray );
         
         // add images
         if ( isset( $Image ) )
@@ -310,46 +295,9 @@ if ( $Action == "Update" )
         }
 
         // clear the cache files.
-        $dir = dir( "ezarticle/cache/" );
-        $files = array();
-        while( $entry = $dir->read() )
-        { 
-            if ( $entry != "." && $entry != ".." )
-            {
-                if ( ereg( "articleprint,([^,]+),.*", $entry, $regArray ) )
-                {
-                    if ( $regArray[1] == $ArticleID )
-                    {
-                        print( "deleting" );
-                        unlink( "ezarticle/cache/" . $entry );
-                    }
-                }
-                else if ( ereg( "articleview,([^,]+),.*", $entry, $regArray ) )
-                {
-                    if ( $regArray[1] == $ArticleID )
-                    {
-                        unlink( "ezarticle/cache/" . $entry );
-                    }
-                }
-                else if ( ereg( "articlestatic,([^,]+),.*", $entry, $regArray  ) )
-                {
-                    if ( $regArray[1] == $ArticleID )
-                    {
-                        unlink( "ezarticle/cache/" . $entry );
-                    }
-                }
-                else if ( ereg( "articlelist,([0-9]+),([0-9]+)\..*", $entry, $regArray  ) )
-                {
-                    if ( in_array( $regArray[1], $categoryIDArray ) || ( $regArray[1] == 0 ) )
-                    {
-                        unlink( "ezarticle/cache/" . $entry );
-                    }
-                }
-            } 
-        } 
-        $dir->close();
+        deleteCache( $ArticleID, $CategoryID, $CategoryArray );
         
-    // remove all category references
+        // remove all category references
         $article->removeFromCategories();
 
         // add to categories
@@ -424,43 +372,7 @@ if ( $Action == "DeleteArticles" )
     
     
             // clear the cache files.
-            $dir = dir( "ezarticle/cache/" );
-            $files = array();
-            while( $entry = $dir->read() )
-            { 
-                if ( $entry != "." && $entry != ".." )
-                {
-                    if ( ereg( "articleprint,([^,]+),.*", $entry, $regArray  ) )
-                    {
-                        if ( $regArray[1] == $articleID )
-                        {
-                            unlink( "ezarticle/cache/" . $entry );
-                        }
-                    }
-                    else if ( ereg( "articleview,([^,]+),.*", $entry, $regArray  ) )
-                    {
-                        if ( $regArray[1] == $articleID )
-                        {
-                            unlink( "ezarticle/cache/" . $entry );
-                        }
-                    }
-                    else if ( ereg( "articlestatic,([^,]+),.*", $entry, $regArray  ) )
-                    {
-                        if ( $regArray[1] == $articleID )
-                        {
-                            unlink( "ezarticle/cache/" . $entry );
-                        }
-                    }
-                    else if ( ereg( "articlelist,([0-9]+),([0-9]+)\..*", $entry, $regArray  ) )
-                    {
-                        if ( in_array( $regArray[1], $categoryIDArray ) || ( $regArray[1] == 0 ) )
-                        {
-                            unlink( "ezarticle/cache/" . $entry );
-                        }
-                    }
-                } 
-            } 
-            $dir->close();
+            deleteCache( $ArticleID, $CategoryID, $CategoryArray );
 
             $categories = $article->categories();    
             $categoryID = $categories[0]->id();
