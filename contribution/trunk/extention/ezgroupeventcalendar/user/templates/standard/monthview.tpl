@@ -116,14 +116,14 @@
   </tr>
 <!-- BEGIN private_appointment_tpl -->
  <tr valign="top">
-   <td width="8" class="tdmini"><!-- <img src="/sitedesign/{sitedesign}/images/dot.gif" border="0" alt="" /> --></td>
+   <td width="8" class="tdmini">&nbsp;</td>
    <td class="tdmini"><div class="small"><i>{appointment_group}</i> - <b>{intl-pvt_event}<br /></div></td>
  </tr>
 <!-- END private_appointment_tpl -->
 
 <!-- BEGIN public_appointment_tpl -->
  <tr valign="top">
-   <td width="8"> <!-- <img src="/sitedesign/{sitedesign}/images/dot.gif" border="0" alt="" /> --> </td>
+   <td width="8" class="tdmini">&nbsp;</td>
    <td style="padding-bottom:5px;"><a class="gcalMonthViewNames" href="{www_dir}{index}/groupeventcalendar/eventview/{appointment_id}/" onmouseover="
    return overlib('<div class=\'olList\'>Name</div>{overlib_full_name}<div class=\'olList\'>Time</div> {event_start_time} - {event_stop_time}<div class=\'olList\'>Description </div>{overlib_description}');"
    onmouseout="return nd();">
