@@ -6,9 +6,6 @@ CREATE TABLE eZAd_Ad (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Name varchar(150),
   ImageID int(11),
-  ViewStartDate timestamp(14),
-  ViewStopDate timestamp(14),
-  ViewRule enum('Period','Click') DEFAULT 'Click',
   URL varchar(200),
   Description text,
   IsActive enum('true','false'),
@@ -91,6 +88,7 @@ CREATE TABLE eZAd_View (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   AdID int(11),
   Date date,
+  ViewOffsetCount(11) int NOT NULL,
   ViewCount int(11) DEFAULT '0' NOT NULL,
   ViewPrice int(11) DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
