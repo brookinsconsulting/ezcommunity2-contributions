@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.57 2001/03/29 11:27:26 bf Exp $
+// $Id: ezuser.php,v 1.58 2001/04/03 13:52:46 jakobn Exp $
 //
 // Definition of eZCompany class
 //
@@ -113,7 +113,7 @@ class eZUser
                                  FirstName='$this->FirstName',
                                  LastName='$this->LastName',
                                  Signature='$this->Signature',
-				 SimultaneousLogins='$this->SimultaneousLogins'" );
+				                 SimultaneousLogins='$this->SimultaneousLogins'" );
             $this->ID = mysql_insert_id();
         }
         else

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezconsultation.php,v 1.10 2001/03/06 19:17:01 jb Exp $
+// $Id: ezconsultation.php,v 1.11 2001/04/03 13:52:46 jakobn Exp $
 //
 // Definition of eZConsultation class
 //
@@ -117,7 +117,7 @@ class eZConsultation
       Deletes an eZConsultation object from the database.
     */
     function delete( $id = false )
-    {
+    {  
         if ( !$id )
             $id = $this->ID;
 

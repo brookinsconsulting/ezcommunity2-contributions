@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.19 2001/03/29 11:15:46 jakobn Exp $
+// $Id: login.php,v 1.20 2001/04/03 13:52:46 jakobn Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -48,6 +48,7 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "login_tpl", "error_message_tpl", "error_message" );
+$t->set_block( "login_tpl", "max_message_tpl", "max_message" );
 
 if ( $Action == "login" )
 {
@@ -87,7 +88,7 @@ if ( $Action == "login" )
             {
                 eZLog::writeWarning( "Max limit reached: $Username from IP: $REMOTE_ADDR" );
         
-                $error = true;    
+                $maxerror = true;    
             }
         }
         else
@@ -131,6 +132,14 @@ else
     $t->set_var( "error_message", "" );
 }
 
+if ( $maxerror )
+{
+    $t->parse( "max_message", "max_message_tpl" );
+}
+else
+{
+    $t->set_var( "max_message", "" );
+}
 
 $t->set_var( "action_value", "login" );
 $t->pparse( "output", "login_tpl" );

@@ -2,6 +2,10 @@
 <h3 class="error">{intl-error_login}</h3>
 <!-- END error_message_tpl -->
 
+<!-- BEGIN max_message_tpl -->
+<h3 class="error">{intl-max_logins}</h3>
+<!-- END max_message_tpl -->
+
 <form method="post" action="/user/login/login/">
 
 <h1>{intl-head_line}</h1>
