@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.46 2001/03/01 11:32:01 fh Exp $
+// $Id: ezarticle.php,v 1.47 2001/03/01 16:52:13 fh Exp $
 //
 // Definition of eZArticle class
 //
@@ -124,10 +124,7 @@ class eZArticle
                                  Keywords='$this->Keywords',
                                  Modified=now(),
                                  Published=now(),
-                                 Created=now(),
-                                 OwnerGroupID='$this->OwnerGroupID',
-                                 ReadPermission='$this->ReadPermission',
-                                 WritePermission='$this->WritePermission'
+                                 Created=now()
                                  " );
 
             $this->ID = mysql_insert_id();
@@ -150,10 +147,7 @@ class eZArticle
                                  IsPublished='$this->IsPublished',
                                  Keywords='$this->Keywords',
                                  Published=now(),
-                                 Modified=now(),
-                                 OwnerGroupID='$this->OwnerGroupID',
-                                 ReadPermission='$this->ReadPermission',
-                                 WritePermission='$this->WritePermission'
+                                 Modified=now()
                                  WHERE ID='$this->ID'
                                  " );
             }
@@ -168,10 +162,7 @@ class eZArticle
                                  AuthorID='$this->AuthorID',
                                  IsPublished='$this->IsPublished',
                                  Keywords='$this->Keywords',
-                                 Modified=now(),
-                                 OwnerGroupID='$this->OwnerGroupID',
-                                 ReadPermission='$this->ReadPermission',
-                                 WritePermission='$this->WritePermission'
+                                 Modified=now()
                                  WHERE ID='$this->ID'
                                  " );
             }
@@ -211,9 +202,6 @@ class eZArticle
                 $this->PageCount =& $article_array[0][ "PageCount" ];
                 $this->IsPublished =& $article_array[0][ "IsPublished" ];
                 $this->Keywords =& $article_array[0][ "Keywords" ];
-                $this->OwnerGroupID =& $article_array[0][ "OwnerGroupID" ];
-                $this->ReadPermission =& $article_array[0][ "ReadPermission" ];
-                $this->WritePerission =& $article_array[0][ "WritePermission" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -482,84 +470,6 @@ class eZArticle
        }
     }
     
-    /*!
-      Sets the owner group of this article.
-      Parameter $newOwner must be an eZUserGroup object.
-     */
-    function setOwnerGroup( $newOwner )
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
-        if( get_class( $newOwner ) == "ezusergroup" )
-        {
-            $this->OwnerGroupID = $newOwner->id();
-        }
-    }
-
-    /*!
-      Sets the read permission.
-
-      Note: If you set this to 0 or 2 it automaticly clears the permission link table.
-      
-      0 means that only the user has permission to read the article
-      1 means that only users in selected groups can read the article
-      2 means that evryone can read the article
-     */
-    function setReadPermission( $value )
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        if( $value >=0 && $value <=2)
-        {
-            if( $value != 1 )
-                $this->removeReadGroups();
-
-            $this->ReadPermission = $value;
-        }
-    }
-    
-    /*!
-      Returns the owner group of this module as an eZOwnerGroup object.
-      If the object doesn't have an owner it returns 0.
-    */
-    function ownerGroup()
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
-        $group = new eZUserGroup( $this->OwnerGroupID );
-        return $group;
-    }
-
-    /*!
-      Returns the read permission for this article.
-      0 means that only the user has permission to read the article
-      1 means that only users in selected groups can read the article
-      2 means that evryone can read the article
-     */
-    function readPermission()
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        return $this->ReadPermission;
-    }
-
-    /*!
-      Returns the write permission for this article.
-      0 means that only the user has permission to read the article
-      1 means that only users in selected groups can read the article
-      2 means that evryone can read the article
-     */
-    function writePermission()
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        return $this->WritePermission;
-    }
 
     /*!
       Returns the categories an article is assigned to.
@@ -608,133 +518,6 @@ class eZArticle
         
     }
 
-    /*!
-      Removes every group that can read this article.
-    */
-    function removeReadGroups()
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->dbInit();
-
-       $this->Database->query( "DELETE FROM eZArticle_ArticleReaderLink WHERE ArticleID='$this->ID'" );       
-    }
-
-
-    /*!
-      Removes every group that can write to  this article.
-    */
-    function removeWriteGroups()
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->dbInit();
-
-       $this->Database->query( "DELETE FROM eZArticle_ArticleReadGroupLink WHERE ArticleID='$this->ID'" );       
-    }
-
-    
-    /*!
-      Adds a group that can read this article.
-
-      Note: calling this function will set the ReadPermission variable to 1 if not allready set.
-     */
-    function addReadGroup( $newGroup )
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        if( get_class( $newGroup ) == "ezusergroup" )
-        {
-            $this->dbInit();
-            $groupID = $newGroup->id();
-            $this->Database->query( "INSERT INTO  eZArticle_ArticleReaderLink SET
-                                     ArticleID='$this->ID',
-                                     GroupID='$groupID',
-                                     Created=now()" );       
-        }
-        
-    }
-
-    /*!
-      Adds a group that can write to this article.
-
-      Note: calling this function will set the ReadPermission variable to 1 if not allready set.
-     */
-    function addWriteGroup( $newGroup )
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        if( get_class( $newGroup ) == "ezusergroup" )
-        {
-            $this->dbInit();
-            $groupID = $newGroup->id();
-            $this->Database->query( "INSERT INTO  eZArticle_ArticleWriteGroupLink SET
-                                     ArticleID='$this->ID',
-                                     GroupID='$groupID',
-                                     Created=now()" );       
-        }
-        
-    }
-
-    
-    /*!
-      Returns all the groups that have readpermission for this article as an array of eZUserGroup objects if IDOnly = false (default),
-      if not it will return an array of groupID's
-     */
-    function readGroups( $IDOnly = false )
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $ret = array();
-        $this->Database->array_query( $res, "SELECT GroupID FROM eZArticle_ArticleReaderLink
-                                       WHERE ArticleID='$this->ID'" );
-        if( count( $res ) > 0 )
-        {
-            $i = 0;
-            foreach( $res as $groupItem )
-            {
-                if( $IDOnly == true )
-                    $ret[$i] = $groupItem[0]["GroupID"];
-                else
-                    $ret[$i] = new eZUserGroup( $groupID[0]["GroupID"] );
-                $i++;
-            }
-        }
-
-        return $ret;
-    }
-
-    /*!
-      Returns all the groups that have writepermission for this article as an array of eZUserGroup objects if IDOnly = false (default),
-      if not it will return an array of groupID's
-     */
-    function writeGroups( $IDOnly = false )
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $ret = array();
-        $this->Database->array_query( $res, "SELECT GroupID FROM eZArticle_ArticleWriteGroupLink
-                                       WHERE ArticleID='$this->ID'" );
-        if( count( $res ) > 0 )
-        {
-            $i = 0;
-            foreach( $res as $groupItem )
-            {
-                if( $IDOnly == true )
-                    $ret[$i] = $groupItem[0]["GroupID"];
-                else
-                    $ret[$i] = new eZUserGroup( $groupID[0]["GroupID"] );
-                $i++;
-            }
-        }
-        return $ret;
-    }
 
     
     /*!
@@ -1226,78 +1009,10 @@ class eZArticle
        return $forum;
     }
 
-    /*!
-      \static
-      Returns true if the user has permission to view this article.
-      $user is of type eZUser, $articleID is of type int
-     */
-    function hasReadPermission( $user, $articleID )
-    {
-       $database =& eZDB::globalDatabase();
-       $database->array_query( $res, "SELECT ReadPermission FROM eZArticle_Article WHERE ID='$articleID'" );
-//       print("<br>Inside hasReadPermission<br>");
-       $readPermission = $res[0][ "ReadPermission" ];
-//       print( "This page has readpermission: $readPermission <br>" );
-
-       if( $readPermission == 0 ) //none
-           return false;
-       else if( $readPermission == 2 )// all
-           return true;
-       else if( $readPermission == 1 && get_class( $user ) == "ezuser" )//some
-       {
-           $userGroups = $user->groups( true );
-           $database->array_query( $res, "SELECT GroupID FROM eZArticle_ArticleReaderLink
-                                   WHERE ArticleID='$articleID'");
-
-           $i = 0;
-           $readGrpID = array();
-           foreach( $res as $groupItem )
-           {
-               $readGrpID[$i] = $groupItem["GroupID"];
-               $i++;
-           }
-           
-           $commonGroups = array_intersect( $readGrpID, $userGroups );
-           //         print_r( $readGrpID ); print( "<br>");
-//           print_r( $userGroups );print( "<br>");
-//           print_r( $commonGroups );print( "<br>");
-//           $count = count( $commonGroups );
-//           print( "$count");
-           if( count( $commonGroups ) > 0  )
-               return true;
-       }
-       return false; 
-    }
-    
-    /*!
-      \static
-      Returns true if the user has write permission for this article
-     */
-    function hasWritePermission( $user, $articleID )
-    {
-        if( get_class( $user ) != "ezuser" )
-            return false;
-
-        // check if owner
-        $database =& eZDB::globalDatabase();
-        $database->query_single( $res, "SELECT AuthorID from eZArticle_Article WHERE ID='$articleID'");
-        $authorID = $res[ "AuthorID" ];
-        if( $authorID == $user->id() )
-            return true;
-
-        // check if group
-        $database->query_single( $res, "SELECT OwnerGroupID from eZArticle_Article WHERE ID='$articleID'");
-        $ownerGroupID = $res[ "OwnerGroupID" ];
-        $userGroups = $user->groups( true );
-        if( in_array( $ownerGroupID, $userGroups ) || $ownerGroupID == 0)
-            return true;
-
-        return false;
-    }
 
     /*!
-      \static
-      Returns true if the given user is the owner of the given object.
+      \Static
+      Returns true if the given user is the author of the given object.
       $user is either a userID or an eZUser.
       $article is the articleID
      */
@@ -1449,9 +1164,6 @@ class eZArticle
     var $Created;
     var $Published;
     var $Keywords;
-    var $OwnerGroupID;
-    var $ReadPermission=0;
-    var $WritePermission=0;
     
     // telll eZ publish to show the article to the public
     var $IsPublished;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.42 2001/03/01 10:52:37 fh Exp $
+// $Id: ezarticlecategory.php,v 1.43 2001/03/01 16:52:13 fh Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -84,9 +84,7 @@ class eZArticleCategory
                                  Description='$this->Description',
                                  ExcludeFromSearch='$this->ExcludeFromSearch',
                                  SortMode='$this->SortMode',
-                                 ParentID='$this->ParentID',
-                                 OwnerGroupID='$this->OwnerGroupID',
-                                 ReadPermission='$this->ReadPermission'" );
+                                 ParentID='$this->ParentID'" );
             $this->ID = mysql_insert_id();
         }
         else
@@ -96,9 +94,7 @@ class eZArticleCategory
                                  Description='$this->Description',
                                  ExcludeFromSearch='$this->ExcludeFromSearch',
                                  SortMode='$this->SortMode',
-                                 ParentID='$this->ParentID',
-                                 OwnerGroupID='$this->OwnerGroupID',
-                                 ReadPermission='$this->ReadPermission' WHERE ID='$this->ID'" );
+                                 ParentID='$this->ParentID' WHERE ID='$this->ID'" );
         }
         
         return true;
@@ -167,8 +163,6 @@ class eZArticleCategory
                 $this->ParentID = $category_array[0][ "ParentID" ];
                 $this->ExcludeFromSearch = $category_array[0][ "ExcludeFromSearch" ];
                 $this->SortMode = $category_array[0][ "SortMode" ];
-                $this->OwnerGroupID = $category_array[0][ "OwnerGroupID" ];
-                $this->ReadPermission = $category_array[0][ "ReadPermission" ];
             }
                  
             $this->State_ = "Coherent";
@@ -359,165 +353,7 @@ class eZArticleCategory
        }
     }
 
-    /*!
-      Returns the owner group of this module as an eZOwnerGroup object.
-      If the object doesn't have an owner it returns 0.
-    */
-    function ownerGroup()
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
-        $group = new eZUserGroup( $this->OwnerGroupID );
-        return $group;
-    }
 
-    /*!
-      Sets the read permission.
-
-      Note: If you set this to 0 or 2 it automaticly clears the permission link table.
-      
-      0 means that only the user has permission to read the article
-      1 means that only users in selected groups can read the article
-      2 means that evryone can read the article
-     */
-    function readPermission()
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        return $this->ReadPermission;
-    }
-
-
-    
-    /*!
-      Removes every group that can read this article.
-    */
-    function removeReadGroups()
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->dbInit();
-
-       $this->Database->query( "DELETE FROM eZArticle_CategoryReaderLink WHERE CategoryID='$this->ID'" );       
-    }
-
-    
-    /*!
-      Adds a group that can read this article.
-
-      Note: calling this function will set the ReadPermission variable to 1
-     */
-    function addReadGroup( $newGroup )
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        if( get_class( $newGroup ) == "ezusergroup" )
-        {
-            $this->dbInit();
-            $groupID = $newGroup->id();
-            $this->Database->query( "INSERT INTO  eZArticle_CategoryReaderLink SET
-                                     CategoryID='$this->ID',
-                                     GroupID='$groupID',
-                                     Created=now()" );       
-        }
-        
-    }
-
-    /*!
-      Returns all the groups that have readpermission for this article as an array of eZUserGroup objects if the parameter is false.
-      If the parameter is true, it returns the groups as an array of ID's.
-     */
-    function readGroups( $IDOnly=false )
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        $ret = array();
-        $this->Database->array_query( $res, "SELECT GroupID FROM eZArticle_CategoryReaderLink
-                                       WHERE CategoryID='$this->ID'" );
-        
-        if( count( $res ) > 0 )
-        {
-            $i = 0;
-            foreach( $res as $groupItem )
-            {
-                if( $IDOnly == true )
-                    $ret[$i] = $groupItem[0]["GroupID"];
-                else
-                    $ret[$i] = new eZUserGroup( $groupID[0]["GroupID"] );
-                $i++;
-            }
-        }
-
-        return $ret;
-    }
-    
-    /*!
-      \static
-      Returns true if the user has permission to view this category.
-     */
-    function hasReadPermission( $user, $categoryID )
-    {
-       $database =& eZDB::globalDatabase();
-       $database->array_query( $res, "SELECT ReadPermission FROM eZArticle_Category WHERE ID='$categoryID'" );
-//       print("<br>Inside hasReadPermission<br>");
-       $readPermission = $res[0][ "ReadPermission" ];
-//       print( "This page has readpermission: $readPermission <br>" );
-
-       if( $readPermission == 0 ) //none
-           return false;
-       else if( $readPermission == 2 )// all
-           return true;
-       else if( $readPermission == 1 && get_class( $user ) == "ezuser" )//some
-       {
-           $userGroups = $user->groups( true );
-           $database->array_query( $res, "SELECT GroupID FROM eZArticle_CategoryReaderLink
-                                   WHERE CategoryID='$categoryID'");
-
-           $i = 0;
-           $readGrpID = array();
-           foreach( $res as $groupItem )
-           {
-               $readGrpID[$i] = $groupItem["GroupID"];
-               $i++;
-           }
-           
-           $commonGroups = array_intersect( $readGrpID, $userGroups );
-           //         print_r( $readGrpID ); print( "<br>");
-//           print_r( $userGroups );print( "<br>");
-//           print_r( $commonGroups );print( "<br>");
-//           $count = count( $commonGroups );
-//           print( "$count");
-           if( count( $commonGroups ) > 0  )
-               return true;
-       }
-       return false; 
-    }
-
-    /*!
-      \static
-      Returns true if the user has write permission for this category
-     */
-    function hasWritePermission( $user, $categoryID )
-    {
-        if( get_class( $user ) != "ezuser" )
-            return false;
-
-        $database =& eZDB::globalDatabase();
-        // check if group
-        $database->query_single( $res, "SELECT OwnerGroupID from eZArticle_Category WHERE ID='$categoryID'");
-        $ownerGroupID = $res[ "OwnerGroupID" ];
-        $userGroups = $user->groups( true );
-        if( in_array( $ownerGroupID, $userGroups ) )
-            return true;
-
-        return false;
-    }
-    
     /*!
       Returns the sort mode.
 
@@ -626,29 +462,6 @@ class eZArticleCategory
        }
     }
 
-        /*!
-      Sets the read permission.
-
-      Note: If you set this to 0 or 2 it automaticly clears the permission link table.
-      
-      0 means that only the user has permission to read the article
-      1 means that only users in selected groups can read the article
-      2 means that evryone can read the article
-     */
-    function setReadPermission( $value )
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-        if( $value >=0 && $value <=2)
-        {
-            if( $value != 1 )
-                $this->removeReadGroups();
-
-            $this->ReadPermission = $value;
-        }
-    }
-
     
     /*!
       Sets the sort mode.
@@ -684,34 +497,7 @@ class eZArticleCategory
            $this->ExcludeFromSearch = "false";           
        }
     }
-
-    /*!
-      Sets the owner group of this category.
-      Parameter $newOwner must be an eZUserGroup object.
-      if $recursive is true the function will also set the owner group for all subcategories. These will be stored automaticly.
-     */
-    function setOwnerGroup( $newOwner, $recursive = false )
-    {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
-        if( get_class( $newOwner ) == "ezusergroup" )
-        {
-            $this->OwnerGroupID = $newOwner->id();
-            if( $recursive == true )
-            {
-                $categories = $this->getByParent( $this );
-                foreach( $categories as $categoryItem )
-                {
-                    $categoryItem->setOwnerGroup( $newOwner, true );
-                    $categoryItem->store();
-                }
-            }
-        }
-    }
-
-
-    
+   
     /*!
       \static
       Removes an article from the category.
@@ -1117,8 +903,6 @@ class eZArticleCategory
     var $Description;
     var $ExcludeFromSearch;
     var $SortMode;
-    var $OwnerGroupID;
-    var $ReadPermission;
     ///  Variable for keeping the database connection.
     var $Database;
 
