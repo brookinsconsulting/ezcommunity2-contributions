@@ -1,10 +1,47 @@
 <!-- BEGIN normal_select_tpl -->
-<form method="post" action="{link_list_url}{object_id}">
 
-<h1>{intl-head_line}</h1>
+<h1>{intl-head_line} ({client_name}/{client_type})</h1>
 <hr noshade="noshade" size="4" />
 
 <!-- BEGIN tree_select_tpl -->
+<!-- BEGIN path_item_tpl -->
+<!-- BEGIN path_arrow_item_tpl -->
+<img src="/admin/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+<!-- END path_arrow_item_tpl -->
+<!-- BEGIN path_slash_item_tpl -->
+<img src="/admin/images/path-slash.gif" height="10" width="16" border="0" alt="" />
+<!-- END path_slash_item_tpl -->
+<a class="path" href="{path_url}">{path_name}</a>
+<!-- END path_item_tpl -->
+<hr noshade="noshade" size="4" />
+
+<!-- BEGIN tree_selector_tpl -->
+<form method="post" action="{link_type_select_url}{object_id}">
+
+<table cellpadding="4" cellspacing="0" border="0">
+<tr>
+	<td valign="top">
+	<p class="boxtext">{intl-link_type}:</p>
+	<select name="ModuleType">
+	<!-- BEGIN tree_value_tpl -->
+	<option value="{module_type}" {selected}>{type_level}{type_name}</option>
+	<!-- END tree_value_tpl -->
+	<option value="std/url" {url_selected}>{intl-url_type}</option>
+	</select>
+	</td>
+	<td align="left" valign="bottom">
+	<input class="stdbutton" type="submit" name="Choose" value="{intl-browse}" />
+	</td>
+</tr>
+</table>
+
+<input type="hidden" name="SectionID" value="{section_id}" />
+<input type="hidden" name="LinkID" value="{link_id}" />
+</form>
+<!-- END tree_selector_tpl -->
+
+<form method="post" action="{link_list_url}{object_id}">
+
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <!-- BEGIN category_list_tpl -->
 <tr>
@@ -27,7 +64,12 @@
 	<a href="{category_orig_url}" target="_blank">{category_orig_url}</a>
 	</td>
 	<td class="{td_class}">
-	<input type="checkbox" name="CategorySelect[]" value="{category_item_id}">
+	<!-- BEGIN category_checkbox_item_tpl -->
+	<input type="checkbox" name="CategorySelect[]" value="{category_item_id}" {category_radio_select} />
+	<!-- END category_checkbox_item_tpl -->
+	<!-- BEGIN category_radio_item_tpl -->
+	<input type="radio" name="ItemSelect[]" value="-{category_item_id}" {radio_select} />
+	<!-- END category_radio_item_tpl -->
 	</td>
 </tr>
 <!-- END category_item_tpl -->
@@ -57,7 +99,12 @@
 	<a href="{object_orig_url}" target="_blank">{object_orig_url}</a>
 	</td>
 	<td class="{td_class}">
-	<input type="checkbox" name="ItemSelect[]" value="{item_id}">
+	<!-- BEGIN object_checkbox_item_tpl -->
+	<input type="checkbox" name="ItemSelect[]" value="{item_id}" {object_radio_select} />
+	<!-- END object_checkbox_item_tpl -->
+	<!-- BEGIN object_radio_item_tpl -->
+	<input type="radio" name="ItemSelect[]" value="{item_id}" {radio_select} />
+	<!-- END object_radio_item_tpl -->
 	</td>
 </tr>
 <!-- END object_item_tpl -->
@@ -72,7 +119,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="{link_select_url}{object_id}/{module_type}/{section_id}/{category_id}/{item_previous_index}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;|
+	<a class="path" href="{link_select_url}{object_id}/{module_type}/{section_id}/{category_id}/{item_previous_index}/{link_id}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;|
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -86,7 +133,7 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	&nbsp;<a class="path" href="{link_select_url}{object_id}/{module_type}/{section_id}/{category_id}/{item_index}">{type_item_name}</a>&nbsp;|
+	&nbsp;<a class="path" href="{link_select_url}{object_id}/{module_type}/{section_id}/{category_id}/{item_index}/{link_id}">{type_item_name}</a>&nbsp;|
 	</td>
 	<!-- END type_list_item_tpl -->
 
@@ -100,7 +147,7 @@
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	&nbsp;<a class="path" href="{link_select_url}{object_id}/{module_type}/{section_id}/{category_id}/{item_next_index}">{intl-next}&nbsp;&gt;&gt;</a>
+	&nbsp;<a class="path" href="{link_select_url}{object_id}/{module_type}/{section_id}/{category_id}/{item_next_index}/{link_id}">{intl-next}&nbsp;&gt;&gt;</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 
@@ -116,17 +163,44 @@
 <!-- END type_list_tpl -->
 <!-- END tree_select_tpl -->
 <!-- BEGIN url_select_tpl -->
+
+<!-- BEGIN url_selector_tpl -->
+<form method="post" action="{link_type_select_url}{object_id}">
+
+<table cellpadding="4" cellspacing="0" border="0">
+<tr>
+	<td valign="top">
+	<p class="boxtext">{intl-link_type}:</p>
+	<select name="ModuleType">
+	<!-- BEGIN url_value_tpl -->
+	<option value="{module_select_type}" {selected}>{type_level}{type_name}</option>
+	<!-- END url_value_tpl -->
+	<option value="std/url" {url_selected}>{intl-url_type}</option>
+	</select>
+	</td>
+	<td align="left" valign="bottom">
+	<input class="stdbutton" type="submit" name="Choose" value="{intl-browse}" />
+	</td>
+</tr>
+</table>
+
+<input type="hidden" name="SectionID" value="{section_id}" />
+<input type="hidden" name="LinkID" value="{link_id}" />
+</form>
+<!-- END url_selector_tpl -->
+
+<form method="post" action="{link_list_url}{object_id}">
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td>
 	<p class="boxtext">{intl-name}:</p>
-	<input type="text" name="URLName" value="" />
+	<input type="text" name="URLName" value="{url_name}" />
 	</td>
 </tr>
 <tr>
 	<td>
 	<p class="boxtext">{intl-url}:</p>
-	<input type="text" name="URL" value="" />
+	<input type="text" name="URL" value="{url_src}" />
 	</td>
 </tr>
 </table>
@@ -137,6 +211,7 @@
 
 <input type="hidden" name="SectionID" value="{section_id}" />
 <input type="hidden" name="ModuleType" value="{module_type}" />
+<input type="hidden" name="LinkID" value="{link_id}" />
 <input class="okbutton" type="submit" name="ItemInsert" value="{intl-insert_selected}" />
 <input class="stdbutton" type="submit" name="Cancel" value="{intl-cancel}" />
 
@@ -144,6 +219,31 @@
 <!-- END normal_select_tpl -->
 
 <!-- BEGIN module_select_tpl -->
+<!-- BEGIN module_selector_tpl -->
+<form method="post" action="{link_type_select_url}{object_id}">
+
+<table cellpadding="4" cellspacing="0" border="0">
+<tr>
+	<td valign="top">
+	<p class="boxtext">{intl-link_type}:</p>
+	<select name="ModuleType">
+	<!-- BEGIN module_value_tpl -->
+	<option value="{module_type}" {selected}>{type_level}{type_name}</option>
+	<!-- END module_value_tpl -->
+	<option value="std/url" {url_selected}>{intl-url_type}</option>
+	</select>
+	</td>
+	<td align="left" valign="bottom">
+	<input class="stdbutton" type="submit" name="Choose" value="{intl-browse}" />
+	</td>
+</tr>
+</table>
+
+<input type="hidden" name="SectionID" value="{section_id}" />
+<input type="hidden" name="LinkID" value="{link_id}" />
+</form>
+<!-- END module_selector_tpl -->
+
 <form method="post" action="{link_list_url}{object_id}">
 
 <h1>{intl-head_line_choose}</h1>
@@ -153,7 +253,7 @@
 <!-- BEGIN module_item_tpl -->
 <tr>
 	<td width="1%" valign="top"><img src="/admin/images/{site_style}/menu-arrow.gif" width="10" height="12" border="0" /><br /></td>
-	<td width="99%"class="menu"><a class="menu" href="{link_select_url}{object_id}/{module_name}/{module_type}/{section_id}">{module_type_name}</a></td>
+	<td width="99%"class="menu"><a class="menu" href="{link_select_url}">{module_type_name}</a></td>
 </tr>
 <!-- END module_item_tpl -->
 </table>

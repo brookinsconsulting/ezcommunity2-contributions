@@ -1,6 +1,6 @@
 <form method="post" action="{link_list_url}{item_id}">
 
-<h1>{intl-head_line}</h1>
+<h1>{intl-head_line} ({client_name}/{client_type})</h1>
 <hr noshade="noshade" size="4" />
 
 <table cellpadding="4" cellspacing="0" border="0">
@@ -22,7 +22,19 @@
 
 <br />
 
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+<tr>
+	<th>&nbsp;
+	</th>
+	<th>{intl-name}:
+	</th>
+	<th>{intl-type}:
+	</th>
+	<th>&nbsp;
+	</th>
+	<th>&nbsp;
+	</th>
+</tr>
 <!-- BEGIN section_item_tpl -->
 <tr>
 	<td width="1%">
@@ -31,6 +43,10 @@
 	<th>
 	<input type="text" name="SectionName[{section_id}]" size="20" value="{section_name}" />:
 	<input type="hidden" name="SectionIDList[]" value="{section_id}" />
+	</th>
+	<th>&nbsp;
+	</th>
+	<th>&nbsp;
 	</th>
 	<td width="1%">
 	<input type="checkbox" name="DeleteSectionID[]" value="{section_id}" />
@@ -42,6 +58,15 @@
 	</td>
 	<td class="{td_class}">
 	&nbsp;<a href="{link_url}" target="_blank">{link_name}</a>
+	</td>
+	<td class="{td_class}">
+	{link_module_name}/{link_module_type}
+	</td>
+	<td class="{td_class}" width="1%">
+	<!-- BEGIN link_edit_item_tpl -->
+	<a href="{item_edit_command}" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{link_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezc{link_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	</td>
+	<!-- END link_edit_item_tpl -->
 	</td>
 	<td class="{td_class}" width="1%">
 	<input type="checkbox" name="DeleteLinkID[]" value="{link_id}" />
