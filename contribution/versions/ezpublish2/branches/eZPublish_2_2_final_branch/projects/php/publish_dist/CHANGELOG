@@ -23,6 +23,7 @@ Changes from 2.2.8 to 2.2.9
 * Fixed bug with customtag in table.
 * Fixed bug with invalid content type header sendt with RSS article list
 * Fixed bug with Article title not beeing escaped when added as link item to a product (productedit)
+* Fixed bug with pending mail en eZ article.
 
 Changes from 2.2.7 to 2.2.8
 ---------------------------
