@@ -452,3 +452,12 @@ Maintainer(s) : bf@ez.no
 
     * user/userwithaddress.php: Fixed a delete address bug
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-10-25  Sascha Frinken  <sascha@impetex.de>
+
+    * user/intl/de_MG/userwithaddress.php.ini
+      user/templates/mygold/userwithaddress.tpl: Added design and language
+

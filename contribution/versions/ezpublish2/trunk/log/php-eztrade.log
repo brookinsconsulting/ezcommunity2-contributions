@@ -1535,3 +1535,49 @@ Maintainer(s) : ce@ez.no
 
     * user/payment.php: Fixed a clear bug
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-10-25  Sascha Frinken  <sascha@impetex.de>
+
+    * admin/intl/de_MG/Attic/customerlist.php.ini
+      admin/intl/de_MG/Attic/customerview.php.ini
+      admin/intl/de_MG/Attic/linklist.php.ini
+      admin/intl/de_MG/Attic/linkselect.php.ini
+      admin/intl/de_MG/Attic/productexpire.php.ini
+      admin/intl/de_MG/Attic/voucheredit.php.ini
+      admin/intl/de_MG/Attic/voucherlist.php.ini
+      user/Attic/voucheremailsample.php
+      user/intl/Attic/voucheremail.php.ini
+      user/intl/de_MG/Attic/orderlist.php.ini
+      user/intl/de_MG/Attic/orderview.php.ini
+      user/intl/de_MG/Attic/voucher.php.ini
+      user/intl/de_MG/Attic/voucherview.php.ini: Added language files
+
+    * admin/intl/de_MG/Attic/customerlist.php.ini
+      admin/intl/de_MG/Attic/customerview.php.ini
+      admin/intl/de_MG/Attic/linklist.php.ini
+      admin/intl/de_MG/Attic/linkselect.php.ini
+      admin/intl/de_MG/Attic/productexpire.php.ini
+      admin/intl/de_MG/Attic/voucheredit.php.ini
+      admin/intl/de_MG/Attic/voucherlist.php.ini
+      user/Attic/voucheremailsample.php
+      user/intl/Attic/voucheremail.php.ini
+      user/intl/de_MG/Attic/orderlist.php.ini
+      user/intl/de_MG/Attic/orderview.php.ini
+      user/intl/de_MG/Attic/voucher.php.ini
+      user/intl/de_MG/Attic/voucherview.php.ini: New file.
+
+    * user/intl/de_DE/voucherinformation.php.ini
+      user/intl/de_MG/cart.php.ini
+      user/intl/de_MG/ordersendt.php.ini
+      user/intl/de_MG/voucherinformation.php.ini
+      user/orderlist.php
+      user/productview.php: Added design and language
+
+2001-10-25  Christoffer Elo  <ce@ez.no>
+
+    * user/checkout.php
+      user/voucherview.php: Renamed a function
+

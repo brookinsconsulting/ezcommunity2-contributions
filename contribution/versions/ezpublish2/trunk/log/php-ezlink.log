@@ -259,3 +259,11 @@ Maintainer(s) : br@ez.no
       user/intl/no_NO/search.php.ini
       user/intl/no_NO/suggestlink.php.ini: updated no_NO
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-10-25  Kai Duebbert  <kai@duebbert.de>
+
+    * classes/ezmeta.php: fixed wrong use of eZFile::fopen()
+

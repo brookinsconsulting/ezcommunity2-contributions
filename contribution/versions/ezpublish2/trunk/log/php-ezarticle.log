@@ -1590,3 +1590,19 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezqdomrenderer.php: Fixed not converting \n to br.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-10-25  Sascha Frinken  <sascha@impetex.de>
+
+    * admin/intl/de_MG/articleedit.php.ini
+      admin/intl/de_MG/articlelist.php.ini
+      admin/intl/de_MG/imagelist.php.ini
+      admin/templates/standard/articlepreview.tpl
+      user/templates/mygold/articletags.tpl: Added design and language
+
+2001-10-25  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezqdomrenderer.php: Upgraded the qdom rendrer
+
