@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproductcurrency.php,v 1.6 2001/07/20 11:42:01 jakobn Exp $
+// $Id: ezproductcurrency.php,v 1.7 2001/07/30 07:11:55 br Exp $
 //
 // Definition of eZProductCurrency class
 //
@@ -55,30 +55,45 @@ class eZProductCurrency
     function store()
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
 
+        $this->Name = $db->escapeString( $this->Name );
+        $this->Sign = $db->escapeString( $this->Sign );
+        
         if ( !isset( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZTrade_AlternativeCurrency SET
-		                 Name='$this->Name',
-		                 Sign='$this->Sign',
-		                 Value='$this->Value',
-		                 Created=now(),
-		                 PrefixSign='$this->PrefixSign'
-                          " );
-        
-			$this->ID = $db->insertID();
+            $timeStamp =& eZDateTime::timeStamp( true );
+            $db->lock( "eZTrade_AlternativeCurrency" );
+            $nextID = $db->nextID( "eZTrade_AlternativeCurrency", "ID" );
+                        
+            $res[] = $db->query( "INSERT INTO eZTrade_AlternativeCurrency
+                       ( ID,
+		                 Name,
+		                 Sign,
+		                 Value,
+		                 Created,
+		                 PrefixSign )
+                       VALUES
+		               ( '$nextID'
+                         '$this->Name',
+		                 '$this->Sign',
+		                 '$this->Value',
+		                 '$timeStamp',
+		                 '$this->PrefixSign' )" );
+			$this->ID = $nextID;
         }
         else
         {
-            $db->query( "UPDATE eZTrade_AlternativeCurrency SET
+            $res[] = $db->query( "UPDATE eZTrade_AlternativeCurrency SET
 		                 Name='$this->Name',
 		                 Sign='$this->Sign',
 		                 Value='$this->Value',
 		                 Created=Created,
 		                 PrefixSign='$this->PrefixSign'
-                        WHERE ID='$this->ID'" );
+                         WHERE ID='$this->ID'" );
         }
-        
+
+        eZDB::finish( $res, $db );
         return true;
     }
 
@@ -99,11 +114,11 @@ class eZProductCurrency
             }
             else if( count( $currency_array ) == 1 )
             {
-                $this->ID =& $currency_array[0][ "ID" ];
-                $this->Name =& $currency_array[0][ "Name" ];
-                $this->Value =& $currency_array[0][ "Value" ];
-                $this->Sign =& $currency_array[0][ "Sign" ];
-                $this->PrefixSign =& $currency_array[0][ "PrefixSign" ];
+                $this->ID =& $currency_array[0][$db->fieldName( "ID" )];
+                $this->Name =& $currency_array[0][$db->fieldName( "Name" )];
+                $this->Value =& $currency_array[0][$db->fieldName( "Value" )];
+                $this->Sign =& $currency_array[0][$db->fieldName( "Sign" )];
+                $this->PrefixSign =& $currency_array[0][$db->fieldName( "PrefixSign" )];
             }
         }
     }
@@ -122,7 +137,7 @@ class eZProductCurrency
         
         for ( $i=0; $i < count($currency_array); $i++ )
         {
-            $return_array[$i] = new eZProductCurrency( $currency_array[$i]["ID"], 0 );
+            $return_array[$i] = new eZProductCurrency( $currency_array[$i][$db->fieldName( "ID" )], 0 );
         }
         
         return $return_array;
@@ -134,8 +149,13 @@ class eZProductCurrency
     function delete()
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
 
-        $db->query( "DELETE FROM eZTrade_AlternativeCurrency WHERE ID='$this->ID'" );
+        $res[] = $db->query( "DELETE FROM eZTrade_AlternativeCurrency WHERE ID='$this->ID'" );
+
+        eZDB::finish( $res, $db );
+
+        
     }
 
     /*!

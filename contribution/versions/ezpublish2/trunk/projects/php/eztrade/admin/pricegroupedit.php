@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pricegroupedit.php,v 1.4 2001/07/20 11:42:01 jakobn Exp $
+// $Id: pricegroupedit.php,v 1.5 2001/07/30 07:11:55 br Exp $
 //
 // Created on: <23-Feb-2001 15:32:27 amos>
 //
@@ -54,7 +54,6 @@ if ( isset( $OK ) )
     {
         $price->addUserGroup( $group );
     }
-
     header( "Location: /trade/pricegroups/list" );
     exit();
 }

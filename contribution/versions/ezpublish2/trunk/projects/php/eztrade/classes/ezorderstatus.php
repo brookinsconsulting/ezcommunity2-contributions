@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorderstatus.php,v 1.9 2001/07/20 11:42:01 jakobn Exp $
+// $Id: ezorderstatus.php,v 1.10 2001/07/30 07:11:55 br Exp $
 //
 // Definition of eZOrderStatus class
 //
@@ -47,26 +47,13 @@ class eZOrderStatus
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZOrderStatus( $id="", $fetch=true )
+    function eZOrderStatus( $id="" )
     {
-        $this->IsConnected = false;
 
         if ( $id != "" )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -75,34 +62,41 @@ class eZOrderStatus
     */
     function store()
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
+        $db->begin();
+
+        $this->Comment = $db->escapeString( $this->Comment );
         
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZTrade_OrderStatus SET
-		                         StatusID='$this->StatusID',
-		                         AdminID='$this->AdminID',
-		                         Comment='$this->Comment',
-		                         OrderID='$this->OrderID'
-                                 " );
+            $db->lock( "eZTrade_OrderStatus" );
+            $nextID = $db->nextID( "eZTrade_OrderStatus", "ID" );
+            $ret[] = $db->query( "INSERT INTO eZTrade_OrderStatus
+                              ( ID,
+		                        StatusID,
+		                        AdminID,
+		                        Comment,
+		                        OrderID )
+                              VALUES
+                              ( '$nextID',
+		                        '$this->StatusID',
+		                        '$this->AdminID',
+		                        '$this->Comment',
+		                        '$this->OrderID' )" );
 
-			$this->ID = $this->Database->insertID();
-
-            $this->State_ = "Coherent";
+			$this->ID = $nextID;
         }
         else
         {
-            $this->Database->query( "UPDATE eZTrade_OrderStatus SET
+            $ret[] = $db->query( "UPDATE eZTrade_OrderStatus SET
 		                         StatusID='$this->StatusID',
 		                         AdminID='$this->AdminID',
 		                         Comment='$this->Comment',
 		                         OrderID='$this->OrderID'
                                  WHERE ID='$this->ID'
                                  " );
-
-            $this->State_ = "Coherent";
         }
-        
+        eZDB::finish( $ret, $db ); 
         return true;
     }    
 
@@ -111,32 +105,27 @@ class eZOrderStatus
     */
     function get( $id="" )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         $ret = false;
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $order_array, "SELECT * FROM eZTrade_OrderStatus WHERE ID='$id'" );
+            $db->array_query( $order_array, "SELECT * FROM eZTrade_OrderStatus WHERE ID='$id'" );
             if ( count( $order_array ) > 1 )
             {
                 die( "Error: Order's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $order_array ) == 1 )
             {
-                $this->ID =& $order_array[0][ "ID" ];
-                $this->StatusID =& $order_array[0][ "StatusID" ];
-                $this->Altered =& $order_array[0][ "Altered" ];
-                $this->AdminID =& $order_array[0][ "AdminID" ];
-                $this->OrderID =& $order_array[0][ "OrderID" ];
-                $this->Comment =& $order_array[0][ "Comment" ];
+                $this->ID =& $order_array[0][$db->fieldName("ID")];
+                $this->StatusID =& $order_array[0][$db->fieldName("StatusID")];
+                $this->Altered =& $order_array[0][$db->fieldName("Altered")];
+                $this->AdminID =& $order_array[0][$db->fieldName("AdminID")];
+                $this->OrderID =& $order_array[0][$db->fieldName("OrderID")];
+                $this->Comment =& $order_array[0][$db->fieldName("Comment")];
 
-                $this->State_ = "Coherent";
                 $ret = true;
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
     }
@@ -154,13 +143,9 @@ class eZOrderStatus
     */
     function altered( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       
        $dateTime = new eZDateTime();
 
-       $dateTime->setMySQLTimeStamp( $this->Altered );
+       $dateTime->setTimeStamp( $this->Altered );
 
        return $dateTime;
     }
@@ -170,9 +155,6 @@ class eZOrderStatus
     */
     function type( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = new eZOrderStatusType( $this->StatusID );
 
        return $ret;
@@ -183,9 +165,6 @@ class eZOrderStatus
     */
     function comment()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->Comment;
     }
 
@@ -194,9 +173,6 @@ class eZOrderStatus
     */
     function admin()
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
         $ret = new eZUser( $this->AdminID );
         return $ret;
     }
@@ -207,9 +183,6 @@ class eZOrderStatus
     */
     function setType( $type )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $type ) == "ezorderstatustype" )
        {
            $this->StatusID = $type->id();
@@ -221,9 +194,6 @@ class eZOrderStatus
     */
     function setAdmin( $user )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $user ) == "ezuser" )
        {
            $this->AdminID = $user->id();
@@ -235,9 +205,6 @@ class eZOrderStatus
     */
     function setOrderID( $order )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->OrderID = $order;
     }
 
@@ -246,24 +213,8 @@ class eZOrderStatus
     */
     function setComment( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Comment = $value;
     }    
-
-    /*!
-      \private
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
 
     var $ID;
     var $StatusID;
@@ -272,13 +223,6 @@ class eZOrderStatus
     var $OrderID;
     var $Comment;
     
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>

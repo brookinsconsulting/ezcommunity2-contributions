@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorderitem.php,v 1.13 2001/07/20 11:42:01 jakobn Exp $
+// $Id: ezorderitem.php,v 1.14 2001/07/30 07:11:55 br Exp $
 //
 // Definition of eZOrderItem class
 //
@@ -46,26 +46,12 @@ class eZOrderItem
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZOrderItem( $id="", $fetch=true )
+    function eZOrderItem( $id="" )
     {
-        $this->IsConnected = false;
-
         if ( $id != "" )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -74,24 +60,32 @@ class eZOrderItem
     */
     function store()
     {
-        $this->dbInit();
-        
+        $db = eZBD::globalDatabase();
+        $db->begin();
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZTrade_OrderItem SET
-		                         OrderID='$this->OrderID',
-		                         Count='$this->Count',
-		                         Price='$this->Price',
-		                         ProductID='$this->ProductID'
-                                 " );
+            
+            $db->lock( "eZTrade_OrderItem" );
+            $nextID = $db->nextID( "eZTrade_OrderItem", "ID");
+            $ret[] = $db->query( "INSERT INTO eZTrade_OrderItem
+                               ( ID,
+		                         OrderID,
+		                         Count,
+		                         Price,
+		                         ProductID )
+                               VALUES
+                               ( '$nextID',
+		                         '$this->OrderID',
+		                         '$this->Count',
+		                         '$this->Price',
+		                         '$this->ProductID' )" );
 
-			$this->ID = $this->Database->insertID();
+			$this->ID = $nextID;
 
-            $this->State_ = "Coherent";
         }
         else
         {
-            $this->Database->query( "UPDATE eZTrade_OrderItem SET
+            $ret[] = $db->query( "UPDATE eZTrade_OrderItem SET
 		                         OrderID='$this->OrderID',
 		                         Count='$this->Count',
 		                         Price='$this->Price',
@@ -99,9 +93,8 @@ class eZOrderItem
                                  WHERE ID='$this->ID'
                                  " );
 
-            $this->State_ = "Coherent";
         }
-        
+        eZDB::finish( $ret, $db );
         return true;
     }    
 
@@ -110,31 +103,26 @@ class eZOrderItem
     */
     function get( $id="" )
     {
-        $this->dbInit();
+        $db = eZBD::globalDatabase();
         $ret = false;
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $cart_array, "SELECT * FROM eZTrade_OrderItem WHERE ID='$id'" );
+            $db->array_query( $cart_array, "SELECT * FROM eZTrade_OrderItem WHERE ID='$id'" );
             if ( count( $cart_array ) > 1 )
             {
                 die( "Error: Cart's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $cart_array ) == 1 )
             {
-                $this->ID =& $cart_array[0][ "ID" ];
-                $this->OrderID =& $cart_array[0][ "OrderID" ];
-                $this->Count =& $cart_array[0][ "Count" ];
-                $this->Price =& $cart_array[0][ "Price" ];
-                $this->ProductID =& $cart_array[0][ "ProductID" ];
+                $this->ID =& $cart_array[0][$db->fieldName("ID")];
+                $this->OrderID =& $cart_array[0][$db->fieldName("OrderID")];
+                $this->Count =& $cart_array[0][$db->fieldName("Count")];
+                $this->Price =& $cart_array[0][$db->fieldName("Price")];
+                $this->ProductID =& $cart_array[0][$db->fieldName("ProductID")];
 
-                $this->State_ = "Coherent";
                 $ret = true;
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
     }
@@ -144,12 +132,13 @@ class eZOrderItem
     */
     function delete()
     {
-        $this->dbInit();
-            
-        $this->Database->query( "DELETE FROM eZTrade_OrderOptionValue WHERE OrderItemID='$this->ID'" );
+        $db = eZBD::globalDatabase();
+        $db->begin();
 
-        $this->Database->query( "DELETE FROM eZTrade_OrderItem WHERE ID='$this->ID'" );
-            
+        $ret[] = $db->query( "DELETE FROM eZTrade_OrderOptionValue WHERE OrderItemID='$this->ID'" );
+        $ret[] = $db->query( "DELETE FROM eZTrade_OrderItem WHERE ID='$this->ID'" );
+
+        eZDB::finish( $ret, $db );
         return true;
     }
 
@@ -166,9 +155,6 @@ class eZOrderItem
     */
     function count( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->Count;
     }
 
@@ -177,9 +163,6 @@ class eZOrderItem
     */
     function price( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->Price;
     }
     
@@ -188,9 +171,6 @@ class eZOrderItem
     */
     function product( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = new eZProduct( $this->ProductID );
             
        return $ret;
@@ -201,23 +181,21 @@ class eZOrderItem
      */
     function optionValues( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
+        $db = eZBD::globalDatabase();
 
-       $return_array = array();
-       $this->dbInit();
+        $return_array = array();
        
-       $this->Database->array_query( $res_array, "SELECT ID FROM eZTrade_OrderOptionValue
+        $db->array_query( $res_array, "SELECT ID FROM eZTrade_OrderOptionValue
                                      WHERE
                                      OrderItemID='$this->ID'
                                    " );
 
-       foreach ( $res_array as $item )
-       {
-           $return_array[] = new eZOrderOptionValue( $item["ID"] );
-       }
-       
-       return $return_array;       
+        foreach ( $res_array as $item )
+        {
+            $return_array[] = new eZOrderOptionValue( $item[$db->fieldName("ID")] );
+        }
+        
+        return $return_array;       
     }
 
     /*!
@@ -225,9 +203,6 @@ class eZOrderItem
     */
     function setOrder( $order )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $order ) == "ezorder" )
        {
            $this->OrderID = $order->id();
@@ -239,9 +214,6 @@ class eZOrderItem
     */
     function setProduct( $product )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $product ) == "ezproduct" )
        {
            $this->ProductID = $product->id();
@@ -253,9 +225,6 @@ class eZOrderItem
     */
     function setCount( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Count = $value;
        setType( $this->Count, "integer" );
     }
@@ -265,39 +234,16 @@ class eZOrderItem
     */
     function setPrice( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Price = $value;
        setType( $this->Price, "double" );
     }
     
-    /*!
-      \private
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
-
     var $ID;
     var $OrderID;
     var $Count;
     var $Price;
     var $ProductID;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>

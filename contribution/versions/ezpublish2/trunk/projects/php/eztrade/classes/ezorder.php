@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.36 2001/07/20 11:42:01 jakobn Exp $
+// $Id: ezorder.php,v 1.37 2001/07/30 07:11:55 br Exp $
 //
 // Definition of eZOrder class
 //
@@ -33,6 +33,7 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "classes/ezdatetime.php" );
 
 include_once( "eztrade/classes/ezorderstatustype.php" );
 include_once( "eztrade/classes/ezorderstatus.php" );
@@ -54,17 +55,12 @@ class eZOrder
     */
     function eZOrder( $id="" )
     {
-        $this->IsConnected = false;
         $this->IsExported = 0;
 
         if ( $id != "" )
         {
             $this->ID = $id;
             $this->get( $this->ID );
-        }
-        else
-        {
-            $this->State_ = "New";
         }
     }
 
@@ -73,23 +69,40 @@ class eZOrder
     */
     function store()
     {
-        $this->dbInit();
-
+        $db = eZDB::globalDatabase();
+        $db->begin();
+        
+        $this->TextPaymentMethod = $db->escapeString( $this->PaymentMethod );
+        
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZTrade_Order SET
-		                         UserID='$this->UserID',
-		                         ShippingAddressID='$this->ShippingAddressID',
-		                         BillingAddressID='$this->BillingAddressID',
-		                         PaymentMethod='$this->PaymentMethod',
-		                         IsExported='$this->IsExported',
-                                 ShippingVAT='$this->ShippingVAT',
-                                 ShippingTypeID='$this->ShippingTypeID',
-		                         Date=now(),
-		                         ShippingCharge='$this->ShippingCharge'
-                                 " );
+            $db->lock( "eZTrade_Order" );
+            $db->nextID = $db->nextID( "eZTrade_Order", "ID" );
+            $timeStamp =& eZDateTime::timeStamp( true );
+            $ret[] = $db->query( "INSERT INTO eZTrade_Order
+                               ( ID,
+		                         UserID,
+		                         ShippingAddressID,
+		                         BillingAddressID,
+		                         PaymentMethod,
+		                         IsExported,
+                                 ShippingVAT,
+                                 ShippingTypeID,
+		                         Date,
+		                         ShippingCharge )
+                               VALUES
+                               ( '$nextID'
+		                         '$this->UserID',
+		                         '$this->ShippingAddressID',
+		                         '$this->BillingAddressID',
+		                         '$this->PaymentMethod',
+		                         '$this->IsExported',
+                                 '$this->ShippingVAT',
+                                 '$this->ShippingTypeID',
+		                         '$timeStamp',
+		                         '$this->ShippingCharge' )" );
 
-			$this->ID = $this->Database->insertID();
+			$this->ID = $nextID;
 
             // store the status
             $statusType = new eZOrderStatusType( );
@@ -106,11 +119,10 @@ class eZOrder
             $status->setAdmin( $user );
             $status->store();            
 
-            $this->State_ = "Coherent";
         }
         else
         {
-            $this->Database->query( "UPDATE eZTrade_Order SET
+            $db->query( "UPDATE eZTrade_Order SET
 		                         UserID='$this->UserID',
 		                         ShippingAddressID='$this->ShippingAddressID',
 		                         BillingAddressID='$this->BillingAddressID',
@@ -123,9 +135,9 @@ class eZOrder
                                  WHERE ID='$this->ID'
                                  " );
 
-            $this->State_ = "Coherent";
         }
-        
+
+        eZDB::finish( $ret, $db );
         return true;
     }
 
@@ -134,7 +146,7 @@ class eZOrder
     */
     function delete()
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         $items = $this->items();
 
@@ -146,11 +158,13 @@ class eZOrder
                 $item->delete();
             }
         }
-        
-        $this->Database->query( "DELETE FROM eZTrade_OrderStatus WHERE OrderID='$this->ID'" );
+        $db->begin();
+        $ret[] = $db->query( "DELETE FROM eZTrade_OrderStatus WHERE OrderID='$this->ID'" );
 
         
-        $this->Database->query( "DELETE FROM eZTrade_Order WHERE ID='$this->ID'" );
+        $ret[] = $db->query( "DELETE FROM eZTrade_Order WHERE ID='$this->ID'" );
+
+        eZDB::finish( $ret, $db );
             
         return true;
     }
@@ -161,36 +175,32 @@ class eZOrder
     */
     function get( $id="" )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
+
         $ret = false;
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $cart_array, "SELECT * FROM eZTrade_Order WHERE ID='$id'" );
+            $db->array_query( $cart_array, "SELECT * FROM eZTrade_Order WHERE ID='$id'" );
             if ( count( $cart_array ) > 1 )
             {
                 die( "Error: Cart's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $cart_array ) == 1 )
             {
-                $this->ID =& $cart_array[0][ "ID" ];
-                $this->UserID =& $cart_array[0][ "UserID" ];
-                $this->ShippingAddressID =& $cart_array[0][ "ShippingAddressID" ];
-                $this->BillingAddressID =& $cart_array[0][ "BillingAddressID" ];
-                $this->ShippingCharge =& $cart_array[0][ "ShippingCharge" ];
-                $this->ShippingVAT =& $cart_array[0][ "ShippingVAT" ];
-                $this->ShippingTypeID =& $cart_array[0][ "ShippingTypeID" ];
-                $this->PaymentMethod =& $cart_array[0][ "PaymentMethod" ];
-                $this->Date =& $cart_array[0][ "Date" ];
-                $this->IsExported =& $cart_array[0][ "IsExported" ];
+                $this->ID =& $cart_array[0][$db->fieldName("ID")];
+                $this->UserID =& $cart_array[0][$db->fieldName("UserID")];
+                $this->ShippingAddressID =& $cart_array[0][$db->fieldName("ShippingAddressID")];
+                $this->BillingAddressID =& $cart_array[0][$db->fieldName("BillingAddressID")];
+                $this->ShippingCharge =& $cart_array[0][$db->fieldName("ShippingCharge")];
+                $this->ShippingVAT =& $cart_array[0][$db->fieldName("ShippingVAT")];
+                $this->ShippingTypeID =& $cart_array[0][$db->fieldName("ShippingTypeID")];
+                $this->PaymentMethod =& $cart_array[0][$db->fieldName("PaymentMethod")];
+                $this->Date =& $cart_array[0][$db->fieldName("Date")];
+                $this->IsExported =& $cart_array[0][$db->fieldName("IsExported")];
 
-                $this->State_ = "Coherent";
                 $ret = true;
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
     }
@@ -202,18 +212,18 @@ class eZOrder
     */
     function getAll( $offset=0, $limit=40 )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         $return_array = array();
         $order_array = array();
 
-        $this->Database->array_query( $order_array,
-        "SELECT ID FROM eZTrade_Order
-         LIMIT $offset, $limit" );
+        $db->array_query( $order_array,
+        "SELECT ID FROM eZTrade_Order",
+        array( "Limit" => $limit, "Offset" => $offset ) );
 
         for ( $i=0; $i < count( $order_array ); $i++ )
         {
-            $return_array[$i] = new eZOrder( $order_array[$i][ "ID" ], 0 );
+            $return_array[$i] = new eZOrder( $order_array[$i][$db->fieldName("ID")], 0 );
         }
 
         return $return_array;
@@ -224,18 +234,18 @@ class eZOrder
     */
     function getNew( )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         $return_array = array();
         $order_array = array();
 
-        $this->Database->array_query( $order_array,
+        $db->array_query( $order_array,
         "SELECT ID FROM eZTrade_Order
          WHERE IsExported='0'" );
 
         for ( $i=0; $i < count( $order_array ); $i++ )
         {
-            $return_array[$i] = new eZOrder( $order_array[$i][ "ID" ] );
+            $return_array[$i] = new eZOrder( $order_array[$i][$db->fieldName("ID")] );
         }
 
         return $return_array;
@@ -248,19 +258,19 @@ class eZOrder
     */
     function search( $queryText, $offset=0, $limit=20 )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         $return_array = array();
         $order_array = array();
 
-        $this->Database->array_query( $order_array, "SELECT ID
-                                                     FROM eZTrade_Order
-                                                     WHERE ID LIKE '%$queryText%'
-                                                      LIMIT $offset, $limit" );
+        $db->array_query( $order_array, "SELECT ID
+                                         FROM eZTrade_Order
+                                         WHERE ID LIKE '%$queryText%'",
+                                         array( "Limit" => $limit, "Offset" => $offset ) );
 
         for ( $i=0; $i < count( $order_array ); $i++ )
         {
-            $return_array[$i] = new eZOrder( $order_array[$i][ "ID" ], 0 );
+            $return_array[$i] = new eZOrder( $order_array[$i][$db->fieldName("ID")], 0 );
         }
 
         return $return_array;
@@ -271,15 +281,17 @@ class eZOrder
     */
     function getSearchCount( $queryText )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
-        $this->Database->array_query( $order_array, "SELECT count(ID) as Count
+        $db->array_query( $order_array, "SELECT count(ID) as Count
                                                      FROM eZTrade_Order
                                                      WHERE ID LIKE '%$queryText%'" );
 
         $ret = 0;
         if ( count( $order_array ) == 1 )
-            $ret = $order_array[0]["Count"];
+        {
+            $ret = $order_array[0][$db->fieldName("Count")];
+        }
 
         return $ret;
     }
@@ -287,16 +299,18 @@ class eZOrder
     /*!
       Returns the total count of orders.
     */
-    function getTotalCount(   )
+    function getTotalCount()
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
-        $this->Database->array_query( $order_array, "SELECT count(ID) as Count
+        $db->array_query( $order_array, "SELECT count(ID) as Count
                                                      FROM eZTrade_Order" );
 
         $ret = 0;
         if ( count( $order_array ) == 1 )
-            $ret = $order_array[0]["Count"];
+        {
+            $ret = $order_array[0][$db->fieldName("Count")];
+        }
 
         return $ret;
     }
@@ -304,10 +318,10 @@ class eZOrder
     /*!
       Returns the order date as a eZDateTime object.
     */
-    function date(   )
+    function date()
     {
        $dateTime = new eZDateTime();
-       $dateTime->setMySQLDateTime( $this->Date );
+       $dateTime->setTimeStamp( $this->Date );
        return $dateTime;
     }    
     
@@ -369,26 +383,26 @@ class eZOrder
     function shippingUser()
     {
        // check the owner of the address
+        
+        $db = eZDB::globalDatabase();
        
-       $this->dbInit();
+        $address_array = array();
+        
+        $retUser = false;
        
-       $address_array = array();
+        $db->array_query( $address_array,
+        "SELECT * FROM eZUser_UserAddressLink WHERE AddressID=$this->ShippingAddressID" );
+       
+        if ( count( $address_array ) == 1 )
+        {
+            $retUser = new eZUser( $address_array[0][$db->fieldName("UserID")] );
+        }
+        else
+        {
+            print( "Error: eZOrder::shippingUser() " . count( $address_array ) . " uses found, should be 1." );
+        }
 
-       $retUser = false;
-       
-       $this->Database->array_query( $address_array,
-       "SELECT * FROM eZUser_UserAddressLink WHERE AddressID=$this->ShippingAddressID" );
-       
-       if ( count( $address_array ) == 1 )
-       {
-           $retUser = new eZUser( $address_array[0]["UserID"] );
-       }
-       else
-       {
-           print( "Error: eZOrder::shippingUser() " . count( $address_array ) . " uses found, should be 1." );
-       }
-
-       return $retUser;
+        return $retUser;
        
     }
 
@@ -536,19 +550,20 @@ class eZOrder
     */
     function initialStatus( )
     {
-       $statusType = new eZOrderStatusType();
+        $db = eZDB::globalDatabase();
+        $statusType = new eZOrderStatusType();
        
-       $statusType->getByName( "Initial" );
-       
-       $this->Database->array_query( $status_array, "SELECT ID FROM eZTrade_OrderStatus
+        $statusType->getByName( "Initial" );
+        
+        $db->array_query( $status_array, "SELECT ID FROM eZTrade_OrderStatus
                                                     WHERE OrderID='$this->ID'
                                                     ORDER BY Altered" );
-       $ret = false;
-       if ( count( $status_array ) )
-       {
-           $ret = new eZOrderStatus( $status_array[0]["ID"] );
-       }
-       return $ret;
+        $ret = false;
+        if ( count( $status_array ) )
+        {
+            $ret = new eZOrderStatus( $status_array[0][$db->fieldName("ID")]);
+        }
+        return $ret;
     }
 
     /*!
@@ -556,19 +571,20 @@ class eZOrder
     */
     function lastStatus( )
     {
-       $statusType = new eZOrderStatusType();
+        $db = eZDB::globalDatabase();
+        $statusType = new eZOrderStatusType();
+        
+        $statusType->getByName( "Initial" );
        
-       $statusType->getByName( "Initial" );
-       
-       $this->Database->array_query( $status_array, "SELECT ID FROM eZTrade_OrderStatus
+        $db->array_query( $status_array, "SELECT ID FROM eZTrade_OrderStatus
                                                     WHERE OrderID='$this->ID'
                                                     ORDER BY Altered DESC" );
-       $ret = false;
-       if ( count( $status_array ) )
-       {
-           $ret = new eZOrderStatus( $status_array[0]["ID"] );
-       }
-       return $ret;
+        $ret = false;
+        if ( count( $status_array ) )
+        {
+            $ret = new eZOrderStatus( $status_array[0][$db->fieldName("ID")] );
+        }
+        return $ret;
     }
 
     /*!
@@ -576,19 +592,21 @@ class eZOrder
     */
     function statusHistory()
     {
-       $statusType = new eZOrderStatusType();
+        $db = eZDB::globalDatabase();
+
+        $statusType = new eZOrderStatusType();
+        
+        $statusType->getByName( "Initial" );
        
-       $statusType->getByName( "Initial" );
-       
-       $this->Database->array_query( $status_array, "SELECT ID FROM eZTrade_OrderStatus
+        $db->array_query( $status_array, "SELECT ID FROM eZTrade_OrderStatus
                                                     WHERE OrderID='$this->ID'
                                                     ORDER BY Altered" );
-       $ret = array();
-       foreach ( $status_array as $status )
-       {
-           $ret[] = new eZOrderStatus( $status["ID"] );
-       }
-       return $ret;
+        $ret = array();
+        foreach ( $status_array as $status )
+        {
+           $ret[] = new eZOrderStatus( $status[$db->fieldName("ID")] );
+        }
+        return $ret;
 
     }
 
@@ -597,25 +615,25 @@ class eZOrder
     */
     function items()
     {
-       $ret = array();
+        $ret = array();
        
-       $this->dbInit();
+        $db = eZDB::globalDatabase();
 
-       $this->Database->array_query( $order_array, "SELECT * FROM
-                                                    eZTrade_OrderItem
-                                                    WHERE OrderID='$this->ID'" );
+        $dbarray_query( $order_array, "SELECT * FROM
+                                       eZTrade_OrderItem
+                                       WHERE OrderID='$this->ID'" );
 
-       if ( count( $order_array ) > 0 )
-       {
+        if ( count( $order_array ) > 0 )
+        {
            $return_array = array();
            foreach ( $order_array as $item )
            {
-               $return_array[] = new eZOrderItem( $item["ID"] );               
+               $return_array[] = new eZOrderItem( $item[$db->fieldName("ID")] );               
            }
            $ret = $return_array;
-       }
-
-       return $ret;       
+        }
+        
+        return $ret;       
        
     }
 
@@ -626,20 +644,20 @@ class eZOrder
     function totalPrice( $user = false )
     {
         $retPrice = 0;
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         
-        $this->Database->array_query( $order_item_array, "SELECT Price, Count FROM
-                                                    eZTrade_OrderItem
-                                                    WHERE OrderID='$this->ID'" );
+        $db->array_query( $order_item_array, "SELECT Price, Count FROM
+                                              eZTrade_OrderItem
+                                              WHERE OrderID='$this->ID'" );
         
         foreach ( $order_item_array as $item )
         {
-            $price = $item["Price"];
+            $price = $item[$db->fieldName("Price")];
 //            $price = $price * $item["Count"];
             
             $retPrice += $price;
         }
-        return $retPrice;       
+        return $retPrice;
     }
 
     /*!
@@ -647,37 +665,24 @@ class eZOrder
     */
     function mostPopularProduct()
     {
-       $ret = array();
-       $this->dbInit();
+        $db = eZDB::globalDatabase();
+        $ret = array();
 
-       $this->Database->array_query( $product_array,
-       "SELECT ProductID, Count(ProductID) AS Count, Sum( Count ) AS RealCount
+        $db->array_query( $product_array,
+        "SELECT ProductID, Count(ProductID) AS Count, Sum( Count ) AS RealCount
         FROM eZTrade_OrderItem GROUP BY ProductID
         ORDER BY RealCount DESC" );
-       
-       foreach ( $product_array as $item )
-       {
-           $ret[] = array( "ProductID" => $item["ProductID"],
-                           "Count" => $item["Count"],
-                           "RealCount" => $item["RealCount"] );
-       }
-       
+        
+        foreach ( $product_array as $item )
+        {
+            $ret[] = array( "ProductID" => $item[$db->fieldName("ProductID")],
+                            "Count" => $item[$db->fieldName("Count")],
+                            "RealCount" => $item[$db->fieldName("RealCount")] );
+        }
+        
         return $ret;        
     }
 
-    
-    /*!
-      \private
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database =& eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
 
     var $ID;
     var $UserID;
@@ -696,13 +701,6 @@ class eZOrder
 
     var $IsExported;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>

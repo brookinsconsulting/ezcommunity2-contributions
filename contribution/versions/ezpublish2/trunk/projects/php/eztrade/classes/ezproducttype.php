@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproducttype.php,v 1.7 2001/07/20 11:42:01 jakobn Exp $
+// $Id: ezproducttype.php,v 1.8 2001/07/30 07:11:55 br Exp $
 //
 // Definition of eZProductType class
 //
@@ -49,22 +49,10 @@ class eZProductType
     */
     function eZProductType( $id=-1, $fetch=true )
     {
-        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -73,25 +61,35 @@ class eZProductType
     */
     function store()
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
+        $db->begin();
 
+        $this->Name = $db->escapeString( $this->Name );
+        $this->Description = $db->escapeString( $this->Description );
+        
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZTrade_Type SET
-		                         Name='$this->Name',
-                                 Description='$this->Description'" );
-        
-			$this->ID = $this->Database->insertID();
-            $this->State_ = "Coherent";
+            $db->lock( "eZTrade_Type" );
+            $nextID = $db->nextID( "eZTrade_Type", "ID" );
+            $res[] = $db->query( "INSERT INTO eZTrade_Type
+                               ( ID,                               
+		                         Name,
+                                 Description )
+                               VALUES
+                               ( '$nextID',
+		                         '$this->Name',
+                                 '$this->Description' )" );
+
+			$this->ID = $nextID;
         }
         else
         {
-            $this->Database->query( "UPDATE eZTrade_Type SET
+            $res[] = $db->query( "UPDATE eZTrade_Type SET
 		                         Name='$this->Name',
                                  Description='$this->Description' WHERE ID='$this->ID'" );
-            $this->State_ = "Coherent";
         }
-        
+
+        eZDB::finish( $res, $db );
         return true;
     }
 
@@ -100,12 +98,12 @@ class eZProductType
     */
     function get( $id=-1 )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
 
         $ret = false;
         if ( $id != -1  )
         {
-            $this->Database->array_query( $type_array, "SELECT * FROM eZTrade_Type WHERE ID='$id'" );
+            $db->array_query( $type_array, "SELECT * FROM eZTrade_Type WHERE ID='$id'" );
             
             if ( count( $type_array ) > 1 )
             {
@@ -113,17 +111,12 @@ class eZProductType
             }
             else if( count( $type_array ) == 1 )
             {
-                $this->ID =& $type_array[0][ "ID" ];
-                $this->Name =& $type_array[0][ "Name" ];
-                $this->Description =& $type_array[0][ "Description" ];
+                $this->ID =& $type_array[0][$db->fieldName( "ID" )];
+                $this->Name =& $type_array[0][$db->fieldName( "Name" )];
+                $this->Description =& $type_array[0][$db->fieldName( "Description" )];
                 
-                $this->State_ = "Coherent";
                 $ret = true;
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         
         return $ret;
@@ -134,16 +127,16 @@ class eZProductType
     */
     function &getAll()
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         
         $return_array = array();
         $type_array = array();
         
-        $this->Database->array_query( $type_array, "SELECT ID FROM eZTrade_Type ORDER BY Name" );
+        $db->array_query( $type_array, "SELECT ID FROM eZTrade_Type ORDER BY Name" );
         
         for ( $i=0; $i<count($type_array); $i++ )
         {
-            $return_array[$i] = new eZProductType( $type_array[$i]["ID"], 0 );
+            $return_array[$i] = new eZProductType( $type_array[$i][$db->fieldName( "ID" )], 0 );
         }
         
         return $return_array;
@@ -154,8 +147,9 @@ class eZProductType
     */
     function delete()
     {
-        $this->dbInit();
-
+        $db = eZDB::globalDatabase();
+        $db->begin();
+        
         // delete all attributes and values
         $attributes = $this->attributes();
         foreach ( $attributes as $attribute )
@@ -163,8 +157,10 @@ class eZProductType
             $attribute->delete();
         }
 
-        $this->Database->query( "DELETE FROM eZTrade_ProductTypeLink WHERE TypeID='$this->ID'" );
-        $this->Database->query( "DELETE FROM eZTrade_Type WHERE ID='$this->ID'" );
+        $res[] = $db->query( "DELETE FROM eZTrade_ProductTypeLink WHERE TypeID='$this->ID'" );
+        $res[] = $db->query( "DELETE FROM eZTrade_Type WHERE ID='$this->ID'" );
+
+        eZDB::finish( $res, $db );
     }
 
     /*!
@@ -172,9 +168,6 @@ class eZProductType
     */
     function id()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
        return $this->ID;
     }
 
@@ -183,9 +176,6 @@ class eZProductType
     */
     function name()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
- 
         return $this->Name;
     }
 
@@ -194,9 +184,6 @@ class eZProductType
     */
     function description()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         return $this->Description;
     }
 
@@ -205,9 +192,6 @@ class eZProductType
     */
     function setName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Name = $value;
     }
 
@@ -216,9 +200,6 @@ class eZProductType
     */
     function setDescription( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         $this->Description = $value;
     }
 
@@ -228,50 +209,28 @@ class eZProductType
     */
     function attributes( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       $this->dbInit();
+       $db = eZDB::globalDatabase();
        
        $return_array = array();
        $attribute_array = array();
        
-       $this->Database->array_query( $attribute_array, "SELECT ID
+       $db->array_query( $attribute_array, "SELECT ID
                                                       FROM eZTrade_Attribute
                                                       WHERE TypeID='$this->ID' ORDER BY Placement" );
 
        for ( $i=0; $i<count($attribute_array); $i++ )
        {
-           $return_array[$i] = new eZProductAttribute( $attribute_array[$i]["ID"], false );
+           $return_array[$i] = new eZProductAttribute( $attribute_array[$i][$db->fieldName( "ID" )], false );
        }
        
-       return $return_array;       
+       return $return_array;
     }
 
-    /*!
-      Private function.
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
 
     var $ID;
     var $Name;
     var $Description;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>

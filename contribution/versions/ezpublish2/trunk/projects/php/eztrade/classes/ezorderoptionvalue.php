@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorderoptionvalue.php,v 1.10 2001/07/20 11:42:01 jakobn Exp $
+// $Id: ezorderoptionvalue.php,v 1.11 2001/07/30 07:11:55 br Exp $
 //
 // Definition of eZOrderOptionValue class
 //
@@ -45,26 +45,12 @@ class eZOrderOptionValue
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZOrderOptionValue( $id="", $fetch=true )
+    function eZOrderOptionValue( $id="" )
     {
-        $this->IsConnected = false;
-
         if ( $id != "" )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -73,34 +59,43 @@ class eZOrderOptionValue
     */
     function store()
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
+        $db->begin();
+        
+        $this->OptionName = $db->escapeString( $this->OptionName );
+        $this->ValueName = $db->escapeString( $this->ValueName );
+        $this->RemoteID = $db->escapeString( $this->RemoteID );
         
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZTrade_OrderOptionValue SET
-		                         OrderItemID='$this->OrderItemID',
-		                         OptionName='$this->OptionName',
-		                         RemoteID='$this->RemoteID',
-		                         ValueName='$this->ValueName'
-                                 " );
+            $db->lock( "eZTrade_OrderOptionValue" );
+            $nextID = $db->nextID( "eZTrade_OrderOptionValue", "ID");
+            $ret[] = $db->query( "INSERT INTO eZTrade_OrderOptionValue
+                               ( ID,
+		                         OrderItemID,
+		                         OptionName,
+		                         RemoteID,
+		                         ValueName )
+                               VALUES
+                               ( '$nextID'
+		                         '$this->OrderItemID',
+		                         '$this->OptionName',
+		                         '$this->RemoteID',
+		                         '$this->ValueName' )" );
 
-			$this->ID = $this->Database->insertID();
-
-            $this->State_ = "Coherent";
+			$this->ID = $nextID;
         }
         else
         {
-            $this->Database->query( "UPDATE eZTrade_Order SET
+            $ret[] = $db->query( "UPDATE eZTrade_OrderOptionValue SET
 		                         OrderItemID='$this->OrderItemID',
 		                         OptionName='$this->OptionName',
 		                         RemoteID='$this->RemoteID',
 		                         ValueName='$this->ValueName'
                                  WHERE ID='$this->ID'
                                  " );
-
-            $this->State_ = "Coherent";
         }
-        
+        eZDB::finish( $ret, $db );
         return true;
     }    
 
@@ -109,31 +104,26 @@ class eZOrderOptionValue
     */
     function get( $id="" )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         $ret = false;
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $option_value_array, "SELECT * FROM eZTrade_OrderOptionValue WHERE ID='$id'" );
+            $db->array_query( $option_value_array, "SELECT * FROM eZTrade_OrderOptionValue WHERE ID='$id'" );
             if ( count( $option_value_array ) > 1 )
             {
                 die( "Error: Option_value's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $option_value_array ) == 1 )
             {
-                $this->ID =& $option_value_array[0][ "ID" ];
-                $this->OrderItemID =& $option_value_array[0][ "OrderItemID" ];
-                $this->OptionName =& $option_value_array[0][ "OptionName" ];
-                $this->ValueName =& $option_value_array[0][ "ValueName" ];
-                $this->RemoteID =& $option_value_array[0][ "RemoteID" ];
+                $this->ID =& $option_value_array[0][$db->fieldName("ID")];
+                $this->OrderItemID =& $option_value_array[0][$db->fieldName("OrderItemID")];
+                $this->OptionName =& $option_value_array[0][$db->fieldName("OptionName")];
+                $this->ValueName =& $option_value_array[0][$db->fieldName("ValueName")];
+                $this->RemoteID =& $option_value_array[0][$db->fieldName("RemoteID")];
 
-                $this->State_ = "Coherent";
                 $ret = true;
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
     }
@@ -151,9 +141,6 @@ class eZOrderOptionValue
     */
     function optionName( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->OptionName;
     }
 
@@ -162,9 +149,6 @@ class eZOrderOptionValue
     */
     function valueName( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->ValueName;
     }
 
@@ -173,9 +157,6 @@ class eZOrderOptionValue
     */
     function remoteID( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->RemoteID;
     }
     
@@ -184,9 +165,6 @@ class eZOrderOptionValue
     */
     function setOrderItem( $orderItem )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( get_class( $orderItem ) == "ezorderitem" )
        {
            $this->OrderItemID = $orderItem->id();
@@ -198,9 +176,6 @@ class eZOrderOptionValue
     */
     function setOptionName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->OptionName = $value;
     }
      
@@ -209,9 +184,6 @@ class eZOrderOptionValue
     */
     function setValueName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->ValueName = $value;
     }
 
@@ -220,25 +192,9 @@ class eZOrderOptionValue
     */
     function setRemoteID( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->RemoteID = $value;
     }
     
-    /*!
-      \private
-      
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
 
     var $ID;
     var $OrderItemID;
@@ -246,13 +202,6 @@ class eZOrderOptionValue
     var $ValueName;
     var $RemoteID;    
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezoption.php,v 1.20 2001/07/20 11:42:01 jakobn Exp $
+// $Id: ezoption.php,v 1.21 2001/07/30 07:11:55 br Exp $
 //
 // Definition of eZOption class
 //
@@ -83,15 +83,12 @@ class eZOption
       Constructs a new eZOption object. Retrieves the data from the database
       if a valid id is given as an argument.
     */
-    function eZOption( $id=-1, $fetch=true )
+    function eZOption( $id=-1 )
     {
         if ( $id != -1 )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
+            $this->get( $this->ID );
         }
     }
 
@@ -101,22 +98,34 @@ class eZOption
     function store()
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
 
+        $this->Name = $db->escapeString( $this->Name );
+        $this->Description = $db->escapeString( $this->Description );
+        
         if ( !is_numeric( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZTrade_Option SET
-		                         Name='$this->Name',
-                                 Description='$this->Description'" );
-
-			$this->ID = $db->insertID();
+            $db->lock( "eZTrade_Option" );
+            $db->nextID( "eZTrade_Option", "ID" );
+            $res[] = $db->query( "INSERT INTO eZTrade_Option
+                               ( ID,
+		                         Name,
+                                 Description )
+                               VALUES
+                               ( '$nextID',
+                                 '$this->Name',
+                                 '$this->Description' )" );
+            
+			$this->ID = $nextID;
         }
         else
         {
-            $db->query( "UPDATE eZTrade_Option SET
+            $res[] = $db->query( "UPDATE eZTrade_Option SET
 		                         Name='$this->Name',
                                  Description='$this->Description' WHERE ID='$this->ID'" );
         }
 
+        eZDB::finish( $res, $db );
         return true;
     }
 
@@ -137,9 +146,9 @@ class eZOption
             }
             else if( count( $option_array ) == 1 )
             {
-                $this->ID =& $option_array[0][ "ID" ];
-                $this->Name =& $option_array[0][ "Name" ];
-                $this->Description =& $option_array[0][ "Description" ];
+                $this->ID =& $option_array[0][$db->fieldName( "ID" )];
+                $this->Name =& $option_array[0][$db->fieldName( "Name" )];
+                $this->Description =& $option_array[0][$db->fieldName( "Description" )];
             }
         }
     }
@@ -158,7 +167,7 @@ class eZOption
         
         for ( $i=0; $i < count($option_array); $i++ )
         {
-            $return_array[$i] = new eZOption( $option_array[$i]["ID"], 0 );
+            $return_array[$i] = new eZOption( $option_array[$i][$db->fieldName( "ID" )], 0 );
         }
         
         return $return_array;
@@ -170,20 +179,22 @@ class eZOption
     function delete()
     {
         $db =& eZDB::globalDatabase();
-
+        $db->begin();
+        
         $db->array_query( $option_array, "SELECT ID FROM eZTrade_OptionValue WHERE OptionID='$this->ID'" );
+
         foreach( $option_array as $option_value )
         {
-            $option_id = $option_value["ID"];
-            $db->query( "DELETE FROM eZTrade_OptionValueContent WHERE ValueID='$option_id'" );
+            $option_id = $option_value[$db->fieldName( "ID" )];
+            $res[] = $db->query( "DELETE FROM eZTrade_OptionValueContent WHERE ValueID='$option_id'" );
         }
-        $db->array_query( $option_array, "DELETE FROM eZTrade_OptionValue WHERE OptionID='$this->ID'" );
-        $db->array_query( $option_array, "DELETE FROM eZTrade_ProductOptionLink WHERE OptionID='$this->ID'" );
-        $db->array_query( $option_array, "DELETE FROM eZTrade_Option WHERE ID='$this->ID'" );
-        $db->array_query( $option_array, "DELETE FROM eZTrade_ProductPriceLink
-                                          WHERE OptionID='$this->ID'" );
-        $db->array_query( $option_array, "DELETE FROM eZTrade_OptionValueHeader
-                                          WHERE OptionID='$this->ID'" );
+        $res[] = $db->query( "DELETE FROM eZTrade_OptionValue WHERE OptionID='$this->ID'" );
+        $res[] = $db->query( "DELETE FROM eZTrade_ProductOptionLink WHERE OptionID='$this->ID'" );
+        $res[] = $db->query( "DELETE FROM eZTrade_Option WHERE ID='$this->ID'" );
+        $res[] = $db->query( "DELETE FROM eZTrade_ProductPriceLink WHERE OptionID='$this->ID'" );
+        $res[] = $db->query( "DELETE FROM eZTrade_OptionValueHeader WHERE OptionID='$this->ID'" );
+
+        eZDB::finish( $res, $db );
     }
 
     /*!
@@ -248,7 +259,7 @@ class eZOption
         $ret = array();
         foreach( $qry_array as $row )
         {
-            $ret[] = $row["Name"];
+            $ret[] = $row[$db->fieldName( "Name" )];
         }
         return $ret;
     }
@@ -256,27 +267,51 @@ class eZOption
     function removeHeaders( $id = false )
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
+
         if ( !$id )
             $id = $this->ID;
-        $db->query( "DELETE FROM eZTrade_OptionValueHeader WHERE OptionID='$id'" );
+        $res[] = $db->query( "DELETE FROM eZTrade_OptionValueHeader WHERE OptionID='$id'" );
+
+        eZDB::finish( $res, $db );
     }
 
     function addHeader( $header, $id = false )
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
+
+        
         if ( !$id )
             $id = $this->ID;
         if ( !is_array( $header ) )
             $header = array( $header );
+        
         $db->array_query( $qry_array, "SELECT Placement FROM eZTrade_OptionValueHeader
-                                       WHERE OptionID='$id' ORDER BY Placement DESC LIMIT 1", 0, 1 );
-        $placement = count( $qry_array ) == 0 ? 1 : $qry_array[0]["Placement"] + 1;
+                                       WHERE OptionID='$id' ORDER BY Placement DESC",
+                                       array( "Limit" => 1, "Offset" => 0 ) );
+        
+        $placement = count( $qry_array ) == 0 ? 1 : $qry_array[0][$db->fieldName( "Placement" )] + 1;
+
+        $db->lock( "eZTrade_OptionValueHeader" );
+        
         foreach( $header as $header_val )
         {
-            $db->query( "INSERT INTO eZTrade_OptionValueHeader
-                         SET Name='$header_val', OptionID='$id', Placement='$placement'" );
+            $header_val = $db->escapeString( $header_val );
+            $nextID = $db->nextID( "eZTrade_OptionValueHeader", "ID" );
+            $res[] = $db->query( "INSERT INTO eZTrade_OptionValueHeader
+                         ( ID,
+                           Name,
+                           OptionID,
+                           Placement )
+                         VALUES
+                         ( '$nextID'
+                           '$header_val',
+                           '$id',
+                           '$placement' )" );
             $placement++;
         }
+        eZDB::finish( $res, $db );
     }
 
     /*!
@@ -290,7 +325,7 @@ class eZOption
         $db->array_query( $qry_array, "SELECT ID FROM eZTrade_OptionValue WHERE OptionID='$id'" );
         foreach( $qry_array as $row )
         {
-            $row_id = $row["ID"];
+            $row_id = $row[$db->fieldName( "ID" )];
             eZOptionValue::delete( $row_id );
         }
     }

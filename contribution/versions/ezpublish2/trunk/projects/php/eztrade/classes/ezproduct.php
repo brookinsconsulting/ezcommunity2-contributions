@@ -1,6 +1,6 @@
 %<?php
 // 
-// $Id: ezproduct.php,v 1.67 2001/07/25 19:11:38 fh Exp $
+// $Id: ezproduct.php,v 1.68 2001/07/30 07:11:55 br Exp $
 //
 // Definition of eZProduct class
 //
@@ -51,6 +51,7 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "classes/ezdatetime.php" );
 
 include_once( "eztrade/classes/ezoption.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
@@ -122,14 +123,15 @@ class eZProduct
         $description = $db->escapeString( $this->Description );
         $keywords = $db->escapeString( $this->Keywords );
         $productNumber = $db->escapeString( $this->ProductNumber );
-
+        
         if ( !isset( $this->ID ) )
         {
+            $timeStamp = eZDateTime::timeStamp( true );
             $db->lock( "eZTrade_Product" );
             $nextID = $db->nextID( "eZTrade_Product", "ID" );            
 
             $res = $db->query( "INSERT INTO eZTrade_Product
-                                  ( ID, Name, Brief, Description, Keywords, ProductNumber, Price, ShowPrice, ShowProduct, Discontinued, ExternalLink, RemoteID, IsHotDeal, VATTypeID, ProductType, ShippingGroupID )
+                                  ( ID, Name, Brief, Description, Keywords, ProductNumber, Price, ShowPrice, ShowProduct, Discontinued, ExternalLink, RemoteID, IsHotDeal, VATTypeID, ProductType, ShippingGroupID, Published )
                                   VALUES
                                   ( '$nextID',
 		                            '$this->Name',
@@ -146,9 +148,8 @@ class eZProduct
                                     '$this->IsHotDeal',
                                     '$this->VATTypeID',
                                     '$this->ProductType',
-                                    '$this->ShippingGroupID' )
-                                  " );
-
+                                    '$this->ShippingGroupID'
+                                    '$timeStamp' )" );
 			$this->ID = $nextID;
         }
         else
@@ -167,7 +168,8 @@ class eZProduct
                                  IsHotDeal='$this->IsHotDeal',
                                  VATTypeID='$this->VATTypeID',
                                  ShippingGroupID='$this->ShippingGroupID',
-                                 ProductType='$this->ProductType'
+                                 ProductType='$this->ProductType',
+                                 Published=Published
                                  WHERE ID='$this->ID'
                                  " );
         }
@@ -214,17 +216,17 @@ class eZProduct
                 if ( $this->Price == "NULL" )
                     unset( $this->Price );
 
-                if ( $category_array[0][ "ShowPrice" ] == 1 )
+                if ( $category_array[0][ $db->fieldName( "ShowPrice" )] == 1 )
                     $this->ShowPrice = true;
                 else
                     $this->ShowPrice = false;
 
-                if ( $category_array[0][ "ShowProduct" ] == 1 )
+                if ( $category_array[0][$db->fieldName( "ShowProduct" )] == 1 )
                     $this->ShowProduct = true;
                 else
                     $this->ShowProduct = false;
 
-                if ( $category_array[0][ "Discontinued" ] == 1 )
+                if ( $category_array[0][$db->fieldName( "Discontinued" )] == 1 )
                     $this->Discontinued = true;
                 else
                     $this->Discontinued = false;
@@ -430,14 +432,14 @@ class eZProduct
         
         $nextQuantityID = $db->nextID( "eZTrade_Quantity", "ID" );
 
-        $res[] = $db->query( "INSERT INTO eZTrade_Quantity ( ID, Quantity ) VALUES ('','$quantity')" );
-        $q_id = $db->insertID();
+        $res[] = $db->query( "INSERT INTO eZTrade_Quantity ( ID, Quantity ) VALUES ('$nextQuantityID','$quantity')" );
+        $q_id = $nextQuantityID;
         $res[] = $db->query( "INSERT INTO eZTrade_ProductQuantityDict ( ProductID, QuantityID ) VALUES ('$id','$q_id')" );
 
         $db->unlock();
 
         if ( in_array( false, $res ) )
-            $db->rollback( );
+            $db->rollback();
         else
             $db->commit();            
     }
@@ -596,7 +598,7 @@ class eZProduct
     function isHotDeal()
     {
        $ret = false;
-       if ( $this->IsHotDeal == "true" )
+       if ( $this->IsHotDeal == 1 )
        {
            $ret = true;
        }
@@ -708,11 +710,11 @@ class eZProduct
     {
        if ( $value == true )
        {
-           $this->IsHotDeal = "true";
+           $this->IsHotDeal = 1;
        }
        else
        {
-           $this->IsHotDeal = "false";
+           $this->IsHotDeal = 0;
        }
     }
 
@@ -1364,7 +1366,7 @@ class eZProduct
        {
            print( "<br><b>Failed to fetch product category definition for ID $this->ID</b><br>" );
        }
-
+       
        return $category;
     }
 

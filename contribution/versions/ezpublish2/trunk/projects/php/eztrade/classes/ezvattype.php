@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvattype.php,v 1.4 2001/07/20 11:42:01 jakobn Exp $
+// $Id: ezvattype.php,v 1.5 2001/07/30 07:11:55 br Exp $
 //
 // Definition of eZVATType class
 //
@@ -33,6 +33,7 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "classes/ezdatetime.php" );
 include_once( "eztrade/classes/ezproducttype.php" );
 
 class eZVATType
@@ -55,26 +56,36 @@ class eZVATType
     function store()
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
 
+        $this->Name = $db->escapeString( $this->Name );
+        
         if ( !isset( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZTrade_VATType SET
-		                         Name='$this->Name',
-		                         VATValue='$this->VATValue',
-		                         Created=now()" );
-        
-			$this->ID = $db->insertID();
+            $timeStamp =& eZDateTime::timeStamp( true );
+            $db->lock( "eZTrade_VATType" );
+            $nextID = $db->nextID( "eZTrade_VATType", "ID" );
+            $ret[] = $db->query( "INSERT INTO eZTrade_VATType
+                               ( ID,
+                                 Name,
+		                         VATValue,
+		                         Created )
+                               VALUES
+		                       ( '$nextID',
+                                 '$this->Name',
+		                         '$this->VATValue',
+		                         '$timeStamp' )" );
+			$this->ID = $nextID;
         }
         else
         {
-            $db->query( "UPDATE eZTrade_VATType SET
+            $ret[] = $db->query( "UPDATE eZTrade_VATType SET
 		                         Name='$this->Name',
 		                         VATValue='$this->VATValue',
 		                         Created=Created
                                  WHERE ID='$this->ID'" );
-            
         }
-        
+        eZDB::finish( $ret, $db );
         return true;
     }
 
@@ -95,9 +106,9 @@ class eZVATType
             }
             else if( count( $vat_array ) == 1 )
             {
-                $this->ID =& $vat_array[0][ "ID" ];
-                $this->Name =& $vat_array[0][ "Name" ];
-                $this->VATValue =& $vat_array[0][ "VATValue" ];
+                $this->ID =& $vat_array[0][$db->fieldName("ID")];
+                $this->Name =& $vat_array[0][$db->fieldName("Name")];
+                $this->VATValue =& $vat_array[0][$db->fieldName("VATValue")];
             }
         }
     }
@@ -116,7 +127,7 @@ class eZVATType
         
         for ( $i=0; $i<count($vat_array); $i++ )
         {
-            $return_array[$i] = new eZVATType( $vat_array[$i]["ID"], 0 );
+            $return_array[$i] = new eZVATType( $vat_array[$i][$db->fieldName("ID")], 0 );
         }
         
         return $return_array;
@@ -128,8 +139,9 @@ class eZVATType
     function delete()
     {
         $db =& eZDB::globalDatabase();
-
-        $db->query( "DELETE FROM eZTrade_VATType WHERE ID='$this->ID'" );
+        $db->begin();
+        $ret[] = $db->query( "DELETE FROM eZTrade_VATType WHERE ID='$this->ID'" );
+        eZDB::finish( $ret, $db );
     }
 
     /*!

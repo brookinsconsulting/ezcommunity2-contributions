@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezoptionvalue.php,v 1.28 2001/07/20 11:42:01 jakobn Exp $
+// $Id: ezoptionvalue.php,v 1.29 2001/07/30 07:11:55 br Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -53,7 +53,7 @@ class eZOptionValue
     /*!
       Constructs a new eZOptionValue object.
     */
-    function eZOptionValue( $id=-1, $fetch=true )
+    function eZOptionValue( $id=-1 )
     {
         if ( $id != -1 )
         {
@@ -68,31 +68,46 @@ class eZOptionValue
     function store()
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
+
+        $this->OptionID = $db->escapeString( $this->OptionID );
+        
         $price = $this->Price == "" ? "NULL" : "'$this->Price'";
 
         $GLOBALS["DEBUG"] = true;
         if ( !isset( $this->ID ) )
         {
+            $db->lock( "eZTrade_OptionValue" );
             $db->array_query( $qry_array,
                               "SELECT Placement FROM eZTrade_OptionValue
                                WHERE OptionID='$this->OptionID' ORDER BY Placement DESC LIMIT 1" );
             $placement = count( $qry_array ) == 0 ? 1 : $qry_array[0]["Placement"] + 1;
-            $db->query( "INSERT INTO eZTrade_OptionValue SET
-		                         Price=$price,
-                                 Placement='$placement',
-                                 RemoteID='$this->RemoteID',
-                                 OptionID='$this->OptionID'" );
+            $nextID = $db->nextID( "eZTrade_OptionValue", "ID" );
+            $ret[] = $db->query( "INSERT INTO eZTrade_OptionValue
+                               ( ID,
+		                         Price,
+                                 Placement,
+                                 RemoteID,
+                                 OptionID )
+                               VALUES
+                               ( '$nextID',
+		                         '$price',
+                                 '$placement',
+                                 '$this->RemoteID',
+                                 '$this->OptionID' )" );
 
-			$this->ID = $db->insertID();
+			$this->ID = $nextID;
         }
         else
         {
-            $db->query( "UPDATE eZTrade_OptionValue SET
+            $ret[] = $db->query( "UPDATE eZTrade_OptionValue SET
 		                         Price=$price,
                                  RemoteID='$this->RemoteID',
                                  OptionID='$this->OptionID'
                                  WHERE ID='$this->ID'" );
         }
+
+        eZDB::finish( $ret, $db );
         
         return true;
     }
@@ -113,12 +128,12 @@ class eZOptionValue
             }
             else if ( count( $optionValue_array ) == 1 )
             {
-                $this->ID =& $optionValue_array[0][ "ID" ];
-                $this->Price =& $optionValue_array[0][ "Price" ];
+                $this->ID =& $optionValue_array[0][$db->fieldName("ID")];
+                $this->Price =& $optionValue_array[0][$db->fieldName("Price")];
                 if ( $this->Price == "NULL" )
                     $this->Price = false;
-                $this->OptionID =& $optionValue_array[0][ "OptionID" ];
-                $this->RemoteID =& $optionValue_array[0][ "RemoteID" ];
+                $this->OptionID =& $optionValue_array[0][$db->fieldName("OptionID")];
+                $this->RemoteID =& $optionValue_array[0][$db->fieldName("RemoteID")];
             }
         }
     }
@@ -137,7 +152,7 @@ class eZOptionValue
 
         for ( $i=0; $i < count($optionValue_array); $i++ )            
         {
-            $return_array[$i] = new eZOptionValue( $optionValue_array[$i]["ID"], 0 );            
+            $return_array[$i] = new eZOptionValue( $optionValue_array[$i][$db->fieldName("ID")], 0 );            
         }
         
         return $return_array;
@@ -157,15 +172,14 @@ class eZOptionValue
             $return_array = array();
             $optionValue_array = array();
 
-            $id = $value->id(); 
+            $id = $value->id();
 
             $db->array_query( $optionValue_array,
             "SELECT ID FROM eZTrade_OptionValue WHERE OptionID='$id' ORDER BY Placement ASC" );
 
             for ( $i=0; $i < count($optionValue_array); $i++ )
             {
-                $return_array[$i] = $as_object ? new eZOptionValue( $optionValue_array[$i]["ID"], true ) :
-                                                 $optionValue_array[$i]["ID"];
+                $return_array[$i] = $as_object ? new eZOptionValue( $optionValue_array[$i][$db->fieldName("ID")], true ) : $optionValue_array[$i][$db->fieldName("ID")];
             }
             return $return_array;
         }
@@ -182,21 +196,37 @@ class eZOptionValue
     {
         $id = $this->ID;
         $db =& eZDB::globalDatabase();
+        $db->begin();
         $db->array_query( $qry_array,
                           "SELECT Q.ID
                            FROM eZTrade_Quantity AS Q, eZTrade_ValueQuantityDict AS VQD
                            WHERE Q.ID=VQD.QuantityID AND ValueID='$id'" );
-        $db->query( "DELETE FROM eZTrade_ValueQuantityDict WHERE ValueID='$id'" );
+        $ret[] = $db->query( "DELETE FROM eZTrade_ValueQuantityDict WHERE ValueID='$id'" );
         foreach( $qry_array as $row )
         {
-            $q_id = $row["ID"];
-            $db->query( "DELETE FROM eZTrade_Quantity WHERE ID='$q_id'" );
+            $q_id = $row[$db->fieldName("ID")];
+            $ret[] = $db->query( "DELETE FROM eZTrade_Quantity WHERE ID='$q_id'" );
         }
+        
         if ( is_bool( $quantity ) and !$quantity )
             return;
-        $db->query( "INSERT INTO eZTrade_Quantity VALUES('','$quantity')" );
-        $q_id = $db->insertID();
-        $db->query( "INSERT INTO eZTrade_ValueQuantityDict VALUES('$id','$q_id')" );
+
+        $db->lock( "eZTrade_Quantity" );
+        $nextID = $db->nextID( "eZTrade_Quantity", "ID" );
+        $ret[] = $db->query( "INSERT INTO eZTrade_Quantity
+                                      ( ID,
+                                        quantity )
+                                      VALUES
+                                      ('$nextID',
+                                       '$quantity')" );
+        $q_id = $nextID;
+        $ret[] = $db->query( "INSERT INTO eZTrade_ValueQuantityDict
+                                      ( valueid,
+                                        quantityid )
+                                      VALUES
+                                      ('$id',
+                                       '$q_id' )" );
+        eZDB::finish( $ret, $db );
     }
 
     /*!
@@ -217,9 +247,9 @@ class eZOptionValue
         {
             foreach( $qry_array as $row )
             {
-                if ( $row["Quantity"] == "NULL" )
+                if ( $row[$db->fieldName("Quantity")] == "NULL" )
                     return false;
-                $quantity += $row["Quantity"];
+                $quantity += $row[$db->fieldName("Quantity")];
             }
         }
         else
@@ -257,7 +287,7 @@ class eZOptionValue
         $ret = array();
         foreach( $qry_array as $row )
         {
-            $ret[] = $row["Value"];
+            $ret[] = $row[$db->fieldName("Value")];
         }
         return $ret;
     }
@@ -270,7 +300,9 @@ class eZOptionValue
         $db =& eZDB::globalDatabase();
         if ( !$id )
             $id = $this->ID;
-        $db->query( "DELETE FROM eZTrade_OptionValueContent WHERE ValueID='$id'" );
+        $db->begin();
+        $ret[] = $db->query( "DELETE FROM eZTrade_OptionValueContent WHERE ValueID='$id'" );
+        eZDB::finish( $ret, $db );
     }
 
     /*!
@@ -286,13 +318,25 @@ class eZOptionValue
         $db->array_query( $qry_array,
                           "SELECT Placement FROM eZTrade_OptionValueContent
                            WHERE ValueID='$id' ORDER BY Placement DESC LIMIT 1", 0, 1 );
-        $placement = count( $qry_array ) == 0 ? 1 : $qry_array[0]["Placement"] + 1;
+        $placement = count( $qry_array ) == 0 ? 1 : $qry_array[0][$db->fieldName("Placement")] + 1;
+        $db->lock( "eZTrade_OptionValueContent" );
         foreach( $description as $desc )
         {
-            $db->query( "INSERT INTO eZTrade_OptionValueContent
-                         SET Value='$desc', ValueID='$id', Placement='$placement'" );
+            $desc = $db->escapeString( $desc );
+            $nextID = $db->nextID( "eZTrade_OptionValueContent", "ID" );
+            $ret[] = $db->query( "INSERT INTO eZTrade_OptionValueContent
+                                  ( ID,
+                                    Value,
+                                    ValueID,
+                                    Placement )
+                                  VALUES
+                                  ( '$nextID',
+                                    '$desc',
+                                    '$id',
+                                    '$placement')" );
             $placement++;
         }
+        eZDB::finish( $ret, $db );
     }
 
     /*!
@@ -303,12 +347,14 @@ class eZOptionValue
         if ( !$id )
             $id = $this->ID;
         $db =& eZDB::globalDatabase();
-        $db->array_query( $option_array, "DELETE FROM eZTrade_OptionValue
+        $db->begin();
+        $ret = $db->array_query( $option_array, "DELETE FROM eZTrade_OptionValue
                                                       WHERE ID='$id'" );
-        $db->array_query( $option_array, "DELETE FROM eZTrade_ProductPriceLink
+        $ret = $db->array_query( $option_array, "DELETE FROM eZTrade_ProductPriceLink
                                                       WHERE ValueID='$id'" );
-        $db->array_query( $option_array, "DELETE FROM eZTrade_OptionValueContent
+        $ret = $db->array_query( $option_array, "DELETE FROM eZTrade_OptionValueContent
                                                       WHERE ValueID='$id'" );
+        eZDB::finish( $ret, $db );
     }
 
     /*!
@@ -325,7 +371,7 @@ class eZOptionValue
                                             WHERE RemoteID='$id'" );
         if ( count( $res ) == 1 )
         {
-            $value = new eZOptionValue( $res[0]["ID"] );
+            $value = new eZOptionValue( $res[0][$fieldName("ID")] );
         }
         
         return $value;

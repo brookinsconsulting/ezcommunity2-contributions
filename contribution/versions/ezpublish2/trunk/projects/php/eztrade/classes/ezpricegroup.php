@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpricegroup.php,v 1.9 2001/07/20 11:42:01 jakobn Exp $
+// $Id: ezpricegroup.php,v 1.10 2001/07/30 07:11:55 br Exp $
 //
 // Definition of eZPriceGroup class
 //
@@ -55,25 +55,46 @@ class eZPriceGroup
 
     function store()
     {
-        $query_type = is_numeric( $this->ID ) ? "UPDATE" : "INSERT INTO";
-        $id_type = is_numeric( $this->ID ) ? "WHERE" : ",";
-
         $db =& eZDB::globalDatabase();
+        $db->begin();
+
+        $this->Name = $db->escapeString( $this->Name );
+        $this->Description = $db->escapeString( $this->Description );
+        
         if ( !isset( $this->Placement ) or !is_numeric( $this->Placement ) )
         {
             $db->query_single( $place, "SELECT max( Placement ) AS Placement
                                         FROM eZTrade_PriceGroup" );
-            $this->Placement = $place["Placement"] == "NULL" ? 1 : $place["Placement"] + 1;
+            $this->Placement = $place[$db->fieldName("Placement")] == "NULL" ? 1 : $place[$db->fieldName("Placement")] + 1;
         }
 
-        $db =& eZDB::globalDatabase();
-        $db->query( "$query_type eZTrade_PriceGroup SET
+        if ( is_numeric( $this->ID) )
+        {
+            $ret[] = $db->query( "UPDATE eZTrade_PriceGroup SET
                      Name='$this->Name',
                      Description='$this->Description',
                      Placement='$this->Placement'
-                     $id_type ID='$this->ID'" );
-        if ( !is_numeric( $this->ID ) )
-			$this->ID = $db->insertID();
+                     WHERE
+                     ID='$this->ID'" );
+        }
+        else
+        {
+            $db->lock( "eZTrade_PriceGroup" );
+            $nextID = $db->nextID( "eZTrade_PriceGroup", "ID" );
+            $ret[] = $db->query( "INSERT INTO eZTrade_PriceGroup
+                   ( ID,
+                     Name,
+                     Description,
+                     Placement )
+                   VALUES
+                   ( '$nextID',
+                     '$this->Name',
+                     '$this->Description',
+                     '$this->Placement' )" );
+            $this->ID = $nextID;
+        }
+
+        eZDB::finish( $ret, $db );
     }
 
     function delete( $id = false )
@@ -82,17 +103,20 @@ class eZPriceGroup
             $id = $this->ID;
 
         $db =& eZDB::globalDatabase();
-        $db->query( "DELETE FROM eZTrade_ProductPriceLink WHERE PriceID='$id'" );
-        $db->query( "DELETE FROM eZTrade_GroupPriceLink WHERE PriceID='$id'" );
-        $db->query( "DELETE FROM eZTrade_PriceGroup WHERE ID='$id'" );
+        $db->begin();
+        $ret[] = $db->query( "DELETE FROM eZTrade_ProductPriceLink WHERE PriceID='$id'" );
+        $ret[] = $db->query( "DELETE FROM eZTrade_GroupPriceLink WHERE PriceID='$id'" );
+        $ret[] = $db->query( "DELETE FROM eZTrade_PriceGroup WHERE ID='$id'" );
+        eZDB::finish( $ret, $db );
     }
 
     function fill( $array )
     {
-        $this->ID = $array["ID"];
-        $this->Name = $array["Name"];
-        $this->Description = $array["Description"];
-        $this->Placement = $array["Placement"];
+        $db =& eZDB::globalDatabase();
+        $this->ID = $array[$db->fieldName("ID")];
+        $this->Name = $array[$db->fieldName("Name")];
+        $this->Description = $array[$db->fieldName("Description")];
+        $this->Placement = $array[$db->fieldName("Placement")];
     }
 
     /*!
@@ -106,7 +130,7 @@ class eZPriceGroup
         $ret = array();
         foreach( $array as $row )
         {
-            $ret[] = $as_object ? new eZPriceGroup( $row["ID"] ) : $row["ID"];
+            $ret[] = $as_object ? new eZPriceGroup( $row[$db->fieldName("ID")] ) : $row[$db->fieldName("ID")];
         }
         return $ret;
     }
@@ -124,7 +148,7 @@ class eZPriceGroup
         $ret = array();
         foreach( $array as $row )
         {
-            $ret[] = $as_object ? new eZUserGroup( $row["ID"] ) : $row["ID"];
+            $ret[] = $as_object ? new eZUserGroup( $row[$db->fieldName("ID")] ) : $row[$db->fieldName("ID")];
         }
         return $ret;
     }
@@ -140,9 +164,14 @@ class eZPriceGroup
             $group_id = $group_id->id();
 
         $db =& eZDB::globalDatabase();
-        $db->query( "INSERT INTO eZTrade_GroupPriceLink SET
-                     GroupID='$group_id',
-                     PriceID='$id'" );
+        $db->begin();
+        $ret[] = $db->query( "INSERT INTO eZTrade_GroupPriceLink
+                   ( GroupID,
+                     PriceID )
+                   VALUES
+                   ( '$group_id',
+                     '$id' )" );
+        eZDB::finish( $ret, $db );
     }
 
     /*!
@@ -154,7 +183,9 @@ class eZPriceGroup
             $id = $this->ID;
 
         $db =& eZDB::globalDatabase();
-        $db->query( "DELETE FROM eZTrade_GroupPriceLink WHERE PriceID='$id'" );
+        $db->begin();
+        $ret[] = $db->query( "DELETE FROM eZTrade_GroupPriceLink WHERE PriceID='$id'" );
+        eZDB::finish( $ret, $db );
     }
 
     /*!
@@ -182,7 +213,7 @@ class eZPriceGroup
                                    WHERE PriceID=ID AND $group_text
                                    ORDER BY Placement LIMIT 1" );
         if ( count( $array ) == 1 )
-            return $array[0]["PriceID"];
+            return $array[0][$db->fieldName("PriceID")];
         return false;
     }
 
@@ -196,7 +227,7 @@ class eZPriceGroup
                                    WHERE ProductID='$productid' AND PriceID='$priceid'
                                      AND OptionID='$optionid' AND ValueID='$valueid'" );
         if ( count( $array ) == 1 )
-            return $array[0]["Price"];
+            return $array[0][$db->fieldName("Price")];
         return false;
     }
 
@@ -218,10 +249,21 @@ class eZPriceGroup
     function addPrice( $productid, $priceid, $price, $optionid = 0, $valueid = 0 )
     {
         $db =& eZDB::globalDatabase();
-
-        $db->query( "INSERT INTO eZTrade_ProductPriceLink SET
-                     PriceID='$priceid', ProductID='$productid',
-                     Price='$price', OptionID='$optionid', ValueID='$valueid'" );
+        $db->begin();
+        
+        $ret[] = $db->query( "INSERT INTO eZTrade_ProductPriceLink
+                     ( PriceID,
+                       ProductID,
+                       Price,
+                       OptionID,
+                       ValueID )
+                     VALUES
+                     ( '$priceid',
+                       '$productid',
+                       '$price',
+                       '$optionid',
+                       '$valueid' )" );
+        eZDB::finish( $ret, $db );
     }
 
     /*!
@@ -230,12 +272,14 @@ class eZPriceGroup
     function removePrices( $productid, $optionid = 0, $valueid = 0 )
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
         if ( $optionid >= 0 )
             $option_text = "AND OptionID='$optionid'";
         if ( $valueid >= 0 )
             $value_text = "AND ValueID='$valueid'";
-        $db->query( "DELETE FROM eZTrade_ProductPriceLink
+        $ret[] = $db->query( "DELETE FROM eZTrade_ProductPriceLink
                      WHERE ProductID='$productid' $option_text $value_text" );
+        eZDB::finish( $ret, $db );
     }
 
     /*!

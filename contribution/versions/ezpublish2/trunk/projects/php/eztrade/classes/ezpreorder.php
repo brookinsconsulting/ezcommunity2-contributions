@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpreorder.php,v 1.6 2001/07/20 11:42:01 jakobn Exp $
+// $Id: ezpreorder.php,v 1.7 2001/07/30 07:11:55 br Exp $
 //
 // Definition of eZPreOrder class
 //
@@ -50,16 +50,11 @@ class eZPreOrder
     function eZPreOrder( $id="" )
     {
         $this->OrderID = 0;
-        $this->IsConnected = false;
 
         if ( $id != "" )
         {
             $this->ID = $id;
             $this->get( $this->ID );
-        }
-        else
-        {
-            $this->State_ = "New";
         }
     }
 
@@ -68,30 +63,32 @@ class eZPreOrder
     */
     function store()
     {
-        $this->dbInit();
-
+        $db = eZDB::globaldatabase();
+        $db->begin();
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO eZTrade_PreOrder SET
-		                         OrderID='$this->OrderID',
-		                         Created=now()
-                                 " );
-
-			$this->ID = $this->Database->insertID();
-
-            $this->State_ = "Coherent";
+            $db->lock( "eZTrade_PreOrder" );
+            $nextID = $db->nextID( "eZTrade_PreOrder", "ID" );
+            $timeStamp =& eZDateTime::timeStamp( true );
+            $ret[] = $db->query( "INSERT INTO eZTrade_PreOrder
+                               ( ID,
+		                         OrderID,
+		                         Created )
+                               VALUES
+		                       ( '$nextID'
+                                 '$this->OrderID',
+		                         '$timeStamp' )" );
+			$this->ID = $nextID;
         }
         else
         {
-            $this->Database->query( "UPDATE eZTrade_PreOrder SET
+            $ret[] = $db->query( "UPDATE eZTrade_PreOrder SET
 		                         Created=Created,
 		                         OrderID='$this->OrderID'
                                  WHERE ID='$this->ID'
                                  " );
-
-            $this->State_ = "Coherent";
         }
-        
+        eZDB::finish( $ret, $db );
         return true;
     }
 
@@ -100,9 +97,12 @@ class eZPreOrder
     */
     function delete()
     {
-        $this->dbInit();
+        $db = eZDB::globaldatabase();
+        $db->begin();
         
-        $this->Database->query( "DELETE FROM eZTrade_PreOrder WHERE ID='$this->ID'" );
+        $ret[] = $db->query( "DELETE FROM eZTrade_PreOrder WHERE ID='$this->ID'" );
+
+        eZDB::finish( $ret, $db );
             
         return true;
     }
@@ -113,28 +113,23 @@ class eZPreOrder
     */
     function get( $id="" )
     {
-        $this->dbInit();
+        $db = eZDB::globaldatabase();
         $ret = false;
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $cart_array, "SELECT * FROM eZTrade_PreOrder WHERE ID='$id'" );
+            $db->array_query( $cart_array, "SELECT * FROM eZTrade_PreOrder WHERE ID='$id'" );
             if ( count( $cart_array ) > 1 )
             {
                 die( "Error: Pre order's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $cart_array ) == 1 )
             {
-                $this->ID = $cart_array[0][ "ID" ];
-                $this->OrderID = $cart_array[0][ "OrderID" ];
-                $this->Created = $cart_array[0][ "Created" ];
-                $this->State_ = "Coherent";
+                $this->ID = $cart_array[0][$db->fieldName("ID")];
+                $this->OrderID = $cart_array[0][$db->fieldName("OrderID")];
+                $this->Created = $cart_array[0][$db->fieldName("Created")];
                 $ret = true;
             }
-        }
-        else
-        {
-            $this->State_ = "Dirty";
         }
         return $ret;
     }
@@ -146,30 +141,24 @@ class eZPreOrder
     */
     function getByOrderID( $orderID )
     {
-        $this->dbInit();
+        $db = eZDB::globaldatabase();
         $ret = false;
         
         if ( $orderID != "" )
         {
-            $this->Database->array_query( $cart_array, "SELECT * FROM eZTrade_PreOrder WHERE OrderID='$orderID'" );
+            $db->array_query( $cart_array, "SELECT * FROM eZTrade_PreOrder WHERE OrderID='$orderID'" );
             if ( count( $cart_array ) > 1 )
             {
                 die( "Error: Pre order's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $cart_array ) == 1 )
             {
-                $this->ID = $cart_array[0][ "ID" ];
-                $this->OrderID = $cart_array[0][ "OrderID" ];
-                $this->Created = $cart_array[0][ "Created" ];
-                $this->State_ = "Coherent";
+                $this->ID = $cart_array[0][$db->fieldName("ID")];
+                $this->OrderID = $cart_array[0][$db->fieldName("OrderID")];
+                $this->Created = $cart_array[0][$db->fieldName("Created")];
                 $ret = true;
             }
         }
-        else
-        {
-            $this->State_ = "Dirty";
-        }
-
 
         return $ret;
     }
@@ -177,10 +166,10 @@ class eZPreOrder
     /*!
       Returns the order date as a eZDateTime object.
     */
-    function date(   )
+    function date()
     {
        $dateTime = new eZDateTime();
-       $dateTime->setMySQLTimeStamp( $this->Date );
+       $dateTime->setTimeStamp( $this->Date );
        
        return $dateTime;
     }    
@@ -211,30 +200,10 @@ class eZPreOrder
     }
 
     
-    /*!
-      \private
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database =& eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
-
     var $ID;
     var $Created;
     var $OrderID;
 
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>

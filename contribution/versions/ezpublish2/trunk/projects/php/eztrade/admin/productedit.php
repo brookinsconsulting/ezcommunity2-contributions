@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.53 2001/07/20 11:42:01 jakobn Exp $
+// $Id: productedit.php,v 1.54 2001/07/30 07:11:55 br Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -139,6 +139,7 @@ if ( $Action == "Insert" )
     {
         $product->setShowProduct( false );
     }
+
     if ( $Discontinued == "on" )
     {        
         $product->setDiscontinued( true );
@@ -398,7 +399,7 @@ if ( $Action == "Update" )
     }
 
     // get the category to redirect to
-    $category = $product->categoryDefinition( );
+    $category = $product->categoryDefinition();
     $categoryID = $category->id();
     
     eZHTTPTool::header( "Location: /trade/categorylist/parent/$categoryID" );
@@ -410,7 +411,7 @@ if ( $Action == "Cancel" )
     if ( isset( $ProductID ) )
     {
         $product = new eZProduct( $ProductID );
-        $category = $product->categoryDefinition( );
+        $category = $product->categoryDefinition();
         $categoryID = $category->id();
         eZHTTPTool::header( "Location: /trade/categorylist/parent/$categoryID" );
         exit();
@@ -602,6 +603,7 @@ foreach ( $categoryArray as $catItem )
         {
             $t->set_var( "selected", "" );
         }
+        die();
     }
     else
     {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorderstatustype.php,v 1.7 2001/07/20 11:42:01 jakobn Exp $
+// $Id: ezorderstatustype.php,v 1.8 2001/07/30 07:11:55 br Exp $
 //
 // Definition of eZOrderStatus class
 //
@@ -47,26 +47,12 @@ class eZOrderStatusType
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZOrderStatusType( $id="", $fetch=true )
+    function eZOrderStatusType( $id="" )
     {
-        $this->IsConnected = false;
-
         if ( $id != "" )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-            }
-        }
-        else
-        {
-            $this->State_ = "New";
+            $this->get( $this->ID );
         }
     }
 
@@ -76,33 +62,39 @@ class eZOrderStatusType
     */
     function store()
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
+        $db->begin();
 
+        $this->Name = $db->escapeString( $this->Name );
+        
         $ret = false;
         if ( $this->Name != "" )
         {
             if ( !isset( $this->ID ) )
             {
-                $this->Database->query( "INSERT INTO eZTrade_OrderStatusType SET
-		                         Name='$this->Name'
-                                 " );
+                $db->lock( "eZTrade_OrderStatusType" );
+                $nextID = $db->nextID( "eZTrade_OrderStatusType", "ID" );
+                $res[] = $db->query( "INSERT INTO eZTrade_OrderStatusType
+                               ( ID,
+		                         Name )
+                               VALUES
+                               ( '$nextID'
+                                 '$this->Name' )" );
 
-				$this->ID = $this->Database->insertID();
+				$this->ID = $nextID;
 
-                $this->State_ = "Coherent";
                 $ret = true;
             }
             else
             {
-                $this->Database->query( "UPDATE eZTrade_OrderStatusType SET
+                $res[] = $db->query( "UPDATE eZTrade_OrderStatusType SET
 		                         Name='$this->Name'
                                  " );
 
-                $this->State_ = "Coherent";
                 $ret = true;                
             }
         }
-        
+        eZDB::finish( $res, $db );
         return $ret;
     }    
 
@@ -111,29 +103,25 @@ class eZOrderStatusType
     */
     function get( $id="" )
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         $ret = false;
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $status_type_array, "SELECT * FROM eZTrade_OrderStatusType WHERE ID='$id'" );
+            $db->array_query( $status_type_array, "SELECT * FROM eZTrade_OrderStatusType WHERE ID='$id'" );
             if ( count( $status_type_array ) > 1 )
             {
                 die( "Error: Status_type's with the same ID was found in the database. This shouldent happen." );
             }
             else if( count( $status_type_array ) == 1 )
             {
-                $this->ID =& $status_type_array[0][ "ID" ];
-                $this->Name =& $status_type_array[0][ "Name" ];
+                $this->ID =& $status_type_array[0][$db->fieldName("ID")];
+                $this->Name =& $status_type_array[0][$db->fieldName("Name")];
 
-                $this->State_ = "Coherent";
                 $ret = true;
             }
         }
-        else
-        {
-            $this->State_ = "Dirty";
-        }
+
         return $ret;
     }
 
@@ -143,14 +131,14 @@ class eZOrderStatusType
     */
     function getAll()
     {
-        $this->dbInit();
+        $db = eZDB::globalDatabase();
         $ret = array();
 
-        $this->Database->array_query( $status_type_array, "SELECT ID FROM eZTrade_OrderStatusType ORDER BY Name" );
+        $db->array_query( $status_type_array, "SELECT ID FROM eZTrade_OrderStatusType ORDER BY Name" );
 
         foreach ( $status_type_array as $status_type )
         {
-            $ret[] = new eZOrderStatusType( $status_type["ID"] );
+            $ret[] = new eZOrderStatusType( $status_type[$db->fieldName("ID")] );
         }
         return $ret;
     }
@@ -168,9 +156,6 @@ class eZOrderStatusType
     */
     function name()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
        return $this->Name;
     }
 
@@ -179,9 +164,6 @@ class eZOrderStatusType
     */
     function setName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Name = $value;
     }
     
@@ -191,46 +173,23 @@ class eZOrderStatusType
     */
     function getByName( $name )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
-       $ret = false;
-       $this->dbInit();
+        $db = eZDB::globalDatabase();
+        $ret = false;
 
-       $this->Database->array_query( $value_array, "SELECT ID FROM eZTrade_OrderStatusType
+        $db->array_query( $value_array, "SELECT ID FROM eZTrade_OrderStatusType
                                                     WHERE Name='$name'" );       
+        
+        if ( count( $value_array ) == 1 )
+        {
+            $ret = new eZOrderStatusType( $value_array[0][$db->fieldName("ID")] );
+        }
 
-       if ( count( $value_array ) == 1 )
-       {
-           $ret = new eZOrderStatusType( $value_array[0]["ID"] );
-       }
-
-       return $ret;
+        return $ret;
     }    
     
-    /*!
-      \private
-      Open the database for read and write. Gets all the database information from site.ini.
-    */
-    function dbInit()
-    {
-        if ( $this->IsConnected == false )
-        {
-            $this->Database = eZDB::globalDatabase();
-            $this->IsConnected = true;
-        }
-    }
-
     var $ID;
     var $Name;
     
-    ///  Variable for keeping the database connection.
-    var $Database;
-
-    /// Indicates the state of the object. In regard to database information.
-    var $State_;
-    /// Is true if the object has database connection, false if not.
-    var $IsConnected;
 }
 
 ?>

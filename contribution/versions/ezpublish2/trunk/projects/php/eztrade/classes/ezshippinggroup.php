@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezshippinggroup.php,v 1.6 2001/07/20 11:42:01 jakobn Exp $
+// $Id: ezshippinggroup.php,v 1.7 2001/07/30 07:11:55 br Exp $
 //
 // Definition of eZShippingGroup class
 //
@@ -36,6 +36,8 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "classes/ezdatetime.php" );
+
 
 class eZShippingGroup
 {
@@ -57,24 +59,35 @@ class eZShippingGroup
     function store()
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
 
+        $this->Name = $db->escapeString( $this->Name );
+        
         if ( !isset( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZTrade_ShippingGroup SET
-		                 Name='$this->Name',
-		                 Created=now()
-                          " );
+            $timeStamp =& eZDateTime::timeStamp( true );
+            $db->lock( "eZTrade_ShippingGroup" );
+            $nextID = $db->nextID( "eZTrade_ShippingGroup", "ID" );
+            $res[] = $db->query( "INSERT INTO eZTrade_ShippingGroup
+                       ( ID,
+		                 Name,
+		                 Created )
+                       VALUES
+		               ( '$nextID',
+                         '$this->Name',
+		                 '$timeStamp' )" );
         
-			$this->ID = $db->insertID();
+			$this->ID = $nextID;
         }
         else
         {
-            $db->query( "UPDATE eZTrade_ShippingGroup SET
+            $res[] = $db->query( "UPDATE eZTrade_ShippingGroup SET
                         Name='$this->Name',
   	                    Created=Created
                         WHERE ID='$this->ID'" );
         }
-        
+
+        eZDB::finish( $res, $db );
         return true;
     }
 
@@ -95,8 +108,8 @@ class eZShippingGroup
             }
             else if( count( $shipping_array ) == 1 )
             {
-                $this->ID =& $shipping_array[0][ "ID" ];
-                $this->Name =& $shipping_array[0][ "Name" ];
+                $this->ID =& $shipping_array[0][$db->fieldName( "ID" )];
+                $this->Name =& $shipping_array[0][$db->fieldName( "Name" )];
             }
         }
     }
@@ -115,9 +128,8 @@ class eZShippingGroup
         
         for ( $i=0; $i<count($shipping_array); $i++ )
         {
-            $return_array[$i] = new eZShippingGroup( $shipping_array[$i]["ID"], 0 );
+            $return_array[$i] = new eZShippingGroup( $shipping_array[$i][$db->fieldName( "ID" )], 0 );
         }
-        
         return $return_array;
     }
 
@@ -127,10 +139,12 @@ class eZShippingGroup
     function delete()
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
 
-        $db->query( "DELETE FROM eZTrade_ShippingValue WHERE ShippingGroupID='$this->ID'" );
-        
-        $db->query( "DELETE FROM eZTrade_ShippingGroup WHERE ID='$this->ID'" );
+        $res[] = $db->query( "DELETE FROM eZTrade_ShippingValue WHERE ShippingGroupID='$this->ID'" );
+        $res[] = $db->query( "DELETE FROM eZTrade_ShippingGroup WHERE ID='$this->ID'" );
+
+        eZDB::finish( $res, $db );
     }
 
     /*!
@@ -167,20 +181,33 @@ class eZShippingGroup
 
             if ( count( $value_array ) == 1 )
             {
-                $vid = $value_array[0]["ID"];
+                $vid = $value_array[0][$db->fieldName( "ID" )];
                 
-                $db->query( "UPDATE eZTrade_ShippingValue  SET StartValue='$startValue',
+                $res[] = $db->query( "UPDATE eZTrade_ShippingValue  SET StartValue='$startValue',
                 AddValue='$addValue'
                 WHERE ID='$vid'
                 " );
             }
             else
             {
-                $db->query( "INSERT INTO eZTrade_ShippingValue  SET StartValue='$startValue',
-                AddValue='$addValue',
-                 ShippingTypeID='$typeID', ShippingGroupID='$this->ID'" );
+                $db->lock( "eZTrade_ShippingValue" );
+                $nextID = $db->nextID( "eZTrade_ShippingValue", "ID" );
+                $res[] = $db->query( "INSERT INTO eZTrade_ShippingValue
+                               ( ID,
+                                 StartValue,
+                                 AddValue,
+                                 ShippingTypeID,
+                                 ShippingGroupID )
+                               VALUES
+                               ( '$nextID',
+                                 '$startValue',
+                                 '$addValue',
+                                 '$typeID',
+                                 '$this->ID' )" );
+
             }
         }
+        eZDB::finish( $res, $db );
     }
 
     /*!
@@ -202,8 +229,8 @@ class eZShippingGroup
             $db->array_query( $value_array, "SELECT * FROM eZTrade_ShippingValue
             WHERE ShippingTypeID='$typeID' AND ShippingGroupID='$this->ID'" );
 
-            $ret = array( "StartValue" => $value_array[0]["StartValue"],
-                          "AddValue" => $value_array[0]["AddValue"]);
+            $ret = array( "StartValue" => $value_array[0][$db->fieldName( "StartValue" )],
+                          "AddValue" => $value_array[0][$db->fieldName( "AddValue" )]);
         }
 
         return $ret;

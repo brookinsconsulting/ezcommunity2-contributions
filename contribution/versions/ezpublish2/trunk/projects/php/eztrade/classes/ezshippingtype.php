@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezshippingtype.php,v 1.7 2001/07/20 11:42:01 jakobn Exp $
+// $Id: ezshippingtype.php,v 1.8 2001/07/30 07:11:55 br Exp $
 //
 // Definition of eZShippingType class
 //
@@ -36,6 +36,7 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "classes/ezdatetime.php" );
 include_once( "eztrade/classes/ezvattype.php" );
 include_once( "eztrade/classes/ezshippinggroup.php" );
 
@@ -59,27 +60,41 @@ class eZShippingType
     function store()
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
+        
+        $this->Name = $db->escapeString( $this->Name );
 
         if ( !isset( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZTrade_ShippingType SET
-		                 Name='$this->Name',
-		                 VATTypeID='$this->VATTypeID',
-		                 IsDefault='$this->IsDefault',
-		                 Created=now()" );
-        
-			$this->ID = $db->insertID();
+            $timeStamp =& eZDateTime::timeStamp( true );
+            $db->lock( "eZTrade_ShippingType" );
+            $nextID = $db->nextID( "eZTrade_ShippingType", "ID" );
+            $res[] = $db->query( "INSERT INTO eZTrade_ShippingType
+                       ( ID, 
+		                 Name,
+		                 VATTypeID,
+		                 IsDefault,
+		                 Created )
+                       VALUES
+		               ( '$nextID',
+                         '$this->Name',
+		                 '$this->VATTypeID',
+		                 '$this->IsDefault',
+		                 '$timeStamp' )" );
+
+			$this->ID = $nextID;
         }
         else
         {
-            $db->query( "UPDATE eZTrade_ShippingType SET
+            $res[] = $db->query( "UPDATE eZTrade_ShippingType SET
                         Name='$this->Name',
   	                    VATTypeID='$this->VATTypeID',
   	                    IsDefault='$this->IsDefault',
   	                    Created=Created
                         WHERE ID='$this->ID'" );
         }
-        
+
+        eZDB::finish( $res, $db );
         return true;
     }
 
@@ -100,10 +115,10 @@ class eZShippingType
             }
             else if( count( $shipping_array ) == 1 )
             {
-                $this->ID =& $shipping_array[0][ "ID" ];
-                $this->Name =& $shipping_array[0][ "Name" ];
-                $this->VATTypeID =& $shipping_array[0][ "VATTypeID" ];
-                $this->IsDefault =& $shipping_array[0][ "IsDefault" ];
+                $this->ID =& $shipping_array[0][$db->fieldName( "ID" )];
+                $this->Name =& $shipping_array[0][$db->fieldName( "Name" )];
+                $this->VATTypeID =& $shipping_array[0][$db->fieldName( "VATTypeID" )];
+                $this->IsDefault =& $shipping_array[0][$db->fieldName( "IsDefault" )];
             }
         }
     }
@@ -122,7 +137,7 @@ class eZShippingType
         
         for ( $i=0; $i<count($shipping_array); $i++ )
         {
-            $return_array[$i] = new eZShippingType( $shipping_array[$i]["ID"] );
+            $return_array[$i] = new eZShippingType( $shipping_array[$i][$db->fieldName( "ID" )] );
         }
         
         return $return_array;
@@ -146,9 +161,12 @@ class eZShippingType
     function setAsDefault()
     {
         $db =& eZDB::globalDatabase();
-
-        $db->query( "UPDATE eZTrade_ShippingType SET IsDefault='0', Created=Created" );
-        $db->query( "UPDATE eZTrade_ShippingType SET IsDefault='1', Created=Created WHERE ID='$this->ID'" );
+        $db->begin();
+        
+        $res[] = $db->query( "UPDATE eZTrade_ShippingType SET IsDefault='0', Created=Created" );
+        $res[] = $db->query( "UPDATE eZTrade_ShippingType SET IsDefault='1', Created=Created WHERE ID='$this->ID'" );
+        
+        eZDB::finish( $res, $db );
     }
 
     /*!
@@ -176,7 +194,7 @@ class eZShippingType
         $ret = false;
         if ( count( $shipping_array ) == 1 )
         {
-            $ret = new eZShippingType( $shipping_array[0]["ID"] );
+            $ret = new eZShippingType( $shipping_array[0][$db->fieldName( "ID" )] );
         }
         
         return $ret;
