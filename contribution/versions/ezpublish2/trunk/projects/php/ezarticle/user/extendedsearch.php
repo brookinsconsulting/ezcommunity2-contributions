@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: extendedsearch.php,v 1.1 2001/03/29 14:09:36 jb Exp $
+// $Id: extendedsearch.php,v 1.2 2001/04/26 15:17:23 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <29-Mar-2001 11:15:24 amos>
@@ -26,6 +26,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
+include_once( "classes/ezlist.php" );
 
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
@@ -44,18 +45,60 @@ $t->set_file( "extended_search_tpl", "extendedsearch.tpl" );
 $t->set_block( "extended_search_tpl", "search_item_tpl", "search_item" );
 $t->set_block( "search_item_tpl", "category_item_tpl", "category_item" );
 
-$cat = new eZArticleCategory();
-$categories =& $cat->getTree();
+$t->set_block( "extended_search_tpl", "article_list_tpl", "article_list" );
+$t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
+
+$contents =& eZArticle::shortContents();
 $t->set_var( "category_item", "" );
-foreach( $categories as $category )
+foreach( $contents as $content )
 {
-    $t->set_var( "category_id", $category[0]->id() );
-    $t->set_var( "category_name", $category[0]->name() );
-    $t->set_var( "category_level", str_repeat( "&nbsp;", $category[1] ) );
+    $t->set_var( "category_id", $content );
+    $t->set_var( "category_name", $content );
+    $t->set_var( "category_level", "" );
+    $t->set_var( "category_selected", $Category == $content ? "selected" : "" );
     $t->parse( "category_item", "category_item_tpl", true );
 }
+$t->set_var( "search_text", $SearchText );
+$t->set_var( "search_url_text", $SearchText == "" ? "+" : $SearchText );
 
 $t->parse( "search_item", "search_item_tpl" );
+
+$t->set_var( "article_list", "" );
+
+if ( !is_numeric( $Offset ) )
+    $Offset = 0;
+if ( !is_numeric( $Max ) )
+    $Max = 4;
+
+if ( isset( $Search ) )
+{
+    $words = preg_split( "/[, ]+/", $SearchText );
+    $keywords = array();
+    foreach( $words as $word )
+    {
+        $keyword = strtolower( trim( $word ) );
+        if ( $keyword != "" )
+            $keywords[] = $keyword;
+    }
+    $articles =& eZArticle::searchByShortContent( $Category, $keywords, $Offset, $Max );
+    $t->set_var( "article_item", "" );
+    $t->set_var( "category", $Category == "" ? "+" : $Category );
+    foreach( $articles as $article )
+    {
+        $t->set_var( "article_id", $article->id() );
+        $t->set_var( "article_name", $article->name() );
+        $t->set_var( "article_page", 1 );
+        $cats =& $article->categories( false );
+        $t->set_var( "article_category", $cats[0] );
+        $t->parse( "article_item", "article_item_tpl", true );
+    }
+    $articleCount = eZArticle::searchByShortContent( $Category, $keywords, true );
+
+    eZList::drawNavigator( $t, $articleCount, $Max, $Offset, "article_list_tpl" );
+
+    $t->parse( "article_list", "article_list_tpl" );
+
+}
 
 $t->pparse( "output", "extended_search_tpl" );
 
