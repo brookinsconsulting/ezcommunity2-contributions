@@ -164,10 +164,12 @@
 
 <br /><br />
 
+<!-- BEGIN address_actions_tpl -->
 <hr noshade="noshade" size="4" />
-
+v
 <input class="stdbutton" type="submit" value="{intl-new_address}" name="NewAddress" />
 <input class="stdbutton" type="submit" value="{intl-delete_address}" name="DeleteAddress" />
+<!-- END address_actions_tpl -->
 
 <hr noshade="noshade" size="4" />
 

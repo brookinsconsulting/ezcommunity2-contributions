@@ -109,3 +109,6 @@ CREATE TABLE eZSession_Preferences (
   PRIMARY KEY (ID),
   KEY GroupName(GroupName,Name)
 ) TYPE=MyISAM;
+
+
+alter table eZTrade_OrderOptionValue add RemoteID varchar(100) default ''; 
