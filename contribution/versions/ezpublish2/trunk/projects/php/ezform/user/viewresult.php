@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: viewresult.php,v 1.1 2002/01/11 09:13:59 jhe Exp $
+// $Id: viewresult.php,v 1.2 2002/01/15 08:23:38 jhe Exp $
 //
 // Created on: <10-Jan-2002 13:09:28 jhe>
 //
@@ -38,6 +38,7 @@ $t->setAllStrings();
 $t->set_file( "view_result_tpl", "viewresult.tpl" );
 
 $t->set_var( "form_id", $FormID );
+$t->set_var( "result_id", $ResultID );
 
 $form = new eZForm( $FormID );
 $renderer =& new eZFormRenderer( $form );
