@@ -40,14 +40,16 @@ else
     {
         $t->set_var( "bg_color", "#eeeedd" );
 
-        $t->set_var( "linkgroup_id", $linkGroup_array[ $i ][ "ID" ] );
+        $link_group_id = $linkGroup_array[ $i ][ "ID" ];
+        $t->set_var( "linkgroup_id", $link_group_id );
         $t->set_var( "linkgroup_title", $linkGroup_array[ $i ][ "Title" ] );
         $t->set_var( "linkgroup_parent", $linkGroup_array[ $i ][ "Parent" ] );
 
-        $total_sub_links = $linkGroup->getTotalSubLinks( $linkGroup_array[ $i ][ "ID" ], $linkGroup_array[ $i ][ "ID" ] );
+        $total_sub_links = $linkGroup->getTotalSubLinks( $link_group_id, $link_group_id );
+        $new_sub_links = $linkGroup->getNewSubLinks( $link_group_id, $link_group_id, 1 );
         
         $t->set_var( "total_links", $total_sub_links );
-        $t->set_var( "new_links", "X" );
+        $t->set_var( "new_links", $new_sub_links );
         
         $t->set_var( "document_root", $DOCUMENTROOT );
     
@@ -64,6 +66,11 @@ if ( ( $LGID == 0 ) && ( $LGID != "incoming" ) )
     $t->set_var( "linkgroup_title", "Ikke godkjente liker..." );
     $t->set_var( "linkgroup_parent", "" );
 
+    $total_sub_links = $linkGroup->getTotalIncomingLinks();
+    
+    $t->set_var( "total_links", $total_sub_links );
+    $t->set_var( "new_links", "X" );
+    
     $t->set_var( "document_root", $DOCUMENTROOT );
     
     $t->parse( "group_list", "linkgroup_item", true );

@@ -119,6 +119,43 @@ class eZLinkGroup
     }
 
     /*
+      Returnerer antall nye linker i alle underkategoriene.
+      Alle linker som er nyere enn $new_limit antall dager blir regnet som nye.
+     */
+    function getNewSubLinks( $id, $start_id, $new_limit )
+    {
+
+        $count = 0;
+        $sibling_array = $this->getByParent( $id );
+
+        if ( $id == $start_id )
+        {
+            array_query( $link_count, "SELECT COUNT( ID ) AS LinkCount from Link WHERE LinkGroup='$id' AND Accepted='Y' AND ( TO_DAYS( Now() ) - TO_DAYS( Created ) ) <= $new_limit  ORDER BY Title" );
+            $count += $link_count[0][ "LinkCount" ];
+        }
+        
+        for ( $i=0; $i<count( $sibling_array ); $i++ )
+        {
+            $group_id =  $sibling_array[ $i][ "ID" ];
+            $count += $this->getNewSubLinks( $group_id, $start_id, $new_limit );
+            array_query( $link_count, "SELECT COUNT( ID ) AS LinkCount  from Link WHERE LinkGroup='$group_id' AND Accepted='Y' AND ( To_DAYS( Now() ) - TO_DAYS( Created ) ) <= $new_limit  ORDER BY Title" );
+            $count += $link_count[0][ "LinkCount" ];            
+        }
+        return $count;
+    }
+
+    /*
+      Returnerer antall i incoming.
+     */
+    function getTotalIncomingLinks()
+    {
+        $count = 0;
+        array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM Link WHERE Accepted='N'" );
+        $count = $link_count[0][ "LinkCount" ];
+        return $count;
+    }
+    
+    /*
       Henter ut _alt_
     */
     function getAll()
