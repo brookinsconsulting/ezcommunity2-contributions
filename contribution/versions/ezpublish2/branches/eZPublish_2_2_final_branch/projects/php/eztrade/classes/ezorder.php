@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.61.2.3 2002/04/10 11:49:02 br Exp $
+// $Id: ezorder.php,v 1.61.2.4 2002/05/28 13:30:27 jhe Exp $
 //
 // Definition of eZOrder class
 //
@@ -407,7 +407,7 @@ class eZOrder
             $condition = "CompanyID";
         
         $db->array_query( $order_array,
-                          "SELECT eZTrade_Order.ID FROM eZTrade_Order WHERE $condition='$contact' AND" .
+                          "SELECT eZTrade_Order.ID FROM eZTrade_Order, eZTrade_PreOrder WHERE $condition='$contact' AND " .
                           "eZTrade_Order.ID = eZTrade_PreOrder.OrderID",
                           array( "Limit" => $limit, "Offset" => $offset ) );
 
