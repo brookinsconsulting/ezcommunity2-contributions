@@ -219,6 +219,7 @@ CREATE TABLE eZTrade_PreOrder (
   ID int NOT NULL,
   Created int(11) NOT NULL,
   OrderID int(11) NOT NULL default '0',
+  Verified int(11) NOT NULL default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
