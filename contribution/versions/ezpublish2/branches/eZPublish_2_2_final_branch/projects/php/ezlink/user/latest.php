@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: latest.php,v 1.7 2001/07/20 11:15:21 jakobn Exp $
+// $Id: latest.php,v 1.7.2.1 2001/11/01 18:09:20 bf Exp $
 //
 // Created on: <26-Oct-2000 14:50:13 ce>
 //
@@ -29,9 +29,8 @@ $ini =& $GLOBALS["GlobalSiteIni"];
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 
-include_once( "common/ezphputils.php" );
 include_once( "classes/eztemplate.php" );
-include_once( "ezlink/classes/ezlinkgroup.php" );
+include_once( "ezlink/classes/ezlinkcategory.php" );
 include_once( "ezlink/classes/ezlink.php" );
 include_once( "ezlink/classes/ezhit.php" );
 
@@ -70,9 +69,10 @@ else
         }  
 
         $t->set_var( "link_id", $linkItem->id() );
-        $t->set_var( "link_title", $linkItem->title() );
+        $t->set_var( "link_title", $linkItem->name() );
         $t->set_var( "link_description", $linkItem->description() );
-        $t->set_var( "link_groupid", $linkItem->linkgroupid() );
+        $category =& $linkItem->categoryDefinition();
+        $t->set_var( "link_categoryid", $category->id() );
         $t->set_var( "link_keywords", $linkItem->keywords() );
         $t->set_var( "link_created", $linkItem->created() );
         $t->set_var( "link_modified", $linkItem->modified() );
