@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.120 2001/07/11 07:38:30 bf Exp $
+// $Id: ezarticle.php,v 1.121 2001/07/12 10:45:41 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -1726,7 +1726,7 @@ class eZArticle
     /*!
       Returns the article's definition category.
     */
-    function categoryDefinition( )
+    function categoryDefinition( $as_object = true )
     {
         $db =& eZDB::globalDatabase();
 
@@ -1737,7 +1737,8 @@ class eZArticle
         $category = false;
         if ( count( $res ) == 1 )
         {
-            $category = new eZArticleCategory( $res[0][$db->fieldName("CategoryID")] );
+            $id = $res[0][$db->fieldName("CategoryID")];
+            $category = $as_object ? new eZArticleCategory( $id ) : $id;
         }
         else
         {
