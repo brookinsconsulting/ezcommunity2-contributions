@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagelist.php,v 1.3 2001/07/20 11:19:36 jakobn Exp $
+// $Id: messagelist.php,v 1.4 2001/07/30 13:22:37 bf Exp $
 //
 // Created on: <05-Jun-2001 16:42:09 bf>
 //
@@ -45,7 +45,7 @@ $t->set_block( "message_list_tpl", "message_item_tpl", "message_item" );
 $t->set_block( "message_item_tpl", "message_read_tpl", "message_read" );
 $t->set_block( "message_item_tpl", "message_unread_tpl", "message_unread" );
 
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 $t->set_var( "user_first_name", $user->firstName() );
 $t->set_var( "user_last_name", $user->lastName() );
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categorylist.php,v 1.23 2001/07/30 09:46:48 ce Exp $
+// $Id: categorylist.php,v 1.24 2001/07/30 13:22:37 bf Exp $
 //
 // Created on: <13-Sep-2000 14:56:11 bf>
 //
@@ -53,6 +53,7 @@ function deleteCache( $ProductID, $CategoryID, $CategoryArray )
         $file->delete();
     }
 }
+
 
 $ini =& INIFile::globalINI();
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: separator.php,v 1.18 2001/07/29 23:30:57 kaid Exp $
+// $Id: separator.php,v 1.19 2001/07/30 13:22:36 bf Exp $
 //
 // Created on: <23-Jan-2001 16:06:07 bf>
 //
@@ -82,4 +82,3 @@ $t->pparse( "output", "separator_tpl" );
     
 
 ?>
-

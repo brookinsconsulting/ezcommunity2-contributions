@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: datasupplier.php,v 1.34 2001/07/27 08:11:06 ce Exp $
+// $Id: datasupplier.php,v 1.35 2001/07/30 13:22:37 bf Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
@@ -26,6 +26,7 @@
 include_once( "classes/ezhttptool.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
+
 $user =& eZUser::currentUser();
 if( eZPermission::checkPermission( $user, "eZTrade", "ModuleEdit" ) == false )
 {
@@ -48,6 +49,7 @@ switch ( $url_array[2] )
         break;
 
     case "categorylist" :
+
         if ( ( $url_array[3] == "parent") && ( $url_array[4] != "" ) )
         {
             $ParentID = $url_array[4];
@@ -58,6 +60,7 @@ switch ( $url_array[2] )
         {
             include( "eztrade/admin/categorylist.php" );
         }
+
         break;
 
     case "typelist" :

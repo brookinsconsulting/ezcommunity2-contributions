@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.88 2001/07/29 23:30:56 kaid Exp $
+// $Id: index.php,v 1.89 2001/07/30 13:22:36 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -150,7 +150,7 @@ $meta_page = "";
 $content_page = "";
 
 // Check if userlogin is required
-$user = eZUser::currentUser();
+$user =& eZUser::currentUser();
 
 $requireUserLogin =& $ini->read_var( "eZUserMain", "RequireUserLogin" );
 
@@ -290,32 +290,22 @@ if ( ( $requireUserLogin == "disabled" ) ||
         
         // include some html
         $Title = $ini->read_var( "site", "SiteTitle" );
-        include( "sitedesign/$siteDesign/preamble.php" );
-        
-
-        // include more html
-        if ( $PrintableVersion == "enabled" )
-        {
-            include( "sitedesign/$siteDesign/simpleheader.php" );
-        }
-        else
-        {
-            include( "sitedesign/$siteDesign/header.php" );    
-        }
 
         // Main contents
-        print( $MainContents );
-    
-        // and the html finish
-        // include more html
+        // handled by the sitedesign/$design/frame.php file now..
+        // print( $MainContents );
+
+
+        // include framework
         if ( $PrintableVersion == "enabled" )
         {
-            include( "sitedesign/$siteDesign/simplefooter.php" );
+            include( "sitedesign/$siteDesign/simpleframe.php" );
         }
         else
         {
-            include( "sitedesign/$siteDesign/footer.php" );
+            include( "sitedesign/$siteDesign/frame.php" );
         }
+        
 
         // store site cache
         if ( $StoreSiteCache == true )
@@ -336,12 +326,9 @@ if ( ( $requireUserLogin == "disabled" ) ||
 }
 else
 {
-    include( "sitedesign/$siteDesign/preamble.php" );
-    include( "sitedesign/$siteDesign/loginheader.php" );
 
     // parse the URI
     $page = "";
-
 
     // send the URI to the right decoder
     $page = "ezuser/user/datasupplier.php";
@@ -349,7 +336,12 @@ else
     {
         include( $page );
     }
-    include( "sitedesign/$siteDesign/loginfooter.php" );
+
+    $MainContents =& ob_get_contents();
+    ob_end_clean();
+    ob_start();    
+
+    include( "sitedesign/$siteDesign/loginframe.php" );
 }
 
 // close the database connection.

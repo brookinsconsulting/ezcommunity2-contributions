@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.48 2001/07/19 12:15:03 jhe Exp $
+// $Id: ezdb.php,v 1.49 2001/07/30 13:22:36 bf Exp $
 //
 // Definition of eZDB class
 //
@@ -104,6 +104,7 @@
 
   \endcode   
 */
+
 
 include_once( "classes/ezlog.php" );
 include_once( "classes/INIFile.php" );
