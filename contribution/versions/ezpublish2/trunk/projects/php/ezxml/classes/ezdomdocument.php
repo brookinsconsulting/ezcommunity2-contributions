@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezdomdocument.php,v 1.3 2001/11/21 08:56:59 jhe Exp $
+// $Id: ezdomdocument.php,v 1.4 2001/12/21 14:29:03 bf Exp $
 //
 // Definition of eZDOMDocument class
 //
@@ -36,7 +36,24 @@ class eZDOMDocument
     */
     function eZDOMDocument( )
     {
+        $this->children = array();
     }
+
+    /*!
+      Returns a XML string of the DOM document
+    */
+    function &toString()
+    {
+        $ret = "<?xml version=\"1.0\"?>";
+
+        foreach ( $this->children as $child )
+        {
+            $ret .= $child->toString();
+        }
+
+        return $ret;        
+    }
+
 
     /// XML version
     var $version;

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxml.php,v 1.21 2001/12/20 11:49:04 bf Exp $
+// $Id: ezxml.php,v 1.22 2001/12/21 14:29:03 bf Exp $
 //
 // Definition of eZXML class
 //
@@ -183,7 +183,7 @@ class eZXML
                         // new CDATA node
                         unset( $subNode );
                         $subNode = new eZDOMNode();
-                        $subNode->name = " cdata-section";
+                        $subNode->name = "cdata-section";
                         $subNode->content = $cdataSection;                        
                         $subNode->type = 4;
                         

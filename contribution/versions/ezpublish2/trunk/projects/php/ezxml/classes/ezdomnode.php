@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezdomnode.php,v 1.2 2001/11/21 08:56:59 jhe Exp $
+// $Id: ezdomnode.php,v 1.3 2001/12/21 14:29:03 bf Exp $
 //
 // Definition of eZDOMNode class
 //
@@ -36,8 +36,77 @@ class eZDOMNode
     */
     function eZDOMNode( )
     {
-
+        $this->children = array();
+        $this->attributes = array();
     }
+
+    /*!
+      Returns a XML string of the DOM Node and subnodes
+    */
+    function &toString()
+    {
+        $ret = "";
+        switch ( $this->name )
+        {
+            case "text" :
+            {
+                $tagContent = $this->content;
+                
+                $tagContent =& str_replace( "&", "&amp;", $tagContent );
+                $tagContent =& str_replace( ">", "&gt;", $tagContent );
+                $tagContent =& str_replace( "<", "&lt;", $tagContent );
+                $tagContent =& str_replace( "'", "&apos;", $tagContent );
+                $tagContent =& str_replace( '"', "&quot;", $tagContent );
+                
+                $ret =& $tagContent;
+            }break;
+
+            case "cdata-section" :
+            {
+                $ret = "<![CDATA[";
+                $ret .= $this->content;
+                $ret .= "]]>";
+            }break;
+
+            default :
+            {
+                $isOneLiner = false;
+                // check if it's a oneliner
+                if ( count( $this->children ) == 0 and ( $this->content == "" ) )
+                    $isOneLiner = true;
+                    
+                
+                $attrStr = "";
+                // generate attributes string
+                foreach ( $this->attributes as $attr )
+                {
+                    $attrStr .= " " . $attr->name . "=\"" . $attr->content . "\" ";
+                    
+                }
+
+                if ( $isOneLiner )
+                    $oneLinerEnd = " /";
+                else
+                    $oneLinerEnd = "";
+                    
+                $ret = "<" . $this->name . $attrStr . $oneLinerEnd . ">";
+
+                foreach ( $this->children as $child )
+                {
+                    $ret .= $child->toString();
+                }                
+
+                if ( !$isOneLiner )
+                    $ret .= "</" . $this->name . ">";
+
+            }break;
+
+        }        
+
+
+        return $ret;        
+    }
+    
 
     /// Name of the node
     var $name;
