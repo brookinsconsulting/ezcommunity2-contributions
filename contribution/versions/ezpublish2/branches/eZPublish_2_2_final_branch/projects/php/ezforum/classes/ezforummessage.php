@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezforummessage.php,v 1.104.2.4 2002/01/04 09:04:07 jhe Exp $
+// $Id: ezforummessage.php,v 1.104.2.5 2002/02/04 17:44:14 jhe Exp $
 //
 // Definition of eZForumMessage class
 //
@@ -246,6 +246,7 @@ class eZForumMessage
     {
         $db =& eZDB::globalDatabase();
         $db->query( "DELETE FROM eZForum_Message WHERE ID='$this->ID'" );
+        $db->query( "DELETE FROM eZForum_MessageWordLink WHERE MessageID='$this->ID'" );
         return true;
     }
     
