@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezconsultation.php,v 1.4 2001/01/17 14:54:06 jb Exp $
+// $Id: ezconsultation.php,v 1.5 2001/01/20 23:19:13 jb Exp $
 //
 // Definition of eZConsultation class
 //
@@ -365,6 +365,8 @@ class eZConsultation
 
     function emailList()
     {
+        $emails = preg_split( "/[,;]/", $this->EmailNotice );
+        return $emails;
     }
 
     /*!
