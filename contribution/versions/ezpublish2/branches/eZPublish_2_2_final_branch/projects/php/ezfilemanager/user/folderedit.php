@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: folderedit.php,v 1.40.2.1 2002/01/04 08:41:10 jhe Exp $
+// $Id: folderedit.php,v 1.40.2.2 2002/02/04 17:42:03 jhe Exp $
 //
 // Created on: <08-Jan-2001 11:13:29 ce>
 //
@@ -119,9 +119,9 @@ if ( $Action == "Insert" || $Action == "Update" )
     if ( $permissionCheck )
     {
 
-        if( $ParentID == 0 )
+        if ( $ParentID == 0 )
         {
-            if( eZPermission::checkPermission( $user, "eZFileManager", "WriteToRoot"  ) == false )
+            if ( eZPermission::checkPermission( $user, "eZFileManager", "WriteToRoot" ) == false )
             {
                 $t->parse( "error_write", "error_write_permission" );
                 $error = true;
@@ -132,7 +132,7 @@ if ( $Action == "Insert" || $Action == "Update" )
             $parentFolder = new eZVirtualFolder( $ParentID );
             // no write to parent.
             if ( $FolderID == 0 &&
-              eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", "w" ) == false &&
+              eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", 'w' ) == false &&
               eZObjectPermission::hasPermission( $ParentID, "filemanager_folder", 'u') == false )
             {
                 $t->parse( "error_write", "error_write_permission" );
@@ -147,7 +147,6 @@ if ( $Action == "Insert" || $Action == "Update" )
                 $error = true;
             }
         }
-
     }
 
     if ( $nameCheck )
@@ -207,9 +206,9 @@ if ( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
     $folder->store();
     $FolderID = $folder->id();
 
-    changePermissions( $FolderID, $ReadGroupArrayID, "r" );
-    changePermissions( $FolderID, $WriteGroupArrayID, "w" );
-    changePermissions( $FolderID, $UploadGroupArrayID, "u" );
+    changePermissions( $FolderID, $ReadGroupArrayID, 'r' );
+    changePermissions( $FolderID, $WriteGroupArrayID, 'w' );
+    changePermissions( $FolderID, $UploadGroupArrayID, 'u');
 
     // check if user uploaded a dir and had upload permission only and is not owner.
     // TODO: No move, insert takes permissions of parent.
@@ -258,6 +257,7 @@ if ( ( $Action == "Insert" || $Action == "Update" ) && $error == false )
         }
     }
 */
+
     eZHTTPTool::header( "Location: /filemanager/list/" . $ParentID );
     exit();
 }
@@ -312,7 +312,6 @@ if ( $Action == "Edit" )
     $readGroupArrayID =& eZObjectPermission::getGroups( $folder->id(), "filemanager_folder", "r", false );
     $writeGroupArrayID =& eZObjectPermission::getGroups( $folder->id(), "filemanager_folder", "w", false );
     $uploadGroupArrayID =& eZObjectPermission::getGroups( $folder->id(), "filemanager_folder", "u", false );
-    
     $t->set_var( "action_value", "update" );
 }
 
@@ -331,75 +330,49 @@ if ( count( $folderList ) == 0 )
 $group = new eZUserGroup();
 $groups = $group->getAll();
 
+$t->set_var( "is_write_selected1", "" );
+$t->set_var( "is_read_selected1", "" );
+$t->set_var( "is_upload_selected1", "" );
+
 foreach ( $groups as $group )
 {
     $t->set_var( "group_id", $group->id() );
     $t->set_var( "group_name", $group->name() );
 
-    $t->set_var( "is_write_selected1", "" );
-    $t->set_var( "is_read_selected1", "" );
-    $t->set_var( "is_upload_selected1", "" );
-    
     if ( $readGroupArrayID )
     {
-        foreach ( $readGroupArrayID as $readGroup )
-        {
-            if ( $readGroup == $group->id() )
-            {
-                $t->set_var( "is_read_selected1", "selected" );
-            }
-            elseif ( $readGroup == -1 )
-            {
-                $t->set_var( "read_everybody", "selected" );
-            }
-            else
-            {
-                $t->set_var( "is_read_selected", "" );
-            }
-        }
-    }
+        if ( in_array( $group->id(), $readGroupArrayID ) )
+            $t->set_var( "is_read_selected1", "selected" );
+        else
+            $t->set_var( "is_read_selected1", "" );
 
+        if ( in_array( -1, $readGroupArrayID ) )
+            $t->set_var( "read_everybody", "selected" );
+    }
     $t->parse( "read_group_item", "read_group_item_tpl", true );
     
     if ( $writeGroupArrayID )
     {
-        foreach ( $writeGroupArrayID as $writeGroup )
-        {
-            if ( $writeGroup == $group->id() )
-            {
-                $t->set_var( "is_write_selected1", "selected" );
-            }
-            elseif ( $writeGroup == -1 )
-            {
-                $t->set_var( "write_everybody", "selected" );
-            }
-            else
-            {
-                $t->set_var( "is_write_selected1", "" );
-            }
-        }
+        if ( in_array( $group->id(), $writeGroupArrayID ) )
+            $t->set_var( "is_write_selected1", "selected" );
+        else
+            $t->set_var( "is_write_selected1", "" );
+
+        if ( in_array( -1, $writeGroupArrayID ) )
+            $t->set_var( "write_everybody", "selected" );
     }
     $t->parse( "write_group_item", "write_group_item_tpl", true );
 
     if ( $uploadGroupArrayID )
     {
-        foreach ( $uploadGroupArrayID as $uploadGroup )
-        {
-            if ( $uploadGroup == $group->id() )
-            {
-                $t->set_var( "is_upload_selected1", "selected" );
-            }
-            elseif ( $uploadGroup == -1 )
-            {
-                $t->set_var( "upload_everybody", "selected" );
-            }
-            else
-            {
-                $t->set_var( "is_upload_selected", "" );
-            }
-        }
+        if ( in_array( $group->id(), $uploadGroupArrayID ) )
+            $t->set_var( "is_upload_selected1", "selected" );
+        else
+            $t->set_var( "is_upload_selected1", "" );
+
+        if ( in_array( -1, $uploadGroupArrayID ) )
+            $t->set_var( "upload_everybody", "selected" );
     }
-    
     $t->parse( "upload_group_item", "upload_group_item_tpl", true );
 }
 
@@ -467,7 +440,7 @@ foreach ( $folderList as $folderItem )
 $t->pparse( "output", "folder_edit_tpl" );
 
 /******* FUNCTIONS ****************************/
-function changePermissions( $objectID, $groups , $permission )
+function changePermissions( $objectID, $groups, $permission )
 {
     eZObjectPermission::removePermissions( $objectID, "filemanager_folder", $permission );
     if ( count( $groups ) > 0 )
@@ -477,9 +450,10 @@ function changePermissions( $objectID, $groups , $permission )
             if ( $groupItem == 0 || $groupItem == -1 )
                 $group = -1;
             else
-                $group = new eZUserGroup( $groupItem );
+                $group = $groupItem;
             
             eZObjectPermission::setPermission( $group, $objectID, "filemanager_folder", $permission );
+            print "set: " . $group . " - " . $objectID . " - " . $permission . "<br>";
         }
     }
 }

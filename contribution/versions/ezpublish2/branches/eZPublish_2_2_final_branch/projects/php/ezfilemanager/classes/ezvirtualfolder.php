@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfolder.php,v 1.34 2001/09/25 08:15:32 jhe Exp $
+// $Id: ezvirtualfolder.php,v 1.34.2.1 2002/02/04 17:42:02 jhe Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -76,8 +76,7 @@ class eZVirtualFolder
                                            '$description',
                                            '$this->UserID',
                                            '$this->SectionID',
-                                           '$this->ParentID')
-                                   " );
+                                           '$this->ParentID')" );
             $db->unlock();
 			$this->ID = $nextID;
         }
@@ -89,7 +88,7 @@ class eZVirtualFolder
                                    UserID='$this->UserID',
                                    SectionID='$this->SectionID',
                                    ParentID='$this->ParentID'
-                                   WHERE ID='$this->ID'", true );
+                                   WHERE ID='$this->ID'" );
 
         }
 

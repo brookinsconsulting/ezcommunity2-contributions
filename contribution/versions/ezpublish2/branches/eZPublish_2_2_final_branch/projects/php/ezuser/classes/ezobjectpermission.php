@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.36.2.3 2002/01/07 12:30:13 bf Exp $
+// $Id: ezobjectpermission.php,v 1.36.2.4 2002/02/04 17:42:03 jhe Exp $
 //
 // Definition of eZObjectPermission class
 //
@@ -342,7 +342,7 @@ class eZObjectPermission
         if ( $i == 0 )
             return false;
         
-        $query = "UPDATE $tableName $SQLPermission WHERE ObjectID='$objectID'";
+        $query = "UPDATE $tableName SET $SQLPermission WHERE ObjectID='$objectID'";
         $database =& eZDB::globalDatabase();
         $database->query( $query );
     }
