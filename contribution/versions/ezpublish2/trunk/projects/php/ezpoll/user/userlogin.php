@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: userlogin.php,v 1.6 2001/01/23 13:16:57 jb Exp $
+// $Id: userlogin.php,v 1.7 2001/07/20 11:22:30 jakobn Exp $
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <14-Oct-2000 15:41:17 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

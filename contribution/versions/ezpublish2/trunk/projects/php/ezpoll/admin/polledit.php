@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: polledit.php,v 1.26 2001/06/26 11:31:35 bf Exp $
+// $Id: polledit.php,v 1.27 2001/07/20 11:22:30 jakobn Exp $
 //
-// Christoffer A. Elo <ce@ez.no>
 // Created on: <21-Sep-2000 10:39:19 ce>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

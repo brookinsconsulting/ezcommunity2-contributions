@@ -1,12 +1,12 @@
-<?
+<?php
 // 
 // $id$
 //
-// Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:26:18 ce>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
