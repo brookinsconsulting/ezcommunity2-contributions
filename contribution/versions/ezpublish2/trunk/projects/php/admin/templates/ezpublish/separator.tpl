@@ -44,10 +44,17 @@
 		<td>
 
 		<a href="{current_url}?PrintableVersion=enabled">
-		<img src="/admin/images/{site_style}/icon-print.gif" width="32" height="32" border="0"/>
+		<img src="/admin/images/{site_style}/icon-print.gif" width="32" height="32" border="0" alt="Printable version" />
 		</a>
-
 		</td>
+
+<!-- Standard help feature template:
+		<td>
+		<a href="/">
+		<img src="/admin/images/{site_style}/icon-help.gif" width="32" height="32" border="0" alt="Help" />
+		</a>
+		</td>
+-->
 	</tr>
 	</table>
 

@@ -82,9 +82,10 @@
 	<img src="/admin/images/1x1.gif" width="120" height="10" border="0" alt="" /><br />
 	</td>
 	<td width="1%"><img src="/admin/images/1x1.gif" width="20" height="10" border="0" alt="" /></td>
-	<td width="1%">
+	<td width="1%" valign="top">
 	<img src="/admin/images/{site_style}/top-arrow.gif" width="10" height="13" border="0" alt="" />&nbsp;<a class="top" href="/user/passwordchange/">{intl-change_user_info}</a><br />
-	<img src="/admin/images/1x1.gif" width="150" height="10" border="0" alt="" /><br />
+	<img src="/admin/images/{site_style}/top-arrow.gif" width="10" height="13" border="0" alt="" />&nbsp;<a class="top" href="/">{intl-user_settings}</a><br />
+	<img src="/admin/images/1x1.gif" width="150" height="1" border="0" alt="" /><br />
 	</td>
 	<td width="1%"><img src="/admin/images/1x1.gif" width="20" height="10" border="0" alt="" /></td>
 	<td width="1%" align="right">
@@ -93,6 +94,29 @@
 </tr>
 </table>
 
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<!-- Bruk den øverste linja som en mal! Få med modulnavn i alt-taggen! -->
+	<td align="center"><a href="/"><img src="/admin/ezad/admin/images/module_icon.gif" width="32" height="32" border="0" alt="ads" /></a></td>
+<!-- -->
+	<td align="center"><img src="/admin/ezaddress/admin/images/module_icon.gif" width="32" height="32" border="0" alt="address" /></td>
+	<td align="center"><img src="/admin/ezarticle/admin/images/module_icon.gif" width="32" height="32" border="0" alt="article" /></td>
+	<td align="center"><img src="/admin/ezbug/admin/images/module_icon.gif" width="32" height="32" border="0" alt="" /></td>
+	<td align="center"><img src="/admin/ezcalendar/admin/images/module_icon.gif" width="32" height="32" border="0" alt="" /></td>
+	<td align="center"><img src="/admin/ezcontact/admin/images/module_icon.gif" width="32" height="32" border="0" alt="" /></td>
+	<td align="center"><img src="/admin/ezfilemanager/admin/images/module_icon.gif" width="32" height="32" border="0" alt="" /></td>
+	<td align="center"><img src="/admin/ezforum/admin/images/module_icon.gif" width="32" height="32" border="0" alt="" /></td>
+	<td align="center"><img src="/admin/ezimagecatalogue/admin/images/module_icon.gif" width="32" height="32" border="0" alt="" /></td>
+	<td align="center"><img src="/admin/ezlink/admin/images/module_icon.gif" width="32" height="32" border="0" alt="" /></td>
+	<td align="center"><img src="/admin/eznewsfeed/admin/images/module_icon.gif" width="32" height="32" border="0" alt="" /></td>
+	<td align="center"><img src="/admin/ezpoll/admin/images/module_icon.gif" width="32" height="32" border="0" alt="" /></td>
+	<td align="center"><img src="/admin/ezstats/admin/images/module_icon.gif" width="32" height="32" border="0" alt="" /></td>
+	<td align="center"><img src="/admin/eztodo/admin/images/module_icon.gif" width="32" height="32" border="0" alt="" /></td>
+	<td align="center"><img src="/admin/eztrade/admin/images/module_icon.gif" width="32" height="32" border="0" alt="" /></td>
+	<td align="center"><img src="/admin/ezuser/admin/images/module_icon.gif" width="32" height="32" border="0" alt="" /></td>
+</tr>
+</table>
+	
 	</td>
     <td class="repeaty" width="%" background="/admin/images/{site_style}/top-r02.gif" valign="top" align="left"><img src="/admin/images/{site_style}/1x1.gif" width="10" height="10" border="0" /><br /></td>
 </tr>
