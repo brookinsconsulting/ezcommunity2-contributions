@@ -1,8 +1,12 @@
 <h1>{intl-head_line}</h1>
 
+<hr noshade size="4"/>
+<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+<a class="path" href="/{module}/{module_list}/0/">{intl-top}</a>
 
 <!-- BEGIN path_tpl -->
-
+<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="" />
+<a class="path" href="/{module}/{module_list}/{category_id}/">{category_name}</a>
 <!-- END path_tpl -->
 
 <hr noshade size="4"/>
@@ -14,7 +18,7 @@
 	</td>
 	<td align="right">
 	<br />
-	<span class="boxtext">{intl-order_number}:</span> {product_number}
+	<span class="boxtext">{intl-nr}:</span> {product_number}
 	</td>
 </tr>
 <tr>
@@ -26,7 +30,8 @@
 <table align="right" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<img src="{main_image_uri}" border="0" width="{main_image_width}" height="{main_image_height}" />
+	<a href="/imagecatalogue/imageview/{main_image_id}/?RefererURL=/{module}/{module_view}/{product_id}/">
+	<img src="{main_image_uri}" border="0" width="{main_image_width}" height="{main_image_height}" /></a>
 	</td>
 </tr>
 <tr>
@@ -46,16 +51,14 @@
 
 <table width="100%" cellspacing="0" cellpadding="7">
 <tr>
-
 <!-- BEGIN image_tpl -->
-<td class="bglight" align="center">
+<td class="bglight">
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top">
-	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/trade/productview/{product_id}/">
-	<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}"/>
-	</a>
+	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/{module}/{module_view}/{product_id}/">
+	<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}"/></a>
 	</td>
 </tr>
 <tr>
@@ -75,7 +78,7 @@
 </tr>
 </table>
 
-<form action="/trade/cart/add/{product_id}/" method="post">
+<form action="/{module}/cart/add/{product_id}/" method="post">
 
 <!-- BEGIN option_tpl -->
 
@@ -114,12 +117,10 @@
 <table width="100%" border="0">
 <tr>
 	<td>
-
 	<!-- BEGIN price_tpl -->
 	<p class="boxtext">{intl-price}:</p>
 	{product_price}
-	<!-- END price_tpl -->
-
+	<!-- END price_tpl -->	
 	</td>
 	<td align="right">
 	<!-- BEGIN external_link_tpl -->
@@ -131,9 +132,48 @@
 </table>
 <br /><br />
 
+<!-- BEGIN attribute_list_tpl -->
+<table width="50%" cellspacing="0" cellpadding="2" border="0">
+<tr>
+	<th>
+	{intl-attribute_name}
+	</th>
+	<th>
+	{intl-attribute_value}
+	</th>
+</tr>
+<!-- BEGIN attribute_tpl -->
+<tr>
+	<td>
+	{attribute_name} : 
+	</td>
+	<td>
+	{attribute_value}
+	</td>
+</tr>
+
+<!-- END attribute_tpl -->
+</table>
+<!-- END attribute_list_tpl -->
+
+{extra_product_info}
+
 <hr noshade="noshade" size="4" />
 
 <!-- BEGIN add_to_cart_tpl -->
 <input class="okbutton" type="submit" name="Cart" value="{intl-add_to_cart}" />
+
+<input class="okbutton" type="submit" name="WishList" value="{intl-wishlist}" />
 <!-- END add_to_cart_tpl -->
+
+<br /><br />
+
+<!-- BEGIN numbered_page_link_tpl -->
+<div align="center"><a class="path" href="/{module}/{module_view}/{product_id}/0/">| {intl-numbered_page} |</a></div>
+<!-- END numbered_page_link_tpl -->
+
+<!-- BEGIN print_page_link_tpl -->
+<div align="center"> <a class="path" href="/{module}/{module_print}/{product_id}/">| {intl-print_page} |</a></div>
+<!-- END print_page_link_tpl -->
+
 </form>

@@ -1,32 +1,6 @@
-<h1>{intl-confirm_order}</h1>
-
-<hr noshade="noshade" size="4" />
 <form action="/trade/checkout/" method="post">
-{intl-payment_methods_description}:
 
-<select name="PaymentMethod">
-<!-- BEGIN visa_tpl -->
-<option value="1">{intl-charge_my_visa}</option>
-<!-- END visa_tpl -->
-
-<!-- BEGIN mastercard_tpl -->
-<option value="2">{intl-charge_my_mastercard}</option>
-<!-- END mastercard_tpl -->
-
-<!-- BEGIN cod_tpl -->
-<option value="3">{intl-charge_me_at_the_postoffice}</option>
-<!-- END cod_tpl -->
-
-<!-- BEGIN invoice_tpl -->
-<option value="4">{intl-charge_me_by_invoice}</option>
-<!-- END invoice_tpl -->
-</select>
-
-<p>{intl-if_using_credit_card}</p>
-
-<p>{intl-if_using_invoice}</p>
-
-<p>{intl-all_others}</p>
+<h1>{intl-confirm_order}</h1>
 
 <hr noshade="noshade" size="4" />
 
@@ -39,7 +13,7 @@
 	<th>{intl-product_name}:</th>
 	<th>{intl-options}:</th>
 	<th>{intl-qty}:</th>
-	<td class="path" align="right">{intl-price}:</td>
+	<td class="path" align="right">{intl-price}</td>
 </tr>
 
 <!-- BEGIN cart_item_tpl -->
@@ -69,14 +43,14 @@
 <!-- END cart_item_tpl -->
 
 <tr>
-	<td colspan="3">&nbsp;</td>
+	<td colspan="2">&nbsp;</td>
 	<th>{intl-shipping_charges}:</th>
 	<td align="right">
 	{shipping_cost}
 	</td>
 </tr>
 <tr>
-	<td colspan="3">&nbsp;</td>
+	<td colspan="2">&nbsp;</td>
 	<th>{intl-total_cost_is}:</th>
 	<td align="right">
 	{cart_sum}
@@ -85,25 +59,42 @@
 </table>
 <!-- END cart_item_list_tpl -->
 
-<h2>{intl-shipped_to}:</h2>
+<!-- BEGIN billing_address_tpl -->
+<h2>{intl-billing_to}:</h2>
+<br />
+<select name="BillingAddressID">
+<!-- BEGIN billing_option_tpl -->
+<option value="{address_id}">{customer_first_name} {customer_last_name}, {street1} {street2} {zip} {place} {country}</option>
+<!-- END billing_option_tpl -->
+</select>
+<!-- END billing_address_tpl -->
 
-{customer_first_name} {customer_last_name} 
+<h2>{intl-shipping_to}:</h2>
+<select name="ShippingAddressID">
+<!-- BEGIN shipping_address_tpl -->
+<option value="{address_id}">{customer_first_name} {customer_last_name}, {street1} {street2} {zip} {place} {country}</option>
+<!-- END shipping_address_tpl -->
+</select>
+
+<br /><br />
+<hr noshade="noshade" size="4" />
 <br />
 
-<!-- BEGIN address_tpl -->
-{street1} <br />
-{street2}<br />
-{zip} {place}<br />
-{country}<br />
+{intl-payment_methods_description}:
 
-<!-- END address_tpl -->
+<select name="PaymentMethod">
+<!-- BEGIN payment_method_tpl -->
+<option value="{payment_method_id}">{payment_method_text}</option>
+<!-- END payment_method_tpl -->
+</select>
+
 <br /><br />
-
 
 <hr noshade="noshade" size="4" />
 
+
 <input type="hidden" name="SendOrder" value="true" />
-<input class="okbutton" type="submit" value="Send ordre" />
+<input class="okbutton" type="submit" value="{intl-send}" />
 </form>
 
 

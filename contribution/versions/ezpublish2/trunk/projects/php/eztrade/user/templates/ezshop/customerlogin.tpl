@@ -7,16 +7,16 @@
 <p>{intl-reg_text}</p>
 
 <form method="post" action="/user/login/login/">
-<p class="boxtext">{intl-username}</p>
+<p class="boxtext">{intl-username}:</p>
 <input type="text" size="20" name="Username"/>
 
-<p class="boxtext">{intl-password}</p>
+<p class="boxtext">{intl-password}:</p>
 <input type="password" size="20" name="Password"/><br />
 <br />
 
 <hr noshade="noshade" size="4" />
 
-<input class="okbutton" type="submit" value="Logg inn" />
+<input class="okbutton" type="submit" value="{intl-login}" />
 <input type="hidden" name="RedirectURL" value="{redirect_url}" />
 </form>
 <br />
@@ -29,7 +29,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<input class="okbutton" class="stdbutton" type="submit" value="Ny bruker" />
+<input class="okbutton" class="stdbutton" type="submit" value="{intl-newuser}" />
 
 </form>
 

@@ -1,6 +1,3 @@
-<!-- cart.tpl --> 
-<!-- $Id: cart.tpl,v 1.4 2000/11/02 12:43:25 pkej-cvs Exp $ -->
-
 <h1>{intl-cart}</h1>
 
 <hr noshade="noshade" size="4" />
@@ -35,8 +32,7 @@
 	</td>
 	<td class="{td_class}">
         <!-- BEGIN cart_item_option_tpl -->
-	{option_name}:
-	{option_value}<br>
+	<div class="small">{option_name}: {option_value}<div>
         <!-- END cart_item_option_tpl -->
 	&nbsp;</td>
 	<td class="{td_class}">
@@ -47,21 +43,21 @@
 	{product_price}
 	</td>
 	<td class="{td_class}" align="right">
-	<a href="/trade/cart/remove/{cart_item_id}/">{intl-product_remove}</a>
+	<a href="/trade/cart/remove/{cart_item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztrade{cart_item_id}-slett','','/images/slettminimrk.gif',1)"><img name="eztrade{cart_item_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
 </tr>
 <!-- END cart_item_tpl -->
 
 <tr>
-	<td colspan="3">&nbsp;</td>
-	<th>{intl-shipping}:</th>
+	<td colspan="2">&nbsp;</td>
+	<th colspan="2">{intl-shipping}:</th>
 	<td align="right">
 	{shipping_cost}
 	</td>
 </tr>
 <tr>
-	<td colspan="3">&nbsp;</td>
-	<th>{intl-total}:</th>
+	<td colspan="2">&nbsp;</td>
+	<th colspan="2">{intl-total}:</th>
 	<td align="right">
 	{cart_sum}
 	</td>
@@ -70,13 +66,14 @@
 <!-- END cart_item_list_tpl -->
 
 <hr noshade="noshade" size="4" />
+<!-- BEGIN cart_checkout_tpl -->
+
 <table border="0">
 <tr>
-	<!-- BEGIN cart_checkout_tpl -->
+
 	<td>
 	<input class="okbutton" type="submit" name="DoCheckOut" value="{intl-checkout}" />
 	</td>
-	<!-- END cart_checkout_tpl -->
 
 	<td>
 	<input class="okbutton" type="submit" value="{intl-update}" />
@@ -84,6 +81,8 @@
 	</td>
 </td>
 </table>
+<!-- END cart_checkout_tpl -->
+
 
 <input type="hidden" name="Action" value="Refresh" />
 
