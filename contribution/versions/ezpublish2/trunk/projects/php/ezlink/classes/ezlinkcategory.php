@@ -1,14 +1,14 @@
 <?php
 // 
-// $Id: ezlinkcategory.php,v 1.7 2001/07/12 14:20:52 jhe Exp $
+// $Id: ezlinkcategory.php,v 1.8 2001/07/20 11:15:21 jakobn Exp $
 //
 // Definition of eZLinkCategory class
 //
-// Bjørn Reiten <br@ez.no>
 // Created on: <27-Jun-2001 12:41:48 br>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

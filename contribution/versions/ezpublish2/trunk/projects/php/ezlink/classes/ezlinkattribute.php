@@ -1,14 +1,14 @@
 <?php
 // 
-// $Id: ezlinkattribute.php,v 1.7 2001/07/12 14:20:52 jhe Exp $
+// $Id: ezlinkattribute.php,v 1.8 2001/07/20 11:15:21 jakobn Exp $
 //
 // Definition of eZLinkAttribute class
 //
-// Jo Henrik Endrerud <jhe@ez.no>
 // Created on: <29-Jun-2001 11:09:22 jhe>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -22,7 +22,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307 US
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
 include_once( "classes/ezdb.php" );

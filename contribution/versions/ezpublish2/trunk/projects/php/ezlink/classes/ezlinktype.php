@@ -1,14 +1,14 @@
 <?php
 // 
-// $Id: ezlinktype.php,v 1.2 2001/07/12 14:20:52 jhe Exp $
+// $Id: ezlinktype.php,v 1.3 2001/07/20 11:15:21 jakobn Exp $
 //
 // Definition of eZLinkType class
 //
-// Jo Henrik Endrerud <jhe@ez.no>
 // Created on: <29-Jun-2001 11:13:12 jhe>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

@@ -1,14 +1,14 @@
 <?php
 // 
-// $Id: ezlink.php,v 1.65 2001/07/12 14:20:52 jhe Exp $
+// $Id: ezlink.php,v 1.66 2001/07/20 11:15:21 jakobn Exp $
 //
 // Definition of eZLink class
 //
-// Christoffer A. Elo <ce@ez.no>
 // Created on: <15-Sep-2000 14:40:06 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

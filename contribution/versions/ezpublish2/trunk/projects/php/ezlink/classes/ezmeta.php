@@ -1,12 +1,12 @@
 <?php
 //
-// $Id: ezmeta.php,v 1.6 2001/07/10 12:17:10 jhe Exp $
+// $Id: ezmeta.php,v 1.7 2001/07/20 11:15:21 jakobn Exp $
 //
-// Jan Borsodi <jb@ez.no>
 // Created on: <01-Nov-2000 16:44:39 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

@@ -1,11 +1,12 @@
 <?php
-// $Id: linkedit.php,v 1.62 2001/07/12 14:20:52 jhe Exp $
 //
-// Christoffer A. Elo <ce@ez.no>
+// $Id: linkedit.php,v 1.63 2001/07/20 11:15:21 jakobn Exp $
+//
 // Created on: <26-Oct-2000 14:58:57 ce>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
