@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: category.php,v 1.13 2001/09/26 14:24:13 jb Exp $
+// $Id: category.php,v 1.14 2001/10/16 14:01:06 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -33,7 +33,20 @@ include_once( "ezxmlrpc/classes/ezxmlrpcint.php" );
 
 // TODO: check permissions!!
 
-if( $Command == "data" ) // Dump category info!
+if( $Command == "info" )
+{
+    $category = new eZArticleCategory();
+    if ( !$category->get( $ID ) )
+    {
+        $Error = createErrorMessage( EZERROR_NONEXISTING_OBJECT );
+    }
+    else
+    {
+        $ret = array( "Name" => new eZXMLRPCString( $category->name( false ) ) );
+        $ReturnData = new eZXMLRPCStruct( $ret );
+    }
+}
+else if( $Command == "data" ) // Dump category info!
 {
 //      usleep( 5000000 );
     $writeGroups = eZObjectPermission::getGroups( $ID, "article_category", 'w', false );

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.9 2001/09/24 10:47:16 jb Exp $
+// $Id: datasupplier.php,v 1.10 2001/10/16 14:01:06 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -42,13 +42,14 @@ switch ( $RequestType )
                 include( "ezimagecatalogue/xmlrpc/categorylist.php" );
                 break;
             }
-                case "data":
-                case "storedata":
-                case "delete":
-                {
-                    include( "ezimagecatalogue/xmlrpc/category.php" );
-                    break;
-                }
+            case "data":
+            case "storedata":
+            case "delete":
+            case "info":
+            {
+                include( "ezimagecatalogue/xmlrpc/category.php" );
+                break;
+            }
             default:
                 $Error = true;
         }
@@ -75,6 +76,7 @@ switch ( $RequestType )
             case "storedata":
             case "delete":
             case "search":
+            case "info":
             {
                 include( "ezimagecatalogue/xmlrpc/image.php" );
                 break;

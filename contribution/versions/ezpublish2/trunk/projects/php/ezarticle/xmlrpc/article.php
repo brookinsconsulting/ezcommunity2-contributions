@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: article.php,v 1.19 2001/09/27 08:53:46 jb Exp $
+// $Id: article.php,v 1.20 2001/10/16 14:01:06 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -33,7 +33,20 @@ include_once( "ezxmlrpc/classes/ezxmlrpcarray.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcbool.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcint.php" );
 
-if( $Command == "data" ) // return all the data in the category
+if( $Command == "info" )
+{
+    $article = new eZArticle();
+    if ( !$article->get( $ID ) )
+    {
+        $Error = createErrorMessage( EZERROR_NONEXISTING_OBJECT );
+    }
+    else
+    {
+        $ret = array( "Name" => new eZXMLRPCString( $article->name( false ) ) );
+        $ReturnData = new eZXMLRPCStruct( $ret );
+    }
+}
+else if( $Command == "data" ) // return all the data in the category
 {
     $article = new eZArticle();
     if ( !$article->get( $ID ) )

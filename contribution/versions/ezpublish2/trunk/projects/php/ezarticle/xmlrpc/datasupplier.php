@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.15 2001/09/19 11:49:10 jb Exp $
+// $Id: datasupplier.php,v 1.16 2001/10/16 14:01:06 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -92,6 +92,7 @@ switch ( $RequestType )
             case "data":
             case "storedata":
             case "delete":
+            case "info":
             {
                 include( "ezarticle/xmlrpc/category.php" );
                 break;
@@ -108,6 +109,7 @@ switch ( $RequestType )
             case "data":
             case "storedata":
             case "delete":
+            case "info":
             {
                 include( "ezarticle/xmlrpc/article.php" );
                 break;

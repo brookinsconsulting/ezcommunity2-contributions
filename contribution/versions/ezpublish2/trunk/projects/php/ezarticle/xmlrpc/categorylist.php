@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categorylist.php,v 1.19 2001/10/11 10:34:23 jb Exp $
+// $Id: categorylist.php,v 1.20 2001/10/16 14:01:06 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -82,12 +82,10 @@ if ( $Command == "list" )
 
             foreach ( $categoryList as $catItem )
             {
-                $cols = array( "Position" => new eZXMLRPCInt( $catItem->placement() ) );
                 $cat[] = new eZXMLRPCStruct( array( "URL" => createURLStruct( "ezarticle",
                                                                               "category",
                                                                               $catItem->id() ),
-                                                    "Name" => new eZXMLRPCString( $catItem->name( false ) ),
-                                                    "Columns" => new eZXMLRPCStruct( $cols )
+                                                    "Name" => new eZXMLRPCString( $catItem->name( false ) )
                                                     )
                                              );
             }
@@ -159,8 +157,7 @@ if ( $Command == "list" )
         $cols = new eZXMLRPCStruct( array( "Author" => new eZXMLRPCString( "text" ),
                                            "Topic" => new eZXMLRPCString( "text" ),
                                            "Publish date" => new eZXMLRPCString( "datetime" ),
-                                           "Modification date" => new eZXMLRPCString( "datetime" ),
-                                           "Position" => new eZXMLRPCString( "integer" )
+                                           "Modification date" => new eZXMLRPCString( "datetime" )
                                            ) );
 
     if ( $articleCount >= count( $art ) && $categoryCount >= count( $cat ) )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: image.php,v 1.16 2001/09/26 14:24:13 jb Exp $
+// $Id: image.php,v 1.17 2001/10/16 14:01:06 jb Exp $
 //
 // Created on: <14-Jun-2001 13:18:27 amos>
 //
@@ -31,7 +31,20 @@ include_once( "ezxmlrpc/classes/ezxmlrpcarray.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcbool.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcint.php" );
 
-if( $Command == "data" ) // Dump image info!
+if( $Command == "info" )
+{
+    $image = new eZImage();
+    if ( !$image->get( $ID ) )
+    {
+        $Error = createErrorMessage( EZERROR_NONEXISTING_OBJECT );
+    }
+    else
+    {
+        $ret = array( "Name" => new eZXMLRPCString( $image->name( false ) ) );
+        $ReturnData = new eZXMLRPCStruct( $ret );
+    }
+}
+else if( $Command == "data" ) // Dump image info!
 {
     unset( $width );
     unset( $height );
