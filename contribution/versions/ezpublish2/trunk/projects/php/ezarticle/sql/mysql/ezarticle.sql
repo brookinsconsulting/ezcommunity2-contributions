@@ -187,3 +187,4 @@ CREATE INDEX Link_Placement ON eZArticle_ArticleCategoryLink (Placement);
 CREATE INDEX Def_ArticleID ON eZArticle_ArticleCategoryDefinition (ArticleID);
 CREATE INDEX Def_CategoryID ON eZArticle_ArticleCategoryDefinition (CategoryID);
 
+
