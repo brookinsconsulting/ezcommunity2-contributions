@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcachefile.php,v 1.13 2001/07/29 23:30:57 kaid Exp $
+// $Id: ezcachefile.php,v 1.14 2001/10/06 11:41:49 bf Exp $
 //
 // Definition of eZCacheFile class
 //
@@ -256,6 +256,8 @@ class eZCacheFile
                 }
             }
         }
+
+        $dir->close();
         return $ret;
     }
 
