@@ -33,6 +33,8 @@
 
 <h1>{intl-headline}</h1>
 
+<hr noshade="noshade" size="4"/>
+
 <!-- BEGIN path_tpl -->
 
 <img src="/ezarticle/admin/images/path-arrow.gif" height="10" width="15" border="0">
@@ -48,7 +50,7 @@
 <a class="path" href="/contact/company/list/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
 
-<hr noshade size="4"/>
+<hr noshade="noshade" size="4"/>
 
 <!-- BEGIN category_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -71,7 +73,9 @@
 <!-- BEGIN company_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
+	<td>
 	<h2>{companys}</h2>
+	</td>
 </tr>
 <!-- BEGIN company_item_tpl -->
 <tr>
