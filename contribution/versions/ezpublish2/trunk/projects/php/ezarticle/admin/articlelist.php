@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.5 2000/10/28 12:29:00 bf-cvs Exp $
+// $Id: articlelist.php,v 1.6 2000/10/30 19:22:28 bf-cvs Exp $
 //
 // 
 //
@@ -102,7 +102,7 @@ else
 
 
 // articles
-$articleList = $category->articles();
+$articleList = $category->articles( "time", true, true );
 
 $locale = new eZLocale( $Language );
 $i=0;

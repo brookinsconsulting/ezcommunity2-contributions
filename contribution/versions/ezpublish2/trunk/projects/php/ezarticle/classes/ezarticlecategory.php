@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.8 2000/10/28 12:29:01 bf-cvs Exp $
+// $Id: ezarticlecategory.php,v 1.9 2000/10/30 19:22:28 bf-cvs Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -391,7 +391,7 @@ class eZArticleCategory
       also returned. If the $getExcludedArticles is set to true the articles which are
       excluded from search is also returned.
     */
-    function articles( $sortMode=time, $fetchNonPublished=true, $getExcludedArticles=false )
+    function articles( $sortMode="time", $fetchNonPublished=true, $getExcludedArticles=false )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -411,6 +411,16 @@ class eZArticleCategory
        $return_array = array();
        $article_array = array();
 
+       if ( $getExcludedArticles == false )
+       {
+           $excludedCode = " AND eZArticle_Category.ExcludeFromSearch = 'false' ";
+       }
+       else
+       {
+           $excludedCode = "";           
+       }
+       
+
        if ( $fetchNonPublished  == true )
        {
            $this->Database->array_query( $article_array, "
@@ -422,8 +432,7 @@ class eZArticleCategory
                 eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
                 AND
                 eZArticle_Category.ID='$this->ID'
-                AND
-                eZArticle_Category.ExcludeFromSearch = 'false'
+                $excludedCode  
                 GROUP BY eZArticle_Article.ID ORDER BY $OrderBy" );
        }
        else
@@ -439,8 +448,7 @@ class eZArticleCategory
                 eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
                 AND
                 eZArticle_Category.ID='$this->ID'
-                AND
-                eZArticle_Category.ExcludeFromSearch = 'false'
+                $excludedCode
                 GROUP BY eZArticle_Article.ID ORDER BY $OrderBy" );
        }
  

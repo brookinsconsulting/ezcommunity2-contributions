@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.1 2000/10/28 14:35:21 bf-cvs Exp $
+// $Id: search.php,v 1.2 2000/10/30 19:22:28 bf-cvs Exp $
 //
 // 
 //
@@ -55,7 +55,7 @@ else
 
 // articles
 $article = new eZArticle();
-$articleList = $article->search( $SearchText );
+$articleList = $article->search( $SearchText, true );
 
 $locale = new eZLocale( $Language );
 $i=0;
