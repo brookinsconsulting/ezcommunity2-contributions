@@ -1,4 +1,4 @@
-<form method="post" action="/exchange/product/{quote_type}/{product_id}/" enctype="multipart/form-data">
+<form method="post" action="/exchange/product/{quote_type}/{product_id}/{category_id}/{quote_id}" enctype="multipart/form-data">
 
 <h2>{intl-quote_edit}</h2>
 
@@ -34,6 +34,10 @@
 <li>{intl-error_low_quantity}
 <!-- END error_low_quantity_item_tpl -->
 
+<!-- BEGIN error_high_price_item_tpl -->
+<li>{intl-error_high_price_pre}{high_price}{intl-error_high_price_post}
+<!-- END error_high_price_item_tpl -->
+
 </ul>
 <!-- END errors_tpl -->
 
@@ -59,9 +63,11 @@
 	<td>
 	{intl-quantity}:
 	</td>
+	<!-- BEGIN quote_header_price_tpl -->
 	<td>
 	{intl-price}:
 	</td>
+	<!-- END quote_header_price_tpl -->
 </tr>
 
 <!-- BEGIN edit_quote_tpl -->
@@ -98,23 +104,36 @@
 	{intl-new_values}
 	</td>
 	<td>
-	&nbsp;
+	{today}
 	</td>
 	<td>
-	<input type="text" size="7" name="DaysLeft" value="{last_days}"/>
-	</td>
-	<td>
-	&nbsp;
+	<input type="text" size="7" name="DaysLeft" value="{cur_days}"/>
 	</td>
 	<td>
 	&nbsp;
 	</td>
 	<td>
-	<input type="text" size="7" name="Quantity" value="{last_quantity}"/>
+	<!-- BEGIN quote_2_all_type_tpl -->
+	{intl-all_type}
+	<!-- END quote_2_all_type_tpl -->
+	<!-- BEGIN quote_2_any_type_tpl -->
+	{intl-any_type}
+	<!-- END quote_2_any_type_tpl -->
 	</td>
 	<td>
-	<input type="text" size="7" name="Price" value="{last_price}"/>
+	<!-- BEGIN quote_edit_quantity_tpl -->
+	<input type="text" size="7" name="Quantity" value="{cur_quantity}"/>
+	<!-- END quote_edit_quantity_tpl -->
+	<!-- BEGIN quote_show_quantity_tpl -->
+	<input type="hidden" name="Quantity" value="{cur_quantity}"/>
+	{cur_quantity}
+	<!-- END quote_show_quantity_tpl -->
 	</td>
+	<!-- BEGIN quote_edit_price_tpl -->
+	<td>
+	<input type="text" size="7" name="Price" value="{cur_price}"/>
+	</td>
+	<!-- END quote_edit_price_tpl -->
 </tr>
 <!-- END edit_quote_tpl -->
 
@@ -127,7 +146,7 @@
 	{today}
 	</td>
 	<td>
-	<input type="text" size="7" name="DaysLeft" value=""/>
+	<input type="text" size="7" name="DaysLeft" value="{cur_days}"/>
 	</td>
 	<td>
 	&nbsp;
@@ -139,17 +158,24 @@
 	</select>
 	</td>
 	<td>
-	<input type="text" size="7" name="Quantity" value=""/>
+	<input type="text" size="7" name="Quantity" value="{cur_quantity}"/>
 	</td>
+	<!-- BEGIN quote_new_price_tpl -->
 	<td>
-	<input type="text" size="7" name="Price" value=""/>
+	<input type="text" size="7" name="Price" value="{cur_price}"/>
 	</td>
+	<!-- END quote_new_price_tpl -->
 </tr>
 <!-- END new_quote_tpl -->
+
+<!-- BEGIN quote_rfq_price_tpl -->
+<input type="hidden" name="Price" value="rfq"/>
+<!-- END quote_rfq_price_tpl -->
 
 </table>
 
 <input type="hidden" name="ProductID" value="{product_id}">
+<input type="hidden" name="CategoryID" value="{category_id}">
 
 <hr noshade="noshade" size="4" />
 <input class="okbutton" type="submit" name="OK" value="{intl-ok}">

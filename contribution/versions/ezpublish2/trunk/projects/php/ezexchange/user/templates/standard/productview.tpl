@@ -1,12 +1,20 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="1">
 <tr>
-	<td colspan="8" align="center">
+	<td colspan="2" align="center">
 	<h2>{intl-quotes}</h2>
 	</td>
 </tr>
 <tr>
-	<td colspan="2" valign="top" align="left">
+	<td colspan="1" valign="top" align="left">
 	{intl-quotes}
+	</td>
+
+	<td colspan="1" valign="top" align="right">
+	{intl-offers}
+	</td>
+</tr>
+<tr>
+	<td colspan="1" valign="top" align="left">
 	<table class="list" width="100%" cellspacing="0" cellpadding="0" border="1">
 	<tr>
 		<td>
@@ -24,10 +32,10 @@
 	</tr>
 	<!-- BEGIN quote_item_tpl -->
 	<tr>
-		<td>
+		<td {quote_current}>
 		{quote_expire_date}
 		</td>
-		<td>
+		<td {quote_current}>
 		<!-- BEGIN quote_all_type_tpl -->
 		{intl-all_type}
 		<!-- END quote_all_type_tpl -->
@@ -35,20 +43,26 @@
 		{intl-any_type}
 		<!-- END quote_any_type_tpl -->
 		</td>
-		<td>
+		<td {quote_current}>
 		{quote_quantity}
 		</td>
-		<td>
+		<td {quote_current}>
+	<!-- BEGIN real_quote_item_tpl -->
 		{quote_price}
+	<!-- END real_quote_item_tpl -->
+	<!-- BEGIN rfq_quote_item_tpl -->
+		{intl-rfq}
+	<!-- END rfq_quote_item_tpl -->
+	<!-- BEGIN rfq_linked_quote_item_tpl -->
+		<a href="/{module}/product/request/{product_id}/{category_id}/{rfq_id}">{intl-rfq}</a>
+	<!-- END rfq_linked_quote_item_tpl -->
 		</td>
 	</tr>
 	<!-- END quote_item_tpl -->
 	</table>
 	</td>
 
-
-	<td colspan="2" valign="top" align="right">
-	{intl-offers}
+	<td colspan="1" valign="top" align="right">
 	<table class="list" width="100%" cellspacing="0" cellpadding="0" border="1">
 	<tr>
 		<td>
@@ -66,13 +80,14 @@
 	</tr>
 	<!-- BEGIN offer_item_tpl -->
 	<tr>
-		<td>
+	<!-- BEGIN full_offer_item_tpl -->
+		<td {offer_current}>
 		{offer_price}
 		</td>
-		<td>
+		<td {offer_current}>
 		{offer_quantity}
 		</td>
-		<td>
+		<td {offer_current}>
 		<!-- BEGIN offer_all_type_tpl -->
 		{intl-all_type}
 		<!-- END offer_all_type_tpl -->
@@ -80,10 +95,16 @@
 		{intl-any_type}
 		<!-- END offer_any_type_tpl -->
 		</td>
-		<td>
+		<td {offer_current}>
 		{offer_expire_date}
 		</td>
 	</tr>
+	<!-- END full_offer_item_tpl -->
+	<!-- BEGIN empty_offer_item_tpl -->
+		<td colspan="4">
+		&nbsp;
+		</td>
+	<!-- END empty_offer_item_tpl -->
 	<!-- END offer_item_tpl -->
 	</table>
 	</td>
@@ -91,119 +112,28 @@
 
 
 <tr>
-<!-- BEGIN your_quote_item_tpl -->
-	<td colspan="2" valign="top" align="left">
-	{intl-your_quote}
-	<table class="list" width="100%" cellspacing="0" cellpadding="0" border="1">
-	<tr>
-		<td>
-		{intl-expire_date}
-		</td>
-		<td>
-		{intl-type}
-		</td>
-		<td>
-		{intl-quantity}
-		</td>
-		<td>
-		{intl-price}
-		</td>
-	</tr>
-	<!-- BEGIN your_quote_item_content_tpl -->
-	<tr>
-		<td>
-		{quote_expire_date}
-		</td>
-		<td>
-		<!-- BEGIN your_quote_all_type_tpl -->
-		{intl-all_type}
-		<!-- END your_quote_all_type_tpl -->
-		<!-- BEGIN your_quote_any_type_tpl -->
-		{intl-any_type}
-		<!-- END your_quote_any_type_tpl -->
-		</td>
-		<td>
-		{quote_quantity}
-		</td>
-		<td>
-		{quote_price}
-		</td>
-	</tr>
-	<!-- END your_quote_item_content_tpl -->
-	</table>
-	</td>
-<!-- END your_quote_item_tpl -->
-<!-- BEGIN no_quote_item_tpl -->
-	<td colspan="2">
-	&nbsp;
-	</td>
-<!-- END no_quote_item_tpl -->
-
-
-<!-- BEGIN your_offer_item_tpl -->
-	<td colspan="2" valign="top" align="left">
-	{intl-your_offer}
-	<table class="list" width="100%" cellspacing="0" cellpadding="0" border="1">
-	<tr>
-		<td>
-		{intl-price}
-		</td>
-		<td>
-		{intl-quantity}
-		</td>
-		<td>
-		{intl-type}
-		</td>
-		<td>
-		{intl-expire_date}
-		</td>
-	</tr>
-	<!-- BEGIN your_offer_item_content_tpl -->
-	<tr>
-		<td>
-		{offer_price}
-		</td>
-		<td>
-		{offer_quantity}
-		</td>
-		<td>
-		<!-- BEGIN your_offer_all_type_tpl -->
-		{intl-all_type}
-		<!-- END your_offer_all_type_tpl -->
-		<!-- BEGIN your_offer_any_type_tpl -->
-		{intl-any_type}
-		<!-- END your_offer_any_type_tpl -->
-		</td>
-		<td>
-		{offer_expire_date}
-		</td>
-	</tr>
-	<!-- END your_offer_item_content_tpl -->
-	</table>
-	</td>
-<!-- END your_offer_item_tpl -->
-<!-- BEGIN no_offer_item_tpl -->
-	<td colspan="2">
-	&nbsp;
-	</td>
-<!-- END no_offer_item_tpl -->
-</tr>
-
-
-<tr>
-	<td colspan="2" align="left">
+	<td colspan="1" align="left" width="50%">
 <!-- BEGIN do_quote_item_tpl -->
-	<a href="/{module}/product/quote/{product_id}">{intl-quote}</a>
+	<!-- BEGIN do_edit_quote_item_tpl -->
+	<a href="/{module}/product/quote/{product_id}/{category_id}">{intl-quote}</a>
+	<!-- END do_edit_quote_item_tpl -->
+	<!-- BEGIN do_new_quote_item_tpl -->
+	<a href="/{module}/product/quote/{product_id}/{category_id}">{intl-quote_new}</a>
+	<!-- END do_new_quote_item_tpl -->
 <!-- END do_quote_item_tpl -->
 <!-- BEGIN no_do_quote_item_tpl -->
 	&nbsp;
 <!-- END no_do_quote_item_tpl -->
 	</td>
 
-
-	<td colspan="2" align="right">
+	<td colspan="1" align="right" width="50%">
 <!-- BEGIN do_offer_item_tpl -->
-	<a href="/{module}/product/offer/{product_id}">{intl-offer}</a>
+	<!-- BEGIN do_edit_offer_item_tpl -->
+	<a href="/{module}/product/offer/{product_id}/{category_id}">{intl-offer}</a>
+	<!-- END do_edit_offer_item_tpl -->
+	<!-- BEGIN do_new_offer_item_tpl -->
+	<a href="/{module}/product/offer/{product_id}/{category_id}">{intl-offer_new}</a>
+	<!-- END do_new_offer_item_tpl -->
 <!-- END do_offer_item_tpl -->
 <!-- BEGIN no_do_offer_item_tpl -->
 	&nbsp;
