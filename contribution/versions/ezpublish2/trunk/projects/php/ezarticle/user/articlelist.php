@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.78 2001/10/16 11:17:10 bf Exp $
+// $Id: articlelist.php,v 1.79 2001/10/16 14:17:16 bf Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -330,16 +330,17 @@ foreach ( $articleList as $article )
 {
     $categoryDef =& $article->categoryDefinition();
 
+    $t->set_var( "category_id", $CategoryID );
+
     if ( $ForceCategoryDefinition == "enabled" )
     {
-        $CategoryID = $categoryDef->id();
+        $t->set_var( "category_id", $categoryDef->id() );
     }
     else if ( $CategoryID == 0 )
     {
-        $CategoryID = $categoryDef->id();
+        $t->set_var( "category_id", $categoryDef->id() );
     }
         
-    $t->set_var( "category_id", $CategoryID );
 
     $t->set_var( "category_def_name", $categoryDef->name() );
     $t->set_var( "category_def_id", $categoryDef->id() );
