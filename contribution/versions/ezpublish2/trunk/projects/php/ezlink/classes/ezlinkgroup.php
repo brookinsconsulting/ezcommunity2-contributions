@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.37 2000/10/31 09:30:28 bf-cvs Exp $
+// $Id: ezlinkgroup.php,v 1.38 2000/11/01 11:04:50 ce-cvs Exp $
 //
 // Definition of eZLinkGroup class
 //
@@ -47,6 +47,7 @@
 
 /*!TODO
   Rename title to name (also in the database).
+  More effective caching.
 */
 
 
@@ -80,7 +81,7 @@ class eZLinkGroup
     }
 
     /*!
-      Lager linkgruppe i databasen
+      Saves a group to the database.
     */
     function store()
     {
@@ -92,7 +93,7 @@ class eZLinkGroup
     }
 
     /*!
-      Oppgraderer databasen
+      Update the database.
     */
     function update()
     {
@@ -104,7 +105,7 @@ class eZLinkGroup
     }
 
     /*!
-      Slette fra databasen
+      Delete from database.
     */
     function delete( )
     {
@@ -114,7 +115,7 @@ class eZLinkGroup
     }
 
     /*!
-      Henter ut alle gruppene fra databasen.
+      Fetch out a group from the database.
     */
     function get( $id )
     {
@@ -133,7 +134,7 @@ class eZLinkGroup
     }
 
     /*!
-      Rekursiv funksjon, skriver ut hele pathen til gruppen.
+      Print out the group path.
     */
     function path( $groupID=0 )
     {
@@ -169,7 +170,7 @@ class eZLinkGroup
 
 
     /*!
-      Henter ut parent
+      Fetch out parent.
     */
     function &getByParent( $id )
     {
@@ -190,7 +191,7 @@ class eZLinkGroup
     }
 
     /*!
-      Returnerer antall linker i alle underkategoriene.
+      Returns the count for subgroup in a group.
      */
     function getTotalSubLinks( $id, $start_id )
     {
@@ -216,8 +217,8 @@ class eZLinkGroup
     }
 
     /*!
-      Returnerer antall nye linker i alle underkategoriene.
-      Alle linker som er nyere enn $new_limit antall dager blir regnet som nye.
+      Returns the count for new links under the group.
+      All the links that newer than $new_limit is marked as new.
      */
     function getNewSubLinks( $id, $start_id, $new_limit )
     {
@@ -243,7 +244,7 @@ class eZLinkGroup
     }
 
     /*!
-      Returnerer antall i incoming.
+      Return the count of links in incoming.
      */
     function getTotalIncomingLinks()
     {
@@ -256,7 +257,7 @@ class eZLinkGroup
     }
     
     /*!
-      Henter ut _alt_
+      Fetch everything.
     */
     function getAll()
     {
@@ -276,7 +277,7 @@ class eZLinkGroup
     }
 
     /*!
-      Returns the id of the linkgroup.
+      Return the id of the group.
     */
     function id()
     {
@@ -287,7 +288,7 @@ class eZLinkGroup
     }
 
     /*!
-      Setter navn.
+      Sets the name of a group.
     */
     function setTitle( $value )
     {
@@ -298,7 +299,7 @@ class eZLinkGroup
     }
 
     /*!
-      Setter parent.
+      Sets the parentID of a group.
     */
     function setParent( $value )
     {
@@ -309,7 +310,7 @@ class eZLinkGroup
     }
 
     /*!
-      returnerer navn.
+      Return the name of the link.
     */
 
     function Title()
@@ -321,7 +322,7 @@ class eZLinkGroup
     }
 
     /*!
-      returnerer parent.
+      Return the parent id of the group.
     */
     function parent()
     {
@@ -333,7 +334,7 @@ class eZLinkGroup
     }
     
 	/*!
-      Initiering av database
+      Initializing the database.
     */
     function dbInit()
     {
@@ -352,7 +353,7 @@ class eZLinkGroup
     var $IsConnected;
 
     /// database connection indicator
-    var $IsConnected;
+    var $Database;
 
     /// internal object state
     var $State_;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.34 2000/10/26 13:23:26 ce-cvs Exp $
+// $Id: ezlink.php,v 1.35 2000/11/01 11:04:50 ce-cvs Exp $
 //
 // Definition of eZLink class
 //
@@ -65,7 +65,7 @@ class eZLink
     /*!
       Constructor
     */
-    function eZLink( $id=-0, $fetch=true  )
+    function eZLink( $id=-1, $fetch=true  )
     {
 
         $this->IsConnected = false;
@@ -326,6 +326,9 @@ class eZLink
     */
     function setTitle( $value )
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
         $this->Title = $value;
     }
 
@@ -334,6 +337,9 @@ class eZLink
     */
     function setDescription( $value )
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
         $this->Description = $value;
     }
 
@@ -342,6 +348,9 @@ class eZLink
     */
     function setLinkGroupID( $value )
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
         $this->LinkGroupID = ( $value );
     }
 
@@ -350,6 +359,9 @@ class eZLink
     */    
     function setKeyWords( $value )
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
         $this->KeyWords = ( $value );
     }
 
@@ -358,6 +370,9 @@ class eZLink
     */
     function setModified( $value )
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
         $this->Modified = ( $value );
     }
 
@@ -366,6 +381,9 @@ class eZLink
     */
     function setAccepted( $value )
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
         $this->Accepted = ( $value );
     }
 
@@ -374,6 +392,9 @@ class eZLink
     */
     function setUrl( $value )
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
         $this->Url = ( $value );
     }
 
@@ -382,6 +403,9 @@ class eZLink
     */
     function title()
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
         return $this->Title;
     }
 
@@ -391,6 +415,9 @@ class eZLink
     */
     function description()
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
         return $this->Description;
     }
 
@@ -399,6 +426,9 @@ class eZLink
     */
     function linkGroupID()
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
         return $this->LinkGroupID;
     }
 
@@ -407,6 +437,9 @@ class eZLink
     */
     function keyWords()
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
         return $this->KeyWords;
     }
 
@@ -415,6 +448,9 @@ class eZLink
     */
     function created()
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
         return $this->Created;
     }
 
@@ -423,6 +459,9 @@ class eZLink
     */
     function modified()
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
         return $this->Modified;
     }
 
@@ -431,6 +470,9 @@ class eZLink
     */
     function accepted()
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
         return $this->Accepted;
     }
 
@@ -439,6 +481,9 @@ class eZLink
     */
     function url()
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
         return $this->Url;
     }
 
@@ -447,6 +492,9 @@ class eZLink
     */
     function id()
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
         return $this->ID;
     }
 
@@ -478,5 +526,11 @@ class eZLink
 
     /// Is true if the object has database connection, false if not.
     var $IsConnected;
+
+    /// database connection indicator
+    var $Database;
+
+    /// internal object state
+    var $State_;
 }
 ?>

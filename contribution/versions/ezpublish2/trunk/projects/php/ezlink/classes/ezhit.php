@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezhit.php,v 1.18 2000/10/26 13:23:26 ce-cvs Exp $
+// $Id: ezhit.php,v 1.19 2000/11/01 11:04:50 ce-cvs Exp $
 //
 // Definition of eZHit class
 //
@@ -40,13 +40,30 @@ class eZHit
     /*!
       Constructor
     */
-    function eZHit()
+    function eZHit( $id=-1, $fetch=true )
     {
-        
+        $this->IsConnected = false;
+        if ( $id != -1 )
+        {
+            $this->ID = $id;
+            if ( $fetch == true )
+            {
+                
+                $this->get( $this->ID );
+            }
+            else
+            {
+                $this->State_ = "Dirty";
+            }
+        }
+        else
+        {
+            $this->State_ = "New";
+        }
     }
 
     /*!
-      Lagrer i databasen
+      Store to the database.
     */
     function store()
     {
@@ -58,7 +75,7 @@ class eZHit
     }
 
     /*!
-      Oppgraderer databasen
+      Update to the database
     */
     function update()
     {
@@ -70,7 +87,7 @@ class eZHit
     }
 
     /*!
-      Sletter fra databasen
+      Delete from the database.
     */
     function delete()
     {
@@ -79,7 +96,7 @@ class eZHit
     }
 
     /*!
-      Henter ut antall hits på en bestemt link.
+      Get out the count for one link.
      */
 
     function getLinkHits( $id )
@@ -91,7 +108,7 @@ class eZHit
     }
     
     /*!
-      Henter ut antall hits på en bestemt link.
+      Get out the count for one link.
      */
     function get( $id )
     {
@@ -101,7 +118,7 @@ class eZHit
     }
 
     /*!
-      Setter link id'en
+      Set the linkid.
     */
     function setLink( $value )
     {
@@ -109,15 +126,27 @@ class eZHit
     }
 
     /*!
-      Setter ip'en til brukeren.
+      Set the remote ip.
     */
     function setRemoteIP( $value )
     {
         $this->RemoteIP = ( $value );
     }
+
+    /*!
+      Return the id of the hit.
+    */
+    function id()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return $this->ID;
+    }
+
     
     /*!
-      Returnerer description
+      Return linkid.
     */
     function link()
     {
@@ -125,7 +154,7 @@ class eZHit
     }
 
     /*!
-      Returnerer description
+      Return the time.
     */
     function time()
     {
@@ -133,7 +162,7 @@ class eZHit
     }
 
     /*!
-      Returnerer ip'en til brukeren.
+      Return the ip to the link hit.
     */
     function remoteIP( )
     {
@@ -141,7 +170,7 @@ class eZHit
     }
     
     /*!
-      Initierer database koplingen.
+      Initializing the database.4
     */
     function dbInit()
     {
@@ -151,8 +180,7 @@ class eZHit
             $this->IsConnected = true;
         }
     }
-
-        
+      
     var $ID;
     var $Link;
     var $Time;
@@ -160,6 +188,12 @@ class eZHit
 
     /// Is true if the object has database connection, false if not.
     var $IsConnected;
+
+    /// database connection indicator
+    var $Database;
+
+    /// internal object state
+    var $State_;
 }
 
 ?>

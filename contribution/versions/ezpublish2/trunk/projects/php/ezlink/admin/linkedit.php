@@ -1,5 +1,5 @@
 <?
-// $Id: linkedit.php,v 1.32 2000/11/01 11:00:41 bf-cvs Exp $
+// $Id: linkedit.php,v 1.33 2000/11/01 11:04:50 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -41,15 +41,34 @@ include( "ezlink/classes/ezhit.php" );
 
 require( "ezuser/admin/admincheck.php" );
 
+if ( $GetSite )
+{
+    if ( $Url )
+    {
+        $metaList =  get_meta_tags ( "http://" . $Url );
+
+        if( count( $metaList ) == 0 )
+        {
+            $inierror = new INIFile( "ezlink/user/" . "/intl/" . $Language . "/suggestlink.php.ini", false );
+            $terror_msg = $inierror->read_var( "strings", "nometa" );
+        }
+
+        $tdescription = $metaList["description"];
+        $tkeywords = $metaList["keywords"];
+        $ttitle = $Title;
+        $turl = $Url;
+
+    }
+    $Action = "";
+}
+
 // Update a link.
 if ( $Action == "update" )
 {
     if ( eZPermission::checkPermission( $user, "eZLink", "LinkModify" ) )
     {
         if ( $Title != "" &&
-        $Description != "" &&
         $LinkGroupID != "" &&
-        $Keywords != "" &&
         $Accepted != "" &&
         $Url != "" )
         {
@@ -112,9 +131,7 @@ if ( $Action == "insert" )
     if ( eZPermission::checkPermission( $user, "eZLink", "LinkAdd") )
     {
         if ( $Title != "" &&
-        $Description != "" &&
         $LinkGroupID != "" &&
-        $Keywords != "" &&
         $Accepted != "" &&
         $Url != "" )
         {
@@ -127,10 +144,13 @@ if ( $Action == "insert" )
             $link->setAccepted( $Accepted );
             $link->setUrl( $Url );
 
-            $ttile = "";
-            $turl = "";
-            $tkeywords = "";
-            $tdescription = "";
+            $ttitle = $Title;
+            $turl = $Url;
+            if ( !$GetSite )
+            {
+                $tkeywords = $Keywords;
+                $tdescription = $Description;
+            }
     
             $message = "Legg til ny link";
             $submit = "Legg til";
