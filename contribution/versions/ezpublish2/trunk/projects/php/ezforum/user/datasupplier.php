@@ -106,48 +106,6 @@ switch ( $url_array[2] )
     }
     break;
 
-    case "2messagesimpleedit":
-    {
-        if ( $url_array[3] == "new" )
-        {
-            $Action = "new";
-            $ForumID = $url_array[4];
-            include( "ezforum/user/messagesimpleedit.php" );
-        }
-
-        if ( $url_array[3] == "insert" )
-        {
-            $Action = $url_array[3];
-            $ForumID = $url_array[4];
-            include( "ezforum/user/messagesimpleedit.php" );
-        }
-    }
-    break;
-
-
-    case "2messagesimplereply";
-    {
-        if ( $url_array[3] == "new" )
-        {
-            $Action = "new";
-            $ForumID = $url_array[4];
-            $MessageID = $url_array[5];            
-            include( "ezforum/user/messagesimplereply.php" );
-        }
-
-        if ( $url_array[3] == "insert" )
-        {
-            $Action = $url_array[3];
-            
-            $ForumID = $url_array[4];
-            $MessageID = $url_array[5];
-            
-            include( "ezforum/user/messagesimplereply.php" );
-        }
-    }
-    break;
-
-    
     case "message":
     {
         $MessageID = $url_array[3];
@@ -159,16 +117,6 @@ switch ( $url_array[2] )
     {
         include( "ezforum/user/search.php" );
     }
-        break;
-        
-
-
-    case "2newpost" :
-    {
-        $ForumID = $url_array[3];
-        
-        include( "ezforum/newmessage.php" );                
-    }    
     break;
 
     default :
