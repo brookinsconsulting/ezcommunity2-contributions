@@ -1,27 +1,24 @@
 
     </td>
-    <td width="1%" bgcolor="#ffffff">
+   	<td width="1%" bgcolor="#ffffff"><img src="/images/1x1.gif" width="2" height="1" border="0" alt="0" /></td>
 
-    <img src="/images/1x1.gif" width="130" height="1" border="0"><br />
-	
-	<!-- Oppslagstavle kommer her! -->
+	<td width="1%" bgcolor="#f0f0f0">
+
+   	<!-- Oppslagstavle kommer her! -->
     
     <?
           include( "ezuser/user/userbox.php" );
-?>
+	?>
 
     <?
           include( "ezpoll/user/votebox.php" );
     ?>
         
-	<hr noshade="noshade" size="4" />
-
-	
-	<p class="smallbold" align="center"><a href="http://publish.ez.no"><img src="/images/poweredbyezpublish.gif" width="70" height="70" align="center" border="0"></a></p>
-
-	
 	<!-- Oppslagstavle fram til hit! -->
 
+
+	<hr noshade="noshade" size="4" />
+	
     <?
     $session =& eZSession::globalSession();
 
@@ -42,9 +39,12 @@ if ( $Design == 2 )
 
     ?>
     <a href="<? print( $REQUEST_URI . "?Design=2"); ?>"> here</a>
-
+	 <img src="/images/1x1.gif" width="130" height="1" border="0"><br />
+	 
 	</td>
   </tr>
 </table>
+<div class="credit" align="center" valign="bottom"><br />Powered by <a class="credit" href="http://publish.ez.no">eZ publish</a> made by <img src="/images/logo-mini.gif" width="16" height="16" border="0" alt="0" align="absmiddle" /> <a class="credit" href="http://publish.ez.no">eZ systems</a></div>
+
 </body>
 </html>

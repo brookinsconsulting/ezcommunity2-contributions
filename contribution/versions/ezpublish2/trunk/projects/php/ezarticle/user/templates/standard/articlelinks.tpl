@@ -3,10 +3,8 @@
 
 <!-- BEGIN article_item_tpl -->
 <tr>
-	<td>
-	<img src="/images/dot.gif" width="12" height="10">
-	<a class="menu" href="/article/articlestatic/{article_id}/">{article_name}</a>
-	</td>
+	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
+	<td width="99%"><a class="menu" href="/article/articlestatic/{article_id}/">{article_name}</a></td>
 </tr>
 <!-- END article_item_tpl -->
 

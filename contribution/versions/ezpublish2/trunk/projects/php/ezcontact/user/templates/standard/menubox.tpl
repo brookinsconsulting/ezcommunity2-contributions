@@ -1,27 +1,20 @@
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
-	<td class="menuhead" bgcolor="#c82828">{intl-contact_headline}</td>
+	<td colspan="2" class="menuhead">{intl-contact_headline}</td>
 </tr>
-
 <tr>
-	<td>
-	<a class="menu" href="/contact/company/list">
-	<img src="/images/dot.gif" width="12" heigth="10" border="0">{intl-company_list}
-	</a>
-	</td>
+	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
+	<td width="99%"><a class="menu" href="/contact/company/list">{intl-company_list}</a></td>
 </tr>
-
 <tr>
-	<td>
-	<a class="menu" href="/contact/person/list">
-	<img src="/images/dot.gif" width="12" heigth="10" border="0">{intl-person_list}
-	</a>
-	</td>
+	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
+	<td width="99%"><a class="menu" href="/contact/person/list">{intl-person_list}</a></td>
 </tr>
-
 <tr>
-	<td>
-	<a class="menu" href="/contact/consultation/list">
-	<img src="/images/dot.gif" width="12" heigth="10" border="0">{intl-consultation_list}
-	</a>
-	</td>
+	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
+	<td width="99%"><a class="menu" href="/contact/consultation/list">{intl-consultation_list}</a></td>
 </tr>
+<tr>
+	<td class="menuspacer">&nbsp;</td>
+</tr>
+</table>

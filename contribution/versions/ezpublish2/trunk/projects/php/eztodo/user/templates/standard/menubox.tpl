@@ -1,20 +1,16 @@
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
-	<td class="menuhead" bgcolor="#c82828">{intl-todo}</td>
+	<td colspan="2" class="menuhead">{intl-todo}</td>
 </tr>
-
 <tr>
-	<td width="100%">
-	<a href="/todo/" class="menu">
-        <img src="/images/dot.gif" width="12" height="10" border="0">{intl-todolist}
-	</a>
-	</td>
+	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
+	<td width="99%"><a class="menu" href="/todo/">{intl-todolist}</a></td>
 </tr>
-
 <tr>
-	<td width="100%">
-	<a href="/todo/todoedit/new/" class="menu">
-        <img src="/images/dot.gif" width="12" height="10" border="0">{intl-new_todo}
-	</a>
-	</td>
+	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
+	<td width="99%"><a class="menu" href="/todo/todoedit/new/">{intl-new_todo}</a></td>
 </tr>
-
+<tr>
+	<td class="menuspacer">&nbsp;</td>
+</tr>
+</table>

@@ -13,18 +13,17 @@
 </table>
 
 
-
 <p>
 {current_category_description}
 </p>
 
 <hr noshade="noshade" size="4" />
 
-<img src="/ezarticle/user/images/standard/path-arrow.gif" height="10" width="15" border="0" alt="">
+<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="">
 <a class="path" href="/article/archive/0/">{intl-top_level}</a>
 
 <!-- BEGIN path_item_tpl -->
-<img src="/ezarticle/user/images/standard/path-slash.gif" height="10" width="20" border="0" alt="">
+<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="">
 <a class="path" href="/article/archive/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
 
@@ -66,15 +65,14 @@
 	<a href="/article/articleview/{article_id}/">
 	<h2>{article_name}</h2>
 	</a>
-	{article_published}
+	<span class="small">{article_published}</span>
 
 	<!-- BEGIN article_image_tpl -->
 	    <table align="right">
 	        <tr>
 			<td>
-			<a href="/article/articleview/{article_id}/">
-                        <img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" /></a>
-                        </td>
+			<a href="/article/articleview/{article_id}/"><img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" /></a>
+            </td>
                 </tr>
                 <tr>
                          <td class="pictext">
@@ -88,10 +86,8 @@
 	<p>
 	{article_intro}
 	</p>
-	<img src="/ezarticle/user/images/standard/path-arrow.gif" height="10" width="15" border="0" alt="">
-	<a class="path" href="/article/articleview/{article_id}/">
-	{article_link_text}
-	</a>
+	<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+	<a class="path" href="/article/articleview/{article_id}/">{article_link_text}</a>
 	<br />
 	<br />
 	<br />
@@ -108,16 +104,16 @@
 	<td>
 
 <!-- BEGIN previous_tpl -->
-<a href="/article/archive/{category_id}/{prev_offset}/">
-{intl-prev}
+<a class="path" href="/article/archive/{category_id}/{prev_offset}/">
+&lt;&lt; {intl-prev}
 </a>
 <!-- END previous_tpl -->
      </td>
      <td align="right">
 
 <!-- BEGIN next_tpl -->
-<a href="/article/archive/{category_id}/{next_offset}/">
-{intl-next}
+<a class="path" href="/article/archive/{category_id}/{next_offset}/">
+{intl-next} &gt;&gt;
 </a>
 <!-- END next_tpl -->
      </td>

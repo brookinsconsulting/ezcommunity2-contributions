@@ -1,28 +1,20 @@
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
-	<td class="menuhead" bgcolor="#c82828">{intl-image_catalogue}</td>
+	<td colspan="2" class="menuhead">{intl-image_catalogue}</td>
 </tr>
-
 <tr>
-	<td width="100%">
-	<a href="/imagecatalogue/image/list/" class="menu">
-        <img src="/images/dot.gif" width="12" height="10" border="0">{intl-image_list}
-	</a>
-	</td>
+	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
+	<td width="99%"><a class="menu" href="/imagecatalogue/image/list/">{intl-image_list}</a></td>
 </tr>
-
 <tr>
-	<td width="100%">
-	<a href="/imagecatalogue/category/new/" class="menu">
-        <img src="/images/dot.gif" width="12" height="10" border="0">{intl-new_folder}
-	</a>
-	</td>
+	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
+	<td width="99%"><a class="menu" href="/imagecatalogue/category/new/">{intl-new_folder}</a></td>
 </tr>
-
 <tr>
-	<td width="100%">
-	<a href="/imagecatalogue/image/new/" class="menu">
-        <img src="/images/dot.gif" width="12" height="10" border="0">{intl-new_image}
-	</a>
-	</td>
+	<td width="1%" valign="top"><img src="/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
+	<td width="99%"><a class="menu" href="/imagecatalogue/image/new/">{intl-new_image}</a></td>
 </tr>
-
+<tr>
+	<td class="menuspacer">&nbsp;</td>
+</tr>
+</table>
