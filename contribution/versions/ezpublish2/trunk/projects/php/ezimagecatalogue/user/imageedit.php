@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.16 2001/03/05 10:08:32 ce Exp $
+// $Id: imageedit.php,v 1.17 2001/03/06 16:46:08 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -154,10 +154,19 @@ if ( $Action == "Insert" || $Action == "Update" )
     if ( $fileCheck )
     {
         $file = new eZImageFile();
-        
         if ( $file->getUploadedFile( "userfile" ) )
         {
-            $fileOK = true;
+            $imageTest = new eZImage();
+            $imageTest->setName( "testimage" );
+            if( $imageTest->checkImage( $file ) and $imageTest->setImage( $file ) )
+            {
+                $fileOK = true;
+            }
+            else
+            {
+                $error = true;
+                $t->parse( "error_file_upload", "error_file_upload_tpl" );
+            }
         }
         else
         {
