@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.8 2001/10/09 09:04:27 ce Exp $
+// $Id: ezformelement.php,v 1.9 2001/10/16 13:41:01 ce Exp $
 //
 // ezformelement class
 //
@@ -70,6 +70,7 @@ class eZFormElement
         $db->begin();
         
         $name =& $db->escapeString( $this->Name );
+        $size =& $db->escapeString( $this->Size );
         $required =& $this->Required;
         
         if( get_class( $this->ElementType ) == "ezformelementtype" )
@@ -82,17 +83,21 @@ class eZFormElement
             $db->lock( "eZForm_FormElement" );
             $nextID = $db->nextID( "eZForm_FormElement", "ID" );
             $res[] = $db->query( "INSERT INTO eZForm_FormElement
-                         ( ID, Name, Required, ElementTypeID )
+                         ( ID, Name, Required, Size, Break, ElementTypeID )
                          VALUES
-                         ( '$nextID', '$name', '$required', '$elementTypeID' )" );
+                         ( '$nextID', '$name', '$required', '$size', '$this->Break', '$elementTypeID' )" );
 
 			$this->ID = $nextID;
-}
+
+
+        }
         elseif ( is_numeric( $this->ID ) )
         {    
             $res[] = $db->query( "UPDATE eZForm_FormElement SET
                                     Name='$name',
                                     Required='$required',
+                                    Size='$size',
+                                    Break='$this->Break',
                                     ElementTypeID='$elementTypeID'
                                   WHERE ID='$this->ID'" );
         }
@@ -153,10 +158,10 @@ class eZFormElement
         $db =& eZDB::globalDatabase();
 
         $this->ID =& $formArray[$db->fieldName( "ID" )];
-        
-        
         $this->Name =& $formArray[$db->fieldName( "Name" )];
         $this->Required =& $formArray[$db->fieldName( "Required" )];
+        $this->Size =& $formArray[$db->fieldName( "Size" )];
+        $this->Break =& $formArray[$db->fieldName( "Break" )];
         $this->ElementType =& new eZFormElementType( $formArray[$db->fieldName( "ElementTypeID" )] );
     }
 
@@ -227,11 +232,36 @@ class eZFormElement
     }
 
     /*!
+      Returns the size of the object.
+    */
+    function size()
+    {
+        return htmlspecialchars( $this->Size );
+    }
+
+    /*!
       Returns true if this element is required
     */
     function isRequired()
     {
         if( $this->Required == 0 )
+        {
+            $ret = false;
+        }
+        else
+        {
+            $ret = true;
+        }
+        
+        return $ret;
+    }
+
+    /*!
+      Returns true if this element is breaking
+    */
+    function isBreaking()
+    {
+        if( $this->Break == 0 )
         {
             $ret = false;
         }
@@ -260,6 +290,14 @@ class eZFormElement
     }
 
     /*!
+      Sets the size of the object.
+    */
+    function setSize( $value )
+    {
+       $this->Size = $value;
+    }
+
+    /*!
       Sets the required status.
     */
     function setRequired( $value = true )
@@ -273,6 +311,22 @@ class eZFormElement
             $value = 0;
         }
         $this->Required = $value;
+    }
+
+    /*!
+      Sets the break status.
+    */
+    function setBreak( $value = true )
+    {
+        if( $value == true )
+        {
+            $value = 1;
+        }
+        else
+        {
+            $value = 0;
+        }
+        $this->Break = $value;
     }
 
     /*!
@@ -381,7 +435,10 @@ class eZFormElement
     var $Name;
     var $Required;
     var $ElementType;
+    var $Break;
+    var $Size;
 }
+
 
 ?>
                   

@@ -1,5 +1,5 @@
 <!-- BEGIN text_field_item_tpl -->
-<input type="text" class="box" size="40" name="{field_name}" value="{field_value}" />
+<input type="text" size="{element_size}" name="{field_name}" value="{field_value}" />
 <!-- END text_field_item_tpl -->
 
 <!-- BEGIN text_area_item_tpl -->
@@ -64,11 +64,14 @@
 <!-- END form_sender_tpl -->
 
 <!-- BEGIN form_item_tpl -->
-    <p class="boxtext">{element_name}:</p>
-    {element}
+<span class="boxtext">
+{element_name}:
+</span>
+{element}
+<!-- BEGIN break_tpl -->
 	<br /><br />
+<!-- END break_tpl -->
 <!-- END form_item_tpl -->
-
 <!-- BEGIN form_buttons_tpl -->
 <hr noshade="noshade" size="4" />
 

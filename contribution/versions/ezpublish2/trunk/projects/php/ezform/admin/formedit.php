@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formedit.php,v 1.7 2001/10/09 10:49:20 ce Exp $
+// $Id: formedit.php,v 1.8 2001/10/16 13:41:00 ce Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -182,9 +182,11 @@ if( isset( $OK ) || isset( $Update ) || isset( $Preview ) || isset( $NewElement 
             }
 
             $element->setName( $elementName[$i] );
+            $element->setSize( $Size[$i] );
+
 
             $required = false;
-
+            $break = false;
             if( count( $elementRequired ) > 0 )
             {
                 foreach( $elementRequired as $requiredID )
@@ -196,6 +198,19 @@ if( isset( $OK ) || isset( $Update ) || isset( $Preview ) || isset( $NewElement 
                     }
                 }
             }
+            if( count( $ElementBreak ) > 0 )
+            {
+                foreach( $ElementBreak as $breakID )
+                {
+                    if( $elementID[$i] == $breakID )
+                    {
+                        $element->setBreak( true );
+                        $break = true;
+                    }
+                }
+            }
+
+            $element->setBreak( $break );
             $element->setRequired( $required );
 
             $element->store();
@@ -233,6 +248,8 @@ $t->set_block( "form_edit_page_tpl", "element_list_tpl", "element_list" );
 $t->set_block( "element_list_tpl", "element_item_tpl", "element_item" );
 $t->set_block( "element_item_tpl", "typelist_item_tpl", "typelist_item" );
 $t->set_block( "element_item_tpl", "fixed_values_tpl", "fixed_values" );
+$t->set_block( "element_item_tpl", "size_tpl", "size" );
+$t->set_block( "element_item_tpl", "break_tpl", "break" );
 
 $move_item = true;
 $t->set_block( "element_item_tpl", "item_move_up_tpl", "item_move_up" );
@@ -347,6 +364,8 @@ if( $count > 0 )
         $t->set_var( "element_name", $element->name() );
         $t->set_var( "element_id", $element->id() );
 
+        $t->set_var( "element_size", $element->size() );
+        
         if( $element->isRequired() )
         {
             $t->set_var( "element_required", "checked" );
@@ -356,11 +375,23 @@ if( $count > 0 )
             $t->set_var( "element_required", "" );
         }
 
+        if( $element->isBreaking() )
+        {
+            $t->set_var( "element_is_breaking", "checked" );
+        }
+        else
+        {
+            $t->set_var( "element_is_breaking", "" );
+        }
+
         $currentType = $element->elementType();
         $types = $currentType->getAll();
 
         $t->set_var( "fixed_values", "" );
+        $t->set_var( "size", "" );
         $t->set_var( "typelist_item", "" );
+                    $t->set_var( "break", "" );
+
         foreach( $types as $type )
         {
             $t->set_var( "selected", "" );
@@ -379,6 +410,14 @@ if( $count > 0 )
                     $t->set_var( "fixed_values", "" );
                     
                 $t->set_var( "selected", "selected" );
+
+                if ( $name == "text_field_item" )
+                {
+                    $t->parse( "size", "size_tpl" );
+                    $t->parse( "break", "break_tpl" );
+                }
+                else
+                    $t->set_var( "break", "" );
             }
             
             $t->set_var( "element_type_id", $type->id() );

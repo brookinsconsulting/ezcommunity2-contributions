@@ -78,6 +78,8 @@
 	<th>&nbsp;</th>
 	<th>{intl-element_type}:</th>
 	<th>&nbsp;</th>
+	<th>{intl-size}</th>
+	<th>{intl-break}</th>
 	<th>{intl-element_required}:</th>
 	<th colspan="3">&nbsp;</th>
 
@@ -98,6 +100,17 @@
     <!-- END fixed_values_tpl -->
     </td>
 
+    <td class="{td_class}">&nbsp;
+    <!-- BEGIN size_tpl -->
+    <input type="text" size="3" name="Size[]" value="{element_size}" />&nbsp;
+    <!-- END size_tpl -->
+    </td>
+
+    <td class="{td_class}">&nbsp;
+    <!-- BEGIN break_tpl -->
+    <input type="checkbox" {element_is_breaking} name="ElementBreak[]" value="{element_id}" />
+    <!-- END break_tpl -->
+    </td>
 
     <td width="1%" class="{td_class}" align="center">
         <input type="checkbox" {element_required} name="elementRequired[]" value="{element_id}" />

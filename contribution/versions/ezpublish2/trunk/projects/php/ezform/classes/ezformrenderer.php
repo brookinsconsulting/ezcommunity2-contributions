@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.15 2001/10/10 11:05:20 bf Exp $
+// $Id: ezformrenderer.php,v 1.16 2001/10/16 13:41:01 ce Exp $
 //
 // eZFormRenderer class
 //
@@ -85,6 +85,7 @@ class eZFormRenderer
 
         $this->Template->set_block( "form_renderer_page_tpl", "form_list_tpl", "form_list" );
         $this->Template->set_block( "form_list_tpl", "form_item_tpl", "form_item" );
+        $this->Template->set_block( "form_item_tpl", "break_tpl", "break" );
         $this->Template->set_block( "form_list_tpl", "form_start_tag_tpl", "form_start_tag" );
         $this->Template->set_block( "form_list_tpl", "form_end_tag_tpl", "form_end_tag" );
         $this->Template->set_block( "form_list_tpl", "form_buttons_tpl", "form_buttons" );
@@ -129,6 +130,24 @@ class eZFormRenderer
             
             $this->Template->set_var( "field_name", $elementName );
             $this->Template->set_var( "field_value", $elementValue );
+
+            if ( $element->size() == 0 )
+            {
+                $this->Template->set_var( "element_size", 40 );
+            }
+            else
+            {
+                $this->Template->set_var( "element_size", $element->size() );
+            }
+
+            if ( $element->isBreaking() )
+            {
+                $this->Template->set_var( "break", "<br>" );
+            }
+            else
+            {
+                $this->Template->set_var( "break", "" );
+            }
 
             $this->Template->set_var( $name . "_sub_item", "" );
                 
@@ -195,6 +214,14 @@ class eZFormRenderer
 
                 $this->Template->set_var( "element", $output );
                 $this->Template->set_var( "element_name", $element->name() );
+                if ( $element->isBreaking() )
+                {
+                    $this->Template->parse( "break", "break_tpl" );
+                }
+                else
+                {
+                    $this->Template->set_var( "break", "" );
+                }
                 $this->Template->parse( "form_item", "form_item_tpl", true );
             }
 
