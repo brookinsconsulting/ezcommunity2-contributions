@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfilterrule.php,v 1.1 2001/03/29 16:40:44 fh Exp $
+// $Id: ezmailfilterrule.php,v 1.2 2001/03/29 19:12:28 fh Exp $
 //
 // eZMailFilterRule class
 //
@@ -39,7 +39,21 @@
 include_once( "ezmail/classes/ezmailfolder.php" );
 include_once( "ezmail/classes/ezmail.php" );
 
+/* DEFINES */
+define( "FILTER_MESSAGE", 0 );
+define( "FILTER_BODY", 1 );
+define( "FILTER_ANY", 2 );
+define( "FILTER_TOCC", 3 );
+define( "FILTER_SUBJECT", 4 );
+define( "FILTER_FROM", 5 );
+define( "FILTER_TO", 6 );
+define( "FILTER_CC", 7 );
 
+define( "FILTER_EQUALS", 0 );
+define( "FILTER_NEQUALS", 1 );
+define( "FILTER_CONTAINS", 2 );
+define( "FILTER_NCONTAINS", 3 );
+define( "FILTER_REGEXP", 4 );
 
 class eZMailFilterRule
 {
@@ -327,13 +341,162 @@ class eZMailFilterRule
 
     /*!
       Applies the filter rule to a mail. Returns true if the filter was successfull.
+
+define( "FILTER_EQUALS", 0 );
+define( "FILTER_NEQUALS", 1 );
+define( "FILTER_CONTAINS", 2 );
+define( "FILTER_NCONTAINS", 3 );
+define( "FILTER_REGEXP", 4 );
+
      */
     function applyFilter( &$mail )
     {
-        
+        /** Get the array of elements to search in **/
+        $searchArray =& $this->buildSearchArray( $mail );
+        /** Loop through the elements and run the required tests. Exit at once when we find a match.
+            This is not good coding practice, but it's the best way to do it here **/
+        switch( $this->CheckType )
+        {
+            case FILTER_EQUALS :
+            {
+                foreach( $searchArray as $searchItem )
+                {
+                    if( $searchItem == $this->Match )
+                        ;
+                }
+            }
+            break;
+            case FILTER_NEQALS :
+            {
+                foreach( $searchArray as $searchItem )
+                {
+                    if( $searchItem == $this->Match )
+                        return false;
+                }
+                $this->doFilter( $mail );
+                return true;
+            }
+            break;
+            case FILTER_CONTAINS :
+            {
+                foreach( $searchArray as $searchItem )
+                {
+                    $pos = strpos( $searchItem, $this->Match );
+                    if( $pos !== false )
+                    {
+                        $this->doFilter( $mail );
+                        return true;
+                    }
+                }
+            }
+            break;
+            case FILTER_NCONTAINS :
+            {
+                foreach( $searchArray as $searchItem )
+                {
+                    $pos = strpos( $searchItem, $this->Match );
+                    if( $pos !== false )
+                        return false;
+                }
+                $this->doFilter( $mail );
+                return true;
+            }
+            break;
+            case FILTER_REGEXP :
+            {
+                foreach( $searchArray as $searchItem )
+                {
+                    if( ereg( $this->Match, $searchItem ) )
+                    {
+                        $this->doFilter( $mail );
+                        return true;
+                    }
+                }
+            }
+            break;
+        }
         return false;
     }
 
+    /*!
+      \private
+      
+      Builds an array of data that is to be checked by the apply filter function.
+      This function only uses referenced copying of data, to speed things up. (No actuall copy)
+    */
+    function &buildSearchArray( &$mail )
+    {
+        $searchArray = array();
+        switch( $this->HeaderType )
+        {
+            case FILTER_MESSAGE :
+            {
+                $searchArray[] =& $mail->body();
+                $searchArray[] =& $mail->to();
+                $searchArray[] =& $mail->cc();
+                $searchArray[] =& $mail->bcc();
+                $searchArray[] =& $mail->from();
+                $searchArray[] =& $mail->fromName();
+                $searchArray[] =& $mail->subject();
+            }
+            break;
+            case FILTER_BODY :
+            {
+                $searchArray[] =& $mail->body();
+            }
+            break;
+            case FILTER_ANY :
+            {
+                $searchArray[] =& $mail->to();
+                $searchArray[] =& $mail->cc();
+                $searchArray[] =& $mail->bcc();
+                $searchArray[] =& $mail->from();
+                $searchArray[] =& $mail->fromName();
+                $searchArray[] =& $mail->subject();
+            }
+            break;
+            case FILTER_TOCC :
+            {
+                $searchArray[] =& $mail->to();
+                $searchArray[] =& $mail->cc();
+            }
+            break;
+            case FILTER_SUBJECT :
+            {
+                $searchArray[] =& $mail->subject();
+            }
+            break;
+            case FILTER_FROM :
+            {
+                $searchArray[] =& $mail->from();
+                $searchArray[] =& $mail->fromName();
+            }
+            break;
+            case FILTER_TO :
+            {
+                $searchArray[] =& $mail->to();
+            }
+            break;
+            case FILTER_CC :
+            {
+                $searchArray[] =& $mail->cc();
+            }
+            break;
+        }
+
+    }
+
+    /*!
+      Moves the mail to the desired folder.
+     */
+    function doFilter( &$mail )
+    {
+        $folder = eZMailFolder( $this->FolderID );
+
+        if( get_class( $folder ) == "ezmailfolder" )
+            $folder->addMail( $mail );
+    }
+    
    /*!
       \private
       
