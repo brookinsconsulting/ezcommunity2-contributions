@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforumcategory.php,v 1.12 2000/09/08 13:10:05 bf-cvs Exp $
+    $Id: ezforumcategory.php,v 1.13 2000/09/14 18:19:40 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -35,11 +35,14 @@ class eZforumCategory
             
         $query_id = mysql_query("SELECT Name, Description, Private FROM ezforum_CategoryTable WHERE Id='$Id'")
              or die("eZforumCategory::get($id) failed, dying...");
-            
-        $this->Id = $Id;
-        $this->Name = mysql_result($query_id, 0, "Name" );
-        $this->Description = mysql_result($query_id, 0, "Description" );
-        $this->Private = mysql_result($query_id, 0, "Private" );
+
+        if ( mysql_num_rows( $query_id ) == 1 )
+        {
+            $this->Id = $Id;
+            $this->Name = mysql_result($query_id, 0, "Name" );
+            $this->Description = mysql_result($query_id, 0, "Description" );
+            $this->Private = mysql_result($query_id, 0, "Private" );
+        }
     }
         
     function getAllCategories()

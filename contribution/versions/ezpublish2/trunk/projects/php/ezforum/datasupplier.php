@@ -8,6 +8,17 @@ switch ( $url_array[2] )
     case "" :
         include( "ezforum/main.php" );
         break;
+    case "category" :
+        if ( $url_array[3] == "forum" )
+        {
+            include( "ezforum/forum.php" );
+        }
+        else
+        {
+            include( "ezforum/category.php" );            
+        }
+        
+        break;
     case "gotolink" :
         include( "ezlink/gotolink.php" );        
         break;
