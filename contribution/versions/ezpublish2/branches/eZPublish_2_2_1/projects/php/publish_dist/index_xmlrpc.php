@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index_xmlrpc.php,v 1.27 2001/10/01 14:16:59 jb Exp $
+// $Id: index_xmlrpc.php,v 1.27.6.1 2001/11/09 09:50:01 jb Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -22,6 +22,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
 
 // Tell PHP where it can find our files.
 if ( file_exists( "sitedir.ini" ) )
