@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoption.php,v 1.4 2000/09/13 11:19:49 bf-cvs Exp $
+// $Id: ezoption.php,v 1.5 2000/09/13 12:51:08 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -113,9 +113,10 @@ class eZOption
     {
         $this->dbInit();
         
-        if ( $id != "" )
+        if ( $id != -1  )
         {
             $this->Database->array_query( $option_array, "SELECT * FROM eZTrade_Option WHERE ID='$id'" );
+            
             if ( count( $option_array ) > 1 )
             {
                 die( "Error: Option's with the same ID was found in the database. This shouldent happen." );
@@ -125,8 +126,9 @@ class eZOption
                 $this->ID = $option_array[0][ "ID" ];
                 $this->Name = $option_array[0][ "Name" ];
                 $this->Description = $option_array[0][ "Description" ];
-            }                 
-            $this->State_ = "Coherent";
+                
+                $this->State_ = "Coherent";                
+            }
         }
         else
         {
@@ -172,7 +174,7 @@ class eZOption
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
+ 
         return $this->Name;
     }
 

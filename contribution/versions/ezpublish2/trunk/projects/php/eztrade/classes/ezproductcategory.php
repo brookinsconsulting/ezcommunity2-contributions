@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.4 2000/09/12 13:53:10 bf-cvs Exp $
+// $Id: ezproductcategory.php,v 1.5 2000/09/13 12:51:08 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -40,7 +40,15 @@
   {
     print( $catItem->name() . "<br>" . $catItem->description() . "..<br>" );
   }
-  
+
+  // Create a option
+  $option = new eZOption();
+
+  $option->setName( "Color" );
+  $option->setDescription( "This is the color of the product" );  
+
+  // Add a option to the category
+  $category->addOption( $option );
   \endcode
 
   \sa eZProdct eZOption eZOptionValue
@@ -89,7 +97,8 @@ class eZProductCategory
 
         $this->Database->query( "INSERT INTO eZTrade_Category SET
 		                         Name='$this->Name',
-                                 Description='$this->Description'" );
+                                 Description='$this->Description',
+                                 Parent='$this->Parent'" );
         
         return mysql_insert_id();
     }
@@ -113,6 +122,7 @@ class eZProductCategory
                 $this->ID = $category_array[0][ "ID" ];
                 $this->Name = $category_array[0][ "Name" ];
                 $this->Description = $category_array[0][ "Description" ];
+                $this->Parent = $category_array[0][ "Parent" ];
             }
                  
             $this->State_ = "Coherent";
@@ -144,6 +154,18 @@ class eZProductCategory
         
         return $return_array;
     }
+
+    /*!
+      Returns the object ID to the category. This is the unique ID stored in the database.
+    */
+    function id()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       return $this->ID;
+    }
+
     
     /*!
       Returns the name of the category.
@@ -208,11 +230,54 @@ class eZProductCategory
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        print( get_class( $value ) );
-        // implement        
+
+       if ( get_class( $value ) == "ezproductcategory" )
+       {
+           $this->Parent = $value->id();
+       }
     }     
-    
+
+    /*!
+      Adds a option to the category.
+    */
+    function addOption( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        if ( get_class( $value ) == "ezoption" )
+        {
+            $this->dbInit();
+
+            $optionID = $value->id();
+            $value->store();
+            
+            $this->Database->query( "INSERT INTO eZTrade_CategoryOptionLink SET CategoryID='$this->ID', OptionID='$optionID'" );
+        }
+    }
+
+    /*!
+      Returns every option to a category as a array of eZOption objects.
+    */
+    function options()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+       
+       $return_array = array();
+       $option_array = array();
+       
+       $this->Database->array_query( $option_array, "SELECT OptionID FROM eZTrade_CategoryOptionLink WHERE CategoryID='$this->ID'" );
+       
+       for ( $i=0; $i<count($option_array); $i++ )
+       {
+           $return_array[$i] = new eZOption( $option_array[$i]["OptionID"], false );
+       }
+       
+       return $return_array;
+    }
 
     /*!
       Private function.
