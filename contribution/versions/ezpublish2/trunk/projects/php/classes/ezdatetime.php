@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdatetime.php,v 1.4 2000/09/13 09:48:49 ce-cvs Exp $
+// $Id: ezdatetime.php,v 1.5 2000/09/13 09:57:41 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -17,7 +17,16 @@
 //!! eZCommon
 //! The eZDateTime class provides date and functions.
 /*!
+  Example:
+  \code
+  //Create a new eZDateTime object, and set the date and time from a MySQL date time.
+  $datetime = new eZDateTime();
+  $datetime->setMySQLDateTime( "2000-10-07 16:45:32" );
 
+  // print the date and time in localized format
+  print( "Date and time:" . $locale->format( $datetime ) . "<br>" );
+  \endcode  
+  \sa eZDate eZTime eZLocale
 */
 
 
@@ -29,7 +38,6 @@ class eZDateTime
     */
     function eZDateTime( $year=0, $month=0, $day=0, $hour=0, $minute=0, $second=0 )
     {
-
         if ( ( $year == 0 )  && ( $month == 0 ) && ( $day == 0 ) && ( $hour == 0 ) && ( $minute == 0 ) && ( $second == 0 ) )
         {
             $now = getdate();
@@ -42,9 +50,12 @@ class eZDateTime
         }
         else
         {        
-            $this->Year = $year;
-            $this->Month = $month;
-            $this->Day = $day;
+            $this->setYear( $year );
+            $this->setMonth( $month );
+            $this->setDay( $day );
+            $this->setHour( $hour );
+            $this->setMinute( $minute );
+            $this->setSecond( $second );
         }
     }
 

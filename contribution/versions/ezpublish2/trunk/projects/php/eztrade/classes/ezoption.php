@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoption.php,v 1.2 2000/09/13 09:45:25 bf-cvs Exp $
+// $Id: ezoption.php,v 1.3 2000/09/13 09:57:41 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -43,6 +43,7 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "classes/ezoptionvalue.php" );
 
 class eZOption
 {
@@ -178,6 +179,15 @@ class eZOption
         $this->Description = $value;
     }
 
+    /*!
+
+    */
+    function addValue( $value )
+    {
+        print( getType( $value ) );
+
+    }
+      
     
     /*!
       Private function.

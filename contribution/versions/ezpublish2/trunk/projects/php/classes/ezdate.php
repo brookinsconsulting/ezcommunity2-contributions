@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdate.php,v 1.3 2000/09/08 12:42:52 bf-cvs Exp $
+// $Id: ezdate.php,v 1.4 2000/09/13 09:57:41 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -17,7 +17,17 @@
 //!! eZCommon
 //! The eZDate class provides date functions.
 /*!
-  
+  Example:
+  \code
+  // Create new eZDate objects.
+  $date = new eZDate( 2000, 9, 2 );
+  $date2 = new eZDate( );
+  $date2->setMySQLDate( "2000-12-02" );
+
+  // print out the current date
+  print( $date->year() . " " . $date->month() . " " . $date->day() );
+  \endcode  
+  \sa eZDateTime eZTime eZLocale
 */
 
 class eZDate
@@ -30,10 +40,11 @@ class eZDate
     {
         if ( ( $year == 0 )  && ( $month == 0 ) && ( $day == 0 ) )
         {
-            $now = localTime();
-            $this->setYear( $now["tm_year"] );
-            $this->setMonth( $now["tm_mon"] );
-            $this->setDay( $now["tm_mday"] );            
+            $now = getdate();
+            $this->setYear( $now["year"] );
+            $this->setMonth( $now["mon"] );
+            $this->setDay( $now["mday"] );
+            
         }
         else
         {        
