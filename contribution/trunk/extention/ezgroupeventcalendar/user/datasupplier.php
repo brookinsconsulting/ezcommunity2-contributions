@@ -16,6 +16,11 @@ else
 
 switch ( $url_array[2] )
 {
+    case "listrss":
+    {
+      include( "ezgroupeventcalendar/user/listrss.php" );
+    }
+    break;
 
     case "yearview" :
     {
