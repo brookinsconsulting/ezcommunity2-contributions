@@ -2254,6 +2254,47 @@ CREATE TABLE eZUser_GroupPermissionLink (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
+INSERT INTO eZUser_GroupPermissionLink VALUES (1,1,1,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (2,1,2,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (3,1,3,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (4,1,4,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (5,1,5,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (6,1,6,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (7,1,8,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (21,1,15,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (20,1,14,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (19,1,13,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (18,1,12,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (17,1,11,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (16,1,10,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (15,1,9,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (22,1,16,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (23,1,17,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (24,1,18,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (25,1,19,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (26,1,20,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (27,1,21,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (28,1,22,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (29,1,23,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (30,1,24,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (31,1,25,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (32,1,26,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (33,1,27,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (34,1,28,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (35,1,29,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (36,1,30,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (37,1,31,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (38,1,32,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (39,1,33,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (40,1,34,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (74,1,35,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (75,1,36,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (76,1,37,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (77,1,38,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (78,1,39,'true');
+INSERT INTO eZUser_GroupPermissionLink VALUES (79,1,40,'true');
+
+
 #
 # Table structure for table 'eZUser_Module'
 #
@@ -2265,6 +2306,18 @@ CREATE TABLE eZUser_Module (
   PRIMARY KEY (ID),
   UNIQUE KEY Name(Name)
 ) TYPE=MyISAM;
+
+INSERT INTO eZUser_Module VALUES (1,'eZTrade');
+INSERT INTO eZUser_Module VALUES (2,'eZPoll');
+INSERT INTO eZUser_Module VALUES (3,'eZUser');
+INSERT INTO eZUser_Module VALUES (4,'eZTodo');
+INSERT INTO eZUser_Module VALUES (5,'eZNews');
+INSERT INTO eZUser_Module VALUES (6,'eZContact');
+INSERT INTO eZUser_Module VALUES (7,'eZForum');
+INSERT INTO eZUser_Module VALUES (8,'eZLink');
+INSERT INTO eZUser_Module VALUES (9,'eZFileManager');
+INSERT INTO eZUser_Module VALUES (10,'eZImageCatalogue');
+INSERT INTO eZUser_Module VALUES (11,'eZBug');
 
 #
 # Table structure for table 'eZUser_Permission'
@@ -2380,4 +2433,3 @@ CREATE TABLE eZUser_UserGroupLink (
 #
 
 INSERT INTO eZUser_UserGroupLink VALUES (1,1,1);
-
