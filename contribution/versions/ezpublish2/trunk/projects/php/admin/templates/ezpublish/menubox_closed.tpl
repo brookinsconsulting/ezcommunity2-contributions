@@ -43,12 +43,12 @@
 </tr>
 <tr>
     <td class="repeaty" width="1%" valign="bottom"><img src="/admin/images/{site_style}/box-l03closed.gif" width="10" height="10" border="0" /><br /></td>
-    <td class="repeatx" width="98%" background="/admin/images/{site_style}/top-m02.gif" valign="absmiddle" bgcolor="#b5b5b5"><img src="/admin/images/{site_style}/1x1.gif" width="120" height="10" border="0" /><br /></td>
+    <td class="repeatx" width="98%" background="/admin/images/{site_style}/top-m02.gif" valign="absmiddle" bgcolor="#b5b5b5"><img src="/admin/images/{site_style}/1x1.gif" width="160" height="10" border="0" /><br /></td>
     <td class="repeaty" width="1%" valign="bottom"><img src="/admin/images/{site_style}/box-r03closed.gif" width="10" height="10" border="0" /><br /></td>
 </tr>
 <tr>
 	<td class="tdmini" colspan="3">
-	<img src="/admin/images/{site_style}/1x1.gif" width="160" height="6" border="0" /><br />
+	<img src="/admin/images/{site_style}/1x1.gif" width="1" height="6" border="0" /><br />
 	</td>
 </tr>
 </table>

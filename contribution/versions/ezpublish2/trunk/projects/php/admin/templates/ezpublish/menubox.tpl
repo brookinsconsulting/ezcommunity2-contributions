@@ -74,12 +74,12 @@
 </tr>
 <tr>
     <td class="tdmini" width="1%" valign="bottom"><img src="/admin/images/{site_style}/box-l05.gif" width="10" height="19" border="0" /><br /></td>
-    <td class="repeatx" width="98%" background="/admin/images/{site_style}/box-m03.gif" valign="bottom"><img src="/admin/images/{site_style}/1x1.gif" width="120" height="11" border="0" /><br /></td>
+    <td class="repeatx" width="98%" background="/admin/images/{site_style}/box-m03.gif" valign="bottom"><img src="/admin/images/{site_style}/1x1.gif" width="160" height="11" border="0" /><br /></td>
     <td class="tdmini" width="1%" valign="bottom"><img src="/admin/images/{site_style}/box-r05.gif" width="10" height="19" border="0" /><br /></td>
 </tr>
 <tr>
 	<td class="tdmini" colspan="3">
-	<img src="/admin/images/{site_style}/1x1.gif" width="160" height="6" border="0" /><br />
+	<img src="/admin/images/{site_style}/1x1.gif" width="1" height="6" border="0" /><br />
 	</td>
 </tr>
 </table>
