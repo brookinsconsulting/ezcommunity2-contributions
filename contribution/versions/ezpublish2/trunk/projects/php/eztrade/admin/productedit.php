@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.10 2000/10/23 09:18:24 bf-cvs Exp $
+// $Id: productedit.php,v 1.11 2000/10/23 09:24:21 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -185,6 +185,7 @@ if ( $Action == "Update" )
 
 if ( $Action == "Cancel" )
 {
+    print( "id:" .$ProductID );
     $product = new eZProduct( $ProductID );
 
     $categories = $product->categories();

@@ -155,7 +155,6 @@ switch ( $url_array[2] )
             case "cancel" :
             {
                 $Action = "Cancel";
-                $ProductID = $url_array[4];
                 include( "eztrade/admin/productedit.php" );                
             }
             break;

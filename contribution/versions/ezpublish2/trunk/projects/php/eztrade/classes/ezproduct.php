@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.15 2000/10/23 09:18:24 bf-cvs Exp $
+// $Id: ezproduct.php,v 1.16 2000/10/23 09:24:21 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -739,7 +739,7 @@ class eZProduct
 
        foreach ( $category_array as $category )
        {
-           $ret[] = new eZArticleCategory( $category["CategoryID"] );
+           $ret[] = new eZProductCategory( $category["CategoryID"] );
        }
 
        return $ret;

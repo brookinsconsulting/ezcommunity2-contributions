@@ -68,7 +68,10 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	Avbrytknapp!
+	<form method="post" action="/trade/productedit/cancel/">
+	<input type="hidden" name="ProductID" value="{product_id}" />
+	<input class="okbutton" type="submit" value="{intl-cancel}" />
+	</form>
 	</td>
 </tr>
 </table>
