@@ -6,8 +6,11 @@ Changes from version 2.0 PRE 1 to PRE 2
 * Deletion of company, person and consultation in eZ contact has been fixed.
 * Various bugfixes in consultation edit.
 * Image views no longer displays error messages, instead a standard image explaining the fault is shown.
+* Companies no longer disappear if they have no category selected, they are placed at the top category.
 * eZ forum uses messagelist/1/2/3 instead of messagelist/1/?$Offset=2&Limit=3 in order to allow robots to index all postings to the forum.
 * Clicking on author name in an article will take you to a page listing all articles by the author.
+* Support for animated gifs/pngs in eZImageCatalogue.
+* Bugfix for files with uppercase letters in the suffix.
 
 
 Changes from version 2.0 beta 3 to PRE 1
