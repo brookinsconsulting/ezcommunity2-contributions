@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: buglist.php,v 1.11 2001/08/17 13:35:58 jhe Exp $
+// $Id: buglist.php,v 1.12 2001/10/10 20:18:53 fh Exp $
 //
 // Created on: <04-Dec-2000 11:36:41 bf>
 //
@@ -150,7 +150,6 @@ else
 
 // bugs
 $bugList =& $module->bugs( "time", true );
-
 $locale = new eZLocale( $Language );
 $i=0;
 $t->set_var( "bug_list", "" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: bugedit.php,v 1.47 2001/09/29 12:35:14 kaid Exp $
+// $Id: bugedit.php,v 1.48 2001/10/10 20:18:53 fh Exp $
 //
 // Created on: <28-Nov-2000 19:45:35 bf>
 //
@@ -220,8 +220,9 @@ if ( $Action == "Update" )
                 $mailTemplate->set_file( "mailreply", "mailreply.tpl" );
                 $mailTemplate->setAllStrings();
 
-                $host = preg_replace( "/^admin\./", "", $headerInfo["Host"] );
-            
+//                $host = preg_replace( "/^admin\./", "", $headerInfo["Host"] );
+                $host = $ini->read_var( "site", "UserSiteURL" );
+
                 $mailTemplate->set_var( "bug_url", "http://" . $host . "/bug/bugview/" . $bug->id() );
                 $mailTemplate->set_var( "log_message", $LogMessage );
                 $mailTemplate->set_var( "bug_id", $bug->id() );
@@ -608,8 +609,9 @@ function sendAssignedMail( $bug, $userEmail, $ini, $Language )
     $mailTemplate->set_file( "mailgotbug", "mailgotbug.tpl" );
     $mailTemplate->setAllStrings();
 
+    $Language = $ini->read_var( "eZBugMain", "Language" );
     $host = preg_replace( "/^admin\./", "", $headerInfo["Host"] );
-            
+
     $mailTemplate->set_var( "bug_url", "http://" . $host . $GlobalSiteIni->WWWDir . $GlobalSiteIni->Index . "/bug/bugview/" . $bug->id() );
     $mailTemplate->set_var( "bug_id", $bug->id() );
     $mailTemplate->set_var( "bug_title", $bug->name( false ) );

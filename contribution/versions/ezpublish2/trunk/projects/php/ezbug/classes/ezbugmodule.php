@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbugmodule.php,v 1.26 2001/10/08 14:39:09 fh Exp $
+// $Id: ezbugmodule.php,v 1.27 2001/10/10 20:18:53 fh Exp $
 //
 // Definition of eZBugModule class
 //
@@ -436,12 +436,12 @@ class eZBugModule
         $unhandledSQL = "";
         if ( $fetchUnhandled == false )
         {
-            $unhandledSQL = "AND IsHandled='true'";
+            $unhandledSQL = "AND IsHandled='0'";
         }
         $privateSQL = "";
         if( $withPrivate == false )
         {
-            $privateSQL="AND IsPrivate!='true'";
+            $privateSQL="AND IsPrivate='0'";
         }
         
         $db->array_query( $bug_array, "
