@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdatetime.php,v 1.2 2000/09/08 13:00:51 bf-cvs Exp $
+// $Id: ezdatetime.php,v 1.3 2000/09/13 09:45:01 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -20,6 +20,7 @@
 
 */
 
+
 class eZDateTime
 {
     /*!
@@ -28,12 +29,17 @@ class eZDateTime
     */
     function eZDateTime( $year=0, $month=0, $day=0, $hour=0, $minute=0, $second=0 )
     {
-        if ( ( $year == 0 )  && ( $month == 0 ) && ( $day == 0 ) )
+
+        if ( ( $year == 0 )  && ( $month == 0 ) && ( $day == 0 ) && ( $hour == 0 ) && ( $minute == 0 ) && ( $second == 0 ) )
         {
+
+            
             $now = localTime();
             $this->Year = $now["tm_year"];
             $this->Month = $now["tm_mon"];
             $this->Day = $now["tm_mday"];
+            
+            
             
         }
         else

@@ -4,6 +4,9 @@ include_once( "classes/ezdate.php" );
 include_once( "classes/ezcurrency.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/eztime.php" );
+include_once( "classes/ezdatetime.php" );
+
+$datetime = new eZDateTime();
 
 $locale = new eZLocale( "no_NO" );
 
