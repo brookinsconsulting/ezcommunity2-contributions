@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezhttptool.php,v 1.3 2001/01/25 00:22:40 jb Exp $
+// $Id: ezhttptool.php,v 1.4 2001/01/28 13:20:03 bf Exp $
 //
 // Definition of eZTextTool class
 //
@@ -20,6 +20,34 @@
 
 class eZHTTPTool
 {
+
+    /*!
+      \static
+      fetches a variable from Post or Get operations.
+
+      Returns false if the variable is not set.
+     */
+    function &getVar( $name )
+    {
+        $ret = false;
+
+        $postVars = $GLOBALS["HTTP_POST_VARS"];
+        $getVars = $GLOBALS["HTTP_GET_VARS"];
+        
+        if ( isset( $postVars[$name] ) )
+        {
+            $ret = $postVars[$name];
+        }
+        else if ( isset( $getVars[$name] ) )
+        {
+            $ret = $getVars[$name];
+        }
+
+        
+        return $ret;
+    }
+    
+    
     /*!
       \static
       This function is a wrapper to the PHP function
