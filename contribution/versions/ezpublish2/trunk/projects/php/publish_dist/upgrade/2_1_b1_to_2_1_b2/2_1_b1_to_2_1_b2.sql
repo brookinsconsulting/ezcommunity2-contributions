@@ -15,3 +15,4 @@ CREATE TABLE eZBulkMail_Forgot (
   PRIMARY KEY (ID)
 );
 
+ALTER TABLE eZArticle_Article ADD Content varchar(100) NOT NULL;

@@ -6,6 +6,16 @@ change: added user_edit=Some text
 mod: ezbulkmail/user
 added subscriptionlogin.php.ini usermessages.php.ini
 
+mod: ezarticle/user, extendedsearch.php.ini
+change: new file
+head_line=Extended article search
+category=Category
+text=Search text
+search=Search
+all=All
+next=Next
+previous=Previous
 
-
-
+mod: ezarticle/admin, articleedit.php.ini
+change: added
+short_content=Short content
