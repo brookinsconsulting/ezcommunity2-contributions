@@ -5,9 +5,39 @@ include_once( "ezxmlrpc/classes/ezxmlrpccall.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcstring.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcint.php" );
 
+// test with another server:
+
+$client = new eZXMLRPCClient( "betty.userland.com", "/rpc2" );
+
+$call = new eZXMLRPCCall( );
+$call->setMethodName( "examples.getStateName" );
+$call->addParameter( new eZXMLRPCInt( 21 ) );
+
+$response = $client->send( $call );
+
+print( "<pre>" );
+//print_r($response );
+print( "</pre>" );
+
+if ( $response->isFault() )
+{
+    print( "The server returned an error (" .  $response->faultCode() . "): ". 
+           $response->faultString() .
+           "<br>" );
+}
+else
+{
+    $result = $response->result();
+
+    print( "The server returned: " . $result->value() . "<br>" );
+}
+
+// Local test
+
 $client = new eZXMLRPCClient( "php.ez.no", "/xmlrpc/server.php" );
 
 // error test, to many parameters
+print( "error test:<br>" );
 $call = new eZXMLRPCCall( );
 $call->setMethodName( "myFunc2" );
 $call->addParameter( new eZXMLRPCString( "bla" ) );
@@ -34,6 +64,7 @@ $call->setMethodName( "currentTime" );
 $response = $client->send( $call );
 
 $result = $response->result();
+
 print( "The server returned: " . $result->value() . "<br>" );
 
 // array test
@@ -140,6 +171,20 @@ $call->addParameter( new eZXMLRPCArray( array( new eZXMLRPCDouble( 4.32 ),
                                                                                                     "ASubArray" => new eZXMLRPCArray( array( new eZXMLRPCDouble( 3.1415 ),
                                                                                                                                              new eZXMLRPCInt( "2" ),
                                                                                                                                              new eZXMLRPCInt( "3" ),
+                                                                                                                                             new eZXMLRPCArray( array( new eZXMLRPCDouble( 3.1415 ),
+                                                                                                                                                                       new eZXMLRPCInt( "2" ),
+                                                                                                                                                                       new eZXMLRPCInt( "3" ),
+                                                                                                                                                                       new eZXMLRPCStruct( array( "ADoubleValue" => new eZXMLRPCDouble( 42.2223 ),
+                                                                                                                                                                                                  "AnInt" => new eZXMLRPCInt( 2 ),
+                                                                                                                                                                                                  "AString" => new eZXMLRPCString( "3" ),                                                                          
+                                                                                                                                                                                                  "BoolItIS" => new eZXMLRPCBool( true ),
+                                                                                                                                                                                                  "ASubArray" => new eZXMLRPCArray( array( new eZXMLRPCDouble( 3.1415 ),
+                                                                                                                                                                                                                                           new eZXMLRPCInt( "2" ),
+                                                                                                                                                                                                                                           new eZXMLRPCInt( "3" ),
+                                                                                                                                                                                                                                           new eZXMLRPCInt( "4" ) ) ) )
+                                                                                                                                                                                           ),
+                                                                                                                                                                       new eZXMLRPCInt( "4" ) ) ),
+                                                                                                                                             
                                                                                                                                              new eZXMLRPCInt( "4" ) ) ) )
                                                                                              ),                                                                         
                                                                          new eZXMLRPCInt( "4" ) ) )
