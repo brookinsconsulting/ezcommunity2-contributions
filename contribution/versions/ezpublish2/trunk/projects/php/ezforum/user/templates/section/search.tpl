@@ -1,3 +1,13 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
+<tr>
+    <td class="tdmini"><img src="/images/1x1.gif" width="1" height="38"></td>
+</tr>
+<tr>
+	<td class="toppathbottom"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+</tr>	
+</table>
+
+<br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -14,10 +24,8 @@
 </table>
 
 
-<hr noshade size="4" />
-
 <h2>{intl-searchfor} "{url_text}"</h2>
-<br>
+<br />
 
 <!-- BEGIN empty_result_tpl -->
 <h3 class="error">{intl-empty_result}</h3>

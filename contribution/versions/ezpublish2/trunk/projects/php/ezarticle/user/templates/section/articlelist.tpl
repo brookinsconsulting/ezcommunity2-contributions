@@ -7,7 +7,7 @@
     <td class="tdminipath" width="1%"><img src="/images/1x1.gif" width="1" height="38"></td>
 	<td class="tdminipath" align="left" class="path" width="99%">
 	<!-- BEGIN path_item_tpl -->	
-	<img src="/sitedesign/designsection1/images/path-arrow-top.gif" width="12" height="10" border="0" alt="" />
+	<img src="/sitedesign/designsection1/images/path-arrow-top.gif" width="16" height="10" border="0" alt="" />
 	<a class="toppath" href="/article/archive/{category_id}/">{category_name}</a> 
 	<!-- END path_item_tpl -->
 	</td>

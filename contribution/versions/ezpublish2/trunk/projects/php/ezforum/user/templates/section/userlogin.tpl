@@ -1,16 +1,15 @@
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f08c00">
 <tr>
-    <td>
-	<h1>{intl-login_page_title}</h1>
-    </td>
+    <td class="tdmini"><img src="/images/1x1.gif" width="1" height="38"></td>
 </tr>
+<tr>
+	<td class="toppathbottom"><img src="/images/1x1.gif" width="1" height="2"><br /></td>
+</tr>	
 </table>
 
-<hr noshade="noshade" size="4" />
+<h1>{intl-login_page_title}</h1>
 
 <p>{intl-explanation}</p>
-
-<hr noshade="noshade" size="4" />
 
 <h2>{intl-user_login}</h2>
 

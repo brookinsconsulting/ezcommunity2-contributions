@@ -25,4 +25,3 @@
 
 <br />
 
-<hr noshade="noshade" size="4" />
