@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.18 2001/05/09 16:41:24 ce Exp $
+// $Id: search.php,v 1.19 2001/05/16 08:49:42 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <15-Sep-2000 14:40:06 bf>
@@ -68,7 +68,7 @@ $t->set_var( "query_string", "" );
 
 if ( $QueryString != "" )
 {
-    $t->set_var( "query_string", $QueryString );
+    $t->set_var( "query_string", urldecode( $QueryString ) );
 
     $link_array = $link->getQuery( $QueryString, $AdminLimit, $Offset );    
     $total_count = $link->getQueryCount( $QueryString );
