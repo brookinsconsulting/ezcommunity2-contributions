@@ -29,11 +29,12 @@ CREATE TABLE eZAd_Category (
 );
 
 CREATE TABLE eZAd_Click (
-  ID int NOT NULL,
-  AdID int default NULL,
-  ClickPrice float,
+  ID int(11) NOT NULL,
+  AdID int(11) default NULL,
+  PageViewID int(11) default NULL,
+  ClickPrice float(10,2) default NULL,
   PRIMARY KEY (ID)
-);
+) TYPE=MyISAM;
 
 CREATE TABLE eZAd_View (
   ID int NOT NULL,

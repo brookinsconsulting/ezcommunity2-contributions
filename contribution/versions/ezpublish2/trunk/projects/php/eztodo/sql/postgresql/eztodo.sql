@@ -34,6 +34,20 @@ CREATE TABLE eZTodo_Status (
   PRIMARY KEY (ID)
 );
 
+CREATE TABLE eZTodo_Log (
+  ID int NOT NULL,
+  Log text,
+  Created int default NULL,
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZTodo_TodoLogLink (
+  ID int NOT NULL,
+  TodoID int default NULL,
+  LogID int default NULL,
+  PRIMARY KEY (ID)
+);
+
 INSERT INTO eZTodo_Status (Description, ID, Name ) VALUES (NULL,1,'Not done');
 INSERT INTO eZTodo_Status (Description, ID, Name ) VALUES (NULL,2,'Done');
 

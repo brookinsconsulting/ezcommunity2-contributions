@@ -185,3 +185,11 @@ INSERT INTO eZUser_Group ( ID,  Name,  Description,  SessionTimeout,  IsRoot ) V
 
 INSERT INTO eZUser_UserGroupLink ( ID,  UserID,  GroupID ) VALUES (1,1,1);
 
+
+CREATE TABLE eZUser_Photographer (
+  ID int(11) NOT NULL,
+  Name char(255) default NULL,
+  EMail char(255) default NULL,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+

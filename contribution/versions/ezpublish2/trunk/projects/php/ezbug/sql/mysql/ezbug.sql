@@ -100,3 +100,12 @@ CREATE TABLE eZBug_Status (
 );
 
 INSERT INTO eZBug_Status VALUES (1,'Fixed');
+
+CREATE TABLE eZBug_ModulePermission (
+  ID int(11) NOT NULL auto_increment,
+  ObjectID int(11) default NULL,
+  GroupID int(11) default NULL,
+  ReadPermission int(11) default '0',
+  WritePermission int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;

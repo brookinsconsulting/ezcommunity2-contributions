@@ -31,7 +31,8 @@ CREATE TABLE eZAd_Category (
 CREATE TABLE eZAd_Click (
   ID int NOT NULL,
   AdID int default NULL,
-  ClickPrice float,
+  PageViewID int default NULL,
+  ClickPrice decimal(10,2) default NULL,
   PRIMARY KEY (ID)
 );
 

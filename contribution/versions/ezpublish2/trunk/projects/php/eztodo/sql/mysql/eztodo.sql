@@ -35,9 +35,24 @@ CREATE TABLE eZTodo_Status (
   PRIMARY KEY (ID)
 );
 
+CREATE TABLE eZTodo_Log (
+  ID int(11) NOT NULL,
+  Log text,
+  Created int(11) default NULL,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZTodo_TodoLogLink (
+  ID int(11) NOT NULL auto_increment,
+  TodoID int(11) default NULL,
+  LogID int(11) default NULL,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
 INSERT INTO eZTodo_Status (Description, ID, Name ) VALUES (NULL,1,'Not done');
 INSERT INTO eZTodo_Status (Description, ID, Name ) VALUES (NULL,2,'Done');
 
 INSERT INTO eZTodo_Priority (ID, Name ) VALUES (1,'Low');
 INSERT INTO eZTodo_Priority (ID, Name ) VALUES (2,'Medium');
 INSERT INTO eZTodo_Priority (ID, Name ) VALUES (3,'High');
+
