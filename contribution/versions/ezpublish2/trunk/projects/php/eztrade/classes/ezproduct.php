@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.105 2001/09/27 14:53:51 ce Exp $
+// $Id: ezproduct.php,v 1.106 2001/09/28 12:44:54 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -1083,19 +1083,47 @@ class eZProduct
     /*!
       Adds an image to the product.
     */
-    function addImage( $value )
+    function addImage( $value, $placement = false )
     {
-        if ( get_class( $value ) == "ezimage" )
-        {
-            $imageID = $value->id();
+        $db =& eZDB::globalDatabase();
+        
+        if( get_class( $value ) == "ezimage" )
+            $value = $value->id();
 
-            $db =& eZDB::globalDatabase();
-            $db->begin();
+        $db->query_single( $res, "SELECT count( * ) as Count FROM eZTrade_ProductImageLink WHERE ProductID='$this->ID' AND ImageID='$value'" );
+        if( $res[$db->fieldName("Count")] == 0 )
+        {
+            $db->begin( );
+    
             $db->lock( "eZTrade_ProductImageLink" );
+
+            if ( is_bool( $placement ) )
+            {
+                $db->array_query( $image_array, "SELECT ID, ImageID, Placement, Created FROM eZTrade_ProductImageLink WHERE ProductID='$this->ID' ORDER BY Placement DESC" );                
+                if ( $image_array[0][$db->fieldName("Placement")] == "0" ) 
+                {
+                    $placement=1;
+                    for ( $i=0; $i < count($image_array); $i++ )
+                    {
+                        $imageLinkID = $image_array[$i][$db->fieldName("ID")];
+                        $db->query( "UPDATE eZTrade_ProductImageLink SET Placement='$placement' WHERE ID='$imageLinkID'" );
+                        $image_array[$i][$db->fieldName("Placement")] = $placement;
+                        $placement++;
+                    }
+                }
+                $placement = $image_array[0][$db->fieldName("Placement")] + 1;
+            }
+            
             $nextID = $db->nextID( "eZTrade_ProductImageLink", "ID" );
             $timeStamp = eZDateTime::timeStamp( true );
-            $res = $db->query( "INSERT INTO eZTrade_ProductImageLink ( ID, ProductID, ImageID, Created ) VALUES ( '$nextID', '$this->ID', '$imageID', '$timeStamp' )" );
+            
+            $res = $db->query( "INSERT INTO eZTrade_ProductImageLink
+                         ( ID, ProductID, ImageID, Created, Placement )
+                         VALUES
+                         ( '$nextID',  '$this->ID', '$value', '$timeStamp', '$placement' )" );
+
             $db->unlock();
+    
             if ( $res == false )
                 $db->rollback( );
             else

@@ -294,7 +294,7 @@ CREATE TABLE eZTrade_ProductImageLink (
   ProductID int default NULL,
   ImageID int default NULL,
   Created int NOT NULL,
-  Placement int NOT NULL,
+  Placement int NOT NULL default '0',
   PRIMARY KEY (ID)
 );
 

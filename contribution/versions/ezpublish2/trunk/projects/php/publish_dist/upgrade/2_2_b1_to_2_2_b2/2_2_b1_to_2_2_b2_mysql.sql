@@ -85,3 +85,6 @@ CREATE TABLE eZForum_Word (
 alter table eZSession_SessionVariable change Value Value text;
 
  create table eZSiteManager_Menu( ID int NOT NULL, Name varchar(40), Link varchar(40), Type int default 1, ParentID int default 0 ); 
+
+alter table eZTrade_ProductImageLink change Placement Placement int default 0;  
+update eZTrade_ProductImageLink set Placement='0' where Placement IS NULL;
