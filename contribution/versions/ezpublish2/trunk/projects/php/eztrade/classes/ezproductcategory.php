@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproductcategory.php,v 1.49 2001/09/21 09:48:35 bf Exp $
+// $Id: ezproductcategory.php,v 1.50 2001/09/21 09:51:19 bf Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -110,11 +110,12 @@ class eZProductCategory
         $db =& eZDB::globalDatabase();
         $db->begin();
 
+        $name = $db->escapeString( $this->Name );
+        $description = $db->escapeString( $this->Description );
+        $remoteID = $db->escapeString( $this->RemoteID );
+
         if ( $this->ID == false )
         {
-            $name = $db->escapeString( $this->Name );
-            $description = $db->escapeString( $this->Description );
-            $remoteID = $db->escapeString( $this->RemoteID );
 
             $db->lock( "eZTrade_Category" );
             $nextID = $db->nextID( "eZTrade_Category", "ID" );
