@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforumcategory.php,v 1.6 2000/07/27 08:05:33 lw-cvs Exp $
+    $Id: ezforumcategory.php,v 1.7 2000/08/08 13:41:20 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -20,21 +20,19 @@ class eZforumCategory
         
     function newCategory()
     {
-        unset($this->Id);
+        unset( $this->Id );
     }
         
-    function get($Id)
+    function get( $Id )
     {
         global $PREFIX;
         
         openDB();
             
-        $Id = addslashes($Id);
-            
         $query_id = mysql_query("SELECT Name, Description, Private FROM $PREFIX"."CategoryTable WHERE Id='$Id'")
              or die("eZforumCategory::get($id) failed, dying...");
             
-        $this->id = $Id;
+        $this->Id = $Id;
         $this->Name = mysql_result($query_id, 0, "Name" );
         $this->Description = mysql_result($query_id, 0, "Description" );
         $this->Private = mysql_result($query_id, 0, "Private" );
@@ -65,8 +63,8 @@ class eZforumCategory
         $this->Name = addslashes($this->Name);
         $this->Description = addslashes($this->Description);
         $this->Private = addslashes($this->Private);            
-        
-        if ($this->Id)
+
+        if ( $this->Id )
         {
             $query_id = mysql_query("UPDATE $PREFIX"."CategoryTable SET Name='$this->Name',
                                                              Description='$this->Description',

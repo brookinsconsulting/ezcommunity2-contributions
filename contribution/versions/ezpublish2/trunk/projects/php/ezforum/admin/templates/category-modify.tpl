@@ -1,6 +1,6 @@
-<form action="index.php4" method="get">
-    <input type="hidden" name="page" value="category.php4">
-    <input type="hidden" name="category_id" value="{Id}">
+<form action="index.php4" method="post">
+    <input type="hidden" name="page" value="{docroot}/admin/category.php4">
+    <input type="hidden" name="category_id" value="{category_id}">
     <h1>Endre kategori</h1>
 	<table border="0" cellspacing="0" cellpadding="0">
         <tr>
@@ -32,7 +32,7 @@
                 <input type="text" name="Description" value="{category-description}">
             </td>
 			<td align="center">
-                &nbsp;&nbsp;<input type="submit" name="add" value="Endre">
+                &nbsp;&nbsp;<input type="submit" name="modifyCategory" value="Endre">
             </td>
 		</tr>
 </table>

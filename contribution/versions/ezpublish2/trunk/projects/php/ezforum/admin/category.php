@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.10 2000/08/07 15:00:30 th-cvs Exp $
+    $Id: category.php,v 1.11 2000/08/08 13:41:20 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -35,7 +35,7 @@ if ( $add )
     $cat->setName( $Name );
     $cat->setDescription( $Description );
     
-    if ($Private)
+    if ( $Private )
         $cat->setPrivate( "Y" );
     else
         $cat->setPrivate( "N" );
@@ -48,16 +48,25 @@ if ($action == "delete")
     $cat->delete( $category_id );
 }
 
-if ($action == "modify")
+if ( $modifyCategory )
 {
     $cat->get( $category_id );
+
+    $cat->setName( $Name );
+    $cat->setDescription( $Description );
+    if ( $Private )
+        $cat->setPrivate( "Y" );
+    else
+        $cat->setPrivate( "N" );
+    
+    $cat->store();
 }
 
-$t->set_var("Id", $Id);
+$t->set_var("category_id", $category_id );
     
 if ($action == "modify")
 {
-    
+    $cat->get( $category_id );    
     $t->set_var("category-name", $cat->name() );
     $t->set_var("category-description", $cat->description() );
     if ($cat->private() == "Y")

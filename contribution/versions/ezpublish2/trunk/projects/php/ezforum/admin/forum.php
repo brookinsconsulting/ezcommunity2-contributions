@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.13 2000/08/07 15:00:30 th-cvs Exp $
+    $Id: forum.php,v 1.14 2000/08/08 13:41:20 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -21,8 +21,8 @@ $t->set_file(Array("forum" => "forum.tpl",
                    )
              );
 
-$t->set_var( "docroot", $DOCROOT);
-$t->set_var( "category_id", $category_id);
+$t->set_var( "docroot", $DOCROOT );
+$t->set_var( "category_id", $category_id );
 
 //actions
 if ( $add )
@@ -64,7 +64,6 @@ if ( $modify )
         $forum->setPrivate( "N" );
 
     $forum->store();
-
 }
 
 if ( $delete )
