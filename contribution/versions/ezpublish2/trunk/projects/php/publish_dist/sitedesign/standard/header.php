@@ -48,10 +48,11 @@ include( "ezlink/user/menubox.php" );
     <tr>
 		<td class="menuhead" bgcolor="#c82828">Static pages</td>
 	</tr>
-	<tr>
-		<td><img src="/images/dot.gif" width="12" height="10"><a class="menu" href="/article/static/2/">About eZ publish</a></td>
-	</tr>
-        
+<?
+     // include the static pages for category 2
+     $CategoryID = 2;
+     include( "ezarticle/user/articlelinks.php" );
+?>
 	</table>
 	<!-- Meny end! -->
 
