@@ -939,3 +939,12 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezobjectpermission.php: Fixed object permission check error.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-01-13  Kai Duebbert  <kai@duebbert.de>
+
+    * user/userwithaddress.php:
+    made compatible for use of image buttons ($OK_x)
+

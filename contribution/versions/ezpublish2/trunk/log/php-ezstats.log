@@ -340,3 +340,30 @@ Maintainer(s) : br@ez.no
       admin/intl/hr_HR/visitorlist.php.ini
       admin/intl/hr_HR/yearreport.php.ini: Croatian (hr_HR) for 2.2.2
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2001-12-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/pt_PT/browserlist.php.ini
+      admin/intl/pt_PT/dayreport.php.ini
+      admin/intl/pt_PT/entryexitpages.php.ini
+      admin/intl/pt_PT/menubox.php.ini
+      admin/intl/pt_PT/monthreport.php.ini
+      admin/intl/pt_PT/overview.php.ini
+      admin/intl/pt_PT/pageviewlist.php.ini
+      admin/intl/pt_PT/productreport.php.ini
+      admin/intl/pt_PT/refererlist.php.ini
+      admin/intl/pt_PT/requestpagelist.php.ini
+      admin/intl/pt_PT/visitorlist.php.ini
+      admin/intl/pt_PT/yearreport.php.ini: pt_PT (Portuguese) version 2.2.2
+
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2002-01-13  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/cron.php: bug in query.
+
