@@ -203,8 +203,6 @@ CREATE TABLE eZArticle_ArticleKeywordFirstLetter (
 
 CREATE INDEX Article_Name ON eZArticle_Article (Name);
 CREATE INDEX Article_Published ON eZArticle_Article (Published);
-# CREATE FULLTEXT INDEX Article_Fulltext ON eZArticle_Article (Contents);
-# CREATE FULLTEXT INDEX Article_FulltextName ON eZArticle_Article (Name);
 
 CREATE INDEX Link_ArticleID ON eZArticle_ArticleCategoryLink (ArticleID);
 CREATE INDEX Link_CategoryID ON eZArticle_ArticleCategoryLink (CategoryID);
