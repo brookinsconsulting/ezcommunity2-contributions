@@ -30,19 +30,19 @@ eZ Publish guide
 Dependencies
 \layout Itemize
 
-MySQL (www.mysql.org)
+MySQL-3.22.32 (www.mysql.org)
 \layout Itemize
 
-PHP (www.php.net)
+PHP-4.0.3 (www.php.net)
 \layout Itemize
 
-ImageMagick (www.imagemagick.org)
+ImageMagick-4.2.9 (www.imagemagick.org)
 \layout Itemize
 
-Apache (www.apache.org)
+Apache-1.3.14 (www.apache.org)
 \layout Itemize
 
-libxml (www.xmlsoft.org)
+libxml-2.1.1 (www.xmlsoft.org)
 \layout Section
 
 PHP install:
