@@ -573,3 +573,11 @@ Maintainer(s) : bf@ez.no
     * ezbenchmark.php
       ezmysqldb.php: Added import script.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2002-01-03  Kai Duebbert  <kai@duebbert.de>
+
+    * eztemplate.php: fixed useless variable assigning
+

@@ -2658,3 +2658,21 @@ Maintainer(s) : ce@ez.no
       classes/ezproductattribute.php
       classes/ezproductcategory.php: Added import script.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2002-01-03  Baard Farstad  <bf@ez.no>
+
+    * classes/ezorder.php
+      classes/ezwishlist.php: Fixed bugs.
+
+2002-01-03  Christoffer Elo  <ce@ez.no>
+
+    * admin/productedit.php
+      admin/templates/standard/categoryedit.tpl
+      admin/templates/standard/categorylist.tpl
+      admin/templates/standard/productedit.tpl
+      admin/categoryedit.php:
+    Added new product and new category in the productlist.
+

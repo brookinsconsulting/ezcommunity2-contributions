@@ -933,3 +933,30 @@ Maintainer(s) : jhe@ez.no
 
     * user/messagereply.php: Fixed correct reply address.
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-12-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/pt_PT/categoryedit.php.ini
+      admin/intl/pt_PT/messageedit.php.ini
+      admin/intl/pt_PT/search.php.ini
+      user/intl/pt_PT/categorylist.php.ini
+      user/intl/pt_PT/forumlist.php.ini
+      user/intl/pt_PT/latestmessages.php.ini
+      user/intl/pt_PT/menuforumlist.php.ini
+      user/intl/pt_PT/message.php.ini
+      user/intl/pt_PT/messagelist.php.ini
+      user/intl/pt_PT/noaccess.php.ini
+      user/intl/pt_PT/userlogin.php.ini: pt_PT (Portuguese) version 2.2.2
+
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2002-01-03  Kai Duebbert  <kai@duebbert.de>
+
+    * classes/ezforummessage.php:
+    return UserID for lastmessages(). shouldn't break anything.
+

@@ -856,3 +856,23 @@ Maintainer(s) : pkej@ez.no
     * classes/ezformrenderer.php
       classes/ezformelementnumerical.php: fixed small bug
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2002-01-03  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/pageedit.php
+      classes/ezformrenderer.php: fixed next page bugs
+
+    * classes/ezformrenderer.php: fixed bug with drop-down
+
+    * admin/pageedit.php: fixed jump
+
+    * classes/ezformelement.php: fixed bug with jumps with radioboxes
+
+    * classes/ezformrenderer.php: fixed bug with checkboxes
+
+    * classes/ezformelement.php
+      classes/ezformelementfixedvalue.php: sorting works fine
+
