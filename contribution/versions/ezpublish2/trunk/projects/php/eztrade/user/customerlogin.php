@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: customerlogin.php,v 1.13 2001/03/26 17:00:49 ce Exp $
+// $Id: customerlogin.php,v 1.14 2001/04/25 08:39:35 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Oct-2000 16:45:30 bf>
@@ -72,7 +72,7 @@ if ( $user  )
         }
     }
 
-    eZHTTPTool::header( "Location: /trade/checkout/" );
+    eZHTTPTool::header( "Location: /trade/precheckout/" );
     exit();
 }
 else

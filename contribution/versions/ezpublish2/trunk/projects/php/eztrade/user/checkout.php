@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.58 2001/04/24 07:22:54 ce Exp $
+// $Id: checkout.php,v 1.59 2001/04/25 08:39:35 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -71,22 +71,6 @@ if ( !$session->fetch() )
 {
     $session->store();
 }
-
-// set SSL mode and redirect if not already in SSL mode.
-if ( ( $ForceSSL == "enabled" ) && ( $UseSSL == true ) )
-{
-    $session->setVariable( "SSLMode", "enabled" );
-    
-    // force SSL if supposed to
-    if ( $SERVER_PORT != '443' )
-    {
-//          print( "<font color=\"#333333\">Start: Location: https://" . $HTTP_HOST . $REQUEST_URI . "</font>" );
-        eZHTTPTool::header("Location: https://" . $HTTP_HOST . $REQUEST_URI );
-        exit;
-    }
-}
-
-
 
 // get the cart or create it
 $cart = $cart->getBySession( $session, "Cart" );

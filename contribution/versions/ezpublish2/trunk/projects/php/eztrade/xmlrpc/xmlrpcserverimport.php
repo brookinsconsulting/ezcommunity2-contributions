@@ -48,12 +48,20 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
     $placeArray = createIfNotExists( "Produkt", 0, 2 );
     $place = $placeArray[0];
 
-    print( "-->" . $parentName . "<--" );
+
     // Create the parent
-    $parentArray = createIfNotExists( $parentName, $place->id() );
+    $parentArray = createIfNotExists( $parentName, $place->id(), $place->remoteID() );
     $parent = $parentArray[0];
     $parentID = $parent->id();
 
+    print( "groupName: " . $groupName . "\n" );
+    print( "product: " . $product . "\n" );
+    print( "parentName: " . $parentName . "\n" );
+    print( "design: " . $design . "\n" );
+    print( "material: " . $material . "\n" );
+    print( "parentcheck: " . $parentCheck . "\n" );
+    
+    
     print( $groupName );
     if ( $parentCheck )
     {
@@ -129,7 +137,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
                 */
             {
                 eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Gold" );
-                $matCatArray = createIfNotExists( "Gold", $mat->id() );
+                $matCatArray = createIfNotExists( "Gold", $mat->id(), $mat->remoteID() );
                 $matCat = $matCatArray[0];
                 $matCategoryArray[] = array( $matCat, $material, $matCatArray[1] );
             }
@@ -160,7 +168,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
                 */
             {
                 eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Diamond" );
-                $matCatArray = createIfNotExists( "Diamant", $mat->id() );
+                $matCatArray = createIfNotExists( "Diamant", $mat->id(), $mat->remoteID() );
                 $matCat = $matCatArray[0];
                 $matCategoryArray[] = array( $matCat, $material, $matCatArray[1] );
             }
@@ -174,7 +182,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
             case "S05":
             {
                 eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Ketten" );
-                $matCatArray = createIfNotExists( "Ketten", $place->id() );
+                $matCatArray = createIfNotExists( "Ketten", $place->id(), $mat->remoteID() );
                 $matCat = $matCatArray[0];
                 $matCategoryArray[] = array( $matCat, $material, $matCatArray[1] );
             }
@@ -211,7 +219,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
             case "SA":
             {
                 eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Saphire" );
-                $matCatArray = createIfNotExists( "Safir", $mat->id() );
+                $matCatArray = createIfNotExists( "Safir", $mat->id(), $mat->remoteID() );
                 $matCat = $matCatArray[0];
                 $matCategoryArray[] = array( $matCat, $material, $matCatArray[1] );
             }
@@ -221,7 +229,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
             case "BT":
             {
                 eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Bluetopas" );
-                $matCatArray = createIfNotExists( "Blautopas", $mat->id() );
+                $matCatArray = createIfNotExists( "Blautopas", $mat->id(), $mat->remoteID() );
                 $matCat = $matCatArray[0];
                 $matCategoryArray[] = array( $matCat, $material, $matCatArray[1] );
             }
@@ -231,7 +239,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
             case "ZI":
             {
                 eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Zirkonia" );
-                $matCatArray = createIfNotExists( "Zirkonia", $mat->id() );
+                $matCatArray = createIfNotExists( "Zirkonia", $mat->id(), $mat->remoteID() );
                 $matCat = $matCatArray[0];
                 $matCategoryArray[] = array( $matCat, $material, $matCatArray[1] );
                 
@@ -244,7 +252,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
             case "TA":
             {
                 eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Pearls" );
-                $matCatArray = createIfNotExists( "Perlen", $mat->id() );
+                $matCatArray = createIfNotExists( "Perlen", $mat->id(), $mat->remoteID() );
                 $matCat = $matCatArray[0];
                 $matCategoryArray[] = array( $matCat, $material, $matCatArray[1] );
             }
@@ -256,7 +264,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
                 if ( $others )
                 {
                     eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Others" );
-                    $matCatArray = createIfNotExists( "Weitere", $mat->id() );
+                    $matCatArray = createIfNotExists( "Weitere", $mat->id(), $mat->remoteID() );
                     $matCat = $matCatArray[0];
                     $matCategoryArray[] = array( $matCat, $material, $matCatArray[1] );
                 }
@@ -850,6 +858,7 @@ function insert( $args )
         $value->setPrice( 0 );
     }
 
+    print( "-->" . $productCategory . "<--");
     // Find out what category this product belongs to.
     $parents = belongsTo( $productCategory );
 

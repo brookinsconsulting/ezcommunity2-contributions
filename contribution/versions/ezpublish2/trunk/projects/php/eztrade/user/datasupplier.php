@@ -110,7 +110,7 @@ switch ( $url_array[2] )
         break;
 
     case "cart" :
-
+    {
         if ( $url_array[3] == "add" )
         {
             $Action = "AddToBasket";
@@ -134,7 +134,7 @@ switch ( $url_array[2] )
         {
             include( "eztrade/user/cart.php" );
         }
-
+    }
         break;
 
     case "wishlist" :
@@ -189,12 +189,17 @@ switch ( $url_array[2] )
         include( "eztrade/user/customerlogin.php" );
         break;
 
+    case "precheckout" :
+    {
+        include( "eztrade/user/precheckout.php" );
+    }
+    break;
+
     case "checkout" :
     {
-        $UseSSL = $url_array[3];
         include( "eztrade/user/checkout.php" );
     }
-        break;
+    break;
 
     case "payment" :
     {
