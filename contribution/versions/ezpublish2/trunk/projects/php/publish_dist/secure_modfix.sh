@@ -60,7 +60,8 @@ ezimagecatalogue/admin/cache
 ezbulkmail/admin/cache
 classes/cache
 ezsysinfo/admin/cache
-ezurltranslator/admin/cache"
+ezurltranslator/admin/cache
+ezsitemanager/admin/cache"
 
 for dir in $dirs
 do
