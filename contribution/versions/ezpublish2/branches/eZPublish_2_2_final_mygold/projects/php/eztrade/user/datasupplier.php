@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.54.4.3 2001/11/12 08:19:38 sascha Exp $
+// $Id: datasupplier.php,v 1.54.4.4 2001/11/19 12:34:29 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -53,6 +53,7 @@ if ( $user )
     $groupIDArray =& $user->groups( false );
     sort( $groupIDArray );
 }
+
 
 switch ( $url_array[2] )
 {
@@ -221,7 +222,8 @@ switch ( $url_array[2] )
         include( "eztrade/user/voucherview.php" );
     }
     break;
-    
+
+    case "orderview" :
     {
         $OrderID = $url_array[3];
         include( "eztrade/user/orderview.php" );
