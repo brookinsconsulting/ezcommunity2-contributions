@@ -9,7 +9,7 @@ D e v e l o p e r s
     Jakob Vad Nielsen (jakob@gemino.no)
     Wojciech Potaczek (wp@nss.pl)
     Jo Henrik Endrerud (jhe@ez.no)
-    Lars Wilhelmsen 
+    Lars Wilhelmsen
 
     e Z   s y s i n f o
     
@@ -19,12 +19,23 @@ D e v e l o p e r s
         Uriah Welcome (precision@valinux.com)
         Matthew Snelham (infinite@valinux.com)
 
+    e Z   i n n s t a l l e r
+
+    eZ innstaller and the code for non-rewrite_rules and non-
+    virtual host innstallation was written by:
+
+        Kai Dübbert (kai@duebbert.de)
+
+
+
 D e s i g n
 
     Thomas Hellstrøm (th@ez.no)
     
     Some icons from KDE are used with permission from
     the KDE-Artist-Team.
+
+
 
 D o c u m e n t a t i o n
 
@@ -33,6 +44,8 @@ D o c u m e n t a t i o n
     Gunnstein Lye
     Chris Mason
     Frederik Holljen
+
+
 
 T r a n s l a t i o n
 
