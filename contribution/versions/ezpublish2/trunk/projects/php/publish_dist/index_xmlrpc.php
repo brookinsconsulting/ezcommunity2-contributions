@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: index_xmlrpc.php,v 1.27 2001/10/01 14:16:59 jb Exp $
+//
+// $Id: index_xmlrpc.php,v 1.28 2001/11/02 08:56:01 jb Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -35,14 +35,14 @@ if ( isset( $siteDir ) and $siteDir != "" )
     $includePath = ini_get( "include_path" );
     $includePath .= ":" . $siteDir;
     ini_set( "include_path", $includePath );
- 
+
     // For non-virtualhost, non-rewrite setup
     if ( ereg( "(.*/)([^\/]+\.php)$", $SCRIPT_NAME, $regs ) )
     {
         $wwwDir = $regs[1];
         $index = $regs[2];
     }
- 
+
     // Remove url parameters
     if ( ereg( "^$wwwDir$index(.+)", $REQUEST_URI, $req ) )
     {
@@ -77,6 +77,7 @@ define( "EZERROR_NONEXISTING_OBJECT", 5 );
 define( "EZERROR_PHP_ERROR", 6 );
 define( "EZERROR_BAD_REQUEST_DATA", 7 );
 define( "EZERROR_NO_LOGIN", 8 );
+define( "EZERROR_NO_PERMISSION", 9 );
 
 // include the server
 include_once( "ezxmlrpc/classes/ezxmlrpcserver.php" );
@@ -168,6 +169,8 @@ function Call( $args )
         $GLOBALS["password"] =& $password;
         $User = eZUser::validateUser( $login, $password );
         if ( get_class( $User ) != "ezuser" )
+            return createErrorMessage( EZERROR_BAD_LOGIN );
+        if ( !eZPermission::checkPermission( $User, "eZUser", "AdminLogin" ) )
             return createErrorMessage( EZERROR_BAD_LOGIN );
 
         $session =& $GLOBALS["eZSessionObject"];
@@ -302,11 +305,11 @@ function Call( $args )
                         {
                             $ReturnCatalogues = true;
                             include( $entry . "/xmlrpc/datasupplier.php" );
-                            
+
                             $modules[] = new eZXMLRPCStruct( array( "Name" => new eZXMLRPCString( $entry ),
                                                                     "Catalogues" => new eZXMLRPCArray( $Catalogues )
                                                                     ) );
-                            
+
                         }
                     }
                 }
@@ -354,9 +357,9 @@ function Call( $args )
             }
 
             if ( get_class( $Error ) == "ezxmlrpcresponse" )
-            {                
+            {
                 $ret = $Error;
-            }            
+            }
         }
         else
         {
@@ -369,6 +372,7 @@ function Call( $args )
     else
     {
         $ret =& createErrorMessage( EZERROR_BAD_LOGIN );
+        return $ret;
     }
 }
 
@@ -447,7 +451,7 @@ function xmlrpcErrorHandler ($errno, $errmsg, $filename, $linenum, $vars)
         );
     // set of errors for which a var trace will be saved
     $user_errors = array(E_USER_ERROR, E_USER_WARNING, E_USER_NOTICE);
-    
+
     $err = "<errorentry>\n";
     $err .= "\t<datetime>".$dt."</datetime>\n";
     $err .= "\t<errornum>".$errno."</errnumber>\n";
@@ -459,7 +463,7 @@ function xmlrpcErrorHandler ($errno, $errmsg, $filename, $linenum, $vars)
     if (in_array($errno, $user_errors))
         $err .= "\t<vartrace>".wddx_serialize_value($vars,"Variables")."</vartrace>\n";
     $err .= "</errorentry>\n\n";
-    
+
     // for testing
     // echo $err;
 
@@ -529,6 +533,13 @@ function &createErrorMessage( $error_id, $error_msg = false, $error_sub_id = fal
             if ( $ID > 0 )
                 $id_text = $ID;
             $error_text = "Client not logged in and no login data available\n";
+            break;
+        }
+        case EZERROR_NO_PERMISSION:
+        {
+            if ( $ID > 0 )
+                $id_text = $ID;
+            $error_text = "User has no permission to access URL \"$Module:/$RequestType/$id_text\"\n";
             break;
         }
         case EZERROR_CUSTOM:

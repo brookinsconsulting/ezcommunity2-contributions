@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.16 2001/10/16 14:01:06 jb Exp $
+// $Id: datasupplier.php,v 1.17 2001/11/02 08:56:02 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -37,7 +37,10 @@ switch ( $RequestType )
         {
             case "list":
             {
-                include( "ezarticle/xmlrpc/tag.php" );
+                if ( eZPermission::checkPermission( $User, "eZArticle", "ModuleEdit" ) )
+                    include( "ezarticle/xmlrpc/tag.php" );
+                else
+                    $Error = createErrorMessage( EZERROR_NO_PERMISSION );
                 break;
             }
         }
@@ -48,14 +51,20 @@ switch ( $RequestType )
         {
             case "list":
             {
-                include( "ezarticle/xmlrpc/typelist.php" );
+                if ( eZPermission::checkPermission( $User, "eZArticle", "ModuleEdit" ) )
+                    include( "ezarticle/xmlrpc/typelist.php" );
+                else
+                    $Error = createErrorMessage( EZERROR_NO_PERMISSION );
                 break;
             }
             case "data":
             case "storedata":
             case "delete":
             {
-                include( "ezarticle/xmlrpc/type.php" );
+                if ( eZPermission::checkPermission( $User, "eZArticle", "ModuleEdit" ) )
+                    include( "ezarticle/xmlrpc/type.php" );
+                else
+                    $Error = createErrorMessage( EZERROR_NO_PERMISSION );
                 break;
             }
         }
@@ -66,13 +75,19 @@ switch ( $RequestType )
         {
             case "list":
             {
-                include( "ezarticle/xmlrpc/topiclist.php" );
+                if ( eZPermission::checkPermission( $User, "eZArticle", "ModuleEdit" ) )
+                    include( "ezarticle/xmlrpc/topiclist.php" );
+                else
+                    $Error = createErrorMessage( EZERROR_NO_PERMISSION );
                 break;
             }
             case "data":
             case "storedata":
             {
-                include( "ezarticle/xmlrpc/topic.php" );
+                if ( eZPermission::checkPermission( $User, "eZArticle", "ModuleEdit" ) )
+                    include( "ezarticle/xmlrpc/topic.php" );
+                else
+                    $Error = createErrorMessage( EZERROR_NO_PERMISSION );
                 break;
             }
         }
@@ -86,7 +101,10 @@ switch ( $RequestType )
             case "list":
             case "tree":
             {
-                include( "ezarticle/xmlrpc/categorylist.php" );
+                if ( eZPermission::checkPermission( $User, "eZArticle", "ModuleEdit" ) )
+                     include( "ezarticle/xmlrpc/categorylist.php" );
+                else
+                    $Error = createErrorMessage( EZERROR_NO_PERMISSION );
                 break;
             }
             case "data":
@@ -94,7 +112,10 @@ switch ( $RequestType )
             case "delete":
             case "info":
             {
-                include( "ezarticle/xmlrpc/category.php" );
+                if ( eZPermission::checkPermission( $User, "eZArticle", "ModuleEdit" ) )
+                    include( "ezarticle/xmlrpc/category.php" );
+                else
+                    $Error = createErrorMessage( EZERROR_NO_PERMISSION );
                 break;
             }
             default:
@@ -111,21 +132,27 @@ switch ( $RequestType )
             case "delete":
             case "info":
             {
-                include( "ezarticle/xmlrpc/article.php" );
+                if ( eZPermission::checkPermission( $User, "eZArticle", "ModuleEdit" ) )
+                    include( "ezarticle/xmlrpc/article.php" );
+                else
+                    $Error = createErrorMessage( EZERROR_NO_PERMISSION );
                 break;
             }
             default:
                 $Error = true;
         }
     } break;
-        
+
     default :
     {
         switch( $Command )
         {
             case "search":
             {
-                include( "ezarticle/xmlrpc/search.php" );
+                if ( eZPermission::checkPermission( $User, "eZArticle", "ModuleEdit" ) )
+                    include( "ezarticle/xmlrpc/search.php" );
+                else
+                    $Error = createErrorMessage( EZERROR_NO_PERMISSION );
                 break;
             }
             default:

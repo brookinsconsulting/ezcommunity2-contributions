@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.10 2001/10/16 14:01:06 jb Exp $
+// $Id: datasupplier.php,v 1.11 2001/11/02 08:56:02 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -39,7 +39,10 @@ switch ( $RequestType )
             case "tree":
             case "search":
             {
-                include( "ezimagecatalogue/xmlrpc/categorylist.php" );
+                if ( eZPermission::checkPermission( $User, "eZImageCatalogue", "ModuleEdit" ) )
+                    include( "ezimagecatalogue/xmlrpc/categorylist.php" );
+                else
+                    $Error = createErrorMessage( EZERROR_NO_PERMISSION );
                 break;
             }
             case "data":
@@ -47,7 +50,10 @@ switch ( $RequestType )
             case "delete":
             case "info":
             {
-                include( "ezimagecatalogue/xmlrpc/category.php" );
+                if ( eZPermission::checkPermission( $User, "eZImageCatalogue", "ModuleEdit" ) )
+                    include( "ezimagecatalogue/xmlrpc/category.php" );
+                else
+                    $Error = createErrorMessage( EZERROR_NO_PERMISSION );
                 break;
             }
             default:
@@ -60,7 +66,10 @@ switch ( $RequestType )
         {
             case "list":
             {
-                include( "ezimagecatalogue/xmlrpc/unassignedlist.php" );
+                if ( eZPermission::checkPermission( $User, "eZImageCatalogue", "ModuleEdit" ) )
+                    include( "ezimagecatalogue/xmlrpc/unassignedlist.php" );
+                else
+                    $Error = createErrorMessage( EZERROR_NO_PERMISSION );
                 break;
             }
             default:
@@ -78,7 +87,10 @@ switch ( $RequestType )
             case "search":
             case "info":
             {
-                include( "ezimagecatalogue/xmlrpc/image.php" );
+                if ( eZPermission::checkPermission( $User, "eZImageCatalogue", "ModuleEdit" ) )
+                    include( "ezimagecatalogue/xmlrpc/image.php" );
+                else
+                    $Error = createErrorMessage( EZERROR_NO_PERMISSION );
                 break;
             }
             default:
@@ -86,14 +98,18 @@ switch ( $RequestType )
         }
     }
     break;
-        
+
     default :
     {
         switch( $Command )
         {
             case "search":
             {
-                include( "ezimagecatalogue/xmlrpc/search.php" );
+                if ( eZPermission::checkPermission( $User, "eZImageCatalogue", "ModuleEdit" ) )
+                    include( "ezimagecatalogue/xmlrpc/search.php" );
+                else
+                    $Error = createErrorMessage( EZERROR_NO_PERMISSION );
+                break;
                 break;
             }
             default:
