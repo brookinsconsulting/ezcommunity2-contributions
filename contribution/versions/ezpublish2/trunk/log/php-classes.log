@@ -55,3 +55,11 @@ Maintainer(s) : bf@ez.no
 
     * ezlist.php: fixed so numbers always start at 1 when at the end.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-09-15  Baard Farstad  <bf@ez.no>
+
+    * eztemplate.php: Added support for user defined variables.
+

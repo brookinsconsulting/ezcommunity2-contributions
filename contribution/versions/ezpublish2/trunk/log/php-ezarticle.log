@@ -399,3 +399,35 @@ Maintainer(s) : bf@ez.no
     * user/menuarticleview.php
       user/templates/standard/articlelist.tpl: Added cache
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-09-15  Baard Farstad  <bf@ez.no>
+
+    * admin/articleedit.php:
+    Fixed so that you don't have to enter email address when creating a new author.
+
+    * user/templates/standard/articlelist.tpl
+      user/templates/standard/articleview.tpl
+      user/articlelist.php
+      user/articleview.php:
+    Added override for image size in article list and view.
+
+    * classes/ezarticle.php: Fixed image placement sorting.
+
+    * user/articleview.php
+      user/templates/standard/articleview.tpl
+      classes/ezarticle.php:
+    Fixed image placement, it now handled deleting of images in the list and still remembers the placement.
+
+    * user/articleview.php:
+    Added site.ini setting for article list image sizes.
+
+    * user/templates/standard/articlelist.tpl
+      user/templates/standard/articleview.tpl
+      admin/articleedit.php
+      admin/templates/standard/articleedit.tpl
+      user/articleview.php:
+    Fixed a serious bug where article could disappear after entering invalid XML tags.
+

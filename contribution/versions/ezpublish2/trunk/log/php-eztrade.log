@@ -232,3 +232,63 @@ Maintainer(s) : ce@ez.no
     Add support for showing "you save" info (when the price you pay is lower
     than the list price/using price groups).k
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-09-15  Paul Kenneth Egell-Johnsen  <pkej@ez.no>
+
+    * user/ordersendt.php
+      user/payment.php
+      classes/ezcartitem.php
+      classes/ezorderitem.php:
+    Fixed everything, correct values are saved and fetched in these files.
+
+    TODO:
+
+    E-mails must be formatted.
+    User setting for html or non-html e-mails from trade.
+    Probably a lot of bugs.
+
+    * user/templates/standard/checkout.tpl
+      classes/ezorder.php
+      classes/ezorderitem.php
+      user/checkout.php: Added missing shipping part.
+
+    * user/templates/standard/checkout.tpl
+      user/ordersendt.php:
+    Removed some dirt in the template (form within form...)
+
+    * classes/ezcart.php
+      user/cart.php: Fixed wrong number of variables into function.
+
+    * classes/ezproduct.php: Removed debug message (doh)
+
+    * classes/ezproduct.php:
+    Fixed bug where prices for non logged in users didn't show correct ranges.
+
+    * user/cart.php
+      user/checkout.php:
+    Fixed error in checks for item count in cart. Didn't remember the max
+    number to set in the field, leading to no sales of products with
+    quantities.
+
+    * user/productlist.php: Product list fixed to work with correct prices!
+
+    * user/templates/standard/ordersendt.tpl
+      user/cart.php
+      user/hotdealslist.php
+      user/intl/en_GB/ordersendt.php.ini
+      user/intl/no_NO/ordersendt.php.ini
+      user/ordersendt.php
+      user/productview.php
+      user/smallcart.php
+      classes/ezcart.php
+      classes/ezcartitem.php
+      classes/ezoptionvalue.php
+      classes/ezorder.php
+      classes/ezorderitem.php
+      classes/ezproduct.php:
+    Simplified a lot of functions in the classes (removed the use of language
+    and user, since these exists as global objects.)
+
