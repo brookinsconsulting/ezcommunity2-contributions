@@ -63,9 +63,9 @@ class INIFile
     {
         // echo "INIFile::INIFile( \$inifilename = $inifilename,\$write = $write )<br />\n";
         $this->load_data( $inifilename, $write );
-    } 
+    }
 
-    function load_data( $inifilename="",$write=true )
+    function load_data( $inifilename = "",$write = true, $useoverride = true )
     {
         $this->WRITE_ACCESS = $write;
         if ( !empty($inifilename) )
@@ -73,24 +73,41 @@ class INIFile
             if ( !file_exists($inifilename) )
             { 
                 $this->error( "This file ($inifilename) does not exist!"); 
-                return; 
+                return;
             }
             $this->parse($inifilename);
+        }
+        if ( $useoverride )
+            $this->load_override_data( "override/" . $inifilename );
+    }
+
+    function load_override_data( $inifilename="" )
+    {
+        $appendfilename = $inifilename . ".append";
+        if ( !empty($inifilename) and file_exists($inifilename) )
+        {
+            $this->parse($inifilename, false );
+        }
+        else if ( !empty($appendfilename) and file_exists($appendfilename) )
+        {
+            $this->parse($appendfilename, true );
         }
     }
 
     /*!
       Parses the ini file.
     */
-    function parse( $inifilename )
-    { 
+    function parse( $inifilename, $append = false )
+    {
         $this->INI_FILE_NAME = $inifilename;
 
-        $fp = fopen( $inifilename, $this->WRITE_ACCESS ? "r+" : "r" ); 
+        $fp = fopen( $inifilename, $this->WRITE_ACCESS ? "r+" : "r" );
 
-        $this->CURRENT_GROUP=false;
-        $this->GROUPS=array();
-        $contents =& fread($fp, filesize($inifilename)); 
+        if ( !isset( $this->CURRENT_GROUP ) or !$append )
+             $this->CURRENT_GROUP=false;
+        if ( !isset( $this->GROUPS ) or !$append )
+             $this->GROUPS=array();
+        $contents =& fread($fp, filesize($inifilename));
         $ini_data =& split( "\n",$contents);
 
         for ( $i = 0; $i < count( $init_data ); $i++ )
