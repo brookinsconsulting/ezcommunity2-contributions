@@ -29,16 +29,20 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td width="50%" valign="top">
-<!-- BEGIN address_item_tpl -->
 <p class="boxtext">{intl-address}:</p>
+<!-- BEGIN address_item_tpl -->
 <div class="p">{street1}</div>
 <div class="p">{street2}</div>
 <div class="p">{zip} {place}</div>
+<div class="p">{country}</div>
 <!-- END address_item_tpl -->
+<!-- BEGIN no_address_item_tpl -->
+<p>{intl-error_no_address}</p>
+<!-- END no_address_item_tpl -->
 	</td>
 	<td valign="top">
 	<p class="boxtext">{intl-company_no}:</p>
-	<div class="p">{company_no}:</div>
+	<div class="p">{company_no}</div>
 	</td>
 </tr>
 </table>
@@ -103,7 +107,7 @@
 <!-- END no_image_tpl -->
 
 
-<h2>{intl-description}</h2>
+<p class="boxtext">{intl-description}:</p>
 
 <!-- BEGIN image_view_tpl -->
 <!--     <p class="boxtext">{intl-company_image}:</p> -->
@@ -111,17 +115,39 @@
 <!-- END image_view_tpl -->
 
 <p>{description}</p>
+<br />
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td width="50%">
+	<p class="boxtext">{intl-contact_person}:</p>
+	<!-- BEGIN contact_person_tpl -->
+	<p>{contact_lastname}, {contact_firstname}</p>
+	<!-- END contact_person_tpl -->
+	<!-- BEGIN no_contact_person_tpl -->
+	<p>{intl-no_contact_person}</p>
+	<!-- END no_contact_person_tpl -->
+	</td>
+
+	<td width="50%">
+	<p class="boxtext">{intl-project_status}:</p>
+	<!-- BEGIN project_status_tpl -->
+	<p>{project_status}</p>
+	<!-- END project_status_tpl -->
+	<!-- BEGIN no_project_status_tpl -->
+	<p>{intl-no_project_status}</p>
+	<!-- END no_project_status_tpl -->
+	</td>
+</tr>
+</table>
+
 <hr noshade="noshade" size="4" />
 <br />
+
 <form method="post" action="/contact/company/edit/{company_id}/">
 
 <input class="okbutton" type="submit" name="Edit" value="{intl-edit}">
-<input class="okbutton" type="submit" name="Delete" value="{intl-delete}" />
-<input class="okbutton" type="submit" name="Back" value="{intl-list}">
-
-</form>
-<form method="post" action="/contact/consultation/company/new/{company_id}/">
-
-<input class="okbutton" type="submit" name="New" value="{intl-consultation}">
-
+<input type="submit" name="Delete" value="{intl-delete}" />
+<input type="submit" name="Back" value="{intl-list}">
+<input type="submit" name="NewConsultation" value="{intl-consultation}">
 </form>

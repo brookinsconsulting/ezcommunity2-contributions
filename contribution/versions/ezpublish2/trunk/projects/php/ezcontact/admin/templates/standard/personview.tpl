@@ -33,7 +33,6 @@
 
 
 <h2>{intl-telephone_headline}</h2>
-
 <!-- BEGIN phone_item_tpl -->
 <br />
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
@@ -49,7 +48,6 @@
 <!-- END phone_item_tpl -->
 
 <!-- BEGIN no_phone_item_tpl -->
-<h2>{intl-telephone_headline}</h2>
 <p>{intl-error_no_phones}</p>
 <!-- END no_phone_item_tpl -->
 
@@ -68,7 +66,6 @@
 </table>
 <!-- END online_item_tpl -->
 <!-- BEGIN no_online_item_tpl -->
-<h2>{intl-online_headline}:</h2>
 <p>{intl-error_no_onlines}</p>
 <!-- END no_online_item_tpl -->
 

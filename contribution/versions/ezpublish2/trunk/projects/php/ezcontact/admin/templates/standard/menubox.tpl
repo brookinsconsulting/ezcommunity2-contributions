@@ -3,7 +3,7 @@
 </tr>
 <tr> 
     <td class="repeaty" background="/images/{site_style}/menu-m.gif">
-    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/companycategory/list/">{intl-companytypelist}</a><br>
+    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/company/list/">{intl-companytypelist}</a><br>
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/person/list/">{intl-personlist}</a><br>
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/consultation/list/">{intl-consultationlist}</a><br>
 
