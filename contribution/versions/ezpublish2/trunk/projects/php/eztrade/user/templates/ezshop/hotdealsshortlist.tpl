@@ -7,7 +7,7 @@
 {begin_tr}
 	<td>
 
-	<a class="small" href="http://shop.ez.no/trade/productview/{product_id}/{category_id}/">{product_name}</a><br />
+	<a class="small" href="http://sourceprovider.com/trade/productview/{product_id}/{category_id}/">{product_name}</a><br />
 
 	<!-- BEGIN product_image_tpl -->
 
