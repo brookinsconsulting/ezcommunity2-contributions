@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformtable.php,v 1.6 2001/12/14 12:57:50 jhe Exp $
+// $Id: ezformtable.php,v 1.7 2001/12/14 13:39:24 jhe Exp $
 //
 // Definition of eZFormTable class
 //
@@ -150,14 +150,13 @@ class eZFormTable
     /*!
       Moves this item up one step in the order list, this means that it will swap place with the item above.
     */
-    function moveUp( $object )
+    function moveUp( $elementID )
     {
-        if ( get_class( $object ) == "ezformelement" )
+        if ( is_numeric( $elementID ) == "ezformelement" )
         {
             $db =& eZDB::globalDatabase();
 
-            $tableID = $this->tableID();
-            $elementID = $object->id();
+            $tableID = $this->elementID();
             
             $db->query_single( $qry, "SELECT Placement FROM eZForm_FormTableElementDict
                                       WHERE ElementID='$elementID' AND TableID='$tableID'
@@ -192,10 +191,8 @@ class eZFormTable
                 $newOrder = $qry[$db->fieldName( "Placement" )];
                 $oldElementID = $qry[$db->fieldName( "ElementID" )];
             }
-
             $res[] = $db->query( "UPDATE eZForm_FormTableElementDict SET Placement='$newOrder'
                                  WHERE ElementID='$elementID' AND TableID='$tableID'" );
-                
             $res[] = $db->query( "UPDATE eZForm_FormTableElementDict SET Placement='$elementPlacement'
                                  WHERE ElementID='$oldElementID' AND TableID='$tableID'" );
             eZDB::finish( $res, $db );
@@ -205,15 +202,14 @@ class eZFormTable
     /*!
       Moves this item down one step in the order list, this means that it will swap place with the item below.
     */
-    function moveDown( $object )
+    function moveDown( $elementID )
     {
-        if ( get_class( $object ) == "ezformelement" )
+        if ( is_numeric( $elementID ) == "ezformelement" )
         {
             $db =& eZDB::globalDatabase();
             $db->begin();
             
-            $tableID = $this->tableID();
-            $elementID = $object->id();
+            $tableID = $this->elementID();
             
             $db->query_single( $qry, "SELECT Placement FROM eZForm_FormTableElementDict
                                       WHERE ElementID='$elementID' AND TableID='$tableID'

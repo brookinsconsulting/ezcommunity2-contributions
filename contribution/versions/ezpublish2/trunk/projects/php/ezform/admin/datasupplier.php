@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.6 2001/12/14 13:10:44 br Exp $
+// $Id: datasupplier.php,v 1.7 2001/12/14 13:39:24 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -78,8 +78,21 @@ switch ( $Operation )
 
             case "tableedit":
             {
-                $FormID = $url_array[4];
-                $ElementID = $url_array[5];
+                $pos = 4;
+                if ( $url_array[4] == "up" )
+                {
+                    $Action = "up";
+                    $pos++;
+                }
+                else if ( $url_array[4] == "down" )
+                {
+                    $Action = "down";
+                    $pos++;
+                }
+                
+                $FormID = $url_array[$pos];
+                $pos++;
+                $TableID = $url_array[$pos];
                 include( "ezform/admin/tableedit.php" );
             }
             break;

@@ -55,7 +55,7 @@
     
 <!-- BEGIN item_move_down_tpl -->
 	<td width="1%" class="{td_class}">
-        <a href="{www_dir}{index}/form/form/down/{form_id}/?ElementID={element_id}"><img src="{www_dir}/admin/images/move-down.gif" height="12" width="12" border="0" alt="{intl-move_up}" /></a>
+        <a href="{www_dir}{index}/form/form/{element_page}/down/{form_id}/{page_id}/?ElementID={element_id}"><img src="{www_dir}/admin/images/move-down.gif" height="12" width="12" border="0" alt="{intl-move_up}" /></a>
     </td>
 <!-- END item_move_down_tpl -->
 
@@ -72,7 +72,7 @@
 
 <!-- BEGIN item_move_up_tpl -->
 	<td width="1%" class="{td_class}">
-        <a href="{www_dir}{index}/form/form/up/{form_id}/?ElementID={element_id}"><img src="{www_dir}/admin/images/move-up.gif" height="12" width="12" border="0" alt="{intl-move_down}" /></a>
+        <a href="{www_dir}{index}/form/form/{element_page}/up/{form_id}/{page_id}/?ElementID={element_id}"><img src="{www_dir}/admin/images/move-up.gif" height="12" width="12" border="0" alt="{intl-move_down}" /></a>
     </td>
 <!-- END item_move_up_tpl -->
 <!-- BEGIN no_item_move_up_tpl -->
@@ -85,11 +85,5 @@
 <!-- END element_item_tpl -->
 </table>
 
-<hr noshade="noshade" size="4" />
-
-<input class="stdbutton" type="submit" name="NewElement" value="{intl-add_element}" />
-<input class="stdbutton" type="submit" name="Update" value="{intl-update}" />
-<input class="stdbutton" type="submit" name="DeleteSelected" value="{intl-delete_selected_elements}" />
-<br/>
 <!-- END element_list_tpl -->
 

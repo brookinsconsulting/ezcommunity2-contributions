@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: tableedit.php,v 1.3 2001/12/14 12:57:50 jhe Exp $
+// $Id: tableedit.php,v 1.4 2001/12/14 13:39:24 jhe Exp $
 //
 // Created on: <13-Dec-2001 10:51:41 jhe>
 //
@@ -39,21 +39,19 @@ if ( isSet( $Cancel ) )
     exit();
 }
 
-$table = new eZFormTable( $ElementID );
+$table = new eZFormTable( $TableID );
 
 if ( $Action == "up" )
 {
-    $element = new eZFormElement( $ElementID );
-    $table->moveUp( $element );
-    eZHTTPTool::header( "Location: /form/form/tableedit/$FormID/$ElementID/" );
+    $table->moveUp( $ElementID );
+    eZHTTPTool::header( "Location: /form/form/tableedit/$FormID/$TableID/" );
     exit();
 }
 
 if ( $Action == "down" )
 {
-    $element = new eZFormElement( $ElementID );
-    $table->moveDown( $element );
-    eZHTTPTool::header( "Location: /form/form/tableedit/$FormID/$ElementID/" );
+    $table->moveDown( $ElementID );
+    eZHTTPTool::header( "Location: /form/form/tableedit/$FormID/$TableID/" );
     exit();
 }
 
@@ -156,15 +154,18 @@ $elementTemplate->set_var( "element_list", "" );
 $elementTemplate->set_var( "element_item", "" );
 $elementTemplate->set_var( "typelist_item", "" );
 $elementTemplate->set_var( "checked", "" );
+$elementTemplate->set_var( "element_page", "tableedit" );
 
 $elementTemplate->set_var( "form_id", $FormID );
+$elementTemplate->set_var( "page_id", $TableID );
 
-$elementList = eZFormTable::tableElements( $ElementID );
+$elementList = eZFormTable::tableElements( $TableID );
 $types = eZFormElementType::getAll();
 $i = 0;
 
 $t->set_var( "form_id", $FormID );
-$t->set_var( "table_id", $ElementID );
+$t->set_var( "table_id", $TableID );
+$t->set_var( "row_list", "" );
 
 for ( $col = 0; $col < $table->cols(); $col++ )
 {
