@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlink.php,v 1.74 2001/10/17 14:25:08 br Exp $
+// $Id: ezlink.php,v 1.74.2.1 2001/11/20 14:53:55 br Exp $
 //
 // Definition of eZLink class
 //
@@ -673,7 +673,7 @@ class eZLink
     */
     function &url()
     {
-        return htmlspecialchars( $this->Url );
+        return $this->Url;
     }
 
     /*!
