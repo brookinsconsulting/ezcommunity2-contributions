@@ -47,8 +47,8 @@ CREATE TABLE eZProcurement_Bid (
 -- Dumping data for table `eZProcurement_Bid`
 --
 
-INSERT INTO eZProcurement_ProcurementHolderDefinition VALUES (0,0,1,0,0,0,5000.02,0,0);
-INSERT INTO eZProcurement_ProcurementHolderDefinition VALUES (1,2,1,3,2,1,4000.04,0,0);
+INSERT INTO eZProcurement_Bid VALUES (0,0,1,0,0,0,5000.02,0,0);
+INSERT INTO eZProcurement_Bid VALUES (1,2,1,3,2,1,4000.04,0,0);
 
 --
 -- Table structure for table `eZProcurement_BidRank`
@@ -56,9 +56,9 @@ INSERT INTO eZProcurement_ProcurementHolderDefinition VALUES (1,2,1,3,2,1,4000.0
 
 CREATE TABLE eZProcurement_BidRank (
   ID int(11) NOT NULL,
-  Name varchar2(250) NOT NULL,
-  AlphaNumericName varchar2(250) NOT NULL,
-  PRIMARY KEY  (ID,Name,AlphaNumericName)
+  Name varchar(250) NOT NULL,
+  AlphaNumericName varchar(250) NOT NULL,
+  PRIMARY KEY  (ID,Name)
 ) TYPE=MyISAM;
 
 --
