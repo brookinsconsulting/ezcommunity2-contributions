@@ -523,3 +523,28 @@ Maintainer(s) : br@ez.no
     removed htmlspecialcars on url function. this makes a problem when you have
     a url with get variables.
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-11-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_AR/attributeedit.php.ini
+      admin/intl/es_AR/categoryedit.php.ini
+      admin/intl/es_AR/categorylist.php.ini
+      admin/intl/es_AR/linkcategorylist.php.ini
+      admin/intl/es_AR/linkedit.php.ini
+      admin/intl/es_AR/menubox.php.ini
+      admin/intl/es_AR/search.php.ini
+      admin/intl/es_AR/typeedit.php.ini
+      admin/intl/es_AR/typelist.php.ini
+      admin/intl/es_AR/unacceptedlist.php.ini
+      user/intl/es_AR/categorylist.php.ini
+      user/intl/es_AR/linkcategorylist.php.ini
+      user/intl/es_AR/linklist.php.ini
+      user/intl/es_AR/menubox.php.ini
+      user/intl/es_AR/onepagelinklist.php.ini
+      user/intl/es_AR/search.php.ini
+      user/intl/es_AR/success.php.ini
+      user/intl/es_AR/suggestlink.php.ini: updated es_AR for 2.2.2
+

@@ -306,3 +306,18 @@ Maintainer(s) : ce@ez.no
 
     * user/todolist.php: changed order of bgdark and bglight
 
+
+Module : eztodo
+Repository path : /home/cvsroot/projects/php/eztodo
+Maintainer(s) : ce@ez.no
+2001-11-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_AR/categorytypeedit.php.ini
+      admin/intl/es_AR/categorytypelist.php.ini
+      admin/intl/es_AR/menubox.php.ini
+      user/intl/es_AR/maillog.php.ini
+      user/intl/es_AR/sendmail.php.ini
+      user/intl/es_AR/todoedit.php.ini
+      user/intl/es_AR/todolist.php.ini
+      user/intl/es_AR/todoview.php.ini: updated es_AR for 2.2.2
+

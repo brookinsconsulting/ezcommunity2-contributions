@@ -2060,3 +2060,101 @@ Maintainer(s) : ce@ez.no
 
     * user/productview.php: Fixed a add to cart bug
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-11-21  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezshippingtype.php
+      admin/categorylist.php
+      admin/orderedit.php
+      admin/orderlist.php
+      admin/templates/standard/orderedit.tpl
+      classes/ezoptionvalue.php
+      classes/ezproduct.php: Fixed several bugs in eZ Trade with prices.
+
+    * admin/categorylist.php
+      admin/orderedit.php
+      classes/ezshippingtype.php: fixed vat for shippinggroups.
+
+    * admin/orderedit.php
+      admin/orderlist.php
+      classes/ezoptionvalue.php
+      classes/ezproduct.php
+      admin/categorylist.php:
+    Fixed several bugs in eztrade with options and prices in the
+    admin interface. also added CountryVATDiscrimination,PricesIncVATBeforeLogin,
+    AdminShowExTaxColumn and AdminShowIncTaxColumn.
+
+2001-11-21  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezproduct.php
+      user/checkout.php
+      user/wishlist.php: Fixed bugs
+
+2001-11-21  Sascha Frinken  <sascha@impetex.de>
+
+    * user/intl/de_MG/cart.php.ini
+      user/intl/de_MG/customerlogin.php.ini
+      user/intl/de_MG/productview.php.ini
+      user/intl/de_MG/voucherinformation.php.ini
+      user/productview.php
+      user/voucherinformation.php
+      user/wishlist.php
+      user/cart.php: Fixed tamptles
+
+2001-11-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_AR/categoryedit.php.ini
+      admin/intl/es_AR/categorylist.php.ini
+      admin/intl/es_AR/currency.php.ini
+      admin/intl/es_AR/customerlist.php.ini
+      admin/intl/es_AR/customerview.php.ini
+      admin/intl/es_AR/formlist.php.ini
+      admin/intl/es_AR/imageedit.php.ini
+      admin/intl/es_AR/imagelist.php.ini
+      admin/intl/es_AR/linklist.php.ini
+      admin/intl/es_AR/linkselect.php.ini
+      admin/intl/es_AR/menubox.php.ini
+      admin/intl/es_AR/optionedit.php.ini
+      admin/intl/es_AR/optionlist.php.ini
+      admin/intl/es_AR/orderedit.php.ini
+      admin/intl/es_AR/orderlist.php.ini
+      admin/intl/es_AR/pricegroupedit.php.ini
+      admin/intl/es_AR/pricegroups.php.ini
+      admin/intl/es_AR/productedit.php.ini
+      admin/intl/es_AR/productexpire.php.ini
+      admin/intl/es_AR/productpreview.php.ini
+      admin/intl/es_AR/productsearch.php.ini
+      admin/intl/es_AR/shippingtypes.php.ini
+      admin/intl/es_AR/typeedit.php.ini
+      admin/intl/es_AR/typelist.php.ini
+      admin/intl/es_AR/voucheredit.php.ini
+      admin/intl/es_AR/voucherlist.php.ini
+      user/intl/es_AR/cart.php.ini
+      user/intl/es_AR/categorylist.php.ini
+      user/intl/es_AR/checkout.php.ini
+      user/intl/es_AR/customerlogin.php.ini
+      user/intl/es_AR/extendedsearch.php.ini
+      user/intl/es_AR/findwishlist.php.ini
+      user/intl/es_AR/mailorder.php.ini
+      user/intl/es_AR/mastercard.php.ini
+      user/intl/es_AR/menubox.php.ini
+      user/intl/es_AR/orderlist.php.ini
+      user/intl/es_AR/ordersendt.php.ini
+      user/intl/es_AR/orderview.php.ini
+      user/intl/es_AR/productlist.php.ini
+      user/intl/es_AR/productsearch.php.ini
+      user/intl/es_AR/productview.php.ini
+      user/intl/es_AR/sendwishlist.php.ini
+      user/intl/es_AR/smallcart.php.ini
+      user/intl/es_AR/smallproductlist.php.ini
+      user/intl/es_AR/viewwishlist.php.ini
+      user/intl/es_AR/visa.php.ini
+      user/intl/es_AR/voucher.php.ini
+      user/intl/es_AR/voucheremail.php.ini
+      user/intl/es_AR/voucherinformation.php.ini
+      user/intl/es_AR/voucherview.php.ini
+      user/intl/es_AR/wishlist.php.ini: updated es_AR for 2.2.2
+

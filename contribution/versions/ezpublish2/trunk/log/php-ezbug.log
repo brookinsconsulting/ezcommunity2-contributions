@@ -490,3 +490,31 @@ Maintainer(s) : vl@ez.no
       admin/prioritylist.php:
     changed new INIFile("site.ini") to INIFile::globalINI()
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-11-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_AR/bugedit.php.ini
+      admin/intl/es_AR/buglist.php.ini
+      admin/intl/es_AR/bugpreview.php.ini
+      admin/intl/es_AR/categorylist.php.ini
+      admin/intl/es_AR/confirmationmail.php.ini
+      admin/intl/es_AR/mailgotbug.php.ini
+      admin/intl/es_AR/mailreply.php.ini
+      admin/intl/es_AR/menubox.php.ini
+      admin/intl/es_AR/moduleedit.php.ini
+      admin/intl/es_AR/modulelist.php.ini
+      admin/intl/es_AR/prioritylist.php.ini
+      admin/intl/es_AR/statuslist.php.ini
+      admin/intl/es_AR/unhandledbugs.php.ini
+      user/intl/es_AR/buglist.php.ini
+      user/intl/es_AR/bugreport.php.ini
+      user/intl/es_AR/bugview.php.ini
+      user/intl/es_AR/fileedit.php.ini
+      user/intl/es_AR/imageedit.php.ini
+      user/intl/es_AR/mailnewbug.php.ini
+      user/intl/es_AR/menumodulelist.php.ini
+      user/intl/es_AR/unhandledbugs.php.ini: updated es_AR for 2.2.2
+

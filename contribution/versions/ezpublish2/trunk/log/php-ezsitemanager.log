@@ -459,3 +459,22 @@ Maintainer(s) : vl@ez.no
     * admin/sectionedit.php:
     Fixed redirect bug when creating a new row on a new session.
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-11-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_AR/cacheadmin.php.ini
+      admin/intl/es_AR/fileedit.php.ini
+      admin/intl/es_AR/filelist.php.ini
+      admin/intl/es_AR/menubox.php.ini
+      admin/intl/es_AR/menuedit.php.ini
+      admin/intl/es_AR/menulist.php.ini
+      admin/intl/es_AR/sectionedit.php.ini
+      admin/intl/es_AR/sectionlist.php.ini
+      admin/intl/es_AR/siteconfig.php.ini
+      admin/intl/es_AR/sqlquery.php.ini
+      admin/intl/es_AR/templateedit.php.ini
+      admin/intl/es_AR/templatelist.php.ini: updated es_AR for 2.2.2
+

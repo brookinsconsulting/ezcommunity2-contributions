@@ -458,3 +458,13 @@ Maintainer(s) : bf@ez.no
     * ezhttptool.php
       ezmysqldb.php: Added data checking for the voucherinformation
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-11-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_AR/linklist.php.ini
+      admin/intl/es_AR/linkselect.php.ini
+      locale/es_AR.ini: updated es_AR for 2.2.2
+

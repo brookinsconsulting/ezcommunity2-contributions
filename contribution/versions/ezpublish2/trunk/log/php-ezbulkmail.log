@@ -487,3 +487,29 @@ Maintainer(s) : fh@ez.no
     * classes/ezbulkmail.php
       classes/ezbulkmailcategory.php: fixed bugs (some case problems)
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2001-11-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_AR/categoryedit.php.ini
+      admin/intl/es_AR/categorylist.php.ini
+      admin/intl/es_AR/mailedit.php.ini
+      admin/intl/es_AR/maillist.php.ini
+      admin/intl/es_AR/mailview.php.ini
+      admin/intl/es_AR/masssubscribe.php.ini
+      admin/intl/es_AR/menubox.php.ini
+      admin/intl/es_AR/sendmail.php.ini
+      admin/intl/es_AR/templateedit.php.ini
+      admin/intl/es_AR/templatelist.php.ini
+      admin/intl/es_AR/userlist.php.ini
+      user/intl/es_AR/bulklist.php.ini
+      user/intl/es_AR/categoryedit.php.ini
+      user/intl/es_AR/mailview.php.ini
+      user/intl/es_AR/menubox.php.ini
+      user/intl/es_AR/subscriptionlist.php.ini
+      user/intl/es_AR/subscriptionlogin.php.ini
+      user/intl/es_AR/subscriptionmail.php.ini
+      user/intl/es_AR/usermessages.php.ini: updated es_AR for 2.2.2
+

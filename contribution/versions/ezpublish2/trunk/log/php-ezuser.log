@@ -688,3 +688,50 @@ Maintainer(s) : bf@ez.no
       admin/datasupplier.php
       admin/fixedvalues.php: Added radioboxes with fixed values
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-11-21  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezuser.php: Fixed bugs
+
+    * admin/intl/en_GB/fixedvalues.php.ini: Added a lanugage file
+
+    * admin/additionallist.php
+      admin/fixedvalues.php
+      admin/intl/en_GB/additionallist.php.ini
+      admin/templates/standard/additionallist.tpl
+      admin/templates/standard/fixedvalues.tpl
+      classes/ezuseradditional.php
+      user/templates/standard/userwithaddress.tpl
+      user/userwithaddress.php: Fix
+
+2001-11-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_AR/authorlist.php.ini
+      admin/intl/es_AR/groupedit.php.ini
+      admin/intl/es_AR/grouplist.php.ini
+      admin/intl/es_AR/login.php.ini
+      admin/intl/es_AR/menubox.php.ini
+      admin/intl/es_AR/passwordchange.php.ini
+      admin/intl/es_AR/sessioninfo.php.ini
+      admin/intl/es_AR/settings.php.ini
+      admin/intl/es_AR/useredit.php.ini
+      admin/intl/es_AR/userlist.php.ini
+      admin/intl/es_AR/welcome.php.ini
+      user/intl/es_AR/addressedit.php.ini
+      user/intl/es_AR/forgot.php.ini
+      user/intl/es_AR/forgotmessage.php.ini
+      user/intl/es_AR/login.php.ini
+      user/intl/es_AR/missingemailmessage.php.ini
+      user/intl/es_AR/norights.php.ini
+      user/intl/es_AR/userbox.php.ini
+      user/intl/es_AR/useredit.php.ini
+      user/intl/es_AR/userwithaddress.php.ini: updated es_AR for 2.2.2
+
+2001-11-21  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezobjectpermission.php
+      classes/ezuser.php: speed improvement and coding standard fixes
+

@@ -2207,3 +2207,67 @@ Maintainer(s) : bf@ez.no
       user/templates/standard/articlelist.tpl:
     Added custom link to images and headlines
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-11-21  Baard Farstad  <bf@ez.no>
+
+    * classes/ezqdomrenderer.php: Added reference to minimize memory usage.
+
+2001-11-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/help/es_AR/article_articleedit.hlp: es_AR 2.2.2
+
+    * admin/intl/es_AR/articleedit.php.ini
+      admin/intl/es_AR/articlelist.php.ini
+      admin/intl/es_AR/articlelog.php.ini
+      admin/intl/es_AR/articlepreview.php.ini
+      admin/intl/es_AR/attribute.php.ini
+      admin/intl/es_AR/attributelist.php.ini
+      admin/intl/es_AR/categoryedit.php.ini
+      admin/intl/es_AR/fileedit.php.ini
+      admin/intl/es_AR/filelist.php.ini
+      admin/intl/es_AR/formlist.php.ini
+      admin/intl/es_AR/imageedit.php.ini
+      admin/intl/es_AR/imagelist.php.ini
+      admin/intl/es_AR/imagemap.php.ini
+      admin/intl/es_AR/mailtemplate.php.ini
+      admin/intl/es_AR/mediaedit.php.ini
+      admin/intl/es_AR/medialist.php.ini
+      admin/intl/es_AR/menubox.php.ini
+      admin/intl/es_AR/pendinglist.php.ini
+      admin/intl/es_AR/pendingmail.php.ini
+      admin/intl/es_AR/search.php.ini
+      admin/intl/es_AR/searchform.php.ini
+      admin/intl/es_AR/sitemap.php.ini
+      admin/intl/es_AR/topiclist.php.ini
+      admin/intl/es_AR/typeedit.php.ini
+      admin/intl/es_AR/typelist.php.ini
+      admin/intl/es_AR/unpublishedlist.php.ini
+      user/intl/es_AR/articleedit.php.ini
+      user/intl/es_AR/articleheaderlist.php.ini
+      user/intl/es_AR/articlelinks.php.ini
+      user/intl/es_AR/articlelist.php.ini
+      user/intl/es_AR/articleview.php.ini
+      user/intl/es_AR/authorlist.php.ini
+      user/intl/es_AR/authorview.php.ini
+      user/intl/es_AR/extendedsearch.php.ini
+      user/intl/es_AR/fileedit.php.ini
+      user/intl/es_AR/filelist.php.ini
+      user/intl/es_AR/frontpage.php.ini
+      user/intl/es_AR/headlines.php.ini
+      user/intl/es_AR/imageedit.php.ini
+      user/intl/es_AR/imagelist.php.ini
+      user/intl/es_AR/index.php.ini
+      user/intl/es_AR/mailtofriend.php.ini
+      user/intl/es_AR/menubox.php.ini
+      user/intl/es_AR/menumaker.php.ini
+      user/intl/es_AR/newsgroup.php.ini
+      user/intl/es_AR/search.php.ini
+      user/intl/es_AR/searchform.php.ini
+      user/intl/es_AR/sendmailtofriend.php.ini
+      user/intl/es_AR/sitemap.php.ini
+      user/intl/es_AR/topiclist.php.ini
+      user/intl/es_AR/urlsupplier.php.ini: updated es_AR for 2.2.2
+

@@ -275,3 +275,19 @@ Maintainer(s) : ce@ez.no
 
     * admin/intl/no_NO/typeedit.php.ini: Updated norwegian language
 
+
+Module : ezmediacatalogue
+Repository path : /home/cvsroot/projects/php/ezmediacatalogue
+Maintainer(s) : ce@ez.no
+2001-11-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_AR/attributeedit.php.ini
+      admin/intl/es_AR/browse.php.ini
+      admin/intl/es_AR/categoryedit.php.ini
+      admin/intl/es_AR/mediaedit.php.ini
+      admin/intl/es_AR/medialist.php.ini
+      admin/intl/es_AR/mediaview.php.ini
+      admin/intl/es_AR/menubox.php.ini
+      admin/intl/es_AR/typeedit.php.ini
+      admin/intl/es_AR/typelist.php.ini: updated es_AR for 2.2.2
+

@@ -303,3 +303,19 @@ Maintainer(s) : fh@ez.no
     * user/fileedit.php:
     changed new INIFile("site.ini") to INIFile::globalINI()
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2001-11-21  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/es_AR/accountedit.php.ini
+      user/intl/es_AR/configure.php.ini
+      user/intl/es_AR/filteredit.php.ini
+      user/intl/es_AR/folderlist.php.ini
+      user/intl/es_AR/link.php.ini
+      user/intl/es_AR/mailedit.php.ini
+      user/intl/es_AR/maillist.php.ini
+      user/intl/es_AR/mailview.php.ini
+      user/intl/es_AR/search.php.ini: updated es_AR for 2.2.2
+

@@ -252,3 +252,23 @@ Maintainer(s) : vl@ez.no
       user/newslist.php
       user/search.php: changed new INIFile("site.ini") to INIFile::globalINI()
 
+
+Module : eznewsfeed
+Repository path : /home/cvsroot/projects/php/eznewsfeed
+Maintainer(s) : vl@ez.no
+2001-11-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_AR/categoryedit.php.ini
+      admin/intl/es_AR/importnews.php.ini
+      admin/intl/es_AR/menubox.php.ini
+      admin/intl/es_AR/newsarchive.php.ini
+      admin/intl/es_AR/newsedit.php.ini
+      admin/intl/es_AR/newssearch.php.ini
+      admin/intl/es_AR/sourcesiteedit.php.ini
+      admin/intl/es_AR/unpublished.php.ini
+      user/intl/es_AR/allcategories.php.ini
+      user/intl/es_AR/headlines.php.ini
+      user/intl/es_AR/menubox.php.ini
+      user/intl/es_AR/newslist.php.ini
+      user/intl/es_AR/search.php.ini: updated es_AR for 2.2.2
+

@@ -304,3 +304,19 @@ Maintainer(s) : jhe@ez.no
     * admin/typelist.php:
     changed new INIFile("site.ini") to INIFile::globalINI()
 
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@ez.no
+2001-11-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_AR/typeedit.php.ini
+      admin/intl/es_AR/typelist.php.ini
+      user/intl/es_AR/appointmentedit.php.ini
+      user/intl/es_AR/appointmentview.php.ini
+      user/intl/es_AR/dayview.php.ini
+      user/intl/es_AR/menubox.php.ini
+      user/intl/es_AR/monthview.php.ini
+      user/intl/es_AR/trustees.php.ini
+      user/intl/es_AR/yearview.php.ini: updated es_AR for 2.2.2
+

@@ -183,3 +183,15 @@ Maintainer(s) : ce@ez.no
       admin/intl/de_DE/onlinetype.php.ini
       admin/intl/de_DE/phonetype.php.ini: de_DE update for 2.2.1
 
+
+Module : ezaddress
+Repository path : /home/cvsroot/projects/php/ezaddress
+Maintainer(s) : ce@ez.no
+2001-11-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_AR/addresstype.php.ini
+      admin/intl/es_AR/country.php.ini
+      admin/intl/es_AR/menubox.php.ini
+      admin/intl/es_AR/onlinetype.php.ini
+      admin/intl/es_AR/phonetype.php.ini: updated es_AR for 2.2.2
+

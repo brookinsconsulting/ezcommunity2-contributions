@@ -750,3 +750,33 @@ Maintainer(s) : jhe@ez.no
       user/templates/standard/messagelist.tpl:
     fixed problem with header in forums attached to polls and atricles
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-11-21  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/es_AR/categoryedit.php.ini
+      admin/intl/es_AR/categorylist.php.ini
+      admin/intl/es_AR/forumedit.php.ini
+      admin/intl/es_AR/forumlist.php.ini
+      admin/intl/es_AR/mailreject.php.ini
+      admin/intl/es_AR/menubox.php.ini
+      admin/intl/es_AR/message.php.ini
+      admin/intl/es_AR/messageedit.php.ini
+      admin/intl/es_AR/messagelist.php.ini
+      admin/intl/es_AR/search.php.ini
+      admin/intl/es_AR/unapprovedlist.php.ini
+      user/intl/es_AR/categorylist.php.ini
+      user/intl/es_AR/forumlist.php.ini
+      user/intl/es_AR/latestmessages.php.ini
+      user/intl/es_AR/mailreply.php.ini
+      user/intl/es_AR/menubox.php.ini
+      user/intl/es_AR/menuforumlist.php.ini
+      user/intl/es_AR/message.php.ini
+      user/intl/es_AR/messagelist.php.ini
+      user/intl/es_AR/messagesimplelist.php.ini
+      user/intl/es_AR/noaccess.php.ini
+      user/intl/es_AR/search.php.ini
+      user/intl/es_AR/userlogin.php.ini: updated es_AR for 2.2.2
+
