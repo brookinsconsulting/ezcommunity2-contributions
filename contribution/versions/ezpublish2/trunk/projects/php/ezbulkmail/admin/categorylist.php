@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.10 2001/05/02 10:57:10 fh Exp $
+// $Id: categorylist.php,v 1.11 2001/05/02 11:59:25 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <18-Apr-2001 10:26:26 fh>
@@ -159,6 +159,6 @@ if( is_numeric( $CategoryID ) && $CategoryID > 0 )
     $t->parse( "bulkmail", "bulkmail_tpl" );
 
 }
-eZList::drawNavigator( $t, $mailCount, 10, $Offset, "category_list_tpl" );
+eZList::drawNavigator( $t, $mailCount, 20, $Offset, "category_list_tpl" );
 $t->pparse( "output", "category_list_tpl" );
 ?>
