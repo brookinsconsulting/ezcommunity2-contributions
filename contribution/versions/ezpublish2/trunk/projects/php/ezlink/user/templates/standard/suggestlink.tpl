@@ -21,12 +21,12 @@ http://<input tabindex="2" type="text" name="url" size="40" value="{url}"><br />
 
 <p class="boxtext">{intl-keywords}</p>
 
-<textarea wrap="soft" rows="5" cols="40" name="keywords">{keywords}</textarea>
+<textarea wrap="soft" rows="5" cols="20" name="keywords">{keywords}</textarea>
 
 <br />
 
 <p class="boxtext">{intl-description}</p>
-<textarea wrap="soft" rows="5" cols="40" name="description">{description}</textarea>
+<textarea wrap="soft" rows="5" cols="20" name="description">{description}</textarea>
 <br /><br />
 
 <hr noshade size="4"/>
