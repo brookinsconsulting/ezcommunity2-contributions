@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.9 2001/01/24 19:04:25 bf Exp $
+// $Id: productlist.php,v 1.10 2001/01/29 17:16:39 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Sep-2000 14:46:20 bf>
@@ -56,6 +56,16 @@ $t->set_block( "product_tpl", "product_image_tpl", "product_image" );
 $t->set_block( "product_list_page_tpl", "category_list_tpl", "category_list" );
 $t->set_block( "category_list_tpl", "category_tpl", "category" );
 
+if ( !isset( $ModuleName ) )
+    $ModuleName = "trade";
+if ( !isset( $ModuleList ) )
+    $ModuleList = "productlist";
+if ( !isset( $ModuleView ) )
+    $ModuleView = "productview";
+
+$t->set_var( "module", $ModuleName );
+$t->set_var( "module_list", $ModuleList );
+$t->set_var( "module_view", $ModuleView );
 
 $t->setAllStrings();
 
