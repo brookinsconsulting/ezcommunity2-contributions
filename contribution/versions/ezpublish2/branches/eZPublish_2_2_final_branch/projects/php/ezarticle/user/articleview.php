@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.84.2.3 2001/11/01 19:43:38 bf Exp $
+// $Id: articleview.php,v 1.84.2.4 2001/11/05 18:21:14 master Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -577,6 +577,7 @@ if ( isset( $GenerateStaticPage ) && $GenerateStaticPage == "true" )
     $output .= "\$SiteTitleAppend=\"$SiteTitleAppend\";\n";
     $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";
     $output .= "\$SiteKeywordsOverride=\"$SiteKeywordsOverride\";\n";    
+    $output .= "\$eZLanguageOverride=\"$eZLanguageOverride\";\n";
     $output .= "?>\n";
 
     $output .= $t->parse( $target, "article_view_page_tpl" );

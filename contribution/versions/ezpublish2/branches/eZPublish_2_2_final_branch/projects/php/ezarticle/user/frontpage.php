@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.28.2.4 2001/11/01 13:46:23 master Exp $
+// $Id: frontpage.php,v 1.28.2.5 2001/11/05 18:20:59 master Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -900,6 +900,7 @@ if ( isset( $GenerateStaticPage ) && $GenerateStaticPage == "true" )
     $output .= "\$GlobalSectionID=\"$GlobalSectionID\";\n";
     $output .= "\$SiteTitleAppend=\"$SiteTitleAppend\";\n";
     $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";    
+    $output .= "\$eZLanguageOverride=\"$eZLanguageOverride\";\n";
     $output .= "?>\n";
 
     $output .= ob_get_contents();

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.81 2001/10/17 10:45:08 th Exp $
+// $Id: articlelist.php,v 1.81.2.1 2001/11/05 18:21:27 master Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -470,6 +470,7 @@ if ( isSet( $GenerateStaticPage ) and $GenerateStaticPage == "true" and $cachedF
     $output .= "\$GlobalSectionID=\"$GlobalSectionID\";\n";
     $output .= "\$SiteTitleAppend=\"$SiteTitleAppend\";\n";
     $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";    
+    $output .= "\$eZLanguageOverride=\"$eZLanguageOverride\";\n";
     $output .= "?>\n";
 
     $output .= $t->parse( $target, "article_list_page_tpl" );
