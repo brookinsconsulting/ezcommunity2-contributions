@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.4 2001/07/19 12:29:04 jakobn Exp $
+// $Id: menubox.php,v 1.5 2001/10/16 13:45:22 jhe Exp $
 //
 // Created on: <16-Jan-2001 13:23:02 ce>
 //
@@ -39,13 +39,11 @@ $t = new eZTemplate( "ezbug/user/" . $ini->read_var( "eZBugMain", "TemplateDir" 
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "menu_box_tpl" => "menubox.tpl"
-    ) );
+$t->set_file( "menu_box_tpl", "menubox.tpl" );
 
 $t->set_block( "menu_box_tpl", "unhandled_tpl", "unhandled" );
 
-if( eZObjectPermission::getObjects( "bug_module", 'w', true ) )
+if ( eZObjectPermission::hasPermission( "bug_module", 'w', true ) )
     $t->parse( "unhandled", "unhandled_tpl" );
 else
     $t->set_var( "unhandled", "" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: bugedit.php,v 1.50 2001/10/14 17:00:06 fh Exp $
+// $Id: bugedit.php,v 1.51 2001/10/16 13:45:22 jhe Exp $
 //
 // Created on: <28-Nov-2000 19:45:35 bf>
 //
@@ -46,7 +46,7 @@ include_once( "ezbug/classes/ezbuglog.php" );
 
 $session = new eZSession();
 
-if ( isSet ( $Cancel ) )
+if ( isSet( $Cancel ) )
 {
     $bug = new eZBug( $BugID );
 
@@ -99,12 +99,12 @@ if ( $Action == "Insert" )
         $bug->setDescription( $Description );
         $bug->setUser( $user );
         $bug->setIsHandled( false );
-        if ( $IsClosed == 'on' )
+        if ( $IsClosed == "on" )
             $bug->setIsClosed( true );
         else
             $bug->setIsClosed( false );
 
-        if ( $IsPrivate == 'on' )
+        if ( $IsPrivate == "on" )
             $bug->setIsPrivate( true );
         else
             $bug->setIsPrivate( false );
@@ -170,11 +170,9 @@ if ( $Action == "Update" )
 //            $bug->setName( $bug->name() );
 //            $bug->setDescription( $bug->description() );
             
-
             $bug->removeFromModules();
             $bug->removeFromCategories();
             $bug->store();
-
                         
             $category->addBug( $bug );
             $module->addBug( $bug );
@@ -215,7 +213,7 @@ if ( $Action == "Update" )
                 $mailTemplate = new eZTemplate( "ezbug/admin/" . $ini->read_var( "eZBugMain", "AdminTemplateDir" ),
                                                 "ezbug/admin/intl", $Language, "mailreply.php" );
             
-                $headerInfo = ( getallheaders() );
+                $headerInfo = getallheaders();
 
                 $mailTemplate->set_file( "mailreply", "mailreply.tpl" );
                 $mailTemplate->setAllStrings();
@@ -226,15 +224,15 @@ if ( $Action == "Update" )
                 $mailTemplate->set_var( "bug_url", "http://" . $host . "/bug/bugview/" . $bug->id() );
                 $mailTemplate->set_var( "log_message", $LogMessage );
                 $mailTemplate->set_var( "bug_id", $bug->id() );
-                $mailTemplate->set_var( "bug_report", $bug->description() );
-                $mailTemplate->set_var( "bug_title", $bug->name() );
+                $mailTemplate->set_var( "bug_report", $bug->description( false ) );
+                $mailTemplate->set_var( "bug_title", $bug->name( false ) );
                 
                 $bodyText = ( $mailTemplate->parse( "dummy", "mailreply" ) );
 
                 $languageIni = new INIFile( "ezbug/admin/" . "intl/" . $Language . "/mailreply.php.ini", false );
                 $msg =  $languageIni->read_var( "strings", "bug_handled" );
 
-                $mail->setSubject( "[" . $msg . "]" . $bug->name() );
+                $mail->setSubject( "[" . $msg . "]" . $bug->name( false ) );
                 $mail->setTo( $reporter_email );
                 $mail->setBody( $bodyText );
 
@@ -242,7 +240,7 @@ if ( $Action == "Update" )
             }
 
             $Action = "Edit";
-            if( !isSet( $InsertImage) && !isSet( $InsertFile ) && !isSet( $DeleteSelected ) )
+            if ( !isSet( $InsertImage) && !isSet( $InsertFile ) && !isSet( $DeleteSelected ) )
             {
                 if ( $isHandled )
                 {
@@ -259,12 +257,11 @@ if ( $Action == "Update" )
         }
         else
         {
-            if( !isSet( $InsertImage) && !isSet( $InsertFile ) && !isSet( $DeleteSelected ) )
+            if ( !isSet( $InsertImage) && !isSet( $InsertFile ) && !isSet( $DeleteSelected ) )
             {
                 Header( "Location: /bug/archive/" );
                 exit();
-            }
-            
+            }   
         }
     }
 }
@@ -272,35 +269,35 @@ if ( $Action == "Update" )
 $t->set_var( "bug_date", "" );    
 $t->set_var( "action_value", "Insert" );
 
-if( isSet( $InsertFile ) ) 
+if ( isSet( $InsertFile ) ) 
 {
     $Action = "";
     eZHTTPTool::header( "Location: /bug/report/fileedit/new/$BugID" );
     exit();
 }
 
-if( isSet( $InsertImage ) )
+if ( isSet( $InsertImage ) )
 {
     $Action = "";
     eZHTTPTool::header( "Location: /bug/report/imageedit/new/$BugID" );
     exit();
 }
 
-if( isSet( $DeleteSelected ) )
+if ( isSet( $DeleteSelected ) )
 {
     $bug = new eZBug( $BugID );
-    if( count( $ImageArrayID ) > 0 )
+    if ( count( $ImageArrayID ) > 0 )
     {
-        foreach( $ImageArrayID as $imageID )
+        foreach ( $ImageArrayID as $imageID )
         {
             $image = new eZImage( $imageID );
             $bug->deleteImage( $image );
         }
     }
 
-    if( count( $FileArrayID ) > 0 )
+    if ( count( $FileArrayID ) > 0 )
     {
-        foreach( $FileArrayID as $fileID )
+        foreach ( $FileArrayID as $fileID )
         {
             $file = new eZVirtualFile( $fileID );
             $bug->deleteFile( $file );
@@ -318,7 +315,7 @@ if ( $Action == "Edit" )
     $t->set_var( "bug_id", $bug->id() );
     $t->set_var( "name_value", $bug->name() );
     $bug_user = $bug->user();
-    if( $bug_user )
+    if ( $bug_user )
     {
         $t->set_var( "reporter_name_value", $bug_user->namedEmail() );
     }
@@ -336,7 +333,7 @@ if ( $Action == "Edit" )
     $date =& $bug->created();
     $t->set_var( "bug_date", $locale->format( $date ) );    
 
-    if( $bug->version() != "" )
+    if ( $bug->version() != "" )
     {
         $t->set_var( "version_value", $bug->version() );
         $t->parse( "program_version", "program_version_tpl", false );
@@ -434,7 +431,7 @@ if ( $Action == "Edit" )
             $t->set_var( "image_number", $i + 1 );
             $t->set_var( "image_id", $image->id() );
             $caption = $image->caption();
-            if( $caption == "" )
+            if ( $caption == "" )
                 $caption = "-";
             
             $t->set_var( "image_name", "<a href=\"".$GlobalSiteIni->WWWDir.$GlobalSiteIni->Index."/imagecatalogue/imageview/" . $image->id()
@@ -451,7 +448,7 @@ if ( $Action == "Edit" )
         $t->set_var( "image", "" );
     }
     
-    if( count( $logList ) == 0 )
+    if ( count( $logList ) == 0 )
     {
         $t->set_var( "log_item", "" );
     }
@@ -551,18 +548,19 @@ foreach ( $statuses as $status )
 
 
 $ownerGroup = eZObjectPermission::getGroups( $moduleID, "bug_module", 'w', false );
+
 $owner = $bug->owner();
 $currentOwner = -1;
-if( $ownerGroup[0]  != "" )
+if ( $ownerGroup[0] != "" )
 {
     $users = eZUserGroup::users( $ownerGroup );
-    if( count( $users ) > 0 )
+    if ( count( $users ) > 0 )
     {
-        foreach( $users as $userItem )
+        foreach ( $users as $userItem )
         {
             $t->set_var( "owner_id", $userItem->id() );
             $t->set_var( "owner_login", $userItem->login() );
-            if( get_class( $owner ) == "ezuser" && $userItem->id() == $owner->id() )
+            if ( get_class( $owner ) == "ezuser" && $userItem->id() == $owner->id() )
             {
                 $t->set_var( "selected", "selected" );
                 $currentOwner = $owner->id();
@@ -594,7 +592,7 @@ function sendAssignedMail( $bug, $userEmail, $ini, $Language )
 {
     $module = $bug->module();
     $user = $bug->user();
-    if( is_object( $user ) )
+    if ( is_object( $user ) )
         $reporter = $user->namedEmail();
     else
         $reporter = $bug->userEmail();
@@ -605,7 +603,7 @@ function sendAssignedMail( $bug, $userEmail, $ini, $Language )
     
     $mailTemplate = new eZTemplate( "ezbug/admin/" . $ini->read_var( "eZBugMain", "AdminTemplateDir" ),
                                     "ezbug/admin/intl", $Language, "mailgotbug.php" );
-    $headerInfo = ( getallheaders() );
+    $headerInfo = getallheaders();
 
     $mailTemplate->set_file( "mailgotbug", "mailgotbug.tpl" );
     $mailTemplate->setAllStrings();
@@ -628,7 +626,7 @@ function sendAssignedMail( $bug, $userEmail, $ini, $Language )
     $bodyText = ( $mailTemplate->parse( "dummy", "mailgotbug" ) );
     $mail->setBody( $bodyText );
 
-    $mail->setTo( $userEmail  );
+    $mail->setTo( $userEmail );
     $mail->send();
 }
 
