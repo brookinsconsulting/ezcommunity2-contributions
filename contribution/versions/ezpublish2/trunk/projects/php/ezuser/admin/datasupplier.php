@@ -46,6 +46,13 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "settings" :
+    {
+        $Action = $url_array[3];
+        include( "ezuser/admin/settings.php" );
+    }
+    break;
+
     case "userlist" :
     {
         $Index = $url_array[3];
