@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: productlist.php,v 1.41.8.9 2002/01/24 12:50:40 bf Exp $
+// $Id: productlist.php,v 1.41.8.10 2002/01/24 16:14:32 bf Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -178,17 +178,31 @@ if ( !isSet( $Offset ) or !is_numeric( $Offset ) )
 
 // products
 $TotalTypes =& $category->productCount( $category->sortMode(), false );
-$productList =& $category->activeProducts( $category->sortMode(), $Offset, $Limit );
+$productList =& $category->productsAsArray( $category->sortMode(), false, $Offset, $Limit );
 
 $locale = new eZLocale( $Language );
 $i = 0;
+$db =& eZDB::globalDatabase();
 
 foreach ( $productList as $product )
 {
-    $t->set_var( "product_id", $product->id() );
+    $t->set_var( "product_id", $product["ID"] );
 
+    $thumbnailImage = false;
+    $db->array_query( $res_array, "SELECT * FROM eZTrade_ProductImageDefinition
+                                     WHERE
+                                     ProductID='" . $product["ID"] . "'
+                                   " );
+    
+    if ( count( $res_array ) == 1 )
+    {
+        if ( is_numeric( $res_array[0][$db->fieldName( "ThumbnailImageID" )] ) )
+        {
+            $thumbnailImage = new eZImage( $res_array[0][$db->fieldName( "ThumbnailImageID" )], false );
+        }
+    }
+    
     // preview image
-    $thumbnailImage = $product->thumbnailImage();
 
     if ( $thumbnailImage )
     {
@@ -211,60 +225,14 @@ foreach ( $productList as $product )
         $t->parse( "product_image", "product_image_tpl" );
     }
 
-    $SiteDescriptionOverride .= $product->name() . " ";
+    $SiteDescriptionOverride = $SiteDescriptionOverride . $product["Name"] . " ";
 
-    $t->set_var( "product_name", $product->name() );
+    $t->set_var( "product_name", $product["Name"] );
 
     $t->set_var( "product_intro_text", "" );
+    $t->set_var( "price", "" );
 
-    if ( $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
-    {
-        $t->set_var( "product_price", $product->localePrice( $PricesIncludeVAT ) );
-        $priceRange = $product->correctPriceRange( $PricesIncludeVAT );
-
-        if ( ( empty( $priceRange["min"] ) and empty( $priceRange["max"] ) ) and !($product->correctPrice( $PricesIncludeVAT ) > 0) )
-        {
-            $t->set_var( "product_price", "" );
-        }
-        $t->parse( "price", "price_tpl" );
-    }
-    elseif( $product->showPrice() == false )
-    {
-        $t->set_var( "product_price", "" );
-        $t->parse( "price", "price_tpl" );
-    }
-    else
-    {
-        $priceArray = "";
-        $options =& $product->options();
-        if ( count( $options ) == 1 )
-        {
-            $option = $options[0];
-            if ( get_class( $option ) == "ezoption" )
-            {
-                $optionValues =& $option->values();
-                if ( count( $optionValues ) > 1 )
-                {
-                    $i=0;
-                    foreach ( $optionValues as $optionValue )
-                    {
-                        $priceArray[$i] = $optionValue->localePrice( $PricesIncludeVAT, $product );
-                        $i++;
-                    }
-                    $high = max( $priceArray );
-                    $low = min( $priceArray );
-
-                    $t->set_var( "product_price", $low . " - " . $high );
-
-                    $t->parse( "price", "price_tpl" );
-                }
-            }
-        }
-        else
-            $t->set_var( "price", "" );
-    }
-
-    $t->set_var( "category_id", $category->id() );
+    $t->set_var( "category_id", $product["CatID"] );
 
     if ( ( $i % 2 ) == 0 )
     {

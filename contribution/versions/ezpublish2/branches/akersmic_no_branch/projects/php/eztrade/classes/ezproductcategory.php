@@ -1,5 +1,5 @@
 <?php
-// $Id: ezproductcategory.php,v 1.52.8.4 2002/01/14 12:18:47 bf Exp $
+// $Id: ezproductcategory.php,v 1.52.8.5 2002/01/24 16:14:32 bf Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -782,6 +782,93 @@ class eZProductCategory
        return $return_array;
     }
 
+    /*!
+      Returns every product to a category as a array of eZProduct objects.
+    */
+    function &productsAsArray( $sortMode="time",
+                        $fetchNonActive=false,
+                        $offset=0,
+                        $limit=50,
+                        $fetchDiscontinued=false,
+                        $categoryID=0 )
+    {
+        if ( $categoryID != 0 )
+            $catID = $categoryID;
+        else
+            $catID = $this->ID;
+
+       $db =& eZDB::globalDatabase();
+
+       switch( $sortMode )
+       {
+           case "time" :
+           {
+               $OrderBy = "eZTrade_Product.Published DESC";
+           }
+           break;
+
+           case "alpha" :
+           {
+               $OrderBy = "eZTrade_Product.Name ASC";
+           }
+           break;
+
+           case "alphadesc" :
+           {
+               $OrderBy = "eZTrade_Product.Name DESC";
+           }
+           break;
+
+           case "absolute_placement" :
+           {
+               $OrderBy = "eZTrade_ProductCategoryLink.Placement ASC";
+           }
+           break;
+
+           default :
+           {
+               $OrderBy = "eZTrade_Product.Published DESC";
+           }
+       }
+
+       $return_array = array();
+       $product_array = array();
+
+       if ( $fetchNonActive  == true )
+       {
+           $nonActiveCode = "";
+       }
+       else
+       {
+           $nonActiveCode = " eZTrade_Product.ShowProduct='1' AND";
+       }
+       $discontinuedCode = "";
+
+       if ( !$fetchDiscontinued )
+           $discontinuedCode = " eZTrade_Product.Discontinued='0' AND";
+       $db->array_query( $product_array, "
+                SELECT eZTrade_Product.ID AS ID, eZTrade_Product.Name, eZTrade_Product.Price AS Price,
+                       eZTrade_Category.ID as CatID, eZTrade_Category.Name as CatName
+                FROM eZTrade_Product, eZTrade_Category,
+                     eZTrade_ProductCategoryLink
+                WHERE
+                eZTrade_ProductCategoryLink.ProductID = eZTrade_Product.ID
+                AND
+                $nonActiveCode
+                $discontinuedCode
+                eZTrade_Category.ID = eZTrade_ProductCategoryLink.CategoryID
+                AND
+                eZTrade_Category.ID='$catID'
+                ORDER BY $OrderBy", array( "Limit" => $limit, "Offset" => $offset ) );
+
+/*       for ( $i = 0; $i < count( $product_array ); $i++ )
+       {
+           $return_array[$i] = new eZProduct( $product_array[$i][$db->fieldName( "ProductID" )], false );
+       }
+*/
+       return $product_array;
+    }
+    
 
     /*!
       Returns every active product to a category as a array of eZProduct objects.
