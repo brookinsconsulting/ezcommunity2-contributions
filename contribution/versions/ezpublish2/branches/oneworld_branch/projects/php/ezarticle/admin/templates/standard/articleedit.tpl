@@ -85,7 +85,7 @@
 	</select>
 
 	</td>	
-	<td>&nbsp;</td>
+    <td>&nbsp;</td>
 	<td valign="top">
 	<p class="boxtext">{intl-additional_category}:</p>
 	
@@ -97,9 +97,20 @@
 	
 	</select>
 	</td>
+	<td>&nbsp;</td>
+    <td valign="top">
+	<p class="boxtext">{intl-ranking}:</p>
+	<select name="RankingValue">
+	
+	<!-- BEGIN ranking_item_tpl -->
+	<option value="{ranking_value}" {selected}>{ranking_value}</option>
+	<!-- END ranking_item_tpl -->
+	
+	</select>
+    </td>
 </tr>
 <tr>
-	<td colspan="3">&nbsp;</td>
+	<td colspan="5">&nbsp;</td>
 </tr>
 <tr>
 	<td align="top">
@@ -121,6 +132,7 @@
 	<!-- END category_owner_tpl -->
 	</select>
 	</td>
+    <td colspan="3">&nbsp;</td>
 </tr>
 </table>
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.50.2.4 2002/04/24 07:35:26 jhe Exp $
+// $Id: articlelist.php,v 1.50.2.4.2.1 2002/05/15 14:22:17 pkej Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -169,7 +169,16 @@ if ( isset( $DeleteCategories ) )
             $categories[] = $category->parent( false );
             if ( eZObjectPermission::hasPermission( $ID , "article_category", 'w' ) ||
                  eZArticleCategory::isOwner( eZUser::currentUser(), $ID ) )
+        {
+            $defCat = $category->categoryDefinition();
+            if ( get_class( $defCat ) == "ezarticlecategory" )
+            {
+                $defCat->removeCategory( $category );
+            }
+             $category->removeFromCategories();
+
                 $category->delete();
+        }
         }
         $categories = array_unique( $categories );
         $files =& eZCacheFile::files( "ezarticle/cache/",

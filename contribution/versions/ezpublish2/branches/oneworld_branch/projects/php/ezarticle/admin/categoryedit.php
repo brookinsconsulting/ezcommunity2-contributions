@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categoryedit.php,v 1.29.2.3 2002/04/25 12:15:56 bf Exp $
+// $Id: categoryedit.php,v 1.29.2.3.2.1 2002/05/15 14:22:17 pkej Exp $
 //
 // Created on: <18-Sep-2000 14:46:19 bf>
 //
@@ -88,8 +88,16 @@ if ( $Action == "insert" && !$error )
     if ( $parentCategory->get( $ParentID ) == true )
     {
         $category->setParent( $parentCategory );
-    }    
+    }
+        
 
+
+
+
+
+    
+    
+    
     //EP: CategoryDescriptionXML=enabled, description go in XML -------------------
     if ( $ini->read_var( "eZArticleMain", "CategoryDescriptionXML" ) == "enabled" )
     {
@@ -109,6 +117,8 @@ if ( $Action == "insert" && !$error )
     $category->setEditorGroup( $EditorGroupID );
     $category->setListLimit( $ListLimit );
     $category->setSortMode( $SortMode );
+    
+    
     
     if ( $ExcludeFromSearch == "on" )
     {
@@ -133,6 +143,53 @@ if ( $Action == "insert" && !$error )
     $category->setOwner( eZUser::currentUser() );
     
     $category->store();
+
+            $extraCategoryArray =& $category->categories();
+
+            // Calculate new and unused categories
+            $old_maincategory = new eZArticleCategory( $category->categoryDefinition( false ) );
+            $old_categories =& array_unique( array_merge( $old_maincategory->id(),
+                                                          $category->categories( false ) ) );
+
+            $new_categories = array_unique( array_merge( $ExtraCategoryID, $ExtraCategoryArray ) );
+
+            $remove_categories = array_diff( $old_categories, $new_categories );
+            $add_categories = array_diff( $new_categories, $old_categories );
+
+            $categoryIDArray = array();
+
+            foreach ( $categoryArray as $cat )
+            {
+                $categoryIDArray[] = $cat->id();
+            }
+            
+            foreach ( $remove_categories as $categoryItem )
+            {
+                eZArticleCategory::removeCategory( $category, $categoryItem );
+            }
+
+            // add to categories
+
+
+            $extraCategory = new eZArticleCategory( $ExtraCategoryID );
+            $extraCategory->addCategory( $category );
+            $category->setCategoryDefinition( $extraCategory );
+
+            foreach ( $add_categories as $categoryItem )
+            {
+                eZArticleCategory::addCategory( $category, $categoryItem );
+            }
+
+
+
+
+
+
+
+
+
+
+
     $categoryID = $category->id();
 
     if ( isSet( $BulkMailID ) && $BulkMailID != -1 )
@@ -332,6 +389,43 @@ if ( $Action == "update" && !$error )
     
     $category->store();
 
+            $extraCategoryArray =& $category->categories();
+
+            // Calculate new and unused categories
+            $old_maincategory = new eZArticleCategory( $category->categoryDefinition( false ) );
+            $old_categories =& array_unique( array_merge( $old_maincategory->id(),
+                                                          $category->categories( false ) ) );
+
+            $new_categories = array_unique( array_merge( $ExtraCategoryID, $ExtraCategoryArray ) );
+
+            $remove_categories = array_diff( $old_categories, $new_categories );
+            $add_categories = array_diff( $new_categories, $old_categories );
+
+            $categoryIDArray = array();
+
+            foreach ( $categoryArray as $cat )
+            {
+                $categoryIDArray[] = $cat->id();
+            }
+            
+            foreach ( $remove_categories as $categoryItem )
+            {
+                eZArticleCategory::removeCategory( $category, $categoryItem );
+            }
+
+            // add to categories
+
+
+            $extraCategory = new eZArticleCategory( $ExtraCategoryID );
+            $extraCategory->addCategory( $category );
+            $category->setCategoryDefinition( $extraCategory );
+
+            foreach ( $add_categories as $categoryItem )
+            {
+                eZArticleCategory::addCategory( $category, $categoryItem );
+            }
+
+
     if ( isset( $BulkMailID ) && $BulkMailID != -1 )
         $category->setBulkMailCategory( $BulkMailID );
     else
@@ -373,6 +467,10 @@ if ( $Action == "delete" )
 
     $category = new eZArticleCategory();
     $category->get( $CategoryID );
+    $defCat = $category->categoryDefinition();
+    $defCat->removeCategory( $category );
+    $category->removeFromCategories();
+    
 
     $files =& eZCacheFile::files( "ezarticle/cache/",
                                   array( "articlelist",
@@ -397,7 +495,9 @@ $t->setAllStrings();
 $t->set_file( "category_edit_tpl", "categoryedit.tpl" );
 
 
+$t->set_block( "category_edit_tpl", "value2_tpl", "value2" );
 $t->set_block( "category_edit_tpl", "value_tpl", "value" );
+$t->set_block( "category_edit_tpl", "multiple_value_tpl", "multiple_value" );
 $t->set_block( "category_edit_tpl", "category_owner_tpl", "category_owner" );
 $t->set_block( "category_edit_tpl", "group_item_tpl", "group_item" );
 $t->set_block( "category_edit_tpl", "editor_group_item_tpl", "editor_group_item" );
@@ -437,6 +537,8 @@ $t->set_var( "2_selected", "" );
 $t->set_var( "3_selected", "" );
 $t->set_var( "4_selected", "" );
 $t->set_var( "5_selected", "" );
+$t->set_var( "6_selected", "" );
+$t->set_var( "7_selected", "" );
 
 // edit
 if ( $Action == "edit" )
@@ -613,6 +715,95 @@ if ( count( $sectionList ) > 0 )
 }
 else
     $t->set_var( "section_item", "" );
+
+
+
+
+
+
+
+// category select
+    $category = new eZArticleCategory();
+    $category->get( $CategoryID );
+$categoryArray = $category->getAll( );
+
+$tree = new eZArticleCategory();
+$treeArray =& $tree->getTree();
+$user =& eZUser::currentUser();
+
+$catCount = count( $treeArray );
+$t->set_var( "num_select_categories", min( $catCount, 10 ) );
+
+foreach ( $treeArray as $catItem )
+{
+    if ( eZObjectPermission::hasPermission( $catItem[0]->id(), "article_category", 'w', $user ) == true ||
+         eZArticleCategory::isOwner( eZUser::currentUser(), $catItem[0]->id() ) )
+    {    
+        if ( $Action == "edit" )
+        {
+            $defCat = $category->categoryDefinition( );
+        
+            if ( get_class( $defCat ) == "ezarticlecategory" )
+            {
+                if ( $category->existsInCategory( $catItem[0] ) && $defCat->id() != $catItem[0]->id() )
+                {
+                    $t->set_var( "multiple_selected", "selected" );
+                }
+                else
+                {
+                    $t->set_var( "multiple_selected", "" );
+                }
+            }
+            else
+            {
+                $t->set_var( "selected", "" );
+            }
+            
+            if ( get_class( $defCat ) == "ezarticlecategory" )
+            {
+                if ( $defCat->id() == $catItem[0]->id() )
+                {
+                    $t->set_var( "selected", "selected" );
+                }
+                else
+                {
+                   $t->set_var( "selected", "" );
+                }
+            }
+            else
+            {
+                $t->set_var( "selected", "" );
+            }
+        }
+        else
+        {
+            $t->set_var( "selected", "" );
+            $t->set_var( "multiple_selected", "" );
+        }
+    
+        $t->set_var( "option_value", $catItem[0]->id() );
+        $t->set_var( "option_name", $catItem[0]->name() );
+
+        if ( $catItem[1] > 1 )
+            $t->set_var( "option_level", str_repeat( "&nbsp;&nbsp;", $catItem[1] ) );
+        else
+            $t->set_var( "option_level", "" );
+    
+        $t->parse( "value2", "value2_tpl", true );    
+        $t->parse( "multiple_value", "multiple_value_tpl", true );
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 
 // bulkmail selector
 $categories = eZBulkMailCategory::getAll();

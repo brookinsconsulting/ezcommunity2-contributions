@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.103.2.5 2002/04/26 14:59:09 jb Exp $
+// $Id: ezarticlecategory.php,v 1.103.2.5.2.1 2002/05/15 14:22:17 pkej Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -796,6 +796,8 @@ class eZArticleCategory
       3 - alphabetic desc
       4 - absolute placement     
       5 - modification date
+      6 - Ranking 
+      7 - Ranking desc
     */
     function sortMode( $return_id = false )
     {
@@ -828,6 +830,18 @@ class eZArticleCategory
             case 5 :
             {
                 $SortMode = "modification";
+            }
+            break;
+            
+            case 6 :
+            {
+                $SortMode = "ranking";
+            }
+            break;
+            
+            case 7 :
+            {
+                $SortMode = "rankingdesc";
             }
             break;
             
@@ -968,7 +982,11 @@ class eZArticleCategory
       1 - publishing date
       2 - alphabetic
       3 - alphabetic desc
-      3 - absolute placement      
+      4 - absolute placement     
+      5 - modification date
+      6 - Ranking 
+      7 - Ranking desc
+
     */
     function setSortMode( $value )
     {
@@ -1012,6 +1030,34 @@ class eZArticleCategory
         $query = "DELETE FROM eZArticle_ArticleCategoryLink
                   WHERE CategoryID='$categoryid' AND
                         ArticleID='$articleID'";
+
+        $db->query( $query );
+    }
+
+    /*!
+      \static
+      Removes a category from the category.
+      Can be used as a static function if $parentcategoryid is supplied
+    */
+    function removeCategory( $value, $parentcategoryid = false )
+    {
+        if ( get_class( $value ) == "ezarticlecategory" )
+            $categoryID = $value->id();
+        else if ( is_numeric( $value ) )
+            $categoryID = $value;
+        else
+            return false;
+        
+        if ( !$parentcategoryid )
+            $parentcategoryid = $this->ID;
+        
+        $db =& eZDB::globalDatabase();
+        $query = "DELETE FROM eZArticle_CategoryCategoryLink
+                  WHERE ParentCategoryID='$parentcategoryid' AND
+                        CategoryID='$categoryID'";
+        $query = "DELETE FROM eZArticle_CategoryCategoryDefinition
+                  WHERE ParentCategoryID='$parentcategoryid' AND
+                        CategoryID='$categoryID'";
 
         $db->query( $query );
     }
@@ -1070,6 +1116,103 @@ class eZArticleCategory
             $db->commit();
         
     }
+    /*!
+      \static
+      Adds a category to this category.
+      Can be used as a static function if a $parentcategoryid (of the new parent) is supplied
+    */
+    function addCategory( $value, $parentcategoryid = false )
+    {
+        $db =& eZDB::globalDatabase();
+
+        if ( get_class( $value ) == "ezarticlecategory" )
+            $categoryID = $value->id();
+        else if ( is_numeric( $value ) )
+            $categoryID = $value;
+        else
+            return false;
+
+        if ( !$parentcategoryid )
+            $parentcategoryid = $this->ID;
+
+        // check if article already exists in category.
+        $db->array_query( $qry, "SELECT ID FROM eZArticle_CategoryCategoryLink
+                                 WHERE ParentCategoryID='$parentcategoryid' AND ArticleID='$categoryID'" );
+
+        if ( count( $qry ) > 0 )
+            return false;
+        
+        
+        $db->array_query( $qry, "SELECT ID, Placement FROM eZArticle_CategoryCategoryLink
+                                 WHERE ParentCategoryID='$parentcategoryid'
+                                 ORDER BY Placement DESC", array( "Limit" => 1, "Offset" => 0 ) );
+
+        $place = count( $qry ) == 1 ? $qry[0][$db->fieldName("Placement")] + 1 : 1;
+
+        $db->begin( );
+    
+        $db->lock( "eZArticle_CategoryCategoryLink" );
+
+        $nextID = $db->nextID( "eZArticle_CategoryCategoryLink", "ID" );
+        
+        $query = "INSERT INTO eZArticle_CategoryCategoryLink
+                  ( ID,  ParentCategoryID, CategoryID, Placement  )
+                  VALUES
+                  ( '$nextID', '$parentcategoryid', '$categoryID', '$place' )";
+
+        $res = $db->query( $query );
+
+        $db->unlock();
+    
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
+        
+    }
+
+
+    /*!
+      Returns the categories an category is assigned to.
+
+      The categories are returned as an array of eZArticleCategory objects.
+    */
+    function categories( $as_object = true )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $ret = array();
+        $db->array_query( $category_array, "SELECT * FROM eZArticle_CategoryCategoryLink
+        WHERE CategoryID='$this->ID'" );
+
+        if ( $as_object )
+        {
+            foreach ( $category_array as $category )
+            {
+                $ret[] = new eZArticleCategory( $category[$db->fieldName("ParentCategoryID")] );
+            }
+        }
+        else
+        {
+            foreach ( $category_array as $category )
+            {
+                $ret[] = $category[$db->fieldName("ParentCategoryID")];
+            }
+        }
+
+        return $ret;
+    }
+
+    /*!
+      Removes every category assignments from the current category.
+    */
+    function removeFromCategories()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->query( "DELETE FROM eZArticle_CategoryCategoryLink WHERE CategoryID='$this->ID'" );
+    }
+
 
     /*!
       Returns every article in a category as a array of eZArticle objects.
@@ -1132,6 +1275,20 @@ class eZArticleCategory
            {
                $GroupBy = "Article.Modified";
                $OrderBy = "Article.Modified DESC";
+           }
+           break;
+           
+           case "ranking" :
+           {
+               $GroupBy = "Article.Ranking";
+               $OrderBy = "Article.Ranking ASC";
+           }
+           break;
+           
+           case "rankingdesc" :
+           {
+               $GroupBy = "Article.Ranking";
+               $OrderBy = "Article.Ranking DESC";
            }
            break;
            
@@ -1530,6 +1687,122 @@ class eZArticleCategory
 
         return $result;
     }
+
+   /*!
+      Returns true if the category is assigned to the category given
+      as argument. False if not.
+     */
+    function existsInCategory( $category )
+    {
+        $ret = false;
+        if ( get_class( $category ) == "ezarticlecategory" )
+        {
+            $db =& eZDB::globalDatabase();
+            $catID = $category->id();
+
+            $db->array_query( $ret_array, "SELECT ID FROM eZArticle_CategoryCategoryLink
+                                    WHERE CategoryID='$this->ID' AND ParentCategoryID='$catID'" );
+
+            if ( count( $ret_array ) == 1 )
+            {
+                $ret = true;
+            }
+        }
+        return $ret;
+    }
+
+
+
+    /*!
+      Set's the categories defined category. This is the main category for the category.
+      Additional categories can be added with eZArticleCategory::addCategory();
+    */
+    function setCategoryDefinition( $value )
+    {
+        if ( get_class( $value ) == "ezarticlecategory" )
+        {
+            $db =& eZDB::globalDatabase();
+
+            $categoryID = $value->id();
+
+            $db->begin( );
+
+            $res[] = $db->query( "DELETE FROM eZArticle_CategoryCategoryDefinition
+                                     WHERE CategoryID='$this->ID'" );
+
+
+            $db->lock( "eZArticle_CategoryCategoryDefinition" );
+            $nextID = $db->nextID( "eZArticle_CategoryCategoryDefinition", "ID" );
+
+            $query = "INSERT INTO
+                           eZArticle_CategoryCategoryDefinition
+                           ( ID, ParentCategoryID, CategoryID )
+                      VALUES
+                           ( '$nextID',
+                             '$categoryID',
+                             '$this->ID' )";
+
+
+            $res[] = $db->query( $query );
+
+
+            $db->unlock();
+
+            if ( in_array( false, $res ) )
+                $db->rollback( );
+            else
+                $db->commit();
+        }
+    }
+
+    /*!
+      Returns the category's definition category.
+    */
+    function categoryDefinition( $as_object = true )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $query = "SELECT ParentCategoryID FROM
+                                            eZArticle_CategoryCategoryDefinition
+                                            WHERE CategoryID='$this->ID'";
+ 
+        $db->array_query( $res, $query );
+
+        $category = false;
+        if ( count( $res ) == 1 )
+        {
+            $id = $res[0][$db->fieldName("ParentCategoryID")];
+            $category = $as_object ? new eZArticleCategory( $id ) : $id;
+        }
+        else
+        {
+            print( "<br><b>Failed to get category category definition for ID $this->ID</b></br>" );
+        }
+        return $category;
+    }
+
+    /*!
+      \static
+      Returns the category definition id to the corresponding
+      category id.
+
+      false is returned if no article was found.
+    */
+    function categoryDefinitionStatic( $id )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $res, "SELECT ParentCategoryID FROM
+                                            eZArticle_CategoryCategoryDefinition
+                                            WHERE CategoryID='$id'" );
+
+        if ( count( $res ) == 1 )
+            return $res[0][$db->fieldName("ParentCategoryID")];
+        else
+            return false;
+    }
+
+
   
     var $ID;
     var $Name;

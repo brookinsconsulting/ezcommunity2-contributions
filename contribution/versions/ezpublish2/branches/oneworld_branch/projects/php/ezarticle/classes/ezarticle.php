@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezarticle.php,v 1.183.2.19 2002/04/25 12:15:56 bf Exp $
+// $Id: ezarticle.php,v 1.183.2.19.2.1 2002/05/15 14:22:17 pkej Exp $
 //
 // Definition of eZArticle class
 //
@@ -171,7 +171,8 @@ class eZArticle
                                  Modified,
                                  Published,
                                  Created,
-                                 ImportID )
+                                 ImportID,
+                                 Ranking )
                                  VALUES
                                  ( '$nextID',
 		                           '$name',
@@ -189,7 +190,8 @@ class eZArticle
                                    '$timeStamp',
                                    '$published',
                                    '$timeStamp',
-                                   '$importID' )
+                                   '$importID',
+                                   '$this->Ranking' )
                                  " );
 
 			$this->ID = $nextID;
@@ -250,7 +252,8 @@ class eZArticle
                                  StopDate='$stopDate',
                                  Published='$published',
                                  Modified='$timeStamp',
-                                 ImportID='$importID'
+                                 ImportID='$importID',
+                                 Ranking='$this->Ranking'
                                  WHERE ID='$this->ID'
                                  " );
             }
@@ -276,8 +279,9 @@ class eZArticle
                                  StartDate='$startDate',
                                  StopDate='$stopDate',
                                  Modified='$timeStamp',
-                                 ImportID='$importID'
-                                 WHERE ID='$this->ID'
+                                 ImportID='$importID',
+                                 Ranking='$this->Ranking'
+                                 WHERE id='$this->ID'
                                  " );
             }
         }
@@ -331,6 +335,7 @@ class eZArticle
                 $this->StartDate =& $article_array[0][$db->fieldName("StartDate")];
                 $this->StopDate =& $article_array[0][$db->fieldName("StopDate")];
                 $this->ImportID =& $article_array[0][$db->fieldName("ImportID")];
+                $this->Ranking =& $article_array[0][$db->fieldName("Ranking")];
                 if ( $this->StartDate == 0 )
                     $this->StartDate = false;
                 if ( $this->StopDate == 0 )
@@ -367,6 +372,7 @@ class eZArticle
 
         return $topic;
     }
+
     /*!
         \static
         Returns the one, and only if one exists, article with the import id
@@ -465,6 +471,27 @@ class eZArticle
     function &importID( )
     {
         return $this->ImportID;
+    }
+
+    /*!
+      Returns the article ranking. If ranking falls outside the range set
+      in the site.ini file 0 is returned.
+    */
+    function &ranking( )
+    {
+        
+        $ranking = $this->Ranking;
+        
+        $ini =& INIFile::globalINI();
+        $RankingMin = $ini->read_var( "eZArticleMain", "RankingMin" );
+        $RankingMax = $ini->read_var( "eZArticleMain", "RankingMax" );
+
+        if ( $ranking > $RankingMax && $ranking < $RankingMin )
+        {
+            $ranking = 0;
+        }
+        
+        return $ranking;
     }
 
     /*!
@@ -650,6 +677,27 @@ class eZArticle
         $this->Name = $value;
     }
 
+    /*!
+      Sets the article ranking. If ranking falls outside the range set
+      in the site.ini file 0 is stored.
+    */
+    function setRanking( $ranking )
+    {
+        
+        $ini =& INIFile::globalINI();
+        $StopWordFrequency = $ini->read_var( "eZArticleMain", "StopWordFrequency" );
+
+        $RankingMax = $ini->read_var( "eZArticleMain", "RankingMax" );
+        $RankingMin = $ini->read_var( "eZArticleMain", "RankingMin" );
+        
+        if ( $ranking > $RankingMax && $ranking < $RankingMin )
+        {
+            $ranking = 0;
+        }
+
+        $this->Ranking = $ranking;
+    }
+    
     /*!
       Sets the article import id.
     */
@@ -3032,6 +3080,7 @@ eZUser_Author as Author
     var $StartDate;
     var $StopDate;
     var $ImportID;
+    var $Ranking;
 
     // tell eZ publish to show the article to the public
     var $IsPublished;

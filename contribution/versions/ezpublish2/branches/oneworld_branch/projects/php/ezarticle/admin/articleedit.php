@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.116.2.9 2002/05/02 08:32:50 bf Exp $
+// $Id: articleedit.php,v 1.116.2.9.2.1 2002/05/15 14:22:17 pkej Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -133,6 +133,7 @@ if ( $Action == "Update" || ( $Action == "Insert" ) )
         $article->setAuthorText( $AuthorText );
         $article->setAuthorEmail( $AuthorEmail );
         $article->setLinkText( $LinkText );
+        $article->setRanking( $RankingValue );
 
         if ( trim( $LogMessage ) != "" )
             $article->addLog( $LogMessage );
@@ -423,6 +424,7 @@ $t->set_block( "article_edit_page_tpl", "publish_dates_tpl", "publish_dates" );
 $t->set_block( "article_edit_page_tpl", "article_pending_tpl", "article_pending" );
 $t->set_block( "article_edit_page_tpl", "author_pending_information_tpl", "author_pending_information" );
 $t->set_block( "article_edit_page_tpl", "author_item_tpl", "author_item" );
+$t->set_block( "article_edit_page_tpl", "ranking_item_tpl", "ranking_item" );
 
 $t->set_block( "publish_dates_tpl", "published_tpl", "published" );
 $t->set_block( "publish_dates_tpl", "un_published_tpl", "un_published" );
@@ -471,6 +473,7 @@ $t->set_var( "article_contents_3", stripslashes( $Contents[3] ) );
 $t->set_var( "author_text", stripslashes( $AuthorText ) );
 $t->set_var( "author_email", stripslashes( $AuthorEmail ) );
 $t->set_var( "link_text", stripslashes( $LinkText ) );
+$t->set_var( "ranking", stripslashes( $RankingValue ) );
 
 $t->set_var( "start_day", stripslashes( $StartDay ) );
 $t->set_var( "start_month", stripslashes( $StartMonth ) );
@@ -642,6 +645,9 @@ if ( $Action == "Edit" )
     $topic = $article->topic();
     $TopicID = $topic->id();
 
+    // ranking select
+    $ranking = $article->ranking();
+
     $writeGroupsID = eZObjectPermission::getGroups( $ArticleID, "article_article", 'w' , false );
     $readGroupsID = eZObjectPermission::getGroups( $ArticleID, "article_article", 'r', false );
 
@@ -709,6 +715,26 @@ foreach ( $topicArray as $topic )
     $t->set_var( "topic_id", $topic->id() );
     $t->set_var( "topic_name", $topic->name() );
     $t->parse( "topic_item", "topic_item_tpl", true );
+}
+
+// ranking select
+
+$RankingMin = $ini->read_var( "eZArticleMain", "RankingMin" );
+$RankingMax = $ini->read_var( "eZArticleMain", "RankingMax" );
+
+for ( $i = $RankingMin; $i <= $RankingMax; $i++ )
+{
+    if ( $ranking == $i )
+    {
+        $t->set_var( "selected", "selected" );        
+    }
+    else
+    {
+        $t->set_var( "selected", "" );        
+    }
+
+    $t->set_var( "ranking_value", $i );    
+    $t->parse( "ranking_item", "ranking_item_tpl", true );
 }
 
 // category select

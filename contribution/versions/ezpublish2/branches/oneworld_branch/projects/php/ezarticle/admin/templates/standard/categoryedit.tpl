@@ -44,7 +44,8 @@
 	</select>
 
 	</td>
-  	<td>
+    <td>&nbsp;</td>
+    <td>
 	<p class="boxtext">{intl-sort_mode}:</p>
 	<select name="SortMode">
 
@@ -53,25 +54,58 @@
 	<option {2_selected} value="2">{intl-alphabetic_asc}</option>
 	<option {3_selected} value="3">{intl-alphabetic_desc}</option>
 	<option {4_selected} value="4">{intl-absolute_placement}</option>
+	<option {6_selected} value="6">{intl-ranking_asc}</option>
+	<option {7_selected} value="7">{intl-ranking_desc}</option>
 
 	</select>
 
 	</td>
 </tr>
 <tr>
-<td colspan="2">&nbsp;</td>
+<td colspan="3">&nbsp;</td>
+</tr>
+<tr>
+	<td valign="top">
+
+	<p class="boxtext">{intl-category}:</p>
+	
+	<select name="ExtraCategoryID">
+
+	<!-- BEGIN value2_tpl -->
+	<option value="{option_value}" {selected}>{option_level}{option_name}</option>
+	<!-- END value2_tpl -->
+	
+	</select>
+
+	</td>	
+    <td>&nbsp;</td>
+	<td valign="top">
+	<p class="boxtext">{intl-additional_category}:</p>
+	
+	<select multiple size="{num_select_categories}" name="ExtraCategoryArray[]">
+	
+	<!-- BEGIN multiple_value_tpl -->
+	<option value="{option_value}" {multiple_selected}>{option_level}{option_name}</option>
+	<!-- END multiple_value_tpl -->
+	
+	</select>
+	</td>
+</tr>
+<tr>
+<td colspan="3">&nbsp;</td>
 </tr> 
 <tr>
-       <td>
-       <p class="boxtext">{intl-bulkmail_category_select}:</p>
-       <select name="BulkMailID">
-       <option value="-1" {no_bulkmail_selected}>{intl-no_bulkmail}</option>
-       <!-- BEGIN bulkmail_category_item_tpl -->
-       <option value="{bulkmail_category_id}" {bulkmail_selected}>{bulkmail_category_name}</option>
-       <!-- END bulkmail_category_item_tpl -->
-       </select>
-       </td>
-       <td>
+           <td>
+           <p class="boxtext">{intl-bulkmail_category_select}:</p>
+           <select name="BulkMailID">
+           <option value="-1" {no_bulkmail_selected}>{intl-no_bulkmail}</option>
+           <!-- BEGIN bulkmail_category_item_tpl -->
+           <option value="{bulkmail_category_id}" {bulkmail_selected}>{bulkmail_category_name}</option>
+           <!-- END bulkmail_category_item_tpl -->
+           </select>
+           </td>
+    <td>&nbsp;</td>
+    <td>
 	<p class="boxtext">{intl-section_select}:</p>
 	<select name="SectionID">
 	<!-- BEGIN section_item_tpl -->

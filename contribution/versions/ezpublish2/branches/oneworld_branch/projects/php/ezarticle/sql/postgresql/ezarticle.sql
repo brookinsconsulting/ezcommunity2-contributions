@@ -16,6 +16,7 @@ CREATE TABLE eZArticle_Article (
   StartDate int NOT NULL,
   StopDate int NOT NULL,
   ImportID varchar(255) default NULL,
+  Rating int default '0',
   PRIMARY KEY (ID)
 );
 
@@ -30,6 +31,22 @@ CREATE TABLE eZArticle_ArticleCategoryDefinition (
 CREATE TABLE eZArticle_ArticleCategoryLink (
   ID int NOT NULL,
   ArticleID int NOT NULL default '0',
+  CategoryID int NOT NULL default '0',
+  Placement int NOT NULL default '0',
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZArticle_CategoryCategoryDefinition (
+  ID int NOT NULL,
+  ParentCategoryID int NOT NULL default '0',
+  CategoryID int NOT NULL default '0',
+  PRIMARY KEY (ID)
+);
+
+
+CREATE TABLE eZArticle_CategoryCategoryLink (
+  ID int NOT NULL,
+  ParentCategoryID int NOT NULL default '0',
   CategoryID int NOT NULL default '0',
   Placement int NOT NULL default '0',
   PRIMARY KEY (ID)
