@@ -31,10 +31,10 @@ include_once( "classes/ezfile.php" );
 
 if ( isset( $Store ) )
 {
-    if ( eZFile::file_exists( "site.ini" ) )
-        $fp = eZFile::fopen( "site.ini", "w+");
+    if ( eZFile::file_exists( "bin/ini/site.ini" ) )
+        $fp = eZFile::fopen( "bin/ini/site.ini", "w+");
     else
-        $fp = eZFile::fopen( "site.ini.php", "w+");
+        $fp = eZFile::fopen( "bin/ini/site.ini.php", "w+");
 
     $Contents =& str_replace ("\r", "", $Contents );
     fwrite ( $fp, $Contents );
@@ -51,10 +51,10 @@ $t->setAllStrings();
 
 $t->set_file( "site_config_tpl", "siteconfig.tpl" );
 
-if ( eZFile::file_exists( "site.ini" ) )
-    $lines = eZFile::file( "site.ini" );
+if ( eZFile::file_exists( "bin/ini/site.ini" ) )
+    $lines = eZFile::file( "bin/ini/site.ini" );
 else
-    $lines = eZFile::file( "site.ini.php" );
+    $lines = eZFile::file( "bin/ini/site.ini.php" );
 
 $contents = "";
 foreach ( $lines as $line )
