@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsflowerarticleviewer.php,v 1.1 2000/10/14 01:40:51 pkej-cvs Exp $
+// $Id: eznewsflowerarticleviewer.php,v 1.2 2000/10/14 05:22:49 pkej-cvs Exp $
 //
 // Definition of eZNewsFlowerArticleViewer class
 //
@@ -21,12 +21,12 @@
     NOTE: We don't need a constructor in this class.
  */
 
-include_once( "eznews/classes/eznewsflowerarticle.php" );
-include_once( "eznews/classes/eznewsoutput.php" );  
-include_once( "eznews/user/eznewsarticleviewer.php" );
+include_once( "eznews/user/eznewsviewer.php" );
+include_once( "eznews/classes/eznewscategory.php" );
+include_once( "eznews/classes/eznewsarticle.php" );
 
 #echo "eZNewsFlowerArticleViewer<br />\n";
-class eZNewsFlowerArticleViewer extends eZNewsArticleViewer
+class eZNewsFlowerArticleViewer extends eZNewsViewer
 {
     /*!
         This function renders the view page.
@@ -52,7 +52,7 @@ class eZNewsFlowerArticleViewer extends eZNewsArticleViewer
         $this->IniObject->set_block( "article", "upload_picture_template", "upload_picture" );
         $this->IniObject->set_block( "article", "picture_uploaded_template", "picture_uploaded" );
         $this->IniObject->set_block( "article", "picture_template", "picture" );
-        $this->Item = new eZNewsFlowerArticle( $this->Item->id() );
+        $this->Item = new eZNewsArticle( $this->Item->id() );
         
         $this->doThis();
         $this->IniObject->setAllStrings();
@@ -73,14 +73,60 @@ class eZNewsFlowerArticleViewer extends eZNewsArticleViewer
         \return
             Returns true if successful.
      */
+    function deletePage( &$outPage )
+    {
+        #echo "eZNewsFlowerArticleViewer::deletePage( \$outPage = $outPage )<br />\n";
+        global $form_delete;
+    
+        $this->IniObject->readAdminTemplate( "eznewsflower/article", "view.php" );
+
+        global $Story;
+        global $Price;
+        global $Name;
+        global $ImageID;
+        global $ParentID;
+
+        $this->Item = new eZNewsArticle( $this->Item->id() );
+
+
+        $this->IniObject->set_file( array( "article" => "delete.tpl" ) );
+        $this->IniObject->set_block( "article", "go_to_parent_template", "go_to_parent" );
+        $this->IniObject->set_block( "article", "go_to_self_template", "go_to_self" );
+        $this->IniObject->set_block( "article", "upload_picture_template", "upload_picture" );
+        $this->IniObject->set_block( "article", "picture_uploaded_template", "picture_uploaded" );
+        $this->IniObject->set_block( "article", "picture_template", "picture" );
+        $this->IniObject->set_block( "article", "article_image_template", "article_image" );
+
+        $this->doThis();
+        
+
+        $this->IniObject->setAllStrings();
+        $outPage = $this->IniObject->parse( "output", "article" );
+
+        $value = true;
+            
+        return $value;
+    }
+    
+    
+    
+    /*!
+        This function renders the edit pages.
+        
+        \out
+            \$outPage   The text string with the page info
+        \return
+            Returns true if successful.
+     */
     function editPage( &$outPage )
     {
         #echo "eZNewsFlowerArticleViewer::editPage( \$outPage = $outPage )<br />\n";
         $value = false;
 
         global $form_preview;
-        
         #echo "\$form_preview = $form_preview<br />\n";
+
+        $this->Item = new eZNewsArticle( $this->Item->id() );
         
         $this->IniObject->readAdminTemplate( "eznewsflower/article", "view.php" );
 
@@ -116,6 +162,7 @@ class eZNewsFlowerArticleViewer extends eZNewsArticleViewer
 
             $this->Item->setParent( $ParentID, true );
             $this->Item->setStory( $newStory );
+            $this->Item->setName( $Name );
 
             $file = new eZImageFile();
 
@@ -155,7 +202,6 @@ class eZNewsFlowerArticleViewer extends eZNewsArticleViewer
 
         $this->IniObject->setAllStrings();
         $outPage = $this->IniObject->parse( "output", "article" );
-        $value = true;
 
         $value = true;
             
@@ -174,19 +220,57 @@ class eZNewsFlowerArticleViewer extends eZNewsArticleViewer
      */
     function renderPage( &$outPage )
     {
-        #echo "eZNewsFlowerArticleViewer::renderPage( \$outPage = $outPage )<br />\n";
+        echo "eZNewsFlowerArticleViewer::renderPage( \$outPage = $outPage )<br />\n";
         $value = false;
+        $continue = false;
 
         global $form_abort;
         global $form_submit;
-        
-        $this->Item = new eZNewsFlowerArticle( $this->Item->id() );
+        global $form_delete;
+        global $form_publish;
+        global $form_preview;
+        echo "\$form_preview = $form_preview <br />\n";
+        echo "\$form_abort = $form_abort <br />\n";
+        echo "\$form_submit = $form_submit <br />\n";
+        echo "\$form_delete = $form_delete <br />\n";
+        echo "\$form_publish = $form_publish <br />\n";
 
-        if( $this->URLObject->getQueries( $queries, "edit\+this" ) && empty( $form_abort ) && empty( $form_submit ) )
+        #echo "\$this->Item->id() = " . $this->Item->id() . " <br />\n";
+        
+        if( $form_publish )
         {
-            $value = $this->editPage( $outPage );
+            $this->Item = new eZNewsArticle( $this->Item->id() );
+            $this->Item->setStatus( "publish" );
+
+            $this->Item->store( $outID );
         }
-        else
+
+        if( $this->URLObject->getQueries( $queries, "edit\+this" ) && empty( $form_abort )  && empty( $form_publish ) && empty( $form_submit ) )
+        {
+           $value = $this->editPage( $outPage );
+        }
+        
+        if( $this->URLObject->getQueries( $queries, "delete\+this" ) && empty( $form_abort ) && empty( $form_delete ) && empty( $form_publish ) )
+        {
+            $value = $this->deletePage( $outPage );
+        }
+        
+        if( $form_delete )
+        {
+            $parentID = $this->Item->getIsCanonical();
+            
+            $this->Item->delete();
+            $this->Item->errors();
+            $this->Item->store( $outID );
+            
+            global $QUERY_STRING;
+            $QUERY_STRING = "";
+            
+            $adminObject = new eZNewsAdmin( "site.ini" );
+            $value = $adminObject->doItem( $parentID );
+        }
+
+        if( $value == false )
         {
             $value = $this->viewPage( $outPage );
         }

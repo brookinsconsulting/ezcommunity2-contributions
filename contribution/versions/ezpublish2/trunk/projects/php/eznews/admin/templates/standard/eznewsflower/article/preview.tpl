@@ -33,9 +33,9 @@
 <br />
 
 <form method="post" action="/{this_path}/{this_id}?edit+this">
-<input class="okbutton" name="form_preview" type="submit" value="{intl-edit}">
+<input class="okbutton" type="submit" value="{intl-edit}">
 
-<input class="okbutton" name="form_submit" type="submit" value="{intl-submit}">
+<input class="okbutton" name="form_publish" type="submit" value="{intl-publish}">
 
 <!-- END article_item_template -->
 

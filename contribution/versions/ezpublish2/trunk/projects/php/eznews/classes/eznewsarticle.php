@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsarticle.php,v 1.13 2000/10/13 20:55:50 pkej-cvs Exp $
+// $Id: eznewsarticle.php,v 1.14 2000/10/14 05:22:50 pkej-cvs Exp $
 //
 // Definition of eZNewsArticle class
 //
@@ -356,7 +356,7 @@ class eZNewsArticle extends eZNewsItem
         
         $oldStory = $this->Story;
         
-        if( strcmp( $oldStory, $inStory ) ) 
+        if( $oldStory != $inStory ) 
         {
             $this->Story = $inStory;
 

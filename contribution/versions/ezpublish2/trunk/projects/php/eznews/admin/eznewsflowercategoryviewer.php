@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsflowercategoryviewer.php,v 1.1 2000/10/14 01:40:51 pkej-cvs Exp $
+// $Id: eznewsflowercategoryviewer.php,v 1.2 2000/10/14 05:22:49 pkej-cvs Exp $
 //
 // Definition of eZNewsFlowerCategoryCreator class
 //
@@ -25,13 +25,12 @@
     Add direction in renderPage() (of children)
  */
 
-include_once( "eznews/user/eznewscategoryviewer.php" );
-include_once( "eznews/user/eznewsflowerarticleviewer.php" );
+include_once( "eznews/user/eznewsviewer.php" );
 include_once( "eznews/classes/eznewsflowercategory.php" );
-include_once( "eznews/classes/eznewsoutput.php" );  
+include_once( "eznews/classes/eznewsflowerarticle.php" );
 
 #echo "eZNewsFlowerCategoryViewer<br />\n";
-class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
+class eZNewsFlowerCategoryViewer extends eZNewsViewer
 {
     /*!
         This function renders the view page.
@@ -43,6 +42,7 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
      */
     function viewPage( &$outPage )
     {
+        #echo "eZNewsFlowerCategoryViewer::viewPage( \$outPage = $outPage )<br />\n";
         $value = false;
         
         $this->IniObject->readAdminTemplate( "eznewsflower/category", "view.php" );
@@ -59,8 +59,8 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
 
         if( $this->doChildren( $children ) )
         {
-            $this->IniObject->set_var( "article_items", $children );
             $this->IniObject->parse( "articles", "articles_template" );
+            $this->IniObject->set_var( "article_items", $children );
             $this->IniObject->set_var( "article", "" );
             $this->IniObject->set_var( "article_item", "" );
             $this->IniObject->set_var( "no_articles", "" );
@@ -93,6 +93,7 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
      */
     function editPage( &$outPage )
     {
+        #echo "eZNewsFlowerCategoryViewer::editPage( \$outPage = $outPage )<br />\n";
         $value = false;
 
         global $form_preview;
@@ -154,6 +155,7 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
      */
     function renderPage( &$outPage )
     {
+        #echo "eZNewsFlowerCategoryViewer::renderPage( \$outPage = $outPage )<br />\n";
         $value = false;
         
         global $form_abort;
@@ -164,6 +166,30 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
         if( $this->URLObject->getQueries( $queries, "edit\+this" ) && empty( $form_abort ) && empty( $form_submit ) )
         {
             $value = $this->editPage( $outPage );
+        }
+        elseif( $this->URLObject->getQueries( $queries, "create\+article" ) )
+        {
+            global $ParentID;
+            global $QUERY_STRING;
+            
+            $ParentID = $this->Item->id();
+            $QUERY_STRING = "edit+this";
+            
+            $adminObject = new eZNewsAdmin( "site.ini" );
+            
+            $article = new eZNewsFlowerArticle();
+            $article->setParent( $ParentID, true );
+            $article->setStory( "" );
+            $article->setLinkText( "" );
+            $article->setAuthorText( eZNewsArticle::createAuthorText() );
+            $article->setStatus( "temporary" );
+            $article->setName( $this->Item->getCreatedAt() );
+            $article->setMeta( "" );
+            $article->setItemTypeID( "flowerarticle" );
+            $article->Errors();
+            $article->store( $outID );
+            
+            $value = $adminObject->doItem( $article->id() );
         }
         else
         {
@@ -185,6 +211,7 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
      */
     function renderHead( &$outHead )
     {
+        #echo "eZNewsFlowerCategoryViewer::renderHead( \$outPage = $outPage )<br />\n";
         $value = false;
         
         if( $isCached == true )
@@ -213,6 +240,7 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
      */
     function doChildren( &$outChildren )
     {
+        #echo "eZNewsFlowerCategoryViewer::doChildren( \$outChildren = $outChildren )<br />\n";
         $value = false;
         $outChildren = "";
         
@@ -264,6 +292,7 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
                 {
                     $this->IniObject->set_var( "image", "" );
                     $this->IniObject->set_var( "this_picture", "" );
+                    $this->IniObject->set_var( "article_image", "" );
                 }
 
                 $this->IniObject->set_var( "this_price", $price . "1000" );
@@ -291,11 +320,11 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
                 #$viewer = new $class( $child, $this->IniObject, $this->URLObject );
                 #$value = $viewer->initializeTemplate();
                 #$value = $viewer->renderPage( $outPage );
+                $this->IniObject->set_var( "article", $outPage );
+                $this->IniObject->set_var( "this_article_count", $i );
+                $outChildren = $outChildren . $this->IniObject->parse( "article_item", "article_item_template", true );
             }
             
-            $this->IniObject->set_var( "article", $outPage );
-            $this->IniObject->set_var( "this_article_count", $i );
-            $outChildren = $outChildren . $this->IniObject->parse( "article_item", "article_item_template", true );
         }
         
         if( $i > 0 )
@@ -321,6 +350,7 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
      */
     function doThis()
     {
+        #echo "eZNewsFlowerCategoryViewer::doThis()<br />\n";
         $value = true;
             
         $publicDescription = new eZNewsArticle( $this->Item->publicDescriptionID() );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsflowercategoryviewer.php,v 1.4 2000/10/14 01:40:51 pkej-cvs Exp $
+// $Id: eznewsflowercategoryviewer.php,v 1.5 2000/10/14 05:22:50 pkej-cvs Exp $
 //
 // Definition of eZNewsFlowerCategoryCreator class
 //
@@ -201,10 +201,10 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
                 
             
                 $i++;
+                $this->IniObject->set_var( "article", $outPage );
+                $outChildren = $outChildren . $this->IniObject->parse( "article_item", "article_item_template", true );
             }
             
-            $this->IniObject->set_var( "article", $outPage );
-            $outChildren = $outChildren . $this->IniObject->parse( "article_item", "article_item_template", true );
         }
         
         if( $i > 0 )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewschangeticket.php,v 1.5 2000/10/13 20:55:50 pkej-cvs Exp $
+// $Id: eznewschangeticket.php,v 1.6 2000/10/14 05:22:50 pkej-cvs Exp $
 //
 // Definition of eZNewsChangeTicket class
 //
@@ -191,7 +191,7 @@ class eZNewsChangeTicket extends eZNewsUtility
             $this->ChangedAt,
             $this->ChangeIP
         );
-        
+        #echo "<br>" . $query . "<br>";
         $this->Database->query( $query );
         $insertID = mysql_insert_id();
 

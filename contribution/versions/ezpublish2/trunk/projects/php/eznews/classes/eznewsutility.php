@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsutility.php,v 1.18 2000/10/13 20:55:50 pkej-cvs Exp $
+// $Id: eznewsutility.php,v 1.19 2000/10/14 05:22:50 pkej-cvs Exp $
 //
 // Definition of eZNewsUtility class
 //
@@ -108,6 +108,8 @@ class eZNewsUtility
     function store( &$outID, $copy = false )
     {
         #echo "eZNewsUtility::store( \$outID = $outID )<br>\n";
+        #echo "\$this->ID " . $this->ID ."<br />\n";
+
         $this->dbInit();
         
         $value = false;
@@ -124,7 +126,7 @@ class eZNewsUtility
         
         $this->invariantCheck();
 
-        if( $this->isCoherent() )
+        if( $this->isCoherent() && $this->hasChanged() || $this->ID == 0 )
         {
             $storeAllowed = true;
         }
@@ -133,14 +135,17 @@ class eZNewsUtility
         {
             if( $this->hasChanged() )
             {
+                #echo "updating<br />\n";
                 $stored = $this->updateThis( $outID );
             }
             else
             {
+                #echo "storing<br />\n";
                 $stored = $this->storeThis( $outID );
             }
         }
-        else
+        
+        if( $storeAllowed == false && !$this->isCoherent() )
         {
             echo "<br><h1>an error has occured</h1><br>";
             $this->printObject();
@@ -153,7 +158,8 @@ class eZNewsUtility
             $value = true;
         }
         
-        
+        #echo "\$this->ID " . $this->ID ."<br />\n";
+
         return $value;
     }
 
@@ -478,11 +484,12 @@ class eZNewsUtility
     {
         $value = false;
 
-        if( !strcmp( $this->State_, "coherent" ) )
+        if( $this->State_ == "coherent" )
         {
             $value = true;
         }
         
+        #echo "isCoherent is: " . $this->State_ . "<br>";
         #echo "isCoherent returns: $value<br>";
         
         return $value;
