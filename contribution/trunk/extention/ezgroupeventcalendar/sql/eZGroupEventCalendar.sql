@@ -13,6 +13,7 @@ CREATE TABLE eZGroupEventCalendar_Event (
    Name varchar(255),
    Description text,
    Url text default NULL,
+   Location varchar(255) default NULL,
    Status int(11) DEFAULT '1' NOT NULL,
    EventAlarmNotice int(11) DEFAULT '0' NOT NULL,
    EventCategoryID int(11) DEFAULT '0' NOT NULL,
@@ -21,12 +22,10 @@ CREATE TABLE eZGroupEventCalendar_Event (
    RecurringDay int default NULL,
    RecurringMonth int default NULL,
    RecurringYear int default NULL,
-   RepeateForever int(11) DEFAULT '0' NOT NULL,
-   RepeateTimes int(11) DEFAULT '0' NOT NULL,
-   RepeateUntilDate timestamp(14),
-   RepeateExceptionsDates text default NULL,
-   EventAttachedFilesID int(11) DEFAULT '0' NOT NULL,
-   EventCommentsID int(11) DEFAULT '0' NOT NULL,
+   RepeatForever int(11) DEFAULT '0' NOT NULL,
+   RepeatTimes int(11) DEFAULT '0' NOT NULL,
+   RepeatUntilDate timestamp(14) default NULL,
+   RepeatExceptionsDates text default NULL,
    PRIMARY KEY (ID)
 );
 
