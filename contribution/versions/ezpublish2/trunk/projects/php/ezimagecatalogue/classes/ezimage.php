@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.52 2001/06/25 11:30:23 jhe Exp $
+// $Id: ezimage.php,v 1.53 2001/06/25 11:43:37 jhe Exp $
 //
 // Definition of eZImage class
 //
@@ -192,7 +192,10 @@ class eZImage
 
             $this->Database->query( "DELETE FROM eZImageCatalogue_Image WHERE ID='$this->ID'" );
             $this->Database->query( "DELETE FROM eZImageCatalogue_ImagePermission WHERE ObjectID='$this->ID'" );
-
+            $this->Database->query( "DELETE FROM eZImageCatalogue_ImageCategoryLink WHERE ImageID='$this->ID'" );
+            $this->Database->query( "DELETE FROM eZImageCatalogue_ImageCategoryDefinition WHERE ImageID='$this->ID'" );
+            $this->Database->query( "DELETE FROM eZImageCatalogue_ImageMap WHERE ImageID='$this->ID'" );
+            
             // Delete from the filesystem
             if ( file_exists ( $this->filePath( true ) ) )
             {
