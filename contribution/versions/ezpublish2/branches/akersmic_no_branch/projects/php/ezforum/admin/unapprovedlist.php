@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: unapprovedlist.php,v 1.10 2001/10/10 13:18:28 jhe Exp $
+// $Id: unapprovedlist.php,v 1.10.8.1 2002/01/31 13:14:15 bf Exp $
 //
 // Created on: <21-Jan-2001 13:34:48 bf>
 //
@@ -81,8 +81,9 @@ else
         $categoryList =& $forum->categories();
         $category =& $categoryList[0];
 
-        $t->set_var( "category_name", $category->name() );
-        $t->set_var( "category_id", $category->id() );
+        $t->set_var( "category_name", "Produkt" );
+//        $t->set_var( "category_name", $category->name() );
+//        $t->set_var( "category_id", $category->id() );
         $t->set_var( "message_topic", $msg->topic() );
         $t->set_var( "message_body", $msg->body() );
         $t->set_var( "reject_message", $languageIni->read_var( "strings", "reject_message" ) );
