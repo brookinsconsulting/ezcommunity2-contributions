@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: hotdealslist.php,v 1.16 2001/03/12 15:20:39 bf Exp $
+// $Id: hotdealslist.php,v 1.16.2.1 2001/03/23 13:59:50 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Nov-2000 19:34:40 bf>
@@ -142,10 +142,10 @@ foreach ( $productList as $product )
             }
             else
             {
-                $t->set_var( "thumbnail_image_uri", "/" . $thumbnail->imagePath() );
-                $t->set_var( "thumbnail_image_width", $thumbnail->width() );
-                $t->set_var( "thumbnail_image_height", $thumbnail->height() );
-                $t->set_var( "thumbnail_image_caption", $image->caption() );
+                $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
+                $t->set_var( "product_image_width", $thumbnail->width() );
+                $t->set_var( "product_image_height", $thumbnail->height() );
+                $t->set_var( "product_image_caption", $image->caption() );
             }
             $t->parse( "product_image", "product_image_tpl" );            
         }
