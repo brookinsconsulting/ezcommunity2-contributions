@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.79 2001/09/28 11:35:03 ce Exp $
+// $Id: payment.php,v 1.80 2001/10/04 13:09:35 br Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -199,13 +199,21 @@ if ( $PaymentSuccess == "true" )
 
     $order->setIsVATInc( false );
     
-    $order->store();
-
-    $order_id = $order->id();
 
     // fetch the cart items
     $items = $cart->items();
 
+    // exit if no items exist
+    if ( count ( $items ) == 0 )
+    {
+       eZHTTPTool::header( "Location: /trade/cart/" );
+       exit();
+    }
+
+    $order->store();
+
+    $order_id = $order->id();
+    
     foreach ( $items as $item )
     {
         $totalVAT=0.0;
