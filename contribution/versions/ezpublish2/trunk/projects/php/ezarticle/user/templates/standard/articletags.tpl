@@ -144,6 +144,10 @@
 <embed src="{www_dir}{media_uri}" {attribute_string} />
 <!-- END media_tpl -->
 
+<!-- BEGIN file_tpl -->
+<a href="{www_dir}{file_uri}">{text}</a>
+<!-- END file_tpl -->
+
 
 <!-- BEGIN table_tpl -->
 <br clear="all" />

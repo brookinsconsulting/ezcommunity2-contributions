@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.31 2001/09/11 10:51:29 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.32 2001/09/11 11:56:39 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -99,6 +99,7 @@ class eZQDomGenerator
         $tmpPage = $this->generateImage( $tmpPage );
 
         $tmpPage = $this->generateMedia( $tmpPage );
+        $tmpPage = $this->generateFile( $tmpPage );
 
         $tmpPage = $this->generateHeader( $tmpPage );
 
@@ -166,15 +167,26 @@ class eZQDomGenerator
 
     /*!
       \private
-      Converts image tags to XML tags.
+      Converts media tags to XML tags.
     */
     function &generateMedia( $tmpPage )
     {
         // default image tag <media id>
-        $tmpPage = preg_replace( "/(<media\s+?([0-9]+?)\s*?>)/", "<media id=\"\\2\"  />", $tmpPage );
+        $tmpPage = preg_replace( "/(<media\s+?([0-9]+?)\s*?>)/", "<media id=\"\\2\" />", $tmpPage );
         return $tmpPage;
     }
 
+    /*!
+      \private
+      Converts file tags to XML tags.
+    */
+    function &generateFile( $tmpPage )
+    {
+        // default image tag <file id text>
+        $tmpPage = preg_replace( "/(<file\s+?([0-9]+?)\s*?(.*?)>)/", "<file id=\"\\2\" text=\"\\3\" />", $tmpPage );
+        return $tmpPage;
+    }
+    
     
     function &generateHr( $tmpPage )
     {
@@ -337,6 +349,7 @@ class eZQDomGenerator
                 $value .= $this->decodeHeader( $paragraph );
                 $value .= $this->decodeImage( $paragraph );
                 $value .= $this->decodeMedia( $paragraph );
+                $value .= $this->decodeFile( $paragraph );
                 $value .= $this->decodeLink( $paragraph );
                 $value .= $this->decodeHr( $paragraph );
                 $value .= $this->decodeTable( $paragraph );
@@ -506,6 +519,38 @@ class eZQDomGenerator
     }
     
 
+    /*!
+      \private
+      
+    */
+    function &decodeFile( $paragraph )
+    {
+        if ( $paragraph->name == "file" )
+        {
+            foreach ( $paragraph->attributes as $fileItem )
+            {
+                switch ( $fileItem->name )
+                {
+                    case "id" :
+                    {
+                        $fileID = $fileItem->children[0]->content;
+                    }
+                    break;
+
+                    case "text" :
+                    {
+                        $fileText = $fileItem->children[0]->content;
+                    }
+                    break;
+                }
+            }
+                        
+            $pageContent = "<file $fileID $fileText>";
+        }
+        return $pageContent;
+    }
+    
+    
     function &decodeHr( $paragraph )
     {
         if ( $paragraph->name == "hr" )
@@ -677,6 +722,7 @@ class eZQDomGenerator
                                     $tmpData .= $this->decodeHeader( $contents );
                                     $tmpData .= $this->decodeImage( $contents );
                                     $tmpData .= $this->decodeMedia( $contents );
+                                    $tmpData .= $this->decodeFile( $contents );
                                     $tmpData .= $this->decodeLink( $contents );
                                     $tmpData .= $this->decodeHr( $contents );
                                     $tmpData .= $this->decodeTable( $contents );
@@ -730,6 +776,7 @@ class eZQDomGenerator
                     $content .= $this->decodeImage( $child );
                     $content .= $this->decodeTable( $child );
                     $content .= $this->decodeMedia( $child );
+                    $content .= $this->decodeFile( $child );
                     $content .= $this->decodeHeader( $child );
                 }
                 
@@ -785,6 +832,7 @@ class eZQDomGenerator
                                     $itemStr .= $this->decodeLink( $listItem );
                                     $itemStr .= $this->decodeImage( $listItem );
                                     $itemStr .= $this->decodeMedia( $listItem );
+                                    $itemStr .= $this->decodeFile( $listItem );
                                     $itemStr .= $this->decodeHeader( $listItem );
                                 
                                 }
@@ -866,6 +914,7 @@ class eZQDomGenerator
                         $content .= $this->decodeImage( $child );
                         $content .= $this->decodeTable( $child );
                         $content .= $this->decodeMedia( $child );
+                        $content .= $this->decodeFile( $child );
                         $content .= $this->decodeHeader( $child );
                     }
                 }

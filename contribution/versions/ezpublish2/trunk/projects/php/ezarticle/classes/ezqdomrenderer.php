@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.44 2001/09/11 10:51:29 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.45 2001/09/11 11:56:39 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -173,6 +173,7 @@ class eZQDomrenderer
 
         $this->Template->set_block( "articletags_tpl", "image_tpl", "image"  );
         $this->Template->set_block( "articletags_tpl", "media_tpl", "media"  );
+        $this->Template->set_block( "articletags_tpl", "file_tpl", "file"  );
         $this->Template->set_block( "image_tpl", "image_link_tpl", "image_link"  );
         $this->Template->set_block( "image_tpl", "ext_link_tpl", "ext_link"  );
         $this->Template->set_block( "image_tpl", "no_link_tpl", "no_link"  );
@@ -260,6 +261,7 @@ class eZQDomrenderer
                                     $intro .= $this->renderImage( $paragraph );
                                     $intro .= $this->renderHeader( $paragraph );
                                     $intro .= $this->renderMedia( $paragraph );
+                                    $intro .= $this->renderFile( $paragraph );
                                     $intro .= $this->renderLink( $paragraph );
                                     $intro .= $this->renderHr( $paragraph );
                                     $intro .= $this->renderTable( $paragraph );
@@ -325,6 +327,7 @@ class eZQDomrenderer
                                     $intro .= $this->renderCustom( $paragraph );
                                     $intro .= $this->renderImage( $paragraph );
                                     $intro .= $this->renderMedia( $paragraph );
+                                    $intro .= $this->renderFile( $paragraph );
                                     $intro .= $this->renderLink( $paragraph );
                                     $intro .= $this->renderHr( $paragraph );
                                     $intro .= $this->renderTable( $paragraph );
@@ -359,6 +362,7 @@ class eZQDomrenderer
                         $pageContent .= $this->renderPlain( $paragraph );
                         $pageContent .= $this->renderImage( $paragraph );
                         $pageContent .= $this->renderMedia( $paragraph );
+                        $pageContent .= $this->renderFile( $paragraph );
                         $pageContent .= $this->renderLink( $paragraph );
                         $pageContent .= $this->renderHr( $paragraph );
                         $pageContent .= $this->renderTable( $paragraph );
@@ -722,6 +726,58 @@ class eZQDomrenderer
         return $pageContent;
     }
 
+    /*!
+      Renders file tags.
+    */
+    function &renderFile( $paragraph )
+    {
+        $pageContent = "";
+        if ( $paragraph->name == "file" )
+        {
+            $articleFiles = $this->Article->files();
+            $articleID = $this->Article->id();
+
+            $level = 1;
+            if  ( count( $paragraph->attributes ) > 0 )
+            foreach ( $paragraph->attributes as $attr )
+            {
+                switch ( $attr->name )
+                {
+                    case "id" :
+                    {
+                       $fileID = $attr->children[0]->content;
+                    }
+                    break;
+
+                    case "text" :
+                    {
+                       $fileText = $attr->children[0]->content;
+                    }
+                    break;
+                }
+            }
+
+            setType( $fileID, "integer" );
+
+            $file = $articleFiles[$fileID-1];
+
+            // add media if a valid media was found, else report an error in the log.
+            if ( get_class( $file ) == "ezvirtualfile" )
+            {
+                $fileID = $file->id();
+                
+                $ini =& INIFile::globalINI();
+
+                $this->Template->set_var( "file_uri", "/filemanager/download/" . $fileID . "/"  );
+                $this->Template->set_var( "text", $fileText );
+
+                $pageContent = $this->Template->parse( "file", "file_tpl" );
+
+            }
+        }
+        return $pageContent;
+    }
+    
 
     
     function &renderPlain( $paragraph )
