@@ -2,7 +2,10 @@
 
 <h1>{intl-edit_bug}</h1>
 
-<hr noshade="noshade" size="4">
+<hr noshade="noshade" size="4" />
+
+<br />
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top" width="50%">
@@ -69,6 +72,7 @@
 	</td>
 </tr>
 </table>
+<br />
 
 <input type="checkbox" name="IsClosed" {is_closed} />
 <span class="boxtext">{intl-is_closed}</span><br />
@@ -104,10 +108,6 @@
 <hr noshade="noshade" size="4">
 
 <table cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td class="menuspacer">&nbsp;</td>
-</tr>
-
 <tr>
 	<td>
 	<input class="okbutton" type="submit" value="{intl-ok}">

@@ -32,6 +32,8 @@
 
 <div onLoad="MM_preloadImages('/eztodo/images/redigerminimrk.gif','/eztodo/images/slettminimrk.gif')"></div>
 
+<form action="/bug/category/new/">
+
 <h1>{intl-headline}</h1>
 
 <hr noshade size="4"/>
@@ -45,13 +47,15 @@
 	<td width="1%" class="{td_class}">
 	<a href="/bug/category/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('pt{category_id}-red','','/images/redigerminimrk.gif',1)"><img name="pt{category_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
-	<td width="1%" tdclass="{td_class}">
+	<td width="1%" class="{td_class}">
 	<a href="/bug/category/delete/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('pt{category_id}-slett','','/images/slettminimrk.gif',1)"><img name="pt{category_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
 </tr>
 <!-- END category_item_tpl -->
 </table>
 
-<hr noshade size="4"/>
+<hr noshade size="4" />
 
-<form action="/bug/category/new/"><input class="okbutton" type="submit" value="{intl-newcategory}"></form>
+<input class="okbutton" type="submit" value="{intl-newcategory}">
+
+</form>

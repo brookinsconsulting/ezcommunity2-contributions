@@ -32,9 +32,13 @@
 
 <div onLoad="MM_preloadImages('/eztodo/images/redigerminimrk.gif','/eztodo/images/slettminimrk.gif')"></div>
 
+<form action="/bug/module/new/">
+
 <h1>{intl-headline}</h1>
 
 <!-- BEGIN path_tpl -->
+
+<hr noshade size="4" />
 
 <img src="/ezarticle/admin/images/path-arrow.gif" height="10" width="15" border="0">
 
@@ -49,7 +53,7 @@
 <a class="path" href="/bug/module/list/{module_id}/">{module_name}</a>
 <!-- END path_item_tpl -->
 
-<hr noshade size="4"/>
+<hr noshade size="4" />
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <!-- BEGIN module_item_tpl -->
@@ -60,13 +64,15 @@
 	<td width="1%" class="{td_class}">
 	<a href="/bug/module/edit/{module_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('pt{module_id}-red','','/images/redigerminimrk.gif',1)"><img name="pt{module_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
-	<td width="1%" tdclass="{td_class}">
+	<td width="1%" class="{td_class}">
 	<a href="/bug/module/delete/{module_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('pt{module_id}-slett','','/images/slettminimrk.gif',1)"><img name="pt{module_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
 </tr>
 <!-- END module_item_tpl -->
 </table>
 
-<hr noshade size="4"/>
+<hr noshade size="4" />
 
-<form action="/bug/module/new/"><input class="okbutton" type="submit" value="{intl-newmodule}"></form>
+<input class="okbutton" type="submit" value="{intl-newmodule}">
+
+</form>

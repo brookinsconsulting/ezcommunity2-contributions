@@ -1,51 +1,61 @@
+<h1>{intl-headline}</h1>
+
+<hr noshade="noshade" size="4" />
+
+<br />
+
 <table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<td class="br" colspan="2">
-	<p class="boxtext">{intl-name}</p>
-	{todo_name}
-	<br><br>
+	<td  colspan="2">
+	<h2>{todo_name}</h2>
 	</td>
 </tr>
 <tr>
-	<td class="br">
-	<p class="boxtext">{intl-owner}</p>
+	<td >
+	<p class="boxtext">{intl-owner}:</p>
 	{first_name} {last_name}
 	<br><br>
 	</td>
-	<td class="br">
-	<p class="boxtext">{intl-user}</p>
+	<td >
+	<p class="boxtext">{intl-user}:</p>
 	{user_firstname} {user_lastname}
 	<br><br>
 	</td>
 </tr>
 <tr>
-	<td class="br">
-	<p class="boxtext">{intl-cat}</p>
+	<td >
+	<p class="boxtext">{intl-cat}:</p>
 	<!-- BEGIN category_select_tpl -->
 	{todo_category}
 	<!-- END category_select_tpl -->
 	<br><br>
 	</td>
 
-	<td class="br">
-	<p class="boxtext">{intl-pri}</p>
+	<td >
+	<p class="boxtext">{intl-pri}:</p>
 	<!-- BEGIN priority_select_tpl -->
 	{todo_priority}
 	<!-- END priority_select_tpl -->
 	</td>
 </tr>
 <tr>
-	<td class="br" colspan="2">
-	<p class="boxtext">{intl-desc}</p>
-	<p>{todo_description}</p>
+	<td colspan="2">
+	<p class="boxtext">{intl-desc}:</p>
 	</td>
 </tr>
 <tr>
-	<td class="br">
+	<td colspan="2" class="bglight">
+	{todo_description}
+	</td>
+</tr>
+<tr>
+	<td>
+	<br />
 	<p class="boxtext">{intl-status}:</p>
 	{todo_status}
 	</td>
-	<td class="br">
+	<td >
+	<br />
 	<p class="boxtext">{intl-view_others}:</p>
 	{todo_permission}
 	</td>
@@ -56,14 +66,16 @@
 <hr noshade size="4"/>
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
-        <td>
+    <td>
 	<input class="okbutton" type="submit" Name="List" value="{intl-ok}">
 	</td>
+	<td>&nbsp;</td>
         <td>
 	<input class="okbutton" type="submit" Name="Edit" value="{intl-edit}">
 	</td>
 	<!-- BEGIN mark_as_done -->
-        <td>
+    <td>&nbsp;</td>
+	<td>
 	<input class="okbutton" type="submit" Name="Done" value="{intl-mark_as_done}">
 	</td>
 	<!-- END mark_as_done -->

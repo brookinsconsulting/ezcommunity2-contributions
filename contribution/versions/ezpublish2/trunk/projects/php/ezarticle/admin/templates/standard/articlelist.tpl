@@ -95,7 +95,7 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-sl
 </tr>
 <!-- END category_item_tpl -->
 </table>
-<hr noshade size="4"/>
+
 <!-- END category_list_tpl -->
 
 

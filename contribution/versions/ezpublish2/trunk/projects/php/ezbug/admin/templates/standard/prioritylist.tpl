@@ -32,6 +32,8 @@
 
 <div onLoad="MM_preloadImages('/eztodo/images/redigerminimrk.gif','/eztodo/images/slettminimrk.gif')"></div>
 
+<form action="/bug/priority/new/">
+
 <h1>{intl-headline}</h1>
 
 <hr noshade size="4"/>
@@ -45,7 +47,7 @@
 	<td width="1%" class="{td_class}">
 	<a href="/bug/priority/edit/{priority_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('pt{priority_id}-red','','/images/redigerminimrk.gif',1)"><img name="pt{priority_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
-	<td width="1%" tdclass="{td_class}">
+	<td width="1%" class="{td_class}">
 	<a href="/bug/priority/delete/{priority_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('pt{priority_id}-slett','','/images/slettminimrk.gif',1)"><img name="pt{priority_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
 </tr>
@@ -54,4 +56,4 @@
 
 <hr noshade size="4"/>
 
-<form action="/bug/priority/new/"><input class="okbutton" type="submit" value="{intl-newpriority}"></form>
+<input class="okbutton" type="submit" value="{intl-newpriority}"></form>

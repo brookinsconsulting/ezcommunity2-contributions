@@ -3,7 +3,7 @@
 
 <hr noshade size="4"/>
 
-<p class="boxtext">{intl-name}</p>
+<p class="boxtext">{intl-name}:</p>
 <input type="text" name="Name" value="{module_name}">
 
 <p class="boxtext">{intl-module}:</p>
@@ -13,6 +13,8 @@
 <option value="{module_parent_id}" {is_selected}>{module_parent_name}</option>
 <!-- END module_item_tpl -->
 </select>
+
+<br /><br />
 
 <hr noshade size="4"/>
 

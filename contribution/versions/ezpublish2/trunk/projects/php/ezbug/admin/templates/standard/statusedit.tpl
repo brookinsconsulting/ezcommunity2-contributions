@@ -3,8 +3,9 @@
 
 <hr noshade size="4"/>
 
-<p class="boxtext">{intl-name}</p>
+<p class="boxtext">{intl-name}:</p>
 <input type="text" name="Name" value="{status_name}">
+<br /><br />
 
 <hr noshade size="4"/>
 

@@ -97,7 +97,7 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{module_id}-slet
 </tr>
 <!-- END module_item_tpl -->
 </table>
-<hr noshade size="4"/>
+
 <!-- END module_list_tpl -->
 
 
