@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: tableedit.php,v 1.10 2001/12/19 16:23:55 pkej Exp $
+// $Id: tableedit.php,v 1.11 2001/12/19 16:39:13 jhe Exp $
 //
 // Created on: <13-Dec-2001 10:51:41 jhe>
 //
@@ -130,6 +130,7 @@ $elementTemplate = new eZTemplate( "ezform/admin/" . $ini->read_var( "eZFormMain
 $elementTemplate->set_file( "elementlist_tpl", "elementlist.tpl" );
 
 $elementTemplate->set_block( "elementlist_tpl", "no_elements_item_tpl", "no_elements_item" );
+$elementTemplate->set_block( "elementlist_tpl", "error_list_tpl", "error_list" );
 $elementTemplate->set_block( "elementlist_tpl", "element_list_tpl", "element_list" );
 $elementTemplate->set_block( "element_list_tpl", "element_item_tpl", "element_item" );
 $elementTemplate->set_block( "element_item_tpl", "typelist_item_tpl", "typelist_item" );
@@ -151,6 +152,7 @@ $elementTemplate->set_block( "element_item_tpl", "no_item_move_down_tpl", "no_it
 
 $elementTemplate->set_var( "no_elements_item", "" );
 $elementTemplate->set_var( "element_list", "" );
+$elementTemplate->set_var( "error_list", "" );
 $elementTemplate->set_var( "element_item", "" );
 $elementTemplate->set_var( "typelist_item", "" );
 $elementTemplate->set_var( "checked", "" );
@@ -219,6 +221,16 @@ for ( $row = 0; $row < $table->rows(); $row++ )
         $elementTemplate->set_var( "table_edit", "" );
 
         $currentType = $element->elementType();
+
+        $elementTemplate->set_var( "element_name", $element->name() );
+        $elementTemplate->set_var( "element_id", $element->id() );
+        $elementTemplate->set_var( "element_size", $element->size() );
+        $elementTemplate->set_var( "item_move_up", "" );
+        $elementTemplate->set_var( "no_item_move_up", "" );
+        $elementTemplate->set_var( "item_move_down", "" );
+        $elementTemplate->set_var( "no_item_move_down", "" );
+        $elementTemplate->set_var( "item_separator", "" );
+        $elementTemplate->set_var( "no_item_separator", "" );
 
         foreach ( $types as $type )
         {
@@ -289,16 +301,6 @@ for ( $row = 0; $row < $table->rows(); $row++ )
             $elementTemplate->parse( "typelist_item", "typelist_item_tpl", true );
         }
 
-        
-        $elementTemplate->set_var( "element_name", $element->name() );
-        $elementTemplate->set_var( "element_id", $element->id() );
-        $elementTemplate->set_var( "element_size", $element->size() );
-        $elementTemplate->set_var( "item_move_up", "" );
-        $elementTemplate->set_var( "no_item_move_up", "" );
-        $elementTemplate->set_var( "item_move_down", "" );
-        $elementTemplate->set_var( "no_item_move_down", "" );
-        $elementTemplate->set_var( "item_separator", "" );
-        $elementTemplate->set_var( "no_item_separator", "" );
 
         if ( isSet( $move_item ) )
         {

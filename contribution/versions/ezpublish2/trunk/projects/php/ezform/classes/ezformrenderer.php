@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.32 2001/12/19 16:23:55 pkej Exp $
+// $Id: ezformrenderer.php,v 1.33 2001/12/19 16:39:13 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -209,7 +209,6 @@ class eZFormRenderer
                 $elementValue = $element->result();
 
             $this->Template->set_var( "field_value", $elementValue );
-            print_r($element);
             $this->Template->set_var( "element_name", $element->name() );
 
             if ( $elementType->name() == "text_block_item" )
@@ -614,13 +613,12 @@ class eZFormRenderer
             global $$elementName;
             
             $value = $$elementName;
-
             if ( $element->isRequired() == true )
             {
                 if ( empty( $value ) )
                 {
-                     $errorMessages[] = "required_field";
-                     $errorMessagesAdditionalInfo[] = "\"" .  $element->name() . "\"" ;
+                    $errorMessages[] = "required_field";
+                    $errorMessagesAdditionalInfo[] = "\"" .  $element->name() . "\"" ;
                 }
             }
             

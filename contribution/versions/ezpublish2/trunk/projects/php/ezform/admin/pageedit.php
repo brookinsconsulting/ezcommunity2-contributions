@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.18 2001/12/19 16:23:55 pkej Exp $
+// $Id: pageedit.php,v 1.19 2001/12/19 16:39:13 jhe Exp $
 //
 // Definition of ||| class
 //
@@ -244,7 +244,7 @@ if ( isSet( $OK ) || isSet( $Update ) || isSet( $NewElement ) )
             }
 
             $element->setBreak( $break );
-            $element->setRequired( $required );
+//            $element->setRequired( $required );
 
             $element->store();
 

@@ -13,7 +13,7 @@
 <!-- END text_field_item_tpl -->
 
 <!-- BEGIN text_area_item_tpl -->
-{header_line}11
+{header_line}
 <textarea class="box" name="{field_name}" cols="40" rows="5" wrap="soft">{field_value}</textarea>
 <!-- END text_area_item_tpl -->
 
@@ -56,7 +56,7 @@
 <!-- END numerical_integer_item_tpl -->
 
 <!-- BEGIN text_block_item_tpl -->
-<p class="boxtext">{element_name}:</p>
+{header_line}
 <div>{text_block}</div>
 <!-- END text_block_item_tpl -->
 
