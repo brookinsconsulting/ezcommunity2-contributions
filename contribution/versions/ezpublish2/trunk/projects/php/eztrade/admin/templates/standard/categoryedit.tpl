@@ -14,7 +14,7 @@
 
 	<p class="boxtext">{intl-category}:</p>
 	<select name="ParentID">
-	<option value="0">topp</option>
+	<option value="0">{intl-top_level}</option>
 	<!-- BEGIN value_tpl -->
 	<option value="{option_value}" {selected}>{option_level}{option_name}</option>
 	<!-- END value_tpl -->
