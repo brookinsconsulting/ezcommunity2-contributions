@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forum.php,v 1.41 2000/10/12 12:26:18 bf-cvs Exp $
+// $Id: forum.php,v 1.42 2000/10/12 15:43:06 bf-cvs Exp $
 //
 // 
 //
@@ -77,26 +77,15 @@ if ( $Action == "post" )
     Header( "Location: /forum/category/forum/$forum_id/" );
 }
 
-// reply
-if ( $reply )
-{
-    $msg->newMessage();    
-    $msg->setTopic( $Topic );
-    $msg->setBody( $Body );
-    $msg->setUserId( $UserID );
-    $msg->setParent( $parent );
-    
-    if ( $notice )
-        $msg->enableEmailNotice();
-    else
-        $msg->disableEmailNotice();
-    
-    $msg->store();
-}
-
 $locale = new eZLocale( $Language );
 
-$messages = $forum->messageTree( $forum->id(), 0, 2 );
+if ( !isset( $Offset ) )
+    $Offset = 0;
+
+if ( !isset( $Limit ) )
+    $Limit = 4;
+
+$messages = $forum->messageTree( $Offset, $Limit );
 
 //  $messages = $forum->messages();
 
@@ -120,6 +109,10 @@ foreach ( $messages as $message )
     
     $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
 
+    $t->set_var( "limit", $Limit );
+    $t->set_var( "prev_offset", $Offset - $Limit );
+    $t->set_var( "next_offset", $Offset + $Limit );    
+    
     $t->parse( "message", "message_tpl", true );
 }
     

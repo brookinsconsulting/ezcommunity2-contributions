@@ -1,8 +1,8 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.12 2000/10/12 10:33:31 pkej-cvs Exp $
+// $Id: eztemplate.php,v 1.13 2000/10/12 15:43:06 bf-cvs Exp $
 //
-// Definition of eZCompany class
+// Definition of eZTemplate class
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>

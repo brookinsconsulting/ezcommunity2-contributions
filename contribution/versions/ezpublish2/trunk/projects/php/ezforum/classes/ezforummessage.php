@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.46 2000/10/12 12:26:18 bf-cvs Exp $
+// $Id: ezforummessage.php,v 1.47 2000/10/12 15:43:06 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -41,6 +41,8 @@ class eZForumMessage
     {
         $this->IsConnected = false;
 
+        $this->ParentID = 0;
+        
         if ( $id != "" )
         {
             $this->ID = $id;
@@ -69,16 +71,76 @@ class eZForumMessage
 
         if ( !isset( $this->ID ) )
         {
-            $this->Database->query( "INSERT INTO ezforum_MessageTable SET
+
+            if ( $this->ParentID == 0 )
+            { // new node -- simple
+
+                // find the biggest treeID
+                $this->Database->array_query( $result, "SELECT TreeID FROM ezforum_MessageTable ORDER BY TreeID DESC LIMIT 1" );
+
+                if ( count( $result ) > 0 )
+                {
+                    $this->TreeID = $result[0]["TreeID"] + 1;
+                }
+                else
+                {
+                    $this->TreeID = 0;
+                }
+                     
+                $this->Database->query( "INSERT INTO ezforum_MessageTable SET
 		                         ForumId='$this->ForumID',
 		                         Topic='$this->Topic',
 		                         Body='$this->Body',
 		                         UserId='$this->UserID',
 		                         Parent='$this->ParentID',
+		                         TreeID='$this->TreeID',
 		                         EmailNotice='$this->EmailNotice'
                                  " );
 
-            $this->ID = mysql_insert_id();
+                $this->ID = mysql_insert_id();
+            }
+            else
+            { // child... guess
+
+                // find the tree ID of the parent
+                $this->Database->array_query( $result, "SELECT TreeID FROM ezforum_MessageTable
+                                                        WHERE ID='$this->ParentID'
+                                                        ORDER BY TreeID DESC LIMIT 1" );
+
+                if ( count( $result ) == 1 )
+                {
+                    print( "parent place:" . $result[0]["TreeID"] );
+
+                    $parentID = $result[0]["TreeID"];
+                    $this->TreeID =  $parentID;
+
+                    $parentID += 1;
+                    
+                    // update the whole tree
+                    $this->Database->query( "UPDATE ezforum_MessageTable SET TreeID=(TreeID +1 ) WHERE TreeID > $parentID" );
+
+                    
+                }
+                else
+                {
+                    print( "<b>ERROR:</b> eZForumMessage::store() parent not found in database.<br /> \n" );
+                }
+                
+                
+                $this->Database->query( "INSERT INTO ezforum_MessageTable SET
+		                         ForumId='$this->ForumID',
+		                         Topic='$this->Topic',
+		                         Body='$this->Body',
+		                         UserId='$this->UserID',
+		                         Parent='$this->ParentID',
+		                         TreeID='$this->TreeID',
+		                         EmailNotice='$this->EmailNotice'
+                                 " );
+
+                $this->ID = mysql_insert_id();
+                
+            }
+            
 
             $this->State_ = "Coherent";
         }
@@ -507,6 +569,9 @@ class eZForumMessage
     var $UserID;
     var $PostingTime;
     var $EmailNotice;
+
+    /// indicates the position in the tree.
+    var $TreeID;
 
     ///  Variable for keeping the database connection.
     var $Database;

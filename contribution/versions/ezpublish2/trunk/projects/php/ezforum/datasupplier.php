@@ -16,6 +16,14 @@ switch ( $url_array[2] )
         include( "ezforum/replymessage.php" );
     }    
     break;
+
+    case "replymessage" :
+    {
+        $ReplyID = $url_array[3];
+        include( "ezforum/replymessage.php" );                
+    }
+    break;
+    
         
     case "category" :
         if ( $url_array[3] == "forum" )
@@ -36,11 +44,6 @@ switch ( $url_array[2] )
                 $Action = "post";
                 $forum_id = $url_array[5];
                 include( "ezforum/forum.php" );                
-            }
-            else if ( $url_array[4] == "replymessage" )
-            {
-                $ReplyID = $url_array[5];
-                include( "ezforum/replymessage.php" );                
             }
             else                
             {

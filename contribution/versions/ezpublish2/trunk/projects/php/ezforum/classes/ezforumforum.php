@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumforum.php,v 1.19 2000/10/12 12:33:53 bf-cvs Exp $
+// $Id: ezforumforum.php,v 1.20 2000/10/12 15:43:06 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -177,42 +177,24 @@ class eZForumForum
     }
 
     /*!
-      Returns all the messages and submessages as deep as $level
-
-      Default depth is 3. parent is default set to 0 (top node).
-
-      NOTE: this function is recursive.
+      Returns all the messages and submessages as a tree.
     */
-    function &messageTree( $forumID, $parent=0, $level=3 )
+    function &messageTree( $offset, $limit )
     {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
        $this->dbInit();
 
-       $message_array = array();
-       $ret = array();
-       
-       if ( get_class( $parent ) == "ezforummessage" )
-       {
-           $parentID = $parent->id();
-           
-           $this->Database->array_query( $message_array, "SELECT Id as ID FROM
+       $this->Database->array_query( $message_array, "SELECT Id as ID FROM
                                                        ezforum_MessageTable
-                                                       WHERE ForumId='$forumID' AND Parent='$parentID' ORDER BY PostingTime DESC" );
-       }
-       else
-       {
-             $this->Database->array_query( $message_array, "SELECT Id as ID FROM
-                                                         ezforum_MessageTable
-                                                         WHERE ForumId='$forumID' AND Parent='0' ORDER BY PostingTime DESC" );
-       }
-       
+                                                       WHERE ForumId='$this->ID' ORDER BY TreeID DESC LIMIT $offset,$limit" );
+
+       $ret = array();
+
        foreach ( $message_array as $message )
        {
-           $msg = new eZForumMessage( $message["ID"] );
-           
-           $ret[] = $msg;                
-//           print( $level . $msg . " ");
-           if ( $level )
-               $ret = array_merge( $ret, $this->messageTree( $forumID, $msg, $level-1 ) );
+           $ret[] = new eZForumMessage( $message["ID"] );
        }
        
        return $ret;
