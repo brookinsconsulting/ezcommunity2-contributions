@@ -24,6 +24,10 @@
 
 <!-- END path_item_tpl -->
 
+<!-- BEGIN current_image_item_tpl -->
+
+<!-- END current_image_item_tpl -->
+
 
 <!-- BEGIN category_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
