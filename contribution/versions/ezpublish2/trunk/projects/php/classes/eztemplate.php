@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.10 2000/10/11 17:32:07 pkej-cvs Exp $
+// $Id: eztemplate.php,v 1.11 2000/10/12 09:06:07 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -99,8 +99,14 @@ class eZTemplate extends Template
                 }
         }
     }
-    
-    
+
+    /*!
+      Returns a reference to the ini file object.
+    */
+    function &ini()
+    {
+        return $this->ini;
+    }
     
     var $TextStrings;
     var $ini;    
