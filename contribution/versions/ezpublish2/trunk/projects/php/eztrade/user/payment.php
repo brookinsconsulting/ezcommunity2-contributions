@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.42 2001/04/07 15:11:59 bf Exp $
+// $Id: payment.php,v 1.43 2001/04/09 13:47:32 chrism Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -51,6 +51,7 @@ include_once( "eztrade/classes/ezcheckout.php" );
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezmail.php" );
+include_once( "classes/ezgpg.php" );
 
 $ini =& INIFile::globalINI();
 
@@ -461,6 +462,32 @@ if ( $PaymentSuccess == "true" )
     $mail->setSubject( $mailSubjectUser );
     $mail->setBody( $mailBody );
     $mail->send();
+    
+    //admin email
+    //check to see if the email should be encrypted for the administrator
+    $mailEncrypt = $ini->read_var( "eZTradeMain", "MailEncrypt" );    
+
+    
+    
+	if ($mailEncrypt == "GPG")
+	{	
+	    //initialize GPG class 
+	    $mailKeyname = $ini->read_var( "eZTradeMain", "RecipientGPGKey" );
+	    $wwwUser = $ini->read_var( "eZTradeMain", "ApacheUser" );
+        //At this point you can add any information to the template as needed
+        //remember to provide a variable in the template for it.
+	//add credit card info for the administrator
+	//$mailTemplate->set_var( "payment_method", $paymentMethod );
+	//$mailTemplate->set_var( "cc_number", $CCNumber );
+	//$mailTemplate->set_var( "cc_expiremonth", $ExpireMonth );
+	//$mailTemplate->set_var( "cc_expireyear", $ExpireYear );
+
+	$mailBody = $mailTemplate->parse( "dummy", "mail_order_tpl" );
+	//encrypt mailBody
+		$mytext = new ezgpg($mailBody, $mailKeyname, $wwwUser);
+		$mailBody=($mytext->body);
+		$mail->setBody( $mailBody );
+	}
     
     $mail->setSubject( $mailSubject );
     $mail->setTo( $OrderReceiverEmail );
