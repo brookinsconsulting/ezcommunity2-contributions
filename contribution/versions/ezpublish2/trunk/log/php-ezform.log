@@ -164,3 +164,20 @@ Maintainer(s) : pkej@ez.no
       sql/mysql/ezform.sql
       sql/postgresql/ezform.sql: updated sql scheemes, ready for release
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-10-16  Christoffer Elo  <ce@ez.no>
+
+    * sql/mysql/ezform.sql
+      sql/postgresql/ezform.sql: added sql fields
+
+    * classes/ezformelement.php
+      classes/ezformrenderer.php
+      admin/formedit.php
+      admin/intl/en_GB/form.php.ini
+      admin/templates/standard/formedit.tpl
+      admin/templates/standard/formrenderer.tpl:
+    Added size and breaking in ez form
+

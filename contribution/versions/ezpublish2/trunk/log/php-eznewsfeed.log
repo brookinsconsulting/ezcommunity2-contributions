@@ -57,3 +57,12 @@ Maintainer(s) : vl@ez.no
     * sql/mysql/eznewsfeed.sql
       sql/postgresql/eznewfeed.sql: updated sql scheemes, ready for release
 
+
+Module : eznewsfeed
+Repository path : /home/cvsroot/projects/php/eznewsfeed
+Maintainer(s) : vl@ez.no
+2001-10-16  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/categoryedit.php.ini
+      user/intl/de_DE/headlines.php.ini: updated de_DE for 2.2 beta2
+

@@ -269,3 +269,11 @@ Maintainer(s) : bf@ez.no
 
     * ezpostgresqldb.php: Runs a query only if the connection is up.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-10-16  Baard Farstad  <bf@ez.no>
+
+    * ezpublish.php: Changed version.
+

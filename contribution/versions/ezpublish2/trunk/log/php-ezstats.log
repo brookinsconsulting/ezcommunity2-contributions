@@ -103,3 +103,11 @@ Maintainer(s) : br@ez.no
     * sql/mysql/ezstats.sql
       sql/postgresql/ezstats.sql: updated sql scheemes, ready for release
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2001-10-16  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/yearreport.php.ini: updated de_DE for 2.2 beta2
+

@@ -248,3 +248,45 @@ Maintainer(s) : vl@ez.no
     Updates sql schemes.
     Added tables eZSiteManager_Menu and eZSiteManager_MenuType
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-10-16  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezsection.php: Added one column product at frontpage
+    Added cache on frontpage
+
+2001-10-16  Chris Mason  <chris@net.ai>
+
+    * sql/mysql/ezsitemanager.sql: Fixed two errors in sql files
+    : ----------------------------------------------------------------------
+
+2001-10-16  Christoffer Elo  <ce@ez.no>
+
+    * admin/intl/en_GB/sectionedit.php.ini
+      admin/sectionedit.php
+      admin/templates/standard/sectionedit.tpl
+      classes/ezsectionfrontpage.php: Added languages
+
+2001-10-16  Baard Farstad  <bf@ez.no>
+
+    * admin/intl/en_GB/sectionedit.php.ini
+      admin/templates/standard/sectionedit.tpl:
+    Added support for 0 in frontpage (all categories ).
+
+2001-10-16  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/cacheadmin.php.ini
+      admin/intl/de_DE/fileedit.php.ini
+      admin/intl/de_DE/filelist.php.ini
+      admin/intl/de_DE/menubox.php.ini
+      admin/intl/de_DE/menuedit.php.ini
+      admin/intl/de_DE/menulist.php.ini
+      admin/intl/de_DE/sectionedit.php.ini
+      admin/intl/de_DE/sectionlist.php.ini
+      admin/intl/de_DE/siteconfig.php.ini
+      admin/intl/de_DE/sqlquery.php.ini
+      admin/intl/de_DE/templateedit.php.ini
+      admin/intl/de_DE/templatelist.php.ini: updated de_DE for 2.2 beta2
+

@@ -333,3 +333,21 @@ Maintainer(s) : jhe@ez.no
     * sql/postgresql/ezfilemanager.sql
       sql/mysql/ezfilemanager.sql: updated sql scheemas, ready for release
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-10-16  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezvirtualfile.php: fixed bug when user is not logged in
+
+2001-10-16  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/browse.php.ini
+      admin/intl/de_DE/menubox.php.ini
+      admin/intl/de_DE/unassigned.php.ini
+      user/intl/de_DE/filelist.php.ini
+      user/intl/de_DE/fileupload.php.ini
+      user/intl/de_DE/fileview.php.ini
+      user/intl/de_DE/folderedit.php.ini: updated de_DE for 2.2 beta2
+

@@ -82,3 +82,19 @@ Maintainer(s) : bf@ez.no
 
     * loginheader.php: version on login screen
 
+
+Module : admin
+Repository path : /home/cvsroot/projects/php/admin
+Maintainer(s) : bf@ez.no
+2001-10-16  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * templates/ezpublish/header.tpl
+      templates/ezpublish/loginheader.tpl:
+    changed publish.ez.no to developer.ez.no
+
+2001-10-16  Gunnstein Lye  <gl@ez.no>
+
+    * intl/de_DE/error.ini
+      intl/de_DE/header.php.ini
+      intl/de_DE/help_header.php.ini: updated de_DE for 2.2 beta2
+

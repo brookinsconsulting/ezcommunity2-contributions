@@ -78,3 +78,14 @@ Maintainer(s) : ce@ez.no
 
     * catalogue/dummy.cache: added catalogue directory with dummy.cache file
 
+
+Module : ezmediacatalogue
+Repository path : /home/cvsroot/projects/php/ezmediacatalogue
+Maintainer(s) : ce@ez.no
+2001-10-16  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezmedia.php: Fixed a bug
+
+    * admin/categoryedit.php
+      admin/templates/standard/medialist.tpl: Fixed postgres bugs
+

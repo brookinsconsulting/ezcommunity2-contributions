@@ -32,3 +32,16 @@ Maintainer(s) : pkej@ez.no
 
     * sql/postgresql/ezquiz.sql: Fixed postgres bugs.
 
+
+Module : ezquiz
+Repository path : /home/cvsroot/projects/php/ezquiz
+Maintainer(s) : pkej@ez.no
+2001-10-16  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/gameedit.php.ini
+      admin/intl/de_DE/gamelist.php.ini
+      admin/intl/de_DE/menubox.php.ini
+      admin/intl/de_DE/questionedit.php.ini
+      user/intl/de_DE/menubox.php.ini
+      user/intl/de_DE/quiz.php.ini: updated de_DE for 2.2 beta2
+

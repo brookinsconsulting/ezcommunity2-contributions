@@ -50,3 +50,11 @@ Maintainer(s) : vl@ez.no
     ie both : http://ezsystems.vl.dvh1.ez.no/shop/software/
     and http://ezsystems.vl.dvh1.ez.no/shop/software will work
 
+
+Module : ezurltranslator
+Repository path : /home/cvsroot/projects/php/ezurltranslator
+Maintainer(s) : vl@ez.no
+2001-10-16  fh  <fh@zev.ez.no>
+
+    * admin/urledit.php: Added delete on empty list check.
+

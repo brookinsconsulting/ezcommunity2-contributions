@@ -45,3 +45,14 @@ Maintainer(s) : vl@ez.no
       admin/intl/en_GB/menubox.php.ini
       admin/menubox.php: Added mygold design
 
+
+Module : ezsysinfo
+Repository path : /home/cvsroot/projects/php/ezsysinfo
+Maintainer(s) : vl@ez.no
+2001-10-16  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/hwinfo.php.ini
+      admin/intl/de_DE/meminfo.php.ini
+      admin/intl/de_DE/menubox.php.ini
+      admin/intl/de_DE/sysinfo.php.ini: updated de_DE for 2.2 beta2
+

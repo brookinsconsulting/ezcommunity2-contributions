@@ -111,3 +111,22 @@ Maintainer(s) : br@ez.no
     Added regexp for http on urls, and moved lock table in ezad.php
     (got error message when update a new ad)
 
+
+Module : ezad
+Repository path : /home/cvsroot/projects/php/ezad
+Maintainer(s) : br@ez.no
+2001-10-16  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezadcategory.php:
+    delete links from the category, in addition to the category.
+
+2001-10-16  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/adedit.php.ini
+      admin/intl/de_DE/adlist.php.ini: updated de_DE for 2.2 beta2
+
+2001-10-16  Bjoern Reiten  <br@ez.no>
+
+    * sql/mysql/ezad.sql
+      sql/postgresql/ezad.sql: fixed sql schema.
+

@@ -204,3 +204,12 @@ Maintainer(s) : jhe@ez.no
 
     * user/trustees.php: added error message when user is not logged in
 
+
+Module : ezcalendar
+Repository path : /home/cvsroot/projects/php/ezcalendar
+Maintainer(s) : jhe@ez.no
+2001-10-16  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/de_DE/appointmentedit.php.ini
+      user/intl/de_DE/trustees.php.ini: updated de_DE for 2.2 beta2
+

@@ -1298,3 +1298,147 @@ Maintainer(s) : bf@ez.no
 
     * sql/postgresql/ezarticle.sql: Removed "#" from PostgreSQL file.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-10-16  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezarticletool.php
+      user/datasupplier.php
+      user/frontpage.php
+      user/templates/standard/frontpage.tpl:
+    Added one column product at frontpage
+    Added cache on frontpage
+
+2001-10-16  Baard Farstad  <bf@ez.no>
+
+    * user/articlelist.php: Fixed category link id.
+
+2001-10-16  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/article.php
+      xmlrpc/category.php
+      xmlrpc/categorylist.php
+      xmlrpc/datasupplier.php:
+    Added support for querying for some general info on an url.
+    Removed position for categories.
+
+2001-10-16  Thomas Hellstroem  <th@ez.no>
+
+    * user/templates/standard/articletags.tpl
+      user/templates/standard/frontpage.tpl: Layout
+
+2001-10-16  Baard Farstad  <bf@ez.no>
+
+    * user/frontpage.php: Fixed error message.
+
+    * user/templates/standard/articletags.tpl: Align fic.
+
+    * user/templates/standard/articletags.tpl: Fixed table border.
+
+2001-10-16  Christoffer Elo  <ce@ez.no>
+
+    * user/articleview.php: added meta keywords information
+
+    * admin/articlelog.php
+      classes/ezarticle.php: Added meta for products
+
+2001-10-16  Baard Farstad  <bf@ez.no>
+
+    * user/articlelist.php: Fixed article category link.
+
+2001-10-16  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezarticle.php: Fixed a postgres sql bug
+
+2001-10-16  Baard Farstad  <bf@ez.no>
+
+    * user/frontpage.php: Fixed correct category in frontpage article link.
+
+    * user/frontpage.php: Added support for 0 ( all categories ) in frontpage.
+
+2001-10-16  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezarticle.php: Fixed postgres bugs
+
+2001-10-16  Baard Farstad  <bf@ez.no>
+
+    * user/menubox.php: Fix.
+
+    * user/menubox.php: Fixed bug with using two menuboxes on the same page.
+
+2001-10-16  Gunnstein Lye  <gl@ez.no>
+
+    * admin/help/de_DE/article_articleedit.hlp
+      admin/intl/de_DE/articleedit.php.ini
+      admin/intl/de_DE/articleedit.php.ini.unix
+      admin/intl/de_DE/articlelist.php.ini
+      admin/intl/de_DE/articlelog.php.ini
+      admin/intl/de_DE/articlepreview.php.ini
+      admin/intl/de_DE/attribute.php.ini
+      admin/intl/de_DE/attributelist.php.ini
+      admin/intl/de_DE/categoryedit.php.ini
+      admin/intl/de_DE/fileedit.php.ini
+      admin/intl/de_DE/filelist.php.ini
+      admin/intl/de_DE/formlist.php.ini
+      admin/intl/de_DE/imageedit.php.ini
+      admin/intl/de_DE/imagelist.php.ini
+      admin/intl/de_DE/imagemap.php.ini
+      admin/intl/de_DE/mailtemplate.php.ini
+      admin/intl/de_DE/mediaedit.php.ini
+      admin/intl/de_DE/medialist.php.ini
+      admin/intl/de_DE/menubox.php.ini
+      admin/intl/de_DE/pendinglist.php.ini
+      admin/intl/de_DE/pendingmail.php.ini
+      admin/intl/de_DE/search.php.ini
+      admin/intl/de_DE/searchform.php.ini
+      admin/intl/de_DE/sendnewsletter.php.ini
+      admin/intl/de_DE/sitemap.php.ini
+      admin/intl/de_DE/topiclist.php.ini
+      admin/intl/de_DE/typeedit.php.ini
+      admin/intl/de_DE/typelist.php.ini
+      admin/intl/de_DE/unpublishedlist.php.ini
+      user/intl/de_DE/articleedit.php.ini
+      user/intl/de_DE/articleheaderlist.php.ini
+      user/intl/de_DE/articlelinks.php.ini
+      user/intl/de_DE/articlelist.php.ini
+      user/intl/de_DE/articlesend_form.php.ini
+      user/intl/de_DE/articleview.php.ini
+      user/intl/de_DE/authorlist.php.ini
+      user/intl/de_DE/authorview.php.ini
+      user/intl/de_DE/extendedsearch.php.ini
+      user/intl/de_DE/faqlist.php.ini
+      user/intl/de_DE/fileedit.php.ini
+      user/intl/de_DE/filelist.php.ini
+      user/intl/de_DE/frontpage.php.ini
+      user/intl/de_DE/headlines.php.ini
+      user/intl/de_DE/imageedit.php.ini
+      user/intl/de_DE/imagelist.php.ini
+      user/intl/de_DE/index.php.ini
+      user/intl/de_DE/mailtofriend.php.ini
+      user/intl/de_DE/medialist.php.ini
+      user/intl/de_DE/menubox.php.ini
+      user/intl/de_DE/menumaker.php.ini
+      user/intl/de_DE/newsgroup.php.ini
+      user/intl/de_DE/search.php.ini
+      user/intl/de_DE/searchform.php.ini
+      user/intl/de_DE/sendmailtofriend.php.ini
+      user/intl/de_DE/sitemap.php.ini
+      user/intl/de_DE/smallarticlelist.php.ini
+      user/intl/de_DE/startseite.php.ini
+      user/intl/de_DE/topiclist.php.ini
+      user/intl/de_DE/urlsupplier.php.ini: updated de_DE for 2.2 beta2
+
+2001-10-16  Baard Farstad  <bf@ez.no>
+
+    * classes/ezqdomgenerator.php
+      classes/ezqdomrenderer.php
+      user/templates/standard/articletags.tpl:
+    Added support for <html></html> tag in renderer.
+
+2001-10-16  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/datasupplier.php
+      user/smallarticlelist.php: fixed errors in coding standard
+

@@ -464,3 +464,20 @@ Maintainer(s) : jhe@ez.no
 
     * user/intl/en_GB/mailreply.php.ini: changed space to &nbsp;
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-10-16  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezforummessage.php: Added meta for products
+
+2001-10-16  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/categoryedit.php.ini
+      admin/intl/de_DE/search.php.ini
+      user/intl/de_DE/latestmessages.php.ini
+      user/intl/de_DE/message.php.ini
+      user/intl/de_DE/messagelist.php.ini
+      user/intl/de_DE/search.php.ini: updated de_DE for 2.2 beta2
+

@@ -493,3 +493,28 @@ Maintainer(s) : br@ez.no
 
     * classes/ezimage.php: Fixed a bug
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-10-16  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/category.php
+      xmlrpc/datasupplier.php
+      xmlrpc/image.php:
+    Added support for querying for some general info on an url.
+    Removed position for categories.
+
+2001-10-16  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/browse.php.ini
+      admin/intl/de_DE/categoryedit.php.ini
+      admin/intl/de_DE/imageedit.php.ini
+      admin/intl/de_DE/imagelist.php.ini
+      user/intl/de_DE/categoryedit.php.ini
+      user/intl/de_DE/imageedit.php.ini
+      user/intl/de_DE/imagelist.php.ini
+      user/intl/de_DE/imageview.php.ini
+      user/intl/de_DE/menubox.php.ini
+      user/intl/de_DE/slideshow.php.ini: updated de_DE for 2.2 beta2
+

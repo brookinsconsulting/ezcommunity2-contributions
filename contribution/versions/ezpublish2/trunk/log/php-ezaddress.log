@@ -76,3 +76,14 @@ Maintainer(s) : ce@ez.no
 
     * classes/ezaddress.php: Fixed postgres bugs.
 
+
+Module : ezaddress
+Repository path : /home/cvsroot/projects/php/ezaddress
+Maintainer(s) : ce@ez.no
+2001-10-16  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/addresstype.php.ini
+      admin/intl/de_DE/country.php.ini
+      admin/intl/de_DE/onlinetype.php.ini
+      admin/intl/de_DE/phonetype.php.ini: updated de_DE for 2.2 beta2
+

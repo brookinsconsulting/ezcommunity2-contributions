@@ -371,3 +371,34 @@ Maintainer(s) : bf@ez.no
 
     * sql/postgresql/ezuser.sql: Fixed postgres bugs.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-10-16  fh  <fh@zev.ez.no>
+
+    * classes/ezmodule.php:
+    eZModule::exists returned ezuser object instead of ezmodule object...Hm...
+
+    * classes/ezmodule.php: Fixed old database crap.
+
+2001-10-16  Baard Farstad  <bf@ez.no>
+
+    * classes/ezuser.php: Fixed clearing of cookie.
+
+2001-10-16  Christoffer Elo  <ce@ez.no>
+
+    * classes/ezobjectpermission.php
+      sql/postgresql/ezuser.sql: Fixed postgres bugs
+
+2001-10-16  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/authorlist.php.ini
+      admin/intl/de_DE/groupedit.php.ini
+      admin/intl/de_DE/menubox.php.ini
+      admin/intl/de_DE/useredit.php.ini
+      user/intl/de_DE/forgot.php.ini
+      user/intl/de_DE/forgotmessage.php.ini
+      user/intl/de_DE/missingemailmessage.php.ini
+      user/intl/de_DE/userwithaddress.php.ini: updated de_DE for 2.2 beta2
+

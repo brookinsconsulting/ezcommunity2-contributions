@@ -167,3 +167,42 @@ Maintainer(s) : br@ez.no
       sql/mysql/ezlink.sql
       sql/postgresql/ezlink.sql: updated sql scheemes, ready for release
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-10-16  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezlink.php: small bug fix
+
+    * classes/ezlink.php
+      user/search.php: added searching based on partial words
+
+2001-10-16  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezlink.php: added update in store.
+
+    * sql/informix/ezlink.sql
+      sql/mysql/ezlink.sql
+      sql/postgresql/ezlink.sql: changed KeyWords in eZLink_Link to text.
+
+2001-10-16  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/attributeedit.php.ini
+      admin/intl/de_DE/categoryedit.php.ini
+      admin/intl/de_DE/categorylist.php.ini
+      admin/intl/de_DE/linkcategorylist.php.ini
+      admin/intl/de_DE/linkedit.php.ini
+      admin/intl/de_DE/menubox.php.ini
+      admin/intl/de_DE/noright.php.ini
+      admin/intl/de_DE/search.php.ini
+      admin/intl/de_DE/typeedit.php.ini
+      admin/intl/de_DE/typelist.php.ini
+      admin/intl/de_DE/unacceptedlist.php.ini
+      user/intl/de_DE/categorylist.php.ini
+      user/intl/de_DE/linkcategorylist.php.ini
+      user/intl/de_DE/onepagelinklist.php.ini
+      user/intl/de_DE/search.php.ini
+      user/intl/de_DE/success.php.ini
+      user/intl/de_DE/suggestlink.php.ini: updated de_DE for 2.2 beta2
+

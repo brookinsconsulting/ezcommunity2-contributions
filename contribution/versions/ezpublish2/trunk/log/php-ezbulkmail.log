@@ -175,3 +175,39 @@ Maintainer(s) : fh@ez.no
     * classes/ezbulkmail.php:
     FIxed serious bug that caused malfunction on send with user groups
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2001-10-16  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezbulkmailcategory.php: fixed bug about ID removed from table
+
+2001-10-16  Chris Mason  <chris@net.ai>
+
+    * sql/mysql/ezbulkmail.sql: Fixed two errors in sql files
+    : ----------------------------------------------------------------------
+
+2001-10-16  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/categoryedit.php.ini
+      admin/intl/de_DE/categorylist.php.ini
+      admin/intl/de_DE/mailedit.php.ini
+      admin/intl/de_DE/masssubscribe.php.ini
+      admin/intl/de_DE/menubox.php.ini
+      admin/intl/de_DE/sendmail.php.ini
+      admin/intl/de_DE/userlist.php.ini
+      user/intl/de_DE/bulklist.php.ini
+      user/intl/de_DE/categoryedit.php.ini
+      user/intl/de_DE/mailview.php.ini
+      user/intl/de_DE/menubox.php.ini
+      user/intl/de_DE/subscriptionlist.php.ini
+      user/intl/de_DE/subscriptionlogin.php.ini
+      user/intl/de_DE/subscriptionmail.php.ini
+      user/intl/de_DE/usermessages.php.ini: updated de_DE for 2.2 beta2
+
+2001-10-16  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/mysql/ezbulkmail.sql
+      sql/postgresql/ezbulkmail.sql: fixed problem with primary key
+

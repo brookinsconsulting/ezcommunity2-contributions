@@ -1216,3 +1216,77 @@ Maintainer(s) : ce@ez.no
       user/payment.php
       user/templates/standard/mailorder.tpl: Fixed postgres bugs.
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-10-16  Christoffer Elo  <ce@ez.no>
+
+    * admin/productedit.php
+      classes/ezproducttool.php: Added one column product at frontpage
+    Added cache on frontpage
+
+    * user/templates/standard/productview.tpl: Removed smail
+
+    * user/productview.php: added meta keywords information
+
+    * user/productlist.php
+      user/productview.php: Added meta for products
+
+    * classes/ezwishlist.php
+      user/intl/en_GB/voucheremail.php.ini
+      user/orderview.php
+      user/payment.php
+      user/templates/standard/voucherinformation.tpl
+      classes/ezorder.php
+      classes/ezpricegroup.php
+      classes/ezproduct.php
+      classes/ezvoucher.php
+      classes/ezvoucherinformation.php
+      classes/ezvoucherused.php
+      sql/mysql/eztrade.sql
+      sql/postgresql/eztrade.sql: Fixed postgres bugs
+
+2001-10-16  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/categoryedit.php.ini
+      admin/intl/de_DE/categorylist.php.ini
+      admin/intl/de_DE/currency.php.ini
+      admin/intl/de_DE/customerlist.php.ini
+      admin/intl/de_DE/customerview.php.ini
+      admin/intl/de_DE/imagelist.php.ini
+      admin/intl/de_DE/menubox.php.ini
+      admin/intl/de_DE/optionedit.php.ini
+      admin/intl/de_DE/orderedit.php.ini
+      admin/intl/de_DE/orderlist.php.ini
+      admin/intl/de_DE/productedit.php.ini
+      admin/intl/de_DE/productexpire.php.ini
+      admin/intl/de_DE/productpreview.php.ini
+      admin/intl/de_DE/productsearch.php.ini
+      admin/intl/de_DE/shippingtypes.php.ini
+      admin/intl/de_DE/typeedit.php.ini
+      admin/intl/de_DE/vattypes.php.ini
+      admin/intl/de_DE/voucheredit.php.ini
+      admin/intl/de_DE/voucherlist.php.ini
+      user/intl/de_DE/cart.php.ini
+      user/intl/de_DE/categorylist.php.ini
+      user/intl/de_DE/checkout.php.ini
+      user/intl/de_DE/customerlogin.php.ini
+      user/intl/de_DE/extendedsearch.php.ini
+      user/intl/de_DE/mailorder.php.ini
+      user/intl/de_DE/menubox.php.ini
+      user/intl/de_DE/orderlist.php.ini
+      user/intl/de_DE/ordersendt.php.ini
+      user/intl/de_DE/orderview.php.ini
+      user/intl/de_DE/productview.php.ini
+      user/intl/de_DE/voucher.php.ini
+      user/intl/de_DE/voucheremail.php.ini
+      user/intl/de_DE/voucherinformation.php.ini
+      user/intl/de_DE/voucherview.php.ini
+      user/intl/de_DE/wishlist.php.ini: updated de_DE for 2.2 beta2
+
+2001-10-16  Baard Farstad  <bf@ez.no>
+
+    * user/precheckout.php
+      user/templates/standard/precheckout.tpl: Fixed cookie less shopping.
+

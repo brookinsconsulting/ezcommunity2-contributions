@@ -101,3 +101,19 @@ Maintainer(s) : fh@ez.no
       user/mailview.php:
     Fixed file name bug when upload, and fixed download name bug.
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2001-10-16  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/de_DE/configure.php.ini
+      user/intl/de_DE/filteredit.php.ini
+      user/intl/de_DE/folderlist.php.ini
+      user/intl/de_DE/link.php.ini
+      user/intl/de_DE/mailedit.php.ini
+      user/intl/de_DE/maillist.php.ini
+      user/intl/de_DE/mailview.php.ini
+      user/intl/de_DE/menubox.php.ini
+      user/intl/de_DE/search.php.ini: updated de_DE for 2.2 beta2
+

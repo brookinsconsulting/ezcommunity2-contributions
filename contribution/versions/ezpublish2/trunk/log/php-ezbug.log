@@ -173,3 +173,22 @@ Maintainer(s) : vl@ez.no
     * sql/mysql/ezbug.sql
       sql/postgresql/ezbug.sql: Fixed typo's in sql files
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-10-16  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/bugedit.php
+      user/menubox.php: fixed bug and several fixes for coding standard
+
+2001-10-16  Gunnstein Lye  <gl@ez.no>
+
+    * admin/intl/de_DE/bugedit.php.ini
+      admin/intl/de_DE/confirmationmail.php.ini
+      admin/intl/de_DE/mailgotbug.php.ini
+      user/intl/de_DE/buglist.php.ini
+      user/intl/de_DE/bugreport.php.ini
+      user/intl/de_DE/bugview.php.ini
+      user/intl/de_DE/reportsuccess.php.ini: updated de_DE for 2.2 beta2
+

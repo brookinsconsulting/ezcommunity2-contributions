@@ -127,3 +127,14 @@ Maintainer(s) : ce@ez.no
 
     * sql/postgresql/eztodo.sql: Fixed postgres bugs.
 
+
+Module : eztodo
+Repository path : /home/cvsroot/projects/php/eztodo
+Maintainer(s) : ce@ez.no
+2001-10-16  Gunnstein Lye  <gl@ez.no>
+
+    * user/intl/de_DE/todoedit.php.ini
+      user/intl/de_DE/todolist.php.ini
+      user/intl/de_DE/todomenulist.php.ini
+      user/intl/de_DE/todoview.php.ini: updated de_DE for 2.2 beta2
+
