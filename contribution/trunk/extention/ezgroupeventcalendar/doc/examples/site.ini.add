@@ -65,6 +65,7 @@ Limit=50
 #
 # LinkModules		  The eZForum ID of the forum created by the Admin for the eZ Calendar 
 #			  Event Coments. Example Syntax it accepts is (ModuleName:ID) ie: eZGroupEventCalendar:1000 
+#
 
 
 #
@@ -79,13 +80,13 @@ Limit=50
 #
 # Encoding                RSS Feed XML Encoding Format / Standard ( ISO-8859-1 )
 #
-# RssVersion	 	  RSS Feed RssVersion ( 0.9|1.0|2.0 )
+# RssVersion	 	  RSS Feed RssVersion ( 0.9|1.0|2.0 ) (2.0 not supported)
 #
 # Language		  RSS Feed Language ( Must be an iso639 Language Abbreviation, ie: en )
 #
-# Image 		  RSS Feed Channel Image, Width should be 1-144, Height should be 1-400 ( Default, 31 )
+# Image 		  (optional) RSS Feed Channel Image, Width should be 1-144, Height should be 1-400 ( Default, 31 )
 #
 # GroupID		  Group, which the events will be fetched ( 0=all groups ) 
 #
-# Limit			  RSS Feed Event List Limit ( Default, 50 )
+# Limit			  RSS Feed Event List Limit ( Default, 7 )
 #
