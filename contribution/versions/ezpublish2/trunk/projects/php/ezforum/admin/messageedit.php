@@ -1,5 +1,5 @@
 <?
-// $Id: messageedit.php,v 1.13 2001/03/05 13:46:35 pkej Exp $
+// $Id: messageedit.php,v 1.14 2001/04/21 09:21:35 bf Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
@@ -137,7 +137,7 @@ if ( $Action == "DeleteMessages" )
     }
 }
 
-$t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+$t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "AdminTemplateDir" ),
 "ezforum/admin/" . "/intl", $Language, "messageedit.php" );
 $t->setAllStrings();
 
