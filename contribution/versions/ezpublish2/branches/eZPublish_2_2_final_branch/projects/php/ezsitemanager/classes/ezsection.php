@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsection.php,v 1.17 2001/10/16 16:17:26 ce Exp $
+// $Id: ezsection.php,v 1.17.2.1 2002/01/16 10:37:22 kaid Exp $
 //
 // ezsection class
 //
@@ -149,9 +149,15 @@ class eZSection
                 $this->ID = $section_array[0][$db->fieldName("ID")];
                 $this->Name = $section_array[0][$db->fieldName("Name")];
                 $this->SiteDesign = $section_array[0][$db->fieldName("SiteDesign")];
+				if ( !isset( $section_array[0][$db->fieldName("TemplateStyle")] ) )
+					$section_array[0][$db->fieldName("TemplateStyle")] = "";
                 $this->TemplateStyle = $section_array[0][$db->fieldName("TemplateStyle")];
+				if ( !isset( $section_array[0][$db->fieldName("Description")] ) )
+					$section_array[0][$db->fieldName("Description")] = "";
                 $this->Description = $section_array[0][$db->fieldName("Description")];
                 $this->Created = $section_array[0][$db->fieldName("Created")];
+				if ( !isset( $section_array[0][$db->fieldName("Language")] ) )
+					$section_array[0][$db->fieldName("Language")] = "";
                 $this->SecLanguage = $section_array[0][$db->fieldName("Language")];
                 $ret = true;
             }
@@ -323,7 +329,7 @@ class eZSection
     {
         $objName = "eZSectionObject_$sectionID";
         
-        if ( !get_class( $GLOBALS[$objName] ) == "ezsection" )
+        if ( !isset( $GLOBALS[$objName] ) or !get_class( $GLOBALS[$objName] ) == "ezsection" )
         {
             $GLOBALS[$objName] = new eZSection( $sectionID );
         }
