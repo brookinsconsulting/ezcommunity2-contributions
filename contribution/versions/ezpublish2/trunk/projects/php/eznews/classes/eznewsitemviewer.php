@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitemviewer.php,v 1.7 2000/10/12 11:38:41 pkej-cvs Exp $
+// $Id: eznewsitemviewer.php,v 1.8 2000/10/12 11:49:36 pkej-cvs Exp $
 //
 // Definition of eZNewsItemViewer class
 //
@@ -799,14 +799,14 @@ class eZNewsItemViewer
         switch( $count )
         {
             case 0:
-                $returnString = $this->AS->read_var( "strings", "sort_date_adverb" );
+                $returnString = $this->IniObject->read_var( "strings", "sort_date_adverb" );
                 $this->OrphansSortBy = "CreatedAt";
                 break;
             case 1:
                 $continue = true;
                 break;
             default:
-                $returnString = $this->AS->read_var( "strings", "sort_date_adverb" );
+                $returnString = $this->IniObject->read_var( "strings", "sort_date_adverb" );
                 $this->OrphansSortBy = "CreatedAt";
                 break;
         }
