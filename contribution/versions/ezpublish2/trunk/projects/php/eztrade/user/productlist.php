@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.30 2001/09/17 08:03:45 ce Exp $
+// $Id: productlist.php,v 1.31 2001/09/17 08:14:55 nca Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -68,6 +68,9 @@ if ( !isSet( $ModuleList ) )
     $ModuleList = "productlist";
 if ( !isSet( $ModuleView ) )
     $ModuleView = "productview";
+
+// makes the section ID available in articleview template
+$t->set_var( "section_id", $GlobalSectionID );
 
 $t->set_var( "module", $ModuleName );
 $t->set_var( "module_list", $ModuleList );
