@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.29 2000/11/01 10:27:31 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.30 2000/11/01 11:49:10 bf-cvs Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -148,11 +148,7 @@ class eZTechRenderer
 
                     foreach ( $child->children as $paragraph )
                     {
-                        // ordinary text
-                        if ( $paragraph->name == "text" )
-                        {
-                            $intro .= eZTextTool::nl2br( $paragraph->content );
-                        }
+                        $intro = $this->renderPlain( $intro, $paragraph );
 
                         $intro = $this->renderCode( $intro, $paragraph );
 
@@ -199,11 +195,7 @@ class eZTechRenderer
                     if ( count( $child->children ) > 0 )
                     foreach ( $child->children as $paragraph )
                     {
-                        // ordinary text
-                        if ( $paragraph->name == "text" )
-                        {
-                            $intro .= eZTextTool::nl2br( $paragraph->content );
-                        }
+                        $intro = $this->renderPlain( $intro, $paragraph );
 
                         $intro = $this->renderCode( $intro, $paragraph );
 
@@ -231,11 +223,7 @@ class eZTechRenderer
                 if ( count( $page->children ) > 0 )
                 foreach ( $page->children as $paragraph )
                 {
-                    // ordinary text
-                    if ( $paragraph->name == "text" )
-                    {
-                        $pageContent .= eZTextTool::nl2br( $paragraph->content );
-                    }
+                    $pageContent = $this->renderPlain( $pageContent, $paragraph );
 
                     $pageContent = $this->renderCode( $pageContent, $paragraph );
 
@@ -259,12 +247,25 @@ class eZTechRenderer
             else
             {
 //                  $newArticle = eZTextTool::nl2br( $intro ) . "</p><p>". $pageArray[$pageNumber];
-                $newArticle = $intro . "</p><p>". $pageArray[$pageNumber];
+                $newArticle = $intro . "\n</p><p>\n". $pageArray[$pageNumber];
             }
                 
         }
         
         return $newArticle;
+    }
+
+    function &renderPlain( $pageContent, $paragraph )
+    {
+        // ordinary text
+        if ( $paragraph->name == "text" )
+        {
+            $paragraph_text = $paragraph->content;
+            if ( $paragraph_text[0] == "\n" )
+                $paragraph_text[0] = " ";
+            $pageContent .= eZTextTool::nl2br( $paragraph_text );
+        }
+        return $pageContent;
     }
 
     function &renderLink( $pageContent, $paragraph )
@@ -503,7 +504,7 @@ class eZTechRenderer
         // header
         if ( $paragraph->name == "header" )
         {
-            $pageContent .= "<h2>".  $paragraph->children[0]->content . "</h2>";
+            $pageContent .= "\n<h2>".  $paragraph->children[0]->content . "</h2>\n";
         }
                     
         // bold text
@@ -533,7 +534,7 @@ class eZTechRenderer
         // pre text
         if ( ( $paragraph->name == "pre" ) || ( $paragraph->name == "verbatim" ) )
         {
-            $pageContent .= "<pre>" . $paragraph->children[0]->content . "</pre>";
+            $pageContent .= "\n<pre>" . $paragraph->children[0]->content . "</pre>\n";
         }
         return $pageContent;
     }
@@ -758,17 +759,21 @@ class eZTechRenderer
     */
     function &lispHighlight( $string )
     {
-        $string = ereg_replace ( "(<)", "&lt;", $string );        
-        $string = ereg_replace ( "(>)", "&gt;", $string );        
-        
+        $string = ereg_replace ( "(<)", "&lt;", $string );
+        $string = ereg_replace ( "(>)", "&gt;", $string );
+
+        $string = ereg_replace( "(\"[^\"]*\")", "<font color=\"green\">\\1</font>", $string );
+
         // some special characters
-        $string = ereg_replace ( "([(){}+-]|=|\[|\])", "<font color=\"red\">\\1</font>", $string );
+        $string = ereg_replace ( "([(){}+-]|\[|\])", "<font color=\"red\">\\1</font>", $string );
+
+        $string = ereg_replace( "(defun|let|if|while)", "<font color=\"blue\">\\1</font>", $string );
 
         // reserved words
 //          $string = ereg_replace ( "(foreach|function|for|while|switch|as)", "<font color=\"blue\">\\1</font>", $string );
 
         // comments
-        $string = ereg_replace ( "(#[^\n]+)", "<font color=\"orange\">\\1</font>", $string );
+        $string = preg_replace ( "#(;.*$)#m", "<font color=\"orange\">\\1</font>", $string );
 
 
         $string = preg_replace( "/( [0-9]+)/", "<font color=\"green\">\\1</font>", $string );

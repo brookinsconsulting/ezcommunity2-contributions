@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.23 2000/11/01 09:43:08 bf-cvs Exp $
+// $Id: eztechgenerator.php,v 1.24 2000/11/01 11:49:10 bf-cvs Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -220,7 +220,7 @@ class eZTechGenerator
         // convert <mail adresse@domain.tld subject line, link text>
         // to valid xml
         $tmpPage = preg_replace( "#<mail\s+?([^ ]*?)\s+?(.*?),\s+?([^>]*?)>#", "<mail to=\"\\1\" subject=\"\\2\" text=\"\\3\" />", $tmpPage );
-        
+
         return $tmpPage;
     }
 
