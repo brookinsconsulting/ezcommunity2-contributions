@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.19 2001/03/01 14:06:26 jb Exp $
+// $Id: categorylist.php,v 1.20 2001/03/23 12:05:43 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <13-Sep-2000 14:56:11 bf>
@@ -64,7 +64,7 @@ $Limit = $ini->read_var( "eZTradeMain", "ProductLimit" );
 include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 
-$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/categorylist/",
+$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ),
                      "eztrade/admin/intl/", $Language, "categorylist.php" );
 
 $t->setAllStrings();

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productpreview.php,v 1.17 2001/03/23 11:14:19 pkej Exp $
+// $Id: productpreview.php,v 1.18 2001/03/23 12:05:43 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Sep-2000 16:13:32 bf>
@@ -61,7 +61,7 @@ include_once( "classes/ezmodulelink.php" );
 include_once( "classes/ezlinksection.php" );
 include_once( "classes/ezlinkitem.php" );
 
-$t = new eZTemplate( "eztrade/admin/". $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/productpreview/",
+$t = new eZTemplate( "eztrade/admin/". $ini->read_var( "eZTradeMain", "AdminTemplateDir" ),
                      "eztrade/admin/intl/", $Language, "productpreview.php" );
 
 $t->setAllStrings();

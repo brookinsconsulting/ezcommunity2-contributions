@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: optionlist.php,v 1.10 2001/03/01 14:06:26 jb Exp $
+// $Id: optionlist.php,v 1.11 2001/03/23 12:05:43 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Sep-2000 10:18:33 bf>
@@ -35,7 +35,7 @@ include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezoption.php" );
 
-$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/optionlist/",
+$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ),
                      "eztrade/admin/intl/", $Language, "optionlist.php" );
 
 $t->setAllStrings();

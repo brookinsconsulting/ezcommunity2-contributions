@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderlist.php,v 1.13 2001/03/13 16:29:50 fh Exp $
+// $Id: orderlist.php,v 1.14 2001/03/23 12:05:43 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Sep-2000 13:03:13 bf>
@@ -46,7 +46,7 @@ if( isset( $Delete ) && count( $OrderArrayID ) > 0 )
     }
 }
 
-$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/orderlist/",
+$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ),
                      "eztrade/admin/intl/", $Language, "orderlist.php" );
 
 $languageINI = new INIFIle( "eztrade/admin/intl/" . $Language . "/orderlist.php.ini", false );

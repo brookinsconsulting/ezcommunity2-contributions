@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: optionedit.php,v 1.21 2001/03/14 17:21:56 jb Exp $
+// $Id: optionedit.php,v 1.22 2001/03/23 12:05:43 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Sep-2000 10:18:33 bf>
@@ -188,8 +188,7 @@ if ( isset( $OK ) )
     exit();
 }
 
-$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" )
-                     . "/optionedit/",
+$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ),
                      "eztrade/admin/intl/", $Language, "optionedit.php" );
 
 $t->setAllStrings();

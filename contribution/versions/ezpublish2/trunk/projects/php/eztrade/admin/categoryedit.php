@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.15 2001/03/09 09:02:00 bf Exp $
+// $Id: categoryedit.php,v 1.16 2001/03/23 12:05:43 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -165,8 +165,7 @@ if ( $Action == "DeleteCategories" )
 }
 
 
-$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" )
-                     . "/categoryedit/",
+$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ),
                      "eztrade/admin/intl/", $Language, "categoryedit.php" );
 
 $t->setAllStrings();

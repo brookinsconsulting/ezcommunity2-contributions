@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderedit.php,v 1.16 2001/03/13 13:24:44 bf Exp $
+// $Id: orderedit.php,v 1.17 2001/03/23 12:05:43 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Sep-2000 13:03:13 bf>
@@ -78,7 +78,7 @@ if ( $Action == "delete" )
     exit();
 }
 
-$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/orderedit/",
+$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ),
                      "eztrade/admin/intl/", $Language, "orderedit.php" );
 
 $t->setAllStrings();
@@ -132,8 +132,14 @@ if ( $user )
         
     }
     $country = $shippingAddress->country();
-    $t->set_var( "shipping_country", $country->name() );
-
+    if( is_object( $country ) )
+    {
+        $t->set_var( "shipping_country", $country->name() );
+    }
+    else
+    {
+        $t->set_var( "shipping_country", "" );
+    }
     $billingAddress =& $order->billingAddress();
 
     $t->set_var( "billing_street1", $billingAddress->street1() );
@@ -142,7 +148,14 @@ if ( $user )
     $t->set_var( "billing_place", $billingAddress->place() );
     
     $country = $billingAddress->country();
-    $t->set_var( "billing_country", $country->name() );
+    if( is_object( $country ) )
+    {
+        $t->set_var( "billing_country", $country->name() );
+    }
+    else
+    {
+        $t->set_var( "billing_country", "" );
+    }
     
 }
 
