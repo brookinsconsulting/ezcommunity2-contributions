@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.16 2001/03/01 14:06:24 jb Exp $
+// $Id: imageedit.php,v 1.17 2001/03/06 16:58:58 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Sep-2000 10:32:36 bf>
@@ -48,18 +48,16 @@ if ( $Action == "Insert" )
         $image->setName( $Name );
         $image->setCaption( $Caption );
 
-        $image->setImage( $file );
-
-        $image->store();
-
-        $article->addImage( $image );
-
-        if ( count( $article->images() ) == 1 )
+        if( $image->checkImage( $file ) && $image->setImage( $file ) )
         {
-            $article->setThumbnailImage( $image );
+            $image->store();
+            $article->addImage( $image );
+            if ( count( $article->images() ) == 1 )
+            {
+                $article->setThumbnailImage( $image );
+            }
+            eZLog::writeNotice( "Picture added to article: $ArticleID  from IP: $REMOTE_ADDR" );
         }
-
-        eZLog::writeNotice( "Picture added to article: $ArticleID  from IP: $REMOTE_ADDR" );
     }
     else
     {
