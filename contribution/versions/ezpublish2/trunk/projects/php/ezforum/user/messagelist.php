@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.32 2001/07/02 16:10:44 bf Exp $
+// $Id: messagelist.php,v 1.33 2001/07/03 10:24:39 bf Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -77,7 +77,9 @@ if ( $user )
     $showThreads =& $preferences->variable( "eZForum_Threads" );
 }
 else
-{
+{    
+    $session =& eZSession::globalSession();
+    
     if ( isset ( $HideThreads ) )
         $session->setVariable( "eZForum_Threads", "Hide" );
     
