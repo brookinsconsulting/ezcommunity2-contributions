@@ -3,8 +3,8 @@ eZ publish changelog:
 
 Changes from 2.1 to
 -----------------
-* Added author list
-
+* Added author list and author select on eZ article.
+* Added topic to eZ article.
 
 Changes from 2.1.0B3 to 2.1
 ---------------------------
