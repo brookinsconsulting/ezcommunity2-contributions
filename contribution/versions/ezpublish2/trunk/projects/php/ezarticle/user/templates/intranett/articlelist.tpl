@@ -13,10 +13,11 @@
 </table>
 
 
-
+<!--
 <p>
 {current_category_description}
 </p>
+-->
 
 <hr noshade="noshade" size="4" />
 
@@ -63,10 +64,10 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
-	<a href="/article/articleview/{article_id}/">
-	<h2>{article_name}</h2>
-	</a>
-	{article_published}
+	<a class="h2" href="/article/articleview/{article_id}/">
+	<span class="noline">{article_name}</span>
+	</a><br /><br />
+	<div class="byline">{article_published}</div>
 
 	<!-- BEGIN article_image_tpl -->
 	    <table align="right">
