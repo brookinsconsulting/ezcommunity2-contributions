@@ -1,10 +1,10 @@
 CREATE TABLE eZAddress_Address (
   ID int NOT NULL,
-  Street1 char(50),
-  Street2 char(50),
+  Street1 varchar(50),
+  Street2 varchar(50),
   AddressTypeID int,
-  Place char(50),
-  Zip char(10),
+  Place varchar(50),
+  Zip varchar(10),
   CountryID int,
   PRIMARY KEY (ID)
 );
@@ -20,7 +20,7 @@ CREATE TABLE eZAddress_AddressDefinition (
 
 CREATE TABLE eZAddress_AddressType (
   ID int NOT NULL,
-  Name char(50),
+  Name varchar(50),
   ListOrder int NOT NULL,
   Removed int NOT NULL DEFAULT '0',
   PRIMARY KEY (ID)
@@ -30,8 +30,8 @@ INSERT INTO eZAddress_AddressType VALUES (1,'Post adresse',1,0);
 
 CREATE TABLE eZAddress_Country (
   ID int NOT NULL,
-  ISO char(2),
-  Name char(100),
+  ISO varchar(2),
+  Name varchar(100),
   Removed int DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
@@ -279,7 +279,7 @@ INSERT INTO eZAddress_Country VALUES (240,'US','United States of America',0);
 
 CREATE TABLE eZAddress_Online (
   ID int NOT NULL,
-  URL char(255),
+  URL varchar(255),
   OnlineTypeID int,
   PRIMARY KEY (ID)
 );
@@ -307,7 +307,7 @@ CREATE TABLE eZAddress_Phone (
 
 CREATE TABLE eZAddress_PhoneType (
   ID int NOT NULL,
-  Name char(50),
+  Name varchar(50),
   ListOrder int DEFAULT '0' NOT NULL,
   Removed int DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
