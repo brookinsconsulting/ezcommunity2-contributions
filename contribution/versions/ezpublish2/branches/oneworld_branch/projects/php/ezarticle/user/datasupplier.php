@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.95.2.10.2.3 2002/06/03 11:22:44 pkej Exp $
+// $Id: datasupplier.php,v 1.95.2.10.2.4 2002/06/04 11:23:01 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -197,8 +197,8 @@ switch ( $url_array[2] )
             {
                 include( $cachedFile );
             }
-            else if ( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' ) ||
-            eZArticleCategory::isOwner( $user, $CategoryID) )
+            else if ( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' )
+                      || eZArticleCategory::isOwner( $user, $CategoryID ) )
                 // check if user really has permissions to browse this category
             {
                 $GenerateStaticPage = "true";
@@ -207,7 +207,7 @@ switch ( $url_array[2] )
             }
         }
         else if ( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' )
-        || eZArticleCategory::isOwner( $user, $CategoryID ) )
+                  || eZArticleCategory::isOwner( $user, $CategoryID ) )
         {
             include( "ezarticle/user/articlelist.php" );
         }
@@ -444,7 +444,7 @@ switch ( $url_array[2] )
         $showComments = false;
         if ( $PageCaching == "enabled" )
         {
-            $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber . "," . $CategoryID . "," . ( $PrintableVersion == "enabled" )  . "," . $groupstr  .".cache";
+            $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber . "," . $CategoryID . "," . ( $PrintableVersion == "enabled" )  . "," . $groupstr  .".cache." . $GLOBALS["eZLanguageOverride"];
             if ( eZFile::file_exists( $cachedFile ) )
             {
                 include( $cachedFile );
@@ -553,7 +553,7 @@ switch ( $url_array[2] )
         
         if ( $PageCaching == "enabled" )
         {
-             $cachedFile = "ezarticle/cache/articleprint," . $ArticleID . ",". $PageNumber . "," . $CategoryID . "," . $groupstr  .".cache";
+             $cachedFile = "ezarticle/cache/articleprint," . $ArticleID . ",". $PageNumber . "," . $CategoryID . "," . $groupstr  .".cache." . $GLOBALS["eZLanguageOverride"];;
             if ( eZFile::file_exists( $cachedFile ) )
             {
                 include( $cachedFile );
@@ -618,7 +618,7 @@ switch ( $url_array[2] )
 
         if ( $PageCaching == "enabled" )
         {
-            $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber . "," . $CategoryID . "," . $groupstr  .".cache";
+            $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber . "," . $CategoryID . "," . $groupstr  .".cache." . $GLOBALS["eZLanguageOverride"];
             if ( eZFile::file_exists( $cachedFile ) )
             {
                 include( $cachedFile );

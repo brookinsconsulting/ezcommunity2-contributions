@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: authorlist.php,v 1.7 2001/08/17 13:35:58 jhe Exp $
+// $Id: authorlist.php,v 1.7.10.1 2002/06/04 11:23:01 jhe Exp $
 //
 // Created on: <16-Feb-2001 14:54:04 amos>
 //
@@ -51,11 +51,13 @@ if ( !isset( $SortOrder ) )
 
 $authors =& eZArticle::authorList( $Offset, $Limit, $SortOrder );
 
+print "<pre>";
+
 $db =& eZDB::globalDatabase();
 
 $t->set_var( "author_item", "" );
 $i = 0;
-foreach( $authors as $author )
+foreach ( $authors as $author )
 {
     $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
     $t->set_var( "author_id", $author[$db->fieldName("ContentsWriterID")] );

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezarticle.php,v 1.183.2.19.2.3 2002/06/03 15:43:33 pkej Exp $
+// $Id: ezarticle.php,v 1.183.2.19.2.4 2002/06/04 11:23:00 jhe Exp $
 //
 // Definition of eZArticle class
 //
@@ -2056,18 +2056,18 @@ class eZArticle
             $author = $params["AuthorID"];
             $authorSQL = "AND eZArticle_Article.ContentsWriterID='$author'";
         }
-	if ( isSet( $params["SectionsList"] ) )
-	{
-	    $sectionsList = $params["SectionsList"];
-	    $sectionsArray = explode( ",", $sectionsList );
-	    if ( is_numeric( $sectionsArray[0] ) )
-	    {
-		$sectionsSQL .= "AND ( Category.SectionID='$sectionsArray[0]'";
-		for ( $i=1; $i<count( $sectionsArray ); $i++ )
-	        {
-		     $sectionsSQL .= " OR Category.SectionID='$sectionsArray[$i]'";
-		}
-		$sectionsSQL .= " ) ";
+        if ( isSet( $params["SectionsList"] ) )
+        {
+            $sectionsList = $params["SectionsList"];
+            $sectionsArray = explode( ",", $sectionsList );
+            if ( is_numeric( $sectionsArray[0] ) )
+            {
+                $sectionsSQL .= "AND ( Category.SectionID='$sectionsArray[0]'";
+                for ( $i=1; $i<count( $sectionsArray ); $i++ )
+                {
+                    $sectionsSQL .= " OR Category.SectionID='$sectionsArray[$i]'";
+                }
+                $sectionsSQL .= " ) ";
             }
         }
         if ( isSet( $params["PhotographerID"] ) )
@@ -2081,12 +2081,12 @@ class eZArticle
 
 
         if ( $params["SearchExcludedArticles"] == "true" )
-            $excludeFromSearchSQL = " ";
-        else
-            $excludeFromSearchSQL = " AND Category.ExcludeFromSearch = '0' ";
-
-        // special search for MySQL, mimic subselects ;)
-        if ( $db->isA() == "mysql" )
+            $excludeFromSearchSQL = " "; 
+        else 
+            $excludeFromSearchSQL = " AND Category.ExcludeFromSearch = '0' "; 
+ 
+        // special search for MySQL, mimic subselects ;) 
+        if ( $db->isA() == "mysql" ) 
         {
             $queryArray = explode( " ", trim( $queryText ) );
 
@@ -2119,7 +2119,7 @@ class eZArticle
                        $typeSQL
                        $authorSQL
                        $photoSQL
-		       $sectionsSQL
+         		       $sectionsSQL
                        AND
                        ( eZArticle_Article.ID=eZArticle_ArticleWordLink.ArticleID
                          AND Definition.ArticleID=eZArticle_Article.ID
@@ -2137,22 +2137,22 @@ class eZArticle
 
                 // check if this is a stop word
                 $queryString = "SELECT Frequency FROM eZArticle_Word WHERE Word='$queryWord'";
-
+                
                 $db->query_single( $WordFreq, $queryString, array( "LIMIT" => 1 ) );
-
+                
                 if ( $WordFreq["Frequency"] <= $StopWordFrequency )
                     $count += 1;
             }
             $count -= 1;
 
             $queryString = "SELECT ArticleID, Count(*) AS Count FROM eZArticle_SearchTemp GROUP BY ArticleID HAVING Count>='$count'";
-
+            
             $db->array_query( $article_array, $queryString );
-
+            
 //            $db->array_query( $article_array, $queryString, array( "Limit" => $limit, "Offset" => $offset ) );
-
-            $db->query( "DROP  TABLE eZArticle_SearchTemp" );
-
+            
+            $db->query( "DROP TABLE eZArticle_SearchTemp" );
+            
             $SearchTotalCount = count( $article_array );
             if ( $limit >= 0 )
                 $article_array =& array_slice( $article_array, $offset, $limit );
@@ -2197,7 +2197,7 @@ class eZArticle
             $article_array =& array_slice( $article_array, $offset, $limit );
         }
 
-        for ( $i = 0; $i < count($article_array); $i++ )
+        for ( $i = 0; $i < count( $article_array ); $i++ )
         {
             $return_array[$i] = new eZArticle( $article_array[$i][$db->fieldName( "ArticleID" )], false );
         }
@@ -2804,23 +2804,21 @@ class eZArticle
                             ";
             }
             $currentUserID = $user->id();
-            $currentUserSQL = "A.AuthorID=$currentUserID OR";
+            $currentUserSQL = "A.AuthorID=$currentUserID AND";
 
             if ( $user->hasRootAccess() )
                 $usePermission = false;
         }
         $loggedInSQL = "( $currentUserSQL ( ( $groupSQL P.GroupID='-1' AND CP.GroupID='-1' ) AND P.ReadPermission='1' AND CP.ReadPermission='1' ) ) ";
 
-        $query = "SELECT A.ID, A.Name, Author.Name as AuthorName, A.Published, C.ID as CategoryID, C.Name as CategoryName
-                     FROM
-eZArticle_Article AS A,
-eZArticle_Category as C,
-eZArticle_ArticleCategoryDefinition as ACL,
-eZArticle_ArticlePermission AS P,
-eZArticle_CategoryPermission AS CP,
-eZUser_Author as Author
-                     WHERE $loggedInSQL AND A.ID=ACL.ArticleID AND C.ID=ACL.CategoryID AND A.ContentsWriterID=Author.ID AND
-                     IsPublished='1' AND ContentsWriterID='$authorid' AND
+        $query = "SELECT A.ID FROM
+                   eZArticle_Article AS A,
+                   eZArticle_Category as C,
+                   eZArticle_ArticleCategoryDefinition as ACL,
+                   eZArticle_ArticlePermission AS P,
+                   eZArticle_CategoryPermission AS CP
+                     WHERE $loggedInSQL AND A.ID=ACL.ArticleID AND C.ID=ACL.CategoryID AND
+                     IsPublished='1' AND
                      CP.ObjectID=ACL.CategoryID AND
                      A.ID=P.ObjectID GROUP BY A.ID $sort_text ";
 
@@ -2987,7 +2985,7 @@ eZUser_Author as Author
     {
         $db =& eZDB::globalDatabase();
 
-        if( get_class( $form ) == "ezform" )
+        if ( get_class( $form ) == "ezform" )
         {
             $ArticleID = $this->ID;
             $FormID = $form->id();
@@ -3033,9 +3031,9 @@ eZUser_Author as Author
 
         $db->array_query( $ret_array, $query );
         $count = count( $ret_array );
-        for( $i = 0; $i < $count; $i++ )
+        for ( $i = 0; $i < $count; $i++ )
         {
-            $id = $ret_array[$i][$db->fieldName("FormID")];
+            $id = $ret_array[$i][$db->fieldName( "FormID" )];
             $return_array[] = $as_object ? new eZForm( $id ) : $id;
         }
         return $return_array;
@@ -3079,12 +3077,11 @@ eZUser_Author as Author
 
         $query = "SELECT * FROM  eZArticle_Log
                   WHERE ArticleID='$this->ID'
-                  ORDER BY Created
-                  ";
+                  ORDER BY Created";
 
 
         $db->array_query( $ret_array, $query );
-        foreach( $ret_array as $log )
+        foreach ( $ret_array as $log )
         {
             $ret[] = array( "Created" => $log[$db->fieldName( "Created" )], "UserID" => $log[$db->fieldName( "UserID" )], "Message" => $log[$db->fieldName( "Message" )] );
         }
@@ -3104,12 +3101,11 @@ eZUser_Author as Author
         $articleArray = array();
 
         $db->array_query( $articleArray, "SELECT ID
-                                          FROM eZArticle_Article
-                                          " );
+                                          FROM eZArticle_Article" );
 
-        for ( $i=0; $i < count($articleArray); $i++ )
+        for ( $i = 0; $i < count( $articleArray ); $i++ )
         {
-            $returnArray[$i] = new eZArticle( $articleArray[$i][$db->fieldName("ID")] );
+            $returnArray[$i] = new eZArticle( $articleArray[$i][$db->fieldName( "ID" )] );
         }
 
         return $returnArray;
@@ -3142,9 +3138,9 @@ eZUser_Author as Author
                                           ORDER BY ID
                                           " );
 
-        for ( $i=0; $i < count($articleArray); $i++ )
+        for ( $i = 0; $i < count( $articleArray ); $i++ )
         {
-            $returnArray[$i] = new eZArticle( $articleArray[$i][$db->fieldName("ID")] );
+            $returnArray[$i] = new eZArticle( $articleArray[$i][$db->fieldName( "ID" )] );
         }
 
         return $returnArray;
@@ -3262,7 +3258,7 @@ eZUser_Author as Author
 
       The articles are returned as an array of eZArticle objects.
     */
-    function &getAllUnValid( $isPublished=true )
+    function &getAllUnValid( $isPublished = true )
     {
         $db =& eZDB::globalDatabase();
 
@@ -3281,12 +3277,11 @@ eZUser_Author as Author
                                           WHERE $published
                                           AND ( StopDate !='0')
                                           AND StopDate <= $now
-                                          ORDER BY ID
-                                          " );
+                                          ORDER BY ID" );
 
-        for ( $i=0; $i < count($articleArray); $i++ )
+        for ( $i = 0; $i < count( $articleArray ); $i++ )
         {
-            $returnArray[$i] = new eZArticle( $articleArray[$i][$db->fieldName("ID")] );
+            $returnArray[$i] = new eZArticle( $articleArray[$i][$db->fieldName( "ID" )] );
         }
 
         return $returnArray;

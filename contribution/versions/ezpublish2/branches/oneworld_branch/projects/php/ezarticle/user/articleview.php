@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.84.2.11 2002/03/04 13:30:10 bf Exp $
+// $Id: articleview.php,v 1.84.2.11.2.1 2002/06/04 11:23:00 jhe Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -64,7 +64,7 @@ $t = new eZTemplate( "ezarticle/user/" . $TemplateDir,
 $t->setAllStrings();
 
 $StaticPage = false;
-if ( $url_array[2] == "static" || $url_array[2] == "articlestatic"  )
+if ( $url_array[2] == "static" || $url_array[2] == "articlestatic" )
 {
     $StaticPage = true;
 }
@@ -87,7 +87,7 @@ else
 {
     if ( isset( $PrintableVersion ) and $PrintableVersion == "enabled" )
     {
-            $t->set_file( "article_view_page_tpl", "articleprint.tpl"  );        
+        $t->set_file( "article_view_page_tpl", "articleprint.tpl"  );
     }
     else
     {
@@ -163,14 +163,14 @@ $SiteURL = $ini->read_var( "site", "SiteURL" );
 
 $t->set_var( "article_url", $SiteURL . $REQUEST_URI );
 $t->set_var( "article_url_item", "" );
-if ( isset( $PrintableVersion ) and $PrintableVersion == "enabled" )
+if ( isset( $PrintableVersion ) && $PrintableVersion == "enabled" )
     $t->parse( "article_url_item", "article_url_item_tpl" );
 
 
 // makes the section ID available in articleview template
 $t->set_var( "section_id", $GlobalSectionID );
 
-$article = new eZArticle(  );
+$article = new eZArticle();
 
 // check if the article exists
 if ( $article->get( $ArticleID ) )

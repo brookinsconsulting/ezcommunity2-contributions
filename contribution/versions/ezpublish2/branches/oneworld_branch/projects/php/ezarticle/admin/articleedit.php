@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.116.2.9.2.3 2002/06/03 15:43:33 pkej Exp $
+// $Id: articleedit.php,v 1.116.2.9.2.4 2002/06/04 11:23:00 jhe Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -61,8 +61,7 @@ if ( isset( $PublishArticle ) )
         $article->setIsPublished( true );
         $article->store();        
     }
-    
-    $category =& $article->categoryDefinition( );
+    $category =& $article->categoryDefinition();
     
     if ( $category )
     {
@@ -184,7 +183,7 @@ if ( $Action == "Update" || ( $Action == "Insert" ) )
             
             // clear the cache files.
             eZArticleTool::deleteCache( $ArticleID, $CategoryID, $old_categories );
-
+            
             foreach ( $remove_categories as $categoryItem )
             {
                 eZArticleCategory::removeArticle( $article, $categoryItem );
@@ -211,7 +210,7 @@ if ( $Action == "Update" || ( $Action == "Insert" ) )
 
                 include_once( "ezurltranslator/classes/ezurltranslator.php" );
                 $urltranslator = new eZURLTranslator();
-                $urltranslator->getbydest ( $url1 );
+                $urltranslator->getbydest( $url1 );
 
                 if ( $Urltranslator )
                 {
@@ -230,7 +229,7 @@ if ( $Action == "Update" || ( $Action == "Insert" ) )
             // Time publishing
             if ( checkdate( $StartMonth, $StartDay, $StartYear ) )
             {
-                $startDate = new eZDateTime( $StartYear,  $StartMonth, $StartDay, $StartHour, $StartMinute, 0 );
+                $startDate = new eZDateTime( $StartYear, $StartMonth, $StartDay, $StartHour, $StartMinute, 0 );
                 $article->setStartDate( &$startDate );
             }
         
