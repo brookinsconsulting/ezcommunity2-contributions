@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.39 2001/08/31 11:32:43 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.40 2001/09/03 09:54:34 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -987,6 +987,7 @@ class eZQDomrenderer
         // mail
         if ( $paragraph->name == "mail" )
         {
+            if ( count( $paragraph->attributes ) > 0 )
             foreach ( $paragraph->attributes as $mailItem )
             {
                 switch ( $mailItem->name )
