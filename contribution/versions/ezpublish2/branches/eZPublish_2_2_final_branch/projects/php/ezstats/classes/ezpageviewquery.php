@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpageviewquery.php,v 1.21.2.5 2002/05/06 14:03:04 br Exp $
+// $Id: ezpageviewquery.php,v 1.21.2.6 2002/05/14 08:48:36 br Exp $
 //
 // Definition of eZPageViewQuery class
 //
@@ -242,13 +242,20 @@ class eZPageViewQuery
             if ( $hostName = "NULL" )
             {
                 $db->begin();
-                $hostName =& gethostbyaddr( $ip );
-                $result = $db->query( "UPDATE eZStats_Archive_RemoteHost SET HostName='$hostName'
+                if ( $ip )
+                {
+                    $hostName =& gethostbyaddr( $ip );
+                    $result = $db->query( "UPDATE eZStats_Archive_RemoteHost SET HostName='$hostName'
                                          WHERE ID='$id'" );
-                if ( $result == false )
-                    $db->rollback( );
+                    if ( $result == false )
+                        $db->rollback( );
+                    else
+                        $db->commit();
+                }
                 else
-                    $db->commit();
+                {
+                    $hostName = "";
+                }
             }
             
             $return_array[$i] = array( "ID" => $id,
