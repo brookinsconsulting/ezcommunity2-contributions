@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.49 2001/10/04 10:43:23 bf Exp $
+// $Id: ordersendt.php,v 1.49.4.1 2001/11/22 09:45:49 ce Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -604,12 +604,10 @@ if ( count ( $usedVouchers ) > 0 )
     $t->parse( "voucher_item_list", "voucher_item_list_tpl" );
 }
 
-
-
 $checkout = new eZCheckout();
 $instance =& $checkout->instance();
-$paymentMethod = $instance->paymentName( $order->paymentMethod() );
 
+$paymentMethod = $instance->paymentName( $order->paymentMethod() );
 $t->set_var( "payment_method", $paymentMethod );
 
 $t->set_var( "comment", $order->comment() );

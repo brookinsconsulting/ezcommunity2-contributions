@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.96.4.3 2001/11/21 15:01:14 ce Exp $
+// $Id: checkout.php,v 1.96.4.4 2001/11/22 09:45:49 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -204,7 +204,9 @@ if ( isSet( $SendOrder ) )
     if ( eZHTTPTool::getVar( "PayWithVoucher", true ) == "true" )
     {
         if ( eZHTTPTool::getVar( "PaymentMethod", true ) )
+        {
             $session->setArray( "PaymentMethod", array( eZHTTPTool::getVar( "PaymentMethod", true ),  "voucher_done" ) );
+        }
         else
             $session->setArray( "PaymentMethod", array( "voucher_done" ) );
     }
@@ -218,6 +220,7 @@ if ( isSet( $SendOrder ) )
     
     $session->setVariable( "ShippingTypeID", eZHTTPTool::getVar( "ShippingTypeID", true ) );
 
+    
     eZHTTPTool::header( "Location: /trade/payment/" );
     exit();
 }
@@ -424,7 +427,7 @@ if ( $ShowCart == true )
     
     $t->set_var( "empty_cart", "" );
     $t->set_var( "voucher_item", "" );
-
+    $t->set_var( "pay_with_voucher", "false" );
     $vouchers = $session->arrayValue( "PayWithVoucher" );
     if ( count ( $vouchers ) > 0 )
     {
@@ -481,6 +484,7 @@ if ( $ShowCart == true )
                 $i++;
             }
         }
+        $t->set_var( "pay_with_voucher", "true" );
         $t->parse( "remove_voucher", "remove_voucher_tpl" );
     }
     else

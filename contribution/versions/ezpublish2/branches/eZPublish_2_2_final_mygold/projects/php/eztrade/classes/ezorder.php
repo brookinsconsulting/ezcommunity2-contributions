@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezorder.php,v 1.61 2001/10/17 12:06:48 ce Exp $
+// $Id: ezorder.php,v 1.61.4.1 2001/11/22 09:45:49 ce Exp $
 //
 // Definition of eZOrder class
 //
@@ -665,7 +665,7 @@ class eZOrder
     */
     function paymentMethod()
     {
-       return $this->PaymentMethod;
+        return $this->PaymentMethod;
     }
 
     /*!
@@ -710,6 +710,7 @@ class eZOrder
                     $method = $item;
                 else
                     $method .= "," . $item;
+                $i++;
             }
             $value = $method;
         }
