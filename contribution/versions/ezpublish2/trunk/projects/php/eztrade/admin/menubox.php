@@ -1,14 +1,12 @@
 <?
 // 
-// $Id: menubox.php,v 1.14 2000/11/01 11:57:56 ce-cvs Exp $
-//
-// 
+// $Id: menubox.php,v 1.15 2001/01/24 11:11:27 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+// Copyright (C) 1999-2001 eZ systems as
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -25,28 +23,15 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-include_once( "classes/INIFile.php" );
-$ini = new INIFile( "site.ini" );
+// Supply $menuItems to get a menubox
 
-$Language = $ini->read_var( "eZTradeMain", "Language" );
-
-include_once( "classes/eztemplate.php" );
-
-$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ),
-                     "eztrade/admin/intl", $Language, "menubox.php" );
-
-$t->setAllStrings();
-
-$t->set_file( array(
-    "menu_box_tpl" => "menubox.tpl"
-    ) );
-    
-$t->set_var( "site_style", $SiteStyle );
-
-$t->pparse( "output", "menu_box_tpl" );
-    
+$menuItems = array(
+    array( "/trade/categorylist/", "{intl-categorylist}" ),
+    array( "/trade/categoryedit/", "{intl-newcategory}" ),
+    array( "/trade/productedit/", "{intl-newproduct}" ),
+    array( "/trade/orderlist/", "{intl-orderlist}" ),
+    array( "/trade/typelist/", "{intl-typelist}" ),
+    array( "/trade/typeedit/", "{intl-newtype}" )
+    );
 
 ?>
-
-
-

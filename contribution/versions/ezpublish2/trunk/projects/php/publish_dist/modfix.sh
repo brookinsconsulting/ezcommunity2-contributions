@@ -28,6 +28,7 @@ ezpoll/admin/cache
 ezstats/admin/cache
 eztodo/admin/cache
 ezuser/admin/cache
+eztrade/admin/cache
 "
 
 for dir in $dirs
@@ -59,6 +60,7 @@ ezcontact
 ezstats
 eztodo
 eznewsfeed
+eztrade
 "
 
 for file in $files
