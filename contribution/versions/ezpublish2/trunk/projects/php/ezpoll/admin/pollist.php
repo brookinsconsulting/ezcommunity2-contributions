@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: pollist.php,v 1.2 2000/10/10 13:26:03 ce-cvs Exp $
+// $Id: pollist.php,v 1.3 2000/10/20 09:16:16 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -30,8 +30,7 @@ $t = new eZTemplate( "ezpoll/admin/" . $ini->read_var( "eZPollMain", "TemplateDi
 $t->setAllStrings();
 
 $t->set_file( array(
-    "poll_list_page" => "pollist.tpl",
-    "poll_item" => "pollitem.tpl"
+    "poll_list_page" => "pollist.tpl"
     ) );
 
 $t->set_block( "poll_list_page", "poll_item_tpl", "poll_item" );

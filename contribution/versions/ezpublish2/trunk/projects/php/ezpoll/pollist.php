@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: pollist.php,v 1.3 2000/10/19 12:51:02 ce-cvs Exp $
+// $Id: pollist.php,v 1.4 2000/10/20 09:16:15 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -38,14 +38,30 @@ $t->set_block( "poll_list_page", "poll_item_tpl", "poll_item" );
 
 $poll = new eZPoll();
 
-$pollList = $poll->getAll( );
+$pollList = $poll->getAllActive( );
 
+
+$ini = new INIFile( "ezpoll/intl/" . $Language . "/pollist.php.ini", false );
+$nonActive =  $ini->read_var( "strings", "non_active" );
+$active =  $ini->read_var( "strings", "active" );
 
 foreach( $pollList as $pollItem )
 {
     $t->set_var( "poll_id", $pollItem->id() );
     $t->set_var( "poll_name", $pollItem->name() );
     $t->set_var( "poll_description", $pollItem->description() );
+    if ( $pollItem->IsClosed() )
+    {
+        $t->set_var( "action", "result" );
+        $t->set_var( "poll_is_closed", $nonActive );
+
+    }
+    else
+    {
+        $t->set_var( "action", "votebox" );
+        $t->set_var( "poll_is_closed", $active );
+
+    }
 
     $t->parse( "poll_item", "poll_item_tpl", true );
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpoll.php,v 1.6 2000/10/07 09:43:13 bf-cvs Exp $
+// $Id: ezpoll.php,v 1.7 2000/10/20 09:16:16 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -182,6 +182,27 @@ class eZPoll
 
         return $return_array;
     }
+
+    /*!
+      Fetches the poll id from the database where active=true. And returns a array of eZPoll objects. 
+    */
+    function getAllActive()
+    {
+        $this->dbInit();
+
+        $return_array = array();
+        $poll_array = array();
+
+        $this->Database->array_query( $poll_array, "SELECT ID FROM eZPoll_Poll WHERE IsEnabled='true' ORDER BY Name" );
+
+        for ( $i=0; $i<count( $poll_array ); $i++ )
+        {
+            $return_array[$i] = new eZPoll( $poll_array[$i][ "ID" ], 0 );
+        }
+
+        return $return_array;
+    }
+
     
     /*!
       Returns the id of the poll.

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: votebox.php,v 1.5 2000/10/10 13:26:02 ce-cvs Exp $
+// $Id: votebox.php,v 1.6 2000/10/20 09:16:16 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -29,6 +29,13 @@ $t = new eZTemplate( $DOC_ROOT . $ini->read_var( "eZPollMain", "TemplateDir" ) .
                      $DOC_ROOT . "/intl/", $Language, "pollist.php" );
 
 $t->setAllStrings();
+
+$poll = new eZPoll( $PollID );
+if ( $poll->isClosed() )
+{
+    Header( "Location: /poll/result/$PollID" );
+    exit();
+}
 
 $t->set_file( array(
     "vote_form" => "voteform.tpl"

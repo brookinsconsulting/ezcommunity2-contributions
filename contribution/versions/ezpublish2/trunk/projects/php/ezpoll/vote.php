@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: vote.php,v 1.3 2000/10/09 11:22:17 ce-cvs Exp $
+// $Id: vote.php,v 1.4 2000/10/20 09:16:16 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -30,6 +30,13 @@ $user = eZUser::currentUser();
 if ( !$user )
 {
     Header( "Location: /user/login" );
+    exit();
+}
+
+$poll = new eZPoll( $PollID );
+if ( $poll->isClosed() )
+{
+    Header( "Location: /poll/result/$PollID" );
     exit();
 }
 

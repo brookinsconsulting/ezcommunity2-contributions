@@ -41,4 +41,9 @@
 	</td>
 </tr>
 </table>
+
+<form method="post" action="/poll/polls">
+<input type="submit" value="{intl-more}">
+</form>
+
 <!-- END result_list_tpl -->

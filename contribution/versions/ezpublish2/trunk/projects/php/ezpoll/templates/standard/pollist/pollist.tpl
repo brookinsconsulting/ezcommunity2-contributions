@@ -8,21 +8,14 @@
 	<td>
 	<h3>{intl-description}</h3>
 	</td>
-
-	<td>
-	<h3>{intl-closed}</a></h3>
-	</td>
 </tr>
 <!-- BEGIN poll_item_tpl -->
 <tr>
 	<td>
-	<a href="/poll/votebox/{poll_id}/">{poll_name}</a>
+	<a href="/poll/{action}/{poll_id}/">{poll_name}</a>
 	</td>
 	<td>
 	{poll_description}
-	</td>
-	<td>
-	{poll_is_closed}
 	</td>
 </tr>
 <!-- END poll_item_tpl -->

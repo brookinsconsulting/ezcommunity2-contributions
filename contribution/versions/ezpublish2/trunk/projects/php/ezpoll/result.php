@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: result.php,v 1.7 2000/10/10 13:26:02 ce-cvs Exp $
+// $Id: result.php,v 1.8 2000/10/20 09:16:16 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -102,7 +102,14 @@ foreach ( $pollArray as $poll )
         $t->set_var( "total_votes", $poll->totalVotes() );
         
         $t->parse( "result_list", "result_list_tpl", true );
-    }        
+    }
+    else
+    {
+        $ini = new INIFile( "ezpoll/intl/" . $Language . "/result.php.ini", false );
+        $result =  $ini->read_var( "strings", "no_result" );
+
+        $t->set_var( "result_list", $result );
+    }
 }
 
 $t->pparse( "output", "result" );
