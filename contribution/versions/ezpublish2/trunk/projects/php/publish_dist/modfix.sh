@@ -54,6 +54,8 @@ ezquiz/admin/cache
 ezquiz/cache
 ezmessage/admin/cache
 ezform/admin/cache
+ezsitemanager/staticfiles
+ezsitemanager/staticfiles/images
 "
 
 for dir in $dirs

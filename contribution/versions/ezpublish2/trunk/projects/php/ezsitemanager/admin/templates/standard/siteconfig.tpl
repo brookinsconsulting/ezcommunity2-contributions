@@ -8,7 +8,7 @@
 
 <form method="post" action="/sitemanager/siteconfig/" >
 
-<textarea class="box" name="Contents" cols="40" rows="25" wrap="soft">{file_contents}</textarea>
+<textarea name="Contents" cols="80" rows="25" wrap="soft">{file_contents}</textarea>
 
 <br />
 <input type="submit" name="Store" value="{intl-store}" />

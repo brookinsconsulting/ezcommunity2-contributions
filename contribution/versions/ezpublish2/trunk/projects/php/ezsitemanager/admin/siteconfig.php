@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: siteconfig.php,v 1.1 2001/07/12 08:23:05 bf Exp $
+// $Id: siteconfig.php,v 1.2 2001/07/12 08:44:46 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Jul-2001 10:45:55 bf>
@@ -31,11 +31,10 @@ include_once( "classes/ezfile.php" );
 
 if ( isset( $Store ) )
 {
-    print( "store" );
-//    $fp = fopen ( "site.ini.t", "w+");
-//    $Contents =& str_replace ("\r", "", $Contents );
-//    fwrite ( $fp, $Contents );
-//    fclose( $fp );
+    $fp = fopen ( "site.ini", "w+");
+    $Contents =& str_replace ("\r", "", $Contents );
+    fwrite ( $fp, $Contents );
+    fclose( $fp );
 }
 
 
