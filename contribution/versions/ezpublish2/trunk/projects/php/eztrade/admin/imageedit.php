@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.2 2000/09/21 15:47:57 bf-cvs Exp $
+// $Id: imageedit.php,v 1.3 2000/09/22 12:51:34 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -36,7 +36,7 @@ if ( $Action == "Insert" )
 {
     $file = new eZImageFile();
 
-    if ( $file->getFile( $HTTP_POST_FILES['userfile'] ) )
+    if ( $file->getUploadedFile( $HTTP_POST_FILES['userfile'] ) )
     { 
         $product = new eZProduct( $ProductID );
         $image = new eZImage();

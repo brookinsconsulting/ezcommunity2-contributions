@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezfile.php,v 1.1 2000/09/21 12:42:23 bf-cvs Exp $
+// $Id: ezfile.php,v 1.2 2000/09/22 12:51:34 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -44,13 +44,13 @@ class eZFile
     }
 
     /*!
-      Fetches the uploaded file and makes a temporary copy of it.
+      Fetches the uploaded file information.
 
       The $name_var variable must be of type $HTTP_POST_FILES[].
 
       See the example for more details.
     */
-    function getFile( $name_var )
+    function getUploadedFile( $name_var )
     {
         $ret = true;
 
@@ -65,6 +65,22 @@ class eZFile
         }
                 
         return $ret;
+    }
+
+    /*!
+      
+    */
+    function getFile( $fileName )
+    {
+        $this->FileName = $fileName;
+        $this->FileType = $name_var['type'];
+        $this->FileSize = filesize( $fileName );
+        $this->TmpFileName = $fileName;
+
+        if ( ( $this->FileSize == "0" ) || ( $this->FileSize == "" ) )
+        {
+            $ret = false;
+        }
     }
 
     /*!
@@ -124,6 +140,14 @@ class eZFile
     function tmpName()
     {
         return $this->TmpFileName;
+    }
+
+    /*!
+      Sets the mime type of the file.
+    */
+    function setType( $type )
+    {
+        $this->FileType = $type;
     }
     
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.2 2000/09/21 15:47:57 bf-cvs Exp $
+// $Id: ezimage.php,v 1.3 2000/09/22 12:51:34 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -18,10 +18,12 @@
 /*!
 
 
-  
+  \sa eZImageVariation eZImageVariationGroup
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "ezimagecatalogue/classes/ezimagevariation.php" );
+include_once( "ezimagecatalogue/classes/ezimagevariationgroup.php" );
 
 class eZImage
 {
@@ -30,7 +32,6 @@ class eZImage
     */
     function eZImage( $id="", $fetch=true )
     {
-        $this->IsConnected = false;
         $this->IsConnected = false;
 
         if ( $id != "" )
@@ -165,17 +166,28 @@ class eZImage
     /*!
       Returns the path and filename to the original image.
     */
-    function filePath()
+    function filePath( $relative=false )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        return "/ezimagecatalogue/catalogue/" .$this->FileName;
+
+       if ( $relative == true )
+       {
+           $path = "ezimagecatalogue/catalogue/" .$this->FileName;
+       }
+       else
+       {
+           $path = "/ezimagecatalogue/catalogue/" .$this->FileName;
+       }
+       
+       return $path;
     }
 
     /*!
-      Returns the path to a scaled version of the image. If the scaled version
-      does not exist it is created.
+      Returns the eZImageVariation object to a scaled version of the image.
+      If the scaled version does not exist it is created.
+
+      The required image variation group is also created if it does not exist.
 
       The path to the file is returned.
     */
@@ -184,9 +196,26 @@ class eZImage
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       
-        return "/ezimagecatalogue/catalogue/variations/" .$this->FileName;
-    }    
+       $group = new eZImageVariationGroup();
+       $variation = new eZImageVariation();
+
+       if ( $group->groupExists( $width, $height ) )
+       {
+           $group->get( $group->groupExists( $width, $height ) );
+
+           $ret = $variation->requestVariation( $this, $group );           
+       }
+       else
+       {
+           $group->setWidth( $width );
+           $group->setHeight( $height );
+           $group->store();
+           
+           $ret = $variation->requestVariation( $this, $group );           
+       }
+
+       return $ret;
+    }
     
     /*!
       Sets the image name.

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.2 2000/09/21 15:47:57 bf-cvs Exp $
+// $Id: imagelist.php,v 1.3 2000/09/22 12:51:34 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -58,7 +58,14 @@ foreach ( $images as $image )
     $t->set_var( "image_name", $image->name() );
     $t->set_var( "image_id", $image->id() );
     $t->set_var( "product_id", $ProductID );
-    $t->set_var( "image_url", $image->filePath() );
+
+    $variation = $image->requestImageVariation( 40, 40 );
+    
+    $t->set_var( "image_url", "/" .$variation->imagePath() );
+    $t->set_var( "image_width", $variation->width() );
+    $t->set_var( "image_height",$variation->height() );
+    
+//      $t->set_var( "image_url", $image->filePath() );
 
     $t->parse( "image_list", "image_item", true );
     

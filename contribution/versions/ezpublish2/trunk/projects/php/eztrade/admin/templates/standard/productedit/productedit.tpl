@@ -1,10 +1,10 @@
-<h1>Produktredigering</h1>
+<h1>{intl-head_line}</h1>
 
 <form method="post" action="/trade/productedit/{action_value}/">
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td colspan="2">
-	Navn:
+	{intl-name}:
 	</td>
 </tr>
 <tr>
@@ -14,7 +14,7 @@
 </tr>
 <tr>
 	<td colspan="2">
-	Nøkkelord:
+	{intl-keywords}:
 	</td>
 </tr>
 <tr>
@@ -24,7 +24,7 @@
 </tr>
 <tr>
 	<td colspan="2">
-	Bestillingsnummer:
+	{intl-product_number}:
 	</td>
 </tr>
 <tr>
@@ -34,7 +34,7 @@
 </tr>
 <tr>
 	<td colspan="2">
-	Plassering:
+	{intl-category}:
 	</td>
 </tr>
 <tr>
@@ -46,7 +46,7 @@
 </tr>
 <tr>
 	<td colspan="2">
-	Ingress:
+	{intl-intro}:
 	</td>
 </tr>
 <tr>
@@ -56,7 +56,7 @@
 </tr>
 <tr>
 	<td colspan="2">
-	Beskrivelse:
+	{intl-description}:
 	</td>
 </tr>
 <tr>
@@ -66,10 +66,10 @@
 </tr>
 <tr>
 	<td>
-	Priset:
+	{intl-has_price}:
 	</td>
 	<td>
-	Pris:
+	{intl-price}:
 	</td>
 </tr>
 <tr>
@@ -82,10 +82,10 @@
 </tr>
 <tr>
 	<td>
-	Aktiv:
+	{intl-active}:
 	</td>
 	<td>
-	Arve opsjoner:
+	{intl-inherit_options}:
 	</td>
 </tr>
 <tr>
@@ -98,15 +98,15 @@
 </tr>
 <tr>
 	<td colspan="2">
-	<input type="submit" name="Image" value="Bilder" />
-	<input type="submit" name="Option" value="Opsjoner" />
-	<input type="submit" name="" value="Forhåndsvisning" />
+	<input type="submit" name="Image" value="{intl-pictures}" />
+	<input type="submit" name="Option" value="{intl-options}" />
+	<input type="submit" name="" value="{intl-preview}" />
 	</td>
 </tr>
 <tr>
 	<td colspan="2">
 	<input type="hidden" name="ProductID" value="{product_id}" />
-	<input type="submit" value="OK" />
+	<input type="submit" value="{intl-ok}" />
 	</td>
 </tr>
 </table>

@@ -1,7 +1,7 @@
 <tr>
 	<td class="{td_class}">
 	{image_name}
-	<img src="{image_url}" border="2" />
+	<img src="{image_url}" width="{image_width}" height="{image_height}" border="2" />
 	</td>
 	<td class="{td_class}">
 	<a href="/trade/productedit/imageedit/edit/{image_id}/{product_id}/">[ Rediger ]</a>
