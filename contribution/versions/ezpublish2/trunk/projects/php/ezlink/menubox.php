@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.4 2000/10/17 11:52:59 bf-cvs Exp $
+// $Id: menubox.php,v 1.5 2000/10/19 09:32:07 ce-cvs Exp $
 //
 // 
 //
@@ -88,30 +88,21 @@ function createLinkMenu()
     }
     else
     {
-        for ( $i=0; $i<count( $linkGroup_array ); $i++ )
+        foreach( $linkGroup_array as $groupItem )
         {
-            if ( ( $i % 2 ) == 0 )
-            {
-                $t->set_var( "bg_color", "#FFFFFF" );
-            }
-            else
-            {
-                $t->set_var( "bg_color", "#FFFFFF" );
-            }  
-
-            $link_group_id = $linkGroup_array[ $i ][ "ID" ];
+            $link_group_id = $groupItem->id();
             $t->set_var( "linkgroup_id", $link_group_id );
-            $t->set_var( "linkgroup_title", $linkGroup_array[ $i ][ "Title" ] );
-            $t->set_var( "linkgroup_parent", $linkGroup_array[ $i ][ "Parent" ] );
-
+            $t->set_var( "linkgroup_title", $groupItem->title() );
+            $t->set_var( "linkgroup_parent", $groupItem->parent() );
+            
             $total_sub_links = $linkGroup->getTotalSubLinks( $link_group_id, $link_group_id );
             $new_sub_links = $linkGroup->getNewSubLinks( $link_group_id, $link_group_id, 1 );
-        
+            
             $t->set_var( "total_links", $total_sub_links );
             $t->set_var( "new_links", $new_sub_links );
-        
+            
             $t->parse( "link_group", "link_group_tpl", true );
-
+            
         }
     }
     $t->set_var( "linkgroup_id", $LGID );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: linklist.php,v 1.36 2000/10/17 11:52:59 bf-cvs Exp $
+// $Id: linklist.php,v 1.1 2000/10/19 09:32:09 ce-cvs Exp $
 //
 // 
 //
@@ -27,13 +27,13 @@ include_once( "ezlink/classes/ezlink.php" );
 include_once( "ezlink/classes/ezhit.php" );
 
 
-$t = new eZTemplate( "ezlink/" . $ini->read_var( "eZLinkMain", "TemplateDir" ). "/linklist/",
-                     "ezlink/intl", $Language, "linklist.php" );
+$t = new eZTemplate( "ezlink/user/" . $ini->read_var( "eZLinkMain", "TemplateDir" ),
+                     "ezlink/user/intl", $Language, "linklist.php" );
 
 $t->setAllStrings();
 
 $t->set_file( array(
-    "link_page_tpl" => "linkpage.tpl"
+    "link_page_tpl" => "linklist.tpl"
     ) );
 
 $t->set_block( "link_page_tpl", "group_list_tpl", "group_list" );
@@ -51,29 +51,25 @@ if ( count( $linkGroup_array ) == 0 )
 }
 else
 {
-    for ( $i=0; $i<count( $linkGroup_array ); $i++ )
+    $i=0;
+    foreach( $linkGroup_array as $groupItem )
     {
-                if ( ( ( $i / 2 ) % 2 ) == 0 )
-        {
-            $t->set_var( "bg_color", "#f0f0f0" );
-        }
+        if ( ( ( $i / 2 ) % 2 ) == 0 )
+            $t->set_var( "td_class", "bglight"  );
         else
-        {
-            $t->set_var( "bg_color", "#dcdcdc" );
-        }  
+            $t->set_var( "td_class", "bgdark"  );
 
-        $link_group_id = $linkGroup_array[ $i ][ "ID" ];
+        $link_group_id = $groupItem->id();
         $t->set_var( "linkgroup_id", $link_group_id );
-        $t->set_var( "linkgroup_title", $linkGroup_array[ $i ][ "Title" ] );
-        $t->set_var( "linkgroup_parent", $linkGroup_array[ $i ][ "Parent" ] );
+        $t->set_var( "linkgroup_title", $groupItem->title() );
+        $t->set_var( "linkgroup_parent", $groupItem->parent() );
 
         $total_sub_links = $linkGroup->getTotalSubLinks( $link_group_id, $link_group_id );
         $new_sub_links = $linkGroup->getNewSubLinks( $link_group_id, $link_group_id, 1 );
         
         $t->set_var( "total_links", $total_sub_links );
         $t->set_var( "new_links", $new_sub_links );
-        
-        
+
         if ( $i %2 == 0 )
         {
             $t->set_var( "start_tr", "<tr>" );
@@ -84,6 +80,7 @@ else
             $t->set_var( "start_tr", "" );
             $t->set_var( "stop_tr", "</tr>" );            
         }
+        $i++;
         $t->parse( "group_list", "group_list_tpl", true );
     }
 }
@@ -119,7 +116,8 @@ if ( count( $link_array ) == 0 )
 }
 else
 {
-    for ( $i=0; $i<count( $link_array ); $i++ )
+    $i=0;
+    foreach( $link_array as $linkItem )
     {
         if ( ( $i % 2 ) == 0 )
         {
@@ -128,23 +126,23 @@ else
         else
         {
             $t->set_var( "bg_color", "#dcdcdc" );
-        }  
-
-        $t->set_var( "link_id", $link_array[ $i ][ "ID" ] );
-        $t->set_var( "link_title", $link_array[ $i ][ "Title" ] );
-        $t->set_var( "link_description", $link_array[ $i ][ "Description" ] );
-        $t->set_var( "link_groupid", $link_array[ $i ][ "LinkGroup" ] );
-        $t->set_var( "link_keywords", $link_array[ $i ][ "KeyWords" ] );
-        $t->set_var( "link_created", $link_array[ $i ][ "Created" ] );
-        $t->set_var( "link_modified", $link_array[ $i ][ "Modified" ] );
-        $t->set_var( "link_accepted", $link_array[ $i ][ "Accepted" ] );
-        $t->set_var( "link_url", $link_array[ $i ][ "Url" ] );
+        }
+        $t->set_var( "link_id", $linkItem->id() );
+        $t->set_var( "link_title", $linkItem->title() );
+        $t->set_var( "link_description", $linkItem->description() );
+        $t->set_var( "link_groupid",$linkItem->linkGroupID() );
+        $t->set_var( "link_keywords", $linkItem->keywords() );
+        $t->set_var( "link_created", $linkItem->created() );
+        $t->set_var( "link_modified", $linkItem->modified() );
+        $t->set_var( "link_accepted", $linkItem->accepted() );
+        $t->set_var( "link_url", $linkItem->url() );
 
         $hit = new eZHit();
         $hits = $hit->getLinkHits( $link_array[ $i ][ "ID" ] );
         $t->set_var( "link_hits", $hits );
 
         $t->parse( "link_list", "link_list_tpl", true );
+        $i++;
     }
 }
 

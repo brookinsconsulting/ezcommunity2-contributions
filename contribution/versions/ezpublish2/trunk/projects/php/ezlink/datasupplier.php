@@ -1,19 +1,23 @@
 <?
 $PageCaching = $ini->read_var( "eZLinkMain", "PageCaching");
-
 switch ( $url_array[2] )
 {
     case "gotolink" :
     {
         $Action = $url_array[3];
-        $LID = $url_array[4];
+        $LinkID = $url_array[4];
         $Url = $url_array[5];
-        include( "ezlink/gotolink.php" );
+        include( "ezlink/user/gotolink.php" );
     }
     break;
 
+    case "latest":
+    {
+        include( "ezlink/user/latest.php" );
+    }
+
     case "search" :
-        include( "ezlink/search.php" );
+        include( "ezlink/user/search.php" );
         break;
 
     case "success" :
@@ -45,7 +49,7 @@ switch ( $url_array[2] )
         else
         {
             print( "uncached version" );
-            
+
             $LGID = $url_array[3];
             include( "ezlink/user/linklist.php" );
         }
@@ -55,8 +59,16 @@ switch ( $url_array[2] )
 
     case "suggestlink" :
     {
-        $LGID = $url_array[3];
-        include( "ezlink/suggestlink.php" );
+        if ( $url_array[3] == "insert" )
+        {
+            $Action = "insert";
+            include( "ezlink/user/suggestlink.php" );
+        }
+        else
+        {
+            $LinkGroupID = $url_array[3];
+            include( "ezlink/user/suggestlink.php" );
+        }
     }
     break;
 

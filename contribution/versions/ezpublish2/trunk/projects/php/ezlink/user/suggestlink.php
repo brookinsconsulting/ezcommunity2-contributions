@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: suggestlink.php,v 1.16 2000/10/11 12:02:03 ce-cvs Exp $
+    $Id: suggestlink.php,v 1.1 2000/10/19 09:32:09 ce-cvs Exp $
 
     Author: Christoffer A. Elo <ce@ez.no>
     
@@ -21,7 +21,7 @@ include_once( "ezlink/classes/ezlinkgroup.php" );
 include_once( "ezlink/classes/ezlink.php" );
 include_once( "ezlink/classes/ezhit.php" );
 
-if ( $Action == "suggest" )
+if ( $Action == "insert" )
 {
     $newlink = new eZLink();
 
@@ -41,7 +41,7 @@ if ( $Action == "suggest" )
         $newlink->setUrl( $url );
         $newlink->setKeyWords( $keywords );
         $newlink->setDescription( $description );
-        $newlink->setLinkGroup( $linkgroup );
+        $newlink->setLinkGroupID( $linkgroup );
         $newlink->setAccepted( "N" );
      
         if ( $newlink->checkUrl( $url ) == 0 )
@@ -63,8 +63,8 @@ if ( $Action == "suggest" )
     }
 }
 
-$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZLinkMain", "TemplateDir" ). "/suggestlink/",
-$DOC_ROOT . "/intl", $Language, "suggestlink.php" );
+$t = new eZTemplate( "ezlink/user/" . $ini->read_var( "eZLinkMain", "TemplateDir" ),
+"ezlink/user/intl", $Language, "suggestlink.php" );
 $t->setAllStrings();
 
 $t->set_file( array(
@@ -74,16 +74,19 @@ $t->set_file( array(
 $t->set_block( "suggest_link", "group_select_tpl", "group_select" );
 
 $groupselect = new eZLinkGroup();
-$grouplink_array = $groupselect->getAll( );
+$groupList = $groupselect->getAll( );
 
 // Selecter
 $group_select_dict = "";
-for ( $i=0; $i<count( $grouplink_array ); $i++ )
-{
-    $t->set_var( "grouplink_id", $grouplink_array[ $i ][ "ID" ] );
-    $t->set_var( "grouplink_title", $grouplink_array[ $i ][ "Title" ] );
 
-    if ( $grouplink_array[ $i ][ "ID" ] == $LGID )
+$i=0;
+foreach( $groupList as $groupItem )
+{
+    $i++;
+    $t->set_var( "grouplink_id", $groupItem->id() );
+    $t->set_var( "grouplink_title", $groupItem->title() );
+
+    if ( ( $groupItem->id() ) == $LinkGroupID )
     {
         $t->set_var( "is_selected", "selected" );
     }
@@ -92,7 +95,7 @@ for ( $i=0; $i<count( $grouplink_array ); $i++ )
         $t->set_var( "is_selected", "" );
     }
 
-    $group_select_dict[ $grouplink_array[$i][ "ID" ] ] = $i;
+    $group_select_dict[ ( $groupItem->id() ) ] = $i;
 
     $t->parse( "group_select", "group_select_tpl", true );
 }
@@ -109,6 +112,5 @@ $t->set_var( "description", $tdescription );
 $t->set_var( "document_root", $DOC_ROOT );
 
 $t->pparse( "output", "suggest_link" );
-
 
 ?>

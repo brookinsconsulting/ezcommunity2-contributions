@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.28 2000/10/18 12:32:43 ce-cvs Exp $
+// $Id: ezlinkgroup.php,v 1.29 2000/10/19 09:32:07 ce-cvs Exp $
 //
 // Definition of eZLinkGroup class
 //
@@ -41,9 +41,26 @@ class eZLinkGroup
     /*!
       Counstructor
     */
-    function eZLinkGroup( )
+    function eZLinkGroup( $id=-0, $fetch=true )
     {
 
+        $this->IsConnected = false;
+        if ( $id != -1 )
+        {
+            $this->ID = $id;
+            if ( $fetch == true )
+            {
+                $this->get( $this->ID );
+            }
+            else
+            {
+                $this->State_ = "Dirty";
+            }
+        }
+        else
+        {
+            $this->State_ = "New";
+        }
     }
 
     /*!
@@ -124,8 +141,9 @@ class eZLinkGroup
     /*!
       Henter ut parent
     */
-    function getByParent( $id )
+    function &getByParent( $id )
     {
+
         $this->dbInit();
         $parent_array = array();
         $return_array = array();
@@ -134,10 +152,11 @@ class eZLinkGroup
 
         for( $i=0; $i<count( $parent_array ); $i++ )
         {
-            $return_array[$i] = new eZLinkGroup( $parent_array[$i][ "ID" ], 0 );
+            $return_array[] = new eZLinkGroup( $parent_array[$i][ "ID" ] );
         }
-        
-        return $parent_array;
+
+        return $return_array;
+                   
     }
 
     /*!
@@ -207,11 +226,28 @@ class eZLinkGroup
     function getAll()
     {
         $this->dbInit();
-        $parnet_array = 0;
+        $parnet_array = array();
+        $return_array = array();
 
-        array_query( $parent_array, "SELECT * FROM eZLink_LinkGroup ORDER BY Title" );
+        $this->Database->array_query( $parent_array, "SELECT ID FROM eZLink_LinkGroup ORDER BY Title" );
 
-        return $parent_array;
+        for( $i=0; $i<count( $parent_array ); $i++ )
+        {
+            $return_array[$i] = new eZLinkGroup( $parent_array[$i]["ID"] );
+        }
+
+        return $return_array;
+    }
+
+    /*!
+      Returns the id of the linkgroup.
+    */
+    function id()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return $this->ID;
     }
 
     /*!

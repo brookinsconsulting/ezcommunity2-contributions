@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: gotolink.php,v 1.9 2000/10/10 07:01:09 ce-cvs Exp $
+    $Id: gotolink.php,v 1.1 2000/10/19 09:32:09 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -12,16 +12,14 @@
 include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 
-$DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
-
-include_once( $DOC_ROOT . "classes/ezlinkgroup.php" );
-include_once( $DOC_ROOT . "classes/ezlink.php" );
-include_once( $DOC_ROOT . "classes/ezhit.php" );
+include_once( "ezlink/classes/ezlinkgroup.php" );
+include_once( "ezlink/classes/ezlink.php" );
+include_once( "ezlink/classes/ezhit.php" );
 
 if ( $Action == "addhit" )
 {
     $hit = new eZHit();
-    $hit->setLink( $LID );
+    $hit->setLink( $LinkID );
     $hit->setRemoteIP( $REMOTE_ADDR );
     $hit->store();
 }

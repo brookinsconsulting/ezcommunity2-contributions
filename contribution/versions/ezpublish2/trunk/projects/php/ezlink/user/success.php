@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: success.php,v 1.1 2000/10/11 12:02:03 ce-cvs Exp $
+    $Id: success.php,v 1.1 2000/10/19 09:32:09 ce-cvs Exp $
 
     Author: Christoffer A. Elo <ce@ez.no>
     
@@ -22,8 +22,8 @@ include_once( "ezlink/classes/ezlink.php" );
 include_once( "ezlink/classes/ezhit.php" );
 
 
-$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZLinkMain", "TemplateDir" ). "/success/",
-$DOC_ROOT . "/intl", $Language, "success.php" );
+$t = new eZTemplate( "ezlink/user/" . $ini->read_var( "eZLinkMain", "TemplateDir" ),
+"ezlink/user/intl", $Language, "success.php" );
 $t->setAllStrings();
 
 $t->set_file( array(
