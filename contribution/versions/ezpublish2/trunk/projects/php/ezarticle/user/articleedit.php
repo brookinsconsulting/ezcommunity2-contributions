@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.19 2001/08/15 11:56:34 bf Exp $
+// $Id: articleedit.php,v 1.20 2001/08/16 11:08:11 bf Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -64,6 +64,12 @@ if ( $Action == "Insert" )
     
     $article->setLinkText( $LinkText );
     $article->store(); // to get ID
+
+    // add to categories
+    $category = new eZArticleCategory( $CategoryIDSelect );
+    $category->addArticle( $article );
+
+    $article->setCategoryDefinition( $category );
     
 // Which group should a user-published article be set to?
     eZObjectPermission::setPermission( -1, $article->id(), "article_article", 'w' );
@@ -97,18 +103,9 @@ if ( $Action == "Insert" )
         $article->store();
     
 
-        // add to categories
-        $category = new eZArticleCategory( $CategoryIDSelect );
-        $category->addArticle( $article );
-
-        $article->setCategoryDefinition( $category );
 
 
-        // get the category to redirect to
-        $category = $article->categoryDefinition();
-        $categoryID = $category->id();
-
-        eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
+        eZHTTPTool::header( "Location: /article/archive/$CategoryIDSelect/" );
         exit();
     }
     else
