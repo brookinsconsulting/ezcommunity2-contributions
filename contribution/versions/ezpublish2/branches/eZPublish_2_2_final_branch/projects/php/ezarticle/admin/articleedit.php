@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.116.2.4 2002/02/20 13:18:12 jhe Exp $
+// $Id: articleedit.php,v 1.116.2.5 2002/02/27 12:05:09 master Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -438,10 +438,18 @@ $t->set_var( "article_is_published", "" );
 $t->set_var( "article_id", "" );
 $t->set_var( "article_name", stripslashes( $Name ) );
 
-//EP: URL translation : new article
+//EP: URL translation : new article -------------------------------------------
 $t->set_var( "article_url", "" );
 $t->set_var( "article_urltranslator", "" );
 $t->set_var( "urltranslator", "" );
+
+if ( $ini->read_var( "eZArticleMain", "AdminURLTranslator" ) == "enabled" )
+{
+    $t->set_var( "article_url", "Not defined yet" );
+    $t->parse( "urltranslator", "urltranslator_tpl" );  
+}
+//EP --------------------------------------------------------------------------
+	            
 
 $t->set_var( "article_keywords", stripslashes( $Keywords ) );
 $t->set_var( "article_contents_0", stripslashes( $Contents[0] ) );
