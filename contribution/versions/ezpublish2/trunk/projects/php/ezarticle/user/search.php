@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.15 2001/09/13 12:10:12 ce Exp $
+// $Id: search.php,v 1.16 2001/09/16 18:37:39 bf Exp $
 //
 // Created on: <28-Oct-2000 15:56:58 bf>
 //
@@ -123,9 +123,10 @@ if ( $SearchText )
 
     $t->set_var( "search_text", $SearchText );
     $article = new eZArticle();
-    $articleList = $article->search( $SearchText, "time", false, $Offset, $Limit, $paramsArray );
+    $totalCount = 0;
+    $articleList = $article->search( $SearchText, "time", false, $Offset, $Limit, $paramsArray, $totalCount );
 
-    $totalCount = $article->searchCount( $SearchText, false, $paramsArray );
+//    $totalCount = $article->searchCount( $SearchText, false, $paramsArray );
 
     $t->set_var( "url_text", urlencode ( $SearchText ) );
 }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.169 2001/09/16 16:06:17 bf Exp $
+// $Id: ezarticle.php,v 1.170 2001/09/16 18:37:39 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1776,9 +1776,12 @@ class eZArticle
       Categories an array of Category ID's
       Type
       AuthorID the ID of the author writing the article
-      PhotographerID a photographer that has contributed to the article 
+      PhotographerID a photographer that has contributed to the article
+
+      if SearchExcludedArticles is set to "true" articles which is set non searchable will also be searched.
+      $SearchTotalCount will return the total number of items found in the search
     */
-    function &search( &$queryText, $sortMode=time, $fetchPublished=false, $offset=0, $limit=10, $params = array() )
+    function &search( &$queryText, $sortMode=time, $fetchPublished=false, $offset=0, $limit=10, $params = array(), &$SearchTotalCount )
     {
         $db =& eZDB::globalDatabase();
 
@@ -1833,10 +1836,14 @@ class eZArticle
         $searchSQL = $query->buildQuery();
         
         $dateSQL = "";
-        $catTable = "";
         $catSQL = "";
         $typeTables = "";
         $typeSQL = "";
+
+        // need to check if the category is searchable 
+        $catDefTable = "eZArticle_ArticleCategoryDefinition,";
+        $catTable = "eZArticle_Category,";
+        
         if ( isSet( $params["FromDate"] ) )
         {
             $fromdate = $params["FromDate"];
@@ -1892,6 +1899,12 @@ class eZArticle
             $photoTables = "eZArticle_ArticleImageLink, eZImageCatalogue_Image,";
         }
 
+
+        if ( $params["SearchExcludedArticles"] == "true" )
+            $excludeFromSearchSQL = " ";
+        else
+            $excludeFromSearchSQL = " AND eZArticle_Category.ExcludeFromSearch = '0' ";
+        
         // special search for MySQL, mimic subselects ;)
         if ( $db->isA() == "mysql" )
         {
@@ -1911,6 +1924,7 @@ class eZArticle
                       eZArticle_ArticleWordLink,
                       eZArticle_Word,
                       eZArticle_ArticleCategoryLink,
+                      $catDefTable
                       $catTable
                       $typeTables
                       $photoTables
@@ -1924,6 +1938,9 @@ class eZArticle
                        $photoSQL
                        AND
                        ( eZArticle_Article.ID=eZArticle_ArticleWordLink.ArticleID
+                         AND eZArticle_ArticleCategoryDefinition.ArticleID=eZArticle_Article.ID
+                         AND eZArticle_ArticleCategoryDefinition.CategoryID=eZArticle_Category.ID
+                         $excludeFromSearchSQL
                          AND eZArticle_ArticleWordLink.WordID=eZArticle_Word.ID
                          AND eZArticle_ArticlePermission.ObjectID=eZArticle_Article.ID
                          $fetchText
@@ -1947,9 +1964,16 @@ class eZArticle
             $count -= 1;
 
             $queryString = "SELECT ArticleID, Count(*) AS Count FROM eZArticle_SearchTemp GROUP BY ArticleID HAVING Count='$count'";
-            $db->array_query( $article_array, $queryString, array( "Limit" => $limit, "Offset" => $offset ) );
+
             
+            $db->array_query( $article_array, $queryString );
+            
+//            $db->array_query( $article_array, $queryString, array( "Limit" => $limit, "Offset" => $offset ) );
+
             $db->query( "DROP  TABLE eZArticle_SearchTemp" );
+
+            $SearchTotalCount = count( $article_array );
+            $article_array =& array_slice( $article_array, $offset, $limit );            
         }
         else
         {
@@ -1958,6 +1982,7 @@ class eZArticle
                       eZArticle_ArticleWordLink,
                       eZArticle_Word,
                       eZArticle_ArticleCategoryLink,
+                      $catDefTable
                       $catTable
                       $typeTables
                       $photoTables
@@ -1971,6 +1996,9 @@ class eZArticle
                        $photoSQL
                        AND
                        ( eZArticle_Article.ID=eZArticle_ArticleWordLink.ArticleID
+                         AND eZArticle_ArticleCategoryDefinition.ArticleID=eZArticle_Article.ID
+                         AND eZArticle_ArticleCategoryDefinition.CategoryID=eZArticle_Category.ID
+                         $excludeFromSearchSQL
                          AND eZArticle_ArticleWordLink.WordID=eZArticle_Word.ID
                          AND eZArticle_ArticlePermission.ObjectID=eZArticle_Article.ID
                          $fetchText
@@ -1982,6 +2010,11 @@ class eZArticle
                        ORDER BY $OrderBy";
 
             $db->array_query( $article_array, $queryString, array( "Limit" => $limit, "Offset" => $offset ) );
+
+            $db->array_query( $article_array, $queryString );
+            
+            $SearchTotalCount = count( $article_array );
+            $article_array =& array_slice( $article_array, $offset, $limit );
         }
 
         for ( $i=0; $i < count($article_array); $i++ )
@@ -2010,6 +2043,7 @@ class eZArticle
     */
     function &searchCount( &$queryText, $fetchPublished=false, $params = array() )
     {
+        print( "<br><b>obsolete function:</b> should use search and the returned count from that function<br>" );
         $db =& eZDB::globalDatabase();
 
         $queryText = $db->escapeString( $queryText );
@@ -2055,10 +2089,13 @@ class eZArticle
         $searchSQL = $query->buildQuery();
         
         $dateSQL = "";
-        $catTable = "";
         $catSQL = "";
         $typeTables = "";
         $typeSQL = "";
+
+        // need to check if the category is searchable 
+        $catDefTable = "eZArticle_ArticleCategoryDefinition,";
+        $catTable = "eZArticle_Category,";
 
 
         if ( isSet( $params["FromDate"] ) )
@@ -2135,6 +2172,7 @@ class eZArticle
                       eZArticle_ArticleWordLink,
                       eZArticle_Word,
                       eZArticle_ArticleCategoryLink,
+                      $catDefTable
                       $catTable
                       $typeTables
                       $photoTables
@@ -2148,6 +2186,9 @@ class eZArticle
                        $photoSQL
                        AND
                        ( eZArticle_Article.ID=eZArticle_ArticleWordLink.ArticleID
+                         AND eZArticle_ArticleCategoryDefinition.ArticleID=eZArticle_Article.ID
+                         AND eZArticle_ArticleCategoryDefinition.CategoryID=eZArticle_Category.ID
+                         AND eZArticle_Category.ExcludeFromSearch = '0'
                          AND eZArticle_ArticleWordLink.WordID=eZArticle_Word.ID
                          AND eZArticle_ArticlePermission.ObjectID=eZArticle_Article.ID
                          $fetchText

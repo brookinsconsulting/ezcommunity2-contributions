@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.14 2001/09/13 12:10:41 ce Exp $
+// $Id: search.php,v 1.15 2001/09/16 18:37:39 bf Exp $
 //
 // Created on: <28-Oct-2000 15:56:58 bf>
 //
@@ -124,11 +124,11 @@ if ( $SearchText )
         $t->set_var( "url_category_array", urlencode( implode( "-", $CategoryArray ) ) );
     }
 
+    $paramsArray["SearchExcludedArticles"] = "true";
+    
     $article = new eZArticle();
-    $articleList = $article->search( $SearchText, "time", true, $Offset, $Limit, $paramsArray );
-    $totalCount = $article->searchCount( $SearchText, true, $paramsArray );
-//    $totalCount = $article->searchCount( $SearchText, true );
-    // TODO...TOTALCOUNT...
+    $totalCount = 0;
+    $articleList = $article->search( $SearchText, "time", true, $Offset, $Limit, $paramsArray, $totalCount );
 
     $t->set_var( "search_text", $SearchText );
     $t->set_var( "url_text", urlencode ( $SearchText ) );
