@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: urledit.php,v 1.4 2001/07/20 11:42:52 jakobn Exp $
+// $Id: urledit.php,v 1.5 2001/09/06 12:39:59 vl Exp $
 //
 // Created on: <24-Apr-2001 11:09:30 bf>
 //
@@ -63,7 +63,7 @@ if ( isset( $Store ) )
 
 }
 
-$Language = $ini->read_var( "eZSiteManager", "Language" );
+$Language = $ini->read_var( "eZURLTranslatorMain", "Language" );
 
 $t = new eZTemplate( "ezurltranslator/admin/" . $ini->read_var( "eZURLTranslatorMain", "AdminTemplateDir" ),
                      "ezurltranslator/admin/intl", $Language, "urledit.php" );
