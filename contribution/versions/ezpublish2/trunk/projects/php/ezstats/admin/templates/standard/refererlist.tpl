@@ -5,9 +5,9 @@
 	</td>
 	<td align="right">
 	    <form action="/stats/refererlist/{view_mode}/{view_limit}" method="post">
-	        {intl-exclude_domain}:
+	        <span class="boxtext">{intl-exclude_domain}:</span>
 	        <input type="text" value="" name="ExcludeDomain" />
-	        <input type="submit" value="{intl-ok}" />
+	        <input class="stdbutton" type="submit" value="{intl-ok}" />
 	    </form>
 	</td>
 </tr>
@@ -19,12 +19,12 @@
 
 <table class="list" width="100%" border="0" cellspacing="0" cellpadding="4">
     <tr>
-	    <td>
+	    <th valign="bottom">
             {intl-referer_domain}:
-        </td>
-	    <td>
+        </th>
+	    <th valign="bottom">
             {intl-referer_uri}:
-        </td>
+        </th>
 	    <td align="right">
             <b>{intl-page_view_count}:</b>
         </td>
