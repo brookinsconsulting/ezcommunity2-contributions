@@ -68,6 +68,7 @@ xmlrpc		projects/php/xmlrpc & ezxmlrpc
 ezmediacatalogue	projects/php/ezmediacatalogue
 vidartest	projects/php/vidartest
 ezxml		projects/php/ezxml
+ezdatamanager	projects/php/ezdatamanager
 
 # Distribution
 publish_dist    projects/php/publish_dist &ezsession &ezuser &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin &eztodo &ezad &eznewsfeed &ezbug &ezstats &eztrade &ezcalendar &ezaddress &ezfilemanager &ezerror &ezmail &ezbulkmail &ezmodule &ezsysinfo &ezurltranslator &ezform &ezsitemanager &ezquiz  &ezmessage &ezsearch &ezmediacatalogue &ezxmlrpc &ezxml
