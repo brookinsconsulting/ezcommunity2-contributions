@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formedit.php,v 1.4 2001/10/09 08:06:02 ce Exp $
+// $Id: formedit.php,v 1.5 2001/10/09 09:38:09 ce Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -355,7 +355,8 @@ if( $count > 0 )
 
         $currentType = $element->elementType();
         $types = $currentType->getAll();
-        
+
+        $t->set_var( "fixed_values", "" );
         $t->set_var( "typelist_item", "" );
         foreach( $types as $type )
         {
@@ -363,7 +364,9 @@ if( $count > 0 )
 
             if( $type->id() == $currentType->id() )
             {
-                if ( $currentType->name() == "multiple_select_item" )
+                $name = $currentType->name();
+                if ( $name == "multiple_select_item" ||
+                $name == "dropdown_item"  )
                 {
                     $t->parse( "fixed_values", "fixed_values_tpl" );
                 }
