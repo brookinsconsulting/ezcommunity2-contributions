@@ -103,12 +103,12 @@
 	<td colspan="2">&nbsp;</td>
 </tr>
 <tr>
-	<td>
+	<td width="1%">
 	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/trade/productview/{product_id}/">
 	<img src="{image_url}" border="0" alt="{image_name}" width="{image_width}" height="{image_height}" /></a>
 	</td>
-	<td><img src="/images/1x1.gif" height="1" width="12" border="0" alt="" /></td>
-	<td valign="top">
+	<td width="1%"><img src="/images/1x1.gif" height="1" width="12" border="0" alt="" /></td>
+	<td width="98%" valign="top">
 	{image_caption}
 	</td>
 </tr>
