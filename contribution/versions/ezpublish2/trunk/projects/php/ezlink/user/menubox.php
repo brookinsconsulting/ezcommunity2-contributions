@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.14 2001/07/20 11:15:21 jakobn Exp $
+// $Id: menubox.php,v 1.15 2001/09/21 16:43:05 br Exp $
 //
 // Created on: <17-Oct-2000 12:16:07 bf>
 //
@@ -80,7 +80,7 @@ function createLinkMenu( $menuCacheFile=false )
     $t->set_var( "link_category", "" );
     $t->set_var( "no_link_category", "" );
 
-// Lister alle kategorier
+// List all categories
     $linkCategory = new eZLinkCategory();
 
     $linkCategory_array = $linkCategory->getByParent( 0 );
