@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.59 2001/08/30 11:18:15 bf Exp $
+// $Id: productview.php,v 1.60 2001/09/07 11:13:39 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -57,6 +57,7 @@ include_once( "eztrade/classes/ezoption.php" );
 include_once( "eztrade/classes/ezpricegroup.php" );
 include_once( "eztrade/classes/ezproductcurrency.php" );
 include_once( "eztrade/classes/ezproductpermission.php" );
+include_once( "eztrade/classes/ezproductpricerange.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "classes/ezmodulelink.php" );
@@ -102,6 +103,13 @@ else
 
 $t->set_block( "product_view_tpl", "product_number_item_tpl", "product_number_item" );
 $t->set_block( "product_view_tpl", "price_tpl", "price" );
+
+$t->set_block( "product_view_tpl", "price_range_tpl", "price_range" );
+$t->set_block( "price_range_tpl", "price_range_min_unlimited_tpl", "price_range_min_unlimited" );
+$t->set_block( "price_range_tpl", "price_range_min_limited_tpl", "price_range_min_limited" );
+$t->set_block( "price_range_tpl", "price_range_max_unlimited_tpl", "price_range_max_unlimited" );
+$t->set_block( "price_range_tpl", "price_range_max_limited_tpl", "price_range_max_limited" );
+
 $t->set_block( "price_tpl", "alternative_currency_list_tpl", "alternative_currency_list" );
 $t->set_block( "alternative_currency_list_tpl", "alternative_currency_tpl", "alternative_currency" );
 
@@ -361,6 +369,7 @@ foreach ( $options as $option )
 
                 }
 
+
                 if ( $price->value() == 0 )
                     $t->set_var( "value_price", "" );
                 else
@@ -419,6 +428,8 @@ foreach ( $options as $option )
 
 if ( !$product->hasQuantity( $RequireQuantity ) )
     $can_checkout = false;
+
+
 
 // link list
 $module_link = new eZModuleLink( "eZTrade", "Product", $product->id() );
@@ -605,7 +616,44 @@ if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
         $t->set_var( "alternative_currency_list", "" );
     }
 
+    $t->set_var( "price_range", "" );
     $t->parse( "price", "price_tpl" );
+}
+else
+{
+    $priceRange =& $product->priceRange();
+    $currency = new eZCurrency( );
+    if ( get_class ( $priceRange ) == "ezproductpricerange" )
+    {
+        $min = $priceRange->min();
+        $max = $priceRange->max();
+        if ( $min )
+        {
+            $currency->setValue( $min );
+            $t->set_var( "price_min", $locale->format( $currency ) );
+            $t->set_var( "price_range_min_unlimited", "" );
+            $t->parse( "price_range_min_limited", "price_range_min_limited_tpl" );
+        }
+        else
+        {
+            $t->set_var( "price_range_min_limited", "" );
+            $t->parse( "price_range_min_unlimited", "price_range_min_unlimited_tpl" );
+        }
+        if ( $max )
+        {
+            $currency->setValue( $max );
+            $t->set_var( "price_max", $locale->format( $currency ) );
+            $t->set_var( "price_range_max_unlimited", "" );
+            $t->parse( "price_range_max_limited", "price_range_max_limited_tpl" );
+        }
+        else
+        {
+            $t->set_var( "price_range_max_limited", "" );
+            $t->parse( "price_range_max_unlimited", "price_range_max_unlimited_tpl" );
+        }
+
+        $t->parse( "price_range", "price_range_tpl" );
+    }
 }
 
 if ( $PurchaseProduct and !$product->discontinued() and $can_checkout )

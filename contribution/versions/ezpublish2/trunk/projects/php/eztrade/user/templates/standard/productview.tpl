@@ -238,6 +238,29 @@
 	<!-- END alternative_currency_list_tpl -->
 
 	<!-- END price_tpl -->	
+	<!-- BEGIN price_range_tpl -->
+	<p class="boxtext">{intl-price_range}:</p>
+	<!-- BEGIN price_range_min_unlimited_tpl -->
+	{intl-min}: {intl-unlimited}
+	<!-- END price_range_min_unlimited_tpl -->
+	<!-- BEGIN price_range_min_limited_tpl -->
+	{intl-min}: {price_min}
+	<!-- END price_range_min_limited_tpl -->
+	<!-- BEGIN price_range_max_unlimited_tpl -->
+	{intl-max}: {intl-unlimited}
+	<!-- END price_range_max_unlimited_tpl -->
+	<!-- BEGIN price_range_max_limited_tpl -->
+	{intl-max}: {price_max}
+	<!-- END price_range_max_limited_tpl -->
+	</td>
+</tr>
+<tr>
+       <td>&nbsp;</td>
+</tr>
+<tr>
+	<td>
+	<input type="text" name="PriceRange" size="8" />
+	<!-- END price_range_tpl -->
 	</td>
 	<td align="right" valign="top">
 	<!-- BEGIN external_link_tpl -->

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.55 2001/09/04 15:18:14 ce Exp $
+// $Id: cart.php,v 1.56 2001/09/07 11:13:39 ce Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -244,6 +244,7 @@ if ( $Action == "AddToBasket" )
 
                 $cartItem->setProduct( $product );
                 $cartItem->setCart( $cart );
+                $cartItem->setPriceRange( $PriceRange );
 
                 $cartItem->store();
                 if ( count( $OptionValueArray ) > 0 )
@@ -441,6 +442,8 @@ foreach ( $items as $item )
             $totalVAT = $product->extractVAT( $item->price( true, true ) );
             $price = $item->price( true, true );
         }
+        $currency->setValue( $price );
+        $t->set_var( "product_price", $locale->format( $currency ) );
     }
 
     $currency->setValue( $price );

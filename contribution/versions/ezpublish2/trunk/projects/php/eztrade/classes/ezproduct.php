@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.85 2001/09/07 09:54:44 ce Exp $
+// $Id: ezproduct.php,v 1.86 2001/09/07 11:13:39 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -1710,7 +1710,7 @@ class eZProduct
        return $ret;
     }
 
-    function priceRange( $id=false )
+    function &priceRange( $id=false )
     {
         $db =& eZDB::globalDatabase();
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartitem.php,v 1.18 2001/09/03 11:13:38 ce Exp $
+// $Id: ezcartitem.php,v 1.19 2001/09/07 11:13:39 ce Exp $
 //
 // Definition of eZCartItem class
 //
@@ -85,13 +85,14 @@ class eZCartItem
             $nextID = $db->nextID( "eZTrade_CartItem", "ID" );            
             
             $res = $db->query( "INSERT INTO eZTrade_CartItem
-                      ( ID, ProductID, CartID, Count, WishListItemID )
+                      ( ID, ProductID, CartID, Count, WishListItemID, PriceRange )
                       VALUES
                       ( '$nextID',
                         '$this->ProductID',
                         '$this->CartID',
                         '$this->Count',
-                        '$this->WishListItemID' )
+                        '$this->WishListItemID',
+                        '$this->PriceRange' )
                       " );
 
             $db->unlock();
@@ -104,7 +105,8 @@ class eZCartItem
 		                         ProductID='$this->ProductID',
 		                         CartID='$this->CartID',
 		                         Count='$this->Count',
-		                         WishListItemID='$this->WishListItemID'
+		                         WishListItemID='$this->WishListItemID',
+                                 PriceRange='$this->PriceRange'
                                  WHERE ID='$this->ID'
                                  " );
         }
@@ -139,6 +141,7 @@ class eZCartItem
                 $this->CartID = $cart_array[0][$db->fieldName( "CartID" )];
                 $this->Count = $cart_array[0][$db->fieldName( "Count" )];
                 $this->WishListItemID = $cart_array[0][$db->fieldName( "WishListItemID" )];
+                $this->PriceRange = $cart_array[0][$db->fieldName( "PriceRange" )];
                 $ret = true;
             }
         }
@@ -222,54 +225,72 @@ class eZCartItem
     */
     function price( $calcCount=true, $withOptions=true )
     {
-        $optionValues =& $this->optionValues();
-        $product =& $this->product();
-
-        $optionPrice = 0.0;
-        if ( $withOptions )
+        if ( !$this->PriceRange )
         {
-            foreach ( $optionValues as $optionValue )
+            $optionValues =& $this->optionValues();
+            $product =& $this->product();
+            
+            $optionPrice = 0.0;
+            if ( $withOptions )
             {
-                $option =& $optionValue->option();
-                $value =& $optionValue->optionValue();            
-
-                // the pricegroup is set in the datasupplier
-            
-                $PriceGroup = $GLOBALS["PriceGroup"];
-
-                // get the value price if exists
-                $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup,
-                $option->id(), $value->id() );
-        
-                $found_price = false;
-
-                if ( $price )
+                foreach ( $optionValues as $optionValue )
                 {
-                    $found_price = true;
+                    $option =& $optionValue->option();
+                    $value =& $optionValue->optionValue();            
+                    
+                    // the pricegroup is set in the datasupplier
+                    
+                    $PriceGroup = $GLOBALS["PriceGroup"];
+                    
+                    // get the value price if exists
+                    $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup,
+                    $option->id(), $value->id() );
+                    
+                    $found_price = false;
+                    
+                    if ( $price )
+                    {
+                        $found_price = true;
+                    }
+                    
+                    // if not fetch the standard price
+                    if ( !$found_price )
+                    {
+                        if ( $calcCount == true )
+                            $price = $value->price() * $optionValue->count();
+                        else
+                            $price = $value->price();
+                    }
+                    
+                    $optionPrice += $price;
                 }
-            
-                // if not fetch the standard price
-                if ( !$found_price )
-                {
-                    if ( $calcCount == true )
-                        $price = $value->price() * $optionValue->count();
-                    else
-                        $price = $value->price();
-                }
-            
-                $optionPrice += $price;
             }
-        }
-
-        if ( $calcCount == true )
-        {
-            $price = ( $product->price() * $this->count() ) + $optionPrice;
+            
+            if ( $calcCount == true )
+            {
+                $price = ( $product->price() * $this->count() ) + $optionPrice;
+            }
+            else
+            {
+                $price = ( $product->price() + $optionPrice );
+            }
         }
         else
         {
-            $price = ( $product->price() + $optionPrice );
-        }            
-        
+            if ( $calcCount == true )
+            {
+                if ( $this->count() )
+                    $price = $this->PriceRange * $this->count();
+                else
+                    $price = $this->PriceRange;
+            }
+            else
+            {
+                $price = $this->PriceRange;
+            }
+        }
+
+
         return $price;        
     }
 
@@ -301,6 +322,14 @@ class eZCartItem
     function setCount( $count )
     {
        $this->Count = $count;
+    }
+
+    /*!
+      Sets the price range.
+    */
+    function setPriceRange( $value )
+    {
+       $this->PriceRange = $value;
     }
 
     /*!
@@ -356,7 +385,8 @@ class eZCartItem
     var $ProductID;
     var $CartID;
     var $Count;
-
+    var $PriceRange=false;
+    
     /// ID to a wishlist item. Indicates which wishlistitem the cart item comes from. 0 if added from product.
     var $WishListItemID;
 }
