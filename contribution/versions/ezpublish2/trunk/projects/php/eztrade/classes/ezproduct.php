@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.110 2001/10/04 14:04:14 ce Exp $
+// $Id: ezproduct.php,v 1.111 2001/10/04 14:14:12 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -1870,10 +1870,15 @@ class eZProduct
     */
     function vatType( )
     {
-       $user =& eZUser::currentUser();
-       $ret = new eZVATType();
-       $useVAT = true;
-       
+        $user =& eZUser::currentUser();
+        $ret = new eZVATType();
+        
+        $ini =& INIFile::globalINI();
+        if ( $ini->read_var( "eZTradeMain", "NoUserShowVAT" ) == "enabled" )
+            $useVAT = false;
+        else
+            $useVAT = true;
+
        if ( get_class ( $user ) == "ezuser" )
        {
            $mainAddress = $user->mainAddress();
@@ -1884,14 +1889,7 @@ class eZProduct
                    $useVAT = false;
            }
        }
-       else
-       {
-           $ini =& INIFile::globalINI();
-           $vat = $ini->read_var( "eZTradeMain", "NoUserShowVAT" ) == "enabled";
-           if ( !$vat )
-               $useVAT = false;
-       }
-              
+
        if ( ( $useVAT ) and ( is_numeric( $this->VATTypeID ) ) and ( $this->VATTypeID > 0 ) )
        {
            $ret = new eZVATType( $this->VATTypeID );

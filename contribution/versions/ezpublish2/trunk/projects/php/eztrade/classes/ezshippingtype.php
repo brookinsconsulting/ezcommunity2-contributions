@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezshippingtype.php,v 1.11 2001/10/04 14:04:14 ce Exp $
+// $Id: ezshippingtype.php,v 1.12 2001/10/04 14:14:12 ce Exp $
 //
 // Definition of eZShippingType class
 //
@@ -247,8 +247,13 @@ class eZShippingType
     {
         $user =& eZUser::currentUser();
         $ret = new eZVATType();
-        $useVAT = true;
-        
+
+        $ini =& INIFile::globalINI();
+        if ( $ini->read_var( "eZTradeMain", "NoUserShowVAT" ) == "enabled" )
+            $useVAT = false;
+        else
+            $useVAT = true;
+
         if ( get_class ( $user ) == "ezuser" )
         {
             $mainAddress = $user->mainAddress();
@@ -258,13 +263,6 @@ class eZShippingType
                 if ( ( get_class ( $country ) == "ezcountry" ) and ( !$country->hasVAT() ) )
                     $useVAT = false;
             }
-        }
-        else
-        {
-            $ini =& INIFile::globalINI();
-            $vat = $ini->read_var( "eZTradeMain", "NoUserShowVAT" ) == "enabled";
-            if ( !$vat )
-                $useVAT = false;
         }
         
         if ( ( $useVAT ) and ( is_numeric( $this->VATTypeID ) ) and ( $this->VATTypeID > 0 ) )
