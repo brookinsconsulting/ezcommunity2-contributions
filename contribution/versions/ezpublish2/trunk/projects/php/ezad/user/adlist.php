@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: adlist.php,v 1.2 2000/11/27 09:38:03 bf-cvs Exp $
+// $Id: adlist.php,v 1.3 2000/11/27 11:23:47 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <25-Nov-2000 15:44:37 bf>
@@ -86,10 +86,13 @@ foreach ( $adList as $ad )
     $image = $ad->image();
 
     // ad image
-    $t->set_var( "image_src",  $image->filePath() );
-    $t->set_var( "image_width", $image->width() );
-    $t->set_var( "image_height", $image->height() );
-    $t->set_var( "image_file_name", $image->originalFileName() );
+    if ( $image )
+    {
+        $t->set_var( "image_src",  $image->filePath() );
+        $t->set_var( "image_width", $image->width() );
+        $t->set_var( "image_height", $image->height() );
+        $t->set_var( "image_file_name", $image->originalFileName() );
+    }
 
     // store the view statistics
 
