@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezezgenerator.php,v 1.3 2000/10/30 11:33:07 bf-cvs Exp $
+// $Id: ezezgenerator.php,v 1.4 2000/10/30 12:06:50 bf-cvs Exp $
 //
 // Definition of eZEzGenerator class
 //
@@ -71,13 +71,18 @@ class eZEzGenerator
 
             // convert <ezanchor anchor> to <ezanchor href="anchor" />
             $tmpPage = preg_replace( "#<ezanchor\s+?(.*?)>#", "<ezanchor href=\"\\1\" />", $tmpPage );
+
+            // convert <mail adresse@domain.tld subject line, link text>
+            // to valid xml
+            $tmpPage = preg_replace( "#<mail\s+?([^ ]*?)\s+?(.*?),\s+?([^>]*?)>#", "<mail to=\"\\1\" subject=\"\\2\" text=\"\\3\" />", $tmpPage );
+
             
             // replace & with &amp; to prevent killing the xml parser..
             // is that a bug in the xmltree(); function ? answer to bf@ez.no
             $tmpPage = ereg_replace ( "&", "&amp;", $tmpPage );
             
             // make unknown tags readable.. look-ahead assertion is used ( ?! ) 
-            $tmpPage = preg_replace( "/<(?!(page|php|\/|image|hea|lin|bol|ita|und|str|pre|ver|lis|ezlink|ezanchor))/", "&lt;", $tmpPage );
+            $tmpPage = preg_replace( "/<(?!(page|php|\/|image|hea|lin|bol|ita|und|str|pre|ver|lis|ezlink|ezanchor|mail))/", "&lt;", $tmpPage );
 
             // look-behind assertion is used here (?<!) 
             // the expression must be fixed with eg just use the 3 last letters of the tag
@@ -220,9 +225,8 @@ class eZEzGenerator
                         $pageContent .= "<link $href $text>";
                     }
 
-
-                    // ezlink 
-                    if ( $paragraph->name == "ezlink" )
+                    // link 
+                    if ( $paragraph->name == "link" )
                     {
                         foreach ( $paragraph->attributes as $imageItem )
                         {
@@ -245,7 +249,38 @@ class eZEzGenerator
                             }
                         }
                         
-                        $pageContent .= "<ezlink $href $text>";
+                        $pageContent .= "<link $href $text>";
+                    }
+                    
+
+                    // mail
+                    if ( $paragraph->name == "mail" )
+                    {
+                        foreach ( $paragraph->attributes as $mailItem )
+                        {
+                            switch ( $mailItem->name )
+                            {
+                                case "to" :
+                                {
+                                    $to = $mailItem->children[0]->content;
+                                }
+                                break;
+
+                                case "subject" :
+                                {
+                                    $subject = $mailItem->children[0]->content;
+                                }
+                                break;
+
+                                case "text" :
+                                {
+                                    $text = $mailItem->children[0]->content;
+                                }
+                                break;
+                            }
+                        }
+                        
+                        $pageContent .= "<mail $to $subject, $text>";
                     }
 
                     // ez anchor

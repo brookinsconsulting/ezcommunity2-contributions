@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezezrenderer.php,v 1.9 2000/10/30 11:48:24 bf-cvs Exp $
+// $Id: ezezrenderer.php,v 1.10 2000/10/30 12:06:50 bf-cvs Exp $
 //
 // Definition of eZEzRenderer class
 //
@@ -25,6 +25,7 @@
   </header>
   <link ez.no text to the link> - anchor
   <image 42 align size> - image tag, 42 is the id, alignment (left|center|right), size (small|medium|large)
+  <mail bf@ez.no subject text here, link text here>
 
   <ezanchor anchorname>
 
@@ -62,9 +63,9 @@
 */
 
 
-//  $tmpPage = "<ezanchor anchor>";
+//  $tmpPage = "<mail adresse@domain.tld subject line, link text>";
 
-//  $tmpPage = preg_replace( "#<ezanchor\s+?(.*?)>#", "<a href=\"\\1\"></a>", $tmpPage );
+//  $tmpPage = preg_replace( "#<mail\s+?([^ ]*?)\s+?(.*?),\s+?([^>]*?)>#", "<mail to=\"\\1\" subject=\"\\2\" text=\"\\3\" />", $tmpPage );
 
 //  print( htmlspecialchars( $tmpPage ) );
 
@@ -244,6 +245,37 @@ class eZEzRenderer
                             $pageContent .= "<a href=\"http://$href\">" . $text . "</a>";
                         }
                     }
+
+                    // mail
+                    if ( $paragraph->name == "mail" )
+                    {
+                        foreach ( $paragraph->attributes as $mailItem )
+                        {
+                            switch ( $mailItem->name )
+                            {
+                                case "to" :
+                                {
+                                    $to = $mailItem->children[0]->content;
+                                }
+                                break;
+
+                                case "subject" :
+                                {
+                                    $subject = $mailItem->children[0]->content;
+                                }
+                                break;
+
+                                case "text" :
+                                {
+                                    $text = $mailItem->children[0]->content;
+                                }
+                                break;
+                            }
+                        }
+                        
+                        $pageContent .= "<a href=\"mailto:$to?subject=$subject\">$text</a>";
+                    }
+                    
 
                     // ezlink
                     if ( $paragraph->name == "ezlink" )
