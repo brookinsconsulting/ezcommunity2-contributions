@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileupload.php,v 1.27 2001/03/12 10:21:32 fh Exp $
+// $Id: fileupload.php,v 1.28 2001/04/20 15:17:45 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 15:49:57 bf>
@@ -47,6 +47,11 @@ if ( isSet ( $NewFolder ) )
 if ( isSet( $DeleteFiles ) )
 {
     $Action = "DeleteFiles";
+}
+
+if ( isSet( $Delete ) )
+{
+    $Action = "Delete";
 }
 
 if ( isSet( $DeleteFolders ) )
@@ -311,10 +316,27 @@ if ( $Action == "DeleteFiles" )
         {
             $file = new eZVirtualFile( $ID );
             $oldParent = $file->folder();
-            if( $oldParent ) $oldFolder = $oldParent->id();
+
+            if( $oldParent )
+                $oldFolder = $oldParent->id();
+
             $file->delete();
         }
     }
+
+    eZHTTPTool::header( "Location: /filemanager/list/$oldFolder/" );
+    exit();
+}
+
+if ( $Action == "Delete" )
+{
+    $file = new eZVirtualFile( $FileID );
+    $oldParent = $file->folder();
+    
+    if( $oldParent )
+        $oldFolder = $oldParent->id();
+
+    $file->delete();
 
     eZHTTPTool::header( "Location: /filemanager/list/$oldFolder/" );
     exit();
@@ -329,7 +351,10 @@ if ( $Action == "DeleteFolders" )
         {
             $folder = new eZVirtualFolder( $FolderID );
             $oldParent = $folder->parent();
-            if( $oldParent ) $oldFolder = $oldParent->id();
+
+            if( $oldParent )
+                $oldFolder = $oldParent->id();
+
             $folder->delete();
         }
     }
@@ -337,6 +362,7 @@ if ( $Action == "DeleteFolders" )
     eZHTTPTool::header( "Location: /filemanager/list/$oldFolder/" );
     exit();
 }
+
 
 $t->set_var( "write_everybody", "" );
 $t->set_var( "read_everybody", "" );
