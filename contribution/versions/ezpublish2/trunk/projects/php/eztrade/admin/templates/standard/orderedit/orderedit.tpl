@@ -1,11 +1,11 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.5 2000/10/25 19:49:33 bf-cvs Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.6 2000/11/01 09:11:12 ce-cvs Exp $ -->
 
 <h1>{intl-head_line}</h1>
 
 <hr noshade="noshade" size="4" />
 
-<h2>Kundeinformasjon</h2>
+<h2>{intl-customerinfo}</h2>
 
 {customer_first_name} {customer_last_name} 
 
@@ -19,16 +19,16 @@
 
 <br />
 
-<h2>Vareliste</h2>
+<h2>{intl-productlist}</h2>
 
 <!-- BEGIN order_item_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="3" border="0">
 <tr>
-	<th>Bilde:</th>
-	<th>Varenavn:</th>
-	<th>Opsjoner:</th>
-	<th>Antall:</th>
-	<td align="right"><b>Pris:</b></td>
+	<th>{intl-image}:</th>
+	<th>{intl-productname}:</th>
+	<th>{intl-option}:</th>
+	<th>{intl-count}:</th>
+	<td align="right"><b>{intl-price}:</b></td>
 </tr>
 <!-- BEGIN order_item_tpl -->
 
@@ -56,12 +56,12 @@
 <!-- END order_item_tpl -->
 <tr>
 	<td colspan="2">&nbsp;</td>
-	<td class="boxtext">Frakt:</td>
+	<td class="boxtext">{intl-shipping}</td>
 	<td align="right">{shipping_cost}</td>
 </tr>
 <tr>
 	<td colspan="2">&nbsp;</td>
-	<td class="boxtext">Totalt:</td>
+	<td class="boxtext">{intl-total}:</td>
 	<td align="right">{order_sum}</td>
 </tr>
 </table>

@@ -33,7 +33,7 @@
 <div onLoad="MM_preloadImages('../eztrade/images/redigerminimrk.gif','../eztrade/images/slettminimrk.gif')"></div>
 
 <!-- orderlist.tpl --> 
-<!-- $Id: orderlist.tpl,v 1.5 2000/11/01 07:56:05 ce-cvs Exp $ -->
+<!-- $Id: orderlist.tpl,v 1.6 2000/11/01 09:11:12 ce-cvs Exp $ -->
 
 <table width="100%" border="0">
 <tr>
@@ -54,11 +54,11 @@
 <!-- BEGIN order_item_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>Nr:</th>
-	<th>Opprettet:</th>
-	<th>Sist Endret Status:</th>
-	<th>Status:</th>
-	<td align="right"><b>Pris:</b></td>
+	<th>{intl-nr}:</th>
+	<th>{intl-created}:</th>
+	<th>{intl-modified}:</th>
+	<th>{intl-status}:</th>
+	<td align="right"><b>{intl-price}:</b></td>
 	<th>&nbsp;</th>
 	<th>&nbsp;</th>
 </tr>

@@ -32,7 +32,7 @@
 
 <div onLoad="MM_preloadImages('../eztrade/images/redigerminimrk.gif','../eztrade/images/slettminimrk.gif')"></div>
 
-<h1>Opsjonsoversikt: {product_name}</h1>
+<h1>{intl-optionlist}: {product_name}</h1>
 
 <hr noshade="noshade" size="4" />
 
@@ -69,7 +69,7 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezto{option_id}-slet
 <tr>
 	<td>
 <form action="/trade/productedit/optionedit/new/{product_id}/" method="post">
-<input class="stdbutton" type="submit" value="ny opsjon" />
+<input class="stdbutton" type="submit" value="{intl-newoption}" />
 	</td>
 </tr>
 </table>
@@ -81,7 +81,7 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezto{option_id}-slet
 	<td>
 </form>
 <form action="/trade/productedit/edit/{product_id}/" method="post">
-<input class="okbutton" type="submit" value="tilbake" />
+<input class="okbutton" type="submit" value="{intl-back}" />
 </form>
 	</td>
 </tr>

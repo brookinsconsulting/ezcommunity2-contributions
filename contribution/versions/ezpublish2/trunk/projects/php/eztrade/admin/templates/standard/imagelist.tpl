@@ -34,17 +34,17 @@
 
 <form action="/trade/productedit/imageedit/storedef/{product_id}/" method="post">
 
-<h1>Bilder: {product_name}</h1>
+<h1>{intl-image} {product_name}</h1>
 
 <hr noshade="noshade" size="4" />
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>Nr:</th>
-	<th>Bildetekst:</th>
-	<th>Forhåndsvisning:</th>
-	<th>Hovedbilde:</th>
-	<th>Minibilde:</th>
+	<th>{intl-nr}</th>
+	<th>{intl-imagetext}</th>
+	<th>{intl-preview}</th>
+	<th>{intl-mainimage}</th>
+	<th>{intl-miniimage}</th>
 	<th>&nbsp;</th>
 	<th>&nbsp;</th>
 </tr>
@@ -82,7 +82,7 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{image_id}-slett
 
 <hr noshade="noshade" size="4" />
 
-<input class="stdbutton" type="submit" name="NewImage"value="nytt bilde" />
+<input class="stdbutton" type="submit" name="NewImage"value="{intl-newimage}" />
 
 <hr noshade="noshade" size="4" />
 
@@ -95,7 +95,7 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztp{image_id}-slett
 	<td>&nbsp;</td>
 	<td>
 	<form action="/trade/productedit/edit/{product_id}/" method="post">
-	<input class="okbutton" type="submit" value="Avbryt" />
+	<input class="okbutton" type="submit" value="{intl-abort}" />
 	</form>
 	</td>
 	<td>&nbsp;</td>

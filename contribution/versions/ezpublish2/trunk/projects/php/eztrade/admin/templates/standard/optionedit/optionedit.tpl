@@ -29,7 +29,9 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	Avbrytknapp!
+	<form method="post" action="/trade/productedit/optionlist/{product_id}/">
+	<input class="okbutton" type="submit" value="{intl-abort}" />	
+	</form>		    
 	</td>
 </tr>
 </table>

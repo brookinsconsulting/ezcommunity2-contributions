@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: optionlist.php,v 1.6 2000/10/31 15:18:34 bf-cvs Exp $
+// $Id: optionlist.php,v 1.7 2000/11/01 09:11:11 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -42,6 +42,13 @@ $product = new eZProduct( $ProductID );
 $t->set_var( "product_name", $product->name() );
 
 $options = $product->options();
+
+if ( !$options )
+{
+    $noitem = new INIFIle( "eztrade/admin/intl/" . $Language . "/optionlist.php.ini", false );
+    $t->set_var( "option", $noitem->read_var( "strings", "no_option" ) );
+
+}
 
 $i=0;
 foreach ( $options as $option )
