@@ -1,10 +1,10 @@
-<?
+<?php
 // 
-// $Id: menubox.php,v 1.2 2001/06/22 19:49:22 br Exp $
+// $Id: page2.php,v 1.1 2001/06/22 19:49:22 br Exp $
 //
-// Bård Farstad <bf@ez.no>
-// Created on: <23-Oct-2000 17:53:46 bf>
-//
+// Bjørn Reiten <br@ez.no>
+// Created on: <22-Jun-2001 13:16:55 br>
+// 
 // This source file is part of eZ publish, publishing software.
 // Copyright (C) 1999-2001 eZ systems as
 //
@@ -23,12 +23,23 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-// Supply $menuItems to get a menubox
+// include the class file.
 
-$menuItems = array(
-    array( "/example/page/", "{intl-example_page}" ),
-    array( "/example/page2/", "{intl-example_page2}" ),
-    array( "/example/page3/", "{intl-example_page3}" ),
-    array( "/example/page4/", "{intl-example_page4}" )
-    );
+include_once( "classes/template.inc" );
+
+$tpl = new Template( "ezexample/admin/templates/standard" );
+
+// parse the template.
+
+$tpl->set_file( "page_tpl", "page.tpl" );
+$tpl->set_block( "page_tpl", "table_tpl", "table" );
+$tpl->set_block( "table_tpl", "row_tpl", "row" );
+
+for ( $i=0; $i<10; $i++ )
+{
+    $tpl->set_var( "row_number", "$i." );
+    $tpl->parse( "row", "row_tpl", true );
+}
+$tpl->parse( "table", "table_tpl" );
+$tpl->pparse( "output", "page_tpl" );
 ?>
