@@ -113,7 +113,7 @@
 <tr>
     <td width="50%">
         <p class="boxtext">{intl-user_name}:</p>
-        <input type="password" size="20" name="LoginName" value="{user_name}"/>
+        <input type="text" size="20" name="LoginName" value="{user_name}"/>
     </td>
     <td width="50%">
         &nbsp;
