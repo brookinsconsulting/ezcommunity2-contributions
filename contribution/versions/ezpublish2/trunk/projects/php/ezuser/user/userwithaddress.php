@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.2 2000/10/31 12:16:42 bf-cvs Exp $
+// $Id: userwithaddress.php,v 1.3 2000/10/31 21:20:51 ce-cvs Exp $
 //
 // 
 //
@@ -78,8 +78,11 @@ if ( $Action == "Insert" )
                 $user->addAddress( $address );
 
                 $user->loginUser( $user );
-                
-                Header( "Location: $RedirectURL" );
+
+                if ( isSet( $RedirectURL ) )
+                    Header( "Location: $RedirectURL" );
+                else
+                    Header( "Location: /" );
             }
             else
             {
@@ -97,6 +100,52 @@ if ( $Action == "Insert" )
     }
 }
 
+
+if ( $Action == "Update" )
+{
+    // check for valid data
+    if ( $Login != "" &&
+    $Email != "" &&
+    $FirstName != "" &&
+    $LastName != "" )
+        {
+            $user = new eZUser();
+            $user->get( $UserID );
+
+            if ( $Password )
+            {
+                if ( ( $Password == $VerifyPassword ) && ( strlen( $VerifyPassword ) > 2 ) )
+                {
+                    $user->setPassword( $Password );
+                }
+                else
+                {
+                    $PasswordError = true;
+                }
+            }
+    
+            $user->setEmail( $Email );
+            $user->setFirstName( $FirstName );
+            $user->setLastName( $LastName );
+            
+            if ( !$PasswordError )
+                $user->store();
+
+            if ( isSet( $RedirectURL ) )
+            {
+                Header( "Location: $RedirectURL" );
+            }
+            Header( "Location: /" );
+
+        }
+    else
+    {
+        $Error = true;
+    }
+}
+
+
+
 $t = new eZTemplate( "ezuser/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                      "ezuser/user/intl/", $Language, "userwithaddress.php" );
 
@@ -105,6 +154,45 @@ $t->setAllStrings();
 $t->set_file( array(        
     "user_edit_tpl" => "userwithaddress.tpl"
     ) );
+
+$t->set_var( "readonly", "" );
+$action_value = "insert";
+
+if ( $Action == "Update" )
+    $action_value = "update";
+
+if ( $Action == "Edit" )
+{
+    $user = eZUser::currentUser();
+    if ( !$user )
+        Header( "Location: /" );
+    $UserID = $user->id();
+    $user->get( $user->id() );
+    $Login = $user->Login( );
+    $Email = $user->Email(  );
+    $FirstName = $user->FirstName(  );
+    $LastName = $user->LastName(  );
+
+    $t->set_var( "readonly", "readonly" );
+    
+// print out the addresses
+
+    $addressArray = $user->addresses();
+
+    foreach ( $addressArray as $address )
+    {
+        $Street1 =  $address->street1();
+        $Street2 = $address->street2();
+        $Zip = $address->zip();
+        $Place = $address->place();
+
+//        $country = $address->country();
+//        $t->set_var( "country", $country->name() );
+    }
+
+    $action_value = "update";
+
+}
 
 
 $t->set_block( "user_edit_tpl", "required_fields_error_tpl", "required_fields_error" );
@@ -176,11 +264,15 @@ else
     
 
 
-$t->set_var( "action_value", "insert" );
-$t->set_var( "user_id", "" );
+$t->set_var( "action_value", $action_value );
+$t->set_var( "user_id", $UserID );
 
 $t->set_var( "redirect_url", $RedirectURL );
 
 $t->pparse( "output", "user_edit_tpl" );
 
 ?>
+
+
+
+

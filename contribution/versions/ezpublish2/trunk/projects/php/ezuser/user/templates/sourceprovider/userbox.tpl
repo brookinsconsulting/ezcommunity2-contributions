@@ -4,5 +4,5 @@
 	<p class="menuspacer">&nbsp;</p>
 	<input type="submit" value="Logg ut" />
 	<p class="menuspacer"><br /><br /><br /></p>
-        <a class="menutext" href="/user/passwordchange/">Change password</a>
+        <a class="menutext" href="/user/userwithaddress/edit/">Change password</a>
         </form>

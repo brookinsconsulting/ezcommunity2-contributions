@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.15 2000/10/31 07:35:57 ce-cvs Exp $
+// $Id: ezuser.php,v 1.16 2000/10/31 21:20:51 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -541,7 +541,7 @@ class eZUser
        $ret = array();
        
        $this->dbInit();
-       
+
        $this->Database->array_query( $address_array, "SELECT AddressID FROM eZUser_UserAddressLink
                                 WHERE UserID='$this->ID'" );
 

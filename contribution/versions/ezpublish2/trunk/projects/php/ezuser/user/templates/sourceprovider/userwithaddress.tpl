@@ -32,22 +32,22 @@
 </table>
 
 <p class="boxtext">{intl-login}:</p>
-<input type="text" size="20" name="Login" value="{login_value}"/>
+<input {readonly} type="text" size="20" name="Login" value="{login_value}"/>
 
 <p class="boxtext">{intl-email}:</p>
 <input type="text" size="20" name="Email" value="{email_value}"/>
 
 <p class="boxtext">{intl-street1}:</p>
-<input type="text" size="20" name="Street1" value="{street1_value}"/>
+<input {readonly} type="text" size="20" name="Street1" value="{street1_value}"/>
 
 <p class="boxtext">{intl-street2}:</p>
-<input type="text" size="20" name="Street2" value="{street2_value}"/>
+<input {readonly} type="text" size="20" name="Street2" value="{street2_value}"/>
 
 <p class="boxtext">{intl-zip}.</p>
-<input type="text" size="20" name="Zip" value="{zip_value}"/>
+<input {readonly} type="text" size="20" name="Zip" value="{zip_value}"/>
 
 <p class="boxtext">{intl-place}:</p>
-<input type="text" size="20" name="Place" value="{place_value}"/>
+<input {readonly} type="text" size="20" name="Place" value="{place_value}"/>
 
 <!-- BEGIN country_tpl -->
 <p class="boxtext">{intl-country}</p>
