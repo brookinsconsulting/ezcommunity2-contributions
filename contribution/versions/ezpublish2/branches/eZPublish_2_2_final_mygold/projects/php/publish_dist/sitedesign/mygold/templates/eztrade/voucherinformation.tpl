@@ -61,35 +61,64 @@
 
 
 <!-- BEGIN smail_tpl -->
-<b>{intl-name}:</b><br />
-<input type="text" name="Name" value="{name_value}" />
-<br /><br />
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
+<tr>
+     <td width="50%">
+     <b>{intl-name}:</b><br />
+     <input type="text" name="ToName" value="{to_name_value}" />
+     <br /><br />
 
-<b>{intl-street}:</b><br />
-<input type="text" size="20" name="Street1" value="{street1_value}"/>
-<br /><br />
+     <b>{intl-to_street}:</b><br />
+     <input type="text" size="20" name="ToStreet1" value="{to_street1_value}"/>
+     <br /><br />
+     <b>{intl-to_street}:</b><br />
+     <input type="text" size="20" name="ToStreet2" value="{to_street2_value}"/>
+     <br /><br />
+     <b>{intl-to_zip}:</b><br />
+     <input type="text" size="20" name="ToZip" value="{to_zip_value}"/>
+     <br /><br />
+     <b>{intl-to_place}:</b><br />
+     <input type="text" size="20" name="ToPlace" value="{to_place_value}"/>
+     <br /><br />
+     <!-- BEGIN to_country_tpl -->
+     <b>{intl-to_country}:</b><br />
+     <select name="ToCountryID[]" size="5">
+     <!-- BEGIN to_country_option_tpl -->
+     <option {is_selected} value="{country_id}">{country_name}</option>
+     <!-- END to_country_option_tpl -->
+     </select>
+     <br /><br />
+     <!-- END to_country_tpl -->
+     </td>
+     <td width="50%">
+     <b>{intl-from_name}:</b><br />
+     <input type="text" name="FromName" value="{from_name_value}" />
+     <br /><br />
 
-<b>{intl-street}:</b><br />
-<input type="text" size="20" name="Street2" value="{street2_value}"/>
-<br /><br />
-
-<b>{intl-zip}:</b><br />
-<input type="text" size="20" name="Zip" value="{zip_value}"/>
-<br /><br />
-
-<b>{intl-place}:</b><br />
-<input type="text" size="20" name="Place" value="{place_value}"/>
-<br /><br />
-
-<!-- BEGIN country_tpl -->
-<b>{intl-country}:</b><br />
-<select name="CountryID[]" size="5">
-  <!-- BEGIN country_option_tpl -->
-  <option {is_selected} value="{country_id}">{country_name}</option>
-  <!-- END country_option_tpl -->
-</select>
-<br /><br />
-<!-- END country_tpl -->
+     <b>{intl-from_street}:</b><br />
+     <input type="text" size="20" name="FromStreet1" value="{from_street1_value}"/>
+     <br /><br />
+     <b>{intl-from_street}:</b><br />
+     <input type="text" size="20" name="FromStreet2" value="{from_street2_value}"/>
+     <br /><br />
+     <b>{intl-from_zip}:</b><br />
+     <input type="text" size="20" name="FromZip" value="{from_zip_value}"/>
+     <br /><br />
+     <b>{intl-from_place}:</b><br />
+     <input type="text" size="20" name="FromPlace" value="{from_place_value}"/>
+     <br /><br />
+     <!-- BEGIN from_country_tpl -->
+     <b>{intl-from_country}:</b><br />
+     <select name="FromCountryID[]" size="5">
+     <!-- BEGIN from_country_option_tpl -->
+     <option {is_selected} value="{country_id}">{country_name}</option>
+     <!-- END from_country_option_tpl -->
+     </select>
+     <br /><br />
+     <!-- END from_country_tpl -->
+     </td>
+</tr>
+</table>
 
 <b>{intl-text}:</b><br />
 <textarea name="Description" cols="40" rows="8">{description}</textarea>

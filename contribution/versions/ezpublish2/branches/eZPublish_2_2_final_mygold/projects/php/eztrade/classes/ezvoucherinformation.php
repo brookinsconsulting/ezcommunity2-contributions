@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucherinformation.php,v 1.8.4.8 2001/10/29 08:28:01 ce Exp $
+// $Id: ezvoucherinformation.php,v 1.8.4.9 2001/11/05 08:31:09 ce Exp $
 //
 // eZVoucherInformation class
 //
@@ -194,7 +194,8 @@ class eZVoucherInformation
         $this->ID =& $value[$db->fieldName( "ID" )];
         $this->Description =& $value[$db->fieldName( "Description" )];
         $this->ToOnlineID =& $value[$db->fieldName( "ToOnlineID" )];
-        $this->AddressID =& $value[$db->fieldName( "AddressID" )];
+        $this->ToAddressID =& $value[$db->fieldName( "ToAddressID" )];
+        $this->FromAddressID =& $value[$db->fieldName( "FromAddressID" )];
         $this->VoucherID =& $value[$db->fieldName( "VoucherID" )];
         $this->PreOrderID =& $value[$db->fieldName( "PreOrderID" )];
         $this->MailMethod =& $value[$db->fieldName( "MailMethod" )];
@@ -635,8 +636,6 @@ class eZVoucherInformation
 
         $voucher =& $this->voucher();
 
-        $fromUser =& $this->fromEmail();
-        
         $Language = $ini->read_var( "eZTradeMain", "Language" );
         
         $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
@@ -644,7 +643,7 @@ class eZVoucherInformation
 
         $t->setAllStrings();
         
-        $t->set_file( "vouchersmail", "vouchersmail.tex" );
+        $t->set_file( "vouchersmail", "smail.tpl" );
         
         $t->set_var( "description", $this->description() );
         $t->set_var( "from_name", $this->fromName() );
@@ -657,6 +656,9 @@ class eZVoucherInformation
         $t->set_var( "to_address_street1", $toAddress->street1() );
         $t->set_var( "to_address_street2", $toAddress->street1() );
         $t->set_var( "to_address_street1", $toAddress->street1() );
+
+        $cmd = "latex < " . $t->parse( "dummy", "vouchersmail" ) ;
+
     }
 
     var $ID;

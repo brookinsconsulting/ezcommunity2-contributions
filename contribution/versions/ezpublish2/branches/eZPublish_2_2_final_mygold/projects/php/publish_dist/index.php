@@ -142,7 +142,7 @@ if ( ( $requireUserLogin == "disabled" ) ||
     $URLTranslationKeyword = $ini->read_var( "site", "URLTranslationKeyword" );
 
     $urlTranslatorArray = explode( ";", $URLTranslationKeyword );
-    
+
     if ( in_array(  $url_array[1], $urlTranslatorArray ) )
     {
         include_once( "ezurltranslator/classes/ezurltranslator.php" );
