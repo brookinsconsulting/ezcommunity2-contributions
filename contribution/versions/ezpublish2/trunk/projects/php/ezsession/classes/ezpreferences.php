@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpreferences.php,v 1.10 2001/05/04 15:34:19 jb Exp $
+// $Id: ezpreferences.php,v 1.11 2001/06/23 10:16:48 bf Exp $
 //
 // Definition of eZPreferences class
 //
@@ -103,14 +103,14 @@ class eZPreferences
             if ( !is_bool( $group ) )
                 $group_sql = "GroupName='$group'";
             else
-                $group_sql = "GroupName IS NULL";
+                $group_sql = "GroupName=''";
             $db->array_query( $value_array, "SELECT Value FROM eZSession_Preferences
                                                     WHERE UserID='$userID' AND Name='$name'
                                                     AND $group_sql" );
 
             if ( count( $value_array ) == 1 )
             {
-                $ret = $value_array[0]["Value"];
+                $ret = $value_array[0][$db->fieldName("Value")];
             }
         }
         return $ret;
@@ -132,19 +132,23 @@ class eZPreferences
             }
             $db =& eZDB::globalDatabase();
 
+            $dbError = false;
+            $db->begin( );    
+            
             $userID = $this->UserObject->id();
+            
             $name = addslashes( $name );
             $value = addslashes( $value );
             if ( !is_bool( $group ) )
                 $group_sql = "GroupName='$group'";
             else
-                $group_sql = "GroupName IS NULL";
+                $group_sql = "GroupName=''";
             $db->array_query( $value_array, "SELECT ID FROM eZSession_Preferences
                                                     WHERE UserID='$userID' AND Name='$name'
                                                     AND $group_sql" );
             if ( count( $value_array ) == 1 )
             {
-                $valueID = $value_array[0]["ID"];
+                $valueID = $value_array[0][$db->fieldName("ID")];
                 $db->query( "UPDATE eZSession_Preferences SET
 		                         Value='$value' WHERE ID='$valueID'
                                  " );
@@ -153,17 +157,32 @@ class eZPreferences
             else
             {
                 if ( is_bool( $group ) )
-                    $group = "NULL";
+                    $group = "";
                 else
                     $group = "'$group'";
-                $db->query( "INSERT INTO eZSession_Preferences SET
-		                         UserID='$userID',
-		                         Name='$name',
-		                         Value='$value',
-                                 GroupName=$group
-                                 " );
-                $ret = true;                
+                
+                $db->lock( "eZSession_Preferences" );
+
+                $nextID = $db->nextID( "eZSession_Preferences", "ID" );
+
+                
+                $res = $db->query( "INSERT INTO eZSession_Preferences
+                             ( ID, UserID, Name, Value, GroupName )
+                             VALUES
+                             ( '$nextID', '$userID', '$name', '$value', '$group' )" );
+
+                if ( $res != false )                
+                    $ret = true;
+                else
+                    $dbError = true;
             }
+            
+            $db->unlock();
+            
+            if ( $dbError == true )
+                $db->rollback( );
+            else
+                $db->commit();            
         }
 
         return $ret;

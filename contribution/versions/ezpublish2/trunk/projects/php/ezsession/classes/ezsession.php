@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.44 2001/06/20 17:50:12 bf Exp $
+// $Id: ezsession.php,v 1.45 2001/06/23 10:16:48 bf Exp $
 //
 // Definition of eZSession class
 //
@@ -374,10 +374,9 @@ class eZSession
 
         if ( count( $value_array ) == 1 )
         {
-            $ret = $value_array[0][$db->fieldName("Value")];
+            $ret = trim( $value_array[0][$db->fieldName("Value")] );
             $this->StoredVariables[$group][$name] = $ret;
         }
-
         return $ret;
     }
 
@@ -488,7 +487,7 @@ class eZSession
         
         if ( count( $value_array ) == 1 )
         {
-            $valueID = $value_array[0]["ID"];
+            $valueID = $value_array[0][$db->fieldName("ID")];
             $db->query( "UPDATE eZSession_SessionVariable SET
 		                         Value='$value' WHERE ID='$valueID'
                                  " );
