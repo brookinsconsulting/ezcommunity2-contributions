@@ -32,7 +32,7 @@ else
 
 for ( $i=0; $i<count( $person_array ); $i++ )
 {
-  if ( ( $i % 2 ) == 0 )
+  if ( ( $i % 2 ) == 0 )      
   {
     $t->set_var( "bg_color", "#eeeeee" );
   }
