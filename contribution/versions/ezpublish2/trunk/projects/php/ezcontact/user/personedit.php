@@ -133,6 +133,19 @@ $t->set_var( "cv_email_online_id", "" );
 
 if( $Action == "insert" || $Action == "update" )
 {
+    $t->set_var( "error_email_item", "" );
+    $t->set_var( "error_email_not_valid_item", "" );
+    $t->set_var( "error_firstname_item", "" );
+    $t->set_var( "error_lastname_item", "" );
+    $t->set_var( "error_birthdate_item", "" );
+    $t->set_var( "error_personno_item", "" );
+    $t->set_var( "error_loginname_item", "" );
+    $t->set_var( "error_password_item", "" );
+    $t->set_var( "error_password_too_short_item", "" );
+    $t->set_var( "error_passwordrepeat_item", "" );
+    $t->set_var( "error_passwordmatch_item", "" );
+    $t->set_var( "error_address_item", "" );
+    
     if( empty( $Online[0] ) )
     {
         $t->parse( "error_email_item", "error_email_item_tpl" );
@@ -140,15 +153,10 @@ if( $Action == "insert" || $Action == "update" )
     }
     else
     {
-        $t->set_var( "error_email_item", "" );
-        if( eZMail::validate( $Online[0] ) )
+        if( !eZMail::validate( $Online[0] ) )
         {
             $t->parse( "error_email_not_valid_item", "error_email_not_valid_item_tpl" );
             $error = true;
-        }
-        else
-        {
-            $t->set_var( "error_email_not_valid_item", "" );
         }
     }
         
@@ -157,66 +165,42 @@ if( $Action == "insert" || $Action == "update" )
         $t->parse( "error_firstname_item", "error_firstname_item_tpl" );
         $error = true;
     }
-    else
-        $t->set_var( "error_firstname_item", "" );
     
     if( empty( $LastName ) )
     {
         $t->parse( "error_lastname_item", "error_lastname_item_tpl" );
         $error = true;
     }
-    else
-        $t->set_var( "error_lastname_item", "" );
     
     if( empty( $BirthDay ) || empty( $BirthMonth ) || empty( $BirthYear ) )
     {
         $t->parse( "error_birthdate_item", "error_birthdate_item_tpl" );
         $error = true;
     }
-    else
-        $t->set_var( "error_birthdate_item", "" );
     
     if( empty( $PersonNo ) )
     {
         $t->parse( "error_personno_item", "error_personno_item_tpl" );
         $error = true;
     }
-    else
-        $t->set_var( "error_personno_item", "" );
     
     if( empty( $LoginName ) && empty( $UserID ) )
     {
         $t->parse( "error_loginname_item", "error_loginname_item_tpl" );
         $error = true;
     }
-    else
-        $t->set_var( "error_loginname_item", "" );
         
     if( empty( $Password ) && empty( $UserID ) )
     {
         $t->parse( "error_password_item", "error_password_item_tpl" );
         $error = true;
     }
-    else
-    {
-        $t->set_var( "error_password_item", "" );
-        if( strlen( $VerifyPassword ) > 3 )
-        {
-            $t->parse( "error_password_too_short_item", "error_password_too_short_item_tpl" );
-            $error = true;
-        }
-        else
-        {
-            $t->set_var( "error_password_too_short_item", "" );
-        }
-    }
+    
     if( empty( $PasswordRepeat ) && !empty( $Password ) && empty( $UserID ) )
     {
         $t->parse( "error_passwordrepeat_item", "error_passwordrepeat_item_tpl" );
         $error = true;
     }
-    else
-        $t->set_var( "error_passwordrepeat_item", "" );
 
     if( $PasswordRepeat != $Password &&  !empty( $Password ) && !empty( $PasswordRepeat ) && empty( $UserID ) )
     {
@@ -224,15 +208,19 @@ if( $Action == "insert" || $Action == "update" )
         $error = true;
     }
     else
-        $t->set_var( "error_passwordmatch_item", "" );
+    {
+        if( strlen( $Password ) < 4 )
+        {
+            $t->parse( "error_password_too_short_item", "error_password_too_short_item_tpl" );
+            $error = true;
+        }
+    }
     
     if( empty( $Street1 ) || empty( $Place ) || empty( $Zip ) )
     {
         $t->parse( "error_address_item", "error_address_item_tpl" );
         $error = true;
     }
-    else
-        $t->set_var( "error_address_item", "" );
         
     if( $error == true )
     {
