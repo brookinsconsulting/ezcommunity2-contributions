@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsession.php,v 1.59 2001/08/01 16:12:42 kaid Exp $
+// $Id: ezsession.php,v 1.60 2001/08/02 08:32:20 kaid Exp $
 //
 // Definition of eZSession class
 //
@@ -208,7 +208,7 @@ class eZSession
             $ret = false;
 
             // prefer cookie
-            if ( isSet( $GLOBALS["eZSessionCookie"] ) )
+            if ( isset( $GLOBALS["eZSessionCookie"] ) )
             {
                 $hash = $GLOBALS["eZSessionCookie"];
             }
@@ -220,24 +220,27 @@ class eZSession
                 }
             }
 
-            $db->array_query( $session_array, "SELECT *
-                                      FROM eZSession_Session
-                                      WHERE Hash='$hash'" );
+			if ( isset( $hash ) )
+			{
+				$db->array_query( $session_array, "SELECT *
+										  FROM eZSession_Session
+										  WHERE Hash='$hash'" );
 
-            if ( count( $session_array ) == 1 )
-            {
-                $ret = $this->get( $session_array[0] );
+				if ( count( $session_array ) == 1 )
+				{
+					$ret = $this->get( $session_array[0] );
 
-                if ( $ret == true )
-                {
-                    $this->IsFetched = true;
-                }
+					if ( $ret == true )
+					{
+						$this->IsFetched = true;
+					}
 
-                if ( $refresh == true )
-                {
-                    $this->refresh();
-                }
-            }
+					if ( $refresh == true )
+					{
+						$this->refresh();
+					}
+				}
+			}
         }
         else
         {
