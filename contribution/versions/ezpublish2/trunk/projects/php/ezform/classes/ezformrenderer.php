@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.14 2001/10/09 12:17:17 bf Exp $
+// $Id: ezformrenderer.php,v 1.15 2001/10/10 11:05:20 bf Exp $
 //
 // eZFormRenderer class
 //
@@ -143,7 +143,8 @@ class eZFormRenderer
 
             $elementValue = str_replace( "eZFormElement_", "", $$elementName );
 
-            $output =& $this->Template->parse( $target, $type . "_tpl" );
+            if ( trim( $type ) != "" )
+                $output =& $this->Template->parse( $target, $type . "_tpl" );
         }
 
         return $output;
