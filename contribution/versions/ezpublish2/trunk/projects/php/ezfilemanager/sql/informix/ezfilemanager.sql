@@ -67,12 +67,6 @@ CREATE TABLE eZFileManager_FolderReadGroupLink (
   PRIMARY KEY (ID)
 );
 
-CREATE TABLE eZFileManager_FileReadGroupLink (
-  ID int NOT NULL,
-  GroupID int default NULL,
-  FileID int default NULL,
-  PRIMARY KEY (ID)
-);
 
 CREATE TABLE eZFileManager_FileWriteGroupLink (
   ID int NOT NULL,

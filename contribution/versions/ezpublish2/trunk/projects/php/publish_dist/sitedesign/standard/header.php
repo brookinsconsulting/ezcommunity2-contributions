@@ -32,12 +32,12 @@ if ( $StoreStats == "enabled" )
 	?>
    
 	<?
-	include( "eznewsfeed/user/menubox.php" );
+//	include( "eznewsfeed/user/menubox.php" );
 	?>      
 
 	<?
     $CategoryID = 1;
-	include( "eznewsfeed/user/headlines.php" );
+//	include( "eznewsfeed/user/headlines.php" );
 	?>      
 
 	<?
