@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.44 2001/03/12 10:44:10 bf Exp $
+// $Id: productedit.php,v 1.45 2001/03/14 09:35:29 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -652,10 +652,12 @@ if ( $ShowPriceGroups )
         $t->parse( "price_group_item", "price_group_item_tpl", true );
     }
     if ( count( $price_groups ) > 0 )
+    {
         $t->parse( "price_groups_item", "price_groups_item_tpl" );
-    else
-        $t->parse( "price_groups_no_item", "price_groups_no_item_tpl" );
-    $t->parse( "price_group_list", "price_group_list_tpl" );
+        $t->parse( "price_group_list", "price_group_list_tpl" );
+    }
+//    else
+//        $t->parse( "price_groups_no_item", "price_groups_no_item_tpl" );
 }
 
     if ( $ShippingGroup  and  ( $ShippingGroup->id() == $group->id() ) )
