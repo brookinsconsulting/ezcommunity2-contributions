@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpccall.php,v 1.8.2.4 2001/11/16 17:19:33 bf Exp $
+// $Id: ezxmlrpccall.php,v 1.8.2.5 2001/11/19 11:28:51 bf Exp $
 //
 // Definition of eZXMLRPCCall class
 //
@@ -220,7 +220,6 @@ class eZXMLRPCCall
                             if ( $value->name == "#text" || $value->name == "text" )
                             {
                                 $this->MethodName = $value->content;
-                                print( "name: >$value->content< \n" );
                             }
                         }
                     }
