@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugmodule.php,v 1.12 2001/02/15 10:57:46 fh Exp $
+// $Id: ezbugmodule.php,v 1.13 2001/02/20 20:04:43 fh Exp $
 //
 // Definition of eZBugModule class
 //
@@ -423,8 +423,9 @@ class eZBugModule
     */
     function &bugs( $sortMode="time",
                        $fetchUnhandled=true,
+                       $withPrivate=false,
                        $offset=0,
-                       $limit=50 )
+                       $limit=50)
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -449,7 +450,11 @@ class eZBugModule
        {
            $unhandledSQL = "AND IsHandled='true'";
        }
-
+       $privateSQL = "";
+       if( $withPrivate == false )
+       {
+           $privateSQL="AND IsPrivate='false'";
+       }
 
        $this->Database->array_query( $bug_array, "
                 SELECT eZBug_Bug.ID AS BugID, eZBug_Bug.Name, eZBug_Module.ID, eZBug_Module.Name
@@ -459,6 +464,7 @@ class eZBugModule
                 AND
                 eZBug_Module.ID = eZBug_BugModuleLink.ModuleID
                 $unhandledSQL
+                $privateSQL
                 AND
                 eZBug_Module.ID='$this->ID'
                 GROUP BY eZBug_Bug.ID ORDER BY $OrderBy LIMIT $offset,$limit" );

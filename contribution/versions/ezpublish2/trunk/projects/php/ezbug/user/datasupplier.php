@@ -140,9 +140,16 @@ switch ( $url_array[2] )
     {
         switch( $url_array[3] )
         {
+            case "create" :
+            {
+                $Action = "";
+                include( "ezbug/user/bugreport.php" );
+            }
+            break;
             case "new" :
             {
                 $Action = "New";
+                $BugID = "";
                 include( "ezbug/user/bugreport.php" );
             }
             break;
@@ -158,8 +165,6 @@ switch ( $url_array[2] )
             case "update" :
             {
                 $BugID = $url_array[4];
-                if( $BugID == "" )
-                    $BugID = -1;
                 $Action = "Update";
                 include( "ezbug/user/bugreport.php" );
             }

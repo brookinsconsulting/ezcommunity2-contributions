@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugreport.php,v 1.12 2001/02/20 12:20:08 fh Exp $
+// $Id: bugreport.php,v 1.13 2001/02/20 20:04:43 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 20:31:00 bf>
@@ -61,7 +61,7 @@ $t->set_block( "bug_report_tpl", "image_tpl", "image" );
 // when updating and inserting values must be checked.
 // you must save the bug before you can add images/files.
 $successfull = 0;
-$actionValue == "New";
+$actionValue = "new";
 if( $Action == "New" )
 {
     /*   $user = eZUser::currentUser();
@@ -115,27 +115,19 @@ if( $Action == "New" )
 //    $bug = new eZBug();
 //    $bug->store();
 //    $BugID = $bug->id();
-}
-
-if( $Action == "Update" )
-{
-    if( $BugID == -1 )
-        $bug = new eZBug();
-    else
-        $bug = new eZBug( $BugID );
+    $bug = new eZBug();
     $bug->setName( $Name );
     $bug->setDescription( $Description );
-
+    $bug->store();
+    
     $category = new eZBugCategory( $CategoryID );
     $module = new eZBugModule( $ModuleID );
     $bug->removeFromCategories();
     $bug->removeFromModules();
 
-    if( $category )
-        $category->addBug( $bug );
-    if( $module )
-        $module->addBug( $bug );
-    
+    $category->addBug( $bug );
+    $module->addBug( $bug );
+
     $user = eZUser::currentUser();
     if( $user )
         $bug->setUser( $user );
@@ -148,7 +140,37 @@ if( $Action == "Update" )
     $bug->setIsHandled( false );
     $bug->store();
     
-    $actionValue = "Update";
+    $actionValue = "update";
+    $BugID = $bug->id();
+}
+
+if( $Action == "Update" )
+{
+    $bug = new eZBug( $BugID );
+    $bug->setName( $Name );
+    $bug->setDescription( $Description );
+
+    $category = new eZBugCategory( $CategoryID );
+    $module = new eZBugModule( $ModuleID );
+    $bug->removeFromCategories();
+    $bug->removeFromModules();
+
+    $category->addBug( $bug );
+    $module->addBug( $bug );
+
+    $user = eZUser::currentUser();
+    if( $user )
+        $bug->setUser( $user );
+    else
+        $bug->setUserEmail( $Email );
+
+    if( $IsPrivate == "true" )
+        $bug->setIsPrivate( true );
+    
+    $bug->setIsHandled( false );
+    $bug->store();
+    
+    $actionValue = "update";
     $BugID = $bug->id();
 }
 
@@ -293,8 +315,8 @@ if( $Action == "Edit" ) // load values from database
         $t->parse( "image", "image_tpl", true );
     
         $i++;
-
     }
+    $actionValue = "update";
 }
 
 // if any errors are set, lets display them to the user.
@@ -364,7 +386,8 @@ foreach ( $modules as $module )
     $t->parse( "module_item", "module_item_tpl", true );
 }
 
-//$t->set_var( "action_value", $actionValue );
+$t->set_var( "action_value", $actionValue );
+
 $t->set_var( "bug_id", $BugID );
 
 $t->pparse( "output", "bug_report_tpl" );
@@ -374,7 +397,6 @@ function send_email( $bug, $ini, $Language )
 {
     // set up some values that we need
     $module = $bug->module();
-    
     // find the owners of the group, if their is now owner group, no need to send mail.
     $ownerGroup = $module->ownerGroup();
     if( get_class( $ownerGroup ) != "ezusergroup" )

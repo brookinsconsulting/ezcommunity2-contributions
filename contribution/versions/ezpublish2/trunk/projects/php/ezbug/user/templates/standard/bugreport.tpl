@@ -1,4 +1,4 @@
-<form method="post" action="/bug/report/update/{bug_id}">
+<form method="post" action="/bug/report/{action_value}/{bug_id}">
 
 <h1>{intl-report_a_bug}</h1>
 

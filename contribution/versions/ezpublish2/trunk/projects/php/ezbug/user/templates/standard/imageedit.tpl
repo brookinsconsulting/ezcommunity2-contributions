@@ -43,7 +43,7 @@
 	<td>&nbsp;</td>
 	<td>
 
-	<form method="post" action="/bug/bugedit/imagelist/{bug_id}/">
+	<form method="post" action="/bug/report/edit/{bug_id}/">
 	<input class="okbutton" type="submit" value="{intl-cancel}" />
 	</form>
 
