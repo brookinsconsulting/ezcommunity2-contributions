@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: formedit.php,v 1.11 2001/11/01 17:03:30 bf Exp $
+// $Id: formedit.php,v 1.12 2001/12/12 10:11:47 jhe Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //

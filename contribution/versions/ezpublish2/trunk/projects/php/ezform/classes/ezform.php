@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezform.php,v 1.7 2001/11/01 18:01:40 jhe Exp $
+// $Id: ezform.php,v 1.8 2001/12/12 10:11:47 jhe Exp $
 //
 // ezform class
 //

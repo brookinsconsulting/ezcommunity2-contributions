@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.10 2001/11/01 18:01:40 jhe Exp $
+// $Id: ezformelement.php,v 1.11 2001/12/12 10:11:47 jhe Exp $
 //
 // ezformelement class
 //
@@ -146,7 +146,7 @@ class eZFormElement
         {
             $db->array_query( $formArray, "SELECT * FROM eZForm_FormElement WHERE ID='$id'",
                               0, 1 );
-            if( count( $formArray ) == 1 )
+            if ( count( $formArray ) == 1 )
             {
                 $this->fill( &$formArray[0] );
                 $ret = true;
@@ -202,7 +202,7 @@ class eZFormElement
                                            array( "Limit" => $limit, "Offset" => $offset ) );
         }
 
-        for ( $i=0; $i < count($formArray); $i++ )
+        for ( $i = 0; $i < count( $formArray ); $i++ )
         {
             $returnArray[$i] = new eZFormElement( $formArray[$i][$db->fieldName( "ID" )] );
         }
@@ -253,7 +253,7 @@ class eZFormElement
     */
     function isRequired()
     {
-        if( $this->Required == 0 )
+        if ( $this->Required == 0 )
         {
             $ret = false;
         }
@@ -270,7 +270,7 @@ class eZFormElement
     */
     function isBreaking()
     {
-        if( $this->Break == 0 )
+        if ( $this->Break == 0 )
         {
             $ret = false;
         }
@@ -311,7 +311,7 @@ class eZFormElement
     */
     function setRequired( $value = true )
     {
-        if( $value == true )
+        if ( $value == true )
         {
             $value = 1;
         }
@@ -327,7 +327,7 @@ class eZFormElement
     */
     function setBreak( $value = true )
     {
-        if( $value == true )
+        if ( $value == true )
         {
             $value = 1;
         }
@@ -343,7 +343,7 @@ class eZFormElement
     */
     function setElementType( &$object )
     {
-        if( get_class( $object ) == "ezformelementtype" )
+        if ( get_class( $object ) == "ezformelementtype" )
         {
             $this->ElementType = $object;
         }
@@ -361,7 +361,7 @@ class eZFormElement
         $db =& eZDB::globalDatabase();
         $db->array_query( $formArray, "SELECT FormID FROM eZForm_FormElementDict WHERE ElementID='$this->ID'" );
 
-        for ( $i=0; $i < count($formArray); $i++ )
+        for ( $i = 0; $i < count( $formArray ); $i++ )
         {
             $returnArray[$i] = new eZFormElement( $formArray[$i][$db->fieldName( "FormID" )], true );
         }
@@ -432,7 +432,7 @@ class eZFormElement
         $db =& eZDB::globalDatabase();
         $db->array_query( $formArray, "SELECT FixedValueID FROM eZForm_FormElementFixedValueLink WHERE ElementID='$this->ID'" );
 
-        for ( $i=0; $i < count($formArray); $i++ )
+        for ( $i = 0; $i < count( $formArray ); $i++ )
         {
             $returnArray[$i] = new eZFormElementFixedValue( $formArray[$i][$db->fieldName( "FixedValueID" )], true );
         }

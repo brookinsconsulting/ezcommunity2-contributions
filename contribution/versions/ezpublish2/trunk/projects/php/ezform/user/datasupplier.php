@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.6 2001/09/05 14:47:28 th Exp $
+// $Id: datasupplier.php,v 1.7 2001/12/12 10:11:47 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -33,7 +33,9 @@ $eZFormAction = $url_array[3];
 
 function &errorPage( $PrimaryName, $PrimaryURL, $type )
 {
-    $ini =& $GLOBALS["GlobalSiteIni"];
+//    $ini =& $GLOBALS["GlobalSiteIni"];
+    $ini =& INIFile::globalINI();
+    
 
     $t = new eZTemplate( "ezform/admin/" . $ini->read_var( "eZFormMain", "TemplateDir" ),
                          "ezform/admin/intl", $ini->read_var( "eZFormMain", "Language" ), "errors.php" );
@@ -69,7 +71,7 @@ function formProcess( $value, $key )
     global $mailMessage;
     global $redirectTo;
     
-    switch( $key )
+    switch ( $key )
     {
         case "submit":
         {
@@ -106,12 +108,14 @@ function formProcess( $value, $key )
     }
 }
 
-switch( $eZFormOperation )
+switch ( $eZFormOperation )
 {
     case "form":
     {
         $FormID = $url_array[4];
-        switch( $eZFormAction )
+        $SectionIDOverride = $url_array[5];
+
+        switch ( $eZFormAction )
         {
             case "view":
             case "process":
@@ -132,7 +136,7 @@ switch( $eZFormOperation )
     
     case "simpleprocess":
     {
-        if( $HTTP_POST_VARS )
+        if ( $HTTP_POST_VARS )
         {
             array_walk( $HTTP_POST_VARS, "formProcess" );
             
@@ -144,7 +148,7 @@ switch( $eZFormOperation )
             $mail->send();
         }
         
-        if( !empty( $redirectTo ) )
+        if ( !empty( $redirectTo ) )
         {
             eZHTTPTool::header( "Location: $redirectTo" );
         }

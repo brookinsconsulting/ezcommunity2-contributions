@@ -45,10 +45,8 @@
 
 <!-- BEGIN form_list_tpl -->
 <!-- BEGIN form_start_tag_tpl -->
-<form action="{www_dir}{index}/form/form/process/{form_id}/" method="post">
+<form action="{www_dir}{index}/form/form/process/{form_id}/{section_id}/" method="post">
 <h2>{form_name}</h2>
-<hr noshade="noshade" size="4" />
-<br />
 <!-- END form_start_tag_tpl -->
 <!-- BEGIN form_instructions_tpl -->
 <a href="{www_dir}{index}{form_instruction_page}">{intl-instructions}</a>
@@ -57,29 +55,20 @@
 <input type="hidden" name="mailSubject" value="{form_name}" />
 <input type="hidden" name="redirectTo" value="{form_completed_page}" />
 <!-- BEGIN form_sender_tpl -->
-<p class="boxtext">{intl-form_sender}:</p> 
-<input type="text" class="box" name="formSender" />
+<p class="boxtext">{intl-form_sender}:</p>
+<input type="text" class="box" name="formSender" value="{form_sender_value}" />
 <br /><br />
 
 <!-- END form_sender_tpl -->
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 <!-- BEGIN form_item_tpl -->
-	<td {colspan} class="{td_class}" >
-	<table width="100%">
-	<tr>
-	<td width="90">
+	<td {colspan} >
 	<p class="boxtext">
 	{element_name}:
 	</p>
+	{element}<br /><br />
 	</td>
-	<td>
-	{element}<br />
-	</td>
-	</tr>
-	</table>
-	</td>
-
 <!-- BEGIN break_tpl -->
 </tr>
 <tr>
@@ -90,8 +79,6 @@
 </table>
 
 <!-- BEGIN form_buttons_tpl -->
-<hr noshade="noshade" size="4" />
-
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top">
@@ -106,3 +93,5 @@
 <!-- END form_end_tag_tpl -->
 
 <!-- END form_list_tpl -->
+
+ADMIN REMOVE
