@@ -27,6 +27,8 @@
 DEFAULT (echo ""; id; echo %{sVv}; date; cat) >> $CVSROOT/CVSROOT/commitlog
 projects/php/[a-zA-Z_]+/[a-zA-Z_]+/intl/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-intl-log
 projects/php/[a-zA-Z_]+/intl/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-intl-log
+projects/php/[a-zA-Z_]+/[a-zA-Z_]+/templates/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-template-log
+projects/php/[a-zA-Z_]+/templates/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-template-log
 projects/php/admin/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-admin-log
 projects/php/classes/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-classes-log
 projects/php/ezad/.+ (echo "Change from" `id -un`; echo %s; date; cat; echo) >> $CVSROOT/php-ezad-log
