@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxml.php,v 1.5 2001/11/18 14:15:28 bf Exp $
+// $Id: ezxml.php,v 1.6 2001/11/19 09:54:51 bf Exp $
 //
 // Definition of eZXML class
 //
@@ -138,31 +138,24 @@ class eZXML
                     if ( $tagNameEnd > 0 )
                     {
                         $attributePart =& substr( $tagName, $tagNameEnd, strlen( $tagName ) );
-                        $attributeArray = explode( " ", $attributePart );
 
-                        foreach ( $attributeArray as $attributePart )
+//                        $attributeArray = preg_split ("/\" /", $attributePart );
+                        
+//                        $attributeArray = explode( " ", $attributePart );
+
+                        preg_match_all( "/([a-zA-Z]+=\".*?\")/i",  $attributePart, $attributeArray );
+
+                        foreach ( $attributeArray[0] as $attributePart )
                         {
-                            if ( trim( $attributePart ) != ""  )
+                            $attributePart = $attributePart;
+
+                            if ( trim( $attributePart ) != "" && trim( $attributePart ) != "/" )
                             {
-                                $attributeTmpArray = explode( "=", $attributePart );                                
+                                $attributeTmpArray = explode( "=", $attributePart );
 
                                 $attributeName = $attributeTmpArray[0];
                                 $attributeValue = $attributeTmpArray[1];
 
-                                // check that attribute name is valid
-                                if ( trim( $attributeName ) == "" )
-                                {
-                                    print( "Error in XML: invalid attributes near \"$attributePart\"" );
-                                    return false;
-                                }
-
-                                // check that we have a valid attribute, if not choke
-                                if ( $attributeValue[0] != "\"" or ( $attributeValue[ strlen($attributeValue) - 1 ] != "\""  ) )
-                                {
-                                    print( "Error in XML: invalid attributes near \"$attributePart\"" );
-                                    return false;
-                                }
-                                
                                 // remove " from value part
                                 $attributeValue = substr( $attributeValue, 1, strlen( $attributeValue ) - 2);
 
