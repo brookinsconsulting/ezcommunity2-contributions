@@ -374,6 +374,74 @@ switch ( $url_array[2] )
         break;
     }
 
+    case "projecttype":
+    {
+        $ProjectTypeID = $url_array[4];
+        $Action = $url_array[3];
+        switch ( $Action )
+        {
+            // intentional fall through
+            case "new":
+            case "edit":
+            case "update":
+            case "delete":
+            case "confirm":
+            case "insert":
+            case "up":
+            case "down":
+            {
+                include( "ezcontact/admin/projecttypeedit.php" );
+                break;
+            }
+            case "list":
+            {
+                include( "ezcontact/admin/projecttypelist.php" );
+                break;
+            }
+
+            default:
+            {
+                header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
+                break;
+            }
+        }
+        break;
+    }
+
+    case "country":
+    {
+        $CountryID = $url_array[4];
+        $Action = $url_array[3];
+        switch ( $Action )
+        {
+            // intentional fall through
+            case "new":
+            case "edit":
+            case "update":
+            case "delete":
+            case "confirm":
+            case "insert":
+            case "up":
+            case "down":
+            {
+                include( "ezcontact/admin/countryedit.php" );
+                break;
+            }
+            case "list":
+            {
+                include( "ezcontact/admin/countrylist.php" );
+                break;
+            }
+
+            default:
+            {
+                header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
+                break;
+            }
+        }
+        break;
+    }
+
     case "error":
     {
         include( "ezcontact/admin/error.php" );
