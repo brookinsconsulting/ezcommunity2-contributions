@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.13 2001/07/20 11:15:21 jakobn Exp $
+// $Id: datasupplier.php,v 1.14 2001/09/03 13:08:42 br Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -64,6 +64,13 @@ switch ( $url_array[2] )
             $Offset = $url_array[5];
         $LinkCategoryID = $url_array[3];
         include( "ezlink/user/linkcategorylist.php" );
+    }
+    break;
+
+    case "linklist" :
+    {
+        $LinkCategoryID = $url_array[3];
+        include( "ezlink/user/onepagelinklist.php" );
     }
     break;
 
