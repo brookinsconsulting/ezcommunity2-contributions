@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.79 2001/09/15 10:47:18 bf Exp $
+// $Id: articleview.php,v 1.80 2001/09/15 12:53:56 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -137,6 +137,17 @@ $t->set_block( "article_view_page_tpl", "attribute_list_tpl", "attribute_list" )
 $t->set_block( "attribute_list_tpl", "type_item_tpl", "type_item" );
 $t->set_block( "type_item_tpl", "attribute_item_tpl", "attribute_item" );
 
+
+$var = $t->get_user_variable( "article_view_page_tpl",  "eZFoo" );
+
+if ( $var )
+{
+    print( "User defined variable: $var found" );
+}
+else
+{
+    print( "User defined variable not found" );
+}
 
 
 $SiteURL = $ini->read_var( "site", "SiteURL" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.166 2001/09/14 11:32:23 bf Exp $
+// $Id: ezarticle.php,v 1.167 2001/09/15 12:53:55 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1299,9 +1299,21 @@ class eZArticle
 
             if ( is_bool( $placement ) )
             {
-                $db->array_query( $image_array, "SELECT COUNT(*) AS Count FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' ORDER BY Created" );
-                $placement = $image_array[0][$db->fieldName("Count")] + 1;
+                $db->array_query( $image_array, "SELECT ID, ImageID, Placement, Created FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' ORDER BY Placement" );                
+                if ( $image_array[0][$db->fieldName("Placement")] == "0" ) 
+                {
+                    $placement=1;
+                    for ( $i=0; $i < count($image_array); $i++ )
+                    {
+                        $imageLinkID = $image_array[$i][$db->fieldName("ID")];
+                        $db->query( "UPDATE eZArticle_ArticleImageLink SET Placement='$placement' WHERE ID='$imageLinkID'" );
+                        $image_array[$i][$db->fieldName("Placement")] = $placement;
+                        $placement++;
+                    }
+                }
+                $placement = $image_array[0][$db->fieldName("Placement")] + 1;
             }
+            
             $nextID = $db->nextID( "eZArticle_ArticleImageLink", "ID" );
             $timeStamp = eZDateTime::timeStamp( true );
             
