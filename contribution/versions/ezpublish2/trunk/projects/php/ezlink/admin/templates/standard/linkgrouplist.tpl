@@ -41,6 +41,12 @@
 </tr>
 <!-- BEGIN group_item_tpl -->
 <tr>
+	<td bgcolor="{bg_color}">
+	<a href="/link/group/{linkgroup_id}/">{linkgroup_title}</a>
+	</td>
+	<td bgcolor="{bg_color}">
+	{category_description}
+	</td>
         <td bgcolor="{bg_color}">
 	<!-- BEGIN image_item_tpl -->
 	<p><img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
@@ -50,10 +56,6 @@
 	&nbsp;
 	<!-- END no_image_tpl -->
         </td>
-	<td	width="98%" bgcolor="{bg_color}">
-	<a href="/link/group/{linkgroup_id}/">{linkgroup_title}</a>
-	</td>
-
 	<td width="1%" bgcolor="{bg_color}">
 	<a href="/link/groupedit/edit/{linkgroup_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ela{linkgroup_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ela{linkgroup_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>

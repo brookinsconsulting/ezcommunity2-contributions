@@ -23,6 +23,9 @@
 <p class="boxtext">{intl-name}:</p>
 <input type="text" name="Title" size="40" value="{category_name}">
 
+<p class="boxtext">{intl-description}:</p>
+<textarea name="Description">{category_description}</textarea>
+
 <p class="boxtext">{intl-where}:</p>
 <select name="ParentCategory">
 <option value="0">{intl-topcat}</option>

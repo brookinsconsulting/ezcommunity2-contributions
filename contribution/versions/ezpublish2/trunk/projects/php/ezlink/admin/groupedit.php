@@ -1,6 +1,6 @@
 <?
 //
-// $Id: groupedit.php,v 1.39 2001/02/21 13:00:21 bf Exp $
+// $Id: groupedit.php,v 1.40 2001/02/23 13:07:15 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:57:28 ce>
@@ -63,6 +63,7 @@ if ( $Action == "insert" )
             $group = new eZLinkGroup();
             
             $group->setTitle( $Title );
+            $group->setDescription( $Description );
             $group->setParent( $ParentCategory );
             $ttile = "";
 
@@ -120,17 +121,26 @@ if ( $Action == "delete" )
 
 if ( $Action == "DeleteCategories" )
 {
-    if ( count ( $CategoryArrayID ) != 0 )
+    unlink( "ezlink/cache/menubox.cache" );
+
+    if ( eZPermission::checkPermission( $user, "eZLink", "LinkGroupDelete" ) )
     {
-        foreach( $CategoryArrayID as $CategoryID )
+        if ( count ( $CategoryArrayID ) != 0 )
         {
-            $group = new eZLinkGroup();
-            $group->get( $CategoryID );
-            $parentID = $group->parent();
-            $group->delete();
+            foreach( $CategoryArrayID as $CategoryID )
+            {
+                $group = new eZLinkGroup();
+                $group->get( $CategoryID );
+                $parentID = $group->parent();
+                $group->delete();
+            }
+            eZHTTPTool::header( "Location: /link/group/$parentID" );
+            exit();
         }
-        eZHTTPTool::header( "Location: /link/group/$parentID" );
-        exit();
+    }
+    else
+    {
+        eZHTTPTool::header( "Location: /link/norights" );
     }
 }
 
@@ -147,6 +157,7 @@ if ( $Action == "update" )
             $group = new eZLinkGroup();
             $group->get ( $LinkGroupID );
             $group->setTitle ( $Title );
+            $group->setDescription( $Description );
             $group->setParent( $ParentCategory );
 
             $file = new eZImageFile();
@@ -159,9 +170,6 @@ if ( $Action == "update" )
                 $image->store();
                 
                 $group->setImage( $image );
-            }
-            else
-            {
             }
             
             $group->update();
@@ -205,7 +213,9 @@ if ( $Action == "new" )
     }
 
     $t->set_var( "image_item", "" );
+    $t->set_var( "no_image_item", "" );
     $t->set_var( "category_name", "" );
+    $t->set_var( "category_description", "" );
     
     $t->set_var( "action_value", "insert" );
 }
@@ -228,7 +238,9 @@ if ( $Action == "edit" )
         $parentID = $linkGroup->parent();
         
         $t->set_var( "category_name", $linkGroup->title() );
+        $t->set_var( "category_description", $linkGroup->description() );
         $t->set_var( "category_id", $linkGroup->id() );
+
 
         $image =& $linkGroup->image();
         
@@ -248,7 +260,7 @@ if ( $Action == "edit" )
             $t->set_var( "image_height", $imageHeight );
             $t->set_var( "image_url", $imageURL );
             $t->set_var( "image_caption", $imageCaption );
-            $t->set_var( "no_image", "" );
+            $t->set_var( "no_image_item", "" );
             $t->parse( "image_item", "image_item_tpl" );
         }
         else

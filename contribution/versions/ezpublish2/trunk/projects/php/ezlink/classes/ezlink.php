@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.39 2001/02/21 13:00:21 bf Exp $
+// $Id: ezlink.php,v 1.40 2001/02/23 13:07:15 ce Exp $
 //
 // Definition of eZLink class
 //
@@ -151,16 +151,16 @@ class eZLink
             }
             else if ( count( $link_array ) == 1 )
             {
-                $this->ID = $link_array[ 0 ][ "ID" ];
-                $this->Title = $link_array[ 0 ][ "Title" ];
-                $this->Description = $link_array[ 0 ][ "Description" ];
-                $this->LinkGroupID = $link_array[ 0 ][ "LinkGroup" ];
-                $this->KeyWords = $link_array[ 0 ][ "KeyWords" ];
-                $this->Created = $link_array[ 0 ][ "Created" ];
-                $this->Modified = $link_array[ 0 ][ "Modified" ];
-                $this->Accepted = $link_array[ 0 ][ "Accepted" ];
-                $this->Url = $link_array[ 0 ][ "Url" ];
-                $this->ImageID = $link_array[ 0 ][ "ImageID" ];
+                $this->ID =& $link_array[ 0 ][ "ID" ];
+                $this->Title =& $link_array[ 0 ][ "Title" ];
+                $this->Description =& $link_array[ 0 ][ "Description" ];
+                $this->LinkGroupID =& $link_array[ 0 ][ "LinkGroup" ];
+                $this->KeyWords =& $link_array[ 0 ][ "KeyWords" ];
+                $this->Created =& $link_array[ 0 ][ "Created" ];
+                $this->Modified =& $link_array[ 0 ][ "Modified" ];
+                $this->Accepted =& $link_array[ 0 ][ "Accepted" ];
+                $this->Url =& $link_array[ 0 ][ "Url" ];
+                $this->ImageID =& $link_array[ 0 ][ "ImageID" ];
             }
         }
     }
@@ -188,7 +188,7 @@ class eZLink
     /*!
       Fetches out the links that is not accepted.
     */
-    function getNotAccepted( )
+    function &getNotAccepted( )
     {
         $this->dbInit();
         $link_array = array();
@@ -207,7 +207,7 @@ class eZLink
     /*!
       Fetches out the last teen accpeted links.
     */
-    function getLastTenDate( $limit, $offset )
+    function &getLastTenDate( $limit, $offset )
     {
         $this->dbInit();
         $link_array = array();
@@ -225,7 +225,7 @@ class eZLink
     /*!
       Fetches out the last teen accpeted links.
     */
-    function getLastTen( $limit, $offset )
+    function &getLastTen( $limit, $offset )
     {
         $this->dbInit();
         $link_array = 0;
@@ -240,7 +240,7 @@ class eZLink
 
       Default limit is set to 25.
     */
-    function getQuery( $query, $limit, $offset )
+    function &getQuery( $query, $limit, $offset )
     {
         $this->dbInit();
         $link_array = array();
@@ -266,7 +266,7 @@ class eZLink
     /*!
       Returns the total count of a query.
     */
-    function getQueryCount( $query  )
+    function &getQueryCount( $query  )
     {
         $this->dbInit();
         $link_array = 0;
@@ -290,7 +290,7 @@ class eZLink
     /*!
       Fetches all the links.
     */
-    function getAll()
+    function &getAll()
     {
         $this->dbInit();
         $group_array = 0;
@@ -303,7 +303,7 @@ class eZLink
     /*!
       Check if the url exists.
     */
-    function checkUrl( $url )
+    function &checkUrl( $url )
     {
         $this->dbInit();
 
@@ -327,7 +327,7 @@ class eZLink
     /*!
       Sets the link title.
     */
-    function setTitle( $value )
+    function setTitle( &$value )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -338,7 +338,7 @@ class eZLink
     /*!
       Sets the link description
     */
-    function setDescription( $value )
+    function setDescription( &$value )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -360,7 +360,7 @@ class eZLink
     /*!
       Sets the link keywords.
     */    
-    function setKeyWords( $value )
+    function setKeyWords( &$value )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -393,7 +393,7 @@ class eZLink
     /*!
       Sets the link URL.
     */
-    function setUrl( $value )
+    function setUrl( &$value )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -404,24 +404,24 @@ class eZLink
     /*!
       Returns the link title.
     */
-    function title()
+    function &title()
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        return $this->Title;
+        return htmlspecialchars( $this->Title );
     }
 
 
     /*!
       Returns the link description.
     */
-    function description()
+    function &description()
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        return $this->Description;
+        return htmlspecialchars( $this->Description );
     }
 
     /*!
@@ -432,24 +432,24 @@ class eZLink
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        return $this->LinkGroupID;
+        return htmlspecialchars( $this->LinkGroupID );
     }
 
     /*!
       Returns the link keywords.
     */
-    function keyWords()
+    function &keyWords()
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        return $this->KeyWords;
+        return htmlspecialchars( $this->KeyWords );
     }
 
     /*!
       Returns the date when the link was created.
     */
-    function created()
+    function &created()
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -460,7 +460,7 @@ class eZLink
     /*!
       Returns the date when the link was modified.
     */
-    function modified()
+    function &modified()
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -482,12 +482,12 @@ class eZLink
     /*!
       Retruns the url of the link.
     */
-    function url()
+    function &url()
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        return $this->Url;
+        return htmlspecialchars( $this->Url );
     }
 
     /*!
@@ -533,7 +533,6 @@ class eZLink
         if ( $this->ImageID != 0 )
         {
             $ret = new eZImage( $this->ImageID );
-            
         }
 
         return $ret;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezhit.php,v 1.21 2001/01/22 14:43:01 jb Exp $
+// $Id: ezhit.php,v 1.22 2001/02/23 13:07:15 ce Exp $
 //
 // Definition of eZHit class
 //
@@ -99,11 +99,12 @@ class eZHit
       Get out the count for one link.
      */
 
-    function getLinkHits( $id )
+    function &getLinkHits( $id )
     {
         $this->dbInit();        
         $this->Database->array_query( $hit_array, "SELECT * FROM eZLink_Hit WHERE Link='$id'" );        
         $count = count( $hit_array );
+
         return $count;
     }
     
@@ -114,6 +115,7 @@ class eZHit
     {
         $this->dbInit();
         $this->Database->array_query( $hit_array, "SELECT * FROM eZLink_Hit WHERE ID='$id'" );
+
         return count( $hit_array );
     }
 
@@ -170,13 +172,13 @@ class eZHit
     }
     
     /*!
-      Initializing the database.4
+      Initializing the database
     */
     function dbInit()
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = eZDB::globalDatabase();
+            $this->Database =& eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

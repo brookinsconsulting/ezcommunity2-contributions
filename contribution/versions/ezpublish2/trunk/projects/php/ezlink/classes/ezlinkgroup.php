@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.46 2001/02/21 13:00:21 bf Exp $
+// $Id: ezlinkgroup.php,v 1.47 2001/02/23 13:07:15 ce Exp $
 //
 // Definition of eZLinkGroup class
 //
@@ -46,7 +46,7 @@
 */
 
 /*!TODO
-  Rename title to name (also in the database).
+  Retitle title to title (also in the database).
   More effective caching.
 */
 
@@ -90,6 +90,7 @@ class eZLinkGroup
         $this->Database->query( "INSERT INTO eZLink_LinkGroup SET
                 ID='$this->ID',
                 Title='$this->Title',
+                Description='$this->Description',
                 ImageID='$this->ImageID',
                 Parent='$this->Parent'" );
     }
@@ -102,6 +103,7 @@ class eZLinkGroup
         $this->dbInit();
         $this->Database->query( "UPDATE eZLink_LinkGroup SET 
                 Title='$this->Title',
+                Description='$this->Description',
                 Parent='$this->Parent',
                 ImageID='$this->ImageID'
                 WHERE ID='$this->ID'" );
@@ -132,6 +134,7 @@ class eZLinkGroup
         {
             $this->ID =& $linkgroup_array[ 0 ][ "ID" ];
             $this->Title =& $linkgroup_array[ 0 ][ "Title" ];
+            $this->Description =& $linkgroup_array[ 0 ][ "Description" ];
             $this->Parent =& $linkgroup_array[ 0 ][ "Parent" ];
             $this->ImageID = $linkgroup_array[ 0 ][ "ImageID" ];
         }
@@ -140,7 +143,7 @@ class eZLinkGroup
     /*!
       Print out the group path.
     */
-    function path( $groupID=0 )
+    function &path( $groupID=0 )
     {
         $this->dbInit();
         
@@ -161,7 +164,7 @@ class eZLinkGroup
         }
         else
         {
-//              array_push( $path, $category->name() );
+//              array_push( $path, $category->title() );
         }
 
         if ( $groupID != 0 )
@@ -176,7 +179,7 @@ class eZLinkGroup
     /*!
       Fetch out parent.
     */
-    function &getByParent( $value )
+    function &getByParent( &$value )
     {
         if ( get_class ( $value ) )
             $id = $value->id();
@@ -202,7 +205,7 @@ class eZLinkGroup
     /*!
       Returns the count for subgroup in a group.
      */
-    function getTotalSubLinks( $id, $start_id )
+    function &getTotalSubLinks( $id, $start_id )
     {
         $this->dbInit();
         
@@ -222,6 +225,7 @@ class eZLinkGroup
             $this->Database->array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM eZLink_Link WHERE LinkGroup='$group_id' AND Accepted='Y'" );
             $count += $link_count[0][ "LinkCount" ];            
         }
+
         return $count;
     }
 
@@ -229,7 +233,7 @@ class eZLinkGroup
       Returns the count for new links under the group.
       All the links that newer than $new_limit is marked as new.
      */
-    function getNewSubLinks( $id, $start_id, $new_limit )
+    function &getNewSubLinks( $id, $start_id, $new_limit )
     {
         $this->dbInit();
         
@@ -255,20 +259,21 @@ class eZLinkGroup
     /*!
       Return the count of links in incoming.
      */
-    function getTotalIncomingLinks()
+    function &getTotalIncomingLinks()
     {
         $this->dbInit();
         
         $count = 0;
         $this->Database->array_query( $link_count, "SELECT COUNT(ID) AS LinkCount FROM eZLink_Link WHERE Accepted='N'" );
         $count = $link_count[0][ "LinkCount" ];
+
         return $count;
     }
     
     /*!
       Fetch everything.
     */
-    function getAll()
+    function &getAll()
     {
         $this->dbInit();
         $parnet_array = array();
@@ -289,7 +294,7 @@ class eZLinkGroup
     /*!
       Fetch everything and return the result in a tree.
     */
-    function getTree( $parentID=0, $level=0 )
+    function &getTree( $parentID=0, $level=0 )
     {
         $category = new eZLinkGroup( $parentID );
 
@@ -325,14 +330,25 @@ class eZLinkGroup
     }
 
     /*!
-      Sets the name of a group.
+      Sets the title of a group.
     */
-    function setTitle( $value )
+    function setTitle( &$value )
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
         $this->Title = ( $value );
+    }
+
+    /*!
+      Sets the description of a group.
+    */
+    function setDescription( &$value )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $this->Description = ( $value );
     }
 
     /*!
@@ -347,15 +363,25 @@ class eZLinkGroup
     }
 
     /*!
-      Return the name of the link.
+      Return the title of the link.
     */
-
-    function Title()
+    function &Title()
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return $this->Title;
+        return htmlspecialchars( $this->Title );
+    }
+
+    /*!
+      Return the title of the link.
+    */
+    function &description()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        return htmlspecialchars( $this->Description );
     }
 
     /*!
@@ -416,6 +442,7 @@ class eZLinkGroup
 
     var $ID;
     var $Title;
+    var $Description;
     var $Parent;
     var $ImageID;
 

@@ -470,3 +470,6 @@ alter table eZTrade_ShippingGroup add Created timestamp;
 create table eZTrade_ShippingValue( ID int primary key auto_increment, ShippingGroupID int not null, ShippingTypeID int not null, StartValue float not null default 0, AddValue float not null default 0 );
 
 alter table eZTrade_Product add ShippingGroupID int not null default 0;
+
+# Add description to link groups
+alter table eZLink_LinkGroup add Description text;

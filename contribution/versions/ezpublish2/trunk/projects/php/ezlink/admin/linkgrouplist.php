@@ -1,5 +1,5 @@
 <?
-// $Id: linkgrouplist.php,v 1.12 2001/02/09 11:05:49 ce Exp $
+// $Id: linkgrouplist.php,v 1.13 2001/02/23 13:07:15 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:55:24 ce>
@@ -83,7 +83,7 @@ foreach ( $pathArray as $path )
     $t->parse( "path_item", "path_item_tpl", true );
 }
 
-$linkGroupList = $linkGroup->getByParent( $LinkGroupID );
+$linkGroupList =& $linkGroup->getByParent( $LinkGroupID );
 
 if ( $LinkGroupID == "incoming" )
 {
@@ -112,10 +112,8 @@ else
         $link_group_id = $linkGroupItem->id();
         $t->set_var( "linkgroup_id", $link_group_id );
         $t->set_var( "linkgroup_title", $linkGroupItem->title() );
+        $t->set_var( "category_description", $linkGroupItem->description() );
         $t->set_var( "linkgroup_parent", $linkGroupItem->parent() );
-        
-//      $total_sub_links = $linkGroup->getTotalSubLinks( $link_group_id, $link_group_id );
-//      $new_sub_links = $linkGroup->getNewSubLinks( $link_group_id, $link_group_id, 1 );
         
         $t->set_var( "total_links", $total_sub_links );
         $t->set_var( "new_links", $new_sub_links );
@@ -132,9 +130,9 @@ else
             $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
             
             $imageURL = "/" . $variation->imagePath();
-            $imageWidth = $variation->width();
-            $imageHeight = $variation->height();
-            $imageCaption = $image->caption();
+            $imageWidth =& $variation->width();
+            $imageHeight =& $variation->height();
+            $imageCaption =& $image->caption();
             
             $t->set_var( "image_width", $imageWidth );
             $t->set_var( "image_height", $imageHeight );
@@ -161,11 +159,11 @@ else
 $link = new eZLink();
 if ( $LinkGroupID == "incoming" )
 {
-    $linkList = $link->getNotAccepted( $LinkGroupID );
+    $linkList =& $link->getNotAccepted( $LinkGroupID );
 }
 else
 {
-    $linkList = $link->getByGroup( $LinkGroupID );
+    $linkList =& $link->getByGroup( $LinkGroupID );
 } 
 
 if ( !$linkList )
