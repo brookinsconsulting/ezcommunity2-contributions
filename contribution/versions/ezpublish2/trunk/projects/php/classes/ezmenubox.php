@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmenubox.php,v 1.2 2001/01/23 21:11:16 bf Exp $
+// $Id: ezmenubox.php,v 1.3 2001/01/23 21:52:13 jb Exp $
 //
 // Definition of eZMenuBox class
 //
@@ -59,12 +59,20 @@ class eZMenuBox
 
     function createBox( $ModuleName, $module_dir, $place, $SiteStyle, &$menuItems, $print = true )
     {
-        $ini = new INIFile( "site.ini" );
+        $ini =& $GLOBALS["GlobalSiteIni"];
 
         $Language = $ini->read_var( $ModuleName . "Main", "Language" );
 
         $t = new eZTemplate( "templates/" . $SiteStyle,
-                             $module_dir . "/$place/intl", $Language, "menubox.php" );
+                             $module_dir . "/$place/intl", $Language, "menubox.php",
+                             $SiteStyle, $module_dir . "/$place" );
+        if ( $t->hasCache() )
+        {
+            print $t->cache();
+            return true;
+        }
+
+        $t->setAllStrings();
 
         $t->set_file( array(
             "menu_box_tpl" => "menubox.tpl"
@@ -87,7 +95,7 @@ class eZMenuBox
             if ( is_array( $menuItem ) )
             {
                 $t->set_var( "target_url", $menuItem[0]  );
-                $t->set_var( "name", $menuItem[1]  );
+                $t->set_var( "name", $t->translate( $menuItem[1] ) );
 
                 $t->parse( "menu_item_link", "menu_item_link_tpl", true );
             }
@@ -120,9 +128,11 @@ class eZMenuBox
             $t->parse( "menu_item", "menu_item_tpl", true );
         }
 
-        $t->setAllStrings();
         if ( $print )
-            $t->pparse( "output", "menu_box_tpl" );
+        {
+            $str =& $t->storeCache( "output", "menu_box_tpl" );
+            print $str;
+        }
         else
             return $t->parse( "output", "menu_box_tpl" );
     }

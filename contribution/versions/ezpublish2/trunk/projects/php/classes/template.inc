@@ -5,7 +5,7 @@
  * (C) Copyright 1999-2000 NetUSE GmbH
  *                    Kristian Koehntopp
  *
- * $Id: template.inc,v 1.5 2001/01/21 19:23:34 jb Exp $
+ * $Id: template.inc,v 1.6 2001/01/23 21:52:13 jb Exp $
  *
  */ 
 
@@ -77,20 +77,26 @@ class Template {
    * handle: handle for a filename,
    * filename: name of template file
    */
-  function set_file($handle, $filename = "") {
-    if (!is_array($handle)) {
-      if ($filename == "") {
-        $this->halt("set_file: For handle $handle filename is empty.");
-        return false;
-      }
-      $this->file[$handle] = $this->filename($filename);
-    } else {
-      reset($handle);
-      while(list($h, $f) = each($handle)) {
-        $this->file[$h] = $this->filename($f);
-      }
+    function set_file($handle, $filename = "")
+    {
+        if (!is_array($handle))
+        {
+            if ($filename == "")
+            {
+                $this->halt("set_file: For handle $handle filename is empty.");
+                return false;
+            }
+            $this->file[$handle] = $this->filename($filename);
+        }
+        else
+        {
+            reset($handle);
+            while(list($h, $f) = each($handle))
+            {
+                $this->file[$h] = $this->filename($f);
+            }
+        }
     }
-  }
 
   /* public: set_block(string $parent, string $handle, string $name = "")
    * extract the template $handle from $parent, 
@@ -123,16 +129,22 @@ class Template {
     {
         if (!is_array($varname))
         {
-            $this->varkeys[$varname] =& preg_quote("/{".$varname."}/");
-            $this->varvals[$varname] =& $value;
+//              $this->varkeys[$varname] =& preg_quote("/{".$varname."}/");
+//              $this->varvals[$varname] =& $value;
+            $var = "{".$varname."}";
+            $this->varkeys[$varname] =& $value;
+            $this->varvals[$var] =& $value;
         }
         else
         {
             reset($varname);
             while(list($k, $v) = each($varname))
             {
-                $this->varkeys[$k] =& preg_quote("/{".$k."}/");
-                $this->varvals[$k] =& $v;
+//                  $this->varkeys[$k] =& preg_quote("/{".$k."}/");
+//                  $this->varvals[$k] =& $v;
+                $var = "{".$k."}";
+                $this->varkeys[$k] =& $v;
+                $this->varvals[$var] =& $v;
             }
         }
     }
@@ -149,7 +161,8 @@ class Template {
         }
 
         $str = $this->get_var($handle);
-        $str =& preg_replace( $this->varkeys, $this->varvals, $str);
+//          $str =& preg_replace( $this->varkeys, $this->varvals, $str);
+        $str =& strtr( $str, $this->varvals );
         return $str;
     }
   
@@ -194,21 +207,25 @@ class Template {
         return $str;
     }
   
-  function pparse($target, $handle, $append = false) {
-    print $this->parse($target, $handle, $append);
-    return false;
-  }
+    function pparse($target, $handle, $append = false)
+    {
+        print $this->parse($target, $handle, $append);
+        return false;
+    }
   
   /* public: get_vars()
    */
-  function get_vars() {
-    reset($this->varkeys);
-    while(list($k, $v) = each($this->varkeys)) {
-      $result[$k] = $this->varvals[$k];
-    }
+    function get_vars() {
+//      reset($this->varkeys);
+//      while(list($k, $v) = each($this->varkeys))
+//          while(list($k, $v) = each($this->varkeys))
+//          {
+//              $result[$k] = $v;
+//          }
     
-    return $result;
-  }
+//          return $result;
+        return $this->varkeys;
+    }
   
     /* public: get_var(string varname)
      * varname: name of variable.
@@ -220,14 +237,16 @@ class Template {
     {
         if (!is_array($varname))
         {
-            return $this->varvals[$varname];
+//              return $this->varvals[$varname];
+            return $this->varkeys[$varname];
         }
         else
         {
             reset($varname);
             while(list($k, $v) = each($varname))
             {
-                $result[$k] =& $this->varvals[$k];
+//                  $result[$k] =& $this->varvals[$k];
+                $result[$k] =& $this->varkeys[$k];
             }
             return $result;
         }
@@ -236,51 +255,58 @@ class Template {
   /* public: get_undefined($handle)
    * handle: handle of a template.
    */
-  function get_undefined($handle) {
-    if (!$this->loadfile($handle)) {
-      $this->halt("get_undefined: unable to load $handle.");
-      return false;
-    }
-    
-    preg_match_all("/\{([^}]+)\}/", $this->get_var($handle), $m);
-    $m = $m[1];
-    if (!is_array($m))
-      return false;
+    function get_undefined($handle)
+    {
+        if (!$this->loadfile($handle))
+        {
+            $this->halt("get_undefined: unable to load $handle.");
+            return false;
+        }
 
-    reset($m);
-    while(list($k, $v) = each($m)) {
-      if (!isset($this->varkeys[$v]))
-        $result[$v] = $v;
-    }
+        preg_match_all("/\{([^}]+)\}/", $this->get_var($handle), $m);
+        $m = $m[1];
+        if (!is_array($m))
+            return false;
+
+        reset($m);
+        while(list($k, $v) = each($m))
+        {
+//            if (!isset($this->varkeys[$v]))
+//                $result[$v] = $v;
+            if (!isset($this->varkeys[$v]))
+                $result[$v] = $v;
+        }
     
-    if (count($result))
-      return $result;
-    else
-      return false;
-  }
+        if (count($result))
+            return $result;
+        else
+            return false;
+    }
 
   /* public: finish(string $str)
    * str: string to finish.
    */
-  function finish($str) {
-    switch ($this->unknowns) {
-      case "keep":
-      break;
+    function finish($str)
+    {
+        switch ($this->unknowns)
+        {
+            case "keep":
+                break;
       
-      case "remove":
-        $str = preg_replace('/{[^ \t\r\n}]+}/', "", $str);
-      break;
+            case "remove":
+                $str = preg_replace('/{[^ \t\r\n}]+}/', "", $str);
+            break;
 
-      case "comment":
-        $str = preg_replace('/{([^ \t\r\n}]+)}/', "<!-- Template $handle: Variable \\1 undefined -->", $str);
-      break;
+            case "comment":
+                $str = preg_replace('/{([^ \t\r\n}]+)}/', "<!-- Template $handle: Variable \\1 undefined -->", $str);
+            break;
       
-      case "nbsp":
-        $str = preg_replace('/{[^ \t\r\n}]+}/', "&nbsp;", $str);
-    }
+            case "nbsp":
+                $str = preg_replace('/{[^ \t\r\n}]+}/', "&nbsp;", $str);
+        }
     
-    return $str;
-  }
+        return $str;
+    }
 
   /* public: p(string $varname)
    * varname: name of variable to print.
@@ -320,26 +346,29 @@ class Template {
   /* private: loadfile(string $handle)
    * handle:  load file defined by handle, if it is not loaded yet.
    */
-  function loadfile($handle) {
-    if (isset($this->varkeys[$handle]) and !empty($this->varvals[$handle]))
-      return true;
+    function loadfile($handle)
+    {
+//          if (isset($this->varkeys[$handle]) and !empty($this->varvals[$handle]))
+//              return true;
+        if (isset($this->varkeys[$handle]) and !empty($this->varkeys[$handle]))
+            return true;
 
-    if (!isset($this->file[$handle])) {
-      $this->halt("loadfile: $handle is not a valid handle.");
-      return false;
-    }
-    $filename = $this->file[$handle];
+        if (!isset($this->file[$handle])) {
+            $this->halt("loadfile: $handle is not a valid handle.");
+            return false;
+        }
+        $filename = $this->file[$handle];
 
-    $str = implode("", @file($filename));
-    if (empty($str)) {
-      $this->halt("loadfile: While loading $handle, $filename does not exist or is empty.");
-      return false;
-    }
+        $str = implode("", @file($filename));
+        if (empty($str)) {
+            $this->halt("loadfile: While loading $handle, $filename does not exist or is empty.");
+            return false;
+        }
 
-    $this->set_var($handle, $str);
+        $this->set_var($handle, $str);
     
-    return true;
-  }
+        return true;
+    }
 
   /***************************************************************************/
   /* public: halt(string $msg)

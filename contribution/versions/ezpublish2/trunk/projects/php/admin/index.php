@@ -24,6 +24,10 @@ include_once( "ezuser/classes/ezpermission.php" );
 $ini = new INIFile( "site.ini" );
 $GlobalSiteIni =& $ini;
 
+//  $session =& eZSession::globalSession();
+//  $session->fetch();
+//  print( "<pre>" . $session->hash() . "</pre>" );
+
 // do the statistics
 include_once( "ezstats/classes/ezpageview.php" );
 
