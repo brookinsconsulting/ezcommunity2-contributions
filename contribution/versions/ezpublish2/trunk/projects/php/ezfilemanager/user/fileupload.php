@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileupload.php,v 1.2 2000/12/12 11:00:02 bf Exp $
+// $Id: fileupload.php,v 1.3 2000/12/27 16:35:10 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 15:49:57 bf>
@@ -40,7 +40,6 @@ if ( $Action == "Insert" )
 {
     print( "uploading file" );
 
-
     $file = new eZFile();
 
     if ( $file->getUploadedFile( "userfile" ) )
@@ -56,7 +55,6 @@ if ( $Action == "Insert" )
         $folder = new eZVirtualFolder( $FolderID );
 
         $folder->addFile( $uploadedFile );
-        
         
 
         eZLog::writeNotice( "File added to file manager from IP: $REMOTE_ADDR" );

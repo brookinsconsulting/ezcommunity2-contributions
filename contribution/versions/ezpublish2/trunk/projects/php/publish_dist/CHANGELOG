@@ -3,6 +3,10 @@ eZ publish changelog:
 
 Changes from version 1.0.5
 --------------------------
+* Added file upload to eZ article
+* Added word wrap of message replies in eZ forum. Nicer looking replies.
+* Removed strip tags from messages in eZ forum
+* Language updates
 * Fixed a ini bug in eZUser
 
 
