@@ -1,7 +1,7 @@
 <?php
 
 
-class eZNewsItem
+class eZNewsItem2
 {
 /*
     \code
