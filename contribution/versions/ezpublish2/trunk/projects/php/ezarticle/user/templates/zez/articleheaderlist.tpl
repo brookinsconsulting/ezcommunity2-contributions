@@ -33,10 +33,10 @@
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
 	<th>
-	{intl-article}
+	{intl-article}:
 	</th>
 	<th>
-	<div align="right">{intl-publishing_date}</div>
+	<div align="right">{intl-publishing_date}:</div>
 	</th>
 </tr>
 <!-- BEGIN article_item_tpl -->
