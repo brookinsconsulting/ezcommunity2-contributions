@@ -42,8 +42,8 @@ if( $Action == "new" )
 
 $error = false;
 
-$t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
-                     "ezcontact/admin/intl", $Language, "personedit.php" );
+$t = new eZTemplate( "ezcontact/user/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
+                     "ezcontact/user/intl", $Language, "personedit.php" );
 $t->setAllStrings();
 
 $t->set_file( array(                    
