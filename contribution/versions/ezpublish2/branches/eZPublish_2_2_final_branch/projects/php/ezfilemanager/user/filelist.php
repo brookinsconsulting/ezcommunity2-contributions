@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filelist.php,v 1.49.2.1 2001/11/23 08:55:05 jhe Exp $
+// $Id: filelist.php,v 1.49.2.2 2001/12/10 10:06:13 jhe Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -86,7 +86,11 @@ if ( ( $FolderID != 0 ) && !eZPermission::checkPermission( $user, "eZUser", "Adm
 {
     // moved out
 }
-$GlobalSectionID = eZVirtualFolder::sectionIDstatic ( $FolderID );    
+
+if ( $FolderID == 0 )
+    $GlobalSectionID = $ini->read_var( "eZFileManagerMain", "DefaultSection" );
+else
+    $GlobalSectionID = eZVirtualFolder::sectionIDstatic ( $FolderID );
 // init the section
 $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
 $sectionObject->setOverrideVariables();
