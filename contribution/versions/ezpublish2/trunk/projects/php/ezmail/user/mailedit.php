@@ -159,7 +159,8 @@ function save_mail()
 //    $mail->setReplyTo( $ );
     $mail->setSubject( $Subject );
     $mail->setBodyText( $MailBody );
-
+    $mail->calculateSize();
+    
     $mail->store();
     $folder = eZMailFolder::getSpecialFolder( DRAFTS );
     $folder->addMail( $mail );

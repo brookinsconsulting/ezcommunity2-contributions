@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.20 2001/04/03 08:46:32 fh Exp $
+// $Id: ezmail.php,v 1.21 2001/04/03 09:37:55 fh Exp $
 //
 // Definition of eZMail class
 //
@@ -734,6 +734,7 @@ class eZMail
 
     /*
       Adds an attachment to this mail
+      Recalculates the size of the mail.
      */
     function addFile( $file )
     {
@@ -747,11 +748,13 @@ class eZMail
             $fileID = $file->id();
  
             $this->Database->query( "INSERT INTO eZMail_MailAttachmentLink SET MailID='$this->ID', FileID='$fileID'" );
+            $this->calculateSize();
         }
     }
  
     /*!
       Deletes an attachment from the mail.
+      Recalculates the size of the mail.
     */
     function deleteFile( $file )
     {
@@ -765,6 +768,7 @@ class eZMail
             $fileID = $file->id();
             $file->delete();
             $this->Database->query( "DELETE FROM eZMail_MailAttachmentLink WHERE MailID='$this->ID' AND FileID='$fileID'" );
+            $this->calculateSize();
         }
     }
  
@@ -917,6 +921,28 @@ class eZMail
         
         $copy->store();
         return $copy;
+    }
+
+    /*!
+      Calculates the size of the mail and its attachments.
+     */
+    function calculateSize()
+    {
+        $size = strlen( $this->To );
+        $size += strlen( $this->From );
+        $size += strlen( $this->FromName );
+        $size += strlen( $this->Cc );
+        $size += strlen( $this->Bcc );
+        $size += strlen( $this->References );
+        $size += strlen( $this->ReplyTo );
+        $size += strlen( $this->Subject );
+        $size += strlen( $this->BodyText );
+
+        $files = $this->files();
+        foreach( $files as $file )
+            $size += $file->fileSize();
+
+        $this->Size = $size;
     }
     
     /***************** FUNCTIONS THAT ARE USED WHEN SENDING MAIL, IDEAS FROM:
