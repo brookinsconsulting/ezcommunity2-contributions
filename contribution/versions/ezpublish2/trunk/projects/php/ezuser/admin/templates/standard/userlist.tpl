@@ -75,7 +75,7 @@
 	</td>
 
 	<td class="{td_class}" width="1%">
-	<a href="{www_dir}{index}/user/useredit/edit/{user_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{user_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezuser{user_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
+	<a href="/user/useredit/edit/{user_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{user_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezuser{user_id}-red" border="0" src="/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 
 	<td class="{td_class}" width="1%" align="center">
