@@ -90,22 +90,26 @@ class eZPhoneType
     }
   
 
-    /*!
-      Setter navnet.
-    */
     function setName( $value )
     {
         $this->Name = $value;
     }
 
-    /*!
-      Returnerer navnet.
-    */
+    function setID( $value )
+    {
+        $this->ID = $value;
+    }
+    
     function name(  )
     {
         return $this->Name;
     }  
-  
+
+    function id(  )
+    {
+        return $this->ID;
+    }  
+    
     /*
       Privat: Initiering av database. 
     */

@@ -28,6 +28,20 @@ class eZCompanyPhoneDict
     }
 
     /*
+      Henter ut alle telefonnummer lagret i databasen hvor CompanyID == $id.
+    */
+    function getByCompany( $id )
+    {
+        $this->dbInit();    
+        $phone_array = 0;
+    
+        array_query( $phone_array, "SELECT * FROM CompanyPhoneDict WHERE CompanyID='$id'" );
+    
+        return $phone_array;
+    }
+    
+
+    /*
       Setter companyID variablen.
     */
     function setCompanyID( $value )

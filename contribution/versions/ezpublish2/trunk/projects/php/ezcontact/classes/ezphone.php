@@ -53,6 +53,11 @@ class eZPhone
         $this->Type = $value;
     }
 
+    function setID( $value )
+    {
+        $this->ID = $value;
+    }
+    
     function number( )
     {
         return $this->Number;
@@ -61,6 +66,11 @@ class eZPhone
     function type( )
     {
         return $this->Type;
+    }
+    
+    function id( )
+    {
+        return $this->ID;
     }
     
     /*

@@ -19,7 +19,6 @@ require $DOCUMENTROOT . "classes/ezcompanyphonedict.php";
 if ( $Action == "insert" )
 {
   $newCompany = new eZCompany();
-//  print $CompanyName;
   $newCompany->setName( $CompanyName );  
   $newCompany->setContactType( $CompanyType );
 
@@ -32,23 +31,37 @@ if ( $Action == "insert" )
     $usr->get( $session->userID() );
   }
   $newCompany->setOwner( $usr->id() );
-//    $cid = $newCompany->store();
+  $cid = $newCompany->store();
     
   $newAddress = new eZAddress();
   $newAddress->setStreet1( $Street1 );
   $newAddress->setStreet2( $Street2 );
   $newAddress->setZip( $Zip );
-//    $aid = $newAddress->store();
+  $aid = $newAddress->store();
 
   $dict = new eZCompanyAddressDict( );
   $dict->setCompanyID( $cid );
   $dict->setAddressID( $aid );
-//    $dict->store();
+  $dict->store();
 
   $phone = new eZPhone();
+}
 
-  print( count( $Phone ) );
-  
+<<<<<<< companyedit.php
+if ( isset( $AddPhone ) )
+{
+    print( "Add phone" . $PhoneNumber ." - " . $PhoneType );
+
+    $phone = new eZPhone( );
+    $phone->setNumber( $PhoneNumber );
+    $phone->setType( $PhoneType );
+    $pid = $phone->store();    
+    
+    $dict = new eZCompanyPhoneDict();
+
+    $dict->setCompanyID( $CID );
+    $dict->setPhoneID( $pid );
+    $dict->store();    
 }
 
 // Slette fra company list
@@ -71,8 +84,12 @@ $t->set_file( array(
                     "company_edit" => $DOCUMENTROOT . "templates/companyedit.tpl",
                     "company_type_select" => $DOCUMENTROOT . "templates/companytypeselect.tpl",
                     "address_type_select" => $DOCUMENTROOT . "templates/addresstypeselect.tpl",
-                    "phone_type_select" => $DOCUMENTROOT . "templates/phonetypeselect.tpl"
+                    "phone_type_select" => $DOCUMENTROOT . "templates/phonetypeselect.tpl",
+                    "phone_item" => $DOCUMENTROOT . "templates/phoneitem.tpl"
                     ) );
+
+if ( !isset( $Action ) )
+    $Action = "insert";
 
 $company = new eZCompany();
 $companyType = new eZCompanyType();
@@ -145,12 +162,39 @@ for ( $i=0; $i<count( $phone_type_array ); $i++ )
 // redigering av firma
 if ( $Action == "edit" )
 {
-    print( $CID );    
 
     $company = new eZCompany();
     $company->get( $CID );
+
+    $phone = new eZPhone( );
+//      $phone->setNumber( "35 53 35 47" );
+//      $phone->setType( $PhoneType );
+//      $pid = $phone->store();    
     
-    //
+    $dict = new eZCompanyPhoneDict();
+
+//      $dict->setCompanyID( $CID );
+//      $dict->setPhoneID( $pid );
+//      $dict->store(); 
+    
+    
+    $dict_array = $dict->getByCompany( $CID );
+
+    for ( $i=0; $i<count( $dict_array ); $i++ )
+    {
+        $phone->get( $dict_array[ $i ][ "PhoneID" ] );
+        $phoneType->get( $phone->type() );
+        
+        $t->set_var( "phone_id", $phone->id() );
+        $t->set_var( "phone_number", $phone->number() );
+        $t->set_var( "phone_type_name", $phoneType->name() );
+
+        $t->set_var( "phone_type_id", $i );
+        $t->parse( "phone_list", "phone_item", true );                
+    }
+
+    $t->set_var( "phone_action", "AddPhone" );
+    $t->set_var( "phone_action_value", "Legg til" );
     
 }
 
@@ -160,10 +204,16 @@ $t->set_var( "street_1", $Street1 );
 $t->set_var( "street_2", $Street2 );
 $t->set_var( "zip_code", $Zip );
 
+$t->set_var( "phone_edit_number", $PhoneNumber );
+$t->set_var( "phone_edit_id", $PhoneID );
+
 $t->set_var( "submit_text", "lagre endringer" );
 
 $t->set_var( "message", "Nytt kontakfirma" );
 $t->set_var( "document_root", $DOCUMENTROOT );
+
+$t->set_var( "edit_mode", $Action );
+$t->set_var( "company_id", $CID );
 
 $t->pparse( "output", "company_edit"  );
 
