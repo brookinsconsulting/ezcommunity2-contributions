@@ -21,6 +21,7 @@ $t->set_block( "slideshow_tpl", "next_tpl", "next" );
 if ( $Position == "" )
     $Position = 0;
 
+
 $slideshow = new eZSlideshow( $CategoryID, eZUser::currentUser(), $Position );
 $image = $slideshow->image();
 
@@ -55,6 +56,11 @@ else
 
 if ( $current < ( $slideshow->size() - 1 ) )
 {
+    if ( is_numeric( $RefreshTimer ) )
+    {
+        $MetaRedirectLocation = "/imagecatalogue/slideshow/" . $CategoryID . "/" . ($current + 1) . "/" . $RefreshTimer . "/";
+        $MetaRedirectTimer = $RefreshTimer;
+    }
     $t->set_var( "next_image", $current + 1 );
     $t->parse( "next", "next_tpl" );
 }

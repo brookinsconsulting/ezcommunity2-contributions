@@ -111,6 +111,8 @@ switch ( $url_array[2] )
     case "download" :
     {
         $ImageID = $url_array[3];
+        if ( !is_numeric( $ImageID ) )
+            $ImageID = 0;
         if ( ( eZImage::isOwner( $user, $ImageID ) ||
               eZObjectPermission::hasPermission( $ImageID, "imagecatalogue_image", 'r' ) ) )
             include( "ezimagecatalogue/user/filedownload.php" );
@@ -125,7 +127,12 @@ switch ( $url_array[2] )
     case "slideshow" :
     {
         $CategoryID = $url_array[3];
+        if ( !is_numeric( $CategoryID ) )
+            $CategoryID = 0;
         $Position = $url_array[4];
+        if ( !is_numeric( $Position ) )
+            $Position = 0;
+        $RefreshTimer = $url_array[5];
         include( "ezimagecatalogue/user/slideshow.php" );
     }
     break;

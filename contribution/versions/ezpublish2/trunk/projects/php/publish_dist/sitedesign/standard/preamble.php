@@ -13,7 +13,18 @@ else
     print( $SiteTitle );
 
 ?></title>
-    
+
+
+<?php
+
+// check if we need a http-equiv refresh
+if ( isset( $MetaRedirectLocation ) && isset( $MetaRedirectTimer ) )
+{
+    print( "<META HTTP-EQUIV=Refresh CONTENT=\"$MetaRedirectTimer; URL=$MetaRedirectLocation\" />" );
+}
+
+?>
+
 <link rel="stylesheet" type="text/css" href="/sitedesign/standard/style.css" />
 
 <script language="JavaScript1.2">
@@ -47,7 +58,6 @@ else
 	
 //-->
 </script> 
-
 
 <meta name="author" content="eZ systems" />
 <meta name="copyright" content="eZ systems &copy; 2001" />

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imageedit.php,v 1.31 2001/06/29 18:03:20 bf Exp $
+// $Id: imageedit.php,v 1.32 2001/07/05 09:03:42 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -176,7 +176,7 @@ if ( $Action == "Insert" || $Action == "Update" )
         if ( $file->getUploadedFile( "userfile" ) )
         {
             $imageTest = new eZImage();
-            if( $imageTest->checkImage( $file ) and $imageTest->setImage( $file ) )
+            if ( $imageTest->checkImage( $file ) and $imageTest->setImage( $file ) )
             {
                 $fileOK = true;
             }
@@ -280,9 +280,9 @@ if ( $Action == "Update" && $error == false )
     $image->setName( $Name );
     $image->setPhotographer( $PhotoID );
     $image->setCaption( $Caption );
-
+    
     $image->setDescription( $Description );
-
+    
     eZObjectPermission::removePermissions( $ImageID, "imagecatalogue_image", 'r' );
     if ( count ( $ReadGroupArrayID ) > 0 )
     {
@@ -292,11 +292,11 @@ if ( $Action == "Update" && $error == false )
                 $group = -1;
             else
                 $group = new eZUserGroup( $Read );
-
+            
             eZObjectPermission::setPermission( $group, $image->id(), "imagecatalogue_image", "r" );
         }
     }
-
+    
     eZObjectPermission::removePermissions( $ImageID, "imagecatalogue_image", 'w' );
     if ( count ( $WriteGroupArrayID ) > 0 )
     {
@@ -407,18 +407,18 @@ if ( $Action == "New" || $error )
 if ( $Action == "Edit" )
 {
     $image = new eZImage( $ImageID );
-
+    
     $t->set_var( "image_id", $image->id() );
     $t->set_var( "name_value", $image->name() );
     $t->set_var( "caption_value", $image->caption() );
     $t->set_var( "image_description", $image->description() );
     $t->set_var( "action_value", "update" );
-
+    
     $t->set_var( "image_alt", $image->caption() );
-
+    
     $photographer = $image->photographer();
     $PhotographerID = $photographer->id();
-
+    
 // author select
     
     $author = new eZAuthor();
@@ -445,11 +445,10 @@ if ( $Action == "Edit" )
     $t->set_var( "image_height", $variation->height() );
     $t->set_var( "image_file_name", $image->originalFileName() );
     $t->parse( "image", "image_tpl" );
-
-    $objectPermission = new eZObjectPermission();
-
-    $readGroupArrayID =& $objectPermission->getGroups( $image->id(), "imagecatalogue_image", "r", false );
     
+    $objectPermission = new eZObjectPermission();
+    
+    $readGroupArrayID =& $objectPermission->getGroups( $image->id(), "imagecatalogue_image", "r", false );
     $writeGroupArrayID =& $objectPermission->getGroups( $image->id(), "imagecatalogue_image", "w", false );
 }
 
