@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: datasupplier.php,v 1.2 2001/05/30 10:39:40 pkej Exp $
+// $Id: datasupplier.php,v 1.3 2001/05/30 12:56:46 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -29,7 +29,7 @@ include_once( "classes/ezhttptool.php" );
 $ini =& INIFile::globalINI();
 
 $PageCaching = $ini->read_var( "eZQuizMain", "PageCaching" );
-
+$PageCaching=disabled;
 switch ( $url_array[2] )
 {
     case "game":
@@ -65,11 +65,42 @@ switch ( $url_array[2] )
                     }
 
                 }
+                else
+                {
+                    include( "ezquiz/user/quizlist.php" );
+                }
             }
             break;
             
             case "open":
             {
+                $Offset = $url_array[4];
+                
+                if  ( !is_numeric( $Offset ) )
+                {
+                    $Offset = 0;
+                }
+                if( $PageCaching == "enabled" )
+                {
+                    include_once( "classes/ezcachefile.php" );
+                    $file = new eZCacheFile( "ezquiz/cache/", array( "quiz" . $Action, $Offset ),
+                                             "cache", "," );
+                    $cachedFile = $file->filename( true );
+
+                    if ( $file->exists() )
+                    {
+                        include( $cachedFile );
+                    }
+                    else
+                    {
+                        $GenerateStaticPage = "true";
+                        include( "ezquiz/user/quizopen.php" );
+                    }
+                }
+                else
+                {
+                    include( "ezquiz/user/quizopen.php" );
+                }
             }
             break;
             
@@ -92,7 +123,7 @@ switch ( $url_array[2] )
                 
                 if( get_class( $user ) != "ezuser" )
                 {
-                    eZHTTPTool::header( "Location: /user/login?RedirectURL=" . urlencode( "/quiz/game/play/$GameID" ) );
+                   eZHTTPTool::header( "Location: /user/login?RedirectURL=" . urlencode( "/quiz/game/play/$GameID" ) );
                 }
                 else
                 {
@@ -121,12 +152,14 @@ switch ( $url_array[2] )
                         }
                         else
                         {
-                            include( "ezquiz/user/quizclosed.php" );
+                            $error = "closed";
+                            include( "ezquiz/user/quizplay.php" );
                         }
                     }
                     else
                     {
-                        include( "ezquiz/user/quizunopened.php" );
+                        $error = "unopened";
+                        include( "ezquiz/user/quizplay.php" );
                     }
                     
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: quizplay.php,v 1.5 2001/05/30 11:06:33 pkej Exp $
+// $Id: quizplay.php,v 1.6 2001/05/30 12:56:46 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -180,9 +180,9 @@ if( $score->isFinishedGame() )
 
 if( $QuestionNum == 0 )
 {
-    $t->parse( "start_item", "start_item_tpl" );
+        $t->parse( "start_item", "start_item_tpl" );
 }
-else
+elseif( empty( $error ) )
 {
 
     if( $QuestionNum >= 1 )
@@ -196,8 +196,8 @@ else
 
     if( $questionCount <= 0 )
     {
-       $t->set_var( "error_message", $intl->read_var( "strings", "error_no_questions" ) );
-       $t->parse( "error_item", "error_item_tpl" );
+        $t->set_var( "error_message", $intl->read_var( "strings", "error_no_questions" ) );
+        $t->parse( "error_item", "error_item_tpl" );
     }
     else if( $QuestionNum <= $questionCount )
     {
@@ -242,6 +242,34 @@ else
     else
     {
         // finished game.
+    }
+}
+
+
+if( $error )
+{
+    switch( $error )
+    {
+        case "unopened":
+        {
+            $t->set_var( "error_message", $intl->read_var( "strings", "error_unopened" ) );
+            $t->parse( "error_item", "error_item_tpl" );
+        }
+        break;
+
+        case "closed":
+        {
+            $t->set_var( "error_message", $intl->read_var( "strings", "error_closed" ) );
+            $t->parse( "error_item", "error_item_tpl" );
+        }
+        break;
+
+        default:
+        {
+            $t->set_var( "error_message", $intl->read_var( "strings", "error_undefined" ) );
+            $t->parse( "error_item", "error_item_tpl" );
+        }
+        break;
     }
 }
 
