@@ -11,7 +11,7 @@
 <input type="text" size="20" name="LastName" value="{last_name_value}"/>
 
 <p class="boxtext">{intl-email}</p>
-<input type="text" size="20" name="Email" value="{email_value}"/>
+<input type="text" size="40" name="Email" value="{email_value}"/>
 
 <p class="boxtext">{intl-login}</p>
 <input type="text" size="20" name="Login" value="{login_value}"/>
@@ -33,6 +33,7 @@
 
 <input type="hidden" name="UserID" value="{user_id}" />
 <input class="okbutton" type="submit" value="OK" />
+<form method="post" action="/user/userlist/"><input class="okbutton" type="submit" name="Back" value="{intl-back}"></form>
 
 </form>
 

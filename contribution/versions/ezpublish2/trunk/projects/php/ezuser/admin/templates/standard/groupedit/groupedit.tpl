@@ -30,6 +30,7 @@
 
 <input type="hidden" name="GroupID" value="{group_id}" />
 <input class="okbutton" type="submit" value="OK" />
+<form method="post" action="/user/grouplist/"><input class="okbutton" type="submit" name="Back" value="{intl-back}"></form>
 
 </form>
 

@@ -11,8 +11,5 @@
 	</td>
 </tr>
 <tr>
-    <td><img src="/images/<? echo $SiteStyle; ?>/menu-b.gif" width="150" height="30"></td>
-</tr>
-<tr>
-	<td><img src="/images/<? echo $SiteStyle; ?>/1x1.gif" width="10" height="10"></td>
+    <td><img src="/images/<? echo $SiteStyle; ?>/menu-b.gif" width="150" height="40"></td>
 </tr>

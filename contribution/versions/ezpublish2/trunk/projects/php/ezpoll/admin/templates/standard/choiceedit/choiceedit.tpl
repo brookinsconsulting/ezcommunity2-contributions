@@ -1,37 +1,21 @@
+<form method="post" action="/poll/choiceedit/{action_value}/{poll_id}/{choice_id}/">
+
 <h1>{head_line}</h1>
 
+<hr noshade size="4">
 
-<form method="post" action="/poll/choiceedit/{action_value}/{poll_id}/{choice_id}/">
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td>
-	{intl-name}
-	</td>
-</tr>
-<tr>
-	<td>
-	<input type="text" size="20" name="Name" value="{name_value}"/>
-	</td>
-</tr>
-<tr>
-	<td>
-	<br>{intl-offset}
-	</td>
-</tr>
-<tr>
-	<td>
-	<input type="text" size="20" name="Offset" value="{offset_value}"/>
-	</td>
-</tr>
+<p class="boxtext">{intl-name}</p>
+<input type="text" size="20" name="Name" value="{name_value}"/>
 
-<tr>
-	<td>
-	<input type="hidden" name="PollID" value="{poll_id}" />
-	<br><input type="submit" value="OK" />
-	</td>
-</tr>
+<p class="boxtext">{intl-offset}</p>
+<input type="text" size="20" name="Offset" value="{offset_value}"/>
+<br></br>
 
-</table>
+<hr noshade size="4">
+
+<input type="hidden" name="PollID" value="{poll_id}" />
+<input class="okbutton" type="submit" value="OK" />
+
 </form>
 
 

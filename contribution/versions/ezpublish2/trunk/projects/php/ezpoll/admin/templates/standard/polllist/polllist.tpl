@@ -1,42 +1,33 @@
+<form action="/poll/polllist/">
+
 <h1>{intl-head_line}</h1>
 
-<form action="/poll/polllist/">
+<hr noshade size="4"/>
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<tr>
-	<td>
-	<h3>{intl-poll}</h3>
-	</td>
+	<th>{intl-poll}</th>
 
-	<td>
-	<h3>{intl-description}</h3>
-	</td>
+	<th>{intl-description}</th>
 
-	<td>
-	<h3>{intl-enabled}</h3>
-	</td>
+	<th>{intl-enabled}</th>
 
-	<td>
-	<h3>{intl-closed}</h3>
-	</td>
+	<th>{intl-closed}</th>
 
-	<td>
-	<h3>Hoved poll</h3>
-	</td>
+	<th>Hovedpoll</th>
 
-	<td>
-	<h3>{intl-edit}</h3>
-	</td>
+	<th>&nbsp;</th>
 
-	<td>
-	<h3>{intl-delete}</h3>
-	</td>
-
-
+	<th>&nbsp;</th>
 </tr>
+
 {poll_list}
+
 </table>
-<input type="submit" value="Lagre endringer" />
+
+<hr noshade size="4"/>
+
+<input class="okbutton" type="submit" value="Lagre endringer" />
 </form>
 
 
