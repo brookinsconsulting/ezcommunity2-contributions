@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.30 2001/02/28 20:07:26 gl Exp $
+// $Id: ezlocale.php,v 1.31 2001/02/28 20:36:06 gl Exp $
 //
 // Definition of eZLocale class
 //
@@ -39,6 +39,7 @@ D - day of the week, textual, 3 letters; i.e. "Fri"
 E - day of the week, textual, long; i.e. "Friday" 
 F - month, textual, long; i.e. "January" 
 H - hour, 24-hour format; i.e. "00" to "23" 
+G - hour, 24-hour format without leading zeros; i.e. "0" to "23" 
 i - minutes; i.e. "00" to "59" 
 m - month; i.e. "01" to "12" 
 M - month, textual, 3 letters; i.e. "Jan" 
@@ -51,7 +52,6 @@ Y - year, 4 digits; i.e. "1999"
 a - "am" or "pm" 
 A - "AM" or "PM" 
 g - hour, 12-hour format without leading zeros; i.e. "1" to "12" 
-G - hour, 24-hour format without leading zeros; i.e. "0" to "23" 
 h - hour, 12-hour format; i.e. "01" to "12" 
 I (capital i) - "1" if Daylight Savings Time, "0" otherwise. 
 j - day of the month without leading zeros; i.e. "1" to "31" 
@@ -184,10 +184,12 @@ class eZLocale
                     $date =& str_replace( "%d", "" . $obj->day() . "", $date );
 
                     // D - day of the week, textual, 3 letters; i.e. "Fri"
-                    $date =& str_replace( "%D", "" . $this->dayName( $obj->day() ) . "", $date );
+                    $date =& str_replace( "%D", "" . $this->dayName(
+                        $obj->dayOfWeek( $this->mondayFirst() ) ) . "", $date );
 
                     // E - day of the week, textual, long; i.e. "Friday"
-                    $date =& str_replace( "%E", "" . $this->dayName( $obj->day(), false ) . "", $date );
+                    $date =& str_replace( "%E", "" . $this->dayName(
+                        $obj->dayOfWeek( $this->mondayFirst() ), false ) . "", $date );
 
                     // F - month, textual, long; i.e. "January"
                     $date =& str_replace( "%F", "" . $this->monthName( $obj->month(), false ) . "", $date );
@@ -208,6 +210,9 @@ class eZLocale
                 {
                     // H - hour, 24-hour format; i.e. "00" to "23"
                     $time =& str_replace( "%H", "" . $this->addZero( $obj->hour() ) . "", $time );
+
+                    // G - hour, 24-hour format without leading zeros; i.e. "0" to "23" 
+                    $time =& str_replace( "%H", "" . $obj->hour() . "", $time );
 
                     // i - minutes; i.e. "00" to "59"
                     $time =& str_replace( "%i", "" . $this->addZero( $obj->minute() ) . "", $time );
@@ -284,9 +289,9 @@ class eZLocale
             return $errorString;
 
         if ( $isShort )
-            $long = "long";
-        else
             $long = "";
+        else
+            $long = "long";
 
         if ( is_numeric( $day ) == true )
         {
@@ -365,9 +370,9 @@ class eZLocale
             return $errorString;
 
         if ( $isShort )
-            $long = "long";
-        else
             $long = "";
+        else
+            $long = "long";
 
         if ( is_numeric( $month ) == true )
         {
