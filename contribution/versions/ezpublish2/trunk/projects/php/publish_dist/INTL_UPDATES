@@ -3,11 +3,13 @@ Example:
 mod: bug/user, fileedit.php.ini
 change: added user_edit=Some text
 --------------------------------------------------------------------
+mod: ezarticle/admin, categoryedit.php.ini
+change: added write_groups=Groups with write access
 
 mod: trade, optionedit.php.ini
 change: added main_price=Price
 
-mod: stats, dayreport.php.ini
+mod: stats/admin, dayreport.php.ini
 change: removed
 january_month=January
 february_month=February
@@ -22,7 +24,7 @@ october_month=October
 november_month=November
 december_month=December
 
-mod: stats, monthreport.php.ini
+mod: stats/admin, monthreport.php.ini
 change: removed
 january_month=January
 february_month=February
@@ -37,7 +39,7 @@ october_month=October
 november_month=November
 december_month=December
 
-mod: stats, yearreport.php.ini
+mod: stats/admin, yearreport.php.ini
 change: removed
 january_month=January
 february_month=February
@@ -51,3 +53,6 @@ september_month=September
 october_month=October
 november_month=November
 december_month=December
+
+mod: ezerror/admin, menubox.php.ini
+Change: added menubox.php.ini
