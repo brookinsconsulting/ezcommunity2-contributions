@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: onepagelinklist.php,v 1.3 2001/09/03 12:47:32 br Exp $
+// $Id: onepagelinklist.php,v 1.4 2001/09/03 13:30:10 br Exp $
 //
 // Bjørn Reiten <br@ez.no>
 // Created on: Created on: <03-Sep-2001 11:09:42 br>
@@ -221,6 +221,8 @@ else
 
 
                     $t->set_var( "attribute", "" );
+                    $t->set_var( "attribute_value", "" );
+                    $t->set_var( "attribute_header", "" );
                     // attribute list
                     $type = $linkItem->type();
                     if ( $type )    
