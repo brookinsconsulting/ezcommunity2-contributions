@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.116 2001/10/16 12:22:23 bf Exp $
+// $Id: index.php,v 1.117 2001/10/16 14:02:44 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -71,7 +71,7 @@ $REQUEST_URI = $regs[1];
 
   
 $GLOBALS["DEBUG"] = true;
-$UsePHPSessions = true;
+$UsePHPSessions = false;
 
 ob_start();
 // Turn on output buffering with gz compression
