@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.37 2001/08/30 07:55:56 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.38 2001/08/30 08:01:18 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -553,10 +553,12 @@ class eZQDomrenderer
                 $this->Template->set_var( "view_mode", $viewMode );
                 $this->Template->set_var( "caption", $imageCaption );
 
+                $this->Template->set_var( "referer_url", $GLOBALS["REQUEST_URI"] );
+                
                 if ( $imageAlignment != "float"  )
                 {                
-		    if ( $imageHref == "0" )
-		    {
+                    if ( $imageHref == "0" )
+                    {
                         $this->Template->set_var( "ext_link", "" );
                         $this->Template->set_var( "image_link", "" );
                         $this->Template->parse( "no_link", "no_link_tpl" );
@@ -591,7 +593,7 @@ class eZQDomrenderer
                 }
                 else
                 {                    
-		    if ( $imageHref == "0" )
+                    if ( $imageHref == "0" )
                     {
                         $this->Template->set_var( "ext_link_float", "" );
                         $this->Template->set_var( "image_link_float", "" );

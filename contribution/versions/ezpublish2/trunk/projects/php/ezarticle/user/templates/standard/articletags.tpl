@@ -27,7 +27,7 @@
 <tr>
 <td>
    <!-- BEGIN image_link_tpl -->
-   <a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/?RefererURL=/article/{view_mode}/{article_id}/">
+   <a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/?RefererURL={referer_url}">
    <img src="{www_dir}{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" />
    </a>   
    <!-- END image_link_tpl -->
@@ -53,7 +53,7 @@
 
 <!-- BEGIN image_float_tpl -->
    <!-- BEGIN image_link_float_tpl -->
-   <a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/?RefererURL=/article/{view_mode}/{article_id}/">
+   <a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/?RefererURL={referer_url}">
    <img src="{www_dir}{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" />
    </a>   
    <!-- END image_link_float_tpl -->
