@@ -7,20 +7,21 @@
 	<!-- Oppslagstavle kommer her! -->
     
     <?
-        
-          include( "ezuser/user/userbox.php" );
+        include( "ezuser/user/userbox.php" );
     ?>
 
     <?
-          include( "ezpoll/user/votebox.php" );
+        include( "ezpoll/user/votebox.php" );
     ?>
-      <?
-          include( "eztodo/user/todomenulist.php" );
-      ?>
-     <?
-         include( "ezcontact/user/consultationlist.php" );
-     ?>
-        
+
+    <?
+        include( "eztodo/user/todomenulist.php" );
+    ?>
+
+	<?
+	    include( "ezcontact/user/consultationlist.php" );
+	?>
+	     
 	<hr noshade="noshade" size="4" />
 
 	

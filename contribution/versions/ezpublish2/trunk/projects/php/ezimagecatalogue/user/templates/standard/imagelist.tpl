@@ -1,7 +1,5 @@
 <form method="post" action="/imagecatalogue/image/new/" enctype="multipart/form-data">
 
-<div onLoad="MM_preloadImages('/ezimagecatalogue/user/{image_dir}/redigerminimrk.gif','/ezimagecatalogue/user/{image_dir}/slettminimrk.gif','/ezimagecatalogue/user/{image_dir}/downloadminimrk.gif')"></div>
-
 <h1>Bilder</h1>
 
 <!-- BEGIN current_category_tpl -->
@@ -10,11 +8,11 @@
 
 <hr noshade="noshade" size="4" />
 
-<img src="/images/path-arrow.gif" height="10" width="15" border="0" alt="">
+<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="">
 <a class="path" href="/imagecatalogue/image/list/0/">{intl-image_root}</a>
 
 <!-- BEGIN path_item_tpl -->
-<img src="/images/path-slash.gif" height="10" width="20" border="0" alt="">
+<img src="/images/path-slash.gif" height="10" width="16" border="0" alt="">
 <a class="path" href="/imagecatalogue/image/list/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
 <br /><br />
@@ -29,7 +27,7 @@
 <tr>
         <!-- BEGIN category_read_tpl -->
 	<td width="1%">
-	<a href="/imagecatalogue/image/list/{category_id}/"><img src="/ezimagecatalogue/user/{image_dir}/folder.gif" alt="" width="16" height="16" border="0" /></a>
+	<a href="/imagecatalogue/image/list/{category_id}/"><img src="/images/folder.gif" alt="" width="16" height="16" border="0" /></a>
 	</td>
 	<td width="38%">
 	<a href="/imagecatalogue/image/list/{category_id}/">{category_name}</a>
@@ -40,10 +38,10 @@
         <!-- END category_read_tpl -->
         <!-- BEGIN category_write_tpl -->
 	<td width="1%">
-	<a href="/imagecatalogue/category/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezim{category_id}-red','','/ezimagecatalogue/user/{image_dir}/redigerminimrk.gif',1)"><img name="ezim{category_id}-red" border="0" src="/ezimagecatalogue/user/{image_dir}/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="/imagecatalogue/category/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezim{category_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezim{category_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%">
-	<a href="/imagecatalogue/category/delete/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezim{category_id}-slett','','/ezimagecatalogue/user/{image_dir}/slettminimrk.gif',1)"><img name="ezim{category_id}-slett" border="0" src="/ezimagecatalogue/user/{image_dir}/slettmini.gif" width="16" height="16" align="top"></a>
+	<a href="/imagecatalogue/category/delete/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezim{category_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezim{category_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
         <!-- END category_write_tpl -->
 </tr>
