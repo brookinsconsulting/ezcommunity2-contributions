@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.3 2000/10/21 11:08:58 bf-cvs Exp $
+// $Id: imageedit.php,v 1.4 2000/10/22 11:54:41 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -101,6 +101,7 @@ if ( $Action == "Delete" )
     $article->deleteImage( $image );
     
     header( "Location: /article/articleedit/imagelist/" . $ArticleID . "/" );
+    exit();    
 }
 
 // store the image definition
@@ -117,10 +118,11 @@ if ( $Action == "StoreDef" )
     {
         print( "new image" );
         header( "Location: /article/articleedit/imageedit/new/$ArticleID/" );
+        exit();
     }
-//  <form action="/article/articleedit/imageedit/new/{article_id}/" method="post">
-     
+
     header( "Location: /article/articleedit/edit/" . $ArticleID . "/" );
+    exit();
 }
 
 $t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
