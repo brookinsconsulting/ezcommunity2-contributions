@@ -49,13 +49,15 @@
 		</a>
 		</td>
 
-<!-- Standard help feature template:
+
+		<!-- BEGIN help_tpl -->
 		<td>
-		<a href="/">
+		<a target="_help_window" href="{help_url}">
 		<img src="/admin/images/{site_style}/icon-help.gif" width="32" height="32" border="0" alt="Help" />
 		</a>
 		</td>
--->
+		<!-- END help_tpl -->
+
 	</tr>
 	</table>
 

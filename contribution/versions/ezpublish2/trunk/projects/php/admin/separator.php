@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: separator.php,v 1.14 2001/04/18 15:24:00 th Exp $
+// $Id: separator.php,v 1.15 2001/04/20 13:00:00 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Jan-2001 16:06:07 bf>
@@ -45,6 +45,7 @@ $t->set_file( array(
 
 $t->set_block( "separator_tpl", "left_spacer_tpl", "left_spacer_item" );
 $t->set_block( "separator_tpl", "top_field_tpl", "top_field_item" );
+$t->set_block( "top_field_tpl", "help_tpl", "help" );
 
 $t->set_var( "site_style", $SiteStyle );
 
@@ -52,6 +53,16 @@ $t->set_var( "module_name", $moduleName );
 
 $t->set_var( "current_url", $REQUEST_URI );
 
+// check for help file
+$helpFile = "ez" . $moduleName . "/admin/help/". $Language . "/" . $url_array[1] . "_" . $url_array[2] . ".hlp";
+
+$t->set_var( "help", "" );
+
+if ( file_exists( $helpFile ) )
+{
+    $t->set_var( "help_url", "/help/" . $url_array[1] . "/" . $url_array[2]. "/" );
+    $t->parse( "help", "help_tpl" );
+}
 
 $t->setAllStrings();
 
