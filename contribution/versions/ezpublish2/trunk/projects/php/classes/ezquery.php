@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquery.php,v 1.11 2001/07/15 16:57:17 bf Exp $
+// $Id: ezquery.php,v 1.12 2001/07/19 08:41:27 jb Exp $
 //
 // Definition of eZQuery class
 //
@@ -41,7 +41,7 @@
              ") ORDER BY SomeColumn LIMIT $offset, $limit";
 
   // do the query
-  $this->Database->array_query( $message_array, $query_str );
+  $db->array_query( $message_array, $query_str );
   \endcode
 
   \sa eZDB
@@ -51,62 +51,108 @@
 class eZQuery
 {
     /*!
-      
+      Initializes the query with the fields and the query text.
+      The query text can be supplied as a string or as an array.
+      If the query text is a string it will be split using spaces as a delimiter.
+      If $single_string is true and $queryText is a string the string will not be split up.
+      $fields is an array of strings which is used for matching against, it can also be a single
+      string in which case it is converted to an array with one element.
     */
-    function eZQuery( $fields, $queryText )
+    function eZQuery( $fields, $queryText, $single_string = false )
     {
+        if ( !is_array( $fields ) )
+            $fields = array( $fields );
         $this->Fields = $fields;
-        $this->QueryText = $queryText;        
+        $this->QueryText = $queryText;
+        $this->SingleString = $single_string;
+        $this->Literal = false;
+        $this->PartialCompare = false;
     }
 
     /*!
-      Returns a SQL Where clause.
+      Builds the WHERE clause of an SQL sentence and returns it.
     */
     function buildQuery( )
     {
         $QueryText = $this->QueryText;
-        
-        $QueryText = trim( $QueryText );
-//          $QueryText = ereg_replace( "[ ]+", " ", $QueryText );
-//        $queryArray = explode( " ", $QueryText );
-        $QueryText = ereg_replace( '\\\\"', '"', $QueryText );
-        preg_match_all( "/((\"[^\"]+\")|([^ ]+))/", $QueryText, $m );
-        $queryArray = array();
-        foreach( $m[0] as $match )
+        if ( is_array( $QueryText ) )
         {
-            $queryArray[] = $match;
+            $queryArray = $QueryText;
+            if ( ( isset( $queryArray[0] ) and is_array( $queryArray[0] ) ) or
+                 ( isset( $queryArray[1] ) and is_array( $queryArray[1] ) ) or
+                 ( isset( $queryArray[2] ) and is_array( $queryArray[2] ) ) )
+            {
+                $normalArray = $queryArray[0];
+                $addArray = array();
+                $subArray = array();
+                if ( isset( $queryArray[1] ) and is_array( $queryArray[1] ) )
+                    $addArray = $queryArray[1];
+                if ( isset( $queryArray[2] ) and is_array( $queryArray[2] ) )
+                    $subArray = $queryArray[2];
+            }
+        }
+        else if ( $this->SingleString )
+        {
+            $queryArray = array( $QueryText );
+        }
+        else
+        {
+            $QueryText = trim( $QueryText );
+            $QueryText = ereg_replace( '\\\\"', '"', $QueryText );
+            preg_match_all( "/((\"[^\"]+\")|([^ ]+))/", $QueryText, $m );
+            $queryArray = array();
+            foreach( $m[0] as $match )
+            {
+                $queryArray[] = $match;
+            }
         }
         if ( count( $queryArray ) == 0 )
             $queryArray[] = "";
 
-        $normalArray = array();
-        $addArray = array();
-        $subArray = array();
-
-        foreach( $queryArray as $queryItem )
+        if ( $this->Literal )
         {
-            switch ( $queryItem[0] )
+            $normalArray = $queryArray;
+            $addArray = array();
+            $subArray = array();
+        }
+        else if ( !isset( $normalArray ) and !isset( $addArray ) and !isset( $subArray ) )
+        {
+            $normalArray = array();
+            $addArray = array();
+            $subArray = array();
+            foreach( $queryArray as $queryItem )
             {
-                case '-':
+                switch ( $queryItem[0] )
                 {
-                    $subArray[] = substr( $queryItem, 1 );
-                    break;
-                }
-                case '+':
-                {
-                    $addArray[] = substr( $queryItem, 1 );
-                    break;
-                }
-                default:
-                {
-                    $normalArray[] = $queryItem;
+                    case '-':
+                    {
+                        $subArray[] = substr( $queryItem, 1 );
+                        break;
+                    }
+                    case '+':
+                    {
+                        $addArray[] = substr( $queryItem, 1 );
+                        break;
+                    }
+                    default:
+                    {
+                        $normalArray[] = $queryItem;
+                    }
                 }
             }
         }
 
-        $arrs = array( array( "array" => "normalArray", "item_delim" => "OR", "delim" => "AND", "compare" => "LIKE" ),
-                       array( "array" => "addArray", "item_delim" => "OR", "delim" => "AND", "compare" => "LIKE" ),
-                       array( "array" => "subArray", "item_delim" => "AND", "delim" => "AND", "compare" => "NOT LIKE" ) );
+        $like = $this->PartialCompare ? "LIKE" : "=";
+        $not_like = $this->PartialCompare ? "LIKE" : "!=";
+
+        $arrs = array( array( "array" => "normalArray", "item_delim" => "OR",
+                              "delim" => $this->PartialCompare ? "AND" : "OR", "compare" => $like ),
+                       array( "array" => "addArray", "item_delim" => "OR",
+                              "delim" => "AND", "compare" => $like ),
+                       array( "array" => "subArray", "item_delim" => "AND",
+                              "delim" => "AND", "compare" => $not_like ) );
+
+        $partial_sign = $this->PartialCompare ? "%" : "";
 
         $total_query = "";
         foreach( $arrs as $arr )
@@ -129,7 +175,7 @@ class eZQuery
                 {
                     $queryItem = $queryVal;
 
-                    $queryItem = $this->Fields[$j] ." $compare '%" . $queryItem . "%' ";
+                    $queryItem = $this->Fields[$j] ." $compare '$partial_sign" . $queryItem . "$partial_sign' ";
 
                     if ( $j > 0 )
                         $queryItem = $item_delim . " " . $queryItem . " ";
@@ -156,52 +202,42 @@ class eZQuery
         return $total_query;
     }
 
-//      /*!
-      
-//      */
-//      function buildQuery( )
-//      {
-//          $field = "KeyWords";
+    /*!
+      Returns whether the query is literal or not.
+      If it is literal all query items will match as they are.
+    */
+    function isLiteral()
+    {
+        return $this->Literal;
+    }
 
-//          $QueryText = $this->QueryText;
-        
-//          $QueryText = trim( $QueryText );
-//          $QueryText = ereg_replace( "[ ]+", " ", $QueryText );
-//          $queryArray = explode( " ", $QueryText );
+    /*!
+      Returns whether the query will do a partial compare or not.
+    */
+    function partialCompare()
+    {
+        return $this->PartialCompare;
+    }
 
-//          $query = "";
-//          for ( $i=0; $i<count($queryArray); $i++ )            
-//          {
-//              for ( $j=0; $j<count($this->Fields); $j++ )
-//              {
-//                  $queryItem = $queryArray[$i];
-//                  if ( $queryItem[0] == "-" )
-//                  {
-//                      $queryItem = ereg_replace( "^-", "", $queryItem );
-//                      $not = "NOT";
-//                  }
-//                  else
-//                      $not = "";
-                
-//                  $queryItem = $this->Fields[$j] ." " . $not . " LIKE '%" . $queryItem . "%' ";
+    /*!
+      Sets whether the query is literal or not.
+    */
+    function setIsLiteral( $literal )
+    {
+        $this->Literal = $literal;
+    }
 
-//                  if ( $j > 0 )                    
-//                      $queryItem = "OR " . $queryItem . " ";
-                    
-            
-//                  $query .= $queryItem;
-//              }
-
-//              if (  count( $queryArray) != ($i+1) )
-//                  $query = " (" . $query . ") AND ";
-//              else
-//                  $query = " (" . $query . ") ";
-            
-//          }
-//          return $query;
-//      }
+    /*!
+      Sets whether the query does a partial compare or not.
+    */
+    function setPartialCompare( $partial )
+    {
+        $this->PartialCompare = $partial;
+    }
     
     var $Fields;
-    var $QueryText;    
+    var $QueryText;
+    var $IsLiteral;
+    var $PartialCompare;
 }
 ?>
