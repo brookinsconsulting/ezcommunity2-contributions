@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.168 2001/09/15 12:56:49 bf Exp $
+// $Id: ezarticle.php,v 1.169 2001/09/16 16:06:17 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -2170,7 +2170,7 @@ class eZArticle
             }
             $count -= 1;
 
-            $queryString = "SELECT Count(*) AS Count FROM eZArticle_SearchTemp";
+            $queryString = "SELECT Count(*) AS Count FROM eZArticle_SearchTemp HAVING Count='$count'";
             $db->array_query( $article_array, $queryString );
             
             $db->query( "DROP  TABLE eZArticle_SearchTemp" );
@@ -2205,11 +2205,6 @@ class eZArticle
                         )
                        ORDER BY $OrderBy";
             $db->array_query( $article_array, $queryString );
-        }
-
-        for ( $i=0; $i < count($article_array); $i++ )
-        {
-            $return_array[$i] = new eZArticle( $article_array[$i][$db->fieldName("ArticleID")], false );
         }
 
         return $article_array[0]["Count"];
