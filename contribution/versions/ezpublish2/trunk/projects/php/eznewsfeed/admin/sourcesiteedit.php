@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sourcesiteedit.php,v 1.4 2001/01/02 12:26:54 bf Exp $
+// $Id: sourcesiteedit.php,v 1.5 2001/01/12 13:56:54 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Nov-2000 17:55:31 bf>
@@ -46,7 +46,7 @@ if ( $Action == "Insert" )
     $sourcesite->setLogin( $SourceSiteLogin );
     $sourcesite->setPassword( $SourceSitePassword );
     $category = new eZNewsCategory( $CategoryID );
-    $sourcesite->setCategory( $catgory );
+    $sourcesite->setCategory( $category );
     $sourcesite->setDecoder( $SourceSiteDecoder );
 
     if ( $SourceSiteIsActive == "on" )
