@@ -3,5 +3,5 @@
 
 <head>
 <title>eZ publish</title>
-<link rel="stylesheet" type="text/css" href="/zez.css">
+<link rel="stylesheet" type="text/css" href="/sitedesign/standard/style.css">
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">

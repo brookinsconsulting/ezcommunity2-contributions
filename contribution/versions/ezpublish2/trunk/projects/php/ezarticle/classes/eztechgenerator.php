@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.27 2000/12/01 06:31:38 bf-cvs Exp $
+// $Id: eztechgenerator.php,v 1.28 2000/12/14 21:05:02 bf Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -83,12 +83,18 @@ class eZTechGenerator
         return $newContents;
     }
 
+    /*!
+      \private
+      
+    */
     function &generatePage( $tmpPage )
     {
         $tmpPage = $this->generateImage( $tmpPage );
 
         $tmpPage = $this->generateLink( $tmpPage );
 
+        $tmpPage = $this->generateModule( $tmpPage );
+        
         // replace & with &amp; to prevent killing the xml parser..
         // is that a bug in the xmltree(); function ? answer to bf@ez.no
         $tmpPage = ereg_replace ( "&", "&amp;", $tmpPage );
@@ -100,10 +106,14 @@ class eZTechGenerator
         return $tmpPage;
     }
 
+    /*!
+      \private
+      
+    */
     function &generateUnknowns( $tmpPage )
     {
         // make unknown tags readable.. look-ahead assertion is used ( ?! ) 
-        $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|hea|lin|per|bol|ita|und|str|pre|ver|lis|ezhtml|java|ezanchor|mail))/", "&lt;", $tmpPage );
+        $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|hea|lin|per|bol|ita|und|str|pre|ver|lis|ezhtml|java|ezanchor|mail|module))/", "&lt;", $tmpPage );
 
         // look-behind assertion is used here (?<!) 
         // the expression must be fixed width eg just use the 3 last letters of the tag
@@ -225,6 +235,19 @@ class eZTechGenerator
 
     /*!
       \private
+      Generates valid module xml tags
+    */
+    function &generateModule( $tmpPage )
+    {
+        // convert <module modulename>
+        // to <module name="modulename" />
+        $tmpPage = preg_replace( "#(<module\s+([^ ]+?)\s*>)#", "<module name=\"\\2\" />", $tmpPage );
+
+        return $tmpPage;
+    }
+    
+    /*!
+      \private
     */
     function &generateImage( $tmpPage )
     {
@@ -276,6 +299,7 @@ class eZTechGenerator
 
                         $intro = $this->decodeLink( $intro, $paragraph );
 
+                        $intro = $this->decodeModule( $intro, $paragraph );                        
                     }
                 }
                 
@@ -311,6 +335,8 @@ class eZTechGenerator
                     $pageContent = $this->decodeImage( $pageContent, $paragraph );
 
                     $pageContent = $this->decodeLink( $pageContent, $paragraph );
+
+                    $pageContent = $this->decodeModule( $pageContent, $paragraph );
                 }
 
                 if ( $i > 0 )
@@ -381,6 +407,10 @@ class eZTechGenerator
         return $pageContent;
     }
 
+    /*!
+      \private
+      
+    */
     function &decodeImage( $pageContent, $paragraph )
     {
         // image 
@@ -417,6 +447,9 @@ class eZTechGenerator
         return $pageContent;
     }
 
+    /*!
+      \private
+    */
     function &decodeLink( $pageContent, $paragraph )
     {
         // link
@@ -446,6 +479,7 @@ class eZTechGenerator
             $pageContent .= "<link $href $text>";
         }
 
+        
         // mail
         if ( $paragraph->name == "mail" )
         {
@@ -495,6 +529,31 @@ class eZTechGenerator
         }
         
         return $pageContent;
+    }
+
+    /*!
+      \private
+      Decodes the module xml and generates user friendly module code.
+    */
+    function &decodeModule( $pageContent, $paragraph )
+    {
+        // module
+        if ( $paragraph->name == "module" )
+        {
+            foreach ( $paragraph->attributes as $moduleItem )
+            {            
+                switch ( $moduleItem->name )
+                {
+                    case "name" :
+                    {
+                        $name = $moduleItem->children[0]->content;
+                    }
+                    break;
+                }
+            }
+            $pageContent .= "<module $name>";
+        }
+        return $pageContent;        
     }
 
     function &decodeStandards( $pageContent, $paragraph )

@@ -4,6 +4,9 @@ eZ publish changelog:
 Changes from version 1.0.4
 --------------------------
 * Added Turkish translation
+* Speedup by 20-50%, due to more efficient ini file reading.
+* Fixed the article search.
+
 
 Changes from version 1.0.3
 --------------------------

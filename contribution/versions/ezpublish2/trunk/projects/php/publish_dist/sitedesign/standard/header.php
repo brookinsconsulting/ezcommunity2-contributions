@@ -4,7 +4,7 @@
 
 <body bgcolor="#ffffff">
 
-<h1>eZ publish v1.0.4</h1>
+<h1>eZ publish v1.0.5</h1>
 <table width="100%" border="2" cellspacing="0" cellpadding="4">
  <tr valign="top">
     <td width="1%" bgcolor="#ffffff">

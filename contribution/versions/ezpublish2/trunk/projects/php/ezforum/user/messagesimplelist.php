@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagesimplelist.php,v 1.4 2000/11/24 14:15:55 bf-cvs Exp $
+// $Id: messagesimplelist.php,v 1.5 2000/12/14 21:05:02 bf Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -35,7 +35,8 @@ include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
 include_once( "ezforum/classes/ezforum.php" );
 
-$ini = new INIFile( "site.ini" ); // get language settings
+$ini =& $GLOBALS["GlobalSiteIni"];
+
 $Language = $ini->read_var( "eZForumMain", "Language" );
 
 $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
@@ -64,8 +65,8 @@ $messageList = $forum->messageTree( $Offset, $Limit );
 
 if ( !$messageList )
 {
-    $ini = new INIFile( "ezforum/user/intl/" . $Language . "/messagesimplelist.php.ini", false );
-    $noitem =  $ini->read_var( "strings", "noitem" );
+    $errorIni = new INIFile( "ezforum/user/intl/" . $Language . "/messagesimplelist.php.ini", false );
+    $noitem =  $errorIni->read_var( "strings", "noitem" );
 
     $t->set_var( "message_list", $noitem );
     $t->set_var( "next", "" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.43 2000/12/01 10:29:54 bf-cvs Exp $
+// $Id: eztechrenderer.php,v 1.44 2000/12/14 21:05:02 bf Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -40,7 +40,10 @@
   <image 42 align size> - image tag, 42 is the id, alignment (left|center|right|float), size (small|medium|large)
 
   <ezanchor anchorname>
-  
+
+  <module modulename> - this will include a php file named "modulename.php" if it is found in the
+  ezrticle/modules dir.
+
   <cpp>
   cpp code
   </cpp>
@@ -159,6 +162,8 @@ class eZTechRenderer
 
                         $intro = $this->renderLink( $intro, $paragraph );
 
+                        $intro = $this->renderModule( $intro, $paragraph );
+                        
                         $intro = $this->renderImage( $intro, $paragraph, $articleImages );
 
                         $this->PrevTag = $paragraph->name;
@@ -208,6 +213,8 @@ class eZTechRenderer
 
                         $intro = $this->renderLink( $intro, $paragraph );
 
+                        $intro = $this->renderModule( $intro, $paragraph );
+                        
                         $intro = $this->renderImage( $intro, $paragraph, $articleImages );
 
                         $this->PrevTag = $paragraph->name;
@@ -238,6 +245,8 @@ class eZTechRenderer
                     $pageContent = $this->renderStandards( $pageContent, $paragraph );
 
                     $pageContent = $this->renderLink( $pageContent, $paragraph );
+
+                    $pageContent = $this->renderModule( $pageContent, $paragraph );
 
                     $pageContent = $this->renderImage( $pageContent, $paragraph, $articleImages );
 
@@ -289,6 +298,7 @@ class eZTechRenderer
         return $pageContent;
     }
 
+   
     function &renderLink( $pageContent, $paragraph )
     {
         // link
@@ -369,6 +379,54 @@ class eZTechRenderer
         
         return $pageContent;
     }
+
+    /*!
+      \private
+    */
+    function &renderModule( $pageContent, $paragraph )
+    {
+        // ordinary text
+        if ( $paragraph->name == "module" )
+        {
+            foreach ( $paragraph->attributes as $moduleItem )
+            {
+                switch ( $moduleItem->name )
+                {
+                    case "name" :
+                    {
+                        $name = $moduleItem->children[0]->content;
+                    }
+                    break;
+                }
+            }
+
+            $moduleFile = "ezarticle/modules/" . $name . ".php";
+            if ( file_exists( $moduleFile ) )
+            {
+                // save the buffer contents
+                $buffer =& ob_get_contents();
+                ob_end_clean();
+
+                // fetch the module printout
+                ob_start();
+                include( $moduleFile );
+                $moduleContents .= ob_get_contents();
+                ob_end_clean();
+
+                // fill the buffer with the old values
+                ob_start();
+                print( $buffer );
+                
+                $pageContent .= "$moduleContents";
+            }
+            else
+            {
+                $pageContent .= "<b>Error</b>: module $name, not found. Looking in: $moduleFile";
+            }
+        }
+        return $pageContent;
+    }
+    
 
     function &renderImage( $pageContent, $paragraph, $articleImages )
     {
