@@ -5,8 +5,14 @@
 <hr noshade="noshade" />
 
 <br />
+<!-- BEGIN module_tab_item_tpl -->
+<input type="checkbox" name="ModuleTabBar" {module_tab} value="enabled"/>
+<span class="boxtext">{intl-module_tab}</span><br />
+<!-- END module_tab_item_tpl -->
 <input type="checkbox" name="SingleModule" {single_module} />
 <span class="boxtext">{intl-single_module}</span><br />
+
+<input type="hidden" name="RefURL" value="{ref_url}" />
 
 <br />
 <hr noshade="noshade" size="4" />
