@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.59 2001/04/04 13:26:09 fh Exp $
+// $Id: ezarticle.php,v 1.60 2001/04/06 10:33:55 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -128,6 +128,7 @@ class eZArticle
                                  PageCount='$this->PageCount',
                                  IsPublished='$this->IsPublished',
                                  Keywords='$keywords',
+                                 Discuss='$this->Discuss',
                                  Modified=now(),
                                  Published=now(),
                                  Created=now()
@@ -152,6 +153,7 @@ class eZArticle
                                  AuthorID='$this->AuthorID',
                                  IsPublished='$this->IsPublished',
                                  Keywords='$keywords',
+                                 Discuss='$this->Discuss',
                                  Published=now(),
                                  Modified=now()
                                  WHERE ID='$this->ID'
@@ -168,6 +170,7 @@ class eZArticle
                                  AuthorID='$this->AuthorID',
                                  IsPublished='$this->IsPublished',
                                  Keywords='$keywords',
+                                 Discuss='$this->Discuss',
                                  Modified=now()
                                  WHERE ID='$this->ID'
                                  " );
@@ -208,6 +211,7 @@ class eZArticle
                 $this->PageCount =& $article_array[0][ "PageCount" ];
                 $this->IsPublished =& $article_array[0][ "IsPublished" ];
                 $this->Keywords =& $article_array[0][ "Keywords" ];
+                $this->Discuss =& $article_array[0][ "Discuss" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -347,6 +351,23 @@ class eZArticle
 
        return $this->Keywords;
     }
+
+    /*!
+      Returns the discuss value of an article.
+    */
+    function discuss( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = false;
+       if ( $this->Discuss == 1 )
+       {
+           $ret = true;
+       }
+       return $ret;
+    }
+
     
     /*!
       Returns the last time the article was published.
@@ -459,6 +480,20 @@ class eZArticle
             $this->get( $this->ID );
 
        $this->Keywords = $keywords;
+    }
+    
+    /*!
+      Sets the discuss value to an article.
+    */
+    function setDiscuss( $discuss )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( $discuss == true )
+           $this->Discuss = 1;
+       else
+           $this->Discuss = 0;
     }
 
     /*!
@@ -1390,6 +1425,7 @@ class eZArticle
     var $Created;
     var $Published;
     var $Keywords;
+    var $Discuss;
     
     // telll eZ publish to show the article to the public
     var $IsPublished;

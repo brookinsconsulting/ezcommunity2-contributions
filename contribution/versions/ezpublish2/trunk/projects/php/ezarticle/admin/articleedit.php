@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.61 2001/03/29 14:09:36 jb Exp $
+// $Id: articleedit.php,v 1.62 2001/04/06 10:33:55 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -142,13 +142,15 @@ if ( $Action == "Insert" )
 
     $contents = $generator->generateXML( $Contents );
     $article->setContents( $contents );
-
     $article->setPageCount( $generator->pageCount() );
-    
     $article->setAuthorText( $AuthorText );
-    
     $article->setLinkText( $LinkText );
 
+    if ( $Discuss == "on" )
+        $article->setDiscuss( true );
+    else
+        $article->setDiscuss( false );
+    
     $article->store(); // to get the ID
 
     if( isset( $WriteGroupArray ) )
@@ -324,12 +326,15 @@ if ( $Action == "Update" )
     $contents = $generator->generateXML( $Contents );
     
     $article->setContents( $contents  );
-
     $article->setPageCount( $generator->pageCount() );
-    
     $article->setAuthorText( $AuthorText );
-    
     $article->setLinkText( $LinkText );
+
+    if ( $Discuss == "on" )
+        $article->setDiscuss( true );
+    else
+        $article->setDiscuss( false );
+
 
     eZObjectPermission::removePermissions( $article->id(), "article_article", 'w' );
     if( isset( $WriteGroupArray ) )
@@ -575,12 +580,22 @@ if ( $Action == "Edit" )
 
     if (  $article->isPublished() )
     {
-        $t->set_var( "article_is_published", "checked" );
+        $t->set_var( "discuss_article", "checked" );
     }
     else
     {
-        $t->set_var( "article_is_published", "" );
+        $t->set_var( "discuss_article", "" );
     }
+
+    if (  $article->discuss() )
+    {
+        $t->set_var( "discuss_article", "checked" );
+    }
+    else
+    {
+        $t->set_var( "discuss_article", "" );
+    }
+
     
     if ( !isset( $Name ) )        
          $t->set_var( "article_name", $article->name() );

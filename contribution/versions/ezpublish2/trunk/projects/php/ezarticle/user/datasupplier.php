@@ -178,7 +178,7 @@ switch ( $url_array[2] )
         {
             $RedirectURL = "/article/view/$ArticleID/$PageNumber/";
             $article = new eZArticle( $ArticleID );
-            if( $article->id() >= 1 )
+            if ( ( $article->id() >= 1 ) && $article->discuss() )
             {
                 $forum = $article->forum();
                 $ForumID = $forum->id();

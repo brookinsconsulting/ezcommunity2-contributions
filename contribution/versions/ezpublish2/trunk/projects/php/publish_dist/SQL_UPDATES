@@ -675,4 +675,15 @@ ALTER TABLE eZUser_User ADD SimultaneousLogins int(11) DEFAULT '0' NOT NULL;
 #placement for article categories
 ALTER TABLE eZArticle_Category ADD Placement int(11) DEFAULT '0';
 
+# headers for attributes
+alter table eZTrade_Attribute add Placement int default 0;
+alter table eZTrade_Attribute add AttributeType int default 1;    
+
+# Unit for attribute list
+alter table eZTrade_Attribute add Unit varchar(8);
+
+# Discuss article
+alter table eZArticle_Article add Discuss int default 0; 
+ALTER TABLE eZArticle_Category ADD Placement int(11) DEFAULT '0';
+
 DROP TABLE eZContact_ImageType; 

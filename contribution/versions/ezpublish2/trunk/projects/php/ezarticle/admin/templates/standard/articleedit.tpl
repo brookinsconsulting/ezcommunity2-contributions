@@ -21,6 +21,13 @@
 	<span class="boxtext">{intl-article_is_published}</span><br />
 	</td>
 </tr>
+<tr>
+	<td>&nbsp;</td>
+	<td>
+	<input type="checkbox" name="Discuss" {discuss_article} />
+	<span class="boxtext">{intl-discuss_article}</span><br />
+	</td>
+</tr>
 </table>
 
 <p class="boxtext">{intl-article_author}:</p>
