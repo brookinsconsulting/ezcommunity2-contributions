@@ -133,25 +133,54 @@ eZ publish 2 Support / Development : http://brookinsconsulting.com/
 
 See doc/BUGS for full description of the problem and our solution.
 
-                      
+
+
 (optinal) Replacment eZ publish Clear Cache Script
 ############################################################
-See doc/clearcache2.sh
+See doc/example/clearcache2.sh
+Must copy the doc/example/clearcache2.sh into the root of your eZ publish 2 installation (webdocs,html,docs,www dir)
+cd html/ezgroupeventcalendar; cp -a doc/example/clearcache2.sh ../;
+
+You may wish to make a symbolic link to the script to ease its use. 
+You may also wish to make a backup of the original script if want 
+to symbolic the name of the original clearcache.sh to the clearcache2.sh script;
+
+cd html/ ;
+mv clearcache.sh clearcache2.sh.org;
+ln -s doc/example/clearcache2.sh clear.sh;
+ln -s doc/example/clearcache2.sh clearcache.sh;
+
+
 
 (optional) Example .htaccess
 ############################################################
-See doc/.htacess
+See doc/example/.htaccess
+Must copy the doc/example/.htaccess into the root of your eZ publish 2 installation (webdocs,html,docs,www dir)
+
 
 (optional) Example frame.php
 ############################################################
-See doc/frame.php
-                               
+See doc/example/frame.php
+
+Manualy mirror example frame.php into the desired sitedesign frame.php
+of the desired eZ publish 2 installation (webdocs,html,docs,www dir)
+
 (optional) Example site.ini.add
 ############################################################
-See doc/site.ini.add
+See doc/example/site.ini.add
 
+Manualy mirror example site.ini.add into the desired site.ini file of the
+desired eZ publish 2 installation (webdocs,html,docs,www dir)
 
+A quick way to do this is to place the contents of the site.ini.add into the 
+desired eZ publish 2 installation's site.ini and backup the original first.
 
+cp -a html/;
+cp -a site.ini site.ini.12_21_2004_pre_ezgroupcalendar_install;
+cat ezgroupeventcalendar/doc/example/site.ini.add >> site.ini;
+
+You should customize the eZGroupEventCalendarMain and eZGroupEventCalendarRSSMain
+sections of the desired eZ publish 2 installation's site.ini file (which are near the bottom of the file).
 
 
 ############################################################
