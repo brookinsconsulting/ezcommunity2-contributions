@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: headlines.php,v 1.18.2.7 2002/08/12 11:22:49 gl Exp $
+// $Id: headlines.php,v 1.18.2.8 2003/06/02 10:46:23 jhe Exp $
 //
 // Created on: <30-Nov-2000 14:35:24 bf>
 //
@@ -188,8 +188,24 @@ unset( $menuCachedFile );
 // do the caching
 if ( $PageCaching == "enabled" )
 {
+    $user =& eZUser::currentUser();
+    $groupstr = "";
+    if ( get_class( $user ) == "ezuser" )
+    {
+        $groupIDArray =& $user->groups( false );
+        sort( $groupIDArray );
+        $first = true;
+        foreach ( $groupIDArray as $groupID )
+        {
+            $first ? $groupstr .= "$groupID" : $groupstr .= "-$groupID";
+            $first = false;
+        }
+    }
+    else
+        $user = 0;
+
     $menuCacheFile = new eZCacheFile( "ezarticle/cache",
-                                      array( "menubox_headlines", $GlobalSiteDesign, $CategoryID ),
+                                      array( "menubox_headlines", $GlobalSiteDesign, $CategoryID, $groupstr ),
                                       "cache", "," );
 
     if ( $menuCacheFile->exists() )
