@@ -3706,3 +3706,14 @@ Maintainer(s) : bf@ez.no
 
     * classes/ezqdomgenerator.php: fixed bug with customtag in table.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2003-07-24  Bjoern Reiten  <br@ez.no>
+
+    * user/articlelist.php: fixed bug with templateoverride.
+
+    * user/articleview.php:
+    Fixed bug with section overrride in articleview.php
+
