@@ -45,18 +45,19 @@
 	</td>
 </tr>
 <!-- END cart_item_tpl -->
-
 <tr>
-	<td colspan="2" rowspan="3" valign="bottom">
-
-	<!-- BEGIN shipping_type_tpl -->
-	<input type="hidden" name="ShippingTypeID" value="{shipping_type_id}" />
-	<!-- END shipping_type_tpl -->
-	</td>
-	<td align="right" colspan="2">
+        <td colspan="2" rowspan="3" valign="top">
+          <p><b>{intl-shipping_method}:</b></p>
+            <select name="ShippingTypeID">
+              <!-- BEGIN shipping_type_tpl -->
+              <option value="{shipping_type_id}" {type_selected}>{shipping_type_name}</option>
+              <!-- END shipping_type_tpl -->
+            </select>&nbsp;
+            <input class="okbutton" type="submit" name="Recalculate" value="{intl-recalculate}" />
+        </td>
+        <td align="right" colspan="2">
 	{intl-shipping_charges}:
 	</td>
-
 	<td align="right">
 	{shipping_cost}
 	</td>
@@ -111,24 +112,21 @@
     </td>
     <td width="1%">&nbsp;</td>
     <td>
-      <table width="1%">
+      <table cellspacing="10">
         <tr>
-	  <td valign="top" width="1%">
+	  <td class="small" valign="top" width="25%">
 	    <a href="http://www.campaign.paybox.de/banner.php3?merchantPayboxNo=4900011161914" target="new"><img src="/sitedesign/mygold/images/paybox_logo.gif" border="0" width="53" height=40"" alt="" /></a>
 	    <br />paybox - bezahlen Sie mit Ihrem Handy
           </td>
-          <td width="1%">&nbsp;</td>
-          <td valign="top" width="1%">  
+          <td class="small" valign="top" width="25%">  
             <a href="http://www.visa.de" target="new"><img src="/sitedesign/mygold/images/visa_logo.gif" alt="" width="63" height="40" border="0" /></a>
             <br />Visa
           </td>	  
-          <td width="1%">&nbsp;</td>
-          <td valign="top" width="1%">
+          <td class="small" valign="top" width="25%">
             <a href="http://www.eurocard.de" target="new"><img src="/sitedesign/mygold/images/eurocard_logo.gif" alt="" width="53" height="40" border="0" /></a>
             <br />Euro- Mastercard
           </td>
-          <td width="1%">&nbsp;</td>
-          <td valign="top" width="1%">  
+          <td class="small" valign="top" width="25%">  
             <img src="/sitedesign/mygold/images/elv_logo.gif" alt="" width="40" height="40" border="0" />
             <br />ELV - Elektronisches Lastschriftverfahren
           </td>
