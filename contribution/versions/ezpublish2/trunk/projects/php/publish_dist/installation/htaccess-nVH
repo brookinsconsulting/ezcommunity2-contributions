@@ -8,7 +8,7 @@ order deny,allow
 	deny from all
 </FilesMatch>
 
-# .php would be denied normally, but we want to allow index*.php
-<FilesMatch "index.*\.php$">
+# .php would be denied normally, but we want to allow index*.php and cron.php
+<FilesMatch "(index.*|cron)\.php$">
 	allow from all
 </FilesMatch>
