@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.43 2000/12/12 13:20:34 bf Exp $
+// $Id: ezcompany.php,v 1.44 2000/12/13 07:15:01 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -1009,7 +1009,6 @@ class eZCompany
     var $State_;
     /// Is true if the object has database connection, false if not.
     var $IsConnected;
-
 }
 
 ?>
