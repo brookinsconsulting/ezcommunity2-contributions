@@ -14,10 +14,12 @@
 </table>
 
 	<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+<!-- BEGIN header_list_tpl -->
 	<a class="path" href="{www_dir}{index}/forum/categorylist/">{intl-forum-main}</a>
 	<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />
-    <a class="path" href="{www_dir}{index}/forum/forumlist/{category_id}/">{category_name}</a>
+        <a class="path" href="{www_dir}{index}/forum/forumlist/{category_id}/">{category_name}</a>
 	<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />
+<!-- END header_list_tpl -->
 	<a class="path" href="{www_dir}{index}/forum/messagelist/{forum_id}/">{forum_name}</a>
 
 <br />
