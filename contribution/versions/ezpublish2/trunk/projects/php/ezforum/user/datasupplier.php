@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.20 2001/07/19 13:17:55 jakobn Exp $
+// $Id: datasupplier.php,v 1.21 2001/08/28 16:51:26 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -101,7 +101,7 @@ switch ( $url_array[2] )
             $ReplyToID = $url_array[5];
             include( "ezforum/user/userlogin.php" );
         }
-    }    
+    }
     break;
 
     case "categorylist":

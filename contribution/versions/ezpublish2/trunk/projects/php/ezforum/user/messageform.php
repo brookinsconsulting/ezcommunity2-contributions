@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messageform.php,v 1.11 2001/08/17 13:35:59 jhe Exp $
+// $Id: messageform.php,v 1.12 2001/08/28 16:51:26 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -25,40 +25,47 @@
 
 include_once( "classes/ezlocale.php" );
 
-if( $ShowMessageForm )
+if ( $ShowMessageForm )
 {
-    if( $ShowVisibleMessageForm == true )
+    if ( $ShowVisibleMessageForm == true )
     {
         $t->set_file( "form", "messageform.tpl"  );
         $t->set_block( "form", "message_body_info_tpl", "message_body_info_item" );
         $t->set_block( "form", "message_reply_info_tpl", "message_reply_info_item" );
+        $t->set_block( "form", "message_notice_checkbox_tpl", "message_notice_checkbox" );
         $t->set_var( "message_body_info_item", "" );
         $t->set_var( "message_reply_info_item", "" );
-        
+        $t->set_var( "message_notice_checkbox", "" );
+
         $t->set_var( "headline", $t->Ini->read_var( "strings", $Action . "_headline" ) );
     }
     
-    if( $ShowHiddenMessageForm == true )
+    if ( $ShowHiddenMessageForm == true )
     {
-        $t->set_file( "hidden_form", "messagehiddenform.tpl"  );
+        $t->set_file( "hidden_form", "messagehiddenform.tpl" );
     }
 
-    if( $BodyInfo == true )
+    if ( $BodyInfo == true )
     {
         $t->parse( "message_body_info_item", "message_body_info_tpl" );
     }
 
-    if( $ReplyInfo == true )
+    if ( get_class( eZUser::currentUser() ) == "ezuser" )
+    {
+        $t->parse( "message_notice_checkbox", "message_notice_checkbox_tpl" );
+    }
+
+    if ( $ReplyInfo == true )
     {
         $t->parse( "message_reply_info_item", "message_reply_info_tpl" );
     }
     
-    if( $Error )
+    if ( $Error )
     {
         $t->set_block( "errors_tpl", "error_missing_body_item_tpl", "error_missing_body_item" );
         $t->set_block( "errors_tpl", "error_missing_topic_item_tpl", "error_missing_topic_item" );
         
-        if( empty( $NewMessageTopic ) )
+        if ( empty( $NewMessageTopic ) )
         {
             $t->parse( "error_missing_topic_item", "error_missing_topic_item_tpl" );
         }
@@ -67,7 +74,7 @@ if( $ShowMessageForm )
             $t->set_var( "error_missing_topic_item", "" );
         }
 
-        if( empty( $NewMessageBody ) )
+        if ( empty( $NewMessageBody ) )
         {
             $t->parse( "error_missing_body_item", "error_missing_body_item_tpl" );
         }
@@ -79,14 +86,14 @@ if( $ShowMessageForm )
         $t->parse( "errors_item", "errors_tpl" );
     }
 
-    if( $ShowEmptyMessageForm == false )
+    if ( $ShowEmptyMessageForm == false )
     {
-        if( !is_object( $msg ) )
+        if ( !is_object( $msg ) )
         {
             $msg = new eZForumMessage( $MessageID );
         }
         
-        if( isset( $NewMessageTopic ) )
+        if ( isSet( $NewMessageTopic ) )
         {
             $MessageTopic = stripslashes( $NewMessageTopic );
         }
@@ -95,7 +102,7 @@ if( $ShowMessageForm )
             $MessageTopic = $msg->topic();
         }
         
-        if( isset( $NewMessageBody ) )
+        if ( isSet( $NewMessageBody ) )
         {
             $MessageBody = stripslashes( $NewMessageBody );
         }
@@ -107,20 +114,20 @@ if( $ShowMessageForm )
         $MessageNotice = $msg->emailNotice();
         $ForumID = $msg->forumId();
         
-        if( isset( $NewMessageAuthor ) )
+        if ( isSet( $NewMessageAuthor ) )
         {
             $MessageAuthor = $NewMessageAuthor;
         }
         else
         {
-            if( !is_object( $author ) )
+            if ( !is_object( $author ) )
             {
-               $author = new eZUser ( $msg->userId() );
+               $author = new eZUser( $msg->userId() );
             }
         }
         
         
-        if( isset( $NewMessagePostedAt ) )
+        if ( isSet( $NewMessagePostedAt ) )
         {
             $MessagePostedAt = $NewMessagePostedAt;
         }
@@ -129,7 +136,7 @@ if( $ShowMessageForm )
             $MessagePostedAt = $Locale->format( $msg->postingTime() );
         }
         
-        if( isset( $NewMessageNotice ) )
+        if ( isSet( $NewMessageNotice ) )
         {
             $MessageNotice = $NewMessageNotice;
         }
@@ -137,19 +144,19 @@ if( $ShowMessageForm )
     }
     else
     {
-        if( isset( $NewMessageAuthor ) )
+        if ( isSet( $NewMessageAuthor ) )
         {
             $MessageAuthor = $NewMessageAuthor;
         }
         else
         {
-            if( !is_object( $author ) )
+            if ( !is_object( $author ) )
             {
                 $author =& eZUser::currentUser();
             }
         }
 
-        if( isset( $NewMessagePostedAt ) )
+        if ( isSet( $NewMessagePostedAt ) )
         {
             $MessagePostedAt = $NewMessagePostedAt;
         }
@@ -159,7 +166,7 @@ if( $ShowMessageForm )
         }
     }
     
-    if( is_object( $author ) )
+    if ( is_object( $author ) )
     {
         $MessageAuthor = $author->firstName() . " " . $author->lastName();
     }
@@ -168,34 +175,34 @@ if( $ShowMessageForm )
         $MessageAuthor = $ini->read_var( "eZForumMain", "AnonymousPoster" );
     }
     
-        switch( $MessageNotice )
+    switch( $MessageNotice )
+    {
+        case "on":
+        case "y":
+        case "checked":
+        case 1:
+        case true:
         {
-            case "on":
-            case "y":
-            case "checked":
-            case 1:
-            case true:
-            {
-                $MessageNoticeText = $t->Ini->read_var( "strings", "notice_yes" );
-                $MessageNotice = "checked";
-                $NewMessageNotice = "checked";
-            }
-            break;
-
-            case "off":
-            case "n":
-            case "unchecked":
-            case 0:
-            case false:
-            {
-                $MessageNoticeText = $t->Ini->read_var( "strings", "notice_no" );
-                $MessageNotice = "";
-                $NewMessageNotice = "";
-            }
-            break;
+            $MessageNoticeText = $t->Ini->read_var( "strings", "notice_yes" );
+            $MessageNotice = "checked";
+            $NewMessageNotice = "checked";
         }
+        break;
+        
+        case "off":
+        case "n":
+        case "unchecked":
+        case 0:
+        case false:
+        {
+            $MessageNoticeText = $t->Ini->read_var( "strings", "notice_no" );
+            $MessageNotice = "";
+            $NewMessageNotice = "";
+        }
+        break;
+    }
     $quote = chr(34);
-    $MessageTopic=ereg_replace( $quote, "&#034;",$MessageTopic); 
+    $MessageTopic = ereg_replace( $quote, "&#034;",$MessageTopic); 
 
     include_once( "classes/eztexttool.php" );
 
@@ -224,9 +231,9 @@ if( $ShowMessageForm )
     $AllowedTags = $ini->read_var( "eZForumMain", "AllowedTags" );
     $t->set_var( "allowed_tags", htmlspecialchars( $AllowedTags ) );      
 
-    if( $ShowHiddenMessageForm == true )
+    if ( $ShowHiddenMessageForm == true )
     {
-        if( $doPrint == true )
+        if ( $doPrint == true )
         {
             $t->pparse( "message_hidden_form_file", "hidden_form" );
         }
@@ -236,9 +243,9 @@ if( $ShowMessageForm )
         }
     }
     
-    if( $ShowVisibleMessageForm == true )
+    if ( $ShowVisibleMessageForm == true )
     {
-        if( $doPrint == true )
+        if ( $doPrint == true )
         {
             $t->pparse( "message_form_file", "form" );
         }
@@ -247,7 +254,6 @@ if( $ShowMessageForm )
             $t->parse( "message_form_file", "form" );
         }
     }
-    
 }
 else
 {

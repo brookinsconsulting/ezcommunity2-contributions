@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.15 2001/07/19 13:01:02 jakobn Exp $
+// $Id: datasupplier.php,v 1.16 2001/08/28 16:51:26 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -55,7 +55,7 @@ switch ( $url_array[2] )
         include( "ezfilemanager/user/fileupload.php" );
     }
     break;
-
+    
     case "update" :
     {
         $FileID = $url_array[3];
@@ -63,13 +63,14 @@ switch ( $url_array[2] )
         include( "ezfilemanager/user/fileupload.php" );
     }
     break;
-
+    
     case "fileview" :
     {
         $FileID = $url_array[3];
         include( "ezfilemanager/user/fileview.php" );
     }
     break;
+    
     case "download" :
     {
         $FileID = $url_array[3];
@@ -80,7 +81,7 @@ switch ( $url_array[2] )
     case "list" :
     {
         $FolderID = $url_array[3];
-        if  ( !isset( $FolderID ) || ( $FolderID == "" ) )
+        if  ( !isSet( $FolderID ) || ( $FolderID == "" ) )
             $FolderID = 0;
         
         include( "ezfilemanager/user/filelist.php" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.2 2001/07/19 13:01:02 jakobn Exp $
+// $Id: search.php,v 1.3 2001/08/28 16:51:26 jhe Exp $
 //
 // Created on: <10-May-2001 12:48:08 ce>
 //
@@ -40,9 +40,7 @@ $t = new eZTemplate( "ezfilemanager/user/" . $ini->read_var( "eZFileManagerMain"
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "search_list_tpl" => "search.tpl"
-    ) );
+$t->set_file( "search_list_tpl", "search.tpl" );
 
 $t->set_block( "search_list_tpl", "file_list_tpl", "file_list" );
 $t->set_block( "file_list_tpl", "file_tpl", "file" );
@@ -52,7 +50,7 @@ $t->set_block( "file_tpl", "read_tpl", "read" );
 
 $t->set_var( "search_text", $SearchText );
 
-if( !isset ( $Offset ) )
+if( !isSet ( $Offset ) )
     $Offset = 0;
 
 if ( $SearchText )
@@ -61,10 +59,10 @@ if ( $SearchText )
     $fileList = $file->search( $SearchText, $Offset, $Limit );
     $totalCount = $file->searchCount( $SearchText, "time", false );
 
-    $t->set_var( "url_text", urlencode ( $SearchText ) );
+    $t->set_var( "url_text", urlencode( $SearchText ) );
 }
 
-if ( count ( $fileList ) > 0 )
+if ( count( $fileList ) > 0 )
 {
     foreach ( $fileList as $file )
     {
@@ -114,4 +112,4 @@ $t->set_var( "file_total", $totalCount );
 
 $t->pparse( "output", "search_list_tpl" );
 
-
+?>

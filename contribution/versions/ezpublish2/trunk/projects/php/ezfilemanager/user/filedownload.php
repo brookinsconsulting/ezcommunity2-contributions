@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filedownload.php,v 1.17 2001/08/17 13:35:59 jhe Exp $
+// $Id: filedownload.php,v 1.18 2001/08/28 16:51:26 jhe Exp $
 //
 // Created on: <10-Dec-2000 16:39:10 bf>
 //
@@ -53,6 +53,7 @@ if ( get_class( $GlobalPageView ) != "ezpageview" )
     $GlobalPageView->store();
 }
 
+$originalFileName = str_replace( " ", "%20", $originalFileName );
 
 // store the statistics
 $file->addPageView( $GlobalPageView );
@@ -66,7 +67,7 @@ $filePath = preg_replace( "#.*/(.*)#", "\\1", $filePath );
 
 
 // $host = $SERVER_NAME;
-// $location = "Location: http://$host/filemanager/filedownload/$filePath/$originalFileName";
+// $location = "Location: http://" . $SERVER_NAME . ":" . $SERVER_PORT . "/" . $wwwDir . $index . "filemanager/filedownload/$filePath/$originalFileName";
 
 
 // print( $location );
@@ -80,7 +81,7 @@ header( "Content-Disposition: attachment; filename=$originalFileName" );
 header( "Content-Transfer-Encoding: binary" );
 
 $fh = eZFile::fopen( "ezfilemanager/files/$filePath", "r" );
-fpassthru($fh);
+fpassthru( $fh );
 
 exit();
 ?>

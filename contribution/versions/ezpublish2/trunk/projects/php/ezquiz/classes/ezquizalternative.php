@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezquizalternative.php,v 1.8 2001/07/20 11:24:09 jakobn Exp $
+// $Id: ezquizalternative.php,v 1.9 2001/08/28 16:51:27 jhe Exp $
 //
 // eZQuizAlternative class
 //
@@ -157,6 +157,7 @@ class eZQuizAlternative
     */
     function fill( &$alternativeArray )
     {
+        $db =& eZDB::globalDatabase();
         $this->ID =& $alternativeArray[ $db->fieldName( "ID" ) ];
         $this->Name =& $alternativeArray[ $db->fieldName( "Name" ) ];
         $this->IsCorrect =& $alternativeArray[ $db->fieldName( "IsCorrect" ) ];

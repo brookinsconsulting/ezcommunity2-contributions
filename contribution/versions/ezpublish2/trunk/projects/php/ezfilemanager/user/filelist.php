@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filelist.php,v 1.36 2001/08/17 13:35:59 jhe Exp $
+// $Id: filelist.php,v 1.37 2001/08/28 16:51:26 jhe Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -168,6 +168,7 @@ $deleteFiles = false;
 foreach ( $fileList as $file )
 {
     $t->set_var( "file_id", $file->id() );
+    $t->set_var( "original_file_name_without_spaces", str_replace( " ", "%20", $file->originalFileName() ) );
     $t->set_var( "original_file_name", $file->originalFileName() );
     $t->set_var( "file_name", $file->name() );
     $t->set_var( "file_url", $file->name() );

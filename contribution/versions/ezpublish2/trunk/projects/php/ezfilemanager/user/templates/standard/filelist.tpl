@@ -96,7 +96,7 @@
 	{file_size}&nbsp;{file_unit}
 	</td>
 	<td class="{td_class}" width="1%">
-	<a href="{www_dir}{index}/filemanager/download/{file_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{file_id}-dl','','/images/downloadminimrk.gif',1)"><img name="ezf{file_id}-dl" border="0" src="{www_dir}/images/downloadmini.gif" width="16" height="16" align="top" alt="Download" /></a>
+	<a href="{www_dir}{index}/filemanager/download/{file_id}/{original_file_name_without_spaces}" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezf{file_id}-dl','','/images/downloadminimrk.gif',1)"><img name="ezf{file_id}-dl" border="0" src="{www_dir}/images/downloadmini.gif" width="16" height="16" align="top" alt="Download" /></a>
 	</td>
 	<!-- END read_tpl -->
 	<!-- BEGIN write_tpl -->

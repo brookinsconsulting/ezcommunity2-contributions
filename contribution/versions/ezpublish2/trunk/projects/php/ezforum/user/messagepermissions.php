@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagepermissions.php,v 1.5 2001/07/19 13:17:55 jakobn Exp $
+// $Id: messagepermissions.php,v 1.6 2001/08/28 16:51:26 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -57,7 +57,7 @@ $CheckForumPost = true;
 $CheckForumRead = true;
 
 // Anonymous users "have" user id 0.
-if( is_object( $user ) )
+if ( is_object( $user ) )
 {
     $UserID = $user->id();
 }
@@ -82,12 +82,12 @@ else
 
 // If a message id isn''t provided for checking, we can''t check
 // the message permissions.
-if( $CheckMessageID > 0 )
+if ( $CheckMessageID > 0 )
 {
     $checkMessage = new eZForumMessage( $CheckMessageID );
     // Check if the current user is the message owner.
     
-    if( $checkMessage->userID() == $UserID )
+    if ( $checkMessage->userID() == $UserID )
     {
         $MessageRead = true;
         $MessageOwner = true;
@@ -104,19 +104,19 @@ else
 
 // You can read all forums unless they''re set to only allow
 // a certain group of people.
-if( $CheckForumRead )
+if ( $CheckForumRead )
 {
     $group =& $checkForum->group();
 
-    if( ( get_class( $group ) == "ezusergroup" ) && ( $group->id() != 0 ) )
+    if ( ( get_class( $group ) == "ezusergroup" ) && ( $group->id() != 0 ) )
     {
-        if( get_class ( $user ) == "ezuser" )
+        if ( get_class ( $user ) == "ezuser" )
         {
             $groupList =& $user->groups();
 
-            foreach( $groupList as $userGroup )
+            foreach ( $groupList as $userGroup )
             {
-                if( $userGroup->id() == $group->id() )
+                if ( $userGroup->id() == $group->id() )
                 {
                     $ForumRead = true;
                     break;
@@ -132,15 +132,15 @@ if( $CheckForumRead )
 
 // You can post to a forum you can read if you''re a logged in user.
 // If the forum is set to anonymous anyone can post.
-if( $CheckForumPost && $ForumRead )
+if ( $CheckForumPost && $ForumRead )
 {
-    if( $checkForum->isAnonymous() == true )
+    if ( $checkForum->isAnonymous() == true )
     {
         $ForumPost = true;
     }
     else
     {
-        if( $ForumRead == true && $UserID != 0 )
+        if ( $ForumRead == true && $UserID != 0 )
         {
             $ForumPost = true;
         }
@@ -151,20 +151,20 @@ if( $CheckForumPost && $ForumRead )
 //    * it is approved when in a moderated forum
 //    * it is your own when it is a temporary message
 //    * none of the above conditions are met
-if( $CheckMessageRead && $ForumRead )
+if ( $CheckMessageRead && $ForumRead )
 {
-    if( $checkMessage->isTemporary() == true )
+    if ( $checkMessage->isTemporary() == true )
     {
-        if( $MessageOwner == true )
+        if ( $MessageOwner == true )
         {
             $MessageRead = true;
         }
     }
     else
     {
-        if( $checkForum->isModerated() == true )
+        if ( $checkForum->isModerated() == true )
         {
-            if( $checkMessage->isApproved() == true )
+            if ( $checkMessage->isApproved() == true )
             {
                 $MessageRead = true;
             }
@@ -178,11 +178,11 @@ if( $CheckMessageRead && $ForumRead )
 
 // If you can read a message, you own it, and it hasn''t any replies
 // you can edit it.
-if( $CheckMessageEdit && $MessageRead )
+if ( $CheckMessageEdit && $MessageRead )
 {
-    if( $MessageOwner == true )
+    if ( $MessageOwner == true )
     {
-        if( eZForumMessage::countReplies( $checkMessage->id() ) == 0 )
+        if ( eZForumMessage::countReplies( $checkMessage->id() ) == 0 )
         {
             $MessageEdit = true;
         }
@@ -191,18 +191,18 @@ if( $CheckMessageEdit && $MessageRead )
 
 // If you can read a message and post to the forum, you can reply to it,
 // except temporary messages.
-if( $CheckMessageReply  && $MessageRead && $ForumPost )
+if ( $CheckMessageReply  && $MessageRead && $ForumPost )
 {
-    if( $checkMessage->isTemporary() == false )
+    if ( $checkMessage->isTemporary() == false )
     {
         $MessageReply = true;
     }
 }
 
 // If you own a message and can edit it, you can delete it.
-if( $CheckMessageDelete && $MessageEdit )
+if ( $CheckMessageDelete && $MessageEdit )
 {
-    if( $MessageOwner == true )
+    if ( $MessageOwner == true )
     {
         $MessageDelete = true;
     }

@@ -28,8 +28,9 @@
 <!-- END message_reply_info_tpl -->
 
 <br /><br />
+<!-- BEGIN message_notice_checkbox_tpl -->
 <input type="checkbox" name="NewMessageNotice" {new_message_notice}> <span class="check">{intl-notice_requested}</span><br />
-
 <br />
+<!-- END message_notice_checkbox_tpl -->
 
 <hr noshade size="4" />
