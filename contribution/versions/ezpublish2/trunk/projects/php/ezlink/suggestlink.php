@@ -23,7 +23,8 @@ if ( $Action == "suggest" )
         $ttitle = $title;
         $turl = $url;
         $tkeywords = $keywords;
-        $tdescription = $description; 
+        $tdescription = $description;
+                printRedirect( "../index.php?page=" . $DOCUMENTROOT . "suggestlink.php" );
     }
     else
     {
@@ -35,8 +36,8 @@ if ( $Action == "suggest" )
         $newlink->setAccepted( "N" );
 
         $newlink->store();
-
         printRedirect( "../index.php?page=" . $DOCUMENTROOT . "linklist.php" );
+
     }
    
     
