@@ -1,5 +1,5 @@
 <!-- cart.tpl --> 
-<!-- $Id: cart.tpl,v 1.3 2000/10/26 11:11:36 th-cvs Exp $ -->
+<!-- $Id: cart.tpl,v 1.4 2000/10/26 13:13:42 th-cvs Exp $ -->
 
 <h1>{intl-cart}</h1>
 
@@ -51,14 +51,14 @@
 <!-- END cart_item_tpl -->
 
 <tr>
-	<td colspan="2">&nbsp;</td>
+	<td colspan="3">&nbsp;</td>
 	<th>Frakt:</th>
 	<td align="right">
 	{shipping_cost}
 	</td>
 </tr>
 <tr>
-	<td colspan="2">&nbsp;</td>
+	<td colspan="3">&nbsp;</td>
 	<th>Totalt:</th>
 	<td align="right">
 	{cart_sum}
