@@ -24,15 +24,14 @@ class eZQuery
         $QueryText = ereg_replace( "[ ]+", " ", $QueryText );
         $queryArray = explode( " ", $QueryText );
 
-        {
-            $queryArray2 = explode( " ", $QueryText );
+//          {
+//              $queryArray2 = explode( " ", stripSlashes( $QueryText ) );
 
-            for ( $i=0; $i<count($queryArray2); $i++ )
-            {
-                print( $queryArray2[$i] );
-                
-            }
-        }        
+//              for ( $i=0; $i<count($queryArray2); $i++ )
+//              {
+//                  print( $queryArray2[$i] . "." );
+//              }
+//          }        
 
         $query = "";
         for ( $i=0; $i<count($queryArray); $i++ )            

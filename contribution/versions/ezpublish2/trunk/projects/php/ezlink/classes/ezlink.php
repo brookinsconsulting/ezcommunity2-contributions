@@ -152,7 +152,7 @@ class eZLink
     /*
       Henter linkene som mather $query.
     */
-    function getQuery( $query, $limit, $offset = 0 )
+    function getQuery( $query, $limit=20, $offset = 0 )
     {
         $this->dbInit();
         $link_array = 0;
@@ -165,7 +165,7 @@ class eZLink
 
         if ( $limit != -1 )
         {
-            $query_str .= "  LIMIT $offset, $limit";
+//              $query_str .= "  LIMIT $offset, $limit";
         }
 
         array_query( $link_array, $query_str );
