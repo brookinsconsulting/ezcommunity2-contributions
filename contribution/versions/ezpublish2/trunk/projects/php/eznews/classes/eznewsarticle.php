@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsarticle.php,v 1.9 2000/10/13 11:59:02 pkej-cvs Exp $
+// $Id: eznewsarticle.php,v 1.10 2000/10/13 12:09:34 pkej-cvs Exp $
 //
 // Definition of eZNewsArticle class
 //
@@ -269,8 +269,17 @@ class eZNewsArticle extends eZNewsItem
     {
         #echo "eZNewsArticle::createAuthorText()<br />\n";
         $user = eZUser::currentUser();
-    
-        return $user->firstName() . " " . $user->lastName();
+        
+        if( $user )
+        {
+            $name = $user->firstName() . " " . $user->lastName();
+        }
+        else
+        {
+            $name = "";
+        }
+        
+        return $name;
     }
 
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.37 2000/10/13 11:59:02 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.38 2000/10/13 12:09:34 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -169,8 +169,16 @@ class eZNewsItem extends eZNewsUtility
         if( $this->checkCreator() )
         {
             $user = eZUser::currentUser();
-            $this->CreatedBy = $user->ID();
-            $value = true;
+            
+            if( $user )
+            {
+                $this->CreatedBy = $user->ID();
+            }
+            else
+            {
+                $this->CreatedBy = 0;
+                $value = true;
+            }
         }
         
         return $value;
@@ -309,8 +317,15 @@ class eZNewsItem extends eZNewsUtility
             if( $doIt )
             {
                 $user = eZUser::currentUser();
-                $creator = $user->ID();
-            
+                if( $user )
+                {
+                    $creator = $user->ID();
+                }
+                else
+                {
+                    $creator = 0;
+                }
+                
                 $ticket = new eZNewsChangeTicket();
                 $type = new eZNewsChangeType( $changeType );
                 
