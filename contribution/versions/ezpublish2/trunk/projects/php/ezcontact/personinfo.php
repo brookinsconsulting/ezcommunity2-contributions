@@ -10,12 +10,14 @@ $Language = $ini->read_var( "eZContactMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
 
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezuser.php" );
+include_once( "classes/ezusergroup.php" );
+include_once( "classes/ezsession.php" );
+
 include_once( "common/ezphputils.php" );
 
 include_once( "ezcontact/classes/ezperson.php" );
 include_once( "ezcontact/classes/ezpersontype.php" );
-include_once( "ezcontact/classes/ezsession.php" );
-include_once( "ezcontact/classes/ezuser.php" );
 include_once( "ezcontact/classes/ezcompany.php" );
 include_once( "ezcontact/classes/ezaddress.php" );
 include_once( "ezcontact/classes/ezaddresstype.php" );
@@ -47,7 +49,7 @@ $t->set_var( "comment", $person->comment() );
 
 $usr = new eZUser();
 $usr->get( $person->owner() );
-$t->set_var( "owner", $usr->login() );
+$t->set_var( "owner", $usr->nickname() );
 
 $dict = new eZPersonAddressDict();
 $dict_array = $dict->getByPerson( $person->id() );
