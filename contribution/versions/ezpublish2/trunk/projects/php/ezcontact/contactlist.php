@@ -18,6 +18,7 @@ $t->set_file( array(
                    "contact_page" => $DOCUMENTROOT . "templates/contactpage.tpl",
                    "person_item" =>  $DOCUMENTROOT . "templates/personitem.tpl",
                    "delete_person_item" =>  $DOCUMENTROOT . "templates/persondeleteitem.tpl",
+                   "delete_company_item" =>  $DOCUMENTROOT . "templates/companydeleteitem.tpl",
                    "company_item" => $DOCUMENTROOT . "templates/companyitem.tpl" ) );
 
 $company = new eZCompany();
