@@ -465,3 +465,15 @@ CREATE TABLE eZTrade_WishListOptionValue (
 
 
 CREATE UNIQUE INDEX eZTradeOrderStatusTypeName ON eZTrade_OrderStatusType (Name);
+
+
+CREATE INDEX Product_Name ON eZTrade_Product (Name);
+CREATE INDEX Product_Keywords ON eZTrade_Product (Keywords);
+CREATE INDEX Product_Price ON eZTrade_Product (Price);
+
+CREATE INDEX ProductLink_CategoryID ON eZTrade_ProductCategoryLink (CategoryID);
+CREATE INDEX ProductLink_ProductID ON eZTrade_ProductCategoryLink (ProductID);
+
+CREATE INDEX ProductOption_ProductID ON eZTrade_ProductOptionLink (ProductID);
+CREATE INDEX ProductOption_OptionID ON eZTrade_ProductOptionLink (OptionID);
+
