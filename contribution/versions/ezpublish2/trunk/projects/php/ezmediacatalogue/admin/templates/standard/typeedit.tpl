@@ -11,7 +11,7 @@
 
 
 <!-- BEGIN attribute_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="4" border="0">
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>
 	{intl-attribute_name}:
@@ -22,7 +22,7 @@
 <tr class="{td_class}">
 	<td width="1%">
 	<input type="hidden" name="AttributeID[]" value="{attribute_id}" />
-	<input type="text" name="AttributeName[]" value="{attribute_name}" />
+	<input class="halfbox" type="text" name="AttributeName[]" value="{attribute_name}" />
 	</td>
 <!-- BEGIN item_move_down_tpl -->
 	<td width="1%"><a href="/media/typeedit/down/{type_id}/{attribute_id}"><img src="/admin/images/move-down.gif" height="12" width="12" border="0" alt="Move down" /></a></td>
@@ -54,7 +54,6 @@
 </table>
 <!-- END attribute_list_tpl -->
 
-<br />
 <hr noshade="noshade" size="4" />
 
 <input class="stdbutton" type="submit" name="NewAttribute" value="{intl-new_attribute}" />&nbsp;

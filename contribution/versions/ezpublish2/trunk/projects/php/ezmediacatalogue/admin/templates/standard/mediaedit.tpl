@@ -44,30 +44,37 @@
 <p class="boxtext">{intl-mediatitle}:</p>
 <input type="text" class="box" size="40" name="Name" value="{name_value}"/>
 
-<p class="boxtext">{intl-photographer}:</p>
+<p class="boxtext">{intl-creator}:</p>
 <select name="PhotoID">
 <!-- BEGIN photographer_item_tpl -->
 <option value="{photo_id}" {selected}>{photo_name}</option>
 <!-- END photographer_item_tpl -->
 </select>
+<br /><br />
 
-<p class="boxtext">{intl-category}:</p>
-<select name="CategoryID">
-<!-- BEGIN value_tpl -->
-<option value="{option_value}" {selected}>{option_level}{option_name}</option>
-<!-- END value_tpl -->
-</select>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td valign="top">
+	<p class="boxtext">{intl-category}:</p>
+	<select name="CategoryID">
+	<!-- BEGIN value_tpl -->
+	<option value="{option_value}" {selected}>{option_level}{option_name}</option>
+	<!-- END value_tpl -->
+	</select>
+	</td>
+	<td valign="top">
+	<p class="boxtext">{intl-additional_category}:</p>
 
-<p class="boxtext">{intl-additional_category}:</p>
-
-<select multiple size="{num_select_categories}" name="CategoryArray[]">
-
-<!-- BEGIN multiple_value_tpl -->
-<option value="{option_value}" {multiple_selected}>{option_level}{option_name}</option>
-<!-- END multiple_value_tpl -->
-
-</select>
-
+	<select multiple size="{num_select_categories}" name="CategoryArray[]">
+	
+	<!-- BEGIN multiple_value_tpl -->
+	<option value="{option_value}" {multiple_selected}>{option_level}{option_name}</option>
+	<!-- END multiple_value_tpl -->
+	
+	</select>
+	</td>
+</tr>
+</table>
 
 <p class="boxtext">{intl-mediafile}:</p>
 <input size="40" class="box" name="userfile" type="file" />
@@ -112,7 +119,7 @@
 <!-- END type_tpl -->
 </select>&nbsp;<input class="stdbutton" type="submit" name="Update" value="{intl-update}" />
 
-<br /><br />
+<br />
 
 <!-- BEGIN attribute_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="2" border="0">

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: medialist.php,v 1.1 2001/07/24 15:42:35 ce Exp $
+// $Id: medialist.php,v 1.2 2001/07/25 13:16:07 th Exp $
 //
 // Created on: <24-Jul-2001 11:36:48 ce>
 //
@@ -87,6 +87,8 @@ $t->set_var( "delete_media_button" , "" );
 $t->set_var( "delete_categories_button" , "" );
 $t->set_var( "default_new" , "" );
 $t->set_var( "default_delete" , "" );
+
+$t->set_var( "site_style", $SiteStyle );
 
 $category = new eZMediaCategory( $CategoryID );
 
@@ -195,6 +197,15 @@ foreach ( $mediaList as $media )
     $t->set_var( "media_alt", $media->name() );
     $t->set_var( "media_src", "/" . $media->mediaPath() );
     $t->set_var( "media_file_name", $media->originalFileName() );
+
+        if ( ( $counter % 2 ) == 0 )
+        {
+            $t->set_var( "td_class", "bglight" );
+        }
+        else
+        {
+            $t->set_var( "td_class", "bgdark" );
+        }
 
     if ( $media->fileExists( true ) )
     {
