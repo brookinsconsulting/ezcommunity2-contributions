@@ -5,7 +5,7 @@
 <!-- END path_item_tpl -->
 
 <hr noshade="noshade" size="4" />
-
+<br />
 
 <!-- BEGIN category_list_tpl -->
 
@@ -23,7 +23,7 @@
 	{intl-article}
 	</th>
 	<th>
-	{intl-publishing_date}
+	<div align="right">{intl-publishing_date}</div>
 	</th>
 </tr>
 <!-- BEGIN article_item_tpl -->
@@ -33,7 +33,7 @@
 	{article_name}
 	</a>
 	</td>
-	<td>
+	<td align="right">
 	{article_published}
 	</td>
 </tr>
