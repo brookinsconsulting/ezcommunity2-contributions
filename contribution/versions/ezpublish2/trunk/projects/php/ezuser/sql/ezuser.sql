@@ -22,6 +22,7 @@ CREATE TABLE eZUser_Group (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
   Name varchar(100),
   Description text,
+  SessionTimeout int(11) DEFAULT '60',
   PRIMARY KEY (ID)
 );
 
