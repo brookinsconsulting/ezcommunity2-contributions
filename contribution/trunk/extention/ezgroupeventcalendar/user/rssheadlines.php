@@ -176,8 +176,12 @@ if ( $RssVersion != "0.9" ){
        $date = $dateYear ."-". $dateMonth ."-". $dateDay ." ".  $dateHour .":". $dateMinute;
     // $date = $dateYear ."-". $dateMonth ."-". $dateDay;
 
-    $description .= "\n". "Start: $date"; 
-    $description = htmlspecialchars( $description );
+    $description .= "\n". "Start: $date";
+    $description = strip_tags( $description );
+
+    $description = strip_tags( $description , "<a>");
+
+    // $description = htmlspecialchars( $description );
 
 
     if ( $RssVersion == "0.9" ){
