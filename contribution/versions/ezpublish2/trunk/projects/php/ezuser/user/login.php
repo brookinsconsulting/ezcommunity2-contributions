@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.6 2000/10/30 11:33:37 ce-cvs Exp $
+// $Id: login.php,v 1.7 2000/11/02 10:43:00 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -82,7 +82,7 @@ if ( $Action == "login" )
     {
         eZLog::writeNotice( "Bad login: $Username from IP: $REMOTE_ADDR" );
         
-        Header( "Location: /" );
+        Header( "Location: /user/norights/?Error=WrongPassword" );
         exit();
     }
 }

@@ -18,6 +18,11 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "norights":
+    {
+        include( "ezuser/user/norights.php" );        
+    }
+    break;
     
     case "userwithaddress" :
     {
