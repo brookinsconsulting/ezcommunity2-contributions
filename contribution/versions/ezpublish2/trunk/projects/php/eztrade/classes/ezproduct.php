@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.81 2001/08/30 12:24:26 ce Exp $
+// $Id: ezproduct.php,v 1.82 2001/08/30 20:14:36 br Exp $
 //
 // Definition of eZProduct class
 //
@@ -809,7 +809,7 @@ class eZProduct
     function setShowProduct( $value )
     {
        $this->ShowProduct = $value;
-       setType( $this->ShowProduct, "integer" );
+       settype( $this->ShowProduct, "integer" );
     }
     
     /*!
@@ -1672,7 +1672,6 @@ class eZProduct
               
        if ( ( $useVAT ) and ( is_numeric( $this->VATTypeID ) ) and ( $this->VATTypeID > 0 ) )
        {
-           print( "hm" );
            $ret = new eZVATType( $this->VATTypeID );
        }
 
