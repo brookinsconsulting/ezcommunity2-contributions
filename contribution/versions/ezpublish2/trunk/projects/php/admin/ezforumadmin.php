@@ -8,7 +8,7 @@
                       <td>
                         <a class="small" href="index.php?page=../ezforum/admin/categorylist.php">Kategorioversikt</a><br>
                         <a class="small" href="index.php?page=../ezforum/admin/category.php">Ny katergori</a><br>
-                        <a class="small" href="index.php?page=../ezforum/admin/users.php">Ny forumbruker</a><br>
+                        <!-- <a class="small" href="index.php?page=../ezforum/admin/users.php">Ny forumbruker</a><br> -->
                       </td>
                     </tr>
                   </table>
