@@ -23,6 +23,13 @@ switch ( $url_array[2] )
         include_once( "ezbulkmail/user/subscriptionlogin.php" );
     }
     break;
+
+    case "successfull" :
+    {
+        $mailConfirm = "";
+        include_once( "ezbulkmail/user/usermessages.php" );
+    }
+    break;
     
     default:
     {

@@ -19,13 +19,12 @@ if( isset( $Hash ) )
         $subscriptionaddress->setEncryptetPassword( $change->password() );
         $subscriptionaddress->store();
 
-      // Cleanup
-        $change->delete();
+        // Cleanup
         $session->setVariable( "BulkMailAddress", $change->mail() );
+        $change->delete();
         eZHTTPTool::header( "Location: /bulkmail/subscriptionlist/" );
         exit();
     }
-
 }
 
 if( isset( $Ok ) )
