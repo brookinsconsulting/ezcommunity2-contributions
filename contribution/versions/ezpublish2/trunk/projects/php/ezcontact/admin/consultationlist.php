@@ -49,6 +49,8 @@ else
     $t->set_block( "consultation_page", "person_table_item_tpl", "person_table_item" );
     $t->set_block( "person_table_item_tpl", "person_item_tpl", "person_item" );
 
+    $t->set_var( "errors", "" );
+
     $t->set_var( "company_item", "" );
     $t->set_var( "no_companies_item", "" );
     $t->set_var( "company_table_item", "" );
@@ -59,6 +61,12 @@ else
 }
 
 $user = eZUser::currentUser();
+
+if ( !$user )
+{
+    header( "Location: /user/login" );
+    exit();
+}
 
 if ( isset( $ConsultationList ) )
 {
