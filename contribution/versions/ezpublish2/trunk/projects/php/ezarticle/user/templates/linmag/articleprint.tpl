@@ -21,12 +21,8 @@
 </tr>
 </table>
 
-<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="">
-<a class="path" href="{www_dir}{index}/article/archive/0/">{intl-top_level}</a>
-
 <!-- BEGIN path_item_tpl -->
-<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="">
-<a class="path" href="{www_dir}{index}/article/archive/{category_id}/">{category_name}</a>
+
 <!-- END path_item_tpl -->
 
 <br />
@@ -43,16 +39,30 @@
 </table>
 <!-- END article_header_tpl -->
 
+<!-- BEGIN article_topic_tpl -->
+
+<!-- END article_topic_tpl -->
+
+
+<!-- BEGIN article_intro_tpl -->
 <p>
 <b>
 {article_intro}
 </b>
 </p>
+<!-- END article_intro_tpl -->
 
 <p>
 {article_body}
 </p>
 
+<!-- BEGIN image_list_tpl -->
+
+<!-- BEGIN image_tpl -->
+
+<!-- END image_tpl -->
+
+<!-- END image_list_tpl -->
 
 <!-- BEGIN attribute_list_tpl -->
 <!-- BEGIN type_item_tpl -->
@@ -85,32 +95,8 @@
 <!-- END attached_file_tpl -->
 </table>
 <!-- END attached_file_list_tpl -->
-
-<form method="post" action="{www_dir}{index}/article/mailtofriend/{article_id}">
-<table width="100%" cellpadding="5" cellspacing="0" border="0">
-<tr>
-    <td>
-	<p class="boxtext">{intl-send_to}:</p>
-	<input type="text" class="box" size="5" name="SendTo" value="{send_to}" />*
-	<br /><br />
-    </td>
-</tr>
-<tr>
-    <td>
-	<p class="boxtext">{intl-from_mail}:</p>
-	<input type="text" class="box" size="5" name="From" value="{from}">*
-	<br />
-    </td>
-</tr>
-<tr>
-    <td>
-        <input class="stdbutton" type="submit" value="{intl-send_mail}">
-    </td>
-</tr>
-</table>
-</form>
-
 <br clear="all" />
+
 
 <div align="center">
 <!-- BEGIN prev_page_link_tpl -->
