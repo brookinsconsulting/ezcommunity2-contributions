@@ -13,10 +13,9 @@
 </form>
 
 <hr noshade="noshade" size="4" />
-<br />
 
 <form action="{www_dir}{index}/contact/person/list/" method="post">
-	<p class="boxtext">{intl-show_persons}:</p>
+	<span class="boxtext">{intl-show_persons}:</span>
     <select name="LimitType">
 	    <option value="all" {is_all_selected}>{intl-show_all}</option>
 	    <option value="standalone" {is_without_selected}>{intl-without_relation}</option>
@@ -24,7 +23,8 @@
 	</select>
     <input class="stdbutton" type="submit" value="{intl-reload}" />
 </form>
-<br />
+
+<hr noshade="noshade" size="4" />
 <br />
 
 <!--
@@ -89,13 +89,13 @@
 
 	<!-- BEGIN person_state_tpl -->
 	<td>
-        <a href="{www_dir}{index}/contact/project/person/list/{state_id}">{person_state}</a>
+        {person_state}
 	</td>
 	<!-- END person_state_tpl -->
 
 	<!-- BEGIN no_person_state_tpl -->
 	<td>
-        <a href="{www_dir}{index}/contact/project/person/list/">{intl-no_state}</a>
+        {intl-no_state}
 	</td>
 	<!-- END no_person_state_tpl -->
 

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: persontypeedit.php,v 1.5.2.1 2001/10/31 11:08:22 jhe Exp $
+// $Id: persontypeedit.php,v 1.5.2.2 2001/11/01 12:16:25 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -30,7 +30,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezhttptool.php" );
 
-$ini =& $GLOBALS["SiteIni"];
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZContactMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
 

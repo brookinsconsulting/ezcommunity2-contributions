@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: consultationlist.php,v 1.14.2.1 2001/10/31 11:08:23 jhe Exp $
+// $Id: consultationlist.php,v 1.14.2.2 2001/11/01 12:16:26 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -27,7 +27,7 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
-$ini =& $GLOBALS["SiteIni"];
+$ini =& INIFile::globalINI();
 
 $user =& eZUser::currentUser();
 if ( get_class( $user ) == "ezuser" and

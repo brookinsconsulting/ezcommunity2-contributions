@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.54 2001/10/12 12:27:35 jhe Exp $
+// $Id: datasupplier.php,v 1.54.2.1 2001/11/01 12:16:25 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -28,7 +28,7 @@ include_once( "classes/ezhttptool.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 
 $user =& eZUser::currentUser();
-if ( eZPermission::checkPermission( $user, "eZContact", "ModuleEdit" ) == false )
+if ( !eZPermission::checkPermission( $user, "eZContact", "ModuleEdit" ) )
 {
     eZHTTPTool::header( "Location: /error/403" );
     exit();
@@ -48,47 +48,52 @@ switch ( $ListType )
             {
                 $Action = $url_array[4];
                 include( "ezcontact/admin/nopermission.php" );
-                break;
             }
+            break;
+
             case "category":
             {
                 $Action = $url_array[4];
                 include( "ezcontact/admin/nopermission.php" );
-                break;
             }
+            break;
+
             case "person":
             {
                 $Action = $url_array[4];
                 include( "ezcontact/admin/nopermission.php" );
-                break;
             }
+            break;
+
             case "login":
             case "consultation":
             {
                 include( "ezcontact/admin/nopermission.php" );
-                break;
             }
+            break;
+
             case "type":
             {
                 $Action = $url_array[4];
                 include( "ezcontact/admin/nopermission.php" );
-                break;
             }
+            break;
+
             default:
             {
                 include_once( "classes/ezhttptool.php" );
                 eZHTTPTool::header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
-                break;
             }
+            break;
         }
-        break;
     }
+    break;
 
     case "setup":
     {
         include( "ezcontact/admin/setup.php" );
-        break;
     }
+    break;
 
     case "company":
     {
@@ -124,16 +129,18 @@ switch ( $ListType )
                                 $CompanyID = $url_array[4];
                     include( "ezcontact/admin/companyedit.php" );
                 }
-                break;
             }
+            break;
+
             case "view":
             {
                 if ( !isSet( $CompanyID ) and isSet( $url_array[4] ) and is_numeric( $url_array[4] ) )
                     $CompanyID = $url_array[4];
                 $PersonOffset = $url_array[5];
                 include( "ezcontact/admin/companyview.php" );
-                break;
             }
+            break;
+
             case "stats":
             {
                 $Year = $url_array[6];
@@ -143,37 +150,41 @@ switch ( $ListType )
                 if ( !isSet( $CompanyID ) and isSet( $url_array[5] ) and is_numeric( $url_array[5] ) )
                     $CompanyID = $url_array[5];
                 include( "ezcontact/admin/companystats.php" );
-                break;
             }
+            break;
+
             case "list":
             {
                 $TypeID = $url_array[4];
                 $Offset = $url_array[5];
                 $ShowStats = true;
                 include( "ezcontact/admin/companytypelist.php" );
-                break;
             }
+            break;
+
             case "folder":
             {
                 $item_id = $url_array[4];
                 $CompanyEdit = true;
                 include( "ezcontact/admin/folder.php" );
-                break;
             }
+            break;
+
             case "buy":
             {
                 include( "ezcontact/admin/buy.php" );
-                break;
             }
+            break;
+
             default:
             {
                 include_once( "classes/ezhttptool.php" );
                 eZHTTPTool::header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
-                break;
             }
+            break;
         }
-        break;
     }
+    break;
 
     case "companycategory" :
     {
@@ -187,25 +198,28 @@ switch ( $ListType )
                 $NewParentID = $url_array[4];
                 unset( $TypeID );
                 include( "ezcontact/admin/companytypeedit.php" );
-                break;
             }
+            break;
+
             case "edit":
             case "update":
             case "delete":
             case "insert":
             {
                 include( "ezcontact/admin/companytypeedit.php" );
-                break;
             }
+            break;
+                
             default:
             {
                 include_once( "classes/ezhttptool.php" );
                 eZHTTPTool::header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
-                break;
             }
+            break;
         }
-        break;
     }
+    break;
+
     case "person":
     {
         $PersonID = $url_array[4];
@@ -233,16 +247,18 @@ switch ( $ListType )
                 {
                     include( "ezcontact/admin/personedit.php" );
                 }
-                break;
                     
             }
+            break;
+                
             case "list":
             {
                 if ( is_numeric( $url_array[4] ) )
                     $Offset = $url_array[4];
                 include( "ezcontact/admin/personlist.php" );
-                break;
             }
+            break;
+
             case "search":
             {
                 if ( is_numeric( $url_array[4] ) )
@@ -253,33 +269,37 @@ switch ( $ListType )
                     $SearchText = eZURITool::decode( $SearchText );
                 }
                 include( "ezcontact/admin/personlist.php" );
-                break;
             }
+            break;
+
             case "view":
             {
                 include( "ezcontact/admin/personview.php" );
-                break;
             }
+            break;
+
             case "folder":
             {
                 $item_id = $url_array[4];
                 include( "ezcontact/admin/folder.php" );
-                break;
             }
+            break;
+
             case "buy":
             {
                 include( "ezcontact/admin/buy.php" );
-                break;
             }
+            break;
+                
             default:
             {
                 include_once( "classes/ezhttptool.php" );
                 eZHTTPTool::header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
-                break;
             }
+            break;
         }
-        break;
     }
+    break;
 
     case "consultation":
     {
@@ -296,18 +316,21 @@ switch ( $ListType )
             case "insert":
             {
                 include( "ezcontact/admin/consultationedit.php" );
-                break;
             }
+            break;
+
             case "view":
             {
                 include( "ezcontact/admin/consultationview.php" );
-                break;
             }
+            break;
+
             case "list":
             {
                 include( "ezcontact/admin/consultationlist.php" );
-                break;
             }
+            break;
+
             case "company":
             {
                 $SubAction = $url_array[3];
@@ -327,22 +350,25 @@ switch ( $ListType )
                     case "insert":
                     {
                         include( "ezcontact/admin/consultationedit.php" );
-                        break;
                     }
+                    break;
+
                     case "list":
                     {
                         $ConsultationList = true;
                         include( "ezcontact/admin/consultationlist.php" );
-                        break;
                     }
+                    break;
+
                     case "view":
                     {
                         include( "ezcontact/admin/consultationview.php" );
-                        break;
                     }
+                    break;
                 }
-                break;
             }
+            break;
+
             case "person":
             {
                 $SubAction = $url_array[3];
@@ -362,19 +388,21 @@ switch ( $ListType )
                     case "insert":
                     {
                         include( "ezcontact/admin/consultationedit.php" );
-                        break;
                     }
+                    break;
+
                     case "list":
                     {
                         $ConsultationList = true;
                         include( "ezcontact/admin/consultationlist.php" );
-                        break;
                     }
+                    break;
+
                     case "view":
                     {
                         include( "ezcontact/admin/consultationview.php" );
-                        break;
                     }
+                    break;
                 }
                 break;
             }
@@ -383,11 +411,11 @@ switch ( $ListType )
             {
                 include_once( "classes/ezhttptool.php" );
                 eZHTTPTool::header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
-                break;
             }
+            break;
         }
-        break;
     }
+    break;
 
     case "consultationtype":
     {
@@ -406,15 +434,17 @@ switch ( $ListType )
             case "down":
             {
                 include( "ezcontact/admin/consultationtypeedit.php" );
-                break;
             }
+            break;
+
             case "list":
             {
                 if ( is_numeric( $url_array[4] ) )
                     $Offset = $url_array[4];
                 include( "ezcontact/admin/consultationtypelist.php" );
-                break;
             }
+            break;
+            
             case "search":
             {
                 if ( is_numeric( $url_array[4] ) )
@@ -425,18 +455,18 @@ switch ( $ListType )
                     $SearchText = eZURITool::decode( $SearchText );
                 }
                 include( "ezcontact/admin/consultationtypelist.php" );
-                break;
             }
+            break;
 
             default:
             {
                 include_once( "classes/ezhttptool.php" );
                 eZHTTPTool::header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
-                break;
             }
+            break;
         }
-        break;
     }
+    break;
 
     case "projecttype":
     {
@@ -455,15 +485,17 @@ switch ( $ListType )
             case "down":
             {
                 include( "ezcontact/admin/projecttypeedit.php" );
-                break;
             }
+            break;
+
             case "list":
             {
                 if ( is_numeric( $url_array[4] ) )
                     $Offset = $url_array[4];
                 include( "ezcontact/admin/projecttypelist.php" );
-                break;
             }
+            break;
+
             case "search":
             {
                 if ( is_numeric( $url_array[4] ) )
@@ -474,29 +506,31 @@ switch ( $ListType )
                     $SearchText = eZURITool::decode( $SearchText );
                 }
                 include( "ezcontact/admin/projecttypelist.php" );
-                break;
             }
+            break;
 
             default:
             {
                 include_once( "classes/ezhttptool.php" );
                 eZHTTPTool::header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
-                break;
             }
+            break;
         }
-        break;
     }
+    break;
 
     case "error":
     {
         include( "ezcontact/admin/error.php" );
-        break;
     }
+    break;
 
     default :
+    {
         include_once( "classes/ezhttptool.php" );
         eZHTTPTool::header( "Location: /contact/error?Type=404&Uri=$REQUEST_URI&Query=$QUERY_STRING&BackUrl=$HTTP_REFERER" );
-        break;
+    }
+    break;
 }
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companytypeedit.php,v 1.32.2.1 2001/10/31 11:08:22 jhe Exp $
+// $Id: companytypeedit.php,v 1.32.2.2 2001/11/01 12:16:25 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -29,8 +29,7 @@
 
 include_once( "classes/INIFile.php" );
 
-$ini =& $GLOBALS["SiteIni"];
-
+$ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZContactMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
