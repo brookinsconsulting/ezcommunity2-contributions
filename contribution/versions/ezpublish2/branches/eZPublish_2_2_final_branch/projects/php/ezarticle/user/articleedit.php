@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.24.2.1 2001/11/01 14:13:22 master Exp $
+// $Id: articleedit.php,v 1.24.2.2 2001/11/19 11:52:27 bf Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -37,6 +37,7 @@ include_once( "ezarticle/classes/ezarticlegenerator.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "ezuser/classes/ezauthor.php" );
+include_once( "ezxml/classes/ezxml.php" );
 
 $ini =& INIFile::globalINI();
 
@@ -99,7 +100,7 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) )
         $article->setIsPublished( false );
 
     // check if the contents is parseable
-    if ( xmltree( $contents ) )
+    if ( eZXML::domTree( $contents ) )
     {
         // generate keywords
         $contents = strip_tags( $contents );

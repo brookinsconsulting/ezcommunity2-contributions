@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbackslashimporter.php,v 1.9.2.2 2001/11/14 12:37:59 br Exp $
+// $Id: ezbackslashimporter.php,v 1.9.2.3 2001/11/19 11:52:27 bf Exp $
 //
 // Definition of ezbackslashimporter class
 //
@@ -39,6 +39,7 @@
 include_once( "classes/ezdb.php" );
 include_once( "classes/ezdatetime.php" );
 include_once( "eznewsfeed/classes/eznews.php" );
+include_once( "ezxml/classes/ezxml.php" );
 
 class eZBackslashImporter
 {
@@ -63,7 +64,7 @@ class eZBackslashImporter
         $output = fread ( $fp, 100000000 );
         fclose( $fp );
 
-        $doc = xmltree( $output );
+        $doc =& eZXML::domTree( $output );
         if ( count( $doc->children ) > 0 )
         foreach ( $doc->children as $child )
         {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezrssimporter.php,v 1.1.2.1 2001/10/29 16:49:39 bf Exp $
+// $Id: ezrssimporter.php,v 1.1.2.2 2001/11/19 11:52:28 bf Exp $
 //
 // Definition of ezrdfimporter class
 //
@@ -39,6 +39,7 @@
 include_once( "classes/ezdb.php" );
 include_once( "classes/ezdatetime.php" );
 include_once( "eznewsfeed/classes/eznews.php" );
+include_once( "ezxml/classes/ezxml.php" );
 
 class eZRSSImporter
 {
@@ -63,7 +64,7 @@ class eZRSSImporter
         $output = fread ( $fp, 10000000 );
         fclose( $fp );
         
-        $doc = xmltree( $output );
+        $doc =& eZXML::domTree( $output );
         if ( count( $doc->children ) > 0 )
         foreach ( $doc->children as $child )
         {
