@@ -152,6 +152,7 @@
         <img src="{company_logo_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" />
 	<!-- END image_view_tpl -->
 	<!-- BEGIN no_image_tpl -->
+	&nbsp;
 	<!-- <p>{intl-no_image}</p> -->
 	<!-- END no_image_tpl -->	
 	</td>
