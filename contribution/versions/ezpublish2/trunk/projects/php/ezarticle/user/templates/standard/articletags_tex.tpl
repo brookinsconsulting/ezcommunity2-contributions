@@ -52,7 +52,9 @@
 \caption{{caption}}
 
 <!-- END image_text_tpl -->
+
 \end{center}
+
 \end{figure}
 
 <!-- END image_tpl -->
@@ -85,7 +87,9 @@
 <!-- BEGIN bold_tpl -->
 
 \begin{bf}
+
 {contents}
+
 \end{bf}
 
 <!-- END bold_tpl -->

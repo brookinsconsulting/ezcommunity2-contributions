@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: export.php,v 1.1 2001/09/24 15:30:22 bf Exp $
+// $Id: export.php,v 1.2 2001/09/25 13:48:55 bf Exp $
 //
 // Created on: <23-Sep-2001 16:55:39 bf>
 //
@@ -99,7 +99,7 @@ fwrite ( $fp, $doc );
 fclose( $fp );
 
 // convert to dvi
-print( system( "cd ezarticle/cache/ && latex -interaction=batchmode $outputFile && cd .." ) );
+//print( system( "cd ezarticle/cache/ && latex -interaction=batchmode $outputFile && cd .." ) );
 
 print( htmlspecialchars( $doc ) );
 print( "</pre>" );

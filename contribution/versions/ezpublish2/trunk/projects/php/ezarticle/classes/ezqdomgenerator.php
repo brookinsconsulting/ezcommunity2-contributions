@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.35 2001/09/25 11:50:50 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.36 2001/09/25 13:48:56 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -245,7 +245,7 @@ class eZQDomGenerator
         // convert <link ez.no ez systems> to valid xml
         // $tmpPage = "<link ez.no ez systems> <link ez.no ez systems>";
         $tmpPage = preg_replace( "#(<link\s+?([^ ]+)\s+?([^>]+)>)#", "<link href=\"\\2\" text=\"\\3\" />", $tmpPage );
-        $tmpPage = preg_replace( "#(<popuplink\s+?([^ ]+)\s+?([^>]+)>)#", "<popuplink href=\"\\2\" text=\"\\3\" />", $tmpPage );
+        $tmpPage = preg_replace( "#(<popuplink\s+?([^ ]+)\s+?([^>]+)>)#", "<link href=\"\\2\" text=\"\\3\" target=\"_blank\" />", $tmpPage );
 
         $tmpPage = preg_replace( "#(<iconlink\s+?([^ ]+)\s+?([^>]+)>)#", "<iconlink href=\"\\2\" text=\"\\3\" />", $tmpPage );
         
@@ -257,7 +257,6 @@ class eZQDomGenerator
         $tmpPage = preg_replace( "#<mail\s+?([^ ]*?)\s+?(.*?),\s+?([^>]*?)>#", "<mail to=\"\\1\" subject=\"\\2\" text=\"\\3\" />", $tmpPage );
 
         // convert bf@nospam.ez.no to <mail to="bf@nospam.ez.no" subject="" text="bf@nospam.ez.no" />
-
         $tmpPage = preg_replace( "#([\s\n]|^)(([a-zA-Z0-9_\-\.]+)@((([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}))([\s\n]|$)#",
                                  "<mail to=\"\\2\" subject=\"\" text=\"\\2\" />", $tmpPage );
         
@@ -591,11 +590,20 @@ class eZQDomGenerator
                         $text = $imageItem->children[0]->content;
                     }
                     break;
-                                
+
+                    case "target" :
+                    {
+                        $target = $imageItem->children[0]->content;
+                    }
+                    break;
+                    
                 }
             }
-                        
-            $pageContent .= "<link $href $text>";
+
+            if ( $target == "_blank" )
+                $pageContent .= "<popuplink $href $text>";
+            else
+                $pageContent .= "<link $href $text>";
         }
 
         
