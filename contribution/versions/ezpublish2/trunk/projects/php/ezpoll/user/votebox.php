@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: votebox.php,v 1.2 2000/10/26 12:44:59 ce-cvs Exp $
+// $Id: votebox.php,v 1.3 2000/10/27 10:20:53 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -29,6 +29,7 @@ include_once( "classes/eztemplate.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZPollMain", "Language" );
+$iniError = new INIFile( "ezpoll/user/intl/" . $Language . "/votebox.php.ini", false );
 
 include_once( "ezpoll/classes/ezpoll.php" );
 include_once( "ezpoll/classes/ezpollchoice.php" );
@@ -55,6 +56,12 @@ $t->set_block( "vote_box", "vote_item_tpl", "vote_item" );
 $choice = new eZPollChoice();
 
 $choiceList = $choice->getAll( $PollID );
+
+if ( !$choiceList )
+{
+    $noitem = $iniError->read_var( "strings", "noitem" );
+    $t->set_var( "vote_item", $noitem );
+}
 
 foreach( $choiceList as $choiceItem )
 {
