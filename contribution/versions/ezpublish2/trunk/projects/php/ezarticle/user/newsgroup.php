@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsgroup.php,v 1.1 2001/08/23 15:00:05 ce Exp $
+// $Id: newsgroup.php,v 1.2 2001/08/23 15:06:05 ce Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -54,13 +54,15 @@ $t->set_file( array(
 
 $t->set_block( "news_group_tpl", "category_item_tpl", "category_item" );
 
-$t->set_block( "news_group_tpl", "start_with_break_tpl", "start_with_break" );
-$t->set_block( "news_group_tpl", "start_without_break_tpl", "start_without_break" );
-
-$t->set_block( "news_group_tpl", "end_with_break_tpl", "end_with_break" );
-$t->set_block( "news_group_tpl", "end_without_break_tpl", "end_without_break" );
 
 $t->set_block( "category_item_tpl", "article_item_tpl", "article_item" );
+
+$t->set_block( "category_item_tpl", "start_with_break_tpl", "start_with_break" );
+$t->set_block( "category_item_tpl", "start_without_break_tpl", "start_without_break" );
+
+$t->set_block( "category_item_tpl", "end_with_break_tpl", "end_with_break" );
+$t->set_block( "category_item_tpl", "end_without_break_tpl", "end_without_break" );
+
 $t->set_block( "article_item_tpl", "article_image_tpl", "article_image" );
 $t->set_block( "article_item_tpl", "no_image_tpl", "no_image" );
 
@@ -77,13 +79,13 @@ foreach( $categoryList as $category )
 {
     if ( ( $i % 2 ) == 0 )
     {
-        $t->parse( "start_with_break", "start_without_break_tpl" );
-        $t->parse( "end_with_break", "end_without_break_tpl" );
+        $t->parse( "start_with_break", "start_with_break_tpl" );
+        $t->parse( "end_without_break", "end_without_break_tpl" );
     }
     else
     {
         $t->parse( "start_without_break", "start_without_break_tpl" );
-        $t->parse( "end_without_break", "end_without_break_tpl" );
+        $t->parse( "end_with_break", "end_with_break_tpl" );
     }
 
     $t->set_var( "category_id", $category->id() );

@@ -26,10 +26,10 @@
 <!-- BEGIN category_item_tpl -->
 
 <!-- BEGIN start_with_break_tpl -->
-<tr><td valign="top">
+<tr><td >
 <!-- END start_with_break_tpl -->
 <!-- BEGIN start_without_break_tpl -->
-<td valign="top">
+<td >
 <!-- END start_without_break_tpl -->
 
 
@@ -79,12 +79,12 @@
 </table>
 <!-- END article_item_tpl -->
 
-<!-- BEGIN end_with_break_tpl -->
-</td></tr>
-<!-- END end_with_break_tpl -->
 <!-- BEGIN end_without_break_tpl -->
 </td>
 <!-- END end_without_break_tpl -->
+<!-- BEGIN end_with_break_tpl -->
+</td></tr>
+<!-- END end_with_break_tpl -->
 
 
 
