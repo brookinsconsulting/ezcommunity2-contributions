@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.41 2001/03/01 08:38:51 bfalex Exp $
+// $Id: ezarticlecategory.php,v 1.42 2001/03/01 10:52:37 fh Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -861,15 +861,14 @@ class eZArticleCategory
            foreach ( $groups as $group )
            {
                if ( $i == 0 )
-                   $groupSQL .= " Permission.GroupID=$group ";
+                   $groupSQL .= " Permission.GroupID=$group OR";
                else
-                   $groupSQL .= " or Permission.GroupID=$group ";
+                   $groupSQL .= " Permission.GroupID=$group OR";
                
                $i++;
            }
            $currentUserID = $user->id();
-
-          $loggedInSQL = "Article.AuthorID=$currentUserID OR  $groupSQL OR";
+           $loggedInSQL = "Article.AuthorID=$currentUserID OR";
        }
 
        /*
@@ -894,17 +893,15 @@ class eZArticleCategory
                  LEFT JOIN eZArticle_ArticlePermission AS Permission ON Article.ID=Permission.ObjectID,
                  eZArticle_Category AS Category
                  WHERE(
-                      $loggedInSQL Permission.GroupID='-1'
+                      ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' )
                       )
-                 AND Permission.ReadPermission='1'
                  $publishedCode
                  AND Link.CategoryID='$this->ID'
                  AND Category.ID=Link.CategoryID
+                 $excludedCode
                  GROUP BY Article.ID
                  ORDER BY $OrderBy
-                 $excludedCode
                  LIMIT $offset,$limit;";
-       
 /*       $this->Database->array_query( $article_array, "
        select Article.ID AS ArticleID
        FROM eZArticle_Article AS Article LEFT JOIN eZArticle_ArticleCategoryLink AS Link
@@ -983,14 +980,15 @@ class eZArticleCategory
            foreach ( $groups as $group )
            {
                if ( $i == 0 )
-                   $groupSQL .= " Permission.GroupID=$group ";
+                   $groupSQL .= " Permission.GroupID=$group OR";
                else
-                   $groupSQL .= " or Permission.GroupID=$group ";
+                   $groupSQL .= " Permission.GroupID=$group OR";
                
                $i++;
            }
            $currentUserID = $user->id();
-           $loggedInSQL = "Article.AuthorID=$currentUserID OR  $groupSQL";
+           $loggedInSQL = "Article.AuthorID=$currentUserID OR";
+
        }
 
 /*       $this->Database->array_query( $article_array, "
@@ -1003,16 +1001,14 @@ class eZArticleCategory
        AND Link.CategoryID='$this->ID'
        AND Category.ID=Link.CategoryID 
        $excludedCode " );       */
-
-       $query = "SELECT count( Article.ID ) AS Count
+       $query = "SELECT count( Article.ID ) as Count
                  FROM eZArticle_Article AS Article
                  LEFT JOIN eZArticle_ArticleCategoryLink as Link ON Article.ID=Link.ArticleID
                  LEFT JOIN eZArticle_ArticlePermission AS Permission ON Article.ID=Permission.ObjectID,
                  eZArticle_Category AS Category
                  WHERE(
-                      $loggedInSQL OR Permission.GroupID='-1'
+                      ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' )
                       )
-                 AND Permission.ReadPermission='1'
                  $publishedCode
                  AND Link.CategoryID='$this->ID'
                  AND Category.ID=Link.CategoryID

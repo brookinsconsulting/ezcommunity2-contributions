@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.9 2001/02/26 20:46:12 bf Exp $
+// $Id: menubox.php,v 1.10 2001/03/01 10:52:37 fh Exp $
 //
 // 
 //
@@ -26,6 +26,8 @@
 //
 
 include_once( "classes/INIFile.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
+
 $ini = new INIFile( "site.ini" );
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
@@ -101,7 +103,7 @@ function createArticleMenu()
     $i = 0;
     foreach( $articleCategory_array as $categoryItem )
     {
-        if ( eZArticleCategory::hasReadPermission( eZUser::currentUser(), $categoryItem->id() ) )
+        if( eZObjectPermission::hasPermission( $categoryItem->id(), "article_category", 'r' ) )
         {
             $t->set_var( "articlecategory_id", $categoryItem->id()  );
             $t->set_var( "articlecategory_title", $categoryItem->name() );

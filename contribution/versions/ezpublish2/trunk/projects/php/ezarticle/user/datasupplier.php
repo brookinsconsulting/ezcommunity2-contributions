@@ -77,7 +77,7 @@ switch ( $url_array[2] )
             {
                 include( $cachedFile );
             }
-            else if( $CategoryID == 0 || eZArticleCategory::hasReadPermission( $user, $CategoryID ) )
+            else if( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' ) )
                              // check if user really has permissions to browse this category
             {
                 $GenerateStaticPage = "true";
@@ -85,7 +85,7 @@ switch ( $url_array[2] )
                 include( "ezarticle/user/articlelist.php" );
             }            
         }
-        else if( $CategoryID == 0 || eZArticleCategory::hasReadPermission( $user, $CategoryID ) )
+        else if( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' ) )
         {
             include( "ezarticle/user/articlelist.php" );
         }
@@ -149,18 +149,21 @@ switch ( $url_array[2] )
             {
                 include( $cachedFile );
             }
-            else if( eZArticle::hasReadPermission( $user, $ArticleID ) )
+            else if( eZObjectPermisson::hasPermission( $ArticleID, "article_article", 'r' )
+                     || eZArticle::isAuthor( $user, $ArticleID ) )
             {
                 $GenerateStaticPage = "true";
                 
                 include( "ezarticle/user/articleview.php" );
             }
         }
-        else if( eZArticle::hasReadPermission( $user, $ArticleID ) )
+        else if( eZObjectPermisson::hasPermission( $ArticleID, "article_article", 'r' )
+        || eZArticle::isAuthor( $user, $ArticleID ) )
         {
             include( "ezarticle/user/articleview.php" );
         }
-        
+
+        /* Should there be permissions here? */
         if  ( ( $PrintableVersion != "enabled" ) && ( $UserComments == "enabled" ) )
         {
             $RedirectURL = "/article/view/$ArticleID/$PageNumber/";
@@ -307,28 +310,6 @@ switch ( $url_array[2] )
     }
     break;
 
-//    case "fhtest";
-//    {
-//        $user = new eZUser( 31 );
-//        $group = new eZUserGroup( 3 );
-//        eZObjectPermission::setPermission( $group, 5, "article_article", 'w' );
-//        eZObjectPermission::setPermission( -1, 5, "article_article", 'w' );
-//        eZObjectPermission::setPermission( $group, 3, "article_article", 'w' );
-//        eZObjectPermission::setPermission( -1, 6, "article_article", 'r' );
-//
-//        if( eZObjectPermission::hasPermission( 5, "article_article", 'w' ) )
-//        {
-//            print( "has permission.. should be right<br />" );
-//        }
-//        else
-//        {
-//            print( "doesn't have  permission.. wrong<br />" );
-//        }
-            
-//        eZObjectPermission::removePermissions( 5, "article_article", 'w' );
-        
-//    }
-//    break;
 }
 
 ?>
