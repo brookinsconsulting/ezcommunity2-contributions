@@ -135,7 +135,7 @@
 <!-- BEGIN attribute_value_tpl -->
 <tr> 
 	<th>{attribute_name}:</th>
-	<td align="right">{attribute_value} {attribute_unit}</td>
+	<td align="right">{attribute_value_var} {attribute_unit}</td>
 </tr>
 <!-- END attribute_value_tpl -->
 <!-- BEGIN attribute_header_tpl -->
