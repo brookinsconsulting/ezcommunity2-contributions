@@ -39,6 +39,8 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-module}:</td>
+	<th>{intl-open_bug_count}:</th>
+	<th>{intl-bug_count}:</th>
 	<th>{intl-description}:</th>
 </tr>
 	
@@ -46,6 +48,14 @@
 <tr>
 	<td class="{td_class}">
 	<a href="/bug/archive/{module_id}/">{module_name}</a>&nbsp;
+	</td>
+
+	<td class="{td_class}">
+	{open_bug_count}
+	</td>
+
+	<td class="{td_class}">
+	{bug_count}
 	</td>
 
 	<td class="{td_class}">

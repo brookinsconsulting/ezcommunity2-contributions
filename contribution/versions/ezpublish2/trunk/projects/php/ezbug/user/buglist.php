@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: buglist.php,v 1.1 2000/12/04 10:47:56 bf-cvs Exp $
+// $Id: buglist.php,v 1.2 2000/12/09 18:59:37 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <04-Dec-2000 11:36:41 bf>
@@ -91,8 +91,15 @@ foreach ( $moduleList as $moduleItem )
     $t->set_var( "module_name", $moduleItem->name() );
 
     $parent = $moduleItem->parent();
+
+    $totalCount = $moduleItem->countBugs( false, false );
+    $t->set_var( "bug_count", $totalCount );
+
+    $openCount = $moduleItem->countBugs( false, true );
+    $t->set_var( "open_bug_count", $openCount );
     
 
+    
     if ( ( $i % 2 ) == 0 )
     {
         $t->set_var( "td_class", "bglight" );
@@ -100,7 +107,7 @@ foreach ( $moduleList as $moduleItem )
     else
     {
         $t->set_var( "td_class", "bgdark" );
-    }
+    }    
     
     $t->set_var( "module_description", $moduleItem->description() );
 
@@ -156,7 +163,7 @@ foreach ( $bugList as $bug )
         $t->set_var( "bug_is_closed", "" );
         $t->parse( "bug_is_open", "bug_is_open_tpl" );
     }
-    
+
     if ( ( $i % 2 ) == 0 )
     {
         $t->set_var( "td_class", "bglight" );
