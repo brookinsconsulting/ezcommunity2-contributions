@@ -1,0 +1,14 @@
+eZGroupEventCalendar uses the following Javascript tools
+
+Dom Drag - Used for draggable calendar navigation div, and the Sort by Group div.
+http://www.youngpup.net/2001/domdrag
+
+JS Calendar - Used for filling date fields when adding/editing an event.
+http://www.dynarch.com/projects/calendar/
+
+Overlib - Used for informational popups.
+http://www.bosrup.com/web/overlib/
+
+Known Bugs:
+Overlib and Dom Drag are incompatible. After dragging the navigation calendar or Sort By box, 
+mousing over an event name will display the overlib div in the upper right hand corner.
