@@ -112,23 +112,15 @@
 	</td>
 </tr>
 </table>
-<br /><br />
+<br />
 
 <!-- BEGIN attribute_list_tpl -->
-<table width="50%" cellspacing="0" cellpadding="2" border="0">
-<tr>
-	<th>
-	{intl-attribute_name}
-	</th>
-	<th>
-	{intl-attribute_value}
-	</th>
-</tr>
+<table width="80%" cellspacing="0" cellpadding="2" border="0" align="center">
 <!-- BEGIN attribute_tpl -->
 <tr>
-	<td>
-	{attribute_name} : 
-	</td>
+	<th>
+	{attribute_name}: 
+	</th>
 	<td>
 	{attribute_value}
 	</td>
@@ -139,8 +131,6 @@
 <!-- END attribute_list_tpl -->
 
 {extra_product_info}
-
-<hr noshade="noshade" size="4" />
 
 <!-- BEGIN add_to_cart_tpl -->
 <input class="okbutton" type="submit" name="Cart" value="{intl-add_to_cart}" />
