@@ -401,3 +401,20 @@ ALTER TABLE eZForum_Message ADD IsTemporary int(1) DEFAULT '0' NOT NULL;
 #
 # permissions in eZArticle..
 ALTER TABLE eZArticle_Category ADD OwnerGroupID int(11) DEFAULT NULL;
+ALTER TABLE eZArticle_Article ADD OwnerGroupID int(11) DEFAULT NULL;
+
+CREATE TABLE eZArticle_CategoryReaderLink (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  CategoryID int(11) DEFAULT '0' NOT NULL,
+  GroupID int(11) DEFAULT '0' NOT NULL,
+  Created timestamp(14),
+  PRIMARY KEY (ID)
+);   
+
+CREATE TABLE eZArticle_ArticleReaderLink (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  ArticleID int(11) DEFAULT '0' NOT NULL,
+  GroupID int(11) DEFAULT '0' NOT NULL,
+  Created timestamp(14),
+  PRIMARY KEY (ID)
+);  
