@@ -108,8 +108,8 @@
 <tr class="{theme-type_class}">
     <td><a href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/{type_id}/">{type_name}</a></td>
     <td>{type_description}</td>
-    <td width="1%"><a href="/{intl-module_name}/{intl-command_type}/{intl-command_edit}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezct{type_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezct{type_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a></td>
-    <td width="1%"><a href="/{intl-module_name}/{intl-command_type}/{intl-command_delete}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezct{type_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezct{type_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a></td>
+    <td width="1%"><a href="/{intl-module_name}/{intl-category_command_type}/{intl-command_edit}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezct{type_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezct{type_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a></td>
+    <td width="1%"><a href="/{intl-module_name}/{intl-category_command_type}/{intl-command_delete}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezct{type_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezct{type_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a></td>
 </tr>
 <!-- END category_item_tpl -->
 
@@ -135,8 +135,8 @@
 <tr class="{theme-type_class}">
     <td><a href="/{intl-module_name}/{intl-command_type}/{intl-command_list}/{type_id}/">{type_name}</a></td>
     <td>{type_description}</td>
-    <td width="1%"><a href="/{intl-module_name}/{intl-command_type}/{intl-command_edit}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezuser{type_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a></td>
-    <td width="1%"><a href="/{intl-module_name}/{intl-command_type}/{intl-command_delete}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezuser{type_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a></td>
+    <td width="1%"><a href="/{intl-module_name}/{intl-category_command_type}/{intl-command_edit}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezuser{type_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a></td>
+    <td width="1%"><a href="/{intl-module_name}/{intl-category_command_type}/{intl-command_delete}/{type_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezuser{type_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezuser{type_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a></td>
 </tr>
 <!-- END type_item_tpl -->
 
@@ -148,7 +148,7 @@
 {intl-error_no_types}
 <!-- END no_type_item_tpl -->
 
-<form method="post" action="/contact/company/new/{current_id}">
+<form method="post" action="/contact/companycategory/new/{current_id}">
 <input class="okbutton" type="submit" value="{intl-new_company_category}">
 </form>
 

@@ -40,33 +40,31 @@
 <!-- BEGIN company_item_tpl -->
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<td>
+	<td width="1%">
 	<p class="boxtext">{intl-name}:</p>
 	<input type="text" size="20" name="Name" value="{name}"/>
 	</td>
-	<td>
+
+	<td width="1%">
 	<p class="boxtext">{intl-orgno}:</p>
 	<input type="text" size="20" name="CompanyNo" value="{companyno}"/>
 	</td>
 </tr>
-</table>
-
-<table>
 <tr>
 
-<td>
-<p class="boxtext">{intl-companytype}:</p>
-<select multiple size="10" name="CompanyCategoryID[]">
-<!-- BEGIN company_type_select_tpl -->
-<option value="{company_type_id}" {is_selected}>{company_type_level}{company_type_name}</option>
-<!-- END company_type_select_tpl -->
-</select>
-</td>
+	<td width="1%">
+	<p class="boxtext">{intl-companytype}:</p>
+	<select multiple size="10" name="CompanyCategoryID[]">
+	<!-- BEGIN company_type_select_tpl -->
+	<option value="{company_type_id}" {is_selected}>{company_type_level}{company_type_name}</option>
+	<!-- END company_type_select_tpl -->
+	</select>
+	</td>
 
-<td>
-<p class="boxtext">{intl-comment}:</p>
-<textarea cols="40" rows="8" name="Comment">{comment}</textarea>
-</td>
+	<td valign="top" width="1%">
+	<p class="boxtext">{intl-comment}:</p>
+	<textarea cols="40" rows="8" name="Comment">{comment}</textarea>
+	</td>
 
 </tr>
 </table>
@@ -176,7 +174,7 @@
 
 <!-- BEGIN project_item_tpl -->
 <h2>{intl-project_headline}</h2>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<table width="100%" cellpadding="0" cellspacing="5" border="0">
     <tr>
 	    <td width="1%" valign="top">
 	            <p class="boxtext">{intl-contact}:</p>
@@ -207,6 +205,8 @@
 		    <option value="{type_id}" {selected}>{type_name}</option>
 		    <!-- END project_item_select_tpl -->
 		    </select>
+	    </td>
+	    <td width="*" valign="top">
 	    </td>
     </tr>
 </table>
