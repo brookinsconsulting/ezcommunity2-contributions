@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.45 2001/03/06 12:13:48 fh Exp $
+// $Id: ezlink.php,v 1.46 2001/03/09 11:05:35 jb Exp $
 //
 // Definition of eZLink class
 //
@@ -101,7 +101,7 @@ class eZLink
                 Title='$this->Title',
                 Description='$this->Description',
                 LinkGroup='$this->LinkGroupID',
-                KeyWords='$this->Keywords',
+                KeyWords='$this->KeyWords',
                 Created='$this->Created',
                 Url='$this->Url',
                 ImageID='$this->ImageID',
@@ -176,7 +176,7 @@ class eZLink
         
         $this->Database->array_query( $link_array, "SELECT ID FROM eZLink_Link WHERE LinkGroup='$id' AND Accepted='Y' ORDER BY Title" );
 
-        for( $i=0; $i<count( $link_array ); $i++ )
+        for( $i=0; $i < count( $link_array ); $i++ )
         {
             $return_array[] = new eZLink( $link_array[$i][ "ID" ] );
         }
@@ -196,7 +196,7 @@ class eZLink
         
         $this->Database->array_query( $link_array, "SELECT ID FROM eZLink_Link WHERE Accepted='N' ORDER BY Title" );
 
-        for ( $i=0; $i<count( $link_array ); $i++ )
+        for ( $i=0; $i < count( $link_array ); $i++ )
         {
             $return_array[] = new eZLink( $link_array[$i]["ID"] );
         }
@@ -215,7 +215,7 @@ class eZLink
         
         $this->Database->array_query( $link_array, "SELECT * FROM eZLink_Link WHERE Accepted='Y' ORDER BY Created DESC LIMIT $offset, $limit" );
 
-        for( $i=0; $i<count( $link_array ); $i++ )
+        for( $i=0; $i < count( $link_array ); $i++ )
         {
             $return_array[] = new eZLink( $link_array[$i][ "ID" ] );
         }
@@ -354,7 +354,7 @@ class eZLink
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        $this->LinkGroupID = ( $value );
+        $this->LinkGroupID = $value;
     }
 
     /*!

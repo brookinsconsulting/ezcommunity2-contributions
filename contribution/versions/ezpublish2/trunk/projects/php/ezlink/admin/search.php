@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.16 2001/01/22 14:43:01 jb Exp $
+// $Id: search.php,v 1.17 2001/03/09 11:05:35 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <15-Sep-2000 14:40:06 bf>
@@ -175,6 +175,12 @@ if ( $QueryString != "" )
         $t->set_var( "search_item", "" );
         $t->parse( "empty_result", "empty_result_tpl" );
     }
+}
+else
+{
+    $total_count = 0;
+    $t->set_var( "search_item", "" );
+    $t->parse( "empty_result", "empty_result_tpl" );
 }
 
 

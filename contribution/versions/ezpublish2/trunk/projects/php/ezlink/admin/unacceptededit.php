@@ -1,6 +1,6 @@
 
 <?
-// $Id: unacceptededit.php,v 1.1 2001/02/12 12:13:43 ce Exp $
+// $Id: unacceptededit.php,v 1.2 2001/03/09 11:05:35 jb Exp $
 //
 // Author: Bård Farstad <bf@ez.no>
 // Created on: <21-Jan-2001 13:34:48 bf>
@@ -42,16 +42,16 @@ for( $i=0; $i < count ( $LinkArrayID ); $i++ )
     if ( $ActionValueArray[$i] == "Defer" )
     {
     }
-    if ( $ActionValueArray[$i] == "Accept" )
+    else if ( $ActionValueArray[$i] == "Accept" )
     {
         $link->setAccepted( "Y" );
         $link->update();
     }
-    if ( $ActionValueArray[$i] == "Delete" )
+    else if ( $ActionValueArray[$i] == "Delete" )
     {
         $link->delete();
     }
-    if ( $ActionValueArray[$i] == "Update" )
+    else if ( $ActionValueArray[$i] == "Update" )
     {
         $link->update();
     }

@@ -1,5 +1,5 @@
 <?
-// $Id: suggestlink.php,v 1.13 2001/01/23 13:16:57 jb Exp $
+// $Id: suggestlink.php,v 1.14 2001/03/09 11:05:35 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:54:13 ce>   
@@ -160,8 +160,6 @@ foreach( $groupList as $groupItem )
 }
 
 $t->set_var( "error_msg", $terror_msg );
-
-$t->set_var( "tjo", "001" );
 
 $t->set_var( "title", $ttitle );
 $t->set_var( "url", $turl );

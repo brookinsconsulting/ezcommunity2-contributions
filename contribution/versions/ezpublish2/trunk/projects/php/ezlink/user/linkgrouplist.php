@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: linkgrouplist.php,v 1.13 2001/03/05 14:27:05 ce Exp $
+// $Id: linkgrouplist.php,v 1.14 2001/03/09 11:05:35 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 15:02:09 ce>
@@ -88,10 +88,7 @@ else
     $i=0;
     foreach( $linkGroup_array as $groupItem )
     {
-        if ( ( ( $i / 2 ) % 2 ) == 0 )
-            $t->set_var( "td_class", "bglight"  );
-        else
-            $t->set_var( "td_class", "bgdark"  );
+        $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark"  );
 
         $link_group_id = $groupItem->id();
         $t->set_var( "linkgroup_id", $link_group_id );

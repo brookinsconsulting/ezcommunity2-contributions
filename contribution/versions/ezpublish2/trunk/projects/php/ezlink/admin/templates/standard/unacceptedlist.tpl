@@ -1,4 +1,4 @@
-<h1>{intl-unaccepted_links}</h1>
+<h1>{intl-unaccepted_links} - ({link_count})</h1>
 
 <hr noshade="noshade" size="4" />
 
@@ -10,18 +10,6 @@
     <td>
         <div class="boxtext">{intl-name}:</div>
         <input type="text" size="30" name="Name[]" value="{link_name}" />
-    </td>
-</tr>
-<tr>
-    <td>
-        <div class="boxtext">{intl-url}:</div>
-        <input type="text" size="30" name="Url[]" value="{link_url}" />
-    </td>
-</tr>
-<tr>
-    <td>
-        <div class="boxtext">{intl-description}:</div>
-        <textarea cols="40" rows="4" name="Description[]">{link_description}</textarea>
     </td>
 </tr>
 
@@ -36,21 +24,41 @@
     </td>
 </tr>
 
-
 <tr>
-    <td colspan="2">
-        <div class="boxtext">{intl-keywords}:</div>
-        <input type="text" name="Keywords[]" value="{link_keywords}" />
+    <td>
+        <a href="http://{link_url}" target="_blank"><div class="boxtext">{intl-url}:</div></a>
+        <input type="text" size="30" name="Url[]" value="{link_url}" />
     </td>
 </tr>
 
 <tr>
     <td colspan="2">
+        <div class="boxtext">{intl-keywords}:</div>
+        <textarea cols="40" rows="4" name="Keywords[]">{link_keywords}</textarea>
+    </td>
+</tr>
+
+<tr>
+    <td>
+        <div class="boxtext">{intl-description}:</div>
+        <textarea cols="40" rows="4" name="Description[]">{link_description}</textarea>
+    </td>
+</tr>
+
+
+<tr>
+    <td colspan="2">
         <div class="boxtext">{intl-action}:</div>
-        {intl-defer}: <input value="Defer" type="radio" name="ActionValueArray[{i}]" checked/>
-        {intl-accept}: <input value="Accept" type="radio" name="ActionValueArray[{i}]" />
-        {intl-update_not_accept}: <input value="Update" type="radio" name="ActionValueArray[{i}]" />
-        {intl-delete}: <input value="Delete" type="radio" name="ActionValueArray[{i}]" />
+<!--          <input value="Defer" type="radio" name="ActionValueArray[{i}]" checked/>{intl-defer} -->
+<!--          <input value="Accept" type="radio" name="ActionValueArray[{i}]" />{intl-accept} -->
+<!--          <input value="Update" type="radio" name="ActionValueArray[{i}]" />{intl-update_not_accept} -->
+<!--          <input value="Delete" type="radio" name="ActionValueArray[{i}]" />{intl-delete} -->
+	<select name="ActionValueArray[{i}]">
+        <option value="Defer" selected/>{intl-defer}</option>
+        <option value="Accept">{intl-accept}</option>
+        <option value="Update">{intl-update_not_accept}</option>
+        <option value="Delete">{intl-delete}</option>
+	</select>
     </td>
 </tr>
 <tr>
