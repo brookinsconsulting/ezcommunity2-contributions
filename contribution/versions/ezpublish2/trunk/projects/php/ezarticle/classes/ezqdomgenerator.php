@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.25 2001/08/20 09:49:41 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.26 2001/08/21 14:33:21 virt Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -176,18 +176,6 @@ class eZQDomGenerator
         return $tmpPage;
     }
 
-
-    function &generateTable( $tmpPage )
-    {
-        // default image tag <media id>
-        $tmpPage = preg_replace( "/(<tstart\s*?>)/", "<tstart />", $tmpPage );
-        $tmpPage = preg_replace( "/(<telem\s*?>)/", "<telem />", $tmpPage );
-        $tmpPage = preg_replace( "/(<trow\s*?>)/", "<trow />", $tmpPage );
-        $tmpPage = preg_replace( "/(<tend\s*?>)/", "<tend />", $tmpPage );
-        return $tmpPage;
-    }
-
-
         
     /*!
       \private
@@ -199,6 +187,23 @@ class eZQDomGenerator
 
         $tmpPage = preg_replace( "/(<header\s*?>)/", "<header level=\"1\">", $tmpPage );
         
+        return $tmpPage;
+    }
+   /*!
+      \private
+    */  
+    
+    
+    function &generateTable( $tmpPage )
+    {
+
+        $tmpPage = preg_replace( "/(<table\s+([0-9]+[^ ]??)\s+([0-9]+?)\s*>)/", "<table width=\"\\2\" border=\"\\3\">", $tmpPage );
+        $tmpPage = preg_replace( "/(<table\s+([0-9]+[^ ]??)\s*>)/", "<table width=\"\\2\">", $tmpPage );
+        
+	$tmpPage = preg_replace( "/(<td\s+([0-9]+[^ ]??)\s+?([0-9]+?)\s+([0-9]+?)\s*>)/", "<td width=\"\\2\" colspan=\"\\3\" rowspan=\"\\4\">", $tmpPage );
+	$tmpPage = preg_replace( "/(<td\s+([0-9]+[^ ]??)\s+?([0-9]+?)\s*>)/", "<td width=\"\\2\" colspan=\"\\3\">", $tmpPage );
+	$tmpPage = preg_replace( "/(<td\s+([0-9]+[^ ]??)\s*>)/", "<td width=\"\\2\">", $tmpPage );
+        	
         return $tmpPage;
     }
 
@@ -562,6 +567,25 @@ class eZQDomGenerator
     {
         if ( $paragraph->name == "table" )
         {
+	
+	    if  ( count( $paragraph->attributes ) > 0 )
+	    foreach ( $paragraph->attributes as $attr )
+	    {
+	        switch ( $attr->name )
+                {
+		    case "width" :
+		    {
+		        $tableWidth = $attr->children[0]->content;
+		    }
+		    break;
+		    case "border" :
+		    {
+		        $tableBorder = $attr->children[0]->content;
+		    }
+		    break;
+		}
+	    }
+	
             $tmpContent = "";
             foreach ( $paragraph->children as $row )
             {
@@ -572,6 +596,33 @@ class eZQDomGenerator
                     {
                         if ( $data->name == "td" )
                         {
+			
+			    $tdWidth="";
+			    $tdColspan="";
+			    $tdRowspan="";
+			    if  ( count( $data->attributes ) > 0 )
+	                    foreach ( $data->attributes as $attr )
+	                    {
+	                        switch ( $attr->name )
+                                {
+		                    case "width" :
+		                    {
+		                        $tdWidth = $attr->children[0]->content;
+		                    }
+		                    break;
+		                    case "colspan" :
+		                    {
+		                        $tdColspan = $attr->children[0]->content;
+		                    }
+		                    break;
+				    case "rowspan" :
+		                    {
+		                        $tdRowspan = $attr->children[0]->content;
+		                    }
+		                    break;
+		                }
+	                    }
+
                             $tmpData = "";
                             foreach ( $data->children as $contents )
                             {
@@ -590,7 +641,11 @@ class eZQDomGenerator
                                     $tmpData .= $this->decodeTable( $contents );
                                 }                                
                             }
-                            $tdContent .= "<td>$tmpData</td>";
+                            $tdContent .= "<td";
+			    if ( $tdWidth!="" ) $tdContent .= " $tdWidth";
+			    if ( $tdColspan!="" ) $tdContent .= " $tdColspan";
+			    if ( $tdRowspan!="" ) $tdContent .= " $tdRowspan";
+			    $tdContent .= ">$tmpData</td>";
                             
                         }
                     }
@@ -599,7 +654,10 @@ class eZQDomGenerator
                 }
             }
             
-            $pageContent = "<table>\n$tmpContent</table>"; 
+            $pageContent = "<table";
+	    if ( $tableWidth != "" ) $pageContent .= " $tableWidth";
+	    if ( $tableBorder != "" ) $pageContent .= " $tableBorder";
+	    $pageContent .= ">\n$tmpContent</table>"; 
         }
         
         
