@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezurltranslator.php,v 1.11 2001/11/09 10:09:54 jhe Exp $
+// $Id: ezurltranslator.php,v 1.12 2002/01/28 17:47:03 master Exp $
 //
 // Definition of eZURLTranslator class
 //
@@ -137,6 +137,23 @@ class eZURLTranslator
                 $this->Source =& $url_array[0][$db->fieldName( "Source" )];
                 $this->Dest =& $url_array[0][$db->fieldName( "Dest" )];
             }
+        }
+    }
+
+    /*!
+      Fetches the URL translation from the database using destination as a parameter.
+    */
+    function getbydest( $dest = '' )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        if ( $dest != '' )
+        {
+            $db->array_query( $url_array, "SELECT * FROM eZURLTranslator_URL WHERE Dest='$dest'" );
+            
+            $this->ID =& $url_array[0][$db->fieldName( "ID" )];
+            $this->Source =& $url_array[0][$db->fieldName( "Source" )];
+            $this->Dest =& $url_array[0][$db->fieldName( "Dest" )];
         }
     }
 
