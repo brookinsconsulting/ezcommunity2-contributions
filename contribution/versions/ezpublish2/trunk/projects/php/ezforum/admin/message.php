@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.9 2000/07/26 14:37:09 lw-cvs Exp $
+    $Id: message.php,v 1.10 2000/08/08 09:44:29 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -9,16 +9,22 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 include( "ezforum/dbsettings.php" );
-include_once( "template.inc" );
+include_once( "class.INIFile.php" );
 include_once( "$DOCROOT/classes/ezdb.php" );
 include_once( "$DOCROOT/classes/ezforummessage.php" );
 include_once( "$DOCROOT/classes/ezuser.php" );
+include_once( "$DOCROOT/classes/eztemplate.php" );
 
-$t = new Template( "." );
-$t->set_file(Array( "messages" => "$DOCROOT/admin/templates/message.tpl",
-                    "elements" => "$DOCROOT/admin/templates/message-elements.tpl",
-                    "navigation" => "$DOCROOT/templates/navigation.tpl",
-                    "navigation-bottom" => "$DOCROOT/templates/navigation-bottom.tpl" ) );
+$ini = new INIFile( "../ezforum.ini" ); // get language settings
+$Language = $ini->read_var( "MAIN", "Language" );
+
+$t = new eZTemplate( "$DOCROOT/admin/templates", "$DOCROOT/intl", $Language, "forum.php" );
+$t->setAllStrings();
+
+$t->set_file(Array( "messages" => "message.tpl",
+                    "elements" => "message-elements.tpl",
+                    "navigation" => "navigation.tpl",
+                    "navigation-bottom" => "navigation-bottom.tpl" ) );
 
 $t->set_var( "docroot", $DOCROOT );
 $t->set_var( "category_id", $category_id );
@@ -47,27 +53,29 @@ if ( $deletemessage )
 
 $headers = ezForumMessage::getAllHeaders( $forum_id );
 
-for ($i = 0; $i < count( $headers ); $i++)
+if ( count ( $headers ) == 0 )
 {
-    $t->set_var( "message_id", $headers[$i]["Id"] );
-    $t->set_var( "topic", $headers[$i]["Topic"] );
-    $t->set_var( "parent", $headers[$i]["Parent"] );
-    $t->set_var( "user", ezUser::resolveUser( $headers[$i]["UserId"] ) );
-    $t->set_var( "postingtime", $headers[$i]["PostingTimeFormated"] );
-
-    if ( $headers[$i]["EmailNotice"] == "Y" )
-        $t->set_var( "emailnotice", "checked" );
-    else
-        $t->set_var( "emailnotice", "" );
-
-    if ( ($i % 2) != 0)
-        $t->set_var( "color", "#eeeeee" );
-    else
-        $t->set_var( "color", "#bbbbbb" );
-
-    $t->parse( "fields", "elements", true );
+    $t->set_var( "fields", "<tr bgcolor=\"#dcdcdc\"><td  colspan=\"6\"><b>No messages / ingen meldinger</b></td></tr>");
 }
-
+else
+{
+    for ($i = 0; $i < count( $headers ); $i++)
+    {
+        $t->set_var( "message_id", $headers[$i]["Id"] );
+        $t->set_var( "topic", $headers[$i]["Topic"] );
+        $t->set_var( "parent", $headers[$i]["Parent"] );
+        $t->set_var( "user", ezUser::resolveUser( $headers[$i]["UserId"] ) );
+        $t->set_var( "postingtime", $headers[$i]["PostingTimeFormated"] );
+        
+        if ( $headers[$i]["EmailNotice"] == "Y" )
+            $t->set_var( "emailnotice", "checked" );
+        else
+        $t->set_var( "emailnotice", "" );
+        
+        $t->set_var( "color", switchColor( $i, "#f0f0f0", "#dcdcdc" ) );
+        $t->parse( "fields", "elements", true );
+    }
+}
 $t->set_var( "link1-url", "admin/category.php");
 $t->set_var( "link1-caption", "Gå til topp");
 $t->set_var( "link2-url", "search.php");
