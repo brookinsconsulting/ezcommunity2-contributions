@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.23 2001/03/02 16:15:30 ce Exp $
+// $Id: bugedit.php,v 1.24 2001/03/02 16:59:05 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -219,7 +219,9 @@ if ( $Action == "Update" )
                 $mailTemplate->set_var( "bug_url", "http://" . $host . "/bug/bugview/" . $bug->id() );
                 $mailTemplate->set_var( "log_message", $LogMessage );
                 $mailTemplate->set_var( "bug_id", $bug->id() );
-            
+                $mailTemplate->set_var( "bug_report", $bug->description() );
+                $mailTemplate->set_var( "bug_title", $bug->name() );
+                
                 $bodyText = ( $mailTemplate->parse( "dummy", "mailreply" ) );
                 $mail->setSubject( $bug->name() );
                 $mail->setTo( $reporter_email );
