@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.26.2.4 2002/02/27 09:40:12 bf Exp $
+// $Id: menubox.php,v 1.26.2.5 2002/02/27 15:06:55 master Exp $
 //
 // 
 //
@@ -44,10 +44,10 @@ if ( !(function_exists('createArticleMenu') ) )
             global $Language;
             global $GenerateStaticPage;
             global $GlobalSiteDesign;
+            global $GlobalSectionID;	    
             global $CategoryID;
 			global $url_array;
 
-        
             include_once( "classes/eztemplate.php" );
 
             include_once( "ezarticle/classes/ezarticlecategory.php" );
@@ -68,6 +68,8 @@ if ( !(function_exists('createArticleMenu') ) )
             $t->set_var( "submit_article", "" );
 
             $t->set_var( "sitedesign", $GlobalSiteDesign );
+
+            $t->set_var( "section_id", $GlobalSectionID );
 
             // Lister alle kategorier
 
