@@ -77,7 +77,6 @@ if( $Command == "data" ) // return all the data in the category
 }
 else if( $Command == "storedata" )
 {
-    eZLog::writeNotice( "Article #1" );
     $article = new eZArticle();
     if( $ID != 0 )
         $article->get( $ID );
@@ -108,7 +107,6 @@ else if( $Command == "storedata" )
     $article->store();
     $ID = $article->id();
 
-    eZLog::writeNotice( "Article #2" );
     if ( isset( $Data["Category"] ) )
     {
         $cat = new eZArticleCategory( $Data["Category"]->value() );
@@ -143,7 +141,6 @@ else if( $Command == "storedata" )
     foreach( $added_images as $image )
         $article->addImage( $image );
 
-    eZLog::writeNotice( "Article #3" );
 
     // files
     $files = $Data["Files"]->value();
@@ -217,8 +214,6 @@ else if( $Command == "storedata" )
         }
     }
 
-    eZLog::writeNotice( "Article #4" );
-
     // forms
     $article->deleteForms();
     $forms = $Data["Forms"]->value();
@@ -227,8 +222,6 @@ else if( $Command == "storedata" )
         $form = new eZForm( $form->value() );
         $article->addForm( $form );
     }
-
-    eZLog::writeNotice( "Article #4.2" );
 
     // categories
     $category = new eZArticleCategory( eZArticle::categoryDefinitionStatic( $ID ) );
@@ -247,17 +240,10 @@ else if( $Command == "storedata" )
             $par[] = createURLStruct( "ezarticle", "category", $item[0] );
     }
 
-    eZLog::writeNotice( "Article #4.3" );
-
     $category = $article->categoryDefinition( );
-    eZLog::writeNotice( "Article #4.3.1" );
     $CategoryID = $category->id();
-    eZLog::writeNotice( "Article #4.3.2" );
     $CategoryArray =& $article->categories( false );
-    eZLog::writeNotice( "Article #4.3.3" );
     eZArticleTool::deleteCache( $ID, $CategoryID, $CategoryArray );
-
-    eZLog::writeNotice( "Article #4.4" );
 
     $ReturnData = new eZXMLRPCStruct( array( "Location" => createURLStruct( "ezarticle", "article", $ID ),
                                              "Path" => new eZXMLRPCArray( $par ),
@@ -265,7 +251,6 @@ else if( $Command == "storedata" )
                                              )
                                       );
     $Command = "update";
-    eZLog::writeNotice( "Article #5" );
 
 }
 else if( $Command == "delete" )
@@ -297,4 +282,35 @@ else if( $Command == "delete" )
     $article = new eZArticle( $ID );
     $article->delete();
 }
+else if ( $Command == "search" )
+{
+    $texts = $Data["Keywords"]->value();
+    $text = "";
+    foreach( $texts as $txt )
+    {
+        if ( $text == "" )
+            $text = $text . $txt->value();
+        else
+            $text = $text . " " . $txt->value();
+    }
+    $elements = array();
+    $article = new eZArticle();
+    $result =& $article->search( $text, "alpha", true, 0, -1 );
+    foreach( $result as $item )
+    {
+        $cat =& $item->categoryDefinition();
+        $elements[] = new eZXMLRPCStruct( array( "Name" => new eZXMLRPCString( $item->name() ),
+                                                 "CategoryName" => new eZXMLRPCString( $cat->name() ),
+                                                 "Location" => createURLStruct( "ezarticle", "article", $item->id() ),
+                                                 "CategoryLocation" => createURLStruct( "ezarticle", "category", $cat->id() ) ) );
+    }
+    $ret = array( "Elements" => new eZXMLRPCArray( $elements ) );
+    if ( isset( $Data["NextSearch"] ) )
+    {
+        $ret["NextSearch"] = $Data["NextSearch"];
+        $ret["Keywords"] = $Data["Keywords"];
+    }
+    $ReturnData = new eZXMLRPCStruct( $ret );
+}
+
 ?>
