@@ -50,7 +50,7 @@
 	<td>
 	<input  class="okbutton" type="submit" value="OK" />
 	</td>
-	<td>&nbsp;</td'
+	<td>&nbsp;</td>
 	<td>
 	Avbrytknapp
 	</td>
