@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menuarticleview.php,v 1.1 2001/08/21 07:18:41 nca Exp $
+// $Id: menuarticleview.php,v 1.2 2001/08/21 15:12:57 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -179,8 +179,10 @@ if ( $article->get( $ArticleID ) )
         $t->parse( "path_item", "path_item_tpl", true );
     }
     
-    
-    $renderer = new eZArticleRenderer( $article );
+
+    // override the article tags:
+    $template = "menu";
+    $renderer = new eZArticleRenderer( $article, $template );
 
     if ( $CapitalizeHeadlines == "enabled" )
     {
@@ -203,7 +205,6 @@ if ( $article->get( $ArticleID ) )
     }
     
     $t->set_var( "author_text", $article->authorText() );
-
     
     $t->set_var( "author_id", $article->contentsWriter( false ) );
     
