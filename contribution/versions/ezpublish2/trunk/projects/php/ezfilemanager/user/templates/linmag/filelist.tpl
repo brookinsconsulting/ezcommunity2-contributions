@@ -1,7 +1,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
 <tr>
 	<td>
-	<h1>{intl-files}</h1>
+	<h1>Nedlastning</h1>
 	</td>
 	<td align="right">
 	<form action="{www_dir}{index}/filemanager/search/" method="post">
@@ -84,7 +84,7 @@
 	<img src="{www_dir}/images/file.gif" border="0" alt="" width="16" height="16" border="0" />
 	</td>
 	<td class="{td_class}" width="40%">
-	<a href="{www_dir}{index}/filemanager/fileview/{file_id}/">{original_file_name}</a><br />
+	<a href="{www_dir}{index}/filemanager/download/{file_id}/">{original_file_name}</a><br />
 	</td>
 	<td class="{td_class}" width="56%">
 	<span class="small">{file_description}</span>
