@@ -15,24 +15,24 @@ include_once( "ezcontact/classes/ezperson.php" );
 $error = false;
 
 $t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "AdminTemplateDir" ),
-                     "ezcontact/admin/intl", $Language, "personedit.php" );
-$intl = new INIFile( "ezcontact/admin/intl/$Language/personedit.php.ini", false );
+                     "ezcontact/admin/intl", $Language, "personview.php" );
+$intl = new INIFile( "ezcontact/admin/intl/$Language/personview.php.ini", false );
 $t->setAllStrings();
 
 $t->set_file( array(                    
-    "person_edit" => "personview.tpl"
+    "person_view" => "personview.tpl"
     ) );
-$t->set_block( "person_edit", "address_item_tpl", "address_item" );
+$t->set_block( "person_view", "address_item_tpl", "address_item" );
 $t->set_block( "address_item_tpl", "address_line_tpl", "address_line" );
-$t->set_block( "person_edit", "no_address_item_tpl", "no_address_item" );
+$t->set_block( "person_view", "no_address_item_tpl", "no_address_item" );
 
-$t->set_block( "person_edit", "phone_item_tpl", "phone_item" );
+$t->set_block( "person_view", "phone_item_tpl", "phone_item" );
 $t->set_block( "phone_item_tpl", "phone_line_tpl", "phone_line" );
-$t->set_block( "person_edit", "no_phone_item_tpl", "no_phone_item" );
+$t->set_block( "person_view", "no_phone_item_tpl", "no_phone_item" );
 
-$t->set_block( "person_edit", "online_item_tpl", "online_item" );
+$t->set_block( "person_view", "online_item_tpl", "online_item" );
 $t->set_block( "online_item_tpl", "online_line_tpl", "online_line" );
-$t->set_block( "person_edit", "no_online_item_tpl", "no_online_item" );
+$t->set_block( "person_view", "no_online_item_tpl", "no_online_item" );
 
 $t->set_var( "firstname", "" );
 $t->set_var( "lastname", "" );
@@ -99,7 +99,8 @@ if ( $Action == "view" )
             $phoneType = $phoneList[$i]->phoneType();
 
             $t->set_var( "phone_type_id", $phoneType->id() );
-            $t->set_var( "phone_type_name", $intl->read_var( "strings", "phone_" . $phoneType->name() ) );
+//              $t->set_var( "phone_type_name", $intl->read_var( "strings", "phone_" . $phoneType->name() ) );
+            $t->set_var( "phone_type_name", $phoneType->name() );
 
             $t->parse( "phone_line", "phone_line_tpl", true );
         }
@@ -111,7 +112,6 @@ if ( $Action == "view" )
         $t->set_var( "phone_item", "" );
         $t->parse( "no_phone_item", "no_phone_item_tpl" );
     }
-
 
     // Address list
     $addressList = $person->addresses( $person->id() );
@@ -130,7 +130,8 @@ if ( $Action == "view" )
             $addressType = $addressItem->addressType();
 
             $t->set_var( "address_type_id", $addressType->id() );
-            $t->set_var( "address_type_name", $intl->read_var( "strings", "address_" . $addressType->name() ) );
+//              $t->set_var( "address_type_name", $intl->read_var( "strings", "address_" . $addressType->name() ) );
+            $t->set_var( "address_type_name", $addressType->name() );
             
             $t->set_var( "script_name", "personedit.php" );
             $t->parse( "address_line", "address_line_tpl", true );
@@ -155,17 +156,18 @@ if ( $Action == "view" )
             $t->set_var( "online_id", $OnlineList[$i]->id() );
             $t->set_var( "online", $OnlineList[$i]->URL() );
             $t->set_var( "online_url_type", $OnlineList[$i]->URLType() );
-            
+
             $onlineType = $OnlineList[$i]->onlineType();
 
             $t->set_var( "online_type_id", $onlineType->id() );
-            $t->set_var( "online_type_name", $intl->read_var( "strings", "online_" . $onlineType->name() ) );
+//              $t->set_var( "online_type_name", $intl->read_var( "strings", "online_" . $onlineType->name() ) );
+            $t->set_var( "online_type_name", $onlineType->name() );
             $t->set_var( "online_url_type", $OnlineList[$i]->urlType() );
-            
+
             $t->parse( "online_line", "online_line_tpl", true );
         }
         $t->parse( "online_item", "online_item_tpl" );
-        $t->set_var( "no_online_item", "" );            
+        $t->set_var( "no_online_item", "" );
     }
     else
     {
@@ -178,6 +180,6 @@ if ( $Action == "view" )
 
 $t->set_var( "action_value", $Action_value );
 
-$t->pparse( "output", "person_edit"  );
+$t->pparse( "output", "person_view"  );
 
 ?>
