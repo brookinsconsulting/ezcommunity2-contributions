@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcarray.php,v 1.8 2001/07/03 15:17:38 jb Exp $
+// $Id: ezxmlrpcarray.php,v 1.9 2001/07/25 10:20:25 jb Exp $
 //
 // Definition of eZXMLRPCArray class
 //
@@ -100,6 +100,19 @@ class eZXMLRPCArray
         {
 	        return $this->Array[$arg]->Value();
 		}
+    }
+
+    /*!
+      Returns the contents as a regular array.
+    */
+    function &toArray()
+    {
+        $arr = array();
+        foreach( $this->Array as $item )
+        {
+            $arr[] = $item->value();
+        }
+        return $arr;
     }
 
     /*!
