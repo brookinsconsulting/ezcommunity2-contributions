@@ -1,4 +1,4 @@
-<form method="post" action="/ad/ad/" enctype="multipart/form-data">
+<form method="post" action="/ad/ad/{action_value}" enctype="multipart/form-data">
 <input type="hidden" name="max_file_size" value="3000000">
 
 <h1>{intl-ad_edit}</h1>
