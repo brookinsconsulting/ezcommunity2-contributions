@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.3 2001/10/09 08:06:02 ce Exp $
+// $Id: datasupplier.php,v 1.4 2001/10/17 07:22:28 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -28,13 +28,13 @@ include_once( "classes/ezhttptool.php" );
 $Operation = $url_array[2];
 $Action = $url_array[3];
 
-switch( $Operation )
+switch ( $Operation )
 {
     case "form":
     {
         $FormID = $url_array[4];
         
-        switch( $Action )
+        switch ( $Action )
         {
             case "edit":
             case "insert":
