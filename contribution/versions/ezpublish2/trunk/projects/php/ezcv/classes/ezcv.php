@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcv.php,v 1.1 2000/12/11 12:08:19 pkej Exp $
+// $Id: ezcv.php,v 1.2 2000/12/14 17:50:25 pkej Exp $
 //
 // Definition of eZCV class
 //
@@ -34,6 +34,7 @@ include_once( "ezcv/classes/ezexperience.php" );
 include_once( "ezcv/classes/ezeducation.php" );
 include_once( "ezcv/classes/ezcertificate.php" );
 include_once( "ezcv/classes/ezextracurricular.php" );
+include_once( "ezcontact/classes/ezperson.php" );
 
 class eZCV
 {
