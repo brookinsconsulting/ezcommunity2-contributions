@@ -14,6 +14,7 @@ Changes from 2.2.7 to 2.2.8
 * Fixed bug with mail tag.
 * Added up / down arrows for images to an article.
 * Fixed bug with dayview in eZ stats.
+* Fixed bug with attribute list in eZ article.
 
 Changes from 2.2.6 to 2.2.7
 ---------------------------
