@@ -3,7 +3,7 @@
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td>
+	<td rowspan="2">
 	<h2>{year_number}</h2>
 	</td>
 	<td align="right">
@@ -11,8 +11,6 @@
 	</td>
 </tr>
 <tr>
-	<td>
-	</td>
 	<td align="right">
 	<a href="/calendar/yearview/{next_year_number}">{intl-next_year} &gt;&gt;</a>
 	</td>

@@ -1,6 +1,33 @@
 <h1>{intl-appointments}: {intl-day_view}</h1>
 <hr noshade size="4" />
 
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td rowspan="4">
+	<h2>{long_date}</h2>
+	</td>
+	<td align="right">
+	<a href="/calendar/dayview/{prev_year_number}/{curr_month_number}/{curr_day_number}">&lt;&lt; {intl-previous_year}</a>
+	</td>
+</tr>
+<tr>
+	<td align="right">
+	<a href="/calendar/dayview/{next_year_number}/{curr_month_number}/{curr_day_number}">{intl-next_year} &gt;&gt;</a>
+	</td>
+</tr>
+<tr>
+	<td align="right">
+	<a href="/calendar/dayview/{prev_myear_number}/{prev_month_number}/{curr_day_number}">&lt;&lt; {intl-previous_month}</a>
+	</td>
+</tr>
+<tr>
+	<td align="right">
+	<a href="/calendar/dayview/{next_myear_number}/{next_month_number}/{curr_day_number}">{intl-next_month} &gt;&gt;</a>
+	</td>
+</tr>
+</table>
+<br />
+
 <table width="100%" border="1" cellspacing="0" cellpadding="2" >
 <!-- BEGIN time_table_tpl -->
 <tr>

@@ -5,7 +5,7 @@
 <!-- BEGIN month_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td>
+	<td rowspan="2">
 	<h2>{month_name} {year_number}</h2>
 	</td>
 	<td align="right">
@@ -13,8 +13,6 @@
 	</td>
 </tr>
 <tr>
-	<td>
-	</td>
 	<td align="right">
 	<a href="/calendar/monthview/{next_year_number}/{next_month_number}">{intl-next_month} &gt;&gt;</a>
 	</td>

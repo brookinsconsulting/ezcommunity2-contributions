@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.4 2001/01/15 14:13:01 gl Exp $
+// $Id: dayview.php,v 1.5 2001/01/15 18:54:02 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -35,6 +35,7 @@ include_once( "ezcalendar/classes/ezappointment.php" );
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
+$Locale = new eZLocale( $Language );
 
 $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
                      "ezcalendar/user/intl/", $Language, "dayview.php" );
@@ -64,10 +65,10 @@ else
 $t->set_var( "month_number", $Month );
 $t->set_var( "year_number", $Year );
 $t->set_var( "day_number", $Day );
+$t->set_var( "long_date", $Locale->format( $datetime->date(), false ) );
 
 $tmpDate = new eZDate();
 $tmpAppointment = new eZAppointment();
-$locale = new eZLocale( $Language );
 
 // fetch the appointments for the selected day
 $tmpDate->setYear( $datetime->year() );
@@ -251,6 +252,35 @@ function intersects( &$app, &$startTime, &$stopTime )
     }
 
     return $ret;
+}
+
+// next previous values.
+$t->set_var( "curr_month_number", $Month );
+$t->set_var( "curr_day_number", $Day );
+
+$t->set_var( "prev_year_number", $Year - 1 );
+$t->set_var( "next_year_number", $Year + 1 );
+$t->set_var( "prev_myear_number", $Year );
+$t->set_var( "next_myear_number", $Year );
+
+if ( $Month == 12 )
+{
+    $t->set_var( "next_month_number", 1 );
+    $t->set_var( "next_myear_number", $Year + 1 );
+}
+else
+{
+    $t->set_var( "next_month_number", $Month + 1 );
+}
+
+if ( $Month == 1 )
+{
+    $t->set_var( "prev_month_number", 12 );
+    $t->set_var( "prev_myear_number", $Year - 1 );    
+}
+else
+{
+    $t->set_var( "prev_month_number", $Month - 1 );    
 }
 
 
