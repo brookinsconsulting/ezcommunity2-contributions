@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagesimplelist.php,v 1.15.8.1 2002/01/24 10:46:57 bf Exp $
+// $Id: messagesimplelist.php,v 1.15.8.2 2002/01/31 11:53:14 bf Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -108,7 +108,6 @@ eZList::drawNavigator( $t, $messageCount, $SimpleUserList, $Offset, "messagelist
 
 $t->set_var( "product_id", $ProductID );
 $t->set_var( "product_name", $ProductName );
-
 $t->set_var( "redirect_url", $RedirectURL );
 
 $t->set_var( "newmessage", $newmessage );
