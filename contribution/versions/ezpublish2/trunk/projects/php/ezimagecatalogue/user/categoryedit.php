@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.16 2001/03/08 21:26:29 fh Exp $
+// $Id: categoryedit.php,v 1.17 2001/04/23 10:53:53 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -319,8 +319,7 @@ if ( $Action == "Edit" )
 }
 
 // Print out all the groups.
-$groups =& $user->groups();
-
+$groups = eZUserGroup::getAll();
 foreach ( $groups as $group )
 {
     $t->set_var( "group_id", $group->id() );

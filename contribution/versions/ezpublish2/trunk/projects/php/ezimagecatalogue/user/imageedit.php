@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.23 2001/03/08 21:43:35 fh Exp $
+// $Id: imageedit.php,v 1.24 2001/04/23 10:53:53 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -388,8 +388,7 @@ $category = new eZImageCategory() ;
 $categoryList =& $category->getTree( );
 
 // Print out all the groups.
-$groups =& $user->groups();
-
+$groups =& eZUserGroup::getAll();
 foreach ( $groups as $group )
 {
     $t->set_var( "group_id", $group->id() );
