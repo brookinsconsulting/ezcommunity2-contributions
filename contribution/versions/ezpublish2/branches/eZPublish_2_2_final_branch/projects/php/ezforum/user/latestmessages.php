@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: latestmessages.php,v 1.9.2.1 2002/02/22 08:01:19 bf Exp $
+// $Id: latestmessages.php,v 1.9.2.2 2002/02/26 08:39:17 bf Exp $
 //
 // Created on: <02-Jul-2001 11:45:17 bf>
 //
@@ -46,7 +46,7 @@ $t->setAllStrings();
 
 $user =& eZUser::currentUser();
 $db =& eZDB::globalDatabase();
-$messages =& eZForumMessage::lastMessages( 5 );
+$messages =& eZForumMessage::lastMessages( $Limit );
 
 global $GlobalSiteDesign;
 
