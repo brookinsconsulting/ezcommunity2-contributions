@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezrssimporter.php,v 1.1.2.4 2001/12/10 13:58:22 br Exp $
+// $Id: ezrssimporter.php,v 1.1.2.5 2002/01/24 12:50:58 br Exp $
 //
 // Definition of ezrdfimporter class
 //
@@ -61,11 +61,14 @@ class eZRSSImporter
         $source ="";
         $db =& eZDB::globalDatabase();
         $return_array = array();
-        $fp = eZFile::fopen( $this->Site, "r" );
+        $fp = fopen( $this->Site, "r" );
         $output = fread ( $fp, 10000000 );
         
         fclose( $fp );
-        $doc = eZXML::domTree( $output );
+
+        $params["TrimWhiteSpace"] = true;
+        $doc = eZXML::domTree( $output, $params );
+        
         if ( count( $doc->children ) > 0 )
         {
             foreach ( $doc->children as $child )

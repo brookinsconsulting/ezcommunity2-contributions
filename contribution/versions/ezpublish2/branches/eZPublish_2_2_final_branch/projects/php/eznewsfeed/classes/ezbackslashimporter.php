@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbackslashimporter.php,v 1.9.2.4 2001/11/19 16:56:19 bf Exp $
+// $Id: ezbackslashimporter.php,v 1.9.2.5 2002/01/24 12:50:57 br Exp $
 //
 // Definition of ezbackslashimporter class
 //
@@ -60,11 +60,12 @@ class eZBackslashImporter
     {
         $db =& eZDB::globalDatabase();
         $return_array = array();
-        $fp = eZFile::fopen( $this->Site, "r" );
+        $fp = fopen( $this->Site, "r" );
         $output = fread ( $fp, 100000000 );
         fclose( $fp );
 
-        $doc =& eZXML::domTree( $output );
+        $params["TrimWhiteSpace"] = true;
+        $doc =& eZXML::domTree( $output, $params );
         if ( count( $doc->children ) > 0 )
         foreach ( $doc->children as $child )
         {
