@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.21 2001/08/06 14:28:23 jhe Exp $
+// $Id: ezobjectpermission.php,v 1.22 2001/08/16 13:33:32 ce Exp $
 //
 // Definition of eZObjectPermission class
 //
@@ -123,6 +123,70 @@ class eZObjectPermission
         }
 
         $query = "SELECT count( ID ) as ID FROM $tableName WHERE ObjectID='$objectID' AND ( $SQLGroups ) $SQLRead $SQLWrite";
+        $database =& eZDB::globalDatabase();
+
+        $database->query_single( $res, $query );
+
+        if ( $res[$database->fieldName( "ID" )] != 0 )
+            return true;
+
+        return false;
+    }
+
+
+    function hasPermissionWithDefinition( $objectID, $moduleTable, $permission, $user=false, $categoryID )
+    {
+        if ( get_class( $user ) != "ezuser" )
+        {
+            $user =& eZUser::currentUser();
+        }
+
+        if ( is_object( $user ) && $user->hasRootAccess() )
+            return true;
+        
+        $SQLGroups = "GroupID = '-1'";
+        if ( get_class( $user ) == "ezuser" )
+        {
+            $groups =& $user->groups( true );
+            $first = true;
+            if ( count( $groups ) > 0 )
+            {
+                foreach ( $groups as $groupItem )
+                {
+                    if ( $first == true )
+                    {
+                        $SQLGroups = "( Object.GroupID='$groupItem' AND Category.GroupID='$groupItem' )";
+                    }
+                    else
+                    {
+                        $SQLGroups .= "OR ( Object.GroupID='$groupItem' AND Category.GroupID='$groupItem' )";
+                    }
+                    $first = false;
+                }
+                $SQLGroups .= "OR ( Object.GroupID = '-1' AND Category.GroupID = '-1' )";
+            }
+        }
+
+        $tableName = getTableName( $moduleTable, true );
+        
+        if ( $tableName == "" )
+        {
+            return false;
+        }
+
+        $SQLRead = "";
+        $SQLWrite = "";
+        if ( $permission == 'r' )
+        {
+            $SQLRead = "AND Object.ReadPermission='1' AND Category.ReadPermission='1'";
+        }
+        else if ( $permission == 'w' )
+        {
+            $SQLWrite = "AND Object.WritePermission='1' AND Category.WritePermission='1'";
+        }
+
+        $query = "SELECT count( Object.ID ) as ID FROM $tableName WHERE Object.ObjectID='$objectID' AND ( $SQLGroups ) $SQLRead $SQLWrite  AND Object.ObjectID=Definition.ArticleID AND Category.ObjectID=Definition.CategoryID AND Category.ReadPermission='1' AND Category.ObjectID='$categoryID' GROUP BY Object.ObjectID;";
+
         $database =& eZDB::globalDatabase();
 
         $database->query_single( $res, $query );
@@ -398,13 +462,16 @@ class eZObjectPermission
 /*!
   Returns table names.
 */
-function getTableName( $name )
+function getTableName( $name, $withDefinition )
 {
     $ret = "";
     switch ( $name )
     {
         case "article_article" :
-            $ret = "eZArticle_ArticlePermission";
+            if ( $withDefinition )
+                $ret = "eZArticle_ArticlePermission as Object, eZArticle_CategoryPermission as Category, eZArticle_ArticleCategoryDefinition as Definition";
+            else
+                $ret = "eZArticle_ArticlePermission";
         break;
 
         case "article_category" :

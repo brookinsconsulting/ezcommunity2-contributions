@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezusergroup.php,v 1.28 2001/08/10 12:15:26 jhe Exp $
+// $Id: ezusergroup.php,v 1.29 2001/08/16 13:33:32 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -483,14 +483,14 @@ class eZUserGroup
                             ( ID, UserID, GroupID )
                             VALUES
                             ( '$nextID', '$userID', '$this->ID' )" );
-               $db->unlock();
+
                
                if ( $res == false )
                    $dbError = true;
                $ret = true;
            }
            
-    
+           $db->unlock();    
            if ( $dbError == true )
                $db->rollback( );
            else
