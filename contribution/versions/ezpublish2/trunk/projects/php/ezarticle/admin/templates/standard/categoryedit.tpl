@@ -77,7 +77,7 @@
 </tr>
 </table>
 
-<br /><br />
+<br />
 
 
 
@@ -113,26 +113,17 @@
 
 <br />
 
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
-<tr>
-        <!-- BEGIN image_item_tpl -->
-	<td>
-        <p class="boxtext">{intl-th_type_current_image}:</p>
-        <p><img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
-        </p>
-        <input type="checkbox" name="DeleteImage">{intl-delete_image}
-	</td>
-        <!-- END image_item_tpl -->
-	<td>
-        <input size="40" name="ImageFile" type="file" /><br /><br />
-	</td>
-	<td>
-	<input type="submit" name="Browse" value="{intl-browse}" />	
-	</td>
-</tr>
-</table>
+<p class="boxtext">{intl-th_type_current_image}:</p>
 
-<br />
+<!-- BEGIN image_item_tpl -->
+<img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
+<input type="checkbox" name="DeleteImage"><span class="p">{intl-delete_image}</span><br /><br />
+<!-- END image_item_tpl -->
+
+<input class="stdbutton" size="20" name="ImageFile" type="file" /><br /><br />
+
+<input class="stdbutton" type="submit" name="Browse" value="{intl-browse}" />
+<br /><br />
 
 
 
