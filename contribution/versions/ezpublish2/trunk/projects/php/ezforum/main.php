@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: main.php,v 1.10 2000/07/24 13:58:25 lw Exp $
+    $Id: main.php,v 1.11 2000/07/24 14:24:14 lw Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -37,6 +37,14 @@ $t->set_file( array("main" => "$DOCROOT/templates/main.tpl",
 $t->set_var( "docroot", $DOCROOT);
 $categories = $cat->getAllCategories();
 
+if ( $session->get( $AuthenticatedSession ) == 0 )
+{
+   $t->set_var( "user", eZUser::resolveUser( $session->UserID() ) );
+}
+else
+{
+   $t->set_var( "user", "Anonym" );
+}
 $t->parse( "navigation-bar", "navigation", true);
 
 // category list
@@ -95,7 +103,7 @@ else
 
 if ( $session->validate( $AuthenticatedSession ) == 0   )
 {
-    //UserId = $session->UserID();
+/*    //UserId = $session->UserID();
     $usr->get( $session->UserID() );
     $t->set_var( "nick_name", $usr->nickName() );
     $t->set_var( "first_name", $usr->firstName() );
@@ -103,6 +111,9 @@ if ( $session->validate( $AuthenticatedSession ) == 0   )
     $t->set_var( "email", $usr->email() );
     $t->set_var( "login-msg", "" );
     $t->parse( "loginlogout", "logout", true);
+*/
+    $t->set_var( "login-msg", "");
+    $t->set_var( "loginlogout", "");
 }
 else
 {

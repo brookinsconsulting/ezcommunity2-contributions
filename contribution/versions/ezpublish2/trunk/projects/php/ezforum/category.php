@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.1 2000/07/14 12:55:45 lw-cvs Exp $
+    $Id: category.php,v 1.2 2000/07/24 14:24:14 lw Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -19,10 +19,15 @@
     $t = new Template(".");
     
     $t->set_file( array("category" => "$DOCROOT/templates/category.tpl",
-                        "elements" => "$DOCROOT/templates/category-elements.tpl") );
+                        "elements" => "$DOCROOT/templates/category-elements.tpl",
+                        "navigation" => "$DOCROOT/templates/navigation.tpl"
+                       )
+                );
 
     $t->set_var( "docroot", $DOCROOT);
             
+    $t->parse( "navigation-bar", "navigation", true);
+
     $forums = $forum->getAllForums($category_id);
         
     for ($i = 0; $i < count($forums); $i++)
