@@ -49,7 +49,6 @@
     <!-- BEGIN error_loginname_item_tpl -->
     <li>{intl-error_loginname}
     <!-- END error_loginname_item_tpl -->
-
 </ul>
 
 <hr noshade size="4"/>
