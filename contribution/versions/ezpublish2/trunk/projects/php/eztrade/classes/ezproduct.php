@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.108 2001/10/01 11:55:42 ce Exp $
+// $Id: ezproduct.php,v 1.109 2001/10/02 07:59:01 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -1870,9 +1870,8 @@ class eZProduct
     */
     function vatType( )
     {
-       $db =& eZDB::globalDatabase();
        $user =& eZUser::currentUser();
-       $ret = false;
+       $ret = new eZVATType();
        $useVAT = true;
        
        if ( get_class ( $user ) == "ezuser" )

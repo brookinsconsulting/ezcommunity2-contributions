@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcart.php,v 1.32 2001/09/27 14:53:51 ce Exp $
+// $Id: ezcart.php,v 1.33 2001/10/02 07:59:01 ce Exp $
 //
 // Definition of eZCart class
 //
@@ -304,6 +304,7 @@ class eZCart
         $tax = "";
         $total = "";
 
+       
         if ( !$voucher )
         {
             $items = $this->items( );
@@ -339,7 +340,8 @@ class eZCart
             $tax["$vatPercentage"]["tax"] += $incTax - $exTax;
             $tax["$vatPercentage"]["percentage"] = $vatPercentage;
         }
-        
+
+       
         $total["subinctax"] = $totalIncTax;
         $total["subextax"] = $totalExTax;
         $total["subtax"] = $totalIncTax - $totalExTax;
@@ -353,10 +355,14 @@ class eZCart
             $shippingVATPercentage = $this->extractShippingVATPercentage( $shippingType );
         }
 
+        $user =& eZUser::currentUser();
+        $useVAT = true;
+        
         $tax["$shippingVATPercentage"]["basis"] += $shippingCost - $shippingVAT;
         $tax["$shippingVATPercentage"]["tax"] += $shippingVAT;
         $tax["$shippingVATPercentage"]["percentage"] = $shippingVATPercentage;
 
+        
         $total["shipinctax"] = $shippingCost;
         $total["shipextax"] = $shippingCost - $shippingVAT;
         $total["shiptax"] = $shippingVAT;

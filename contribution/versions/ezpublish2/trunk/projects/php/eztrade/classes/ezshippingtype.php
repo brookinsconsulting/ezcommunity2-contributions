@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezshippingtype.php,v 1.9 2001/07/31 11:33:11 jhe Exp $
+// $Id: ezshippingtype.php,v 1.10 2001/10/02 07:59:01 ce Exp $
 //
 // Definition of eZShippingType class
 //
@@ -245,8 +245,23 @@ class eZShippingType
     */
     function &vatType( )
     {
-        $ret = false;
-        if ( is_numeric( $this->VATTypeID ) and ( $this->VATTypeID > 0 ) )
+        $user =& eZUser::currentUser();
+        $ret = new eZVATType();
+        $useVAT = true;
+        
+        if ( get_class ( $user ) == "ezuser" )
+        {
+            $mainAddress = $user->mainAddress();
+            if ( get_class ( $mainAddress ) == "ezaddress" )
+            {
+                $country = $mainAddress->country();
+                if ( ( get_class ( $country ) == "ezcountry" ) and ( !$country->hasVAT() ) )
+                    $useVAT = false;
+            }
+        }
+        
+        
+        if ( ( $useVAT ) and ( is_numeric( $this->VATTypeID ) ) and ( $this->VATTypeID > 0 ) )
         {
             $ret = new eZVATType( $this->VATTypeID );
         }

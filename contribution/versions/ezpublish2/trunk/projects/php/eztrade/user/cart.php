@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.66 2001/09/21 09:53:02 ce Exp $
+// $Id: cart.php,v 1.67 2001/10/02 07:59:01 ce Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -488,6 +488,8 @@ if ( $ShowCart == true )
     
     $cart->cartTotals( $tax, $total );
 
+
+    
     $locale = new eZLocale( $Language );
     $currency = new eZCurrency();
     

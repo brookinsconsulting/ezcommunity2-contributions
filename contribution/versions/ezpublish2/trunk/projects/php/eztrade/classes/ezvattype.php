@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvattype.php,v 1.7 2001/09/14 12:29:11 ce Exp $
+// $Id: ezvattype.php,v 1.8 2001/10/02 07:59:01 ce Exp $
 //
 // Definition of eZVATType class
 //
@@ -43,6 +43,7 @@ class eZVATType
     */
     function eZVATType( $id=-1 )
     {
+        $this->VATValue = 0;
         if ( $id != -1 )
         {
             $this->ID = $id;
