@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.71 2001/08/24 13:07:16 bf Exp $
+// $Id: articleview.php,v 1.72 2001/08/24 13:07:47 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -257,7 +257,6 @@ if ( $article->get( $ArticleID ) )
     // image list
 
     $usedImages = $renderer->usedImageList();
-            print_r( $usedImages );
     $images =& $article->images();
     
     {
