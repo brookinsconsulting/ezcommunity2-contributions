@@ -172,7 +172,9 @@ if ( isset( $func_call ) and is_array( $func_call ) )
             if(  $item_type->$val() )
             {
                 $t->set_var( $key, "checked" );
-            }
+            } else {
+	        $t->set_var( $key, "" );
+	    }
         }
         else
             $t->set_var( $key, $item_type->$val() );

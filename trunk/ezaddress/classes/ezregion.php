@@ -2,7 +2,7 @@
 // 
 // $Id: ezregion.php,v 1.10 2001/08/01 15:15:47 ghb Exp $
 //
-// Definition of ezregion class
+// Definition of eZRegion class
 //
 // Created on: <31-Oct-2001 11:49:30 ghb>
 //
