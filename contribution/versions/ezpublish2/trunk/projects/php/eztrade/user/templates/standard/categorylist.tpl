@@ -1,7 +1,7 @@
 <!-- BEGIN category_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
-	<td colspan="2" class="menuhead">Products</td>
+	<td colspan="2" class="menuhead">{intl-products}</td>
 </tr>
 
 <!-- BEGIN category_tpl -->
