@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.43 2001/07/09 07:18:20 jakobn Exp $
+// $Id: ezdb.php,v 1.44 2001/07/12 07:29:14 fh Exp $
 //
 // Definition of eZDB class
 //
@@ -180,6 +180,19 @@ class eZDB
         return $impl;
     }
 
+    /*!
+      \static
+      This function rollbacks if the array supplied contains any false values, else it commits.
+     */
+    function commit( $resultArray, $db )
+    {
+        $commit = in_array( false, $resultArray );
+        $db->unlock();
+        if ( $commit == false )
+            $db->rollback( );
+        else
+            $db->commit();
+    }
 
     /// the server to connect to
     var $Server;
