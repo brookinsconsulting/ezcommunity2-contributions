@@ -35,7 +35,7 @@ if ( isSet ( $Preview ) )
 if ( $Action == "insert" )
 {
     $position = new eZPosition();
-    $position->setName( $Name );
+    $position->setTitle( $Title );
     $position->setUser( $user );
     $position->setDescription( $Description );
     $position->setPrice( $Price );
@@ -51,6 +51,10 @@ if ( $Action == "insert" )
     $company = new eZCompany( $CompanyID );
     $position->addCompany( $company );
 
+    $position->setPositionType( $PositionType );
+    $position->setInitiateType( $InitiateType );
+
+    $category_show = false;
     // Add classifed to categories
     if ( ( $CategoryArray ) != "" )
     {
@@ -59,18 +63,25 @@ if ( $Action == "insert" )
         for( $i=0; $i<count( $CategoryArray ); $i++ )
         {
             $category->get( $CategoryArray[$i] );
+            if ( !$category_show )
+                $category_show = $CategoryArray[$i];
             $category->addClassified( $position );
         }
     }
 
-    Header( "Location: /classified/list" );
+    if ( $category_show )
+        $category_show = "/" . $category_show;
+    else
+        $category_show = "";
+
+    Header( "Location: /classified/list$category_show" );
     exit();
 }
 
 if ( $Action == "update" )
 {
     $position = new eZPosition( $ClassifiedID );
-    $position->setName( $Name );
+    $position->setTitle( $Title );
     $position->setUser( $user );
     $position->setDescription( $Description );
     $position->setPrice( $Price );
@@ -82,10 +93,14 @@ if ( $Action == "update" )
     $position->setWorkPlace( $WorkPlace );
     $position->setValidUntil( $Year, $Month, $Day );
 
+    $position->setPositionType( $PositionType );
+    $position->setInitiateType( $InitiateType );
+
     $position->store();
 
     $position->removeCategoryies();
     
+    $category_show = false;
     // Add classifed to categories
     if ( ( $CategoryArray ) != "" )
     {
@@ -94,12 +109,19 @@ if ( $Action == "update" )
         for( $i=0; $i<count( $CategoryArray ); $i++ )
         {
             $category->get( $CategoryArray[$i] );
+            if ( !$category_show )
+                $category_show = $CategoryArray[$i];
             $category->addClassified( $position );
         }
     }
 
 
-    Header( "Location: /classified/list" );
+    if ( $category_show )
+        $category_show = "/" . $category_show;
+    else
+        $category_show = "";
+
+    Header( "Location: /classified/list$category_show" );
     exit();
 }
 
@@ -121,6 +143,10 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "classified_edit", "category_item_tpl", "category_item" );
+$t->set_block( "classified_edit", "position_type_item_tpl", "position_type_item" );
+$t->set_block( "classified_edit", "initiate_type_item_tpl", "initiate_type_item" );
+$t->set_block( "classified_edit", "classified_pay_edit_tpl", "classified_pay_edit" );
+$t->set_block( "classified_edit", "classified_pay_edit_def_tpl", "classified_pay_edit_def" );
 
 $t->set_block( "classified_edit", "company_view_tpl", "company_view" );
 $t->set_block( "classified_edit", "delete_button_tpl", "delete_button" );
@@ -141,9 +167,10 @@ $t->set_block( "company_select_tpl", "company_item_tpl", "company_item" );
 
 if ( $Action == "new" )
 {
-    $t->set_var( "classified_name", "" );
+    $t->set_var( "classified_title", "" );
     $t->set_var( "classified_description", "" );
-    $t->set_var( "classified_pay", "" );
+    $t->set_var( "classified_pay_edit", "" );
+    $t->parse( "classified_pay_edit_def", "classified_pay_edit_def_tpl" );
     $t->set_var( "classified_worktime", "" );
     $t->set_var( "classified_duration", "" );
     $t->set_var( "classified_workplace", "" );
@@ -159,11 +186,13 @@ if ( $Action == "edit" )
 {
     $position = new eZPosition( $ClassifiedID );
 
-    $t->set_var( "classified_name", $position->name() );
+    $t->set_var( "classified_title", $position->title() );
     $t->set_var( "classified_id", $position->id() );
     $t->set_var( "classified_description", $position->description() );
     $t->set_var( "classified_contact_person", $position->contactPerson() );
     $t->set_var( "classified_pay", $position->pay() );
+    $t->set_var( "classified_pay_edit_def", "" );
+    $t->parse( "classified_pay_edit", "classified_pay_edit_tpl" );
     $t->set_var( "classified_worktime", $position->WorkTime() );
     $t->set_var( "classified_duration", $position->Duration() );
     $t->set_var( "classified_workplace", $position->WorkPlace() );
@@ -219,6 +248,48 @@ for( $i=0; $i < count( $categoryTypeList ); $i++ )
         $t->set_var( "is_selected", "" );
     }
     $t->parse( "category_item", "category_item_tpl", true );
+}
+
+// Position type selector
+$positionTypeList = getPositionTypes();
+for( $i=0; $i < count( $positionTypeList ); $i++ )
+{
+    $t->set_var( "position_name", positionTypeName( $positionTypeList[$i] ) );
+    $t->set_var( "position_type_id", $positionTypeList[$i] );
+
+    if ( $position )
+    {
+        if ( $position->positionType() == $positionTypeList[$i] )
+            $t->set_var( "is_selected", "selected" );
+        else
+            $t->set_var( "is_selected", "" );
+    }
+    else
+    {
+        $t->set_var( "is_selected", "" );
+    }
+    $t->parse( "position_type_item", "position_type_item_tpl", true );
+}
+
+// Initiate type selector
+$initiateTypeList = getInitiateTypes();
+for( $i=0; $i < count( $initiateTypeList ); $i++ )
+{
+    $t->set_var( "initiate_name", initiateTypeName( $initiateTypeList[$i] ) );
+    $t->set_var( "initiate_type_id", $initiateTypeList[$i] );
+
+    if ( $position )
+    {
+        if ( $position->initiateType() == $initiateTypeList[$i] )
+            $t->set_var( "is_selected", "selected" );
+        else
+            $t->set_var( "is_selected", "" );
+    }
+    else
+    {
+        $t->set_var( "is_selected", "" );
+    }
+    $t->parse( "initiate_type_item", "initiate_type_item_tpl", true );
 }
 
 if ( $position )
