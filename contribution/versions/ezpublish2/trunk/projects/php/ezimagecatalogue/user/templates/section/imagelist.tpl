@@ -80,7 +80,7 @@
 <!-- BEGIN detail_view_tpl -->
 <tr>
 	<!-- BEGIN detail_read_tpl -->
-	<td>
+	<td class="{td_class}">
 	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/imagecatalogue/image/list/{main_category_id}/"><img src="{image_src}" width="{image_width}" height="{image_height}" border="0" alt="{image_alt}" /></a>
 	</td>
 	<td class="{td_class}">
