@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.60 2001/06/26 13:49:25 th Exp $
+// $Id: userwithaddress.php,v 1.61 2001/06/29 15:20:05 ce Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
@@ -157,6 +157,7 @@ $street1Check = true;
 $street2Check = false;
 $zipCheck = true;
 $placeCheck = true;
+$addressCheck = true;
 
 // If the user is trying to buy without having a address
 if ( $MissingAddress == true )
@@ -256,6 +257,15 @@ if ( isset( $OK ) )
     {
         for( $i=0; $i < count ( $AddressID ); $i++ )
         {
+            if ( $ini->read_var( "eZUserMain", "RequireAddress" ) == "enabled" )
+            {
+                if ( count( $AddressID ) == 0 )
+                {
+                    $t->parse( "error_missing_address", "error_missing_address_tpl" );
+                    $error = true;
+                }
+            }
+
             if ( $street1Check )
             {
                 if ( $Street1[$i] == "" )
@@ -526,18 +536,6 @@ else
 if ( !isset( $DeleteAddressArrayID ) )
     $DeleteAddressArrayID = array();
 
-// Set the values to the user when editing
-if ( count( $AddressID ) == 1)
-{ 
-	$t->set_var( "delete_address", "" );
-	$t->set_var( "main_address", "" );
-}
-else
-{
-$t->parse( "main_address", "main_address_tpl" );
-$t->parse( "delete_address", "delete_address_tpl" );
-}
-
 $t->set_var( "login_value", $Login );
 $t->set_var( "disabled_login_item", "" );
 $t->set_var( "login_item", "" );
@@ -596,6 +594,19 @@ if ( $deleted )
             break;
         }
     }
+}
+
+// Check if we will add delete buttons
+$checkArray = array_diff( $AddressID, $DeleteAddressArrayID );
+if ( count ( $checkArray ) == 1 )
+{
+    $t->set_var( "delete_address", "" );
+	$t->set_var( "main_address", "" );
+}
+else
+{
+    $t->parse( "main_address", "main_address_tpl" );
+    $t->parse( "delete_address", "delete_address_tpl" );
 }
 
 // Render addresses

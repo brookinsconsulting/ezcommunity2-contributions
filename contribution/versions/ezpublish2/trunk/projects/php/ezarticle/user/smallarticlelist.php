@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: smallarticlelist.php,v 1.5 2001/06/08 14:12:12 ce Exp $
+// $Id: smallarticlelist.php,v 1.6 2001/06/29 15:20:05 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -94,6 +94,7 @@ function createSmallArticleList( $generateStaticPage = false )
 
     $articleList = $category->articles( $category->sortMode(), false, true, $Offset, $Limit );
 
+    print( count ( $articleList ) );
     $locale = new eZLocale( $Language );
     $i=0;
     $t->set_var( "article_list", "" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezphonetype.php,v 1.4 2001/06/26 14:35:57 ce Exp $
+// $Id: ezphonetype.php,v 1.5 2001/06/29 15:20:05 ce Exp $
 //
 // Definition of eZAddressType class
 //
@@ -68,9 +68,8 @@ class eZPhoneType
     function store()
     {
         $db =& eZDB::globalDatabase();
-
+        $db->begin();
         $name = $db->escapeString( $this->Name );
-
         if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZAddress_PhoneType" );
@@ -88,25 +87,18 @@ class eZPhoneType
 
 			$this->ID = $nextID;
 
-            if ( $result == false )
-                $dbError = true;
         }
         else
         {
-            $db->query( "UPDATE eZAddress_PhoneType set Name='$name', ListOrder='$this->ListOrder' WHERE ID='$this->ID'" );
+            $result = $db->query( "UPDATE eZAddress_PhoneType set Name='$name', ListOrder='$this->ListOrder' WHERE ID='$this->ID'" );
         }
         
         $db->unlock();
 
-        if ( $dbError == true )
-        {
+        if ( $result == false )
             $db->rollback( );
-        }
         else
-        {
             $db->commit();
-        }
-        return $dbError;
     }
 
     /*
@@ -117,7 +109,13 @@ class eZPhoneType
         $db =& eZDB::globalDatabase();
         if ( !$id )
             $id = $this->ID;
-        $db->query( "UPDATE eZAddress_PhoneType SET Removed=1 WHERE ID='$id'" );
+
+        $db->begin();
+        $result = $db->query( "UPDATE eZAddress_PhoneType SET Removed=1 WHERE ID='$id'" );
+        if ( $result == true )
+            $db->rollback( );
+        else
+            $db->commit();
     }
 
     /*
@@ -262,8 +260,18 @@ class eZPhoneType
                                   WHERE Removed=0 AND ListOrder<'$this->ListOrder' ORDER BY ListOrder DESC", array( "Limit" => "1" ) );
         $listorder = $qry[$db->fieldName("ListOrder")];
         $listid = $qry[$db->fieldName("ID")];
-        $db->query( "UPDATE eZAddress_PhoneType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
-        $db->query( "UPDATE eZAddress_PhoneType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
+
+        $db->begin();
+        $result = $db->query( "UPDATE eZAddress_PhoneType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
+        $result1 = $db->query( "UPDATE eZAddress_PhoneType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
+        if ( $result == false || $result1 == false )
+        {
+            $db->rollback( );
+        }
+        else
+        {
+            $db->commit();
+        }
     }
 
     /*!
@@ -277,8 +285,14 @@ class eZPhoneType
                                   WHERE Removed=0 AND ListOrder>'$this->ListOrder' ORDER BY ListOrder ASC", array( "Limit" => "1" ) );
         $listorder = $qry[$db->fieldName("ListOrder")];
         $listid = $qry[$db->fieldName("ID")];
-        $db->query( "UPDATE eZAddress_PhoneType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
-        $db->query( "UPDATE eZAddress_PhoneType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
+
+        $db->begin();
+        $result = $db->query( "UPDATE eZAddress_PhoneType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
+        $result1 = $db->query( "UPDATE eZAddress_PhoneType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
+        if ( $result == false || $result1 == false )
+            $db->rollback( );
+        else
+            $db->commit();
     }
 
     var $ID;

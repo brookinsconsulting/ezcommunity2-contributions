@@ -1,16 +1,32 @@
 <?
-// $Id: ezcategory.php,v 1.11 2001/05/05 11:16:04 bf Exp $
+// 
+// $Id: ezcategory.php,v 1.12 2001/06/29 15:20:05 ce Exp $
 //
 // Definition of eZCategory class
 //
-// <real-name> <<mail-name>>
-// Created on: <04-Sep-2000 16:53:15 ce>
+// Christoffer A. Elo <ce@ez.no>
+// Created on: <26-Jun-2001 16:53:12 ce>
 //
-// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
+// This source file is part of eZ publish, publishing software.
+// Copyright (C) 1999-2001 eZ systems as
 //
-// IMPORTANT NOTE: You may NOT copy this file or any part of it into
-// your own programs or libraries.
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
 //
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
+//
+//!! eZAddress
+//! eZOnlineType handles online types.
+/*!
 
 //!! eZTodo
 //! The eZCategory handles the category informasjon.

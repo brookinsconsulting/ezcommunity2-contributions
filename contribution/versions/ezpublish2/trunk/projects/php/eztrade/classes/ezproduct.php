@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.60 2001/06/21 09:08:37 ce Exp $
+// $Id: ezproduct.php,v 1.61 2001/06/29 15:20:05 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -148,6 +148,7 @@ class eZProduct
                                  RemoteID='$this->RemoteID',
                                  IsHotDeal='$this->IsHotDeal',
                                  VATTypeID='$this->VATTypeID',
+                                 ProductType='$this->ProductType',
                                  ShippingGroupID='$this->ShippingGroupID'
                                  " );
 
@@ -170,7 +171,8 @@ class eZProduct
                                  ExternalLink='$this->ExternalLink',
                                  IsHotDeal='$this->IsHotDeal',
                                  VATTypeID='$this->VATTypeID',
-                                 ShippingGroupID='$this->ShippingGroupID'
+                                 ShippingGroupID='$this->ShippingGroupID',
+                                 ProductType='$this->ProductType'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -209,6 +211,7 @@ class eZProduct
                 $this->RemoteID =& $category_array[0][ "RemoteID" ];
                 $this->VATTypeID =& $category_array[0][ "VATTypeID" ];
                 $this->ShippingGroupID =& $category_array[0][ "ShippingGroupID" ];
+                $this->ProductType =& $category_array[0][ "ProductType" ];
                 if ( $this->Price == "NULL" )
                     unset( $this->Price );
 
@@ -397,6 +400,35 @@ class eZProduct
        }
        return $vat;
     }
+
+    /*!
+      Returns the product type.
+
+      1 = normal product
+      2 = voucher
+    */
+    function productType( $price="" )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->ProductType;
+    }
+
+    /*!
+      Sets the product type.
+
+      1 = normal product
+      2 = voucher
+    */
+    function setProductType( $type=1 )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $this->ProductType = $type;
+    }
+
 
     /*!
       Sets the total quantity of the product.
@@ -1639,6 +1671,7 @@ class eZProduct
     var $RemoteID;
     var $VATTypeID;
     var $ShippingGroupID;
+    var $ProductType;
     var $Price;
     
     ///  Variable for keeping the database connection.

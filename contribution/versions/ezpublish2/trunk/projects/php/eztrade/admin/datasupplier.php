@@ -302,6 +302,10 @@ switch ( $url_array[2] )
                 include( "eztrade/admin/productedit.php" );
                 break;
 
+            case "voucher":
+                include( "eztrade/admin/voucher.php" );
+                break;
+
             default:
                 include( "eztrade/admin/productedit.php" );
                 break;

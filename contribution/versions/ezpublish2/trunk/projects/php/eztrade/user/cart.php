@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.34 2001/06/14 13:04:09 bf Exp $
+// $Id: cart.php,v 1.35 2001/06/29 15:20:05 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Sep-2000 11:57:49 bf>
@@ -64,6 +64,12 @@ if ( ( $Action == "Refresh" ) || isset( $DoCheckOut ) )
         $cartItem->setCount( $CartCountArray[$i] );
         $cartItem->store();
         $i++;
+
+        // Check for negative entries
+        if ( ( $cartItem->count() < 1 ) )
+        {
+            $cartItem->delete();
+        }
     }
 }
 

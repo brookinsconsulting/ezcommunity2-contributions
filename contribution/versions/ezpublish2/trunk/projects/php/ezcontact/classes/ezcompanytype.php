@@ -1,7 +1,7 @@
 <?
 
 // 
-// $Id: ezcompanytype.php,v 1.31 2001/05/04 16:37:24 descala Exp $
+// $Id: ezcompanytype.php,v 1.32 2001/06/29 15:20:05 ce Exp $
 //
 // Definition of eZCompanyType class
 //
@@ -29,9 +29,17 @@
 //!! eZContact
 //! eZCompanyType handles the company types.
 /*!
-    This class handles the company types in the database. A company type can be used to
-    describe different hiearchical information about a company. For example geographical
-    area, business area, etc.
+  Example code:
+  \code
+  $companyType = new eZCompanyType();
+  $companyType->setName( "Companty type" );
+  $companyType->store(); // Store or updates to the database.
+  \code
+  \sa eZOnlineType eZCompany eZPerson eZOnline eZPhone eZOnline
+  
+  This class handles the company types in the database. A company type can be used to
+  describe different hiearchical information about a company. For example geographical
+  area, business area, etc.
 */
 
 include_once( "classes/ezdb.php" );
@@ -462,4 +470,3 @@ class eZCompanyType
 }
 
 ?>
- 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcountry.php,v 1.6 2001/06/26 14:35:57 ce Exp $
+// $Id: ezcountry.php,v 1.7 2001/06/29 15:20:05 ce Exp $
 //
 // Definition of eZCountry class
 //
@@ -58,7 +58,7 @@ class eZCountry
     function store()
     {
         $db =& eZDB::globalDatabase();
-
+        $db->begin();
         $name = $db->escapeString( $this->Name );
         if ( !isset( $this->ID ) )
         {
@@ -70,12 +70,10 @@ class eZCountry
                     VALUES ( '$nextID', '$this->ISO', '$name' )" );
 
 			$this->ID = $nextID;
-            if ( $result == false )
-                $dbError = true;
         }
         else
         {
-            $db->query( "UPDATE eZAddress_Country
+            $result = $db->query( "UPDATE eZAddress_Country
                     SET ISO='$this->ISO',
                     Name='$name'
                     WHERE ID='$this->ID'" );            
@@ -83,14 +81,10 @@ class eZCountry
         }        
         $db->unlock();
 
-        if ( $dbError == true )
-        {
+        if ( $result == false )
             $db->rollback( );
-        }
         else
-        {
             $db->commit();
-        }
         return $dbError;
     }
 
@@ -215,8 +209,14 @@ class eZCountry
     {
         if ( !$id )
             $id = $this->ID;
-        $db =& eZDB::globalDatabase();    
-        $db->query( "DELETE FROM eZAddress_Country WHERE ID='$id'" );
+        $db =& eZDB::globalDatabase();
+
+        $db->begin();
+        $result = $db->query( "DELETE FROM eZAddress_Country WHERE ID='$id'" );
+        if ( $result == false )
+            $db->rollback( );
+        else
+            $db->commit();
     }    
     
 

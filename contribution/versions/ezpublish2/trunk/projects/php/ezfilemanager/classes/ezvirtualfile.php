@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.35 2001/06/29 11:23:29 ce Exp $
+// $Id: ezvirtualfile.php,v 1.36 2001/06/29 15:20:05 ce Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -94,7 +94,6 @@ class eZVirtualfile
         }
 
         $db->unlock();
-
         if ( $result == false )
             $db->rollback( );
         else
