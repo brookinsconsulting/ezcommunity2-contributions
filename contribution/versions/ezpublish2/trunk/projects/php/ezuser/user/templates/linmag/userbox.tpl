@@ -16,7 +16,7 @@
 	</td>
 </tr>
 <tr>
-	<td colspan="2" valign="top">&nbsp;&#149&nbsp;<a class="menu" href="{www_dir}{index}{user_edit_url}/{user_id}/">{intl-change_user_info}</a></td>
+	<td colspan="2" valign="top">&nbsp;&#149&nbsp;<a class="menu" href="{www_dir}{index}{user_edit_url}/{user_id}/{no_address}">{intl-change_user_info}</a></td>
 </tr>
 <tr>
 	<td colspan="2" class="menuspacer">&nbsp;</td>

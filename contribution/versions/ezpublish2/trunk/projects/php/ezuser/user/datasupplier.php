@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.27 2001/07/20 11:45:40 jakobn Exp $
+// $Id: datasupplier.php,v 1.28 2001/08/23 16:58:41 br Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -54,11 +54,21 @@ switch ( $url_array[2] )
     case "user" :
     case "userwithaddress" :
     {
-
+        $NoAddress = false;
         if ( $url_array[3] == "new" )
+        {
             $Action = "New";
+            if ( $url_array[4] == "no" )
+            {
+                $NoAddress = true;
+            }
+        }
         if ( $url_array[3] == "edit" )
         {
+            if ( $url_array[6] == "no" )
+            {
+                $NoAddress = true;
+            }
             if ( $url_array[5] == "MissingAddress" )
                 $MissingAddress = true;
             else
@@ -73,6 +83,10 @@ switch ( $url_array[2] )
         }
         if ( $url_array[3] == "update" )
         {
+            if ( $url_array[4] == "no" )
+            {
+                $NoAddress = true;
+            }
             $UserID = $url_array[4];
             $Action = "Update";
         }
@@ -91,7 +105,6 @@ switch ( $url_array[2] )
         include( "ezuser/user/forgot.php" );
     }
     break;
-
 
     case "address" :
     {

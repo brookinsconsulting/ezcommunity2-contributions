@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userwithaddress.php,v 1.68 2001/08/21 11:23:58 ce Exp $
+// $Id: userwithaddress.php,v 1.69 2001/08/23 16:58:41 br Exp $
 //
 // Created on: <10-ct-2000 12:52:42 bf>
 //
@@ -252,7 +252,6 @@ if ( isSet( $OK ) )
             $error = true;
         }
     }
-
     if ( $addressCheck )
     {
         for( $i=0; $i < count ( $AddressID ); $i++ )
@@ -634,45 +633,52 @@ else
 // Render addresses
 if ( $ini->read_var( "eZUserMain", "UserWithAddress" ) == "enabled" )
 {
-    for ( $i = 0; $i < count( $AddressID ); ++$i )
+    if( $NoAddress == true )
     {
-        $address_id = $AddressID[$i];
-        $variable = "DeleteAddressButton$address_id";
-        if ( !in_array( $AddressID[$i], $DeleteAddressArrayID ) and !isSet( $$variable ) )
-        {
-            $t->set_var( "address_id", $AddressID[$i] );
-
-            $t->set_var( "street1_value", $Street1[$i] );
-            $t->set_var( "street2_value", $Street2[$i] );
-
-            if ( is_numeric( $MainAddressID ) )
-            {
-                $t->set_var( "is_checked", $AddressID[$i] == $MainAddressID ? "checked" : "" );
-            }
-
-            $t->set_var( "zip_value", $Zip[$i] );
-            $t->set_var( "place_value", $Place[$i] );
-
-            $t->set_var( "country", "" );
-            if ( $SelectCountry == "enabled" )
-            {
-                $t->set_var( "country_option", "" );
-                foreach ( $countryList as $country )
-                {
-                    $t->set_var( "is_selected", $country["ID"] == $CountryID[$i] ? "selected" : "" );
-
-                    $t->set_var( "country_id", $country["ID"] );
-                    $t->set_var( "country_name", $country["Name"] );
-                    $t->parse( "country_option", "country_option_tpl", true );
-                }
-                $t->parse( "country", "country_tpl" );
-            }
-            $t->set_var( "address_number", $i + 1 );
-
-            $t->parse( "address", "address_tpl", true );
-        }
+        $t->parse( "address_actions", "address_actions_tpl" );
     }
-    $t->parse( "address_actions", "address_actions_tpl" );
+    else
+    {
+        for ( $i = 0; $i < count( $AddressID ); ++$i )
+        {
+            $address_id = $AddressID[$i];
+            $variable = "DeleteAddressButton$address_id";
+            if ( !in_array( $AddressID[$i], $DeleteAddressArrayID ) and !isSet( $$variable ) )
+            {
+                $t->set_var( "address_id", $AddressID[$i] );
+                
+                $t->set_var( "street1_value", $Street1[$i] );
+                $t->set_var( "street2_value", $Street2[$i] );
+                
+                if ( is_numeric( $MainAddressID ) )
+                {
+                    $t->set_var( "is_checked", $AddressID[$i] == $MainAddressID ? "checked" : "" );
+                }
+                
+                $t->set_var( "zip_value", $Zip[$i] );
+                $t->set_var( "place_value", $Place[$i] );
+                
+                $t->set_var( "country", "" );
+                if ( $SelectCountry == "enabled" )
+                {
+                    $t->set_var( "country_option", "" );
+                    foreach ( $countryList as $country )
+                    {
+                        $t->set_var( "is_selected", $country["ID"] == $CountryID[$i] ? "selected" : "" );
+                        
+                        $t->set_var( "country_id", $country["ID"] );
+                        $t->set_var( "country_name", $country["Name"] );
+                        $t->parse( "country_option", "country_option_tpl", true );
+                    }
+                    $t->parse( "country", "country_tpl" );
+                }
+                $t->set_var( "address_number", $i + 1 );
+
+                $t->parse( "address", "address_tpl", true );
+            }
+        }
+        $t->parse( "address_actions", "address_actions_tpl" );
+    }
 }
 
 $t->set_var( "user_id", $UserID );

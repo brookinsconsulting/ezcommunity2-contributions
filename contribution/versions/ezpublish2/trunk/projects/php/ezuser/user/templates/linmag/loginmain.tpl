@@ -30,7 +30,7 @@
 </tr>
 <!-- BEGIN standard_creation_tpl -->
 <tr>
-	<td colspan="2" valign="top">&nbsp;&#149&nbsp;<a class="menu" href="{www_dir}{index}{user_edit_url}">{intl-register}</a></td>
+	<td colspan="2" valign="top">&nbsp;&#149&nbsp;<a class="menu" href="{www_dir}{index}{user_edit_url}{no_address}">{intl-register}</a></td>
 </tr>
 <!-- END standard_creation_tpl -->
 <!-- BEGIN extra_creation_tpl -->

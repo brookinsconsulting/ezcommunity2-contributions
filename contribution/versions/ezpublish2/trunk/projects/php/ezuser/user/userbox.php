@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userbox.php,v 1.30 2001/08/17 13:36:01 jhe Exp $
+// $Id: userbox.php,v 1.31 2001/08/23 16:58:41 br Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -41,6 +41,15 @@ include_once( "ezsession/classes/ezsession.php" );
 
 $user =& eZUser::currentUser();
 
+if( $NoAddress == true )
+{
+    $no_address = "no/";
+}
+else
+{
+    $no_address = "";
+}
+
 if ( !$user ) 
 {
     if ( !isset( $IntlDir ) )
@@ -73,7 +82,8 @@ if ( !$user )
 
     $t->set_var( "standard_creation", "" );
     $t->set_var( "extra_creation", "" );
-
+    $t->set_var( "no_address", $no_address );
+    
     if ( isset( $type_list ) )
     {
         $t->parse( "extra_creation", "extra_creation_tpl" );
@@ -124,7 +134,9 @@ else
     $t->set_var( "last_name", $user->lastName() );
     $t->set_var( "user_id", $user->id() );
     $t->set_var( "style", $SiteStyle );
-
+    
+    $t->set_var( "no_address", $no_address );
+    
     if ( !$RedirectURL )
         $RedirectURL = $REQUEST_URI;
     if ( preg_match( "#^/user/user/login.*#", $RedirectURL  ) )
@@ -139,7 +151,6 @@ else
 
     if ( $UserWithAddress == "enabled" )
     {
-        
         $t->set_var( "user_edit_url", "/user/userwithaddress/edit/" );
     }
     else
