@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztexttool.php,v 1.14 2001/02/23 14:16:27 pkej Exp $
+// $Id: eztexttool.php,v 1.15 2001/02/26 14:12:58 pkej Exp $
 //
 // Definition of eZTextTool class
 //
@@ -130,6 +130,35 @@ class eZTextTool
     function &htmlspecialchars( $string )
     {
         return stripslashes( htmlspecialchars( $string ) );
+    }
+    
+    /*!
+      This function will split a string into lines of no more than a
+      given number of characters, but wont split a word. Useful in
+      e-mails. Each new line will be ended with a "\n".
+      
+      You can also add a padding length, if you wish.
+     */
+    function &lineSplit( $in, $len = 0, $size = 72 )
+    {
+        $tmp = "";
+        $pad = str_pad( $tmp, $len, " ", STR_PAD_LEFT );
+        $temptext = ""; 
+        $temparray = explode( " ", $in ); 
+        $i = 0; 
+        while( $i <= count( $temparray ) )
+        { 
+            while( ( strlen( $pad . $temptext . " " . $temparray[$i] ) < $size )
+                && ($i <= count( $temparray ) ) )
+            { 
+                $temptext = $temptext." ".$temparray[$i]; 
+                $i++;
+            } 
+            $out = $out."\n" . $pad . $temptext; 
+            $temptext = $temparray[$i]; 
+            $i++; 
+        } 
+        return $out;
     }
 }
 
