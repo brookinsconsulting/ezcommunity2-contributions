@@ -84,6 +84,9 @@ $t->set_var( "group_notice_id", "" );
 $t->set_var( "is_selected", "" );
 $t->set_var( "group_notice_name", "" );
 
+$t->set_var( "hidden_company_contact_item", "" );
+$t->set_var( "hidden_person_contact_item", "" );
+
 $t->set_var( "state_id", "" );
 
 if( $Action == "insert" || $Action == "update" )
