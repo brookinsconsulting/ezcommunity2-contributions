@@ -183,13 +183,9 @@ CREATE TABLE eZArticle_ArticleMediaLink (
   PRIMARY KEY (ID)
 );
 
-
-CREATE TABLE eZArticle_ArticleMediaLink (
-  ID int(11) NOT NULL,
+CREATE TABLE eZArticle_ArticleWordLink (
   ArticleID int(11) NOT NULL default '0',
-  MediaID int(11) NOT NULL default '0',
-  Created int(11) default NULL,
-  PRIMARY KEY (ID)
+  WordID int(11) NOT NULL default '0'
 );
 
 
