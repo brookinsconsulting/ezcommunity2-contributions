@@ -421,3 +421,11 @@ Maintainer(s) : br@ez.no
     * classes/ezpageviewquery.php:
     fixed bug with day and month report in eZ stats.
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2002-05-14  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezpageviewquery.php: Fixed bug in top visitor list.
+

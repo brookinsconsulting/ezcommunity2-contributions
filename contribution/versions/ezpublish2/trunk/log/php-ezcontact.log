@@ -804,3 +804,57 @@ Maintainer(s) : jhe@ez.no
       admin/templates/standard/Attic/projecttypeedit.tpl:
     expiry time, warning time
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2002-05-08  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * sql/postgresql/ezcontact.sql: improving eZ contact for OneWorld
+
+    * admin/Attic/cron.php: New file.
+
+    * admin/Attic/cron.php
+      admin/consultationlist.php
+      admin/consultationview.php
+      admin/personedit.php
+      admin/templates/standard/consultationdetaillist.tpl
+      admin/templates/standard/consultationview.tpl
+      classes/ezcompany.php
+      classes/ezconsultation.php: improving eZ contact for OneWorld
+
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2002-05-14  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/templates/standard/companyview.tpl
+      admin/templates/standard/consultationdetaillist.tpl
+      admin/templates/standard/consultationlist.tpl
+      admin/templates/standard/consultationview.tpl
+      admin/templates/standard/personedit.tpl
+      admin/templates/standard/personlist.tpl
+      admin/templates/standard/personview.tpl
+      admin/templates/standard/typelist.tpl
+      classes/ezcompany.php
+      classes/ezconsultation.php
+      sql/postgresql/ezcontact.sql
+      user/consultationlist.php
+      admin/companystats.php
+      admin/companytypeedit.php
+      admin/companytypelist.php
+      admin/companyview.php
+      admin/consultationedit.php
+      admin/consultationlist.php
+      admin/consultationview.php
+      admin/datasupplier.php
+      admin/intl/en_GB/projecttype.php.ini
+      admin/personedit.php
+      admin/personlist.php
+      admin/persontypeedit.php
+      admin/personview.php
+      admin/projecttypeedit.php
+      admin/templates/standard/companyedit.tpl
+      admin/templates/standard/companytypelist.tpl: removed bug....
+

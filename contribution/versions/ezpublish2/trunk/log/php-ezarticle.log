@@ -3311,3 +3311,16 @@ Maintainer(s) : bf@ez.no
 
     * xmlrpc/article.php: Fixed section info for update message.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-05-14  Chris Mason  <chris@net.ai>
+
+    * user/frontpage.php:
+    Chris: Added code to provide the frontpage description as the meta description tag
+
+2002-05-14  Baard Farstad  <bf@ez.no>
+
+    * admin/articleedit.php: removed debug.
+
