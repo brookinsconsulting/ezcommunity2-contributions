@@ -28,8 +28,8 @@
 	</tr>
 	<tr>
 		<td>
-		<a class="menu" href="/user/forgot/">{intl-forgot}</a>
-		<a class="menu" href="{user_edit_url}">{intl-register}
+		<img src="/images/path-arrow.gif" width="15" height="10" /><a class="menu" href="/user/forgot/">{intl-forgot}</a>
+		<img src="/images/path-arrow.gif" width="15" height="10" /><a class="menu" href="{user_edit_url}">{intl-register}
 		<input type="hidden" name="RedirectURL" value="{redirect_url}">
 
 		</form>

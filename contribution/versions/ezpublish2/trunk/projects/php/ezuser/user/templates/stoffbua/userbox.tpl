@@ -22,7 +22,7 @@
 	</tr>
 	<tr>
 		<td>
-		<a class="menu" href="{user_edit_url}/{user_id}/">{intl-change_user_info}</a>  
+		<img src="/images/path-arrow.gif" width="15" height="10" /><a class="menu" href="{user_edit_url}/{user_id}/">{intl-change_user_info}</a>  
 		</form>
 		</td>
 	</tr>
