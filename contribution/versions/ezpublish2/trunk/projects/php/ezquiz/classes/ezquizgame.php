@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizgame.php,v 1.1 2001/05/25 12:54:42 ce Exp $
+// $Id: ezquizgame.php,v 1.2 2001/05/28 09:27:07 pkej Exp $
 //
 // ezquizgame class
 //
@@ -220,7 +220,7 @@ class eZQuizGame
     */
     function startDate()
     {
-        return $this->Date;
+        return $this->StartDate;
     }
 
     /*!
@@ -228,7 +228,7 @@ class eZQuizGame
     */
     function stopDate()
     {
-        return $this->Date;
+        return $this->StopDate;
     }
 
     /*!
