@@ -30,7 +30,7 @@
 
 <h2>{intl-customer_login}</h2>
 
-<p>{intl-reg_text}</p>
+<p>{intl-reg_text}<br />Etter at du er logget inn kan du endre dine kundedata fra menyen på venstre side.</p>
 
 <form method="post" action="/user/login/login/">
 <p class="boxtext">Brukernavn:</p>
