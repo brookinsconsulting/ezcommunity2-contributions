@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlocale.php,v 1.18 2001/01/15 18:56:29 gl Exp $
+// $Id: ezlocale.php,v 1.19 2001/01/16 10:46:14 gl Exp $
 //
 // Definition of eZLocale class
 //
@@ -322,17 +322,26 @@ class eZLocale
     */
     function &dayName( $day, $isShort=true )
     {
-        $returnString = "<b>Locale error</b>: unknown day name";
+        $errorString = "<b>Locale error</b>: unknown day name";
+        $name = "";
 
         if ( $isShort )
         {
-            $returnString =& $this->$LocaleIni->read_var( "RegionalSettings", $day );
+            $name =& $this->$LocaleIni->read_var( "RegionalSettings", $day );
         }
         else
         {
-            $returnString =& $this->$LocaleIni->read_var( "RegionalSettings", "long" . $day );
+            $name =& $this->$LocaleIni->read_var( "RegionalSettings", "long" . $day );
         }
-        return $returnString;
+
+        if ( $name == false )
+        {
+            return $errorString;
+        }
+        else
+        {
+            return $name;
+        }
     }
 
     /*!
@@ -343,17 +352,26 @@ class eZLocale
     */
     function &monthName( $month, $isShort=true )
     {
-        $returnString = "<b>Locale error</b>: unknown month name";
+        $errorString = "<b>Locale error</b>: unknown month name";
+        $name = "";
 
         if ( $isShort )
         {
-            $returnString =& $this->$LocaleIni->read_var( "RegionalSettings", $month );
+            $name =& $this->$LocaleIni->read_var( "RegionalSettings", $month );
         }
         else
         {
-            $returnString =& $this->$LocaleIni->read_var( "RegionalSettings", "long" . $month );
+            $name =& $this->$LocaleIni->read_var( "RegionalSettings", "long" . $month );
         }
-        return $returnString;
+
+        if ( $name == false )
+        {
+            return $errorString;
+        }
+        else
+        {
+            return $name;
+        }
     }
 
     var $PositivePrefixCurrencySymbol;
