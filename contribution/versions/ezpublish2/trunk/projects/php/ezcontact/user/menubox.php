@@ -1,8 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.6 2001/01/22 14:43:00 jb Exp $
-//
-// 
+// $Id: menubox.php,v 1.7 2001/01/30 12:36:02 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -33,7 +31,7 @@ if ( $user )
     include_once( "classes/INIFile.php" );
     $ini = new INIFile( "site.ini" );
 
-    $Language = $ini->read_var( "eZUserMain", "Language" );
+    $Language = $ini->read_var( "eZContactMain", "Language" );
 
     include_once( "classes/eztemplate.php" );
 
