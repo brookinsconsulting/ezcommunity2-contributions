@@ -1,0 +1,12 @@
+CHANGELOG
+---------
+
+Since 1.1:
+---------
+* Added SSL support with CURL
+* added debug output ( $client->setDebug( true ); )
+* bug fixes
+
+Since 1.0:
+---------
+* Added authentification, http password
