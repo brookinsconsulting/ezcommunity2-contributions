@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.97 2001/09/17 13:23:00 ce Exp $
+// $Id: ezproduct.php,v 1.98 2001/09/18 12:01:30 pkej Exp $
 //
 // Definition of eZProduct class
 //
@@ -361,22 +361,40 @@ class eZProduct
             $price = $this->Price;
         }
         
+       $vatType =& $this->vatType();
+       
         if ( $calcVAT == true )
         {
             if ( $this->excludedVAT() )
             {
-                $tmp = $this->priceIncVAT( $price );
-                $price = $tmp["Price"];
+                $vatType =& $this->vatType();
+                $vat = 0;
+       
+                if ( $vatType )
+                {
+                    $vat =& $vatType->value();
+                }
+                
+                $price = ( $price * $vat / 100 ) + $price;
             }
         }
         else
         {
             if ( $this->includesVAT() )
             {
-                $price = $this->priceExVAT( $price );
+                $vatType =& $this->vatType();
+                $vat = 0;
+                
+                if ( $vatType )
+                {
+                    $vat =& $vatType->value();
+                }
+                
+                $price = $price - ( $price / 100 + $vat );
+                
             }
-
         }
+        
         return $price;
     }    
 
