@@ -3,8 +3,14 @@ Example:
 mod: bug/user, fileedit.php.ini
 change: added user_edit=Some text
 --------------------------------------------------------------------
+mod: ezerror/admin error.php.ini
+change: added file
+
+mod: ezmail/user, mailedit.php.ini
+change: added address_error
+
 mod: ezbulkmail/user
-added subscriptionlogin.php.ini usermessages.php.ini
+change:added subscriptionlogin.php.ini usermessages.php.ini
 
 mod: ezarticle/user, extendedsearch.php.ini
 change: new file

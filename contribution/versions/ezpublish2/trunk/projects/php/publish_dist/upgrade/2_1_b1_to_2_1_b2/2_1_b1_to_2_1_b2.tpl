@@ -10,4 +10,6 @@ ezbulkmail/user/templates/standard/usermessages.tpl (new)
 ezarticle/user/templates/standard/search.tpl
 ezarticle/user/templates/standard/extendedsearch.tpl
 ezarticle/user/templates/standard.index.tpl (new)
-ezarticle/usre/templates/standard/menubox.tpl
+ezarticle/user/templates/standard/menubox.tpl
+ezmail/user/templates/standard/mailedit.tpl
+ezerror/admin/templates/standard/error.tpl
