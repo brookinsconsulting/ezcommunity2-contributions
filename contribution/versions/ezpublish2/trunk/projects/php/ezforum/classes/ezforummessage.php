@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.23 2000/07/26 12:45:08 lw-cvs Exp $
+    $Id: ezforummessage.php,v 1.24 2000/07/26 15:21:25 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -269,9 +269,10 @@ class eZforumMessage
      */
     function recursiveEmailNotice( $startId, $msgId, &$liste )
     {
-
-     $this->get( $msgId );
-     if ( $this->Id != $startId) // root of search - do not check current message
+        global $SERVER_NAME;
+        
+        $this->get( $msgId );
+        if ( $this->Id != $startId) // root of search - do not check current message
         {
             if ($this->emailNotice() == 'Y')
             {
@@ -280,11 +281,13 @@ class eZforumMessage
                     array_push( $liste, $this->UserId );
                     $email = new eZMail();
                     $usr = new eZUser();
+                    $msg = new eZforumMessage;
+                    $msg->get( $startId );
                     $usr->get( $this->UserId );
                     $email->setTo( $usr->email() );
                     $email->setFrom( "webmaster@" . $SERVER_NAME );
-                    $email->setSubject( $this->Topic );
-                    $email->setBody("Du har fått svar på tiltale.");
+                    $email->setSubject( $msg->topic() );
+                    $email->setBody( $msg->body() );
                     $email->send();
                 }    
             }

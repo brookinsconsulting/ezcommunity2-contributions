@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezuser.php,v 1.12 2000/07/25 11:58:43 lw-cvs Exp $
+    $Id: ezuser.php,v 1.13 2000/07/26 15:21:25 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -597,7 +597,7 @@ class eZUser {
      */
     function passwordEmail( $email )
     {
-	global $SERVER_NAME;
+        global $SERVER_NAME;
 
         if ( $this->getByEmail( $email ) == 0) // OK
         {
