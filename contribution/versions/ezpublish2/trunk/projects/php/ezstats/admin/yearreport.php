@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: yearreport.php,v 1.3 2001/03/01 14:06:25 jb Exp $
+// $Id: yearreport.php,v 1.4 2001/03/02 09:44:55 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <07-Jan-2001 14:47:04 bf>
@@ -126,7 +126,7 @@ if ( count( $yearReport ) > 0 )
         }
 
         $t->set_var( "page_view_percent", $normalizedPercent );
-        $t->set_var( "page_view_percent_inverted", 100 - $normalizedPercent );
+        $t->set_var( "page_view_inverted_percent", 100 - $normalizedPercent );
 
         $t->set_var( "percent_count", $pageViewPercent );
 
