@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: overview.php,v 1.6 2001/02/08 18:43:47 jb Exp $
+// $Id: overview.php,v 1.7 2001/02/09 14:39:20 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <05-Jan-2001 11:23:51 bf>
@@ -64,9 +64,6 @@ $year = $today->year();
 $month = $today->month();
 
 $menuItems = array(
-    array( "/stats/requestpagelist/top/20/", "{intl-request_page_list}" ),
-    array( "/stats/monthreport/$year/$month/", "{intl-month_report}" ),
-    "break",
     array( "/stats/productreport/$year/$month/", "{intl-product_report}" ),
     array( "/stats/entryexitreport/$year/$month/", "{intl-entry_exit_report}" )
     );
