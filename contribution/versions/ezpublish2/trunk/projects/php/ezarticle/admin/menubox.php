@@ -1,8 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.4 2000/10/24 09:28:14 bf-cvs Exp $
-//
-// 
+// $Id: menubox.php,v 1.5 2000/11/01 11:16:56 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -56,5 +54,3 @@ $t->pparse( "output", "menu_box_tpl" );
     
 
 ?>
-
-
