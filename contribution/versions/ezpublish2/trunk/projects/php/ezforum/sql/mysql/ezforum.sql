@@ -44,3 +44,17 @@ CREATE TABLE eZForum_Message (
   IsTemporary int NOT NULL default '0',
   PRIMARY KEY (ID)
 );
+
+
+CREATE TABLE eZForum_MessageWordLink (
+  MessageID int(11) NOT NULL default '0',
+  Frequency float default 0.2,
+  WordID int(11) NOT NULL default '0'
+);
+
+
+CREATE TABLE eZForum_Word (
+  ID int(11) NOT NULL default '0',
+  Frequency float default 0.2,
+  Word varchar(50) NOT NULL default ''
+);
