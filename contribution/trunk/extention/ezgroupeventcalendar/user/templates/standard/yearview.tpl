@@ -1,15 +1,11 @@
-<table width="100%" cellspacing="0" cellpadding="2" border="0" align="center">
-  <tr>
-   <!-- BEGIN header_item_tpl -->
-    <td align="left"> 
-	<h1>{intl-year_view}</h1>
-    </td>
-  </tr>
-</table>
-
-	<h2>{year_number}</h2>
-<br />
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+        <td colspan="2" align="center">
+	<span style="font-size: 25px; font-weight: bold;">
+	  {year_number}
+	</span>
+	</td>
+</tr>
 <tr>
 	<td>
 	<a class="menu" href="{www_dir}{index}/groupeventcalendar/yearview/{prev_year_number}/">&lt;&lt; {intl-previous_year}</a>
