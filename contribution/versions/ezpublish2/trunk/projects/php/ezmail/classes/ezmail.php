@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.27 2001/05/05 12:20:15 bf Exp $
+// $Id: ezmail.php,v 1.28 2001/05/10 08:37:49 ce Exp $
 //
 // Definition of eZMail class
 //
@@ -148,7 +148,7 @@ class eZMail
         {
             $this->Database->query( "UPDATE eZMail_Mail SET
 		                         UserID='$this->UserID',
-                                 ToField='to',
+                                 ToField='$to',
                                  FromField='$from',
                                  Cc='$cc',
                                  Bcc='$bcc',
