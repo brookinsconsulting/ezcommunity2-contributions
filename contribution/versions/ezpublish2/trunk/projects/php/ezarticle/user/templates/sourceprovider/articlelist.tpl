@@ -1,6 +1,13 @@
 <h1>SourceProvider</h1>
-<p>Welcome to our on-line store. You can start shopping by clicking on the "Products" link.</p>
-<p>You might find our selection a bit sparse, but over time we will expand our selection.</p>
+<p>
+We will do our best to deliver high quality products and services. If you have any views on
+how we can make your customer experience better, please contact us.
+ </p>
+
+<p>
+You can start shopping by clicking on the "Products" link. 
+You might find our selection a bit sparse, but over time we will expand our selection.
+</p>
 
 <h1>News</h1>
 
