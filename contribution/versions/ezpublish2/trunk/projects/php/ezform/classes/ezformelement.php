@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.13 2001/12/14 14:25:43 jhe Exp $
+// $Id: ezformelement.php,v 1.14 2001/12/17 11:30:42 jhe Exp $
 //
 // ezformelement class
 //
@@ -132,7 +132,7 @@ class eZFormElement
         $db =& eZDB::globalDatabase();
         $db->begin();
 
-        $res[] = $db->query( "DELETE FROM eZForm_FormElementDict WHERE ElementID='$elementID'" );
+        $res[] = $db->query( "DELETE FROM eZForm_PageElementDict WHERE ElementID='$elementID'" );
         $res[] = $db->query( "DELETE FROM eZForm_FormElement WHERE ID='$elementID'" );
 
         eZDB::finish( $res, $db );

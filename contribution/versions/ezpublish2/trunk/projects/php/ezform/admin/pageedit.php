@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.3 2001/12/17 09:42:45 br Exp $
+// $Id: pageedit.php,v 1.4 2001/12/17 11:30:42 jhe Exp $
 //
 // Definition of ||| class
 //
@@ -110,7 +110,7 @@ $elementTemplate->set_var( "checked", "" );
 $elementTemplate->set_var( "form_id", $FormID );
 $elementTemplate->set_var( "page_id", $PageID );
 
-$form = new eZForm( $FormID );
+$page = new eZFormPage( $PageID );
 
 if ( $Action == "up" )
 {
@@ -139,12 +139,12 @@ if ( isSet( $DeleteSelected ) )
 }
 
 
-if ( $form->numberOfElements() == 0 )
+if ( $page->numberOfElements() == 0 )
 {
     if ( $ini->read_var( "eZFormMain", "CreateEmailDefaults" ) == "enabled" )
     {
-        $form->store();
-        $FormID = $form->id();
+        $page->store();
+        $PageID = $page->id();
         $elementTypeA = new eZFormElementType( 1 );
         $elementTypeB = new eZFormElementType( 2 );
         $elementA = new eZFormElement();
@@ -159,8 +159,8 @@ if ( $form->numberOfElements() == 0 )
         $elementB->setRequired( true );
         $elementA->store();
         $elementB->store();
-        $form->addElement( $elementA );
-        $form->addElement( $elementB );
+        $page->addElement( $elementA );
+        $page->addElement( $elementB );
     }
     else
     {
@@ -172,8 +172,8 @@ if ( $form->numberOfElements() == 0 )
 
 // ****************** BEGIN Elements ******************
 
-$elements = $form->formElements();
-$count = $form->numberOfElements();
+$elements = $page->pageElements();
+$count = $page->numberOfElements();
 
 if ( $count > 0 )
 {
@@ -328,10 +328,7 @@ $elementListBody = $elementTemplate->parse( $target, "elementlist_tpl" );
 
 // print( $elementListBody );
 
-$page = new eZFormPage( $PageID );
-
 $t->set_var( "page_name", $page->name() );
-
 $t->set_var( "element_list", $elementListBody );
 
 

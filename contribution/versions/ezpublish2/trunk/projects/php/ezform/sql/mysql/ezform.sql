@@ -30,10 +30,10 @@ CREATE TABLE eZForm_FormElement (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-CREATE TABLE eZForm_FormElementDict (
+CREATE TABLE eZForm_PageElementDict (
   ID int(11) NOT NULL,
   Name varchar(255) default NULL,
-  FormID int(11) default NULL,
+  PageID int(11) default NULL,
   ElementID int(11) default NULL,
   Placement int(11) default NULL,
   PRIMARY KEY (ID)

@@ -1,10 +1,9 @@
 <?php
 // 
-// $Id: ezformpage.php,v 1.2 2001/12/17 09:42:45 br Exp $
+// $Id: ezformpage.php,v 1.3 2001/12/17 11:30:42 jhe Exp $
 //
 // Definition of ||| class
 //
-// <Bjørn Reiten> <br@ez.no>
 // Created on: <13-Dec-2001 15:17:47 br>
 //
 // This source file is part of eZ publish, publishing software.
@@ -42,7 +41,11 @@ class eZFormPage
     */
     function eZFormPage( $id = -1 )
     {
-        if ( $id != -1 )
+        if ( is_array( $id ) )
+        {
+            $this->fill( $id );
+        }
+        else if ( $id != -1 )
         {
             $this->ID = $id;
             $this->get( $this->ID );
@@ -66,21 +69,15 @@ class eZFormPage
                                       WHERE FormID='$this->FormID'" );
             $placement = $qry[$db->fieldName( "Placement" )] + 1;
             
-            $db->query_single( $qry, "SELECT MAX( PageNumber ) as PageNumber FROM eZForm_FormPage
-                                      WHERE FormID='$this->FormID'" );
-            $pageNumber = $qry[$db->fieldName( "PageNumber" )] + 1;
-            
             $nextID = $db->nextID( "eZForm_FormPage", "ID" );
             $res[] = $db->query( "INSERT INTO eZForm_FormPage
                           ( ID,
                             Name,
-                            PageNumber,
                             FormID,
                             Placement )
                           VALUES
                           ( '$nextID',
                             '$name',
-                            '$pageNumber',
                             '$this->FormID',
                             '$placement' )" );
 
@@ -90,7 +87,6 @@ class eZFormPage
         {
             $res[] = $db->query( "UPDATE eZForm_Form SET
                                     Name='$name',
-                                    PageNumber='$this->PageNumber',
                                     FormID='$this->FormID',
                                     Placement='$this->Placement'
                                   WHERE ID='$this->ID'" );
@@ -163,6 +159,75 @@ class eZFormPage
         return $returnArray;
     }
 
+    function &numberOfElements()
+    {
+        $db =& eZDB::globalDatabase();
+        $ret = false;
+
+        $db->query_single( $result, "SELECT COUNT(ElementID) as Count
+                                     FROM eZForm_PageElementDict WHERE PageID='$this->ID'" );
+        $ret = $result[$db->fieldName( "Count" )];
+        return $ret;
+    }
+
+    function addElement( &$object )
+    {
+        if ( get_class( $object ) == "ezformelement" )
+        {
+            $elementID = $object->id();
+            $elementName = $object->name();
+            $pageID = $this->ID;
+
+            $db =& eZDB::globalDatabase();
+            $db->begin();
+            $db->query_single( $result, "SELECT MAX(Placement) as Placement
+                                     FROM eZForm_PageElementDict WHERE PageID='$pageID'" );
+            
+            $placement = $result[$db->fieldName( "Placement" )];
+            $placement++;
+            $db->lock( "eZForm_PageElementDict" );
+            $nextID = $db->nextID( "eZForm_PageElementDict", "ID" );
+            $res[] = $db->query( "INSERT INTO eZForm_PageElementDict
+                                   ( ID, Placement, ElementID, PageID, Name )
+                                   VALUES
+                                   ( '$nextID', '$placement', '$elementID', '$pageID', '$elementName' )" );
+            eZDB::finish( $res, $db );
+            return true;
+        }
+    }
+
+    function &formElement( $placement )
+    {
+        $db =& eZDB::globalDatabase();
+        $db->query_single( $element, "SELECT ElementID FROM eZForm_PageElementDict WHERE
+                                      PageID='$this->ID' AND Placement='$placement'" );
+
+        $return = new eZFormElement( $element[$db->fieldName( "ElementID" )], true );
+           
+        return $return;
+    }
+
+
+    /*!
+      Returns every form element of this page.
+      The page elements are returned as an array of eZFormElement objects.
+    */
+    function &pageElements()
+    {
+        $returnArray = array();
+        $formArray = array();
+        
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $formArray, "SELECT ElementID FROM eZForm_PageElementDict WHERE
+                                       PageID='$this->ID' ORDER BY Placement" );
+
+        for ( $i = 0; $i < count( $formArray ); $i++ )
+        {
+            $returnArray[$i] = new eZFormElement( $formArray[$i][$db->fieldName( "ElementID" )], true );
+        }
+        return $returnArray;
+    }
+
 
     /*!
       Deletes a form page.
@@ -192,7 +257,6 @@ class eZFormPage
         
         $this->ID =& $pageArray[$db->fieldName( "ID" )];
         $this->Name =& $pageArray[$db->fieldName( "Name" )];
-        $this->PageNumber =& $pageArray[$db->fieldName( "PageNumber" )];
         $this->FormID =& $pageArray[$db->fieldName( "FormID" )];
         $this->Placement =& $pageArray[$db->fieldName( "Placement" )];
     }
@@ -325,7 +389,6 @@ class eZFormPage
     
     var $ID;
     var $Name;
-    var $PageNumber;
     var $FormID;
     var $Placement;
 } 

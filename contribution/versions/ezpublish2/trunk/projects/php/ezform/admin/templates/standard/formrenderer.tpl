@@ -34,6 +34,19 @@
 <!-- END checkbox_item_sub_item_tpl -->
 <!-- END checkbox_item_tpl -->
 
+<!-- BEGIN table_item_tpl -->
+<table border="0" cellspacing="0" cellpadding="0">
+<!-- BEGIN table_item_sub_item_tpl -->
+<tr>
+<!-- BEGIN table_item_cell_tpl -->
+<td>
+{element}
+</td>
+<!-- END table_item_cell_tpl -->
+</tr>
+<!-- END table_item_sub_item_tpl -->
+</table>
+<!-- END table_item_tpl -->
 
 <!-- BEGIN error_list_tpl -->
 <h2 class="error">{intl-error}</h2>

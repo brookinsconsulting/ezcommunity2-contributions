@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezform.php,v 1.10 2001/12/14 14:25:43 jhe Exp $
+// $Id: ezform.php,v 1.11 2001/12/17 11:30:42 jhe Exp $
 //
 // ezform class
 //
@@ -36,6 +36,7 @@
 */
 
 include_once( "ezform/classes/ezformelement.php" );
+include_once( "ezform/classes/ezformpage.php" );
 
 class eZForm
 {
@@ -125,7 +126,7 @@ class eZForm
     /*!
       Deletes a eZForm object from the database.
     */
-    function delete( $formID=-1 )
+    function delete( $formID = -1 )
     {
         if ( $formID == -1 )
             $formID = $this->ID;
@@ -133,10 +134,10 @@ class eZForm
         $db =& eZDB::globalDatabase();
         $db->begin();
 
-        $formElements =& $this->formElements();
+        $pages =& $this->pages();
         if ( is_array( $formElements ) )
         {
-            foreach ( $formElements as $element )
+            foreach ( $pages as $element )
             {
                 $element->delete();
             }
@@ -151,7 +152,7 @@ class eZForm
 
       True is retuned if successful, false (0) if not.
     */
-    function get( $id=-1 )
+    function get( $id = -1 )
     {
         $db =& eZDB::globalDatabase();
 
@@ -396,14 +397,11 @@ class eZForm
     function pages()
     {
         $db =& eZDB::globalDatabase();
-        
-        
     }
     
     /*!
       Returns every form element of this form.
       The form elements are returned as an array of eZFormElement objects.
-    */
     function &formElements()
     {
         $returnArray = array();
@@ -418,37 +416,19 @@ class eZForm
             $returnArray[$i] = new eZFormElement( $formArray[$i][$db->fieldName( "ElementID" )], true );
         }
         return $returnArray;
-    }
+        }*/
 
-    /*!
-      Returns a specific form element based on the placement (number)
-      The element is returned as eZFormElement objects.
-    */
-    function &formElement( $placement )
+
+    function &formPage( $page = -1 )
     {
+        $whereString = "";
+        $element = array();
+        if ( $page != -1 )
+            $whereString = "AND PageNumber = $page ";
         $db =& eZDB::globalDatabase();
-        $db->query_single( $element, "SELECT ElementID FROM eZForm_FormElementDict WHERE
-                                      FormID='$this->ID' AND Placement='$placement'" );
-
-        $return = new eZFormElement( $element[$db->fieldName( "ElementID" )], true );
-           
-        return $return;
-    }
-    
-    
-
-    /*!
-      Returns the number of form elements to this form
-    */
-    function &numberOfElements()
-    {
-        $db =& eZDB::globalDatabase();
-        $ret = false;
-
-        $db->query_single( $result, "SELECT COUNT(ElementID) as Count
-                                     FROM eZForm_FormElementDict WHERE FormID='$this->ID'" );
-        $ret = $result[$db->fieldName( "Count" )];
-        return $ret;
+        $db->array_query( $element, "SELECT * FROM eZForm_FormPage WHERE FormID='$this->ID' $whereString ORDER BY Placement" );
+        $formpage = new eZFormPage( $element[0] );
+        return $formpage;
     }
 
     /*!
@@ -466,34 +446,6 @@ class eZForm
         return $ret;
     }
     
-    /*!
-        This function adds an eZFormElement to this form.
-     */
-    function addElement( &$object )
-    {
-        if ( get_class( $object ) == "ezformelement" )
-        {
-            $elementID = $object->id();
-            $elementName = $object->name();
-            $formID = $this->ID;
-
-            $db =& eZDB::globalDatabase();
-            $db->begin();
-            $db->query_single( $result, "SELECT MAX(Placement) as Placement
-                                     FROM eZForm_FormElementDict WHERE FormID='$formID'" );
-            
-            $placement = $result[$db->fieldName( "Placement" )];
-            $placement++;
-            $db->lock( "eZForm_FormElementDict" );
-            $nextID = $db->nextID( "eZForm_FormElementDict", "ID" );
-            $res[] = $db->query( "INSERT INTO eZForm_FormElementDict
-                                   ( ID, Placement, ElementID, FormID, Name )
-                                   VALUES
-                                   ( '$nextID', '$placement', '$elementID', '$formID', '$elementName' )" );
-            eZDB::finish( $res, $db );
-            return true;
-        }
-    }
 
     /*!
       Moves this item up one step in the order list, this means that it will swap place with the item above.

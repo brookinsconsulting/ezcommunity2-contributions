@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.19 2001/12/12 10:11:47 jhe Exp $
+// $Id: ezformrenderer.php,v 1.20 2001/12/17 11:30:42 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -74,6 +74,10 @@ class eZFormRenderer
         $this->Template->set_block( "form_renderer_page_tpl", "dropdown_item_tpl", "dropdown_item" );
         $this->Template->set_block( "dropdown_item_tpl", "dropdown_item_sub_item_tpl", "dropdown_item_sub_item" );
 
+        $this->Template->set_block( "form_renderer_page_tpl", "table_item_tpl", "table_item" );
+        $this->Template->set_block( "table_item_tpl", "table_item_sub_item_tpl", "table_item_sub_item" );
+        $this->Template->set_block( "table_item_sub_item_tpl", "table_item_cell_tpl", "table_item_cell" );
+
         $this->Template->set_block( "form_renderer_page_tpl", "radiobox_item_tpl", "radiobox_item" );
         $this->Template->set_block( "radiobox_item_tpl", "radiobox_item_sub_item_tpl", "radiobox_item_sub_item" );
 
@@ -115,6 +119,8 @@ class eZFormRenderer
         {
             $this->Template->set_var( "section_id", $GlobalSectionID );
         }
+
+        $this->Page = -1;
 
     }
     
@@ -201,10 +207,13 @@ class eZFormRenderer
                 $render = true;
             }
         }
+
+        $currentPage = $this->Form->formPage( $this->Page );
         
         if ( $render == true )
         {
-            $elements =& $this->Form->formElements();
+            print_r( $currentPage );
+            $elements =& $currentPage->pageElements();
 
             $elementCounter = 0;
 
@@ -241,34 +250,63 @@ class eZFormRenderer
                     $maxBreakCount = max( $maxBreakCount, $breakCount );
                 }                
             }
-            
+            print "<pre>";
+            print_r( $elements );
+            die();
             foreach ( $elements as $element )
             {
                 $elementCounter++;
 
                 $eType = $element->elementType();
-
-                $output = $this->renderElement( $element );
-
-                $this->Template->set_var( "element", $output );
-                $this->Template->set_var( "element_name", $element->name() );
-
-
-                if ( $eType->name() != "text_field_item" )
-                    $this->Template->set_var( "colspan", " colspan=\"$maxBreakCount\"" );
-                else
+                if ( $eType->name() == "table_item" )
+                {
+                    $table = new eZFormTable( $element->id() );
+                    $tableElements = $table->tableElements();
+                    $i = 0;
+                    for ( $rows = 0; $rows < $table->rows(); $rows++ )
+                    {
+                        for ( $cols = 0; $cols < $table->cols(); $cols++ )
+                        {
+                            $output = $this->renderElement( $element[$i] );
+                            $this->Template->set_var( "element", $output );
+                            $this->Template->parse( "table_item_cell", "table_item_cell_tpl", true );
+                            $i++;
+                        }
+                        $this->Template->parse( "table_item_sub_item", "table_item_sub_item_tpl", true );
+                    }
+                    $tableString = $this->Template->parse( $target, "table_item" );
+                    
+                    $this->Template->set_var( "element", $tableString );
+                    $this->Template->set_var( "element_name", "" );
                     $this->Template->set_var( "colspan", " colspan=\"1\"" );
+                    $this->Template->set_var( "break", "" );
 
-                
-                if ( ( $eType->name() != "text_field_item" ) or $element->isBreaking() )
-                {
-                    $this->Template->parse( "break", "break_tpl" );
+                    $this->Template->parse( "form_item", "form_item_tpl", true );
                 }
                 else
                 {
-                    $this->Template->set_var( "break", "" );
+                    $output = $this->renderElement( $element );
+                    
+                    $this->Template->set_var( "element", $output );
+                    $this->Template->set_var( "element_name", $element->name() );
+
+
+                    if ( $eType->name() != "text_field_item" )
+                        $this->Template->set_var( "colspan", " colspan=\"$maxBreakCount\"" );
+                    else
+                        $this->Template->set_var( "colspan", " colspan=\"1\"" );
+                    
+                    
+                    if ( ( $eType->name() != "text_field_item" ) or $element->isBreaking() )
+                    {
+                        $this->Template->parse( "break", "break_tpl" );
+                    }
+                    else
+                    {
+                        $this->Template->set_var( "break", "" );
+                    }
+                    $this->Template->parse( "form_item", "form_item_tpl", true );
                 }
-                $this->Template->parse( "form_item", "form_item_tpl", true );
             }
 
             
@@ -503,6 +541,7 @@ class eZFormRenderer
     
     var $Template;
     var $Form;
+    var $Page;
 }
 
 ?>
