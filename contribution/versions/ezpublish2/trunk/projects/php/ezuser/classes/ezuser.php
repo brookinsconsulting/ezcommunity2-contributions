@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.54 2001/02/25 14:33:59 gl Exp $
+// $Id: ezuser.php,v 1.55 2001/03/13 13:21:10 pkej Exp $
 //
 // Definition of eZCompany class
 //
@@ -175,6 +175,10 @@ class eZUser
             {
                 $this->fill( $user_array[0] );
                 $ret = true;
+            }
+            elseif( count( $user_array ) == 1 )
+            {
+                $this->ID = 0;
             }
         }
         return $ret;
