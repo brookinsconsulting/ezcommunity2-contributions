@@ -56,10 +56,26 @@
 
 <!-- BEGIN attached_file_list_tpl -->
 <p class="boxtext">{intl-attached_files}:</p>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <!-- BEGIN attached_file_tpl -->
-<div class="p"><a href="/filemanager/download/{file_id}/{original_file_name}/">{file_name}</a></div>
+<tr class="{td_class}">
+     <td width="20%">
+     {file_name}
+     </td>
+     <td width="80%">
+     <div class="p"><a href="/filemanager/download/{file_id}/{original_file_name}/">( {original_file_name} {file_size}&nbsp;{file_unit} )</a></div>
+     </td>
+</tr>
+<tr class="{td_class}">
+     <td colspan="2">
+     {file_description}
+     </td>
+</tr>
+<tr>
+     <td>&nbsp;</td>
+</tr>
 <!-- END attached_file_tpl -->
-
+</table>
 <!-- END attached_file_list_tpl -->
 
 <br clear="all" />

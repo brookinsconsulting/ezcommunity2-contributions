@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.39 2001/05/02 13:09:52 fh Exp $
+// $Id: articleview.php,v 1.40 2001/05/08 13:29:40 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -196,14 +196,30 @@ $files = $article->files();
 
 if ( count( $files ) > 0 )
 {
+    $i=0;
     foreach ( $files as $file )
     {
-        
+        if ( ( $i % 2 ) == 0 )
+        {
+            $t->set_var( "td_class", "bglight" );
+        }
+        else
+        {
+            $t->set_var( "td_class", "bgdark" );
+        }
+
         $t->set_var( "file_id", $file->id() );
         $t->set_var( "original_file_name", $file->originalFileName() );
         $t->set_var( "file_name", $file->name() );
         $t->set_var( "file_url", $file->name() );
-        
+        $t->set_var( "file_description", $file->description() );
+
+        $size = $file->siFileSize();
+        $t->set_var( "file_size", $size["size-string"] );
+        $t->set_var( "file_unit", $size["unit"] );
+
+
+        $i++;
         $t->parse( "attached_file", "attached_file_tpl", true );
     }
 
