@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsarchive.php,v 1.9 2000/11/29 17:59:28 bf-cvs Exp $
+// $Id: newsarchive.php,v 1.10 2000/12/13 00:26:48 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <13-Nov-2000 16:56:48 bf>
@@ -146,6 +146,12 @@ foreach ( $newsList as $news )
         $t->parse( "news_not_published", "news_not_published_tpl" );
     }
 
+    $t->set_var( "news_origin", $news->origin() );
+
+    $published = $news->originalPublishingDate();
+    $date =& $published->date();            
+    $t->set_var( "news_date", $locale->format( $date ) );
+    
     if ( ( $i % 2 ) == 0 )
     {
         $t->set_var( "td_class", "bglight" );

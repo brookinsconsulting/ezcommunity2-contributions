@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.2 2000/11/19 11:10:02 bf-cvs Exp $
+// $Id: categoryedit.php,v 1.3 2000/12/13 00:26:48 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -45,6 +45,26 @@ if ( $Action == "Insert" )
     exit();
 }
 
+if ( $Action == "Update" )
+{
+    $category = new eZNewsCategory( $CategoryID );
+    $category->setName( $CategoryName );
+    $category->setDescription( $CategoryDescription );
+    $category->store();
+
+    Header( "Location: /newsfeed/archive/" );
+    exit();
+}
+
+if ( $Action == "Delete" )
+{
+    $category = new eZNewsCategory( $CategoryID );
+    $category->delete();
+
+    Header( "Location: /newsfeed/archive/" );
+    exit();
+}
+
 $news = new eZNews( );
 
 $ini = new INIFIle( "site.ini" );
@@ -66,6 +86,17 @@ $t->set_file( array(
 $t->set_var( "category_name_value", "" );
 $t->set_var( "category_description_value", "" );
 $t->set_var( "action_value", "Insert" );
+$t->set_var( "category_id", "" );
+
+if ( $Action == "Edit" )
+{
+    $category = new eZNewsCategory( $CategoryID );
+    $t->set_var( "action_value", "Update" );
+    $t->set_var( "category_id", $category->id() );
+
+    $t->set_var( "category_name_value", $category->name() );
+    $t->set_var( "category_description_value", $category->description() );    
+}
 
 
 $t->pparse( "output", "category_edit_page_tpl" );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: headlines.php,v 1.12 2000/11/29 18:55:43 bf-cvs Exp $
+// $Id: headlines.php,v 1.13 2000/12/13 00:26:48 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 10:51:34 bf>
@@ -88,22 +88,18 @@ function printNewsHeaderList( $CategoryID, $GenerateStaticPage, $cachedFile )
     $locale = new eZLocale();
     
     foreach ( $newsList as $newsItem )
-        {
-            $t->set_var( "head_line", $newsItem->name() );
-            $t->set_var( "head_line_url", $newsItem->url() );
-            
-            $t->set_var( "head_line_origin", $newsItem->origin() );
-
-            $published = $newsItem->originalPublishingDate();
-            
-            $date =& $published->date();            
-            
-            $t->set_var( "head_line_date", $locale->format( $date ) );
-            
-            
-            $t->parse( "head_line_item", "head_line_item_tpl", true );
-        }
-    
+    {
+        $t->set_var( "head_line", $newsItem->name() );
+        $t->set_var( "head_line_url", $newsItem->url() );
+        
+        $t->set_var( "head_line_origin", $newsItem->origin() );
+        
+        $published = $newsItem->originalPublishingDate();
+        $date =& $published->date();            
+        $t->set_var( "head_line_date", $locale->format( $date ) );
+        
+        $t->parse( "head_line_item", "head_line_item_tpl", true );
+    }    
     
     if ( $GenerateStaticPage == "true" )
     {

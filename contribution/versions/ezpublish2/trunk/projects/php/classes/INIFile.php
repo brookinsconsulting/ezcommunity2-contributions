@@ -56,10 +56,11 @@ class INIFile
     function INIFile( $inifilename="", $write=true )
     {
         // echo "INIFile::INIFile( \$inifilename = $inifilename,\$write = $write )<br />\n";
+        
         $this->WRITE_ACCESS = $write;
-        if(!empty($inifilename))
+        if ( !empty($inifilename) )
         {
-            if(!file_exists($inifilename))
+            if ( !file_exists($inifilename) )
             { 
                 $this->error( "This file ($inifilename) does not exist!"); 
                 return; 
@@ -72,36 +73,38 @@ class INIFile
     /*!
       Parses the ini file.
     */
-    function parse($inifilename) 
+    function parse( $inifilename )
     { 
         $this->INI_FILE_NAME = $inifilename;
+        
         if( $this->WRITE_ACCESS )
-            $fp = fopen($inifilename, "r+" ); 
+            $fp = fopen( $inifilename, "r+" ); 
         else
-            $fp = fopen($inifilename, "r");
-        $contents = fread($fp, filesize($inifilename)); 
-        $ini_data = split( "\n",$contents); 
+            $fp = fopen( $inifilename, "r" );
+        
+        $contents =& fread($fp, filesize($inifilename)); 
+        $ini_data =& split( "\n",$contents); 
          
-        while(list($key, $data) = each($ini_data)) 
+        while( list($key, $data) = each($ini_data) ) 
         { 
             $this->parse_data($data); 
         } 
          
-        fclose($fp); 
+        fclose( $fp ); 
     } 
 
     /*!
       Parses the variabled.
     */
-    function parse_data($data) 
+    function parse_data( $data ) 
     { 
-        if(ereg( "\[([[:alnum:]]+)\]",$data,$out)) 
+        if( ereg( "\[([[:alnum:]]+)\]",$data,$out) ) 
         { 
             $this->CURRENT_GROUP=$out[1]; 
         } 
         else 
         { 
-            $split_data = split( "=", $data); 
+            $split_data =& split( "=", $data); 
             $this->GROUPS[$this->CURRENT_GROUP][$split_data[0]]=$split_data[1]; 
         } 
     } 
@@ -113,7 +116,7 @@ class INIFile
     {
         $fp = fopen($this->INI_FILE_NAME, "w");
 
-        if(empty($fp)) 
+        if ( empty($fp) ) 
         { 
             $this->Error( "Cannot create file $this->INI_FILE_NAME"); 
             return false; 
@@ -159,7 +162,7 @@ class INIFile
     function read_groups() 
     { 
         $groups = array(); 
-        for(reset($this->GROUPS);$key=key($this->GROUPS);next($this->GROUPS)) 
+        for (reset($this->GROUPS);$key=key($this->GROUPS);next($this->GROUPS)) 
             $groups[]=$key; 
         return $groups; 
     } 
@@ -169,7 +172,7 @@ class INIFile
     */
     function group_exists( $group_name )
     { 
-        $group = $this->GROUPS[$group_name]; 
+        $group =& $this->GROUPS[$group_name]; 
         if (empty($group)) return false; 
         else return true; 
     } 
@@ -179,7 +182,7 @@ class INIFile
     */
     function read_group($group) 
     { 
-        $group_array = $this->GROUPS[$group]; 
+        $group_array =& $this->GROUPS[$group]; 
         if(!empty($group_array))  
             return $group_array; 
         else  
@@ -219,7 +222,7 @@ class INIFile
     */
     function read_var( $group, $var_name )
     { 
-        $var_value = $this->GROUPS[$group][$var_name]; 
+        $var_value =& $this->GROUPS[$group][$var_name]; 
         if ( !empty($var_value) )
         {
             return $var_value;
@@ -239,7 +242,7 @@ class INIFile
     */
     function read_array( $group, $var_name )
     { 
-        $var_value = $this->GROUPS[$group][$var_name]; 
+        $var_value =& $this->GROUPS[$group][$var_name]; 
         if ( !empty($var_value) )
         {
             $var_array =& explode( ";", $var_value );

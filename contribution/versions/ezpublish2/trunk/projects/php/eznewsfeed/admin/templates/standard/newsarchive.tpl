@@ -103,6 +103,8 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-sl
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-news}:</th>
+	<th>{intl-news_origin}:</th>
+	<th>{intl-news_date}:</th>
 	<th>{intl-published}:</th>
 	<th colspan="2">&nbsp;</th>
 </tr>
@@ -112,7 +114,13 @@ onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-sl
 	<td class="{td_class}">
 	<a href="/newsfeed/news/{news_id}/">
 	{news_name}
-	</a>
+	</a>&nbsp;
+	</td>
+	<td class="{td_class}">
+	{news_origin}&nbsp;
+	</td>
+	<td class="{td_class}">
+	{news_date}&nbsp;
 	</td>
 	<td class="{td_class}">
 	<!-- BEGIN news_is_published_tpl -->

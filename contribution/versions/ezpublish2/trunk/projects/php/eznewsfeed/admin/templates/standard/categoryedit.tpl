@@ -18,4 +18,5 @@
 <input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />
 
 <input type="hidden" value="{action_value}" name="Action" />
+<input type="hidden" value="{category_id}" name="CategoryID" />
 </form>

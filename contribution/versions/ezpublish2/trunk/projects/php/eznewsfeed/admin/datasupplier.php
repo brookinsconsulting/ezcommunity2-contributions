@@ -1,20 +1,4 @@
-
 <?php
-
-//  include_once( "ezad/classes/ezadcategory.php" );
-
-
-//  $category = new eZAdCategory();
-
-//  $tree = $category->getTree();
-
-
-//  foreach( $tree as $item )
-//  {
-//      print( $item[1] . $item[2] . "<br>");
-//  }
-
-//  exit();
 
 switch ( $url_array[2] )
 {
@@ -92,13 +76,26 @@ switch ( $url_array[2] )
     }
     break;
     
+    case "categoryedit":
     case "category":
     {
         if ( $url_array[3]  == "new" )
         {
             $Action = "New";
         }
-            
+
+        if ( $url_array[3]  == "edit" )
+        {
+            $CategoryID = $url_array[4];
+            $Action = "Edit";
+        }        
+
+        if ( $url_array[3]  == "delete" )
+        {
+            $CategoryID = $url_array[4];
+            $Action = "Delete";
+        }        
+        
         include( "eznewsfeed/admin/categoryedit.php" );
     }
     break;
