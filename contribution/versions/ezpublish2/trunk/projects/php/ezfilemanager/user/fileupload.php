@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileupload.php,v 1.14 2001/02/26 16:43:48 ce Exp $
+// $Id: fileupload.php,v 1.15 2001/02/26 16:59:14 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 15:49:57 bf>
@@ -43,9 +43,9 @@ if ( isSet ( $NewFolder ) )
     exit();
 }
 
-if ( isSet( $Delete ) )
+if ( isSet( $DeleteFiles ) )
 {
-    $Action = "Delete";
+    $Action = "DeleteFiles";
 }
 
 if ( isSet( $DeleteFolders ) )
@@ -269,7 +269,7 @@ if ( $Action == "Update" && $error == false )
     exit();
 }
 
-if ( $Action == "Delete" )
+if ( $Action == "DeleteFiles" )
 {
     if ( count ( $FileArrayID ) != 0 )
     {

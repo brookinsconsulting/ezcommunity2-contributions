@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfolder.php,v 1.11 2001/02/26 16:43:48 ce Exp $
+// $Id: ezvirtualfolder.php,v 1.12 2001/02/26 16:59:13 ce Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -563,6 +563,9 @@ class eZVirtualFolder
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
+
+       if ( !$user )
+           return false;
        
        $this->dbInit();
 

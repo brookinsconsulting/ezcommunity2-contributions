@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.19 2001/02/26 16:43:48 ce Exp $
+// $Id: filelist.php,v 1.20 2001/02/26 16:59:14 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -51,6 +51,8 @@ $t->set_block( "file_list_page_tpl", "current_folder_tpl", "current_folder" );
 // path
 $t->set_block( "file_list_page_tpl", "path_item_tpl", "path_item" );
 
+$t->set_block( "file_list_page_tpl", "write_menu_tpl", "write_menu" );
+
 $t->set_block( "file_list_page_tpl", "file_list_tpl", "file_list" );
 $t->set_block( "file_list_tpl", "file_tpl", "file" );
 
@@ -82,6 +84,7 @@ if ( $FolderID == 0 )
     $error = false;
 }
 
+$t->set_var( "write_menu", "" );
 $t->set_var( "current_folder", "" );
 $t->set_var( "current_folder_description", "" );
 
@@ -134,20 +137,9 @@ foreach ( $folderList as $folderItem )
     $i++;
 }
 
-if ( $folder->id() != 0 )
+if ( $user )
 {
-    if ( $folder->hasWritePermissions( $user ) )
-    {
-        //      $t->parse( "write_menu", "write_menu_tpl" );
-    }
-}
-else
-{
-
-    if ( eZPermission::checkPermission( $user, "eZFileManager", "WriteToRoot" ) )
-    {
-//        $t->parse( "write_menu", "write_menu_tpl" );
-    }
+    $t->parse( "write_menu", "write_menu_tpl" );
 }
 
 if ( count( $folderList ) > 0 )
@@ -184,11 +176,21 @@ foreach ( $fileList as $file )
     {
         $t->parse( "read", "read_tpl" );
     }
+    else
+    {
+        $t->set_var( "read", "" );
+    }
+    
 
     if ( $file->hasWritePermissions( $user ) )
     {
         $t->parse( "write", "write_tpl" );
     }
+    else
+    {
+        $t->set_var( "write" );
+    }
+
 
     $t->parse( "file", "file_tpl", true );
     

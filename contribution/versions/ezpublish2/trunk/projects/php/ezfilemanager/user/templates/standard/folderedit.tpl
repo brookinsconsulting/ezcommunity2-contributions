@@ -62,7 +62,7 @@
 </tr>
 
 <tr>
-    <br />
+    <td>
     <p class="boxtext">{intl-read_permissions}</p>
     <select multiple size="5" name="ReadGroupArrayID[]">
     <option value="0" {selected}>{intl-everybody}</option>

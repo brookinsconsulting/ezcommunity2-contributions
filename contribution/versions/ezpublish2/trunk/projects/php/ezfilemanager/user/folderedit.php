@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: folderedit.php,v 1.11 2001/02/26 16:43:48 ce Exp $
+// $Id: folderedit.php,v 1.12 2001/02/26 16:59:14 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -189,7 +189,7 @@ if ( $Action == "Insert" && $error == false )
     $folder->setUser( $user );
 
 
-    $parent = new eZVirtualFolder( $FolderID );
+    $parent = new eZVirtualFolder( $ParentID );
     $folder->setParent( $parent );
 
     $folder->store();

@@ -101,6 +101,7 @@
 <!-- END file_list_tpl -->
 
 <hr noshade="noshade" size="4" />
+<!-- BEGIN write_menu_tpl -->
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td>
@@ -113,7 +114,7 @@
 	</td>
 	<td>&nbsp;</td>
     <td>
-	<input class="stdbutton" type="submit" name="Delete" value="{intl-delete}">
+	<input class="stdbutton" type="submit" name="DeleteFiles" value="{intl-delete_files}">
 	</td>
     <td>
 	<input class="stdbutton" type="submit" name="DeleteFolders" value="{intl-delete_folders}">
@@ -121,4 +122,5 @@
 
 </tr>
 </table>
+<!-- END write_menu_tpl -->
 </form>
