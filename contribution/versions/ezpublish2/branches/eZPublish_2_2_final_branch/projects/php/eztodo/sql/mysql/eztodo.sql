@@ -48,6 +48,8 @@ CREATE TABLE eZTodo_TodoLogLink (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
+INSERT INTO eZTodo_Category VALUES (1,'','Work');    
+
 INSERT INTO eZTodo_Status (Description, ID, Name) VALUES (NULL,1,'Not done');
 INSERT INTO eZTodo_Status (Description, ID, Name) VALUES (NULL,2,'Done');
 

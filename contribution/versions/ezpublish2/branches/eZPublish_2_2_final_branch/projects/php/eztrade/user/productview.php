@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.77.2.1 2001/11/01 13:26:59 ce Exp $
+// $Id: productview.php,v 1.77.2.2 2001/11/02 07:39:52 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -264,7 +264,6 @@ $t->set_var( "description_text", $product->description() );
 
 if ( $product->productType() == 2 )
 {
-
     $useVoucher = true;
     $t->set_var( "action_url", "productview" );
 }
@@ -727,7 +726,9 @@ $SiteTitleAppend = $product->name();
 $SiteDescriptionOverride = str_replace( "\"", "", strip_tags( $product->brief() ) );
 $SiteKeywordsOverride = str_replace( "\"", "", strip_tags( $product->keywords() ) );
 
-if ( $GenerateStaticPage == "true" )
+
+
+if ( $GenerateStaticPage == "true" && !$useVoucher )
 {
     $template_var = "product_view_tpl";
 

@@ -2030,6 +2030,8 @@ CREATE TABLE eZTodo_TodoLogLink (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
+INSERT INTO eZTodo_Category VALUES (1,'','Work');    
+
 INSERT INTO eZTodo_Status (Description, ID, Name) VALUES (NULL,1,'Not done');
 INSERT INTO eZTodo_Status (Description, ID, Name) VALUES (NULL,2,'Done');
 
@@ -2449,6 +2451,7 @@ CREATE TABLE eZTrade_Voucher (
   UserID int(11) default '0',
   ProductID int(11) default '0',
   VoucherID int(11) default '0',	
+  TotalValue int(11) default '0',		
   PRIMARY KEY  (ID)
 ) TYPE=MyISAM;
 
