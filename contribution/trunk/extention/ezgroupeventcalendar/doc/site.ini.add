@@ -4,13 +4,10 @@
 AdminTemplateDir=templates/standard/
 TemplateDir=templates/standard/
 ImageDir=/images/standard/
-Language=en_GB
-#LinkModules=eZGroupEventCalendar:23
-LinkModules=eZGroupEventCalendar:6
+Language=en_US
 DayStartTime=00:00
 DayStopTime=24:00
 DayInterval=00:15
-YearsPrint=19
 Priority=2
 Status=0
 SubGroupSelect=disabled
@@ -18,6 +15,8 @@ TwelveHourSelect=enabled
 MinutesSelectInterval=15
 UserComments=enabled
 TruncateTitle=enabled
+LinkModules=eZGroupEventCalendar:1000
+YearsPrint=19
 
 [eZGroupEventCalendarRSS]
 # Channel Title, Link, Description and Language
@@ -42,7 +41,7 @@ Limit=50
 # DayStopTime:            The time that you would like the Calendar to stop printing each day.
 #
 # YearsPrint:             The number of years in advance you would like displayed in the 
-#                         eventedit year select.
+#                         eventedit year select. (Depricated)
 #
 # Priority:               The default priority selected when a new event is created( 0, 1, 2, 3, or 4).
 #

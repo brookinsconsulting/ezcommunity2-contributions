@@ -1,8 +1,9 @@
 eZGroupEventCalendar
+Version : 2.0.0
 
 Updated By: Graham Brookins : Brookins Consulting : <info|at|brookinsconsulting|dot|com>
 Created By: Adam Fallert <FallertA@umsystem.edu>
-Updated on: <Nov-2004 20:00:00>
+Updated on: <Nov-2004 11:00:00>
 Created on: <Oct-2001 14:36:00>
 
 These source files are part of eZ publish, publishing software, 
@@ -44,16 +45,19 @@ Step 3: Add the following lines to your eZ publish's site.ini file and modify th
 	AdminTemplateDir=templates/standard/
 	TemplateDir=templates/standard/
 	ImageDir=/images/standard/
-	Language=en_GB
- 	DayStartTime=08:00
-	DayStopTime=20:00
+	Language=en_US
+	DayStartTime=00:00
+	DayStopTime=24:00
 	DayInterval=00:15
-	YearsPrint=19
 	Priority=2
+	Status=0
 	SubGroupSelect=disabled
 	TwelveHourSelect=enabled
 	MinutesSelectInterval=15
-	LinkModules=eZGroupEventCalendar:6
+	UserComments=enabled
+	TruncateTitle=enabled
+	LinkModules=eZGroupEventCalendar:1000
+	YearsPrint=19
 
 Step 4: Add these lines to the head of your sitedesign frame, in the html head section, just below the default eZ publish stylesheet include (in ie: sitedesign/standard/frame.php)
 
