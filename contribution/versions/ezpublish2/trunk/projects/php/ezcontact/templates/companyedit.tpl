@@ -1,6 +1,6 @@
 <h1>{message}</h1>
 
-<form method="post" action="index.php4?page=companyedit.php4">
+<form method="post" action="index.php4?page={document_root}companyedit.php4">
 Kontakt firma type:
 <br>
 <select name="CompanyType">

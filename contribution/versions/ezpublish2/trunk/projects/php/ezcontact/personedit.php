@@ -1,15 +1,15 @@
 <?
 include  "template.inc";
 require "ezphputils.php";
-require "ezcontact/dbsettings.php"
+require "ezcontact/dbsettings.php";
 
-require "classes/ezperson.php";
-require "classes/ezpersontype.php";
-require "classes/ezcompany.php";
-require "classes/ezaddress.php";
-require "classes/ezaddresstype.php";
-require "classes/ezsession.php";
-require "classes/ezuser.php";
+require $DOCUMENTROOT . "classes/ezperson.php";
+require $DOCUMENTROOT . "classes/ezpersontype.php";
+require $DOCUMENTROOT . "classes/ezcompany.php";
+require $DOCUMENTROOT . "classes/ezaddress.php";
+require $DOCUMENTROOT . "classes/ezaddresstype.php";
+require $DOCUMENTROOT . "classes/ezsession.php";
+require $DOCUMENTROOT . "classes/ezuser.php";
 
 if ( $Insert == "TRUE" )
 {
@@ -39,15 +39,15 @@ if ( $Insert == "TRUE" )
 
 // sjekke session
 {
-  include( "classes/checksession.php" );
+  include( $DOCUMENTROOT . "checksession.php" );
 }
 
 $t = new Template( "." );
 $t->set_file( array(                    
-                    "person_edit" => "templates/personedit.tpl",
-                    "person_type_select" => "templates/persontypeselect.tpl",
-                    "company_select" => "templates/companyselect.tpl",
-                    "address_type_select" => "templates/addresstypeselect.tpl"
+                    "person_edit" => $DOCUMENTROOT . "templates/personedit.tpl",
+                    "person_type_select" => $DOCUMENTROOT . "templates/persontypeselect.tpl",
+                    "company_select" => $DOCUMENTROOT . "templates/companyselect.tpl",
+                    "address_type_select" => $DOCUMENTROOT . "templates/addresstypeselect.tpl"
                     ) );
 
 $person = new eZPerson();
@@ -133,6 +133,7 @@ else
 }
 
 $t->set_var( "message", "ny kontaktperson" );
+$t->set_var( "document_root", $DOCUMENTROOT );
 
 $t->pparse( "output", "person_edit"  );
 ?>

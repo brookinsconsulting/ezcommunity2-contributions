@@ -1,6 +1,6 @@
 <h1>{message}</h1>
 
-<form method="post" action="index.php4?page=personedit.php4">
+<form method="post" action="index.php4?page={document_root}personedit.php4">
 Kontakt person type:
 <br>
 <select name="PersonType">

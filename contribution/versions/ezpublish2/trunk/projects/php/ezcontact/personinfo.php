@@ -1,14 +1,15 @@
 <?
-include  "template.inc";
+include "template.inc";
 require "ezphputils.php";
-require "ezperson.php";
-require "ezpersontype.php";
-require "ezsession.php";
-require "ezuser.php";
-require "ezcompany.php";
-4
+
+require "classes/ezperson.php";
+require "classes/ezpersontype.php";
+require "classes/ezsession.php";
+require "classes/ezuser.php";
+require "classes/ezcompany.php";
+
 $t = new Template( ".");  
-$t->set_file( "person_info", "templates/personinfo.tpl" );
+$t->set_file( "person_info",  "templates/personinfo.tpl" );
 
 $person = new eZPerson();
 $person->get( $PID );

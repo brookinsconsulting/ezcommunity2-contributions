@@ -109,6 +109,14 @@ class eZCompany
   }
 
   /*!
+    Returnerer ID til eier av firma ( brukeren som opprettet det ).
+  */
+  function owner()
+  {
+    return $this->Owner;
+  }
+    
+  /*!
     Returnerer kontakttype.
   */
   function contactType()
