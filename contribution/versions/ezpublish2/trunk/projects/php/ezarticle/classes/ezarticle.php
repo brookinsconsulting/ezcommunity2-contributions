@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.87 2001/06/01 13:29:49 bf Exp $
+// $Id: ezarticle.php,v 1.88 2001/06/05 09:32:32 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1560,7 +1560,7 @@ class eZArticle
                 default:
                 case "name":
                 {
-                    $sort_text = "ORDER BY AuthorText";
+                    $sort_text = "ORDER BY ContentsWriterID";
                     break;
                 }
             }
@@ -1571,10 +1571,11 @@ class eZArticle
             $limit_text = "LIMIT $offset, $limit";
         }
         $db =& eZDB::globalDatabase();
-        $db->array_query( $qry_array, "SELECT count( eZArticle_Article.ID ) AS Count, AuthorID
-                                       FROM eZArticle_Article, eZArticle_ArticleCategoryLink
+        $db->array_query( $qry_array, "SELECT count( eZArticle_Article.ID ) AS Count, eZUser_Author.Name AS ContentsWriter, ContentsWriterID
+                                       FROM eZArticle_Article, eZArticle_ArticleCategoryLink, eZUser_Author
                                        WHERE IsPublished='true' AND eZArticle_Article.ID=ArticleID
-                                       GROUP BY AuthorID $sort_text $limit_text" );
+                                       AND eZArticle_Article.ContentsWriterID=eZUser_Author.ID
+                                       GROUP BY ContentsWriterID $sort_text $limit_text" );
         return $qry_array;
     }
 
@@ -1589,7 +1590,7 @@ class eZArticle
             {
                 case "author":
                 {
-                    $sort_text = "ORDER BY A.AuthorText";
+                    $sort_text = "ORDER BY A.ContentsWriterID";
                     break;
                 }
                 case "name":
@@ -1638,18 +1639,11 @@ class eZArticle
         }
         $loggedInSQL = "( $currentUserSQL ( ( $groupSQL P.GroupID='-1' ) AND P.ReadPermission='1') ) AND";
         
-/*       $query = "SELECT A.ID, A.Name, A.AuthorText AS AuthorName, A.Published,
-         C.ID AS CategoryID, C.Name AS CategoryName
-         FROM eZArticle_Article AS A LEFT JOIN eZArticle_ArticlePermission AS P ON A.ID=P.ObjectID,
-         eZArticle_Category AS C, eZArticle_ArticleCategoryLink AS ACL
-         WHERE IsPublished='true' AND AuthorID='$authorid' AND $loggedInSQL
-         A.ID=ACL.ArticleID AND C.ID=ACL.CategoryID
-         GROUP BY A.ID $sort_text $limit_text"; */
 
-        $query = "SELECT A.ID , A.Name, A.AuthorText as AuthorName, A.Published, C.ID as CategoryID, C.Name as CategoryName
-                     FROM eZArticle_Article AS A, eZArticle_Category as C, eZArticle_ArticleCategoryLink as ACL, eZArticle_ArticlePermission AS P
-                     WHERE A.ID=ACL.ArticleID AND C.ID=ACL.CategoryID AND
-                     IsPublished='true' AND AuthorID='$authorid' AND $loggedInSQL
+        $query = "SELECT A.ID , A.Name, Author.Name as AuthorName, A.Published, C.ID as CategoryID, C.Name as CategoryName
+                     FROM eZArticle_Article AS A, eZArticle_Category as C, eZArticle_ArticleCategoryLink as ACL, eZArticle_ArticlePermission AS P, eZUser_Author as Author
+                     WHERE A.ID=ACL.ArticleID AND C.ID=ACL.CategoryID AND A.ContentsWriterID=Author.ID AND
+                     IsPublished='true' AND ContentsWriterID='$authorid' AND $loggedInSQL
                      A.ID=P.ObjectID GROUP BY A.ID $sort_text $limit_text";
 
         $db =& eZDB::globalDatabase();
@@ -1687,18 +1681,11 @@ class eZArticle
         $loggedInSQL = "( $currentUserSQL ( ( $groupSQL P.GroupID='-1' ) AND P.ReadPermission='1') ) AND";
        
 
-        
-/* old       $query = "SELECT count( DISTINCT A.ID ) AS Count 
-   FROM eZArticle_Article AS A LEFT JOIN eZArticle_ArticlePermission AS P ON A.ID=P.ObjectID,
-   eZArticle_Category AS C, eZArticle_ArticleCategoryLink AS ACL
-   WHERE IsPublished='true' AND AuthorID='$authorid' AND $loggedInSQL
-   A.ID=ACL.ArticleID AND C.ID=ACL.CategoryID";
-*/
-
         $query = "SELECT A.ID AS Count 
                      FROM eZArticle_Article AS A,
-                     eZArticle_ArticlePermission AS P
-                     WHERE IsPublished='true' AND AuthorID='$authorid' AND $loggedInSQL
+                     eZArticle_ArticlePermission AS P,
+                     eZUser_Author as Author
+                     WHERE A.ContentsWriterID=Author.ID AND IsPublished='true' AND ContentsWriterID='$authorid' AND $loggedInSQL
                      A.ID=P.ObjectID GROUP BY A.ID";
 
         

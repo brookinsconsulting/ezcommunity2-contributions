@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: authorview.php,v 1.6 2001/03/21 15:51:28 fh Exp $
+// $Id: authorview.php,v 1.7 2001/06/05 09:32:32 bf Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <16-Feb-2001 15:36:13 amos>
@@ -30,6 +30,7 @@ include_once( "classes/ezdatetime.php" );
 include_once( "classes/ezlist.php" );
 
 include_once( "ezarticle/classes/ezarticle.php" );
+include_once( "ezuser/classes/ezauthor.php" );
 
 $ini =& INIFile::globalINI();
 
@@ -62,10 +63,9 @@ $t->set_var( "article_end", min( $Offset + $Limit, $article_count ) );
 $articles = eZArticle::authorArticleList( $AuthorID, $Offset, $Limit, $SortOrder );
 
 $t->set_var( "author_id", $AuthorID );
-$user = new eZUser( $AuthorID );
-$t->set_var( "author_firstname", $user->firstName() );
-$t->set_var( "author_lastname", $user->lastName() );
-$t->set_var( "author_mail", $user->email() );
+$author = new eZAuthor( $AuthorID );
+$t->set_var( "author_name", $author->name() );
+$t->set_var( "author_mail", $author->email() );
 
 $t->set_var( "sort", $SortOrder );
 

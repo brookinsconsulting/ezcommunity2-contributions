@@ -8,7 +8,7 @@
 <tr>
 	<td>
 	<p class="boxtext">{intl-author_name}:</p>
-	<a href="mailto:{author_mail}">{author_firstname} {author_lastname}</a>
+	<a href="mailto:{author_mail}">{author_name}</a>
 	</td>
 </tr>
 </table>
@@ -17,7 +17,7 @@
 
 <br />
 
-<h1>{intl-head_line}{author_firstname} {author_lastname} ({article_start}-{article_end}/{article_count})</h1>
+<h1>{intl-head_line}{author_name} ({article_start}-{article_end}/{article_count})</h1>
 <hr noshade="noshade" size="4" />
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">

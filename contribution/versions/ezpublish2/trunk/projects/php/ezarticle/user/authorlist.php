@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: authorlist.php,v 1.3 2001/03/01 14:06:25 jb Exp $
+// $Id: authorlist.php,v 1.4 2001/06/05 09:32:32 bf Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <16-Feb-2001 14:54:04 amos>
@@ -56,10 +56,8 @@ $i = 0;
 foreach( $authors as $author )
 {
     $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
-    $t->set_var( "author_id", $author["AuthorID"] );
-    $user = new eZUser( $author["AuthorID"] );
-    $t->set_var( "author_firstname", $user->firstName() );
-    $t->set_var( "author_lastname", $user->lastName() );
+    $t->set_var( "author_id", $author["ContentsWriterID"] );
+    $t->set_var( "author_name", $author["ContentsWriter"] );
     $t->set_var( "article_count", $author["Count"] );
     $t->parse( "author_item", "author_item_tpl", true );
     $i++;
