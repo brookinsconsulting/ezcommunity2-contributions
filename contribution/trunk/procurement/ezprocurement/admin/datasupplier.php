@@ -45,6 +45,13 @@ if ( eZPermission::checkPermission( $user, "eZRfp", "ModuleEdit" ) == false )
 
 switch ( $url_array[2] )
 {
+    # IMPORTANT: REMOVE THIS BLOCK!!!
+    case "cronreport":
+    {
+     include( "ezrfp/cron/report_cron.php" );
+     break;
+    }
+    # END REMOVE THIS
     case "report" :
     {
         $Year = $url_array[3];
