@@ -184,21 +184,3 @@ CREATE TABLE eZArticle_Category (
 INSERT INTO eZArticle_Category VALUES (1,'News','Here are some news, fresh from the press.',0,'false');
 INSERT INTO eZArticle_Category VALUES (2,'Static pages','Here you put pages which is not supposed to come up in search.',0,'true');
 INSERT INTO eZArticle_Category VALUES (3,'Help','',0,'false');
-
-#
-# Table structure for table 'eZCalendar_Appointment'
-#
-DROP TABLE IF EXISTS eZArticle_Appointment;
-CREATE TABLE eZCalendar_Appointment (
-  ID int(11) DEFAULT '0' NOT NULL auto_increment,
-  UserID int(11) DEFAULT '0' NOT NULL,
-  Date timestamp(14),
-  Duration time,
-  AppointmentTypeID int(11) DEFAULT '0' NOT NULL,
-  EMailNotice int(11) DEFAULT '0',
-  IsPrivate int(11),
-  Name varchar(200),
-  Description text,
-  Priority int(11) DEFAULT '1' NOT NULL,
-  PRIMARY KEY (ID)
-);
