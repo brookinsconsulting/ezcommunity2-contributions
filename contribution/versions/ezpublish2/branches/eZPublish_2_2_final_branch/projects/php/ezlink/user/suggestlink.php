@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: suggestlink.php,v 1.20.2.3 2001/11/11 17:30:12 br Exp $
+// $Id: suggestlink.php,v 1.20.2.4 2002/05/08 11:07:34 vl Exp $
 //
 // Created on: <26-Oct-2000 14:58:57 ce>
 //
@@ -26,6 +26,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "ezuser/classes/ezpermission.php" );
+include_once( "classes/eztexttool.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -125,7 +126,7 @@ if ( $GetSite )
 //          $tkeywords = $metaList["keywords"];
 //          $tname = $Name;
         
-        $turl = $Url;
+        $turl = eZTextTool::htmlspecialchars( $Url );
     }
 
     $action_value = "insert";

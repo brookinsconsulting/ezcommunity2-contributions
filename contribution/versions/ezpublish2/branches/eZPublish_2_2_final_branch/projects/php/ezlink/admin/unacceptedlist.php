@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: unacceptedlist.php,v 1.9 2001/07/20 11:15:21 jakobn Exp $
+// $Id: unacceptedlist.php,v 1.9.2.1 2002/05/08 11:07:34 vl Exp $
 //
 // Created on: <26-Oct-2000 14:55:24 ce>
 //
@@ -26,6 +26,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlist.php" );
+include_once( "classes/eztexttool.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -81,7 +82,7 @@ foreach ( $linkList as $linkItem )
 
     $t->set_var( "link_id", $linkItem->id() );
     $t->set_var( "link_name", $linkItem->name() );
-    $t->set_var( "link_url", $linkItem->url() );
+    $t->set_var( "link_url", eZTextTool::htmlspecialchars( $linkItem->url() ) );
     $t->set_var( "link_description", $linkItem->description() );
     $t->set_var( "link_keywords", $linkItem->keywords() );
 
