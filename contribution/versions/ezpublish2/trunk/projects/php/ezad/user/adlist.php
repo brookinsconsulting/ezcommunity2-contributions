@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: adlist.php,v 1.15 2001/02/12 15:45:52 bf Exp $
+// $Id: adlist.php,v 1.16 2001/02/16 13:30:31 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <25-Nov-2000 15:44:37 bf>
@@ -39,9 +39,11 @@ $user =& eZUser::currentUser();
 
 if ( !isset( $Limit ) )
     $Limit = 1;
+if ( !isset( $Offset ) )
+    $Offset = 0;
     
 // ads
-$adList =& $category->ads( "count", false, 0, $Limit );
+$adList =& $category->ads( "count", false, $Offset, $Limit );
 
 foreach ( $adList as $ad )
 {
