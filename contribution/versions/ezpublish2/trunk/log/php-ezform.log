@@ -435,3 +435,31 @@ Maintainer(s) : pkej@ez.no
       user/datasupplier.php
       user/formview.php: bugfixes, from 2.2.x branch
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-12-13  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/formedit.php
+      admin/tableedit.php
+      admin/templates/standard/elementlist.tpl
+      admin/templates/standard/formedit.tpl
+      classes/ezformelement.php
+      classes/ezformtable.php
+      sql/mysql/ezform.sql: moved element list to seperate file
+
+    * admin/datasupplier.php
+      admin/fixedvalues.php
+      admin/formedit.php
+      classes/ezformelementtype.php
+      classes/ezformtable.php: more ezformtable fixes
+
+    * admin/templates/standard/formedit.tpl
+      classes/ezformelementtype.php
+      classes/ezformtable.php
+      sql/mysql/ezform.sql
+      admin/formedit.php
+      admin/intl/en_GB/form.php.ini
+      admin/intl/no_NO/form.php.ini: added tables
+

@@ -621,3 +621,11 @@ Maintainer(s) : br@ez.no
       admin/templates/standard/typelist.tpl:
     fixed missing {www_dir} in templates
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-12-13  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/search.php: fixed search
+
