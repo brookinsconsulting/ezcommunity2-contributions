@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: latest.php,v 1.7 2000/10/10 07:01:09 ce-cvs Exp $
+    $Id: latest.php,v 1.8 2000/10/10 11:41:59 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -27,9 +27,10 @@ $DOC_ROOT . "/intl", $Language, "linklist.php" );
 $t->setAllStrings();
 
 $t->set_file( array(
-    "last_links" => "linklist.tpl",
-    "link_item" => "lastlinkitem.tpl"
+    "last_links" => "linklist.tpl"
     ) );
+
+$t->set_block( "last_links", "link_item_tpl", "link_item" );
 
 $link = new eZLink();
 
@@ -69,7 +70,7 @@ else
 
         $t->set_var( "document_root", $DOC_ROOT );
 
-        $t->parse( "link_list", "link_item", true );
+        $t->parse( "link_item", "link_item_tpl", true );
     }
 }
 

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: suggestlink.php,v 1.14 2000/10/10 07:01:09 ce-cvs Exp $
+    $Id: suggestlink.php,v 1.15 2000/10/10 11:41:59 ce-cvs Exp $
 
     Author: Christoffer A. Elo <ce@ez.no>
     
@@ -65,9 +65,10 @@ $DOC_ROOT . "/intl", $Language, "suggestlink.php" );
 $t->setAllStrings();
 
 $t->set_file( array(
-    "suggestlink" => "suggestlink.tpl",
-    "suggest_group_select" => "suggestgroupselect.tpl"
+    "suggest_link" => "suggestlink.tpl"
     ));
+
+$t->set_block( "suggest_link", "group_select_tpl", "group_select" );
 
 $groupselect = new eZLinkGroup();
 $grouplink_array = $groupselect->getAll( );
@@ -90,7 +91,7 @@ for ( $i=0; $i<count( $grouplink_array ); $i++ )
 
     $group_select_dict[ $grouplink_array[$i][ "ID" ] ] = $i;
 
-    $t->parse( "group_category", "suggest_group_select", true );
+    $t->parse( "group_select", "group_select_tpl", true );
 }
 
 $t->set_var( "error_msg", $terror_msg );
@@ -104,7 +105,7 @@ $t->set_var( "description", $tdescription );
 
 $t->set_var( "document_root", $DOC_ROOT );
 
-$t->pparse( "output", "suggestlink" );
+$t->pparse( "output", "suggest_link" );
 
 
 ?>

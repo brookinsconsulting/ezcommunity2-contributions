@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: linklist.php,v 1.33 2000/10/10 07:01:09 ce-cvs Exp $
+    $Id: linklist.php,v 1.34 2000/10/10 11:41:59 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -30,10 +30,11 @@ $t->setAllStrings();
 
 
 $t->set_file( array(
-    "linkgroup_list" => "linkgrouplist.tpl",
-    "linkgroup_item" => "linkgroupitem.tpl",
-    "link_item" => "linkitem.tpl"
+    "link_page" => "linkpage.tpl"
     ) );
+
+$t->set_block( "link_page", "group_list_tpl", "group_list" );
+$t->set_block( "link_page", "link_list_tpl", "link_list" );
 
 // List all the categorys
 $linkGroup = new eZLinkGroup();
@@ -43,7 +44,7 @@ $linkGroup_array = $linkGroup->getByParent( $LGID );
 
 if ( count( $linkGroup_array ) == 0 )
 {
-    $t->set_var( "group_list", "<p>$nocatfound</p>" );
+    $t->set_var( "group_list", "<p>Ingen grupper funnet.</p>" );
 }
 else
 {
@@ -81,7 +82,7 @@ else
             $t->set_var( "start_tr", "" );
             $t->set_var( "stop_tr", "</tr>" );            
         }
-        $t->parse( "group_list", "linkgroup_item", true );
+        $t->parse( "group_list", "group_list_tpl", true );
     }
 }
 
@@ -104,7 +105,15 @@ else
 
 if ( count( $link_array ) == 0 )
 {
+    if ( $LGID == 0 )
+    {
+        $t->set_var( "link_list", "" );
+    }
+    else
+    {
     $t->set_var( "link_list", "<p>Ingen linker ble funnet.</p>" );
+    }
+    
 }
 else
 {
@@ -134,7 +143,7 @@ else
         $t->set_var( "link_hits", $hits );
         $t->set_var( "document_root", $DOC_ROOT );
 
-        $t->parse( "link_list", "link_item", true );
+        $t->parse( "link_list", "link_list_tpl", true );
     }
 }
 
@@ -143,5 +152,5 @@ $t->set_var( "printpath", $linkGroup->printPath( $LGID, $DOC_ROOT . "linklist.ph
 $t->set_var( "linkgroup_id", $LGID );
 $t->set_var( "document_root", $DOC_ROOT );
                        
-$t->pparse( "output", "linkgroup_list" );
+$t->pparse( "output", "link_page" );
 ?>

@@ -14,7 +14,9 @@
 	<br>
 	<select name="ParentCategory">
 	<option value="0">{intl-topcat}</option>
-	{parent_category}
+	<!-- BEGIN parent_category_tpl -->
+	<option {is_selected} value="{grouplink_id}">{grouplink_title}</option>
+	<!-- END parent_category_tpl -->
 	</select>
 	<br>
 	</td>

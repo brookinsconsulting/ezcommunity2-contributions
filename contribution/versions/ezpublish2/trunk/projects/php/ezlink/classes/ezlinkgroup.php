@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.24 2000/10/10 07:01:09 ce-cvs Exp $
+// $Id: ezlinkgroup.php,v 1.25 2000/10/10 11:42:00 ce-cvs Exp $
 //
 // Definition of eZLinkGroup class
 //
@@ -16,6 +16,21 @@
 //!! eZLink
 //! The eZLinkGroup class handles URL links.
 /*!
+
+  Example code:
+
+  \code
+  // Create a new group and set some values.
+  $group = new eZLinkGroup();
+  $group->setTitle( "PHP" );
+  $group->setParent( "ParentID" );
+
+  // Store the group in to the database.
+  $group->store();
+
+  \endcode
+
+  
   
   \sa eZLink eZHit eZQuery
 */

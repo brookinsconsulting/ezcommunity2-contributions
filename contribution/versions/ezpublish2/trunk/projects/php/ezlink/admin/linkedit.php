@@ -1,6 +1,6 @@
 <?
 /*!
-  $Id: linkedit.php,v 1.23 2000/10/09 14:15:08 ce-cvs Exp $
+  $Id: linkedit.php,v 1.24 2000/10/10 11:41:59 ce-cvs Exp $
 
   Author: Christoffer A. Elo <ce@ez.no>
     
@@ -99,10 +99,10 @@ $t->setAllStrings();
 $t->setAllStrings();
 
 $t->set_file( array(
-    "link_edit" => "linkedit.tpl",
-    "link_group_select" => "linkgroupselect.tpl"
+    "link_edit" => "linkedit.tpl"
     ));
 
+$t->set_block( "link_edit", "link_group_tpl", "link_group" );
 
 $linkselect = new eZLinkGroup();
 $link_array = $linkselect->getAll();
@@ -176,7 +176,7 @@ for ( $i=0; $i<count( $link_array ); $i++ )
 
     $link_select_dict[ $link_array[ $i ][ "ID" ] ] = $i;
 
-    $t->parse( "group_category", "link_group_select", true );
+    $t->parse( "link_group", "link_group_tpl", true );
 }
 
 

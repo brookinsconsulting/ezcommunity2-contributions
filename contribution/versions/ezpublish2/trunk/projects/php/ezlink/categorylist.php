@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: categorylist.php,v 1.9 2000/10/10 07:01:09 ce-cvs Exp $
+    $Id: categorylist.php,v 1.10 2000/10/10 11:41:59 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -8,11 +8,6 @@
     
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
-
-/*
-  listlink.php viser alle kategorier
-*/
-
 include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 
@@ -31,9 +26,10 @@ $DOC_ROOT . "/intl", $Language, "categorylist.php" );
 $t->setAllStrings();
 
 $t->set_file( array(
-    "linkgroup_list" => "linkgrouplistshort.tpl",
-    "linkgroup_item" => "linkgroupitemshort.tpl"
+    "link_group_list" => "linkgrouplistshort.tpl"
     ) );
+
+$t->set_block( "link_group_list", "link_group_tpl", "link_group" );
 
 // Lister alle kategorier
 $linkGroup = new eZLinkGroup();
@@ -71,13 +67,13 @@ else
         $t->set_var( "new_links", $new_sub_links );
         
         $t->set_var( "document_root", $DOC_ROOT );
-        $t->parse( "group_list", "linkgroup_item", true );
+        $t->parse( "link_group", "link_group_tpl", true );
 
     }
 }
 $t->set_var( "linkgroup_id", $LGID );
 $t->set_var( "document_root", $DOC_ROOT );
                        
-$t->pparse( "output", "linkgroup_list" );
+$t->pparse( "output", "link_group_list" );
 
 ?>

@@ -1,16 +1,12 @@
 <?
 /*!
-    $Id: linklist.php,v 1.24 2000/10/09 14:15:08 ce-cvs Exp $
+    $Id: linklist.php,v 1.25 2000/10/10 11:41:59 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
     Created on: 
     
     Copyright (C) 2000 eZ systems. All rights reserved.
-*/
-
-/*
-  linklist.php viser alle kategorier
 */
 
 include_once( "classes/INIFile.php" );
@@ -32,16 +28,16 @@ include_once( "ezuser/classes/ezpermission.php" );
 
 require( "ezuser/admin/admincheck.php" );
 
-// setter template filer
 $t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZLinkMain", "TemplateDir" ). "/grouplist/",
 $DOC_ROOT . "/admin/" . "/intl/", $Language, "grouplist.php" );
 $t->setAllStrings();
 
 $t->set_file( array(
-    "linkgroup_list" => "linkgrouplist.tpl",
-    "linkgroup_item" => "linkgroupitem.tpl",
-    "link_item" => "linkitem.tpl"
+    "link_page" => "linkpage.tpl"
     ) );
+
+$t->set_block( "link_page", "group_list_tpl", "group_list" );
+$t->set_block( "link_page", "link_list_tpl", "link_list" );
 
 // Lister alle kategorier
 $linkGroup = new eZLinkGroup();
@@ -82,7 +78,7 @@ else
         
         $t->set_var( "document_root", $DOC_ROOT );
     
-        $t->parse( "group_list", "linkgroup_item", true );
+        $t->parse( "group_list", "group_list_tpl", true );
 
     }
 }
@@ -110,7 +106,7 @@ if ( ( $LGID == 0 ) && ( $LGID != "incoming" ) )
     
     $t->set_var( "document_root", $DOC_ROOT );
     
-    $t->parse( "group_list", "linkgroup_item", true );
+    $t->parse( "group_list", "group_list_tpl", true );
 }
 
 
@@ -166,13 +162,13 @@ else
 
         $t->set_var( "document_root", $DOC_ROOT );
 
-        $t->parse( "link_list", "link_item", true );
+        $t->parse( "link_list", "link_list_tpl", true );
     }
 }
 
 
 $t->set_var( "document_root", $DOC_ROOT );
                        
-$t->pparse( "output", "linkgroup_list" );
+$t->pparse( "output", "link_page" );
 
 ?>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.24 2000/09/15 12:47:35 bf-cvs Exp $
+// $Id: ezlink.php,v 1.25 2000/10/10 11:42:00 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -16,6 +16,31 @@
 //!! eZLink
 //! The eZLink class handles URL links.
 /*!
+
+  Example code:
+  \code
+  // Create a new link and set some values.
+  $link = new eZLink();
+  $link->setTitle( "ZEZ website" );
+  $link->Description( "zez.org is a page dedicated to all kinds of computer programming." );
+  $link->KeyWords( "code programing c++ php sql python" );
+  $setModified( date() );
+  $setAccepted( "Y" );
+  $setUrl( "zez.org" );
+
+  // Store the link to the datavase.
+  $link->store();
+
+  // Check if the url exist in the database.
+  $link->checkUrl( "zez.org" );
+
+  // Get all the links in a group.
+  $link->getByGroup( $linkGroupID );
+
+  // Get all the not accepted links.
+  $link->getNotAccepted();
+
+  \endcode
   
   \sa eZLinkGroup eZHit eZQuery
 */
@@ -31,12 +56,12 @@ class eZLink
     }
 
     /*!
-      Lagrer link i databasen
+      Stores a link to the database.
     */
     function store()
     {
         $this->dbInit();
-        // setter created til tiden på systemklokken.
+       // Sets the created to the system clock
         $this->Created = date( "Y-m-d G:i:s" );        
         query( "INSERT INTO eZLink_Link SET
                 ID='$this->ID',
@@ -50,7 +75,7 @@ class eZLink
     }
 
     /*!
-      Oppgraderer databasen
+      Update to the database.
     */
     function update()
     {
@@ -65,7 +90,7 @@ class eZLink
     }
 
     /*!
-      Sletter linker og tilhørende hits.
+      Remove the link and the hits that belongs to the link.
     */
     function delete( )
     {
@@ -75,7 +100,7 @@ class eZLink
     }
 
     /*!
-      Henter ut informasjon fra databasen hvor ID=$id
+      Fetches out informasjon from the daatabase where ID=$id
     */
     function get ( $id )
     {
@@ -104,7 +129,7 @@ class eZLink
     }
 
     /*!
-      Henter ut en link gruppe med linkgroup=$linkgroup. Henter kun ut akseptere linker.
+      Fetchs out the links where the linkgroup=$id. Fetchs only accepted links.
     */
     function getByGroup( $id )
     {
@@ -117,20 +142,7 @@ class eZLink
     }
 
     /*!
-      Henter ut alle linkene i gruppe med linkgroup=$linkgroup. 
-    */
-    function getByGroup( $id )
-    {
-        $this->dbInit();
-        $link_array = 0;
-        
-        array_query( $link_array, "SELECT * FROM eZLink_Link WHERE LinkGroup='$id' AND Accepted='Y' ORDER BY Title" );
-
-        return $link_array;
-    }
-
-    /*!
-      Henter ut alle linkene i gruppe med linkgroup=$linkgroup. 
+      Fetches out the links that is not accepted.
     */
     function getNotAccepted( )
     {
@@ -143,7 +155,7 @@ class eZLink
     }
 
     /*!
-      Henter ut de 10 siste linkene med accepted = yes
+      Fetches out the last teen accpeted links.
     */
     function getLastTenDate( $limit, $offset )
     {
@@ -156,7 +168,7 @@ class eZLink
     }
 
     /*!
-      Henter ut de 10 siste linkene med accepted = yes
+      Fetches out the last teen accpeted links.
     */
     function getLastTen( $limit, $offset )
     {
@@ -169,7 +181,7 @@ class eZLink
     }
 
     /*!
-      Henter linkene som matcher $query.
+      Fetches the links that matches the $query.
     */
     function getQuery( $query, $limit=20, $offset = 0 )
     {
@@ -195,7 +207,7 @@ class eZLink
     }
 
     /*!
-      Henter ut alt fra Link
+      Fetches all the links.
     */
     function getAll()
     {
@@ -208,7 +220,7 @@ class eZLink
     }
 
     /*!
-      Sjekker om urlen eksisterer
+      Check if the url exists.
     */
     function checkUrl( $url )
     {
@@ -220,7 +232,7 @@ class eZLink
     }    
 
     /*!
-      Setter tittel
+      Sets the link title.
     */
     function setTitle( $value )
     {
@@ -228,7 +240,7 @@ class eZLink
     }
 
     /*!
-      Setter description
+      Sets the link description
     */
     function setDescription( $value )
     {
@@ -236,7 +248,7 @@ class eZLink
     }
 
     /*!
-      Setter LinkGroup
+      Sets the linkgroupID.
     */
     function setLinkGroup( $value )
     {
@@ -244,7 +256,7 @@ class eZLink
     }
 
     /*!
-      Setter KeyWords
+      Sets the link keywords.
     */    
     function setKeyWords( $value )
     {
@@ -252,7 +264,7 @@ class eZLink
     }
 
     /*!
-       Dato på endring
+       Sets the modified date of the link.
     */
     function setModified( $value )
     {
@@ -260,7 +272,7 @@ class eZLink
     }
 
     /*!
-      Setter om linken er akseptert
+      Sets if the link is accepted.
     */
     function setAccepted( $value )
     {
@@ -268,7 +280,7 @@ class eZLink
     }
 
     /*!
-      Setter url
+      Sets the link URL.
     */
     function setUrl( $value )
     {
@@ -276,7 +288,7 @@ class eZLink
     }
 
     /*!
-      Returnerer tittel
+      Returns the link title.
     */
     function title()
     {
@@ -285,7 +297,7 @@ class eZLink
 
 
     /*!
-      Returnerer description
+      Returns the link description.
     */
     function description()
     {
@@ -293,7 +305,7 @@ class eZLink
     }
 
     /*!
-      Returnerer linkGroup
+      Returns the linkgroupID.
     */
     function linkGroup()
     {
@@ -301,7 +313,7 @@ class eZLink
     }
 
     /*!
-      Retunerer keyWord
+      Returns the link keywords.
     */
     function keyWords()
     {
@@ -309,7 +321,7 @@ class eZLink
     }
 
     /*!
-      Returnerer Created
+      Returns the date when the link was created.
     */
     function created()
     {
@@ -317,7 +329,7 @@ class eZLink
     }
 
     /*!
-      Returnerer Modified
+      Returns the date when the link was modified.
     */
     function modified()
     {
@@ -325,7 +337,7 @@ class eZLink
     }
 
     /*!
-      Returnerer Accepted
+      Returns if the link is Accepted.
     */
     function accepted()
     {
@@ -333,7 +345,7 @@ class eZLink
     }
 
     /*!
-      returnerer url
+      Retruns the url of the link.
     */
     function url()
     {
@@ -341,7 +353,7 @@ class eZLink
     }
 
     /*!
-      Returnerer ID
+      Returns the id of the link.
     */
     function id()
     {
@@ -349,7 +361,10 @@ class eZLink
     }
 
     /*!
-      Initiering av database
+      \private
+      \static
+      
+      Open the database for read and write. Gets all the database information from site.ini.
     */
     function dbInit()
     {
@@ -362,7 +377,6 @@ class eZLink
         $USER = $ini->read_var( "eZLinkMain", "User" );
         $PWD = $ini->read_var( "eZLinkMain", "Password" );
         
-//        include( "ezlink/dbsettings.php" );
         mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
         mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
     }
@@ -378,6 +392,4 @@ class eZLink
     var $Url;
     var $url_array;
 }
-
-
 ?>

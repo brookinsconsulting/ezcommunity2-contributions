@@ -19,7 +19,7 @@
 </tr>
 </table>
 
-<img src="../ezlink/images/1x1.gif" width="1" height="4" border="0"><br>
+<img src="/ezlink/images/1x1.gif" width="1" height="4" border="0"><br>
 
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -34,14 +34,16 @@
 	{intl-choosegroup}<br>
 	<select name="linkgroup">
 	<option value="0">{intl-topcat}</option>
-	{group_category}
+	<!-- BEGIN link_group_tpl -->
+	<option {is_selected} value="{link_id}">{link_title}</option>
+	<!-- END link_group_tpl -->
 	</select>
 	<br><br>
 	</td>
 </tr>
 </table>
 
-<img src="../ezlink/images/1x1.gif" width="1" height="4" border="0"><br>
+<img src="/ezlink/images/1x1.gif" width="1" height="4" border="0"><br>
 
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -60,7 +62,7 @@
 </tr>
 </table>
 
-<img src="../ezlink/images/1x1.gif" width="1" height="4" border="0"><br>
+<img src="/ezlink/images/1x1.gif" width="1" height="4" border="0"><br>
 
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -79,7 +81,7 @@
 </tr>
 </table>
 
-<img src="../ezlink/images/1x1.gif" width="1" height="4" border="0"><br>
+<img src="/ezlink/images/1x1.gif" width="1" height="4" border="0"><br>
 
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -98,7 +100,7 @@
 </tr>
 </table>
 
-<img src="../ezlink/images/1x1.gif" width="1" height="8" border="0"><br>
+<img src="/ezlink/images/1x1.gif" width="1" height="8" border="0"><br>
 
 <table width="250" cellspacing="0" cellpadding="0" border="0">
 <tr>

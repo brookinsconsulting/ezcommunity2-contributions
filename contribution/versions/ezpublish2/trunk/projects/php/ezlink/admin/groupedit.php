@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: groupedit.php,v 1.19 2000/10/09 14:15:08 ce-cvs Exp $
+    $Id: groupedit.php,v 1.20 2000/10/10 11:41:59 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -69,9 +69,10 @@ $DOC_ROOT . "/admin/" . "/intl/", $Language, "groupedit.php" );
 $t->setAllStrings();
 
 $t->set_file( array(
-    "group_edit" => "groupedit.tpl",
-    "group_parent_select" => "groupparentselect.tpl"
+    "group_edit" => "groupedit.tpl"
     ));
+
+$t->set_block( "group_edit", "parent_category_tpl", "parent_category" );
 
 $groupselect = new eZLinkGroup();
 $grouplink_array = $groupselect->getAll( );
@@ -115,7 +116,7 @@ for ( $i=0; $i<count( $grouplink_array ); $i++ )
 
     $group_select_dict[ $grouplink_array[$i][ "ID" ] ] = $i;
 
-    $t->parse( "parent_category", "group_parent_select", true );
+    $t->parse( "parent_category", "parent_category_tpl", true );
 }
 
 $t->set_var( "submit_text", $submit );
