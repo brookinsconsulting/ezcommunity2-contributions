@@ -301,7 +301,14 @@ if( ( $Action == "insert" || $Action == "update" ) && $error == false && $Add_Us
     $t->set_var( "user_id", $UserID );
     $t->set_var( "person_id", $PersonID );
     
+    if( !empty( $AddCV ) )
+    {    
+        header( "Location: /cv/cv/" );
+        exit();
+    }
+    
     header( "Location: /contact/person/view/$PersonID" );
+    exit();
 }
 
 /*
