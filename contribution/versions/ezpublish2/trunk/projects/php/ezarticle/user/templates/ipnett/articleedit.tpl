@@ -33,6 +33,22 @@
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
+    <td>
+        <select name="ItemToAdd">
+        <option value="File">{intl-files}</option>
+        <option value="Image">{intl-pictures}</option>
+        </select>
+    </td>
+    <td>
+        <input class="stdbutton" type="submit" name="AddItem" value="{intl-add_item}" />
+    </td>
+<tr>
+</table>
+
+<br />
+
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
 	<td>
 	<input class="okbutton" type="submit" value="{intl-ok}" />
 	</form>

@@ -1,4 +1,3 @@
-
 <!-- BEGIN header_1_tpl -->
 <h1>{contents}</h1>
 <!-- END header_1_tpl -->
@@ -28,12 +27,12 @@
 <tr>
 <td>
    <!-- BEGIN image_link_tpl -->
-   <a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/article/{view_mode}/{article_id}/">
+   <a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/?RefererURL=/article/{view_mode}/{article_id}/">
    <!-- END image_link_tpl -->
    <!-- BEGIN ext_link_tpl -->
-   <a href="{image_href}">
+   <a href="{www_dir}{index}{image_href}">
    <!-- END ext_link_tpl -->
-   <img src="{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" />
+   <img src="{www_dir}{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" />
    </a>   
 </td>
 </tr>
@@ -49,16 +48,16 @@
 
 <!-- BEGIN image_float_tpl -->
    <!-- BEGIN image_link_float_tpl -->
-   <a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/article/{view_mode}/{article_id}/">
+   <a href="{www_dir}{index}/imagecatalogue/imageview/{image_id}/?RefererURL=/article/{view_mode}/{article_id}/">
    <!-- END image_link_float_tpl -->
    <!-- BEGIN ext_link_float_tpl -->
-   <a href="{image_href}">
+   <a href="{www_dir}{index}{image_href}">
    <!-- END ext_link_float_tpl -->
-<img src="{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" /></a>   
+<img src="{www_dir}{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" /></a>   
 <!-- END image_float_tpl -->
 
 <!-- BEGIN link_tpl -->
-<a href="{href}">{link_text}</a>
+<a href="{www_dir}{index}{href}">{link_text}</a>
 <!-- END link_tpl -->
 
 
@@ -126,3 +125,22 @@
 </pre>
 <!-- END pre_tpl -->
 
+<!-- BEGIN media_tpl -->
+<embed src="{www_dir}{media_uri}" {attribute_string} />
+<!-- END media_tpl -->
+
+
+<!-- BEGIN table_tpl -->
+<br clear="all" />
+<table width="100%" border="1" >
+<!-- BEGIN tr_tpl -->
+<tr>
+<!-- BEGIN td_tpl -->
+	<td>
+	{contents}
+	</td>
+<!-- END td_tpl -->
+</tr>
+<!-- END tr_tpl -->
+</table>
+<!-- END table_tpl -->
