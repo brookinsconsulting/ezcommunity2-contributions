@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumforum.php,v 1.15 2000/10/11 13:37:29 bf-cvs Exp $
+// $Id: ezforumforum.php,v 1.16 2000/10/11 14:58:38 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -220,7 +220,7 @@ class eZForumForum
             $this->get( $this->ID );
         
         
-        return $this->CategoryId;
+        return $this->CategoryID;
     }
         
     /*!

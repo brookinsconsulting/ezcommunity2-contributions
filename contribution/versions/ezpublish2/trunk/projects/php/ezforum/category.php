@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: category.php,v 1.33 2000/10/11 14:17:02 bf-cvs Exp $
+// $Id: category.php,v 1.34 2000/10/11 14:58:38 bf-cvs Exp $
 //
 // 
 //
@@ -35,12 +35,8 @@ $t->set_block( "category_tpl", "forum_tpl", "forum" );
 
 $category = new eZForumCategory( $category_id );
 
-print( $category->name( ) );
-
-// add to template..
-$forumPath = "<img src=\"ezforum/images/pil.gif\" width=\"10\" height=\"10\" border=\"0\"> <a href=\"index.php?page=" . $DOC_ROOT .  "category.php&category_id=" . $category_id . "\">" . $category->name() . "</a>";
-
-$t->set_var( "forum_path", $forumPath );
+$t->set_var( "category_id", $category->id( ) );
+$t->set_var( "category_name", $category->name( ) );
 
 $forums = $category->forums( );
 

@@ -1,13 +1,17 @@
 <?
-/*!
-    $Id: message.php,v 1.25 2000/10/11 14:17:02 bf-cvs Exp $
-
-    Author: Lars Wilhelmsen <lw@ez.no>
-    
-    Created on: <14-Jul-2000 12:54:41 lw>
-    
-    Copyright (C) 2000 eZ systems. All rights reserved.
-*/
+// 
+// $Id: message.php,v 1.26 2000/10/11 14:58:38 bf-cvs Exp $
+//
+// 
+//
+// Lars Wilhelmsen <lw@ez.no>
+// Created on: <11-Sep-2000 22:10:06 bf>
+//
+// Copyright (C) 1999-2000 eZ Systems.  All rights reserved.
+//
+// IMPORTANT NOTE: You may NOT copy this file or any part of it into
+// your own programs or libraries.
+//
 
 include_once( "classes/INIFile.php" );
 
@@ -41,13 +45,14 @@ $category_id = $forum->categoryID();
 $category = new eZForumCategory( );
 $category->get( $category_id );
 
-// ELO: add to template.
+$t->set_var( "category_id", $category->id( ) );
+$t->set_var( "category_name", $category->name( ) );
 
-$forumPath = "<img src=\"ezforum/images/pil.gif\" width=\"10\" height=\"10\" border=\"0\"> <a href=\"index.php?page=" . $DOC_ROOT .  "category.php&category_id=" . $category_id . "\">" . $category->name() . "</a> ";
-$forumPath .= "<img src=\"ezforum/images/pil.gif\" width=\"10\" height=\"10\" border=\"0\"> <a href=\"index.php?page=" . $DOC_ROOT .  "forum.php&forum_id=" . $forum_id . "&category_id=" . $category_id . "\">" . $forum->name() . "</a> ";
-$forumPath .= "<img src=\"ezforum/images/pil.gif\" width=\"10\" height=\"10\" border=\"0\"> <a href=\"index.php?page=" . $DOC_ROOT .  "message.php&forum_id=" . $forum_id . "&category_id=" . $category_id . "&message_id=" . $message_id . "\">" . $message->topic() . "</a>";
+$t->set_var( "forum_id", $forum->id() );
+$t->set_var( "forum_name", $forum->name() );
 
-$t->set_var( "forum_path", $forumPath );
+$t->set_var( "message_id", $message->id() );
+$t->set_var( "message_topic", $message->topic() );
 
 $t->set_var( "topic", $message->topic() );
 

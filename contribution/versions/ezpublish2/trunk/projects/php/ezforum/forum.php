@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forum.php,v 1.36 2000/10/11 14:17:02 bf-cvs Exp $
+// $Id: forum.php,v 1.37 2000/10/11 14:58:38 bf-cvs Exp $
 //
 // 
 //
@@ -19,6 +19,7 @@ $ini = new INIFile( "site.ini" ); // get language settings
 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
+
 include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
 include_once( "ezforum/classes/ezforumforum.php" );
@@ -26,33 +27,29 @@ include_once( "ezforum/classes/ezforumforum.php" );
 $ini = new INIFile( "site.ini" ); // get language settings
 $Language = $ini->read_var( "eZForumMain", "Language" );
 
-$msg = new eZForumMessage( $forum_id );
 
 $t = new eZTemplate( "ezforum/templates", "ezforum/intl", $Language, "forum.php" );
 
-$t->set_file( Array( "forum_tpl" => "forum.tpl"
-                   )  );
+$t->set_file( "forum_tpl", "forum.tpl"  );
 
 $t->set_block( "forum_tpl", "message_tpl", "message" );
 
 $t->setAllStrings();
-$session = new eZSession();
-
-$t->set_var( "category_id", $category_id );
-$t->set_var( "forum_id", $forum_id );
 
 $forum = new eZForumForum( $forum_id );
-
 $category = new eZForumCategory( $forum->categoryID()  );
 
-// ELO: remove docroot and add to template.
-$forumPath = "<img src=\"ezforum/images/pil.gif\" width=\"10\" height=\"10\" border=\"0\"> <a href=\"index.php?page=" . $DOC_ROOT .  "category.php&category_id=" . $category_id . "\">" . $category->name() . "</a> ";
+$t->set_var( "category_id", $category->id( ) );
+$t->set_var( "category_name", $category->name( ) );
 
-$forumPath .= "<img src=\"ezforum/images/pil.gif\" width=\"10\" height=\"10\" border=\"0\"> <a href=\"index.php?page=" . $DOC_ROOT .  "forum.php&forum_id=" . $forum_id . "&category_id=" . $category_id . "\">" . $forum->name() . "</a>";
+$t->set_var( "forum_id", $forum->id() );
+$t->set_var( "forum_name", $forum->name() );
 
-$t->set_var( "forum_path", $forumPath );
 
-// make to $Action 
+
+// make to $Action .. elo?
+
+$msg = new eZForumMessage( $forum_id );
 
 // new posting
 if ( $post )
