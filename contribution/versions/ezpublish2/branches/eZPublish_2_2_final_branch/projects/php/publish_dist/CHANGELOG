@@ -6,6 +6,10 @@ Changes from 2.2 final to 2.2.1
 * Added setting for user defined stopword frequency
 * Added check for empty sitedesign
 * Added support for libxml parsing in newsfeed
+* Fixed a quantity bug in eZ trade
+* Fixed a voucher bug
+* Fixed media bugs in eZ mediacatalogue
+* Fixed rewrite rule for eZ mediacatalogue
 * Fixed bug with attachments in eZMail.
 * Userlist in eZBulkmail now also lists when using useEZUser=enabled
 * Assigning multiple ownergroups in eZBug now work.

@@ -1445,3 +1445,5 @@ INSERT INTO eZURLTranslator_URL VALUES (1,'/section-standard','/article/frontpag
 INSERT INTO eZURLTranslator_URL VALUES (2,'/section-intranet','/article/frontpage/2',1003242742);
 INSERT INTO eZURLTranslator_URL VALUES (3,'/section-trade','/article/frontpage/3',1003242743);
 INSERT INTO eZURLTranslator_URL VALUES (4,'/section-news','/article/frontpage/4',1003242744);
+
+INSERT INTO eZUser_Author VALUES (1,'eZ publish admin','admin@mysite.com'); 
