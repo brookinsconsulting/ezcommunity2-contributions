@@ -1,12 +1,23 @@
 <h1>{product_name}</h1>
 <hr noshade="noshade" size="1" />
 
+<!-- BEGIN errors_tpl -->
+<p class="error">{intl-please_fix}:</p><br />
+<ol>
 <!-- BEGIN price_to_high_tpl -->
-<p class="error">{intl-price_to_high}</p><br />
+<li>{intl-price_to_high}
 <!-- END price_to_high_tpl -->
 <!-- BEGIN price_to_low_tpl -->
-<p class="error">{intl-price_to_low}</p><br />
+<li>{intl-price_to_low}
 <!-- END price_to_low_tpl -->
+<!-- BEGIN missing_fields_tpl -->
+<li>{intl-missing_fields}
+<!-- END missing_fields_tpl -->
+<!-- BEGIN too_many_letters_tpl -->
+<li>{intl-too_many_letters}
+<!-- END too_many_letters_tpl -->
+</ol>
+<!-- END errors_tpl -->
 
 
 <p>{intl-description}</p>

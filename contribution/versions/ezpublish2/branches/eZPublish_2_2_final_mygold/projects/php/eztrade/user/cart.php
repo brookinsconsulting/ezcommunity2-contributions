@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.71.4.1 2001/10/22 11:52:22 ce Exp $
+// $Id: cart.php,v 1.71.4.2 2001/11/19 12:10:07 ce Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -296,11 +296,16 @@ if ( $Action == "AddToBasket" )
                 $cartItem->setCart( $cart );
 
                 $voucherInformationID = $session->variable( "VoucherInformationID" );
+
+                print( $voucherInformationID );
+                exit();
                 $session->setVariable( "VoucherInformationID", 0 );
                 $cartItem->setVoucherInformation( $voucherInformationID );
 
                 $cartItem->store();
 
+                print_r( $cartItem );
+                exit();
                 if ( count( $OptionValueArray ) > 0 )
                 {
                     $i = 0;

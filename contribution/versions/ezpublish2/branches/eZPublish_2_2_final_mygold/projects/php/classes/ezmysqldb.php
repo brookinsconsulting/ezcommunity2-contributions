@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezmysqldb.php,v 1.26 2001/10/10 07:08:02 bf Exp $
+// $Id: ezmysqldb.php,v 1.26.4.1 2001/11/19 12:10:07 ce Exp $
 //
 // Definition of eZMySQLDB class
 //
@@ -56,6 +56,7 @@ class eZMySQLDB
             if ( $GLOBALS["DEBUG"] == true )
             {
                 print( "<b>MySQL Error</b>: " . mysql_errno( $this->Database ) . ": ".mysql_error( $this->Database )."<br>" );
+                exit();
             }
         }
 

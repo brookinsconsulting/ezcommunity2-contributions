@@ -1,7 +1,7 @@
 <?
 header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" ); 
 header( "Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" ); 
-header( "Cache-Control: no-cache, must-revalidate" ); 
+header( "Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0" ); 
 header( "Pragma: no-cache" );
 
 include_once( "classes/ezbenchmark.php" );
@@ -76,6 +76,7 @@ if ( $iso != false )
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
+apd_set_session_trace(35);
 
 $session =& eZSession::globalSession();
 

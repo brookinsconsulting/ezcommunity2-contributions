@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezhttptool.php,v 1.14.4.1 2001/11/14 11:35:33 ce Exp $
+// $Id: ezhttptool.php,v 1.14.4.2 2001/11/19 12:10:07 ce Exp $
 //
 // Definition of eZTextTool class
 //

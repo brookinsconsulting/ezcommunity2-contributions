@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherinformation.php,v 1.12.4.8 2001/11/12 08:46:25 ce Exp $
+// $Id: voucherinformation.php,v 1.12.4.9 2001/11/19 12:10:07 ce Exp $
 //
 // Created on: <06-Aug-2001 13:02:18 ce>
 //
@@ -34,6 +34,8 @@ $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $locale = new eZLocale( $Language );
 
+$DefaultCountryID = $ini->read_var( "eZUserMain", "DefaultCountry" );
+
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
@@ -53,8 +55,12 @@ $t->set_file( "voucher_tpl", "voucherinformation.tpl" );
 $t->set_block( "voucher_tpl", "email_tpl", "email" );
 $t->set_block( "voucher_tpl", "smail_tpl", "smail" );
 
-$t->set_block( "voucher_tpl", "price_to_high_tpl", "price_to_high" );
-$t->set_block( "voucher_tpl", "price_to_low_tpl", "price_to_low" );
+$t->set_block( "voucher_tpl", "errors_tpl", "errors" );
+
+$t->set_block( "errors_tpl", "price_to_high_tpl", "price_to_high" );
+$t->set_block( "errors_tpl", "price_to_low_tpl", "price_to_low" );
+$t->set_block( "errors_tpl", "too_many_letters_tpl", "too_many_letters" );
+$t->set_block( "errors_tpl", "missing_fields_tpl", "missing_fields" );
 
 $t->set_block( "smail_tpl", "to_country_tpl", "to_country" );
 $t->set_block( "smail_tpl", "from_country_tpl", "from_country" );
@@ -62,32 +68,37 @@ $t->set_block( "smail_tpl", "from_country_tpl", "from_country" );
 $t->set_block( "to_country_tpl", "to_country_option_tpl", "to_country_option" );
 $t->set_block( "from_country_tpl", "from_country_option_tpl", "from_country_option" );
 
+
 $GLOBALS["DEBUG"] = true;
 
 setType( $PriceRange, "integer" );
 
-$t->set_var( "to_email", "" );
-$t->set_var( "to_name", "" );
-$t->set_var( "from_name", "" );
+$t->set_var( "price_range", "$PriceRange" );
+$t->set_var( "to_email", "$Email" );
+$t->set_var( "to_name", "$ToName" );
+$t->set_var( "from_name", "$FromName" );
 $t->set_var( "smail_var", "" );
-$t->set_var( "description", "" );
+$t->set_var( "description", "$Description" );
 $t->set_var( "next", "" );
-$t->set_var( "to_name_value", "" );
-$t->set_var( "to_street1_value", "" );
-$t->set_var( "to_street2_value", "" );
-$t->set_var( "to_zip_value", "" );
-$t->set_var( "to_place_value", "" );
-$t->set_var( "from_name_value", "" );
-$t->set_var( "from_street1_value", "" );
-$t->set_var( "from_street2_value", "" );
-$t->set_var( "from_zip_value", "" );
-$t->set_var( "from_place_value", "" );
+$t->set_var( "to_name_value", "$ToName" );
+$t->set_var( "to_street1_value", "$ToStreet1" );
+$t->set_var( "to_street2_value", "$ToStreet2" );
+$t->set_var( "to_zip_value", "$ToZip" );
+$t->set_var( "to_place_value", "$ToPlace" );
+$t->set_var( "from_name_value", "$FromName" );
+$t->set_var( "from_street1_value", "$FromStreet1" );
+$t->set_var( "from_street2_value", "$FromStreet2" );
+$t->set_var( "from_zip_value", "$FromZip" );
+$t->set_var( "from_place_value", "$FromPlace" );
 $t->set_var( "country_name", "" );
 $t->set_var( "smail", "" );
 $t->set_var( "email", "" );
 $t->set_var( "from_email", "" );
-$t->set_var( "price_to_low", "" );
+$t->set_var( "errors", "" );
+$t->set_var( "missing_fields", "" );
 $t->set_var( "price_to_high", "" );
+$t->set_var( "price_to_low", "" );
+$t->set_var( "too_many_letters", "" );
 $error = false;
 
 $product = new eZProduct( $ProductID );
@@ -106,7 +117,24 @@ if ( isSet ( $OK ) )
         $error = true;
         $t->parse( "price_to_high", "price_to_high_tpl" );
     }
+
+    if ( $MailMethod == 2 )
+    {
+        if ( strlen ( $Description ) > $ini->read_var( "eZTradeMain", "MaxVoucherDescription" ) )
+        {
+            $error = true;
+            $t->parse( "too_many_letters", "too_many_letters_tpl" );
+        }
+        if ( $ToName == "" or $ToStreet1 == "" or $ToZip == "" or $ToPlace == "" or $FromName == "" or $FromStreet1 == "" or $FromZip == "" or $FromPlace == "" )
+        {
+            $error = true;
+            $t->parse( "missing_fields", "missing_fields_tpl" );
+        }
+    }
 }
+
+if ( $error )
+    $t->parse( "errors", "errors_tpl" );
 
 $user =& eZUser::currentUser();
 
@@ -265,7 +293,6 @@ else if ( $product ) // Print out the addresses forms
     else
     {
         $t->set_var( "voucher_info_id", "" );
-        $t->set_var( "price_range", "" );
     }
 
     if ( $MailMethod == 1 )
@@ -285,6 +312,13 @@ else if ( $product ) // Print out the addresses forms
     {
         $t->set_var( "to_is_selected", $country->id() == $toCountryID ? "selected" : "" );
         $t->set_var( "from_is_selected", $country->id() == $fromCountryID ? "selected" : "" );
+
+        if ( !$toCountryID and !$fromCountryID )
+        {
+            $t->set_var( "to_is_selected", $country->id() == $DefaultCountryID ? "selected" : "" );
+            $t->set_var( "from_is_selected", $country->id() == $DefaultCountryID ? "selected" : "" );
+        }
+        
         $t->set_var( "country_id", $country->id() );
         $t->set_var( "country_name", $country->name() );
         $t->parse( "to_country_option", "to_country_option_tpl", true );

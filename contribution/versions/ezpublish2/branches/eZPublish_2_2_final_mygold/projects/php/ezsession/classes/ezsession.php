@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsession.php,v 1.67.4.3 2001/11/19 08:59:23 ce Exp $
+// $Id: ezsession.php,v 1.67.4.4 2001/11/19 12:10:07 ce Exp $
 //
 // Definition of eZSession class
 //
@@ -107,8 +107,12 @@ class eZSession
             $GLOBALS["eZSession"] =& $this->Hash;
         }
 
-        eZHTTPTool::setCookie ( "eZSessionCookie", $this->Hash );
+        // expire after 40 days
+        setcookie ( "eZSessionCookie", $this->Hash, time()+3456000, "/" )
+            or print( "Error: could not set cookie." );
         
+//         eZHTTPTool::setCookie ( "eZSessionCookie", $this->Hash );
+
         $remoteIP = $GLOBALS["REMOTE_ADDR"];
         
         if ( !isSet( $this->ID ) )
@@ -213,6 +217,7 @@ class eZSession
         if ( $this->IsFetched != true )
         {
             $db =& eZDB::globalDatabase();
+
             $ret = false;
 
             // prefer cookie
