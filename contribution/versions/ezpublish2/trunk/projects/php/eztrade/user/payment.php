@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.38 2001/03/27 13:16:55 bf Exp $
+// $Id: payment.php,v 1.39 2001/03/27 13:18:22 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -212,7 +212,6 @@ if ( $PaymentSuccess == "true" )
         }
     }
 
-    exit();
     
 //      $cart->clear();
 
