@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.44 2001/08/21 11:21:41 ce Exp $
+// $Id: datasupplier.php,v 1.45 2001/08/22 12:06:29 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -245,6 +245,7 @@ switch ( $url_array[2] )
 
     case "voucherinformation" :
     {
+        $Key = $url_array[3];
         include( "eztrade/user/voucherinformation.php" );
     }
     break;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.72 2001/08/21 11:21:41 ce Exp $
+// $Id: checkout.php,v 1.73 2001/08/22 12:06:29 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -144,14 +144,18 @@ if ( isSet( $SendOrder ) )
     {
         $i=0;
         $voucherInfo = array();
+
         foreach ( $VoucherIDArray as $voucher )
         {
-            $voucherInfo[$voucher] = $MailType[$i];
+            $voucherMail[] = eZHTTPTool::getVar( "MailType-" . $voucher );
+            $voucherID[] = $voucher;
             $i++;
         }
-        $session->setArray( "VoucherInformation", $voucherInfo );
+
+        $session->setArray( "VoucherMail", $voucherMail );
+        $session->setArray( "VoucherID", $voucherID );
         $session->setVariable( "VoucherInfo", $voucherSession );
-        eZHTTPTool::header( "Location: /trade/voucherinformation/" );
+        eZHTTPTool::header( "Location: /trade/voucherinformation/0" );
         exit();
     }
     else

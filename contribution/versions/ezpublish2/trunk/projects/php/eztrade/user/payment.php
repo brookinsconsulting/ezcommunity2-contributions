@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.60 2001/08/15 06:56:47 ce Exp $
+// $Id: payment.php,v 1.61 2001/08/22 12:06:29 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -249,8 +249,8 @@ if ( $PaymentSuccess == "true" )
                     }
                 }
             }
-            else
-                $t->set_var( "product_price", "" );
+//            else
+                //       $t->set_var( "product_price", "" );
         }
 
         $price = $priceobj->value();    

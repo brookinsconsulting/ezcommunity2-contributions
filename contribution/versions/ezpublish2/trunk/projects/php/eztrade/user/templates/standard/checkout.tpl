@@ -56,10 +56,10 @@
 </tr>
 <tr>
         <td class="{td_class}" >
-	<input type="radio" name="MailType[]" value="1" checked />
+	<input type="radio" name="MailType-{product_id}" value="1" checked />
         </td>
         <td class="{td_class}" >
-	<input type="radio" name="MailType[]" value="2" />
+	<input type="radio" name="MailType-{product_id}" value="2" />
         </td>
 	<input type="hidden" name="VoucherIDArray[]" value="{product_id}" />
 </tr>
