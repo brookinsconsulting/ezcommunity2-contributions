@@ -5,7 +5,7 @@
 <hr noshade size="4"/>
 
 <p class="boxtext">{intl-name}</p>
-<input type="text" name="title" size="40" value="{title}">
+<input type="text" name="Title" size="40" value="{title}">
 
 <p class="boxtext">{intl-where}</p>
 <select name="ParentCategory">

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.28 2000/10/19 09:32:07 ce-cvs Exp $
+// $Id: ezlink.php,v 1.29 2000/10/19 10:49:29 ce-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -175,11 +175,17 @@ class eZLink
     function getNotAccepted( )
     {
         $this->dbInit();
-        $link_array = 0;
+        $link_array = array();
+        $return_array = array();
         
-        array_query( $link_array, "SELECT * FROM eZLink_Link WHERE Accepted='N' ORDER BY Title" );
+        $this->Database->array_query( $link_array, "SELECT ID FROM eZLink_Link WHERE Accepted='N' ORDER BY Title" );
 
-        return $link_array;
+        for ( $i=0; $i<count( $link_array ); $i++ )
+        {
+            $return_array[] = new eZLink( $link_array[$i]["ID"] );
+        }
+
+        return $return_array;
     }
 
     /*!

@@ -17,7 +17,7 @@ switch ( $url_array[2] )
 
     case "group" :
     {
-        $LGID = $url_array[3];
+        $LinkGroupID = $url_array[3];
         include( "ezlink/admin/linklist.php" );
     }
     break;
@@ -30,26 +30,26 @@ switch ( $url_array[2] )
         }
         else if ( $url_array[3] == "insert" )
         {
-            $LID = $url_array[4];
+            $LinkID = $url_array[4];
             $Action = "insert";
             include( "ezlink/admin/linkedit.php" );
         }
 
         else if ( $url_array[3] == "edit" )
         {
-            $LID = $url_array[4];
+            $LinkID = $url_array[4];
             $Action = "edit";
             include( "ezlink/admin/linkedit.php" );
         }
         else if ( $url_array[3] == "update" )
         {
-            $LID = $url_array[4];
+            $LinkID = $url_array[4];
             $Action = "update";
             include( "ezlink/admin/linkedit.php" );
         }
         else if ( $url_array[3] == "delete" )
         {
-            $LID = $url_array[4];
+            $LinkID = $url_array[4];
             $Action = "delete";
             include( "ezlink/admin/linkedit.php" );
         }
@@ -64,26 +64,26 @@ switch ( $url_array[2] )
         }
         else if ( $url_array[3] == "insert" )
         {
-            $LGID = $url_array[4];
+            $LinkGroupID = $url_array[4];
             $Action = "insert";
             include( "ezlink/admin/groupedit.php" );
         }
 
         else if ( $url_array[3] == "edit" )
         {
-            $LGID = $url_array[4];
+            $LinkGroupID = $url_array[4];
             $Action = "edit";
             include( "ezlink/admin/groupedit.php" );
         }
         else if ( $url_array[3] == "update" )
         {
-            $LGID = $url_array[4];
+            $LinkGroupID = $url_array[4];
             $Action = "update";
             include( "ezlink/admin/groupedit.php" );
         }
         else if ( $url_array[3] == "delete" )
         {
-            $LGID = $url_array[4];
+            $LinkGroupID = $url_array[4];
             $Action = "delete";
             include( "ezlink/admin/groupedit.php" );
         }

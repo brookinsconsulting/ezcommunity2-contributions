@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.29 2000/10/19 09:32:07 ce-cvs Exp $
+// $Id: ezlinkgroup.php,v 1.30 2000/10/19 10:49:29 ce-cvs Exp $
 //
 // Definition of eZLinkGroup class
 //
@@ -31,6 +31,10 @@
   \endcode
   
   \sa eZLink eZHit eZQuery
+*/
+
+/*!TODO
+  Rename title to name (also in the database).
 */
 
 

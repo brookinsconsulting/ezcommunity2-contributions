@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: groupedit.php,v 1.21 2000/10/11 12:02:03 ce-cvs Exp $
+    $Id: groupedit.php,v 1.22 2000/10/19 10:49:29 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -28,35 +28,59 @@ $Language = $ini->read_var( "eZLinkMain", "Language" );
 
 require( "ezuser/admin/admincheck.php" );
 
+// Insert a group.
+if ( $Action == "insert" )
+{
+    if ( eZPermission::checkPermission( $user, "eZLink", "GroupAdd" ) )
+    {
+        if ( $Title != "" &&
+        $ParentCategory != "" && )
+        {
+
+            $group = new eZLinkGroup();
+            
+            $group->setTitle( $Title );
+            $group->setParent( $ParentCategory );
+            $ttile = "";
+            $group->store();
+            Header( "Location: /link/group/". $ParentCategory );
+            exit();
+        }
+        else
+        {
+            $error_msg = $error->read_var( "strings", "error_missingdata" );
+        }
+    }
+    else
+    {
+        $error_msg = $error->read_var( "strings", "error_norights" );
+    }
+}
+
 // Slett
 if ( $Action == "delete" )
 {
-    $deletelinkgroup = new eZLinkGroup();
-    $deletelinkgroup->get( $LGID );
-    $deletelinkgroup->delete();
+    if ( eZPermission::checkPermission( $user, "eZLink", "GroupAdd" ) )
+    {
 
-    Header( "Location: /link/group/" );
-}
+        $deletelinkgroup = new eZLinkGroup();
+        $deletelinkgroup->get( $LinkGroupID );
+        $deletelinkgroup->delete();
 
-// Legg til gruppe
-if ( $Action == "insert" )
-{
-    $addlinkgroup = new eZLinkGroup();
-
-    $addlinkgroup->setTitle( $title );
-    $addlinkgroup->setParent( $ParentCategory );
-    $ttile = "";
-    $addlinkgroup->store();
-    $message = "Legg til gruppe";
-    $submit = "Legg til";
-    Header( "Location: /link/group/". $ParentCategory );
+        Header( "Location: /link/group/" );
+        exit();
+    }
+    else
+    {
+        $error_msg = $error->read_var( "strings", "error_norights" );
+    }
 }
 
 // Oppdatere
 if ( $Action == "update" )
 {
     $updatelinkgroup = new eZLinkGroup();
-    $updatelinkgroup->get ( $LGID );
+    $updatelinkgroup->get ( $LinkGroupID );
     $updatelinkgroup->setTitle ( $title );
     $updatelinkgroup->update();
     Header( "Location: /link/group/" );    
@@ -84,7 +108,7 @@ $grouplink_array = $groupselect->getAll( );
 if ( $Action == "edit" )
 {
     $editlinkgroup = new eZLinkGroup();
-    $editlinkgroup->get ( $LGID );
+    $editlinkgroup->get ( $LinkGroupID );
 
     $title = $editlinkgroup->title();
     
@@ -126,6 +150,6 @@ $t->set_var( "title", $ttitle );
 
 $t->set_var( "document_root", $DOC_ROOT );
 
-$t->set_var( "linkgroup_id", $LGID );
+$t->set_var( "linkgroup_id", $LinkGroupID );
 $t->pparse( "output", "group_edit" );
 ?>
