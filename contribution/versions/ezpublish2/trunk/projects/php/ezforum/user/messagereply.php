@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messagereply.php,v 1.6 2000/10/26 13:23:25 ce-cvs Exp $
+// $Id: messagereply.php,v 1.7 2000/10/27 08:57:12 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -51,7 +51,6 @@ if ( $Action == "insert" )
     $reply->setParent( $original->id() );
     
     $user = eZUser::currentUser();
-
     
     $reply->setUserId( $user->id() );
 
@@ -65,7 +64,7 @@ if ( $Action == "insert" )
     $forum_id = $original->forumID();
 
     // send out email notices
-    $forum = new eZForum( $ReplyID );
+    $forum = new eZForum( $original->forumID() );
     $messages = $forum->messageThreadTree( $reply->threadID() );
 
     $mail = new eZMail();
