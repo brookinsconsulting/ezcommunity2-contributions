@@ -10,11 +10,11 @@
 <tr>
 	<td>
 	<p class="boxtext">{intl-article_name}</p>
-	<input type="text" name="Name" size="40" value="{article_name}" />
+	<input type="text" name="Name" size="20" value="{article_name}" />
 	</td>
 	<td>
 	<p class="boxtext">{intl-article_author}</p>
-	<input type="text" name="AuthorText" size="40" value="{author_text}" />
+	<input type="text" name="AuthorText" size="20" value="{author_text}" />
 	</td>
 </tr>
 </table>
