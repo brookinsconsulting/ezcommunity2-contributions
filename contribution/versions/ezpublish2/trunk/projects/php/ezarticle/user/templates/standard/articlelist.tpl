@@ -19,6 +19,7 @@
 </table>
 
 <hr noshade="noshade" size="4" />
+
 <!-- END header_item_tpl -->
 
 <img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="">
