@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.32 2001/10/04 14:31:14 bf Exp $
+// $Id: datasupplier.php,v 1.32.10.1 2002/05/15 12:11:59 pkej Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -57,12 +57,30 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "tos":
+    {
+        $Action = "View";
+        include( "ezuser/user/tac.php" );
+    }
+    break;
+
     case "user" :
     case "userwithaddress" :
     {
         if ( $url_array[3] == "new" )
         {
-            $Action = "New";
+            if ( $Agreement == "Yes" )
+            {
+                $Action = "New";
+            }
+            else if ( $Agreement == "No" )
+            {
+                $Action = "NoAgreement";
+            }
+            else
+            {
+                $Action = "UserAgreement";
+            }
         }
         if ( $url_array[3] == "edit" )
         {
@@ -89,7 +107,15 @@ switch ( $url_array[2] )
 
         $OverrideUserWithAddress = $ini->read_var( "eZUserMain", "OverrideUserWithAddress" );
 
-        if ( empty( $OverrideUserWithAddress ) )
+        if ( $Action == "UserAgreement" )
+        {
+            include( "ezuser/user/tac.php" );
+        }
+        else if ( $Action == "NoAgreement" )
+        {
+            include( "ezuser/user/tac.php" );
+        }
+        else if ( empty( $OverrideUserWithAddress ) )
         {
             include( "ezuser/user/userwithaddress.php" );
         }
