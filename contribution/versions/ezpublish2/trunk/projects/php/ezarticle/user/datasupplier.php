@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.73 2001/08/16 13:57:46 ce Exp $
+// $Id: datasupplier.php,v 1.74 2001/08/16 14:23:49 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -137,11 +137,21 @@ switch ( $url_array[2] )
                 
                 include( "ezarticle/user/articlelist.php" );
             }
+            else
+            {
+                eZHTTPTool::header( "Location: /error/403/" );
+                exit();
+            }
         }
         else if( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' ) ||
                  eZArticleCategory::isOwner( $user, $CategoryID) )
         {
             include( "ezarticle/user/articlelist.php" );
+        }
+        else
+        {
+            eZHTTPTool::header( "Location: /error/403/" );
+            exit();
         }
         
     }
@@ -267,11 +277,21 @@ switch ( $url_array[2] )
                 
                 include( "ezarticle/user/articleview.php" );
             }
+            else
+            {
+                eZHTTPTool::header( "Location: /error/403/" );
+                exit();
+            }
         }
         else if ( eZObjectPermission::hasPermissionWithDefinition( $ArticleID, "article_article", 'r', false, $definition )
         && eZArticle::isAuthor( $user, $ArticleID ) )
         {
             include( "ezarticle/user/articleview.php" );
+        }
+        else
+        {
+            eZHTTPTool::header( "Location: /error/403/" );
+            exit();
         }
 
         /* Should there be permissions here? */
@@ -349,6 +369,10 @@ switch ( $url_array[2] )
                 $PageNumber = 1;
         }
 
+        $article = new eZArticle( $ArticleID );
+        $definition = $article->categoryDefinition( true );
+        $definition = $definition->id();
+        
         if ( $PageCaching == "enabled" )
         {
             $cachedFile = "ezarticle/cache/articleprint," . $ArticleID . ",". $PageNumber . "," . $groupstr . ".cache";
@@ -356,18 +380,28 @@ switch ( $url_array[2] )
             {
                 include( $cachedFile );
             }
-            else if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'r' )
-                     || eZArticle::isAuthor( $user, $ArticleID ) )
+            else if( eZObjectPermission::hasPermissionWithDefinition( $ArticleID, "article_article", 'r', false, $definition )
+                     && eZArticle::isAuthor( $user, $ArticleID ) )
             {
                 $GenerateStaticPage = "true";
                 
                 include( "ezarticle/user/articleview.php" );
             }
+            {
+                eZHTTPTool::header( "Location: /error/403/" );
+                exit();
+            }
         }
-        else if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'r' )
-                 || eZArticle::isAuthor( $user, $ArticleID ) )
+        else if( eZObjectPermission::hasPermissionWithDefinition( $ArticleID, "article_article", 'r', false, $definition )
+                 && eZArticle::isAuthor( $user, $ArticleID ) )
         {
             include( "ezarticle/user/articleview.php" );
+        }
+        else
+        {
+            eZHTTPTool::header( "Location: /error/403/" );
+                exit();
+
         }
     }
     break;
@@ -406,6 +440,10 @@ switch ( $url_array[2] )
 
         if ( !isset( $PageNumber ) || ( $PageNumber == "" ) ||  ( $PageNumber < 1 ) )
             $PageNumber= 1;
+
+        $article = new eZArticle( $ArticleID );
+        $definition = $article->categoryDefinition( true );
+        $definition = $definition->id();
         
         if ( $PageCaching == "enabled" )
         {
@@ -414,18 +452,28 @@ switch ( $url_array[2] )
             {
                 include( $cachedFile );
             }
-            else if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'r' )
-                     || eZArticle::isAuthor( $user, $ArticleID ) )
+            else if( eZObjectPermission::hasPermissionWithDefinition( $ArticleID, "article_article", 'r', false, $definition )
+                     && eZArticle::isAuthor( $user, $ArticleID ) )
             {
                 $GenerateStaticPage = "true";
                 
                 include( "ezarticle/user/articleview.php" );
-            }            
+            }
+            else
+            {
+                eZHTTPTool::header( "Location: /error/403/" );
+                exit();
+            }
         }
-        else if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'r' )
-                 || eZArticle::isAuthor( $user, $ArticleID ) )
+        else if( eZObjectPermission::hasPermissionWithDefinition( $ArticleID, "article_article", 'r', false, $definition )
+                 && eZArticle::isAuthor( $user, $ArticleID ) )
         {
             include( "ezarticle/user/articleview.php" );
+        }
+        else
+        {
+            eZHTTPTool::header( "Location: /error/403/" );
+            exit();
         }
     }
     break;
