@@ -4,7 +4,7 @@
 
 <head>
 <title>eZ publish administrasjon</title>
-<link rel="stylesheet" type="text/css" href="/{site_style}.css"/>
+<link rel="stylesheet" type="text/css" href="/admin/{site_style}.css"/>
 <meta http-equiv="Content-Type" content="text/html; charset={charset}"/>
 
 <SCRIPT LANGUAGE="JavaScript1.2">
@@ -41,41 +41,41 @@
 
 </head>
 
-<body bgcolor="#777777" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6" onLoad="MM_preloadImages('/images/{site_style}/redigerminimrk.gif','/images/{site_style}/slettminimrk.gif','/images/{site_style}/downloadminimrk.gif')">
+<body bgcolor="#777777" topmargin="6" marginheight="6" leftmargin="6" marginwidth="6" onLoad="MM_preloadImages('/admin/images/{site_style}/redigerminimrk.gif','/admin/images/{site_style}/slettminimrk.gif','/admin/images/{site_style}/downloadminimrk.gif')">
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-    <td class="repeaty" width="1" background="/images/{site_style}/top-l02.gif" valign="top" align="left"><img src="/images/{site_style}/top-l01.gif" width="10" height="10" border="0" /><br /></td>
-    <td class="repeatx" width="50%" background="/images/{site_style}/top-m01.gif" valign="absmiddle" bgcolor="#b5b5b5" align="left"><img src="/images/{site_style}/1x1.gif" width="120" height="6" border="0" /><br /></td>
-    <td class="repeatx" width="50%" background="/images/{site_style}/top-m01.gif" valign="absmiddle" bgcolor="#b5b5b5" align="left"><img src="/images/{site_style}/1x1.gif" width="120" height="6" border="0" /><br /></td>
-    <td class="repeaty" width="1" background="/images/{site_style}/top-r02.gif" valign="top" align="left"><img src="/images/{site_style}/top-r01.gif" width="10" height="10" border="0" /><br /></td>
+    <td class="repeaty" width="1" background="/admin/images/{site_style}/top-l02.gif" valign="top" align="left"><img src="/admin/images/{site_style}/top-l01.gif" width="10" height="10" border="0" /><br /></td>
+    <td class="repeatx" width="50%" background="/admin/images/{site_style}/top-m01.gif" valign="absmiddle" bgcolor="#b5b5b5" align="left"><img src="/admin/images/{site_style}/1x1.gif" width="120" height="6" border="0" /><br /></td>
+    <td class="repeatx" width="50%" background="/admin/images/{site_style}/top-m01.gif" valign="absmiddle" bgcolor="#b5b5b5" align="left"><img src="/admin/images/{site_style}/1x1.gif" width="120" height="6" border="0" /><br /></td>
+    <td class="repeaty" width="1" background="/admin/images/{site_style}/top-r02.gif" valign="top" align="left"><img src="/admin/images/{site_style}/top-r01.gif" width="10" height="10" border="0" /><br /></td>
 </tr>
 <tr>
-    <td class="repeaty" width="1" background="/images/{site_style}/top-l02.gif" valign="top" align="left"><img src="/images/{site_style}/1x1.gif" width="10" height="10" border="0" /><br /></td>
+    <td class="repeaty" width="1" background="/admin/images/{site_style}/top-l02.gif" valign="top" align="left"><img src="/admin/images/{site_style}/1x1.gif" width="10" height="10" border="0" /><br /></td>
     <td class="repeatx" colspan="2" width="98%" valign="absmiddle" bgcolor="#b5b5b5" align="left">
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td width="1%" class="tdmini">
-	<a href="http://publish.ez.no" target="_vblank"><img src="/images/{site_style}/top-ezpublishlogo.gif" width="200" height="40" border="0" alt="" /></a><br />
+	<a href="http://publish.ez.no" target="_vblank"><img src="/admin/images/{site_style}/top-ezpublishlogo.gif" width="200" height="40" border="0" alt="" /></a><br />
 	</td>
 	<td width="92%">
-	<img src="/images/1x1.gif" width="20" height="10" border="0" alt="" />
+	<img src="/admin/images/1x1.gif" width="20" height="10" border="0" alt="" />
 	</td>
 </tr>
 </table>
 
 	</td>
-    <td class="repeaty" width="%" background="/images/{site_style}/top-r02.gif" valign="top" align="left"><img src="/images/{site_style}/1x1.gif" width="10" height="10" border="0" /><br /></td>
+    <td class="repeaty" width="%" background="/admin/images/{site_style}/top-r02.gif" valign="top" align="left"><img src="/admin/images/{site_style}/1x1.gif" width="10" height="10" border="0" /><br /></td>
 </tr>
 <tr>
-    <td class="repeaty" width="1" valign="top" align="left"><img src="/images/{site_style}/top-l03.gif" width="10" height="10" border="0" /><br /></td>
-    <td class="repeatx" width="50%" background="/images/{site_style}/top-m02.gif" valign="absmiddle" align="left" bgcolor="#b5b5b5"><img src="/images/{site_style}/1x1.gif" width="120" height="6" border="0" /><br /></td>
-    <td class="repeatx" width="50%" background="/images/{site_style}/top-m02.gif" valign="absmiddle" align="left" bgcolor="#b5b5b5"><img src="/images/{site_style}/1x1.gif" width="120" height="6" border="0" /><br /></td>
-    <td class="repeaty" width="1" valign="top" align="left"><img src="/images/{site_style}/top-r03.gif" width="10" height="10" border="0" /><br /></td>
+    <td class="repeaty" width="1" valign="top" align="left"><img src="/admin/images/{site_style}/top-l03.gif" width="10" height="10" border="0" /><br /></td>
+    <td class="repeatx" width="50%" background="/admin/images/{site_style}/top-m02.gif" valign="absmiddle" align="left" bgcolor="#b5b5b5"><img src="/admin/images/{site_style}/1x1.gif" width="120" height="6" border="0" /><br /></td>
+    <td class="repeatx" width="50%" background="/admin/images/{site_style}/top-m02.gif" valign="absmiddle" align="left" bgcolor="#b5b5b5"><img src="/admin/images/{site_style}/1x1.gif" width="120" height="6" border="0" /><br /></td>
+    <td class="repeaty" width="1" valign="top" align="left"><img src="/admin/images/{site_style}/top-r03.gif" width="10" height="10" border="0" /><br /></td>
 </tr>
 </table>
-<img src="/images/{site_style}/1x1.gif" width="6" height="6" border="0" /><br />
+<img src="/admin/images/{site_style}/1x1.gif" width="6" height="6" border="0" /><br />
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
@@ -83,9 +83,9 @@
 
     <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-    <td class="repeaty" rowspan="2" width="1%" background="/images/{site_style}/box-l02.gif" valign="top"><img src="/images/{site_style}/box-l01.gif" width="10" height="10" border="0" /><br /></td>
-    <td class="repeatx" width="98%" background="/images/{site_style}/box-m01.gif" valign="absmiddle" bgcolor="#b5b5b5"><img src="/images/{site_style}/1x1.gif" width="120" height="6" border="0" /><br /></td>
-    <td class="repeaty" rowspan="2" width="1%" background="/images/{site_style}/box-r02.gif" valign="top"><img src="/images/{site_style}/box-r01.gif" width="10" height="10" border="0" /><br /></td>
+    <td class="repeaty" rowspan="2" width="1%" background="/admin/images/{site_style}/box-l02.gif" valign="top"><img src="/admin/images/{site_style}/box-l01.gif" width="10" height="10" border="0" /><br /></td>
+    <td class="repeatx" width="98%" background="/admin/images/{site_style}/box-m01.gif" valign="absmiddle" bgcolor="#b5b5b5"><img src="/admin/images/{site_style}/1x1.gif" width="120" height="6" border="0" /><br /></td>
+    <td class="repeaty" rowspan="2" width="1%" background="/admin/images/{site_style}/box-r02.gif" valign="top"><img src="/admin/images/{site_style}/box-r01.gif" width="10" height="10" border="0" /><br /></td>
 </tr>
 <tr>
 	<td align="bottom" bgcolor="#b5b5b5">
@@ -96,13 +96,13 @@
 
 		<a href="/">
 		<!-- Icon: Start -->
-		<img src="/ez{module_name}/admin/images/module_icon.gif" width="32" height="32" border="0" align="absmiddle" />
+		<img src="/ez{module_name}/admin/admin/images/module_icon.gif" width="32" height="32" border="0" align="absmiddle" />
 		<!-- Icon: End -->
 		</a>
 
 		</td>
 		<td width="1%">
-		<img src="/images/{site_style}/1x1.gif" width="6" height="10" border="0" />
+		<img src="/admin/images/{site_style}/1x1.gif" width="6" height="10" border="0" />
 		</td>
 		<td width="98%">
 		<span class="modulename">
@@ -119,12 +119,12 @@
 	</td>
 </tr>
 <tr>
-    <td class="tdmini" width="1" valign="top" align="left"><img src="/images/{site_style}/box-l03.gif" width="10" height="11" border="0" /><br /></td>
-    <td class="repeatx" width="100%" background="/images/{site_style}/box-m02.gif" valign="top"><img src="/images/{site_style}/1x1.gif" width="120" height="11" border="0" /><br /></td>
-    <td class="tdmini" width="1" valign="top" align="left"><img src="/images/{site_style}/box-r03.gif" width="10" height="11" border="0" /><br /></td>
+    <td class="tdmini" width="1" valign="top" align="left"><img src="/admin/images/{site_style}/box-l03.gif" width="10" height="11" border="0" /><br /></td>
+    <td class="repeatx" width="100%" background="/admin/images/{site_style}/box-m02.gif" valign="top"><img src="/admin/images/{site_style}/1x1.gif" width="120" height="11" border="0" /><br /></td>
+    <td class="tdmini" width="1" valign="top" align="left"><img src="/admin/images/{site_style}/box-r03.gif" width="10" height="11" border="0" /><br /></td>
 </tr>
 <tr>
-    <td class="repeaty" width="1" background="/images/{site_style}/box-l04.gif" valign="top" align="left"><img src="/images/{site_style}/1x1.gif" width="10" height="10" border="0" /><br /></td>
+    <td class="repeaty" width="1" background="/admin/images/{site_style}/box-l04.gif" valign="top" align="left"><img src="/admin/images/{site_style}/1x1.gif" width="10" height="10" border="0" /><br /></td>
     <td bgcolor="#ffffff">
 	
 	<table width="100%" cellpadding="4" cellspacing="0" border="0">

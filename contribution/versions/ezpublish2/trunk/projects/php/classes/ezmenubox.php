@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmenubox.php,v 1.12 2001/03/09 12:25:37 jb Exp $
+// $Id: ezmenubox.php,v 1.13 2001/03/20 13:26:07 bf Exp $
 //
 // Definition of eZMenuBox class
 //
@@ -91,7 +91,7 @@ class eZMenuBox
             $modified = filemtime( $phpfile );
         }
 
-        $t = new eZTemplate( "templates/" . $SiteStyle,
+        $t = new eZTemplate( "admin/templates/" . $SiteStyle,
                              $module_dir . "/$place/intl", $Language, "menubox.php",
                              $SiteStyle, $module_dir . "/$place", $menuStatus, $modified );
 

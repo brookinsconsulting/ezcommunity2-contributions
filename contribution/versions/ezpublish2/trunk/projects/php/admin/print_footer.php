@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: print_footer.php,v 1.1 2001/03/04 13:10:12 bf Exp $
+// $Id: print_footer.php,v 1.2 2001/03/20 13:26:07 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <04-Mar-2001 13:57:25 bf>
@@ -30,7 +30,7 @@ $Language = $ini->read_var( "eZArticleMain", "Language" );
 
 include_once( "classes/template.inc" );
 
-$t = new Template( "templates/" . $SiteStyle );
+$t = new Template( "admin/templates/" . $SiteStyle );
 
 $t->set_file( array(
     "print_footer_tpl" => "print_footer.tpl"

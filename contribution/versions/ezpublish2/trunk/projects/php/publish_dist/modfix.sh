@@ -68,49 +68,51 @@ done
 
 # [admin section]
 # This part will link the modules into the admin directory
+#
+# Obsolete as of version 2.0.1
 
-files="
-error.log
-ezlink
-site.ini
-ezforum
-ezarticle
-ezad
-classes
-ezclassified
-ezimagecatalogue
-ezfilemanager
-ezpoll
-ezuser
-ezsession
-ezcontact
-ezstats
-eztodo
-eznewsfeed
-eztrade
-ezaddress
-ezbug
-ezexample
-ezcalendar
-ezerror
-checkout
-"
+#  files="
+#  error.log
+#  ezlink
+#  site.ini
+#  ezforum
+#  ezarticle
+#  ezad
+#  classes
+#  ezclassified
+#  ezimagecatalogue
+#  ezfilemanager
+#  ezpoll
+#  ezuser
+#  ezsession
+#  ezcontact
+#  ezstats
+#  eztodo
+#  eznewsfeed
+#  eztrade
+#  ezaddress
+#  ezbug
+#  ezexample
+#  ezcalendar
+#  ezerror
+#  checkout
+#  "
 
-for file in $files
-do
-    if [ -e $file ]; then
-	if [ -e admin/$file ]; then
-	    echo "admin/$file already exist"
-	else
-	    echo "Linking ./$file to admin/$file"
-	    ln -s ../$file admin/$file
-	fi
-    fi
-done
+#  for file in $files
+#  do
+#      if [ -e $file ]; then
+#  	if [ -e admin/$file ]; then
+#  	    echo "admin/$file already exist"
+#  	else
+#  	    echo "Linking ./$file to admin/$file"
+#  	    ln -s ../$file admin/$file
+#  	fi
+#      fi
+#  done
 
-if [ -d "override" ]; then
-    if [ ! -d "admin/override" ]; then
-	echo "Linking override to admin/override"
-	ln -sf ../override admin/override
-    fi
-fi
+#  if [ -d "override" ]; then
+#      if [ ! -d "admin/override" ]; then
+#  	echo "Linking override to admin/override"
+#  	ln -sf ../override admin/override
+#      fi
+#  fi

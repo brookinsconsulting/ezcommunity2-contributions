@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: separator.php,v 1.11 2001/03/04 13:10:12 bf Exp $
+// $Id: separator.php,v 1.12 2001/03/20 13:26:07 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Jan-2001 16:06:07 bf>
@@ -30,7 +30,7 @@ $Language = $ini->read_var( "eZ" . ucfirst( $moduleName ) . "Main", "Language" )
 
 include_once( "classes/eztemplate.php" );
 
-$t = new eZTemplate( "templates/" . $SiteStyle,
+$t = new eZTemplate( "admin/templates/" . $SiteStyle,
                      "ez" . $moduleName . "/admin/intl/", $Language, "menubox.php" );
 
 

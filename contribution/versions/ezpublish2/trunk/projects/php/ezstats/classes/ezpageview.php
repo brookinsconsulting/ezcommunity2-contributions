@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageview.php,v 1.6 2001/02/09 17:08:21 jb Exp $
+// $Id: ezpageview.php,v 1.7 2001/03/20 13:26:08 bf Exp $
 //
 // Definition of eZPageView class
 //
@@ -73,6 +73,10 @@ class eZPageView
 
             // check if the browser type is already stored in the database, if it it just
             // create a reference to it.
+
+            // lock
+            $db->query( "LOCK TABLES eZStats_BrowserType WRITE" );
+
             $db->array_query( $browser_type_array,
             "SELECT ID FROM eZStats_BrowserType
              WHERE BrowserType='$userAgent'" );
@@ -91,10 +95,15 @@ class eZPageView
                 $this->BrowserTypeID = $browser_type_array[0]["ID"];
             }
 
+            $db->query( "UNLOCK TABLES" );
+
+
             // check if the remote host is already stored in the database, if it it just
             // create a reference to it.
-
+            
             $remoteIP = $GLOBALS["REMOTE_ADDR"];
+
+            $db->query( "LOCK TABLES eZStats_RemoteHost WRITE" );
             
             $db->array_query( $remote_host_array,
             "SELECT ID FROM eZStats_RemoteHost
@@ -113,6 +122,9 @@ class eZPageView
                 $this->RemoteHostID = $remote_host_array[0]["ID"];
             }
 
+            $db->query( "UNLOCK TABLES" );
+            
+
             // check if the referer url is already stored in the database, if it it just
             // create a reference to it.
 
@@ -128,6 +140,8 @@ class eZPageView
                 $refererDomain =& $valueArray[2];
                 $refererURI =& $valueArray[3];
             }
+
+            $db->query( "LOCK TABLES eZStats_RefererURL WRITE" );
             
             $db->array_query( $referer_url_array,
             "SELECT ID FROM eZStats_RefererURL
@@ -147,6 +161,8 @@ class eZPageView
                 $this->RefererURLID = $referer_url_array[0]["ID"];
             }
 
+            $db->query( "UNLOCK TABLES" );
+
             // check if the requested page is already stored. If so store
             // the id.
             $requestURI = $GLOBALS["REQUEST_URI"];
@@ -155,6 +171,8 @@ class eZPageView
             ereg( "([^?]+)", $requestURI, $regs);
             $requestURI =& $regs[1];
 
+
+            $db->query( "LOCK TABLES eZStats_RequestPage WRITE" );
 
             $db->array_query( $request_page_array,
             "SELECT ID FROM eZStats_RequestPage
@@ -173,6 +191,7 @@ class eZPageView
                 $this->RequestPageID = $request_page_array[0]["ID"];
             }
 
+            $db->query( "UNLOCK TABLES" );
 
             $user = eZUser::currentUser();
             if ( $user )
@@ -184,6 +203,7 @@ class eZPageView
                 $this->UserID = 0;
             }
             
+            $db->query( "LOCK TABLES eZStats_PageView WRITE" );
             
             $db->query( "INSERT INTO eZStats_PageView SET
                                  UserID='$this->UserID',
@@ -195,6 +215,10 @@ class eZPageView
                                  DateValue=DATE_FORMAT( now(), \"%Y-%m-%d\" ),
                                  TimeValue=DATE_FORMAT( now(), \"%H:%i:%S\" )
                                  " );
+
+            $db->query( "UNLOCK TABLES" );
+            
+            $this->ID = mysql_insert_id();            
         }
         else
         {
@@ -207,7 +231,7 @@ class eZPageView
                                  " );
         }
         
-        $this->ID = mysql_insert_id();
+
     }
     
     /*!

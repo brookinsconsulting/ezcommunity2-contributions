@@ -2,19 +2,22 @@
 echo "Clearing the cache."
 
 dirs="
-ezlink
-ezforum
-ezpoll
-eztrade
-ezarticle
-ezcontact
-eztodo
-ezstats
-eznewsfeed
 ezad
-ezuser
 ezaddress
-ezcalendar/user
+ezarticle
+ezbug
+ezcalendar
+ezcontact
+ezforum
+ezlink
+eznewsfeed
+ezpoll
+ezstats
+eztodo
+eztrade
+ezuser
+ezfilemanager
+ezimagecatalogue
 "
 
 for dir in $dirs

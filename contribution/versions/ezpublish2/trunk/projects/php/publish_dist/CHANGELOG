@@ -3,6 +3,7 @@ eZ publish changelog:
 
 Changes from 2.0.0 to 2.0.1
 ---------------------------
+* Removed usage of symlinks. Admin and user uses the same documentroot now.
 * Optimised eZ article. Is now much more capable of handling > 10.000 articles.
 * Fixed renering of currencies with decimals, the integerpart was only rendered.
 * Fixed cron update of news feeds.

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: loginfooter.php,v 1.2 2001/03/01 14:06:24 jb Exp $
+// $Id: loginfooter.php,v 1.3 2001/03/20 13:26:07 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Jan-2001 16:06:07 bf>
@@ -30,7 +30,7 @@ $Language = $ini->read_var( "eZArticleMain", "Language" );
 
 include_once( "classes/template.inc" );
 
-$t = new Template( "templates/" . $SiteStyle );
+$t = new Template( "admin/templates/" . $SiteStyle );
                  
 
 $t->set_file( array(

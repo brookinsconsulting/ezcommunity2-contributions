@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: print_header.php,v 1.1 2001/03/04 13:10:12 bf Exp $
+// $Id: print_header.php,v 1.2 2001/03/20 13:26:07 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <04-Mar-2001 13:58:00 bf>
@@ -33,8 +33,8 @@ $Locale = new eZLocale( $Language );
 $iso = $Locale->languageISO();
 
 
-$t = new eZTemplate( "templates/" . $SiteStyle,
-                     "intl/", $Language, "print_header.php" );
+$t = new eZTemplate( "admin/templates/" . $SiteStyle,
+                     "admin/intl/", $Language, "print_header.php" );
 
 
 $t->set_file( array(
