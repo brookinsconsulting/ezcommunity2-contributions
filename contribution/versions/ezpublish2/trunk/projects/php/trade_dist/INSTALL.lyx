@@ -191,7 +191,8 @@ Add a trade user in MySQL, to add a user you can use the MySQL client
 mysql>grant all on trade.* to trade@localhost identified by "secret";
 \layout Itemize
 
-Dump all the sql data from sql/trade.sql into your database
+Dump all the sql data from sql/trade.sql into your database.
+ Remember that this command will remove the existing trade tables.
 \layout LyX-Code
 
 # mysql -uroot -p trade < sql/trade.sql

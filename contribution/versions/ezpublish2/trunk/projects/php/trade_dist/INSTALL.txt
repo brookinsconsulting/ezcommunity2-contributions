@@ -106,7 +106,8 @@ ServerAlias admin.trade.org
 
 mysql>grant all on trade.* to trade@localhost identified by "secret";
 
-* Dump all the sql data from sql/trade.sql into your database
+* Dump all the sql data from sql/trade.sql into your database. Remember
+  that this command will remove the existing trade tables.
 
 # mysql -uroot -p trade < sql/trade.sql
 
