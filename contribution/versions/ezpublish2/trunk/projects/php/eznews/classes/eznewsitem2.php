@@ -33,31 +33,48 @@
         <li>New examples.
     </ul>
     \code
+    // Example - creating an item
+    
+    $object = new eZNewsItem();
+    
     // Example - adding a front image to the object.
     
     $object->referenceImage( $ImageID, true );
-    $object->store();
     
     // Example - adding an image to the object.
     
     $object->referenceImage( $ImageID );
-    $object->store();
     
     // Example - adding a file to the object.
     
-    $object->referenceImage( $FileID );
-    $object->store();
-
+    $object->referenceFile( $FileID );
+    
     // Example - adding a parent to the object.
     
     $object->referenceParent( $ParentID );
-    $object->store();
    
     // Example - adding a canonical parent to the object.
     
     $object->referenceParent( $ParentID, true );
-    $object->store();
-   
+
+    // Example - Storing an object.
+    
+    $errors = $object->errors();
+    
+    if( !$errors )
+    {
+        $object->store();
+    }
+    else
+    {
+        $i = 0;
+        foreach( $errors as $error )
+        {
+            echo sprintf( "<p><b>Error %s:</b><br><br>%s</p>", $i, $error );
+            $i++;
+        }
+    }
+       
     \endcode
 
     \sa eZNewsArticle, eZNewsCategory
@@ -105,7 +122,7 @@ class eZNewsItem2
     /*!
         Creates IP and port number of accessing browser.
         
-        Private
+        Private function
         This function returns the current ip and port of the computer
         accessing us.
      */
@@ -119,7 +136,8 @@ class eZNewsItem2
     /*!
         Creates a timestamp for use in a Mysql timestamp field.
         
-        Private
+        Private function
+        
         This function returns the current time in gmt as a timestamp(14)
         field which is used in mysql (YYYYMMDDHHMMSS).
      */
@@ -131,12 +149,13 @@ class eZNewsItem2
 
     
     /*!
-        Creates a user id.
+        Creates an user id.
         
-        Private
+        Private function
+        
         This function returns the current user.
         
-        Unimplemented at the moment, pending session
+        NOTE: Unimplemented at the moment, pending session
         management.
         
         We need to store session data indefinetly
@@ -145,6 +164,12 @@ class eZNewsItem2
      */
     function createUser( )
     {
+        if( $this->checkCreator() )
+        {
+        }
+        else
+        {
+        }
         return 0;
     }
 
@@ -163,6 +188,11 @@ class eZNewsItem2
     function createLogItem( $changeText, $changeType,  )
     {
         $value = false;
+        
+        if( ereg( "^intl-", $changeText ) )
+        {
+        }
+        
         if( $this->isLogging )
         {
             if( $this->checkCreator() )
@@ -205,18 +235,29 @@ class eZNewsItem2
                 if( $existingImage == $ImageID )
                 {
                     $value = false;
+                    $this->Errors[] = "intl-eznews-eznewsitem-image-reference-exists";
                 }
             }
 
             if( $value == true )
             {
-                $this->ImageID[] = $ImageID;
-
                 if( $isFrontImage == true )
                 {
-                    $this->isFrontImage = $ImageID;
+                    if( $this->isFrontImage )
+                    {
+                        $value = false;
+                        $this->Errors[] = "intl-eznews-eznewsitem-another-fron-image-set";
+                    }
+                    else
+                    {
+                        $this->isFrontImage = $ImageID;
+                    }
                 }
-
+            }
+            
+            if( $value == true )
+            {
+                $this->ImageID[] = $ImageID;
                 $this->alterState();
             }
         }
@@ -245,6 +286,7 @@ class eZNewsItem2
                 if( $existingFile == $FileID )
                 {
                     $value = false;
+                    $this->Errors[] = "intl-eznews-eznewsitem-file-reference-exists";
                 }
             }
 
@@ -278,6 +320,7 @@ class eZNewsItem2
                 if( $existingLog == $ChangeTicketID )
                 {
                     $value = false;
+                    $this->Errors[] = "intl-eznews-eznewsitem-log-reference-exists";
                 }
             }
 
@@ -317,18 +360,30 @@ class eZNewsItem2
                 if( $existingParent == $ParentID )
                 {
                     $value = false;
+                    $this->Errors[] = "intl-eznews-eznewsitem-parent-reference-exists";
                 }
             }
 
             if( $value == true )
             {
-                $this->ParentID[] = $ParentID;
 
                 if( $isCanonical == true )
                 {
-                    $this->isCanonical = $ParentID;
+                    if( $this->isCanonical )
+                    {
+                        $value = false;
+                        $this->Errors[] = "intl-eznews-eznewsitem-canonical-parent-reference-exists";
+                    }
+                    else
+                    {
+                        $this->isCanonical = $ParentID;
+                    }
                 }
-
+            }
+            
+            if( $value == true )
+            {
+                $this->ParentID[] = $ParentID;
                 $this->alterState();
             }
         }
@@ -339,7 +394,9 @@ class eZNewsItem2
     
     
     /*!
-        Private.
+        Stores the image data.
+        
+        Private function
         Store the relationship between this object and it's images.
      */
     function storeImages()
@@ -392,7 +449,9 @@ class eZNewsItem2
 
     
     /*!
-        Private.
+        Stores the log
+         
+        Private function
         Store the relationship between this object and it's logs.
      */
     function storeLogs()
@@ -422,7 +481,7 @@ class eZNewsItem2
 
 
     /*!
-        Private.
+        Private function
         Store the relationship between this object and its files.
      */
     function storeFiles()
@@ -452,7 +511,7 @@ class eZNewsItem2
 
 
     /*!
-        Private.
+        Private function
         Store the relationship between this object and its parents.
      */
     function storeParents()
@@ -508,76 +567,109 @@ class eZNewsItem2
 
 
     /*!
+        Stores this object
+        
+        Private function
+        Store the data of this object in the database.
+     */
+    function storeThis()
+    {
+        $query =
+        "
+            INSERT INTO
+                eZNews_Item
+            SET
+                ItemTypeID = '%s',
+                Name       = '%s',
+                Status     = '%s',
+                CreatedBy  = '%s',
+                CreatedAt  = '%s',
+                CreationIP = '%s'
+        ";
+        
+        $query = sprintf
+        (
+            $query,
+            $this->ItemTypeID,
+            $this->Name,
+            $this->Status,
+            $this->CreatedBy,
+            $this->CreatedAt,
+            $this->CreationIP
+        );
+
+        $this->Database->query( $query );
+        $this->ID = mysql_insert_id();
+    }
+
+
+    /*!
         Store this object and related items.
         
         Returns true if the object is stored.
      */
     function store( $copy = false )
     {
+        $this->dbInit();
+        
         $value = false;
         $storeAllowed = false;
+        $stored = false;
         
         
         if( $copy == true )
         {
-            $storeAllowed = true;
             $this->ID = 0;
         }
         
+        // An object must pass the invariant check to 
+        // be stored.
+        
+        $this->invariantCheck();
+         
         if( $this->isCoherent() )
         {
             $storeAllowed = true;
-        }
-        else
-        {
-            $storeAllowed = false;
         }
         
         if( $storeAllowed )
         {
             if( $this->hasChanged() && !$copy )
             {
-                // alter the row in the database
+                // update the row in the database
                 // What has changed
                 
                 
             }
             else
             {
-                // create a new object
-                
-                // Set new ID before this.
-                if( $this->checkCreator() )
-                {
-                    // look up parent id, use a function which
-                    // will do this once and for all.
-                    //
-                }
-                else
-                {
-                    $storeAllowed;
-                }
-                
-                if( $storeAllowed )
-                {
+                    $this->storeThis();
                     $this->storeParents();
                     $this->storeFiles();
                     $this->storeImages();
-
-                    if( $this->isLogging() )
+                    
+                    if( $copy )
                     {
-                        $this->storeLogs();
+                        $this->createLogItem( "intl-eznews-eznewsitem-store-made-a-copy", "copy" );
                     }
-                }
-                
+                    else
+                    {
+                        $this->createLogItem( "intl-eznews-eznewsitem-store-created", "create" );
+                    }
+                    
+                    $this->storeLogs();
+                    
             }
         }
         
-        if( /* we stored the object successfully */ )
+        if( $stored )
         {
             $this->hasChanged = false;
-            $this->State_ = "coherent";
+            $this->makeCoherent();
+            $value = true;
         }
+        
+        return $value;
     }
 
 
@@ -692,6 +784,25 @@ class eZNewsItem2
 
 
     /*!
+        Start or stop object logging.
+     */
+    function doLogging( $check = true )
+    {
+        if( $check == false )
+        {
+            $this->isLogging = false;
+        }
+        else
+        {
+            $this->isLogging = true;
+        }
+        
+        return isLoggin();
+    }
+    
+
+
+    /*!
         Start or stop creator check.
      */
     function doCreatorCheck( $check = true )
@@ -730,25 +841,6 @@ class eZNewsItem2
 
 
     /*!
-        Start or stop object logging.
-     */
-    function doLogging( $check = true )
-    {
-        if( $check == false )
-        {
-            $this->isLogging = false;
-        }
-        else
-        {
-            $this->isLogging = true;
-        }
-        
-        return isLoggin();
-    }
-    
-
-
-    /*!
        Check if this object is logging it's changes,
        
        Returns true if it is logging.
@@ -764,6 +856,7 @@ class eZNewsItem2
         
         return $value;
     }
+
 
 
     /*!
@@ -795,9 +888,12 @@ class eZNewsItem2
         
         return $this->invariantCheck();
     }
+    
+    
+    
     /*!
         Make shure that the object is in a legal state.
-        All errors are stored in $this->invariantErrors.
+        All errors are stored in $this->Errors.
         
         Returns true if the object passes the check.
      */
@@ -810,7 +906,7 @@ class eZNewsItem2
             $count = count( $this->ParentID );
             if( $count == 0 )
             {
-                $this->invariantErrors[] = "intl-canonical-exists-parents-dont";
+                $this->Errors[] = "intl-canonical-exists-parents-dont";
             }            
         }
         
@@ -819,31 +915,31 @@ class eZNewsItem2
             $count = count( $this->ImageID )
             if( $count == 0 )
             {
-                $this->InvariantErrors[] = "intl-fronimage-exists-images-dont";
+                $this->Errors[] = "intl-fronimage-exists-images-dont";
             }
         }
         
         if( empty( $this->Name ) )
         {
-            $this->InvariantErrors[] = "intl-name-required";
+            $this->Errors[] = "intl-name-required";
         }
 
         if( empty( $this->ItemTypeID ) )
         {
-            $this->InvariantErrors[] = "intl-itemtypeid-required";
+            $this->Errors[] = "intl-itemtypeid-required";
         }
 
         if( $this->CreatedBy == 0 && $this->checkCreator() )
         {
-            $this->InvariantErrors[] = "intl-createdby-required";
+            $this->Errors[] = "intl-createdby-required";
         }
 
         if( !isset( $this->ChangeTicketID ) && $this->isLogging() )
         {
-            $this->InvariantErrors[] = "intl-logitem-required";
+            $this->Errors[] = "intl-logitem-required";
         }
 
-        if( !isset( $this->InvariantErrors ) )
+        if( !isset( $this->Errors ) )
         {
             $value = true;
             $State_ = "coherent";
@@ -854,6 +950,31 @@ class eZNewsItem2
 
 
 
+    /*!
+        Return error strings and reset errors.
+        
+        This function will return the errors in $this->Errors. It
+        assumes that you know what you're doing and resets the error
+        string automatically.
+        
+        There are two methods of handling errors with this object:
+        <ol>
+        <li>Check each function for errors and if the function returns
+        false, deal with the problem.
+        <li>Check if there were errors at end of function, and deal
+        with them there.
+        </ol>
+        
+        See the examples for how you can use the second method.
+     */
+    function errors()
+    {
+        $errors = $this->Errors;
+        unset( $this->Errors );
+        return $errors;
+    }
+    
+    
     /*!
       Private function.
       Open the database for read and write. Gets all the database information from site.ini.
@@ -928,7 +1049,7 @@ class eZNewsItem2
     // Object errors
 
     /// All invariant errors.
-    var $InvariantErrors = array();
+    var $Errors = array();
     
     
     
