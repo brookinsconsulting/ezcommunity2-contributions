@@ -134,13 +134,27 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 
 <hr noshade="noshade" size="4" />
 
-	<input class="stdbutton" type="submit" name="Image" value="{intl-pictures}" />
-	<input class="stdbutton" type="submit" name="Option" value="{intl-options}" />
-	<input class="stdbutton" type="submit" name="Attribute" value="{intl-attributes}" />
+<table cellspacing="0" cellpadding="4" border="0">
+<tr>
+    <td>
+        <select name="ItemToAdd">
+	<option value="Image">{intl-pictures}</option>
+	<option value="Option">{intl-options}</option>
+	<option value="Attribute">{intl-attributes}</option>
 <!-- BEGIN module_linker_button_tpl -->
-	<input class="stdbutton" type="submit" name="ModuleLinker" value="{intl-links}" />
+	<option value="ModuleLinker">{intl-links}</option>
 <!-- END module_linker_button_tpl -->
-	<input class="stdbutton" type="submit" name="Preview" value="{intl-preview}" />
+        </select>
+	    <input class="stdbutton" type="submit" name="AddItem" value="{intl-add_item}" />
+    </td>
+    <td>
+        &nbsp;&nbsp;&nbsp;
+    </td>
+    <td>
+	    <input class="stdbutton" type="submit" name="Preview" value="{intl-preview}" />
+    </td>
+</tr>
+</table>
 
 <hr noshade="noshade" size="4" />
 

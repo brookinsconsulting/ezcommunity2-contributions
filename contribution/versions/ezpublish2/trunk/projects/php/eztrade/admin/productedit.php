@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.50 2001/05/26 12:47:11 bf Exp $
+// $Id: productedit.php,v 1.51 2001/06/15 14:08:14 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -198,34 +198,52 @@ if ( $Action == "Insert" )
     // clear the cache files.
     deleteCache( $ProductID, $CategoryID, $categoryIDArray, $product->isHotDeal() );
 
-    // add options
-    if ( isset( $Option ) )
-    {
-        eZHTTPTool::header( "Location: /trade/productedit/optionlist/$productID/" );
-        exit();
-    }
 
-    // add images
-    if ( isset( $Image ) )
+    if( isset( $AddItem ) )
     {
-        eZHTTPTool::header( "Location: /trade/productedit/imagelist/$productID/" );
-        exit();
+        switch( $ItemToAdd )
+        {
+            // add options
+            case "Option":
+            {
+                eZHTTPTool::header( "Location: /trade/productedit/optionlist/$productID/" );
+                exit();
+            }
+            break;
+
+            // add images
+            case "Image":
+            {
+                eZHTTPTool::header( "Location: /trade/productedit/imagelist/$productID/" );
+                exit();
+            }
+            break;
+
+            // attribute
+            case "Attribute":
+            {
+                eZHTTPTool::header( "Location: /trade/productedit/attributeedit/$productID/" );
+                exit();
+            }
+            break;
+
+            // attribute
+            case "ModuleLinker":
+            {
+                eZHTTPTool::header( "Location: /trade/productedit/link/list/$productID/" );
+                exit();
+            }
+            break;
+        }
     }
     
     // preview
-    if ( isset( $Preview ) )
+    if( isset ( $Preview ))
     {
         eZHTTPTool::header( "Location: /trade/productedit/productpreview/$productID/" );
         exit();
     }
-   
-    // attribute
-    if ( isset( $Attribute ) )
-    {
-        eZHTTPTool::header( "Location: /trade/productedit/attributeedit/$productID/" );
-        exit();
-    }
-        
+
 
     // get the category to redirect to
     $category = $product->categoryDefinition( );
@@ -327,20 +345,6 @@ if ( $Action == "Update" )
     // clear the cache files.
     deleteCache( $ProductID, $CategoryID, $old_categories, $was_hotdeal or $product->isHotDeal() );
 
-    // add options
-    if ( isset( $Option ) )
-    {
-        eZHTTPTool::header( "Location: /trade/productedit/optionlist/$productID/" );
-        exit();
-    }
-
-    // add images
-    if ( isset( $Image ) )
-    {
-        eZHTTPTool::header( "Location: /trade/productedit/imagelist/$productID/" );
-        exit();
-    }
-    
     // preview
     if ( isset( $Preview ) )
     {
@@ -348,19 +352,43 @@ if ( $Action == "Update" )
         exit();
     }
 
-    // attribute
-    if ( isset( $Attribute ) )
+    if( isset( $AddItem ) )
     {
-        eZHTTPTool::header( "Location: /trade/productedit/attributeedit/$productID/" );
-        exit();
-    }    
+        switch( $ItemToAdd )
+        {
+            // add options
+            case "Option":
+            {
+                eZHTTPTool::header( "Location: /trade/productedit/optionlist/$productID/" );
+                exit();
+            }
+            break;
 
-    // module link
-    if ( isset( $ModuleLinker ) )
-    {
-        eZHTTPTool::header( "Location: /trade/productedit/link/list/$productID/" );
-        exit();
-    }    
+            // add images
+            case "Image":
+            {
+                eZHTTPTool::header( "Location: /trade/productedit/imagelist/$productID/" );
+                exit();
+            }
+            break;
+
+            // attribute
+            case "Attribute":
+            {
+                eZHTTPTool::header( "Location: /trade/productedit/attributeedit/$productID/" );
+                exit();
+            }
+            break;
+
+            // attribute
+            case "ModuleLinker":
+            {
+                eZHTTPTool::header( "Location: /trade/productedit/link/list/$productID/" );
+                exit();
+            }
+            break;
+        }
+    }
 
     // get the category to redirect to
     $category = $product->categoryDefinition( );
