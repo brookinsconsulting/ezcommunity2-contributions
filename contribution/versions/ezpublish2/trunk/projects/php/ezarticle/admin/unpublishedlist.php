@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.17 2001/02/14 13:43:25 gl Exp $
+// $Id: unpublishedlist.php,v 1.1 2001/02/14 13:43:25 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -35,26 +35,26 @@ $ini =& $GLOBALS["GlobalSiteIni"];
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 $Locale = new eZLocale( $Language );
 $AdminListLimit = $ini->read_var( "eZArticleMain", "AdminListLimit" );
-$languageIni = new INIFIle( "ezarticle/admin/intl/" . $Language . "/articlelist.php.ini", false );
+$languageIni = new INIFIle( "ezarticle/admin/intl/" . $Language . "/unpublishedlist.php.ini", false );
 
 $t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
-                     "ezarticle/admin/intl/", $Language, "articlelist.php" );
+                     "ezarticle/admin/intl/", $Language, "unpublishedlist.php" );
 
 $t->setAllStrings();
 
 $t->set_file( array(
-    "article_list_page_tpl" => "articlelist.tpl"
+    "unpublished_list_page_tpl" => "unpublishedlist.tpl"
     ) );
 
 // path
-$t->set_block( "article_list_page_tpl", "path_item_tpl", "path_item" );
+$t->set_block( "unpublished_list_page_tpl", "path_item_tpl", "path_item" );
 
 // category
-$t->set_block( "article_list_page_tpl", "category_list_tpl", "category_list" );
+$t->set_block( "unpublished_list_page_tpl", "category_list_tpl", "category_list" );
 $t->set_block( "category_list_tpl", "category_item_tpl", "category_item" );
 
 // article
-$t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
+$t->set_block( "unpublished_list_page_tpl", "article_list_tpl", "article_list" );
 $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
 
 $t->set_block( "article_item_tpl", "article_is_published_tpl", "article_is_published" );
@@ -66,8 +66,8 @@ $t->set_block( "article_item_tpl", "absolute_placement_item_tpl", "absolute_plac
 
 
 // prev/next
-$t->set_block( "article_list_page_tpl", "previous_tpl", "previous" );
-$t->set_block( "article_list_page_tpl", "next_tpl", "next" );
+$t->set_block( "unpublished_list_page_tpl", "previous_tpl", "previous" );
+$t->set_block( "unpublished_list_page_tpl", "next_tpl", "next" );
 
 $t->set_var( "site_style", $SiteStyle );
 
@@ -152,8 +152,8 @@ if ( !isset( $Limit ) )
     $Limit = $AdminListLimit;
 
 // articles
-$articleList =& $category->articles( $category->sortMode(), false, true, $Offset, $Limit );
-$articleCount = $category->articleCount( false, true );
+$articleList =& $category->articles( $category->sortMode(), true, true, $Offset, $Limit );
+$articleCount = $category->articleCount( true, true );
 
 $i=0;
 $t->set_var( "article_list", "" );
@@ -239,7 +239,7 @@ else
     $t->set_var( "article_list", "" );
 
 
-$t->pparse( "output", "article_list_page_tpl" );
+$t->pparse( "output", "unpublished_list_page_tpl" );
 
 
 

@@ -14,6 +14,16 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "unpublished":
+    {
+        $CategoryID = $url_array[3];
+        if  ( !isset( $CategoryID ) || ( $CategoryID == "" ) )
+            $CategoryID = 0;
+
+        include( "ezarticle/admin/unpublishedlist.php" );
+    }
+    break;
+
     case "search" :
     {
         include( "ezarticle/admin/search.php" );
