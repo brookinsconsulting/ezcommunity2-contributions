@@ -985,3 +985,72 @@ alter table eZCalendar_Appointment drop Date;
 alter table eZCalendar_Appointment change DateTmp Date int;
 
 alter table eZCalendar_AppointmentType change Description Description varchar(200);
+
+alter table eZArticle_Article_backup add ModifiedTmp int;
+update eZArticle_Article_backup set ModifiedTmp= UNIX_TIMESTAMP( Modified );
+alter table eZArticle_Article_backup drop Modified; 
+alter table eZArticle_Article_backup change ModifiedTmp Modified int;
+
+alter table eZArticle_Article_backup add CreatedTmp int;
+update eZArticle_Article_backup set CreatedTmp= UNIX_TIMESTAMP( Created );
+alter table eZArticle_Article_backup drop Created; 
+alter table eZArticle_Article_backup change CreatedTmp Created int;
+
+alter table eZArticle_Article_backup add PublishedTmp int;
+update eZArticle_Article_backup set PublishedTmp= UNIX_TIMESTAMP( Published );
+alter table eZArticle_Article_backup drop Published; 
+alter table eZArticle_Article_backup change PublishedTmp Published int;
+
+alter table eZExample_Test add CreatedTmp int;
+update eZExample_Test set CreatedTmp= UNIX_TIMESTAMP( Created );
+alter table eZExample_Test drop Created; 
+alter table eZExample_Test change CreatedTmp Created int;
+
+# eZTrade:
+
+alter table eZTrade_AlternativeCurrency add CreatedTmp int;
+update eZTrade_AlternativeCurrency set CreatedTmp= UNIX_TIMESTAMP( Created );
+alter table eZTrade_AlternativeCurrency drop Created; 
+alter table eZTrade_AlternativeCurrency change CreatedTmp Created int;
+
+alter table eZTrade_Attribute add CreatedTmp int;
+update eZTrade_Attribute set CreatedTmp= UNIX_TIMESTAMP( Created );
+alter table eZTrade_Attribute drop Created; 
+alter table eZTrade_Attribute change CreatedTmp Created int;
+
+alter table eZTrade_OrderStatus add AlteredTmp int;
+update eZTrade_OrderStatus set AlteredTmp= UNIX_TIMESTAMP( Altered );
+alter table eZTrade_OrderStatus drop Altered; 
+alter table eZTrade_OrderStatus change AlteredTmp Altered int;
+
+alter table eZTrade_PreOrder add CreatedTmp int;
+update eZTrade_PreOrder set CreatedTmp= UNIX_TIMESTAMP( Created );
+alter table eZTrade_PreOrder drop Created; 
+alter table eZTrade_PreOrder change CreatedTmp Created int;
+
+alter table eZTrade_ProductImageLink add CreatedTmp int;
+update eZTrade_ProductImageLink set CreatedTmp= UNIX_TIMESTAMP( Created );
+alter table eZTrade_ProductImageLink drop Created; 
+alter table eZTrade_ProductImageLink change CreatedTmp Created int;
+
+alter table eZTrade_ShippingGroup add CreatedTmp int;
+update eZTrade_ShippingGroup set CreatedTmp= UNIX_TIMESTAMP( Created );
+alter table eZTrade_ShippingGroup drop Created; 
+alter table eZTrade_ShippingGroup change CreatedTmp Created int;
+
+alter table eZTrade_ShippingType add CreatedTmp int;
+update eZTrade_ShippingType set CreatedTmp= UNIX_TIMESTAMP( Created );
+alter table eZTrade_ShippingType drop Created; 
+alter table eZTrade_ShippingType change CreatedTmp Created int;
+
+alter table eZTrade_VATType add CreatedTmp int;
+update  eZTrade_VATType set CreatedTmp= UNIX_TIMESTAMP( Created );
+alter table  eZTrade_VATType drop Created; 
+alter table  eZTrade_VATType change CreatedTmp Created int;
+
+# eZMessage
+
+alter table eZMessage_Message add CreatedTmp int;
+update  eZMessage_Message set CreatedTmp= UNIX_TIMESTAMP( Created );
+alter table  eZMessage_Message drop Created; 
+alter table  eZMessage_Message change CreatedTmp Created int;
