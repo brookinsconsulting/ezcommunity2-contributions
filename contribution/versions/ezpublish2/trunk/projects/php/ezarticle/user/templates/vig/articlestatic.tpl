@@ -18,16 +18,7 @@
 
 <br />
 <!-- BEGIN article_header_tpl -->
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td>
-	<p class="byline">Av: {author_text}</p>
-	</td>
-	<td align="right">
-	<p class="byline">Dato: {article_created}</p>
-	</td>
-</tr>
-</table>
+
 <!-- END article_header_tpl -->
 
 <p>{article_intro}</p>
