@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userwithaddress.php,v 1.69 2001/08/23 16:58:41 br Exp $
+// $Id: userwithaddress.php,v 1.70 2001/08/27 13:19:17 br Exp $
 //
 // Created on: <10-ct-2000 12:52:42 bf>
 //
@@ -633,7 +633,7 @@ else
 // Render addresses
 if ( $ini->read_var( "eZUserMain", "UserWithAddress" ) == "enabled" )
 {
-    if( $NoAddress == true )
+    if( $NoAddress == true && count( $AddressID ) == 0 )
     {
         $t->parse( "address_actions", "address_actions_tpl" );
     }
