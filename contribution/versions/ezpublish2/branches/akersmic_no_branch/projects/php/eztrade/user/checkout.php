@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.96.2.2.4.1 2002/01/22 20:40:41 br Exp $
+// $Id: checkout.php,v 1.96.2.2.4.2 2002/01/24 12:26:30 bf Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -91,6 +91,15 @@ if ( !$cart || !$cart->items() )
     eZHTTPTool::header( "Location: /trade/cart/" );
     exit();
 }
+
+// check for user
+
+if ( !eZUser::currentUser() )
+{
+    eZHTTPTool::header( "Location: /trade/cart/" );
+    exit();
+}
+    
 
 
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),

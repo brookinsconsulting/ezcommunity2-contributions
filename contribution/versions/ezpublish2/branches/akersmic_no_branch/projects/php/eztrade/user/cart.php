@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.71.8.2 2002/01/23 08:28:38 ceaker Exp $
+// $Id: cart.php,v 1.71.8.3 2002/01/24 12:26:30 bf Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -170,7 +170,7 @@ if ( ( $Action == "Refresh" ) || isSet( $DoCheckOut ) )
 // checkout
 if ( isSet( $DoCheckOut ) )
 {
-    eZHTTPTool::header( "Location: /trade/customerlogin/" );
+    eZHTTPTool::header( "Location: /user/user/new/" );
     exit();
 }
 
