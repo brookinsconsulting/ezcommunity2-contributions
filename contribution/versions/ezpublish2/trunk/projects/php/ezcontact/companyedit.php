@@ -69,7 +69,7 @@ if ( $Action == "delete" )
     $deleteCompany = new eZCompany();
     $deleteCompany->get( $CID );
     $deleteCompany->delete();
-
+    
     printRedirect( "../index.php?page=" . $DOCUMENTROOT . "contactlist.php" );
 }
 
