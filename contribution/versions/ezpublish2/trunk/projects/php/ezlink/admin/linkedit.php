@@ -1,5 +1,5 @@
 <?
-// $Id: linkedit.php,v 1.54 2001/06/30 11:56:31 bf Exp $
+// $Id: linkedit.php,v 1.55 2001/06/30 13:11:27 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -369,7 +369,7 @@ if ( $Action == "insert" )
             }
 
             $linkID = $link->id();
-            
+            die();
             if ( isSet( $Browse ) )
             {
                 $linkID = $link->id();

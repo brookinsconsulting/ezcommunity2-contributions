@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.59 2001/06/30 11:56:31 bf Exp $
+// $Id: ezlink.php,v 1.60 2001/06/30 13:11:27 bf Exp $
 //
 // Definition of eZLink class
 //
@@ -118,36 +118,14 @@ class eZLink
 
         $this->ID = $nextID;
 
-        print "INSERT INTO eZLink_Link 
-                ( ID,
-                  Name,
-                  Description,
-                  KeyWords,
-                  Created,
-                  Modified,
-                  Url,
-                  ImageID,
-                  Accepted )
-                VALUES
-                ( '$nextID',
-                  '$name',
-                  '$description',
-                  '$keywords',
-                  '$timeStamp',
-                  '$timeStamp',
-                  '$url',
-                  '$this->ImageID',
-                  '$this->Accepted' )";
         $db->unlock();
     
         if ( $res == false )
         {
-            print "rollback";
             $db->rollback();
         }
         else
         {
-            print "commit";
             $db->commit();
         }
         
@@ -158,27 +136,44 @@ class eZLink
     */
     function setType( $type )
     {
-        if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
         if ( get_class( $type ) == "ezlinktype" )
         {
             $db =& eZDB::globalDatabase();
+
+            $db->begin();
             
             $typeID = $type->id();
+
+            $db->lock( "eZLink_AttributeValue" );
+
+            $nextID = $db->nextID( "eZLink_AttributeValue", "ID" );
             
-            $db->query( "DELETE FROM eZLink_AttributeValue
+            
+            $res[] = $db->query( "DELETE FROM eZLink_AttributeValue
                                      WHERE LinkID='$this->ID'" );
             
-            $db->query( "DELETE FROM eZLink_TypeLink
+            $res[] = $db->query( "DELETE FROM eZLink_TypeLink
                                      WHERE LinkID='$this->ID'" );
             
             $query = "INSERT INTO eZLink_TypeLink
-                      SET
-                           TypeID='$typeID',
-                           LinkID='$this->ID'";
+                      ( ID,  TypeID, LinkID )
+                      VALUES
+                      ( '$nextID',
+                         '$typeID',
+                         '$this->ID' )";
             
-            $db->query( $query );
+            $res[] = $db->query( $query );
+
+            $db->unlock();
+            
+            if ( in_array( false, $res ) )
+                $db->rollback( );
+            else
+                $db->commit();
+                
+                
+
+            
         }
     }
 
