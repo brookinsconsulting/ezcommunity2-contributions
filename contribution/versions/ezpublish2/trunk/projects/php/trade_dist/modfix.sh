@@ -1,8 +1,6 @@
 #!/bin/bash
 echo "Creating symbolic links and setting permissions as needed."
 chmod 666 site.ini
-chmod 666 ezforum/intl/en_GB/*.ini
-chmod 666 ezforum/intl/no_NO/*.ini
 
 touch error.log
 chmod 666 error.log
