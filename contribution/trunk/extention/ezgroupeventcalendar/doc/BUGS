@@ -1,0 +1,238 @@
+Topic:  	
+Author:  	
+Time:
+Description:
+
+############################################################
+
+	Anyone created searchsupplier parts for ezgroupeventcalendar?
+	peter mcaneny 	02.05.2002 23:06
+I would like to search event descriptions but find no searchsupplier.php and related scripts out there for groupevent calendar. Has anyone created such a thing? Plan to? thanks. 
+
+############################################################
+
+some bugs
+	Marco Zinn 	14.04.2002 22:34
+Hi Adam,
+
+great module! I think, we will test it some days and maybe use it for our extranet soon.
+I found some bugs in the release, that is available for download at ez.no.
+Is there a newer version?
+How should i post the bugs? (Maybe ask the ezCrew to create a new category for you in their bug database).
+
+Thanks to Paul for the hint to enable the module in the admin site ;)
+I'm at
+
+PS: Did you negotiate with the ezCrew to include your module in the next releases? 
+
+############################################################
+
+ 	Adding Forms to eventview
+	Darren Pike 	06.03.2002 06:21
+Adam,
+well done, this module is very useful for my future applications and will be using it on my sites.
+I would also like the ability to add various forms to the event view so users can indicate their attendance. However unlike ezEventcalendar, I would like the choice not to have a form.
+
+Have you thought of adding this feature?
+I would envisage it operating similar to adding forms to an article.
+
+Thanks 
+
+############################################################
+
+problems with eztime.php???
+	T F 	04.03.2002 20:34
+I'm having problems with EZ 2.2 and your module. It works fine with month or year view, but whenever i attempt to do anything that involves the dayview I get the following error message returned.
+
+Fatal error: Maximum execution time of 30 seconds exceeded in /home/ezpublish/classes/eztime.php on line 150
+
+Line number seems to vary depending on the date being passed.
+
+What gives? Otherwise, nice code-looks good. Too bad its useless to me so far. :) 
+
+############################################################
+
+both ezCalendar and eZGroupCalendar
+	Pierre Menga 	12.02.2002 19:55
+Thanks for this program.
+Some things to correct:
+You have to modify the templates (menubox.tpl) so as to point to the correct modules and clean the "history class" which doesn't exist in the basic eZPublish.
+
+It would be very powerfull if it could combine both calendars (ezCalendar and eZGroupCalendar) so as to simulate a real web-scheduler) 
+
+############################################################
+
+ 	RE: both ezCalendar and eZGroupCalendar
+	Adam Fallert 	19.02.2002 21:51
+Thanks for the input of the tpl files. I did clean the menubox.tpl, but I guess I zipped the wrong set of files. Sorry!!!!
+
+As for combining both calendars, I have been considering do just that for about 2 months. The problem that I face right now is that the groupeventcalendar was developed for my orgainzation. Any enhancements I want to add would now be on my personal time (which is very scarce at the moment) without $$$$. As soon as I get the time I will try to combine the two together.
+
+It really shouldn't be too difficult. A lot of the code is the original code for ezcalendar. All that needs to be done is to add the methods for finding individual user events in the event class and placing the user dropdown menu in.
+
+> Thanks for this program.
+> Some things to correct:
+> You have to modify the templates (menubox.tpl) so as to
+> point to the correct modules and clean the "history class"
+> which doesn't exist in the basic eZPublish.
+>
+> It would be very powerfull if it could combine both
+> calendars (ezCalendar and eZGroupCalendar) so as to simulate
+> a real web-scheduler) 
+
+############################################################
+
+Few bugs
+	Atte Junttila 	06.02.2002 23:47
+ch aren't going all the day and click the dayview link you get the following error:
+
+Fatal error: Allowed memory size of 8388608 bytes exhausted (tried to allocate 15 bytes) in classes/eztime.php on line 166*
+
+*on other lines too
+
+It comes also if you send a new event or modify/delete an old event. The event is stored/deleted, but you get the error.
+
+Have a look: www.scandall.com/tapahtumat
+
+The javascript was removed from the template, but this shouldn't affect it!?
+
+Any suggestions??? I found a bug in the eventcalendar. When you have stored some events wh
+
+############################################################
+
+RE: Few bugs
+	Adam Fallert 	19.02.2002 22:12
+Thanks for the input.
+
+Which version of ezpublish and OS are you trying to run this calendar on? I developed and fully tested it on version 2.1 and I have not encountered any errors as you describe.
+
+I do know there are some differences in object referencing between 2.1 and later versions. And your errors sound like a compatibility issue.
+
+I should be downloading and installing the latest version of eZPublish soon. I will take a look that this problem as soon as possible.
+
+
+> I found a bug in the eventcalendar. When you have stored
+ch aren't going all the day and click the
+> dayview link you get the following error:
+>
+> Fatal error: Allowed memory size of 8388608 bytes exhausted
+> (tried to allocate 15 bytes) in classes/eztime.php on line
+> 166*
+>
+> *on other lines too
+>
+> It comes also if you send a new event or modify/delete an
+> old event. The event is stored/deleted, but you get the
+> error.
+>
+> Have a look: www.scandall.com/tapahtumat
+>
+> The javascript was removed from the template, but this
+> shouldn't affect it!?
+>
+> Any suggestions??? > some events wh
+
+############################################################
+
+   	RE: Few bugs
+	Atte Junttila 	20.02.2002 13:18
+It's running on a Suse Linux 7.1, PHP 4.04pl1, MySQL 3.23.33 and Apache 1.3.17. The eZ Publish version is 2.2.2
+
+Can you give me a note, when you know what causes the error?
+
+On your corporation website you had something like the "upcoming events". How is this made? I'd like to have on my frontpage such a module, like the latestmessages.tpl of ezforum.
+
+By the way, if you or maybe the ez crew are going to improve this calender you could try to combine ezArticle with the calender. I mean it would be a nice option to publish images in the calender.
+
+> Thanks for the input.
+>
+> Which version of ezpublish and OS are you trying to run this
+> calendar on? I developed and fully tested it on version 2.1
+> and I have not encountered any errors as you describe.
+>
+> I do know there are some differences in object referencing
+> between 2.1 and later versions. And your errors sound like
+> a compatibility issue.
+>
+> I should be downloading and installing the latest version of
+> eZPublish soon. I will take a look that this problem as
+> soon as possible. 
+
+############################################################
+
+        	RE: Few bugs
+	Adam Fallert 	20.02.2002 20:55
+I am using widgets (or modules for eZArticle, /ezarticle/modules/) for the upcomming events. I have made the code for this available at http://mco.mobius.missouri.edu/~adam/. Feel free to copy them.
+
+You will have to modify eZTechRender and eZTechGenerator to access these modules since they all require argument passing. I have also provided that code at the bottom of the page.
+
+> It's running on a Suse Linux 7.1, PHP 4.04pl1, MySQL 3.23.33
+> and Apache 1.3.17. The eZ Publish version is 2.2.2
+>
+> Can you give me a note, when you know what causes the
+> error?
+>
+> On your corporation website you had something like the
+> "upcoming events". How is this made? I'd like to have on my
+> frontpage such a module, like the latestmessages.tpl of
+> ezforum.
+>
+> By the way, if you or maybe the ez crew are going to improve
+> this calender you could try to combine ezArticle with the
+> calender. I mean it would be a nice option to publish images
+> in the calender.
+>
+> > Thanks for the input.
+> >
+> > Which version of ezpublish and OS are you trying to run
+> this
+> > calendar on? I developed and fully tested it on version
+> 2.1
+> > and I have not encountered any errors as you describe.
+> >
+> > I do know there are some differences in object
+> referencing
+> > between 2.1 and later versions. And your errors sound
+> like
+> > a compatibility issue.
+> >
+> > I should be downloading and installing the latest version
+> of
+> > eZPublish soon. I will take a look that this problem as
+> > soon as possible. 
+
+############################################################
+
+         	RE: Few bugs
+	Atte Junttila 	20.02.2002 21:26
+Great, thanks a lot! I'll take a look on that.
+
+> I am using widgets (or modules for eZArticle,
+> /ezarticle/modules/) for the upcomming events. I have made
+> the code for this available at
+> http://mco.mobius.missouri.edu/~adam/. Feel free to copy
+> them.
+>
+> You will have to modify eZTechRender and eZTechGenerator to
+> access these modules since they all require argument
+> passing. I have also provided that code at the bottom of
+> the page.
+
+############################################################
+
+	Great, but a suggestion to add in the readme
+	Paul Borgermans 	05.02.2002 19:19
+Thanks for this module, it is readily applicable here. One suggestion however for the README, add a few lines to get it configured in the admin site:
+
+"Step 5: add eZGroupEventCalendar to the directive EnabledModules to enable the module in the admin site"
+
+Regards
+
+Paul 
+
+############################################################
+
+
+References:
+http://web.archive.org/web/20020603120338/developer.ez.no/article/articleview/273/1/1/
+http://ezcommunity.net/article/view/165/
