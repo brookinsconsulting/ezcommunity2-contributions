@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.20 2000/07/25 20:22:26 lw Exp $
+    $Id: ezforummessage.php,v 1.21 2000/07/26 09:15:29 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -46,7 +46,8 @@ class eZforumMessage
              or die("eZforumMessage::get($Id) failed, dying...");
             
         $results = mysql_fetch_array( $query_id );
-            
+
+        print( $results["Id"] );
         $this->Id = $Id;
         $this->Topic = $results["Topic"];
         $this->Body = $results["Body"];
@@ -191,7 +192,7 @@ class eZforumMessage
     
     function parent()
     {
-        return $this->parent;
+        return $this->Parent;
     }
     function setParent($newParent)
     {
@@ -304,6 +305,134 @@ class eZforumMessage
          
         return mysql_result($query_id,0,"replies");
     }
+
+    /*
+      Henter ut toppthreaden av gjeldende meldingstråd.
+      WARNING: Denne funksjonen er rekursiv.
+     */
+    function getTopMessage( $id )
+    {
+        $ret_id = "";
+        openDB();
+
+        $msg = new eZForumMessage( );
+        $msg->get( $id );
+        
+        if ( $msg->parent() != "" )
+        {
+            $ret_id = $this->getTopMessage( $msg->parent() );
+        }
+        else
+        {
+            $ret_id = $msg->id( );
+        }
+        
+        return $ret_id;
+    }
+
+    /*
+      Denne funksjonen printer ut alle headerene og viser dem som et tre.
+      Den returnerer rader i en tabell, hva den printer ut er avhengig
+      av templates.
+      WARNING: denne funksjonen er rekursiv og kan bruke en del minne. Denne forutsetter
+      også at databasekolingen er oppe.
+    */
+    function printHeaderTree( $forum_id, $parent_id, $level, $document_root )
+    {
+        $level = $level + 1;
+    
+        $t = new Template(".");
+        $msg = new eZForumMessage();
+
+        $t->set_file( "elements", $document_root . "/templates/forum-elements.tpl"   );
+
+        $t->set_var( "docroot", $document_root );
+        $t->set_var( "category_id", $category_id );
+        $t->set_var( "forum_id", $forum_id );
+    
+    
+        $headers = $msg->getHeaders( $forum_id, $parent_id );
+
+        for ($i = 0; $i < count($headers); $i++)
+        {
+            $Id = $headers[$i]["Id"];
+            $Topic  = $headers[$i]["Topic"];
+            $User = $headers[$i]["UserId"];
+            $PostingTime = $headers[$i]["PostingTimeFormated"];
+        
+            $nr = $i + 1;
+         
+            $t->set_var( "id", $Id );
+            $t->set_var( "forum_id", $forum_id );
+
+
+            $replies = eZforumMessage::countReplies( $Id );
+            
+            $t->set_var( "replies", $replies );
+
+            // legger på kode for å vise "gren" ikon
+            $spacer = "<img src=\"". $document_root ."/images/trans.gif\" border=\"0\" height=\"21\" width=\"5\" >";
+
+            if ( ( $replies == 0 ) )
+            {
+                if ( $level == 1 )
+                {            
+                    $spacer .= "<img src=\"". $document_root ."/images/n.gif\" border=\"0\" height=\"21\" width=\"9\" >";
+                }
+                else
+                {
+                    // sjekker om vi er på siste element av en gren.
+                    if ( $i == ( count($headers) -1 ) )
+                    {
+                        $imgtype = "l";
+                    }
+                    else
+                    {
+                        $imgtype = "t";                    
+                    }
+
+                    if ( $level > 2 )
+                        $spacer .= "<img  src=\"". $document_root ."/images/trans.gif\" height=\"21\" width=\"" . ( ($level-2)*12 ) ."\" border=\"0\">";
+                
+                    $spacer .= "<img  src=\"". $document_root ."/images/" . $imgtype . ".gif\"  height=\"21\" width=\"12\" border=\"0\">";
+
+                    $spacer .= "<img  src=\"". $document_root ."/images/c.gif\" border=\"0\" height=\"21\" width=\"9\" >";
+                
+                }            
+            }
+            else
+            {
+                if ( $level > 1 )
+                {
+                    if ( $level > 2 )
+                        $spacer .= "<img   src=\"". $document_root ."/images/trans.gif\" width=\"" . ( ($level-2)*12 ) ."\" border=\"0\">";
+                
+                    $spacer .= "<img  height=\"21\" width=\"12\" src=\"". $document_root ."/images/l.gif\" border=\"0\">";
+                    $spacer .= "<img  height=\"21\" width=\"9\" src=\"". $document_root ."/images/m.gif\" border=\"0\">";
+                }
+                else
+                {
+                    $spacer .= "<img  height=\"21\" width=\"9\" src=\"". $document_root ."/images/m.gif\" border=\"0\">";
+                }
+            }
+
+            $t->set_var( "tree_icon", $spacer );                    
+            $t->set_var( "topic", "&nbsp;" . $Topic );        
+            $t->set_var( "user", $User );
+            $t->set_var( "postingtime", $PostingTime );
+            $t->set_var( "link",$link );
+
+            if ( ($i % 2) != 0)
+                $t->set_var( "color", "#eeeeee");
+            else
+                $t->set_var( "color", "#bbbbbb");
+    
+            $messages .= $t->parse( "messages", "elements", true );
+            $messages .= $this->printHeaderTree( $forum_id, $Id, $level, $document_root );
+        }
+        return $messages;
+    }
+    
 }
 ?>
 

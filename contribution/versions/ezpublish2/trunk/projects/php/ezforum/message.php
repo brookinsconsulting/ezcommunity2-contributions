@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.5 2000/07/26 07:59:21 lw-cvs Exp $
+    $Id: message.php,v 1.6 2000/07/26 09:15:29 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -37,31 +37,36 @@ $t->set_var( "body", nl2br( stripslashes( $msg->body() ) ) );
 $t->set_var( "reply_id", $message_id );
 $t->set_var( "forum_id", $forum_id );
 
-$replies = $msg->getHeaders( $forum_id, $message_id );
+$top_message = $msg->getTopMessage( $message_id );
+    
+$messages = $msg->printHeaderTree( $forum_id, $top_message, 0, $DOCROOT );
+$t->set_var( "replies", $messages );
 
-if ( ($replies == 0) || (!$replies) )
-{
-    $t->set_var("replies", "<tr><td colspan=\"4\"><b>Ingen svar</b></td></tr>");
-}
-else
-{
-    for ($i = 0; $i < count($replies); $i++)
-    {
-        $j = $i + 1;
-        $Id = $replies[$i]["Id"];
-        $User = $replies[$i]["UserId"];
-        $Topic = $replies[$i]["Topic"];
-        $PostingTime = $replies[$i]["PostingTime"];
+//  $replies = $msg->getHeaders( $forum_id, $message_id );
+
+//  if ( ($replies == 0) || (!$replies) )
+//  {
+//      $t->set_var("replies", "<tr><td colspan=\"4\"><b>Ingen svar</b></td></tr>");
+//  }
+//  else
+//  {
+//      for ($i = 0; $i < count($replies); $i++)
+//      {
+//          $j = $i + 1;
+//          $Id = $replies[$i]["Id"];
+//          $User = $replies[$i]["UserId"];
+//          $Topic = $replies[$i]["Topic"];
+//          $PostingTime = $replies[$i]["PostingTime"];
             
-        $t->set_var( "reply-id", $Id);
-        $t->set_var( "reply-nr", $j);
-        $t->set_var( "reply-user", $User);
-        $t->set_var( "reply-topic", stripslashes( $Topic ) );
-        $t->set_var( "reply-postingtime", $PostingTime);
+//          $t->set_var( "reply-id", $Id);
+//          $t->set_var( "reply-nr", $j);
+//          $t->set_var( "reply-user", $User);
+//          $t->set_var( "reply-topic", stripslashes( $Topic ) );
+//          $t->set_var( "reply-postingtime", $PostingTime);
         
-        $t->parse("replies", "elements", true);
-    }
-}
+//          $t->parse("replies", "elements", true);
+//      }
+//  }
 
 $t->set_var( "link1-url", "main.php");
 $t->set_var( "link1-caption", "Gå til topp");
