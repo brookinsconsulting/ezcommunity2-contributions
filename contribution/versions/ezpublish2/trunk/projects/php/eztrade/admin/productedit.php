@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.15 2000/10/29 10:24:25 bf-cvs Exp $
+// $Id: productedit.php,v 1.16 2000/10/29 10:32:11 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -188,15 +188,19 @@ if ( $Action == "Update" )
 
 if ( $Action == "Cancel" )
 {
-    print( "id:" .$ProductID );
-    $product = new eZProduct( $ProductID );
-
-    $categories = $product->categories();
-
-    $categoryID = $categories[0]->id();
-
-    Header( "Location: /trade/categorylist/parent/$categoryID" );
-    exit();
+    if ( isset( $ProductID ) )
+    {
+        $product = new eZProduct( $ProductID );
+        $categories = $product->categories();
+        $categoryID = $categories[0]->id();
+        Header( "Location: /trade/categorylist/parent/$categoryID" );
+        exit();
+    }
+    else
+    {
+        Header( "Location: /trade/categorylist/parent/" );
+        exit();
+    }
 }
 
 if ( $Action == "Delete" )
