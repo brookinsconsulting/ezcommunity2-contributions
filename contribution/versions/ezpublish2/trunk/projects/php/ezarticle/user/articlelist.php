@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.77 2001/10/06 11:20:50 bf Exp $
+// $Id: articlelist.php,v 1.78 2001/10/16 11:17:10 bf Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -49,6 +49,7 @@ $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 $DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
 $UserListLimit = $ini->read_var( "eZArticleMain", "UserListLimit" );
 $GrayScaleImageList = $ini->read_var( "eZArticleMain", "GrayScaleImageList" );
+$ForceCategoryDefinition = $ini->read_var( "eZArticleMain", "ForceCategoryDefinition" );
 
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", $Language, "articlelist.php" );
@@ -328,7 +329,12 @@ $SiteDescriptionOverride = "";
 foreach ( $articleList as $article )
 {
     $categoryDef =& $article->categoryDefinition();
-    if ( $CategoryID == 0 )
+
+    if ( $ForceCategoryDefinition == "enabled" )
+    {
+        $CategoryID = $categoryDef->id();
+    }
+    else if ( $CategoryID == 0 )
     {
         $CategoryID = $categoryDef->id();
     }
