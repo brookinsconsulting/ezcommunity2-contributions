@@ -18,6 +18,7 @@
 </form>
 	</td>
 	<td align="center">
+	<br />
 
 		<a class="path" href="/calendar/dayview/{pm_year_number}/{pm_month_number}/{pm_day_number}">&lt;&lt;&nbsp;</a>
 		<a class="path" href="/calendar/monthview/{year_number}/{month_number}">{month_name}</a>
