@@ -1851,7 +1851,23 @@ class eZGroupEvent
        $this->RepeatTimes = $not;
        $this->RecurFinishDate = $stamp;
     }
-    
+    /*!
+     Returns a bool toggle to add in filtering events.
+    */
+    function noDisplay()
+    {
+     if (!isset($this->noDisplay)) return false;
+     else return $this->noDisplay;
+    }
+    /*!
+     Sets a noDisplay toggle.
+    */
+    function setNoDisplay($bool)
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+            $this->noDisplay = $bool;
+    }
     /*!
       Sets the FinishDate to the UntilDate. UntilDate comes in format yyyy-mm-dd.
     */
@@ -1888,7 +1904,6 @@ class eZGroupEvent
        $this->RecurExceptions = $exStr;
     }
 
-    
     var $ID;
     var $Name;
     var $Description;
@@ -1939,7 +1954,8 @@ class eZGroupEvent
     var $RepeatTimes;
     var $RepeatUntilDate;   
     var $RecurFinishDate;
-    
+
+    var $noDisplay;
     /// The priority of the event, values can be 0, 1, 2 where 1 is normal.
     var $Priority;
     

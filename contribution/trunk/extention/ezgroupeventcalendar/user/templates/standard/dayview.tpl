@@ -10,7 +10,7 @@
 	<td valign="top" style="text-align: center; padding: 5px;">
 		<span>{intl-group}:</span><br />
 		<select class="gcalDayViewSelect" name="GetByGroupID">
-		<option value="0">{intl-default}</option>
+		<option value="0">{intl-def       ault}</option>
 		<!-- BEGIN group_item_tpl -->
 		<option {group_is_selected} value="{group_id}">{group_name}</option>
 		<!-- END group_item_tpl -->
@@ -35,7 +35,7 @@
 <tr><td>
 
 	<table width="160" border="0" cellspacing="0" cellpadding="0" id="gcalDayViewMonthTable">
-	<tr><td colspan=7 id="gcalDayViewMonthTableHeader" 
+	<tr><td colspan=7 id="gcalDayViewMonthTableHeader"
     style="height: 12px;
     background: no-repeat url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalDayViewMonthTableHeader.png');
     font-size: 2px;"><img src="{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalX.png" style="z-index: 1001; margin-right:7px;"  alt="close"
@@ -134,25 +134,41 @@
 	<td id="gcalBigHeader" style="background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalShortTimeBg.png') repeat;" colspan="10">
     <span class="gcalBigHeader"><a style="font-size: large; text-decoration: none;" href="{www_dir}{index}/groupeventcalendar/monthview/{year_number}/{month_number}/{group_print_id}/">{long_date}</a></span></td>
 </tr><tr>
-<td width="4.5%" class="gcalDayViewTopBar"><a class="gcalSmallLink" href="{www_dir}{index}/groupeventcalendar/dayview/{pd_year_number}/{pd_month_number}/{pd_day_number}/{group_print_id}/"> &lt;&lt; </a></td>
+<td width="5%" class="gcalDayViewTopBar">
+<a class="gcalSmallLink" 
+href="{www_dir}{index}/groupeventcalendar/dayview/{pd_year_number}/{pd_month_number}/{pd_day_number}/{group_print_id}/"> &lt;&lt; </a></td>
 	<!-- BEGIN day_links_tpl -->
 	<td width="13%" onmouseover="this.className='gcalDayViewTopBarSelect'"
     onmouseout="this.className='{class_name}'"
     onclick="location.href = '{www_dir}{index}/groupeventcalendar/dayview/{top_year_number}/{top_month_number}/{top_day_number}/{group_print_id}/'"
     class="{class_name}">{day_name}</td>
 	<!-- END day_links_tpl -->
-<td width="4.5%" class="gcalDayViewTopBar"><a class="gcalSmallLink" href="{www_dir}{index}/groupeventcalendar/dayview/{nd_year_number}/{nd_month_number}/{nd_day_number}/{group_print_id}/"> &gt;&gt; </a></td>
+<td width="5%" class="gcalDayViewTopBar"><a class="gcalSmallLink" href="{www_dir}{index}/groupeventcalendar/dayview/{nd_year_number}/{nd_month_number}/{nd_day_number}/{group_print_id}/"> &gt;&gt; </a></td>
 </tr>
 <!-- BEGIN all_day_event_tpl -->
 <tr>
+<td width="100%" colspan=9>
+<table width=100% cellpadding="0" cellspacing="0" border="0">
+<tr>
 <td width="5%" class="gcalDayViewTopBar" style="cursor: default; font-size: 8px;">All Day</td>
-<td width="90%" colspan=7
+<td width="88%"
 onclick="location.href = '{www_dir}{index}/groupeventcalendar/eventview/{all_day_id}/'"
 style="cursor: pointer; background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalAllDayEvent.png') repeat;">
 <a class="gcalAllDay" href="{www_dir}{index}/groupeventcalendar/eventview/{all_day_id}/"
 onmouseover="return overlib('<div class=\'olWrapAllDay\'><div class=\'olListAllDay\'>Name</div>{all_day_name}<div class=\'olListAllDay\'>Time</div> {all_day_start} - {all_day_stop}<div class=\'olListAllDay\'>Description </div>{all_day_desc}</div>');"
 onmouseout="return nd();">{all_day_name}</a></td>
+
+	<!-- BEGIN all_day_delete_check_tpl -->
+		<td width="1%" align="right" style="cursor: pointer; background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalAllDayEvent.png') repeat;">
+		  <a href="{www_dir}{index}/groupeventcalendar/eventedit/edit/{event_id}/">
+          <img name="ezcal{event_id}-red" border="0" src="/images/redigermini.gif" width="12" height="12" align="top" alt="Edit" /></a>
+		</td>
+		<td width="1%" align="right" style="cursor: pointer; background: url('{www_dir}{index}/ezgroupeventcalendar/user/templates/standard/images/gcalAllDayEvent.png') repeat;">
+		  <input type="checkbox" name="eventArrayID[]" value={event_id}>
+		</td>
+		<!-- END all_day_delete_check_tpl -->
 <td width="5%" class="gcalDayViewTopBar" style="cursor: default; font-size: 8px;">All Day</td></tr>
+</table></td></tr>
 <!-- END all_day_event_tpl -->
 </table>
 
@@ -222,11 +238,11 @@ onmouseout="return nd();">&nbsp;{event_name}&nbsp;</a>
 		</td>
 
 		<!-- BEGIN delete_check_tpl -->
-		<td width="1%" valign="top" align="right" class="gcalEventTopBar">
+		<td width="1%" align="right" class="gcalEventTopBar">
 		  <a href="{www_dir}{index}/groupeventcalendar/eventedit/edit/{event_id}/">
-          <img name="ezcal{event_id}-red" border="0" src="/images/redigermini.gif" width="12" height="12" align="top" alt="Edit" /></a>
+          <img name="ezcal{event_id}-red" border="0" src="/images/redigermini.gif" width="12" height="12" alt="Edit" /></a>
 		</td>
-		<td width="1%" valign="top" align="right" class="gcalEventTopBar">
+		<td width="1%" align="right" class="gcalEventTopBar">
 		  <input type="checkbox" name="eventArrayID[]" value={event_id}>
 		</td>
 		<!-- END delete_check_tpl -->

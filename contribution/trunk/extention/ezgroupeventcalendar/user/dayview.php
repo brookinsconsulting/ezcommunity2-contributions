@@ -222,11 +222,12 @@ if( $user )
     $t->set_block( "time_display_tpl", "no_new_event_link_tpl", "no_new_event_link" );
     $t->set_block( "public_event_tpl", "delete_check_tpl", "delete_check" );
     $t->set_block( "public_event_tpl", "no_delete_check_tpl", "no_delete_check" );
+    $t->set_block( "day_view_page_tpl", "all_day_event_tpl", "all_day_event");  
+    $t->set_block( "all_day_event_tpl", "all_day_delete_check_tpl", "all_day_delete_check");
     $t->set_block( "day_view_page_tpl", "week_tpl", "week" );
     $t->set_block( "week_tpl", "day_tpl", "day" );
     $t->set_block( "week_tpl", "empty_day_tpl", "empty_day" );
     $t->set_block( "day_view_page_tpl", "day_links_tpl", "day_links" );
-    $t->set_block( "day_view_page_tpl", "all_day_event_tpl", "all_day_event");
     $t->set_block( "time_table_tpl", "fifteen_event_tpl", "fifteen_event" );
     $t->set_block( "fifteen_event_tpl", "fifteen_delete_check_tpl", "fifteen_delete_check" );
     $t->set_block( "fifteen_event_tpl", "fifteen_no_delete_check_tpl", "fifteen_no_delete_check" );
@@ -349,9 +350,8 @@ if( $user )
     $midNight->setSecondsElapsed( 0 );
     $lastInterval = $midNight->subtract( $interval );
     $firstInterval = $midNight->add( $interval );
-    for ($i=0;$i<=sizeof($events); $i++)
+    for ($i=0;$i<sizeof($events); $i++)
     {
-
         $appStartTime =& $events[$i]->startTime();
         $appStopTime =& $events[$i]->stopTime();
         $appStartStr = $appStartTime->hour() . addZero($appStartTime->minute());
@@ -362,7 +362,7 @@ if( $user )
         if ( ($appStartTime == $startTime && $appStopTime == $stopTime) || ( ($appStartStr <= $startStr) && ( $appStopStr >= $stopStr ) ) )
         {
          $allDayEvents[] = $events[$i];
-         unset($events[$i]);
+         $events[$i]->setNoDisplay(true);
          continue;
         }
         if ( $appStartTime->isGreater( $firstInterval ) )
@@ -397,8 +397,37 @@ if (isset($allDayEvents))
   $t->set_var("all_day_desc", $adEvent->description());
   $t->set_var("all_day_location", ($adEvent->location()) ? $adEvent->location() : "");
 
+  $event_editor = false;
+  $groupMember  = false;
+  if( $rootAccess == true )
+				{
+					$groupMember = true;
+				}
+  elseif( $groupsList != "-1" && $rootAccess == false )
+  {
+					foreach ( $groupsList as $groups )
+					{
+						//If the user has a matching group set their group id to the matching group else there group id will be -1.
+						if( $adEvent->groupID() == $groups->id() )
+						{
+							$user_groupID = $groups->id();
+							$groupMember = true;
+							break;
+						}
+					}
+				}
 
-  $t->parse("all_day_event", "all_day_event_tpl", true);
+				// Determine editing permissions for mixed group dayviews
+				if( $groupMember == true && $editor == true )
+				{
+					$event_editor = true;
+				}
+  if ($event_editor)
+   $t->parse("all_day_delete_check", "all_day_delete_check_tpl");
+  else
+   $t->set_var("all_day_delete_check", "");
+   
+ $t->parse("all_day_event", "all_day_event_tpl", true);
  }
 }
  else
@@ -459,6 +488,7 @@ if (isset($allDayEvents))
 
         foreach ( $events as $event )
         {
+         if ($event->NoDisplay()) continue;  // don't show all day events
             // avoid wrapping around midnight
             $nextInterval = $tmpTime->add( $interval );
             if ( $nextInterval->isGreater( $tmpTime ) )
@@ -572,10 +602,10 @@ if (isset($allDayEvents))
 				}
 				elseif( $groupsList != "-1" && $rootAccess == false )
 				{
-					foreach ( $groupsList as $groups )
+			    foreach ( $groupsList as $groups )
 					{
 						//If the user has a matching group set their group id to the matching group else there group id will be -1.
-						if( $event->groupID() == $groups->id() )
+					 if( $event->groupID() == $groups->id() )
 						{
 							$user_groupID = $groups->id();
 							$groupMember = true;
@@ -760,17 +790,18 @@ if (isset($allDayEvents))
     // previous day link
     $date->setYear( $Year );
     $date->setMonth( $Month );
-
-    $date->setDay( $Day - 1 );
+    $dayAdjust=0;
+    $date->setDay( $Day - 7 );
     if ( $date->day() < 1 )
     {
+         $dayAdjust = $date->day();
         $date->setMonth( $Month - 1 );
         if ( $date->month() < 1 )
         {
             $date->setMonth( 12 );
             $date->setYear( $Year - 1 );
         }
-        $date->setDay( $date->daysInMonth() );
+        $date->setDay( $date->daysInMonth() + $dayAdjust);
     }
     $t->set_var( "pd_year_number", $date->year() );
     $t->set_var( "pd_month_number", $date->month() );
@@ -779,11 +810,10 @@ if (isset($allDayEvents))
     // next day link
     $date->setYear( $Year );
     $date->setMonth( $Month );
-
-    $date->setDay( $Day + 1 );
+    $date->setDay( $Day + 7 );
     if ( $date->day() > $date->daysInMonth() )
     {
-        $date->setDay( 1 );
+        $date->setDay( $date->day() - $date->daysInMonth() );
         $date->setMonth( $Month + 1 );
         if ( $date->month() > 12 )
         {
