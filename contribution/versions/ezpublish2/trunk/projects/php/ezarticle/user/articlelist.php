@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.41 2001/04/06 10:12:15 bf Exp $
+// $Id: articlelist.php,v 1.42 2001/04/07 13:54:19 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -161,12 +161,12 @@ if ( $CategoryID == 0 )
     // do not set offset for the main page news
     // always sort by publishing date is the merged category
     $article = new eZArticle();
-    $articleList = $article->articles( "time", false, $Offset, $Limit );
+    $articleList =& $article->articles( "time", false, $Offset, $Limit );
     $articleCount = $article->articleCount( false );
 }
 else
 {
-    $articleList = $category->articles( $category->sortMode(), false, true, $Offset, $Limit );
+    $articleList =& $category->articles( $category->sortMode(), false, true, $Offset, $Limit );
     $articleCount = $category->articleCount( false, true  );
 }
 

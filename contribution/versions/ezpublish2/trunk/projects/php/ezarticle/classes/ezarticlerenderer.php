@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlerenderer.php,v 1.8 2001/01/22 14:42:59 jb Exp $
+// $Id: ezarticlerenderer.php,v 1.9 2001/04/07 13:54:19 bf Exp $
 //
 // Definition of eZArticleRenderer class
 //
@@ -37,14 +37,24 @@ class eZArticleRenderer
     {
         $this->Article =& $article;
 
-        $xml =& xmltree( $this->Article->contents() );
-        
-        if ( $xml->root->children[0]->name == "generator" )
-        {
-            $generator =& $xml->root->children[0]->children[0]->content;
+        $contents =& $this->Article->contents();
 
+//        print( nl2br( htmlspecialchars( $contents ) ) );
+
+        // find the generator used
+        if ( ereg("<generator>(.*)</generator>", $contents, $regs ) )
+        {
+            $generator =& $regs[1];
+            
             switch ( $generator )
             {
+                case "qdom" :
+                {
+                    $this->RendererFile = "ezqdomrenderer.php";
+                    $this->RendererClass = "eZQDomRenderer";
+                }
+                break;
+
                 case "tech" :
                 {
                     $this->RendererFile = "eztechrenderer.php";
@@ -110,7 +120,7 @@ class eZArticleRenderer
 
         $generator = new $this->RendererClass( $this->Article );
 
-//          print( "Using renderer: " . $this->RendererClass . "<br>");
+//        print( "Using renderer: " . $this->RendererClass . "<br>");
               
         return $generator->renderPage( $page );
     }

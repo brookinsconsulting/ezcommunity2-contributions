@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.64 2001/03/23 16:37:16 bf Exp $
+// $Id: eztechrenderer.php,v 1.65 2001/04/07 13:54:19 bf Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -118,8 +118,6 @@
   Add better syntax highlighting.
 
 */
-
-
 
 include_once( "classes/eztexttool.php" );
 include_once( "classes/ezlog.php" );

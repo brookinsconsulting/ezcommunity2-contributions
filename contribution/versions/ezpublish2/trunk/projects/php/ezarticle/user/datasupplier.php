@@ -2,14 +2,16 @@
 
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlecategory.php" );
-
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
-
 include_once( "ezuser/classes/ezuser.php" );
+
+
+
 
 $PageCaching = $ini->read_var( "eZArticleMain", "PageCaching" );
 $UserComments = $ini->read_var( "eZArticleMain", "UserComments" );
+
 
 switch ( $url_array[2] )
 {
@@ -48,7 +50,7 @@ switch ( $url_array[2] )
 
         // if file exists... evrything is ok..
         // if not.. check permission, then run page if ok
-        $user = eZUser::currentUser();
+        $user =& eZUser::currentUser();
         $groupstr = "";
         if( get_class( $user ) == "ezuser" )
         {
@@ -86,7 +88,7 @@ switch ( $url_array[2] )
                 $GenerateStaticPage = "true";
                 
                 include( "ezarticle/user/articlelist.php" );
-            }            
+            }
         }
         else if( $CategoryID == 0 || eZObjectPermission::hasPermission( $CategoryID, "article_category", 'r' ) ||
                  eZArticleCategory::isOwner( $user, $CategoryID) )
@@ -361,6 +363,13 @@ switch ( $url_array[2] )
     }
     break;
 
+    
+    // XML rpc interface
+    case "xmlrpc" :
+    {
+        include( "ezarticle/xmlrpc/xmlrpcserver.php" );
+    }
+    break;
 }
 
 ?>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: headlines.php,v 1.8 2001/03/17 12:39:22 bf Exp $
+// $Id: headlines.php,v 1.9 2001/04/07 13:54:19 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Nov-2000 14:35:24 bf>
@@ -102,7 +102,6 @@ else
 
 
 $t->pparse( "output", "article_list_page_tpl" );
-
 
 ?>
 

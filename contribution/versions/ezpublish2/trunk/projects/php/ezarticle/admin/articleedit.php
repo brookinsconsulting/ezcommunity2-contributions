@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.62 2001/04/06 10:33:55 ce Exp $
+// $Id: articleedit.php,v 1.63 2001/04/07 13:54:19 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -207,7 +207,9 @@ if ( $Action == "Insert" )
     }
     
     // check if the contents is parseable
-    if ( xmltree( $contents ) )
+//    xmltree( $contents )
+    // add document validation here
+    if ( true )
     {
         // generate keywords
         $contents = strip_tags( $contents );
@@ -394,7 +396,9 @@ if ( $Action == "Update" )
     }
         
     // check if the contents is parseable
-    if ( xmltree( $contents ) )
+//    if ( xmltree( $contents ) )
+    // TODO add document validation here:
+    if ( true )
     {
 
         // generate keywords

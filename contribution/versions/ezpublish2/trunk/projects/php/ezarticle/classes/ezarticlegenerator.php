@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlegenerator.php,v 1.11 2001/03/06 13:41:57 jb Exp $
+// $Id: ezarticlegenerator.php,v 1.12 2001/04/07 13:54:19 bf Exp $
 //
 // Definition of eZArticleGenerator class
 //
@@ -49,13 +49,20 @@ class eZArticleGenerator
 
         switch ( $generatorType )
         {            
+            case "qdom" :
+            {
+                $this->GeneratorFile = "ezqdomgenerator.php";
+                $this->GeneratorClass = "eZQDomGenerator";
+            }
+            break;
+
             case "tech" :
             {
                 $this->GeneratorFile = "eztechgenerator.php";
                 $this->GeneratorClass = "eZTechGenerator";
             }
             break;
-
+            
             case "ez" :
             {
                 $this->GeneratorFile = "ezezgenerator.php";
@@ -111,14 +118,22 @@ class eZArticleGenerator
     */
     function &decodeXML( &$contents )
     {
-        $xml =& xmltree( $contents );
-        
-        if ( $xml->root->children[0]->name == "generator" )
+//        print( $contents );
+
+        // find the generator used
+        if ( ereg("<generator>(.*)</generator>", $contents, $regs ) )
         {
             $generator =& $xml->root->children[0]->children[0]->content;
 
             switch ( $generator )
             {
+                case "qdom" :
+                {
+                    $this->GeneratorFile = "ezqdomgenerator.php";
+                    $this->GeneratorClass = "eZQDomGenerator";
+                }
+                break;
+
                 case "tech" :
                 {
                     $this->GeneratorFile = "eztechgenerator.php";
@@ -158,7 +173,6 @@ class eZArticleGenerator
         $generator = new $this->GeneratorClass( $contents );
               
         return $generator->decodeXML();        
-        
     }
         
     var $GeneratorClass;

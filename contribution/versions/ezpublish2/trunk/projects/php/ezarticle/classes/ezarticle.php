@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.61 2001/04/06 10:49:10 bf Exp $
+// $Id: ezarticle.php,v 1.62 2001/04/07 13:54:19 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -992,7 +992,7 @@ class eZArticle
     /*!
       Returns every article in every category sorted by time.
     */
-    function articles( $sortMode=time,
+    function &articles( $sortMode=time,
                        $fetchNonPublished=true,
                        $offset=0,
                        $limit=50 )
@@ -1039,9 +1039,10 @@ class eZArticle
         }
         $loggedInSQL = "( $currentUserSQL ( ( $groupSQL Permission.GroupID='-1' ) AND Permission.ReadPermission='1') ) AND";
 
-       if ( !$fetchNonPublished )
+        $publishedCode = "";
+       if ( $fetchNonPublished == false )
        {
-           $fetch_text = "AND A.IsPublished = 'true'";
+           $publishedCode = "AND Article.IsPublished = 'true'";
        }
 
        $query = "SELECT Article.ID as ArticleID
@@ -1154,7 +1155,7 @@ class eZArticle
     /*!
       Returns the forum for the article.
     */
-    function forum()
+    function &forum()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -1307,7 +1308,7 @@ class eZArticle
             $limit_text = "LIMIT $offset, $limit";
         }
 
-        $user = eZUser::currentUser();
+        $user =& eZUser::currentUser();
         $currentUserSQL = "";
         if ( $user )
         {
