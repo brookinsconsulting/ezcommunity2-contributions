@@ -23,6 +23,7 @@
 <!-- END header_6_tpl -->
 
 <!-- BEGIN image_tpl -->
+{map_string}
 <br clear="all"><table width="{image_width}" align="{image_alignment}" border="0" cellspacing="0" cellpadding="4">
 <tr>
 <td>
@@ -37,7 +38,7 @@
    </a>   
    <!-- END ext_link_tpl -->
    <!-- BEGIN no_link_tpl -->
-   <img src="{www_dir}{image_url}" border="0" width="{image_width}" height="{image_height}" alt="" />
+   <img src="{www_dir}{image_url}" {map_name} border="0" width="{image_width}" height="{image_height}" alt="" />
    <!-- END no_link_tpl -->
 </td>
 </tr>
