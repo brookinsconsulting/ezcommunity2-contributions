@@ -4,7 +4,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td>
-	<h1>{head_line} - {forum_name}</h1>
+	<h1>{intl-new_comment} - {forum_name}</h1>
     </td>
 </tr>
 </table>

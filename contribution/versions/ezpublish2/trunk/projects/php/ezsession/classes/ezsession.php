@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.11 2000/11/19 14:42:35 bf-cvs Exp $
+// $Id: ezsession.php,v 1.12 2000/11/22 09:33:33 bf-cvs Exp $
 //
 // Definition of eZSession class
 //
@@ -162,7 +162,7 @@ class eZSession
 
       Returnes false if unsuccessful.
     */
-    function fetch( )
+    function fetch( $refresh=true )
     {
         $this->dbInit();
         $ret = false;
@@ -177,16 +177,34 @@ class eZSession
         {
             $ret = $this->get( $session_array[0]["ID"] );
 
-            // update session
-            $this->Database->query( "UPDATE eZSession_Session SET
-                                 Created=Created,
-                                 LastAccessed=now()
-                                 WHERE ID='$this->ID'
-                                 " );
+            if ( $refresh == true )
+            {
+                $this->refresh();
+            }
         }
         
         return $ret;        
     }
+
+    /*!
+      This function refreshes the session timeout.
+    */
+    function refresh( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+       
+       // update session
+       $this->Database->query( "UPDATE eZSession_Session SET
+                                 Created=Created,
+                                 LastAccessed=now()
+                                 WHERE ID='$this->ID'
+                                 " );        
+
+    }
+        
 
     /*!
       Deletes an eZSession object from the database.

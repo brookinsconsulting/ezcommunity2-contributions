@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userbox.php,v 1.12 2000/11/21 16:23:11 ce-cvs Exp $
+// $Id: userbox.php,v 1.13 2000/11/22 09:33:34 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -23,7 +23,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-require( "ezuser/user/usercheck.php" );
+//require( "ezuser/user/usercheck.php" );
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );

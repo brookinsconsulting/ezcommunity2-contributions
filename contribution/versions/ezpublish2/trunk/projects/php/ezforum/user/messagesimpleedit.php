@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagesimpleedit.php,v 1.1 2000/11/21 16:20:46 bf-cvs Exp $
+// $Id: messagesimpleedit.php,v 1.2 2000/11/22 09:33:33 bf-cvs Exp $
 //
 // Bård Farstad
 // Created on: <21-Nov-2000 16:04:30 bf>
@@ -33,8 +33,6 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
 include_once( "ezforum/classes/ezforum.php" );
-
-print( $RedirectURL );
 
 $ini = new INIFile( "site.ini" );
 
