@@ -169,15 +169,14 @@
       </td>
 </tr>
 <!-- END wishlist_item_tpl --> 
-<!-- END wish_list_tpl -->
 </table>
-
-<!-- BEGIN voucher_list_tpl -->
+<!-- END wish_list_tpl -->
 
 <h2>{intl-vouchers} ( {voucher_count} )</h2>
 
 <hr noshade="noshade" size="4" />
 
+<!-- BEGIN voucher_list_tpl -->
 <form method="post" action="{www_dir}{index}/trade/voucherlist/">
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>

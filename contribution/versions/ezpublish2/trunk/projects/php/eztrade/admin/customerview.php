@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: customerview.php,v 1.3 2001/09/26 07:09:32 ce Exp $
+// $Id: customerview.php,v 1.4 2001/09/26 07:49:19 ce Exp $
 //
 // Created on: <21-Sep-2001 16:06:44 bf>
 //
@@ -132,6 +132,8 @@ foreach ( $orders as $order )
 
 $wishlist =& eZWishList::getByUser( $customer );
 
+$t->set_var( "wish_count", "0" );
+$t->set_var( "wish_list", "" );
 if ( $wishlist )
 {
     $items =& $wishlist->items();
@@ -220,9 +222,11 @@ if ( $wishlist )
 }
 
 $t->set_var( "voucher_list", "" );
+$vouchers = "0";
 $vouchers =& eZVoucherUsed::getByUser( $customer );
 $count = count ( $vouchers );
 $t->set_var( "voucher_count", $count );
+$t->set_var( "used_item", "" );
 if ( $count > 0 )
 {
     $i=0;
@@ -250,9 +254,9 @@ if ( $count > 0 )
         $t->parse( "used_item", "used_item_tpl", true );
         $i++;
     }
-    $t->parse( "voucher_list", "voucher_list_tpl" );
-    
+        $t->parse( "voucher_list", "voucher_list_tpl" );
 }
+
 
 if ( count( $orders ) > 0 )
 {
