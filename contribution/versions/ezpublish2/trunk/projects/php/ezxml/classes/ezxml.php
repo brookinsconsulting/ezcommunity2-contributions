@@ -1,9 +1,10 @@
 <?php
 //
-// $Id: ezxml.php,v 1.15 2001/12/10 13:01:25 bf Exp $
+// $Id: ezxml.php,v 1.16 2001/12/10 14:18:24 br Exp $
 //
 // Definition of eZXML class
 //
+// Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2001 11:26:01 bf>
 //
 // This source file is part of eZ publish, publishing software.
@@ -59,6 +60,8 @@ class eZXML
         $TagStack = array();
 
         // get document version
+        // stip the !doctype (xdutoit modification)
+        $xmlDoc =& preg_replace( "%<\!DOCTYPE.*?>%is", "", $xmlDoc );
 
         // strip header
         $xmlDoc =& preg_replace( "#<\?.*?\?>#", "", $xmlDoc );
@@ -285,7 +288,7 @@ class eZXML
     */
     function stripComments( &$str )
     {
-        $str =& preg_replace( "#<\!--.*?-->#", "", $str );
+        $str =& preg_replace( "#<\!--.*?-->#s", "", $str );
         return $str;
     }
     
