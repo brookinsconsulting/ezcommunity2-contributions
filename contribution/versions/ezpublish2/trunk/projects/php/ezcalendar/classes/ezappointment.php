@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezappointment.php,v 1.2 2001/01/09 17:00:07 bf Exp $
+// $Id: ezappointment.php,v 1.3 2001/01/15 13:54:28 gl Exp $
 //
 // Definition of eZAppointment class
 //
@@ -25,8 +25,8 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-//!! eZFileManager
-//! eZVirtualFolder manages virtual folders.
+//!! eZCalendar
+//! eZAppointment handles appointments.
 /*!
   
 */
@@ -189,6 +189,7 @@ class eZAppointment
     function getByDate( $date )
     {
         $ret = array();
+
         if ( get_class( $date ) == "ezdate" )
         {
             $this->dbInit();
@@ -207,8 +208,7 @@ class eZAppointment
             $this->Database->array_query( $appointment_array,
             "SELECT ID from eZCalendar_Appointment
              WHERE Date LIKE '$stamp%' ORDER BY Date ASC" );
-         
-        
+
             for ( $i=0; $i<count($appointment_array); $i++ )
             {
                 $return_array[] = new eZAppointment( $appointment_array[$i]["ID"], 0 );
@@ -217,9 +217,8 @@ class eZAppointment
             $ret =& $return_array;            
         }
         return $ret;
-        
     }
-    
+
 
     /*!
       Returns the object ID to the appointment. This is the unique ID stored in the database.
@@ -228,7 +227,8 @@ class eZAppointment
     {
         return $this->ID;
     }
-    
+
+
     /*!
       Returns the name of the appointment.
     */

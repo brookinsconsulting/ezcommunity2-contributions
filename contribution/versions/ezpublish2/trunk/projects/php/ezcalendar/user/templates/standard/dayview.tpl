@@ -8,7 +8,7 @@
 	{hour_value} : {minute_value}
 	</td>	
 	<!-- BEGIN appointment_tpl -->
-	<td class="{td_class}" colspan="{rowspan_value}" >
+	<td class="{td_class}" rowspan="{rowspan_value}" >
 	{appointment_id} {appointment_name}
 	</td>
 	<!-- END appointment_tpl -->

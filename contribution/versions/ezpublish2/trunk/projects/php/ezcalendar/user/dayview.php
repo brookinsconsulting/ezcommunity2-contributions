@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.2 2001/01/11 14:23:11 gl Exp $
+// $Id: dayview.php,v 1.3 2001/01/15 13:54:28 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -77,7 +77,13 @@ $tmpDate->setDay( $datetime->day() );
 $appointments = $tmpAppointment->getByDate( $tmpDate );
 
 $appointmentColumns = array();
+$rowSpanColumns = array();
 
+$startTime = new eZTime( 8, 0, 0 );
+$interval = new eZTime( 0, 30, 0 );
+$stopTime = new eZTime( 18, 0, 0 );
+
+// places appointments into columns, creates extra columns as necessary
 foreach ( $appointments as $appointment )
 {
     $aCount = 0;
@@ -85,74 +91,111 @@ foreach ( $appointments as $appointment )
     while ( $foundFreeColumn == false  )
     {
         if ( gettype( $appointmentColumns[$aCount] ) != "array" )
+        {
             $appointmentColumns[$aCount] = array();
+            $rowSpanColumns[$aCount] = 0;
+        }
 
         if ( isFree( $appointmentColumns[$aCount], $appointment ) )
         {
             $foundFreeColumn = true;
             $appointmentColumns[$aCount][] = $appointment;
-
         }
-        
+
         $aCount++;
     }
 }
 
-// print out the time table
-
-$startTime = new eZTime( 8, 0, 0 );
-$interval = new eZTime( 0, 30, 0 );
-$stopTime = new eZTime( 18, 0, 0 );
-
 $numCols = count( $appointmentColumns );
 
-//  print( $numCols );
-
+// print out the time table
 while ( $startTime->isGreater( $stopTime ) == true )
 {
     $t->set_var( "hour_value", eZTime::addZero( $startTime->hour() ) );
     $t->set_var( "minute_value", eZTime::addZero( $startTime->minute() ) );
 
-
     $drawnColumn = array();
     $t->set_var( "appointment", "" );
-    // draw the column appointments or a space
+
     for ( $i=0; $i<$numCols; $i++ )
     {
         $drawnColumn[$i] = false;
-        foreach ( $appointmentColumns[$i] as $app )
+
+        if ( $rowSpanColumns[$i] <= 1 )
         {
-            if ( intersects( $app, $startTime, $startTime->add( $interval ) ) )
+            foreach ( $appointmentColumns[$i] as $app )
             {
-                $t->set_var( "td_class", "bgdark" );
-                
-                $t->set_var( "appointment_id", $app->id() );
-                $t->set_var( "appointment_name", $app->name() );
+                if ( intersects( $app, $startTime, $startTime->add( $interval ) ) )
+                {
+                    $rowSpanColumns[$i] = appointmentRowSpan( $app, $startTime, $interval );
+                    $t->set_var( "td_class", "bgdark" );
+                    $t->set_var( "rowspan_value", $rowSpanColumns[$i] );
+                    $t->set_var( "appointment_id", $app->id() );
+                    $t->set_var( "appointment_name", $app->name() );
+
+                    $t->parse( "appointment", "appointment_tpl", true );
+                    $drawnColumn[$i] = true;
+                }
+            }
+
+            if ( $drawnColumn[$i] == false )
+            {
+//                $rowSpanColumns[$i] = emptyRowSpan( $startTime, $interval );
+                $t->set_var( "td_class", "bglight" );
+//                $t->set_var( "rowspan_value", $rowSpanColumns[$i] );
+                $t->set_var( "rowspan_value", "0" );
+                $t->set_var( "appointment_id", "" );
+                $t->set_var( "appointment_name", "" );
 
                 $t->parse( "appointment", "appointment_tpl", true );
-                $drawnColumn[$i] = true;
             }
         }
-
-        if ( $drawnColumn[$i] == false )
+        else
         {
-            $t->set_var( "td_class", "bglight" );
-            $t->set_var( "appointment_id", "" );
-            $t->set_var( "appointment_name", "" );
-            
-            $t->parse( "appointment", "appointment_tpl", true );
+            $rowSpanColumns[$i]--;
         }
     }
-    
+
     $startTime = $startTime->add( $interval );
 
     $t->parse( "time_table", "time_table_tpl", true );
 }
 
 
+// returns the number of rows an appointment covers.
+function appointmentRowSpan( &$appointment, &$startTime, &$interval )
+{
+    $ret = 0;
+    $tmpTime = new eZTime( $startTime->hour(), $startTime->minute(), $startTime->second() );
+    $aStop =& $appointment->stopTime();
 
-// checks if the appointment crashes with other appointments
-// in the array given
+    while ( $tmpTime->isGreater( $aStop ) )
+    {
+        $tmpTime = $tmpTime->add( $interval );
+        $ret++;
+    }
+
+    return $ret;
+}
+
+
+// returns the number of empty rows before an appointment.
+function emptyRowSpan( &$startTime, &$interval )
+{
+    $ret = 0;
+    $tmpTime = new eZTime( $startTime->hour(), $startTime->minute(), $startTime->second() );
+
+//      while ( $tmpTime->isGreater( $aStop ) )
+//      {
+//          $tmpTime = $tmpTime->add( $interval );
+//          $ret++;
+//      }
+
+    return $ret;
+}
+
+
+// checks if the appointment crashes with other appointments in the array given
 function isFree( &$appointmentArray, &$appointment )
 {
     $ret = true;
@@ -163,10 +206,10 @@ function isFree( &$appointmentArray, &$appointment )
             $ret = false;
 //              print( "inter" . $appointment->id() . " " . $app->id() . "<br>" );
         }
-        else
-        {
+//        else
+//        {
 //              print( "not inter" . $appointment->id() . " " . $app->id() . "<br>" );
-        }
+//        }
     }
     return $ret;
 }
