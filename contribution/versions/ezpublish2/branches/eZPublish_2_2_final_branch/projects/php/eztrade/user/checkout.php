@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.96.2.4 2001/11/22 14:27:50 pkej Exp $
+// $Id: checkout.php,v 1.96.2.5 2001/11/22 15:49:12 pkej Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -76,6 +76,11 @@ include_once( "ezmail/classes/ezmail.php" );
 
 $cart = new eZCart();
 $session =& eZSession::globalSession();
+
+$user = eZUser::currentUser();
+
+if ( get_class( $user ) != "ezuser" )
+    eZHTTPTool::header( "Location: /user/login/" );
 
 // if no session exist create one.
 if ( !$session->fetch() )
@@ -352,7 +357,7 @@ foreach ( $items as $item )
     foreach ( $optionValues as $optionValue )
     {
         turnColumnsOnOff( "option" );
-    
+        
         $option =& $optionValue->option();
         $value =& $optionValue->optionValue();
         $value_quantity = $value->totalQuantity();
@@ -363,7 +368,7 @@ foreach ( $items as $item )
         $t->set_var( "option_value", $descriptions[0] );
         $t->set_var( "option_price", $value->localePrice( $PricesIncludeVAT, $product ) );
         $t->parse( "cart_item_option", "cart_item_option_tpl", true );
-        
+
         $numberOfOptions++;
     }
     turnColumnsOnOff( "cart" );
@@ -371,8 +376,6 @@ foreach ( $items as $item )
     
     if ( $ShowSavingsColumn == true )
     {
-        turnColumnsOnOff( "savings" );
-
         if ( $item->correctSavings( true, true, $PricesIncludeVAT ) > 0 )
         {
             $t->set_var( "product_savings", $item->localeSavings( true, true, $PricesIncludeVAT ) );
@@ -382,6 +385,10 @@ foreach ( $items as $item )
             $t->set_var( "product_savings", "&nbsp;" );
         }
         $t->parse( "cart_savings_item", "cart_savings_item_tpl" );
+    }
+    else
+    {
+        $t->set_var( "cart_savings_item", "" );
     }
 
     if ( $numberOfOptions ==  0 )

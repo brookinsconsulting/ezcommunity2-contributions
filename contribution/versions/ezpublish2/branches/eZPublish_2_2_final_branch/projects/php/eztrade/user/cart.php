@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.71.2.2 2001/11/22 14:27:50 pkej Exp $
+// $Id: cart.php,v 1.71.2.3 2001/11/22 15:49:12 pkej Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -443,7 +443,7 @@ foreach ( $items as $item )
     foreach ( $optionValues as $optionValue )
     {
         turnColumnsOnOff( "option" );
-    
+        
         $option =& $optionValue->option();
         $value =& $optionValue->optionValue();
         $value_quantity = $value->totalQuantity();
@@ -453,8 +453,11 @@ foreach ( $items as $item )
         $t->set_var( "option_name", $option->name() );
         $t->set_var( "option_value", $descriptions[0] );
         $t->set_var( "option_price", $value->localePrice( $PricesIncludeVAT, $product ) );
+        $t->set_var( "option_savings_item", "" );
+        $t->set_var( "option_ex_tax_item", "" );
+        $t->set_var( "option_inc_tax_item", "" );
         $t->parse( "cart_item_option", "cart_item_option_tpl", true );
-        
+
         $numberOfOptions++;
     }
     turnColumnsOnOff( "cart" );
@@ -462,8 +465,6 @@ foreach ( $items as $item )
     
     if ( $ShowSavingsColumn == true )
     {
-        turnColumnsOnOff( "savings" );
-
         if ( $item->correctSavings( true, true, $PricesIncludeVAT ) > 0 )
         {
             $t->set_var( "product_savings", $item->localeSavings( true, true, $PricesIncludeVAT ) );
@@ -473,6 +474,10 @@ foreach ( $items as $item )
             $t->set_var( "product_savings", "&nbsp;" );
         }
         $t->parse( "cart_savings_item", "cart_savings_item_tpl" );
+    }
+    else
+    {
+        $t->set_var( "cart_savings_item", "" );
     }
 
     if ( $numberOfOptions ==  0 )
