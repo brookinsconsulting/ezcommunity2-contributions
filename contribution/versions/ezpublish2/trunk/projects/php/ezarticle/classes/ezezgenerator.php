@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezezgenerator.php,v 1.7 2000/11/02 16:40:59 bf-cvs Exp $
+// $Id: ezezgenerator.php,v 1.8 2000/11/02 18:12:25 bf-cvs Exp $
 //
 // Definition of eZEzGenerator class
 //
@@ -215,7 +215,7 @@ class eZEzGenerator
                     {
                         foreach ( $paragraph->attributes as $imageItem )
                         {
-                            print( $imageItem->name );
+//                              print( $imageItem->name );
                             switch ( $imageItem->name )
                             {
 
@@ -242,7 +242,7 @@ class eZEzGenerator
                     {
                         foreach ( $paragraph->attributes as $imageItem )
                         {
-                            print( $imageItem->name );
+//                              print( $imageItem->name );
                             switch ( $imageItem->name )
                             {
 

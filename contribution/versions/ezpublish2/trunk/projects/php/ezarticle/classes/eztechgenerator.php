@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.24 2000/11/01 11:49:10 bf-cvs Exp $
+// $Id: eztechgenerator.php,v 1.25 2000/11/02 18:12:09 bf-cvs Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -102,7 +102,6 @@ class eZTechGenerator
 
     function &generateUnknowns( $tmpPage )
     {
-        print( "bla" );
         // make unknown tags readable.. look-ahead assertion is used ( ?! ) 
         $tmpPage = preg_replace( "/<(?!(page|php|\/|image|cpp|shell|sql|hea|lin|per|bol|ita|und|str|pre|ver|lis|ezhtml|java|ezanchor|mail))/", "&lt;", $tmpPage );
 
@@ -419,7 +418,7 @@ class eZTechGenerator
         {
             foreach ( $paragraph->attributes as $imageItem )
                 {
-                    print( $imageItem->name );
+//                      print( $imageItem->name );
                     switch ( $imageItem->name )
                     {
 
