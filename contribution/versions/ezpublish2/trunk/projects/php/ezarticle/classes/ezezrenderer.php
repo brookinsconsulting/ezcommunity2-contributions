@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezezrenderer.php,v 1.6 2000/10/29 17:11:15 bf-cvs Exp $
+// $Id: ezezrenderer.php,v 1.7 2000/10/29 17:31:08 bf-cvs Exp $
 //
 // Definition of eZEzRenderer class
 //
@@ -96,7 +96,7 @@ class eZEzRenderer
         }
         else
         {
-            $into = "";
+            $intro = "";
             $body = "";
             
             $i=0;
@@ -128,7 +128,7 @@ class eZEzRenderer
         }
         else
         {
-            $into = "";
+            $intro = "";
             $body = "";
 
             
@@ -136,7 +136,7 @@ class eZEzRenderer
             {
                 if ( $child->name == "intro" )
                 {
-                    $intro = $child->children[0]->content;
+                    $intro = trim( $child->children[0]->content );
                     $intro = preg_replace( "#(http://.*?)(\s|\))#", "<a href=\"\\1\">\\1</a>", $intro );
                 }
                 
@@ -160,7 +160,7 @@ class eZEzRenderer
                     // ordinary text
                     if ( $paragraph->name == "text" )
                     {
-                        $pageContent .= eZTextTool::nl2br( $paragraph->content );
+                        $pageContent .= eZTextTool::nl2br($paragraph->content );
                     }
                     
                     // header
@@ -377,7 +377,14 @@ class eZEzRenderer
             }
             else
             {
-                $newArticle = eZTextTool::nl2br( $intro ) . "</p><p>". $pageArray[$pageNumber];
+                if ( $intro != "" )
+                {                    
+                    $newArticle = "<p>" . eZTextTool::nl2br( $intro ) . "</p>". $pageArray[$pageNumber];
+                }
+                else
+                {
+                    $newArticle = $pageArray[$pageNumber];
+                }
             }
                 
         }
@@ -399,7 +406,7 @@ class eZEzRenderer
         }
         else
         {
-            $into = "";
+            $intro = "";
             $body = "";
             
             $i=0;
