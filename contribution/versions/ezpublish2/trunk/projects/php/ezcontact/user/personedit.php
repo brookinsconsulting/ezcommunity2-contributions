@@ -12,6 +12,11 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezmail.php" );
 include_once( "ezcontact/classes/ezperson.php" );
 
+if( is_object( $user ) )
+{
+    $UserID = $user->id();
+}
+
 if( $Action == "delete" )
 {
     $person = new eZPerson();
@@ -209,7 +214,7 @@ if( $Action == "insert" || $Action == "update" )
     }
     else
     {
-        if( strlen( $Password ) < 4 )
+        if( strlen( $Password ) < 4 &&  empty( $UserID ) )
         {
             $t->parse( "error_password_too_short_item", "error_password_too_short_item_tpl" );
             $error = true;
@@ -393,12 +398,19 @@ if( $Action == "edit" )
     if( $UserID > 0 )
     {
         $user = $person->user();
-        if( $user[0]->id() != $UserID )
+        if( is_object( $user[0] ) )
         {
-            $person = $person->getByUserID( $UserID );
-            $PersonID = $person->id();
-            header( "Location: /contact/person/edit/$PersonID" );
-            exit();
+            if( $user[0]->id() != $UserID )
+            {
+                $person = $person->getByUserID( $UserID );
+                $PersonID = $person->id();
+                header( "Location: /contact/person/edit/$PersonID" );
+                exit();
+            }
+        }
+        else
+        {
+            header( "Location: /contact/person/new" );
         }
     }
     else
@@ -536,16 +548,16 @@ if( $Action == "formdata" )
 
     $t->set_var( "user_name", $LoginName );
     $t->set_var( "password", $Password );
-    $t->set_var( "old_password", "" );
+    $t->set_var( "password_repeat", "$PasswordRepeat" );
 
     $t->set_var( "street1", $Street1 );
     $t->set_var( "street2", $Street2 );
     $t->set_var( "zip", $Zip );
     $t->set_var( "place", $Place );
 
-    $t->set_var( "home_phone", $HomePhone );
-    $t->set_var( "work_phone", $WorkPhone );
-    $t->set_var( "mobile_phone", $MobilePhone );
+    $t->set_var( "home_phone", $Phone[0] );
+    $t->set_var( "work_phone", $Phone[1] );
+    $t->set_var( "mobile_phone", $Phone[2] );
 
     $t->set_var( "web", $Online[1] );
     $t->set_var( "email", $Online[0] );

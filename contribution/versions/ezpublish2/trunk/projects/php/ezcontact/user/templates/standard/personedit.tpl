@@ -207,11 +207,11 @@
 <tr>
     <td>
         <p class="boxtext">{intl-password}:</p>
-        <input type="password" size="20" name="Password" value="{old_password}"/>
+        <input type="password" size="20" name="Password" value="{password}"/>
     </td>
     <td>
         <p class="boxtext">{intl-repeat_password}:</p>
-        <input type="password" size="20" name="PasswordRepeat" value=""/>
+        <input type="password" size="20" name="PasswordRepeat" value="{password_repeat}"/>
     </td>
 </tr>
 </table>
@@ -233,7 +233,7 @@
 	</td>
 	<td>&nbsp;</td>
 	<td>
-	<form method="post" action="/contact/person/list/">
+	<form method="post" action="/cv/cv/list/">
 	<input class="okbutton" type="submit" name="Back" value="{intl-back}">
 	</form>
 	</td>

@@ -87,7 +87,8 @@ if( !$type->id() && $Action != "new"  )
     header( "Location: /error.php?type=404&reason=missingpage&module=ezcontact&hint=/contact/companytype/list/0" );
     exit();
 }
-else
+
+
 {
     if ( $Action == "delete" )
     {
