@@ -36,6 +36,7 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "ezbulkmail/classes/ezbulkmail.php" );
 
 class eZBulkMailCategory
 {
@@ -92,7 +93,7 @@ class eZBulkMailCategory
         // delete from BulkMailCategoryLink
         $db->query( "DELETE FROM eZBulkMail_MailCategoryLink WHERE CategoryID='$id'" );
         // delete actual group entry
-        $db->query( "DELETE FROM eZBulkMail_Category WHERE ID='$id'" );            
+        $db->query( "DELETE FROM eZBulkMail_Category WHERE ID='$id'" );
      }
     
     /*!
@@ -214,8 +215,7 @@ class eZBulkMailCategory
       Returns every bug in a category as a array of eZBug objects.
 
     */
-    function mail( $sortMode="time",
-                       $offset=0,
+    function mail( $offset=0,
                        $limit=50 )
     {
        $this->dbInit();
@@ -233,16 +233,13 @@ class eZBulkMailCategory
        $return_array = array();
        $mail_array = array();
 
-       $this->Database->array_query( $bug_array, "
-                SELECT eZBulkMail_Mail.ID AS MailID, 
-                FROM eZBulkMail_Bug, eZBulkMail_Category, eZBulkMail_BugCategoryLink
-                WHERE 
-                eZBulkMail_MailCategoryLink.BugID = eZBulkMail_Mail.ID
-                AND
-                eZBulkMail_Category.ID = eZBulkMail_MailCategoryLink.CategoryID
-                AND
-                eZBulkMail_Category.ID='$this->ID'
-                GROUP BY eZBulkMail_Mail.ID ORDER BY $OrderBy LIMIT $offset,$limit" );
+       $this->Database->array_query( $mail_array, "
+                SELECT eZBulkMail_Mail.ID AS MailID
+                FROM eZBulkMail_Mail, eZBulkMail_Category, eZBulkMail_MailCategoryLink
+                WHERE eZBulkMail_MailCategoryLink.MailID = eZBulkMail_Mail.ID
+                AND eZBulkMail_Category.ID = eZBulkMail_MailCategoryLink.CategoryID
+                AND eZBulkMail_Category.ID='$this->ID'
+                GROUP BY eZBulkMail_Mail.ID LIMIT $offset,$limit" );
  
        for( $i=0; $i<count($mail_array); $i++ )
        {
@@ -252,7 +249,40 @@ class eZBulkMailCategory
        return $return_array;
     }
 
+    /*!
+      Returns an array with all addresses that are subscribed to this category.
+     */
+    function subscribers()
+    {
+        $db = eZDB::globalDatabase();
 
+        $subscribe_array = array();
+        $return_array = array();
+        $db->array_query( $subscribe_array, "SELECT EMail FROM eZBulkMail_SubscriptionAddress, eZBulkMail_SubscriptionLink
+                                             WHERE eZBulkMail_SubscriptionAddress.ID=eZBulkMail_SubscriptionLink.AddressID
+                                             AND eZBulkMail_SubscriptionLink.CategoryID='$this->ID'" );
+
+        for( $i=0; $i<count($subscribe_array); $i++ )
+        {
+            $return_array[$i] = $subscribe_array[$i]["EMail"];
+        }
+        return $return_array;
+    }
+
+    /*!
+      Returns the number of users subscribed to this list.
+     */
+    function subscriberCount()
+    {
+        $db = eZDB::globalDatabase();
+
+        $db->query_single( $result, "SELECT count( EMail ) as Count FROM eZBulkMail_SubscriptionAddress, eZBulkMail_SubscriptionLink
+                                             WHERE eZBulkMail_SubscriptionAddress.ID=eZBulkMail_SubscriptionLink.AddressID
+                                             AND eZBulkMail_SubscriptionLink.CategoryID='$this->ID'" );
+
+        return $result["Count"];
+    }
+    
     /*!
       Private function.
       Open the database for read and write. Gets all the database information from site.ini.

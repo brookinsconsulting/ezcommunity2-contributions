@@ -17,6 +17,20 @@ if( isset( $Edit ) )
 
 if( isset( $Send ) )
 {
+    echo "Sending in action";
+    $mail = new eZBulkMail( $MailID );
+    $category = $mail->category();
+    if( is_object( $category ) )
+    {
+        $mail->send();
+        $catID = $category->id();
+        eZHTTPTool::header( "Location: /bulkmail/categorylist/$catID" );
+        exit();
+    }
+    else
+    {
+        echo "An error occured during sending....";
+    }
 }
 
 $ini =& INIFile::globalINI();
@@ -49,7 +63,14 @@ if( is_object( $mail ) )
     $t->set_var( "current_mail_id", $MailID );
     $t->set_var( "from", $mail->sender() );
     $t->set_var( "subject", $mail->subject() );
-    $t->set_var( "mail_body", $mail->body() );
+
+    /** check if this mail has a template associated with it **/
+    $body = $mail->body();
+    $template = $mail->template();
+    if( is_object( $template ) )
+        $body = $template->header() . $body . $template->footer();
+    $t->set_var( "mail_body", nl2br( $body ) );
+
     $category = $mail->category();
     if( is_object( $category ) )
     {

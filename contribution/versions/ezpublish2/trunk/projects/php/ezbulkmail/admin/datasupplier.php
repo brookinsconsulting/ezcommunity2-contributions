@@ -5,6 +5,7 @@ switch ( $url_array[2] )
 {
     case "categorylist":
     {
+        $CategoryID = $url_array[3];
         include_once( "ezbulkmail/admin/categorylist.php" );
     }
     break;
@@ -49,7 +50,10 @@ switch ( $url_array[2] )
     break;
 
     case "send" :
+        $SendButton = true;
     case "preview" :
+        $EditButton = true;
+    case "view" :
     {
         $MailID = $url_array[3];
         if( !is_numeric( $MailID ) )
@@ -57,9 +61,6 @@ switch ( $url_array[2] )
             eZHTTPTool::header( "Location: /error/404" );
             exit();
         }
-        if( $url_array[2] == "send" )
-            $SendButton = true;
-        $EditButton = true;
         include_once( "ezbulkmail/admin/mailview.php" );
     }
     break;

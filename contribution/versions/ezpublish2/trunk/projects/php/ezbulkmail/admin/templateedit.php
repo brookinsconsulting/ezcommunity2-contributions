@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: templateedit.php,v 1.1 2001/04/18 15:40:12 fh Exp $
+// $Id: templateedit.php,v 1.2 2001/04/20 12:22:09 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <18-Apr-2001 17:15:33 fh>
@@ -75,7 +75,7 @@ if( $TemplateID != 0  )
     {
         $t->set_var( "template_name", $template->name() );
         $t->set_var( "description", $template->description() );
-        $t->set_var( "template_header", $template->header() );
+        $t->set_var( "template_header",  $template->header() );
         $t->set_var( "template_footer", $template->footer() );
     }
 }

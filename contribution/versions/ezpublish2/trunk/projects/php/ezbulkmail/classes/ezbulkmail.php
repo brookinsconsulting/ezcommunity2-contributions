@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmail.php,v 1.5 2001/04/19 13:51:11 fh Exp $
+// $Id: ezbulkmail.php,v 1.6 2001/04/20 12:22:09 fh Exp $
 //
 // eZBulkMail class
 //
@@ -40,6 +40,7 @@
 include_once( "classes/ezdatetime.php" );
 include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
 include_once( "ezbulkmail/classes/ezbulkmailtemplate.php" );
+include_once( "ezmail/classes/ezmail.php" );
 
 class eZBulkMail
 {
@@ -68,13 +69,11 @@ class eZBulkMail
         $bodytext = addslashes( $this->BodyText );
         $subject = addslashes( $this->Subject );
         $replyto = addslashes( $this->ReplyTo );
-        $fromname = addslashes( $this->fromname );
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZBulkMail_Mail SET
 		                         UserID='$this->UserID',
-                                 FromField='$this->FromField',
-                                 FromName='$fromname',
+                                 FromField='$this->From',
                                  ReplyTo='$replyto',
                                  Subject='$subject',
                                  BodyText='$bodytext',
@@ -86,8 +85,7 @@ class eZBulkMail
         {
             $this->Database->query( "UPDATE eZBulkMail_Mail SET
 		                         UserID='$this->UserID',
-                                 FromField='$this->FromField',
-                                 FromName='$fromname',
+                                 FromField='$this->From',
                                  ReplyTo='$replyto',
                                  Subject='$subject',
                                  BodyText='$bodytext',
@@ -134,8 +132,7 @@ class eZBulkMail
             {
                 $this->ID = $mail_array[0][ "ID" ];
                 $this->UserID = $mail_array[0][ "UserID" ];
-                $this->FromField = $mail_array[0][ "FromField" ];
-                $this->FromName = $mail_array[0][ "FromName" ];
+                $this->From = $mail_array[0][ "FromField" ];
                 $this->ReplyTo = $mail_array[0][ "ReplyTo" ];
                 $this->Subject = $mail_array[0][ "Subject" ];
                 $this->BodyText = $mail_array[0][ "BodyText" ];
@@ -190,7 +187,7 @@ class eZBulkMail
     */
     function sender()
     {
-        return $this->FromField;
+        return $this->From;
     }
 
     /*!
@@ -198,7 +195,7 @@ class eZBulkMail
     */
     function setSender( $newSender )
     {
-        $this->FromField = $newSender;
+        $this->From = $newSender;
     }
 
     /*!
@@ -259,13 +256,11 @@ class eZBulkMail
     /*!
       Returns the date that this mail was distributed
      */
-    function date( $html = true )
+    function date(  )
     {
         $dateTime = new eZDateTime( );
-        $dateTime->setMySQLTimeStamp( $this->Date );        
+        $dateTime->setMySQLTimeStamp( $this->SentDate );        
         
-        if( $html )
-            return htmlspecialchars( $dateTime );
         return $dateTime;
     }
 
@@ -274,7 +269,7 @@ class eZBulkMail
      */
     function setDate( $value )
     {
-        $this->Date = $value;
+        $this->SentDate = $value;
     }
 
     /*!
@@ -346,6 +341,39 @@ class eZBulkMail
     }
 
     /*!
+      This function handles sending of the mail. Before sending the mail it merges the associated template (if any) with the body contents.
+      The mail is pulled out of the drafts, and the template is disconnected.
+      TODO: Current implementation sends all the mail in one big bulk. For larger systems we want to spread it out over time.
+     */
+    function send()
+    {
+        $this->IsDraft = false;
+        $template = $this->template();
+        if( is_object( $template ) )
+            $this->Body = $template->header( false ) . $this->Body . $template->footer( false );
+        $this->useTemplate( false );
+
+        $category = $this->category();
+        if( is_object( $category ) ) // category does exist...
+        {
+            $mail = new eZMail();
+            $mail->setBodyText( $this->BodyText );
+            $mail->setSubject( $this->Subject );
+            $mail->setSender( $this->From );
+            
+            $subscribers = $category->subscribers();
+            foreach( $subscribers as $subscriber )
+            {
+                $mail->setTo( $subscriber );
+                $mail->send();
+            }
+            $this->store();
+            /** The mail was sent.. now lets set the timestamp **/
+            $this->Database->query( "UPDATE eZBulkMail_Mail SET SentDate=now() WHERE ID='$this->ID'");
+        }
+    }
+    
+    /*!
       \private
       
       Open the database for read and write. Gets all the database information from site.ini.
@@ -361,8 +389,7 @@ class eZBulkMail
 
     var $ID;
     var $UserID;
-    var $FromName;
-    var $FromField;
+    var $From;
     var $ReplyTo;
     var $Subject;
     var $BodyText;

@@ -25,9 +25,6 @@ if( isset( $Preview ) )
 if( isset( $Save ) )
 {
     $MailID = save_mail();
-    $mail = new eZBulkMail( $MailID );
-    $mail->setIsDraft( true );
-    $mail->store();
 }
 
 if( isset( $Send ) )
@@ -67,7 +64,7 @@ if( $MailID == 0 )
 $user = eZUser::currentUser();
 $t->set_var( "from_value", $user->email() );
 
-/** We are editing an allready existant mail... lets insert it's values **/
+/** We are editing an allready existent mail... lets insert it's values **/
 if( $MailID != 0 ) 
 {
     $t->set_var( "current_mail_id", $MailID );
@@ -136,8 +133,12 @@ function save_mail()
 
     if( $TemplateID != -1 )
         $mail->useTemplate( $TemplateID );
-
+    $mail->setIsDraft( true );
+    
     $mail->store();
+    if( $TemplateID != -1 )
+        $mail->useTemplate( $TemplateID );
+    
     $category = new eZBulkMailCategory( $CategoryID );
     $category->addMail( $mail );
     

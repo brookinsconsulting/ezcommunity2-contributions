@@ -1,4 +1,4 @@
-<h1>{intl-category_list}</h1>
+<h1>{intl-category_list} - {current_category_name}</h1>
 
 <hr noshade="noshade" size="4" />
 
@@ -15,7 +15,7 @@
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	{category_name}
+	<a href="/bulkmail/categorylist/{category_id}">{category_name}</a>
 	</td>
 	<td class="{td_class}">
 	{category_description}
@@ -33,9 +33,7 @@
 <!-- END category_tpl -->
 
 <!-- BEGIN bulkmail_tpl -->
-
-<hr noshade="noshade" size="4" />
-
+<hr noshade="noshade" size="4">
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th width="20%">{intl-bulkmail_subject}:</th>
@@ -45,7 +43,7 @@
 <!-- BEGIN bulkmail_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	{bulkmail_subject}
+	<a href="/bulkmail/view/{bulkmail_id}">{bulkmail_subject}</a>
 	</td>
 	<td class="{td_class}">
 	{sent_date}

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.3 2001/04/18 14:09:01 fh Exp $
+// $Id: categorylist.php,v 1.4 2001/04/20 12:22:09 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <18-Apr-2001 10:26:26 fh>
@@ -24,6 +24,7 @@
 //
 
 include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
+include_once( "classes/ezlocale.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezhttptool.php" );
 include_once( "classes/eztemplate.php" );
@@ -45,7 +46,9 @@ if( isset( $Delete ) )
 
 $t = new eZTemplate( "ezbulkmail/admin/" . $ini->read_var( "eZBulkMailMain", "AdminTemplateDir" ),
                      "ezbulkmail/admin/intl", $Language, "categorylist.php" );
+$iniLanguage = new INIFile( "ezbulkmail/admin/intl/" . $Language . "/categorylist.php.ini", false );
 
+$locale = new eZLocale( $Language ); 
 $t->set_file( array(
     "category_list_tpl" => "categorylist.tpl"
     ) );
@@ -61,6 +64,7 @@ $t->set_var( "category", "" );
 $t->set_var( "category_item", "" );
 $t->set_var( "bulkmail", "" );
 $t->set_var( "bulkmail_item", "" );
+$t->set_var( "current_category_name", "" );
 
 /** List all the avaliable categories **/
 $categories = eZBulkMailCategory::getAll();
@@ -69,7 +73,7 @@ foreach( $categories as $categoryitem )
 {
     $t->set_var( "category_name", $categoryitem->name() );
     $t->set_var( "category_description", $categoryitem->description() );
-    $t->set_var( "subscription_count", "0" );
+    $t->set_var( "subscription_count", $categoryitem->subscriberCount() );
     $t->set_var( "category_id", $categoryitem->id() );
     ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
     
@@ -78,6 +82,35 @@ foreach( $categories as $categoryitem )
 }
 if( $i > 0 )
     $t->parse( "category", "category_tpl" );
+
+if( is_numeric( $CategoryID ) && $CategoryID > 0 )
+{
+    $category = new eZBulkMailCategory( $CategoryID );
+    $t->set_var( "current_category_name", $category->name() );
+    $mail = $category->mail(0, 100000);
+    $i = 0;
+    foreach( $mail as $mailItem )
+    {
+        $t->set_var( "bulkmail_id", $mailItem->id() );
+        $t->set_var( "bulkmail_subject", $mailItem->subject() );
+
+        if( !$mailItem->isDraft() )
+        {
+            $t->set_var( "sent_date", $locale->format( $mailItem->date() ) );
+        }
+        else
+        {
+            $t->set_var( "sent_date", $iniLanguage->read_var( "strings", "not_sent" ) );
+        }
+        ( $i % 2 ) ? $t->set_var( "td_class", "bgdark" ) : $t->set_var( "td_class", "bglight" );
+    
+        $t->parse( "bulkmail_item", "bulkmail_item_tpl", true );
+        $i++;
+    }
+    if( $i > 0 )
+    $t->parse( "bulkmail", "bulkmail_tpl" );
+
+}
 
 $t->pparse( "output", "category_list_tpl" );
 ?>
