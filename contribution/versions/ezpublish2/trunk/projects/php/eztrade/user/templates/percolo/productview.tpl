@@ -223,8 +223,8 @@
 <tr>
 	<td>
 	<!-- BEGIN price_tpl -->
-	<p class="boxtext">{intl-price}:</p>
-	{product_price}
+	<p class="boxtext"><span class="pris">{intl-price}:</span></p>
+	<span class="pris">{product_price}</span>
 
 	<!-- BEGIN alternative_currency_list_tpl -->
 	<p class="boxtext">{intl-alternative_currency}:</p>
