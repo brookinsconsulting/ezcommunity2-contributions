@@ -32,9 +32,14 @@
 <!-- END alternative_item_tpl -->
 
 <tr>
-        <td colspan="2">
+        <td>
         <input type="hidden" name="QuizID" value="{game_id}" />
-        <input class="stdbutton" type="submit" value="{intl-next}" />
+        <input type="hidden" name="QuestionID" value="{question_id}" />
+        <input type="hidden" name="UserID" value="{user_id}" />
+        <input class="stdbutton" name="NextButton" type="submit" value="{intl-next}" />
+        </td>
+        <td>
+        <input class="stdbutton" name="SaveButton" type="submit" value="{intl-save}" />
         </td>
 </tr>
 </table>

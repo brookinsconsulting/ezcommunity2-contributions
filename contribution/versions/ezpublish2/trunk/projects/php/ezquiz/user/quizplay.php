@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: quizplay.php,v 1.1 2001/05/28 15:18:42 pkej Exp $
+// $Id: quizplay.php,v 1.2 2001/05/30 08:30:01 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <28-May-2001 11:24:41 pkej>
@@ -23,17 +23,86 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-
 // First check if this game is open
 // Check if there are other open games
 
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezdate.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "ezquiz/classes/ezquizquestion.php" );
 include_once( "ezquiz/classes/ezquizgame.php" );
+include_once( "ezquiz/classes/ezquizanswer.php" );
+include_once( "ezquiz/classes/ezquizscore.php" );
 
 $t = new eZTemplate( "ezquiz/user/" . $ini->read_var( "eZQuizMain", "TemplateDir" ),
                      "ezquiz/user/intl/", $Language, "quiz.php" );
+
+if( isset( $SaveButton ) )
+{
+    // Do we have the same user uploading the data?
+    // Me? Paranoid?
+    if( $UserID == $user->id() )
+    {
+        $question = new eZQuizQuestion( $QuestionID );
+        $game = $question->game();
+        $score = new eZQuizScore();
+        $score->getUserGame( $user, $game );
+        $score->setNextQuestion( $QuestionNum );
+        $score->store();
+    }
+}
+
+
+
+if( isset( $NextButton ) )
+{
+    // Do we have the same user uploading the data?
+    // Me? Paranoid?
+    if( $UserID == $user->id() )
+    {
+        $question = new eZQuizQuestion( $QuestionID );
+        $alternative = new eZQuizAlternative( $AlternativeID );
+
+        if( $question->isAlternative( $alternative ) )
+        {
+            if( $alternative->isCorrect() )
+            {
+                $scoreValue = $question->score();
+                if( empty( $scoreValue ) )
+                {
+                    $scoreValue = 1;
+                }
+                
+                
+            }
+            $answer = new eZQuizAnswer();
+            
+            $answer->setUser( $user );
+            $answer->setAlternative( $alternative );
+            $game = $question->game();
+            $score = new eZQuizScore();
+            $score->getUserGame( $user, $game );
+            
+            if( $answer->hasAnswered() )
+            {
+                // Answered this question before!
+                
+                $QuestionNum = $score->nextQuestion();
+                echo $QuestionNum;
+            }
+            else
+            {
+                $totalScore = $score->totalScore() + $scoreValue;
+                $score->setTotalScore( $totalScore );
+                $score->setGame( $game );
+                $score->setUser( $user );
+                $score->setNextQuestion( $QuestionNum );
+                $answer->store();
+                $score->store();
+            }
+        }
+    }
+}
 
 $t->setAllStrings();
 
@@ -50,9 +119,12 @@ $t->set_var( "question_item", "" );
 
 $game = new eZQuizGame( $GameID );
 $t->set_var( "game_id", $GameID );
+$t->set_var( "user_id", $user->id() );
 $t->set_var( "game_name", $game->name() );
 $t->set_var( "questions", $game->numberOfQuestions() );
 $t->set_var( "players", $game->numberOfPlayers() );
+
+// Find out which question this user should start on (has he saved earlier info).
 
 if( $QuestionNum == 0 )
 {
@@ -60,6 +132,14 @@ if( $QuestionNum == 0 )
 }
 else
 {
+    $score = new eZQuizScore();
+    $score->getUserGame( $user, $game );
+
+    if( $score->nextQuestion() >= 1 )
+    {
+        $QuestionNum = $score->nextQuestion();
+    }
+    
     $questionCount = $game->numberOfQuestions();
     $currentQuestion = $game->question( $QuestionNum );
 
@@ -68,16 +148,21 @@ else
     {
         echo "no questions defined";$t->set_var( "question_item", "" );
     }
-    else
+    else if( $QuestionNum <= $questionCount )
     {
         // Sjekk at antall alternativer er større enn null.
         // Sjekk at man ikke prøver å svare på et allerede svart spørsmål
         // Sjekk at man ikke prøver å hoppe over et ubesvart spørsmål.
-        $t->set_var( "question_id", $QuestionID );
-        $t->set_var( "placement", $QuestionNum++ );
+        $t->set_var( "question_id", $currentQuestion->id() );
+
+        $t->set_var( "placement", $QuestionNum );
+        if( $QuestionNum < $questionCount )
+        {
+            $QuestionNum++;
+        }
         $t->set_var( "next_question_num", $QuestionNum );
         $t->set_var( "question_name", $currentQuestion->name() );
-        
+
         $alternatives = $currentQuestion->alternatives();
         
         $i = 0;
@@ -98,6 +183,10 @@ else
             $i++;
         }
         $t->parse( "question_item", "question_item_tpl" );
+    }
+    else
+    {
+        // finished game.
     }
 }
 

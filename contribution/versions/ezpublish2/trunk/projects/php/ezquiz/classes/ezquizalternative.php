@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizalternative.php,v 1.3 2001/05/29 09:07:05 ce Exp $
+// $Id: ezquizalternative.php,v 1.4 2001/05/30 08:30:01 pkej Exp $
 //
 // eZQuizAlternative class
 //
@@ -126,6 +126,12 @@ class eZQuizAlternative
         $db =& eZDB::globalDatabase();
 
         $ret = false;
+        
+        if( $id == -1 )
+        {
+            $id = $this->ID;
+        }
+        
         if ( $id != "" )
         {
             $GLOBALS["DEBUG"] = true;
@@ -153,6 +159,7 @@ class eZQuizAlternative
         $this->ID =& $alternativeArray[ "ID" ];
         $this->Name =& $alternativeArray[ "Name" ];
         $this->IsCorrect =& $alternativeArray[ "IsCorrect" ];
+echo $alternativeArray[ "QuestionID" ];
         $this->Question = new eZQuizQuestion( $alternativeArray[ "QuestionID" ] );
     }
 
@@ -222,7 +229,7 @@ class eZQuizAlternative
     }
 
     /*!
-      Returns the name of the game.
+      Returns the question object of the game.
     */
     function question()
     {
@@ -247,6 +254,21 @@ class eZQuizAlternative
         else
             $this->IsCorrect = 0;
     }
+
+    /*!
+        Gets the question id
+     */
+    function questionID()
+    {
+        $ret = 0;
+
+        if( get_class ( $this->Question ) == "ezquizquestion" )
+        {
+            $ret = $this->Question->id();echo "here?";
+        }
+        
+        return $ret;
+   }
 
     /*!
       Returns the name of the game.

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezquizquestion.php,v 1.3 2001/05/29 09:07:05 ce Exp $
+// $Id: ezquizquestion.php,v 1.4 2001/05/30 08:30:01 pkej Exp $
 //
 // eZQuizQuestion class
 //
@@ -258,7 +258,31 @@ class eZQuizQuestion
     }
 
     /*!
-      Returns every alternative to this quiz game
+        Returns true if the submitted alternative is part of the questions alternatives
+     */
+    function isAlternative( &$alternative )
+    {
+        $ret = false;
+        $db =& eZDB::globalDatabase();
+        if ( get_class ( $alternative ) == "ezquizalternative" )
+        {
+            $alternativeID = $alternative->id();
+            $questionID = $this->ID;
+            
+            $db->query_single( $result, "SELECT ID 
+                                     FROM eZQuiz_Alternative WHERE QuestionID='$questionID' AND ID='$alternativeID'" );
+ 
+            if( is_numeric( $result["ID"] ) )
+            {
+                $ret = true;
+            }
+        }
+        
+        return $ret;
+     }
+
+    /*!
+      Returns every alternative to this quiz question
       The alternatives is returned as an array of eZQuizAlternative objects.
     */
     function alternatives()
