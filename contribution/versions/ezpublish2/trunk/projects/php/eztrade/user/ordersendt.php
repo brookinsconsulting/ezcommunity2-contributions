@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.48 2001/09/28 09:19:50 ce Exp $
+// $Id: ordersendt.php,v 1.49 2001/10/04 10:43:23 bf Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -569,6 +569,8 @@ if ( $ShowCart == true )
 
 $usedVouchers =& $order->usedVouchers();
 
+$t->set_var( "voucher_item_list", "" );
+
 if ( count ( $usedVouchers ) > 0 )
 {
     turnColumnsOnOff( "voucher_used_header");
@@ -601,8 +603,6 @@ if ( count ( $usedVouchers ) > 0 )
     }
     $t->parse( "voucher_item_list", "voucher_item_list_tpl" );
 }
-
-
 
 
 
