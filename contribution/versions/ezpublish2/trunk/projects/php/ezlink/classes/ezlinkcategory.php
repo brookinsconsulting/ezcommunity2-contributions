@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlinkcategory.php,v 1.8 2001/07/20 11:15:21 jakobn Exp $
+// $Id: ezlinkcategory.php,v 1.9 2001/09/19 11:35:52 bf Exp $
 //
 // Definition of eZLinkCategory class
 //
@@ -252,21 +252,19 @@ class eZLinkCategory
     /*!
       Print out the group path.
     */
-    function &path( $groupID=0 )
+    function &path( $categoryID=0 )
     {
-        $db =& eZDB::globalDatabase();
-        
         if ( $categoryID == 0 )
         {
             $categoryID = $this->ID;
         }
-        
+            
         $category = new eZLinkCategory( $categoryID );
-        
+
         $path = array();
-        
+
         $parent = $category->parent();
-        
+
         if ( $parent != 0 )
         {
             $path = array_merge( $path, $this->path( $parent ) );
@@ -280,6 +278,7 @@ class eZLinkCategory
             array_push( $path, array( $category->id(), $category->name() ) );                                
         
         return $path;
+
     }
 
 

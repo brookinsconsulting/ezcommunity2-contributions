@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: linkcategorylist.php,v 1.8 2001/08/24 14:21:44 th Exp $
+// $Id: linkcategorylist.php,v 1.9 2001/09/19 11:35:52 bf Exp $
 //
 // Created on: <26-Oct-2000 14:55:24 ce>
 //
@@ -75,6 +75,7 @@ if ( !$Offset )
 
 // List all the categoires
 $linkCategory = new eZLinkCategory();
+
 
 $linkCategory->get( $LinkCategoryID );
 
