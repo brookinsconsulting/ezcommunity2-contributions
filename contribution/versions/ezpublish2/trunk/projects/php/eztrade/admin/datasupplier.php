@@ -8,6 +8,12 @@ switch ( $url_array[2] )
     case "orderlist" :
         include( "eztrade/admin/orderlist.php" );
         break;
+
+    case "orderedit" :
+        $OrderID = $url_array[3];
+        $Action = $url_array[4];
+        include( "eztrade/admin/orderedit.php" );
+        break;
         
     
     case "categorylist" :

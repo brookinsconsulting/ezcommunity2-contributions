@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdatetime.php,v 1.9 2000/10/02 15:00:32 bf-cvs Exp $
+// $Id: ezdatetime.php,v 1.10 2000/10/03 09:45:17 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -30,7 +30,6 @@
 */
 
 /*!TODO
-  Add support for MySQL timestamp import.
 */
 
 class eZDateTime

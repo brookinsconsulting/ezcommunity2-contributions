@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: orderlist.php,v 1.1 2000/10/02 13:53:01 bf-cvs Exp $
+// $Id: orderlist.php,v 1.2 2000/10/03 09:45:18 bf-cvs Exp $
 //
 // 
 //
@@ -26,6 +26,7 @@ include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezorder.php" );
 
+
 include_once( "eztrade/classes/ezorderstatustype.php" );
 
 $t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "TemplateDir" ) . "/orderlist/",
@@ -43,21 +44,40 @@ $t->set_block( "order_item_list_tpl", "order_item_tpl", "order_item" );
 $order = new eZOrder();
 $orderArray = $order->getAll();
 
+$locale = new eZLocale( $Language );
+$i=0;
 foreach ( $orderArray as $order )
 {
-    $t->set_var( "order_nr", $order->id() );    
+    if (( $i %2 ) == 0 )
+        $t->set_var( "td_class", "bgdark" );
+    else
+        $t->set_var( "td_class", "bglight" );
+        
+    $t->set_var( "order_id", $order->id() );
+    $status = $order->initialStatus( );
+    $dateTime = $status->altered();
+    
+    $t->set_var( "order_date", $locale->format( $dateTime ) );
+
+    $status = $order->lastStatus( );
+    $dateTime = $status->altered();
+    
+    $t->set_var( "altered_date", $locale->format( $dateTime ) );
+
+    $statusType = $status->type();
+    
+    $t->set_var( "order_status", $statusType->name() );
+    
     
     $t->parse( "order_item", "order_item_tpl", true );
+    $i++;
 }
 
 $t->parse( "order_item_list", "order_item_list_tpl" );
 
-
 //  $statusType = new eZOrderStatusType( );
 //  $statusType->setName( "Undefined" );
 //  $statusType->store();
-
-
 
 $t->pparse( "output", "order_list_tpl" );
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorderstatustype.php,v 1.1 2000/10/02 13:53:01 bf-cvs Exp $
+// $Id: ezorderstatustype.php,v 1.2 2000/10/03 09:45:18 bf-cvs Exp $
 //
 // Definition of eZOrderStatus class
 //
@@ -35,7 +35,7 @@ class eZOrderStatusType
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZOrder( $id="", $fetch=true )
+    function eZOrderStatusType( $id="", $fetch=true )
     {
         $this->IsConnected = false;
 
@@ -104,15 +104,15 @@ class eZOrderStatusType
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $order_array, "SELECT * FROM eZTrade_OrderStatusType WHERE ID='$id'" );
-            if ( count( $order_array ) > 1 )
+            $this->Database->array_query( $status_type_array, "SELECT * FROM eZTrade_OrderStatusType WHERE ID='$id'" );
+            if ( count( $status_type_array ) > 1 )
             {
-                die( "Error: Order's with the same ID was found in the database. This shouldent happen." );
+                die( "Error: Status_type's with the same ID was found in the database. This shouldent happen." );
             }
-            else if( count( $order_array ) == 1 )
+            else if( count( $status_type_array ) == 1 )
             {
-                $this->ID =& $order_array[0][ "ID" ];
-                $this->Name =& $order_array[0][ "Name" ];
+                $this->ID =& $status_type_array[0][ "ID" ];
+                $this->Name =& $status_type_array[0][ "Name" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -121,6 +121,24 @@ class eZOrderStatusType
         else
         {
             $this->State_ = "Dirty";
+        }
+        return $ret;
+    }
+
+    /*!
+      Fetches every status type and returns them as an array of eZOrderStatusType
+      objects.
+    */
+    function getAll()
+    {
+        $this->dbInit();
+        $ret = array();
+
+        $this->Database->array_query( $status_type_array, "SELECT ID FROM eZTrade_OrderStatusType ORDER BY Name" );
+
+        foreach ( $status_type_array as $status_type )
+        {
+            $ret[] = new eZOrderStatusType( $status_type["ID"] );
         }
         return $ret;
     }
@@ -155,7 +173,6 @@ class eZOrderStatusType
        $this->Name = $value;
     }
     
-
     /*!
       Returns the eZOrderStatusObject to the status matching name given as
       argument. false is returned if none is found.

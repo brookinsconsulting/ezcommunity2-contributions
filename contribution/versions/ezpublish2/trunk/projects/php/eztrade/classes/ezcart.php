@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcart.php,v 1.4 2000/10/02 11:57:25 bf-cvs Exp $
+// $Id: ezcart.php,v 1.5 2000/10/03 09:45:18 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -146,6 +146,7 @@ class eZCart
         return $ret;
     }
 
+
     /*!
       Returns a eZCart object. 
     */
@@ -272,9 +273,37 @@ class eZCart
 
        return $ret;       
     }
+
+    /*!
+      Empties out the cart.
+    */
+    function clear()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $items = $this->items();
+
+       // delete the option values and cart items
+       foreach ( $items as $item )
+       {
+           $itemID = $item->id();
+           $this->Database->query( "DELETE FROM
+                                eZTrade_CartOptionValue
+                                WHERE CartItemID='$itemID'" );
+
+           $this->Database->query( "DELETE FROM
+                                eZTrade_CartItem
+                                WHERE ID='$itemID'" );
+       }
+
+       $this->delete();       
+    }
     
     /*!
-      Private function.
+      \private
       Open the database for read and write. Gets all the database information from site.ini.
     */
     function dbInit()

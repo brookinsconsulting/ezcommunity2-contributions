@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorderstatus.php,v 1.1 2000/10/02 13:53:01 bf-cvs Exp $
+// $Id: ezorderstatus.php,v 1.2 2000/10/03 09:45:18 bf-cvs Exp $
 //
 // Definition of eZOrderStatus class
 //
@@ -26,6 +26,7 @@
 
 include_once( "classes/ezdb.php" );
 
+include_once( "classes/ezdatetime.php" );
 
 class eZOrderStatus
 {
@@ -35,7 +36,7 @@ class eZOrderStatus
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZOrder( $id="", $fetch=true )
+    function eZOrderStatus( $id="", $fetch=true )
     {
         $this->IsConnected = false;
 
@@ -69,7 +70,9 @@ class eZOrderStatus
         {
             $this->Database->query( "INSERT INTO eZTrade_OrderStatus SET
 		                         StatusID='$this->StatusID',
-		                         AdminID='$this->AdminID'
+		                         AdminID='$this->AdminID',
+		                         Comment='$this->Comment',
+		                         OrderID='$this->OrderID'
                                  " );
 
             $this->ID = mysql_insert_id();
@@ -80,7 +83,9 @@ class eZOrderStatus
         {
             $this->Database->query( "UPDATE eZTrade_OrderStatus SET
 		                         StatusID='$this->StatusID',
-		                         AdminID='$this->AdminID'
+		                         AdminID='$this->AdminID',
+		                         Comment='$this->Comment',
+		                         OrderID='$this->OrderID'
                                  WHERE ID='$this->ID'
                                  " );
 
@@ -111,6 +116,8 @@ class eZOrderStatus
                 $this->StatusID =& $order_array[0][ "StatusID" ];
                 $this->Altered =& $order_array[0][ "Altered" ];
                 $this->AdminID =& $order_array[0][ "AdminID" ];
+                $this->OrderID =& $order_array[0][ "OrderID" ];
+                $this->Comment =& $order_array[0][ "Comment" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -122,6 +129,55 @@ class eZOrderStatus
         }
         return $ret;
     }
+    
+    /*!
+      Returns the object id.
+    */
+    function id()
+    {
+        return $this->ID;
+    }
+
+    /*!
+      Returns the altered timestamp as a eZDateTime object.
+    */
+    function altered( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       
+       $dateTime = new eZDateTime();
+
+       $dateTime->setMySQLTimeStamp( $this->Altered );
+
+       return $dateTime;
+    }
+
+    /*!
+      Returns the status type as a eZOrderStatusType object.
+    */
+    function type( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = new eZOrderStatusType( $this->StatusID );
+
+       return $ret;
+    }
+
+    /*!
+      Returns the comment.
+    */
+    function comment()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->Comment;
+    }
+    
 
     /*!
       Sets status type.
@@ -152,12 +208,26 @@ class eZOrderStatus
     }
 
     /*!
-      Returns the object id.
+      Sets the order ID.
     */
-    function id()
+    function setOrderID( $order )
     {
-        return $this->ID;
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->OrderID = $order;
     }
+
+    /*!
+      Sets the comment.
+    */
+    function setComment( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->Comment = $value;
+    }    
 
     /*!
       \private
@@ -175,7 +245,9 @@ class eZOrderStatus
     var $ID;
     var $StatusID;
     var $Altered;
-    var $AdminID;    
+    var $AdminID;
+    var $OrderID;
+    var $Comment;
     
     ///  Variable for keeping the database connection.
     var $Database;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.2 2000/10/02 12:00:40 ce-cvs Exp $
+// $Id: ezsession.php,v 1.3 2000/10/03 09:45:18 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -52,6 +52,7 @@ class eZSession
     function eZSession( $id="", $fetch=true  )
     {
         $this->IsConnected = false;
+
         if ( $id != "" )
         {
             $this->ID = $id;

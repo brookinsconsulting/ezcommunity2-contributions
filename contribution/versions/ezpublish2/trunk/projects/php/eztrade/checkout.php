@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.3 2000/10/02 13:53:01 bf-cvs Exp $
+// $Id: checkout.php,v 1.4 2000/10/03 09:45:18 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -105,6 +105,8 @@ foreach ( $items as $item )
         print( "&nbsp;&nbsp;" . $option->name() . " " . $value->name() . "<br>");
     }    
 }
+
+$cart->clear();
 
 $t->pparse( "output", "checkout_tpl" );
 

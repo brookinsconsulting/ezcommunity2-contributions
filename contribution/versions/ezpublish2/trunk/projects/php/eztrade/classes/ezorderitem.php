@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorderitem.php,v 1.3 2000/10/02 13:53:01 bf-cvs Exp $
+// $Id: ezorderitem.php,v 1.4 2000/10/03 09:45:18 bf-cvs Exp $
 //
 // Definition of eZOrderItem class
 //
@@ -25,6 +25,7 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "eztrade/classes/ezorderoptionvalue.php" );
 
 class eZOrderItem
 {
@@ -144,6 +145,43 @@ class eZOrderItem
             $this->get( $this->ID );
 
        return $this->Count;
+    }
+
+    /*!
+      Returns the product.
+    */
+    function product( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = new eZProduct( $this->ProductID );
+            
+       return $ret;
+    }
+
+    /*!
+      Returns all the option values.
+     */
+    function optionValues( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $return_array = array();
+       $this->dbInit();
+       
+       $this->Database->array_query( $res_array, "SELECT ID FROM eZTrade_OrderOptionValue
+                                     WHERE
+                                     OrderItemID='$this->ID'
+                                   " );
+
+       foreach ( $res_array as $item )
+       {
+           $return_array[] = new eZOrderOptionValue( $item["ID"] );
+       }
+       return $return_array;
+       
     }
 
     /*!

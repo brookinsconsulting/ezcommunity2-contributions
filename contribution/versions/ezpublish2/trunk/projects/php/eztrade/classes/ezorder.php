@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.3 2000/10/02 13:53:01 bf-cvs Exp $
+// $Id: ezorder.php,v 1.4 2000/10/03 09:45:18 bf-cvs Exp $
 //
 // Definition of eZOrder class
 //
@@ -29,6 +29,7 @@ include_once( "classes/ezdb.php" );
 
 include_once( "eztrade/classes/ezorderstatustype.php" );
 include_once( "eztrade/classes/ezorderstatus.php" );
+include_once( "eztrade/classes/ezorderitem.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
@@ -82,14 +83,16 @@ class eZOrder
 
             // store the status
             $statusType = new eZOrderStatusType( );
-            $statusType->getByName( "Initial" );
-            $this->setStatus( $statusType );
+            $statusType = $statusType->getByName( "Initial" );
 
             $status = new eZOrderStatus();
             $status->setType( $statusType );
 
-            $user = eZUser::currentUser();
-            print( $user->id() );
+            $status->setOrderID( $this->ID );
+
+//              $user = eZUser::currentUser();
+//              print( $user->id() );
+            
             $status->setAdmin( $user );
             $status->store();            
 
@@ -104,13 +107,6 @@ class eZOrder
                                  WHERE ID='$this->ID'
                                  " );
 
-            if ( !isset( $this->OrderStatus_ ) )
-            {
-                $statusType = new eZOrderStatusType( );
-                $statusType->getByName( "Undefined" );
-                $this->setStatus( $statusType );
-            }
-            
             $this->State_ = "Coherent";
         }
         
@@ -256,22 +252,105 @@ class eZOrder
     }
 
     /*!
-      Returns the creation time as a eZDateTime object.
+      Returns the initial status as a eZOrderStatus object.
     */
-    function created( )
+    function initialStatus( )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $statusType = new eZStatusType();
+       $statusType = new eZOrderStatusType();
        
        $statusType->getByName( "Initial" );
        
-//         $this->Database->array_query( $order_array, "SELECT ID FROM eZTrade_OrderStatus " );
-       
-       
-//         return 
+       $this->Database->array_query( $status_array, "SELECT ID FROM eZTrade_OrderStatus
+                                                    WHERE OrderID='$this->ID'
+                                                    ORDER BY Altered" );
+       $ret = false;
+       if ( count( $status_array ) )
+       {
+           $ret = new eZOrderStatus( $status_array[0]["ID"] );
+       }
+       return $ret;
     }
+
+    /*!
+      Returns the last status change  as a eZOrderStatus object.
+    */
+    function lastStatus( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $statusType = new eZOrderStatusType();
+       
+       $statusType->getByName( "Initial" );
+       
+       $this->Database->array_query( $status_array, "SELECT ID FROM eZTrade_OrderStatus
+                                                    WHERE OrderID='$this->ID'
+                                                    ORDER BY Altered DESC" );
+       $ret = false;
+       if ( count( $status_array ) )
+       {
+           $ret = new eZOrderStatus( $status_array[0]["ID"] );
+       }
+       return $ret;
+    }
+
+    /*!
+      Returns the status history as an array of eZOrderStatus object.
+    */
+    function statusHistory()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $statusType = new eZOrderStatusType();
+       
+       $statusType->getByName( "Initial" );
+       
+       $this->Database->array_query( $status_array, "SELECT ID FROM eZTrade_OrderStatus
+                                                    WHERE OrderID='$this->ID'
+                                                    ORDER BY Altered" );
+       $ret = array();
+       foreach ( $status_array as $status )
+       {
+           $ret[] = new eZOrderStatus( $status["ID"] );
+       }
+       return $ret;
+
+    }
+
+    /*!
+      Returns all the order items.
+    */
+    function items()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $ret = array();
+       
+       $this->dbInit();
+
+       $this->Database->array_query( $order_array, "SELECT * FROM
+                                                    eZTrade_OrderItem
+                                                    WHERE OrderID='$this->ID'" );
+
+       if ( count( $order_array ) > 0 )
+       {
+           $return_array = array();
+           foreach ( $order_array as $item )
+           {
+               $return_array[] = new eZOrderItem( $item["ID"] );               
+           }
+           $ret = $return_array;
+       }
+
+       return $ret;       
+       
+    }
+
     
 
     /*!
