@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: smallarticlelist.php,v 1.1 2001/02/12 15:45:52 bf Exp $
+// $Id: smallarticlelist.php,v 1.2 2001/02/14 15:45:03 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -59,7 +59,7 @@ $t->set_var( "current_category_name", $category->name() );
 $t->set_var( "current_category_description", $category->description() );
 
 
-$articleList = $category->articles( $category->sortMode(), false, false, $Offset, $Limit );
+$articleList = $category->articles( $category->sortMode(), false, true, false, $Offset, $Limit );
 
 $locale = new eZLocale( $Language );
 $i=0;

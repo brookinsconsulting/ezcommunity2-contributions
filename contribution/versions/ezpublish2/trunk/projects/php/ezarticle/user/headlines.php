@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: headlines.php,v 1.4 2001/02/13 11:40:35 bf Exp $
+// $Id: headlines.php,v 1.5 2001/02/14 15:45:03 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <30-Nov-2000 14:35:24 bf>
@@ -56,7 +56,7 @@ $t->set_var( "image_dir", $ImageDir );
 
 $category = new eZArticleCategory( $CategoryID );
 
-$articleList = $category->articles( $SortMode, false, false, 0, 5 );
+$articleList = $category->articles( $SortMode, false, true, false, 0, 5 );
 
 $locale = new eZLocale( $Language );
 $i=0;

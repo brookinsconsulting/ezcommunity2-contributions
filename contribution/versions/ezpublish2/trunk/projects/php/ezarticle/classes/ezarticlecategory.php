@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.23 2001/02/04 16:45:16 bf Exp $
+// $Id: ezarticlecategory.php,v 1.24 2001/02/14 15:45:03 gl Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -521,15 +521,18 @@ class eZArticleCategory
     /*!
       Returns every article in a category as a array of eZArticle objects.
 
-      If $fetchNonPublished is set to true the articles which is not published is
-      also returned. If the $getExcludedArticles is set to true the articles which are
-      excluded from search is also returned.
+      If $fetchAll is set to true, both published and unpublished articles will be returned.
+      If it is set to false, then $fetchPublished will determine: If $fetchPublished is
+      set to true then only published articles will be returned. If it is false, then only
+      non-published articles will be returned. If the $getExcludedArticles is set to true the
+      articles which are excluded from search is also returned.
     */
     function &articles( $sortMode="time",
-                       $fetchNonPublished=true,
-                       $getExcludedArticles=false,
-                       $offset=0,
-                       $limit=50 )
+                        $fetchAll=true,
+                        $fetchPublished=true,
+                        $getExcludedArticles=false,
+                        $offset=0,
+                        $limit=50 )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -570,6 +573,19 @@ class eZArticleCategory
        $return_array = array();
        $article_array = array();
 
+       if ( $fetchAll  == true )             // fetch all articles
+       {
+           $publishedCode = "";
+       }
+       else if ( $fetchPublished  == true )  // fetch only published articles
+       {
+           $publishedCode = " AND eZArticle_Article.IsPublished = 'true' ";
+       }
+       else                                  // fetch only non-published articles
+       {
+           $publishedCode = " AND eZArticle_Article.IsPublished = 'false' ";
+       }
+
        if ( $getExcludedArticles == false )
        {
            $excludedCode = " AND eZArticle_Category.ExcludeFromSearch = 'false' ";
@@ -579,22 +595,13 @@ class eZArticleCategory
            $excludedCode = "";           
        }
 
-       if ( $fetchNonPublished  == true )
-       {
-           $nonPublishedCode = "";
-       }
-       else
-       {
-           $nonPublishedCode = " eZArticle_Article.IsPublished = 'true' AND";
-       }
-       
        $this->Database->array_query( $article_array, "
                 SELECT eZArticle_Article.ID AS ArticleID, eZArticle_Article.Name, eZArticle_Category.ID, eZArticle_Category.Name
                 FROM eZArticle_Article, eZArticle_Category, eZArticle_ArticleCategoryLink
                 WHERE 
                 eZArticle_ArticleCategoryLink.ArticleID = eZArticle_Article.ID
+                $publishedCode
                 AND
-                $nonPublishedCode
                 eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
                 AND
                 eZArticle_Category.ID='$this->ID'
@@ -612,11 +619,13 @@ class eZArticleCategory
     /*!
       Returns the total number of articles in the current category.
 
-      If $fetchNonPublished is set to true the articles which is not published is
-      also counted. If the $getExcludedArticles is set to true the articles which are
-      excluded from search is also counted.
+      If $fetchAll is set to true, both published and unpublished articles will be counted.
+      If it is set to false, then $fetchPublished will determine: If $fetchPublished is
+      set to true then only published articles will be counted. If it is false, then only
+      non-published articles will be counted. If the $getExcludedArticles is set to true the
+      articles which are excluded from search is also counted.
     */
-    function articleCount( $fetchNonPublished=true, $getExcludedArticles=false )
+    function articleCount( $fetchAll=true, $fetchPublished=true, $getExcludedArticles=false )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -635,13 +644,17 @@ class eZArticleCategory
            $excludedCode = "";           
        }
 
-       if ( $fetchNonPublished  == true )
+       if ( $fetchAll  == true )             // fetch all articles
        {
-           $nonPublishedCode = "";
+           $publishedCode = "";
        }
-       else
+       else if ( $fetchPublished  == true )  // fetch only published articles
        {
-           $nonPublishedCode = " eZArticle_Article.IsPublished = 'true' AND";
+           $publishedCode = " AND eZArticle_Article.IsPublished = 'true' ";
+       }
+       else                                  // fetch only non-published articles
+       {
+           $publishedCode = " AND eZArticle_Article.IsPublished = 'false' ";
        }
        
        $this->Database->array_query( $article_array, "
@@ -649,8 +662,8 @@ class eZArticleCategory
                 FROM eZArticle_Article, eZArticle_Category, eZArticle_ArticleCategoryLink
                 WHERE 
                 eZArticle_ArticleCategoryLink.ArticleID = eZArticle_Article.ID
+                $publishedCode
                 AND
-                $nonPublishedCode
                 eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
                 AND
                 eZArticle_Category.ID='$this->ID'

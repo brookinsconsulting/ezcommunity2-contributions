@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: unpublishedlist.php,v 1.1 2001/02/14 13:43:25 gl Exp $
+// $Id: unpublishedlist.php,v 1.2 2001/02/14 15:45:03 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -152,8 +152,8 @@ if ( !isset( $Limit ) )
     $Limit = $AdminListLimit;
 
 // articles
-$articleList =& $category->articles( $category->sortMode(), true, true, $Offset, $Limit );
-$articleCount = $category->articleCount( true, true );
+$articleList =& $category->articles( $category->sortMode(), false, false, true, $Offset, $Limit );
+$articleCount = $category->articleCount( false, false, true );
 
 $i=0;
 $t->set_var( "article_list", "" );
@@ -222,7 +222,7 @@ else
 {
     $t->set_var( "previous", "" );
 }
-        
+
 if ( $nextOffs <= $articleCount )
 {
     $t->set_var( "next_offset", $nextOffs  );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleheaderlist.php,v 1.3 2001/01/22 14:42:59 jb Exp $
+// $Id: articleheaderlist.php,v 1.4 2001/02/14 15:45:03 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Oct-2000 21:15:58 bf>
@@ -123,7 +123,7 @@ if ( $CategoryID == 0 )
 } 
 else
 {
-    $articleList = $category->articles( $SortMode, false );
+    $articleList = $category->articles( $SortMode, false, true, false );
 }
 
 $locale = new eZLocale( $Language );

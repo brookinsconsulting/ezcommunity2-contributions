@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.27 2001/02/13 15:28:28 jb Exp $
+// $Id: articlelist.php,v 1.28 2001/02/14 15:45:03 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -131,14 +131,14 @@ foreach ( $categoryList as $categoryItem )
     {
         $t->set_var( "td_class", "bgdark" );
     }
-    
+
     $t->set_var( "category_description", $categoryItem->description() );
 
     $t->parse( "category_item", "category_item_tpl", true );
     $i++;
 }
 
-if ( count( $categoryList ) > 0 )    
+if ( count( $categoryList ) > 0 )
     $t->parse( "category_list", "category_list_tpl" );
 else
     $t->set_var( "category_list", "" );
@@ -157,11 +157,11 @@ if ( $CategoryID == 0 )
     // always sort by publishing date is the merged category
     $article = new eZArticle();
     $articleList = $article->articles( "time", false, 0, $Limit );
-} 
+}
 else
 {
-    $articleList = $category->articles( $category->sortMode(), false, false, $Offset, $Limit );
-    $articleCount = $category->articleCount( false, false );    
+    $articleList = $category->articles( $category->sortMode(), false, true, false, $Offset, $Limit );
+    $articleCount = $category->articleCount( false, true, false );
 }
 
 $locale = new eZLocale( $Language );
