@@ -514,3 +514,12 @@ Maintainer(s) : fh@ez.no
 
     * classes/ezmail.php: MIME
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2002-03-23  fh  <fh@zev.ez.no>
+
+    * user/mailedit.php:
+    Fixed bug with deleting attachmetns when sending mail.
+
