@@ -33,42 +33,6 @@
         <li>New examples.
     </ul>
     \code
-    \endcode
-
-    \sa eZNewsArticle, eZNewsCategory
- */
-
-    function printArray( &$array )
-    {
-        if( is_array( $array ) )
-        {
-            foreach( $array as $item )
-            {
-                if( is_array( $item )  )
-                {
-                    printArray( $item );
-                }
-                else
-                {
-                    echo htmlspecialchars( $item ) . "<br>";
-                }
-            }
-        }
-        else    
-        {
-            echo htmlspecialchars( $array ) . " a<br>";
-        }
-    }
-
-
-include_once( "classes/ezdb.php" );
-include_once( "classes/ezsession.php" );       
-include_once( "eznews/classes/eznewschangetype.php" );       
-
-class eZNewsItem2
-{
-/*
-    \code
     // Example - adding a front image to the object.
     
     $object->referenceImage( $ImageID, true );
@@ -95,31 +59,100 @@ class eZNewsItem2
     $object->store();
    
     \endcode
+
+    \sa eZNewsArticle, eZNewsCategory
  */
-    /*
+
+include_once( "classes/ezdb.php" );
+include_once( "classes/ezsession.php" );       
+include_once( "eznews/classes/eznewschangetype.php" );       
+
+class eZNewsItem2
+{
+    /*!
+      Constructs a new eZNewsItem object.
+
+      If $inData is set the object's values are fetched from the
+      database. $inData might be a name or an ID. If it is an object name
+      then the first object with that name will be fetched. In other words
+      there is no guarantee that you will get what you want using a name.
+    */
+    function eZNewsItem( $inData = "", $fetch = true )
+    {
+        $this->dbInit();
+        
+        $this->State_ = "New";
+        $this->CreatedAt = createTimeStamp();
+        $this->CreatedIP = createIP();
+        $this->CreatedBy = createUser();
+
+        
+        if( $inData )
+        {
+            if( $fetch )
+            {
+                $this->get( $inData );
+            }
+            else
+            {
+                $this->State_ = "Dirty";        
+            }
+        }
+    }
+    
+    
+    
+    /*!
+        Creates IP and port number of accessing browser.
+        
         Private
         This function returns the current ip and port of the computer
         accessing us.
      */
-    function createIP ( )
+    function createIP( )
     {
         return $GLOBALS[ "REMOTE_ADDR" ] . "/" .$GLOBALS[ "REMOTE_PORT" ];
     }
 
 
     
-    /*
+    /*!
+        Creates a timestamp for use in a Mysql timestamp field.
+        
         Private
-        This function returns the current time in gmt.
+        This function returns the current time in gmt as a timestamp(14)
+        field which is used in mysql (YYYYMMDDHHMMSS).
      */
-    function createTimeStamp ( )
+    function createTimeStamp( )
     {
-        $time = gmdate( "YmdHis", time());
+        return gmdate( "YmdHis", time());
     }
 
 
     
-    /*
+    /*!
+        Creates a user id.
+        
+        Private
+        This function returns the current user.
+        
+        Unimplemented at the moment, pending session
+        management.
+        
+        We need to store session data indefinetly
+        if we have to save session id for the user.
+        Ie. never loose contact with session.
+     */
+    function createUser( )
+    {
+        return 0;
+    }
+
+
+    
+    /*!
+        Creates a log entry.
+        
         Creates a log entry when logging is on. This is
         used to create information about changes done to
         the object, epsecially automatic changes.
@@ -148,7 +181,7 @@ class eZNewsItem2
 
 
     /*!
-        Create the relationship between this object and one image.
+        Creates the relationship between this object and one image.
         
         Will fail if an image is marked as a front image, but an
         front image already exists.
@@ -194,7 +227,7 @@ class eZNewsItem2
     
     
     /*!
-        Create the relationship between this object and one file.
+        Creates the relationship between this object and one file.
         
         If the object is dirty it will not accept any new references.
         
@@ -227,7 +260,7 @@ class eZNewsItem2
 
 
     /*!
-        Create the relationship between this object and one log entry.
+        Creates the relationship between this object and one log entry.
         
         If the object is dirty it will not accept any new references.
         
@@ -260,7 +293,7 @@ class eZNewsItem2
 
     
     /*!
-        Create the relationship between this object and its parent.
+        Creates the relationship between this object and its parent.
         
         Will fail if an parent is marked as canonical, but a
         canonical parent already exists.
@@ -832,6 +865,7 @@ class eZNewsItem2
             echo "eZNewsItem::dbInit(  ) <br>\n";
             echo "isConnected is: " . $this->IsConnected . "<br>";
         }
+        
         if( $this->IsConnected == false )
         {
             $this->Database = new eZDB( "site.ini", "eZNewsMain" );
@@ -905,7 +939,7 @@ class eZNewsItem2
     var $State_;
     
     /// Is true if the object has a database connection, false if not.
-    var $isConnected;
+    var $isConnected = false;
     
     /// Is true if the object has changed data previously loaded
     var $hasChanged = false;
