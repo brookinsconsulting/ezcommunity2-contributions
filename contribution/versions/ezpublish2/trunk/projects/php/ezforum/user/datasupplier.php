@@ -1,5 +1,4 @@
 <?php
-
 switch ( $url_array[2] )
 {
 
@@ -59,25 +58,15 @@ switch ( $url_array[2] )
     }
     break;
 
-    case "messageedit";
+    case "messageedit":
     {
-        if ( $url_array[3] == "new" )
-        {
-            $Action = "new";
-            $ForumID = $url_array[4];
-            include( "ezforum/user/messageedit.php" );
-        }
-
-        if ( $url_array[3] == "insert" )
-        {
-            $Action = $url_array[3];
-            $ForumID = $url_array[4];
-            include( "ezforum/user/messageedit.php" );
-        }
+        $Action = $url_array[3];
+        $MessageID = $url_array[4];
+        include( "ezforum/user/messageedit.php" );
     }
     break;
 
-    case "messagesimpleedit";
+    case "messagesimpleedit":
     {
         if ( $url_array[3] == "new" )
         {

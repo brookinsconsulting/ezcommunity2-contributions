@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.17 2001/02/12 14:59:45 ce Exp $
+// $Id: messageedit.php,v 1.18 2001/02/20 19:14:13 pkej Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -29,6 +29,7 @@ include_once( "classes/ezhttptool.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/ezpermission.php" );
 
 include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
@@ -39,120 +40,345 @@ $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
 
-if ( $Action == "insert" )
-{
-    $forum = new eZForum( $ForumID );
-
-    $user = eZUser::currentUser();
-    
-    $message = new eZForumMessage();
-
-    $message->setForumID( $ForumID );
-    $message->setTopic( strip_tags( $Topic ) );
-    $message->setBody( $Body );
-
-    $user = eZUser::currentUser();
-
-    $message->setUserId( $user->id() );
-
-    if ( $notice )
-        $message->enableEmailNotice();
-    else
-        $message->disableEmailNotice();
-
-    if ( $forum->isModerated() )
-    {
-        $message->setIsApproved( false );
-    }
-    else
-    {
-        $message->setIsApproved( true );
-    }
-    
-    $message->store();
-
-
-    $moderator = $forum->moderator();
-
-    if ( $moderator )
-    {
-        $mail = new eZMail();
-
-        $mail->setSubject( $message->topic() );
-        $mail->setBody( $message->body( false ) );
-
-        $mail->setFrom( $moderator->email() );
-        $mail->setTo( $moderator->email() );
-
-        $mail->send();
-    }    
-
-    eZHTTPTool::header( "Location: /forum/messagelist/$ForumID/" );
-}
-
-$t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
-                     "ezforum/user/intl", $Language, "messageedit.php" );
-   
-$t->set_file( "messagepost", "messageedit.tpl"  );
-$t->set_block( "messagepost", "message_item_tpl", "message_item" );
-$t->setAllStrings();
+// Let's see who's calling?
 
 $user = eZUser::currentUser();
 
-if ( !$user )
+if( !$user )
 {
-    if ( $Action == "new" )
-    {
-        eZHTTPTool::header( "Location: /forum/userlogin/new/$ForumID" );
-    }
+    // Let''s not be naive, check everyone for login, regardless of action
     
-    if ( $Action == "reply" )
-    {
-        eZHTTPTool::header( "Location: /forum/userlogin/reply/$MessageID" );
-    }
-
+    eZHTTPTool::header( "Location: /forum/userlogin/$Action/$PassOnID" );
 }
 
-$forum = new eZForum( $ForumID );
+// $PrevAction keeps track of the incomming action (ie. creatin a new item, or editing an existing).
+// $NextAction keeps track of the ending action
+// $ActionValue is the next action to perform
 
-$group =& $forum->group();
-
-if ( ( get_class( $group ) == "ezusergroup" ) && ( $group->id() != 0 ) )
+if( $Abort )
 {
-    $user = eZUser::currentUser();
-    if ( get_class ( $user ) == "ezuser" )
+    $Action = "cancel";
+}
+
+// Check form for correct data
+
+switch( $Action )
+{
+    case "preview":
     {
-        $groupList =& $user->groups();
-        
-        foreach ( $groupList as $userGroup )
+        // First we need to make sure that the user really has data
+        // to preview. Since we don''t know which action was the initializing
+        // one, we use the $PrevAction variable to decide where to return to
+        // on an error
+    
+        if( empty( $MessageTopic ) || empty( $MessageBody ) )
         {
-            if ( $userGroup->id() == $group->id() )
-            {
-                $readPermission = true;
-                break;
-            }
+            $Action = $PrevAction;
+            $Error = true;
         }
     }
+    break;
+    
+    case "insert":
+    {
+        // If the edit button was pressed, change to new, since
+        // the user was not pleased with the result.
+
+        if( !empty( $Edit ) )
+        {
+            $Action = "new";
+        }
+    }
+    break;
+    
+    case "update":
+    {
+        // If the edit button was pressed, change to edit, since
+        // the user was not pleased with the result.
+
+        if( !empty( $Edit ) )
+        {
+            $Action = "edit";
+        }
+    }
+    break;
 }
-else
+
+switch( $Action )
 {
-    $readPermission = true;
+    case "insert": // intentional fall through
+    case "update":
+    {
+        $ActionValue = "completed";
+        // Now we need to check that the data we insert hasn''t been inserted earlier,
+        // there should exist a temporary object with the same information as we get
+        // from the user.
+        
+        $tmpmsg = new eZForumMessage( $PreviewID );
+        
+        if( !is_object( $tmpmsg )
+            || $tmpmsg->userID() != $user->id() )
+        {
+            eZHTTPTool::header( "Location: /forum/messageedit/$PrevAction/$MessageID?DataChangedError=1" );
+            break;
+        }
+
+        if( $Action == "insert" )
+        {
+            // Just remove the temporary flag for new info!
+            
+            $tmpmsg->setIsTemporary( false );
+            $tmpmsg->store();
+            $MessageID = $tmpmsg->id();
+        }
+        else
+        {
+            // Delete the temporary object, then insert the new data to the old message.          
+            $tmpmsg->delete();
+
+            $msg = new eZForumMessage( $MessageID );
+
+            $msg->setTopic( strip_tags( $MessageTopic ) );
+            $msg->setBody( $MessageBody );
+
+            if( $MessageNotice == "checked" )
+            {
+                $msg->enableEmailNotice();
+            }
+            else
+            {
+                $msg->disableEmailNotice();
+            }
+
+            $msg->store();
+            $MessageID = $msg->id();
+        }
+        eZHTTPTool::header( "Location: /forum/messageedit/completed/$MessageID?ForumID=$ForumID" );
+    }
+    break;
+
+    case "new":
+    {
+        $PrevAction = "new";
+        $ActionValue = "preview";
+        $NextAction = "insert";
+        
+        if( empty( $ForumID ) )
+        {
+            if( empty( $MessageID ) )
+            {
+                eZHTTPTool::header( "Location: /forum/categorylist/" );
+            }
+            else
+            {
+                $ForumID = $MessageID;
+            }
+        }
+        
+        $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+                             "ezforum/user/intl", $Language, "messageedit.php" );
+
+        $t->set_file( "editfile", "messageedit.tpl"  );
+        $MessagePostingTime = $ini->read_var( "eZForumMain", "Futuredate" );
+        
+        $t->setAllStrings();
+    }
+    break;
+    
+    case "edit":
+    {
+        $PrevAction = "edit";
+        $ActionValue = "preview";
+        $NextAction = "update";
+        $msg = new eZForumMessage( $MessageID );
+        $msgPoster = $msg->user();
+        
+        if( $msgPoster->id() != $user->id()
+            || !eZPermission::checkPermission( $user, "eZForum", "MessageModify" ) )
+        {
+            eZHTTPTool::header( "Location: /forum/norights" );
+        }
+        
+        if( empty( $MessageTopic ) )
+        {
+            $MessageTopic = $msg->topic();
+        }
+        
+        if( empty( $MessageBody ) )
+        {
+            $MessageBody = $msg->body();
+        }
+        
+        if( empty( $MessageNotice ) )
+        {
+            $MessageNotice = $msg->emailNotice();
+        }
+        
+        $MessagePostingTime = $locale->format( $msg->postingTime() );
+        $ForumID = $msg->forumID();
+
+        $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+                             "ezforum/user/intl", $Language, "messageedit.php" );
+
+        $t->set_file( "editfile", "messageedit.tpl"  );
+        $t->setAllStrings();
+    }
+    break;
+    
+    case "preview":
+    {
+        $ActionValue = $NextAction;
+
+        $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+                             "ezforum/user/intl", $Language, "messageedit.php" );
+        
+        if( $PrevAction == "new" )
+        {
+            $MessagePostingTime = $ini->read_var( "eZForumMain", "Futuredate" );
+        }
+        else
+        {
+            $tmpmsg = new eZForumMessage( $MessageID );
+            $MessagePostingTime = $tmpmsg->postingTime();
+        }
+        
+        $t->set_file( "editfile", "messagepreview.tpl"  );
+        $t->setAllStrings();
+        
+        // Now we will create a temporary object with the posted data.
+        // This is to ensure that the user isn''t posting the same data twice and
+        // so that script kiddies can''t fool us (I hope).
+                
+        $msg = new eZForumMessage( $PreviewID );
+        
+        $msg->setForumID( $ForumID );
+        $msg->setTopic( strip_tags( $MessageTopic ) );
+        $msg->setBody( $MessageBody );
+        $msg->setUserId( $user->id() );
+        
+        if( $MessageNotice == "on" )
+        {
+            $msg->enableEmailNotice();
+        }
+        else
+        {
+            $msg->disableEmailNotice();
+        }
+        
+        $forum = new eZForum( $ForumID );
+        
+        if ( $forum->isModerated() )
+        {
+            $msg->setIsApproved( false );
+        }
+        else
+        {
+            $msg->setIsApproved( true );
+        }
+        
+        
+        $msg->setIsTemporary( true );
+        
+        $msg->store();
+        
+        $PreviewID = $msg->id();
+    }
+    break;
+    
+    case "completed":
+    {
+        $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+                             "ezforum/user/intl", $Language, "messageedit.php" );
+
+        $t->set_file( "editfile", "messageposted.tpl"  );
+        $t->setAllStrings();
+        
+        // Just tell the geezers that their posting has been sent or queued for moderation.
+        // Also inform of any e-mails sent.
+        
+        $msg = new eZForumMessage( $MessageID );
+        $MessageTopic = $msg->topic();
+        $MessageBody = $msg->body();
+        $MessagePostingTime = $locale->format( $msg->postingTime() );
+        $ForumID = $msg->forumId();
+        
+    }
+    break;
+    
+    case "cancel":
+    {
+        $msg = new eZForumMessage( $PreviewID );
+        $msg->delete();
+        eZHTTPTool::header( "Location: /forum/messagelist/$ForumID" );            
+    }
+    break;
 }
 
-$t->set_var( "forum_name", $forum->name() );
-$t->set_var( "forum_id", $ForumID );
+if( $Action != "preview" || $Action != "completed" );
+{
+    $t->set_block( "editfile", "errors_tpl", "errors_item" );
 
+    if( $Error == true )
+    {
+        if( !empty( $MessageBody ) )
+        {
+            $t->set_block( "errors_tpl", "error_missing_body_item_tpl", "error_missing_body_item" );
+            $t->set_var( "error_missing_body_item", "" );
+        }
+
+        if( !empty( $MessageTopic ) )
+        {
+            $t->set_block( "errors_tpl", "error_missing_topic_item_tpl", "error_missing_topic_item" );
+            $t->set_var( "error_missing_topic_item", "" );
+        }
+        $t->parse( "errors_item", "errors_tpl" );
+    }
+    else
+    {
+        $t->set_var( "errors_item", "" );
+    }
+}
+
+
+$forum = new eZForum( $ForumID );
+$ForumName = $forum->name();
 $categories = $forum->categories();
 
 $category = new eZForumCategory( $categories[0]->id() );
+$MessageUser = $user->firstName() . " " . $user->lastName();
 
-$t->set_var( "category_name", $category->name() );
-$t->set_var( "category_id", $category->id() );
+$CategoryName = $category->name();
+$CategoryID = $category->id();
 
+if( $MessageNotice == "on" || $MessageNotice == 1 || $MessageNotice == "checked" )
+{
+    $MessageNotice = "checked";
+}
+else
+{
+    $MessageNotice = "";
+}
 
-$username = ( $user->firstName() . " " . $user->lastName() );
-$t->set_var( "user", $username );
+// Now insert everything into the template. Note the use of variables
+// if they are empty that is good, since we will fill in the template with
+// empy info where needed.
 
-if ( $readPermission == true )
-    $t->pparse( "output", "messagepost" );
+$t->set_var( "preview_id", $PreviewID );
+$t->set_var( "message_topic", $MessageTopic );
+$t->set_var( "message_postingtime", $MessagePostingTime );
+$t->set_var( "message_body", $MessageBody );
+$t->set_var( "message_user", $MessageUser );
+$t->set_var( "message_id", $MessageID );
+$t->set_var( "message_notice", $MessageNotice );
+$t->set_var( "reply_to_id", $ReplyToID );
+$t->set_var( "category_name", $CategoryName );
+$t->set_var( "category_id", $CategoryID );
+$t->set_var( "forum_id", $ForumID );
+$t->set_var( "forum_name", $ForumName );
+$t->set_var( "next_action", $NextAction );      
+$t->set_var( "prev_action", $PrevAction );      
+$t->set_var( "action_value", $ActionValue );      
+
+$t->pparse( "output", "editfile" );
+
 ?>
