@@ -33,7 +33,7 @@
 <br />
 <hr noshade="noshade" size="4" />
 
-<input type="submit" value="{intl-update}">
+<input class="stdbutton" type="submit" value="{intl-update}">
 
 </form>
 

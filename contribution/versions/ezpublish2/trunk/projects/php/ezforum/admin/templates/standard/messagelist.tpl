@@ -60,6 +60,6 @@
 </table>
 
 <hr noshade="noshade" size="4" />
-<input type="submit" Name="DeleteMessages" value="{intl-deletemessages}">
+<input class="stdbutton" type="submit" Name="DeleteMessages" value="{intl-deletemessages}">
 </form>
 

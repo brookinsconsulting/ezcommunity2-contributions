@@ -66,7 +66,7 @@
 <tr>
     <td colspan="5">
 	<hr noshade="noshade" size="4" />
-	<input type="submit" Name="DeleteUsers" value="{intl-delete_users}">
+	<input class="stdbutton" type="submit" Name="DeleteUsers" value="{intl-delete_users}">
 	</td>
 </tr>
 </form>

@@ -12,6 +12,13 @@ p
 	color: #000000;
 }
 
+.p 
+{
+	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;
+	font-size: 13px;
+	color: #000000;
+}
+
 h1 
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
@@ -33,14 +40,14 @@ h2
 	text-decoration : none;
 }
 
-.newslistheadline 
+.listheadline 
 {
 	font-family: Verdana, Arial, Helvetica, Swiss, Futura, sans-serif;	
 	font-weight: bold;
 	font-size: 18px;
 	color: #000000;
 	margin-top: 16px;
-	margin-bottom: 8px;	
+	margin-bottom: 12px;	
 	text-decoration : none;
 }
 
@@ -99,6 +106,12 @@ a
 	color: #ffffff;
 	font-weight: normal;
 	text-align: center;
+}
+
+.spacer
+{
+	padding-top: 4px;
+	padding-bottom: 4px;
 }
 
 .menuspacer
@@ -200,7 +213,8 @@ input
 
 .stdbutton 
 {
-	font-weight: normal;
+	font-size: 11px;
+	font-weight: bold;
 }
  
 .okbutton 
@@ -249,4 +263,5 @@ a:hover
 .pris
 {
 	font-weight: bold;
+	padding-top: 8px;
 }

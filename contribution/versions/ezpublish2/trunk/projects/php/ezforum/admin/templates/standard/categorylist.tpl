@@ -45,7 +45,7 @@
 <!-- END category_item_tpl -->
 </table>
 <hr noshade="noshade" size="4" />
-<input type="submit" Name="DeleteCategories" value="{intl-delete_categories}">
+<input class="stdbutton" type="submit" Name="DeleteCategories" value="{intl-delete_categories}">
 
 </form>
 

@@ -46,5 +46,5 @@
 <!-- END forum_item_tpl -->
 </table>
 <hr noshade="noshade" size="4" />
-<input type="submit" Name="DeleteForums" value="{intl-deleteforums}">
+<input class="stdbutton" type="submit" Name="DeleteForums" value="{intl-deleteforums}">
 </form>

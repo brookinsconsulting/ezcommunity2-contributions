@@ -55,7 +55,7 @@
 <tr>
 	<td>
 
-	<a href="/{module}/{module_view}/{product_id}/{category_id}/"><h2>{product_name}</h2></a>
+	<a href="/{module}/{module_view}/{product_id}/{category_id}/"><span class="listheadline">{product_name}</span></a>
 
 <!-- BEGIN product_image_tpl -->
     <table align="right">
@@ -74,10 +74,10 @@
     </table>
 <!-- END product_image_tpl -->
 
-<p>{product_intro_text}</p>
+<div class="p">{product_intro_text}</div>
 
 <!-- BEGIN price_tpl -->
-<p class="pris">{product_price}</p>
+<div class="pris">{product_price}</div>
 <!-- END price_tpl -->
 
 	</td>

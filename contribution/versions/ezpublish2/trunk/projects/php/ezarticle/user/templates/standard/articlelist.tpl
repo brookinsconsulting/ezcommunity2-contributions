@@ -12,11 +12,6 @@
 </tr>
 </table>
 
-
-<p>
-{current_category_description}
-</p>
-
 <hr noshade="noshade" size="4" />
 
 <img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="">
@@ -29,6 +24,7 @@
 
 <hr noshade="noshade" size="4" />
 
+<div class="spacer"><div class="p">{current_category_description}</div></div>
 
 <!-- BEGIN category_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
@@ -48,7 +44,6 @@
 </tr>
 <!-- END category_item_tpl -->
 </table>
-<hr noshade size="4"/>
 <!-- END category_list_tpl -->
 
 
@@ -62,10 +57,8 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
-	<a href="/article/articleview/{article_id}/">
-	<h2>{article_name}</h2>
-	</a>
-	<span class="small">{article_published}</span>
+	<a href="/article/articleview/{article_id}/"><span class="listheadline">{article_name}</span></a>
+	<div class="small">{article_published}</div>
 
 	<!-- BEGIN article_image_tpl -->
 	    <table align="right">
@@ -83,14 +76,10 @@
         <!-- END article_image_tpl -->
 
 
-	<p>
-	{article_intro}
-	</p>
+	<div class="spacer"><div class="p">{article_intro}</div></div>
 	<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
 	<a class="path" href="/article/articleview/{article_id}/">{article_link_text}</a>
-	<br />
-	<br />
-	<br />
+	<br /><br />
 	</td>
 </tr>
 <!-- END article_item_tpl -->

@@ -48,7 +48,7 @@
 	<td width="1%" bgcolor="{bg_color}">
 	<a href="/link/groupedit/edit/{linkgroup_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ela{linkgroup_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ela{linkgroup_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
-	<td class="{td_class}" width="1%" align="center">
+	<td bgcolor="{bg_color}" width="1%" align="center">
 	<input type="checkbox" name="CategoryArrayID[]" value="{linkgroup_id}">
 	</td>
 </tr>
@@ -69,7 +69,7 @@
 <!-- BEGIN link_item_tpl -->
 <tr>
 	<td width="98%" class="{td_class}">
-	<a href="/link/gotolink/addhit/{link_id}/?Url={link_url}">{link_title}</a><br />
+	<a href="/link/gotolink/addhit/{link_id}/?Url={link_url}" target="_blank">{link_title}</a><br />
 	{link_description}
 	</td>
 	<td class="{td_class}" width="80" align="right">
