@@ -27,7 +27,7 @@
 <!-- BEGIN article_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>Article:</th>
+	<th>{intl-article}:</th>
 	<th>
 	<div align="right">
 	{intl-publishing_date}:
