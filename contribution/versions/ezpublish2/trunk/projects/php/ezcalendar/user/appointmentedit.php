@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: appointmentedit.php,v 1.1 2001/01/07 18:39:54 bf Exp $
+// $Id: appointmentedit.php,v 1.2 2001/01/09 17:00:07 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Jan-2001 12:47:22 bf>
@@ -28,17 +28,105 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/ezdatetime.php" );
+include_once( "classes/eztime.php" );
 
 include_once( "ezcalendar/classes/ezappointment.php" );
-
-$appointment = new eZAppointment();
-$appointment->setName( "Date" );
-$appointment->setDescription( "Med Cladia Schifer" );
-
+include_once( "ezcalendar/classes/ezappointmenttype.php" );
 
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
+
+//  $type = new eZAppointmentType();
+//  $type->setName( "Programmering" );
+//  $type->setDescription( "Møte med kompilatoren" );
+//  $type->store();
+
+
+// Allowed format for start and stop time:
+// 14 14:30 14:0 143 1430
+// the : can be replaced with any non number character
+
+if ( $Action == "Insert" )
+{
+    $user = eZUser::currentUser();
+    if ( $user )
+    {
+        $type = new eZAppointmentType( $TypeID );
+    
+        $appointment = new eZAppointment();
+        $appointment->setName( $Name );
+        $appointment->setDescription( $Description );
+        $appointment->setType( $type );
+        $appointment->setOwner( $user );
+        $appointment->setPriority( $Priority );
+
+        if ( $IsPrivate == "on" )
+            $appointment->setIsPrivate( true );
+        else
+            $appointment->setIsPrivate( false );
+
+        $startTime = new eZTime();
+        $stopTime = new eZTime();
+    
+        $startTime->setSecond( 0 );
+        $stopTime->setSecond( 0 );
+    
+        if ( preg_match( "#(^([0-9]{1,2})[^0-9]{0,1}([0-9]{0,2})$)#", $Start, $startArray ) )
+        {
+            $hour = $startArray[2];
+            settype( $hour, "integer" );
+        
+            $startTime->setHour( $hour );
+        
+            $min = $startArray[3];
+            settype( $min, "integer" );
+            if ( $min < 6 )
+                $min = $min*10;
+             
+            $startTime->setMinute( $min );
+        }
+        else
+        {
+            $StartTimeError = true;
+        }
+
+        if ( preg_match( "#(^([0-9]{1,2})[^0-9]{0,1}([0-9]{0,2})$)#", $Stop, $stopArray ) )
+        {
+            $hour = $stopArray[2];
+            settype( $hour, "integer" );
+        
+            $stopTime->setHour( $hour );
+        
+            $min = $stopArray[3];
+            settype( $min, "integer" );
+            if ( $min < 6 )
+                $min = $min*10;
+             
+            $stopTime->setMinute( $min );
+        }
+        else
+        {
+            $StopTimeError = true;
+        }
+
+        $date = new eZDateTime( $Year, $Month, $Day,
+        $startTime->hour(), $startTime->minute(), 0 );
+            
+        $appointment->setDate( $date );
+        $locate = new eZLocale( $Language );
+
+
+        $duration = new eZTime( $stopTime->hour() - $startTime->hour(),
+        $stopTime->minute() - $startTime->minute() );
+
+        $appointment->setDuration( $duration );
+        
+        $appointment->store();
+        
+    }
+}
+
 
 
 $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
@@ -48,12 +136,56 @@ $t->set_file( "appointment_edit_tpl", "appointmentedit.tpl" );
 
 $t->setAllStrings();
 
+$t->set_block( "appointment_edit_tpl", "start_time_error_tpl", "start_time_error" );
+$t->set_block( "appointment_edit_tpl", "stop_time_error_tpl", "stop_time_error" );
+    
+$t->set_block( "appointment_edit_tpl", "value_tpl", "value" );
+
 $t->set_block( "appointment_edit_tpl", "month_tpl", "month" );
 $t->set_block( "appointment_edit_tpl", "day_tpl", "day" );
+
+
+// print out error messages
+if ( $StartTimeError == true )
+{
+    $t->parse( "start_time_error", "start_time_error_tpl" );
+}
+else
+{
+    $t->set_var( "start_time_error", "" );
+}
+
+// print out error messages
+if ( $StopTimeError == true )
+{
+    $t->parse( "stop_time_error", "stop_time_error_tpl" );
+}
+else
+{
+    $t->set_var( "stop_time_error", "" );
+}
 
 $t->set_var( "action_value", "Insert" );
 $t->set_var( "name_value", "" );
 $t->set_var( "description_value", "" );
+$t->set_var( "private_checked", "" );
+
+// print the appointment types
+$type = new eZAppointmentType();
+$typeList =& $type->getTree();
+
+foreach ( $typeList as $type )
+{
+    if ( $type[1] > 0 )
+        $t->set_var( "option_level", str_repeat( "&nbsp;", $catItem[1] ) );
+    else
+        $t->set_var( "option_level", "" );
+    
+    $t->set_var( "option_name", $type[0]->name() );
+    $t->set_var( "option_value", $type[0]->id() );
+    
+    $t->parse( "value", "value_tpl", true );
+}
 
 $dateTime = new eZDateTime();
 $today = new eZDateTime();
@@ -84,10 +216,9 @@ for ( $i=1; $i<32; $i++ )
     $t->parse( "day", "day_tpl", true );
 }
 
-$t->set_var( "hour_value", $today->hour() );
-$t->set_var( "minute_value", $today->minute() );
+$t->set_var( "start_value", "" );
 
-$t->set_var( "duration_value", 30 );
+$t->set_var( "stop_value", "" );
 
 
 

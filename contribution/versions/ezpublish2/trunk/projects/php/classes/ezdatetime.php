@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdatetime.php,v 1.14 2001/01/03 16:26:27 bf Exp $
+// $Id: ezdatetime.php,v 1.15 2001/01/09 17:00:07 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -317,7 +317,6 @@ class eZDateTime
         
         return $ret;
     }
-
 
     /*!
       Returns the number of days in the current month.

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.23 2001/01/09 11:53:07 jb Exp $
+// $Id: ezdb.php,v 1.24 2001/01/09 17:00:07 bf Exp $
 //
 // Definition of eZDB class
 //
@@ -150,6 +150,15 @@ class eZDB
     {
         return $this->Error;
     }
+
+    /*!
+      Returns the ID of the last inserted row.
+    */
+    function insertID()
+    {
+        return mysql_insert_id();
+    }
+    
 
     /*!
       \static

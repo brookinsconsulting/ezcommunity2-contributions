@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.1 2001/01/07 18:39:54 bf Exp $
+// $Id: monthview.php,v 1.2 2001/01/09 17:00:07 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 14:09:56 bf>
@@ -28,6 +28,9 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 
 include_once( "classes/ezdatetime.php" );
+include_once( "classes/ezdate.php" );
+
+include_once( "ezcalendar/classes/ezappointment.php" );
 
 $ini = new INIFIle( "site.ini" );
 
@@ -45,12 +48,22 @@ $t->set_block( "month_view_page_tpl", "month_tpl", "month" );
 $t->set_block( "month_tpl", "week_tpl", "week" );
 $t->set_block( "month_tpl", "week_day_tpl", "week_day" );
 $t->set_block( "week_tpl", "day_tpl", "day" );
+$t->set_block( "day_tpl", "appointment_tpl", "appointment" );
 
+   
 $datetime = new eZDateTime( );
 
-$datetime->setYear( $Year );
+if ( $Year != "" && $Month != "" )
+{
+    $datetime->setYear( $Year );
+    $datetime->setMonth( $Month );
+}
+else
+{
+    $Year = $datetime->year();
+    $Month = $datetime->month();
+}
 
-$datetime->setMonth( $Month );
 
 $t->set_var( "month_number", $Month );
 $t->set_var( "year_number", $Year );
@@ -71,6 +84,10 @@ for ( $week_day=1; $week_day<=7; $week_day++ )
     $t->parse( "week_day", "week_day_tpl", true );
 }
 
+$tmpDate = new eZDate();
+$tmpAppointment = new eZAppointment();
+$locale = new eZLocale( $Language );
+
 for ( $week=0; $week<6; $week++ )
 {
     $t->set_var( "day", "" );
@@ -87,8 +104,26 @@ for ( $week=0; $week<6; $week++ )
             if ( ( ( $day + ( $week * 7 ) )  >= $firstDay ) &&
                  ( $currentDay <= $datetime->daysInMonth() ) )
             {
+                // this month
                 $datetime->setDay( $currentDay );
 
+                // fetch the appointments for today
+                $tmpDate->setYear( $datetime->year() );
+                $tmpDate->setMonth( $datetime->month() );
+                $tmpDate->setDay( $datetime->day() );
+
+                $appointments = $tmpAppointment->getByDate( $tmpDate );
+                $t->set_var( "appointment", "" );
+                foreach ( $appointments as $appointment )
+                {
+                    $start = $appointment->date();
+                    $t->set_var( "appointment_id", $appointment->id() );
+                    $t->set_var( "start_time",  eZDateTime::addZero( $start->hour() ) . ":" . eZDateTime::addZero( $start->minute() ) );
+                    
+                    $t->parse( "appointment", "appointment_tpl", true );
+                }
+                        
+                
                 if ( $day <= 5 )
                     $t->set_var( "td_class", "bglight" );
                 else
@@ -99,13 +134,14 @@ for ( $week=0; $week<6; $week++ )
             }
             else
             {
+                // prevous month
                 if ( ( $currentDay <= $datetime->daysInMonth() ) )
                 {
                     $prevMonth = $datetime;
 
                     if ( $datetime->month() == 1 )
                     {
-                        $prevMonth->setYear( $datetime->year() - 1 );                    
+                        $prevMonth->setYear( $datetime->year() - 1 );
                         $prevMonth->setMonth( 12 );     
                     }
                     else
@@ -113,14 +149,19 @@ for ( $week=0; $week<6; $week++ )
                         $prevMonth->setMonth( $datetime->month() - 1 );
                     }
 
+                    $t->set_var( "appointment", "" );
+
                     $prevMonth->setDay( $prevMonth->daysInMonth() - $firstDay + $day + 1 );
                     
                     $t->set_var( "day_number", $prevMonth->day() );
                 }
                 else
                 {
+                    // next month
                     $nextMonth = $datetime;
 
+                    $t->set_var( "appointment", "" );
+                    
                     if ( $datetime->month() == 12 )
                     {
                         $nextMonth->setYear( $datetime->year() + 1 );

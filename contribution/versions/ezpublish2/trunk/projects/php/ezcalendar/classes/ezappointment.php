@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezappointment.php,v 1.1 2001/01/07 18:39:54 bf Exp $
+// $Id: ezappointment.php,v 1.2 2001/01/09 17:00:07 bf Exp $
 //
 // Definition of eZAppointment class
 //
@@ -35,6 +35,8 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "classes/ezdatetime.php" );
+include_once( "classes/eztime.php" );
 
 
 class eZAppointment
@@ -48,7 +50,6 @@ class eZAppointment
     function eZAppointment( $id=-1, $fetch=true )
     {
         $this->IsConnected = false;
-        $this->ExcludeFromSearch = "false";
         if ( $id != -1 )
         {
             $this->ID = $id;
@@ -77,25 +78,29 @@ class eZAppointment
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZCalendar_Appointment SET
+		                         UserID='$this->UserID',
 		                         Name='$this->Name',
                                  Description='$this->Description',
                                  Date='$this->Date',
                                  Duration='$this->Duration',
                                  EMailNotice='$this->EMailNotice',
                                  IsPrivate='$this->IsPrivate',
+                                 Priority='$this->Priority',
                                  AppointmentTypeID='$this->AppointmentTypeID'" );
             
-            $this->ID = mysql_insert_id();
+            $this->ID = $this->Database->insertID();
         }
         else
         {
-            $this->Database->query( "UPDATE eZFileManager_Folder SET
+            $this->Database->query( "UPDATE eZCalendar_Appointment SET
+		                         UserID='$this->UserID',
 		                         Name='$this->Name',
                                  Description='$this->Description',
                                  Date='$this->Date',
                                  Duration='$this->Duration',
                                  EMailNotice='$this->EMailNotice',
                                  IsPrivate='$this->IsPrivate',
+                                 Priority='$this->Priority',
                                  AppointmentTypeID='$this->AppointmentTypeID' WHERE ID='$this->ID'" );
         }
         
@@ -103,7 +108,7 @@ class eZAppointment
     }
 
     /*!
-      Deletes a eZArticleGroup object from the database.
+      Deletes a eZAppontment object from the database.
 
     */
     function delete()
@@ -112,9 +117,7 @@ class eZAppointment
 
         if ( isset( $this->ID ) )
         {
-            $this->Database->query( "DELETE FROM eZFileManager_FileFolderLink WHERE FolderID='$this->ID'" );
-            
-            $this->Database->query( "DELETE FROM eZFileManager_Folder WHERE ID='$this->ID'" );
+            $this->Database->query( "DELETE FROM eZCalendar_Appointment WHERE ID='$this->ID'" );
         }
         
         return true;
@@ -129,7 +132,7 @@ class eZAppointment
         
         if ( $id != "" )
         {
-            $this->Database->array_query( $appointment_array, "SELECT * FROM eZFileManager_Folder WHERE ID='$id'" );
+            $this->Database->array_query( $appointment_array, "SELECT * FROM eZCalendar_Appointment WHERE ID='$id'" );
             if ( count( $appointment_array ) > 1 )
             {
                 die( "Error: Appointment's with the same ID was found in the database. This shouldent happen." );
@@ -139,10 +142,14 @@ class eZAppointment
                 $this->ID = $appointment_array[0][ "ID" ];
                 $this->Name = $appointment_array[0][ "Name" ];
                 $this->Description = $appointment_array[0][ "Description" ];
-                $this->ParentID = $appointment_array[0][ "ParentID" ];
+                $this->AppointmentTypeID = $appointment_array[0][ "AppointmentTypeID" ];
+                $this->Date = $appointment_array[0][ "Date" ];
+                $this->Duration = $appointment_array[0][ "Duration" ];
+                $this->IsPrivate = $appointment_array[0][ "IsPrivate" ];
+                $this->UserID = $appointment_array[0][ "UserID" ];
+
+                $this->State_ = "Coherent";
             }
-                 
-            $this->State_ = "Coherent";
         }
         else
         {
@@ -153,7 +160,7 @@ class eZAppointment
     /*!
       Returns all the appointments found in the database.
 
-      The categories are returned as an array of eZAppointment objects.
+      The appointments are returned as an array of eZAppointment objects.
     */
     function getAll()
     {
@@ -162,7 +169,8 @@ class eZAppointment
         $return_array = array();
         $appointment_array = array();
         
-        $this->Database->array_query( $appointment_array, "SELECT ID FROM eZFileManager_Folder ORDER BY Name" );
+        $this->Database->array_query( $appointment_array,
+        "SELECT ID FROM eZCalendar_Appointment" );
         
         for ( $i=0; $i<count($appointment_array); $i++ )
         {
@@ -172,6 +180,46 @@ class eZAppointment
         return $return_array;
     }
 
+
+    /*!
+      Returns all the appointments on the given date.
+
+      The appointments are returned as an array of eZAppointment objects.
+    */
+    function getByDate( $date )
+    {
+        $ret = array();
+        if ( get_class( $date ) == "ezdate" )
+        {
+            $this->dbInit();
+        
+            $return_array = array();
+            $appointment_array = array();
+
+            $month = $date->month();
+            $month = eZDateTime::addZero( $month );
+
+            $day = $date->day();
+            $day = eZDateTime::addZero( $day );
+            
+            $stamp = $date->year() . $month . $day;
+
+            $this->Database->array_query( $appointment_array,
+            "SELECT ID from eZCalendar_Appointment
+             WHERE Date LIKE '$stamp%' ORDER BY Date ASC" );
+         
+        
+            for ( $i=0; $i<count($appointment_array); $i++ )
+            {
+                $return_array[] = new eZAppointment( $appointment_array[$i]["ID"], 0 );
+            }
+
+            $ret =& $return_array;            
+        }
+        return $ret;
+        
+    }
+    
 
     /*!
       Returns the object ID to the appointment. This is the unique ID stored in the database.
@@ -193,7 +241,7 @@ class eZAppointment
     }
 
     /*!
-      Returns the group description.
+      Returns the type description.
     */
     function description()
     {
@@ -203,6 +251,100 @@ class eZAppointment
         return $this->Description;
     }
 
+    /*!
+      Returns the date and time of the appointment.
+    */
+    function date(  )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $date = new eZDateTime();
+       $date->setMySQLTimeStamp( $this->Date );
+
+       return $date;
+    }
+
+    /*!
+      Returns the duration of the appointment as a eZTime object.
+    */
+    function duration(  )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $time = new eZTime();
+       $time->setMySQLTime( $this->Duration );
+
+       return $time;
+    }
+    
+    /*!
+      Returns the start time of the appointment.
+    */
+    function &startTime()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $date = new eZDateTime();
+       $date->setMySQLTimeStamp( $this->Date );
+
+       $time = new eZTime();
+       $time->setHour( $date->hour() );
+       $time->setMinute( $date->minute() );
+       $time->setSecond( 0 );
+       
+       return $time;
+    }
+
+    /*!
+      Returns the end time of the appointment.
+    */
+    function &stopTime()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       $date = new eZDateTime();
+       $date->setMySQLTimeStamp( $this->Date );
+
+       $duration = new eZTime();
+       $duration->setMySQLTime( $this->Duration );
+
+       $start  = $this->startTime();
+       $time = $start->add( $duration );
+       
+       return $time;
+    }
+
+
+    /*!
+      Returns the priority, can be 0,1,2.
+    */
+    function priority()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        return $this->Priority;
+    }
+
+    /*!
+      Returns true if the appointment is public.
+    */
+    function &isPrivate()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( $this->IsPrivate == 0 )
+           $ret = false;
+       else
+           $ret = true;
+       
+       return $ret;
+    }    
 
     /*!
       Sets the name of the appointment.
@@ -215,6 +357,7 @@ class eZAppointment
         $this->Name = $value;
     }
 
+    
     /*!
       Sets the description of the appointment.
     */
@@ -226,6 +369,17 @@ class eZAppointment
         $this->Description = $value;
     }
 
+    /*!
+      Sets the priority of the appointment.
+    */
+    function setPriority( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+        $this->Priority = $value;
+    }
+    
     /*!
       Sets the appointment date and time. Takes an eZDateTime object
       as argument.
@@ -242,10 +396,67 @@ class eZAppointment
     }
 
     /*!
+      Sets the appointment type.
+    */
+    function setType( $type )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       if ( get_class( $type ) == "ezappointmenttype" )
+       {
+           $this->AppointmentTypeID = $type->id();
+           print( $this->AppointmentTypeID );
+       }
+    }
+
+    /*!
+      Sets the appointment owner.
+    */
+    function setOwner( $user )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       if ( get_class( $user ) == "ezuser" )
+       {
+           $this->UserID = $user->id();
+       }
+    }
+    
+    /*!
+     Sets the appointment to private or not. 
+    */
+    function setIsPrivate( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( $value == true )
+       {
+           $this->IsPrivate = 1;
+       }
+       else
+       {
+           $this->IsPrivate = 0;
+       }
+       
+       print( "-" . $this->IsPrivate );
+    }    
+    
+    /*!
       Sets the appointmentduration.
     */
-//      function 
-
+    function setDuration( $time )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+       
+       if ( get_class( $time ) == "eztime" )
+       {
+           $this->Duration = $time->mysqlTime();
+       }
+    }
     
     /*!
       Private function.
@@ -269,7 +480,12 @@ class eZAppointment
     var $Duration;
     var $AppointmentTypeID;
     var $EMailNotice;
+
+    /// boolean stored as an int
     var $IsPrivate;
+
+    /// The priority of the appointment, values can be 0, 1, 2 where 1 is normal.
+    var $Priority;
     
     ///  Variable for keeping the database connection.
     var $Database;

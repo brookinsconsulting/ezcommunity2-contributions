@@ -27,3 +27,11 @@ ALTER TABLE eZContact_Address DROP AddressType;
 ALTER TABLE eZContact_Address ADD AddressTypeID int;
 
 NOTE: To upgrade the database from 1.0.5 and higher run the following SQL commands:
+
+CREATE TABLE eZArticle_ArticleFileLink (
+  ID int(11) DEFAULT '0' NOT NULL auto_increment,
+  ArticleID int(11) DEFAULT '0' NOT NULL,
+  FileID int(11) DEFAULT '0' NOT NULL,
+  Created timestamp(14),
+  PRIMARY KEY (ID)
+);

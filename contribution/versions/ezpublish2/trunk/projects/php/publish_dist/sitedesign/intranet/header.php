@@ -26,6 +26,18 @@
 	<tr>
 		<td class="menuspacer">&nbsp;</td>
 	</tr>
+    <tr>
+		<td class="menuhead" bgcolor="#c82828">Calendar</td>
+	</tr>
+	<tr>
+		<td><img src="/images/dot.gif" width="12" height="10"><a class="menu" href="/calendar/monthview/">Month view</a></td>
+	</tr>        
+	<tr>
+		<td><img src="/images/dot.gif" width="12" height="10"><a class="menu" href="/calendar/appointmentedit/new/">New appointment</a></td>
+	</tr>        
+	<tr>
+		<td class="menuspacer">&nbsp;</td>
+	</tr>
 
 <?
 include( "ezarticle/user/menubox.php" );

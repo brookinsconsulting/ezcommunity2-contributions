@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eztime.php,v 1.3 2000/11/17 13:43:17 ce-cvs Exp $
+// $Id: eztime.php,v 1.4 2001/01/09 17:00:07 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -93,8 +93,84 @@ class eZTime
     {
         $this->Second = $value;
         setType( $this->Second, "integer" );
-    }    
+    }
 
+    /*!
+      Adds the value of the given eZTime object to the internal time.
+
+      Returns false if the requested object was not a eZTime object.
+    */
+    function add( $time )
+    {
+        $ret = false;
+        if ( get_class( $time ) == "eztime" )
+        {
+            $tmpTime = new eZTime( $this->hour(), $this->minute(), $this->second() );
+
+            $second = ( $this->second() + $time->second() ) % 60;
+            
+            $minute = ( ( ( $this->minute() + $time->minute() ) +
+                 ( ( $this->second() + $time->second() ) / 60 ) ) % 60 );
+            
+            $hour = $this->hour() + $time->hour() +  ( ( ( $this->minute() + $time->minute() ) +
+                 ( ( $this->second() + $time->second() ) / 60 ) ) / 60 );
+
+            $tmpTime->setHour( $hour );
+            $tmpTime->setMinute( $minute );
+            $tmpTime->setSecond( $second );
+            
+            $ret = $tmpTime;
+        }
+        
+        return $ret;
+    }
+
+    /*!
+      Returns true if the eZTime object given as argument is
+      greater than the internal values.
+
+      If $equal is set to true then true is returned if the time
+      is greater than or equal.
+
+      Returns false is the object is not a eZTime object.      
+    */
+    function isGreater( &$time, $equal=false )
+    {
+        $ret = false;
+        if ( get_class( $time ) == "eztime" )
+        {
+            if ( $time->hour() > $this->hour() )
+            {
+                $ret = true;
+            }
+            else if ( $time->hour() == $this->hour() )
+            {
+                if ( $time->minute() > $this->minute() )
+                {
+                    $ret = true;
+                }
+                else if ( $time->minute() == $this->minute() )
+                {
+                    if ( $equal == false )
+                    {
+                        if ( $time->second() > $this->minute() )
+                        {
+                            $ret = true;
+                        }
+                    }
+                    else
+                    {                        
+                        if ( $time->second() >= $this->minute() )
+                        {
+                            $ret = true;
+                        }
+                    }                    
+                }
+            }
+        }
+        return $ret;
+    }
+    
     /*!
       Sets the time according to the MySQL time given as a
       parameter. If the value is invalid an error message is
@@ -112,7 +188,35 @@ class eZTime
         {
             print( "<b>Error:</b> eZDate::setMySQLDate() received wrong MySQL date format." );
         }
-    }      
+    }
+
+    /*!
+      Returns the MySQL times equivalent to the  time stored
+      in the object.
+    */
+    function mysqlTime()
+    {
+        $hour = $this->addZero( $this->hour() );
+        $minute = $this->addZero( $this->minute() );
+        $second = $this->addZero( $this->second() );
+
+        return $hour . ":" . $minute . ":" . $second;
+    }
+
+    /*!
+      \private
+      Adds a "0" infront of the value if it's below 10.
+    */
+    function addZero( $value )
+    {
+        $ret = $value;
+        if ( $ret < 10 )
+        {
+            $ret = "0". $ret;
+        }
+        
+        return $ret;
+    }
 
     var $Hour;
     var $Minute;

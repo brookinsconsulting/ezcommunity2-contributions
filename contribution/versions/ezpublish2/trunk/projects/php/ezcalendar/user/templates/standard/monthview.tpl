@@ -14,12 +14,16 @@
 <tr>
 
 <!-- BEGIN day_tpl -->
-<td class="{td_class}">
-{day_number}
+<td class="{td_class}" valign="top" >
+<a href="/calendar/dayview/{year_number}/{month_number}/{day_number}">{day_number}</a>
+<br />
+
+<!-- BEGIN appointment_tpl -->
+<a href="/calendar/appointmentview/{appointment_id}/">{start_time}</a><br />
+<!-- END appointment_tpl -->
 <br />
 <br />
-<br />
-<div align="right"><a href="/calendar/appointment/new/">+</a></div>
+<div align="right"><a href="/calendar/appointmentedit/new/">+</a></div>
 </td>
 <!-- END day_tpl -->
 
