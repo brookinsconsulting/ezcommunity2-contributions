@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: help_footer.php,v 1.2 2001/07/19 11:50:54 jakobn Exp $
+// $Id: help_footer.php,v 1.3 2001/10/17 12:50:54 bf Exp $
 //
 // Created on: <20-Apr-2001 15:16:45 bf>
 //
@@ -32,9 +32,7 @@ include_once( "classes/template.inc" );
 
 $t = new Template( "admin/templates/" . $SiteStyle );
 
-$t->set_file( array(
-    "help_footer_tpl" => "help_footer.tpl"
-    ) );
+$t->set_file( "help_footer_tpl", "help_footer.tpl" );
 
 $t->set_var( "site_style", $SiteStyle );
 $t->set_var( "module_dir", $moduleName );
