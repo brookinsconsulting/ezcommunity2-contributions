@@ -15,11 +15,14 @@ switch ( $url_array[2] )
             $Action = "Edit";
             $TypeID = $url_array[4];
         }
-
-        if ( $url_array[3] == "delete" )
+        else if ( $url_array[3] == "delete" )
         {
             $Action = "Delete";
             $TypeID = $url_array[4];
+        }
+        else
+        {
+            $Action = "New";
         }
         
         include( "ezcalendar/admin/typeedit.php" );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: typelist.php,v 1.1 2001/02/19 14:56:34 gl Exp $
+// $Id: typelist.php,v 1.2 2001/02/19 17:20:18 gl Exp $
 //
 // Gunnstein Lye <gl@ez.no>
 // Created on: <20-Dec-2000 18:18:28 gl>
@@ -30,7 +30,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 
 $ini = new INIFIle( "site.ini" );
-$Language = $ini->read_var( "eZTradeMain", "Language" );
+$Language = $ini->read_var( "eZCalendarMain", "Language" );
 
 include_once( "ezcalendar/classes/ezappointment.php" );
 include_once( "ezcalendar/classes/ezappointmenttype.php" );

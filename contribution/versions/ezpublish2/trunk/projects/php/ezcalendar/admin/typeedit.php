@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: typeedit.php,v 1.1 2001/02/19 14:56:34 gl Exp $
+// $Id: typeedit.php,v 1.2 2001/02/19 17:20:18 gl Exp $
 //
 // Gunnstein Lye <gl@ez.no>
 // Created on: <20-Dec-2000 18:24:06 gl>
@@ -26,144 +26,91 @@
 
 if ( isset( $Cancel ) )
 {
-    Header( "Location: /trade/typelist/" );
+    Header( "Location: /calendar/typelist/" );
     exit();
 }
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezhttptool.php" );
+include_once( "classes/ezlog.php" );
 
 $ini = new INIFIle( "site.ini" );
+$Language = $ini->read_var( "eZCalendarMain", "Language" );
+$LanguageIni = new INIFIle( "ezcalendar/admin/intl/" . $Language . "/typeedit.php.ini", false );
 
-$Language = $ini->read_var( "eZTradeMain", "Language" );
+include_once( "ezcalendar/classes/ezappointment.php" );
+include_once( "ezcalendar/classes/ezappointmenttype.php" );
 
-include_once( "eztrade/classes/ezproducttype.php" );
-include_once( "eztrade/classes/ezproductattribute.php" );
 
 if ( $Action == "Insert" )
 {
-    $type = new eZProductType();
+    $type = new eZAppointmentType();
     $type->setName( $Name );
     $type->setDescription( $Description );
 
     $type->store();
 
-    Header( "Location: /trade/typelist/" );
+    eZHTTPTool::header( "Location: /calendar/typelist/" );
     exit();
 }
 
 if ( $Action == "Update" )
 {
-
-    $type = new eZProductType( $TypeID );
+    $type = new eZAppointmentType( $TypeID );
     $type->setName( $Name );
     $type->setDescription( $Description );
 
     $type->store();
 
-    // update attributes
-    $i =0;
-    if ( count( $AttributeName ) > 0 )
-    {
-        foreach ( $AttributeName as $attribute )
-        {
-            $att = new eZProductAttribute( $AttributeID[$i] );
-            $att->setName( $attribute );
-            $att->store();            
-            
-            $i++;
-        }
-    }
-
-
-    if ( isset( $NewAttribute ) )
-    {
-        $attribute = new eZProductAttribute();
-        $attribute->setType( $type );
-        $attribute->setName( "New attribute" );
-        $attribute->store();
-        
-        $Action = "Edit";        
-    }
-    else
-    {
-        if ( isset( $UpdateValues ) )
-        {
-            $Action = "Edit";
-        }
-        else
-        {
-            Header( "Location: /trade/typelist/" );
-            exit();
-        }
-    }
+    eZHTTPTool::header( "Location: /calendar/typelist/" );
+    exit();
 }
 
 if ( $Action == "Delete" )
 {
-    $type = new eZProductType();
-    $type->get( $TypeID );
+    if ( count ( $TypeArrayID ) != 0 )
+    {
+        foreach( $TypeArrayID as $TypeID )
+        {
+            $type = new eZAppointmentType( $TypeID );
+            $typeName = $type->name();
 
-    $type->delete();
-    
-    Header( "Location: /trade/typelist/" );
-    exit();
+            $type->delete();
+
+            eZLog::writeNotice( "Appointment Type deleted: $typeName from IP: $REMOTE_ADDR" );
+        }
+        eZHTTPTool::header( "Location: /calendar/typelist/" );
+        exit();
+    }
 }
 
-$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ),
-                     "eztrade/admin/intl/", $Language, "typeedit.php" );
+
+$t = new eZTemplate( "ezcalendar/admin/" . $ini->read_var( "eZCalendarMain", "AdminTemplateDir" ),
+                     "ezcalendar/admin/intl/", $Language, "typeedit.php" );
 
 $t->setAllStrings();
 
 $t->set_file( array( "type_edit_tpl" => "typeedit.tpl" ) );
 
 
-$t->set_block( "type_edit_tpl", "value_tpl", "value" );
-
-$t->set_block( "type_edit_tpl", "attribute_list_tpl", "attribute_list" );
-$t->set_block( "attribute_list_tpl", "attribute_tpl", "attribute" );
-
-$type = new eZProductType();
-
-$typeArray = $type->getAll( );
-
-$t->set_var( "attribute_list", "" );
-$t->set_var( "description_value", "" );
-$t->set_var( "name_value", "" );
-$t->set_var( "type_id", "" );
-$t->set_var( "action_value", "Insert" );
-
-// edit
 if ( $Action == "Edit" )
 {
-    $type = new eZProductType();
-    $type->get( $TypeID );
+    $type = new eZAppointmentType( $TypeID );
 
+    $t->set_var( "header", $LanguageIni->read_var( "strings", "edit_appointment_type" ) );
     $t->set_var( "name_value", $type->name() );
     $t->set_var( "description_value", $type->description() );
     $t->set_var( "action_value", "Update" );
     $t->set_var( "type_id", $type->id() );
-
-
-    $attributes = $type->attributes();
-
-    foreach ( $attributes as $attribute )
-    {
-        $t->set_var( "attribute_id", $attribute->id( ) );
-        $t->set_var( "attribute_name", $attribute->name( ) );
-        
-        $t->parse( "attribute", "attribute_tpl", true );
-    }
-
-    if ( count( $attributes ) > 0 )
-    {
-        $t->parse( "attribute_list", "attribute_list_tpl", true );
-    }
-    else
-    {
-        $t->set_var( "attribute_list", "", true );
-    }
-    
+}
+else
+{
+    $t->set_var( "header", $LanguageIni->read_var( "strings", "new_appointment_type" ) );
+    $t->set_var( "description_value", "" );
+    $t->set_var( "name_value", "" );
+    $t->set_var( "type_id", "" );
+    $t->set_var( "action_value", "Insert" );
 }
 
 

@@ -1,6 +1,6 @@
-<form method="post" action="/trade/typeedit/">
+<form method="post" action="/calendar/typeedit/">
 
-<h1>{intl-type_edit}</h1>
+<h1>{header}</h1>
 
 <hr noshade="noshade" size="4" />
 
@@ -12,31 +12,6 @@
 <textarea rows="5" cols="40" name="Description">{description_value}</textarea>
 <br /><br />
 
-
-<!-- BEGIN attribute_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
-<tr>
-	<th>
-	{intl-attribute_name}:
-	</th>
-</tr>
-<!-- BEGIN attribute_tpl -->
-<tr>
-	<td>
-	<input type="hidden" name="AttributeID[]" value="{attribute_id}" />
-	<input type="text" name="AttributeName[]" value="{attribute_name}" />
-	</td>
-</tr>
-
-<!-- END attribute_tpl -->
-</table>
-<!-- END attribute_list_tpl -->
-
-<hr noshade="noshade" size="4" />
-
-<input type="submit" name="UpdateValues" value="{intl-update}" />
-
-<input type="submit" name="NewAttribute" value="{intl-new_attribute}" />
 
 <hr noshade="noshade" size="4" />
 

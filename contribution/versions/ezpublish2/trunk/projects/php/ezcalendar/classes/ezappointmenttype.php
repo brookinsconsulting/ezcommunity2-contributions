@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezappointmenttype.php,v 1.3 2001/01/24 13:17:06 gl Exp $
+// $Id: ezappointmenttype.php,v 1.4 2001/02/19 17:20:18 gl Exp $
 //
 // Definition of eZAppointmentType class
 //
@@ -97,8 +97,6 @@ class eZAppointmentType
 
         if ( isset( $this->ID ) )
         {
-            $this->Database->query( "DELETE FROM eZCalendar_AppointmentTypeLink WHERE AppointmentTypeID='$this->ID'" );
-            
             $this->Database->query( "DELETE FROM eZCalendar_AppointmentType WHERE ID='$this->ID'" );            
         }
         

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.1 2001/02/19 14:56:34 gl Exp $
+// $Id: menubox.php,v 1.2 2001/02/19 17:20:18 gl Exp $
 //
 // Gunnstein Lye <gl@ez.no>
 // Created on: <19-Feb-2001 17:53:46 gl>
@@ -27,7 +27,7 @@
 
 $menuItems = array(
     array( "/calendar/typelist/", "{intl-appointment_type_list}" ),
-    array( "/calendar/typeedit/", "{intl-new_appointment_type}" )
+    array( "/calendar/typeedit/new", "{intl-new_appointment_type}" )
     );
 
 ?>
