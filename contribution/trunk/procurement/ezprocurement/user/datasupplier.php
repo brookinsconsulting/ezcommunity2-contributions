@@ -206,9 +206,8 @@ print( "Insert procurementdownload.php function <br /> Check for Authenticated S
     }
     break;
 	
-	// so, what's the difference between . . . 
 
-
+    // so, what's the difference between . . . 
     case "holder":
     case "author":
     {
@@ -245,7 +244,7 @@ print( "Insert procurementdownload.php function <br /> Check for Authenticated S
     }
 
  case "company":
-   {
+ {
      $Action = $url_array[3];
      $CompanyID = $url_array[4];
      switch ( $Action )
