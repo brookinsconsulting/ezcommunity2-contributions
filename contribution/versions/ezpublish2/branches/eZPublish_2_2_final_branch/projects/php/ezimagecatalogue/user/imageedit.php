@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: imageedit.php,v 1.48.2.3 2002/05/17 10:32:19 fh Exp $
+// $Id: imageedit.php,v 1.48.2.4 2002/05/29 13:55:23 br Exp $
 //
 // Created on: <09-Jan-2001 10:45:44 ce>
 //
@@ -248,6 +248,8 @@ if ( $Action == "Insert" && $error == false )
 
     $image->store();
 
+    $ImageID = $image->id();
+         
     if ( eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", 'w' ) ) // user had write permission
     {
         changePermissions( $ImageID, $ReadGroupArrayID, 'r' );
