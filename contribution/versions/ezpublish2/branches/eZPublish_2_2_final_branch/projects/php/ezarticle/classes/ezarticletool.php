@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticletool.php,v 1.12.2.3 2002/02/20 13:18:12 jhe Exp $
+// $Id: ezarticletool.php,v 1.12.2.4 2002/02/27 09:40:12 bf Exp $
 //
 // Definition of eZArticleTool class
 //
@@ -93,8 +93,6 @@ class eZArticleTool
 
         $files =& eZCacheFile::files( "ezarticle/cache/",
                                       array( "menubox",
-                                             NULL,
-                                             NULL,
                                              NULL,
                                              NULL,
                                              NULL ),

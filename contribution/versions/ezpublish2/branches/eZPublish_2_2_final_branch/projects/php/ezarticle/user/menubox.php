@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.26.2.3 2002/02/27 08:40:19 bf Exp $
+// $Id: menubox.php,v 1.26.2.4 2002/02/27 09:40:12 bf Exp $
 //
 // 
 //
@@ -149,8 +149,6 @@ if ( $PageCaching == "enabled" )
         }
     }
     
-//    $menuCachedFile = "ezarticle/cache/menubox," . $groupstr . ",". $GlobalSiteDesign . "," . $CategoryID. ".cache";
-
     unset( $menuCacheFile );
     $menuCacheFile = new eZCacheFile( "ezarticle/cache",
                                       array( "menubox",
