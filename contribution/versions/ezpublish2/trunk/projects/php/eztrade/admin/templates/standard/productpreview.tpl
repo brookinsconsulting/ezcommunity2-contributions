@@ -134,7 +134,7 @@
 </table>
 <!-- END attribute_list_tpl -->
 
-<form action="/{module}/cart/add/{product_id}/" method="post">
+<form action="/{module}/productedit/edit/{product_id}/" method="post">
 
 <!-- BEGIN option_tpl -->
 

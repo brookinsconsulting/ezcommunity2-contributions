@@ -164,8 +164,6 @@ function &newOrders( $args )
     return $tmp;
 }
 
-
-
 ob_end_flush();
 exit();
 ?>
