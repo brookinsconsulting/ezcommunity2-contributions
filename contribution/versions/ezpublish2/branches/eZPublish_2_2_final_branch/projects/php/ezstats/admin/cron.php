@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: cron.php,v 1.1.2.3 2002/01/13 14:05:11 kaid Exp $
+// $Id: cron.php,v 1.1.2.4 2002/06/13 10:24:04 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -33,6 +33,7 @@ $db->begin();
 
 $timestamp = eZDateTime::timeStamp( true );
 
+set_time_limit( 86400 );
 
 // BrowserType archive
 
@@ -76,7 +77,6 @@ foreach ( $newelements as $element )
     $date->setTimeStamp( $element[$db->fieldName("Date")] );
     $month = new eZDateTime( $date->year(), $date->month() );
     $db->array_query( $oldelements, "SELECT * FROM eZStats_Archive_RequestedPage WHERE URI='$requestname' AND Month='" . $month->timeStamp() . "'" );
-    
     if ( count( $oldelements ) == 0 )
     {
         $db->lock( "eZStats_Archive_RequestedPage" );
@@ -94,26 +94,25 @@ foreach ( $newelements as $element )
 // ReferURL archive
 
 $db->array_query( $newelements, "SELECT Date, RefererURLID FROM eZStats_PageView WHERE Date < " . $timestamp . " ORDER BY Date" );
+
 foreach ( $newelements as $element )
 {
     $refer = array();
     $db->array_query( $refer, "SELECT URI, Domain FROM eZStats_RefererURL WHERE ID=" . $element[$db->fieldName("RefererURLID")] );
+    print_r( $refer );
     $refername = $refer[0][$db->fieldName("URI")];
     $domain = $refer[0][$db->fieldName("Domain")];
     
     $date = new eZDateTime();
     $date->setTimeStamp( $element[$db->fieldName("Date")] );
     $month = new eZDateTime( $date->year(), $date->month() );
-    
     $db->array_query( $oldelements, "SELECT * FROM eZStats_Archive_RefererURL WHERE URI='$refername' AND Domain='$domain' AND Month='". $month->timeStamp() . "'" );
-
-    
     if ( count( $oldelements ) == 0 )
     {
         $db->lock( "eZStats_Archive_RefererURL" );
         $nextid = $db->nextID( "eZStats_Archive_RefererURL", "ID" );
         $res[] = $db->query( "INSERT INTO eZStats_Archive_RefererURL (ID, URI, Domain, Month, Count) VALUES " .
-                             "('$nextid', '$requestname', '$domain', '" . $month->timeStamp() . "', '1')" );
+                             "('$nextid', '$refername', '$domain', '" . $month->timeStamp() . "', '1')" );
         $db->unlock();
     }
     else
