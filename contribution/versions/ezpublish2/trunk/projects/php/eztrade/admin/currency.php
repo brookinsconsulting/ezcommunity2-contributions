@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: currency.php,v 1.6 2001/03/05 12:31:51 bf Exp $
+// $Id: currency.php,v 1.7 2001/03/14 09:54:21 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Feb-2001 16:27:56 bf>
@@ -39,6 +39,7 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 if ( $Action == "Store" )
 {
     $i=0;
+    if ( count( $CurrencyID ) > 0 )
     foreach ( $CurrencyID as $id )
     {
         $str = "CurrencyPrefix_" . $id;
