@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.5 2001/01/23 13:16:57 jb Exp $
+// $Id: categoryedit.php,v 1.6 2001/02/09 13:20:38 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -29,6 +29,11 @@ if ( isset( $Cancel ) )
 {
     eZHTTPTool::header( "Location: /ad/archive/$categoryID/" );
     exit();
+}
+
+if ( isset ( $DeleteCategories ) )
+{
+    $Action = "DeleteCategories";
 }
 
 include_once( "classes/INIFile.php" );
@@ -88,6 +93,21 @@ if ( $Action == "Delete" )
 
     $category->delete();
     
+    eZHTTPTool::header( "Location: /ad/archive/" );
+    exit();
+}
+
+if ( $Action == "DeleteCategories" )
+{
+    if ( count ( $CategoryArrayID ) != 0 )
+    {
+        foreach( $CategoryArrayID as $ID )
+        {
+            $category = new eZAdCategory( $ID );
+            $category->delete();
+        }
+    }
+
     eZHTTPTool::header( "Location: /ad/archive/" );
     exit();
 }

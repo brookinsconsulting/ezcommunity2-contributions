@@ -43,6 +43,7 @@
 	<th colspan="2">&nbsp;</th>
 </tr>
 	
+<form method="post" action="/ad/category/edit/" enctype="multipart/form-data">
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td class="{td_class}">
@@ -54,12 +55,18 @@
 	<td width="1%" class="{td_class}">
 	<a href="/ad/category/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
-	<td width="1%" class="{td_class}">
-	<a href="#" onClick="verify( '{intl-delete}', '/ad/category/delete/{category_id}/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-slett','','/images/{site_style}/slettminimrk.gif',1)"><img name="ezac{category_id}-slett" border="0" src="/images/{site_style}/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
+	<td class="{td_class}" width="1%" align="center">
+	<input type="checkbox" name="CategoryArrayID[]" value="{category_id}">
 	</td>
 </tr>
 <!-- END category_item_tpl -->
 </table>
+
+<hr noshade="noshade" size="4" />
+
+<input class="stdbutton" type="submit" Name="DeleteCategories" value="{intl-deletecategories}">
+</form>
+
 <!-- END category_list_tpl -->
 
 
