@@ -1,0 +1,121 @@
+<?
+// eZ image catalogue classes
+include_once( "ezimagecatalogue/classes/ezimagecategory.php" );
+include_once( "ezimagecatalogue/classes/ezimage.php" );
+
+$list_categories = false;
+$list_images = false;
+if ( is_object( $Data["ListType"] ) )
+{
+    $ListType = $Data["ListType"]->value();
+    if ( is_object( $ListType["Catalogues"] ) )
+        $list_categories = true;
+    if ( is_object( $ListType["Elements"] ) )
+        $list_images = true;
+}
+
+if ( !$list_categories and !$list_images )
+{
+    $list_categories = true;
+    $list_images = true;
+}
+
+$offset = 0;
+$max = -1;
+$total = 0;
+
+if ( is_object( $Data["Part"] ) )
+{
+    $Part = $Data["Part"]->value();
+    $offset = $Part["Offset"]->value();
+    $max = $Part["Max"]->value();
+//      eZLog::writeNotice( "Article: Offset: $offset, Max: $max" );
+}
+
+$category = new eZImageCategory( $ID );
+
+$loc_max = $max;
+$loc_offset = $offset;
+
+$cat = array();
+if ( $list_categories )
+{
+    $categoryCount = $category->countByParent( $category );
+    $total += $categoryCount;
+    if ( $loc_offset < $categoryCount )
+    {
+        $categoryList =& $category->getByParent( $category, $loc_offset, $loc_max );
+        $loc_max -= count( $categoryList );
+
+        foreach ( $categoryList as $catItem )
+        {
+            $cat[] = new eZXMLRPCStruct( array( "URL" => createURLStruct( "ezimagecatalogue",
+                                                                          "category",
+                                                                          $catItem->id() ),
+                                                "Name" => new eZXMLRPCString( $catItem->name() )
+                                                )
+                                         );
+        }
+    }
+    $loc_offset = max( 0, $loc_offset - $categoryCount );
+}
+
+$art = array();
+if ( $list_images )
+{
+    $imageCount = $category->imageCount();
+    $total += $imageCount;
+    if ( $loc_max > 0 and $loc_offset >= 0 )
+    {
+        $imageList =& $category->images( "time", $loc_offset, $loc_max );
+        foreach( $imageList as $imageItem )
+        {
+            $art[] = new eZXMLRPCStruct( array( "URL" => createURLStruct( "ezimagecatalogue",
+                                                                          "image",
+                                                                          $imageItem->id() ),
+                                                "Name" => new eZXMLRPCString( $imageItem->name() ),
+                                                "Thumbnail" => new eZXMLRPCBool( true )
+                                                )
+                                         );
+        }
+    }
+//      if ( $offset > 0 )
+//          usleep( 5000000 );
+}
+
+$par = array();
+if ( $offset == 0 )
+{
+    $path =& $category->path();
+    if ( $category->id() != 0 )
+    {
+        $par[] = createURLStruct( "ezimagecatalogue", "category", 0 );
+    }
+    else
+    {
+        $par[] = createURLStruct( "ezimagecatalogue", "" );
+    }
+    foreach( $path as $item )
+    {
+        if ( $item[0] != $category->id() )
+            $par[] = createURLStruct( "ezimagecatalogue", "category", $item[0] );
+    }
+}
+
+$part_arr = array( "Offset" => new eZXMLRPCInt( $offset ),
+                   "Total" => new eZXMLRPCInt( $total ) );
+if ( $offset == 0 )
+{
+    $part_arr["Begin"] = new eZXMLRPCBool( true );
+}
+if ( $total == $offset + count( $cat ) + count( $art ) )
+{
+    $part_arr["End"] = new eZXMLRPCBool( true );
+}
+$part = new eZXMLRPCStruct( $part_arr );
+
+$ReturnData = new eZXMLRPCStruct( array( "Catalogues" => $cat,
+                                         "Elements" => $art,
+                                         "Path" => $par,
+                                         "Part" => $part ) ); // array starting with top level catalogue, ending with parent.
+?>
