@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.33 2001/02/23 16:51:54 gl Exp $
+// $Id: eztemplate.php,v 1.34 2001/03/21 13:45:04 jb Exp $
 //
 // Definition of eZTemplate class
 //
@@ -761,12 +761,20 @@ class eZTemplate
         $file = $this->file[$handle];
         $filename = $this->file[$handle];
 
-        $fd = fopen( $filename, "r" );
-        $str =& fread($fd, filesize($filename));
-        fclose( $fd );
-        if (empty($str))
+        if ( file_exists( $filename ) )
         {
-            $this->halt("loadfile: While loading $handle, $filename does not exist or is empty.");
+            $fd = fopen( $filename, "r" );
+            $str =& fread($fd, filesize($filename));
+            fclose( $fd );
+            if (empty($str))
+            {
+                $this->halt("loadfile: While loading $handle, $filename does not exist or is empty.");
+                return false;
+            }
+        }
+        else
+        {
+            $this->halt( "loadfile: Cannot find template file \"$filename\"" );
             return false;
         }
 
