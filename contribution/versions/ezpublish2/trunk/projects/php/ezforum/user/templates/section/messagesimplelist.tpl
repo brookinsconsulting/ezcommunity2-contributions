@@ -14,7 +14,7 @@
 	<table width="100%" cellspacing="0" cellpadding="0" border="0">
 	<tr>
 		<td width="1%">{spacer}{spacer}</td>
-		<td width="99%"><a class="{link_color}" href="/forum/message/{message_id}/">{topic}</a></td>
+		<td width="99%">{topic}</td>
 	</tr>
 	</table>
 		</td>
@@ -95,4 +95,5 @@
 <input class="stdbutton" type="submit" value="{intl-new-posting}" />
 <input type="hidden" name="RedirectURL" value="{redirect_url}" />
 </form>
+
 
