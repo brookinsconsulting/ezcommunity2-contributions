@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.21 2000/11/20 10:35:45 bf-cvs Exp $
+// $Id: ezuser.php,v 1.22 2000/11/20 10:36:11 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -502,7 +502,6 @@ class eZUser
 
             if ( ( $user->id() != 0 ) && ( $user->id() != "" ) )
             {
-                    print( "not valid  session" );                    
                     $ret = $user;
             }
         }
