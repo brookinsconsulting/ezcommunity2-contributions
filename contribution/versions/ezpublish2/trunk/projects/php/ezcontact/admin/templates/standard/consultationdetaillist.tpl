@@ -79,7 +79,7 @@
 <!-- BEGIN new_company_consultation_item_tpl -->
 <form method="post" action="/contact/consultation/company/new/{company_id}">
 <!-- END new_company_consultation_item_tpl -->
-<input class="okbutton" type="submit" name="New" value="{intl-new_consultation}">
+<input class="okbutton" type="submit" value="{intl-new_consultation}">
 </form>
 </td>
 <td>
