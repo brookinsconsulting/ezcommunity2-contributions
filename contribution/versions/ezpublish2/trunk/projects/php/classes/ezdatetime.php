@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdatetime.php,v 1.28 2001/07/09 07:18:20 jakobn Exp $
+// $Id: ezdatetime.php,v 1.29 2001/07/09 20:01:33 bf Exp $
 //
 // Definition of eZDateTime class
 //
@@ -300,7 +300,7 @@ class eZDateTime
     function setTimeStamp( $value )
     {
         $formattedTime =& date('YmdHis', $value );
-        
+
         if ( ereg( "([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})", $formattedTime, $valueArray ) )
         {
             $this->setYear( $valueArray[1] );
@@ -328,8 +328,11 @@ class eZDateTime
         if ( $returnNow == true )
             return mktime();
         else
+        {
             return mktime( $this->hour(), $this->minute(), $this->second(),
         $this->month(), $this->day(), $this->year() );
+        }
+
     }
     
 

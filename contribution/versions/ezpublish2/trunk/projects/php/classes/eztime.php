@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eztime.php,v 1.11 2001/07/09 07:18:21 jakobn Exp $
+// $Id: eztime.php,v 1.12 2001/07/09 20:01:33 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -37,12 +37,13 @@ class eZTime
     /*!
       Constructs a new eZTime object.
     */
-    function eZTime( $hour=0, $minute=0, $second=0 )
+    function eZTime( $hour=-1, $minute=-1, $second=-1 )
     {
-        if ( ( $hour == 0 )  && ( $minute == 0 ) && ( $second == 0 ) )
+        if ( ( $hour == -1 )  && ( $minute == -1 ) && ( $second == -1 ) )
         {
-            $now = getdate();
-            $this->setSecondsElapsedHMS( $now["hours"], $now["minutes"], $now["seconds"] );
+            $this->SecondsElapsed = 0;
+//            $now = getdate();
+//            $this->setSecondsElapsedHMS( $now["hours"], $now["minutes"], $now["seconds"] );
         }
         else
         {
@@ -108,6 +109,7 @@ class eZTime
     */
     function setHour( $value )
     {
+        $value = min( $value, 23 );
         $this->SecondsElapsed = ( ( $value * 3600 ) + ( $this->minute() * 60 ) + $this->second() );
         setType( $this->SecondsElapsed, "integer" );
     }
@@ -117,8 +119,8 @@ class eZTime
     */
     function setMinute( $value )
     {
+        $value = min( $value, 59 );
         $this->SecondsElapsed = ( ( $this->hour() * 3600 ) + ( $value * 60 ) + $this->second() );
-        setType( $this->SecondsElapsed, "integer" );
     }
     
     /*!
@@ -126,8 +128,8 @@ class eZTime
     */
     function setSecond( $value )
     {
+        $value = min( $value, 59 );
         $this->SecondsElapsed = ( ( $this->hour() * 3600 ) + ( $this->minute() * 60 ) + $value );
-        setType( $this->SecondsElapsed, "integer" );
     }
 
     /*!
@@ -136,7 +138,6 @@ class eZTime
     function setSecondsElapsed( $value )
     {
         $this->SecondsElapsed = $value;
-        setType( $this->SecondsElapsed, "integer" );
     }
 
     /*!
@@ -342,6 +343,7 @@ class eZTime
         return $ret;
     }
 
+    /// Store the number of seconds since 00:00:00
     var $SecondsElapsed;
 }
 
