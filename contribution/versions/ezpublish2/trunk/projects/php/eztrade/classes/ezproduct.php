@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.109 2001/10/02 07:59:01 ce Exp $
+// $Id: ezproduct.php,v 1.110 2001/10/04 14:04:14 ce Exp $
 //
 // Definition of eZProduct class
 //
@@ -1883,6 +1883,13 @@ class eZProduct
                if ( ( get_class ( $country ) == "ezcountry" ) and ( !$country->hasVAT() ) )
                    $useVAT = false;
            }
+       }
+       else
+       {
+           $ini =& INIFile::globalINI();
+           $vat = $ini->read_var( "eZTradeMain", "NoUserShowVAT" ) == "enabled";
+           if ( !$vat )
+               $useVAT = false;
        }
               
        if ( ( $useVAT ) and ( is_numeric( $this->VATTypeID ) ) and ( $this->VATTypeID > 0 ) )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezshippingtype.php,v 1.10 2001/10/02 07:59:01 ce Exp $
+// $Id: ezshippingtype.php,v 1.11 2001/10/04 14:04:14 ce Exp $
 //
 // Definition of eZShippingType class
 //
@@ -259,7 +259,13 @@ class eZShippingType
                     $useVAT = false;
             }
         }
-        
+        else
+        {
+            $ini =& INIFile::globalINI();
+            $vat = $ini->read_var( "eZTradeMain", "NoUserShowVAT" ) == "enabled";
+            if ( !$vat )
+                $useVAT = false;
+        }
         
         if ( ( $useVAT ) and ( is_numeric( $this->VATTypeID ) ) and ( $this->VATTypeID > 0 ) )
         {
