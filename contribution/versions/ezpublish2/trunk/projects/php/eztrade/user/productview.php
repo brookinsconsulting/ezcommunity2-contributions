@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.7 2000/11/12 20:06:59 bf-cvs Exp $
+// $Id: productview.php,v 1.8 2000/11/12 20:50:05 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -166,7 +166,7 @@ $t->set_var( "product_id", $product->id() );
 if ( trim( $product->externalLink() ) != "" )
 {
     $t->set_var( "external_link_url", "http://" . $product->externalLink() );
-    $t->parse( "external_link", "external_link_url" );
+    $t->parse( "external_link", "external_link_tpl" );
 }
 else
 {

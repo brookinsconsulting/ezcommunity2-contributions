@@ -2,6 +2,7 @@
 
 <hr noshade="noshade" size="4" />
 
+<form action="/trade/productedit/edit/{product_id}/" method="post">
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
@@ -74,7 +75,7 @@
 </tr>
 <tr>
 	<td width="20%">
-	<select>
+	<select name="Options">
 	<!-- BEGIN value_tpl -->
 	<option value="{value_id}">{value_name}</option>
 	<!-- END value_tpl -->
@@ -99,7 +100,7 @@
 
 <br />
 
-<form action="/trade/productedit/edit/{product_id}/" method="post">
+
 
 <hr noshade="noshade" size="4" />
 

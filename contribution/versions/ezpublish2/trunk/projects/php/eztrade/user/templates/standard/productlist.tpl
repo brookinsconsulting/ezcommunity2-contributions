@@ -1,4 +1,19 @@
-<h1>{intl-productlist}</h1>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	<h1>{intl-productlist}</h1>
+	</td>
+     <td align="right">
+	 <form action="/trade/search/" method="post">
+	       <input type="text" name="Query">
+	       <input type="submit" name="search" value="{intl-search_button}">
+         </form>
+     </td>
+</tr>
+</table>
+
+
+
 
 <hr noshade="noshade" size="4"/>
 
