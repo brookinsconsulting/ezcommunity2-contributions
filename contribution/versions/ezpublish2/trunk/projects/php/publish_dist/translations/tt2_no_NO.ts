@@ -57,7 +57,7 @@
     <message>
         <source>User name</source>
         <comment>Key: user_name</comment>
-        <translation>Bruker navn</translation>
+        <translation>Brukernavn</translation>
     </message>
     <message>
         <source>Change&amp;nbsp;user&amp;nbsp;info</source>
@@ -72,12 +72,12 @@
     <message>
         <source>All&amp;nbsp;on</source>
         <comment>Key: all</comment>
-        <translation>All&amp;nbsp;on</translation>
+        <translation>Alle&amp;nbsp;på</translation>
     </message>
     <message>
         <source>All&amp;nbsp;off</source>
         <comment>Key: none</comment>
-        <translation>All&amp;nbsp;off</translation>
+        <translation>Alle&amp;nbsp;av</translation>
     </message>
     <message>
         <source>Version</source>
@@ -85,9 +85,14 @@
         <translation>Versjon</translation>
     </message>
     <message>
-        <source>IP address</source>
+        <source>IP Address</source>
         <comment>Key: ip_address</comment>
-        <translation>IP adresse</translation>
+        <translation>IP-adresse</translation>
+    </message>
+    <message>
+        <source>eZ publish administration</source>
+        <comment>Key: header</comment>
+        <translation>eZ publish administrasjon</translation>
     </message>
 </context>
 <context>
@@ -125,18 +130,23 @@
         <comment>Key: back_to_normal_view</comment>
         <translation>Tilbake til normal visning</translation>
     </message>
+    <message>
+        <source>eZ publish administration</source>
+        <comment>Key: header</comment>
+        <translation>eZ publish administrasjon</translation>
+    </message>
 </context>
 <context>
     <name>classes/admin/intl/en_GB/linklist.php.ini [strings]</name>
     <message>
         <source>Module linkage</source>
         <comment>Key: head_line</comment>
-        <translation>Modul linker</translation>
+        <translation>Modullenker</translation>
     </message>
     <message>
         <source>Link type</source>
         <comment>Key: link_type</comment>
-        <translation>Link type</translation>
+        <translation>Lenketype</translation>
     </message>
     <message>
         <source>URL</source>
@@ -146,7 +156,7 @@
     <message>
         <source>Browse type</source>
         <comment>Key: browse</comment>
-        <translation>Browse type</translation>
+        <translation>Browse-type</translation>
     </message>
     <message>
         <source>New section</source>
@@ -189,7 +199,7 @@
     <message>
         <source>Link types</source>
         <comment>Key: head_line</comment>
-        <translation>Link typer</translation>
+        <translation>Lenketyper</translation>
     </message>
     <message>
         <source>Choose sub type</source>
@@ -239,7 +249,7 @@
     <message>
         <source>Link type</source>
         <comment>Key: link_type</comment>
-        <translation>Link type</translation>
+        <translation>Lenketype</translation>
     </message>
     <message>
         <source>URL</source>
@@ -510,7 +520,7 @@
     <message>
         <source>Ad Edit</source>
         <comment>Key: ad_edit</comment>
-        <translation>Reklame redigering</translation>
+        <translation>Reklameredigering</translation>
     </message>
     <message>
         <source>Title</source>
@@ -520,7 +530,7 @@
     <message>
         <source>Ad category</source>
         <comment>Key: ad_category</comment>
-        <translation>Kategori</translation>
+        <translation>Reklamekategori</translation>
     </message>
     <message>
         <source>Description</source>
@@ -580,7 +590,7 @@
     <message>
         <source>Browse imagecatalogue</source>
         <comment>Key: browse</comment>
-        <translation>Hent fra Bildekatalogen</translation>
+        <translation>Hent fra bildekatalogen</translation>
     </message>
 </context>
 <context>
@@ -638,7 +648,7 @@
     <message>
         <source>No image.</source>
         <comment>Key: no_image</comment>
-        <translation>Intet bilde</translation>
+        <translation>Har ikke bilde.</translation>
     </message>
     <message>
         <source>Delete selected categories</source>
@@ -661,7 +671,7 @@
     <message>
         <source>Ad Statistics</source>
         <comment>Key: ad_statistics</comment>
-        <translation>Reklame statistikk</translation>
+        <translation>Reklamestatistikk</translation>
     </message>
     <message>
         <source>Banner</source>
@@ -681,17 +691,17 @@
     <message>
         <source>Total click percentage</source>
         <comment>Key: total_click_percentage</comment>
-        <translation>Klikk andel i prosent</translation>
+        <translation>Klikk-andel i prosent</translation>
     </message>
     <message>
         <source>Total view revenue</source>
         <comment>Key: total_view_revenue</comment>
-        <translation>Visningsinntkter</translation>
+        <translation>Visningsinntekter</translation>
     </message>
     <message>
         <source>Total click revenue</source>
         <comment>Key: total_click_revenue</comment>
-        <translation>Klikkinntekter</translation>
+        <translation>Klikk-inntekter</translation>
     </message>
     <message>
         <source>Total revenue</source>
@@ -732,7 +742,7 @@
         <translation>Avbryt</translation>
     </message>
     <message>
-        <source>Utelat fra s&#xf8;k</source>
+        <source>Exclude from search</source>
         <comment>Key: exclude_from_search</comment>
         <translation>Utelat fra søk</translation>
     </message>
@@ -770,7 +780,7 @@
     <message>
         <source>Address type</source>
         <comment>Key: list_headline</comment>
-        <translation>Adressetyper</translation>
+        <translation>Adressetype</translation>
     </message>
     <message>
         <source>Show address type</source>
@@ -1016,7 +1026,7 @@
     <message>
         <source>Online type list</source>
         <comment>Key: onlinetypelist</comment>
-        <translation>Elektronisketyper</translation>
+        <translation>Elektroniske typer</translation>
     </message>
     <message>
         <source>New telephone type</source>
@@ -1041,7 +1051,7 @@
     <message>
         <source>address</source>
         <comment>Key: module_name</comment>
-        <translation>adresse</translation>
+        <translation>adress</translation>
     </message>
 </context>
 <context>
@@ -1154,7 +1164,7 @@
     <message>
         <source>Link prefix?</source>
         <comment>Key: prefix_link</comment>
-        <translation>Lenke prefiks?</translation>
+        <translation>Lenkeprefiks?</translation>
     </message>
     <message>
         <source>Visual prefix?</source>
@@ -1179,7 +1189,7 @@
     <message>
         <source>Delete selected online types</source>
         <comment>Key: delete_selected</comment>
-        <translation>Slette valgte online typer</translation>
+        <translation>Slett valgte elektroniske typer</translation>
     </message>
 </context>
 <context>
@@ -1320,12 +1330,12 @@
     <message>
         <source>Author Email</source>
         <comment>Key: article_author_email</comment>
-        <translation>Forfatter e-post</translation>
+        <translation>Forfatters epost</translation>
     </message>
     <message>
         <source>Link text</source>
         <comment>Key: link_text</comment>
-        <translation>Linktekst</translation>
+        <translation>Lenketekst</translation>
     </message>
     <message>
         <source>Category</source>
@@ -1425,12 +1435,12 @@
     <message>
         <source>Topic</source>
         <comment>Key: article_topic</comment>
-        <translation>Tema</translation>
+        <translation>Emne</translation>
     </message>
     <message>
         <source>-- No topic --</source>
         <comment>Key: no_topic</comment>
-        <translation>-- Ingen tema --</translation>
+        <translation>-- Ingen emner --</translation>
     </message>
     <message>
         <source>Log message</source>
@@ -1515,17 +1525,37 @@
     <message>
         <source>Article is pending</source>
         <comment>Key: article_is_pending</comment>
-        <translation>Artikkelen står på venteliste</translation>
+        <translation>Venter på godkjennelse</translation>
     </message>
     <message>
         <source>New author name</source>
         <comment>Key: new_author_name</comment>
-        <translation>Ny forfatter navn</translation>
+        <translation>Nytt forfatternavn</translation>
     </message>
     <message>
         <source>New author email</source>
         <comment>Key: new_author_email</comment>
-        <translation>Ny forfatter e-post</translation>
+        <translation>Ny forfatter-epost</translation>
+    </message>
+    <message>
+        <source>Link text URL</source>
+        <comment>Key: link_url</comment>
+        <translation>Lenketekst URL</translation>
+    </message>
+    <message>
+        <source>URL translation</source>
+        <comment>Key: article_urltranslator</comment>
+        <translation>URL oversettelse</translation>
+    </message>
+    <message>
+        <source>Article URL</source>
+        <comment>Key: article_url</comment>
+        <translation>Artikkel-URL</translation>
+    </message>
+    <message>
+        <source>Url not defined at this time</source>
+        <comment>Key: article_nourl</comment>
+        <translation>URL ikke definert nå</translation>
     </message>
 </context>
 <context>
@@ -1563,12 +1593,12 @@
     <message>
         <source>Yes</source>
         <comment>Key: is_published</comment>
-        <translation>ja</translation>
+        <translation>Ja</translation>
     </message>
     <message>
         <source>No</source>
         <comment>Key: not_published</comment>
-        <translation>nei</translation>
+        <translation>Nei</translation>
     </message>
     <message>
         <source>Article</source>
@@ -1613,7 +1643,7 @@
     <message>
         <source>OK</source>
         <comment>Key: ok</comment>
-        <translation>Vis</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Published date</source>
@@ -1674,7 +1704,7 @@
     <message>
         <source>Article Preview</source>
         <comment>Key: head_line</comment>
-        <translation>Artikkelforhåndsvisning</translation>
+        <translation>Forhåndsvisning av artikkel</translation>
     </message>
     <message>
         <source>Author</source>
@@ -1684,7 +1714,7 @@
     <message>
         <source>Link text</source>
         <comment>Key: link_text</comment>
-        <translation>Linktekst</translation>
+        <translation>Lenketekst</translation>
     </message>
     <message>
         <source>Edit</source>
@@ -1717,7 +1747,7 @@
     <message>
         <source>Attributes</source>
         <comment>Key: attributes</comment>
-        <translation>Attributes</translation>
+        <translation>Attributter</translation>
     </message>
     <message>
         <source>-- No type --</source>
@@ -1925,7 +1955,7 @@
     <message>
         <source>Modification date</source>
         <comment>Key: modification_date</comment>
-        <translation>Modification date</translation>
+        <translation>Endret dato</translation>
     </message>
 </context>
 <context>
@@ -1976,7 +2006,7 @@
     <message>
         <source>File name</source>
         <comment>Key: file_name</comment>
-        <translation>Fil navn</translation>
+        <translation>Filnavn</translation>
     </message>
     <message>
         <source>File description</source>
@@ -2087,12 +2117,12 @@
     <message>
         <source>Name of new photographer</source>
         <comment>Key: new_photographer_name</comment>
-        <translation>Nytt fotograf navn</translation>
+        <translation>Navn på ny fotograf</translation>
     </message>
     <message>
         <source>Email of new photographer</source>
         <comment>Key: new_photographer_email</comment>
-        <translation>Ny fotograf email</translation>
+        <translation>Epost til ny fotograf</translation>
     </message>
 </context>
 <context>
@@ -2105,7 +2135,7 @@
     <message>
         <source>ID</source>
         <comment>Key: image_id</comment>
-        <translation>Nr</translation>
+        <translation>ID</translation>
     </message>
     <message>
         <source>Caption</source>
@@ -2120,7 +2150,7 @@
     <message>
         <source>Frontpage image</source>
         <comment>Key: image_mini</comment>
-        <translation>Hovedside bilde</translation>
+        <translation>Forsidebilde</translation>
     </message>
     <message>
         <source>Upload image</source>
@@ -2130,7 +2160,7 @@
     <message>
         <source>Deselect frontpage image</source>
         <comment>Key: image_no_front</comment>
-        <translation>Ikke bruk forsidebilde</translation>
+        <translation>Ikke bruk som forsidebilde</translation>
     </message>
     <message>
         <source>Delete selected images</source>
@@ -2163,7 +2193,7 @@
     <message>
         <source>Imagemap</source>
         <comment>Key: imagemap</comment>
-        <translation>Imagemap</translation>
+        <translation>Bildekart</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -2224,7 +2254,7 @@
     <message>
         <source>Caption</source>
         <comment>Key: mediacaption</comment>
-        <translation>Bildetekst</translation>
+        <translation>Undertekst</translation>
     </message>
     <message>
         <source>Filename</source>
@@ -2244,7 +2274,7 @@
     <message>
         <source>Can`t find the file</source>
         <comment>Key: no_file_name</comment>
-        <translation>Finner ikke filen</translation>
+        <translation>Kan ikke finne filen</translation>
     </message>
     <message>
         <source>Attributes</source>
@@ -2254,7 +2284,7 @@
     <message>
         <source>Attribute name</source>
         <comment>Key: attribute_name</comment>
-        <translation>Attributt navn</translation>
+        <translation>Attributtnavn</translation>
     </message>
     <message>
         <source>Attribute value</source>
@@ -2279,12 +2309,12 @@
     <message>
         <source>Name of new media creator</source>
         <comment>Key: new_creator_name</comment>
-        <translation>Nytt navn</translation>
+        <translation>Navn på ny person</translation>
     </message>
     <message>
         <source>Email address of new media creator</source>
         <comment>Key: new_creator_email</comment>
-        <translation>Ny epostadresse</translation>
+        <translation>Epost til ny person</translation>
     </message>
 </context>
 <context>
@@ -2292,17 +2322,17 @@
     <message>
         <source>Media</source>
         <comment>Key: media</comment>
-        <translation>Mediefil</translation>
+        <translation>Media</translation>
     </message>
     <message>
         <source>ID</source>
         <comment>Key: media_id</comment>
-        <translation>Nr</translation>
+        <translation>ID</translation>
     </message>
     <message>
         <source>Caption</source>
         <comment>Key: media_caption</comment>
-        <translation>Bildetekst</translation>
+        <translation>Undertekst</translation>
     </message>
     <message>
         <source>Preview</source>
@@ -2310,29 +2340,19 @@
         <translation>Forhåndsvisning</translation>
     </message>
     <message>
-        <source>Frontpage media</source>
-        <comment>Key: media_mini</comment>
-        <translation>Hovedside mediefil</translation>
-    </message>
-    <message>
         <source>Upload media</source>
         <comment>Key: media_upload</comment>
-        <translation>Last opp mediefil</translation>
-    </message>
-    <message>
-        <source>Deselect frontpage media</source>
-        <comment>Key: media_no_front</comment>
-        <translation>Ikke bruk mediafilen på forsiden</translation>
+        <translation>Last opp media</translation>
     </message>
     <message>
         <source>Delete selected media</source>
         <comment>Key: delete_selected</comment>
-        <translation>Slett merkede mediafiler</translation>
+        <translation>Slett merkede</translation>
     </message>
     <message>
         <source>No media found.</source>
         <comment>Key: no_media</comment>
-        <translation>Ingen mediefiler funnet.</translation>
+        <translation>Ingen media funnet</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -2347,7 +2367,7 @@
     <message>
         <source>Browse mediacatalogue</source>
         <comment>Key: browse</comment>
-        <translation>Hent fra Mediakatalogen</translation>
+        <translation>Let i mediearkivet</translation>
     </message>
     <message>
         <source>Name</source>
@@ -2370,7 +2390,7 @@
     <message>
         <source>article</source>
         <comment>Key: module_name</comment>
-        <translation>artikkel</translation>
+        <translation>article</translation>
     </message>
     <message>
         <source>Article Archive</source>
@@ -2395,12 +2415,12 @@
     <message>
         <source>Site map</source>
         <comment>Key: sitemap</comment>
-        <translation>Artikkelkart</translation>
+        <translation>Nettstedskart</translation>
     </message>
     <message>
         <source>Topic list</source>
         <comment>Key: topiclist</comment>
-        <translation>Temaliste</translation>
+        <translation>Emneliste</translation>
     </message>
     <message>
         <source>New Type</source>
@@ -2448,7 +2468,7 @@
     <message>
         <source>Root category</source>
         <comment>Key: topcategory</comment>
-        <translation>Topp kategori</translation>
+        <translation>Toppkategori</translation>
     </message>
     <message>
         <source>Description</source>
@@ -2572,7 +2592,7 @@
     <message>
         <source>Search for</source>
         <comment>Key: containing</comment>
-        <translation>Søk for</translation>
+        <translation>Søk etter</translation>
     </message>
     <message>
         <source>Categories</source>
@@ -2592,12 +2612,12 @@
     <message>
         <source>Start date</source>
         <comment>Key: start_date</comment>
-        <translation>Start dato</translation>
+        <translation>Startdato</translation>
     </message>
     <message>
         <source>Stop date</source>
         <comment>Key: stop_date</comment>
-        <translation>Stopp dato</translation>
+        <translation>Sluttdato</translation>
     </message>
     <message>
         <source>None</source>
@@ -2645,7 +2665,7 @@
     <message>
         <source>Site Map</source>
         <comment>Key: site_map</comment>
-        <translation>Artikkelkart</translation>
+        <translation>Nettstedskart</translation>
     </message>
 </context>
 <context>
@@ -2653,7 +2673,7 @@
     <message>
         <source>Topic list</source>
         <comment>Key: topic_edit</comment>
-        <translation>Temaliste</translation>
+        <translation>Emneliste</translation>
     </message>
     <message>
         <source>Name</source>
@@ -2686,7 +2706,7 @@
     <message>
         <source>Type Edit</source>
         <comment>Key: type_edit</comment>
-        <translation>Type redigering</translation>
+        <translation>Typeredigering</translation>
     </message>
     <message>
         <source>Name</source>
@@ -2696,7 +2716,7 @@
     <message>
         <source>Header</source>
         <comment>Key: header</comment>
-        <translation>Topptekst</translation>
+        <translation>Overskrift</translation>
     </message>
     <message>
         <source>Variable</source>
@@ -2746,7 +2766,7 @@
     <message>
         <source>Delete selected</source>
         <comment>Key: delete_selected</comment>
-        <translation>Slett markerte</translation>
+        <translation>Slett merkede</translation>
     </message>
 </context>
 <context>
@@ -2769,7 +2789,7 @@
     <message>
         <source>Delete selected types</source>
         <comment>Key: delete_selected</comment>
-        <translation>Slett markerte</translation>
+        <translation>Slett valgte typer</translation>
     </message>
     <message>
         <source>Description</source>
@@ -2865,7 +2885,7 @@
     <message>
         <source>Link text</source>
         <comment>Key: link_text</comment>
-        <translation>Linktekst</translation>
+        <translation>Lenketekst</translation>
     </message>
     <message>
         <source>Category</source>
@@ -2893,7 +2913,7 @@
         <translation>Avbryt</translation>
     </message>
     <message>
-        <source>N&#xf8;kkelord</source>
+        <source>Keywords</source>
         <comment>Key: keywords</comment>
         <translation>Nøkkelord</translation>
     </message>
@@ -2956,7 +2976,7 @@
     <message>
         <source>Links</source>
         <comment>Key: linker</comment>
-        <translation>Linker</translation>
+        <translation>Lenker</translation>
     </message>
     <message>
         <source>Download</source>
@@ -3047,7 +3067,7 @@
     <message>
         <source>Found at</source>
         <comment>Key: found</comment>
-        <translation>Found at</translation>
+        <translation>Funnet i</translation>
     </message>
     <message>
         <source>Top level</source>
@@ -3062,17 +3082,17 @@
     <message>
         <source>Receivers email</source>
         <comment>Key: send_to</comment>
-        <translation>Til email</translation>
+        <translation>Mottakers epost</translation>
     </message>
     <message>
         <source>Your email</source>
         <comment>Key: from_mail</comment>
-        <translation>Fra email</translation>
+        <translation>Din epost</translation>
     </message>
     <message>
         <source>Send</source>
         <comment>Key: send_mail</comment>
-        <translation>Send email</translation>
+        <translation>Send epost</translation>
     </message>
 </context>
 <context>
@@ -3095,7 +3115,7 @@
     <message>
         <source>Click on the name of the author to find more information about them including other articles they have written and their email address. Sorting is controlled by clicking the various list headers.</source>
         <comment>Key: author_info</comment>
-        <translation>Klikk på en forfatter for å finne mer informasjon, bl.a. epost adresse og artikler vedkommede har skrevet. Du kan sortere ved å klikke på listeoverskriftene.</translation>
+        <translation>Klikk på en forfatter for å finne mer informasjon, bl.a. epostadresse og artikler vedkommede har skrevet. Du kan sortere ved å klikke på listeoverskriftene.</translation>
     </message>
 </context>
 <context>
@@ -3108,7 +3128,7 @@
     <message>
         <source>Article name</source>
         <comment>Key: name</comment>
-        <translation>Navn</translation>
+        <translation>Artikkelnavn</translation>
     </message>
     <message>
         <source>Author</source>
@@ -3143,7 +3163,7 @@
     <message>
         <source>Author name</source>
         <comment>Key: author_name</comment>
-        <translation>Forfatternavn</translation>
+        <translation>Forfatters navn</translation>
     </message>
     <message>
         <source>Click on the title of an article to view the corresponding article or click the category to list related articles. Sorting is controlled by clicking the various list headers.</source>
@@ -3232,12 +3252,12 @@
     <message>
         <source>Nr.</source>
         <comment>Key: file_id</comment>
-        <translation>Fil nr.</translation>
+        <translation>Filnr.</translation>
     </message>
     <message>
         <source>File name</source>
         <comment>Key: file_name</comment>
-        <translation>Fil navn</translation>
+        <translation>Filnavn</translation>
     </message>
     <message>
         <source>File description</source>
@@ -3280,7 +3300,7 @@
     <message>
         <source>Front page</source>
         <comment>Key: head_line</comment>
-        <translation>Forsiden</translation>
+        <translation>Forside</translation>
     </message>
     <message>
         <source>Category</source>
@@ -3384,7 +3404,7 @@
     <message>
         <source>ID</source>
         <comment>Key: image_id</comment>
-        <translation>Nr</translation>
+        <translation>ID</translation>
     </message>
     <message>
         <source>Caption</source>
@@ -3399,7 +3419,7 @@
     <message>
         <source>Frontpage image</source>
         <comment>Key: image_mini</comment>
-        <translation>Hovedside bilde</translation>
+        <translation>Forsidebilde</translation>
     </message>
     <message>
         <source>Upload image</source>
@@ -3409,7 +3429,7 @@
     <message>
         <source>Deselect frontpage image</source>
         <comment>Key: image_no_front</comment>
-        <translation>Ikke bruk forsidebilde</translation>
+        <translation>Ikke bruk som forsidebilde</translation>
     </message>
     <message>
         <source>Delete selected images</source>
@@ -3470,12 +3490,12 @@
     <message>
         <source>Send to e-mail address</source>
         <comment>Key: send_to</comment>
-        <translation>Mottakers e-post adresse</translation>
+        <translation>Mottakers epost adresse</translation>
     </message>
     <message>
         <source>From e-mail address</source>
         <comment>Key: from_mail</comment>
-        <translation>Din e-post adresse</translation>
+        <translation>Din epost adresse</translation>
     </message>
     <message>
         <source>Your comment to this article</source>
@@ -3505,12 +3525,12 @@
     <message>
         <source>Invalid reciever e-mail address</source>
         <comment>Key: error_send_to</comment>
-        <translation>Ugyldig mottaker adresse</translation>
+        <translation>Ugyldig mottakeradresse</translation>
     </message>
     <message>
         <source>Invalid sender e-mail address</source>
         <comment>Key: error_from</comment>
-        <translation>Ugyldig avsender adresse</translation>
+        <translation>Ugyldig avsenderadresse</translation>
     </message>
     <message>
         <source>This article is sent to you by someone who has read it at</source>
@@ -3531,6 +3551,11 @@
         <source>url</source>
         <comment>Key: url</comment>
         <translation>url</translation>
+    </message>
+    <message>
+        <source>Back</source>
+        <comment>Key: back</comment>
+        <translation>Tilbake</translation>
     </message>
 </context>
 <context>
@@ -3573,12 +3598,12 @@
     <message>
         <source>Site map</source>
         <comment>Key: site_map</comment>
-        <translation>Artikkelkart</translation>
+        <translation>Nettstedskart</translation>
     </message>
     <message>
         <source>Front page</source>
         <comment>Key: front_page</comment>
-        <translation>Forsiden</translation>
+        <translation>Forside</translation>
     </message>
 </context>
 <context>
@@ -3604,7 +3629,7 @@
     <message>
         <source>Article Search</source>
         <comment>Key: head_line</comment>
-        <translation>Artikkel søk</translation>
+        <translation>Artikkelsøk</translation>
     </message>
     <message>
         <source>Search</source>
@@ -3667,12 +3692,12 @@
     <message>
         <source>Start date</source>
         <comment>Key: start_date</comment>
-        <translation>Start dato</translation>
+        <translation>Startdato</translation>
     </message>
     <message>
         <source>Stop date</source>
         <comment>Key: stop_date</comment>
-        <translation>Stopp dato</translation>
+        <translation>Sluttdato</translation>
     </message>
     <message>
         <source>None</source>
@@ -3764,7 +3789,7 @@
     <message>
         <source>Site Map</source>
         <comment>Key: site_map</comment>
-        <translation>Artikkelkart</translation>
+        <translation>Nettstedskart</translation>
     </message>
 </context>
 <context>
@@ -3772,7 +3797,7 @@
     <message>
         <source>Topic list</source>
         <comment>Key: topic_list</comment>
-        <translation>Temaliste</translation>
+        <translation>Emneliste</translation>
     </message>
     <message>
         <source>Name</source>
@@ -3918,12 +3943,12 @@
     <message>
         <source>Screenshot caption</source>
         <comment>Key: image_name</comment>
-        <translation>Bildetekst</translation>
+        <translation>Tekst for skjermbilde</translation>
     </message>
     <message>
         <source>Avaliable screenshots</source>
         <comment>Key: avaliable_screenshots</comment>
-        <translation>Tilgjengelige bilder</translation>
+        <translation>Tilgjengelige skjermbilder</translation>
     </message>
     <message>
         <source>Avaliable patches</source>
@@ -3938,7 +3963,7 @@
     <message>
         <source>Delete selected images/screenshots</source>
         <comment>Key: del_selected</comment>
-        <translation>Slett valgte bilder</translation>
+        <translation>Slett valgte (skjerm)bilder</translation>
     </message>
     <message>
         <source>Private</source>
@@ -3971,7 +3996,7 @@
     <message>
         <source>Top level</source>
         <comment>Key: top_level</comment>
-        <translation>Topp nivå</translation>
+        <translation>Toppnivå</translation>
     </message>
     <message>
         <source>Module</source>
@@ -4105,20 +4130,23 @@
     <message>
         <source>Bug report</source>
         <comment>Key: subject</comment>
-        <translation>Bug report</translation>
+        <translation>Bugrapportering</translation>
     </message>
     <message>
         <source>Thank you for your bug report.
 Your bug will be taken care of shortly.
 If you have any other information about the bug, please reply to this message.</source>
         <comment>Key: body</comment>
-        <translation>Thank you for your bug report.</translation>
+        <translation>Takk for bugrapporten.
+Din bug vil bli undersøkt så fort som mulig.
+Hvis du har mer informasjon om denne buggen, venligst svar på denne eposten.</translation>
     </message>
     <message>
         <source>Your bug report has been updated.
 Thank you for your comment.</source>
         <comment>Key: reply</comment>
-        <translation>Your bug report has been updated.</translation>
+        <translation>Bugrapporten din er oppdatert.
+Takk for din kommentar.</translation>
     </message>
 </context>
 <context>
@@ -4126,7 +4154,7 @@ Thank you for your comment.</source>
     <message>
         <source>The following bug was assigned to you</source>
         <comment>Key: bug_assigned</comment>
-        <translation>Du har blitt gitt ansvaret for de følgende buggene</translation>
+        <translation>Du har fått ansvaret for følgende bugs</translation>
     </message>
     <message>
         <source>Title</source>
@@ -4156,7 +4184,7 @@ Thank you for your comment.</source>
     <message>
         <source>Assigned bug</source>
         <comment>Key: assigned_to_you</comment>
-        <translation>Bugger du har ansvaret for</translation>
+        <translation>Bugs du har ansvaret for</translation>
     </message>
 </context>
 <context>
@@ -4164,12 +4192,12 @@ Thank you for your comment.</source>
     <message>
         <source>Your bug report has been handled</source>
         <comment>Key: your_bug_report_has_been_handle</comment>
-        <translation>Din bugrapport har blitt håndtert</translation>
+        <translation>Bugrapporten din er håndtert</translation>
     </message>
     <message>
         <source>Bug report number</source>
         <comment>Key: bug_report_number</comment>
-        <translation>Bug rapport nummer</translation>
+        <translation>Bugrapport nummer</translation>
     </message>
     <message>
         <source>Link to bugreport</source>
@@ -4265,7 +4293,7 @@ Thank you for your comment.</source>
     <message>
         <source>Top</source>
         <comment>Key: topcat</comment>
-        <translation>Topp nivå</translation>
+        <translation>Toppnivå</translation>
     </message>
     <message>
         <source>Owner group</source>
@@ -4298,7 +4326,7 @@ Thank you for your comment.</source>
     <message>
         <source>Top</source>
         <comment>Key: top</comment>
-        <translation>Topp nivå</translation>
+        <translation>Toppnivå</translation>
     </message>
     <message>
         <source>Delete selected modules</source>
@@ -4453,7 +4481,7 @@ Thank you for your comment.</source>
     <message>
         <source>Top level</source>
         <comment>Key: top_level</comment>
-        <translation>Topp nivå</translation>
+        <translation>Toppnivå</translation>
     </message>
     <message>
         <source>Module</source>
@@ -4536,12 +4564,12 @@ Thank you for your comment.</source>
     <message>
         <source>Error: you must fill in all fields.</source>
         <comment>Key: all_fields_error</comment>
-        <translation>Feil: Du må fylle ut alle felter.</translation>
+        <translation>Feil: Du må fylle ut alle feltene.</translation>
     </message>
     <message>
         <source>Error: you must provide a valid e-mail address.</source>
         <comment>Key: email_error</comment>
-        <translation>Feil: Du må oppgi en gyldig Epostadresse.</translation>
+        <translation>Feil: Du må oppgi en gyldig epostadresse.</translation>
     </message>
     <message>
         <source>Add patch</source>
@@ -4556,7 +4584,7 @@ Thank you for your comment.</source>
     <message>
         <source>File number</source>
         <comment>Key: file_id</comment>
-        <translation>Nr</translation>
+        <translation>Filnr</translation>
     </message>
     <message>
         <source>File name</source>
@@ -4566,17 +4594,17 @@ Thank you for your comment.</source>
     <message>
         <source>Screenshot number</source>
         <comment>Key: image_id</comment>
-        <translation>Nr</translation>
+        <translation>Skjermbildenr</translation>
     </message>
     <message>
         <source>Screenshot caption</source>
         <comment>Key: image_name</comment>
-        <translation>Bildetekst</translation>
+        <translation>Tekst for skjermbilde</translation>
     </message>
     <message>
         <source>Avaliable screenshots</source>
         <comment>Key: avaliable_screenshots</comment>
-        <translation>Tilgjengelige bilder</translation>
+        <translation>Tilgjengelige skjermbilder</translation>
     </message>
     <message>
         <source>Avaliable patches</source>
@@ -4591,12 +4619,12 @@ Thank you for your comment.</source>
     <message>
         <source>Delete selected images/screenshots</source>
         <comment>Key: del_selected</comment>
-        <translation>Slett valgte bilder</translation>
+        <translation>Slett valgte (skjerm)bilder</translation>
     </message>
     <message>
         <source>Program version</source>
         <comment>Key: program_version</comment>
-        <translation>Program version</translation>
+        <translation>Programversjon</translation>
     </message>
 </context>
 <context>
@@ -4664,7 +4692,7 @@ Thank you for your comment.</source>
     <message>
         <source>Top level</source>
         <comment>Key: top_level</comment>
-        <translation>Topp nivå</translation>
+        <translation>Toppnivå</translation>
     </message>
     <message>
         <source>Nr</source>
@@ -4679,7 +4707,7 @@ Thank you for your comment.</source>
     <message>
         <source>Image name</source>
         <comment>Key: image_name</comment>
-        <translation>Bildetekst</translation>
+        <translation>Bildenavn</translation>
     </message>
     <message>
         <source>File name</source>
@@ -4834,7 +4862,7 @@ Thank you for your comment.</source>
     <message>
         <source>Thank you for reporting the bug.</source>
         <comment>Key: thanks_for_reporting_the_bug</comment>
-        <translation>Takk for at du rapporterte buggen</translation>
+        <translation>Takk for at du rapporterte buggen.</translation>
     </message>
 </context>
 <context>
@@ -4961,7 +4989,7 @@ Thank you for your comment.</source>
     <message>
         <source>Category list</source>
         <comment>Key: category_list</comment>
-        <translation>Kategori liste</translation>
+        <translation>Kategoriliste</translation>
     </message>
     <message>
         <source>Name</source>
@@ -5021,17 +5049,17 @@ Thank you for your comment.</source>
     <message>
         <source>Ok</source>
         <comment>Key: ok</comment>
-        <translation>Ok</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Select single list</source>
         <comment>Key: single_list_select</comment>
-        <translation>Velg singel liste kategori</translation>
+        <translation>Velg enkel liste</translation>
     </message>
     <message>
         <source>Use multilist</source>
         <comment>Key: multi_list_site</comment>
-        <translation>Bruk multiliste system</translation>
+        <translation>Bruk flerbrukerliste</translation>
     </message>
     <message>
         <source>Next</source>
@@ -5054,7 +5082,7 @@ Thank you for your comment.</source>
     <message>
         <source>Edit bulkmail</source>
         <comment>Key: mailedit</comment>
-        <translation>Endre massemail</translation>
+        <translation>Endre masse-epost</translation>
     </message>
     <message>
         <source>From</source>
@@ -5074,7 +5102,7 @@ Thank you for your comment.</source>
     <message>
         <source>Body</source>
         <comment>Key: body</comment>
-        <translation>Hoved del</translation>
+        <translation>Hoveddel</translation>
     </message>
     <message>
         <source>Preview</source>
@@ -5127,7 +5155,7 @@ Thank you for your comment.</source>
     <message>
         <source>New bulkmail</source>
         <comment>Key: new</comment>
-        <translation>Ny massemail</translation>
+        <translation>Ny masse-epost</translation>
     </message>
     <message>
         <source>Delete selected</source>
@@ -5150,7 +5178,7 @@ Thank you for your comment.</source>
     <message>
         <source>Mail view</source>
         <comment>Key: mail_preview</comment>
-        <translation>Massemail</translation>
+        <translation>Masse-epost</translation>
     </message>
     <message>
         <source>From</source>
@@ -5183,7 +5211,7 @@ Thank you for your comment.</source>
     <message>
         <source>Mass subscribe</source>
         <comment>Key: head_line</comment>
-        <translation>Masse påmelding</translation>
+        <translation>Massepåmelding</translation>
     </message>
     <message>
         <source>Addresses</source>
@@ -5206,7 +5234,7 @@ Thank you for your comment.</source>
         <translation>Adresser som allerede eksisterer</translation>
     </message>
     <message>
-        <source>Succsessfully added</source>
+        <source>Successfully added</source>
         <comment>Key: new_addresses</comment>
         <translation>Adressene ble lagt til</translation>
     </message>
@@ -5241,7 +5269,7 @@ Thank you for your comment.</source>
     <message>
         <source>New bulkmail</source>
         <comment>Key: new_mail</comment>
-        <translation>Ny e-postliste</translation>
+        <translation>Ny epostliste</translation>
     </message>
     <message>
         <source>Templates</source>
@@ -5266,7 +5294,7 @@ Thank you for your comment.</source>
     <message>
         <source>List members</source>
         <comment>Key: user_list</comment>
-        <translation>Bruker liste</translation>
+        <translation>Brukerliste</translation>
     </message>
 </context>
 <context>
@@ -5279,27 +5307,27 @@ Thank you for your comment.</source>
     <message>
         <source>mailinglist!</source>
         <comment>Key: welcome_message_end</comment>
-        <translation></translation>
+        <translation>epostlisten!</translation>
     </message>
     <message>
         <source>This list is about...</source>
         <comment>Key: information</comment>
-        <translation>blabla</translation>
+        <translation>Denne listen handler om...</translation>
     </message>
     <message>
         <source>Welcome to the list!</source>
         <comment>Key: mail_subject</comment>
-        <translation>Emne</translation>
+        <translation>Velkommen til listen!</translation>
     </message>
     <message>
         <source>Your password is</source>
         <comment>Key: you_password_is</comment>
-        <translation>Passordet ditt er</translation>
+        <translation>Ditt passord er </translation>
     </message>
     <message>
         <source>To change your subscriptions, please visit the site that subscribed you to the lists. There you can log into the news section with your email address and your password and change the subscription data.</source>
         <comment>Key: list_info</comment>
-        <translation>For å forandre på listene du er meldt på, gå til nettstedet der du ble påmeldt. Der kan du logge deg inn på nyhetsseksjonen med din epostaddresse og passord, og forandre på dine påmeldinger.</translation>
+        <translation>For å endre dine abonnement, venligst besøk siden der du meldte deg på listen. Der kan du logge deg inn i nyhetsseksjonen med din epostadresse og passord for å endre din informasjon.</translation>
     </message>
 </context>
 <context>
@@ -5322,7 +5350,7 @@ Thank you for your comment.</source>
     <message>
         <source>Ok</source>
         <comment>Key: ok</comment>
-        <translation>Ok</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -5373,12 +5401,12 @@ Thank you for your comment.</source>
     <message>
         <source>User list</source>
         <comment>Key: user_list</comment>
-        <translation>Bruker liste</translation>
+        <translation>Brukerliste</translation>
     </message>
     <message>
         <source>Ok</source>
         <comment>Key: ok</comment>
-        <translation>Ok</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>This list has no subscribers.</source>
@@ -5386,14 +5414,19 @@ Thank you for your comment.</source>
         <translation>Denne listen har ingen abonnenter</translation>
     </message>
     <message>
-        <source>Subscribed addresses through normal subscription (or mass-subscription)</source>
+        <source>Non eZUser subscribed addresses:</source>
         <comment>Key: subscriber_normal</comment>
-        <translation>Abonement adresser gjennom normalt abonemang (eller fler-abonemang)</translation>
+        <translation>Abonnementsadresser gjennom normalt abonnement (eller fler-abonnement):</translation>
+    </message>
+    <message>
+        <source>eZUser subscribed addresses:</source>
+        <comment>Key: subscriber_user</comment>
+        <translation>eZUser abonnenter:</translation>
     </message>
     <message>
         <source>Addresses subscribed through group subscription</source>
         <comment>Key: subscriber_group</comment>
-        <translation>Addresses subscribed through group subscription</translation>
+        <translation>Adresser påmeldt gjennom gruppeabonnement</translation>
     </message>
 </context>
 <context>
@@ -5401,27 +5434,27 @@ Thank you for your comment.</source>
     <message>
         <source>Category list</source>
         <comment>Key: category_list</comment>
-        <translation>Category list</translation>
+        <translation>Kategoriliste</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Key: category_name</comment>
-        <translation>Name</translation>
+        <translation>Navn</translation>
     </message>
     <message>
         <source>Description</source>
         <comment>Key: category_description</comment>
-        <translation>Description</translation>
+        <translation>Beskrivelse</translation>
     </message>
     <message>
         <source>Subscriptions</source>
         <comment>Key: subscription_count</comment>
-        <translation>Påmeldinger</translation>
+        <translation>Abonnenter</translation>
     </message>
     <message>
         <source>Subject</source>
         <comment>Key: bulkmail_subject</comment>
-        <translation>Subject</translation>
+        <translation>Emne</translation>
     </message>
     <message>
         <source>Sent date</source>
@@ -5431,47 +5464,47 @@ Thank you for your comment.</source>
     <message>
         <source>Yes</source>
         <comment>Key: yes</comment>
-        <translation>Yes</translation>
+        <translation>Ja</translation>
     </message>
     <message>
         <source>No</source>
         <comment>Key: no</comment>
-        <translation>No</translation>
+        <translation>Nei</translation>
     </message>
     <message>
         <source>Public</source>
         <comment>Key: category_is_public</comment>
-        <translation>Public</translation>
+        <translation>Offentlig</translation>
     </message>
     <message>
         <source>Ok</source>
         <comment>Key: ok</comment>
-        <translation>Ok</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Select single list</source>
         <comment>Key: single_list_select</comment>
-        <translation>Velg singel liste kategori</translation>
+        <translation>Velg enkel liste</translation>
     </message>
     <message>
         <source>Use multilist</source>
         <comment>Key: multi_list_site</comment>
-        <translation>Bruk multiliste system</translation>
+        <translation>Bruk flerbrukerliste</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>Key: next</comment>
-        <translation>Next</translation>
+        <translation>Neste</translation>
     </message>
     <message>
         <source>Previous</source>
         <comment>Key: previous</comment>
-        <translation>Previous</translation>
+        <translation>Forrige</translation>
     </message>
     <message>
-        <source>No bulkmails are avaiable</source>
+        <source>No bulkmail are available</source>
         <comment>Key: no_bulkmail_error</comment>
-        <translation>No bulkmails are avaiable</translation>
+        <translation>Ingen bulkmail tilgjengelig</translation>
     </message>
 </context>
 <context>
@@ -5479,7 +5512,7 @@ Thank you for your comment.</source>
     <message>
         <source>Category settings</source>
         <comment>Key: category_settings</comment>
-        <translation>Category settings</translation>
+        <translation>Kategorinnstillinger</translation>
     </message>
 </context>
 <context>
@@ -5487,7 +5520,7 @@ Thank you for your comment.</source>
     <message>
         <source>Mail view</source>
         <comment>Key: mail_preview</comment>
-        <translation>Massemail</translation>
+        <translation>Masse-epost</translation>
     </message>
     <message>
         <source>From</source>
@@ -5525,22 +5558,22 @@ Thank you for your comment.</source>
     <message>
         <source>News mail</source>
         <comment>Key: news_mail</comment>
-        <translation>News mail</translation>
+        <translation>Nyhets-epost</translation>
     </message>
     <message>
         <source>Change subscriptions</source>
         <comment>Key: mail_subscriptions</comment>
-        <translation>Change subscriptions</translation>
+        <translation>Endre abonnementer</translation>
     </message>
     <message>
         <source>Subscribe</source>
         <comment>Key: subscribe</comment>
-        <translation>Subscribe</translation>
+        <translation>Meld inn</translation>
     </message>
     <message>
         <source>Unsubscribe</source>
         <comment>Key: unsubscribe</comment>
-        <translation>Unsubscribe</translation>
+        <translation>Meld ut</translation>
     </message>
 </context>
 <context>
@@ -5548,7 +5581,7 @@ Thank you for your comment.</source>
     <message>
         <source>Subscription list</source>
         <comment>Key: subscription_list</comment>
-        <translation>Subscription list</translation>
+        <translation>Abonnementsliste</translation>
     </message>
     <message>
         <source>Ok</source>
@@ -5573,7 +5606,7 @@ Thank you for your comment.</source>
     <message>
         <source>Subscribe</source>
         <comment>Key: subscribe</comment>
-        <translation>Meld meg på</translation>
+        <translation>Abonner</translation>
     </message>
     <message>
         <source>No categories are available </source>
@@ -5603,17 +5636,17 @@ Thank you for your comment.</source>
     <message>
         <source>Send at the end of the year</source>
         <comment>Key: year</comment>
-        <translation>Send all post ved årets slutt</translation>
+        <translation>Send all post på slutten av året</translation>
     </message>
     <message>
         <source>Send immediately</source>
         <comment>Key: no_delay</comment>
-        <translation>Send med en gang</translation>
+        <translation>Send med engang</translation>
     </message>
     <message>
         <source>Check the &quot;subscribe&quot; checkbox to subscribe to a list. If you want to unsubscribe later, log into this page again and uncheck the checkbox.</source>
         <comment>Key: subscription_text</comment>
-        <translation>Kryss av ved &quot;Meld meg på&quot; for å melde deg på en liste. Hvis du senere vil melde deg av, logg deg inn på denne siden og fjern avkryssningen.</translation>
+        <translation>Klikk &quot;Abonner&quot; for å abonnere på en liste. Hvis du senere vil melde deg ut, logg inn på denne siden, og fjern krysset.</translation>
     </message>
 </context>
 <context>
@@ -5621,7 +5654,7 @@ Thank you for your comment.</source>
     <message>
         <source>Ok</source>
         <comment>Key: ok</comment>
-        <translation>Ok</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Email</source>
@@ -5636,7 +5669,7 @@ Thank you for your comment.</source>
     <message>
         <source>Subscription login</source>
         <comment>Key: subscription_login</comment>
-        <translation>Liste login</translation>
+        <translation>Listelogin</translation>
     </message>
     <message>
         <source>Add a new address</source>
@@ -5661,7 +5694,7 @@ Thank you for your comment.</source>
     <message>
         <source>Click on the link to confirm that this email address is yours.</source>
         <comment>Key: body_text</comment>
-        <translation>Følg lenken for å bekrefte påmeldingen av din mail adresse</translation>
+        <translation>Følg lenken for å bekrefte påmelding av din epostadresse.</translation>
     </message>
     <message>
         <source>Confirm unsubscription at</source>
@@ -5671,22 +5704,22 @@ Thank you for your comment.</source>
     <message>
         <source>Click on the link to confirm that you want to unsubscribe from this mailing list</source>
         <comment>Key: body_text_unsubscribe</comment>
-        <translation>Følg lenken for å bekrefte avmelding av din mail adresse</translation>
+        <translation>Følg lenken for å bekrefte avmelding av din epostadresse</translation>
     </message>
     <message>
         <source>You must supply a valid email address.</source>
         <comment>Key: email_error</comment>
-        <translation>Du må bruke en gyldig mail adresse</translation>
+        <translation>Du må bruke en gyldig epostadresse.</translation>
     </message>
     <message>
         <source>You must supply a password.</source>
         <comment>Key: zero_password_error</comment>
-        <translation>Du må bruke ett passord</translation>
+        <translation>Du må oppgi et passord.</translation>
     </message>
     <message>
         <source>Your passwords doesn&apos;t match.</source>
         <comment>Key: unlike_passwords</comment>
-        <translation>Passordene var ikke like</translation>
+        <translation>Passordene var ikke like.</translation>
     </message>
 </context>
 <context>
@@ -5694,27 +5727,27 @@ Thank you for your comment.</source>
     <message>
         <source>Welcome to the mail information system at</source>
         <comment>Key: welcome_message</comment>
-        <translation>Welcome to the mail information system at</translation>
+        <translation>Velkommen til postinformasjonssystemet ved </translation>
     </message>
     <message>
         <source>You have requested to add your address to the mail information system. If you have no idea what this mail is about, please ignore it!</source>
         <comment>Key: information</comment>
-        <translation>You have requested to add your address to the mail information system. If you have no idea what this mail is about, please ignore it!</translation>
+        <translation>Du har valgt å legge til din adresse i postinformasjonssystemet. Hvis du ikke vet hvorfor du har fått denne eposten, venligst ignorer den!</translation>
     </message>
     <message>
         <source>Pressing the link will add this mail address to the mail information system and take you to the list of available information lists.</source>
         <comment>Key: click_me</comment>
-        <translation>Pressing the link will add this mail address to the mail information system and take you to the list of available information lists.</translation>
+        <translation>Ved å klikke på lenken blir denne epostadressen lagt til postinformasjonssystemet, og du får se listen over tilgengelige informasjonslister.</translation>
     </message>
     <message>
         <source>If you want to change your subscribtion data later you can log into the news info section of the site with your email address and your password.</source>
         <comment>Key: list_info</comment>
-        <translation>If you want to change your subscribtion data later you can log into the news info section of the site with your email address and your password.</translation>
+        <translation>Hvis du vil endre dine abonnementsdata senere kan du logge deg inn i nyhetsseksjonen til siden med din epost adresse og ditt passord.</translation>
     </message>
     <message>
         <source>Enjoy!</source>
         <comment>Key: goodbye</comment>
-        <translation>Enjoy!</translation>
+        <translation>På gjensyn!</translation>
     </message>
 </context>
 <context>
@@ -5727,7 +5760,7 @@ Thank you for your comment.</source>
     <message>
         <source>You will receive a mail in a short time to confirm that the email address is yours. Click on the link in the mail to confirm the address.</source>
         <comment>Key: mail_sent_message</comment>
-        <translation>Du vil nå få tilsendt en e-post for bekrefte at e-postadressen din er korrekt. Klikk på lenken i e-posten for å å utføre bekreftelsen.</translation>
+        <translation>Du vil nå få tilsendt en epost for å bekrefte at epostadressen din er korrekt. Klikk på lenken i eposten for å fullføre innmeldingen.</translation>
     </message>
     <message>
         <source>Confirmation mail sent</source>
@@ -5737,27 +5770,27 @@ Thank you for your comment.</source>
     <message>
         <source>You will receive a mail in a short time to confirm that you want to unsubscribe from the list.</source>
         <comment>Key: unsubscribe_mail_message</comment>
-        <translation>Du vil nå få tilsendt en e-post for bekrefte avmeldingen fra e-postlisten. Klikk på lenken i e-posten for å å utføre bekreftelsen.</translation>
+        <translation>Du vil nå få tilsendt en epost for å bekrefte avmeldingen. Klikk på lenken i eposten for å fullføre avmeldingen.</translation>
     </message>
     <message>
         <source>Unsubscribed</source>
         <comment>Key: unsubscribed_header</comment>
-        <translation>Avmelding fra e-postliste</translation>
+        <translation>Avmelding fra epostliste</translation>
     </message>
     <message>
         <source>You are now unsubscribed from the list</source>
         <comment>Key: unsubscribed_message</comment>
-        <translation>Du er nå avmeldt fra e-postlisten</translation>
+        <translation>Du er nå avmeldt fra epostlisten</translation>
     </message>
     <message>
         <source>Subscribed</source>
         <comment>Key: subscribed_header</comment>
-        <translation>Påmelding til e-postliste</translation>
+        <translation>Påmelding til epostliste</translation>
     </message>
     <message>
         <source>You are now subscribed to the list</source>
         <comment>Key: subscribed_message</comment>
-        <translation>Du er nå påmeldt e-postlisten</translation>
+        <translation>Du er nå påmeldt epostlisten</translation>
     </message>
     <message>
         <source>Error during confirmation.</source>
@@ -5765,9 +5798,9 @@ Thank you for your comment.</source>
         <translation>Bekreftelse fungerte ikke</translation>
     </message>
     <message>
-        <source>Subscription allready confirmed or unvalid hash.</source>
+        <source>Subscription already confirmed or invalid hash.</source>
         <comment>Key: unvalid_hash_message</comment>
-        <translation>Du har enten brukt denne bekreftelsen tidligere, eller du har fulgt en link som ikke er gyldig lenger.</translation>
+        <translation>Du har enten brukt denne bekreftelsen tidligere, eller du har fulgt en lenke som ikke er gyldig lenger.</translation>
     </message>
     <message>
         <source>Subscription error.</source>
@@ -5775,9 +5808,9 @@ Thank you for your comment.</source>
         <translation>Feil under påmelding</translation>
     </message>
     <message>
-        <source>The current message is allready subscribed/unsubscribed</source>
+        <source>The current address is already subscribed/unsubscribed</source>
         <comment>Key: address_allready_subscribed_message</comment>
-        <translation>Påmeldingen har alt vært gjennomført.</translation>
+        <translation>Denne adressen er allerede påmeldt/avmeldt</translation>
     </message>
 </context>
 <context>
@@ -5785,7 +5818,7 @@ Thank you for your comment.</source>
     <message>
         <source>calendar</source>
         <comment>Key: module_name</comment>
-        <translation>kalender</translation>
+        <translation>calendar</translation>
     </message>
     <message>
         <source>Appointment Type List</source>
@@ -5818,7 +5851,7 @@ Thank you for your comment.</source>
     <message>
         <source>Parent</source>
         <comment>Key: parent</comment>
-        <translation>Foreldrekategori</translation>
+        <translation>Overkategori</translation>
     </message>
     <message>
         <source>Name</source>
@@ -6385,7 +6418,7 @@ Thank you for your comment.</source>
     <message>
         <source>You must enter a company number</source>
         <comment>Key: error_companyno</comment>
-        <translation>Du må oppgi ett organisasjonsnummer</translation>
+        <translation>Du må oppgi et organisasjonsnummer</translation>
     </message>
     <message>
         <source>You must enter a valid address for Address </source>
@@ -6445,7 +6478,7 @@ Thank you for your comment.</source>
     <message>
         <source>Online addresses</source>
         <comment>Key: online_headline</comment>
-        <translation>Elektroniskeadresser</translation>
+        <translation>Elektroniske adresser</translation>
     </message>
     <message>
         <source>Telephone numbers</source>
@@ -6505,7 +6538,7 @@ Thank you for your comment.</source>
     <message>
         <source>New online address</source>
         <comment>Key: new_online</comment>
-        <translation>Ny elektroniskadresse</translation>
+        <translation>Ny elektronisk adresse</translation>
     </message>
     <message>
         <source>Delete selected information</source>
@@ -6530,7 +6563,7 @@ Thank you for your comment.</source>
     <message>
         <source>No Status</source>
         <comment>Key: no_state</comment>
-        <translation>Ingen Status</translation>
+        <translation>Ingen status</translation>
     </message>
     <message>
         <source>Country</source>
@@ -6600,7 +6633,7 @@ Thank you for your comment.</source>
     <message>
         <source>Addresses used on the Internet, this is usually web and email addresses. To get additional online addresses press the &quot;New online address&quot; button on the bottom.</source>
         <comment>Key: online_information</comment>
-        <translation>Firmaets Internet adresser, vanligvis e-mail og web adresser. For å legge til flere adresser trykk på &quot;Ny elektroniskadresse&quot;-knappen på bunnen av siden.</translation>
+        <translation>Firmaets internett-adresser, vanligvis epost og web-adresser. For å legge til flere adresser trykk på &quot;Ny elektronisk adresse&quot;-knappen på bunnen av siden.</translation>
     </message>
     <message>
         <source>An online address is ignored if no type is selected and all fields are empty.</source>
@@ -6610,7 +6643,7 @@ Thank you for your comment.</source>
     <message>
         <source>The contact information is used for assigning a user or person as a contact person for the company. Use the &quot;Contact groups&quot; box to select a group you want to search in. Then enter a search text and press Search to get a new list with persons under Contactperson.</source>
         <comment>Key: project_information</comment>
-        <translation>Kontaktinformasjonen brukes til å binde en bruker eller en person som kontaktperson for firmaet. Bruk &quot;Kontaktgrupper&quot; boksen til å velge en gruppe du ønsker å søke i. Deretter skriver du inn en søketekst og trykker på &quot;Søk&quot; for å få en liste med personer du kan velge under &quot;Kontaktperson&quot;.</translation>
+        <translation>Kontaktinformasjonen brukes til å binde en bruker eller en person som kontaktperson for firmaet. Bruk &quot;Kontaktgrupper&quot; boksen til å velge en gruppe du vil søke i. Deretter skriver du inn en søketekst og trykker på &quot;Søk&quot; for å få en liste med personer du kan velge under &quot;Kontaktperson&quot;.</translation>
     </message>
     <message>
         <source>Change the status by selecting a value from the Status box whenever the company relation changes.</source>
@@ -6716,7 +6749,7 @@ Thank you for your comment.</source>
     <message>
         <source>Parent category</source>
         <comment>Key: th_type_parent_name</comment>
-        <translation>Foreldrekategori</translation>
+        <translation>Overkategori</translation>
     </message>
     <message>
         <source>Description</source>
@@ -6736,12 +6769,12 @@ Thank you for your comment.</source>
     <message>
         <source>Send mail</source>
         <comment>Key: send_mail</comment>
-        <translation>Send e-post</translation>
+        <translation>Send epost</translation>
     </message>
     <message>
         <source>Parent category</source>
         <comment>Key: parent_category</comment>
-        <translation>Foreldrekategori</translation>
+        <translation>Overkategori</translation>
     </message>
     <message>
         <source>Number of subtypes are</source>
@@ -6781,12 +6814,12 @@ Thank you for your comment.</source>
     <message>
         <source>If you choose to upload a new image the old will be deleted.</source>
         <comment>Key: th_image_uploading_new_replaces_old</comment>
-        <translation>Hvis du velger å laste opp ett annet bilde vil det gamle bli slettet.</translation>
+        <translation>Hvis du velger å laste opp et annet bilde vil det gamle bli slettet.</translation>
     </message>
     <message>
         <source>Upload new image</source>
         <comment>Key: th_type_image</comment>
-        <translation>Last opp ett nytt bilde</translation>
+        <translation>Last opp et nytt bilde</translation>
     </message>
     <message>
         <source>Existing category image</source>
@@ -6816,7 +6849,7 @@ Thank you for your comment.</source>
     <message>
         <source>No image</source>
         <comment>Key: no_image</comment>
-        <translation>Ingen bilde.</translation>
+        <translation>Har ikke bilde</translation>
     </message>
     <message>
         <source>Search</source>
@@ -6954,7 +6987,7 @@ Thank you for your comment.</source>
     <message>
         <source>Online addresses</source>
         <comment>Key: online_headline</comment>
-        <translation>Elektroniskeadresser</translation>
+        <translation>Elektroniske adresser</translation>
     </message>
     <message>
         <source>Company information</source>
@@ -6989,7 +7022,7 @@ Thank you for your comment.</source>
     <message>
         <source>No online addresses</source>
         <comment>Key: error_no_onlines</comment>
-        <translation>Ingen elektroniskeadresser</translation>
+        <translation>Ingen elektroniske adresser</translation>
     </message>
     <message>
         <source>Main contact</source>
@@ -7094,7 +7127,7 @@ Thank you for your comment.</source>
     <message>
         <source>E-mails</source>
         <comment>Key: mail_headline</comment>
-        <translation>E-post</translation>
+        <translation>Epost</translation>
     </message>
     <message>
         <source>Date</source>
@@ -7109,12 +7142,12 @@ Thank you for your comment.</source>
     <message>
         <source>E-mail</source>
         <comment>Key: mail_email</comment>
-        <translation>E-post</translation>
+        <translation>Epost</translation>
     </message>
     <message>
         <source>Send mail</source>
         <comment>Key: mail</comment>
-        <translation>Send mail</translation>
+        <translation>Send epost</translation>
     </message>
 </context>
 <context>
@@ -7200,7 +7233,7 @@ Thank you for your comment.</source>
     <message>
         <source>Error in email note</source>
         <comment>Key: error_email_notice</comment>
-        <translation>Feil i e-post notis</translation>
+        <translation>Feil i epost notis</translation>
     </message>
     <message>
         <source>Company</source>
@@ -7265,12 +7298,12 @@ Thank you for your comment.</source>
     <message>
         <source>Group note</source>
         <comment>Key: group_notice</comment>
-        <translation>Gruppe notis</translation>
+        <translation>Gruppenotis</translation>
     </message>
     <message>
         <source>Email note</source>
         <comment>Key: email_notice</comment>
-        <translation>E-post notis</translation>
+        <translation>Epostnotis</translation>
     </message>
     <message>
         <source>OK</source>
@@ -7585,12 +7618,12 @@ Thank you for your comment.</source>
     <message>
         <source>New online type</source>
         <comment>Key: onlinetypeadd</comment>
-        <translation>Ny elektronisktype</translation>
+        <translation>Ny elektronisk type</translation>
     </message>
     <message>
         <source>Online type list</source>
         <comment>Key: onlinetypelist</comment>
-        <translation>Elektronisketyper</translation>
+        <translation>Elektroniske typer</translation>
     </message>
     <message>
         <source>New telephone type</source>
@@ -7816,7 +7849,7 @@ Thank you for your comment.</source>
     <message>
         <source>You must supply a complete online address for Online address </source>
         <comment>Key: error_online</comment>
-        <translation>Du må gi oss en korrekt elektroniskadresse og type for elektroniskadresse </translation>
+        <translation>Du må gi oss en korrekt elektronisk adresse og type for elektronisk adresse </translation>
     </message>
     <message>
         <source>You must supply a complete telephone number for Telephone </source>
@@ -7841,7 +7874,7 @@ Thank you for your comment.</source>
     <message>
         <source>There are no registered online addresses for this person.</source>
         <comment>Key: error_no_onlines</comment>
-        <translation>Det er ingen registrerte elektroniskeadresser for denne personen..</translation>
+        <translation>Det er ingen registrerte elektroniske adresser for denne personen..</translation>
     </message>
     <message>
         <source>There is no registered telephones for this person.</source>
@@ -8026,7 +8059,7 @@ Thank you for your comment.</source>
     <message>
         <source>New online address</source>
         <comment>Key: new_online</comment>
-        <translation>Ny elektroniskadresse</translation>
+        <translation>Ny elektronisk adresse</translation>
     </message>
     <message>
         <source>Delete selected information</source>
@@ -8131,7 +8164,7 @@ Thank you for your comment.</source>
     <message>
         <source>Send mail</source>
         <comment>Key: send_mail</comment>
-        <translation>Send e-post</translation>
+        <translation>Send epost</translation>
     </message>
     <message>
         <source>Confirm delete</source>
@@ -8151,12 +8184,12 @@ Thank you for your comment.</source>
     <message>
         <source>Top</source>
         <comment>Key: top_category</comment>
-        <translation>Top</translation>
+        <translation>Topp</translation>
     </message>
     <message>
         <source>General information for a person including it&apos;s relation with companies. The company list contains company categories with related companies. Company categories are wrapped in [] characters and cannot be selected.</source>
         <comment>Key: general_information</comment>
-        <translation>Generell informasjon om en person, ikludert relasjoner til firmaer. Firma listen inneholder firmakategorier med de relaterte firmaene. Firmakategroiene er vist med [] tegnene rundt og kan ikke velges.</translation>
+        <translation>Generell informasjon om en person, inkludert relasjoner til firmaer. Firmalisten inneholder firmakategorier med de relaterte firmaene. Firmakategoriene er vist med [] (klamme) tegnene rundt og kan ikke velges.</translation>
     </message>
     <message>
         <source>Addresses for the person. To get additional addresses press the &quot;New address&quot; button on the bottom.</source>
@@ -8186,12 +8219,12 @@ Thank you for your comment.</source>
     <message>
         <source>Addresses used on the Internet, this is usually web and email addresses. To get additional online addresses press the &quot;New online address&quot; button on the bottom.</source>
         <comment>Key: online_information</comment>
-        <translation>En persons elektroniskeadresser, vanligvis e-post og web. For å lage flere elektroniskeadresser trykk på &quot;Ny elektroniskadresse&quot;-knappen på bunnen av siden.</translation>
+        <translation>En persons elektroniske adresser, vanligvis epost og web. For å lage flere elektroniske adresser trykk på &quot;Ny elektronisk adresse&quot;-knappen på bunnen av siden.</translation>
     </message>
     <message>
         <source>An online address is ignored if no type is selected and all fields are empty.</source>
         <comment>Key: online_ignore_information</comment>
-        <translation>En elektroniskadresse blir ignorert hvis du ikke har valgt type og alle feltene er tomme.</translation>
+        <translation>En elektronisk adresse blir ignorert hvis du ikke har valgt type og alle feltene er tomme.</translation>
     </message>
     <message>
         <source>Change the status by selecting a value from the Status box below whenever the person relation changes.</source>
@@ -8211,7 +8244,7 @@ Thank you for your comment.</source>
     <message>
         <source>Delete person</source>
         <comment>Key: delete_person</comment>
-        <translation>Slett personer</translation>
+        <translation>Slett person</translation>
     </message>
     <message>
         <source>Show persons</source>
@@ -8444,7 +8477,7 @@ Thank you for your comment.</source>
     <message>
         <source>E-mails</source>
         <comment>Key: mail_headline</comment>
-        <translation>E-post</translation>
+        <translation>Epost</translation>
     </message>
     <message>
         <source>Date</source>
@@ -8459,12 +8492,12 @@ Thank you for your comment.</source>
     <message>
         <source>E-mail</source>
         <comment>Key: mail_email</comment>
-        <translation>E-post</translation>
+        <translation>Epost</translation>
     </message>
     <message>
         <source>Send mail</source>
         <comment>Key: mail</comment>
-        <translation>Send mail</translation>
+        <translation>Send epost</translation>
     </message>
 </context>
 <context>
@@ -8635,7 +8668,7 @@ Thank you for your comment.</source>
     <message>
         <source>Parent category</source>
         <comment>Key: th_type_parent_name</comment>
-        <translation>Foreldrekategori</translation>
+        <translation>Overkategori</translation>
     </message>
     <message>
         <source>Description</source>
@@ -8650,7 +8683,7 @@ Thank you for your comment.</source>
     <message>
         <source>Parent category</source>
         <comment>Key: parent_category</comment>
-        <translation>Foreldrekategori</translation>
+        <translation>Overkategori</translation>
     </message>
     <message>
         <source>Number of subtypes are</source>
@@ -8715,7 +8748,7 @@ Thank you for your comment.</source>
     <message>
         <source>No companies found.</source>
         <comment>Key: no_companies_error</comment>
-        <translation>Ingen firmaer funnet.</translation>
+        <translation>Ingen firma funnet.</translation>
     </message>
     <message>
         <source>Companies</source>
@@ -8725,7 +8758,7 @@ Thank you for your comment.</source>
     <message>
         <source>No image</source>
         <comment>Key: no_image</comment>
-        <translation>Mangler bilde</translation>
+        <translation>Ingen bilder</translation>
     </message>
     <message>
         <source>Search</source>
@@ -8775,7 +8808,7 @@ Thank you for your comment.</source>
     <message>
         <source>Search results:</source>
         <comment>Key: results</comment>
-        <translation>Søkeresultater:</translation>
+        <translation>Resultat av søk:</translation>
     </message>
 </context>
 <context>
@@ -8876,7 +8909,7 @@ Thank you for your comment.</source>
     <message>
         <source>Parent category</source>
         <comment>Key: th_type_parent_name</comment>
-        <translation>Foreldrekategori</translation>
+        <translation>Overkategori</translation>
     </message>
     <message>
         <source>Description</source>
@@ -8891,7 +8924,7 @@ Thank you for your comment.</source>
     <message>
         <source>Parent category</source>
         <comment>Key: parent_category</comment>
-        <translation>Foreldrekategori</translation>
+        <translation>Overkategori</translation>
     </message>
     <message>
         <source>Number of subtypes are</source>
@@ -8956,7 +8989,7 @@ Thank you for your comment.</source>
     <message>
         <source>No companies found.</source>
         <comment>Key: no_companies_error</comment>
-        <translation>Ingen firmaer funnet.</translation>
+        <translation>Ingen firma funnet.</translation>
     </message>
     <message>
         <source>Persons</source>
@@ -8966,7 +8999,7 @@ Thank you for your comment.</source>
     <message>
         <source>No image</source>
         <comment>Key: no_image</comment>
-        <translation>Mangler bilde</translation>
+        <translation>Ingen bilder</translation>
     </message>
     <message>
         <source>Search</source>
@@ -9006,7 +9039,7 @@ Thank you for your comment.</source>
     <message>
         <source>Search results:</source>
         <comment>Key: results</comment>
-        <translation>Søkeresultater:</translation>
+        <translation>Resultat av søk:</translation>
     </message>
 </context>
 <context>
@@ -9074,7 +9107,7 @@ Thank you for your comment.</source>
     <message>
         <source>Parent category</source>
         <comment>Key: th_type_parent_name</comment>
-        <translation>Foreldrekategori</translation>
+        <translation>Overkategori</translation>
     </message>
     <message>
         <source>Description</source>
@@ -9089,7 +9122,7 @@ Thank you for your comment.</source>
     <message>
         <source>Parent category</source>
         <comment>Key: parent_category</comment>
-        <translation>Foreldrekategori</translation>
+        <translation>Overkategori</translation>
     </message>
     <message>
         <source>Number of subtypes are</source>
@@ -9337,6 +9370,11 @@ Thank you for your comment.</source>
         <comment>Key: add_files</comment>
         <translation>Legg til filer</translation>
     </message>
+    <message>
+        <source>Search</source>
+        <comment>Key: search</comment>
+        <translation>Søk</translation>
+    </message>
 </context>
 <context>
     <name>ezfilemanager/admin/intl/en_GB/menubox.php.ini [strings]</name>
@@ -9537,7 +9575,7 @@ Thank you for your comment.</source>
     <message>
         <source>Please fix the following errors</source>
         <comment>Key: error_headline</comment>
-        <translation>Rett opp i følgene feil</translation>
+        <translation>Rett opp i følgende feil</translation>
     </message>
     <message>
         <source>Write permission denied</source>
@@ -9557,12 +9595,12 @@ Thank you for your comment.</source>
     <message>
         <source>You must choose a write option</source>
         <comment>Key: error_write_check</comment>
-        <translation>Du må velge skrive rettigheter</translation>
+        <translation>Du må velge skriverettigheter</translation>
     </message>
     <message>
         <source>You must choose a read option</source>
         <comment>Key: error_read_check</comment>
-        <translation>Du må velge lese rettigheter</translation>
+        <translation>Du må velge leserettigheter</translation>
     </message>
     <message>
         <source>You must supply a file</source>
@@ -9572,7 +9610,7 @@ Thank you for your comment.</source>
     <message>
         <source>You can&apos;t move files into upload directories you don&apos;t have write access to.</source>
         <comment>Key: error_upload_permission</comment>
-        <translation>Du kan ikke flytte filer til kataloger du ikke har tilgang til.</translation>
+        <translation>Du kan ikke flytte filer til en katalog du ikke har skriverettigheter til.</translation>
     </message>
 </context>
 <context>
@@ -9716,7 +9754,7 @@ Thank you for your comment.</source>
         <translation>Har ikke skrive tilgang</translation>
     </message>
     <message>
-        <source>Filen m&#xe5; v&#xe6;re under</source>
+        <source>File size must be less than</source>
         <comment>Key: error_file_size</comment>
         <translation>Filen må være under</translation>
     </message>
@@ -9733,22 +9771,22 @@ Thank you for your comment.</source>
     <message>
         <source>You must choose a write option</source>
         <comment>Key: error_write_check</comment>
-        <translation>Du må velge skrive rettigheter</translation>
+        <translation>Du må velge skriverettigheter</translation>
     </message>
     <message>
         <source>You must choose a read option</source>
         <comment>Key: error_read_check</comment>
-        <translation>Du må velge lese rettigheter</translation>
+        <translation>Du må velge leserettigheter</translation>
     </message>
     <message>
         <source>You selected the folder you&apos;re editing as the parent folder. Please select a different parent folder.</source>
         <comment>Key: error_parent_check</comment>
-        <translation>Du har valgt katalogen du redigerer som foreldrekatalog! Vennligst velg en annen katalog som foreldre katalog.</translation>
+        <translation>Du har valgt katalogen du redigerer som overkatalog! Vennligst velg en annen katalog som overkatalog.</translation>
     </message>
     <message>
         <source>You can&apos;t move files into upload directories you don&apos;t have write access to.</source>
         <comment>Key: error_upload_permission</comment>
-        <translation>Du kan ikke flytte filer til kataloger du ikke har tilgang til.</translation>
+        <translation>Du kan ikke flytte filer til en katalog du ikke har skriverettigheter til.</translation>
     </message>
 </context>
 <context>
@@ -9797,7 +9835,7 @@ Thank you for your comment.</source>
         <translation>Forrige</translation>
     </message>
     <message>
-        <source>Beskrivelse</source>
+        <source>Description</source>
         <comment>Key: description</comment>
         <translation>Beskrivelse</translation>
     </message>
@@ -9827,12 +9865,12 @@ Thank you for your comment.</source>
     <message>
         <source>Add value</source>
         <comment>Key: add_value</comment>
-        <translation>Add value</translation>
+        <translation>Legg til verdi</translation>
     </message>
     <message>
         <source>Delete selected</source>
         <comment>Key: delete_selected</comment>
-        <translation>Delete selected</translation>
+        <translation>Slett merkede</translation>
     </message>
     <message>
         <source>Store</source>
@@ -9847,12 +9885,12 @@ Thank you for your comment.</source>
     <message>
         <source>Fixed values</source>
         <comment>Key: fixed_values</comment>
-        <translation>Fixed values</translation>
+        <translation>Bestemte verdier</translation>
     </message>
     <message>
         <source>Value name</source>
         <comment>Key: value_name</comment>
-        <translation>Value name</translation>
+        <translation>Verdinavn</translation>
     </message>
 </context>
 <context>
@@ -9925,17 +9963,17 @@ Thank you for your comment.</source>
     <message>
         <source>No element types are defined in the database, check your installation</source>
         <comment>Key: no_types_1</comment>
-        <translation>Ingen elementtyper er definert i databasen, kontroller installasjonen din</translation>
+        <translation>Ingen elementer av denne typen er definert i databasen, sjekk installasjonen din.</translation>
     </message>
     <message>
         <source>You need to execute the correct SQL statements to fill in the element types</source>
         <comment>Key: no_types_2</comment>
-        <translation>Du må kjøre de riktige SQL setningene for å fylle inn elementtypene</translation>
+        <translation>Du må kjøre riktig SQL setning for å kunne fylle inn element typene</translation>
     </message>
     <message>
         <source>You can create your form, but they can&apos;t be used or previewed until you&apos;ve rectified the above problem</source>
         <comment>Key: no_types_3</comment>
-        <translation>Du kan opprette skjemaet, men det kan ikke brukes eller forhåndsvises før du har rettet på problemet ovenfor</translation>
+        <translation>Du kan lage skjemaet ditt, men det kan ikke brukes eller forhåndsvises før du har ordnet opp i problemet ovenfor.</translation>
     </message>
     <message>
         <source>You must define one or more elements for this form before you can use it</source>
@@ -9965,22 +10003,22 @@ Thank you for your comment.</source>
     <message>
         <source>You failed to fill in the form correctly</source>
         <comment>Key: error</comment>
-        <translation>Noen av feltene i formen er ikke fylt inn riktig</translation>
+        <translation>Noen av feltene i skjemaet er ikke fylt inn riktig</translation>
     </message>
     <message>
         <source>You must enter a valid e-mail address for the form receiver</source>
         <comment>Key: form_receiver_not_valid</comment>
-        <translation>Du må fylle inn en gyldig e-mail addrese i skjemaet for mottager feltet</translation>
+        <translation>Du må fylle inn en gyldig epostadresse i skjemaet for mottager feltet</translation>
     </message>
     <message>
         <source>You must enter an e-mail address for the receiver of the form</source>
         <comment>Key: form_receiver_not_set</comment>
-        <translation>Du må fylle inn en e-mail addresse for mottageren i skjemaet</translation>
+        <translation>Du må fylle inn en epostadresse for mottageren i skjemaet</translation>
     </message>
     <message>
         <source>You must enter a valid e-mail address for the copy to field</source>
         <comment>Key: form_cc_not_valid</comment>
-        <translation>Du må fylle in en gyldig e-mail addresse i kopi feltet</translation>
+        <translation>Du må fylle inn en gyldig epostadresse i kopifeltet</translation>
     </message>
     <message>
         <source>You must select a name for your form</source>
@@ -10020,7 +10058,7 @@ Thank you for your comment.</source>
     <message>
         <source>Form list</source>
         <comment>Key: form_list</comment>
-        <translation>Form liste</translation>
+        <translation>Skjemaliste</translation>
     </message>
     <message>
         <source>There are no forms in the database</source>
@@ -10030,7 +10068,7 @@ Thank you for your comment.</source>
     <message>
         <source>Form Preview</source>
         <comment>Key: form_preview</comment>
-        <translation>Form forhåndsvisning</translation>
+        <translation>Forhåndsvisning av skjema</translation>
     </message>
     <message>
         <source>You must set the type of all elements</source>
@@ -10045,7 +10083,7 @@ Thank you for your comment.</source>
     <message>
         <source>Subject</source>
         <comment>Key: subject_label</comment>
-        <translation>Subject</translation>
+        <translation>Emne</translation>
     </message>
     <message>
         <source>Content</source>
@@ -10055,32 +10093,32 @@ Thank you for your comment.</source>
     <message>
         <source>Textline</source>
         <comment>Key: text_field_item</comment>
-        <translation>Textline</translation>
+        <translation>Tekstlinje</translation>
     </message>
     <message>
         <source>Textarea</source>
         <comment>Key: text_area_item</comment>
-        <translation>Textfield</translation>
+        <translation>Tekstområde</translation>
     </message>
     <message>
         <source>Dropdown</source>
         <comment>Key: dropdown_item</comment>
-        <translation>Dropdown</translation>
+        <translation>Nedtrekksliste</translation>
     </message>
     <message>
         <source>Multiple Select</source>
         <comment>Key: multiple_select_item</comment>
-        <translation>Multiple Select</translation>
+        <translation>Flervalgsliste</translation>
     </message>
     <message>
         <source>Checkbox</source>
         <comment>Key: checkbox_item</comment>
-        <translation>Checkbox</translation>
+        <translation>Avkryssingboks</translation>
     </message>
     <message>
         <source>Radiobox</source>
         <comment>Key: radiobox_item</comment>
-        <translation>Radiobox</translation>
+        <translation>Radioboks</translation>
     </message>
     <message>
         <source>Let user select sender</source>
@@ -10090,7 +10128,7 @@ Thank you for your comment.</source>
     <message>
         <source>Your e-mail address</source>
         <comment>Key: form_sender</comment>
-        <translation>Your e-mail address</translation>
+        <translation>Epostadresse</translation>
     </message>
     <message>
         <source>You can&apos;t let the user select the sender as well as define a sender for this form</source>
@@ -10100,17 +10138,17 @@ Thank you for your comment.</source>
     <message>
         <source>You must either select &quot;Let the user select sender&quot; or fill in an e-mail address in &quot;Sender of this form&quot;</source>
         <comment>Key: form_must_have_sender</comment>
-        <translation>Du må enten velge &quot;La brukeren velge sender&quot; eller fylle inn en e-mail addresse i &quot;Sender av dette skjemaet&quot;</translation>
+        <translation>Du må enten velge &quot;La brukeren velge sender&quot; eller fylle inn en epostadresse i &quot;Sender av dette skjemaet&quot;</translation>
     </message>
     <message>
         <source>You must enter a valid e-mail address for the form sender</source>
         <comment>Key: form_sender_not_valid</comment>
-        <translation>Du må sette en gyldig e-mail addresse i sender på skjemaet</translation>
+        <translation>Du må sette en gyldig epostadresse i sender på skjemaet</translation>
     </message>
     <message>
         <source>You must enter an e-mail address for the form sender</source>
         <comment>Key: form_sender_missing</comment>
-        <translation>Du må sette en e-mail addresse i sender på skjemaet</translation>
+        <translation>Du må sette en epostadresse i sender på skjemaet</translation>
     </message>
     <message>
         <source>Move up</source>
@@ -10130,7 +10168,7 @@ Thank you for your comment.</source>
     <message>
         <source>Fixed values</source>
         <comment>Key: fixed_values</comment>
-        <translation>Fixed values</translation>
+        <translation>Bestemte verdier</translation>
     </message>
     <message>
         <source>Size</source>
@@ -10140,20 +10178,20 @@ Thank you for your comment.</source>
     <message>
         <source>Break</source>
         <comment>Key: break</comment>
-        <translation>Break</translation>
+        <translation>Linjeskift</translation>
     </message>
 </context>
 <context>
     <name>ezform/admin/intl/en_GB/menubox.php.ini [strings]</name>
     <message>
-        <source>eZ form</source>
+        <source>form</source>
         <comment>Key: module_name</comment>
-        <translation>eZ form</translation>
+        <translation>form</translation>
     </message>
     <message>
         <source>Form list</source>
         <comment>Key: form_list</comment>
-        <translation>Skjema liste</translation>
+        <translation>Skjemaliste</translation>
     </message>
     <message>
         <source>New form</source>
@@ -10189,7 +10227,7 @@ Thank you for your comment.</source>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation>Cancel</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <source>Edit form</source>
@@ -10199,7 +10237,7 @@ Thank you for your comment.</source>
     <message>
         <source>Name</source>
         <comment>Key: form_name</comment>
-        <translation>Name</translation>
+        <translation>Navn</translation>
     </message>
     <message>
         <source>ID</source>
@@ -10239,7 +10277,7 @@ Thank you for your comment.</source>
     <message>
         <source>Name</source>
         <comment>Key: element_name</comment>
-        <translation>Name</translation>
+        <translation>Navn</translation>
     </message>
     <message>
         <source>-- Select element type --</source>
@@ -10249,17 +10287,17 @@ Thank you for your comment.</source>
     <message>
         <source>No element types are defined in the database, check your installation</source>
         <comment>Key: no_types_1</comment>
-        <translation>Ingen elementtyper er definert i databasen, kontroller installasjonen din</translation>
+        <translation>Ingen elementer av denne typen er definert i databasen, sjekk installasjonen din.</translation>
     </message>
     <message>
         <source>You need to execute the correct SQL statements to fill in the element types</source>
         <comment>Key: no_types_2</comment>
-        <translation>Du må kjøre de riktige SQL setningene for å fylle inn elementtypene</translation>
+        <translation>Du må kjøre riktig SQL setning for å kunne fylle inn element typene</translation>
     </message>
     <message>
         <source>You can create your form, but they can&apos;t be used or previewed until you&apos;ve rectified the above problem</source>
         <comment>Key: no_types_3</comment>
-        <translation>Du kan opprette skjemaet, men det kan ikke brukes eller forhåndsvises før du har rettet på problemet ovenfor</translation>
+        <translation>Du kan lage skjemaet ditt, men det kan ikke brukes eller forhåndsvises før du har ordnet opp i problemet ovenfor.</translation>
     </message>
     <message>
         <source>You must define one or more elements for this form before you can use it</source>
@@ -10279,7 +10317,7 @@ Thank you for your comment.</source>
     <message>
         <source>Preview</source>
         <comment>Key: preview</comment>
-        <translation>Preview</translation>
+        <translation>Forhåndsvisning</translation>
     </message>
     <message>
         <source>Test</source>
@@ -10294,17 +10332,17 @@ Thank you for your comment.</source>
     <message>
         <source>You must enter a valid e-mail address for the form receiver</source>
         <comment>Key: form_receiver_not_valid</comment>
-        <translation>Du må fylle inn en gyldig e-mail addrese i skjemaet for mottager feltet</translation>
+        <translation>Du må fylle inn en gyldig epostadresse i skjemaet for mottager feltet</translation>
     </message>
     <message>
         <source>You must enter an e-mail address for the receiver of the form</source>
         <comment>Key: form_receiver_not_set</comment>
-        <translation>Du må fylle inn en e-mail addresse for mottageren i skjemaet</translation>
+        <translation>Du må fylle inn en epostadresse for mottageren i skjemaet</translation>
     </message>
     <message>
         <source>You must enter a valid e-mail address for the copy to field</source>
         <comment>Key: form_cc_not_valid</comment>
-        <translation>Du må fylle in en gyldig e-mail addresse i kopi feltet</translation>
+        <translation>Du må fylle in en gyldig epostadresse i kopi feltet</translation>
     </message>
     <message>
         <source>You must select a name for your form</source>
@@ -10334,17 +10372,17 @@ Thank you for your comment.</source>
     <message>
         <source>Next</source>
         <comment>Key: next</comment>
-        <translation>Next</translation>
+        <translation>Neste</translation>
     </message>
     <message>
         <source>Previous</source>
         <comment>Key: previous</comment>
-        <translation>Previous</translation>
+        <translation>Forrige</translation>
     </message>
     <message>
         <source>Forms</source>
         <comment>Key: form_list</comment>
-        <translation>Skjemaer</translation>
+        <translation>Skjemaliste</translation>
     </message>
     <message>
         <source>There are no forms in the database</source>
@@ -10354,7 +10392,7 @@ Thank you for your comment.</source>
     <message>
         <source>Preview</source>
         <comment>Key: form_preview</comment>
-        <translation>Preview</translation>
+        <translation>Forhåndsvisning av skjema</translation>
     </message>
     <message>
         <source>You must set the type of all elements</source>
@@ -10369,7 +10407,7 @@ Thank you for your comment.</source>
     <message>
         <source>Subject</source>
         <comment>Key: subject_label</comment>
-        <translation>Subject</translation>
+        <translation>Emne</translation>
     </message>
     <message>
         <source>Content</source>
@@ -10377,12 +10415,12 @@ Thank you for your comment.</source>
         <translation>Innhold</translation>
     </message>
     <message>
-        <source>Tekstlinje</source>
+        <source>Text line</source>
         <comment>Key: text_field_item</comment>
         <translation>Tekstlinje</translation>
     </message>
     <message>
-        <source>Tekstomr&#xe5;de</source>
+        <source>Text area</source>
         <comment>Key: text_area_item</comment>
         <translation>Tekstområde</translation>
     </message>
@@ -10394,7 +10432,7 @@ Thank you for your comment.</source>
     <message>
         <source>Your e-mail address</source>
         <comment>Key: form_sender</comment>
-        <translation>Your e-mail address</translation>
+        <translation>Sender av dette skjemaet</translation>
     </message>
     <message>
         <source>You can&apos;t let the user select the sender as well as define a sender for this form</source>
@@ -10404,17 +10442,17 @@ Thank you for your comment.</source>
     <message>
         <source>You must either select &quot;Let the user select sender&quot; or fill in an e-mail address in &quot;Sender of this form&quot;</source>
         <comment>Key: form_must_have_sender</comment>
-        <translation>Du må enten velge &quot;La brukeren velge sender&quot; eller fylle inn en e-mail addresse i &quot;Sender av dette skjemaet&quot;</translation>
+        <translation>Du må enten velge &quot;La brukeren velge sender&quot; eller fylle inn en epostadresse i &quot;Sender av dette skjemaet&quot;</translation>
     </message>
     <message>
         <source>You must enter a valid e-mail address for the form sender</source>
         <comment>Key: form_sender_not_valid</comment>
-        <translation>Du må sette en gyldig e-mail addresse i sender på skjemaet</translation>
+        <translation>Du må sette en gyldig epostadresse i sender på skjemaet</translation>
     </message>
     <message>
         <source>You must enter an e-mail address for the form sender</source>
         <comment>Key: form_sender_missing</comment>
-        <translation>Du må sette en e-mail addresse i sender på skjemaet</translation>
+        <translation>Du må sette en epostadresse i sender på skjemaet</translation>
     </message>
     <message>
         <source>Move up</source>
@@ -10482,7 +10520,7 @@ Thank you for your comment.</source>
     <message>
         <source>Your e-mail address isn&apos;t valid.</source>
         <comment>Key: error_email</comment>
-        <translation>Ugyldig e-postadresse.</translation>
+        <translation>Ugyldig epostadresse.</translation>
     </message>
     <message>
         <source>The user name exists.</source>
@@ -10598,12 +10636,12 @@ Thank you for your comment.</source>
     <message>
         <source>Moderated forum</source>
         <comment>Key: forum_is_moderated</comment>
-        <translation>Styrt forum</translation>
+        <translation>Moderert forum</translation>
     </message>
     <message>
         <source>Anonymous posting allowed</source>
         <comment>Key: forum_is_anonymous</comment>
-        <translation>Tillate anonyme postere</translation>
+        <translation>Tillat anonyme postere</translation>
     </message>
     <message>
         <source>Everybody</source>
@@ -10618,7 +10656,7 @@ Thank you for your comment.</source>
     <message>
         <source>No moderator selected</source>
         <comment>Key: no_moderator</comment>
-        <translation>Ingen ordstyrer er valgt</translation>
+        <translation>Ingen moderator er valgt</translation>
     </message>
 </context>
 <context>
@@ -10674,7 +10712,7 @@ Thank you for your comment.</source>
     <message>
         <source>Forum message rejected:</source>
         <comment>Key: mail_subject</comment>
-        <translation>Pos avvist:</translation>
+        <translation>Forumbeskjed avvist:</translation>
     </message>
     <message>
         <source>Posted at</source>
@@ -10790,7 +10828,7 @@ Thank you for your comment.</source>
     <message>
         <source>New message</source>
         <comment>Key: new-posting</comment>
-        <translation>Ny post</translation>
+        <translation>Ny melding</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -10833,12 +10871,12 @@ Thank you for your comment.</source>
     <message>
         <source>New message</source>
         <comment>Key: head_line_insert</comment>
-        <translation>Ny post</translation>
+        <translation>Ny melding</translation>
     </message>
     <message>
         <source>Edit message</source>
         <comment>Key: head_line_edit</comment>
-        <translation>Redigere post</translation>
+        <translation>Redigere melding</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -10858,7 +10896,7 @@ Thank you for your comment.</source>
     <message>
         <source>Your e-mail address isn&apos;t valid.</source>
         <comment>Key: error_email</comment>
-        <translation>Ugyldig e-postadresse.</translation>
+        <translation>Ugyldig epostadresse.</translation>
     </message>
     <message>
         <source>The user name exists.</source>
@@ -11287,7 +11325,7 @@ Thank you for your comment.</source>
     <message>
         <source>Link to post</source>
         <comment>Key: link</comment>
-        <translation>Link til post</translation>
+        <translation>Lenke til melding</translation>
     </message>
     <message>
         <source>Text</source>
@@ -11297,52 +11335,52 @@ Thank you for your comment.</source>
     <message>
         <source>Reply posted: </source>
         <comment>Key: subject_prepend</comment>
-        <translation>Melding postet: </translation>
+        <translation>Svar sendt: </translation>
     </message>
     <message>
         <source>&amp;nbsp;</source>
         <comment>Key: subject_append</comment>
-        <translation></translation>
+        <translation>&amp;nbsp;</translation>
     </message>
     <message>
         <source>You have requested e-mail notification on responses to your posting</source>
         <comment>Key: info_message_1</comment>
-        <translation>Du har bedt om e-post notiser når noen svarer på din melding.</translation>
+        <translation>Du har bedt om epostnotiser når noen svarer på din melding</translation>
     </message>
     <message>
         <source>Visit this link</source>
         <comment>Key: info_message_2</comment>
-        <translation>Besøk denne linken</translation>
+        <translation>Besøk denne lenken</translation>
     </message>
     <message>
         <source>to reply to this message</source>
         <comment>Key: info_message_3</comment>
-        <translation>for å svare på beskjeden</translation>
+        <translation>for å svare på meldingen</translation>
     </message>
     <message>
         <source>The reply message is presented below</source>
         <comment>Key: info_message_4</comment>
-        <translation>Svaret på din post er presentert nedenfor</translation>
+        <translation>Svaret på meldingen din er presentert nedenfor</translation>
     </message>
     <message>
         <source>Message posted to your moderated forum</source>
         <comment>Key: moderator_subject</comment>
-        <translation>En beskjed har blitt postet på ditt styrte forum</translation>
+        <translation>En melding har blitt postet på ditt modererte forum</translation>
     </message>
     <message>
         <source>You are the moderator of the forum</source>
         <comment>Key: moderator_info_message_1</comment>
-        <translation>Du er ordstyrer for dette forumet</translation>
+        <translation>Du er moderator for dette forumet</translation>
     </message>
     <message>
         <source>You can manage the message from this link</source>
         <comment>Key: moderator_info_message_2</comment>
-        <translation>Du kan bruke denne linken for å kontrollere beskjeden</translation>
+        <translation>Du kan bruke denne lenken for å kontrollere meldingen</translation>
     </message>
     <message>
         <source>The new message is presented below</source>
         <comment>Key: moderator_info_message_4</comment>
-        <translation>Den nye beskjeden er presentert nedenfor</translation>
+        <translation>Den nye meldingen er presentert nedenfor</translation>
     </message>
 </context>
 <context>
@@ -11403,7 +11441,7 @@ Thank you for your comment.</source>
     <message>
         <source>Post</source>
         <comment>Key: post</comment>
-        <translation>Post</translation>
+        <translation>Send</translation>
     </message>
     <message>
         <source>Reply</source>
@@ -11428,7 +11466,7 @@ Thank you for your comment.</source>
     <message>
         <source>Message</source>
         <comment>Key: body</comment>
-        <translation>Beskjed</translation>
+        <translation>Melding</translation>
     </message>
     <message>
         <source>Author</source>
@@ -11448,17 +11486,17 @@ Thank you for your comment.</source>
     <message>
         <source>Edit Existing Message</source>
         <comment>Key: edit_headline</comment>
-        <translation>Rediger eksisterende beskjed</translation>
+        <translation>Rediger eksisterende melding</translation>
     </message>
     <message>
         <source>Preview Edited Message</source>
         <comment>Key: preview_headline</comment>
-        <translation>Forhåndsvis redigert beskjed</translation>
+        <translation>Forhåndsvis redigert melding</translation>
     </message>
     <message>
         <source>Delete Message</source>
         <comment>Key: delete_headline</comment>
-        <translation>Slett beskjed</translation>
+        <translation>Slett melding</translation>
     </message>
     <message>
         <source>There Were Errors</source>
@@ -11468,27 +11506,27 @@ Thank you for your comment.</source>
     <message>
         <source>Reply to Message</source>
         <comment>Key: reply_headline</comment>
-        <translation>Svar på beskjed</translation>
+        <translation>Svar på melding</translation>
     </message>
     <message>
         <source>Write new Message</source>
         <comment>Key: new_headline</comment>
-        <translation>Skriv ny beskjed</translation>
+        <translation>Skriv ny melding</translation>
     </message>
     <message>
         <source>Message List</source>
         <comment>Key: list_headline</comment>
-        <translation>Beskjedlliste</translation>
+        <translation>Meldingsliste</translation>
     </message>
     <message>
         <source>Your Message has been Posted</source>
         <comment>Key: posted_headline</comment>
-        <translation>Din beskjed har blitt postet</translation>
+        <translation>Meldingen din er sendt</translation>
     </message>
     <message>
         <source>Message view</source>
         <comment>Key: message_view</comment>
-        <translation>Beskjedvisning</translation>
+        <translation>Meldingsvisning</translation>
     </message>
     <message>
         <source>Yes</source>
@@ -11533,17 +11571,17 @@ Thank you for your comment.</source>
     <message>
         <source>Your message has been posted to the forum</source>
         <comment>Key: posted_info_1</comment>
-        <translation>Din beskjed har blitt postet på forumet</translation>
+        <translation>Meldingen din er sendt til forumet</translation>
     </message>
     <message>
         <source>The complete message is shown above</source>
         <comment>Key: posted_info_2</comment>
-        <translation>Den komplette beskjeden er vist ovenfor</translation>
+        <translation>Den komplette meldingen er vist ovenfor</translation>
     </message>
     <message>
         <source>You can edit or delete your message until someone answers it, edit message</source>
         <comment>Key: posted_info_3</comment>
-        <translation>Du kan redigere eller slette beskjeden din inntil noen svarer på den, rediger beskjeden</translation>
+        <translation>Du kan redigere eller slette meldingen din inntil noen svarer på den, rediger meldingen</translation>
     </message>
     <message>
         <source>Return to the forum</source>
@@ -11553,12 +11591,12 @@ Thank you for your comment.</source>
     <message>
         <source>You need to enter a topic</source>
         <comment>Key: error_missing_topic</comment>
-        <translation>Du må gi beskjeden en overskrift</translation>
+        <translation>Du må gi meldingen en overskrift</translation>
     </message>
     <message>
         <source>You need to write some text in the body</source>
         <comment>Key: error_missing_body</comment>
-        <translation>Du må skrive inn beskjeden din</translation>
+        <translation>Du må skrive inn meldingen din</translation>
     </message>
     <message>
         <source>You tried to access an eZ forum page which doesn&apos;t exist</source>
@@ -11568,7 +11606,7 @@ Thank you for your comment.</source>
     <message>
         <source>Please try to access the forums from this link</source>
         <comment>Key: error_missing_page_2</comment>
-        <translation>Vennligst finn korekt forum via denne linken</translation>
+        <translation>Vennligst finn korrekt forum via denne lenken</translation>
     </message>
     <message>
         <source>You tried to access an eZ forum page which you don&apos;t have access to</source>
@@ -11578,7 +11616,7 @@ Thank you for your comment.</source>
     <message>
         <source>Please try to access the forums from this link</source>
         <comment>Key: error_forbidden_page_2</comment>
-        <translation>Vennligst finn korekt forum via denne linken</translation>
+        <translation>Vennligst finn korrekt forum via denne lenken</translation>
     </message>
     <message>
         <source>This message does not exist</source>
@@ -11603,7 +11641,7 @@ Thank you for your comment.</source>
     <message>
         <source>Message threads</source>
         <comment>Key: message_thread</comment>
-        <translation>Tråder</translation>
+        <translation>Meldingstråder</translation>
     </message>
     <message>
         <source>Topic</source>
@@ -11628,7 +11666,7 @@ Thank you for your comment.</source>
     <message>
         <source>Text</source>
         <comment>Key: text</comment>
-        <translation>Beskjed</translation>
+        <translation>Melding</translation>
     </message>
     <message>
         <source>Reply</source>
@@ -11638,7 +11676,7 @@ Thank you for your comment.</source>
     <message>
         <source>New message</source>
         <comment>Key: new-posting</comment>
-        <translation>Ny beskjed</translation>
+        <translation>Ny melding</translation>
     </message>
 </context>
 <context>
@@ -11837,7 +11875,7 @@ Thank you for your comment.</source>
     <message>
         <source>You don&apos;t have access to this forum.</source>
         <comment>Key: no_access</comment>
-        <translation>You don&apos;t have access to this forum.</translation>
+        <translation>Du har ikke tilgang til dette forumet.</translation>
     </message>
 </context>
 <context>
@@ -12109,12 +12147,12 @@ Thank you for your comment.</source>
     <message>
         <source>You must choose write permissions</source>
         <comment>Key: error_write_check</comment>
-        <translation>Du må velge skrive rettighter</translation>
+        <translation>Du må velge skriverettighter</translation>
     </message>
     <message>
         <source>You must choose a read permissions</source>
         <comment>Key: error_read_check</comment>
-        <translation>Du må velge lese rettigheter</translation>
+        <translation>Du må velge leserettigheter</translation>
     </message>
 </context>
 <context>
@@ -12122,7 +12160,7 @@ Thank you for your comment.</source>
     <message>
         <source>Image upload</source>
         <comment>Key: imageupload</comment>
-        <translation>Bildeoplasting</translation>
+        <translation>Bildeopplasting</translation>
     </message>
     <message>
         <source>Image title</source>
@@ -12187,7 +12225,7 @@ Thank you for your comment.</source>
     <message>
         <source>Additional categories</source>
         <comment>Key: additional_category</comment>
-        <translation>Tillegskategori</translation>
+        <translation>Tilleggskategori</translation>
     </message>
     <message>
         <source>Everybody</source>
@@ -12300,7 +12338,7 @@ Thank you for your comment.</source>
     <message>
         <source>Previous images</source>
         <comment>Key: previous</comment>
-        <translation>Tilbake</translation>
+        <translation>Forrige</translation>
     </message>
     <message>
         <source>Search</source>
@@ -12326,7 +12364,7 @@ Thank you for your comment.</source>
     <message>
         <source>image catalogue</source>
         <comment>Key: module_name</comment>
-        <translation>bilde håndtering</translation>
+        <translation>image catalogue</translation>
     </message>
     <message>
         <source>New category</source>
@@ -12482,12 +12520,12 @@ Thank you for your comment.</source>
     <message>
         <source>You must choose write permissions</source>
         <comment>Key: error_write_check</comment>
-        <translation>Du må velge skrive rettighter</translation>
+        <translation>Du må velge skriverettighter</translation>
     </message>
     <message>
         <source>You must choose a read permissions</source>
         <comment>Key: error_read_check</comment>
-        <translation>Du må velge lese rettigheter</translation>
+        <translation>Du må velge leserettigheter</translation>
     </message>
 </context>
 <context>
@@ -12495,7 +12533,7 @@ Thank you for your comment.</source>
     <message>
         <source>Image upload</source>
         <comment>Key: imageupload</comment>
-        <translation>Bildeoplasting</translation>
+        <translation>Bildeopplasting</translation>
     </message>
     <message>
         <source>Image title</source>
@@ -12560,7 +12598,7 @@ Thank you for your comment.</source>
     <message>
         <source>Additional categories</source>
         <comment>Key: additional_category</comment>
-        <translation>Tillegskategori</translation>
+        <translation>Tilleggskategori</translation>
     </message>
     <message>
         <source>Everybody</source>
@@ -12735,22 +12773,22 @@ Thank you for your comment.</source>
     <message>
         <source>Attribute Edit</source>
         <comment>Key: attribute_edit</comment>
-        <translation>Egenskapsredigering</translation>
+        <translation>Attributtredigering</translation>
     </message>
     <message>
         <source>Attribute name</source>
         <comment>Key: attribute_name</comment>
-        <translation>Attribute name</translation>
+        <translation>Attributtnavn</translation>
     </message>
     <message>
         <source>Attribute value</source>
         <comment>Key: attribute_value</comment>
-        <translation>Attribute value</translation>
+        <translation>Attributtverdi</translation>
     </message>
     <message>
         <source>No attributes</source>
         <comment>Key: no_attributes</comment>
-        <translation>No attributes</translation>
+        <translation>Ingen attributter</translation>
     </message>
     <message>
         <source>Update</source>
@@ -12765,7 +12803,7 @@ Thank you for your comment.</source>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation>Cancel</translation>
+        <translation>Avbryt</translation>
     </message>
 </context>
 <context>
@@ -12778,7 +12816,7 @@ Thank you for your comment.</source>
     <message>
         <source>Parent category</source>
         <comment>Key: where</comment>
-        <translation>Undergruppe kategori</translation>
+        <translation>Overkategori</translation>
     </message>
     <message>
         <source>Name</source>
@@ -12788,7 +12826,7 @@ Thank you for your comment.</source>
     <message>
         <source>Root category</source>
         <comment>Key: topcat</comment>
-        <translation>Rot kategori</translation>
+        <translation>Rotkategori</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -12846,27 +12884,27 @@ Thank you for your comment.</source>
     <message>
         <source>Link Overview</source>
         <comment>Key: headline</comment>
-        <translation>Link oversikt</translation>
+        <translation>Lenkeoversikt</translation>
     </message>
     <message>
         <source>Links</source>
         <comment>Key: link</comment>
-        <translation>Linker</translation>
+        <translation>Lenker</translation>
     </message>
     <message>
         <source>Categories</source>
         <comment>Key: category</comment>
-        <translation>Categories</translation>
+        <translation>Kategorier</translation>
     </message>
     <message>
         <source>No categories found.</source>
         <comment>Key: no_group</comment>
-        <translation>No categories found.</translation>
+        <translation>Ingen kategorier funnet.</translation>
     </message>
     <message>
         <source>No links found.</source>
         <comment>Key: no_link</comment>
-        <translation>No links found.</translation>
+        <translation>Ingen lenker funnet.</translation>
     </message>
     <message>
         <source>Search</source>
@@ -12876,12 +12914,12 @@ Thank you for your comment.</source>
     <message>
         <source>Delete category? Remember that all the links will also be deleted.</source>
         <comment>Key: delete</comment>
-        <translation>Delete category? Remember that all the links will also be deleted.</translation>
+        <translation>Slett kategori? Husk at alle lenker under denne vil også bli slettet.</translation>
     </message>
     <message>
         <source>Delete link</source>
         <comment>Key: deletelink</comment>
-        <translation>Delete link</translation>
+        <translation>Slett lenke</translation>
     </message>
 </context>
 <context>
@@ -12889,12 +12927,12 @@ Thank you for your comment.</source>
     <message>
         <source>Link Overview</source>
         <comment>Key: headline</comment>
-        <translation>Link oversikt</translation>
+        <translation>Lenkeoversikt</translation>
     </message>
     <message>
         <source>Links</source>
         <comment>Key: link</comment>
-        <translation>Linker</translation>
+        <translation>Lenker</translation>
     </message>
     <message>
         <source>Categories</source>
@@ -12909,7 +12947,7 @@ Thank you for your comment.</source>
     <message>
         <source>No links found.</source>
         <comment>Key: no_link</comment>
-        <translation>Fant ingen linker.</translation>
+        <translation>Fant ingen lenker.</translation>
     </message>
     <message>
         <source>Search</source>
@@ -12919,7 +12957,7 @@ Thank you for your comment.</source>
     <message>
         <source>Not accepted links</source>
         <comment>Key: noacceptedlinks</comment>
-        <translation>Linker ikke akseptert</translation>
+        <translation>Ikke aksepterte lenker</translation>
     </message>
     <message>
         <source>Categories</source>
@@ -12934,7 +12972,7 @@ Thank you for your comment.</source>
     <message>
         <source>Delete link?</source>
         <comment>Key: deletelink</comment>
-        <translation>Slett link?</translation>
+        <translation>Slett lenke?</translation>
     </message>
     <message>
         <source>Delete selected categories</source>
@@ -12944,17 +12982,17 @@ Thank you for your comment.</source>
     <message>
         <source>Links</source>
         <comment>Key: links</comment>
-        <translation>Linker</translation>
+        <translation>Lenker</translation>
     </message>
     <message>
         <source>Categories</source>
         <comment>Key: categories</comment>
-        <translation>kategorier</translation>
+        <translation>Kategorier</translation>
     </message>
     <message>
         <source>Delete selected links</source>
         <comment>Key: delete_links</comment>
-        <translation>Slett de merkede linkene</translation>
+        <translation>Slett de merkede lenkene</translation>
     </message>
     <message>
         <source>Next</source>
@@ -12972,22 +13010,22 @@ Thank you for your comment.</source>
     <message>
         <source>Link Edit</source>
         <comment>Key: headline</comment>
-        <translation>Linkredigering</translation>
+        <translation>Lenkeredigering</translation>
     </message>
     <message>
         <source>Category</source>
         <comment>Key: linkcategory</comment>
-        <translation>Link kategori</translation>
+        <translation>Lenkekategori</translation>
     </message>
     <message>
         <source>Additional Categories</source>
         <comment>Key: add_linkcategory</comment>
-        <translation>Legg til link kategori</translation>
+        <translation>Legg til lenkekategori</translation>
     </message>
     <message>
         <source>Choose the category you want the link to appear in</source>
         <comment>Key: choosecategory</comment>
-        <translation>Velg kategorien du vil at linken skal tilhøre</translation>
+        <translation>Velg kategorien du vil at lenken skal tilhøre</translation>
     </message>
     <message>
         <source>Root category</source>
@@ -13002,7 +13040,7 @@ Thank you for your comment.</source>
     <message>
         <source>Give your link a name</source>
         <comment>Key: nameedit</comment>
-        <translation>Gi linken ett navn</translation>
+        <translation>Gi lenken et navn</translation>
     </message>
     <message>
         <source>URL</source>
@@ -13012,7 +13050,7 @@ Thank you for your comment.</source>
     <message>
         <source>Please insert the URL you want to use</source>
         <comment>Key: urledit</comment>
-        <translation>Skriv inn en URL som linken skal peke til</translation>
+        <translation>Skriv inn en URL som lenken skal peke til</translation>
     </message>
     <message>
         <source>Keywords</source>
@@ -13032,12 +13070,12 @@ Thank you for your comment.</source>
     <message>
         <source>Describe the link</source>
         <comment>Key: discedit</comment>
-        <translation>Beskriv hva linken handler om</translation>
+        <translation>Beskriv hva lenken handler om</translation>
     </message>
     <message>
         <source>Accepted</source>
         <comment>Key: accepted</comment>
-        <translation>Akseptert link?</translation>
+        <translation>Akseptert</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -13047,17 +13085,17 @@ Thank you for your comment.</source>
     <message>
         <source>Not accepted links</source>
         <comment>Key: noacceptedlinks</comment>
-        <translation>Ikke godkjente linker</translation>
+        <translation>Ikke godkjente lenker</translation>
     </message>
     <message>
         <source>New link</source>
         <comment>Key: headline_insert</comment>
-        <translation>Ny link</translation>
+        <translation>Ny lenke</translation>
     </message>
     <message>
         <source>Edit link</source>
         <comment>Key: headline_edit</comment>
-        <translation>Rediger link</translation>
+        <translation>Rediger lenke</translation>
     </message>
     <message>
         <source>Get meta info.</source>
@@ -13135,12 +13173,12 @@ Thank you for your comment.</source>
     <message>
         <source>Link list</source>
         <comment>Key: linklist</comment>
-        <translation>Linkoversikt</translation>
+        <translation>Lenkeoversikt</translation>
     </message>
     <message>
         <source>Accept links</source>
         <comment>Key: notaccepted</comment>
-        <translation>Godkjenn linker</translation>
+        <translation>Godkjenn lenker</translation>
     </message>
     <message>
         <source>New category</source>
@@ -13150,7 +13188,7 @@ Thank you for your comment.</source>
     <message>
         <source>New link</source>
         <comment>Key: newlink</comment>
-        <translation>Ny link</translation>
+        <translation>Ny lenke</translation>
     </message>
     <message>
         <source>Type list</source>
@@ -13206,7 +13244,7 @@ Thank you for your comment.</source>
     <message>
         <source>Previous</source>
         <comment>Key: previous</comment>
-        <translation>Forrige</translation>
+        <translation>Tilbake</translation>
     </message>
     <message>
         <source>Next</source>
@@ -13216,7 +13254,7 @@ Thank you for your comment.</source>
     <message>
         <source>No links found.</source>
         <comment>Key: empty_result</comment>
-        <translation>Ingen linker funnet.</translation>
+        <translation>Ingen lenker funnet.</translation>
     </message>
     <message>
         <source>Categories</source>
@@ -13244,7 +13282,7 @@ Thank you for your comment.</source>
     <message>
         <source>Attribute name</source>
         <comment>Key: attribute_name</comment>
-        <translation>Attributt navn</translation>
+        <translation>Attributtnavn</translation>
     </message>
     <message>
         <source>Update</source>
@@ -13264,7 +13302,7 @@ Thank you for your comment.</source>
     <message>
         <source>Unit</source>
         <comment>Key: unit</comment>
-        <translation>Unit</translation>
+        <translation>Enhet</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -13282,7 +13320,7 @@ Thank you for your comment.</source>
     <message>
         <source>Type List</source>
         <comment>Key: type_list</comment>
-        <translation>Type Liste</translation>
+        <translation>Typeliste</translation>
     </message>
     <message>
         <source>Type</source>
@@ -13335,7 +13373,7 @@ Thank you for your comment.</source>
     <message>
         <source>Unaccepted links</source>
         <comment>Key: unaccepted_links</comment>
-        <translation>Ikke godkjente linker</translation>
+        <translation>Ikke godkjente lenker</translation>
     </message>
     <message>
         <source>Accept</source>
@@ -13388,17 +13426,17 @@ Thank you for your comment.</source>
     <message>
         <source>Links</source>
         <comment>Key: links</comment>
-        <translation>Linker</translation>
+        <translation>Lenker</translation>
     </message>
     <message>
         <source>Suggest a link</source>
         <comment>Key: suggest_link</comment>
-        <translation>Foreslå ny link</translation>
+        <translation>Foreslå ny lenke</translation>
     </message>
     <message>
         <source>No link categories found.</source>
         <comment>Key: no_link_categories</comment>
-        <translation>Fant ingen linkkategorier.</translation>
+        <translation>Ingen lenkekategorier funnet.</translation>
     </message>
 </context>
 <context>
@@ -13406,12 +13444,12 @@ Thank you for your comment.</source>
     <message>
         <source>Link List</source>
         <comment>Key: title</comment>
-        <translation>Linkliste</translation>
+        <translation>Lenkeliste</translation>
     </message>
     <message>
         <source>Links</source>
         <comment>Key: headline</comment>
-        <translation>Linker</translation>
+        <translation>Lenker</translation>
     </message>
     <message>
         <source>Search</source>
@@ -13441,7 +13479,7 @@ Thank you for your comment.</source>
     <message>
         <source>Links</source>
         <comment>Key: links</comment>
-        <translation>Linker</translation>
+        <translation>Lenker</translation>
     </message>
     <message>
         <source>Next</source>
@@ -13459,12 +13497,12 @@ Thank you for your comment.</source>
     <message>
         <source>Link List</source>
         <comment>Key: title</comment>
-        <translation>Linkoversikt</translation>
+        <translation>Lenkeoversikt</translation>
     </message>
     <message>
         <source>Links</source>
         <comment>Key: headline</comment>
-        <translation>Linker</translation>
+        <translation>Lenker</translation>
     </message>
     <message>
         <source>Search</source>
@@ -13487,12 +13525,12 @@ Thank you for your comment.</source>
     <message>
         <source>Link List</source>
         <comment>Key: title</comment>
-        <translation>Linkliste</translation>
+        <translation>Lenkeliste</translation>
     </message>
     <message>
         <source>Links</source>
         <comment>Key: headline</comment>
-        <translation>Linker</translation>
+        <translation>Lenker</translation>
     </message>
     <message>
         <source>Search</source>
@@ -13522,7 +13560,7 @@ Thank you for your comment.</source>
     <message>
         <source>Links</source>
         <comment>Key: links</comment>
-        <translation>Linker</translation>
+        <translation>Lenker</translation>
     </message>
     <message>
         <source>Next</source>
@@ -13560,7 +13598,7 @@ Thank you for your comment.</source>
     <message>
         <source>Previous</source>
         <comment>Key: previous</comment>
-        <translation>Forrige</translation>
+        <translation>Tilbake</translation>
     </message>
     <message>
         <source>Next</source>
@@ -13570,7 +13608,7 @@ Thank you for your comment.</source>
     <message>
         <source>No links were found.</source>
         <comment>Key: empty_result</comment>
-        <translation>Ingen linker funnet.</translation>
+        <translation>Ingen lenker funnet.</translation>
     </message>
     <message>
         <source>Top level</source>
@@ -13583,22 +13621,22 @@ Thank you for your comment.</source>
     <message>
         <source>Your suggested link was added to the queue.</source>
         <comment>Key: headline</comment>
-        <translation>Linken ble lagt til.</translation>
+        <translation>Lenken ble lagt til.</translation>
     </message>
     <message>
         <source>Your link was added to the incoming queue. Web-admin will decide if your link will be added or not, please allow 2-4 work days for processing. </source>
         <comment>Key: text</comment>
-        <translation>Linken din ble lagt til i databasen. Webadministrator vil avgjøre om linken din blir lagt til eller ikke. Dette vil ta 2-4 dager.</translation>
+        <translation>Lenken din ble lagt til i databasen. Webadministrator vil avgjøre om lenken din blir lagt til eller ikke. Dette vil ta 2-4 dager.</translation>
     </message>
     <message>
         <source>Back to the link list.</source>
         <comment>Key: back</comment>
-        <translation>Tilbake til linklisten.</translation>
+        <translation>Tilbake til lenkelisten.</translation>
     </message>
     <message>
         <source>Suggest a link.</source>
         <comment>Key: new</comment>
-        <translation>Foreslå en ny link.</translation>
+        <translation>Foreslå en ny lenke.</translation>
     </message>
 </context>
 <context>
@@ -13606,7 +13644,7 @@ Thank you for your comment.</source>
     <message>
         <source>Link Edit</source>
         <comment>Key: headline</comment>
-        <translation>Foreslå en link</translation>
+        <translation>Foreslå en lenke</translation>
     </message>
     <message>
         <source>Category</source>
@@ -13621,7 +13659,7 @@ Thank you for your comment.</source>
     <message>
         <source>Choose the category you want the link to appear in</source>
         <comment>Key: choosecategory</comment>
-        <translation>Velg kategorien du ønsker at linken skal tilhøre</translation>
+        <translation>Velg kategorien du vil at lenken skal tilhøre</translation>
     </message>
     <message>
         <source>Root category</source>
@@ -13631,22 +13669,22 @@ Thank you for your comment.</source>
     <message>
         <source>Name</source>
         <comment>Key: name</comment>
-        <translation>Navn på link</translation>
+        <translation>Navn på lenke</translation>
     </message>
     <message>
         <source>Give your link a name</source>
         <comment>Key: nameedit</comment>
-        <translation>Gi linken ett navn</translation>
+        <translation>Gi lenken et navn</translation>
     </message>
     <message>
         <source>URL</source>
         <comment>Key: url</comment>
-        <translation>Nettstedets adresse</translation>
+        <translation>URL</translation>
     </message>
     <message>
         <source>Please insert the URL you want to use</source>
         <comment>Key: urledit</comment>
-        <translation>Skriv inn en URL som linken skal peke til</translation>
+        <translation>URL til nettstedet du vil lenken skal peke til</translation>
     </message>
     <message>
         <source>Keywords</source>
@@ -13681,17 +13719,17 @@ Thank you for your comment.</source>
     <message>
         <source>Not accepted links</source>
         <comment>Key: noacceptedlinks</comment>
-        <translation>Linker som ikke er godtatt</translation>
+        <translation>Lenker som ikke er godtatt</translation>
     </message>
     <message>
         <source>New link</source>
         <comment>Key: headline_insert</comment>
-        <translation>Ny link</translation>
+        <translation>Ny lenke</translation>
     </message>
     <message>
         <source>Edit link</source>
         <comment>Key: headline_edit</comment>
-        <translation>Rediger link</translation>
+        <translation>Rediger lenke</translation>
     </message>
     <message>
         <source>Get meta info.</source>
@@ -13701,7 +13739,7 @@ Thank you for your comment.</source>
     <message>
         <source>OK</source>
         <comment>Key: ok</comment>
-        <translation>Foreslå link</translation>
+        <translation>Foreslå lenke</translation>
     </message>
     <message>
         <source>Current image</source>
@@ -13817,7 +13855,7 @@ Thank you for your comment.</source>
     <message>
         <source>Configure your mail</source>
         <comment>Key: configure</comment>
-        <translation>Email-innstillinger</translation>
+        <translation>Epostinnstillinger</translation>
     </message>
     <message>
         <source>New account</source>
@@ -13872,7 +13910,7 @@ Thank you for your comment.</source>
     <message>
         <source>Options</source>
         <comment>Key: options</comment>
-        <translation>Opsjoner</translation>
+        <translation>Alternativer</translation>
     </message>
     <message>
         <source>Signature</source>
@@ -13902,22 +13940,22 @@ Thank you for your comment.</source>
     <message>
         <source>Shows the number of unread mail in the menubox. This functions makes loading the page a bit slower</source>
         <comment>Key: unread_text</comment>
-        <translation>Vis antall uleste meldinger i menyboksen. Dette gjør at lastingen av siden tar litt lengre tid</translation>
+        <translation>Viser antall uleste brev i menyboksen. Denne funksjonen gjør at lastingen av siden tar litt mer tid</translation>
     </message>
     <message>
         <source>Checks mail on every reload if checked (slower). If not checked you have press &quot;Check mail&quot; to receive new mail (faster).</source>
         <comment>Key: auto_text</comment>
-        <translation>Henter ny epost ved hver lasting av siden (tregere). Hvis den ikke er krysset av må du trykke &quot;Hent ny epost&quot; for å motta ny epost (raskere).</translation>
+        <translation>Henter post hver gang siden lastes (tar mer tid). Hvis du ikke har valgt dette må du velge Sjekk post for å hente ny post.</translation>
     </message>
     <message>
         <source>Auto check mail</source>
         <comment>Key: auto_check_mail</comment>
-        <translation>Hent ny epost automatisk</translation>
+        <translation>Sjekk post automatisk</translation>
     </message>
     <message>
         <source>Move to trash</source>
         <comment>Key: trash_on_del</comment>
-        <translation>Flytt til papirkurven</translation>
+        <translation>Flytt til søppelkurven</translation>
     </message>
     <message>
         <source>&lt;To&gt;</source>
@@ -13932,7 +13970,7 @@ Thank you for your comment.</source>
     <message>
         <source>&lt;Message&gt;</source>
         <comment>Key: message</comment>
-        <translation>&lt;Beskjed&gt;</translation>
+        <translation>&lt;Melding&gt;</translation>
     </message>
     <message>
         <source>&lt;Body&gt;</source>
@@ -13942,7 +13980,7 @@ Thank you for your comment.</source>
     <message>
         <source>&lt;Cc&gt;</source>
         <comment>Key: cc</comment>
-        <translation>&lt;Kopi til&gt;</translation>
+        <translation>&lt;Cc&gt;</translation>
     </message>
     <message>
         <source>&lt;From&gt;</source>
@@ -13957,7 +13995,7 @@ Thank you for your comment.</source>
     <message>
         <source>&lt;To or Cc&gt;</source>
         <comment>Key: tocc</comment>
-        <translation>&lt;Til eller kopi til&gt;</translation>
+        <translation>&lt;Til eller Cc&gt;</translation>
     </message>
     <message>
         <source>equals</source>
@@ -14048,7 +14086,7 @@ Thank you for your comment.</source>
     <message>
         <source>Cc</source>
         <comment>Key: cc</comment>
-        <translation>Kopi til</translation>
+        <translation>Cc</translation>
     </message>
     <message>
         <source>From</source>
@@ -14063,7 +14101,7 @@ Thank you for your comment.</source>
     <message>
         <source>To or Cc</source>
         <comment>Key: tocc</comment>
-        <translation>Til eller blindkopi til</translation>
+        <translation>Til eller Cc</translation>
     </message>
     <message>
         <source>Equals</source>
@@ -14204,7 +14242,7 @@ Thank you for your comment.</source>
     <message>
         <source>Inbox</source>
         <comment>Key: inbox</comment>
-        <translation>Innkommende</translation>
+        <translation>Innboks</translation>
     </message>
     <message>
         <source>Sent</source>
@@ -14227,12 +14265,12 @@ Thank you for your comment.</source>
     <message>
         <source>Link e-mail to these companies/persons</source>
         <comment>Key: message</comment>
-        <translation>Link e-mail to these companies/persons</translation>
+        <translation>Knytt epost til disse firma/personer</translation>
     </message>
     <message>
         <source>Companies</source>
         <comment>Key: companies</comment>
-        <translation>Companies</translation>
+        <translation>Firma</translation>
     </message>
     <message>
         <source>Persons</source>
@@ -14242,7 +14280,7 @@ Thank you for your comment.</source>
     <message>
         <source>Top</source>
         <comment>Key: top_category</comment>
-        <translation>Top</translation>
+        <translation>Topp</translation>
     </message>
     <message>
         <source>OK</source>
@@ -14252,7 +14290,7 @@ Thank you for your comment.</source>
     <message>
         <source>Back</source>
         <comment>Key: back</comment>
-        <translation>Back</translation>
+        <translation>Tilbake</translation>
     </message>
 </context>
 <context>
@@ -14260,7 +14298,7 @@ Thank you for your comment.</source>
     <message>
         <source>Mail edit</source>
         <comment>Key: mailedit</comment>
-        <translation>Skriv e-mail</translation>
+        <translation>Skriv epost</translation>
     </message>
     <message>
         <source>To</source>
@@ -14275,12 +14313,12 @@ Thank you for your comment.</source>
     <message>
         <source>Cc</source>
         <comment>Key: cc</comment>
-        <translation>Kopi til</translation>
+        <translation>Cc</translation>
     </message>
     <message>
         <source>Bcc</source>
         <comment>Key: bcc</comment>
-        <translation>Blindkopi til</translation>
+        <translation>Bcc</translation>
     </message>
     <message>
         <source>Subject</source>
@@ -14320,7 +14358,7 @@ Thank you for your comment.</source>
     <message>
         <source>File name</source>
         <comment>Key: file_name</comment>
-        <translation>Fil navn</translation>
+        <translation>Filnavn</translation>
     </message>
     <message>
         <source>Size</source>
@@ -14340,7 +14378,7 @@ Thank you for your comment.</source>
     <message>
         <source>You must supply at least one email address to send a mail</source>
         <comment>Key: address_error</comment>
-        <translation>Du må oppgi minst en e-mail adresse for å sende en e-mail.</translation>
+        <translation>Du må oppgi minst en epost adresse for å sende en e-mail</translation>
     </message>
     <message>
         <source>Append signature</source>
@@ -14441,12 +14479,12 @@ Thank you for your comment.</source>
     <message>
         <source>Cc</source>
         <comment>Key: cc</comment>
-        <translation>Kopi til</translation>
+        <translation>Cc</translation>
     </message>
     <message>
         <source>Bcc</source>
         <comment>Key: bcc</comment>
-        <translation>Blindkopi til</translation>
+        <translation>Bcc</translation>
     </message>
     <message>
         <source>Subject</source>
@@ -14501,7 +14539,7 @@ Thank you for your comment.</source>
     <message>
         <source>Link</source>
         <comment>Key: link</comment>
-        <translation>Link</translation>
+        <translation>Lenke</translation>
     </message>
 </context>
 <context>
@@ -14544,7 +14582,7 @@ Thank you for your comment.</source>
     <message>
         <source>Check mail</source>
         <comment>Key: check_mail</comment>
-        <translation>Hent ny epost</translation>
+        <translation>Sjekk post</translation>
     </message>
     <message>
         <source>Folders</source>
@@ -14572,7 +14610,7 @@ Thank you for your comment.</source>
     <message>
         <source>Subject</source>
         <comment>Key: subject</comment>
-        <translation>Subject</translation>
+        <translation>Emne</translation>
     </message>
     <message>
         <source>Sender</source>
@@ -14582,12 +14620,12 @@ Thank you for your comment.</source>
     <message>
         <source>Folder</source>
         <comment>Key: folder</comment>
-        <translation>Folder</translation>
+        <translation>Mappe</translation>
     </message>
     <message>
         <source>Move selected mail/folder to</source>
         <comment>Key: move</comment>
-        <translation>Flytt valgt mappe til</translation>
+        <translation>Flytt valgte brev/mapper til</translation>
     </message>
     <message>
         <source>Choose folder</source>
@@ -14600,22 +14638,22 @@ Thank you for your comment.</source>
     <message>
         <source>Attribute Edit</source>
         <comment>Key: attribute_edit</comment>
-        <translation>Egenskapsredigering</translation>
+        <translation>Attributtredigering</translation>
     </message>
     <message>
         <source>Attribute name</source>
         <comment>Key: attribute_name</comment>
-        <translation>Attribute name</translation>
+        <translation>Attributtnavn</translation>
     </message>
     <message>
         <source>Attribute value</source>
         <comment>Key: attribute_value</comment>
-        <translation>Attribute value</translation>
+        <translation>Attributtverdi</translation>
     </message>
     <message>
         <source>No attributes</source>
         <comment>Key: no_attributes</comment>
-        <translation>No attributes</translation>
+        <translation>Ingen attributter</translation>
     </message>
     <message>
         <source>Update</source>
@@ -14630,7 +14668,7 @@ Thank you for your comment.</source>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation>Cancel</translation>
+        <translation>Avbryt</translation>
     </message>
 </context>
 <context>
@@ -14643,22 +14681,22 @@ Thank you for your comment.</source>
     <message>
         <source>Media root</source>
         <comment>Key: media_root</comment>
-        <translation>Media root</translation>
+        <translation>Media rotkatalog</translation>
     </message>
     <message>
         <source>Add media</source>
         <comment>Key: add_media</comment>
-        <translation>Add media</translation>
+        <translation>Legg til media</translation>
     </message>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation>Cancel</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <source>Add media for:</source>
         <comment>Key: add_media_for</comment>
-        <translation>Add media for:</translation>
+        <translation>Legg til media for:</translation>
     </message>
 </context>
 <context>
@@ -14666,32 +14704,32 @@ Thank you for your comment.</source>
     <message>
         <source>Category edit</source>
         <comment>Key: category_edit</comment>
-        <translation>Category edit</translation>
+        <translation>Kategoriredigering</translation>
     </message>
     <message>
         <source>Category</source>
         <comment>Key: category</comment>
-        <translation>Category</translation>
+        <translation>Kategori</translation>
     </message>
     <message>
         <source>Category name</source>
         <comment>Key: category_name</comment>
-        <translation>Category name</translation>
+        <translation>Navn</translation>
     </message>
     <message>
         <source>Category description</source>
         <comment>Key: category_description</comment>
-        <translation>Kategoribeskrivelse</translation>
+        <translation>Beskrivelse</translation>
     </message>
     <message>
         <source>User</source>
         <comment>Key: user</comment>
-        <translation>User</translation>
+        <translation>Bruker</translation>
     </message>
     <message>
         <source>Group</source>
         <comment>Key: group</comment>
-        <translation>Group</translation>
+        <translation>Gruppe</translation>
     </message>
     <message>
         <source>All</source>
@@ -14716,12 +14754,12 @@ Thank you for your comment.</source>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation>Cancel</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <source>Root level</source>
         <comment>Key: root_level</comment>
-        <translation>Rotkatalog</translation>
+        <translation>Toppnivå</translation>
     </message>
     <message>
         <source>Everybody</source>
@@ -14731,32 +14769,32 @@ Thank you for your comment.</source>
     <message>
         <source>Please fix the following errors</source>
         <comment>Key: error_headline</comment>
-        <translation>Please fix the following errors</translation>
+        <translation>Vennligst korriger følgende feil</translation>
     </message>
     <message>
         <source>Write permission denied</source>
         <comment>Key: error_write_permission</comment>
-        <translation>Write permission denied</translation>
+        <translation>Har ikke skrivetilgag</translation>
     </message>
     <message>
         <source>You must supply a name</source>
         <comment>Key: error_name</comment>
-        <translation>You must supply a name</translation>
+        <translation>Navn ble ikke angitt</translation>
     </message>
     <message>
         <source>You must supply a description</source>
         <comment>Key: error_description</comment>
-        <translation>You must supply a description</translation>
+        <translation>Beskrivelse ble ikke angitt</translation>
     </message>
     <message>
         <source>You must choose write permissions</source>
         <comment>Key: error_write_check</comment>
-        <translation>Du må velge skrive rettighter</translation>
+        <translation>Skrivetilgang må settes</translation>
     </message>
     <message>
         <source>You must choose a read permissions</source>
         <comment>Key: error_read_check</comment>
-        <translation>Du må velge lese rettigheter</translation>
+        <translation>Du må velge leserettigheter</translation>
     </message>
 </context>
 <context>
@@ -14764,22 +14802,22 @@ Thank you for your comment.</source>
     <message>
         <source>Media upload</source>
         <comment>Key: mediaupload</comment>
-        <translation>Mediaopplasting</translation>
+        <translation>Medieopplasting</translation>
     </message>
     <message>
         <source>Media title</source>
         <comment>Key: mediatitle</comment>
-        <translation>Media title</translation>
+        <translation>Medietittel</translation>
     </message>
     <message>
         <source>Media caption</source>
         <comment>Key: mediacaption</comment>
-        <translation>Media caption</translation>
+        <translation>Medieundertekst</translation>
     </message>
     <message>
         <source>Media file</source>
         <comment>Key: mediafile</comment>
-        <translation>Media file</translation>
+        <translation>Mediefil</translation>
     </message>
     <message>
         <source>OK</source>
@@ -14789,12 +14827,12 @@ Thank you for your comment.</source>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation>Cancel</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <source>Description</source>
         <comment>Key: description</comment>
-        <translation>Description</translation>
+        <translation>Beskrivelse</translation>
     </message>
     <message>
         <source>Read permission</source>
@@ -14809,12 +14847,12 @@ Thank you for your comment.</source>
     <message>
         <source>User</source>
         <comment>Key: user</comment>
-        <translation>User</translation>
+        <translation>Bruker</translation>
     </message>
     <message>
         <source>Group</source>
         <comment>Key: group</comment>
-        <translation>Group</translation>
+        <translation>Gruppe</translation>
     </message>
     <message>
         <source>All</source>
@@ -14824,12 +14862,12 @@ Thank you for your comment.</source>
     <message>
         <source>Media category</source>
         <comment>Key: category</comment>
-        <translation>Media category</translation>
+        <translation>Mediekategori</translation>
     </message>
     <message>
         <source>Additional categories</source>
         <comment>Key: additional_category</comment>
-        <translation>Additional categories</translation>
+        <translation>Tilleggskategori</translation>
     </message>
     <message>
         <source>Everybody</source>
@@ -14839,27 +14877,27 @@ Thank you for your comment.</source>
     <message>
         <source>Creator</source>
         <comment>Key: creator</comment>
-        <translation>Laget av</translation>
+        <translation>Forfatter</translation>
     </message>
     <message>
         <source>Attributes</source>
         <comment>Key: attributes</comment>
-        <translation>Attributes</translation>
+        <translation>Attributter</translation>
     </message>
     <message>
         <source>Attribute name</source>
         <comment>Key: attribute_name</comment>
-        <translation>Attribute name</translation>
+        <translation>Attributtnavn</translation>
     </message>
     <message>
         <source>Attribute value</source>
         <comment>Key: attribute_value</comment>
-        <translation>Attribute value</translation>
+        <translation>Attributtverdi</translation>
     </message>
     <message>
         <source>No attributes</source>
         <comment>Key: no_attributes</comment>
-        <translation>No attributes</translation>
+        <translation>Ingen attributter</translation>
     </message>
     <message>
         <source>Update</source>
@@ -14869,47 +14907,47 @@ Thank you for your comment.</source>
     <message>
         <source>Name of new media creator</source>
         <comment>Key: new_creator_name</comment>
-        <translation>Nytt navn</translation>
+        <translation>Navn på ny medieopphavsmann</translation>
     </message>
     <message>
         <source>Email address of new media creator</source>
         <comment>Key: new_creator_email</comment>
-        <translation>Ny epostadresse</translation>
+        <translation>Epost til ny medieopphavsmann</translation>
     </message>
     <message>
         <source>Please fix the following errors</source>
         <comment>Key: error_headline</comment>
-        <translation>Please fix the following errors</translation>
+        <translation>Vennligst korriger følgende feil</translation>
     </message>
     <message>
         <source>You must supply a name</source>
         <comment>Key: error_name</comment>
-        <translation>You must supply a name</translation>
+        <translation>Navn ble ikke angitt</translation>
     </message>
     <message>
         <source>You must supply a caption</source>
         <comment>Key: error_caption</comment>
-        <translation>Du må oppgi en bildetekst</translation>
+        <translation>Undertekst ble ikke angitt</translation>
     </message>
     <message>
         <source>You must supply a description</source>
         <comment>Key: error_description</comment>
-        <translation>You must supply a description</translation>
+        <translation>Beskrivelse ble ikke angitt</translation>
     </message>
     <message>
         <source>You must choose write permissions</source>
         <comment>Key: error_write_check</comment>
-        <translation>Du må velge skrive rettighter</translation>
+        <translation>Skriverettigheter må velges</translation>
     </message>
     <message>
         <source>You must choose read permissions</source>
         <comment>Key: error_read_check</comment>
-        <translation>You must choose read permissions</translation>
+        <translation>Leserettigheter må velges</translation>
     </message>
     <message>
         <source>You must supply a file</source>
         <comment>Key: error_file_upload</comment>
-        <translation>You must supply a file</translation>
+        <translation>Fil ble ikke angitt</translation>
     </message>
 </context>
 <context>
@@ -14917,17 +14955,17 @@ Thank you for your comment.</source>
     <message>
         <source>Media root</source>
         <comment>Key: media_root</comment>
-        <translation>Media root</translation>
+        <translation>Media rotkatalog</translation>
     </message>
     <message>
         <source>New media</source>
         <comment>Key: new_media</comment>
-        <translation>New media</translation>
+        <translation>Nytt medium</translation>
     </message>
     <message>
         <source>New category</source>
         <comment>Key: new_category</comment>
-        <translation>New category</translation>
+        <translation>Ny kategori</translation>
     </message>
     <message>
         <source>Normal view</source>
@@ -14947,22 +14985,22 @@ Thank you for your comment.</source>
     <message>
         <source>Delete selected categories</source>
         <comment>Key: delete_categories</comment>
-        <translation>Delete selected categories</translation>
+        <translation>Slett merkede kategorier</translation>
     </message>
     <message>
         <source>Delete selected media</source>
         <comment>Key: delete_media</comment>
-        <translation>Slett merkede mediafiler</translation>
+        <translation>Slett merkede media</translation>
     </message>
     <message>
         <source>Next media</source>
         <comment>Key: next</comment>
-        <translation>Next media</translation>
+        <translation>Neste</translation>
     </message>
     <message>
         <source>Previous media</source>
         <comment>Key: previous</comment>
-        <translation>Previous media</translation>
+        <translation>Forrige</translation>
     </message>
 </context>
 <context>
@@ -14970,12 +15008,12 @@ Thank you for your comment.</source>
     <message>
         <source>Media view</source>
         <comment>Key: headline</comment>
-        <translation>Media view</translation>
+        <translation>Mediavisning</translation>
     </message>
     <message>
         <source>Back</source>
         <comment>Key: back</comment>
-        <translation>Back</translation>
+        <translation>Tilbake</translation>
     </message>
 </context>
 <context>
@@ -14988,27 +15026,27 @@ Thank you for your comment.</source>
     <message>
         <source>Category list</source>
         <comment>Key: category_list</comment>
-        <translation>Category list</translation>
+        <translation>Kategoriliste</translation>
     </message>
     <message>
         <source>New category</source>
         <comment>Key: new_category</comment>
-        <translation>New category</translation>
+        <translation>Ny kategori</translation>
     </message>
     <message>
         <source>New media</source>
         <comment>Key: new_media</comment>
-        <translation>New media</translation>
+        <translation>Nytt medium</translation>
     </message>
     <message>
         <source>Unassigned</source>
         <comment>Key: unassigned</comment>
-        <translation>Unassigned</translation>
+        <translation>Usorterte bilder</translation>
     </message>
     <message>
         <source>Typelist</source>
         <comment>Key: typelist</comment>
-        <translation>Typelist</translation>
+        <translation>Typeliste</translation>
     </message>
     <message>
         <source>New type</source>
@@ -15021,22 +15059,22 @@ Thank you for your comment.</source>
     <message>
         <source>Type Edit</source>
         <comment>Key: type_edit</comment>
-        <translation>Type Edit</translation>
+        <translation>Typeredigering</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Key: name</comment>
-        <translation>Name</translation>
+        <translation>Navn</translation>
     </message>
     <message>
         <source>New attribute</source>
         <comment>Key: new_attribute</comment>
-        <translation>New attribute</translation>
+        <translation>Ny attributt</translation>
     </message>
     <message>
         <source>Attribute name</source>
         <comment>Key: attribute_name</comment>
-        <translation>Attribute name</translation>
+        <translation>Navn</translation>
     </message>
     <message>
         <source>Update</source>
@@ -15051,27 +15089,27 @@ Thank you for your comment.</source>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation>Cancel</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <source>Unit</source>
         <comment>Key: unit</comment>
-        <translation>Unit</translation>
+        <translation>Enhet</translation>
     </message>
     <message>
         <source>Delete</source>
         <comment>Key: delete</comment>
-        <translation>Delete</translation>
+        <translation>Slett</translation>
     </message>
     <message>
         <source>Delete selected</source>
         <comment>Key: delete_selected</comment>
-        <translation>Delete selected</translation>
+        <translation>Slett merkede</translation>
     </message>
     <message>
         <source>Default value</source>
         <comment>Key: attribute_default_value</comment>
-        <translation>Default value</translation>
+        <translation>Standardverdi</translation>
     </message>
 </context>
 <context>
@@ -15079,7 +15117,7 @@ Thank you for your comment.</source>
     <message>
         <source>Type List</source>
         <comment>Key: type_list</comment>
-        <translation>Type List</translation>
+        <translation>Typeliste</translation>
     </message>
     <message>
         <source>Type</source>
@@ -15089,17 +15127,17 @@ Thank you for your comment.</source>
     <message>
         <source>Delete</source>
         <comment>Key: delete</comment>
-        <translation>Delete</translation>
+        <translation>Slett</translation>
     </message>
     <message>
         <source>Delete selected types</source>
         <comment>Key: delete_selected</comment>
-        <translation>Delete selected types</translation>
+        <translation>Slett merkede typer</translation>
     </message>
     <message>
         <source>Description</source>
         <comment>Key: description</comment>
-        <translation>Description</translation>
+        <translation>Beskrivelse</translation>
     </message>
 </context>
 <context>
@@ -15112,12 +15150,12 @@ Thank you for your comment.</source>
     <message>
         <source>Message list</source>
         <comment>Key: message_list</comment>
-        <translation>Meldingoversikt</translation>
+        <translation>Meldingsliste</translation>
     </message>
     <message>
         <source>Message edit</source>
         <comment>Key: message_edit</comment>
-        <translation>Message edit</translation>
+        <translation>Meldingsredigering</translation>
     </message>
 </context>
 <context>
@@ -15125,17 +15163,17 @@ Thank you for your comment.</source>
     <message>
         <source>Message edit</source>
         <comment>Key: message_edit</comment>
-        <translation>Message edit</translation>
+        <translation>Meldingsredigering</translation>
     </message>
     <message>
         <source>Subject</source>
         <comment>Key: subject</comment>
-        <translation>Subject</translation>
+        <translation>Emne</translation>
     </message>
     <message>
         <source>Description</source>
         <comment>Key: description</comment>
-        <translation>Description</translation>
+        <translation>Beskrivelse</translation>
     </message>
     <message>
         <source>Send</source>
@@ -15145,32 +15183,32 @@ Thank you for your comment.</source>
     <message>
         <source>Receiver (login to the user(s), separated by , )</source>
         <comment>Key: receiver</comment>
-        <translation>Receiver (login to the user(s), separated by , )</translation>
+        <translation>Mottaker (login til brukeren(e) adskilt med , )</translation>
     </message>
     <message>
         <source>Receiver list</source>
         <comment>Key: receiver_list</comment>
-        <translation>Receiver list</translation>
+        <translation>Mottakerliste</translation>
     </message>
     <message>
         <source>Message is sent</source>
         <comment>Key: message_sent</comment>
-        <translation>Message is sent</translation>
+        <translation>Meldingen er sendt</translation>
     </message>
     <message>
         <source>Preview</source>
         <comment>Key: preview</comment>
-        <translation>Preview</translation>
+        <translation>Forhåndsvis</translation>
     </message>
     <message>
         <source>Edit</source>
         <comment>Key: edit</comment>
-        <translation>Edit</translation>
+        <translation>Rediger</translation>
     </message>
     <message>
         <source>Error: Could not find receiver</source>
         <comment>Key: receiver_not_found</comment>
-        <translation>Error: Could not find receiver</translation>
+        <translation>Feil: Kunne ikke finne mottaker.</translation>
     </message>
 </context>
 <context>
@@ -15178,7 +15216,7 @@ Thank you for your comment.</source>
     <message>
         <source>Messages for</source>
         <comment>Key: messages_for</comment>
-        <translation>Messages for</translation>
+        <translation>Meldinger til</translation>
     </message>
     <message>
         <source>Date</source>
@@ -15193,27 +15231,27 @@ Thank you for your comment.</source>
     <message>
         <source>Subject</source>
         <comment>Key: message_subject</comment>
-        <translation>Subject</translation>
+        <translation>Emne</translation>
     </message>
     <message>
         <source>Refresh</source>
         <comment>Key: refresh</comment>
-        <translation>Refresh</translation>
+        <translation>Oppdater</translation>
     </message>
     <message>
         <source>Read</source>
         <comment>Key: message_is_read</comment>
-        <translation>Read</translation>
+        <translation>Les</translation>
     </message>
     <message>
         <source>Yes</source>
         <comment>Key: is_read</comment>
-        <translation>Yes</translation>
+        <translation>Ja</translation>
     </message>
     <message>
         <source>No</source>
         <comment>Key: is_unread</comment>
-        <translation>No</translation>
+        <translation>Nei</translation>
     </message>
 </context>
 <context>
@@ -15236,17 +15274,17 @@ Thank you for your comment.</source>
     <message>
         <source>Subject</source>
         <comment>Key: message_subject</comment>
-        <translation>Subject</translation>
+        <translation>Emne</translation>
     </message>
     <message>
         <source>Message</source>
         <comment>Key: message_message</comment>
-        <translation>Message</translation>
+        <translation>Melding</translation>
     </message>
     <message>
         <source>Back</source>
         <comment>Key: back</comment>
-        <translation>Back</translation>
+        <translation>Tilbake</translation>
     </message>
     <message>
         <source>Reply</source>
@@ -15418,7 +15456,7 @@ Thank you for your comment.</source>
     <message>
         <source>Delete</source>
         <comment>Key: delete</comment>
-        <translation>Ønsker du å slette denne nyheten</translation>
+        <translation>Vil du slette denne nyheten</translation>
     </message>
     <message>
         <source>Delete selected categories</source>
@@ -15471,12 +15509,12 @@ Thank you for your comment.</source>
     <message>
         <source>Link</source>
         <comment>Key: news_url</comment>
-        <translation>Link</translation>
+        <translation>Lenke</translation>
     </message>
     <message>
         <source>Keywords</source>
         <comment>Key: news_keywords</comment>
-        <translation>Søkrekritierier</translation>
+        <translation>Søkekritierier</translation>
     </message>
     <message>
         <source>News category</source>
@@ -15542,7 +15580,7 @@ Thank you for your comment.</source>
     <message>
         <source>URL</source>
         <comment>Key: source_site_url</comment>
-        <translation>Url</translation>
+        <translation>URL</translation>
     </message>
     <message>
         <source>User name</source>
@@ -15552,7 +15590,7 @@ Thank you for your comment.</source>
     <message>
         <source>Password</source>
         <comment>Key: source_site_password</comment>
-        <translation>Password</translation>
+        <translation>Passord</translation>
     </message>
     <message>
         <source>Decoder</source>
@@ -15645,7 +15683,7 @@ Thank you for your comment.</source>
     <message>
         <source>Publish selected news</source>
         <comment>Key: publish_marked</comment>
-        <translation>Publisér merkede nyheter</translation>
+        <translation>Publiser merkede nyheter</translation>
     </message>
     <message>
         <source>Delete selected news</source>
@@ -15758,7 +15796,7 @@ Thank you for your comment.</source>
     <message>
         <source>Poll List</source>
         <comment>Key: pollist</comment>
-        <translation>Avstemnings liste</translation>
+        <translation>Avstemningsliste</translation>
     </message>
     <message>
         <source>New Poll</source>
@@ -15776,7 +15814,7 @@ Thank you for your comment.</source>
     <message>
         <source>Edit Poll</source>
         <comment>Key: head_line_edit</comment>
-        <translation>Redigere avstemning</translation>
+        <translation>Rediger avstemning</translation>
     </message>
     <message>
         <source>Name</source>
@@ -15909,7 +15947,7 @@ Thank you for your comment.</source>
     <message>
         <source>Main poll</source>
         <comment>Key: main</comment>
-        <translation>Hoved avstemning</translation>
+        <translation>Hovedavstemning</translation>
     </message>
     <message>
         <source>Save Changes</source>
@@ -15944,7 +15982,7 @@ Thank you for your comment.</source>
     <message>
         <source>The poll is closed and therefore you can&apos;t assign it as a main poll.</source>
         <comment>Key: poll_closed</comment>
-        <translation>Avstemningen er avslutet og kan derfor ikke være en hovedavstemning.</translation>
+        <translation>Avstemningen er avsluttet og kan derfor ikke være en hovedavstemning.</translation>
     </message>
     <message>
         <source>Save Changes</source>
@@ -15979,7 +16017,7 @@ Thank you for your comment.</source>
     <message>
         <source>Delete selected polls</source>
         <comment>Key: deletepoll</comment>
-        <translation>Slett avstemning</translation>
+        <translation>Slett merkede avstemninger</translation>
     </message>
 </context>
 <context>
@@ -16091,7 +16129,7 @@ Thank you for your comment.</source>
         <translation>Registrert bruker</translation>
     </message>
     <message>
-        <source>Login with username and pasoword</source>
+        <source>Login with username and password</source>
         <comment>Key: reg_text</comment>
         <translation>Logg deg inn med ditt brukernavn og passord.</translation>
     </message>
@@ -16154,7 +16192,7 @@ Thank you for your comment.</source>
     <message>
         <source>Polls</source>
         <comment>Key: polls</comment>
-        <translation>Poller</translation>
+        <translation>Avstemninger</translation>
     </message>
     <message>
         <source>Vote</source>
@@ -16164,7 +16202,7 @@ Thank you for your comment.</source>
     <message>
         <source>Poll</source>
         <comment>Key: headline</comment>
-        <translation>Poll</translation>
+        <translation>Avstemning</translation>
     </message>
     <message>
         <source>No poll items found.</source>
@@ -16177,27 +16215,27 @@ Thank you for your comment.</source>
     <message>
         <source>Game edit</source>
         <comment>Key: headline</comment>
-        <translation>Game edit</translation>
+        <translation>Spillredigering</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Key: name</comment>
-        <translation>Name</translation>
+        <translation>Navn</translation>
     </message>
     <message>
         <source>Description</source>
         <comment>Key: description</comment>
-        <translation>Description</translation>
+        <translation>Beskrivelse</translation>
     </message>
     <message>
         <source>Start date</source>
         <comment>Key: start_date</comment>
-        <translation>Start dato</translation>
+        <translation>Startdato</translation>
     </message>
     <message>
         <source>Stop date</source>
         <comment>Key: stop_date</comment>
-        <translation>Stopp dato</translation>
+        <translation>Sluttdato</translation>
     </message>
     <message>
         <source>OK</source>
@@ -16207,12 +16245,12 @@ Thank you for your comment.</source>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation>Cancel</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <source>Questions</source>
         <comment>Key: questions</comment>
-        <translation>Questions</translation>
+        <translation>Spørsmål</translation>
     </message>
     <message>
         <source>Update</source>
@@ -16222,32 +16260,32 @@ Thank you for your comment.</source>
     <message>
         <source>New Question</source>
         <comment>Key: new_question</comment>
-        <translation>New Question</translation>
+        <translation>Nytt spørsmål</translation>
     </message>
     <message>
         <source>Delete selected questions</source>
         <comment>Key: delete_questions</comment>
-        <translation>Delete selected questions</translation>
+        <translation>Slett valgte spørsmål</translation>
     </message>
     <message>
         <source>This game crashes with:</source>
         <comment>Key: this_game_crash_with</comment>
-        <translation>This game crashes with:</translation>
+        <translation>Dette spillet krasjer ved:</translation>
     </message>
     <message>
         <source>This game ends after the starting date of:</source>
         <comment>Key: this_game_crash_with_start</comment>
-        <translation>This game ends after the starting date of:</translation>
+        <translation>Dette spillet avsluttes ved startdatoen av:</translation>
     </message>
     <message>
         <source>This game starts before the ending date of:</source>
         <comment>Key: this_game_crash_with_stop</comment>
-        <translation>This game starts before the ending date of:</translation>
+        <translation>=Dette spillet starter før avslutningsdatoen av:</translation>
     </message>
     <message>
         <source>This game starts after, and ends before this game:</source>
         <comment>Key: this_game_embraces_period</comment>
-        <translation>This game starts after, and ends before this game:</translation>
+        <translation>=Dette spillet starter etter, og avsluttes før dette spillet:</translation>
     </message>
     <message>
         <source>Day</source>
@@ -16267,17 +16305,17 @@ Thank you for your comment.</source>
     <message>
         <source>Please select a name for this game</source>
         <comment>Key: error_this_game_needs_a_name</comment>
-        <translation>Please select a name for this game</translation>
+        <translation>Vennligst velg et navn for dette spillet</translation>
     </message>
     <message>
         <source>You need to change the start and end dates of the game, no part of the dates should be empty or set to zero</source>
         <comment>Key: error_this_game_needs_dates</comment>
-        <translation>You need to change the start and end dates of the game, no part of the dates should be empty or set to zero</translation>
+        <translation>Du må forandre på start og avslutningsdato for dette spillet, ingen av datofeltene skal være tomme eller settes til null</translation>
     </message>
     <message>
         <source>You need to define at least one question for this game</source>
         <comment>Key: error_this_game_needs_a_question</comment>
-        <translation>You need to define at least one question for this game</translation>
+        <translation>Du må minst definere et spørsmål for dette spillet</translation>
     </message>
 </context>
 <context>
@@ -16285,27 +16323,37 @@ Thank you for your comment.</source>
     <message>
         <source>Games</source>
         <comment>Key: games</comment>
-        <translation>Games</translation>
+        <translation>Spill</translation>
     </message>
     <message>
         <source>New game</source>
         <comment>Key: new_game</comment>
-        <translation>New game</translation>
+        <translation>Nytt spill</translation>
     </message>
     <message>
         <source>Delete games</source>
         <comment>Key: delete_games</comment>
-        <translation>Delete games</translation>
+        <translation>Slett spill</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Key: name</comment>
-        <translation>Name</translation>
+        <translation>Navn</translation>
     </message>
     <message>
         <source>Description</source>
         <comment>Key: description</comment>
-        <translation>Description</translation>
+        <translation>Beskrivelse</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <comment>Key: next</comment>
+        <translation>Neste</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <comment>Key: previous</comment>
+        <translation>Forrige</translation>
     </message>
 </context>
 <context>
@@ -16318,12 +16366,12 @@ Thank you for your comment.</source>
     <message>
         <source>Game List</source>
         <comment>Key: game_list</comment>
-        <translation>Game List</translation>
+        <translation>Spill liste</translation>
     </message>
     <message>
         <source>New Game</source>
         <comment>Key: new_game</comment>
-        <translation>New Game</translation>
+        <translation>Nytt spill</translation>
     </message>
 </context>
 <context>
@@ -16331,22 +16379,22 @@ Thank you for your comment.</source>
     <message>
         <source>Questionedit</source>
         <comment>Key: headline</comment>
-        <translation>Questionedit</translation>
+        <translation>Spørsmålsredigering</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Key: name</comment>
-        <translation>Name</translation>
+        <translation>Navn</translation>
     </message>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation>Cancel</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <source>New answer</source>
         <comment>Key: new_answer</comment>
-        <translation>New answer</translation>
+        <translation>Nytt svar</translation>
     </message>
     <message>
         <source>OK</source>
@@ -16361,47 +16409,47 @@ Thank you for your comment.</source>
     <message>
         <source>Alternatives</source>
         <comment>Key: alternatives</comment>
-        <translation>Svaralternativer</translation>
+        <translation>Alternativer</translation>
     </message>
     <message>
         <source>Is correct</source>
         <comment>Key: is_correct</comment>
-        <translation>Is correct</translation>
+        <translation>Er riktig</translation>
     </message>
     <message>
         <source>New alternative</source>
         <comment>Key: new_alternative</comment>
-        <translation>New alternative</translation>
+        <translation>Nytt alternativ</translation>
     </message>
     <message>
         <source>Delete selected alternatives</source>
         <comment>Key: delete_alternatives</comment>
-        <translation>Delete selected alternatives</translation>
+        <translation>Slett valgte alternativer</translation>
     </message>
     <message>
         <source>You must add at least one answer to the question</source>
         <comment>Key: error_add_alternative</comment>
-        <translation>You must add at least one answer to the question</translation>
+        <translation>Du må legge til minst et svar til spørsmålet</translation>
     </message>
     <message>
         <source>You must add at least one correct answer to the question</source>
         <comment>Key: error_no_correct_alternative</comment>
-        <translation>You must add at least one correct answer to the question</translation>
+        <translation>Du må legge til minst et riktig svar for spørsmålet</translation>
     </message>
     <message>
         <source>There were errors</source>
         <comment>Key: error_headline</comment>
-        <translation>There were errors</translation>
+        <translation>Det var noen feil</translation>
     </message>
     <message>
         <source>You must give this question a name, the name should be in the form of a question which the user can answer</source>
         <comment>Key: error_missing_question_name</comment>
-        <translation>You must give this question a name, the name should be in the form of a question which the user can answer</translation>
+        <translation>Du må gi dette spørsmålet et navn, navnet skal være i form av et spørsmål som brukeren kan svare på</translation>
     </message>
     <message>
-        <source>You must give the answer a name, this should be phrased in the foorm of an answer to the question asked</source>
+        <source>You must give the answer a name, this should be phrased in the form of an answer to the question asked</source>
         <comment>Key: error_missing_answer_name</comment>
-        <translation>You must give the answer a name, this should be phrased in the foorm of an answer to the question asked</translation>
+        <translation>Du må gi dette svaret et navn, navnet skal formuleres i en form som svarer på spørsmålet som ble spurt</translation>
     </message>
 </context>
 <context>
@@ -16414,62 +16462,62 @@ Thank you for your comment.</source>
     <message>
         <source>Current game</source>
         <comment>Key: current_game</comment>
-        <translation>Current game</translation>
+        <translation>Nåværende spill</translation>
     </message>
     <message>
         <source>Next game</source>
         <comment>Key: next_game</comment>
-        <translation>Next game</translation>
+        <translation>Neste spill</translation>
     </message>
     <message>
         <source>No scheduled games</source>
         <comment>Key: no_game</comment>
-        <translation>No scheduled games</translation>
+        <translation>Ingen planlagte spill</translation>
     </message>
     <message>
         <source>Quiz operations</source>
         <comment>Key: game_menu</comment>
-        <translation>Quiz operations</translation>
+        <translation>Quiz valg</translation>
     </message>
     <message>
         <source>All games</source>
         <comment>Key: all_games</comment>
-        <translation>All games</translation>
+        <translation>Alle spill</translation>
     </message>
     <message>
         <source>Upcomming games</source>
         <comment>Key: all_future_games</comment>
-        <translation>Upcomming games</translation>
+        <translation>Kommende spill</translation>
     </message>
     <message>
         <source>Ended games</source>
         <comment>Key: all_previous_games</comment>
-        <translation>Ended games</translation>
+        <translation>Avsluttede spill</translation>
     </message>
     <message>
         <source>Scores</source>
         <comment>Key: all_scores</comment>
-        <translation>Scores</translation>
+        <translation>Poeng</translation>
     </message>
     <message>
         <source>My quiz</source>
         <comment>Key: my_quiz</comment>
-        <translation>My quiz</translation>
+        <translation>Min spørrekonkuranse</translation>
     </message>
     <message>
         <source>Saved games</source>
         <comment>Key: my_unfinished_games</comment>
-        <translation>Saved games</translation>
+        <translation>Lagrede spill</translation>
     </message>
     <message>
         <source>Finished games</source>
         <comment>Key: my_finished_games</comment>
-        <translation>Finished games</translation>
+        <translation>Fullførte spill</translation>
     </message>
     <message>
         <source>Scores</source>
         <comment>Key: my_scores</comment>
-        <translation>Scores</translation>
+        <translation>Poeng</translation>
     </message>
 </context>
 <context>
@@ -16482,7 +16530,7 @@ Thank you for your comment.</source>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation>Cancel</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <source>OK</source>
@@ -16492,7 +16540,7 @@ Thank you for your comment.</source>
     <message>
         <source>Quiz List</source>
         <comment>Key: header_quiz_list</comment>
-        <translation>Quiz List</translation>
+        <translation>Quiz liste</translation>
     </message>
     <message>
         <source>Date</source>
@@ -16502,57 +16550,57 @@ Thank you for your comment.</source>
     <message>
         <source>Starts at</source>
         <comment>Key: start_date</comment>
-        <translation>Starts at</translation>
+        <translation>Starter</translation>
     </message>
     <message>
         <source>Ends at</source>
         <comment>Key: end_date</comment>
-        <translation>Ends at</translation>
+        <translation>Slutter</translation>
     </message>
     <message>
         <source>Open between</source>
         <comment>Key: valid</comment>
-        <translation>Open between</translation>
+        <translation>Åpen mellom</translation>
     </message>
     <message>
         <source>Scores</source>
         <comment>Key: scores</comment>
-        <translation>Scores</translation>
+        <translation>Poeng</translation>
     </message>
     <message>
         <source>Play</source>
         <comment>Key: play</comment>
-        <translation>Play</translation>
+        <translation>Spill</translation>
     </message>
     <message>
         <source>Save</source>
         <comment>Key: save</comment>
-        <translation>Save</translation>
+        <translation>Lagre</translation>
     </message>
     <message>
         <source>Questions</source>
         <comment>Key: questions</comment>
-        <translation>Questions</translation>
+        <translation>Spørsmål</translation>
     </message>
     <message>
         <source>Players</source>
         <comment>Key: players</comment>
-        <translation>Players</translation>
+        <translation>Spillere</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>Key: next</comment>
-        <translation>Next</translation>
+        <translation>Neste</translation>
     </message>
     <message>
         <source>Error</source>
         <comment>Key: error</comment>
-        <translation>Error</translation>
+        <translation>Feil</translation>
     </message>
     <message>
         <source>Previous</source>
         <comment>Key: previous</comment>
-        <translation>Previous</translation>
+        <translation>Forrige</translation>
     </message>
     <message>
         <source>Instructions</source>
@@ -16562,52 +16610,52 @@ Thank you for your comment.</source>
     <message>
         <source>Start playing the game</source>
         <comment>Key: start_game</comment>
-        <translation>Start playing the game</translation>
+        <translation>Begyn å spille dette spillet</translation>
     </message>
     <message>
         <source>You can always press &quot;Save&quot; to save a current game and return to it later</source>
         <comment>Key: save_and_return</comment>
-        <translation>You can always press &quot;Save&quot; to save a current game and return to it later</translation>
+        <translation>Du kan alltid trykke &quot;Lagre&quot; for å lagre det nåværende spillet og komme tilbake til det senere.</translation>
     </message>
     <message>
         <source>You must answer all questions of a game before the ending date of the game</source>
         <comment>Key: answer_before_end_date</comment>
-        <translation>You must answer all questions of a game before the ending date of the game</translation>
+        <translation>Du må svare på alle spørsmålene i spillet før avslutningsdatoen for dette spillet.</translation>
     </message>
     <message>
         <source>Remember to answer your saved games before the ending date of the game.</source>
         <comment>Key: also_saved_games</comment>
-        <translation>Remember to answer your saved games before the ending date of the game.</translation>
+        <translation>Husk å svare på dine lagrede spill før utløpsdatoen på spillet.</translation>
     </message>
     <message>
         <source>View this games&apos; high scores</source>
         <comment>Key: view_high_score</comment>
-        <translation>View this games&apos; high scores</translation>
+        <translation>Vis dette spillets beste plassering</translation>
     </message>
     <message>
         <source>You will be presented with a question and several alternatives</source>
         <comment>Key: several_alternatives</comment>
-        <translation>You will be presented with a question and several alternatives</translation>
+        <translation>Du vil bli få en liste med spørsmål med flere alternativer</translation>
     </message>
     <message>
         <source>Select the alternative you think is the correct and press &quot;Next&quot; to go to the next question</source>
         <comment>Key: select_your_choice</comment>
-        <translation>Select the alternative you think is the correct and press &quot;Next&quot; to go to the next question</translation>
+        <translation>Velg alternativet du tror er riktig og trykk &quot;Neste&quot; for å komme til det neste spørsmålet</translation>
     </message>
     <message>
         <source>You will not be able to go back to correct a wrong answer</source>
         <comment>Key: no_turning_back</comment>
-        <translation>You will not be able to go back to correct a wrong answer</translation>
+        <translation>Du vil ikke ha annledning til å gå tilbake for å rette på et feil svar</translation>
     </message>
     <message>
         <source>You will not be able to take a quiz several times</source>
         <comment>Key: no_return</comment>
-        <translation>You will not be able to take a quiz several times</translation>
+        <translation>Du vil ikke ha annledning til å ta et spørsmål flere ganger</translation>
     </message>
     <message>
         <source>After finishing the game you will be presented with your score and current position</source>
         <comment>Key: your_score</comment>
-        <translation>After finishing the game you will be presented with your score and current position</translation>
+        <translation>Etter å ha fullført et spill, vil du få en liste med dine poeng og nåverende posisjon</translation>
     </message>
     <message>
         <source>You have played this game before</source>
@@ -16622,12 +16670,12 @@ Thank you for your comment.</source>
     <message>
         <source>and your score is</source>
         <comment>Key: your_score_item_2</comment>
-        <translation>og dine poeng er</translation>
+        <translation>og din poengsum er</translation>
     </message>
     <message>
         <source>Current high score is</source>
         <comment>Key: high_score_item_1</comment>
-        <translation>Gjeldene poengrekord</translation>
+        <translation>Nåværende høyeste poengsum er</translation>
     </message>
     <message>
         <source>by</source>
@@ -16637,187 +16685,200 @@ Thank you for your comment.</source>
     <message>
         <source>people have played this game before you</source>
         <comment>Key: earlier_played</comment>
-        <translation>people have played this game before you</translation>
+        <translation>spillere har spilt dette spillet før deg</translation>
     </message>
     <message>
         <source>There are no questions defined for this game, contact site administrator</source>
         <comment>Key: error_no_questions</comment>
-        <translation>There are no questions defined for this game, contact site administrator</translation>
+        <translation>Ingen spørsmål er definert for dette spillet, kontakt administrator for denne siden</translation>
     </message>
     <message>
         <source>There are no alternatives defined for this question, contact site administrator</source>
         <comment>Key: error_no_alternatives</comment>
-        <translation>There are no alternatives defined for this question, contact site administrator</translation>
+        <translation>Ingen alternativer er definert for dette spillet, kontakt administrator for denne siden</translation>
     </message>
     <message>
         <source>The alternative you&apos;ve selected doesn&apos;t exist for this question, contact site administrator</source>
         <comment>Key: error_no_such_alternative</comment>
-        <translation>The alternative you&apos;ve selected doesn&apos;t exist for this question, contact site administrator</translation>
+        <translation>Alternativet du valgte finnes ikke for dette spørsmålet, kontakt administrator for denne siden</translation>
     </message>
     <message>
         <source>The user whose answer we&apos;ve received isn&apos;t the same as the one logged in</source>
         <comment>Key: error_differing_user_ids</comment>
-        <translation>The user whose answer we&apos;ve received isn&apos;t the same as the one logged in</translation>
+        <translation>Brukerens svar vi motok er ikke den samme som den som er logget inn</translation>
     </message>
     <message>
         <source>An undefined error has appeared, contact site administrator</source>
         <comment>Key: error_undefined</comment>
-        <translation>An undefined error has appeared, contact site administrator</translation>
+        <translation>En udefinert feil har kommet, kontakt administrator for denne siden</translation>
     </message>
     <message>
         <source>This game will open at a future date, select a different game</source>
         <comment>Key: error_unopened</comment>
-        <translation>This game will open at a future date, select a different game</translation>
+        <translation>Dette spillet vil bli åpnet ved en fremtidig dato, vennligst velg et annet spill</translation>
     </message>
     <message>
         <source>This game has closed</source>
         <comment>Key: error_closed</comment>
-        <translation>This game has closed</translation>
+        <translation>Dette spillet er avsluttet</translation>
     </message>
     <message>
         <source>You aren&apos;t logged in, log in or register a new user</source>
         <comment>Key: error_login</comment>
-        <translation>You aren&apos;t logged in, log in or register a new user</translation>
+        <translation>Du er ikke logget inn, logg inn eller registrer som en annen bruker</translation>
     </message>
     <message>
         <source>High Scores</source>
         <comment>Key: high_score_list</comment>
-        <translation>High Scores</translation>
+        <translation>Beste plasserings liste</translation>
     </message>
     <message>
         <source>There are no scores</source>
         <comment>Key: no_scores</comment>
-        <translation>There are no scores</translation>
+        <translation>Det finnes ingen plasseringsliste</translation>
     </message>
     <message>
         <source>This game hasn&apos;t been played yet</source>
         <comment>Key: in_the_future</comment>
-        <translation>This game hasn&apos;t been played yet</translation>
+        <translation>Dette spillet er ikke spilt enda</translation>
     </message>
     <message>
         <source>The game opens</source>
         <comment>Key: opens_at</comment>
-        <translation>The game opens</translation>
+        <translation>Spillet åpner</translation>
     </message>
     <message>
         <source>This game is still being played</source>
         <comment>Key: not_closed</comment>
-        <translation>This game is still being played</translation>
+        <translation>Spillet spilles enda</translation>
     </message>
     <message>
         <source>The game closes</source>
         <comment>Key: closes_at</comment>
-        <translation>The game closes</translation>
+        <translation>Spillet stenger</translation>
     </message>
     <message>
         <source>No one has played this game before it closed</source>
         <comment>Key: no_players</comment>
-        <translation>No one has played this game before it closed</translation>
+        <translation>Ingen har spilt dette spillet før det stengte</translation>
     </message>
     <message>
         <source>Position</source>
         <comment>Key: position</comment>
-        <translation>Position</translation>
+        <translation>Posisjon</translation>
     </message>
     <message>
         <source>Score</source>
         <comment>Key: score</comment>
-        <translation>Score</translation>
+        <translation>Poengsum</translation>
     </message>
     <message>
         <source>Player</source>
         <comment>Key: player</comment>
-        <translation>Player</translation>
+        <translation>Spiller</translation>
     </message>
     <message>
         <source>Your scores</source>
         <comment>Key: my_score_list</comment>
-        <translation>Your scores</translation>
+        <translation>Din poengsum</translation>
     </message>
     <message>
         <source>There are no registrered scores for your user</source>
         <comment>Key: you_have_no_scores</comment>
-        <translation>There are no registrered scores for your user</translation>
+        <translation>Det er ikke registrert noen poengsum for din bruker</translation>
     </message>
     <message>
         <source>You must play a game to get a score</source>
         <comment>Key: you_must_play</comment>
-        <translation>You must play a game to get a score</translation>
+        <translation>Du må spille et spill for å få en poeng plassering</translation>
     </message>
     <message>
         <source>Please play the currently running game</source>
         <comment>Key: play_the_current</comment>
-        <translation>Please play the currently running game</translation>
+        <translation>Vennligst spill det nåværende spillet</translation>
     </message>
     <message>
         <source>Click on the name of the currently running game</source>
         <comment>Key: click_on_game_in_menu</comment>
-        <translation>Click on the name of the currently running game</translation>
+        <translation>Press på navnet på det nåværende spillet</translation>
     </message>
     <message>
         <source>You are logged in as</source>
         <comment>Key: logged_in_as</comment>
-        <translation>You are logged in as</translation>
+        <translation>Du er logget inn som</translation>
     </message>
     <message>
         <source>Your name</source>
         <comment>Key: name</comment>
-        <translation>Your name</translation>
+        <translation>Ditt navn</translation>
     </message>
     <message>
         <source>Game</source>
         <comment>Key: game</comment>
-        <translation>Game</translation>
+        <translation>Spill</translation>
     </message>
     <message>
         <source>There are no games</source>
         <comment>Key: error_list_empty</comment>
-        <translation>There are no games</translation>
+        <translation>Det finnes ingen spill</translation>
     </message>
     <message>
         <source>There are no future games</source>
         <comment>Key: error_future_empty</comment>
-        <translation>There are no future games</translation>
+        <translation>Det finnes ikke noen fremtidige spill</translation>
     </message>
     <message>
         <source>There are no past games</source>
         <comment>Key: error_past_empty</comment>
-        <translation>There are no past games</translation>
+        <translation>Det er ingen spill som er spilt</translation>
     </message>
     <message>
         <source>You have no saved games</source>
         <comment>Key: error_open_empty</comment>
-        <translation>You have no saved games</translation>
+        <translation>Du har ingen lagrede spill</translation>
     </message>
     <message>
         <source>You have no finished games</source>
         <comment>Key: error_closed_empty</comment>
-        <translation>You have no finished games</translation>
+        <translation>Du har ingen fullførte spill</translation>
     </message>
     <message>
         <source>All Games</source>
         <comment>Key: header_game_list</comment>
-        <translation>All Games</translation>
+        <translation>Alle spill</translation>
     </message>
     <message>
         <source>Future Games</source>
         <comment>Key: header_future_game_list</comment>
-        <translation>Future Games</translation>
+        <translation>Fremtidige spill</translation>
     </message>
     <message>
         <source>Earlier Games</source>
         <comment>Key: header_past_game_list</comment>
-        <translation>Earlier Games</translation>
+        <translation>Tidligere spill</translation>
     </message>
     <message>
         <source>You have saved these games</source>
         <comment>Key: header_open_game_list</comment>
-        <translation>You have saved these games</translation>
+        <translation>Du har lagret disse spillene</translation>
     </message>
     <message>
         <source>You have completed these games</source>
         <comment>Key: header_closed_game_list</comment>
-        <translation>You have completed these games</translation>
+        <translation>Du har fullført disse spillene</translation>
+    </message>
+</context>
+<context>
+    <name>ezsearch/user/intl/en_GB/menubox.php.ini [strings]</name>
+    <message>
+        <source>Site search</source>
+        <comment>Key: site_search</comment>
+        <translation>Nettstedssøk</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <comment>Key: search</comment>
+        <translation>Søk</translation>
     </message>
 </context>
 <context>
@@ -16825,27 +16886,32 @@ Thank you for your comment.</source>
     <message>
         <source>Site search</source>
         <comment>Key: site_search</comment>
-        <translation>Site search</translation>
+        <translation>Nettstedssøk</translation>
     </message>
     <message>
         <source>Search in module</source>
         <comment>Key: search_in_module</comment>
-        <translation>Search in module</translation>
+        <translation>Søk i modul</translation>
     </message>
     <message>
         <source>Search count</source>
         <comment>Key: search_count</comment>
-        <translation>Search count</translation>
+        <translation>Antall treff</translation>
     </message>
     <message>
         <source>Full search</source>
         <comment>Key: full_search</comment>
-        <translation>Full search</translation>
+        <translation>Fullt søk</translation>
     </message>
     <message>
         <source>click here</source>
         <comment>Key: click_here</comment>
-        <translation>click here</translation>
+        <translation>klikk her</translation>
+    </message>
+    <message>
+        <source>Search for</source>
+        <comment>Key: search_for</comment>
+        <translation>Søk etter</translation>
     </message>
 </context>
 <context>
@@ -16947,7 +17013,7 @@ Thank you for your comment.</source>
     <message>
         <source>SQL Admin</source>
         <comment>Key: sql_admin</comment>
-        <translation>SQL administrator</translation>
+        <translation>SQL grensesnitt</translation>
     </message>
 </context>
 <context>
@@ -16955,7 +17021,7 @@ Thank you for your comment.</source>
     <message>
         <source>Menu edit</source>
         <comment>Key: headline</comment>
-        <translation>Menu edit</translation>
+        <translation>Menyedit</translation>
     </message>
     <message>
         <source>OK</source>
@@ -16965,22 +17031,17 @@ Thank you for your comment.</source>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation>Cancel</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Key: name</comment>
-        <translation>Name</translation>
+        <translation>Navn</translation>
     </message>
     <message>
         <source>Link</source>
         <comment>Key: link</comment>
-        <translation>Link</translation>
-    </message>
-    <message>
-        <source>Parent</source>
-        <comment>Key: parent</comment>
-        <translation>Foreldrekategori</translation>
+        <translation>Lenke</translation>
     </message>
     <message>
         <source>Type</source>
@@ -16988,14 +17049,19 @@ Thank you for your comment.</source>
         <translation>Type</translation>
     </message>
     <message>
+        <source>Parent</source>
+        <comment>Key: parent</comment>
+        <translation>Overordnet</translation>
+    </message>
+    <message>
         <source>Header</source>
         <comment>Key: header</comment>
-        <translation>Header</translation>
+        <translation>Topp</translation>
     </message>
     <message>
         <source>Root</source>
         <comment>Key: root</comment>
-        <translation>Root</translation>
+        <translation>Rot</translation>
     </message>
 </context>
 <context>
@@ -17003,27 +17069,27 @@ Thank you for your comment.</source>
     <message>
         <source>Menus</source>
         <comment>Key: menus</comment>
-        <translation>Menus</translation>
+        <translation>Menyer</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Key: name</comment>
-        <translation>Name</translation>
+        <translation>Navn</translation>
     </message>
     <message>
         <source>Description</source>
         <comment>Key: description</comment>
-        <translation>Description</translation>
+        <translation>Beskrivelse</translation>
     </message>
     <message>
         <source>New menu</source>
         <comment>Key: new_menu</comment>
-        <translation>New menu</translation>
+        <translation>Ny meny</translation>
     </message>
     <message>
         <source>Delete menus</source>
         <comment>Key: delete_menus</comment>
-        <translation>Delete menus</translation>
+        <translation>Slett menyer</translation>
     </message>
     <message>
         <source>ID</source>
@@ -17033,12 +17099,12 @@ Thank you for your comment.</source>
     <message>
         <source>Link</source>
         <comment>Key: link</comment>
-        <translation>Link</translation>
+        <translation>Lenke</translation>
     </message>
     <message>
         <source>Top</source>
         <comment>Key: top</comment>
-        <translation>Top</translation>
+        <translation>Topp</translation>
     </message>
 </context>
 <context>
@@ -17116,32 +17182,32 @@ Thank you for your comment.</source>
     <message>
         <source>1 Column article</source>
         <comment>Key: 1column</comment>
-        <translation>1 kolonnes artikkel</translation>
+        <translation>1 kolonne artikkel </translation>
     </message>
     <message>
         <source>2 Column article</source>
         <comment>Key: 2column</comment>
-        <translation>2 kolonnes artikkel</translation>
+        <translation>2 kolonne artikkel</translation>
     </message>
     <message>
         <source>1 Column product</source>
         <comment>Key: 1columnProduct</comment>
-        <translation>1 kolonnes produkt</translation>
+        <translation>1 kolonne produkt</translation>
     </message>
     <message>
         <source>2 Column product</source>
         <comment>Key: 2columnProduct</comment>
-        <translation>2 kolonnes produkt</translation>
+        <translation>2 kolonne produkt </translation>
     </message>
     <message>
         <source>Ad</source>
         <comment>Key: ad</comment>
-        <translation>Reklame</translation>
+        <translation>Annonse</translation>
     </message>
     <message>
         <source>1 short article</source>
         <comment>Key: 1short</comment>
-        <translation>1 kort artikkel</translation>
+        <translation>1 kort artikkel </translation>
     </message>
     <message>
         <source>All</source>
@@ -17187,7 +17253,7 @@ Thank you for your comment.</source>
     <message>
         <source>Site config</source>
         <comment>Key: site_config</comment>
-        <translation>Site konfigurasjon</translation>
+        <translation>Nettstedskonfigurasjon</translation>
     </message>
     <message>
         <source>Store</source>
@@ -17200,37 +17266,37 @@ Thank you for your comment.</source>
     <message>
         <source>SQL Query</source>
         <comment>Key: sql_query</comment>
-        <translation>SQL Query</translation>
+        <translation>SQL spørring</translation>
     </message>
     <message>
         <source>Notice</source>
         <comment>Key: notice</comment>
-        <translation>Notice</translation>
+        <translation>Notis</translation>
     </message>
     <message>
         <source>This feature is for advanced users only</source>
         <comment>Key: only_for_advanced_users</comment>
-        <translation>This feature is for advanced users only</translation>
+        <translation>Denne funksjonaliteten er kun for avanserte brukere</translation>
     </message>
     <message>
         <source>Run query</source>
         <comment>Key: run</comment>
-        <translation>Run query</translation>
+        <translation>Kjør spørring</translation>
     </message>
     <message>
         <source>Save query</source>
         <comment>Key: save_query</comment>
-        <translation>Save query</translation>
+        <translation>Lagre spørring</translation>
     </message>
     <message>
-        <source>SQl error occured</source>
+        <source>SQL error occured</source>
         <comment>Key: error</comment>
-        <translation>SQl error occured</translation>
+        <translation>SQL feil</translation>
     </message>
     <message>
         <source>Total rows</source>
         <comment>Key: query_rows</comment>
-        <translation>Total rows</translation>
+        <translation>Totale rekker</translation>
     </message>
     <message>
         <source>Use</source>
@@ -17243,7 +17309,7 @@ Thank you for your comment.</source>
     <message>
         <source>Template edit</source>
         <comment>Key: template_edit</comment>
-        <translation>Endre mal</translation>
+        <translation>Maleditering</translation>
     </message>
     <message>
         <source>Store</source>
@@ -17256,7 +17322,7 @@ Thank you for your comment.</source>
     <message>
         <source>Template list</source>
         <comment>Key: template_list</comment>
-        <translation>Template list</translation>
+        <translation>Malliste</translation>
     </message>
 </context>
 <context>
@@ -17330,7 +17396,7 @@ Thank you for your comment.</source>
         <translation>Totalt antall sidevisninger</translation>
     </message>
     <message>
-        <source>Pages pr hour</source>
+        <source>Pages per hour</source>
         <comment>Key: pages_pr_hour</comment>
         <translation>Sider per time</translation>
     </message>
@@ -17532,7 +17598,7 @@ Thank you for your comment.</source>
     <message>
         <source>Latest Served Pages</source>
         <comment>Key: latest_served_pages</comment>
-        <translation>Siste viste sider</translation>
+        <translation>Sist viste sider</translation>
     </message>
     <message>
         <source>Remote IP</source>
@@ -17760,7 +17826,7 @@ Thank you for your comment.</source>
         <translation>Totalt antall sidevisninger</translation>
     </message>
     <message>
-        <source>Pages pr month</source>
+        <source>Pages per month</source>
         <comment>Key: pages_pr_month</comment>
         <translation>Sider per måned</translation>
     </message>
@@ -17939,7 +18005,7 @@ Thank you for your comment.</source>
     <message>
         <source>eZ Info</source>
         <comment>Key: ez_info</comment>
-        <translation>eZ Info</translation>
+        <translation>Informasjon om eZ systems</translation>
     </message>
 </context>
 <context>
@@ -18141,7 +18207,7 @@ Thank you for your comment.</source>
     <message>
         <source>Status overview</source>
         <comment>Key: headline</comment>
-        <translation>Status oversikt</translation>
+        <translation>Statusoversikt</translation>
     </message>
     <message>
         <source>New status</source>
@@ -18164,12 +18230,12 @@ Thank you for your comment.</source>
     <message>
         <source>Category</source>
         <comment>Key: category</comment>
-        <translation>Category</translation>
+        <translation>Kategori</translation>
     </message>
     <message>
         <source>Priority</source>
         <comment>Key: priority</comment>
-        <translation>Priority</translation>
+        <translation>Prioritet</translation>
     </message>
     <message>
         <source>Status</source>
@@ -18179,37 +18245,37 @@ Thank you for your comment.</source>
     <message>
         <source>Is public</source>
         <comment>Key: is_public</comment>
-        <translation>Is public</translation>
+        <translation>Er offentlig</translation>
     </message>
     <message>
         <source>Owner</source>
         <comment>Key: owner</comment>
-        <translation>Owner</translation>
+        <translation>Eier</translation>
     </message>
     <message>
         <source>Description</source>
         <comment>Key: description</comment>
-        <translation>Description</translation>
+        <translation>Beskrivelse</translation>
     </message>
     <message>
         <source>Log</source>
         <comment>Key: log</comment>
-        <translation>This is a log..</translation>
+        <translation>Logg</translation>
     </message>
     <message>
         <source>Yes</source>
         <comment>Key: yes</comment>
-        <translation>Yes</translation>
+        <translation>Ja</translation>
     </message>
     <message>
         <source>No</source>
         <comment>Key: no</comment>
-        <translation>No</translation>
+        <translation>Nei</translation>
     </message>
     <message>
         <source>Todo log</source>
         <comment>Key: log_introduction</comment>
-        <translation>Todo log</translation>
+        <translation>Oppgavelogg</translation>
     </message>
 </context>
 <context>
@@ -18235,17 +18301,17 @@ Thank you for your comment.</source>
     <message>
         <source>Name</source>
         <comment>Key: name</comment>
-        <translation>Name</translation>
+        <translation>Navn</translation>
     </message>
     <message>
         <source>Category</source>
         <comment>Key: category</comment>
-        <translation>Category</translation>
+        <translation>Kategori</translation>
     </message>
     <message>
         <source>Priority</source>
         <comment>Key: priority</comment>
-        <translation>Priority</translation>
+        <translation>Prioritet</translation>
     </message>
     <message>
         <source>Status</source>
@@ -18255,32 +18321,32 @@ Thank you for your comment.</source>
     <message>
         <source>Is public</source>
         <comment>Key: is_public</comment>
-        <translation>Is public</translation>
+        <translation>Er offentlig</translation>
     </message>
     <message>
         <source>Owner</source>
         <comment>Key: owner</comment>
-        <translation>Owner</translation>
+        <translation>Eier</translation>
     </message>
     <message>
         <source>Description</source>
         <comment>Key: description</comment>
-        <translation>Description</translation>
+        <translation>Beskrivelse</translation>
     </message>
     <message>
         <source>Yes</source>
         <comment>Key: yes</comment>
-        <translation>Yes</translation>
+        <translation>Ja</translation>
     </message>
     <message>
         <source>No</source>
         <comment>Key: no</comment>
-        <translation>No</translation>
+        <translation>Nei</translation>
     </message>
     <message>
         <source>Someone have sent you a todo.</source>
         <comment>Key: todo_introduction</comment>
-        <translation>Someone have sent you a todo.</translation>
+        <translation>Noen har sendt deg en oppgave.</translation>
     </message>
 </context>
 <context>
@@ -18682,7 +18748,7 @@ Thank you for your comment.</source>
     <message>
         <source>Priority</source>
         <comment>Key: pri</comment>
-        <translation>Priority</translation>
+        <translation>Prioritet</translation>
     </message>
     <message>
         <source>Category</source>
@@ -19006,12 +19072,12 @@ Thank you for your comment.</source>
     <message>
         <source>ex. VAT</source>
         <comment>Key: ex_vat</comment>
-        <translation>Eks. mva</translation>
+        <translation>Eks. MVA</translation>
     </message>
     <message>
         <source>inc. VAT</source>
         <comment>Key: inc_vat</comment>
-        <translation>Ink. mva</translation>
+        <translation>Inkl. MVA</translation>
     </message>
 </context>
 <context>
@@ -19034,7 +19100,7 @@ Thank you for your comment.</source>
     <message>
         <source>Sign position</source>
         <comment>Key: prefixed_currency_sign</comment>
-        <translation>Prefikset valutasymbol</translation>
+        <translation>Plassering av valutasymbol</translation>
     </message>
     <message>
         <source>Before</source>
@@ -19044,7 +19110,7 @@ Thank you for your comment.</source>
     <message>
         <source>After</source>
         <comment>Key: postfix</comment>
-        <translation>Etter</translation>
+        <translation>Bak</translation>
     </message>
     <message>
         <source>Currency ratio</source>
@@ -19095,22 +19161,22 @@ Thank you for your comment.</source>
     <message>
         <source>Last name</source>
         <comment>Key: last_name</comment>
-        <translation>Etternavn </translation>
+        <translation>Etternavn</translation>
     </message>
     <message>
         <source>E-mail</source>
         <comment>Key: email</comment>
-        <translation>E-post</translation>
+        <translation>Epost</translation>
     </message>
     <message>
         <source>Orders</source>
         <comment>Key: orders</comment>
-        <translation>Ordere</translation>
+        <translation>Ordre</translation>
     </message>
     <message>
         <source>Address list</source>
         <comment>Key: address_list</comment>
-        <translation>Addresse liste</translation>
+        <translation>Adresse liste</translation>
     </message>
     <message>
         <source>Street 1</source>
@@ -19397,12 +19463,12 @@ Thank you for your comment.</source>
     <message>
         <source>Module linkage</source>
         <comment>Key: head_line</comment>
-        <translation>Modullinker</translation>
+        <translation>Modullenker</translation>
     </message>
     <message>
         <source>Link type</source>
         <comment>Key: link_type</comment>
-        <translation>Link type</translation>
+        <translation>Lenketype</translation>
     </message>
     <message>
         <source>URL</source>
@@ -19440,7 +19506,7 @@ Thank you for your comment.</source>
     <message>
         <source>Link types</source>
         <comment>Key: head_line</comment>
-        <translation>Linktyper</translation>
+        <translation>Lenketyper</translation>
     </message>
     <message>
         <source>Choose sub type</source>
@@ -19852,12 +19918,12 @@ Thank you for your comment.</source>
     <message>
         <source>Order id</source>
         <comment>Key: order_id</comment>
-        <translation>Ordre id</translation>
+        <translation>Ordre ID</translation>
     </message>
     <message>
         <source>Preorder id</source>
         <comment>Key: preorder_id</comment>
-        <translation>Preordre id</translation>
+        <translation>Preordre ID</translation>
     </message>
     <message>
         <source>View customer</source>
@@ -20144,7 +20210,7 @@ Thank you for your comment.</source>
     <message>
         <source>External link</source>
         <comment>Key: external_link</comment>
-        <translation>Ekstern link</translation>
+        <translation>Ekstern lenke</translation>
     </message>
     <message>
         <source>Show as Hot Deal</source>
@@ -20199,7 +20265,7 @@ Thank you for your comment.</source>
     <message>
         <source>Links</source>
         <comment>Key: links</comment>
-        <translation>Linker</translation>
+        <translation>Lenker</translation>
     </message>
     <message>
         <source>Show as Discontinued</source>
@@ -20244,12 +20310,12 @@ Thank you for your comment.</source>
     <message>
         <source>Min price</source>
         <comment>Key: min_price</comment>
-        <translation>Minimums pris</translation>
+        <translation>Minimumspris</translation>
     </message>
     <message>
         <source>Max price</source>
         <comment>Key: max_price</comment>
-        <translation>Maksimums pris</translation>
+        <translation>Maksimumspris</translation>
     </message>
     <message>
         <source>0 is unlimited</source>
@@ -20327,7 +20393,7 @@ Thank you for your comment.</source>
     <message>
         <source>External link</source>
         <comment>Key: external_link</comment>
-        <translation>Ekstern link</translation>
+        <translation>Ekstern lenke</translation>
     </message>
     <message>
         <source>Order number</source>
@@ -20635,17 +20701,17 @@ Thank you for your comment.</source>
     <message>
         <source>Voucher Edit</source>
         <comment>Key: voucher_edit</comment>
-        <translation>Voucher Edit</translation>
+        <translation>Gavekortredigering</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Key: name</comment>
-        <translation>Name</translation>
+        <translation>Navn</translation>
     </message>
     <message>
         <source>Description</source>
         <comment>Key: description</comment>
-        <translation>Description</translation>
+        <translation>Beskrivelse</translation>
     </message>
     <message>
         <source>Update</source>
@@ -20660,17 +20726,17 @@ Thank you for your comment.</source>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation>Cancel</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <source>Delete</source>
         <comment>Key: delete</comment>
-        <translation>Delete</translation>
+        <translation>Slett</translation>
     </message>
     <message>
         <source>Delete selected</source>
         <comment>Key: delete_selected</comment>
-        <translation>Delete selected</translation>
+        <translation>Slett merkede</translation>
     </message>
     <message>
         <source>Created</source>
@@ -20680,7 +20746,7 @@ Thank you for your comment.</source>
     <message>
         <source>Price left</source>
         <comment>Key: price</comment>
-        <translation>Price left</translation>
+        <translation>Pris igjen</translation>
     </message>
     <message>
         <source>Price</source>
@@ -20695,7 +20761,7 @@ Thank you for your comment.</source>
     <message>
         <source>Receiver description</source>
         <comment>Key: receiver_description</comment>
-        <translation>Receiver description</translation>
+        <translation>Mottakerbeskrivelse</translation>
     </message>
     <message>
         <source>Used</source>
@@ -20705,7 +20771,7 @@ Thank you for your comment.</source>
     <message>
         <source>Order ID</source>
         <comment>Key: order</comment>
-        <translation>Order ID</translation>
+        <translation>Ordre ID</translation>
     </message>
     <message>
         <source>Available</source>
@@ -20715,7 +20781,7 @@ Thank you for your comment.</source>
     <message>
         <source>Used by</source>
         <comment>Key: used_by</comment>
-        <translation>Used by</translation>
+        <translation>Brukt av</translation>
     </message>
 </context>
 <context>
@@ -20723,7 +20789,7 @@ Thank you for your comment.</source>
     <message>
         <source>Voucher List</source>
         <comment>Key: voucher_list</comment>
-        <translation>Gavekort liste</translation>
+        <translation>Gavekortliste</translation>
     </message>
     <message>
         <source>Created</source>
@@ -20987,7 +21053,7 @@ Thank you for your comment.</source>
     <message>
         <source>How do you wish to pay</source>
         <comment>Key: payment_methods_description</comment>
-        <translation>Hvordan ønsker du å betale</translation>
+        <translation>Hvordan vil du betale</translation>
     </message>
     <message>
         <source>Image</source>
@@ -21085,6 +21151,11 @@ Thank you for your comment.</source>
         <translation>Kommentar</translation>
     </message>
     <message>
+        <source>Your cart is emty</source>
+        <comment>Key: empty_cart</comment>
+        <translation>Handlekurven er tom</translation>
+    </message>
+    <message>
         <source>Prod. No.</source>
         <comment>Key: product_number</comment>
         <translation>Prod. Num.</translation>
@@ -21167,7 +21238,7 @@ Thank you for your comment.</source>
     <message>
         <source>Delete selected products</source>
         <comment>Key: delete_selected</comment>
-        <translation>Slette merkede produkter</translation>
+        <translation>Slett merkede produkter</translation>
     </message>
 </context>
 <context>
@@ -21236,11 +21307,6 @@ Thank you for your comment.</source>
         <translation>Søk</translation>
     </message>
     <message>
-        <source>Search in the following categories</source>
-        <comment>Key: search_in_category</comment>
-        <translation>Søk i disse kategoriene</translation>
-    </message>
-    <message>
         <source>Extended search</source>
         <comment>Key: head_line</comment>
         <translation>Utvidet søk</translation>
@@ -21249,6 +21315,11 @@ Thank you for your comment.</source>
         <source>Search for text</source>
         <comment>Key: text</comment>
         <translation>Søk etter</translation>
+    </message>
+    <message>
+        <source>Search in category</source>
+        <comment>Key: search_in_category</comment>
+        <translation>Søk i disse kategoriene</translation>
     </message>
     <message>
         <source>All prices</source>
@@ -21551,22 +21622,22 @@ Thank you for your comment.</source>
     <message>
         <source>Next</source>
         <comment>Key: next</comment>
-        <translation>Next</translation>
+        <translation>Neste</translation>
     </message>
     <message>
         <source>Previous</source>
         <comment>Key: previous</comment>
-        <translation>Previous</translation>
+        <translation>Forrige</translation>
     </message>
     <message>
         <source>View</source>
         <comment>Key: view</comment>
-        <translation>View</translation>
+        <translation>Vis</translation>
     </message>
     <message>
         <source>Order list</source>
         <comment>Key: order_list</comment>
-        <translation>Order list</translation>
+        <translation>Ordreliste</translation>
     </message>
 </context>
 <context>
@@ -21584,7 +21655,7 @@ Thank you for your comment.</source>
     <message>
         <source>You&apos;re order has been registered and an e-mail will be sent with this order confirmation.</source>
         <comment>Key: email_notice</comment>
-        <translation>Din bestilling er registrert og en e-post vil bli sendt til deg som bekreftelse.</translation>
+        <translation>Din bestilling er registrert og en epost vil bli sendt til deg som bekreftelse.</translation>
     </message>
     <message>
         <source>Order number</source>
@@ -21602,7 +21673,7 @@ Thank you for your comment.</source>
         <translation>Ordren din vil inneholde en faktura og du må betale denne innen fakturadatoen. Vi vil ta behandlingsgebyr på fakturaer som ikke betales innen rett tid.</translation>
     </message>
     <message>
-        <source>Your order will be sent to you COD, you will have to pay the shipping entity the total sum to receive the goods. If you don&apos;t accept the goods from the carrier and the package is reurned to us without an agreement from you you will be charged an premium.</source>
+        <source>Your order will be sent to you COD, you will have to pay the shipping entity the total sum to receive the goods. If you don&apos;t accept the goods from the carrier and the package is returned to us without an agreement from you you will be charged a premium.</source>
         <comment>Key: cod</comment>
         <translation>Varene blir sendt med postoppkrav som du må betale for å få hentet varene ut fra posten. Uavhentede varer som blir returnert til oss uten avtale blir belastet våre kostnader for returen.</translation>
     </message>
@@ -21714,7 +21785,7 @@ Thank you for your comment.</source>
     <message>
         <source>Total ex. VAT</source>
         <comment>Key: product_total_ex_tax</comment>
-        <translation>Total eksl. MVA</translation>
+        <translation>Totalt eksl. MVA</translation>
     </message>
     <message>
         <source>Total inc. VAT</source>
@@ -21754,7 +21825,7 @@ Thank you for your comment.</source>
     <message>
         <source>Used inc. VAT</source>
         <comment>Key: voucher_used_inc_tax</comment>
-        <translation>Used inkl. MVA</translation>
+        <translation>Brukt inkl. MVA</translation>
     </message>
     <message>
         <source>Left ex. VAT</source>
@@ -21787,7 +21858,7 @@ Thank you for your comment.</source>
     <message>
         <source>View Order</source>
         <comment>Key: head_line</comment>
-        <translation>View Order</translation>
+        <translation>Vis ordre</translation>
     </message>
     <message>
         <source>Customer Information</source>
@@ -21802,7 +21873,7 @@ Thank you for your comment.</source>
     <message>
         <source>Image</source>
         <comment>Key: image</comment>
-        <translation>Image</translation>
+        <translation>Bilde</translation>
     </message>
     <message>
         <source>Product Name</source>
@@ -21812,17 +21883,17 @@ Thank you for your comment.</source>
     <message>
         <source>Product Number</source>
         <comment>Key: productnumber</comment>
-        <translation>Product Number</translation>
+        <translation>Produktnummer</translation>
     </message>
     <message>
         <source>Options</source>
         <comment>Key: option</comment>
-        <translation>Options</translation>
+        <translation>Opsjoner</translation>
     </message>
     <message>
         <source>Qty.</source>
         <comment>Key: count</comment>
-        <translation>Qty.</translation>
+        <translation>Ant.</translation>
     </message>
     <message>
         <source>Price</source>
@@ -21994,7 +22065,7 @@ Thank you for your comment.</source>
     <message>
         <source>External link</source>
         <comment>Key: external_link</comment>
-        <translation>Ekstern link</translation>
+        <translation>Ekstern lenke</translation>
     </message>
     <message>
         <source>Add to cart</source>
@@ -22059,7 +22130,7 @@ Thank you for your comment.</source>
     <message>
         <source>Price range</source>
         <comment>Key: price_range</comment>
-        <translation>Pris variasjon</translation>
+        <translation>Prisvariasjon</translation>
     </message>
     <message>
         <source>Min price</source>
@@ -22069,7 +22140,7 @@ Thank you for your comment.</source>
     <message>
         <source>Max price</source>
         <comment>Key: max</comment>
-        <translation>Maximum</translation>
+        <translation>Maksimum</translation>
     </message>
     <message>
         <source>Unlimited</source>
@@ -22112,7 +22183,7 @@ Thank you for your comment.</source>
     <message>
         <source>Your wishlist has been sent.</source>
         <comment>Key: wishlist_sendt</comment>
-        <translation>Ønskeliste sendt</translation>
+        <translation>Ønskelisten er sendt.</translation>
     </message>
     <message>
         <source>Send wishlist to a friend</source>
@@ -22347,12 +22418,12 @@ Thank you for your comment.</source>
     <message>
         <source>Voucher payment</source>
         <comment>Key: voucher_payment</comment>
-        <translation>Voucher payment</translation>
+        <translation>Gavekortbetaling</translation>
     </message>
     <message>
         <source>Key number</source>
         <comment>Key: key_number</comment>
-        <translation>Key number</translation>
+        <translation>Nøkkelnummer</translation>
     </message>
     <message>
         <source>OK</source>
@@ -22362,12 +22433,12 @@ Thank you for your comment.</source>
     <message>
         <source>The key is invalid.</source>
         <comment>Key: error_message</comment>
-        <translation>The key is invalid.</translation>
+        <translation>Nøkkelen er ugyldig.</translation>
     </message>
     <message>
         <source>Back</source>
         <comment>Key: back</comment>
-        <translation>Back</translation>
+        <translation>Tilbake</translation>
     </message>
 </context>
 <context>
@@ -22375,12 +22446,12 @@ Thank you for your comment.</source>
     <message>
         <source>Someone has bought you a voucher!</source>
         <comment>Key: introduction</comment>
-        <translation>Someone has bought you a voucher!</translation>
+        <translation>Noen har gitt deg et gavekort!</translation>
     </message>
     <message>
         <source>Key number</source>
         <comment>Key: key_number</comment>
-        <translation>Key number</translation>
+        <translation>Nøkkelnummer</translation>
     </message>
     <message>
         <source>From</source>
@@ -22398,17 +22469,17 @@ Thank you for your comment.</source>
     <message>
         <source>Please fill in the information</source>
         <comment>Key: description</comment>
-        <translation>Please fill in the information</translation>
+        <translation>Vennligst fyll inn informasjonen</translation>
     </message>
     <message>
         <source>Receiver email</source>
         <comment>Key: to_email</comment>
-        <translation>Receiver email</translation>
+        <translation>Mottakters epost</translation>
     </message>
     <message>
         <source>Text</source>
         <comment>Key: text</comment>
-        <translation>Text</translation>
+        <translation>Tekst</translation>
     </message>
     <message>
         <source>Street</source>
@@ -22418,7 +22489,7 @@ Thank you for your comment.</source>
     <message>
         <source>Zip</source>
         <comment>Key: zip</comment>
-        <translation>Zip</translation>
+        <translation>Postnummer</translation>
     </message>
     <message>
         <source>Place</source>
@@ -22433,12 +22504,12 @@ Thank you for your comment.</source>
     <message>
         <source>Name</source>
         <comment>Key: name</comment>
-        <translation>Name</translation>
+        <translation>Navn</translation>
     </message>
     <message>
         <source>Next</source>
         <comment>Key: next</comment>
-        <translation>Next</translation>
+        <translation>Neste</translation>
     </message>
     <message>
         <source>OK</source>
@@ -22448,22 +22519,22 @@ Thank you for your comment.</source>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation>Cancel</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <source>Receiver name</source>
         <comment>Key: to_name</comment>
-        <translation>Receiver name</translation>
+        <translation>Mottakters navn</translation>
     </message>
     <message>
         <source>From name</source>
         <comment>Key: from_name</comment>
-        <translation>From name</translation>
+        <translation>Fra navn</translation>
     </message>
     <message>
         <source>From email</source>
         <comment>Key: from_email</comment>
-        <translation>From email</translation>
+        <translation>Fra epost</translation>
     </message>
 </context>
 <context>
@@ -22471,12 +22542,12 @@ Thank you for your comment.</source>
     <message>
         <source>Voucher View</source>
         <comment>Key: voucher_edit</comment>
-        <translation>Voucher View</translation>
+        <translation>Gavekortvisning</translation>
     </message>
     <message>
         <source>Name</source>
         <comment>Key: name</comment>
-        <translation>Name</translation>
+        <translation>Navn</translation>
     </message>
     <message>
         <source>Update</source>
@@ -22491,17 +22562,17 @@ Thank you for your comment.</source>
     <message>
         <source>Cancel</source>
         <comment>Key: cancel</comment>
-        <translation>Cancel</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <source>Delete</source>
         <comment>Key: delete</comment>
-        <translation>Delete</translation>
+        <translation>Slett</translation>
     </message>
     <message>
         <source>Delete selected</source>
         <comment>Key: delete_selected</comment>
-        <translation>Delete selected</translation>
+        <translation>Slett merkede</translation>
     </message>
     <message>
         <source>Created</source>
@@ -22511,7 +22582,7 @@ Thank you for your comment.</source>
     <message>
         <source>Price left</source>
         <comment>Key: price</comment>
-        <translation>Price left</translation>
+        <translation>Pris igjen</translation>
     </message>
     <message>
         <source>Price</source>
@@ -22526,7 +22597,7 @@ Thank you for your comment.</source>
     <message>
         <source>Description</source>
         <comment>Key: description</comment>
-        <translation>Description</translation>
+        <translation>Beskrivelse</translation>
     </message>
     <message>
         <source>Used</source>
@@ -22536,7 +22607,7 @@ Thank you for your comment.</source>
     <message>
         <source>View order</source>
         <comment>Key: view_order</comment>
-        <translation>View order</translation>
+        <translation>Vis ordre</translation>
     </message>
     <message>
         <source>Available</source>
@@ -22546,17 +22617,17 @@ Thank you for your comment.</source>
     <message>
         <source>View voucher</source>
         <comment>Key: view_voucher</comment>
-        <translation>View voucher</translation>
+        <translation>Vis gavekort</translation>
     </message>
     <message>
         <source>Key</source>
         <comment>Key: key</comment>
-        <translation>Key</translation>
+        <translation>Nøkkel</translation>
     </message>
     <message>
-        <source>Your key does not exist</source>
+        <source>Your key does not exists</source>
         <comment>Key: error_message</comment>
-        <translation>Your key does not exists</translation>
+        <translation>Nøkkelen din eksisterer ikke</translation>
     </message>
 </context>
 <context>
@@ -22702,7 +22773,7 @@ Thank you for your comment.</source>
     <message>
         <source>Link to wishlist</source>
         <comment>Key: link_to_wishlist</comment>
-        <translation>Link til ønskeliste</translation>
+        <translation>Lenke til ønskeliste</translation>
     </message>
     <message>
         <source>Message from</source>
@@ -22771,7 +22842,7 @@ Thank you for your comment.</source>
     <message>
         <source>Email</source>
         <comment>Key: author_email</comment>
-        <translation>E-post</translation>
+        <translation>Epost</translation>
     </message>
     <message>
         <source>New</source>
@@ -22834,7 +22905,7 @@ Thank you for your comment.</source>
     <message>
         <source>Module specific permissions</source>
         <comment>Key: module_permissions</comment>
-        <translation>Modul spesifikke rettigheter</translation>
+        <translation>Modulspesifikke rettigheter</translation>
     </message>
     <message>
         <source>Group URL</source>
@@ -22908,7 +22979,7 @@ Thank you for your comment.</source>
         <translation>Kunne ikke logge inn, sjekk brukernavn og passord.</translation>
     </message>
     <message>
-        <source>The maximum number of users on this account are aleready logged in.</source>
+        <source>The maximum number of users on this account are already logged in.</source>
         <comment>Key: max_logins</comment>
         <translation>Maksimum samtidige brukere på denne kontoen er allerede logget inn.</translation>
     </message>
@@ -22953,12 +23024,12 @@ Thank you for your comment.</source>
     <message>
         <source>Session Info</source>
         <comment>Key: session_info</comment>
-        <translation>Sesjoninformasjon</translation>
+        <translation>Sesjon informasjon</translation>
     </message>
     <message>
-        <source>Photographer list</source>
-        <comment>Key: photographerlist</comment>
-        <translation>Fotografliste</translation>
+        <source>eZ publish administration</source>
+        <comment>Key: title</comment>
+        <translation>eZ publish administrasjon</translation>
     </message>
 </context>
 <context>
@@ -23024,7 +23095,7 @@ Thank you for your comment.</source>
     <message>
         <source>E-mail</source>
         <comment>Key: email</comment>
-        <translation>E-post</translation>
+        <translation>Epost</translation>
     </message>
     <message>
         <source>Seconds Idle</source>
@@ -23039,7 +23110,7 @@ Thank you for your comment.</source>
     <message>
         <source>Session IP</source>
         <comment>Key: session_ip</comment>
-        <translation>Sesjons IP</translation>
+        <translation>Sesjons-IP</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -23067,7 +23138,7 @@ Thank you for your comment.</source>
     <message>
         <source>Use module tab bar</source>
         <comment>Key: module_tab</comment>
-        <translation>Bruk eselører for moduler</translation>
+        <translation>Bruk skillekort for moduler</translation>
     </message>
     <message>
         <source>OK</source>
@@ -23090,12 +23161,12 @@ Thank you for your comment.</source>
     <message>
         <source>E-mail</source>
         <comment>Key: email</comment>
-        <translation>E-post</translation>
+        <translation>Epost</translation>
     </message>
     <message>
         <source>Invalid e-mail address. </source>
         <comment>Key: error_email</comment>
-        <translation>Ugyldig e-post adresse.</translation>
+        <translation>Ugyldig epostadresse.</translation>
     </message>
     <message>
         <source>You need to fill in all the form elements.</source>
@@ -23105,7 +23176,7 @@ Thank you for your comment.</source>
     <message>
         <source>You don&apos;t have permission to perform this operation.</source>
         <comment>Key: error_norights</comment>
-        <translation>Du har ikke rettigheter.</translation>
+        <translation>Du har ikke rettigheter til å utføre denne handlingen.</translation>
     </message>
     <message>
         <source>The passwords aren&apos;t equal, or the password is shorter than 3 characters.</source>
@@ -23125,7 +23196,7 @@ Thank you for your comment.</source>
     <message>
         <source>Group</source>
         <comment>Key: main_group</comment>
-        <translation>Hoved gruppe</translation>
+        <translation>Hovedgruppe</translation>
     </message>
     <message>
         <source>Additional groups</source>
@@ -23203,7 +23274,7 @@ Thank you for your comment.</source>
     <message>
         <source>E-mail</source>
         <comment>Key: email</comment>
-        <translation>E-post</translation>
+        <translation>Epost</translation>
     </message>
     <message>
         <source>User List</source>
@@ -23276,7 +23347,7 @@ Thank you for your comment.</source>
     <message>
         <source>You&apos;ve failed to install the Qt package properly, please get it from</source>
         <comment>Key: qtdom_error</comment>
-        <translation>Du har ikke installert QT pakken ordentlig, vennligst last pakken ned fra</translation>
+        <translation>Du har ikke installert Qt pakken ordentlig, vennligst last pakken ned fra</translation>
     </message>
     <message>
         <source>You&apos;ve failed to install the ImageMagick package properly, please get it from</source>
@@ -23299,7 +23370,7 @@ Thank you for your comment.</source>
     <message>
         <source>E-mail</source>
         <comment>Key: email</comment>
-        <translation>E-post</translation>
+        <translation>Epost</translation>
     </message>
     <message>
         <source>First name</source>
@@ -23382,7 +23453,7 @@ Thank you for your comment.</source>
     <message>
         <source>Type your username in the field, you will then receive an email. There it wil be a link which you must follow to get a new password. This link will be valid for 1 day.</source>
         <comment>Key: forgot-text</comment>
-        <translation>Skriv inn ditt brukernavn i feltet under, og du vil få en e-post med en link du må følge for å få nytt passord. Linken som følger med e-posten vil kun være gyldig i et døgn.</translation>
+        <translation>Skriv inn ditt brukernavn i feltet under, og du vil få en epost med en lenke du må følge for å få nytt passord. Lenken som følger med eposten vil kun være gyldig i et døgn.</translation>
     </message>
     <message>
         <source>Forgotten password at</source>
@@ -23390,9 +23461,9 @@ Thank you for your comment.</source>
         <translation>Glemt passord på</translation>
     </message>
     <message>
-        <source>Click on the link to get a new password generated. The new password will be sendt in mail.</source>
+        <source>Click on the link to get a new password generated. The new password will be sent in mail.</source>
         <comment>Key: body_text</comment>
-        <translation>Klikk på linken for å få et nytt passord, det nye passordet vil bli sendt i e-post.</translation>
+        <translation>Klikk på lenken for å få et nytt passord, det nye passordet vil bli sendt i epost.</translation>
     </message>
     <message>
         <source>New password at</source>
@@ -23420,27 +23491,27 @@ Thank you for your comment.</source>
     <message>
         <source>Mail sent</source>
         <comment>Key: mail_sent</comment>
-        <translation>E-postbeskjed er sendt</translation>
+        <translation>Epostbeskjed er sendt</translation>
     </message>
     <message>
         <source>You will receive an e-mail from us containing a link</source>
         <comment>Key: mail_sent_text</comment>
-        <translation>Du vil motta en e-post fra oss med en link</translation>
+        <translation>Du vil motta en epost fra oss med en lenke</translation>
     </message>
     <message>
         <source>Visit that link to change your password</source>
         <comment>Key: mail_sent_text_2</comment>
-        <translation>Besøk den linken for å endre passordet ditt</translation>
+        <translation>Besøk den lenken for å endre passordet ditt</translation>
     </message>
     <message>
         <source>The link will be available for 24 hours; if you haven&apos;t visited it within that period you will have to go through this procedure one more time</source>
         <comment>Key: mail_sent_text_3</comment>
-        <translation>Linken vil være tilgjengelig for 24 timer; hvis du ikke har besøkt linken innen den perioden må du gå igjennom denne prosessen en gang til</translation>
+        <translation>Lenken vil være tilgjengelig for 24 timer; hvis du ikke har besøkt den innen den perioden må du gå igjennom denne prosessen en gang til</translation>
     </message>
     <message>
         <source>If you don&apos;t receive the e-mail within a short while, please contact the site admininstrator</source>
         <comment>Key: mail_sent_text_4</comment>
-        <translation>Hvis du ikke mottar e-posten innen kort tid vennligst kontakt vår administrator</translation>
+        <translation>Hvis du ikke mottar eposten innen kort tid vennligst kontakt vår administrator</translation>
     </message>
     <message>
         <source>Please go back to the previous page, and make sure that you write the user name you selected when you first registered with us</source>
@@ -23460,12 +23531,12 @@ Thank you for your comment.</source>
     <message>
         <source>Your new password has been generated and sent to your e-mail address</source>
         <comment>Key: generated_password</comment>
-        <translation>Ditt nye passord har blitt generert og sendt til din e-postadresse</translation>
+        <translation>Ditt nye passord har blitt generert og sendt til din epostadresse</translation>
     </message>
     <message>
         <source>Your new password has been generated and sent to your e-mail address</source>
         <comment>Key: generated_password_2</comment>
-        <translation>Ditt nye passord har blitt generert og sendt til din e-postadresse</translation>
+        <translation>Ditt nye passord har blitt generert og sendt til din epostadresse</translation>
     </message>
     <message>
         <source>Login with your user name and your new password, then go to your user page</source>
@@ -23541,12 +23612,12 @@ Thank you for your comment.</source>
     <message>
         <source>No e-mail address registered</source>
         <comment>Key: user_missing_email_head</comment>
-        <translation>Ingen registrert e-postadresse</translation>
+        <translation>Ingen registrert epostadresse</translation>
     </message>
     <message>
         <source>There is no e-mail address associated with the user account, thus we can&apos;t help you with a new password</source>
         <comment>Key: user_missing_email</comment>
-        <translation>Det er ikke registrert en e-postadresse for denne brukeren, vi er derfor ikke i stand til å sende ett nytt passord til deg</translation>
+        <translation>Det er ikke registrert noen epostadresse for denne brukeren, vi kan derfor ikke sende deg et nytt passord</translation>
     </message>
     <message>
         <source>Please contact the site administrator for instructions for further help</source>
@@ -23640,7 +23711,7 @@ Thank you for your comment.</source>
     <message>
         <source>E-mail</source>
         <comment>Key: email</comment>
-        <translation>E-post</translation>
+        <translation>Epost</translation>
     </message>
     <message>
         <source>First name</source>
@@ -23743,7 +23814,7 @@ Thank you for your comment.</source>
     <message>
         <source>E-mail</source>
         <comment>Key: email</comment>
-        <translation>E-post</translation>
+        <translation>Epost</translation>
     </message>
     <message>
         <source>First name</source>
@@ -23823,17 +23894,17 @@ Thank you for your comment.</source>
     <message>
         <source>Address number</source>
         <comment>Key: address_number</comment>
-        <translation>Addresse nummer</translation>
+        <translation>Adresse nummer</translation>
     </message>
     <message>
         <source>New address</source>
         <comment>Key: new_address</comment>
-        <translation>Legg til flere addresser</translation>
+        <translation>Legg til flere adresser</translation>
     </message>
     <message>
         <source>Delete addresses</source>
         <comment>Key: delete_address</comment>
-        <translation>Slett merkede addresser</translation>
+        <translation>Slett merkede adresser</translation>
     </message>
     <message>
         <source>Delete this address</source>
@@ -23843,17 +23914,17 @@ Thank you for your comment.</source>
     <message>
         <source>Delete address</source>
         <comment>Key: delete</comment>
-        <translation>Slett addresse</translation>
+        <translation>Slett adresse</translation>
     </message>
     <message>
         <source>Main address</source>
         <comment>Key: main_address</comment>
-        <translation>Hovedaddresse</translation>
+        <translation>Hovedadresse</translation>
     </message>
     <message>
         <source>Click to get news and updates from this site.</source>
         <comment>Key: infosubscription</comment>
-        <translation>Jeg vil gjerne motta e-post med nyheter fra dette nettstedet</translation>
+        <translation>Jeg vil gjerne motta epost med nyheter fra dette nettstedet.</translation>
     </message>
     <message>
         <source>Please fix the following errors</source>
@@ -23883,12 +23954,12 @@ Thank you for your comment.</source>
     <message>
         <source>You must supply a email address</source>
         <comment>Key: error_email</comment>
-        <translation>Du må fylle inn en e-post addresse</translation>
+        <translation>Du må fylle inn en epostadresse</translation>
     </message>
     <message>
         <source>You must supply a real E-mail address</source>
         <comment>Key: error_email_not_valid</comment>
-        <translation>E-post addressen er ugyldig</translation>
+        <translation>Epostadressen er ugyldig</translation>
     </message>
     <message>
         <source>You password does not match</source>
@@ -23896,7 +23967,7 @@ Thank you for your comment.</source>
         <translation>Passordene er ikke like</translation>
     </message>
     <message>
-        <source>Your password is to short</source>
+        <source>Your password is too short</source>
         <comment>Key: error_password_too_short</comment>
         <translation>Passordet er for kort</translation>
     </message>
@@ -23928,7 +23999,7 @@ Thank you for your comment.</source>
     <message>
         <source>You need to type in at least one address.</source>
         <comment>Key: error_missing_address</comment>
-        <translation>Du må minst fylle ut en addresse</translation>
+        <translation>Du må minst fylle ut en adresse.</translation>
     </message>
     <message>
         <source>You need to select a country.</source>
