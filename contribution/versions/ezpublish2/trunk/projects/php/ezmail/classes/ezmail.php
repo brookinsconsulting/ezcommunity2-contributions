@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.10 2001/03/26 14:13:42 fh Exp $
+// $Id: ezmail.php,v 1.11 2001/03/26 20:21:04 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -52,6 +52,7 @@ class eZMail
     {
         $this->IsConnected = false;
 
+        $this->parts = array();
         // default value
         $this->IsPublished = "false";
         
@@ -712,7 +713,101 @@ class eZMail
         
         return false;
     }
+    /***************** FUNCTIONS THAT ARE USED WHEN SENDING MAIL, IDEAS FROM:
+                       Sascha Schumann <sascha@schumann.cx>
+                       Tobias Ratschiller <tobias@dnet.it
+                       extended and modified to fit eZPublish needs by
+                       Frederik Holljen <fh@ez.no>
+    *****************************/
+
+    /*!
+      Sends the mail with the values specified.
+     */
+    function send() 
+    {
+        $files = $this->files();
+        foreach( $files as $file )
+        {
+            $filename = "ezfilemanager/files/" . $file->fileName();
+            $attachment = fread( fopen( $filename, "r"), filesize( $filename ) );
+            $this->add_attachment( $attachment, $file->originalFileName(), "image/jpeg" );
+        }
+        
+        $mime = "";
+        if( !empty( $this->From ) )
+            $mime .= "From: " . $this->From . "\n";
+        if( !empty( $this->Cc ) )
+            $mime .= "Cc: " . $this->Cc . "\n";
+        if( !empty( $this->Bcc ) )
+            $mime .= "Bcc: " . $this->Bcc . "\n";
+        if( !empty( $this->Bcc ) )
+            $mime .= "Reply-To: " . $this->ReplyTo . "\n";
+        if( !empty( $this->BodyText ) )
+            $this->add_attachment( $this->BodyText, "", "text/plain");   
+
+//        echo "\n----<pre>"; print_r( $this->parts ); echo "-----\n</pre>";
+        $mime .= "MIME-Version: 1.0\n".$this->build_multipart();
+//        print( nl2br( htmlspecialchars( $mime ) ) );
+        mail( $this->To, $this->Subject, "", $mime);
+        $this->parts = array();
+    }
     
+     /*!
+       \private
+       
+       void add_attachment(string message, [string name], [string ctype])
+       Add an attachment to the mail object
+     */
+    function add_attachment($message, $name = "", $ctype = "application/octet-stream")
+    {
+        $this->parts[] = array (
+            "ctype" => $ctype,
+            "message" => $message,
+            "encode" => $encode,
+            "name" => $name
+            );
+    }
+
+    
+    /*!
+      \private
+      
+      void build_message( array part )
+      Build message parts of an multipart mail
+    */
+    function build_message($part)
+    {
+        $message = $part["message"];
+        $message = chunk_split(base64_encode($message));
+        $encoding = "base64";
+        return "Content-Type: ".$part["ctype"].
+            ($part["name"]?"; name = \"".$part["name"]."\"" : "").
+            "\nContent-Transfer-Encoding: $encoding\n\n$message\n";
+    }
+    
+    /*!
+      \private
+      
+      void build_multipart()
+      Build a multipart mail
+    */
+    function build_multipart() 
+    {
+        $boundary = "b".md5(uniqid(time()));
+        $multipart = "Content-Type: multipart/mixed; boundary = $boundary\n\nThis is a MIME encoded message.\n\n--$boundary";
+        
+        for($i = count( $this->parts )-1; $i >= 0; $i--) 
+        {
+            $multipart .= "\n".$this->build_message($this->parts[$i])."--$boundary";
+        }
+        return $multipart.= "--\n";
+    }
+
+
+    /****************** END MAIL SENDING FUNCTIONS ***********************/
+
+
+
     /*!
       \private
       
@@ -727,6 +822,8 @@ class eZMail
         }
     }
 
+    // this variable is only used during the buildup of a mail that is beeing sent. NEVER access directly!!!
+    var $parts;
 
     /* Mail specific variables */
     var $To;

@@ -38,6 +38,12 @@ if( isset( $Save ) )
 
 if( isset( $Send ) )
 {
+    $MailID = save_mail();
+    $mail = new eZMail( $MailID );
+    $mail->send();
+//    mail( $mail->to(), $mail->subject(), $mail->body() , "From: $From");
+//    eZHTTPTool::header( "Location: /mail/configure/" );
+//    exit();
 }
 
 $ini =& INIFile::globalINI();
