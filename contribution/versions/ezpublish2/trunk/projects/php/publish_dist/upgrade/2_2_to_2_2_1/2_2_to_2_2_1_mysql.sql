@@ -1,0 +1,1 @@
+alter table eZTrade_VoucherInformation change OnlineID ToOnlineID int default '0';           
