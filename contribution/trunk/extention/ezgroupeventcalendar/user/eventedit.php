@@ -608,8 +608,8 @@ $Day = $dateArr[2];
         $pStopTimeMinute = addZero( $stopTime->minute() );
 
         $datetime = new eZDateTime( $Year, $Month, $Day );
-        $datetime->setSecondsElapsedHMS( $pStartTimeHour, $pStartTimeMinute, 0 );
 
+        $datetime->setSecondsElapsedHMS( $pStartTimeHour, $pStartTimeMinute, 0 );
         $event->setDateTime( $datetime );
 
         if ( $stopTime->isGreater( $startTime, true ) )
@@ -633,7 +633,7 @@ $Day = $dateArr[2];
 	// now we check to see if the RecurType is month
 	if ($event->RecurType == 'month')
 	  // it is, so let's set RecurMonthlyType
-	  $event->setRecurMonthlyType( $RecurTypeMonth, $datetime );
+	  $event->setRecurMonthlyType( $RecurTypeMonth, &$datetime );
 	  // if not, we set it to blank
         else
 	  $event->setRecurMonthlyType();
@@ -644,7 +644,6 @@ $Day = $dateArr[2];
 	 $event->setFinishDateUntil($UntilDate);
 	else // must be forever
 	$event->SetFinishDateForever();
-	
 	
 	  /*
             $duration = new eZTime( $stopTime->hour() - $startTime->hour(),
@@ -676,13 +675,13 @@ $Day = $dateArr[2];
         if ( $TitleError == false && $GroupInsertError == false && $StartTimeError == false && $StopTimeError == false )
         {
             $resultz = $event->store();
-            exec("secure_clearcache.sh");
+            //exec("secure_clearcache.sh");
 	    $year = addZero( $datetime->year() );
             $month = addZero( $datetime->month() );
             $day = addZero( $datetime->day() );
             deleteCache( "default", $Language, $year, $month, $day, $groupID );
             eZHTTPTool::header( "Location: /groupeventcalendar/dayview/$year/$month/$day/" );
-            exit();
+            die();
         }
         else
         {
@@ -1780,10 +1779,14 @@ if ( $groupError == false )
 // deletes the dayview cache file for a given day
 function deleteCache( $siteStyle, $language, $year, $month, $day, $groupID )
 {
-    unlink( "ezgroupeventcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$groupID.cache" );
-    unlink( "ezgroupeventcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$groupID.cache" );
-    unlink( "ezgroupeventcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$groupID-private.cache" );
-    unlink( "ezgroupeventcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$groupID-private.cache" );
+    if (file_exists("ezgroupeventcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$groupID.cache"))
+     unlink( "ezgroupeventcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$groupID.cache" );
+    if (file_exists("ezgroupeventcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$groupID.cache"))
+     unlink( "ezgroupeventcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$groupID.cache" );
+    if (file_exists("ezgroupeventcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$groupID-private.cache"))
+     unlink( "ezgroupeventcalendar/user/cache/dayview.tpl-$siteStyle-$language-$year-$month-$day-$groupID-private.cache" );
+    if (file_exists("ezgroupeventcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$groupID-private.cache"))
+     unlink( "ezgroupeventcalendar/user/cache/monthview.tpl-$siteStyle-$language-$year-$month-$groupID-private.cache" );
 }
 
 //Adds a "0" in front of the value if it's below 10.

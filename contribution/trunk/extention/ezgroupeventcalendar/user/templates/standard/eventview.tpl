@@ -168,6 +168,50 @@
 <td colspan="2"><a href="{event_url}" target="_blank" style="text-decoration: none;">{event_url}</a></td></tr>
 </table>
 
+<!-- BEGIN recurring_event_tpl -->
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+<td width="50%">
+<p class="boxtext">Recurrance Frequency</p>
+{recur_freq}
+</td>
+<td width="50%">
+<p class="boxtext">Recurrance Type</p>
+{recur_type}
+</td>
+</tr>
+<tr>
+<!-- BEGIN recurring_days_week -->
+<td>
+<p class="boxtext">Days of Week (weekly only)</p>
+<!-- BEGIN recurring_days -->
+{recur_days_week}
+<!-- END recurring_days -->
+</td>
+<!-- END recurring_days_week -->
+
+<!-- BEGIN recurring_monthly_type -->
+<td>
+<p class="boxtext">Month Recurrance Type</p>
+{recur_monthly_type}
+</td>
+<!-- END recurring_monthly_type -->
+</tr>
+<tr>
+<td>
+<p class="boxtext">{repeat_type}</p> 
+{repeat_message}
+</td>
+<td>
+<p class="boxtext">Recurring Exceptions</p>
+<!-- BEGIN recurring_exceptions_tpl -->
+<div class="gcalMultiListing">{recur_exception}</div>
+<!-- END recurring_exceptions_tpl -->
+</td>
+</tr>
+</table>
+<!-- END recurring_event_tpl -->
+
 <!-- BEGIN attached_file_list_tpl -->
 <br />
 <table width="100%" cellspacing="2" cellpadding="0" border="0">

@@ -120,7 +120,7 @@ class eZGroupEvent
         if ( !isset( $this->ID ) )
         {
          
-	  $this->Database->query( "INSERT INTO eZGroupEventCalendar_Event SET
+	$this->Database->query( "INSERT INTO eZGroupEventCalendar_Event SET
                              Name='$Name',
                              Description='$Description',
                              Date='$this->Date',
@@ -670,7 +670,7 @@ class eZGroupEvent
 				     }
 				     // if at this point the month and day match, we are golden
 				     // note the dash inbetween, its needed to seperate the two otherwise 11-5 and 1-15 are the same  :)
-				     if ( ( $date->month() . '-' . $date->day() ) != ( $rDate->month() . '-' . $rDate->day() ) ) 
+				     if ( ( $date->month() . '-' . $date->day() ) != ( $rDate->month() . '-' . $rDate->day() ) )
 				       $event_array[$i]['unset'] = true;
 				    break;
 				  }
@@ -1712,7 +1712,7 @@ class eZGroupEvent
        // first we must turn the ezdatetime object into a ezdate object
        // because we need the move method
        
-       if ( get_class( $datetime ) == 'ezdatetime')
+       if ( get_class( $datetime ) == 'ezdatetime') {
 	// BUG in eZDate2.2 -> For some reason the day is not preserved when calling &date.
 	// we have to set it manually
 	// the below line should be the corrent one.
@@ -1722,7 +1722,7 @@ class eZGroupEvent
 	$hackMonth =& $datetime->month();
 	$hackDay =& $datetime->day();
 	$date = new eZDate($hackYear, $hackMonth, $hackDay);
-	//end hack
+	} //end hack
        // second we switch out the type and do 4 different calculations
        switch($type) {
        case 'day': // the easy one #uno
@@ -1797,15 +1797,16 @@ class eZGroupEvent
 	     // this looks pretty funky, but it should be faster and cleaner than looping through each type
 	          $startDay = $this->RecurMonthlyTypeInfo.'s';
 		  $endDay = $this->RecurMonthlyTypeInfo.'e';
+		//  die ($i=$dateNums[$startDay] .' and ' . $dateNums[$endDay] . ' and oldDayName is ' . $oldDayName);
 	     for ($i=$dateNums[$startDay]; $i<$dateNums[$endDay];$i++) {
 	     $date->setDay($i);
-	      if ($date->day() == $oldDayName) {
+	      if ($date->dayName(true) == $oldDayName) {
 	      $i = 32; // this will finish the loop, cuz we are on the day we want.
 	     }
 	    } 
 	   }
 	   $datet = new eZDateTime($date->year(), $date->month(), $date->day(), $datetime->hour(), $datetime->minute(), $datetime->second());
-	   $stamp = $datet->mysqlTimeStamp;
+	   $stamp = $datet->mysqlTimeStamp();
        } //this ends the switch($type)
        break;
        case 'year': // the easy one #dos

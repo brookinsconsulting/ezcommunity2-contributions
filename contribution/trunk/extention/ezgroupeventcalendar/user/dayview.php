@@ -22,7 +22,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
@@ -229,7 +228,7 @@ if( $user )
     $tmpGroupEvent = new eZGroupEvent();
 
 	// Fetch all the events for day
-	if( $tmpGroup->id() == 0 && $type->id() == 0) 
+	if( $tmpGroup->id() == 0 && $type->id() == 0)
 		$events =& $tmpGroupEvent->getAllByDate( $tmpDate, true );
 	// Fetch all appointments by type
 	elseif( $tmpGroup->id() == 0 && $type->id() != 0 )
@@ -240,8 +239,6 @@ if( $user )
 	// Fetch all appointments by Group
 	else
 		$events =& $tmpGroupEvent->getByDate( $tmpDate, $tmpGroup, true );
-
-
     // set start/stop and interval times
     $startTime = new eZTime();
     $stopTime = new eZTime();
@@ -319,7 +316,6 @@ if( $user )
     $eventDone = array();          // true when the event has been inserted into the table
     $tmpTime = new eZTime();
     $tmpTime->setSecondsElapsed( $startTime->secondsElapsed() );
-
     while ( $tmpTime->isGreater( $stopTime ) == true )
     {
         $numRows++;
@@ -526,7 +522,7 @@ if( $user )
 //        }
         if ( !isset($toggle23) )
 	    $toggle23 = false;
-        if ( $tmpTime > $tmpTime->add( $interval ) ) 
+        if ( $tmpTime > $tmpTime->add( $interval ) )
             $tmpTime = new eZTime( 23, 59 );
 	// this elseif block is a hack to get isGreater to display the 23rd hour    
         elseif ($stopTime->hour() == 23 && $tmpTime->hour() == 22 && $toggle23 == false)
@@ -544,7 +540,6 @@ if( $user )
 	if ($i > 30) die();
         $t->parse( "time_table", "time_table_tpl", true );
     }
-
 
     // group list
     $group = new eZUserGroup();
@@ -780,6 +775,59 @@ function addZero( $value )
     }
     return $ret;
 }
+/*!
+Unsets any events that can't be viewed.
+*/
+function removeRestrictedEvents($events )
+{
+ 
+}
 
+/*!
+Calculates and returns height of the event div based on the 1px = 1 minute background image.
+*/
+function getEventHeight( $event )
+{
+  $dur =& $event->duration(); // returns ezTime
+  $px = $dur->hour() * 60 + $dur->minute();
+  return $px;
+}
 
+/*!
+Calculates and returns event div distance from top 
+*/
+function getEventTop( $eStartTime, $tStartTime )
+{
+ 
+}
+
+/*!
+Returns true if the two events overlap (in time only)
+*/
+
+function EventTimeOverlaps($ev1, $ev2)
+{
+if (!is_object($ev1))
+{
+$ev1 = new eZGroupEvent( $ev1 );
+$ev1->get($ev1->id());
+}
+if (!is_object($ev2))
+{
+ $ev2 = new eZGroupEvent( $ev2 );
+ $ev2->get($ev2->id());
+}
+$start1 = $ev1->startTime();
+$start2 = $ev2->startTime();
+$stop1 = $ev1->stopTime();
+$stop2 = $ev2->stopTime();
+$s1 = $start1->hour(). addZero($start1->minute());
+$s2 = $start2->hour(). addZero($start2->minute());
+$e1 = $stop1->hour(). addZero($stop1->minute());
+$e2 = $stop2->hour(). addZero($stop2->minute());
+ if ( ( $s1 > $s2 && $e2 > $s1) || ( $s2 > $s1 && $e1 > $s2 ) )
+  return true;
+ else
+  return false;
+}
 ?>

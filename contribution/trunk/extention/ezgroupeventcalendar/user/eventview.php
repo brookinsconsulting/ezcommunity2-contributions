@@ -79,6 +79,12 @@ $t->set_block( "view_tpl", "valid_editor_tpl", "valid_editor" );
 $t->set_block( "view_tpl", "attached_file_list_tpl", "attached_file_list" );
 $t->set_block( "attached_file_list_tpl", "attached_file_tpl", "attached_file" );
 
+$t->set_block( "view_tpl", "recurring_event_tpl", "recurring_event");
+$t->set_block( "recurring_event_tpl", "recurring_days_week_tpl", "recurring_days_week");
+$t->set_block( "recurring_days_week_tpl", "recurring_days_tpl", "recurring_days");
+$t->set_block( "recurring_event_tpl", "recurring_monthly_type_tpl", "recurring_monthly_type");
+$t->set_block( "recurring_event_tpl", "recurring_exceptions_tpl", "recurring_exceptions");
+
 $t->set_var( "sitedesign", $SiteDesign );
 
 $user = eZUser::currentUser();
@@ -198,7 +204,90 @@ else
     $t->set_var( "event_starttime", $locale->format( $event->startTime(), true ) );
     $t->set_var( "event_stoptime", $locale->format( $event->stopTime(), true ) );
     $t->set_var( "event_description", $event->description(false) );
+    // recurring stuff here
+    /*
+    spectrum : we need the following stuff
+    recur frequency (recur_freq)
+    recurrance type (recur_type)
+    if type is weekly, what days of week (recur_days_week)
+    if type is monthly, what type of month recurrance - every 26th of the month, First Friday of the month, Last Wedensday of month (recur_monthly_type)
+    repeat type (repeat_type)
+    if until date is set, (until_date)
+    if number of times is set, (num_times)
+    recur exceptions (recur_exception)
+    
+    */
 
+    if ($event->isRecurring()) {
+      $t->set_var( "recur_freq", $event->recurFreq() );
+      $t->set_var( "recur_type", $event->recurType() );
+      if ($event->recurType() == 'week') {
+       foreach ($event->recurDay() as $r_d_w ) 
+       {
+        $t->set_var( "recur_days_week", $r_d_w);
+        $t->parse("recurring_days", "recurring_days_tpl", true);
+       }
+       $t->parse("recurring_days_week", "recurring_days_week_tpl");
+      } else {  
+       $t->set_var( "recur_days_week", '');
+       $t->parse("recurring_days_week", "recurring_days_week_tpl");
+      }
+     if ($event->recurType() == 'month') {
+      if ($event->recurMonthlyType() == 'numdayname') 
+      {
+       $t->set_var( "recur_monthly_type", $event->recurMonthlyTypeInfo() . ' ' . $datetime->dayName(true) . ' of the month.' );
+       $t->parse( "recurring_monthly_type", "recurring_monthly_type_tpl" );
+      } elseif ($event->recurMonthlyType() == 'strdayname')
+      {
+       $t->set_var( "recur_monthly_type", 'Last ' . $datetime->dayName(true) . ' of the month.' );
+       $t->parse( "recurring_monthly_type", "recurring_monthly_type_tpl" );
+      } else {
+       $t->set_var( "recur_monthly_type", 'Every ' . $datetime->day() . ' of the month.' );
+       $t->parse( "recurring_monthly_type", "recurring_monthly_type_tpl" );
+      } 
+     }
+      else {
+      $t->set_var( "recur_monthly_type", '' );
+      $t->parse( "recurring_monthly_type", "recurring_monthly_type_tpl" );
+     }
+     
+     if ( $event->repeatTimes() ) 
+     {
+      $t->set_var( "repeat_type", "Repeat Number of Times" );
+      $t->set_var( "repeat_message", $event->repeatTimes() ); 
+     }
+     elseif ( $event->repeatUntilDate() )
+     {
+      $t->set_var( "repeat_type", "Repeat Until Date" );
+      $t->set_var( "repeat_message", $event->repeatUntilDate() );
+     }
+     else {
+      $t->set_var( "repeat_type", "Repeat Forever" );
+      $t->set_var( "repeat_message", '' );
+     }  
+     if ( is_array($event->recurExceptions() ) )
+     {
+      foreach ( $event->recurExceptions() as $ex)
+      {
+       $t->set_var( "recur_exception", $ex );
+       $t->parse( "recurring_exceptions", "recurring_exceptions_tpl", true); 
+      }
+     } else {
+     $t->set_var( "recur_exception", '');
+     $t->parse( "recurring_exceptions", "recurring_exceptions_tpl" );
+     }
+    $t->parse( "recurring_event", "recurring_event_tpl" );
+    } else { // end of recurring_event stuff if isrecurring
+    $t->set_var( "recur_freq", "" ); 
+    $t->set_var( "recur_type", "" ); // day month week or year
+    $t->set_var( "recur_days_week", "" ); 
+    $t->set_var( "recur_monthly_type", "" ); 
+    $t->set_var( "repeat_type", "" );
+    $t->set_var( "until_date", "" );
+    $t->set_var( "num_times", "" );
+    $t->set_var( "recur_exception", "" );
+    $t->parse( "recurring_event", "recurring_event_tpl" );
+    }
     $groupID = $event->groupID();
 
     /*
