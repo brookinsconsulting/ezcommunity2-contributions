@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.50 2000/10/13 08:22:19 bf-cvs Exp $
+// $Id: ezforummessage.php,v 1.51 2000/10/13 09:38:34 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -239,21 +239,24 @@ class eZForumMessage
     }
 
 
-    /*!
-      Searches the forum and returnes the result.
-    */
-    function search( $criteria )
-    {
-        $this->dbInit();
-        $query_id = mysql_query( "SELECT Id, Topic, UserId, Parent, PostingTime FROM ezforum_MessageTable
-                      WHERE Topic LIKE '%$criteria%' OR Body LIKE '%$criteria%'" )
-            or die("Could not execute search, dying...");
+//      /*!
+//        Searches the forum and returnes the result.
+//      */
+//      function search( $criteria )
+//      {
+//          $this->dbInit();
 
-        for ( $i = 0; $i < mysql_num_rows( $query_id ); $i++ )
-            $resultArray[$i] = mysql_fetch_array( $query_id );
 
-        return $resultArray;
-    }
+        
+//          $query_id = mysql_query( "SELECT Id, Topic, UserId, Parent, PostingTime FROM ezforum_MessageTable
+//                        WHERE Topic LIKE '%$criteria%' OR Body LIKE '%$criteria%'" )
+//              or die("Could not execute search, dying...");
+
+//          for ( $i = 0; $i < mysql_num_rows( $query_id ); $i++ )
+//              $resultArray[$i] = mysql_fetch_array( $query_id );
+
+//          return $resultArray;
+//      }
 
     /*!
       Returns the object id.

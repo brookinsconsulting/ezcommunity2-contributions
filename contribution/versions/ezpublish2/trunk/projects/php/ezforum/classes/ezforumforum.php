@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumforum.php,v 1.23 2000/10/12 18:47:08 bf-cvs Exp $
+// $Id: ezforumforum.php,v 1.24 2000/10/13 09:38:34 bf-cvs Exp $
 //
 // 
 //
@@ -30,6 +30,7 @@
 */
 
 include_once( "classes/ezdb.php" );
+include_once( "classes/ezquery.php" );
 include_once( "ezforum/classes/ezforummessage.php" );
 
 
@@ -190,9 +191,13 @@ class eZForumForum
         
        $this->dbInit();
 
-       $this->Database->array_query( $message_array, "SELECT Id as ID FROM
-                                                       ezforum_MessageTable
-                                                       WHERE Topic LIKE '%$query%' OR Body LIKE '%$query%'" );
+       $query = new eZQuery( array( "Topic", "Body" ), $query );
+               
+       $query_str = "SELECT Id as ID FROM ezforum_MessageTable WHERE (" .
+             $query->buildQuery()  .
+             ") ORDER BY PostingTime LIMIT $offset, $limit";       
+
+       $this->Database->array_query( $message_array, $query_str );
        $ret = array();
 
        foreach ( $message_array as $message )

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.10 2000/10/12 18:47:08 bf-cvs Exp $
+// $Id: search.php,v 1.11 2000/10/13 09:38:34 bf-cvs Exp $
 //
 // 
 //
@@ -17,6 +17,7 @@ include_once( "classes/INIFile.php" );
 include_once( "ezforum/classes/ezforumforum.php" );
 
 include_once( "classes/ezlocale.php" );
+
 include_once( "ezuser/classes/ezuser.php" );
 
 $ini = new INIFile( "site.ini" );
@@ -32,6 +33,9 @@ $t->setAllStrings();
 $t->set_file( "search_tpl", "search.tpl" );
 
 $t->set_block( "search_tpl", "message_tpl", "message" );
+
+
+$t->set_var( "query_text", $QueryString );
 
 if ( $QueryString != "" )
 {

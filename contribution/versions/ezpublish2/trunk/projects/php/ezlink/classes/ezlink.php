@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.25 2000/10/10 11:42:00 ce-cvs Exp $
+// $Id: ezlink.php,v 1.26 2000/10/13 09:38:35 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -44,7 +44,9 @@
   
   \sa eZLinkGroup eZHit eZQuery
 */
-  
+
+include_once( "classes/ezquery.php" );
+
 class eZLink
 {
     /*!
@@ -182,8 +184,10 @@ class eZLink
 
     /*!
       Fetches the links that matches the $query.
+
+      Default limit is set to 25.
     */
-    function getQuery( $query, $limit=20, $offset = 0 )
+    function getQuery( $query, $limit=25, $offset=0 )
     {
         $this->dbInit();
         $link_array = 0;
@@ -192,8 +196,10 @@ class eZLink
         
         $query_str = "SELECT * FROM eZLink_Link WHERE (" .
              $query->buildQuery()  .
-             ") AND Accepted='Y' ORDER BY Title";
+             ") AND Accepted='Y' ORDER BY Title LIMIT $offset, $limit";
 
+
+        
         if ( $limit != -1 )
         {
 //              $query_str .= "  LIMIT $offset, $limit";
@@ -201,10 +207,33 @@ class eZLink
 
         array_query( $link_array, $query_str );
 
-//          print( "<br>" . $query_str . "<br>". count( $link_array ) );
-        
         return $link_array;
     }
+
+
+    /*!
+      Returns the total count of a query.
+    */
+    function getQueryCount( $query  )
+    {
+        $this->dbInit();
+        $link_array = 0;
+
+        $query = new eZQuery( array( "KeyWords", "Title", "Description" ), $query );
+        
+        $query_str = "SELECT count(ID) AS Count FROM eZLink_Link WHERE (" .
+             $query->buildQuery()  .
+             ") AND Accepted='Y' ORDER BY Title";
+
+        array_query( $link_array, $query_str );
+
+        $ret = 0;
+        if ( count( $link_array ) == 1 )
+            $ret = $link_array[0]["Count"];
+
+        return $ret;
+    }
+    
 
     /*!
       Fetches all the links.
