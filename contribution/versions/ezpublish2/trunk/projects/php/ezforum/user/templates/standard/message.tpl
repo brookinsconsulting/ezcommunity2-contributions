@@ -91,10 +91,10 @@
 
 <table class="list" width="100%" border="0" cellspacing="0" cellpadding="4">
 <tr>
-	<th>{intl-reply-topic}:</th>
-    <th>{intl-reply-author}:</th>
-    <th><div align="right">{intl-reply-time}:</div></th>
-    <th>&nbsp;</th>
+	<th width="40%">{intl-reply-topic}:</th>
+    <th width="30%">{intl-reply-author}:</th>
+    <th width="29%"><div align="right">{intl-reply-time}:</div></th>
+    <th width="1%"></th>
 </tr>
 
     <!-- BEGIN message_item_tpl -->
@@ -117,7 +117,6 @@
 		&nbsp;
 		<a href="/forum/messageedit/delete/{message_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezfrm{message_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezfrm{message_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
         <!-- END edit_message_item_tpl -->
-        &nbsp;
     </td>
 
 </tr>
