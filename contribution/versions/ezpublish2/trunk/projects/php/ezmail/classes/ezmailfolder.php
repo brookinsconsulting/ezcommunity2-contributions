@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfolder.php,v 1.23 2001/07/10 11:27:43 fh Exp $
+// $Id: ezmailfolder.php,v 1.24 2001/07/11 08:59:32 fh Exp $
 //
 // eZMailFolder class
 //
@@ -348,7 +348,7 @@ class eZMailFolder
 
         for ( $i=0; $i < count($res); $i++ )
         {
-            $return_array[$i] = new eZMailFolder( $res[$i][$db->fieldName("ID")] );
+            $return_array[$i] = new eZMailFolder( $res[$i][$database->fieldName("ID")] );
         }
 
         return $return_array;
@@ -487,7 +487,7 @@ class eZMailFolder
         $db = eZDB::globalDatabase();
         $db->query_single( $res, "SELECT ID FROM eZMail_Folder WHERE FolderType='$specialType' AND UserID='$userid'" );
 
-        echo $res[$db->fieldName( "ID" )];
+//        echo $res[$db->fieldName( "ID" )];
         if( $res[$db->fieldName( "ID" )] != "" ) 
             return new eZMailFolder(  $res[$db->fieldName( "ID" )] );
 
