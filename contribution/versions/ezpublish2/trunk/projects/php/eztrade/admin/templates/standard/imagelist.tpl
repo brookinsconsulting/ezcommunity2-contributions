@@ -43,6 +43,7 @@
 	<th>Nr:</th>
 	<th>Bildetekst:</th>
 	<th>Forhåndsvisning:</th>
+	<th>Hovedbilde:</th>
 	<th>Minibilde:</th>
 	<th>&nbsp;</th>
 	<th>&nbsp;</th>
@@ -59,6 +60,9 @@
 	<td class="{td_class}">
 	<img src="{image_url}" width="{image_width}" height="{image_height}" border="2" />
 	</td>
+	<td class="{td_class}">
+        <input type="radio" {main_image_checked} name="MainImageID" value="{image_id}" />
+        </td>
 	<td class="{td_class}">
 	<input type="radio" {thumbnail_image_checked} name="ThumbnailImageID" value="{image_id}" />
 	</td>

@@ -164,6 +164,7 @@ switch ( $url_array[2] )
                 $ProductID = $url_array[4];
                 include( "eztrade/admin/productedit.php" );
                 break;
+                
             default:
                 include( "eztrade/admin/productedit.php" );
                 break;

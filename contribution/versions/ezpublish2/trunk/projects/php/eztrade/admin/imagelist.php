@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.7 2000/10/24 19:03:13 bf-cvs Exp $
+// $Id: imagelist.php,v 1.8 2000/10/29 12:40:41 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -24,9 +24,9 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 
 include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezproduct.php" );
-include_once( "eztrade/classes/ezoption.php" );
 
-$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/imagelist/",
+
+$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ),
                      "eztrade/admin/intl/", $Language, "imagelist.php" );
 
 $t->setAllStrings();
@@ -36,18 +36,19 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "image_list_page_tpl", "image_tpl", "image" );
-                
+
 $product = new eZProduct( $ProductID );
 
 
-$main = $product->mainImage();
 $thumbnail = $product->thumbnailImage();
+$main = $product->mainImage();
 
 $t->set_var( "product_name", $product->name() );
 
 $images = $product->images();
 
 $i=0;
+$t->set_var( "image", "" );
 foreach ( $images as $image )
 {
     if ( ( $i % 2 ) == 0 )
@@ -77,6 +78,8 @@ foreach ( $images as $image )
         }
     }
     
+    $t->set_var( "image_number", $i + 1 );
+
     $t->set_var( "image_name", $image->caption() );
     $t->set_var( "image_id", $image->id() );
     $t->set_var( "product_id", $ProductID );
@@ -94,8 +97,8 @@ foreach ( $images as $image )
     $i++;
 }
 
-$t->set_var( "product_id", $product->id() );
 
+$t->set_var( "product_id", $product->id() );
 
 $t->pparse( "output", "image_list_page_tpl" );
 
