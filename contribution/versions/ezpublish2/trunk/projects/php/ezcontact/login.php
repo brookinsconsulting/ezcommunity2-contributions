@@ -13,15 +13,12 @@ if ( $TryLogin == "true" )
     $usr = new eZUser( $Login, $Pwd );
     if ( $usr->validate() == 1 )
     {
-        $hash = md5( time() );
         $session = new eZSession();
-
-        $session->setHash( $hash );
         $session->setUserID( $usr->id() );
-
+        
         $session->store();
 
-        setcookie ( "AuthenticatedSession", $hash, time() + 3600, "/",  $DOMAIN, 0 ) or die( "Feil: kunne ikke sette cookie." );        
+//        setcookie ( "AuthenticatedSession", $hash, time() + 3600, "/",  $DOMAIN, 0 ) or die( "Feil: kunne ikke sette cookie." );        
         
         // redirect..
         print "<html><head>";

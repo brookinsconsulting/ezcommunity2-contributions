@@ -11,11 +11,15 @@ $t->set_file( "top_menu", $DOCUMENTROOT .  "templates/topmenu.tpl" );
 
 $t->set_var( "document_root", $DOCUMENTROOT );
 
+
 $session = new eZSession();
+
 if ( !$session->get( $AuthenticatedSession ) )
 {
     die( "Du må logge deg på." );    
-}
+}        
+
+
 
 $usr = new eZUser();
 $usr->get( $session->userID() );

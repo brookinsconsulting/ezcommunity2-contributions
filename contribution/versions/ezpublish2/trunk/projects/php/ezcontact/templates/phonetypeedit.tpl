@@ -6,6 +6,8 @@ Navn:<br>
 
 <input type="hidden" name="PID" value="{phone_type_id}">
 <input type="hidden" name="Action" value="{action_value}">
+
 <input type="submit" value="{submit_text}">
+<input type="submit" value="slett">
 
 </form>
