@@ -17,6 +17,12 @@ if ( get_class( $user ) == "ezuser"  and eZPermission::checkPermission( $user, "
         }
         break;
 
+        case "authorlist" :
+        {
+            include( "ezuser/admin/authorlist.php" );
+        }
+        break;
+        
         case "sessioninfo" :
         {
             if ( $url_array[3] == "delete" )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.70 2001/05/28 08:22:40 ce Exp $
+// $Id: ezuser.php,v 1.71 2001/06/01 09:21:15 bf Exp $
 //
 // Definition of eZUser class
 //
@@ -101,8 +101,6 @@ class eZUser
     function store()
     {
         $db =& eZDB::globalDatabase();
-
-        $GLOBALS["DEBUG"] = true;
 
         $password = addslashes( $this->Password );
         $email = addslashes( $this->Email );

@@ -131,3 +131,64 @@ CREATE TABLE eZSession_Preferences (
 
 
 alter table eZTrade_OrderOptionValue add RemoteID varchar(100) default ''; 
+
+
+
+# Author list
+create table eZUser_Author( ID int primary key auto_increment, Name char(255), EMail char(255) );
+
+#
+# convert old author fields to new
+#
+
+# create author list
+insert into eZUser_Author( Name ) select AuthorText from eZArticle_Article Group By AuthorText;
+
+# Create a temp table
+CREATE TABLE eZArticle_ArticleTmp (
+  ID int(11) NOT NULL auto_increment,
+  Name varchar(100) default NULL,
+  Contents text,
+  ContentsWriterID int default NULL,
+  LinkText varchar(50) default NULL,
+  AuthorID int(11) NOT NULL default '0',
+  Modified timestamp(14) NOT NULL,
+  Created timestamp(14) NOT NULL,
+  PageCount int(11) default NULL,
+  IsPublished enum('true','false') default 'false',
+  Published timestamp(14) NOT NULL,
+  Keywords text,
+  Discuss int(11) default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+
+insert into eZArticle_ArticleTmp( ID, Name, Contents, ContentsWriterID, LinkText, AuthorID, Modified, 
+Created, PageCount, IsPublished, Published, Keywords, Discuss ) 
+select  
+Article.ID,
+Article.Name,
+Article.Contents,
+Author.ID,
+Article.LinkText,
+Article.AuthorID,
+Article.Modified,
+Article.Created,
+Article.PageCount,
+Article.IsPublished,
+Article.Published,
+Article.Keywords,
+Article.Discuss
+from eZArticle_Article as Article, eZUser_Author as Author where Article.AuthorText=Author.Name;
+
+# rename tables
+alter table eZArticle_Article rename eZArticle_Article_backup;
+alter table eZArticle_ArticleTmp rename eZArticle_Article;
+
+
+# IMPORTANT !!
+# If you need to restore the article table restore 
+# drop table eZArticle_Article;
+# alter table eZArticle_Article_backup rename eZArticle_Article;
+# if not you can delete the backup table 
+# drop table eZArticle_Article_backup;

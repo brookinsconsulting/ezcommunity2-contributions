@@ -17,12 +17,15 @@
 <tr>
 	<td valign="top">
 	<p class="boxtext">{intl-article_author}:</p>
-	<input class="halfbox" type="text" name="AuthorText" size="20" value="{author_text}" />
-	</td>
-	<td>&nbsp;</td>
-	<td>
-	<p class="boxtext">{intl-article_author_email}:</p>
-	<input class="halfbox" type="text" name="AuthorEmail" size="20" value="{author_email}" />
+
+	<select name="ContentsWriterID">
+	
+	<!-- BEGIN author_item_tpl -->
+	<option value="{author_id}" {selected}>{author_name}</option>
+	<!-- END author_item_tpl -->
+	
+	</select>
+
 	</td>
 </tr>
 <tr>

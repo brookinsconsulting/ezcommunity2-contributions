@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.83 2001/05/28 14:18:13 bf Exp $
+// $Id: articleedit.php,v 1.84 2001/06/01 09:21:14 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -30,6 +30,7 @@ include_once( "classes/ezcachefile.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
+include_once( "ezuser/classes/ezauthor.php" );
 include_once( "classes/ezhttptool.php" );
 
 include_once( "ezarticle/classes/ezarticlecategory.php" );
@@ -42,48 +43,6 @@ include_once( "ezbulkmail/classes/ezbulkmailcategory.php" );
 
 include_once( "ezarticle/classes/ezarticletool.php" );
 
-//  function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
-//  {
-//      $user = eZUser::currentUser();
-
-//      $files =& eZCacheFile::files( "ezarticle/cache/",
-//                                   array( array( "articleprint", "articleview", "articlestatic", "static", "view", "print"  ),
-//                                          $ArticleID, NULL, NULL ), "cache", "," );
-//      foreach( $files as $file )
-//      {
-//          $file->delete();
-//      }
-
-//      $files =& eZCacheFile::files( "ezarticle/cache/",
-//                                   array( array( "articlelist", "list" ),
-//                                          array_merge( 0, $CategoryID, $CategoryArray ),
-//                                          NULL, array( "", NULL ) ),
-//                                   "cache", "," );
-//      foreach( $files as $file )
-//      {
-//          $file->delete();
-//      }
-
-
-//      $files =& eZCacheFile::files( "ezarticle/cache/",
-//                                   array( "articlelinklist",
-//                                          array_merge( 0, $CategoryID, $CategoryArray ),
-//                                          $ArticleID,
-//                                          NULL ),
-//                                    "cache", "," );
-//      foreach( $files as $file )
-//      {
-//          $file->delete();
-//      }
-
-//  }
-
-/* Can possibly be deleted!
-if ( isset ( $DeleteArticles ) )
-{
-    $Action = "DeleteArticles";
-}
-*/
 $ini =& INIFile::globalINI();
 
 // insert a new article in the database
@@ -97,7 +56,12 @@ if ( $Action == "Insert" )
     
     $article->setAuthor( $user );
 
+    $author = new eZAuthor( $ContentsWriterID );
+    $article->setContentsWriter( $author );
+    
+
     $generator = new eZArticleGenerator();
+    
 
     $contents = $generator->generateXML( $Contents );
     $article->setContents( $contents );
@@ -289,6 +253,9 @@ if ( $Action == "Update" )
     $oldCategory = $article->categoryDefinition();
     $oldCategoryID = $oldCategory->id();
 
+    $author = new eZAuthor( $ContentsWriterID );
+    $article->setContentsWriter( $author );
+    
     $generator = new eZArticleGenerator();
 
     $contents = $generator->generateXML( $Contents );
@@ -458,39 +425,6 @@ if ( $Action == "Update" )
     }
 }
 
-/*  Can possibly be deleted FJH
-if ( $Action == "DeleteArticles" )
-{
-    if ( count ( $ArticleArrayID ) != 0 )
-    {
-        foreach( $ArticleArrayID as $ArticleID )
-        {
-            $article = new eZArticle( $ArticleID );
-
-            // get the category to redirect to
-            $articleID = $article->id();
-
-            $categoryArray = $article->categories();
-            $categoryIDArray = array();
-            foreach ( $categoryArray as $cat )
-            {
-                $categoryIDArray[] = $cat->id();
-            }
-            $categoryID = $article->categoryDefinition();
-            $categoryID = $categoryID->id();
-
-            // clear the cache files.
-            eZArticleTool::deleteCache( $ArticleID, $categoryID, $categoryIDArray );
-            $article->delete();
-        }
-        eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
-        exit();
-    }
-    eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
-    exit();    
-}
-*/
-
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 
 $t = new eZTemplate( "ezarticle/admin/" . $ini->read_var( "eZArticleMain", "AdminTemplateDir" ),
@@ -501,6 +435,8 @@ $t->setAllStrings();
 $t->set_file( array(
     "article_edit_page_tpl" => "articleedit.tpl"
     ) );
+
+$t->set_block( "article_edit_page_tpl", "author_item_tpl", "author_item" );
 
 $t->set_block( "article_edit_page_tpl", "value_tpl", "value" );
 $t->set_block( "article_edit_page_tpl", "multiple_value_tpl", "multiple_value" );
@@ -599,24 +535,10 @@ if ( $Action == "Edit" )
     $t->set_var( "author_email", $article->authorEmail() );
     $t->set_var( "link_text", $article->linkText() );
 
-//    print( $article->linkText() );
-    
     $t->set_var( "action_value", "update" );
 
-/*    $ownerGroup = $article->ownerGroup();
-    if( get_class( $ownerGroup ) == "ezusergroup" )
-        $ownerGroupID = $ownerGroup->id();
-
-    $readPermission = $article->readPermission();
-    $t->set_var( "all_selected", "" );
-    if( $readPermission == 1 )
-    {
-        $readGroupsID = $article->readGroups( true );
-    }
-    else if( $readPermission == 2 )
-    {
-        $t->set_var( "all_selected", "selected" );
-        }*/
+    $author = $article->contentsWriter();
+    $ContentsWriterID = $author->id();
 
     $writeGroupsID = eZObjectPermission::getGroups( $ArticleID, "article_article", 'w' , false );
     $readGroupsID = eZObjectPermission::getGroups( $ArticleID, "article_article", 'r', false );
@@ -626,6 +548,26 @@ if ( $Action == "Edit" )
     if( $readGroupsID[0] != -1 )
         $t->set_var( "all_selected", "" );
 
+}
+
+
+// author select
+
+$author = new eZAuthor();
+$authorArray = $author->getAll();
+foreach ( $authorArray as $author )
+{
+    if ( $ContentsWriterID == $author->id() )
+    {
+        $t->set_var( "selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "selected", "" );
+    }
+    $t->set_var( "author_id", $author->id() );
+    $t->set_var( "author_name", $author->name() );
+    $t->parse( "author_item", "author_item_tpl", true );
 }
 
 // category select

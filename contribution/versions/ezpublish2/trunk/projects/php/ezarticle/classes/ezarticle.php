@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.85 2001/05/30 14:55:19 fh Exp $
+// $Id: ezarticle.php,v 1.86 2001/06/01 09:21:15 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -61,6 +61,7 @@ include_once( "classes/ezdb.php" );
 include_once( "classes/ezdatetime.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
+include_once( "ezuser/classes/ezauthor.php" );
 
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
@@ -123,14 +124,13 @@ class eZArticle
             $this->Database->query( "INSERT INTO eZArticle_Article SET
 		                         Name='$name',
                                  Contents='$contents',
-                                 AuthorText='$authortext',
-                                 AuthorEmail='$authoremail',
                                  AuthorID='$this->AuthorID',
                                  LinkText='$linktext',
                                  PageCount='$this->PageCount',
                                  IsPublished='$this->IsPublished',
                                  Keywords='$keywords',
                                  Discuss='$this->Discuss',
+                                 ContentsWriterID='$this->ContentsWriterID',
                                  Modified=now(),
                                  Published=now(),
                                  Created=now()
@@ -149,14 +149,13 @@ class eZArticle
                 $this->Database->query( "UPDATE eZArticle_Article SET
 		                         Name='$name',
                                  Contents='$contents',
-                                 AuthorText='$authortext',
-                                 AuthorEmail='$authoremail',
                                  LinkText='$linktext',
                                  PageCount='$this->PageCount',
                                  AuthorID='$this->AuthorID',
                                  IsPublished='$this->IsPublished',
                                  Keywords='$keywords',
                                  Discuss='$this->Discuss',
+                                 ContentsWriterID='$this->ContentsWriterID',
                                  Published=now(),
                                  Modified=now()
                                  WHERE ID='$this->ID'
@@ -167,14 +166,13 @@ class eZArticle
                 $this->Database->query( "UPDATE eZArticle_Article SET
 		                         Name='$name',
                                  Contents='$contents',
-                                 AuthorText='$authortext',
-                                 AuthorEmail='$authoremail',
                                  LinkText='$linktext',
                                  PageCount='$this->PageCount',
                                  AuthorID='$this->AuthorID',
                                  IsPublished='$this->IsPublished',
                                  Keywords='$keywords',
                                  Discuss='$this->Discuss',
+                                 ContentsWriterID='$this->ContentsWriterID',
                                  Modified=now()
                                  WHERE ID='$this->ID'
                                  " );
@@ -217,7 +215,8 @@ class eZArticle
                 $this->IsPublished =& $article_array[0][ "IsPublished" ];
                 $this->Keywords =& $article_array[0][ "Keywords" ];
                 $this->Discuss =& $article_array[0][ "Discuss" ];
-
+                $this->ContentsWriterID =& $article_array[0][ "ContentsWriterID" ];
+                
                 $this->State_ = "Coherent";
                 $ret = true;
             }
@@ -302,9 +301,11 @@ class eZArticle
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
+        $author = new eZAuthor( $this->ContentsWriterID );
+        
         if( $asHTML == true )
-            return htmlspecialchars( $this->AuthorText );
-        return $this->AuthorText;
+            return htmlspecialchars( $author->name() );
+        return $author->name();
     }
 
     /*!
@@ -315,9 +316,11 @@ class eZArticle
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
+        $author = new eZAuthor( $this->ContentsWriterID );
+        
         if( $asHTML == true )
-            return htmlspecialchars( $this->AuthorEmail );
-        return $this->AuthorEmail;
+            return htmlspecialchars( $author->email() );
+        return $author->email();
     }
 
     
@@ -636,6 +639,29 @@ class eZArticle
                                       GROUP BY Keyword ORDER BY Keyword", 0, -1, "Keyword" );
         return $keywords;
     }
+
+    /*!
+      Sets the contents author.
+    */
+    function setContentsWriter( $author )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        $this->ContentsWriterID = $author->id();
+    }
+
+    /*!
+      Returns the contentswriter of the article.
+    */
+    function contentsWriter( )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        return new eZAuthor( $this->ContentsWriterID );
+    }
+    
 
     /*!
       \static
@@ -1662,17 +1688,16 @@ class eZArticle
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = eZDB::globalDatabase();
+            $this->Database =& eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }
 
     var $ID;
     var $AuthorID;
+    var $ContentsWriterID;
     var $Name;
     var $Contents;
-    var $AuthorText;
-    var $AuthorEmail;
     var $LinkText;
     var $Modified;
     var $Created;
@@ -1685,7 +1710,6 @@ class eZArticle
 
     // variable for storing the number of pages in the article.
     var $PageCount;
-    
     
     ///  Variable for keeping the database connection.
     var $Database;
