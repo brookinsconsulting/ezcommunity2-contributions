@@ -80,7 +80,7 @@ switch ( $url_array[2] )
     {
         $PersonID = $url_array[4];
         $Action = $url_array[3];
-        switch( $url_array[3] )
+        switch( $Action )
         {
             // intentional fall through
             case "new":
@@ -94,6 +94,21 @@ switch ( $url_array[2] )
             }
             case "list":
             {
+                if ( is_numeric( $url_array[4] ) )
+                    $Index = $url_array[4];
+                include( "ezcontact/admin/personlist.php" );
+                break;
+            }
+            case "search":
+            {
+                if ( is_numeric( $url_array[4] ) )
+                    $Index = $url_array[4];
+                if ( count( $url_array ) >= 5 && !isset( $SearchText ) )
+                {
+                    $SearchText = $url_array[5];
+                    $SearchText = preg_replace( "/[+]/", " ", $SearchText );
+                    $SearchText = preg_replace( "/[%2b]/i", "+", $SearchText );
+                }
                 include( "ezcontact/admin/personlist.php" );
                 break;
             }
