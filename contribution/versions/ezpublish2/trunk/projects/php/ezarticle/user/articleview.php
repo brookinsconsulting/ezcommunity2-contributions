@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.88 2001/11/07 16:36:08 bf Exp $
+// $Id: articleview.php,v 1.89 2001/11/17 10:54:24 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -331,6 +331,12 @@ if ( $article->get( $ArticleID ) )
     $locale = new eZLocale( $Language );
     $published = $article->published();
 
+    $publishedDateValue =& $published->date();
+    $publishedTimeValue =& $published->time();
+
+    $t->set_var( "article_datevalue", $locale->format( $publishedDateValue ) );
+    $t->set_var( "article_timevalue", $locale->format( $publishedTimeValue ) );
+
     $t->set_var( "article_created", $locale->format( $published ) );
 
     // image list
@@ -340,7 +346,6 @@ if ( $article->get( $ArticleID ) )
     
     {
         $i=0;
-
         foreach ( $images as $imageArray )
         {
             $image = $imageArray["Image"];
@@ -615,6 +620,7 @@ if ( isset( $GenerateStaticPage ) && $GenerateStaticPage == "true" )
     $output .= "\$SiteTitleAppend=\"$SiteTitleAppend\";\n";
     $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";
     $output .= "\$SiteKeywordsOverride=\"$SiteKeywordsOverride\";\n";    
+    $output .= "\$eZLanguageOverride=\"$eZLanguageOverride\";\n";
     $output .= "?>\n";
 
     $output .= $t->parse( $target, "article_view_page_tpl" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.83 2001/11/12 08:02:07 ce Exp $
+// $Id: articlelist.php,v 1.84 2001/11/17 10:54:24 bf Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -406,17 +406,23 @@ foreach ( $articleList as $article )
         $t->set_var( "td_class", "bgdark" );
     }
 
-    $published = $article->published();
+    $published =& $article->published();
 	
     $authorText = $article->authorText();
 
     $dateValue = $published->date();
     $t->set_var( "article_publisheddate", $locale->format( $dateValue ) );
     
-	if( $authorText == "" || $authorText[0] == "-" )
+    $publishedDateValue =& $published->date();
+    $publishedTimeValue =& $published->time();
+
+    $t->set_var( "article_datevalue", $locale->format( $publishedDateValue ) );
+    $t->set_var( "article_timevalue", $locale->format( $publishedTimeValue ) );
+    
+	if ( $authorText == "" || $authorText[0] == "-" )
 	{
 		$t->set_var( "article_published", $locale->format( $published ) );
-        $t->set_var( "article_date", "" );    
+            $t->set_var( "article_date", "" );    
 	}
 	else
     {
@@ -491,6 +497,7 @@ if ( isSet( $GenerateStaticPage ) and $GenerateStaticPage == "true" and $cachedF
     $output .= "\$GlobalSectionID=\"$GlobalSectionID\";\n";
     $output .= "\$SiteTitleAppend=\"$SiteTitleAppend\";\n";
     $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";    
+    $output .= "\$eZLanguageOverride=\"$eZLanguageOverride\";\n";
     $output .= "?>\n";
 
     $output .= $t->parse( $target, "article_list_page_tpl" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.28 2001/10/17 15:25:19 bf Exp $
+// $Id: frontpage.php,v 1.29 2001/11/17 10:54:24 bf Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -37,6 +37,7 @@ include_once( "ezsitemanager/classes/ezsection.php" );
 include_once( "ezad/classes/ezadcategory.php" );
 include_once( "ezad/classes/ezad.php" );
 
+$CategoryID = $url_array[3];
 
 $ini =& INIFile::globalINI();
 
@@ -45,6 +46,9 @@ $ImageDir = $ini->read_var( "eZArticleMain", "ImageDir" );
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 $DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
 $GrayScaleImageList = $ini->read_var( "eZArticleMain", "GrayScaleImageList" );
+
+$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+$sectionObject->setOverrideVariables();
 
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", $Language, "frontpage.php" );
@@ -113,7 +117,10 @@ $articleCount = 0;
 $productCount = 0;
 $adCount = 0;
 
-$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+//$sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
+
+// section
+$t->set_var( "section_id", "$GlobalSectionID" );
 
 $rows =& $sectionObject->frontPageRows();
 
@@ -177,7 +184,7 @@ if ( is_array ( $rows ) and count ( $rows ) > 0 )
 
 $user =& eZUser::currentUser();
 
-$sectionObject->setOverrideVariables();
+//$sectionObject->setOverrideVariables();
 
 if ( $adCount > 0 )
 {
@@ -273,11 +280,11 @@ $t->set_var( "element_list", $pageContents );
 
 function &renderFrontpageArticle( &$t, &$locale, &$article )
 {
-    global $ini;
+    global $ini, $CategoryID;
 	
-	$DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
+    $DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
     
-	$aid = $article->id();
+    $aid = $article->id();
 
     if ( $CategoryID == 0 )
     {
@@ -323,6 +330,13 @@ function &renderFrontpageArticle( &$t, &$locale, &$article )
     
     $published = $article->published();
 
+    $publishedDateValue =& $published->date();
+    $publishedTimeValue =& $published->time();
+
+    $t->set_var( "article_datevalue", $locale->format( $publishedDateValue ) );
+    $t->set_var( "article_timevalue", $locale->format( $publishedTimeValue ) );
+    
+
     $t->set_var( "article_published", $locale->format( $published ) );
     
 
@@ -357,13 +371,19 @@ function &renderFrontpageArticle( &$t, &$locale, &$article )
 
 function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
 {
-    global $ini;
+    global $ini, $CategoryID;
     $aid = $article1->id();
 	
-	$DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
+    $DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
 	
-    $category =& $article1->categoryDefinition();
-    $CategoryID = $category->id();
+//    $category =& $article1->categoryDefinition();
+//    $CategoryID = $category->id();
+
+    if ( $CategoryID == 0 )                  
+    {                                        
+	$category =& $article1->categoryDefinition();
+	$CategoryID = $category->id();
+    }
 
     $t->set_var( "category_id", $CategoryID );
     
@@ -401,6 +421,13 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
     
     $published = $article1->published();
 
+    $publishedDateValue =& $published->date();
+    $publishedTimeValue =& $published->time();
+
+    $t->set_var( "article_datevalue", $locale->format( $publishedDateValue ) );
+    $t->set_var( "article_timevalue", $locale->format( $publishedTimeValue ) );
+    
+
     $t->set_var( "article_published", $locale->format( $published ) );
     
 
@@ -431,9 +458,15 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
 
     $t->parse( "left_article", "left_article_tpl"  );
     $aid = $article2->id();
+    
+    if ( $CategoryID == 0 )
+    {
+        $category =& $articl21->categoryDefinition();
+        $CategoryID = $category->id();
+    }
 
-    $category =& $article2->categoryDefinition();
-    $CategoryID = $category->id();
+//    $category =& $article2->categoryDefinition();
+//    $CategoryID = $category->id();
         
     $t->set_var( "category_id", $CategoryID );
 
@@ -471,6 +504,13 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
     
     $published = $article2->published();
 
+    $publishedDateValue =& $published->date();
+    $publishedTimeValue =& $published->time();
+
+    $t->set_var( "article_datevalue", $locale->format( $publishedDateValue ) );
+    $t->set_var( "article_timevalue", $locale->format( $publishedTimeValue ) );
+   
+
     $t->set_var( "article_published", $locale->format( $published ) );
     
 
@@ -506,7 +546,7 @@ function &renderFrontpageArticleDouble( &$t, &$locale, &$article1, &$article2 )
 
 function &renderShortSingleArticle( &$t, &$locale, &$article )
 {
-    global $ini;
+    global $ini, $CategoryID;
 
     $aid = $article->id();
 	
@@ -532,6 +572,12 @@ function &renderShortSingleArticle( &$t, &$locale, &$article )
     
     $published = $article->published();
 
+    $publishedDateValue =& $published->date();
+    $publishedTimeValue =& $published->time();
+
+    $t->set_var( "article_datevalue", $locale->format( $publishedDateValue ) );
+    $t->set_var( "article_timevalue", $locale->format( $publishedTimeValue ) );
+   
     $t->set_var( "article_published", $locale->format( $published ) );
     
 
@@ -881,6 +927,7 @@ if ( isset( $GenerateStaticPage ) && $GenerateStaticPage == "true" )
     $output .= "\$GlobalSectionID=\"$GlobalSectionID\";\n";
     $output .= "\$SiteTitleAppend=\"$SiteTitleAppend\";\n";
     $output .= "\$SiteDescriptionOverride=\"$SiteDescriptionOverride\";\n";    
+    $output .= "\$eZLanguageOverride=\"$eZLanguageOverride\";\n";
     $output .= "?>\n";
 
     $output .= ob_get_contents();
