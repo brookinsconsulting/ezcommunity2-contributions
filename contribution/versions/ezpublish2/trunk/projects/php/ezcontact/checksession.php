@@ -20,7 +20,6 @@ if ( !$session->get( $AuthenticatedSession ) )
 }        
 
 
-
 $usr = new eZUser();
 $usr->get( $session->userID() );
 $t->set_var( "current_user", $usr->login() );

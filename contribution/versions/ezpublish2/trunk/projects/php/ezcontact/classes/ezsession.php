@@ -18,7 +18,7 @@ class eZSession
         $this->dbInit();
         $this->Hash = md5( time() );
 
-        setcookie ( "AuthenticatedSession", $this->Hash, time() + 3600, "/",  "", 0 ) or die( "Feil: kunne ikke sette cookie." );
+        setcookie ( "AuthenticatedSession", $this->Hash, 0, "/",  "", 0 ) or die( "Feil: kunne ikke sette cookie." );
     
         query( "INSERT INTO Session set SID='$this->Hash', Usr='$this->UserID'" );
 

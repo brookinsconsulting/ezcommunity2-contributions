@@ -1,3 +1,12 @@
+<?
+// brukes for sider som skal redirectes..
+if ( file_exists( $prePage ) )
+{
+  include( $prePage );
+  die();
+}
+?>
+
 <html>
 <head>
 	<title>

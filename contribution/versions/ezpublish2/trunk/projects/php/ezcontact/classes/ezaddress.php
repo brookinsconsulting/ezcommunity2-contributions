@@ -17,6 +17,7 @@ class eZAddress
     {
         $this->dbInit();
         query( "INSERT INTO Address set Street1='$this->Street1', Street2='$this->Street2', Zip='$this->Zip, AddressType=$this->AddressType', Owner='$this->Owner'" );
+        return mysql_insert_id();
     }
 
     /*
@@ -111,13 +112,6 @@ class eZAddress
         $this->AddressType = $value;
     }
 
-    /*!
-      Setter eier.
-    */
-    function setOwner( $value )
-    {
-        $this->Owner = $value;
-    }
     
     /*!
       Returnerer  street1.
@@ -151,13 +145,6 @@ class eZAddress
         return $this->AddressType;
     }
   
-    /*!
-      Returnerer eier.
-    */
-    function owner(  )
-    {
-        return $this->Owner;
-    }  
 
     /*
       Privat: Initiering av database. 
@@ -174,7 +161,6 @@ class eZAddress
     var $Street2;
     var $Zip;
     var $AddressType;
-    var $Owner;
 }
 
 ?>
