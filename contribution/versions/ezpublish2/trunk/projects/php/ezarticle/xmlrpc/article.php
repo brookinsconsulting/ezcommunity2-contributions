@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: article.php,v 1.16 2001/09/06 10:01:40 jb Exp $
+// $Id: article.php,v 1.17 2001/09/17 10:02:18 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -119,7 +119,6 @@ else if( $Command == "storedata" )
     $article->setLinkText( $Data["LinkText"]->value() );
     $article->setManualKeywords( $Data["ManualKeyWords"]->value() );
     $article->setDiscuss( $Data["Discuss"]->value() );
-    $article->setIsPublished( $Data["IsPublished"]->value() );
     if ( $Data["Thumbnail"]->value() > 0 )
     {
         $thumbImage = new eZImage( $Data["Thumbnail"]->value() );
@@ -282,6 +281,10 @@ else if( $Command == "storedata" )
         $form = new eZForm( $form->value() );
         $article->addForm( $form );
     }
+
+    // Set is published and store again
+    $article->setIsPublished( $Data["IsPublished"]->value(), $User );
+    $article->store();
 
     // categories
     $category = new eZArticleCategory( eZArticle::categoryDefinitionStatic( $ID ) );
