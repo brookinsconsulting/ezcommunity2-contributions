@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: groupedit.php,v 1.10 2000/08/23 11:14:43 ce-cvs Exp $
+    $Id: groupedit.php,v 1.11 2000/08/30 09:47:39 th-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -83,7 +83,7 @@ $t->set_file( array(
 $groupselect = new eZLinkGroup();
 $grouplink_array = $groupselect->getAll( );
 
-    $message = "Legg til gruppe";
+    $message = "Legg til linkkategori";
     $submit = "Legg til";
     $action = "insert";
 
@@ -98,7 +98,7 @@ if ( $Action == "edit" )
     $title = $editlinkgroup->title();
     
     $action = "update";
-    $message = "Rediger gruppe";
+    $message = "Rediger linkkategori";
     $submit = "Rediger";
 
     $ttitle = $editlinkgroup->title();

@@ -12,6 +12,7 @@
 </tr>
 <tr>
 	<td bgcolor="#f0f0f0">
+	<br>
 	<p>
 	Gruppenavn:<br>
 	<input type="text" name="Name" value="{name}">
@@ -23,6 +24,11 @@
 	</p>
 	</td>
 	<img src="../images/1x1.gif" width="1" height="4" border="0"><br>
+</tr>
+<tr>
+         <td bgcolor="#f0f0f0">
+         <br>
+         </td>
 </tr>
 </table>
 
@@ -99,48 +105,48 @@
 
 
   <tr>
-    <td colspan="2"><b>eZ Contact</b></td>
+    <td colspan="2"><br><b>eZ Contact</b></td>
   </tr>
 
   <tr>
     <td><input type="checkbox" name="eZContact_Add" {eZContact_Add}></td>
     <td>
-      Rettigheter til å legge til firma/personer
+      Legge til firma/personer
     </td>
   </tr>
     
   <tr>
     <td><input type="checkbox" name="eZContact_Delete" {eZContact_Delete}></td>
     <td>
-      Rettigheter til å slette firma/personer
+      Slette firma/personer
     </td>
   </tr>
     
   <tr>
     <td><input type="checkbox" name="eZContact_Edit" {eZContact_Edit}></td>
     <td>
-      Rettigheter til forandinger av firma/personer
+      Endre firma/person-opplysninger
     </td>
   </tr>
 
   <tr>
     <td><input type="checkbox" name="eZContact_AdminAdd" {eZContact_AdminAdd}></td>
     <td>
-      Rettigheter til å legge til administrasjon komponenter
+      Legge til administrasjonskomponenter
     </td>
   </tr>
     
   <tr>
     <td><input type="checkbox" name="eZContact_AdminDelete" {eZContact_AdminDelete}></td>
     <td>
-      Rettigheter til å slette administrasjon komponenter
+      Slette administrasjonskomponenter
     </td>
   </tr>
     
   <tr>
     <td><input type="checkbox" name="eZContact_AdminEdit" {eZContact_AdminEdit}></td>
     <td>
-      Rettigheter til å forandre administrasjon komponenter
+      Endre administrasjonskomponenter
     </td>
   </tr>
 

@@ -46,7 +46,7 @@ function verify( msg, url )
   </tr>
 </table>
 
-<table bgcolor="#202020" height="8" width="100%" border="0" cellspacing="0" cellpadding="0">
+<table height="8" width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr> 
     <td><img src="images/1x1.gif" width="1" height="8" border="0"></td>
   </tr>
