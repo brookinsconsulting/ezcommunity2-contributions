@@ -3,7 +3,8 @@
 <h1>{intl-head_line}</h1>
 
 <!-- BEGIN error_message_tpl -->
-<h3 class="error">{intl-error_parsing_xml}</h3>
+<h3 class="error">{intl-error_parsing_xml}:</h3>
+<textarea class="box" name="InvalidContents" cols="40" rows="5" wrap="soft">{article_invalid_contents}</textarea>
 <!-- END error_message_tpl -->
 
 <hr noshade="noshade" size="4" />

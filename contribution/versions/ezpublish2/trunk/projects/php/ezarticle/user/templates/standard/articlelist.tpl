@@ -113,11 +113,11 @@
 	<a class="path" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_link_text}</a>
 
 	| <a class="path" href="{www_dir}/article/archive/{category_def_id}/">{category_def_name}</a>
-	<br /><br />
         <!-- END read_more_tpl -->
 
 	<!-- BEGIN article_topic_tpl -->
         | <a class="path" href="/article/topiclist/{topic_id}">{topic_name}</a>
+	<br />
 	<!-- END article_topic_tpl -->
 
 	</td>

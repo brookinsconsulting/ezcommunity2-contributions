@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.77 2001/09/11 08:31:02 bf Exp $
+// $Id: articleview.php,v 1.78 2001/09/15 09:55:00 bf Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -111,6 +111,7 @@ $t->set_block( "article_view_page_tpl", "path_item_tpl", "path_item" );
 $t->set_block( "article_view_page_tpl", "article_url_item_tpl", "article_url_item" );
 
 $t->set_block( "article_view_page_tpl", "article_header_tpl", "article_header" );
+$t->set_block( "article_view_page_tpl", "article_topic_tpl", "article_topic" );
 $t->set_block( "article_view_page_tpl", "article_intro_tpl", "article_intro" );
 
 $t->set_block( "article_view_page_tpl", "attached_file_list_tpl", "attached_file_list" );
@@ -247,6 +248,20 @@ if ( $article->get( $ArticleID ) )
     
     $t->set_var( "author_text", $article->authorText() );
     $t->set_var( "author_id", $article->contentsWriter( false ) );
+
+    // check for topic
+    $topic =& $article->topic();
+
+    if ( get_class( $topic ) == "eztopic" )
+    {
+        $t->set_var( "topic_id", $topic->id() );
+        $t->set_var( "topic_name", $topic->name() );
+        $t->parse( "article_topic", "article_topic_tpl" );
+    }
+    else
+    {
+        $t->set_var( "article_topic", "" );        
+    }
 
     // check if author is "" or starts with -
     $authorText = trim( $article->authorText() );

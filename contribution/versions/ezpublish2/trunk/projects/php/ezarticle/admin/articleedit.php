@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleedit.php,v 1.114 2001/09/04 08:14:34 pkej Exp $
+// $Id: articleedit.php,v 1.115 2001/09/15 09:55:00 bf Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -142,136 +142,137 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
         else
             $article->setDiscuss( false );
 
-        // to get ID
-        $article->store();
-
-        // add to categories
-        $category = new eZArticleCategory( $CategoryID );
-        $article->setCategoryDefinition( $category );
-            
-        $iniVar = $ini->read_var( "eZArticleMain", "LowerCaseManualKeywords" );
-        
-        if( $iniVar == "enabled" )
-            $toLower = true;
-        else
-            $toLower = false;
-        
-        $article->setManualKeywords( $Keywords, $toLower );
-
-        $categoryArray =& $article->categories();
-
-            // Calculate new and unused categories
-        $old_maincategory = $article->categoryDefinition();
-        $old_categories =& array_unique( array_merge( $old_maincategory->id(),
-        $article->categories( false ) ) );
-
-        $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
-
-        $remove_categories = array_diff( $old_categories, $new_categories );
-        $add_categories = array_diff( $new_categories, $old_categories );
-
-        $categoryIDArray = array();
-
-        foreach ( $categoryArray as $cat )
-        {
-            $categoryIDArray[] = $cat->id();
-        }
-
-        // clear the cache files.
-        eZArticleTool::deleteCache( $ArticleID, $CategoryID, $old_categories );
-
-        foreach ( $remove_categories as $categoryItem )
-        {
-            eZArticleCategory::removeArticle( $article, $categoryItem );
-        }
-
-        // add to categories
-        $category = new eZArticleCategory( $CategoryID );
-        $category->addArticle( $article );
-        $article->setCategoryDefinition( $category );
-
-        foreach ( $add_categories as $categoryItem )
-        {
-            eZArticleCategory::addArticle( $article, $categoryItem );
-        }
-        
-
-        // add check for publishing rights here
-        if ( $IsPublished == "on" )
-        {
-            // check if the article is published now
-            if ( $article->isPublished() == false )
-            {
-
-                eZArticleTool::notificationMessage( $article );
-            }
-
-            $article->setIsPublished( true );
-        }
-        else
-        {
-            $article->setIsPublished( false );
-        }
-        
-        // Time publishing
-        if ( checkdate ( $StartMonth, $StartDay, $StartYear ) )
-        {
-            $startDate = new eZDateTime( $StartYear,  $StartMonth, $StartDay, $StartHour, $StartMinute, 0 );
-            
-            $article->setStartDate( &$startDate );
-        }
-        
-        if ( checkdate ( $StopMonth, $StopDay, $StopYear ) )
-        {
-            $stopDate = new eZDateTime( $StopYear, $StopMonth, $StopDay, $StopHour, $StopMinute, 0 );
-            
-            $article->setStopDate( &$stopDate );
-        }            
-        
-        eZObjectPermission::removePermissions( $article->id(), "article_article", 'w' );
-        if( isset( $WriteGroupArray ) )
-        {
-            if( $WriteGroupArray[0] == 0 )
-            {
-                eZObjectPermission::setPermission( -1, $article->id(), "article_article", 'w' );
-            }
-            else
-            {
-                foreach ( $WriteGroupArray as $groupID )
-                {
-                    eZObjectPermission::setPermission( $groupID, $article->id(), "article_article", 'w' );
-                }
-            }
-        }
-        else
-        {
-            eZObjectPermission::removePermissions( $article->id(), "article_article", 'w' );
-        }
-
-        /* read access thingy */
-        eZObjectPermission::removePermissions( $article->id(), "article_article", 'r' );
-        if ( isset( $GroupArray ) )
-        {
-            if( $GroupArray[0] == 0 )
-            {
-                eZObjectPermission::setPermission( -1, $article->id(), "article_article", 'r' );
-            }
-            else // some groups are selected.
-            {
-                foreach ( $GroupArray as $groupID )
-                {
-                    eZObjectPermission::setPermission( $groupID, $article->id(), "article_article", 'r' );
-                }
-            }
-        }
-        else
-        {
-            eZObjectPermission::removePermissions( $article->id(), "article_article", 'r' );
-        }
-        
         // check if the contents is parseable
         if ( xmltree( $contents ) )
         {
+        
+            // to get ID
+            $article->store();
+
+            // add to categories
+            $category = new eZArticleCategory( $CategoryID );
+            $article->setCategoryDefinition( $category );
+            
+            $iniVar = $ini->read_var( "eZArticleMain", "LowerCaseManualKeywords" );
+        
+            if( $iniVar == "enabled" )
+                $toLower = true;
+            else
+                $toLower = false;
+        
+            $article->setManualKeywords( $Keywords, $toLower );
+
+            $categoryArray =& $article->categories();
+
+            // Calculate new and unused categories
+            $old_maincategory = $article->categoryDefinition();
+            $old_categories =& array_unique( array_merge( $old_maincategory->id(),
+            $article->categories( false ) ) );
+
+            $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
+
+            $remove_categories = array_diff( $old_categories, $new_categories );
+            $add_categories = array_diff( $new_categories, $old_categories );
+
+            $categoryIDArray = array();
+
+            foreach ( $categoryArray as $cat )
+            {
+                $categoryIDArray[] = $cat->id();
+            }
+
+            // clear the cache files.
+            eZArticleTool::deleteCache( $ArticleID, $CategoryID, $old_categories );
+
+            foreach ( $remove_categories as $categoryItem )
+            {
+                eZArticleCategory::removeArticle( $article, $categoryItem );
+            }
+
+            // add to categories
+            $category = new eZArticleCategory( $CategoryID );
+            $category->addArticle( $article );
+            $article->setCategoryDefinition( $category );
+
+            foreach ( $add_categories as $categoryItem )
+            {
+                eZArticleCategory::addArticle( $article, $categoryItem );
+            }
+        
+
+            // add check for publishing rights here
+            if ( $IsPublished == "on" )
+            {
+                // check if the article is published now
+                if ( $article->isPublished() == false )
+                {
+
+                    eZArticleTool::notificationMessage( $article );
+                }
+
+                $article->setIsPublished( true );
+            }
+            else
+            {
+                $article->setIsPublished( false );
+            }
+        
+            // Time publishing
+            if ( checkdate ( $StartMonth, $StartDay, $StartYear ) )
+            {
+                $startDate = new eZDateTime( $StartYear,  $StartMonth, $StartDay, $StartHour, $StartMinute, 0 );
+            
+                $article->setStartDate( &$startDate );
+            }
+        
+            if ( checkdate ( $StopMonth, $StopDay, $StopYear ) )
+            {
+                $stopDate = new eZDateTime( $StopYear, $StopMonth, $StopDay, $StopHour, $StopMinute, 0 );
+            
+                $article->setStopDate( &$stopDate );
+            }            
+        
+            eZObjectPermission::removePermissions( $article->id(), "article_article", 'w' );
+            if( isset( $WriteGroupArray ) )
+            {
+                if( $WriteGroupArray[0] == 0 )
+                {
+                    eZObjectPermission::setPermission( -1, $article->id(), "article_article", 'w' );
+                }
+                else
+                {
+                    foreach ( $WriteGroupArray as $groupID )
+                    {
+                        eZObjectPermission::setPermission( $groupID, $article->id(), "article_article", 'w' );
+                    }
+                }
+            }
+            else
+            {
+                eZObjectPermission::removePermissions( $article->id(), "article_article", 'w' );
+            }
+
+            /* read access thingy */
+            eZObjectPermission::removePermissions( $article->id(), "article_article", 'r' );
+            if ( isset( $GroupArray ) )
+            {
+                if( $GroupArray[0] == 0 )
+                {
+                    eZObjectPermission::setPermission( -1, $article->id(), "article_article", 'r' );
+                }
+                else // some groups are selected.
+                {
+                    foreach ( $GroupArray as $groupID )
+                    {
+                        eZObjectPermission::setPermission( $groupID, $article->id(), "article_article", 'r' );
+                    }
+                }
+            }
+            else
+            {
+                eZObjectPermission::removePermissions( $article->id(), "article_article", 'r' );
+            }
+        
             // generate keywords
             $contents = strip_tags( $contents );
             $contents = ereg_replace( "#\n#", "", $contents );
@@ -359,7 +360,7 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
 
             if ( $article->isPublished() )
             {
-               eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
+                eZHTTPTool::header( "Location: /article/archive/$categoryID/" );
             }
             else
                 eZHTTPTool::header( "Location: /article/unpublished/$categoryID/" );
@@ -367,8 +368,8 @@ if ( $Action == "Update" ||  ( $Action == "Insert" ) )
         }
         else
         {
-            print( htmlspecialchars( $contents ) );
-
+            $invalidContents = $contents;
+            
             if ( $Action == "Insert" )
                 $Action = "New";
             else
@@ -411,6 +412,7 @@ $t->set_block( "article_edit_page_tpl", "error_message_tpl", "error_message" );
 $Locale = new eZLocale( $Language );
 if ( $ErrorParsing == true )
 {
+    $t->set_var( "article_invalid_contents", $invalidContents );
     $t->parse( "error_message", "error_message_tpl" );
 }
 else
