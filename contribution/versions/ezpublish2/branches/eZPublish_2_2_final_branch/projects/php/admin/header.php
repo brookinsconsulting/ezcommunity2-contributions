@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: header.php,v 1.40.2.6 2002/07/24 07:19:45 bf Exp $
+// $Id: header.php,v 1.40.2.7 2003/04/10 13:20:10 br Exp $
 //
 // Created on: <23-Jan-2001 16:06:07 bf>
 //
@@ -63,7 +63,7 @@ $charsetLanguage =& $session->variable( "charsetLanguage" );
 //EP: autoswitch charsets in admin ------------------------------------------
 if ( $url_array[2] == "archive" || $url_array[2] == "articleedit" )
 {
-    $CategoryID = $url_array[3];
+    $CategoryID = $url_array[4];
     if ( $url_array[2] == "articleedit" )
     {
         include_once( "ezarticle/classes/ezarticle.php" );
