@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.167 2001/09/15 12:53:55 bf Exp $
+// $Id: ezarticle.php,v 1.168 2001/09/15 12:56:49 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1299,7 +1299,7 @@ class eZArticle
 
             if ( is_bool( $placement ) )
             {
-                $db->array_query( $image_array, "SELECT ID, ImageID, Placement, Created FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' ORDER BY Placement" );                
+                $db->array_query( $image_array, "SELECT ID, ImageID, Placement, Created FROM eZArticle_ArticleImageLink WHERE ArticleID='$this->ID' ORDER BY Placement DESC" );                
                 if ( $image_array[0][$db->fieldName("Placement")] == "0" ) 
                 {
                     $placement=1;
