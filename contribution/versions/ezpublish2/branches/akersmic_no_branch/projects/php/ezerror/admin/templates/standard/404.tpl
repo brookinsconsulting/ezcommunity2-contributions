@@ -43,7 +43,13 @@
 						<table cellpadding="0" cellspacing="2" border="0">
 							<tr>
 								<td class="normal">		
-								<b>Kommentarer</b>
+								<p>
+								Vennligst sjekk adressen som du har fulgt hit. Hvis du har skrevet den inn i adressefeltet selv kan det hende at du har fått med en skrivefeil.
+								</p>
+								<p>Hvis denne adressen kommer fra en link som ligger på et annet nettsted enn Akers Mic gi gjerne beskjed til det aktuelle nettstedets webmaster hvis det er mulig. 
+								</p>
+								<p>Hvis linken hit ligger på Akers Mics eget nettsted vennligst gi beskjed til vår <a href="mailto:webmaster@akersmic.no">webmaster</a>.
+								</p>
 								</td>
 							</tr>
 						</table>
