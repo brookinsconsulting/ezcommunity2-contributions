@@ -1,5 +1,6 @@
 <?php
-// $Id: todolist.php,v 1.19 2001/09/05 10:57:00 jhe Exp $
+//
+// $Id: todolist.php,v 1.20 2001/09/06 10:07:22 jhe Exp $
 //
 // Definition of todo list.
 //
@@ -81,12 +82,24 @@ $t->setAllStrings();
 $t->set_file( "todo_list_page", "todolist.tpl" );
 
 $CategoryID = eZHTTPTool::getVar( "CategoryTodoID" );
-$Show = eZHTTPTool::getVar( "Show" );
+//$Show = eZHTTPTool::getVar( "Show" );
 $ShowButton = eZHTTPTool::getVar( "ShowButton" );
 $StatusID = eZHTTPTool::getVar( "StatusTodoID" );
 
-if ( isSet( $ShowTodosByUser ) )
+if ( isSet( $Show ) )
+{
     $GetByUserID = eZHTTPTool::getVar( "GetByUserID" );
+    $session->setVariable( "TodoUser", $GetByUserID );
+}
+else
+{
+    $GetByUserID = $session->variable( "TodoUser" );
+    if ( !$GetByUserID )
+    {
+        $GetByUserID = $user->id();
+        $session->setVariable( "TodoUser", $GetByUserID );
+    }
+}
 
 $t->set_block( "todo_list_page", "todo_item_tpl", "todo_item" );
 $t->set_block( "todo_list_page", "user_item_tpl", "user_item" );
@@ -100,14 +113,12 @@ $t->set_block( "todo_item_tpl", "todo_is_not_public_tpl", "todo_is_not_public" )
 
 if ( isSet( $ShowButton ) )
 {
-
     $session->setVariable( "TodoCategory", $CategoryID );
     $session->setVariable( "TodoStatus", $StatusID );
 }
 
 $showCategory = $session->variable( "TodoCategory" );
 $showTodo = $session->variable( "TodoStatus" );
-
 
 $todo = new eZTodo();
 
@@ -185,7 +196,7 @@ if ( count( $todo_array ) == 0 )
 
 $locale = new eZLocale( $Language );
 
-$i=0;
+$i = 0;
 foreach ( $todo_array as $todoItem )
 {
     if ( ( $i %2 ) == 0 )
@@ -224,13 +235,14 @@ foreach ( $todo_array as $todoItem )
 
 $category = new eZCategory();
 $categoryList =& $category->getAll();
+$t->set_var( "category_selected", $showCategory ? "" : "selected" );
 
 foreach ( $categoryList as $category )
 {
     $t->set_var( "category_name", $category->name() );
     $t->set_var( "category_id", $category->id() );
 
-    if ( $category->id() == $session->variable( "TodoCategory" ) )
+    if ( $category->id() == $showCategory )
     {
         $t->set_var( "is_selected", "selected" );
     }
@@ -244,13 +256,14 @@ foreach ( $categoryList as $category )
 
 $status = new eZStatus();
 $statusList =& $status->getAll();
+$t->set_var( "all_selected", $showTodo ? "" : "selected" );
 
 foreach ( $statusList as $status )
 {
     $t->set_var( "status_name", $status->name() );
     $t->set_var( "status_id", $status->id() );
 
-    if ( $status->id() == $session->variable( "TodoStatus" ) )
+    if ( $status->id() == $showTodo )
     {
         $t->set_var( "is_selected", "selected" );
     }
@@ -281,7 +294,7 @@ function addZero( $value )
     $ret = $value;
     if ( $ret < 10 )
     {
-        $ret = "0". $ret;
+        $ret = "0" . $ret;
     }
     return $ret;
 }

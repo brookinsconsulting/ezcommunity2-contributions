@@ -6,35 +6,28 @@
 <p class="boxtext">{intl-user}:</p>
 <select name="GetByUserID">
 <!-- BEGIN user_item_tpl -->
-<option {user_is_selected} value="{user_id}">{user_firstname} {user_lastname}</option>
+<option value="{user_id}" {user_is_selected}>{user_firstname} {user_lastname}</option>
 <!-- END user_item_tpl -->
 </select>
 
 <input type="hidden" name="Action" value="ShowTodosByUser">
-<input class="stdbutton" type="submit" value="{intl-show}">
+<input class="stdbutton" type="submit" name="Show" value="{intl-show}">
 
 <br /><br />
 
-<!--
-<select name="Show">
-<option {all_selected} value="All">{intl-show_all}</option>
-<option {not_done_selected} value="NotDone">{intl-show_not_done}</option>
-<option {done_selected} value="Done">{intl-show_done}</option>
-</select>
--->
 <select name="StatusTodoID">
-<option {is_selected} value="0">{intl-status_all}</option>
+<option value="0" {all_selected}>{intl-status_all}</option>
 <!-- BEGIN status_item_tpl -->
-<option {is_selected} value="{status_id}">{status_name}</option>
+<option value="{status_id}" {is_selected}>{status_name}</option>
 <!-- END status_item_tpl -->
 </select>
 
 
 &nbsp;
 <select name="CategoryTodoID">
-<option {is_selected} value="0">{intl-category_all}</option>
+<option value="0" {category_selected}>{intl-category_all}</option>
 <!-- BEGIN category_item_tpl -->
-<option {is_selected} value="{category_id}">{category_name}</option>
+<option value="{category_id}" {is_selected}>{category_name}</option>
 <!-- END category_item_tpl -->
 </select>
 <input class="stdbutton" type="submit" name="ShowButton" value="{intl-show}" />

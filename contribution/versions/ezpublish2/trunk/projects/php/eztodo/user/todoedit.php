@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: todoedit.php,v 1.30 2001/09/05 11:53:39 jhe Exp $
+// $Id: todoedit.php,v 1.31 2001/09/06 10:07:22 jhe Exp $
 //
 // Definition of todo list.
 //
@@ -48,7 +48,6 @@ function addZero( $value )
     return $ret;
 }
 
-
 if ( isSet( $Delete ) )
 {
     $Action = "delete";
@@ -67,12 +66,11 @@ if ( isSet( $Cancel ) )
 {
     eZHTTPTool::header( "Location: /todo" );
     exit();
-
 }
 
 include_once( "classes/INIFile.php" );
 
-//$ini = new INIFIle( "site.ini" );
+//$ini = new INIFile( "site.ini" );
 $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZTodoMain", "Language" );
@@ -82,14 +80,14 @@ $iniLanguage = new INIFile( "eztodo/user/intl/" . $Language . "/todoedit.php.ini
 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdatetime.php" );
-include_once( "eztodo/classes/eztodo.php" );
-include_once( "eztodo/classes/ezcategory.php" );
-include_once( "eztodo/classes/ezpriority.php" );
-include_once( "eztodo/classes/ezstatus.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezdate.php" );
 include_once( "classes/eztime.php" );
 include_once( "ezmail/classes/ezmail.php" );
+include_once( "eztodo/classes/eztodo.php" );
+include_once( "eztodo/classes/ezcategory.php" );
+include_once( "eztodo/classes/ezpriority.php" );
+include_once( "eztodo/classes/ezstatus.php" );
 include_once( "eztodo/classes/eztodolog.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
@@ -142,14 +140,11 @@ $t->set_block( "todo_edit_page", "day_item_tpl", "day_item" );
 $t->set_block( "todo_edit_page", "list_logs_tpl", "list_logs" );
 $t->set_block( "list_logs_tpl", "log_item_tpl", "log_item" );
 
-$t->set_block( "user_item_tpl", "todo_is_public_tpl", "todo_is_public" );
-$t->set_block( "user_item_tpl", "todo_is_not_public_tpl", "todo_is_not_public" );
-
 $t->set_block( "todo_edit_page", "errors_tpl", "errors" );
 $t->set_var( "errors", "&nbsp;" );
 
-$t->set_var( "name", "$Name" );
-$t->set_var( "description", "$Description" );
+$t->set_var( "name", $Name );
+$t->set_var( "description", $Description );
 $t->set_var( "list_logs", "" );
 $t->set_var( "send_mail", "" );
 $t->set_var( "log_item", "" );
@@ -178,7 +173,7 @@ if ( ( $userCheck ) && ( $Action == "update" ) || ( $Action == "updateStatus" ) 
     $todo = new eZTodo( $TodoID );
     
     if ( ( $todo->userID() == $user->id() ) || ( $todo->ownerID() == $user->id() ) ||
-         ( eZPermission::checkPermission( $user, "eZTodo", "EditOthers" ) == true) )
+         ( eZPermission::checkPermission( $user, "eZTodo", "EditOthers" ) == true ) )
     {
     }
     else
@@ -403,12 +398,13 @@ if ( $Action == "delete" )
 {
     $todo = new eZTodo();
     $todo->get( $TodoID );
-    $todo->delete();
+    if ( $todo->userID == $user->id() || $todo->ownerID == $user->id() )
+        $todo->delete();
     eZHTTPTool::header( "Location: /todo/todolist/" );
     exit();
 }
 
-if ( $Action == "new" || $error )
+if ( $Action == "new" )
 {
     $Deadline = new eZDateTime();
     $DeadlineDay = $Deadline->day();
@@ -426,8 +422,15 @@ if ( $Action == "new" || $error )
     $t->parse( "send_mail", "send_mail_tpl" );
 }
 
+if ( $error )
+{
+    $priorityID = $PriorityID;
+    $t->set_var( "todo_is_public", $IsPublic == "on" ? "checked" : "" );
+    $t->set_var( "send_mail_checkbox", $SendMail == "on" ? "checked" : "" );
+    $t->parse( "send_mail", "send_mail_tpl" );
+}
+
 // default user
-$UserID = $user->id();
 $OwnerID = $user->id();
 
 $datetime = new eZDateTime();
@@ -514,7 +517,7 @@ if ( $Action == "edit" )
     $priorityID = $todo->priorityID();
     $userID = $todo->userID();
     $ownerID = $todo->ownerID();
-    $statusID = $todo->statusID();
+    $StatusID = $todo->statusID();
 
     $duestamp = $todo->due();
     if ( $duestamp )
@@ -638,14 +641,14 @@ $status = new eZStatus();
 $status_array = $status->getAll();
 
 if ( $Action == "new")
-    $statusID = 1;
-    
+    $StatusID = 1;
+
 for ( $i = 0; $i < count( $status_array ); $i++ )
 {
     $t->set_var( "status_id", $status_array[$i]->id() );
     $t->set_var( "status_name", $status_array[$i]->name() );
     
-    if ( $statusID == $status_array[$i]->id() )
+    if ( $StatusID == $status_array[$i]->id() )
     {
         $t->set_var( "is_selected", "selected" );
     }
@@ -660,7 +663,7 @@ for ( $i = 0; $i < count( $status_array ); $i++ )
 
 // User selector.
 
-$user = new eZUser();
+$user =& eZUser::currentUser();
 $user_array = $user->getAll();
 
 foreach ( $user_array as $userItem )
@@ -670,13 +673,20 @@ foreach ( $user_array as $userItem )
     $t->set_var( "user_lastname", $userItem->lastName() );
 
     // User select
-    if ( $userID == $userItem->id() )
+    if ( $UserID == $userItem->id() )
     {
         $t->set_var( "user_is_selected", "selected" );
     }
     else
     {
-        $t->set_var( "user_is_selected", "" );
+        if ( $user->id() == $userItem->id() )
+        {
+            $t->set_var( "user_is_selected", "selected" );
+        }
+        else
+        {
+            $t->set_var( "user_is_selected", "" );
+        }
     }
 
     $t->parse( "user_item", "user_item_tpl", true );

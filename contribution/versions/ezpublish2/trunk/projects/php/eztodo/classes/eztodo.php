@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: eztodo.php,v 1.28 2001/09/05 10:57:00 jhe Exp $
+// $Id: eztodo.php,v 1.29 2001/09/06 10:07:22 jhe Exp $
 //
 // Definition of eZTodo class
 //
@@ -436,7 +436,6 @@ class eZTodo
 
     /*!
       UserID of the todo.
-      Returns the priority of the todo as a string.
     */
     function userID()
     {
@@ -454,7 +453,6 @@ class eZTodo
 
     /*!
       OwnerID of the todo.
-      Returns the priority of the todo as a string.
     */
     function ownerID()
     {

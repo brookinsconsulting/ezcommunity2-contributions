@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztodolog.php,v 1.7 2001/09/05 11:53:38 jhe Exp $
+// $Id: eztodolog.php,v 1.8 2001/09/06 10:07:22 jhe Exp $
 //
 // eZTodoLog class
 //
@@ -133,9 +133,10 @@ class eZTodoLog
     */
     function fill( &$user_array )
     {
-        $this->ID =& $user_array[ $db->fieldName( "ID" ) ];
-        $this->Log =& $user_array[ $db->fieldName( "Log" ) ];
-        $this->Created =& $user_array[ $db->fieldName( "Created" ) ];
+        $db =& eZDB::globalDatabase();
+        $this->ID =& $user_array[$db->fieldName( "ID" )];
+        $this->Log =& $user_array[$db->fieldName( "Log" )];
+        $this->Created =& $user_array[$db->fieldName( "Created" )];
     }
 
     /*!

@@ -49,7 +49,7 @@
 	<p class="boxtext">{intl-user}:</p>
 	<select name="UserID">
 	<!-- BEGIN user_item_tpl -->
-	<option {user_is_selected} value="{user_id}">{user_firstname} {user_lastname}</option>
+	<option value="{user_id}" {user_is_selected}>{user_firstname} {user_lastname}</option>
 	<!-- END user_item_tpl -->
 	</select>
 	<br><br>
@@ -69,7 +69,7 @@
 	<p class="boxtext">{intl-pri}:</p>
 	<select name="PriorityID">
 	<!-- BEGIN priority_select_tpl -->
-	<option {is_selected} value="{priority_id}">{priority_name}</option>
+	<option value="{priority_id}" {is_selected}>{priority_name}</option>
 	<!-- END priority_select_tpl -->
 	</select>
 	<br><br>
@@ -90,16 +90,15 @@
 	<p class="boxtext">{intl-status}:</p>
 	<select name="StatusID">
 	<!-- BEGIN status_select_tpl -->
-	<option {is_selected} value="{status_id}">{status_name}</option>
+	<option value="{status_id}" {is_selected}>{status_name}</option>
 	<!-- END status_select_tpl -->
 	</select>
 	<br><br>
 	</td>
 
 	<td>
-	<input type="checkbox" name="IsPublic" {todo_is_public} >&nbsp;<span class="boxtext">{intl-is_public}</span>
+	<input type="checkbox" name="IsPublic" {todo_is_public}>&nbsp;<span class="boxtext">{intl-is_public}</span>
 	</td>
-
 
 <td>
 <p class="boxtext">{intl-deadline_headline}:</p>
@@ -141,7 +140,7 @@
 
 	<!-- BEGIN send_mail_tpl -->
 	<td>
-	<input type="checkbox" name="SendMail">&nbsp;<span class="boxtext">{intl-send_mail}</span>
+	<input type="checkbox" name="SendMail" {send_mail_checkbox}&nbsp;<span class="boxtext">{intl-send_mail}</span>
 	</td>
 	<!-- END send_mail_tpl -->
 </tr>
