@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.69.2.2 2003/07/22 08:49:52 br Exp $
+// $Id: productedit.php,v 1.69.2.3 2004/07/09 11:44:47 br Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -387,7 +387,7 @@ if ( $Action == "Update"  or $Action == "Insert" )
 
 if ( $Action == "Cancel" )
 {
-    if ( isSet( $ProductID ) )
+    if ( is_numeric( $ProductID ) )
     {
         $product = new eZProduct( $ProductID );
         $category = $product->categoryDefinition();

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: checkout.php,v 1.96.2.10 2002/04/10 11:49:02 br Exp $
+// $Id: checkout.php,v 1.96.2.11 2004/07/09 11:44:47 br Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -45,6 +45,8 @@ $ShowExTaxColumn = $ini->read_var( "eZTradeMain", "ShowExTaxColumn" ) == "enable
 $ShowIncTaxColumn = $ini->read_var( "eZTradeMain", "ShowIncTaxColumn" ) == "enabled" ? true : false;
 $ShowExTaxTotal = $ini->read_var( "eZTradeMain", "ShowExTaxTotal" ) == "enabled" ? true : false;
 $ColSpanSizeTotals = $ini->read_var( "eZTradeMain", "ColSpanSizeTotals" );
+$CountryVATDiscrimination = $ini->read_var( "eZTradeMain", "CountryVATDiscrimination" ) == "enabled" ? true : false;
+
 // Set some variables to defaults.
 $ShowCart = false;
 $ShowSavingsColumn = false;
@@ -381,7 +383,7 @@ if ( is_numeric( $BillingAddressID ) )
     if ( !$country->hasVAT() )
         $vat = false;
 }
-else
+else if ( $CountryVATDiscrimination == true )
 {
     $address = new eZAddress();
     $mainAddress = $address->mainAddress( $user );
@@ -392,14 +394,6 @@ else
         $vat = false;
         $totalVAT = 0;
     }
-}
-
-if ( $vat == false )
-{
-    $ShowExTaxColumn = true;
-    $PricesIncludeVAT = false;
-    $ShowExTaxTotal = true;
-    $ShowIncTaxColumn = false;
 }
 
 function turnColumnsOnOff( $rowName )
