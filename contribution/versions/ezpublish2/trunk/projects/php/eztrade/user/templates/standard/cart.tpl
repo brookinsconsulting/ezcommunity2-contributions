@@ -170,7 +170,6 @@
 <br />
 <br />
 <br />
-<hr noshade="noshade" size="4" />
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
@@ -182,15 +181,15 @@
 <!-- BEGIN tax_item_tpl -->
 
 <tr>
-<td align="right">{sub_tax_basis}</td>
-<td align="right">{sub_tax_percentage} %</td>
-<td align="right">{sub_tax}</td>
+    <td class="{td_class}" align="right">{sub_tax_basis}</td>
+    <td class="{td_class}" align="right">{sub_tax_percentage} %</td>
+    <td class="{td_class}" align="right">{sub_tax}</td>
 </tr>
 <!-- END tax_item_tpl -->
 
 <tr>
-<td colspan="2" align="right">{intl-total}</td>
-<td align="right">{tax}</td>
+    <th colspan="2" class="right">{intl-total}:</th>
+    <td align="right">{tax}</td>
 </tr>
 
 </table>

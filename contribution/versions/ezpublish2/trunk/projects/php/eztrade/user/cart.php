@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.58 2001/09/14 10:25:29 pkej Exp $
+// $Id: cart.php,v 1.59 2001/09/14 13:29:04 pkej Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -561,8 +561,12 @@ if ( $ShowCart == true )
     $currency->setValue( $total["tax"] );
     $t->set_var( "tax", $locale->format( $currency ) );
 
+    $j = 0;
+
     foreach( $tax as $taxGroup )
     {
+        $t->set_var( "td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
+        $j++;  
         $currency->setValue( $taxGroup["basis"] );    
         $t->set_var( "sub_tax_basis", $locale->format( $currency ) );
 
@@ -570,7 +574,7 @@ if ( $ShowCart == true )
         $t->set_var( "sub_tax", $locale->format( $currency ) );
 
         $t->set_var( "sub_tax_percentage", $taxGroup["percentage"] );
-        $t->parse( "tax_item", "tax_item_tpl", true );    
+        $t->parse( "tax_item", "tax_item_tpl", true );
     }
 
     $t->parse( "tax_specification", "tax_specification_tpl" );
