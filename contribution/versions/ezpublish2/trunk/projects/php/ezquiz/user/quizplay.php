@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: quizplay.php,v 1.11 2001/07/20 11:24:09 jakobn Exp $
+// $Id: quizplay.php,v 1.12 2001/10/15 08:10:26 fh Exp $
 //
 // Created on: <28-May-2001 11:24:41 pkej>
 //
@@ -34,7 +34,10 @@ include_once( "ezquiz/classes/ezquizquestion.php" );
 include_once( "ezquiz/classes/ezquizgame.php" );
 include_once( "ezquiz/classes/ezquizanswer.php" );
 include_once( "ezquiz/classes/ezquizscore.php" );
+include_once( "classes/INIFile.php" );
 
+$ini =& INIFile::globalINI();
+$Language = $ini->read_var( "eZQuizMain", "Language" ); 
 $t = new eZTemplate( "ezquiz/user/" . $ini->read_var( "eZQuizMain", "TemplateDir" ),
                      "ezquiz/user/intl/", $Language, "quiz.php" );
 
