@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.6 2000/10/19 10:49:29 ce-cvs Exp $
+// $Id: menubox.php,v 1.7 2000/10/21 13:44:13 bf-cvs Exp $
 //
 // 
 //
@@ -32,18 +32,20 @@ $Language = $ini->read_var( "eZLinkMain", "Language" );
 
 $PageCaching = $ini->read_var( "eZLinkMain", "PageCaching");
 
+unset( $menuCachedFile );
 // do the caching 
 if ( $PageCaching == "enabled" )
 {
+
     $menuCachedFile = "ezlink/cache/menubox.cache";
                     
-    if ( file_exists( $cachedFile ) )
+    if ( file_exists( $menuCachedFile ) )
     {
-        include( $cachedFile );
+        include( $menuCachedFile );
     }
     else
     {
-        $GenerateStaticPage = "true";
+        $GenerateStaticPage = true;
         createLinkMenu();
     }            
 }
@@ -56,6 +58,8 @@ function createLinkMenu()
 {
     global $ini;
     global $Language;
+    global $GenerateStaticPage;
+    global $menuCachedFile;
     
     include_once( "classes/eztemplate.php" );
     include_once( "common/ezphputils.php" );
@@ -109,7 +113,7 @@ function createLinkMenu()
                        
 //      $t->pparse( "output", "link_group_list" );
 
-    if ( $GenerateStaticPage == "true" )
+    if ( $GenerateStaticPage == true )
     {
         $fp = fopen ( $menuCachedFile, "w+");
 
@@ -124,7 +128,6 @@ function createLinkMenu()
     {
         $t->pparse( "output", "menu_box_tpl" );
     }
-    
 }
 
 ?>

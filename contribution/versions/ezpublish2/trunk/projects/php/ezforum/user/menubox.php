@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.2 2000/10/18 12:32:43 ce-cvs Exp $
+// $Id: menubox.php,v 1.3 2000/10/21 13:44:10 bf-cvs Exp $
 //
 // 
 //
@@ -12,44 +12,61 @@
 // IMPORTANT NOTE: You may NOT copy this file or any part of it into
 // your own programs or libraries.
 //
+
 include_once( "classes/INIFile.php" );
 
-$ini = new INIFile( "site.ini" );
+//  $ini = new INIFile( "site.ini" );
 
-$PageCaching = $ini->read_var( "eZForumMain", "PageCaching");
+$Language = $ini->read_var( "eZForumMain", "Language" );
 
-// do the caching 
+$PageCaching = $ini->read_var( "eZForumMain", "PageCaching" );
+
+unset( $menuCachedFile );
+// do the caching
 if ( $PageCaching == "enabled" )
 {
     $menuCachedFile = "ezforum/cache/menubox.cache";
-                    
-    if ( file_exists( $cachedFile ) )
+
+    if ( file_exists( $menuCachedFile ) )
     {
-        include( $cachedFile );
+        include( $menuCachedFile );
     }
     else
     {
-        $GenerateStaticPage = "true";
+        $GenerateStaticPage = true;
         createPage();
     }            
 }
 else
 {
-    
     createPage();
 }
 
 function createPage()
 {
+    global $GenerateStaticPage;
+    global $menuCachedFile;
+    global $ini;
+    global $Language;
+    
     include_once( "classes/eztemplate.php" );
     include_once( "classes/ezdb.php" );
     include_once( "ezforum/classes/ezforumcategory.php" );
 
-    $t = new Template( "." );
+    $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+                         "ezforum/user/intl", $Language, "menubox.php" );
 
-    $t->set_file( Array( "categorylist_tpl" => "ezforum/user/templates/standard/categorymenu.tpl" ) );
+    $t->setAllStrings();
 
-    $t->set_block( "categorylist_tpl", "category_tpl", "category" );
+    $t->set_file( array(
+        "menu_box_tpl" => "menubox.tpl"
+        ) );
+    
+//      $t = new Template( "." );
+
+//      $t->set_file( Array( "categorylist_tpl" => "ezforum/user/templates/standard/categorymenu.tpl" ) );
+
+    $t->set_block( "menu_box_tpl", "category_tpl", "category" );
 
     $category = new eZForumCategory();
     $categories = $category->getAllCategories();
@@ -65,22 +82,21 @@ function createPage()
     }
     else
     {
-
         foreach( $categories as $category )
-            {
-                $t->set_var("id", $category->id() );
-                $t->set_var("name", $category->name() );
+        {
+            $t->set_var("id", $category->id() );
+            $t->set_var("name", $category->name() );
         
-                $t->parse( "category", "category_tpl", true);
-            }
+            $t->parse( "category", "category_tpl", true);
+        }
     }
 
 
-    if ( $GenerateStaticPage == "true" )
+    if ( $GenerateStaticPage == true )
     {
         $fp = fopen ( $menuCachedFile, "w+");
 
-        $output = $t->parse( $target, "categorylist_tpl" );
+        $output = $t->parse( $target, "menu_box_tpl" );
         // print the output the first time while printing the cache file.
     
         print( $output );
@@ -89,7 +105,7 @@ function createPage()
     }
     else
     {
-        $t->pparse( "output", "categorylist_tpl" );
+        $t->pparse( "output", "menu_box_tpl" );
     }
     
 }
