@@ -28,8 +28,17 @@ switch ( $url_array[2] )
     {
         $TemplateID = $url_array[3];
         if( !is_numeric( $TemplateID ) )
-            $TemplateIDID = 0;
+            $TemplateID = 0;
         include_once( "ezbulkmail/admin/templateedit.php" );
+    }
+    break;
+
+    case "mailedit" :
+    {
+        $MailID = $url_array[3];
+        if( !is_numeric( $MailID ) )
+            $MailID = 0;
+        include_once( "ezbulkmail/admin/mailedit.php" );
     }
     break;
     
