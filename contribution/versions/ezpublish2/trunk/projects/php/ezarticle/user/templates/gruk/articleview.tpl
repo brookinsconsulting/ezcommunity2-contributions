@@ -21,8 +21,6 @@
 </tr>
 </table>
 
-<hr noshade="noshade" size="4" />
-
 <img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="">
 <a class="path" href="/article/archive/0/">{intl-top_level}</a>
 
@@ -31,7 +29,6 @@
 <a class="path" href="/article/archive/{category_id}/">{category_name}</a>
 <!-- END path_item_tpl -->
 
-<hr noshade="noshade" size="4" />
 <br />
 <!-- BEGIN article_header_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">

@@ -1,7 +1,5 @@
 <h1>{intl-author_info}</h1>
 
-<hr noshade="noshade" size="4" />
-
 <br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">

@@ -3,8 +3,6 @@
 
 <h1>{intl-header}</h1>
 
-<hr noshade="noshade" size="4" />
-
 <h2>{Topic}</h2>
 <p>{Intro}</p>
 <br />
@@ -36,8 +34,6 @@
 <p class="boxtext">{intl-comment}:</p>
 <textarea name="Textarea" class="box" cols="40" rows="5">{textarea}</textarea>
 <br /><br />
-
-<hr noshade="noshade" size="4" />
 
 <input class="okbutton" type="submit" name="Submit" value="{intl-send}">
 <input class="okbutton" type="reset" name="Reset" value="{intl-reset}">

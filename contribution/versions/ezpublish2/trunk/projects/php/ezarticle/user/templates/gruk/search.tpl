@@ -13,8 +13,6 @@
 </tr>
 </table>
 
-<hr noshade="noshade" size="4" />
-
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<td>

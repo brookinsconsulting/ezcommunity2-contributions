@@ -17,7 +17,6 @@
 
 <!-- END path_item_tpl -->
 
-<hr noshade="noshade" size="4" />
 <br />
 
 <!-- BEGIN category_list_tpl -->
