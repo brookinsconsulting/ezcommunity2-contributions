@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.23 2000/10/10 15:01:35 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.24 2000/10/10 15:15:47 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -86,6 +86,8 @@
  */
 /*!TODO
     delete must do its job.
+    
+    removeImage must do its job.
     
     createLogItem() must do its job ;)
     
