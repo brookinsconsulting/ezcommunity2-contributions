@@ -46,7 +46,7 @@
 	{cart_item_count}
 	</td>
 	<td class="{td_class}" align="right">
-	{product_price}
+	<nobr>{product_price}</nobr>
 	</td>
 </tr>
 <!-- BEGIN voucher_information_tpl -->
@@ -78,14 +78,14 @@
 	</td>
 
 	<td align="right">
-	{shipping_cost}
+	<nobr>{shipping_cost}</nobr>
 	</td>
 </tr>
 <tr>
 	<td>&nbsp;</td>
 	<td colspan="1" align="right"><span class="boxtext">{intl-vat}:</span></td>
 	<td align="right">
-	{cart_vat_sum}
+	<nobr>{cart_vat_sum}</nobr>
 	</td>
 </tr>
 <!-- BEGIN vouchers_tpl --> 
@@ -94,7 +94,7 @@
 	<td>&nbsp;</td>
 	<td colspan="1" align="right"><span class="boxtext">{intl-voucher} {number}:</span></td>
 	<td align="right">
-	- {voucher_price}
+	<nobr>- {voucher_price}</nobr>
 	</td>
 	<td>
 	<input type="checkbox" name="RemoveVoucherArray[]" value="{number}" />
@@ -105,7 +105,7 @@
 <!-- END vouchers_tpl --> 
 <tr>
 	<td colspan="{cart_colspan}" align="right"><span class="boxtext">{intl-total_cost_is}:</span></td>
-	<td align="right">{cart_sum}</td>
+	<td align="right"><nobr>{cart_sum}</nobr></td>
 </tr>
 </table>
 <!-- END cart_item_list_tpl -->

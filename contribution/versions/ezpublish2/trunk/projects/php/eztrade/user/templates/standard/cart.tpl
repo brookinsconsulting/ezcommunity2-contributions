@@ -78,14 +78,14 @@
 	<td colspan="3">&nbsp;</td>
 	<td align="right" colspan="2"><span class="boxtext">{intl-shipping}:</span></td>
 	<td align="right">
-	{shipping_sum}
+	<nobr>{shipping_sum}</nobr>
 	</td>
 </tr>
 <tr>
 	<td colspan="3">&nbsp;</td>
 	<td align="right" colspan="2"><span class="boxtext">{intl-vat}:</span></td>
 	<td align="right">
-	{cart_vat_sum}
+	<nobr>{cart_vat_sum}</nobr>
 	</td>
 </tr>
 <tr>
@@ -93,14 +93,14 @@
 	<td colspan="3">&nbsp;</td>
 	<td align="right" colspan="2"><span class="boxtext">{intl-total}:</span></td>
 	<td align="right">
-	{cart_sum}
+	<nobr>{cart_sum}</nobr>
 	</td>
 	<!-- END price_ex_vat_tpl -->
 	<!-- BEGIN price_inc_vat_tpl -->
 	<td colspan="3">&nbsp;</td>
 	<td align="right" colspan="2"><span class="boxtext">{intl-total}:</span></td>
 	<td align="right">
-	{cart_sum}
+	<nobr>{cart_sum}</nobr>
 	</td>
 	<!-- END price_inc_vat_tpl -->
 </tr>

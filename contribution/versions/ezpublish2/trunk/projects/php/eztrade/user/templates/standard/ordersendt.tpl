@@ -55,7 +55,7 @@
 <!-- BEGIN order_item_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="3" border="0">
 <tr>
-	<th>{intl-picture}:</th>
+	<th>&nbsp;</th>
 	<th>{intl-product_name}:</th>
 	<th>{intl-options}:</th>
 	<th>{intl-qty}:</th>
@@ -82,24 +82,24 @@
 	{order_item_count}
 	</td>
 	<td class="{td_class}" align="right">
-	{product_price}
+	<nobr>{product_price}</nobr>
 	</td>
 </tr>
 <!-- END order_item_tpl -->
 <tr>
 	<td>&nbsp;</td>
 	<td align="right" colspan="3" class="boxtext">{intl-shipping_and_handling}:</td>
-	<td align="right">{shipping_cost}</td>
+	<td align="right"><nobr>{shipping_cost}</nobr></td>
 </tr>
 <tr>
 	<td>&nbsp;</td>
 	<td align="right" colspan="3" class="boxtext">{intl-vat}:</td>
-	<td align="right">{order_vat_sum}</td>
+	<td align="right"><nobr>{order_vat_sum}</nobr></td>
 </tr>
 <tr>
 	<td>&nbsp;</td>
 	<td align="right" colspan="3" class="boxtext">{intl-total}:</td>
-	<td align="right">{order_sum}</td>
+	<td align="right"><nobr>{order_sum}</nobr></td>
 </tr>
 </table>
 <!-- END order_item_list_tpl -->
