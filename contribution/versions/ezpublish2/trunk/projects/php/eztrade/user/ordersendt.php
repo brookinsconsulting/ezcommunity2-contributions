@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.11 2000/11/03 10:38:03 bf-cvs Exp $
+// $Id: ordersendt.php,v 1.12 2001/01/18 14:42:25 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <06-Oct-2000 14:04:17 bf>
@@ -47,7 +47,8 @@ $t->set_block( "order_sendt_tpl", "mastercard_tpl", "mastercard" );
 $t->set_block( "order_sendt_tpl", "cod_tpl", "cod" );
 $t->set_block( "order_sendt_tpl", "invoice_tpl", "invoice" );
 
-$t->set_block( "order_sendt_tpl", "address_tpl", "address" );
+$t->set_block( "order_sendt_tpl", "billing_address_tpl", "billing_address" );
+$t->set_block( "order_sendt_tpl", "shipping_address_tpl", "shipping_address" );
 
 $t->set_block( "order_sendt_tpl", "order_item_list_tpl", "order_item_list" );
 $t->set_block( "order_item_list_tpl", "order_item_tpl", "order_item" );
@@ -86,20 +87,29 @@ if ( $user )
 
 // print out the addresses
 
-    $addressArray = $user->addresses();
+    $billingAddress = $order->billingAddress();
 
-    foreach ( $addressArray as $address )
-    {
-        $t->set_var( "street1", $address->street1() );
-        $t->set_var( "street2", $address->street2() );
-        $t->set_var( "zip", $address->zip() );
-        $t->set_var( "place", $address->place() );
+    $t->set_var( "billing_street1", $billingAddress->street1() );
+    $t->set_var( "billing_street2", $billingAddress->street2() );
+    $t->set_var( "billing_zip", $billingAddress->zip() );
+    $t->set_var( "billing_place", $billingAddress->place() );
+    
+    $country = $billingAddress->country();
+    $t->set_var( "billing_country", $country->name() );
+    
+    $t->parse( "billing_address", "billing_address_tpl" );
 
-        $country = $address->country();
-        $t->set_var( "country", $country->name() );
+    $shippingAddress = $order->shippingAddress();
 
-        $t->parse( "address", "address_tpl" );
-    }
+    $t->set_var( "shipping_street1", $shippingAddress->street1() );
+    $t->set_var( "shipping_street2", $shippingAddress->street2() );
+    $t->set_var( "shipping_zip", $shippingAddress->zip() );
+    $t->set_var( "shipping_place", $shippingAddress->place() );
+    
+    $country = $shippingAddress->country();
+    $t->set_var( "shipping_country", $country->name() );
+    
+    $t->parse( "shipping_address", "shipping_address_tpl" );
 
 }
 

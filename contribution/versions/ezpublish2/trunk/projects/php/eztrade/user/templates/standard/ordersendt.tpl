@@ -105,12 +105,21 @@
 
 <br />
 
-<!-- BEGIN address_tpl -->
-{street1}<br />
-{street2}<br />
-{zip} {place}<br />
-{country}<br />
-<!-- END address_tpl -->
+<!-- BEGIN billing_address_tpl -->
+<h3>{intl-billing_address}</h3>
+{billing_street1}<br />
+{billing_street2}<br />
+{billing_zip} {billing_place}<br />
+{billing_country}<br />
+<!-- END billing_address_tpl -->
+
+<!-- BEGIN shipping_address_tpl -->
+<h3>{intl-shipping_address}</h3>
+{shipping_street1}<br />
+{shipping_street2}<br />
+{shipping_zip} {shipping_place}<br />
+{shipping_country}<br />
+<!-- END shipping_address_tpl -->
 
 <br />
 
