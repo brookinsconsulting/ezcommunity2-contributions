@@ -74,14 +74,14 @@ class eZLinkGroup
 
         if ( $lg->parent() != 0 )
         {
-            $this->printPath( $lg->parent(),  $url );
+            $path .= $this->printPath( $lg->parent(),  $url );
         }
         else
         {
             $path .= "/ <a href=\"index.php?page=$url&LGID=0\">" . "kategorier" . "</a>";
         }
         $path .= " / <a href=\"index.php?page=$url&LGID=$id\">" . $lg->title() . "</a>";
-        print ( $path );
+        return $path;
     }
 
 

@@ -136,7 +136,8 @@ else
     }
 }
 
-$t->set_var( "printpath", $linkGroup->printPath( $LGID, $DOCUMENTROOT . "linklist.php" ) );  
+$t->set_var( "printpath", $linkGroup->printPath( $LGID, $DOCUMENTROOT . "linklist.php" ) );
+
 $t->set_var( "linkgroup_id", $LGID );
 $t->set_var( "document_root", $DOCUMENTROOT );
                        
