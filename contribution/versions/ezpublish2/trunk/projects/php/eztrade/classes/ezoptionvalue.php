@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoptionvalue.php,v 1.22 2001/03/14 17:21:57 jb Exp $
+// $Id: ezoptionvalue.php,v 1.23 2001/03/16 10:26:32 ce Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -356,7 +356,6 @@ class eZOptionValue
     */
     function setPrice( $value )
     {
-        print( $value );
         $this->Price = $value;
     }
 

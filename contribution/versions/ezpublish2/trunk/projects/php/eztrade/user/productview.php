@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.37 2001/03/15 18:27:22 ce Exp $
+// $Id: productview.php,v 1.38 2001/03/16 10:26:32 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -236,7 +236,6 @@ if ( $image_count > 0 )
     $t->parse( "image_list", "image_list_tpl" );
 
 $options = $product->options();
-
 $t->set_var( "option", "" );
 
 $t->set_var( "value_price_header", "" );
