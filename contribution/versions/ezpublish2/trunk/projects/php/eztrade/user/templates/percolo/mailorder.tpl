@@ -16,9 +16,6 @@ http://{site_url} {intl-headline}
 {billing_country}
 <!-- END billing_address_tpl -->
 
-{intl-payment_method}:
-{payment_method}
-
 <!-- BEGIN shipping_address_tpl -->
 {intl-shipping_address}:
 {shipping_customer_first_name} {shipping_customer_last_name}
@@ -26,9 +23,6 @@ http://{site_url} {intl-headline}
 {shipping_zip} {shipping_place}
 {shipping_country}
 <!-- END shipping_address_tpl -->
-
-{intl-shipping_type}:
-{shipping_type}
 
 
 {product_string}{count_string}{price_string}

@@ -46,16 +46,6 @@
 	<br />
 	</td>
 </tr>
-<tr>
-	<td>
-	<h2>{intl-payment_method}:</h2>
-	<div class="p">{payment_method}</div>
-	</td>
-	<td>
-	<h2>{intl-shipping_type}:</h2>
-	<div class="p">{shipping_type}</div>
-	</td>
-</tr>
 </table>
 <br />
 

@@ -119,13 +119,15 @@
 <br /><br />
 <br />
 
-{intl-payment_methods_description}:
+<!-- {intl-payment_methods_description}: -->
 
-<select name="PaymentMethod">
+<input type="hidden" name="PaymentMethod" value="3" />
+
+<!-- <select name="PaymentMethod"> -->
 <!-- BEGIN payment_method_tpl -->
-<option value="{payment_method_id}">{payment_method_text}</option>
+<!-- <option value="{payment_method_id}">{payment_method_text}</option> -->
 <!-- END payment_method_tpl -->
-</select>
+<!-- </select> -->
 
 <br /><br />
 
