@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.36.2.4 2002/02/04 17:42:03 jhe Exp $
+// $Id: ezobjectpermission.php,v 1.36.2.5 2002/02/08 09:36:26 bf Exp $
 //
 // Definition of eZObjectPermission class
 //
@@ -154,7 +154,7 @@ class eZObjectPermission
         if ( $permission != 'u' && $permission != 'w' && $permission != 'r' )
             return false;
 
-        $SQLGroups = "Object.GroupID = '-1'";
+        $SQLGroups = "Object.GroupID = '-1' AND Category.GroupID = '-1' ";
         if ( get_class( $user ) == "ezuser" )
         {
             $groups =& $user->groups( false );
@@ -211,9 +211,11 @@ class eZObjectPermission
 
         $database =& eZDB::globalDatabase();
 
-        $database->query_single( $res, $query );
+        $database->query_single( $res, $query );        
         if ( $res[$database->fieldName( "ID" )] != 0 )
+        {
             return true;
+        }
 
         return false;
     }

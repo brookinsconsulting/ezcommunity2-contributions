@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.100.2.2 2001/12/04 18:53:07 br Exp $
+// $Id: ezuser.php,v 1.100.2.3 2002/02/08 09:36:26 bf Exp $
 //
 // Definition of eZUser class
 //
@@ -83,6 +83,7 @@ class eZUser
     {
         $this->InfoSubscription = 0;
         $this->SimultaneousLogins = 0;
+        $this->GroupString = false;
         if ( is_array( $id ) )
         {
             $this->fill( $id );
@@ -857,6 +858,30 @@ class eZUser
     }
 
     /*!
+      Returns the member group id's of the user as a string sorted by id.
+
+      e.g. 1-2-3-4-6
+    */
+    function groupString()
+    {
+        $groupStr = "";
+        if ( $this->GroupString != false )
+        {
+            $groupIDArray =& $user->groups( false );
+            sort( $groupIDArray );
+            $first = true;
+            foreach ( $groupIDArray as $groupID )
+            {
+                $first ? $groupStr .= "$groupID" : $groupStr .= "-$groupID";
+                $first = false;
+            }
+            $this->GroupString = $groupStr;
+        }
+
+        return $this->GroupString;
+    }
+    
+    /*!
       Returns the user groups the current user is a member of.
       The result is returned as an array of eZUserGroup objects if $IDOnly = false. If not only an array with the ID's is returned.
     */
@@ -1239,6 +1264,9 @@ class eZUser
     var $CookieLogin;
     var $SimultaneousLogins;
     var $StoredTimeout;
+
+    /// string with the member groups, used for storing permissions in cache files
+    var $GroupString;
 }
 
 ?>
