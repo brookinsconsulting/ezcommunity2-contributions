@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.119.4.10 2001/12/12 10:32:39 bf Exp $
+// $Id: ezproduct.php,v 1.119.4.11 2001/12/18 14:08:08 sascha Exp $
 //
 // Definition of eZProduct class
 //
@@ -760,6 +760,7 @@ class eZProduct
         }
         else
             return false;
+
         return $quantity;
     }
 
@@ -772,8 +773,8 @@ class eZProduct
         if ( !$id )
             $id = $this->ID;
         $quantity = eZProduct::totalQuantity( $id );
-        if ( is_bool($quantity) or
-             !$require or ( $require and $quantity > 0 ) )
+
+        if ( is_bool($quantity) or !$require or ( $require and ( $quantity > 0 ) or ( $quantity == -1 ) ) )
             return true;
         return false;
     }
@@ -1389,7 +1390,8 @@ class eZProduct
                                      WHERE
                                      ( Name LIKE '%$query%' ) OR
                                      ( Description LIKE '%$query%' ) OR
-                                     ( Keywords LIKE '%$query%' )", 
+                                     ( Keywords LIKE '%$query%' ) OR
+				     ( ProductNumber LIKE '%$query%' )", 
                                      array( "Limit" => $limit, "Offset" => $offset ) );
 
        foreach ( $res_array as $product )
@@ -1412,7 +1414,8 @@ class eZProduct
                                      WHERE
                                      ( Name LIKE '%$query%' ) OR
                                      ( Description LIKE '%$query%' ) OR
-                                     ( Keywords LIKE '%$query%' )
+                                     ( Keywords LIKE '%$query%' ) OR
+				     ( ProductNumber LIKE '%$query%' )
                                    " );
        
         return $res_array[0][$db->fieldName( "Count" )];

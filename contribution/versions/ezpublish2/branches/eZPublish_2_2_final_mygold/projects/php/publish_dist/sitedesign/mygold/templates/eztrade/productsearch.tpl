@@ -49,7 +49,11 @@
       <table align="right">
         <tr>
           <td>
-	    <img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
+            <table border="0" cellspacing="1" cellpadding="0" bgcolor="#003366">
+              <tr>
+	        <td><img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" /></td>
+	      </tr>
+	    </table>  
 	  </td>
 	</tr>
 	<tr>

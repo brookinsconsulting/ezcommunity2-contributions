@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.96.4.6 2001/11/22 12:16:02 sascha Exp $
+// $Id: checkout.php,v 1.96.4.7 2001/12/18 14:08:08 sascha Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -150,7 +150,7 @@ $t->set_block( "checkout_page_tpl", "shipping_address_list_tpl", "shipping_addre
 $t->set_block( "shipping_address_list_tpl", "shipping_address_tpl", "shipping_address" );
 $t->set_block( "checkout_page_tpl", "billing_address_tpl", "billing_address" );
 $t->set_block( "billing_address_tpl", "billing_option_tpl", "billing_option" );
-$t->set_block( "checkout_page_tpl", "wish_user_tpl", "wish_user" );
+$t->set_block( "shipping_address_list_tpl", "wish_user_tpl", "wish_user" );
 
 $t->set_block( "checkout_page_tpl", "sendorder_item_tpl", "sendorder_item" );
 
@@ -164,6 +164,7 @@ $t->set_var( "price_ex_vat", "" );
 $t->set_var( "price_inc_vat", "" );
 $t->set_var( "cart_item", "" );
 $t->set_var( "pay_with_voucher", "false" );
+$t->set_var( "wish_user", "" );
 
 if ( isSet ( $RemoveVoucher ) )
 {
@@ -352,6 +353,36 @@ foreach ( $items as $item )
     $t->set_var( "product_total_ex_tax", $item->localePrice( true, true, false ) );
     $t->set_var( "product_total_inc_tax", $item->localePrice( true, true, true ) );
 
+    $wishListItem = $item->wishListItem();
+
+    if ( $wishListItem )
+    {
+        $wishList = $wishListItem->wishList();
+
+        if ( $wishList )
+        {
+            $wishUser = $wishList->user();
+
+            if ( get_class ( $wishUser ) == "ezuser" )
+            {
+                $address = new eZAddress();
+
+                $mainAddress =& $address->mainAddress( $wishUser );
+                if ( get_class ( $mainAddress ) == "ezaddress" )
+                {
+                    $t->set_var( "wish_user_address_id", $mainAddress->id() );
+                    $t->set_var( "wish_first_name", $wishUser->firstName() );
+                    $t->set_var( "wish_last_name", $wishUser->lastName() );
+                    $t->parse( "wish_user", "wish_user_tpl" );
+                }
+                else
+                {
+                }
+            }
+        }
+    }
+
+
     $numberOfItems++;
 
     $numberOfOptions = 0;
@@ -390,7 +421,6 @@ foreach ( $items as $item )
     }
     turnColumnsOnOff( "cart" );
     turnColumnsOnOff( "basis" );
-    
     if ( $numberOfOptions ==  0 )
     {
         $t->set_var( "cart_item_option", "" );
@@ -700,12 +730,15 @@ if ( $total["inctax"] )
     $checkout = new eZCheckout();
     
     $instance =& $checkout->instance();
-
+    
+    
     $paymentMethods =& $instance->paymentMethods( $useVoucher );
+    
+//    echo "<script>alert(\"".$total["inctax"]."\");</script>";
     
     foreach ( $paymentMethods as $paymentMethod )
     {
-	if ( !( ( $paymentMethod["Text"] == "Bankeinzug" ) AND ( $total["subinctax"] >= 400 ) ) ) // limits ELV payment to a max of 400 DM
+	if ( !( ( $paymentMethod["Text"] == "Bankeinzug" ) AND ( $total["inctax"] >= 400 ) ) ) // limits ELV payment to a max of 400 DM
 	{
 	    $t->set_var( "payment_method_id", $paymentMethod["ID"] );
     	    $t->set_var( "payment_method_text", $paymentMethod["Text"] );

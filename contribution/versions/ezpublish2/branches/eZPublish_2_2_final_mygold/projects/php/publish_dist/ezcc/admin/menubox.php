@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.1.2.1 2001/11/15 16:25:01 ce Exp $
+// $Id: menubox.php,v 1.1.2.2 2001/12/18 14:08:07 sascha Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Oct-2000 17:53:46 bf>
@@ -27,8 +27,8 @@
 
 $menuItems = array(
     array( "/cc/log/", "{intl-cc_log}" ),
-    array( "/cc/cutover/", "{intl-cc_cutover}" ),
-    array( "/cc/cancel/", "{intl-cc_cancel}" )
+    array( "/cc/visa/", "{intl-cc_visa}" ),
+    array( "/cc/mastercard/", "{intl-cc_mcard}" )
     );
 
 ?>

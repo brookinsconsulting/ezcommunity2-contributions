@@ -52,8 +52,13 @@
 			<!-- BEGIN product_image_tpl -->
 			<table>
 				<tr> 
-					<td><a href="{www_dir}{index}/trade/productview/{product_id}/{category_id}/"> 
-						<img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" alt="{thumbnail_image_caption}"/></a> 
+					<td>
+					<table border="0" cellspacing="1" cellpadding="0" bgcolor="#003366">
+					              <tr> 
+						                      <td class="spacer"><a href="{www_dir}{index}/trade/productview/{product_id}/{category_id}/"> 
+						<img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" alt="{thumbnail_image_caption}"/></a></td>
+						</tr>
+						</table> 
 					</td>
 				</tr>
 				<tr> 

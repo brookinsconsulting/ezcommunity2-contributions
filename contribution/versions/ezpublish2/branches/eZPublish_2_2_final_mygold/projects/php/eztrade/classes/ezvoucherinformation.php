@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucherinformation.php,v 1.8.4.10 2001/11/08 12:46:46 ce Exp $
+// $Id: ezvoucherinformation.php,v 1.8.4.11 2001/12/18 14:08:08 sascha Exp $
 //
 // eZVoucherInformation class
 //
@@ -449,7 +449,15 @@ class eZVoucherInformation
         else
             $this->PreOrderID = $value;
     }
-
+    
+    /*!
+      Sets the IsBought Value to true or false.
+    */
+    function setIsBought( $value  )
+    {
+	$this->IsBought = $value;
+    }
+    
     /*!
       Returns the user that created this information.
     */
@@ -585,13 +593,14 @@ class eZVoucherInformation
         $t->setAllStrings();
         
         $t->set_file( "voucheremail", "voucheremail.tpl" );
-
-//        $t->set_block( "voucheremail", "never_expire_tpl", "never_expire" );
-        
+	
+	if ( $voucher->validUntil() == false )
+	    $t->set_var( "valid", $languageIni->read_var( "strings", "unlimited" )  );
+	else
+	    $t->set_var( "valid", $locale->format( $voucher->validUntil() ) );
+	        
         $mail = new eZMail();
         
-        $t->set_block( "voucheremail", "intro", "bought" );
-        $t->set_block( "voucheremail", "intro", "free" );	
         $t->set_block( "voucheremail", "intro_free_tpl", "intro_free" );
         $t->set_block( "voucheremail", "intro_bought_tpl", "intro_bought" );
         
@@ -604,9 +613,9 @@ class eZVoucherInformation
         $currency->setValue( $voucher->price() );
         $t->set_var( "voucher_value", $locale->format( $currency, true, false ) );
 
-        $voucherIsBought = true; // Dummy Value
+        $this->setIsBought( false ); // Dummy Value
         
-        if ( $voucherIsBought == true )
+        if ( $this->IsBought == true )
         {
             $t->set_var( "intro_free", "" );
             $t->parse( "intro_bought", "intro_bought_tpl" );
@@ -619,10 +628,10 @@ class eZVoucherInformation
 
         $mailAddress = $this->toOnline();
 
-        $mail->setSubject( $GLOBALS["SERVER_NAME"] . ": " . $languageIni->read_var( "strings", "subject" ) );
+        $mail->setSubject( $languageIni->read_var( "strings", "subject" ) );
         $mail->setTo( $mailAddress->url() );
         $mail->setBody( $t->parse( "dummy", "voucheremail" ) );
-        $mail->setFrom( $fromUser->url() );
+	$mail->setFrom( $fromUser->url() );
         $mail->send();
     }
 
@@ -692,6 +701,7 @@ class eZVoucherInformation
     var $FromName;
     var $FromOnlineID;
     var $UserID;
+    var $IsBought;
 }
 
 ?>

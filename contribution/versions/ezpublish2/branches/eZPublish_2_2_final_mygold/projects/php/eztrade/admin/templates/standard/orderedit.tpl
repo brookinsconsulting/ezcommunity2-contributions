@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.8 2001/10/17 08:25:19 pkej Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.8.4.1 2001/12/18 14:08:08 sascha Exp $ -->
 
 <h1>{intl-head_line} ({order_id})</h1>
 
@@ -85,7 +85,7 @@
 <tr>
     <td class="{td_class}">&nbsp;</td>
     <td class="{td_class}">{product_number}</td>
-    <td class="{td_class}"><a href="{www_dir}{index}/trade/productview/{product_id}">{product_name}</a></td>
+    <td class="{td_class}"><a href="{www_dir}{index}/trade/productedit/productpreview/{product_id}">{product_name}</a></td>
     <td class="{td_class}" align="right"><nobr>{product_price}</nobr></td>
     
 	<!-- BEGIN cart_savings_item_tpl -->

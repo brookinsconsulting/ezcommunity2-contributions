@@ -38,12 +38,62 @@
 	</td>
 </tr>
 <!-- END voucher_item_tpl -->
-
 </table>
+<!-- END voucher_list_tpl -->
+
+<!-- BEGIN type_list_tpl -->
+<br />
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+        <!-- BEGIN type_list_previous_tpl -->
+        <td>
+        <a class="path" href="{www_dir}{index}/trade/voucherlist/{item_previous_index}/?URLQueryString={url_query_string}">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
+        </td>
+        <!-- END type_list_previous_tpl -->
+
+        <!-- BEGIN type_list_previous_inactive_tpl -->
+        <td>
+        &nbsp;
+        </td>
+        <!-- END type_list_previous_inactive_tpl -->
+
+        <!-- BEGIN type_list_item_list_tpl -->
+
+        <!-- BEGIN type_list_item_tpl -->
+        <td>
+        |&nbsp;<a class="path" href="{www_dir}{index}/trade/voucherlist/{item_index}/?URLQueryString={url_query_string}">{type_item_name}</a>&nbsp;
+        </td>
+        <!-- END type_list_item_tpl -->
+
+        <!-- BEGIN type_list_inactive_item_tpl -->
+        <td>
+        |&nbsp;&lt;&nbsp;{type_item_name}&nbsp;&gt;&nbsp;
+        </td>
+        <!-- END type_list_inactive_item_tpl -->
+
+        <!-- END type_list_item_list_tpl -->
+
+        <!-- BEGIN type_list_next_tpl -->
+        <td>
+        |&nbsp;<a class="path" href="{www_dir}{index}/trade/voucherlist/{item_next_index}/?URLQueryString={url_query_string}">{intl-next}&nbsp;&gt;&gt;</a>
+        </td>
+        <!-- END type_list_next_tpl -->
+
+        <!-- BEGIN type_list_next_inactive_tpl -->
+        <td>
+        |&nbsp;
+        </td>
+        <!-- END type_list_next_inactive_tpl -->
+
+</tr>
+</table>
+<!-- END type_list_tpl -->
+
+
 <hr noshade="noshade" size="4" />
 <input class="stdbutton" type="submit" name="Delete" value="{intl-delete_selected}" />
 </form>
-<!-- END voucher_list_tpl -->
+
 
 
 

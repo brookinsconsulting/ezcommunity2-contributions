@@ -197,6 +197,10 @@ function checkForm()
 	<option value="{payment_method_id}">{payment_method_text}</option>
         <!-- END payment_method_tpl -->
       </select>
+      <p class="small">
+        Um per Gutschein zu bezahlen hier &quot;Gutschein&quot; ausw&auml;hlen.
+	Sie ben&ouml;tigen <a class="small" href="/article/articlestatic/45/#zahlung" target="new">Hilfe</a>?
+      </p>
     </td>
     <td>
        <table cellspacing="10">

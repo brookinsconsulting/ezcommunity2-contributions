@@ -34,7 +34,7 @@
 	</td>
 	<td>
           <b>{intl-mobile_number}:</b>
-          <input type="text" size="10" maxlength="10" name="MobileNumber" value="{mobile_number}" />
+          <input type="text" size="11" maxlength="11" name="MobileNumber" value="{mobile_number}" />
   	</td>
   </tr>
 </table>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.84.4.4 2001/11/22 10:12:30 sascha Exp $
+// $Id: payment.php,v 1.84.4.5 2001/12/18 14:08:08 sascha Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -275,6 +275,39 @@ if ( $PaymentSuccess == "true" )
     }
     
     $cart->cartTotals( $tax, $total );
+    
+    // 
+    // Make vouchers unavailable
+    //
+    $payedWith = $session->arrayValue( "PayedWith" );
+    
+    if ( is_array ( $payedWith ) )
+    {
+        while( list($voucherID,$price) = each( $payedWith ) )
+        {
+            $voucher = new eZVoucher( $voucherID );
+            $voucher->setPrice( $voucher->price() - $price );
+            if ( $voucher->price() <= 0 )
+                $voucher->setAvailable( false );
+
+            $voucher->store();
+            
+            $voucherUsed = new eZVoucherUsed();
+            $voucherUsed->setVoucher( $voucher );
+            $voucherUsed->setPrice( $price );
+            $voucherUsed->setOrder( $order );
+            $voucherUsed->setUser( $user );
+            $voucherUsed->store();
+            
+        }
+	
+	$vouchers_used = 0;
+	foreach ( $payedWith as $value )
+	    $vouchers_used += $value;
+	
+        $session->setVariable( "PayedWith", "" );
+        $session->setVariable( "PayWithVoucher", "" );
+    }    
 
     //
     // Send mail confirmation
@@ -296,9 +329,15 @@ if ( $PaymentSuccess == "true" )
     $mailTemplate->set_block( "cart_item_list_tpl", "cart_item_tpl", "cart_item" );
 
     $mailTemplate->set_block( "cart_item_tpl", "cart_item_option_tpl", "cart_item_option" );
-
+    
     $mailTemplate->set_block( "full_cart_tpl", "tax_specification_tpl", "tax_specification" );
+    
+    $mailTemplate->set_block( "full_cart_tpl", "voucher_item_tpl", "voucher_item" ); //SF
+    $mailTemplate->set_var( "voucher_item", "" ); //SF
+    
     $mailTemplate->set_block( "tax_specification_tpl", "tax_item_tpl", "tax_item" );
+        
+    $mailTemplate->set_var( "order_id", $order->id() ); // SF
 
     // get the customer
     $user = $order->user();
@@ -501,10 +540,24 @@ if ( $PaymentSuccess == "true" )
         $currency->setValue( $total["shipextax"] );
         $shipextax =  $locale->format( $currency );
         $shipextax = preg_replace( $search, $replace, $shipextax );
+	
+	// SF
+	$currency->setValue( $vouchers_used/1.16 );
+        $voucherextax =  $locale->format( $currency );
+        $voucherextax = preg_replace( $search, $replace, $voucherextax );
+	
+	$pay_sum = $total["extax"] - $vouchers_used/1.16;
+
+	$currency->setValue( $pay_sum );
+        $paysumextax =  $locale->format( $currency );
+        $paysumextax = preg_replace( $search, $replace, $paysumextax );
+	
 
         $len_product_total_ex_tax = strlen( $subextax ) > $len_product_total_ex_tax ? strlen( $subextax ) : $len_product_total_ex_tax;
         $len_product_total_ex_tax = strlen( $extax ) > $len_product_total_ex_tax ? strlen( $extax ) : $len_product_total_ex_tax;
         $len_product_total_ex_tax = strlen( $shipextax ) > $len_product_total_ex_tax ? strlen( $shipextax ) : $len_product_total_ex_tax;
+	$len_product_total_ex_tax = strlen( $voucherextax ) > $len_product_total_ex_tax ? strlen( $voucherextax ) : $len_product_total_ex_tax; //SF
+	$len_product_total_ex_tax = strlen( $paysumextax ) > $len_product_total_ex_tax ? strlen( $paysumextax ) : $len_product_total_ex_tax; //SF
     }
 
     if ( $ShowIncTaxColumn == true )
@@ -521,9 +574,22 @@ if ( $PaymentSuccess == "true" )
         $shipinctax =  $locale->format( $currency );
         $shipinctax = preg_replace( $search, $replace, $shipinctax );
 
+	// SF
+	$currency->setValue( $vouchers_used );
+        $voucherinctax =  $locale->format( $currency );
+        $voucherinctax = preg_replace( $search, $replace, $voucherinctax );
+	
+	$pay_sum = $total["inctax"] - $vouchers_used;
+
+	$currency->setValue( $pay_sum );
+        $paysuminctax =  $locale->format( $currency );
+        $paysuminctax = preg_replace( $search, $replace, $paysuminctax );	
+
         $len_product_total_inc_tax = strlen( $subinctax ) > $len_product_total_inc_tax ? strlen( $subinctax ) : $len_product_total_inc_tax;
         $len_product_total_inc_tax = strlen( $inctax ) > $len_product_total_inc_tax ? strlen( $inctax ) : $len_product_total_inc_tax;
         $len_product_total_inc_tax = strlen( $shipinctax ) > $len_product_total_inc_tax ? strlen( $shipinctax ) : $len_product_total_inc_tax;
+        $len_product_total_inc_tax = strlen( $voucherinctax ) > $len_product_total_inc_tax ? strlen( $voucherinctax ) : $len_product_total_inc_tax; //SF
+	$len_product_total_ex_tax = strlen( $paysuminctax ) > $len_product_total_inc_tax ? strlen( $paysuminctax ) : $len_product_total_inc_tax; //SF	
     }
 
     if ( count ( $productOptions ) > 0 )
@@ -671,16 +737,26 @@ if ( $PaymentSuccess == "true" )
         $mailTemplate->set_var( "subtotal_inc_tax", str_pad( $subinctax, $len_product_total_inc_tax, " ", STR_PAD_LEFT ) );
         $mailTemplate->set_var( "total_inc_tax", str_pad( $inctax, $len_product_total_inc_tax, " ", STR_PAD_LEFT ) );
         $mailTemplate->set_var( "shipping_inc_tax", str_pad( $shipinctax, $len_product_total_inc_tax, " ", STR_PAD_LEFT ) );
+	$mailTemplate->set_var( "voucher_inc_tax", str_pad( $voucherinctax, $len_product_total_inc_tax, " ", STR_PAD_LEFT ) ); //SF
+	$mailTemplate->set_var( "paysum_inc_tax", str_pad( $paysuminctax, $len_product_total_inc_tax, " ", STR_PAD_LEFT ) ); //SF	
 
         $mailTemplate->set_var( "subtotal_ex_tax", str_pad( $subextax, $len_product_total_ex_tax, " ", STR_PAD_LEFT ) );
         $mailTemplate->set_var( "total_ex_tax", str_pad( $extax, $len_product_total_ex_tax, " ", STR_PAD_LEFT ) );
         $mailTemplate->set_var( "shipping_ex_tax", str_pad( $shipextax, $len_product_total_ex_tax, " ", STR_PAD_LEFT ) );
+	$mailTemplate->set_var( "voucher_ex_tax", str_pad( $voucherextax, $len_product_total_ex_tax, " ", STR_PAD_LEFT ) ); //SF
+	$mailTemplate->set_var( "paysum_ex_tax", str_pad( $paysumextax, $len_product_total_ex_tax, " ", STR_PAD_LEFT ) ); //SF	
 
         $mailTemplate->set_var( "intl-subtotal", str_pad( trim( $mailTemplateIni->read_var( "strings", "subtotal" ) ), $totalsLen , " ", STR_PAD_LEFT ) );
         $mailTemplate->set_var( "intl-shipping", str_pad( trim( $mailTemplateIni->read_var( "strings", "shipping" ) ), $totalsLen , " ", STR_PAD_LEFT ) );
         $mailTemplate->set_var( "intl-total", str_pad( trim( $mailTemplateIni->read_var( "strings", "total" ) ), $totalsLen , " ", STR_PAD_LEFT ) );
+	$mailTemplate->set_var( "intl-voucher", str_pad( trim( $mailTemplateIni->read_var( "strings", "voucher" ) ), $totalsLen , " ", STR_PAD_LEFT ) ); //SF
+	$mailTemplate->set_var( "intl-paysum", str_pad( trim( $mailTemplateIni->read_var( "strings", "paysum" ) ), $totalsLen , " ", STR_PAD_LEFT ) ); //SF	
 
         $mailTemplate->parse( "cart_item_list", "cart_item_list_tpl" );
+
+	if ( $vouchers_used > 0 )
+	    $mailTemplate->parse( "voucher_item", "voucher_item_tpl" ); //SF
+	
         $mailTemplate->parse( "full_cart", "full_cart_tpl" );
 
         $taxBasisLen = strlen( trim( $mailTemplateIni->read_var( "strings", "tax_basis" ) ) );
@@ -850,10 +926,13 @@ if ( $PaymentSuccess == "true" )
         $changed_quantity = false;
         if ( !(is_bool( $quantity ) and !$quantity) )
         {
-            $max_value = max( $quantity - $count, 0 );
-            $product->setTotalQuantity( $max_value );
-            if ( $max_value == 0 and $DiscontinueQuantityless )
-                $product->setDiscontinued( true );
+            if ( $quantity != -1 )
+            {
+                $max_value = max( $quantity - $count, 0 );
+                $product->setTotalQuantity( $max_value );
+                if ( $max_value == 0 and $DiscontinueQuantityless )
+                    $product->setDiscontinued( true );
+            }
             $product->store();
             $changed_quantity = true;
         }
@@ -935,30 +1014,7 @@ if ( $PaymentSuccess == "true" )
     $preOrder->setOrderID( $OrderID );
     $preOrder->store();
 
-    $payedWith = $session->arrayValue( "PayedWith" );
 
-    if ( is_array ( $payedWith ) )
-    {
-        while( list($voucherID,$price) = each( $payedWith ) )
-        {
-            $voucher = new eZVoucher( $voucherID );
-            $voucher->setPrice( $voucher->price() - $price );
-            if ( $voucher->price() <= 0 )
-                $voucher->setAvailable( false );
-
-            $voucher->store();
-            
-            $voucherUsed = new eZVoucherUsed();
-            $voucherUsed->setVoucher( $voucher );
-            $voucherUsed->setPrice( $price );
-            $voucherUsed->setOrder( $order );
-            $voucherUsed->setUser( $user );
-            $voucherUsed->store();
-            
-        }
-        $session->setVariable( "PayedWith", "" );
-        $session->setVariable( "PayWithVoucher", "" );
-    }
     
     $cart->delete();
 

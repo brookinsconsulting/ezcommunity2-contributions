@@ -1,4 +1,4 @@
-{intl-confirming-order}
+{intl-confirming-order} {order_id}
 
 {intl-thanks_for_shopping}
 
@@ -39,7 +39,12 @@
 {intl-subtotal}{subtotal_ex_tax}{subtotal_inc_tax}
 {intl-shipping}{shipping_ex_tax}{shipping_inc_tax}
 {hyphen_line}
-{intl-total}{total_ex_tax}{total_inc_tax}
+{intl-total}{total_ex_tax}{total_inc_tax}<!-- BEGIN voucher_item_tpl -->
+{hyphen_line}
+{intl-voucher}{voucher_ex_tax}{voucher_inc_tax}
+{hyphen_line}
+{intl-paysum}{paysum_ex_tax}{paysum_inc_tax}
+<!-- END voucher_item_tpl -->
 {equal_line}
 
 <!-- BEGIN tax_specification_tpl -->

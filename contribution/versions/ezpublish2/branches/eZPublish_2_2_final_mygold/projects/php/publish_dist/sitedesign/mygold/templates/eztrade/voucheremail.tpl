@@ -2,7 +2,6 @@
 Guten Tag {to_name},
 
 {from_name} hat Ihnen einen MyGold.com Geschenk Gutschein gesendet.
-
 Sie können Ihn im Schmuck Shop von MyGold.com oder in einer unserer 
 Filialen (http://www.mygold.com/schmuck/flilialen/) einlösen.
 
@@ -22,17 +21,18 @@ MyGold.com
 {intl-from}: {from_name}
 {intl-description}: 
 {description}
-{intl-valid}: {intl-never_expire}
+{intl-valid}: {valid}
 {intl-key_number}: {key_number}
 
-<!-- END intro_bought_tpl -->
-<!-- BEGIN intro_free_tpl -->
+=========================================================================
+<!-- END intro_bought_tpl -->			    
+<!-- BEGIN intro_free_tpl -->			    
 Guten Tag {to_name},
 
-Sie haben einen Gutschein von MyGold.com erhalten.
+{description}
 
-Sie können Ihn im Schmuck Shop von MyGold.com oder in einer unserer 
-Filialen (http://www.mygold.com/schmuck/flilialen/) einlösen.
+Sie können den Gutschein im Schmuck Shop von MyGold.com oder in einer 
+unserer Filialen (http://www.mygold.com/schmuck/flilialen/) einlösen.
 
        WICHTIG!: 
        Bitte löschen Sie diese Nachricht nicht!
@@ -47,14 +47,11 @@ MyGold.com
 			    
 {intl-to}: {to_name}
 {intl-voucher_value}: {voucher_value}
+{intl-valid}: {valid}
 {intl-key_number}: {key_number}
-<!-- BEGIN never_expire_tpl -->
-{intl-valid}: {intl-never_expire}
-<!-- END never_expire_tpl -->
 
-<!-- END intro_free_tpl -->
 =========================================================================
-			    
+<!-- END intro_free_tpl -->			    
 So können Sie Ihren Geschenkgutschein im Internet einlösen:
 			    
 Besuchen Sie uns unter http://www.mygold.com und suchen Sie Sich ein 

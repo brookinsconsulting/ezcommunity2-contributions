@@ -14,9 +14,11 @@
 	  <td>
 	    <h3 align="center"><a class="hotdeal" href="{www_dir}{index}/trade/productview/{product_id}/{category_id}/">{product_name}</a></h3> 
 	    <!-- BEGIN product_image_tpl -->
-	    <div align="center">
-	      <a href="{www_dir}{index}/trade/productview/{product_id}/{category_id}/"><img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/></a>
-	    </div>
+            <table border="0" cellspacing="1" cellpadding="0" bgcolor="#003366" align="center">
+	      <tr>
+	        <td class="spacer"><a href="{www_dir}{index}/trade/productview/{product_id}/{category_id}/"><img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/></a></td>
+	      </tr>
+	    </table>
 	    <!-- END product_image_tpl -->
 	    <p class="small">{product_intro_text}</p>
 	    <!-- BEGIN price_tpl -->

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucher.php,v 1.4 2001/09/24 10:19:16 ce Exp $
+// $Id: voucher.php,v 1.4.4.1 2001/12/18 14:08:08 sascha Exp $
 //
 // Created on: <08-Feb-2001 14:11:48 ce>
 //
@@ -57,7 +57,9 @@ $t->set_var( "error", "" );
 if ( $Action == "Verify" )
 {
     $voucher = eZVoucher::getFromKeyNumber( $KeyNumber );
-    if ( get_class ( $voucher ) == "ezvoucher" )
+
+    // if ( get_class ( $voucher ) == "ezvoucher" )    
+    if ( get_class( $voucher ) == "ezvoucher" and ( !in_array( $voucher->id(), $session->arrayValue( "PayWithVoucher" ) ) ) )
     {
         $array[] = $voucher->id();
 

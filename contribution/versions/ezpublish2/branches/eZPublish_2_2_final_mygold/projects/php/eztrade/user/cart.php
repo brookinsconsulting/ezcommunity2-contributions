@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.71.4.4 2001/11/21 14:08:33 sascha Exp $
+// $Id: cart.php,v 1.71.4.5 2001/12/18 14:08:08 sascha Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -192,7 +192,6 @@ if ( !$cart )
 
 $items = $cart->items( );
 
-
 if ( $Action == "AddToBasket" )
 {
     $product = new eZProduct();
@@ -240,6 +239,9 @@ if ( $Action == "AddToBasket" )
                                          && ( $valueItem == $value->id() ) )
                                     {
                                         $optionValueFound = true;
+                                        $optionValue->setCount( $optionValue->count() + 1 );
+					$optionValue->store();
+                                        break;
                                     }
                                     $i++;
                                 }
@@ -424,7 +426,7 @@ foreach ( $items as $item )
     $t->set_var( "product_price", $item->localePrice( false, true, $PricesIncludeVAT ) );
     $t->set_var( "product_count", $item->count() );
     $t->set_var( "product_total_ex_tax", $item->localePrice( true, true, false ) );
-    $t->set_var( "product_total_inc_tax", $item->localePrice( true, true, true ) );
+    $t->set_var( "product_total_inc_tax", $item->localePrice( true, true, true, true ) );
 
     $voucherInfo =& $item->voucherInformation();
     if ( is_object ( $voucherInfo ) )

@@ -10,24 +10,24 @@
     </td>
     <td align="right">
     <!-- BEGIN public_wishlist_tpl -->
-    <span class="boxtext">{intl-non_public_wishlist_text}</span>&nbsp;<input type="submit" class="okbutton" name="IsNotPublic" value="{intl-non_public_wishlist}" />
+    <span class="boxtext">{intl-non_public_wishlist_text}</span>&nbsp;&nbsp;<input type="submit" class="okbutton" name="IsNotPublic" value="{intl-non_public_wishlist}" />
     <!-- END public_wishlist_tpl -->
     <!-- BEGIN non_public_wishlist_tpl -->
-    <span class="boxtext">{intl-non_public_wishlist_text}</span>&nbsp;<input type="submit" class="okbutton" name="IsPublicButton"  value="{intl-public_wishlist}"/>
+    <span class="boxtext">{intl-public_wishlist_text}</span>&nbsp;&nbsp;&nbsp;<input type="submit" class="okbutton" name="IsPublicButton"  value="{intl-public_wishlist}"/>
     <!-- END non_public_wishlist_tpl -->
 	</td>
 </tr>
 </table>
 
 <!-- BEGIN empty_wishlist_tpl -->
+<hr noshade="noshade" size="1" />
 <h2>{intl-empty_wishlist}</h2>
 <!-- END empty_wishlist_tpl --> 
 
 <!-- BEGIN full_wishlist_tpl -->
 
 <hr noshade="noshade" size="1" />
-<br />
-<table width="100%" border="1" cellspacing="0" cellpadding="4">
+<table width="100%" border="0" cellspacing="0" cellpadding="4">
 <tr>
     <td colspan="2">
     <!-- BEGIN wishlist_item_list_tpl -->
@@ -61,16 +61,17 @@
         </td>
 	<td class="{td_class}">
 	<input type="hidden" name="WishlistIDArray[]" value="{wishlist_item_id}" />
+	<input type="hidden" name="WishlistCountArray[]" value="{wishlist_item_count}" />
 	{wishlist_item_count}
 	</td>	
 	<td class="{td_class}"><nobr><a href="{www_dir}{index}/trade/productview/{product_id}/">{product_name}</a></nobr>
 	<!-- BEGIN wishlist_item_option_tpl --> 
-	<div class="small"><br />{option_name}: {option_value}
+	<div class="small">{option_name}: {option_value}
 	<!-- BEGIN wishlist_item_option_availability_tpl -->
-	({option_availability})
+	<!-- -->
 	<!-- END wishlist_item_option_availability_tpl -->
 	</div>
-	<!-- END wishlist_item_option_tpl --> &nbsp;	 
+	<!-- END wishlist_item_option_tpl -->
 	</td>
 	<td class="{td_class}">
 	<!-- BEGIN move_to_cart_item_tpl -->
@@ -111,40 +112,26 @@
 	<td class="{td_class}" align="right"><nobr>{product_total_inc_tax}</nobr></td>
 	<!-- END wishlist_inc_tax_item_tpl -->
 	<td class="{td_class}" align="right">
-        <input type="checkbox" name="DeleteItem[]" value="{wishlist_item_id}" />
+        <input type="checkbox" class="{td_class}" name="DeleteItem[]" value="{wishlist_item_id}" />
 	</td>
     </tr>
     <!-- BEGIN wishlist_item_basis_tpl -->
-    <tr>
-        <td class="{td_class}">&nbsp;</td>
-	<td class="{td_class}">&nbsp;</td>
-	<td class="{td_class}"><span class="small">{intl-basis_price} <nobr>{basis_price}<nobr/></span></td>
-	<td class="{td_class}" align="right">&nbsp;</td>
-
-	<!-- BEGIN basis_savings_item_tpl -->
-	<td class="{td_class}" align="right">&nbsp;</td>
-	<!-- END basis_savings_item_tpl -->
-    
-        <td class="{td_class}" align="right">&nbsp;</td>
-
-	<!-- BEGIN basis_inc_tax_item_tpl -->
-	<td class="{td_class}" align="right">&nbsp;</td>
-	<!-- END basis_inc_tax_item_tpl -->
-    
-	<!-- BEGIN basis_ex_tax_item_tpl -->
-	<td class="{td_class}" align="right">&nbsp;</td>
-	<!-- END basis_ex_tax_item_tpl -->
-
-	<td class="{td_class}">&nbsp;</td>
-    </tr>
+    <!-- BEGIN basis_savings_item_tpl -->
+    <!-- -->
+    <!-- END basis_savings_item_tpl -->
+    <!-- BEGIN basis_inc_tax_item_tpl -->
+    <!-- -->    
+    <!-- END basis_inc_tax_item_tpl -->
+    <!-- BEGIN basis_ex_tax_item_tpl -->
+    <!-- -->
+    <!-- END basis_ex_tax_item_tpl -->
     <!-- END wishlist_item_basis_tpl -->
     <!-- END wishlist_item_tpl --> 
     <!-- END wishlist_item_list_tpl -->
-    </td>
-</tr>
+
 
 <tr>
-    <td colspan="6" class="right">{intl-total}:</td>
+    <td colspan="6" align="right">{intl-total}:</td>
 
 	<!-- BEGIN total_ex_tax_item_tpl -->
     <td align="right"><nobr>{total_ex_tax}</nobr></td>
@@ -159,6 +146,7 @@
 
 
 </table>
+<hr noshade="noshade" size="1" />
 {intl-explain1}<br />
 {intl-explain2}<br />
 {intl-explain3}

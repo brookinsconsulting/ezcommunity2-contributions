@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderlist.php,v 1.2.4.3 2001/11/22 10:12:30 sascha Exp $
+// $Id: orderlist.php,v 1.2.4.4 2001/12/18 14:08:08 sascha Exp $
 //
 // Created on: <21-Sep-2001 17:41:07 ce>
 //
@@ -76,7 +76,7 @@ if ( !$user )
     exit();
 }
 
-$orderArray = $order->getByUser( $Offset, $Limit, $OrderBy, $user );
+$orderArray = $order->getByUser( $Offset, $Limit, "ID", $user );
 $total_count = $order->getCountByUser( $user );
 if ( !$orderArray )
 {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucher.php,v 1.13.4.1 2001/10/26 10:29:53 ce Exp $
+// $Id: ezvoucher.php,v 1.13.4.2 2001/12/18 14:08:08 sascha Exp $
 //
 // eZVoucher class
 //
@@ -195,7 +195,7 @@ class eZVoucher
 
       The categories are returned as an array of eZVoucher objects.
     */
-    function &getAll( $offset=0, $limit=20 )
+    function &getAll( $limit=20, $offset=0 )
     {
         $db =& eZDB::globalDatabase();
         
@@ -263,11 +263,31 @@ class eZVoucher
     function &validUntil()
     {
         $dateTime = new eZDateTime();
-        $dateTime->setTimeStamp( $this->ValidUntil );
-
-        return $dateTime;
+	if ( $this->ValidUntil != 0 )
+	{
+	    $dateTime->setTimeStamp( $this->ValidUntil );
+	    return $dateTime;
+	}
+	else
+	    return false;
     }
-
+    
+    function isValid()
+    {
+	if ( is_object( $this->validUntil() ) )
+	{
+	    $valid_until = $this->validUntil();
+	    if ( $valid_until->timeStamp() < time() )
+	    {
+	        return true;
+	    }
+	    else
+		return false;
+	}
+	else
+	    return true;
+    }
+    
     /*!
       Sets the login.
     */

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.77.4.8 2001/11/27 10:30:59 ce Exp $
+// $Id: productview.php,v 1.77.4.9 2001/12/18 14:08:08 sascha Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -346,15 +346,21 @@ foreach ( $options as $option )
         }
     }
 
+    $validOption = false;
     foreach ( $values as $value )
     {
+$ok = true;
         $value_quantity = $value->totalQuantity();
         if ( $ShowOptionQuantity or ( is_bool( $value_quantity ) and !$value_quantity ) or
              !$RequireQuantity or ( $RequireQuantity and $value_quantity > 0 ) )
         {
             if ( !$value->hasQuantity( $RequireQuantity ) )
             {
-                $can_checkout = false;
+                $ok = false;
+            }
+            else
+            {
+                $validOption = true;
             }
             $t->set_var( "value_td_class", ( $i % 2 ) == 0 ? "bglight" : "bgdark" );
             $id = $value->id();
@@ -428,12 +434,13 @@ foreach ( $options as $option )
                 $t->parse( "value_availability_item", "value_availability_item_tpl" );
             }
 
+if ( $ok )
             $t->parse( "value", "value_tpl", true );    
             $i++;
         }
     }
 
-    if ( $i > 0 )
+    if ( $validOption == true )
     {
         $t->set_var( "option_name", $option->name() );
         $t->set_var( "option_description", $option->description() );
@@ -442,7 +449,17 @@ foreach ( $options as $option )
         
         $t->parse( "option", "option_tpl", true );
     }
+    else
+    {
+        $can_checkout = false;
+    }
 }
+
+if ( $GLOBALS["REMOTE_ADDR"] == "194.248.148.67" )
+{
+   print( "-->" . $product->hasQuantity( $RequireQuantity ) . "<---" );
+}
+
 
 if ( !$product->hasQuantity( $RequireQuantity ) )
     $can_checkout = false;
@@ -553,6 +570,7 @@ if ( $product->productNumber() != "" )
 }
 
 $Quantity = $product->totalQuantity();
+
 if ( is_bool( $Quantity ) and !$Quantity )
     $ShowQuantity = false;
 $t->set_var( "quantity_item", "" );
@@ -741,7 +759,7 @@ if ( $GenerateStaticPage == "true" )
     $output .= "?>\n";
 
     
-    $output = $t->parse($target, $template_var );
+    $output .= $t->parse($target, $template_var );
     // print the output the first time while printing the cache file.
     print( $output );
     $CacheFile->store( $output );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherlist.php,v 1.2 2001/09/24 10:19:15 ce Exp $
+// $Id: voucherlist.php,v 1.2.4.1 2001/12/18 14:08:07 sascha Exp $
 //
 // Created on: <20-Dec-2000 18:18:28 bf>
 //
@@ -27,6 +27,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
+include_once( "classes/ezlist.php" );
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZTradeMain", "Language" );
@@ -60,9 +61,37 @@ $t->set_block( "voucher_list_tpl", "voucher_item_tpl", "voucher_item" );
 $t->set_block( "voucher_item_tpl", "voucher_is_available_tpl", "voucher_is_available" );
 $t->set_block( "voucher_item_tpl", "voucher_is_not_available_tpl", "voucher_is_not_available" );
 
+// next prvious
+$t->set_block( "voucher_list_tpl", "previous_tpl", "previous" );
+$t->set_block( "voucher_list_tpl", "next_tpl", "next" );
+
 $t->set_var( "site_style", $SiteStyle );
 
-$voucherlist = eZVoucher::getAll( );
+if ( isSet( $URLQueryText ) )
+{
+    $QueryText = urldecode( $URLQueryText );
+}
+    
+$t->set_var( "query_string", $QueryText );
+    
+$t->set_var( "previous", "" );
+$t->set_var( "next", "" );
+    
+if ( !isSet( $OrderBy ) )
+    $OrderBy = "Date";
+	
+if ( !isSet( $Offset ) )
+    $Offset = 0;
+	    
+if ( !isSet( $Limit ) )
+    $Limit = 15;
+		
+$t->set_var( "current_offset", $Offset );
+		
+
+$t->set_var( "site_style", $SiteStyle );
+
+$voucherlist = eZVoucher::getAll( $Limit, $Offset );
 
 // categories
 $i=0;
@@ -107,6 +136,9 @@ if ( count( $voucherlist ) > 0 )
     $t->parse( "voucher_list", "voucher_list_tpl" );
 else
     $t->set_var( "voucher_list", "" );
+
+$total_count = eZVoucher::count();
+eZList::drawNavigator( $t, $total_count, $Limit, $Offset, "voucher_list_page_tpl" );
 
 
 $t->pparse( "output", "voucher_list_page_tpl" );

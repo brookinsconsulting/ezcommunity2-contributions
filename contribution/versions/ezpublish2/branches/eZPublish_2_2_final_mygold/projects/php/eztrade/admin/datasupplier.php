@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: datasupplier.php,v 1.42 2001/10/15 11:32:17 ce Exp $
+// $Id: datasupplier.php,v 1.42.4.1 2001/12/18 14:08:07 sascha Exp $
 //
 // Created on: <21-Sep-2000 10:32:36 bf>
 //
@@ -101,7 +101,7 @@ switch ( $url_array[2] )
         include( "eztrade/admin/voucherlist.php" );
     }
     break;
-
+    
     case "typeedit" :
     {
         if ( $url_array[3] == "edit" )
@@ -144,6 +144,24 @@ switch ( $url_array[2] )
             $Action = "Delete";
         }
         include( "eztrade/admin/voucheredit.php" );
+    }
+    break;
+    
+    case "vouchercreate" :
+    {
+	include( "eztrade/admin/vouchercreate.php" );
+    }
+    break;
+
+    case "vouchercreatebyemail" :
+    {
+	include( "eztrade/admin/vouchercreatebyemail.php" );
+    }
+    break;
+
+    case "vouchercreatesnail" :
+    {
+	include( "eztrade/admin/vouchercreatesnail.php" );
     }
     break;
 

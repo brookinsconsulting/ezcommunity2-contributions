@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: viewwishlist.php,v 1.8 2001/08/17 13:36:01 jhe Exp $
+// $Id: viewwishlist.php,v 1.8.4.1 2001/12/18 14:08:08 sascha Exp $
 //
 // Created on: <21-Oct-2000 18:09:45 bf>
 //
@@ -267,8 +267,7 @@ foreach ( $items as $item )
 
     $t->set_var( "move_to_cart_item", "" );
     $t->set_var( "no_move_to_cart_item", "" );
-    if ( (is_bool( $min_quantity ) and !$min_quantity) or
-         !$RequireQuantity or ( $RequireQuantity and $min_quantity > 0 ) )
+    if ( $product->hasQuantity( $RequireQuantity ) ) 
     {
         $t->parse( "move_to_cart_item", "move_to_cart_item_tpl" );
     }

@@ -42,6 +42,8 @@ foreach( $deleteProducts as $product )
     $import->unavailable( $product );
 }
 
+$import->updateImages();
+
 $import->assignToCategoies();
 
 $import->clearcache();

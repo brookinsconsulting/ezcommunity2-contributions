@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userwithaddress.php,v 1.75.4.1 2001/10/24 14:52:24 ce Exp $
+// $Id: userwithaddress.php,v 1.75.4.2 2001/12/18 14:08:09 sascha Exp $
 //
 // Created on: <10-ct-2000 12:52:42 bf>
 //
@@ -653,7 +653,7 @@ if ( $deleted )
 
 // Check if we will add delete buttons
 $checkArray = array_diff( $AddressID, $DeleteAddressArrayID );
-if ( count ( $checkArray ) == 1 )
+if ( count ( $checkArray ) <= 1 )
 {
     $t->set_var( "delete_address", "" );
 	$t->set_var( "main_address", "" );
@@ -670,12 +670,18 @@ foreach ( $DeleteAddressArrayID as $aid )
     $delete_address = new eZAddress( $RealAddressID[$aid-1] );
     if ( $user )
         $user->removeAddress( $delete_address );
+	echo "ja";
 }
 
 // Render addresses
 if ( $ini->read_var( "eZUserMain", "UserWithAddress" ) == "enabled" )
 {
-    for ( $i = 0; $i < count( $AddressID ); ++$i )
+    if ( count( $AddressID ) == 0 )
+	$count = 1;
+    else
+	$count = count( $AddressID );
+	
+    for ( $i = 0; $i < $count; ++$i )
     {
         $address_id = $AddressID[$i];
         $variable = "DeleteAddressButton$address_id";
@@ -692,6 +698,7 @@ if ( $ini->read_var( "eZUserMain", "UserWithAddress" ) == "enabled" )
             {
                 $t->set_var( "is_checked", $AddressID[$i] == $MainAddressID ? "checked" : "" );
             }
+	    
             
             $t->set_var( "zip_value", $Zip[$i] );
             $t->set_var( "place_value", $Place[$i] );
@@ -702,8 +709,9 @@ if ( $ini->read_var( "eZUserMain", "UserWithAddress" ) == "enabled" )
                 $t->set_var( "country_option", "" );
                 foreach ( $countryList as $country )
                 {
+		    if ( !is_numeric( $CountryID[$i] ) )
+			$CountryID[$i] = 82;
                     $t->set_var( "is_selected", $country["ID"] == $CountryID[$i] ? "selected" : "" );
-                    
                     $t->set_var( "country_id", $country["ID"] );
                     $t->set_var( "country_name", $country["Name"] );
                     $t->parse( "country_option", "country_option_tpl", true );

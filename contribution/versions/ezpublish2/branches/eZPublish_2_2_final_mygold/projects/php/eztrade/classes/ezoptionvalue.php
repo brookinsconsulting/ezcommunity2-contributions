@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezoptionvalue.php,v 1.39 2001/10/15 11:32:17 ce Exp $
+// $Id: ezoptionvalue.php,v 1.39.4.1 2001/12/18 14:08:08 sascha Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -226,6 +226,13 @@ class eZOptionValue
                                        '$quantity')" );
         
         $q_id = $nextID;
+        $db->lock( "eZTrade_ValueQuantityDict" );
+        $ret[] = $db->query( "INSERT INTO eZTrade_ValueQuantityDict
+                                      ( ValueID,
+                                        QuantityID )
+                                      VALUES
+                                      ('$id',
+                                       '$q_id' )" );
         $db->unlock();
         eZDB::finish( $ret, $db );
     }

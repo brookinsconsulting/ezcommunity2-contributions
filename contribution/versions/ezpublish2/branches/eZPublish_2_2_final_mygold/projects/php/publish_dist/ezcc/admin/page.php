@@ -28,14 +28,21 @@ $t->set_block( "page_tpl", "message_list_tpl", "message_list" );
 $t->set_block( "message_list_tpl", "error_msg_tpl", "error_msg" );
 $t->set_block( "message_list_tpl", "cutover_success_tpl", "cutover_success" );
 $t->set_block( "message_list_tpl", "cancel_success_tpl", "cancel_success" );
-
+$t->set_block( "log_item_tpl", "button_item_tpl", "button_item" ); // SF
+$t->set_block( "page_tpl", "action_item_tpl", "action_item" ); // SF
+$t->set_var( "button_item", "" ); // SF
+$t->set_var( "action_item", "" ); // SF
 $t->set_var( "cancel_success", "" );
 $t->set_var( "cutover_success", "" );
 $t->set_var( "error_msg", "" );
 $t->set_var( "message_list", "" );
 
+if ( $LogSelect == "unhandled" )
+    $t->parse( "action_item", "action_item_tpl" );
+
+
 // Somebody please make a better version of this, if possible
-$fd = fopen( "checkout/log/checkout.log", "r" );
+//$fd = fopen( "checkout/log/checkout.log", "r" );
 $logitems = array();
 if ( $fd )
 {
@@ -97,6 +104,7 @@ if ( isset ( $Cutover ) )
     print( "Sending XML: " . htmlspecialchars($xml) . "<br><br>" );
     $cutover_done = true;
 }
+
 
 // Send the XML to the server.
 if ( $xml )
@@ -222,6 +230,11 @@ foreach( $logList as $log )
     $t->set_var( "log_amount", $log->amount() );
     $t->set_var( "log_rc_code", $log->rcCode() );
     $t->set_var( "log_rc_text", $log->rcText() );
+    $t->set_var( "log_blz", $log->blz() );
+    $t->set_var( "log_accountnr", $log->acctNr() );    
+    
+    if ( $LogSelect == "unhandled" )
+    	$t->parse( "button_item", "button_item_tpl");
 
     $t->set_var( "cancel_id", ereg_replace( " ", "_", $log->taID() ) );
     $t->set_var( "cutover_id", ereg_replace( " ", "_", $log->taID() ) );

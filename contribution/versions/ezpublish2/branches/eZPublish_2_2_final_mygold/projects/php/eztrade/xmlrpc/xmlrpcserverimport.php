@@ -26,23 +26,150 @@ include_once( "classes/INIFile.php" );
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 
+// must have to generate XML
+include_once( "ezarticle/classes/ezarticlegenerator.php" );
+
 set_time_limit( 0 );
 $server = new eZXMLRPCServer( );
 
 $server->registerFunction( "insert", array( new eZXMLRPCStruct() ) );
 $server->registerFunction( "assignToCategoies" );
-// $server->registerFunction( "passiv", array( new eZXMLRPCStruct() ) );
-$server->registerFunction( "passiv", new eZXMLRPCArray() );
-$server->registerFunction( "delete", new eZXMLRPCInt() );
-
-function delete( $id )
-{
-
-    $product = new eZProduct( $id );
-    print_r( $product );
-}
+$server->registerFunction( "passiv", array( new eZXMLRPCStruct() ) );
+// $server->registerFunction( "passiv", new eZXMLRPCArray() );
+$server->registerFunction( "unavailable", array( new eZXMLRPCArray() ) );
+$server->registerFunction( "clearcache" );
+$server->registerFunction( "uploadImage", array( new eZXMLRPCStruct() ) ); 
+$server->registerFunction( "productExists", array( new eZXMLRPCString() ) );     
 
 $server->processRequest();
+
+function productExists( $id )
+{
+    $product = eZProduct::getByRemoteID( $id[0]->value() );
+
+    if ( get_class ( $product ) == "ezproduct" )
+    {
+        return new eZXMLRPCBool( true );
+    }
+    else
+    {
+        return new eZXMLRPCBool( false );
+    }
+}
+
+
+
+function uploadImage( $args )
+{
+    $data =&$args[0];
+    $struct = $data->value();
+    $remoteID =& $struct["productRemoteID"]->value();
+    $productPictureName =& $struct["productPictureName"]->value();
+    $productPicture =& $struct["productPicture"]->value();
+
+    $product = eZProduct::getByRemoteID ( $remoteID );
+   
+    if ( !$productPictureName or !$remoteID or !$productPicture )
+        return new eZXMLRPCInt( 0 );
+
+    $product = eZProduct::getByRemoteID ( $remoteID );
+
+    if ( !$product )
+        return new eZXMLRPCInt( 0 );
+
+    $productID = $product->id();
+
+    if ( $productPictureName )
+    {
+        if ( is_file( "tmp/" . $productPictureName ) )
+            unlink( "tmp/" . $productPictureName );
+        
+        $images =& $product->images();
+        
+        if ( count ( $images ) > 0 )
+        {
+            foreach( $images as $image )
+            {
+                $product->deleteImage( $image );
+                $image["Image"]->delete();
+            }
+        }
+
+        if ( is_file( "tmp/" . $productPictureName ) == false )
+        {
+            $filePath = "tmp/" . $productPictureName;
+            $fp = fopen( $filePath, "w+" );
+            fwrite( $fp, $productPicture );
+            fclose( $fp );
+
+            if ( is_file( "tmp/" . $productPictureName ) && ( filesize( "tmp/". $productPictureName ) != 0 ) && ( $productPictureName != ".jpg" ) )
+            {
+                $file = new eZImageFile();
+                if ( $file->getFile( "tmp/" . $productPictureName ) )
+                {
+                    $image = new eZImage();
+                    $image->setImage( &$file );
+                    $image->setName( $productName );
+                    $image->store();
+
+                    addImage( $image, $product );
+                }
+            }
+        }
+    }
+    return new eZXMLRPCInt( $productID );
+}
+
+/*
+function unavailable( $value )
+{
+    $value = $value[0];
+    $remoteIDObjects = $value->value();
+    $count = 0;
+    foreach( $remoteIDObjects as $remoteObj )
+    {
+        $remoteID = $remoteObj->value();
+        $product = new eZProduct( );
+        $product = $product->getByRemoteID( $remoteID );
+        if ( is_object ( $product ) )
+        {
+            $product->setTotalQuantity( 0 );
+            $product->store();
+            $count++;
+        }
+    }
+    return new eZXMLRPCInt( $count );    
+}
+*/
+
+function unavailable( $value )
+{
+    $value = $value[0];
+    $remoteIDObjects = $value->value();
+    $productCount = 0;
+    $optionCount = 0;
+    foreach( $remoteIDObjects as $remoteObj )
+    {
+        $option = false;
+        $product = false;
+        $remoteID = $remoteObj->value();
+        $newProduct = new eZProduct( );
+        $product = $newProduct->getByRemoteID( $remoteID );
+        if ( is_object ( $product ) )
+        {
+            $product->setTotalQuantity( 0 );
+            $product->store();
+            $productCount++;
+        }
+    }
+    return new eZXMLRPCInt( $productCount );
+}
+
+function clearcache(  )
+{
+    system( "./clearcache.sh" );
+    return new eZXMLRPCInt( 1 );   
+}
 
 // Add a product to the rigth categories.
 function &addToGroup( $groupName, $product, $parentName, $design, $material, $parentCheck )
@@ -135,7 +262,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
             case "B07":
             case "B04":
             {
-                eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Gold" );
+                // eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Gold" );
                 $matCatArray = createIfNotExists( "Gold", $mat->id() );
                 $matCat = $matCatArray[0];
                 $matCategoryArray[] = array( $matCat, $material, $matCatArray[1] );
@@ -165,7 +292,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
             case "O05":
             case "D09":
             {
-                eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Diamond" );
+                // eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Diamond" );
                 $matCatArray = createIfNotExists( "Diamant", $mat->id() );
                 $matCat = $matCatArray[0];
                 $matCategoryArray[] = array( $matCat, $material, $matCatArray[1] );
@@ -181,7 +308,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
             case "S04":
             case "S03":
             {
-                eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Ketten" );
+                // eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Ketten" );
                 $matCatArray = createIfNotExists( "Ketten", $place->id() );
                 $matCat = $matCatArray[0];
                 $matCategoryArray[] = array( $matCat, $material, $matCatArray[1] );
@@ -218,7 +345,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
             // Saphire
             case "SA":
             {
-                eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Saphire" );
+                // eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Saphire" );
                 $matCatArray = createIfNotExists( "Safir", $mat->id() );
                 $matCat = $matCatArray[0];
                 $matCategoryArray[] = array( $matCat, $material, $matCatArray[1] );
@@ -228,7 +355,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
             // Bluetopas
             case "BT":
             {
-                eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Bluetopas" );
+                // eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Bluetopas" );
                 $matCatArray = createIfNotExists( "Blautopas", $mat->id() );
                 $matCat = $matCatArray[0];
                 $matCategoryArray[] = array( $matCat, $material, $matCatArray[1] );
@@ -238,7 +365,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
             // Zirkonia
             case "ZI":
             {
-                eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Zirkonia" );
+                // eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Zirkonia" );
                 $matCatArray = createIfNotExists( "Zirkonia", $mat->id() );
                 $matCat = $matCatArray[0];
                 $matCategoryArray[] = array( $matCat, $material, $matCatArray[1] );
@@ -251,7 +378,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
             case "BW":
             case "TA":
             {
-                eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Pearls" );
+                // eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Pearls" );
                 $matCatArray = createIfNotExists( "Perlen", $mat->id() );
                 $matCat = $matCatArray[0];
                 $matCategoryArray[] = array( $matCat, $material, $matCatArray[1] );
@@ -263,7 +390,7 @@ function &addToGroup( $groupName, $product, $parentName, $design, $material, $pa
             {
                 if ( $others )
                 {
-                    eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Others" );
+                    // eZLog::writeNotice( "Material: Added product " . $product->productNumber() . " to Others" );
                     $matCatArray = createIfNotExists( "Weitere", $mat->id() );
                     $matCat = $matCatArray[0];
                     $matCategoryArray[] = array( $matCat, $material, $matCatArray[1] );
@@ -310,7 +437,7 @@ function translate( $name, $file )
     
     $ret = $ini->read_var( "strings", $name );
 
-    eZLog::writeNotice( "Translate: from " . $name . " to " . $ret );
+    // eZLog::writeNotice( "Translate: from " . $name . " to " . $ret );
 
     return $ret;
 }
@@ -332,7 +459,7 @@ function addProductToGroup( $group, $product, $checkProduct=false )
         }
         else
         {
-            eZLog::writeNotice( "Category: Added product to category " . $group->name() );
+            // eZLog::writeNotice( "Category: Added product to category " . $group->name() );
             $group->addProduct( $product );
             return true;
         }
@@ -437,7 +564,7 @@ function createIfNotExists( $categoryName, $parentID, $remoteID=0, $checkParent=
         $category->setRemoteID ( $remoteID );
         $category->store();
 
-        eZLog::writeNotice( "Category: Stored " . $categoryName . " to the database" );
+        // eZLog::writeNotice( "Category: Stored " . $categoryName . " to the database" );
 
         $ret = array( $category, false );
         return $ret;
@@ -606,7 +733,7 @@ function addToCategory ( $categoryID, $product )
     $category->addProduct( $product );
     $product->setCategoryDefinition( $category );
 
-    eZLog::writeNotice( "Category: Added product to category " . $category->name() );
+    // eZLog::writeNotice( "Category: Added product to category " . $category->name() );
     return true;
 }
 
@@ -659,9 +786,6 @@ function insert( $args )
     $attributeFst2Bezeichnung =& $struct["attributeFst2Bezeichnung"]->value();
     $attributeFst3Bezeichnung =& $struct["attributeFst3Bezeichnung"]->value();
 
-    if ( !$productPicture )
-	return new eZXMLRPCInt( $categoryID );
-
     $oldDesign =& $struct["oldDesign"]->value();
 
     $oldCategoryName = $productCategory;
@@ -674,7 +798,7 @@ function insert( $args )
     if ( $attributeDia2Reinheit )
         $attributeDia2Reinheit = translate( $attributeDia2Reinheit, "diamondclear.ini" );
 
-    $options =& $struct["productOptions"]->value();
+    $options = $struct["productOptions"]->value();
 
     unset( $product );
     $product = new eZProduct( );
@@ -691,10 +815,16 @@ function insert( $args )
         $product = $remoteProduct;
     }
 
+    $contents[0] = $productShortDescription;
+    $contents[1] = $productDescription;
+
+    $generator = new eZArticleGenerator();
+    $contents =& $generator->generateXML( $contents );
+
+
     // Create the product and store it.
     $product->setName( $productName );
-    $product->setBrief( $productShortDescription );
-    $product->setDescription( $productDescription );
+    $product->setContents( $contents );
     $product->setProductNumber( $productNumber );
     $product->setPrice( 0 );
     $product->setRemoteID( $productRemoteID );
@@ -702,17 +832,17 @@ function insert( $args )
     $product->setVATType( $vatType );
     $ship = new eZShippingGroup( 1 );
     $product->setShippingGroup( $ship );
+    $product->setIncludesVAT( true );
     $product->store();
     $productID = $product->id();
 
     $product->setTotalQuantity( $productTotalQuantity );
-    
     // set hot deal
     if ( $productIsHotDeal )
     {
         $nummer = $product->productNumber();
 
-        eZLog::writeNotice( "HotDeal: Added product " . $nummer . " to hotdeal" );
+        // eZLog::writeNotice( "HotDeal: Added product " . $nummer . " to hotdeal" );
         $product->setIsHotDeal( true );
         $product->setTotalQuantity( false );
 	$product->setDiscontinued( false );
@@ -732,29 +862,18 @@ function insert( $args )
     // Add options for this product
     if ( count ( $options ) > 0 )
     {
-        $productOptions =& $product->options();
+        $productOptions = $product->options();
 
-        if ( !$update )
+        foreach( $productOptions as $option )
         {
-            if ( get_class ( $productOptions[0] ) == "ezoption" )
-            {
-                $option =& $productOptions[0];
-                $product->addOption( $option );
-            }
-            else
-            {
-                $option = new eZOption();
-                $option->setName( "Groesse" );
-                $option->setDescription( $productDescription );
-                $option->store();
-                $product->addOption( $option );
-            }
+            $option->delete();
         }
-        else
-        {
-            $optionArray = $product->options();
-            $option = $optionArray[0];
-        }
+        unset( $option );
+        $option = new eZOption();
+        $option->setName( "Groesse" );
+        $option->setDescription( $productDescription );
+        $option->store();
+        $product->addOption( $option );
 
         $checkOptionPriceStruct = $options[0]->value();
         $checkOptionPrice = $checkOptionPriceStruct["VKbrutto"]->value();
@@ -776,24 +895,14 @@ function insert( $args )
             
             $value = new eZOptionValue();
 
-            if ( $optionStruct["RemoteID"]->value() != false )
-            {
-                $remoteValue = $value->getByRemoteID( $optionStruct["RemoteID"]->value() );
-            }
-            
-            if ( get_class ( $remoteValue ) == "ezoptionvalue" )
-            {
-                $value = $remoteValue;
-            }
-            else
-            {
-                $value->setRemoteID( $optionStruct["RemoteID"]->value() ); 
-            }
+            $value->setRemoteID( $optionStruct["RemoteID"]->value() ); 
 
             if ( $struct["productShowPrice"]->value() == false )
             {
                 if ( $optionShowPrice )
+                {
                     $value->setPrice( $optionStruct["VKbrutto"]->value() );
+                }
                 else
                 {
                     $product->setPrice( $productPrice );
@@ -810,14 +919,16 @@ function insert( $args )
             $option->addValue( $value );
             
             $value->addDescription( $optionStruct["Groesse"]->value() );
-            
+        
             if ( $optionStruct["TotalQuentity"]->value() > 0 )
             {
                 $value->setTotalQuantity( $optionStruct["TotalQuentity"]->value() );
-                $product->setTotalQuantity( false );
+                $product->setTotalQuantity( -1 );
             }
             else
-                $value->setTotalQuantity( false );
+            {
+                $value->setTotalQuantity( -1 );
+            }
         }
     }
     if( count( $options ) == 1 )
@@ -843,26 +954,12 @@ function insert( $args )
     elseif ( count ( $parents ) == 1 )
         $category = addToGroup( $productCategory, $product, $parents[0], $oldDesign, $oldCategoryName, true );
 
-    if ( $productPicture )
+    if ( $productPicture && $productPicutreName != "NoUpdate" )
     {
         if ( is_file( "tmp/" . $productPictureName ) )
             unlink( "tmp/" . $productPictureName );
 
-        if ( $update )
-        {
-            $images =& $product->images();
-
-            if ( count ( $images ) > 0 )
-            {
-                foreach( $images as $image )
-                {
-                    $product->deleteImage( $image );
-                    $image->delete();
-                }
-            }
-        }
-
-        if ( is_file( "tmp/" . $productPictureName ) == false )
+        if ( ( is_file( "tmp/" . $productPictureName ) == false ) && !$update )
         {
             $filePath = "tmp/" . $productPictureName;
             $fp = fopen( $filePath, "w+" );
@@ -944,10 +1041,10 @@ function insert( $args )
         $attribue->setValue( $product, $productGroesse );
     }
 
-    if ( $update )
-        eZLog::writeNotice( "Product: Updated product " . $product->productNumber() . " to the database" );
-    else
-        eZLog::writeNotice( "Product: Added product " . $product->productNumber() . " to the database" );
+//    if ( $update )
+//        eZLog::writeNotice( "Product: Updated product " . $product->productNumber() . " to the database" );
+//    else
+//        eZLog::writeNotice( "Product: Added product " . $product->productNumber() . " to the database" );
 
 //    system( "./clearcache.sh" );
 // deleteCache( $product );

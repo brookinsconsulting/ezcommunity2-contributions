@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: cron.php,v 1.14 2001/09/27 14:28:45 bf Exp $
+// $Id: cron.php,v 1.14.4.1 2001/12/18 14:08:07 sascha Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -41,7 +41,7 @@ include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 $GlobalSiteIni =& $ini;
 
-
+set_time_limit( 0 );    
 
 // index articles
 // uncomment to index all articles in publish
@@ -59,7 +59,6 @@ foreach ( $articles as $article )
     print( "indexing article: " .  $article->name() . "<br>\n" );    
     $article->createIndex();
 }
-*/
 
 // index all form messages
 // uncomment this section to index all old forum messages
@@ -75,11 +74,12 @@ foreach ( $messages as $message )
     print( "indexing message: " .  $message->topic() . "<br>\n" );    
     $message->createIndex();
 }
-
+*/
 
 // do session cleanup
 include( "ezsession/admin/cron.php" );
 
+/*
 // Time publishing
 include( "ezarticle/admin/cron.php" );
 
@@ -92,9 +92,11 @@ include( "ezfilemanager/admin/cron.php" );
 // add bug report mails to eZBug
 include( "ezbug/admin/cron.php" );
 
+*/
 // uncomment the next line to fetch news by cron
 
 // include( "eznewsfeed/admin/cron.php" );
 
+include( "ezstats/admin/cron.php" );
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherview.php,v 1.1.4.2 2001/11/08 09:36:54 ce Exp $
+// $Id: voucherview.php,v 1.1.4.3 2001/12/18 14:08:08 sascha Exp $
 //
 // Created on: <20-Dec-2000 18:24:06 bf>
 //
@@ -101,12 +101,45 @@ if ( isSet ( $Key ) )
         $t->set_var( "voucher_id", $voucher->id() );
         
         $voucherInfo =& $voucher->information();
-        $t->set_var( "sent_description", $voucherInfo->description() );
-        
+
+	$currency->setvalue( $voucherInfo->price() ); // SF
+        $t->set_var( "voucher_original_price", $locale->format( $currency ) );	//SF
+
+	if ( $voucher->validUntil() != false )
+	    $t->set_var( "valid_until", $locale->format( $voucher->validUntil() ) ); // SF
+	else 
+	    $t->set_var( "valid_until", "unbegrenzt" ); // SF
+	    
+        $t->set_var( "sent_description", nl2br( htmlentities( $voucherInfo->description() ) ) );
+	        
         if ( $voucherInfo->mailMethod() == 1 )
         {
             $mail =& $voucherInfo->toOnline();
-            $t->set_var( "sent_email", $mail->url() );
+	    $sent_email = $mail->url();
+	    if ( empty( $sent_email  ) )
+        	$t->set_var( "sent_email", "unbekannt"  );
+	    else
+		$t->set_var( "sent_email", $sent_email );
+		
+	    $sent_name = $voucherInfo->ToName();	
+	    if ( empty( $sent_name ) )
+        	$t->set_var( "sent_name", "unbekannt"  );
+	    else
+		$t->set_var( "sent_name", $sent_name );
+
+            $mail =& $voucherInfo->fromOnline();
+	    $from_email = $mail->url();
+	    if ( empty( $from_email  ) )
+        	$t->set_var( "from_email", "unbekannt"  );
+	    else
+		$t->set_var( "from_email", $from_email );
+		
+	    $from_name = $voucherInfo->FromName();	
+	    if ( empty( $from_name ) )
+        	$t->set_var( "from_name", "unbekannt"  );
+	    else
+		$t->set_var( "from_name", $from_name );
+
 
             $t->set_var( "smail_information", "" );
             $t->parse( "email_information", "email_information_tpl" );
@@ -121,7 +154,19 @@ if ( isSet ( $Key ) )
             $t->set_var( "to_place_value", $toAddress->place() );
             $toCountry =& $toAddress->country();
             if ( $toCountry )
-                $t->set_var( "country_name", $toCountry->name() );
+                $t->set_var( "to_country_name", $toCountry->name() );
+		
+	    // SF	
+	    $fromAddress =& $voucherInfo->fromAddress();
+            $t->set_var( "from_name_value", $fromAddress->name() );
+            $t->set_var( "from_street1_value", $fromAddress->street1() );
+            $t->set_var( "from_street2_value", $fromAddress->street2() );
+            $t->set_var( "from_zip_value", $fromAddress->zip() );
+            $t->set_var( "from_place_value", $fromAddress->place() );
+            $fromCountry =& $fromAddress->country();
+            if ( $fromCountry )
+                $t->set_var( "from_country_name", $toCountry->name() );
+	    
 
             $t->set_var( "email_information", "" );
             $t->parse( "smail_information", "smail_information_tpl" );

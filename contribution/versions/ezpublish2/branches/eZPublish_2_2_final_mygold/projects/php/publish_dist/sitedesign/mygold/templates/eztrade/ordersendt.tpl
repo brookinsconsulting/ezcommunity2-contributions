@@ -7,7 +7,40 @@
 <p>{intl-email_notice}</p>
 <br />
 
-
+<table width="1%" border="0" cellspacing="0" cellpadding="3" align="right">
+    <tr>
+        <th colspan="2">Wir garantieren f&uuml;r Ihre Sicherheit</th>
+    </tr>
+    <tr bgcolor="#DDDDDD">
+        <td>
+            <form name="formSiegel" method="post" action="https://www.trustedshops.de/tshops/siegel.php3" target="_blank">
+                <input type="image" border="0" src="{www_dir}/sitedesign/mygold/images/trusted_shop.gif" height="69" width="69" alt="Trusted Shops G&uuml;tesiegel - Bitte hier klicken." />
+                <input name="shop_id" type="hidden" value="XD7D38F69FDE28952D48AC3056C5D449C" />
+            </form>
+        </td>
+        <td class="small">
+            <form method="post" action="https://www.trustedshops.de/tshops/protect.php3" target="_blank">
+                <input name=shop_id type=hidden value="XD7D38F69FDE28952D48AC3056C5D449C" />
+                <input name=email type=hidden value="{order_email}" />
+                <input name=phone type=hidden value="n/a" />
+                <input name=first_name type=hidden value="{customer_first_name}" />
+                <input name=last_name type=hidden value="{customer_last_name}" />
+                <input name=street type=hidden value="{billing_street1}" />
+                <input name=zip type=hidden value="{billing_zip}" />
+                <input name=city type=hidden value="{billing_place}" />
+                <input name=country type=hidden value="{billing_country}" />
+                <input name=amount type=hidden value="{order_sum_wo_cncy}" />
+                <input name=curr type=hidden value="DEM" />
+                Als Trusted Shops Mitglied bieten wir Ihnen als zus&auml;tzlichen
+                Service die Geld-Zur&uuml;ck-Garantie von Gerling an. Wir &uuml;bernehmen
+                alle Kosten dieser Garantie, Sie m&uuml;ssen sich lediglich anmelden.
+                <input type="submit" class="okbutton small" name="btnProtect" value="Anmeldung Geld-Zur&uuml;ck-Garantie..." />
+            </form>
+        </td>
+    </tr>
+</table>
+<br clear="all" />
+<hr noshade="noshade" size="1" />
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
@@ -287,3 +320,6 @@
 </table>
 <!-- END tax_specification_tpl -->
 <!-- END full_cart_tpl -->
+
+
+

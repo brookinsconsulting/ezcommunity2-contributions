@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: customerlogin.php,v 1.20 2001/10/17 07:17:03 ce Exp $
+// $Id: customerlogin.php,v 1.20.4.1 2001/12/18 14:08:08 sascha Exp $
 //
 // Created on: <03-Oct-2000 16:45:30 bf>
 //
@@ -47,11 +47,11 @@ if ( $user  )
         exit();
     }
 
-    $session->setVariable( "RedirectURL", "/trade/customerlogin/" );
+    $session->setVariable( "RedirectURL", "/trade/customerlogin/?PHPSESSID=" . $GLOBALS["PHPSESSID"] );
     if ( count( $user->addresses() ) == 0 )
     {
         $userID = $user->id();
-        eZHTTPTool::header( "Location: /user/userwithaddress/edit/$userID/MissingAddress" );
+        eZHTTPTool::header( "Location: /user/userwithaddress/edit/$userID/MissingAddress/?PHPSESSID=" . $GLOBALS["PHPSESSID"]  );
         exit();
 
     }
@@ -70,12 +70,12 @@ if ( $user  )
         if ( $countryError )
         {
             $userID = $user->id();
-            eZHTTPTool::header( "Location: /user/userwithaddress/edit/$userID/MissingCountry" );
+            eZHTTPTool::header( "Location: /user/userwithaddress/edit/$userID/MissingCountry/?PHPSESSID=" . $GLOBALS["PHPSESSID"] );
             exit();
         }
     }
 
-    eZHTTPTool::header( "Location: /trade/precheckout/" );
+    eZHTTPTool::header( "Location: /trade/precheckout/?PHPSESSID=" . $GLOBALS["PHPSESSID"] );
     exit();
 }
 else
@@ -95,7 +95,7 @@ else
     }
     else
     {
-        $t->set_var( "redirect_url", "/trade/customerlogin" );
+        $t->set_var( "redirect_url", "/trade/customerlogin/?PHPSESSID=" . $GLOBALS["PHPSESSID"] );
     }
     
     $t->pparse( "output", "customer_login_tpl" );

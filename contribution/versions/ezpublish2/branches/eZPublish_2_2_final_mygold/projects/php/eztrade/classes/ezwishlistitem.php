@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezwishlistitem.php,v 1.15.4.1 2001/10/23 10:27:14 ce Exp $
+// $Id: ezwishlistitem.php,v 1.15.4.2 2001/12/18 14:08:08 sascha Exp $
 //
 // Definition of eZWishItem class
 //
@@ -201,7 +201,6 @@ class eZWishListItem
        {
            $ret = $wishlist;
        }
-
        return $ret;       
     }
 

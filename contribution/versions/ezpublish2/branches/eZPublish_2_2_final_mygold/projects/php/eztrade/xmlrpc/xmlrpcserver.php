@@ -1,7 +1,7 @@
 
 <?php
 //
-// $Id: xmlrpcserver.php,v 1.20.4.2 2001/11/12 08:19:38 sascha Exp $
+// $Id: xmlrpcserver.php,v 1.20.4.3 2001/12/18 14:08:09 sascha Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -127,6 +127,15 @@ function &newOrders( $args )
                 $paymentMethod = $instance->paymentName( $orderItem->paymentMethod() );
 
                 $itemArray = array();
+                $voucherArray = array();
+
+                $vouchers = $orderItem->usedVouchers();
+
+                foreach( $vouchers as $usedVoucher )
+                {
+                    $voucherArray[] = new eZXMLRPCStruct( array( "Price" => new eZXMLRPCDouble( $usedVoucher->price() ) )
+                                                         );
+                }
 
                 $items = $orderItem->items( $OrderType );
 
@@ -135,9 +144,10 @@ function &newOrders( $args )
                 foreach ( $items as $item )
                 {
                     $product = $item->product();
-
+                    
                     $optionValues =& $item->optionValues();
-
+                    
+                    $optionArray = array();
                     foreach ( $optionValues as $optionValue )
                     {
                         $optionArray[] = new eZXMLRPCStruct( array( "OptionName" => new eZXMLRPCString( $optionValue->optionName() ),
@@ -152,8 +162,8 @@ function &newOrders( $args )
                                                               "ProductNumber" => new eZXMLRPCInt( $product->productNumber() ),
                                                               "Name" => new eZXMLRPCString( $product->name() ),
                                                               "Count" => new eZXMLRPCInt( $item->count() ),
-                                                              "Price" => new eZXMLRPCDouble( ( $item->price() / $item->count() ) ),
-                                                              "TotalPrice" => new eZXMLRPCDouble( ($item->price() ) ),
+                                                              "Price" => new eZXMLRPCDouble( $item->correctPrice( false, true, true ) ),
+                                                              "TotalPrice" => new eZXMLRPCDouble( $item->correctPrice(true, true, true ) ),
                                                               "Options" => new eZXMLRPCArray( $optionArray )
                                                               ) );
                 }
@@ -180,7 +190,8 @@ function &newOrders( $args )
                         "BillingZip" => new eZXMLRPCString( $billingAddress->zip() ),
                         "BillingPlace" => new eZXMLRPCString( $billingAddress->place() ),
                         "BillingCountry" => new eZXMLRPCString(  $billingCountry->name() ),
-                        "OrderLines" => new eZXMLRPCArray( $itemArray )
+                        "OrderLines" => new eZXMLRPCArray( $itemArray ),
+                        "UsedVouchers" => new eZXMLRPCArray( $voucherArray )
                         ) );
             }
         }

@@ -9,7 +9,7 @@ include_once( "classes/ezbenchmark.php" );
 // Run benchmark test.
 // $bench = new eZBenchmark();
 // $bench->start();
-  
+
 $GLOBALS["DEBUG"] = true;
 
 // Check for bots and disable cookieless Session if they show up
@@ -17,7 +17,7 @@ $GLOBALS["DEBUG"] = true;
 $UsePHPSessions = 2;
 $BotIPArray = array( "193.7.255.130", "194.231.30", "199.172.149", "216.239.46", "209.202.148.12", "66.35.208.60", 
                      "198.3.103", "216.35.116", "216.35.103", "217.13.201.25", "209.73.162.191", "18.29.1.50",
-                     "212.185.44.12", "216.239.46" );
+                     "212.185.44.12", "216.239.46", "62.225.185.26" );
 		     
 $checkIP3 =  explode ( ".", $GLOBALS["REMOTE_ADDR"] );
 $checkIP3 =  $checkIP3[0].".".$checkIP3[1].".".$checkIP3[2];
@@ -387,5 +387,4 @@ $db->close();
 // $bench->printResults();
 
 ob_end_flush();
-
 ?>

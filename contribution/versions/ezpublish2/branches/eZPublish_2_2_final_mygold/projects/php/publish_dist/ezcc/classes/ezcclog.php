@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcclog.php,v 1.1.2.1 2001/11/15 16:24:26 ce Exp $
+// $Id: ezcclog.php,v 1.1.2.2 2001/12/18 14:08:07 sascha Exp $
 //
 // ezcclog class
 //
@@ -78,6 +78,8 @@ class eZCCLog
                 Date='$date',
                 Time='$time',
                 Amount='$this->Amount',
+		BLZ='$this->BLZ',
+		ACCTNR='$this->ACCTNR',
                 Status='$this->Status',
                 RC_CODE='$this->RCCODE',
                 RC_TEXT='$this->RCTEXT'" );
@@ -92,6 +94,8 @@ class eZCCLog
                          Date='$date',
                          Time='$time',
                          Amount='$this->Amount',
+		         BLZ='$this->BLZ',
+			 ACCTNR='$this->ACCTNR',			 
                          Status='$this->Status',
                          RC_CODE='$this->RCCODE',
                          RC_TEXT='$this->RCTEXT' WHERE ID='$this->ID'");
@@ -125,6 +129,8 @@ class eZCCLog
                 $this->Time = new eZTime();
                 $this->Time->setMySQLTime( $cclog_array[0][ "Time" ] );
                 $this->Amount = $cclog_array[0][ "Amount" ];
+		$this->BLZ    = $cclog_array[0][ "BLZ" ];
+		$this->ACCTNR = $cclog_array[0][ "ACCTNR" ];
                 $this->Status = $cclog_array[0][ "Status" ];
                 $this->RCCODE = $cclog_array[0][ "RC_CODE" ];
                 $this->RCTEXT = $cclog_array[0][ "RC_TEXT" ];
@@ -165,7 +171,7 @@ class eZCCLog
             break;
         }
         
-        $db->array_query( $cclog_array, "SELECT ID FROM eZCC_Log $where" );
+        $db->array_query( $cclog_array, "SELECT ID FROM eZCC_Log $where ORDER BY ID DESC" );
         
         for ( $i=0; $i<count($cclog_array); $i++ )
         {
@@ -175,6 +181,16 @@ class eZCCLog
         return $return_array;
     }
 
+    function getAllELV()
+    {
+        $db =& eZDB::globalDatabase();
+
+        $elv_array = array();
+			    
+        $db->array_query( $elv_array, "SELECT ID FROM eZCC_Log WHERE Type='ELV' AND Status='0'" );
+	
+        return $elv_array;					
+    }
 
     /*!
     */
@@ -285,7 +301,26 @@ class eZCCLog
 
         return $this->RCTEXT;
     }
+    
+    /*!
+    */
+    function blz() // SF
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->BLZ );
 
+        return $this->BLZ;
+    }    
+
+    /*!
+    */
+    function acctNr() // SF
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ACCTNR );
+
+        return $this->ACCTNR;
+    }
 
     /*!
       Sets the type.
@@ -359,6 +394,22 @@ class eZCCLog
     {
         $this->RCTEXT = $value;
     }
+    
+        /*!
+      Sets the BLZ.
+    */
+    function setBLZ( $value ) // SF
+    {
+        $this->BLZ = $value;
+    }    
+    
+        /*!
+      Sets the AccountNo.
+    */
+    function setAcctNR( $value ) // SF
+    {
+        $this->ACCTNR = $value;
+    }    
 
     /*
      */
@@ -367,6 +418,20 @@ class eZCCLog
         $db =& eZDB::globalDatabase();
         $db->array_query( $value_array, "SELECT ID, Type, Date, UNIX_TIMESTAMP(Date) as Check, UNIX_TIMESTAMP( now() + 0 ) AS NOW
                                          FROM eZCC_Log WHERE Status='0' AND ( Type='MCARD' OR Type='VISA' ) HAVING Check < NOW" );
+
+        foreach( $value_array as $value )
+        {
+            $cc = new eZCCLog( $value["ID"] );
+            $cc->setStatus( 1 );
+            $cc->store();
+        }
+    }
+
+    function setELVasCutovered()
+    {
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $value_array, "SELECT ID, Type, Date, UNIX_TIMESTAMP(Date) as Check, UNIX_TIMESTAMP( now() + 0 ) AS NOW
+                                         FROM eZCC_Log WHERE Status='0' AND Type='ELV' HAVING Check < NOW" );
 
         foreach( $value_array as $value )
         {
@@ -387,6 +452,8 @@ class eZCCLog
     var $Status;
     var $RCCODE;
     var $RCTEXT;
+    var $BLZ;
+    var $ACCTNR;
 }
 
 ?>

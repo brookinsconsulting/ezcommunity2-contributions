@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcart.php,v 1.36.4.3 2001/11/14 11:35:33 ce Exp $
+// $Id: ezcart.php,v 1.36.4.4 2001/12/18 14:08:08 sascha Exp $
 //
 // Definition of eZCart class
 //
@@ -362,8 +362,16 @@ class eZCart
 
         if ( $products == true )
         {
-            $type = new eZShippingType( );
-            $shippingType =& $type->defaultType();
+            $currentTypeID = eZHTTPTool::getVar( "ShippingTypeID" );
+            if ( is_numeric( $currentTypeID ) )
+            {
+                $shippingType = new eZShippingType( $currentTypeID );
+            }
+            else
+            {
+                $type = new eZShippingType( );
+                $shippingType =& $type->defaultType();
+            }
             $shippingCost = $this->shippingCost( $shippingType );
             $shippingVAT = $this->shippingVAT( $shippingType );
             $shippingVATPercentage = $this->extractShippingVATPercentage( $shippingType );

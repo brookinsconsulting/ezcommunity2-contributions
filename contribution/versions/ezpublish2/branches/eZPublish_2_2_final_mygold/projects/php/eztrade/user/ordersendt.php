@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.49.4.1 2001/11/22 09:45:49 ce Exp $
+// $Id: ordersendt.php,v 1.49.4.2 2001/12/18 14:08:08 sascha Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -617,6 +617,9 @@ if ( $shippingType )
 {    
     $t->set_var( "shipping_type", $shippingType->name() );
 }
+
+$t->set_var( "order_sum_wo_cncy", $total["inctax"] ); //SF
+$t->set_var( "order_email", $user->email() ); //SF
 
 $shippingCost = $order->shippingCharge();
 

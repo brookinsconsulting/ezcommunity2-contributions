@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproductcategory.php,v 1.52 2001/10/02 15:52:40 pkej Exp $
+// $Id: ezproductcategory.php,v 1.52.4.1 2001/12/18 14:08:08 sascha Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -639,9 +639,11 @@ class eZProductCategory
         
         $db->query_single( $products, "
                 SELECT COUNT( eZTrade_Product.ID ) AS Count
-                FROM eZTrade_Product, eZTrade_ProductCategoryLink
+                FROM eZTrade_Product, eZTrade_ProductCategoryLink, eZTrade_Quantity, eZTrade_ProductQuantityDict
                 WHERE 
                 eZTrade_ProductCategoryLink.ProductID = eZTrade_Product.ID
+    AND eZTrade_Quantity.ID=eZTrade_ProductQuantityDict.QuantityID
+                        AND eZTrade_Product.ID=eZTrade_ProductQuantityDict.ProductID
                 AND
                 $nonActiveCode
                 $discontinuedCode
@@ -727,16 +729,18 @@ class eZProductCategory
                 SELECT eZTrade_Product.ID AS ProductID, eZTrade_Product.Name,
                        eZTrade_Category.ID, eZTrade_Category.Name
                 FROM eZTrade_Product, eZTrade_Category,
-                     eZTrade_ProductCategoryLink
-                WHERE 
+                     eZTrade_ProductCategoryLink, eZTrade_Quantity, eZTrade_ProductQuantityDict
+                WHERE
                 eZTrade_ProductCategoryLink.ProductID = eZTrade_Product.ID
+		    AND eZTrade_Quantity.ID=eZTrade_ProductQuantityDict.QuantityID
+			AND eZTrade_Product.ID=eZTrade_ProductQuantityDict.ProductID
                 AND
                 $nonActiveCode
                 $discontinuedCode
                 eZTrade_Category.ID = eZTrade_ProductCategoryLink.CategoryID
                 AND
                 eZTrade_Category.ID='$catID'
-                ORDER BY $OrderBy", array( "Limit" => $limit, "Offset" => $offset ) );
+                ORDER BY eZTrade_Quantity.Quantity , $OrderBy", array( "Limit" => $limit, "Offset" => $offset ) );
 
        for ( $i = 0; $i < count( $product_array ); $i++ )
        {

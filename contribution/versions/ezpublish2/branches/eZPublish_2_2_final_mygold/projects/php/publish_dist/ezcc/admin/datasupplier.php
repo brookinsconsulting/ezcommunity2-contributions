@@ -8,15 +8,15 @@ switch ( $url_array[2] )
     }
     break;
 
-    case "cutover":
+    case "visa":
     {
-        include( "ezcc/admin/cutover.php" );
+        include( "ezcc/admin/visa.php" );
     }
     break;
     
-    case "cancel":
+    case "mastercard":
     {
-        include( "ezcc/admin/reveresal.php" );
+        include( "ezcc/admin/mastercard.php" );
     }
     break;
 

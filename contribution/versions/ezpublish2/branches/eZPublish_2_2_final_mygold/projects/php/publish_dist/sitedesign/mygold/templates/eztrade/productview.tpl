@@ -17,7 +17,7 @@
       <td rowspan="3"><img src="/sitedesign/mygold/images/shim.gif" alt="" width="8" height="8" /></td>
       <td align="right" width="1%" valign="bottom"> 
 	<!-- BEGIN product_number_item_tpl -->
-	{intl-nr}: {product_number}<br /><br /> 
+	<nobr>{intl-nr}:&nbsp;{product_number}</nobr><br /><br /> 
 	<!-- END product_number_item_tpl -->
       </td>
     </tr>
@@ -30,12 +30,13 @@
         <!-- BEGIN main_image_tpl -->
 	<table cellspacing="0" cellpadding="0" border="0">
 	  <tr> 
-	    <td> 
-	      <div align="right">
-	        <a href="{www_dir}{index}/imagecatalogue/imageview/{main_image_id}/?RefererURL=/{module}/{module_view}/{product_id}/"> 
-		  <img src="{www_dir}{main_image_uri}" border="0" width="{main_image_width}" height="{main_image_height}" alt=""/>
-		</a> 
-	      </div>
+	    <td align="right">
+	      <table border="0" cellspacing="1" cellpadding="0" bgcolor="#003366">
+	        <tr>
+		  <td class="spacer"><a href="{www_dir}{index}/imagecatalogue/imageview/{main_image_id}/?RefererURL=/{module}/{module_view}/{product_id}/">
+		      <img src="{www_dir}{main_image_uri}" border="0" width="{main_image_width}" height="{main_image_height}" alt=""/></a></td>
+	        </tr>
+	      </table>
 	    </td>
 	  </tr>
 	  <tr> 
@@ -122,7 +123,7 @@
 	    </td>
 	    <td align="center" valign="bottom"> 
 
-    	      <table border="0"><tr><td align="left"> 
+    	      <table border="0" align="right"><tr><td align="right"> 
 	      <!-- BEGIN price_tpl -->
 	      {product_price}<br />
 	      <!-- BEGIN alternative_currency_list_tpl -->
@@ -136,15 +137,15 @@
 	      <!-- BEGIN price_range_min_unlimited_tpl -->
 	      <table class="small">
 	      <tr>
-	      <td class="small">{intl-min}:</td><td class="small">{intl-unlimited}</td></tr>
+	      <td class="small">&nbsp;</td><td class="small">&nbsp;</td></tr>
               <!-- END price_range_min_unlimited_tpl -->
               <!-- BEGIN price_range_min_limited_tpl -->
 	      <table class="small" border="0">
 	      <tr>
-              <td class="small">{intl-min}:</td><td class="small">{price_min}</td></tr>
+              <td class="small">&nbsp;</td><td class="small">&nbsp;</td></tr>
               <!-- END price_range_min_limited_tpl -->
               <!-- BEGIN price_range_max_unlimited_tpl -->
-              <tr><td class="small">{intl-max}:</td><td class="small">{intl-unlimited}</td></tr></table>
+              <tr><td class="small">&nbsp;</td><td class="small">&nbsp;</td></tr></table>
               <!-- END price_range_max_unlimited_tpl -->
               <!-- BEGIN price_range_max_limited_tpl -->
               <tr><td class="small">{intl-max}:</td><td class="small">{price_max}</td></tr></table>
