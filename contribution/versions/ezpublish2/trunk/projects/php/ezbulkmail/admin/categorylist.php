@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.5 2001/04/20 12:57:05 fh Exp $
+// $Id: categorylist.php,v 1.6 2001/04/27 09:42:56 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <18-Apr-2001 10:26:26 fh>
@@ -55,8 +55,10 @@ if( isset( $Delete ) )
     }
 }
 
+$Language = $ini->read_var( "eZBulkMailMain", "Language" );
 $t = new eZTemplate( "ezbulkmail/admin/" . $ini->read_var( "eZBulkMailMain", "AdminTemplateDir" ),
                      "ezbulkmail/admin/intl", $Language, "categorylist.php" );
+
 $iniLanguage = new INIFile( "ezbulkmail/admin/intl/" . $Language . "/categorylist.php.ini", false );
 
 $locale = new eZLocale( $Language ); 
