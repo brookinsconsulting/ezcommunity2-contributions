@@ -6,13 +6,13 @@
 </tr>
 </table>
 
-<hr noshade size="4" />
+<hr noshade="noshade" size="1" />
 
 <!-- BEGIN product_search_form_tpl -->
 <form action="/trade/extendedsearch/" method="post">
 <table width="50%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-        <th>{intl-text}</th>
+        <td>{intl-text}</td>
 </tr></tr>
 <tr>
         <td>
@@ -20,8 +20,8 @@
 	</td>
 </tr>
 <tr>
-        <th>{intl-price_lower}</th>
-        <th>{intl-price_higher}</th>
+        <td>{intl-price_lower}</td>
+        <td>{intl-price_higher}</td>
 </tr>
 <tr>
         <td>
@@ -35,7 +35,7 @@
         <td>&nbsp;</td>
 </tr>
 <tr>
-        <th>{intl-search_in_category}</th>
+        <td>{intl-search_in_category}</td>
 </tr>
 <tr>
         <td>
@@ -44,19 +44,15 @@
 	<option value="{category_id}" {is_selected}>{option_level}{category_name}</option>
 	<!-- END category_item_tpl -->
 	</select>
-	</td>
-</tr>
-<tr>
-        <td>&nbsp;</td>
-</tr>
-<tr>
-        <td>
-	<input type="submit" name="SearchButton" value="{intl-search}" />
+	<br />
 	</td>
 </tr>
 </table>
+	<hr noshade="noshade" size="1" />
+	<input class="okbutton" type="submit" name="SearchButton" value="{intl-search}" />
 </form>
 <!-- END product_search_form_tpl -->
+
 
 <!-- BEGIN product_search_list_tpl -->        
 <br>
