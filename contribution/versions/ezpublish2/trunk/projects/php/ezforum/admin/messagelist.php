@@ -1,5 +1,5 @@
 <?
-// $Id: messagelist.php,v 1.14 2001/03/05 13:13:54 pkej Exp $
+// $Id: messagelist.php,v 1.15 2001/03/05 13:14:51 pkej Exp $
 //
 // Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
@@ -70,7 +70,7 @@ $messages = $forum->messageTree( $Offset, $Limit );
 $languageIni = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/messagelist.php.ini", false );
 $true =  $languageIni->read_var( "strings", "true" );
 $false =  $languageIni->read_var( "strings", "false" );
-
+$AnonymousPoster = $ini->read_var( "eZForumMain", "AnonymousPoster" );
 if ( !$messages )
 {
     $noitem = $languageIni->read_var( "strings", "noitem" );
@@ -108,7 +108,7 @@ else
             }
             else
             {
-                $t->set_var( "message_user", $ini->read_var( "eZForumMain", "AnonymousPoster" ) );
+                $t->set_var( "message_user", $AnonymousPoster );
             }
             if( $message->emailNotice() == "Y" )
                 $t->set_var( "emailnotice", $true );
