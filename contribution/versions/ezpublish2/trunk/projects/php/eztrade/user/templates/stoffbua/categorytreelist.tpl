@@ -6,14 +6,20 @@
 	<a class="menuhead"href="/trade/productlist/{category_id}/">{category_name}</a>&nbsp;
 	</td>
 </tr>
-<!-- BEGIN level_1_category_tpl -->
 <tr>
 	<td>
-	<div class="menu"><a class="menu" href="/trade/productlist/{category_id}/">{category_name}</a>&nbsp;</div>
+<!-- BEGIN level_1_category_tpl -->
+	<div class="menu"><a class="menulink" href="/trade/productlist/{category_id}/">{category_name}</a>&nbsp;</div>
+<!-- END level_1_category_tpl -->
 	</td>
 </tr>
+
+
 <!-- END level_1_category_tpl -->
-<br />
+<tr>
+	<td class="menuspacer">&nbsp;</td>
+</tr>
+
 <!-- END top_category_tpl -->
 
 
