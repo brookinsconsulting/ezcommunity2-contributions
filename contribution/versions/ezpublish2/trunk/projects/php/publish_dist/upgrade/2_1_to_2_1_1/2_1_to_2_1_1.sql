@@ -827,7 +827,27 @@ CREATE TABLE eZTrade_ProductPermissionLink (
 alter table eZBug_Bug change Created Created int;
 alter table eZBug_Bug change IsHandled IsHandled int default 0;
 alter table eZBug_Bug change IsClosed IsClosed int default 0;
+alter table eZBug_Bug add OwnerID OwnerID int default 0;
 alter table eZBug_Bug change IsPrivate IsPrivate int default 0;
+
+alter table eZBug_Module add OwnerGroupID int default 0;
+
+CREATE TABLE eZBug_BugFileLink (
+  ID int NOT NULL,
+  BugID int NOT NULL default '0',
+  FileID int NOT NULL default '0',
+  Created int NOT NULL,
+  PRIMARY KEY (ID)
+);
+ 
+CREATE TABLE eZBug_BugImageLink (
+  ID int NOT NULL,
+  BugID int NOT NULL default '0',
+  ImageID int NOT NULL default '0',
+  Created int NOT NULL,
+  PRIMARY KEY (ID)
+);
+
 
 alter table eZBug_Log change Created Created int;
 
