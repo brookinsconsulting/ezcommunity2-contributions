@@ -2,10 +2,10 @@
 
 <hr noshade="noshade" size="4" />
 
-<table width="0" cellspacing="0" cellpadding="0" border="0">
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<h2>{article_name}</h2>
+	<h2>{article_name}</h2> 
 	<p class="byline">{intl-written_by} {author_text}</p>
 
 
@@ -25,7 +25,6 @@
 <!-- END page_menu_separator_tpl -->
 
 
-
 <!-- BEGIN prev_page_link_tpl -->
 <a class="path" href="/article/articlepreview/{article_id}/{prev_page_number}/">{intl-prev_page}</a>
 <!-- END prev_page_link_tpl -->
@@ -33,7 +32,6 @@
 <!-- BEGIN page_link_tpl -->
 | <a class="path" href="/article/articlepreview/{article_id}/{page_number}/">{page_number}</a>	
 <!-- END page_link_tpl -->
-
 
 <!-- BEGIN next_page_link_tpl -->
 | <a class="path" href="/article/articlepreview/{article_id}/{next_page_number}/">{intl-next_page}</a>
