@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: bugreport.php,v 1.30.2.1 2002/02/07 08:20:21 jhe Exp $
+// $Id: bugreport.php,v 1.30.2.2 2002/05/08 09:16:58 vl Exp $
 //
 // Created on: <27-Nov-2000 20:31:00 bf>
 //
@@ -29,6 +29,7 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/ezhttptool.php" );
+include_once( "classes/eztexttool.php" );
 
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
@@ -208,7 +209,7 @@ $catName = "";
 $modName = "";
 
 $t->set_var( "description_value", $Description );
-$t->set_var( "title_value", $Name );
+$t->set_var( "title_value", eZTextTool::htmlspecialchars( $Name ) );
 $t->set_var( "file", "" );
 $t->set_var( "image", "" );
 $t->set_var( "private_checked", "" );
