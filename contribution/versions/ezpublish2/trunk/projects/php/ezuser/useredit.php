@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.4 2000/10/24 14:02:03 ce-cvs Exp $
+// $Id: useredit.php,v 1.5 2000/10/24 14:11:03 ce-cvs Exp $
 //
 // 
 //
@@ -25,8 +25,6 @@ $AnonymousUserGroup = $ini->read_var( "eZUserMain", "AnonymousUserGroup" );
 
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
-
-print $RedirectURL;
 
 if ( $Action == "Insert" )
 {
