@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: useredit.php,v 1.32 2001/10/03 22:37:29 fh Exp $
+// $Id: useredit.php,v 1.33 2001/10/04 08:20:20 fh Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -203,8 +203,7 @@ if ( $Action == "update" )
 //                            $user->get( $user->id() );
 //                            $user->removeGroups();
                             $group->get( $GroupID );
-                            // does not work..
-//                            if ( ( $group->isRoot() && $currentUser->hasRootAccess() ) || !$group->isRoot() )
+                            if ( ( $group->isRoot() && $currentUser->hasRootAccess() ) || !$group->isRoot() )
                             {
                                 $group->adduser( $user );
                                 $groupname = $group->name();
