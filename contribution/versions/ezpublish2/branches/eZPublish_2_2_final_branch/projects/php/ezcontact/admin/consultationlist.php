@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: consultationlist.php,v 1.14.2.3 2001/11/30 19:55:00 kaid Exp $
+// $Id: consultationlist.php,v 1.14.2.4 2002/05/08 10:39:02 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -71,12 +71,18 @@ if ( isSet( $ConsultationList ) )
 {
     $t->set_block( "consultation_page", "no_consultations_item_tpl", "no_consultations_item" );
     $t->set_block( "consultation_page", "consultation_table_item_tpl", "consultation_table_item" );
+
     $t->set_block( "consultation_table_item_tpl", "consultation_item_tpl", "consultation_item" );
+    $t->set_block( "consultation_item_tpl", "consultation_item_edit_tpl", "consultation_item_edit" );
+    $t->set_block( "consultation_item_edit_tpl", "consultation_item_edit_shown_tpl", "consultation_item_edit_shown" );
+    $t->set_block( "consultation_item_edit_tpl", "consultation_item_edit_empty_tpl", "consultation_item_edit_empty" );
 
     $t->set_block( "consultation_table_item_tpl", "new_company_consultation_item_tpl", "new_company_consultation_item" );
     $t->set_block( "consultation_table_item_tpl", "new_person_consultation_item_tpl", "new_person_consultation_item" );
 
     $t->set_var( "consultation_item", "" );
+    $t->set_var( "consultation_item_edit_shown", "" );
+    $t->set_var( "consultation_item_edit_empty", "" );
     $t->set_var( "no_consultations_item", "" );
     $t->set_var( "consultation_table_item", "" );
 }
@@ -164,6 +170,12 @@ if ( isSet( $ConsultationList ) )
         $t->set_var( "consultation_short_description", $consultation->shortDescription() );
         $t->set_var( "consultation_status_id", $consultation->state() );
         $t->set_var( "consultation_status", eZConsultation::stateName( $consultation->state() ) );
+
+        if ( !$consultation->systemMessage() )
+            $t->parse( "consultation_item_edit", "consultation_item_edit_shown_tpl" );
+        else
+            $t->parse( "consultation_item_edit", "consultation_item_edit_empty_tpl" );
+        
         $t->parse( "consultation_item", "consultation_item_tpl", true );
         $i++;
     }

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: consultationview.php,v 1.14.2.2 2001/11/23 15:02:43 jhe Exp $
+// $Id: consultationview.php,v 1.14.2.3 2002/05/08 10:39:02 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -66,6 +66,7 @@ $t->setAllStrings();
 
 $t->set_file( "consultation_view", "consultationview.tpl" );
 $t->set_block( "consultation_view", "consultation_item_tpl", "consultation_item" );
+$t->set_block( "consultation_view", "consultation_edit_button_tpl", "consultation_edit_button" );
 
 $t->set_block( "consultation_item_tpl", "consultation_date_item_tpl", "consultation_date_item" );
 $t->set_block( "consultation_item_tpl", "group_notice_select_tpl", "group_notice_select" );
@@ -76,6 +77,7 @@ $t->set_block( "consultation_view", "person_contact_item_tpl", "person_contact_i
 
 $t->set_var( "consultation_date", "" );
 $t->set_var( "consultation_date_item", "" );
+$t->set_var( "consultation_edit_button", "" );
 
 $t->set_var( "short_description", "" );
 $t->set_var( "description", "" );
@@ -162,6 +164,10 @@ else
         $t->set_var( "no_group_notice", "" );
     }
 
+    if ( !$consultation->systemMessage() )
+        $t->parse( "consultation_edit_button", "consultation_edit_button_tpl" );
+
+    
 // Template variabler.
     $t->set_var( "action_value", $Action_value );
     $t->pparse( "output", "consultation_view"  );

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personedit.php,v 1.57.2.5 2002/02/26 12:31:45 jhe Exp $
+// $Id: personedit.php,v 1.57.2.6 2002/05/08 10:39:02 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -83,18 +83,14 @@ if ( get_class( $user ) != "ezuser" )
     exit();
 }
 
-if ( isSet( $BuyButton ) )
-{
-    include( "ezcontact/admin/buy.php" );
-}
-
 if ( isSet( $OK ) )
 {
     if ( $CompanyEdit )
     {
         if ( $Action == "edit" || $Action == "update" )
         {
-            if ( !eZPermission::checkPermission( $user, "eZContact", "CompanyModify" ) )
+            if ( !eZPermission::checkPermission( $user, "eZContact", "CompanyModify" ) ||
+                 $user->id() == eZCompany::user( false, $CompanyID ) )
             {
                 include_once( "classes/ezhttptool.php" );
                 eZHTTPTool::header( "Location: /contact/nopermission/company/edit" );
@@ -549,9 +545,14 @@ if ( !$confirm )
         if ( $CompanyEdit )
         {
             if ( $Action == "insert" )
+            {
                 $company = new eZCompany();
+                $company->setUser( eZUser::currentUser() );
+            }
             else
+            {
                 $company = new eZCompany( $CompanyID );
+            }
             
             $company->setName( $Name );
 
@@ -590,7 +591,7 @@ if ( !$confirm )
             {
                 $logo = new eZImage();
                 $logo->setName( "Logo" );
-                if ( $logo->checkImage( $file ) and $logo->setImage( $file ) )
+                if ( $logo->checkImage( $file ) && $logo->setImage( $file ) )
                 {
                     $logo->store();
                     $company->setLogoImage( $logo );
@@ -611,7 +612,7 @@ if ( !$confirm )
             {
                 $image = new eZImage( );
                 $image->setName( "Image" );
-                if ( $image->checkImage( $file ) and $image->setImage( $file ) )
+                if ( $image->checkImage( $file ) && $image->setImage( $file ) )
                 {
                     $image->store();
                     $company->setCompanyImage( $image );
@@ -753,7 +754,7 @@ if ( !$confirm )
     {
         if ( $CompanyEdit )
         {
-            $company = new eZCompany( $CompanyID, true );
+            $company = new eZCompany( $CompanyID );
             $item =& $company;
 
             $Name = $company->name();
@@ -762,7 +763,7 @@ if ( !$confirm )
         }
         else
         {
-            $person = new eZPerson( $PersonID, true );
+            $person = new eZPerson( $PersonID );
             $item =& $person;
 
             $FirstName = $person->firstName();

@@ -8,6 +8,7 @@ CREATE TABLE eZContact_Company (
   ContactID int DEFAULT '0',
   Approved int DEFAULT '0',
   ExpiryDate int DEFAULT '0',
+  WarningDate int DEFAULT '0',
   SentWarning int DEFAULT '0',
   UserID int,
   PRIMARY KEY (ID)
@@ -79,6 +80,7 @@ CREATE TABLE eZContact_Consultation (
   Date int,
   StateID int DEFAULT '0' NOT NULL,
   EmailNotifications varchar(255) DEFAULT '' NOT NULL,
+  SystemMessage int DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
 

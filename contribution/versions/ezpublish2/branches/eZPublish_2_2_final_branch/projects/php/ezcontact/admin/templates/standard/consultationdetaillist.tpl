@@ -47,7 +47,8 @@
 	<td>
         <a href="{www_dir}{index}/contact/consultation/view/{consultation_status_id}">{consultation_status}</a>
 	</td>
-
+<!-- BEGIN consultation_item_edit_tpl -->
+<!-- BEGIN consultation_item_edit_shown_tpl -->
 	<td width="1%">
 	<a href="{www_dir}{index}/contact/consultation/edit/{consultation_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{consultation_id}-red','','{www_dir}/admin/images/redigerminimrk.gif',1)"><img name="ezc{consultation_id}-red" border="0" src="{www_dir}/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
@@ -55,7 +56,14 @@
 	<td width="1%">
 	<input type="checkbox" name="ConsultationList[]" value="{consultation_id}">
 	</td>	
-
+<!-- END consultation_item_edit_shown_tpl -->
+<!-- BEGIN consultation_item_edit_empty_tpl -->
+	<td width="1%">
+	</td>
+	<td width="1%">
+	</td>	
+<!-- END consultation_item_edit_empty_tpl -->
+<!-- END consultation_item_edit_tpl -->
 </tr>
 <!-- END consultation_item_tpl -->
 </table>

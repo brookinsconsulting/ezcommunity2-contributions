@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezconsultation.php,v 1.27.2.1 2001/10/24 11:29:01 jhe Exp $
+// $Id: ezconsultation.php,v 1.27.2.2 2002/05/08 10:39:02 jhe Exp $
 //
 // Definition of eZConsultation class
 //
@@ -88,14 +88,15 @@ class eZConsultation
             $db->lock( "eZContact_Consultation" );
             $this->ID = $db->nextID( "eZContact_Consultation", "ID" );
             $res[] = $db->query( "INSERT INTO eZContact_Consultation
-                                  (ID, ShortDesc, Description, StateID, EmailNotifications, Date)
+                                  (ID, ShortDesc, Description, StateID, EmailNotifications, Date, SystemMessage)
                                   VALUES
                                   ('$this->ID',
                                    '$shortdesc',
                                    '$description',
                                    '$this->State',
                                    '$emailnotice',
-	                               '$date')" );
+	                               '$date',
+                                   '$this->systemMessage')" );
             $db->unlock();
         }
         else
@@ -105,7 +106,8 @@ class eZConsultation
                                         Description='$description',
                                         StateID='$this->State',
                                         EmailNotifications='$this->EmailNotice',
-                                        Date='$date'
+                                        Date='$date',
+                                        SystemMessage='$this->systemMessage'
                                         WHERE ID='$this->ID'" );
         }
         eZDB::finish( $res, $db );
@@ -155,6 +157,7 @@ class eZConsultation
             $this->Description = $consult_array[$db->fieldName( "Description" )];
             $this->State = $consult_array[$db->fieldName( "StateID" )];
             $this->EmailNotice = $consult_array[$db->fieldName( "EmailNotifications" )];
+            $this->SystemMessage = $consult_array[$db->fieldName( "SystemMessage" )];
             $this->Date = new eZDate();
             $this->Date->setTimeStamp( $consult_array[$db->fieldName( "Date" )] );
 
@@ -185,6 +188,11 @@ class eZConsultation
     function setState( $state )
     {
         $this->State = $state;
+    }
+
+    function setSystemMessage( $value )
+    {
+        $this->SystemMessage = $value ? 1 : 0;
     }
 
     /*!
@@ -284,6 +292,11 @@ class eZConsultation
     function state()
     {
         return $this->State;
+    }
+
+    function systemMessage()
+    {
+        return $this->SystemMessage == 1 ? true : false;
     }
 
     /*!
@@ -800,6 +813,7 @@ class eZConsultation
     var $State;
     var $Date;
     var $EmailNotice;
+    var $SystemMessage;
 }
 
 ?>
