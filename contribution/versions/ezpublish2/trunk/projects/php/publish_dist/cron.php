@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: cron.php,v 1.8 2001/07/20 12:04:13 jakobn Exp $
+// $Id: cron.php,v 1.9 2001/07/25 12:19:15 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -28,6 +28,27 @@ include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 $GlobalSiteIni =& $ini;
 
+
+
+// index articles
+// uncomment to index all articles in publish
+
+/*
+set_time_limit( 0 );
+include_once( "ezarticle/classes/ezarticle.php" );
+include_once( "ezarticle/classes/ezarticlecategory.php" );
+
+$article = new eZArticle();
+
+$articles =& $article->getAll();
+
+foreach ( $articles as $article )
+{
+    print( "indexing article: " .  $article->name() . "<br>\n" );    
+    $article->createIndex();
+}
+*/
+
 // do session cleanup
 include( "ezsession/admin/cron.php" );
 
@@ -41,6 +62,5 @@ include_once( "ezmail/classes/ezmail.php" );
 
 // include( "eznewsfeed/admin/cron.php" );
 
-include( "ezstats/admin/archive.php" );
 
 ?>
