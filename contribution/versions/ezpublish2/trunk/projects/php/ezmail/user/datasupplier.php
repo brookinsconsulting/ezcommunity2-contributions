@@ -31,6 +31,12 @@ switch( $url_array[2] )
     }
     break;
 
+    case "folderlist" :
+    {
+        include( "ezmail/user/folderlist.php" );
+    }
+    break;
+    
     case "mailedit" :
     {
         $MailID = $url_array[3];

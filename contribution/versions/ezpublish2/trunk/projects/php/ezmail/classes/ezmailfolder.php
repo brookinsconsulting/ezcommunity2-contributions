@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfolder.php,v 1.8 2001/03/28 09:51:59 fh Exp $
+// $Id: ezmailfolder.php,v 1.9 2001/03/28 14:43:08 fh Exp $
 //
 // eZMailFolder class
 //
@@ -432,6 +432,27 @@ class eZMailFolder
         return $return_array;     
     }
 
+    /*!
+      Returns the number for mail in the folder. If $unreadOnly is set to true the function returns the number of unread mails.
+      If you specify the folderID this function can be used as an static function.
+     */
+    function count( $unreadOnly = false, $folderID =-1 )
+    {
+        $db =& eZDB::globalDatabase();
+
+        if( $folderID == -1 )
+            $folderID = $this->ID;
+        
+        $unreadSQL = "";
+        if( $unreadOnly == true )
+            $unreadSQL = "AND Mail.Status='0'";
+        
+        $db->query_single( $res, "SELECT count( Mail.ID ) as Count from eZMail_Mail as Mail,
+                                                eZMail_MailFolderLink as Link
+                                                WHERE Mail.ID=Link.MailID AND Link.FolderID='$folderID' $unreadSQL" );
+        return $res["Count"];
+    }
+    
     /*
       \static
       
@@ -495,7 +516,7 @@ class eZMailFolder
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = eZDB::globalDatabase();
+            $this->Database =& eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }
