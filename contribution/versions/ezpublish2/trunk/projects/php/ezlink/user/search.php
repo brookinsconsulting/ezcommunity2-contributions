@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.8 2000/11/02 16:14:22 ce-cvs Exp $
+// $Id: search.php,v 1.9 2000/11/05 11:31:36 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <15-Sep-2000 14:40:06 bf>
@@ -154,7 +154,6 @@ if ( $QueryString != "" )
                 
             $LGID =  ( $link_array[ $i ][ "LinkGroup" ] );
                 
-                
             $hit = new eZHit();
             $hits = $hit->getLinkHits( $linkItem->id() );
 
@@ -174,6 +173,7 @@ if ( $QueryString != "" )
         $t->parse( "empty_result", "empty_result_tpl" );
     }
 }
+else
 {
     $t->set_var( "search_item", "" );
     $t->parse( "empty_result", "empty_result_tpl" );
