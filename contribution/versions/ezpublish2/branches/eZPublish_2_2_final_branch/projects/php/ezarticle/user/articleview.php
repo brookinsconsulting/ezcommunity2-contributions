@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.84.2.16 2003/06/02 10:02:21 jhe Exp $
+// $Id: articleview.php,v 1.84.2.17 2003/07/24 08:47:34 br Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -38,6 +38,7 @@ $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 $ForceCategoryDefinition = $ini->read_var( "eZArticleMain", "ForceCategoryDefinition" );
+$TemplateDir = $ini->read_var( "eZArticleMain", "TemplateDir" );
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 $ListImageWidth = $ini->read_var( "eZArticleMain", "ListImageWidth" );
 $ListImageHeight = $ini->read_var( "eZArticleMain", "ListImageHeight" );
@@ -65,9 +66,12 @@ $GlobalSectionID = eZArticleCategory::sectionIDStatic( $CategoryID );
 // init the section
 $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
 $sectionObject->setOverrideVariables();
-$TemplateDir = $sectionObject->templateStyle();
-if ( trim( $TemplateDir ) == "" )
-    $TemplateDir = $ini->read_var( "eZArticleMain", "TemplateDir" );
+
+$templateDirTmp = $sectionObject->templateStyle();
+if ( trim( $templateDirTmp ) != "" )
+{
+    $TemplateDir = preg_replace( "/(.+)\/.+(\/?)/", "/\\1/$templateDirTmp\\2", $TemplateDir );
+}
 
 $t = new eZTemplate( "ezarticle/user/" . $TemplateDir,
                      "ezarticle/user/intl/", $Language, "articleview.php" );
