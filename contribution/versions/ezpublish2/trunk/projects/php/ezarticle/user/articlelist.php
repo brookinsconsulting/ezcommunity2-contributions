@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.40 2001/04/05 14:07:47 bf Exp $
+// $Id: articlelist.php,v 1.41 2001/04/06 10:12:15 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -22,8 +22,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
-
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
@@ -200,7 +198,7 @@ foreach ( $articleList as $article )
                 $convertToGray = true;
             else
                 $convertToGray = false;
-            
+
             $variation =& $thumbnailImage->requestImageVariation( $ini->read_var( "eZArticleMain", "ThumbnailImageWidth" ),
             $ini->read_var( "eZArticleMain", "ThumbnailImageHeight" ), $convertToGray );
     
