@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: templateedit.php,v 1.4.2.1 2001/10/29 17:19:01 fh Exp $
+// $Id: templateedit.php,v 1.4.2.2 2001/11/19 12:48:50 jhe Exp $
 //
 // Created on: <18-Apr-2001 17:15:33 fh>
 //
@@ -30,15 +30,15 @@ include_once( "classes/ezhttptool.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/INIFile.php" );
 
-if( isset( $Cancel ) ) // cancel pressed, redirect to templatelist page...
+if ( isset( $Cancel ) ) // cancel pressed, redirect to templatelist page...
 {
     eZHTTPTool::header( "Location: /bulkmail/templatelist/" );
     exit();
 }
 
-if( isset( $Ok ) ) // cancel pressed, redirect to templatelist page...
+if ( isset( $Ok ) ) // cancel pressed, redirect to templatelist page...
 {
-    if( $TemplateID == 0 )
+    if ( $TemplateID == 0 )
         $template = new eZBulkMailTemplate();
     else
         $template = new eZBulkMailTemplate( $TemplateID );
@@ -56,9 +56,7 @@ if( isset( $Ok ) ) // cancel pressed, redirect to templatelist page...
 
 $t = new eZTemplate( "ezbulkmail/admin/" . $ini->read_var( "eZBulkMailMain", "AdminTemplateDir" ),
                      "ezbulkmail/admin/intl", $Language, "templateedit.php" );
-$t->set_file( array(
-    "template_edit_tpl" => "templateedit.tpl"
-    ) );
+$t->set_file( "template_edit_tpl", "templateedit.tpl" );
 
 $t->setAllStrings();
 $t->set_var( "site_style", $SiteStyle );
@@ -68,10 +66,10 @@ $t->set_var( "description", "" );
 $t->set_var( "template_id", $TemplateID );
 $t->set_var( "template_footer", "" );
 $t->set_var( "template_header", "" );
-if( $TemplateID != 0  )
+if ( $TemplateID != 0  )
 {
     $template = new eZBulkMailTemplate( $TemplateID );
-    if( is_object( $template ) )
+    if ( is_object( $template ) )
     {
         $t->set_var( "template_name", $template->name() );
         $t->set_var( "description", $template->description() );
@@ -81,4 +79,5 @@ if( $TemplateID != 0  )
 }
 
 $t->pparse( "output", "template_edit_tpl" );
+
 ?>
