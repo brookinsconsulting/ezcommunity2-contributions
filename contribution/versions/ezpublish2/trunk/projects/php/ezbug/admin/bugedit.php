@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugedit.php,v 1.20 2001/02/20 20:59:41 fh Exp $
+// $Id: bugedit.php,v 1.21 2001/02/21 09:26:55 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Nov-2000 19:45:35 bf>
@@ -320,7 +320,7 @@ if ( $Action == "Edit" )
     }
     else
     {
-        $t->set_var( "isclosed", "" );
+        $t->set_var( "is_private", "" );
     }
 
 

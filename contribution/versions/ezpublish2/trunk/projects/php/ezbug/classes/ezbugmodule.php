@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugmodule.php,v 1.13 2001/02/20 20:04:43 fh Exp $
+// $Id: ezbugmodule.php,v 1.14 2001/02/21 09:26:55 fh Exp $
 //
 // Definition of eZBugModule class
 //
@@ -453,7 +453,7 @@ class eZBugModule
        $privateSQL = "";
        if( $withPrivate == false )
        {
-           $privateSQL="AND IsPrivate='false'";
+           $privateSQL="AND IsPrivate!='true'";
        }
 
        $this->Database->array_query( $bug_array, "
@@ -480,14 +480,14 @@ class eZBugModule
     /*!
       Returns the bug count in the module.
 
-      If $countUnhandled == true all bugs are counted if not only
+      If $countUnhandled == true all bugs are counted if not, only
       handled bugs are counted.
 
       If $excludeClosed == true the closed bugs does not get counted.
 
       If $recursive == true it will also count the bug in the submodules.
     */
-    function countBugs( $countUnhandled=true, $excludeClosed=false, $recursive=false )
+    function countBugs( $countUnhandled=true, $excludeClosed=false, $recursive=false, $withPrivate=false )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -506,6 +506,12 @@ class eZBugModule
            $openSQL = "AND eZBug_Bug.IsClosed!='true'";
        }
 
+       $privateSQL = "";
+       if( $withPrivate == false )
+       {
+           $privateSQL = "AND eZBug_Bug.IsPrivate!='true'";
+       }
+
        $query = "
                 SELECT count( * ) AS Count
                 FROM eZBug_Bug, eZBug_Module, eZBug_BugModuleLink
@@ -515,6 +521,7 @@ class eZBugModule
                 eZBug_Module.ID = eZBug_BugModuleLink.ModuleID
                 $unhandledSQL
                 $openSQL
+                $privateSQL
                 AND
                 eZBug_Module.ID='$this->ID'
                 ";

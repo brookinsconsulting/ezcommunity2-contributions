@@ -1,4 +1,4 @@
-<form method="post" action="/bug/edit/">
+<form method="post" action="/bug/edit/" enctype="multipart/form-data">
 
 <h1>{intl-edit_bug}</h1>
 
@@ -84,11 +84,11 @@
 </select>
 <br />
 <br />
-<input type="checkbox" name="IsClosed" {is_closed} />
+<input type="checkbox" name="IsClosed" {is_closed}/>
 <span class="boxtext">{intl-is_closed}</span><br />
 
 <br />
-<input type="checkbox" name="IsPrivate" {is_private} />
+<input type="checkbox" name="IsPrivate" {is_private}/>
 <span class="boxtext">{intl-is_private}</span><br />
 
 <br />
