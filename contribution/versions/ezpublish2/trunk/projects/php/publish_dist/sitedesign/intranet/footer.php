@@ -11,6 +11,10 @@
     ?>
 
     <?
+    include( "ezmail/user/menubox.php" );
+    ?>
+
+    <?
     include( "eztodo/user/menubox.php" );
     ?>
 
