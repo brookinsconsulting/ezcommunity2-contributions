@@ -1,5 +1,5 @@
 <?
-// $Id: suggestlink.php,v 1.9 2000/11/01 15:46:30 bf-cvs Exp $
+// $Id: suggestlink.php,v 1.10 2000/11/02 09:54:34 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:54:13 ce>   
@@ -45,8 +45,12 @@ if ( $GetSite )
             $real_url = $url;
 
         $metaList = fetchURLInfo( $real_url );
-
-        if( count( $metaList ) == 0 )
+        if ( $metaList == false )
+        {
+            // Change this to use an external message
+            $terror_msg = "The site does not exists";
+        }
+        else if( count( $metaList ) == 0 )
         {
             $inierror = new INIFile( "ezlink/user/" . "/intl/" . $Language . "/suggestlink.php.ini", false );
             $terror_msg = $inierror->read_var( "strings", "nometa" );

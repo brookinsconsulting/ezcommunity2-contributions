@@ -1,5 +1,5 @@
 <?
-// $Id: ezmeta.php,v 1.1 2000/11/01 15:45:43 bf-cvs Exp $
+// $Id: ezmeta.php,v 1.2 2000/11/02 09:54:34 bf-cvs Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <01-Nov-2000 16:44:39 bf>
@@ -25,30 +25,37 @@
 function &fetchURLInfo( $url )
 {
     $list = array();
-    $fp = fopen( $url, "r" );
-    $output = fread( $fp, 5000 ); // First 5k should be enough
-    fclose( $fp );
-    if ( preg_match( "#<title>([^<]+)</title>#i", $output, $regs ) )
+    $fp = @fopen( $url, "r" );
+    if ( $fp )
     {
-        $title = $regs[1];
-        $list["title"] = $title;
+        $output = fread( $fp, 5000 ); // First 5k should be enough
+        fclose( $fp );
+        if ( preg_match( "#<title>([^<]+)</title>#i", $output, $regs ) )
+        {
+            $title = trim( $regs[1] );
+            $list["title"] = $title;
+        }
+        if ( preg_match( "#<meta[ \t\n]+name[ \t\n]*=[ \t\n]*\"abstract\"[ \t\n]+content[ \t\n]*=[ \t\n]*\"([^\"]+)\"[ \t\n]*>#i", $output, $regs ) )
+        {
+            $abstract = trim( $regs[1] );
+            $list["abstract"] = $abstract;
+        }
+        if ( preg_match( "#<meta[ \t\n]+name[ \t\n]*=[ \t\n]*\"description\"[ \t\n]+content[ \t\n]*=[ \t\n]*\"([^\"]+)\"[ \t\n]*>#i", $output, $regs ) )
+        {
+            $description = trim( $regs[1] );
+            $list["description"] = $description;
+        }
+        if ( preg_match( "#<meta[ \t\n]+name[ \t\n]*=[ \t\n]*\"keywords\"[ \t\n]+content[ \t\n]*=[ \t\n]*\"([^\"]+)\"[ \t\n]*>#i", $output, $regs ) )
+        {
+            $keywords = trim( $regs[1] );
+            $list["keywords"] = $keywords;
+        }
+        return $list;
     }
-    if ( preg_match( "#<meta[ \t\n]+name[ \t\n]*=[ \t\n]*\"abstract\"[ \t\n]+content[ \t\n]*=[ \t\n]*\"([^\"]+)\"[ \t\n]*>#i", $output, $regs ) )
+    else
     {
-        $abstract = $regs[1];
-        $list["abstract"] = $abstract;
+        return false;
     }
-    if ( preg_match( "#<meta[ \t\n]+name[ \t\n]*=[ \t\n]*\"description\"[ \t\n]+content[ \t\n]*=[ \t\n]*\"([^\"]+)\"[ \t\n]*>#i", $output, $regs ) )
-    {
-        $description = $regs[1];
-        $list["description"] = $description;
-    }
-    if ( preg_match( "#<meta[ \t\n]+name[ \t\n]*=[ \t\n]*\"keywords\"[ \t\n]+content[ \t\n]*=[ \t\n]*\"([^\"]+)\"[ \t\n]*>#i", $output, $regs ) )
-    {
-        $keywords = $regs[1];
-        $list["keywords"] = $keywords;
-    }
-    return $list;
 }
 
 ?>
