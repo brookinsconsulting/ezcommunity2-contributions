@@ -91,3 +91,13 @@ Maintainer(s) : fh@ez.no
       sql/mysql/ezmail.sql
       sql/postgresql/ezmail.sql: updated sql scheemes, ready for release
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2001-10-14  fh  <fh@zev.ez.no>
+
+    * user/fileedit.php
+      user/mailview.php:
+    Fixed file name bug when upload, and fixed download name bug.
+

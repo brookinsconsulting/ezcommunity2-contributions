@@ -153,3 +153,14 @@ Maintainer(s) : vl@ez.no
     * sql/Attic/ezbug.sql
       sql/postgresql/ezbug.sql: updated sql scheemes, ready for release
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-10-14  fh  <fh@zev.ez.no>
+
+    * admin/bugedit.php:
+    Fixed bug that caused malfunction when assigning a bug that didn't have a user as a bug reporter.
+
+    * admin/bugedit.php: Fixed stupid bug that called empty function.
+

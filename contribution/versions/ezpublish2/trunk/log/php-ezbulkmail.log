@@ -159,3 +159,19 @@ Maintainer(s) : fh@ez.no
     * sql/informix/ezbulkmail.sql
       sql/postgresql/ezbulkmail.sql: updated sql scheemes, ready for release
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2001-10-14  fh  <fh@zev.ez.no>
+
+    * classes/ezbulkmailusersubscripter.php
+      sql/informix/ezbulkmail.sql
+      sql/mysql/ezbulkmail.sql
+      sql/postgresql/ezbulkmail.sql
+      user/datasupplier.php:
+    Fixed Elo bug. Using eZUser as login method now works correctly.
+
+    * classes/ezbulkmail.php:
+    FIxed serious bug that caused malfunction on send with user groups
+

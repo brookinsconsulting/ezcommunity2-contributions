@@ -100,3 +100,14 @@ Maintainer(s) : br@ez.no
 
     * admin/adstatistics.php: fixed some bugs.
 
+
+Module : ezad
+Repository path : /home/cvsroot/projects/php/ezad
+Maintainer(s) : br@ez.no
+2001-10-14  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezad.php
+      admin/adedit.php:
+    Added regexp for http on urls, and moved lock table in ezad.php
+    (got error message when update a new ad)
+
