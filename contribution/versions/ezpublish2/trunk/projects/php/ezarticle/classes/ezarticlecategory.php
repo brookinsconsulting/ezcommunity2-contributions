@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.1 2000/10/19 10:43:29 bf-cvs Exp $
+// $Id: ezarticlecategory.php,v 1.2 2000/10/19 13:47:12 ce-cvs Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -299,7 +299,7 @@ class eZArticleCategory
 
        if ( get_class( $value ) == "ezarticlecategory" )
        {
-           $this->Parent = $value->id();
+           $this->ParentID = $value->id();
        }
     }
 
