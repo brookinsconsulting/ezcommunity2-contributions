@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsection.php,v 1.6 2001/06/25 14:40:09 bf Exp $
+// $Id: ezsection.php,v 1.7 2001/07/03 08:49:55 bf Exp $
 //
 // ezsection class
 //
@@ -83,8 +83,8 @@ class eZSection
                                      ( '$nextID',
                                        '$name',
                                        '$timeStamp',
-                                       '$sitedesign',
-                                       '$description' )" );
+                                       '$description',
+                                       '$sitedesign' )" );
 
 			$this->ID = $nextID;
         }
