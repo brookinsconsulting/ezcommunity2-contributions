@@ -68,6 +68,8 @@
 <!-- END numbered_page_link_tpl -->
 
 <!-- BEGIN print_page_link_tpl -->
+<!--
 | <a class="path" href="/article/articleprint/{article_id}/">{intl-print_page}</a> |
+-->
 <!-- END print_page_link_tpl -->
 </div>

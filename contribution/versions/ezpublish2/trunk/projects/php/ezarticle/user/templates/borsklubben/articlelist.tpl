@@ -1,6 +1,6 @@
 <!-- BEGIN header_item_tpl -->
 
-<h1>Nyheter</h1>
+<h1>{current_category_name}</h1>
 
 <hr noshade="noshade" size="4" />
 <!-- END header_item_tpl -->
