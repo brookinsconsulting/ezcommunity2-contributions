@@ -112,12 +112,15 @@ else
 
         $t->set_var( "link_hits", $hits );
 
+
         $t->set_var( "document_root", $DOCUMENTROOT );
 
         $t->parse( "link_list", "link_item", true );
     }
 }
 
+
+$t->set_var( "linkgroup_id", $LGID );
 $t->set_var( "document_root", $DOCUMENTROOT );
                        
 $t->pparse( "output", "linkgroup_list" );
