@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.30 2001/08/20 09:59:49 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.31 2001/08/21 14:34:57 virt Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -111,18 +111,19 @@
   predefined text
   </verbatim>
 
-  <tstart>
-  table element 1.1
-  <telem>
-  table element 1.2  
-  ...
-  <trow>
-  table element 2.1
-  <telem>
-  table element 2.2
-  ...
-  <tend>
-
+  <table>
+  <tr>
+  <td>
+  text
+  </td>
+  </tr>
+  </table>
+  also
+  <table width>
+  <table width border>
+  <td width>
+  <td width colspan>
+  <td width colspan rowspan>
 
   <hr> - horiznontal line
   
@@ -954,6 +955,26 @@ class eZQDomrenderer
             $this->Template->set_var( "tr", "" );
             $this->Template->set_var( "td", "" );
 
+            $tableWidth = "100%";
+	    $tableBorder = 1;
+            if  ( count( $paragraph->attributes ) > 0 )
+            foreach ( $paragraph->attributes as $attr )
+            {
+                switch ( $attr->name )
+                {
+                    case "width" :
+                    {
+                       $tableWidth = $attr->children[0]->content;
+                    }
+                    break;
+		    case "border" :
+                    {
+                       $tableBorder = $attr->children[0]->content;
+                    }
+                    break;
+                }
+            }
+
             foreach ( $paragraph->children as $row )
             {
                 if ( $row->name == "tr" )            
@@ -964,14 +985,47 @@ class eZQDomrenderer
                     {
                         if ( $data->name == "td" )
                         {
+
+                            $tdWidth = "";
+	                    $tdColspan = 1;
+			    $tdRowspan = 1;
+                            if  ( count( $data->attributes ) > 0 )
+                            foreach ( $data->attributes as $attr )
+                            {
+                                switch ( $attr->name )
+                                {
+                                    case "width" :
+                                    {
+                                        $tdWidth = $attr->children[0]->content;
+                                    }
+                                    break;
+		                    case "colspan" :
+                                    {
+                                        $tdColspan = $attr->children[0]->content;
+                                    } 
+                                    break;
+				    case "rowspan" :
+                                    {
+                                        $tdRowspan = $attr->children[0]->content;
+                                    } 
+                                    break;
+                                }
+                            }
+
+
                             $childrenData =& $this->renderChildren( $data );
                             $this->Template->set_var( "contents", $childrenData );
-                            $this->Template->parse( "td", "td_tpl", true );
+                            $this->Template->set_var( "td_width", $tdWidth );
+                            $this->Template->set_var( "td_colspan", $tdColspan );
+                            $this->Template->set_var( "td_rowspan", $tdRowspan );
+			    $this->Template->parse( "td", "td_tpl", true );
                         }
                     }
                     $this->Template->parse( "tr", "tr_tpl", true );
                 }
             }
+	    $this->Template->set_var( "table_width", $tableWidth );
+	    $this->Template->set_var( "table_border", $tableBorder );
             $pageContent =& $this->Template->parse( "table", "table_tpl" );
         }
         
