@@ -42,4 +42,4 @@
 
 <hr noshade size="4"/>
 
-<form action="/todo/prioritytypeedit/"><input class="okbutton" type="submit" value="{intl-newpriority}"></form>
+<form action="/todo/prioritytypeedit/new/"><input class="okbutton" type="submit" value="{intl-newpriority}"></form>

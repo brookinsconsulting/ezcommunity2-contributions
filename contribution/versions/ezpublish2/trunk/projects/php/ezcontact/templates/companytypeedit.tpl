@@ -1,4 +1,4 @@
-<form method="post" action="/contact/companytypeedit/">
+<form method="post" action="/contact/companytypeedit/{action_value}/{companytype_id}/">
 <h1>{intl-headline}</h1>
 
 <p>

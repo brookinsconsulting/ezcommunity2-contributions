@@ -17,11 +17,6 @@ switch ( $url_array[2] )
         include( "eztodo/todoinfo.php" );
         break;
 
-    case "personinfo" :
-        include( "ezcontact/personinfo.php" );
-        break;
-
-
     default:
         print( "<h1>Sorry, Your link page could not be found. </h1>" );
         break;

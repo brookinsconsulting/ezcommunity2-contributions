@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: groupedit.php,v 1.2 2000/10/03 07:13:48 ce-cvs Exp $
+// $Id: groupedit.php,v 1.3 2000/10/03 15:17:28 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -196,7 +196,7 @@ if ( eZPermission::checkPermission( $user, "eZUser", "AdminRead" ) )
 }
 else
 {
-    print( "Du har ikke rettigheter1.");
+    print( "Du har ikke rettigheter.");
 }
 
 ?>

@@ -4,23 +4,82 @@ $url_array = explode( "/", $REQUEST_URI );
 switch ( $url_array[2] )
 {
     case "" :
+    {
         include( "ezlink/admin/linklist.php" );
+    }
+    case "group" :
+    {
+        $LGID = $url_array[3];
+        include( "ezlink/admin/linklist.php" );
+    }
         break;
     case "linkedit" :
-        
-        if ( $url_array[3] == "" )
+    {
+        if ( $url_array[3] == "new" )
         {
             include( "ezlink/admin/linkedit.php" );
         }
-        else
+        else if ( $url_array[3] == "insert" )
         {
-            include( "ezlink/admin/linkedit.php?LGID=$url_array[3]" );
+            $LID = $url_array[4];
+            $Action = "insert";
+            include( "ezlink/admin/linkedit.php" );
         }
 
-        break;
+        else if ( $url_array[3] == "edit" )
+        {
+            $LID = $url_array[4];
+            $Action = "edit";
+            include( "ezlink/admin/linkedit.php" );
+        }
+        else if ( $url_array[3] == "update" )
+        {
+            $LID = $url_array[4];
+            $Action = "update";
+            include( "ezlink/admin/linkedit.php" );
+        }
+        else if ( $url_array[3] == "delete" )
+        {
+            $LID = $url_array[4];
+            $Action = "delete";
+            include( "ezlink/admin/linkedit.php" );
+        }
+    }
+    break;
+
     case "groupedit" :
-        include( "ezlink/admin/groupedit.php" );
-        break;
+    {
+        if ( $url_array[3] == "new" )
+        {
+            include( "ezlink/admin/groupedit.php" );
+        }
+        else if ( $url_array[3] == "insert" )
+        {
+            $LGID = $url_array[4];
+            $Action = "insert";
+            include( "ezlink/admin/groupedit.php" );
+        }
+
+        else if ( $url_array[3] == "edit" )
+        {
+            $LGID = $url_array[4];
+            $Action = "edit";
+            include( "ezlink/admin/groupedit.php" );
+        }
+        else if ( $url_array[3] == "update" )
+        {
+            $LGID = $url_array[4];
+            $Action = "update";
+            include( "ezlink/admin/groupedit.php" );
+        }
+        else if ( $url_array[3] == "delete" )
+        {
+            $LGID = $url_array[4];
+            $Action = "delete";
+            include( "ezlink/admin/groupedit.php" );
+        }
+    }
+    break;
     case "testbench" :
         include( "eztrade/admin/testbench.php" );
         break;

@@ -22,17 +22,137 @@ switch ( $url_array[2] )
         break;
 
     case "phonetypeedit" :
-        include( "ezcontact/admin/phonetypeedit.php" );
-        break;
+    {
+        if ( $url_array[3] == "new" )
+        {
+            include( "ezcontact/admin/phonetypeedit.php" );
+        }
+        else if ( $url_array[3] == "insert" )
+        {
+            $PID = $url_array[4];
+            $Action = "insert";
+            include( "ezcontact/admin/phonetypeedit.php" );
+        }
+
+        else if ( $url_array[3] == "edit" )
+        {
+            $PID = $url_array[4];
+            $Action = "edit";
+            include( "ezcontact/admin/phonetypeedit.php" );
+        }
+        else if ( $url_array[3] == "update" )
+        {
+            $PID = $url_array[4];
+            $Action = "update";
+            include( "ezcontact/admin/phonetypeedit.php" );
+        }
+        else if ( $url_array[3] == "delete" )
+        {
+            $PID = $url_array[4];
+            $Action = "delete";
+            include( "ezcontact/admin/phonetypeedit.php" );
+        }
+    }
+    break;
     case "persontypeedit" :
-        include( "ezcontact/admin/persontypeedit.php" );
-        break;
+    {
+        if ( $url_array[3] == "new" )
+        {
+            include( "ezcontact/admin/persontypeedit.php" );
+        }
+        else if ( $url_array[3] == "insert" )
+        {
+            $PID = $url_array[4];
+            $Action = "insert";
+            include( "ezcontact/admin/persontypeedit.php" );
+        }
+
+        else if ( $url_array[3] == "edit" )
+        {
+            $PID = $url_array[4];
+            $Action = "edit";
+            include( "ezcontact/admin/persontypeedit.php" );
+        }
+        else if ( $url_array[3] == "update" )
+        {
+            $PID = $url_array[4];
+            $Action = "update";
+            include( "ezcontact/admin/persontypeedit.php" );
+        }
+        else if ( $url_array[3] == "delete" )
+        {
+            $PID = $url_array[4];
+            $Action = "delete";
+            include( "ezcontact/admin/persontypeedit.php" );
+        }
+    }
+    break;
     case "companytypeedit" :
-        include( "ezcontact/admin/companytypeedit.php" );
-        break;
+    {
+        if ( $url_array[3] == "new" )
+        {
+            include( "ezcontact/admin/companytypeedit.php" );
+        }
+        else if ( $url_array[3] == "insert" )
+        {
+            $CID = $url_array[4];
+            $Action = "insert";
+            include( "ezcontact/admin/companytypeedit.php" );
+        }
+
+        else if ( $url_array[3] == "edit" )
+        {
+            $CID = $url_array[4];
+            $Action = "edit";
+            include( "ezcontact/admin/companytypeedit.php" );
+        }
+        else if ( $url_array[3] == "update" )
+        {
+            $CID = $url_array[4];
+            $Action = "update";
+            include( "ezcontact/admin/companytypeedit.php" );
+        }
+        else if ( $url_array[3] == "delete" )
+        {
+            $CID = $url_array[4];
+            $Action = "delete";
+            include( "ezcontact/admin/companytypeedit.php" );
+        }
+    }
+    break;
     case "addresstypeedit" :
-        include( "ezcontact/admin/addresstypeedit.php" );
-        break;
+    {
+        if ( $url_array[3] == "new" )
+        {
+            include( "ezcontact/admin/addresstypeedit.php" );
+        }
+        else if ( $url_array[3] == "insert" )
+        {
+            $AID = $url_array[4];
+            $Action = "insert";
+            include( "ezcontact/admin/addresstypeedit.php" );
+        }
+
+        else if ( $url_array[3] == "edit" )
+        {
+            $AID = $url_array[4];
+            $Action = "edit";
+            include( "ezcontact/admin/addresstypeedit.php" );
+        }
+        else if ( $url_array[3] == "update" )
+        {
+            $AID = $url_array[4];
+            $Action = "update";
+            include( "ezcontact/admin/addresstypeedit.php" );
+        }
+        else if ( $url_array[3] == "delete" )
+        {
+            $AID = $url_array[4];
+            $Action = "delete";
+            include( "ezcontact/admin/addresstypeedit.php" );
+        }
+    }
+    break;
 
 
 

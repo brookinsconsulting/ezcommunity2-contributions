@@ -42,4 +42,4 @@
 
 <hr noshade size="4"/>
 
-<form action="/todo/categorytypeedit/"><input class="okbutton" type="submit" value="{intl-newcategory}"></form>
+<form action="/todo/categorytypeedit/new/"><input class="okbutton" type="submit" value="{intl-newcategory}"></form>

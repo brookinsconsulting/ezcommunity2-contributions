@@ -35,4 +35,4 @@
 {companytype_list}
 </table>
 <br>
-<a href="/contact/companytypeedit/?CID={companytype_id}">{intl-newfirm}</a>
+<a href="/contact/companytypeedit/new/">{intl-newfirm}</a>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.3 2000/10/03 10:11:07 ce-cvs Exp $
+// $Id: login.php,v 1.4 2000/10/03 15:17:28 ce-cvs Exp $
 //
 // Definition of eZUser class
 //
@@ -60,7 +60,7 @@ if ( $Action == "login" )
     if ( $user )
     {
         eZUser::loginUser( $user );
-        Header( "Location: /user/success/" );
+        Header( "Location: /" );
     }
 }
 

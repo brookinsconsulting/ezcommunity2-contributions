@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: linklist.php,v 1.21 2000/09/12 07:54:39 bf-cvs Exp $
+    $Id: linklist.php,v 1.22 2000/10/03 15:17:27 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -23,6 +23,19 @@ $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 include_once( "../ezlink/classes/ezlinkgroup.php" );
 include_once( "../ezlink/classes/ezlink.php" );
 include_once( "../ezlink/classes/ezhit.php" );
+
+include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/ezusergroup.php" );
+include_once( "ezuser/classes/ezmodule.php" );
+include_once( "ezuser/classes/ezpermission.php" );
+
+$user = eZUser::currentUser();
+if ( !$user ) 
+{
+    Header( "Location: /user/login/" );
+    exit();
+}
+
 
 // setter template filer
 $t = new Template( "." );

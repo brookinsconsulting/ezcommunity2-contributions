@@ -1,4 +1,4 @@
-<form method="post" action="/contact/phonetypeedit/">
+<form method="post" action="/contact/phonetypeedit/{action_value}/{phone_type_id}/">
 <h1>{intl-headline}</h1>
 
 <p>{intl-name}<br>

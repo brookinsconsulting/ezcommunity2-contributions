@@ -35,4 +35,4 @@
 {persontype_list}
 </table>
 <br>
-<a href="/contact/persontypeedit/?PID={persontype_id}">{intl-newperson}</a>
+<a href="/contact/persontypeedit/new/">{intl-newperson}</a>

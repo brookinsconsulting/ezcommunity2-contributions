@@ -1,4 +1,4 @@
-<form method="post" action="/contact/addresstypeedit/">
+<form method="post" action="/contact/addresstypeedit/{action_value}/{address_type_id}/">
 <h1>{intl-headline}</h1>
 
 <p>{intl-name}<br>

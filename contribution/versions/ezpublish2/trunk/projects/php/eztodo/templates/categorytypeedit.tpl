@@ -1,4 +1,4 @@
-<form method="post" action="/todo/categorytypeedit/">
+<form method="post" action="/todo/categorytypeedit/{action_value}/{category_type_id}">
 <h1>{head_line}</h1>
 
 <hr noshade size="4"/>

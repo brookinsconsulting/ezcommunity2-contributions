@@ -35,4 +35,4 @@
 {phone_type_list}
 </table>
 <br>
-<a href="/contact/phonetypeedit/?PID={phone_type_id}">{intl-newcontact}</a>
+<a href="/contact/phonetypeedit/new/">{intl-newcontact}</a>

@@ -9,93 +9,105 @@ $Language = $ini->read_var( "eZContactMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZContactMain", "DocumentRoot" );
 
 include_once( "classes/eztemplate.php" );
-include_once( "classes/ezsession.php" );
-include_once( "classes/ezusergroup.php" );
 include_once( "common/ezphputils.php" );
+
+include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/ezusergroup.php" );
+include_once( "ezuser/classes/ezmodule.php" );
+include_once( "ezuser/classes/ezpermission.php" );
 
 include_once( "../ezcontact/classes/ezphonetype.php" );
 
-// Sjekker rettigheter
-$session = new eZSession();
-if( $session->get( $AuthenticatedSession ) == 0 )
+$user = eZUser::currentUser();
+if ( !$user ) 
 {
-    if ( eZUserGroup::verifyCommand( $session->userID(), "eZContact_Read" ) == 1 )
+    Header( "Location: /user/login/" );
+    exit();
+}
+
+// Legge til
+if ( $Action == "insert" )
+{
+    if ( eZPermission::checkPermission( $user, "eZContact", "AdminAdd" ) )
     {
-        // Legge til
-        if ( $Action == "insert" && ( eZUserGroup::verifyCommand( $session->userID(), "eZContact_AdminAdd" ) == 1 ) )
-        {
-        
-            $type = new eZPhoneType();
-            $type->setName( $PhoneTypeName );
-            $type->store();
+        $type = new eZPhoneType();
+        $type->setName( $PhoneTypeName );
+        $type->store();
 
-            Header( "Location: /contact/phonetypelist/" ); 
-        }
-
-        // Oppdatere
-        if ( $Action == "update" && ( eZUserGroup::verifyCommand( $session->userID(), "eZContact_AdminEdit" ) == 1 ) )
-        {
-            $type = new eZPhoneType();
-            $type->get( $PID );
-            print ( "$PID" );
-            $type->setName( $PhoneTypeName );
-            $type->update();
-
-            Header( "Location: /contact/phonetypelist/" ); 
-        }
-
-        // Slette
-        if ( $Action == "delete" && ( eZUserGroup::verifyCommand( $session->userID(), "eZContact_AdminDelete" )  == 1 ) )
-        {
-            $type = new eZPhoneType();
-            $type->get( $PID );
-            $type->delete( );
-
-            Header( "Location: /contact/phonetypelist/" ); 
-        }
-
-        $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "phonetypeedit.php" );
-        $t->setAllStrings();
-
-        $t->set_file( array(
-            "phone_type_edit_page" => "phonetypeedit.tpl"
-            ) );    
-
-        $t->set_var( "submit_text", "Legg til" );
-        $t->set_var( "action_value", "insert" );
-        $t->set_var( "phone_type_id", "" );
-        $t->set_var( "head_line", "Legg til nytt kontaktmedium" );
-
-        // Editere
-        if ( $Action == "edit" )
-        {
-            $type = new eZPhoneType();
-            $type->get( $PID );
-            $type->name( $PhoneTypeName );
-
-            $t->set_var( "submit_text", "Lagre endringer" );
-            $t->set_var( "action_value", "update" );
-            $t->set_var( "phone_type_id", $PID  );
-            $t->set_var( "head_line", "Rediger kontaktmedium" );
-
-            $PhoneTypeName = $type->name();
-        }
-
-        // Sette template variabler
-        $t->set_var( "document_root", $DOC_ROOT );
-        $t->set_var( "phone_type_name", $PhoneTypeName );
-
-        $t->pparse( "output", "phone_type_edit_page" );
+        Header( "Location: /contact/phonetypelist/" );
     }
     else
     {
-        print( "\nDu har ikke rettigheter\n" );
+        print( "Du har ikke rettigheter.");
     }
 }
-else
+
+// Oppdatere
+if ( $Action == "update" )
 {
-    Header( "Location: /common/error/" );
+    if ( eZPermission::checkPermission( $user, "eZContact", "AdminModify" ) )
+    {
+        $type = new eZPhoneType();
+        $type->get( $PID );
+        print ( "$PID" );
+        $type->setName( $PhoneTypeName );
+        $type->update();
+
+        Header( "Location: /contact/phonetypelist/" );
+    }
+    else
+    {
+        print( "Du har ikke rettigheter.");
+    }
 }
 
+// Slette
+if ( $Action == "delete" )
+{
+    if ( eZPermission::checkPermission( $user, "eZContact", "AdminDelete" ) )
+    {
+        $type = new eZPhoneType();
+        $type->get( $PID );
+        $type->delete( );
 
+        Header( "Location: /contact/phonetypelist/" );
+    }
+    else
+    {
+        print( "Du har ikke rettigheter.");
+    }
+}
+
+$t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZContactMain", "TemplateDir" ), $DOC_ROOT . "/intl", $Language, "phonetypeedit.php" );
+$t->setAllStrings();
+
+$t->set_file( array(
+"phone_type_edit_page" => "phonetypeedit.tpl"
+) );    
+
+$t->set_var( "submit_text", "Legg til" );
+$t->set_var( "action_value", "insert" );
+$t->set_var( "phone_type_id", "" );
+$t->set_var( "head_line", "Legg til nytt kontaktmedium" );
+
+// Editere
+if ( $Action == "edit" )
+{
+$type = new eZPhoneType();
+$type->get( $PID );
+$type->name( $PhoneTypeName );
+
+$t->set_var( "submit_text", "Lagre endringer" );
+$t->set_var( "action_value", "update" );
+$t->set_var( "phone_type_id", $PID  );
+$t->set_var( "head_line", "Rediger kontaktmedium" );
+
+$PhoneTypeName = $type->name();
+}
+
+// Sette template variabler
+$t->set_var( "document_root", $DOC_ROOT );
+$t->set_var( "phone_type_name", $PhoneTypeName );
+
+$t->pparse( "output", "phone_type_edit_page" );
 ?>
