@@ -485,3 +485,14 @@ Maintainer(s) : br@ez.no
 
     * admin/overview.php: Removed link to Entry Exit Report in eZ stats
 
+
+Module : ezstats
+Repository path : /home/cvsroot/projects/php/ezstats
+Maintainer(s) : br@ez.no
+2003-06-12  Vidar Langseid  <vl@ez.no>
+
+    * sql/mysql/ezstats.sql
+      sql/postgresql/ezstats.sql:
+    Merged changes done in sql/publish_mysql.sql and sql/publish_postgresql.sql
+    into sql files for each module
+

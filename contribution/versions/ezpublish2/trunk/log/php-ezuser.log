@@ -1483,3 +1483,14 @@ Maintainer(s) : bf@ez.no
 
     * user/forgot.php: fixed bug with generating of body.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2003-06-12  Vidar Langseid  <vl@ez.no>
+
+    * sql/mysql/ezuser.sql
+      sql/postgresql/ezuser.sql:
+    Merged changes done in sql/publish_mysql.sql and sql/publish_postgresql.sql
+    into sql files for each module
+

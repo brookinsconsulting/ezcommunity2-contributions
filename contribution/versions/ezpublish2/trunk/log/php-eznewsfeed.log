@@ -399,3 +399,14 @@ Maintainer(s) : br@ez.no
       admin/intl/no_NO/sourcesiteedit.php.ini
       admin/intl/no_NO/unpublished.php.ini: updated no_NO for 2.2.4
 
+
+Module : eznewsfeed
+Repository path : /home/cvsroot/projects/php/eznewsfeed
+Maintainer(s) : br@ez.no
+2003-06-12  Vidar Langseid  <vl@ez.no>
+
+    * sql/mysql/eznewsfeed.sql
+      sql/postgresql/eznewsfeed.sql:
+    Merged changes done in sql/publish_mysql.sql and sql/publish_postgresql.sql
+    into sql files for each module
+

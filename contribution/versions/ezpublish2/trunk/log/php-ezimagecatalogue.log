@@ -1170,3 +1170,20 @@ Maintainer(s) : br@ez.no
     * user/imagelist.php:
     fixed bug with permission when non logged in users had write access
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2003-06-12  Bjoern Reiten  <br@ez.no>
+
+    * classes/ezimagevariation.php
+      classes/ezimagevariationgroup.php:
+    added optimalisation on eZ imagecatalogue.
+
+2003-06-12  Vidar Langseid  <vl@ez.no>
+
+    * sql/mysql/ezimagecatalogue.sql
+      sql/postgresql/ezimagecatalogue.sql:
+    Merged changes done in sql/publish_mysql.sql and sql/publish_postgresql.sql
+    into sql files for each module
+
