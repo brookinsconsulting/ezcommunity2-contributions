@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbug.php,v 1.25 2001/05/05 11:16:03 bf Exp $
+// $Id: ezbug.php,v 1.26 2001/05/07 11:08:40 ce Exp $
 //
 // Definition of eZBug class
 //
@@ -749,6 +749,24 @@ class eZBug
             $ret[] = new eZBug( $bugItem["ID"] );
         }
         return $ret;
+    }
+
+    /*!
+      Returns the search count.
+    */
+    function searchCount( $query )
+    {
+        $this->dbInit();
+
+        $query = new eZQuery( array( "Name", "Description" ), $query );
+        
+        $query_str =  "SELECT COUNT(ID) as Count FROM eZBug_Bug WHERE (" .
+             $query->buildQuery()  .
+             ") ";
+
+        $this->Database->array_query( $bug_array, $query_str );
+
+        return $bug_array[0]["Count"];
     }
 
     /*!

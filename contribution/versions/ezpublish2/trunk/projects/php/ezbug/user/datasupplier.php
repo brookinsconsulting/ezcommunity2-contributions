@@ -122,6 +122,12 @@ switch ( $url_array[2] )
 
     case "search" :        
     {
+        if ( $url_array[3] == "parent" )
+        {
+            $Offset = $url_array[5];
+            $SearchText = urldecode( $url_array[4] );
+        }
+
         include( "ezbug/user/search.php" );
     }
     break;

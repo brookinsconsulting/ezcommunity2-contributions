@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.1 2000/12/04 10:47:56 bf-cvs Exp $
+// $Id: search.php,v 1.2 2001/05/07 11:08:40 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <04-Dec-2000 11:40:06 bf>
@@ -26,6 +26,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
+include_once( "classes/ezlist.php" );
 
 include_once( "ezbug/classes/ezbugcategory.php" );
 include_once( "ezbug/classes/ezbugmodule.php" );
@@ -36,6 +37,7 @@ include_once( "ezuser/classes/ezuser.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZBugMain", "Language" );
+$UserLimit = $ini->read_var( "eZBugMain", "UserSearchLimit" );
 
 $t = new eZTemplate( "ezbug/user/" . $ini->read_var( "eZBugMain", "TemplateDir" ),
                      "ezbug/user/intl/", $Language, "search.php" );
@@ -53,18 +55,32 @@ $t->set_block( "bug_list_tpl", "bug_item_tpl", "bug_item" );
 $t->set_block( "bug_item_tpl", "bug_is_closed_tpl", "bug_is_closed" );
 $t->set_block( "bug_item_tpl", "bug_is_open_tpl", "bug_is_open" );
 
+if ( !$Offset )
+    $Offset = 0;
 
 // bugs
 $bug = new eZBug();
-$bugList = $bug->search( $SearchText );
+if ( $SearchText )
+{
+    $bugList = $bug->search( $SearchText, $Offset, $UserLimit );
+    $bugCount = $bug->searchCount( $SearchText );
+    $t->set_var( "query_text", urlencode( $SearchText ) );
+}
+else
+{
+    $t->set_var( "query_text", "" );
+}
 
-$t->set_var( "query_text", $SearchText );
+
 
 $locale = new eZLocale( $Language );
 $i=0;
 $t->set_var( "bug_list", "" );
-foreach ( $bugList as $bug )
+
+if ( count ( $bugList ) > 0 )
 {
+    foreach ( $bugList as $bug )
+    {
     $t->set_var( "bug_id", $bug->id() );
     $t->set_var( "bug_name", $bug->name() );
 
@@ -111,7 +127,9 @@ foreach ( $bugList as $bug )
 
     $t->parse( "bug_item", "bug_item_tpl", true );
     $i++;
+    }
 }
+eZList::drawNavigator( $t, $bugCount, $UserLimit, $Offset, "bug_list_page_tpl" );
 
 if ( count( $bugList ) > 0 )    
     $t->parse( "bug_list", "bug_list_tpl" );
