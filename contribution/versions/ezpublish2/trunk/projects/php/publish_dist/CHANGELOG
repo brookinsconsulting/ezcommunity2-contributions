@@ -3,6 +3,8 @@ eZ publish changelog:
 
 Changes from 2.1.0B2 to 2.1.0B2
 -------------------------------
+* Added site map in article admin
+* Added range checking on article id edit/preview in admin
 * Fixed reply all/forward buttons in ezmail
 * Navigation buttons in the maillist in ezmail
 * Added possibility to give a usergroup "root" access.
