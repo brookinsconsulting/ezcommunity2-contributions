@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezaddress.php,v 1.19 2001/10/15 06:22:26 ce Exp $
+// $Id: ezaddress.php,v 1.19.2.1 2001/12/05 14:14:01 br Exp $
 //
 // Definition of eZAddress class
 //
@@ -110,6 +110,7 @@ class eZAddress
     */  
     function get( $id="" )
     {
+        $ret = false;
         $db =& eZDB::globalDatabase();
         if ( $id != "" )
         {
@@ -120,18 +121,20 @@ class eZAddress
             }
             else if ( count( $address_array ) == 1 )
             {
-                $this->ID =& $address_array[ 0 ][ $db->fieldName( "ID" ) ];
-                $this->Street1 =& $address_array[ 0 ][ $db->fieldName( "Street1" ) ];
-                $this->Street2 =& $address_array[ 0 ][ $db->fieldName( "Street2" ) ];
-                $this->Zip =& $address_array[ 0 ][ $db->fieldName( "Zip" ) ];
-                $this->Place =& $address_array[ 0 ][ $db->fieldName( "Place" ) ];
-                $this->CountryID =& $address_array[ 0 ][ $db->fieldName( "CountryID" ) ];
-                $this->AddressTypeID =& $address_array[ 0 ][ $db->fieldName( "AddressTypeID" ) ];
-                $this->Name =& $address_array[ 0 ][ $db->fieldName( "Name" ) ];
+                $this->ID =& $address_array[0][$db->fieldName( "ID" )];
+                $this->Street1 =& $address_array[0][$db->fieldName( "Street1" )];
+                $this->Street2 =& $address_array[0][$db->fieldName( "Street2" )];
+                $this->Zip =& $address_array[0][$db->fieldName( "Zip" )];
+                $this->Place =& $address_array[0][$db->fieldName( "Place" )];
+                $this->CountryID =& $address_array[0][$db->fieldName( "CountryID" )];
+                $this->AddressTypeID =& $address_array[0][$db->fieldName( "AddressTypeID" )];
+                $this->Name =& $address_array[0][$db->fieldName( "Name" )];
+                $ret = true;
             }
             if ( $this->CountryID == "NULL" )
                 $this->CountryID = -1;
         }
+        return $ret;
     }
 
     /*!
