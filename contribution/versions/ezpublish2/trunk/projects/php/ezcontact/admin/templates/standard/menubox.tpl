@@ -18,11 +18,15 @@
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/addresstype/list/">{intl-addresstypelist}</a><br>
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/onlinetype/list/">{intl-onlinetypelist}</a><br>
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/consultationtype/list/">{intl-consultationtypelist}</a><br>
+    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/projecttype/list/">{intl-projecttypelist}</a><br>
+    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/country/list/">{intl-countrylist}</a><br>
 
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/phonetype/new/">{intl-phonetypeadd}</a><br>
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/addresstype/new/">{intl-addresstypeadd}</a><br>
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/onlinetype/new/">{intl-onlinetypeadd}</a><br>
     <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/consultationtype/new/">{intl-newconsultationtype}</a><br>
+    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/projecttype/new/">{intl-newprojecttype}</a><br>
+    <img src="/images/{site_style}/menu-arrow.gif" width="20" height="10"><a class="menu" href="/contact/country/new/">{intl-newcountry}</a><br>
 	</td>
 </tr>
 <tr>
