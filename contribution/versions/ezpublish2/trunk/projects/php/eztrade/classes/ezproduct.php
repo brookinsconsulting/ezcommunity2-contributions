@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.54 2001/03/26 18:35:47 jb Exp $
+// $Id: ezproduct.php,v 1.55 2001/03/26 19:18:32 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -448,6 +448,21 @@ class eZProduct
         else
             return false;
         return $quantity;
+    }
+
+    /*!
+      \static
+      Returns true if the product has some sort of quantity which can be bought.
+    */
+    function hasQuantity( $require = true, $id = false )
+    {
+        if ( !$id )
+            $id = $this->ID;
+        $quantity = eZProduct::totalQuantity( $id );
+        if ( (is_bool($quantity) and !$quantity) or
+             !$require or ( $require and $quantity > 0 ) )
+            return true;
+        return false;
     }
 
     /*!

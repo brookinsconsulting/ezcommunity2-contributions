@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.30 2001/03/26 18:35:47 jb Exp $
+// $Id: cart.php,v 1.31 2001/03/26 19:18:32 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Sep-2000 11:57:49 bf>
@@ -106,8 +106,7 @@ if ( $Action == "AddToBasket" )
     // check if a product like this is already in the basket.
     // if so-> add the count value.
     $Quantity = $product->totalQuantity();
-    if ( (is_bool($Quantity) and !$Quantity) or
-         !$RequireQuantity or ( $RequireQuantity and $Quantity > 0 ) )
+    if ( $product->hasQuantity( $RequireQuantity ) )
     {
         $productAddedToBasket = false;
         {
@@ -125,14 +124,14 @@ if ( $Action == "AddToBasket" )
                     if ( count( $optionValues ) > 0 )
                     { // product with options
                         $hasTheSameOptions = true;
-                    
+
                         foreach ( $optionValues as $optionValue )
                         {
                             $option =& $optionValue->option();
-                            $value =& $optionValue->optionValue();                        
+                            $value =& $optionValue->optionValue();
 
                             $optionValueFound = false;
-                        
+
                             if ( count( $OptionValueArray ) > 0 )
                             {
                                 $i=0;
@@ -175,29 +174,47 @@ if ( $Action == "AddToBasket" )
 
         if ( $productAddedToBasket == false )
         {
-            $cartItem = new eZCartItem();
-
-            $cartItem->setProduct( $product );
-            $cartItem->setCart( $cart );
-
-            $cartItem->store();
-
+            $can_add = true;
+            if ( !$product->hasQuantity() )
+                $can_add = false;
             if ( count( $OptionValueArray ) > 0 )
             {
-                $i = 0;
                 foreach ( $OptionValueArray as $value )
                 {
-                    $option = new eZOption( $OptionIDArray[$i] );
                     $optionValue = new eZOptionValue( $value );
-                
-                    $cartOption = new eZCartOptionValue();
-                    $cartOption->setCartItem( $cartItem );
-                    $cartOption->setOption( $option );
-                    $cartOption->setOptionValue( $optionValue );
+                    if ( !$optionValue->hasQuantity( $RequireQuantity ) )
+                    {
+                        $can_add = false;
+                    }
+                }
+            }
+            if ( $can_add )
+            {
+                $cartItem = new eZCartItem();
 
-                    $cartOption->store();
-                
-                    $i++;
+                $cartItem->setProduct( $product );
+                $cartItem->setCart( $cart );
+
+                $cartItem->store();
+
+                if ( count( $OptionValueArray ) > 0 )
+                {
+                    $i = 0;
+                    foreach ( $OptionValueArray as $value )
+                    {
+                        $option = new eZOption( $OptionIDArray[$i] );
+                        $optionValue = new eZOptionValue( $value );
+                        if ( $optionValue->hasQuantity( $RequireQuantity ) )
+                        {
+                            $cartOption = new eZCartOptionValue();
+                            $cartOption->setCartItem( $cartItem );
+                            $cartOption->setOption( $option );
+                            $cartOption->setOptionValue( $optionValue );
+
+                            $cartOption->store();
+                        }
+                        $i++;
+                    }
                 }
             }
         }

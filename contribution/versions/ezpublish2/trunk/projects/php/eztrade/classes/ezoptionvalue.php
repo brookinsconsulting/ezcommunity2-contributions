@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoptionvalue.php,v 1.23 2001/03/16 10:26:32 ce Exp $
+// $Id: ezoptionvalue.php,v 1.24 2001/03/26 19:18:32 jb Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -227,6 +227,21 @@ class eZOptionValue
         else
             return false;
         return $quantity;
+    }
+
+    /*!
+      \static
+      Returns true if the option value has some sort of quantity which can be bought.
+    */
+    function hasQuantity( $require = true, $id = false )
+    {
+        if ( !$id )
+            $id = $this->ID;
+        $quantity = eZOptionValue::totalQuantity( $id );
+        if ( (is_bool($quantity) and !$quantity) or
+             !$require or ( $require and $quantity > 0 ) )
+            return true;
+        return false;
     }
 
     /*!
