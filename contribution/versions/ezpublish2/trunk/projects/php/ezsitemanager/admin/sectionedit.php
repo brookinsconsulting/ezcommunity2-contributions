@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sectionedit.php,v 1.10 2001/10/02 14:39:51 ce Exp $
+// $Id: sectionedit.php,v 1.11 2001/10/10 07:08:14 ce Exp $
 //
 // Created on: <10-May-2001 16:17:29 ce>
 //
@@ -199,8 +199,8 @@ if ( is_numeric( $SectionID ) )
     $t->set_var( "section_templatestyle", $section->templateStyle() );
 }
 
-
-$rows = $section->frontPageRows();
+if ( $section )
+    $rows = $section->frontPageRows();
 $settingNames =& eZSectionFrontPage::settingNames();
 if ( count ( $rows ) > 0 )
 {
