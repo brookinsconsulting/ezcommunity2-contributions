@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userbox.php,v 1.31 2001/08/23 16:58:41 br Exp $
+// $Id: userbox.php,v 1.32 2001/08/28 14:58:15 br Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -40,15 +40,6 @@ include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezsession/classes/ezsession.php" );
 
 $user =& eZUser::currentUser();
-
-if( $NoAddress == true )
-{
-    $no_address = "no/";
-}
-else
-{
-    $no_address = "";
-}
 
 if ( !$user ) 
 {

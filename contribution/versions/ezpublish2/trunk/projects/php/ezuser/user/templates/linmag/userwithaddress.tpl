@@ -1,4 +1,4 @@
-<form method="post" action="{www_dir}{index}/user/userwithaddress/{action_value}/{user_id}/">
+<form method="post" action="{www_dir}{index}/user/userwithaddress/{action_value}/{user_id}/{no_address}/">
 <!-- BEGIN new_user_tpl -->
 <h1>{intl-head_line}</h1>
 <!-- END new_user_tpl -->
