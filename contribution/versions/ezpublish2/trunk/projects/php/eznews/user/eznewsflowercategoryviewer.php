@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsflowercategoryviewer.php,v 1.5 2000/10/14 05:22:50 pkej-cvs Exp $
+// $Id: eznewsflowercategoryviewer.php,v 1.6 2000/10/16 12:21:16 pkej-cvs Exp $
 //
 // Definition of eZNewsFlowerCategoryCreator class
 //
@@ -29,6 +29,7 @@ include_once( "eznews/user/eznewscategoryviewer.php" );
 include_once( "eznews/user/eznewsflowerarticleviewer.php" );
 include_once( "eznews/classes/eznewsflowercategory.php" );
 include_once( "eznews/classes/eznewsoutput.php" );  
+include_once( "classes/eztexttool.php" );
 
 #echo "eZNewsFlowerCategoryViewer<br />\n";
 class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
@@ -156,11 +157,11 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
                 $frontImage = $child->getFrontImage();
 
                 ereg( "<price>(.+)</price>" , $oldStory, $regs );
-                $price = nl2br( htmlspecialchars( $regs[1] ) );
+                $price = eZTextTool::nl2br( htmlspecialchars( $regs[1] ) );
                 ereg( "<name>(.+)</name>" , $oldStory, $regs );
-                $name = nl2br( htmlspecialchars( $regs[1] ) );
+                $name = eZTextTool::nl2br( htmlspecialchars( $regs[1] ) );
                 ereg( "<description>(.+)</description>" , $oldStory, $regs );
-                $story = nl2br( htmlspecialchars( $regs[1] ) );
+                $story = eZTextTool::nl2br( htmlspecialchars( $regs[1] ) );
 
                 if( $frontImage )
                 {
@@ -169,7 +170,7 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
                     $image = $mainImage->requestImageVariation( 250, 250 );
 
                     $this->IniObject->set_var( "this_image_id", $mainImage->id() );
-                    $this->IniObject->set_var( "this_image_name", $mainImage->name() );
+                    $this->IniObject->set_var( "this_image_name", $mainImage->caption() );
                     $this->IniObject->set_var( "this_image", "/" . $image->imagePath() );
                     $this->IniObject->set_var( "this_image_width", $image->width() );
                     $this->IniObject->set_var( "this_image_height", $image->height() );
@@ -185,8 +186,8 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
                     $this->IniObject->set_var( "this_picture", "" );
                 }
 
-                $this->IniObject->set_var( "this_price", $price . "1000" );
-                $this->IniObject->set_var( "this_description", $story . "testing" );
+                $this->IniObject->set_var( "this_price", $price );
+                $this->IniObject->set_var( "this_description", $story );
                 $this->IniObject->set_var( "this_id", $child->id() );
                 $this->IniObject->set_var( "this_name", $child->name() );
 
@@ -233,10 +234,10 @@ class eZNewsFlowerCategoryViewer extends eZNewsCategoryViewer
         $value = true;
             
         $publicDescription = new eZNewsArticle( $this->Item->publicDescriptionID() );
-        $this->IniObject->set_var( "this_public_description", $publicDescription->Story() );
+        $this->IniObject->set_var( "this_public_description", eZTextTool::nl2br( $publicDescription->Story() ) );
         
         $privateDescription = new eZNewsArticle( $this->Item->privateDescriptionID() );
-        $this->IniObject->set_var( "this_private_description", $privateDescription->Story() );
+        $this->IniObject->set_var( "this_private_description", eZTextTool::nl2br( $privateDescription->Story() ) );
 
         $this->IniObject->set_var( "this_id", $this->Item->id() );
         $this->IniObject->set_var( "this_name", $this->Item->name() );
