@@ -10,11 +10,12 @@ $Language = $ini->read_var( "eZContactMain", "Language" );
 
 include_once( "classes/ezmail.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezlog.php" );
 
 include_once( "ezcontact/classes/ezperson.php" );
 include_once( "ezcontact/classes/ezcompany.php" );
 
-include_once( "ezcontact/classes/ezcountry.php" );
+include_once( "ezaddress/classes/ezcountry.php" );
 include_once( "ezcontact/classes/ezprojecttype.php" );
 
 if ( isset( $CompanyEdit ) )
@@ -896,6 +897,11 @@ if ( !$confirm )
         else if ( $ContactGroupID < 1 )
         {
             $users = array();
+            if ( is_numeric( $ContactID ) )
+            {
+                $user = new eZUser( $ContactID );
+                $users[] = $user;
+            }
         }
         else
         {

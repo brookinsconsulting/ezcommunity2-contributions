@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: setup.php,v 1.1 2001/01/25 00:13:46 jb Exp $
+// $Id: setup.php,v 1.2 2001/01/25 17:11:33 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <25-Jan-2001 00:58:23 amos>
@@ -36,19 +36,8 @@ $ini =& $GlobalSiteIni;
 $SiteStyle =& $ini->read_var( "site", "SiteStyle" );
 
 $menuItems = array(
-    array( "/contact/phonetype/list/", "{intl-phonetypelist}" ),
-    array( "/contact/addresstype/list/", "{intl-addresstypelist}" ),
-    array( "/contact/onlinetype/list/", "{intl-onlinetypelist}" ),
     array( "/contact/consultationtype/list/", "{intl-consultationtypelist}" ),
-    array( "/contact/projecttype/list/", "{intl-projecttypelist}" ),
-    array( "/contact/country/list/", "{intl-countrylist}" ),
-    "break",
-    array( "/contact/phonetype/new/", "{intl-phonetypeadd}" ),
-    array( "/contact/addresstype/new/", "{intl-addresstypeadd}" ),
-    array( "/contact/onlinetype/new/", "{intl-onlinetypeadd}" ),
-    array( "/contact/consultationtype/new/", "{intl-newconsultationtype}" ),
-    array( "/contact/projecttype/new/", "{intl-newprojecttype}" ),
-    array( "/contact/country/new/", "{intl-newcountry}" )
+    array( "/contact/projecttype/list/", "{intl-projecttypelist}" )
     );
 
 eZMenuBox::createBox( "eZContact", "ezcontact", "admin", $SiteStyle, $menuItems, true, "menuitems.tpl" );

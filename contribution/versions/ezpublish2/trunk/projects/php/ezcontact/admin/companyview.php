@@ -13,12 +13,12 @@ include_once( "classes/ezlocale.php" );
 include_once( "classes/ezdate.php" );
 
 include_once( "ezcontact/classes/ezcompany.php" );
-include_once( "ezcontact/classes/ezaddress.php" );
-include_once( "ezcontact/classes/ezaddresstype.php" );
-include_once( "ezcontact/classes/ezphone.php" );
-include_once( "ezcontact/classes/ezphonetype.php" );
-include_once( "ezcontact/classes/ezonline.php" );
-include_once( "ezcontact/classes/ezonlinetype.php" );
+include_once( "ezaddress/classes/ezaddress.php" );
+include_once( "ezaddress/classes/ezaddresstype.php" );
+include_once( "ezaddress/classes/ezphone.php" );
+include_once( "ezaddress/classes/ezphonetype.php" );
+include_once( "ezaddress/classes/ezonline.php" );
+include_once( "ezaddress/classes/ezonlinetype.php" );
 include_once( "ezcontact/classes/ezcompanytype.php" );
 include_once( "ezcontact/classes/ezprojecttype.php" );
 include_once( "ezcontact/classes/ezconsultation.php" );
@@ -212,7 +212,6 @@ if ( $count != 0)
         $t->set_var( "online_prefix", $prefix );
         $t->set_var( "online_visual_prefix", $vis_prefix );
         $t->set_var( "online", $OnlineList[$i]->URL() );
-        $t->set_var( "online_url_type", $OnlineList[$i]->URLType() );
         $t->set_var( "online_type_id", $onlineType->id() );
         $t->set_var( "online_type_name", $onlineType->name() );
         $t->set_var( "online_width", 100/$count );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.40 2001/01/22 14:43:00 jb Exp $
+// $Id: ezperson.php,v 1.41 2001/01/25 17:11:34 jb Exp $
 //
 // Definition of eZPerson class
 //
@@ -37,9 +37,9 @@
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "classes/ezdb.php" );
 include_once( "classes/ezquery.php" );
-include_once( "ezcontact/classes/ezaddress.php" );
-include_once( "ezcontact/classes/ezphone.php" );
-include_once( "ezcontact/classes/ezonline.php" );
+include_once( "ezaddress/classes/ezaddress.php" );
+include_once( "ezaddress/classes/ezphone.php" );
+include_once( "ezaddress/classes/ezonline.php" );
 
 class eZPerson
 {
@@ -94,7 +94,7 @@ class eZPerson
                                                     LastName='$this->LastName',
 	                                                Comment='$this->Comment',
 	                                                BirthDate='$this->BirthDate',
-                                                    ContactTypeID='$this->ContactType',
+                                                    ContactTypeID='$this->ContactType'
                                                     WHERE ID='$this->ID'" );
             $this->State_ = "Coherent";
         }
@@ -320,9 +320,11 @@ class eZPerson
         $PersonID = $this->ID;
 
 
-        $db->array_query( $address_array, "SELECT AddressID
-                                                 FROM eZContact_PersonAddressDict
-                                                 WHERE PersonID='$PersonID'" );
+        $db->array_query( $address_array, "SELECT PAD.AddressID
+                                           FROM eZContact_PersonAddressDict AS PAD, eZAddress_Address AS A,
+                                                eZAddress_AddressType AS AT
+                                           WHERE PAD.AddressID = A.ID AND A.AddressTypeID = AT.ID
+                                                 AND PAD.PersonID='$PersonID' AND AT.Removed=0" );
 
         foreach( $address_array as $addressItem )
         {
@@ -348,7 +350,7 @@ class eZPerson
             $addressID = $address->id();
 
             $checkQuery = "SELECT PersonID FROM eZContact_PersonAddressDict WHERE AddressID='$addressID'";
-            
+
             $db->array_query( $address_array, $checkQuery );
 
             $count = count( $address_array );
@@ -372,11 +374,13 @@ class eZPerson
             $this->get( $this->ID );
 
         $db = eZDB::globalDatabase();
-        $db->array_query( $address_array, "SELECT AddressID FROM eZContact_PersonAddressDict WHERE PersonID='$this->ID'" );
+        $db->array_query( $address_array, "SELECT AddressID FROM eZContact_PersonAddressDict
+                                           WHERE PersonID='$this->ID'" );
         foreach( $address_array as $address )
         {
             $id = $address["AddressID"];
-            $db->query( "DELETE FROM eZContact_Address WHERE PersonID='$id'" );
+            eZAddress::delete( $id );
+//              $db->query( "DELETE FROM eZContact_Address WHERE PersonID='$id'" );
         }
         $db->query( "DELETE FROM eZContact_PersonAddressDict WHERE PersonID='$this->ID'" );
     }
@@ -397,14 +401,16 @@ class eZPerson
 
         $PersonID = $this->ID;
 
-        $db->array_query( $phone_array, "SELECT PhoneID
-                                                 FROM eZContact_PersonPhoneDict
-                                                 WHERE PersonID='$PersonID'" );
+        $db->array_query( $phone_array, "SELECT PPD.PhoneID
+                                         FROM eZContact_PersonPhoneDict AS PPD, eZAddress_Phone AS P,
+                                              eZAddress_PhoneType AS PT
+                                         WHERE PPD.PhoneID = P.ID AND P.PhoneTypeID = PT.ID
+                                               AND PersonID='$PersonID' AND PT.Removed=0" );
 
         foreach( $phone_array as $phoneItem )
-            {
-                $return_array[] = new eZPhone( $phoneItem["PhoneID"] );
-            }
+        {
+            $return_array[] = new eZPhone( $phoneItem["PhoneID"] );
+        }
 
         return $return_array;
     }
@@ -449,11 +455,13 @@ class eZPerson
             $this->get( $this->ID );
 
         $db = eZDB::globalDatabase();
-        $db->array_query( $phone_array, "SELECT PhoneID FROM eZContact_PersonPhoneDict WHERE PersonID='$this->ID'" );
+        $db->array_query( $phone_array, "SELECT PhoneID FROM
+                                         eZContact_PersonPhoneDict WHERE PersonID='$this->ID'" );
         foreach( $phone_array as $phone )
         {
             $id = $phone["PhoneID"];
-            $db->query( "DELETE FROM eZContact_Phone WHERE PersonID='$id'" );
+            eZPhone::delete( $id );
+//              $db->query( "DELETE FROM eZContact_Phone WHERE PersonID='$id'" );
         }
         $db->query( "DELETE FROM eZContact_PersonPhoneDict WHERE PersonID='$this->ID'" );
     }
@@ -468,12 +476,14 @@ class eZPerson
         
         $return_array = array();
         $db = eZDB::globalDatabase();
-        
+
         $PersonID = $this->ID;
 
-        $db->array_query( $online_array, "SELECT OnlineID
-                                                 FROM eZContact_PersonOnlineDict
-                                                 WHERE PersonID='$PersonID'" );
+        $db->array_query( $online_array, "SELECT POD.OnlineID
+                                          FROM eZContact_PersonOnlineDict AS POD, eZAddress_Online AS O,
+                                               eZAddress_OnlineType AS OT
+                                          WHERE POD.OnlineID = O.ID AND O.OnlineTypeID = OT.ID
+                                                AND PersonID='$PersonID' AND OT.Removed=0" );
 
         foreach( $online_array as $onlineItem )
         {
@@ -492,11 +502,13 @@ class eZPerson
             $this->get( $this->ID );
 
         $db = eZDB::globalDatabase();
-        $db->array_query( $online_array, "SELECT OnlineID FROM eZContact_PersonOnlineDict WHERE PersonID='$this->ID'" );
+        $db->array_query( $online_array, "SELECT OnlineID FROM eZContact_PersonOnlineDict
+                                          WHERE PersonID='$this->ID'" );
         foreach( $online_array as $online )
         {
             $id = $online["OnlineID"];
-            $db->query( "DELETE FROM eZContact_Online WHERE PersonID='$id'" );
+            eZOnline::delete( $id );
+//              $db->query( "DELETE FROM eZContact_Online WHERE PersonID='$id'" );
         }
         $db->query( "DELETE FROM eZContact_PersonOnlineDict WHERE PersonID='$this->ID'" );
     }
