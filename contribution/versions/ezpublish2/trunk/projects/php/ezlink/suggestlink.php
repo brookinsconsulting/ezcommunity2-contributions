@@ -16,7 +16,7 @@ if ( $Action == "suggest" )
 {
     $newlink = new eZLink();
 
-    if ( ( $title == "" ) || ( $url == "" ) || ( $keywords == "" ) || ( $description == "" )  ) 
+    if ( ( $title == "" ) || ( $url == "" ) || ( $description == "" ) || ( $keywords == "" ) ) 
     {
         $terror_msg = "Legg til alle feltene..."; 
 
