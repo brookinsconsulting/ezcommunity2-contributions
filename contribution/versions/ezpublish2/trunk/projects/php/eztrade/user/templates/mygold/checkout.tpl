@@ -72,18 +72,9 @@
 				<br />
 				{intl-payment_methods_description}: 
 				<select name="PaymentMethod">
-					<!-- BEGIN visa_tpl -->
-					<option value="1">{intl-charge_my_visa}</option>
-					<!-- END visa_tpl -->
-					<!-- BEGIN mastercard_tpl -->
-					<option value="2">{intl-charge_my_mastercard}</option>
-					<!-- END mastercard_tpl -->
-					<!-- BEGIN cod_tpl -->
-					<option value="3">{intl-charge_me_at_the_postoffice}</option>
-					<!-- END cod_tpl -->
-					<!-- BEGIN invoice_tpl -->
-					<option value="4">{intl-charge_me_by_invoice}</option>
-					<!-- END invoice_tpl -->
+				<!-- BEGIN payment_method_tpl -->
+				<option value="{payment_method_id}">{payment_method_text}</option>
+				<!-- END payment_method_tpl -->
 				</select>
 				<br />
 				<br />
