@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztexttool.php,v 1.7 2000/10/26 17:58:54 ce-cvs Exp $
+// $Id: eztexttool.php,v 1.8 2000/11/17 13:41:38 bf-cvs Exp $
 //
 // Definition of eZTextTool class
 //
@@ -63,9 +63,33 @@ class eZTextTool
     */
     function &addPre( $string, $char=">" )
     {
-        $tmpString = "function asd();";
-
         return preg_replace( "#^#m", "$char ", $string );
+    }
+
+    /*!
+      \static
+      This function will convert text into capitilzed text. 
+      
+    */
+    function &capitalize( $string )
+    {
+        $string = strtoupper( $string );
+        
+        for ( $i=0; $i<strlen( $string ); $i++)
+        {
+            $string2 .= $string[$i] . " ";
+        }
+        
+        $string = $string2;
+        $string = str_replace ("æ", "Æ", $string );
+        $string = str_replace ("ø", "Ø", $string );
+        $string = str_replace ("å", "Å", $string );
+
+        $string = preg_replace( "#  ([A-Za-zæøåÆØÅ])(.*?)(  |$)#", " \\1<span class=\"h1mindre\">\\2</span>", $string );
+        $string = preg_replace( "#^([A-Za-zæøåÆØÅ])((.*?)  )#", "\\1<span class=\"h1mindre\">\\2</span>", $string );
+
+        $string = str_replace ("  ", "&nbsp;&nbsp;", $string );
+        return "<h1>" . $string . "</h1>";
     }
 }
 

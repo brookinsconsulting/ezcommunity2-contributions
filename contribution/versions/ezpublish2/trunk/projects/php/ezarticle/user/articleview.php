@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.16 2000/11/15 18:14:14 bf-cvs Exp $
+// $Id: articleview.php,v 1.17 2000/11/17 13:41:38 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -34,6 +34,8 @@ include_once( "ezarticle/classes/ezarticlerenderer.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
+                                                        
+$CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", $Language, "articleview.php" );
@@ -79,7 +81,16 @@ if ( $article->get( $ArticleID ) )
     
     $renderer = new eZArticleRenderer( $article );
 
-    $t->set_var( "article_name", $article->name() );
+    if ( $CapitalizeHeadlines == "enabled" )
+    {
+        include_once( "classes/eztexttool.php" );
+        $t->set_var( "article_name", eZTextTool::capitalize(  $article->name() ) );
+    }
+    else
+    {
+        $t->set_var( "article_name", $article->name() );
+    }
+    
     $t->set_var( "author_text", $article->authorText() );
 
     $pageCount = $article->pageCount();
