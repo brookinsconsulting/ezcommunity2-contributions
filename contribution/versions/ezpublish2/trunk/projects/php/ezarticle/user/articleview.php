@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.32 2001/04/17 13:04:23 bf Exp $
+// $Id: articleview.php,v 1.33 2001/04/30 08:28:22 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -153,15 +153,18 @@ if ( $article->get( $ArticleID ) )
         $PageNumber = $pageCount;
 
         if ( $PageNumber == -1 )
-        $t->set_var( "article_body", $renderer->renderPage( -1 ) );
+            $articleContents = $renderer->renderPage( -1 );
         else
-        $t->set_var( "article_body", $renderer->renderPage( $PageNumber - 1 ) );
+            $articleContents = $renderer->renderPage( $PageNumber -1 );
+        
+        $t->set_var( "article_intro", $articleContents[0] );
+        $t->set_var( "article_body", $articleContents[1] );
 
         $t->set_var( "link_text", $article->linkText() );
 
         $t->set_var( "article_id", $article->id() );
 
-        $locale = new eZLocale();
+        $locale = new eZLocale( $Language );
         $published = $article->published();
 
         $t->set_var( "article_created", $locale->format( $published ) );

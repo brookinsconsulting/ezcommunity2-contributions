@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.68 2001/04/27 14:45:18 th Exp $
+// $Id: eztechrenderer.php,v 1.69 2001/04/30 08:28:21 bf Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -204,12 +204,16 @@ class eZTechRenderer
 
     /*!
       Returns the XHTML article of the article.
+
+      Returns an array( $intro, $contents );
     */
     function &renderPage( $pageNumber=0 )
     {
         $xml =& xmltree( $this->Article->contents() );
 
 //        $xml =& qdom_tree( $this->Article->contents() );
+
+        $returnArray = array( );
         
         if ( !$xml )
         {
@@ -289,28 +293,34 @@ class eZTechRenderer
                 
             }
 
+
+            $bodyContents = "";
             if ( $pageNumber == -1 )
             {
-                $newArticle = "<span class=\"intro\">" . $intro . "</span>\n</p><p>\n";
+//                $newArticle = "<span class=\"intro\">" . $intro . "</span>\n</p><p>\n";
+                
                 if ( count( $pageArray ) > 0 )
                     foreach ( $pageArray as $page )
                     {
-                        $newArticle .= $page;
+                        $bodyContents .= $page;
                     }
             }
             else if ( $pageNumber != 0 )
             {
-                $newArticle = $pageArray[$pageNumber];
+                $bodyContents = $pageArray[$pageNumber];
             }
             else
             {
 //                  $newArticle = eZTextTool::nl2br( $intro ) . "</p><p>". $pageArray[$pageNumber];
-                $newArticle = "<span class=\"intro\">" . $intro . "</span>\n</p><p>\n". $pageArray[$pageNumber];
+//                $newArticle = "<span class=\"intro\">" . $intro . "</span>\n</p><p>\n". $pageArray[$pageNumber];
+                $bodyContents = $pageArray[$pageNumber];
             }
-                
+            
+            $returnArray[] =& $intro;
+            $returnArray[] =& $bodyContents;            
         }
         
-        return $newArticle;
+        return $returnArray;
     }
 
     function &renderPlain( $pageContent, $paragraph )
