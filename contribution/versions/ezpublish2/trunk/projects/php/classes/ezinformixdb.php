@@ -90,7 +90,7 @@ class eZInformixDB
     */
     function lock( $table )
     {
-        $this->query( "LOCK TABLE $table IN EXCLUSIVE MODE" );
+        $this->query( "LOCK TABLE $table IN SHARE MODE" );
     }
 
     /*!
@@ -155,7 +155,7 @@ class eZInformixDB
     */
     function &escapeString( $str )
     {
-        return mysql_escape_string( $str );
+        return  $str;
     }
     
     /*!
