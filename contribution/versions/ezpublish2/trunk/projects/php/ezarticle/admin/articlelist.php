@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.7 2000/11/01 09:30:57 ce-cvs Exp $
+// $Id: articlelist.php,v 1.8 2000/11/02 18:13:00 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -119,7 +119,10 @@ $i=0;
 $t->set_var( "article_list", "" );
 foreach ( $articleList as $article )
 {
-    $t->set_var( "article_name", $article->name() );
+    if ( $article->name() == "" )
+        $t->set_var( "article_name", "&nbsp;" );
+    else
+        $t->set_var( "article_name", $article->name() );
 
     $t->set_var( "article_id", $article->id() );
 

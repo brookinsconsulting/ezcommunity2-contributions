@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.5 2000/11/01 09:30:58 ce-cvs Exp $
+// $Id: imagelist.php,v 1.6 2000/11/02 18:10:50 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Sep-2000 10:32:19 bf>
@@ -89,7 +89,10 @@ foreach ( $images as $image )
     
     $t->set_var( "image_number", $i + 1 );
 
-    $t->set_var( "image_name", $image->caption() );
+    if ( $image->caption() == "" )
+        $t->set_var( "image_name", "&nbsp;" );
+    else
+        $t->set_var( "image_name", $image->caption() );
     $t->set_var( "image_id", $image->id() );
     $t->set_var( "article_id", $ArticleID );
 
