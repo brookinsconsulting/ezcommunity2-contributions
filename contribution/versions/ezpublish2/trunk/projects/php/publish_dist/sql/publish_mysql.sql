@@ -1094,6 +1094,7 @@ CREATE TABLE eZForum_Message (
   ForumID int NOT NULL default '0',
   Topic varchar(60) default NULL,
   Body text,
+  UserName varchar default NULL,
   UserID int default NULL,
   Parent int default NULL,
   EmailNotice int NOT NULL default '0',
