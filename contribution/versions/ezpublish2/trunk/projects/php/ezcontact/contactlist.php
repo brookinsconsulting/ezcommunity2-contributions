@@ -51,7 +51,7 @@ for ( $i=0; $i<count( $company_array ); $i++ )
   {
     $t->set_var( "bg_color", "#dddddd" );
   }
-  
+  $t->set_var( "company_id", $company_array[$i][ "ID" ] );
   $t->set_var( "company_name", $company_array[$i][ "Name" ] );
   $t->parse( "company_list", "company_item", true );  
 }
