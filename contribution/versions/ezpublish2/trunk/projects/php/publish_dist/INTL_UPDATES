@@ -8,6 +8,23 @@ change: added user_edit=Some text
 mod: ezbug/user/, menubox.php.ini
 change: added bug_unhandled
 
+mod: ezcontact/admin, companystats.php.in
+change: new file
+
+mod: ezcontact/user, urlsupplier.php.ini
+change: new file
+
+mod: ezcontact/admin, companytype.php.ini
+change: added views=Views
+
+mod: eztrade/admin, productedit.php.ini
+mod: added links=Links
+
+mod: eztrade/admin, linklist.php.ini
+mod: new file
+
+mod: eztrade/admin, linkselect.php.ini
+mod: new file
 
 #### PRE2 - 2.0 Final ####################
 

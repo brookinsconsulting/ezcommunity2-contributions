@@ -591,7 +591,7 @@ alter table eZTrade_Order add ShippingTypeID int not null;
 insert into eZUser_Permission set ModuleID='4', Name='AddOthers';
 insert into eZUser_Permission set ModuleID='4', Name='ViewOtherUsers';
 
-### 2.0 - 
+### 2.0 - 2.0.1
 
 # Add quantity tables
 CREATE TABLE eZTrade_Quantity (
@@ -628,3 +628,36 @@ ALTER TABLE eZTrade_OptionValue MODIFY Price float(10,2);
 create table eZTrade_PreOrder( ID int primary key auto_increment, Created timestamp );
 alter table eZTrade_PreOrder add OrderID int not null;  
 alter table eZTrade_Order drop IsActive ;
+
+INSERT INTO eZUser_Permission VALUES('','6','CompanyStats');
+
+CREATE TABLE eZContact_CompanyView (
+  ID int(11) NOT NULL auto_increment,
+  CompanyID int(11) NOT NULL default '0',
+  Count int(11) NOT NULL default '0',
+  Date date NOT NULL default '0000-00-00',
+  PRIMARY KEY (ID,CompanyID,Date)
+) TYPE=MyISAM;
+
+CREATE TABLE eZTrade_Link (
+  ID int(11) NOT NULL auto_increment,
+  SectionID int(11) NOT NULL default '0',
+  Name varchar(60) default NULL,
+  URL text,
+  Placement int(11) NOT NULL default '0',
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZTrade_LinkSection (
+  ID int(11) NOT NULL auto_increment,
+  Name varchar(30) default NULL,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+CREATE TABLE eZTrade_ProductSectionDict (
+  ProductID int(11) NOT NULL default '0',
+  SectionID int(11) NOT NULL default '0',
+  Placement int(11) NOT NULL default '0',
+  PRIMARY KEY (ProductID,SectionID)
+) TYPE=MyISAM;
+
