@@ -24,6 +24,20 @@ $t->set_block( "module_page", "path_item_tpl", "path_item" );
 $t->set_var( "site_style", $SiteStyle );
 
 $module = new eZBugModule( $ParentID );
+$t->set_var( "this_id", $ParentID );
+
+
+if( isset( $DeleteModules ) ) // delete selected modules
+{
+    if( count( $ModuleArrayID ) > 0 )
+    {
+        foreach( $ModuleArrayID as $itemID )
+        {
+            $delModule = new eZBugModule( $itemID );
+            $delModule->delete();
+        }
+    }
+}
 
 // path
 $pathArray = $module->path();

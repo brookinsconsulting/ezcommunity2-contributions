@@ -141,15 +141,16 @@ switch ( $url_array[2] )
         {
             case "list":
             {
-                $ParentID = $url_array[4];
-                include( "ezbug/admin/modulelist.php" );
-            }
-            break;
-
-            case "new":
-            {
-                $Action = "new";
-                include( "ezbug/admin/moduleedit.php" );
+                if( isset( $AddModule ) )  // new
+                {
+                    $Action = "new";
+                    include( "ezbug/admin/moduleedit.php" );
+                }
+                else 
+                {
+                    $ParentID = $url_array[4];
+                    include( "ezbug/admin/modulelist.php" );
+                }
             }
             break;
 
