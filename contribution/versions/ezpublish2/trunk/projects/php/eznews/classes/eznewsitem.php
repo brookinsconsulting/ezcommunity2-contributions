@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsitem.php,v 1.1 2000/09/15 10:50:30 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.2 2000/09/15 10:53:48 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -16,15 +16,19 @@
 //!! eZNews
 //! eZNewsItem handles eZNews items.
 /*!
-  An eZNewsItem object can be of many types. It is stored in a hiearchy.
+    An eZNewsItem object can be of many types. It is stored in a hiearchy.
   
-  Example of usage:
+    Example 1: Creating an object:
 
-  \code
+    \code
     $item=new eZNewsItem();
     $item->setName("New item");
     $item->setItemTypeID('1');
-
+    \endcode
+    
+    Example 2: Storing an object:
+    
+    \code
     if ( $item->store() == true )
     {
         echo "The object was stored. The object contains this data: <P>";
@@ -39,7 +43,11 @@
             echo $something . "<br>";       
         }
     }
-
+    \endcode
+    
+    Example 3: Listing all objects of this type:
+    
+    \code
     // Show all items
 
     $items = $item->getAll("name", "forward");
