@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userlist.php,v 1.16 2000/12/19 13:52:05 ce Exp $
+// $Id: userlist.php,v 1.17 2001/01/21 19:43:06 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -116,6 +116,9 @@ foreach( $groupList as $groupItem )
 
     $t->parse( "group_item", "group_item_tpl", true );
 }
+
+$t->set_var( "current_group_id", $GroupID );
+$t->set_var( "sort_order", $OrderBy );
 
 $t->pparse( "output", "user_list_page" );
 

@@ -43,7 +43,7 @@
 <tr>
 	<td>
 
-	<form method="post" action="/user/userlist/">
+	<form method="post" action="/user/userlist/{sort_order}">
 
 	<select name="GroupID">
 	<option value="0">{intl-all}</option>
@@ -61,16 +61,16 @@
 
 <tr>
 	<th>
-	<a href="/user/userlist/name">{intl-name}:</a>
+	<a href="/user/userlist/name/{current_group_id}">{intl-name}:</a>
 	</th>
 
 	<th>
-	<a href="/user/userlist/email">{intl-email}:</a>
+	<a href="/user/userlist/email/{current_group_id}">{intl-email}:</a>
 	</th>
 
 
 	<th>
-	<a href="/user/userlist/login">{intl-login}:</a>
+	<a href="/user/userlist/login/{current_group_id}">{intl-login}:</a>
 	</th>
 
 	<th>

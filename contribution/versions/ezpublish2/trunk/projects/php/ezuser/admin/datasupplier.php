@@ -49,6 +49,8 @@ switch ( $url_array[2] )
     case "userlist" :
     {
         $OrderBy = $url_array[3];
+        if ( !isset( $GroupID ) )
+            $GroupID = $url_array[4];
         include( "ezuser/admin/userlist.php" );
     }
     break;

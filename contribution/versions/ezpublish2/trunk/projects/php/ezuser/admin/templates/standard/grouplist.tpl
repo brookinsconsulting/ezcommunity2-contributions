@@ -58,11 +58,11 @@
 <!-- BEGIN group_item_tpl -->
 <tr>
 	<td class="{td_class}">
-	{group_name}</a>
+	<a href="/user/userlist//{group_id}">{group_name}</a>
 	</td>
 
 	<td class="{td_class}">
-	{group_description}</a>
+	{group_description}
 	</td>
 
 	<td class="{td_class}" width="1%">
