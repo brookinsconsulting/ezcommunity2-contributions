@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.6 2001/02/09 13:20:38 gl Exp $
+// $Id: categoryedit.php,v 1.7 2001/02/09 15:28:14 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -144,8 +144,15 @@ if ( $Action == "Edit" )
     $t->set_var( "category_id", $category->id() );
 
     $parent = $category->parent();
-    $parentID = $parent->id();
-
+    
+    if( is_object( $parent ) )
+    {
+        $parentID = $parent->id();
+    }
+    else
+    {
+        $parentID = 0;
+    }
     if ( $category->excludeFromSearch() == true )
     {
         $t->set_var( "exclude_checked", "checked" );
