@@ -22,14 +22,19 @@
 
 <hr noshade size="4" />
 
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+  <td><input class="stdbutton" type="submit" name="AddCategory" value="{intl-newcategory}"></td>
+  <td>&nbsp;</td>
+  <td><input class="stdbutton" type="submit" name="DeleteCategories" value="{intl-delete_categories}"></td>
+</tr>
+</table>
+
+<hr noshade size="4" />
 
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
   <td><input class="okbutton" type="submit" name="Ok" value="{intl-ok}"></td>
-  <td>&nbsp;</td>
-  <td><input type="submit" name="AddCategory" value="{intl-newcategory}"></td>
-  <td>&nbsp;</td>
-  <td><input type="submit" name="DeleteCategories" value="{intl-delete_categories}"></td>
 </tr>
 </table>
 

@@ -20,14 +20,19 @@
 
 <hr noshade size="4"/>
 
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+  <td><input class="stdbutton" type="submit" name="AddPriority" value="{intl-new_priority}"></td>
+  <td>&nbsp;</td>
+  <td><input class="stdbutton" type="submit" name="DeletePriorities" value="{intl-delete_priorities}"></td>
+</tr>
+</table>
+
+<hr noshade size="4"/>
 
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
   <td><input class="okbutton" type="submit" name="Ok" value="{intl-ok}"></td>
-  <td>&nbsp;</td>
-  <td><input type="submit" name="AddPriority" value="{intl-new_priority}"></td>
-  <td>&nbsp;</td>
-  <td><input type="submit" name="DeletePriorities" value="{intl-delete_priorities}"></td>
 </tr>
 </table>
 

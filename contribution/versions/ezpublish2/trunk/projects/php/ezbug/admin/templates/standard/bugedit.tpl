@@ -8,9 +8,17 @@
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td valign="top" width="50%">
-
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
+	<td>
+	<p class="boxtext">{intl-bug_title}:</p>
+	{name_value}
+	<br /><br />
+	</td>
+	<td>
+	<p class="boxtext">{intl-bug_date}:</p>
+	{bug_date}
+	<br /><br />
+	</td>
+</tr>
 <tr>
 	<td>
 	<p class="boxtext">{intl-bug_module}:</p>
@@ -32,27 +40,8 @@
 </tr>
 </table>
 
-<p class="boxtext">{intl-bug_date}:</p>
-{bug_date}
-
-<p class="boxtext">{intl-bug_title}:</p>
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
-<tr>
-	<td class="bglight">
-	{name_value}
-	</td>
-</tr>
-</table>
-
 <p class="boxtext">{intl-bug_reporter}:</p>
-
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
-<tr>
-	<td class="bglight">
-	{reporter_name_value}
-	</td>
-</tr>
-</table>
+<div class="p">{reporter_name_value}</div>
 
 
 <p class="boxtext">{intl-bug_description}:</p>
@@ -102,17 +91,12 @@
 <br />
 
 
-	</td>
-	<td valign="top" width="50%">
 	<!-- BEGIN log_item_tpl -->
 	<b>{log_date}</b>
 	<p>
 	{log_description}
 	</p>
 	<!-- END log_item_tpl -->	
-	</td>
-</tr>
-</table>
 
 <hr noshade="noshade" size="4">
 

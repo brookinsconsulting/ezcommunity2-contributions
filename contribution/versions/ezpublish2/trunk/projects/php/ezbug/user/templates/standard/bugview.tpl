@@ -20,13 +20,22 @@
 
 <hr noshade="noshade" size="4" />
 
-
-
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td valign="top" width="100%">
+<br />
 
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+	<td>
+	<p class="boxtext">{intl-bug_title}:</p>
+	{name_value}
+	<br /><br />
+	</td>
+
+	<td>
+	<p class="boxtext">{intl-bug_date}:</p>
+	{bug_date}
+	<br /><br />
+	</td>
+</tr>
 <tr>
 	<td>
 	<p class="boxtext">{intl-bug_module}:</p>
@@ -40,22 +49,8 @@
 </tr>
 </table>
 
-
-<p class="boxtext">{intl-bug_date}:</p>
-{bug_date}
-
-<p class="boxtext">{intl-bug_title}:</p>
-<span class="p">{name_value}</span>
-
 <p class="boxtext">{intl-bug_reporter}:</p>
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
-<tr>
-	<td class="bglight">
-	{reporter_name_value}
-	</td>
-</tr>
-</table>
-
+<div class="p">{reporter_name_value}</div>
 
 <p class="boxtext">{intl-bug_description}:</p>
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
@@ -83,12 +78,12 @@
 </table>
 
 <br />
-<span class="boxtext">{intl-is_closed}:</span>
+<p class="boxtext">{intl-is_closed}:</p>
 <!-- BEGIN yes_tpl -->
-{intl-yes}
+<div class="p">{intl-yes}</div>
 <!-- END yes_tpl -->
 <!-- BEGIN no_tpl -->
-{intl-no}
+<div class="p">{intl-no}</div>
 <!-- END no_tpl -->
 
 <br />
@@ -99,14 +94,4 @@
 {log_description}
 </p>
 <!-- END log_item_tpl -->	
-
-</td>
-</tr>
-</table>
-
-
-<hr noshade="noshade" size="4">
-
-
-
 

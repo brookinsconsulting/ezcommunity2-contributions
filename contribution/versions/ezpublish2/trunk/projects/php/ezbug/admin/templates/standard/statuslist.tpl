@@ -24,12 +24,14 @@
 
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
-  <td><input class="okbutton" type="submit" name="Ok" value="{intl-ok}"></td>
+  <td><input class="stdbutton" type="submit" name="AddStatus" value="{intl-newstatus}"></td>
   <td>&nbsp;</td>
-  <td><input type="submit" name="AddStatus" value="{intl-newstatus}"></td>
-  <td>&nbsp;</td>
-  <td><input type="submit" name="DeleteStatus" value="{intl-delete_status}"></td>
+  <td><input class="stdbutton" type="submit" name="DeleteStatus" value="{intl-delete_status}"></td>
 </tr>
 </table>
+
+<hr noshade size="4"/>
+
+<input class="okbutton" type="submit" name="Ok" value="{intl-ok}">
 
 </form>

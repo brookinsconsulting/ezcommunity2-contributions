@@ -1,4 +1,3 @@
-
 <table width="100%" border="0">
 <tr>
 	<td valign="bottom">
@@ -31,7 +30,7 @@
 
 <!-- BEGIN path_item_tpl -->
 
-<img src="/images/{site_style}/path-slash.gif" height="10" width="20" border="0" alt="" />
+<img src="/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="" />
 
 <a class="path" href="/bug/archive/{module_id}/">{module_name}</a>
 <!-- END path_item_tpl -->
@@ -119,7 +118,7 @@
 	</td>
 
 	<td width="1%" class="{td_class}">
-	<a href="/bug/edit/edit/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{bug_id}-red','','/ezbug/admin/images/redigerminimrk.gif',1)"><img name="ezaa{bug_id}-red" border="0" src="/ezbug/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
+	<a href="/bug/edit/edit/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{bug_id}-red','','/ezbug/admin/images/redigerminimrk.gif',1)"><img name="ezaa{bug_id}-red" border="0" src="/ezbug/admin/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 	<td width="1%" class="{td_class}">
 	<input type="checkbox" name="BugArrayID[]" value="{bug_id}">
@@ -132,7 +131,7 @@
 
 <hr noshade size="4"/>
 
-<input type="submit" name="Delete" value="{intl-delete_bugs}" />
+<input class="stdbutton" type="submit" name="Delete" value="{intl-delete_bugs}" />
 
 
 </form>

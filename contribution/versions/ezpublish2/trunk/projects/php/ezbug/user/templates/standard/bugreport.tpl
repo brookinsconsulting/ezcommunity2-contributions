@@ -12,7 +12,10 @@
 
 <hr noshade="noshade" size="4">
 
-<br />
+<p class="boxtext">{intl-bug_title}:</p>
+<input type="text" size="40" name="Name" />
+<br /><br />
+
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
 	<td width="50%">
@@ -39,9 +42,6 @@
 <p class="boxtext">{intl-email_address} ({intl-if_you_are_a registered_user_please_log_in}):</p>
 <input type="text" size="40" name="Email" />
 <!-- END email_address_tpl -->
-
-<p class="boxtext">{intl-bug_title}:</p>
-<input type="text" size="40" name="Name" />
 
 <p class="boxtext">{intl-bug_description}:</p>
 <textarea name="Description" cols="40" rows="8" wrap="soft"></textarea>
