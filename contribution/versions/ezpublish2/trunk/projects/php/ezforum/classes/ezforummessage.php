@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.77 2001/02/26 19:01:49 pkej Exp $
+// $Id: ezforummessage.php,v 1.78 2001/03/02 12:59:03 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -147,10 +147,12 @@ class eZForumMessage
                     // update the whole tree''s ThreeID.
                     $db->query( "UPDATE eZForum_Message SET TreeID=(TreeID +1 ), PostingTime=PostingTime WHERE TreeID >= $parentID" );
 
+                    $bodySlash = addslashes( $this->Body );
+                    $topicSlash = addslashes( $this->Topic );
                     $db->query( "INSERT INTO eZForum_Message SET
 		                         ForumID='$this->ForumID',
-		                         Topic='$this->Topic',
-		                         Body='$this->Body',
+		                         Topic='$topicSlash',
+		                         Body='$bodySlash',
 		                         UserID='$this->UserID',
 		                         Parent='$this->ParentID',
 		                         TreeID='$this->TreeID',
@@ -173,10 +175,12 @@ class eZForumMessage
         }
         else
         {
+            $bodySlash = addslashes( $this->Body );
+            $topicSlash = addslashes( $this->Topic );
             $db->query( "UPDATE eZForum_Message SET
 		                         ForumID='$this->ForumID',
-		                         Topic='$this->Topic',
-		                         Body='$this->Body',
+		                         Topic='$topicSlash',
+		                         Body='$bodySlash',
 		                         UserID='$this->UserID',
 		                         Parent='$this->ParentID',
 		                         EmailNotice='$this->EmailNotice',
