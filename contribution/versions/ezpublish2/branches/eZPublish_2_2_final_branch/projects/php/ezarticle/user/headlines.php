@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: headlines.php,v 1.18.2.2 2002/02/04 15:51:40 bf Exp $
+// $Id: headlines.php,v 1.18.2.3 2002/02/18 19:55:58 master Exp $
 //
 // Created on: <30-Nov-2000 14:35:24 bf>
 //
@@ -46,15 +46,15 @@ if ( $PageCaching == "enabled" )
     }
     else
     {
-        createLinkMenu( $menuCacheFile );
+        createHeadlinesMenu( $menuCacheFile );
     }
 }
 else
 {
-    createLinkMenu();
+    createHeadlinesMenu();
 }
 
-function createLinkMenu( $menuCacheFile=false )
+function createHeadlinesMenu( $menuCacheFile=false )
 {
     global $ini;
     global $Language;
