@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.100 2001/06/27 13:52:23 jb Exp $
+// $Id: ezarticle.php,v 1.101 2001/06/28 10:29:31 jb Exp $
 //
 // Definition of eZArticle class
 //
@@ -1030,24 +1030,25 @@ class eZArticle
     /*!
       Returns the thumbnail image of the article as a eZImage object.
     */
-    function thumbnailImage( )
+    function thumbnailImage( $as_object = true )
     {
         $ret = false;
         $db =& eZDB::globalDatabase();
-       
+
         $db->array_query( $res_array, "SELECT * FROM eZArticle_ArticleImageDefinition
                                      WHERE
                                      ArticleID='$this->ID'
                                    " );
-       
+
         if ( count( $res_array ) == 1 )
         {
-            if ( $res_array[0][$db->fieldName("ThumbnailImageID")] != "NULL" )
+            $id = $res_array[0][$db->fieldName("ThumbnailImageID")];
+            if ( $id != "NULL" )
             {
-                $ret = new eZImage( $res_array[0][$db->fieldName("ThumbnailImageID")] );
-            }               
+                $ret = $as_object ? new eZImage( $id ) : $id;
+            }
         }
-       
+
         return $ret;
     }
 
