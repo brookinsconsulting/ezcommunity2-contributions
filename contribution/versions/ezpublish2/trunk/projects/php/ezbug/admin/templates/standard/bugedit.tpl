@@ -8,19 +8,19 @@
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td>
+	<td width="50%">
 	<p class="boxtext">{intl-bug_title}:</p>
 	{name_value}
 	<br /><br />
 	</td>
-	<td>
+	<td width="50%">
 	<p class="boxtext">{intl-bug_date}:</p>
 	{bug_date}
 	<br /><br />
 	</td>
 </tr>
 <tr>
-	<td>
+	<td width="50%">
 	<p class="boxtext">{intl-bug_module}:</p>
 	<select name="ModuleID">
 	<!-- BEGIN module_item_tpl -->
@@ -28,8 +28,7 @@
 	<!-- END module_item_tpl -->
 	</select>
 	</td>
-
-	<td>
+	<td width="50%">
 	<p class="boxtext">{intl-bug_category}:</p>
 	<select name="CategoryID">
 	<!-- BEGIN category_item_tpl -->
@@ -56,7 +55,7 @@
 
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
-	<td>
+	<td width="50%">
 	<p class="boxtext">{intl-assigned_priority}:</p>
 	<select name="PriorityID">
 	<!-- BEGIN priority_item_tpl -->
@@ -64,8 +63,7 @@
 	<!-- END priority_item_tpl -->
 	</select>
 	</td>
-
-	<td>
+	<td width="50%">
 	<p class="boxtext">{intl-assigned_status}:</p>
 	<select name="StatusID">
 	<!-- BEGIN status_item_tpl -->

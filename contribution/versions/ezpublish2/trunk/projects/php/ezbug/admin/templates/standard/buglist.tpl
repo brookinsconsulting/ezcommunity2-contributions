@@ -35,15 +35,17 @@
 <a class="path" href="/bug/archive/{module_id}/">{module_name}</a>
 <!-- END path_item_tpl -->
 
-<hr noshade="noshade" size="4" />
 
 <!-- BEGIN module_list_tpl -->
+<hr noshade="noshade" size="4" />
+
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>{intl-module}:</td>
-	<th>{intl-unhandled_bug_count}:</td>
-	<th>{intl-open_bug_count}:</th>
-	<th>{intl-bug_count}:</th>
+	<th width="65%">{intl-module}:</td>
+	<th width="10%">{intl-unhandled_bug_count}:</td>
+	<th width="10%">{intl-open_bug_count}:</th>
+	<th width="10%">{intl-bug_count}:</th>
+	<th width="5%">&nbsp;</th>
 </tr>
 	
 <!-- BEGIN module_item_tpl -->
@@ -80,14 +82,15 @@
 
 
 <!-- BEGIN bug_list_tpl -->
+<hr noshade="noshade" size="4" />
+
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>{intl-bug}:</th>
-	<th>{intl-status}:</th>
-	<th>{intl-priority}:</th>
-	<th>{intl-is_closed}:</th>
-
-	<th colspan="2">&nbsp;</th>
+	<th width="60%">{intl-bug}:</th>
+	<th width="10%">{intl-status}:</th>
+	<th width="10%">{intl-priority}:</th>
+	<th width="10%">{intl-is_closed}:</th>
+	<th width="10%" colspan="2">&nbsp;</th>
 </tr>
 
 <!-- BEGIN bug_item_tpl -->

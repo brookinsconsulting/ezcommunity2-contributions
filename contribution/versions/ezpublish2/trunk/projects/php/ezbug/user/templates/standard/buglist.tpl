@@ -38,16 +38,20 @@
 <!-- BEGIN module_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>{intl-module}:</td>
-	<th>{intl-open_bug_count}:</th>
-	<th>{intl-bug_count}:</th>
-	<th>{intl-description}:</th>
+	<th width="40%">{intl-module}:</th>
+	<th width="40%">{intl-description}:</th>
+	<th width="10%">{intl-open_bug_count}:</th>
+	<th width="10%">{intl-bug_count}:</th>
 </tr>
 	
 <!-- BEGIN module_item_tpl -->
 <tr>
 	<td class="{td_class}">
 	<a href="/bug/archive/{module_id}/">{module_name}</a>&nbsp;
+	</td>
+
+	<td class="{td_class}">
+	{module_description}&nbsp;
 	</td>
 
 	<td class="{td_class}">
@@ -58,9 +62,6 @@
 	{bug_count}
 	</td>
 
-	<td class="{td_class}">
-	{module_description}&nbsp;
-	</td>
 </tr>
 <!-- END module_item_tpl -->
 </table>
@@ -71,10 +72,10 @@
 <!-- BEGIN bug_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>{intl-bug}:</th>
-	<th>{intl-status}:</th>
-	<th>{intl-priority}:</th>
-	<th>{intl-is_closed}:</th>
+	<th width="70%">{intl-bug}:</th>
+	<th width="10%">{intl-status}:</th>
+	<th width="10%">{intl-priority}:</th>
+	<th width="10%">{intl-is_closed}:</th>
 </tr>
 
 <!-- BEGIN bug_item_tpl -->
