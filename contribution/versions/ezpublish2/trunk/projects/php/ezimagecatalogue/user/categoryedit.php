@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.2 2001/01/12 08:43:06 ce Exp $
+// $Id: categoryedit.php,v 1.3 2001/01/12 09:14:18 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -173,17 +173,40 @@ if ( $Action == "Insert" && $error == false )
     $category->setUser( $user );
 
 
-    $parent = new eZImageCategory( $CategoryID );
+    $parent = new eZImageCategory( $ParentID );
     $category->setParent( $parent );
 
     $category->store();
 
-    Header( "Location: /filemanager/list/$CategoryID" );
+    Header( "Location: /imagecatalogue/image/list/$CategoryID" );
     exit();
 }
 
 if ( $Action == "Update" && $error == false )
 {
+    $category = new eZImageCategory( $CategoryID );
+    $category->setName( $Name );
+    $category->setDescription( $Description );
+
+    $category->setReadPermission( $Read );
+    $category->setWritePermission( $Write );
+    
+    $user = eZUser::currentUser();
+    
+    if ( !$user )
+    {
+        Header( "Location: /" );
+        exit();
+    }
+    
+    $parent = new eZImageCategory( $ParentID );
+    $category->setParent( $parent );
+
+    $category->store();
+
+    Header( "Location: /imagecatalogue/image/list/$CategoryID" );
+    exit();
+  
 }
 
 if ( $Action == "Delete" && $error == false )
@@ -238,6 +261,8 @@ if ( $Action == "Edit" )
     {
         $t->set_var( "all_read_checked", "checked" );
     }
+
+    $t->set_var( "action_value", "update" );
 
 }
 

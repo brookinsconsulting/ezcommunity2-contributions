@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.2 2001/01/12 08:43:06 ce Exp $
+// $Id: imageedit.php,v 1.3 2001/01/12 09:14:18 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -57,7 +57,7 @@ $t->set_block( "image_edit_page", "errors_tpl", "errors" );
 $t->set_var( "errors", "&nbsp;" );
 
 $t->set_var( "name_value", "$Name" );
-$t->set_var( "description_value", "$Description" );
+$t->set_var( "image_description", "$Description" );
 $t->set_var( "caption_value", "$Caption" );
 
 if ( $Read == "User" )
@@ -204,7 +204,7 @@ if ( $Action == "Insert" && $error == false )
     
     eZLog::writeNotice( "Picture added to catalogue: $image->name() from IP: $REMOTE_ADDR" );
 
-    header( "Location: /article/articleedit/imagelist/" . $ArticleID . "/" );
+    header( "Location: /imagecatalogue/image/list/" . $CategoryID . "/" );
     exit();
 }
 
@@ -235,7 +235,7 @@ if ( $Action == "Update" && $error == false )
         $image->store();
     }
     
-    header( "Location: /article/articleedit/imagelist/" . $ArticleID . "/" );
+    header( "Location: /imagecatalogue/image/list/" . $CategoryID . "/" );
     exit();
 }
 
@@ -246,7 +246,7 @@ if ( $Action == "Delete" )
         
     $article->deleteImage( $image );
     
-    header( "Location: /article/articleedit/imagelist/" . $ArticleID . "/" );
+    header( "Location: /imagecatalogue/image/list/" . $CategoryID . "/" );
     exit();    
 }
 
@@ -260,6 +260,7 @@ if ( $Action == "New" || $error )
     $t->set_var( "image", "" );
     $t->set_var( "user_read_checked", "checked" );
     $t->set_var( "user_write_checked", "checked" );
+    $t->set_var( "image_id", "" );
 }
 
 if ( $Action == "Edit" )

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.2 2001/01/12 08:43:06 ce Exp $
+// $Id: imagelist.php,v 1.3 2001/01/12 09:14:18 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -141,6 +141,7 @@ foreach ( $categoryList as $categoryItem )
 {
     $t->set_var( "category_name", $categoryItem->name() );
     $t->set_var( "category_id", $categoryItem->id() );
+    $t->set_var( "category_description", $categoryItem->description() );
 
     $writePermission = $categoryItem->checkWritePermission( $user );
     $readPermission = $categoryItem->checkReadPermission( $user );

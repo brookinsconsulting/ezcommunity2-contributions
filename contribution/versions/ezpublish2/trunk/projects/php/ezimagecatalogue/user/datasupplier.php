@@ -82,6 +82,14 @@ switch ( $url_array[2] )
             }
             break;
 
+            case "update" :
+            {
+                $Action = "Update";
+                $CategoryID = $url_array[4];
+                include( "ezimagecatalogue/user/categoryedit.php" );
+            }
+            break;
+
 
         }
     }

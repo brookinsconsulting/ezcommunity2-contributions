@@ -36,6 +36,9 @@
 	<td>
 	<a href="/imagecatalogue/image/list/{category_id}/"><img src="/imagecatalogue/user/{image_dir}/folder.png" alt="" width="32" height="32" />{category_name}</a><br />
 	</td>
+	<td>
+	{category_description}
+	</td>
         <!-- END category_read_tpl -->
         <!-- BEGIN category_write_tpl -->
 	<td>
@@ -90,6 +93,10 @@
 </tr>
 <!-- END detail_view_tpl -->
 </table>
+
+<hr noshade="noshade" size="4" />
+<br />
+
 <!-- END image_list_tpl -->
 <table cellspacing="0" cellpadding="4" border="0">
 <tr>
