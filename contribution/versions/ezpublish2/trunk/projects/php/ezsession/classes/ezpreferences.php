@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpreferences.php,v 1.4 2001/01/25 00:29:05 jb Exp $
+// $Id: ezpreferences.php,v 1.5 2001/04/05 09:33:47 fh Exp $
 //
 // Definition of eZPreferences class
 //
@@ -127,7 +127,8 @@ class eZPreferences
             $this->dbInit();
 
             $userID = $this->UserObject->id();
-
+            $name = addslashes( $name );
+            $value = addslashes( $value );
             $this->Database->array_query( $value_array, "SELECT ID FROM eZSession_Preferences
                                                     WHERE UserID='$userID' AND Name='$name'" );
             if ( count( $value_array ) == 1 )
