@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.48 2000/12/14 17:50:30 ce Exp $
+// $Id: ezcompany.php,v 1.49 2001/01/09 15:19:37 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -194,7 +194,10 @@ class eZCompany
         $company_array = array();
         $return_array = array();
 
-        $this->Database->array_query( $company_array, "SELECT CompanyID FROM eZContact_CompanyTypeDict WHERE CompanyTypeID='$categoryID'" );
+        $this->Database->array_query( $company_array, "SELECT CompanyID FROM eZContact_CompanyTypeDict, eZContact_Company
+                                                       WHERE eZContact_CompanyTypeDict.CompanyTypeID='$categoryID'
+                                                       AND eZContact_Company.ID = eZContact_CompanyTypeDict.CompanyID
+                                                       ORDER BY eZContact_Company.Name" );
 
             foreach( $company_array as $companyItem )
             {
@@ -684,20 +687,20 @@ class eZCompany
 
        $ret = false;
        $this->dbInit();
-       
+
        $this->Database->array_query( $res_array, "SELECT * FROM eZContact_CompanyImageDefinition
                                      WHERE
                                      CompanyID='$this->ID'
                                    " );
-       
+
        if ( count( $res_array ) == 1 )
        {
            if ( $res_array[0]["CompanyImageID"] != "NULL" )
            {
                $ret = new eZImage( $res_array[0]["CompanyImageID"], false );
-           }               
+           }
        }
-       
+
        return $ret;
     }
 
