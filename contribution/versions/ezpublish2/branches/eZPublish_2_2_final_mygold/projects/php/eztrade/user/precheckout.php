@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: precheckout.php,v 1.6 2001/10/16 08:18:24 bf Exp $
+// $Id: precheckout.php,v 1.6.4.1 2001/11/29 09:07:38 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -41,7 +41,7 @@ if ( ( $ForceSSL == "enabled" ) )
     if ( $SERVER_PORT != '443' )
     {
 //          print( "<font color=\"#333333\">Start: Location: https://" . $HTTP_HOST . $REQUEST_URI . "</font>" );
-        eZHTTPTool::header("Location: https://" . $HTTP_HOST . "/trade/checkout/" );
+        eZHTTPTool::header("Location: https://" . $HTTP_HOST . "/trade/checkout/" . $GLOBALS["PHPSESSID"] );
         exit();
     }
 }
@@ -49,7 +49,7 @@ elseif ( $ForceSSL == "disabled" )
 {
     $session->setVariable( "SSLMode", "disabled" );
 
-    eZHTTPTool::header("Location: /trade/checkout/" );
+    eZHTTPTool::header("Location: /trade/checkout/" . $GLOBALS["PHPSESSID"] );
     exit();
 }
 elseif ( $ForceSSL == "choose" )
@@ -58,14 +58,14 @@ elseif ( $ForceSSL == "choose" )
     
     if( isSet ( $WithSSL ) )
     {
-        eZHTTPTool::header( "Location: https://" . $HTTP_HOST . "/trade/checkout" );
+        eZHTTPTool::header( "Location: https://" . $HTTP_HOST . "/trade/checkout/" . $GLOBALS["PHPSESSID"] );
         exit();
             
     }
 
     if( isSet ( $WithOutSSL ) )
     {
-        eZHTTPTool::header( "Location: http://" . $HTTP_HOST . "/trade/checkout" );
+        eZHTTPTool::header( "Location: http://" . $HTTP_HOST . "/trade/checkout/" . $GLOBALS["PHPSESSID"] );
         exit();
             
     }
