@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezlinkitem.php,v 1.8.2.1 2001/11/01 12:06:23 ce Exp $
+//
+// $Id: ezlinkitem.php,v 1.8.2.1.4.1 2002/01/14 10:32:56 ce Exp $
 //
 // Definition of eZLinkItem class
 //
@@ -70,6 +70,8 @@ class eZLinkItem
         $table_name = $this->Module . "_Link";
         $db =& eZDB::globalDatabase();
         $db->begin();
+        $name = $db->escapeString( $this->Name );
+        $url = $db->escapeString( $this->URL );
         if ( is_numeric( $this->ID ) and $this->ID > 0 )
         {
             $qry_text = "UPDATE $table_name";
@@ -77,8 +79,8 @@ class eZLinkItem
 
             $db->query( "$qry_text
                      SET SectionID='$this->Section',
-                         Name='$this->Name',
-                         URL='$this->URL',
+                         Name='$name',
+                         URL='$url',
                          Placement='$this->Placement',
                          ModuleType='$this->ModuleType' $qry_where" );
         }
@@ -91,11 +93,11 @@ class eZLinkItem
             $this->Placement = count( $qry_array ) == 1 ? $qry_array[0][$db->fieldName( "Placement" )] + 1 : 1;
 
             $db->lock( $table_name );
-            $nextID = $db->nextID( $table_name, "ID" );            
-                        
+            $nextID = $db->nextID( $table_name, "ID" );
+
             $res = $db->query( "$qry_text
                      ( ID, SectionID, Name, URL, Placement, ModuleType )
-                     VALUES( '$nextID', '$this->Section', '$this->Name', '$this->URL', '$this->Placement', '$this->ModuleType' )" );
+                     VALUES( '$nextID', '$this->Section', '$name', '$url', '$this->Placement', '$this->ModuleType' )" );
             $this->ID = $nextID;
             $db->unlock();
         }
@@ -221,13 +223,13 @@ class eZLinkItem
     function setType( $module, $type )
     {
         $db =& eZDB::globalDatabase();
+        $db->lock( "eZModule_LinkModuleType" );
         $db->array_query( $rows, "SELECT ID FROM eZModule_LinkModuleType
                                   WHERE Module='$module' AND Type='$type'", 0, 1, "ID" );
         if ( count( $rows ) == 0 )
         {
             $db->begin();
-            $db->lock( "eZModule_LinkModuleType" );
-            $nextID = $db->nextID( "eZModule_LinkModuleType", "ID" );            
+            $nextID = $db->nextID( "eZModule_LinkModuleType", "ID" );
 
             $res = $db->query( "INSERT INTO eZModule_LinkModuleType ( ID, Module, Type ) VALUES ( '$nextID', '$module', '$type' )" );
             $this->ModuleType = $nextID;
@@ -242,6 +244,7 @@ class eZLinkItem
         {
             $this->ModuleType = $rows[0];
         }
+        $db->unlock();
     }
 
     /*!

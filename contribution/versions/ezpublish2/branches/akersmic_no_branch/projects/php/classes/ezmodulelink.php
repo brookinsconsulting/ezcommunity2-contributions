@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezmodulelink.php,v 1.6 2001/10/15 11:32:17 ce Exp $
+//
+// $Id: ezmodulelink.php,v 1.6.8.1 2002/01/14 10:32:56 ce Exp $
 //
 // Definition of eZModuleLink class
 //
@@ -121,6 +121,9 @@ class eZModuleLink
         $db->begin();
         $link_table_name = $this->Module . "_$this->Type" . "SectionDict";
         $section_id = $section->id();
+
+
+
         $type_column = $this->Type . "ID";
         $db->array_query( $qry_array,
                           "SELECT Placement FROM $link_table_name
@@ -129,7 +132,7 @@ class eZModuleLink
         $placement = count( $qry_array ) == 1 ? $qry_array[0][$db->fieldName( "Placement" )] + 1 : 1;
 
         $db->lock( $link_table_name );
-        $nextID = $db->nextID( $link_table_name, "ID" );            
+        $nextID = $db->nextID( $link_table_name, "ID" );
 
         $res = $db->query( "INSERT INTO $link_table_name
                      ( ID, SectionID, Placement, $type_column )
