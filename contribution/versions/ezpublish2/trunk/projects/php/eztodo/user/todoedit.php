@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: todoedit.php,v 1.29 2001/09/05 10:57:00 jhe Exp $
+// $Id: todoedit.php,v 1.30 2001/09/05 11:53:39 jhe Exp $
 //
 // Definition of todo list.
 //
@@ -63,7 +63,7 @@ if ( isSet( $Edit ) )
     $Action = "edit";
 }
 
-if( isSet( $Cancel ) )
+if ( isSet( $Cancel ) )
 {
     eZHTTPTool::header( "Location: /todo" );
     exit();

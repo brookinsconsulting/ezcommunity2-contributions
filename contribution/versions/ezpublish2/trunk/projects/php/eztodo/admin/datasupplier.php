@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: datasupplier.php,v 1.5 2001/07/20 11:36:06 jakobn Exp $
+// $Id: datasupplier.php,v 1.6 2001/09/05 11:53:38 jhe Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -35,7 +35,7 @@ switch ( $url_array[2] )
     
     case "categorytypeedit" :
     {
-        switch( $url_array[3] )
+        switch ( $url_array[3] )
         {
             case "new":
             {
@@ -87,7 +87,7 @@ switch ( $url_array[2] )
 
     case "prioritytypeedit" :
     {
-        switch( $url_array[3] )
+        switch ( $url_array[3] )
         {
             case "new":
             {
@@ -139,7 +139,7 @@ switch ( $url_array[2] )
     
     case "statustypeedit" :
     {
-        switch( $url_array[3] )
+        switch ( $url_array[3] )
         {
             case "new":
             {

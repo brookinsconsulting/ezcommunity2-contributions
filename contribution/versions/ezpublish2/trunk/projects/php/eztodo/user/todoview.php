@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: todoview.php,v 1.10 2001/07/20 11:36:07 jakobn Exp $
+// $Id: todoview.php,v 1.11 2001/09/05 11:53:39 jhe Exp $
 //
 // Definition of todo list.
 //
@@ -91,7 +91,7 @@ $t->set_var( "todo_id", $todo->id() );
 
 $logs = $todo->logs();
 
-if ( count ( $logs ) > 0 )
+if ( count( $logs ) > 0 )
 {
     foreach ( $logs as $log )
     {

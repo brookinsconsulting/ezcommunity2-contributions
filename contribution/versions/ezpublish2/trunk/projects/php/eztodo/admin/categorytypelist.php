@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categorytypelist.php,v 1.6 2001/07/20 11:36:06 jakobn Exp $
+// $Id: categorytypelist.php,v 1.7 2001/09/05 11:53:38 jhe Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -23,7 +23,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 
@@ -37,7 +36,6 @@ include_once( "eztodo/classes/ezcategory.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 $Language = $ini->read_var( "eZTodoMain", "Language" );
-
 
 $t = new eZTemplate( "eztodo/admin/" . $ini->read_var( "eZTodoMain", "AdminTemplateDir" ),
                      "eztodo/admin/intl", $Language, "categorytypelist.php" );
@@ -55,7 +53,7 @@ $category_type = new eZCategory();
 $category_type_array = $category_type->getAll();
 
 $i=0;
-foreach( $category_type_array as $categoryItem )
+foreach ( $category_type_array as $categoryItem )
 {
     if ( ( $i %2 ) == 0 )
         $t->set_var( "td_class", "bglight" );
@@ -69,7 +67,7 @@ foreach( $category_type_array as $categoryItem )
     $t->parse( "category_item", "category_item_tpl", true );
 }
 
-if ( count ( $category_type_array ) == 0 )
+if ( count( $category_type_array ) == 0 )
 {
     $t->set_var( "category_item", "" );
 }

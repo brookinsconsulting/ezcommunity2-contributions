@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztodolog.php,v 1.6 2001/07/20 11:36:07 jakobn Exp $
+// $Id: eztodolog.php,v 1.7 2001/09/05 11:53:38 jhe Exp $
 //
 // eZTodoLog class
 //
@@ -120,7 +120,7 @@ class eZTodoLog
                 $this->fill( $todoLogArray[0] );
                 $ret = true;
             }
-            else if( count( $todoLogArray ) == 1 )
+            else if ( count( $todoLogArray ) == 1 )
             {
                 $this->ID = 0;
             }

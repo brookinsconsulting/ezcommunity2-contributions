@@ -1,5 +1,5 @@
 <?php
-// $Id: todomenulist.php,v 1.9 2001/08/17 13:36:00 jhe Exp $
+// $Id: todomenulist.php,v 1.10 2001/09/05 11:53:39 jhe Exp $
 //
 // Definition of todo list.
 //
@@ -37,7 +37,6 @@ $iniLanguage = new INIFile( "eztodo/user/intl/$Language/todolist.php.ini", false
 include_once( "classes/eztemplate.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
-
 include_once( "eztodo/classes/eztodo.php" );
 
 $user =& eZUser::currentUser();
@@ -45,9 +44,7 @@ $user =& eZUser::currentUser();
 $t = new eZTemplate( "eztodo/user/" . $ini->read_var( "eZTodoMain", "TemplateDir" ),
                      "eztodo/user/intl/", $Language, "todomenulist.php" );
 $t->setAllStrings();
-$t->set_file( array(
-    "todo_list_page" => "todomenulist.tpl"
-    ) );
+$t->set_file( "todo_list_page", "todomenulist.tpl" );
 
 $t->set_block( "todo_list_page", "todo_item_tpl", "todo_item" );
 $t->set_block( "todo_list_page", "no_item_tpl", "no_item" );
@@ -61,7 +58,7 @@ if ( $user )
 
 $i=0;
 if ( count( $todo_array ) > 0 )
-foreach( $todo_array as $todoItem )
+foreach ( $todo_array as $todoItem )
 {
     if ( ( $i %2 ) == 0 )
         $t->set_var( "td_class", "bgdark" );
@@ -77,7 +74,7 @@ foreach( $todo_array as $todoItem )
     $i++;
 }
 
-if ( count ( $todo_array ) == 0 ) 
+if ( count( $todo_array ) == 0 ) 
 {
     $t->set_var( "todo_item", "" );
     $t->parse( "no_item", "no_item_tpl" );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: statustypelist.php,v 1.2 2001/07/20 11:36:07 jakobn Exp $
+// $Id: statustypelist.php,v 1.3 2001/09/05 11:53:38 jhe Exp $
 //
 // Created on: <18-Oct-2000 15:04:39 bf>
 //
@@ -55,7 +55,7 @@ $category_type = new eZStatus();
 $category_type_array = $category_type->getAll();
 
 $i=0;
-foreach( $category_type_array as $categoryItem )
+foreach ( $category_type_array as $categoryItem )
 {
     if ( ( $i %2 ) == 0 )
         $t->set_var( "td_class", "bglight" );
