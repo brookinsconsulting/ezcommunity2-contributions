@@ -174,7 +174,6 @@ if( ( $Action == "insert" || $Action == "update" ) && $error == false )
     $consultation->setDate( new eZDateTime() );
     $consultation->setState( $StatusID );
     $consultation->setEmail( $EmailNotice );
-
     $consultation->store();
 
     if ( isset( $CompanyContact ) )
@@ -192,13 +191,49 @@ if( ( $Action == "insert" || $Action == "update" ) && $error == false )
 
     $consultation->removeGroups();
     foreach( $GroupNotice as $group )
-        {
-            $consultation->addGroup( $group );
-        }
+    {
+        $consultation->addGroup( $group );
+    }
 
     $ConsultationID = $consultation->id();
 
     $t->set_var( "consultation_id", $ConsultationID );
+
+    if ( isset( $CompanyContact ) )
+    {
+        $company = new eZCompany( $CompanyContact );
+        $consult_name = $company->name();
+    }
+    else if ( isset( $PersonContact ) )
+    {
+        $person = new eZPerson( $PersonContact );
+        $consult_name = $person->name();
+    }
+
+    $mail = new eZMail();
+    $mail->setFromName( $user->name() );
+    $mail->setFrom( $user->email() );
+    $mail->setSubject( "Konsultasjon med " . $consult_name . ": " . $consultation->shortDescription() );
+    $stateid = $consultation->state();
+    $state = new eZConsultationType( $stateid );
+    $mail->setBody( "Konsultasjons type: " . $state->name() . "\n\n" . $consultation->description() );
+
+    $emails = $consultation->emailList();
+    foreach( $emails as $email )
+    {
+        $mail->setTo( $email );
+        $mail->send();
+    }
+
+    foreach( $GroupNotice as $groupid )
+    {
+        $users = eZUserGroup::users( $groupid );
+        foreach( $users as $mail_user )
+        {
+            $mail->setTo( $mail_user->namedEmail() );
+            $mail->send();
+        }
+    }
 
     if ( isset( $contact_type ) && isset( $contact_id ) )
     {
