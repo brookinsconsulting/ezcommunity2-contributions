@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.67 2001/10/01 10:27:11 pkej Exp $
+// $Id: productedit.php,v 1.68 2001/10/10 08:17:54 br Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -191,6 +191,8 @@ if ( $Action == "Update"  or $Action == "Insert" )
 
         $product->store();
 
+        $productID = $product->id();
+
         if ( $product->productType() == 2 )
         {
             $range =& $product->priceRange();
@@ -207,18 +209,20 @@ if ( $Action == "Update"  or $Action == "Insert" )
             $product->setTotalQuantity( is_numeric( $Quantity ) ? $Quantity : false );
         }
 
-        eZPriceGroup::removePrices( $ProductID, -1 );
+        if ( $ProductID )
+            eZPriceGroup::removePrices( $ProductID, -1 );
+        
         $count = max( count( $PriceGroup ), count( $PriceGroupID ) );
+
         for ( $i = 0; $i < $count; $i++ )
         {
             if ( is_numeric( $PriceGroupID[$i] ) and $PriceGroup[$i] != "" )
             {
-                eZPriceGroup::addPrice( $ProductID, $PriceGroupID[$i], $PriceGroup[$i] );
+                eZPriceGroup::addPrice( $productID, $PriceGroupID[$i], $PriceGroup[$i] );
             }
         }
 
-        $productID = $product->id();
-
+        
         eZObjectPermission::removePermissions( $productID, "trade_product", 'w' );
         if( isset( $WriteGroupArray ) )
         {
@@ -751,11 +755,11 @@ if ( $ShowPriceGroups )
     {
         $t->set_var( "price_group_name", $price_names[$i] );
         $t->parse( "price_group_header_item", "price_group_header_item_tpl", true );
-
         $t->set_var( "price_group_value", $PriceGroup[$i] );
         $t->set_var( "price_group_id", $PriceGroupID[$i] );
         $t->parse( "price_group_item", "price_group_item_tpl", true );
     }
+
     if ( count( $price_groups ) > 0 )
     {
         $t->parse( "price_groups_item", "price_groups_item_tpl" );

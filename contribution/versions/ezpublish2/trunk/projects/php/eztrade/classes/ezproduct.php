@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.113 2001/10/04 14:25:52 ce Exp $
+// $Id: ezproduct.php,v 1.114 2001/10/10 08:17:54 br Exp $
 //
 // Definition of eZProduct class
 //
@@ -347,13 +347,31 @@ class eZProduct
     */
     function &correctPrice( $calcVAT )
     {
+        $db =& eZDB::globalDatabase();
         $inUser =& eZUser::currentUser();
         
         if ( get_class( $inUser ) == "ezuser" )
         {
             $groups = $inUser->groups( false );
 
-            $price = eZPriceGroup::correctPrice( $this->ID, $groups );
+            $in_groups = eZPriceGroup::prices( $this->ID );
+            $price_arr = array();
+
+            for( $i=0; $i< count( $in_groups ); $i++ )
+            {
+                $price_id = $in_groups[$i][$db->fieldName( "PriceID" )];
+                $groupIdArr =& eZPriceGroup::userGroups( $price_id, false );
+
+                foreach( $groupIdArr as $groupId )
+                {
+                    if ( in_array( $groupId, $groups ) )
+                    {
+                        $tmp_price = eZPriceGroup::correctPrice( $this->ID, $price_id );
+                        if ( $tmp_price < $price || !$price )
+                            $price = $tmp_price;
+                    }
+                }
+            }
         }
         
         if ( empty( $price ) )
@@ -1052,7 +1070,6 @@ class eZProduct
        $db =& eZDB::globalDatabase();
        
        $db->array_query( $option_array, "SELECT OptionID FROM eZTrade_ProductOptionLink WHERE ProductID='$this->ID'" );
-
        for ( $i = 0; $i < count( $option_array ); $i++ )
        {
            $return_array[$i] = new eZOption( $option_array[$i][$db->fieldName( "OptionID" )], true );
