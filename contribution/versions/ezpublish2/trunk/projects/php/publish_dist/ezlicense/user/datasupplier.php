@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.1 2001/11/02 07:55:03 pkej Exp $
+// $Id: datasupplier.php,v 1.2 2001/11/02 10:10:10 pkej Exp $
 //
 // Created on: <17-Oct-2001 14:23:46 pkej>
 //
@@ -31,7 +31,7 @@ if ( !isset( $RedirectURL ) )
 {
     $RedirectURL = $HTTP_REFERRER;
 }
-
+echo "kjdaøfjdsøljfl";
 switch ( $url_array[2] )
 {
     case "reseller":
@@ -39,10 +39,11 @@ switch ( $url_array[2] )
     case "customer":
     case "user":
     case "program":
+    case "license":
     {
         switch ( $Action )
         {
-            case "view":
+            case "verify":
             {
                 include_once( "ezlicense/user/programview.php" );
             }

@@ -62,7 +62,9 @@ CREATE TABLE eZLicense_Reseller (
 CREATE TABLE eZLicense_License
 (
     ID int NOT NULL,
-    LicenseType int NOT NULL default '0',
+    ProgramVersionID int NOT NULL default '0',
+    LicenseNumber int NOT NULL default '',
+    LicenseTypeID int NOT NULL default '0',
     UserLimit int NOT NULL default '0',
     StartDate int NOT NULL default '0',
     ExpiryDate int NOT NULL default '0',
@@ -72,21 +74,14 @@ CREATE TABLE eZLicense_License
     ProgramName varchar(255) NOT NULL,
     Major int NOT NULL default '0',
     Minor int NOT NULL default '0',
-    PRIMARY KEY(ID)
-)  TYPE=MyISAM;
-
-CREATE TABLE eZLicense_LicenseBuyerOrderLink
-(
-    ID int NOT NULL,
-    LicenseID int NOT NULL default '0',
     UserID int NOT NULL default '0',
     OrderID int NOT NULL default '0',
     CartID int NOT NULL default '0',
     ProductID int NOT NULL default '0',
     LicenseQTY int NOT NULL default '0',
-    PRIMARY KEY(ID),
-    UNIQUE(LicenseID, UserID)    
-) TYPE=MyISAM;
+    PRIMARY KEY(ID)
+)  TYPE=MyISAM;
+
 
 CREATE TABLE eZLicense_SubLicense
 (
