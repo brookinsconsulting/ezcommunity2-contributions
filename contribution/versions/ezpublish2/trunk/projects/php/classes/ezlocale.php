@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlocale.php,v 1.40 2001/08/31 11:28:38 ce Exp $
+// $Id: ezlocale.php,v 1.41 2001/09/14 13:05:51 pkej Exp $
 //
 // Definition of eZLocale class
 //
@@ -273,22 +273,22 @@ class eZLocale
                 {
                     if ( $this->NegativePrefixCurrencySymbol == "yes" )
                     {
-                        $value = "- " . $this->CurrencySymbol . " " . $value;
+                        $value = "-&nbsp;" . $this->CurrencySymbol . "&nbsp;" . $value;
                     }
                     else
                     {
-                        $value = "- " . $value . " " . $this->CurrencySymbol;
+                        $value = "-&nbsp;" . $value . "&nbsp;" . $this->CurrencySymbol;
                     }
                 }
                 else
                 {
                     if ( $this->PositivePrefixCurrencySymbol == "yes" )
                     {
-                        $value = $this->CurrencySymbol . " " . $value;
+                        $value = $this->CurrencySymbol . "&nbsp;" . $value;
                     }
                     else
                     {
-                        $value = $value . " " . $this->CurrencySymbol;
+                        $value = $value . "&nbsp;" . $this->CurrencySymbol;
                     }                    
                 }
 
