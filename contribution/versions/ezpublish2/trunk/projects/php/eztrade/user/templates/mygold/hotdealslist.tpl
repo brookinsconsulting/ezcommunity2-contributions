@@ -17,9 +17,9 @@
 				<div align="center"><a href="/trade/productview/{product_id}/{category_id}/">
 				<img src="{product_image_path}" border="0" width="{product_image_width}" height="{product_image_height}" alt="{product_image_caption}"/></a></div>
 				<!-- END product_image_tpl -->
-				<p>{product_intro_text}</p>
+				<p class="small">{product_intro_text}</p>
 				<!-- BEGIN price_tpl -->
-				<p align="right">{product_price}</p><br clear="all"/>
+				<p class="small" align="right">{product_price}</p>
 				<!-- END price_tpl -->
 			</td>
 		{end_tr} 
@@ -29,7 +29,7 @@
 	</td>
   </tr>
   <tr> 
-	<td class="spacer5">&nbsp;</td>
+	<td class="spacer2">&nbsp;</td>
   </tr>
   <tr> 
 	<td class="bgspacer"><img src="/sitedesign/mygold/images/shim.gif" alt="" width="1" height="2" /></td>

@@ -16,7 +16,7 @@
 	<td class="bgspacer"><img src="/sitedesign/mygold/images/shim.gif" alt="" width="1" height="2" /></td>
   </tr>
   <tr>
-	<td class="spacer5">&nbsp</td>
+	<td class="spacer5">&nbsp;</td>
   </tr>
 </table>
 <!-- END empty_cart_tpl -->
