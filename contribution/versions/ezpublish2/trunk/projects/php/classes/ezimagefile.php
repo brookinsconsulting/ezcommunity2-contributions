@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagefile.php,v 1.8 2001/03/07 14:53:41 jb Exp $
+// $Id: ezimagefile.php,v 1.9 2001/03/07 16:24:56 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -171,7 +171,7 @@ class eZImageFile extends eZFile
         }
         else
         {
-            print( "<br><b>error in scaleCopy: $err</b><br>" );
+            print( "<br><b>error in scaleCopy, \"$image_prog\" returned error: \"$err\"</b><br>" );
             $ret = false;
         }
 
@@ -212,7 +212,7 @@ class eZImageFile extends eZFile
         $ret = true;
         if ( $ret_code != 0 )
         {
-            print( "<br><b>error in convertCopy: $err</b><br>" );
+            print( "<br><b>error in convertCopy, \"$image_prog\" returned error: \"$err\"</b><br>" );
             $ret = false;
         }
         else
