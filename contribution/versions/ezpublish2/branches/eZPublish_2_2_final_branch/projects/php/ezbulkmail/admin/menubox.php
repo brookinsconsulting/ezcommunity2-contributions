@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.8 2001/08/29 19:12:43 fh Exp $
+// $Id: menubox.php,v 1.8.2.1 2001/10/30 17:35:03 fh Exp $
 //
 // Created on: <25-Nov-2000 17:53:52 bf>
 //
@@ -25,6 +25,20 @@
 
 // Supply $menuItems to get a menubox
 
+if ( $ini->read_var( "eZBulkMailMain", "UseEZUser" ) == "enabled" )
+{
+$menuItems = array(
+    array( "/bulkmail/categorylist/", "{intl-category_list}" ),
+    array( "/bulkmail/templatelist/", "{intl-templates}" ),
+    array( "/bulkmail/drafts/", "{intl-drafts}" ),
+    array( "/bulkmail/mailedit/", "{intl-new_mail}" ),
+    array( "/bulkmail/templateedit/", "{intl-new_template}" ),
+    array( "/bulkmail/userlist/", "{intl-user_list}" )
+    );
+
+}
+else
+{
 $menuItems = array(
     array( "/bulkmail/categorylist/", "{intl-category_list}" ),
     array( "/bulkmail/templatelist/", "{intl-templates}" ),
@@ -34,5 +48,6 @@ $menuItems = array(
     array( "/bulkmail/masssubscribe/", "{intl-mass_subscribe}" ),
     array( "/bulkmail/userlist/", "{intl-user_list}" )
     );
+}
 
 ?>

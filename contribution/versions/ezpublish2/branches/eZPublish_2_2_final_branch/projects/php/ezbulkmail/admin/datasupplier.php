@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.16 2001/08/29 19:12:43 fh Exp $
+// $Id: datasupplier.php,v 1.16.2.1 2001/10/30 17:35:03 fh Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -103,6 +103,11 @@ switch ( $url_array[2] )
 
     case "masssubscribe":
     {
+        if ( $ini->read_var( "eZBulkMailMain", "UseEZUser" ) == "enabled" )
+        {
+            eZHTTPTool::header( "Location: /error/404" );
+            exit();
+        }
         include_once( "ezbulkmail/admin/masssubscribe.php" );
     }
     break;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbulkmailcategory.php,v 1.25.2.1 2001/10/29 15:54:16 fh Exp $
+// $Id: ezbulkmailcategory.php,v 1.25.2.2 2001/10/30 17:35:04 fh Exp $
 //
 // Definition of eZBulkMailCategory class
 //
@@ -108,6 +108,18 @@ class eZBulkMailCategory
 
         if ( $id == -1 )
             $id = $this->ID;
+
+        // delete all mail from this category.
+        $bulkmail = eZBulkMailCategory::mail( 0, 0, true, $id );
+        foreach( $bulkmail as $mail )
+        {
+            $mail->delete();
+        }
+
+        // unsubscribe users of type eZUser
+        $results[] = $db->query( "DELETE FROM eZBulkMail_UserCategoryLink WHERE CategoryID='$id'" );
+        // unsubscribe password users.
+        $results[] = $db->query( "DELETE FROM eZBulkMail_SubscriptionLink WHERE CategoryID='$id'" );
         
         // delete from BulkMailCategoryLink
         $results[] = $db->query( "DELETE FROM eZBulkMail_MailCategoryLink WHERE CategoryID='$id'" );
@@ -323,9 +335,12 @@ class eZBulkMailCategory
       Returns every mail in a category as a array of eZBulkmail objects.
 
     */
-    function mail( $offset = 0, $limit = 50, $getDrafs = true )
+    function mail( $offset = 0, $limit = 50, $getDrafs = true, $id = -1 )
     {
         $db =& eZDB::globalDatabase();
+
+        if( $id == -1 )
+            $id = $this->ID;
         
         $return_array = array();
         $mail_array = array();
@@ -335,16 +350,18 @@ class eZBulkMailCategory
             $getDraftsSQL = "AND IsDraft = '0'";
         }
 
-        $db->array_query( $mail_array, "
-                SELECT eZBulkMail_Mail.ID AS MailID
+        $query = "SELECT eZBulkMail_Mail.ID AS MailID
                 FROM eZBulkMail_Mail, eZBulkMail_Category, eZBulkMail_MailCategoryLink
                 WHERE eZBulkMail_MailCategoryLink.MailID = eZBulkMail_Mail.ID
                 AND eZBulkMail_Category.ID = eZBulkMail_MailCategoryLink.CategoryID
-                AND eZBulkMail_Category.ID='$this->ID'
+                AND eZBulkMail_Category.ID='$id'
                 $getDraftsSQL
-                GROUP BY eZBulkMail_Mail.ID",
-                array( "Limit" => $limit,
-                       "Offset" => $offset ) );
+                GROUP BY eZBulkMail_Mail.ID";
+
+        if( $limit > 0 )
+            $db->array_query( $mail_array, $query, array( "Limit" => $limit, "Offset" => $offset ) );
+        else
+            $db->array_query( $mail_array, $query );
 
         for( $i=0; $i<count($mail_array); $i++ )
         {
