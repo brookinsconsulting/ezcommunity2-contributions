@@ -4,7 +4,7 @@
 
 <form action="{www_dir}{index}/trade/payment/{order_id}/{payment_type}/" method="post" >
 
-<p class="boxtext">{intl-key_number}:</p>
+<b>{intl-key_number}:</b><br />
 
 <input type="text" name="KeyNumber" /><br />
 

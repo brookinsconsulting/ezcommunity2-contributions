@@ -5,37 +5,36 @@
 <br />
 
 <form action="{www_dir}{index}/trade/voucherinformation/{product_id}" method="post">
+
 <!-- BEGIN email_tpl -->
-<tr>
-<th>{intl-to_name}</th>
-</tr>
-<tr>
-      <td>
+<table>
+  <tr>
+    <td>
+      <b>{intl-to_name}:</b><br />
       <input type="text" name="ToName" value="{to_name}" />
-      </td>
-</tr>
-<tr>
-<th>{intl-to_email}</th>
-</tr>
-<tr>
-      <td>
+    </td>
+    <td>
+      <b>{intl-to_email}:</b><br />
       <input type="text" name="Email" value="{email_var}" />
-      </td>
-</tr>
-<tr>
-<th>{intl-from_name}</th>
-</tr>
-<tr>
-      <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>{intl-from_name}:</b><br />
       <input type="text" name="FromName" value="{from_name}" />
-      </td>
-</tr>
-<th>{intl-text}</th>
-<tr>
-      <td>
+    </td>
+    <td>
+      <b>{intl-from_email}:</b><br />
+      <input type="text" name="FromEmail" value="{from_email}" />    
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <b>{intl-text}:</b><br />
       <textarea cols="60" name="Description" rows="8">{email_text}</textarea>
-      </td>
-</tr>
+    </td>
+  </tr>
+</table>
 <!-- END email_tpl -->
 
 

@@ -11,6 +11,10 @@
 <hr noshade="noshade" size="1" />
 
 {intl-add_something_to_wishlist_first}
+<form action="/trade/wishlist/" method="post">
+  <input type="submit" class="okbutton" name="zur&uuml;ck" value="goback" />
+</form>
+
 
 <!-- END wishlist_empty_tpl -->
 

@@ -184,6 +184,12 @@
   <input class="okbutton" type="submit" name="Cart" value="{intl-add_to_cart}" />
   <input class="okbutton" type="submit" name="WishList" value="{intl-wishlist}" />
   <!-- END add_to_cart_tpl -->
+
+<!-- BEGIN voucher_buttons_tpl -->
+<input class="okbutton" type="submit" name="Voucher" value="{intl-next}" />
+ 
+<!-- END voucher_buttons_tpl -->
+
   <br /><br />
   <a href="javascript:history.go(-1)">{intl-back}</a>
   <!-- BEGIN numbered_page_link_tpl -->
