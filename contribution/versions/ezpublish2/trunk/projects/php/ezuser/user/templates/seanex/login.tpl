@@ -13,7 +13,9 @@
 	<td width="1%" class="tdmini" bgcolor="#465da1" align="right" valign="bottom"><img src="/images/box-br.gif" width="4" height="4" /><br /></td>
 </tr>
 </table>
-<br />
+
+<form method="post" action="/user/login/login/">
+
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td class="boxtext">
