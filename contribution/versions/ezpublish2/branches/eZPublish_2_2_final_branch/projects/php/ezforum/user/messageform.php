@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messageform.php,v 1.16.2.1 2001/10/31 09:21:55 jhe Exp $
+// $Id: messageform.php,v 1.16.2.2 2001/11/01 11:25:46 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -177,7 +177,6 @@ if ( $ShowMessageForm )
         }
     }
 
-    print_r( $author );
     if ( is_object( $author ) && $author->id() > 0 )
     {
         $MessageAuthor = $author->firstName() . " " . $author->lastName();
