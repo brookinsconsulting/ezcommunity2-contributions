@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userwithaddress.php,v 1.75.2.2 2001/12/05 09:15:59 br Exp $
+// $Id: userwithaddress.php,v 1.75.2.3 2002/01/13 14:34:59 kaid Exp $
 //
 // Created on: <10-ct-2000 12:52:42 bf>
 //
@@ -201,7 +201,7 @@ else
 }
 
 // Check for errors when inserting, updating and inserting a new address
-if ( isSet( $OK ) )
+if ( isSet( $OK ) or isSet( $OK_x ) )
 {
     if ( $loginCheck )
     {
@@ -339,7 +339,7 @@ if ( isSet( $NewAddress ) )
 }
 
 // Insert a user with address
-if ( isSet( $OK ) and $error == false )
+if ( ( isSet( $OK ) or isSet( $OK_x ) ) and $error == false )
 {
     $new_user = false;
     if ( get_class( $user ) != "ezuser" )
