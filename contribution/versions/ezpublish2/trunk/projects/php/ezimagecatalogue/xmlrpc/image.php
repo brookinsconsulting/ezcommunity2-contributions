@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: image.php,v 1.5 2001/07/05 14:48:51 jb Exp $
+// $Id: image.php,v 1.6 2001/07/10 13:26:13 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <14-Jun-2001 13:18:27 amos>
@@ -99,28 +99,17 @@ if( $Command == "data" ) // Dump image info!
 }
 else if ( $Command == "storedata" )
 {
-//          ob_start();
-//          print_r( $Data );
-//          eZLog::writeNotice( "image: #0 " . ob_get_contents() );
-//          ob_end_flush();
-    eZLog::writeNotice( "image: $ID" );
     if ( isset( $Data["Title"] ) and isset( $Data["Caption"] ) and isset( $Data["Description"] ) )
     {
-        eZLog::writeNotice( "image: #1" );
         $title = $Data["Title"]->value();
-        eZLog::writeNotice( "image: #2" );
         $caption = $Data["Caption"]->value();
-        eZLog::writeNotice( "image: #3" );
         $description = $Data["Description"]->value();
-        eZLog::writeNotice( "image: #4" );
         $image = new eZImage();
-        eZLog::writeNotice( "image: #5" );
         if ( $ID != 0 )
         {
             if ( !$image->get( $ID ) )
                 $Error = createErrorMessage( EZERROR_NONEXISTING_OBJECT );
         }
-        eZLog::writeNotice( "image: #6" );
         if ( !$Error )
         {
             $image->setName( $title );
@@ -153,7 +142,6 @@ else if ( $Command == "storedata" )
                 $Command = "update";
             }
         }
-        eZLog::writeNotice( "image: #7" );
     }
     else
     {
