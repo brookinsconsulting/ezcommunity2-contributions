@@ -72,6 +72,36 @@ if( $Action == "delete" )
     }
 }
 
+if ( isset( $Delete ) and isset( $ItemArrayID ) and isset( $item_types ) )
+{
+    $count = 0;
+    foreach( $item_types as $item_type_tmp )
+    {
+        // Check to see if the count has changed since the confirmation was done
+        $item_id = $item_type_tmp->id();
+        $count += $item_type_tmp->count();
+    }
+    $reconfirm = "Location: $page_path/confirm/$item_id";
+    if ( !isset( $TypeCount ) )
+    {
+        $Action = "confirm";
+        $TypeError = true;
+    }
+    else if ( $count != $TypeCount )
+    {
+        $Action = "confirm";
+    }
+    else
+    {
+        // The counts are the same as when confirming so we can delete
+
+        $item_type->delete( false );
+        include_once( "classes/ezhttptool.php" );
+        eZHTTPTool::header( "Location: $page_path/list" );
+        exit();
+    }
+}
+
 if( $Action == "up" )
 {
     $item_type->moveUp();

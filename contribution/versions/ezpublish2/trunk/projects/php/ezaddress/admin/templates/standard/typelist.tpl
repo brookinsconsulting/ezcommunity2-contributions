@@ -15,9 +15,11 @@
 </tr>
 </table>
 
+<form method="post" action="{item_new_command}/">
+
 <hr noshade="noshade" size="4" />
 <!-- BEGIN list_item_tpl -->
-<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-name}:</th>
 	{extra_type_header}
@@ -63,9 +65,13 @@
 	<a href="{item_edit_command}/{item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{item_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezc{item_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
 	</td>
 
+<!--  	<td width="1%"> -->
+<!--  	<a href="{item_delete_command}/{item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{item_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezc{item_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a> -->
+<!--  	</td>	 -->
+
 	<td width="1%">
-	<a href="{item_delete_command}/{item_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezc{item_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezc{item_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
-	</td>	
+	<input type="checkbox" name="ItemArrayID[]" value="{item_id}">
+	</td>
 
 </tr>
 <!-- END line_item_tpl -->
@@ -87,11 +93,21 @@
 	</td>
 	<!-- END type_list_previous_inactive_tpl -->
 
+	<!-- BEGIN type_list_item_list_tpl -->
+
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
 	<a href="/address/{type}/{action}/{item_index}/{search_text}">{type_item_name}</a>
 	</td>
 	<!-- END type_list_item_tpl -->
+
+	<!-- BEGIN type_list_inactive_item_tpl -->
+	<td>
+	{type_item_name}
+	</td>
+	<!-- END type_list_inactive_item_tpl -->
+
+	<!-- END type_list_item_list_tpl -->
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
@@ -113,11 +129,10 @@
 <!-- BEGIN no_line_item_tpl -->
 <p class="boxtext">{intl-no_item}</p>
 <!-- END no_line_item_tpl -->
-<form method="post" action="{item_new_command}/">
-
 <hr noshade="noshade" size="4" />
-
-<input class="stdbutton" type="submit" name="Back" value="{intl-new}">
+<br />
+    <input class="stdbutton" type="submit" name="Back" value="{intl-new}">
+    <input type="submit" name="Delete" value="{intl-delete_selected}">
 </form>
 
 <!-- END list_page -->

@@ -1,5 +1,5 @@
 <?
-// $Id: ezaddress.php,v 1.5 2001/02/15 10:42:26 bf Exp $
+// $Id: ezaddress.php,v 1.6 2001/02/19 15:18:22 jb Exp $
 //
 // Definition of eZAddress class
 //
@@ -56,13 +56,16 @@ class eZAddress
 
     /*!
       Stores a eZAddress
-    */  
+    */
     function store()
     {
         $db =& eZDB::globalDatabase();
 
         $ret = false;
-        
+        if ( $this->CountryID <= 0 )
+            $country_id = "NULL";
+        else
+            $country_id = "'$this->CountryID'";
         if ( !isset( $this->ID ) )
         {
             $db->query( "INSERT INTO eZAddress_Address
@@ -70,8 +73,8 @@ class eZAddress
                     Street2='$this->Street2',
                     Zip='$this->Zip',
                     Place='$this->Place',
-                    CountryID='$this->CountryID',
-                    AddressTypeID='$this->AddressTypeID'" );            
+                    CountryID=$country_id,
+                    AddressTypeID='$this->AddressTypeID'" );
 
             $this->ID = mysql_insert_id();
 
@@ -85,13 +88,12 @@ class eZAddress
                     Zip='$this->Zip',
                     Place='$this->Place',
                     AddressTypeID='$this->AddressTypeID',
-                    CountryID='$this->CountryID'
+                    CountryID=$country_id
                     WHERE ID='$this->ID'" );            
 
             $ret = true;            
-        }        
+        }
 
-        
         return $ret;
     }
 
@@ -116,9 +118,10 @@ class eZAddress
                 $this->Zip =& $address_array[ 0 ][ "Zip" ];
                 $this->Place =& $address_array[ 0 ][ "Place" ];
                 $this->CountryID =& $address_array[ 0 ][ "CountryID" ];
-                
                 $this->AddressTypeID =& $address_array[ 0 ][ "AddressTypeID" ];
             }
+            if ( $this->CountryID == "NULL" )
+                $this->CountryID = -1;
         }
     }
 
@@ -343,7 +346,10 @@ class eZAddress
     */
     function country()
     {
-       return new eZCountry( $this->CountryID );
+        if ( is_numeric( $this->CountryID ) and $this->CountryID > 0 )
+            return new eZCountry( $this->CountryID );
+        else
+            return false;
     }
 
     
