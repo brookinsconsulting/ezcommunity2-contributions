@@ -1,11 +1,6 @@
 <!-- BEGIN article_url_item_tpl -->
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td align="center">
-	<h3>{intl-found}: http://{article_url}</h3>
-	</td>
-</tr>
-</table>
+
+
 <!-- END article_url_item_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -34,8 +29,6 @@
 </tr>
 </table>
 <!-- END article_header_tpl -->
-
-
 
 <p>
 {article_body}
@@ -70,7 +63,7 @@
 <!-- END next_page_link_tpl -->
 
 <!-- BEGIN numbered_page_link_tpl -->
-| <a class="path" href="/article/articleview/{article_id}/0/">{intl-numbered_page}</a> |
+
 <!-- END numbered_page_link_tpl -->
 
 <!-- BEGIN print_page_link_tpl -->

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.67 2001/04/26 14:06:19 bf Exp $
+// $Id: eztechrenderer.php,v 1.68 2001/04/27 14:45:18 th Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -291,7 +291,7 @@ class eZTechRenderer
 
             if ( $pageNumber == -1 )
             {
-                $newArticle = $intro . "\n</p><p>\n";
+                $newArticle = "<span class=\"intro\">" . $intro . "</span>\n</p><p>\n";
                 if ( count( $pageArray ) > 0 )
                     foreach ( $pageArray as $page )
                     {
