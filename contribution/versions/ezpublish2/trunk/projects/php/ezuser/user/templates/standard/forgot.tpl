@@ -12,5 +12,5 @@
 
 <hr noshade="noshade" size="4" />
 
-<input class="okbutton" type="submit" value="{intl-ok}" />
+<input class="okbutton" Name="ChangeButton" type="submit" value="{intl-ok}" />
 </form>

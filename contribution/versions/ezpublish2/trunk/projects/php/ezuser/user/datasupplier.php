@@ -85,6 +85,27 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "unsuccessfull":
+    {
+        $unsuccessfull = true;
+        include( "ezuser/user/forgotmessage.php" );
+    }
+    break;
+
+    case "successfull":
+    {
+        $successfull = true;
+        include( "ezuser/user/forgotmessage.php" );
+    }
+    break;
+
+    case "generated":
+    {
+        $generated = true;
+        include( "ezuser/user/forgotmessage.php" );
+    }
+    break;
+
     default :
     {
         include( "ezuser/user/login.php" );

@@ -1,6 +1,7 @@
 <?
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezpermission.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "ezbug/classes/ezbugmodule.php" );
 include_once( "ezbug/classes/ezbug.php" );
 include_once( "classes/ezhttptool.php" );
@@ -10,8 +11,7 @@ function hasPermission( $bugID )
     $user = eZUser::currentUser();
     $bug = new eZBug( $bugID );
     $module = $bug->module();
-    $ownerGroup = $module->ownerGroup();
-    if ( eZPermission::checkPermission( $user, "eZBug", "BugEdit" ) && get_class( $ownerGroup ) == "ezusergroup" && $ownerGroup->isMember( $user ) )
+    if ( eZObjectPermission::hasPermission( $module->id(), "bug_module", "w", $user ) )
     {
         return true;
     }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forgot.php,v 1.13 2001/03/01 14:06:26 jb Exp $
+// $Id: forgot.php,v 1.14 2001/03/02 09:45:14 ce Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -42,7 +42,14 @@ if ( $Login )
 {
     $getUser = new eZUser();
     $user = $getUser->getUser( $Login );
-} 
+}
+
+if ( isSet ( $ChangeButton ) && ( $user == false ) )
+{
+
+    eZHTTPTool::header( "Location: /user/unsuccessfull/" );
+    exit();
+}
 
 // Store the user with a unic hash and mail the hash variable to the user.
 if ( $user )
@@ -65,7 +72,9 @@ if ( $user )
 
     $mailpassword->setBody( $body );
     $mailpassword->send();
-    eZHTTPTool::header( "Location: /" );
+
+    eZHTTPTool::header( "Location: /user/successfull/" );
+    exit();
 }
 
 if ( $Action == "change" )
@@ -95,7 +104,7 @@ if ( $Action == "change" )
         // Cleanup
         $change->get( $change->check( $Hash ) );
         $change->delete();
-        eZHTTPTool::header( "Location: /" );
+        eZHTTPTool::header( "Location: /user/generated/" );
     }
 }
 
