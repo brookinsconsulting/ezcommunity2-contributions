@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: index_xmlrpc.php,v 1.27.2.9 2002/01/17 12:31:56 jb Exp $
+// $Id: index_xmlrpc.php,v 1.27.2.10 2002/04/24 13:47:46 jb Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -143,17 +143,15 @@ $old_error_handler = set_error_handler("xmlrpcErrorHandler");
 include_once( "classes/ezlocale.php" );
 
 
-
 // eZ user
 include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "ezuser/classes/ezpermission.php" );
 
 
-//  eZLog::writeNotice( "XML-RPC connect." );
+// eZLog::writeNotice( "XML-RPC connect." );
 
 $server = new eZXMLRPCServer( );
-
 
 // Register server function
 $server->registerFunction( "Call", array( new eZXMLRPCStruct( ) ) );
@@ -259,7 +257,23 @@ function Call( $args )
             return createErrorMessage( EZERROR_BAD_LOGIN );
         $hash = $session->hash();
 
-        $ReturnData = new eZXMLRPCStruct( array( "Session" => new eZXMLRPCString( $hash ) ) );
+    // Charset and language
+        include_once( "classes/ezlocale.php" );
+        $ini =& INIFile::globalINI();
+        if ( $ini->has_var( "site", "Language" ) )
+        {
+            $Language = $ini->read_var( "site", "Language" );
+        }
+        else
+            $Language = $ini->read_var( "eZCalendarMain", "Language" );
+        $Locale = new eZLocale( $Language );
+        $iso =& $Locale->languageISO();
+        $ret_arr = array( "Session" => new eZXMLRPCString( $hash ),
+                          "Language" => new eZXMLRPCString( $Language ) );
+        if ( $iso != false )
+            $ret_arr["Charset"] = new eZXMLRPCString( $iso );
+
+        $ReturnData = new eZXMLRPCStruct( $ret_arr );
 
 //         exit();
 
