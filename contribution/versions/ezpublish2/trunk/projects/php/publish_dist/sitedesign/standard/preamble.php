@@ -2,7 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 
 <head>
-<title>eZ publish</title>
+<title><?
+if ( isset( $Title ) )
+    print( $Title );
+else
+	print( "eZ publish" );
+    ?></title>
 <link rel="stylesheet" type="text/css" href="/sitedesign/standard/style.css">
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
