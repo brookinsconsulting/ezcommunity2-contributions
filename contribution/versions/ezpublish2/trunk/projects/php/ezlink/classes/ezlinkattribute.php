@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlinkattribute.php,v 1.3 2001/07/10 12:17:10 jhe Exp $
+// $Id: ezlinkattribute.php,v 1.4 2001/07/11 06:55:42 jhe Exp $
 //
 // Definition of eZLinkAttribute class
 //
@@ -62,6 +62,8 @@ class eZLinkAttribute
     {
         $this->dbInit();
 
+        $this->Database->lock( "eZLink_Attribute" );
+
         if ( !isset( $this->ID ) )
         {
 
@@ -73,28 +75,45 @@ class eZLinkAttribute
                 $place = $place["Placement"];
                 $place++;
             }
-            
-            $this->Database->query( "INSERT INTO eZLink_Attribute SET
-		                         Name='$this->Name',
-		                         TypeID='$this->TypeID',
-		                         Placement='$place',
-		                         Unit='$this->Unit',
-		                         Created=now()" );
+
+            $timeStamp =& eZDateTime::timeStamp( true );
+
+			$this->ID = $this->Database->nextID( "eZLink_Attribute", "ID" );
+            $res = $this->Database->query( "INSERT INTO eZLink_Attribute
+                                            (ID,
+                                             Name,
+                                             TypeID,
+                                             Placement,
+                                             Unit,
+                                             Created)
+                                            VALUES
+                                            ('$this->ID',
+                                             '$this->Name',
+                                             '$this->TypeID',
+                                             '$place',
+                                             '$this->Unit',
+                                             '$timeStamp')" );
         
-			$this->ID = $this->Database->insertID();
             $this->State_ = "Coherent";
         }
         else
         {
-            $this->Database->query( "UPDATE eZLink_Attribute SET
-		                         Name='$this->Name',
-		                         Created=Created,
-		                         Unit='$this->Unit',
-		                         TypeID='$this->TypeID' WHERE ID='$this->ID'" );
+            $res = $this->Database->query( "UPDATE eZLink_Attribute SET
+		                                    Name='$this->Name',
+                                            Created=Created,
+		                                    Unit='$this->Unit',
+		                                    TypeID='$this->TypeID' WHERE ID='$this->ID'" );
 
             $this->State_ = "Coherent";
         }
+
+        $this->Database->unlock();
         
+        if ( $res == false )
+            $db->rollback( );
+        else
+            $db->commit();
+
         return true;
     }
 
@@ -143,19 +162,19 @@ class eZLinkAttribute
         $this->Database->array_query( $attribute_array, "SELECT ID FROM eZLink_Attribute ORDER BY Created" );
         
         for ( $i=0; $i<count($attribute_array); $i++ )
-        { 
-            $return_array[$i] = new eZLinkAttribute( $attribute_array[$i]["ID"], 0 ); 
-        } 
+        {
+            $return_array[$i] = new eZLinkAttribute( $attribute_array[$i]["ID"], 0 );
+        }
         
-        return $return_array; 
-    } 
+        return $return_array;
+    }
 
     /*! 
       Deletes a option from the database. 
-    */ 
-    function delete() 
+    */
+    function delete()
     {
-        $this->dbInit(); 
+        $this->dbInit();
 
         $this->Database->query( "DELETE FROM eZLink_AttributeValue WHERE AttributeID='$this->ID'" );
         

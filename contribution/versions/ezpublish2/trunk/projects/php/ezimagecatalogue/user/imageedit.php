@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imageedit.php,v 1.33 2001/07/09 08:52:56 jhe Exp $
+// $Id: imageedit.php,v 1.34 2001/07/11 06:55:42 jhe Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -41,24 +41,24 @@ if ( !$user )
     exit();
 }
 
-if ( isSet ( $NewCategory ) )
+if ( isSet( $NewCategory ) )
 {
     eZHTTPTool::header( "Location: /imagecatalogue/category/new/$CurrentCategoryID/" );
     exit();
 }
 
-if ( isSet ( $Cancel ) )
+if ( isSet( $Cancel ) )
 {
     eZHTTPTool::header( "Location: /imagecatalogue/image/list/" . $CurrentCategoryID . "/" );
     exit();
 }
 
-if ( isSet ( $DeleteImages ) )
+if ( isSet( $DeleteImages ) )
 {
     $Action = "DeleteImages";
 }
 
-if ( isset( $DeleteCategories ) )
+if ( isSet( $DeleteCategories ) )
 {
     $Action = "DeleteCategories";
 }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.64 2001/07/10 15:05:32 pkej Exp $
+// $Id: ezimage.php,v 1.65 2001/07/11 06:55:42 jhe Exp $
 //
 // Definition of eZImage class
 //
@@ -90,7 +90,7 @@ class eZImage
     function eZImage( $id="" )
     {
         $this->PhotographerID = 0;
-        
+        $this->NewImage = false;
         if ( $id != "" )
         {
             $this->ID = $id;
@@ -146,11 +146,14 @@ class eZImage
         }
         else
         {
-            $variationArray =& $this->variations();
-
-            foreach( $variationArray as $variation )
+            if ( $this->NewImage )
             {
-                $variation->delete();
+                $variationArray =& $this->variations();
+
+                foreach( $variationArray as $variation )
+                {
+                    $variation->delete();
+                }
             }
             
             $res = $db->query( "UPDATE eZImageCatalogue_Image SET
@@ -826,6 +829,8 @@ class eZImage
            $name = $file->name();
            
            $this->OriginalFileName =& $name;
+           $this->NewImage = true;
+           
            return true;
        }
        return false;
@@ -1252,6 +1257,7 @@ class eZImage
     var $WritePermission;
     var $UserID;
     var $PhotographerID;
+    var $NewImage;
 }
 
 ?>

@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: productview.php,v 1.49 2001/07/09 06:25:35 jhe Exp $
+// $Id: productview.php,v 1.50 2001/07/11 06:55:43 jhe Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -63,9 +63,9 @@ include_once( "classes/ezlinkitem.php" );
 
 $user = eZUser::currentUser();
 
-if ( !isset( $IntlDir ) )
+if ( !isSet( $IntlDir ) )
     $IntlDir = "eztrade/user/intl";
-if ( !isset( $IniFile ) )
+if ( !isSet( $IniFile ) )
     $IniFile = "productview.php";
 
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
@@ -133,13 +133,13 @@ $t->set_block( "product_view_tpl", "print_page_link_tpl", "print_page_link" );
 $t->set_block( "product_view_tpl", "section_item_tpl", "section_item" );
 $t->set_block( "section_item_tpl", "link_item_tpl", "link_item" );
 
-if ( !isset( $ModuleName ) )
+if ( !isSet( $ModuleName ) )
     $ModuleName = "trade";
-if ( !isset( $ModuleList ) )
+if ( !isSet( $ModuleList ) )
     $ModuleList = "productlist";
-if ( !isset( $ModuleView ) )
+if ( !isSet( $ModuleView ) )
     $ModuleView = "productview";
-if ( !isset( $ModulePrint ) )
+if ( !isSet( $ModulePrint ) )
     $ModulePrint = "productprint";
 
 $t->set_var( "module", $ModuleName );
@@ -200,13 +200,13 @@ if ( $CapitalizeHeadlines == "enabled" )
 else
 {        
     $t->set_var( "title_text", $product->name() );
-} 
+}
 $t->set_var( "intro_text", $product->brief() );
 $t->set_var( "description_text", eZTextTool::nl2br( $product->description() ) );
 
 $images = $product->images();
 
-$i=0;
+$i = 0;
 $t->set_var( "image", "" );
 $t->set_var( "image_list", "" );
 $image_count = 0;
