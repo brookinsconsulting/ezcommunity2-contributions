@@ -13,7 +13,7 @@ CREATE TABLE eZSiteManager_MenuType (
   Name varchar(30) default NULL
 ) TYPE=MyISAM;
 
-create table eZTrade_UserShippingLink ( ID int NOT NULL primary key, UserID int default 0, AddressID int default 0, OrderID int default 0 );
+create table eZUser_UserShippingLink ( ID int NOT NULL primary key, UserID int default 0, AddressID int default 0, OrderID int default 0 );
 create table eZTrade_UserBillingLink ( ID int NOT NULL primary key, UserID int default 0, AddressID int default 0, OrderID int default 0 );
 
 insert into eZUser_UserShippingLink (ID, AddressID, UserID) select eZTrade_Order.ShippingAddressID, eZTrade_Order.ShippingAddressID, eZUser_UserAddressLink.UserID from eZTrade_Order, eZUser_UserAddressLink where eZTrade_Order.ShippingAddressID = eZUser_UserAddressLink.AddressID GROUP BY eZTrade_Order.ShippingAddressID;
