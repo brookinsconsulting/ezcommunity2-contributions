@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmodulehandler.php,v 1.2 2001/04/18 13:28:00 jb Exp $
+// $Id: ezmodulehandler.php,v 1.3 2001/04/19 07:32:32 jb Exp $
 //
 // Definition of eZModuleHandler class
 //
@@ -55,6 +55,63 @@ include_once( "ezsession/classes/ezpreferences.php" );
 
 class eZModuleHandler
 {
+
+    /*!
+      \static
+      Returns true if the module tabbar is active for the current user.
+    */
+    function activeTab()
+    {
+        $preferences = new eZPreferences();
+        $module_tab = eZModuleHandler::hasTab();
+        $user_module_tab = $preferences->variable( "ModuleTab" );
+        if ( $module_tab and !is_bool( $user_module_tab ) )
+        {
+            $module_tab = $user_module_tab == "enabled";
+        }
+        return $module_tab;
+    }
+
+    /*!
+      \static
+      Returns true if the module tabbar is activated in the site.ini.
+    */
+    function hasTab()
+    {
+        $ini =& INIFile::globalINI();
+        $module_tab = $ini->read_var( "site", "ModuleTab" ) == "enabled";
+        return $module_tab;
+    }
+
+    /*!
+      \static
+      Sets whether the module tabbar is active or not for the current user.
+    */
+    function setActiveTab( $active )
+    {
+        $preferences = new eZPreferences();
+        $preferences->setVariable( "ModuleTab", $active ? "enabled" : "disabled" );
+    }
+
+    /*!
+      \static
+      Returns true if only a single module is show at a time.
+    */
+    function useSingleModule()
+    {
+        $preferences = new eZPreferences();
+        $single_module = $preferences->variable( "SingleModule" );
+        if ( !is_bool( $single_module ) )
+        {
+            $single_module =  $single_module == "enabled";
+        }
+        else
+        {
+            $single_module = true;
+        }
+        return $single_module;
+    }
+
     /*!
       \static
       Returns all available modules as an array.
@@ -73,7 +130,7 @@ class eZModuleHandler
     {
         $ini =& INIFile::globalINI();
         $preferences = new eZPreferences();
-        if ( $ini->read_var( "site", "ModuleTab" ) != "enabled" )
+        if ( !eZModuleHandler::activeTab() )
         {
             $modules =& $preferences->variableArray( "EnabledModules" );
             $site_modules =& eZModuleHandler::all();
