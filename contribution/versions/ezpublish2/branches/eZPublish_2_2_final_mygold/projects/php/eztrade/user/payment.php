@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.84.4.1 2001/10/22 12:31:00 ce Exp $
+// $Id: payment.php,v 1.84.4.2 2001/10/24 13:37:01 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -916,14 +916,14 @@ if ( $PaymentSuccess == "true" )
             }
         }
     }
-    
+
     //
     if ( is_file ( "checkout/user/postpayment.php" ) )
     {
         include( "checkout/user/postpayment.php" );
     }
     
-    //  $cart->clear();
+    $cart->clear();
 
     $OrderID = $order->id();
 
