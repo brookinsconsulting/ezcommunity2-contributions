@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: pollist.php,v 1.6 2000/10/25 15:56:54 ce-cvs Exp $
+// $Id: pollist.php,v 1.7 2000/10/26 09:46:26 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -17,8 +17,8 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 
 $ini = new INIFIle( "site.ini" );
-
 $Language = $ini->read_var( "eZPollMain", "Language" );
+$errorIni = new INIFIle( "ezpoll/admin/intl/" . $Language . "/pollist.php.ini", false );
 
 include_once( "ezpoll/classes/ezpoll.php" );
 
@@ -27,7 +27,14 @@ require( "ezuser/admin/admincheck.php" );
 if ( $Action == "StoreMainPoll" )
 {
     $mainPoll = new eZPoll( $MainPollID );
-    $mainPoll->setMainPoll( $mainPoll );
+    if ( $mainPoll->isClosed() )
+    {
+        $errorMsg = $errorIni->read_var( "strings", "poll_closed" );
+    }
+    else
+    {
+        $mainPoll->setMainPoll( $mainPoll );
+    }
 }
 
 $t = new eZTemplate( "ezpoll/admin/" . $ini->read_var( "eZPollMain", "TemplateDir" ),
@@ -101,6 +108,7 @@ foreach( $pollList as $pollItem )
     $i++;
 }
 
+$t->set_var( "error_msg", $errorMsg );
 $t->set_var( "nopolls", $nopolls );
 
 $t->pparse( "output", "poll_list_page" );

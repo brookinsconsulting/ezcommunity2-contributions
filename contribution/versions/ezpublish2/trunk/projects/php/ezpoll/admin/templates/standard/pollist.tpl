@@ -1,5 +1,7 @@
 <h1>{intl-head_line}</h1>
 
+<p class="error">{error_msg}</p>
+
 <form action="/poll/pollist/">
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -16,7 +18,7 @@
 	<h3>{intl-anonymous}</h3>
 	</td>
 
-	<td>
+	<td
 	<h3>{intl-enabled}</h3>
 	</td>
 
@@ -71,7 +73,7 @@
 	<a href="/poll/polledit/edit/{poll_id}/">{intl-edit}</a>
 	</td>
 	<td class="{td_class}">
-	<a href="/poll/polledit/delete/{poll_id}/">{intl-delete}</a>
+	<a href="#" onClick="verify( '{intl-delete}', '/poll/polledit/delete/{poll_id}'); return false;">{intl-delete}</a>
 	</td>	
 	</tr>
 	<!-- END poll_item_tpl -->
@@ -79,6 +81,7 @@
 
 <tr>
 	<td>
+	<input type="hidden" name="Action" value="StoreMainPoll">
 	<input type="submit" value="Lagre endringer" />
 	</td>
 <tr>

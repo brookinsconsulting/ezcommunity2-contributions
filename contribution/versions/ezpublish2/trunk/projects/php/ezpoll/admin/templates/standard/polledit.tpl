@@ -105,7 +105,8 @@
 			<a href="/poll/choiceedit/edit/{poll_id}/{choice_id}/"onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezpoll{choice_id}-red','','/images/redigerminimrk.gif',1)"><img name="ezpoll{choice_id}-red" border="0" src="/images/redigermini.gif" width="16" height="16" align="top"></a>
 		</td>
 		<td class="{td_class}" width="1%">
-			<a href="/poll/choiceedit/delete/{poll_id}/{choice_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezpoll{choice_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezpoll{choice_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
+			<a href="#" onClick="verify( '{intl-delete}', '/poll/choiceedit/delete/{poll_id}/{choice_id}/'); return false;" 
+			onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezpoll{choice_id}-slett','','/images/slettminimrk.gif',1)"><img name="ezpoll{choice_id}-slett" border="0" src="/images/slettmini.gif" width="16" height="16" align="top"></a>
 		</td>	
 	</tr>	
 	<!-- END poll_choice_tpl -->
