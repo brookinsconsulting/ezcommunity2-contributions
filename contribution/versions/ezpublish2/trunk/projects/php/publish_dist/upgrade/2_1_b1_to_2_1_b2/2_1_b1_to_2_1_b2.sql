@@ -16,3 +16,5 @@ CREATE TABLE eZBulkMail_Forgot (
 );
 
 ALTER TABLE eZArticle_Article ADD Content varchar(100) NOT NULL;
+
+alter table eZArticle_Article add AuthorEmail varchar(100);          

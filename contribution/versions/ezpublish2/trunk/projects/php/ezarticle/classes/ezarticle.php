@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.73 2001/04/27 12:08:35 jb Exp $
+// $Id: ezarticle.php,v 1.74 2001/04/27 13:47:01 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -114,6 +114,7 @@ class eZArticle
         $name = addslashes( $this->Name );
         $contents = addslashes( $this->Contents );
         $authortext = addslashes( $this->AuthorText );
+        $authoremail = addslashes( $this->AuthorEmail );
         $linktext = addslashes( $this->LinkText );
         $keywords = addslashes( $this->Keywords );
 
@@ -123,6 +124,7 @@ class eZArticle
 		                         Name='$name',
                                  Contents='$contents',
                                  AuthorText='$authortext',
+                                 AuthorEmail='$authoremail',
                                  AuthorID='$this->AuthorID',
                                  LinkText='$linktext',
                                  PageCount='$this->PageCount',
@@ -149,6 +151,7 @@ class eZArticle
 		                         Name='$name',
                                  Contents='$contents',
                                  AuthorText='$authortext',
+                                 AuthorEmail='$authoremail',
                                  LinkText='$linktext',
                                  PageCount='$this->PageCount',
                                  AuthorID='$this->AuthorID',
@@ -167,6 +170,7 @@ class eZArticle
 		                         Name='$name',
                                  Contents='$contents',
                                  AuthorText='$authortext',
+                                 AuthorEmail='$authoremail',
                                  LinkText='$linktext',
                                  PageCount='$this->PageCount',
                                  AuthorID='$this->AuthorID',
@@ -206,6 +210,7 @@ class eZArticle
                 $this->Name =& $article_array[0][ "Name" ];
                 $this->Contents =& $article_array[0][ "Contents" ];
                 $this->AuthorText =& $article_array[0][ "AuthorText" ];
+                $this->AuthorEmail =& $article_array[0][ "AuthorEmail" ];
                 $this->AuthorID =& $article_array[0][ "AuthorID" ];
                 $this->LinkText =& $article_array[0][ "LinkText" ];
                 $this->Modified =& $article_array[0][ "Modified" ];
@@ -294,6 +299,20 @@ class eZArticle
        return $this->AuthorText;
     }
 
+    /*!
+      Returns the author text contents.
+    */
+    function &authorEmail( $asHTML = true )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if( $asHTML == true )
+           return htmlspecialchars( $this->AuthorEmail );
+       return $this->AuthorEmail;
+    }
+
+    
     /*!
       Returns the link text.
     */
@@ -439,6 +458,17 @@ class eZArticle
             $this->get( $this->ID );
 
        $this->AuthorText = $value;
+    }
+
+    /*!
+      Sets the author email.
+    */
+    function setAuthorEmail( $value )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->AuthorEmail = $value;
     }
 
     /*!
@@ -1694,6 +1724,7 @@ class eZArticle
     var $Name;
     var $Contents;
     var $AuthorText;
+    var $AuthorEmail;
     var $LinkText;
     var $Modified;
     var $Created;
