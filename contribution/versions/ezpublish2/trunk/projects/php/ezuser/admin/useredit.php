@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: useredit.php,v 1.28 2001/08/13 13:50:22 jhe Exp $
+// $Id: useredit.php,v 1.29 2001/08/21 09:17:12 st Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -261,9 +261,9 @@ if ( $Action == "DeleteUsers" )
             
             eZLog::writeNotice( "User deleted: $firstname $lastname ($login) $email $simultaneousLogins from IP: $REMOTE_ADDR" );
         }
-        eZHTTPTool::header( "Location: /user/userlist/" );
-        exit();
     }
+    eZHTTPTool::header( "Location: /user/userlist/" );
+    exit();
 }
 
 $t = new eZTemplate( "ezuser/admin/" . $ini->read_var( "eZUserMain", "AdminTemplateDir" ),
