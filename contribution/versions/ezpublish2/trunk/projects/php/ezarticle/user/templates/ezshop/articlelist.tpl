@@ -5,7 +5,7 @@
         </td>
 </tr>
 </table>
-
+<br />
 <p>
 Vi vil tilby produkter og tjenester av høy kvalitet. Kontak oss hvis du har noen synspunkter om
 hvordan vi kan gjøre denne tjenesten bedre for deg.
@@ -14,6 +14,8 @@ hvordan vi kan gjøre denne tjenesten bedre for deg.
 <p>
 Du kan begynne å handle ved å trykke på "Produkter". Vårt utvalg vil vokse i tiden framover.
 </p>
+
+<br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>

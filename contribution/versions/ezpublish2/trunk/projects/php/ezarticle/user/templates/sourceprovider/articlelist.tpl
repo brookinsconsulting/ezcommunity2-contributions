@@ -1,4 +1,6 @@
 <h1>SourceProvider</h1>
+<hr noshade="noshade" size="4" />
+
 <p>
 We will do our best to deliver high quality products and services. If you have any views on
 how we can make your customer experience better, please contact us.
@@ -8,6 +10,8 @@ how we can make your customer experience better, please contact us.
 You can start shopping by clicking on the "Products" link. 
 You might find our selection a bit sparse, but over time we will expand our selection.
 </p>
+
+<br />
 
 <h1>News</h1>
 
