@@ -493,10 +493,10 @@ class eZGroupEvent
             else
             {
                 $this->Database->array_query( $event_array,
-                "SELECT ID, GroupID, IsRecurring, RecurType, RecurFreq, RepeatTimes, RecurDay, RecurFinishDate, RecurMonthlyType, RecurMonthlyTypeInfo, Date
+                "SELECT ID, GroupID, IsRecurring, RecurType, RecurFreq, RepeatTimes, RecurDay, RecurFinishDate, RecurMonthlyType, RecurMonthlyTypeInfo, RecurExceptions, Date
 		 FROM eZGroupEventCalendar_Event
                  WHERE ( Date LIKE '$stamp%') 
-		 OR ( IsRecurring='1' AND RecurFinishDate>='$longstamp' AND Date<='$longstamp' AND RecurExceptions NOT LIKE '$stamp%') 
+		 OR ( IsRecurring='1' AND RecurFinishDate>='$longstamp' AND Date<='$longstamp') 
 		 ORDER BY Date ASC" );
             }
 
@@ -535,6 +535,18 @@ class eZGroupEvent
 				  Finally, if RecurType is yearly, check RecurFreq first of course, and then 
 				  find out if the month matches, then move to day.
 				  */
+				  // filter out recur exceptions if todays date matches
+				  if ($event_array[$i]['RecurExceptions']) {
+				     $recurExArr = explode(':', $event_array[$i]['RecurExceptions']);
+				    $strMonth = eZDateTime::addZero( $date->month() );
+				     $strDay = eZDateTime::addZero( $date->day());
+				     $fullDateStr = $date->year().'-'.$strMonth.'-'.$strDay;
+				     foreach ($recurExArr as $exKey) 
+				     {
+				      if ($exKey == $fullDateStr)
+				      $event_array[$i]['unset'] = true;
+				     }
+				   }
 				  // for each of these cases we will be needing dates to compare. 
 				  // The first has already been created at the beginning of this method 
 				  // as an object, $date. The second is a set of strings made from the
@@ -1562,7 +1574,20 @@ class eZGroupEvent
        return $ret;
     }   
     /*!
-      Returns RepeatForever
+      Returns array form of RecurExceptions
+    */
+    function &recurExceptions()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+	 
+       $ret = explode(":", $this->RecurExceptions);
+       
+       return $ret;
+    }     
+    
+     /*!
+      Returns repeatForever
     */
     function &repeatForever()
     {
@@ -1572,7 +1597,7 @@ class eZGroupEvent
        $ret = $this->RepeatForever;
        
        return $ret;
-    }     
+    }    
     
     /*!
       Sets the IsRecurring 
@@ -1820,6 +1845,7 @@ class eZGroupEvent
        if (is_array($ex)) {
        // loop through the exceptions and turn them into a string
         foreach ($ex as $x) {
+	if ($x != '')	
         if (!isset($exStr)) // if the string hasn't been started, don't include a colon
           $exStr = $x;
         else // if it has then do

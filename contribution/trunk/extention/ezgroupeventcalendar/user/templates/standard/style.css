@@ -29,6 +29,96 @@
 	font-weight: bold;
 	margin-bottom: 4px;
 }
+
+/* Form Stuff */
+.gcalWrapFrm
+{
+	background-color: #6699cc;
+	padding: 10px;
+	border: 2px solid black;
+	width: 400px;
+}
+.gcalTextFrm
+{
+	background-color: #e7e4de;
+	outline:none;
+	border: 1px solid black;
+	padding-left: 2px;
+	font-family: tahoma, verdana, arial, sans-serif;
+	font-size: 12px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.gcalTextFocusFrm
+{
+	background-color: #fff;
+	outline:none;
+	border: 1px solid #cc730d;
+	padding-left: 2px;
+	font-family: tahoma, verdana, arial, sans-serif;
+	font-size: 12px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.gcalRCheckFrm
+{
+background-color:#e1e8f1;
+width: 400px;
+padding: 5px;
+margin-top: 10px;
+}
+.gcalRCheckFocusFrm
+{
+background-color: #ffab02;
+width: 400px;
+padding: 5px;
+border: 2px dotted black;
+margin-top: 10px;
+}
+.gcalSelectFrm
+{
+	background-color: #e1e8f1;
+}
+.gcalCheckFrm
+{
+	background-color: #e1e8f1;
+	border: 1px solid black;
+}
+.gcalCalTextFrm
+{
+	background-color: #d7e7e2;
+	border: 2px solid black;
+	padding: 2px;
+}
+.gcalSubmitFrm
+{
+       background-color: #6699cc;
+       color: white;
+       font-family: verdana, arial, sans-serif;
+       font-size: 12px;
+       font-weight: bold;
+       border: 2px solid black;
+       vertical-align: bottom;
+}
+.gcalSubmitOverFrm
+{
+	background-color: #ffab02;
+	color: black;
+	font-family: verdana, arial, sans-serif;
+        font-size: 12px;
+	font-weight: bold;
+	border: 2px solid black;
+	vertical-align: bottom
+}
+.gcalGroupBoxFrm
+{
+	background-color: #e1e8f1;
+	border: 1px solid #000;
+	margin: 5px;
+	padding: 2px;
+}
+/* End Form Stuff */
+
 a.gcalBoxText			{ text-decoration:	none; }
 a.gcalBoxText:link		{ color: #0066FF; }
 a.gcalBoxText:visited		{ color: #0066FF; }
@@ -57,14 +147,21 @@ a.gcalSmallLink:hover	{ color: #000099; text-decoration: underline; }
 .gcalDayViewLongDateHeader { font-weight: bold; font-size: 130%; }
 .gcalDayViewBorder 	   { border: 1px solid #3b3030; }
 
-#gcalRecurringFormWrap	   { display: none; }
+#gcalRecurringFormWrap	     
+{ 
+	display: none;	
+	background-color: #6699cc;
+	padding: 10px;
+	border: 2px solid black;
+	width: 400px;
+			     }
 #gcalRecurringWeekly	   { display: none; }
 #gcalRecurringMonthly      { display: none; }
 #gcalRecurringYearly       { display: none; }
 /* Hellstrøm 24.8.2001 */
 /* The main calendar widget.  DIV containing a table. */
 
-div.calendar { position: relative; }
+div.calendar { position: absolute; }
 
 .calendar, .calendar table {
   border: 1px solid #556;

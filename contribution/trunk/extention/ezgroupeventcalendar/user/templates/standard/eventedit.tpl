@@ -39,29 +39,37 @@
 <form method="post" onSubmit="return formCheck(this)" name="EventEdit" action="{www_dir}{index}/groupeventcalendar/eventedit/{action_value}/{event_id}/">
 
 <br />
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-<tr>
-	<td valign="top">
+<div class="gcalWrapFrm">	
 <p class="boxtext">{intl-event_title}:</p>
-<input type="text" size="50" name="Name" value="{name_value}"/>
+<input class="gcalTextFrm" type="text" size="50" name="Name" value="{name_value}"  
+ onFocus="this.className='gcalTextFocusFrm'"
+ onBlur="this.className='gcalTextFrm'" />
 
 <p class="boxtext">{intl-event_location}:</p>
-<input type="text" size="50" name="Location" value="{location_value}"/>
+<input class="gcalTextFrm" type="text" size="50" name="Location" value="{location_value}"
+onFocus="this.className='gcalTextFocusFrm'"
+ onBlur="this.className='gcalTextFrm'" />
 
 <p class="boxtext">{intl-event_url}:</p>
-<input type="text" size="54" name="Url" value="{url_value}"/>
+<input class="gcalTextFrm" type="text" size="50" name="Url" value="{url_value}"
+onFocus="this.className='gcalTextFocusFrm'"
+ onBlur="this.className='gcalTextFrm'" />
 
 <p class="boxtext">{intl-event_description}:</p>
-<textarea name="Description" cols="55" rows="7" wrap="soft">{description_value}</textarea>
-
-
+<textarea class="gcalTextFrm" name="Description" cols="50" rows="7" wrap="soft" 
+onFocus="this.className='gcalTextFocusFrm'"
+ onBlur="this.className='gcalTextFrm'" >{description_value}</textarea>
+</div> <!-- end gcalWrapFrm -->
+<br />
+<div class="gcalWrapFrm">
+<div class="gcalGroupBoxFrm">
 <!-- BEGIN group_name_edit_tpl -->
 <p class="boxtext">{intl-event_group}:&nbsp;&nbsp;{group_name}</p><br />
 <input type="hidden" name="StoreByGroupID" value="{group_id}" />
 <!-- END group_name_edit_tpl -->
 
 <!-- BEGIN group_name_new_tpl -->
+
 <p class="boxtext">{intl-event_group}:</p>
 <select name="StoreByGroupID">
 <option value="">Select</option>
@@ -70,23 +78,14 @@
 <!-- END group_item_tpl -->
 </select>
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input {is_private} type="checkbox" name="IsPrivate" />&nbsp;<span class="check">{intl-private_event}</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input {is_private}  type="checkbox" name="IsPrivate" />&nbsp;<span class="check">{intl-private_event}</span>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input {is_event_alarm_notice} type="checkbox" name="IsEventAlarmNotice" />&nbsp;<span class="check">{intl-event_notification}</span>
 
 <!-- END group_name_new_tpl -->
-
-	</td>
-</tr>
-</table>
-
-<br />
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-<tr>
-	<td valign="top">
-
-<p class="boxtext">{intl-type}:</p>
+</div>
+<div class="gcalGroupBoxFrm">
+<span class="boxtext">{intl-type}:</span>
 
 <select name="TypeID">
 <option></option>
@@ -95,24 +94,19 @@
 <!-- END value_tpl -->
 
 </select>
+<br />
 
-
-<p class="boxtext">{intl-category}:</p>
+<span class="boxtext">{intl-category}:</span>
 
 <select name="CategoryID">
 <option></option>
 <!-- BEGIN category_value_tpl -->
 <option value="{option_category_value}" {category_is_selected}>{option_category_level}{category_name}</option>
 <!-- END category_value_tpl -->
-
 </select>
 
-
-	<td valign="top">
-	<td>
-
-<p class="boxtext">{intl-priority}:</p>
-
+<br />
+<span class="boxtext">{intl-priority}:</span>
 <select name="Priority">
 <option value="0" {0_selected}>{intl-lowest_priority}</option>
 <option value="1" {1_selected}>{intl-low_priority}</option>
@@ -121,32 +115,30 @@
 <option value="4" {4_selected}>{intl-high_priority}</option>
 <option value="5" {5_selected}>{intl-highest_priority}</option>
 </select>
-
-
-<p class="boxtext">{intl-status}:</p>
+<br />
+<span class="boxtext">{intl-status}:</span>
 
 <select name="Status">
   <option value="0" {0_status_selected}>{intl-tentative_status}</option>
   <option value="1" {1_status_selected}>{intl-confirmed_status}</option>
   <option value="2" {2_status_selected}>{intl-cancelled_status}</option>
 </select>
+</div>
+</div> <!-- end gcalWrapFrm -->
+<br />
 
-	</td>
-</tr>
-</table>
 
+<div class="gcalWrapFrm">
 <!-- BEGIN dhtml_form_datetime_select_tpl -->
 <p class="boxtext">{intl-select-date-time}:</p>
 
-<input type="text" name="dateCal" id="sel1" size="22" value='{date_calendar}'><input type="reset" value=" ... " onclick="return showCalendar('sel1', '%Y-%m-%d', '12');">
-
-<br /><br />
-<a href="" onclick="return showCalendar('sel1', '%Y-%m-%d', '12');">JS GUI Calendar</a>
-
+<input class="gcalCalTextFrm" type="text" name="dateCal" id="sel1" size="22" value='{date_calendar}' readonly><input class="gcalSubmitFrm" style="height: 25px; border-left: 0px;" type="reset" value=" ... " onclick="return showCalendar('sel1', '%Y-%m-%d', '12');"
+onmouseout="this.className='gcalSubmitFrm'"
+onmouseover="this.className='gcalSubmitOverFrm'">
 <!-- END dhtml_form_datetime_select_tpl -->
 
 <br />
-
+<div class="gcalGroupBoxFrm">
 <input {is_all_day} type="checkbox" name="IsAllDay" onChange="resetTimeSelect();" />&nbsp;<span class="check">{intl-all_day_event}</span>
 
 
@@ -208,8 +200,9 @@
 </tr>
 </table>
 <!-- END html_form_datetime_select_tpl -->
-
-
+</div>
+</div> <!-- end gcalWrapFrm -->
+<br />
 <!-- start recurring_event stuff -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
@@ -217,7 +210,10 @@
 </tr>
 <tr>
 	<td valign="top">
-		<input {is_recurring} type="checkbox" name="IsRecurring" onChange="toggleRecurringEventForm()" />&nbsp;<span class="check">{intl-make_recurring}</span>
+		<span id="gcalRecurSpan" class="gcalRCheckFrm">
+		 <input {is_recurring} type="checkbox" name="IsRecurring" 
+		 onChange="toggleRecurringEventForm()" />&nbsp;{intl-make_recurring}
+		</span>
 	</td>
 </tr>
 </table>
@@ -230,16 +226,16 @@
    <option value="year" {rtselect_year}>{intl-event_year}</option>
  </select>
  
- <div id="gcalRecurringWeekly">
- <input type="checkbox" value="mon" name="RecurWeekly[]" {recur_weekly_mon} />&nbsp;<span class="check">{intl-mon}</span>
- <input type="checkbox" value="tue" name="RecurWeekly[]" {recur_weekly_tue} />&nbsp;<span class="check">{intl-tue}</span>
- <input type="checkbox" value="wed" name="RecurWeekly[]" {recur_weekly_wed} />&nbsp;<span class="check">{intl-wed}</span>
- <input type="checkbox" value="thu" name="RecurWeekly[]" {recur_weekly_thu} />&nbsp;<span class="check">{intl-thu}</span>
- <input type="checkbox" value="fri" name="RecurWeekly[]" {recur_weekly_fri} />&nbsp;<span class="check">{intl-fri}</span>
- <input type="checkbox" value="sat" name="RecurWeekly[]" {recur_weekly_sat} />&nbsp;<span class="check">{intl-sat}</span>
- <input type="checkbox" value="sun" name="RecurWeekly[]" {recur_weekly_sun} />&nbsp;<span class="check">{intl-sun}</span>
+ <div id="gcalRecurringWeekly" class="gcalGroupBoxFrm">
+ <input type="checkbox" value="mon" name="RecurWeekly[]" id="RecurWeekly" {recur_weekly_mon} />&nbsp;<span class="check">{intl-mon}</span><br />
+ <input type="checkbox" value="tue" name="RecurWeekly[]" id="RecurWeekly" {recur_weekly_tue} />&nbsp;<span class="check">{intl-tue}</span><br />
+ <input type="checkbox" value="wed" name="RecurWeekly[]" id="RecurWeekly" {recur_weekly_wed} />&nbsp;<span class="check">{intl-wed}</span><br />
+ <input type="checkbox" value="thu" name="RecurWeekly[]" id="RecurWeekly" {recur_weekly_thu} />&nbsp;<span class="check">{intl-thu}</span><br />
+ <input type="checkbox" value="fri" name="RecurWeekly[]" id="RecurWeekly" {recur_weekly_fri} />&nbsp;<span class="check">{intl-fri}</span><br />
+ <input type="checkbox" value="sat" name="RecurWeekly[]" id="RecurWeekly" {recur_weekly_sat} />&nbsp;<span class="check">{intl-sat}</span><br />
+ <input type="checkbox" value="sun" name="RecurWeekly[]" id="RecurWeekly" {recur_weekly_sun} />&nbsp;<span class="check">{intl-sun}</span>
  </div>
- <div id="gcalRecurringMonthly">
+ <div id="gcalRecurringMonthly" class="gcalGroupBoxFrm">
    <input type="radio" name="RecurTypeMonth" value="daily" {start_daily} />&nbsp;&nbsp;
    [current date] {intl-of_the_month}. <i>ex. 26th of the month.</i>
    <br />
@@ -249,26 +245,35 @@
    <input type="radio" name="RecurTypeMonth" value="strdayname" {start_strdayname} />&nbsp;&nbsp;
    [last] [day name] {intl-of_the_month}. <i> ex. Last Thursday {intl-of_the_month}.</i>
  </div>
- <br /><br />
- <input type="radio" name="RepeatOptions" value="forever" {repeat_forever} /> {intl-repeat_forever}
+ <div class="gcalGroupBoxFrm">
+ <input type="radio" style="padding-bottom:5px;" name="RepeatOptions" value="forever" {repeat_forever} /> {intl-repeat_forever}
  <br />
- <input type="radio" name="RepeatOptions" value="numTimes" {repeat_times} /> {intl-repeat_number} <input type="text" size="10" name="NumberOfTimes" value='{num_times}' />
+ <input type="radio" style="padding-bottom:5px;" name="RepeatOptions" value="numTimes" {repeat_times} /> {intl-repeat_number} <input class="gcalTextFrm" style="margin-bottom: 3px; padding: 1px; padding-left: 3px;" type="text" size="4" name="NumberOfTimes" value='{num_times}' 
+ onFocus="this.className='gcalTextFocusFrm'"
+ onBlur="this.className='gcalTextFrm'"
+ />
  <br />
- <input type="radio" name="RepeatOptions"  value="untilDate" {repeat_until} /> {intl-repeat_until} <input type="text" size="20" name="UntilDate" value='{until_date}' id="untilDate"><input type="reset" value=" ... " onclick="return showCalendar('untilDate', '%Y-%m-%d', '12');" >
- <br />
- <br />
+ <input type="radio" name="RepeatOptions"  value="untilDate" {repeat_until} /> {intl-repeat_until} <input class="gcalCalTextFrm" type="text" size="20" name="UntilDate" value='{until_date}' id="untilDate" readonly><input class="gcalSubmitFrm" style="height: 25px; border-left: 0px;" type="reset" value=" ... " 
+onmouseout="this.className='gcalSubmitFrm'"
+onmouseover="this.className='gcalSubmitOverFrm'"
+ onclick="return showCalendar('untilDate', '%Y-%m-%d', '12');" >
+ </div>
+ <div class="gcalGroupBoxFrm">
 {intl-repeat_exceptions} <br />
- <a href="#" style="font-size: 9px;">{intl-repeat_exception_add}</a> 
- <a href="#" style="font-size: 9px;">{intl-repeat_exception_remove}</a><br /><br />
- <input type="text" size=7 name="RecurExceptions[]" /> <br /><br />
- <select name="select" multiple>
-<!-- START recur_exceptions_tpl --> 
- <option></option>
+ <a onclick='addToList()' style="font-size: 9px;">{intl-repeat_exception_add}</a> 
+ <a onclick='removeFromList("ExceptSelect")' style="font-size: 9px;">{intl-repeat_exception_remove}</a><br /><br />
+ <input type="text" class="gcalCalTextFrm" size=12 name="RecurExceptions" id="RecurExceptions" readonly /><input class="gcalSubmitFrm" style="height: 25px; border-left: 0px;" type="reset" value=" ... " 
+ onmouseout="this.className='gcalSubmitFrm'"
+ onmouseover="this.className='gcalSubmitOverFrm'" 
+ onclick="return showCalendar('RecurExceptions', '%Y-%m-%d', '12');" > <br /><br />
+ <select name="ExceptSelect[]" size=4 style="border: 2px solid black; outline:none; margin: 5px; width: 100px;" id="ExceptSelect" multiple>
+<!-- BEGIN recur_exceptions_tpl --> 
+{recur_exceptions}
 <!-- END recur_exceptions_tpl --> 
  </select>
+ </div>
 </div>
 <!-- End recurring event stuff -->
-
 <br />
 
 
@@ -333,8 +338,10 @@ function toggleRecurringEventForm() {
     var field = document.forms.EventEdit;
     if ( field.IsRecurring.checked == true ) {
         showDiv('gcalRecurringFormWrap');
+	document.getElementById('gcalRecurSpan').className='gcalRCheckFocusFrm';
 	} else {
 	hideDiv('gcalRecurringFormWrap');
+	document.getElementById('gcalRecurSpan').className='gcalRCheckFrm';
     }
 }
 function resetAllDayCheck() {
@@ -433,11 +440,60 @@ else { days=28; }
 return (days);
 }
 
+function addToList(textField, selectField) {
+   tex = document.forms.EventEdit.RecurExceptions;
+   sel = document.forms.EventEdit.ExceptSelect;
+   if ( ( tex.value == "" ) ) {
+      alert("You cannot add blank values!");
+   } else {
+      var len = sel.length++; // Increase the size of list and return the size
+      sel.options[len].value = tex.value;
+      sel.options[len].text = tex.value;
+      sel.selectedIndex = len; // Highlight the one just entered (shows the user that it was entered)
+   } // Ends the check to see if the value entered on the form is empty
+}
+
+function removeFromList() {
+    field = document.forms.EventEdit.ExceptSelect;
+   if ( field.length == -1) {  // If the list is empty
+      alert("There are no values which can be removed!");
+   } else {
+      var selected = field.selectedIndex;
+      if (selected == -1) {
+         alert("You must select an entry to be removed!");
+      } else {  // Build arrays with the text and values to remain
+         var replaceTextArray = new Array(field.length-1);
+         var replaceValueArray = new Array(field.length-1);
+         for (var i = 0; i < field.length; i++) {
+            // Put everything except the selected one into the array
+            if ( i < selected) { replaceTextArray[i] = field.options[i].text; }
+            if ( i > selected ) { replaceTextArray[i-1] = field.options[i].text; }
+            if ( i < selected) { replaceValueArray[i] = field.options[i].value; }
+            if ( i > selected ) { replaceValueArray[i-1] = field.options[i].value; }
+         }
+         field.length = replaceTextArray.length;  // Shorten the input list
+         for (i = 0; i < replaceTextArray.length; i++) { // Put the array back into the list
+            field.options[i].value = replaceValueArray[i];
+            field.options[i].text = replaceTextArray[i];
+         }
+      } // Ends the check to make sure something was selected
+   } // Ends the check for there being none in the list
+}
+
+// selects
+function selectAll() {
+field = document.forms.EventEdit.ExceptSelect;
+for (i = 0; i < field.length; i++) {
+field.options[i].selected = true;
+}
+}
 
 // form validation function
 
 function formCheck(form) 
 {
+frm = document.forms.EventEdit;
+selectAll();
 ///////////////////////////////////////////////////////////////////////////////////////
 // broswer sniffer
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -652,6 +708,7 @@ function formCheck(form)
     }
 
     // read in values from the form
+    /* spectrum removing this section.
     var strSuppliedDay = form.Day.options[form.Day.selectedIndex].text;
     var strSuppliedMonth = form.Month.options[form.Month.selectedIndex].text;
     var strSuppliedYear = form.Year.options[form.Year.selectedIndex].text;
@@ -689,7 +746,74 @@ function formCheck(form)
         alert("INVALID EVENT DATE: are you sure there are " + strSuppliedDay + " days in " + strSuppliedMonth + "?");
         return false;
     }
-
+    */
+        // start recurring event checks
+    // integer regexp 
+    var intReg = new RegExp("^[0-9]+$");
+    // validate RecurFreq - must be positive int
+    if (intReg.exec(frm.RecurFreq.value) == null)
+    {
+     alert("Please use a whole number for Recurrance Frequency.")
+     return false;
+    }
+    // if RecurType is week, make sure RecurWeekly has at least one box checked 
+    if (frm.RecurType.value == "week")
+    {
+     var rwCheck = false;
+     for (i=0; i<frm.RecurWeekly.length; i++)
+     {
+      if (frm.RecurWeekly[i].checked)
+       var rwCheck = true;
+     }
+     if (!rwCheck)
+     {
+      alert ("You must check at least one day to repeat this event.");
+      return false;
+     }
+    }
+    
+    // if RecurType is month, make sure RecurTypeMonth has a radio button checked.
+    if (frm.RecurType.value == "month")
+    {
+     var rmCheck = false;
+     for (i=0; i<frm.RecurTypeMonth.length; i++)
+     {
+      if (frm.RecurTypeMonth[i].checked)
+       var rmCheck = true;
+     }
+     if (!rmCheck)
+     {
+      alert ("You must select the type of monthly recurrance you would like.");
+      return false;
+     }
+    }
+    
+    // make sure a repeat option is checked
+     var roCheck = false;
+     for (i=0; i<frm.RepeatOptions.length; i++)
+     {
+      if (frm.RepeatOptions[i].checked)
+       var roCheck = true;
+     }
+     if (!roCheck)
+     {
+      alert ("You must select a repeat option.");
+      return false;
+     }
+    
+    // if Number of times is checked, make sure NumberOfTimes is a positive int
+    if (frm.RepeatOptions[1].checked && intReg.exec(frm.NumberOfTimes.value) == null)
+    {
+     alert ("The number of times to repeat the event must be a whole number.");  
+     return false;
+    }
+    // if until date is checked, make sure UntilDate is filled
+    
+    if (frm.RepeatOptions[2].checked && !frm.UntilDate.value)
+    {
+     alert ("You must specify the date you would like this event to expire.");  
+     return false;
+    }
     // if we made it this far, the date must be good
     return true;
 
@@ -698,21 +822,33 @@ function formCheck(form)
 // stop hiding -->
 </script>
 
-<input class="stdbutton" type="submit" name="AddFile" value="{intl-event_file_list}" />
+<input class="gcalSubmitFrm" type="submit" name="AddFile" value="{intl-event_file_list}" 
+onmouseout="this.className='gcalSubmitFrm'"
+onmouseover="this.className='gcalSubmitOverFrm'"
+/>
 
 <hr noshade size="4" />
 
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
 <tr>
     <td>
-        <input class="okbutton" type="submit" name="Submit" value="{intl-ok}" />
-        <input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />
+        <input class="gcalSubmitFrm" type="submit" name="Submit" value="{intl-ok}" 
+	onmouseout="this.className='gcalSubmitFrm'"
+	onmouseover="this.className='gcalSubmitOverFrm'"
+	/>
+        <input class="gcalSubmitFrm" type="submit" name="Cancel" value="{intl-cancel}" 
+	onmouseout="this.className='gcalSubmitFrm'"
+	onmouseover="this.className='gcalSubmitOverFrm'"
+	/>
         <input type="hidden" name="Action" value="{action_value}" />
         <input type="hidden" name="eventID" value="{event_id}" />
     </td>
     <td align="right">
         <input type="hidden" name="eventArrayID[]" value={event_id}>
-        <input class="stdbutton" type="submit" name="DeleteEvents" value="{intl-delete_events}">
+        <input class="gcalSubmitFrm" type="submit" name="DeleteEvents" value="{intl-delete_events}"
+	onmouseout="this.className='gcalSubmitFrm'"
+	onmouseover="this.className='gcalSubmitOverFrm'"
+	>
     </td>
 </tr>
 </table>

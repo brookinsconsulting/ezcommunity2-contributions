@@ -628,7 +628,8 @@ $Day = $dateArr[2];
 	else 
 	// if not, we will set it as blank (which is the default of the setRecurDay method)
 	  $event->setRecurDay();
-	  $event->setRecurExceptions( $RecurExceptions );
+	  // the $RecurExceptions var is actually the text/calendar field, the select box array is $ExceptSelect
+	  $event->setRecurExceptions( $ExceptSelect );
 	// now we check to see if the RecurType is month
 	if ($event->RecurType == 'month')
 	  // it is, so let's set RecurMonthlyType
@@ -685,13 +686,95 @@ $Day = $dateArr[2];
         }
         else
         {
-	    
+	    // spectrum: js gui calendar regeneraion
+          if (isset($dateCal))
+           $t->set_var( "date_calendar", $dateCal);
+          else 
+	  {
+           $tyear = $today->year();
+           $tmonth = $today->month();
+           $tday = $today->day();
+           $t->set_var( "date_calendar", $tyear.'-'.$tmonth.'-'.$tday );
+          }
+	  // recurring events regeneration
+    $t->set_var( "is_recurring", '');
+    $t->set_var( "recur_freq", "1" );  
+    $t->set_var( "recur_weekly_mon", "" ); 
+    $t->set_var( "rtselect_day", "" ); 
+    $t->set_var( "rtselect_week", "" ); 
+    $t->set_var( "rtselect_month", "" ); 
+    $t->set_var( "rtselect_year", "" ); 
+    $t->set_var( "start_daily", "" ); 
+    $t->set_var( "start_strdayname", "" ); 
+    $t->set_var( "start_numdayname", "" );
+    $t->set_var( "recur_weekly_mon", "" );
+    $t->set_var( "recur_weekly_tue", "" );
+    $t->set_var( "recur_weekly_wed", "" );
+    $t->set_var( "recur_weekly_thu", "" );
+    $t->set_var( "recur_weekly_fri", "" );
+    $t->set_var( "recur_weekly_sat", "" );
+    $t->set_var( "recur_weekly_sun", "" );
+    $t->set_var( "recur_weekly_sun", "" );
+    $t->set_var( "until_date", "" );
+    $t->set_var( "num_times", "" );
+    $t->set_var( "repeat_until", "");
+    $t->set_var( "repeat_times", "");
+    $t->set_var( "repeat_forever", "");
+	 if (isset($IsRecurring))
+	 {
+	 $t->set_var( "is_recurring", 'checked');
+	 $t->set_var( "recur_freq", $RecurFreq);
+	 // recur type stuff...
+	 if ('day' == $RecurType) 
+	  $t->set_var( "rtselect_day", "selected" ); 
+	 elseif ('week' == $RecurType) 
+	  $t->set_var( "rtselect_week", "selected" );
+	 elseif ('month' == $RecurType)
+	  $t->set_var( "rtselect_month", "selected" );
+	 else 
+	  $t->set_var( "rtselect_year", "" );
+	 if ('daily' == $RecurTypeMonth)
+	  $t->set_var( "start_daily", "checked" );
+	 elseif ('strdayname' == $RecurTypeMonth)
+	  $t->set_var( "start_strdayname", "checked" );
+	 else
+	  $t->set_var( "start_numdayname", "checked" );
+	 if (is_array($RecurWeekly)) 
+	 {
+	  foreach ($RecurWeekly as $rwd)
+	  {
+	   $t->set_var( "recur_weekly_".$rwd , "checked");
+	  }
+	 }
+	
+	if (isset($UntilDate))
+	 $t->set_var( "until_date", $UntilDate );
+	if (isset($NumberOfTimes))
+         $t->set_var( "num_times", $NumberOfTimes );	 
+	if ('forever' == $RepeatOptions)
+	 $t->set_var( "repeat_forever", "checked");
+	elseif ('untilDate' == $RepeatOptions)
+	 $t->set_var( "repeat_until", 'checked');
+	else
+	 $t->set_var( "repeat_times", 'checked');
+       
+       if (is_array($ExceptSelect))
+       foreach ($ExceptSelect as $ex) 
+       {
+        $t->set_var('recur_exceptions', "<option>$ex</option>");
+	$t->parse( "recur_exceptions", "recur_exceptions_tpl", true );
+       }
+      else {
+        $t->set_var('recur_exceptions', '');
+	$t->parse( "recur_exceptions", "recur_exceptions_tpl" );
+      }
+      } // end of recurring events
+    
             $t->set_var( "name_value", $event->name() );
             $t->set_var( "description_value", $event->description() );
 
             $t->set_var( "location_value", $event->location() );
             $t->set_var( "url_value", $event->url() );
-
 			$t->set_var( "group_name_new", "" );
 			if ( $user )
 			{
@@ -851,6 +934,7 @@ if ( ($Action == "Insert" || $Action == "Update")  && $groupError == true )
     $t->parse( "wrong_user_error", "wrong_user_error_tpl" );
     $t->parse( "user_error", "user_error_tpl" );
     $t->pparse( "output", "event_edit_tpl" );
+    
 }
 
 if ( $Action == "Update" && $groupError == false )
@@ -911,7 +995,6 @@ if ( $Action == "Update" && $groupError == false )
 $today = new eZDate();
 $tmpdate = new eZDate( $Year, $Month, $Day );
 
-
 $t->set_var( "edit", "" );
 
 if ( $Action == "Edit" && $groupError == false )
@@ -926,9 +1009,8 @@ if ( $Action == "Edit" && $groupError == false )
     $t->set_var( "description_value", $event->description() );
 
     // spectrum: adding recurring event template vars
-    if ($event->isRecurring()) {
-        $t->set_var( "recur_freq", "1" ); 
-    $t->set_var( "is_recurring", "" ); 
+        $t->set_var( "is_recurring", '');
+    $t->set_var( "recur_freq", "1" );  
     $t->set_var( "recur_weekly_mon", "" ); 
     $t->set_var( "rtselect_day", "" ); 
     $t->set_var( "rtselect_week", "" ); 
@@ -950,7 +1032,7 @@ if ( $Action == "Edit" && $groupError == false )
     $t->set_var( "repeat_until", "");
     $t->set_var( "repeat_times", "");
     $t->set_var( "repeat_forever", "");
-    
+    if ($event->isRecurring()) {
       $t->set_var( "is_recurring", 'checked' );
       $t->set_var( "recur_freq", $event->recurFreq() );
       $t->set_var( "rtselect_".$event->recurType(), 'selected' );
@@ -979,7 +1061,22 @@ if ( $Action == "Edit" && $groupError == false )
       {
         $t->set_var( "repeat_forever", 'checked' );
       }
-      
+      // $repEx is just a holder for the array returned by repeatExceptions
+      // if there are no exceptions, it will judged false
+      $repEx = $event->recurExceptions();
+      if (is_array($repEx)) 
+      {
+       foreach ($repEx as $ex) 
+       {
+        $t->set_var("recur_exceptions", "<option>$ex</option>");
+	$t->parse( "recur_exceptions", "recur_exceptions_tpl", true );
+       }
+      }
+     else
+     {
+        $t->set_var('recur_exceptions', '');
+	$t->parse( "recur_exceptions", "recur_exceptions_tpl" );
+     }   
        // still need to add exception handling, once it's all ready
        
        
@@ -1218,7 +1315,7 @@ if ( $Action == "Edit" && $groupError == false )
 	$tempYear = addZero( $today->year() );
         //$tempYear = $tmpdate->year();
 	$yearsPrint = $ini->read_var( "eZGroupEventCalendarMain", "YearsPrint" );
-//spectrum : setting new day time in template (ezzzzz....)
+//spectrum : setting new day time in template
 $t->set_var( "date_calendar", "$year-$month-$day");
 
 /*
@@ -1594,7 +1691,7 @@ foreach ( $categoryList as $category )
 }
 
 // set day combobox
-/*-- removed by specrum
+/*-- removed by spectrum
 $daysInMonth = $tmpdate->daysInMonth();
 //for ( $i=1; $i<=$daysInMonth; $i++ )
 for ( $i=1; $i<=31; $i++ )
