@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: mainvotebox.php,v 1.1 2000/10/03 13:08:55 bf-cvs Exp $
+// $Id: mainvotebox.php,v 1.2 2000/10/21 13:12:02 bf-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -20,6 +20,6 @@ $poll = new eZPoll();
 $poll = $poll->mainPoll();
 $PollID = $poll->id();
 
-include( "ezpoll/votebox.php" );
+  include( "ezpoll/votebox.php" );
 
 ?>

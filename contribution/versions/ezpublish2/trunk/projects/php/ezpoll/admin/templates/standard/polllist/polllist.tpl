@@ -25,7 +25,7 @@
 
 </table>
 
-<hr noshade size="4"/>
+<hr noshade size="4" />
 
 <input class="okbutton" type="submit" value="Lagre endringer" />
 </form>

@@ -1,7 +1,9 @@
 <h1>{intl-head_line}</h1>
 
+<hr noshade size="4" />
+
 <form action="/poll/pollist/">
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
 	<tr>
 	<td>
@@ -68,21 +70,25 @@
 	</tr>
 	<!-- END poll_item_tpl -->
 </tr>
+<tr>
+	<td>
+		<hr noshade size="4" />
+	</td>
+</tr>
 
 <tr>
 	<td>
-	<input type="submit" value="Lagre endringer" />
+	<input type="hidden" name="Action" value="StoreMainPoll" />
+
+	<input class="okbutton" type="submit" value="Lagre endringer" />
 	</td>
-<tr>
-
 </form>
-
-<tr>
 	<td>
 	<form method="post" action="/poll/polledit/new/">
-	<input type="submit" value="{intl-addpoll}">
+	<input class="okbutton" type="submit" value="{intl-addpoll}" />
 	</form>
 	</td>
-<tr>
+
+</tr>
 
 </table>

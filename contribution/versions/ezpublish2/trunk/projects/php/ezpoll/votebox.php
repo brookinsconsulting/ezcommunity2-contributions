@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: votebox.php,v 1.6 2000/10/20 09:16:16 ce-cvs Exp $
+// $Id: votebox.php,v 1.7 2000/10/21 13:12:02 bf-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -19,22 +19,21 @@ include_once( "classes/eztemplate.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZPollMain", "Language" );
-$DOC_ROOT = $ini->read_var( "eZPollMain", "DocumentRoot" );
 
-include_once( $DOC_ROOT . "/classes/ezpoll.php" );
-include_once( $DOC_ROOT . "/classes/ezpollchoice.php" );
+include_once( "ezpoll/classes/ezpoll.php" );
+include_once( "ezpoll/classes/ezpollchoice.php" );
 
-
-$t = new eZTemplate( $DOC_ROOT . $ini->read_var( "eZPollMain", "TemplateDir" ) . "/vote/",
-                     $DOC_ROOT . "/intl/", $Language, "pollist.php" );
+$t = new eZTemplate( "ezpoll/" . $ini->read_var( "eZPollMain", "TemplateDir" ) . "/vote/",
+                     "ezpoll/intl/", $Language, "pollist.php" );
 
 $t->setAllStrings();
 
 $poll = new eZPoll( $PollID );
+
 if ( $poll->isClosed() )
 {
-    Header( "Location: /poll/result/$PollID" );
-    exit();
+//      Header( "Location: /poll/result/$PollID" );
+//      exit();
 }
 
 $t->set_file( array(
@@ -60,7 +59,6 @@ $poll = new eZPoll();
 $poll->get( $PollID );
 $t->set_var( "head_line", $poll->name() );
 $t->set_var( "poll_id", $PollID );
-
 
   
 $t->pparse( "output", "vote_form" );
