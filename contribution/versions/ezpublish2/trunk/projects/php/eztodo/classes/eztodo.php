@@ -1,5 +1,5 @@
 <?
-// $Id: eztodo.php,v 1.4 2000/09/12 11:41:22 bf-cvs Exp $
+// $Id: eztodo.php,v 1.5 2000/09/14 12:57:26 ce-cvs Exp $
 //
 // Definition of eZTodo class
 //
@@ -18,7 +18,7 @@
   Handles the todo informasjon stored in the database.
 */
 
-// include_once( "eztodo/classes/ezpriority.php" );
+include_once( "classes/ezdatetime.php" );
 
 class eZTodo
 {
@@ -58,6 +58,7 @@ class eZTodo
                 Category='$this->Category',
                 Priority='$this->Priority',
                 Due='$this->Due',
+                Date='$this->Date',
                 UserID='$this->UserID',
                 OwnerID='$this->OwnerID',
                 Status='$this->Status',
@@ -117,6 +118,7 @@ class eZTodo
                 $this->Category = $todo_array[0][ "Category" ];
                 $this->Priority = $todo_array[0][ "Priority" ];
                 $this->Due = $todo_array[0][ "Due" ];
+                $this->Date = $todo_array[0][ "Date" ];
                 $this->UserID = $todo_array[0][ "UserID" ];
                 $this->OwnerID = $todo_array[0][ "OwnerID" ];
                 $this->Status = $todo_array[0][ "Status" ];
@@ -300,10 +302,13 @@ class eZTodo
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        return $this->Due;
+
+        $dateTime = new eZDateTime();
+        $dateTime->setMySQLDateTime( $this->Due );
+        
+        return $dateTime;
     }
 
-    //! setDue
     /*!
       Sets the due of the todo.
       The new due of the todo is passed as a paramenter ( $value ).
@@ -315,7 +320,6 @@ class eZTodo
         $this->Due = $value;
     }
 
-    //! date
     /*!
       Date of the todo.
       Returns the due of the todo as a string.
@@ -324,10 +328,13 @@ class eZTodo
     {
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        return $this->Date;
+        
+        $dateTime = new eZDateTime( );
+        $dateTime->setMySQLDateTime( $this->Date );        
+        
+        return $dateTime;
     }
 
-    //! setDate
     /*!
       Sets the date of the todo.
       The new date of the todo is passed as a paramenter ( $value ).
@@ -475,6 +482,7 @@ class eZTodo
     var $Permission;
     var $Text;
     var $Due;
+    var $Date;
     var $Title;
     var $CategoryID;
     var $PriorityID;

@@ -28,7 +28,7 @@
 
 {intl-date}<br>
 <p>
-Klokke:<input size="2" type="text" name="Hour" value="{hour}">:<input size="2" type="text" name="Hour" value="{minutes}">
+Klokke:<input size="2" type="text" name="Hour" value="{hour}">:<input size="2" type="text" name="Minute" value="{hour}">
 Dato:<input size="2" type="text" name="Mnd" value="{mnd}">-<input size="2" type="text" name="Day" value="{day}">
 År:<input size="4" type="text" name="Year" value="2000">
 </p>

@@ -1,5 +1,5 @@
 <?
-// $Id: todoedit.php,v 1.3 2000/09/13 13:11:25 ce-cvs Exp $
+// $Id: todoedit.php,v 1.4 2000/09/14 12:57:26 ce-cvs Exp $
 //
 // Definition of todo list.
 //
@@ -28,6 +28,7 @@ include_once( "common/ezphputils.php" );
 include_once( "eztodo/classes/eztodo.php" );
 include_once( "eztodo/classes/ezcategory.php" );
 include_once( "eztodo/classes/ezpriority.php" );
+include_once( "classes/ezlocale.php" );
 
 $session = new eZSession();
 if( $session->get( $AuthenticatedSession ) == 1 )
@@ -39,19 +40,16 @@ if( $session->get( $AuthenticatedSession ) == 1 )
 if ( $Action == "insert" )
 {
     $todo = new eZTodo();
+
     $todo->setTitle( $Title );
     $todo->setText( $Text );
     $todo->setCategoryID( $CategoryID );
     $todo->setPriorityID( $PriorityID );
     $todo->setUserID( $UserID );
     $todo->setOwnerID( $OwnerID );
-
-    print( $Date );
-    die();
-
     $date = new eZDateTime();
-    $todo->setDate( $date->setMySQLDateTime( $Date ) );
-    
+    $todo->setDate( $date->mySQLDateTime()  );
+
     if ( $Permission == "on" )
     {
         $todo->setPermission( "Public" );
@@ -69,7 +67,11 @@ if ( $Action == "insert" )
         $todo->setStatus( $Status = "N" );
     }
 
-    $todo->setDue( $Year . $Mnd . $Hour );
+    $Due = ( $Year . "-" . $Mnd  . "-" . $Day . " " .  $Hour . ":" . $Minute . ":00" );
+
+    $todo->setDue( $Due );
+//    $todo->setDue( $Year . $Mnd . $Hour );
+
     $todo->store();
     Header( "Location: index.php?page=" . $DOC_ROOT . "todolist.php" );
 }
