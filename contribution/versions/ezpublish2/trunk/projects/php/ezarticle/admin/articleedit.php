@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.69 2001/04/20 06:39:12 bf Exp $
+// $Id: articleedit.php,v 1.70 2001/04/23 11:02:53 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -64,8 +64,8 @@ function notificationMessage( &$article )
 
     $mailTemplate->set_var( "body", "$intro" );
     $mailTemplate->set_var( "site", "$PublishSite" );
-    $mailTemplate->set_var( "title", $article->name() );
-    $mailTemplate->set_var( "author", $article->authorText() );
+    $mailTemplate->set_var( "title", $article->name( false ) );
+    $mailTemplate->set_var( "author", $article->authorText( false ) );
     
     $mailTemplate->set_var( "link", "http://" . $SiteURL . "/article/articleview/" . $article->id() );
 

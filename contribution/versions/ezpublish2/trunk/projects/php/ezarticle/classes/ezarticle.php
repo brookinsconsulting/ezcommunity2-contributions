@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.66 2001/04/17 14:13:39 bf Exp $
+// $Id: ezarticle.php,v 1.67 2001/04/23 11:02:53 fh Exp $
 //
 // Definition of eZArticle class
 //
@@ -254,12 +254,14 @@ class eZArticle
     /*!
       Returns the article name / title.
     */
-    function &name()
+    function &name( $asHTML = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       return htmlspecialchars( $this->Name );
+       if( $asHTML == true )
+           return htmlspecialchars( $this->Name );
+       return $this->Name;
     }
 
     /*!
@@ -278,12 +280,14 @@ class eZArticle
     /*!
       Returns the author text contents.
     */
-    function &authorText()
+    function &authorText( $asHTML = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       return htmlspecialchars( $this->AuthorText );
+       if( $asHTML == true )
+           return htmlspecialchars( $this->AuthorText );
+       return $this->AuthorText;
     }
 
     /*!
