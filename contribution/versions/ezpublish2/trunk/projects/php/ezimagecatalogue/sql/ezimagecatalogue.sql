@@ -33,6 +33,7 @@ CREATE TABLE eZImageCatalogue_Image (
   ReadPermission int(11) DEFAULT '1',
   WritePermission int(11) DEFAULT '1',
   UserID int(11),
+  Keywords varchar(255),
   PRIMARY KEY (ID)
 );
 
