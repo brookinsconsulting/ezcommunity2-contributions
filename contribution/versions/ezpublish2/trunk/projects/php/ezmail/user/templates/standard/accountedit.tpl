@@ -29,7 +29,7 @@
 </table>
 
 <br />
-<div class="check"><input type="checkbox" name="ShowPrice" {delete_from_server_checked} />&nbsp;{intl-delete_from_server}</div>
+<div class="check"><input type="checkbox" name="DelFromServer" {delete_from_server_checked} />&nbsp;{intl-delete_from_server}</div>
 
 <br />
 <hr noshade="noshade" size="4">

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailaccount.php,v 1.8 2001/03/25 14:13:54 fh Exp $
+// $Id: ezmailaccount.php,v 1.9 2001/03/25 19:25:21 fh Exp $
 //
 // eZMailAccount class
 //
@@ -73,15 +73,15 @@ class eZMailAccount
     */
     function delete( $id = -1 )
     {
-        $this->dbInit();
+        $db =& eZDB::globalDatabase();
 
-        if ( isset( $this->ID ) && $id == -1 )
+        if ( $id == -1 )
         {
-            $this->Database->query( "DELETE FROM eZMail_Account WHERE ID='$this->ID'" );
+            $db->query( "DELETE FROM eZMail_Account WHERE ID='$this->ID'" );
         }
         else
         {
-            $this->Database->query( "DELETE FROM eZMail_Account WHERE ID='$id'" );
+            $db->query( "DELETE FROM eZMail_Account WHERE ID='$id'" );
         }
         return true;
     }
@@ -202,6 +202,15 @@ class eZMailAccount
         $this->UserID = $value;
     }
 
+    function setUser( $user )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+        if( get_class( $user ) == "ezuser" )
+            $this->UserID = $user->id();
+    }
+    
   /*!
     */
     function name()
@@ -367,14 +376,17 @@ class eZMailAccount
       
       Returns all mail accounts for a selected user as an array of eZMailAccount objects.
      */
-    function getByUser( $userID )
+    function getByUser( $user )
     {
+        if( get_class( $user ) == "ezuser" )
+            $user = $user->id();
+        
         $database =& eZDB::globalDatabase();
 
         $return_array = array();
         $account_array = array();
  
-        $database->array_query( $account_array, "SELECT ID FROM eZMail_Account WHERE UserID='$userID'" );
+        $database->array_query( $account_array, "SELECT ID FROM eZMail_Account WHERE UserID='$user'" );
  
         for ( $i=0; $i < count($account_array); $i++ )
         {

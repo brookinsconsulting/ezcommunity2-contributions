@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: maillist.php,v 1.7 2001/03/25 12:35:31 fh Exp $
+// $Id: maillist.php,v 1.8 2001/03/25 19:25:22 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <19-Mar-2000 20:25:22 fh>
@@ -33,25 +33,6 @@ include_once( "ezmail/classes/ezmailaccount.php" );
 include_once( "ezmail/classes/ezmail.php" );
 include_once( "ezmail/classes/ezmailfolder.php" );
 
-$user = eZUser::currentUser();
-$accounts = eZMailAccount::getByUser( $user->id() );
-
-//foreach( $accounts as $account )
-//    $account->checkMail();
-
-/*
-$user = eZUser::currentUser();
-$account = new eZMailAccount(1);
-$account->setUserID( $user->id() );
-$account->setName( addslashes( "Larson's mail" ) );
-$account->setLoginName( "larson" );
-$account->setPassword( "AcRXYJJA" );
-$account->setDeleteFromServer( 1 );
-$account->setIsActive( 1 );
-$account->setServerType( "pop" );
-$account->setServer( "zap.ez.no" );
-$account->store();
-*/
 
 if( isset( $NewFolder ) )
 {

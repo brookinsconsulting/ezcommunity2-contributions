@@ -10,7 +10,8 @@
 <tr>
 	<th width="33%">{intl-name}:</th>
 	<th width="32%">{intl-type}:</th>
-	<th width="33%">{intl-folder}:</th>
+	<th width="27%">{intl-folder}:</th>
+	<th width="5%">{intl-active}:</th>
 	<th width="1%">&nbsp;</th>
 </tr>
 <!-- BEGIN account_item_tpl -->
@@ -25,6 +26,14 @@
 	<td class="{td_class}">
 	{account_folder}
 	</td>
+	<td class="{td_class}">
+	<input type="checkbox" name="AccountActiveArrayID[]" value="{account_id}" {account_active_checked}/>
+	</td>
+	<td class="{td_class}">
+	  <a href="/mail/accountedit/{account_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezb{account_id}-red','','/images/{site_style}/redigerminimrk.gif',1)">
+           <img name="ezb{account_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" />
+          </a>
+	</td>	
 	<td class="{td_class}">
 	<input type="checkbox" name="AccountArrayID[]" value="{account_id}" />
 	</td>

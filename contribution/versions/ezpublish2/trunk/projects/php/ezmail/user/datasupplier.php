@@ -1,5 +1,7 @@
 <?
 include_once( "classes/ezhttptool.php" );
+include_once( "ezmail/classes/ezmailaccount.php" );
+include_once( "ezuser/classes/ezuser.php" );
 
 switch( $url_array[2] )
 {
@@ -41,6 +43,16 @@ switch( $url_array[2] )
         if( $AccountID == "" )
             $AccountID = 0;
         include( "ezmail/user/accountedit.php" );
+    }
+    break;
+
+    case "check" : // check the mail for this user!
+    {
+        $user = eZUser::currentUser();
+        $accounts = eZMailAccount::getByUser( $user->id() );
+
+        foreach( $accounts as $account )
+            $account->checkMail();
     }
     break;
     

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.7 2001/03/25 14:13:54 fh Exp $
+// $Id: ezmail.php,v 1.8 2001/03/25 19:25:21 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -34,6 +34,10 @@ Example code:
 
 \endcode
 */
+
+include_once( "ezmail/classes/ezmailfolder.php" );
+include_once( "ezfilemanager/classes/ezvirtualfile.php" );
+include_once( "ezimagecatalogue/classes/ezimage.php" );
 
 class eZMail
 {
@@ -79,6 +83,8 @@ class eZMail
     {
         $this->dbInit();
 
+
+        // DELETE ALL ATTACHMENTS
         if ( isset( $this->ID ) )
         {
             $this->Database->query( "DELETE FROM eZMail_Mail WHERE ID='$this->ID'" );
@@ -537,7 +543,7 @@ class eZMail
         if( count( $res ) > 0 )
         {
             if( $AsObject == true )
-                return eZMailFolder( $res[0]["FolderID"] );
+                return new eZMailFolder( $res[0]["FolderID"] );
 
             return $res[0]["FolderID"];
         }
@@ -575,6 +581,120 @@ class eZMail
         return $return_array;
     }
 
+    /*
+      Adds an attachment to this mail
+     */
+    function addFile( $file )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+ 
+        if ( get_class( $file ) == "ezvirtualfile" )
+        {
+            $this->dbInit();
+ 
+            $fileID = $file->id();
+ 
+            $this->Database->query( "INSERT INTO eZMail_MailAttachmentLink SET MailID='$this->ID', FileID='$fileID'" );
+        }
+    }
+ 
+    /*!
+      Deletes an attachment from the mail.
+    */
+    function deleteFile( $file )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+ 
+        if ( get_class( $file ) == "ezvirtualfile" )
+        {
+            $this->dbInit();
+ 
+            $fileID = $file->id();
+            $file->delete();
+            $this->Database->query( "DELETE FROM eZMail_MailAttachmentLink WHERE MailID='$this->ID' AND FileID='$fileID'" );
+        }
+    }
+ 
+    /*!
+      Returns all attachments associatied with this mail.
+    */
+    function files()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+ 
+       $this->dbInit();
+ 
+       $return_array = array();
+       $file_array = array();
+ 
+       $this->Database->array_query( $file_array, "SELECT FileID FROM eZMail_MailAttachmentLink WHERE MailID='$this->ID'" );
+ 
+       for ( $i=0; $i<count($file_array); $i++ )
+       {
+           $return_array[$i] = new eZVirtualFile( $file_array[$i]["FileID"], false );
+       }
+ 
+       return $return_array;
+    }
+
+    /*
+      Adds an image attachment.
+     */
+    function addImage( $image )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+ 
+        if( get_class( $image ) == "ezimage" )
+        {
+            $imageID = $image->id();
+            $this->dbInit();
+            $this->Database->query( "INSERT INTO eZMail_MailImageLink SET MailID='$this->ID', ImageID='$imageID'" );
+        }
+    }
+ 
+    /*!
+      Deletes an eZImage attachment from the mail.
+     */
+    function deleteImage( $image )
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+ 
+        if( get_class( $image ) == "ezimage" )
+        {
+            $this->dbInit();
+ 
+            $imageID = $image->id();
+            $image->delete();
+            $this->Database->query( "DELETE FROM eZMail_MailImageLink WHERE MailID='$this->ID' AND ImageID='$imageID'" );
+        }
+    }
+ 
+    /*!
+      Returns all the images associated with this mail.
+     */
+    function images()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+ 
+       $this->dbInit();
+ 
+       $return_array = array();
+       $image_array = array();
+ 
+       $this->Database->array_query( $image_array, "SELECT ImageID FROM eZMail_MailImageLink WHERE MailID='$this->ID'" );
+ 
+       for ( $i=0; $i<count($image_array); $i++ )
+       {
+           $return_array[$i] = new eZImage( $image_array[$i]["ImageID"], false );
+       }
+       return $return_array;
+    } 
     
     /*!
       \private
