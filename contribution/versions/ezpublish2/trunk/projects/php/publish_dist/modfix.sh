@@ -90,6 +90,7 @@ ezaddress
 ezbug
 ezexample
 ezcalendar
+ezerror
 "
 
 for file in $files
@@ -99,7 +100,7 @@ do
 	    echo "admin/$file already exist"
 	else
 	    echo "Linking ./$file to admin/$file"
-	    ln -sf ../$file admin/$file
+	    ln -s ../$file admin/$file
 	fi
     fi
 done
