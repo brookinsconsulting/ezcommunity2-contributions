@@ -7,7 +7,7 @@
 	<td align="right">
 	<form action="/article/search/" method="post">
 	<input type="text" name="SearchText" size="12" />	
-	<input class="stdbutton" type="submit" value="{intl-search}" />
+	<input class="okbutton" type="submit" value="{intl-search}" />
 	</form>	
 	</td>
 </tr>
@@ -30,7 +30,6 @@
 <!-- BEGIN current_image_item_tpl -->
 <img src="{current_image_url}" alt="{current_image_caption}" width="{current_image_width}" height="{current_image_height}" border="0" />
 <!-- END current_image_item_tpl -->
-<div class="p">{current_category_description}</div>
 
 <!-- BEGIN category_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
@@ -59,6 +58,7 @@
 </tr>
 <!-- END category_item_tpl -->
 </table>
+<hr noshade="noshade" size="1" />
 <br />
 <!-- END category_list_tpl -->
 
@@ -70,6 +70,7 @@
 	<td>
 	<div class="listheadline"><a class="listheadline" href="/article/articleview/{article_id}/1/{category_id}/">{article_name}</a></div>
 	<div class="small">( {article_published} )</div>
+	<br />
 
 	<!-- BEGIN article_image_tpl -->
 	    <table width="1%" align="right">
@@ -90,63 +91,50 @@
 	<div class="p">{article_intro}</div>
 
         <!-- BEGIN read_more_tpl -->
-	<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+	<br />
 	<a class="path" href="/article/articleview/{article_id}/1/{category_id}/">{article_link_text}</a>
 	<br /><br />
         <!-- END read_more_tpl -->
+	<hr noshade="noshade" size="1"/>
 	</td>
 </tr>
 <!-- END article_item_tpl -->
 </table>
+
 <!-- END article_list_tpl -->
 
 
 
 <!-- BEGIN type_list_tpl -->
 <br />
-<table cellpadding="1" cellspacing="1" border="0" align="center">
-<tr>
+<div align="center">
 	<!-- BEGIN type_list_previous_tpl -->
-	<td>
-	&lt;&lt; <a class="path" href="/article/archive/{category_current_id}/{item_previous_index}">&nbsp;{intl-previous}</a>&nbsp;
-	</td>
+	&lt;&lt;&nbsp;<a class="path" href="/article/archive/{category_current_id}/{item_previous_index}">{intl-previous}</a>&nbsp;
 	<!-- END type_list_previous_tpl -->
 
 	<!-- BEGIN type_list_previous_inactive_tpl -->
-	<td>
-	&lt;&lt; <span class="inactive">&nbsp;{intl-previous}&nbsp;</span>
-	</td>
+	&lt;&lt;&nbsp;<span class="inactive">&nbsp;{intl-previous}&nbsp;</span>
 	<!-- END type_list_previous_inactive_tpl -->
 
 	<!-- BEGIN type_list_item_list_tpl -->
 
 	<!-- BEGIN type_list_item_tpl -->
-	<td>
-	|&nbsp;<a class="path" href="/article/archive/{category_current_id}/{item_index}">{type_item_name}</a>&nbsp;
-	</td>
+	|&nbsp; <a class="path" href="/article/archive/{category_current_id}/{item_index}">{type_item_name}</a>&nbsp;
 	<!-- END type_list_item_tpl -->
 
 	<!-- BEGIN type_list_inactive_item_tpl -->
-	<td>
-	|&nbsp;<span class="inactive">{type_item_name}</span>&nbsp;
-	</td>
+	|&nbsp; <span class="inactive">{type_item_name}</span>&nbsp;
 	<!-- END type_list_inactive_item_tpl -->
 
 	<!-- END type_list_item_list_tpl -->
 
 	<!-- BEGIN type_list_next_tpl -->
-	<td>
 	|&nbsp;<a class="path" href="/article/archive/{category_current_id}/{item_next_index}">{intl-next}</a>&nbsp;&gt;&gt;
-	</td>
 	<!-- END type_list_next_tpl -->
 
 	<!-- BEGIN type_list_next_inactive_tpl -->
-	<td>
 	|&nbsp;<span class="inactive">{intl-next}</span>&nbsp;&gt;&gt;
-	</td>
 	<!-- END type_list_next_inactive_tpl -->
-
-</tr>
-</table>
+</div>
 <!-- END type_list_tpl -->
 

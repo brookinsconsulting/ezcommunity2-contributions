@@ -15,17 +15,18 @@
     </tr>
 </table>
 <hr noshade="noshade" size="1" />
-<br />
 
 <!-- BEGIN article_header_tpl -->
 &nbsp;
 <!-- END article_header_tpl -->
-<p>
-{article_body}
-</p>
-<br />
-<p>
 
+{article_body}
+
+<br clear="all" />
+<br />
+<hr noshade="noshade" size="1"/>
+
+<p>
 <!-- BEGIN path_item_tpl -->
 
 <!-- END path_item_tpl -->
