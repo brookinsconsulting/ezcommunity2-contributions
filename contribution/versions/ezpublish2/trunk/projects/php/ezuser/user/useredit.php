@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.7 2000/10/30 12:04:17 ce-cvs Exp $
+// $Id: useredit.php,v 1.8 2000/11/02 12:29:12 ce-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 12:52:42 bf>
@@ -111,10 +111,15 @@ if ( $Action == "Insert" )
 
 if ( $Action == "Update" )
 {
+    $user = eZUser::currentuser();
+    if ( !$user )
+    {
+        Header( "Location: /" );
+        exit();
+    }
+    
     if ( eZMail::validate( $Email ) )
     {
-        $user = new eZUser();
-        $user->get( $UserID );
         $user->setEmail( $Email );
         $user->setFirstName( $FirstName );
         $user->setLastName( $LastName );
@@ -168,6 +173,12 @@ $actionValue = "insert";
 
 if ( $Action == "Edit" )
 {
+    $user = eZUser::currentuser();
+    if ( !$user )
+    {
+        Header( "Location: /" );
+        exit();
+    }
     if ( !$UserID )
     {
         $getUser = eZUser::currentUser();
@@ -176,8 +187,6 @@ if ( $Action == "Edit" )
         else
             $UserID = $getUser->id();
     }
-    $user = new eZUser();
-    $user->get( $UserID );
 
     if( $user->infoSubscription() == "true" )
         $InfoSubscription = "checked";

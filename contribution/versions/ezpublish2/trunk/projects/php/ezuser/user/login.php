@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.7 2000/11/02 10:43:00 ce-cvs Exp $
+// $Id: login.php,v 1.8 2000/11/02 12:29:11 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -70,7 +70,15 @@ if ( $Action == "login" )
         eZUser::loginUser( $user );
         if ( isSet( $RedirectURL ) )
         {
-            Header( "Location: $RedirectURL" );
+            $stringTmp = split( "/", $RedirectURL );
+            if ( $stringTmp[2] == "norights" )
+            {
+                Header( "Location: /" );
+            }
+            else
+            {
+                Header( "Location: $RedirectURL" );
+            }
         }
         else
         {
