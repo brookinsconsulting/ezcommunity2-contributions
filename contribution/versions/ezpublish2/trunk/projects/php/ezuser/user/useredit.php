@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.17 2001/02/06 13:27:09 jb Exp $
+// $Id: useredit.php,v 1.18 2001/02/19 14:12:48 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Oct-2000 12:52:42 bf>
@@ -243,11 +243,25 @@ if ( $Action == "Edit" )
     $t->set_var( "head_line", $headline->read_var( "strings", "head_line_edit" ) );
 }
 
-
 $t->set_block( "user_edit_tpl", "required_fields_error_tpl", "required_fields_error" );
 $t->set_block( "user_edit_tpl", "user_exists_error_tpl", "user_exists_error" );
 $t->set_block( "user_edit_tpl", "password_error_tpl", "password_error" );
 $t->set_block( "user_edit_tpl", "email_error_tpl", "email_error" );
+
+$t->set_block( "user_edit_tpl", "login_edit_tpl", "login_edit" );
+$t->set_block( "user_edit_tpl", "login_view_tpl", "login_view" );
+
+$t->set_var( "login_edit", "" );
+$t->set_var( "login_view", "" );
+
+if ( $Action != "Edit" )
+{
+    $t->parse( "login_edit", "login_edit_tpl" );
+}
+else
+{
+    $t->parse( "login_view", "login_view_tpl" );
+}
 
 if ( $Error == true )
 {
