@@ -14,11 +14,11 @@
 <hr noshade="noshade" size="4" />
 
 <img src="{www_dir}/admin/images/{site_style}/path-arrow.gif" height="10" width="12" border="0" alt="0" />
-<a class="path" href="{www_dir}{index}/trade/categorylist/parent/0/">{intl-top}</a>
+<a class="path" href="{www_dir}{index}/sitemanager/menu/list/0/">{intl-top}</a>
 
 <!-- BEGIN path_item_tpl -->
 <img src="{www_dir}/admin/images/{site_style}/path-slash.gif" height="10" width="16" border="0" alt="0" />
-<a class="path" href="{www_dir}{index}/trade/categorylist/parent/{category_id}/">{category_name}</a>
+<a class="path" href="{www_dir}{index}/sitemanager/menu/list/{category_id}/">{category_name}</a>
 
 <!-- END path_item_tpl -->
 

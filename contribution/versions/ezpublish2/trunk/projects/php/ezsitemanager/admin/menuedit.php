@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menuedit.php,v 1.1 2001/09/27 09:46:41 ce Exp $
+// $Id: menuedit.php,v 1.2 2001/09/27 10:43:55 ce Exp $
 //
 // Created on: <27-Sep-2001 12:38:58 ce>
 //
@@ -54,11 +54,11 @@ $t->set_file( array(
     "menu_edit_page" => "menuedit.tpl"
       ) );
 
-$t->set_var( "menu_name", "$Name" );
-$t->set_var( "menu_link", "$SiteDesign" );
-$t->set_var( "menu_type", "$TemplateStyle" );
+$t->set_block( "menu_edit_page", "menu_item_tpl", "menu_item" );
 
-$warning = true;
+$t->set_var( "menu_item", "" );
+$t->set_var( "menu_name", "" );
+$t->set_var( "menu_link", "" );
 
 if ( ( $Action == "Insert" ) || ( $Action == "Update" ) && ( $user ) )
 {
@@ -69,6 +69,8 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) && ( $user ) )
 
     $menu->setName( $Name );
     $menu->setLink( $Link );
+    $menu->setParent( $ParentID );
+    $menu->setType( $Type );
     $menu->store();
 
     eZHTTPTool::header( "Location: /sitemanager/menu/list/" );
@@ -92,9 +94,43 @@ if ( $Action == "Delete" )
 if ( is_numeric( $MenuID ) )
 {
     $menu = new eZMenu( $MenuID );
+
     $t->set_var( "menu_id", $menu->id() );
     $t->set_var( "menu_name", $menu->name() );
     $t->set_var( "menu_link", $menu->link() );
+
+    if ( $menu->type() == 1 )
+        $t->set_var( "1_checked", "checked" );
+    else
+        $t->set_var( "2_checked", "checked" );
+    $parent = $menu->parent();
+
+}
+
+$menuList =& eZMenu::getAll();
+
+foreach( $menuList as $menuItem )
+{
+    $t->set_var( "select_id", $menuItem->id() );
+    $t->set_var( "select_name", $menuItem->name() );
+    
+
+    if ( $parent )
+    {
+        if ( $parent->id() == $menuItem->id() )
+        {
+            $t->set_var( "selected", "selected" );
+        }
+        else
+        {
+            $t->set_var( "selected", "" );
+        }
+    }
+    else
+        $t->set_var( "root_select", "selected" );
+
+    if ( $MenuID != $menuItem->id() )
+        $t->parse( "menu_item", "menu_item_tpl", true );
 }
 
 $t->pparse( "output", "menu_edit_page" );

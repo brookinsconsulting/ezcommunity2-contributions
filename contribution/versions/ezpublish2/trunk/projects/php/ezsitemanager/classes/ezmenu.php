@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmenu.php,v 1.1 2001/09/27 09:46:41 ce Exp $
+// $Id: ezmenu.php,v 1.2 2001/09/27 10:43:55 ce Exp $
 //
 // eZMenu class
 //
@@ -96,7 +96,7 @@ class eZMenu
             $res = $db->query( "UPDATE eZSiteManager_Menu SET
                                      Name='$name',
                                      Link='$link',
-                                     Type='$this->TypeID',
+                                     Type='$this->Type',
                                      ParentID='$this->ParentID'
                                      WHERE ID='$this->ID'" );
         }
@@ -338,14 +338,13 @@ class eZMenu
     function parent(  )
     {
         if ( $this->ParentID != 0 )
-       {
-           return new eZMenu( $this->ParentID );
-       }
-       else
-       {
-           return 0;           
-       }
-
+        {
+            return new eZMenu( $this->ParentID );
+        }
+        else
+        {
+            return 0;           
+        }
     }
 
     /*!

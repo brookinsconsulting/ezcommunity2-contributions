@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menulist.php,v 1.1 2001/09/27 09:46:41 ce Exp $
+// $Id: menulist.php,v 1.2 2001/09/27 10:43:55 ce Exp $
 //
 // Created on: <10-May-2001 15:33:23 ce>
 //
@@ -53,6 +53,7 @@ if ( !$Offset )
 
 $t->set_var( "site_style", $SiteStyle );
 $t->set_var( "menu_list", "" );
+$t->set_var( "path_item", "" );
 $menuList =& eZMenu::getByParent( $ParentID, $Offset, $Limit );
 $totalCount =& eZMenu::count( $ParentID );
 
