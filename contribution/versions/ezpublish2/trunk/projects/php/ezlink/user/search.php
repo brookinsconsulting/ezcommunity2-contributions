@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.6 2000/11/01 18:46:06 bf-cvs Exp $
+// $Id: search.php,v 1.7 2000/11/02 15:25:33 ce-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <15-Sep-2000 14:40:06 bf>
@@ -153,7 +153,7 @@ if ( $QueryString != "" )
                 
                 
             $hit = new eZHit();
-            $hits = $hit->getLinkHits( $link_array[ $i ][ "ID" ] );
+            $hits = $hit->getLinkHits( $linkItem->id() );
 
             $t->set_var( "link_hits", $hits );
                 
