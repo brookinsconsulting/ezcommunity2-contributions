@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.46 2001/01/25 17:08:06 jb Exp $
+// $Id: ezuser.php,v 1.47 2001/01/30 17:25:45 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -532,6 +532,13 @@ class eZUser
     */
     function currentUser()
     {
+        $user =& $GLOBALS["eZCurrentUserObject"];
+
+        if ( get_class( $user ) == "ezuser" )
+        {
+            return $user;
+        }
+
         $session =& eZSession::globalSession();
 
         $returnValue = false;
@@ -695,7 +702,11 @@ class eZUser
     */
     function timeoutValue()
     {
+        if ( is_numeric( $this->StoredTimeout ) )
+            return $this->StoredTimeout;
+
         $ret = 30;
+
         $db =& eZDB::globalDatabase();
         $db->array_query( $timeout_array, "SELECT eZUser_Group.SessionTimeout
                                                       FROM eZUser_User, eZUser_UserGroupLink, eZUser_Group
@@ -708,6 +719,7 @@ class eZUser
        if ( count( $timeout_array ) == 1 )
        {
            $ret = $timeout_array[0]["SessionTimeout"];
+           $this->StoredTimeout = $ret;
        }
 
        return $ret;
@@ -721,6 +733,7 @@ class eZUser
     var $LastName;
     var $InfoSubscription;
     var $Signature;
+    var $StoredTimeout;
 }
 
 ?>
