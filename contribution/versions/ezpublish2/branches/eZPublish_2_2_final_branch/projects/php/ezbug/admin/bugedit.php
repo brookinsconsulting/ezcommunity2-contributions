@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: bugedit.php,v 1.51.2.1 2001/10/29 16:26:38 fh Exp $
+// $Id: bugedit.php,v 1.51.2.2 2002/02/07 08:20:21 jhe Exp $
 //
 // Created on: <28-Nov-2000 19:45:35 bf>
 //
@@ -28,6 +28,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/eztexttool.php" );
+include_once( "classes/ezhttptool.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "ezmail/classes/ezmail.php" );
@@ -110,7 +111,7 @@ if ( $Action == "Insert" )
             $bug->setIsPrivate( false );
         
         $bug->store();
-        Header( "Location: /bug/archive/" );
+        eZHTTPTool::header( "Location: /bug/archive/" );
         exit();
     }
 }
@@ -259,7 +260,7 @@ if ( $Action == "Update" )
         {
             if ( !isSet( $InsertImage) && !isSet( $InsertFile ) && !isSet( $DeleteSelected ) )
             {
-                Header( "Location: /bug/archive/" );
+                eZHTTPTool::header( "Location: /bug/archive/" );
                 exit();
             }   
         }
@@ -554,7 +555,7 @@ $currentOwner = -1;
 if ( count( $ownerGroup ) > 0 )
 {
     $users = array();
-    foreach( $ownerGroup as $group )
+    foreach ( $ownerGroup as $group )
     {
         $users = array_merge( $users, eZUserGroup::users( $ownerGroup ) );
     }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: bugreport.php,v 1.30 2001/09/29 12:35:14 kaid Exp $
+// $Id: bugreport.php,v 1.30.2.1 2002/02/07 08:20:21 jhe Exp $
 //
 // Created on: <27-Nov-2000 20:31:00 bf>
 //
@@ -28,6 +28,8 @@ include_once( "ezmail/classes/ezmail.php" );
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlog.php" );
+include_once( "classes/ezhttptool.php" );
+
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 
@@ -114,12 +116,12 @@ if ( $Action == "Update" )
     $module->addBug( $bug );
 
     $user =& eZUser::currentUser();
-    if( $user )
+    if ( $user )
         $bug->setUser( $user );
     else
         $bug->setUserEmail( $Email );
 
-    if( $IsPrivate == "true" )
+    if ( $IsPrivate == "true" )
         $bug->setIsPrivate( true );
     
     $bug->setVersion( $Version );
@@ -133,25 +135,25 @@ if ( $Action == "Update" )
 
 
 /* bug is now allways saved... lets check what the user really wanted to do..*/
-if( isset( $Ok ) ) // here check for errors. and display them if nescacary
+if ( isSet( $Ok ) ) // here check for errors. and display them if nescacary
 {
     $user =& eZUser::currentUser();
-    if( ( $Name != "" ) && ( $Description != "" ) )
+    if ( ( $Name != "" ) && ( $Description != "" ) )
     {
         if ( $user )
         {
             $successfull = 1;
-            send_email( $bug, $ini, $Language );            
-            header( "Location: /bug/reportsuccess/" );
+            send_email( $bug, $ini, $Language );
+            eZHTTPTool::header( "Location: /bug/reportsuccess/" );
             exit();                
         }
         else
         {
-            if( $Email != "" )
+            if ( $Email != "" )
             {
                 $successfull = 2;
                 send_email( $bug, $ini, $Language );            
-                header( "Location: /bug/reportsuccess/" );
+                eZHTTPTool::header( "Location: /bug/reportsuccess/" );
                 exit();                
             }
             else
@@ -166,34 +168,34 @@ if( isset( $Ok ) ) // here check for errors. and display them if nescacary
     }
 }
 
-if( isset( $InsertFile ) ) 
+if ( isSet( $InsertFile ) ) 
 {
     $session->setVariable( "CurrentBugEdit", $BugID );
     eZHTTPTool::header( "Location: /bug/report/fileedit/new/" . $BugID . "/" );
     exit();
 }
 
-if( isset( $InsertImage ) )
+if ( isSet( $InsertImage ) )
 {
     $session->setVariable( "CurrentBugEdit", $BugID );
     eZHTTPTool::header( "Location: /bug/report/imageedit/new/" . $BugID . "/" );
     exit();
 }
 
-if( isset( $DeleteSelected ) )
+if ( isSet( $DeleteSelected ) )
 {
-    if( count( $ImageArrayID ) > 0 )
+    if ( count( $ImageArrayID ) > 0 )
     {
-        foreach( $ImageArrayID as $imageID )
+        foreach ( $ImageArrayID as $imageID )
         {
             $image = new eZImage( $imageID );
             $bug->deleteImage( $image );
         }
     }
 
-    if( count( $FileArrayID ) > 0 )
+    if ( count( $FileArrayID ) > 0 )
     {
-        foreach( $FileArrayID as $fileID )
+        foreach ( $FileArrayID as $fileID )
         {
             $file = new eZVirtualFile( $fileID );
             $bug->deleteFile( $file );
@@ -212,7 +214,7 @@ $t->set_var( "image", "" );
 $t->set_var( "private_checked", "" );
 $t->set_var( "version_value", "" );
 
-if( $IsPrivate == "On" )
+if ( $IsPrivate == "On" )
     $t->set_var( "private_checked", "checked" );
 $t->set_var( "usr_email", $Email );
 
@@ -220,15 +222,15 @@ if( $Action == "Edit" ) // load values from database
 {
     $bug = new eZBug( $BugID );
     $module = $bug->module();
-    if( $module )
+    if ( $module )
         $modName = $module->name();
 
     $category = $bug->category();
-    if( $category )
+    if ( $category )
         $catName = $category->name();
 
     $user =& eZUser::currentUser();
-    if( !$user )
+    if ( !$user )
         $t->set_var( "usr_email", $bug->userEmail() );
 
     
@@ -236,13 +238,13 @@ if( $Action == "Edit" ) // load values from database
     $t->set_var( "title_value", $bug->name() );
     $t->set_var( "version_value", $bug->version() );
     
-    if( $bug->isPrivate() )
+    if ( $bug->isPrivate() )
         $t->set_var( "private_checked", "checked" );
 
 // get the files
     $files = $bug->files();
     $i = 0;
-    foreach( $files as $file )
+    foreach ( $files as $file )
     {
         if ( ( $i % 2 ) == 0 )
         {
@@ -263,7 +265,7 @@ if( $Action == "Edit" ) // load values from database
         $i++;
     }
     $anyDeleteItems = false;
-    if( count( $files ) > 0 )
+    if ( count( $files ) > 0 )
     {
         $t->parse( "inserted_files", "inserted_files_tpl", false );
         $anyDeleteItems = true;
@@ -272,7 +274,7 @@ if( $Action == "Edit" ) // load values from database
     // get the images
     $images = $bug->images();
     $i = 0;
-    foreach( $images as $image )
+    foreach ( $images as $image )
     {
         if ( ( $i % 2 ) == 0 )
         {
@@ -299,13 +301,13 @@ if( $Action == "Edit" ) // load values from database
     }
     $actionValue = "update";
 }
-if( count( $images ) > 0 )
+if ( count( $images ) > 0 )
 {
     $anyDeleteItems = true;
    $t->parse( "inserted_images", "inserted_images_tpl", false );
 }
 
-if( $anyDeleteItems )
+if ( $anyDeleteItems )
     $t->parse( "delete_items", "delete_items_tpl", false );
 
 // if any errors are set, lets display them to the user.
@@ -318,7 +320,7 @@ else
     $t->set_var( "all_fields_error", "" );
 }
 
-if( $EmailError == true )
+if ( $EmailError == true )
 {
     $t->parse( "email_error", "email_error_tpl" );
 }
@@ -387,23 +389,23 @@ function send_email( $bug, $ini, $Language )
     $module = $bug->module();
     // find the owners of the group, if their is now owner group, no need to send mail.
     $ownerGroup = $module->ownerGroup();
-    if( get_class( $ownerGroup ) != "ezusergroup" )
+    if ( get_class( $ownerGroup ) != "ezusergroup" )
     {
-        Header( "Location: /bug/reportsuccess/" );
+        eZHTTPTool::header( "Location: /bug/reportsuccess/" );
         exit();                
     }
     $users = $ownerGroup->users();
     $userEmail = "";
-    foreach( $users as $userItem )
+    foreach ( $users as $userItem )
     {
-        if( $userEmail = "" )
+        if ( $userEmail = "" )
             $userEmail = $userItem->email();
         else
             $userEmail = $userEmail . ", " . $userItem->email();
     }
 
     $mail = new eZMail();
-    if( $succesfull == 1 )
+    if ( $succesfull == 1 )
         $mail->setFrom( $user->email() );
     else
         $mail->setFrom( $bug->userEmail() );
@@ -421,7 +423,7 @@ function send_email( $bug, $ini, $Language )
     $mailTemplate->set_var( "bug_id", $bug->id() );
     $mailTemplate->set_var( "bug_title", $bug->name( false ) );
     $mailTemplate->set_var( "bug_module", $module->name( false ) );
-    if( $user )
+    if ( $user )
         $mailTemplate->set_var( "bug_reporter", $user->namedEmail() );
     else
         $mailTemplate->set_var( "bug_reporter", $Email );
@@ -431,15 +433,12 @@ function send_email( $bug, $ini, $Language )
     $bodyText = ( $mailTemplate->parse( "dummy", "mailnewbug" ) );
     $mail->setBody( $bodyText );
 
-    if( $userEmail != "" )
+    if ( $userEmail != "" )
     {
         $mail->setTo( $userEmail  );
         print( $userEmail );
         $mail->send();
     }
-
 }
 
 ?>
-
-
