@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezadclick.php,v 1.2 2001/01/22 14:42:59 jb Exp $
+// $Id: ezadclick.php,v 1.3 2001/02/13 15:37:18 jb Exp $
 //
 // Definition of eZAdClick class
 //
@@ -83,9 +83,8 @@ class eZAdClick
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZAd_Click SET
-		                         VisitorIP='$this->VisitorIP',
+		                         PageViewID='$this->PageViewID',
 		                         AdID='$this->AdID',
-                                 UserID='$this->UserID',
                                  ClickPrice='$this->ClickPrice'
                                  " );
 
@@ -96,9 +95,8 @@ class eZAdClick
         else
         {
             $this->Database->query( "UPDATE eZAd_Click SET
-		                         VisitorIP='$this->VisitorIP',
+		                         PageViewID='$this->PageViewID',
 		                         AdID='$this->AdID',
-                                 UserID='$this->UserID',
                                  ClickPrice='$this->ClickPrice'
                                  WHERE ID='$this->ID'
                                  " );
@@ -127,8 +125,7 @@ class eZAdClick
             else if( count( $ad_array ) == 1 )
             {
                 $this->ID =& $ad_array[0][ "ID" ];
-                $this->VisitorIP =& $ad_array[0][ "VisitorIP" ];
-                $this->UserID =& $ad_array[0][ "UserID" ];
+                $this->PageViewID =& $ad_array[0][ "PageViewID" ];
                 $this->ClickPrice =& $ad_array[0][ "ClickPrice" ];
 
                 $this->State_ = "Coherent";
@@ -166,17 +163,6 @@ class eZAdClick
     }
 
     /*!
-      Returns the click IP.
-    */
-    function &visitorIP()
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       return $this->VisitorIP;
-    }
-
-    /*!
       Returns the click price.
     */
     function &price()
@@ -204,12 +190,12 @@ class eZAdClick
     /*!
       Sets the click IP.
     */
-    function setVisitorIP( $value )
+    function setPageViewID( $value )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-       $this->VisitorIP = $value;
+       $this->PageViewID = $value;
     }
 
     /*!
@@ -238,20 +224,6 @@ class eZAdClick
     }
 
     /*!
-      Sets the user ID if a valid user is given as argument.
-    */
-    function setUser( $user )
-    {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
-       if ( get_class( $user ) == "ezuser" )
-       {
-           $this->UserID = $user->id();
-       }
-    }
-    
-    /*!
       \private
       
       Open the database for read and write. Gets all the database information from site.ini.
@@ -267,9 +239,8 @@ class eZAdClick
     
     var $ID;
     var $AdID;
-    var $VisitorIP;
+    var $PageViewID;
     var $ClickTime;
-    var $UserID;
     var $ViewPrice;
 
     ///  Variable for keeping the database connection.

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: gotoad.php,v 1.3 2001/01/22 14:42:59 jb Exp $
+// $Id: gotoad.php,v 1.4 2001/02/13 15:37:13 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <25-Nov-2000 16:26:08 bf>
@@ -34,8 +34,7 @@ $ad = new eZAd( $AdID );
 
 $click = new eZAdClick();
 $click->setAd( $ad );
-$click->setUser( $user );
-$click->setVisitorIP( $REMOTE_ADDR );
+$click->setPageViewID( $GlobalPageView->id() );
 $click->setPrice( $ad->clickPrice() );
 $click->store();
 
