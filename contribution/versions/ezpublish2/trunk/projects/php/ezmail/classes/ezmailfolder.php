@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfolder.php,v 1.6 2001/03/26 10:15:21 fh Exp $
+// $Id: ezmailfolder.php,v 1.7 2001/03/27 09:32:59 fh Exp $
 //
 // eZMailFolder class
 //
@@ -411,10 +411,10 @@ class eZMailFolder
       
       Returns the requested special folder of the current user or the user specified. Valid folders are:
       INBOX
-      OUTBOX
       SENT
       DRAFTS
       TRASH
+      If the folder does not exist it will be created. If the creation should fail the function returns false.
      */
     function getSpecialFolder( $specialType, $user=false ) 
     {
@@ -422,12 +422,40 @@ class eZMailFolder
             $user = eZUser::currentUser();
 
         $userid = $user->id();
+
+        if( $userid == 0 )
+            return false;
+
         $database = eZDB::globalDatabase();
         $database->query_single( $res, "SELECT ID FROM eZMail_Folder WHERE FolderType='$specialType' AND UserID='$userid'" );
 
         if( $res["ID"] != "" )
             return new eZMailFolder( $res["ID"] );
 
+        switch( $specialType )
+        {
+            case INBOX :
+                $folderName = "Inbox";
+                break;
+            case SENT :
+                $folderName = "Sent";
+                break;
+            case DRAFTS :
+                $folderName = "Drafts";
+                break;
+            case TRASH :
+                $folderName = "Trash";
+                break;
+            default:
+                return false;
+                break;
+        }
+
+        $database->query( "INSERT INTO eZMail_Folder SET FolderType='$specialType', UserID='$userid', ParentID='0', Name='$folderName'" );
+        $database->query_single( $res, "SELECT ID FROM eZMail_Folder WHERE FolderType='$specialType' AND UserID='$userid'" );
+        if( $res["ID"] != "" )
+            return new eZMailFolder( $res["ID"] );
+        
         return false;
     }
     

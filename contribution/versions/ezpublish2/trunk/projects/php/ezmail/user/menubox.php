@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.4 2001/03/26 10:15:21 fh Exp $
+// $Id: menubox.php,v 1.5 2001/03/27 09:32:59 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <23-Mar-2001 10:57:04 fh>
@@ -47,23 +47,14 @@ if( eZUser::currentUser() )
 
     $t->set_block( "menu_box_tpl", "mail_folder_tpl", "mail_folder" );
 
-    // get the inbox!
-    $inbox = eZMailFolder::getSpecialFolder( INBOX );
-    if( $inbox )
+    foreach( array( INBOX, SENT, DRAFTS, TRASH ) as $specialfolder )
     {
-        $t->set_var( "folder_id", $inbox->id() );
-        $t->set_var( "folder_name", $inbox->name() );
+        $folderItem = eZMailFolder::getSpecialFolder( $specialfolder );
+        $t->set_var( "folder_id", $folderItem->id() );
+        $t->set_var( "folder_name", $folderItem->name() );
         $t->parse( "mail_folder", "mail_folder_tpl", true );
     }
-
-    $inbox = eZMailFolder::getSpecialFolder( DRAFTS );
-    if( $inbox )
-    {
-        $t->set_var( "folder_id", $inbox->id() );
-        $t->set_var( "folder_name", $inbox->name() );
-        $t->parse( "mail_folder", "mail_folder_tpl", true );
-    }
-
+    
     $folders = eZMailFolder::getByUser();
     foreach( $folders as $folderItem )
     {

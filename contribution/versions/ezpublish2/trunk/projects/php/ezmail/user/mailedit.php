@@ -8,7 +8,10 @@ include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 
 if( isset( $Cancel ) )
 {
-    // delete existing mail draft if any.
+    $inbox = eZMailFolder::getSpecialFolder( INBOX );
+    $inboxid = $inbox->id();
+    eZHTTPTool::header( "Location: /mail/folder/$inboxid" );
+    exit();
 }
 
 if( isset( $AddAttachment ) )
@@ -34,6 +37,11 @@ if( isset( $Preview ) )
 
 if( isset( $Save ) )
 {
+    $MailID = save_mail();
+    $mail = new eZMail( $MailID );
+
+    $drafts = eZMailFolder::getSpecialFolder( DRAFTS );
+    $drafts->addMail( $mail );
 }
 
 if( isset( $Send ) )
@@ -41,9 +49,13 @@ if( isset( $Send ) )
     $MailID = save_mail();
     $mail = new eZMail( $MailID );
     $mail->send();
-//    mail( $mail->to(), $mail->subject(), $mail->body() , "From: $From");
-//    eZHTTPTool::header( "Location: /mail/configure/" );
-//    exit();
+
+    $sent = eZMailFolder::getSpecialFolder( SENT );
+    $sent->addMail( $mail );
+    
+    $sentid = $sent->id();
+    eZHTTPTool::header( "Location: /mail/folder/$sentid" );
+    exit();
 }
 
 $ini =& INIFile::globalINI();

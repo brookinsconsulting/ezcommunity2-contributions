@@ -1,4 +1,4 @@
-<h1>{intl-mail}</h1>
+<h1>{intl-mail} - {current_folder_name}</h1>
 
 <hr noshade="noshade" size="4">
 

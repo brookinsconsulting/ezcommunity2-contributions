@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: maillist.php,v 1.8 2001/03/25 19:25:22 fh Exp $
+// $Id: maillist.php,v 1.9 2001/03/27 09:32:59 fh Exp $
 //
 // Frederik Holljen <fh@ez.no>
 // Created on: <19-Mar-2000 20:25:22 fh>
@@ -64,6 +64,7 @@ $t->set_var( "mail_item", "" );
 
 $folder = new eZMailFolder( $FolderID );
 $t->set_var( "current_folder_id", $FolderID );
+$t->set_var( "current_folder_name", htmlspecialchars( $folder->name() ) );
 $mail = $folder->mail();
 
 $i = 0;
@@ -79,6 +80,15 @@ foreach( $mail as $mailItem )
     $t->parse( "mail_item", "mail_item_tpl", true );
 
     $i++;
+}
+
+/* insert the standard folders first */
+foreach( array( INBOX, SENT, DRAFTS, TRASH ) as $specialfolder )
+{
+    $folderItem = eZMailFolder::getSpecialFolder( $specialfolder );
+    $t->set_var( "folder_id", $folderItem->id() );
+    $t->set_var( "folder_name", $folderItem->name() );
+    $t->parse( "folder_item", "folder_item_tpl", true );
 }
 
 $folders = eZMailFolder::getByUser();

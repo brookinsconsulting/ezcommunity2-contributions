@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.11 2001/03/26 20:21:04 fh Exp $
+// $Id: ezmail.php,v 1.12 2001/03/27 09:32:59 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -745,9 +745,7 @@ class eZMail
         if( !empty( $this->BodyText ) )
             $this->add_attachment( $this->BodyText, "", "text/plain");   
 
-//        echo "\n----<pre>"; print_r( $this->parts ); echo "-----\n</pre>";
         $mime .= "MIME-Version: 1.0\n".$this->build_multipart();
-//        print( nl2br( htmlspecialchars( $mime ) ) );
         mail( $this->To, $this->Subject, "", $mime);
         $this->parts = array();
     }
