@@ -1,6 +1,6 @@
 <?php 
 // 
-// $Id: INIFile.php,v 1.38 2001/08/09 12:08:47 bf Exp $
+// $Id: INIFile.php,v 1.39 2001/08/15 06:56:46 ce Exp $
 //
 // Implements a simple INI-file parser
 //
@@ -92,7 +92,6 @@ class INIFile
         else
         {
             $this->load_data( $inifilename, $write );
-        
             // save the data to a cached file
             $buffer = "";
             $i = 0;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.70 2001/08/10 12:15:26 jhe Exp $
+// $Id: checkout.php,v 1.71 2001/08/15 06:56:47 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -103,6 +103,8 @@ $t->set_block( "cart_item_list_tpl", "price_inc_vat_tpl", "price_inc_vat" );
 
 $t->set_block( "cart_item_tpl", "product_available_item_tpl", "product_available_item" );
 
+$t->set_block( "cart_item_tpl", "voucher_information_tpl", "voucher_information" );
+
 $t->set_block( "checkout_tpl", "shipping_address_tpl", "shipping_address" );
 $t->set_block( "checkout_tpl", "billing_address_tpl", "billing_address" );
 $t->set_block( "billing_address_tpl", "billing_option_tpl", "billing_option" );
@@ -110,8 +112,9 @@ $t->set_block( "checkout_tpl", "wish_user_tpl", "wish_user" );
 
 $t->set_block( "checkout_tpl", "sendorder_item_tpl", "sendorder_item" );
 
-if ( isSet( $SendOrder ) ) 
+if ( isSet ( $SendOrder ) ) 
 {
+    
     // set the variables as session variables and make sure that it is not read by
     // the HTTP GET variables for security.
 
@@ -119,7 +122,7 @@ if ( isSet( $SendOrder ) )
     
     $preOrder = new eZPreOrder();
     $preOrder->store();
-    
+
     $session->setVariable( "PreOrderID", $preOrder->id() );
 
     $session->setVariable( "ShippingAddressID", eZHTTPTool::getVar( "ShippingAddressID", true ) );
@@ -137,10 +140,27 @@ if ( isSet( $SendOrder ) )
     $session->setVariable( "ShippingTypeID", eZHTTPTool::getVar( "ShippingTypeID", true ) );
     $session->setVariable( "IncludeVAT", eZHTTPTool::getVar( "IncludeVAT", true ) );
 
-    eZHTTPTool::header( "Location: /trade/payment/" );
-    exit();
+    if ( count ( $VoucherIDArray ) > 0 )
+    {
+        $i=0;
+        foreach( $VoucherIDArray as $voucher )
+        {
+            if ( $i == 0 )
+                $voucherSession = $voucher . ":" . $MailType[$i];
+            else
+                $voucherSession .= "," . $voucher . ":" . $MailType[$i];
+            $i++;
+        }
+        $session->setVariable( "VoucherInfo", $voucherSession );
+        eZHTTPTool::header( "Location: /trade/voucherinformation/" );
+        exit();
+    }
+    else
+    {
+        eZHTTPTool::header( "Location: /trade/payment/" );
+        exit();
+    }
 }
-
 
 // show the shipping types
 $type = new eZShippingType();
@@ -227,6 +247,7 @@ $can_checkout = true;
         }
         
         $t->set_var( "wish_user", "" );
+        $t->set_var( "product_id", $product->id() );
         
         $wishListItem = $item->wishListItem();
         
@@ -389,6 +410,12 @@ $can_checkout = true;
             }
 
             $t->parse( "cart_item_option", "cart_item_option_tpl", true );
+        }
+
+        $t->set_var( "voucher_information", "" );
+        if ( $product->productType() == 2 )
+        {
+            $t->parse( "voucher_information", "voucher_information_tpl" );
         }
         
         if ( !( is_bool( $min_quantity ) and !$min_quantity ) and

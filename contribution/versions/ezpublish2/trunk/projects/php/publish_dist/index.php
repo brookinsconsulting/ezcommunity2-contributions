@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.93 2001/08/13 13:50:22 jhe Exp $
+// $Id: index.php,v 1.94 2001/08/15 06:56:46 ce Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -27,6 +27,7 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT"); 
 header("Cache-Control: no-cache, must-revalidate"); 
 header("Pragma: no-cache");
+
 
 // Tell PHP where it can find our files.
 if ( file_exists( "sitedir.ini" ) )
@@ -284,6 +285,7 @@ if ( ( $requireUserLogin == "disabled" ) ||
         // set the sitedesign from the section
         if ( $ini->read_var( "site", "Sections" ) == "enabled" )
         {
+
             if ( !is_numeric( $GlobalSectionID ) )
             {
                 $GlobalSectionID = $ini->read_var( "site", "DefaultSection" );
@@ -307,7 +309,6 @@ if ( ( $requireUserLogin == "disabled" ) ||
         // handled by the sitedesign/$design/frame.php file now..
         // print( $MainContents );
 
-
         // include framework
         if ( isSet( $PrintableVersion ) and $PrintableVersion == "enabled" )
         {
@@ -317,7 +318,6 @@ if ( ( $requireUserLogin == "disabled" ) ||
         {
             include( "sitedesign/$siteDesign/frame.php" );
         }
-        
 
         // store site cache
         if ( $StoreSiteCache == true )
@@ -334,6 +334,7 @@ if ( ( $requireUserLogin == "disabled" ) ||
         // load site cache
         include( $SiteCacheFile );
     }
+
 }
 else
 {
@@ -362,6 +363,7 @@ print( $db->isA() );
 // Stop benchmark test and print the result.
 $bench->stop();
 $bench->printResults();
+
 
 ob_end_flush();
 

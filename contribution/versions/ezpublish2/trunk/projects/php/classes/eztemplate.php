@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztemplate.php,v 1.40 2001/08/14 14:12:15 jhe Exp $
+// $Id: eztemplate.php,v 1.41 2001/08/15 06:56:46 ce Exp $
 //
 // Definition of eZTemplate class
 //
@@ -422,6 +422,7 @@ class eZTemplate
         global $wwwDir, $index;
         $this->set_var( 'www_dir', $wwwDir );
         $this->set_var( 'index', $index );
+
     }
 
     /*!

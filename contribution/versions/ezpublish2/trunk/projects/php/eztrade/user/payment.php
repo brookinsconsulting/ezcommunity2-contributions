@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.59 2001/08/09 14:17:42 jhe Exp $
+// $Id: payment.php,v 1.60 2001/08/15 06:56:47 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -375,6 +375,7 @@ if ( $PaymentSuccess == "true" )
     $mailTemplate->set_var( "price_string", $priceString );
     $mailTemplate->set_var( "stringline", $lineString );
     $mailTemplate->set_var( "product_total_string", $totalString );
+    $mailTemplate->set_var( "vat_total_string", $totalString );
     $mailTemplate->set_var( "product_sub_total_string", $subTotalString );
     $mailTemplate->set_var( "product_ship_hand_string", $tshString );
     $mailTemplate->set_var( "site_url", $SiteURL );
@@ -600,16 +601,28 @@ if ( $PaymentSuccess == "true" )
     $mailTemplate->set_var( "product_ship_hand", $shippingPriceString );
 
     if ( $vat )
+    {
+        $grantVAT = $order->totalVAT();
         $grandTotal = $order->totalPriceIncVAT() + $order->shippingCharge();
+    }
     else
+    {
+        $grantVAT = 0;
         $grandTotal = $totalPrice + $order->shippingCharge();
+    }
     
     $currency->setValue( $grandTotal );
 
     $grandTotalString = substr(  $locale->format( $currency ), 0, 13 );
     $grandTotalString = str_pad( $grandTotalString, 15, " ", STR_PAD_LEFT );
     $mailTemplate->set_var( "product_total", $grandTotalString );
-   
+
+    $currency->setValue( $grandVAT );
+
+    $grandVATTotalString = substr(  $locale->format( $currency ), 0, 13 );
+    $grandVATTotalString = str_pad( $grandVATTotalString, 15, " ", STR_PAD_LEFT );
+    $mailTemplate->set_var( "vat_total", $grandVATTotalString );
+
     $mailTemplate->set_var( "order_number", $order->id() );
 
     $checkout = new eZCheckout();

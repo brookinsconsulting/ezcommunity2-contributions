@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.58 2001/08/07 13:26:39 jhe Exp $
+// $Id: articlelist.php,v 1.59 2001/08/15 06:56:47 ce Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -187,61 +187,57 @@ $i = 0;
 $t->set_var( "category_list", "" );
 foreach ( $categoryList as $categoryItem )
 {
-    if ( eZObjectPermission::hasPermission( $categoryItem->id(), "article_category", 'r' ) == true ||
-         eZArticleCategory::isOwner( eZUser::currentUser(), $categoryItem->id() ) )
-    {    
-        $t->set_var( "category_id", $categoryItem->id() );
+    $t->set_var( "category_id", $categoryItem->id() );
         
-        $t->set_var( "category_name", $categoryItem->name() );
+    $t->set_var( "category_name", $categoryItem->name() );
 
-        $parent = $categoryItem->parent();
+    $parent = $categoryItem->parent();
 
-        $image =& $categoryItem->image();
+    $image =& $categoryItem->image();
 
-        $t->set_var( "image_item", "" );
+    $t->set_var( "image_item", "" );
         
-        if ( ( get_class( $image ) == "ezimage" ) && ( $image->id() != 0 ) )
-        {
-            $imageWidth =& $ini->read_var( "eZArticleMain", "CategoryImageWidth" );
-            $imageHeight =& $ini->read_var( "eZArticleMain", "CategoryImageHeight" );
+    if ( ( get_class( $image ) == "ezimage" ) && ( $image->id() != 0 ) )
+    {
+        $imageWidth =& $ini->read_var( "eZArticleMain", "CategoryImageWidth" );
+        $imageHeight =& $ini->read_var( "eZArticleMain", "CategoryImageHeight" );
 
-            $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
+        $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
 
-            $imageURL = "/" . $variation->imagePath();
-            $imageWidth =& $variation->width();
-            $imageHeight =& $variation->height();
-            $imageCaption =& $image->caption();
+        $imageURL = "/" . $variation->imagePath();
+        $imageWidth =& $variation->width();
+        $imageHeight =& $variation->height();
+        $imageCaption =& $image->caption();
             
-            $t->set_var( "image_width", $imageWidth );
-            $t->set_var( "image_height", $imageHeight );
-            $t->set_var( "image_url", $imageURL );
-            $t->set_var( "image_caption", $imageCaption );
-            $t->set_var( "no_image", "" );
-            $t->parse( "image_item", "image_item_tpl" );
-        }
-        else
-        {
-            $t->parse( "no_image", "no_image_tpl" );
-            $t->set_var( "image_item", "" );
-        }
+        $t->set_var( "image_width", $imageWidth );
+        $t->set_var( "image_height", $imageHeight );
+        $t->set_var( "image_url", $imageURL );
+        $t->set_var( "image_caption", $imageCaption );
+        $t->set_var( "no_image", "" );
+        $t->parse( "image_item", "image_item_tpl" );
+    }
+    else
+    {
+        $t->parse( "no_image", "no_image_tpl" );
+        $t->set_var( "image_item", "" );
+    }
 
         
-        if ( ( $i % 2 ) == 0 )
-        {
-            $t->set_var( "td_alt", "1" );
-            $t->set_var( "td_class", "bglight" );
-        }
-        else
-        {
-            $t->set_var( "td_alt", "2" );
-            $t->set_var( "td_class", "bgdark" );
-        }
-
-        $t->set_var( "category_description", $categoryItem->description() );
-
-        $t->parse( "category_item", "category_item_tpl", true );
-        $i++;
+    if ( ( $i % 2 ) == 0 )
+    {
+        $t->set_var( "td_alt", "1" );
+        $t->set_var( "td_class", "bglight" );
     }
+    else
+    {
+        $t->set_var( "td_alt", "2" );
+        $t->set_var( "td_class", "bgdark" );
+    }
+
+    $t->set_var( "category_description", $categoryItem->description() );
+
+    $t->parse( "category_item", "category_item_tpl", true );
+    $i++;
 }
 
 if ( count( $categoryList ) > 0 )
@@ -280,100 +276,94 @@ $t->set_var( "article_list", "" );
 $SiteDescriptionOverride = "";
 foreach ( $articleList as $article )
 {
-    // check if user has permission, if not break to next article.
-    $aid = $article->id();
-    if( eZObjectPermission::hasPermission( $aid, "article_article", 'r' )  ||
-        eZArticle::isAuthor( eZUser::currentUser(), $article->id() ) )
+    $categoryDef =& $article->categoryDefinition();
+    if ( $CategoryID == 0 )
     {
-        $categoryDef =& $article->categoryDefinition();
-        if ( $CategoryID == 0 )
-        {
-            $CategoryID = $categoryDef->id();
-        }
-        
-        $t->set_var( "category_id", $CategoryID );
-
-        $t->set_var( "category_def_name", $categoryDef->name() );
-        $t->set_var( "category_def_id", $categoryDef->id() );
-    
-        $t->set_var( "article_id", $article->id() );
-        $t->set_var( "article_name", $article->name() );
-
-        $SiteDescriptionOverride .= $article->name() . " ";
-        
-        $t->set_var( "author_text", $article->authorText() );
-    
-        // preview image
-        $thumbnailImage =& $article->thumbnailImage();
-        if ( $thumbnailImage )
-        {
-            if ( $GrayScaleImageList == "enabled" )
-                $convertToGray = true;
-            else
-                $convertToGray = false;
-
-            $variation =& $thumbnailImage->requestImageVariation( $ini->read_var( "eZArticleMain", "ThumbnailImageWidth" ),
-            $ini->read_var( "eZArticleMain", "ThumbnailImageHeight" ), $convertToGray );
-    
-            $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
-            $t->set_var( "thumbnail_image_width", $variation->width() );
-            $t->set_var( "thumbnail_image_height", $variation->height() );
-            $t->set_var( "thumbnail_image_caption", $thumbnailImage->caption() );
-
-            $t->parse( "article_image", "article_image_tpl" );
-        }
-        else
-        {
-            $t->set_var( "article_image", "" );    
-        }
-    
-
-        if ( ( $i % 2 ) == 0 )
-        {
-            $t->set_var( "td_alt", "1" );
-            $t->set_var( "td_class", "bglight" );
-        }
-        else
-        {
-            $t->set_var( "td_alt", "2" );
-            $t->set_var( "td_class", "bgdark" );
-        }
-
-        $published = $article->published();
-
-        $t->set_var( "article_published", $locale->format( $published ) );
-    
-
-        $renderer = new eZArticleRenderer( $article );
-
-        $t->set_var( "article_intro", $renderer->renderIntro(  ) );
-
-        
-        if ( $article->linkText() != "" )
-        {
-            $t->set_var( "article_link_text", $article->linkText() );
-        }
-        else
-        {
-            $t->set_var( "article_link_text", $DefaultLinkText );
-        }
-
-        // check if the article contains more than intro
-        $contents =& $renderer->renderPage();
-
-        if ( trim( $contents[1] ) == "" )
-        {
-            $t->set_var( "read_more", "" );
-        }
-        else
-        {
-            $t->parse( "read_more", "read_more_tpl" );
-        }
-
-
-        $t->parse( "article_item", "article_item_tpl", true );
-        $i++;
+        $CategoryID = $categoryDef->id();
     }
+        
+    $t->set_var( "category_id", $CategoryID );
+
+    $t->set_var( "category_def_name", $categoryDef->name() );
+    $t->set_var( "category_def_id", $categoryDef->id() );
+    
+    $t->set_var( "article_id", $article->id() );
+    $t->set_var( "article_name", $article->name() );
+
+    $SiteDescriptionOverride .= $article->name() . " ";
+        
+    $t->set_var( "author_text", $article->authorText() );
+    
+    // preview image
+    $thumbnailImage =& $article->thumbnailImage();
+    if ( $thumbnailImage )
+    {
+        if ( $GrayScaleImageList == "enabled" )
+            $convertToGray = true;
+        else
+            $convertToGray = false;
+
+        $variation =& $thumbnailImage->requestImageVariation( $ini->read_var( "eZArticleMain", "ThumbnailImageWidth" ),
+        $ini->read_var( "eZArticleMain", "ThumbnailImageHeight" ), $convertToGray );
+    
+        $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
+        $t->set_var( "thumbnail_image_width", $variation->width() );
+        $t->set_var( "thumbnail_image_height", $variation->height() );
+        $t->set_var( "thumbnail_image_caption", $thumbnailImage->caption() );
+
+        $t->parse( "article_image", "article_image_tpl" );
+    }
+    else
+    {
+        $t->set_var( "article_image", "" );    
+    }
+    
+
+    if ( ( $i % 2 ) == 0 )
+    {
+        $t->set_var( "td_alt", "1" );
+        $t->set_var( "td_class", "bglight" );
+    }
+    else
+    {
+        $t->set_var( "td_alt", "2" );
+        $t->set_var( "td_class", "bgdark" );
+    }
+
+    $published = $article->published();
+
+    $t->set_var( "article_published", $locale->format( $published ) );
+    
+
+    $renderer = new eZArticleRenderer( $article );
+
+    $t->set_var( "article_intro", $renderer->renderIntro(  ) );
+
+        
+    if ( $article->linkText() != "" )
+    {
+        $t->set_var( "article_link_text", $article->linkText() );
+    }
+    else
+    {
+        $t->set_var( "article_link_text", $DefaultLinkText );
+    }
+
+    // check if the article contains more than intro
+    $contents =& $renderer->renderPage();
+
+    if ( trim( $contents[1] ) == "" )
+    {
+        $t->set_var( "read_more", "" );
+    }
+    else
+    {
+        $t->parse( "read_more", "read_more_tpl" );
+    }
+
+
+    $t->parse( "article_item", "article_item_tpl", true );
+    $i++;
 }
 
 eZList::drawNavigator( $t, $articleCount, $Limit, $Offset, "article_list_page_tpl" );

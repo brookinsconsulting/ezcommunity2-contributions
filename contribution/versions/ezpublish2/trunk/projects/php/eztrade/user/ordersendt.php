@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.34 2001/08/03 14:08:19 jhe Exp $
+// $Id: ordersendt.php,v 1.35 2001/08/15 06:56:47 ce Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -353,7 +353,7 @@ else
 }
 
 $currency->setValue( $totalVAT + $shippingVAT );
-$t->set_var( "order_vat_sum", $locale->format( $currency ) );
+$t->set_var( "order_vat_sum", $locale->format( 50 ) );
 
 $t->set_var( "order_id", $OrderID );
 

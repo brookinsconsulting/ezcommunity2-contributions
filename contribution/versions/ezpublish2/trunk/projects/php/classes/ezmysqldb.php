@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezmysqldb.php,v 1.21 2001/08/02 13:09:42 jhe Exp $
+// $Id: ezmysqldb.php,v 1.22 2001/08/15 06:56:46 ce Exp $
 //
 // Definition of eZMySQLDB class
 //
@@ -40,7 +40,7 @@ class eZMySQLDB
         $this->Server = $server;
         $this->User = $user;
         $this->Password = $password;
-        
+
         $this->Database = mysql_pconnect( $server, $user, $password );
         if ( $this->Database == false )
         {
@@ -79,6 +79,9 @@ class eZMySQLDB
         $result =& mysql_query( $sql, $this->Database );
 //          eZLog::writeNotice( $sql );
 
+        $errorMsg = mysql_error( $this->Database );
+        $errorNum = mysql_errno( $this->Database );
+                                
         if ( $print )
         {
             if ( $GLOBALS["DEBUG"] == true )
@@ -97,7 +100,7 @@ class eZMySQLDB
             $this->Error = "<code>" . htmlentities( $sql ) . "</code><br>\n<b>" . htmlentities(mysql_error( $this->Database)) . "</b>\n" ;
             if ( $GLOBALS["DEBUG"] == true )
             {
-                print( "<b>MySQL Query Error</b>: " . htmlentities( $sql ) . " error message:" . mysql_errno( $this->Database ) . ": ".mysql_error( $this->Database ) ."<br>" );
+                print( "<b>MySQL Query Error</b>: " . htmlentities( $sql ) . "<br><b> Error number:</b>" . $errorNum . "<br><b> Error message:</b> ". $errorMsg ."<br>" );
             }
             return false;
         }
@@ -327,7 +330,11 @@ class eZMySQLDB
         print "Username: " . $this->User . "<br>\n";
         print "Password: " . $this->Password . "<br>\n";
     }
-    
+
+    function counter()
+    {
+        return $this->Counter;
+    }
 
 
     var $Server;
@@ -336,6 +343,7 @@ class eZMySQLDB
     var $Password;
     var $Database;
     var $Error;
+    var $Counter;
     
 }
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.140 2001/08/14 14:12:15 jhe Exp $
+// $Id: ezarticle.php,v 1.141 2001/08/15 06:56:46 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -2051,7 +2051,7 @@ class eZArticle
     */
     function categoryDefinition( $as_object = true )
     {
-        $db =& eZDB::globalDatabase();
+        $db =& eZDB::globalDatabase();        
 
         $db->array_query( $res, "SELECT CategoryID FROM
                                             eZArticle_ArticleCategoryDefinition
@@ -2585,6 +2585,7 @@ class eZArticle
 
     // variable for storing the number of pages in the article.
     var $PageCount;
+   
     
 }
 

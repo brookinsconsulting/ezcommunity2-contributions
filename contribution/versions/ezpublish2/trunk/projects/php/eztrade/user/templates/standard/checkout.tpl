@@ -49,8 +49,22 @@
 	{product_price}
 	</td>
 </tr>
+<!-- BEGIN voucher_information_tpl -->
+<tr>
+       <th class="{td_class}" >{intl-send_email}
+       <th class="{td_class}" >{intl-send_smail}
+</tr>
+<tr>
+        <td class="{td_class}" >
+	<input type="radio" name="MailType[]" value="1" checked />
+        </td>
+        <td class="{td_class}" >
+	<input type="radio" name="MailType[]" value="2" />
+        </td>
+	<input type="hidden" name="VoucherIDArray[]" value="{product_id}" />
+</tr>
+<!-- END voucher_information_tpl -->
 <!-- END cart_item_tpl -->
-
 <tr>
 	<td colspan="2" rowspan="3" valign="top">
 	<div class="boxtext">{intl-shipping_method}:</div>
