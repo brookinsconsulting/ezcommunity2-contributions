@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: ezgpg.php,v 1.7 2001/08/24 13:55:56 ce Exp $
+//
+// $Id: ezgpg.php,v 1.8 2001/10/10 12:53:11 chrism Exp $
 //
 // Definition of eZGPG class
 //
@@ -28,7 +28,7 @@
 //!! eZCommon
 //! GPG Encrytion class
 /*!
-   
+
 */
 
 class eZGPG
@@ -37,43 +37,45 @@ class eZGPG
       \static
       Encrypt function
     */
-	function eZGPG( $plaintxt, $keyname, $wwwuser)
-    {	
-		putenv($home);
-		$boundary = md5( uniqid( time() ) );
-		
-		$this->keyname=$keyname;
-		if ( sizeof( $this->keyname ) == 0 )
+   function eZGPG( $plaintxt, $keyname, $wwwuser)
+    {
+      putenv($home);
+      $boundary = md5( uniqid( time() ) );
+
+      $this->keyname=$keyname;
+      if ( sizeof( $this->keyname ) == 0 )
             echo "WARNING: No Keys Specified";
 
-		$this->pcmd = "echo '$plaintxt' | ";
-		$this->pcmd .= $this->pathtogpg.$this->encryptcommand;
-		$this->pcmd.= " -a -q --no-tty -e -u $wwwuser -r$wwwuser";
-		$this->pcmd.= " -o/var/www/" . $boundary;
+      $this->pcmd = "echo '$plaintxt' | ";
+      $this->pcmd .= $this->pathtogpg.$this->encryptcommand;
+      $this->pcmd.= " -a -q --no-tty -e --homedir '" . $gnuhome .  "' -u $wwwuser -r$wwwuser";
+      $this->pcmd.= " -o/var/www/" . $boundary;
 
-		$pp = popen( $this->pcmd, "w" );
-		fwrite( $pp, $this->body );
-		pclose( $pp );
+      $pp = popen( $this->pcmd, "w" );
+      fwrite( $pp, $this->body );
+      pclose( $pp );
 
 
-		$fp = eZFile::fopen( $boundary, r );
-		$this->body = fread( $fp, eZFile::filesize( $boundary ) );
-		fclose( $fp );
-		
-		eZFile::unlink( $boundary );
-		
-		
-	}
+      $fp = eZFile::fopen( $boundary, r );
+      $this->body = fread( $fp, eZFile::filesize( $boundary ) );
+      fclose( $fp );
+
+      eZFile::unlink( $boundary );
+
+
+   }
 
     var $body;
-	var $keyname = array();
-	var $pathtogpg = "/usr/bin/";
-	var $pp;
-	var $fp;
-	var $pcmd;
-	var $encryptcommand = "gpg --encrypt --batch";
-	var $signcommand = "gpg --sign --batch";
-	var $home="HOME=/var/www";
+   var $keyname = array();
+   var $pathtogpg = "/usr/bin/";
+   var $pp;
+   var $fp;
+   var $pcmd;
+   var $encryptcommand = "gpg --encrypt --batch";
+   var $signcommand = "gpg --sign --batch";
+   var $home="HOME=/var/www";
+   var $gnuhome="/var/www/.gnupg";
+
 
 }
 ?>
