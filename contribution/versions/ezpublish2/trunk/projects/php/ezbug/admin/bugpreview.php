@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugpreview.php,v 1.4 2001/03/06 12:40:04 fh Exp $
+// $Id: bugpreview.php,v 1.5 2001/04/04 15:21:44 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <03-Dec-2000 18:56:58 bf>
@@ -58,8 +58,8 @@ $locale = new eZLocale( $Language );
 $bug = new eZBug( $BugID );
 
 $t->set_var( "bug_id", $bug->id() );
-$t->set_var( "name_value", htmlspecialchars( $bug->name() ) );
-$t->set_var( "description_value", eZTextTool::nl2br( htmlspecialchars( $bug->description() ) ) );
+$t->set_var( "name_value", $bug->name() );
+$t->set_var( "description_value", eZTextTool::nl2br( $bug->description() ) );
 $t->set_var( "action_value", "Update" );
 
 $date =& $bug->created();

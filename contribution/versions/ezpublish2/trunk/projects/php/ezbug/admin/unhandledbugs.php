@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: unhandledbugs.php,v 1.12 2001/03/14 10:31:31 fh Exp $
+// $Id: unhandledbugs.php,v 1.13 2001/04/04 15:21:44 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 22:18:56 bf>
@@ -65,7 +65,7 @@ foreach ( $unhandleBugs as $bug )
     }
 
     $t->set_var( "bug_id",  $bug->id(), "&nbsp;" );
-    $t->set_var( "bug_name",  $bug->name(), "&nbsp;" );
+    $t->set_var( "bug_name",  $bug->name() , "&nbsp;" );
 
     $module = $bug->module();
     if ( $module )
@@ -77,7 +77,7 @@ foreach ( $unhandleBugs as $bug )
 
     if( get_class( $owner) == "ezuser" )
     {
-        $t->set_var( "bug_submitter", $owner->name(), "&nbsp;" );
+        $t->set_var( "bug_submitter", $owner->name() , "&nbsp;" );
     }
     elseif ( $bug->userEmail() != false )
     {

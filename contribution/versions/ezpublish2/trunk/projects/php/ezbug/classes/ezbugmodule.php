@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugmodule.php,v 1.17 2001/03/10 13:46:28 bf Exp $
+// $Id: ezbugmodule.php,v 1.18 2001/04/04 15:21:44 fh Exp $
 //
 // Definition of eZBugModule class
 //
@@ -86,12 +86,14 @@ class eZBugModule
     function store()
     {
         $this->dbInit();
-
+        $name = addslashes( $this->Name );
+        $description = addslashes( $this->Description );
+        
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZBug_Module SET
-		                         Name='$this->Name',
-                                 Description='$this->Description',
+		                         Name='$name',
+                                 Description='$description',
                                  ParentID='$this->ParentID',
                                  OwnerGroupID='$this->OwnerGroupID'" );
             $this->ID = mysql_insert_id();
@@ -99,8 +101,8 @@ class eZBugModule
         else
         {
             $this->Database->query( "UPDATE eZBug_Module SET
-		                         Name='$this->Name',
-                                 Description='$this->Description',
+		                         Name='$name',
+                                 Description='$description',
                                  ParentID='$this->ParentID',
                                  OwnerGroupID='$this->OwnerGroupID' WHERE ID='$this->ID'" );
         }
@@ -288,26 +290,31 @@ class eZBugModule
     /*!
       Returns the name of the module.
     */
-    function name()
+    function name( $html = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
        if ( $this->Name == false )
            return "";
-       else
+       else if( $html )
            return htmlspecialchars( $this->Name );
+       else
+           return $this->Name;
     }
 
     /*!
       Returns the group description.
     */
-    function description()
+    function description( $html = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return htmlspecialchars( $this->Description );
+       if( $html )
+           return htmlspecialchars( $this->Description );
+       else
+           return $this->Description;
     }
     
     /*!

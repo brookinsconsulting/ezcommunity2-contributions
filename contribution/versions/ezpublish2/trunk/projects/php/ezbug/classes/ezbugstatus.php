@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugstatus.php,v 1.3 2001/02/12 15:27:19 fh Exp $
+// $Id: ezbugstatus.php,v 1.4 2001/04/04 15:21:44 fh Exp $
 //
 // Definition of eZBugStatus class
 //
@@ -84,17 +84,17 @@ class eZBugStatus
     function store()
     {
         $this->dbInit();
-
+        $name = addslashes( $this->Name );
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZBug_Status SET
-		                         Name='$this->Name'" );
+		                         Name='$name'" );
             $this->ID = mysql_insert_id();
         }
         else
         {
             $this->Database->query( "UPDATE eZBug_Status SET
-		                         Name='$this->Name'
+		                         Name='$name'
                                  WHERE ID='$this->ID'" );
         }
         
@@ -182,12 +182,15 @@ class eZBugStatus
     /*!
       Returns the name of the status.
     */
-    function name()
+    function name( $html = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        return $this->Name;
+
+       if( $html )
+           return htmlspecialchars( $this->Name );
+       else
+           return $this->Name;
     }
 
     /*!

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugcategory.php,v 1.5 2001/03/10 13:46:28 bf Exp $
+// $Id: ezbugcategory.php,v 1.6 2001/04/04 15:21:44 fh Exp $
 //
 // Definition of eZBugCategory class
 //
@@ -85,19 +85,20 @@ class eZBugCategory
     function store()
     {
         $this->dbInit();
-
+        $name = addslashes( $this->Name );
+        $description = addslashes( $this->Description );
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZBug_Category SET
-		                         Name='$this->Name',
-                                 Description='$this->Description'" );
+		                         Name='$name',
+                                 Description='$description'" );
             $this->ID = mysql_insert_id();
         }
         else
         {
             $this->Database->query( "UPDATE eZBug_Category SET
-		                         Name='$this->Name',
-                                 Description='$this->Description'
+		                         Name='$name',
+                                 Description='$description'
                                  WHERE ID='$this->ID'" );
         }
         
@@ -185,23 +186,29 @@ class eZBugCategory
     /*!
       Returns the name of the category.
     */
-    function name()
+    function name( $html = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        return htmlspecialchars( $this->Name );
+
+       if( $html )
+           return  htmlspecialchars( $this->Name );
+       else
+           return $this->Name;
     }
 
     /*!
       Returns the group description.
     */
-    function description()
+    function description( $html = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        return htmlspecialchars( $this->Description );
+
+       if( $html )
+           return htmlspecialchars( $this->Description );
+       else
+           return $this->Description;
     }
     
     /*!

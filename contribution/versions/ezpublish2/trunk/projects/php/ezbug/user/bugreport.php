@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugreport.php,v 1.21 2001/03/23 14:59:34 pkej Exp $
+// $Id: bugreport.php,v 1.22 2001/04/04 15:21:44 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 20:31:00 bf>
@@ -304,8 +304,7 @@ if( $Action == "Edit" ) // load values from database
         $t->set_var( "file_number", $i + 1 );
         $t->set_var( "file_id", $file->id() );
 
-        $tmp = $file->name();
-        $t->set_var( "file_name", "<a href=\"/filemanager/download/" . $file->id() . "/" . $file->originalFileName() . "\">" . htmlspecialchars( $tmp ) . "</a>" );
+        $t->set_var( "file_name", "<a href=\"/filemanager/download/" . $file->id() . "/" . $file->originalFileName() . "\">" .  $file->name() . "</a>" );
     
         $t->parse( "file", "file_tpl", true );
     
@@ -456,11 +455,11 @@ function send_email( $bug, $ini, $Language )
     if( $succesfull == 1 )
         $mail->setFrom( $user->email() );
     else
-        $mail->setFrom( $bug->userEmail );
+        $mail->setFrom( $bug->userEmail() );
 
     $mailTemplate = new eZTemplate( "ezbug/user/" . $ini->read_var( "eZBugMain", "TemplateDir" ),
                                     "ezbug/user/intl", $Language, "mailnewbug.php" );
-    $headerInfo = ( getallheaders() );
+    $headerInfo = getallheaders();
 
     $mailTemplate->set_file( "mailnewbug", "mailnewbug.tpl" );
     $mailTemplate->setAllStrings();
@@ -469,15 +468,15 @@ function send_email( $bug, $ini, $Language )
             
     $mailTemplate->set_var( "bug_url", "http://" . $host . "/bug/bugview/" . $bug->id() );
     $mailTemplate->set_var( "bug_id", $bug->id() );
-    $mailTemplate->set_var( "bug_title", $bug->name() );
-    $mailTemplate->set_var( "bug_module", $module->name() );
+    $mailTemplate->set_var( "bug_title", $bug->name( false ) );
+    $mailTemplate->set_var( "bug_module", $module->name( false ) );
     if( $user )
         $mailTemplate->set_var( "bug_reporter", $user->namedEmail() );
     else
         $mailTemplate->set_var( "bug_reporter", $Email );
-    $mailTemplate->set_var( "bug_description", $bug->description() );
+    $mailTemplate->set_var( "bug_description", $bug->description( false ) );
         
-    $mail->setSubject( "[Bug][" . $bug->id() ."] " . $bug->name() );
+    $mail->setSubject( "[Bug][" . $bug->id() ."] " . $bug->name( false ) );
     $bodyText = ( $mailTemplate->parse( "dummy", "mailnewbug" ) );
     $mail->setBody( $bodyText );
 

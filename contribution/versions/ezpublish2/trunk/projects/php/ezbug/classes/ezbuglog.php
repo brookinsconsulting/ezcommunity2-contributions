@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbuglog.php,v 1.2 2000/11/30 09:21:39 bf-cvs Exp $
+// $Id: ezbuglog.php,v 1.3 2001/04/04 15:21:44 fh Exp $
 //
 // Definition of eZBugLog class
 //
@@ -73,11 +73,11 @@ class eZBugLog
     function store()
     {
         $this->dbInit();
-
+        $description = addslashes( $this->Description );
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZBug_Log SET
-                                 Description='$this->Description',
+                                 Description='$description',
                                  BugID='$this->BugID',
                                  UserID='$this->UserID'" );
             $this->ID = mysql_insert_id();
@@ -85,7 +85,7 @@ class eZBugLog
         else
         {
             $this->Database->query( "UPDATE eZBug_Log SET
-                                 Description='$this->Description',
+                                 Description='$description',
                                  BugID='$this->BugID',
                                  Created='Created',
                                  UserID='$this->UserID'
@@ -205,12 +205,16 @@ class eZBugLog
     /*!
       Returns the group description.
     */
-    function description()
+    function description( $html = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        return $this->Description;
+
+       if( $html )
+           return htmlspecialchars( $this->Description );
+       else
+           return $this->Description;
+           
     }
     
     /*!

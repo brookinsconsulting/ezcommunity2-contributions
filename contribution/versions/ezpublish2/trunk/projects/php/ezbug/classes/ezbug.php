@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbug.php,v 1.21 2001/03/19 15:57:27 fh Exp $
+// $Id: ezbug.php,v 1.22 2001/04/04 15:21:44 fh Exp $
 //
 // Definition of eZBug class
 //
@@ -110,17 +110,20 @@ class eZBug
     function store()
     {
         $this->dbInit();
-
+        $name = addslashes( $this->Name );
+        $description = addslashes( $this->Description );
+        $useremail = addslashes( $this->UserEmail );
+        
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZBug_Bug SET
-		                         Name='$this->Name',
-                                 Description='$this->Description',
+		                         Name='$name',
+                                 Description='$description',
                                  IsHandled='$this->IsHandled',
                                  IsClosed='$this->IsClosed',
                                  PriorityID='$this->PriorityID',
                                  StatusID='$this->StatusID',
-                                 UserEmail='$this->UserEmail',
+                                 UserEmail='$useremail',
                                  Created=now(),
                                  UserID='$this->UserID',
                                  OwnerID='$this->OwnerID',
@@ -130,14 +133,14 @@ class eZBug
         else
         {
             $this->Database->query( "UPDATE eZBug_Bug SET
-		                         Name='$this->Name',
-                                 Description='$this->Description',
+		                         Name='$name',
+                                 Description='$description',
                                  IsHandled='$this->IsHandled',
                                  IsClosed='$this->IsClosed',
                                  Created=Created,
                                  PriorityID='$this->PriorityID',
                                  StatusID='$this->StatusID',
-                                 UserEmail='$this->UserEmail',
+                                 UserEmail='$useremail',
                                  UserID='$this->UserID',
                                  OwnerID='$this->OwnerID',
                                  IsPrivate='$this->IsPrivate'
@@ -264,34 +267,43 @@ class eZBug
     /*!
       Returns the name of the bug.
     */
-    function name()
+    function name( $html = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        return $this->Name;
+       if( $html )
+           return htmlspecialchars( $this->Name );
+       else
+           return $this->Name;
     }
 
     /*!
       Returns the email address to the reporter.
     */
-    function userEmail()
+    function userEmail( $html = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        return $this->UserEmail;
+
+       if( $html )
+           return htmlspecialchars( $this->UserEmail );
+       else
+           return $this->UserEmail;
+           
     }
     
     /*!
       Returns the group description.
     */
-    function description()
+    function description( $html = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        return $this->Description;
+
+       if( $html )
+           return htmlspecialchars( $this->Description );
+       else
+           return $this->Description;
     }
     
     /*!

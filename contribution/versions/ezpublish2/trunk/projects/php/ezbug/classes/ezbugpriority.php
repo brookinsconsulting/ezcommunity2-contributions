@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugpriority.php,v 1.3 2001/02/12 15:27:19 fh Exp $
+// $Id: ezbugpriority.php,v 1.4 2001/04/04 15:21:44 fh Exp $
 //
 // Definition of eZBugPriority class
 //
@@ -84,17 +84,17 @@ class eZBugPriority
     function store()
     {
         $this->dbInit();
-
+        $name = addslashes( $this->Name );
         if ( !isset( $this->ID ) )
         {
             $this->Database->query( "INSERT INTO eZBug_Priority SET
-		                         Name='$this->Name'" );
+		                         Name='$name'" );
             $this->ID = mysql_insert_id();
         }
         else
         {
             $this->Database->query( "UPDATE eZBug_Priority SET
-		                         Name='$this->Name'
+		                         Name='$name'
                                  WHERE ID='$this->ID'" );
         }
         
@@ -182,12 +182,14 @@ class eZBugPriority
     /*!
       Returns the name of the priority.
     */
-    function name()
+    function name( $html = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
-        
-        return $this->Name;
+       if( $html )
+           return htmlspecialchars( $this->Name );
+       else
+           return $this->Name;
     }
 
     /*!
