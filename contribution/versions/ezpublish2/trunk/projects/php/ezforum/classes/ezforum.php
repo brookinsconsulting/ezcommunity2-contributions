@@ -1,6 +1,6 @@
 <?
 //
-// $Id: ezforum.php,v 1.33 2001/05/16 09:16:37 wojciechp Exp $
+// $Id: ezforum.php,v 1.34 2001/05/16 11:48:24 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -219,7 +219,7 @@ class eZForum
     /*!
       Returns the messages in every forum matching the query string.
     */
-    function &search( &$query, $offset, $limit )
+    function &search( $query, $offset, $limit )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -247,12 +247,12 @@ class eZForum
     /*!
       Returns the total count of a query.
     */
-    function &getQueryCount( $query  )
+    function &getQueryCount( $queryString )
     {
         $db =& eZDB::globalDatabase();
         $message_array = 0;
 
-        $query = new eZQuery( array( "Topic", "Body" ), $query );
+        $query = new eZQuery( array( "Topic", "Body" ), $queryString );
 
         $query_str = "SELECT count(ID) AS Count FROM eZForum_Message WHERE (" . $query->buildQuery() . ") ORDER BY PostingTime";
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.8 2001/05/10 08:28:30 ce Exp $
+// $Id: search.php,v 1.9 2001/05/16 11:48:24 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Oct-2000 20:33:02 bf>
@@ -66,8 +66,8 @@ if ( $QueryString != "" )
     $forum = new eZForum();
     
     // do a search in all forums
-    $messages = $forum->search( $QueryString, $Offset, $Limit );
-    $total_count = $forum->getQueryCount( $QueryString );
+    $messages =& $forum->search( $QueryString, $Offset, $Limit );
+    $total_count =& $forum->getQueryCount( $QueryString );
 
     $locale = new eZLocale( $Language );
 
