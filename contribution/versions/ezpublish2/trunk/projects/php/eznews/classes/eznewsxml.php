@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsxml.php,v 1.1 2000/09/28 12:19:58 pkej-cvs Exp $
+// $Id: eznewsxml.php,v 1.2 2000/09/28 12:48:35 pkej-cvs Exp $
 //
 // Definition of eZNewsXML class and support functions.
 //
@@ -23,6 +23,35 @@
     
     Your object file also needs to have opening tags and closing tags in
     order to be usable.
+    
+    The startElement and endElement in this base class are abstract. The
+    code inside it would have worked with the XML in example 1.
+    
+    This code is based on this <A href="http://www.phpbuilder.com/columns/joe20000907.php3">
+    article</A> by Joe Stump.
+    
+    Example:
+    \code
+    
+    // Example 1 - XML
+    
+    <?xml version="1.0"?>
+    <ezflower>
+    <product>
+        <name>
+            The name of the product.
+        </name>
+        <description>
+            Information about this product.
+        </description>
+        <price>
+            Any text over several lines.
+        </price>
+        <pictureid value="1"/>
+        <categoryid value="4"/>        
+    </product>
+    </ezflower>
+    \endcode
  */
  
 class eZNewsXML
@@ -38,13 +67,72 @@ class eZNewsXML
         $theViewer = &$this;
     }
     
-    // This is used for storing XML data. The data for each
-    // tag can be found in this associative array.
+    //!! eZNews
+    //! startElement takes care of the start tags in an XML document.
+    /*
+        This function is abstract, but you'll find example code inside
+        for how you could implement this in your own class.
+     */
+    function startElement( $parser, $inName, $attrs='' )
+    {
+        die("Take care of startElement() in a subclass of eZNewsXML,
+         and make sure that you override the functions
+         startElement and endElement. ");
+        $this->currentTag = $inName;
+
+        if ( $format == $openTags[$inName] )
+        {
+            switch( $inName )
+            {
+                case 'pictureid':
+                    $this->parsedXMLAttributes[ $this->currentTag ]["value"] = $attrs["value"];
+                    break;
+                case 'categoryid':
+                    $this->parsedXMLAttributes[ $this->currentTag ]["value"] = $attrs["value"];
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    //!! eZNews
+    //! endElement takes care of the end tags in an XML document.
+    /*
+        This function is abstract, but you'll find example code inside
+        for how you could implement this in your own class.
+     */
+    function endElement( $parser, $inName, $attrs='' )
+    {
+        die("Take care of endElement() in a subclass of eZNewsXML,
+         and make sure that you override the functions
+         startElement and endElement. ");
+
+        if( $format == $closeTags[ $inName ] )
+        {
+            switch( $inName )
+            {
+                case 'ezflower':
+                    $this->printPage(  );
+                    $this->parsedXML = '';
+                    break;
+                case 'product':
+                    $this->printItem(  );
+                    $this->parsedXML = '';
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    /// This is used for storing XML data. The data for each tag can be found in this associative array.
     var $parsedXML = array();
 
-    // This is used for storing XML attributes. The attribute for each
-    // tag can be found in this associative array.
+    /// This is used for storing XML attributes. The attribute for each  tag can be found in this associative array.
     var $parsedXMLAttributes = array();
+    
+    var $currentTag;
 
 }
 
@@ -63,29 +151,6 @@ function startElement( $parser, $name, $attrs='' )
 {
     global $theXMLParser;
     $theXMLParser->startElement( $parser, $name, $attrs='' );
-    
-//     global $openTags;
-//     global $parsedXML;
-//     global $parsedXMLAttributes;
-//     global $current_tag;
-//     
-//     
-//     $current_tag = $name;
-//     
-//     if ( $format == $openTags[$name] )
-//     {
-//         switch( $name )
-//         {
-//             case 'pictureid':
-//                 $parsedXMLAttributes[ $current_tag ]["value"] = $attrs["value"];
-//                 break;
-//             case 'categoryid':
-//                 $parsedXMLAttributes[ $current_tag ]["value"] = $attrs["value"];
-//                 break;
-//             default:
-//                 break;
-//         }
-//     }
 }
 
 //!! eZNews
@@ -99,29 +164,6 @@ function endElement($parser, $name, $attrs='')
 {
     global $theXMLParser;
     $theXMLParser->endElement( $parser, $name, $attrs='' );
-
-//     global $closeTags;
-//     global $parsedXML;
-//     global $parsedXMLAttributes;
-//     global $current_tag;
-//     global $theViewer;
-//     
-//     if ($format == $closeTags[$name])
-//     {
-//         switch($name)
-//         {
-//             case 'ezflower':
-//                 $theViewer->printPage( $parsedXML, $parsedXMLAttributes );;
-//                 $parsedXML = '';
-//                 break;
-//             case 'product':
-//                 $theViewer->printItem( $parsedXML, $parsedXMLAttributes );;
-//                 $parsedXML = '';
-//                 break;
-//             default:
-//                 break;
-//         }
-//     }
 }
 
 
