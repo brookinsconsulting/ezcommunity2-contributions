@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproduct.php,v 1.119.2.9 2001/11/27 20:33:09 br Exp $
+// $Id: ezproduct.php,v 1.119.2.10 2001/11/27 21:33:36 br Exp $
 //
 // Definition of eZProduct class
 //
@@ -450,15 +450,17 @@ class eZProduct
             for( $i=0; $i< count( $priceIdArr ); $i++ )
             {
                 $priceId = $priceIdArr[$i][$db->fieldName( "PriceID" )];
-
-                $tmpPrice = eZPriceGroup::correctPrice( $this->ID, $priceId );
-                if ( $tmpPrice < $price || !$price )
-                {
-                    $price = $tmpPrice;
-                }
-                if ( $tmpPrice <= $maxPrice )
-                {
-                    $maxPrice = $tmpPrice;
+                if ( in_Array( $priceId, $groups ) )
+                {                
+                    $tmpPrice = eZPriceGroup::correctPrice( $this->ID, $priceId );
+                    if ( $tmpPrice < $price || !$price )
+                    {
+                        $price = $tmpPrice;
+                    }
+                    if ( $tmpPrice <= $maxPrice )
+                    {
+                        $maxPrice = $tmpPrice;
+                    }
                 }
             }
         }
@@ -574,7 +576,7 @@ class eZProduct
 
         $lowPrice += $this->correctPrice( $calcVAT, $withPriceGroups );
         $maxPrice += $this->correctPrice( $calcVAT, $withPriceGroups );
-        print("<br>$lowPrice - $maxPrice");
+
         $price["max"] = $maxPrice;
         $price["min"] = $lowPrice;
         return $price;
