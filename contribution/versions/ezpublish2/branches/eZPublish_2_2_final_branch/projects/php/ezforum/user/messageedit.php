@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: messageedit.php,v 1.58 2001/10/12 12:22:04 jhe Exp $
+// $Id: messageedit.php,v 1.58.2.1 2001/10/30 13:25:16 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -304,8 +304,8 @@ switch ( $Action )
                         
                         $mailTemplate->set_var( "forum_name", $forum->name() );
                         $mailTemplate->set_var( "forum_link", "http://"  . $headersInfo["Host"] . "/forum/messagelist/" . $forum->id() );
-                        $mailTemplate->set_var( "link_1", "http://" . $headersInfo["Host"] . "/forum/message" . $msg->id() );
-                        $mailTemplate->set_var( "link_2", "http://admin." . $headersInfo["Host"] . "/forum/messageedit/edit/" . $msg->id() );
+                        $mailTemplate->set_var( "link_1", "http://" . $headersInfo["Host"] . "/forum/message/" . $msg->id() );
+                        $mailTemplate->set_var( "link_2", "http://" . $ini->read_var( "site", "AdminSiteURL" ) . "/forum/messageedit/edit/" . $msg->id() );
                         $mailTemplate->set_var( "intl-info_message_1", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_1" ) );
                         $mailTemplate->set_var( "intl-info_message_2", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_2" ) );
                         $mailTemplate->set_var( "intl-info_message_3", $mailTemplate->Ini->read_var( "strings", "moderator_info_message_3" ) );
