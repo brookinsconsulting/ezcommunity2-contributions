@@ -18,6 +18,13 @@
 	{choice_name}
 	</td>
 </tr>
+
+<tr>
+	<td colspan="2">
+	<input type="hidden" name="PollID" value="{poll_id}" />
+	<input class="stdbutton" type="submit" value="{intl-vote}" />
+	</td>
+</tr>
 <!-- END vote_item_tpl -->
 
 <!-- BEGIN novote_item_tpl -->
@@ -27,13 +34,6 @@
 	</td>
 </tr>
 <!-- END novote_item_tpl -->
-
-<tr>
-	<td colspan="2">
-	<input type="hidden" name="PollID" value="{poll_id}" />
-	<input class="stdbutton" type="submit" value="{intl-vote}" />
-	</td>
-</tr>
 </table>
 
 <table width="100%" cellspacing="0" cellpadding="2" border="0">

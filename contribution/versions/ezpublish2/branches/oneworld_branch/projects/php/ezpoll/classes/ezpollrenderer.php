@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpollrenderer.php,v 1.1.2.1 2002/06/03 07:29:51 pkej Exp $
+// $Id: ezpollrenderer.php,v 1.1.2.2 2002/06/04 08:41:21 pkej Exp $
 //
 // eZPollRenderer class
 //
@@ -63,7 +63,6 @@ class eZPollRenderer
         global $menuCachedFile;
         global $noItem;
         global $GlobalSiteDesign;
-        global $PollID;
 
         $Language = $ini->read_var( "eZPollMain", "Language" );
 
@@ -74,9 +73,6 @@ class eZPollRenderer
                              "ezpoll/user/intl/", $Language, "articlevotebox.php" );
 
         $t->setAllStrings();
-
-        $poll = new eZPoll( $PollID );
-        $poll = $poll->mainPoll();
 
         $t->set_file( array(
             "vote_box" => "articlevotebox.tpl"
@@ -92,24 +88,26 @@ class eZPollRenderer
 
         if ( $poll )
         {
-	    if (! $PollID)
-	    {
-	        $PollID = $poll->id();
-	    }
+	        if (! $PollID)
+	        {
+	            $PollID = $poll->id();
+	        }
             $poll = new eZPoll( $PollID );
-
 
             if ( $poll->isClosed() )
             {
-                eZHTTPTool::header( "Location: /poll/result/$PollID" );
-                exit();
+                $renderPoll = false;
             }
-
+            else
+            {
+                $renderPoll = true;
+            }
+            
             $choice = new eZPollChoice();
 
             $choiceList = $choice->getAll( $PollID );
 
-            if ( !$choiceList )
+            if ( empty( $choiceList ) || $renderPoll == false )
             {
                 $t->set_var( "vote_item", "" );
                 $t->set_var( "novote_item", $noItem );
@@ -127,8 +125,6 @@ class eZPollRenderer
                 }
             }
 
-            $poll = new eZPoll();
-            $poll->get( $PollID );
             $t->set_var( "head_line", $poll->name() );
             $t->set_var( "poll_id", $PollID );
 
@@ -150,19 +146,11 @@ class eZPollRenderer
 		    $output = $t->parse( "", "vote_box" );
         }
 
+
+
         return $output;
     }
     
-    /*!
-        This function will send the poll to the recipients.
-     */
-    function sendPoll()
-    {
-        include( "ezpoll/user/votebox.php" );
-        createPollMenu();
-    }
-    
-    var $Template;
     var $Poll;
 }
 
