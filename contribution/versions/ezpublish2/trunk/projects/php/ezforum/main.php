@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: main.php,v 1.18 2000/08/03 10:33:25 lw-cvs Exp $
+    $Id: main.php,v 1.19 2000/08/07 15:00:30 th-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -61,7 +61,7 @@ for ($i = 0; $i < count($categories); $i++)
                                            Array( "Description", "description")
                                            )
                    );
-    $t->set_var( "color", switchColor( $i, "#eeeeee", "#bbbbbb" ) );
+    $t->set_var( "color", switchColor( $i, "#f0f0f0", "#dcdcdc" ) );
                                        
     $t->parse( "categories", "elements", true );
 }
@@ -90,7 +90,7 @@ if ( $search )
                        );
         $t->set_var( "forum", "&nbsp;" );
 
-        $t->set_var( "color", switchColor( $i, "#eeeeee", "#bbbbbb" ) );
+        $t->set_var( "color", switchColor( $i, "#f0f0f0", "#dcdcdc" ) );
         
         $t->parse( "fields", "search-elements", true );
     }

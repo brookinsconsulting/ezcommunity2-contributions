@@ -2,10 +2,10 @@
 <br>
 <table>
    <tr>
-    <td>Kallenavn:</td>
-    <td>Fornavn:</td>
-    <td>Etternavn:</td>
-    <td>Epost:</td>
+    <td><p>Kallenavn:</p></td>
+    <td><p>Fornavn:</p></td>
+    <td><p>Etternavn:</p></td>
+    <td><p>E-post:</p></td>
     <td colspan="2">&nbsp;</td>
    </tr>
    {user-list} 

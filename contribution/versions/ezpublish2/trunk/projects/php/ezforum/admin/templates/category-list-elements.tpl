@@ -1,12 +1,12 @@
 <tr bgcolor="{color}">
     <td>
-        {list-Name}
+        <p>{list-Name}</p>
     </td>
     <td>
-        {list-Description}
+        <p>{list-Description}</p>
     </td>
     <td align="center">
-        {list-Private}
+        <p>{list-Private}</p>
     </td>
     
     <td>

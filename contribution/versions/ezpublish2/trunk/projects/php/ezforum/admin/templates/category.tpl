@@ -1,16 +1,13 @@
-<h2>Kategorier</h2>
-
 {box}
 
-<table border="0" cellspacing="1" cellpadding="5">
-    <tr>
-        <td colspan="6" class="head">Kategorier</td>
-    </tr>
+<h1>Kategorioversikt</h1>
+<table width="100%" border="0" cellspacing="0" cellpadding="4">
     <tr class="choices">
-        <td>Navn</td>
-        <td>Beskrivelse</td>
-        <td>Privat</td>
+        <td><p>Navn:</p></td>
+        <td><p>Beskrivelse:</p></td>
+        <td><p>Privat:</p></td>
         <td colspan="3">&nbsp;</td>
     </tr>
     {categories}
 </table>
+<br><br>

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: category.php,v 1.9 2000/07/31 21:40:49 lw-cvs Exp $
+    $Id: category.php,v 1.10 2000/08/07 15:00:30 th-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -83,7 +83,7 @@ for ($i = 0; $i < count( $categories ); $i++)
                                                )
                    );
 
-    $t->set_var( "color", switchColor( $i, "#eeeeee", "#bbbbbb" ) );
+    $t->set_var( "color", switchColor( $i, "#f0f0f0", "#dcdcdc" ) );
 
     $t->parse("categories","listelements",true);
 }

@@ -1,39 +1,38 @@
 <form action="index.php4" method="post">
     <input type="hidden" name="page" value="{docroot}/admin/category.php4">
-    <table border="0" cellspacing="1" cellpadding="5">
-        <tr class="head">
-            <td colspan="4">
-                Legg til kategori
-            </td>
-        </tr>
+    <h1>Legg til ny kategori</h1>
+	<table border="0" cellspacing="0" cellpadding="0">
         <tr>
             <td>
-                Navn:
-            </td>  
-            <td>
-                Beskrivelse:
+                <p>Navn:</p>
             </td>
-            <td>
-                Privat:
+			<td>
+                <p>&nbsp;&nbsp;Privat:</p>
             </td>
+		</tr>
+		<tr>  
             <td>
+                <input type="text" name="Name"><br><br>
+            </td>
+			<td align="left">
+                &nbsp;&nbsp;<input type="checkbox" name="Private"><br><br>
+        	</td>    
+		</tr>
+		<tr>
+			<td>
+                <p>Beskrivelse:</p>
+            </td>
+			<td>
                 &nbsp;
-            </td>
+        	</td>
         </tr>
-        
-        <tr>
-            <td>
-                <input type="text" name="Name">
-            </td>
-            <td>
+		<tr>
+		    <td>
                 <input type="text" name="Description">
             </td>
             <td align="center">
-                <input type="checkbox" name="Private">
+                &nbsp;&nbsp;<input type="submit" name="add" value="Legg til">
             </td>
-            <td align="center">
-                <input type="submit" name="add" value="Legg til">
-            </td>
-        </tr>
-    </table>
+		</tr>    
+</table>
 </form>

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: users.php,v 1.1 2000/07/31 13:08:43 lw-cvs Exp $
+    $Id: users.php,v 1.2 2000/08/07 15:00:30 th-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -93,9 +93,9 @@ for ($i = 0; $i < count( $users ); $i++)
     $t->set_var( "email", $users[$i]["email"]);
 
     if ( ($i % 2) != 0)
-        $t->set_var( "color", "#eeeeee" );
+        $t->set_var( "color", "#f0f0f0" );
     else
-        $t->set_var( "color", "#bbbbbb" );
+        $t->set_var( "color", "#dcdcdc" );
 
     $t->parse( "user-list", "elements", true );
 }

@@ -1,12 +1,12 @@
 <form action="index.php4" method="post">
 <input type="hidden" name="page" value="{docroot}/admin/users.php4">
 <input type="hidden" name="UserId" value="{userid}">
-<table cellspacing="1" cellpadding="5" border="0">
+<table cellspacing="0" cellpadding="4" border="0">
   <tr>
-    <td>Kallenavn:</td>
-    <td>Fornavn:</td>
-    <td>Etternavn:</td>
-    <td>Epost:</td>
+    <td><p>Kallenavn:</p></td>
+    <td><p>Fornavn:</p></td>
+    <td><p>Etternavn:</p></td>
+    <td><p>E-post:</p></td>
     <td colspan="1">&nbsp;</td>
   </tr>
   <tr>

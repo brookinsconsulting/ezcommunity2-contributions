@@ -1,40 +1,39 @@
 <form action="index.php4" method="get">
     <input type="hidden" name="page" value="category.php4">
     <input type="hidden" name="category_id" value="{Id}">
-    <table border="0" cellspacing="1" cellpadding="5">
-        <tr class="head">
-            <td colspan="4">
-                Endre kategori
-            </td>
-        </tr>
+    <h1>Endre kategori</h1>
+	<table border="0" cellspacing="0" cellpadding="0">
         <tr>
             <td>
-                Navn:
+                <p>Navn:</p>
             </td>
             <td>
-                Beskrivelse:
+                <p>&nbsp;&nbsp;Privat:</p>
             </td>
-            <td>
-                Privat:
+		</tr>
+        <tr>
+			<td>
+                <input type="text" name="Name" value="{category-name}"><br><br>
             </td>
-            <td>
+		    <td align="left">
+                &nbsp;&nbsp;<input type="checkbox" name="Private" {category-private}><br><br>
+            </td>
+		</tr>
+		<tr>
+		    <td>
+                <p>Beskrivelse:</p>
+            </td>
+			<td>
                 &nbsp;
             </td>
         </tr>
-        
-        <tr>
-            <td>
-                <input type="text" name="Name" value="{category-name}">
-            </td>
-            <td>
+		<tr>
+		    <td>
                 <input type="text" name="Description" value="{category-description}">
             </td>
-            <td align="center">
-                <input type="checkbox" name="Private" {category-private}>
+			<td align="center">
+                &nbsp;&nbsp;<input type="submit" name="add" value="Endre">
             </td>
-            <td align="center">
-                <input type="submit" name="add" value="Endre">
-            </td>
-        </tr>
-    </table>
+		</tr>
+</table>
 </form>

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.12 2000/08/03 13:22:16 lw-cvs Exp $
+    $Id: forum.php,v 1.13 2000/08/07 15:00:30 th-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
