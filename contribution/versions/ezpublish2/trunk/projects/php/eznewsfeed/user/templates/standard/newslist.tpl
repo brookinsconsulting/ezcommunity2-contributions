@@ -41,6 +41,21 @@
 	</td>
 {endtr}
 <!-- END news_item_tpl -->
+</table>
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
+
+<!-- BEGIN short_news_item_tpl -->
+<tr>
+	<td valign="top">
+	<p class="newslist">
+	<a href="{news_url}/">{news_name}</a>
+	<span class="small">( {news_origin} - {news_date} )</span>
+	</td>
+	<td valign="top" align="right">
+	<img src="/images/path-arrow.gif" height="10" width="15" border="0" alt=""><a class="path" href="{news_url}">{intl-read_more}</a>
+	</td>
+<tr>
+<!-- END short_news_item_tpl -->
 
 </table>
 <br />

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newslist.php,v 1.6 2000/11/29 14:39:31 bf-cvs Exp $
+// $Id: newslist.php,v 1.7 2000/11/30 13:02:01 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <29-Nov-2000 11:35:19 bf>
@@ -46,6 +46,7 @@ $t->set_file( array(
 // news
 $t->set_block( "news_archive_page_tpl", "news_list_tpl", "news_list" );
 $t->set_block( "news_list_tpl", "news_item_tpl", "news_item" );
+$t->set_block( "news_list_tpl", "short_news_item_tpl", "short_news_item" );
 
 $category = new eZNewsCategory( $CategoryID );
 
@@ -58,8 +59,11 @@ $firstNewsList =& $category->newsList( "time", "no", 0, 1 );
 // fetch the n next news items
 $newsList =& $category->newsList( "time", "no", 1, 4 );
 
+// fetch the news to be listed as small items at the bottom
+$shortNewsList =& $category->newsList( "time", "no", 5, 10 );
+
 $locale = new eZLocale( $Language );
-$i=0;
+
 $t->set_var( "news_list", "" );
 
 
@@ -76,6 +80,7 @@ if ( count( $firstNewsList ) > 0 )
     $t->set_var( "first_news_date", $locale->format( $published ) );
 }
 
+$i=0;
 foreach ( $newsList as $news )
 {
     if ( ( $i % 2 ) == 0 )
@@ -104,6 +109,23 @@ foreach ( $newsList as $news )
     $t->set_var( "news_id", $news->id() );
 
     $t->parse( "news_item", "news_item_tpl", true );
+    $i++;
+}
+
+foreach ( $shortNewsList as $news )
+{
+    $t->set_var( "news_name", $news->name() );
+
+    $t->set_var( "news_url", $news->url() );
+    $t->set_var( "news_origin", $news->origin() );
+
+    $published = $news->originalPublishingDate();
+    $date = $published->date();
+    $t->set_var( "news_date", $locale->format( $date ) );
+    
+    $t->set_var( "news_id", $news->id() );
+
+    $t->parse( "short_news_item", "short_news_item_tpl", true );
     $i++;
 }
 
