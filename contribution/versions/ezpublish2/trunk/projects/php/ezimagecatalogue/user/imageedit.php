@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.19 2001/03/07 13:04:34 fh Exp $
+// $Id: imageedit.php,v 1.20 2001/03/07 16:01:08 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -164,7 +164,7 @@ if ( $Action == "Insert" || $Action == "Update" )
             $t->parse( "error_write_everybody_permission", "error_write_everybody_permission_tpl" );
             $error = true;
         }
-
+        
     }
 
     
@@ -416,39 +416,42 @@ foreach ( $groups as $group )
 // Make a category list
 foreach ( $categoryList as $categoryItem )
 {
-    $t->set_var( "option_name", $categoryItem[0]->name() );
-    $t->set_var( "option_value", $categoryItem[0]->id() );
-
-    if ( $categoryItem[1] > 0 )
-        $t->set_var( "option_level", str_repeat( "&nbsp;", $categoryItem[1] ) );
-    else
-        $t->set_var( "option_level", "" );
-
-    $t->set_var( "selected", "" );
-
-    // Get the rigth category when updating
-    if ( $CurrentCategoryID )
+    if( eZObjectPermission::hasPermission( $categoryItem[0]->id(), "imagecatalogue_category", 'w' ) )
     {
-        if ( $categoryItem[0]->id() == $CurrentCategoryID )
-        {
-            $t->set_var( "selected", "selected" );
-        }
-    }
+        $t->set_var( "option_name", $categoryItem[0]->name() );
+        $t->set_var( "option_value", $categoryItem[0]->id() );
 
-    if ( $Action == "Edit" )
-    {
-        $category =& $image->category();
+        if ( $categoryItem[1] > 0 )
+            $t->set_var( "option_level", str_repeat( "&nbsp;", $categoryItem[1] ) );
+        else
+            $t->set_var( "option_level", "" );
 
-        if ( get_class ( $category ) == "ezimagecategory" )
+        $t->set_var( "selected", "" );
+
+        // Get the rigth category when updating
+        if ( $CurrentCategoryID )
         {
-            if ( $category->id() == $categoryItem[0]->id() )
+            if ( $categoryItem[0]->id() == $CurrentCategoryID )
             {
                 $t->set_var( "selected", "selected" );
             }
         }
-    }
+
+        if ( $Action == "Edit" )
+        {
+            $category =& $image->category();
+
+            if ( get_class ( $category ) == "ezimagecategory" )
+            {
+                if ( $category->id() == $categoryItem[0]->id() )
+                {
+                    $t->set_var( "selected", "selected" );
+                }
+            }
+        }
     
-    $t->parse( "value", "value_tpl", true );
+        $t->parse( "value", "value_tpl", true );
+    }
 }
 
 $t->pparse( "output", "image_edit_page" );

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.13 2001/03/05 10:08:32 ce Exp $
+// $Id: categoryedit.php,v 1.14 2001/03/07 16:01:08 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <08-Jan-2001 11:13:29 ce>
@@ -176,6 +176,7 @@ if ( $Action == "Insert" || $Action == "Update" )
     }
 
     // Check if there was any errors.
+ 
     if ( $error == true )
     {
         $t->parse( "errors", "errors_tpl" );
@@ -183,7 +184,7 @@ if ( $Action == "Insert" || $Action == "Update" )
 }
 
 // Insert a category.
-if ( $Action == "Insert" && $error == false )
+if( $Action == "Insert" && $error == false )
 {
     $category = new eZImageCategory();
     $category->setName( $Name );
@@ -197,20 +198,21 @@ if ( $Action == "Insert" && $error == false )
 
     $category->store();
 
-    if ( count ( $ReadGroupArrayID ) > 0 )
-    {
-        foreach ( $ReadGroupArrayID as $Read )
-        {
-            if ( $Read == 0 )
+
+     if ( count ( $ReadGroupArrayID ) > 0 )
+     {
+         foreach ( $ReadGroupArrayID as $Read )
+         {
+             if ( $Read == 0 )
                 $group = -1;
             else
                 $group = new eZUserGroup( $Read );
-
+            
             eZObjectPermission::setPermission( $group, $category->id(), "imagecatalogue_category", "r" );
         }
     }
 
-    if ( count ( $WriteGroupArrayID ) > 0 )
+   if( count ( $WriteGroupArrayID ) > 0 )
     {
         foreach ( $WriteGroupArrayID as $Write )
         {
@@ -234,30 +236,36 @@ if ( $Action == "Update" && $error == false )
     $category->setName( $Name );
     $category->setDescription( $Description );
 
-    $category->setReadPermission( $Read );
-    $category->setWritePermission( $Write );
-    
     $parent = new eZImageCategory( $ParentID );
     $category->setParent( $parent );
 
     $category->store();
 
-    $category->removeReadPermissions();
-    $category->removeWritePermissions();
-    
     if ( count ( $ReadGroupArrayID ) > 0 )
     {
+        eZObjectPermission::removePermissions( $CategoryID, "imagecatalogue_category", 'r' );
         foreach ( $ReadGroupArrayID as $Read )
         {
-            $category->addReadPermission( $Read );
+            if ( $Read == 0 )
+                $group = -1;
+            else
+                $group = new eZUserGroup( $Read );
+            
+            eZObjectPermission::setPermission( $group, $category->id(), "imagecatalogue_category", "r" );
         }
     }
-
+    
     if ( count ( $WriteGroupArrayID ) > 0 )
     {
+        eZObjectPermission::removePermissions( $CategoryID, "imagecatalogue_category", 'w' );
         foreach ( $WriteGroupArrayID as $Write )
         {
-            $category->addWritePermission( $Write );
+            if ( $Write == 0 )
+                $group = -1;
+            else
+                $group = new eZUserGroup( $Write );
+            
+            eZObjectPermission::setPermission( $group, $category->id(), "imagecatalogue_category", "w" );
         }
     }
 

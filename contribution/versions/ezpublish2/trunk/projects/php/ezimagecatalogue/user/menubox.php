@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.4 2001/03/01 14:06:25 jb Exp $
+// $Id: menubox.php,v 1.5 2001/03/07 16:01:08 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <16-Jan-2001 13:23:02 ce>
@@ -44,8 +44,8 @@ $t->set_file( array(
 
 $t->set_block( "menu_box_tpl", "user_login_tpl", "user_login" );
 
-
-if ( $user )
+if ( $user && ( eZObjectPermission::getObjects( "imagecatalogue_category", 'w', true ) > 0
+                || eZPermission::checkPermission( $user, "eZImageCatalogue", "WriteToRoot" ) ) )
 {
     $t->parse( "user_login", "user_login_tpl" );
 }
