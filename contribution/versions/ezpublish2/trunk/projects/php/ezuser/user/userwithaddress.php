@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.41 2001/02/23 15:18:25 th Exp $
+// $Id: userwithaddress.php,v 1.42 2001/02/23 18:47:21 jb Exp $
 //
 //
 // Christoffer A. Elo <ce@ez.no>
@@ -157,6 +157,7 @@ if ( $MissingAddress == true )
 else
 {
     $t->set_var( "error_missing_address", "" );
+    $t->set_var( "action_value", "update" );
 }
 
 // Check for errors when inserting, updating and inserting a new address

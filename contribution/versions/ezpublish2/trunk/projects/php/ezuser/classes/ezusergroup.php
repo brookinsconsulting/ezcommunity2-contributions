@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezusergroup.php,v 1.15 2001/02/14 15:39:23 fh Exp $
+// $Id: ezusergroup.php,v 1.16 2001/02/23 18:47:21 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -184,14 +184,14 @@ class eZUserGroup
 
         if ( $as_object )
         {
-            for ( $i=0; $i<count ( $group_array ); $i++ )
+            for ( $i=0; $i < count ( $group_array ); $i++ )
             {
                 $return_array[$i] = new eZUserGroup( $group_array[$i] );
             }
         }
         else
         {
-            for ( $i=0; $i<count ( $group_array ); $i++ )
+            for ( $i=0; $i < count ( $group_array ); $i++ )
             {
                 $return_array[$i] =& $group_array[ "ID" ];
             }
