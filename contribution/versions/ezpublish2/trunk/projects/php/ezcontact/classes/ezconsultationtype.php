@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezconsultationtype.php,v 1.1 2001/01/11 21:43:51 jb Exp $
+// $Id: ezconsultationtype.php,v 1.2 2001/01/12 17:51:58 jb Exp $
 //
 // Definition of eZConsultationType class
 //
@@ -94,7 +94,8 @@ class eZConsultationType
         else
         {
             $db->query( "UPDATE eZContact_ConsultationType SET
-                                                  Name='$this->Name'
+                                                  Name='$this->Name',
+                                                  ListOrder='$this->ListOrder'
                                                   WHERE ID='$this->ID'" );
             $this->State_ = "Coherent";
         }
@@ -103,13 +104,25 @@ class eZConsultationType
     }
 
     /*!
-      Deletes an eZConsultation object from the database.
+      Deletes an eZConsultation object from the database, if $relations is true all relations to this item is deleted too.
     */
-    function delete()
+    function delete( $relations = false )
     {
         if ( isSet( $this->ID ) )
         {
             $db = eZDB::globalDatabase();
+            if ( $relations )
+            {
+                $user = eZUser::currentUser();
+                $user_id = $user->id();
+                $db->array_query( $consultations, "SELECT A.ID FROM eZContact_Consultation AS A, eZContact_ConsultationPersonUserDict AS B
+                                                   WHERE A.ID = B.ConsultationID AND B.UserID='$user_id' AND A.StateID='$this->ID'" );
+                foreach( $consultations as $consultation )
+                    {
+                        eZConsultation::delete( $consultation["ID"] );
+                    }
+//                  $db->query( "DELETE FROM eZContact_Consultation where StateID='$this->ID'" );
+            }
             $db->query( "DELETE FROM eZContact_ConsultationType WHERE ID='$this->ID'" );
         }
         return true;
