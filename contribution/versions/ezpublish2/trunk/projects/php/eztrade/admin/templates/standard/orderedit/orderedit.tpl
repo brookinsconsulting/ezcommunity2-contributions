@@ -1,37 +1,47 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.15 2001/02/15 10:42:26 bf Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.16 2001/03/13 09:31:34 th Exp $ -->
 
 <h1>{intl-head_line}</h1>
 
 <hr noshade="noshade" size="4" />
+<br />
 
-<p class="boxtext">{intl-billing_address}:</p>
-<div class="p">
-{customer_first_name} {customer_last_name} 
-{billing_street1}<br />
-{billing_street2}<br />
-{billing_zip} {billing_place}<br />
-{billing_country}
-</div>
-
-<p class="boxtext">{intl-shipping_address}:</p>
-<div class="p">
-{shipping_first_name} {shipping_last_name} 
-{shipping_street1}<br />
-{shipping_street2}<br />
-{shipping_zip} {shipping_place}<br />
-{shipping_country}
-</div>
-
-
-<h2>{intl-customer_email}</h2>
-<div class="p">{customer_email}</div>
-
-
-<h2>{intl-payment_method}</h2>
-<div class="p">
-{intl-payment_by} {payment_method}
-</div>
+<table width="100%" cellspacing="0" cellpadding="3" border="0">
+<tr>
+	<td>
+	<p class="boxtext">{intl-billing_address}:</p>
+	<div class="p">
+	{customer_first_name} {customer_last_name}<br /> 
+	{billing_street1}<br />
+	{billing_street2}<br />
+	{billing_zip} {billing_place}<br />
+	{billing_country}
+	</div>
+	<br />
+	</td>
+	<td>
+	<p class="boxtext">{intl-shipping_address}:</p>
+	<div class="p">
+	{shipping_first_name} {shipping_last_name}<br />
+	{shipping_street1}<br />
+	{shipping_street2}<br />
+	{shipping_zip} {shipping_place}<br />
+	{shipping_country}
+	</div>
+	<br />
+	</td>
+</tr>
+<tr>
+	<td>
+	<p class="boxtext">{intl-customer_email}:</p>
+	<div class="p">{customer_email}</div>
+	</td>
+	<td>
+	<p class="boxtext">{intl-payment_method}:</p>
+	<div class="p">{intl-payment_by} {payment_method}</div>
+	</td>
+</tr>
+</table>
 
 <h2>{intl-productlist}</h2>
 
