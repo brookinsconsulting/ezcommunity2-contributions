@@ -31,6 +31,12 @@ else
 	mkdir -p eztrade/cache
 fi
 
+if [ -d ezpoll/cache ]; then
+	echo "ezpoll/cache already exist"
+else
+	mkdir -p ezpoll/cache
+fi
+
 if [ -d ezarticle/cache ]; then
 	echo "ezarticle/cache already exist"
 else
@@ -56,6 +62,7 @@ chmod 777 eztrade/cache
 chmod 777 ezarticle/cache
 chmod 777 ezforum/cache
 chmod 777 ezlink/cache
+chmod 777 ezpoll/cache
 
 
 if [ -d admin/error.log ]; then

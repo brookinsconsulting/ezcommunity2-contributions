@@ -24,7 +24,7 @@
 ?>
 
     <?
-          include( "ezpoll/user/mainvotebox.php" );
+          include( "ezpoll/user/votebox.php" );
     ?>
         
 	<hr noshade="noshade" size="4" />
@@ -33,7 +33,7 @@
 
 	<hr noshade="noshade" size="4" />
 	
-	<p class="smallbold" align="center"><img src="/images/poweredbyezpublish.gif" width="70" height="70" align="center" border="0"></p>
+	<p class="smallbold" align="center"><a href="publish.ez.no"><img src="/images/poweredbyezpublish.gif" width="70" height="70" align="center" border="0"></a></p>
 	
 	<!-- Oppslagstavle fram til hit! -->
 

@@ -1,5 +1,5 @@
 <?
-// $Id: linkedit.php,v 1.31 2000/10/31 21:54:33 ce-cvs Exp $
+// $Id: linkedit.php,v 1.32 2000/11/01 11:00:41 bf-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -33,8 +33,7 @@ $DOC_ROOT = $ini->read_var( "eZLinkMain", "DocumentRoot" );
 $Language = $ini->read_var( "eZLinkMain", "Language" );
 $error = new INIFIle( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", false );
 
-include_once( "../classes/eztemplate.php" );
-include_once( "../common/ezphputils.php" );
+include_once( "classes/eztemplate.php" );
 
 include( "ezlink/classes/ezlinkgroup.php" );
 include( "ezlink/classes/ezlink.php" );
