@@ -418,3 +418,28 @@ Maintainer(s) : fh@ez.no
       user/intl/de_DE/subscriptionmail.php.ini
       user/intl/de_DE/usermessages.php.ini: de_DE update for 2.2.1
 
+
+Module : ezbulkmail
+Repository path : /home/cvsroot/projects/php/ezbulkmail
+Maintainer(s) : fh@ez.no
+2001-11-08  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/intl/no_NO/categoryedit.php.ini
+      admin/intl/no_NO/categorylist.php.ini
+      admin/intl/no_NO/mailedit.php.ini
+      admin/intl/no_NO/maillist.php.ini
+      admin/intl/no_NO/mailview.php.ini
+      admin/intl/no_NO/masssubscribe.php.ini
+      admin/intl/no_NO/sendmail.php.ini
+      admin/intl/no_NO/templateedit.php.ini
+      admin/intl/no_NO/templatelist.php.ini
+      admin/intl/no_NO/userlist.php.ini
+      user/intl/no_NO/bulklist.php.ini
+      user/intl/no_NO/categoryedit.php.ini
+      user/intl/no_NO/mailview.php.ini
+      user/intl/no_NO/menubox.php.ini
+      user/intl/no_NO/subscriptionlist.php.ini
+      user/intl/no_NO/subscriptionmail.php.ini
+      user/intl/no_NO/usermessages.php.ini:
+    fixed no_NO in ezmail og ezbulkmail
+

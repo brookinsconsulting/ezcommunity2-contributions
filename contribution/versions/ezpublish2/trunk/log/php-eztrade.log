@@ -1897,3 +1897,17 @@ Maintainer(s) : ce@ez.no
       user/intl/de_DE/wishlist.php.ini
       user/intl/de_DE/wishlistmail.php.ini: de_DE update for 2.2.1
 
+
+Module : eztrade
+Repository path : /home/cvsroot/projects/php/eztrade
+Maintainer(s) : ce@ez.no
+2001-11-08  Christoffer Elo  <ce@ez.no>
+
+    * xmlrpc/xmlrpcserver.php: Added voucher transfer to printerserver
+
+    * classes/ezvoucherinformation.php:
+    	Now the smail for vouchers is in latex
+
+    * user/voucherinformation.php
+      user/voucherview.php: Fixed county bug
+

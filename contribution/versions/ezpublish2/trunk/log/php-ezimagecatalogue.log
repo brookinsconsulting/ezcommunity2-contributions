@@ -655,3 +655,12 @@ Maintainer(s) : br@ez.no
       user/intl/de_DE/menubox.php.ini
       user/intl/de_DE/slideshow.php.ini: de_DE update for 2.2.1
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-11-08  Baard Farstad  <bf@ez.no>
+
+    * admin/intl/no_NO/imageedit.php.ini
+      admin/intl/no_NO/categoryedit.php.ini: Added translation.
+

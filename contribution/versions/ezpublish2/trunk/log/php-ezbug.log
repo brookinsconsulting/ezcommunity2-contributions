@@ -414,3 +414,33 @@ Maintainer(s) : vl@ez.no
 
     * user/datasupplier.php: added cron job
 
+
+Module : ezbug
+Repository path : /home/cvsroot/projects/php/ezbug
+Maintainer(s) : vl@ez.no
+2001-11-08  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/intl/no_NO/Attic/menumodulelist.php.ini: New file.
+
+    * admin/intl/no_NO/bugedit.php.ini
+      admin/intl/no_NO/confirmationmail.php.ini
+      admin/intl/no_NO/mailgotbug.php.ini
+      admin/intl/no_NO/mailreply.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/moduleedit.php.ini
+      admin/intl/no_NO/modulelist.php.ini
+      admin/intl/no_NO/search.php.ini
+      user/intl/no_NO/Attic/menumodulelist.php.ini
+      user/intl/no_NO/bugreport.php.ini
+      user/intl/no_NO/bugview.php.ini
+      user/intl/no_NO/fileedit.php.ini
+      user/intl/no_NO/mailnewbug.php.ini
+      user/intl/no_NO/menubox.php.ini
+      user/intl/no_NO/reportsuccess.php.ini
+      user/intl/no_NO/search.php.ini: fixed no_NO translation
+
+    * admin/intl/en_GB/supportcategoryedit.php.ini
+      admin/supportcategoryedit.php
+      admin/templates/standard/supportcategoryedit.tpl:
+    removed verify password field in support category edit
+

@@ -594,3 +594,19 @@ Maintainer(s) : bf@ez.no
       user/intl/de_DE/useredit.php.ini
       user/intl/de_DE/userwithaddress.php.ini: de_DE update for 2.2.1
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2001-11-08  Baard Farstad  <bf@ez.no>
+
+    * admin/welcome.php: Removed debug.
+
+    * admin/templates/standard/welcome.tpl
+      admin/welcome.php: Fixed prefix on external links.
+
+    * admin/templates/standard/welcome.tpl: Fixed link.
+
+    * admin/templates/standard/welcome.tpl
+      admin/welcome.php: Fixed prefix on external link in system check.
+

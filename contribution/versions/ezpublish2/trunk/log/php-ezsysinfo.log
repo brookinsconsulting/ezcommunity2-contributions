@@ -134,3 +134,14 @@ Maintainer(s) : vl@ez.no
       admin/intl/de_DE/menubox.php.ini
       admin/intl/de_DE/sysinfo.php.ini: de_DE update for 2.2.1
 
+
+Module : ezsysinfo
+Repository path : /home/cvsroot/projects/php/ezsysinfo
+Maintainer(s) : vl@ez.no
+2001-11-08  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/intl/no_NO/hwinfo.php.ini
+      admin/intl/no_NO/meminfo.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/sysinfo.php.ini: fixed no_NO translation
+

@@ -684,3 +684,19 @@ Maintainer(s) : jhe@ez.no
       user/intl/de_DE/search.php.ini
       user/intl/de_DE/userlogin.php.ini: de_DE update for 2.2.1
 
+
+Module : ezforum
+Repository path : /home/cvsroot/projects/php/ezforum
+Maintainer(s) : jhe@ez.no
+2001-11-08  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/intl/no_NO/Attic/menuforumlist.php.ini: New file.
+
+    * admin/intl/no_NO/forumedit.php.ini
+      admin/intl/no_NO/messagelist.php.ini
+      admin/intl/no_NO/search.php.ini
+      admin/intl/no_NO/unapprovedlist.php.ini
+      user/intl/no_NO/Attic/menuforumlist.php.ini
+      user/intl/no_NO/messagelist.php.ini
+      user/intl/no_NO/noaccess.php.ini: updatet no_NO
+

@@ -401,3 +401,31 @@ Maintainer(s) : br@ez.no
       user/intl/de_DE/search.php.ini
       user/intl/de_DE/suggestlink.php.ini: de_DE update for 2.2.1
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-11-08  Bjoern Reiten  <br@ez.no>
+
+    * admin/categoryedit.php
+      admin/intl/en_GB/categoryedit.php.ini
+      admin/intl/no_NO/categoryedit.php.ini
+      admin/linkcategorylist.php
+      admin/templates/standard/categoryedit.tpl
+      admin/templates/standard/linkcategorylist.tpl
+      classes/ezlinkcategory.php
+      user/intl/en_GB/linklist.php.ini
+      user/intl/no_NO/linklist.php.ini
+      user/latest.php
+      user/success.php
+      user/templates/standard/latest.tpl:
+    Added suport for aboslute placement for categories and links.
+
+    fixed some absolute code and template error message.
+
+2001-11-08  Christoffer Elo  <ce@ez.no>
+
+    * user/intl/en_GB/categorylist.php.ini
+      user/menubox.php
+      user/templates/standard/menubox.tpl: 		Added links to the menubox
+

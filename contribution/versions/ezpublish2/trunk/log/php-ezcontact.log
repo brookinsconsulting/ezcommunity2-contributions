@@ -534,3 +534,29 @@ Maintainer(s) : jhe@ez.no
       user/intl/de_DE/search.php.ini
       user/intl/de_DE/urlsupplier.php.ini: de_DE update for 2.2.1
 
+
+Module : ezcontact
+Repository path : /home/cvsroot/projects/php/ezcontact
+Maintainer(s) : jhe@ez.no
+2001-11-08  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/intl/no_NO/companysearch.php.ini
+      user/intl/no_NO/personsearch.php.ini
+      user/intl/no_NO/search.php.ini
+      admin/intl/no_NO/companytype.php.ini
+      admin/intl/no_NO/consultationdetaillist.php.ini
+      admin/intl/no_NO/consultationlist.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/personedit.php.ini
+      admin/intl/no_NO/personview.php.ini: updatet no_NO
+
+    * admin/templates/standard/companyview.tpl
+      admin/templates/standard/personview.tpl: fixed headlines
+
+    * admin/companyview.php
+      admin/consultationlist.php
+      admin/personview.php
+      classes/ezconsultation.php
+      user/consultationlist.php:
+    added support for related consultations (one companys consultations include every related users consultations)
+

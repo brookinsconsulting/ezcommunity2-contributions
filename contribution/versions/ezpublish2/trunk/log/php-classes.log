@@ -376,3 +376,16 @@ Maintainer(s) : bf@ez.no
 
     * INIFile.php: Added parameter to function.
 
+
+Module : classes
+Repository path : /home/cvsroot/projects/php/classes
+Maintainer(s) : bf@ez.no
+2001-11-08  Baard Farstad  <bf@ez.no>
+
+    * ezpublish.php: Changed version number.
+
+    * ezdb.php
+      eztemplate.php: Fixed storing of $10 like text correctly.
+
+    * eztemplate.php: Fixed storing $100 correctly.
+

@@ -178,3 +178,17 @@ Maintainer(s) : vl@ez.no
       user/intl/de_DE/allcategories.php.ini
       user/intl/de_DE/headlines.php.ini: de_DE update for 2.2.1
 
+
+Module : eznewsfeed
+Repository path : /home/cvsroot/projects/php/eznewsfeed
+Maintainer(s) : vl@ez.no
+2001-11-08  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/intl/no_NO/categoryedit.php.ini
+      admin/intl/no_NO/importnews.php.ini
+      admin/intl/no_NO/newsedit.php.ini
+      admin/intl/no_NO/newssearch.php.ini
+      admin/intl/no_NO/sourcesiteedit.php.ini
+      admin/intl/no_NO/unpublished.php.ini
+      user/intl/no_NO/allcategories.php.ini: fixed no_NO translation
+

@@ -483,3 +483,19 @@ Maintainer(s) : jhe@ez.no
 
     * user/fileupload.php: appends extension if omitted
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-11-08  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * user/intl/no_NO/Attic/menufolderlist.php.ini: New file.
+
+    * admin/intl/en_GB/browse.php.ini
+      admin/intl/no_NO/browse.php.ini
+      user/intl/no_NO/Attic/menufolderlist.php.ini
+      user/intl/no_NO/filelist.php.ini
+      user/intl/no_NO/fileupload.php.ini
+      user/intl/no_NO/folderedit.php.ini
+      user/intl/no_NO/search.php.ini: updatet no_NO
+
