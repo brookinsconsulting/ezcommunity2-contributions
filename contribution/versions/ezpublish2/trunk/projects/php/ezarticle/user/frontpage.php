@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.13 2001/10/01 11:55:42 ce Exp $
+// $Id: frontpage.php,v 1.14 2001/10/02 07:30:36 ce Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -65,6 +65,16 @@ $t->set_block( "article_list_page_tpl", "one_column_article_tpl", "one_column_ar
 $t->set_block( "one_column_article_tpl", "one_column_article_image_tpl", "one_column_article_image" );
 $t->set_block( "one_column_article_tpl", "one_column_read_more_tpl", "one_column_read_more" );
 
+// two column product
+$t->set_block( "article_list_page_tpl", "two_column_product_tpl", "two_column_product" );
+$t->set_block( "two_column_product_tpl", "left_product_tpl", "left_product" );
+$t->set_block( "left_product_tpl", "left_product_image_tpl", "left_product_image" );
+$t->set_block( "left_product_tpl", "left_price_tpl", "left_price" );
+
+$t->set_block( "two_column_product_tpl", "right_product_tpl", "right_product" );
+$t->set_block( "right_product_tpl", "right_product_image_tpl", "right_product_image" );
+$t->set_block( "right_product_tpl", "right_price_tpl", "right_price" );
+
 // two column article
 $t->set_block( "article_list_page_tpl", "two_column_article_tpl", "two_column_article" );
 $t->set_block( "two_column_article_tpl", "left_article_tpl", "left_article" );
@@ -88,6 +98,7 @@ $t->set_var( "element_list", "" );
 
 $t->set_var( "one_column_article", "" );
 $t->set_var( "two_column_article", "" );
+$t->set_var( "two_column_product", "" );
 $t->set_var( "one_short_article", "" );
 $t->set_var( "ad_column", "" );
 
@@ -106,8 +117,12 @@ foreach ( $page_elements as $element )
         $articleCount++;
     if ( $element == "ad"  )
         $adCount++;
-    if ( $element == "1columnProduct" )
+    if ( $element == "1columnProduct" || $element =="2columnProduct" )
+    {
         $productCount++;
+        if ( $element == "2columnProduct" )
+            $productCount++;
+    }
 }
 
 $category = new eZArticleCategory( $FrontPageCategory );
@@ -142,11 +157,10 @@ if ( $FrontPageProductCategory == 0 )
     $product = new eZProduct();
     $productList =& $product->activeProducts( "time", 0, $productCount );
     $productCount = $productCount;
-
 }
 else
 {
-    $articleList =& $productCategory->products( $category->sortMode(), false, true, 0, $productCount );
+    $productList =& $productCategory->products( $category->sortMode(), false, true, 0, $productCount );
     $articleCount = $articleCount;
 }
 
@@ -166,6 +180,7 @@ $locale = new eZLocale( $Language );
 $i=0;
 
 $articleOffset = 0;
+$productOffset = 0;
 $adOffset = 0;
 $pageContents = "";
 // render the page elements
@@ -224,6 +239,19 @@ foreach ( $page_elements as $element )
             
             $productOffset++;
         }break;
+
+        case "2columnProduct":
+        {            
+            $product1 =& $productList[$productOffset];
+            $productOffset++;
+            $product2 =& $productList[$productOffset];
+
+            if ( get_class( $product1 ) == "ezproduct" && get_class( $product2 ) == "ezproduct" ) 
+                $pageContents .= renderFrontpageProductDouble( $t, $locale, $product1, $product2 );
+            
+            $productOffset++;
+        }break;
+
     }
 }
 $t->set_var( "element_list", $pageContents );
@@ -562,6 +590,187 @@ function &renderAd( &$t, &$locale, &$ad )
 
     return $t->parse( "output", "ad_column_tpl" );
 }
+
+
+function &renderFrontpageProductDouble( &$t, &$locale, &$product1, &$product2 )
+{
+    global $ini;
+    $pid = $product1->id();
+	
+    // preview image
+    $thumbnailImage = $product1->thumbnailImage();
+
+      
+    if ( $thumbnailImage )
+    {
+        $variation =& $thumbnailImage->requestImageVariation( $ThumbnailImageWidth, $ThumbnailImageHeight );
+    
+        $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
+        $t->set_var( "thumbnail_image_width", $variation->width() );
+        $t->set_var( "thumbnail_image_height", $variation->height() );
+        $t->set_var( "thumbnail_image_caption", $thumbnailImage->caption() );
+
+        $t->parse( "left_product_image", "left_product_image_tpl" );
+    }
+    else
+    {
+        $t->set_var( "left_product_image", "" );    
+    }
+
+    $t->set_var( "product_name", $product1->name() );
+    $t->set_var( "product_id", $product1->id() );
+
+    $t->set_var( "product_intro_text", eZTextTool::nl2br( $product1->brief() ) );
+
+    if ( $ShowPrice and $product1->showPrice() == true and $product1->hasPrice() )
+    {
+        $t->set_var( "product_price", $product1->localePrice( $PricesIncludeVAT ) );
+        $priceRange = $product1->correctPriceRange( $PricesIncludeVAT );
+
+        if ( ( empty( $priceRange["min"] ) and empty( $priceRange["max"] ) ) and !($product1->correctPrice( $PricesIncludeVAT ) > 0) )
+        {
+            $t->set_var( "product_price", "" );
+        }
+        $t->parse( "left_price", "left_price_tpl" );
+    }
+    elseif( $product1->showPrice() == false )
+    {
+        $t->set_var( "product_price", "" );
+        $t->parse( "left_price", "left_price_tpl" );
+    }
+    else
+    {
+        $priceArray = "";
+        $options =& $product1->options();
+        if ( count( $options ) == 1 )
+        {
+            $option = $options[0];
+            if ( get_class( $option ) == "ezoption" )
+            {
+                $optionValues =& $option->values();
+                if ( count( $optionValues ) > 1 )
+                {
+                    $i=0;
+                    foreach ( $optionValues as $optionValue )
+                    {
+                        $priceArray[$i] = $optionValue->localePrice( $PricesIncludeVAT, $product1 );
+                        $i++;
+                    }
+                    $high = max( $priceArray );
+                    $low = min( $priceArray );
+                    
+                    $t->set_var( "product_price", $low . " - " . $high );
+                    
+                    $t->parse( "left_price", "left_price_tpl" );
+                }
+            }
+        }
+        else
+            $t->set_var( "right_price", "" );
+    }
+    
+
+    if ( ( $i % 2 ) == 0 )
+    {
+        $t->set_var( "td_class", "bglight" );
+    }
+    else
+    {
+        $t->set_var( "td_class", "bgdark" );
+    }
+
+    $t->parse( "left_product", "left_product_tpl"  );
+
+    $pid = $product2->id();
+
+    // preview image
+    $thumbnailImage = $product2->thumbnailImage();
+    
+    if ( $thumbnailImage )
+    {
+        $variation =& $thumbnailImage->requestImageVariation( $ThumbnailImageWidth, $ThumbnailImageHeight );
+    
+        $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
+        $t->set_var( "thumbnail_image_width", $variation->width() );
+        $t->set_var( "thumbnail_image_height", $variation->height() );
+        $t->set_var( "thumbnail_image_caption", $thumbnailImage->caption() );
+
+        $t->parse( "right_product_image", "right_product_image_tpl" );
+    }
+    else
+    {
+        $t->set_var( "right_product_image", "" );    
+    }
+
+    $t->set_var( "product_name", $product2->name() );
+    $t->set_var( "product_id", $product2->id() );
+
+    $t->set_var( "product_intro_text", eZTextTool::nl2br( $product2->brief() ) );
+
+    if ( $ShowPrice and $product2->showPrice() == true and $product2->hasPrice() )
+    {
+        $t->set_var( "product_price", $product2->localePrice( $PricesIncludeVAT ) );
+        $priceRange = $product2->correctPriceRange( $PricesIncludeVAT );
+
+        if ( ( empty( $priceRange["min"] ) and empty( $priceRange["max"] ) ) and !($product2->correctPrice( $PricesIncludeVAT ) > 0) )
+        {
+            $t->set_var( "product_price", "" );
+        }
+        $t->parse( "right_price", "right_price_tpl" );
+    }
+    elseif( $product2->showPrice() == false )
+    {
+        $t->set_var( "product_price", "" );
+        $t->parse( "right_price", "right_price_tpl" );
+    }
+    else
+    {
+        $priceArray = "";
+        $options =& $product2->options();
+        if ( count( $options ) == 1 )
+        {
+            $option = $options[0];
+            if ( get_class( $option ) == "ezoption" )
+            {
+                $optionValues =& $option->values();
+                if ( count( $optionValues ) > 1 )
+                {
+                    $i=0;
+                    foreach ( $optionValues as $optionValue )
+                    {
+                        $priceArray[$i] = $optionValue->localePrice( $PricesIncludeVAT, $product2 );
+                        $i++;
+                    }
+                    $high = max( $priceArray );
+                    $low = min( $priceArray );
+                    
+                    $t->set_var( "product_price", $low . " - " . $high );
+                    
+                    $t->parse( "right_price", "right_price_tpl" );
+                }
+            }
+        }
+        else
+            $t->set_var( "right_price", "" );
+    }
+    
+
+    if ( ( $i % 2 ) == 0 )
+    {
+        $t->set_var( "td_class", "bglight" );
+    }
+    else
+    {
+        $t->set_var( "td_class", "bgdark" );
+    }
+
+    $t->parse( "right_product", "right_product_tpl"  );
+    
+    return $t->parse( "output", "two_column_product_tpl" );    
+}
+
+
+
 
 ?>
 
