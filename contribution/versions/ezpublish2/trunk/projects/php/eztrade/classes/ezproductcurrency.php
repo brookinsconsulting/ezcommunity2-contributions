@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcurrency.php,v 1.2 2001/03/05 12:31:51 bf Exp $
+// $Id: ezproductcurrency.php,v 1.3 2001/03/06 19:18:26 jb Exp $
 //
 // Definition of eZProductCurrency class
 //
@@ -120,7 +120,7 @@ class eZProductCurrency
         
         $db->array_query( $currency_array, "SELECT ID FROM eZTrade_AlternativeCurrency ORDER BY Created" );
         
-        for ( $i=0; $i<count($currency_array); $i++ )
+        for ( $i=0; $i < count($currency_array); $i++ )
         {
             $return_array[$i] = new eZProductCurrency( $currency_array[$i]["ID"], 0 );
         }
