@@ -344,9 +344,9 @@ EOD;
                         
         foreach( $categories as $category )
         {
-            $cat->objectHeader();
-            $cat->objectInfo();
-            $cat->objectFooter();
+            $category->objectHeader();
+            $category->objectInfo();
+            $category->objectFooter();
             
             $t->set_var( "ID", $category->ID() );
             $t->set_var( "Name", $category->Name() );
