@@ -1,10 +1,7 @@
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr>
-	<td class="menuhead">{intl-hot_deals}</td>
+	<td class="menuhead" colspan="{hotdeal_columns}">{intl-hot_deals}</td>
 </tr>
-
-<!-- BEGIN category_list_tpl -->
-
 
 <!-- BEGIN product_list_tpl -->
 
