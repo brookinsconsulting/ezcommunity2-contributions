@@ -23,6 +23,7 @@ define( "EZPUBLISH_SERVER_VERSION", 0.2 );
 // Error codes
 define( "EZERROR_BAD_LOGIN", 1 );
 define( "EZERROR_INVALID_FUNCTION", 2 );
+define( "EZERROR_CUSTOM", 3 );
 define( "EZERROR_NO_RETURN_DATA", 4 );
 define( "EZERROR_NONEXISTING_OBJECT", 5 );
 
@@ -220,6 +221,11 @@ function &createErrorMessage( $error_id, $error_msg = false )
             if ( $ID > 0 )
                 $id_text = $ID;
             $error_text = "Object does not exist, used command \"$Command\" for URL \"$Module:/$RequestType/$id_text\".";
+            break;
+        }
+        case EZERROR_CUSTOM:
+        {
+            $error_text = $error_msg;
             break;
         }
         default:
