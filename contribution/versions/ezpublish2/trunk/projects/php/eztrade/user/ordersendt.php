@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.45 2001/09/15 15:53:02 pkej Exp $
+// $Id: ordersendt.php,v 1.46 2001/09/17 11:21:53 pkej Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -452,7 +452,7 @@ if ( $ShowCart == true )
     
     $order->orderTotals( $tax, $total );
 
-    $locale = new eZLocale( $inLanguage );
+    $locale = new eZLocale( $Language );
     $currency = new eZCurrency();
     
     $t->set_var( "empty_cart", "" );
