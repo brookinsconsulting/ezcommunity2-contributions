@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezquery.php,v 1.14 2001/09/04 13:55:48 bf Exp $
+// $Id: ezquery.php,v 1.15 2001/11/01 15:33:39 bf Exp $
 //
 // Definition of eZQuery class
 //
@@ -249,6 +249,15 @@ class eZQuery
     function setStopWordColumn( $value )
     {
         $this->StopWordColumn = $value;
+    }
+
+    /*!
+      Sets the Stop Word percent  E.g:
+      0.5 == 50%
+    */
+    function setStopWordPercent( $value )
+    {
+        $this->StopPercent = $value;
     }
     
     var $Fields;
