@@ -16,7 +16,7 @@
 <hr noshade="noshade" size="4" />
 
 <!-- BEGIN tree_selector_tpl -->
-<form method="post" href="{www_dir}{index}{link_type_select_url}{object_id}">
+<form method="post" action="{www_dir}{index}{link_type_select_url}{object_id}">
 
 <table cellpadding="4" cellspacing="0" border="0">
 <tr>
@@ -40,7 +40,7 @@
 </form>
 <!-- END tree_selector_tpl -->
 
-<form method="post" href="{www_dir}{index}{link_list_url}{object_id}">
+<form method="post" action="{www_dir}{index}{link_list_url}{object_id}">
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <!-- BEGIN category_list_tpl -->
@@ -165,7 +165,7 @@
 <!-- BEGIN url_select_tpl -->
 
 <!-- BEGIN url_selector_tpl -->
-<form method="post" href="{www_dir}{index}{link_type_select_url}{object_id}">
+<form method="post" action="{www_dir}{index}{link_type_select_url}{object_id}">
 
 <table cellpadding="4" cellspacing="0" border="0">
 <tr>
@@ -189,7 +189,7 @@
 </form>
 <!-- END url_selector_tpl -->
 
-<form method="post" href="{www_dir}{index}{link_list_url}{object_id}">
+<form method="post" action="{www_dir}{index}{link_list_url}{object_id}">
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td>
@@ -220,7 +220,7 @@
 
 <!-- BEGIN module_select_tpl -->
 <!-- BEGIN module_selector_tpl -->
-<form method="post" href="{www_dir}{index}{link_type_select_url}{object_id}">
+<form method="post" action="{www_dir}{index}{link_type_select_url}{object_id}">
 
 <table cellpadding="4" cellspacing="0" border="0">
 <tr>
@@ -244,7 +244,7 @@
 </form>
 <!-- END module_selector_tpl -->
 
-<form method="post" href="{www_dir}{index}{link_list_url}{object_id}">
+<form method="post" action="{www_dir}{index}{link_list_url}{object_id}">
 
 <h1>{intl-head_line_choose}</h1>
 <hr noshade="noshade" size="4" />
