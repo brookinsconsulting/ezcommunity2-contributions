@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.61 2001/08/22 12:06:29 ce Exp $
+// $Id: payment.php,v 1.62 2001/08/24 07:21:08 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -141,7 +141,10 @@ $preOrder = new eZPreOrder( $PreOrderID );
 $paymentMethod = $session->variable( "PaymentMethod" );
 $locale = new eZLocale( $Language );
 
-include( $instance->paymentFile( $paymentMethod ) );
+if ( $paymentMethod == true )
+    include( $instance->paymentFile( $paymentMethod ) );
+else
+$PaymentSuccess = "true";
 
 // create an order and empty the cart.
 // only do this if the payment was OK.
@@ -658,26 +661,25 @@ if ( $PaymentSuccess == "true" )
     $mail->setBody( $mailBody );
     $mail->send();
     
-    //admin email
-    //check to see if the email should be encrypted for the administrator
+    // admin email
+    // check to see if the email should be encrypted for the administrator
     $mailEncrypt = $ini->read_var( "eZTradeMain", "MailEncrypt" );
     
 	if ( $mailEncrypt == "GPG" )
 	{	
-	    //initialize GPG class 
-	    $mailKeyname = $ini->read_var( "eZTradeMain", "RecipientGPGKey" );
+	    // initialize GPG class 
 	    $wwwUser = $ini->read_var( "eZTradeMain", "ApacheUser" );
-        
-        //At this point you can add any information to the template as needed
-        //remember to provide a variable in the template for it.
-     	//add credit card info for the administrator
-    	//$mailTemplate->set_var( "payment_method", $paymentMethod );
-    	//$mailTemplate->set_var( "cc_number", $CCNumber );
-    	//$mailTemplate->set_var( "cc_expiremonth", $ExpireMonth );
-    	//$mailTemplate->set_var( "cc_expireyear", $ExpireYear );
+        $mailKeyname = $ini->read_var( "eZTradeMain", "RecipientGPGKey" );
+        // At this point you can add any information to the template as needed
+        // remember to provide a variable in the template for it.
+     	// add credit card info for the administrator
+    	$mailTemplate->set_var( "payment_method", $paymentMethod );
+    	$mailTemplate->set_var( "cc_number", $CCNumber );
+    	$mailTemplate->set_var( "cc_expiremonth", $ExpireMonth );
+    	$mailTemplate->set_var( "cc_expireyear", $ExpireYear );
 
 	    $mailBody = $mailTemplate->parse( "dummy", "mail_order_tpl" );
-    	//encrypt mailBody
+    	// encrypt mailBody
 		$mytext = new ezgpg( $mailBody, $mailKeyname, $wwwUser );
 		$mailBody=($mytext->body);
 		$mail->setBody( $mailBody );
@@ -782,7 +784,15 @@ if ( $PaymentSuccess == "true" )
     $preOrder = new eZPreOrder( $PreOrderID );
     $preOrder->setOrderID( $OrderID );
     $preOrder->store();
-    
+
+    foreach( $vouchers as $voucherInformation )
+    {
+        $newVoucher = new eZVoucher();
+        $voucherInformation->addVoucher( $newVoucher );
+        $voucher->generateKey();
+        $voucher->store();
+    }
+
     // call the payment script after the payment is successful.
     // some systems needs this, e.g. to print out the OrderID which was cleared..
     $Action = "PostPayment";

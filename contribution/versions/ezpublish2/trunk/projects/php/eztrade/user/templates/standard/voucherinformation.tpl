@@ -73,6 +73,7 @@
 
 
 <input type="hidden" name="MailType" value="{mail_type}" />
+<input type="hidden" name="ProductID" value="{product_id}" />
 
 <!-- BEGIN next_tpl -->
 <input type="submit" name="Next" value="{intl-next}" />

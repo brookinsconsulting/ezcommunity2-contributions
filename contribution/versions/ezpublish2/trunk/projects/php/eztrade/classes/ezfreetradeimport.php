@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezfreetradeimport.php,v 1.6 2001/08/17 13:36:00 jhe Exp $
+// $Id: ezfreetradeimport.php,v 1.7 2001/08/24 07:21:07 ce Exp $
 //
 // ezfreetradeimport class
 //
@@ -209,15 +209,16 @@ class eZFreeTradeImport
 
             if ( count ( $options ) > 0 )
             {
-                $option = new eZOption();
-                $option->setName( "Options" );
-                $option->store();
-                $product->addOption( $option );
-                
                 if ( is_array( $options ) )
                 {
                     foreach( $options as $importOption )
                     {
+                        $option = new eZOption();
+                        $option->setName( $importOption[6]["Name"] );
+                        $option->store();
+
+                        $product->addOption( $option );
+
                         $value = new eZOptionValue();
                         $value->setRemoteID( $importOption["ID"] );
                         $value->store();

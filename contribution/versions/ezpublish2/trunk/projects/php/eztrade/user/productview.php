@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.54 2001/08/21 11:21:41 ce Exp $
+// $Id: productview.php,v 1.55 2001/08/24 07:21:08 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -336,22 +336,33 @@ foreach ( $options as $option )
                 {
                     $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup,
                                                      $option->id(), $value->id() );
+                    $priceIncVAT = $product->priceIncVAT( $price );
+                    $priceIncVAT = $price + $priceIncVAT[1];
+
                     if ( $price )
                     {
                         $found_price = true;
 
                         $price = new eZCurrency( $price );
+                        $priceIncVAT = new eZCurrency( $priceIncVAT );
                     }
                 }
                 if ( !$found_price )
                 {
                     $price = new eZCurrency( $value->price() );
+                    $valuePrice = $value->price();
+                    $priceIncVAT = $product->priceIncVAT( $valuePrice );
+                    $priceIncVAT = new eZCurrency( $priceIncVAT[0] );
+
                 }
 
                 if ( $price->value() == 0 )
                     $t->set_var( "value_price", "" );
                 else
+                {
                     $t->set_var( "value_price", $locale->format( $price ) );
+                    $t->set_var( "value_price_inc_vat", $locale->format( $priceIncVAT ) );
+                }
 
                 $t->parse( "value_price_item", "value_price_item_tpl" );
 
@@ -528,18 +539,24 @@ if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
     if ( $ShowPriceGroups and $PriceGroup > 0 )
     {
         $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
+        $priceIncVAT = $product->priceIncVAT( $price );
+        $priceIncVAT = $price + $priceIncVAT[1];
         if ( $price )
         {
             $found_price = true;
             $price = new eZCurrency( $price );
+            $priceIncVAT = new eZCurrency( $priceIncVAT );
         }
     }
     if ( !$found_price )
     {
         $price = new eZCurrency( $product->price() );
+        $priceIncVAT = $product->priceIncVAT();
+        $priceIncVAT = new eZCurrency( $priceIncVAT[0] );
     }
 
     $t->set_var( "product_price", $locale->format( $price ) );
+    $t->set_var( "product_price_inc_vat", $locale->format( $priceIncVAT ) );
 
     // show alternative currencies
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherinformation.php,v 1.1 2001/08/22 12:06:29 ce Exp $
+// $Id: voucherinformation.php,v 1.2 2001/08/24 07:21:08 ce Exp $
 //
 // Created on: <06-Aug-2001 13:02:18 ce>
 //
@@ -74,6 +74,14 @@ $preOrderID = $session->variable( "PreOrderID" );
 
 if ( ( isSet ( $Next ) || isSet ( $OK ) ) && ( is_numeric( $preOrderID ) ) )
 {
+    $product = new eZProduct( $ProductID );
+    
+    $voucher = new eZVoucher();
+    $voucher->generateKey();
+    $voucher->setPrice( $product->price() );
+    $voucher->setAvailable( false );
+    $voucher->store();
+    
     if ( $MailType == 1 )
     {
         $voucherInfo = new eZVoucherEMail();
@@ -95,6 +103,8 @@ if ( ( isSet ( $Next ) || isSet ( $OK ) ) && ( is_numeric( $preOrderID ) ) )
     }
     $voucherInfo->setPreOrder( $preOrderID );
     $voucherInfo->setDescription( $Description );
+    $voucherInfo->setVoucher( $voucher );
+    
     $voucherInfo->store();
 
     if ( isSet ( $OK ) )
@@ -103,9 +113,6 @@ if ( ( isSet ( $Next ) || isSet ( $OK ) ) && ( is_numeric( $preOrderID ) ) )
         exit();
     }
 }
-
-//exit();
-
 
 $voucherID = $voucherIDArray[$Key];
 $mailID = $voucherMail[$Key];
@@ -139,7 +146,9 @@ else
 {
     $t->set_var( "next", "" );
     $t->parse( "ok", "ok_tpl" );
-} 
+}
+
+$t->set_var( "product_id", $voucherID );
 
 $t->pparse( "output", "voucher_tpl" );
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezoption.php,v 1.22 2001/07/31 11:33:11 jhe Exp $
+// $Id: ezoption.php,v 1.23 2001/08/24 07:21:07 ce Exp $
 //
 // Definition of eZOption class
 //
@@ -106,7 +106,7 @@ class eZOption
         if ( !is_numeric( $this->ID ) )
         {
             $db->lock( "eZTrade_Option" );
-            $db->nextID( "eZTrade_Option", "ID" );
+            $nextID = $db->nextID( "eZTrade_Option", "ID" );
             $res[] = $db->query( "INSERT INTO eZTrade_Option
                                ( ID,
 		                         Name,
@@ -117,6 +117,7 @@ class eZOption
                                  '$this->Description' )" );
             $db->unlock();
 			$this->ID = $nextID;
+
         }
         else
         {

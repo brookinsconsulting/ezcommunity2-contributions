@@ -90,21 +90,23 @@
 	{cart_vat_sum}
 	</td>
 </tr>
+<!-- BEGIN vouchers_tpl --> 
 <tr>
-	<!-- BEGIN price_ex_vat_tpl -->
+        <!-- BEGIN voucher_item_tpl -->
 	<td>&nbsp;</td>
-	<td colspan="2" align="right"><span class="boxtext">{intl-total_cost_is}:</span></td>
+	<td colspan="2" align="right"><span class="boxtext">{intl-voucher} {number}:</span></td>
 	<td align="right">
-	{cart_sum_ex_vat}
+	- {voucher_price}
 	</td>
-	<!-- END price_ex_vat_tpl -->
-	<!-- BEGIN price_inc_vat_tpl -->
+        <!-- END voucher_item_tpl -->
+</tr>
+<!-- END vouchers_tpl --> 
+<tr>
 	<td>&nbsp;</td>
-	<td colspan="2" align="right"><span class="boxtext">{intl-total_cost_is}:</span></td>
+	<td align="right"><span class="boxtext">{intl-total_cost_is}:</span></td>
 	<td align="right">
-	{cart_sum_inc_vat}
+	{cart_sum}
 	</td>
-	<!-- END price_inc_vat_tpl -->
 </tr>
 </table>
 <!-- END cart_item_list_tpl -->
@@ -128,6 +130,7 @@
 <!-- END wish_user_tpl -->
 </select>
 
+<!-- BEGIN show_payment_tpl -->
 <br /><br />
 <hr noshade="noshade" size="4" />
 <br />
@@ -139,8 +142,10 @@
 <option value="{payment_method_id}">{payment_method_text}</option>
 <!-- END payment_method_tpl -->
 </select>
+<!-- END show_payment_tpl -->
 
 <br /><br />
+
 
 <hr noshade="noshade" size="4" />
 

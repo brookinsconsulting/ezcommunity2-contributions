@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.26 2001/08/21 11:21:41 ce Exp $
+// $Id: productlist.php,v 1.27 2001/08/24 07:21:08 ce Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -179,17 +179,23 @@ foreach ( $productList as $product )
         if ( $ShowPriceGroups and $PriceGroup > 0 )
         {
             $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
+            $priceIncVAT = $product->priceIncVAT( $price );
+            $priceIncVAT = $price + $priceIncVAT[1];
             if ( $price )
             {
                 $found_price = true;
                 $price = new eZCurrency( $price );
+                $priceIncVAT = new eZCurrency( $priceIncVAT );
             }
         }
         if ( !$found_price )
         {
             $price = new eZCurrency( $product->price() );
+            $priceIncVAT = $product->priceIncVAT();
+            $priceIncVAT = new eZCurrency( $priceIncVAT[0] );
         }
-        $t->set_var( "product_price", $locale->format( $price ) );        
+        $t->set_var( "product_price", $locale->format( $price ) );
+        $t->set_var( "product_price_inc_vat", $locale->format( $priceIncVAT ) );        
         $t->parse( "price", "price_tpl" );
     }
     else
@@ -227,6 +233,10 @@ foreach ( $productList as $product )
                     $high = new eZCurrency( max( $priceArray ) );
                     $low = new eZCurrency( min( $priceArray ) );
 
+                    $lowIncVAT = $product->priceIncVAT( $low );
+                    $highIncVAT = $product->priceIncVAT( $high );
+                    
+                    $t->set_var( "price_inc_vat", $locale->format( $lowIncVAT ) . " - " . $locale->format( $highIncVAT ) );
                     $t->set_var( "price", $locale->format( $low ) . " - " . $locale->format( $high ) );
                 }
             }

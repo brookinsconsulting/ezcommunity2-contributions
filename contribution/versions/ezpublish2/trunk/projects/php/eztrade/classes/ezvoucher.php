@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucher.php,v 1.1 2001/08/02 12:05:03 ce Exp $
+// $Id: ezvoucher.php,v 1.2 2001/08/24 07:21:07 ce Exp $
 //
 // eZVoucher class
 //
@@ -68,10 +68,7 @@ class eZVoucher
         $db =& eZDB::globalDatabase();
         $db->begin();
         
-        $description =& addslashes( $this->Description );
-        $startDate =& $this->StartDate->mySQLDate();
-        $stopDate =& $this->StopDate->mySQLDate();
-        
+       
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZTrade_Voucher" );
@@ -80,14 +77,14 @@ class eZVoucher
             $password = md5( $this->Password );
 
             $res = $db->query( "INSERT INTO eZTrade_Voucher
-                      ( ID, Description, Created, TypeID, Price, KeyNumber )
+                      ( ID, Created, Price, Available, KeyNumber )
                       VALUES
                       ( '$nextID',
-                        '$description',
                         '$timeStamp',
-                        '$this->TypeID',
                         '$this->Price',
-                        '$this->Password' )
+                        '$this->Available',
+                        '$this->KeyNumber'
+                         )
                      " );
 
 			$this->ID = $nextID;
@@ -95,15 +92,14 @@ class eZVoucher
         elseif ( is_numeric( $this->ID ) )
         {
             $res = $db->query( "UPDATE eZTrade_Voucher SET
-                                     Description='$description',
                                      Created=Created,
-                                     TypeID='$this->TypeID',
-                                     Price='$this->Price'
+                                     Price='$this->Price',
+                                     Available='$this->Available'
                                      WHERE ID='$this->ID" );
         }
         $db->unlock();
     
-        if ( $ret == false )
+        if ( $res == false )
             $db->rollback( );
         else
             $db->commit();
@@ -142,14 +138,14 @@ class eZVoucher
         $ret = false;
         if ( $id != "" )
         {
-            $db->array_query( $quizArray, "SELECT * FROM eZTrade_Voucher WHERE ID='$id'",
+            $db->array_query( $voucherArray, "SELECT * FROM eZTrade_Voucher WHERE ID='$id'",
                               0, 1 );
-            if( count( $quizArray ) == 1 )
+            if( count( $voucherArray ) == 1 )
             {
-                $this->fill( &$quizArray[0] );
+                $this->fill( &$voucherArray[0] );
                 $ret = true;
             }
-            elseif( count( $quizArray ) == 1 )
+            elseif( count( $voucherArray ) == 1 )
             {
                 $this->ID = 0;
             }
@@ -160,8 +156,13 @@ class eZVoucher
     /*!
       Fills in information to the object taken from the array.
     */
-    function fill( &$quizArray )
+    function fill( &$voucherArray )
     {
+        $this->ID =& $voucherArray[ "ID" ];
+        $this->Created =& $voucherArray[ "Created" ];
+        $this->Price =& $voucherArray[ "Price" ];
+        $this->Available =& $voucherArray[ "Available" ];
+        $this->KeyNumber =& $voucherArray[ "KeyNumber" ];
     }
 
     /*!
@@ -174,27 +175,25 @@ class eZVoucher
         $db =& eZDB::globalDatabase();
         
         $returnArray = array();
-        $quizArray = array();
+        $voucherArray = array();
 
         if ( $limit == false )
         {
-            $db->array_query( $quizArray, "SELECT ID
+            $db->array_query( $voucherArray, "SELECT ID
                                            FROM eZTrade_Voucher
-                                           ORDER BY StartDate DESC
                                            " );
 
         }
         else
         {
-            $db->array_query( $quizArray, "SELECT ID
+            $db->array_query( $voucherArray, "SELECT ID
                                            FROM eZTrade_Voucher
-                                           ORDER BY StartDate DESC
-                                           LIMIT $offset, $limit" );
+                                           ", array( "Limit" => $limit, "Offset" => $offset ) );
         }
 
-        for ( $i=0; $i < count($quizArray); $i++ )
+        for ( $i=0; $i < count($voucherArray); $i++ )
         {
-            $returnArray[$i] = new eZVoucher( $quizArray[$i][$db->fieldName( "ID" )] );
+            $returnArray[$i] = new eZVoucher( $voucherArray[$i][$db->fieldName( "ID" )] );
         }
 
         return $returnArray;
@@ -215,7 +214,7 @@ class eZVoucher
     }
 
     /*!
-      Returns the object ID to the game. This is the unique ID stored in the database.
+      Returns the object ID.
     */
     function id()
     {
@@ -223,63 +222,98 @@ class eZVoucher
     }
 
     /*!
-      Returns the name of the game.
+      Returns the creation time of the voucher.
     */
-    function &name()
+    function &created()
     {
-        return htmlspecialchars( $this->Name );
-    }
+        $dateTime = new eZDateTime();
+        $dateTime->setTimeStamp( $this->Created );
 
-    /*!
-      Returns the description of the game.
-    */
-    function &description()
-    {
-        return htmlspecialchars( $this->Description );
+        return $dateTime;
     }
 
     /*!
       Sets the login.
     */
-    function setName( &$value )
+    function generateKey( $length=15 )
     {
-       $this->Name = $value;
+        $this->KeyNumber = substr( md5( microtime() ), 0, $length );
     }
 
     /*!
-      Sets the description.
+      Returns the keynumber
     */
-    function setDescription( &$value )
+    function keyNumber( )
     {
-        $this->Description = $value;
+        return $this->KeyNumber;
     }
 
     /*!
-      Sets the start date for the game.
+      Sets if the voucher is available or not.
     */
-    function setStartDate( &$date )
+    function setAvailable( $value )
     {
-        if ( get_class ( $date ) == "ezdate" )
-            $this->StartDate = $date;
+        if ( $value == true )
+            $this->Available = 1;
+        else
+            $this->Available = 0;
     }
 
     /*!
-      Sets the start date for the game.
+      Returns true if the voucher is avaiable
     */
-    function setStopDate( &$date )
+    function available()
     {
-        if ( get_class ( $date ) == "ezdate" )
-            $this->StopDate = $date;
+        if ( $this->Available == 1 )
+            return true;
+        else
+            return false;
     }
 
-    
-    
+    /*!
+      Sets the voucher price.
+    */
+    function setPrice( $value )
+    {
+       $this->Price = $value;
+       setType( $this->Price, "double" );
+    }
+
+    /*!
+      Returns the price of the voucher.
+    */
+    function &price( )
+    {
+       return $this->Price;
+    }
+
+    /*!
+      Get a voucher from a key number.
+    */
+    function getFromKeyNumber( $key )
+    {
+        $db =& eZDB::globalDatabase();
+        $ret = false;
+        if ( !$key )
+            return false;
+        
+        $db->query_single( $res, "SELECT ID FROM eZTrade_Voucher WHERE KeyNumber='$key'" );
+
+        print( $res["ID"] );
+        if ( $res["ID"] )
+        {
+            $ret = new eZVoucher( $res["ID"] );
+        }
+
+        return $ret;
+    }
+  
 
     var $ID;
-    var $Name;
-    var $Description;
-    var $StartDate;
-    var $StopDate;
+    var $KeyNumber;
+    var $Created;
+    var $Available;
+    var $Price;
 }
 
 ?>

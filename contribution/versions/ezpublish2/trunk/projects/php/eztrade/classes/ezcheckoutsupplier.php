@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcheckoutsupplier.php,v 1.3 2001/07/20 11:42:01 jakobn Exp $
+// $Id: ezcheckoutsupplier.php,v 1.4 2001/08/24 07:21:07 ce Exp $
 //
 // Definition of eZCheckoutSupplier class
 //
@@ -40,7 +40,8 @@ class eZCheckoutSupplier
     {
         $this->PaymentMethods = array( array( "ID" => 1, "Text" => "VISA" ),
                                        array( "ID" => 2, "Text" => "Mastercard" ),
-                                       array( "ID" => 3, "Text" => "Invoice" )
+                                       array( "ID" => 3, "Text" => "Invoice" ),
+                                       array( "ID" => 4, "Text" => "Voucher" )
                                        );
     }
 
@@ -98,6 +99,11 @@ class eZCheckoutSupplier
             case 3 :
             {
                 $ret = "eztrade/user/invoice.php";
+            }
+            break;
+            case 4 :
+            {
+                $ret = "eztrade/user/voucher.php";
             }
             break;
         }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.73 2001/08/22 12:06:29 ce Exp $
+// $Id: checkout.php,v 1.74 2001/08/24 07:21:08 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -52,6 +52,7 @@ include_once( "eztrade/classes/ezcartitem.php" );
 include_once( "eztrade/classes/ezcartoptionvalue.php" );
 include_once( "eztrade/classes/ezpreorder.php" );
 include_once( "eztrade/classes/ezwishlist.php" );
+include_once( "eztrade/classes/ezvoucher.php" );
 
 // shipping
 include_once( "eztrade/classes/ezshippingtype.php" );
@@ -111,6 +112,10 @@ $t->set_block( "billing_address_tpl", "billing_option_tpl", "billing_option" );
 $t->set_block( "checkout_tpl", "wish_user_tpl", "wish_user" );
 
 $t->set_block( "checkout_tpl", "sendorder_item_tpl", "sendorder_item" );
+
+$t->set_block( "checkout_tpl", "show_payment_tpl", "show_payment" );
+
+$t->set_var( "show_payment", "" );
 
 if ( isSet( $SendOrder ) ) 
 {
@@ -465,14 +470,14 @@ $can_checkout = true;
     $currency->setValue( $shippingCost );
     $t->set_var( "shipping_cost", $locale->format( $currency ) );
 
+
+    // Find the correct price.
+    // Check if the site want VAT included or not.
     if ( $ini->read_var( "eZTradeMain", "IncludeVAT" ) == "disabled" )
     {
         $t->set_var( "include_vat", "false" );
         $sum += $shippingCost;
-        $currency->setValue( $sum );
-        $t->set_var( "cart_sum_ex_vat", $locale->format( $currency ) );
-        $t->set_var( "price_inc_vat", "" );
-        $t->parse( "price_ex_vat", "price_ex_vat_tpl" ); 
+        $totalPrice = $sum;
     }
     else
     {
@@ -484,13 +489,10 @@ $can_checkout = true;
             $t->set_var( "include_vat", "false" );
             $sum = $sum + $shippingCost;
         }
-            
-        $currency->setValue( $sum );
-        $t->set_var( "cart_sum_inc_vat", $locale->format( $currency ) );
-        $t->set_var( "price_ex_vat", "" );
-        $t->parse( "price_inc_vat", "price_inc_vat_tpl" );
+        $totalPrice = $sum;
     }
 
+    // Show the VAT value
     if ( $vat )
     {
         $currency->setValue( $totalVAT + $shippingVAT );
@@ -502,10 +504,51 @@ $can_checkout = true;
         $t->set_var( "cart_vat_sum", $locale->format( $currency ) );
     }
 
+    // Vouchers
+    $vouchers = $session->arrayValue( "PayWithVocuher" );
+
+    $i=1;
+    foreach( $vouchers as $voucher )
+    {
+        $voucher = new eZVoucher( $voucher );
+        $voucherPrice = $voucher->price();
+        $voucherID = $voucher->id();
+        if ( $voucherPrice > $sum )
+        {
+            $voucherPrice = $sum;
+            $currency->setValue( $voucherPrice );
+            $t->set_var( "voucher_price", $locale->format( $currency ) );
+        }
+        else
+        {
+            $currency->setValue( $voucherPrice );
+            $t->set_var( "voucher_price", $locale->format( $currency ) );
+        }
+
+        $totalVoucher[] = $voucherPrice;
+        $voucherSession[$voucherID] = $voucherPrice;
+        $t->set_var( "number", $i );
+        $i++;
+    }
+    if ( is_array ( $totalVoucher ) )
+    {
+        $session->setArray( "PayedWith", $voucherSession );
+        $totalVoucher = array_sum ( $totalVoucher );
+    }
+
+    // Print the total sum.
+    $sum -= $totalVoucher;
+    $currency->setValue( $sum );
+    $t->set_var( "cart_sum", $locale->format( $currency ) );
+
+    if ( $sum <= 0 )
+        $payment = false;
+    else
+        $payment = true;
+    
     // the total cost of the payment
     $t->set_var( "total_cost_value", $sum ); 
 }
-
 
 $t->parse( "cart_item_list", "cart_item_list_tpl" );
 
@@ -587,20 +630,27 @@ else
 
 // show the checkout types
 
-$checkout = new eZCheckout();
-
-$instance =& $checkout->instance();
-
-$paymentMethods =& $instance->paymentMethods();
-
-foreach ( $paymentMethods as $paymentMethod )
+if ( $payment )
 {
-    $t->set_var( "payment_method_id", $paymentMethod["ID"] );
-    $t->set_var( "payment_method_text", $paymentMethod["Text"] );
-
-    $t->parse( "payment_method", "payment_method_tpl", true );
+    $checkout = new eZCheckout();
+    
+    $instance =& $checkout->instance();
+    
+    $paymentMethods =& $instance->paymentMethods();
+    
+    foreach ( $paymentMethods as $paymentMethod )
+    {
+        $t->set_var( "payment_method_id", $paymentMethod["ID"] );
+        $t->set_var( "payment_method_text", $paymentMethod["Text"] );
+        
+        $t->parse( "payment_method", "payment_method_tpl", true );
+    }
+    $t->parse( "show_payment", "show_payment_tpl" );
 }
-
+else
+{
+    $t->set_var( "show_paymeny", "" );
+}
 $t->set_var( "sendorder_item", "" );
 if ( $can_checkout )
     $t->parse( "sendorder_item", "sendorder_item_tpl" );
