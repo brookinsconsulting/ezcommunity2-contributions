@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcachefile.php,v 1.14 2001/10/06 11:41:49 bf Exp $
+// $Id: ezcachefile.php,v 1.14.2.1 2002/02/18 18:51:31 master Exp $
 //
 // Definition of eZCacheFile class
 //
@@ -53,6 +53,12 @@ class eZCacheFile
         $this->Root = $root;
         if ( !is_array( $component ) )
             $component = array( $component );
+
+	//EP -- additional caching parameters -------------------
+	$component[] = $GLOBALS["GlobalSectionID"] ;
+	//$component[] = $GLOBALS["HTTP_HOST"]; // future - multihost configuration
+	//-------------------------------------------------------
+	
         $this->Components = $component;
         $this->Suffix = $suffix;
         $this->Separator = $separator;
@@ -71,6 +77,8 @@ class eZCacheFile
         {
             $this->AbsFilename = $this->Root . $this->Filename;
         }
+	
+	
         if ( $with_root )
             return $this->AbsFilename;
         else
