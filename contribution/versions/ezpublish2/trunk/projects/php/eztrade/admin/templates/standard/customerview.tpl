@@ -5,12 +5,8 @@
 <table width="100%" cellspacing="0" cellpadding="0" baddress="0">
 <tr>
 	<td>
-	<p class="boxtext">{intl-first_name}:</p>
-	{customer_first_name}
-	</td>
-	<td>
-	<p class="boxtext">{intl-last_name}:</p>
-	{customer_last_name}
+	<p class="boxtext">{intl-name}:</p>
+	{customer_title} {customer_first_name} {customer_last_name}
 	</td>	
 </tr>
 </table>

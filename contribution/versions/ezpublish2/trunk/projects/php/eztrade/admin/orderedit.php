@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: orderedit.php,v 1.31 2001/10/17 08:25:19 pkej Exp $
+// $Id: orderedit.php,v 1.32 2001/10/26 14:21:35 bf Exp $
 //
 // Created on: <30-Sep-2000 13:03:13 bf>
 //
@@ -149,18 +149,6 @@ $t->set_block( "cart_item_basis_tpl", "basis_ex_tax_item_tpl", "basis_ex_tax_ite
 $t->set_block( "full_cart_tpl", "tax_specification_tpl", "tax_specification" );
 $t->set_block( "tax_specification_tpl", "tax_item_tpl", "tax_item" );
 
-
-
-
-
-
-
-
-
-
-
-
-
 $order = new eZOrder( $OrderID );
 
 // get the customer
@@ -172,7 +160,9 @@ if ( $user )
     if ( $order->personID() == 0 && $order->companyID() == 0 )
     {
         $t->set_var( "customer_email", $user->email() );
-        $t->set_var( "customer_id", $user->id() );    
+        $t->set_var( "customer_id", $user->id() );
+        $title =& $user->title();
+        $t->set_var( "customer_title", $title->name() );
         $t->set_var( "customer_first_name", $user->firstName() );
         $t->set_var( "customer_last_name", $user->lastName() );
     }
@@ -181,12 +171,16 @@ if ( $user )
         if ( $order->personID() > 0 )
         {
             $customer = new eZPerson( $order->personID() );
+            $title =& $user->title();
+            $t->set_var( "customer_title", $title->name() );
             $t->set_var( "customer_first_name", $customer->firstName() );
             $t->set_var( "customer_last_name", $customer->lastName() );
         }
         else
         {
             $customer = new eZCompany( $order->companyID() );
+            $title =& $user->title();
+            $t->set_var( "customer_title", $title->name() );            
             $t->set_var( "customer_first_name", $customer->name() );
             $t->set_var( "customer_last_name", "" );
         }
@@ -220,6 +214,8 @@ if ( $user )
 
         if ( $shippingUser )
         {
+            $title =& $shippingUser->title();
+           
             $t->set_var( "shipping_first_name", $shippingUser->firstName() );
             $t->set_var( "shipping_last_name", $shippingUser->lastName() );   
         }
@@ -239,6 +235,9 @@ if ( $user )
             $t->set_var( "shipping_last_name", "" );
         }
     }
+
+    $t->set_var( "shipping_title", $title->name() );
+    
 
     $country = $shippingAddress->country();
     if ( is_object( $country ) )

@@ -12,7 +12,7 @@
 	<td>
 	<!-- BEGIN billing_address_tpl -->
 	<p class="boxtext">{intl-billing_address}:</p>
-	{customer_first_name} {customer_last_name} <br />
+	{customer_title} {customer_first_name} {customer_last_name} <br />
 	{billing_street1}<br />
 	{billing_street2}<br />
 	{billing_zip} {billing_place}<br />
@@ -23,7 +23,7 @@
 	<td>
 	<!-- BEGIN shipping_address_tpl -->
 	<p class="boxtext">{intl-shipping_address}:</p>
-	{shipping_first_name} {shipping_last_name} <br />
+	{shipping_title} {shipping_first_name} {shipping_last_name} <br />
 	{shipping_street1}<br />
 	{shipping_street2}<br />
 	{shipping_zip} {shipping_place}<br />

@@ -6,7 +6,7 @@
 
 <!-- BEGIN billing_address_tpl -->
 {intl-billing_address}:
-{customer_first_name} {customer_last_name}
+{customer_title} {customer_first_name} {customer_last_name}
 {billing_street1}
 {billing_street2}
 {billing_zip} {billing_place}
@@ -14,7 +14,7 @@
 <!-- END billing_address_tpl -->
 <!-- BEGIN shipping_address_tpl -->
 {intl-shipping_address}:
-{shipping_first_name} {shipping_last_name}
+{shipping_title} {shipping_first_name} {shipping_last_name}
 {shipping_street1}
 {shipping_street2}
 {shipping_zip} {shipping_place}

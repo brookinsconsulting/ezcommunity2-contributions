@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.49 2001/10/04 10:43:23 bf Exp $
+// $Id: ordersendt.php,v 1.50 2001/10/26 14:21:36 bf Exp $
 //
 // Created on: <06-Oct-2000 14:04:17 bf>
 //
@@ -46,7 +46,6 @@ $ColSpanSizeTotals = $ini->read_var( "eZTradeMain", "ColSpanSizeTotals" );
 
 $locale = new eZLocale( $Language );
 $currency = new eZCurrency();
-    
 
 
 // Set some variables to defaults.
@@ -137,6 +136,9 @@ if ( $user )
 
     if ( $order->personID() == 0 && $order->companyID() == 0 )
     {
+        $title =& $user->title();
+        $t->set_var( "customer_title", $title->name() );
+        
         $t->set_var( "customer_first_name", $user->firstName() );
         $t->set_var( "customer_last_name", $user->lastName() );
     }
@@ -186,6 +188,9 @@ if ( $user )
 
         if ( $shippingUser )
         {
+            $title =& $shippingUser->title();
+            $t->set_var( "shipping_title", $title->name() );
+            
             $t->set_var( "shipping_first_name", $shippingUser->firstName() );
             $t->set_var( "shipping_last_name", $shippingUser->lastName() );
         }

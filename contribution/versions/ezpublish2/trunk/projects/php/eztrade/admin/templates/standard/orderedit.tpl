@@ -1,5 +1,5 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.8 2001/10/17 08:25:19 pkej Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.9 2001/10/26 14:21:36 bf Exp $ -->
 
 <h1>{intl-head_line} ({order_id})</h1>
 
@@ -22,7 +22,7 @@
 	<td colspan="2">
 	<p class="boxtext">{intl-billing_address}:</p>
 	<div class="p">
-	{customer_first_name} {customer_last_name}<br /> 
+	{customer_title} {customer_first_name} {customer_last_name}<br /> 
 	{billing_street1}<br />
 	{billing_street2}<br />
 	{billing_zip} {billing_place}<br />
@@ -33,7 +33,7 @@
 	<td>
 	<p class="boxtext">{intl-shipping_address}:</p>
 	<div class="p">
-	{shipping_first_name} {shipping_last_name}<br />
+        {shipping_title} {shipping_first_name} {shipping_last_name}<br />
 	{shipping_street1}<br />
 	{shipping_street2}<br />
 	{shipping_zip} {shipping_place}<br />
