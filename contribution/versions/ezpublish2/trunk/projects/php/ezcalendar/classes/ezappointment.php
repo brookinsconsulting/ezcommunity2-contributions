@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezappointment.php,v 1.5 2001/01/17 10:41:59 ce Exp $
+// $Id: ezappointment.php,v 1.6 2001/01/17 15:20:31 ce Exp $
 //
 // Definition of eZAppointment class
 //
@@ -181,17 +181,40 @@ class eZAppointment
         return $return_array;
     }
 
+    /*!
+      Returns the appointments thats belongs to another user found in the database.
+
+      The appointments are returned as an array of eZAppointment objects.
+    */
+    function getAllByOthers()
+    {
+        $this->dbInit();
+        
+        $return_array = array();
+        $appointment_array = array();
+        
+        $this->Database->array_query( $appointment_array,
+        "SELECT ID FROM eZCalendar_Appointment WHERE ID='$id' AND IsPrivate='0'" );
+        
+        for ( $i=0; $i<count($appointment_array); $i++ )
+        {
+            $return_array[$i] = new eZAppointment( $appointment_array[$i]["ID"], 0 );
+        }
+        
+        return $return_array;
+    }
+
 
     /*!
       Returns all the appointments on the given date.
 
       The appointments are returned as an array of eZAppointment objects.
     */
-    function getByDate( $date )
+    function getByDate( $date, $user, $showPrivate=false )
     {
         $ret = array();
 
-        if ( get_class( $date ) == "ezdate" )
+        if ( ( get_class( $date ) == "ezdate" ) && ( get_class( $user ) == "ezuser" ) )
         {
             $this->dbInit();
         
@@ -203,13 +226,25 @@ class eZAppointment
 
             $day = $date->day();
             $day = eZDateTime::addZero( $day );
+
+            $userID = $user->id();
             
             $stamp = $date->year() . $month . $day;
 
-            $this->Database->array_query( $appointment_array,
-            "SELECT ID from eZCalendar_Appointment
-             WHERE Date LIKE '$stamp%' ORDER BY Date ASC" );
-
+            if ( $showPrivate == false )
+            {
+                $this->Database->array_query( $appointment_array,
+                "SELECT ID FROM eZCalendar_Appointment
+                 WHERE Date LIKE '$stamp%' AND IsPrivate='0' AND UserID='$userID' ORDER BY Date ASC", true );
+            }
+            else
+            {
+                $this->Database->array_query( $appointment_array,
+                "SELECT ID FROM eZCalendar_Appointment
+                 WHERE Date LIKE '$stamp%' AND UserID='$userID' ORDER BY Date ASC" );
+                
+            }
+                
             for ( $i=0; $i<count($appointment_array); $i++ )
             {
                 $return_array[] = new eZAppointment( $appointment_array[$i]["ID"], 0 );

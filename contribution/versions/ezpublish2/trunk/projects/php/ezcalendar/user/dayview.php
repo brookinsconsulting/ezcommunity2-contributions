@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.7 2001/01/16 17:13:16 gl Exp $
+// $Id: dayview.php,v 1.8 2001/01/17 15:20:31 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -48,6 +48,27 @@ $t->setAllStrings();
 $t->set_block( "day_view_page_tpl", "time_table_tpl", "time_table" );
 $t->set_block( "time_table_tpl", "appointment_tpl", "appointment" );
 
+$user = eZUser::currentUser();
+
+$session = new eZSession();
+$session->fetch();
+
+if ( ( $session->variable( "ShowOtherCalenderUsers" ) == false ) )
+{
+    $session->setVariable( "ShowOtherCalenderUsers", $user->id() );
+}
+
+$tmpUser = new eZUser( $session->variable( "ShowOtherCalenderUsers" ) );
+
+if ( $tmpUser->id() == $user->id() )
+{
+    $showPrivate == true;
+}
+else
+{
+    $showPrivate == false;
+}
+
 $datetime = new eZDateTime( );
 
 if ( $Year != "" && $Month != "" && $Day != "" )
@@ -76,7 +97,7 @@ $tmpDate->setYear( $datetime->year() );
 $tmpDate->setMonth( $datetime->month() );
 $tmpDate->setDay( $datetime->day() );
 
-$appointments = $tmpAppointment->getByDate( $tmpDate );
+$appointments = $tmpAppointment->getByDate( $tmpDate, $tmpUser, $showPrivate );
 
 $appointmentColumns = array();
 $rowSpanColumns = array();

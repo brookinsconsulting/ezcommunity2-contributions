@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.6 2001/01/16 17:00:13 gl Exp $
+// $Id: monthview.php,v 1.7 2001/01/17 15:20:31 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Dec-2000 14:09:56 bf>
@@ -51,8 +51,37 @@ $t->set_block( "month_tpl", "week_tpl", "week" );
 $t->set_block( "month_tpl", "week_day_tpl", "week_day" );
 $t->set_block( "week_tpl", "day_tpl", "day" );
 $t->set_block( "day_tpl", "appointment_tpl", "appointment" );
+$t->set_block( "month_view_page_tpl", "user_item_tpl", "user_item" );
 
+$user = eZUser::currentUser();
+$session = new eZSession();
 
+$session->fetch();
+
+if ( $GetByUserID == false )
+{
+    $GetByUserID = $user->id();
+}
+
+if ( ( $session->variable( "ShowOtherCalenderUsers" ) == false ) || ( isSet( $GetByUser ) ) )
+{
+    print( "setter ny id<br>" );
+    $session->setVariable( "ShowOtherCalenderUsers", $GetByUserID );
+}
+
+print( "session id: " . $session->variable( "ShowOtherCalenderUsers" ) . "<br>");
+$tmpUser = new eZUser( $session->variable( "ShowOtherCalenderUsers" ) );
+
+if ( $tmpUser->id() == $user->id() )
+{
+    $showPrivate == true;
+}
+else
+{
+    $showPrivate == false;
+}
+
+print( "login:" . $tmpUser->login() );
 $datetime = new eZDateTime( );
 
 if ( $Year != "" && $Month != "" )
@@ -113,7 +142,7 @@ for ( $week=0; $week<6; $week++ )
                 $tmpDate->setMonth( $datetime->month() );
                 $tmpDate->setDay( $datetime->day() );
 
-                $appointments = $tmpAppointment->getByDate( $tmpDate );
+                $appointments = $tmpAppointment->getByDate( $tmpDate, $tmpUser, $showPrivate );
                 $t->set_var( "appointment", "" );
                 foreach ( $appointments as $appointment )
                 {
@@ -187,6 +216,29 @@ for ( $week=0; $week<6; $week++ )
     $t->parse( "week", "week_tpl", true );
 }
 $t->parse( "month", "month_tpl", true );
+
+// User list
+$user = new eZUser();
+$user_array =& $user->getAll();
+
+foreach( $user_array as $userItem )
+{
+    $t->set_var( "user_id", $userItem->id() );
+    $t->set_var( "user_firstname", $userItem->firstName() );
+    $t->set_var( "user_lastname", $userItem->lastName() );
+
+    if ( $tmpUser->id() == $userItem->id() )
+    {
+        $t->set_var( "user_is_selected", "selected" );
+    }
+    else
+    {
+        $t->set_var( "user_is_selected", "" );
+    }
+
+    $t->parse( "user_item", "user_item_tpl", true );
+}
+
 
 // next previous values.
 $t->set_var( "next_year_number", $Year );
