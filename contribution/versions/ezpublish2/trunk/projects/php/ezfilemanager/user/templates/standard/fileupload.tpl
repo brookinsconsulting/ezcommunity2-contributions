@@ -80,7 +80,6 @@
 	<td>&nbsp;</td>
 </tr>
 </table>
-<br />
 
 <hr noshade="noshade" size="4" />
 
@@ -91,15 +90,11 @@
 	<input type="hidden" name="FileID" value="{file_id}" />
 	<input type="hidden" name="Action" value="{action_value}" />
 	<input class="okbutton" type="submit" value="{intl-ok}" />
-
 	</td>
 	<td>&nbsp;</td>
 	<td>
-
 	<input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />
-
 	</td>
-
 </tr>
 </table>
 

@@ -1,4 +1,3 @@
-
 <SCRIPT LANGUAGE="JavaScript1.2">
 <!--//
 
@@ -38,7 +37,7 @@
 <hr noshade size="4">
 
 <form method="post" action="/todo/todolist/">
-<p class="boxtext">{intl-user}</p>
+<p class="boxtext">{intl-user}:</p>
 <select name="GetByUserID">
 <!-- BEGIN user_item_tpl -->
 <option {user_is_selected} value="{user_id}">{user_firstname} {user_lastname}</option>
@@ -73,7 +72,7 @@
 	</td>
 
 	<td class="{td_class}">
-	{todo_date}
+	<span class="small">{todo_date}</span>
 	</td>
 
 	<td class="{td_class}">
@@ -104,10 +103,11 @@
 	</td>
 </tr>
 <!-- END no_found_tpl -->
-
 </table>
 
-<hr noshade size="4">
 <form action="/todo/todoedit/new">
+
+<hr noshade size="4">
+
 <input class="okbutton" type="submit" value="{intl-newtodo}">
 </form>

@@ -32,7 +32,7 @@
 
 <br>
 
-<table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td class="br" colspan="2">
 	<p class="boxtext">{intl-name}</p>
@@ -41,12 +41,12 @@
 	</td>
 </tr>
 <tr>
-	<td class="br">
+	<td width="50%">
 	<p class="boxtext">{intl-owner}</p>
 	{first_name} {last_name}
 	<br><br>
 	</td>
-	<td class="br">
+	<td>
 	<p class="boxtext">{intl-user}</p>
 	<select name="UserID">
 	<!-- BEGIN user_item_tpl -->
@@ -57,7 +57,7 @@
 	</td>
 </tr>
 <tr>
-	<td class="br">
+	<td width="50%">
 	<p class="boxtext">{intl-cat}</p>
 	<select name="CategoryID">
 	<!-- BEGIN category_select_tpl -->
@@ -66,7 +66,7 @@
 	</select>
 	<br><br>
 	</td>
-	<td class="br">
+	<td>
 	<p class="boxtext">{intl-pri}</p>
 	<select name="PriorityID">
 	<!-- BEGIN priority_select_tpl -->
@@ -77,22 +77,25 @@
 	</td>
 </tr>
 <tr>
-	<td class="br" colspan="2">
+	<td colspan="2">
 	<p class="boxtext">{intl-desc}</p>
 	<textarea cols="30" rows="10" name="Description">{description}</textarea>
 	<br><br>
 	</td>
 </tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<td class="br">
+	<td width="33%">
 	<p class="boxtext">{intl-status}:</p>
 	<div class="check"><input type="checkbox" name="Status" {status}>&nbsp;</div>
 	</td>
-	<td class="br">
+	<td width="33%">
 	<p class="boxtext">{intl-view_others}:</p>
 	<div class="check"><input type="checkbox" name="Permission" {permission}>&nbsp;</div>
 	</td>
-	<td class="br">
+	<td width="34%">
 	<p class="boxtext">{intl-send_mail}:</p>
 	<div class="check"><input type="checkbox" name="SendMail">&nbsp;</div>
 	</td>
@@ -101,12 +104,14 @@
 </table>
 
 <hr noshade size="4"/>
+
 <table cellpadding="0" cellspacing="0" border="0">
 <tr>
-        <td>
+    <td>
 	<input class="okbutton" type="submit" value="{intl-ok}">
 	</td>
-        <td>
+	<td>&nbsp;</td>
+    <td>
 	<input class="okbutton" type="submit" name="Delete" value="{intl-cancel}">
 	</td>
 </tr>

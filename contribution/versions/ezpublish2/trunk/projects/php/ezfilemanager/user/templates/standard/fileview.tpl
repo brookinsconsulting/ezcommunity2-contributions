@@ -26,6 +26,9 @@
 <br />
 
 <form method="post" action="/filemanager/edit/{file_id}" enctype="multipart/form-data">
+
+<hr noshade="noshade" size="4" />
+
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<!-- BEGIN delete_tpl -->
@@ -34,11 +37,13 @@
 	</td>
 	<!-- END delete_tpl -->
 	<!-- BEGIN edit_tpl -->
+	<td>&nbsp;</td>
 	<td>
 	<input type="submit" name="Edit" value="{intl-edit}">
 	</td>
 	<!-- END edit_tpl -->
 	<!-- BEGIN download_tpl -->
+	<td>&nbsp;</td>
 	<td>
 	<input type="submit" name="Download" value="{intl-download}">
 	</td>
@@ -48,5 +53,4 @@
 </table>
 </form>
 
-<hr noshade="noshade" size="4" />
 

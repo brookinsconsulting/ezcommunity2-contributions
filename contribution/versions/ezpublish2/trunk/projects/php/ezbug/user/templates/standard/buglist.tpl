@@ -20,7 +20,7 @@
 <!-- BEGIN path_tpl -->
 
 
-<img src="/ezbug/admin/images/path-arrow.gif" height="10" width="15" border="0">
+<img src="/images/path-arrow.gif" height="10" width="15" border="0">
 
 <a class="path" href="/bug/archive/0/">{intl-top_level}</a>
 
@@ -28,7 +28,7 @@
 
 <!-- BEGIN path_item_tpl -->
 
-<img src="/ezbug/admin/images/path-slash.gif" height="10" width="20" border="0">
+<img src="/images/path-slash.gif" height="10" width="20" border="0">
 
 <a class="path" href="/bug/archive/{module_id}/">{module_name}</a>
 <!-- END path_item_tpl -->

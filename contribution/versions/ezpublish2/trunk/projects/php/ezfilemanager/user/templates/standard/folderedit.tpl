@@ -34,7 +34,6 @@
 
 <hr noshade size="4"/>
 
-<br />
 <!-- END errors_tpl -->
 
 <p class="boxtext">{intl-folder}:</p>
@@ -47,7 +46,7 @@
 
 </select>
 
-<br />
+<br /><br />
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -81,7 +80,6 @@
     </td>
 </tr>
 </table>
-<br />
 
 <hr noshade="noshade" size="4" />
 

@@ -13,9 +13,9 @@
 <hr noshade="noshade" size="4">
 
 <br />
-<table cellspacing="0" cellpadding="0" border="0">
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
-	<td>
+	<td width="50%">
 	<p class="boxtext">{intl-bug_module}:</p>
 	<select name="ModuleID">
 	<!-- BEGIN module_item_tpl -->
@@ -48,21 +48,15 @@
 <br /><br />
 
 
-<br />
 <hr noshade="noshade" size="4">
 
 <table cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td class="menuspacer">&nbsp;</td>
-</tr>
-
 <tr>
 	<td>
 	<input class="okbutton" type="submit" value="{intl-send_bug_report}">
 	</td>
 </tr>
-
+</table>
 <input type="hidden" name="Action" value="{action_value}">
 
-</table>
 </form>

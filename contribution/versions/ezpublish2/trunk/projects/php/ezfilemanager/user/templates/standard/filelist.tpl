@@ -100,17 +100,19 @@
 <!-- END file_list_tpl -->
 
 <hr noshade="noshade" size="4" />
-<table cellspacing="0" cellpadding="4" border="0">
+<table cellspacing="0" cellpadding="0" border="0">
 <tr>
-        <td>
-	<input type="submit" name="NewFile" value="{intl-new_file}">
+    <td>
+	<input class="stdbutton" type="submit" name="NewFile" value="{intl-new_file}">
 	</td>
-        <td>
-	<input type="submit" name="NewFolder" value="{intl-new_folder}">
+    <td>&nbsp;</td>
+	<td>
+	<input class="stdbutton" type="submit" name="NewFolder" value="{intl-new_folder}">
 	<input type="hidden" name="FolderID" value="{main_folder_id}">
 	</td>
-        <td>
-	<input type="submit" name="Delete" value="{intl-delete}">
+	<td>&nbsp;</td>
+    <td>
+	<input class="stdbutton" type="submit" name="Delete" value="{intl-delete}">
 	</td>
 </tr>
 </table>
