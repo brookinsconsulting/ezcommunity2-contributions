@@ -1,4 +1,4 @@
-<h1>{intl-head_line}</h1>
+<h1>{intl-head_line} - {current_letter}</h1>
 
 <hr noshade="noshade" size="4" />
 

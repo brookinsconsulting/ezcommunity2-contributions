@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.5 2001/09/06 17:25:16 bf Exp $
+// $Id: index.php,v 1.6 2001/09/06 17:29:50 bf Exp $
 //
 // Created on: <27-Apr-2001 10:15:40 amos>
 //
@@ -54,6 +54,8 @@ if (  strLen( $CurrentIndex )  != 1  )
 {
     $CurrentIndex = $letterArray[0];
 }
+
+$t->set_var( "current_letter", $CurrentIndex );
 
 
 foreach ( $letterArray as $letter )
