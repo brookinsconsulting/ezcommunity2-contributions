@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: linkedit.php,v 1.66.2.1 2002/01/02 11:16:16 br Exp $
+// $Id: linkedit.php,v 1.66.2.2 2002/02/12 12:06:00 br Exp $
 //
 // Created on: <26-Oct-2000 14:58:57 ce>
 //
@@ -45,6 +45,7 @@ include_once( "ezlink/classes/ezlinkattribute.php" );
 
 include_once( "ezlink/classes/ezmeta.php" );
 require( "ezuser/admin/admincheck.php" );
+
 
 if ( $Accepted == "1" || !isSet( $Accepted ) )
 {
@@ -731,13 +732,13 @@ if ( get_class( $linkType) == "ezlinktype" )
         $t->set_var( "attribute_id", $attribute->id( ) );
         $t->set_var( "attribute_name", $attribute->name( ) );
 
-        if ( $Action == "new" )
+        if ( isSet( $AttributeValue[$i] ) && $attribute->id() == $AttributeID[$i] )
             $t->set_var( "attribute_value", $AttributeValue[$i] );
         else
             $t->set_var( "attribute_value", $attribute->value( $editLink ) );
         
         $t->parse( "attribute", "attribute_tpl", true );
-	$i++;
+        $i++;
     }
 }
 
@@ -761,7 +762,6 @@ $t->set_var( "name", $tname );
 $t->set_var( "url", $turl );
 $t->set_var( "keywords", $tkeywords );
 $t->set_var( "description", $tdescription );
-
 // $t->set_var( "accepted", $taccepted );
 
 $t->set_var( "headline", $headline );
