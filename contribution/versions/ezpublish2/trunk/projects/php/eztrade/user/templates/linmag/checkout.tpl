@@ -116,6 +116,7 @@
 <!-- END wish_user_tpl -->
 </select>
 
+<!-- BEGIN show_payment_tpl -->
 <br /><br />
 
 {intl-payment_methods_description}:
@@ -125,6 +126,7 @@
 <option value="{payment_method_id}">{payment_method_text}</option>
 <!-- END payment_method_tpl -->
 </select>
+<!-- END show_payment_tpl -->
 
 <br /><br />
 
