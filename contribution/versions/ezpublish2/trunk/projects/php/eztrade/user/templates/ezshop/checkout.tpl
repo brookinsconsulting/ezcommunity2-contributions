@@ -2,7 +2,7 @@
 
 <hr noshade="noshade" size="4" />
 <form action="/trade/checkout/" method="post">
-{intl-payment_methods_description}
+{intl-payment_methods_description}:
 
 <select name="PaymentMethod">
 <!-- BEGIN visa_tpl -->
@@ -24,16 +24,16 @@
 
 <hr noshade="noshade" size="4" />
 
-<h2>{intl-products_about_to_order}</h2>
+<h2>{intl-products_about_to_order}:</h2>
 
 <!-- BEGIN cart_item_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>{intl-picture}</th>
-	<th>{intl-product_name}</th>
-	<th>{intl-options}</th>
-	<th>{intl-qty}</th>
-	<td class="path" align="right">{intl-price}</td>
+	<th>{intl-picture}:</th>
+	<th>{intl-product_name}:</th>
+	<th>{intl-options}:</th>
+	<th>{intl-qty}:</th>
+	<td class="path" align="right">{intl-price}:</td>
 </tr>
 
 <!-- BEGIN cart_item_tpl -->
@@ -64,14 +64,14 @@
 
 <tr>
 	<td colspan="2">&nbsp;</td>
-	<th>{intl-shipping_charges}</th>
+	<th>{intl-shipping_charges}:</th>
 	<td align="right">
 	{shipping_cost}
 	</td>
 </tr>
 <tr>
 	<td colspan="2">&nbsp;</td>
-	<th>{intl-total_cost_is}</th>
+	<th>{intl-total_cost_is}:</th>
 	<td align="right">
 	{cart_sum}
 	</td>
@@ -79,7 +79,7 @@
 </table>
 <!-- END cart_item_list_tpl -->
 
-<h2>{intl-shipped_to}</h2>
+<h2>{intl-shipped_to}:</h2>
 
 {customer_first_name} {customer_last_name} 
 <br />

@@ -4,32 +4,33 @@
 
 <select name="PaymentMethod">
 <!-- BEGIN visa_tpl -->
-<option value="1">VISA</option>
+<option value="1">{intl-charge_my_visa}</option>
 <!-- END visa_tpl -->
 
 <!-- BEGIN mastercard_tpl -->
-<option value="2">Mastercard</option>
+<option value="2">{intl-charge_my_mastercard}</option>
 <!-- END mastercard_tpl -->
 
 <!-- BEGIN cod_tpl -->
-<option value="3">Postordre</option>
+<option value="3">{intl-charge_me_at_the_postoffice}</option>
 <!-- END cod_tpl -->
 
 <!-- BEGIN invoice_tpl -->
-<option value="4">Faktura</option>
+<option value="4">{intl-charge_me_by_invoice}</option>
 <!-- END invoice_tpl -->
 </select>
 
 
-<h2>Dette er bestilt:</h2>
+<h2>{intl-products_about_to_order}:</h2>
 
 <!-- BEGIN cart_item_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>Bilde:</th>
-	<th>Varenavn:</th>
-	<th>Opsjoner:</th>
-	<td class="path" align="right">Pris:</td>
+	<th>{intl-picture}:</th>
+	<th>{intl-product_name}:</th>
+	<th>{intl-options}:</th>
+	<th>{intl-qty}:</th>
+	<td class="path" align="right">{intl-price}</td>
 </tr>
 
 <!-- BEGIN cart_item_tpl -->
@@ -54,14 +55,14 @@
 
 <tr>
 	<td colspan="2">&nbsp;</td>
-	<th>Frakt:</th>
+	<th>{intl-shipping_charges}:</th>
 	<td align="right">
 	{shipping_cost}
 	</td>
 </tr>
 <tr>
 	<td colspan="2">&nbsp;</td>
-	<th>Totalt:</th>
+	<th>{intl-total_cost_is}:</th>
 	<td align="right">
 	{cart_sum}
 	</td>
@@ -69,7 +70,7 @@
 </table>
 <!-- END cart_item_list_tpl -->
 
-<h2>Varene sendes til:</h2>
+<h2>{intl-shipped_to}:</h2>
 
 {customer_first_name} {customer_last_name} 
 <br />

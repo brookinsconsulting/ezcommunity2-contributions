@@ -2,23 +2,23 @@
 
 <hr noshade="noshade" size="4" />
 <form action="/trade/checkout/" method="post">
-Here is the description of the payment methods........
+{intl-payment_methods_description}:
 
 <select name="PaymentMethod">
 <!-- BEGIN visa_tpl -->
-<option value="1">VISA</option>
+<option value="1">{intl-charge_my_visa}</option>
 <!-- END visa_tpl -->
 
 <!-- BEGIN mastercard_tpl -->
-<option value="2">Mastercard</option>
+<option value="2">{intl-charge_my_mastercard}</option>
 <!-- END mastercard_tpl -->
 
 <!-- BEGIN cod_tpl -->
-<option value="3">Postordre</option>
+<option value="3">{intl-charge_me_at_the_postoffice}</option>
 <!-- END cod_tpl -->
 
 <!-- BEGIN invoice_tpl -->
-<option value="4">Faktura</option>
+<option value="4">{intl-charge_me_by_invoice}</option>
 <!-- END invoice_tpl -->
 </select>
 
@@ -33,7 +33,7 @@ Here is the description of the payment methods........
 	<th>{intl-product_name}:</th>
 	<th>{intl-options}:</th>
 	<th>{intl-qty}:</th>
-	<td class="path" align="right">{intl-price}:</td>
+	<td class="path" align="right">{intl-price}</td>
 </tr>
 
 <!-- BEGIN cart_item_tpl -->
@@ -64,14 +64,14 @@ Here is the description of the payment methods........
 
 <tr>
 	<td colspan="2">&nbsp;</td>
-	<th>Frakt:</th>
+	<th>{intl-shipping_charges}:</th>
 	<td align="right">
 	{shipping_cost}
 	</td>
 </tr>
 <tr>
 	<td colspan="2">&nbsp;</td>
-	<th>Totalt:</th>
+	<th>{intl-total_cost_is}:</th>
 	<td align="right">
 	{cart_sum}
 	</td>
@@ -79,7 +79,7 @@ Here is the description of the payment methods........
 </table>
 <!-- END cart_item_list_tpl -->
 
-<h2>Varene sendes til:</h2>
+<h2>{intl-shipped_to}:</h2>
 
 {customer_first_name} {customer_last_name} 
 <br />
