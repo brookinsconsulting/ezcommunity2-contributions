@@ -47,6 +47,22 @@
 
 </select>
 
+<p class="boxtext">{intl-owner_group}:</p>
+<select name="OwnerGroupID">
+<option value="0">{intl-none}</option>
+<!-- BEGIN category_owner_tpl -->
+<option value="{module_owner_id}" {is_selected}>{module_owner_name}</option>
+<!-- END category_owner_tpl -->
+</select>
+
+<p class="boxtext">{intl-groups}:</p>
+<select name="GroupArray[]" multiple size="7">
+<option value="0" {all_selected}>{intl-all}</option>
+<!-- BEGIN group_item_tpl -->
+<option value="{group_id}" {selected}>{group_name}</option>
+<!-- END group_item_tpl -->
+</select>
+
 <p class="boxtext">{intl-intro}:</p>
 <textarea name="Contents[]" cols="40" rows="5" wrap="soft">{article_contents_0}</textarea>
 <br /><br />
@@ -58,6 +74,8 @@
 <p class="boxtext">{intl-link_text}:</p>
 <input type="text" name="LinkText" size="20" value="{link_text}" />
 <br /><br />
+
+
 
 <hr noshade="noshade" size="4" />
 

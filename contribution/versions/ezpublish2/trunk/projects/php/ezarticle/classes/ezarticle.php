@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.37 2001/02/21 17:15:33 fh Exp $
+// $Id: ezarticle.php,v 1.38 2001/02/22 12:50:22 fh Exp $
 //
 // Definition of eZArticle class
 //
@@ -489,7 +489,7 @@ class eZArticle
         
         if( get_class( $newOwner ) == "ezusergroup" )
         {
-            $this->$OwnerGroupID = $newOwner->id();
+            $this->OwnerGroupID = $newOwner->id();
         }
     }
 
@@ -507,10 +507,10 @@ class eZArticle
         if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
 
-        if( is_digit( $value ) && $value >=0 && $value <=2)
+        if( $value >=0 && $value <=2)
         {
             if( $value != 1 )
-                removeReadGroups();
+                $this->removeReadGroups();
 
             $this->ReadPermission = $value;
         }
@@ -617,22 +617,30 @@ class eZArticle
     }
 
     /*!
-      Returns all the groups that have readpermission for this article as an array of eZUserGroup objects.
+      Returns all the groups that have readpermission for this article as an array of eZUserGroup objects if IDOnly = false (default),
+      if not it will return an array of groupID's
      */
-    function readGroups()
+    function readGroups( $IDOnly = false )
     {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
         $ret = array();
         $this->Database->array_query( $res, "SELECT GroupID FROM eZArticle_ArticleReaderLink
                                        WHERE ArticleID='$this->ID'" );
         if( count( $res ) > 0 )
         {
             $i = 0;
-            foreach( $res as $groupID )
+            foreach( $res as $groupItem )
             {
-                $ret[i] = new eZUserGroup( $groupID );
+                if( $IDOnly == true )
+                    $ret[$i] = $groupItem[0]["GroupID"];
+                else
+                    $ret[$i] = new eZUserGroup( $groupID[0]["GroupID"] );
                 $i++;
             }
         }
+
         return $ret;
     }
     

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.40 2001/02/08 11:24:42 bf Exp $
+// $Id: articleedit.php,v 1.41 2001/02/22 12:50:22 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -88,6 +88,33 @@ if ( $Action == "Insert" )
     $article->setAuthorText( $AuthorText );
     
     $article->setLinkText( $LinkText );
+
+    $ownerGroup = new eZUserGroup( $OwnerGroupID );
+    $article->setOwnerGroup( $ownerGroup );
+    $article->store(); // to get the ID
+
+    /* read access thingy */
+    if ( isset( $GroupArray ) )
+    {
+        if( $GroupArray[0] == 0 )
+        {
+            $article->setReadPermission( 2 );
+        }
+        else // some groups are selected.
+        {
+            $article->removeReadGroups();
+            $article->setReadPermission( 1 );
+            foreach ( $GroupArray as $groupID )
+            {
+                $readGroup = new eZUserGroup( $groupID );
+                $article->addReadGroup( $readGroup );
+            }
+        }
+    }
+    else
+    {
+        $article->setReadPermission( 0 );
+    }
     
     // add check for publishing rights here
     if ( $IsPublished == "on" )
@@ -239,6 +266,31 @@ if ( $Action == "Update" )
     
     $article->setLinkText( $LinkText );
 
+    $ownerGroup = new eZUserGroup( $OwnerGroupID );
+    $article->setOwnerGroup( $ownerGroup );
+
+    /* read access thingy */
+    if ( isset( $GroupArray ) )
+    {
+        if( $GroupArray[0] == 0 )
+        {
+            $article->setReadPermission( 2 );
+        }
+        else // some groups are selected.
+        {
+            $article->removeReadGroups();
+            $article->setReadPermission( 1 );
+            foreach ( $GroupArray as $groupID )
+            {
+                $readGroup = new eZUserGroup( $groupID );
+                $article->addReadGroup( $readGroup );
+            }
+        }
+    }
+    else
+    {
+        $article->setReadPermission( 0 );
+    }
     
     // add check for publishing rights here
     if ( $IsPublished == "on" )
@@ -403,6 +455,8 @@ $t->set_file( array(
 
 $t->set_block( "article_edit_page_tpl", "value_tpl", "value" );
 $t->set_block( "article_edit_page_tpl", "multiple_value_tpl", "multiple_value" );
+$t->set_block( "article_edit_page_tpl", "category_owner_tpl", "category_owner" );
+$t->set_block( "article_edit_page_tpl", "group_item_tpl", "group_item" );
 
 $t->set_block( "article_edit_page_tpl", "error_message_tpl", "error_message" );
 
@@ -472,6 +526,22 @@ if ( $Action == "Edit" )
     $t->set_var( "link_text", $article->linkText() );
     
     $t->set_var( "action_value", "update" );
+
+    $ownerGroup = $article->ownerGroup();
+    if( get_class( $ownerGroup ) == "ezusergroup" )
+        $ownerGroupID = $ownerGroup->id();
+
+    $readPermission = $article->readPermission();
+    $t->set_var( "all_selected", "" );
+    if( $readPermission == 1 )
+    {
+        $readGroupsID = $article->readGroups( true );
+    }
+    else if( $readPermission == 2 )
+    {
+        $t->set_var( "all_selected", "selected" );
+    }
+
 }
 
 // category select
@@ -540,6 +610,40 @@ foreach ( $treeArray as $catItem )
     $t->parse( "value", "value_tpl", true );    
     $t->parse( "multiple_value", "multiple_value_tpl", true );
 }
+
+// group selector
+$group = new eZUserGroup();
+$groupList = $group->getAll();
+
+$t->set_var( "selected", "" );
+foreach( $groupList as $groupItem )
+{
+    /* for the group owner selector */
+//    if( eZPermission::checkPermission( $groupItem , "eZBug", "BugEdit" ) )
+//    {
+        $t->set_var( "module_owner_id", $groupItem->id() );
+        $t->set_var( "module_owner_name", $groupItem->name() );
+
+        if( isset( $ownerGroup ) && $ownerGroupID == $groupItem->id() )
+            $t->set_var( "is_selected", "selected" );
+        else
+            $t->set_var( "is_selected", "" );
+    
+        $t->parse( "category_owner", "category_owner_tpl", true );
+//    }
+        /* for the read access groups selector */
+        $t->set_var( "group_name", $groupItem->name() );
+        $t->set_var( "group_id", $groupItem->id() );
+        if( isset( $readPermission ) && $readPermission == 1 )
+        {
+            if( in_array( $groupItem->id(), $readGroupsID ) )
+                $t->set_var( "selected", "selected" );
+            else
+                $t->set_var( "selected", "" );
+        }
+        $t->parse( "group_item", "group_item_tpl", true );
+}
+
 
 $t->pparse( "output", "article_edit_page_tpl" );
 
