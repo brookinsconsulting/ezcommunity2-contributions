@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articleview.php,v 1.84.2.15 2003/05/15 16:25:19 br Exp $
+// $Id: articleview.php,v 1.84.2.16 2003/06/02 10:02:21 jhe Exp $
 //
 // Created on: <18-Oct-2000 16:34:51 bf>
 //
@@ -39,7 +39,6 @@ $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 $ForceCategoryDefinition = $ini->read_var( "eZArticleMain", "ForceCategoryDefinition" );
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
-$TemplateDir = $ini->read_var( "eZArticleMain", "TemplateDir" );
 $ListImageWidth = $ini->read_var( "eZArticleMain", "ListImageWidth" );
 $ListImageHeight = $ini->read_var( "eZArticleMain", "ListImageHeight" );
 
@@ -66,7 +65,9 @@ $GlobalSectionID = eZArticleCategory::sectionIDStatic( $CategoryID );
 // init the section
 $sectionObject =& eZSection::globalSectionObject( $GlobalSectionID );
 $sectionObject->setOverrideVariables();
-
+$TemplateDir = $sectionObject->templateStyle();
+if ( trim( $TemplateDir ) == "" )
+    $TemplateDir = $ini->read_var( "eZArticleMain", "TemplateDir" );
 
 $t = new eZTemplate( "ezarticle/user/" . $TemplateDir,
                      "ezarticle/user/intl/", $Language, "articleview.php" );

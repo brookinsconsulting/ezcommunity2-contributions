@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: sectionedit.php,v 1.16.2.2 2002/09/27 11:56:39 vl Exp $
+//
+// $Id: sectionedit.php,v 1.16.2.3 2003/06/02 10:02:22 jhe Exp $
 //
 // Created on: <10-May-2001 16:17:29 ce>
 //
@@ -136,11 +136,11 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) && ( $user ) )
     {
         if ( eZFile::is_dir( "sitedesign/" . $Name ) == false );
         {
-            $session =& eZSession::globalSession();            
+            $session =& eZSession::globalSession();
             $session->setVariable( "DirNotExists", "true" );
         }
     }
-    
+
     if ( is_numeric( $SectionID ) )
         $section = new eZSection( $SectionID);
     else
@@ -165,7 +165,7 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) && ( $user ) )
             $i++;
         }
     }
-    
+
     if ( isSet ( $AddRow ) )
     {
         $pageRow = new eZSectionFrontPage();
@@ -174,7 +174,6 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) && ( $user ) )
 
         eZHTTPTool::header( "Location: /sitemanager/section/edit/" . $section->id() );
         exit();
-        
     }
     else if ( !$DeleteRows and !$Store )
     {
@@ -224,7 +223,7 @@ if ( count ( $rows ) > 0 )
 
     $ad = new eZAdCategory();
     $adCategoryArray =& $ad->getTree();
-        
+
     $i=0;
     $count = count( $rows );
     foreach ( $rows as $row )
@@ -247,38 +246,38 @@ if ( count ( $rows ) > 0 )
         $t->set_var( "product_category_list", "" );
         $t->set_var( "article_category_list", "" );
 
-        switch( $settingName )
+        switch ( $settingName )
         {
             case "1column":
             case "2column":
             case "1short":
             {
                 $t->set_var( "article_category_item", "" );
-                if ( count ( $articleTreeArray ) > 0 )
+                if ( count( $articleTreeArray ) > 0 )
                 {
                     foreach ( $articleTreeArray as $catItem )
                     {
                         $t->set_var( "option_value", $catItem[0]->id() );
                         $t->set_var( "option_name", $catItem[0]->name() );
-                        
+
                         if ( $catItem[0]->id() == $row->categoryID() )
                             $t->set_var( "selected", "selected" );
                         else
                             $t->set_var( "selected", "" );
-                        
+
                         if ( $catItem[1] > 1 )
                             $t->set_var( "option_level", str_repeat( "&nbsp;&nbsp;", $catItem[1] ) );
                         else
                             $t->set_var( "option_level", "" );
-                        
-                        $t->parse( "article_category_item", "article_category_item_tpl", true );    
+
+                        $t->parse( "article_category_item", "article_category_item_tpl", true );
                     }
                     $t->parse( "article_category_list", "article_category_list_tpl", true );
                 }
-                
+
             }
             break;
-            
+
             case "1columnProduct":
             case "2columnProduct":
             {
@@ -289,18 +288,18 @@ if ( count ( $rows ) > 0 )
                     {
                         $t->set_var( "option_value", $catItem[0]->id() );
                         $t->set_var( "option_name", $catItem[0]->name() );
-                        
+
                         if ( $catItem[0]->id() == $row->categoryID() )
                             $t->set_var( "selected", "selected" );
                         else
                             $t->set_var( "selected", "" );
-                        
+
                         if ( $catItem[1] > 0 )
                             $t->set_var( "option_level", str_repeat( "&nbsp;", $catItem[1] ) );
                         else
                             $t->set_var( "option_level", "" );
-                        
-                        $t->parse( "product_category_item", "product_category_item_tpl", true );    
+
+                        $t->parse( "product_category_item", "product_category_item_tpl", true );
                     }
                     $t->parse( "product_category_list", "product_category_list_tpl" );
                 }
@@ -310,24 +309,24 @@ if ( count ( $rows ) > 0 )
             case "ad":
             {
                 $t->set_var( "product_category_item", "" );
-                if ( count ( $AdCategoryArray ) > 0 )
+                if ( count( $adCategoryArray ) > 0 )
                 {
                     foreach ( $adCategoryArray as $catItem )
                     {
                         $t->set_var( "option_value", $catItem[0]->id() );
                         $t->set_var( "option_name", $catItem[0]->name() );
-                        
+
                         if ( $catItem[0]->id() == $row->categoryID() )
                             $t->set_var( "selected", "selected" );
                         else
                             $t->set_var( "selected", "" );
-                        
+
                         if ( $catItem[1] > 0 )
                             $t->set_var( "option_level", str_repeat( "&nbsp;", $catItem[1] ) );
                         else
                             $t->set_var( "option_level", "" );
-                        
-                        $t->parse( "product_category_item", "product_category_item_tpl", true );    
+
+                        $t->parse( "product_category_item", "product_category_item_tpl", true );
                     }
                     $t->parse( "product_category_list", "product_category_list_tpl" );
                 }
@@ -341,12 +340,12 @@ if ( count ( $rows ) > 0 )
         {
             $t->set_var( "setting_name", $languageINI->read_var( "strings", $name["Name"] ) );
             $t->set_var( "setting_id", $name["ID"] );
-            
+
             if ( $row->settingID() == $name["ID"] )
                 $t->set_var( "selected", "selected" );
             else
                 $t->set_var( "selected", "" );
-            
+
             $t->parse( "settings", "settings_tpl", true );
         }
         if ( $i > 0 && isset( $move_item ) )
@@ -357,7 +356,7 @@ if ( count ( $rows ) > 0 )
         {
             $t->parse( "no_item_move_up", "no_item_move_up_tpl" );
         }
-        
+
         if ( $i > 0 && $i < $count - 1 && isset( $move_item ) )
         {
             $t->parse( "item_separator", "item_separator_tpl" );
@@ -366,7 +365,7 @@ if ( count ( $rows ) > 0 )
         {
             $t->parse( "no_item_separator", "no_item_separator_tpl" );
         }
-        
+
         if ( $i < $count - 1 && isset( $move_item ) )
         {
             $t->parse( "item_move_down", "item_move_down_tpl" );
@@ -375,7 +374,7 @@ if ( count ( $rows ) > 0 )
         {
             $t->parse( "no_item_move_down", "no_item_move_down_tpl" );
         }
-        
+
 		if ( ( $i % 2 ) == 0 )
 	    {
 	        $t->set_var( "td_class", "bglight" );
@@ -385,8 +384,6 @@ if ( count ( $rows ) > 0 )
 	        $t->set_var( "td_class", "bgdark" );
 	    }
 	    $t->set_var( "counter", $i );
-
-        
         $t->parse( "setting_item", "setting_item_tpl", true );
         $i++;
     }
