@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: userwithaddress.php,v 1.75.2.1.4.2 2002/01/29 14:18:20 ce Exp $
+// $Id: userwithaddress.php,v 1.75.2.1.4.3 2002/01/30 13:08:25 bf Exp $
 //
 // Created on: <10-ct-2000 12:52:42 bf>
 //
@@ -383,13 +383,13 @@ if ( isSet( $OK ) and $error == false )
 
     if ( !is_numeric ( $MainAddressID ) )
     {
-        $MainAddressID = eZAddress::mainAddress( $user );
-        if ( $MainAddressID )
-            $MainAddressID = $MainAddressID->id();
+//        $MainAddressID = eZAddress::mainAddress( $user );
+//        if ( $MainAddressID )
+//            $MainAddressID = $MainAddressID->id();
     }
 
-    if ( !$MainAddressID && count( $AddressID ) > 0 )
-        $MainAddressID = $AddressID[0];
+//    if ( !$MainAddressID && count( $AddressID ) > 0 )
+//        $MainAddressID = $AddressID[0];
 
 //    if ( !$new_user )
 //        $user_insert->removeAddresses();
@@ -437,7 +437,16 @@ if ( isSet( $OK ) and $error == false )
     }
 
     if ( count( $AddressID ) > 0 )
-        eZAddress::setMainAddress( $main_id, $user_insert );
+    {
+        if ( !is_numeric( $MainAddressID ) )
+        {
+            eZAddress::setMainAddress( $RealAddressID[0], $user_insert );
+        }
+        else
+        {
+                eZAddress::setMainAddress( $main_id, $user_insert );
+        }
+    }
 
     $user_insert->loginUser( $user_insert );
 
@@ -462,7 +471,7 @@ if ( isSet( $OK ) and $error == false )
     }
     if ( get_class( $user ) != "ezuser" )
     {
-        eZHTTPTool::header( "Location: /" );
+        eZHTTPTool::header( "Location: /trade/customerlogin/" );
         exit();
     }
 }
