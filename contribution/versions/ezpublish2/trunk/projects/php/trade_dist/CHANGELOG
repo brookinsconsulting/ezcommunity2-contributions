@@ -1,0 +1,6 @@
+Changes from version 1.0
+------------------------
+* Added printable version of the articles
+* Fixed an calculation error in the mails sendt on order confirmation.
+* Fixed editing of user addresses and checking if the user has an address
+  before sending an order.
