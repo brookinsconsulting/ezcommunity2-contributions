@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: adedit.php,v 1.21 2001/07/19 11:56:33 jakobn Exp $
+// $Id: adedit.php,v 1.22 2001/08/20 14:56:35 br Exp $
 //
 // Created on: <16-Nov-2000 13:02:32 bf>
 //
@@ -154,6 +154,8 @@ if ( $Action == "Update" )
     $ad->setName( $AdTitle );
     $ad->setDescription( $AdDescription );
 
+
+  
     if ( $IsActive == "on" )
     {
         $ad->setIsActive( true );

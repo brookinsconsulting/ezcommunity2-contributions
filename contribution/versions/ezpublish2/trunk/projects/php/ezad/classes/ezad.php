@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezad.php,v 1.25 2001/07/19 11:56:33 jakobn Exp $
+// $Id: ezad.php,v 1.26 2001/08/20 14:56:35 br Exp $
 //
 // Definition of eZAd class
 //
@@ -85,11 +85,8 @@ class eZAd
                            ImageID,
                            IsActive,
                            URL,
-                           ViewStartDate,
-                           ViewStopDate,
                            ClickPrice,
                            ViewPrice,
-                           ViewRule,
                            HTMLBanner,
                            UseHTML )
                           VALUES
@@ -99,11 +96,8 @@ class eZAd
                             '$this->ImageID',
                             '$this->IsActive',
                             '$url',
-                            '$this->ViewStartDate',
-                            '$this->ViewStopDate',
                             '$this->ClickPrice',
                             '$this->ViewPrice',
-                            '$this->ViewRule',
                             '$htmlbanner',
                             '$this->UseHTML' )
                                  " );
@@ -120,11 +114,8 @@ class eZAd
                                  ImageID='$this->ImageID',
                                  IsActive='$this->IsActive',
                                  URL='$url',
-                                 ViewStartDate='$this->ViewStartDate',
-                                 ViewStopDate='$this->ViewStopDate',
                                  ClickPrice='$this->ClickPrice',
                                  ViewPrice='$this->ViewPrice',
-                                 ViewRule='$this->ViewRule',
                                  HTMLBanner='$htmlbanner',
                                  UseHTML='$this->UseHTML'
                                  WHERE ID='$this->ID'
@@ -166,12 +157,8 @@ class eZAd
                 $this->IsActive =& $ad_array[0][$db->fieldName("IsActive")];
                 $this->URL =& $ad_array[0][$db->fieldName("URL")];
                 $this->ImageID =& $ad_array[0][$db->fieldName("ImageID")];
-                $this->ViewStartDate =& $ad_array[0][$db->fieldName("ViewStartDate")];
-                $this->ViewStopDate =& $ad_array[0][$db->fieldName("ViewStopDate")];
                 $this->ViewPrice =& $ad_array[0][$db->fieldName("ViewPrice")];
                 $this->ClickPrice =& $ad_array[0][$db->fieldName("ClickPrice")];
-                $this->ViewRule =& $ad_array[0][$db->fieldName("ViewRule")];
-
                 $this->HTMLBanner =& $ad_array[0][$db->fieldName("HTMLBanner")];
                 $this->UseHTML =& $ad_array[0][$db->fieldName("UseHTML")];
 
@@ -363,11 +350,11 @@ class eZAd
     {
        if ( $value == true )
        {
-           $this->IsActive = "1";
+           $this->IsActive = 1;
        }
        else
        {
-           $this->IsActive = "0";           
+           $this->IsActive = 0;           
        }
     }
 
@@ -539,6 +526,7 @@ class eZAd
             $db->rollback( );
         else
             $db->commit();
+
     }
 
     /*!
