@@ -1,7 +1,5 @@
-This file contains the files where template blocks
-have been altered.
+TEMPLATE UPDATES for eZ publish:
+---------------------------
 
-
-Files changed from 2.0.1 to 2.1 beta 1
--------------------------
-Added modules eZBulkMail and eZMail
+From version 2.1 Beta 1 the template updates are located in the updates folder.
+With the version number as name. 
