@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.7 2001/09/28 10:14:40 jhe Exp $
+// $Id: search.php,v 1.7.2.1 2003/06/05 10:40:58 br Exp $
 //
 // Created on: <10-May-2001 12:48:08 ce>
 //
@@ -48,7 +48,7 @@ $t->set_block( "search_list_tpl", "empty_search_tpl", "empty_search" );
 
 $t->set_block( "file_tpl", "read_tpl", "read" );
 
-$t->set_var( "search_text", $SearchText );
+$t->set_var( "search_text", htmlspecialchars( $SearchText ) );
 
 if ( !isSet( $Offset ) )
     $Offset = 0;
