@@ -6,6 +6,14 @@ php_flag register_globals on
 php_flag magic_quotes_gpc off
 php_flag register_long_arrays on
 
+
+#################
+# File Upload (Required for Large Files)
+
+#SetOutputFilter PHP
+#SetInputFilter PHP
+#LimitRequestBody 524288 #(max size in bytes)
+
 #
 #<IfModule mod_rewrite.c>
       RewriteEngine On
