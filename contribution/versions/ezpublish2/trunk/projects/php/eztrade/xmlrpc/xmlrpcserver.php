@@ -79,7 +79,7 @@ function &newOrders( $args )
 
             $datetime =& $orderItem->date();
 
-            $date = $datetime->date();
+            $date = $datetime->date(); 
             $time = $datetime->time();
 
             $user =& $orderItem->user();
