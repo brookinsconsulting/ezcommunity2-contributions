@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezconsultation.php,v 1.25 2001/09/13 07:30:59 jhe Exp $
+// $Id: ezconsultation.php,v 1.26 2001/09/13 12:06:26 jhe Exp $
 //
 // Definition of eZConsultation class
 //
@@ -663,13 +663,20 @@ class eZConsultation
 
     /*!
      */
-    function company( $user )
+    function company( $user = false )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( !$user )
+        {
+            $userString = "";
+        }
+        else if ( get_class( $user ) == "ezuser" )
+        {
             $user = $user->id();
+            $userString = " AND UserID='$user'";
+        }
         $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, "SELECT CompanyID FROM eZContact_ConsultationCompanyUserDict
-                                       WHERE ConsultationID='$this->ID' AND UserID='$user'" );
+                                       WHERE ConsultationID='$this->ID' $userString" );
         if ( count( $qry_array ) == 1 )
         {
             return $qry_array[0][$db->fieldName( "CompanyID" )];
@@ -682,13 +689,20 @@ class eZConsultation
 
     /*!
      */
-    function person( $user )
+    function person( $user = false )
     {
-        if ( get_class( $user ) == "ezuser" )
+        if ( !$user )
+        {
+            $userString = "";
+        }
+        else if ( get_class( $user ) == "ezuser" )
+        {
             $user = $user->id();
+            $userString = " AND UserID='$user'";
+        }
         $db =& eZDB::globalDatabase();
         $db->array_query( $qry_array, "SELECT PersonID FROM eZContact_ConsultationPersonUserDict
-                                       WHERE ConsultationID='$this->ID' AND UserID='$user'" );
+                                       WHERE ConsultationID='$this->ID' $userString" );
         if ( count( $qry_array ) == 1 )
         {
             return $qry_array[0][$db->fieldName( "PersonID" )];

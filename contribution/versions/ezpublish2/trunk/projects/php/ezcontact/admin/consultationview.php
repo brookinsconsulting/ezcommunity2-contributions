@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: consultationview.php,v 1.10 2001/09/05 11:57:06 jhe Exp $
+// $Id: consultationview.php,v 1.11 2001/09/13 12:06:26 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -45,7 +45,8 @@ if ( get_class( $user ) != "ezuser" )
     exit();
 }
 
-if ( !eZPermission::checkPermission( $user, "eZContact", "Consultation" ) )
+if ( !eZPermission::checkPermission( $user, "eZContact", "Consultation" ) &&
+     $ini->read_var( "eZContactMain", "ShowAllConsultations" ) != "enabled" )
 {
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /contact/nopermission/consultation" );
@@ -64,9 +65,7 @@ $t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "Admi
                      "ezcontact/admin/intl", $Language, "consultationedit.php" );
 $t->setAllStrings();
 
-$t->set_file( array(
-    "consultation_view" => "consultationview.tpl"
-    ) );
+$t->set_file( "consultation_view", "consultationview.tpl" );
 $t->set_block( "consultation_view", "consultation_item_tpl", "consultation_item" );
 
 $t->set_block( "consultation_item_tpl", "consultation_date_item_tpl", "consultation_date_item" );
@@ -103,13 +102,13 @@ $status_id = 0;
     We present a form with the info.
 */
 
-if ( !eZConsultation::belongsTo( $ConsultationID, $user->id() ) )
+if ( !eZConsultation::belongsTo( $ConsultationID, $user->id() ) &&
+     $ini->read_var( "eZContactMain", "ShowAllConsultations" ) != "enabled" )
 {
     print( "<h1>Sorry, This page isn't for you. </h1>" );
 }
 else
 {
-
     $consultation = new eZConsultation( $ConsultationID );
 
     $t->set_var( "short_description", eZTextTool::htmlspecialchars( $consultation->shortDescription() ) );
@@ -117,8 +116,8 @@ else
     $t->set_var( "email_notification", eZTextTool::htmlspecialchars( $consultation->emails() ) );
     $status_id = $consultation->state();
 
-    $companyid = $consultation->company( $user->id() );
-    $personid = $consultation->person( $user->id() );
+    $companyid = $consultation->company();
+    $personid = $consultation->person();
     if ( $companyid )
     {
         $t->parse( "company_contact_item", "company_contact_item_tpl" );
@@ -149,7 +148,6 @@ else
     foreach ( $groups as $group )
     {
         $t->set_var( "group_notice_name", eZTextTool::htmlspecialchars( $group->name() ) );
-        
         $t->parse( "group_notice_select", "group_notice_select_tpl", true );
     }
 
