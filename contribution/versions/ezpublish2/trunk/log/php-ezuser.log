@@ -1369,3 +1369,13 @@ Maintainer(s) : bf@ez.no
 
     * user/forgot.php: Fixed a bug
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-05-17  fh  <fh@zev.ez.no>
+
+    * user/forgot.php: Fixed eudora bug
+
+    * user/forgot.php: Removed critical debug exit()
+

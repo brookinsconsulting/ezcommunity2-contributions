@@ -3343,3 +3343,13 @@ Maintainer(s) : bf@ez.no
     Added ranking to categories, added extra category and categories to category
     objects.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-05-17  fh  <fh@zev.ez.no>
+
+    * user/frontpage.php: fixed product_id set to late bug
+
+    * user/frontpage.php: Bugfix, product id set after a $t->parse...
+

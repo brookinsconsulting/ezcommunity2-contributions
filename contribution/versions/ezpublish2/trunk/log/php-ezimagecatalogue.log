@@ -1083,3 +1083,13 @@ Maintainer(s) : br@ez.no
     * admin/imageedit.php
       classes/ezimagecategory.php: Fixed access rights on the imagelist.
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2002-05-17  fh  <fh@zev.ez.no>
+
+    * admin/imageedit.php
+      user/imageedit.php:
+    Fixed "read" permission not set when creating new image bug.
+
