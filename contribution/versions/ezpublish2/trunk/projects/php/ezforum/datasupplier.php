@@ -16,8 +16,7 @@ switch ( $url_array[2] )
         else
         {
             include( "ezforum/category.php" );            
-        }
-        
+        }        
         break;
     case "gotolink" :
         include( "ezlink/gotolink.php" );        

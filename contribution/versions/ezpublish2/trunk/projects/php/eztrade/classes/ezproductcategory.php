@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.7 2000/09/14 18:04:47 bf-cvs Exp $
+// $Id: ezproductcategory.php,v 1.8 2000/09/14 18:25:41 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -67,7 +67,7 @@ class eZProductCategory
     */
     function eZProductCategory( $id=-1, $fetch=true )
     {
-        $IsConnected = false;
+        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoptionvalue.php,v 1.5 2000/09/14 18:04:47 bf-cvs Exp $
+// $Id: ezoptionvalue.php,v 1.6 2000/09/14 18:25:41 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -43,7 +43,7 @@ class eZOptionValue
     */
     function eZOptionValue( $id=-1, $fetch=true )
     {
-        $IsConnected = false;
+        $this->IsConnected = false;
         if ( $id != -1 )
         {
             $this->ID = $id;
