@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: image.php,v 1.3 2001/07/03 15:17:09 jb Exp $
+// $Id: image.php,v 1.4 2001/07/04 14:25:00 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <14-Jun-2001 13:18:27 amos>
@@ -84,14 +84,17 @@ if( $Command == "data" ) // Dump image info!
                 $ReturnData = new eZXMLRPCStruct( $ret );
             }
             else
-                $Error = createErrorMessage( EZERROR_CUSTOM, "Image $ID does not exist on disk" );
+                $Error = createErrorMessage( EZERROR_CUSTOM, "Image $ID does not exist on disk",
+                                             EZIMAGECATALOGUE_NONEXISTING_IMAGE );
         }
         else
-            $Error = createErrorMessage( EZERROR_CUSTOM, "Couldn't convert image $ID" );
+            $Error = createErrorMessage( EZERROR_CUSTOM, "Couldn't convert image $ID",
+                                         EZIMAGECATALOGUE_CONVERT_ERROR );
     }
     else
     {
-        $Error = createErrorMessage( EZERROR_CUSTOM, "Missing width and height in image request" );
+        $Error = createErrorMessage( EZERROR_CUSTOM, "Missing width and height in image request",
+                                     EZIMAGECATALOGUE_SIZE_MISSING );
     }
 }
 

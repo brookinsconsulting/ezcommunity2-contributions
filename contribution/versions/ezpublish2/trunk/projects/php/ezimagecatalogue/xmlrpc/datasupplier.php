@@ -1,4 +1,8 @@
 <?
+define( "EZIMAGECATALOGUE_NONEXISTING_IMAGE", 1 );
+define( "EZIMAGECATALOGUE_CONVERT_ERROR", 2 );
+define( "EZIMAGECATALOGUE_SIZE_MISSING", 3 );
+
 switch ( $RequestType )
 {
     case "category" :
