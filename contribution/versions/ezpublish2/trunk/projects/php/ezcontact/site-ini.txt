@@ -12,6 +12,8 @@ CategoryImageWidth:  The width of images displayed in categories
 CategoryImageHeight: The height of images displayed in categories
 MaxPersonList:       The maximum number of persons to show in a personlist,
                      if the number is exceeded next/prev button are shown
+MaxCountryList:      The maximum number of countries to show in a countrylist,
+                     if the number is exceeded next/prev button are shown
 LastConsultations:   How many of the last consultations you've made should be shown
 AddressMinimum:      The minimum number of address items shown in new company and new person,
                      if the number goes below this empty addresses are shown.
@@ -36,6 +38,7 @@ Language=no_NO
 CategoryImageWidth=100
 CategoryImageHeight=100
 MaxPersonList=10
+MaxCountryList=10
 LastConsultations=5
 AddressMinimum=1
 AddressWidth=1
