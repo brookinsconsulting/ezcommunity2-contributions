@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-# $Id: check_lang.pl,v 1.1 2001/09/12 09:05:27 gl Exp $
+# $Id: check_lang.pl,v 1.2 2001/11/15 10:26:07 gl Exp $
 #
 # This script checks the eZ publish distribution for missing
 # language files. en_GB is used as reference language.
@@ -117,7 +117,7 @@ sub checkModule
 				if ( $tmpLine eq $checkItem )
 				{
 				    chomp $checkItem;
-				    print( "Duplicate key : " . $module . "/$part/intl/". $Lang . "/" . $intl_file . " :: " . $checkItem . "\n"  );
+				    print( "  Duplicate key : " . $module . "/$part/intl/". $Lang . "/" . $intl_file . " :: " . $checkItem . "\n"  );
 				    $dupl = 1;
 				}
 			    }
@@ -145,7 +145,7 @@ sub checkModule
 		    if ( $found == 0 && $refItem =~ /\S/ && $refItem =~ /^[^\#]/ )
 		    {
 			chomp $refItem;
-			print( "Missing key : " . $module . "/$part/intl/". $Lang . "/" . $intl_file . " :: " . $refItem . "\n"  );
+			print( "  Missing key : " . $module . "/$part/intl/". $Lang . "/" . $intl_file . " :: " . $refItem . "\n"  );
 		    }
 		}
 
@@ -153,7 +153,7 @@ sub checkModule
 	    }
 	    else
 	    {
-		print( "Missing file : " . $module . "/$part/intl/" . $Lang . "/" . $intl_file . "\n" );
+		print( "  Missing file : " . $module . "/$part/intl/" . $Lang . "/" . $intl_file . "\n" );
 	    }
 	}
     }
