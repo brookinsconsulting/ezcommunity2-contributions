@@ -47,6 +47,14 @@
 <textarea name="Description" cols="40" rows="8" wrap="soft"></textarea>
 <br /><br />
 
+<hr noshade="noshade" size="4">
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+  <td><input name="InsertImage" class="stdbutton" type="submit" value="{intl-add_screenshot}" /></td>
+  <td>&nbsp; </td>
+  <td><input name="InsertFile" class="stdbutton" type="submit" value="{intl-add_patch}" </td>
+</tr>
+</table>
 
 <hr noshade="noshade" size="4">
 

@@ -57,7 +57,80 @@ switch ( $url_array[2] )
     
     case "report" :
     {
-        include( "ezbug/user/bugreport.php" );
+        switch( $url_array[3] )
+        {
+            case "new" :
+            {
+                include( "ezbug/user/bugreport.php" );
+            }
+            break;
+
+            case "edit" :
+            {
+                $bugID = $url_array[4];
+                include( "ezbug/user/bugreport.php" );
+            }
+            break;
+            
+            case "fileedit" :
+            {
+                if( $url_array[4] == "New")
+                {
+                    $Action = "New";
+                    $BugID = $url_array[5];
+                    include( "ezbug/user/fileedit.php" );
+                }
+                else if( $url_array[4] == "Edit" )
+                {
+                    $Action = "Edit";
+                    $BugID = $url_array[6];
+                    $FileID = $url_array[5];
+                    include( "ezbug/user/fileedit.php" );
+                }
+                if( $url_array[4] == "Delete" )
+                {
+                    $Action = "Delete";
+                    $BugID = $url_array[6];
+                    $FileID = $url_array[5];
+                    include( "ezbug/user/fileedit.php" );
+                }
+                else
+                {
+                    include( "ezbug/user/fileedit.php" );
+                }
+            }
+            break;
+            case "imageedit" :
+            {
+                if( $url_array[4] == "New")
+                {
+                    $Action = "New";
+                    $BugID = $url_array[5];
+                    include( "ezbug/user/imageedit.php" );
+                }
+                else if( $url_array[4] == "Edit" )
+                {
+                    $Action = "Edit";
+                    $BugID = $url_array[6];
+                    $FileID = $url_array[5];
+                    include( "ezbug/user/imageedit.php" );
+                }
+                if( $url_array[4] == "Delete" )
+                {
+                    $Action = "Delete";
+                    $BugID = $url_array[6];
+                    $FileID = $url_array[5];
+                    include( "ezbug/user/imageedit.php" );
+                }
+                else
+                {
+                }
+            }
+            default :
+            {
+                include( "ezbug/user/bugreport.php" );
+            }
+        }
     }
     break;
 

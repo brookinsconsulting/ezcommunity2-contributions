@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: bugreport.php,v 1.7 2001/02/15 16:16:35 fh Exp $
+// $Id: bugreport.php,v 1.8 2001/02/16 19:23:42 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 20:31:00 bf>
@@ -51,6 +51,7 @@ $t->set_block( "bug_report_tpl", "email_address_tpl", "email_address" );
 $t->set_block( "bug_report_tpl", "all_fields_error_tpl", "all_fields_error" );
 $t->set_block( "bug_report_tpl", "email_error_tpl", "email_error" );
 
+
 if ( $Action == "Insert" )
 {
     $successfull = 0;
@@ -100,6 +101,23 @@ if ( $Action == "Insert" )
         $AllFieldsError = true;
     }
 
+    if( isset( $InsertFile ) && $successfull != 0 )
+    {
+        $Action = "";
+        $BugID = $bug->id();
+        include( "ezbug/user/fileedit.php" );
+        exit();
+    }
+
+    if( isset( $InsertImage ) && $successfull != 0)
+    {
+        $Action = "";
+        $BugID = $bug->id();
+        include( "ezbug/user/imageedit.php" );
+        exit();
+    }
+
+ 
     if( $successfull != 0 ) // the bug was successfully commited.. lets send an email to the group owners.
     {
         // find the owners of the group, if their is now owner group, no need to send mail.
@@ -155,6 +173,11 @@ if ( $Action == "Insert" )
         Header( "Location: /bug/reportsuccess/" );
         exit();                
     }
+}
+
+if( $Action == "Edit" ) // load values from database
+{
+    
 }
 
 if ( $AllFieldsError == true )
