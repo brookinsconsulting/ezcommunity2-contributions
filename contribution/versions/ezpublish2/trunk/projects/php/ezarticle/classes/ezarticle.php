@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.159 2001/09/06 17:25:16 bf Exp $
+// $Id: ezarticle.php,v 1.160 2001/09/07 10:41:34 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1802,8 +1802,6 @@ class eZArticle
             $loggedInSQL = "eZArticle_Article.AuthorID=$currentUserID OR";
         }
 
-        $queryArray = explode( " ", trim( $queryText ) );
-
         $query = new eZQuery( "eZArticle_Word.Word", $queryText );
         $query->setIsLiteral( true );
         $query->setStopWordColumn(  "eZArticle_Word.Frequency" );        
@@ -1867,7 +1865,21 @@ class eZArticle
             $photoTables = "eZArticle_ArticleImageLink, eZImageCatalogue_Image,";
         }
 
-        $queryString = "SELECT DISTINCT eZArticle_Article.ID AS ArticleID, eZArticle_Article.Published, eZArticle_Article.Name
+        // special search for MySQL, mimic subselects ;)
+        if ( $db->isA() == "mysql" )
+        {
+            $queryArray = explode( " ", trim( $queryText ) );
+
+            $db->query( "CREATE TEMPORARY TABLE eZArticle_SearchTemp( ArticleID int )" );
+
+            $count = 1;
+            foreach ( $queryArray as $queryWord )
+            {                
+                $queryWord = trim( $queryWord );
+
+                $searchSQL = " ( eZArticle_Word.Word = '$queryWord' AND eZArticle_Word.Frequency < '0.5' ) ";
+                
+                $queryString = "INSERT INTO eZArticle_SearchTemp ( ArticleID ) SELECT DISTINCT eZArticle_Article.ID AS ArticleID
                  FROM eZArticle_Article,
                       eZArticle_ArticleWordLink,
                       eZArticle_Word,
@@ -1894,10 +1906,55 @@ class eZArticle
                           )
                         )
                        ORDER BY $OrderBy";
+                
+                $db->query( $queryString );
 
-//          $qry = preg_replace( "/\n/m", "", $queryString );
-        $qry = $queryString;
-        $db->array_query( $article_array, $queryString, array( "Limit" => $limit, "Offset" => $offset ) );        
+                // check if this is a stop word
+                $queryString = "SELECT Frequency FROM eZArticle_Word WHERE Word='$queryWord'";
+                
+                $db->query_single( $WordFreq, $queryString, array( "LIMIT" => 1 ) );
+
+                if ( $WordFreq["Frequency"] <= 0.5 )                    
+                    $count += 1;
+            }
+            $count -= 1;
+
+            $queryString = "SELECT ArticleID, Count(*) AS Count FROM eZArticle_SearchTemp GROUP BY ArticleID HAVING Count='$count'";
+            $db->array_query( $article_array, $queryString, array( "Limit" => $limit, "Offset" => $offset ) );
+            
+            $db->query( "DROP  TABLE eZArticle_SearchTemp" );
+        }
+        else
+        {
+            $queryString = "SELECT DISTINCT eZArticle_Article.ID AS ArticleID, eZArticle_Article.Published, eZArticle_Article.Name
+                 FROM eZArticle_Article,
+                      eZArticle_ArticleWordLink,
+                      eZArticle_Word,
+                      eZArticle_ArticleCategoryLink,
+                      $catTable
+                      $typeTables
+                      $photoTables
+                      eZArticle_ArticlePermission
+                 WHERE
+                       $searchSQL
+                       $dateSQL
+                       $catSQL
+                       $typeSQL
+                       $authorSQL
+                       $photoSQL
+                       AND
+                       ( eZArticle_Article.ID=eZArticle_ArticleWordLink.ArticleID
+                         AND eZArticle_ArticleWordLink.WordID=eZArticle_Word.ID
+                         AND eZArticle_ArticlePermission.ObjectID=eZArticle_Article.ID
+                         $fetchText
+                         AND eZArticle_ArticleCategoryLink.ArticleID=eZArticle_Article.ID AND
+                          ( $loggedInSQL ($groupSQL eZArticle_ArticlePermission.GroupID='-1')
+                            AND eZArticle_ArticlePermission.ReadPermission='1'
+                          )
+                        )
+                       ORDER BY $OrderBy";
+            $db->array_query( $article_array, $queryString, array( "Limit" => $limit, "Offset" => $offset ) );
+        }
 
         for ( $i=0; $i < count($article_array); $i++ )
         {
@@ -1953,7 +2010,70 @@ class eZArticle
         $searchSQL = $query->buildQuery();
 
 
-        $queryString = "SELECT count( DISTINCT eZArticle_Article.ID) AS Count
+        // special search for MySQL, mimic subselects ;)
+        if ( $db->isA() == "mysql" )
+        {
+            $queryArray = explode( " ", trim( $queryText ) );
+
+            $db->query( "CREATE TEMPORARY TABLE eZArticle_SearchTemp( ArticleID int )" );
+
+            $count = 1;
+            foreach ( $queryArray as $queryWord )
+            {                
+                $queryWord = trim( $queryWord );
+
+                $searchSQL = " ( eZArticle_Word.Word = '$queryWord' AND eZArticle_Word.Frequency < '0.5' ) ";
+                
+                $queryString = "INSERT INTO eZArticle_SearchTemp ( ArticleID ) SELECT DISTINCT eZArticle_Article.ID AS ArticleID
+                 FROM eZArticle_Article,
+                      eZArticle_ArticleWordLink,
+                      eZArticle_Word,
+                      eZArticle_ArticleCategoryLink,
+                      $catTable
+                      $typeTables
+                      $photoTables
+                      eZArticle_ArticlePermission
+                 WHERE
+                       $searchSQL
+                       $dateSQL
+                       $catSQL
+                       $typeSQL
+                       $authorSQL
+                       $photoSQL
+                       AND
+                       ( eZArticle_Article.ID=eZArticle_ArticleWordLink.ArticleID
+                         AND eZArticle_ArticleWordLink.WordID=eZArticle_Word.ID
+                         AND eZArticle_ArticlePermission.ObjectID=eZArticle_Article.ID
+                         $fetchText
+                         AND eZArticle_ArticleCategoryLink.ArticleID=eZArticle_Article.ID AND
+                          ( $loggedInSQL ($groupSQL eZArticle_ArticlePermission.GroupID='-1')
+                            AND eZArticle_ArticlePermission.ReadPermission='1'
+                          )
+                        )";
+                
+                $db->query( $queryString );
+
+                // check if this is a stop word
+                $queryString = "SELECT Frequency FROM eZArticle_Word WHERE Word='$queryWord'";
+                
+                $db->query_single( $WordFreq, $queryString, array( "LIMIT" => 1 ) );
+
+                if ( $WordFreq["Frequency"] <= 0.5 )                    
+                    $count += 1;
+            }
+            $count -= 1;
+
+            $queryString = "SELECT Count(*) AS Count FROM eZArticle_SearchTemp GROUP BY ArticleID HAVING Count='$count'";
+
+            $db->array_query( $articleCountTmp, $queryString );
+
+            $articleCount["Count"] = count( $articleCountTmp );
+            
+            $db->query( "DROP  TABLE eZArticle_SearchTemp" );
+        }
+        else
+        {
+            $queryString = "SELECT count( DISTINCT eZArticle_Article.ID) AS Count
                  FROM eZArticle_Article,
                       eZArticle_ArticleWordLink,
                       eZArticle_Word,
@@ -1972,26 +2092,12 @@ class eZArticle
                           )
                         ) ";
 
-        
-        /*
-        $queryString = "SELECT COUNT(DISTINCT Article.ID) AS Count
-                 FROM eZArticle_Article AS Article,
-                      eZArticle_ArticleCategoryLink AS Link,
-                      eZArticle_ArticlePermission AS Permission
-                 WHERE (
-                       ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' )
-                       AND $search
-                       )
-                       $fetchText
-                       AND Permission.ObjectID=Article.ID
-                       AND Link.ArticleID=ArticleID
-                       GROUP BY ArticleID
-                       ";
-        */
+            $db->query_single( $articleCount, $queryString, array( "LIMIT" => 1 ) );
+            
+        }
 
-        $db->query_single( $count, $queryString, array( "LIMIT" => 1 ) );
 
-        return $count[$db->fieldName("Count")];
+        return $articleCount[$db->fieldName("Count")];
     }
 
     /*!
