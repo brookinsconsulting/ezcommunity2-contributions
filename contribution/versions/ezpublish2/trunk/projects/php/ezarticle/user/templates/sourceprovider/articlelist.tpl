@@ -1,3 +1,7 @@
+<h1>SourceProvider</h1>
+<p>Welcome to our on-line store. You can start shopping by clicking on the "Products" link.</p>
+<p>You might find our selection a bit sparse, but over time we will expand our selection.</p>
+
 <h1>News</h1>
 
 <!-- BEGIN path_item_tpl -->
