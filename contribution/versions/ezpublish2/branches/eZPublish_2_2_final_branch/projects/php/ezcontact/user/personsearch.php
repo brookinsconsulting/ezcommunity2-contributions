@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: personsearch.php,v 1.4 2001/09/20 11:34:24 jhe Exp $
+// $Id: personsearch.php,v 1.4.2.1 2003/04/10 14:48:45 br Exp $
 //
 // Created on: <25-Jul-2001 12:43:04 jhe>
 //
@@ -69,7 +69,7 @@ $t->set_var( "result_category", "" );
 $t->set_var( "companies_table", "" );
 $t->set_var( "command_type", "person" );
 
-$t->set_var( "search_text", $SearchText );
+$t->set_var( "search_text", htmlspecialchars( $SearchText ) );
 $t->set_var( "current_id", $SearchCategory );
 
 $Action = "new";

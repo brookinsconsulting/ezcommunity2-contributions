@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.1 2001/08/16 13:57:04 jhe Exp $
+// $Id: search.php,v 1.1.2.1 2003/04/10 14:48:45 br Exp $
 //
 // Created on: <13-Aug-2001 10:17:53 jhe>
 //
@@ -57,7 +57,7 @@ $t->set_var( "mail_repliedall", "" );
 $t->set_var( "mail_edit_item", "" );
 
 $t->set_var( "site_style", $SiteStyle );
-$t->set_var( "search_string", $SearchText );
+$t->set_var( "search_string", htmlspecialchars( $SearchText ) );
 
 if ( isSet( $Move ) )
 {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productsearch.php,v 1.20 2001/09/27 12:00:00 ce Exp $
+// $Id: productsearch.php,v 1.20.2.1 2003/04/10 14:48:44 br Exp $
 //
 // Created on: <10-Oct-2000 17:49:05 bf>
 //
@@ -206,8 +206,8 @@ if ( isSet( $Query ) && ( count ( $productList ) > 0 ) )
 
 eZList::drawNavigator( $t, $total_count, $Limit, $Offset, "product_search_tpl" );
 
-$t->set_var( "url_query_string", $Query );
-$t->set_var( "query_string", $Query );
+$t->set_var( "url_query_string", htmlspecialchars( $Query ) );
+$t->set_var( "query_string", htmlspecialchars( $Query ) );
 
 $t->set_var( "query", $Query );
 $t->set_var( "limit", $Limit );
