@@ -7,8 +7,10 @@ Changes from version 1.0.2
 * Added session timeout on user groups
 * Added session info, currently loggen in users
 * Added possibility to manually logout users
+* Added "goto" link in admin
+* Added delete button in linkedivt
+* Added link hits in search list
 * Lots of bug fixes
-
 
 Changes from version 1.0.1
 -------------------------
