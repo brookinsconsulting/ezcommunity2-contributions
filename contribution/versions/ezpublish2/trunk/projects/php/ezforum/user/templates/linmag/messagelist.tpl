@@ -12,10 +12,18 @@
   </tr>
 </table>
 
+	<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+	<a class="path" href="{www_dir}{index}/forum/categorylist/">{intl-forum-main}</a>
+	<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />
+    <a class="path" href="{www_dir}{index}/forum/forumlist/{category_id}/">{category_name}</a>
+	<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />
+	<a class="path" href="{www_dir}{index}/forum/messagelist/{forum_id}">{forum_name}</a>
+<br /><br />
+
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
   <tr>
 	<td><p class="boxtext">({forum_start}-{forum_end}/{forum_total})</p></td>
-     <td align="right">
+     <td align="right" valign="top">
      <form action="{www_dir}{index}/forum/messagelist/{forum_id}/" method="post">
            <!-- BEGIN hide_threads_tpl -->
            <input class="stdbutton" type="submit" name="HideThreads" value="{intl-hide_threads}" />
@@ -27,14 +35,6 @@
      </td>
 </tr>
 </table>
-
-
-	<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
-	<a class="path" href="{www_dir}{index}/forum/categorylist/">{intl-forum-main}</a>
-	<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />
-    <a class="path" href="{www_dir}{index}/forum/forumlist/{category_id}/">{category_name}</a>
-	<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="" />
-	<a class="path" href="{www_dir}{index}/forum/messagelist/{forum_id}">{forum_name}</a>
 
 <form action="{www_dir}{index}/forum/userlogin/new/{forum_id}">
 

@@ -27,7 +27,7 @@
 <a class="path" href="{www_dir}{index}/link/category/{category_id}/">{category_name}</a>
 
 <!-- END path_item_tpl -->
-
+<br /><br />
 <!-- BEGIN category_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <!--
