@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlepreview.php,v 1.11 2001/01/22 14:42:59 jb Exp $
+// $Id: articlepreview.php,v 1.12 2001/01/28 12:22:40 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -63,8 +63,12 @@ $t->set_var( "author_text", $article->authorText() );
 
 $t->set_var( "article_body", $renderer->renderPage( $PageNumber - 1 ) );
 
+
 $t->set_var( "link_text", $article->linkText() );
+
 $t->set_var( "article_id", $article->id() );
+
+
 
 $files = $article->files();
 

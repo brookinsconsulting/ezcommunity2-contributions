@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechgenerator.php,v 1.30 2001/01/22 14:42:59 jb Exp $
+// $Id: eztechgenerator.php,v 1.31 2001/01/28 12:22:40 bf Exp $
 //
 // Definition of eZTechGenerator class
 //
@@ -77,6 +77,7 @@ class eZTechGenerator
         }
 
         $this->PageCount = count( $pages );
+        
 
         $newContents .= "<body>" . $body . "</body></article>";
 
@@ -267,8 +268,10 @@ class eZTechGenerator
     function &decodeXML()
     {
         $contentsArray = array();
-        
-        $xml = xmltree( $this->Contents );
+
+        $xml =& xmltree( $this->Contents );
+
+//          $xml =& qdom_tree( $this->Contents );
 
         if ( !$xml )
         {
@@ -278,36 +281,42 @@ class eZTechGenerator
         {
             $into = "";
             $body = "";
-            
-            foreach ( $xml->root->children as $child )
+
+            foreach ( $xml->children as $child )
             {
-                if ( $child->name == "intro" )
+                if ( $child->name == "article" )
                 {
-                    if ( count( $child->children ) > 0 )
-                    foreach ( $child->children as $paragraph )
-                    {                        
-                        // ordinary text
-                        if ( $paragraph->name == "text" )
+                    foreach ( $child->children as $article )
+                    {
+                        if ( $article->name == "intro" )
                         {
-                            $intro .= $paragraph->content;
+                            if ( count( $article->children ) > 0 )
+                                foreach ( $article->children as $paragraph )
+                                {                        
+                                    // ordinary text
+                                    if ( $paragraph->name == "text" || $paragraph->name == "#text" )
+                                    {
+                                        $intro .= $paragraph->content;
+                                    }
+                                    
+                                    $intro = $this->decodeStandards( $intro, $paragraph );
+                                    
+                                    $intro = $this->decodeCode( $intro, $paragraph );
+                                    
+                                    $intro = $this->decodeImage( $intro, $paragraph );
+                                    
+                                    $intro = $this->decodeLink( $intro, $paragraph );
+                                    
+                                    $intro = $this->decodeModule( $intro, $paragraph );
+                                }
+                        }                        
+                        
+                        if ( $article->name == "body" )
+                        {
+                            $body = $article->children;
                         }
                         
-                        $intro = $this->decodeStandards( $intro, $paragraph );
-
-                        $intro = $this->decodeCode( $intro, $paragraph );
-
-                        $intro = $this->decodeImage( $intro, $paragraph );
-
-                        $intro = $this->decodeLink( $intro, $paragraph );
-
-                        $intro = $this->decodeModule( $intro, $paragraph );                        
                     }
-                }
-                
-
-                if ( $child->name == "body" )
-                {
-                    $body = $child->children;
                 }
             }
 
@@ -324,7 +333,7 @@ class eZTechGenerator
                 foreach ( $page->children as $paragraph )
                 {
                     // ordinary text
-                    if ( $paragraph->name == "text" )
+                    if ( $paragraph->name == "text" || $paragraph->name == "#text" )
                     {
                         $pageContent .= $paragraph->content;
                     }

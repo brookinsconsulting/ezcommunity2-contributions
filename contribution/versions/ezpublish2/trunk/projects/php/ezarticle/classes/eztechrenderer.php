@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.46 2001/01/22 14:42:59 jb Exp $
+// $Id: eztechrenderer.php,v 1.47 2001/01/28 12:22:40 bf Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -134,7 +134,16 @@ class eZTechRenderer
     */
     function &renderIntro()
     {
-        $xml = xmltree( $this->Article->contents() );
+//          print( "<pre>" );
+        $xml =& xmltree( $this->Article->contents() );
+
+//          print_r( $xml );
+        
+//          $xml =& qdom_tree( $this->Article->contents() );
+
+//          print_r( $xml );
+
+//          print( "</pre>" );
 
         if ( !$xml )
         {
@@ -150,33 +159,40 @@ class eZTechRenderer
 
             $i=0;
             $this->$PrevTag = "";
-            foreach ( $xml->root->children as $child )
+            foreach ( $xml->children as $child )
             {
-                if ( $child->name == "intro" )
+                if ( $child->name == "article" )
                 {
-
-                    if ( count( $child->children ) > 0 )
-                    foreach ( $child->children as $paragraph )
+                    foreach ( $child->children as $article )
                     {
-                        $intro = $this->renderPlain( $intro, $paragraph );
-
-                        $intro = $this->renderCode( $intro, $paragraph );
-
-                        $intro = $this->renderStandards( $intro, $paragraph );
-
-                        $intro = $this->renderLink( $intro, $paragraph );
-
-                        $intro = $this->renderModule( $intro, $paragraph );
-                        
-                        $intro = $this->renderImage( $intro, $paragraph, $articleImages );
-
-                        $this->PrevTag = $paragraph->name;
+                        if ( $article->name == "intro" )
+                        {                           
+                            if ( count( $article->children ) > 0 )
+                            {
+                                foreach ( $article->children as $paragraph )
+                                {
+                                    $intro = $this->renderPlain( $intro, $paragraph );
+                                    
+                                    $intro = $this->renderCode( $intro, $paragraph );
+                                    
+                                    $intro = $this->renderStandards( $intro, $paragraph );
+                                    
+                                    $intro = $this->renderLink( $intro, $paragraph );
+                                    
+                                    $intro = $this->renderModule( $intro, $paragraph );
+                                    
+                                    $intro = $this->renderImage( $intro, $paragraph, $articleImages );
+                                    
+                                    $this->PrevTag = $paragraph->name;
+                                }
+                            }
+                        }
                     }
                 }
             }
-
+                
 //            $newArticle = eZTextTool::nl2br( $intro );
-            $newArticle = $intro;
+                $newArticle = $intro;
         }
         
         return $newArticle;
@@ -187,8 +203,10 @@ class eZTechRenderer
     */
     function &renderPage( $pageNumber=0 )
     {
-        $xml = xmltree( $this->Article->contents() );
+        $xml =& xmltree( $this->Article->contents() );
 
+//          $xml =& qdom_tree( $this->Article->contents() );
+        
         if ( !$xml )
         {
             print( "<br /><b>Error: eZTechRenderer::docodeXML() could not decode XML</b><br />" );
@@ -199,37 +217,42 @@ class eZTechRenderer
             $body = "";
 
             $this->$PrevTag = "";
-            $articleImages = $this->Article->images();
+            $articleImages =& $this->Article->images();
             $articleID = $this->Article->id();
             
-            foreach ( $xml->root->children as $child )
+            foreach ( $xml->children as $child )
             {
-                if ( $child->name == "intro" )
+                if ( $child->name == "article" )
                 {
-                    if ( count( $child->children ) > 0 )
-                    foreach ( $child->children as $paragraph )
+                    foreach ( $child->children as $article )
                     {
-                        $intro = $this->renderPlain( $intro, $paragraph );
-
-                        $intro = $this->renderCode( $intro, $paragraph );
-
-                        $intro = $this->renderStandards( $intro, $paragraph );
-
-                        $intro = $this->renderLink( $intro, $paragraph );
-
-                        $intro = $this->renderModule( $intro, $paragraph );
+                        if ( $article->name == "intro" )
+                        {
+                            if ( count( $article->children ) > 0 )
+                                foreach ( $article->children as $paragraph )
+                                {
+                                    $intro = $this->renderPlain( $intro, $paragraph );
+                                    
+                                    $intro = $this->renderCode( $intro, $paragraph );
+                                    
+                                    $intro = $this->renderStandards( $intro, $paragraph );
+                                    
+                                    $intro = $this->renderLink( $intro, $paragraph );
+                                    
+                                    $intro = $this->renderModule( $intro, $paragraph );
+                                    
+                                    $intro = $this->renderImage( $intro, $paragraph, $articleImages );
+                                    
+                                    $this->PrevTag = $paragraph->name;
+                                }
+                        }
                         
-                        $intro = $this->renderImage( $intro, $paragraph, $articleImages );
-
-                        $this->PrevTag = $paragraph->name;
+                        if ( $article->name == "body" )
+                        {
+                            $body = $article->children;
+                        }                        
                     }
-
-                }
-                
-                if ( $child->name == "body" )
-                {
-                    $body = $child->children;
-                }
+                }                
             }
 
             $pageArray = array();
@@ -289,7 +312,7 @@ class eZTechRenderer
     function &renderPlain( $pageContent, $paragraph )
     {
         // ordinary text
-        if ( $paragraph->name == "text" )
+        if ( $paragraph->name == "#text" || $paragraph->name == "text" )
         {
             $paragraph_text = $paragraph->content;
             if ( $paragraph_text[0] == "\n" )

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.35 2001/01/25 10:43:15 ce Exp $
+// $Id: articleedit.php,v 1.36 2001/01/28 12:22:40 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -51,7 +51,6 @@ $PublishNoticeSender = $ini->read_var( "eZArticleMain", "PublishNoticeSender" );
 if ( $Action == "Insert" )
 {
     $user = eZUser::currentUser();
-
         
     $article = new eZArticle( );
     $article->setName( $Name );
@@ -364,7 +363,8 @@ if ( $Action == "Update" )
         $category->addArticle( $article );
 
         $article->setCategoryDefinition( $category );
-        
+
+        if ( count( $CategoryArray ) > 0 )
         foreach ( $CategoryArray as $categoryItem )
         {
             if ( $categoryItem != $CategoryID )
