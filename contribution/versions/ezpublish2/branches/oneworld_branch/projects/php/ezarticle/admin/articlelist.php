@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: articlelist.php,v 1.50.2.4.2.2 2002/06/03 15:43:33 pkej Exp $
+//
+// $Id: articlelist.php,v 1.50.2.4.2.3 2002/06/04 11:36:11 ce Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -54,21 +54,21 @@ if ( isSet( $StoreSelection ) )
     {
         case "Published" :
         {
-            $session->setVariable( "MixUnpublished", "Published" ); 
+            $session->setVariable( "MixUnpublished", "Published" );
         }
         break;
 
         case "Unpublished" :
         {
-            $session->setVariable( "MixUnpublished", "Unpublished" ); 
+            $session->setVariable( "MixUnpublished", "Unpublished" );
         }
         break;
-        
+
         case "All" :
         default  :
         {
-            $session->setVariable( "MixUnpublished", "All" ); 
-        }        
+            $session->setVariable( "MixUnpublished", "All" );
+        }
     }
 }
 
@@ -91,7 +91,7 @@ if ( isset( $CopyCategories ) )
             $tmpCategory = new eZArticleCategory( $tCategoryID );
 
             $newCategory = new eZArticleCategory();
-            $newCategory->setName( "Copy of " . $tmpCategory->name() );            
+            $newCategory->setName( "Copy of " . $tmpCategory->name() );
             $newCategory->setDescription( $tmpCategory->description(false) );
             $newCategory->setParent( $tmpCategory->parent( false ) );
             $newCategory->setOwner( eZUser::currentUser() );
@@ -101,15 +101,15 @@ if ( isset( $CopyCategories ) )
             // write access
             eZObjectPermission::setPermission( -1, $newCategory->id(), "article_category", 'w' );
 
-            // read access 
+            // read access
             eZObjectPermission::setPermission( -1, $newCategory->id(), "article_category", 'r' );
-            
+
 
             $tmpCategory->copyTree( $tCategoryID, $newCategory );
         }
         eZHTTPTool::header( "Location: /article/archive/" );
         exit();
-    }    
+    }
 }
 
 
@@ -253,7 +253,7 @@ if ( is_numeric( $MoveCategoryUp ) || is_numeric( $MoveCategoryDown ) )
     $files =& eZCacheFile::files( "ezarticle/cache/",
                                  array( "menubox", NULL ),
                                  "cache", "," );
-    
+
     foreach ( $files as $file )
     {
         $file->delete();
@@ -288,12 +288,12 @@ if ( $ini->read_var( "eZArticleMain", "CategoryDescriptionXML" ) == "enabled" )
     if ( $CategoryID )
     {
         include_once( "ezarticle/classes/ezarticlerenderer.php" );
-    
+
         $article = new eZArticle();
         $article->setContents( $category->description( false ) );
-	    
+
         $renderer = new eZArticleRenderer( $article );
-		
+
         $t->set_var( "current_category_description", $renderer->renderIntro() );
     }
     else
@@ -303,8 +303,8 @@ if ( $ini->read_var( "eZArticleMain", "CategoryDescriptionXML" ) == "enabled" )
 }
 else
 {
-    $t->set_var( "current_category_description", $category->description() );    
-}	
+    $t->set_var( "current_category_description", $category->description() );
+}
 //EP --------------------------------------------------------------------------
 
 // path
@@ -320,24 +320,24 @@ foreach ( $pathArray as $path )
 
 $categoryList =& $category->getByParent( $category, true, "placement", 0, -1, false, false, true );
 
-// category "tree" selector
-$tree = new eZArticleCategory();
-$treeArray =& $tree->getTree();
+// // category "tree" selector
+// $tree = new eZArticleCategory();
+// $treeArray =& $tree->getTree();
 
-foreach ( $treeArray as $catItem )
-{
-    $t->set_var( "category_id", $catItem[0]->id() );
-    $t->set_var( "category_name", $catItem[0]->name() );
+// foreach ( $treeArray as $catItem )
+// {
+//     $t->set_var( "category_id", $catItem[0]->id() );
+//     $t->set_var( "category_name", $catItem[0]->name() );
 
-    if ( $catItem[1] > 1 )
-        $t->set_var( "category_level", str_repeat( "&nbsp;&nbsp;", $catItem[1] ) );
-    else
-        $t->set_var( "category_level", "" );
+//     if ( $catItem[1] > 1 )
+//         $t->set_var( "category_level", str_repeat( "&nbsp;&nbsp;", $catItem[1] ) );
+//     else
+//         $t->set_var( "category_level", "" );
 
-    $t->set_var( "selected", $catItem[0]->id() == $CategoryID ? "selected" : "" );
-    
-    $t->parse( "category_tree_id", "category_tree_id_tpl", true );    
-}
+//     $t->set_var( "selected", $catItem[0]->id() == $CategoryID ? "selected" : "" );
+
+//     $t->parse( "category_tree_id", "category_tree_id_tpl", true );
+// }
 
 
 // categories
@@ -358,23 +358,23 @@ foreach ( $categoryList as $categoryItem )
     {
         $t->set_var( "td_class", "bgdark" );
     }
-    
+
     //EP: CategoryDescriptionXML=enabled, description go in XML -------------------
     if ( $ini->read_var( "eZArticleMain", "CategoryDescriptionXML" ) == "enabled" )
     {
         include_once( "ezarticle/classes/ezarticlerenderer.php" );
-       
+
         $article = new eZArticle ();
         $article->setContents ($categoryItem->description(false));
-	       
+
         $renderer = new eZArticleRenderer( $article );
-		   
+
         $t->set_var( "category_description", $renderer->renderIntro() );
     }
     else
     {
         $t->set_var( "category_description", $categoryItem->description() );
-    }       
+    }
     //EP --------------------------------------------------------------------------
 
     if ( eZObjectPermission::hasPermission( $categoryItem->id(), "article_category", 'w' ) ||
@@ -382,7 +382,7 @@ foreach ( $categoryList as $categoryItem )
         $t->parse( "category_edit", "category_edit_tpl", false );
     else
         $t->set_var( "category_edit", "" );
-        
+
     $t->parse( "category_item", "category_item_tpl", true );
     $i++;
 }
@@ -419,7 +419,7 @@ switch ( $articleMix )
         $t->set_var( "all_selected", "" );
     }
     break;
-        
+
     case "All" :
     default  :
     {
@@ -435,11 +435,11 @@ if ( is_numeric( $CategoryID ) && ( $CategoryID > 0 ) )
 {
     switch ( $ArticleSelection )
     {
-       
+
         case "Published" :
         {
             $articleList =& $category->articles( $category->sortMode(), false, true, $Offset, $Limit );
-            $articleCount = $category->articleCount( false, true  );        
+            $articleCount = $category->articleCount( false, true  );
         }
         break;
 
@@ -449,12 +449,12 @@ if ( is_numeric( $CategoryID ) && ( $CategoryID > 0 ) )
             $articleCount = $category->articleCount( false, false  );
         }
         break;
-        
+
         case "All" :
         default  :
         {
             $articleList =& $category->articles( $category->sortMode(), true, true, $Offset, $Limit );
-            $articleCount = $category->articleCount( true, true  );        
+            $articleCount = $category->articleCount( true, true  );
         }
     }
 }
@@ -493,7 +493,7 @@ foreach ( $articleList as $article )
         if ( $article->isPublished() == true )
         {
             $t->parse( "article_is_published", "article_is_published_tpl" );
-            $t->set_var( "article_not_published", "" );        
+            $t->set_var( "article_not_published", "" );
         }
         else
         {
@@ -536,7 +536,7 @@ foreach ( $articleList as $article )
 eZList::drawNavigator( $t, $articleCount, $AdminListLimit, $Offset, "article_list_page_tpl" );
 
 // $i is from the last foreach loop
-if ( $i > 0 )    
+if ( $i > 0 )
     $t->parse( "article_list", "article_list_tpl" );
 else
     $t->set_var( "article_list", "" );
@@ -548,7 +548,7 @@ $t->pparse( "output", "article_list_page_tpl" );
   Delete cache.
 */
 function deleteCache( $ArticleID, $CategoryID, $CategoryArray )
-{    
+{
     eZArticleTool::deleteCache( $ArticleID, $CategoryID, $CategoryArray );
 }
 

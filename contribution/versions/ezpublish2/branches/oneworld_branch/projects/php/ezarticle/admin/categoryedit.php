@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categoryedit.php,v 1.29.2.3.2.3 2002/06/03 15:51:45 pkej Exp $
+// $Id: categoryedit.php,v 1.29.2.3.2.4 2002/06/04 11:36:11 ce Exp $
 //
 // Created on: <18-Sep-2000 14:46:19 bf>
 //
@@ -83,43 +83,43 @@ if ( $Action == "insert" && !$error )
 
     $category = new eZArticleCategory();
     $category->setName( $Name );
-    
+
     $parentCategory = new eZArticleCategory();
     if ( $parentCategory->get( $ParentID ) == true )
     {
         $category->setParent( $parentCategory );
     }
-        
 
 
 
 
 
-    
-    
-    
+
+
+
+
     //EP: CategoryDescriptionXML=enabled, description go in XML -------------------
     if ( $ini->read_var( "eZArticleMain", "CategoryDescriptionXML" ) == "enabled" )
     {
 
         $generator = new eZArticleGenerator();
         $desc1 = array( $Description, "" );
-        $desc2 = $generator->generateXML( $desc1 ); 
+        $desc2 = $generator->generateXML( $desc1 );
         $category->setDescription( $desc2 );
     }
     else
     {
-	$category->setDescription( $Description );    
+	$category->setDescription( $Description );
     }
     //EP --------------------------------------------------------------------------
-    
+
     $category->setSectionID( $SectionID );
     $category->setEditorGroup( $EditorGroupID );
     $category->setListLimit( $ListLimit );
     $category->setSortMode( $SortMode );
-    
-    
-    
+
+
+
     if ( $ExcludeFromSearch == "on" )
     {
         $category->setExcludeFromSearch( true );
@@ -144,13 +144,13 @@ if ( $Action == "insert" && !$error )
         $image = new eZImage();
         $image->setName( "Image" );
         $image->setImage( $file );
-        
+
         $image->store();
         $category->setImage( $image );
     }
 
     $category->setOwner( eZUser::currentUser() );
-    
+
     $category->store();
 
             $extraCategoryArray =& $category->categories();
@@ -171,7 +171,7 @@ if ( $Action == "insert" && !$error )
             {
                 $categoryIDArray[] = $cat->id();
             }
-            
+
             foreach ( $remove_categories as $categoryItem )
             {
                 eZArticleCategory::removeCategory( $category, $categoryItem );
@@ -218,7 +218,7 @@ if ( $Action == "insert" && !$error )
         }
         else
         {
-            eZObjectPermission::removePermissions( $categoryID, "article_category", 'w' ); 
+            eZObjectPermission::removePermissions( $categoryID, "article_category", 'w' );
             foreach ( $WriteGroupArray as $groupID )
             {
                 eZObjectPermission::setPermission( $groupID, $categoryID, "article_category", 'w' );
@@ -239,7 +239,7 @@ if ( $Action == "insert" && !$error )
         }
         else // some groups are selected.
         {
-            eZObjectPermission::removePermissions( $categoryID, "article_category", 'r' ); 
+            eZObjectPermission::removePermissions( $categoryID, "article_category", 'r' );
             foreach ( $GroupArray as $groupID )
             {
                 eZObjectPermission::setPermission( $groupID, $categoryID, "article_category", 'r' );
@@ -283,7 +283,7 @@ if ( $Action == "update" && !$error )
     {
         $file->delete();
     }
-    
+
     $category = new eZArticleCategory();
     $category->get( $CategoryID );
     $category->setName( $Name );
@@ -304,11 +304,11 @@ if ( $Action == "update" && !$error )
 
 //    $category->setDescription( htmlspecialchars ($Description) );
 //    $category->setDescription( $Description );
-    
+
         $generator = new eZArticleGenerator();
         $desc1 = array( $Description, "" );
-        $desc2 = $generator->generateXML( $desc1 ); 
-    
+        $desc2 = $generator->generateXML( $desc1 );
+
         $category->setDescription( $desc2 );
     }
     else
@@ -316,7 +316,7 @@ if ( $Action == "update" && !$error )
         $category->setDescription( $Description );
     }
     //EP --------------------------------------------------------------------------
-    
+
     $category->setSectionID( $SectionID );
     $category->setEditorGroup( $EditorGroupID );
     $category->setListLimit( $ListLimit );
@@ -329,7 +329,7 @@ if ( $Action == "update" && !$error )
         $image = new eZImage( );
         $image->setName( "Image" );
         $image->setImage( $file );
-        
+
         $image->store();
         $category->setImage( $image );
     }
@@ -385,7 +385,7 @@ if ( $Action == "update" && !$error )
     }
 
     /* read access thingy */
-    eZObjectPermission::removePermissions( $categoryID, "article_category", 'r' ); 
+    eZObjectPermission::removePermissions( $categoryID, "article_category", 'r' );
     if ( isset( $GroupArray ) )
     {
         if ( $GroupArray[0] == 0 )
@@ -404,7 +404,7 @@ if ( $Action == "update" && !$error )
     {
         eZObjectPermission::removePermissions( $categoryID, "article_category", 'r' );
     }
-    
+
     $category->store();
 
             $extraCategoryArray =& $category->categories();
@@ -425,7 +425,7 @@ if ( $Action == "update" && !$error )
             {
                 $categoryIDArray[] = $cat->id();
             }
-            
+
             foreach ( $remove_categories as $categoryItem )
             {
                 eZArticleCategory::removeCategory( $category, $categoryItem );
@@ -449,7 +449,7 @@ if ( $Action == "update" && !$error )
     else
         $category->setBulkMailCategory( false );
 
-    
+
     $categoryID = $category->id();
     $files =& eZCacheFile::files( "ezarticle/cache/",
                                   array( "articlelist", array( $CategoryID, $ParentID ), NULL ),
@@ -488,7 +488,7 @@ if ( $Action == "delete" )
     $defCat = $category->categoryDefinition();
     $defCat->removeCategory( $category );
     $category->removeFromCategories();
-    
+
 
     $files =& eZCacheFile::files( "ezarticle/cache/",
                                   array( "articlelist",
@@ -543,8 +543,8 @@ $t->set_var( "no_bulkmail_selected", "selected" );
 
 $t->set_var( "image_item", "" );
 
-$writeGroupsID = array(); 
-$readGroupsID = array(); 
+$writeGroupsID = array();
+$readGroupsID = array();
 
 if ( $permissionError )
     $t->parse( "error_permission", "error_permission_tpl" );
@@ -577,7 +577,7 @@ if ( $Action == "edit" )
     }
     else
     {
-        $t->set_var( "description_value", $category->description() );    
+        $t->set_var( "description_value", $category->description() );
     }
     //EP --------------------------------------------------------------------------------
 
@@ -595,14 +595,14 @@ if ( $Action == "edit" )
     {
         $imageWidth =& $ini->read_var( "eZArticleMain", "CategoryImageWidth" );
         $imageHeight =& $ini->read_var( "eZArticleMain", "CategoryImageHeight" );
-        
+
         $variation =& $image->requestImageVariation( $imageWidth, $imageHeight );
-        
+
         $imageURL = "/" . $variation->imagePath();
         $imageWidth = $variation->width();
         $imageHeight = $variation->height();
         $imageCaption = $image->caption();
-        
+
         $t->set_var( "image_width", $imageWidth );
         $t->set_var( "image_height", $imageHeight );
         $t->set_var( "image_url", $imageURL );
@@ -641,38 +641,38 @@ if ( $Action == "edit" )
         $t->set_var( "no_bulkmail_selected", "selected" );
     else
         $t->set_var( "no_bulkmail_selected", "" );
-    
+
 }
 
 $category = new eZArticleCategory();
 
-$tree = $category->getTree( 0, 0, true );
+// $tree = $category->getTree( 0, 0, true );
 
-foreach ( $tree as $item )
-{
-    if ( eZObjectPermission::hasPermission( $item[0]->id(), "article_category", 'w' ) && $CategoryID != $item[0]->id() )
-    {
-        $t->set_var( "option_value", $item[0]->id() );
-        $t->set_var( "option_name", $item[0]->name() );
-    
-        if ( $item[1] > 0 )
-            $t->set_var( "option_level", str_repeat( "&nbsp;", $item[1] ) );
-        else
-            $t->set_var( "option_level", "" );
+// foreach ( $tree as $item )
+// {
+//     if ( eZObjectPermission::hasPermission( $item[0]->id(), "article_category", 'w' ) && $CategoryID != $item[0]->id() )
+//     {
+//         $t->set_var( "option_value", $item[0]->id() );
+//         $t->set_var( "option_name", $item[0]->name() );
 
-        if ( $item[0]->id() == $parentID )
-        {
-            $t->set_var( "selected", "selected" );
-            $selected = true;
-        }
-        else
-        {
-            $t->set_var( "selected", "" );
-        }            
+//         if ( $item[1] > 0 )
+//             $t->set_var( "option_level", str_repeat( "&nbsp;", $item[1] ) );
+//         else
+//             $t->set_var( "option_level", "" );
 
-        $t->parse( "value", "value_tpl", true );
-    }
-}
+//         if ( $item[0]->id() == $parentID )
+//         {
+//             $t->set_var( "selected", "selected" );
+//             $selected = true;
+//         }
+//         else
+//         {
+//             $t->set_var( "selected", "" );
+//         }
+
+//         $t->parse( "value", "value_tpl", true );
+//     }
+// }
 
 // group selector
 $group = new eZUserGroup();
@@ -689,9 +689,9 @@ foreach ( $groupList as $groupItem )
         $t->set_var( "is_selected", "selected" );
     else
         $t->set_var( "is_selected", "" );
-    
+
     $t->parse( "category_owner", "category_owner_tpl", true );
-        
+
     /* for the read access groups selector */
     $t->set_var( "group_name", $groupItem->name() );
     $t->set_var( "group_id", $groupItem->id() );
@@ -700,7 +700,7 @@ foreach ( $groupList as $groupItem )
         $t->set_var( "selected", "selected" );
     else
         $t->set_var( "selected", "" );
-        
+
     $t->parse( "group_item", "group_item_tpl", true );
 
     /* for the editor groups selector */
@@ -728,12 +728,12 @@ if ( count( $sectionList ) > 0 )
     {
         $t->set_var( "section_id", $section->id() );
         $t->set_var( "section_name", $section->name() );
-        
+
         if ( $sectionID == $section->id() )
             $t->set_var( "section_is_selected", "selected" );
         else
             $t->set_var( "section_is_selected", "" );
-        
+
         $t->parse( "section_item", "section_item_tpl", true );
     }
 }
@@ -762,11 +762,11 @@ foreach ( $treeArray as $catItem )
 {
     if ( eZObjectPermission::hasPermission( $catItem[0]->id(), "article_category", 'w', $user ) == true ||
          eZArticleCategory::isOwner( eZUser::currentUser(), $catItem[0]->id() ) )
-    {    
+    {
         if ( $Action == "edit" )
         {
             $defCat = $category->categoryDefinition( );
-        
+
             if ( get_class( $defCat ) == "ezarticlecategory" )
             {
                 if ( $category->existsInCategory( $catItem[0] ) && $defCat->id() != $catItem[0]->id() )
@@ -782,7 +782,7 @@ foreach ( $treeArray as $catItem )
             {
                 $t->set_var( "selected", "" );
             }
-            
+
             if ( get_class( $defCat ) == "ezarticlecategory" )
             {
                 if ( $defCat->id() == $catItem[0]->id() )
@@ -804,7 +804,7 @@ foreach ( $treeArray as $catItem )
             $t->set_var( "selected", "" );
             $t->set_var( "multiple_selected", "" );
         }
-    
+
         $t->set_var( "option_value", $catItem[0]->id() );
         $t->set_var( "option_name", $catItem[0]->name() );
 
@@ -812,8 +812,8 @@ foreach ( $treeArray as $catItem )
             $t->set_var( "option_level", str_repeat( "&nbsp;&nbsp;", $catItem[1] ) );
         else
             $t->set_var( "option_level", "" );
-    
-        $t->parse( "value2", "value2_tpl", true );    
+
+        $t->parse( "value2", "value2_tpl", true );
         $t->parse( "multiple_value", "multiple_value_tpl", true );
     }
 }
