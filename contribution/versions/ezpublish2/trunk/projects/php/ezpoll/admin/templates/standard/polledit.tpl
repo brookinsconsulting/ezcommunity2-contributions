@@ -128,7 +128,8 @@
 <input type="hidden" name="PollID" value="{poll_id}" />
 <input class="okbutton" type="submit" value="{intl-ok}" />
 
-<form method="post" action="/poll/pollist/"><input class="okbutton" type="submit" name="Back" value="{intl-back}"></form>
+<form method="post" action="/poll/pollist/">
+<input class="okbutton" type="submit" name="Back" value="{intl-back}"></form>
 
 </form>
 
