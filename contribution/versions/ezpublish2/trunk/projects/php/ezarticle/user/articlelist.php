@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.17 2000/11/22 09:35:43 bf-cvs Exp $
+// $Id: articlelist.php,v 1.18 2000/11/29 18:45:42 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -37,6 +37,7 @@ $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 $ImageDir = $ini->read_var( "eZArticleMain", "ImageDir" );
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
+$DefaultLinkText =  $ini->read_var( "eZArticleMain", "DefaultLinkText" );
 
 $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
                      "ezarticle/user/intl/", $Language, "articlelist.php" );
@@ -184,7 +185,7 @@ foreach ( $articleList as $article )
     }
     else
     {
-        $t->set_var( "article_link_text", "more" );
+        $t->set_var( "article_link_text", $DefaultLinkText );
     }
 
     $t->parse( "article_item", "article_item_tpl", true );
