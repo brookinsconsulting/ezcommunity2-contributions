@@ -1,53 +1,43 @@
-<h1>{headline}</h1>
 <form method="post" action="/forum/messageedit/{action_value}/{category_id}/{forum_id}/{message_id}">
-<table class="list" width="100%" border="0" cellspacing="0" cellpadding="4">
-<tr>        
-	<th>
-	{intl-topic}
-	</th>
 
-</tr>
-<tr>
-	<td>
-	<input type="text" name="Topic" value="{message_topic}">
-	</td>
-</tr>
-<tr>
-	<th>
-	{intl-author}
-	</th>
-</tr>
-<tr>
-	<td>
-	<input type="text" name="User" value="{message_user}">
-	</td>
-</tr>
+<h1>{headline}</h1>
 
-<tr>
-	<th>
-	{intl-time}
-	</th>
-</tr>
-<tr>
-	<td>
-	{message_postingtime}
-	</td>
-</tr>
+<hr noshade="noshade" size="4" />
 
-<tr>
-	<th>
-	{intl-body}
-	</th>
-</tr>
+<br />
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td>
-	<textarea rows="10" cols="80" name="Body">{message_body}</textarea>
+	<p class="boxtext">{intl-topic}</p>
+	<input type="text" size="40" name="Topic" value="{message_topic}">
 	</td>
-</tr>
-<tr>
 	<td>
-	<input type="submit" value="OK">
+	<p class="boxtext">{intl-author}</p>
+	<input type="text" size="40" name="User" value="{message_user}">
 	</td>
 </tr>
 </table>
-</form>
+	
+<p class="boxtext">{intl-time}</p>
+{message_postingtime}
+
+<p class="boxtext">{intl-body}</p>
+<textarea rows="10" cols="80" name="Body">{message_body}</textarea>
+
+<br /><br />
+
+<hr noshade="noshade" size="4" />
+
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td>
+	<input class="okbutton" type="submit" value="OK">
+	</form>
+	</td>
+	<td>&nbsp;</td>
+	<td>
+	Avbryt!
+	</td>
+</tr>
+</table>

@@ -47,6 +47,11 @@ a
 	text-decoration : underline;
 }
 
+.small 
+{
+	font-size: 10px;
+}
+
 .smallbold 
 {
 	font-size: 10px;

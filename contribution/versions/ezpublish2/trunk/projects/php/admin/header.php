@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 
 <head>
-<title>eZ trade - test</title>
+<title>eZ publish administrasjon</title>
 <link rel="stylesheet" type="text/css" href="/<? echo $SiteStyle; ?>.css"/>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 </head>

@@ -33,40 +33,41 @@
 <div onLoad="MM_preloadImages('../ezforum/images/redigerminimrk.gif','../ezforum/images/slettminimrk.gif')"></div>
 
 <form action="/forum/forumedit/{action_value}/{category_id}/{forum_id}/" method="get">
+
 <h1>{headline}</h1>
 
-<table width="100%" cellspacing="0" cellpadding="4" border="0">
-<tr>
-   <td colspan="3" bgcolor="#3c3c3c"><p class="white"><b>{intl-ident}</b></td>
-</tr>
-<tr>
-   	<td bgcolor="#f0f0f0">
-	<br>
-	<p>{intl-forumname}<br>
-	<input type="text" name="name" value="{forum_name}"></p>
-	<p>{intl-description}<br>
-	<input type="description" name="description" value="{forum_description}"></p>
-</tr>
-<tr>
-	<td bgcolor="#f0f0f0">
-	<p>{intl-category}</p>
-	<select name="CategorySelectID">
+<hr noshade="noshade" size="4" />
+
+<p class="boxtext">{intl-forumname}</p>
+<input type="text" size="20" name="name" value="{forum_name}">
+
+<p class="boxtext">{intl-description}</p>
+<input type="description" size="40" name="description" value="{forum_description}">
+
+<p class="boxtext">{intl-category}</p>
+<select name="CategorySelectID">
+
 	<!-- BEGIN category_item_tpl -->
 	<option {is_selected} value="{category_id}">{category_name}</option>
 	<!-- END category_item_tpl -->
 	</select>
+
+<br /><br />
+	
+<hr noshade="noshade" size="4" />
+
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td>
+	<input class="okbutton" type="submit" name="modify" value="OK">
+	</form>
+	</td>
+	<td>
+	&nbsp;
+	</td>
+	<td>
+	Avbrytknapp!
 	</td>
 </tr>
-<tr><td bgcolor="#f0f0f0"><br></td></tr>
 </table>
 
-<br>
-<table width="100%">
-<tr>
-	<td><input type="submit" name="modify" value="OK"></td>
-	<td align="right">
-	</td>
-</tr>
-</table>
-</form>
-<br>

@@ -1,45 +1,26 @@
 <table class="list" width="100%" border="0" cellspacing="0" cellpadding="4">
 <tr>        
-	<th>
-	{intl-topic}
-	</th>
-
+	<th>{intl-topic}</th>
 </tr>
 <tr>
-	<td>
-	{message_topic}
-	</td>
+	<td>{message_topic}</td>
 </tr>
 <tr>
-	<th>
-	{intl-author}
-	</th>
+	<th>{intl-author}</th>
 </tr>
 <tr>
-	<td>
-	{message_user}
-	</td>
-</tr>
-
-<tr>
-	<th>
-	{intl-time}
-	</th>
+	<td>{message_user}</td>
 </tr>
 <tr>
-	<td>
-	{message_postingtime}
-	</td>
-</tr>
-
-<tr>
-	<th>
-	{intl-body}
-	</th>
+	<th>{intl-time}</th>
 </tr>
 <tr>
-	<td>
-	{message_body}
-	</td>
+	<td class="small">{message_postingtime}</td>
+</tr>
+<tr>
+	<th>{intl-body}</th>
+</tr>
+<tr>
+	<td>{message_body}</td>
 </tr>
 </table>

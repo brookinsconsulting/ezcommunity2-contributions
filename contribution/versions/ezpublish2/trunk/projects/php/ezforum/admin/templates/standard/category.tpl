@@ -33,27 +33,21 @@
 <div onLoad="MM_preloadImages('/ezforum/images/redigerminimrk.gif','/ezforum/images/slettminimrk.gif')"></div>
 
 <form action="/forum/categoryedit/{action_value}/{category_id}/" method="post">
-    <input type="hidden" name="page" value="{docroot}/admin/category.php">
-    <h1>{headline}</h1>
+<input type="hidden" name="page" value="{docroot}/admin/category.php">
 
-<table width="100%" border="0" cellspacing="0" cellpadding="4">
-<tr>
-	<td bgcolor="#3c3c3c">
-	<p class="white"><b>{intl-ident}</b></p>
-	</td>
-</tr>
-<tr>
-	<td bgcolor="#f0f0f0">
-	<br>
-	<p>{intl-name}<br>
-	<input type="text" value="{category_name}" name="Name"></p>
-	<p>{intl-description}<br>
-	<input type="text" value="{category_description}" name="Description"></p>
-	</td>
-</tr>
-<tr><td bgcolor="#f0f0f0"><br></td></tr>
-</table>
+<h1>{headline}</h1>
 
-<br>
-<input type="submit" name="add" value="OK">
+<hr noshade="noshade" size="4" />
+
+<p class="boxtext">{intl-name}</p>
+<input type="text" value="{category_name}" name="Name">
+
+<p class="boxtext">{intl-description}</p>
+<input type="text" value="{category_description}" name="Description">
+
+<br />
+
+<hr noshade="noshade" size="4" />
+
+<input class="okbutton" type="submit" name="add" value="OK">
 </form>

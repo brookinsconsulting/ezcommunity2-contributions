@@ -46,24 +46,19 @@
   </tr>
 </table>
 
-
-<hr noshade size="4" />
+<hr noshade="noshade" size="4" />
 
 	/
 	<a class="path" href="/forum/categorylist/">{intl-forum-main}</a> 
 	/
     <a class="path" href="/forum/category/{category_id}/">{category_name}</a>
 
-<hr noshade size="4" />
+<hr noshade="noshade" size="4" />
 
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-	<th>
-	{intl-name}
-	</th>
-	<th>
-	{intl-description}
-	</th>
+	<th>{intl-name}	</th>
+	<th>{intl-description}</th>
 </tr>
 
 <!-- BEGIN forum_item_tpl -->
@@ -74,16 +69,24 @@
 	<td class={td_class}>
 	{forum_description}
 	</td>
-        <td width="1%" class={td_class}>
+    <td width="1%" class={td_class}>
 	<a href="/forum/forumedit/edit/{category_id}/{forum_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eff{forum_id}-red','','/ezforum/images/redigerminimrk.gif',1)"><img name="eff{forum_id}-red" border="0" src="/ezforum/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
-
 	<td width="1%" class={td_class}>
 	<a href="/forum/forumedit/delete/{category_id}/{forum_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eff{forum_id}-slett','','/ezforum/images/slettminimrk.gif',1)"><img name="eff{forum_id}-slett" border="0" src="/ezforum/images/slettmini.gif" width="16" height="16" align="top"></a>
 	</td>
-
+</tr>
 <!-- END forum_item_tpl -->
 
 </table>
-<br>
+
+<br />
+
+<form method="post" action="/index.php?page={docroot}/admin/category.php">
+
+<hr noshade="noshade" size="4" />
+
+<input class="okbutton" type="submit" value="Tilbake">
+</form>
+
 <a href="index.php?page={docroot}/admin/category.php">[Tilbake]</a>

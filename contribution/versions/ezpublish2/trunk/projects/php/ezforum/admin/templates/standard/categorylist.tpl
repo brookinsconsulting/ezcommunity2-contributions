@@ -33,41 +33,40 @@
 <div onLoad="MM_preloadImages('../ezforum/images/redigerminimrk.gif','../ezforum/images/slettminimrk.gif')"></div>
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
-  <tr>
+<tr>
     <td align="left" valign="bottom">
     <h1>{intl-headline}</h1>
     </td>
     <td align="right">
     <form action="/forum/search/" method="post">
-      <input type="text" name="criteria">
-      <input type="submit" name="search" value="{intl-search}">
+    <input type="text" name="criteria">
+    <input type="submit" name="search" value="{intl-search}">
     </form>
     </td>
-  </tr>
+</tr>
 </table>
 
+<hr noshade="noshade" size="4" />
 
-<hr noshade size="4" />
+<a class="path" href="/forum/categorylist/">{intl-forum-main}</a> 
 
-	/
-	<a class="path" href="/forum/categorylist/">{intl-forum-main}</a> 
+<hr noshade="noshade" size="4" />
 
-<hr noshade size="4" />
-
-
-<table width="100%" border="0" cellspacing="0" cellpadding="4">
+<table class="list" width="100%" border="0" cellspacing="0" cellpadding="4">
     <tr>
-        <td><p><b>Navn:</b></p></td>
-        <td><p><b>Beskrivelse:</b></p></td>
-        <td colspan="3">&nbsp;</td>
+        <th>Navn:</th>
+        <th>Beskrivelse:</th>
+        <th colspan="2">&nbsp;</td>
     </tr>
+
 <!-- BEGIN category_item_tpl -->
+
 <tr bgcolor="{color}">
     <td class={td_class}>
-        <a href="/forum/forumlist/{category_id}/">{category_name}</a>
+    <a href="/forum/forumlist/{category_id}/">{category_name}</a>
     </td>
     <td class={td_class}>
-        {category_description}
+	{category_description}
     </td>
     
     <td width="1%" class={td_class}>
@@ -77,6 +76,9 @@
         <a href="/forum/categoryedit/delete/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ef{category_id}-slett','','/ezforum/images/slettminimrk.gif',1)"><img name="ef{category_id}-slett" border="0" src="/ezforum/images/slettmini.gif" width="16" height="16" align="top"></a>
     </td>
 </tr>
+
 <!-- END category_item_tpl -->
+
 </table>
-<br><br>
+
+
