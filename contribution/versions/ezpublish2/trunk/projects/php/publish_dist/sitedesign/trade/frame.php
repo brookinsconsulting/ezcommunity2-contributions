@@ -248,9 +248,11 @@ $StoreStats = $ini->read_var( "eZStatsMain", "StoreStats" );
 
 if ( $StoreStats == "enabled" )
 {
+    // create a random string to prevent browser caching.
+    $seed = md5( microtime() );
     // callback for storing the stats
-    $imgSrc = "/stats/store" . $REQUEST_URI . "1x1.gif";
-    print( "<img src=\"$GlobalSiteIni->WWWDir$imgSrc\" height=\"1\" width=\"1\" border=\"0\" alt=\"\" />" );    
+    $imgSrc = $GlobalSiteIni->WWWDir . "/stats/store/rx$seed-" . $REQUEST_URI . "1x1.gif";
+    print( "<img src=\"$imgSrc\" height=\"1\" width=\"1\" border=\"0\" alt=\"\" />" );
 }
 
 ?>
