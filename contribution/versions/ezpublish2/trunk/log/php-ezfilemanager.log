@@ -277,3 +277,21 @@ Maintainer(s) : jhe@ez.no
       user/filelist.php
       user/fileupload.php: Fixed permission bugs.
 
+
+Module : ezfilemanager
+Repository path : /home/cvsroot/projects/php/ezfilemanager
+Maintainer(s) : jhe@ez.no
+2001-10-03  fh  <fh@zev.ez.no>
+
+    * user/folderedit.php: Bugfix for editing top level folders
+
+    * user/fileupload.php
+      user/folderedit.php
+      user/intl/en_GB/fileupload.php.ini
+      user/intl/en_GB/folderedit.php.ini
+      user/templates/standard/fileupload.tpl
+      user/templates/standard/folderedit.tpl:
+    1. Fixed visual folder edit bug..
+    2. Upload is now true upload only unless you have write access.
+    3. Removed a couple of bugs..
+

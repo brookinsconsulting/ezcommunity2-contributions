@@ -60,3 +60,15 @@ Maintainer(s) : fh@ez.no
       user/intl/he_IL/mailview.php.ini
       user/intl/he_IL/menubox.php.ini: Added he_IL (Hebrew) translation
 
+
+Module : ezmail
+Repository path : /home/cvsroot/projects/php/ezmail
+Maintainer(s) : fh@ez.no
+2001-10-03  fh  <fh@zev.ez.no>
+
+    * classes/ezmailfolder.php
+      user/folderedit.php
+      user/mailedit.php
+      user/maillist.php
+      user/mailview.php: Permissions check fixes..
+
