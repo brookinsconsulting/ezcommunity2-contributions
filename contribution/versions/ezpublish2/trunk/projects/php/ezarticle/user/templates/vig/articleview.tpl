@@ -30,6 +30,8 @@
 </table>
 <!-- END article_header_tpl -->
 
+{article_intro}
+-----------------------
 <p>
 {article_body}
 </p>
