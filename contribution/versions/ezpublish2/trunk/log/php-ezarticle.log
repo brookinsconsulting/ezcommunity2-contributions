@@ -2040,3 +2040,15 @@ Maintainer(s) : bf@ez.no
       xmlrpc/datasupplier.php
       xmlrpc/xmlrpcserver.php: HEAD import.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-11-11  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/category.php: 2.2.1 import.
+
+    * xmlrpc/category.php:
+    Bugfix: Whenever a category in the root is renamed the update info sends
+    correct information back ie the current category list is no longer empty.
+

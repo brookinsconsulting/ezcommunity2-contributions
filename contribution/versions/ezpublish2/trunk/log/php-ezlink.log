@@ -429,3 +429,18 @@ Maintainer(s) : br@ez.no
       user/menubox.php
       user/templates/standard/menubox.tpl: 		Added links to the menubox
 
+
+Module : ezlink
+Repository path : /home/cvsroot/projects/php/ezlink
+Maintainer(s) : br@ez.no
+2001-11-11  Bjoern Reiten  <br@ez.no>
+
+    * user/suggestlink.php
+      user/templates/standard/suggestlink.tpl:
+    Fixed bug when enter Chancel in Suggest link.
+
+    * admin/intl/no_NO/categoryedit.php.ini
+      user/suggestlink.php
+      user/templates/standard/suggestlink.tpl:
+    Fixed bug when someone press Chancel in Suggest link.
+
