@@ -1050,6 +1050,7 @@ CREATE TABLE eZFileManager_Folder (
   ParentID int NOT NULL DEFAULT '0',
   ReadPermission int DEFAULT '1',
   WritePermission int DEFAULT '1',
+  SectionID int DEFAULT '1',
   UserID int,
   PRIMARY KEY (ID)
 );
@@ -1110,6 +1111,19 @@ CREATE TABLE eZForm_FormElementType (
   ID int NOT NULL,
   Name varchar(255) default NULL,
   Description text,
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZForm_FormElementFixedValues (
+  ID int NOT NULL default '0',
+  Value varchar(80) default NULL,
+  PRIMARY KEY (ID)
+);
+ 
+CREATE TABLE eZForm_FormElementFixedValueLink (
+  ID int NOT NULL default '0',
+  ElementID int default '0',
+  FixedValueID int default '0',
   PRIMARY KEY (ID)
 );
 
@@ -1594,12 +1608,6 @@ CREATE TABLE eZMessage_Message (
   Description text,
   PRIMARY KEY (ID)
 );
-CREATE TABLE eZModule_LinkModuleType (
-  ID int NOT NULL,
-  Module varchar(40) NOT NULL default '',
-  Type varchar(40) NOT NULL default '',
-  PRIMARY KEY (ID,Module,Type)
-);
 CREATE TABLE eZPoll_MainPoll (
   ID int NOT NULL,
   PollID int default NULL,
@@ -1678,6 +1686,34 @@ CREATE TABLE eZSiteManager_Section (
   TemplateStyle varchar(30) default NULL,
   PRIMARY KEY (ID)
 );
+
+CREATE TABLE eZSiteManager_SectionFrontPageRow (
+  ID int NOT NULL default '0',
+  SettingID int default '0',
+  CategoryID int default '0',
+  Placement int default '0',
+  PRIMARY KEY (ID)
+);
+ 
+CREATE TABLE eZSiteManager_SectionFrontPageRowLink (
+  ID int NOT NULL default '0',
+  FrontPageID int default '0',
+  SectionID int default '0',
+  PRIMARY KEY (ID)
+);
+ 
+CREATE TABLE eZSiteManager_SectionFrontPageSetting (
+  ID int NOT NULL default '0',
+  Name varchar(30) default NULL,
+  PRIMARY KEY (ID)
+);
+ 
+INSERT INTO eZSiteManager_SectionFrontPageSetting VALUES (1,'1column');
+INSERT INTO eZSiteManager_SectionFrontPageSetting VALUES (2,'2column');
+INSERT INTO eZSiteManager_SectionFrontPageSetting VALUES (3,'1short');
+INSERT INTO eZSiteManager_SectionFrontPageSetting VALUES (4,'1columnProduct');
+INSERT INTO eZSiteManager_SectionFrontPageSetting VALUES (5,'2columnProduct');
+INSERT INTO eZSiteManager_SectionFrontPageSetting VALUES (6,'ad');
 
 INSERT INTO eZSiteManager_Section   ( ID,  Name, Created, Description,  SiteDesign, TemplateStyle ) VALUES ( 1, 'Standard Section', 1, NULL, 'standard', NULL );
 CREATE TABLE eZStats_BrowserType (
@@ -1920,6 +1956,13 @@ CREATE TABLE eZTrade_CategoryPermission (
   PRIMARY KEY (ID)
 );
 
+CREATE TABLE eZTrade_ProductFormDict (
+  ID int NOT NULL,
+  ProductID int default NULL,
+  FormID int default NULL,
+  PRIMARY KEY (ID)
+);
+
 CREATE TABLE eZTrade_GroupPriceLink (
   GroupID int NOT NULL default '0',
   PriceID int NOT NULL default '0',
@@ -2016,8 +2059,8 @@ CREATE TABLE eZTrade_OrderItem (
 CREATE TABLE eZTrade_OrderOptionValue (
   ID int NOT NULL,
   OrderItemID int default NULL,
-  OptionName varchar(25) default NULL,
-  ValueName varchar(25) default NULL,
+  OptionName text default NULL,
+  ValueName text default NULL,
   RemoteID varchar(100) default '',
   PRIMARY KEY (ID)
 );
@@ -2261,7 +2304,7 @@ CREATE TABLE eZTrade_VoucherInformation (
   ID int NOT NULL default '0',
   VoucherID int default '0',
   OnlineID int default '0',
-  AddressID int default '0',
+  ToAddressID int default '0',
   Description text,
   PreOrderID int default '0',
   Price int default '0',
@@ -2269,6 +2312,7 @@ CREATE TABLE eZTrade_VoucherInformation (
   ToName varchar(80) default NULL,
   FromName varchar(80) default NULL,
   FromOnlineID int default '0',
+  FromAddressID int default '0',
   PRIMARY KEY (ID)
 );
 

@@ -56,6 +56,29 @@ CREATE TABLE eZForm_FormElementFixedValueLink (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
+CREATE TABLE eZContact_CompanyIndex (
+  CompanyID int(11) NOT NULL default '0',
+  Value varchar(255) NOT NULL default '',
+  Type int(11) NOT NULL default '0',
+  PRIMARY KEY (CompanyID,Value)
+) TYPE=MyISAM;
+
+CREATE TABLE eZContact_PersonIndex (
+  PersonID int(11) NOT NULL default '0',
+  Value varchar(255) NOT NULL default '',
+  Type int(11) NOT NULL default '0',
+  PRIMARY KEY (PersonID,Value)
+) TYPE=MyISAM;
+
+INSERT INTO eZContact_CompanyIndex (CompanyID, Value, Type) SELECT ID, lower(Name), '0' FROM eZContact_Company;
+INSERT INTO eZContact_CompanyIndex (CompanyID, Value, Type) SELECT C.ID, lower(O.URL), '2' FROM eZContact_Company AS C, eZAddress_Online AS O, eZContact_CompanyOnlineDict AS OD WHERE OD.CompanyID=C.ID AND OD.OnlineID=O.ID;
+INSERT INTO eZContact_CompanyIndex (CompanyID, Value, Type) SELECT C.ID, lower(P.Number), '1' FROM eZContact_Company AS C, eZAddress_Phone AS P, eZContact_CompanyPhoneDict as PD WHERE PD.CompanyID=C.ID AND PD.PhoneID=P.ID;
+
+INSERT INTO eZContact_PersonIndex (PersonID, Value, Type) SELECT ID, lower(FirstName), '0' FROM eZContact_Person;
+INSERT INTO eZContact_PersonIndex (PersonID, Value, Type) SELECT ID, lower(LastName), '0' FROM eZContact_Person;
+INSERT INTO eZContact_PersonIndex (PersonID, Value, Type) SELECT P.ID, lower(O.URL), '2' FROM eZContact_Person AS P, eZAddress_Online AS O, eZContact_PersonOnlineDict AS OD WHERE OD.PersonID=P.ID AND OD.OnlineID=O.ID;
+INSERT INTO eZContact_PersonIndex (PersonID, Value, Type) SELECT P.ID, lower(Ph.Number), '1' FROM eZContact_Person AS P, eZAddress_Phone AS Ph, eZContact_PersonPhoneDict as PD WHERE PD.PersonID=P.ID AND PD.PhoneID=Ph.ID;
+
 INSERT INTO eZForm_FormElementType VALUES (3,'dropdown_item','HTML Select');
 INSERT INTO eZForm_FormElementType VALUES (4,'multiple_select_item','HTML Multiple Select');
 INSERT INTO eZForm_FormElementType VALUES (6,'radiobox_item','HTML RadioBox');
