@@ -30,7 +30,7 @@
 </table>
 
 <p class="boxtext">{intl-text}</p>
-<textarea wrap="soft" name="Body" rows="14" cols="40" class="body"></textarea>
+<textarea wrap="soft" name="Body" rows="15" cols="60" class="body"></textarea>
 
 <br /><br />
 

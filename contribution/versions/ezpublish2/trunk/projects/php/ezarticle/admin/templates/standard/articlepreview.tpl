@@ -20,20 +20,19 @@
 
 
 <!-- BEGIN prev_page_link_tpl -->
-<a href="/article/articlepreview/{article_id}/{prev_page_number}/">{intl-prev_page}</a>
+<a class="path" href="/article/articlepreview/{article_id}/{prev_page_number}/">{intl-prev_page}</a>
 <!-- END prev_page_link_tpl -->
 
 <!-- BEGIN page_link_tpl -->
-| <a href="/article/articlepreview/{article_id}/{page_number}/">{page_number}</a>	
+| <a class="path" href="/article/articlepreview/{article_id}/{page_number}/">{page_number}</a>	
 <!-- END page_link_tpl -->
 
 
 <!-- BEGIN next_page_link_tpl -->
-| <a href="/article/articlepreview/{article_id}/{next_page_number}/">{intl-next_page}</a>
+| <a class="path" href="/article/articlepreview/{article_id}/{next_page_number}/">{intl-next_page}</a>
 <!-- END next_page_link_tpl -->
 
-<br /><br />
-
+<br />
 
 <hr noshade="noshade" size="4" />
 
