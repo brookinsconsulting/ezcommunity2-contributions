@@ -3,17 +3,17 @@
 	<td colspan="2" class="menuhead">{intl-links}</td>
 </tr>
 
-<!-- BEGIN link_group_tpl -->
+<!-- BEGIN link_category_tpl -->
 <tr>
 	<td width="1%" valign="top"><img src="/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
-	<td width="99%"><a class="menu" href="/link/group/{linkgroup_id}/">{linkgroup_title}</a></td>
+	<td width="99%"><a class="menu" href="/link/category/{linkcategory_id}/">{linkcategory_name}</a></td>
 </tr>
-<!-- END link_group_tpl -->
-<!-- BEGIN no_link_group_tpl -->
+<!-- END link_category_tpl -->
+<!-- BEGIN no_link_category_tpl -->
 <tr>
-	<td colspan="2" class="menu">{intl-no_link_groups}</td>
+	<td colspan="2" class="menu">{intl-no_link_categorys}</td>
 </tr>
-<!-- END no_link_group_tpl -->
+<!-- END no_link_category_tpl -->
 
 <tr>
 	<td width="1%" valign="top"><img src="/sitedesign/{sitedesign}/images/dot.gif" width="10" height="12" border="0" alt="" /><br /></td>
