@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.27 2001/02/21 15:16:32 jb Exp $
+// $Id: ezproductcategory.php,v 1.28 2001/02/22 14:28:45 jb Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -115,7 +115,6 @@ class eZProductCategory
 
     /*!
       Stores a eZProductGroup object to the database.
-
     */
     function store()
     {
@@ -505,32 +504,56 @@ class eZProductCategory
     }
 
     /*!
+      \static
       Adds a product to the category.
+      Can be used as a static function if $categoryid is supplied
     */
-    function addProduct( &$value )
+    function addProduct( &$value, $categoryid = false )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
-       if ( get_class( $value ) == "ezproduct" )
-       {
-            $this->dbInit();
-
+        if ( get_class( $value ) == "ezproduct" )
             $prodID = $value->id();
+        else if ( is_numeric( $value ) )
+            $prodID = $value;
+        else
+            return false;
 
-            $this->Database->array_query( $qry, "SELECT Placement FROM eZTrade_ProductCategoryLink
-                                                 ORDER BY Placement DESC LIMIT 1", 0, 1 );
-            $placement = count( $qry ) == 1 ? $qry[0]["Placement"] + 1 : 1;
+        if ( !$categoryid )
+            $categoryid = $this->ID;
 
-            $query = "INSERT INTO
-                           eZTrade_ProductCategoryLink
-                      SET
-                           CategoryID='$this->ID',
-                           ProductID='$prodID',
-                           Placement='$placement'";
-            
-            $this->Database->query( $query );
-       }
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $qry, "SELECT Placement FROM eZTrade_ProductCategoryLink
+                                             ORDER BY Placement DESC LIMIT 1", 0, 1 );
+        $placement = count( $qry ) == 1 ? $qry[0]["Placement"] + 1 : 1;
+
+        $query = "INSERT INTO eZTrade_ProductCategoryLink
+                  SET CategoryID='$categoryid',
+                      ProductID='$prodID',
+                      Placement='$placement'";
+        $db->query( $query );
+    }
+
+    /*!
+      \static
+      Removes a product from the category.
+      Can be used as a static function if $categoryid is supplied
+    */
+    function removeProduct( &$value, $categoryid = false )
+    {
+        if ( get_class( $value ) == "ezproduct" )
+            $prodID = $value->id();
+        else if ( is_numeric( $value ) )
+            $prodID = $value;
+        else
+            return false;
+
+        if ( !$categoryid )
+            $categoryid = $this->ID;
+
+        $db =& eZDB::globalDatabase();
+        $query = "DELETE FROM eZTrade_ProductCategoryLink
+                  WHERE CategoryID='$categoryid' AND
+                        ProductID='$prodID'";
+        $db->query( $query );
     }
 
     /*!

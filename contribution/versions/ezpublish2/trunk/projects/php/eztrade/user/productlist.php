@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.12 2001/02/09 10:03:02 bf Exp $
+// $Id: productlist.php,v 1.13 2001/02/22 14:28:45 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Sep-2000 14:46:20 bf>
@@ -28,10 +28,13 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
 include_once( "classes/eztexttool.php" );
+include_once( "classes/ezcachefile.php" );
+include_once( "classes/ezlist.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
+$Limit = $ini->read_var( "eZTradeMain", "ProductLimit" );
 
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 
@@ -131,8 +134,14 @@ else
     $t->parse( "category_list", "category_list_tpl" );
 }
 
+if ( !isset( $Limit ) or !is_numeric( $Limit ) )
+    $Limit = 10;
+if ( !isset( $Offset ) or !is_numeric( $Offset ) )
+    $Offset = 0;
+
 // products
-$productList =& $category->activeProducts( $category->sortMode() );
+$TotalTypes =& $category->productCount( $category->sortMode(), false );
+$productList =& $category->activeProducts( $category->sortMode(), $Offset, $Limit );
 
 $locale = new eZLocale( $Language );
 $i=0;
@@ -198,17 +207,15 @@ else
     $t->set_var( "product_list", "" );
 }
 
+eZList::drawNavigator( $t, $TotalTypes, $Limit, $Offset, "product_list_page_tpl" );
 
 if ( $GenerateStaticPage == "true" )
 {
-    $cachedFile = "eztrade/cache/productlist," . $CategoryID .".cache";
-    $fp = fopen ( $cachedFile, "w+");
-
+    $cache = new eZCacheFile( "eztrade/cache/", array( "productlist", $CategoryID, $Offset ),
+                              "cache", "," );
     $output = $t->parse( $target, "product_list_page_tpl" );
-    // print the output the first time while printing the cache file.
     print( $output );
-    fwrite ( $fp, $output );
-    fclose( $fp );
+    $cache->store( $output );
 }
 else
 {

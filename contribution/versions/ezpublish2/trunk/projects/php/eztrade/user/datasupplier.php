@@ -4,14 +4,19 @@ $PageCaching = $ini->read_var( "eZTradeMain", "PageCaching");
 switch ( $url_array[2] )
 {
     case "productlist" :
+    {
+        $CategoryID = $url_array[3];
+        $Offset = $url_array[4];
         if ( $PageCaching == "enabled" )
         {
-            $CategoryID = $url_array[3];
-
-            $cachedFile = "eztrade/cache/productlist," . $CategoryID .".cache";
-            if ( file_exists( $cachedFile ) )
+            include_once( "classes/ezcachefile.php" );
+            $cache = new eZCacheFile( "eztrade/cache/", array( "productlist", $CategoryID, $Offset ),
+                                      "cache", "," );
+//              $cachedFile = "eztrade/cache/productlist," . $CategoryID .".cache";
+//              if ( file_exists( $cachedFile ) )
+            if ( $cache->exists() )
             {
-                include( $cachedFile );
+                include( $cache->filename( true ) );
             }
             else
             {
@@ -21,11 +26,11 @@ switch ( $url_array[2] )
         }
         else
         {
-            $CategoryID = $url_array[3];
             include( "eztrade/user/productlist.php" );
         }
 
         break;
+    }
         
     case "productview" :
         if ( $PageCaching == "enabled" )

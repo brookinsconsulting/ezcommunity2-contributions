@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.36 2001/02/21 18:35:20 gl Exp $
+// $Id: ezproduct.php,v 1.37 2001/02/22 14:28:45 jb Exp $
 //
 // Definition of eZProduct class
 //
@@ -946,7 +946,7 @@ class eZProduct
 
       The categories are returned as an array of eZProductCategory objects.
     */
-    function categories()
+    function categories( $as_object = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -956,9 +956,19 @@ class eZProduct
        $ret = array();
        $this->Database->array_query( $category_array, "SELECT * FROM eZTrade_ProductCategoryLink WHERE ProductID='$this->ID'" );
 
-       foreach ( $category_array as $category )
+       if ( $as_object )
        {
-           $ret[] = new eZProductCategory( $category["CategoryID"] );
+           foreach ( $category_array as $category )
+           {
+               $ret[] = new eZProductCategory( $category["CategoryID"] );
+           }
+       }
+       else
+       {
+           foreach ( $category_array as $category )
+           {
+               $ret[] = $category["CategoryID"];
+           }
        }
 
        return $ret;
@@ -1036,7 +1046,7 @@ class eZProduct
     /*!
       Returns the product's definition category.
     */
-    function categoryDefinition( )
+    function categoryDefinition( $as_object = true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -1050,7 +1060,10 @@ class eZProduct
        $category = false;
        if ( count( $res ) == 1 )
        {
-           $category = new eZProductCategory( $res[0]["CategoryID"] );
+           if ( $as_object )
+               $category = new eZProductCategory( $res[0]["CategoryID"] );
+           else
+               $category = $res[0]["CategoryID"];
        }
        else
        {

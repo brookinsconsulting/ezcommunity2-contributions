@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.16 2001/02/21 15:20:56 jb Exp $
+// $Id: categorylist.php,v 1.17 2001/02/22 14:28:45 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <13-Sep-2000 14:56:11 bf>
@@ -29,7 +29,32 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
+include_once( "classes/ezcachefile.php" );
 include_once( "classes/ezlist.php" );
+
+function deleteCache( $ProductID, $CategoryID, $CategoryArray )
+{
+    if ( get_class( $ProductID ) == "ezproduct" )
+    {
+        $CategoryID =& $ProductID->categoryDefinition( false );
+        $CategoryArray =& $ProductID->categories( false );
+        $ProductID = $ProductID->id();
+    }
+
+    $files = eZCacheFile::files( "eztrade/cache/", array( "productlist",
+                                                          array_merge( $CategoryID, $CategoryArray ) ),
+                                 "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
+    $files = eZCacheFile::files( "eztrade/cache/", array( "hotdealslist" ),
+                                 "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
+}
 
 $ini =& $GlobalSiteIni;
 
@@ -77,10 +102,12 @@ if ( $category->sortMode() == "absolute_placement" )
     if ( is_numeric( $MoveUp ) )
     {
         $category->moveUp( $MoveUp );
+        deleteCache( $MoveUp, false, false );
     }
     if ( is_numeric( $MoveDown ) )
     {
         $category->moveDown( $MoveDown );
+        deleteCache( $MoveDown, false, false );
     }
 }
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.33 2001/02/21 15:16:32 jb Exp $
+// $Id: productedit.php,v 1.34 2001/02/22 14:28:45 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -30,6 +30,13 @@ include_once( "classes/ezhttptool.php" );
 
 function deleteCache( $ProductID, $CategoryID, $CategoryArray )
 {
+    if ( get_class( $ProductID ) == "ezproduct" )
+    {
+        $CategoryID =& $ProductID->categoryDefinition( false );
+        $CategoryArray =& $ProductID->categories( false );
+        $ProductID = $ProductID->id();
+    }
+
     $files = eZCacheFile::files( "eztrade/cache/", array( "productview", $ProductID, $CategoryID ),
                                  "cache", "," );
     foreach( $files as $file )
@@ -68,6 +75,7 @@ if ( isset( $SubmitPrice ) )
             $product = new eZProduct( $ProductEditArrayID[$i] );
             $product->setPrice( $Price[$i] );
             $product->store();
+            deleteCache( $product, false, false );
         }
     }
     if ( isset( $Query ) )
@@ -132,7 +140,7 @@ if ( $Action == "Insert" )
     // add a product to the categories
     $category = new eZProductCategory( $CategoryID );
     $category->addProduct( $product );
-    
+
     $product->setCategoryDefinition( $category );
 
     if ( count( $CategoryArray ) > 0 )
@@ -247,33 +255,32 @@ if ( $Action == "Update" )
 
     $productID = $product->id();
 
-    // remove current category assignments and add a product to the category
-    $product->removeFromCategories();
+    // Calculate which categories are new and which are unused
+    $old_maincategory = $product->categoryDefinition();
+    $old_categories = array_merge( $old_maincategory->id(), $product->categories( false ) );
+    $old_categories = array_unique( $old_categories );
+
+    $new_categories = array_unique( array_merge( $CategoryID, $CategoryArray ) );
+
+    $remove_categories = array_diff( $old_categories, $new_categories );
+    $add_categories = array_diff( $new_categories, $old_categories );
+
+    foreach ( $remove_categories as $categoryItem )
+    {
+        eZProductCategory::removeProduct( $product, $categoryItem );
+    }
 
     // add a product to the categories
     $category = new eZProductCategory( $CategoryID );
-    $category->addProduct( $product );
-    
     $product->setCategoryDefinition( $category );
-    
-    foreach ( $CategoryArray as $categoryItem )
+
+    foreach ( $add_categories as $categoryItem )
     {
-        if ( $categoryItem != $CategoryID )
-        {
-            $category = new eZProductCategory( $categoryItem );
-            $category->addProduct( $product );
-        }
+        eZProductCategory::addProduct( $product, $categoryItem );
     }
 
-    $categoryArray = $product->categories();
-    $categoryIDArray = array();
-    foreach ( $categoryArray as $cat )
-    {
-        $categoryIDArray[] = $cat->id();
-    }    
-
     // clear the cache files.
-    deleteCache( $ProductID, $CategoryID, $categoryIDArray );
+    deleteCache( $ProductID, $CategoryID, $old_categories );
 
     // add options
     if ( isset( $Option ) )
