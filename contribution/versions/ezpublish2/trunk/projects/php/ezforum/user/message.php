@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: message.php,v 1.24 2001/07/06 08:48:49 bf Exp $
+// $Id: message.php,v 1.25 2001/07/19 13:17:55 jakobn Exp $
 //
-// Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

@@ -1,11 +1,11 @@
-<?
-// $Id: messageedit.php,v 1.14 2001/04/21 09:21:35 bf Exp $
+<?php
+// $Id: messageedit.php,v 1.15 2001/07/19 13:17:54 jakobn Exp $
 //
-// Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: messagepath.php,v 1.3 2001/02/26 19:00:50 pkej Exp $
+// $Id: messagepath.php,v 1.4 2001/07/19 13:17:55 jakobn Exp $
 //
-// Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: latestmessages.php,v 1.5 2001/07/09 12:45:58 th Exp $
+// $Id: latestmessages.php,v 1.6 2001/07/19 13:17:55 jakobn Exp $
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <02-Jul-2001 11:45:17 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

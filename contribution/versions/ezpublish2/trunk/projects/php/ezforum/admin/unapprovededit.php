@@ -1,11 +1,11 @@
-<?
-// $Id: unapprovededit.php,v 1.7 2001/05/14 15:31:15 fh Exp $
+<?php
+// $Id: unapprovededit.php,v 1.8 2001/07/19 13:17:54 jakobn Exp $
 //
-// Author: Bård Farstad <bf@ez.no>
 // Created on: <21-Jan-2001 13:34:48 bf>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2000 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

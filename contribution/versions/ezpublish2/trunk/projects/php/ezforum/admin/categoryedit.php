@@ -1,11 +1,11 @@
-<?
-// $Id: categoryedit.php,v 1.16 2001/05/08 12:41:22 ce Exp $
+<?php
+// $Id: categoryedit.php,v 1.17 2001/07/19 13:17:54 jakobn Exp $
 //
-// Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <14-Jul-2000 13:41:35 lw>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

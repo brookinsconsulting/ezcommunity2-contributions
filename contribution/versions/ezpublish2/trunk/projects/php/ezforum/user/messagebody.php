@@ -1,12 +1,12 @@
-<?
+<?php
 // 
-// $Id: messagebody.php,v 1.6 2001/03/15 09:27:57 pkej Exp $
+// $Id: messagebody.php,v 1.7 2001/07/19 13:17:55 jakobn Exp $
 //
-// Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

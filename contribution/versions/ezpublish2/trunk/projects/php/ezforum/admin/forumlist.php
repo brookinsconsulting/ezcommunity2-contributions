@@ -1,11 +1,11 @@
-<?
-// $Id: forumlist.php,v 1.12 2001/03/01 14:06:25 jb Exp $
+<?php
+// $Id: forumlist.php,v 1.13 2001/07/19 13:17:54 jakobn Exp $
 //
-// Author: Lars Wilhelmsen <lw@ez.no>
 // Created on: Created on: <18-Jul-2000 08:56:19 lw>
 //
 // This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2001 eZ systems as
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
