@@ -38,6 +38,7 @@
 <p class="boxtext">{intl-th_type_current_image}:</p>
 <p><img src="{image_url}" alt="{image_caption}" width="{image_width}" height="{image_height}" />
 </p>
+<input type="checkbox" name="DeleteImage">{intl-delete_image}
 <!-- END image_item_tpl -->
 <p class="boxtext">{intl-th_type_image}:</p>
 <!-- BEGIN no_image_item_tpl -->
