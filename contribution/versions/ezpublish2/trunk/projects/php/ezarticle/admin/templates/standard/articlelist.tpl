@@ -118,7 +118,7 @@
 </table>
 <hr noshade="noshade" size="4" />
 
-<input type="submit" class="stdbutton" Name="DeleteArticles" value="{intl-deletearticels}">
+<input type="submit" class="stdbutton" Name="DeleteArticles" value="{intl-deletearticles}">
 </form>
 
 <!-- END article_list_tpl -->
