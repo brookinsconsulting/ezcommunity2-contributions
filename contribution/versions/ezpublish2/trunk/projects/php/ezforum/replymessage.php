@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: replymessage.php,v 1.15 2000/10/14 15:33:09 bf-cvs Exp $
+// $Id: replymessage.php,v 1.16 2000/10/15 12:23:36 bf-cvs Exp $
 //
 // 
 //
@@ -16,7 +16,6 @@
 include_once( "classes/INIFile.php" );
 
 $ini = new INIFile( "site.ini" ); // get language settings
-
 
 include_once( "common/ezphputils.php" );
 include_once( "classes/eztemplate.php" );

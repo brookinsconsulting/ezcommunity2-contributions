@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.1 2000/10/14 15:33:10 bf-cvs Exp $
+// $Id: useredit.php,v 1.2 2000/10/15 12:23:36 bf-cvs Exp $
 //
 // 
 //
@@ -24,10 +24,11 @@ $AnonymousUserGroup = $ini->read_var( "eZUserMain", "AnonymousUserGroup" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 
-print $Action . $RedirectURL;
+print $RedirectURL;
+
 if ( $Action == "Insert" )
 {
-    print( "trying" );
+    print( "<br>trying<br>" );
     
     // check for valid data
     if ( $Login != "" &&
@@ -58,7 +59,7 @@ if ( $Action == "Insert" )
 
                 // log in the user
                 $user->loginUser( $user );
-                
+
                 Header( "Location: $RedirectURL" );
             }
             else

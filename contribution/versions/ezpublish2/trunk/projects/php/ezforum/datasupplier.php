@@ -1,7 +1,10 @@
 <?
-//print $REQUEST_URI;
 
-//  $url_array = explode( "/", $REQUEST_URI );
+eZLog::writeNotice( "A notice" );
+eZLog::writeWarning( "A warning" );
+eZLog::writeError( "An error" );
+
+
 
 $PageCaching = $ini->read_var( "eZForumMain", "PageCaching");
 
@@ -23,17 +26,10 @@ switch ( $url_array[2] )
     }    
     break;
 
-    case "replymessage" :
-    {
-        $ReplyID = $url_array[3];
-        include( "ezforum/replymessage.php" );                
-    }
-    break;
-
-
     case "userlogin" :
     {
         $ForumID = $url_array[3];
+        $MessageID = $url_array[3];
         include( "ezforum/userlogin.php" );
     }    
     break;
@@ -145,6 +141,8 @@ switch ( $url_array[2] )
             include( "ezforum/category.php" );
         }
         break;
+
+        
 }
 
 ?>

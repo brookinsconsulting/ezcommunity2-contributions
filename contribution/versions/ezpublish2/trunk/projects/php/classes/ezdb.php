@@ -1,8 +1,8 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.9 2000/10/03 07:13:48 ce-cvs Exp $
+// $Id: ezdb.php,v 1.10 2000/10/15 12:23:36 bf-cvs Exp $
 //
-// Definition of eZCompany class
+// Definition of eZDB class
 //
 // Bård Farstad <bf@ez.no>
 // Created on: Created on: <14-Jul-2000 13:01:15 bf>
