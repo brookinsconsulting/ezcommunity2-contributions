@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezmysqldb.php,v 1.19 2001/08/01 16:12:41 kaid Exp $
+// $Id: ezmysqldb.php,v 1.20 2001/08/01 16:29:52 kaid Exp $
 //
 // Definition of eZMySQLDB class
 //
@@ -123,7 +123,10 @@ class eZMySQLDB
     {
         $array = array();
         $ret = $this->array_query_append( $array, $sql, 1, 1, $column );
-        $row = $array[0];
+        if ( isset( $array[0] ) )
+            $row = $array[0];
+        else
+            $row = "";
         return $ret;
     }
 

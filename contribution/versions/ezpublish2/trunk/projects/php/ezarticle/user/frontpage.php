@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.4 2001/07/29 23:30:58 kaid Exp $
+// $Id: frontpage.php,v 1.5 2001/08/01 16:34:14 kaid Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -78,6 +78,8 @@ $category = new eZArticleCategory( $FrontPageCategory );
 
 $user =& eZUser::currentUser();
 
+if ( !isset( $CategoryID ) )
+    $CategoryID = "";
 
 if ( $CategoryID == 0 )
 {
@@ -309,7 +311,7 @@ else
     $t->set_var( "article_short_list", "" );
 
 
-if ( $GenerateStaticPage == "true" and $cachedFile != "" )
+if ( isset( $GenerateStaticPage ) and $GenerateStaticPage == "true" and $cachedFile != "" )
 {
     $fp = eZFile::fopen( $cachedFile, "w+");
 

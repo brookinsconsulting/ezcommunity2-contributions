@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userbox.php,v 1.28 2001/08/01 16:22:23 kaid Exp $
+// $Id: userbox.php,v 1.29 2001/08/01 16:29:52 kaid Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -91,7 +91,7 @@ if ( !$user )
         $t->parse( "standard_creation", "standard_creation_tpl" );
     }
 
-    if ( isset( $RedirectURL ) or !$RedirectURL )
+    if ( !isset( $RedirectURL ) or !$RedirectURL )
         $RedirectURL = $REQUEST_URI;
     if ( preg_match( "#^/user/user/login.*#", $RedirectURL  ) )
     {

@@ -1,6 +1,6 @@
 <?php 
 // 
-// $Id: INIFile.php,v 1.35 2001/07/29 23:30:57 kaid Exp $
+// $Id: INIFile.php,v 1.36 2001/08/01 16:34:14 kaid Exp $
 //
 // Implements a simple INI-file parser
 //
@@ -173,9 +173,9 @@ class INIFile
         $contents =& fread($fp, eZFile::filesize($inifilename));
         $ini_data =& split( "\n",$contents);
 
-        for ( $i = 0; $i < count( $init_data ); $i++ )
+        for ( $i = 0; $i < count( $ini_data ); $i++ )
         {
-            $data =& $init_data[$i];
+            $data =& $ini_data[$i];
             // Remove MS-DOS Carriage return from end of line
             if ( ord( $data[strlen($data) - 1] ) == 13 )
                 $data = substr( $data, 0, strlen($data) - 1 );
