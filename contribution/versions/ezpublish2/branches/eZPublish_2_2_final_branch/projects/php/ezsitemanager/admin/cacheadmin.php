@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cacheadmin.php,v 1.3 2001/07/29 23:31:10 kaid Exp $
+// $Id: cacheadmin.php,v 1.3.2.1 2002/02/08 15:12:09 bf Exp $
 //
 // Created on: <05-Jul-2001 14:40:06 bf>
 //
@@ -53,7 +53,12 @@ if ( isset( $ClearCache ) )
 
     // fetch the system printout
     ob_start();
-    system( $siteDir . "./clearcache.sh" );    
+    
+    if ( trim( $GLOBALS["WINDIR"] ) != "" )
+        system( $siteDir . "./clearcache.bat" );
+    else
+        system( $siteDir . "./clearcache.sh" );
+        
     $ret = ob_get_contents();
     ob_end_clean();
 
