@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.28.2.13 2002/05/17 09:45:13 fh Exp $
+// $Id: frontpage.php,v 1.28.2.14 2003/06/06 10:33:22 vl Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -629,6 +629,8 @@ function &renderAd( &$t, &$locale, &$ad )
         $t->set_var( "image_height", $imgHeight );
         $t->parse( "standard_ad", "standard_ad_tpl" );
     }
+
+    $ad->addPageView();
 
     return $t->parse( "output", "ad_column_tpl" );
 }

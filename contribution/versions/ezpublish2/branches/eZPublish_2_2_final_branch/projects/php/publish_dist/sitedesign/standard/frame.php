@@ -179,9 +179,9 @@ else
    <td width="96%" bgcolor="#ffffff">
 <!--
     <?
-    $CategoryID = 1;
-    $Limit = 1;
-   include( "ezad/user/adlist.php" );
+//    $CategoryID = 1;
+//    $Limit = 1;
+//   include( "ezad/user/adlist.php" );
     ?>
 -->
 
