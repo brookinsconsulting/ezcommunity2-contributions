@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: message.php,v 1.15 2000/08/29 08:03:32 bf-cvs Exp $
+    $Id: message.php,v 1.16 2000/08/29 08:21:39 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -44,11 +44,11 @@ $t->set_var( "category_id", $category_id);
 
 $category = new eZForumCategory( );
 $category->get( $category_id );
-$forumPath = "/ <a href=\"index.php?page=" . $DOC_ROOT .  "category.php&category_id=" . $category_id . "\">" . $category->name() . "</a>";
+$forumPath = "/ <a href=\"index.php?page=" . $DOC_ROOT .  "category.php&category_id=" . $category_id . "\">" . $category->name() . "</a> ";
 
 $forum = new eZForumForum( );
 $forum->get( $forum_id );
-$forumPath .= "/ <a href=\"index.php?page=" . $DOC_ROOT .  "forum.php&forum_id=" . $forum_id . "&category_id=" . $category_id . "\">" . $forum->name() . "</a>";
+$forumPath .= "/ <a href=\"index.php?page=" . $DOC_ROOT .  "forum.php&forum_id=" . $forum_id . "&category_id=" . $category_id . "\">" . $forum->name() . "</a> ";
 
 $message = new eZForumMessage( );
 $message->get( $message_id );

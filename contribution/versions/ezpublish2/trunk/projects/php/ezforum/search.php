@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: search.php,v 1.3 2000/08/08 09:58:22 lw-cvs Exp $
+    $Id: search.php,v 1.4 2000/08/29 08:21:39 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -8,13 +8,18 @@
     
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
-include( "ezforum/dbsettings.php" );
+
+include_once( "class.INIFile.php" );
+
+$ini = new INIFile( "site.ini" ); // get language settings
+$DOC_ROOT = $ini->read_var( "eZForumMain", "DocumentRoot" );
+
 include_once( "ezphputils.php" );
-include_once( "$DOCROOT/classes/ezdb.php" );
-include_once( "$DOCROOT/classes/ezuser.php" );
-include_once( "$DOCROOT/classes/ezforummessage.php" );
-include_once( "$DOCROOT/classes/eztemplate.php" );
-include_once( "$DOCROOT/classes/ezsession.php" );
+include_once( $DOC_ROOT . "/classes/ezdb.php" );
+include_once( $DOC_ROOT . "/classes/ezforummessage.php" );
+include_once( "classes/eztemplate.php" );
+include_once( "classes/ezuser.php" );
+include_once( "classes/ezsession.php" );
 
 $ini = new INIFile( "ezforum.ini" ); // get language settings
 $Language = $ini->read_var( "MAIN", "Language" );
@@ -24,20 +29,26 @@ $Language = $ini->read_var( "MAIN", "Language" );
 $usr = new eZUser;
 $session = new eZSession;
 
-$t = new eZTemplate( "$DOCROOT/templates", "$DOCROOT/intl", $Language, "main.php" );
+$t = new eZTemplate( "$DOC_ROOT/templates", "$DOC_ROOT/intl", $Language, "main.php" );
 $t->setAllStrings();
 
 $t->set_file( Array("main" => "search.tpl",
                     "search" => "main-search.tpl",
-                    "navigation" => "navigation.tpl"
+                    "search-elements" =>"main-search-results-elements.tpl",
+                    "results" => "main-search-results.tpl",                    
+                    "navigation" => "navigation.tpl",
+                    "login" => "login.tpl",                    
+                    "logout" => "logout.tpl"                    
                     ) );
 
-$t->set_var( "docroot", $DOCROOT);
+$t->set_var( "docroot", $DOC_ROOT);
+$t->set_var( "forum_path", "");
 
 if ( $session->get( $AuthenticatedSession ) == 0 )
 {
-   $t->set_var( "user", eZUser::resolveUser( $session->UserID() ) );
-   $t->parse( "logout-message", "logout", true);
+    $user = new eZUser();
+    $t->set_var( "user", $user->resolveUser( $session->UserID() ) );
+    $t->parse( "logout-message", "logout", true);
 }
 else
 {
@@ -46,7 +57,39 @@ else
 }
 $t->parse( "navigation-bar", "navigation", true);
 
-$t->parse( "searchfield", "search", true );
+//search field
+if ( $search )
+{
+    $criteria = addslashes( $criteria );
+    $message = new eZForumMessage();
+    $headers = $message->search( $criteria );
+
+    if ( count( $headers ) == 0 )
+        $t->set_var( "fields", "<b>Ingen treff</b>");
+    
+    for ( $i = 0; $i < count ( $headers ); $i++)
+    {
+        arrayTemplate( $t, $headers[$i], Array( Array("Id", "message_id"),
+                                                Array("Topic", "topic"),
+                                                Array("UserId", "author"),
+                                                Array("PostingTime", "time" )
+                                                )
+                       );
+        $t->set_var( "forum", "&nbsp;" );
+
+        $t->set_var( "color", switchColor( $i, "#f0f0f0", "#dcdcdc" ) );
+        
+        $t->parse( "fields", "search-elements", true );
+    }
+    $t->parse( "searchfield", "results", true );
+}
+else
+{
+    $t->parse( "searchfield", "search" );
+}
+
+
+//$t->parse( "searchfield", "search", true );
 
 $t->pparse("output","main");
 ?>
