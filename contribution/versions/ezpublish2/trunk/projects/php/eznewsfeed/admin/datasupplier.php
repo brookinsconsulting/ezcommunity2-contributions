@@ -24,6 +24,17 @@ switch ( $url_array[2] )
     }
     break;
     
+    case "category":
+    {
+        if ( $url_array[2]  == "new" )
+        {
+            $Action == "New";
+        }
+            
+        include( "eznewsfeed/admin/categoryedit.php" );
+    }
+    break;
+    
 }
 
 ?>

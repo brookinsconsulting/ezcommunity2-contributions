@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsedit.php,v 1.2 2000/11/16 15:26:52 bf-cvs Exp $
+// $Id: categoryedit.php,v 1.1 2000/11/16 15:26:52 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 13:02:32 bf>
@@ -32,24 +32,17 @@ include_once( "eznewsfeed/classes/eznews.php" );
 include_once( "classes/ezdatetime.php" );
 
 include_once( "eznewsfeed/classes/eznews.php" );
+include_once( "eznewsfeed/classes/eznewscategory.php" );
 
 if ( $Action == "Insert" )
 {
-    $news = new eZNews( );
-
-    $news->setName( $NewsTitle );
-    $news->setIntro( $NewsIntro );
-    $news->setIsPublished( true );
-
-    $news->setKeywords( $NewsKeywords );
-    $news->setOrigin( $NewsSource );
-    $news->setURL( $NewsURL );
-    $dateTime = new eZDateTime( 2000, 11, 13, 14, 0, 15 );
-    $news->setOriginalPublishingDate( $dateTime );
-
-    $news->store();
+    $category = new eZNewsCategory();
+    $category->setName( $CategoryName );
+    $category->setDescription( $CategoryDescription );
+    $category->store();
 }
 
+$news = new eZNews( );
 
 $ini = new INIFIle( "site.ini" );
 
@@ -57,58 +50,25 @@ $Language = $ini->read_var( "eZNewsFeedMain", "Language" );
 $ImageDir = $ini->read_var( "eZNewsFeedMain", "ImageDir" );
 
 $t = new eZTemplate( "eznewsfeed/admin/" . $ini->read_var( "eZNewsFeedMain", "AdminTemplateDir" ),
-                     "eznewsfeed/admin/intl/", $Language, "newsedit.php" );
+                     "eznewsfeed/admin/intl/", $Language, "categoryedit.php" );
 
 $t->setAllStrings();
 
 $t->set_file( array(
-    "news_edit_page_tpl" => "newsedit.tpl"
+    "category_edit_page_tpl" => "categoryedit.tpl"
     ) );
 
-$t->set_block( "news_edit_page_tpl", "value_tpl", "value" );
+//  $t->set_block( "news_edit_page_tpl", "news_edit_tpl", "head_line" );
 
+$t->set_var( "category_name_value", "" );
+$t->set_var( "category_description_value", "" );
 $t->set_var( "action_value", "Insert" );
 
-$t->set_var( "news_title_value", "" );
-$t->set_var( "news_source_value", "" );
-$t->set_var( "news_date_value", "" );
-$t->set_var( "news_intro_value", "" );
-$t->set_var( "news_url_value", "" );
-$t->set_var( "news_keywords_value", "" );
 
-
-// category select
-$category = new eZArticleCategory();
-$categoryArray = $category->getAll( );
-
-foreach ( $categoryArray as $catItem )
-{
-    if ( $Action == "Edit" )
-    {
-        if ( $defCat->id() == $catItem->id() )
-        {
-            $t->set_var( "selected", "selected" );
-        }
-        else
-        {
-            $t->set_var( "selected", "" );
-        }
-    }
-    else
-    {
-        $t->set_var( "selected", "" );
-    }    
-    
-    $t->set_var( "option_value", $catItem->id() );
-    $t->set_var( "option_name", $catItem->name() );
-
-    $t->parse( "value", "value_tpl", true );    
-}
-
-
-$t->pparse( "output", "news_edit_page_tpl" );
-
-
+$t->pparse( "output", "category_edit_page_tpl" );
 
 
 ?>
+
+
+
