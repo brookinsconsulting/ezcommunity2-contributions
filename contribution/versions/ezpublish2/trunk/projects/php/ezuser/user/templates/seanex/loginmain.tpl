@@ -1,8 +1,8 @@
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
-        <td class="tdmini" bgcolor="#003333" width="2%" valign="top" align="left" colspan="2" background="/images/cornerbg.gif"><img src="/images/menu-tl.gif" width="10" height="10" alt="" /><br /></td>
+        <td class="tdmini" bgcolor="#003333" width="2%" valign="top" align="left" colspan="2"><img src="/images/menu-tl.gif" width="10" height="10" alt="" /><br /></td>
         <td class="tdmini" bgcolor="#003333" width="96%" rowspan="2" align="center"><div class="menuhead">{intl-head_line}</div></td>
-        <td class="tdmini" bgcolor="#003333" width="2%" valign="top" align="right" colspan="2" background="/images/cornerbg.gif"><img src="/images/menu-tr.gif" width="10" height="10" alt="" /><br /></td>
+        <td class="tdmini" bgcolor="#003333" width="2%" valign="top" align="right" colspan="2"><img src="/images/menu-tr.gif" width="10" height="10" alt="" /><br /></td>
     </tr>
     <tr>
         <td bgcolor="#003333" colspan="2">&nbsp;</td>
