@@ -1,6 +1,6 @@
 @ECHO OFF
 echo Clearing cache directories!
-SET DIRS=ezad ezaddress ezarticle ezbug ezcalendar ezcontact
+SET DIRS=ezad ezaddress ezarticle ezbug ezcalendar ezcontact eztrade ezquiz ezpoll eztodo eznewsfeed ezmediacatalogue ezimagecatalogue ezsitemanager ezlink ezforum ezform ezfilemanager ezcontact ezcalendar ezbulkmail classes
 echo "Clearing cache directories...."
 FOR %%i IN (%DIRS%) DO deltree /Y %%i\cache
 FOR %%i IN (%DIRS%) DO deltree /Y %%i\admin\cache
