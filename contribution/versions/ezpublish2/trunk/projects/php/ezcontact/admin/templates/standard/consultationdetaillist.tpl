@@ -66,11 +66,16 @@
 <table>
 <tr>
 <td>
-
 <input class="stdbutton" type="submit" name="New" value="{intl-new_consultation}">
 <input class="stdbutton" type="submit" name="Delete" value="{intl-delete_consultations}">
 </form>
 </td>
+</tr>
+</table>
+
+<!-- END consultation_table_item_tpl -->
+<table>
+<tr>
 <td>
 <form method="post" action="{www_dir}{index}/contact/consultation/list">
 <input class="stdbutton" type="submit" value="{intl-back}">
@@ -78,5 +83,3 @@
 </td>
 </tr>
 </table>
-
-<!-- END consultation_table_item_tpl -->
