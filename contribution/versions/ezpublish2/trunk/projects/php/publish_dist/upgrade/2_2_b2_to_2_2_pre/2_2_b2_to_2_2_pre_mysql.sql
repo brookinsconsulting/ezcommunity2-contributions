@@ -2,16 +2,6 @@ alter table eZTrade_VoucherInformation add FromAddressID int default 0;
 alter table eZTrade_VoucherInformation add ProductID int default 0; 
 alter table eZTrade_VoucherInformation change AddressID ToAddressID int default 0;        
 
-
-CREATE TABLE eZBug_Log (
-  ID int(11) NOT NULL auto_increment,
-  BugID int(11) NOT NULL default '0',
-  UserID int(11) NOT NULL default '0',
-  Description text,
-  Created int(11) default NULL,
-  PRIMARY KEY (ID)
-) TYPE=MyISAM;
-
 alter table eZFileManager_Folder add SectionID int(11);
 
 alter table eZTrade_OrderOptionValue change OptionName OptionName text;
