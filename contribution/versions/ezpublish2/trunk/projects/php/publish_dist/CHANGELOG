@@ -3,6 +3,10 @@ eZ publish changelog:
 
 Changes from version 2.0 beta 2
 -------------------------------
+* Made it possible to connect eZContact Persons to Companies as well as normal users.
+* Removed contact persons from eZContact Persons.
+* Better handling of new/delete in eZContact person/company.
+* Added explanation of fields in eZContact person and company edit.
 * More cleanup of templates and internationalization
 * Privilege based bug editing
 * Assign owners to bug modules
