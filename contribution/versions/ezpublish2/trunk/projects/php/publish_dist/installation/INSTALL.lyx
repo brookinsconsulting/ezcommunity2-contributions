@@ -4305,27 +4305,1331 @@ Installing on Windows
 
 \layout Standard
 
-Please download and read the Windows documentation from the eZ publish site
- (http://developer.ez.no).
- Check the 
+This information is contributed by Marco Zinn for the 2.1.0 release, so it
+ might be slightly outdated.
+ This is untested by eZ systems, and we provide this "as is" without any
+ form of guarantee or endorsement, either explicitly or implicitly.
+\layout Subsection
+
+Requirements and notes
+\layout Standard
+
+In order to install ezPublish on a windows system, you need to download
+ and install 
+\layout Itemize
+
+the apache webserver
+\layout Itemize
+
+php4 
+\layout Itemize
+
+MySQL database server
+\layout Itemize
+
+phpMyAdmin (optional, but I recommend it over using mySQL from the command
+ line)
+\layout Itemize
+
+Imagemagick
+\layout Standard
+
+If you already have installed all this, you may skip to the next section
+ and go and install ezPublish.
+\layout Standard
+
+Note that this installation was done on a windows 98 second edition system
+ with ezPublish 2.1.
+ For Windows NT and 2000 you may to do some more or other settings, because
+ of the access rights situation (file permissions in the file system) and
+ the possibility to run services independant from a user being logged in.
+ If you have the choice, do not use a windows system for a production system!
+ I'm using this just for development purposes on my laptop.
+\layout Standard
+
+Also note, that you will 
+\series bold 
+not
+\series default 
+ be able to use the news feed module with this setup, as I did not find
+ a windows binary for the Qdom library.
+ The news feed module is used to include headlines from external sites.
+\layout Standard
+
+I will describe the installation steps and show some small tests to see
+ if all went fine.
+ Of course you will need (root) access to the system if you need to install
+ anything.
+\newline 
+
+\layout Standard
+
+If you have never installed and configured software using text files, you
+ might run into trouble setting this up.
+ You need to install a web server, a database server, some tools and the
+ ezPublish application itself.
+ It's not that hard, but it is more than clicking on a big "Install" button.
+\newline 
+
+\layout Standard
+
+The installation guides are partially copied from the install texts of the
+ software packages.
+ You should read the full documentation for a specific software, if you
+ run into trouble or have any problems with my notes.
+\layout Subsection
+
+Apache
+\layout Standard
+
+Get the win32 binary of the Apache webserver version 1.13.19 from http://www.apache.
+org/ 
+\layout Standard
+
+Note that the binary is a MSI Binary Distribution Package and you need the
+ MSI installer application in order to install this package.
+ Users of Windows NT 4.0, 95 and 98 must download the MSI installer from
+ the website, if it was not already installed by another product's installation.
+\newline 
+
+\layout Standard
+
+When installing apache, have your network domain ready and choose a nice
+ name for your new webserver.
+ If you plan to use the webserver for more than just ezPublish (ie: phpMyAdmin,
+ browsing the apache docs, ...), you should choose a server name that is independan
+t from the host names of the ezPublish installation later.
+\layout Standard
+
+If you just set this up on a stand-alone PC or a small network, you could
+ use my.intranet as the network domain and apache.my.intranet as the server
+ name.
+ You need to choose an email adress for the server admin.
+\newline 
+
+\layout Standard
+
+Start the installer and choose to run apache as a service, if you like.
+ Choose "Complete Install" and change the destination folder to "C:
+\backslash 
+".
+ This will install apache in C:
+\backslash 
+apache and the documents will be in C:
+\backslash 
+apache
+\backslash 
+htdocs (=docroot).
+\newline 
+
+\layout Standard
+
+Your apache now needs to be told to use the rewrite module, so we can use
+ the rewrite rules later.
+ Open C:
+\backslash 
+Apache
+\backslash 
+conf
+\backslash 
+httpd.conf with your wordpad (I recommend to create a shortcut on the desktop
+ to this file).
+ Remove the comment sign "#" from the line "LoadModule rewrite_module modules/mo
+d_rewrite.so" and save the file.
+\layout Subsubsection*
+
+Error Checking Apache:
+\layout Standard
+
+Start Apache from the menu or make a shortcut to C:
+\backslash 
+apache
+\backslash 
+apache.exe on the desktop (recommended) and double-click.
+ If all went fine, a DOS box should pop up and show "Apache/1.3.19 (Win32)
+ running....".
+\newline 
+
+\layout Standard
+
+Fire up your webbrowser on this machine and open http://localhost/ .
+ This should display a welcome page with a link to the apache docs.
+\layout Standard
+
+Stop Apache by selecting (focussing) the DOS box window again and pressing
+ CTRL-C (takes some seconds).
+\layout Subsection
+
+PHP4
+\layout Standard
+
+Get the PHP4 windows binary from http://www.php.net/.
+ I used PHP 4.0.4.pl1.
+ You need a binary version with a server API version for apache, as we will
+ use PHP as an apache module.
+\newline 
+
+\layout Standard
+
+Extract the zip file to C:
+\backslash 
+php, using folder names.
+ Now move php4ts.dll to the C:
+\backslash 
+windows
+\backslash 
+system directory.
+\layout Standard
+
+Stop the Apache Webserver, if it is running.
+ Edit the httpd.conf and put in these lines:
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+# for the apache module
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+LoadModule php4_module c:/php/sapi/php4apache.dll
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+AddType application/x-httpd-php .php .php3
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+<IfModule mod_dir.c>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ DirectoryIndex index.html index.php index.php3
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+</IfModule>
+\newline 
+
+\layout Standard
+
+The AddType line might be already in there (search for "PHP 4"), be sure
+ to remove the "#".
+ The LoadModule line should be created below the other LoadModule lines.
+\newline 
+
+\layout Standard
+
+This will load the PHP4 module, when apache is started and link .php and
+ .php3 files to the PHP module.
+ The expansion of the DirectoryIndex entry (which already is in the config
+ file) is not be necessary for ezPublish.
+ Adding index.php and index.php3 just makes life with php tools easier.
+\newline 
+
+\layout Standard
+
+Copy the php.ini-dist from C:
+\backslash 
+PHP to C:
+\backslash 
+windows, rename it to php.ini, and edit the php.ini to fit your needs.
+ You will need at least these entries:
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+magic_quotes_gpc\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+=\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+Off
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+extension_dir\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+=\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+C:
+\backslash 
+php
+\backslash 
+extensions\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+extension=php_domxml.dll
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+session.save_path\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ = C:
+\backslash 
+windows
+\backslash 
+temp
+\family default 
+\size default 
+
+\newline 
+
+\layout Standard
+
+Magic Quotes must be off for ezPublish 2.1.
+ You need to set the extension_dir in order to find the php_domxml.dll library.
+ You also must enable this libary by removing the comment sign '#' in its
+ line.
+ The savepath must be set to some local directory for temporary files.
+\layout Standard
+
+Restart the Apache server.
+ If all is fine, it should display "Apache/1.3.19 (Win32) PHP/4.0.1pl1 running..."
+ now.
+\layout Subsubsection*
+
+Error Checking PHP and Apache:
+\layout Standard
+
+Create a text file called test.php in C:
+\backslash 
+apache
+\backslash 
+htdocs.
+ 
+\layout Standard
+
+The file must contain:
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+<?
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+phpinfo();
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+?>
+\newline 
+
+\layout Standard
+
+Save the file and open it via http://localhost/test.php.
+ This should display some information about your PHP.
+ If your webbrowser display the contents of the file or prompts you save
+ the file somewhere, the PHP integration did not work.
+ 
+\layout Subsection
+
+MySQL
+\layout Standard
+
+Get the standard binary (tarball) distribution for Windows 95/98/NT/2000
+ for intel from www.mysql.com.
+ I'm running version 3.23.35a here, but newer versions should be available.
+\layout Standard
+
+Extract the file to some temporary dir and run the setup.
+ Install to C:
+\backslash 
+MySQL using "Typical Install".
+\layout Standard
+
+Create a shortcut to C:
+\backslash 
+mysql
+\backslash 
+bin
+\backslash 
+winmysqladmin.exe on your desktop and run it.
+ At the very first start, a "Quick Setup" window should pop up.
+ Enter a username and a passwort for the MySQL Server access.
+ Use "publish" for both user name and password to simplify the rest of the
+ installation.
+ This will create the my.ini file in C:
+\backslash 
+windows
+\layout Standard
+
+There should be a traffic light in the system tray (left of the time display).
+ It should go green now.
+\layout Standard
+
+Right-click on the traffic lights, select "Show me" from the pop-up menu.
+ Go to "my.ini setup", and "pick-up and edit my.ini values".
+ Choose the server you want to use; probably mysqld-nt on NT and mysqld-opt
+ on Win9x (using the radio buttons).
+ Choose "Save Modification"
+\layout Standard
+
+If you want to load mysql on startup, choose 'Create ShortCut on Start Menu'.
+ Note that you might have to put a link to apache.exe in the startup menu
+ group, too, if you want the whole system to run at startup
+\layout Standard
+
+Right-Click on the traffic lights, Choose "Win9x "-> "Shutdown Both" in
+ order to stop the database server and the WinMySQLAdmin tool.
+\layout Subsubsection*
+
+Error Checking MySQL:
+\layout Standard
+
+Restart the database server by starting WinMySQLadmin: a window should show
+ up and minimize to tray.
+ The Traffic lights should go green.
+ This means that the MySQL daemon (server) is up and running, using your
+ new my.ini values.
+\layout Subsection
+
+phpMyAdmin
+\layout Standard
+
+In order to have some kind of nice interface to your MySQL database server
+ and in order to access its databases and tables, you should install phpMyAdmin.
+ I rely on it later, when installing ezPublish.
+ Note that using phpMyAdmin without further security measurements is always
+ some sort of security risc, because it allows access to your valuable databases
+ through a web browser.
+\newline 
+
+\layout Standard
+
+Get phpMyAdmin from http://www.phpwizard.net/ .
+ Select the zip version with php extensions.
+ I'm using version 2.1.0.
+ 
+\newline 
+
+\layout Standard
+
+Extract the zip-file to your document root, using folder names.
+ This puts phpMyAdmin to C:
+\backslash 
+apache
+\backslash 
+htdocs
+\backslash 
+phpMyAdmin.
+\layout Subsubsection*
+
+Error Checking phpMyAdmin and MySQL:
+\layout Standard
+
+Note that this test seems to work only, when your default server (apache.my.intran
+et) is already translated to the right IP adress.
+ See 
 \begin_inset Quotes eld
 \end_inset 
 
-File Archive
-\begin_inset Quotes erd
+
+\begin_inset LatexCommand \ref{Determing and publish your host names}
+
 \end_inset 
 
- link under 
-\begin_inset Quotes eld
+ Determing and publishing your host names" on how to do this or do this
+ test later.
+\newline 
+
+\layout Standard
+
+When Apache and MySQL servers are running, fire up your browser and open
+ http://localhost/phpMyAdmin .
+ This should show the UI of phpMyAdmin and allow you do browse a bit in
+ two MySQLs databases.
+ "test" is a test-database, while "mysql" is the MySQL database itself,
+ containig users and access rights etc.
+ You should not mess to much with this, but you should be able to find a
+ user called "publish" in the user table.
+ This one is necessary for further installation of ezPublish.
+\layout Standard
+
+Also beware that "drop" means "delete"!
+\layout Subsection
+
+ImageMagick
+\layout Standard
+
+Get the ImageMagick windows binary (ImageMagick-win2k.zip) from www.imagemagick.org
+ and extract it to C:
+\backslash 
+, using folder names.
+ This installs ImageMagick to the C:
+\backslash 
+ImageMagick-win2k directory.
+\newline 
+
+\layout Standard
+
+Now specify in the site.ini where to find the convert program of ImageMagick.
+ In site.ini change the ImageConversionProgram line to read 
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+ImageConversionProgram=C:
+\backslash 
+ImageMagick-win2k
+\backslash 
+convert.exe .
+\newline 
+
+\layout Standard
+
+This works great for me.
+ The readme of ImageMagick tell you to use environment variables.
+ If you want to try this, add the following lines to your autoexec.bat, save
+ and reboot:
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+set MAGICK_HOME=C:
+\backslash 
+ImageMagick-win2k
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+set PATH=C:
+\backslash 
+ImageMagick-win2k
+\newline 
+
+\layout Standard
+
+If you already have set a the PATH variable, you have to expand your path
+ by the ImageMagick application directory.
+\layout Subsubsection*
+
+Error Checking ImageMagick:
+\layout Standard
+
+Note that you can do this test only, when you have set up and configured
+ ezPublish completely, that is after 
+\begin_inset LatexCommand \ref{wininst Virtual host and rewrite rules}
+
 \end_inset 
 
-Downloads
-\begin_inset Quotes erd
+.
+ In order to test ImageMagick, log in to the admin site, choose the article
+ module, choose to create a new article, type some text and click on the
+ [images] button.
+ On the next screen click [Add Image] and upload some graphic file.
+ ImageMagick works, when you see a thumbnail of the image you just uploaded.
+ Try this with the common graphic formats (JPG, PNG, GIF).
+\layout Subsection
+
+
+\begin_inset LatexCommand \label{Determing and publish your host names}
+
 \end_inset 
 
- .
- It covers all the steps needed for a working installation under Windows
- using Apache.
+Determing and publishing your host names
+\layout Standard
+
+For ezPublish, you need two virtual hosts, one for the user site, the other
+ for the admin site.
+ You should make up your mind on how you want to call these now.
+ They should be different from the apache (default) server name.
+\newline 
+
+\layout Standard
+
+If you called your apache (default) server apache.my.intranet, you might want
+ to call your ezPublish hosts something like ez.my.intranet and ezadmin.my.intranet.
+\newline 
+
+\layout Standard
+
+In order to have ezPublish running, you need to translate these host names
+ to the IP-Adress of the system the apache server is running on.
+\newline 
+
+\layout Standard
+
+If you are using a stand-alone PC, take 127.0.0.1 as your IP adress.
+ Using a LAN, you will find your IP with the tool ipconfig (run in a DOS
+ box).
+ If you are using a small private LAN, your IP might be something like 192.168.xxx.
+xxx.
+\newline 
+
+\layout Standard
+
+A company LAN probably will use a Domain Name Server (DNS).
+ If that's the case, contact your network admin for inserting the new host
+ names.
+ 
+\newline 
+
+\layout Standard
+
+All others (including stand-alone PCs) must use the hosts file: If you did
+ not use this file yet, copy the hosts.sam sample file to hosts (without
+ extension).
+ hosts files are in your windows directory.
+\newline 
+
+\layout Standard
+
+Open the hosts file with your notepad.
+\newline 
+
+\layout Standard
+
+If your are using the "localhosts" IP adress 127.0.0.1, enter the following
+ lines:
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+127.0.0.1\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+localhost
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+127.0.0.1\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+apache.my.intranet
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+127.0.0.1\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ez.my.intranet
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+127.0.0.1\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ezadmin.my.intranet
+\newline 
+
+\layout Standard
+
+This links all the used host names to the IP adress 127.0.0.1.
+ When using a small LAN, use your detected IP adress instead of 127.0.0.1 in
+ the last three lines (leave localhost as it is) and make sure to make this
+ hosts entries on any client system, from which you want to access your
+ webserver and ezPublish later (that probably is any PC in the LAN).
+\newline 
+
+\layout Standard
+
+Note that you do have to restart windows or the servers in order to take
+ the changes in the hosts file to take effect.
+\layout Subsubsection*
+
+Error Checking hosts settings:
+\layout Standard
+
+Open you webbrowser and load http://apache.my.intranet.
+ The browser should show the apache welcome screen.
+ Repeat this for every host name you just entered (ez.my.intranet and ezadmin.my.int
+ranet) and for every client.
+\layout Subsection
+
+ezPublish 2.1
+\layout Subsubsection*
+
+Unpacking the files
+\layout Standard
+
+Extract the ezpublish file to C:
+\backslash 
+Apache
+\backslash 
+htdocs
+\backslash 
+ , using folder names.
+ This will give you all files in C:
+\backslash 
+Apache
+\backslash 
+htdocs
+\backslash 
+ezpublish_2_1.
+ Put createdirs.bat in C:
+\backslash 
+Apache
+\backslash 
+htdocs
+\backslash 
+ezpublish_2_1 and run it.
+ This creates the cache directories.
+ If your did not uses publish/publish as your MySQL user/password settings,
+ open site.ini, and just change the user and password lines to match your
+ settings.
+\layout Subsubsection*
+
+Error Checking:
+\layout Standard
+
+While apache and MySQL servers are running, open http://localhost/ezpublish_2_1
+ in your webbrowser.
+ This should give you an "could not connect to database ...
+ no database selected".
+\newline 
+
+\layout Standard
+
+That's fine.
+ It shows that PHP ran the index.php of the ezPublish installation and tried
+ to connect to the database server.
+ Connecting to the server was okay, but the database "publish" could not
+ be found, as we did not yet create it.
+\layout Subsection
+
+Creating the database
+\layout Standard
+
+Open http://apache.my.intranet/phpMyAdmin in your webbrowser.
+ Create a new database named "publish".
+\newline 
+
+\layout Standard
+
+Run a SQL query and choose to load it from a textfile.
+ Browse to C:
+\backslash 
+apache
+\backslash 
+htdocs
+\backslash 
+ezpublish_2_1
+\backslash 
+sql
+\backslash 
+publish.sql and confirm with "Go".
+ This should take a while as the tables are created and some data is inserted.
+ Check the first line, if the execution of the SQL query was successful.
+\layout Subsubsection*
+
+Error Checking:
+\layout Standard
+
+In your webbrowser, open http://apache.my.intranet/ezpublish_2_1.
+ This should give you nearly the known ezPublish screen.
+\layout Standard
+
+Note that you cannot access the admin site yet and the user site will not
+ work very much (links, missing graphics etc).
+ We have not yet set the virtual hosts.
+ But we will now.
+\layout Subsection
+
+
+\begin_inset LatexCommand \label{wininst Virtual host and rewrite rules}
+
+\end_inset 
+
+Virtual hosts and rewrite rules
+\layout Standard
+
+I will give you a quick sample, how to set up apache to use virtual hosts
+ and rewrite rules as we need them for ezPublish to work.
+\newline 
+
+\layout Standard
+
+A good explanation of the virtual host and rewrite rule concept is in chapter
+ 4 of the installation guide (Apache configuration) and of course in the
+ apache documentation itself.
+\newline 
+
+\layout Standard
+
+Open your httpd.conf and search for "NameVirtualHost".
+ You need to enable VirtualHosts using the NameVirtualHosts directive and
+ create three virtual hosts.
+ The first is the default host for this web server, second is the ezPublish
+ user site, third is the ezPublish admin site.
+ You can omit the first, if you are just running ezPublish on the system,
+ but you will not be able to access phpMyAdmin, the apache documentation
+ or anything else then.
+\newline 
+
+\layout Standard
+
+Copy these lines into httpd.conf and save.
+ If you did not follow my suggestions for folder names of apache and for
+ the host names, you need to make the appropriate changes here.
+\layout Standard
+
+\SpecialChar ~
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+#
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+# Use name-based virtual hosting.
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+#
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+NameVirtualHost apache.my.intranet
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+# Server default site (default server)
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+<VirtualHost apache.my.intranet>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+DocumentRoot C:/Apache/htdocs
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+ServerName apache.my.intranet
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+</VirtualHost>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+# ezPublish User site
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+<VirtualHost ez.my.intranet>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+<Directory C:/Apache/htdocs/ezpublish_2_1>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+ Options FollowSymLinks Indexes ExecCGI
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+ AllowOverride None
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+</Directory>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+RewriteEngine On
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+#RewriteLog rewrite_user.log
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+#RewriteLogLevel 9
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+RewriteRule ^/stats/store/(.*).gif$ /ezstats/user/storestats.php [S=2]
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+# The lines above should appear on the same line in your configuration file!
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$ 
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+/ezfilemanager/files/$1 [T="application/oct-stream",S=1]
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+# The lines above should appear on the same line in your configuration file!
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+RewriteRule !
+\backslash 
+.(gif|css|jpg|png)$ /index.php
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+DocumentRoot C:/Apache/htdocs/ezpublish_2_1
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+ServerName ez.my.intranet
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+</VirtualHost>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+# ezPublish Admin site
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+<VirtualHost ezadmin.my.intranet>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+<Directory C:/Apache/htdocs/ezpublish_2_1>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+ Options FollowSymLinks Indexes ExecCGI
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+ AllowOverride None
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+</Directory>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+RewriteEngine On
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+#RewriteLog rewrite_admin.log
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+#RewriteLogLevel 9
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+RewriteRule !
+\backslash 
+.(gif|css|jpg|png)$ /index_admin.php
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+DocumentRoot C:/Apache/htdocs/ezpublish_2_1
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+ServerName ezadmin.my.intranet
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+</VirtualHost>
+\layout Standard
+
+
+\family typewriter 
+\size footnotesize 
+\SpecialChar ~
+
+\newline 
+
+\layout Standard
+
+You can check your VirtualHost configuration by running apache -S from the
+ command line.
+ If you are having trouble with the rewrite rules, you can enable the RewriteLog
+ directives for a time for debugging.
+\layout Subsubsection*
+
+Error Checking:
+\layout Standard
+
+In your webbrowser, open http://ez.my.intranet.
+ This should give you the ezPublish screen.
+ Graphics should be there, links should be working, although there is no
+ content in the database yet.
+ We will add some in a minute.
+\layout Standard
+
+You can access the admin site through http://ezadmin.my.intranet.
+ You can log in using "admin" as a user and "publish" as the password.
+\layout Subsection
+
+Sample data
+\layout Standard
+
+In order to have something to play with, you may want to insert some sample
+ data.
+\newline 
+
+\layout Standard
+
+Expand the data.tar.gz file to C:/Apache/htdocs/ezpublish_2_1, using folder
+ names.
+ This will create some image files and some downloads for the sample data.
+ 
+\newline 
+
+\layout Standard
+
+Now we need to insert the data itself into the database.
+ Therefore open http://apache.my.intranet/phpMyAdmin, select the database
+ "publish" by clicking on it in the left frame, scroll down past the list
+ of tables in the right frame and run a SQL query.
+ Choose to load it from a textfile.
+ Browse to C:
+\backslash 
+apache
+\backslash 
+htdocs
+\backslash 
+ezpublish_2_1
+\backslash 
+sql
+\backslash 
+data.sql and confirm with "Go".
+ Again check the first line, if the execution of the SQL query was successful.
+\newline 
+
+\layout Standard
+
+This is just the same procedure like the first-time-creating of the database
+ (see 1.3.2), only with data.sql instead of publish.sql.
+\layout Subsubsection*
+
+Error Checking:
+\layout Standard
+
+In your webbrowser, open http://ez.my.intranet.
+ This should give you the ezPublish screen, now with sample articles.
+\layout Subsection
+
+eZ publish and IIS
+\layout Standard
+
+Not very much information is available for this webserver.
+ We have however received reports that since IIS does not have a mod_rewrite
+ module you may use this hack
+\begin_float footnote 
+\layout Standard
+
+Since eZ publish now can be run without mod_rewrite you may take look at
+ chapter 
+\begin_inset LatexCommand \ref{chpt: nVH}
+
+\end_inset 
+
+ as it may provide you with a better solution
+\end_float 
+ instead:
+\layout Subsubsection*
+
+IIS Configuration:
+\layout Standard
+
+- Create the virtual hosts for IIS.
+ (only tested on win2000)
+\layout Standard
+
+(here comes the not so elegant part)
+\layout Standard
+
+- In the virtual hosts config for the user site, change the custom errors
+\begin_float footnote 
+\layout Standard
+
+The eZ publish developers want to point out that this does NOT seem to be
+ a secure workaround.
+ This workaround should not be used in an environment where the server might
+ be exposed to untrusted users (i.e the internet)
+\end_float 
+ for 404 and 405 to:
+\layout Standard
+
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ Message type: URL
+\layout Standard
+
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ URL: /index.php
+\layout Standard
+
+- In the virtual hosts config for the admin site, change the custom errors
+ for 404 and 405 to:
+\layout Standard
+
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ Message type: URL
+\layout Standard
+
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+\SpecialChar ~
+ URL: /index_admin.php
+\layout Standard
+
+(if you encount 500-err you may need to reboot the server, Uhhh..
+ I love MS,
+\layout Standard
+
+it gives me a lot of cofee brakes.
+ eZPublish runing on IIS is unstable)
+\layout Standard
+
+\SpecialChar ~
+
 \layout Section
 
 Mandrake
