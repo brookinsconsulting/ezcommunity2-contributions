@@ -3,6 +3,10 @@ Example:
 mod: bug/user, fileedit.php.ini
 change: added user_edit=Some text
 --------------------------------------------------------------------
+mod: eztrade/admin, orderedit.php.ini
+change: added
+shipping_method=Shipping Method
+
 mod: ezuser/user, forgotmessage.php.ini
 change: added
 mail_sent=Mail sent

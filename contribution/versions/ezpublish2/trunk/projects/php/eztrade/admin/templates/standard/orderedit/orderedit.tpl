@@ -1,12 +1,14 @@
 <!-- orderlist.tpl --> 
-<!-- $Id: orderedit.tpl,v 1.16 2001/03/13 09:31:34 th Exp $ -->
+<!-- $Id: orderedit.tpl,v 1.17 2001/03/13 09:51:21 th Exp $ -->
 
 <h1>{intl-head_line}</h1>
 
 <hr noshade="noshade" size="4" />
-<br />
 
-<table width="100%" cellspacing="0" cellpadding="3" border="0">
+<p class="boxtext">{intl-customer_email}:</p>
+<div class="p">{customer_email}</div>
+<br />
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
 	<p class="boxtext">{intl-billing_address}:</p>
@@ -33,12 +35,12 @@
 </tr>
 <tr>
 	<td>
-	<p class="boxtext">{intl-customer_email}:</p>
-	<div class="p">{customer_email}</div>
-	</td>
-	<td>
 	<p class="boxtext">{intl-payment_method}:</p>
 	<div class="p">{intl-payment_by} {payment_method}</div>
+	</td>
+	<td>
+	<p class="boxtext">{intl-shipping_method}:</p>
+	<div class="p">Fyll inn her!</div>
 	</td>
 </tr>
 </table>
@@ -80,12 +82,12 @@
 <!-- END order_item_tpl -->
 <tr>
 	<td colspan="3">&nbsp;</td>
-	<td class="boxtext">{intl-shipping}</td>
+	<th>{intl-shipping}:</th>
 	<td align="right">{shipping_cost}</td>
 </tr>
 <tr>
 	<td colspan="3">&nbsp;</td>
-	<td class="boxtext">{intl-total}:</td>
+	<th>{intl-total}:</th>
 	<td align="right">{order_sum}</td>
 </tr>
 </table>
@@ -100,7 +102,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	<p class="boxtext">{intl-choose_status}</p>
+	<p class="boxtext">{intl-choose_status}:</p>
 	<select name="StatusID">
 	<!-- BEGIN order_status_option_tpl -->	
 	<option value="{option_id}">
