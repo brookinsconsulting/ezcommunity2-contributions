@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: refererlist.php,v 1.10 2001/09/24 17:55:13 br Exp $
+// $Id: refererlist.php,v 1.10.2.1 2001/11/02 06:46:24 br Exp $
 //
 // Created on: <07-Jan-2001 16:13:21 bf>
 //
@@ -47,6 +47,9 @@ $t->set_block( "referer_list_tpl", "referer_tpl", "referer" );
 
 if ( !isset( $Offset ) or !is_numeric( $Offset ) )
     $Offset = 0;
+
+if ( !isset( $ViewLimit ) or !is_numeric( $ViewLimit ) )
+    $ViewLimit = 20;
 
 $latest =& eZPageViewQuery::topReferers( $ViewLimit, $ExcludeDomain, $Offset );
 $ItemCount = eZPageViewQuery::topReferersCount( $ExcludeDomain );

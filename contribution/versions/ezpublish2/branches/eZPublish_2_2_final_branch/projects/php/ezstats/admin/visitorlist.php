@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: visitorlist.php,v 1.8 2001/09/24 17:41:18 br Exp $
+// $Id: visitorlist.php,v 1.8.2.1 2001/11/02 06:46:24 br Exp $
 //
 // Created on: <07-Jan-2001 12:56:58 bf>
 //
@@ -48,6 +48,8 @@ $t->set_block( "visitor_list_tpl", "visitor_tpl", "visitor" );
 
 if ( !isset( $Offset ) or !is_numeric( $Offset ) )
     $Offset = 0;
+if ( !isset( $ViewLimit ) or !is_numeric( $ViewLimit ) )
+    $ViewLimit = 25;
 
 $latest =& eZPageViewQuery::topVisitors( $ViewLimit, $Offset );
 $ItemCount = eZPageViewQuery::topVisitorsCount();
@@ -59,24 +61,24 @@ $t->set_var( "item_limit", $ViewLimit );
 
 if ( count( $latest ) > 0 )
 {
-    $i = 0;
-    foreach ( $latest as $visitor )
-    {
-        if ( ( $i %2 ) == 0 )
-            $t->set_var( "bg_color", "bglight" );
-        else
-            $t->set_var( "bg_color", "bgdark" );
-
-        $t->set_var( "remote_ip", $visitor["IP"] );
-        $t->set_var( "remote_host_name", $visitor["HostName"] );
-        $t->set_var( "page_view_count", $visitor["Count"] );
-
-        $t->parse( "visitor", "visitor_tpl", true );
-        $i++;
-    }
-    eZList::drawNavigator( $t, $ItemCount, $ViewLimit, $Offset, "visitor_list_tpl" );
-
-    $t->parse( "visitor_list", "visitor_list_tpl" );
+  $i = 0;
+  foreach ( $latest as $visitor )
+  {
+    if ( ( $i %2 ) == 0 )
+      $t->set_var( "bg_color", "bglight" );
+    else
+      $t->set_var( "bg_color", "bgdark" );
+    
+    $t->set_var( "remote_ip", $visitor["IP"] );
+    $t->set_var( "remote_host_name", $visitor["HostName"] );
+    $t->set_var( "page_view_count", $visitor["Count"] );
+    
+    $t->parse( "visitor", "visitor_tpl", true );
+    $i++;
+  }
+  eZList::drawNavigator( $t, $ItemCount, $ViewLimit, $Offset, "visitor_list_tpl" );
+  
+  $t->parse( "visitor_list", "visitor_list_tpl" );
 }
 else
 {

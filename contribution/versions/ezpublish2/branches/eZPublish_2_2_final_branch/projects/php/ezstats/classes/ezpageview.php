@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpageview.php,v 1.16.2.1 2001/11/01 17:44:30 bf Exp $
+// $Id: ezpageview.php,v 1.16.2.2 2001/11/02 06:46:24 br Exp $
 //
 // Definition of eZPageView class
 //
@@ -125,7 +125,7 @@ class eZPageView
                                     ( ID, IP, HostName )
                                     VALUES ( '$nextID',
                                              '$remoteIP',
-                                             '$remoteHostNameæ' )
+                                             '$remoteHostName' )
                                     " );
 
 				$this->ID = $nextID;
