@@ -10,6 +10,8 @@ CREATE TABLE eZBug_Bug (
   IsClosed int DEFAULT '0',
   Version varchar(150) DEFAULT '',
   UserEmail varchar(100) DEFAULT '',
+  OwnerID int default NULL,
+  IsPrivate int default '0',
   PRIMARY KEY (ID)
 );
 
@@ -23,6 +25,22 @@ CREATE TABLE eZBug_BugCategoryLink (
 );
 
 INSERT INTO eZBug_BugCategoryLink VALUES (1,2,1);
+
+CREATE TABLE eZBug_BugFileLink (
+  ID int NOT NULL,
+  BugID int NOT NULL default '0',
+  FileID int NOT NULL default '0',
+  Created int NOT NULL,
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZBug_BugImageLink (
+  ID int NOT NULL,
+  BugID int NOT NULL default '0',
+  ImageID int NOT NULL default '0',
+  Created int NOT NULL,
+  PRIMARY KEY (ID)
+);
 
 CREATE TABLE eZBug_BugModuleLink (
   ID int NOT NULL,
@@ -48,7 +66,7 @@ CREATE TABLE eZBug_Log (
   BugID int DEFAULT '0' NOT NULL,
   UserID int DEFAULT '0' NOT NULL,
   Description text,
-  Created int,
+  Created int NOT NULL,
   PRIMARY KEY (ID)
 );
 
@@ -58,6 +76,7 @@ CREATE TABLE eZBug_Module (
   ParentID int,
   Name varchar(150),
   Description text,
+  OwnerGroupID int default '0',
   PRIMARY KEY (ID)
 );
 
