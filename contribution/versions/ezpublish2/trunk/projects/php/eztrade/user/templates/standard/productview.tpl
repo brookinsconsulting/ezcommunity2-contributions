@@ -77,6 +77,23 @@
 
 </tr>
 </table>
+<br />
+
+<!-- BEGIN attribute_list_tpl -->
+<table width="50%" cellspacing="0" cellpadding="2" border="0">
+<!-- BEGIN attribute_tpl -->
+<tr>
+	<th>
+	{attribute_name}: 
+	</td>
+	<td>
+	{attribute_value}
+	</td>
+</tr>
+
+<!-- END attribute_tpl -->
+</table>
+<!-- END attribute_list_tpl -->
 
 <form action="/{module}/cart/add/{product_id}/" method="post">
 
@@ -122,7 +139,7 @@
 </table>
 <br />
 
-<table width="100%" border="0">
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td>
 	<!-- BEGIN price_tpl -->
@@ -147,31 +164,7 @@
 	</td>
 </tr>
 </table>
-<br /><br />
-
-<!-- BEGIN attribute_list_tpl -->
-<table width="50%" cellspacing="0" cellpadding="2" border="0">
-<tr>
-	<th>
-	{intl-attribute_name}
-	</th>
-	<th>
-	{intl-attribute_value}
-	</th>
-</tr>
-<!-- BEGIN attribute_tpl -->
-<tr>
-	<td>
-	{attribute_name} : 
-	</td>
-	<td>
-	{attribute_value}
-	</td>
-</tr>
-
-<!-- END attribute_tpl -->
-</table>
-<!-- END attribute_list_tpl -->
+<br />
 
 {extra_product_info}
 <br />
