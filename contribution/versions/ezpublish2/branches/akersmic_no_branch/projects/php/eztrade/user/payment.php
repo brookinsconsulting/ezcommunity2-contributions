@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.84.8.3 2002/01/31 12:19:35 bf Exp $
+// $Id: payment.php,v 1.84.8.4 2002/02/04 20:40:34 br Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -34,6 +34,7 @@ include_once( "classes/ezhttptool.php" );
 include_once( "classes/ezcachefile.php" );
 
 include_once( "ezuser/classes/ezuser.php" );
+include_once( "classes/ezlog.php" );
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezoption.php" );
@@ -129,6 +130,7 @@ $cart = $cart->getBySession( $session, "Cart" );
 if ( !$cart )
 {
     eZHTTPTool::header( "Location: /trade/cart/" );
+    exit();
 }
 
 $items = $cart->items();
@@ -177,6 +179,14 @@ if ( $PaymentSuccess == "true" )
     // create a new order
     $order = new eZOrder();
     $user =& eZUser::currentUser();
+    
+    if ( get_class( $user ) != "ezuser" )
+    {
+        eZLog::writeWarning( "user/payment.php: Got paymentSuccess without user logged in" );
+        eZHTTPTool::header( "Location: /trade/cart/" );
+        exit();
+    }
+    
     $order->setUser( $user );
 
     // set pnutr id to paynet.
@@ -232,27 +242,19 @@ if ( $PaymentSuccess == "true" )
         $price=0.0;
         $totalPrice=0.0;
         $product = $item->product();
-
-            // product price
-
-        $priceobj = new eZCurrency();
         
-        if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser" ) and
-             $ShowPrice and $product->showPrice() == true  )
-        {
-            $price = $item->correctPrice( false, true, false );
-        }
-        
-        
-        $totalVAT = $item->correctPrice( false, true, true ) - $price;
-        $currency->setValue( $price );
-        
-// create a new order item
+        // create a new order item.
         $orderItem = new eZOrderItem();
         $orderItem->setOrder( $order );
         $orderItem->setProduct( $product );
         $orderItem->setCount( $item->count() );
+
+        // Set the product price.
+        $price = $item->correctPrice( false, true, false );
         $orderItem->setPrice( $price );
+
+        // Set the VAT for this product.
+        $totalVAT = $item->vat( false, true );
         $orderItem->setVAT( $totalVAT );
 
         $expiryTime = $product->expiryTime();
@@ -263,25 +265,28 @@ if ( $PaymentSuccess == "true" )
     
         $orderItem->store();
     
+        // Store the optionvalues.
         $optionValues =& $item->optionValues();
-    
-        foreach ( $optionValues as $optionValue )
+        if ( count( $optionValues ) > 0 )
         {
-            $option =& $optionValue->option();
-            $value =& $optionValue->optionValue();
-        
-            $orderOptionValue = new eZOrderOptionValue();
-            $orderOptionValue->setOrderItem( $orderItem );
-        
-            $orderOptionValue->setRemoteID( $optionValue->remoteID() );
-        
-            $descriptions =& $value->descriptions();
-        
-            $orderOptionValue->setOptionName( $option->name() );
-            $orderOptionValue->setValueName( $descriptions[0] );
-            // fix
-        
-            $orderOptionValue->store();
+            foreach ( $optionValues as $optionValue )
+            {
+                $option =& $optionValue->option();
+                $value =& $optionValue->optionValue();
+                
+                $orderOptionValue = new eZOrderOptionValue();
+                $orderOptionValue->setOrderItem( $orderItem );
+                
+                $orderOptionValue->setRemoteID( $optionValue->remoteID() );
+                
+                $descriptions =& $value->descriptions();
+                
+                $orderOptionValue->setOptionName( $option->name() );
+                $orderOptionValue->setValueName( $descriptions[0] );
+                // fix
+                
+                $orderOptionValue->store();
+            }
         }
     }
     
@@ -312,33 +317,32 @@ if ( $PaymentSuccess == "true" )
     $mailTemplate->set_block( "tax_specification_tpl", "tax_item_tpl", "tax_item" );
 
     // get the customer
-    $user = $order->user();
-
-    $currentUser =& eZUser::currentUser();
+    $orderUser = $order->user();
 
     // check if the user is logged in
-    if ( !( $currentUser && $user ) ) 
+    if ( !( $user && $orderUser ) ) 
     {
         eZHTTPTool::header( "Location: /trade/cart/" );
         exit();
     }
 
     // check if the user owns the order
-    if ( $currentUser->id() != $user->id() )
+    if ( $user->id() != $orderUser->id() )
     {
+        // you should never come here.
         eZHTTPTool::header( "Location: /trade/cart/" );
         exit();
     }
 
-    if ( $user )
+    if ( $orderUser )
     {
         // print out the addresses
         $billingAddress = $order->billingAddress();
 
         if ( $order->personID() == 0 && $order->companyID() == 0 )
         {
-            $mailTemplate->set_var( "customer_first_name", $user->firstName() );
-            $mailTemplate->set_var( "customer_last_name", $user->lastName() );
+            $mailTemplate->set_var( "customer_first_name", $orderUser->firstName() );
+            $mailTemplate->set_var( "customer_last_name", $orderUser->lastName() );
         }
         else
         {
@@ -914,9 +918,6 @@ if ( $PaymentSuccess == "true" )
             deleteCache( $product, false, false, false );
         }
 
-        $user =& eZUser::currentUser();
-
-
 
         for( $i=0; $i < $count; $i++ )
         {
@@ -992,6 +993,7 @@ if ( $PaymentSuccess == "true" )
     eZHTTPTool::header( "Location: http://$HTTP_HOST/trade/ordersendt/$OrderID/" );
     exit();
 }
+
 
 
 ?>

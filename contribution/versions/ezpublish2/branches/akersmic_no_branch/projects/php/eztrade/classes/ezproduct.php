@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezproduct.php,v 1.119.2.1.4.30 2002/02/01 11:09:59 ce Exp $
+// $Id: ezproduct.php,v 1.119.2.1.4.31 2002/02/04 20:40:34 br Exp $
 //
 // Definition of eZProduct class
 //
@@ -2448,9 +2448,9 @@ class eZProduct
 
         $ini =& INIFile::globalINI();
         if ( $ini->read_var( "eZTradeMain", "NoUserShowVAT" ) == "enabled" )
-            $useVAT = false;
-        else
             $useVAT = true;
+        else
+            $useVAT = false;
 
        if ( get_class ( $user ) == "ezuser" )
        {
