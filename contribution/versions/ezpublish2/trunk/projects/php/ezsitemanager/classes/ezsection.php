@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsection.php,v 1.16 2001/10/15 11:20:30 bf Exp $
+// $Id: ezsection.php,v 1.17 2001/10/16 16:17:26 ce Exp $
 //
 // ezsection class
 //
@@ -375,7 +375,7 @@ class eZSection
 
         foreach( $rows as $row )
         {
-            $returnArray[] = new eZSectionFrontPage( $row["ID"] );
+            $returnArray[] = new eZSectionFrontPage( $row[$db->fieldName( "ID" )] );
         }
 
         return $returnArray;

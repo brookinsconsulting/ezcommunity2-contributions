@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproducttool.php,v 1.3 2001/07/20 11:42:01 jakobn Exp $
+// $Id: ezproducttool.php,v 1.4 2001/10/16 16:17:26 ce Exp $
 //
 // Definition of eZProductTool class
 //
@@ -72,6 +72,17 @@ class eZProductTool
                 $file->delete();
             }
         }
+
+        $files =& eZCacheFile::files( "ezarticle/cache/",
+                                      array( "articlefrontpage",
+                                             NULL,
+                                             NULL),
+                                      "cache", "," );
+        foreach( $files as $file )
+        {
+            $file->delete();
+        }
+
     }
 }
 

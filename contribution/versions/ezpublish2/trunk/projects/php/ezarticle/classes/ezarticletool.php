@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticletool.php,v 1.11 2001/08/17 13:35:58 jhe Exp $
+// $Id: ezarticletool.php,v 1.12 2001/10/16 16:17:26 ce Exp $
 //
 // Definition of eZArticleTool class
 //
@@ -109,8 +109,17 @@ class eZArticleTool
         foreach( $files as $file )
         {
             $file->delete();
-        }        
-        
+        }
+
+        $files =& eZCacheFile::files( "ezarticle/cache/",
+                                      array( "articlefrontpage",
+                                             NULL,
+                                             NULL),
+                                      "cache", "," );
+        foreach( $files as $file )
+        {
+            $file->delete();
+        }
     }
 
     function notificationMessage( &$article )

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.68 2001/10/10 08:17:54 br Exp $
+// $Id: productedit.php,v 1.69 2001/10/16 16:17:26 ce Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -65,6 +65,16 @@ function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
             $file->delete();
         }
     }
+    $files =& eZCacheFile::files( "ezarticle/cache/",
+                                  array( "articlefrontpage",
+                                         NULL,
+                                         NULL),
+                                  "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
+    
 }
 
 $ini =& INIFile::globalINI();

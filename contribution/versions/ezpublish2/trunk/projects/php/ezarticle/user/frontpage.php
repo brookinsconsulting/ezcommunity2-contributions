@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: frontpage.php,v 1.26 2001/10/16 13:28:22 bf Exp $
+// $Id: frontpage.php,v 1.27 2001/10/16 16:17:26 ce Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -68,6 +68,11 @@ $t->set_block( "article_list_page_tpl", "one_column_article_tpl", "one_column_ar
 $t->set_block( "one_column_article_tpl", "one_column_article_image_tpl", "one_column_article_image" );
 $t->set_block( "one_column_article_tpl", "one_column_read_more_tpl", "one_column_read_more" );
 
+// one column product
+$t->set_block( "article_list_page_tpl", "one_column_product_tpl", "one_column_product" );
+$t->set_block( "one_column_product_tpl", "product_image_tpl", "product_image" );
+$t->set_block( "one_column_product_tpl", "price_tpl", "price" );
+
 // two column product
 $t->set_block( "article_list_page_tpl", "two_column_product_tpl", "two_column_product" );
 $t->set_block( "two_column_product_tpl", "left_product_tpl", "left_product" );
@@ -104,6 +109,7 @@ $t->set_var( "two_column_article", "" );
 $t->set_var( "two_column_product", "" );
 $t->set_var( "one_short_article", "" );
 $t->set_var( "ad_column", "" );
+$t->set_var( "one_column_product", "" );
 
 
 // image dir
@@ -247,11 +253,11 @@ foreach ( $page_elements as $element )
 
         case "1columnProduct":
         {            
-//            $product =& $productList[$productOffset];
-//            if ( get_class( $product ) == "ezproduct" )
-//                $pageContents .= renderFrontpageProduct( $t, $locale, $product );
-//
-//            $productOffset++;
+            $product =& $productList[$productOffset];
+            if ( get_class( $product ) == "ezproduct" )
+                $pageContents .= renderFrontpageProduct( $t, $locale, $product );
+            
+            $productOffset++;
         }break;
 
         case "2columnProduct":
@@ -582,6 +588,102 @@ function &renderAd( &$t, &$locale, &$ad )
 }
 
 
+function &renderFrontpageProduct( &$t, &$locale, &$product )
+{
+    global $ini;
+    $pid = $product->id();
+
+    $ThumbnailImageWidth = $ini->read_var( "eZTradeMain", "ThumbnailImageWidth" );
+    $ThumbnailImageHeight = $ini->read_var( "eZTradeMain", "ThumbnailImageHeight" );
+	
+    // preview image
+    $thumbnailImage = $product->thumbnailImage();
+
+    if ( $thumbnailImage )
+    {
+        $variation =& $thumbnailImage->requestImageVariation( $ThumbnailImageWidth, $ThumbnailImageHeight );
+    
+        $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
+        $t->set_var( "thumbnail_image_width", $variation->width() );
+        $t->set_var( "thumbnail_image_height", $variation->height() );
+        $t->set_var( "thumbnail_image_caption", $thumbnailImage->caption() );
+
+        $t->parse( "product_image", "product_image_tpl" );
+    }
+    else
+    {
+        $t->set_var( "product_image", "" );    
+    }
+
+    $t->set_var( "product_name", $product->name() );
+    $t->set_var( "product_id", $product->id() );
+
+    $t->set_var( "product_intro_text", eZTextTool::nl2br( $product->brief() ) );
+
+    $categoryDefinition = $product->categoryDefinition();
+    $t->set_var( "category_id", $categoryDefinition->id() );
+
+    if ( $product->showPrice() == true and $product->hasPrice() )
+    {
+        $t->set_var( "product_price", $product->localePrice( $PricesIncludeVAT ) );
+        $priceRange = $product->correctPriceRange( $PricesIncludeVAT );
+
+        if ( ( empty( $priceRange["min"] ) and empty( $priceRange["max"] ) ) and !($product->correctPrice( $PricesIncludeVAT ) > 0) )
+        {
+            $t->set_var( "product_price", "" );
+        }
+        $t->parse( "price", "price_tpl" );
+    }
+    elseif( $product->showPrice() == false )
+    {
+        $t->set_var( "product_price", "" );
+        $t->parse( "price", "price_tpl" );
+    }
+    else
+    {
+        $priceArray = "";
+        $options =& $product->options();
+        if ( count( $options ) == 1 )
+        {
+            $option = $options[0];
+            if ( get_class( $option ) == "ezoption" )
+            {
+                $optionValues =& $option->values();
+                if ( count( $optionValues ) > 1 )
+                {
+                    $i=0;
+                    foreach ( $optionValues as $optionValue )
+                    {
+                        $priceArray[$i] = $optionValue->localePrice( $PricesIncludeVAT, $product );
+                        $i++;
+                    }
+                    $high = max( $priceArray );
+                    $low = min( $priceArray );
+                    
+                    $t->set_var( "product_price", $low . " - " . $high );
+                    
+                    $t->parse( "price", "price_tpl" );
+                }
+            }
+        }
+        else
+            $t->set_var( "price", "" );
+    }
+    
+
+    if ( ( $i % 2 ) == 0 )
+    {
+        $t->set_var( "td_class", "bglight" );
+    }
+    else
+    {
+        $t->set_var( "td_class", "bgdark" );
+    }
+
+    return $t->parse( "output", "one_column_product_tpl" );    
+}
+
+
 function &renderFrontpageProductDouble( &$t, &$locale, &$product1, &$product2 )
 {
     global $ini;
@@ -777,7 +879,7 @@ $t->pparse( "output", "article_list_page_tpl" );
 // $SiteTitleAppend = $category->name();
 
 if ( isset( $GenerateStaticPage ) && $GenerateStaticPage == "true" )
-{    
+{
     $fp = eZFile::fopen( $cachedFile, "w+");
     
     // add PHP code in the cache file to store variables

@@ -219,6 +219,52 @@
 <!-- END two_column_product_tpl -->
 
 
+<!-- BEGIN one_column_product_tpl -->
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td valign="top" width="49%">
+	<!-- BEGIN product_tpl -->
+        <table width="100%" align="left" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+            <td>
+	    <div class="listproducts"><a class="listheadline" href="{www_dir}{index}/trade/productview/{product_id}/{category_id}/">{product_name}</a></div>
+            <!-- BEGIN product_image_tpl -->
+            <table align="right">
+            <tr>
+                <td>
+	        <a href="{www_dir}{index}/{module}/{module_view}/{product_id}/{category_id}/">
+	        <img src="{www_dir}{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
+	        </a>
+	        </td>
+            </tr>
+	    <tr>
+	        <td class="pictext">
+	        {thumbnail_image_caption}
+	        </td>
+	    </tr>
+            </table>
+	    <!-- END product_image_tpl -->
+
+            <div class="p">{product_intro_text}</div>
+
+	    <div class="pris">
+		<!-- BEGIN price_tpl -->
+	    {product_price}
+	    <!-- END price_tpl -->
+		<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
+		<a class="path" href="{www_dir}{index}/trade/productview/{product_id}/{category_id}/">{intl-get_more_info}</a>
+	</div>
+
+	   </td>
+        </tr>
+	</table>
+	<!-- END product_tpl -->
+	</td>
+</tr>
+</table>
+<br />
+<!-- END one_column_product_tpl -->
+
 <!-- BEGIN one_short_article_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
