@@ -94,14 +94,14 @@
 </table>
 
 <!-- BEGIN attribute_list_tpl -->
-<table width="80%" cellspacing="0" cellpadding="2" border="0" align="center">
+<table width="60%" cellspacing="0" cellpadding="2" border="0" align="center">
 
 <!-- BEGIN attribute_tpl -->
 <tr>
 	<th>
 	{attribute_name}: 
 	</th>
-	<td>
+	<td align="right">
 	{attribute_value}
 	</td>
 </tr>
