@@ -48,8 +48,6 @@
         </select>
         </td>
 	<td width="98%">
-	<!-- BEGIN category_block_tpl -->
-
 	<!-- BEGIN article_category_list_tpl -->
         <select Name="CategoryID[]">
 	<!-- BEGIN article_category_item_tpl -->
@@ -64,8 +62,6 @@
 	<!-- END product_category_item_tpl -->
         </select>
 	<!-- END product_category_list_tpl -->
-
-	<!-- END category_block_tpl -->
 	&nbsp;
         </td>
 	

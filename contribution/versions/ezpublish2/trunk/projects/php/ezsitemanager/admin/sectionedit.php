@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: sectionedit.php,v 1.13 2001/10/12 07:30:03 br Exp $
+// $Id: sectionedit.php,v 1.14 2001/10/12 08:10:10 br Exp $
 //
 // Created on: <10-May-2001 16:17:29 ce>
 //
@@ -156,20 +156,13 @@ if ( ( $Action == "Insert" ) || ( $Action == "Update" ) && ( $user ) )
     if ( isSet ( $Store )  || isSet( $OK ) )
     {
         $i=0;
-        $j=0;
-        
         foreach( $RowArrayID as $RowID )
         {
-
             $pageRow = new eZSectionFrontPage( $RowID );
             $pageRow->setCategoryID( $CategoryID[$i] );
-            $pageRow->setSettingID( $SettingID[$j] );
+            $pageRow->setSettingID( $SettingID[$i] );
             $pageRow->store();
-            
-            // increase $i if the Row have at least one category.
-            $settingName =& eZSectionFrontPage::settingByRowID( $RowID );
             $i++;
-            $j++;
         }
     }
     if ( isSet ( $AddRow ) )
