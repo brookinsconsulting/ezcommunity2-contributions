@@ -13,12 +13,11 @@
 
 
 <!-- BEGIN article_list_tpl -->
+<h1>Pressemeldinger</h1>
+
+<hr noshade="noshade" size="4" />
+<br />
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<tr>
-	<td>
-	</td>
-</tr>
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
