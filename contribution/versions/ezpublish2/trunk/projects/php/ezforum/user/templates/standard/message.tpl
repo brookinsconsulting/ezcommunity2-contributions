@@ -37,7 +37,7 @@
 	<p class="boxtext">{intl-author}:</p>
     {main-user}
 	</td>
-	<td>
+	<td align="right">
 	<p class="boxtext">{intl-time}:</p>
 	<span class="small">{main-postingtime}</span>
 	</td>
@@ -93,7 +93,7 @@
 <tr>
 	<th>{intl-reply-topic}:</th>
     <th>{intl-reply-author}:</th>
-    <th>{intl-reply-time}:</th>
+    <th><div align="right">{intl-reply-time}:</div></th>
     <th>&nbsp;</th>
 </tr>
 
@@ -108,7 +108,7 @@
     	<td class="{td_class}">
 	{user}
 	</td>
-    	<td class="{td_class}">
+    	<td class="{td_class}" align="right">
 	<span class="small">{postingtime}</span>
 	</td>
     <td class="{td_class}" align="right">

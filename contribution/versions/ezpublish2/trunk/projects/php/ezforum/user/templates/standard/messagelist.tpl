@@ -29,7 +29,7 @@
 <tr>
     <th>{intl-topic}:</th>
     <th>{intl-author}:</th>
-    <th>{intl-time}:</th>
+    <th><div align="right">{intl-time}:</div></th>
     <th>&nbsp;</th>
 </tr>
 
@@ -41,7 +41,7 @@
     <td class="{td_class}">
         {user}
     </td>
-    <td class="{td_class}">
+    <td class="{td_class}" align="right">
         <span class="small">{postingtime}</span>
     </td>
     <td class="{td_class}" align="right">

@@ -8,7 +8,7 @@
 	<p class="boxtext">{intl-author}:</p>
     {message_author}
 	</td>
-	<td>
+	<td align="right">
 	<p class="boxtext">{intl-posted_at}:</p>
 	<span class="small">{message_posted_at}</span>
 	</td>

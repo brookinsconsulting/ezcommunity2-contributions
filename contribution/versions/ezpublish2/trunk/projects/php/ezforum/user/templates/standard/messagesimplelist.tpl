@@ -7,9 +7,9 @@
 <!-- BEGIN message_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
-   	<th>{intl-topic}:</th>
-    <th>{intl-author}:</th>
-    <th>{intl-time}:</th>
+   	<th width="40%">{intl-topic}:</th>
+    <th width="30%">{intl-author}:</th>
+    <th width="30%"><div align="right">{intl-time}:</div></th>
 </tr>
 
     <!-- BEGIN message_item_tpl -->
@@ -17,11 +17,11 @@
     	<td class="{td_class}">
 	   {spacer}{spacer}
 		{topic}
-	</td>
+		</td>
     	<td class="{td_class}">
 	    {user}
 	    </td>
-    	<td class="{td_class}">
+    	<td class="{td_class}" align="right">
 	   <span class="small">{postingtime}</span>
 	   </td>
     </tr>
