@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: login.php,v 1.16 2001/03/01 14:06:26 jb Exp $
+// $Id: login.php,v 1.17 2001/03/08 13:54:50 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -48,7 +48,7 @@ $t->set_file( array(
     ) );
 
 $t->set_block( "login_tpl", "error_message_tpl", "error_message" );
-    
+
 if ( $Action == "login" )
 {
     $user = new eZUser();
@@ -60,7 +60,9 @@ if ( $Action == "login" )
 
         eZUser::loginUser( $user );
 
-        eZHTTPTool::header( "Location: /" );
+        if ( !isset( $RefererURL ) )
+            $RefererURL = "/";
+        eZHTTPTool::header( "Location: $RefererURL" );
         exit();
     }
     else
@@ -70,6 +72,11 @@ if ( $Action == "login" )
         $error = true;
     }
 }
+
+if ( !isset( $RefererURL ) )
+    $RefererURL = $REQUEST_URI;
+
+$t->set_var( "referer_url", $RefererURL );
 
 if ( $Action == "logout" )
 {

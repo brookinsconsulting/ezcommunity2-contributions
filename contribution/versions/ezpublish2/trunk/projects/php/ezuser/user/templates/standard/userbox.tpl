@@ -26,5 +26,6 @@
 	<td colspan="2" class="menuspacer">&nbsp;</td>
 </tr>
 </table>
+<input type="hidden" name="RedirectURL" value="{redirect_url}">
 </form>
 

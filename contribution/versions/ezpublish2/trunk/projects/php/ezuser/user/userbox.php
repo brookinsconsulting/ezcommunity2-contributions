@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userbox.php,v 1.23 2001/03/01 14:06:26 jb Exp $
+// $Id: userbox.php,v 1.24 2001/03/08 13:54:50 jb Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -91,14 +91,16 @@ if ( !$user )
         $t->parse( "standard_creation", "standard_creation_tpl" );
     }
 
-    if ( preg_match( "#^/user/user/login.*#", $REQUEST_URI  ) )
+    if ( !$RedirectURL )
+        $RedirectURL = $REQUEST_URI;
+    if ( preg_match( "#^/user/user/login.*#", $RedirectURL  ) )
     {
         $t->set_var( "redirect_url", "/" );
         
     }
     else
     {
-        $t->set_var( "redirect_url", $REQUEST_URI );
+        $t->set_var( "redirect_url", $RedirectURL );
     }
    
     $t->set_var( "action_value", "login" );
@@ -120,7 +122,18 @@ else
     $t->set_var( "user_id", $user->id() );
     $t->set_var( "style", $SiteStyle );
 
-    
+    if ( !$RedirectURL )
+        $RedirectURL = $REQUEST_URI;
+    if ( preg_match( "#^/user/user/login.*#", $RedirectURL  ) )
+    {
+        $t->set_var( "redirect_url", "/" );
+        
+    }
+    else
+    {
+        $t->set_var( "redirect_url", $RedirectURL );
+    }
+
     if ( $UserWithAddress == "enabled" )
     {
         

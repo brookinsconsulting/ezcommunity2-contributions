@@ -14,6 +14,8 @@
 <p class="boxtext">{intl-password}:</p>
 <input type="password" size="20" name="Password"/><br>
 
+<input type="hidden" name="RefererURL" value="{referer_url}" />
+
 <br></br>
 
 <hr noshade size="4"/>
