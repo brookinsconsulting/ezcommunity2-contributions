@@ -31,11 +31,12 @@ Changes from version 1.0.5
 * Made the menus in the admin module expandable/collapsable as well as moveable.
   This is remembered by the preferences for each user. We've also changed the
   design to a more sleek version.
+* Language updates
 * Removed java script which were a problem for lynx users.
 * Removed strip tags from messages in eZ forum
-* Speeded up localisation of date and time
-* Language updates
-* Fixed a ini bug in eZUser
+* Speeded up many features among them database connections, localisation,
+  rendering of articles, templates and HTML.
+* Fixed bugs
 
 Changes from version 1.0.4
 --------------------------
