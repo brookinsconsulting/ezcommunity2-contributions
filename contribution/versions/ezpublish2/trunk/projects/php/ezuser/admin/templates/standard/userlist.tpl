@@ -78,7 +78,7 @@
 <tr>
 	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a href="/user/userlist/{item_previous_index}/{sort_order}">{intl-previous}</a>
+	<a href="/user/userlist/{item_previous_index}/{sort_order}/{current_group_id}">{intl-previous}</a>
 	</td>
 	<!-- END type_list_previous_tpl -->
 
@@ -90,13 +90,13 @@
 
 	<!-- BEGIN type_list_item_tpl -->
 	<td>
-	<a href="/user/userlist/{item_index}/{sort_order}">{type_item_name}</a>
+	<a href="/user/userlist/{item_index}/{sort_order}/{current_group_id}">{type_item_name}</a>
 	</td>
 	<!-- END type_list_item_tpl -->
 
 	<!-- BEGIN type_list_next_tpl -->
 	<td>
-	<a href="/user/userlist/{item_next_index}/{sort_order}">{intl-next}</a>
+	<a href="/user/userlist/{item_next_index}/{sort_order}/{current_group_id}">{intl-next}</a>
 	</td>
 	<!-- END type_list_next_tpl -->
 
