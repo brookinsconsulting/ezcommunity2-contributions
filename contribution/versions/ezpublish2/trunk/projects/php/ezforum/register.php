@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: register.php,v 1.3 2000/07/19 14:55:12 lw-cvs Exp $
+    $Id: register.php,v 1.4 2000/07/20 19:44:36 lw Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -9,10 +9,11 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 include( "template.inc" );
+include( "ezphputils.php" );
 include( "ezforum/dbsettings.php" );
 include( "$DOCROOT/classes/ezdb.php" );
 include( "$DOCROOT/classes/ezuser.php" );
-include( "$DOCROOT/classes/ezsession.php" );
+//include( "$DOCROOT/classes/ezsession.php" );
 
 $t = new Template( "." );
 $t->set_file(Array( "register" => "$DOCROOT/templates/register.tpl",
@@ -45,11 +46,12 @@ if ( $registrer )
 
     $user->store();
 
-    $session = new eZSession();
-    $session->setUserID( $tmp );
-    $session->store();
+    //$session = new eZSession();
+    //$session->setUserID( $tmp );
+    //$session->store();
 
-    printRedirect( "/index.php?page=$DOCROOT/main.php" );
+    //printRedirect( "/index.php?page=$DOCROOT/main.php" );
+    $t->pparse( "output", "finish" );
 }
 else
 {

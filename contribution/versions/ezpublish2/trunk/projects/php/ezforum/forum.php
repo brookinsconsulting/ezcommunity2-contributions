@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.6 2000/07/20 18:39:46 lw-cvs Exp $
+    $Id: forum.php,v 1.7 2000/07/20 19:44:36 lw Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -60,6 +60,10 @@ if ( $reply )
     $msg->setBody( $Body );
     $msg->setUserId( $UserID );
     $msg->setParent( $parent );
+    if ( $notice )
+        $msg->enableEmailNotice();
+    else
+        $msg->disableEmailNotice();
     $msg->store();
 }
 
@@ -115,5 +119,3 @@ else
     $t->pparse("output","forum");
 }
 ?>
-    
-    
