@@ -45,7 +45,6 @@ class eZAddressType
         $db = eZDB::globalDatabase();
 
         $ret = false;
-        
         if ( !isSet( $this->ID ) )
         {
             $db->query_single( $qry, "SELECT ListOrder from eZContact_AddressType ORDER BY ListOrder DESC LIMIT 1" );
