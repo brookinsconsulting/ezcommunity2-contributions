@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: search.php,v 1.18.2.2 2001/11/01 13:12:03 master Exp $
+// $Id: search.php,v 1.18.2.3 2002/01/11 15:55:38 bf Exp $
 //
 // Created on: <28-Oct-2000 15:56:58 bf>
 //
@@ -38,6 +38,7 @@ $Limit = $ini->read_var( "eZArticleMain", "SearchListLimit" );
 // init the section
 if ( isset ($SectionIDOverride) )
 {
+    $GlobalSectionID = $SectionIDOverride;
     include_once( "ezsitemanager/classes/ezsection.php" );
 
     $sectionObject =& eZSection::globalSectionObject( $SectionIDOverride );

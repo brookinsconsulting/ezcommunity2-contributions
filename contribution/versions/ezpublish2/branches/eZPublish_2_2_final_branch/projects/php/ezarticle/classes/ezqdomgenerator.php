@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.39.2.4 2002/01/04 21:17:02 kaid Exp $
+// $Id: ezqdomgenerator.php,v 1.39.2.5 2002/01/11 15:55:38 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -281,8 +281,8 @@ class eZQDomGenerator
     function &generateHTML( $tmpPage )
     {
         // Begin html tag replacer
-        // replace all < and >  between <ezhtml> and </ezhtml>
-        // and to the same for <php> </php>
+        // replace all < and >  between <html> and </html>
+        // and to the same for <pre> </pre>
         // ok this is a bit slow code, but it works
         $startHTMLTag = "<html>";
         $endHTMLTag = "</html>";
@@ -295,23 +295,23 @@ class eZQDomGenerator
 
         if ( $numberBeginHTML != $numEndHTML )
         {
-            print( "Unmatched ezhtml tags, check that you have end tags for all begin tags" );
+            print( "Unmatched html tags, check that you have end tags for all begin tags" );
         }
 
-        $numberBeginPHP = substr_count( $tmpPage, $startPreTag );
-        $numEndPHP = substr_count( $tmpPage, $endPreTag );
-            
-        if ( $numberBegin != $numEnd )
+        $numberBeginPre = substr_count( $tmpPage, $startPreTag );
+        $numEndPre = substr_count( $tmpPage, $endPreTag );
+
+        if ( $numberBeginPre != $numEndPre )
         {
             print( "Unmatched Pre tags, check that you have end tags for all begin tags" );
         }
 
-        if ( ( $numberBeginPHP > 0 ) || ( $numberBegineZHTML > 0 ) || ( $numberBeginHTML > 0 ) )
+        if ( ( $numberBeginPre > 0 ) || ( $numberBeginHTML > 0 ) )
         {
             $resultPage = "";
-            $isInsideHTML = false;
-            $isInsideeZHTML = false;
-            $isInsidePHP = false;
+            $isInsideHTMLTag = false;
+            $isInsidePreTag = false;
+            
             for ( $i=0; $i<strlen( $tmpPage ); $i++ )
             {    
                 if ( substr( $tmpPage, $i - strlen( $startHTMLTag ), strlen( $startHTMLTag ) ) == $startHTMLTag )
