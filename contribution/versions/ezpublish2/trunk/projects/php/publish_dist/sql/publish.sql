@@ -3391,6 +3391,14 @@ CREATE TABLE eZUser_UserGroupLink (
 INSERT INTO eZUser_UserGroupLink VALUES (1,1,1);
 
 
+CREATE TABLE eZUser_Trustees (
+  ID int(11) NOT NULL auto_increment,
+  OwnerID int(11) NOT NULL,
+  UserID int(11) NOT NULL,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+
+
 create table eZURLTranslator_URL( ID int primary key auto_increment, Source char(200), Dest char(200) );
 alter table eZURLTranslator_URL add Created timestamp;
 

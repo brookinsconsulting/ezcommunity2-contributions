@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.3 2001/07/20 11:57:16 jakobn Exp $
+// $Id: menubox.php,v 1.4 2001/07/27 06:18:55 jhe Exp $
 //
 // Created on: <11-April-2001 15:20:00 th>
 //
@@ -39,12 +39,8 @@ $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "Tem
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "menu_box_tpl" => "menubox.tpl"
-    ) );
-
+$t->set_file( "menu_box_tpl", "menubox.tpl" );
 $t->set_var( "sitedesign", $GlobalSiteDesign );
-
 $t->pparse( "output", "menu_box_tpl" );
 		
 ?>

@@ -7,7 +7,7 @@
 <p class="boxtext">{intl-user}:</p>
 <select name="GetByUserID">
 <!-- BEGIN user_item_tpl -->
-<option {user_is_selected} value="{user_id}">{user_firstname} {user_lastname}</option>
+<option value="{user_id}" {user_is_selected}>{user_firstname} {user_lastname}</option>
 <!-- END user_item_tpl -->
 </select>
 

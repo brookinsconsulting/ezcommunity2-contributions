@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.13 2001/07/20 11:57:16 jakobn Exp $
+// $Id: datasupplier.php,v 1.14 2001/07/27 06:18:55 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -106,7 +106,26 @@ switch ( $url_array[2] )
         $AppointmentID = $url_array[3];
 
         include( "ezcalendar/user/appointmentview.php" );
-    }    
+    }
+    break;
+
+    case "trustees":
+    {
+        switch ( $url_array[3] )
+        {
+            case "edit":
+            {
+                include( "ezcalendar/user/trustees.php" );
+                break;
+            }
+            default:
+            {
+                include( "ezcalendar/user/trustees.php" );
+            }
+            break;
+        }
+    }
+    break;
 }
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.80 2001/07/20 11:45:40 jakobn Exp $
+// $Id: ezuser.php,v 1.81 2001/07/27 06:18:56 jhe Exp $
 //
 // Definition of eZUser class
 //
@@ -330,15 +330,24 @@ class eZUser
         else
             $select = "ID";
 
-        $query = new eZQuery( array( "FirstName", "LastName",
+        if ( $search )
+        {
+            $query = new eZQuery( array( "FirstName", "LastName",
                                      "Login", "Email" ), $search );
-
-        $db->array_query( $user_array, "SELECT $select FROM eZUser_User
-                                        WHERE " . $query->buildQuery() . "
-                                        ORDER By $orderBy",
-        array( "Limit" => $max,
-               "Offset" => $index ) );
-
+            $db->array_query( $user_array, "SELECT $select FROM eZUser_User
+                                            WHERE " . $query->buildQuery() . "
+                                            ORDER By $orderBy",
+                              array( "Limit" => $max,
+                                     "Offset" => $index ) );
+        }
+        else
+        {
+            $db->array_query( $user_array, "SELECT $select FROM eZUser_User
+                                            ORDER By $orderBy",
+                              array( "Limit" => $max,
+                                     "Offset" => $index ) );
+        }
+        
         if ( $as_object )
         {
             foreach ( $user_array as $user )
@@ -350,7 +359,7 @@ class eZUser
         {
             foreach ( $user_array as $user )
             {
-                $return_array[] = $user[$db->fieldName("ID")];
+                $return_array[] = $user[ $db->fieldName( "ID" ) ];
             }
         }
         return $return_array;
@@ -954,6 +963,33 @@ class eZUser
             }
         }
 
+        return $ret;
+    }
+
+    function trustees( $id = -1, $as_object = false )
+    {
+        $db =& eZDB::globalDatabase();
+        if ( get_class( $id ) )
+            $id = $id->ID();
+        if ( $id < 0 )
+            $id = $this->ID;
+        $select = $as_object ? "*" : "ID";
+        $db->array_query( $trusteeArray, "SELECT $select FROM eZUser_Trustees WHERE OwnerID='$id'" );
+        $ret = array();
+        if ( $as_object )
+        {
+            foreach ( $trusteeArray as $trustee )
+            {
+                $ret[] = new eZUser( $trustee[ $db->fieldName( "UserID" ) ] );
+            }
+        }
+        else
+        {
+            foreach ( $trusteeArray as $trustee )
+            {
+                $ret[] = $trustee[ $db->fieldName( "UserID" ) ];
+            }
+        }
         return $ret;
     }
 

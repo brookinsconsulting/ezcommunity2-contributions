@@ -744,3 +744,12 @@ CREATE TABLE eZMediaCatalouge_CategoryPermission (
   WritePermission int(11) default '0',
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS eZUser_Trustees;
+CREATE TABLE eZUser_Trustees (
+  ID int(11) NOT NULL auto_increment,
+  OwnerID int(11) NOT NULL,
+  UserID int(11) NOT NULL,
+  PRIMARY KEY (ID)
+) TYPE=MyISAM;
+

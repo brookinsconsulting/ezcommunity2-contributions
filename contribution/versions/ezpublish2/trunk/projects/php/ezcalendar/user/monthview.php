@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.26 2001/07/25 10:22:58 jhe Exp $
+// $Id: monthview.php,v 1.27 2001/07/27 06:18:55 jhe Exp $
 //
 // Created on: <27-Dec-2000 14:09:56 bf>
 //
@@ -49,9 +49,9 @@ if ( $user == false )
 else
     $userID = $user->id();
 
-if ( $GetByUserID == false )
+if ( isSet( $GetByUserID ) )
 {
-    $GetByUserID = $userID;
+    $userID = $GetByUserID;
 }
 
 if ( ( $session->variable( "ShowOtherCalenderUsers" ) == false ) ||
@@ -112,8 +112,6 @@ else
     $t->set_var( "month_number", $Month );
     $t->set_var( "year_number", $Year );
     $t->set_var( "week", "" );
-
-
 
     // Draw the week day header.
     $headerDate = new eZDate();
@@ -190,12 +188,12 @@ else
                     // fetch the consultations for today
                     $endDate = new eZDateTime();
                     $endDate->setTimeStamp( $tmpDate->timeStamp() + 86400 );
-                    $consultations =& eZConsultation::findConsultationsByDate( $user, $tmpDate, $endDate );
+                    $consultations =& eZConsultation::findConsultationsByDate( $userID, $tmpDate, $endDate );
                     foreach ( $consultations as $consultation )
                     {
                         $t->set_var( "consultation_id", $consultation->id() );
 
-                        $company_id = $consultation->company( $user->id() );
+                        $company_id = $consultation->company( $userID );
                         if ( $company_id )
                         {
                             $company = new eZCompany( $company_id );
@@ -206,7 +204,7 @@ else
                         }
                         else
                         {
-                            $person_id = $consultation->person( $user->id() );
+                            $person_id = $consultation->person( $userID );
                             if ( $person_id )
                             {
                                 $person = new eZPerson( $person_id );
@@ -330,8 +328,7 @@ else
     // User list
     $user = new eZUser();
     $user_array =& $user->getAll();
-
-    foreach( $user_array as $userItem )
+    foreach ( $user_array as $userItem )
     {
         $t->set_var( "user_id", $userItem->id() );
         $t->set_var( "user_firstname", $userItem->firstName() );
