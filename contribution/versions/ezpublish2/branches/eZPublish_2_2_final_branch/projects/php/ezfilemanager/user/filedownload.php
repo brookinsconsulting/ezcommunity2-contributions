@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: filedownload.php,v 1.20.2.3 2002/03/25 13:51:33 jhe Exp $
+// $Id: filedownload.php,v 1.20.2.4 2002/05/30 07:14:04 bf Exp $
 //
 // Created on: <10-Dec-2000 16:39:10 bf>
 //
@@ -87,18 +87,22 @@ ob_end_clean();
 switch ( $suffix )
 {
     case "doc" :
+    case "DOC" :
         header( "Content-Type: application/msword" );
         break;
     case "ppt" :
+    case "PPT" :
         header( "Content-Type: application/vnd.ms-powerpoint" );
         break;
     case "xls" :
+    case "XLS" :
         header( "Content-Type: application/vnd.ms-excel" );
-        break;    
+        break;
+    case "PDF" :
     case "pdf" :
         header( "Content-Type: application/pdf" );
         break;
-    default :        
+    default :
         header( "Content-Type: application/octet-stream" );
         break;
 }
