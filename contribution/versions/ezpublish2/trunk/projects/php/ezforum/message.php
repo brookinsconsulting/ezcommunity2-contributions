@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: message.php,v 1.26 2000/10/11 14:58:38 bf-cvs Exp $
+// $Id: message.php,v 1.27 2000/10/11 16:47:49 bf-cvs Exp $
 //
 // 
 //
@@ -16,6 +16,8 @@
 include_once( "classes/INIFile.php" );
 
 $ini = new INIFile( "site.ini" ); // get language settings
+
+include_once( "classes/ezlocale.php" );
 
 include_once( "ezforum/classes/ezforummessage.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
@@ -64,14 +66,38 @@ $t->set_var( "postingtime", $message->postingTime() );
 $t->set_var( "body", nl2br( $message->body() ) );
 
 $t->set_var( "reply_id", $message_id );
-$t->set_var( "forum_id", $forum_id );
+$t->set_var( "forum_id", $forum->id() );
 
 
-//  $top_message = $message->getTopMessage( $message_id );
+// print out the replies tree
+$messages = $forum->messageTree( $forum->id(), 0, 2 );
+
+//  $messages = $forum->messages();
+
+$locale = new eZLocale( $Language );
+
+$level = 0;
+foreach ( $messages as $message )
+{
+    $level = $message->level();
     
-//  $messages = $msg->printHeaderTree( $forum_id, $top_message, 0, $DOC_ROOT, $category_id );
+    if ( $level > 0 )
+        $t->set_var( "spacer", str_repeat( "&nbsp;", $level ) );
+    else
+        $t->set_var( "spacer", "" );
+    
+    $t->set_var( "topic", $message->topic() );
 
-//  $t->set_var( "replies", $messages );
+    $t->set_var( "postingtime", $locale->format( $message->postingTime() ) );
+
+    $t->set_var( "message_id", $message->id() );
+
+    $user = $message->user();
+    
+    $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
+
+    $t->parse( "reply", "reply_tpl", true );
+}
 
 $t->pparse( "output", "message_tpl" );
 ?>

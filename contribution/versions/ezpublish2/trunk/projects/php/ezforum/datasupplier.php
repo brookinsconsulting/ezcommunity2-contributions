@@ -14,8 +14,8 @@ switch ( $url_array[2] )
         {
             if ( $url_array[4] == "message" )
             {
-                $message_id = $url_array[6];
-                $forum_id = $url_array[5];
+                $message_id = $url_array[5];
+                $forum_id = $url_array[6];
                 include( "ezforum/message.php" );
             }
             else if ( $url_array[4] == "newpost" )

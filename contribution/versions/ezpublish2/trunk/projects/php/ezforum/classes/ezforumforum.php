@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforumforum.php,v 1.16 2000/10/11 14:58:38 bf-cvs Exp $
+// $Id: ezforumforum.php,v 1.17 2000/10/11 16:47:49 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -175,33 +175,53 @@ class eZForumForum
        
        return $ret;
     }
-    
+
     /*!
-      
+      Returns all the messages and submessages as deep as $level
+
+      Default depth is 3. parent is default set to 0 (top node).
+
+      NOTE: this function is recursive.
     */
-    function getAllForums( $CategoryId = "" )
+    function &messageTree( $forumID, $parent=0, $level=3 )
     {
-        $this->dbInit();
-        
-        if ($CategoryId)
-        {
-            $query_id = mysql_query( "SELECT * FROM ezforum_ForumTable WHERE CategoryId='$CategoryId'" )
-                 or die( "getAllForums() near select all." );
-        }
-        else
-        {
-            $query_id = mysql_query( "SELECT * FROM ezforum_ForumTable" )
-                 or die("getAllForums()");
-        }
-            
-        for ($i = 0; $i < mysql_num_rows( $query_id ); $i++)
-        {
-            $resultArray[$i] = mysql_fetch_array( $query_id );
-        }
-            
-        return $resultArray;
+       $this->dbInit();
+
+       $message_array = array();
+       if ( get_class( $parent ) == "ezforummessage" )
+       {
+           $parentID = $parent->id();
+           
+           $this->Database->array_query( $message_array, "SELECT Id as ID FROM
+                                                       ezforum_MessageTable
+                                                       WHERE ForumId='$forumID' AND Parent='$parentID'" );
+           
+       }
+       else
+       {
+           $this->Database->array_query( $message_array, "SELECT Id as ID FROM
+                                                       ezforum_MessageTable
+                                                       WHERE ForumId='$forumID'" );
+           
+       }
+       
+       // create an empty array the first time
+       if ( $parent == 0 )
+           $ret = array();
+
+       foreach ( $message_array as $message )
+       {
+           $msg = new eZForumMessage( $message["ID"] );
+           
+           $ret[] = $msg;                
+        //     print( $level . $msg . " ");
+           if ( $level )
+               $ret = array_merge( $ret, $this->messageTree( $forumID, $msg, $level-1 ) );
+       }
+       
+       return $ret;
     }
-        
+    
         
     /*!
       Returns the object id.

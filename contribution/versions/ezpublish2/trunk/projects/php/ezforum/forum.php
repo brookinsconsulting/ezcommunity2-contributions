@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: forum.php,v 1.38 2000/10/11 15:04:55 bf-cvs Exp $
+// $Id: forum.php,v 1.39 2000/10/11 16:47:49 bf-cvs Exp $
 //
 // 
 //
@@ -46,7 +46,6 @@ $t->set_var( "forum_id", $forum->id() );
 $t->set_var( "forum_name", $forum->name() );
 
 
-
 // make to $Action .. elo!
 
 $msg = new eZForumMessage( $forum_id );
@@ -84,10 +83,20 @@ if ( $reply )
 
 $locale = new eZLocale( $Language );
 
-$messages = $forum->messages();    
+$messages = $forum->messageTree( $forum->id(), 0, 2 );
 
+//  $messages = $forum->messages();
+
+$level = 0;
 foreach ( $messages as $message )
 {
+    $level = $message->level();
+    
+    if ( $level > 0 )
+        $t->set_var( "spacer", str_repeat( "&nbsp;", $level ) );
+    else
+        $t->set_var( "spacer", "" );
+    
     $t->set_var( "topic", $message->topic() );
 
     $t->set_var( "postingtime", $locale->format( $message->postingTime() ) );
@@ -99,9 +108,9 @@ foreach ( $messages as $message )
     $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
 
     $t->parse( "message", "message_tpl", true );
-}    
+}
     
-$t->set_var( "newmessage", $newmessage);
+$t->set_var( "newmessage", $newmessage );
 
 $t->pparse( "output", "forum_tpl" );
 

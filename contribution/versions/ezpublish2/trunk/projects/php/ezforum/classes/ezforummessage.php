@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.44 2000/10/11 14:17:02 bf-cvs Exp $
+// $Id: ezforummessage.php,v 1.45 2000/10/11 16:47:49 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -75,7 +75,7 @@ class eZForumMessage
 		                         Body='$this->Body',
 		                         UserId='$this->UserID',
 		                         PostingTime='$this->PostingTime',
-		                         Parent='$this->Parent',
+		                         Parent='$this->ParentID',
 		                         EmailNotice='$this->EmailNotice'
                                  " );
 
@@ -91,7 +91,7 @@ class eZForumMessage
 		                         Body='$this->Body',
 		                         UserId='$this->UserID',
 		                         PostingTime='$this->PostingTime',
-		                         Parent='$this->Parent',
+		                         Parent='$this->ParentID',
 		                         EmailNotice='$this->EmailNotice'
                                  WHERE ID='$this->ID'
                                  " );
@@ -137,7 +137,7 @@ class eZForumMessage
                 $this->Topic = $message_array[0][ "Topic" ];
                 $this->Body = $message_array[0][ "Body" ];
                 $this->UserID = $message_array[0][ "UserId" ];
-                $this->Parent = $message_array[0][ "Parent" ];
+                $this->ParentID = $message_array[0][ "Parent" ];
                 $this->PostingTime = $message_array[0][ "PostingTime" ];
                 $this->EmailNotice = $message_array[0][ "EmailNotice" ];
 
@@ -200,14 +200,21 @@ class eZForumMessage
     }
     
     /*!
-      
+      Returns the parent message.
+
+      If the message is a top level message false is returned.
     */      
     function parent()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
+
+       $ret = false;
+
+       if ( $this->ParentID != 0 )
+           $ret = new eZForumMessage( $this->ParentID );
         
-        return $this->Parent;
+       return $ret;
     }
     
     /*!
@@ -463,6 +470,27 @@ class eZForumMessage
     }
 
 
+    /*!
+      Returns the recursive level of the message.
+
+      0 is top node, 1 is a child in the first level etc.
+    */
+    function level( $message=0, $level=0 )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       if ( $message == 0 )
+           $message = $this;
+       
+       if ( $message->parent() )
+       {
+           $level += 1;
+           $level += $this->level(  $message->parent(), $level );
+       }
+
+       return $level;
+    }
 
     /*!
       \private
@@ -480,7 +508,7 @@ class eZForumMessage
 
     var $ID;
     var $ForumID;
-    var $Parent;
+    var $ParentID;
     var $Topic;
     var $Body;
     var $UserID;
