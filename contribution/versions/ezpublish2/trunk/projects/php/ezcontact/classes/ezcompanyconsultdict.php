@@ -87,6 +87,7 @@ class eZCompanyConsultDict
     {
         return $this->CompanyID;
     }
+    
     /*
       Returnerer consultID'en.1
     */
@@ -94,6 +95,18 @@ class eZCompanyConsultDict
     {
         return $this->ConsultID;
     }
+
+    /*
+      Privat: Initiering av database. 
+    */
+    function dbInit()
+    {
+        require "ezcontact/dbsettings.php";
+        mysql_pconnect( $SERVER, $USER, $PWD ) or die( "Kunne ikke kople til database" );
+        mysql_select_db( $DATABASE ) or die( "Kunne ikke velge database" );
+    }
+
+    
 
     var $ID;
     var $CompanyID;

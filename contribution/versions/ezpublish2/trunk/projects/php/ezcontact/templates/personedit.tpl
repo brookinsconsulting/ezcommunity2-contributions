@@ -181,7 +181,7 @@
 <br>
 &nbsp;&nbsp;Kontaktmedium:<br>
 &nbsp;&nbsp;<select name="PhoneType">
-{phone_type}
+{phontype}
 </select>
 
 <br>

@@ -11,6 +11,17 @@
 
    }
 
+   function UpdateConsult( consultTitle, consultID, consultBody )
+   {
+      document.CompanyConsultEdit.ConsultTitle.value = consultTitle;
+      document.CompanyConsultEdit.ConsultID.value = consultID;
+      document.CompanyConsultEdit.ConsultBody.value = consultBody;
+      document.CompanyConsultEdit.ConsultAction.value = 'UpdateConsult';
+      document.CompanyConsultEdit.ConsultSubmit.value = 'Lagre';
+
+   }
+
+
    function UpdateAddress( street1, street2, zip, addressID, addressTypeID )
    {
       document.CompanyAddressEdit.Street1.value = street1;
@@ -192,4 +203,61 @@
 </form>
 	</td>
 </tr>
+
+
+
+
+<tr>
+	<td bgcolor="#3c3c3c">
+	<font color="#ffffff"><b>&nbsp;&nbsp;Registrer ny konsultasjon</b></font>	
+	</td>
+
+	<td bgcolor="#3c3c3c">
+	<font color="#ffffff"><b>&nbsp;&nbsp;Registrerte konsultasjoner</b></font>	
+	</td>
+</tr>
+	<td valign="top" bgcolor="#f0f0f0">
+
+<form method="post" name="CompanyConsultEdit" action="index.php4?page={document_root}companyedit.php4">
+
+<br>
+&nbsp;&nbsp;Konsultasjon:<br>
+&nbsp;&nbsp;
+<br>
+
+&nbsp;&nbsp;<input type="text" name="ConsultTitle" value="{consult_title}">
+<br><br>
+&nbsp;&nbsp;Tekst beskrivelse:<br>
+&nbsp;&nbsp;
+
+<br>
+&nbsp;&nbsp;<textarea rows="5" cols="40" name="ConsultBody">{consult_body}</textarea>
+
+<input type="hidden" name="ConsultID" value="{consult_edit_id}">
+<input type="hidden" name="ConsultAction" value="{consult_action}"><br><br>
+
+&nbsp;&nbsp;<input type="submit" name="ConsultSubmit" value="Legg til">
+<br>
+<br>
+</td>
+<td bgcolor="#f0f0f0">
+	<br>
+	<center>
+	<table width="95%" cellspacing="0" cellpadding="3" border="0">
+	{consult_list}
+	</table>
+	</center>
+
+<input type="hidden" name="CID" value="{company_id}">
+<input type="hidden" name="Action" value="edit">
+
+</form>
+	</td>
+</tr>
+
+
+
+
+
+
 </table>

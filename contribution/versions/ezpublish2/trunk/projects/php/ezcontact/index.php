@@ -1,4 +1,6 @@
 <?
+ob_start();
+
 // brukes for sider som skal redirectes..
 if ( file_exists( $prePage ) )
 {
@@ -100,3 +102,6 @@ else
 
 </body>
 </html>
+<?
+    ob_end_flush();
+?>

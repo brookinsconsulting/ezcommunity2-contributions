@@ -15,6 +15,8 @@ require $DOCUMENTROOT . "classes/ezphone.php";
 require $DOCUMENTROOT . "classes/ezphonetype.php";
 require $DOCUMENTROOT . "classes/ezcompanyphonedict.php";
 require $DOCUMENTROOT . "classes/ezcompanyaddressdict.php";
+require $DOCUMENTROOT . "classes/ezconsult.php";
+require $DOCUMENTROOT . "classes/ezcompanyconsultdict.php";
 
 if ( $Action == "insert" )
 {
@@ -152,6 +154,57 @@ if ( $AddressAction == "AddAddress" )
     $Zip = "";    
 }
 
+// Oppdatere en konsultasjon
+if ( $ConsultAction == "UpdateConsult" )
+{
+    $consult = new eZConsult();
+    $consult->get( $ConsultID );
+    $consult->setTitle( $ConsultTitle );
+    $consult->setBody( $ConsultBody );
+    $consult->update();
+}
+
+// Legge til en konsultasjon
+if ( $ConsultAction == "AddConsult" )
+{
+    // Henter ut brukeren som er logget inn.
+    $session = new eZSession();
+
+    if ( !$session->get( $AuthenticatedSession ) )
+    {
+        die( "Du må logge den på" );
+    }
+
+    $consult = new eZConsult();
+    $consult->setTitle( $ConsultTitle );
+    $consult->setBody( $ConsultBody );
+    $consult->setUserID( $session->userID() );
+    $cid = $consult->store();
+
+    $dict = new eZCompanyConsultDict();
+    $dict->setCompanyID( $CID );
+    $dict->setConsultID( $cid );
+
+    $dict->store();
+
+    $Title = "";
+    $Body = "";
+}
+
+// Slette en konsultasjon
+if ( $ConsultAction == "DeleteConsult" )
+{
+    $consult = new eZConsult();
+    $consult->get( $ConsultID );
+
+    $dict = new eZCompanyConsultDict();
+    $dict->getByConsult( $consult->id());
+
+    $consult->delete();
+    $dict->delete();
+
+    Header( "Location: index.php?page=ezcontact/companyedit.php&Action=edit&CID=" . $CID );
+}
 
 if ( $AddressAction == "UpdateAddress" )
 {
@@ -201,7 +254,8 @@ $t->set_file( array(
     "address_type_select" => $DOCUMENTROOT . "templates/addresstypeselect.tpl",
     "phone_type_select" => $DOCUMENTROOT . "templates/phonetypeselect.tpl",
     "phone_item" => $DOCUMENTROOT . "templates/phoneitem.tpl",
-    "address_item" => $DOCUMENTROOT . "templates/addressitem.tpl"
+    "address_item" => $DOCUMENTROOT . "templates/addressitem.tpl",
+    "consult_item" => $DOCUMENTROOT . "templates/consultcompanyitem.tpl"
     ) );
 
 if ( !isset( $Action ) )
@@ -221,6 +275,7 @@ $phone_type_array = $phoneType->getAll();
 
 $t->set_var( "phone_action_type", "hidden" );
 $t->set_var( "phone_list", "" );
+$t->set_var( "consult_list", "" );
 
 $t->set_var( "address_action_type", "hidden" );
 $t->set_var( "address_list", "" );
@@ -330,8 +385,33 @@ if ( $Action == "edit" )
         
         $t->parse( "address_list", "address_item", true );                
     }
-    
+
+    $consult = new eZConsult();
+    $consult_dict = new eZCompanyConsultDict();
+    $consult_dict_array = $consult_dict->getByCompany( $CID );
+
+    // konsultasjonliste
+    for ( $i=0; $i<count( $consult_dict_array); $i++ )
+    {
+
+        $consult->get( $consult_dict_array[ $i ][ "ConsultID" ] );
+
+        $t->set_var( "consult_id", $consult->id() );
+        $t->set_var( "consult_title", $consult->title() );
+        $t->set_var( "consult_body", $consult->body() );
+        $t->set_var( "company_id", $CID );
+
+        $t->parse( "consult_list", "consult_item", true );
+    }
+
+
+    // template variabler
     $Action = "update";
+
+    $t->set_var( "consult_action", "AddConsult" );
+    $t->set_var( "consult_action_value", "Legg til" );
+    $t->set_var( "consult_action_type", "submit" );
+    $t->set_var( "consult_edit_id", "-1" );
     
     $t->set_var( "address_action", "AddAddress" );    
     $t->set_var( "address_action_value", "Legg til" );
@@ -371,6 +451,10 @@ $t->set_var( "company_comment", $Comment );
 $t->set_var( "street_1", $Street1 );
 $t->set_var( "street_2", $Street2 );
 $t->set_var( "zip_code", $Zip );
+
+$t->set_var( "consult_title", "" );
+$t->set_var( "consult_body", "" );
+$t->set_var( "consult_edit_id", $ConsultID );
 
 $t->set_var( "phone_edit_number", $PhoneNumber );
 $t->set_var( "phone_edit_id", $PhoneID );

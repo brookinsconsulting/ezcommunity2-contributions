@@ -84,7 +84,6 @@ if ( $Action == "insert" )
 // Legge til telefon
 if ( $PhoneAction == "AddPhone" )
 {
-    print ( "banan" );
     $phone = new eZPhone();
     $phone->setNumber( $PhoneNumber );
     $phone->setType( $PhoneType );
@@ -118,7 +117,6 @@ if ( $PhoneAction == "DeletePhone" )
 
     $dict = new eZPersonPhoneDict();
     $dict->getByPhone( $phone->id() );
-    print( "dict id" . $dict->id() );
     
     $phone->delete();
     $dict->delete();
@@ -145,13 +143,8 @@ if ( $ConsultAction == "AddConsult" )
     if ( !$session->get( $AuthenticatedSession ) )
     {
         die( "Du må logge deg på." );    
-    }        
+    }
 
-//    print( $session->userID() );
-
-    
-
-    
     $consult = new eZConsult();
     $consult->setTitle( $ConsultTitle );
     $consult->setBody( $ConsultBody );
@@ -162,8 +155,10 @@ if ( $ConsultAction == "AddConsult" )
     $dict->setPersonID( $PID );
     $dict->setConsultID( $cid );
 
-
     $dict->store();
+
+    $Title = "";
+    $Body = "";
 }
 
 // Slette konsultasjon
@@ -177,7 +172,8 @@ if ( $ConsultAction == "DeleteConsult" )
 
     $consult->delete();
     $dict->delete();
-    
+
+    Header( "Location: index.php?page=ezcontact/personedit.php&Action=edit&PID=" . $PID );
 }
 
 // legge til adresse
@@ -196,7 +192,7 @@ if ( $AddressAction == "AddAddress" )
     $dict->store();
 
     $Street1 = "";
-    $Street2= "";
+    $Street2 = "";
     $Zip = "";    
 }
 
@@ -271,6 +267,7 @@ $t->set_var( "consult_list", "" );
 $t->set_var( "address_action_type", "hidden" );
 $t->set_var( "address_list", "" );
 
+
 // address type selector
 for ( $i=0; $i<count( $address_type_array ); $i++ )
 {
@@ -323,7 +320,6 @@ if ( $Action == "edit" )
     $PersonType = $editPerson->contactType();
 
     $CompanyID = $editPerson->company();
-    print( $CompanyID );
     $Comment = $editPerson->comment();
 
     $message = "Rediger personinformasjon";
@@ -358,8 +354,6 @@ if ( $Action == "edit" )
     $address_dict = new eZPersonAddressDict();
     $address_dict_array = $address_dict->getByPerson( $PID );
     
-    print( "antall:" . count( $address_dict_array ) );
-
     for ( $i=0; $i<count( $address_dict_array ); $i++ )
     {
         $address->get( $address_dict_array[ $i ][ "AddressID" ] );
@@ -385,12 +379,6 @@ if ( $Action == "edit" )
     $consult_dict = new eZPersonConsultDict();
     $consult_dict_array = $consult_dict->getByPerson( $PID );
 
-    print ( "personIIID" . $consult_dict->PersonID() );
-
-
-    print( "antall konsultasjoner:" . count( $consult_dict_array ) );
-
-
     for ( $i=0; $i<count( $consult_dict_array ); $i++ )
     {
 
@@ -400,8 +388,6 @@ if ( $Action == "edit" )
         $t->set_var( "consult_id", $consult->id() );
         $t->set_var( "consult_title", $consult->title() );
         $t->set_var( "consult_body", $consult->body() );
-
-//        print( "ID---->:" . $consult->body() );
 
         $t->set_var( "person_id", $PID );
         
@@ -471,12 +457,16 @@ $t->set_var( "comment", $Comment );
 //  $t->set_var( "street_2", $Street2 );
 //  $t->set_var( "zip_code", $Zip );
 
+//  $t->set_var( "consult_title", $Title );
+//  $t->set_var( "consult_body", $Body );
+
+
 $t->set_var( "street_1", "" );
 $t->set_var( "street_2", "" );
 $t->set_var( "zip_code", "" );
 
-$t->set_var( "consult_title", $ConsultTitle );
-$t->set_var( "consult_body", $ConsultBody );
+$t->set_var( "consult_title", "" );
+$t->set_var( "consult_body", "" );
 $t->set_var( "consult_edit_id", $ConsultID );
 
 $t->set_var( "phone_edit_number", $PhoneNumber );
