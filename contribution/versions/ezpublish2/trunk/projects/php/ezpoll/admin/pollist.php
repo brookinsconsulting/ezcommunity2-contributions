@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: pollist.php,v 1.1 2000/10/09 10:24:02 ce-cvs Exp $
+// $Id: pollist.php,v 1.2 2000/10/10 13:26:03 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -33,6 +33,8 @@ $t->set_file( array(
     "poll_list_page" => "pollist.tpl",
     "poll_item" => "pollitem.tpl"
     ) );
+
+$t->set_block( "poll_list_page", "poll_item_tpl", "poll_item" );
 
 $nopolls = "";
 
@@ -84,7 +86,7 @@ foreach( $pollList as $pollItem )
     $t->set_var( "poll_name", $pollItem->name() );
     $t->set_var( "poll_description", $pollItem->description() );
 
-    $t->parse( "poll_list", "poll_item", true );
+    $t->parse( "poll_item", "poll_item_tpl", true );
     $i++;
 }
 

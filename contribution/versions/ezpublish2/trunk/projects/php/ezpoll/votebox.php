@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: votebox.php,v 1.4 2000/10/09 10:24:01 ce-cvs Exp $
+// $Id: votebox.php,v 1.5 2000/10/10 13:26:02 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -25,15 +25,16 @@ include_once( $DOC_ROOT . "/classes/ezpoll.php" );
 include_once( $DOC_ROOT . "/classes/ezpollchoice.php" );
 
 
-$t = new eZTemplate( $DOC_ROOT . $ini->read_var( "eZPollMain", "TemplateDir" ) . "/pollist/",
+$t = new eZTemplate( $DOC_ROOT . $ini->read_var( "eZPollMain", "TemplateDir" ) . "/vote/",
                      $DOC_ROOT . "/intl/", $Language, "pollist.php" );
 
 $t->setAllStrings();
 
 $t->set_file( array(
-    "vote_form" => "voteform.tpl",
-    "vote_item" => "voteitem.tpl"
+    "vote_form" => "voteform.tpl"
     ) );
+
+$t->set_block( "vote_form", "vote_item_tpl", "vote_item" );
 
 $choice = new eZPollChoice();
 
@@ -44,7 +45,7 @@ foreach( $choiceList as $choiceItem )
     $t->set_var( "choice_name", $choiceItem->name() );
     $t->set_var( "choice_id", $choiceItem->id() );
 
-    $t->parse( "vote_list", "vote_item", true );
+    $t->parse( "vote_item", "vote_item_tpl", true );
     
 }
 

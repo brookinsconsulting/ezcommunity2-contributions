@@ -13,5 +13,17 @@
 	<h3>{intl-closed}</a></h3>
 	</td>
 </tr>
-{poll_list}
+<!-- BEGIN poll_item_tpl -->
+<tr>
+	<td>
+	<a href="/poll/votebox/{poll_id}/">{poll_name}</a>
+	</td>
+	<td>
+	{poll_description}
+	</td>
+	<td>
+	{poll_is_closed}
+	</td>
+</tr>
+<!-- END poll_item_tpl -->
 </table>

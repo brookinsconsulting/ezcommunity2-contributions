@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: polledit.php,v 1.5 2000/10/09 10:24:02 ce-cvs Exp $
+// $Id: polledit.php,v 1.6 2000/10/10 13:26:03 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -139,8 +139,10 @@ $t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZPollMain", "Temp
 
 $t->setAllStrings();
 
-$t->set_file( array( "poll_edit_page" => "polledit.tpl",
-                     "poll_choice_item" => "pollchoiceitem.tpl" ) );
+$t->set_file( array( "poll_edit_page" => "polledit.tpl"
+                     ) );
+
+$t->set_block( "poll_edit_page", "poll_choice_tpl", "poll_choice" );
 
 
 $Action_value = "insert";
@@ -176,7 +178,6 @@ if ( $Action == "Edit" )
     $Action_value = "update";
     $ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/polledit.php.ini", false );
     $headline =  $ini->read_var( "strings", "head_line_edit" );
-
 }
 
 // Poll choice list
@@ -188,7 +189,8 @@ if ( !$pollChoiceList )
 {
     $ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/polledit.php.ini", false );
     $nopolls =  $ini->read_var( "strings", "nopolls" );
-    $t->set_var( "poll_choice_list", "" );
+    $t->set_var( "poll_choice", "" );
+    
 }
 
 foreach( $pollChoiceList as $pollChoiceItem )
@@ -198,7 +200,7 @@ foreach( $pollChoiceList as $pollChoiceItem )
     $vote = new eZVote();
     $t->set_var( "poll_number", $pollChoiceItem->voteCount() );
 
-    $t->parse( "poll_choice_list", "poll_choice_item", true );
+    $t->parse( "poll_choice", "poll_choice_tpl", true );
 }
 
 $t->set_var( "poll_id", $PollID );
