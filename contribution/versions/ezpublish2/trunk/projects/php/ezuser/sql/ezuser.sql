@@ -161,7 +161,7 @@ CREATE TABLE eZUser_User (
 # Dumping data for table 'eZUser_User'
 #
 
-INSERT INTO eZUser_User VALUES (1,'admin','0c947f956f7aa781','admin@nospam.com','admin','user','false');
+INSERT INTO eZUser_User VALUES (1,'admin','0c947f956f7aa781','admin@nospam.com','admin','user','false','');
 
 #
 # Table structure for table 'eZUser_UserAddressLink'
