@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoptionvalue.php,v 1.20 2001/03/13 16:11:34 ce Exp $
+// $Id: ezoptionvalue.php,v 1.21 2001/03/14 10:48:37 bf Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -70,7 +70,7 @@ class eZOptionValue
     function store()
     {
         $db =& eZDB::globalDatabase();
-        $price = $this->Price == "" ? "NULL" : "'$this->Price'";
+        $price = $this->Price == "" ? "0" : "'$this->Price'";
 
         $GLOBALS["DEBUG"] = true;
         if ( !isset( $this->ID ) )
@@ -302,6 +302,7 @@ class eZOptionValue
     */
     function setPrice( $value )
     {
+        print( $value );
         $this->Price = $value;
     }
 

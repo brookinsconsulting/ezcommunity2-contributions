@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: optionedit.php,v 1.19 2001/03/14 10:37:00 jb Exp $
+// $Id: optionedit.php,v 1.20 2001/03/14 10:48:37 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Sep-2000 10:18:33 bf>
@@ -140,7 +140,8 @@ if ( isset( $OK ) )
             if ( is_numeric( $OptionValueID[$i] ) and $OptionValueID[$i] > 0 )
                 $value = new eZOptionValue( $OptionValueID[$i] );
             else
-            $value = new eZOptionValue();
+                $value = new eZOptionValue();
+            
             $value->setPrice( $OptionMainPrice[$i] );
             $value->setOptionID( $option->ID );
             $value->store();
@@ -151,12 +152,15 @@ if ( isset( $OK ) )
 
             eZPriceGroup::removePrices( $ProductID, $option->id(), $value->id() );
 
-            reset( $option_price );
-            while( list($group,$price) = each( $option_price ) )
+            if ( count( $option_price ) > 0 )
             {
-                if ( $price != "" )
+                reset( $option_price );
+                while( list($group,$price) = each( $option_price ) )
                 {
-                    eZPriceGroup::addPrice( $ProductID, $group, $price, $option->id(), $value->id() );
+                    if ( is_numeric( $price ) )
+                    {
+                        eZPriceGroup::addPrice( $ProductID, $group, $price, $option->id(), $value->id() );
+                    }
                 }
             }
         }
