@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.23 2001/01/23 09:59:38 ce Exp $
+// $Id: checkout.php,v 1.24 2001/01/23 10:57:48 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Sep-2000 15:52:08 bf>
@@ -95,6 +95,7 @@ $t->set_block( "cart_item_tpl", "cart_image_tpl", "cart_image" );
 
 $t->set_block( "checkout_tpl", "shipping_address_tpl", "shipping_address" );
 $t->set_block( "checkout_tpl", "billing_address_tpl", "billing_address" );
+$t->set_block( "billing_address_tpl", "billing_option_tpl", "billing_option" );
 $t->set_block( "checkout_tpl", "wish_user_tpl", "wish_user" );
 
 
@@ -148,6 +149,11 @@ if ( $SendOrder == "true" )
     $user = eZUser::currentUser();
     $order->setUser( $user );
 
+    if ( $ini->read_var( "eZTradeMain", "BillingAddress" ) != "Enabled" )
+    {
+        $BillingAddressID = $ShippingAddressID;
+    }
+    
     $shippingAddress = new eZAddress( $ShippingAddressID );
     $billingAddress = new eZAddress( $BillingAddressID );
     
@@ -219,6 +225,8 @@ if ( $SendOrder == "true" )
     $mailTemplate->set_var( "product_ship_hand_string", $tshString );
     
     $user = $order->user();
+
+    print( $user );
     
     $mailTemplate->set_var( "user_first_name", $user->firstName() );
     $mailTemplate->set_var( "user_last_name", $user->lastName() );
@@ -505,11 +513,21 @@ foreach ( $addressArray as $address )
     $t->set_var( "place", $address->place() );
     $country = $address->country();
     $t->set_var( "country", $country->name() );
-    
-    $t->parse( "billing_address", "billing_address_tpl", true );
-        $t->parse( "shipping_address", "shipping_address_tpl", true );
+
+    if ( $ini->read_var( "eZTradeMain", "BillingAddress" ) == "Enabled" )
+        $t->parse( "billing_option", "billing_option_tpl", true );
+    else
+        $t->set_var( "billing_option" );
+        
+    $t->parse( "shipping_address", "shipping_address_tpl", true );
 }
 
+if ( $ini->read_var( "eZTradeMain", "BillingAddress" ) == "Enabled" )
+    $t->parse( "billing_address", "billing_address_tpl", true );
+else
+$t->set_var( "billing_address" );
+   
 $t->pparse( "output", "checkout_tpl" );
+
 
 ?>

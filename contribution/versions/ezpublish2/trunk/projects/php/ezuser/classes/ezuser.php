@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.44 2001/01/22 16:03:15 jb Exp $
+// $Id: ezuser.php,v 1.45 2001/01/23 10:57:48 ce Exp $
 //
 // Definition of eZCompany class
 //
@@ -100,6 +100,8 @@ class eZUser
     {
         $db =& eZDB::globalDatabase();
 
+        $GLOBALS["DEBUG"] = true;
+        
         if ( !isset( $this->ID ) )
         {
             $db->query( "INSERT INTO eZUser_User SET
@@ -537,6 +539,7 @@ class eZUser
         if ( $session->fetch( false ) )
         {
             $val =& $session->variable( "AuthenticatedUser" );
+
             $user = new eZUser( $val );
 
 //              print( $session->variable( "AuthenticatedUser" ) );

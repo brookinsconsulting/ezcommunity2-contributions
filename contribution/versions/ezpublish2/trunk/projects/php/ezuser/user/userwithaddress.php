@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.26 2001/01/23 10:16:26 ce Exp $
+// $Id: userwithaddress.php,v 1.27 2001/01/23 10:57:48 ce Exp $
 //
 // 
 //
@@ -345,9 +345,11 @@ if ( $Action == "Insert" && $error == false )
     $user->setEmail( $Email );
     $user->setFirstName( $FirstName );
     $user->setLastName( $LastName );
-    
+    $user->setSignature( $Signature );
+
     $user->store();
 
+    
     // add user to usergroup
     setType( $AnonymousUserGroup, "integer" );
     
@@ -399,6 +401,7 @@ if ( $Action == "Update" )
     $user->setEmail( $Email );
     $user->setFirstName( $FirstName );
     $user->setLastName( $LastName );
+    $user->setSignature( $Signature );
     
     for ( $i=0; $i<count($AddressID); $i++ )
     {
@@ -552,7 +555,7 @@ if ( $Action == "Edit" )
 
         if ( $mainAddress )
         {
-            $mainAddressID = $mainAddress[0]->id();
+            $mainAddressID = $mainAddress->id();
             
             if ( $address->id() == $mainAddressID )
             {
