@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezusergroup.php,v 1.23 2001/05/04 16:37:27 descala Exp $
+// $Id: ezusergroup.php,v 1.24 2001/05/05 11:16:05 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -459,4 +459,3 @@ class eZUserGroup
 }
 
 ?>
- 

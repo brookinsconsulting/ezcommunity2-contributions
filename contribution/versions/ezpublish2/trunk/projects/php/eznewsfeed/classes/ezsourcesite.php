@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsourcesite.php,v 1.6 2001/05/04 16:37:25 descala Exp $
+// $Id: ezsourcesite.php,v 1.7 2001/05/05 11:16:04 bf Exp $
 //
 // Definition of eZSourceSite class
 //
@@ -445,5 +445,3 @@ class eZSourceSite
 
 
 ?>
-
- 

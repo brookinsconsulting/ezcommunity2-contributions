@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezadcategory.php,v 1.18 2001/05/04 16:37:23 descala Exp $
+// $Id: ezadcategory.php,v 1.19 2001/05/05 11:16:03 bf Exp $
 //
 // Definition of eZAdCategory class
 //
@@ -569,5 +569,3 @@ class eZAdCategory
 }
 
 ?>
-
- 

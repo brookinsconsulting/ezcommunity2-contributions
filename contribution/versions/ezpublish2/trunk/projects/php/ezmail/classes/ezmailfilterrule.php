@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfilterrule.php,v 1.8 2001/05/04 16:37:25 descala Exp $
+// $Id: ezmailfilterrule.php,v 1.9 2001/05/05 11:16:04 bf Exp $
 //
 // eZMailFilterRule class
 //
@@ -588,4 +588,3 @@ class eZMailFilter
 }
 
 ?>
- 

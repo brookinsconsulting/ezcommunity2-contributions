@@ -16,6 +16,9 @@ change: added next, previous
 mod: ezmail/user/ mailview.php.ini, folderedit.php.ini
 change: added cancel
 
+mod: ezarticle/admin sitemap.php.ini, menubox.php.ini
+change: new file, added menu item
+
 mod: ezuser/admin groupedit.php.ini
 change: added root_permission, module_permissions
 
@@ -31,3 +34,4 @@ root=Root
 link_type=Link type
 url_type=URL
 browse=Change type
+

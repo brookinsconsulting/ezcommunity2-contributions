@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.59 2001/05/04 16:37:23 descala Exp $
+// $Id: ezarticlecategory.php,v 1.60 2001/05/05 11:16:03 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -88,6 +88,7 @@ class eZArticleCategory
                                  SortMode='$this->SortMode',
                                  Placement='$this->Placement',  
                                  OwnerID='$this->OwnerID',
+                                 SectionID='$this->SectionID',
                                  ParentID='$this->ParentID'" );
 			$this->ID = $this->Database->insertID();
 
@@ -102,6 +103,7 @@ class eZArticleCategory
                                  SortMode='$this->SortMode',
                                  Placement='$this->Placement',  
                                  OwnerID='$this->OwnerID',
+                                 SectionID='$this->SectionID',
                                  ParentID='$this->ParentID' WHERE ID='$this->ID'" );
         }
         
@@ -172,6 +174,7 @@ class eZArticleCategory
                 $this->SortMode = $category_array[0][ "SortMode" ];
                 $this->OwnerID = $category_array[0][ "OwnerID" ];
                 $this->Placement = $category_array[0][ "Placement" ];
+                $this->SectionID = $category_array[0][ "SectionID" ];
             }
                  
             $this->State_ = "Coherent";
@@ -315,6 +318,23 @@ class eZArticleCategory
         }
 
         return $tree;
+    }
+
+    /*!
+      \static
+      Returns the Section ID. Returns false if the Category was not found.
+    */
+    function sectionIDStatic($categoryID )
+    {
+        $database =& eZDB::globalDatabase();
+        $database->query_single( $res, "SELECT SectionID from eZArticle_Category WHERE ID='$categoryID'");
+        
+        $sectionID = $res[ "SectionID" ];
+
+        if ( $sectionID > 0 )
+            return $sectionID;
+        else
+            return false;
     }
 
     
@@ -1059,6 +1079,7 @@ class eZArticleCategory
     var $SortMode;
     var $OwnerID;
     var $Placement;
+    var $SectionID;
     
     ///  Variable for keeping the database connection.
     var $Database;
@@ -1070,5 +1091,3 @@ class eZArticleCategory
 }
 
 ?>
-
- 

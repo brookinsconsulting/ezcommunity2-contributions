@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.40 2001/05/04 16:37:25 descala Exp $
+// $Id: ezsession.php,v 1.41 2001/05/05 11:16:04 bf Exp $
 //
 // Definition of eZSession class
 //
@@ -483,4 +483,3 @@ class eZSession
 }
 
 ?>
- 

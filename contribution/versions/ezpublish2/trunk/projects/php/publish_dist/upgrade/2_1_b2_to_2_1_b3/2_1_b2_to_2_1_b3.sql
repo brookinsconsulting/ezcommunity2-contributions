@@ -1,3 +1,10 @@
+# 
+# Sections
+#
+alter table eZArticle_Category add SectionID int not null; 
+
+create table eZSection_Section( ID int primary key auto_increment, Name char(200) );  
+
 alter table eZUser_Group add IsRoot int(1) default '0';
 ALTER TABLE eZTrade_Link ADD ModuleType int(11) NOT NULL;
 CREATE TABLE eZModule_LinkModuleType

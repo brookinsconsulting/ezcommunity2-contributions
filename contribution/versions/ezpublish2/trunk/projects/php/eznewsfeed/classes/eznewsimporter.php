@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsimporter.php,v 1.9 2001/02/09 13:26:10 fh Exp $
+// $Id: eznewsimporter.php,v 1.10 2001/05/05 11:16:04 bf Exp $
 //
 // Definition of eZNewsImporter class
 //
@@ -145,3 +145,5 @@ class eZNewsImporter
     var $CategoryID;
     var $AutoPublish;
 }
+
+?>

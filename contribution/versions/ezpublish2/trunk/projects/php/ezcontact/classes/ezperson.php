@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.52 2001/05/04 16:37:24 descala Exp $
+// $Id: ezperson.php,v 1.53 2001/05/05 11:16:03 bf Exp $
 //
 // Definition of eZPerson class
 //
@@ -974,4 +974,3 @@ class eZPerson
 };
 
 ?>
- 

@@ -1,5 +1,5 @@
 <?
-// $Id: eztodo.php,v 1.22 2001/05/04 16:37:26 descala Exp $
+// $Id: eztodo.php,v 1.23 2001/05/05 11:16:04 bf Exp $
 //
 // Definition of eZTodo class
 //
@@ -613,4 +613,5 @@ class eZTodo
     /// Is true if the object has database connection, false if not.
     var $IsConnected;
 }
- 
+
+?>

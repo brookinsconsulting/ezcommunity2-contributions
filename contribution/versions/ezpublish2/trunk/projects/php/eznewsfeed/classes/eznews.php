@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznews.php,v 1.14 2001/05/04 16:37:25 descala Exp $
+// $Id: eznews.php,v 1.15 2001/05/05 11:16:04 bf Exp $
 //
 // Definition of eZNews class
 //
@@ -673,5 +673,3 @@ class eZNews
 
 
 ?>
-
- 

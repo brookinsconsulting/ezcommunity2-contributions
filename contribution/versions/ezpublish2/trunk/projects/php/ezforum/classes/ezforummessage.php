@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.86 2001/05/04 16:29:26 descala Exp $
+// $Id: ezforummessage.php,v 1.87 2001/05/05 11:16:04 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -780,4 +780,3 @@ class eZForumMessage
     var $State_;
 }
 ?>
- 

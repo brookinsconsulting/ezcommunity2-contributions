@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbenchmark.php,v 1.2 2001/04/03 14:39:30 bf Exp $
+// $Id: ezbenchmark.php,v 1.3 2001/05/05 11:16:03 bf Exp $
 //
 // Definition of eZTextTool class
 //
@@ -94,3 +94,5 @@ class eZBenchmark
     var $StartTime;
     var $StopTime;
 }
+
+?>

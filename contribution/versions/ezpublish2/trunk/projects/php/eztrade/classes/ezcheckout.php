@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcheckout.php,v 1.3 2001/03/07 11:36:34 bf Exp $
+// $Id: ezcheckout.php,v 1.4 2001/05/05 11:16:04 bf Exp $
 //
 // Definition of eZCheckout class
 //
@@ -82,4 +82,3 @@ class eZCheckout
 
 
 ?>
-

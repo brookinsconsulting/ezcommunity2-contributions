@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.15 2001/05/04 09:58:09 fh Exp $
+// $Id: ezobjectpermission.php,v 1.16 2001/05/05 11:16:05 bf Exp $
 //
 // Definition of eZObjectPermission class
 //
@@ -345,7 +345,7 @@ class eZObjectPermission
         }
 
         $database =& eZDB::globalDatabase();
-        if( $user->hasRootAccess() )
+        if ( get_class( $user ) == "ezuser" and $user->hasRootAccess() )
             $query =  "SELECT $SQLReturn FROM $tableName";
         else
             $query = "SELECT $SQLReturn FROM $tableName WHERE ( $SQLGroups ) AND $SQLPermission";
@@ -375,9 +375,9 @@ class eZObjectPermission
 }
 
     
-/*
+/*!
   Returns table names.
- */
+*/
 function getTableName( $name )
 {
     $ret = "";

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezrdfimporter.php,v 1.7 2001/03/12 14:32:15 bf Exp $
+// $Id: ezrdfimporter.php,v 1.8 2001/05/05 11:16:04 bf Exp $
 //
 // Definition of ezrdfimporter class
 //
@@ -137,6 +137,4 @@ class eZRDFImporter
     var $Password;    
 }
 
-
-
-
+?>

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.32 2001/05/04 16:37:26 descala Exp $
+// $Id: ezorder.php,v 1.33 2001/05/05 11:16:04 bf Exp $
 //
 // Definition of eZOrder class
 //
@@ -710,4 +710,3 @@ class eZOrder
 }
 
 ?>
- 

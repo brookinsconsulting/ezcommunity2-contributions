@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfolder.php,v 1.18 2001/05/04 16:37:24 descala Exp $
+// $Id: ezvirtualfolder.php,v 1.19 2001/05/05 11:16:04 bf Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -534,5 +534,3 @@ class eZVirtualFolder
 }
 
 ?>
-
- 

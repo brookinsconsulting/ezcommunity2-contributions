@@ -6,7 +6,6 @@ include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
-
 $PageCaching = $ini->read_var( "eZArticleMain", "PageCaching" );
 $UserComments = $ini->read_var( "eZArticleMain", "UserComments" );
 
@@ -63,7 +62,9 @@ switch ( $url_array[2] )
         else
             $user = 0;
 //        print( "Checking category: $CategoryID <br>" );
-        
+
+        $GlobalSectionID = eZArticleCategory::sectionIDStatic( $CategoryID );
+
         if ( $PageCaching == "enabled" )
         {
             //$CategoryID = $url_array[3];
@@ -196,7 +197,9 @@ switch ( $url_array[2] )
             }
         }
         else
-            $user = 0;        
+            $user = 0;
+
+        $GlobalSectionID = eZArticleCategory::sectionIDStatic( $CategoryID );
         
         if ( $PageCaching == "enabled" )
         {

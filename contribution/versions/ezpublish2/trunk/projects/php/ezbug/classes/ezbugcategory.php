@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugcategory.php,v 1.7 2001/05/04 16:37:23 descala Exp $
+// $Id: ezbugcategory.php,v 1.8 2001/05/05 11:16:03 bf Exp $
 //
 // Definition of eZBugCategory class
 //
@@ -345,4 +345,3 @@ class eZBugCategory
 }
 
 ?>
- 

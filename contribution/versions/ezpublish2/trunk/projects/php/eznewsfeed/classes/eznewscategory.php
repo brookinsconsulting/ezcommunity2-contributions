@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewscategory.php,v 1.11 2001/05/04 16:37:25 descala Exp $
+// $Id: eznewscategory.php,v 1.12 2001/05/05 11:16:04 bf Exp $
 //
 // Definition of eZNewsCategory class
 //
@@ -545,6 +545,3 @@ class eZNewsCategory
 }
 
 ?>
-
-
- 

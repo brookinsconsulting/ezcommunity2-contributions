@@ -4,6 +4,7 @@ header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT");
 header("Cache-Control: no-cache, must-revalidate"); 
 header("Pragma: no-cache");
 
+
 include_once( "classes/ezbenchmark.php" );
 $bench = new eZBenchmark();
 $bench->start();
@@ -47,6 +48,7 @@ if ( $iso != false )
 // Design
 include_once( "ezsession/classes/ezsession.php" );
 include_once( "ezuser/classes/ezuser.php" );
+
 
 $session =& eZSession::globalSession();
 
@@ -256,7 +258,6 @@ eZDB::close();
 $bench->stop();
 
 $bench->printResults();
-
 
 ob_end_flush();
 ?>

@@ -1,8 +1,8 @@
-<?
+<?php
 // 
-// $Id: ezuser.php,v 1.65 2001/05/04 16:37:27 descala Exp $
+// $Id: ezuser.php,v 1.66 2001/05/05 11:16:05 bf Exp $
 //
-// Definition of eZCompany class
+// Definition of eZUser class
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Sep-2000 18:47:27 bf>
@@ -974,4 +974,3 @@ class eZUser
 }
 
 ?>
- 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmail.php,v 1.12 2001/05/04 16:37:24 descala Exp $
+// $Id: ezbulkmail.php,v 1.13 2001/05/05 11:16:03 bf Exp $
 //
 // eZBulkMail class
 //
@@ -464,4 +464,3 @@ class eZBulkMail
 }
 
 ?>
- 

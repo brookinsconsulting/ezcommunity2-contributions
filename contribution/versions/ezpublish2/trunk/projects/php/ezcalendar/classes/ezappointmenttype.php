@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezappointmenttype.php,v 1.6 2001/02/22 15:38:37 gl Exp $
+// $Id: ezappointmenttype.php,v 1.7 2001/05/05 11:16:03 bf Exp $
 //
 // Definition of eZAppointmentType class
 //
@@ -359,7 +359,7 @@ class eZAppointmentType
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = eZDB::globalDatabase();
+            $this->Database =& eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }
@@ -379,4 +379,3 @@ class eZAppointmentType
 }
 
 ?>
-

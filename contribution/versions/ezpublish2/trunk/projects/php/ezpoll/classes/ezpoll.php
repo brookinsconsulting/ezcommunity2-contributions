@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpoll.php,v 1.18 2001/05/04 16:37:25 descala Exp $
+// $Id: ezpoll.php,v 1.19 2001/05/05 11:16:04 bf Exp $
 //
 // Definition of eZPoll class
 //
@@ -466,4 +466,5 @@ class eZPoll
     var $State_;
     var $IsConnected;
 }
- 
+
+?>

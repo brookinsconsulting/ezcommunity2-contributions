@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.78 2001/05/05 10:45:56 jb Exp $
+// $Id: ezarticle.php,v 1.79 2001/05/05 11:16:03 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1711,6 +1711,4 @@ class eZArticle
     var $IsConnected;
 }
 
-
 ?>
- 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoptionvalue.php,v 1.25 2001/05/04 16:37:26 descala Exp $
+// $Id: ezoptionvalue.php,v 1.26 2001/05/05 11:16:04 bf Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -399,4 +399,3 @@ class eZOptionValue
 }
 
 ?>
- 

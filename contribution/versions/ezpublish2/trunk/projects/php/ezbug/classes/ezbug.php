@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbug.php,v 1.24 2001/05/04 16:37:23 descala Exp $
+// $Id: ezbug.php,v 1.25 2001/05/05 11:16:03 bf Exp $
 //
 // Definition of eZBug class
 //
@@ -907,4 +907,3 @@ class eZBug
 }
 
 ?>
- 

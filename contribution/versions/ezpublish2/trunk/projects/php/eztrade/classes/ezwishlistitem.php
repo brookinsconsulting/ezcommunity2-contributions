@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezwishlistitem.php,v 1.8 2001/05/04 16:37:27 descala Exp $
+// $Id: ezwishlistitem.php,v 1.9 2001/05/05 11:16:05 bf Exp $
 //
 // Definition of eZWishItem class
 //
@@ -467,4 +467,3 @@ class eZWishListItem
 }
 
 ?>
- 

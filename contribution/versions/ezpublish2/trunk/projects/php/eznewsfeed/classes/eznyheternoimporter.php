@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznyheternoimporter.php,v 1.4 2000/11/27 11:19:44 bf-cvs Exp $
+// $Id: eznyheternoimporter.php,v 1.5 2001/05/05 11:16:04 bf Exp $
 //
 // Definition of eZNyhterNOImporter class
 //
@@ -196,3 +196,5 @@ class eZNyheterNOImporter
     var $Login;
     var $Password;    
 }
+
+?>

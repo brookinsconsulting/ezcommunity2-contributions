@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezappointment.php,v 1.16 2001/02/22 15:38:37 gl Exp $
+// $Id: ezappointment.php,v 1.17 2001/05/05 11:16:03 bf Exp $
 //
 // Definition of eZAppointment class
 //
@@ -601,4 +601,3 @@ class eZAppointment
 }
 
 ?>
-

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleheaderlist.php,v 1.8 2001/04/04 12:14:02 fh Exp $
+// $Id: articleheaderlist.php,v 1.9 2001/05/05 11:16:03 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Oct-2000 21:15:58 bf>
@@ -131,8 +131,11 @@ $i=0;
 $t->set_var( "article_list", "" );
 foreach ( $articleList as $article )
 {
-    if( eZObjectPermission::hasPermission( $article->id(), "article_article", 'r' ) )
+    if ( eZObjectPermission::hasPermission( $article->id(), "article_article", 'r' ) )
     {
+        $catDef =& $article->categoryDefinition();
+        $t->set_var( "category_id", $catDef->id() );
+        
         $t->set_var( "article_id", $article->id() );
         $t->set_var( "article_name", $article->name() );
         $def = $article->categoryDefinition();
