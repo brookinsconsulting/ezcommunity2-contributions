@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezquote.php,v 1.7 2001/02/04 13:51:42 jb Exp $
+// $Id: ezquote.php,v 1.8 2001/02/04 19:31:29 jb Exp $
 //
 // Definition of eZQuote class
 //
@@ -349,7 +349,21 @@ class eZQuote
 
         if ( is_numeric( $price ) )
         {
-            $price_text = "AND Q.Price='$price'";
+            switch( $type )
+            {
+                case "offer":
+                {
+                    $price = -$price;
+                    $price_text = "AND Q.Price='$price'";
+                    break;
+                }
+                case "rfq":
+                case "quote":
+                {
+                    $price_text = "AND Q.Price='$price'";
+                    break;
+                }
+            }
         }
 
         $db->array_query( $qry_array, "SELECT Q.ID FROM eZExchange_UserProductQuoteDict AS UPQD,

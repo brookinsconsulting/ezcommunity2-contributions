@@ -7,8 +7,14 @@
 {intl-your_quote}:
 {intl-product}: {product_name}
 {intl-quantity}: {quantity}
+{intl-used_quantity}: {used_quantity}
 {intl-price}: {price}
-{intl-type}: {type}
+<!-- BEGIN body_type_all_tpl -->
+{intl-type}: {intl-type_all}
+<!-- END body_type_all_tpl -->
+<!-- BEGIN body_type_any_tpl -->
+{intl-type}: {intl-type_any}
+<!-- END body_type_any_tpl -->
 
 {intl-contact_pre}Trade Centrum{intl-contact_post}
 

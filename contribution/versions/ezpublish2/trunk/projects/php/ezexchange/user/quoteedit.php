@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: quoteedit.php,v 1.6 2001/02/04 13:10:38 jb Exp $
+// $Id: quoteedit.php,v 1.7 2001/02/04 19:31:29 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <30-Jan-2001 14:54:24 amos>
@@ -26,12 +26,14 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
+include_once( "classes/ezcurrency.php" );
 include_once( "classes/ezdate.php" );
 include_once( "classes/ezmail.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "ezexchange/classes/ezquote.php" );
 
-function sendMails( &$ini, &$quote, &$offer, &$product_name, &$customer, &$supplier, &$Language )
+function sendMails( &$ini, &$locale, &$quote, &$offer, $quote_quantity, $offer_quantity,
+                    &$product_name, &$customer, &$supplier, &$Language )
 {
     $admin = $ini->read_var( "eZExchangeMain", "SiteAdmin" );
     $admin_mail = $ini->read_var( "eZExchangeMain", "SiteAdminMail" );
@@ -43,11 +45,21 @@ function sendMails( &$ini, &$quote, &$offer, &$product_name, &$customer, &$suppl
     $mail_c_t->set_file( "customer_mail", "customermail.tpl" );
     $mail_c_t->set_block( "customer_mail", "subject_tpl", "subject" );
     $mail_c_t->set_block( "customer_mail", "body_tpl", "body" );
+    $mail_c_t->set_block( "body_tpl", "body_type_all_tpl", "body_type_all" );
+    $mail_c_t->set_block( "body_tpl", "body_type_any_tpl", "body_type_any" );
+
+    $mail_c_t->set_var( "body_type_all", "" );
+    $mail_c_t->set_var( "body_type_any", "" );
 
     $mail_c_t->set_var( "product_name", $product_name );
     $mail_c_t->set_var( "quantity", $quote->quantity() );
-    $mail_c_t->set_var( "price", $quote->price() );
-    $mail_c_t->set_var( "type", $quote->type() );
+    $mail_c_t->set_var( "used_quantity", $quote_quantity );
+    $currency = new eZCurrency( $quote->price() );
+    $mail_c_t->set_var( "price", $locale->format( $currency ) );
+    if ( $quote->type() == QUOTE_ALL_TYPE )
+        $mail_c_t->parse( "body_type_all", "body_type_all_tpl" );
+    else
+        $mail_c_t->parse( "body_type_any", "body_type_any_tpl" );
 
     $customer_mail = new eZMail();
     $customer_mail->setFromName( $admin );
@@ -69,11 +81,21 @@ function sendMails( &$ini, &$quote, &$offer, &$product_name, &$customer, &$suppl
     $mail_s_t->set_file( "supplier_mail", "suppliermail.tpl" );
     $mail_s_t->set_block( "supplier_mail", "subject_tpl", "subject" );
     $mail_s_t->set_block( "supplier_mail", "body_tpl", "body" );
+    $mail_s_t->set_block( "body_tpl", "body_type_all_tpl", "body_type_all" );
+    $mail_s_t->set_block( "body_tpl", "body_type_any_tpl", "body_type_any" );
+
+    $mail_s_t->set_var( "body_type_all", "" );
+    $mail_s_t->set_var( "body_type_any", "" );
 
     $mail_s_t->set_var( "product_name", $product_name );
     $mail_s_t->set_var( "quantity", $offer->quantity() );
-    $mail_s_t->set_var( "price", $offer->price() );
-    $mail_s_t->set_var( "type", $offer->type() );
+    $mail_s_t->set_var( "used_quantity", $offer_quantity );
+    $currency = new eZCurrency( $offer->price() );
+    $mail_s_t->set_var( "price", $locale->format( $currency ) );
+    if ( $offer->type() == QUOTE_ALL_TYPE )
+        $mail_s_t->parse( "body_type_all", "body_type_all_tpl" );
+    else
+        $mail_s_t->parse( "body_type_any", "body_type_any_tpl" );
 
     $supplier_mail = new eZMail();
     $supplier_mail->setFromName( $admin );
@@ -95,14 +117,34 @@ function sendMails( &$ini, &$quote, &$offer, &$product_name, &$customer, &$suppl
     $mail_a_t->set_file( "siteadmin_mail", "siteadminmail.tpl" );
     $mail_a_t->set_block( "siteadmin_mail", "subject_tpl", "subject" );
     $mail_a_t->set_block( "siteadmin_mail", "body_tpl", "body" );
+    $mail_a_t->set_block( "body_tpl", "quote_type_all_tpl", "quote_type_all" );
+    $mail_a_t->set_block( "body_tpl", "quote_type_any_tpl", "quote_type_any" );
+    $mail_a_t->set_block( "body_tpl", "offer_type_all_tpl", "offer_type_all" );
+    $mail_a_t->set_block( "body_tpl", "offer_type_any_tpl", "offer_type_any" );
+
+    $mail_a_t->set_var( "quote_type_all", "" );
+    $mail_a_t->set_var( "quote_type_any", "" );
+    $mail_a_t->set_var( "offer_type_all", "" );
+    $mail_a_t->set_var( "offer_type_any", "" );
 
     $mail_a_t->set_var( "product_name", $product_name );
     $mail_a_t->set_var( "quote_quantity", $quote->quantity() );
-    $mail_a_t->set_var( "quote_price", $quote->price() );
-    $mail_a_t->set_var( "quote_type", $quote->type() );
+    $mail_a_t->set_var( "used_quote_quantity", $quote_quantity );
+    $currency = new eZCurrency( $quote->price() );
+    $mail_a_t->set_var( "quote_price", $locale->format( $currency ) );
+    if ( $quote->type() == QUOTE_ALL_TYPE )
+        $mail_a_t->parse( "quote_type_all", "quote_type_all_tpl" );
+    else
+        $mail_a_t->parse( "quote_type_any", "quote_type_any_tpl" );
+
     $mail_a_t->set_var( "offer_quantity", $offer->quantity() );
-    $mail_a_t->set_var( "offer_price", $offer->price() );
-    $mail_a_t->set_var( "offer_type", $offer->type() );
+    $mail_a_t->set_var( "used_offer_quantity", $offer_quantity );
+    $currency = new eZCurrency( $offer->price() );
+    $mail_a_t->set_var( "offer_price", $locale->format( $currency ) );
+    if ( $offer->type() == QUOTE_ALL_TYPE )
+        $mail_a_t->parse( "offer_type_all", "offer_type_all_tpl" );
+    else
+        $mail_a_t->parse( "offer_type_any", "offer_type_any_tpl" );
 
     $mail_a_t->set_var( "customer_name", $customer->name() );
     $mail_a_t->set_var( "customer_id", $customer->id() );
@@ -124,7 +166,8 @@ function sendMails( &$ini, &$quote, &$offer, &$product_name, &$customer, &$suppl
     $siteadmin_mail->send();
 }
 
-function showNotice( &$ini, &$module, &$Language, &$quote, &$product_name, &$ProductID, &$CategoryID )
+function showNotice( &$ini, &$locale, &$module, &$Language, &$quote, &$used_quantity,
+                     &$product_name, &$ProductID, &$CategoryID )
 {
     $t = new eZTemplate( "$module/user/" . $ini->read_var( "eZExchangeMain", "TemplateDir" ),
                          "$module/user/intl/", $Language, "productmatch.php" );
@@ -134,17 +177,30 @@ function showNotice( &$ini, &$module, &$Language, &$quote, &$product_name, &$Pro
     $t->set_block( "product_match_tpl", "match_offer_tpl", "match_offer" );
     $t->set_block( "product_match_tpl", "match_quote_tpl", "match_quote" );
 
+    $t->set_block( "product_match_tpl", "match_type_all_tpl", "match_type_all" );
+    $t->set_block( "product_match_tpl", "match_type_any_tpl", "match_type_any" );
+
     $t->set_var( "match_offer", "" );
     $t->set_var( "match_quote", "" );
 
-    if ( $quote->quoteState() == "offer" )
+    $t->set_var( "match_type_all", "" );
+    $t->set_var( "match_type_any", "" );
+
+    if ( $quote->quoteState() == OFFER_TYPE )
         $t->parse( "match_offer", "match_offer_tpl" );
     else
         $t->parse( "match_quote", "match_quote_tpl" );
 
+    if ( $quote->type() == QUOTE_ALL_TYPE )
+        $t->parse( "match_type_all", "match_type_all_tpl" );
+    else
+        $t->parse( "match_type_any", "match_type_any_tpl" );
+
     $t->set_var( "product_name", $product_name );
-    $t->set_var( "quantity", $quote->quantity() );
-    $t->set_var( "price", $quote->price() );
+    $t->set_var( "quantity", $used_quantity );
+    $t->set_var( "remain_quantity", $quote->quantity() - $used_quantity );
+    $currency = new eZCurrency( $quote->price() );
+    $t->set_var( "price", $locale->format( $currency ) );
     $t->set_var( "type", $quote->type() );
     $t->set_var( "product_id", $ProductID );
     $t->set_var( "category_id", $CategoryID );
@@ -152,6 +208,142 @@ function showNotice( &$ini, &$module, &$Language, &$quote, &$product_name, &$Pro
     $t->setAllStrings();
 
     $t->pparse( "output", "product_match_tpl" );
+}
+
+function matchAllAll( &$quote, &$offer, &$ini, &$locale, &$module, &$Language,
+                      &$product_name, &$ProductID, &$CategoryID )
+{
+    $q_quan = $quote->quantity();
+    $o_quan = $offer->quantity();
+    settype( $q_quan, "double" );
+    settype( $o_quan, "double" );
+    if ( $q_quan == $o_quan )
+    {
+        $customer = $quote->user( false, true );
+        $supplier = $offer->user( false, true );
+
+        sendMails( $ini, $locale, $quote, $offer, $quote->quantity(), $offer->quantity(),
+                   $product_name, $customer, $supplier, $Language );
+        $used_quantity = $offer->quantity();
+
+        showNotice( $ini, $locale, $module, $Language, $offer, $used_quantity,
+                    $product_name, $ProductID, $CategoryID );
+
+        $quote->delete();
+        $offer->delete();
+
+        return true;
+    }
+    return false;
+}
+
+function matchAllPartial( &$quote, &$offer, &$ini, &$locale, &$module, &$Language,
+                          &$product_name, &$ProductID, &$CategoryID )
+{
+    $q_quan = $quote->quantity();
+    $o_quan = $offer->quantity();
+    settype( $q_quan, "double" );
+    settype( $o_quan, "double" );
+    if ( $q_quan <= $o_quan )
+    {
+        $customer = $quote->user( false, true );
+        $supplier = $offer->user( false, true );
+
+        sendMails( $ini, $locale, $quote, $offer, $quote->quantity(), $quote->quantity(),
+                   $product_name, $customer, $supplier, $Language );
+
+        $used_quantity = $quote->quantity();
+
+        showNotice( $ini, $locale, $module, $Language, $offer, $used_quantity,
+                    $product_name, $ProductID, $CategoryID );
+
+        if ( $quote->quantity() == $offer->quantity() )
+        {
+            $offer->delete();
+        }
+        else
+        {
+            $offer->setQuantity( $offer->quantity() - $quote->quantity() );
+            $offer->store();
+        }
+        $quote->delete();
+
+        return true;
+    }
+    return false;
+}
+
+function matchPartialAll( &$quote, &$offer, &$ini, &$locale, &$module, &$Language,
+                          &$product_name, &$ProductID, &$CategoryID )
+{
+    $q_quan = $quote->quantity();
+    $o_quan = $offer->quantity();
+    settype( $q_quan, "double" );
+    settype( $o_quan, "double" );
+    if ( $q_quan >= $o_quan )
+    {
+        $customer = $quote->user( false, true );
+        $supplier = $offer->user( false, true );
+
+        sendMails( $ini, $locale, $quote, $offer, $offer->quantity(), $offer->quantity(),
+                   $product_name, $customer, $supplier, $Language );
+
+        $used_quantity = $offer->quantity();
+
+        showNotice( $ini, $locale, $module, $Language, $offer, $used_quantity,
+                    $product_name, $ProductID, $CategoryID );
+
+        if ( $quote->quantity() == $offer->quantity() )
+        {
+            $quote->delete();
+        }
+        else
+        {
+            $quote->setQuantity( $quote->quantity() - $offer->quantity() );
+            $quote->store();
+        }
+        $offer->delete();
+
+        return true;
+    }
+    return false;
+}
+
+function matchPartialPartial( &$quote, &$offer, &$ini, &$locale, &$module, &$Language,
+                              &$product_name, &$ProductID, &$CategoryID )
+{
+    $min_quantity = min( $quote->quantity(), $offer->quantity() );
+    $customer = $quote->user( false, true );
+    $supplier = $offer->user( false, true );
+
+    sendMails( $ini, $locale, $quote, $offer, $min_quantity, $min_quantity,
+               $product_name, $customer, $supplier, $Language );
+
+    $used_quantity = $min_quantity;
+
+    showNotice( $ini, $locale, $module, $Language, $offer, $used_quantity,
+                $product_name, $ProductID, $CategoryID );
+
+    if ( $quote->quantity() == $min_quantity )
+    {
+        $quote->delete();
+    }
+    else
+    {
+        $quote->setQuantity( $quote->quantity() - $min_quantity );
+        $quote->store();
+    }
+    if ( $offer->quantity() == $min_quantity )
+    {
+        $offer->delete();
+    }
+    else
+    {
+        $offer->setQuantity( $offer->quantity() - $min_quantity );
+        $offer->store();
+    }
+
+    return true;
 }
 
 $ini =& $GlobalSiteIni;
@@ -178,11 +370,13 @@ if ( is_numeric( $ProductID ) )
     {
         case "offer":
         {
+            $best_quote = eZQuote::bestPricedQuote( $ProductID, true );
             $quote = eZQuote::getUserOffer( $ProductID, true );
             break;
         }
         case "request":
         {
+            $best_quote = eZQuote::bestPricedQuote( $ProductID, true );
             $quote = eZQuote::getUserOffer( $ProductID, true );
             if ( get_class( $quote ) == "ezquote" )
             {
@@ -196,12 +390,13 @@ if ( is_numeric( $ProductID ) )
         case "rfq":
         case "quote":
         {
+            $best_quote = eZQuote::bestPricedOffer( $ProductID, true );
             $quote = eZQuote::getUserQuote( $ProductID, true );
             if ( get_class( $quote ) != "ezquote" )
                 $quote = eZQuote::getUserRFQ( $ProductID, true );
         }
     }
-    if ( $quote )
+    if ( $quote and get_class( $quote ) == "ezquote" )
     {
         $old_expire = $expire = $quote->expireDays();
         $expire_date = $quote->expireDate();
@@ -219,6 +414,7 @@ if ( get_class( $quote ) == "ezquote" and $quote->quoteState() == "rfq" and $Act
     $Action = "rfq";
 
 $today = new eZDate();
+$locale = new eZLocale( $Language );
 
 if ( isset( $QuoteType ) )
     $quote_type = $QuoteType;
@@ -341,120 +537,66 @@ if ( isset( $OK ) )
                 {
                     if ( $quote_match->type() == QUOTE_ALL_TYPE && $quote_type == QUOTE_ALL_TYPE )
                     {
-                        if ( $quote_match->quantity() == $quantity )
-                        {
-                            $customer = $quote_match->user( false, true );
-                            $supplier = $quote->user( false, true );
-                            $match = true;
-
-                            sendMails( $ini, $quote_match, $quote, $product_name,
-                                       $customer, $supplier, $Language );
-
-                            showNotice( $ini, $module, $Language, $quote,
-                                        $product_name, $ProductID, $CategoryID );
-
-                            $quote_match->delete();
-                            $quote->delete();
-
-                            break;
-                        }
+                        $match = matchAllAll( $quote_match, $quote,
+                                              $ini, $locale, $module, $Language, $product_name,
+                                              $ProductID, $CategoryID );
                     }
                     else if ( $quote_match->type() == QUOTE_ALL_TYPE && $quote_type == QUOTE_PARTIAL_TYPE )
                     {
-                        if ( $quote_match->quantity() <= $quantity )
-                        {
-                            $customer = $quote_match->user( false, true );
-                            $supplier = $quote->user( false, true );
-                            $match = true;
-
-                            sendMails( $ini, $quote_match, $quote, $product_name,
-                                       $customer, $supplier, $Language );
-
-                            showNotice( $ini, $module, $Language, $quote,
-                                        $product_name, $ProductID, $CategoryID );
-
-                            if ( $quote_match->quantity() == $quantity )
-                            {
-                                $quote->delete();
-                            }
-                            else
-                            {
-                                $quote->setQuantity( $quantity - $quote_match->quantity() );
-                                $quote->store();
-                            }
-                            $quote_match->delete();
-
-                            break;
-                        }
+                        $match = matchAllPartial( $quote_match, $quote,
+                                                  $ini, $locale, $module, $Language, $product_name,
+                                                  $ProductID, $CategoryID );
                     }
                     else if ( $quote_match->type() == QUOTE_PARTIAL_TYPE && $quote_type == QUOTE_ALL_TYPE )
                     {
-                        if ( $quote_match->quantity() >= $quantity )
-                        {
-                            $customer = $quote_match->user( false, true );
-                            $supplier = $quote->user( false, true );
-                            $match = true;
-
-                            sendMails( $ini, $quote_match, $quote, $product_name,
-                                       $customer, $supplier, $Language );
-
-                            showNotice( $ini, $module, $Language, $quote,
-                                        $product_name, $ProductID, $CategoryID );
-
-                            if ( $quote_match->quantity() == $quantity )
-                            {
-                                $quote_match->delete();
-                            }
-                            else
-                            {
-                                $quote_match->setQuantity( $quote_match->quantity() - $quantity );
-                                $quote_match->store();
-                            }
-                            $quote->delete();
-
-                            break;
-                        }
+                        $match = matchPartialAll( $quote_match, $quote,
+                                                  $ini, $locale, $module, $Language, $product_name,
+                                                  $ProductID, $CategoryID );
                     }
                     else if ( $quote_match->type() == QUOTE_PARTIAL_TYPE && $quote_type == QUOTE_PARTIAL_TYPE )
                     {
-                        $min_quantity = min( $quote_match->quantity(), $quote->quantity() );
-                        $customer = $quote_match->user( false, true );
-                        $supplier = $quote->user( false, true );
-                        $match = true;
-
-                        sendMails( $ini, $quote_match, $quote, $product_name,
-                        $customer, $supplier, $Language );
-
-                        showNotice( $ini, $module, $Language, $quote,
-                        $product_name, $ProductID, $CategoryID );
-
-                        if ( $quote_match->quantity() == $min_quantity )
-                        {
-                            $quote_match->delete();
-                        }
-                        else
-                        {
-                            $quote_match->setQuantity( $quote_match->quantity() - $min_quantity );
-                            $quote_match->store();
-                        }
-                        if ( $quote->quantity() == $min_quantity )
-                        {
-                            $quote->delete();
-                        }
-                        else
-                        {
-                            $quote->setQuantity( $quote->quantity() - $min_quantity );
-                            $quote->store();
-                        }
-
-                        break;
+                        $match = matchPartialPartial( $quote_match, $quote,
+                                                      $ini, $locale, $module, $Language, $product_name,
+                                                      $ProductID, $CategoryID );
                     }
+                    if ( $match )
+                        break;
                 }
                 break;
             }
             case "quote":
             {
                 $offers = eZQuote::getAllOffers( $ProductID, true, $Price );
+                $match = false;
+                foreach( $offers as $offer_match )
+                {
+                    if ( $offer_match->type() == QUOTE_ALL_TYPE && $quote_type == QUOTE_ALL_TYPE )
+                    {
+                        $match = matchAllAll( $quote, $offer_match,
+                                              $ini, $locale, $module, $Language, $product_name,
+                                              $ProductID, $CategoryID );
+                    }
+                    else if ( $offer_match->type() == QUOTE_ALL_TYPE && $quote_type == QUOTE_PARTIAL_TYPE )
+                    {
+                        $match = matchPartialAll( $quote, $offer_match,
+                                                  $ini, $locale, $module, $Language, $product_name,
+                                                  $ProductID, $CategoryID );
+                    }
+                    else if ( $offer_match->type() == QUOTE_PARTIAL_TYPE && $quote_type == QUOTE_ALL_TYPE )
+                    {
+                        $match = matchAllPartial( $quote, $offer_match,
+                                                  $ini, $locale, $module, $Language, $product_name,
+                                                  $ProductID, $CategoryID );
+                    }
+                    else if ( $offer_match->type() == QUOTE_PARTIAL_TYPE && $quote_type == QUOTE_PARTIAL_TYPE )
+                    {
+                        $match = matchPartialPartial( $quote, $offer_match,
+                                                      $ini, $locale, $module, $Language, $product_name,
+                                                      $ProductID, $CategoryID );
+                    }
+                    if ( $match )
+                        break;
+                }
                 break;
             }
         }
@@ -466,8 +608,6 @@ if ( isset( $OK ) )
         }
     }
 }
-
-$locale = new eZLocale( $Language );
 
 if ( !$match )
 {
@@ -503,6 +643,11 @@ if ( !$match )
     $t->set_block( "quote_edit_tpl", "quote_header_price_tpl", "quote_header_price" );
     $t->set_block( "quote_edit_tpl", "quote_rfq_price_tpl", "quote_rfq_price" );
 
+    $t->set_block( "quote_edit_tpl", "best_quote_tpl", "best_quote" );
+    $t->set_block( "best_quote_tpl", "best_quote_all_type_tpl", "best_quote_all_type" );
+    $t->set_block( "best_quote_tpl", "best_quote_any_type_tpl", "best_quote_any_type" );
+    $t->set_block( "best_quote_tpl", "quote_best_price_tpl", "quote_best_price" );
+
     $t->set_block( "quote_edit_tpl", "edit_quote_tpl", "edit_quote" );
     $t->set_block( "edit_quote_tpl", "quote_all_type_tpl", "quote_all_type" );
     $t->set_block( "edit_quote_tpl", "quote_any_type_tpl", "quote_any_type" );
@@ -523,6 +668,15 @@ if ( !$match )
     $t->set_block( "errors_tpl", "error_low_expire_item_tpl", "error_low_expire_item" );
     $t->set_block( "errors_tpl", "error_low_quantity_item_tpl", "error_low_quantity_item" );
     $t->set_block( "errors_tpl", "error_high_price_item_tpl", "error_high_price_item" );
+
+    $t->set_var( "best_quote", "" );
+    $t->set_var( "best_quote_all_type", "" );
+    $t->set_var( "best_quote_any_type", "" );
+
+    $t->set_var( "best_quantity", "" );
+    $t->set_var( "best_price", "" );
+    $t->set_var( "best_days", "" );
+    $t->set_var( "best_expire-date", "" );
 
     $t->set_var( "new_quote", "" );
     $t->set_var( "edit_quote", "" );
@@ -558,6 +712,25 @@ if ( !$match )
 
     $t->set_var( "high_price", $high_price );
 
+    if ( get_class( $best_quote ) == "ezquote" )
+    {
+        $t->set_var( "best_quantity", $best_quote->quantity() );
+        $currency = new eZCurrency( $best_quote->price() );
+        $t->set_var( "best_price", $locale->format( $currency ) );
+        $t->set_var( "best_days", $best_quote->expireDays() );
+        $t->set_var( "best_expire_date", $locale->format( $best_quote->expireDate() ) );
+        if ( $best_quote->type() == QUOTE_ALL_TYPE )
+        {
+            $t->parse( "best_quote_all_type", "best_quote_all_type_tpl" );
+        }
+        else
+        {
+            $t->parse( "best_quote_any_type", "best_quote_any_type_tpl" );
+        }
+
+        $t->parse( "best_quote", "best_quote_tpl" );
+    }
+
     foreach( $error_array as $error )
     {
         $t->parse( $error, $error . "_tpl" );
@@ -581,6 +754,7 @@ if ( !$match )
         $t->parse( "quote_header_price", "quote_header_price_tpl" );
         $t->parse( "quote_edit_price", "quote_edit_price_tpl" );
         $t->parse( "quote_new_price", "quote_new_price_tpl" );
+        $t->parse( "quote_best_price", "quote_best_price_tpl" );
         $t->set_var( "quote_rfq_price", "" );
     }
     else
@@ -588,6 +762,7 @@ if ( !$match )
         $t->set_var( "quote_header_price", "" );
         $t->set_var( "quote_edit_price", "" );
         $t->set_var( "quote_new_price", "" );
+        $t->set_var( "quote_best_price", "" );
         $t->parse( "quote_rfq_price", "quote_rfq_price_tpl" );
     }
 
@@ -598,7 +773,13 @@ if ( !$match )
         $t->set_var( "last_days", $quote->expireDays() );
         $t->set_var( "last_expire_date", $locale->format( $quote->expireDate() ) );
         $t->set_var( "last_quantity", $quote->quantity() );
-        $t->set_var( "last_price", $quote->price() );
+        if ( is_numeric( $quote->price() ) )
+        {
+            $currency = new eZCurrency( $quote->price() );
+            $t->set_var( "last_price", $locale->format( $currency ) );
+        }
+        else
+            $t->set_var( "last_price", $quote->price() );
         if ( $quote_type == QUOTE_ALL_TYPE )
         {
             $t->parse( "quote_all_type", "quote_all_type_tpl" );

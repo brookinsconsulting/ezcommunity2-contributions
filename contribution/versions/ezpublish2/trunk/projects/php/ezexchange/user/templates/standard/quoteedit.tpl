@@ -56,6 +56,27 @@
 	<!-- END quote_header_price_tpl -->
 </tr>
 
+<!-- BEGIN best_quote_tpl -->
+<tr>
+	<td>{intl-best_values}</td>
+	<td>{today}</td>
+	<td>{best_days}</td>
+	<td>{best_expire_date}</td>
+	<td>
+	<!-- BEGIN best_quote_all_type_tpl -->
+	{intl-all_type}
+	<!-- END best_quote_all_type_tpl -->
+	<!-- BEGIN best_quote_any_type_tpl -->
+	{intl-any_type}
+	<!-- END best_quote_any_type_tpl -->
+	</td>
+	<td>{best_quantity}</td>
+	<!-- BEGIN quote_best_price_tpl -->
+	<td>{best_price}</td>
+	<!-- END quote_best_price_tpl -->
+</tr>
+<!-- END best_quote_tpl -->
+
 <!-- BEGIN edit_quote_tpl -->
 <tr>
 	<td>{intl-current_values}</td>
