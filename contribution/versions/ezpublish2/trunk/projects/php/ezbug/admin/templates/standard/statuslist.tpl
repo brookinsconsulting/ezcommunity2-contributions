@@ -12,8 +12,6 @@
 	  <input type="text" name="StatusName[]" value="{status_name}" />
 	</td>
 	<td width="1%" class="{td_class}">
-	</td>
-	<td width="1%" class="{td_class}">
 	  <input type="checkbox" name="StatusArrayID[]" value="{index_nr}">
 	</td>
 </tr>
