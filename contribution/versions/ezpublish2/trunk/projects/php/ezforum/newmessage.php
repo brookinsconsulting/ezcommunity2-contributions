@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: newmessage.php,v 1.3 2000/07/25 10:13:37 lw-cvs Exp $
+    $Id: newmessage.php,v 1.4 2000/07/25 10:15:06 lw Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -53,8 +53,8 @@ $t->set_var("info", categoryForumInfo($forum_id) );
 $t->set_var("forum_id", $forum_id);
 $t->set_var("user", $usr->resolveUser( $UserId ) );
 
-$t->set_var( "link1-url", "Gå til topp");
-$t->set_var( "link1-caption", "main.php");
+$t->set_var( "link1-url", "main.php" );
+$t->set_var( "link1-caption", "Gå til topp" );
 $t->set_var( "link2-url", "search.php");
 $t->set_var( "link2-caption", "Søk");
 
