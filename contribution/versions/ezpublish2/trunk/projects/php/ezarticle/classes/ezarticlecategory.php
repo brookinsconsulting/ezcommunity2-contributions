@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.20 2001/01/24 11:53:53 bf Exp $
+// $Id: ezarticlecategory.php,v 1.21 2001/01/24 15:39:47 ce Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -36,7 +36,7 @@
 */
 
 include_once( "classes/ezdb.php" );
-
+include_once( "ezarticle/classes/ezarticle.php" );
 
 class eZArticleCategory
 {
@@ -102,18 +102,40 @@ class eZArticleCategory
       Deletes a eZArticleGroup object from the database.
 
     */
-    function delete()
+    function delete( $catID=-1 )
     {
-        $this->dbInit();
+        if ( $catID == -1 )
+            $catID = $this->ID;
 
-        if ( isset( $this->ID ) )
+        $category = new eZArticleCategory( $catID );
+
+        $categoryList = $category->getByParent( $category );
+
+        foreach( $categoryList as $categoryItem )
         {
-            $this->Database->query( "DELETE FROM eZArticle_ArticleCategoryLink WHERE CategoryID='$this->ID'" );
-            
-            $this->Database->query( "DELETE FROM eZArticle_Category WHERE ID='$this->ID'" );            
+            $this->delete( $categoryItem->id() );
         }
+
+        $categoryID = $category->id();
         
-        return true;
+        foreach( $this->articles() as $article )
+        {
+            $categoryDefinition = $article->categoryDefinition();
+
+            if ( $categoryDefinition->id() == $category->id() )
+            {
+                $this->Database->query( "DELETE FROM eZArticle_ArticleCategoryDefinition WHERE CategoryID='$categoryID'" );
+                $this->Database->query( "DELETE FROM eZArticle_ArticleCategoryLink WHERE CategoryID='$categoryID'" );
+               
+                $article->delete();
+            }
+            else
+            {
+                $this->Database->query( "DELETE FROM eZArticle_ArticleCategoryLink WHERE CategoryID='$categoryID'" );
+            }
+        }
+
+        $this->Database->query( "DELETE FROM eZArticle_Category WHERE ID='$categoryID'" );
     }
     
     /*!

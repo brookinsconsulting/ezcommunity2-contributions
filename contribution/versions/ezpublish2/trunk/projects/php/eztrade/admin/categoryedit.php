@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.8 2000/12/14 11:46:54 ce Exp $
+// $Id: categoryedit.php,v 1.9 2001/01/24 15:40:22 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -28,6 +28,11 @@ if ( isset( $Cancel ) )
 {
     Header( "Location: /trade/categorylist/" );
     exit();
+}
+
+if ( isset ( $DeleteCategories ) )
+{
+    $Action = "DeleteCategories";
 }
 
 include_once( "classes/INIFile.php" );
@@ -83,6 +88,26 @@ if ( $Action == "Delete" )
     Header( "Location: /trade/categorylist/" );
     exit();
 }
+
+if ( $Action == "DeleteCategories" )
+{
+    if ( count ( $CategoryArrayID ) != 0 )
+    {
+        if ( file_exists( "ezarticle/cache/menubox.cache" ) )
+            unlink( "ezarticle/cache/menubox.cache" );
+
+        foreach( $CategoryArrayID as $ID )
+        {
+            $category = new eZProductCategory();
+            $category->get( $ID );
+            $category->delete();
+        }
+    }
+
+    eZHTTPTool::header( "Location: /trade/categorylist/" );
+    exit();
+}
+
 
 $t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/categoryedit/",
                      "eztrade/admin/intl/", $Language, "categoryedit.php" );

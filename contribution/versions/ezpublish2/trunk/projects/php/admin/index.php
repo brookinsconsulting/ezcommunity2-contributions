@@ -1,10 +1,10 @@
 <?php
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
-header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT"); 
-header("Cache-Control: no-cache, must-revalidate"); 
-header("Pragma: no-cache");
+// header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
+// header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT"); 
+// header("Cache-Control: no-cache, must-revalidate"); 
+// header("Pragma: no-cache");
 
-// start the buffer cache
+// Start the buffer cache
 ob_start();
 
 // start session handling
@@ -35,6 +35,7 @@ include_once( "ezstats/classes/ezpageview.php" );
 
 $SiteStyle =& $ini->read_var( "site", "SiteStyle" );
 
+$GLOBALS["DEBUG"] = true;
 
 // html header
 include( "header.php" );

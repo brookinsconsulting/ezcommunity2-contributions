@@ -57,6 +57,7 @@
 	<th>&nbsp;</th>
 </tr>
 
+<form method="post" action="/trade/categoryedit/edit/" enctype="multipart/form-data">
 <!-- BEGIN category_item_tpl -->
 <tr>
 	<td class="{td_class}">
@@ -68,14 +69,19 @@
 	<td width="1%" class="{td_class}">
 	<a href="/trade/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztc{category_id}-red','','/eztrade/images/redigerminimrk.gif',1)"><img name="eztc{category_id}-red" border="0" src="/eztrade/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
-	<td width="1%" class="{td_class}">
-	<a href="#" onClick="verify( '{intl-delete}', '/trade/categoryedit/delete/{category_id}/'); return false;"
-onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eztc{category_id}-slett','','/eztrade/images/slettminimrk.gif',1)"><img name="eztc{category_id}-slett" border="0" src="/eztrade/images/slettmini.gif" width="16" height="16" align="top"></a>
+	<td class="{td_class}" width="1%" align="center">
+	<input type="checkbox" name="CategoryArrayID[]" value="{category_id}">
 	</td>
 </tr>
 <!-- END category_item_tpl -->
-
+<tr>
+        <td>
+	<input type="submit" Name="DeleteCategories" value="{intl-deletecategories}">
+	</td>
+</tr>
+</form>
 </table>
+
 <hr noshade="noshade" size="4" />
 <!-- END category_list_tpl -->
 

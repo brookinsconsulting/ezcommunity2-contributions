@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.19 2001/01/20 15:24:56 bf Exp $
+// $Id: ezproductcategory.php,v 1.20 2001/01/24 15:40:23 ce Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -82,7 +82,7 @@
 */
 
 include_once( "classes/ezdb.php" );
-
+include_once( "eztrade/classes/ezproduct.php" );
 
 class eZProductCategory
 {
@@ -144,16 +144,42 @@ class eZProductCategory
       Deletes a eZProductGroup object from the database.
 
     */
-    function delete()
+    function delete( $catID=-1 )
     {
         $this->dbInit();
 
-        if ( isset( $this->ID ) )
+        if ( $catID == -1 )
+            $catID = $this->ID;
+
+        $category = new eZProductCategory( $catID );
+
+        $categoryList = $category->getByParent( $category );
+
+        foreach( $categoryList as $categoryItem )
         {
-            $this->Database->query( "DELETE FROM eZTrade_Category WHERE ID='$this->ID'" );
+            $this->delete( $categoryItem->id() );
         }
+
+        $categoryID = $category->id();
         
-        return true;
+        foreach( $this->products() as $product )
+        {
+            $categoryDefinition = $product->categoryDefinition();
+
+            if ( $categoryDefinition->id() == $category->id() )
+            {
+                $this->Database->query( "DELETE FROM eZTrade__ProductCategoryDefinition WHERE CategoryID='$categoryID'" );
+                $this->Database->query( "DELETE FROM eZTrade_ProductCategoryLink WHERE CategoryID='$categoryID'" );
+               
+                $product->delete();
+            }
+            else
+            {
+                $this->Database->query( "DELETE FROM eZTrade_ProductCategoryLink WHERE CategoryID='$categoryID'" );
+            }
+        }
+
+        $this->Database->query( "DELETE FROM eZTrade_Category WHERE ID='$categoryID'" );
     }
     
     /*!
