@@ -30,8 +30,8 @@ CREATE TABLE eZUser_Group (
 # Dumping data for table 'eZUser_Group'
 #
 
-INSERT INTO eZUser_Group VALUES (2,'Anonymous','Users that register themself on the user page, eg forum users.');
-INSERT INTO eZUser_Group VALUES (1,'Administrators','All rights');
+INSERT INTO eZUser_Group VALUES (2,'Anonymous','Users that register themself on the user page, eg forum users.','');
+INSERT INTO eZUser_Group VALUES (1,'Administrators','All rights','');
 
 #
 # Table structure for table 'eZUser_GroupPermissionLink'
