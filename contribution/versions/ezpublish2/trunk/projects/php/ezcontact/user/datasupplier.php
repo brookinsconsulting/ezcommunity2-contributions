@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.29 2001/07/24 14:03:00 jhe Exp $
+// $Id: datasupplier.php,v 1.30 2001/07/25 10:22:59 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -94,14 +94,27 @@ switch ( $url_array[2] )
 
     case "search":
     {
-        include( "ezcontact/user/companysearch.php" );
+        $SearchType = $url_array[3];
+        switch ( $SearchType )
+        {
+            case "company":
+            {
+                include( "ezcontact/user/companysearch.php" );
+                break;
+            }
+            case "person":
+            {
+                include( "ezcontact/user/personsearch.php" );
+                break;
+            }
+        }
         break;
     }
 
     case "person":
     {
-        $PersonID = $url_array[4];
         $Action = $url_array[3];
+        $PersonID = $url_array[4];
         switch( $Action )
         {
             // intentional fall through

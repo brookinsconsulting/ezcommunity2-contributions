@@ -11,12 +11,6 @@
   	    	<input type="hidden" name="SearchCategory" value="{current_id}" />
   	</td>
 </tr>
-<tr>
-  	<td align="right">
-  		<input type="checkbox" name="CurrentCategory" checked />
-  		<span class="small">{intl-only_current_category}</span>
-  	</td>
-</tr>
 </table>
 </form>
 

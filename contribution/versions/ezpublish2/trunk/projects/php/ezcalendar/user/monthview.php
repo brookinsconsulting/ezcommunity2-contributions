@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.25 2001/07/23 14:54:24 jhe Exp $
+// $Id: monthview.php,v 1.26 2001/07/25 10:22:58 jhe Exp $
 //
 // Created on: <27-Dec-2000 14:09:56 bf>
 //
@@ -164,8 +164,7 @@ else
                     $tmpDate->setYear( $date->year() );
                     $tmpDate->setMonth( $date->month() );
                     $tmpDate->setDay( $date->day() );
-                    
-                    $appointments =& $tmpAppointment->getByDate( $tmpDate, $appOwnerUser, true );
+                    $appointments =& $tmpAppointment->getByDate( $appOwnerUser, $tmpDate, true );
 
                     $t->set_var( "public_appointment", "" );
                     $t->set_var( "private_appointment", "" );
@@ -220,7 +219,10 @@ else
                     }
 
                     // fetch todos for today
-                    $todos =& eZTodo::getByDate( $userID, $tmpDate );
+                    if ( !$userID )
+                        $todos = array();
+                    else
+                        $todos =& eZTodo::getByDate( $userID, $tmpDate );
                     foreach ( $todos as $todo )
                     {
                         $t->set_var( "todo_id", $todo->id() );

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companysearch.php,v 1.7 2001/07/24 14:03:00 jhe Exp $
+// $Id: companysearch.php,v 1.8 2001/07/25 10:22:59 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -30,35 +30,25 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "ezcontact/classes/ezcompany.php" );
 include_once( "ezcontact/classes/ezcompanytype.php" );
+include_once( "ezuser/classes/ezpermission.php" );
 
 $ini =& INIFIle::globalINI();
 $Language = $ini->read_var( "eZContactMain", "Language" );
-$errorIni = new INIFIle( "ezcontact/user/intl/" . $Language . "/search.php.ini", false );
+$errorIni = new INIFIle( "ezcontact/user/intl/" . $Language . "/companysearch.php.ini", false );
 
 $t = new eZTemplate( "ezcontact/user/" . $ini->read_var( "eZContactMain", "TemplateDir" ),
-                     "ezcontact/user/intl/", $Language, "search.php" );
+                     "ezcontact/user/intl/", $Language, "companysearch.php" );
 
 $t->set_file( "search", "companysearch.tpl" );
 
 $t->set_block( "search", "current_type_tpl", "current_type" );
-$t->set_block( "search", "view_tpl", "view" );
 $t->set_block( "search", "list_tpl", "list" );
 $t->set_block( "search", "not_root_tpl", "not_root" );
-$t->set_block( "search", "type_list_tpl", "type_list" );
-
-$t->set_block( "type_list_tpl", "type_item_tpl", "type_item" );
-$t->set_block( "type_item_tpl", "type_edit_button_tpl", "type_edit_button" );
-$t->set_block( "type_item_tpl", "type_delete_button_tpl", "type_delete_button" );
-
-$t->set_block( "search", "type_new_button_tpl", "type_new_button" );
 
 $t->set_block( "search", "category_list_tpl", "category_list" );
 
 $t->set_block( "search", "no_type_item_tpl", "no_type_item" );
 $t->set_block( "search", "no_category_item_tpl", "no_category_item" );
-$t->set_block( "search", "path_tpl", "path" );
-$t->set_block( "path_tpl", "path_item_tpl", "path_item" );
-$t->set_block( "current_type_tpl", "image_item_tpl", "image_item" );
 $t->set_block( "search", "company_item_tpl", "company_item" );
 $t->set_block( "company_item_tpl", "image_view_tpl", "image_view" );
 $t->set_block( "search", "no_companies_tpl", "no_companies" );
@@ -75,12 +65,11 @@ $t->set_block( "company_item_tpl", "company_stats_item_tpl", "company_stats_item
 $t->set_block( "search", "company_new_button_tpl", "company_new_button" );
 
 $t->set_var( "search_box", "" );
-$t->set_var( "advanced_search_box", "" );
 $t->set_var( "search_results", "" );
 $t->set_var( "result_item", "" );
 $t->set_var( "category_option", "" );
-$t->set_var( "no_results", "" );
 $t->set_var( "result_category", "" );
+$t->set_var( "companies_table", "" );
 
 $t->set_var( "search_text", "$SearchText" );
 
@@ -97,15 +86,10 @@ if ( !empty( $SearchText ) )
     $Action = "search";
 }
 
-if ( !empty( $AdvancedSearch ) )
-{
-    $Action = "advanced";
-    $t->set_var( "advanced_search", "true" );
-}
-
 $company = new eZCompany();
-
-if( $Action == "search" )
+$result = false;
+$companyArray = array();
+if ( $Action == "search" )
 {
     $companyArray = $company->search( $SearchText );
     
@@ -121,45 +105,106 @@ if ( $results == true )
     $count = count( $companyArray );
     $t->set_var( "results", $count );
     $i = 0;
+
+    $can_view_stats = eZPermission::checkPermission( $user, "eZContact", "CompanyStats" ) && $ShowStats;
+    $t->set_var( "company_stats_header", "" );
+    if ( $can_view_stats )
+        $t->parse( "company_stats_header", "company_stats_header_tpl" );
+    $t->set_var( "company_stats_item", "" );
+
+    
+    $t->set_var( "company_consultation_button", "" );
+    $t->set_var( "company_edit_button", "" );
+    $t->set_var( "company_delete_button", "" );
+    $t->set_var( "company_view_button", "" );
+    $t->set_var( "no_company_view_button", "" );
+    if ( eZPermission::checkPermission( $user, "eZContact", "Consultation" ) )
+        $t->parse( "company_consultation_button", "company_consultation_button_tpl" );
+    if ( eZPermission::checkPermission( $user, "eZContact", "CompanyModify" ) )
+        $t->parse( "company_edit_button", "company_edit_button_tpl" );
+    if ( eZPermission::checkPermission( $user, "eZContact", "CompanyDelete" ) )
+        $t->parse( "company_delete_button", "company_delete_button_tpl" );
+    if ( eZPermission::checkPermission( $user, "eZContact", "CompanyView" ) )
+    {
+        $t->parse( "company_view_button", "company_view_button_tpl" );
+    }
+    else
+    {
+        $t->parse( "no_company_view_button", "no_company_view_button_tpl" );
+    }
+
+    if ( count( $companyList ) == 0 )
+    {
+        $t->set_var( "company_item", "" );
+        $t->set_var( "companies_table", "" );
+        $t->parse( "no_companies", "no_companies_tpl" );
+    }
+    else
+    {
+        $can_view_stats = eZPermission::checkPermission( $user, "eZContact", "CompanyStats" ) && $ShowStats;
+        $t->set_var( "company_stats_header", "" );
+        if ( $can_view_stats )
+            $t->parse( "company_stats_header", "company_stats_header_tpl" );
+        $t->set_var( "company_stats_item", "" );
+        $t->set_var( "no_companies", "" );
+        $t->parse( "companies_table", "companies_table_tpl" );
+    }
+
     foreach ( $companyArray as $company )
     {
-        if ( ( $i % 2 ) == 0 )
-            $t->set_var( "item_color", "bglight" );
+        if ( $can_view_stats )
+        {
+            $count = $companyList[$i]->totalViewCount();
+            $t->set_var( "company_views", $count );
+            $t->parse( "company_stats_item", "company_stats_item_tpl" );
+        }
+
+        unSet( $logoObj );
+        $logoObj = $companyArray[$i]->logoImage();
+        
+        if ( get_class ( $logoObj ) == "ezimage" )
+        {
+            $variationObj = $logoObj->requestImageVariation( 150, 150 );
+            
+            $t->set_var( "company_logo_src", "/" . $variationObj->imagePath() );
+            $image = new eZImage( $variationObj->imageID() );
+            $t->set_var( "image_alt", $image->caption() );
+            $t->set_var( "no_image", "" );
+            $t->parse( "image_view", "image_view_tpl" );
+        }
         else
-            $t->set_var( "item_color", "bgdark" );
+        {
+            $t->set_var( "image_view", "" );
+            $t->parse( "no_image", "no_image_tpl" );
+        }
+        
+        $t->set_var( "no_companies", "" );
+        
+        if ( ( $i % 2 ) == 0 )
+            $t->set_var( "td_class", "bglight" );
+        else
+            $t->set_var( "td_class", "bgdark" );
         $i++;
-        $t->set_var( "item_name", $company->name() );
-        $t->set_var( "item_id", $company->id() );
+        $t->set_var( "company_name", $company->name() );
+        $t->set_var( "company_id", $company->id() );
         $t->set_var( "item_description", $company->comment() );
         $t->set_var( "item_view_path", "/contact/company/view" );
         $t->set_var( "item_delete_path", "/contact/company/delete" );
         $t->set_var( "item_edit_path", "/contact/company/edit" );
         
-        $categoryArray = $company->categories( $company->id() );
-        
         $t->set_var( "result_category", "" );
+        $t->parse( "company_item", "company_item_tpl", true );
         
-        foreach ( $categoryArray as $category )
-        {
-            $t->set_var( "item_category_name", $category->name() );
-            $t->set_var( "item_category_id", $category->id() );
-            $t->set_var( "item_category_view_path", "/contact/company/list" );
-            $t->parse( "result_category", "result_category_tpl", true );
-        }
-        
-        $t->parse( "result_item", "result_item_tpl", true );
     }
     
     if ( $count > 0 )
     {
-        $t->parse( "search_results", "search_results_tpl" );
-    }
-    else
-    {
-        $t->parse( "no_results", "no_results_tpl" );
+        $t->parse( "companies_table", "companies_table_tpl" );
     }
 }
-
+$t->parse( "list", "list_tpl" );
 $t->setAllStrings();
 
 $t->pparse( "output", "search");
+
+?>

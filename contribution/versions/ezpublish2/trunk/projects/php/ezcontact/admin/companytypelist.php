@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companytypelist.php,v 1.28 2001/07/20 12:01:50 jakobn Exp $
+// $Id: companytypelist.php,v 1.29 2001/07/25 10:22:59 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -123,11 +123,11 @@ else
         $OrderBy = "Name";
     }
 
-    if( !empty( $LimitBy ) || !empty( $LimitStart ) )
+    if ( !empty( $LimitBy ) || !empty( $LimitStart ) )
     {
         $type_array = $type->getByParentID( $TypeID, $OrderBy, $LimitBy, $LimitStart );
 
-        if( empty( $LimitStart ) )
+        if ( empty( $LimitStart ) )
         {
             $LimitStart = $LimitBy;
         }
@@ -141,27 +141,27 @@ else
         $type_array = $type->getByParentID( $TypeID, $OrderBy );
     }
 
-    if( !empty( $OrderBy ) )
+    if ( !empty( $OrderBy ) )
     {
-        if( !empty( $args ) )
+        if ( !empty( $args ) )
         {
             $args = $args . "&";
         }
         $args = $args . "OrderBy=$OrderBy";
     }
 
-    if( !empty( $LimitStart ) )
+    if ( !empty( $LimitStart ) )
     {
-        if( !empty( $args ) )
+        if ( !empty( $args ) )
         {
             $args = $args . "&";
         }
         $args = $args . "LimitStart=$LimitStart";
     }
 
-    if( !empty( $LimitBy ) )
+    if ( !empty( $LimitBy ) )
     {
-        if( !empty( $args ) )
+        if ( !empty( $args ) )
         {
             $args = $args . "&";
         }
@@ -188,14 +188,13 @@ else
     $name = $type->name();
     $desc = $type->description();
 
-
     $t->set_var( "current_id", is_numeric( $id ) ? $id : 0 );
     $t->set_var( "current_name", $name );
     $t->set_var( "current_description", $desc );
 
     $ImageID = $type->imageID();
 
-    if( is_numeric( $ImageID ) && $ImageID != 0 )
+    if ( is_numeric( $ImageID ) && $ImageID != 0 )
     {
         $ini = new INIFile( "site.ini" );
         $imageWidth = $ini->read_var( "eZContactMain", "CategoryImageWidth" );
@@ -218,7 +217,7 @@ else
     }
 
     $t->parse( "current_type", "current_type_tpl" );
-    if( $TypeID != 0 && $Action == "view" )
+    if ( $TypeID != 0 && $Action == "view" )
     {
         $t->parse( "not_root", "not_root_tpl" );
     }
@@ -226,12 +225,12 @@ else
     {
         $t->set_var( "not_root", "" );
     }
-    if( $Action == "view" )
+    if ( $Action == "view" )
     {
         $t->parse( "view", "view_tpl" );
         $t->set_var( "list", "" );
     }
-    if( $Action == "list" )
+    if ( $Action == "list" )
     {
         $t->set_var( "view", "" );
         $t->parse( "list", "list_tpl" );
@@ -243,9 +242,9 @@ else
         $t->parse( "type_edit_button", "type_edit_button_tpl" );
     if ( eZPermission::checkPermission( $user, "eZContact", "CategoryDelete" ) )
         $t->parse( "type_delete_button", "type_delete_button_tpl" );
-    if( $type_count != 0 )
+    if ( $type_count != 0 )
     {
-        for( $i = 0; $i < $type_count; $i++ )
+        for ( $i = 0; $i < $type_count; $i++ )
         {
             if ( ( $i % 2 ) == 0 )
             {
@@ -262,7 +261,7 @@ else
 
             $t->set_var( "type_id", $id );
 
-            if( empty( $name ) )
+            if ( empty( $name ) )
             {
                 $t->set_var( "type_name", "&nbsp;" );
             }
@@ -270,7 +269,7 @@ else
             {
                 $t->set_var( "type_name", $name );
             }
-            if( empty( $desc ) )
+            if ( empty( $desc ) )
             {
                 $t->set_var( "type_description", "&nbsp;" );
             }
@@ -329,7 +328,7 @@ else
         if ( $can_view_stats )
             $t->parse( "company_stats_header", "company_stats_header_tpl" );
         $t->set_var( "company_stats_item", "" );
-        for( $index = 0; $index < count( $companyList ); $index++ )
+        for ( $index = 0; $index < count( $companyList ); $index++ )
         {
             if ( ( $index %2 ) == 0 )
                 $t->set_var( "td_class", "bglight" );
@@ -363,12 +362,11 @@ else
                 $t->set_var( "image_view", "" );
                 $t->parse( "no_image", "no_image_tpl" );
             }
-        
 
             $t->set_var( "no_companies", "" );
             $t->parse( "company_item", "company_item_tpl", true );
         }
-
+        
         $t->set_var( "no_companies", "" );
         $t->parse( "companies_table", "companies_table_tpl" );
     }
@@ -376,7 +374,7 @@ else
     if ( eZPermission::checkPermission( $user, "eZContact", "CompanyAdd" ) )
         $t->parse( "company_new_button", "company_new_button_tpl" );
 
-    if( $typesDone == true )
+    if ( $typesDone == true )
     {
         $t->set_var( "no_type_item", "" );    
         $t->parse( "type_list", "type_list_tpl" );
@@ -387,7 +385,7 @@ else
         $t->parse( "no_type_item", "no_type_item_tpl" );
     }
 
-    if( $categoriesDone == true )
+    if ( $categoriesDone == true )
     {
         $t->set_var( "no_category_item", "" );    
         $t->parse( "category_list", "category_list_tpl" );

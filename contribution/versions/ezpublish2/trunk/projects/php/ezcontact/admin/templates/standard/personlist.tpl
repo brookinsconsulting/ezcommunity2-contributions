@@ -1,4 +1,4 @@
-<form action="/contact/person/search/" method="post">
+<form action="/contact/search/person/" method="post">
 <table width="100%" border="0">
 <tr>
 	<td rowspan="2" valign="bottom">
