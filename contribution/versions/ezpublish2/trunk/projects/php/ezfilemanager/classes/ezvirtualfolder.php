@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfolder.php,v 1.9 2001/01/25 19:08:20 ce Exp $
+// $Id: ezvirtualfolder.php,v 1.10 2001/01/26 08:55:48 ce Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -94,9 +94,9 @@ class eZVirtualFolder
                                  ReadPermission='$this->ReadPermission',
                                  WritePermission='$this->WritePermission',
                                  UserID='$this->UserID',
-                                 ParentID='$this->ParentID' WHERE ID='$this->ID'" );
+                                 ParentID='$this->ParentID' WHERE ID='$this->ID'", true );
         }
-        
+
         return true;
     }
 

@@ -99,6 +99,7 @@
 <hr noshade="noshade" size="4" />
 
 <table cellspacing="0" cellpadding="4" border="0">
+<!-- BEGIN write_menu_tpl -->
 <tr>
         <td>
 	<input type="submit" name="NewImage" value="{intl-new_image}">
@@ -111,6 +112,7 @@
 	<input type="submit" name="Delete" value="{intl-delete}">
 	</td>
 </tr>
+<!-- END write_menu_tpl -->
 </form>
 <form method="post" action="/imagecatalogue/image/list/{main_category_id}/" enctype="multipart/form-data">
 <input type="hidden" name="Detail" value="{is_detail_view}">

@@ -46,6 +46,7 @@
 	<td>&nbsp;</td>
 	<td>
 	<input type="submit" name="Download" value="{intl-download}">
+	<input type="hidden" name="FileName" value="{file_name}">
 	</td>
 	<!-- END download_tpl -->
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: fileupload.php,v 1.11 2001/01/25 19:08:20 ce Exp $
+// $Id: fileupload.php,v 1.12 2001/01/26 08:55:48 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 15:49:57 bf>
@@ -33,6 +33,12 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezpermission.php" );
 include_once( "ezfilemanager/classes/ezvirtualfile.php" );
 include_once( "ezfilemanager/classes/ezvirtualfolder.php" );
+
+if ( isSet ( $Download ) )
+{
+    eZHTTPTool::header( "Location: /filemanager/download/" . $FileID . "/" . $FileName . "/");
+    exit();
+}
 
 $user = eZUser::currentUser();
 

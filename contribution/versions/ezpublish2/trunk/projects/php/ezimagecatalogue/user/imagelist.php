@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.8 2001/01/22 14:43:01 jb Exp $
+// $Id: imagelist.php,v 1.9 2001/01/26 08:55:48 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -75,6 +75,8 @@ $t->set_block( "image_list_page_tpl", "image_list_tpl", "image_list" );
 $t->set_block( "image_list_page_tpl", "normal_view_button", "normal_button" );
 $t->set_block( "image_list_page_tpl", "detail_view_button", "detail_button" );
 
+$t->set_block( "image_list_page_tpl", "write_menu_tpl", "write_menu" );
+
 $t->set_block( "image_list_tpl", "image_tpl", "image" );
 $t->set_block( "image_list_tpl", "detail_view_tpl", "detail_view" );
 
@@ -91,6 +93,8 @@ $t->set_block( "category_tpl", "category_write_tpl", "category_write" );
 $t->set_block( "category_tpl", "category_read_tpl", "category_read" );
 
 $t->set_var( "read", "" );
+$t->set_var( "write_menu", "" );
+
 
 $user = eZUser::currentUser();
 
@@ -107,6 +111,7 @@ if ( ( $readPermission == "User" ) || ( $readPermission == "Group" ) || ( $readP
 
 if ( $CategoryID == 0 )
 {
+    $t->set_var( "current_category_description", "" );
     $error = false;
 }
 
@@ -289,6 +294,23 @@ foreach ( $imageList as $image )
 
 
     $i++;
+}
+
+if ( $category )
+{
+    $currentWritePermission = $category->checkWritePermission( $user );
+
+    if ( ( $currentWritePermission == "User" ) || ( $currentWritePermission == "Group" ) || ( $currentWritePermission == "All" ) )
+    {
+        $t->parse( "write_menu", "write_menu_tpl" );
+    }
+}
+else
+{
+    if ( eZPermission::checkPermission( $user, "eZImageCatalogue", "WriteToRoot" ) )
+    {
+        $t->parse( "write_menu", "write_menu_tpl" );
+    }
 }
 
 
