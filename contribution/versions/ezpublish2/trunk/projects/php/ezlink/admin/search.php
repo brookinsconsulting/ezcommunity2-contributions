@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.14 2000/11/22 12:11:06 bf-cvs Exp $
+// $Id: search.php,v 1.15 2000/11/23 10:35:19 ce-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <15-Sep-2000 14:40:06 bf>
@@ -158,7 +158,7 @@ if ( $QueryString != "" )
             $LGID =  ( $link_array[ $i ][ "LinkGroup" ] );
                 
             $hit = new eZHit();
-            $hits = $hit->getLinkHits( $link_array[ $i ][ "ID" ] );
+            $hits = $hit->getLinkHits( $linkItem->id() );
 
             $t->set_var( "link_hits", $hits );
                 
