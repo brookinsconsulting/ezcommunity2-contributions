@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: messageedit.php,v 1.1 2000/10/13 10:02:30 ce-cvs Exp $
+    $Id: messageedit.php,v 1.2 2000/10/17 11:40:49 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -20,7 +20,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 
 
-$t = new eZTemplate( $DOC_ROOT . "admin/templates", $DOC_ROOT . "intl", $Language, "forum.php" );
+$t = new eZTemplate( "ezforum/admin/templates", "ezforum/intl", $Language, "forum.php" );
 $t->setAllStrings();
 
 $t->set_file( Array( "messages" => "message.tpl",
@@ -39,7 +39,7 @@ if ( $Action == "insert" )
 }
 if ( $Action == "update" )
 {
-    $msg = new eZforumMessage();
+    $msg = new eZForumMessage();
     $msg->get( $MessageID );
     $msg->setTopic( $Topic );
     $msg->setBody( $Body );
@@ -55,20 +55,20 @@ if ( $Action == "update" )
 
 if ( $Action == "delete" )
 {
-    $msg = new eZforumMessage();
+    $msg = new eZForumMessage();
     $msg->get( $MessageID );
     $msg->delete();
     Header( "Location: /forum/messagelist/". $CategoryID. "/". $ForumID );
     exit();
 }
 
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
-$DOC_ROOT . "/admin/" . "/intl", $Language, "messageedit.php" );
+$t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+"ezforum/admin/" . "/intl", $Language, "messageedit.php" );
 $t->setAllStrings();
 
 $t->set_file( Array( "message_page" => "messageedit.tpl" ) );
 
-$ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/messageedit.php.ini", false );
+$ini = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/messageedit.php.ini", false );
 $headline =  $ini->read_var( "strings", "head_line_insert" );
 
 $t->set_block( "message_page", "message_edit_tpl", "message_edit" );
@@ -76,7 +76,7 @@ $locale = new eZLocale( $Language );
 
 if ( $Action == "edit" )
 {
-    $msg = new eZforumMessage();
+    $msg = new eZForumMessage();
     $msg->get( $MessageID );
     $t->set_var( "message_topic", $msg->topic() );
     $t->set_var( "message_postingtime", $locale->format( $msg->postingTime() ) );

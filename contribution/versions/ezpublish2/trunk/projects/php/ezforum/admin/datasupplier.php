@@ -18,14 +18,14 @@ switch ( $url_array[2] )
     }
     break;
 
-    case "message":
-    {
-        $CategoryID = $url_array[3];
-        $ForumID = $url_array[4];
-        $MessageID = $url_array[5];
-        include( "ezforum/admin/message.php" );
-    }
-    break;
+//      case "message":
+//      {
+//          $CategoryID = $url_array[3];
+//          $ForumID = $url_array[4];
+//          $MessageID = $url_array[5];
+//          include( "ezforum/admin/message.php" );
+//      }
+//      break;
 
     case "messageedit":
     {

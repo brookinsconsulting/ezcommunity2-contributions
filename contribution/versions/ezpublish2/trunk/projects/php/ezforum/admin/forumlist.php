@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forumlist.php,v 1.1 2000/10/13 10:02:30 ce-cvs Exp $
+    $Id: forumlist.php,v 1.2 2000/10/17 11:40:49 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -16,7 +16,7 @@ $Language = $ini->read_var( "eZForumMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
-include_once( "ezforum/classes/ezforumforum.php" );
+include_once( "ezforum/classes/ezforum.php" );
 
 $t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
 $DOC_ROOT . "/admin/" . "/intl", $Language, "forumlist.php" );
@@ -28,25 +28,36 @@ $t->set_file(Array( "forum_page" => "forumlist.tpl"
 $t->set_block( "forum_page", "forum_item_tpl", "forum_item" );
 
 // Forum list for current category
-$forum = new eZforumForum();
+$forum = new eZForum();
 
 $forumList = $forum->getAllByCategory( $CategoryID );
 
-$i=0;
-foreach( $forumList as $forumItem )
+if ( !$forumList )
 {
-    if ( ( $i %2 ) == 0 )
-        $t->set_var( "td_class", "bgdark" );
-    else
-        $t->set_var( "td_class", "bglight" );
+    $ini = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/forumlist.php.ini", false );
+    $noitem =  $ini->read_var( "strings", "noitem" );
 
-    $t->set_var( "forum_id", $forumItem->id() );
-    $t->set_var( "forum_name", $forumItem->name() );
-    $t->set_var( "forum_description", $forumItem->description() );
-
-    $t->parse( "forum_item", "forum_item_tpl", true);
-    $i++;
+    $t->set_var( "forum_item", $noitem );
 }
+else
+{
+    $i=0;
+    foreach( $forumList as $forumItem )
+        {
+            if ( ( $i %2 ) == 0 )
+                $t->set_var( "td_class", "bgdark" );
+            else
+                $t->set_var( "td_class", "bglight" );
+
+            $t->set_var( "forum_id", $forumItem->id() );
+            $t->set_var( "forum_name", $forumItem->name() );
+            $t->set_var( "forum_description", $forumItem->description() );
+
+            $t->parse( "forum_item", "forum_item_tpl", true);
+            $i++;
+        }
+}
+
 $t->set_var( "docroot", $DOCROOT );
 $t->set_var( "category_id", $CategoryID );
 

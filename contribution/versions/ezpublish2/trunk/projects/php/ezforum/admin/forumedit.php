@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forumedit.php,v 1.1 2000/10/13 10:02:30 ce-cvs Exp $
+    $Id: forumedit.php,v 1.2 2000/10/17 11:40:49 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -16,11 +16,11 @@ $Language = $ini->read_var( "eZForumMain", "Language" );
 
 include_once( "classes/eztemplate.php" );
 include_once( "ezforum/classes/ezforumcategory.php" );
-include_once( "ezforum/classes/ezforumforum.php" );
+include_once( "ezforum/classes/ezforum.php" );
 
 if ( $Action == "insert" )
 {
-    $forum = new eZforumForum();
+    $forum = new eZForum();
     $forum->setCategoryId( $CategorySelectID );
     $forum->setName( $name );
     $forum->setDescription( $description );
@@ -31,7 +31,7 @@ if ( $Action == "insert" )
 
 if ( $Action == "update" )
 {
-    $forum = new eZforumForum();
+    $forum = new eZForum();
     $forum->get( $ForumID );
     $forum->setCategoryId( $CategorySelectID );
     $forum->setName( $name );
@@ -43,15 +43,15 @@ if ( $Action == "update" )
 
 if ( $Action == "delete" )
 {
-    $forum = new eZforumForum();
+    $forum = new eZForum();
     $forum->get( $ForumID );
     $forum->delete();
 
     Header( "Location: /forum/categorylist/" );
 }
 
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
-$DOC_ROOT . "/admin/" . "/intl", $Language, "forumedit.php" );
+$t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+"ezforum//admin/" . "/intl", $Language, "forumedit.php" );
 $t->setAllStrings();
 
 $t->set_file( array( "forum_page" => "forumedit.tpl"
@@ -61,12 +61,12 @@ $t->set_block( "forum_page", "category_item_tpl", "category_item" );
 
 $t->set_var( "action_value", "insert" );
 
-$ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/forumedit.php.ini", false );
+$ini = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/forumedit.php.ini", false );
 $headline =  $ini->read_var( "strings", "head_line_insert" );
 $t->set_var( "forum_name", "" );
 $t->set_var( "forum_description", "" );
 
-$category = new eZforumCategory();
+$category = new eZForumCategory();
 $categoryList = $category->getAll();
 foreach( $categoryList as $categoryItem )
 {
@@ -83,7 +83,7 @@ foreach( $categoryList as $categoryItem )
 
 if ( $Action == "edit" )
 {
-    $forum = new eZforumForum();
+    $forum = new eZForum();
     $forum->get( $ForumID );
 
     $t->set_var( "forum_name", $forum->name() );
@@ -91,7 +91,7 @@ if ( $Action == "edit" )
     $t->set_var( "forum_id", $ForumID);
     $t->set_var( "action_value", "update" );
 
-    $ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/forumedit.php.ini", false );
+    $ini = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/forumedit.php.ini", false );
     $headline =  $ini->read_var( "strings", "head_line_edit" );
 }
 $t->set_var( "docroot", $DOCROOT );

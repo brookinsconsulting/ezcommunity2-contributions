@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.1 2000/10/17 09:46:49 ce-cvs Exp $
+// $Id: ezforum.php,v 1.2 2000/10/17 11:40:49 ce-cvs Exp $
 //
 // 
 //
@@ -127,7 +127,7 @@ class eZForum
             else if( count( $forum_array ) == 1 )
             {
                 $this->ID = $forum_array[0][ "ID" ];
-                $this->CategoryID = $forum_array[0][ "CategoryId" ];
+                $this->CategoryID = $forum_array[0][ "CategoryID" ];
                 $this->Name = $forum_array[0][ "Name" ];
                 $this->Description = $forum_array[0][ "Description" ];
                 $this->Moderated = $forum_array[0][ "Moderated" ];
@@ -170,9 +170,9 @@ class eZForum
         $ret = array();
 
         foreach ( $forum_array as $forum )
-            {
-                $ret[] = new eZForum( $forum["ID"] );
-            }
+        {
+            $ret[] = new eZForum( $forum["ID"] );
+        }
 
         return $ret;
 
@@ -317,7 +317,7 @@ class eZForum
     /*!
       
     */
-    function categoryId()
+    function categoryID()
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
@@ -329,13 +329,13 @@ class eZForum
     /*!
       
     */
-    function setCategoryId( $newCategoryId )
+    function setCategoryID( $newCategoryID )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
         
-        $this->CategoryId = $newCategoryId;
+       $this->CategoryID = $newCategoryID;
     }
         
     /*!

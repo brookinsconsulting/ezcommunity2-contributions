@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: categoryedit.php,v 1.1 2000/10/13 10:02:30 ce-cvs Exp $
+    $Id: categoryedit.php,v 1.2 2000/10/17 11:40:49 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -20,13 +20,13 @@ include_once( "classes/eztemplate.php" );
 
 include_once( "ezforum/classes/ezforumcategory.php" );
 
-$cat = new eZforumCategory();
+$cat = new eZForumCategory();
 
 $t->set_var( "docroot", $DOC_ROOT );
 
 if ( $Action == "insert" )
 {
-    $cat = new eZforumCategory();
+    $cat = new eZForumCategory();
     $cat->setName( $Name );
     $cat->setDescription( $Description );
    
@@ -36,7 +36,7 @@ if ( $Action == "insert" )
   
 if ( $Action == "delete" )
 {
-    $cat = new eZforumCategory();
+    $cat = new eZForumCategory();
     $cat->get( $CategoryID );
     $cat->delete( );
     Header( "Location: /forum/categorylist/" );
@@ -45,7 +45,7 @@ if ( $Action == "delete" )
 
 if ( $Action == "update" )
 {
-    $cat = new eZforumCategory();
+    $cat = new eZForumCategory();
     $cat->get( $CategoryID );
     $cat->setName( $Name );
     $cat->setDescription( $Description );
@@ -55,23 +55,22 @@ if ( $Action == "update" )
     Header( "Location: /forum/categorylist/" );
 }
 
-$t = new eZTemplate( $DOC_ROOT . "/admin/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
-$DOC_ROOT . "/admin/" . "/intl", $Language, "categoryedit.php" );
+$t = new eZTemplate( "ezforum/admin/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
+"ezforum/admin/" . "/intl", $Language, "categoryedit.php" );
 $t->setAllStrings();
-
-// $t = new Template( $DOC_ROOT . "admin/templates" );
 
 $t->set_file( array( "category_page" => "categoryedit.tpl"
                     ) );
 
 $t->set_block( "category_page", "category_edit_tpl", "category_edit" );
+
 $t->set_var( "action_value", "insert" );
 $t->set_var( "category_name", "" );
 $t->set_var( "category_description", "" );
 $t->set_var( "action_value", "update" );
 
 
-$ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/categoryedit.php.ini", false );
+$ini = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/categoryedit.php.ini", false );
 $headline =  $ini->read_var( "strings", "head_line_insert" );
 
 $t->set_var( "category_id", $CategoryID );
@@ -79,13 +78,13 @@ $t->set_var( "category_id", $CategoryID );
 if ( $Action == "edit" )
 {
     die();
-    $cat = new eZforumCategory();
+    $cat = new eZForumCategory();
     $cat->get( $CategoryID );    
     $t->set_var( "category_name", $cat->name() );
     $t->set_var( "category_description", $cat->description() );
     $t->set_var( "action_value", "update" );
 
-    $ini = new INIFile( $DOC_ROOT . "/admin/" . "intl/" . $Language . "/categoryedit.php.ini", false );
+    $ini = new INIFile( "ezforum/admin/" . "intl/" . $Language . "/categoryedit.php.ini", false );
     $headline =  $ini->read_var( "strings", "head_line_edit" );
 
 }

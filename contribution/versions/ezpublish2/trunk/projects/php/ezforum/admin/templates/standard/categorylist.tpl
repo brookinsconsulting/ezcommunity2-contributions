@@ -45,15 +45,15 @@
         <a href="/forum/forumlist/{category_id}/">{category_name}</a>
     </td>
     <td class={td_class}>
-        <p>{category_description}</p>
+        {category_description}
     </td>
     
-    <td width="120" align="right" class={td_class}>
+    <td width="1%" class={td_class}>
         <a href="/forum/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ef{category_id}-red','','/ezforum/images/redigerminimrk.gif',1)"><img name="ef{category_id}-red" border="0" src="/ezforum/images/redigermini.gif" width="16" height="16" align="top"></a>
-		&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td width="1%" class={td_class}>
         <a href="/forum/categoryedit/delete/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ef{category_id}-slett','','/ezforum/images/slettminimrk.gif',1)"><img name="ef{category_id}-slett" border="0" src="/ezforum/images/slettmini.gif" width="16" height="16" align="top"></a>
-    	&nbsp;&nbsp;
-	</td>
+    </td>
 </tr>
 <!-- END category_item_tpl -->
 </table>

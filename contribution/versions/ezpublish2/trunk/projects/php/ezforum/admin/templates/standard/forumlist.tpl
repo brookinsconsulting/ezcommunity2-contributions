@@ -34,21 +34,31 @@
 
 <h1>{intl-headline}</h1>
 <table width="100%" cellspacing="0" cellpadding="4" border="0">
-   <tr>
-     <td><p><b>{intl-name}</b></p></td>
-     <td><p><b>{intl-description}</b></p></td>
-     <td colspan="3">&nbsp;</td>
-   </tr>
+<tr>
+	<th>
+	{intl-name}
+	</th>
+	<th>
+	{intl-description}
+	</th>
+</tr>
 
 <!-- BEGIN forum_item_tpl -->
-   <tr bgcolor="{color}">
-     <td class={td_class}><a href="/forum/messagelist/{category_id}/{forum_id}/">{forum_name}</a></td>
-     <td class={td_class}>{forum_description}&nbsp;</td>
-     <td width="120" align="right" class={td_class}>
-	 <a href="/forum/forumedit/edit/{category_id}/{forum_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eff{forum_id}-red','','/ezforum/images/redigerminimrk.gif',1)"><img name="eff{forum_id}-red" border="0" src="/ezforum/images/redigermini.gif" width="16" height="16" align="top"></a>
-     &nbsp;&nbsp;&nbsp;&nbsp;
-	 <a href="/forum/forumedit/delete/{category_id}/{forum_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eff{forum_id}-slett','','/ezforum/images/slettminimrk.gif',1)"><img name="eff{forum_id}-slett" border="0" src="/ezforum/images/slettmini.gif" width="16" height="16" align="top"></a>
-	 &nbsp;&nbsp;
+<tr>
+        <td class={td_class}>
+	<a href="/forum/messagelist/{category_id}/{forum_id}/">{forum_name}</a>
+	</td>
+	<td class={td_class}>
+	{forum_description}
+	</td>
+        <td width="1%" class={td_class}>
+	<a href="/forum/forumedit/edit/{category_id}/{forum_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eff{forum_id}-red','','/ezforum/images/redigerminimrk.gif',1)"><img name="eff{forum_id}-red" border="0" src="/ezforum/images/redigermini.gif" width="16" height="16" align="top"></a>
+	</td>
+
+	<td width="1%" class={td_class}>
+	<a href="/forum/forumedit/delete/{category_id}/{forum_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('eff{forum_id}-slett','','/ezforum/images/slettminimrk.gif',1)"><img name="eff{forum_id}-slett" border="0" src="/ezforum/images/slettmini.gif" width="16" height="16" align="top"></a>
+	</td>
+
 <!-- END forum_item_tpl -->
 
 </table>

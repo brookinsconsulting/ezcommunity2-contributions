@@ -118,4 +118,3 @@
 
 </table>
 <br>
-{navigation-bar-bottom}
