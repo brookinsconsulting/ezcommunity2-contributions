@@ -1,5 +1,5 @@
 <?
-// $Id: todoedit.php,v 1.5 2000/09/18 11:09:52 ce-cvs Exp $
+// $Id: todoedit.php,v 1.6 2000/10/03 16:00:56 ce-cvs Exp $
 //
 // Definition of todo list.
 //
@@ -19,9 +19,6 @@ $Language = $ini->read_var( "eZTodoMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZTodoMain", "DocumentRoot" );
 
 include_once( "classes/eztemplate.php" );
-include_once( "classes/ezsession.php" );
-include_once( "classes/ezuser.php" );
-include_once( "classes/ezusergroup.php" );
 include_once( "classes/ezregional.php" );
 include_once( "classes/ezdatetime.php" );
 include_once( "common/ezphputils.php" );
@@ -30,10 +27,14 @@ include_once( "eztodo/classes/ezcategory.php" );
 include_once( "eztodo/classes/ezpriority.php" );
 include_once( "classes/ezlocale.php" );
 
-$session = new eZSession();
-if( $session->get( $AuthenticatedSession ) == 1 )
+include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/ezusergroup.php" );
+
+$user = eZUser::currentUser();
+if ( !$user )
 {
-    print( "ER IKKE LOGGGT INN!!!!!!!!" );
+    Header( "Location: /user/login" );
+    exit();
 }
 
 // Save a todo in the database.
@@ -104,9 +105,6 @@ if ( $Action == "update" )
     {
         $todo->setPermission( "Private" );
     }
-
-
-    
     $todo->update();
 
     Header( "Location: /todo/todolist/" );
@@ -155,7 +153,7 @@ $t->set_file( array(
     ) );
 
 // Template variables.
-$initemplate = new INIFile( "./eztodo/intl/no_NO/todoedit.php.ini" );
+$initemplate = new INIFile( "./eztodo/intl/no_NO/todoedit.php.ini", false );
 $submit_text = $initemplate->read_var( "strings", "submitinsert" );
 $headline = $initemplate->read_var( "strings", "headlineinsert" );
 $action_value = "insert";
@@ -168,8 +166,8 @@ $hour = "";
 $min = "";
 
 // default user
-$UserID = $session->userID();
-$OwnerID = $session->userID();
+$UserID = $user->id();
+$OwnerID = $user->id();
 
 // Edit a todo.
 if ( $Action == "edit" )
@@ -260,14 +258,14 @@ for( $i=0; $i<count( $priority_array ); $i++ )
 $user = new eZUser();
 $user_array = $user->getAll();
 
-for( $i=0; $i<count( $user_array ); $i++ )
+foreach( $user_array as $userItem )
 {
-    $t->set_var( "user_id", $user_array[ $i ][ "id" ] );
-    $t->set_var( "user_firstname", $user_array[ $i ][ "first_name" ] );
-    $t->set_var( "user_lastname", $user_array[ $i ][ "last_name" ] );
+    $t->set_var( "user_id", $userItem->id() );
+    $t->set_var( "user_firstname", $userItem->firstName() );
+    $t->set_var( "user_lastname", $userItem->lastName() );
 
     // User select
-    if ( $UserID == $user_array[ $i ][ "id"] )
+    if ( $UserID == $userItem->id() )
     {
         $t->set_var( "user_is_selected", "selected" );
     }
@@ -279,14 +277,13 @@ for( $i=0; $i<count( $user_array ); $i++ )
     $t->parse( "user_select", "user_item", true );
 }
 
-for( $i=0; $i<count( $user_array ); $i++ )
+foreach( $user_array as $userItem )
 {
-    $t->set_var( "user_id", $user_array[ $i ][ "id" ] );
-    $t->set_var( "user_firstname", $user_array[ $i ][ "first_name" ] );
-    $t->set_var( "user_lastname", $user_array[ $i ][ "last_name" ] );
-
-    // Owner select
-    if ( $OwnerID == $user_array[ $i ][ "id"] )
+    $t->set_var( "user_id", $userItem->id() );
+    $t->set_var( "user_firstname", $userItem->firstName() );
+    $t->set_var( "user_lastname", $userItem->lastName() );
+        // Owner select
+    if ( $OwnerID == $userItem->id() )
     {
         $t->set_var( "owner_is_selected", "selected" );
     }
@@ -297,6 +294,7 @@ for( $i=0; $i<count( $user_array ); $i++ )
 
     $t->parse( "owner_select", "owner_item", true );
 }
+
 
 
 // Template variables.

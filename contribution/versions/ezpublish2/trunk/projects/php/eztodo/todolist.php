@@ -1,5 +1,5 @@
 <?
-// $Id: todolist.php,v 1.6 2000/09/14 14:43:15 ce-cvs Exp $
+// $Id: todolist.php,v 1.7 2000/10/03 16:00:57 ce-cvs Exp $
 //
 // Definition of todo list.
 //
@@ -19,21 +19,22 @@ $Language = $ini->read_var( "eZTodoMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZTodoMain", "DocumentRoot" );
 
 include_once( "classes/eztemplate.php" );
-include_once( "classes/ezsession.php" );
-include_once( "classes/ezuser.php" );
-include_once( "classes/ezusergroup.php" );
 include_once( "classes/ezdatetime.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "common/ezphputils.php" );
+
+include_once( "ezuser/classes/ezuser.php" );
+include_once( "ezuser/classes/ezusergroup.php" );
 
 include_once( "eztodo/classes/eztodo.php" );
 include_once( "eztodo/classes/ezcategory.php" );
 include_once( "eztodo/classes/ezpriority.php" );
 
-$session = new eZSession();
-if( $session->get( $AuthenticatedSession ) == 1 )
+$user = eZUser::currentUser();
+if ( !$user )
 {
-    print( "ER IKKE LOGGGT INN!!!!!!!!" );
+    Header( "Location: /user/login" );
+    exit();
 }
 
 $t = new eZTemplate( $DOC_ROOT . "/" . $ini->read_var( "eZTodoMain", "TemplateDir" ), $DOC_ROOT . "intl/", $Language, "todolist.php" );
@@ -45,43 +46,44 @@ $t->set_file( array(
     ) );
 
 $user = new eZUser();
-$user->get( $session->userID() );
-$UserID = $session->userID();
+$user->get( $user->id() );
+$UserID = $user->id();
 
-$t->set_var( "user", $user->nickname() );
+$t->set_var( "user", $user->login() );
 
 
 // Check if the user want its own todos or the public todos.
 $todo = new eZTodo();
 
-if ( $GetByUserID == $session->userID() )
+if ( $GetByUserID == $user->id() )
 {
-    $GetByUserID = $session->userID();
+    $GetByUserID = $user->id();
     $todo_array = $todo->getByOwnerID( $GetByUserID );
+    
 }
 else
 {
     $todo_array = $todo->getByUserID( $GetByUserID );
 }
+
 // User selector.
+
 $user = new eZUser();
-$user_array = $user->getAll();
-for( $i=0; $i<count( $user_array ); $i++ )
+$userList = $user->getAll();
+
+foreach( $userList as $userItem )
 {
     if ( !isset( $GetByUserID ) )
     {
-        $GetByUserID = $session->userID();
+        $GetByUserID = $user->id();
     }
-    $t->set_var( "user_id", $user_array[ $i ][ "id" ] );
-    $t->set_var( "user_firstname", $user_array[ $i ][ "first_name" ] );
-    $t->set_var( "user_lastname", $user_array[ $i ][ "last_name" ] );
+    $t->set_var( "user_id", $userItem->id() );
+    $t->set_var( "user_firstname", $userItem->firstName() );
+    $t->set_var( "user_lastname", $userItem->lastName() );
 
-    // User select
-    // if ( $GetByUserID == $user_array[ $i ][ "id"] )
-
-    if ( $GetByUserID == $session->userID() )
+    if ( $GetByUserID == $user->id() )
     {
-        if ( $session->userID() == $user_array[ $i ][ "id" ] )
+        if ( $user->id() == $userItemr->id() )
         {
             $t->set_var( "user_is_selected", "selected" );
         }
@@ -94,7 +96,7 @@ for( $i=0; $i<count( $user_array ); $i++ )
     }
     else
     {
-        if ( $GetByUserID == $user_array[ $i ][ "id" ] )
+        if ( $GetByUserID == $userItem->id() )
         {
             $t->set_var( "user_is_selected", "selected" );
         }
@@ -114,33 +116,25 @@ if ( count( $todo_array ) == 0 )
 
 $locale = new eZLocale();
 
-for ( $i=0; $i<count( $todo_array ); $i++ )
+foreach( $todo_array as $todoItem )
 {
-
-    if ( ( $i % 2 ) == 0 )
-    {
-        $t->set_var( "bg_color", "#f0f0f0" );
-    }
-    else
-    {
-        $t->set_var( "bg_color", "#dcdcdc" );
-    }  
-    $t->set_var( "todo_id", $todo_array[ $i ]->id() );
-    $t->set_var( "todo_title", $todo_array[ $i ]->title() );
-    $t->set_var( "todo_text", $todo_array[ $i ]->text() );
-    $cat = new eZCategory( $todo_array[ $i ]->categoryID() );
+    $t->set_var( "todo_id", $todoItem->id() );
+    $t->set_var( "todo_title", $todoItem->title() );
+    $t->set_var( "todo_text", $todoItem->text() );
+    $cat = new eZCategory( $todoItem->categoryID() );
     $t->set_var( "todo_category_id", $cat->title() );
-    $pri = new eZPriority( $todo_array[ $i ]->priorityID() );
+    $pri = new eZPriority( $todoItem->priorityID() );
     $t->set_var( "todo_priority_id", $pri->title() );
-    $t->set_var( "todo_due", $locale->format( $todo_array[ $i ]->due() ) );
-    $t->set_var( "todo_userid", $todo_array[ $i ]->userID() );
-    $t->set_var( "todo_permission", $todo_array[ $i ]->permission() );
-    $t->set_var( "todo_date", $locale->format( $todo_array[ $i ]->date() ) );
+    $t->set_var( "todo_due", $locale->format( $todoItem->due() ) );
+    $t->set_var( "todo_userid", $todoItem->userID() );
+    $t->set_var( "todo_permission", $todoItem->permission() );
+    $t->set_var( "todo_date", $locale->format( $todoItem->date() ) );
 
-    $t->set_var( "todo_status", $todo_array[ $i ]->status() );
+    $t->set_var( "todo_status", $$todoItem->status() );
 
     $t->parse( "todos", "todo_item", true );
 }
+
 
 $t->set_var( "document_root", $DOC_ROOT );
 
