@@ -2376,7 +2376,7 @@ CREATE TABLE eZTodo_Status (
 CREATE TABLE eZTodo_Todo (
   Category int(11) default NULL,
   Priority int(11) default NULL,
-  IsPublic int(11) default '0',
+  Permission enum('Public','Private') default 'Private',
   ID int(11) NOT NULL auto_increment,
   UserID int(11) default NULL,
   OwnerID int(11) default NULL,
