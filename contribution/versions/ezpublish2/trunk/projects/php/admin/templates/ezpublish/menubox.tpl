@@ -48,7 +48,7 @@
 </tr>
 <tr>
     <td class="repeaty" width="1%" background="/admin/images/{site_style}/box-l04.gif" valign="top"><img src="/admin/images/{site_style}/1x1.gif" width="10" height="10" border="0" alt="" /><br /></td>
-    <td bgcolor="#ffffff">
+    <td bgcolor="#ffffff" class="tdmini">
 	<table width="100%" cellpadding="1" cellspacing="0" border="0">
 
 	<!-- BEGIN menu_item_tpl -->

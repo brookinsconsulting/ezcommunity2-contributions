@@ -54,7 +54,7 @@
 	<th>{intl-product_name}:</th>
 	<th>{intl-options}:</th>
 	<th>{intl-qty}:</th>
-	<td class="path" align="right">{intl-price}:</td>
+	<th class="right">{intl-price}:</th>
 </tr>
 <!-- BEGIN order_item_tpl -->
 

@@ -144,6 +144,11 @@ th
 	text-align: left;
 }
 
+th.right
+{
+	text-align: right;
+}
+
 .tdmini
 {
 	font-size: 1px;
