@@ -1,5 +1,5 @@
 <?
-// $Id: linkedit.php,v 1.55 2001/06/30 13:11:27 bf Exp $
+// $Id: linkedit.php,v 1.56 2001/06/30 13:41:44 bf Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Oct-2000 14:58:57 ce>
@@ -199,9 +199,33 @@ if ( $Action == "update" )
                 
                 $link->setImage( $image );
             }
+
+            if ( $TypeID == -1 )
+            {
+                $link->removeType();
+            }
+            else
+            {
+                $link->removeType();
+                
+                $link->setType( new eZLinkType( $TypeID ) );
+                
+                $i = 0;
+                if ( count( $AttributeValue ) > 0 )
+                {
+                    foreach ( $AttributeValue as $attribute )
+                    {
+                        $att = new eZLinkAttribute( $AttributeID[$i] );
+                        
+                        $att->setValue( $link, $attribute );
+                        
+                        $i++;
+                    }
+                }
+            }
             
             $link->update();
-            
+
             if ( $DeleteImage )
             {
                 $link->deleteImage();
@@ -209,7 +233,7 @@ if ( $Action == "update" )
             if ( isSet ( $Browse ) )
             {
                 $linkID = $link->id();
-                $session = eZSession::globalSession();
+                $session =& eZSession::globalSession();
                 $session->setVariable( "SelectImages", "single" );
                 $session->setVariable( "ImageListReturnTo", "/link/linkedit/edit/$linkID/" );
                 $session->setVariable( "NameInBrowse", $link->name() );
@@ -326,7 +350,9 @@ if ( $Action == "insert" )
                 
                 $link->setImage( $image );
             }
-            
+
+            $link->store();
+                
             if ( $TypeID == -1 )
             {
                 $link->removeType();
@@ -349,7 +375,6 @@ if ( $Action == "insert" )
                 }
             }
     
-            $link->store();
             // Add to categories.
             $cat = new eZLinkCategory( $LinkCategoryID );
             $cat->addLink( $link );
@@ -369,7 +394,7 @@ if ( $Action == "insert" )
             }
 
             $linkID = $link->id();
-            die();
+            
             if ( isSet( $Browse ) )
             {
                 $linkID = $link->id();
@@ -465,34 +490,36 @@ if ( $Action == "edit" )
     }
     else
     {
-        if ( !isSet( $editlink ) )
+        if ( !isSet( $editLink ) )
         {
-            $editlink = new eZLink();
-            $editlink->get( $LinkID );
+            $editLink = new eZLink();
+            $editLink->get( $LinkID );
         }
 
-        $name = $editlink->Name;
+        $name = $editLink->Name;
 
-        $cateDef = $editlink->categoryDefinition();
+        $cateDef = $editLink->categoryDefinition();
         $LinkCategoryID = $cateDef->id();
-        $LinkCategoryIDArray = $editlink->categories( false );
+        $LinkCategoryIDArray = $editLink->categories( false );
 
-        $name = $editlink->name();
-        $description = $editlink->description();
-        $keywords = $editlink->keyWords();
-        $accepted = $editlink->accepted();
-        $url = $editlink->url();
+        $name = $editLink->name();
+        $description = $editLink->description();
+        $keywords = $editLink->keyWords();
+        $accepted = $editLink->accepted();
+        $url = $editLink->url();
 
         $action_value = "update";
         $message = "Rediger link";
         $submit = "Rediger";
               
-        $tname = $editlink->name();
-        $tdescription = $editlink->description();
-        $tkeywords = $editlink->keywords();
-        $turl = $editlink->url();
+        $tname = $editLink->name();
+        $tdescription = $editLink->description();
+        $tkeywords = $editLink->keywords();
+        $turl = $editLink->url();
 
-        $image = $editlink->image();
+        $linkType = $editLink->type();
+
+        $image = $editLink->image();
 
         if ( $image )
         {
@@ -523,7 +550,7 @@ if ( $Action == "edit" )
         
         
 
-        if ( $editlink->accepted() == true )
+        if ( $editLink->accepted() == true )
         {
             $yes_selected = "selected";
             $no_selected = "";
@@ -550,7 +577,6 @@ if ( $Action == "AttributeList" )
     $t->parse( "no_image_item", "no_image_item_tpl" );
     $t->set_var( "image_item", "" );
     
-    
 
     if ( $Accepted == true )
     {
@@ -562,7 +588,8 @@ if ( $Action == "AttributeList" )
         $yes_selected = "";
         $no_selected = "selected";
     }
-    $action_value = "insert";
+    
+    $action_value = $url_array[3];
 }
 
 // Selector
@@ -610,15 +637,14 @@ foreach( $linkCategoryList as $linkCategoryItem )
 $type = new eZLinkType();
 $types = $type->getAll();
 
-if ( isSet( $TypeID ) )
-    $type = new eZLinkType( $TypeID );
-
+if ( isset( $TypeID ) )
+    $linkType = new eZLinkType( $TypeID );
 
 foreach ( $types as $typeItem )
 {
-    if ( $type )
+    if ( get_class( $linkType ) == "ezlinktype"  )
     {
-        if ( $type->id() == $typeItem->id() )
+        if ( $linkType->id() == $typeItem->id() )
         {
             $t->set_var( "selected", "selected" );
         }
@@ -639,15 +665,16 @@ foreach ( $types as $typeItem )
 }
 
 
-if ( $type )    
+if ( get_class( $linkType) == "ezlinktype" )    
 {
-    $attributes = $type->attributes();
+    $attributes = $linkType->attributes();
 
     foreach ( $attributes as $attribute )
     {
         $t->set_var( "attribute_id", $attribute->id( ) );
         $t->set_var( "attribute_name", $attribute->name( ) );
-        $t->set_var( "attribute_value", $attribute->value( $link ) );
+
+        $t->set_var( "attribute_value", $attribute->value( $editLink ) );
         
         $t->parse( "attribute", "attribute_tpl", true );
     }

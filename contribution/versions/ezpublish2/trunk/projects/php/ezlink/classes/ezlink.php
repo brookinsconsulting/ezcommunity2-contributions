@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlink.php,v 1.60 2001/06/30 13:11:27 bf Exp $
+// $Id: ezlink.php,v 1.61 2001/06/30 13:41:44 bf Exp $
 //
 // Definition of eZLink class
 //
@@ -144,9 +144,9 @@ class eZLink
             
             $typeID = $type->id();
 
-            $db->lock( "eZLink_AttributeValue" );
+            $db->lock( "eZLink_TypeLink" );
 
-            $nextID = $db->nextID( "eZLink_AttributeValue", "ID" );
+            $nextID = $db->nextID( "eZLink_TypeLink", "ID" );
             
             
             $res[] = $db->query( "DELETE FROM eZLink_AttributeValue
@@ -170,10 +170,7 @@ class eZLink
                 $db->rollback( );
             else
                 $db->commit();
-                
-                
 
-            
         }
     }
 
@@ -191,7 +188,7 @@ class eZLink
        
         if ( count( $res ) == 1 )
         {
-            $type = new eZLinkType( $res[0]["TypeID"] );
+            $type = new eZLinkType( $res[0][$db->fieldName("TypeID")] );
         }
 
         return $type;
@@ -226,8 +223,6 @@ class eZLink
         $keywords = $db->escapeString( $this->KeyWords );
 
         $timeStamp =& eZDateTime::timeStamp( true );
-
-
         
         $res = $db->query( "UPDATE eZLink_Link SET
                 Name='$name',
@@ -262,7 +257,7 @@ class eZLink
     /*!
       Fetches out informasjon from the daatabase where ID=$id
     */
-    function get ( $id )
+    function get( $id )
     {
         $db =& eZDB::globalDatabase();
         

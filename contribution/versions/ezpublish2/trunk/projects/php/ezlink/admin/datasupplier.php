@@ -125,7 +125,7 @@ switch ( $url_array[2] )
                 }
                 else
                 {
-                    $Action = "insert";
+                    $Action = "update";
                 }
                 include( "ezlink/admin/linkedit.php" );
             }
