@@ -19,9 +19,9 @@
 	</td>
 	<td align="center">
 
-		<a class="path" href="/calendar/dayview/{3_year_number}/{3_month_number}/{3_day_number}">&lt;&lt;&nbsp;</a>
-		<span class="boxtext">{long_date}</span>
-		<a class="path" href="/calendar/dayview/{4_year_number}/{4_month_number}/{4_day_number}">&nbsp;&gt;&gt;</a>
+		<a class="path" href="/calendar/dayview/{pm_year_number}/{pm_month_number}/{pm_day_number}">&lt;&lt;&nbsp;</a>
+		<a class="path" href="/calendar/monthview/{year_number}/{month_number}">{month_name}</a>
+		<a class="path" href="/calendar/dayview/{nm_year_number}/{nm_month_number}/{nm_day_number}">&nbsp;&gt;&gt;</a>
 
 		<table width="100" border="1" cellspacing="0" cellpadding="1">
 		<!-- BEGIN week_tpl -->
@@ -45,17 +45,14 @@
 </tr>
 </table>
 <br />
-<!--
-		<a href="/calendar/monthview/{year_number}/{month_number}">{month_name}:</a>
-		<br />
--->
+
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td>
-	<a class="path" href="/calendar/dayview/{3_year_number}/{3_month_number}/{3_day_number}">&lt;&lt;&nbsp;{intl-next_day}</a>
+	<a class="path" href="/calendar/dayview/{pd_year_number}/{pd_month_number}/{pd_day_number}">&lt;&lt;&nbsp;{intl-previous_day}</a>
 	</td>
 	<td align="right">
-	<a class="path" href="/calendar/dayview/{4_year_number}/{4_month_number}/{4_day_number}">{intl-previous_day}&nbsp;&gt;&gt;</a>
+	<a class="path" href="/calendar/dayview/{nd_year_number}/{nd_month_number}/{nd_day_number}">{intl-next_day}&nbsp;&gt;&gt;</a>
 	</td>
 </tr>
 </table>

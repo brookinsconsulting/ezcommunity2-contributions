@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.35 2001/02/26 15:50:07 gl Exp $
+// $Id: dayview.php,v 1.36 2001/03/02 12:50:45 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -414,79 +414,82 @@ else
     }
 
 
-    // set up top prev/next links
+    // previous day link
     $date->setYear( $Year );
     $date->setMonth( $Month );
-    $date->setDay( $Day );
 
-    // previous year link
-    $date->setYear( $Year - 1 );
-    if ( $date->month() == 2 && $date->daysInMonth() < $date->day() )
+    $date->setDay( $Day - 1 );
+    if ( $date->day() < 1 )
+    {
+        $date->setMonth( $Month - 1 );
+        if ( $date->month() < 1 )
+        {
+            $date->setMonth( 12 );
+            $date->setYear( $Year - 1 );
+        }
         $date->setDay( $date->daysInMonth() );
+    }
+    $t->set_var( "pd_year_number", $date->year() );
+    $t->set_var( "pd_month_number", $date->month() );
+    $t->set_var( "pd_day_number", $date->day() );
 
-    $t->set_var( "1_year_number", $date->year() );
-    $t->set_var( "1_month_number", $date->month() );
-    $t->set_var( "1_day_number", $date->day() );
-
+    // next day link
     $date->setYear( $Year );
     $date->setMonth( $Month );
-    $date->setDay( $Day );
 
-    // next year link
-    $date->setYear( $Year + 1 );
-    if ( $date->month() == 2 && $date->daysInMonth() < $date->day() )
-        $date->setDay( $date->daysInMonth() );
-
-    $t->set_var( "2_year_number", $date->year() );
-    $t->set_var( "2_month_number", $date->month() );
-    $t->set_var( "2_day_number", $date->day() );
-
-    $date->setYear( $Year );
-    $date->setMonth( $Month );
-    $date->setDay( $Day );
+    $date->setDay( $Day + 1 );
+    if ( $date->day() > $date->daysInMonth() )
+    {
+        $date->setDay( 1 );
+        $date->setMonth( $Month + 1 );
+        if ( $date->month() > 12 )
+        {
+            $date->setMonth( 1 );
+            $date->setYear( $Year + 1 );
+        }
+    }
+    $t->set_var( "nd_year_number", $date->year() );
+    $t->set_var( "nd_month_number", $date->month() );
+    $t->set_var( "nd_day_number", $date->day() );
 
     // previous month link
-    if ( $date->month() == 1 )
+    $date->setYear( $Year );
+    $date->setDay( $Day );
+
+    $date->setMonth( $Month - 1 );
+    if ( $date->month() < 1 )
     {
         $date->setMonth( 12 );
         $date->setYear( $Year - 1 );
     }
-    else
-        $date->setMonth( $date->month() - 1 );
-
-    if ( $date->daysInMonth() < $date->day() )
+    if ( $date->day() > $date->daysInMonth() )
         $date->setDay( $date->daysInMonth() );
-
-    $t->set_var( "3_year_number", $date->year() );
-    $t->set_var( "3_month_number", $date->month() );
-    $t->set_var( "3_day_number", $date->day() );
-
-    $date->setYear( $Year );
-    $date->setMonth( $Month );
-    $date->setDay( $Day );
+    $t->set_var( "pm_year_number", $date->year() );
+    $t->set_var( "pm_month_number", $date->month() );
+    $t->set_var( "pm_day_number", $date->day() );
 
     // next month link
-    if ( $date->month() == 12 )
+    $date->setYear( $Year );
+    $date->setDay( $Day );
+
+    $date->setMonth( $Month + 1 );
+    if ( $date->month() > 12 )
     {
         $date->setMonth( 1 );
         $date->setYear( $Year + 1 );
     }
-    else
-        $date->setMonth( $date->month() + 1 );
-
-    if ( $date->daysInMonth() < $date->day() )
+    if ( $date->day() > $date->daysInMonth() )
         $date->setDay( $date->daysInMonth() );
+    $t->set_var( "nm_year_number", $date->year() );
+    $t->set_var( "nm_month_number", $date->month() );
+    $t->set_var( "nm_day_number", $date->day() );
 
-    $t->set_var( "4_year_number", $date->year() );
-    $t->set_var( "4_month_number", $date->month() );
-    $t->set_var( "4_day_number", $date->day() );
 
+    // parse month table
     $date->setYear( $Year );
     $date->setMonth( $Month );
     $date->setDay( $Day );
 
-
-    // parse month table
     $t->set_var( "month_number", $date->month() );
     $t->set_var( "month_name", $Locale->monthName( $date->monthName(), false ) );
 
