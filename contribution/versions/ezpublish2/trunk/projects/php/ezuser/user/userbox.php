@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: userbox.php,v 1.33 2001/09/07 09:49:05 bf Exp $
+// $Id: userbox.php,v 1.34 2001/10/15 16:21:48 fh Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -96,7 +96,8 @@ if ( !$user )
 
     if ( !isset( $RedirectURL ) or !$RedirectURL )
         $RedirectURL = $REQUEST_URI;
-    if ( preg_match( "#^/user/user/login.*#", $RedirectURL  ) )
+    if ( preg_match( "#^/user/user/login.*#", $RedirectURL  ) ||
+         preg_match( "#^/user/forgot.*#", $RedirectURL) )
     {
         $t->set_var( "redirect_url", "/" );
         
