@@ -89,10 +89,15 @@ class eZGroupEvent
                              EventAlarmNotice='$this->EventAlarmNotice',
                              EventCategoryID='$this->EventCategoryID',
                              IsRecurring='$this->IsRecurring',
-                             RecurringDay='$this->RecurringDay',
-                             RecurringMonth='$this->RecurringMonth',
-                             RecurringYear='$this->RecurringYear',
-                             RepeatTimes='$this->RepeatTimes',
+			     RecurExceptions='$this->RecurExceptions',
+                             RecurDay='$this->RecurDay',
+                             RecurMonthly='$this->RecurMonthly',
+                             RecurMonthlyType='$this->RecurMonthlyType',
+                             RecurMonthlyTypeInfo='$this->RecurMonthlyTypeInfo',
+			     RecurType='$this->RecurType',
+			     RecurFreq='$this->RecurFreq',
+			     RepeatForever='$this->RepeatForever',
+			     RepeatTimes='$this->RepeatTimes',
                              RepeatUntilDate='$this->RepeatUntilDate',                             
                              EMailNotice='$this->EMailNotice',
                              IsPrivate='$this->IsPrivate',
@@ -117,11 +122,16 @@ class eZGroupEvent
                              EventAlarmNotice='$this->EventAlarmNotice',
                              EventCategoryID='$this->EventCategoryID',
                              IsRecurring='$this->IsRecurring',
-                             RecurringDay='$this->RecurringDay',
-                             RecurringMonth='$this->RecurringMonth',
-                             RecurringYear='$this->RecurringYear',
-                             RepeatTimes='$this->RepeatTimes',
-                             RepeatUntilDate='$this->RepeatUntilDate',
+			     RecurExceptions='$this->RecurExceptions',
+                             RecurDay='$this->RecurDay',
+                             RecurMonthly='$this->RecurMonthly',
+                             RecurMonthlyType='$this->RecurMonthlyType',
+                             RecurMonthlyTypeInfo='$this->RecurMonthlyTypeInfo',
+			     RecurType='$this->RecurType',
+			     RecurFreq='$this->RecurFreq',
+			     RepeatForever='$this->RepeatForever',
+			     RepeatTimes='$this->RepeatTimes',
+                             RepeatUntilDate='$this->RepeatUntilDate',   
                              EMailNotice='$this->EMailNotice',
                              IsPrivate='$this->IsPrivate',
                              Priority='$this->Priority',
@@ -188,9 +198,15 @@ class eZGroupEvent
 
                 $this->EventCategoryID =& $event_array[0][ "EventCategoryID" ];
                 $this->IsRecurring =& $event_array[0][ "IsRecurring" ];
-                $this->RecurringDay =& $event_array[0][ "RecurringDay" ];
-                $this->RecurringMonth =& $event_array[0][ "RecurringMonth" ];
-                $this->RecurringYear =& $event_array[0][ "RecurringYear" ];
+		$this->RecurDay =& $event_array[0][ "RecurDay" ];
+		$this->RecurFreq =& $event_array[0][ "RecurFreq" ];
+		$this->RecurForever =& $event_array[0][ "RecurForever" ];
+		$this->RecurMonthly =& $event_array[0][ "RecurMonthly" ]
+                $this->RecurMonthlyType =& $event_array[0][ "RecurMonthlyType" ];
+                $this->RecurMonthlyTypeInfo =& $event_array[0][ "RecurMonthlyTypeInfo" ];
+                $this->RecurType =& $event_array[0] [ "RecurType" ];
+		$this->RecurExceptions =& $event_array[0][ "RecurExceptions" ]
+		$this->RepeatForever =& $event_array[0][ "RepeatForever" ];
                 $this->RepeatTimes =& $event_array[0][ "RepeatTimes" ];
                 $this->RepeatUntilDate =& $event_array[0][ "RepeatUntilDate" ];
 
@@ -257,6 +273,7 @@ class eZGroupEvent
     */
     function &getByDate( $date, $group, $showPrivate=false )
     {
+    
         $ret = array();
 
         if ( ( get_class( $date ) == "ezdate" ) && ( get_class( $group ) == "ezusergroup" ) )
@@ -1121,12 +1138,16 @@ class eZGroupEvent
 
     /// boolean stored as an int
     var $IsRecurring;
-    var $RecurringDay;
-    var $RecurringMonth;
-    var $RecurringYear;
-    var $RepeatForever;
+    var $RecurExceptions;
+    var $RecurDay;
+    var $RecurMonthly;
+    var $RecurMonthlyType;
+    var $RecurMonthlyTypeInfo;
+    var $RecurType;
+    var	$RecurFreq;
+    var $RepeatForever
     var $RepeatTimes;
-    var $RepeatUntilDate;
+    var $RepeatUntilDate;   
 
     /// The priority of the event, values can be 0, 1, 2 where 1 is normal.
     var $Priority;
