@@ -1,3 +1,4 @@
+
 <table width="100%" border="0">
 <tr>
 	<td valign="bottom">
@@ -14,6 +15,8 @@
 	<td>{current_module_description}</td>
 </tr>
 </table>
+
+<form method="post" action="/bug/archive/{current_module_id}/">
 
 <hr noshade="noshade" size="4" />
 
@@ -39,8 +42,10 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
 <tr>
 	<th>{intl-module}:</td>
-	<th>{intl-description}:</th>
-	<th colspan="2">&nbsp;</th>
+	<th>{intl-open_bug_count}:</th>
+	<th>{intl-bug_count}:</th>
+<!--	<th>{intl-description}:</th>
+	<th colspan="2">&nbsp;</th>-->
 </tr>
 	
 <!-- BEGIN module_item_tpl -->
@@ -48,16 +53,22 @@
 	<td class="{td_class}">
 	<a href="/bug/archive/{module_id}/">{module_name}</a>&nbsp;
 	</td>
+	
+	<td class="{td_class}">
+	  {open_bug_count}
+	</td>
 
 	<td class="{td_class}">
-	{module_description}&nbsp;
+	  {bug_count}
 	</td>
+	<td class="{td_class}">&nbsp;&nbsp;</td>
+
+<!--	<td class="{td_class}">
+	{module_description}&nbsp;
+	</td>-->
 
 	<td width="1%" class="{td_class}">
 	<a href="/bug/moduleedit/edit/{module_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{module_id}-red','','/images/{site_style}/redigerminimrk.gif',1)"><img name="ezac{module_id}-red" border="0" src="/images/{site_style}/redigermini.gif" width="16" height="16" align="top" alt="Edit" /></a>
-	</td>
-	<td width="1%" class="{td_class}">
-	<a href="#" onClick="verify( '{intl-delete}', '/bug/moduleedit/delete/{module_id}/'); return false;" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{module_id}-slett','','/images/{site_style}/slettminimrk.gif',1)"><img name="ezac{module_id}-slett" border="0" src="/images/{site_style}/slettmini.gif" width="16" height="16" align="top" alt="Delete" /></a>
 	</td>
 </tr>
 <!-- END module_item_tpl -->
@@ -108,12 +119,17 @@
 	<a href="/bug/edit/edit/{bug_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{bug_id}-red','','/ezbug/admin/images/redigerminimrk.gif',1)"><img name="ezaa{bug_id}-red" border="0" src="/ezbug/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
 	</td>
 	<td width="1%" class="{td_class}">
-	<a href="#" onClick="verify( '{intl-delete}', '/bug/bugedit/delete/{bug_id}/'); return false;"
-onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezaa{bug_id}-slett','','/ezbug/admin/images/slettminimrk.gif',1)"><img name="ezaa{bug_id}-slett" border="0" src="/ezbug/admin/images/slettmini.gif" width="16" height="16" align="top"></a>
-
+	<input type="checkbox" name="BugArrayID[]" value="{bug_id}">
 	</td>
 </tr>
 <!-- END bug_item_tpl -->
 
 </table>
 <!-- END bug_list_tpl -->
+
+<hr noshade size="4"/>
+
+<input type="submit" name="Delete" value="{intl-delete_bugs}" />
+
+
+</form>

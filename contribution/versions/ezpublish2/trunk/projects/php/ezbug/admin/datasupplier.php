@@ -5,7 +5,7 @@ switch ( $url_array[2] )
     case "archive" :        
     {
         $ModuleID = $url_array[3];
-        
+        $Action = "";
         include( "ezbug/admin/buglist.php" );
     }
     break;

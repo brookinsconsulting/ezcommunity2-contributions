@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: buglist.php,v 1.4 2001/02/01 13:03:04 th Exp $
+// $Id: buglist.php,v 1.5 2001/02/09 16:50:13 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <27-Nov-2000 19:06:23 bf>
@@ -82,6 +82,18 @@ foreach ( $pathArray as $path )
 
 $moduleList = $module->getByParent( $module, true );
 
+if( isset( $Delete ) )
+{
+    if( count( $BugArrayID ) > 0 )
+    {
+        foreach( $BugArrayID as $doomedBugID )
+        {
+            $bug = new eZBug( $doomedBugID );
+            $bug->delete();
+        }
+    }
+}
+
 
 // categories
 $i=0;
@@ -104,7 +116,13 @@ foreach ( $moduleList as $moduleItem )
         $t->set_var( "td_class", "bgdark" );
     }
     
-    $t->set_var( "module_description", $moduleItem->description() );
+//    $t->set_var( "module_description", $moduleItem->description() );
+
+    $totalCount = $moduleItem->countBugs( true, false , true );
+    $t->set_var( "bug_count", $totalCount );
+
+    $openCount = $moduleItem->countBugs( true, true , true );
+    $t->set_var( "open_bug_count", $openCount );
 
     $t->parse( "module_item", "module_item_tpl", true );
     $i++;
