@@ -1,0 +1,59 @@
+        **** Explanation of site.ini variables ****
+
+The name of the group in site.ini for eZArticle is eZArticleMain.
+It contains these variables:
+
+AdminTemplateDir:      Relative path to template files in admin
+TemplateDir:           Relative path to template files in user
+ImageDir:              Absolute path to images
+ThumbnailImageWidth:   Width of thumbnail image
+ThumbnailImageHeight:  Height of thumbnail image
+SmallImageWidth:       Width of small image in article
+SmallImageHeight:      Height of small image in article
+MediumImageWidth:      Width of medium image in article
+MediumImageHeight:     Height of medium image in article
+LargeImageWidth:       Width of large image in article
+LargeImageHeight:      Height of large image in article
+Language:              The language used in eZArticle
+Generator:             The renderer used in eZArticle
+PageCaching:           Enables page caching
+CapitalizeHeadlines:   Upper case headlines
+UserComments:          Allow user comments to articles
+DefaultLinkText:       Link to an article, e.g. "Read more"
+AdminListLimit:        Max length of article list in admin
+UserListLimit:         Max length of article list in user
+PublishNoticeReceiver: Who to notify about articles
+PublishNoticeSender:   Which address to send notify mails from
+PublishNoticePadding:  A number of spaces to add in front of each line when sending e-mail messages containing text from the article.
+AuthorLimit:           Max length of author list
+AuthorArticleLimit:    Max length of author's articles list
+UserSubmitArticles:    Enable/disble allowing article publishing in user
+MixUnpublished:        Enable will show both published and unpublished articles in "Article Archive"
+
+Example group:
+[eZArticleMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=/images/standard/
+ThumbnailImageWidth=150
+ThumbnailImageHeight=150
+SmallImageWidth=100
+SmallImageHeight=100
+MediumImageWidth=200
+MediumImageHeight=200
+LargeImageWidth=300
+LargeImageHeight=300
+Language=en_GB
+Generator=tech
+PageCaching=enabled
+CapitalizeHeadlines=disabled
+UserComments=enabled
+DefaultLinkText=Read more
+AdminListLimit=10
+UserListLimit=10
+PublishNoticeReceiver=bf@ez.no
+PublishNoticeSender=bf@ez.no
+AuthorLimit=10
+AuthorArticleLimit=10
+UserSubmitArticles=enabled
+BulkMailNotifyGroup=news
