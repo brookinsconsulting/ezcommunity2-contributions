@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsgroup.php,v 1.3 2001/08/23 18:04:52 bf Exp $
+// $Id: newsgroup.php,v 1.4 2001/08/24 08:37:20 bf Exp $
 //
 // Created on: <30-May-2001 14:06:59 bf>
 //
@@ -123,8 +123,8 @@ foreach( $categoryList as $category )
                 else
                     $convertToGray = false;
                 
-                $variation =& $thumbnailImage->requestImageVariation( $ini->read_var( "eZArticleMain", "ThumbnailImageWidth" ),
-                $ini->read_var( "eZArticleMain", "ThumbnailImageHeight" ), $convertToGray );
+                $variation =& $thumbnailImage->requestImageVariation( $ini->read_var( "eZArticleMain", "ThumbnailGroupImageWidth" ),
+                $ini->read_var( "eZArticleMain", "ThumbnailGroupImageHeight" ), $convertToGray );
                 
                 $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
                 $t->set_var( "thumbnail_image_width", $variation->width() );
