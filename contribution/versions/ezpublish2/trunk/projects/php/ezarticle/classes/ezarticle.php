@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.164 2001/09/12 12:54:15 ce Exp $
+// $Id: ezarticle.php,v 1.165 2001/09/13 12:10:11 ce Exp $
 //
 // Definition of eZArticle class
 //
@@ -1765,7 +1765,7 @@ class eZArticle
       AuthorID the ID of the author writing the article
       PhotographerID a photographer that has contributed to the article 
     */
-    function &search( &$queryText, $sortMode=time, $fetchNonPublished=true, $offset=0, $limit=10, $params = array() )
+    function &search( &$queryText, $sortMode=time, $fetchPublished=false, $offset=0, $limit=10, $params = array() )
     {
         $db =& eZDB::globalDatabase();
 
@@ -1782,7 +1782,7 @@ class eZArticle
             break;
         }
 
-        if ( $fetchNonPublished == true )
+        if ( $fetchPublished == true )
         {
             $fetchText = "";
         }
@@ -1920,7 +1920,7 @@ class eZArticle
                           )
                         )
                        ORDER BY $OrderBy";
-                
+
                 $db->query( $queryString );
 
                 // check if this is a stop word
@@ -1967,6 +1967,7 @@ class eZArticle
                           )
                         )
                        ORDER BY $OrderBy";
+
             $db->array_query( $article_array, $queryString, array( "Limit" => $limit, "Offset" => $offset ) );
         }
 
@@ -1994,7 +1995,7 @@ class eZArticle
       AuthorID the ID of the author writing the article
       PhotographerID a photographer that has contributed to the article 
     */
-    function &searchCount( &$queryText, $fetchNonPublished=true, $params = array() )
+    function &searchCount( &$queryText, $fetchPublished=false, $params = array() )
     {
         $db =& eZDB::globalDatabase();
 
@@ -2003,7 +2004,7 @@ class eZArticle
         // Build the ORDER BY
         $OrderBy = "eZArticle_ArticleWordLink.Frequency DESC";
 
-        if ( $fetchNonPublished == true )
+        if ( $fetchPublished == true )
         {
             $fetchText = "";
         }
