@@ -13,40 +13,35 @@
 <input class="box" type="text" name="Name" size="40" value="{article_name}" />
 <br /><br />
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-	<td valign="top">
 	<p class="boxtext">{intl-article_author}:</p>
 	<select name="ContentsWriterID">
 	<!-- BEGIN author_item_tpl -->
 	<option value="{author_id}" {selected}>{author_name}</option>
 	<!-- END author_item_tpl -->
 	</select>
+<br /><br />
 
-	<table width="100%" cellspacing="0" cellpadding="0" border="0">
-	<tr>
-		<td valign="top">
-			<p class="boxtext">{intl-new_author_name}:</p>
-			<input type="text" name="NewAuthorName" size="20" value="" />
-		</td>
-		<td valign="top">
-			<p class="boxtext">{intl-new_author_email}:</p>
-			<input type="text" name="NewAuthorEmail" size="20" value="" />
-		</td>
-	</tr>
-	</table>
-
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td valign="top">
+	<p class="boxtext">{intl-new_author_name}:</p>
+	<input class="halfbox" type="text" name="NewAuthorName" size="20" value="" />
 	</td>
-        <!-- BEGIN author_pending_information_tpl -->
+	<td valign="top">
+	<p class="boxtext">{intl-new_author_email}:</p>
+	<input class="halfbox" type="text" name="NewAuthorEmail" size="20" value="" />
+	</td>
+<!-- BEGIN author_pending_information_tpl -->
 	<td valign="top">
 	<p class="boxtext">{intl-article_author}:</p>
 	<p>{author_text} {author_email}</p>
 	</td>
-        <!-- END author_pending_information_tpl -->
+<!-- END author_pending_information_tpl -->
 </tr>
-<tr>
-	<td colspan="3">&nbsp;</td>
-</tr>
+</table>
+<br />
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top">
 
