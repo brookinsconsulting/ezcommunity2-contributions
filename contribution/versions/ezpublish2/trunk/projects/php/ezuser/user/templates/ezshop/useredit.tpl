@@ -1,8 +1,14 @@
 <form method="post" action="/user/user/{action_value}/{user_id}/">
 
-<h1>Registrer ny bruker</h1>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td bgcolor="#f08c00">
+	<div class="headline">Registrer ny bruker</div>
+	</td>
+</tr>
+</table>
 
-<hr noshade="noshade" size="4" />
+<br />
 
 <!-- BEGIN required_fields_error_tpl -->
 <h3 class="error" >{intl-required_fields_error}</h3>
@@ -25,11 +31,11 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	{intl-firstname}:
+	<p class="boxtext">{intl-firstname}:</p>
 	<input type="text" size="20" name="FirstName" value="{first_name_value}"/>
 	</td>
 	<td>
-	{intl-lastname}:
+	<p class="boxtext">{intl-lastname}:</p>
 	<input type="text" size="20" name="LastName" value="{last_name_value}"/>
 	</td>
 </tr>
@@ -46,11 +52,11 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td>
-	{intl-password}:
+	<p class="boxtext">{intl-password}:</p>
 	<input type="password" size="20" name="Password" value="{password_value}"/>
 	</td>
 	<td>
-	{intl-verifypassword}:
+	<p class="boxtext">{intl-verifypassword}:</p>
 	<input type="password" size="20" name="VerifyPassword" value="{verify_password_value}"/>
 	</td>
 </tr>
@@ -59,7 +65,7 @@
 <br />
 
 <input type="hidden" name="UserID" value="{user_id}" />
-<input type="submit" value="OK" />
+<input class="okbutton" type="submit" value="OK" />
 
 <input type="hidden" name="RedirectURL" value="{redirect_url}" />
 </form>

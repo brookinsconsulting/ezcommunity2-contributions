@@ -117,10 +117,8 @@
 <!-- END delete_address_tpl -->
 <input {is_checked} type="radio" name="MainAddressID" value="{address_id}"> {intl-main_address}
 
-<p class="boxtext">{intl-street1}:</p>
+<p class="boxtext">Gateadresse:</p>
 <input type="text" size="20" name="Street1[]" value="{street1_value}"/>
-
-<p class="boxtext">{intl-street2}:</p>
 <input type="text" size="20" name="Street2[]" value="{street2_value}"/>
 
 <p class="boxtext">{intl-zip}:</p>
