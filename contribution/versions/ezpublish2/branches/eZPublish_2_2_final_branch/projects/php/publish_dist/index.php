@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.119.2.21 2002/06/19 11:41:50 br Exp $
+// $Id: index.php,v 1.119.2.22 2003/07/11 07:27:00 br Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -27,6 +27,7 @@ header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" );
 header( "Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" ); 
 header( "Cache-Control: no-cache, must-revalidate" ); 
 header( "Pragma: no-cache" );
+header( "X-Powered-By: eZ publish" );
 
 // Find out, where our files are.
 if ( ereg( "(.*/)([^\/]+\.php)$", $SCRIPT_FILENAME, $regs ) )
