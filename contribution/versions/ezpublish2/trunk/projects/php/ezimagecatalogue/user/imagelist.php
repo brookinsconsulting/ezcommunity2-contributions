@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.19 2001/03/07 15:16:12 jb Exp $
+// $Id: imagelist.php,v 1.20 2001/03/08 11:21:44 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -242,19 +242,20 @@ foreach ( $imageList as $image )
     $t->set_var( "image_height", $variation->height() );
     $t->set_var( "image_file_name", $image->originalFileName() );
 
-    $imagePath =& $variation->imagePath( true );
-
-    $size = filesize( $imagePath );
-
-    if ( $size == 0 )
+    if ( $image->fileExists( true ) )
     {
-        $t->set_var( "image_size", 0 );
+        $imagePath =& $image->filePath( true );
+        $size = filesize( $imagePath );
     }
     else
     {
-        $t->set_var( "image_size", $size );
+        $size = 0;
     }
 
+    $size = eZFile::siFileSize( $size );
+
+    $t->set_var( "image_size", $size["size-string"] );
+    $t->set_var( "image_unit", $size["unit"] );
 
     $t->set_var( "read", "" );
     $t->set_var( "write", "" );
@@ -263,8 +264,11 @@ foreach ( $imageList as $image )
     if ( count( $imageList ) == $counter + 1 )
     {
         $colspan = 3 - ($i % 4);
-        $t->set_var( "col_span", $colspan );
-        $t->parse( "read_span", "read_span_tpl" );
+        if ( $colspan > 0 )
+        {
+            $t->set_var( "col_span", $colspan );
+            $t->parse( "read_span", "read_span_tpl" );
+        }
     }
 
     // Check if user have read permission
