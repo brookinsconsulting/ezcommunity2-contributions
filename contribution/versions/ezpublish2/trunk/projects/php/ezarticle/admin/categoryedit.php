@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: groupedit.php,v 1.17 2001/02/04 16:45:16 bf Exp $
+// $Id: categoryedit.php,v 1.1 2001/02/21 13:19:31 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>

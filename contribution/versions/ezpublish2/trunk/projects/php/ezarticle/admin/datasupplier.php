@@ -209,30 +209,30 @@ switch ( $url_array[2] )
         if ( $url_array[3] == "insert" )
         {
             $Action = "insert";
-            include( "ezarticle/admin/groupedit.php" );
+            include( "ezarticle/admin/categoryedit.php" );
         }
         if ( $url_array[3] == "new" )
         {
             $Action = "new";
-            include( "ezarticle/admin/groupedit.php" );
+            include( "ezarticle/admin/categoryedit.php" );
         }
         if ( $url_array[3] == "update" )
         {
             $CategoryID = $url_array[4];
             $Action = "update";
-            include( "ezarticle/admin/groupedit.php" );
+            include( "ezarticle/admin/categoryedit.php" );
         }
         if ( $url_array[3] == "delete" )
         {
             $CategoryID = $url_array[4];
             $Action = "delete";
-            include( "ezarticle/admin/groupedit.php" );
+            include( "ezarticle/admin/categoryedit.php" );
         }
         if ( $url_array[3] == "edit" )
         {
             $CategoryID = $url_array[4];
             $Action = "edit";
-            include( "ezarticle/admin/groupedit.php" );
+            include( "ezarticle/admin/categoryedit.php" );
         }
 
     }
