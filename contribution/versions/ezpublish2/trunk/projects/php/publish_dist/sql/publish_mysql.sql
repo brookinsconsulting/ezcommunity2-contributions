@@ -771,6 +771,7 @@ CREATE TABLE eZBulkMail_CategoryDelay (
 ) TYPE=MyISAM;
 
 CREATE TABLE eZBulkMail_Offset (
+  ID int(11) NOT NULL,
   Hour int(11) default NULL,
   Daily int(11) default NULL,
   Weekly int(11) default NULL,
@@ -796,6 +797,7 @@ CREATE TABLE eZBulkMail_UserCategoryDelay (
 ) TYPE=MyISAM;
 
 CREATE TABLE eZBulkMail_UserCategoryLink (
+  ID int(11) NOT NULL,
   UserID int(11) default '0',
   CategoryID int(11) default '0',
   PRIMARY KEY (ID)
@@ -805,9 +807,11 @@ CREATE TABLE eZBulkMail_UserCategorySettings (
   CategoryID int(11) default '0',
   UserID int(11) default '0',
   Delay int(11) default '0',
-  ID int(11) default NULL,
+  ID int(11) NOT NULL,
   PRIMARY KEY (ID)
-) TYPE=MyISAM;CREATE TABLE eZCalendar_Appointment (
+) TYPE=MyISAM;
+
+CREATE TABLE eZCalendar_Appointment (
   ID int NOT NULL,
   UserID int DEFAULT '0' NOT NULL,
   Date int,
@@ -2484,31 +2488,30 @@ CREATE TABLE eZTrade_Voucher (
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
-CREATE TABLE eZTrade_VoucherEMail (
-  ID int(11) default '0',
+CREATE TABLE eZTrade_VoucherInformation (
+  ID int(11) NOT NULL default '0',
   VoucherID int(11) default '0',
-  Email varchar(40) default NULL,
-  Description text,
-  PreOrderID int(11) default '0'
-) TYPE=MyISAM;
-
-
-CREATE TABLE eZTrade_VoucherSMail (
-  ID int(11) default '0',
-  VoucherID int(11) default '0',
+  OnlineID int(11) default '0',
   AddressID int(11) default '0',
   Description text,
-  PreOrderID int(11) default '0'
+  PreOrderID int(11) default '0',
+  Price int(11) default '0',
+  MailMethod int(11) default '1',
+  ToName varchar(80) default NULL,
+  FromName varchar(80) default NULL,
+  FromOnlineID int(11) default '0',
+  PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
 
 CREATE TABLE eZTrade_VoucherUsed (
   ID int(11) default '0',
   Used int(11) default '0',
   Price float default NULL,
-  VoucherID int(11) default '0'
+  VoucherID int(11) default '0',
+  OrderID int(11) default '0',
+  UserID int(11) default '0',
+  PRIMARY KEY (ID)
 ) TYPE=MyISAM;
-
 
 CREATE TABLE eZTrade_WishList (
   ID int NOT NULL,
