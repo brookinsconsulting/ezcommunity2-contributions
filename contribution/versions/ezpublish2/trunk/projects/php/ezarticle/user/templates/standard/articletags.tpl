@@ -142,6 +142,10 @@
 </table>
 <!-- END pre_tpl -->
 
+<!-- BEGIN html_tpl -->
+{contents}
+<!-- END html_tpl -->
+
 <!-- BEGIN media_tpl -->
 <embed src="{www_dir}{media_uri}" {attribute_string} />
 <!-- END media_tpl -->

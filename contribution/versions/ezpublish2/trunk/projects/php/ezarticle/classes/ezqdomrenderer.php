@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.54 2001/10/15 11:01:18 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.55 2001/10/16 07:52:08 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -197,6 +197,7 @@ class eZQDomrenderer
         $this->Template->set_block( "articletags_tpl", "factbox_tpl", "factbox"  );
         $this->Template->set_block( "articletags_tpl", "quote_tpl", "quote"  );
         $this->Template->set_block( "articletags_tpl", "pre_tpl", "pre"  );
+        $this->Template->set_block( "articletags_tpl", "html_tpl", "html"  );
 
         // lists
         $this->Template->set_block( "articletags_tpl", "bullet_tpl", "bullet"  );
@@ -916,6 +917,7 @@ class eZQDomrenderer
             case "factbox" :
             case "quote" :
             case "pre" :
+            case "html" :
             case "form" :
             {
                 $tmpContent = "";
@@ -923,8 +925,12 @@ class eZQDomrenderer
                 foreach ( $paragraph->children as $child )
                 {
                     if ( $child->name == "text" )
-                    {                
-                        $tmpContent .= eZTextTool::nl2br( $child->content, $this->BrOverride );
+                    {
+                        if ( $paragraph->name == "pre" )
+                            $tmpContent .= $child->content;
+                        else
+                            $tmpContent .= eZTextTool::nl2br( $child->content, $this->BrOverride );
+                            
                     }
                     else
                     {
@@ -963,7 +969,11 @@ class eZQDomrenderer
                         $pageContent = trim( $this->Template->parse( "factbox", "factbox_tpl" ) );
                     break;
                     case "pre" :
+                        $this->Template->set_var( "contents", htmlspecialchars( $tmpContent ) );
                         $pageContent = trim( $this->Template->parse( "pre", "pre_tpl" ) );
+                    break;
+                    case "html" :
+                        $pageContent = trim( $this->Template->parse( "html", "html_tpl" ) );
                     break;
                     case "quote" :
                         $this->Template->set_var( "contents", trim( $tmpContent ) );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.37 2001/10/15 11:01:17 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.38 2001/10/16 07:52:08 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -118,8 +118,8 @@ class eZQDomGenerator
         $tmpPage = $this->generateForm( $tmpPage );
         
 //        $tmpPage = $this->generateModule( $tmpPage );
-        
-//        $tmpPage = $this->generateHTML( $tmpPage );
+
+        $tmpPage = $this->generateHTML( $tmpPage );
 
         return $tmpPage;
     }
@@ -262,6 +262,99 @@ class eZQDomGenerator
         
         return $tmpPage;
     }
+
+
+    /*!
+      Will encode all character in <html></html> and <pre></pre> tags.
+    */
+    function &generateHTML( $tmpPage )
+    {
+        // Begin html tag replacer
+        // replace all < and >  between <ezhtml> and </ezhtml>
+        // and to the same for <php> </php>
+        // ok this is a bit slow code, but it works
+        $startHTMLTag = "<html>";
+        $endHTMLTag = "</html>";
+        
+        $startPreTag = "<pre>";
+        $endPreTag = "</pre>";
+            
+        $numberBeginHTML = substr_count( $tmpPage, $startHTMLTag );
+        $numEndHTML = substr_count( $tmpPage, $endHTMLTag );
+
+        if ( $numberBeginHTML != $numEndHTML )
+        {
+            print( "Unmatched ezhtml tags, check that you have end tags for all begin tags" );
+        }
+
+        $numberBeginPHP = substr_count( $tmpPage, $startPreTag );
+        $numEndPHP = substr_count( $tmpPage, $endPreTag );
+            
+        if ( $numberBegin != $numEnd )
+        {
+            print( "Unmatched Pre tags, check that you have end tags for all begin tags" );
+        }
+
+        if ( ( $numberBeginPHP > 0 ) || ( $numberBegineZHTML > 0 ) || ( $numberBeginHTML > 0 ) )
+        {
+            $resultPage = "";
+            $isInsideHTML = false;
+            $isInsideeZHTML = false;
+            $isInsidePHP = false;
+            for ( $i=0; $i<strlen( $tmpPage ); $i++ )
+            {    
+                if ( substr( $tmpPage, $i - strlen( $startHTMLTag ), strlen( $startHTMLTag ) ) == $startHTMLTag )
+                {
+                    $isInsideHTMLTag = true;
+                }
+
+                if ( substr( $tmpPage, $i, strlen( $endHTMLTag ) ) == $endHTMLTag )
+                {
+                    $isInsideHTMLTag = false;
+                }
+
+                if ( substr( $tmpPage, $i - strlen( $startPreTag ), strlen( $startPreTag ) ) == $startPreTag )
+                {
+                    $isInsidePreTag = true;
+                }
+
+                if ( substr( $tmpPage, $i, strlen( $endPreTag ) ) == $endPreTag )
+                {
+                    $isInsidePreTag = false;
+                }
+                
+                if ( ( $isInsideHTMLTag == true ) ||  ( $isInsidePreTag == true ) )
+                {
+                    switch ( $tmpPage[$i] )
+                    {
+                        case "<" :
+                        {
+                            $resultPage .= "&lt;";
+                        }
+                        break;
+
+                        case ">" :
+                        {
+                            $resultPage .= "&gt;";
+                        }
+                        break;
+            
+                        default:
+                        {
+                            $resultPage .= $tmpPage[$i];
+                        }
+                    }
+                }
+                else
+                {
+                    $resultPage .= $tmpPage[$i];
+                }
+            }
+
+            $tmpPage = $resultPage;
+        }
+        return $tmpPage;
+    }
     
 
     /*!
@@ -302,7 +395,6 @@ class eZQDomGenerator
                         {
                             $body = $article->children;
                         }
-                        
                     }
                 }
             }
@@ -887,6 +979,12 @@ class eZQDomGenerator
                 }
                 break;
 
+                case "html" :
+                {                        
+                    $pageContent .= "<html>" . $tmpContent . "</html>";
+                }
+                break;
+                
             }
 
         }
