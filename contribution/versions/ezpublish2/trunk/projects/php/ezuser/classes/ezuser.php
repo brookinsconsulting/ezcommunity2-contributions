@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.61 2001/04/09 10:19:20 bf Exp $
+// $Id: ezuser.php,v 1.62 2001/04/16 11:07:34 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -477,6 +477,7 @@ class eZUser
        $this->Login = $value;
     }
 
+    
     /*!
       Sets the password.
     */

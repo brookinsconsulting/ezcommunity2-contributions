@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagelist.php,v 1.18 2001/03/13 10:47:37 th Exp $
+// $Id: messagelist.php,v 1.19 2001/04/16 11:07:34 bf Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -29,6 +29,7 @@ $ini =& INIFile::globalINI();
 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
+include_once( "classes/ezdatetime.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "ezforum/classes/ezforummessage.php" );
@@ -93,7 +94,7 @@ if ( !isset( $Offset ) )
 if ( !isset( $Limit ) )
     $Limit = 30;
 
-$messageList =& $forum->messageTree( $Offset, $Limit );
+$messageList =& $forum->messageTreeArray( $Offset, $Limit );
 
 if ( !$messageList )
 {
@@ -109,8 +110,11 @@ else
 
     $level = 0;
     $i = 0;
+
+    $user = new eZUser( );
+    $time = new eZDateTime();
     foreach ( $messageList as $message )
-    {
+    {        
         $t->set_var( "edit_message_item", "" );
 
         if ( ( $i % 2 ) == 0 )
@@ -118,24 +122,26 @@ else
         else
             $t->set_var( "td_class", "bgdark" );
         
-        $level = $message->depth();
+        $level = $message["Depth"];
         
         if ( $level > 0 )
             $t->set_var( "spacer", str_repeat( "&nbsp;", $level ) );
         else
             $t->set_var( "spacer", "" );
         
-        $t->set_var( "topic", $message->topic() );
+        $t->set_var( "topic", $message["Topic"] );
 
 
-        $time =& $message->postingTime();
+        $time->setMySQLTimeStamp( $message["PostingTime"] );
         $t->set_var( "postingtime", $locale->format( $time  ) );
 
-        $t->set_var( "message_id", $message->id() );
+        $t->set_var( "message_id", $message["ID"] );
         
-        $user =& $message->user(); 
+        $userID = $message["UserID"];
+        $user->get( $userID );
         
-        if( $user->id() == 0 )
+        
+        if ( $user->id() == 0 )
         {
             $t->set_var( "user", $ini->read_var( "eZForumMain", "AnonymousPoster" ) );
         }
@@ -170,10 +176,11 @@ else
         }
         
         
-//    $t->set_var( "next_offset", $Offset + $Limit );    
-        if( get_class( $viewer ) == "ezuser" )
+//    $t->set_var( "next_offset", $Offset + $Limit );
+        
+        if ( get_class( $viewer ) == "ezuser" )
         {
-            if( $viewer->id() == $message->userId() && eZForumMessage::countReplies( $message->id() ) == 0 )
+            if ( $viewer->id() == $userID && eZForumMessage::countReplies( $message["ID"] ) == 0 )
             {
                 $t->parse( "edit_message_item", "edit_message_item_tpl" );
             }

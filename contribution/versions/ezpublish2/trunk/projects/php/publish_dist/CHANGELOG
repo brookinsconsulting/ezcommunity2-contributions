@@ -3,6 +3,7 @@ eZ publish changelog:
  
 Changes from 2.0.0 to 2.0.1
 ---------------------------
+* Fixed a counting bug in eZAd.
 * Added todo status in eZTodo module, now user can create/edit todo status.
 * Added article category placement.
 * Magic quotes are no longer needed (Must now be turned off).
@@ -27,6 +28,7 @@ Changes from 2.0.0 to 2.0.1
 * Fixed the links in the e-mails sent when people posts to the forum.
 * Added the posibility to restrict the numbers of simultaneous logins on one account.
 * Moved stylesheets in admin to the template directories.
+* Lots of bug fixing.
 
 Changes from version 2.0 PRE 2 to 2.0.0
 ---------------------------------------

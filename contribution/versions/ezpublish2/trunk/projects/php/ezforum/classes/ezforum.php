@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforum.php,v 1.22 2001/04/04 16:20:02 fh Exp $
+// $Id: ezforum.php,v 1.23 2001/04/16 11:07:34 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -267,7 +267,7 @@ class eZForum
 
 
     /*!
-      Returns all the messages and submessages as a tree.
+      Returns all the messages and submessages as a tree as an array.
 
       Default limit is set to 30.
     */
@@ -285,8 +285,10 @@ class eZForum
        }
 
        $db->array_query( $message_array, "SELECT ID FROM
-                                                       eZForum_Message
-                                                       WHERE ForumID='$this->ID' $approvedCode  AND IsTemporary='0' ORDER BY TreeID DESC LIMIT $offset,$limit" );
+                                          eZForum_Message
+                                          WHERE ForumID='$this->ID' $approvedCode
+                                          AND IsTemporary='0' ORDER BY TreeID
+                                          DESC LIMIT $offset,$limit" );
 
        $ret = array();
 
@@ -298,6 +300,33 @@ class eZForum
        return $ret;
     }
 
+    /*!
+      Returns all the messages and submessages as a tree as an array.
+
+      Default limit is set to 30.
+    */
+    function &messageTreeArray( $offset=0, $limit=30, $showUnApproved=false )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        
+       $db =& eZDB::globalDatabase();
+
+       $approvedCode = "";
+       if ( $showUnApproved == false )
+       {
+           $approvedCode = " AND IsApproved=1 ";
+       }
+
+       $db->array_query( $message_array, "SELECT ID, Topic, UserID, PostingTime, Depth FROM
+                                          eZForum_Message
+                                          WHERE ForumID='$this->ID' $approvedCode
+                                          AND IsTemporary='0' ORDER BY TreeID
+                                          DESC LIMIT $offset,$limit" );
+
+       return $message_array;
+    }
+    
     /*!
       Returns all the messages and submessages of a thread as a tree.
 
@@ -311,8 +340,9 @@ class eZForum
        $db =& eZDB::globalDatabase();
 
        $db->array_query( $message_array, "SELECT ID FROM
-                                                       eZForum_Message
-                                                       WHERE ForumID='$this->ID' AND ThreadID='$threadID' AND IsTemporary='0' ORDER BY TreeID DESC LIMIT $offset,$limit" );
+                                          eZForum_Message
+                                          WHERE ForumID='$this->ID' AND ThreadID='$threadID' AND
+                                          IsTemporary='0' ORDER BY TreeID DESC LIMIT $offset,$limit" );
 
        $ret = array();
 
