@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.17 2001/01/18 18:55:17 ce Exp $
+// $Id: userwithaddress.php,v 1.18 2001/01/18 19:23:27 bf Exp $
 //
 // 
 //
@@ -28,6 +28,7 @@ require( "ezuser/user/usercheck.php" );
 
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
+include_once( "classes/ezmail.php" );
 
 $ini = new INIFIle( "site.ini" );
 
@@ -362,8 +363,13 @@ if ( $Action == "New" )
     $t->set_var( "address_id", "-1" );
     $t->set_var( "action_value", "insert" );
 
-    $t->parse( "address", "address_tpl" );
-
+    $t->set_var( "street1_value", "" );
+    $t->set_var( "street2_value", "" );
+            
+    $t->set_var( "zip_value", "" );
+            
+    $t->set_var( "place_value", "" );
+            
     if ( $SelectCountry == "enabled" )
     {
         $countryList = "";
@@ -372,33 +378,26 @@ if ( $Action == "New" )
         $countryList =& $ezcountry->getAllArray();
 
         $t->set_var( "country_option", "" );
+
         foreach ( $countryList as $country )
         {
-            if ( $Action == "Edit" )
-            {
-                if ( $address )
-                {
-                    $countryID = $address->country();
-                
-                    if ( $country["ID"] == $countryID->id() )
-                    {
-                        $t->set_var( "is_selected", "selected" );
-                    }
-                    else
-                        $t->set_var( "is_selected", "" );
-                }
-            }
+            // add default country
+            $t->set_var( "is_selected", "" );
                         
             $t->set_var( "country_id", $country["ID"] );
             $t->set_var( "country_name", $country["Name"] );
             $t->parse( "country_option", "country_option_tpl", true );
         }
+
         $t->parse( "country", "country_tpl" );
     }
     else
     {
         $t->set_var( "country", "" );
     }
+
+    $t->parse( "address", "address_tpl" );
+    
 }
 
 if ( $MissingAddress == true )
