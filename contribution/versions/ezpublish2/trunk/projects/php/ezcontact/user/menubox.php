@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.4 2001/01/17 10:49:29 jb Exp $
+// $Id: menubox.php,v 1.5 2001/01/17 14:51:19 jb Exp $
 //
 // 
 //
@@ -30,18 +30,6 @@ include_once( "ezuser/classes/ezuser.php" );
 $user = eZUser::currentUser();
 if ( $user )
 {
-    include_once( "ezcontact/classes/ezconsultation.php" );
-    include_once( "ezcontact/classes/ezcompany.php" );
-    include_once( "ezcontact/classes/ezperson.php" );
-
-    include_once( "classes/INIFile.php" );
-    $ini = new INIFIle( "site.ini" );
-    $max = $ini->read_var( "eZContactMain", "LastConsultations" );
-    if ( !is_numeric( $max ) )
-    {
-        $max = 5;
-    }
-
     include_once( "classes/INIFile.php" );
     $ini = new INIFile( "site.ini" );
 
@@ -57,51 +45,6 @@ if ( $user )
     $t->set_file( array(
         "menu_box_tpl" => "menubox.tpl"
         ) );
-
-    $t->set_block( "menu_box_tpl", "last_consultations_item_tpl", "last_consultations_item" );
-    $t->set_block( "last_consultations_item_tpl", "consultation_item_tpl", "consultation_item" );
-
-    $t->set_block( "consultation_item_tpl", "consultation_person_item_tpl", "consultation_person_item" );
-    $t->set_block( "consultation_item_tpl", "consultation_company_item_tpl", "consultation_company_item" );
-
-    $t->set_var( "consultation_item", "" );
-
-    $consultations = eZConsultation::findLatestConsultations( $user->id(), $max );
-
-    foreach( $consultations as $consultation )
-        {
-            $t->set_var( "consultation_desc", $consultation->shortDescription() );
-            $t->set_var( "consultation_id", $consultation->id() );
-            $company_id = $consultation->company( $user->id() );
-            $t->set_var( "consultation_company_item", "" );
-            $t->set_var( "consultation_person_item", "" );
-            if ( $company_id )
-            {
-                $company = new eZCompany( $company_id );
-                $t->set_var( "contact_name", $company->name() );
-                $t->parse( "consultation_company_item", "consultation_company_item_tpl" );
-            }
-            else
-            {
-                $person_id = $consultation->person( $user->id() );
-                if ( $person_id )
-                {
-                    $person = new eZPerson( $person_id );
-                    $t->set_var( "contact_lastname", $person->lastName() );
-                    $t->set_var( "contact_firstname", $person->firstName() );
-                    $t->parse( "consultation_person_item", "consultation_person_item_tpl" );
-                }
-                else
-                {
-                }
-            }
-            $t->parse( "consultation_item", "consultation_item_tpl", true );
-        }
-
-    if ( count( $consultations ) > 0 )
-    {
-        $t->parse( "last_consultations_item", "last_consultations_item_tpl" );
-    }
 
     $t->pparse( "output", "menu_box_tpl" );
 }   
