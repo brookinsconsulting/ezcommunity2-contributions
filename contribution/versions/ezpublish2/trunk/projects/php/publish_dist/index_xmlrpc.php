@@ -132,6 +132,7 @@ function Call( $args )
             $ret_arr = array( "Version" => new eZXMLRPCDouble( EZPUBLISH_SERVER_VERSION ),
                               "URL" => createURLStruct( $Module, $RequestType, $ID ),
                               "Command" => new eZXMLRPCString( $Command ),
+                              "RefID" => $RefID;
                               "Data" => $ReturnData
                               );
             if ( is_object( $caller ) )
