@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.73 2001/02/23 09:22:41 pkej Exp $
+// $Id: ezforummessage.php,v 1.74 2001/02/24 13:03:52 pkej Exp $
 //
 // Definition of eZCompany class
 //
@@ -190,6 +190,36 @@ class eZForumMessage
         }
         
         return true;
+    }
+
+    /*!
+      Lock the table for read only operation.
+     */
+    function readLock()
+    {
+        //$db =& eZDB::globalDatabase();
+        //$query = "LOCK TABLES eZForum_Message READ LOCAL";
+        //$db->query( $query );
+    }
+    
+    /*!
+      Lock the table for write and read only by this thread.
+     */
+    function writeLock()
+    {
+        //$db =& eZDB::globalDatabase();
+        //$query = "LOCK TABLES eZForum_Message WRITE";
+        //$db->query( $query );
+    }
+    
+    /*!
+      Unlock the table.
+     */
+    function unLock()
+    {
+        //$db =& eZDB::globalDatabase();
+        //$query = "UNLOCK TABLES";
+        //$db->query( $query );
     }
 
     /*!
