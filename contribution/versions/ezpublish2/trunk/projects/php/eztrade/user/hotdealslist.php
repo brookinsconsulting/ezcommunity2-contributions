@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: hotdealslist.php,v 1.14 2001/03/01 14:06:26 jb Exp $
+// $Id: hotdealslist.php,v 1.15 2001/03/03 18:30:25 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Nov-2000 19:34:40 bf>
@@ -152,7 +152,8 @@ foreach ( $productList as $product )
         $t->set_var( "product_image", "" );
     }
     
-    if ( $ShowPrice and $product->showPrice() == true  )
+    if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
+             $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
     {
         $found_price = false;
         if ( $ShowPriceGroups and $PriceGroup > 0 )
@@ -203,15 +204,10 @@ if ( $GenerateStaticPage == "true" )
     $CacheFile = new eZCacheFile( "eztrade/cache/",
                                   array( "hotdealslist", $PriceGroup ),
                                   "cache", "," );
-//      $cachedFile = "eztrade/cache/hotdealslist.cache";
-//      $fp = fopen ( $cachedFile, "w+");
-
     $output = $t->parse( $target, "product_list_page_tpl" );
     // print the output the first time while printing the cache file.
     print( $output );
     $CacheFile->store( $output );
-//      fwrite ( $fp, $output );
-//      fclose( $fp );
 }
 else
 {
