@@ -23,6 +23,10 @@ switch ( $url_array[2] )
         include( "ezlink/search.php" );
         break;
 
+    case "success" :
+        include( "ezlink/success.php" );
+        break;
+
     case "group" :
     {
         $LGID = $url_array[3];

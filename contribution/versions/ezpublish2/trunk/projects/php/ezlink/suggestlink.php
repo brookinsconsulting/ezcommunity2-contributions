@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: suggestlink.php,v 1.15 2000/10/10 11:41:59 ce-cvs Exp $
+    $Id: suggestlink.php,v 1.16 2000/10/11 12:02:03 ce-cvs Exp $
 
     Author: Christoffer A. Elo <ce@ez.no>
     
@@ -27,7 +27,8 @@ if ( $Action == "suggest" )
 
     if ( ( $title == "" ) || ( $url == "" ) || ( $description == "" ) || ( $keywords == "" ) ) 
     {
-        $terror_msg = "Legg til alle feltene..."; 
+        $inierror = new INIFile( "ezlink/" . "/intl/" . $Language . "/suggestlink.php.ini", false );
+        $terror_msg =  $inierror->read_var( "strings", "empty_error" );
 
         $ttitle = $title;
         $turl = $url;
@@ -46,12 +47,14 @@ if ( $Action == "suggest" )
         if ( $newlink->checkUrl( $url ) == 0 )
         {
             $newlink->store();
-            Header( "Location: /link/" );
+            Header( "Location: /link/success/" );
+            exit();
         }
         else
         {
-            $terror_msg = "Linken finnes i databasen...";
-            
+            $inierror = new INIFile( "ezlink/" . "/intl/" . $Language . "/suggestlink.php.ini", false );
+            $terror_msg =  $inierror->read_var( "strings", "link_error_msg" );
+
             $ttitle = $title;
             $turl = $url;
             $tkeywords = $keywords;
