@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageedit.php,v 1.22 2001/03/08 21:26:29 fh Exp $
+// $Id: imageedit.php,v 1.23 2001/03/08 21:43:35 fh Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Jan-2001 10:45:44 ce>
@@ -101,7 +101,7 @@ $nameCheck = true;
 $captionCheck = true;
 $descriptionCheck = true;
 $fileCheck = true;
-$permissionCheck = true;
+$permissionCheck = false;
 
 $t->set_block( "errors_tpl", "error_name_tpl", "error_name" );
 $t->set_var( "error_name", "&nbsp;" );

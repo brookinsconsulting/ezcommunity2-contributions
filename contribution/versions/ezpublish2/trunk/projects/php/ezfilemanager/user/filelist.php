@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: filelist.php,v 1.27 2001/03/08 20:45:43 fh Exp $
+// $Id: filelist.php,v 1.28 2001/03/08 21:43:25 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -75,7 +75,8 @@ $folder = new eZVirtualFolder( $FolderID );
 $error = true;
 
 // Check for read permission in the current folder.
-if ( eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "r", $user ) )
+if ( eZObjectPermission::hasPermission( $folder->id(), "filemanager_folder", "r", $user ) ||
+     eZVirtualFolder::isOwner( $user, $folder->id() ) )
 {
     $error = false;
 } 
