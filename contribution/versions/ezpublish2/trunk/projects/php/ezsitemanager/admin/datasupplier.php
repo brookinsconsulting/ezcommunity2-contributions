@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.8 2001/09/26 16:53:19 bf Exp $
+// $Id: datasupplier.php,v 1.9 2001/09/27 09:46:41 ce Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -57,9 +57,22 @@ switch ( $url_array[2] )
 
     }break;
 
-    case "menuconfig":
+    case "menu":
     {
-        include( "ezsitemanager/admin/menuconfig.php" );        
+        switch ( $url_array[3] )
+        {
+            case "list" :
+            {
+                $ParentID = $url_array[4];
+                include( "ezsitemanager/admin/menulist.php" );        
+            }break;
+
+            case "edit" :
+            {
+                $MenuID = $url_array[4];
+                include( "ezsitemanager/admin/menuedit.php" );
+            }break;
+        }
     }break;
 
     
