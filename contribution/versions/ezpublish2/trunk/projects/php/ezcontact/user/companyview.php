@@ -149,7 +149,7 @@ if ( count ( $addressList ) == 1 )
             $phoneType = $phoneList[$i]->phoneType();
 
             $t->set_var( "phone_type_id", $phoneType->id() );
-            $t->set_var( "phone_type_name", $intl->read_var( "strings", "phone_" . $phoneType->name() ) );
+            $t->set_var( "phone_type_name", $phoneType->name() );
 
             $t->set_var( "phone_width", 100/$count );
             $t->parse( "phone_line", "phone_line_tpl", true );
@@ -177,7 +177,7 @@ if ( count ( $addressList ) == 1 )
             $onlineType = $OnlineList[$i]->onlineType();
 
             $t->set_var( "online_type_id", $onlineType->id() );
-            $t->set_var( "online_type_name", $intl->read_var( "strings", "online_" . $onlineType->name() ) );
+            $t->set_var( "online_type_name", $onlineType->name() );
             $t->set_var( "online_url_type", $OnlineList[$i]->urlType() );
             $t->set_var( "online_width", 100/$count );
             

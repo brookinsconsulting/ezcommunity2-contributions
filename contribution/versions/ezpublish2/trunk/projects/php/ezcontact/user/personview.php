@@ -139,7 +139,7 @@ if ( $Action == "view" )
             $phoneType = $phoneList[$i]->phoneType();
 
             $t->set_var( "phone_type_id", $phoneType->id() );
-            $t->set_var( "phone_type_name", $intl->read_var( "strings", "phone_" . $phoneType->name() ) );
+            $t->set_var( "phone_type_name", $phoneType->name() );
 
             $t->parse( "phone_line", "phone_line_tpl", true );
         }
@@ -170,7 +170,7 @@ if ( $Action == "view" )
             $addressType = $addressItem->addressType();
 
             $t->set_var( "address_type_id", $addressType->id() );
-            $t->set_var( "address_type_name", $intl->read_var( "strings", "address_" . $addressType->name() ) );
+            $t->set_var( "address_type_name", $addressType->name() );
             
             $t->set_var( "script_name", "personedit.php" );
             $t->parse( "address_line", "address_line_tpl", true );
@@ -199,7 +199,7 @@ if ( $Action == "view" )
             $onlineType = $OnlineList[$i]->onlineType();
 
             $t->set_var( "online_type_id", $onlineType->id() );
-            $t->set_var( "online_type_name", $intl->read_var( "strings", "online_" . $onlineType->name() ) );
+            $t->set_var( "online_type_name", $onlineType->name() );
             $t->set_var( "online_url_type", $OnlineList[$i]->urlType() );
             
             $t->parse( "online_line", "online_line_tpl", true );

@@ -20,6 +20,7 @@ switch ( $url_array[2] )
         {
             case "company":
             {
+                $SearchObject = "company";
                 include( "ezcontact/user/companysearch.php" );
                 break;
             }
