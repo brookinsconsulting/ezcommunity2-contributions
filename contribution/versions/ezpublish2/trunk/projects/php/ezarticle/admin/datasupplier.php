@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.48 2001/07/25 12:29:54 ce Exp $
+// $Id: datasupplier.php,v 1.49 2001/07/26 08:12:32 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -95,6 +95,7 @@ switch ( $url_array[2] )
     break;
 
     case "view":    
+    case "articleview":
     case "articlepreview":
     {
         $ArticleID = $url_array[3];
