@@ -357,6 +357,13 @@ UPDATE eZContact_Company SET ContactID=ContactType;
 ALTER table eZContact_Company MODIFY ContactType int(1) NOT NULL DEFAULT '0';
 UPDATE eZContact_Company SET ContactType='1';
 
+# Contact user group permissions
+UPDATE eZUser_Permission SET Name='CategoryAdd' WHERE Name='TypeAdd' AND ModuleID='6';
+UPDATE eZUser_Permission SET Name='CategoryDelete' WHERE Name='TypeDelete' AND ModuleID='6';
+UPDATE eZUser_Permission SET Name='CategoryModify' WHERE Name='TypeModify' AND ModuleID='6';
+INSERT INTO eZUser_Permission VALUES('41','6','CompanyView');
+INSERT INTO eZUser_Permission VALUES('42','6','CompanyList');
+
 # add tables for Images and Files in eZBug
 CREATE TABLE eZBug_BugFileLink (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
