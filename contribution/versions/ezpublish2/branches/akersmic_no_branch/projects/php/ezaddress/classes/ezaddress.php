@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezaddress.php,v 1.19 2001/10/15 06:22:26 ce Exp $
+// $Id: ezaddress.php,v 1.19.8.1 2002/01/30 12:55:58 ce Exp $
 //
 // Definition of eZAddress class
 //
@@ -58,7 +58,7 @@ class eZAddress
     {
         $db =& eZDB::globalDatabase();
         $db->begin();
-        
+
         $ret = false;
         if ( $this->CountryID <= 0 )
             $country_id = "NULL";
@@ -97,8 +97,8 @@ class eZAddress
                                   AddressTypeID='$this->AddressTypeID',
                                   Name='$name',
                                   CountryID=$country_id
-                                  WHERE ID='$this->ID'" );            
-            $ret = true;            
+                                  WHERE ID='$this->ID'" );
+            $ret = true;
         }
 
         eZDB::finish( $res, $db );
@@ -107,7 +107,7 @@ class eZAddress
 
     /*!
       Fetches an address with object id==$id;
-    */  
+    */
     function get( $id="" )
     {
         $db =& eZDB::globalDatabase();
@@ -141,9 +141,9 @@ class eZAddress
     {
         $db =& eZDB::globalDatabase();
         $address_array = 0;
-    
+
         $db->array_query( $address_array, "SELECT * FROM eZAddress_Address" );
-    
+
         return $address_array;
     }
 
@@ -158,8 +158,8 @@ class eZAddress
         $db->begin();
         $res[] = $db->query( "DELETE FROM eZAddress_Address WHERE ID='$id'" );
         eZDB::finish( $res, $db );
-    }    
-    
+    }
+
 
     /*!
       Copy this object.
@@ -180,7 +180,7 @@ class eZAddress
     {
         unset( $this->ID );
     }
-    
+
     /*!
       Setter  street1.
     */
@@ -222,7 +222,7 @@ class eZAddress
         {
             $this->AddressTypeID = $value;
         }
-        
+
         if( get_class( $value ) == "ezaddresstype" )
         {
             $this->AddressTypeID = $value->id();
@@ -238,7 +238,7 @@ class eZAddress
         {
             $this->AddressTypeID = $value;
         }
-        
+
         if( get_class( $value ) == "ezaddresstype" )
         {
             $this->AddressTypeID = $value->id();
@@ -280,10 +280,10 @@ class eZAddress
                                   ('$addressID', '$userID')" );
             $db->unlock();
         }
-        
+
         eZDB::finish( $res, $db );
     }
-    
+
     /*!
       Returns the main address
     */
@@ -296,12 +296,14 @@ class eZAddress
 
         $db =& eZDB::globalDatabase();
 
-        $db->array_query( $addressArray, "SELECT AddressID FROM eZAddress_AddressDefinition
+        $db->query_single( $addressArray, "SELECT AddressID FROM eZAddress_AddressDefinition
                                      WHERE UserID='$userID'", 0, 1 );
 
-        if ( count( $addressArray ) == 1 )
+        $mainID = $addressArray[$db->fieldName( "AddressID" )];
+
+        if ( $mainID != 0 )
         {
-            return new eZAddress( $addressArray[0][$db->fieldName( "AddressID" )] );
+            return new eZAddress( $mainID );
         }
         else
         {
@@ -316,7 +318,7 @@ class eZAddress
     {
         return $this->ID;
     }
-    
+
     /*!
       Returnerer  street1.
     */
@@ -408,7 +410,7 @@ class eZAddress
             return false;
     }
 
-    
+
     var $ID;
     var $Street1;
     var $Street2;
@@ -416,7 +418,7 @@ class eZAddress
     var $Place;
     var $CountryID;
     var $Name;
-    
+
     /// Relation to an eZAddressTypeID
     var $AddressTypeID;
 }
