@@ -1,7 +1,7 @@
 <?
 
 // 
-// $Id: ezcompanytype.php,v 1.18 2000/12/07 11:19:55 ce-cvs Exp $
+// $Id: ezcompanytype.php,v 1.19 2000/12/08 16:44:57 ce-cvs Exp $
 //
 // Definition of eZCompanyType class
 //
@@ -301,6 +301,30 @@ class eZCompanyType
         
         return $path;
     }
+
+
+    function getTree( $parentID=0, $level=0 )
+    {
+        $category = new eZCompanyType( $parentID );
+
+        $categoryList = $category->getByParent( $category );
+
+        $tree = array();
+        $level++;
+        foreach ( $categoryList as $category )
+        {
+            array_push( $tree, array( $category->id(), $category->name(), $level ) );
+
+            if ( $category != 0 )
+            {
+                $tree = array_merge( $tree, $this->getTree( $category->id(), $level ) );
+            }
+
+        }
+
+        return $tree;
+    }
+
 
     /*!
       Adds a company to the current user category.

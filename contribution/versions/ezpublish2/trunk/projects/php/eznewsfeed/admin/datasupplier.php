@@ -1,6 +1,21 @@
 
 <?php
 
+//  include_once( "ezad/classes/ezadcategory.php" );
+
+
+//  $category = new eZAdCategory();
+
+//  $tree = $category->getTree();
+
+
+//  foreach( $tree as $item )
+//  {
+//      print( $item[1] . $item[2] . "<br>");
+//  }
+
+//  exit();
+
 switch ( $url_array[2] )
 {
     case "archive":

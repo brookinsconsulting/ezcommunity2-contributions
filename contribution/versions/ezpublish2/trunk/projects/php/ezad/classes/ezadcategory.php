@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezadcategory.php,v 1.3 2000/11/27 15:34:51 bf-cvs Exp $
+// $Id: ezadcategory.php,v 1.4 2000/12/08 16:44:56 ce-cvs Exp $
 //
 // Definition of eZAdCategory class
 //
@@ -182,6 +182,7 @@ class eZAdCategory
 
             if ( $showAll == true )
             {
+
                 $this->Database->array_query( $category_array, "SELECT ID, Name FROM eZAd_Category
                                           WHERE ParentID='$parentID'
                                           ORDER BY Name" );
@@ -240,6 +241,38 @@ class eZAdCategory
         
         return $path;
     }
+
+    function getTree( $parentID=0, $level=0 )
+    {
+        $category = new eZAdCategory( $parentID );
+
+        $categoryList = $category->getByParent( $category );
+
+        $tree = array();
+        $level++;
+        foreach ( $categoryList as $category )
+        {
+            array_push( $tree, array( $category->id(), $category->name(), $level ) );
+
+            if ( $category != 0 )
+            {
+                $tree = array_merge( $tree, $this->getTree( $category->id(), $level ) );
+            }
+
+        }
+
+        return $tree;
+
+//          $tree = array();
+
+//          $id = $category->id();
+
+//          if( $parent != 0 )
+//          {
+//              $path = array( $path, $this->getTree( $parent->id() );
+//          }
+    }
+
     
     /*!
       Returns the object ID to the category. This is the unique ID stored in the database.

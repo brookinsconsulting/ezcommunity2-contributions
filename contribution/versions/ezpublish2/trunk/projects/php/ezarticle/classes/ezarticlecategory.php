@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.11 2000/11/05 17:09:33 bf-cvs Exp $
+// $Id: ezarticlecategory.php,v 1.12 2000/12/08 16:44:56 ce-cvs Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -246,6 +246,29 @@ class eZArticleCategory
         
         return $path;
     }
+
+    function getTree( $parentID=0, $level=0 )
+    {
+        $category = new eZArticleCategory( $parentID );
+
+        $categoryList = $category->getByParent( $category );
+        
+        $tree = array();
+        $level++;
+        foreach ( $categoryList as $category )
+            {
+                array_push( $tree, array( $category->id(), $category->name(), $level ) );
+
+            if ( $category != 0 )
+            {
+                $tree = array_merge( $tree, $this->getTree( $category->id(), $level ) );
+            }
+
+        }
+
+        return $tree;
+    }
+
     
     /*!
       Returns the object ID to the category. This is the unique ID stored in the database.

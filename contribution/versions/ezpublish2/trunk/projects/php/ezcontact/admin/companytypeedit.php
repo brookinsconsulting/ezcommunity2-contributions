@@ -199,28 +199,57 @@ if( $Action == "edit" || $Action == "new" )
     {
         $t->parse( "no_image_item", "no_image_item_tpl" );
     }
-        
-    $categories = $type->getAll();
-        
-    $selected = false;
-        
-    foreach( $categories as $category )
-        {
-            $t->set_var( "select_parent_id", $category->id() );
-            $t->set_var( "select_parent_name", $category->name() );
-            if( $category->id() == $parentid )
-            {
-                $t->set_var( "selected", "selected" );
-                $selected = true;
-            }
-            else
-            {
-                $t->set_var( "selected", "" );
-            }            
-            $t->parse( "parent_item", "parent_item_tpl", true );
-        }
 
-    if( count( $categories ) == 0 )
+
+    $category = new eZCompanyType();
+
+    $tree = $category->getTree();
+    
+    foreach( $tree as $item )
+    {
+        $t->set_var( "select_parent_id", $item[0] );
+        $t->set_var( "select_parent_name", $item[1] );
+        
+        if ( $item[2] > 0 )
+            $t->set_var( "parent_level", str_repeat( "&nbsp;", $item[2] ) );
+        else
+            $t->set_var( "parent_level", "" );
+
+        if ( $item[0] == $parentid )
+        {
+            $t->set_var( "selected", "selected" );
+            $selected = true;
+        }
+        else
+        {
+            $t->set_var( "selected", "" );
+        }            
+        
+        $t->parse( "parent_item", "parent_item_tpl", true );
+    }
+    
+    
+//      $categories = $type->getAll();
+        
+//      $selected = false;
+        
+//      foreach( $categories as $category )
+//          {
+//              $t->set_var( "select_parent_id", $category->id() );
+//              $t->set_var( "select_parent_name", $category->name() );
+//              if( $category->id() == $parentid )
+//              {
+//                  $t->set_var( "selected", "selected" );
+//                  $selected = true;
+//              }
+//              else
+//              {
+//                  $t->set_var( "selected", "" );
+//              }            
+//              $t->parse( "parent_item", "parent_item_tpl", true );
+//          }
+
+    if( count( $tree ) == 0 )
     {
         $t->set_var( "parent_item", "" );
     }

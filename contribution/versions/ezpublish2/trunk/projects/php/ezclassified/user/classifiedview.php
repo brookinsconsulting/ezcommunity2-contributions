@@ -82,69 +82,108 @@ else
 // Telephone list
 $phoneList = $company->phones( $company->id() );
 
-if ( count( $phoneList ) <= 2 )
+if ( count( $phoneList ) >= 2 )
 {
     for( $i=0; $i<count ( $phoneList ); $i++ )
     {
-        if ( $phoneList[$i]->phoneTypeID() == 1 )
+        if ( $phoneList[$i]->phoneTypeID() == 5 )
         {
             $t->set_var( "tele_phone_id", $phoneList[$i]->id() );
             $t->set_var( "telephone", $phoneList[$i]->number() );
         }
-        if ( $phoneList[$i]->phoneTypeID() == 2 )
+        else
+        {
+            $t->set_var( "telephone", "Det finnes ingen telefonnummer" );
+        }
+        if ( $phoneList[$i]->phoneTypeID() == 8 )
         {
             $t->set_var( "fax_phone_id", $phoneList[$i]->id() );
             $t->set_var( "fax", $phoneList[$i]->number() );
+        }
+        else
+        {
+            $t->set_var( "fax", "Det finnes ingen fax addresse" );
         }
 
         $t->parse( "phone_item", "phone_item_tpl" );
         $t->parse( "fax_item", "fax_item_tpl" );
     }
 }
+else
+{
+    $t->set_var( "phone_item", "Det finnes ingen telefonnummer" );
+    $t->set_var( "telephone", "Det finnes ingen telefonnummer" );
+}
 
 // Address list
+
 $addressList = $company->addresses( $company->id() );
-if ( count ( $addressList ) == 1 )
+
+if ( count ( $addressList ) >= 1 )
 {
     foreach( $addressList as $addressItem )
-        {
-            $t->set_var( "address_id", $addressItem->id() );
-            $t->set_var( "street1", $addressItem->street1() );
-            $t->set_var( "street2", $addressItem->street2() );
-            $t->set_var( "zip", $addressItem->zip() );
-            $t->set_var( "place", $addressItem->place() );
+    {
+        $t->set_var( "address_id", $addressItem->id() );
+        $t->set_var( "street1", $addressItem->street1() );
+        $t->set_var( "street2", $addressItem->street2() );
+        $t->set_var( "zip", $addressItem->zip() );
+        $t->set_var( "place", $addressItem->place() );
+        
+        $t->set_var( "company_id", $CompanyID );
+        
+        $t->set_var( "script_name", "companyedit.php" );
+        
+        $t->parse( "address_item", "address_item_tpl", true );
             
-            $t->set_var( "company_id", $CompanyID );
-            
-            $t->set_var( "script_name", "companyedit.php" );
+    }
+}
+else
+{
+    $t->set_var( "street1", "Ingen adresse funnet." );
+    $t->set_var( "street2", "" );
+    $t->set_var( "place", "" );
+    $t->set_var( "zip", "" );
 
-            $t->parse( "address_item", "address_item_tpl", true );
-            
-        }
+    $t->parse( "address_item", "address_item_tpl", true );
 }
 
 // Online list
 $onlineList = $company->onlines( $company->id() );
 
-if ( count ( $onlineList ) <= 2 )
+if ( count ( $onlineList ) >= 1 )
 {
     for( $i=0; $i<count ( $onlineList ); $i++ )
     {
-        if ( $onlineList[$i]->onlineTypeID() == 1 )
+        if ( $onlineList[$i]->onlineTypeID() == 4 )
         {
             $t->set_var( "web_online_id", $onlineList[$i]->id() );
             $t->set_var( "web", $onlineList[$i]->URL() );
         }
-        if ( $onlineList[$i]->onlineTypeID() == 2 )
+        else
+        {
+            $t->set_var( "web", "Det finnes ingen Web addresse." );
+        }
+        if ( $onlineList[$i]->onlineTypeID() == 5 )
         {
             $t->set_var( "email_online_id", $onlineList[$i]->id() );
             $t->set_var( "email", $onlineList[$i]->URL() );
+        }
+        else
+        {
+            $t->set_var( "email", "Det finnes ingen E-post addresse" );
         }
             
     }
     $t->parse( "web_item", "web_item_tpl" );
     $t->parse( "email_item", "email_item_tpl" );
 
+}
+else
+{
+  $t->set_var( "web", "Det finnes ingen Web addresse." );
+  $t->set_var( "email", "Det finnes ingen E-post addresse" );
+  $t->parse( "web_item", "web_item_tpl" );
+  $t->parse( "email_item", "email_item_tpl" );
 }
 $t->set_var( "company_id", $company->id() );
 $t->parse( "company_view", "company_view_tpl" );

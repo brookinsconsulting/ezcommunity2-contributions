@@ -72,7 +72,7 @@ else
 
 $position = new eZClassified();
 
-$positionList = $position->getByCategory( $CategoryID );
+$positionList = $position->getAllValid( $CategoryID );
 
 if ( count ( $positionList ) == 0 )
 {

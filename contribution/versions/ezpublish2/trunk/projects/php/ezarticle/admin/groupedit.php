@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: groupedit.php,v 1.8 2000/11/01 11:44:53 ce-cvs Exp $
+// $Id: groupedit.php,v 1.9 2000/12/08 16:44:56 ce-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -153,16 +153,34 @@ if ( $Action == "edit" )
     }
 }
 
-foreach ( $categoryArray as $catItem )
-{
-    if ( $CategoryID != $catItem->id() )
-    {
-        $t->set_var( "option_value", $catItem->id() );
-        $t->set_var( "option_name", $catItem->name() );
+$category = new eZArticleCategory();
 
-        $t->parse( "value", "value_tpl", true );
-    }
+$tree = $category->getTree();
+
+foreach( $tree as $item )
+{
+    $t->set_var( "option_value", $item[0] );
+    $t->set_var( "option_name", $item[1] );
+    
+    if ( $item[2] > 0 )
+        $t->set_var( "option_level", str_repeat( "&nbsp;", $item[2] ) );
+    else
+        $t->set_var( "option_level", "" );
+
+    $t->parse( "value", "value_tpl", true );
 }
+
+
+//  foreach ( $categoryArray as $catItem )
+//  {
+//      if ( $CategoryID != $catItem->id() )
+//      {
+//          $t->set_var( "option_value", $catItem->id() );
+//          $t->set_var( "option_name", $catItem->name() );
+
+//          $t->parse( "value", "value_tpl", true );
+//      }
+//  }
 
 $t->pparse( "output", "category_edit_tpl" );
 

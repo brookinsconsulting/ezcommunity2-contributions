@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewscategory.php,v 1.7 2000/11/29 17:41:54 bf-cvs Exp $
+// $Id: eznewscategory.php,v 1.8 2000/12/08 16:44:57 ce-cvs Exp $
 //
 // Definition of eZNewsCategory class
 //
@@ -241,7 +241,8 @@ class eZNewsCategory
         
         return $path;
     }
-    
+
+   
     /*!
       Returns the object ID to the category. This is the unique ID stored in the database.
     */
