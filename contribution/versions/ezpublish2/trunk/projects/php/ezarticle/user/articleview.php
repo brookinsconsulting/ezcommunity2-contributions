@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.44 2001/06/06 12:31:02 bf Exp $
+// $Id: articleview.php,v 1.45 2001/06/11 14:47:45 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -39,7 +39,9 @@ $Language = $ini->read_var( "eZArticleMain", "Language" );
                                                         
 $CapitalizeHeadlines = $ini->read_var( "eZArticleMain", "CapitalizeHeadlines" );
 
-$t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "TemplateDir" ),
+$TemplateDir = $ini->read_var( "eZArticleMain", "TemplateDir" );
+
+$t = new eZTemplate( "ezarticle/user/" . $TemplateDir,
                      "ezarticle/user/intl/", $Language, "articleview.php" );
 
 $t->setAllStrings();
@@ -50,10 +52,24 @@ if ( $url_array[2] == "static" || $url_array[2] == "articlestatic"  )
     $StaticPage = true;
 }
 
-if ( $StaticPage == true )    
-    $t->set_file( "article_view_page_tpl", "articlestatic.tpl"  );
+
+// override template for the current category
+$override = "_override_$CategoryID";
+
+if ( $StaticPage == true )
+{
+    if ( file_exists( "ezarticle/user/$TemplateDir/articlestatic" . $override  . ".tpl" ) )
+        $t->set_file( "article_view_page_tpl", "articlestatic" . $override  . ".tpl"  );
+    else
+        $t->set_file( "article_view_page_tpl", "articlestatic.tpl"  );
+}
 else
-    $t->set_file( "article_view_page_tpl", "articleview.tpl"  );
+{
+    if ( file_exists( "ezarticle/user/$TemplateDir/articleview" . $override  . ".tpl" ) )
+        $t->set_file( "article_view_page_tpl", "articleview" . $override  . ".tpl"  );
+    else
+        $t->set_file( "article_view_page_tpl", "articleview.tpl"  );
+}
 
 // path
 $t->set_block( "article_view_page_tpl", "path_item_tpl", "path_item" );
