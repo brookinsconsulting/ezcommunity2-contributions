@@ -1437,3 +1437,11 @@ Maintainer(s) : bf@ez.no
       admin/templates/standard/sessioninfo.tpl
       classes/ezuser.php: Added user id to session list.
 
+
+Module : ezuser
+Repository path : /home/cvsroot/projects/php/ezuser
+Maintainer(s) : bf@ez.no
+2002-07-14  Kai Duebbert  <kai@duebbert.de>
+
+    * admin/userlist.php: fixed sorting of user list in admin area
+
