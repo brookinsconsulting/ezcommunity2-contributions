@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: todolist.php,v 1.22 2001/11/19 09:27:52 jhe Exp $
+// $Id: todolist.php,v 1.23 2001/11/19 09:34:41 jhe Exp $
 //
 // Definition of todo list.
 //
@@ -28,7 +28,7 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezhttptool.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini = INIFile::globalINI();
 $Language = $ini->read_var( "eZTodoMain", "Language" );
 $DOC_ROOT = $ini->read_var( "eZTodoMain", "DocumentRoot" );
 
