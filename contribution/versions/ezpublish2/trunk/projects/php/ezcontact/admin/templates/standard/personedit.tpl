@@ -83,7 +83,7 @@
 	<option value="4" {select_april}>{intl-april}</option>
 	<option value="5" {select_may}>{intl-may}</option>
 	<option value="6" {select_june}>{intl-june}</option>
-	<option value="7" {select_kuly}>{intl-july}</option>
+	<option value="7" {select_july}>{intl-july}</option>
 	<option value="8" {select_august}>{intl-august}</option>
 	<option value="9" {select_september}>{intl-september}</option>
 	<option value="10" {select_october}>{intl-october}</option>

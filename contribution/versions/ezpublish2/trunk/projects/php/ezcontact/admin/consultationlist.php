@@ -1,4 +1,4 @@
-<?
+<?php
 include_once( "classes/INIFile.php" );
 include_once( "classes/ezhttptool.php" );
 $ini = new INIFIle( "site.ini" );
@@ -41,9 +41,7 @@ $t->setAllStrings();
 include_once( "ezcontact/classes/ezconsultation.php" );
 include_once( "classes/ezlocale.php" );
 
-$t->set_file( array(
-    "consultation_page" => $templatefile
-    ) );
+$t->set_file( "consultation_page", $templatefile );
 
 if ( isset( $ConsultationList ) )
 {
@@ -87,16 +85,16 @@ if ( !$user )
     exit();
 }
 
-if ( isset( $ConsultationList ) )
+if ( isSet( $ConsultationList ) )
 {
     // List specific consultations
 
-    if ( !isset( $CompanyID ) && !isset( $PersonID ) )
+    if ( !isSet( $CompanyID ) && !isSet( $PersonID ) )
     {
         die( "Neither CompanyID or PersonID is set" );
     }
 
-    if ( isset( $CompanyID ) )
+    if ( isSet( $CompanyID ) )
     {
         $consultations = eZConsultation::findConsultationsByContact( $CompanyID, $user->id(), false );
         $t->set_var( "consultation_type", "company" );
@@ -104,7 +102,7 @@ if ( isset( $ConsultationList ) )
         $company = new eZCompany( $CompanyID );
         $t->set_var( "contact_name", $company->name() );
     }
-    else if ( isset( $PersonID ) )
+    else if ( isSet( $PersonID ) )
     {
         $consultations = eZConsultation::findConsultationsByContact( $PersonID, $user->id(), true );
         $t->set_var( "consultation_type", "person" );
@@ -144,12 +142,12 @@ if ( isset( $ConsultationList ) )
         $t->parse( "no_consultations_item", "no_consultations_item_tpl", true );
     }
 
-    if ( isset( $CompanyID ) )
+    if ( isSet( $CompanyID ) )
     {
         $t->set_var( "new_person_consultation_item", "" );
         $t->parse( "new_company_consultation_item", "new_company_consultation_item_tpl"  );
     }
-    else if ( isset( $PersonID ) )
+    else if ( isSet( $PersonID ) )
     {
         $t->parse( "new_person_consultation_item", "new_person_consultation_item_tpl"  );
         $t->set_var( "new_company_consultation_item", "" );
@@ -160,7 +158,6 @@ else
     // Find companies which the user has consulted with
 
     $companies = eZConsultation::findConsultedCompanies( $user->id() );
-
     $count = count( $companies );
 
     if( $i < 0 )

@@ -102,6 +102,12 @@ CREATE TABLE eZContact_CompanyPhoneDict (
 # Dumping data for table 'eZContact_CompanyPhoneDict'
 #
 
+DROP TABLE IF EXISTS eZContact_CompanyImageDict;
+CREATE TABLE eZContact_CompanyImageDict (
+  CompanyID int(11) DEFAULT '0' NOT NULL,
+  ImageID int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (CompanyID,ImageID)
+);
 
 
 
@@ -426,10 +432,14 @@ CREATE TABLE eZContact_UserPersonDict (
   PRIMARY KEY (UserID,PersonID)
 );
 
-#
-# Dumping data for table 'eZContact_UserPersonDict'
-#
-
+DROP TABLE IF EXISTS eZContact_CompanyView;
+CREATE TABLE eZContact_CompanyView (
+  ID int(11) NOT NULL auto_increment,
+  CompanyID int(11) NOT NULL default '0',
+  Count int(11) NOT NULL default '0',
+  Date int NOT NULL,
+  PRIMARY KEY (ID,CompanyID,Date)
+) TYPE=MyISAM;
 
 
 

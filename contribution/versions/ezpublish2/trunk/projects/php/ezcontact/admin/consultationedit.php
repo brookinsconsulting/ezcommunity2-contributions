@@ -1,8 +1,8 @@
-<?
+<?php
 /*
     Edit a consultation
  */
- 
+
 include_once( "classes/INIFile.php" );
 
 $ini = new INIFIle( "site.ini" );
@@ -31,14 +31,14 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdatetime.php" );
 include_once( "ezcontact/classes/ezconsultation.php" );
 
-if( $Action == "delete" or isset( $Delete ) )
+if ( $Action == "delete" or isSet( $Delete ) )
 {
     unset( $person );
     unset( $company );
-    foreach( $ConsultationList as $consultation_id )
+    foreach ( $ConsultationList as $consultation_id )
     {
         $consultation = new eZConsultation( $consultation_id );
-        if ( !isset( $person ) and !isset( $company ) )
+        if ( !isSet( $person ) and !isSet( $company ) )
         {
             $person = $consultation->person( $user );
             $company = $consultation->company( $user );
@@ -56,7 +56,7 @@ if( $Action == "delete" or isset( $Delete ) )
         $contact_id = $company;
     }
 
-    if ( isset( $contact_type ) && isset( $contact_id ) )
+    if ( isSet( $contact_type ) && isSet( $contact_id ) )
     {
         include_once( "classes/ezhttptool.php" );
         eZHTTPTool::header( "Location: /contact/consultation/$contact_type/list/$contact_id" );
@@ -69,7 +69,6 @@ if( $Action == "delete" or isset( $Delete ) )
     exit;
 }
 
-   
 include_once( "ezcontact/classes/ezconsultationtype.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
@@ -80,9 +79,7 @@ $t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "Admi
                      "ezcontact/admin/intl", $Language, "consultationedit.php" );
 $t->setAllStrings();
 
-$t->set_file( array(
-    "consultation_edit" => "consultationedit.tpl"
-    ) );
+$t->set_file( "consultation_edit", "consultationedit.tpl" );
 $t->set_block( "consultation_edit", "consultation_item_tpl", "consultation_item" );
 
 $t->set_block( "consultation_item_tpl", "consultation_date_item_tpl", "consultation_date_item" );
@@ -152,7 +149,7 @@ $t->set_var( "hidden_person_contact_item", "" );
 
 $t->set_var( "state_id", "" );
 
-if( $Action == "insert" || $Action == "update" )
+if ( $Action == "insert" || $Action == "update" )
 {
     $t->set_var( "error_company_person_item", "" );
     $t->set_var( "error_no_company_person_item", "" );
@@ -161,31 +158,31 @@ if( $Action == "insert" || $Action == "update" )
     $t->set_var( "error_description_item", "" );
     $t->set_var( "error_email_notice_item", "" );
 
-    if( isset( $PersonContact ) && isset( $CompanyContact ) )
+    if ( isSet( $PersonContact ) && isSet( $CompanyContact ) )
     {
         $t->parse( "error_company_person_item", "error_company_person_item_tpl" );
         $error = true;
     }
 
-    if( !isset( $PersonContact ) && !isset( $CompanyContact ) )
+    if ( !isSet( $PersonContact ) && !isSet( $CompanyContact ) )
     {
         $t->parse( "error_no_company_person_item", "error_no_company_person_item_tpl" );
         $error = true;
     }
 
-    if( $StatusID == -1 )
+    if ( $StatusID == -1 )
     {
         $t->parse( "error_no_status_item", "error_no_status_item_tpl" );
         $error = true;
     }
 
-    if( empty( $ShortDescription ) )
+    if ( empty( $ShortDescription ) )
     {
         $t->parse( "error_short_description_item", "error_short_description_item_tpl" );
         $error = true;
     }
 
-    if( empty( $Description ) )
+    if ( empty( $Description ) )
     {
         $t->parse( "error_description_item", "error_description_item_tpl" );
         $error = true;
@@ -203,7 +200,7 @@ if( $Action == "insert" || $Action == "update" )
 //          $error = true;
 //      }
         
-    if( $error == true )
+    if ( $error == true )
     {
         $t->parse( "errors_item", "errors_tpl" );
    }
@@ -244,7 +241,7 @@ if( ( $Action == "insert" || $Action == "update" ) && $error == false )
     $consultation->setEmail( $EmailNotice );
     $consultation->store();
 
-    if ( isset( $CompanyContact ) )
+    if ( isSet( $CompanyContact ) )
     {
         $contact_type = "company";
         $contact_id = $CompanyContact;
@@ -328,7 +325,7 @@ if( ( $Action == "insert" || $Action == "update" ) && $error == false )
         }
     }
 
-    if ( isset( $contact_type ) && isset( $contact_id ) )
+    if ( isSet( $contact_type ) && isSet( $contact_id ) )
     {
         include_once( "classes/ezhttptool.php" );
         eZHTTPTool::header( "Location: /contact/consultation/$contact_type/list/$contact_id" );

@@ -1,10 +1,9 @@
 <?php
 // 
-// $Id: ezperson.php,v 1.54 2001/07/12 14:20:51 jhe Exp $
+// $Id: ezperson.php,v 1.55 2001/07/13 14:48:19 jhe Exp $
 //
 // Definition of eZPerson class
 //
-// <real-name><<email-name>>
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
 // This source file is part of eZ publish, publishing software.
@@ -64,7 +63,7 @@ class eZPerson
         $db->begin();
         $birth = "NULL";
         if ( isSet( $this->BirthDate ) and $this->BirthDate != "" )
-            $birth = "'$this->BirthDate'";
+            $birth = "$this->BirthDate";
         $firstname = $db->escapeString( $this->FirstName );
         $lastname = $db->escapeString( $this->LastName );
         $comment = $db->escapeString( $this->Comment );
@@ -247,8 +246,7 @@ class eZPerson
                 case "all":
                 default:
                 {
-                    $qry = "SELECT count( ID ) AS Count FROM eZContact_Person
-                            ORDER BY LastName, FirstName";
+                    $qry = "SELECT count( ID ) AS Count FROM eZContact_Person";
                     $db->query_single( $persons, $qry );
                     return $persons[ $db->fieldName( "Count" ) ];
                     break;
@@ -455,13 +453,10 @@ class eZPerson
             if( $count == 0 )
             {
                 $db->begin();
-                $db->lock( "eZContact_PersonAddressDict" );
-                $nextID = $db->nextID( "eZContact_PersonAddressDict", "ID" );
                 $res[] = $db->query( "INSERT INTO eZContact_PersonAddressDict
-                                      (ID, PersonID, AddressID)
+                                      (PersonID, AddressID)
                                       VALUES
-                                      ('$nextID', '$this->ID', '$addressID')" );
-                $db->unlock();
+                                      ('$this->ID', '$addressID')" );
                 eZDB::finish( $res, $db );
             }
             $ret = true;
@@ -534,13 +529,10 @@ class eZPerson
             if( $count == 0 )
             {
                 $db->begin();
-                $db->lock( "eZContact_PersonPhoneDict" );
-                $nextID = $db->nextID( "eZContact_PersonPhoneDict", "ID" );
                 $res[] = $db->query( "INSERT INTO eZContact_PersonPhoneDict
-                                      (ID, PersonID, PhoneID)
+                                      (PersonID, PhoneID)
                                       VALUES
-                                      ('$nextID', '$this->ID', '$phoneID')" );
-                $db->unlock();
+                                      ('$this->ID', '$phoneID')" );
                 eZDB::finish( $res, $db );
             }
 
@@ -732,19 +724,15 @@ class eZPerson
             $checkQuery = "SELECT PersonID FROM eZContact_PersonOnlineDict WHERE OnlineID='$onlineID'";
             
             $db->array_query( $online_array, $checkQuery );
-
             $count = count( $online_array );
 
             if( $count == 0 )
             {
                 $db->begin();
-                $db->lock( "eZContact_PersonOnlineDict" );
-                $nextID = $db->nextID( "eZContact_PersonOnlineDict", "ID" );
                 $res[] = $db->query( "INSERT INTO eZContact_PersonOnlineDict
-                                      (ID, PersonID, OnlineID)
+                                      (PersonID, OnlineID)
                                       VALUES
-                                      ('$nextID', '$this->ID', '$onlineID')" );
-                $db->unlock();
+                                      ('$this->ID', '$onlineID')" );
                 eZDB::finish( $res, $db );
             }
 
@@ -794,13 +782,10 @@ class eZPerson
             if( $count == 0 )
             {
                 $db->begin();
-                $db->lock( "eZContact_UserPersonDict" );
-                $nextID = $db->nextID( "eZContact_UserPersonDict", "ID" );
                 $res[] = $db->query( "INSERT INTO eZContact_UserPersonDict
-                                      (ID, PersonID, UserID)
+                                      (PersonID, UserID)
                                       VALUES
-                                      ('$nextID', '$this->ID', '$userID')" );
-                $db->unlock();
+                                      ('$this->ID', '$userID')" );
                 eZDB::finish( $res, $db );
             }
             $ret = true;
@@ -948,14 +933,11 @@ class eZPerson
         {
             if ( $value > 0 )
             {
-                $db->lock( "eZContact_PersonProjectDict" );
-                $nextID = $db->nextID( "eZContact_PersonProjectDict", "ID" );
                 $checkQuery = "INSERT INTO eZContact_PersonProjectDict
-                               (ID, PersonID, ProjectID)
+                               (PersonID, ProjectID)
                                VALUES
-                               ('$nextID', '$id', '$value')";
+                               ('$id', '$value')";
                 $res[] = $db->query( $checkQuery );
-                $db->unlock();
             }
         }
         eZDB::finish( $res, $db );

@@ -1,5 +1,4 @@
-<?
-
+<?php
 /*
   This code can be reused for simple type edits. It requires an object with the following functions:
   name() and setName(): Used for reading and setting the name of the type.
@@ -46,13 +45,13 @@ else
     $back_command = $HTTP_REFERER;
 }
 
-if( $Action == "delete" )
+if ( $Action == "delete" )
 {
     // Check to see if the count has changed since the confirmation was done
     $item_id = $item_type->id();
     $reconfirm = "Location: $page_path/confirm/$item_id";
     $count = $item_type->count();
-    if ( !isset( $TypeCount ) )
+    if ( !isSet( $TypeCount ) )
     {
         $Action = "confirm";
         $TypeError = true;
@@ -72,7 +71,7 @@ if( $Action == "delete" )
     }
 }
 
-if( $Action == "up" )
+if ( $Action == "up" )
 {
     $item_type->moveUp();
     include_once( "classes/ezhttptool.php" );
@@ -80,7 +79,7 @@ if( $Action == "up" )
     exit();
 }
 
-if( $Action == "down" )
+if ( $Action == "down" )
 {
     $item_type->moveDown();
     include_once( "classes/ezhttptool.php" );

@@ -5,6 +5,7 @@ CREATE TABLE eZContact_Company (
   Comment text,
   ContactType int DEFAULT '0' NOT NULL,
   CompanyNo varchar(20) DEFAULT '' NOT NULL,
+  ContactID int DEFAULT '0',
   PRIMARY KEY (ID)
 );
 
@@ -154,15 +155,26 @@ CREATE TABLE eZContact_ProjectType (
 CREATE TABLE eZContact_UserCompanyDict (
   UserID int NOT NULL,
   CompanyID int DEFAULT '0' NOT NULL,
-  UNIQUE UserID (UserID),
-  UNIQUE CompanyID (CompanyID),
   PRIMARY KEY (UserID,CompanyID)
 );
 
 CREATE TABLE eZContact_UserPersonDict (
   UserID int NOT NULL,
   PersonID int DEFAULT '0' NOT NULL,
-  UNIQUE UserID (UserID),
-  UNIQUE PersonID (PersonID),
   PRIMARY KEY (UserID,PersonID)
 );
+
+CREATE TABLE eZContact_CompanyView (
+  ID int NOT NULL,
+  CompanyID int default '0' NOT NULL,
+  Count int default '0' NOT NULL,
+  Date int NOT NULL,
+  PRIMARY KEY (ID,CompanyID,Date)
+);
+
+CREATE TABLE eZContact_CompanyImageDict (
+  CompanyID int DEFAULT '0' NOT NULL,
+  ImageID int DEFAULT '0' NOT NULL,
+  PRIMARY KEY (CompanyID,ImageID)
+);
+

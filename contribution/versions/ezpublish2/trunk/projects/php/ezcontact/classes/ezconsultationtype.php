@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezconsultationtype.php,v 1.9 2001/07/12 14:20:51 jhe Exp $
+// $Id: ezconsultationtype.php,v 1.10 2001/07/13 14:48:19 jhe Exp $
 //
 // Definition of eZConsultationType class
 //
@@ -66,17 +66,17 @@ class eZConsultationType
     /*!
       Stores the consultation type to the database.
     */
-    function store( )
+    function store()
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
         $name = $db->fieldName( $this->Name );
         if ( !isSet( $this->ID ) )
         {
             $db->query_single( $qry, "SELECT ListOrder from eZContact_ConsultationType ORDER BY ListOrder DESC", array( "Limit" => 1 ) );
             $listorder = $qry[ $db->fieldName( "ListOrder" ) ] + 1;
             $this->ListOrder = $listorder;
-            $db->begin();
-            $db->lock();
+            $db->lock( "eZContact_ConsultationType" );
 			$this->ID = $db->nextID( "eZContact_ConsultationType", "ID" );
             $res[] = $db->query( "INSERT INTO eZContact_ConsultationType
                                   (ID, Name, ListOrder)
@@ -114,7 +114,7 @@ class eZConsultationType
                     eZConsultation::delete( $consultation[ $db->fieldName( "ID" ) ] );
                 }
             }
-            $res[] = $db->query( "DELETE FROM eZContact_ConsultationType WHERE ID='$this->ID'" );
+            $res[] = $db->query( "DELETE FROM eZContact_ConsultationType WHERE ID='$this->ID'" );
             eZDB::finish( $res, $db );
         }
         return true;
@@ -171,7 +171,7 @@ class eZConsultationType
     {
         $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT count( ID ) as Count FROM eZContact_Consultation WHERE StateID='$this->ID'" );
-        return $qry["Count"];
+        return $qry[ $db->fieldName( "Count" ) ];
     }
 
     /*!

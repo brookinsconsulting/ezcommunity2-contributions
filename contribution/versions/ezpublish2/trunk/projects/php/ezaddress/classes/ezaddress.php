@@ -1,9 +1,9 @@
-<?
-// $Id: ezaddress.php,v 1.10 2001/05/15 13:18:46 bf Exp $
+<?php
+//
+// $Id: ezaddress.php,v 1.11 2001/07/13 14:48:18 jhe Exp $
 //
 // Definition of eZAddress class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <07-Oct-2000 12:34:13 bf>
 //
 // This source file is part of eZ publish, publishing software.
@@ -23,14 +23,13 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
 //!! eZAddress
 //! eZAddress handles addresses.
 /*!
   NOTE: this class defaults to Norwegian country is none is
   set.
 */
-
-
 
 include_once( "classes/ezdb.php" );
 include_once( "ezaddress/classes/ezcountry.php" );
@@ -41,17 +40,13 @@ class eZAddress
     /*!
       Constructs a new eZAddress object.
     */
-    function eZAddress( $id="", $fetch=true )
+    function eZAddress( $id = "" )
     {
         if ( $id != "" )
         {
 
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                
-                $this->get( $this->ID );
-            }
+            $this->get( $this->ID );
         }
     }
 
@@ -61,44 +56,47 @@ class eZAddress
     function store()
     {
         $db =& eZDB::globalDatabase();
-
+        $db->begin();
+        
         $ret = false;
         if ( $this->CountryID <= 0 )
             $country_id = "NULL";
         else
-            $country_id = "'$this->CountryID'";
+            $country_id = "$this->CountryID";
 
-        $street1 = addslashes( $this->Street1 );
-        $street2 = addslashes( $this->Street2 );
-        $place = addslashes( $this->Place );
-        if ( !isset( $this->ID ) )
+        $street1 = $db->escapeString( $this->Street1 );
+        $street2 = $db->escapeString( $this->Street2 );
+        $place = $db->escapeString( $this->Place );
+        if ( !isSet( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZAddress_Address
-                    SET Street1='$street1',
-                    Street2='$street2',
-                    Zip='$this->Zip',
-                    Place='$place',
-                    CountryID=$country_id,
-                    AddressTypeID='$this->AddressTypeID'" );
-
-			$this->ID = $db->insertID();
-
+            $db->lock( "eZAddress_Address" );
+			$this->ID = $db->nextID( "eZAddress_Address", "ID" );
+            $res[] = $db->query( "INSERT INTO eZAddress_Address
+                                  (ID, Street1, Street2, Zip, Place, CountryID, AddressTypeID)
+                                  VALUES
+                                  ('$this->ID',
+                                   '$street1',
+                                   '$street2',
+                                   '$this->Zip',
+                                   '$place',
+                                   '$country_id',
+                                   '$this->AddressTypeID')" );
+            $db->unlock();
             $ret = true;
         }
         else
         {
-            $db->query( "UPDATE eZAddress_Address
-                    SET Street1='$street1',
-                    Street2='$street2',
-                    Zip='$this->Zip',
-                    Place='$place',
-                    AddressTypeID='$this->AddressTypeID',
-                    CountryID=$country_id
-                    WHERE ID='$this->ID'" );            
-
+            $res[] = $db->query( "UPDATE eZAddress_Address
+                                  SET Street1='$street1',
+                                  Street2='$street2',
+                                  Zip='$this->Zip',
+                                  Place='$place',
+                                  AddressTypeID='$this->AddressTypeID',
+                                  CountryID=$country_id
+                                  WHERE ID='$this->ID'" );            
             $ret = true;            
         }
-
+        eZDB::finish( $res, $db );
         return $ret;
     }
 
@@ -117,13 +115,13 @@ class eZAddress
             }
             else if ( count( $address_array ) == 1 )
             {
-                $this->ID =& $address_array[ 0 ][ "ID" ];
-                $this->Street1 =& $address_array[ 0 ][ "Street1" ];
-                $this->Street2 =& $address_array[ 0 ][ "Street2" ];
-                $this->Zip =& $address_array[ 0 ][ "Zip" ];
-                $this->Place =& $address_array[ 0 ][ "Place" ];
-                $this->CountryID =& $address_array[ 0 ][ "CountryID" ];
-                $this->AddressTypeID =& $address_array[ 0 ][ "AddressTypeID" ];
+                $this->ID =& $address_array[ 0 ][ $db->fieldName( "ID" ) ];
+                $this->Street1 =& $address_array[ 0 ][ $db->fieldName( "Street1" ) ];
+                $this->Street2 =& $address_array[ 0 ][ $db->fieldName( "Street2" ) ];
+                $this->Zip =& $address_array[ 0 ][ $db->fieldName( "Zip" ) ];
+                $this->Place =& $address_array[ 0 ][ $db->fieldName( "Place" ) ];
+                $this->CountryID =& $address_array[ 0 ][ $db->fieldName( "CountryID" ) ];
+                $this->AddressTypeID =& $address_array[ 0 ][ $db->fieldName( "AddressTypeID" ) ];
             }
             if ( $this->CountryID == "NULL" )
                 $this->CountryID = -1;
@@ -151,7 +149,9 @@ class eZAddress
         if ( !$id )
             $id = $this->ID;
         $db =& eZDB::globalDatabase();
-        $db->query( "DELETE FROM eZAddress_Address WHERE ID='$id'" );
+        $db->begin();
+        $res[] = $db->query( "DELETE FROM eZAddress_Address WHERE ID='$id'" );
+        eZDB::finish( $res, $db );
     }    
     
 
@@ -232,17 +232,23 @@ class eZAddress
 
         if ( count ( $checkForAddress ) != 0 )
         {
-            $db->query( "UPDATE eZAddress_AddressDefinition SET
+            $res[] = $db->query( "UPDATE eZAddress_AddressDefinition SET
                                          AddressID='$addressID',
                                          UserID='$userID'
                                          WHERE UserID='$userID'" );
         }
         else
         {
-            $db->query( "INSERT INTO eZAddress_AddressDefinition SET
-                                         AddressID='$addressID',
-                                         UserID='$userID' ");
+            $db->begin();
+            $db->lock( "eZAddress_AddressDefinition" );
+            $nextID = $db->nextID( "eZAddress_AddressDefinition", "ID" );
+            $res[] = $db->query( "INSERT INTO eZAddress_AddressDefinition
+                                  (ID, AddressID, UserID)
+                                  VALUES
+                                  ('$nextID', '$addressID', '$userID')" );
+            $db->unlock();
         }
+        eZDB::finish( $res, $db );
     }
     
     /*!
@@ -262,14 +268,14 @@ class eZAddress
 
         if ( count ( $addressArray ) == 1 )
         {
-            return new eZAddress( $addressArray[0]["AddressID"] );
+            return new eZAddress( $addressArray[0][ $db->fieldName( "AddressID" ) ] );
         }
     }
 
     /*!
       Returns the object ID.
     */
-    function id( )
+    function id()
     {
         return $this->ID;
     }

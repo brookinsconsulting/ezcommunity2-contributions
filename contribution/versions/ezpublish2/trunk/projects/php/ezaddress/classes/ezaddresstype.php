@@ -1,10 +1,9 @@
 <?php
 // 
-// $Id: ezaddresstype.php,v 1.6 2001/06/29 15:20:04 ce Exp $
+// $Id: ezaddresstype.php,v 1.7 2001/07/13 14:48:18 jhe Exp $
 //
 // Definition of eZAddressType class
 //
-// Christoffer A. Elo <ce@ez.no>
 // Created on: <26-Jun-2001 13:40:19 ce>
 //
 // This source file is part of eZ publish, publishing software.
@@ -49,7 +48,7 @@ class eZAddressType
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZAddressType( $id="-1" )
+    function eZAddressType( $id = -1 )
     {
         if ( is_array( $id ) )
         {
@@ -116,12 +115,8 @@ class eZAddressType
             $id = $this->ID;
 
         $db->begin( );
-        $result = $db->query( "UPDATE eZAddress_AddressType SET Removed=1 WHERE ID='$id'" );
-        if ( $result == false )
-            $db->rollback( );
-        else
-            $db->commit();
-
+        $res[] = $result = $db->query( "UPDATE eZAddress_AddressType SET Removed=1 WHERE ID='$id'" );
+        eZDB::finish( $res, $db );
     }
     
     /*
@@ -234,7 +229,7 @@ class eZAddressType
                                  WHERE Ad.AddressTypeID = AT.ID AND AddressTypeID='$this->ID'" );
         $cnt = 0;
         if ( count( $qry ) > 0 )
-            $cnt += $qry[0][$db->fieldName("Count")];
+            $cnt += $qry[0][ $db->fieldName( "Count" ) ];
         return $cnt;
     }
 
@@ -248,16 +243,13 @@ class eZAddressType
         $db =& eZDB::globalDatabase();
         $db->query_single( $qry, "SELECT ID, ListOrder FROM eZAddress_AddressType
                                   WHERE Removed=0 AND ListOrder<'$this->ListOrder' ORDER BY ListOrder DESC", array( "Limit" => "1" ) );
-        $listorder = $qry[$db->fieldName("ListOrder")];
-        $listid = $qry[$db->fieldName("ID")];
+        $listorder = $qry[ $db->fieldName( "ListOrder" ) ];
+        $listid = $qry[ $db->fieldName( "ID" ) ];
 
         $db->begin();
-        $result = $db->query( "UPDATE eZAddress_AddressType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
-        $result1 = $db->query( "UPDATE eZAddress_AddressType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
-        if ( $result == false || $result1 == false )
-            $db->rollback( );
-        else
-            $db->commit();
+        $res[] = $db->query( "UPDATE eZAddress_AddressType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
+        $res[] = $db->query( "UPDATE eZAddress_AddressType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
+        eZDB::finish( $res, $db );
     }
 
     /*!
@@ -273,12 +265,9 @@ class eZAddressType
         $listid = $qry[$db->fieldName("ID")];
 
         $db->begin();
-        $result = $db->query( "UPDATE eZAddress_AddressType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
-        $result1 = $db->query( "UPDATE eZAddress_AddressType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
-        if ( $result == false || $result1 == false )
-            $db->rollback( );
-        else
-            $db->commit();
+        $res[] = $db->query( "UPDATE eZAddress_AddressType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
+        $res[] = $db->query( "UPDATE eZAddress_AddressType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
+        eZDB::finish( $res, $db );
     }
 
     var $ID;

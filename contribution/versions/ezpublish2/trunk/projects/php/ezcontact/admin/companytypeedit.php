@@ -1,4 +1,4 @@
-<?
+<?php
 /*
   Edit company types
 */

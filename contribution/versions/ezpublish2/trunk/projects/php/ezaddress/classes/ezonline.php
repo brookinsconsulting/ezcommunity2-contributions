@@ -1,10 +1,9 @@
-<?
+<?php
 // 
-// $Id: ezonline.php,v 1.6 2001/06/26 14:35:57 ce Exp $
+// $Id: ezonline.php,v 1.7 2001/07/13 14:48:18 jhe Exp $
 //
 // Definition of eZOnline class
 //
-// Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Nov-2000 18:05:07 ce>
 //
 // This source file is part of eZ publish, publishing software.
@@ -24,7 +23,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
 
 //!! eZAddress
 //! eZOnline handles onlinees.
@@ -49,15 +47,12 @@ class eZOnline
     /*!
       Constructs a new eZOnline object.
     */
-    function eZOnline( $id="", $fetch=true )
+    function eZOnline( $id = "" )
     {
         if ( !empty( $id ) )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                $this->get( $this->ID );
-            }
+            $this->get( $this->ID );
         }
     }
 
@@ -67,30 +62,33 @@ class eZOnline
     function store()
     {
         $db =& eZDB::globalDatabase();
-
+        $db->begin();
+        
         $ret = false;
-        $url = addslashes( $this->URL );
+        $url = $db->escapeString( $this->URL );
         if ( !isset( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZAddress_Online SET
-                    URL='$url',
-                    OnlineTypeID='$this->OnlineTypeID'" );
+            $db->lock( "eZAddress_Online" );
+			$this->ID = $db->nextID( "eZAddress_Online", "ID" );
 
-			$this->ID = $db->insertID();
+            $res[] = $db->query( "INSERT INTO eZAddress_Online
+                                  (ID, URL, OnlineTypeID)
+                                  VALUES
+                                  ('$this->ID', '$url', '$this->OnlineTypeID')" );
 
             $ret = true;
         }
         else
         {
-            $db->query( "UPDATE eZAddress_Online SET
-                    URL='$url',
-                    OnlineTypeID='$this->OnlineTypeID'
-                    WHERE ID='$this->ID'" );            
+            $res[] = $db->query( "UPDATE eZAddress_Online SET
+                                  URL='$url',
+                                  OnlineTypeID='$this->OnlineTypeID'
+                                  WHERE ID='$this->ID'" );
 
             $ret = true;            
         }        
 
-        
+        eZDB::finish( $res, $db );
         return $ret;
     }
 
@@ -102,8 +100,9 @@ class eZOnline
         if ( !$id )
             $id = $this->ID;
         $db =& eZDB::globalDatabase();
-
-        $db->query( "DELETE FROM eZAddress_Online WHERE ID='$id'" );
+        $db->begin();
+        $res[] = $db->query( "DELETE FROM eZAddress_Online WHERE ID='$id'" );
+        eZDB::finish( $res, $db );
     }    
 
 
@@ -122,9 +121,9 @@ class eZOnline
             }
             else if ( count( $online_array ) == 1 )
             {
-                $this->ID =& $online_array[ 0 ][ "ID" ];
-                $this->URL =& $online_array[ 0 ][ "URL" ];
-                $this->OnlineTypeID =& $online_array[ 0 ][ "OnlineTypeID" ];
+                $this->ID =& $online_array[ 0 ][ $db->fieldName( "ID" ) ];
+                $this->URL =& $online_array[ 0 ][ $db->fieldName( "URL" ) ];
+                $this->OnlineTypeID =& $online_array[ 0 ][ $db->fieldName( "OnlineTypeID" ) ];
             }
         }
     }
@@ -144,7 +143,7 @@ class eZOnline
 
         foreach ( $online_array as $addresItem )
         {
-            $return_array[] = new eZOnline( $onlineItem["ID"] );
+            $return_array[] = new eZOnline( $onlineItem[ $db->fieldName( "ID" ) ] );
         }
     
         return $online_array;

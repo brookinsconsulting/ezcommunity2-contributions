@@ -1,4 +1,4 @@
-<?
+<?php
 /*
   Viser firma typer.
 */
@@ -151,7 +151,7 @@ else
     $pathArray = $type->path( $TypeID );
     
     $t->set_var( "path_item", "" );
-    foreach( $pathArray as $path )
+    foreach ( $pathArray as $path )
     {
         $t->set_var( "parent_id", $path[0] );
         $t->set_var( "parent_name", $path[1] );
@@ -196,12 +196,10 @@ else
     $t->parse( "current_type", "current_type_tpl" );
     if( $TypeID != 0 && $Action == "view" )
     {
-
         $t->parse( "not_root", "not_root_tpl" );
     }
     else
     {
-
         $t->set_var( "not_root", "" );
     }
     if( $Action == "view" )
@@ -211,7 +209,6 @@ else
     }
     if( $Action == "list" )
     {
-
         $t->set_var( "view", "" );
         $t->parse( "list", "list_tpl" );
     }
@@ -224,17 +221,14 @@ else
         $t->parse( "type_delete_button", "type_delete_button_tpl" );
     if( $type_count != 0 )
     {
-
         for( $i = 0; $i < $type_count; $i++ )
         {
             if ( ( $i % 2 ) == 0 )
             {
-
                 $t->set_var( "theme-type_class", "bglight" );
             }
             else
             {
-
                 $t->set_var( "theme-type_class", "bgdark" );
             }  
 
@@ -246,22 +240,18 @@ else
 
             if( empty( $name ) )
             {
-
                 $t->set_var( "type_name", "&nbsp;" );
             }
             else
             {
-
                 $t->set_var( "type_name", $name );
             }
             if( empty( $desc ) )
             {
-
                 $t->set_var( "type_description", "&nbsp;" );
             }
             else
             {
-
                 $t->set_var( "type_description", $desc );
             }
             $t->parse( "type_item", "type_item_tpl", true );
@@ -389,4 +379,5 @@ else
 
     $t->pparse( "output", "type_page" );
 }
+
 ?>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezconsultation.php,v 1.16 2001/07/12 14:20:51 jhe Exp $
+// $Id: ezconsultation.php,v 1.17 2001/07/13 14:48:19 jhe Exp $
 //
 // Definition of eZConsultation class
 //
@@ -79,6 +79,7 @@ class eZConsultation
         $date = $this->Date->timeStamp();
         $shortdesc = $db->escapeString( $this->ShortDesc );
         $description = $db->escapeString( $this->Description );
+        $emailnotice = $db->escapeString( $this->EmailNotice );
         if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZContact_Consultation" );
@@ -90,13 +91,13 @@ class eZConsultation
                                    '$shortdesc',
                                    '$description',
                                    '$this->State',
-                                   '$this->EmailNotice',
+                                   '$emailnotice',
 	                               '$date')" );
             $db->unlock();
         }
         else
         {
-            $res[] = $db->query( "UPDATE eZContact_Consultation SET
+            $res[] = $db->query( "UPDATE eZContact_Consultation SET
                                         ShortDesc='$shortdesc',
                                         Description='$description',
                                         StateID='$this->State',
@@ -112,13 +113,14 @@ class eZConsultation
       Deletes an eZConsultation object from the database.
     */
     function delete( $id = false )
-    {  
+    {
         if ( !$id )
             $id = $this->ID;
 
         if ( isSet( $id ) && is_numeric( $id ) )
         {
             $db =& eZDB::globalDatabase();
+            $db->begin();
             $res[] = $db->query( "DELETE FROM eZContact_Consultation WHERE ID='$id'" );
             $db->array_query( $qry_array, "SELECT ConsultationID FROM eZContact_ConsultationPersonUserDict WHERE ConsultationID='$id'" );
             if ( count( $qry_array ) > 0 )
@@ -194,13 +196,10 @@ class eZConsultation
             $groupid = $group;
         $db =& eZDB::globalDatabase();
         $db->begin();
-        $db->lock( "eZContact_ConsultationGroupsDict" );
-        $nextID = $db->nextID( "eZContact_ConsultationGroupsDict", "ID" );
         $res = $db->query( "INSERT INTO eZContact_ConsultationGroupsDict
-                            (ID, ConsultationID, GroupID)
+                            (ConsultationID, GroupID)
                             VALUES
-                            ('$nextID', '$this->ID', '$groupid')" );
-        $db->unlock();
+                            ('$this->ID', '$groupid')" );
         eZDB::finish( $res, $db );
     }
 
@@ -564,11 +563,10 @@ class eZConsultation
         $db =& eZDB::globalDatabase();
         $db->begin();
         $db->lock( "eZContact_ConsultationPersonUserDict" );
-        $nextID = $db->nextID( "eZContact_ConsultationPersonUserDict", "ID" );
         $db->query( "INSERT INTO eZContact_ConsultationPersonUserDict
-                     (ID, ConsultationID, PersonID, UserID)
+                     (ConsultationID, PersonID, UserID)
                      VALUES
-                     ('$nextID', '$this->ID', '$person', '$user')" );
+                     ('$this->ID', '$person', '$user')" );
         $db->unlock();
         eZDB::finish( $res, $db );
     }
@@ -581,13 +579,10 @@ class eZConsultation
             $user = $user->id();
         $db =& eZDB::globalDatabase();
         $db->begin();
-        $db->lock( "eZContact_ConsultationCompanyUserDict" );
-        $nextID = $db->nextID( "eZContact_ConsultationCompanyUserDict", "ID" );
-        $res[] = $db->query( "INSERT INTO eZContact_ConsultationCompanyUserDict
-                              (ID, ConsultationID, PersonID, UserID)
+        $res[] = $db->query( "INSERT INTO eZContact_ConsultationCompanyUserDict
+                              (ConsultationID, CompanyID, UserID)
                               VALUES
-                              ('$nextID', '$this->ID', '$company', '$user')" );
-        $db->unlock();
+                              ('$this->ID', '$company', '$user')" );
         eZDB::finish( $res, $db );
     }
 
@@ -598,7 +593,7 @@ class eZConsultation
         if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
         $db =& eZDB::globalDatabase();
-        $res[] = $db->query( "DELETE FROM eZContact_ConsultationPersonUserDict
+        $res[] = $db->query( "DELETE FROM eZContact_ConsultationPersonUserDict
                               WHERE ConsultationID='$this->ID' AND PersonID='$person' AND UserID='$user'" );
         eZDB::finish( $res, $db );
     }
@@ -610,7 +605,7 @@ class eZConsultation
         if ( get_class( $user ) == "ezuser" )
             $user = $user->id();
         $db =& eZDB::globalDatabase();
-        $res[] = $db->query( "DELETE FROM eZContact_ConsultationCompanyUserDict
+        $res[] = $db->query( "DELETE FROM eZContact_ConsultationCompanyUserDict
                               WHERE ConsultationID='$this->ID' AND CompanyID='$company' AND UserID='$user'" );
         eZDB::finish( $res, $db );
     }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezphonetype.php,v 1.5 2001/06/29 15:20:05 ce Exp $
+// $Id: ezphonetype.php,v 1.6 2001/07/13 14:48:18 jhe Exp $
 //
 // Definition of eZAddressType class
 //
@@ -49,7 +49,7 @@ class eZPhoneType
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZPhoneType( $id="-1" )
+    function eZPhoneType( $id= -1 )
     {
         if ( is_array( $id ) )
         {
@@ -72,12 +72,12 @@ class eZPhoneType
         $name = $db->escapeString( $this->Name );
         if ( !isSet( $this->ID ) )
         {
+            $db->query_single( $qry, "SELECT ListOrder FROM eZAddress_PhoneType ORDER BY ListOrder DESC", array( "Limit" => "1" ) );
+            $listorder = $qry[ $db->fieldName( "ListOrder" ) ] + 1;
+            $this->ListOrder = $listorder;
+
             $db->lock( "eZAddress_PhoneType" );
             $nextID = $db->nextID( "eZAddress_PhoneType", "ID" );
-
-            $db->query_single( $qry, "SELECT ListOrder FROM eZAddress_PhoneType ORDER BY ListOrder DESC", array( "Limit" => "1" ) );
-            $listorder = $qry["ListOrder"] + 1;
-            $this->ListOrder = $listorder;
 
             $result = $db->query( "INSERT INTO eZAddress_PhoneType
                          ( ID, Name, ListOrder )
@@ -85,6 +85,7 @@ class eZPhoneType
                                   '$name',
                                   '$this->ListOrder') " );
 
+            $db->unlock();
 			$this->ID = $nextID;
 
         }
@@ -93,7 +94,6 @@ class eZPhoneType
             $result = $db->query( "UPDATE eZAddress_PhoneType set Name='$name', ListOrder='$this->ListOrder' WHERE ID='$this->ID'" );
         }
         
-        $db->unlock();
 
         if ( $result == false )
             $db->rollback( );
@@ -159,10 +159,8 @@ class eZPhoneType
     function getAllCount()
     {
         $db =& eZDB::globalDatabase();
-
         $db->query_single( $phone_type_array,
                           "SELECT Count( ID ) AS Count FROM eZAddress_PhoneType" );
-
         return $phone_type_array[$db->fieldName("Count")];
     }
 
@@ -205,7 +203,7 @@ class eZPhoneType
         {
             foreach( $phone_type_array as $phoneTypeItem )
             {
-                $return_array[] = $phoneTypeItem[$db->fieldName("ID")];
+                $return_array[] = $phoneTypeItem[ $db->fieldName( "ID" ) ];
             }
         }
         return $return_array;
@@ -246,7 +244,7 @@ class eZPhoneType
                                          WHERE Ph.PhoneTypeID = PT.ID AND PhoneTypeID='$this->ID'" );
         $cnt = 0;
         if ( count( $qry ) > 0 )
-            $cnt += $qry[0][$db->fieldName("Count")];
+            $cnt += $qry[0][ $db->fieldName( "Count" ) ];
         return $cnt;
     }
 
@@ -262,16 +260,9 @@ class eZPhoneType
         $listid = $qry[$db->fieldName("ID")];
 
         $db->begin();
-        $result = $db->query( "UPDATE eZAddress_PhoneType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
-        $result1 = $db->query( "UPDATE eZAddress_PhoneType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
-        if ( $result == false || $result1 == false )
-        {
-            $db->rollback( );
-        }
-        else
-        {
-            $db->commit();
-        }
+        $res[] = $db->query( "UPDATE eZAddress_PhoneType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
+        $res[] = $db->query( "UPDATE eZAddress_PhoneType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
+        eZDB::finish( $res, $db );
     }
 
     /*!
@@ -287,12 +278,9 @@ class eZPhoneType
         $listid = $qry[$db->fieldName("ID")];
 
         $db->begin();
-        $result = $db->query( "UPDATE eZAddress_PhoneType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
-        $result1 = $db->query( "UPDATE eZAddress_PhoneType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
-        if ( $result == false || $result1 == false )
-            $db->rollback( );
-        else
-            $db->commit();
+        $res[] = $db->query( "UPDATE eZAddress_PhoneType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
+        $res[] = $db->query( "UPDATE eZAddress_PhoneType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
+        eZDB::finish( $res, $db );
     }
 
     var $ID;

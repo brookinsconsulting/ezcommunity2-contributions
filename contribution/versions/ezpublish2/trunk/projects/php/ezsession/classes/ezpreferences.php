@@ -1,6 +1,6 @@
-<?
+<?php
 // 
-// $Id: ezpreferences.php,v 1.11 2001/06/23 10:16:48 bf Exp $
+// $Id: ezpreferences.php,v 1.12 2001/07/13 14:48:19 jhe Exp $
 //
 // Definition of eZPreferences class
 //
@@ -171,13 +171,13 @@ class eZPreferences
                              VALUES
                              ( '$nextID', '$userID', '$name', '$value', '$group' )" );
 
+                $db->unlock();
+            
                 if ( $res != false )                
                     $ret = true;
                 else
                     $dbError = true;
             }
-            
-            $db->unlock();
             
             if ( $dbError == true )
                 $db->rollback( );

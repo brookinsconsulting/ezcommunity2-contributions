@@ -1,10 +1,9 @@
-<?
+<?php
 // 
-// $Id: ezonlinetype.php,v 1.5 2001/06/29 15:20:05 ce Exp $
+// $Id: ezonlinetype.php,v 1.6 2001/07/13 14:48:18 jhe Exp $
 //
 // Definition of eZOnline class
 //
-// Christoffer A. Elo <ce@ez.no>
 // Created on: <09-Nov-2000 18:44:38 ce>
 //
 // This source file is part of eZ publish, publishing software.
@@ -23,6 +22,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
+
 //
 //!! eZAddress
 //! eZOnlineType handles online types.
@@ -49,7 +49,7 @@ class eZOnlineType
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZOnlineType( $id="-1" )
+    function eZOnlineType( $id= -1 )
     {
         if ( is_array( $id ) )
         {
@@ -158,12 +158,12 @@ class eZOnlineType
     {
         $db =& eZDB::globalDatabase();
                 
-        $this->ID = $online_type_array[$db->fieldName("ID")];
-        $this->Name = $online_type_array[$db->fieldName("Name")];
-        $this->ListOrder = $online_type_array[$db->fieldName("ListOrder")];
-        $this->URLPrefix = $online_type_array[$db->fieldName("URLPrefix")];
-        $this->PrefixLink = $online_type_array[$db->fieldName("PrefixLink")];
-        $this->PrefixVisual = $online_type_array[$db->fieldName("PrefixVisual")];
+        $this->ID = $online_type_array[ $db->fieldName( "ID" ) ];
+        $this->Name = $online_type_array[ $db->fieldName( "Name" ) ];
+        $this->ListOrder = $online_type_array[ $db->fieldName( "ListOrder" ) ];
+        $this->URLPrefix = $online_type_array[ $db->fieldName( "URLPrefix" ) ];
+        $this->PrefixLink = $online_type_array[ $db->fieldName( "PrefixLink" ) ];
+        $this->PrefixVisual = $online_type_array[ $db->fieldName( "PrefixVisual" ) ];
     }
 
     /*
@@ -198,7 +198,7 @@ class eZOnlineType
         {
             foreach ( $online_type_array as $onlineTypeItem )
             {
-                $return_array[] = $onlineTypeItem[$db->fieldName("ID")];
+                $return_array[] = $onlineTypeItem[ $db->fieldName( "ID" ) ];
             }
         }
     
@@ -307,7 +307,7 @@ class eZOnlineType
 //          if ( count( $person_qry ) > 0 )
 //              $cnt += $person_qry[0]["Count"];
         if ( count( $qry ) > 0 )
-            $cnt += $qry[0][$db->fieldName("Count")];
+            $cnt += $qry[0][ $db->fieldName( "Count" ) ];
         return $cnt;
     }
 
@@ -324,12 +324,9 @@ class eZOnlineType
         $listid = $qry[$db->fieldName("ID")];
 
         $db->begin();
-        $result = $db->query( "UPDATE eZAddress_OnlineType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
-        $result1 = $db->query( "UPDATE eZAddress_OnlineType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
-        if ( $result == false || $result1 == false )
-            $db->rollback( );
-        else
-            $db->commit();
+        $res[] = $db->query( "UPDATE eZAddress_OnlineType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
+        $res[] = $db->query( "UPDATE eZAddress_OnlineType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
+        eZDB::finish( $res, $db );
     }
 
     /*!
@@ -345,12 +342,9 @@ class eZOnlineType
         $listid = $qry[$db->fieldName("ID")];
 
         $db->begin();
-        $result = $db->query( "UPDATE eZAddress_OnlineType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
-        $result1 = $db->query( "UPDATE eZAddress_OnlineType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
-        if ( $result == false || $result1 == false )
-            $db->rollback( );
-        else
-            $db->commit();
+        $res[] = $db->query( "UPDATE eZAddress_OnlineType SET ListOrder='$listorder' WHERE ID='$this->ID'" );
+        $res[] = $db->query( "UPDATE eZAddress_OnlineType SET ListOrder='$this->ListOrder' WHERE ID='$listid'" );
+        eZDB::finish( $res, $db );
     }
 
     var $ID;

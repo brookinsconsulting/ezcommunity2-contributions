@@ -1,4 +1,4 @@
-<?
+<?php
 /*
   Edit a person
 */
@@ -78,23 +78,23 @@ else
     }
 }
 
-if ( isset( $ListConsultation ) )
+if ( isSet( $ListConsultation ) )
 {
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /contact/consultation/$item_type/list/$item_id" );
     exit;
 }
 
-if ( isset( $NewConsultation ) )
+if ( isSet( $NewConsultation ) )
 {
     include_once( "classes/ezhttptool.php" );
     eZHTTPTool::header( "Location: /contact/consultation/$item_type/new/$item_id" );
     exit;
 }
 
-if ( isset( $Back ) )
+if ( isSet( $Back ) )
 {
-    if ( isset( $CompanyEdit ) )
+    if ( isSet( $CompanyEdit ) )
     {
         $company = new eZCompany( $CompanyID );
         $categories = $company->categories( false, false );
@@ -105,14 +105,14 @@ if ( isset( $Back ) )
     exit;
 }
 
-if ( isset( $Delete ) )
+if ( isSet( $Delete ) )
 {
     $Action = "delete";
 }
 
 if( $Action == "delete" )
 {
-    if ( isset( $CompanyEdit ) )
+    if ( isSet( $CompanyEdit ) )
     {
         if ( !eZPermission::checkPermission( $user, "eZContact", "CompanyDelete" ) )
         {
@@ -131,9 +131,9 @@ if( $Action == "delete" )
         }
     }
 
-    if ( isset( $Confirm ) )
+    if ( isSet( $Confirm ) )
     {
-        if ( isset( $CompanyEdit ) )
+        if ( isSet( $CompanyEdit ) )
         {
             $categories =& eZCompany::categories( $CompanyID, false, 1 );
             $id =& $categories[0];
@@ -150,7 +150,7 @@ if( $Action == "delete" )
     }
 }
 
-if ( isset( $OK ) )
+if ( isSet( $OK ) )
 {
     if ( $Action == "new" )
         $Action = "insert";
@@ -160,7 +160,7 @@ if ( isset( $OK ) )
 
 $error = false;
 
-if ( isset( $CompanyEdit ) )
+if ( isSet( $CompanyEdit ) )
 {
     $template_file = "companyedit.tpl";
     $language_file = "companyedit.php";
@@ -175,9 +175,7 @@ $t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "Admi
                      "ezcontact/admin/intl", $Language, $language_file );
 $t->setAllStrings();
 
-$t->set_file( array(                    
-    "person_edit" => $template_file
-    ) );
+$t->set_file( "person_edit", $template_file );
 
 $t->set_block( "person_edit", "edit_tpl", "edit_item" );
 $t->set_block( "person_edit", "confirm_tpl", "confirm_item" );
@@ -221,7 +219,7 @@ $t->set_block( "person_edit", "delete_item_tpl", "delete_item" );
 
 $t->set_block( "edit_tpl", "errors_tpl", "errors_item" );
 
-if ( isset( $CompanyEdit ) )
+if ( isSet( $CompanyEdit ) )
 {
     $t->set_block( "errors_tpl", "error_name_item_tpl", "error_name_item" );
 }
@@ -242,11 +240,11 @@ $confirm = false;
 
 if( $Action == "delete" )
 {
-    if ( !isset( $Confirm ) )
+    if ( !isSet( $Confirm ) )
     {
         $confirm = true;
 
-        if ( isset( $CompanyEdit ) )
+        if ( isSet( $CompanyEdit ) )
         {
             $t->set_var( "company_id", $CompanyID );
             $company = new eZCompany( $CompanyID );
@@ -271,7 +269,7 @@ if ( !$confirm )
 
     $t->set_var( "confirm_item", "" );
 
-    if ( isset( $CompanyEdit ) )
+    if ( isSet( $CompanyEdit ) )
     {
         $t->set_var( "name", "" );
         $t->set_var( "companyno", "" );
@@ -293,7 +291,7 @@ if ( !$confirm )
 /* End of the pre-defined values */
     if( $Action == "insert" || $Action == "update" )
     {
-        if ( isset( $CompanyEdit ) )
+        if ( isSet( $CompanyEdit ) )
         {
             $t->set_var( "error_name_item", "" );
         }
@@ -458,7 +456,7 @@ if ( !$confirm )
 
     if( ( $Action == "insert" || $Action == "update" ) && $error == false )
     {
-        if ( isset( $CompanyEdit ) )
+        if ( isSet( $CompanyEdit ) )
         {
             $company = new eZCompany( $CompanyID, true );
             $company->setName( $Name );
@@ -501,7 +499,6 @@ if ( !$confirm )
                 if ( $logo->checkImage( $file ) and $logo->setImage( $file ) )
                 {
                     $logo->store();
-
                     $company->setLogoImage( $logo );
                 }
                 else
@@ -523,7 +520,6 @@ if ( !$confirm )
                 if ( $image->checkImage( $file ) and $image->setImage( $file ) )
                 {
                     $image->store();
-
                     $company->setCompanyImage( $image );
                 }
                 else
@@ -547,7 +543,7 @@ if ( !$confirm )
             if ( $BirthYear != "" )
             {
                 $Birth = new eZDate( $BirthYear, $BirthMonth, $BirthDay );
-                $person->setBirthDay( $Birth->mySQLDate() );
+                $person->setBirthDay( $Birth->timeStamp() );
             }
             else
             {
@@ -596,10 +592,10 @@ if ( !$confirm )
         }
 
         $item->removePhones();
-        $count = max( count( $PhoneTypeID ), count( $PhoneID ), count( $Phone ) );
-        for( $i=0; $i < $count; $i++ )
+        $count = max( count( $PhoneID ), count( $Phone ) );
+        for ( $i = 0; $i < $count; $i++ )
         {
-            if( $PhoneTypeID[$i] != "" && $Phone[$i] != "" )
+            if ( !in_array( $i + 1, $PhoneDelete ) && $Phone[$i] != "" )
             {
                 $phone = new eZPhone( false, true );
                 $phone->setNumber( $Phone[$i] );
@@ -611,10 +607,10 @@ if ( !$confirm )
         }
 
         $item->removeOnlines();
-        $count = max( count( $OnlineTypeID ), count( $OnlineID ), count( $Online ) );
+        $count = max( count( $OnlineID ), count( $Online ) );
         for( $i=0; $i < $count; $i++ )
         {
-            if( $OnlineTypeID[$i] != "" && $Online[$i] != "" )
+            if( !in_array( $i + 1, $OnlineDelete ) && $Online[$i] != "" )
             {
                 $online = new eZOnline( false, true );
                 $online->setURL( $Online[$i] );
@@ -669,7 +665,7 @@ if ( !$confirm )
             if ( $person->hasBirthDate() )
             {
                 $Birth = new eZDate();
-                $Birth->setMySQLDate( $person->birthDate() );
+                $Birth->setTimeStamp( $person->birthDate() );
                 $BirthYear = $Birth->year();
                 $BirthMonth = $Birth->month();
                 $BirthDay = $Birth->day();
@@ -685,7 +681,7 @@ if ( !$confirm )
 
         $addresses = $item->addresses();
         $i = 1;
-        foreach( $addresses as $address )
+        foreach ( $addresses as $address )
         {
             $AddressTypeID[] = $address->addressTypeID();
             $AddressID[] = $i;
@@ -703,7 +699,7 @@ if ( !$confirm )
 
         $phones = $item->phones();
         $i = 1;
-        foreach( $phones as $phone )
+        foreach ( $phones as $phone )
         {
             $PhoneTypeID[] = $phone->phoneTypeID();
             $PhoneID[] = $i;
@@ -713,7 +709,7 @@ if ( !$confirm )
 
         $onlines = $item->onlines();
         $i = 1;
-        foreach( $onlines as $online )
+        foreach ( $onlines as $online )
         {
             $OnlineTypeID[] = $online->onlineTypeID();
             $OnlineID[] = $i;
@@ -813,7 +809,7 @@ if ( !$confirm )
             $categoryList = eZPerson::companies( $PersonID, false );
             $category_values = array_values( $categoryList );
             $t->set_var( "is_top_selected", in_array( 0, $category_values ) ? "selected" : "" );
-            foreach( $companyTypeList as $companyTypeItem )
+            foreach ( $companyTypeList as $companyTypeItem )
             {
                 $t->set_var( "company_name", "[" . eZTextTool::htmlspecialchars( $companyTypeItem[0]->name() ) . "]" );
                 $t->set_var( "company_id", "-1" );
@@ -827,7 +823,7 @@ if ( !$confirm )
                 $t->set_var( "company_level", $level );
 
                 $companies = eZCompany::getByCategory( $companyTypeItem[0]->id() );
-                foreach( $companies as $companyItem )
+                foreach ( $companies as $companyItem )
                 {
                     $t->set_var( "company_name", eZTextTool::htmlspecialchars( $companyItem->name() ) );
                     $t->set_var( "company_id", $companyItem->id() );
@@ -848,7 +844,7 @@ if ( !$confirm )
             }
 
             $birth_array = array( 1 => "select_january",
-                                  2 => "select_februrary",
+                                  2 => "select_february",
                                   3 => "select_march",
                                   4 => "select_april",
                                   5 => "select_may",
@@ -860,7 +856,7 @@ if ( !$confirm )
                                   11 => "select_november",
                                   12 => "select_december" );
 
-            foreach( $birth_array as $month )
+            foreach ( $birth_array as $month )
             {
                 $t->set_var( $month, "" );
             }
@@ -882,7 +878,6 @@ if ( !$confirm )
         $online_types =& eZOnlineType::getAll();
         $address_types =& eZAddressType::getAll();
         $countries =& eZCountry::getAllArray();
-
         if ( !isset( $PhoneDelete ) )
         {
             $PhoneDelete = array();
@@ -911,7 +906,7 @@ if ( !$confirm )
             $Street2[] = "";
             $Zip[] = "";
             $Place[] = "";
-            $Country[] = count( $Country ) > 0 ? $Country[count($Country)-1] : "";
+            $Country[] = count( $Country ) > 0 ? $Country[ count( $Country ) - 1 ] : "";
         }
         $count = max( count( $AddressTypeID ), count( $AddressID ),
                       count( $Street1 ), count( $Street2 ),
@@ -941,7 +936,7 @@ if ( !$confirm )
 
                 $t->set_var( "address_item_select", "" );
 
-                foreach( $address_types as $address_type )
+                foreach ( $address_types as $address_type )
                 {
                     $t->set_var( "type_id", $address_type->id() );
                     $t->set_var( "type_name", eZTextTool::htmlspecialchars( $address_type->name() ) );
@@ -952,7 +947,7 @@ if ( !$confirm )
                 }
                 $t->set_var( "country_item_select", "" );
                 $t->set_var( "no_country_selected", "" );
-                foreach( $countries as $country )
+                foreach ( $countries as $country )
                 {
                     $t->set_var( "type_id", $country["ID"] );
                     $t->set_var( "type_name", eZTextTool::htmlspecialchars( $country["Name"] ) );
@@ -1003,7 +998,7 @@ if ( !$confirm )
 
                 $t->set_var( "phone_item_select", "" );
 
-                foreach( $phone_types as $phone_type )
+                foreach ( $phone_types as $phone_type )
                 {
                     $t->set_var( "type_id", $phone_type->id() );
                     $t->set_var( "type_name", eZTextTool::htmlspecialchars( $phone_type->name() ) );
@@ -1050,7 +1045,7 @@ if ( !$confirm )
 
                 $t->set_var( "online_item_select", "" );
 
-                foreach( $online_types as $online_type )
+                foreach ( $online_types as $online_type )
                 {
                     $t->set_var( "type_id", $online_type->id() );
                     $t->set_var( "type_name", eZTextTool::htmlspecialchars( $online_type->name() ) );
@@ -1069,7 +1064,7 @@ if ( !$confirm )
         $t->parse( "online_table_item", "online_table_item_tpl", true );
 
         $groups =& eZUserGroup::getAll();
-        foreach( $groups as $group )
+        foreach ( $groups as $group )
         {
             $t->set_var( "type_id", $group->id() );
             $t->set_var( "type_name", eZTextTool::htmlspecialchars( $group->name() ) );
@@ -1111,7 +1106,7 @@ if ( !$confirm )
                 $users =& $group->users( $ContactGroupID, "name", $UserSearch );
             }
 
-            foreach( $users as $user )
+            foreach ( $users as $user )
             {
                 if ( get_class( $user ) == "ezuser" ||
                      get_class( $user ) == "ezperson" )
@@ -1151,7 +1146,7 @@ if ( !$confirm )
 
         $t->set_var( "project_item_select", "" );
         $project_types =& eZProjectType::findTypes();
-        foreach( $project_types as $project_type )
+        foreach ( $project_types as $project_type )
         {
             $t->set_var( "type_id", $project_type->id() );
             $t->set_var( "type_name", eZTextTool::htmlspecialchars( $project_type->name() ) );
@@ -1216,7 +1211,7 @@ if ( !$confirm )
         }
     }
 
-// Template variabler.
+// Template variables.
 
     if ( is_numeric( $CompanyID ) || is_numeric( $PersonID ) )
         $t->parse( "delete_item", "delete_item_tpl" );

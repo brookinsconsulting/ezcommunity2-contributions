@@ -1,10 +1,9 @@
-<?
+<?php
 // 
-// $Id: ezcountry.php,v 1.7 2001/06/29 15:20:05 ce Exp $
+// $Id: ezcountry.php,v 1.8 2001/07/13 14:48:18 jhe Exp $
 //
 // Definition of eZCountry class
 //
-// Bård Farstad <bf@ez.no>
 // Created on: <31-Oct-2000 11:49:30 bf>
 //
 // This source file is part of eZ publish, publishing software.
@@ -24,6 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
+
 //!! eZAddress
 //! eZCountry handles countries.
 /*!
@@ -38,7 +38,7 @@ class eZCountry
     /*!
       Constructs a new eZCountry object.
     */
-    function eZCountry( $id="" )
+    function eZCountry( $id = "" )
     {
         if ( is_array( $id ) )
         {
@@ -46,7 +46,6 @@ class eZCountry
         }
         else if ( $id != "" )
         {
-
             $this->ID = $id;
             $this->get( $this->ID );
         }
@@ -63,31 +62,24 @@ class eZCountry
         if ( !isset( $this->ID ) )
         {
             $db->lock( "eZAddress_Country" );
-            $nextID = $db->nextID( "eZAddress_Country", "ID" );
+            $this->ID = $db->nextID( "eZAddress_Country", "ID" );
 
-            $result = $db->query( "INSERT INTO eZAddress_Country
+            $res[] = $db->query( "INSERT INTO eZAddress_Country
                     ( ID, ISO, Name )
-                    VALUES ( '$nextID', '$this->ISO', '$name' )" );
-
-			$this->ID = $nextID;
+                    VALUES ( '$this->ID', '$this->ISO', '$name' )" );
+            $db->unlock();
         }
         else
         {
-            $result = $db->query( "UPDATE eZAddress_Country
+            $res[] = $db->query( "UPDATE eZAddress_Country
                     SET ISO='$this->ISO',
                     Name='$name'
                     WHERE ID='$this->ID'" );            
 
         }        
-        $db->unlock();
-
-        if ( $result == false )
-            $db->rollback( );
-        else
-            $db->commit();
+        eZDB::finish( $res, $db );
         return $dbError;
     }
-
   
     /*!
       Fetches an country with object id==$id;
@@ -112,9 +104,9 @@ class eZCountry
     {
         $db =& eZDB::globalDatabase();
         
-        $this->ID =& $country_array[$db->fieldName("ID")];
-        $this->ISO =& $country_array[$db->fieldName("ISO")];
-        $this->Name =& $country_array[$db->fieldName("Name")];
+        $this->ID =& $country_array[ $db->fieldName( "ID" ) ];
+        $this->ISO =& $country_array[ $db->fieldName( "ISO" ) ];
+        $this->Name =& $country_array[ $db->fieldName( "Name" ) ];
     }
 
     /*!
@@ -134,7 +126,7 @@ class eZCountry
         $db->query_single( $countries, "SELECT COUNT( ID ) as Count FROM eZAddress_Country
                                         WHERE Removed=0 $search_arg
                                         " );
-        return $countries[ $db->fieldName("Count")];
+        return $countries[ $db->fieldName("Count") ];
     }
 
     /*!
@@ -168,22 +160,21 @@ class eZCountry
         $db->array_query( $country_array, "SELECT $select FROM eZAddress_Country
                                            WHERE Removed=0 $search_arg
                                            ORDER BY Name", $limit );
-
+        
         if ( $as_object )
         {
             foreach ( $country_array as $country )
             {
-                $return_array[] = new eZCountry( $country );
+                $return_array[] = new eZCountry( $country[ $db->fieldName( "ID" ) ] );
             }
         }
         else
         {
             foreach ( $country_array as $country )
             {
-                $return_array[] = $country[$db->fieldName("ID")];
+                $return_array[] = $country[ $db->fieldName( "ID" ) ];
             }
         }
-    
         return $return_array;
     }
 
@@ -194,12 +185,19 @@ class eZCountry
     {
         $db =& eZDB::globalDatabase();
         $country_array = 0;
-    
+        $return_array = array();
+        
         $db->array_query( $country_array, "SELECT * FROM eZAddress_Country
                                            WHERE Removed=0
                                            ORDER BY Name" );
-    
-        return $country_array;
+        foreach ( $country_array as $country )
+        {
+            $return_array[] = array( "ID" =>      $country[ $db->fieldName( "ID" ) ],
+                                     "ISO" =>     $country[ $db->fieldName( "ISO" ) ],
+                                     "Name" =>    $country[ $db->fieldName( "Name" ) ],
+                                     "Removed" => $country[ $db->fieldName( "Removed" ) ] );
+        }
+        return $return_array;
     }
     
     /*!
@@ -212,11 +210,8 @@ class eZCountry
         $db =& eZDB::globalDatabase();
 
         $db->begin();
-        $result = $db->query( "DELETE FROM eZAddress_Country WHERE ID='$id'" );
-        if ( $result == false )
-            $db->rollback( );
-        else
-            $db->commit();
+        $res[] = $db->query( "DELETE FROM eZAddress_Country WHERE ID='$id'" );
+        eZDB::finish( $res, $db );
     }    
     
 

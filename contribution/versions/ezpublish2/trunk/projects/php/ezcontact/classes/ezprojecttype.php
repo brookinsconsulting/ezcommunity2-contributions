@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezprojecttype.php,v 1.8 2001/07/12 14:20:51 jhe Exp $
+// $Id: ezprojecttype.php,v 1.9 2001/07/13 14:48:19 jhe Exp $
 //
 // Definition of eZProjectType class
 //
@@ -141,6 +141,7 @@ class eZProjectType
     */
     function fill( &$consulttype_array )
     {
+        $db =& eZDB::globalDatabase();
         $this->ID = $consulttype_array[ $db->fieldName( "ID" ) ];
         $this->Name = $consulttype_array[ $db->fieldName( "Name" ) ];
         $this->ListOrder = $consulttype_array[ $db->fieldName( "ListOrder" ) ];

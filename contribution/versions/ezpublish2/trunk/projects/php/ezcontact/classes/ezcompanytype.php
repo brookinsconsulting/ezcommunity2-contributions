@@ -1,10 +1,9 @@
 <?php
 // 
-// $Id: ezcompanytype.php,v 1.33 2001/07/12 14:20:51 jhe Exp $
+// $Id: ezcompanytype.php,v 1.34 2001/07/13 14:48:19 jhe Exp $
 //
 // Definition of eZCompanyType class
 //
-// <real-name><<email-name>>
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
 // This source file is part of eZ publish, publishing software.
@@ -80,7 +79,7 @@ class eZCompanyType
                                    '$name',
                                    '$description',
                                    '$this->ImageID',
-                                   '$this->ParentID'" );
+                                   '$this->ParentID')" );
             $db->unlock();
             $ret = true;
         }
@@ -366,15 +365,11 @@ class eZCompanyType
         {
             $db =& eZDB::globalDatabase();
             $db->begin();
-            
             $companyID = $company->id();
-            
-            $db->lock( "eZContact_CompanyTypeDict" );
-            $nextID = $db->nextID( "eZContact_CompanyTypeDict", "ID" );
             $res[] = $db->query( "INSERT INTO eZContact_CompanyTypeDict
-                                  (ID, CompanyID, CompanyTypeID)
-                                  VALUE
-                                  ('$nextID', '$companyID', '$this->ID')" );
+                                  (CompanyID, CompanyTypeID)
+                                  VALUES
+                                  ('$companyID', '$this->ID')" );
             eZDB::finish( $res, $db );
             $ret = true;
         }

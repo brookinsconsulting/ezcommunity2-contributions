@@ -1,4 +1,26 @@
-<?
+<?php
+// 
+// $Id: ezphone.php,v 1.5 2001/07/13 14:48:18 jhe Exp $
+//
+// Definition of eZAddressType class
+//
+// This source file is part of eZ publish, publishing software.
+// Copyright (C) 1999-2001 eZ systems as
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
+//
 
 //!! eZAddress
 //!
@@ -14,16 +36,12 @@ class eZPhone
     /*
 
     */
-    function eZPhone( $id="", $fetch=true )
+    function eZPhone( $id = "" )
     {
         if ( !empty( $id ) )
         {
             $this->ID = $id;
-            if ( $fetch == true )
-            {
-                
-                $this->get( $this->ID );
-            }
+            $this->get( $this->ID );
         }
     }
 
@@ -33,22 +51,29 @@ class eZPhone
     function store()
     {
         $db =& eZDB::globalDatabase();
+        $db->begin();
         
         $ret = false;
         if ( !isset( $this->ID ) )
         {
-            $db->query( "INSERT INTO eZAddress_Phone set Number='$this->Number', PhoneTypeID='$this->PhoneTypeID' " );
-			$this->ID = $db->insertID();
-
+            $db->lock( "eZAddress_Phone" );
+			$this->ID = $db->nextID( "eZAddress_Phone", "ID" );
+            $res[] = $db->query( "INSERT INTO eZAddress_Phone
+                                  (ID, Number, PhoneTypeID)
+                                  VALUES
+                                  ('$this->ID',
+                                   '$this->Number',
+                                   '$this->PhoneTypeID')" );
+            $db->unlock();
             $ret = true;
         }
         else
         {
-            $db->query( "UPDATE eZAddress_Phone set Number='$this->Number', PhoneTypeID='$this->PhoneTypeID' WHERE ID='$this->ID' " );
+            $res[] = $db->query( "UPDATE eZAddress_Phone set Number='$this->Number', PhoneTypeID='$this->PhoneTypeID' WHERE ID='$this->ID' " );
 
             $ret = true;            
         }        
-        
+        eZDB::finish( $res, $db );
         return $ret;
     }
 
@@ -60,7 +85,8 @@ class eZPhone
         if ( !$id )
             $id = $this->ID;
         $db =& eZDB::globalDatabase();
-        $db->query( "DELETE FROM eZAddress_Phone WHERE ID='$id' " );
+        $res[] = $db->query( "DELETE FROM eZAddress_Phone WHERE ID='$id' " );
+        eZDB::finish( $res, $db );
     }
     
     /*
@@ -78,9 +104,9 @@ class eZPhone
             }
             else if ( count( $phone_array ) == 1 )
             {
-                $this->ID = $phone_array[ 0 ][ "ID" ];
-                $this->Number = $phone_array[ 0 ][ "Number" ];
-                $this->PhoneTypeID = $phone_array[ 0 ][ "PhoneTypeID" ];
+                $this->ID = $phone_array[ 0 ][ $db->fieldName( "ID" ) ];
+                $this->Number = $phone_array[ 0 ][ $db->fieldName( "Number" ) ];
+                $this->PhoneTypeID = $phone_array[ 0 ][ $db->fieldName( "PhoneTypeID" ) ];
             }
         }
     }

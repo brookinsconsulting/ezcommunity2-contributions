@@ -1,4 +1,4 @@
-<?
+<?php
 /*
     View a person
  */
@@ -120,7 +120,7 @@ if ( $Action == "view" )
     if ( $person->hasBirthDate() )
     {
         $Birth = new eZDate();
-        $Birth->setMySQLDate( $person->birthDate() );
+        $Birth->setTimeStamp( $person->birthDate() );
 
         $locale = new eZLocale( $Language );
         $t->set_var( "birthdate", $locale->format( $Birth ) );
