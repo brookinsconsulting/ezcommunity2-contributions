@@ -71,7 +71,7 @@ if ( $Action == "edit" )
   $t->set_var( "companytype_id", $CID );
   $t->set_var( "head_line", "Rediger firma type" );
 
-  printRedirect( "../index.php?page=" . $DOCUMENTROOT . "companytypelist.php" );
+//  printRedirect( "../index.php?page=" . $DOCUMENTROOT . "companytypelist.php" );
 }
 
 // Sette template variabler

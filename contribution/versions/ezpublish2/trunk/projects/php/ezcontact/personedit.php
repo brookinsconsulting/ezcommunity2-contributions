@@ -10,6 +10,8 @@ require $DOCUMENTROOT . "classes/ezaddress.php";
 require $DOCUMENTROOT . "classes/ezaddresstype.php";
 require $DOCUMENTROOT . "classes/ezsession.php";
 require $DOCUMENTROOT . "classes/ezuser.php";
+require $DOCUMENTROOT . "classes/ezpersonphonedict.php";
+require $DOCUMENTROOT . "classes/ezpersonaddressdict.php";
 
 if ( $Insert == "TRUE" )
 {
@@ -34,8 +36,12 @@ if ( $Insert == "TRUE" )
   $newAddress->setStreet1( $Street1 );
   $newAddress->setStreet2( $Street2 );
   $newAddress->setZip( $Zip );
-  $newAddress->setOwner( $pid );  
-  $newAddress->store();
+  $aid = $newAddress->store();
+
+  $link = new eZPersonAddressDict();
+  $link->setPersonID( $pid );
+  $link->setAddressID( $aid );
+  $link->store();
 }
 
 // sjekke session

@@ -28,6 +28,7 @@ if ( $Action == "update" )
   $type->setName( $AddressTypeName );
   $type->update();
 
+  print( "hva?" );
   printRedirect( "../index.php?page=" . $DOCUMENTROOT . "addresstypelist.php" );
 }
 
@@ -69,7 +70,7 @@ if ( $Action == "edit" )
 
     $AddressTypeName = $type->name();
 
-    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "addresstypelist.php" );
+//    printRedirect( "../index.php?page=" . $DOCUMENTROOT . "addresstypelist.php" );
 }
 
 // Sette template variabler

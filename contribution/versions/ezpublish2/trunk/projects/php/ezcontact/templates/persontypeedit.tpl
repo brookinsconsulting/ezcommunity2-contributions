@@ -1,4 +1,4 @@
-<form method="post" action="index.php4?page={document_root}persontypeedit.php4">
+<form method="post" action="index.php4?prePage={document_root}persontypeedit.php4">
 <h1>{head_line}</h1>
 
 Navn:<br>

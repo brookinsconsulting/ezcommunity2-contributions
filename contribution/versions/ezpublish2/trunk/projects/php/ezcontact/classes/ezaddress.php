@@ -7,7 +7,7 @@ class eZAddress
      */
     function eZAddress( )
     {
-
+                
     }
 
     /*
@@ -16,7 +16,7 @@ class eZAddress
     function store()
     {
         $this->dbInit();
-        query( "INSERT INTO Address set Street1='$this->Street1', Street2='$this->Street2', Zip='$this->Zip, AddressType=$this->AddressType', Owner='$this->Owner'" );
+        query( "INSERT INTO Address set Street1='$this->Street1', Street2='$this->Street2', Zip='$this->Zip, AddressType=$this->AddressType'" );
         return mysql_insert_id();
     }
 
@@ -48,7 +48,6 @@ class eZAddress
                 $this->Street2 = $address_array[ 0 ][ "Street2" ];
                 $this->Zip = $address_array[ 0 ][ "Zip" ];
                 $this->AddressType = $address_array[ 0 ][ "AddressType" ];
-                $this->Owner = $address_array[ 0 ][ "Owner" ];
             }
         }
     }
@@ -65,20 +64,6 @@ class eZAddress
     
         return $address_array;
     }
-
-    /*
-      Henter ut alle adressene lagret i databasen.
-    */
-    function getByOwner( $owner )
-    {
-        $this->dbInit();    
-        $address_array = 0;
-    
-        array_query( $address_array, "SELECT * FROM Address WHERE Owner='$owner'" );
-    
-        return $address_array;
-    }
-    
 
     /*!
       Setter  street1.

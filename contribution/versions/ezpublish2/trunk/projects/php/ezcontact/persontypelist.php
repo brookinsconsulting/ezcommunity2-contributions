@@ -13,8 +13,6 @@ require $DOCUMENTROOT . "classes/ezpersontype.php";
     include( $DOCUMENTROOT . "checksession.php" );
 }
 
-
-
 $t = new Template( "." );
 $t->set_file( array(
     "persontype_page" => $DOCUMENTROOT . "templates/persontypelist.tpl",
@@ -39,7 +37,7 @@ for ( $i=0; $i<count( $persontype_array ); $i++ )
     $t->set_var( "persontype_name", $persontype_array[$i][ "Name" ] );
     $t->set_var( "description", $persontype_array[$i][ "Description" ] );
     $t->parse( "persontype_list", "persontype_item", true );
-}               
+}
 
 $t->set_var( "document_root", $DOCUMENTROOT );
 $t->pparse( "output", "persontype_page" );

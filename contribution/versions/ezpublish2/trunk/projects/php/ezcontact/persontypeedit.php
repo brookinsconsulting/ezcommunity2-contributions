@@ -70,7 +70,6 @@ if ( $Action == "edit" )
   $t->set_var( "persontype_id", $PID );
   $t->set_var( "head_line", "Rediger person type" );
 
-  printRedirect( "../index.php?page=" . $DOCUMENTROOT . "persontypelist.php " );
 }
 
 // Sette tempalte variabler
