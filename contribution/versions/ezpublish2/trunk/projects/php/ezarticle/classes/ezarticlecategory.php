@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.36 2001/02/26 13:58:27 fh Exp $
+// $Id: ezarticlecategory.php,v 1.37 2001/02/26 20:20:47 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -37,6 +37,7 @@
 
 include_once( "classes/ezdb.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
+include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 
 class eZArticleCategory
@@ -792,31 +793,31 @@ class eZArticleCategory
        {
            case "time" :
            {
-               $OrderBy = "eZArticle_Article.Published DESC";
+               $OrderBy = "Article.Published DESC";
            }
            break;
 
            case "alpha" :
            {
-               $OrderBy = "eZArticle_Article.Name ASC";
+               $OrderBy = "Article.Name ASC";
            }
            break;
 
            case "alphadesc" :
            {
-               $OrderBy = "eZArticle_Article.Name DESC";
+               $OrderBy = "Article.Name DESC";
            }
            break;
 
            case "absolute_placement" :
            {
-               $OrderBy = "eZArticle_ArticleCategoryLink.Placement ASC";
+               $OrderBy = "Link.Placement ASC";
            }
            break;
            
            default :
            {
-               $OrderBy = "eZArticle_Article.Published DESC";
+               $OrderBy = "Article.Published DESC";
            }
        }
        $return_array = array();
@@ -828,22 +829,51 @@ class eZArticleCategory
        }
        else if ( $fetchPublished  == true )  // fetch only published articles
        {
-           $publishedCode = " AND eZArticle_Article.IsPublished = 'true' ";
+           $publishedCode = " AND Article.IsPublished = 'true' ";
        }
        else                                  // fetch only non-published articles
        {
-           $publishedCode = " AND eZArticle_Article.IsPublished = 'false' ";
+           $publishedCode = " AND Article.IsPublished = 'false' ";
        }
 
        if ( $getExcludedArticles == false )
        {
-           $excludedCode = " AND eZArticle_Category.ExcludeFromSearch = 'false' ";
+           $excludedCode = " AND Category.ExcludeFromSearch = 'false' ";
        }
        else
        {
            $excludedCode = "";           
        }
 
+
+       // this code works. do not EDIT !! :)
+       
+       $user = eZUser::currentUser();
+
+       $loggedInSQL = "";
+       if ( $user )
+       {
+           $groups = $user->groups( true );
+
+           $groupSQL = "";
+           
+           $i = 0;
+           foreach ( $groups as $group )
+           {
+               if ( $i == 0 )
+                   $groupSQL .= " ReaderLink.GroupID=$group ";
+               else
+                   $groupSQL .= " or ReaderLink.GroupID=$group ";
+               
+               $i++;
+           }
+           $currentUserID = $user->id();
+
+          $loggedInSQL = "(Article.ReadPermission=0 and Article.AuthorID=$currentUserID)
+           or (Article.ReadPermission=1 and ( $groupSQL )) or ";
+       }
+
+       /*
        $this->Database->array_query( $article_array, "
                 SELECT eZArticle_Article.ID AS ArticleID, eZArticle_Article.Name, eZArticle_Category.ID, eZArticle_Category.Name
                 FROM eZArticle_Article, eZArticle_Category, eZArticle_ArticleCategoryLink
@@ -854,8 +884,23 @@ class eZArticleCategory
                 eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
                 AND
                 eZArticle_Category.ID='$this->ID'
-                $excludedCode  
+                $excludedCode
+                $publishedCode
                 GROUP BY eZArticle_Article.ID ORDER BY $OrderBy LIMIT $offset,$limit" );
+
+       */                
+
+       $this->Database->array_query( $article_array, "
+       select Article.ID AS ArticleID
+       from eZArticle_Article as Article left join eZArticle_ArticleCategoryLink as Link
+       on Article.id=Link.articleid left join eZArticle_ArticleReaderLink as ReaderLink on Article.id=ReaderLink.articleid,
+       eZArticle_Category AS Category
+       where ( $loggedInSQL Article.ReadPermission=2  )
+       AND Link.CategoryID='$this->ID'
+       AND Category.ID=Link.CategoryID 
+       $excludedCode 
+       GROUP BY Article.ID ORDER BY $OrderBy LIMIT $offset,$limit" );
+
  
        for ( $i=0; $i < count($article_array); $i++ )
        {
@@ -884,40 +929,67 @@ class eZArticleCategory
        $return_array = array();
        $article_array = array();
 
-       if ( $getExcludedArticles == false )
-       {
-           $excludedCode = " AND eZArticle_Category.ExcludeFromSearch = 'false' ";
-       }
-       else
-       {
-           $excludedCode = "";
-       }
-
        if ( $fetchAll  == true )             // fetch all articles
        {
            $publishedCode = "";
        }
        else if ( $fetchPublished  == true )  // fetch only published articles
        {
-           $publishedCode = " AND eZArticle_Article.IsPublished = 'true' ";
+           $publishedCode = " AND Article.IsPublished = 'true' ";
        }
        else                                  // fetch only non-published articles
        {
-           $publishedCode = " AND eZArticle_Article.IsPublished = 'false' ";
+           $publishedCode = " AND Article.IsPublished = 'false' ";
        }
-       
-       $this->Database->array_query( $article_array, "
-                SELECT count(*) AS Count
-                FROM eZArticle_Article, eZArticle_Category, eZArticle_ArticleCategoryLink
-                WHERE 
-                eZArticle_ArticleCategoryLink.ArticleID = eZArticle_Article.ID
-                $publishedCode
-                AND
-                eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
-                AND
-                eZArticle_Category.ID='$this->ID'
-                $excludedCode " );
 
+       if ( $getExcludedArticles == false )
+       {
+           $excludedCode = " AND Category.ExcludeFromSearch = 'false' ";
+       }
+       else
+       {
+           $excludedCode = "";           
+       }
+
+
+       $user = eZUser::currentUser();
+
+       $loggedInSQL = "";
+       if ( $user )
+       {
+           $groups = $user->groups( true );
+
+           $groupSQL = "";
+           
+           $i = 0;
+           foreach ( $groups as $group )
+           {
+               if ( $i == 0 )
+                   $groupSQL .= " ReaderLink.GroupID=$group ";
+               else
+                   $groupSQL .= " or ReaderLink.GroupID=$group ";
+               
+               $i++;
+           }
+           $currentUserID = $user->id();
+
+          $loggedInSQL = "(Article.ReadPermission=0 and Article.AuthorID=$currentUserID)
+           or (Article.ReadPermission=1 and ( $groupSQL )) or ";
+       }
+
+       $this->Database->array_query( $article_array, "
+       select count( Article.ID ) AS Count
+       from eZArticle_Article as Article left join eZArticle_ArticleCategoryLink as Link
+       on Article.id=Link.articleid left join eZArticle_ArticleReaderLink as ReaderLink on Article.id=ReaderLink.articleid,
+       eZArticle_Category AS Category
+       where ( $loggedInSQL Article.ReadPermission=2  )
+       AND Link.CategoryID='$this->ID'
+       AND Category.ID=Link.CategoryID 
+       $excludedCode " );       
+       
+
+       print_r( $article_array );
+       
        return $article_array[0]["Count"];
     }
 

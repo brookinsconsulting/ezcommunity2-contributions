@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.45 2001/02/26 14:18:20 pkej Exp $
+// $Id: articleedit.php,v 1.46 2001/02/26 20:20:47 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -590,35 +590,39 @@ $user = eZUser::currentUser();
 
 foreach ( $treeArray as $catItem )
 {
-    if( eZArticleCategory::hasWritePermission( $user, $catItem[0]->id() ) != true )
-        break;
-    
-    if ( $Action == "Edit" )
-    {
-        $defCat = $article->categoryDefinition( );
-        
-        if ( get_class( $defCat ) == "ezarticlecategory" )
+    if ( ( eZArticleCategory::hasWritePermission( $user, $catItem[0]->id() ) == true ) )
+    {    
+        if ( $Action == "Edit" )
         {
-            if ( $article->existsInCategory( $catItem[0] ) &&
-                ( $defCat->id() != $catItem[0]->id() ) )
+            $defCat = $article->categoryDefinition( );
+        
+            if ( get_class( $defCat ) == "ezarticlecategory" )
             {
-                $t->set_var( "multiple_selected", "selected" );
+                if ( $article->existsInCategory( $catItem[0] ) &&
+                ( $defCat->id() != $catItem[0]->id() ) )
+                {
+                    $t->set_var( "multiple_selected", "selected" );
+                }
+                else
+                {
+                    $t->set_var( "multiple_selected", "" );
+                }
             }
             else
             {
-                $t->set_var( "multiple_selected", "" );
+                $t->set_var( "selected", "" );
             }
-        }
-        else
-        {
-            $t->set_var( "selected", "" );
-        }
             
-        if ( get_class( $defCat ) == "ezarticlecategory" )
-        {
-            if ( $defCat->id() == $catItem[0]->id() )
+            if ( get_class( $defCat ) == "ezarticlecategory" )
             {
-                $t->set_var( "selected", "selected" );
+                if ( $defCat->id() == $catItem[0]->id() )
+                {
+                    $t->set_var( "selected", "selected" );
+                }
+                else
+                {
+                    $t->set_var( "selected", "" );
+                }
             }
             else
             {
@@ -628,26 +632,22 @@ foreach ( $treeArray as $catItem )
         else
         {
             $t->set_var( "selected", "" );
-        }
-    }
-    else
-    {
-        $t->set_var( "selected", "" );
-        $t->set_var( "multiple_selected", "" );
-    }    
+            $t->set_var( "multiple_selected", "" );
+        }    
         
     
-    $t->set_var( "option_value", $catItem[0]->id() );
-    $t->set_var( "option_name", $catItem[0]->name() );
+        $t->set_var( "option_value", $catItem[0]->id() );
+        $t->set_var( "option_name", $catItem[0]->name() );
 
-    if ( $catItem[1] > 0 )
-        $t->set_var( "option_level", str_repeat( "&nbsp;", $catItem[1] ) );
-    else
-        $t->set_var( "option_level", "" );
+        if ( $catItem[1] > 0 )
+            $t->set_var( "option_level", str_repeat( "&nbsp;", $catItem[1] ) );
+        else
+            $t->set_var( "option_level", "" );
 
     
-    $t->parse( "value", "value_tpl", true );    
-    $t->parse( "multiple_value", "multiple_value_tpl", true );
+        $t->parse( "value", "value_tpl", true );    
+        $t->parse( "multiple_value", "multiple_value_tpl", true );
+    }
 }
 
 // group selector
