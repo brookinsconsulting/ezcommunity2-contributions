@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezdate.php,v 1.6 2000/11/28 16:36:51 pkej-cvs Exp $
+// $Id: ezdate.php,v 1.7 2000/11/28 16:44:58 pkej-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -143,6 +143,8 @@ class eZDate
         $return = $this->Year;
         $return = $return . "-" . $this->Month;
         $return = $return . "-" . $this->Day;
+        
+        return $return;
     }
         
     var $Year;
