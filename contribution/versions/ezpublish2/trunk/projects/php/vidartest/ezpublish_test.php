@@ -1,4 +1,5 @@
 <?
+
 include_once( "ezxmlrpc/classes/ezxmlrpcclient.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpccall.php" );
 
@@ -6,6 +7,8 @@ include_once( "ezxmlrpc/classes/ezxmlrpcstring.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcint.php" );
 include_once( "ezxmlrpc/classes/ezxmlrpcdouble.php" );
 
+echo "hei";
+/*
 // eZ publish article publishing test
 
 $client = new eZXMLRPCClient( "publish.fh.ez.no", "/xmlrpc/" );
@@ -91,5 +94,5 @@ else
     print( "</pre>" );
 }
 
-
+*/
 ?>
