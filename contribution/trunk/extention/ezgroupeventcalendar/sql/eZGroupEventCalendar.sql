@@ -10,9 +10,36 @@ CREATE TABLE eZGroupEventCalendar_Event (
    EventTypeID int(11) DEFAULT '0' NOT NULL,
    EMailNotice int(11) DEFAULT '0',
    IsPrivate int(11),
-   Name varchar(200),
+   Name varchar(255),
    Description text,
+   Url text default NULL,
+   Status int(11) DEFAULT '1' NOT NULL,
+   EventAlarmNotice int(11) DEFAULT '0' NOT NULL,
+   EventCategoryID int(11) DEFAULT '0' NOT NULL,
    Priority int(11) DEFAULT '1' NOT NULL,
+   IsRecurring int default '0',
+   RecurringDay int default NULL,
+   RecurringMonth int default NULL,
+   RecurringYear int default NULL,
+   RepeateForever int(11) DEFAULT '0' NOT NULL,
+   RepeateTimes int(11) DEFAULT '0' NOT NULL,
+   RepeateUntilDate timestamp(14),
+   RepeateExceptionsDates text default NULL,
+   EventAttachedFilesID int(11) DEFAULT '0' NOT NULL,
+   EventCommentsID int(11) DEFAULT '0' NOT NULL,
+   PRIMARY KEY (ID)
+);
+
+
+#
+# Table structure for table 'eZGroupEventCalendar_EventCategory'
+#
+
+CREATE TABLE eZGroupEventCalendar_EventCategory (
+   ID int(11) NOT NULL auto_increment,
+   ParentID int(11) DEFAULT '0' NOT NULL,
+   Description text,
+   Name varchar(255),
    PRIMARY KEY (ID)
 );
 
@@ -24,7 +51,7 @@ CREATE TABLE eZGroupEventCalendar_EventType (
    ID int(11) NOT NULL auto_increment,
    ParentID int(11) DEFAULT '0' NOT NULL,
    Description text,
-   Name varchar(200),
+   Name varchar(255),
    PRIMARY KEY (ID)
 );
 
@@ -50,6 +77,17 @@ CREATE TABLE eZGroupEventCalendar_GroupNoShow (
    GroupID int(11) DEFAULT '0' NOT NULL,
    PRIMARY KEY (ID)
 );
+
+#
+# Table structure for table 'eZGroupEventCalendar_EventForumLink'
+#
+
+CREATE TABLE `eZGroupEventCalendar_EventForumLink` (
+  `ID` int(11) NOT NULL default '0',
+  `EventID` int(11) NOT NULL default '0',
+  `ForumID` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`ID`)
+) TYPE=MyISAM;
 
 #
 # Dumping data for table 'eZUser_Module'
