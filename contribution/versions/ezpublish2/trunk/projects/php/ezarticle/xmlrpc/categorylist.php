@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: categorylist.php,v 1.18 2001/09/24 12:36:50 jb Exp $
+// $Id: categorylist.php,v 1.19 2001/10/11 10:34:23 jb Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -82,10 +82,12 @@ if ( $Command == "list" )
 
             foreach ( $categoryList as $catItem )
             {
+                $cols = array( "Position" => new eZXMLRPCInt( $catItem->placement() ) );
                 $cat[] = new eZXMLRPCStruct( array( "URL" => createURLStruct( "ezarticle",
                                                                               "category",
                                                                               $catItem->id() ),
-                                                    "Name" => new eZXMLRPCString( $catItem->name( false ) )
+                                                    "Name" => new eZXMLRPCString( $catItem->name( false ) ),
+                                                    "Columns" => new eZXMLRPCStruct( $cols )
                                                     )
                                              );
             }
@@ -103,10 +105,17 @@ if ( $Command == "list" )
             $articleList =& $category->articles( "alpha", true, true, $loc_offset, $loc_max );
             foreach( $articleList as $artItem )
             {
+                $topic =& $artItem->topic();
+                $cols = array( "Publish date" => createDateTimeStruct( $artItem->published() ),
+                               "Modification date" => createDateTimeStruct( $artItem->modified() ),
+                               "Author" => new eZXMLRPCString( $artItem->authorText( false ) ),
+                               "Topic" => new eZXMLRPCString( $topic->name() ),
+                               );
                 $art[] = new eZXMLRPCStruct( array( "URL" => createURLStruct( "ezarticle",
                                                                               "article",
                                                                               $artItem->id() ),
-                                                    "Name" => new eZXMLRPCString( $artItem->name( false ) )
+                                                    "Name" => new eZXMLRPCString( $artItem->name( false ) ),
+                                                    "Columns" => new eZXMLRPCStruct( $cols )
                                                     )
                                              );
             }
@@ -146,12 +155,23 @@ if ( $Command == "list" )
     }
     $part = new eZXMLRPCStruct( $part_arr );
 
+    if ( $offset == 0 )
+        $cols = new eZXMLRPCStruct( array( "Author" => new eZXMLRPCString( "text" ),
+                                           "Topic" => new eZXMLRPCString( "text" ),
+                                           "Publish date" => new eZXMLRPCString( "datetime" ),
+                                           "Modification date" => new eZXMLRPCString( "datetime" ),
+                                           "Position" => new eZXMLRPCString( "integer" )
+                                           ) );
+
     if ( $articleCount >= count( $art ) && $categoryCount >= count( $cat ) )
     {
-        $ReturnData = new eZXMLRPCStruct( array( "Catalogues" => $cat,
-                                                 "Elements" => $art,
-                                                 "Path" => $par,
-                                                 "Part" => $part ) ); // array starting with top level catalogue, ending with parent.
+        $ret = array( "Catalogues" => $cat,
+                      "Elements" => $art,
+                      "Path" => $par,
+                      "Part" => $part );
+        if ( $offset == 0 )
+            $ret["Columns"] = $cols;
+        $ReturnData = new eZXMLRPCStruct( $ret );
     }
     else
     {
