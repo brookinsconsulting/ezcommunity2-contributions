@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: messageedit.php,v 1.4 2000/10/20 15:28:44 ce-cvs Exp $
+    $Id: messageedit.php,v 1.5 2000/10/21 11:33:47 ce-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -114,7 +114,7 @@ $action_value = "update";
 
 if ( $Action == "new" )
 {
-    if ( !eZPermission::checkPermission( $user, "eZForum", "MessageModify" ) )
+    if ( !eZPermission::checkPermission( $user, "eZForum", "MessageModifyAdd" ) )
     {
         Header( "Location: /forum/norights" );
     }
