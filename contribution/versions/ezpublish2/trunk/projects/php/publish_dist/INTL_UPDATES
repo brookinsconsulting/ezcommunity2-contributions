@@ -5,6 +5,9 @@ mod: bug/user, fileedit.php.ini
 change: added user_edit=Some text
 --------------------------------------------------------------------
 ### 2.0 - 2.0.1 ####################
+mod: ezuser/admin, userlist.php.ini
+change: added search=Search
+
 mod: ezcontact/admin, companytype.php.ini
 changed: added
 next=Next
