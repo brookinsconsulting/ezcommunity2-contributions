@@ -36,6 +36,7 @@ include_once( "classes/eztime.php" );
 include_once( "ezgroupeventcalendar/classes/ezgroupnoshow.php" );
 include_once( "ezgroupeventcalendar/classes/ezgroupeventtype.php" );
 
+include_once( "ezfilemanager/classes/ezvirtualfile.php");
 
 class eZGroupEvent
 {
@@ -1031,6 +1032,87 @@ class eZGroupEvent
             $this->IsConnected = true;
         }
     }
+
+
+    /*!
+      Returns every file to a event as an array of eZFile objects.
+    */
+    function files( $as_object = true )
+    {
+        $db =& eZDB::globalDatabase();
+
+        $return_array = array();
+        $file_array = array();
+
+        $db->array_query( $file_array, "SELECT FileID, Created FROM eZGroupEventCalendar_EventFileLink WHERE EventID='$this->ID' ORDER BY Created" );
+
+        for ( $i=0; $i < count($file_array); $i++ )
+        {
+            $id = $file_array[$i][$db->fieldName("FileID")];
+            $return_array[$i] = $as_object ? new eZVirtualFile( $id, false ) : $id;
+        }
+
+        return $return_array;
+    }
+
+    /*!
+      Deletes an file from the event.
+      $value can either be a eZVirtualFile or an ID
+
+      NOTE: the file does not get deleted from the file catalogue.
+    */
+    function deleteFile( $value )
+    {
+        if ( get_class( $value ) == "ezvirtualfile" )
+        {
+            $fileID = $value->id();
+
+        }
+        else
+            $fileID = $value;
+
+        $db =& eZDB::globalDatabase();
+        $db->query( "DELETE FROM eZGroupEventCalendar_EventFileLink WHERE EventID='$this->ID' AND FileID='$fileID'" );
+    }
+
+
+
+    /*!
+      Adds an file to the event.
+      $value can either be a eZVirtualFile or an ID
+    */
+    function addFile( $value )
+      {
+        if ( get_class( $value ) == "ezvirtualfile" )
+	  {
+            $fileID = $value->id();
+	  }
+        else
+	  $fileID = $value;
+
+        $db =& eZDB::globalDatabase();
+
+        $db->begin( );
+
+        $db->lock( "eZGroupEventCalendar_EventFileLink" );
+
+        $nextID = $db->nextID( "eZGroupEventCalendar_EventFileLink", "ID" );
+
+        $timeStamp = eZDateTime::timeStamp( true );
+
+	//print("INSERT INTO eZGroupEventCalendar_EventFileLink
+
+	$res = $db->query( "INSERT INTO eZGroupEventCalendar_EventFileLink
+                         ( ID, EventID, FileID, Created ) VALUES ( '$nextID', '$this->ID', '$fileID', '$timeStamp' )" );
+
+        $db->unlock();
+
+        if ( $res == false )
+	  $db->rollback( );
+        else
+	  $db->commit();
+      }
+
 
     /*!
       Returns the comments for the event.
