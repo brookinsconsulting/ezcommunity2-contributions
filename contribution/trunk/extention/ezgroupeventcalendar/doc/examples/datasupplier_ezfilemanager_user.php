@@ -149,7 +149,7 @@ switch ( $url_array[2] )
     }
     break;
 
-    // kracker : pass through admin cases (used in ezgroupeventcalendar)
+    // graham : pass through admin cases for user file selection. (used in ezgroupeventcalendar)
     case "browse":
     {
        $FolderID = $url_array[3];
