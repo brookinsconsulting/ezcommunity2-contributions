@@ -39,6 +39,8 @@ $t->set_var( "owner", $usr->login() );
 $dict = new eZPersonAddressDict();
 $dict_array = $dict->getByPerson( $person->id() );
 
+$t->set_var( "address_info_list", "" );
+
 for ( $i=0; $i<count( $dict_array ); $i++ )
 {
     $address = new eZAddress();
@@ -63,6 +65,7 @@ for ( $i=0; $i<count( $dict_array ); $i++ )
 $dict = new eZPersonPhoneDict();
 $dict_array = $dict->getByPerson( $person->id() );
 
+$t->set_var( "phone_info_list", "" );
 for ( $i=0; $i<count( $dict_array ); $i++ )
 {
     $phone = new eZPhone();

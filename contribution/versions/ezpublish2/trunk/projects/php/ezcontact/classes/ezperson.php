@@ -137,7 +137,6 @@ class eZPerson
     
         array_query( $person_array, "SELECT * FROM Person WHERE Company='$id' ORDER BY LastName" );
 
-        print( "antall: $id" . count( $person_array ) );
         return $person_array;
     }
     

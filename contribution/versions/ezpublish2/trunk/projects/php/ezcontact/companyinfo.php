@@ -35,7 +35,7 @@ $usr = new eZUser();
 $usr->get( $company->owner() );
 $t->set_var( "owner", $usr->login() );
 
-
+$t->set_var( "address_info_list", "" );
 // adresser:
 {
     $dict = new eZCompanyAddressDict();
@@ -68,6 +68,7 @@ $t->set_var( "owner", $usr->login() );
 $dict = new eZCompanyPhoneDict();
 $dict_array = $dict->getByCompany( $company->id() );
 
+$t->set_var( "phone_info_list", "" );
 for ( $i=0; $i<count( $dict_array ); $i++ )
 {
     $phone = new eZPhone();

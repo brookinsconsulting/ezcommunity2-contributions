@@ -34,11 +34,11 @@ for ( $i=0; $i<count( $company_array ); $i++ )
 {
   if ( ( $i % 2 ) == 0 )
   {
-    $t->set_var( "bg_color", "#eeeeee" );
+    $t->set_var( "bg_color", "#eeeedd" );
   }
   else
   {
-    $t->set_var( "bg_color", "#dddddd" );
+    $t->set_var( "bg_color", "#ddddcc" );
   }
   $cid = $company_array[$i][ "ID" ];
   $t->set_var( "company_id", $cid );
@@ -55,7 +55,6 @@ for ( $i=0; $i<count( $company_array ); $i++ )
 //        }
 //        else
       {
-          unset( $person_array );
           $person_array = $person->getByCompany( $cid );
       }
 
@@ -63,11 +62,11 @@ for ( $i=0; $i<count( $company_array ); $i++ )
       {
           if ( ( $j % 2 ) == 0 )      
           {
-              $t->set_var( "bg_color", "#eeeeee" );
+              $t->set_var( "person_bg_color", "#ddeeee" );
           }
           else
           {
-              $t->set_var( "bg_color", "#dddddd" );
+              $t->set_var( "person_bg_color", "#ccdddd" );
           }
   
           $t->set_var( "person_id", $person_array[$j][ "ID" ] );
@@ -77,9 +76,6 @@ for ( $i=0; $i<count( $company_array ); $i++ )
           
           $t->parse( "person_list", "person_item", true );          
       }
-      
-
-      
   }
   $t->parse( "company_list", "company_item", true );
   $t->set_var( "person_list", "" );
