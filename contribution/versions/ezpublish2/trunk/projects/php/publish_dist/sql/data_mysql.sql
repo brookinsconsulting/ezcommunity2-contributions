@@ -1304,7 +1304,7 @@ INSERT INTO eZImageCatalogue_ImagePermission VALUES (4,4,-1,1,1);
 
 INSERT INTO eZLink_Category VALUES (1,0,'Links',0,'',1);
 
-INSERT INTO eZLink_Link VALUES (1,'eZ publish Content Management System','GPL CMS and E-commerce package.',NULL,'',1003329626,1,1003329626,'developer.ez.no',0);
+INSERT INTO eZLink_Link VALUES (1,'eZ publish Content Management System','GPL CMS and E-commerce package.',NULL,1003329626,1,1003329626,'developer.ez.no',0);
 
 INSERT INTO eZLink_LinkCategoryDefinition VALUES (1,1,1);
 INSERT INTO eZLink_LinkCategoryLink VALUES (1,1,1);

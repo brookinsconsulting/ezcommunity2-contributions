@@ -2001,13 +2001,7 @@ CREATE TABLE eZStats_Archive_RemoteHost (
   PRIMARY KEY (ID)
 );
 
-CREATE INDEX PageView_TimeValue ON eZStats_PageView (TimeValue);
-
-alter table eZTodo_Todo add IsPublic int(1) NOT NULL default '0';
-
-CREATE INDEX Trade_CartSessionID ON eZTrade_Cart (SessionID);
-CREATE INDEX TradeCategory_Name ON eZTrade_Category (Name);
-CREATE INDEX TradeCategory_ParentID ON eZTrade_Category (ParentID);CREATE TABLE eZTodo_Category (
+CREATE TABLE eZTodo_Category (
   ID int(11) NOT NULL,
   Description text,
   Name varchar(30),
