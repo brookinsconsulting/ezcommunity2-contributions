@@ -14,10 +14,18 @@ switch ( $url_array[2] )
     {
         include( "ezlink/user/latest.php" );
     }
-
+    break;
+    
     case "search" :
+    {
+        if ( $url_array[3] == "parent" )
+        {
+            $QueryString = urlencode( $url_array[4] );
+            $Offset = $url_array[5];
+        }
         include( "ezlink/user/search.php" );
-        break;
+    }
+    break;
 
     case "success" :
         include( "ezlink/user/success.php" );

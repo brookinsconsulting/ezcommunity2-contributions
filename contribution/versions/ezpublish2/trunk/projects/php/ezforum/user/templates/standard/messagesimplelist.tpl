@@ -45,16 +45,53 @@
 
 <!-- END message_list_tpl -->
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<!-- BEGIN type_list_tpl -->
+<br />
+<table cellpadding="0" cellspacing="0" border="0">
 <tr>
+	<!-- BEGIN type_list_previous_tpl -->
 	<td>
-	<a class="path" href="/forum/category/forum/{forum_id}/?Offset={prev_offset}&Limit={limit}">{previous}</a>
+	<a class="path" href="{url}parent/{item_previous_index}/">&lt;&lt;&nbsp;{intl-previous}</a>&nbsp;
 	</td>
-	<td align="right">
-	<a class="path" href="/forum/category/forum/{forum_id}/?Offset={next_offset}&Limit={limit}">{next}</a>
+	<!-- END type_list_previous_tpl -->
+
+	<!-- BEGIN type_list_previous_inactive_tpl -->
+	<td>
+	&nbsp;
 	</td>
+	<!-- END type_list_previous_inactive_tpl -->
+
+	<!-- BEGIN type_list_item_list_tpl -->
+
+	<!-- BEGIN type_list_item_tpl -->
+	<td>
+	|&nbsp;<a class="path" href="{url}parent/{item_index}/">{type_item_name}</a>&nbsp;
+	</td>
+	<!-- END type_list_item_tpl -->
+
+	<!-- BEGIN type_list_inactive_item_tpl -->
+	<td>
+	|&nbsp;&lt;&nbsp;{type_item_name}&nbsp;&gt;&nbsp;
+	</td>
+	<!-- END type_list_inactive_item_tpl -->
+
+	<!-- END type_list_item_list_tpl -->
+
+	<!-- BEGIN type_list_next_tpl -->
+	<td>
+	|&nbsp;<a class="path" href="{url}parent/{item_next_index}/">{intl-next}&nbsp;&gt;&gt;</a>
+	</td>
+	<!-- END type_list_next_tpl -->
+
+	<!-- BEGIN type_list_next_inactive_tpl -->
+	<td>
+	|&nbsp;
+	</td>
+	<!-- END type_list_next_inactive_tpl -->
+
 </tr>
 </table>
+<!-- END type_list_tpl -->
 
 <hr noshade size="4" />
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messagesimplelist.php,v 1.11 2001/03/01 14:06:25 jb Exp $
+// $Id: messagesimplelist.php,v 1.12 2001/05/09 14:33:43 ce Exp $
 //
 // Lars Wilhelmsen <lw@ez.no>
 // Created on: <11-Sep-2000 22:10:06 bf>
@@ -29,6 +29,7 @@ include_once( "classes/eztexttool.php" );
 
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
+include_once( "classes/ezlist.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "ezforum/classes/ezforummessage.php" );
@@ -38,6 +39,7 @@ include_once( "ezforum/classes/ezforum.php" );
 $ini =& INIFile::globalINI();
 
 $Language = $ini->read_var( "eZForumMain", "Language" );
+$SimpleUserList = $ini->read_var( "eZForumMain", "SimpleUserList" );
 
 $t = new eZTemplate( "ezforum/user/" . $ini->read_var( "eZForumMain", "TemplateDir" ),
                      "ezforum/user/intl", $Language, "messagesimplelist.php" );
@@ -55,10 +57,11 @@ $forum = new eZForum( $ForumID );
 
 $locale = new eZLocale( $Language );
 
-$Offset = 0;
-$Limit = 30;
+if ( !$Offset )
+    $Offset = 0;
 
-$messageList =& $forum->messageTree( $Offset, $Limit );
+$messageList =& $forum->messageTree( $Offset, $SimpleUserList );
+$messageCount =& $forum->messageCount();
 
 if ( !$messageList )
 {
@@ -66,8 +69,6 @@ if ( !$messageList )
     $noitem =& $errorIni->read_var( "strings", "noitem" );
 
     $t->set_var( "message_list", $noitem );
-    $t->set_var( "next", "" );
-    $t->set_var( "previous", "" );
 }
 else
 {
@@ -96,45 +97,19 @@ else
         $user =& $message->user();
         $t->set_var( "user", $user->firstName() . " " . $user->lastName() );
         
-        $t->set_var( "limit", $Limit );
-        
-        $prevOffs = $Offset - $Limit;
-        $nextOffs = $Offset + $Limit;
-        
-        if ( $prevOffs >= 0 )
-        {
-            $t->set_var( "prev_offset", $prevOffs  );
-            $t->parse( "previous", "previous_tpl" );
-        }
-        else
-        {
-            $t->set_var( "previous", "" );
-        }
-        
-        if ( $nextOffs <= $forum->messageCount() )
-        {
-            $t->set_var( "next_offset", $nextOffs  );
-            $t->parse( "next", "next_tpl" );
-        }
-        else
-        {
-            $t->set_var( "next", "" );
-        }
-        
-        
-//    $t->set_var( "next_offset", $Offset + $Limit );    
-        
         $t->parse( "message_item", "message_item_tpl", true );
         $i++;
     }
     $t->parse( "message_list", "message_list_tpl", true );
 }
-
+eZList::drawNavigator( $t, $messageCount, $SimpleUserList, $Offset, "messagelist" );
 
 $t->set_var( "redirect_url", $RedirectURL );
 
 $t->set_var( "newmessage", $newmessage );
 
+$url = explode( "parent", $REQUEST_URI );
+$t->set_var( "url", $url[0] );
 $t->set_var( "forum_id", $forum->id() );
 $t->set_var( "forum_name", $forum->name() );
 

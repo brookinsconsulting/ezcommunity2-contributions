@@ -229,6 +229,14 @@ switch ( $url_array[2] )
             $article = new eZArticle( $ArticleID );
             if ( ( $article->id() >= 1 ) && $article->discuss() )
             {
+                for ( $i=0; $i < count ( $url_array ); $i++ )
+                {
+                    if ( ( $url_array[$i] ) == "parent" )
+                    {
+                        $next = $i+1;
+                        $Offset = $url_array[$next];
+                    }
+                }
                 $forum = $article->forum();
                 $ForumID = $forum->id();
                 include( "ezforum/user/messagesimplelist.php" );
