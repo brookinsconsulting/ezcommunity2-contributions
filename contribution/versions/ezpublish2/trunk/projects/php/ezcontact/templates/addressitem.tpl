@@ -6,6 +6,6 @@
 {address_type_name}
 </td>
 <td bgcolor="#dddddd">
-<a href="index.php4?page={document_root}{script_name}&AddressAction=DeleteAddress&AddressID={address_id}&Action=edit&CID={company_id}&PID={person_id}">slett</a>
+<a href="#" onClick="verify( 'Slette adresse?', 'index.php4?page={document_root}{script_name}&AddressAction=DeleteAddress&AddressID={address_id}&Action=edit&CID={company_id}&PID={person_id}'); return false;"">slett</a>
 </td>
 </tr>
