@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: vote.php,v 1.2 2000/10/03 10:52:41 ce-cvs Exp $
+// $Id: vote.php,v 1.3 2000/10/09 11:22:17 ce-cvs Exp $
 //
 // Definition of eZPoll class
 //
@@ -35,14 +35,13 @@ if ( !$user )
 
 $checkvote = new eZVote();
 
-if ( $checkvote->oneVoteCheck( $user->id() ))
-// if ( 1 == 1 )
+if ( $checkvote->oneVoteCheck( $user->id(), $PollID  ))
 {
     print( "Du har allerede stemt engang" );
 }
+
 else
 {
-
     $vote = new eZVote();
     $vote->setPollID( $PollID );
     $vote->setChoiceID( $ChoiceID );

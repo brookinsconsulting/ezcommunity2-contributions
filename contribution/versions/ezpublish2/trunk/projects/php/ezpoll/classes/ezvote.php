@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvote.php,v 1.8 2000/10/07 09:43:13 bf-cvs Exp $
+// $Id: ezvote.php,v 1.9 2000/10/09 11:22:17 ce-cvs Exp $
 //
 // Definition of eZVote class
 //
@@ -226,26 +226,26 @@ class eZVote
       \static
       Check if the user already have voted. If voted, return true.
     */
-    function oneVoteCheck( $userID )
+    function oneVoteCheck( $userID, $pollID )
     { 
-        $ret = false;
+        $ret = true;
 
         $vote_array = array();
 
         $this->dbInit();
 
         $this->Database->array_query( $vote_array, "SELECT * FROM eZPoll_Vote
-                                                    WHERE UserID='$userID' AND PollID='$this->PollID'" );
+                                                    WHERE UserID='$userID' AND PollID='$pollID'" );
         if ( count( $vote_array ) == 0 )
         {
-            $ret = true;
+            $ret = false;
         }
 
         return $ret;
     }
 
     /*!
-      Private function.
+      \private
       Open the database for read and write. Gets all the database information from site.ini.
     */
     function dbInit()
@@ -262,3 +262,5 @@ class eZVote
     var $ChoiceIP;
     var $UserID;
 }
+
+?>
