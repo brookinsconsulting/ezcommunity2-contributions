@@ -44,6 +44,8 @@
 </tr>
 <!-- END result_tpl -->
 </table>
+<!-- BEGIN delete_button_tpl -->
 <hr noshade="noshade" size="4" />
 <input class="stdbutton" type="submit" name="Delete" value="{intl-delete}" />
+<!-- END delete_button_tpl -->
 </form>

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: results.php,v 1.4 2002/01/17 08:19:33 jhe Exp $
+// $Id: results.php,v 1.5 2002/01/17 08:48:20 jhe Exp $
 //
 // Created on: <10-Jan-2002 08:58:22 jhe>
 //
@@ -39,6 +39,7 @@ $t->set_file( "form_results_tpl", "results.tpl" );
 $t->set_block( "form_results_tpl", "element_tpl", "element" );
 $t->set_block( "form_results_tpl", "result_tpl", "result" );
 $t->set_block( "result_tpl", "edit_fields_tpl", "edit_fields" );
+$t->set_block( "form_results_tpl", "delete_button_tpl", "delete_button" );
 
 $form = new eZForm( $FormID );
 $elements = $form->formElements();
@@ -50,6 +51,7 @@ $t->set_var( "site_style", $SiteStyle );
 
 $t->set_var( "result", "" );
 $t->set_var( "edit_fields", "" );
+$t->set_var( "delete_button", "" );
 
 $user =& eZUser::currentUser();
 
@@ -179,6 +181,9 @@ foreach ( $results as $result )
     $t->parse( "result", "result_tpl", true );
     $i++;
 }
+
+if ( $rootAccess )
+    $t->parse( "delete_button", "delete_button_tpl" );
 
 $t->pparse( "output", "form_results_tpl" );
 
