@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.18 2000/10/28 12:29:01 bf-cvs Exp $
+// $Id: ezarticle.php,v 1.19 2000/10/28 14:35:21 bf-cvs Exp $
 //
 // Definition of eZArticle class
 //
@@ -99,6 +99,7 @@ class eZArticle
                                  LinkText='$this->LinkText',
                                  PageCount='$this->PageCount',
                                  IsPublished='$this->IsPublished',
+                                 Keywords='$this->Keywords',
                                  Modified=now(),
                                  Published=now(),
                                  Created=now()
@@ -122,6 +123,7 @@ class eZArticle
                                  PageCount='$this->PageCount',
                                  AuthorID='$this->AuthorID',
                                  IsPublished='$this->IsPublished',
+                                 Keywords='$this->Keywords',
                                  Published=now(),
                                  Modified=now()
                                  WHERE ID='$this->ID'
@@ -137,6 +139,7 @@ class eZArticle
                                  PageCount='$this->PageCount',
                                  AuthorID='$this->AuthorID',
                                  IsPublished='$this->IsPublished',
+                                 Keywords='$this->Keywords',
                                  Modified=now()
                                  WHERE ID='$this->ID'
                                  " );
@@ -176,6 +179,7 @@ class eZArticle
                 $this->Published =& $article_array[0][ "Published" ];
                 $this->PageCount =& $article_array[0][ "PageCount" ];
                 $this->IsPublished =& $article_array[0][ "IsPublished" ];
+                $this->Keywords =& $article_array[0][ "Keywords" ];
 
                 $this->State_ = "Coherent";
                 $ret = true;
@@ -301,6 +305,17 @@ class eZArticle
     }
 
     /*!
+      Returns the keywords of an article.
+    */
+    function keywords( )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->Keywords;
+    }
+    
+    /*!
       Returns the last time the article was published.
 
       The time is returned as a eZDateTime object.
@@ -402,6 +417,17 @@ class eZArticle
        $this->PageCount = $value;
     }
 
+    /*!
+      Sets the keywords to an article. Theese words are used in the search.
+    */
+    function setKeywords( $keywords )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->Keywords = $keywords;
+    }
+    
     /*!
      Sets the article to published or not. 
     */
@@ -615,6 +641,73 @@ class eZArticle
     }
 
     /*!
+      Does a search in the article archive.
+    */
+    function search( $queryText, $sortMode=time, $fetchNonPublished=true )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->dbInit();
+
+       $OrderBy = "eZArticle_Article.Published DESC";
+       switch( $sortMode )
+       {
+           case "alpha" :
+           {
+               $OrderBy = "eZArticle_Article.Name DESC";
+           }
+           break;
+       }
+
+       
+       $return_array = array();
+       $article_array = array();
+
+       if ( $fetchNonPublished == true )
+       {
+          $this->Database->array_query( $article_array, "
+                    SELECT eZArticle_Article.ID AS ArticleID, eZArticle_Article.Name, eZArticle_Category.ID, eZArticle_Category.Name
+                    FROM eZArticle_Article, eZArticle_Category, eZArticle_ArticleCategoryLink 
+                    WHERE
+                    ( 
+                    eZArticle_Article.Name LIKE '%$queryText%' OR
+                    eZArticle_Article.Keywords LIKE '%$queryText%'
+                    )
+                    AND
+                    eZArticle_ArticleCategoryLink.ArticleID = eZArticle_Article.ID
+                    AND
+                    eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
+                    AND
+                    eZArticle_Category.ExcludeFromSearch = 'false'
+                    GROUP BY eZArticle_Article.ID ORDER BY $OrderBy" );
+           
+       }
+       else
+       {
+           $this->Database->array_query( $article_array, "
+                    SELECT eZArticle_Article.ID AS ArticleID, eZArticle_Article.Name, eZArticle_Category.ID, eZArticle_Category.Name
+                    FROM eZArticle_Article, eZArticle_Category, eZArticle_ArticleCategoryLink 
+                    WHERE 
+                    eZArticle_ArticleCategoryLink.ArticleID = eZArticle_Article.ID
+                    AND
+                    eZArticle_Article.IsPublished = 'true'
+                    AND
+                    eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
+                    AND
+                    eZArticle_Category.ExcludeFromSearch = 'false'
+                    GROUP BY eZArticle_Article.ID ORDER BY $OrderBy" );
+       }
+ 
+       for ( $i=0; $i<count($article_array); $i++ )
+       {
+           $return_array[$i] = new eZArticle( $article_array[$i]["ArticleID"], false );
+       }
+       
+       return $return_array;
+    }
+    
+    /*!
       Returns every article in every category sorted by time.
     */
     function articles( $sortMode=time, $fetchNonPublished=true )
@@ -699,7 +792,8 @@ class eZArticle
     var $Modified;
     var $Created;
     var $Published;
-
+    var $Keywords;
+    
     // telll eZ publish to show the article to the public
     var $IsPublished;
 

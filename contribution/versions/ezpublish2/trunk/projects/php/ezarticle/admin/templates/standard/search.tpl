@@ -35,7 +35,7 @@
 <table width="100%" border="0">
 <tr>
 	<td>
-	<h1>{intl-head_line} - {current_category_name}</h1>
+	<h1>{intl-head_line}</h1>
 	</td>
 	<td align="right">
 	<form action="/article/search/" method="post">
@@ -51,53 +51,6 @@
 </p>
 
 <hr noshade="noshade" size="4" />
-
-<!-- BEGIN path_tpl -->
-
-
-<img src="/ezarticle/admin/images/path-arrow.gif" height="10" width="15" border="0">
-
-<a class="path" href="/article/archive/0/">Toppnivå</a>
-
-<!-- END path_tpl -->
-
-<!-- BEGIN path_item_tpl -->
-
-<img src="/ezarticle/admin/images/path-slash.gif" height="10" width="20" border="0">
-
-<a class="path" href="/article/archive/{category_id}/">{category_name}</a>
-<!-- END path_item_tpl -->
-
-<hr noshade="noshade" size="4" />
-
-<!-- BEGIN category_list_tpl -->
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
-<tr>
-	<th>{intl-category}:</td>
-	<th>{intl-description}:</th>
-	<th colspan="2">&nbsp;</th>
-</tr>
-	
-<!-- BEGIN category_item_tpl -->
-<tr>
-	<td class="{td_class}">
-	<a href="/article/archive/{category_id}/">{category_name}</a>&nbsp;
-	</td>
-	<td class="{td_class}">
-	{category_description}&nbsp;
-	</td>
-	<td width="1%" class="{td_class}">
-	<a href="/article/categoryedit/edit/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-red','','/ezarticle/admin/images/redigerminimrk.gif',1)"><img name="ezac{category_id}-red" border="0" src="/ezarticle/admin/images/redigermini.gif" width="16" height="16" align="top"></a>
-	</td>
-	<td width="1%" class="{td_class}">
-	<a href="/article/categoryedit/delete/{category_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezac{category_id}-slett','','/ezarticle/admin/images/slettminimrk.gif',1)"><img name="ezac{category_id}-slett" border="0" src="/ezarticle/admin/images/slettmini.gif" width="16" height="16" align="top"></a>
-	</td>
-</tr>
-<!-- END category_item_tpl -->
-</table>
-<hr noshade size="4"/>
-<!-- END category_list_tpl -->
-
 
 <!-- BEGIN article_list_tpl -->
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">

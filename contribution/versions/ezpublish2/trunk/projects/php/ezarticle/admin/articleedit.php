@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.15 2000/10/25 18:19:55 bf-cvs Exp $
+// $Id: articleedit.php,v 1.16 2000/10/28 14:35:21 bf-cvs Exp $
 //
 // 
 //
@@ -43,6 +43,8 @@ if ( $Action == "Insert" )
     
     $article->setLinkText( $LinkText );
 
+
+    
     // add check for publishing rights here
     if ( $IsPublished == "on" )
     {
@@ -56,6 +58,21 @@ if ( $Action == "Insert" )
     // check if the contents is parseable
     if ( xmltree( $contents ) )
     {
+        // generate keywords
+        $contents = strip_tags( $contents );
+        $contents = ereg_replace( "#\n#", "", $contents );
+        $contents_array =& split( " ", $contents );
+        $contents_array = array_unique( $contents_array );
+
+        $keywords = "";
+        foreach ( $contents_array as $word )
+        {
+            
+            $keywords .= $word . " ";
+        }
+
+        $article->setKeywords( $keywords );
+        
         $article->store();
     
         $category->addArticle( $article );
@@ -119,15 +136,13 @@ if ( $Action == "Update" )
     
     $article->setContents( $contents  );
 
-//    print( $contents );
-
     $article->setPageCount( $generator->pageCount() );
     
     $article->setAuthorText( $AuthorText );
     
     $article->setLinkText( $LinkText );
 
-    print( "ispublished: " . $IsPublished . "<br>" );
+    
     // add check for publishing rights here
     if ( $IsPublished == "on" )
     {
@@ -141,6 +156,22 @@ if ( $Action == "Update" )
     // check if the contents is parseable
     if ( xmltree( $contents ) )
     {
+
+        // generate keywords
+        $contents = strip_tags( $contents );
+        $contents = ereg_replace( "#\n#", "", $contents );
+        $contents_array =& split( " ", $contents );
+        $contents_array = array_unique( $contents_array );
+
+        $keywords = "";
+        foreach ( $contents_array as $word )
+        {
+            $keywords .= $word . " ";
+        }
+
+        $article->setKeywords( $keywords );
+
+        
         $article->store();
 
     // remove all category references

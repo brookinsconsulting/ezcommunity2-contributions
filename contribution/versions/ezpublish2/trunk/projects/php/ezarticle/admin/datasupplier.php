@@ -12,6 +12,12 @@ switch ( $url_array[2] )
     }
     break;
 
+    case "search" :
+    {
+        include( "ezarticle/admin/search.php" );
+    }
+    break;
+    
     case "articlepreview":
     {
         $ArticleID = $url_array[3];
