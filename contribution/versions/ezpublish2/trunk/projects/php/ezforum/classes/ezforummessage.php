@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezforummessage.php,v 1.83 2001/04/04 16:20:02 fh Exp $
+// $Id: ezforummessage.php,v 1.84 2001/04/09 09:16:37 bf Exp $
 //
 // Definition of eZCompany class
 //
@@ -450,12 +450,20 @@ class eZForumMessage
     /*!
       Returns the topic of the message.
     */      
-    function &topic()
+    function &topic( $htmlchars=true )
     {
        if ( $this->State_ == "Dirty" )
             $this->get( $this->ID );
         
-        return htmlspecialchars( stripslashes( $this->Topic ) );
+       if( $htmlchars == true )
+       {
+            return  htmlspecialchars( $this->Topic );
+       }
+       else
+       {
+            return $this->Topic;
+       }  
+        
     }
         
     /*!
@@ -467,7 +475,7 @@ class eZForumMessage
             $this->get( $this->ID );
         
         
-        $this->Topic = addslashes( $newTopic );
+        $this->Topic = $newTopic;
     }
         
     /*!
@@ -480,11 +488,11 @@ class eZForumMessage
        
        if( $htmlchars == true )
        {
-            return  htmlspecialchars( stripslashes( $this->Body ) );
+            return  htmlspecialchars( $this->Body );
        }
        else
        {
-            return stripslashes( $this->Body );
+            return $this->Body;
        }  
     }
 
@@ -497,7 +505,7 @@ class eZForumMessage
             $this->get( $this->ID );
         
         
-        $this->Body = addslashes( $newBody );
+        $this->Body = $newBody;
     }
     
     /*!

@@ -11,7 +11,7 @@
 	?>
 
     <?
-    $CategoryID=1;
+    $CategoryID=3;
     include( "ezarticle/user/headlines.php" );
     ?>
     

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.41 2001/03/15 10:09:44 pkej Exp $
+// $Id: messageedit.php,v 1.42 2001/04/09 09:16:37 bf Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -113,6 +113,8 @@ switch( $Action )
 // Any errors?
 
 $Errors = false;
+
+$Locale = new eZLocale( $Language );
 
 
 // Do some action!
@@ -331,8 +333,8 @@ switch( $Action )
             eZHTTPTool::header( "Location: /error/403?Info=" . errorPage( "forum_main", "/forum/categorylist/", 403 ) );
         }
         
-        $msg->setTopic( $tmpmsg->topic() );
-        $msg->setBody( $tmpmsg->body() );
+        $msg->setTopic( $tmpmsg->topic( false ) );
+        $msg->setBody( $tmpmsg->body( false ) );
         $msg->setEmailNotice( $tmpmsg->emailNotice() );
         
         $msg->store();
