@@ -51,6 +51,9 @@
 
 <br clear="all" />
 
+<table width="100%" cellspacing="0" cellpadding="7" border="0">
+<tr>
+	<td width="70%">
 <!-- BEGIN image_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="7" border="0">
 <!-- BEGIN image_tpl -->
@@ -85,6 +88,31 @@
 </table>
 <br />
 <!-- END image_list_tpl -->
+	</td>
+	<td width="30%">
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<!-- BEGIN section_item_tpl -->
+<tr>
+	<th>
+	{section_name}:
+	</th>
+</tr>
+<!-- BEGIN link_item_tpl -->
+<tr>
+	<td class="{td_class}">
+	&nbsp;<a href="{link_url}">{link_name}</a>
+	</td>
+</tr>
+<!-- END link_item_tpl -->
+<tr>
+	<td>&nbsp;
+	</td>
+</tr>
+<!-- END section_item_tpl -->
+</table>
+	</td>
+</tr>
+</table>
 
 <!-- BEGIN attribute_list_tpl -->
 <table width="60%" cellspacing="0" cellpadding="2" border="0" align="center">

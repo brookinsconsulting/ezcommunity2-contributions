@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.38 2001/03/16 10:26:32 ce Exp $
+// $Id: productview.php,v 1.39 2001/03/21 13:39:22 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -55,6 +55,10 @@ include_once( "eztrade/classes/ezoption.php" );
 include_once( "eztrade/classes/ezpricegroup.php" );
 include_once( "eztrade/classes/ezproductcurrency.php" );
 include_once( "ezuser/classes/ezuser.php" );
+
+include_once( "classes/ezmodulelink.php" );
+include_once( "classes/ezlinksection.php" );
+include_once( "classes/ezlinkitem.php" );
 
 $user = eZUser::currentUser();
 
@@ -122,6 +126,9 @@ $t->set_block( "attribute_list_tpl", "attribute_tpl", "attribute" );
 
 $t->set_block( "product_view_tpl", "numbered_page_link_tpl", "numbered_page_link" );
 $t->set_block( "product_view_tpl", "print_page_link_tpl", "print_page_link" );
+
+$t->set_block( "product_view_tpl", "section_item_tpl", "section_item" );
+$t->set_block( "section_item_tpl", "link_item_tpl", "link_item" );
 
 if ( !isset( $ModuleName ) )
     $ModuleName = "trade";
@@ -379,6 +386,28 @@ foreach ( $options as $option )
     $t->set_var( "product_id", $ProductID );
 
     $t->parse( "option", "option_tpl", true );
+}
+
+// link list
+$module_link = new eZModuleLink( "eZTrade", "Product", $product->id() );
+$sections =& $module_link->sections();
+foreach( $sections as $section )
+{
+    $t->set_var( "link_item", "" );
+    $t->set_var( "section_name", $section->name() );
+    $t->set_var( "section_id", $section->id() );
+    $links =& $section->links();
+    $i = 0;
+    foreach( $links as $link )
+    {
+        $t->set_var( "td_class", ($i%2) == 0 ? "bglight" : "bgdark" );
+        $t->set_var( "link_name", $link->name() );
+        $t->set_var( "link_url", $link->url() );
+        $t->set_var( "link_id", $link->id() );
+        $t->parse( "link_item", "link_item_tpl", true );
+        ++$i;
+    }
+    $t->parse( "section_item", "section_item_tpl", true );
 }
 
 // attribute list

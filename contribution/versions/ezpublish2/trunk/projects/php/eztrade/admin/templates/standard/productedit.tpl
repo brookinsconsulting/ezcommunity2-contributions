@@ -135,6 +135,9 @@ http://<input type="text" size="36" name="ExternalLink" value="{external_link}"/
 	<input class="stdbutton" type="submit" name="Image" value="{intl-pictures}" />
 	<input class="stdbutton" type="submit" name="Option" value="{intl-options}" />
 	<input class="stdbutton" type="submit" name="Attribute" value="{intl-attributes}" />
+<!-- BEGIN module_linker_button_tpl -->
+	<input class="stdbutton" type="submit" name="ModuleLinker" value="{intl-links}" />
+<!-- END module_linker_button_tpl -->
 	<input class="stdbutton" type="submit" name="Preview" value="{intl-preview}" />
 
 <hr noshade="noshade" size="4" />

@@ -144,6 +144,35 @@ switch ( $url_array[2] )
             }
             break;
                 
+            case "link" :
+            {
+                $ProductID = $url_array[5];
+                switch( $url_array[4] )
+                {
+                    case "list":
+                    {
+                        include( "eztrade/admin/linklist.php" );
+                        break;
+                    }
+                    case "select":
+                    {
+                        if ( isset( $url_array[6] ) )
+                            $ModuleName = $url_array[6];
+                        if ( isset( $url_array[7] ) )
+                            $Type = $url_array[7];
+                        if ( isset( $url_array[8] ) )
+                            $SectionID = $url_array[8];
+                        if ( isset( $url_array[9] ) )
+                            $Category = $url_array[9];
+                        if ( isset( $url_array[10] ) )
+                            $Offset = $url_array[10];
+                        include( "eztrade/admin/linkselect.php" );
+                        break;
+                    }
+                }
+                break;
+            }
+
             case "optionedit" :
                 if ( $url_array[4] == "edit" )
                 {

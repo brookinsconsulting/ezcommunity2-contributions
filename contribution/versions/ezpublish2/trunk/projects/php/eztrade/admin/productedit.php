@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.46 2001/03/14 17:21:56 jb Exp $
+// $Id: productedit.php,v 1.47 2001/03/21 13:39:22 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -70,6 +70,7 @@ $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
 $ShowQuantity = $ini->read_var( "eZTradeMain", "ShowQuantity" ) == "true";
+$ShowModuleLinker = $ini->read_var( "eZTradeMain", "ShowModuleLinker" ) == "true";
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
@@ -360,6 +361,13 @@ if ( $Action == "Update" )
         exit();
     }    
 
+    // module link
+    if ( isset( $ModuleLinker ) )
+    {
+        eZHTTPTool::header( "Location: /trade/productedit/link/list/$productID/" );
+        exit();
+    }    
+
     // get the category to redirect to
     $category = $product->categoryDefinition( );
     $categoryID = $category->id();
@@ -459,6 +467,8 @@ $t->set_file( array( "product_edit_tpl" => "productedit.tpl" ) );
 
 $t->set_block( "product_edit_tpl", "value_tpl", "value" );
 $t->set_block( "product_edit_tpl", "multiple_value_tpl", "multiple_value" );
+
+$t->set_block( "product_edit_tpl", "module_linker_button_tpl", "module_linker_button" );
 
 $t->set_block( "product_edit_tpl", "vat_select_tpl", "vat_select" );
 $t->set_block( "product_edit_tpl", "shipping_select_tpl", "shipping_select" );
@@ -692,6 +702,10 @@ if ( $ShowPriceGroups )
     $t->set_var( "shipping_group_id", $group->id() );
     
     $t->set_var( "shipping_group_name", $group->name() );
+
+$t->set_var( "module_linker_button", "" );
+if ( $ShowModuleLinker )
+    $t->parse( "module_linker_button", "module_linker_button_tpl" );
 
 $t->pparse( "output", "product_edit_tpl" );
 
