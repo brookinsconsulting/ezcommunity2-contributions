@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.21 2000/11/01 09:30:58 ce-cvs Exp $
+// $Id: ezarticle.php,v 1.22 2000/11/02 15:59:01 bf-cvs Exp $
 //
 // Definition of eZArticle class
 //
@@ -676,16 +676,18 @@ class eZArticle
            break;
        }
 
-       
+       if ( $fetchNonPublished == true )
+           $fetchText = "false";
+       else
+           $fetchText = "true";
+
        $return_array = array();
        $article_array = array();
 
-       if ( $fetchNonPublished == true )
-       {
-          $this->Database->array_query( $article_array, "
-                    SELECT eZArticle_Article.ID AS ArticleID, eZArticle_Article.Name, eZArticle_Category.ID, eZArticle_Category.Name
+       $this->Database->array_query( $article_array,
+                    "SELECT eZArticle_Article.ID AS ArticleID, eZArticle_Article.Name, eZArticle_Category.ID, eZArticle_Category.Name
                     FROM eZArticle_Article, eZArticle_Category, eZArticle_ArticleCategoryLink 
-                    WHERE
+                    WHERE 
                     ( 
                     eZArticle_Article.Name LIKE '%$queryText%' OR
                     eZArticle_Article.Keywords LIKE '%$queryText%'
@@ -693,27 +695,12 @@ class eZArticle
                     AND
                     eZArticle_ArticleCategoryLink.ArticleID = eZArticle_Article.ID
                     AND
-                    eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
-                    AND
-                    eZArticle_Category.ExcludeFromSearch = 'false'
-                    GROUP BY eZArticle_Article.ID ORDER BY $OrderBy" );
-           
-       }
-       else
-       {
-           $this->Database->array_query( $article_array, "
-                    SELECT eZArticle_Article.ID AS ArticleID, eZArticle_Article.Name, eZArticle_Category.ID, eZArticle_Category.Name
-                    FROM eZArticle_Article, eZArticle_Category, eZArticle_ArticleCategoryLink 
-                    WHERE 
-                    eZArticle_ArticleCategoryLink.ArticleID = eZArticle_Article.ID
-                    AND
-                    eZArticle_Article.IsPublished = 'true'
+                    eZArticle_Article.IsPublished = '$fetchText'
                     AND
                     eZArticle_Category.ID = eZArticle_ArticleCategoryLink.CategoryID
                     AND
                     eZArticle_Category.ExcludeFromSearch = 'false'
                     GROUP BY eZArticle_Article.ID ORDER BY $OrderBy" );
-       }
  
        for ( $i=0; $i<count($article_array); $i++ )
        {

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: search.php,v 1.3 2000/11/01 09:30:59 ce-cvs Exp $
+// $Id: search.php,v 1.4 2000/11/02 15:59:01 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <28-Oct-2000 15:56:58 bf>
@@ -60,6 +60,7 @@ if ( count( $categoryList ) > 0 )
 else
     $t->set_var( "category_list", "" );
 
+$t->set_var( "search_text", $SearchText );
 
 // articles
 $article = new eZArticle();

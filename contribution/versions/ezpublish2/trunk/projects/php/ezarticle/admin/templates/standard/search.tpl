@@ -35,7 +35,7 @@
 <table width="100%" border="0">
 <tr>
 	<td>
-	<h1>{intl-head_line}</h1>
+	<h1>{intl-head_line}: "{search_text}"</h1>
 	</td>
 	<td align="right">
 	<form action="/article/search/" method="post">
