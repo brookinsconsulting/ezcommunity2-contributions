@@ -16,19 +16,19 @@ $GlobalSiteIni =& $ini;
 // Design
 include_once( "ezsession/classes/ezsession.php" );
 
-$session = eZSession::globalSession();
+$session =& eZSession::globalSession();
 
 if ( $session->fetch() == false )
 {
-    $siteDesign = $ini->read_var( "site", "SiteDesign" );
+    $siteDesign =& $ini->read_var( "site", "SiteDesign" );
 }
 else
 {
-    $siteDesign = $session->variable( "SiteDesign" );
-    
+    $siteDesign =& $session->variable( "SiteDesign" );
+
     if ( $siteDesign == "" )
     {
-        $siteDesign = $ini->read_var( "site", "SiteDesign" );
+        $siteDesign =& $ini->read_var( "site", "SiteDesign" );
     }
 }
 

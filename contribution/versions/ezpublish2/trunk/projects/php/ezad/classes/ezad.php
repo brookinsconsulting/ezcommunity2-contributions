@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezad.php,v 1.8 2001/01/02 18:10:22 ce Exp $
+// $Id: ezad.php,v 1.9 2001/01/22 13:41:11 bf Exp $
 //
 // Definition of eZAd class
 //
@@ -49,24 +49,14 @@ class eZAd
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZAd( $id="", $fetch=true )
+    function eZAd( $id="" )
     {
         $this->IsConnected = false;
-
         
         if ( $id != "" )
         {
-
             $this->ID = $id;
-            if ( $fetch == true )
-            {                
-                $this->get( $this->ID );
-            }
-            else
-            {
-                $this->State_ = "Dirty";
-                
-            }
+            $this->get( $this->ID );
         }
         else
         {
@@ -192,9 +182,6 @@ class eZAd
     */
     function &name()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return htmlspecialchars( $this->Name );
     }
 
@@ -203,9 +190,6 @@ class eZAd
     */
     function &description()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return htmlspecialchars( $this->Description );
     }
 
@@ -214,9 +198,6 @@ class eZAd
     */
     function &url()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return htmlspecialchars( $this->URL );
     }
 
@@ -225,9 +206,6 @@ class eZAd
     */
     function &clickPrice()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->ClickPrice;
     }
 
@@ -236,9 +214,6 @@ class eZAd
     */
     function &viewPrice()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return $this->ViewPrice;
     }
 
@@ -247,9 +222,6 @@ class eZAd
     */
     function &url()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        return htmlspecialchars( $this->URL );
     }
     
@@ -258,10 +230,8 @@ class eZAd
     */
     function isActive()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $ret = false;
+       
        if ( $this->IsActive == "true" )
        {
            $ret = true;
@@ -275,9 +245,6 @@ class eZAd
     */
     function &viewStartDate()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $dateTime = new eZDateTime();
        $dateTime->setMySQLTimeStamp( $this->ViewStartDate );
        
@@ -289,9 +256,6 @@ class eZAd
     */
     function &viewStopDate()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $dateTime = new eZDateTime();
        $dateTime->setMySQLTimeStamp( $this->ViewStopDate );
        
@@ -303,9 +267,6 @@ class eZAd
     */
     function setName( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Name = $value;
     }
 
@@ -314,9 +275,6 @@ class eZAd
     */
     function setDescription( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->Description = $value;
     }
 
@@ -325,9 +283,6 @@ class eZAd
     */
     function setURL( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->URL = $value;
     }
 
@@ -336,9 +291,6 @@ class eZAd
     */
     function setClickPrice( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->ClickPrice = $value;
        setType( $this->ClickPrice, "double" );
     }
@@ -348,9 +300,6 @@ class eZAd
     */
     function setViewPrice( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->ViewPrice = $value;
        setType( $this->ViewPrice, "double" );
     }
@@ -360,9 +309,6 @@ class eZAd
     */
     function setIsActive( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        if ( $value == true )
        {
            $this->IsActive = "true";
@@ -380,9 +326,6 @@ class eZAd
     */
     function categories()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->dbInit();
 
        $ret = array();
@@ -403,9 +346,6 @@ class eZAd
     */
     function removeFromCategories()
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-
        $this->dbInit();
 
        $this->Database->query( "DELETE FROM eZAd_AdCategoryLink
@@ -417,9 +357,6 @@ class eZAd
     */
     function setImage( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-        
         if ( get_class( $value ) == "ezimage" )
         {
             $this->dbInit();
@@ -435,8 +372,6 @@ class eZAd
     */
     function deleteImage( $value )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
         
         if ( get_class( $value ) == "ezimage" )
         {
@@ -471,13 +406,27 @@ class eZAd
     }
 
     /*!
+      Adds a pageview to the banner.
+    */
+    function addPageView( $pageView )
+    {
+        if ( get_class( $pageView ) == "ezpageview" )
+        {
+            $this->dbInit();
+
+            $pageViewID = $pageView->id();
+            
+            $this->Database->query( "INSERT INTO eZAd_View SET 
+                                     AdID='$this->ID', PageViewID='$pageViewID',
+                                     ViewPrice='$this->ViewPrice'" );            
+        }
+    }
+
+    /*!
       Returns the total number of times the banner has been viewed.
     */
     function viewCount( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
        $this->dbInit();
 
        $this->Database->array_query( $view_result, "SELECT count(*) AS Count FROM
@@ -492,9 +441,6 @@ class eZAd
     */
     function clickCount( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
        $this->dbInit();
 
        $this->Database->array_query( $click_result, "SELECT count(*) AS Count FROM
@@ -510,9 +456,6 @@ class eZAd
     */
     function totalViewRevenue( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
        $this->dbInit();
 
        $this->Database->array_query( $view_result, "SELECT SUM(ViewPrice) AS Revenue FROM eZAd_View WHERE AdID='$this->ID'" );
@@ -525,9 +468,6 @@ class eZAd
     */
     function totalClickRevenue( )
     {
-       if ( $this->State_ == "Dirty" )
-            $this->get( $this->ID );
-       
        $this->dbInit();
 
        $this->Database->array_query( $click_result, "SELECT SUM(ClickPrice) AS Revenue FROM eZAd_Click WHERE AdID='$this->ID'" );
@@ -544,7 +484,7 @@ class eZAd
     {
         if ( $this->IsConnected == false )
         {
-            $this->Database = new eZDB( "site.ini", "site" );
+            $this->Database = eZDB::globalDatabase();
             $this->IsConnected = true;
         }
     }

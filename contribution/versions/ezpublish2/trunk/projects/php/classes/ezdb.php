@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.30 2001/01/21 18:19:41 jb Exp $
+// $Id: ezdb.php,v 1.31 2001/01/22 13:41:11 bf Exp $
 //
 // Definition of eZDB class
 //
@@ -138,6 +138,7 @@ class eZDB
 
         $offset = count( $array );
 //          if ( count( $result ) > 0 )
+        
         if ( mysql_num_rows( $result ) > 0 )
         { 
             for($i = 0; $i < mysql_num_rows($result); $i++)

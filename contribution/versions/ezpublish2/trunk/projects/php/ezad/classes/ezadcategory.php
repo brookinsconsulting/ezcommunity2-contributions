@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezadcategory.php,v 1.6 2001/01/22 08:12:33 bf Exp $
+// $Id: ezadcategory.php,v 1.7 2001/01/22 13:41:11 bf Exp $
 //
 // Definition of eZAdCategory class
 //
@@ -409,7 +409,7 @@ class eZAdCategory
 
       If does not return un active ads unless $fetchUnActive is set to true.
     */
-    function &ads( $sortMode="time",
+    function &ads( $sortMode="name",
                    $fetchUnActive=false,
                    $offset=0,
                    $limit=50 )
@@ -428,21 +428,29 @@ class eZAdCategory
        {
            $fetchActiveSQL = "AND eZAd_Ad.IsActive = 'true'";
        }
+
+       $orderBySQL = "eZAd_Ad.Name DESC";
+       $orderBySQL = "Count";
            
        $this->Database->array_query( $ad_array, "
-                SELECT eZAd_Ad.ID AS AdID, eZAd_Ad.Name, eZAd_Category.ID, eZAd_Category.Name
-                FROM eZAd_Ad, eZAd_Category, eZAd_AdCategoryLink
+                SELECT eZAd_Ad.ID AS AdID, eZAd_Ad.Name, eZAd_Category.ID, eZAd_Category.Name, Count(*) AS Count
+                FROM eZAd_Ad, eZAd_Category, eZAd_AdCategoryLink, eZAd_View
                 WHERE 
                 eZAd_AdCategoryLink.AdID = eZAd_Ad.ID
+                AND
+                eZAd_View.AdID=eZAd_Ad.ID
                 AND
                 eZAd_Category.ID = eZAd_AdCategoryLink.CategoryID
                 $fetchActiveSQL
                 AND 
                 eZAd_Category.ID='$this->ID'
-                GROUP BY eZAd_Ad.ID ORDER BY eZAd_Ad.Name LIMIT $offset,$limit" );
- 
+                GROUP BY eZAd_Ad.ID ORDER BY $orderBySQL LIMIT $offset,$limit" );
+
+
+
        for ( $i=0; $i<count($ad_array); $i++ )
        {
+//             print( $ad_array[$i]["Count"] );
            $return_array[$i] = new eZAd( $ad_array[$i]["AdID"], false );
        }
        

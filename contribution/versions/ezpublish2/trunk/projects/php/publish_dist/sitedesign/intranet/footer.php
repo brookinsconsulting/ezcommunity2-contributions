@@ -27,13 +27,13 @@
 	<p class="smallbold" align="center"><a href="http://publish.ez.no"><img src="/images/poweredbyezpublish.gif" width="70" height="70" align="center" border="0"></a></p>
 
     <?
-$session = eZSession::globalSession();
-
+    
+$session =& eZSession::globalSession();
 
 if ( $session->fetch() == false )
 {
-    $session = eZSession::globalSession();
-    $session->store();    
+    $session =& eZSession::globalSession();
+    $session->store();
 }
 
 if ( $Design == 1 )

@@ -29,7 +29,7 @@ $session = eZSession::globalSession();
 if ( $session->fetch() == false )
 {
     $session = eZSession::globalSession();
-    $session->store();    
+    $session->store();
 }
 
 if ( $Design == 2 )

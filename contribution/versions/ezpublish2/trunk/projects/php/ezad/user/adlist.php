@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: adlist.php,v 1.9 2000/12/23 15:10:04 bf Exp $
+// $Id: adlist.php,v 1.10 2001/01/22 13:41:11 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <25-Nov-2000 15:44:37 bf>
@@ -42,7 +42,7 @@ if ( !isset( $Limit ) )
     $Limit = 1;
     
 // ads
-$adList =& $category->ads( "time", false, 0, $Limit );
+$adList =& $category->ads( "count", false, 0, $Limit );
 
 foreach ( $adList as $ad )
 {
@@ -58,13 +58,7 @@ foreach ( $adList as $ad )
         $imgHeight =& $image->height();
     }
 
-//      // store the view statistics
-//      $view = new eZAdView();
-//      $view->setAd( $ad );
-//      $view->setUser( $user );
-//      $view->setVisitorIP( $REMOTE_ADDR );
-//      $view->setPrice( $ad->viewPrice() );
-//      $view->store();
+    $ad->addPageView( $GlobalPageView );
 
 	print( "<a target=\"_blank\" href=\"/ad/goto/$adID/\"><img src=\"$imgSRC\" width=\"$imgWidth\" height=\"$imgHeight\" border=\"0\" alt=\"\" /></a><br />" );
 }

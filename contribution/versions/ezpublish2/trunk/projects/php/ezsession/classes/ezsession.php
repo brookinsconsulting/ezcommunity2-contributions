@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.21 2001/01/22 07:12:05 bf Exp $
+// $Id: ezsession.php,v 1.22 2001/01/22 13:41:11 bf Exp $
 //
 // Definition of eZSession class
 //
@@ -146,12 +146,11 @@ class eZSession
             }
             else if ( count( $session_array ) == 1 )
             {
-                $this->ID = $session_array[0][ "ID" ];
-                $this->Hash = $session_array[0][ "Hash" ];
-                $this->LastAccessed = $session_array[0][ "LastAccessed" ];
-                $this->SecondLastAccessed = $session_array[0][ "SecondLastAccessed" ];
-                $this->Created = $session_array[0][ "Created" ];
-                
+                $this->ID =& $session_array[0][ "ID" ];
+                $this->Hash =& $session_array[0][ "Hash" ];
+                $this->LastAccessed =& $session_array[0][ "LastAccessed" ];
+                $this->SecondLastAccessed =& $session_array[0][ "SecondLastAccessed" ];
+                $this->Created =& $session_array[0][ "Created" ];
 
                 $ret = true;
             }
@@ -169,6 +168,7 @@ class eZSession
     function fetch( $refresh=true )
     {
         $ret = false;
+
         
         $globalSessionIsFetched =& $GLOBALS["eZSessionObjectIsFetched"];
         if ( $globalSessionIsFetched != "true" )
@@ -209,7 +209,7 @@ class eZSession
         {
             $ret = true;
         }
-        
+
         return $ret;
     }
 
@@ -371,24 +371,24 @@ class eZSession
     function setVariable( $name, $value )
     {
         $db =& eZDB::globalDatabase();
-
-       $db->array_query( $value_array, "SELECT ID FROM eZSession_SessionVariable
+        
+        $db->array_query( $value_array, "SELECT ID FROM eZSession_SessionVariable
                                                     WHERE SessionID='$this->ID' AND Name='$name'" );       
-       if ( count( $value_array ) == 1 )
-       {
-           $valueID = $value_array[0]["ID"];
-           $db->query( "UPDATE eZSession_SessionVariable SET
+        if ( count( $value_array ) == 1 )
+        {
+            $valueID = $value_array[0]["ID"];
+            $db->query( "UPDATE eZSession_SessionVariable SET
 		                         Value='$value' WHERE ID='$valueID'
                                  " );
-       }
-       else
-       {
-           $db->query( "INSERT INTO eZSession_SessionVariable SET
+        }
+        else
+        {
+            $db->query( "INSERT INTO eZSession_SessionVariable SET
 		                         SessionID='$this->ID',
 		                         Name='$name',
 		                         Value='$value'
                                  " );
-       }       
+        }       
     }
 
     /*!
@@ -406,6 +406,7 @@ class eZSession
         {
             $session = new eZSession( $id, $fetch );
         }
+
         return $session;
     }
 

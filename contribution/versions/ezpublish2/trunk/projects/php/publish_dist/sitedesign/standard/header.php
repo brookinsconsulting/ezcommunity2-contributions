@@ -63,7 +63,7 @@ include( "ezlink/user/menubox.php" );
     <!-- Banner -->
     <center>
         <?
-        $CategoryID = 1;
+        $CategoryID = 4;
         $Limit = 1; 
         include( "ezad/user/adlist.php" );
         ?>
