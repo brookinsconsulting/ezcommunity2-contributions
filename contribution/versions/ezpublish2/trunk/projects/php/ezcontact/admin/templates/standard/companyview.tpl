@@ -80,7 +80,7 @@
 	<!-- END address_item_tpl -->
 	<!-- BEGIN no_address_item_tpl -->
 	<td>
-	<p>{intl-error_no_address}</p>
+	<p>{intl-error_no_addresses}</p>
 	</td>
 	<!-- END no_address_item_tpl -->
 </tr>
@@ -220,6 +220,8 @@
 <input class="okbutton" type="submit" name="Edit" value="{intl-edit}">
 <input type="submit" name="Delete" value="{intl-delete}" />
 <input type="submit" name="Back" value="{intl-list}">
+<!-- BEGIN consultation_buttons_tpl -->
 <input type="submit" name="ListConsultation" value="{intl-consultation_list}">
 <input type="submit" name="NewConsultation" value="{intl-consultation}">
+<!-- END consultation_buttons_tpl -->
 </form>
