@@ -48,6 +48,8 @@
 <br /><br />
   <input type="checkbox" name="IsPrivate" value="true" {private_checked}>&nbsp;{intl-private}</input>
 <br />
+
+
 <!-- inserted files -->
 <h2>{intl-avaliable_patches}:</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
@@ -76,6 +78,9 @@
 <!-- END file_tpl -->
 
 </table>
+
+
+
 <!-- inserted Images -->
 <h2>{intl-avaliable_screenshots}:</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
@@ -114,6 +119,7 @@
   	<td><input name="InsertImage" class="stdbutton" type="submit" value="{intl-add_screenshot}" /></td>
   	<td>&nbsp; </td>
   	<td><input name="InsertFile" class="stdbutton" type="submit" value="{intl-add_patch}" /></td>
+</tr>
 </table>
 
 <hr noshade="noshade" size="4">
