@@ -3183,3 +3183,21 @@ Maintainer(s) : bf@ez.no
     * classes/ezarticle.php:
     Fixed returning to big result in some permission settings.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2002-04-23  bf  <bf@zev.ez.no>
+
+    * admin/articleedit.php
+      user/articleedit.php
+      user/datasupplier.php: Fixed permission bug.
+
+    * xmlrpc/article.php:
+    Fixed notification bug when articles got published from eZ publish DE.
+
+2002-04-23  jhe  <jhe@zev.ez.no>
+
+    * admin/datasupplier.php:
+    cancel in category edit now redirects to the category
+
