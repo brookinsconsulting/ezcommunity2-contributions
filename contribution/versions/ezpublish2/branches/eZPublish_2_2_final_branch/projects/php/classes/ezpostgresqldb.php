@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpostgresqldb.php,v 1.11.2.1 2001/11/23 14:27:25 bf Exp $
+// $Id: ezpostgresqldb.php,v 1.11.2.2 2002/02/06 15:55:10 jhe Exp $
 //
 // Definition of eZPostgreSQLLDB class
 //
@@ -89,12 +89,12 @@ class eZPostgreSQLDB
         {
             $params = $min;
             
-            if ( is_numeric( $params["Limit"] ) )
+            if ( isset( $params["Limit"] ) and is_numeric( $params["Limit"] ) )
             {
                 $limit = $params["Limit"];
             }
 
-            if ( is_numeric( $params["Offset"] ) )
+            if ( isset( $params["Offset"] ) and is_numeric( $params["Offset"] ) )
             {
                 $offset = $params["Offset"];
             }
