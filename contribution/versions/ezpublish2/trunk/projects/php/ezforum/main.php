@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: main.php,v 1.3 2000/07/18 09:47:06 lw Exp $
+    $Id: main.php,v 1.4 2000/07/24 12:32:51 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -16,6 +16,7 @@ include( "$DOCROOT/classes/ezdb.php" );
 include( "$DOCROOT/classes/ezforumcategory.php" );
 include( "$DOCROOT/classes/ezuser.php" );
 include( "$DOCROOT/classes/ezsession.php" );
+include( "$DOCROOT/classes/ezforummessage.php" );
 
 //preliminary setup
 $cat = new eZforumCategory;
@@ -26,7 +27,10 @@ $t = new Template(".");
 $t->set_file( array("main" => "$DOCROOT/templates/main.tpl",
                     "elements" => "$DOCROOT/templates/main-elements.tpl",
                     "login" => "$DOCROOT/templates/main-login.tpl",
-                    "logout" => "$DOCROOT/templates/main-logout.tpl"
+                    "logout" => "$DOCROOT/templates/main-logout.tpl",
+                    "search" => "$DOCROOT/templates/main-search.tpl",
+                    "results" => "$DOCROOT/templates/main-search-results.tpl",
+                    "elements" => "$DOCROOT/templates/main-search-results-elements.tpl"
                     ) );
 
 $t->set_var( "docroot", $DOCROOT);
@@ -49,7 +53,31 @@ for ($i = 0; $i < count($categories); $i++)
     else
         $t->set_var( "color", "#bbbbbb" );
             
-    $t->parse( "categories", "elements", true);
+    $t->parse( "categories", "elements", true );
+}
+
+//search field
+if ( $search )
+{
+    $criteria = addslashes( $criteria );
+    $headers = eZforumMessage::search( $criteria );
+
+    for ( $i = 0; $i < count ( $headers ); $i++)
+    {
+        $t->set_var( "nr", $i + 1 );
+        $t->set_var( "", $headers[$i]["Topic"] );
+        $t->set_var( "", eZUser::resolveUser( $headers[$i]["UserId"] ) );
+        $t->set_var( "", $headers[$i]["PostingTime"] );
+        //$t->set_var( "forum",  );
+        $t->set_var( "forum", "&nbsp;" );
+
+        $t->parse( "fields", "elements", true );
+    }
+    $t->parse( "searchfield", "results", true );
+}
+else
+{
+    $t->parse( "searchfield", "search" );
 }
 
 // login / logout

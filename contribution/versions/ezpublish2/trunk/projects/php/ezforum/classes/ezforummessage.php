@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezforummessage.php,v 1.8 2000/07/24 10:39:03 lw-cvs Exp $
+    $Id: ezforummessage.php,v 1.9 2000/07/24 12:32:51 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -145,9 +145,18 @@ class eZforumMessage
             or die("delete()");    
     }
         
-    function search()
+    function search( $criteria )
     {
-        // not implemented
+        openDB();
+
+        $query_id = mysql_query( "SELECT Id, Topic, Author, Parent, PostingTime, UserId FROM MessageTable
+                      WHERE Topic LIKE '%$criteria%' OR Body LIKE '%$critria%'" )
+            or die("Could not execute search, dying...");
+
+        for ( $i = 0; $i < mysql_num_rows( $query_id ); $i++ )
+            $resultArray[$i] = mysql_fetch_array( $query_id );
+
+        return $resultArray;
     }
     
     function id()
