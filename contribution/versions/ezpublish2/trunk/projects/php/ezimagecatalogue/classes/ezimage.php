@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimage.php,v 1.45 2001/04/05 14:07:23 bf Exp $
+// $Id: ezimage.php,v 1.46 2001/05/04 16:37:24 descala Exp $
 //
 // Definition of eZImage class
 //
@@ -160,7 +160,7 @@ class eZImage
                                  " );
         }
         
-        $this->ID = mysql_insert_id();
+		$this->ID = $this->Database->insertID();
 
         $this->State_ = "Coherent";
     }
@@ -1189,3 +1189,4 @@ class eZImage
 }
 
 ?>
+ 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfolder.php,v 1.17 2001/05/04 10:40:50 ce Exp $
+// $Id: ezvirtualfolder.php,v 1.18 2001/05/04 16:37:24 descala Exp $
 //
 // Definition of eZVirtualFolder class
 //
@@ -84,7 +84,8 @@ class eZVirtualFolder
                                  Description='$description',
                                  UserID='$this->UserID',
                                  ParentID='$this->ParentID'", true );
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
+
         }
         else
         {
@@ -534,3 +535,4 @@ class eZVirtualFolder
 
 ?>
 
+ 

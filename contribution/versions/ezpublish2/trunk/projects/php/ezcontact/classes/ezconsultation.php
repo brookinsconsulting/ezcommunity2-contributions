@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezconsultation.php,v 1.13 2001/04/06 13:17:03 jb Exp $
+// $Id: ezconsultation.php,v 1.14 2001/05/04 16:37:24 descala Exp $
 //
 // Definition of eZConsultation class
 //
@@ -97,7 +97,7 @@ class eZConsultation
                                                   StateID='$this->State',
                                                   EmailNotifications='$this->EmailNotice',
 	                                              Date='$date'" );
-            $this->ID = mysql_insert_id();
+			$this->ID = $db->insertID();
             $this->State_ = "Coherent";
         }
         else
@@ -673,3 +673,4 @@ class eZConsultation
 }
 
 ?>
+ 

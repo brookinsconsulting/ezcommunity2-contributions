@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailaccount.php,v 1.22 2001/04/27 13:29:51 fh Exp $
+// $Id: ezmailaccount.php,v 1.23 2001/05/04 16:37:25 descala Exp $
 //
 // eZMailAccount class
 //
@@ -130,7 +130,7 @@ class eZMailAccount
                                  ServerPort='$this->ServerPort'
                                  " );
 
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
 
             $this->State_ = "Coherent";
         }
@@ -554,3 +554,4 @@ class eZMailAccount
 }
 
 ?>
+ 

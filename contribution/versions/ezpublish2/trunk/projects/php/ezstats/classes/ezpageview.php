@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageview.php,v 1.9 2001/04/26 09:03:53 bf Exp $
+// $Id: ezpageview.php,v 1.10 2001/05/04 16:37:26 descala Exp $
 //
 // Definition of eZPageView class
 //
@@ -88,7 +88,7 @@ class eZPageView
                                  BrowserType='$userAgent'
                                  " );
                 
-                $this->BrowserTypeID = mysql_insert_id();
+				$this->ID = $db->insertID();
             }
             else
             {
@@ -119,7 +119,7 @@ class eZPageView
                                  " );
 
 
-                $this->RemoteHostID = mysql_insert_id();
+				$this->ID = $db->insertID();
             }
             else
             {
@@ -158,7 +158,7 @@ class eZPageView
                                  URI='$refererURI'
                                  " );
                 
-                $this->RefererURLID = mysql_insert_id();
+				$this->ID = $db->insertID();
             }
             else
             {
@@ -188,7 +188,7 @@ class eZPageView
                                  URI='$requestURI'
                                  " );
                 
-                $this->RequestPageID = mysql_insert_id();
+				$this->ID = $db->insertID();
             }
             else
             {
@@ -222,7 +222,7 @@ class eZPageView
 
             $db->query( "UNLOCK TABLES" );
             
-            $this->ID = mysql_insert_id();            
+			$this->ID = $db->insertID();      
         }
         else
         {
@@ -386,3 +386,4 @@ class eZPageView
 }
 
 ?>
+ 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductcategory.php,v 1.36 2001/03/27 11:09:04 ce Exp $
+// $Id: ezproductcategory.php,v 1.37 2001/05/04 16:37:26 descala Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -128,7 +128,7 @@ class eZProductCategory
                                  SortMode='$this->SortMode',
                                  RemoteID='$this->RemoteID',
                                  Parent='$this->Parent'" );
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
         }
         else
         {
@@ -889,3 +889,4 @@ class eZProductCategory
 }
 
 ?>
+ 

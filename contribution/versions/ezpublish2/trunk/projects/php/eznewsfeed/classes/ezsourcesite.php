@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsourcesite.php,v 1.5 2001/04/04 16:47:25 fh Exp $
+// $Id: ezsourcesite.php,v 1.6 2001/05/04 16:37:25 descala Exp $
 //
 // Definition of eZSourceSite class
 //
@@ -100,7 +100,7 @@ class eZSourceSite
                                  AutoPublish='$this->AutoPublish'
                                  " );
 
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
 
             $this->State_ = "Coherent";
             $ret = true;
@@ -446,3 +446,4 @@ class eZSourceSite
 
 ?>
 
+ 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezcompany.php,v 1.69 2001/04/05 09:27:29 fh Exp $
+// $Id: ezcompany.php,v 1.70 2001/05/04 16:37:24 descala Exp $
 //
 // Definition of eZProduct class
 //
@@ -96,7 +96,7 @@ class eZCompany
                                  CreatorID='$this->CreatorID'
                                  $query_cond" );
         if ( !isset( $this->ID ) or !is_numeric( $this->ID ) )
-            $this->ID = mysql_insert_id();
+			$this->ID = $db->insertID();
 
         return true;
     }
@@ -1158,3 +1158,4 @@ class eZCompany
 }
 
 ?>
+ 

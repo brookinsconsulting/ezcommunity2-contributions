@@ -1,5 +1,5 @@
 <?
-// $Id: eztodo.php,v 1.21 2001/04/30 14:33:41 ce Exp $
+// $Id: eztodo.php,v 1.22 2001/05/04 16:37:26 descala Exp $
 //
 // Definition of eZTodo class
 //
@@ -72,7 +72,7 @@ class eZTodo
                                      Status='$this->Status',
                                      Date=now(),
                                      IsPublic='$this->IsPublic'" );
-            $this->ID =  mysql_insert_id();
+			$this->ID = $this->Database->insertID();
 
             $this->State_ = "Coherent";
         }
@@ -613,3 +613,4 @@ class eZTodo
     /// Is true if the object has database connection, false if not.
     var $IsConnected;
 }
+ 

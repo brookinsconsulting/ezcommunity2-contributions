@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoptionvalue.php,v 1.24 2001/03/26 19:18:32 jb Exp $
+// $Id: ezoptionvalue.php,v 1.25 2001/05/04 16:37:26 descala Exp $
 //
 // Definition of eZOptionValue class
 //
@@ -85,7 +85,7 @@ class eZOptionValue
                                  RemoteID='$this->RemoteID',
                                  OptionID='$this->OptionID'" );
 
-            $this->ID = mysql_insert_id();
+			$this->ID = $db->insertID();
         }
         else
         {
@@ -399,3 +399,4 @@ class eZOptionValue
 }
 
 ?>
+ 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductattribute.php,v 1.5 2001/04/17 14:26:02 ce Exp $
+// $Id: ezproductattribute.php,v 1.6 2001/05/04 16:37:26 descala Exp $
 //
 // Definition of eZProductAttribute class
 //
@@ -98,7 +98,7 @@ class eZProductAttribute
 		                         Unit='$this->Unit',
 		                         Created=now()" );
         
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
             $this->State_ = "Coherent";
         }
         else
@@ -422,3 +422,4 @@ class eZProductAttribute
 }
 
 ?>
+ 

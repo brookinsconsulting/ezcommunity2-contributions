@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezpermission.php,v 1.13 2001/05/04 13:50:45 bf Exp $
+// $Id: ezpermission.php,v 1.14 2001/05/04 16:37:27 descala Exp $
 //
 // Definition of eZCompany class
 //
@@ -145,7 +145,7 @@ class eZPermission
 		                         Name='$name',
                                  ModuleID='$this->ModuleID'
                                  " );
-                    $this->ID = mysql_insert_id();
+					$this->ID = $this->Database->insertID();
                 }
                 else
                 {
@@ -504,3 +504,4 @@ class eZPermission
 }
 
 ?>
+ 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewscategory.php,v 1.10 2001/04/04 16:47:25 fh Exp $
+// $Id: eznewscategory.php,v 1.11 2001/05/04 16:37:25 descala Exp $
 //
 // Definition of eZNewsCategory class
 //
@@ -81,7 +81,7 @@ class eZNewsCategory
 		                         Name='$name',
                                  Description='$description',
                                  ParentID='$this->ParentID'" );
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
         }
         else
         {
@@ -547,3 +547,4 @@ class eZNewsCategory
 ?>
 
 
+ 

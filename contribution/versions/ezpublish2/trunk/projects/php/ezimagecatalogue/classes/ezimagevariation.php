@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagevariation.php,v 1.18 2001/04/05 14:07:23 bf Exp $
+// $Id: ezimagevariation.php,v 1.19 2001/05/04 16:37:25 descala Exp $
 //
 // Definition of eZImageVariation class
 //
@@ -82,7 +82,7 @@ class eZImageVariation
                                  Modification='$this->Modification'
                                  " );
         
-        $this->ID = mysql_insert_id();
+		$this->ID = $this->Database->insertID();
 
         $this->State_ = "Coherent";
     }
@@ -411,3 +411,4 @@ class eZImageVariation
 }
 
 ?>
+ 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmailsubscriptionaddress.php,v 1.6 2001/04/26 15:16:50 fh Exp $
+// $Id: ezbulkmailsubscriptionaddress.php,v 1.7 2001/05/04 16:37:24 descala Exp $
 //
 // eZBulkMailSubscriptionAddress class
 //
@@ -68,7 +68,7 @@ class eZBulkMailSubscriptionAddress
                                  EMail='$this->EMail',
                                  Password='$password'
                                  " );
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
         }
         else
         {
@@ -299,3 +299,4 @@ class eZBulkMailSubscriptionAddress
 }
 
 ?>
+ 

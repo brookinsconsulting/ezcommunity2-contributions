@@ -1,7 +1,7 @@
 <?
 
 // 
-// $Id: ezcompanytype.php,v 1.30 2001/05/03 14:23:35 jb Exp $
+// $Id: ezcompanytype.php,v 1.31 2001/05/04 16:37:24 descala Exp $
 //
 // Definition of eZCompanyType class
 //
@@ -69,7 +69,7 @@ class eZCompanyType
         {
             $db->query( "INSERT INTO eZContact_CompanyType set Name='$name', Description='$description',  ImageID='$this->ImageID', ParentID='$this->ParentID'" );
 
-            $this->ID = mysql_insert_id();
+			$this->ID = $db->insertID();
 
             $ret = true;
         }
@@ -462,3 +462,4 @@ class eZCompanyType
 }
 
 ?>
+ 

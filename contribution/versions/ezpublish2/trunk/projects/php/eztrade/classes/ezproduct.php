@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproduct.php,v 1.57 2001/05/04 14:49:44 jb Exp $
+// $Id: ezproduct.php,v 1.58 2001/05/04 16:37:26 descala Exp $
 //
 // Definition of eZProduct class
 //
@@ -150,7 +150,7 @@ class eZProduct
                                  ShippingGroupID='$this->ShippingGroupID'
                                  " );
 
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
 
             $this->State_ = "Coherent";
         }
@@ -1649,3 +1649,4 @@ class eZProduct
 }
 
 ?>
+ 

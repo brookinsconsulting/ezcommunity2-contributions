@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvirtualfile.php,v 1.26 2001/05/04 10:40:50 ce Exp $
+// $Id: ezvirtualfile.php,v 1.27 2001/05/04 16:37:24 descala Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -89,7 +89,7 @@ class eZVirtualfile
                                  OriginalFileName='$originalfilename',
                                  UserID='$this->UserID'
                                  " );
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
         }
         else
         {
@@ -765,3 +765,4 @@ class eZVirtualfile
 }
 
 ?>
+ 

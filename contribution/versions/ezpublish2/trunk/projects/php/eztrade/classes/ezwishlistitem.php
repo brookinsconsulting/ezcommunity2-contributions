@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezwishlistitem.php,v 1.7 2001/03/11 13:33:29 bf Exp $
+// $Id: ezwishlistitem.php,v 1.8 2001/05/04 16:37:27 descala Exp $
 //
 // Definition of eZWishItem class
 //
@@ -100,7 +100,7 @@ class eZWishListItem
 		                         IsBought='$this->IsBought'
                                  " );
 
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
 
             $this->State_ = "Coherent";
         }
@@ -467,3 +467,4 @@ class eZWishListItem
 }
 
 ?>
+ 

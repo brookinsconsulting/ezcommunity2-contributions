@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezadcategory.php,v 1.17 2001/04/05 09:02:37 fh Exp $
+// $Id: ezadcategory.php,v 1.18 2001/05/04 16:37:23 descala Exp $
 //
 // Definition of eZAdCategory class
 //
@@ -83,7 +83,7 @@ class eZAdCategory
 		                         Name='$name',
                                  Description='$description',
                                  ParentID='$this->ParentID'" );
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
         }
         else
         {
@@ -570,3 +570,4 @@ class eZAdCategory
 
 ?>
 
+ 

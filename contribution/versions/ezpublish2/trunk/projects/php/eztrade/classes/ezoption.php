@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezoption.php,v 1.17 2001/03/12 14:13:30 jb Exp $
+// $Id: ezoption.php,v 1.18 2001/05/04 16:37:26 descala Exp $
 //
 // Definition of eZOption class
 //
@@ -108,7 +108,7 @@ class eZOption
 		                         Name='$this->Name',
                                  Description='$this->Description'" );
 
-            $this->ID = mysql_insert_id();
+			$this->ID = $db->insertID();
         }
         else
         {
@@ -326,3 +326,4 @@ class eZOption
 }
 
 ?>
+ 

@@ -46,7 +46,7 @@ class eZAddressType
             $this->ListOrder = $listorder;
 
             $db->query( "INSERT INTO eZAddress_AddressType set Name='$name', ListOrder='$this->ListOrder'" );
-            $this->ID = mysql_insert_id();
+			$this->ID = $db->insertID();
 
             $ret = true;
         }
@@ -274,3 +274,4 @@ class eZAddressType
 }
 
 ?>
+ 

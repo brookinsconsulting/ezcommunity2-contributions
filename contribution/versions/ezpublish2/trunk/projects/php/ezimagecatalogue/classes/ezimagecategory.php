@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezimagecategory.php,v 1.12 2001/04/04 16:02:50 fh Exp $
+// $Id: ezimagecategory.php,v 1.13 2001/05/04 16:37:25 descala Exp $
 //
 // Definition of eZImageCategory class
 //
@@ -82,7 +82,7 @@ class eZImageCategory
                                  Description='$description',
                                  UserID='$this->UserID',
                                  ParentID='$this->ParentID'" );
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
         }
         else
         {
@@ -739,3 +739,4 @@ class eZImageCategory
 
 ?>
 
+ 

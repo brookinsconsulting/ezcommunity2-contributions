@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.58 2001/04/30 12:10:33 fh Exp $
+// $Id: ezarticlecategory.php,v 1.59 2001/05/04 16:37:23 descala Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -89,7 +89,8 @@ class eZArticleCategory
                                  Placement='$this->Placement',  
                                  OwnerID='$this->OwnerID',
                                  ParentID='$this->ParentID'" );
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
+
             $this->Database->query( "UPDATE eZArticle_Category SET Placement=ID WHERE ID='$this->ID'" );
         }
         else
@@ -1070,3 +1071,4 @@ class eZArticleCategory
 
 ?>
 
+ 

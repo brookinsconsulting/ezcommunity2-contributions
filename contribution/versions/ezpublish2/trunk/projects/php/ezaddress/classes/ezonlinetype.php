@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezonlinetype.php,v 1.2 2001/04/05 09:12:15 fh Exp $
+// $Id: ezonlinetype.php,v 1.3 2001/05/04 16:37:23 descala Exp $
 //
 // Definition of eZOnline class
 //
@@ -86,7 +86,7 @@ class eZOnlineType
                          PrefixLink='$this->PrefixLink',
                          PrefixVisual='$this->PrefixVisual'" );
 
-            $this->ID = mysql_insert_id();
+			$this->ID = $db->insertID();
 
             $ret = true;
         }
@@ -378,3 +378,4 @@ class eZOnlineType
 }
 
 ?>
+ 

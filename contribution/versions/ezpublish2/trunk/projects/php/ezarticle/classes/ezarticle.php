@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.76 2001/04/30 10:44:59 jb Exp $
+// $Id: ezarticle.php,v 1.77 2001/05/04 16:37:23 descala Exp $
 //
 // Definition of eZArticle class
 //
@@ -136,7 +136,7 @@ class eZArticle
                                  Created=now()
                                  " );
 
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
 
             $this->State_ = "Coherent";
         }
@@ -1713,3 +1713,4 @@ class eZArticle
 
 
 ?>
+ 

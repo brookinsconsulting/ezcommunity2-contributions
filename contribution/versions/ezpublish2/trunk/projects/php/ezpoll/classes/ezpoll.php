@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpoll.php,v 1.17 2001/04/04 16:10:48 fh Exp $
+// $Id: ezpoll.php,v 1.18 2001/05/04 16:37:25 descala Exp $
 //
 // Definition of eZPoll class
 //
@@ -104,7 +104,7 @@ class eZPoll
                                  Anonymous='$this->Anonymous',
                                  IsClosed='$this->IsClosed' ");
 
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
 
             $this->State_ = "Coherent";
         }
@@ -466,3 +466,4 @@ class eZPoll
     var $State_;
     var $IsConnected;
 }
+ 

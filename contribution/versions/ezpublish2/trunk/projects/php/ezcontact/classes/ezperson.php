@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezperson.php,v 1.51 2001/04/06 13:17:03 jb Exp $
+// $Id: ezperson.php,v 1.52 2001/05/04 16:37:24 descala Exp $
 //
 // Definition of eZPerson class
 //
@@ -78,7 +78,7 @@ class eZPerson
 	                                                Comment='$comment',
 	                                                BirthDate=$birth,
                                                     ContactTypeID='$this->ContactType'" );
-            $this->ID = mysql_insert_id();
+			$this->ID = $db->insertID();
         }
         else
         {
@@ -974,3 +974,4 @@ class eZPerson
 };
 
 ?>
+ 

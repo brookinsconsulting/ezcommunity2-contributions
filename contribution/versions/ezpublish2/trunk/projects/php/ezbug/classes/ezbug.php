@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbug.php,v 1.23 2001/04/27 15:28:39 fh Exp $
+// $Id: ezbug.php,v 1.24 2001/05/04 16:37:23 descala Exp $
 //
 // Definition of eZBug class
 //
@@ -130,7 +130,8 @@ class eZBug
                                  OwnerID='$this->OwnerID',
                                  Version='$version',
                                  IsPrivate='$this->IsPrivate'" );
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
+
         }
         else
         {
@@ -906,3 +907,4 @@ class eZBug
 }
 
 ?>
+ 

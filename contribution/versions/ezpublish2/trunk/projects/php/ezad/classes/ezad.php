@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezad.php,v 1.18 2001/04/30 16:04:47 bf Exp $
+// $Id: ezad.php,v 1.19 2001/05/04 16:37:23 descala Exp $
 //
 // Definition of eZAd class
 //
@@ -93,7 +93,7 @@ class eZAd
                                  UseHTML='$this->UseHTML'
                                  " );
 
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
 
             $this->State_ = "Coherent";
         }
@@ -595,3 +595,4 @@ class eZAd
 
 
 ?>
+ 

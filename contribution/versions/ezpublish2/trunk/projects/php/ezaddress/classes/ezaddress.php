@@ -1,5 +1,5 @@
 <?
-// $Id: ezaddress.php,v 1.7 2001/04/05 09:12:15 fh Exp $
+// $Id: ezaddress.php,v 1.8 2001/05/04 16:37:23 descala Exp $
 //
 // Definition of eZAddress class
 //
@@ -80,7 +80,7 @@ class eZAddress
                     CountryID=$country_id,
                     AddressTypeID='$this->AddressTypeID'" );
 
-            $this->ID = mysql_insert_id();
+			$this->ID = $db->insertID();
 
             $ret = true;
         }
@@ -369,3 +369,4 @@ class eZAddress
 }
 
 ?>
+ 

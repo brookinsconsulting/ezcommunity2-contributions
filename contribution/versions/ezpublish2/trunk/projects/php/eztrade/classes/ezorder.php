@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezorder.php,v 1.31 2001/03/26 16:19:37 bf Exp $
+// $Id: ezorder.php,v 1.32 2001/05/04 16:37:26 descala Exp $
 //
 // Definition of eZOrder class
 //
@@ -89,7 +89,7 @@ class eZOrder
 		                         ShippingCharge='$this->ShippingCharge'
                                  " );
 
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
 
             // store the status
             $statusType = new eZOrderStatusType( );
@@ -710,3 +710,4 @@ class eZOrder
 }
 
 ?>
+ 

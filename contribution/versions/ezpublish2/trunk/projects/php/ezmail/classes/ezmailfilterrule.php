@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmailfilterrule.php,v 1.7 2001/04/23 13:41:49 ce Exp $
+// $Id: ezmailfilterrule.php,v 1.8 2001/05/04 16:37:25 descala Exp $
 //
 // eZMailFilterRule class
 //
@@ -121,7 +121,7 @@ class eZMailFilterRule
                                  IsActive='$this->IsActive'
                                  " );
 
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
 
             $this->State_ = "Coherent";
         }
@@ -588,3 +588,4 @@ class eZMailFilter
 }
 
 ?>
+ 

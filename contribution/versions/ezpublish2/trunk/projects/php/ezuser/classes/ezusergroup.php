@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezusergroup.php,v 1.22 2001/05/04 09:58:09 fh Exp $
+// $Id: ezusergroup.php,v 1.23 2001/05/04 16:37:27 descala Exp $
 //
 // Definition of eZCompany class
 //
@@ -102,7 +102,7 @@ class eZUserGroup
                                  Description='$description',
                                  SessionTimeout='$this->SessionTimeout',
                                  IsRoot='$this->IsRoot'" );
-            $this->ID = mysql_insert_id();
+			$this->ID = $db->insertID();
         }
         else
         {
@@ -459,3 +459,4 @@ class eZUserGroup
 }
 
 ?>
+ 

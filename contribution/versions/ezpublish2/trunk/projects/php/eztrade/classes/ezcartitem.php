@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartitem.php,v 1.10 2001/03/12 10:34:38 bf Exp $
+// $Id: ezcartitem.php,v 1.11 2001/05/04 16:37:26 descala Exp $
 //
 // Definition of eZCartItem class
 //
@@ -91,7 +91,7 @@ class eZCartItem
 		                         WishListItemID='$this->WishListItemID'
                                  " );
 
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
 
             $this->State_ = "Coherent";
         }
@@ -373,3 +373,4 @@ class eZCartItem
 }
 
 ?>
+ 

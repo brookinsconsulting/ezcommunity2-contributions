@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznews.php,v 1.13 2001/04/30 16:04:47 bf Exp $
+// $Id: eznews.php,v 1.14 2001/05/04 16:37:25 descala Exp $
 //
 // Definition of eZNews class
 //
@@ -132,7 +132,7 @@ class eZNews
                                  URL='$url'
                                  " );
 
-                $this->ID = mysql_insert_id();
+				$this->ID = $this->Database->insertID();
                 $ret = true;
                 $this->State_ = "Coherent";
             }
@@ -674,3 +674,4 @@ class eZNews
 
 ?>
 
+ 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbuglog.php,v 1.3 2001/04/04 15:21:44 fh Exp $
+// $Id: ezbuglog.php,v 1.4 2001/05/04 16:37:23 descala Exp $
 //
 // Definition of eZBugLog class
 //
@@ -80,7 +80,7 @@ class eZBugLog
                                  Description='$description',
                                  BugID='$this->BugID',
                                  UserID='$this->UserID'" );
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
         }
         else
         {
@@ -326,3 +326,4 @@ class eZBugLog
 }
 
 ?>
+ 

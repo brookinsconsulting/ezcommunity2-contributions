@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezwishlist.php,v 1.4 2001/01/17 10:23:29 bf Exp $
+// $Id: ezwishlist.php,v 1.5 2001/05/04 16:37:27 descala Exp $
 //
 // Definition of eZWishList class
 //
@@ -107,7 +107,7 @@ class eZWishList
 		                         IsPublic='$this->IsPublic'
                                  " );
 
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
 
             $this->State_ = "Coherent";
         }
@@ -392,3 +392,4 @@ class eZWishList
 }
 
 ?>
+ 

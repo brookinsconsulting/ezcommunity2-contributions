@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezuser.php,v 1.64 2001/05/04 09:58:09 fh Exp $
+// $Id: ezuser.php,v 1.65 2001/05/04 16:37:27 descala Exp $
 //
 // Definition of eZCompany class
 //
@@ -122,7 +122,7 @@ class eZUser
                                  Signature='$signature',
                                  CookieLogin='$this->CookieLogin',
 				                 SimultaneousLogins='$this->SimultaneousLogins'" );
-            $this->ID = mysql_insert_id();
+			$this->ID = $db->insertID();
 
         }
         else
@@ -974,3 +974,4 @@ class eZUser
 }
 
 ?>
+ 

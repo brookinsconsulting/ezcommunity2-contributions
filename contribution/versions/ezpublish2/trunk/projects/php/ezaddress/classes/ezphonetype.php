@@ -138,7 +138,7 @@ class eZPhoneType
 
             $db->query( "INSERT INTO eZAddress_PhoneType set Name='$name', ListOrder='$this->ListOrder'" );
             
-            $this->ID = mysql_insert_id();
+			$this->ID = $db->insertID();
 
             $ret = true;
         }
@@ -285,3 +285,4 @@ class eZPhoneType
 }
 
 ?>
+ 

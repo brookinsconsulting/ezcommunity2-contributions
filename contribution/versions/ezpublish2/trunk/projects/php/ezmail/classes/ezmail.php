@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.23 2001/05/02 14:47:32 fh Exp $
+// $Id: ezmail.php,v 1.24 2001/05/04 16:37:25 descala Exp $
 //
 // Definition of eZMail class
 //
@@ -134,7 +134,7 @@ class eZMail
                                  UDate='$this->UDate'
                                  " );
 
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
 
             $this->State_ = "Coherent";
         }
@@ -1097,3 +1097,4 @@ class eZMail
 ?>
 
 
+ 

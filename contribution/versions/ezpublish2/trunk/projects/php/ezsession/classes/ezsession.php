@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.39 2001/05/04 15:34:19 jb Exp $
+// $Id: ezsession.php,v 1.40 2001/05/04 16:37:25 descala Exp $
 //
 // Definition of eZSession class
 //
@@ -109,7 +109,7 @@ class eZSession
 		                         Hash='$this->Hash'
                                  " );
 
-            $this->ID = mysql_insert_id();
+			$this->ID = $db->insertID();
 
             $this->setVariable( "SessionIP", $remoteIP );
             $this->HasRefreshed = true;
@@ -483,3 +483,4 @@ class eZSession
 }
 
 ?>
+ 

@@ -70,7 +70,7 @@ class eZBulkMailCategory
 		                         Name='$name',
                                  IsPublic='$this->IsPublic',
                                  Description='$description'" );
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
         }
         else
         {
@@ -426,3 +426,4 @@ class eZBulkMailCategory
 }
 
 ?>
+ 

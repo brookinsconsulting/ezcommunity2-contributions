@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbugcategory.php,v 1.6 2001/04/04 15:21:44 fh Exp $
+// $Id: ezbugcategory.php,v 1.7 2001/05/04 16:37:23 descala Exp $
 //
 // Definition of eZBugCategory class
 //
@@ -92,7 +92,8 @@ class eZBugCategory
             $this->Database->query( "INSERT INTO eZBug_Category SET
 		                         Name='$name',
                                  Description='$description'" );
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
+			
         }
         else
         {
@@ -344,3 +345,4 @@ class eZBugCategory
 }
 
 ?>
+ 

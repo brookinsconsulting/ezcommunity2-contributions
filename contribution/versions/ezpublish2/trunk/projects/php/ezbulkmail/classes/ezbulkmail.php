@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezbulkmail.php,v 1.11 2001/04/30 15:17:34 fh Exp $
+// $Id: ezbulkmail.php,v 1.12 2001/05/04 16:37:24 descala Exp $
 //
 // eZBulkMail class
 //
@@ -79,7 +79,7 @@ class eZBulkMail
                                  BodyText='$bodytext',
                                  IsDraft='$this->IsDraft'
                                  " );
-            $this->ID = mysql_insert_id();
+			$this->ID = $this->Database->insertID();
         }
         else
         {
@@ -464,3 +464,4 @@ class eZBulkMail
 }
 
 ?>
+ 
