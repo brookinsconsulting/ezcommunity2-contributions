@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezfile.php,v 1.2 2000/09/22 12:51:34 bf-cvs Exp $
+// $Id: ezfile.php,v 1.3 2000/09/25 15:05:13 pkej-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -52,6 +52,9 @@ class eZFile
     */
     function getUploadedFile( $name_var )
     {
+        global $HTTP_POST_FILES;
+
+        $name_var = $HTTP_POST_FILES[ $name_var ];
         $ret = true;
 
         $this->FileName = $name_var['name'];
