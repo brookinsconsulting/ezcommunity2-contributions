@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fileedit.php,v 1.1 2001/08/20 11:07:08 ce Exp $
+// $Id: fileedit.php,v 1.2 2001/09/27 08:00:49 jhe Exp $
 //
 // Created on: <21-Dec-2000 18:01:48 bf>
 //
@@ -37,7 +37,7 @@ $Language = $ini->read_var( "eZArticleMain", "Language" );
 include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 
-if ( isset( $DeleteSelected ) )
+if ( isSet( $DeleteSelected ) )
     $Action = "Delete";
 
 if ( $Action == "Insert" )
@@ -58,7 +58,7 @@ if ( $Action == "Insert" )
 
         $article->addFile( $uploadedFile );
 
-        eZLog::writeNotice( "File added to article $ArticleID  from IP: $REMOTE_ADDR" );
+        eZLog::writeNotice( "File added to article $ArticleID from IP: $REMOTE_ADDR" );
     }
     else
     {
@@ -109,9 +109,9 @@ if ( $Action == "Delete" )
 {
     $article = new eZArticle( $ArticleID );
 
-    if ( count ( $FileArrayID ) != 0 )
+    if ( count( $FileArrayID ) != 0 )
     {
-        foreach( $FileArrayID as $FileID )
+        foreach ( $FileArrayID as $FileID )
         {
             $file = new eZVirtualFile( $FileID );
             $article->deleteFile( $file );
@@ -128,9 +128,7 @@ $t = new eZTemplate( "ezarticle/user/" . $ini->read_var( "eZArticleMain", "Templ
 
 $t->setAllStrings();
 
-$t->set_file( array(
-    "file_edit_page" => "fileedit.tpl",
-    ) );
+$t->set_file( "file_edit_page", "fileedit.tpl" );
 
 
 //default values
@@ -157,8 +155,6 @@ $article = new eZArticle( $ArticleID );
     
 $t->set_var( "article_name", $article->name() );
 $t->set_var( "article_id", $article->id() );
-
-
 
 $t->pparse( "output", "file_edit_page" );
 
