@@ -8,6 +8,7 @@ if ( isset( $Title ) )
 else
 	print( "eZ publish" );
     ?></title>
+    
 <link rel="stylesheet" type="text/css" href="/sitedesign/standard/style.css">
 
 <SCRIPT LANGUAGE="JavaScript1.2">

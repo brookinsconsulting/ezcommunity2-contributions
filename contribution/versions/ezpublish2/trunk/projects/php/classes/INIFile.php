@@ -66,7 +66,6 @@ class INIFile
 
         $cachedFile = "classes/cache/" . md5( $inifilename ) . ".php";
 
-
         // check for modifications
         $cacheTime = filemtime( $cachedFile );
         $origTime = filemtime( $inifilename );
@@ -85,8 +84,9 @@ class INIFile
                 $loadCache = false;
         }
 
+
         if ( $loadCache )
-        {        
+        {
             include( $cachedFile );
         }
         else

@@ -4,17 +4,21 @@ header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT");
 header("Cache-Control: no-cache, must-revalidate"); 
 header("Pragma: no-cache");
 
+include_once( "classes/ezbenchmark.php" );
+$bench = new eZBenchmark();
+$bench->start();
+  
 
 $GLOBALS["DEBUG"] = true;
 
-// Turn on output buffering
-ob_start();
+// Turn on output buffering with gz compression
+ob_start("ob_gzhandler");
+
 // start session handling
 session_start();
 
 // settings for sessions
 // max timeout is set to 48 hours
-
 ini_alter("session.gc_maxlifetime", "172800");
 ini_alter("session.entropy_file","/dev/urandom"); 
 ini_alter("session.entropy_length", "512");
@@ -25,6 +29,10 @@ include_once( "classes/ezhttptool.php" );
 $ini =& INIFile::globalINI();
 $GlobalSiteIni =& $ini;
 
+
+
+
+/*
 // set character set
 include_once( "classes/ezlocale.php" );
 $Language = $ini->read_var( "eZCalendarMain", "Language" );
@@ -32,9 +40,11 @@ $Locale = new eZLocale( $Language );
 $iso = $Locale->languageISO();
 if ( $iso != false )
     header( "Content-type: text/html;charset=$iso" );
+*/
 
 // Design
 include_once( "ezsession/classes/ezsession.php" );
+include_once( "ezuser/classes/ezuser.php" );
 
 $session =& eZSession::globalSession();
 
@@ -53,13 +63,15 @@ else
     }
 }
 
+
+
 // do the statistics
 include_once( "ezstats/classes/ezpageview.php" );
 
 // create a global page view object for statistics
+// and store the stats
 $GlobalPageView = new eZPageView();
 $GlobalPageView->store();
-
 
 // parse the URI
 $meta_page = "";
@@ -70,23 +82,28 @@ $user = eZUser::currentUser();
 
 $requireUserLogin =& $ini->read_var( "eZUserMain", "RequireUserLogin" );
 
+
 if ( ( $requireUserLogin == "disabled" ) ||
     ( ( $requireUserLogin == "enabled" )   & ( get_class( $user ) == "ezuser" ) && ( $user->id() != 0 ) ) ) 
 {
 
-// Remove url parameters
+    // Remove url parameters
     ereg( "([^?]+)", $REQUEST_URI, $regs );
 
     $REQUEST_URI = $regs[1];
 
+    // if uri == / show article list
+    if ( $REQUEST_URI == "/" )
+        $REQUEST_URI = "/article/archive/0/";
+
     $url_array = explode( "/", $REQUEST_URI );
     $meta_page = "ez" . $url_array[1] . "/metasupplier.php";
 
-// include some html
+    // include some html
     $Title = $ini->read_var( "site", "SiteTitle" );
     include( "sitedesign/$siteDesign/preamble.php" );
 
-// check if there is specific meta info, if not include the default
+    // check if there is specific meta info, if not include the default
     if ( file_exists( $meta_page ) )
     {
         include( $meta_page );
@@ -97,6 +114,8 @@ if ( ( $requireUserLogin == "disabled" ) ||
         include( "sitedesign/$siteDesign/defaultmetainfo.php" );
     }
 
+
+    
 // Pre check
     {
         // send the URI to the right decoder
@@ -109,6 +128,7 @@ if ( ( $requireUserLogin == "disabled" ) ||
         include( $content_page_pre );
     }
 
+
 // include more html
     if ( $PrintableVersion == "enabled" )
     {
@@ -119,11 +139,11 @@ if ( ( $requireUserLogin == "disabled" ) ||
         include( "sitedesign/$siteDesign/header.php" );    
     }
 
-// Main contents
-    {
-        // send the URI to the right decoder
-        $content_page = "ez" . $url_array[1] . "/user/datasupplier.php";
-    }
+
+    // Main contents
+    // send the URI to the right decoder
+    $content_page = "ez" . $url_array[1] . "/user/datasupplier.php";
+    
     if ( file_exists( $content_page ) )
     {
         // the page with the real contents
@@ -136,13 +156,10 @@ if ( ( $requireUserLogin == "disabled" ) ||
         {
             include( $ini->read_var( "site", "DefaultPage" ) );
         }
-        else
-        {
-            $CategoryID = 0;
-            include( "ezarticle/user/articlelist.php" );
-        }
     }
+    
 
+    
 // and the html finish
 // include more html
     if ( $PrintableVersion == "enabled" )
@@ -181,6 +198,10 @@ else
 
 // close the database connection.
 eZDB::close();
+
+$bench->stop();
+
+$bench->printResults();
 
 ob_end_flush();
 ?>

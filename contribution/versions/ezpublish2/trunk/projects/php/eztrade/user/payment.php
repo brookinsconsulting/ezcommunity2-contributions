@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: payment.php,v 1.41 2001/03/27 17:07:23 bf Exp $
+// $Id: payment.php,v 1.42 2001/04/07 15:11:59 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <02-Feb-2001 16:31:53 bf>
@@ -45,7 +45,6 @@ include_once( "eztrade/classes/ezorder.php" );
 include_once( "eztrade/classes/ezorderitem.php" );
 include_once( "eztrade/classes/ezorderoptionvalue.php" );
 include_once( "eztrade/classes/ezwishlist.php" );
-
 
 include_once( "eztrade/classes/ezcheckout.php" );
 

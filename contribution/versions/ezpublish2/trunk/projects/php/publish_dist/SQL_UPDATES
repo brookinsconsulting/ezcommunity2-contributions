@@ -672,8 +672,8 @@ CREATE TABLE eZArticle_ArticleKeyword (
 # Add SimultaneousLogins to eZUser_User
 ALTER TABLE eZUser_User ADD SimultaneousLogins int(11) DEFAULT '0' NOT NULL;
 
-#placement for article categories
-ALTER TABLE eZArticle_Category ADD Placement int(11) DEFAULT '0';
+# modification information on image variations. 
+alter table eZImageCatalogue_ImageVariation add Modification char(20) not null default "";   
 
 # headers for attributes
 alter table eZTrade_Attribute add Placement int default 0;
@@ -684,6 +684,8 @@ alter table eZTrade_Attribute add Unit varchar(8);
 
 # Discuss article
 alter table eZArticle_Article add Discuss int default 0; 
+#placement for article categories
+
 ALTER TABLE eZArticle_Category ADD Placement int(11) DEFAULT '0';
 
-DROP TABLE eZContact_ImageType; 
+DROP TABLE eZContact_ImageType;

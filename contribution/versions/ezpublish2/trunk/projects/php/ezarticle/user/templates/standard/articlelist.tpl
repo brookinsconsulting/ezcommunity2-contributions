@@ -55,14 +55,14 @@
 <!-- BEGIN article_item_tpl -->
 <tr>
 	<td>
-	<div class="listheadline"><a class="listheadline" href="/article/articleview/{article_id}/">{article_name}</a></div>
+	<div class="listheadline"><a class="listheadline" href="/article/articleview/{article_id}/1/{category_id}/">{article_name}</a></div>
 	<div class="small">( {article_published} )</div>
 
 	<!-- BEGIN article_image_tpl -->
 	    <table align="right">
 	        <tr>
 			<td>
-			<a href="/article/articleview/{article_id}/"><img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" /></a>
+			<a href="/article/articleview/{article_id}/1/{category_id}/"><img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" /></a>
             </td>
                 </tr>
                 <tr>
@@ -76,7 +76,7 @@
 
 	<div class="spacer"><div class="p">{article_intro}</div></div>
 	<img src="/images/path-arrow.gif" height="10" width="12" border="0" alt="" />
-	<a class="path" href="/article/articleview/{article_id}/">{article_link_text}</a>
+	<a class="path" href="/article/articleview/{article_id}/1/{category_id}/">{article_link_text}</a>
 	<br /><br />
 	</td>
 </tr>

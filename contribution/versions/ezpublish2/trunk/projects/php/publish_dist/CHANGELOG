@@ -1,8 +1,14 @@
 eZ publish changelog:
 ---------------------
-
+ 
 Changes from 2.0.0 to 2.0.1
 ---------------------------
+* Magic quotes are no longer needed (Must now be turned off).
+* Article discussion can now be turned on pr article.
+* Added article path in article view.
+* Added gzip comression to the output buffer to speed up data transfer.
+* Fixed locking issues which could make problems on high traffic sites.
+* Added support for grayscale converted images on article list.
 * Optimized INI file reading, uses cached .php files.
 * Next/Prev in company listing, ordering controllable by site.ini
 * New general link feature. It's possible to link one part of a module to another part

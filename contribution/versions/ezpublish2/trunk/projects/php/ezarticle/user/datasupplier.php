@@ -7,11 +7,8 @@ include_once( "ezuser/classes/ezobjectpermission.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
 
-
-
 $PageCaching = $ini->read_var( "eZArticleMain", "PageCaching" );
 $UserComments = $ini->read_var( "eZArticleMain", "UserComments" );
-
 
 switch ( $url_array[2] )
 {
@@ -128,6 +125,7 @@ switch ( $url_array[2] )
         $StaticRendering = false;        
         $ArticleID = $url_array[3];
         $PageNumber= $url_array[4];
+        $CategoryID = $url_array[5];
         
         if ( $PageNumber != -1 )
             if ( !isset( $PageNumber ) || ( $PageNumber == "" ) ||  ( $PageNumber < 1 ))
@@ -135,7 +133,7 @@ switch ( $url_array[2] )
         
         // if file exists... evrything is ok..
         // if not.. check permission, then run page if ok
-        $user = eZUser::currentUser();
+        $user =& eZUser::currentUser();
         $groupstr = "";
         if( get_class( $user ) == "ezuser" )
         {
@@ -149,13 +147,10 @@ switch ( $url_array[2] )
             }
         }
         else
-            $user = 0;
-        
+            $user = 0;        
         
         if ( $PageCaching == "enabled" )
         {
-            $CategoryID = $url_array[3];
-
             $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber . "," .$groupstr  .".cache";
             if ( file_exists( $cachedFile ) )
             {
@@ -169,7 +164,7 @@ switch ( $url_array[2] )
                 include( "ezarticle/user/articleview.php" );
             }
         }
-        else if( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'r' )
+        else if ( eZObjectPermission::hasPermission( $ArticleID, "article_article", 'r' )
         || eZArticle::isAuthor( $user, $ArticleID ) )
         {
             include( "ezarticle/user/articleview.php" );
@@ -241,8 +236,6 @@ switch ( $url_array[2] )
 
         if ( $PageCaching == "enabled" )
         {
-            $CategoryID = $url_array[3];
-
             $cachedFile = "ezarticle/cache/articleprint," . $ArticleID . ",". $PageNumber . "," . $groupstr . ".cache";
             if ( file_exists( $cachedFile ) )
             {
@@ -296,8 +289,6 @@ switch ( $url_array[2] )
         
         if ( $PageCaching == "enabled" )
         {
-            $CategoryID = $url_array[3];
-
             $cachedFile = "ezarticle/cache/articleview," . $ArticleID . ",". $PageNumber . "," . $groupstr .".cache";
             if ( file_exists( $cachedFile ) )
             {

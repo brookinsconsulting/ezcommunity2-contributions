@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleedit.php,v 1.63 2001/04/07 13:54:19 bf Exp $
+// $Id: articleedit.php,v 1.64 2001/04/07 15:11:59 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 15:04:39 bf>
@@ -584,11 +584,11 @@ if ( $Action == "Edit" )
 
     if (  $article->isPublished() )
     {
-        $t->set_var( "discuss_article", "checked" );
+        $t->set_var( "article_is_published", "checked" );
     }
     else
     {
-        $t->set_var( "discuss_article", "" );
+        $t->set_var( "article_is_published", "" );
     }
 
     if (  $article->discuss() )

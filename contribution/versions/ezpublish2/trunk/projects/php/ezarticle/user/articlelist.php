@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articlelist.php,v 1.42 2001/04/07 13:54:19 bf Exp $
+// $Id: articlelist.php,v 1.43 2001/04/07 15:11:59 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 14:41:37 bf>
@@ -184,6 +184,13 @@ foreach ( $articleList as $article )
     if( eZObjectPermission::hasPermission( $aid, "article_article", 'r' )  ||
          eZArticle::isAuthor( eZUser::currentUser(), $article->id() ) )
     {
+        if ( $CategoryID == 0 )
+        {
+            $category =& $article->categoryDefinition();
+            $CategoryID = $category->id();
+        }
+        
+        $t->set_var( "category_id", $CategoryID );
     
         $t->set_var( "article_id", $article->id() );
         $t->set_var( "article_name", $article->name() );
