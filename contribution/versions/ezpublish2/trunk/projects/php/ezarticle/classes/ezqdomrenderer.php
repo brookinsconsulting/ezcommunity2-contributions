@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.23 2001/07/25 14:20:46 ce Exp $
+// $Id: ezqdomrenderer.php,v 1.24 2001/08/06 10:56:53 virt Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -110,6 +110,21 @@
   <verbatim>
   predefined text
   </verbatim>
+
+  <tstart>
+  table element 1.1
+  <telem>
+  table element 1.2  
+  ...
+  <trow>
+  table element 2.1
+  <telem>
+  table element 2.2
+  ...
+  <tend>
+
+
+  <hr> - horiznontal line
   
   \endcode
   \sa eZTechGenerator  
@@ -158,6 +173,15 @@ class eZQDomrenderer
 
         $this->Template->set_block( "articletags_tpl", "link_tpl", "link"  );        
         
+	$this->Template->set_block( "articletags_tpl", "hr_tpl", "hr"  );
+        
+	
+	$this->Template->set_block( "articletags_tpl", "tstart_tpl", "tstart"  );
+        $this->Template->set_block( "articletags_tpl", "telem_tpl", "telem"  );
+        $this->Template->set_block( "articletags_tpl", "trow_tpl", "trow"  );
+        $this->Template->set_block( "articletags_tpl", "tend_tpl", "tend"  );
+        
+	
         $this->Template->set_block( "articletags_tpl", "bold_tpl", "bold"  );
         $this->Template->set_block( "articletags_tpl", "italic_tpl", "italic"  );
         $this->Template->set_block( "articletags_tpl", "underline_tpl", "underline"  );
@@ -273,6 +297,8 @@ class eZQDomrenderer
                                     $intro .= $this->renderImage( $paragraph );
                                     $intro .= $this->renderMedia( $paragraph );
                                     $intro .= $this->renderLink( $paragraph );
+                                    $intro .= $this->renderHr( $paragraph );
+				    $intro .= $this->renderTable( $paragraph );
                                     
                                     $this->PrevTag = $paragraph->name;
                                 }
@@ -302,6 +328,9 @@ class eZQDomrenderer
                     $pageContent .= $this->renderImage( $paragraph );
                     $pageContent .= $this->renderMedia( $paragraph );
                     $pageContent .= $this->renderLink( $paragraph );
+		    $pageContent .= $this->renderHr( $paragraph );
+		    $pageContent .= $this->renderTable( $paragraph );
+		    
                     
 //                      $pageContent = $this->renderCode( $pageContent, $paragraph );
 //                      $pageContent = $this->renderLink( $pageContent, $paragraph );
@@ -556,7 +585,7 @@ class eZQDomrenderer
         return $pageContent;
     }
 
-        /*!
+    /*!
       Renders media tags.
     */
     function &renderMedia( $paragraph )
@@ -652,6 +681,8 @@ class eZQDomrenderer
                         $content .= $this->renderImage( $child );
                         $content .= $this->renderMedia( $child );
                         $content .= $this->renderHeader( $child );
+			$content .= $this->renderHr( $child );
+			$content .= $this->renderTable( $child );
                     }
 
                 }
@@ -710,13 +741,15 @@ class eZQDomrenderer
                         $tmpContent .= $this->renderImage( $child );
                         $tmpContent .= $this->renderMedia( $media );
                         $tmpContent .= $this->renderHeader( $child );
+			$tmpContent .= $this->renderHr( $child );
+			$tmpContent .= $this->renderTable( $child );
                     }
                 }
 
                 $this->Template->set_var( "contents", $tmpContent );
                 switch ( $paragraph->name )
-                {
-                    case "bold" :
+                {    
+		    case "bold" :
                         $pageContent = trim( $this->Template->parse( "bold", "bold_tpl" ) );
                         break;
                     case "italic" :
@@ -791,7 +824,7 @@ class eZQDomrenderer
             $this->Template->set_var( "href", $href );
             $this->Template->set_var( "link_text", $text );
             $pageContent =& trim( $this->Template->parse( "link", "link_tpl" ) );
-        }
+        }    
 
 
         // mail
@@ -830,6 +863,45 @@ class eZQDomrenderer
     }
 
     
+    function &renderHr( $paragraph )
+    {
+        $pageContent = "";
+        if ( $paragraph->name == "hr" )
+        {
+            $pageContent =& $this->Template->parse( "hr", "hr_tpl" );
+        }
+	return $pageContent;
+    }
+    
+
+    function &renderTable( $paragraph )
+    {
+        $pageContent = "";
+        if ( $paragraph->name == "tstart" )
+        {
+            $pageContent =& $this->Template->parse( "tstart", "tstart_tpl" );
+        }
+	
+	if ( $paragraph->name == "telem" )
+        {
+            $pageContent =& $this->Template->parse( "telem", "telem_tpl" );
+        }
+	
+	if ( $paragraph->name == "trow" )
+        {
+            $pageContent =& $this->Template->parse( "trow", "trow_tpl" );
+        }
+	
+	if ( $paragraph->name == "tend" )
+        {
+            $pageContent =& $this->Template->parse( "tend", "tend_tpl" );
+        }
+	
+	
+	return $pageContent;
+    }
+    
+
     var $Article;
     var $PrevTag;
     var $Template;
