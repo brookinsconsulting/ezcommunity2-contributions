@@ -1,0 +1,81 @@
+<h2>Artikkelredigering</h2>
+<p>Dette er hjelpefilen for eZ article - Artikkelredigering.</p>
+
+<h2>Tag'er som kan brukes</h2>
+Vær oppmerksom på at tag'er ikke kan nøstes inn i hverandre; d.v.s. tag'er kan ikke settes inn i andre tag'er. Hvis det trengs mer avansert opptegning av teksten så kan &lt;html&gt; og &lt;/html&gt; brukes rundt vanlig HTML-kode.
+<dl>
+    <dt>&lt;bold> &lt;/bold></dt>
+    <dd><p>Sett <b>fet</b> tekst.</p></dd>
+    <dt>&lt;bullet> &lt;/bullet></dt>
+    <dd><p>Hver nye linje mellom disse tag'ene vil punktmerkes.</p></dd>
+    <dt>&lt;cpp> &lt;/cpp></dt>
+    <dd><p>C++ kode mellom disse tag'ene vil bli gjenkjent og fargekodes.</p></dd>
+    <dt>&lt;ezanchor <i>anchor</i>></dt>
+    <dd><p>Legg til et HTML ankerpunkt (&lt;a name="<i>ankerpunkt</i>">&lt;/a>) med navn <i>ankerpunkt</i> i koden.</p></dd>
+    <dt>&lt;ezhtml> &lt;/ezhtml></dt>
+    <dd><p>HTML-kode mellom disse tag'ene vil bli skrevet ut som ren tekst.</p></dd>
+    <dt>&lt;header> &lt;/header></dt>
+    <dd><p>Lager en overskrift.</p></dd>
+    <dt>&lt;html> &lt;/html></dt>
+    <dd><p>Alt mellom disse tag'ene vil bli opptegnet som vanlig HTML. Bruk disse for å lage effekter som ikke er mulige med de andre tag'ene.</p></dd>
+    <dt>&lt;image <i>nummer</i> <i>posisjon</i> <i>størrelse</i>></dt>
+    <dd><p>Bruke denne tag'en for å sette bilder inn i teksten. Bildene kan hentes ved å trykke på "bilde"-knappen.</p>
+    <ul>
+        <li>nummer
+        <p>Dette er nummeret på bildet som oppgis i "bilde"-skjermen.</p></li>
+        <li>posisjon<p>Dette er posisjonen som bildet skal ha:</p>
+            <dl>
+            <dt>center</dt>
+            <dd>Sentrerer bildet på siden</dd>
+            <dt>float</dt>
+            <dd>Bildet vil flyte med teksten.</dd>
+            <dt>left</dt>
+            <dd>Bildet plasseres til venstre på siden. Teksten vil flyte rundt dette bildet.</dd>
+            <dt>right</dt>
+            <dd>Bildet plasseres til høyre på siden. Teksten vil flyte rundt dette bildet.</dd>
+            </dl>
+        </li>
+        <li>størrelse<p>Dette er størrelsen på bildet:</p>
+        <dl>
+        <dt>large</dt>
+        <dd>Dette er størrelsen som er definert i LargeImageWidth and LargeImageHeight i eZArticle-delen av site.ini filen.</dd>
+        <dt>original</dt>
+        <dd>Dette er den orginale størrelsen på bildet.</dd>
+        <dt>medium</dt>
+        <dd>Dette er størrelsen som er definert i MediumImageWidth and MediumImageHeight i eZArticle-delen av site.ini filen.</dd>
+        <dt>small</dt>
+        <dd>Dette er størrelsen som er definert i SmallImageWidth and SmallImageHeight i eZArticle-delen av site.ini filen.</dd>
+        </dl></li>
+    </ul>
+    </dd>
+    <dt>&lt;java> &lt;/java></dt>
+    <dd><p>Java-kode mellom disse tag'ene vil bli gjenkjent og fargekodes.</p></dd>
+    <dt>&lt;link <i>url tekst</i></dt>
+    <dd><p>Lager en lenke. Den ønskede URL'en <i>url</i> og navnet på lenken er <i>tekst</i>. Det trengs ikke http:// foran webadresser.</p></dd>
+    <dt>&lt;lisp> &lt;/lisp></dt>
+    <dd><p>Lisp-kode mellom disse tag'ene vil bli gjenkjent og fargekodes.</p></dd>
+    <dt>&lt;iconlink <i>url tekst</i></dt>
+    <dd><p></p></dd>
+    <dt>&lt;italic> &lt;/italic></dt>
+    <dd><p>Setter <i>kursiv</i> tekst.</p></dd>
+    <dt>&lt;module <i>modulnavn</i>></dt>
+    <dd><p>Setter innholdet av en fil <i>modulnavn</i>.php inn i teksten (.php-endelsen blir lagt til automatisk). Den aktuelle filen må ligge i "modules"-katalogen i eZ publish hovedkatalogen.</p></dd>
+    <dt>&lt;page></dt>
+    <dd><p>Sideskift.</p></dd>
+    <dt>&lt;perl> &lt;/perl></dt>
+    <dd><p>Perl-kode mellom disse tag'ene vil bli gjenkjent og fargekodes.</p></dd>
+    <dt>&lt;php> &lt;/php></dt>
+    <dd><p>PHP-kode mellom disse tag'ene vil bli gjenkjent og fargekodes.</p></dd>
+    <dt>&lt;pre> &lt;/pre></dt>
+    <dd><p>Tekst mellom disse tag'ene vil bli opptegnet pre-formatert.</p></dd>
+    <dt>&lt;shell> &lt;/shell></dt>
+    <dd><p>Shell-kode mellom disse tag'ene vil bli gjenkjent og fargekodes.</p></dd>
+    <dt>&lt;sql> &lt;/sql></dt>
+    <dd><p>SQL-kode mellom disse tag'ene vil bli gjenkjent og fargekodes.</p></dd>
+    <dt>&lt;strike> &lt;/pre></strike>
+    <dd><p>Gjennomstrøket tekst.</p></dd>
+    <dt>&lt;underline> &lt;/pre></underline>
+    <dd><p>Understreket tekst.</p></dd>
+    <dt>&lt;verbatim> &lt;/verbatim></dt>
+    <dd><p>Verbatim tekst.</p></dd>
+</dl>
