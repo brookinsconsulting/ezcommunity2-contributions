@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: messageedit.php,v 1.23 2001/02/26 09:41:34 pkej Exp $
+// $Id: messageedit.php,v 1.24 2001/02/26 09:54:53 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <21-Feb-2001 18:00:00 pkej>
@@ -231,7 +231,8 @@ switch( $Action )
         $msg->writeLock();
         $msg->store();
         $msg->unLock();
-        
+
+       
         if( $StartAction == "reply" )
         {
             include_once( "ezforum/user/messagereply.php" );
@@ -248,6 +249,7 @@ switch( $Action )
 
             if ( $moderator )
             {
+                include_once( "classes/ezmail.php" );
                 $mail = new eZMail();
 
                 $mail->setSubject( $msg->topic() );
@@ -442,21 +444,16 @@ switch( $Action )
     break;
     
     case "preview":
-    {
-        $log = new eZLog();
-        
+    {        
         $ActionValue = $EndAction;
         if( $Error == false )
         {
-            $log->notice( "no error <br>" );
             if( empty( $PreviewID ) )
             {
-                $log->notice( "no preview id $PreviewID <br>");
                 switch( $StartAction )
                 {
                     case "edit":
                     {
-                        $log->notice( "editing $MessageID <br>");
                         $msg = new eZForumMessage();
                         $tmpmsg = new eZForumMessage( $MessageID );
                         $msg = $tmpmsg->clone();
@@ -465,7 +462,6 @@ switch( $Action )
 
                     case "reply":
                     {
-                        $log->notice(  "replying to $ReplyToID <br>");
                         $msg = new eZForumMessage();
                         $tmpmsg = new eZForumMessage( $ReplyToID );
                         $ForumID = $tmpmsg->forumID();
@@ -508,7 +504,6 @@ switch( $Action )
             }
             else
             {
-                $log->notice(  "preview id? $PreviewID" );
                 $msg = new eZForumMessage( $PreviewID );
             }
             
@@ -568,8 +563,6 @@ switch( $Action )
             include_once( "ezforum/user/messageform.php" );
             
         }
-        
-        $log->notice(  "message id: " . $MessageID . "<br>");
         
         $doPrint = true;
     }
