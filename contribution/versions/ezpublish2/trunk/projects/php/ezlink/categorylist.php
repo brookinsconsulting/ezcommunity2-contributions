@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: categorylist.php,v 1.7 2000/09/24 11:51:37 bf-cvs Exp $
+    $Id: categorylist.php,v 1.8 2000/10/09 14:50:59 ce-cvs Exp $
 
     Author: Bård Farstad <bf@ez.no>
     
@@ -42,10 +42,7 @@ $t->set_file( array(
 $linkGroup = new eZLinkGroup();
 $linkGroup->get ( $LGID );
 
-// $linkGroup->printPath( $LGID, $DOC_ROOT . "linklist.php" );
-
 $linkGroup_array = $linkGroup->getByParent( 0 );
-
 
 if ( count( $linkGroup_array ) == 0 )
 {
@@ -54,7 +51,6 @@ if ( count( $linkGroup_array ) == 0 )
 }
 else
 {
-// print( "antall grupper " . count( $linkGroup_array )); 
     for ( $i=0; $i<count( $linkGroup_array ); $i++ )
     {
         if ( ( $i % 2 ) == 0 )
@@ -82,7 +78,6 @@ else
 
     }
 }
-
 $t->set_var( "linkgroup_id", $LGID );
 $t->set_var( "document_root", $DOC_ROOT );
                        
