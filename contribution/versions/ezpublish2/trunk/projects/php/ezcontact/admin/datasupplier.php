@@ -8,6 +8,18 @@ switch ( $url_array[2] )
     case "" :
         include( "ezcontact/admin/phonetypelist.php" );        
         break;
+
+    case "companylist":
+    {
+     include( "ezcontact/admin/companylist.php" );
+    }
+    break;
+    
+    case "companyedit":
+    {
+        include( "ezcontact/admin/companyedit.php" );
+    }
+    break;
     case "phonetypelist" :
         include( "ezcontact/admin/phonetypelist.php" );
         break;
