@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.8 2000/10/23 08:05:18 bf-cvs Exp $
+// $Id: menubox.php,v 1.1 2000/10/24 15:03:29 bf-cvs Exp $
 //
 // 
 //

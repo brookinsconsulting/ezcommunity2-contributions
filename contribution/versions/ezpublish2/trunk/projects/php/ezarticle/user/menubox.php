@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.1 2000/10/19 11:05:21 bf-cvs Exp $
+// $Id: menubox.php,v 1.2 2000/10/24 15:03:29 bf-cvs Exp $
 //
 // 
 //
@@ -30,6 +30,7 @@ $ini = new INIFile( "site.ini" );
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
 
+
 $PageCaching = $ini->read_var( "eZArticleMain", "PageCaching");
 
 // do the caching 
@@ -56,6 +57,7 @@ function createArticleMenu()
 {
     global $ini;
     global $Language;
+    global $menuCachedFile;
     
     include_once( "classes/eztemplate.php" );
     include_once( "common/ezphputils.php" );
@@ -83,7 +85,6 @@ function createArticleMenu()
     if ( count( $articleCategory_array ) == 0 )
     {
         $t->set_var( "category_list", "" );
-
     }
     else
     {
@@ -107,7 +108,7 @@ function createArticleMenu()
 
         $output = $t->parse( $target, "menu_box_tpl" );
         // print the output the first time while printing the cache file.
-    
+
         print( $output );
         fwrite ( $fp, $output );
         fclose( $fp );

@@ -1,16 +1,12 @@
-<tr bgcolor="#C85028"> 
-	<td>
-        <p class="smallhead">
-	{intl-title}
-        </p>
-        </td>
+<tr>
+	<td class="menuhead" bgcolor="#c82828">Articles</td>
 </tr>
 
 <!-- BEGIN article_category_tpl -->
 <tr>
 	<td>
 	<a class="menu" href="/article/archive/{articlecategory_id}/">
-	<img src="/images/prikk.gif" width="8" heigth="8" border="0">&nbsp;
+	<img src="/images/dot.gif" width="12" heigth="12" border="0">&nbsp;
 	{articlecategory_title}
 	</a>
 	</td>

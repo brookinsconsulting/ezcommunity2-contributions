@@ -1,16 +1,12 @@
-<tr bgcolor="#C85028"> 
-	<td>
-        <p class="smallhead">
-	Forums
-        </p>
-        </td>
+<tr>
+	<td class="menuhead" bgcolor="#c82828">Forums</td>
 </tr>
 
 <!-- BEGIN category_tpl -->
 <tr>
 	<td width="100%">
 	<a href="/forum/forumlist/{id}/" class="menu">
-        <img src="/images/prikk.gif" width="8" height="8" border="0">&nbsp;
+        <img src="/images/dot.gif" width="12" height="12" border="0">&nbsp;
         {name}
 	</a>
 	</td>
