@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezobjectpermission.php,v 1.11 2001/02/28 15:24:58 ce Exp $
+// $Id: ezobjectpermission.php,v 1.12 2001/03/01 15:14:56 fh Exp $
 //
 // Definition of eZCompany class
 //
@@ -261,12 +261,99 @@ class eZObjectPermission
                     $res[0] = -1;
                     return $res;
                 }
-                $GroupReturn ? $res[$i] = new eZUserGroup( $groupID["GroupID"] ) : $res[$i] = $groupID["GroupID"];
+                $GroupReturn ? $ret[$i] = new eZUserGroup( $groupID["GroupID"] ) : $ret[$i] = $groupID["GroupID"];
                 $i++;
             }
         }
-        return $res;
+        return $ret;
     }
+
+    /*!
+      Returns all the ID's of objects that a given user has permission $permission to
+      If one object with -1 is returned, everyone has access to the object.
+      $group is of type eZUserGroup or a groupID, use -1 for objects everyone is allowed to see.
+      $modulTable is the nickname of the table where the permission is found. The nicknames can be found in site.ini
+      $permission either 'r' for readpermission or 'w' for writepermission.
+      $count if set to true the function will return the count of accessable objects.
+      $user of type eZUser, if left out, currentuser is used.
+     */
+    function getObjects( $modulTable, $permission, $count = false , $user=false )
+    {
+        $ret = array();
+
+        if( $user == false )
+        {
+            $user = eZUser::currentUser();
+        }
+
+        $SQLReturn = $count == true ? "count( ObjectID ) AS ObjectID" : "ObjectID";
+        
+        $SQLGroups = "GroupID = '-1'";
+        if( get_class( $user ) == "ezuser" )
+        {
+            $groups =& $user->groups( true );
+            $first = true;
+            if( count( $groups ) > 0 )
+            {
+                foreach( $groups as $groupItem )
+                {
+                    if( $first == true )
+                    {
+                        $SQLGroups = "GroupID='$groupItem' ";
+                    }
+                    else
+                    {
+                        $SQLGroups .= "OR GroupID='$groupItem' ";
+                    }
+                    $first = false;
+                }
+                $SQLGroups .= "OR GroupID = '-1' ";
+            }
+        }
+        
+        $tableName = getTableName( $modulTable );
+        if( $tableName == "" )
+        {
+            return $ret;
+        }
+
+        $SQLPermission = "";
+        if( $permission == 'r' )
+        {
+            $SQLPermission = "ReadPermission='1'";
+        }
+        else if( $permission == 'w' )
+        {
+            $SQLPermission = "WritePermission='1'";
+        }
+        else // bogus $permission input.
+        {
+            return $ret;
+        }
+
+        $query = "SELECT $SQLReturn FROM $tableName WHERE ( $SQLGroups ) AND $SQLPermission";
+        $database =& eZDB::globalDatabase();
+        $database->array_query( $res, $query );
+        if( $count == true )
+        {
+            return $res[0]["ObjectID"];
+        }
+        else
+        {
+            if( count( $res ) > 0 )
+            {
+                $i = 0;
+                foreach( $res as $groupID )
+                {
+                    $ret[$i] = $groupID["GroupID"];
+                    $i++;
+                }
+            }
+
+        }
+        return $ret;
+    }
+
 }
 
     
