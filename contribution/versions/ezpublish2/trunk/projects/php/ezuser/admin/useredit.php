@@ -1,6 +1,6 @@
 <?php
-// 
-// $Id: useredit.php,v 1.37 2001/12/04 13:44:31 jhe Exp $
+//
+// $Id: useredit.php,v 1.38 2001/12/10 07:49:52 ce Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -37,6 +37,7 @@ include_once( "classes/ezlog.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/eztitle.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
+include_once( "ezuser/classes/ezuseradditional.php" );
 
 require( "ezuser/admin/admincheck.php" );
 
@@ -94,7 +95,7 @@ if ( $Action == "insert" )
                             $user->setInfoSubscription( true );
                         else
                             $user->setInfoSubscription( false );
-                        
+
                         if ( $DisabledAccount == "on" )
                             $user->setIsActive( false );
                         else
@@ -107,15 +108,28 @@ if ( $Action == "insert" )
 
                         $user->store();
 
+                        // Additional fields
+                        if ( count ( $AdditionalArrayID ) > 0 )
+                        {
+                            $i=0;
+                            sort( $AdditionalArrayID );
+                            foreach( $AdditionalArrayID as $AdditionalID )
+                            {
+                                $additional = new eZUserAdditional( $AdditionalID );
+                                $additional->addValue( $user, $AdditionalValue[$i] );
+                                $i++;
+                            }
+                        }
+
                         // set title
                         $title = new eZTitle( );
                         if ( $title->get( $TitleID ) )
                         {
                             $user->setTitle( $title );
                         }
-                        
+
                         eZLog::writeNotice( "User created: $FirstName $LastName ($Login) $Email $SimultaneousLogins  from IP: $REMOTE_ADDR" );
-                        
+
                         // Add user to groups
                         $GroupArray = array_unique( array_merge( $GroupArray, $MainGroup ) );
                         $group = new eZUserGroup();
@@ -134,7 +148,7 @@ if ( $Action == "insert" )
                                 eZLog::writeNotice( "User added to group: $groupname from IP: $REMOTE_ADDR" );
                             }
                         }
-                        
+
                         $user->setGroupDefinition( $MainGroup );
 
                         eZHTTPTool::header( "Location: /user/userlist/" );
@@ -149,7 +163,7 @@ if ( $Action == "insert" )
                 {
                     $error_msg = $error->read_var( "strings", "error_user_exists" );
                 }
-                
+
             }
             else
             {
@@ -186,7 +200,7 @@ if ( $Action == "update" )
                     {
                         $user = new eZUser();
                         $user->get( $UserID );
-                        
+
                         $user->setEmail( $Email );
                         $user->setSignature( $Signature );
 
@@ -209,13 +223,26 @@ if ( $Action == "update" )
                         $user->setLastName( $LastName );
 
                         $user->setSimultaneousLogins( $SimultaneousLogins );
-                        
+
                         if ( strlen( $Password ) > 0 )
                         {
                             $user->setPassword( $Password );
                         }
-                            
+
                         $user->store();
+
+                        // Additional fields
+                        if ( count ( $AdditionalArrayID ) > 0 )
+                        {
+                            $i=0;
+                            sort( $AdditionalArrayID );
+                            foreach( $AdditionalArrayID as $AdditionalID )
+                            {
+                                $additional = new eZUserAdditional( $AdditionalID );
+                                $additional->addValue( $user, $AdditionalValue[$i] );
+                                $i++;
+                            }
+                        }
 
                         // set title
                         $title = new eZTitle( );
@@ -223,12 +250,12 @@ if ( $Action == "update" )
                         {
                             $user->setTitle( $title );
                         }
-                        
+
                         eZLog::writeNotice( "User updated: $FirstName $LastName ($Login) $Email from IP: $REMOTE_ADDR" );
 
                         // Remove user from groups
                         $user->removeGroups();
-                        
+
                         // Add user to groups
                         $GroupArray = array_unique( array_merge( $GroupArray, $MainGroup ) );
                         $group = new eZUserGroup();
@@ -257,7 +284,7 @@ if ( $Action == "update" )
                         $error_msg = $error->read_var( "strings", "error_email" );
                     }
                 }
-                
+
             }
             else
             {
@@ -287,9 +314,9 @@ if ( $Action == "delete" )
         $email = $user->email();
         $login = $user->login();
         $simultaneousLogins = $user->simultaneousLogins();
-        
+
         $user->delete();
-        
+
         eZLog::writeNotice( "User deleted: $firstname $lastname ($login) $email $simultaneousLogins from IP: $REMOTE_ADDR" );
         eZHTTPTool::header( "Location: /user/userlist/" );
         exit();
@@ -322,9 +349,9 @@ if ( $Action == "DeleteUsers" )
                     $email = $user->email();
                     $login = $user->login();
                     $simultaneousLogins = $user->simultaneousLogins();
-                
+
                     $user->delete();
-            
+
                     eZLog::writeNotice( "User deleted: $firstname $lastname ($login) $email $simultaneousLogins from IP: $REMOTE_ADDR" );
                 }
             }
@@ -346,6 +373,12 @@ $t->set_block( "user_edit", "main_group_item_tpl", "main_group_item" );
 $t->set_block( "user_edit", "group_item_tpl", "group_item" );
 $t->set_block( "user_edit", "day_item_tpl", "day_item" );
 $t->set_block( "user_edit", "month_item_tpl", "month_item" );
+
+$t->set_block( "user_edit", "additional_text_item_tpl", "additional_text_item" );
+$t->set_block( "user_edit", "additional_radio_item_tpl", "additional_radio_item" );
+$t->set_block( "user_edit", "additional_item_tpl", "additional_item" );
+$t->set_block( "additional_radio_item_tpl", "fixed_values_tpl", "fixed_values" );
+
 
 if ( $Action == "new" )
 {
@@ -382,7 +415,7 @@ if ( $Action == "edit" )
         $InfoSubscription = "checked";
     else
         $InfoSubscription = "";
-    
+
     $FirstName = $user->firstName();
     $LastName = $user->lastName();
     $Email = $user->email();
@@ -405,7 +438,7 @@ if ( $Action == "edit" )
     {
         $noExpiry = "";
     }
-    
+
     $headline = new INIFile( "ezuser/admin/intl/" . $Language . "/useredit.php.ini", false );
     $t->set_var( "head_line", $headline->read_var( "strings", "head_line_edit" ) );
 
@@ -444,13 +477,58 @@ foreach ( $titleArray as $title )
         $t->set_var( "title_checked", "checked" );
     else
         $t->set_var( "title_checked", "" );
-        
+
     $t->set_var( "title_id", $title->id() );
     $t->set_var( "title_name", $title->name() );
-    
+
     $t->parse( "title_item", "title_item_tpl", true );
 }
 
+// Show additional fields
+$additionalList =& eZUserAdditional::getAll();
+$i = 0;
+if ( count ( $additionalList ) > 0 )
+{
+    $t->set_var( "additional_text_item", "" );
+    $t->set_var( "additional_radio_item", "" );
+    foreach( $additionalList as $additional )
+    {
+        $t->set_var( "additional_name", $additional->name() );
+        $t->set_var( "additional_id", $additional->id() );
+        $t->set_var( "additional_value", $additional->value( $user ) );
+
+        $t->set_var( "i", $i );
+
+        if ( $additional->type() == 1 )
+        {
+            $t->parse( "additional_item_tpl", "additional_text_item_tpl", true );
+        }
+        elseif ( $additional->type() == 2 )
+        {
+            $fixedValues =& $additional->fixedValues();
+            foreach( $fixedValues as $value )
+            {
+                $t->set_var( "value_id", $value["ID"] );
+                $t->set_var( "value", $value["Value"] );
+
+                if ( $value["ID"] == $additional->value( $user ) )
+                    $t->set_var( "radio_checked", "checked" );
+                else
+                    $t->set_var( "radio_checked", "" );
+
+                $t->parse( "fixed_values", "fixed_values_tpl", true );
+            }
+            $t->parse( "additional_item_tpl", "additional_radio_item_tpl", true );
+        }
+        $i++;
+    }
+    $t->parse( "additional_item", "additional_item_tpl" );
+}
+else
+{
+    $t->set_var( "additional_radio_item", "" );
+    $t->set_var( "additional_text_item", "" );
+}
 
 $mainGroup = $user->groupDefinition();
 $groupArray = $user->groups();
@@ -458,12 +536,12 @@ foreach ( $groupList as $groupItem )
 {
     $t->set_var( "group_name", $groupItem->name() );
     $t->set_var( "group_id", $groupItem->id() );
-    
+
     if ( $mainGroup == $groupItem->id() )
         $t->set_var( "main_selected", "selected" );
     else
         $t->set_var( "main_selected", "" );
-    
+
     // add validation code here. $user->isValid();
     if ( $user )
     {
