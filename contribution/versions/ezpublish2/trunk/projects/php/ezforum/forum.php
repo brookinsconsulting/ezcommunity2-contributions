@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: forum.php,v 1.1 2000/07/14 12:55:45 lw-cvs Exp $
+    $Id: forum.php,v 1.2 2000/07/14 13:47:12 lw-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -24,7 +24,7 @@ $t->set_file( array("forum" => "$DOCROOT/templates/forum.tpl",
 
 $t->set_var( "docroot", $DOCROOT);
 $t->set_var( "category_id", $category_id);
-
+$t->set_var( "forum_id", $forum_id);
 if ($AuthenticatedSession)
 {
     $session = new eZSession();
