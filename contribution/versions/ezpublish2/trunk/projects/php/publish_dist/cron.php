@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: cron.php,v 1.12 2001/08/09 14:17:41 jhe Exp $
+// $Id: cron.php,v 1.13 2001/09/11 10:51:29 bf Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -46,7 +46,6 @@ $GlobalSiteIni =& $ini;
 // index articles
 // uncomment to index all articles in publish
 
-/*
 set_time_limit( 0 );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlecategory.php" );
@@ -60,7 +59,6 @@ foreach ( $articles as $article )
     print( "indexing article: " .  $article->name() . "<br>\n" );    
     $article->createIndex();
 }
-*/
 
 // do session cleanup
 include( "ezsession/admin/cron.php" );

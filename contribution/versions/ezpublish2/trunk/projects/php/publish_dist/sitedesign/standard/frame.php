@@ -124,6 +124,12 @@ else
 
    <td width="1%" bgcolor="#ffffff"><img src="<? print $wwwDir; ?>/images/1x1.gif" width="2" height="1" border="0" alt="0" /></td>
    <td width="96%" bgcolor="#ffffff">
+    <?
+    $CategoryID = 1;
+    $Limit = 1;
+	include( "ezad/user/adlist.php" );
+    ?>
+
 
     <!-- Banner start -->
 

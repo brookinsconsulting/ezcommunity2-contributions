@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.12 2001/08/31 14:04:31 bf Exp $
+// $Id: datasupplier.php,v 1.13 2001/09/11 10:51:29 bf Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -28,7 +28,7 @@ include_once( "classes/ezpublish.php" );
 $version = eZPublish::version();
 
 ?>
-<a href="http://developer.ez.no"><h1>About eZ publish v <? echo $version; ?></h1></a>
+<a href="http://developer.ez.no"><h1>About eZ publish v <? echo $version; ?> Content Management System</h1></a>
 <hr noshade="noshade" size="4" />
 
 <p>

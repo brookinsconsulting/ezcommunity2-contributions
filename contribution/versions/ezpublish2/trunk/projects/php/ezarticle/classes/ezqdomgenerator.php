@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomgenerator.php,v 1.30 2001/09/08 13:58:21 bf Exp $
+// $Id: ezqdomgenerator.php,v 1.31 2001/09/11 10:51:29 bf Exp $
 //
 // Definition of eZQDomGenerator class
 //
@@ -196,27 +196,26 @@ class eZQDomGenerator
         
         return $tmpPage;
     }
-   /*!
+    
+    /*!
       \private
-    */  
-    
-    
+    */      
     function &generateTable( $tmpPage )
     {
 
         $tmpPage = preg_replace( "/(<table\s+([0-9]+[^ ]??)\s+([0-9]+?)\s*>)/", "<table width=\"\\2\" border=\"\\3\">", $tmpPage );
         $tmpPage = preg_replace( "/(<table\s+([0-9]+[^ ]??)\s*>)/", "<table width=\"\\2\">", $tmpPage );
         
-	$tmpPage = preg_replace( "/(<td\s+([0-9]+[^ ]??)\s+?([0-9]+?)\s+([0-9]+?)\s*>)/", "<td width=\"\\2\" colspan=\"\\3\" rowspan=\"\\4\">", $tmpPage );
-	$tmpPage = preg_replace( "/(<td\s+([0-9]+[^ ]??)\s+?([0-9]+?)\s*>)/", "<td width=\"\\2\" colspan=\"\\3\">", $tmpPage );
-	$tmpPage = preg_replace( "/(<td\s+([0-9]+[^ ]??)\s*>)/", "<td width=\"\\2\">", $tmpPage );
+        $tmpPage = preg_replace( "/(<td\s+([0-9]+[^ ]??)\s+?([0-9]+?)\s+([0-9]+?)\s*>)/", "<td width=\"\\2\" colspan=\"\\3\" rowspan=\"\\4\">", $tmpPage );
+        $tmpPage = preg_replace( "/(<td\s+([0-9]+[^ ]??)\s+?([0-9]+?)\s*>)/", "<td width=\"\\2\" colspan=\"\\3\">", $tmpPage );
+        $tmpPage = preg_replace( "/(<td\s+([0-9]+[^ ]??)\s*>)/", "<td width=\"\\2\">", $tmpPage );
         	
         return $tmpPage;
     }
 
     /*!
       \private
-      
+       
     */
     function &generateForm( $tmpPage )
     {
@@ -435,23 +434,41 @@ class eZQDomGenerator
                             $imageCaptionOverride = trim( $imageItem->children[0]->content );
                         }
                         break;
+
+                        case "target" :
+                        {
+                            $imageTarget = trim( $imageItem->children[0]->content );
+                        }
+                        break;
                         
                     }
                 }
             
-                            if (
-				$imageSize != "small"  &&
-                                $imageSize != "medium" &&
-                                $imageSize != "large"  &&
-                    	        $imageSize != "original"
-                               )
-                            {
-                        	$imageSize = "medium";
-                            }
-
-            if ( $imageCaptionOverride != "" )
+            if (
+                $imageSize != "small"  &&
+                $imageSize != "medium" &&
+                $imageSize != "large"  &&
+                $imageSize != "original"
+                )
             {
-                $pageContent = "<image id=\"$imageID\" align=\"$imageAlignment\" size=\"$imageSize\"  href=\"$imageHref\" caption=\"$imageCaptionOverride\" />";
+                $imageSize = "medium";
+            }
+
+            if ( $imageCaptionOverride != "" || $imageTarget != "" )
+            {
+                $captionText = "";
+                $targetText = "";
+                
+                if ( $imageCaptionOverride != "" )
+                    $captionText = "caption=\"$imageCaptionOverride\"";
+
+                if ( $imageTarget != "" )
+                    $targetText = "target=\"$imageTarget\"";
+
+                if ( $imageHref != "" )
+                    $hrefText = "href=\"$imageHref\"";
+                
+                $pageContent = "<image id=\"$imageID\" align=\"$imageAlignment\" size=\"$imageSize\" $hrefText $captionText $targetText />";
             }
             else
             {

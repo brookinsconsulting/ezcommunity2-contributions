@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezqdomrenderer.php,v 1.43 2001/09/08 13:58:21 bf Exp $
+// $Id: ezqdomrenderer.php,v 1.44 2001/09/11 10:51:29 bf Exp $
 //
 // Definition of eZQDomRenderer class
 //
@@ -487,6 +487,12 @@ class eZQDomrenderer
                        $imageCaptionOverride = trim( $attr->children[0]->content );
                     }
                     break;
+
+                    case "target" :
+                    {
+                       $imageTarget = trim( $attr->children[0]->content );
+                    }
+                    break;
                 }
             }
 
@@ -568,7 +574,7 @@ class eZQDomrenderer
                 }
                 else
                 {
-                    $imageCaption = $image->caption();                                                
+                    $imageCaption = $image->caption();
                 }
                 
                 $imageID = $image->id();
@@ -589,6 +595,7 @@ class eZQDomrenderer
                 $this->Template->set_var( "article_id", $articleID );
                 $this->Template->set_var( "view_mode", $viewMode );
                 $this->Template->set_var( "caption", $imageCaption );
+                $this->Template->set_var( "target", $imageTarget );
 
                 $this->Template->set_var( "referer_url", $GLOBALS["REQUEST_URI"] );
                 
