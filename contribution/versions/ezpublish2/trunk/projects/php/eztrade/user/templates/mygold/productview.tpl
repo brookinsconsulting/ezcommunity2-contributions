@@ -192,6 +192,7 @@
 <!-- END numbered_page_link_tpl -->
 
 <!-- BEGIN print_page_link_tpl -->
+
 <!-- END print_page_link_tpl -->
 
 </form>

@@ -1,44 +1,60 @@
 <h1>{intl-confirming-order}</h1>
 
-<hr noshade="noshade" size="1" />
+<hr noshade="noshade" size="4" />
 
 <h2>{intl-thanks_for_shopping}</h2>
 
 <p>{intl-email_notice}</p>
 
 
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td>
+	<!-- BEGIN billing_address_tpl -->
+	<p class="boxtext">{intl-billing_address}:</p>
+	{customer_first_name} {customer_last_name} <br />
+	{billing_street1}<br />
+	{billing_street2}<br />
+	{billing_zip} {billing_place}<br />
+	{billing_country}<br />
+	<!-- END billing_address_tpl -->
+	<br />
+	</td>
+	<td>
+	<!-- BEGIN shipping_address_tpl -->
+	<p class="boxtext">{intl-shipping_address}:</p>
+	{shipping_first_name} {shipping_last_name} <br />
+	{shipping_street1}<br />
+	{shipping_street2}<br />
+	{shipping_zip} {shipping_place}<br />
+	{shipping_country}<br />
+	<!-- END shipping_address_tpl -->
+	<br />
+	</td>
+</tr>
+<tr>
+	<td>
+	<p class="boxtext">{intl-payment_method}:</p>
+	<div class="p">{payment_method}</div>
+	</td>
+	<td>
+	<p class="boxtext">{intl-shipping_type}:</p>
+	<div class="p">{shipping_type}</div>
+	</td>
+</tr>
+</table>
 <br />
 
-<!-- BEGIN billing_address_tpl -->
-<h3>{intl-billing_address}</h3>
-{customer_first_name} {customer_last_name} <br />
-{billing_street1}<br />
-<!-- {billing_street2}<br /> -->
-{billing_zip} {billing_place}<br />
-{billing_country}<br />
-<!-- END billing_address_tpl -->
-
-<!-- BEGIN shipping_address_tpl -->
-<h3>{intl-shipping_address}</h3>
-{shipping_first_name} {shipping_last_name} <br />
-{shipping_street1}<br />
-<!-- {shipping_street2}<br /> -->
-{shipping_zip} {shipping_place}<br />
-{shipping_country}<br />
-<!-- END shipping_address_tpl -->
-
-<br />
-
-<h2>{intl-goods_list}</h2>
+<h2>{intl-goods_list}:</h2>
 
 <!-- BEGIN order_item_list_tpl -->
 <table width="100%" cellspacing="0" cellpadding="3" border="0">
-<tr align="left">
+<tr>
 	<th>{intl-picture}:</th>
 	<th>{intl-product_name}:</th>
 	<th>{intl-options}:</th>
 	<th>{intl-qty}:</th>
-	<th align="right">{intl-price}:</th>
+	<td class="path" align="right">{intl-price}:</td>
 </tr>
 <!-- BEGIN order_item_tpl -->
 
@@ -53,8 +69,7 @@
 	</td>
 	<td class="{td_class}">
         <!-- BEGIN order_item_option_tpl -->
-	{option_name}:
-	{option_value}<br>
+	<span class="small">{option_name}: {option_value}</span><br />
         <!-- END order_item_option_tpl -->
 	&nbsp;
 	</td>
@@ -66,15 +81,20 @@
 	</td>
 </tr>
 <!-- END order_item_tpl -->
-<tr align="right">
-	<td class="sum" colspan="3">&nbsp;</td>
-	<td class="sum">{intl-shipping_and_handling}:</td>
-	<td class="sum">{shipping_cost}</td>
+<tr>
+	<td colspan="3">&nbsp;</td>
+	<td class="boxtext">{intl-shipping_and_handling}:</td>
+	<td align="right">{shipping_cost}</td>
 </tr>
-<tr align="right">
-	<td class="sum" colspan="3">&nbsp;</td>
-	<td class="sum">{intl-total}:</td>
-	<td class="sum">{order_sum}</td>
+<tr>
+	<td colspan="3">&nbsp;</td>
+	<td class="boxtext">{intl-vat}:</td>
+	<td align="right">{order_vat_sum}</td>
+</tr>
+<tr>
+	<td colspan="3">&nbsp;</td>
+	<td class="boxtext">{intl-total}:</td>
+	<td align="right">{order_sum}</td>
 </tr>
 </table>
 <!-- END order_item_list_tpl -->
