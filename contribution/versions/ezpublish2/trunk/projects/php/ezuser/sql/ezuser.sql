@@ -31,7 +31,7 @@ CREATE TABLE eZUser_Group (
 #
 
 INSERT INTO eZUser_Group VALUES (2,'Anonymous','Users that register themself on the user page, eg forum users.');
-INSERT INTO eZUser_Group VALUES (1,'Adminitrators','All rights');
+INSERT INTO eZUser_Group VALUES (1,'Administrators','All rights');
 
 #
 # Table structure for table 'eZUser_GroupPermissionLink'
@@ -152,6 +152,7 @@ CREATE TABLE eZUser_User (
   FirstName char(50),
   LastName char(50),
   InfoSubscription enum('true','false') DEFAULT 'false',
+  Signature text NOT NULL,
   PRIMARY KEY (ID),
   UNIQUE Login (Login)
 );
@@ -160,7 +161,7 @@ CREATE TABLE eZUser_User (
 # Dumping data for table 'eZUser_User'
 #
 
-INSERT INTO eZUser_User VALUES (27,'admin','0c947f956f7aa781','admin@nospam.com','admin','user','false');
+INSERT INTO eZUser_User VALUES (1,'admin','0c947f956f7aa781','admin@nospam.com','admin','user','false');
 
 #
 # Table structure for table 'eZUser_UserAddressLink'
@@ -193,6 +194,4 @@ CREATE TABLE eZUser_UserGroupLink (
 # Dumping data for table 'eZUser_UserGroupLink'
 #
 
-INSERT INTO eZUser_UserGroupLink VALUES (42,27,1);
-INSERT INTO eZUser_UserGroupLink VALUES (39,28,2);
-INSERT INTO eZUser_UserGroupLink VALUES (41,13,1);
+INSERT INTO eZUser_UserGroupLink VALUES ('',1,1);
