@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: headlines.php,v 1.9 2000/11/29 16:36:43 bf-cvs Exp $
+// $Id: headlines.php,v 1.10 2000/11/29 17:05:40 bf-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <16-Nov-2000 10:51:34 bf>
@@ -23,12 +23,12 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
+// this page requires the variable $CategoryID to be set
+
 $PageCaching = $ini->read_var( "eZNewsFeedMain", "PageCaching" );
 
 if ( $PageCaching == "enabled" )
 {
-    $CategoryID = $url_array[3];
-    
     $cachedFile = "eznewsfeed/cache/headlines," . $CategoryID . ".cache";
     
     if ( file_exists( $cachedFile ) )
