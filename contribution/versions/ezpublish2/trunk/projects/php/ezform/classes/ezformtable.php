@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezformtable.php,v 1.3 2001/12/13 09:48:17 jhe Exp $
+// $Id: ezformtable.php,v 1.4 2001/12/13 12:40:16 jhe Exp $
 //
 // Definition of eZFormTable class
 //
@@ -124,6 +124,143 @@ class eZFormTable
         $res[] = $db->query( "DELETE FROM eZForm_FormElement WHERE Parent='$tableID'" );
         eZDB::finish( $res, $db );
     }
+
+    function tableElements( $id = -1 )
+    {
+        if ( $id == -1 )
+            $tableID = $this->ID;
+        else
+            $tableID = $id;
+
+        $elementArray = array();
+        $returnArray = array();
+        
+        $db =& eZDB::globalDatabase();
+        $db->array_query( $elementArray, "SELECT ID FROM eZForm_FormTableElementDict
+                                          WHERE TableID='$tableID'
+                                          ORDER BY Placement" );
+
+        foreach ( $elementArray as $element )
+        {
+            $returnArray[] = new eZElement( $element );
+        }
+        return $returnArray;
+    }
+
+    /*!
+      Moves this item up one step in the order list, this means that it will swap place with the item above.
+    */
+    function moveUp( $object )
+    {
+        if ( get_class( $object ) == "ezformelement" )
+        {
+            $db =& eZDB::globalDatabase();
+
+            $tableID = $this->tableID();
+            $elementID = $object->id();
+            
+            $db->query_single( $qry, "SELECT Placement FROM eZForm_FormTableElementDict
+                                      WHERE ElementID='$elementID' AND TableID='$tableID'
+                                      ORDER BY Placement DESC",
+                                      array( "Limit" => 1, "Offset" => 0) );
+
+            $elementPlacement = $qry[$db->fieldName( "Placement" )];
+
+            $db->query_single( $qry, "SELECT min($db->fieldName( \"Placement\" )) as Placement
+                                      FROM eZForm_FormTableElementDict WHERE TableID='$tableID'" );
+            $min =& $qry[$db->fieldName( "Placement" )];
+
+            if ( $min == $elementPlacement )
+            {
+                $db->query_single( $qry, "SELECT max($db->fieldName( \"Placement\" ) ) as Placement
+                                          FROM eZForm_FormTableElementDict WHERE TableID='$tableID'" );
+                
+                $newOrder =& $qry[$db->fieldName( "Placement" )];
+                
+                $db->query_single( $qry, "SELECT ElementID FROM eZForm_FormTableElementDict
+                                          WHERE TableID='$tableID' AND Placement='$newOrder'" );
+                
+                $oldElementID =& $qry[$db->fieldName( "ElementID" )];
+            }
+            else
+            {
+                $db->query_single( $qry, "SELECT TableID, ElementID, Placement FROM eZForm_FormTableElementDict
+                                          WHERE Placement < '$elementPlacement' AND TableID='$tableID'
+                                          ORDER BY Placement DESC",
+                                          array( "Limit" => 1, "Offset" => 0 ) );
+
+                $newOrder = $qry[$db->fieldName( "Placement" )];
+                $oldElementID = $qry[$db->fieldName( "ElementID" )];
+            }
+
+            $res[] = $db->query( "UPDATE eZForm_FormTableElementDict SET Placement='$newOrder'
+                                 WHERE ElementID='$elementID' AND TableID='$tableID'" );
+                
+            $res[] = $db->query( "UPDATE eZForm_FormTableElementDict SET Placement='$elementPlacement'
+                                 WHERE ElementID='$oldElementID' AND TableID='$tableID'" );
+            eZDB::finish( $res, $db );
+        }
+    }
+
+    /*!
+      Moves this item down one step in the order list, this means that it will swap place with the item below.
+    */
+    function moveDown( $object )
+    {
+        if ( get_class( $object ) == "ezformelement" )
+        {
+            $db =& eZDB::globalDatabase();
+            $db->begin();
+            
+            $tableID = $this->tableID();
+            $elementID = $object->id();
+            
+            $db->query_single( $qry, "SELECT Placement FROM eZForm_FormTableElementDict
+                                      WHERE ElementID='$elementID' AND TableID='$tableID'
+                                      ORDER BY Placement DESC",
+                                      array( "Limit" => 1, "Offset" => 0 ) );
+
+            $elementPlacement = $qry[$db->fieldName( "Placement" )];
+
+            $db->query_single( $qry, "SELECT max($db->fieldName( \"Placement\" )) as Placement
+                                      FROM eZForm_FormTableElementDict WHERE TableID='$tableID'" );
+            
+            $max =& $qry[$db->fieldName( "Placement" )];
+
+            if ( $max == $elementPlacement )
+            {
+                $db->query_single( $qry, "SELECT min($db->fieldName( \"Placement\" ) ) as Placement
+                                          FROM eZForm_FormTableElementDict WHERE TableID='$tableID'" );
+                
+                $newOrder =& $qry[$db->fieldName( "Placement" )];
+                
+                $db->query_single( $qry, "SELECT ElementID FROM eZForm_FormTableElementDict
+                                          WHERE TableID='$tableID' AND Placement='$newOrder'" );
+                
+                $oldElementID =& $qry[$db->fieldName( "ElementID" )];
+            }
+            else
+            {
+                $db->query_single( $qry, "SELECT TableID, ElementID, Placement FROM eZForm_FormTableElementDict
+                                          WHERE Placement > '$elementPlacement' AND TableID='$tableID'
+                                          ORDER BY Placement",
+                                          array( "Limit" => 1, "Offset" => 0) );
+
+                $newOrder = $qry[$db->fieldName( "Placement" )];
+                $oldElementID = $qry[$db->fieldName( "ElementID" )];
+            }
+
+            $res[] = $db->query( "UPDATE eZForm_FormTableElementDict SET Placement='$newOrder'
+                                  WHERE ElementID='$elementID' AND TableID='$tableID'" );
+            
+            $res[] = $db->query( "UPDATE eZForm_FormTableElementDict SET Placement='$elementPlacement'
+                                  WHERE ElementID='$oldElementID' AND TableID='$tableID'" );
+            
+            eZDB::finish( $res, $db );
+        }
+    }
+
+
     
     function id()
     {
