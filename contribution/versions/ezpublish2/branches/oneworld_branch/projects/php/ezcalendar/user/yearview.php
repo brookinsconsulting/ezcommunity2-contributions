@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: yearview.php,v 1.17 2001/07/20 11:57:16 jakobn Exp $
+// $Id: yearview.php,v 1.17.10.1 2002/06/04 11:57:56 jhe Exp $
 //
 // Created on: <27-Dec-2000 11:29:22 bf>
 //
@@ -76,6 +76,7 @@ if ( $build == true )
     $t->set_block( "week_tpl", "day_tpl", "day" );
     $t->set_block( "week_tpl", "empty_day_tpl", "empty_day" );
 
+    $t->set_var( "calendar_id", $CalID );
     $session =& eZSession::globalSession();
     $session->fetch();
 
@@ -96,11 +97,11 @@ if ( $build == true )
     $t->set_var( "prev_year_number", $Year - 1 );
     $t->set_var( "next_year_number", $Year + 1 );
 
-    $i=0;
-    for ( $month=1; $month<13; $month++ )
-    {
-        if ( ( $i % 3 ) == 0 )
-        {
+    $i = 0;
+    for ( $month = 1; $month < 13; $month++ )
+    { 
+        if ( ( $i % 3 ) == 0 ) 
+        { 
             $t->set_var( "begin_tr", "<tr>" );
             $t->set_var( "end_tr", "" );        
         }

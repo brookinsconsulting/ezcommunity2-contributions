@@ -1243,12 +1243,18 @@ CREATE INDEX Forum_ThreadID ON eZForum_Message (ThreadID);
 CREATE INDEX Forum_Depth ON eZForum_Message (Depth);
 CREATE INDEX Forum_ForumID ON eZForum_Message (ForumID);
 
+CREATE INDEX ForumMessage_IsTemporary ON eZForum_Message (IsTemporary);
+CREATE INDEX ForumMessage_IsApproved ON eZForum_Message (IsApproved);
+CREATE INDEX ForumMessage_PostingTime ON eZForum_Message (PostingTime);
+CREATE INDEX ForumMessage_TreeID ON eZForum_Message (TreeID);
+
 CREATE INDEX ForumWordLink_MessageID ON eZForum_MessageWordLink (MessageID);
 CREATE INDEX ForumWordLink_WordID ON eZForum_MessageWordLink (WordID);
 CREATE INDEX ForumWord_Word ON eZForum_Word (Word);
 CREATE UNIQUE INDEX ForumWord_ID ON eZForum_Word (ID);
 
 
+CREATE INDEX eZForumForumCategoryLink_ForumID ON eZForum_ForumCategoryLink (ForumID);
 CREATE TABLE eZImageCatalogue_Category (
   ID int NOT NULL,
   Name varchar(100) default NULL,
@@ -1361,7 +1367,7 @@ CREATE TABLE eZLink_Link (
   Modified int NOT NULL,
   Accepted int,
   Created int default NULL,
-  Url varchar(100) default NULL,
+  Url text default NULL,
   ImageID int NOT NULL,
   PRIMARY KEY (ID)
 );
@@ -1690,7 +1696,7 @@ CREATE TABLE eZNewsFeed_SourceSite (
   PRIMARY KEY (ID)
 );
 
-INSERT INTO eZNewsFeed_SourceSite VALUES (1,'http://freshmeat.net/backend/fm.rdf','','',1,'Freshmeat','rdf',1,1);
+INSERT INTO eZNewsFeed_SourceSite VALUES (1,'http://freshmeat.net/backend/fm.rdf','','',1,'Freshmeat','',0,0);
 
 CREATE TABLE eZPoll_MainPoll (
   ID int NOT NULL,
@@ -1755,8 +1761,8 @@ CREATE TABLE eZQuiz_Game (
   ID int(11) NOT NULL auto_increment,
   Name varchar(30) default NULL,
   Description text,
-  StartDate date default NULL,
-  StopDate date default NULL,
+  StartDate int(11) default NULL,
+  StopDate int(11) default NULL,
   PRIMARY KEY (ID)
 ) TYPE=MyISAM;
 
@@ -2519,6 +2525,14 @@ CREATE INDEX TradeProductOption_OptionID ON eZTrade_ProductOptionLink (OptionID)
 CREATE INDEX TradeProductOption_OptionValueContent ON  eZTrade_OptionValueContent  (ValueID);
 CREATE INDEX Trade_CartSessionID ON  eZTrade_Cart  (SessionID);
 CREATE INDEX TradeProductDef_ProductID ON eZTrade_ProductCategoryDefinition (ProductID);
+
+CREATE INDEX TradeAttributeValue_ProductID ON eZTrade_AttributeValue (ProductID);
+CREATE INDEX TradeAttributeValue_AttributeID ON eZTrade_AttributeValue (AttributeID);
+
+
+CREATE INDEX TradeCart_Session ON eZTrade_Cart (SessionID);
+
+CREATE INDEX TradeCartOptionValue_CartItemID ON eZTrade_CartOptionValue (CartItemID);
 CREATE TABLE eZURLTranslator_URL (
   ID int NOT NULL,
   Source varchar(200) default NULL,

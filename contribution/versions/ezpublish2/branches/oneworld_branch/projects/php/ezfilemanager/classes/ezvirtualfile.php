@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezvirtualfile.php,v 1.52.2.2 2002/04/22 08:35:45 jhe Exp $
+// $Id: ezvirtualfile.php,v 1.52.2.2.2.1 2002/06/04 11:57:57 jhe Exp $
 //
 // Definition of eZVirtualFile class
 //
@@ -226,6 +226,7 @@ class eZVirtualfile
         $limit = array( "Limit" => $limit,
                         "Offset" => $offset );
         $db->array_query( $fileArray, $queryString, $limit );
+
         foreach ( $fileArray as $file )
         {
             $returnArray[] = new eZVirtualFile( $file[$db->fieldName( "ID" )] );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: monthview.php,v 1.40 2001/10/08 14:39:10 jhe Exp $
+// $Id: monthview.php,v 1.40.10.1 2002/06/04 11:57:56 jhe Exp $
 //
 // Created on: <27-Dec-2000 14:09:56 bf>
 //
@@ -31,7 +31,9 @@ include_once( "classes/ezdatetime.php" );
 include_once( "classes/ezdate.php" );
 
 include_once( "ezcalendar/classes/ezappointment.php" );
+include_once( "ezcalendar/classes/ezcalendar.php" );
 include_once( "eztodo/classes/eztodo.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -41,23 +43,6 @@ $Locale = new eZLocale( $Language );
 $user =& eZUser::currentUser();
 $session =& eZSession::globalSession();
 $session->fetch();
-
-if ( $user == false )
-    $userID = false;
-else
-    $userID = $user->id();
-
-if ( isSet( $GetByUser ) )
-{
-    $userID = $GetByUserID;
-}
-
-if ( $session->variable( "ShowOtherCalendarUsers" ) == false || isSet( $GetByUser ) )
-    $session->setVariable( "ShowOtherCalendarUsers", $userID );
-else
-    $userID = $session->variable( "ShowOtherCalendarUsers" );
-
-$appOwnerUser = new eZUser( $userID );
 
 $date = new eZDate();
 
@@ -75,11 +60,25 @@ else
 $session->setVariable( "Year", $Year );
 $session->setVariable( "Month", $Month );
 
+$calendar = new eZCalendar( $CalID );
+$groupsID = eZObjectPermission::getGroups( $CalID, "calendar_calendar", 'w' , false );
+$showAdd = false;
+if ( get_class( $user ) == "ezuser" )
+    $userGroups =& $user->groups( false );
+else
+    $userGroups = array();
+
+foreach ( $groupsID as $addGroup )
+{
+    if ( in_array( $addGroup, $userGroups ) )
+        $showAdd = true;
+}
+
 $zMonth = addZero( $Month );
-$isMyCalendar = ( $user && $user->id() == $userID ) ? "-private" : "";
+$isMyCalendar = $showAdd ? "-admin" : "";
 $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
                      "ezcalendar/user/intl", $Language, "monthview.php",
-                     "default", "ezcalendar" . "/user", "$Year-$zMonth-$userID" . $isMyCalendar );
+                     "default", "ezcalendar" . "/user", "$Year-$zMonth-$CalID" . $isMyCalendar );
 
 $t->set_file( "month_view_page_tpl", "monthview.tpl" );
 
@@ -91,19 +90,22 @@ else
 {
     $t->setAllStrings();
 
-    $t->set_block( "month_view_page_tpl", "user_item_tpl", "user_item" );
+    $t->set_block( "month_view_page_tpl", "calendar_item_tpl", "calendar_item" );
     $t->set_block( "month_view_page_tpl", "month_tpl", "month" );
     $t->set_block( "month_tpl", "week_tpl", "week" );
     $t->set_block( "month_tpl", "week_day_tpl", "week_day" );
     $t->set_block( "week_tpl", "day_tpl", "day" );
+    $t->set_block( "day_tpl", "add_appointment_tpl", "add_appointment" );
     $t->set_block( "day_tpl", "public_appointment_tpl", "public_appointment" );
     $t->set_block( "day_tpl", "private_appointment_tpl", "private_appointment" );
     $t->set_block( "day_tpl", "public_todo_tpl", "public_todo" );
-    
+
+    $t->set_var( "calendar_id", $CalID );
     $t->set_var( "month_name", $Locale->monthName( $date->monthName(), false ) );
     $t->set_var( "month_number", $Month );
     $t->set_var( "current_year_number", $Year );
     $t->set_var( "week", "" );
+    $t->set_var( "add_appointment", "" );
 
     // Draw the week day header.
     $headerDate = new eZDate();
@@ -126,6 +128,9 @@ else
 
         $t->parse( "week_day", "week_day_tpl", true );
     }
+
+    if ( $showAdd )
+        $t->parse( "add_appointment", "add_appointment_tpl" );
 
     $today = new eZDate();
     $tmpDate = new eZDate();
@@ -154,8 +159,7 @@ else
                     $tmpDate->setYear( $date->year() );
                     $tmpDate->setMonth( $date->month() );
                     $tmpDate->setDay( $date->day() );
-                    $appointments =& $tmpAppointment->getByDate( $tmpDate, $appOwnerUser, true );
-
+                    $appointments =& $tmpAppointment->getByDate( $tmpDate, $CalID, true );
                     $t->set_var( "public_appointment", "" );
                     $t->set_var( "private_appointment", "" );
                     $t->set_var( "public_todo", "" );
@@ -163,6 +167,7 @@ else
                     foreach ( $appointments as $appointment )
                     {
                         $t->set_var( "appointment_id", $appointment->id() );
+                        $t->set_var( "appointment_title", $appointment->name() );
                         if ( $appointment->allDay() )
                         {
                             $t->set_var( "start_time", $ini->read_var( "eZCalendarMain", "DayStartTime" ) );
@@ -294,31 +299,24 @@ else
     }
     $t->parse( "month", "month_tpl", true );
 
-    // User list
-    if ( $ini->read_var( "eZCalendarMain", "OnlyShowTrustees" ) == "enabled" )
-    {
-        $user_array = array_merge( array( $appOwnerUser ), $appOwnerUser->getByTrustee( -1, true ) );
-    }
-    else
-    {
-        $user_array =& eZUser::getAll();
-    }
-    foreach ( $user_array as $userItem )
-    {
-        $t->set_var( "user_id", $userItem->id() );
-        $t->set_var( "user_firstname", $userItem->firstName() );
-        $t->set_var( "user_lastname", $userItem->lastName() );
+    // Calendar list
+    $cal_array = eZCalendar::getAll();
 
-        if ( $appOwnerUser->id() == $userItem->id() )
+    foreach ( $cal_array as $calItem )
+    {
+        $t->set_var( "calendar_id", $calItem->id() );
+        $t->set_var( "calendar_name", $calItem->name() );
+
+        if ( $CalID == $calItem->id() )
         {
-            $t->set_var( "user_is_selected", "selected" );
+            $t->set_var( "calendar_is_selected", "selected" );
         }
         else
         {
-            $t->set_var( "user_is_selected", "" );
+            $t->set_var( "calendar_is_selected", "" );
         }
 
-        $t->parse( "user_item", "user_item_tpl", true );
+        $t->parse( "calendar_item", "calendar_item_tpl", true );
     }
 
 

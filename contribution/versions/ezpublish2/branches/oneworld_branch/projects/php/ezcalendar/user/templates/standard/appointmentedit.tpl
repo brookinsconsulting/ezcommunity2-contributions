@@ -32,7 +32,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<form method="post" action="{www_dir}{index}/calendar/appointmentedit/{action_value}/{appointment_id}/">
+<form method="post" action="{www_dir}{index}/calendar/appointmentedit/{calendar_id}/{action_value}/{appointment_id}/">
 
 <br />
 
@@ -51,24 +51,11 @@
 </table>
 <br />
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-<tr>
-	<td valign="top">
-
-<p class="boxtext">{intl-userlist}:</p>
-<select name="TrusteeUser[]" {select_multiple}>
-<option value="{own_user_id}" {own_selected}>{own_user_name}</option>
-<!-- BEGIN trustee_user_name_tpl -->
-<option value="{user_id}" {selected}>{user_name}</option>
-<!-- END trustee_user_name_tpl -->
+<select name="Calendars[]" multiple>
+<!-- BEGIN calendar_item_tpl -->
+<option value="{calendar_item_id}" {calendar_selected}>{calendar_name}</option>
+<!-- END calendar_item_tpl -->
 </select>
-<!-- BEGIN multiple_view_tpl -->
-<input class="stdbutton" type="submit" name="ChangeView" value="{intl-multiple_view}" />
-<!-- END multiple_view_tpl -->
-</td>
-</tr>
-</table>
-<br />
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: messageform.php,v 1.16.2.5 2002/04/24 07:26:42 jhe Exp $
+// $Id: messageform.php,v 1.16.2.5.2.1 2002/06/04 11:57:57 jhe Exp $
 //
 // Created on: <21-Feb-2001 18:00:00 pkej>
 //
@@ -169,7 +169,7 @@ if ( $ShowMessageForm )
         }
         else
         {
-            $MessagePostedAt = $locale->format( $msg->postingTime() );
+            $MessagePostedAt = $Locale->format( $msg->postingTime() );
         }
     }
 

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.119.2.20.2.1 2002/05/22 12:16:08 pkej Exp $
+// $Id: index.php,v 1.119.2.20.2.2 2002/06/04 11:57:55 jhe Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -86,7 +86,7 @@ ereg( "([^?]+)", $REQUEST_URI, $regs );
 $REQUEST_URI = $regs[1];
 
   
-$GLOBALS["DEBUG"] = false;
+$GLOBALS["DEBUG"] = true;
 $UsePHPSessions = false;
 
 ob_start();
@@ -111,6 +111,66 @@ include_once( "classes/ezdb.php" );
 include_once( "classes/ezhttptool.php" );
 $ini =& INIFile::globalINI();
 $GlobalSiteIni =& $ini;
+
+$LanguageArray = explode( ",", $HTTP_ACCEPT_LANGUAGE );
+switch ( $LanguageArray[0] )
+{
+    case "en":
+    {
+        $GLOBALS["eZLanguageOverride"] = "en_GB";
+    }
+    break;
+    case "no":
+    {
+        $GLOBALS["eZLanguageOverride"] = "no_NO";
+    }
+    break;
+    case "de":
+    {
+        $GLOBALS["eZLanguageOverride"] = "de_DE";
+    }
+    break;
+    case "en-GB":
+    {
+        $GLOBALS["eZLanguageOverride"] = "en_GB";
+    }
+    break;
+    case "en-US":
+    {
+        $GLOBALS["eZLanguageOverride"] = "en_US";
+    }
+    break;
+    case "nl-BE":
+    {
+        $GLOBALS["eZLanguageOverride"] = "nl_NL";
+    }
+    break;
+    case "it":
+    {
+        $GLOBALS["eZLanguageOverride"] = "it_IT";
+    }
+    break;
+    case "fr":
+    {
+        $GLOBALS["eZLanguageOverride"] = "fr_FR";
+    }
+    break;
+    case "es":
+    {
+        $GLOBALS["eZLanguageOverride"] = "es_ES";
+    }
+    break;
+    case "ex-MX":
+    {
+        $GLOBALS["eZLanguageOverride"] = "es_MX";
+    }
+    break;
+    case "ex-AR":
+    {
+        $GLOBALS["eZLanguageOverride"] = "es_AR";
+    }
+    break;
+}
 
 
 // Set the global nVH variables.

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.50 2001/10/08 14:39:10 jhe Exp $
+// $Id: dayview.php,v 1.50.10.1 2002/06/04 11:57:56 jhe Exp $
 //
 // Created on: <08-Jan-2001 12:48:35 bf>
 //
@@ -31,6 +31,7 @@ include_once( "classes/ezdate.php" );
 include_once( "classes/eztime.php" );
 
 include_once( "ezcalendar/classes/ezappointment.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -94,12 +95,25 @@ $session->setVariable( "Year", $Year );
 $session->setVariable( "Month", $Month );
 $session->setVariable( "Day", $Day );
 
+$groupsID = eZObjectPermission::getGroups( $CalID, "calendar_calendar", 'w' , false );
+$showAdd = false;
+if ( get_class( $user ) == "ezuser" )
+    $userGroups =& $user->groups( false );
+else
+    $userGroups = array();
+
+foreach ( $groupsID as $addGroup )
+{
+    if ( in_array( $addGroup, $userGroups ) )
+        $showAdd = true;
+}
+    
 $zMonth = addZero( $Month );
 $zDay = addZero( $Day );
-$isMyCalendar = ( $user && $user->id() == $userID ) ? "-private" : "";
+$isMyCalendar = $showAdd ? "-admin" : "";
 $t = new eZTemplate( "ezcalendar/user/" . $ini->read_var( "eZCalendarMain", "TemplateDir" ),
                      "ezcalendar/user/intl", $Language, "dayview.php",
-                     "default", "ezcalendar" . "/user", "$Year-$zMonth-$zDay-$userID" . $isMyCalendar );
+                     "default", "ezcalendar" . "/user", "$Year-$zMonth-$zDay-$CalID" . $isMyCalendar );
 
 $t->set_file( "day_view_page_tpl", "dayview.tpl" );
 
@@ -111,8 +125,8 @@ else
 {
     $t->setAllStrings();
 
-    $t->set_block( "day_view_page_tpl", "user_item_tpl", "user_item" );
     $t->set_block( "day_view_page_tpl", "time_table_tpl", "time_table" );
+    $t->set_block( "day_view_page_tpl", "delete_button_tpl", "delete_button" );
     $t->set_block( "time_table_tpl", "no_appointment_tpl", "no_appointment" );
     $t->set_block( "time_table_tpl", "private_appointment_tpl", "private_appointment" );
     $t->set_block( "time_table_tpl", "public_appointment_tpl", "public_appointment" );
@@ -125,14 +139,19 @@ else
     $t->set_var( "year_number", $Year );
     $t->set_var( "day_number", $Day );
     $t->set_var( "long_date", $Locale->format( $date, false ) );
-
+    $t->set_var( "calendar_id", $CalID );
 
     $today = new eZDate();
     $tmpDate = new eZDate( $date->year(), $date->month(), $date->day() );
     $tmpAppointment = new eZAppointment();
 
+    if ( $showAdd )
+        $t->parse( "delete_button", "delete_button_tpl" );
+    else
+        $t->set_var( "delete_button", "" );
+
     // fetch the appointments for the selected day
-    $appointments =& $tmpAppointment->getByDate( $tmpDate, $tmpUser, true );
+    $appointments =& $tmpAppointment->getByDate( $tmpDate, $CalID, true );
 
     // set start/stop and interval times
     $startTime = new eZTime();
@@ -361,15 +380,7 @@ else
             {
                 $appointment = new eZAppointment( $appointmentId );
 
-                // a private appointment
-                if ( $appointment->isPrivate() && $appointment->userID() != $userID )
-                {
-                    $t->set_var( "td_class", "bglight" );
-                    $t->set_var( "rowspan_value", $tableCellsRowSpan[$row][$col] );
-
-                    $t->parse( "private_appointment", "private_appointment_tpl", true );
-                } 
-                else // a public appointment
+                if ( $showAdd )
                 {
                     $t->set_var( "td_class", "bglight" );
                     $t->set_var( "rowspan_value", $tableCellsRowSpan[$row][$col] );
@@ -380,6 +391,17 @@ else
 
                     $t->parse( "delete_check", "delete_check_tpl" );
                     $t->parse( "public_appointment", "public_appointment_tpl", true );
+                } 
+                else
+                {
+                    $t->set_var( "td_class", "bglight" );
+                    $t->set_var( "rowspan_value", $tableCellsRowSpan[$row][$col] );
+                    $t->set_var( "appointment_id", $appointment->id() );
+                    $t->set_var( "appointment_name", $appointment->name() );
+                    $t->set_var( "appointment_description", $appointment->description() );
+                    $t->set_var( "edit_button", "Edit" );
+
+                    $t->parse( "private_appointment", "private_appointment_tpl", true );
                 }
             }
             else if ( $appointmentId == -2 ) // an empty space
@@ -408,28 +430,6 @@ else
         $row++;
 
         $t->parse( "time_table", "time_table_tpl", true );
-    }
-
-
-    // User list
-    $user_array =& eZUser::getAll();
-
-    foreach ( $user_array as $userItem )
-    {
-        $t->set_var( "user_id", $userItem->id() );
-        $t->set_var( "user_firstname", $userItem->firstName() );
-        $t->set_var( "user_lastname", $userItem->lastName() );
-
-        if ( $tmpUser->id() == $userItem->id() )
-        {
-            $t->set_var( "user_is_selected", "selected" );
-        }
-        else
-        {
-            $t->set_var( "user_is_selected", "" );
-        }
-
-        $t->parse( "user_item", "user_item_tpl", true );
     }
 
 

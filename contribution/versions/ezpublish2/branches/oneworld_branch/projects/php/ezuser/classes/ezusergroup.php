@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezusergroup.php,v 1.31.2.1 2001/12/07 17:07:01 br Exp $
+// $Id: ezusergroup.php,v 1.31.2.1.2.1 2002/06/04 11:57:57 jhe Exp $
 //
 // Definition of eZCompany class
 //
@@ -292,29 +292,36 @@ class eZUserGroup
             case "name" :
             {
                 $orderBy = "U.LastName, U.FirstName";
+                $groupString = $orderBy;
             }
             break;
             
             case "lastname" :
             {
                 $orderBy = "U.LastName";
+                $groupString = $orderBy;
             }
             break;
 
             case "firstname" :
             {
                 $orderBy = "U.FirstName";
+                $groupString = $orderBy;
             }
             break;
 
             case "email" :
             {
                 $orderBy = "U.Email";
+                $groupString = $orderBy;
             }
             break;
             
             default :
+            {
                 $orderBy = "U.Login";
+                $groupString = $orderBy;
+            }
             break;
         }
 
@@ -350,19 +357,19 @@ class eZUserGroup
                                          "U.Login", "U.Email" ), $search );
             
             
-            $db->array_query( $user_array, "SELECT  UGL.UserID FROM eZUser_UserGroupLink AS UGL,
+            $db->array_query( $user_array, "SELECT UGL.UserID FROM eZUser_UserGroupLink AS UGL,
                                                                eZUser_User AS U
                                                    WHERE ( $userSQL ) AND UGL.UserID=U.ID
                                                    AND ( " . $query->buildQuery() . " )
-                                                   GROUP BY UGL.UserID, U.Login
+                                                   GROUP BY UGL.UserID, U.Login, $groupString
                                                    ORDER By $orderBy" );
         }
         else
         {
-            $db->array_query( $user_array, "SELECT  UGL.UserID FROM eZUser_UserGroupLink AS UGL,
+            $db->array_query( $user_array, "SELECT UGL.UserID FROM eZUser_UserGroupLink AS UGL,
                                                                eZUser_User AS U
                                                    WHERE ( $userSQL ) AND UGL.UserID=U.ID
-                                                   GROUP BY UGL.UserID, U.Login
+                                                   GROUP BY UGL.UserID, U.Login, $groupString
                                                    ORDER By $orderBy" );
 
         }

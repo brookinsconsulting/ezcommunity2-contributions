@@ -41,7 +41,12 @@
 <tr>        
    	<td valign="top">
 	<p class="boxtext">{intl-author}:</p>
-    {main-user}
+	<!-- BEGIN author_link_tpl -->
+	<a href="/workspace/user/{user_id}">{main-user}</a>
+	<!-- END author_link_tpl -->
+        <!-- BEGIN author_no_link_tpl -->
+	{main-user}
+        <!-- END author_no_link_tpl -->
 	</td>
 	<td align="right" valign="top">
 	<p class="boxtext">{intl-time}:</p>
@@ -116,7 +121,7 @@
 		<!-- END new_icon_tpl -->
 		<!-- BEGIN old_icon_tpl -->
                 <img src="{www_dir}/images/message.gif" width="16" height="16" border="0" alt="Message" />&nbsp;
-		<!-- END old_icon_tpl -->	
+		<!-- END old_icon_tpl -->
 		</td>
 		<td width="99%">
 		{spacer}{spacer}<a class="{link_color}" href="{www_dir}{index}/forum/message/{message_id}/">{reply_topic}</a>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: message.php,v 1.36.2.3 2002/04/09 12:22:17 jhe Exp $
+// $Id: message.php,v 1.36.2.3.2.1 2002/06/04 11:57:57 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -48,9 +48,14 @@ $t->set_file( "message_tpl", "message.tpl" );
 
 $t->set_block( "message_tpl", "message_body_tpl", "message_body" );
 $t->set_block( "message_tpl", "message_error_tpl", "message_error" );
+
 $t->set_block( "message_body_tpl", "header_list_tpl", "header_list" );
 $t->set_block( "message_body_tpl", "message_item_tpl", "message_item" );
 $t->set_block( "message_body_tpl", "edit_current_message_item_tpl", "edit_current_message_item" );
+$t->set_block( "message_body_tpl", "author_link_tpl", "author_link" );
+$t->set_block( "message_body_tpl", "author_no_link_tpl", "author_no_link" );
+
+
 $t->set_block( "message_item_tpl", "edit_message_item_tpl", "edit_message_item" );
 
 $t->set_block( "message_item_tpl", "new_icon_tpl", "new_icon" );
@@ -58,6 +63,8 @@ $t->set_block( "message_item_tpl", "old_icon_tpl", "old_icon" );
 
 $t->set_var( "header_list", "" );
 $t->set_var( "edit_current_message_item", "" );
+$t->set_var( "author_link", "" );
+$t->set_var( "author_no_link", "" );
 
 $message = new eZForumMessage( $MessageID );
 
@@ -125,10 +132,13 @@ else
 if ( $author->id() == 0 )
 {
     $MessageAuthor = $anonymous;
+    $t->parse( "author_no_link", "author_no_link_tpl" );
 }
 else
 {
     $MessageAuthor = $author->firstName() . " " . $author->lastName();
+    $t->set_var( "user_id", $author->id() );
+    $t->parse( "author_link", "author_link_tpl" );
 }
 
 $t->set_var( "main-user", $MessageAuthor );

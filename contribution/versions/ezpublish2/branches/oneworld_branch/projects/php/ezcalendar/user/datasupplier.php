@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.18 2001/09/05 12:51:13 jhe Exp $
+// $Id: datasupplier.php,v 1.18.10.1 2002/06/04 11:57:56 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -30,7 +30,8 @@ switch ( $url_array[2] )
 {
     case "yearview" :
     {
-        $Year = $url_array[3];
+        $CalID = $url_array[3];
+        $Year = $url_array[4];
 
         include( "ezcalendar/user/yearview.php" );
     }
@@ -38,8 +39,9 @@ switch ( $url_array[2] )
 
     case "monthview" :
     {
-        $Year = $url_array[3];
-        $Month = $url_array[4];
+        $CalID = $url_array[3];
+        $Year = $url_array[4];
+        $Month = $url_array[5];
 
         include( "ezcalendar/user/monthview.php" );
     }
@@ -47,9 +49,10 @@ switch ( $url_array[2] )
 
     case "dayview" :
     {
-        $Year = $url_array[3];
-        $Month = $url_array[4];
-        $Day = $url_array[5];
+        $CalID = $url_array[3];
+        $Year = $url_array[4];
+        $Month = $url_array[5];
+        $Day = $url_array[6];
 
         include( "ezcalendar/user/dayview.php" );
     }
@@ -57,42 +60,43 @@ switch ( $url_array[2] )
     
     case "appointmentedit" :
     {
-        switch ( $url_array[3] )
+        $CalID = $url_array[3];
+        switch ( $url_array[4] )
         {
             case "new" :
             {
                 $Action = "New";
-                $Year = $url_array[4];
-                $Month = $url_array[5];
-                $Day = $url_array[6];
-                $StartTime = $url_array[7];
+                $Year = $url_array[5];
+                $Month = $url_array[6];
+                $Day = $url_array[7];
+                $StartTime = $url_array[8];
             }
             break;
 
             case "edit" :
             {
                 $Action = "Edit";
-                $AppointmentID = $url_array[4];
+                $AppointmentID = $url_array[5];
             }
             break;
 
             case "update" :
             {
                 $Action = "Update";
-                $AppointmentID = $url_array[4];
+                $AppointmentID = $url_array[5];
             }
             break;
 
             case "insert" :
             {
                 $Action = "Insert";
-                $AppointmentID = $url_array[4];
+                $AppointmentID = $url_array[5];
             }
             break;
 
             default :
             {
-                $Action = $url_array[3];
+                $Action = $url_array[5];
             }
         }
         if ( isSet( $ChangeView ) )
@@ -103,27 +107,9 @@ switch ( $url_array[2] )
 
     case "appointmentview" :
     {
-        $AppointmentID = $url_array[3];
+        $CalID = $url_array[3];
+        $AppointmentID = $url_array[4];
         include( "ezcalendar/user/appointmentview.php" );
-    }
-    break;
-
-    case "trustees":
-    {
-        switch ( $url_array[3] )
-        {
-            case "edit":
-            {
-                $Action = "edit";
-                include( "ezcalendar/user/trustees.php" );
-                break;
-            }
-            default:
-            {
-                include( "ezcalendar/user/trustees.php" );
-            }
-            break;
-        }
     }
     break;
 }

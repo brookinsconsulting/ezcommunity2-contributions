@@ -5,13 +5,13 @@
 
 <form method="post" action="{www_dir}{index}/calendar/monthview/">
 <p class="boxtext">{intl-user}:</p>
-<select name="GetByUserID">
-<!-- BEGIN user_item_tpl -->
-<option value="{user_id}" {user_is_selected}>{user_firstname} {user_lastname}</option>
-<!-- END user_item_tpl -->
+<select name="GetByCalID">
+<!-- BEGIN calendar_item_tpl -->
+<option value="{calendar_id}" {calendar_is_selected}>{calendar_name}</option>
+<!-- END calendar_item_tpl -->
 </select>
 
-<input class="stdbutton" type="submit" Name="GetByUser" value="{intl-show}">
+<input class="stdbutton" type="submit" Name="GetByCal" value="{intl-show}">
 
 </form>
 <br />
@@ -44,16 +44,16 @@
 
 <!-- BEGIN day_tpl -->
 <td class="{td_class}" valign="top" >
-<a class="boxtext" href="{www_dir}{index}/calendar/dayview/{year_number}/{month_number}/{day_number}">{day_number}</a>
+<a class="boxtext" href="{www_dir}{index}/calendar/dayview/{calendar_id}/{year_number}/{month_number}/{day_number}">{day_number}</a>
 <br />
 <img src="{www_dir}/images/1x1.gif" height="4" width="2" border="0" alt="" /><br />
 
 <!-- BEGIN private_appointment_tpl -->
-{start_time} - {stop_time}<br />
+{start_time} - {stop_time}: {appointment_title}<br />
 <!-- END private_appointment_tpl -->
 
 <!-- BEGIN public_appointment_tpl -->
-<a class="small" href="{www_dir}{index}/calendar/appointmentview/{appointment_id}/">{start_time} - {stop_time}</a><br />
+<a class="small" href="{www_dir}{index}/calendar/appointmentview/{calendar_id}/{appointment_id}/">{start_time} - {stop_time}: {appointment_title}</a><br />
 <img src="{www_dir}/images/1x1.gif" height="4" width="2" border="0" alt="" /><br />
 
 <!-- END public_appointment_tpl -->
@@ -65,7 +65,9 @@
 
 <br />
 <br />
-<div align="right"><a class="path" href="{www_dir}{index}/calendar/appointmentedit/new/{year_number}/{month_number}/{day_number}">+</a></div>
+<!-- BEGIN add_appointment_tpl -->
+<div align="right"><a class="path" href="{www_dir}{index}/calendar/appointmentedit/{calendar_id}/new/{year_number}/{month_number}/{day_number}">+</a></div>
+<!-- END add_appointment_tpl -->
 </td>
 <!-- END day_tpl -->
 

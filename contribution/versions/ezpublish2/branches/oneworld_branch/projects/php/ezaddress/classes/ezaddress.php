@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezaddress.php,v 1.19.2.1 2001/12/05 14:14:01 br Exp $
+// $Id: ezaddress.php,v 1.19.2.1.2.1 2002/06/04 11:57:56 jhe Exp $
 //
 // Definition of eZAddress class
 //
@@ -65,22 +65,17 @@ class eZAddress
         else
             $country_id = "$this->CountryID";
 
-        $street1 = $db->escapeString( $this->Street1 );
-        $street2 = $db->escapeString( $this->Street2 );
+        $address = $db->escapeString( $this->AddressField );
         $name = $db->escapeString( $this->Name );
-        $place = $db->escapeString( $this->Place );
         if ( !isSet( $this->ID ) )
         {
             $db->lock( "eZAddress_Address" );
 			$this->ID = $db->nextID( "eZAddress_Address", "ID" );
             $res[] = $db->query( "INSERT INTO eZAddress_Address
-                                  (ID, Street1, Street2, Zip, Place, CountryID, AddressTypeID, Name)
+                                  (ID, Address, CountryID, AddressTypeID, Name)
                                   VALUES
                                   ('$this->ID',
-                                   '$street1',
-                                   '$street2',
-                                   '$this->Zip',
-                                   '$place',
+                                   '$address',
                                    '$country_id',
                                    '$this->AddressTypeID',
                                    '$name')" );
@@ -89,15 +84,12 @@ class eZAddress
         }
         else
         {
-            $res[] = $db->query( "UPDATE eZAddress_Address
-                                  SET Street1='$street1',
-                                  Street2='$street2',
-                                  Zip='$this->Zip',
-                                  Place='$place',
+            $res[] = $db->query( "UPDATE eZAddress_Address SET
+                                  Address='$address',
                                   AddressTypeID='$this->AddressTypeID',
                                   Name='$name',
                                   CountryID=$country_id
-                                  WHERE ID='$this->ID'" );            
+                                  WHERE ID='$this->ID'" );
             $ret = true;            
         }
 
@@ -122,10 +114,7 @@ class eZAddress
             else if ( count( $address_array ) == 1 )
             {
                 $this->ID =& $address_array[0][$db->fieldName( "ID" )];
-                $this->Street1 =& $address_array[0][$db->fieldName( "Street1" )];
-                $this->Street2 =& $address_array[0][$db->fieldName( "Street2" )];
-                $this->Zip =& $address_array[0][$db->fieldName( "Zip" )];
-                $this->Place =& $address_array[0][$db->fieldName( "Place" )];
+                $this->AddressField =& $address_array[0][$db->fieldName( "Address" )];
                 $this->CountryID =& $address_array[0][$db->fieldName( "CountryID" )];
                 $this->AddressTypeID =& $address_array[0][$db->fieldName( "AddressTypeID" )];
                 $this->Name =& $address_array[0][$db->fieldName( "Name" )];
@@ -140,7 +129,7 @@ class eZAddress
     /*!
       Henter ut alle adressene lagret i databasen.
     */
-    function getAll( )
+    function getAll()
     {
         $db =& eZDB::globalDatabase();
         $address_array = 0;
@@ -179,27 +168,11 @@ class eZAddress
     /*!
       Empty this ID.
     */
-    function unsetID(  )
+    function unsetID()
     {
         unset( $this->ID );
     }
     
-    /*!
-      Setter  street1.
-    */
-    function setStreet1( $value )
-    {
-        $this->Street1 = $value;
-    }
-
-    /*!
-      Setter  street2.
-    */
-    function setStreet2( $value )
-    {
-        $this->Street2 = $value;
-    }
-
     /*!
       Sets the name.
     */
@@ -209,24 +182,16 @@ class eZAddress
     }
 
     /*!
-      Setter postkode.
-    */
-    function setZip( $value )
-    {
-        $this->Zip = $value;
-    }
-
-    /*!
       Setter adressetype.
     */
     function setAddressType( $value )
     {
-        if( is_numeric( $value ) )
+        if ( is_numeric( $value ) )
         {
             $this->AddressTypeID = $value;
         }
         
-        if( get_class( $value ) == "ezaddresstype" )
+        if ( get_class( $value ) == "ezaddresstype" )
         {
             $this->AddressTypeID = $value->id();
         }
@@ -237,12 +202,12 @@ class eZAddress
     */
     function setAddressTypeID( $value )
     {
-        if( is_numeric( $value ) )
+        if ( is_numeric( $value ) )
         {
             $this->AddressTypeID = $value;
         }
         
-        if( get_class( $value ) == "ezaddresstype" )
+        if ( get_class( $value ) == "ezaddresstype" )
         {
             $this->AddressTypeID = $value->id();
         }
@@ -321,38 +286,6 @@ class eZAddress
     }
     
     /*!
-      Returnerer  street1.
-    */
-    function street1( )
-    {
-        return $this->Street1;
-    }
-
-    /*!
-      Returnerer  street2.
-    */
-    function street2( )
-    {
-        return $this->Street2;
-    }
-
-    /*!
-      Returns the name.
-    */
-    function name( )
-    {
-        return $this->Name;
-    }
-
-    /*!
-      Returnerer postkode.
-    */
-    function zip( )
-    {
-        return $this->Zip;
-    }
-
-    /*!
       Returnerer adressetype id.
     */
     function addressTypeID()
@@ -369,14 +302,19 @@ class eZAddress
         return $addressType;
     }
 
-    /*!
-      Sets the place value.
-    */
-    function setPlace( $value )
+    function address( $asHTML = true )
     {
-       $this->Place = $value;
+        if ( $asHTML )
+            return nl2br( $this->AddressField );
+        else
+            return eZTextTool::htmlspecialchars( $this->AddressField );
     }
 
+    function setAddress( $value )
+    {
+        $this->AddressField = $value;
+    }
+    
     /*!
       Sets the country, takes an eZCountry object as argument.
     */
@@ -393,19 +331,11 @@ class eZAddress
     }
 
     /*!
-     Returns the place.
-    */
-    function place()
-    {
-       return $this->Place;
-    }
-
-    /*!
       Returns the country as an eZCountry object.
     */
     function country()
     {
-        if ( is_numeric( $this->CountryID ) and $this->CountryID > 0 )
+        if ( is_numeric( $this->CountryID ) && $this->CountryID > 0 )
             return new eZCountry( $this->CountryID );
         else
             return false;
@@ -413,10 +343,7 @@ class eZAddress
 
     
     var $ID;
-    var $Street1;
-    var $Street2;
-    var $Zip;
-    var $Place;
+    var $AddressField;
     var $CountryID;
     var $Name;
     

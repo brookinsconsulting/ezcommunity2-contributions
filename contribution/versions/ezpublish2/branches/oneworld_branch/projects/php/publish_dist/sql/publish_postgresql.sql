@@ -880,6 +880,11 @@ CREATE TABLE eZContact_Company (
   ContactType int DEFAULT '0' NOT NULL,
   CompanyNo varchar(20) DEFAULT '' NOT NULL,
   ContactID int DEFAULT '0',
+  Approved int DEFAULT '0',
+  ExpiryDate int DEFAULT '0',
+  WarningDate int DEFAULT '0',
+  SentWarning int DEFAULT '0',
+  UserID int,
   PRIMARY KEY (ID)
 );
 
@@ -949,6 +954,7 @@ CREATE TABLE eZContact_Consultation (
   Date int,
   StateID int DEFAULT '0' NOT NULL,
   EmailNotifications varchar(255) DEFAULT '' NOT NULL,
+  SystemMessage int DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
 
@@ -1037,6 +1043,8 @@ CREATE TABLE eZContact_ProjectType (
   ID int NOT NULL,
   Name varchar(50) DEFAULT '' NOT NULL,
   ListOrder int DEFAULT '0' NOT NULL,
+  ExpiryTime int DEFAULT '0' NOT NULL,
+  WarningTime int DEFAULT '0' NOT NULL,
   PRIMARY KEY (ID)
 );
 
@@ -1071,7 +1079,6 @@ CREATE TABLE eZContact_CompanyImageDict (
   ImageID int DEFAULT '0' NOT NULL,
   PRIMARY KEY (CompanyID,ImageID)
 );
-
 CREATE TABLE eZExample_Test (
   ID int DEFAULT '0' NOT NULL,
   Text varchar(100),
@@ -1372,7 +1379,7 @@ CREATE TABLE eZLink_Link (
   Modified int NOT NULL,
   Accepted int,
   Created int default NULL,
-  Url varchar(100) default NULL,
+  Url text default NULL,
   ImageID int NOT NULL,
   PRIMARY KEY (ID)
 );
@@ -1693,6 +1700,50 @@ CREATE TABLE eZModule_LinkModuleType (
   Type varchar(40) NOT NULL default '',
   PRIMARY KEY (ID,Module,Type)
 );
+CREATE TABLE eZNewsFeed_Category (
+  ID int NOT NULL,
+  Name varchar(150) NOT NULL default '',
+  Description text,
+  ParentID int NOT NULL default '0',
+  PRIMARY KEY (ID)
+);
+
+INSERT INTO eZNewsFeed_Category VALUES (1,'News from freshmeat','',0);
+
+CREATE TABLE eZNewsFeed_News (
+  ID int NOT NULL,
+  IsPublished int NOT NULL default '0',
+  PublishingDate int NOT NULL,
+  OriginalPublishingDate int NOT NULL,
+  Name varchar(150) NOT NULL default '',
+  Intro text,
+  KeyWords varchar(200) default NULL,
+  URL varchar(200) default NULL,
+  Origin varchar(150) default NULL,
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZNewsFeed_NewsCategoryLink (
+  ID int NOT NULL,
+  NewsID int NOT NULL default '0',
+  CategoryID int NOT NULL default '0',
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZNewsFeed_SourceSite (
+  ID int DEFAULT '0' NOT NULL,
+  URL varchar(250),
+  Login varchar(30),
+  Password varchar(30),
+  CategoryID int NOT NULL default '0',
+  Name varchar(100),
+  Decoder varchar(50),
+  IsActive int default '0',
+  AutoPublish int NOT NULL default '0',
+  PRIMARY KEY (ID)
+);
+
+INSERT INTO eZNewsFeed_SourceSite VALUES (1,'http://freshmeat.net/backend/fm.rdf','','',1,'Freshmeat','',0,0);
 CREATE TABLE eZPoll_MainPoll (
   ID int NOT NULL,
   PollID int default NULL,
@@ -1736,7 +1787,7 @@ CREATE TABLE eZPoll_PollForumLink (
 CREATE TABLE eZQuiz_Alternative (
   ID int NOT NULL,
   QuestionID int default '0',
-  Name char(100) default NULL,
+  Name varchar(100) default NULL,
   IsCorrect int default '0',
   PRIMARY KEY (ID)
 );
@@ -1752,14 +1803,14 @@ CREATE TABLE eZQuiz_Game (
   ID int NOT NULL,
   Name varchar(30) default NULL,
   Description text,
-  StartDate date default NULL,
-  StopDate date default NULL,
+  StartDate int default NULL,
+  StopDate int default NULL,
   PRIMARY KEY (ID)
 );
 
 CREATE TABLE eZQuiz_Question (
   ID int NOT NULL,
-  Name char(100) default NULL,
+  Name varchar(100) default NULL,
   GameID int default '0',
   Placement int default '0',
   Score int default '0',
@@ -1852,16 +1903,16 @@ INSERT INTO eZSiteManager_Section ( ID,  Name, Created, Description, SiteDesign,
 
 
 CREATE TABLE eZSiteManager_Menu (
-  ID int(11) NOT NULL default '0',
+  ID int NOT NULL default '0',
   Name varchar(40) default NULL,
   Link varchar(40) default NULL,
-  Type int(11) default '1',
-  ParentID int(11) default '0',
+  Type int default '1',
+  ParentID int default '0',
   PRIMARY KEY  (ID)
 );
 
 CREATE TABLE eZSiteManager_MenuType (
-  ID int(11) NOT NULL default '0',
+  ID int NOT NULL default '0',
   Name varchar(30) default NULL,
   PRIMARY KEY  (ID)
 );
@@ -2415,45 +2466,45 @@ CREATE TABLE eZTrade_ValueQuantityDict (
 );
 
 CREATE TABLE eZTrade_Voucher (
-  ID int(11) NOT NULL default '0',
-  Created int(11) default '0',
+  ID int NOT NULL default '0',
+  Created int default '0',
   Price float default '0',
-  Available int(11) default '0',
+  Available int default '0',
   KeyNumber varchar(50) default NULL,
-  MailMethod int(11) default '1',
-  UserID int(11) default '0',
-  ProductID int(11) default '0',
-  VoucherID int(11) default '0',	
-  TotalValue int(11) default '0',	
-  PRIMARY KEY  (ID)
-) TYPE=MyISAM;
+  MailMethod int default '1',
+  UserID int default '0',
+  ProductID int default '0',
+  VoucherID int default '0',	
+  TotalValue int default '0',	
+  PRIMARY KEY (ID)
+);
 
 CREATE TABLE eZTrade_VoucherInformation (
-  ID int(11) NOT NULL default '0',
-  VoucherID int(11) default '0',
-  OnlineID int(11) default '0',
-  ToAddressID int(11) default '0',
+  ID int NOT NULL default '0',
+  VoucherID int default '0',
+  OnlineID int default '0',
+  ToAddressID int default '0',
   Description text,
-  PreOrderID int(11) default '0',
-  Price int(11) default '0',
-  MailMethod int(11) default '1',
+  PreOrderID int default '0',
+  Price int default '0',
+  MailMethod int default '1',
   ToName varchar(80) default NULL,
   FromName varchar(80) default NULL,
-  FromOnlineID int(11) default '0',
-  FromAddressID int(11) default '0',
-  ProductID int(11) default '0',
+  FromOnlineID int default '0',
+  FromAddressID int default '0',
+  ProductID int default '0',
   PRIMARY KEY  (ID)
-) TYPE=MyISAM;
+);
 
 CREATE TABLE eZTrade_VoucherUsed (
-  ID int(11) NOT NULL default '0',
-  Used int(11) default '0',
+  ID int NOT NULL default '0',
+  Used int default '0',
   Price float default NULL,
-  VoucherID int(11) default '0',
-  OrderID int(11) default '0',
-  UserID int(11) default '0',
+  VoucherID int default '0',
+  OrderID int default '0',
+  UserID int default '0',
   PRIMARY KEY  (ID)
-) TYPE=MyISAM;
+);
 
 CREATE TABLE eZTrade_WishList (
   ID int NOT NULL,

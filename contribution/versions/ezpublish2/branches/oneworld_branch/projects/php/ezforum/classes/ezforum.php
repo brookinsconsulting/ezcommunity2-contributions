@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezforum.php,v 1.54.2.1 2002/05/03 11:57:15 jhe Exp $
+// $Id: ezforum.php,v 1.54.2.1.2.1 2002/06/04 11:57:57 jhe Exp $
 //
 // Created on: <11-Sep-2000 22:10:06 bf>
 //
@@ -705,7 +705,6 @@ class eZForum
 
         return $ret;
     }
-
 
     var $ID;
     var $Name;

@@ -20,3 +20,18 @@ CREATE TABLE eZCalendar_AppointmentType (
   Name varchar(200),
   PRIMARY KEY (ID)
 );
+
+CREATE TABLE eZCalendar_Calendar (
+  ID int NOT NULL,
+  Name varchar(50),
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE eZCalendar_CalendarPermission (
+  ID int NOT NULL,
+  ObjectID int,
+  GroupID int,
+  ReadPermission int DEFAULT '0',
+  WritePermission int DEFAULT '0',
+  PRIMARY KEY (ID)
+);

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezobjectpermission.php,v 1.36.2.7 2002/04/23 15:33:45 bf Exp $
+// $Id: ezobjectpermission.php,v 1.36.2.7.2.1 2002/06/04 11:57:57 jhe Exp $
 //
 // Definition of eZObjectPermission class
 //
@@ -278,7 +278,7 @@ class eZObjectPermission
         $queryexists = "SELECT count( ID ) AS ID FROM $tableName WHERE ObjectID='$objectID' AND GroupID='$groupID'";
         $db->query_single( $res, $queryexists );
 
-        if ( $res[$db->fieldName("ID")] == 0 )
+        if ( $res[$db->fieldName( "ID" )] == 0 )
         {
             $db->lock( $tableName );
 
@@ -290,11 +290,11 @@ class eZObjectPermission
             
             $res = $db->query( $query );
         }
-        else if ( $res[$db->fieldName("ID")] == 1 )
+        else if ( $res[$db->fieldName( "ID" )] == 1 )
         {
             $query = "UPDATE $tableName SET $SQLPermission='1' WHERE ObjectID='$objectID' AND GroupID='$groupID'";
             $res = $db->query( $query );
-        }
+        }        
         else
         {
             print( "Duplicate objects in database. Please contact your administrator" );
@@ -480,11 +480,10 @@ class eZObjectPermission
 
         $db =& eZDB::globalDatabase();
         if ( get_class( $user ) == "ezuser" and $user->hasRootAccess() )
-            $query =  "SELECT $SQLReturn FROM $tableName";
+            $query =  "SELECT $SQLReturn FROM $tableName GROUP BY ObjectID";
         else
-            $query = "SELECT $SQLReturn FROM $tableName WHERE ( $SQLGroups ) AND $SQLPermission";
+            $query = "SELECT $SQLReturn FROM $tableName WHERE ( $SQLGroups ) AND $SQLPermission GROUP BY ObjectID";
             
-        
         $db->array_query( $res, $query );
         if ( $count == true )
         {
@@ -566,6 +565,14 @@ function getTableName( $name, $withDefinition=false )
             $ret = "eZBug_ModulePermission";
         break;
 
+        case "calendar_calendar" :
+            $ret = "eZCalendar_CalendarPermission";
+        break;
+
+        case "contact_package" :
+            $ret = "eZContact_PackagePermission";
+        break;
+        
         default :
             $ret = "";
         break;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.52 2001/11/08 11:59:11 bf Exp $
+// $Id: ezdb.php,v 1.52.2.1 2002/06/04 11:57:55 jhe Exp $
 //
 // Definition of eZDB class
 //
@@ -136,19 +136,19 @@ class eZDB
     */
     function &globalDatabase( $prefix="" )
     {
-        $impl =& $GLOBALS[$prefix . "eZDB"];
+        $i = 0;
+        $impl =& $GLOBALS["eZDB"];
 
         $class =& get_class( $impl );
         if ( !preg_match( "/ez.*?db/", $class ) )
         {
             $ini =& INIFile::globalINI();
 
-            $server =& $ini->read_var( "site", $prefix . "Server" );
-            $db =& $ini->read_var( "site", $prefix . "Database" );
-            $user =& $ini->read_var( "site", $prefix . "User" );
-            $password =& $ini->read_var( "site", $prefix . "Password" );
-            $databaseImplementation =& $ini->read_var( "site", $prefix . "DatabaseImplementation" );
-            
+            $server =& $ini->read_var( "site", "Server" );
+            $db =& $ini->read_var( "site", "Database" );
+            $user =& $ini->read_var( "site", "User" );
+            $password =& $ini->read_var( "site", "Password" );
+            $databaseImplementation =& $ini->read_var( "site", "DatabaseImplementation" );
             switch ( $databaseImplementation )
             {
                 case "mysql" :
@@ -180,8 +180,7 @@ class eZDB
                 }
                 break;
             }
-        }        
-
+        }
         return $impl;
     }
 

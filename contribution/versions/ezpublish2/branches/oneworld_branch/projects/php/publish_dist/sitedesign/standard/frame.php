@@ -221,10 +221,10 @@ else
     ?>
 
     <?
-    include( "ezpoll/user/votebox.php" );
+     include( "ezpoll/user/votebox.php" );
     ?>
     <?
-    include( "ezsearch/user/menubox.php" );
+     include( "ezsearch/user/menubox.php" );
     ?>
 
 <!-- Right menu end -->

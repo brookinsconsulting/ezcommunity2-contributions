@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezforummessage.php,v 1.104.2.6 2002/02/05 10:39:07 jhe Exp $
+// $Id: ezforummessage.php,v 1.104.2.6.2.1 2002/06/04 11:57:57 jhe Exp $
 //
 // Definition of eZForumMessage class
 //
@@ -897,6 +897,35 @@ class eZForumMessage
         return $message_array;
     }
     
+    function messagesByUser( $userID, $offset = 0, $limit = -1 )
+    {
+        $user =& eZUser::currentUser();
+
+        $groupSQL = "(f.groupid=0 ";
+        $groups =& $user->groups( false );
+        $counter = 0;
+        
+        foreach ( $groups as $group )
+        {
+            $groupSQL .= "or f.groupid=" . $group . " ";
+        }
+        $groupSQL .= ")";
+
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $result, "SELECT m.* FROM ezforum_message AS m, ezforum_forum AS f WHERE m.userid='$userID' AND $groupSQL", array( "Offset" => $offset, "Limit" => $limit ) );
+        $resultArray = array();
+
+        foreach ( $result as $line )
+        {
+            $resultArray[] = new eZForumMessage( $line[$db->fieldName( "ID" )] );
+        }
+
+        return $resultArray;
+    }
+    
+
+
     var $ID;
     var $ForumID;
     var $ParentID;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcachefile.php,v 1.14 2001/10/06 11:41:49 bf Exp $
+// $Id: ezcachefile.php,v 1.14.10.1 2002/06/04 11:57:55 jhe Exp $
 //
 // Definition of eZCacheFile class
 //
@@ -48,7 +48,7 @@ class eZCacheFile
 {
     function eZCacheFile( $root, $component, $suffix = "cache", $separator = "-" )
     {
-        if ( strlen( $root ) > 1 and $root[strlen($root) - 1] != "/" )
+        if ( strlen( $root ) > 1 and $root[strlen( $root ) - 1] != "/" )
             $root .= "/";
         $this->Root = $root;
         if ( !is_array( $component ) )
@@ -61,11 +61,13 @@ class eZCacheFile
     /*!
       Returns the filename of the cache file. If $with_root is true the root dir is prepended.
     */
-    function &filename( $with_root = false )
+    function &filename( $with_root = false, $with_language = true )
     {
         if ( empty( $this->Filename ) )
         {
             $this->Filename = implode( $this->Separator, $this->Components ) . "." . $this->Suffix;
+            if ( $with_language )
+                $this->Filename .= "." . $GLOBALS["eZLanguageOverride"];
         }
         if ( $with_root and empty( $this->AbsFilename ) )
         {
@@ -92,8 +94,19 @@ class eZCacheFile
     */
     function delete()
     {
-        if ( $this->exists() )
-            eZFile::unlink( $this->filename( true ) );
+        $cachefilename = $this->filename( true, false );
+        $handle = opendir( $this->Root );
+        while ( false !== ( $file = readdir( $handle ) ) )
+        {
+            $file = $this->Root . $file;
+
+            if ( substr( $file, 0, strlen( $cachefilename ) ) == $cachefilename )
+            {
+                print( $file . "<br>" );
+                if ( eZFile::file_exists( $file ) )
+                    eZFile::unlink( $file );
+            }
+        }
     }
 
     /*!
@@ -201,13 +214,13 @@ class eZCacheFile
     */
     function files( $root, $components, $suffix = "cache", $separator = "-", $as_object = true )
     {
-        if ( strlen( $root ) > 1 and $root[strlen($root) - 1] != "/" )
+        if ( strlen( $root ) > 1 and $root[strlen( $root ) - 1] != "/" )
             $root .= "/";
         if ( !is_array( $components ) )
             $components = array( $components );
         $reg = "";
         $i = 0;
-        foreach( $components as $comp )
+        foreach ( $components as $comp )
         {
             if ( $i > 0 )
                 $reg .= $separator;
@@ -217,7 +230,7 @@ class eZCacheFile
                 {
                     $cond = "";
                     $j = 0;
-                    foreach( $comp as $choices )
+                    foreach ( $comp as $choices )
                     {
                         if ( $j > 0 )
                             $cond .= "|";

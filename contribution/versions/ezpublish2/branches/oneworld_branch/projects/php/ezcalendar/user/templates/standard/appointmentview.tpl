@@ -91,29 +91,19 @@
 
 <tr><td colspan="2"><br /></td></tr>
 
-<tr>
-	<th colspan="2">
-	{intl-created_by}:
-	</th>
-</tr>
-<tr>
-	<td colspan="2">
-	{appointment_owner}
-	</td>
-</tr>
-
-<tr><td colspan="2"><br /></td></tr>
-
 </table>
 
+<!-- BEGIN edit_appointment_tpl -->
 <hr noshade size="4" />
-<form action="{www_dir}{index}/calendar/appointmentedit/edit/{appointment_id}">
+
+<form action="{www_dir}{index}/calendar/appointmentedit/{calendar_id}/edit/{appointment_id}">
 <input class="stdbutton" type="submit" value="{intl-edit_appointment}">
 </form>
+<!-- END edit_appointment_tpl -->
 <hr noshade size="4" />
 <!-- END view_tpl -->
 
-<form action="{www_dir}{index}/calendar/appointmentedit/edit/">
+<form action="{www_dir}{index}/calendar/appointmentedit/{calendar_id}/edit/{appointment_id}">
 <input class="stdbutton" type="submit" name="GoDay" value="{intl-day}">
 <input class="stdbutton" type="submit" name="GoMonth" value="{intl-month}">
 <input class="stdbutton" type="submit" name="GoYear" value="{intl-year}">

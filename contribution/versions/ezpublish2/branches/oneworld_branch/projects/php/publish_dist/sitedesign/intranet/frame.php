@@ -151,6 +151,7 @@ else
     
    <?
    include( "ezforum/user/menubox.php" );
+   $Limit = 5;
    include( "ezforum/user/latestmessages.php" );
    ?>
 
@@ -199,30 +200,33 @@ else
    	<!-- Right menu start -->
     
     <?
-    include( "ezuser/user/userbox.php" );
+     include( "ezuser/user/userbox.php" );
     ?>
 
     <?
-    include( "ezmail/user/menubox.php" );
+     include( "ezmail/user/menubox.php" );
     ?>
 
     <?
-    include( "eztodo/user/menubox.php" );
+     include( "eztodo/user/menubox.php" );
     ?>
 
     <?
-    include( "eztodo/user/todomenulist.php" );
+     include( "eztodo/user/todomenulist.php" );
     ?>
 
     <?
-    include( "ezcalendar/user/menubox.php" );
+     include( "ezcalendar/user/menubox.php" );
     ?>  
 
 	<?
-	include( "ezcontact/user/consultationlist.php" );
+	 include( "ezcontact/user/consultationlist.php" );
 	?>
     <?
-    include( "ezsearch/user/menubox.php" );
+     include( "ezcontact/user/menubox.php" );
+    ?>
+    <?
+     include( "ezsearch/user/menubox.php" );
     ?>
 
    	<!-- Right menu end -->

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcompany.php,v 1.83.4.1 2002/06/04 07:19:53 jhe Exp $
+// $Id: ezcompany.php,v 1.83.4.2 2002/06/04 11:57:57 jhe Exp $
 //
 // Definition of eZProduct class
 //
@@ -43,10 +43,11 @@
 //require "ezphputils.php";
 
 include_once( "ezaddress/classes/ezaddress.php" );
-include_once( "ezcontact/classes/ezcompanytype.php" );
 include_once( "ezaddress/classes/ezphone.php" );
-include_once( "classes/ezimagefile.php" );
+include_once( "ezcontact/classes/ezcompanytype.php" );
+include_once( "ezcontact/classes/ezconsultation.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
+include_once( "classes/ezimagefile.php" );
 include_once( "classes/ezdate.php" );
 
 class eZCompany
@@ -102,7 +103,12 @@ class eZCompany
                                    '$this->CompanyNo',
                                    '$this->ContactID',
                                    '$type',
-                                   '$this->CreatorID')" );
+                                   '$this->CreatorID',
+                                   '$this->Approved',
+                                   '$this->ExpiryDate',
+                                   '$this->WarningDate',
+                                   '$this->SentWarning',
+                                   '$this->UserID')" );
             $db->unlock();
             $name = strtolower( $name );
             $res[] = $db->query( "INSERT INTO eZContact_CompanyIndex
@@ -265,7 +271,7 @@ class eZCompany
       
       The companies are returned as an array of eZCompany objects.
     */
-    function &getAll( )
+    function &getAll()
     {
         $db =& eZDB::globalDatabase();
 
@@ -281,12 +287,22 @@ class eZCompany
         return $return_array;
     }
 
+    function isApproved()
+    {
+        return $this->Approved == 1 ? true : false;
+    }
+
+    function setIsApproved( $value )
+    {
+        $this->Approved = $value ? 1 : 0;
+    }
+
     /*!
       Returns all the companies found in the database in a specific category.
       
       The companies are returned as an array of eZCompany objects.
     */
-    function &getByCategory( $categoryID, $offset = 0, $limit = -1, $order = "name", $userID = false, $show_all = false )
+    function &getByCategory( $categoryID, $offset = 0, $limit = -1, $order = "name" )
     {
         $db =& eZDB::globalDatabase();
 
@@ -325,24 +341,9 @@ class eZCompany
             }
         }
 
-        $userString = "";
-        $showString = "";
-        
-        if ( $userID )
-        {
-            $userString = "AND eZContact_Company.UserID='$userID' ";
-        }
-
-        if ( !$show_all )
-        {
-            $showString = "AND eZContact_Company.Approved='1' ";
-        }
-
         $db->array_query( $company_array, "SELECT CompanyID FROM eZContact_CompanyTypeDict, eZContact_Company
                                            WHERE eZContact_CompanyTypeDict.CompanyTypeID='$categoryID'
                                            AND eZContact_Company.ID = eZContact_CompanyTypeDict.CompanyID
-                                           $userString
-                                           $showString
                                            ORDER BY eZContact_Company.$order_text $dir", $limit_array );
 
         foreach ( $company_array as $companyItem )
@@ -353,6 +354,38 @@ class eZCompany
         return $return_array;
     }
 
+    function getCompaniesByProjectManager( $categoryID = -1, $as_object = true )
+    {
+        if ( $categoryID == -1 )
+        {
+            $catString = ", eZContact_CompanyTypeDict AS CTD";
+            $catString2 = "AND CTD.CompanyID=PM.ObjectID AND CTD.CompanyTypeID='$categoryID'";
+        }
+        else
+        {
+            $catString = "";
+            $catString2 = "";
+        }
+        
+        $db =& eZDB::globalDatabase();
+        $return_array = array();
+        $ret = array();
+        
+        $db->array_query( $ret, "SELECT PCL.CompanyID FROM eZContact_PackagePermission AS PM,
+                                                           eZContact_PackageCompanyLink AS PCL,
+                                                           eZUser_UserGroupLink AS UGL
+                                                           $catString
+                                 WHERE PCL.PackageID=PM.ObjectID $catString2 AND 
+                                 (UGL.GroupID=PM.GroupID OR UGL.GroupID=-1)
+                                 GROUP BY PCL.CompanyID" );
+
+        foreach ( $ret as $comp )
+        {
+            $return_array[] = $as_object ? new eZCompany( $comp[$db->fieldName( "CompanyID" )] ) : $comp[$db->fieldName( "CompanyID" )];
+        }
+        return $return_array;
+    }
+    
     /*!
       Returns all the companies found in the database in a specific category.
       
@@ -758,8 +791,8 @@ class eZCompany
 
         if ( count( $res_array ) == 1 )
         {
-            if ( $res_array[0][$db->fieldName( "LogoImageID" )] != "NULL"
-            and $res_array[0][$db->fieldName( "LogoImageID" )] != "0" )
+            if ( $res_array[0][$db->fieldName( "LogoImageID" )] != "NULL" &&
+                 $res_array[0][$db->fieldName( "LogoImageID" )] != "0" )
             {
                 $ret = new eZImage( $res_array[0][$db->fieldName( "LogoImageID" )], false );
             }
@@ -891,8 +924,8 @@ class eZCompany
 
         if ( count( $res_array ) == 1 )
         {
-            if ( $res_array[0][$db->fieldName( "CompanyImageID" )] != "NULL"
-            and $res_array[0][$db->fieldName( "CompanyImageID" )] != "0" )
+            if ( $res_array[0][$db->fieldName( "CompanyImageID" )] != "NULL" &&
+                 $res_array[0][$db->fieldName( "CompanyImageID" )] != "0" )
             {
                 $ret = new eZImage( $res_array[0][$db->fieldName( "CompanyImageID" )], false );
             }
@@ -977,7 +1010,6 @@ class eZCompany
     {
         return $this->CompanyNo;
     }
-
 
     /*!
         Set the contact for this object to $value.
@@ -1064,31 +1096,36 @@ class eZCompany
     function setProjectState( $value )
     {
         $db =& eZDB::globalDatabase();
+        $user =& eZUser::currentUser();
         $db->begin();
+        $db->query_single( $name, "SELECT Name
+                                   FROM eZContact_ProjectType, eZContact_CompanyProjectDict
+                                   WHERE eZContact_ProjectType.ID=eZContact_CompanyProjectDict.ProjectID
+                                   AND eZContact_CompanyProjectDict.CompanyID='$this->ID'" );
+        
         $res[] = $db->query( "DELETE FROM eZContact_CompanyProjectDict WHERE CompanyID='$this->ID'" );
-
-        if ( is_numeric( $value )  )
+        
+        if ( is_numeric( $value ) )
         {
             if ( $value > 0 )
             {
-                $timeStamp = eZDateTime::timeStamp( true );
-                $res[] = $db->query_single( $exp, "SELECT ExpiryTime, WarningTime FROM eZContact_ProjectType WHERE ID='$value'" );
-                $this->setExpiryDate( $timeStamp + $exp[$db->fieldName( "ExpiryTime" )] );
-                $this->setWarningDate( $timeStamp + $exp[$db->fieldName( "WarningTime" )] );
+                $res[] = $db->query_single( $exp, "SELECT ExpiryTime FROM eZContact_ProjectType WHERE ID='$value'" );
+                $this->setExpiryDate( eZDateTime::timeStamp( true ) + $exp[$db->fieldName( "ExpiryTime" )] );
                 $checkQuery = "INSERT INTO eZContact_CompanyProjectDict
                                (CompanyID, ProjectID)
                                VALUES
                                ('$this->ID', '$value')";
                 $res[] = $db->query( $checkQuery );
-                $db->query_single( $newname, "SELECT Name FROM eZContact_ProjectType WHERE ID='$value'" );
+                $db->query_single( $newname, "SELECT Name
+                                              FROM eZContact_ProjectType
+                                              WHERE ID='$value'" );
                 $consultation = new eZConsultation();
                 $consultation->setShortDescription( "Changed status" );
                 $consultation->setDescription( "Changed status from " . $name[$db->fieldName( "Name" )] . " to " . $newname[$db->fieldName( "Name" )] . "." );
-                $consultation->setDate( new eZDateTime() );
+                $consultation->setDate( eZDateTime::timeStamp( true ) );
                 $consultation->setSystemMessage( true );
 //                $consultation->setState( $StatusID );
                 $consultation->store();
-                $consultation->addConsultationToCompany( $this->ID, $user->id() );
             }
         }
         eZDB::finish( $res, $db );
@@ -1136,7 +1173,7 @@ class eZCompany
         $db =& eZDB::globalDatabase();
         if ( $companyID )
         {
-            $db->query_single( $res, "SELECT UserID FROM eZContact_Company WHERE ID=$companyID" );
+            $db->array_single( $res, "SELECT UserID FROM eZContact_Company WHERE ID=$companyID" );
             $userID = $res[$db->fieldName( "UserID" )];
         }
         else
@@ -1218,14 +1255,14 @@ class eZCompany
         {
             foreach ( $arr as $row )
             {
-                $ret[] = new eZPerson( $row[ $db->fieldName( "PersonID" ) ] );
+                $ret[] = new eZPerson( $row[$db->fieldName( "PersonID" )] );
             }
         }
         else
         {
             foreach ( $arr as $row )
             {
-                $ret[] = $row[ $db->fieldName( "PersonID" ) ];
+                $ret[] = $row[$db->fieldName( "PersonID" )];
             }
         }
         return $ret;
@@ -1353,6 +1390,11 @@ class eZCompany
     var $ContactID;
     var $PersonContactID;
     var $CompanyNo;
+    var $Approved;
+    var $ExpiryDate;
+    var $WarningDate;
+    var $SentWarning;
+    var $UserID;
 }
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: appointmentview.php,v 1.18 2001/10/08 14:39:10 jhe Exp $
+// $Id: appointmentview.php,v 1.18.10.1 2002/06/04 11:57:56 jhe Exp $
 //
 // Created on: <08-Jan-2001 11:53:05 bf>
 //
@@ -33,6 +33,8 @@ include_once( "classes/ezlocale.php" );
 
 include_once( "ezcalendar/classes/ezappointment.php" );
 include_once( "ezcalendar/classes/ezappointmenttype.php" );
+include_once( "ezcalendar/classes/ezcalendar.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
@@ -53,6 +55,9 @@ $t->set_block( "view_tpl", "private_tpl", "private" );
 $t->set_block( "view_tpl", "low_tpl", "low" );
 $t->set_block( "view_tpl", "normal_tpl", "normal" );
 $t->set_block( "view_tpl", "high_tpl", "high" );
+$t->set_block( "view_tpl", "edit_appointment_tpl", "edit_appointment" );
+
+$t->set_var( "edit_appointment", "" );
 
 $user =& eZUser::currentUser();
 $session =& eZSession::globalSession();
@@ -74,94 +79,79 @@ if ( ( $session->variable( "ShowOtherCalendarUsers" ) == false ) || ( isSet( $Ge
     $session->setVariable( "ShowOtherCalendarUsers", $GetByUserID );
 }
 
-$tmpUser = new eZUser( $session->variable( "ShowOtherCalendarUsers" ) );
-
-if ( $tmpUser->id() == $userID )
-{
-    $showPrivate = true;
-}
-else
-{
-    $showPrivate = false;
-}
-
 $appointment = new eZAppointment( $AppointmentID );
-$foundAppointment = false;
 
-if ( $appointment->id() > 0 )
-{
-    $ownerUser = new eZUser( $appointment->userID() );
-    $trusteeList = array_merge( $ownerUser->trustees(), $ownerUser->id() );
-    if ( in_array( $user->id(), $trusteeList ) )
-        $foundAppointment = true;
-}
+$appointmentType = $appointment->type();
+$datetime = $appointment->dateTime();
 
-if ( $foundAppointment == false )
+$t->set_var( "calendar_id", $CalID );
+$t->set_var( "appointment_id", $appointment->id() );
+$t->set_var( "appointment_title", $appointment->name() );
+$t->set_var( "appointment_type", $appointmentType->name() );
+$t->set_var( "appointment_date", $locale->format( $datetime->date() ) );
+$t->set_var( "appointment_starttime", $locale->format( $appointment->startTime(), true ) );
+$t->set_var( "appointment_stoptime", $locale->format( $appointment->stopTime(), true ) );
+$t->set_var( "appointment_description", $appointment->description() );
+
+$calID = $appointment->calID();
+
+if ( $appointment->isPrivate() == true )
 {
-    $t->parse( "error", "error_tpl" );
+    $t->parse( "private", "private_tpl" );
+    $t->set_var( "public", "" );
 }
 else
 {
-    $appointment = new eZAppointment( $AppointmentID );
-    $appointmentType = $appointment->type();
-    $datetime = $appointment->dateTime();
-
-    $t->set_var( "appointment_id", $appointment->id() );
-    $t->set_var( "appointment_title", $appointment->name() );
-    $t->set_var( "appointment_type", $appointmentType->name() );
-    $t->set_var( "appointment_date", $locale->format( $datetime->date() ) );
-    $t->set_var( "appointment_starttime", $locale->format( $appointment->startTime(), true ) );
-    $t->set_var( "appointment_stoptime", $locale->format( $appointment->stopTime(), true ) );
-    $t->set_var( "appointment_description", $appointment->description() );
-
-    $userID = $appointment->userID();
-    if ( $userID != false )
-    {
-        $owner = new eZUser( $userID );
-        $t->set_var( "appointment_owner", $owner->name() );
-    }
-    else
-        $t->set_var( "appointment_owner", "unknown user" );
-
-    if ( $appointment->isPrivate() == true )
-    {
-        $t->parse( "private", "private_tpl" );
-        $t->set_var( "public", "" );
-    }
-    else
-    {
-        $t->parse( "public", "public_tpl" );
-        $t->set_var( "private", "" );
-    }
-    switch ( $appointment->priority() )
-    {
-        case 0:
-        {
-            $t->parse( "low", "low_tpl" );
-            $t->set_var( "normal", "" );
-            $t->set_var( "high", "" );
-        }
-        break;
-        case 1:
-        {
-            $t->parse( "normal", "normal_tpl" );
-            $t->set_var( "low", "" );
-            $t->set_var( "high", "" );
-        }
-        break;
-        case 2:
-        {
-            $t->parse( "high", "high_tpl" );
-            $t->set_var( "low", "" );
-            $t->set_var( "normal", "" );
-        }
-        break;
-    }
-
-    $t->set_var( "error", "" );
-
-    $t->parse( "view", "view_tpl" );
+    $t->parse( "public", "public_tpl" );
+    $t->set_var( "private", "" );
 }
+switch ( $appointment->priority() )
+{
+    case 0:
+    {
+        $t->parse( "low", "low_tpl" );
+        $t->set_var( "normal", "" );
+        $t->set_var( "high", "" );
+    }
+    break;
+    case 1:
+    {
+        $t->parse( "normal", "normal_tpl" );
+        $t->set_var( "low", "" );
+        $t->set_var( "high", "" );
+    }
+    break;
+    case 2:
+    {
+        $t->parse( "high", "high_tpl" );
+        $t->set_var( "low", "" );
+        $t->set_var( "normal", "" );
+    }
+    break;
+}
+
+$calendar = new eZCalendar( $CalID );
+$groupsID = eZObjectPermission::getGroups( $CalID, "calendar_calendar", 'w' , false );
+$showAdd = false;
+if ( get_class( $user ) == "ezuser" )
+    $userGroups =& $user->groups( false );
+else
+    $userGroups = array();
+
+foreach ( $groupsID as $addGroup )
+{
+    if ( in_array( $addGroup, $userGroups ) )
+        $showAdd = true;
+}
+
+if ( $showAdd )
+    $t->parse( "edit_appointment", "edit_appointment_tpl" );
+else
+    $t->set_var( "edit_appointment", "" );
+
+$t->set_var( "error", "" );
+
+$t->parse( "view", "view_tpl" );
 
 $t->pparse( "output", "appointment_view_tpl" );
 

@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.5 2001/09/04 12:05:47 jhe Exp $
+// $Id: datasupplier.php,v 1.5.10.1 2002/06/04 11:57:56 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -31,7 +31,7 @@ switch ( $url_array[2] )
     }
     break;
 
-    case "typeedit" :
+    case "typeedit":
     {
         if ( $url_array[3] == "edit" )
         {
@@ -52,7 +52,25 @@ switch ( $url_array[2] )
     }
     break;
 
-    default :
+    case "archive":
+    {
+        include( "ezcalendar/admin/calendarlist.php" );
+    }
+    break;
+
+    case "new":
+    case "edit":
+    case "delete":
+    case "insert":
+    case "update":
+    {
+        $Action = $url_array[2];
+        $CalendarID = $url_array[3];
+        include( "ezcalendar/admin/calendaredit.php" );
+    }
+    break;
+    
+    default:
     {
         // go to default module page or show an error message
         print( "Error: your page request was not found" );

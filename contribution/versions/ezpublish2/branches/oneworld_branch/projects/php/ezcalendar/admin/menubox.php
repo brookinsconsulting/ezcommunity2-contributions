@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.3 2001/07/20 11:57:16 jakobn Exp $
+// $Id: menubox.php,v 1.3.10.1 2002/06/04 11:57:56 jhe Exp $
 //
 // Created on: <19-Feb-2001 17:53:46 gl>
 //
@@ -26,6 +26,8 @@
 // Supply $menuItems to get a menubox
 
 $menuItems = array(
+    array( "/calendar/archive", "{intl-calendar_list}" ),
+    array( "/calendar/new", "{intl-new_calendar}" ),
     array( "/calendar/typelist/", "{intl-appointment_type_list}" ),
     array( "/calendar/typeedit/new", "{intl-new_appointment_type}" )
     );

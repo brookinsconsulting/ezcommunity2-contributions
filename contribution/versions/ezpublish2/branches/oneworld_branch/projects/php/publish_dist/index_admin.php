@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index_admin.php,v 1.19.2.9 2002/04/24 07:32:38 jhe Exp $
+// $Id: index_admin.php,v 1.19.2.9.2.1 2002/06/04 11:57:55 jhe Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -124,6 +124,66 @@ include_once( "classes/ezfile.php" );
 $ini =& INIFile::globalINI();
 $GlobalSiteIni =& $ini;
 
+$LanguageArray = explode( ",", $HTTP_ACCEPT_LANGUAGE );
+switch ( $LanguageArray[0] )
+{
+    case "en":
+    {
+        $GLOBALS["eZLanguageOverride"] = "en_GB";
+    }
+    break;
+    case "no":
+    {
+        $GLOBALS["eZLanguageOverride"] = "no_NO";
+    }
+    break;
+    case "de":
+    {
+        $GLOBALS["eZLanguageOverride"] = "de_DE";
+    }
+    break;
+    case "en-GB":
+    {
+        $GLOBALS["eZLanguageOverride"] = "en_GB";
+    }
+    break;
+    case "en-US":
+    {
+        $GLOBALS["eZLanguageOverride"] = "en_US";
+    }
+    break;
+    case "nl-BE":
+    {
+        $GLOBALS["eZLanguageOverride"] = "nl_NL";
+    }
+    break;
+    case "it":
+    {
+        $GLOBALS["eZLanguageOverride"] = "it_IT";
+    }
+    break;
+    case "fr":
+    {
+        $GLOBALS["eZLanguageOverride"] = "fr_FR";
+    }
+    break;
+    case "es":
+    {
+        $GLOBALS["eZLanguageOverride"] = "es_ES";
+    }
+    break;
+    case "ex-MX":
+    {
+        $GLOBALS["eZLanguageOverride"] = "es_MX";
+    }
+    break;
+    case "ex-AR":
+    {
+        $GLOBALS["eZLanguageOverride"] = "es_AR";
+    }
+    break;
+}
+
 // Set the global nVH variables.
 $GlobalSiteIni->Index = $index;
 $GlobalSiteIni->WWWDir = $wwwDir;
@@ -170,7 +230,7 @@ if ( $user )
         }
     }
               
-    
+
     require( "ezuser/admin/admincheck.php" );
     
     if ( !( $HelpMode == "enabled" ) )

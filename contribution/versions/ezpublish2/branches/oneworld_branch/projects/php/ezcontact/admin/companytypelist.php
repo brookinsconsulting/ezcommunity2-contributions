@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: companytypelist.php,v 1.35.4.1 2002/06/04 06:40:22 jhe Exp $
+// $Id: companytypelist.php,v 1.35.4.2 2002/06/04 11:57:57 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -41,6 +41,7 @@ include_once( "ezcontact/classes/ezcompany.php" );
 include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezusergroup.php" );
 include_once( "ezuser/classes/ezpermission.php" );
+include_once( "ezuser/classes/ezobjectpermission.php" );
 
 if ( empty( $TypeID ) )
 {
@@ -283,10 +284,7 @@ else
         $MaxCompanyList = 10;
 
     // List all the companies.
-    if ( eZPermission::checkPermission( $user, "eZContact", "CompanyModify" ) )
-        $companyList = $company->getByCategory( $TypeID, $Offset, $MaxCompanyList, $CompanyOrder, false, true );
-    else
-        $companyList = $company->getByCategory( $TypeID, $Offset, $MaxCompanyList, $CompanyOrder );
+    $companyList = $company->getByCategory( $TypeID, $Offset, $MaxCompanyList, $CompanyOrder );
     
     $total_companies = $company->countByCategory( $TypeID );
 
@@ -296,16 +294,9 @@ else
     $t->set_var( "company_view_button", "" );
     $t->set_var( "no_company_view_button", "" );
     $t->set_var( "company_expires", "" );
+
+    $projectCompanyList = $company->getCompaniesByProjectManager( $TypeID, false );
     
-    if ( eZPermission::checkPermission( $user, "eZContact", "Consultation" ) )
-        $t->parse( "company_consultation_button", "company_consultation_button_tpl" );
-    if ( eZPermission::checkPermission( $user, "eZContact", "CompanyModify" ) )
-        $t->parse( "company_edit_button", "company_edit_button_tpl" );
-    if ( eZPermission::checkPermission( $user, "eZContact", "CompanyDelete" ) )
-        $t->parse( "company_delete_button", "company_delete_button_tpl" );
-
-    $t->parse( "company_view_button", "company_view_button_tpl" );
-
     if ( count( $companyList ) == 0 )
     {
         $t->set_var( "company_item", "" );
@@ -342,6 +333,19 @@ else
                     $t->set_var( "company_expires", "" );
             }
             
+            if ( in_array( $companyList[$i]->id(), $projectCompanyList ) )
+            {
+                $t->parse( "company_edit_button", "company_edit_button_tpl" );
+                $t->parse( "company_delete_button", "company_delete_button_tpl" );
+            }
+            else
+            {
+                $t->set_var( "company_edit_button", "" );
+                $t->set_var( "company_delete_button", "" );
+            }
+            
+            $t->parse( "company_view_button", "company_view_button_tpl" );
+
 
             if ( $can_view_stats )
             {

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezappointment.php,v 1.23 2001/09/14 12:21:32 jhe Exp $
+// $Id: ezappointment.php,v 1.23.10.1 2002/06/04 11:57:56 jhe Exp $
 //
 // Definition of eZAppointment class
 //
@@ -51,8 +51,7 @@ class eZAppointment
         $this->AllDay = false;
         if ( $id != -1 )
         {
-            $this->ID = $id;
-            $this->get( $this->ID );
+            $this->get( $id );
         }
     }
 
@@ -70,7 +69,7 @@ class eZAppointment
             $this->ID = $db->nextID( "eZCalendar_Appointment", "ID" );
             $res[] = $db->query( "INSERT INTO eZCalendar_Appointment
   		                          (ID,
-                                   UserID,
+                                   CalID,
                                    Name,
                                    Description,
                                    Date,
@@ -82,7 +81,7 @@ class eZAppointment
                                    AllDay)
                                   VALUES
                                   ('$this->ID',
-                                   '$this->UserID',
+                                   '$this->CalID',
 		                           '$this->Name',
                                    '$this->Description',
                                    '$this->Date',
@@ -97,7 +96,7 @@ class eZAppointment
         else
         {
             $res[] = $db->query( "UPDATE eZCalendar_Appointment SET
-		                          UserID='$this->UserID',
+		                          CalID='$this->CalID',
 		                          Name='$this->Name',
                                   Description='$this->Description',
                                   Date='$this->Date',
@@ -153,7 +152,7 @@ class eZAppointment
                 $this->Date =& $appointment_array[0][$db->fieldName( "Date" )];
                 $this->Duration =& $appointment_array[0][$db->fieldName( "Duration" )];
                 $this->IsPrivate =& $appointment_array[0][$db->fieldName( "IsPrivate" )];
-                $this->UserID =& $appointment_array[0][$db->fieldName( "UserID" )];
+                $this->CalID =& $appointment_array[0][$db->fieldName( "CalID" )];
                 $this->Priority =& $appointment_array[0][$db->fieldName( "Priority" )];
                 $this->AllDay =& $appointment_array[0][$db->fieldName( "AllDay" )];
             }
@@ -176,7 +175,7 @@ class eZAppointment
         
         for ( $i = 0; $i < count( $appointment_array ); $i++ )
         { 
-            $return_array[$i] = new eZAppointment( $appointment_array[$i][$db->fieldName( "ID" )], 0 );
+            $return_array[$i] = new eZAppointment( $appointment_array[$i][$db->fieldName( "ID" )] );
         } 
         
         return $return_array;
@@ -195,12 +194,12 @@ class eZAppointment
         $appointment_array = array();
         
         $db->array_query( $appointment_array,
-        "SELECT ID FROM eZCalendar_Appointment WHERE ID='$id' AND IsPrivate='0'" );
+                          "SELECT ID FROM eZCalendar_Appointment WHERE ID='$id' AND IsPrivate='0'" );
         
         for ( $i = 0; $i < count( $appointment_array ); $i++ )
-        { 
-            $return_array[$i] = new eZAppointment( $appointment_array[$i][$db->fieldName( "ID" )], 0 );
-        } 
+        {
+            $return_array[$i] = new eZAppointment( $appointment_array[$i][$db->fieldName( "ID" )] );
+        }
         
         return $return_array;
     }
@@ -211,15 +210,13 @@ class eZAppointment
 
       The appointments are returned as an array of eZAppointment objects.
     */
-    function &getByDate( $date, $user, $showPrivate = false )
+    function &getByDate( $date, $calID, $showPrivate = false )
     {
         $ret = array();
 
-        if ( ( get_class( $date ) == "ezdate" ) && ( get_class( $user ) == "ezuser" ) )
+        if ( ( get_class( $date ) == "ezdate" ) )
         {
             $db =& eZDB::globalDatabase();
-            $userID = $user->ID();
-            $return_array = array();
             $appointment_array = array();
 
             $enddate = new eZDateTime();
@@ -230,7 +227,7 @@ class eZAppointment
                 "SELECT ID FROM eZCalendar_Appointment
                  WHERE Date>='" . $date->timeStamp() . "'
                  AND Date<'" . $enddate->timeStamp() . "' 
-                 AND IsPrivate='0' AND UserID='$userID' ORDER BY Date ASC", true );
+                 AND IsPrivate='0' AND CalID='$calID' ORDER BY Date ASC", true );
             }
             else
             {
@@ -238,15 +235,13 @@ class eZAppointment
                 "SELECT ID FROM eZCalendar_Appointment
                  WHERE Date>='" . $date->timeStamp() . "'
                  AND Date<'" . $enddate->timeStamp() . "' 
-                 AND UserID='$userID' ORDER BY Date ASC" );
+                 AND CalID='$calID' ORDER BY Date ASC" );
             }
-                
+
             for ( $i = 0; $i < count( $appointment_array ); $i++ )
             { 
-                $return_array[] = new eZAppointment( $appointment_array[$i][$db->fieldName( "ID" )], 0 );
+                $ret[] = new eZAppointment( $appointment_array[$i][$db->fieldName( "ID" )] );
             } 
-
-            $ret =& $return_array;            
         }
         return $ret;
     }
@@ -284,7 +279,7 @@ class eZAppointment
                 
             for ( $i = 0; $i < count( $appointment_array ); $i++ )
             { 
-                $return_array[] = new eZAppointment( $appointment_array[$i][$db->fieldName( "ID" )], 0 );
+                $return_array[] = new eZAppointment( $appointment_array[$i][$db->fieldName( "ID" )] );
             }
 
             $ret =& $return_array;
@@ -478,20 +473,17 @@ class eZAppointment
     /*!
       Sets the appointment owner.
     */
-    function setOwner( $user )
+    function setCalendar( $calID )
     {
-       if ( get_class( $user ) == "ezuser" )
-       {
-           $this->UserID = $user->id();
-       }
+        $this->CalID = $calID;
     }
     
     /*!
       Returns the user ID of the appointment owner.
     */
-    function userID()
+    function calID()
     {
-        return $this->UserID;
+        return $this->CalID;
     }
     
     /*!
@@ -524,7 +516,7 @@ class eZAppointment
     var $Name;
     var $Description;
     var $AllDay;
-    var $UserID;
+    var $CalID;
     var $Date;
     var $Duration;
     var $AppointmentTypeID;

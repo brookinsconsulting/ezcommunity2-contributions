@@ -1,16 +1,13 @@
 CREATE TABLE eZAddress_Address (
   ID int NOT NULL,
-  Street1 varchar(50),
-  Street2 varchar(50),
+  Address text,
   AddressTypeID int,
-  Place varchar(50),
-  Zip varchar(10),
   CountryID int,
   Name varchar(50),
   PRIMARY KEY (ID)
 );
 
-INSERT INTO eZAddress_Address VALUES (1,'Adminstreet1','Adminstreet2',0,'Noplace','42',0);
+INSERT INTO eZAddress_Address VALUES (1,'Adminstreet1',0,162,'');
 
 CREATE TABLE eZAddress_AddressDefinition (
   UserID int NOT NULL,
