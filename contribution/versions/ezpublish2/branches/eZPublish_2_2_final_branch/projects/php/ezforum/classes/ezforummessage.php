@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezforummessage.php,v 1.104.2.2 2001/11/29 10:37:07 jhe Exp $
+// $Id: ezforummessage.php,v 1.104.2.3 2002/01/03 15:58:41 kaid Exp $
 //
 // Definition of eZForumMessage class
 //
@@ -889,7 +889,7 @@ class eZForumMessage
         
         $ret = array();
 
-        $db->array_query( $message_array, "SELECT m.ID as ID, m.ForumID, m.Topic, m.PostingTime, m.IsApproved,
+        $db->array_query( $message_array, "SELECT m.ID as ID, m.UserID, m.ForumID, m.Topic, m.PostingTime, m.IsApproved,
                                            l.ForumID,
                                            f.ID as FID, f.GroupID
                                            FROM eZForum_Message as m, eZForum_ForumCategoryLink as l,
