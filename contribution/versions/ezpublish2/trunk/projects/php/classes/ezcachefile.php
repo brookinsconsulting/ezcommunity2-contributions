@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcachefile.php,v 1.2 2001/02/07 14:05:00 jb Exp $
+// $Id: ezcachefile.php,v 1.3 2001/02/07 14:12:59 jb Exp $
 //
 // Definition of eZCacheFile class
 //
@@ -63,11 +63,16 @@ class eZCacheFile
     {
         if ( empty( $this->Filename ) )
         {
-            $this->Filename = implode( $this->Separator, $this->Components ) . "." . $this->Separator;
-            if ( $with_root )
-                $this->Filename =& $this->Root . $this->Filename;
+            $this->Filename = implode( $this->Separator, $this->Components ) . "." . $this->Suffix;
         }
-        return $this->Filename;
+        if ( $with_root and empty( $this->AbsFilename ) )
+        {
+            $this->AbsFilename = $this->Root . $this->Filename;
+        }
+        if ( $with_root )
+            return $this->AbsFilename;
+        else
+            return $this->Filename;
     }
 
     /*!
@@ -228,6 +233,7 @@ class eZCacheFile
     var $Suffix;
     var $Separator;
     var $Filename;
+    var $AbsFilename;
 }
 
 ?>
