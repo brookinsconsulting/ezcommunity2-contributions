@@ -107,6 +107,7 @@ switch ( $url_array[2] )
         break;
 
     case "ordersendt" :
+        $OrderID = $url_array[3];
         include( "eztrade/user/ordersendt.php" );
         break;
 

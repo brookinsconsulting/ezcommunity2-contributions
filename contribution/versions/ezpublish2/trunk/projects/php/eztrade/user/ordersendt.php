@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ordersendt.php,v 1.3 2000/10/28 14:31:42 ce-cvs Exp $
+// $Id: ordersendt.php,v 1.4 2000/10/31 14:15:30 bf-cvs Exp $
 //
 // 
 //
@@ -13,7 +13,14 @@
 // your own programs or libraries.
 //
 
+
 include_once( "classes/eztemplate.php" ); 
+include_once( "classes/ezlocale.php" );
+include_once( "classes/ezcurrency.php" ); 
+include_once( "eztrade/classes/ezorder.php" ); 
+include_once( "eztrade/classes/ezproduct.php" ); 
+
+$Language = $ini->read_var( "eZTradeMain", "Language" );
 
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                      "eztrade/user/intl/", $Language, "ordersendt.php" );
@@ -23,6 +30,109 @@ $t->setAllStrings();
 $t->set_file( array(
     "order_sendt_tpl" => "ordersendt.tpl"
     ) );
+
+
+$t->set_block( "order_sendt_tpl", "address_tpl", "address" );
+
+$t->set_block( "order_sendt_tpl", "order_item_list_tpl", "order_item_list" );
+$t->set_block( "order_item_list_tpl", "order_item_tpl", "order_item" );
+
+$t->set_block( "order_item_tpl", "order_item_option_tpl", "order_item_option" );
+
+
+$order = new eZOrder( $OrderID );
+
+// get the customer
+
+$user = $order->user();
+
+if ( $user )
+{
+    $t->set_var( "customer_first_name", $user->firstName() );
+    $t->set_var( "customer_last_name", $user->lastName() );
+
+// print out the addresses
+
+    $addressArray = $user->addresses();
+
+    foreach ( $addressArray as $address )
+    {
+        $t->set_var( "street1", $address->street1() );
+        $t->set_var( "street2", $address->street2() );
+        $t->set_var( "zip", $address->zip() );
+        $t->set_var( "place", $address->place() );
+
+        $country = $address->country();
+        $t->set_var( "country", $country->name() );
+
+        $t->parse( "address", "address_tpl", true );
+    }
+
+}
+
+
+// fetch the order items
+$items = $order->items( $OrderType );
+
+$locale = new eZLocale( $Language );
+$currency = new eZCurrency();
+
+$i = 0;
+$sum = 0.0;
+foreach ( $items as $item )
+{
+    $product = $item->product();
+
+    $image = $product->thumbnailImage();
+
+    $thumbnail =& $image->requestImageVariation( 35, 35 );        
+
+    $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
+    $t->set_var( "product_image_width", $thumbnail->width() );
+    $t->set_var( "product_image_height", $thumbnail->height() );
+    $t->set_var( "product_image_caption", $image->caption() );
+
+    $price = $product->price() * $item->count();
+    $currency->setValue( $price );
+
+    $sum += $price;
+    $t->set_var( "product_name", $product->name() );
+    $t->set_var( "product_price", $locale->format( $currency ) );
+
+    $t->set_var( "order_item_count", $item->count() );
+    
+    if ( ( $i % 2 ) == 0 )
+        $t->set_var( "td_class", "bglight" );
+    else
+        $t->set_var( "td_class", "bgdark" );
+
+    $optionValues =& $item->optionValues();
+
+    $t->set_var( "order_item_option", "" );
+    foreach ( $optionValues as $optionValue )
+    {
+        $t->set_var( "option_name", $optionValue->optionName() );
+        $t->set_var( "option_value", $optionValue->valueName() );
+            
+        $t->parse( "order_item_option", "order_item_option_tpl", true );
+    }
+        
+    $t->parse( "order_item", "order_item_tpl", true );
+        
+    $i++;
+}
+
+$t->parse( "order_item_list", "order_item_list_tpl" );
+
+$shippingCost = $order->shippingCharge();
+$currency->setValue( $shippingCost );
+$t->set_var( "shipping_cost", $locale->format( $currency ) );
+
+$sum += $shippingCost;
+$currency->setValue( $sum );
+$t->set_var( "order_sum", $locale->format( $currency ) );
+
+$t->set_var( "order_id", $OrderID );
 
 
 

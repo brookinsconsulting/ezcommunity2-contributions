@@ -64,6 +64,8 @@
 {street1} <br />
 {street2}<br />
 {zip} {place}<br />
+{country}<br />
+
 <!-- END address_tpl -->
 
 <form action="/trade/checkout/" method="post">

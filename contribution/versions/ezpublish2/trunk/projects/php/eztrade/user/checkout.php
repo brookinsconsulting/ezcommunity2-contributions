@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.5 2000/10/28 14:31:42 ce-cvs Exp $
+// $Id: checkout.php,v 1.6 2000/10/31 14:15:30 bf-cvs Exp $
 //
 // 
 //
@@ -23,6 +23,7 @@ $ini = new INIFIle( "site.ini" );
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $OrderSenderEmail = $ini->read_var( "eZTradeMain", "OrderSenderEmail" );
 $OrderReceiverEmail = $ini->read_var( "eZTradeMain", "OrderReceiverEmail" );
+$ShippingCost = $ini->read_var( "eZTradeMain", "ShippingCost" );
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezoption.php" );
@@ -84,8 +85,10 @@ if ( $SendOrder == "true" )
     $user = eZUser::currentUser();
     $order->setUser( $user );
     $order->setAddress( 42 );
-    $order->setShippingCharge( 120.0 );
+    $order->setShippingCharge( $ShippingCost );
     $order->store();
+
+    $order_id = $order->id();
 
     // Setup the template for email
     $mailTemplate = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
@@ -153,7 +156,7 @@ if ( $SendOrder == "true" )
     $mail->send();
     
     $cart->clear();
-    Header( "Location: /trade/ordersendt/" );
+    Header( "Location: /trade/ordersendt/$order_id/" );
 }
 
 // print the cart contents
@@ -214,7 +217,7 @@ if ( $SendOrder == "true" )
         $i++;
     }
 
-    $shippingCost = 100.0;
+    $shippingCost = $ShippingCost;
     $currency->setValue( $shippingCost );
     $t->set_var( "shipping_cost", $locale->format( $currency ) );
 
@@ -240,6 +243,8 @@ foreach ( $addressArray as $address )
     $t->set_var( "street2", $address->street2() );
     $t->set_var( "zip", $address->zip() );
     $t->set_var( "place", $address->place() );
+    $country = $address->country();
+    $t->set_var( "country", $country->name() );
     
     $t->parse( "address", "address_tpl", true );
 }

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.5 2000/10/25 19:21:42 bf-cvs Exp $
+// $Id: cart.php,v 1.6 2000/10/31 14:15:30 bf-cvs Exp $
 //
 // 
 //
@@ -31,6 +31,7 @@ include_once( "ezuser/classes/ezuser.php" );
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
+$ShippingCost = $ini->read_var( "eZTradeMain", "ShippingCost" );
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezoption.php" );
@@ -210,7 +211,8 @@ foreach ( $items as $item )
     $i++;
 }
 
-$shippingCost = 100.0;
+$shippingCost = $ShippingCost;
+
 $currency->setValue( $shippingCost );
 $t->set_var( "shipping_cost", $locale->format( $currency ) );
 
