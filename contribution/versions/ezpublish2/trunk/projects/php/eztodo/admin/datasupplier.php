@@ -8,34 +8,41 @@ switch ( $url_array[2] )
         break;
     case "categorytypeedit" :
     {
-        if ( $url_array[3] == "new" )
+        switch( $url_array[3] )
         {
-        include( "eztodo/admin/categorytypeedit.php" );
-        }
-        else if ( $url_array[3] == "insert" )
-        {
-            $CategoryID = $url_array[4];
-            $Action = "insert";
-            include( "eztodo/admin/categorytypeedit.php" );
-        }
-
-        else if ( $url_array[3] == "edit" )
-        {
-            $CategoryID = $url_array[4];
-            $Action = "edit";
-            include( "eztodo/admin/categorytypeedit.php" );
-        }
-        else if ( $url_array[3] == "update" )
-        {
-            $CategoryID = $url_array[4];
-            $Action = "update";
-            include( "eztodo/admin/categorytypeedit.php" );
-        }
-        else if ( $url_array[3] == "delete" )
-        {
-            $CategoryID = $url_array[4];
-            $Action = "delete";
-            include( "eztodo/admin/categorytypeedit.php" );
+            case "new":
+            {
+                include( "eztodo/admin/categorytypeedit.php" );
+            }
+            break;
+            case "insert":
+            {
+                $CategoryID = $url_array[4];
+                $Action = "insert";
+                include( "eztodo/admin/categorytypeedit.php" );
+            }
+            break;
+            case "edit":
+            {
+                $CategoryID = $url_array[4];
+                $Action = "edit";
+                include( "eztodo/admin/categorytypeedit.php" );
+            }
+            break;
+            case "update":
+            {
+                $CategoryID = $url_array[4];
+                $Action = "update";
+                include( "eztodo/admin/categorytypeedit.php" );
+            }
+            break;
+            case "delete":
+            {
+                $CategoryID = $url_array[4];
+                $Action = "delete";
+                include( "eztodo/admin/categorytypeedit.php" );
+            }
+            break;
         }
     }
     break;
