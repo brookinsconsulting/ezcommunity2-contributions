@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.85 2001/09/04 15:18:14 ce Exp $
+// $Id: checkout.php,v 1.86 2001/09/05 08:16:01 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -132,15 +132,17 @@ if ( isSet ( $RemoveVoucher ) )
     {
         $newArray = array();
         $payWithVoucher = $session->arrayValue( "PayWithVoucher" );
-        foreach( $RemoveVoucherArray as $voucherID )
+
+        while( list($key,$voucherID) = each( $payWithVoucher ) )
         {
-            if ( !in_array( $voucherID, $payWithVoucher ) )
-                $newArray[] = $voucherID;
+            if ( !in_array ( $voucherID, $RemoveVoucherArray ) )
+                 $newArray[$voucherID] = $price;
         }
-        $session->setArray( "PayWithVoucher", $newArray );
+
+        $session->setVariable( "PayWithVoucher", "" );
     }
 }
-         
+
 
 if ( isSet( $SendOrder ) ) 
 {
@@ -520,7 +522,7 @@ $can_checkout = true;
     }
 
     // Vouchers
-    $vouchers = $session->arrayValue( "PayWithVocuher" );
+    $vouchers = $session->arrayValue( "PayWithVoucher" );
 
     $i=1;
     $t->set_var( "vouchers", "" );

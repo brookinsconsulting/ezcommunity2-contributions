@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.67 2001/09/04 15:18:14 ce Exp $
+// $Id: payment.php,v 1.68 2001/09/05 08:16:01 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -47,6 +47,7 @@ include_once( "eztrade/classes/ezorderitem.php" );
 include_once( "eztrade/classes/ezorderoptionvalue.php" );
 include_once( "eztrade/classes/ezwishlist.php" );
 include_once( "eztrade/classes/ezcheckout.php" );
+include_once( "eztrade/classes/ezvoucher.php" );
 
 include_once( "ezcontact/classes/ezperson.php" );
 include_once( "ezcontact/classes/ezcompany.php" );
@@ -760,13 +761,22 @@ if ( $PaymentSuccess == "true" )
     $preOrder->setOrderID( $OrderID );
     $preOrder->store();
 
-    foreach( $vouchers as $voucherInformation )
+    $vouchers = $session->arrayValue( "AddedVouchers" );
+
+    if ( is_array ( $vouchers ) )
     {
-        $newVoucher = new eZVoucher();
-        $voucherInformation->addVoucher( $newVoucher );
-        $voucher->generateKey();
-        $voucher->store();
-        $voucher->sendMail();
+        foreach( $vouchers as $voucherID )
+        {
+            $voucher = new eZVoucher( $voucherID);
+            $voucher->generateKey();
+            $voucher->setAvailable( true );
+            $voucher->store();
+            $voucher->sendMail();
+        }
+        $session->setVariable( "AddedVouchers", "" );
+        $session->setVariable( "VoucherInfo", "" );
+        $session->setVariable( "VoucherID", "" );
+        $session->setVariable( "VoucherMail", "" );
     }
 
     // call the payment script after the payment is successful.

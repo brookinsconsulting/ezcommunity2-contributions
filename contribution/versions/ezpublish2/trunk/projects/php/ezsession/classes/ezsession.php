@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezsession.php,v 1.64 2001/08/31 10:19:42 ce Exp $
+// $Id: ezsession.php,v 1.65 2001/09/05 08:16:01 ce Exp $
 //
 // Definition of eZSession class
 //
@@ -522,7 +522,8 @@ class eZSession
         if ( $append )
         {
             $string = $this->variable( $name );
-            $string .= ";";
+            if ( $string )
+                $string .= ";";
         }
         while( list($key,$val) = each( $array ) )
         {
@@ -531,6 +532,9 @@ class eZSession
             else
                 $string .= ";" . $key . "->" . $val;
         }
+        if ( !$string )
+            $string = "";
+
         $this->setVariable( $name, $string );
     }
 

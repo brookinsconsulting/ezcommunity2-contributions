@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezlink.php,v 1.68 2001/08/02 08:13:09 br Exp $
+// $Id: ezlink.php,v 1.69 2001/09/05 08:16:01 ce Exp $
 //
 // Definition of eZLink class
 //
@@ -371,6 +371,22 @@ class eZLink
             $return_array[] = new eZLink( $link_array[$i][$db->fieldName("ID")] );
         }
         return $return_array;
+    }
+
+    /*!
+      Fetches out the last teen accpeted links.
+    */
+    function &getLatestLink(  )
+    {
+        $db =& eZDB::globalDatabase();
+        
+        $link_array = array();
+        $return_array = array();
+        
+        $db->query_single( $link_array,
+        "SELECT ID FROM eZLink_Link WHERE Accepted='1' ORDER BY Created DESC LIMIT 1",);
+
+        return new eZLink( $link_array["ID"] );
     }
 
     /*!

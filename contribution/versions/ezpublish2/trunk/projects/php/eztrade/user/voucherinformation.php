@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherinformation.php,v 1.4 2001/08/31 10:15:27 ce Exp $
+// $Id: voucherinformation.php,v 1.5 2001/09/05 08:16:01 ce Exp $
 //
 // Created on: <06-Aug-2001 13:02:18 ce>
 //
@@ -66,6 +66,7 @@ $t->set_var( "zip_value", "" );
 $t->set_var( "place_value", "" );
 $t->set_var( "country_name", "" );
 
+$user =& eZUser::currentUser();
 
 $voucherIDArray = $session->arrayValue( "VoucherID" );
 $voucherMail = $session->arrayValue( "VoucherMail" );
@@ -75,22 +76,26 @@ $preOrderID = $session->variable( "PreOrderID" );
 if ( ( isSet ( $Next ) || isSet ( $OK ) ) && ( is_numeric( $preOrderID ) ) )
 {
     $product = new eZProduct( $ProductID );
-    
+
     $voucher = new eZVoucher();
-    $voucher->generateKey();
 
     $voucher->setPrice( $product->price() );
     $voucher->setAvailable( false );
-    $voucher->store();
+    $voucher->setUser( $user );
     
     if ( $MailType == 1 )
     {
+        $voucher->setMailMethod( 1 );
         $voucherInfo = new eZVoucherEMail();
-        $voucherInfo->setEmail( $Email );
+        $online = new eZOnline();
+        $online->setUrl( $Email );
+        $online->store();
+        $voucherInfo->setEmail( $online );
         
     }
     else if ( $MailType == 2 )
     {
+        $voucher->setMailMethod( 2 );
         $voucherInfo = new eZVoucherSMail();
         $address = new eZAddress();
         $address->setName( $Name );
@@ -102,11 +107,12 @@ if ( ( isSet ( $Next ) || isSet ( $OK ) ) && ( is_numeric( $preOrderID ) ) )
 
         $voucherInfo->setAddress( $address );
     }
+    $voucher->store();
     $voucherInfo->setPreOrder( $preOrderID );
     $voucherInfo->setDescription( $Description );
     $voucherInfo->setVoucher( $voucher );
 
-    $session->setArray( "AddedVouchers", $voucher->id(), true );
+    $session->setArray( "AddedVouchers", array( $voucher->id() ), true );
     
     $voucherInfo->store();
 
@@ -116,6 +122,8 @@ if ( ( isSet ( $Next ) || isSet ( $OK ) ) && ( is_numeric( $preOrderID ) ) )
         exit();
     }
 }
+else
+$session->setArray( "AddedVouchers", array() );
 
 $voucherID = $voucherIDArray[$Key];
 $mailID = $voucherMail[$Key];
@@ -160,6 +168,7 @@ if ( is_numeric( $voucherIDArray[$Key+1] ) )
 }
 else
 {
+    $t->set_var( "url_arg", "" );
     $t->set_var( "next", "" );
     $t->parse( "ok", "ok_tpl" );
 }

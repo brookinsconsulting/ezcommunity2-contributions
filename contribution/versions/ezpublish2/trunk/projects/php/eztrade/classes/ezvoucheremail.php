@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucheremail.php,v 1.1 2001/08/24 14:01:49 ce Exp $
+// $Id: ezvoucheremail.php,v 1.2 2001/09/05 08:16:01 ce Exp $
 //
 // eZVoucherEMail class
 //
@@ -38,7 +38,7 @@
 include_once( "eztrade/classes/ezvoucher.php" );
 include_once( "eztrade/classes/ezpreorder.php" );
 
-include_once( "ezaddress/classes/ezaddress.php" );
+include_once( "ezaddress/classes/ezonline.php" );
 
 class eZVoucherEMail
 {
@@ -80,11 +80,11 @@ class eZVoucherEMail
             $password = md5( $this->Password );
 
             $res = $db->query( "INSERT INTO eZTrade_VoucherEMail
-                      ( ID, VoucherID, Email, Description, PreOrderID )
+                      ( ID, VoucherID, OnlineID, Description, PreOrderID )
                       VALUES
                       ( '$nextID',
                         '$this->VoucherID',
-                        '$this->Email',
+                        '$this->OnlineID',
                         '$description',
                         '$this->PreOrderID'
                          )
@@ -96,7 +96,7 @@ class eZVoucherEMail
         {
             $res = $db->query( "UPDATE eZTrade_VoucherEMail SET
                                      VoucherID='$this->VoucherID',
-                                     Email=$this->Email,
+                                     OnlineID=$this->OnlineID,
                                      Description='$this->Description',
                                      PreOrderID='$this->PreOrderID'
                                      WHERE ID='$this->ID" );
@@ -164,7 +164,7 @@ class eZVoucherEMail
     {
         $this->ID =& $value[ "ID" ];
         $this->Description =& $value[ "Description" ];
-        $this->Email =& $value[ "Email" ];
+        $this->OnlineID =& $value[ "OnlineID" ];
         $this->VoucherID =& $value[ "VoucherID" ];
         $this->PreOrderID =& $value[ "PreOrderID" ];
     }
@@ -248,7 +248,10 @@ class eZVoucherEMail
     */
     function setEmail( &$value )
     {
-        $this->Email = $value;
+        if ( get_class ( $value ) == "ezonline" )
+            $this->OnlineID = $value->id();
+        else
+            $this->OnlineID = $value;
     }
 
     /*!
@@ -276,17 +279,22 @@ class eZVoucherEMail
     /*!
       Returns the email
     */
-    function email( )
+    function email( $asObject=true )
     {
-        return $this->EMail;
+        if ( $asObject )
+            $ret = new eZOnline( $this->OnlineID );
+        else
+            $ret = $this->OnlineID;
+
+        return $ret;
     }
 
     /*!
       Returns the voucher
     */
-    function voucher( $as_object=true )
+    function voucher( $asObject=true )
     {
-        if ( $as_object )
+        if ( $asObject )
             return eZVoucher( $this->VoucherID );
         else
             return $this->VoucherID;
@@ -295,9 +303,9 @@ class eZVoucherEMail
     /*!
       Returns the pre order
     */
-    function preOrderID( $as_object=true )
+    function preOrderID( $asObject=true )
     {
-        if ( $as_object )
+        if ( $asObject )
             return eZPreOrderID( $this->PreOrderID );
         else
             return $this->PreOrderID;
@@ -307,7 +315,7 @@ class eZVoucherEMail
     var $ID;
     var $Description;
     var $PreOrderID;
-    var $Email;
+    var $OnlineID;
     var $VoucherID;
 }
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezvoucher.php,v 1.3 2001/09/04 15:18:14 ce Exp $
+// $Id: ezvoucher.php,v 1.4 2001/09/05 08:16:01 ce Exp $
 //
 // eZVoucher class
 //
@@ -77,15 +77,17 @@ class eZVoucher
             $password = md5( $this->Password );
 
             $res = $db->query( "INSERT INTO eZTrade_Voucher
-                      ( ID, Created, Price, Available, KeyNumber )
+                      ( ID, Created, Price, Available, KeyNumber, MailMethod, UserID )
                       VALUES
                       ( '$nextID',
                         '$timeStamp',
                         '$this->Price',
                         '$this->Available',
-                        '$this->KeyNumber'
-                         )
-                     " );
+                        '$this->KeyNumber',
+                        '$this->MailMethod',
+                        '$this->UserID'
+
+                            )" );
 
 			$this->ID = $nextID;
         }
@@ -94,8 +96,11 @@ class eZVoucher
             $res = $db->query( "UPDATE eZTrade_Voucher SET
                                      Created=Created,
                                      Price='$this->Price',
-                                     Available='$this->Available'
-                                     WHERE ID='$this->ID" );
+                                     Available='$this->Available',
+                                     MailMethod='$this->MailMethod',
+                                     KeyNumber='$this->KeyNumber',
+                                     UserID='$this->UserID'
+                                     WHERE ID='$this->ID'" );
         }
         $db->unlock();
     
@@ -163,6 +168,8 @@ class eZVoucher
         $this->Price =& $voucherArray[ "Price" ];
         $this->Available =& $voucherArray[ "Available" ];
         $this->KeyNumber =& $voucherArray[ "KeyNumber" ];
+        $this->MailMethod =& $voucherArray[ "MailMethod" ];
+        $this->UserID =& $voucherArray[ "UserID" ];
     }
 
     /*!
@@ -249,6 +256,19 @@ class eZVoucher
     }
 
     /*!
+      Returns the user
+    */
+    function &user( $asObject=true )
+    {
+        if ( $asObject )
+            $ret = new eZUser( $this->UserID );
+        else
+            $ret = $this->UserID;
+        
+        return $ret;
+    }
+
+    /*!
       Sets if the voucher is available or not.
     */
     function setAvailable( $value )
@@ -280,6 +300,25 @@ class eZVoucher
     }
 
     /*!
+      Sets the voucher mail method.
+    */
+    function setMailMethod( $value )
+    {
+       $this->MailMethod = $value;
+    }
+
+    /*!
+      Sets the user of this object.
+    */
+    function setUser( &$user )
+    {
+        if ( get_class ( $user ) == "ezuser" )
+            $this->UserID = $user->id();
+        elseif ( is_numeric ( $user ) )
+            $this->UserID = $user;
+    }
+
+    /*!
       Returns the price of the voucher.
     */
     function &price( )
@@ -288,10 +327,19 @@ class eZVoucher
     }
 
     /*!
+      Returns the mail method of the voucher.
+    */
+    function mailMethod( )
+    {
+        return $this->MailMethod;
+    }
+
+    /*!
       Returns the price of the voucher.
     */
-    function &sendMail( )
+    function sendMail( )
     {
+        $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT MailMethod FROM eZTrade_Voucher WHERE ID='$this->ID'" );
 
         if ( $res[$db->fieldName( "MailMethod" )] == 1 )
@@ -308,21 +356,24 @@ class eZVoucher
     */
     function sendEMail()
     {
-
+        $db =& eZDB::globalDatabase();
         $db->query_single( $res, "SELECT * FROM eZTrade_VoucherEMail WHERE VoucherID='$this->ID'" );
 
         $mail = new eZMail();
 
         $mailAddress = new eZOnline( $res[$db->fieldName( "OnlineID" )] );
-        $mail->setFrom( );
         $mail->setTo( $mailAddress->url() );
         $mail->setBody( $res[$db->fieldName( "Description" )] );
+
+        $fromUser = $this->user();
+        $mail->setFrom( $fromUser->email() );
+        $mail->send();
     }
 
     /*!
       Get a voucher from a key number.
     */
-    function getFromKeyNumber( $key )
+    function getFromKeyNumber( &$key )
     {
         $db =& eZDB::globalDatabase();
         $ret = false;
@@ -331,7 +382,6 @@ class eZVoucher
         
         $db->query_single( $res, "SELECT ID FROM eZTrade_Voucher WHERE KeyNumber='$key'" );
 
-        print( $res["ID"] );
         if ( $res["ID"] )
         {
             $ret = new eZVoucher( $res["ID"] );
@@ -346,6 +396,8 @@ class eZVoucher
     var $Created;
     var $Available;
     var $Price;
+    var $UserID;
+    var $MailMethod;
 }
 
 ?>
