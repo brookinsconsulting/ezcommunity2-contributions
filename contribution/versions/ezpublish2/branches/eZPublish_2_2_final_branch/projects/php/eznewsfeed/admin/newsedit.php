@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: newsedit.php,v 1.12.2.1 2001/11/19 09:46:46 jhe Exp $
+// $Id: newsedit.php,v 1.12.2.2 2002/02/07 08:39:56 jhe Exp $
 //
 // Created on: <16-Nov-2000 13:02:32 bf>
 //
@@ -36,7 +36,7 @@ include_once( "eznewsfeed/classes/eznews.php" );
 include_once( "eznewsfeed/classes/eznewscategory.php" );
 include_once( "classes/ezhttptool.php" );
 
-if( isset( $Cancel ) )
+if ( isset( $Cancel ) )
 {
     eZHTTPTool::header( "Location: /newsfeed/archive/" );
     exit();
@@ -75,7 +75,7 @@ if ( $Action == "Insert" )
     // delete the cache
     $dir = eZFile::dir( "eznewsfeed/cache/" );
     $files = array();
-    while( $entry = $dir->read() )
+    while ( $entry = $dir->read() )
     { 
         if ( $entry != "." && $entry != ".." )
         {
@@ -99,11 +99,11 @@ if ( $Action == "Insert" )
     $dir->close();
     if ( $news->isPublished() == 1 )
     {
-        Header( "Location: /newsfeed/archive/$CategoryID/" );
+        eZHTTPTool::header( "Location: /newsfeed/archive/$CategoryID/" );
     }
     else
     {
-        Header( "Location: /newsfeed/unpublished/$CategoryID/" );        
+        eZHTTPTool::header( "Location: /newsfeed/unpublished/$CategoryID/" );        
     }
 
     exit();
@@ -143,7 +143,7 @@ if ( $Action == "Update" )
     // delete the cache
     $dir = eZFile::dir( "eznewsfeed/cache/" );
     $files = array();
-    while( $entry = $dir->read() )
+    while ( $entry = $dir->read() )
     { 
         if ( $entry != "." && $entry != ".." )
         {
@@ -170,11 +170,11 @@ if ( $Action == "Update" )
 
     if ( $news->isPublished() == 1 )
     {
-        Header( "Location: /newsfeed/archive/$CategoryID/" );
+        eZHTTPTool::header( "Location: /newsfeed/archive/$CategoryID/" );
     }
     else
     {
-        Header( "Location: /newsfeed/unpublished/$CategoryID/" );        
+        eZHTTPTool::header( "Location: /newsfeed/unpublished/$CategoryID/" );        
     }
     exit();
 }
@@ -192,7 +192,7 @@ if ( $Action == "Delete" )
     // delete the cache
     $dir = eZFile::dir( "eznewsfeed/cache/" );
     $files = array();
-    while( $entry = $dir->read() )
+    while ( $entry = $dir->read() )
     { 
         if ( $entry != "." && $entry != ".." )
         {
@@ -215,10 +215,9 @@ if ( $Action == "Delete" )
     } 
     $dir->close();
     
-
     $news->delete();
     
-    Header( "Location: /newsfeed/archive/$CategoryID/" );
+    eZHTTPTool::header( "Location: /newsfeed/archive/$CategoryID/" );
     exit();
 }
 
@@ -245,14 +244,13 @@ $t->set_var( "news_title_value", "" );
 $t->set_var( "news_source_value", "" );
 
 $today = new eZDateTime();
-{
-    $t->set_var( "news_year_value", $today->year() );
-    $t->set_var( "news_month_value", $today->month() );
-    $t->set_var( "news_day_value", $today->day() );
-    $t->set_var( "news_hour_value", $today->hour() );
-    $t->set_var( "news_minute_value", $today->minute() );
-    $t->set_var( "news_second_value", $today->second() );
-}
+
+$t->set_var( "news_year_value", $today->year() );
+$t->set_var( "news_month_value", $today->month() );
+$t->set_var( "news_day_value", $today->day() );
+$t->set_var( "news_hour_value", $today->hour() );
+$t->set_var( "news_minute_value", $today->minute() );
+$t->set_var( "news_second_value", $today->second() );
 $t->set_var( "news_intro_value", "" );
 $t->set_var( "news_url_value", "" );
 $t->set_var( "news_keywords_value", "" );
@@ -323,4 +321,5 @@ foreach ( $categoryArray as $catItem )
 }
 
 $t->pparse( "output", "news_edit_page_tpl" );
+
 ?>
