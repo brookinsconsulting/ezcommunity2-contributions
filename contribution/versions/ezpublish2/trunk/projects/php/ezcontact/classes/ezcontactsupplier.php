@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcontactsupplier.php,v 1.4 2001/05/03 14:23:35 jb Exp $
+// $Id: ezcontactsupplier.php,v 1.5 2001/05/04 10:38:27 jb Exp $
 //
 // Definition of ezcontactsupplier class
 //
@@ -37,16 +37,25 @@ class eZContactSupplier
     {
     }
 
+    /*!
+      Returns an array of available types.
+    */
     function &urlTypes()
     {
         return $this->UrlTypes;
     }
 
+    /*!
+      Returns the name of the module.
+    */
     function moduleName()
     {
         return "eZContact";
     }
 
+    /*!
+      Returns a list of categories and/or contacts.
+    */
     function &urlList( $type, $category = 0, $offset = 0 )
     {
         $ini =& INIFile::globalINI();
