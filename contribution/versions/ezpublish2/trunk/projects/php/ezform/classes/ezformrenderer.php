@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformrenderer.php,v 1.41 2002/01/02 08:58:38 jhe Exp $
+// $Id: ezformrenderer.php,v 1.42 2002/01/03 08:14:55 jhe Exp $
 //
 // eZFormRenderer class
 //
@@ -509,7 +509,6 @@ class eZFormRenderer
     {
         $page = new eZFormPage( $page );
         $elements = $page->pageElements();
-
         foreach ( $elements as $element )
         {
             $elementType = $element->elementType();
@@ -532,6 +531,19 @@ class eZFormRenderer
                 
                 global $$elementName;
                 $value = $$elementName;
+                if ( is_array( $value ) )
+                {
+                    $valueArray = $value;
+                    $value = "";
+                    $i = 0;
+                    foreach ( $valueArray as $valueElement )
+                    {
+                        if ( $i > 0 )
+                            $value .= ",";
+                        $value .= $valueElement;
+                        $i++;
+                    }
+                }
                 if ( isSet( $value ) && $value != "" )
                     $element->setResult( $value );
             }
