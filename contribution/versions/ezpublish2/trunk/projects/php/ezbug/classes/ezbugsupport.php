@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezbugsupport.php,v 1.2 2001/10/29 14:13:03 jhe Exp $
+// $Id: ezbugsupport.php,v 1.3 2001/11/06 12:33:54 jhe Exp $
 //
 // Definition of eZBugSupport class
 //
@@ -32,7 +32,7 @@
 
 class eZBugSupport
 {
-    function eZBugSupport( $id = -1)
+    function eZBugSupport( $id = -1 )
     {
         if ( is_array( $id ) )
         {

@@ -1,8 +1,8 @@
 <?php
-// 
-// $Id: supportlist.php,v 1.2 2001/11/06 12:33:54 jhe Exp $
 //
-// Created on: <29-Oct-2001 10:26:39 jhe>
+// $Id: supportcategorylist.php,v 1.1 2001/11/06 12:33:54 jhe Exp $
+//
+// Created on: <05-Nov-2001 14:20:11 jhe>
 //
 // This source file is part of eZ publish, publishing software.
 // Copyright (C) 1999-2001 eZ systems as
@@ -22,7 +22,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-include_once( "ezbug/classes/ezbugsupport.php" );
+include_once( "ezbug/classes/ezbugsupportcategory.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlist.php" );
 
@@ -32,26 +32,24 @@ $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZBugMain", "Language" );
 
 $t = new eZTemplate( "ezbug/admin/" . $ini->read_var( "eZBugMain", "AdminTemplateDir" ),
-                     "ezbug/admin/intl", $Language, "supportlist.php" );
+                     "ezbug/admin/intl", $Language, "supportcategorylist.php" );
 $t->setAllStrings();
 
-$t->set_file( "support_edit_tpl", "supportlist.tpl" );
+$t->set_file( "support_edit_tpl", "supportcategorylist.tpl" );
 $t->set_block( "support_edit_tpl", "support_block_tpl", "support_block" );
 $t->set_var( "support_block", "" );
 
-$list = eZBugSupport::getAll( $Offset );
-$countList = eZBugSupport::getAllCount();
+$categories = eZBugSupportCategory::getAll( $Offset );
+$categoryCount = eZBugSupportCategory::getAllCount();
 
-$locale = new eZLocale( $Language );
 $t->set_var( "site_style", $SiteStyle );
 $i = 0;
-foreach ( $list as $supportUser )
+foreach ( $categories as $cat )
 {
-    $t->set_var( "support_id", $supportUser->id() );
-    $t->set_var( "support_name", $supportUser->name() );
-    $t->set_var( "support_expirydate", $locale->format( $supportUser->expiryDate() ) );
+    $t->set_var( "support_id", $cat->id() );
+    $t->set_var( "support_name", $cat->name() );
     $t->set_var( "td_class", $i % 2 ? "bgdark" : "bglight" );
-
+    
     $t->parse( "support_block", "support_block_tpl", true );
     $i++;
 }

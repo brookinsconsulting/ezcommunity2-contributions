@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: bugedit.php,v 1.52 2001/10/31 07:25:55 jhe Exp $
+// $Id: bugedit.php,v 1.53 2001/11/06 12:33:54 jhe Exp $
 //
 // Created on: <28-Nov-2000 19:45:35 bf>
 //
@@ -458,7 +458,7 @@ if ( $Action == "Edit" )
         {
             $date =& $log->created();
             $t->set_var( "log_date", $locale->format( $date ) );
-            $t->set_var( "log_description", $log->description() );
+            $t->set_var( "log_description", nl2br( $log->description() ) );
             $t->parse( "log_item", "log_item_tpl", true );
         }
     }

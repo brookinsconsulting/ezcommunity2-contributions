@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: datasupplier.php,v 1.20 2001/10/31 07:25:55 jhe Exp $
+// $Id: datasupplier.php,v 1.21 2001/11/06 12:33:54 jhe Exp $
 //
 // Created on: <23-Oct-2000 17:53:46 bf>
 //
@@ -344,6 +344,42 @@ switch ( $url_array[2] )
             case "delete":
             {
                 include( "ezbug/admin/supportdelete.php" );
+            }
+            break;
+
+            case "category":
+            {
+                $Action = $url_array[4];
+                switch ( $Action )
+                {
+                    case "list":
+                    {
+                        $Offset = $url_array[5] ? $url_array[5] : 0;
+                        include( "ezbug/admin/supportcategorylist.php" );
+                    }
+                    break;
+
+                    case "edit":
+                    case "update":
+                    {
+                        $id = $url_array[5];
+                        include( "ezbug/admin/supportcategoryedit.php" );
+                    }
+                    break;
+                    
+                    case "new":
+                    case "insert":
+                    {
+                        include( "ezbug/admin/supportcategoryedit.php" );
+                    }
+                    break;
+
+                    case "delete":
+                    {
+                        include( "ezbug/admin/supportcategorydelete.php" );
+                    }
+                    break;
+                }
             }
             break;
         }

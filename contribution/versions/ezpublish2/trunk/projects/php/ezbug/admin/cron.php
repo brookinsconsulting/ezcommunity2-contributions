@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cron.php,v 1.4 2001/10/31 13:03:53 jhe Exp $
+// $Id: cron.php,v 1.5 2001/11/06 12:33:54 jhe Exp $
 //
 // Created on: <26-Oct-2001 15:57:39 jhe>
 //
@@ -22,24 +22,19 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
 
-include_once( "ezmail/classes/ezmailaccount.php" );
-include_once( "ezmail/classes/ezmail.php" );
-include_once( "ezbug/classes/ezbug.php" );
-include_once( "ezbug/classes/ezbuglog.php" );
-include_once( "ezbug/classes/ezbugsupport.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdatetime.php" );
+include_once( "ezbug/classes/ezbug.php" );
+include_once( "ezbug/classes/ezbugmodule.php" );
+include_once( "ezbug/classes/ezbuglog.php" );
+include_once( "ezbug/classes/ezbugsupport.php" );
+include_once( "ezbug/classes/ezbugsupportcategory.php" );
+include_once( "ezmail/classes/ezmailaccount.php" );
+include_once( "ezmail/classes/ezmail.php" );
 
 $ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZBugMain", "Language" );
-$MailUser = $ini->read_var( "eZBugMain", "MailAccount" );
-$MailPassword = $ini->read_var( "eZBugMain", "MailPassword" );
-$MailServer = $ini->read_var( "eZBugMain", "MailServer" );
-$MailServerPort = $ini->read_var( "eZBugMain", "MailServerPort" );
-$MailReplyTo = $ini->read_var( "eZBugMain", "MailReplyToAddress" );
-
-$mailArray = eZMailAccount::getNewMail( $MailUser, $MailPassword, $MailServer, $MailServerPort );
 
 $t = new eZTemplate( "ezbug/admin/" . $ini->read_var( "eZBugMain", "AdminTemplateDir" ),
                      "ezbug/admin/intl", $Language, "confirmationmail.php" );
@@ -54,92 +49,106 @@ $t->set_block( "confirmation_mail_tpl", "mail_body_tpl", "mail_body" );
 $t->set_block( "confirmation_mail_tpl", "refuse_mail_body_tpl", "refuse_mail_body" );
 $t->set_block( "confirmation_mail_tpl", "reply_body_tpl", "reply_body" );
 
-foreach ( $mailArray as $mail )
+$bugCategories = eZBugSupportCategory::getAll();
+
+foreach ( $bugCategories as $bugCategory )
 {
-    $validUser = false;
-    $subject = $mail->subject();
-    if ( $ini->read_var( "eZBugMain", "RequireSupportNo" ) == "true" )
+    $mailUser = $bugCategory->email();
+    $mailAccount = substr( $mailUser, 0, strpos( $mailUser, "@" ) );
+    $mailPassword = $bugCategory->password();
+    $mailServer = $bugCategory->mailServer();
+    $mailServerPort = $bugCategory->mailServerPort();
+
+    $bugModule = new eZBugModule( $bugCategory->bugModuleID() );
+    $mailArray = eZMailAccount::getNewMail( $mailAccount, $mailPassword, $mailServer, $mailServerPort );
+    
+    foreach ( $mailArray as $mail )
     {
-        if ( ereg( " #([0-9]+)", $subject, $list ) )
+        $validUser = false;
+        $subject = $mail->subject();
+        if ( $bugCategory->supportNo() )
         {
-            $support = new eZBugSupport( $list[1] );
-            if ( $support->expiryDate() >= eZDateTime::timeStamp( true ) &&
-                 strstr( $mail->from(), $support->userEmail() ) )
+            if ( ereg( " #([0-9]+)", $subject, $list ) )
             {
-                $validUser = true;
+                $support = new eZBugSupport( $list[1] );
+                if ( $support->expiryDate() >= eZDateTime::timeStamp( true ) &&
+                     strstr( $mail->from(), $support->userEmail() ) )
+                {
+                    $validUser = true;
+                }
             }
         }
-    }
-    else
-    {
-        $validUser = true;
-    }
-    
-    $confmail = new eZMail();
-    $confmail->setTo( $mail->replyTo() );
-    $confmail->setFrom( $MailReplyTo );
-    $confmail->setReplyTo( $MailReplyTo );
-    
-    if ( $validUser )
-    {
-        $makebug = true;
-        if ( ereg( "B#([0-9]*)", $subject, $list ) )
+        else
         {
-            if ( eZBug::bugExists( $list[1] ) )
-            {
-                $bug = new eZBug( $list[1] );
-                $log = new eZBugLog();
-                $body = "";
-                foreach ( split( "\n", $mail->body() ) as $line )
-                {
-                    if ( !ereg( "^[ ]*>", $line ) )
-                    {
-                        $body .= $line . "\n";
-                    }
-                }
-                
-                $log->setDescription( $body );
-                $log->setBug( $bug );
-                $log->store();
-                $makebug = false;
-                $t->set_var( "prefix", $ini->read_var( "eZMailMain", "ReplyPrefix" ) );
-                $t->set_var( "bug_id", $bug->id() );
-                $mailSubject = $mail->subject();
-                $mailBody = $t->parse( "dummy", "reply_body_tpl" );
-            }
+            $validUser = true;
         }
         
-        if ( $makebug )
+        $confmail = new eZMail();
+        $confmail->setTo( $mail->replyTo() );
+        $confmail->setFrom( $mailUser );
+        $confmail->setReplyTo( $mailUser );
+        
+        if ( $validUser )
         {
-            $bug = new eZBug();
-            $bug->setUserEmail( $mail->replyTo() );
-            $bug->setName( $mail->subject() );
-            $bug->setDescription( $mail->body() );
-            $bug->setIsHandled( false );
-//            $bug->setUserEmail( $mail->from() );
-            $bug->setUserEmail( "jhe@ez.no" );
-            $bug->store();
-            $t->set_var( "prefix", "" );
-            $t->set_var( "bug_id", $bug->ID() );
-            $t->set_var( "subject", $mail->subject() );
-            $t->set_var( "bug_id", $bug->id() );
-            $mailSubject = $t->parse( "dummy", "subject_tpl" );
-            $mailBody = $t->parse( "dummy", "mail_body_tpl" );
+            $makebug = true;
+            if ( ereg( "B#([0-9]*)", $subject, $list ) )
+            {
+                if ( eZBug::bugExists( $list[1] ) )
+                {
+                    $bug = new eZBug( $list[1] );
+                    $log = new eZBugLog();
+                    $body = "";
+                    foreach ( split( "\n", $mail->body() ) as $line )
+                    {
+                        if ( !ereg( "^[ ]*>", $line ) )
+                        {
+                            $body .= $line . "\n";
+                        }
+                    }
+                    
+                    $log->setDescription( $body );
+                    $log->setBug( $bug );
+                    $log->store();
+                    $makebug = false;
+                    $t->set_var( "prefix", $ini->read_var( "eZMailMain", "ReplyPrefix" ) );
+                    $t->set_var( "bug_id", $bug->id() );
+                    $mailSubject = $mail->subject();
+                    $mailBody = $t->parse( "dummy", "reply_body_tpl" ) . $mail->body();
+                }
+            }
+            
+            if ( $makebug )
+            {
+                $bug = new eZBug();
+                $bug->setUserEmail( $mail->replyTo() );
+                $bug->setName( $mail->subject() );
+                $bug->setDescription( $mail->body() );
+                $bug->setIsHandled( false );
+                $bug->setUserEmail( eZMail::stripEmail( $mail->from() ) );
+                $bug->store();
+                $bugModule->addBug( $bug );
+                
+                $t->set_var( "prefix", "" );
+                $t->set_var( "subject", $mail->subject() );
+                $t->set_var( "bug_id", $bug->id() );
+                $mailSubject = $t->parse( "dummy", "subject_tpl" );
+                $mailBody = $t->parse( "dummy", "mail_body_tpl" ) . $mail->body();
+            }
         }
+        else
+        {
+            $t->set_var( "prefix", $ini->read_var( "eZMailMain", "ReplyPrefix" ) );
+            $t->set_var( "subject", $mail->subject() );
+            $mailSubject = $t->parse( "dummy", "refuse_subject_tpl" );
+            $mailBody = $t->parse( "dummy", "refuse_mail_body_tpl" ) . $mail->body();
+        }
+        
+        $confmail->setSubject( $mailSubject );
+        $confmail->setBody( $mailBody );
+        $confmail->send();
+        
+        $mail->delete();
     }
-    else
-    {
-        $t->set_var( "prefix", $ini->read_var( "eZMailMain", "ReplyPrefix" ) );
-        $t->set_var( "subject", $mail->subject() );
-        $mailSubject = $t->parse( "dummy", "refuse_subject_tpl" );
-        $mailBody = $t->parse( "dummy", "refuse_mail_body_tpl" );
-    }
-    
-    $confmail->setSubject( $mailSubject );
-    $confmail->setBody( $mailBody );
-    $confmail->send();
-    
-    $mail->delete();
 }
 
 ?>

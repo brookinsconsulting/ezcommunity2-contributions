@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: menubox.php,v 1.6 2001/10/29 14:13:02 jhe Exp $
+// $Id: menubox.php,v 1.7 2001/11/06 12:33:54 jhe Exp $
 //
 // Created on: <25-Nov-2000 17:53:52 bf>
 //
@@ -32,8 +32,10 @@ $menuItems = array(
     array( "/bug/category/list/", "{intl-category_overview}" ),
     array( "/bug/module/list/0/", "{intl-module_overview}" ),
     array( "/bug/status/list/", "{intl-status_overview}" ),
+    array( "/bug/support/category/list/", "{intl-support_category_list}" ),
+    array( "/bug/support/category/new/", "{intl-support_new_category}" ),
     array( "/bug/support/list/", "{intl-support_list}" ),
-    array( "/bug/support/edit/new", "{intl-support_new}" )
+    array( "/bug/support/edit/new/", "{intl-support_new}" )
     );
 
 ?>
