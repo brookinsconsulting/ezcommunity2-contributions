@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpreorder.php,v 1.2 2001/03/15 17:37:26 bf Exp $
+// $Id: ezpreorder.php,v 1.3 2001/04/06 09:06:56 bf Exp $
 //
 // Definition of eZPreOrder class
 //
@@ -136,6 +136,41 @@ class eZPreOrder
         {
             $this->State_ = "Dirty";
         }
+        return $ret;
+    }
+
+    /*!
+      Fetches the pre order by OrderID.
+
+      False is returned if no the orderID is not found.
+    */
+    function getByOrderID( $orderID )
+    {
+        $this->dbInit();
+        $ret = false;
+        
+        if ( $orderID != "" )
+        {
+            $this->Database->array_query( $cart_array, "SELECT * FROM eZTrade_PreOrder WHERE OrderID='$orderID'" );
+            if ( count( $cart_array ) > 1 )
+            {
+                die( "Error: Pre order's with the same ID was found in the database. This shouldent happen." );
+            }
+            else if( count( $cart_array ) == 1 )
+            {
+                $this->ID = $cart_array[0][ "ID" ];
+                $this->OrderID = $cart_array[0][ "OrderID" ];
+                $this->Created = $cart_array[0][ "Created" ];
+                $this->State_ = "Coherent";
+                $ret = true;
+            }
+        }
+        else
+        {
+            $this->State_ = "Dirty";
+        }
+
+
         return $ret;
     }
 

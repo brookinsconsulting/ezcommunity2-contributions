@@ -9,6 +9,7 @@ include_once( "classes/ezlocale.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezorder.php" );
+include_once( "eztrade/classes/ezpreorder.php" );
 
 // eZ user
 include_once( "ezuser/classes/ezuser.php" );
@@ -70,9 +71,11 @@ function &newOrders( $args )
         // perform search
         $orderArray =& $order->getNew( );
 
-
         foreach ( $orderArray as $orderItem )
         {
+            $preOrder = new eZPreOrder();
+            $preOrder->getByOrderID( $orderItem->id() );
+
             // set the order item to be exported
             $orderItem->setIsExported( true );
             $orderItem->store();
@@ -131,6 +134,7 @@ function &newOrders( $args )
                 $orders[] = new eZXMLRPCStruct(
                     array(
                         "OrderID" => new eZXMLRPCInt( $orderItem->id() ),
+                        "PreOrderID" => new eZXMLRPCInt( $preOrder->id() ),
                         "PaymentMethod" => new eZXMLRPCString( $paymentMethod ),
                         "Date" => new eZXMLRPCString( $locale->format( $date ) ),
                         "Time" => new eZXMLRPCString( $locale->format( $time ) ),
