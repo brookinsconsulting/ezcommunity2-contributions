@@ -102,7 +102,6 @@
 	<input class="okbutton" type="submit" name="Cancel" value="{intl-cancel}" />
 
 	</td>
-
 </tr>
 </table>
 

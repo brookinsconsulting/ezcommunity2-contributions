@@ -39,6 +39,11 @@ switch ( $url_array[2] )
                 $Action = "New";
             }
             break;
+
+            default :
+            {
+                $Action = $url_array[3];
+            }
         }
 
         include( "ezcalendar/user/appointmentedit.php" );
