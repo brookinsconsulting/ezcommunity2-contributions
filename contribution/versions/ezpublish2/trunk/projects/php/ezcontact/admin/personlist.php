@@ -16,6 +16,7 @@ $t = new eZTemplate( "ezcontact/admin/" . $ini->read_var( "eZContactMain", "Admi
 $t->setAllStrings();
 
 include_once( "ezcontact/classes/ezperson.php" );
+include_once( "ezcontact/classes/ezprojecttype.php" );
 
 $t->set_file( array(
     "person_page" => "personlist.tpl"
@@ -24,6 +25,8 @@ $t->set_block( "person_page", "no_persons_tpl", "no_persons" );
 
 $t->set_block( "person_page", "person_table_tpl", "person_table" );
 $t->set_block( "person_table_tpl", "person_item_tpl", "person_item" );
+$t->set_block( "person_item_tpl", "person_state_tpl", "person_state" );
+$t->set_block( "person_item_tpl", "no_person_state_tpl", "no_person_state" );
 
 $t->set_block( "person_table_tpl", "person_list_tpl", "person_list" );
 $t->set_block( "person_list_tpl", "person_list_previous_tpl", "person_list_previous" );
@@ -87,6 +90,20 @@ else
         }
 
         $t->set_var( "person_id", $persons[$i]->id() );
+        $stateid = $persons[$i]->projectState();
+        $t->set_var( "state_id", $stateid );
+        $t->set_var( "person_state", "" );
+        $t->set_var( "no_person_state", "" );
+        if ( $stateid )
+        {
+            $state = new eZProjectType( $stateid );
+            $t->set_var( "person_state", $state->name() );
+            $t->parse( "person_state", "person_state_tpl" );
+        }
+        else
+        {
+            $t->parse( "no_person_state", "no_person_state_tpl" );
+        }
         $t->set_var( "person_firstname", $persons[$i]->firstName() );
         $t->set_var( "person_lastname", $persons[$i]->lastName() );
         $t->parse( "person_item", "person_item_tpl", true );
