@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.13 2001/04/04 12:14:02 fh Exp $
+// $Id: categoryedit.php,v 1.14 2001/04/05 15:29:01 fh Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -335,7 +335,7 @@ $tree = $category->getTree();
 
 foreach( $tree as $item )
 {
-    if( eZObjectPermission::hasPermission( $item[0]->id(), "article_category", 'w' ) )
+    if( eZObjectPermission::hasPermission( $item[0]->id(), "article_category", 'w' ) && $CategoryID != $item[0]->id() )
     {
         $t->set_var( "option_value", $item[0]->id() );
         $t->set_var( "option_name", $item[0]->name() );
