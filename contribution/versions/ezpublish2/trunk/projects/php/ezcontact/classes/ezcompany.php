@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcompany.php,v 1.79 2001/10/08 14:02:05 jhe Exp $
+// $Id: ezcompany.php,v 1.80 2001/10/09 12:19:00 jhe Exp $
 //
 // Definition of eZProduct class
 //
@@ -378,8 +378,18 @@ class eZCompany
         
         $company_array = array();
         $return_array = array();
-    
-        $db->array_query( $company_array, "SELECT ID FROM eZContact_Company WHERE Name LIKE '%$query%' ORDER BY Name" );
+
+        $queryString = "SELECT C.ID FROM eZContact_Company as C,
+                        eZContact_CompanyOnlineDict as POD,
+                        eZAddress_Online as O,
+                        eZContact_CompanyPhoneDict as PPD,
+                        eZAddress_Phone as Ph
+                        WHERE (C.Name LIKE '%$query%')
+                        OR (C.ID = POD.CompanyID AND POD.OnlineID = O.ID AND O.URL LIKE '%$query%')
+                        OR (C.ID = PPD.CompanyID AND PPD.PhoneID = Ph.ID AND Ph.Number LIKE '%$query%')
+                        GROUP BY C.ID;";
+
+        $db->array_query( $company_array, $queryString );
 
         foreach ( $company_array as $companyItem )
         {

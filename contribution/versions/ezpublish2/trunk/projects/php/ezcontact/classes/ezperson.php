@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezperson.php,v 1.60 2001/10/08 14:02:05 jhe Exp $
+// $Id: ezperson.php,v 1.61 2001/10/09 12:19:00 jhe Exp $
 //
 // Definition of eZPerson class
 //
@@ -315,10 +315,8 @@ class eZPerson
             $limit_array = array( "Offset" => $limit_index, "Limit" => $limit );
         }
 
-        print "--" . $search_types . "--" . $cond . "--";
         if ( empty( $search_types ) )
         {
-            print "empty";
             switch ( $cond )
             {
                 case "standalone":
@@ -405,14 +403,22 @@ class eZPerson
         $return_array = array();
         
         $query = $db->escapeString( $query );
-    
-        $db->array_query( $person_array, "SELECT * FROM eZContact_Person
-                                          WHERE FirstName LIKE '%$query%' OR
-                                                LastName LIKE '%$query%' ORDER BY LastName" );
+
+        $queryString = "SELECT P.ID FROM eZContact_Person as P,
+                        eZContact_PersonOnlineDict as POD,
+                        eZAddress_Online as O,
+                        eZContact_PersonPhoneDict as PPD,
+                        eZAddress_Phone as Ph
+                        WHERE (P.FirstName LIKE '%$query%' OR P.LastName LIKE '%$query%')
+                        OR (P.ID = POD.PersonID AND POD.OnlineID = O.ID AND O.URL LIKE '%$query%')
+                        OR (P.ID = PPD.PersonID AND PPD.PhoneID = Ph.ID AND Ph.Number LIKE '%$query%')
+                        GROUP BY P.ID;";
+
+        $db->array_query( $person_array, $queryString );
     
         foreach ( $person_array as $personItem )
         {
-            $return_array[] = new eZPerson( $personItem[ $db->fieldName( "ID" ) ] );
+            $return_array[] = new eZPerson( $personItem[$db->fieldName( "ID" )] );
         }
         return $return_array;
     }
