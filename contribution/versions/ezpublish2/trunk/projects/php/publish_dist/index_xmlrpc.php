@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: index_xmlrpc.php,v 1.28 2001/11/02 08:56:01 jb Exp $
+// $Id: index_xmlrpc.php,v 1.29 2001/11/02 11:12:57 jb Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -175,7 +175,14 @@ function Call( $args )
 
         $session =& $GLOBALS["eZSessionObject"];
         $session = new eZSession();
-        $hash = md5( microtime() );
+        if ( isset( $call["LastSession"] ) )
+        {
+            $hash = $call["LastSession"]->value();
+        }
+        else
+        {
+            $hash = md5( microtime() );
+        }
         $GLOBALS["eZSessionCookie"] = $hash;
 
         if ( !$session->fetch() )
