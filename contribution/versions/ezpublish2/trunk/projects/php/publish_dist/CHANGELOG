@@ -1,9 +1,14 @@
 eZ publish changelog:
 ---------------------
 
-Changes from version 2.0 PRE 2 to 
-------------------------------------------------
-* Fixed better handling of special characters ( " ' < / ) in eZ forum, eZ poll, 
+Changes from 2.0.0 to 2.0.1
+---------------------------
+* Fixed a reply/post error in forum where anonymous users could post when they shouldn't be able to.
+* Fixed the links in the e-mails sent when people posts to the forum.
+
+Changes from version 2.0 PRE 2 to 2.0.0
+---------------------------------------
+* Fixed better handling of special characters ( " ' / ) in eZ forum, eZ poll, 
   eZ filemanager, eZ imagecatalogue, eZ bug
 * Fixed bug eZContact which caused companies to disappear (or look empty)
   when they were created directly from a category.
@@ -11,7 +16,7 @@ Changes from version 2.0 PRE 2 to
   categories will be moved to the top level.
 
 Changes from version 2.0 PRE 1 to PRE 2
-------------------------------------------------
+---------------------------------------
 * Deletion of company, person and consultation in eZ contact has been fixed.
 * Various bugfixes in consultation edit.
 * Image views no longer displays error messages, instead a standard image explaining the fault is shown.
@@ -42,7 +47,7 @@ Changes from version 2.0 beta 3 to PRE 1
 Changes from version 2.0 beta 2 to version 2.0 beta 3
 -----------------------------------------------------
 * Added eZ error, for error handling ( 404, 403.. )
-* Added <html> tag to eZArticle, you can now write HTML code in the articles.
+* Added html tag to eZArticle, you can now write HTML code in the articles.
 * Added alternative currency to eZ trade
 * Added VAT handling in eZ trade
 * Added images to link groups and links
