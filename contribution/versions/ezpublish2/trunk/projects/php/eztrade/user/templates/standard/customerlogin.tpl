@@ -16,7 +16,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<input class="okbutton" type="submit" value="Logg inn" />
+<input class="okbutton" type="submit" value="{intl-login}" />
 <input type="hidden" name="RedirectURL" value="{redirect_url}" />
 </form>
 <br />
@@ -29,7 +29,7 @@
 
 <hr noshade="noshade" size="4" />
 
-<input class="okbutton" class="stdbutton" type="submit" value="Ny bruker" />
+<input class="okbutton" class="stdbutton" type="submit" value="{intl-newuser}" />
 
 </form>
 

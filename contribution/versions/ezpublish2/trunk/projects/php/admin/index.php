@@ -25,7 +25,7 @@ include_once( "ezuser/classes/ezpermission.php" );
 //  if ( !$session->fetch() )
 //      $session->store();
 
-
+require( "ezuser/admin/admincheck.php" );
 
 $ini = new INIFile( "site.ini" );
 $t = new Template( "." );

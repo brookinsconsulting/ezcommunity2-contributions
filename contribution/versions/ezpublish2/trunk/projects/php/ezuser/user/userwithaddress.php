@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userwithaddress.php,v 1.7 2000/11/02 20:19:41 bf-cvs Exp $
+// $Id: userwithaddress.php,v 1.8 2000/11/03 09:56:02 ce-cvs Exp $
 //
 // 
 //
@@ -13,7 +13,6 @@
 // your own programs or libraries.
 //
 
-print( $RedirectURL );
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 
