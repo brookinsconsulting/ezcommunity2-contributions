@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.30 2000/10/11 16:02:37 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.31 2000/10/11 16:20:22 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -286,7 +286,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function createLogItem( $changeText, $changeType  )
     {
-        echo "eZNewsItem::createLogItem( \$changeText = $changeText \$changeType = $changeType )<br>";
+        #echo "eZNewsItem::createLogItem( \$changeText = $changeText \$changeType = $changeType )<br>";
         
         $value = false;
         $doIt = false;
@@ -504,6 +504,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function printLogs()
     {
+        echo "eZNewsItem::printLogs()<br>";
         if( $this->ChangeTicketID )
         {
             echo "Log items belonging to: " . $this->ID . " " . $this->Name . "<br>";
@@ -779,7 +780,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function updateLogs()
     {
-        echo "eZNewsItem::updateLogs()<br>";
+        #echo "eZNewsItem::updateLogs()<br>";
         $query =
         "
             DELETE FROM
@@ -862,7 +863,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function storeParents()
     {
-        echo "eZNewsItem::storeParents()<br>";
+        #echo "eZNewsItem::storeParents()<br>";
         $this->dbInit();
 
         $nonCanonicalQuery =
@@ -920,13 +921,13 @@ class eZNewsItem extends eZNewsUtility
      */
     function updateParents()
     {
-        echo "eZNewsItem::updateParents()<br>";
+        #echo "eZNewsItem::updateParents()<br>";
         $this->dbInit();
 
         $query =
         "
             DELETE FROM
-                eZNews_Hierachy
+                eZNews_Hiearchy
             WHERE
                 ItemID = %s
         ";
@@ -954,7 +955,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function storeThis( &$outID )
     {
-        echo "eZNewsItem::storeThis( \$outID )<br>";
+        #echo "eZNewsItem::storeThis( \$outID )<br>";
         
         $value = false;
         
@@ -1027,7 +1028,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function updateThis( &$outID )
     {
-        echo "eZNewsItem::updateThis( \$outID )<br>";
+        #echo "eZNewsItem::updateThis( \$outID )<br>";
         
         $value = false;
         
@@ -1059,14 +1060,9 @@ class eZNewsItem extends eZNewsUtility
         );
 
         $this->Database->query( $query );
-        $insertID = mysql_insert_id();
-        #echo "insertid " . $insertID . "<br>";
-        if( $insertID )
-        {
-            $outID = $insertID;
-            $this->ID = $insertID;
-            $stored = true;
-        }
+
+        $outID = $this->ID;
+        $stored = true;
         
         if( $stored )
         {
@@ -1097,11 +1093,13 @@ class eZNewsItem extends eZNewsUtility
      */
     function delete()
     {
-        echo "eZNewsItem::delete()<br>";
+        #echo "eZNewsItem::delete()<br>";
         $value = false;
         $this->dbInit();
+        
+        $type = new eZNewsChangeType( "delete" );
 
-        if ( isset( $this->ID ) )
+        if ( isset( $this->ID ) && $this->Status != $type->ID() )
         {
             $this->dirtyUpdate();
 
@@ -1109,8 +1107,6 @@ class eZNewsItem extends eZNewsUtility
             {
                 $this->createLogItem( $this->ID . ": Item was deleted", "delete" );
             }
-            
-            $type = new eZNewsChangeType( "delete" );
 
             $this->Status = $type->ID();
 
@@ -1128,8 +1124,8 @@ class eZNewsItem extends eZNewsUtility
 
             $this->alterState();
             
-            echo $type->name() . "<br>";
-            echo $type->ID() . "<br>";
+            #echo $type->name() . "<br>";
+            #echo $type->ID() . "<br>";
             $this->printErrors();
             $this->printParents();
             $this->store( $outID );
@@ -2226,17 +2222,35 @@ class eZNewsItem extends eZNewsUtility
         
         return $value;
     }
+
+
+
     /*!
         Returns the object Status.
         
         \return
             Returns the Status of the object.
     */
-    function changeStatus()
+    function status()
     {
         $this->dirtyUpdate();
         
         return $this->Status;
+    }
+
+
+
+    /*!
+        Returns the object ItemTypeID.
+        
+        \return
+            Returns the ItemTypeID of the object.
+    */
+    function itemTypeID()
+    {
+        $this->dirtyUpdate();
+        
+        return $this->ItemTypeID;
     }
 
 

@@ -1,5 +1,11 @@
 <?php
 
+include_once( "eznews/admin/eznewsitem/eznewsimageviewer.php" );
+include_once( "eznews/admin/eznewsitem/eznewsitemcreator.php" );
+include_once( "eznews/classes/eznewsitem.php" );  
+include_once( "eznews/classes/eznewsitemtype.php" );  
+include_once( "classes/eztemplate.php" );
+
 class eZNewsItemViewer
 {
 
@@ -82,7 +88,6 @@ class eZNewsItemViewer
         
         if( $count && $continue )
         {
-            include_once( "eznews/admin/eznewsitem/eznewsimageviewer.php" );
             $item = new eZNewsImageViewer( $this->Ini, $this->ItemQuery, $itemNo );
             
             if( !$item->isFinished() )
@@ -98,7 +103,6 @@ class eZNewsItemViewer
         
         if( $count && $continue )
         {
-            #include_once( "eznews/admin/eznewsitem/eznewsimageviewer.php" );
             #$item = new eZNewsImageViewer( $this->Ini, $this->ItemQuery, $itemNo );
             
             #if( !$item->isFinished() )
@@ -244,7 +248,6 @@ class eZNewsItemViewer
     
     function doAdminEdit( &$itemNo )
     {
-        include_once( "eznews/admin/eznewsitem/eznewsitemcreator.php" );
         $item = new eZNewsItemCreator( $this->Ini, $this->ItemQuery, $itemNo );
     }
     
@@ -255,10 +258,12 @@ class eZNewsItemViewer
         
         global $delete;
         
-        include_once( "eznews/classes/eznewsitem.php" );  
         $this->Item = new eZNewsItem( $itemNo );
+        $type = new eZNewsItemType( $this->Item->ItemTypeID() );
         
-        include_once( "classes/eztemplate.php" );
+        $class = $type->eZClass();
+        include_once( "eznews/classes/" . strtolower( $class) . ".php" );
+        $this->Item = new $class( $itemNo );
 
         $Language = $this->Ini->read_var( "eZNewsMain", "Language" );
         $DocumentDir = $this->Ini->read_var( "eZNewsMain", "DocumentRoot" );
