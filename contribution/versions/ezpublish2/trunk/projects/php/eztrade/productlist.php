@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.2 2000/09/25 07:31:47 bf-cvs Exp $
+// $Id: productlist.php,v 1.3 2000/09/27 07:08:28 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -106,7 +106,7 @@ foreach ( $productList as $product )
     $thumbnailImage = $product->thumbnailImage();
     if ( $thumbnailImage )
     {
-        $variation = $thumbnailImage->requestImageVariation( 150, 150 );
+        $variation = $thumbnailImage->requestImageVariation( 250, 250 );
     
         $t->set_var( "thumbnail_image_uri", "/" . $variation->imagePath() );
         $t->set_var( "thumbnail_image_width", $variation->width() );
@@ -143,7 +143,6 @@ foreach ( $productList as $product )
     $t->parse( "product_list", "product_item", true );
     $i++;
 }
-
 
 
 if ( $GenerateStaticPage == "true" )

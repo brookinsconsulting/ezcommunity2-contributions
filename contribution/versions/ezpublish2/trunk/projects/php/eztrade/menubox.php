@@ -27,7 +27,15 @@
 </tr>
 <tr>
 	<td>
-	<a class="menu" href="/trade/search/">
+	<a class="small" href="/trade/cart/">
+	<img src="/images/prikk.gif" width="8" heigth="8" border="0">&nbsp;
+    Your cart!
+	</a>
+	</td>
+</tr>
+<tr>
+	<td>
+	<a class="small" href="/trade/search/">
 	<img src="/images/prikk.gif" width="8" heigth="8" border="0">&nbsp;
     Search
 	</a>

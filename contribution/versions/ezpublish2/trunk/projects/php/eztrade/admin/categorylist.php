@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categorylist.php,v 1.3 2000/09/21 12:42:23 bf-cvs Exp $
+// $Id: categorylist.php,v 1.4 2000/09/27 07:08:28 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -34,16 +34,32 @@ $t->setAllStrings();
 $t->set_file( array(
     "category_list_page" => "categorylist.tpl",
     "category_item" => "categoryitem.tpl",
+    "path_item" => "pathitem.tpl",
     "product_item" => "productitem.tpl"
     ) );
 
 $category = new eZProductCategory(  );
 $category->get( $ParentID );
 
+// path
+$pathArray = $category->path();
+
+$t->set_var( "category_path", "" );
+foreach ( $pathArray as $path )
+{
+    $t->set_var( "category_id", $path[0] );
+
+    $t->set_var( "category_name", $path[1] );
+    
+    $t->parse( "category_path", "path_item", true );
+}
+
+
 $categoryList = $category->getByParent( $category );
 
 // categories
 $i=0;
+$t->set_var( "category_list", "" );
 foreach ( $categoryList as $categoryItem )
 {
     $t->set_var( "category_id", $categoryItem->id() );
@@ -82,6 +98,7 @@ $productList = $category->products();
 
 $locale = new eZLocale( $Language );
 $i=0;
+$t->set_var( "product_list", "" );
 foreach ( $productList as $product )
 {
     $t->set_var( "product_name", $product->name() );

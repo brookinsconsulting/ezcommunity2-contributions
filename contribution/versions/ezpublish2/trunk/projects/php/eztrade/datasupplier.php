@@ -68,9 +68,11 @@ switch ( $url_array[2] )
         }
         
         break;
-    case "product" :
-        print( "<h1>Product</h1>" );
+        
+    case "cart" :
+        include( "eztrade/cart.php" );
         break;
+        
     case "search" :
         print( "<h1>Product search</h1>" );        
         break;

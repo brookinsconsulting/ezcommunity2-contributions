@@ -23,14 +23,16 @@ switch ( $SiteStyle )
         break;
     case "ezpublish" :
         $SiteBackground = "#640000";
-    
+        break;            
+    case "ezintranet" :
+        $SiteBackground = "#004b00";
         break;        
 }
 
 // html header
 include( "header.php" );
 
-if( $session->get( $AuthenticatedSession ) == 0 )
+if ( $session->get( $AuthenticatedSession ) == 0 )
 {
 
     if ( $ini->read_var( "site", "eZPublish" ) == "enabled" )

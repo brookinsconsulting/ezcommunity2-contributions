@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezsession.php,v 1.9 2000/09/25 15:10:12 bf-cvs Exp $
+// $Id: ezsession.php,v 1.10 2000/09/27 07:08:28 bf-cvs Exp $
 //
 // Definition of eZCompany class
 //
@@ -14,11 +14,6 @@
 //
 
 
-//!! eZCommon
-//! The eZSession class provides session handling.
-/*!
-  
-*/
 
 class eZSession
 {

@@ -1,6 +1,6 @@
 <?
 /*!
-    $Id: ezuser.php,v 1.7 2000/09/14 15:36:09 bf-cvs Exp $
+    $Id: ezuser.php,v 1.8 2000/09/27 07:08:28 bf-cvs Exp $
 
     Author: Lars Wilhelmsen <lw@ez.no>
     
@@ -9,11 +9,6 @@
     Copyright (C) 2000 eZ systems. All rights reserved.
 */
 
-//!! eZCommon
-//! The eZUser class provides user functions.
-/*!
-  
-*/
 
 class eZUser
 {
