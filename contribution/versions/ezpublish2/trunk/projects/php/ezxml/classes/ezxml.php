@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezxml.php,v 1.4 2001/11/16 16:20:28 bf Exp $
+// $Id: ezxml.php,v 1.5 2001/11/18 14:15:28 bf Exp $
 //
 // Definition of eZXML class
 //
@@ -30,6 +30,10 @@
 /*!
   eZXML will create a DOM tree from well formed XML documents.
 
+  \code
+
+  \endcode
+  
 */
 
 include_once( "ezxml/classes/ezdomnode.php" );
@@ -38,10 +42,11 @@ include_once( "ezxml/classes/ezdomdocument.php" );
 class eZXML
 {
     /*!
+      Constructor, should not be used all functions are static.
     */
     function eZXML( )
     {
-
+        print( "Use the static functions: eZXML::domTree()" );
     }
 
     /*!
@@ -55,8 +60,11 @@ class eZXML
         // get document version
 
         // strip header
-        $xmlDoc = preg_replace( "#<\?.*?\?>#", "", $xmlDoc );
+        $xmlDoc =& preg_replace( "#<\?.*?\?>#", "", $xmlDoc );
 
+        // strip comments
+        $xmlDoc =& eZXML::stripComments( $xmlDoc );
+        
         $domDocument = new eZDOMDocument();
         $domDocument->version = "1.0";
 
@@ -204,11 +212,11 @@ class eZXML
                     $subNode->type = 3;
 
                     // convert special chars
-                    $tagContent = preg_replace("/&amp;/U", "&", $tagContent );
-                    $tagContent = preg_replace("/&gt;/U", ">", $tagContent );
-                    $tagContent = preg_replace("/&lt;/U", "<", $tagContent );
-                    $tagContent = preg_replace("/&apos;/U", "'", $tagContent );
-                    $tagContent = preg_replace("/&quot;/U", '"', $tagContent );
+                    $tagContent =& str_replace("&amp;", "&", $tagContent );
+                    $tagContent =& str_replace("&gt;", ">", $tagContent );
+                    $tagContent =& str_replace("&lt;", "<", $tagContent );
+                    $tagContent =& str_replace("&apos;", "'", $tagContent );
+                    $tagContent =& str_replace("&quot;", '"', $tagContent );
                     
                     $subNode->content = $tagContent;
                     
@@ -219,6 +227,17 @@ class eZXML
 
         return $domDocument;
     }
+
+    /*!
+      \static
+      \private
+    */
+    function stripComments( &$str )
+    {
+        $str =& preg_replace( "#<\!--.*?-->#", "", $str );
+        return $str;
+    }
+    
 }
 
 ?>
