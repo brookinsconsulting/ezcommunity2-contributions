@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsimporter.php,v 1.8 2001/01/03 10:24:37 bf Exp $
+// $Id: eznewsimporter.php,v 1.9 2001/02/09 13:26:10 fh Exp $
 //
 // Definition of eZNewsImporter class
 //
@@ -61,6 +61,17 @@ class eZNewsImporter
         }
     }
 
+    /*
+      \static
+      This funcion returns an array of strings with the avaliable decoders.
+      NOTE: When you create a new decoder you must add it to this function or the decoder will not be avaliable for users to select.
+     */
+    function listDecoders( )
+    {
+        $list = array( "nyheter.no", "rdf", "backslash" );
+        return $list;
+    }
+    
     /*!
       Imports news from the given site.
     */
@@ -78,29 +89,6 @@ class eZNewsImporter
 
                 $importer->news();
                 $newsList =& $importer->news();
-
-                foreach ( $newsList as $newsItem )
-                {
-                    if ( $newsItem->store() == true )
-                    {
-                        if ( $this->AutoPublish == true )
-                        {
-                            $newsItem->setIsPublished( true );
-                        }
-                        else
-                        {
-                            $newsItem->setIsPublished( false );
-                        }
-                        $newsItem->store();
-                        
-                        $category->addNews( $newsItem );
-                        print( "storing: -" .$newsItem->name() . "<br>");
-                    }
-                    else
-                    {
-                        print( "already stored: -" .$newsItem->name() . "<br>");
-                    }
-                }
             }
             break;
 
@@ -110,29 +98,6 @@ class eZNewsImporter
                 
                 $importer = new eZRDFImporter( $this->Site, $this->Login, $this->Password );
                 $newsList =& $importer->news();
-
-                foreach ( $newsList as $newsItem )
-                {
-                    if ( $newsItem->store() == true )
-                    {
-                        if ( $this->AutoPublish == true )
-                        {
-                            $newsItem->setIsPublished( true );
-                        }
-                        else
-                        {
-                            $newsItem->setIsPublished( false );
-                        }
-                        $newsItem->store();
-                        
-                        $category->addNews( $newsItem );
-                        print( "storing: -" .$newsItem->name() . "<br>");
-                    }
-                    else
-                    {
-                        print( "already stored: -" .$newsItem->name() . "<br>");
-                    }
-                }
             }
             break;
 
@@ -142,31 +107,34 @@ class eZNewsImporter
                 
                 $importer = new eZBackslashImporter( $this->Site, $this->Login, $this->Password );
                 $newsList =& $importer->news();
-
-                foreach ( $newsList as $newsItem )
-                {
-                    if ( $newsItem->store() == true )
-                    {
-                        if ( $this->AutoPublish == true )
-                        {
-                            $newsItem->setIsPublished( true );
-                        }
-                        else
-                        {
-                            $newsItem->setIsPublished( false );
-                        }
-                        $newsItem->store();
-                        
-                        $category->addNews( $newsItem );
-                        print( "storing: -" .$newsItem->name() . "<br>");
-                    }
-                    else
-                    {
-                        print( "already stored: -" .$newsItem->name() . "<br>");
-                    }
-                }
             }
             break;
+          }
+
+          if( isset( $newsList ) )
+          {
+              foreach ( $newsList as $newsItem )
+              {
+                  if ( $newsItem->store() == true )
+                  {
+                      if ( $this->AutoPublish == true )
+                      {
+                          $newsItem->setIsPublished( true );
+                      }
+                      else
+                      {
+                          $newsItem->setIsPublished( false );
+                      }
+                      $newsItem->store();
+                        
+                      $category->addNews( $newsItem );
+                      print( "storing: -" .$newsItem->name() . "<br>");
+                  }
+                  else
+                  {
+                      print( "already stored: -" .$newsItem->name() . "<br>");
+                  }
+              }
           }
     }
 
