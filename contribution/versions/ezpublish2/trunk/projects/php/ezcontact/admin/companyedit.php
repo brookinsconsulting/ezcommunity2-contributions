@@ -813,7 +813,7 @@ if ( $Action == "edit" )
     $Action_value = "update";
     
 }
-    
+
 // Company type selector
 $companyType = new eZCompanyType();
 $companyTypeList = $companyType->getTree();
@@ -841,6 +841,17 @@ foreach( $companyTypeList as $companyTypeItem )
             }
         }
         if ( $found  == true )
+        {
+            $t->set_var( "is_selected", "selected" );
+        }
+        else
+        {
+            $t->set_var( "is_selected", "" );
+        }
+    }
+    else if ( isset( $NewCompanyCategory ) )
+    {
+        if ( $NewCompanyCategory == $companyTypeItem[0]->id() )
         {
             $t->set_var( "is_selected", "selected" );
         }
