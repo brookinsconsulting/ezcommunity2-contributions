@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproducttype.php,v 1.3 2001/03/13 15:54:47 fh Exp $
+// $Id: ezproducttype.php,v 1.4 2001/04/04 12:03:42 ce Exp $
 //
 // Definition of eZProductType class
 //
@@ -238,7 +238,7 @@ class eZProductType
        
        $this->Database->array_query( $attribute_array, "SELECT ID
                                                       FROM eZTrade_Attribute
-                                                      WHERE TypeID='$this->ID' ORDER BY Created" );
+                                                      WHERE TypeID='$this->ID' ORDER BY Placement" );
 
        for ( $i=0; $i<count($attribute_array); $i++ )
        {

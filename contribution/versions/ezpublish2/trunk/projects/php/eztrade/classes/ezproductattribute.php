@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezproductattribute.php,v 1.2 2001/01/06 16:21:01 bf Exp $
+// $Id: ezproductattribute.php,v 1.3 2001/04/04 12:03:41 ce Exp $
 //
 // Definition of eZProductAttribute class
 //
@@ -80,9 +80,21 @@ class eZProductAttribute
 
         if ( !isset( $this->ID ) )
         {
+
+            $this->Database->array_query( $attribute_array, "SELECT Placement FROM eZTrade_Attribute" );
+
+            if ( count ( $attribute_array ) > 0 )
+            {
+                $place = max( $attribute_array );
+                $place = $place["Placement"];
+                $place++;
+            }
+            
             $this->Database->query( "INSERT INTO eZTrade_Attribute SET
 		                         Name='$this->Name',
 		                         TypeID='$this->TypeID',
+		                         AttributeType='$this->AttributeType',
+		                         Placement='$place',
 		                         Created=now()" );
         
             $this->ID = mysql_insert_id();
@@ -93,6 +105,7 @@ class eZProductAttribute
             $this->Database->query( "UPDATE eZTrade_Attribute SET
 		                         Name='$this->Name',
 		                         Created=Created,
+		                         AttributeType='$this->AttributeType',
 		                         TypeID='$this->TypeID' WHERE ID='$this->ID'" );
 
             $this->State_ = "Coherent";
@@ -121,6 +134,8 @@ class eZProductAttribute
                 $this->ID =& $attribute_array[0][ "ID" ];
                 $this->Name =& $attribute_array[0][ "Name" ];
                 $this->TypeID =& $attribute_array[0][ "TypeID" ];
+                $this->AttributeType =& $attribute_array[0][ "AttributeType" ];
+                $this->Placement =& $attribute_array[0][ "Placement" ];
                 
                 $this->State_ = "Coherent";                
             }
@@ -185,6 +200,21 @@ class eZProductAttribute
     }
 
     /*!
+      Returns the class of the attribute.
+
+      1 = normal attribute
+      2 = header
+    */
+    function attributeType()
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       return $this->AttributeType;
+    }
+
+
+    /*!
       Returns the type of the attribute.
     */
     function type()
@@ -196,7 +226,7 @@ class eZProductAttribute
  
        return $type;
     }
-    
+
 
     /*!
       Sets the name of the attribute.
@@ -221,6 +251,21 @@ class eZProductAttribute
        {
            $this->TypeID = $type->id();
        }
+    }
+
+    /*!
+      Sets the type of the attribute.
+
+      1 = normal attribute
+      2 = header
+    */
+    function setAttributeType( $attributeType )
+    {
+       if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+
+       $this->AttributeType = $attributeType;
+       
     }
 
     /*!
@@ -282,6 +327,39 @@ class eZProductAttribute
        }
        return $ret;
     }
+
+    /*!
+      Moves this item up one step in the order list, this means that it will swap place with the item above.
+    */
+    function moveUp()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        $db = eZDB::globalDatabase();
+        $db->query_single( $qry, "SELECT ID, Placement FROM eZTrade_Attribute
+                                  WHERE Placement<'$this->Placement' ORDER BY Placement DESC LIMIT 1" );
+        $listorder = $qry["Placement"];
+        $listid = $qry["ID"];
+        $db->query( "UPDATE eZTrade_Attribute SET Placement='$listorder' WHERE ID='$this->ID'" );
+        $db->query( "UPDATE eZTrade_Attribute SET Placement='$this->Placement' WHERE ID='$listid'" );
+    }
+
+    /*!
+      Moves this item down one step in the order list, this means that it will swap place with the item below.
+    */
+    function moveDown()
+    {
+        if ( $this->State_ == "Dirty" )
+            $this->get( $this->ID );
+        $db = eZDB::globalDatabase();
+        $db->query_single( $qry, "SELECT ID, Placement FROM eZTrade_Attribute
+                                  WHERE Placement>'$this->Placement' ORDER BY Placement ASC LIMIT 1" );
+        $listorder = $qry["Placement"];
+        $listid = $qry["ID"];
+        $db->query( "UPDATE eZTrade_Attribute SET Placement='$listorder' WHERE ID='$this->ID'" );
+        $db->query( "UPDATE eZTrade_Attribute SET Placement='$this->Placement' WHERE ID='$listid'" );
+    }
+
     
     /*!
       Private function.
@@ -299,6 +377,8 @@ class eZProductAttribute
     var $ID;
     var $TypeID;
     var $Name;
+    var $AttributeType;
+    var $Placement;
 
     ///  Variable for keeping the database connection.
     var $Database;

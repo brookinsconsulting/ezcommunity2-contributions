@@ -57,13 +57,23 @@
 									</td>
 								</tr>
 								<!-- BEGIN attribute_tpl -->
+
+								<!-- END attribute_tpl -->
+
+								<!-- BEGIN attribute_value_tpl -->
 								<tr> 
 									<td class="attribute" valign="top"> {attribute_name}:&nbsp; 
 									</td>
 									<td class="attributevalue" align="right" valign="bottom"> 
 										{attribute_value} </td>
 								</tr>
-								<!-- END attribute_tpl -->
+								<!-- END attribute_value_tpl -->
+								<!-- BEGIN attribute_header_tpl -->
+								<tr> 
+									<td class="attribute" valign="top"><u>Header: {attribute_name}:</u>&nbsp; 
+									</td>
+								</tr>
+								<!-- END attribute_header_tpl -->
 								<tr> 
 									<td colspan="2"> 
 										<hr size="1" noshade />

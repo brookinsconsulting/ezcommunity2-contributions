@@ -38,16 +38,27 @@ switch ( $url_array[2] )
     {
         if ( $url_array[3] == "edit" )
         {
-            $Action = "Edit";
             $TypeID = $url_array[4];
+            $Action = "Edit";
         }
-
         if ( $url_array[3] == "delete" )
         {
-            $Action = "Delete";
             $TypeID = $url_array[4];
+            $Action = "Delete";
         }
-        
+        if ( $url_array[3] == "up" )
+        {
+            $TypeID = $url_array[4];
+            $AttributeID = $url_array[5];
+            $Action = "up";
+        }
+        if ( $url_array[3] == "down" )
+        {
+            $TypeID = $url_array[4];
+            $AttributeID = $url_array[5];
+            $Action = "down";
+        }
+
         include( "eztrade/admin/typeedit.php" );
     }
     break;

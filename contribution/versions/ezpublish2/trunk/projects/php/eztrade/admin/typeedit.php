@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: typeedit.php,v 1.5 2001/03/13 15:18:06 fh Exp $
+// $Id: typeedit.php,v 1.6 2001/04/04 12:03:41 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <20-Dec-2000 18:24:06 bf>
@@ -37,11 +37,10 @@ include_once( "classes/eztemplate.php" );
 
 $ini =& INIFile::globalINI();
 $Language = $ini->read_var( "eZTradeMain", "Language" );
+$move_item = true;
 
 include_once( "eztrade/classes/ezproducttype.php" );
 include_once( "eztrade/classes/ezproductattribute.php" );
-
-
 
 if ( $Action == "Insert" )
 {
@@ -68,16 +67,36 @@ if ( $Action == "Update" )
     $i =0;
     if ( count( $AttributeName ) > 0 )
     {
+
         foreach ( $AttributeName as $attribute )
         {
             $att = new eZProductAttribute( $AttributeID[$i] );
             $att->setName( $attribute );
+            $att->setAttributeType( $AttributeType[$i] );
             $att->store();            
-            
+
             $i++;
         }
     }
     $Action="Edit";
+}
+
+if( $Action == "up" )
+{
+    $attribute = new eZProductAttribute( $AttributeID );
+    $attribute->moveUp();
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /trade/typeedit/edit/$TypeID" );
+    exit();
+}
+
+if( $Action == "down" )
+{
+    $attribute = new eZProductAttribute( $AttributeID );
+    $attribute->moveDown();
+    include_once( "classes/ezhttptool.php" );
+    eZHTTPTool::header( "Location: /trade/typeedit/edit/$TypeID" );
+    exit();
 }
 
 if( isset( $Ok ) )
@@ -91,6 +110,7 @@ if ( isset( $NewAttribute ) )
 {
     $attribute = new eZProductAttribute();
     $attribute->setType( $type );
+    $attribute->setAttributeType( 1 );
     $attribute->setName( "New attribute" );
     $attribute->store();
 }
@@ -120,6 +140,14 @@ $t->set_block( "type_edit_tpl", "value_tpl", "value" );
 $t->set_block( "type_edit_tpl", "attribute_list_tpl", "attribute_list" );
 $t->set_block( "attribute_list_tpl", "attribute_tpl", "attribute" );
 
+$t->set_block( "attribute_tpl", "item_move_up_tpl", "item_move_up" );
+$t->set_block( "attribute_tpl", "item_separator_tpl", "item_separator" );
+$t->set_block( "attribute_tpl", "item_move_down_tpl", "item_move_down" );
+$t->set_block( "attribute_tpl", "no_item_move_up_tpl", "no_item_move_up" );
+$t->set_block( "attribute_tpl", "no_item_separator_tpl", "no_item_separator" );
+$t->set_block( "attribute_tpl", "no_item_move_down_tpl", "no_item_move_down" );
+
+
 $type = new eZProductType();
 
 $typeArray = $type->getAll( );
@@ -144,12 +172,59 @@ if ( $Action == "Edit" )
 
     $attributes = $type->attributes();
 
+    $count = count ( $attributes );
+    $i = 0;
     foreach ( $attributes as $attribute )
     {
+        $t->set_var( "item_move_up", "" );
+        $t->set_var( "no_item_move_up", "" );
+        $t->set_var( "item_move_down", "" );
+        $t->set_var( "no_item_move_down", "" );
+        $t->set_var( "item_separator", "" );
+        $t->set_var( "no_item_separator", "" );
+
         $t->set_var( "attribute_id", $attribute->id( ) );
         $t->set_var( "attribute_name", $attribute->name( ) );
+
+        $t->set_var( "is_1_selected", "" );
+        $t->set_var( "is_2_selected", "" );
         
+        if ( $attribute->attributeType() == 1 )
+            $t->set_var( "is_1_selected", "checked" );
+        elseif ( $attribute->attributeType() == 2 )
+            $t->set_var( "is_2_selected", "checked" );
+        
+       
+        if ( $i > 0 && isset( $move_item ) )
+        {
+            $t->parse( "item_move_up", "item_move_up_tpl" );
+        }
+        else
+        {
+            $t->parse( "no_item_move_up", "no_item_move_up_tpl" );
+        }
+        
+        if ( $i > 0 && $i < $count - 1 && isset( $move_item ) )
+        {
+            $t->parse( "item_separator", "item_separator_tpl" );
+        }
+        else
+        {
+            $t->parse( "no_item_separator", "no_item_separator_tpl" );
+        }
+        
+        if ( $i < $count - 1 && isset( $move_item ) )
+        {
+            $t->parse( "item_move_down", "item_move_down_tpl" );
+        }
+        else
+        {
+            $t->parse( "no_item_move_down", "no_item_move_down_tpl" );
+        }
+        
+        $t->set_var( "counter", $i );
         $t->parse( "attribute", "attribute_tpl", true );
+        $i++;
     }
 
     if ( count( $attributes ) > 0 )

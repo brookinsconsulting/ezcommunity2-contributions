@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.44 2001/03/27 09:53:55 jb Exp $
+// $Id: productview.php,v 1.45 2001/04/04 12:03:42 ce Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -124,6 +124,8 @@ $t->set_block( "product_view_tpl", "external_link_tpl", "external_link" );
 
 $t->set_block( "product_view_tpl", "attribute_list_tpl", "attribute_list" );
 $t->set_block( "attribute_list_tpl", "attribute_tpl", "attribute" );
+$t->set_block( "attribute_list_tpl", "attribute_value_tpl", "attribute_value" );
+$t->set_block( "attribute_list_tpl", "attribute_header_tpl", "attribute_header" );
 
 $t->set_block( "product_view_tpl", "numbered_page_link_tpl", "numbered_page_link" );
 $t->set_block( "product_view_tpl", "print_page_link_tpl", "print_page_link" );
@@ -144,6 +146,8 @@ $t->set_var( "module", $ModuleName );
 $t->set_var( "module_list", $ModuleList );
 $t->set_var( "module_view", $ModuleView );
 $t->set_var( "module_print", $ModulePrint );
+$t->set_var( "attribute_header", "" );
+$t->set_var( "attribute_value", "" );
 
 $product = new eZProduct( $ProductID );
 
@@ -417,9 +421,7 @@ $type = $product->type();
 if ( $type )    
 {
     $attributes = $type->attributes();
-
-    $i=0;
-    foreach ( $attributes as $attribute )
+    for( $i=0; $i < count ( $attributes ); $i++ )
     {
         if ( ( $i % 2 ) == 0 )
         {
@@ -432,16 +434,35 @@ if ( $type )
             $t->set_var( "end_tr", "</tr>" );
         }
 
-        $value =& $attribute->value( $product );
-        $t->set_var( "attribute_id", $attribute->id( ) );
-        $t->set_var( "attribute_name", $attribute->name( ) );
+        $value =& $attributes[$i]->value( $product );
+        $t->set_var( "attribute_id", $attributes[$i]->id( ) );
+        $t->set_var( "attribute_name", $attributes[$i]->name( ) );
         $t->set_var( "attribute_value", $value );
 
-        // don''t who empty attributes or attributes == 0.0
-        if ( ( is_numeric( $value ) and ( $value > 0 ) ) || ( !is_numeric( $value ) and $value != "" ) )
-            $t->parse( "attribute", "attribute_tpl", true );
-        
-        $i++;
+        if ( $attributes[$i]->attributeType() == 1 )
+        {
+            // don''t who empty attributes or attributes == 0.0
+            if ( ( is_numeric( $value ) and ( $value > 0 ) ) || ( !is_numeric( $value ) and $value != "" ) )
+            {
+                $t->parse( "attribute", "attribute_value_tpl", true );
+            }
+        }
+        elseif ( $attributes[$i]->attributeType() == 2 )
+        {
+            $j = $i;
+            $header = false;
+            for( $j++; $j < count ( $attributes ); $j++ )
+            {
+                if ( $attributes[$j]->attributeType() == 2 )
+                    break;
+                $value =& $attributes[$j]->value( $product );
+                if ( ( is_numeric( $value ) and ( $value > 0 ) ) || ( !is_numeric( $value ) and $value != "" ) )
+                {
+                    $t->parse( "attribute", "attribute_header_tpl", true );
+                    break;
+                }
+            }
+        }
     }
 }
 

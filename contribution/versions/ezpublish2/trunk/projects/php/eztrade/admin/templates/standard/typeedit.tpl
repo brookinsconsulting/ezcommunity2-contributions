@@ -25,7 +25,30 @@
 	<td>
 	<input type="hidden" name="AttributeID[]" value="{attribute_id}" />
 	<input type="text" name="AttributeName[]" value="{attribute_name}" />
+	<input {is_1_selected} type="radio" value="1" name="AttributeType[{counter}]" />
+	<input {is_2_selected} type="radio" value="2" name="AttributeType[{counter}]" />
 	</td>
+<!-- BEGIN item_move_down_tpl -->
+	<td width="1%"><a href="/trade/typeedit/down/{type_id}/{attribute_id}"><img src="/admin/images/move-down.gif" height="12" width="12" border="0" alt="Move down" /></a></td>
+<!-- END item_move_down_tpl -->
+
+<!-- BEGIN no_item_move_down_tpl -->
+	<td width="1%"> &nbsp; </td>
+<!-- END no_item_move_down_tpl -->
+
+<!-- BEGIN item_separator_tpl -->
+
+<!-- END item_separator_tpl -->
+<!-- BEGIN no_item_separator_tpl -->
+
+<!-- END no_item_separator_tpl -->
+
+<!-- BEGIN item_move_up_tpl -->
+	<td width="1%"><a href="/trade/typeedit/up/{type_id}/{attribute_id}"><img src="/admin/images/move-up.gif" height="12" width="12" border="0" alt="Move up" /></a></td>
+<!-- END item_move_up_tpl -->
+<!-- BEGIN no_item_move_up_tpl -->
+	<td width="1%"> &nbsp; </td>
+<!-- END no_item_move_up_tpl -->
 </tr>
 
 <!-- END attribute_tpl -->
