@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productlist.php,v 1.14 2001/02/23 18:45:51 jb Exp $
+// $Id: productlist.php,v 1.15 2001/02/26 12:30:08 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <23-Sep-2000 14:46:20 bf>
@@ -173,8 +173,8 @@ foreach ( $productList as $product )
     $t->set_var( "product_name", $product->name() );
     
     $t->set_var( "product_intro_text", eZTextTool::nl2br( $product->brief() ) );
-    
-    if ( $product->showPrice() == true  )
+
+    if ( $ShowPrice and $product->showPrice() == true )
     {
         $found_price = false;
         if ( $ShowPriceGroups and $PriceGroup > 0 )
@@ -226,11 +226,11 @@ eZList::drawNavigator( $t, $TotalTypes, $Limit, $Offset, "product_list_page_tpl"
 
 if ( $GenerateStaticPage == "true" )
 {
-    $cache = new eZCacheFile( "eztrade/cache/", array( "productlist", $CategoryID, $Offset, $PriceGroup ),
-                              "cache", "," );
+//      $cache = new eZCacheFile( "eztrade/cache/", array( "productlist", $CategoryID, $Offset, $PriceGroup ),
+//                                "cache", "," );
     $output = $t->parse( $target, "product_list_page_tpl" );
     print( $output );
-    $cache->store( $output );
+    $CacheFile->store( $output );
 }
 else
 {

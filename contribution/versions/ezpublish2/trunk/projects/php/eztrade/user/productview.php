@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.18 2001/02/26 11:57:24 bf Exp $
+// $Id: productview.php,v 1.19 2001/02/26 12:30:08 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -288,7 +288,7 @@ $locale = new eZLocale( $Language );
 
 $t->set_var( "product_number", $product->productNumber() );
 
-if ( $product->showPrice() == true  )
+if ( $ShowPrice and $product->showPrice() == true  )
 {
     $found_price = false;
     if ( $ShowPriceGroups and $PriceGroup > 0 )
@@ -306,7 +306,7 @@ if ( $product->showPrice() == true  )
     }
 
     $t->set_var( "product_price", $locale->format( $price ) );
-    
+
     // show alternative currencies
 
     $currency = new eZProductCurrency( );
@@ -316,7 +316,7 @@ if ( $product->showPrice() == true  )
     {
         $altPrice = $price;
         $altPrice->setValue( $price->value() * $currency->value() );
-        
+
         $locale->setSymbol( $currency->sign() );
 
         if ( $currency->prefixSign() )
@@ -373,15 +373,12 @@ if ( isset( $func_array ) and is_array( $func_array ) )
 
 if ( $GenerateStaticPage == "true" )
 {
-    $cachedFile = "eztrade/cache/productview," .$ProductID . "," . $CategoryID .".cache";
     $template_var = "product_view_tpl";
-    $fp = fopen ( $cachedFile, "w+");
 
     $output = $t->parse($target, $template_var );
     // print the output the first time while printing the cache file.
     print( $output );
-    fwrite ( $fp, $output );
-    fclose( $fp );
+    $CacheFile->store( $output );
 }
 else
 {

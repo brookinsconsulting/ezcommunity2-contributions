@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: categoryedit.php,v 1.12 2001/02/07 12:56:10 th Exp $
+// $Id: categoryedit.php,v 1.13 2001/02/26 12:30:08 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Sep-2000 14:46:19 bf>
@@ -56,8 +56,18 @@ if ( $Action == "Insert" )
     $category->setDescription( $Description );
 
     $category->setSortMode( $SortMode );
-    
+
     $category->store();
+
+    include_once( "classes/ezcachefile.php" );
+    $files = eZCacheFile::files( "eztrade/cache/", array( "productlist",
+                                                          array( $ParentID, $category->id() ),
+                                                          NULL, NULL ),
+                                 "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
 
     Header( "Location: /trade/categorylist/" );
     exit();
@@ -67,7 +77,7 @@ if ( $Action == "Update" )
 {
     $parentCategory = new eZProductCategory();
     $parentCategory->get( $ParentID );
-    
+
     $category = new eZProductCategory();
     $category->get( $CategoryID );
     $category->setName( $Name );
@@ -78,6 +88,15 @@ if ( $Action == "Update" )
 
     $category->store();
 
+    include_once( "classes/ezcachefile.php" );
+    $files = eZCacheFile::files( "eztrade/cache/", array( "productlist",
+                                                          array( $ParentID, $CategoryID ), NULL, NULL ),
+                                 "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
+
     Header( "Location: /trade/categorylist/" );
     exit();
 }
@@ -86,6 +105,24 @@ if ( $Action == "Delete" )
 {
     $category = new eZProductCategory();
     $category->get( $CategoryID );
+
+    if ( file_exists( "ezarticle/cache/menubox.cache" ) )
+        unlink( "ezarticle/cache/menubox.cache" );
+
+    include_once( "classes/ezcachefile.php" );
+
+    $parent = $category->parent();
+    if ( get_class( $parent ) == "ezproductcategory" )
+        $parent = $parent->id();
+    $files = eZCacheFile::files( "eztrade/cache/",
+                                 array( "productlist",
+                                        array( $category->id(), $parent ),
+                                        NULL, NULL ),
+                                 "cache", "," );
+    foreach( $files as $file )
+    {
+        $file->delete();
+    }
 
     $category->delete();
     
@@ -100,10 +137,25 @@ if ( $Action == "DeleteCategories" )
         if ( file_exists( "ezarticle/cache/menubox.cache" ) )
             unlink( "ezarticle/cache/menubox.cache" );
 
+        include_once( "classes/ezcachefile.php" );
         foreach( $CategoryArrayID as $ID )
         {
             $category = new eZProductCategory();
             $category->get( $ID );
+
+            $parent = $category->parent();
+            if ( get_class( $parent ) == "ezproductcategory" )
+                $parent = $parent->id();
+            $files = eZCacheFile::files( "eztrade/cache/",
+                                         array( "productlist",
+                                                array( $category->id(), $parent ),
+                                                NULL, NULL ),
+                                         "cache", "," );
+            foreach( $files as $file )
+            {
+                $file->delete();
+            }
+
             $category->delete();
         }
     }
@@ -113,7 +165,8 @@ if ( $Action == "DeleteCategories" )
 }
 
 
-$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" ) . "/categoryedit/",
+$t = new eZTemplate( "eztrade/admin/" . $ini->read_var( "eZTradeMain", "AdminTemplateDir" )
+                     . "/categoryedit/",
                      "eztrade/admin/intl/", $Language, "categoryedit.php" );
 
 $t->setAllStrings();

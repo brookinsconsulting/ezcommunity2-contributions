@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.37 2001/02/23 18:45:51 jb Exp $
+// $Id: productedit.php,v 1.38 2001/02/26 12:30:08 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <19-Sep-2000 10:56:05 bf>
@@ -30,12 +30,13 @@ include_once( "classes/ezhttptool.php" );
 include_once( "eztrade/classes/ezpricegroup.php" );
 
 
-function deleteCache( $ProductID, $CategoryID, $CategoryArray )
+function deleteCache( $ProductID, $CategoryID, $CategoryArray, $Hotdeal )
 {
     if ( get_class( $ProductID ) == "ezproduct" )
     {
         $CategoryID =& $ProductID->categoryDefinition( false );
         $CategoryArray =& $ProductID->categories( false );
+        $Hotdeal = $ProductID->isHotDeal();
         $ProductID = $ProductID->id();
     }
 
@@ -52,11 +53,14 @@ function deleteCache( $ProductID, $CategoryID, $CategoryArray )
     {
         $file->delete();
     }
-    $files = eZCacheFile::files( "eztrade/cache/", array( "hotdealslist" ),
-                                 "cache", "," );
-    foreach( $files as $file )
+    if ( $Hotdeal )
     {
-        $file->delete();
+        $files = eZCacheFile::files( "eztrade/cache/", array( "hotdealslist", NULL ),
+                                     "cache", "," );
+        foreach( $files as $file )
+        {
+            $file->delete();
+        }
     }
 }
 
@@ -79,7 +83,7 @@ if ( isset( $SubmitPrice ) )
             $product = new eZProduct( $ProductEditArrayID[$i] );
             $product->setPrice( $Price[$i] );
             $product->store();
-            deleteCache( $product, false, false );
+            deleteCache( $product, false, false, false );
         }
     }
     if ( isset( $Query ) )
@@ -184,7 +188,7 @@ if ( $Action == "Insert" )
     }    
 
     // clear the cache files.
-    deleteCache( $ProductID, $CategoryID, $categoryIDArray );
+    deleteCache( $ProductID, $CategoryID, $categoryIDArray, $product->isHotDeal() );
 
     // add options
     if ( isset( $Option ) )
@@ -230,6 +234,7 @@ if ( $Action == "Update" )
 
     $product = new eZProduct();
     $product->get( $ProductID );
+    $was_hotdeal = $product->isHotDeal();
     $product->setName( strip_tags( $Name ) );
     $product->setDescription( strip_tags( $Description ) );
     $product->setBrief( strip_tags( $Brief ) );
@@ -313,7 +318,7 @@ if ( $Action == "Update" )
     }
 
     // clear the cache files.
-    deleteCache( $ProductID, $CategoryID, $old_categories );
+    deleteCache( $ProductID, $CategoryID, $old_categories, $was_hotdeal or $product->isHotDeal() );
 
     // add options
     if ( isset( $Option ) )
@@ -388,7 +393,7 @@ if ( $Action == "DeleteProducts" )
     
 
             // clear the cache files.
-            deleteCache( $ProductID, $CategoryID, $categoryIDArray );
+            deleteCache( $ProductID, $CategoryID, $categoryIDArray, $product->isHotDeal() );
 
             $category = $product->categoryDefinition( );
             $categoryID = $category->id();
@@ -419,10 +424,9 @@ if ( $Action == "Delete" )
     {
         $categoryIDArray[] = $cat->id();
     }    
-    
 
     // clear the cache files.
-    deleteCache( $ProductID, $CategoryID, $categoryIDArray );
+    deleteCache( $ProductID, $CategoryID, $categoryIDArray, $product->isHotDeal() );
 
     $category = $product->categoryDefinition( );
     $categoryID = $category->id();

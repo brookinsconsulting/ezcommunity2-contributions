@@ -1,14 +1,21 @@
 <?
 $PageCaching = $ini->read_var( "eZTradeMain", "PageCaching");
 
+include_once( "ezuser/classes/ezuser.php" );
 include_once( "eztrade/classes/ezpricegroup.php" );
 
 $user = eZUser::currentUser();
+
+$RequireUser = $ini->read_var( "eZTradeMain", "RequireUserLogin" ) == "enabled" ? true : false;
+$ShowPrice = $RequireUser ? get_class( $user ) == "ezuser" : true;
+
 $PriceGroup = 0;
 if ( get_class( $user ) == "ezuser" )
 {
     $PriceGroup = eZPriceGroup::correctPriceGroup( $user->groups( true ) );
 }
+if ( !$ShowPrice )
+    $PriceGroup = -1;
 
 switch ( $url_array[2] )
 {
@@ -16,17 +23,17 @@ switch ( $url_array[2] )
     {
         $CategoryID = $url_array[3];
         $Offset = $url_array[4];
+        if ( !is_numeric( $Offset ) )
+            $Offset = 0;
         if ( $PageCaching == "enabled" )
         {
             include_once( "classes/ezcachefile.php" );
-            $cache = new eZCacheFile( "eztrade/cache/",
-                                      array( "productlist", $CategoryID, $Offset, $PriceGroup ),
-                                      "cache", "," );
-//              $cachedFile = "eztrade/cache/productlist," . $CategoryID .".cache";
-//              if ( file_exists( $cachedFile ) )
-            if ( $cache->exists() )
+            $CacheFile = new eZCacheFile( "eztrade/cache/",
+                                          array( "productlist", $CategoryID, $Offset, $PriceGroup ),
+                                          "cache", "," );
+            if ( $CacheFile->exists() )
             {
-                include( $cache->filename( true ) );
+                include( $CacheFile->filename( true ) );
             }
             else
             {
@@ -41,17 +48,20 @@ switch ( $url_array[2] )
 
         break;
     }
-        
+
     case "productview" :
         if ( $PageCaching == "enabled" )
         {
             $ProductID = $url_array[3];
             $CategoryID = $url_array[4];
 
-            $cachedFile = "eztrade/cache/productview," .$ProductID . "," . $CategoryID . "," . $PriceGroup .".cache";
-            if ( file_exists( $cachedFile ) )
+            include_once( "classes/ezcachefile.php" );
+            $CacheFile = new eZCacheFile( "eztrade/cache/",
+                                          array( "productview", $ProductID, $CategoryID, $PriceGroup ),
+                                          "cache", "," );
+            if ( $CacheFile->exists() )
             {
-                include( $cachedFile );
+                include( $CacheFile->filename( true ) );
             }
             else
             {
@@ -75,10 +85,13 @@ switch ( $url_array[2] )
             $ProductID = $url_array[3];
             $CategoryID = $url_array[4];
 
-            $cachedFile = "eztrade/cache/productprint," .$ProductID . "," . $CategoryID . "," . $PriceGroup .".cache";
-            if ( file_exists( $cachedFile ) )
+            include_once( "classes/ezcachefile.php" );
+            $CacheFile = new eZCacheFile( "eztrade/cache/",
+                                          array( "productprint", $ProductID, $CategoryID, $PriceGroup ),
+                                          "cache", "," );
+            if ( $CacheFile->exists() )
             {
-                include( $cachedFile );
+                include( $CacheFile->filename( true ) );
             }
             else
             {

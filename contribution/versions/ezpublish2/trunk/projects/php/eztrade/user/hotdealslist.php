@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: hotdealslist.php,v 1.12 2001/02/19 13:23:50 bf Exp $
+// $Id: hotdealslist.php,v 1.13 2001/02/26 12:30:08 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Nov-2000 19:34:40 bf>
@@ -34,9 +34,26 @@ $Language = $ini->read_var( "eZTradeMain", "Language" );
 $hotDealColumns  = $ini->read_var( "eZTradeMain", "HotDealColumns" );
 $hotDealImageWidth  = $ini->read_var( "eZTradeMain", "HotDealImageWidth" );
 $hotDealImageHeight  = $ini->read_var( "eZTradeMain", "HotDealImageHeight" );
+$ShowPriceGroups = $ini->read_var( "eZTradeMain", "PriceGroupsEnabled" ) == "true";
 
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezproductcategory.php" );
+
+include_once( "ezuser/classes/ezuser.php" );
+include_once( "eztrade/classes/ezpricegroup.php" );
+
+$user = eZUser::currentUser();
+
+$RequireUser = $ini->read_var( "eZTradeMain", "RequireUserLogin" ) == "enabled" ? true : false;
+$ShowPrice = $RequireUser ? get_class( $user ) == "ezuser" : true;
+
+$PriceGroup = 0;
+if ( get_class( $user ) == "ezuser" )
+{
+    $PriceGroup = eZPriceGroup::correctPriceGroup( $user->groups( true ) );
+}
+if ( !$ShowPrice )
+    $PriceGroup = -1;
 
 $t = new eZTemplate( "eztrade/user/" . $ini->read_var( "eZTradeMain", "TemplateDir" ),
                      "eztrade/user/intl/", $Language, "hotdealslist.php" );
@@ -135,9 +152,22 @@ foreach ( $productList as $product )
         $t->set_var( "product_image", "" );
     }
     
-    if ( $product->showPrice() == true  )
+    if ( $ShowPrice and $product->showPrice() == true  )
     {
-        $price = new eZCurrency( $product->price() );
+        $found_price = false;
+        if ( $ShowPriceGroups and $PriceGroup > 0 )
+        {
+            $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
+            if ( $price )
+            {
+                $found_price = true;
+                $price = new eZCurrency( $price );
+            }
+        }
+        if ( !$found_price )
+        {
+            $price = new eZCurrency( $product->price() );
+        }
         $t->set_var( "product_price", $locale->format( $price ) );        
         $t->parse( "price", "price_tpl" );
     }
@@ -169,14 +199,19 @@ else
 
 if ( $GenerateStaticPage == "true" )
 {
-    $cachedFile = "eztrade/cache/hotdealslist.cache";
-    $fp = fopen ( $cachedFile, "w+");
+    include_once( "classes/ezcachefile.php" );
+    $CacheFile = new eZCacheFile( "eztrade/cache/",
+                                  array( "hotdealslist", $PriceGroup ),
+                                  "cache", "," );
+//      $cachedFile = "eztrade/cache/hotdealslist.cache";
+//      $fp = fopen ( $cachedFile, "w+");
 
     $output = $t->parse( $target, "product_list_page_tpl" );
     // print the output the first time while printing the cache file.
     print( $output );
-    fwrite ( $fp, $output );
-    fclose( $fp );
+    $CacheFile->store( $output );
+//      fwrite ( $fp, $output );
+//      fclose( $fp );
 }
 else
 {
