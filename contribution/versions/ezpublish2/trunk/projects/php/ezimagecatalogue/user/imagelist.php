@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imagelist.php,v 1.4 2001/01/12 10:24:10 ce Exp $
+// $Id: imagelist.php,v 1.5 2001/01/12 18:52:31 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <10-Dec-2000 16:16:20 bf>
@@ -184,7 +184,6 @@ $imageList =& $category->images();
 //$i=0;
 foreach ( $imageList as $image )
 {
-
     if ( ( $i % 4 ) == 0 )
     {
         $t->set_var( "begin_tr", "<tr>" );
@@ -198,8 +197,7 @@ foreach ( $imageList as $image )
     else
     {
         $t->set_var( "begin_tr", "" );
-        $t->set_var( "end_tr", "" );
-        
+        $t->set_var( "end_tr", "" );        
     }
     print( $image->id() );
     $t->set_var( "image_id", $image->id() );

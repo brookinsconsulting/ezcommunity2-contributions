@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.23 2001/01/09 15:26:14 bf Exp $
+// $Id: articleview.php,v 1.24 2001/01/12 18:53:57 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -31,7 +31,7 @@ include_once( "ezarticle/classes/ezarticlecategory.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticlerenderer.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZArticleMain", "Language" );
                                                         
