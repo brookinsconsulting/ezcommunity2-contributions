@@ -52,6 +52,17 @@
 {article_body}
 </p>
 
+<!-- BEGIN attribute_list_tpl -->
+<!-- BEGIN type_item_tpl -->
+<h2>{type_name}</h2>
+<!-- BEGIN attribute_item_tpl -->
+<p class="boxtext">{attribute_name}:</p>
+{attribute_value}
+<!-- END attribute_item_tpl -->
+<!-- END type_item_tpl -->
+<!-- END attribute_list_tpl -->
+
+
 <!-- BEGIN attached_file_list_tpl -->
 <p class="boxtext">{intl-attached_files}:</p>
 <!-- BEGIN attached_file_tpl -->

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: articleview.php,v 1.41 2001/05/14 11:20:53 ce Exp $
+// $Id: articleview.php,v 1.42 2001/06/06 12:00:08 pkej Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <18-Oct-2000 16:34:51 bf>
@@ -71,6 +71,11 @@ $t->set_block( "article_view_page_tpl", "next_page_link_tpl", "next_page_link" )
 $t->set_block( "article_view_page_tpl", "prev_page_link_tpl", "prev_page_link" );
 $t->set_block( "article_view_page_tpl", "numbered_page_link_tpl", "numbered_page_link" );
 $t->set_block( "article_view_page_tpl", "print_page_link_tpl", "print_page_link" );
+
+$t->set_block( "article_view_page_tpl", "attribute_list_tpl", "attribute_list" );
+$t->set_block( "attribute_list_tpl", "type_item_tpl", "type_item" );
+$t->set_block( "type_item_tpl", "attribute_item_tpl", "attribute_item" );
+
 
 if ( $StaticRendering == true )
 {
@@ -191,6 +196,43 @@ if ( $article->get( $ArticleID ) )
     $t->set_var( "article_created", $locale->format( $published ) );
  
 }
+
+$types = $article->types();
+
+$typeCount = count( $types );
+
+$t->set_var( "attribute_item", "" );
+$t->set_var( "type_item", "" );
+$t->set_var( "attribute_list", "" );
+
+if( $typeCount > 0 )
+{
+    foreach( $types as $type )
+    {
+        $attributes = array();
+        $attributes = $type->attributes();
+        $attributeCount = count( $attributes );
+        
+        if( $attributeCount > 0 )
+        {
+            $t->set_var( "type_id", $type->id() );
+            $t->set_var( "type_name", $type->name() );
+            $t->set_var( "attribute_item", "" );
+            foreach( $attributes as $attribute )
+            {
+                $t->set_var( "attribute_id", $attribute->id() );
+                $t->set_var( "attribute_name", $attribute->name() );
+                $t->set_var( "attribute_value", $attribute->value( $article ) );
+                $t->parse( "attribute_item", "attribute_item_tpl", true );
+            }
+            $t->parse( "type_item", "type_item_tpl", true );
+        }
+    }
+
+    $t->parse( "attribute_list", "attribute_list_tpl" );
+}
+
+
 
 $files = $article->files();
 
