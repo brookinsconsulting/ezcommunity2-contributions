@@ -6,7 +6,17 @@
 
 <br />
 <br />
+
+<p class="boxtext">{intl-jump_element}:</p>
+<select name="ElementChoiceID[]">
+<option value="0">{intl-select_element}</option>
+<!-- BEGIN element_choice_tpl -->
+    <option value="{element_choice_id}" {selected}>{element_choice_name}</option>
+<!-- END element_choice_tpl -->
+</select>
 <br />
+<br />
+<hr noshade="noshade" size="4" />
 
 {element_list}
 

@@ -1,4 +1,4 @@
-<form action="{www_dir}{index}/form/form/fixedvalues/{form_id}/{element_id}" method="post">
+<form action="{www_dir}{index}/form/form/fixedvalues/{form_id}/{page_id}/{element_id}" method="post">
 
 <h1>{intl-fixed_values}</h1>
 

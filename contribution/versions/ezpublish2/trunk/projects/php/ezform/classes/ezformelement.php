@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezformelement.php,v 1.14 2001/12/17 11:30:42 jhe Exp $
+// $Id: ezformelement.php,v 1.15 2001/12/18 09:34:45 br Exp $
 //
 // ezformelement class
 //
@@ -365,7 +365,7 @@ class eZFormElement
         $formArray = array();
         
         $db =& eZDB::globalDatabase();
-        $db->array_query( $formArray, "SELECT FormID FROM eZForm_FormElementDict WHERE ElementID='$this->ID'" );
+        $db->array_query( $formArray, "SELECT FormID FROM eZForm_PageElementDict WHERE ElementID='$this->ID'" );
 
         for ( $i = 0; $i < count( $formArray ); $i++ )
         {

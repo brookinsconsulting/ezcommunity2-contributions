@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: pageedit.php,v 1.8 2001/12/17 17:04:54 br Exp $
+// $Id: pageedit.php,v 1.9 2001/12/18 09:34:45 br Exp $
 //
 // Definition of ||| class
 //
@@ -62,10 +62,13 @@ $t = new eZTemplate( "ezform/admin/" . $ini->read_var( "eZFormMain", "AdminTempl
                      "ezform/admin/intl", $Language, "pageedit.php" );
 
 $t->set_file( "pageedit_tpl", "pageedit.tpl" );
+$t->set_block( "pageedit_tpl", "element_choice_tpl", "element_choice" );
 $t->setAllStrings();
 
 $t->set_var( "form_id", $FormID );
 $t->set_var( "page_id", $PageID );
+$t->set_var( "element_choice_name", "" );
+
 
 // Make sub template for elements.
 $elementTemplate = new eZTemplate( "ezform/admin/" . $ini->read_var( "eZFormMain", "AdminTemplateDir" ),
@@ -104,6 +107,16 @@ $elementTemplate->set_var( "page_id", $PageID );
 
 $page = new eZFormPage( $PageID );
 
+if ( isSet( $PageName ) )
+{
+    $pageName = $PageName;
+}
+else
+{
+    $pageName = $page->name();
+}
+
+
 if ( $Action == "up" )
 {
     $element = new eZFormElement( $ElementID );
@@ -135,7 +148,7 @@ $errorMessages = array();
 
 if ( isSet( $OK ) || isSet( $Update ) || isSet( $NewElement ) )
 {
-    $page->setName( $PageName );
+    $page->setName( $pageName );
     
     if ( isSet( $NewElement ) || isSet( $Update ) )
     {
@@ -323,13 +336,13 @@ if ( $count > 0 )
         $elementTemplate->set_var( "break", "" );
         $elementTemplate->set_var( "table_edit", "" );
 
+        $name = $currentType->name();
         foreach ( $types as $type )
         {
             $elementTemplate->set_var( "selected", "" );
             
             if ( $type->id() == $currentType->id() )
             {
-                $name = $currentType->name();
                 if ( $name == "multiple_select_item" ||
                      $name == "dropdown_item" ||
                      $name == "radiobox_item" ||
@@ -393,6 +406,18 @@ if ( $count > 0 )
         }
 
         $elementTemplate->parse( "element_item", "element_item_tpl", true );
+        // parse the choices, if valid.
+        if ( $name == "multiple_select_item" ||
+        $name == "dropdown_item" ||
+        $name == "radiobox_item" ||
+        $name == "checkbox_item" ||
+        $name == "text_field_item" )
+        {
+            $t->set_var( "element_choice_id", $element->id() );
+            $t->set_var( "element_choice_name", $element->name() );
+            
+            $t->parse( "element_choice", "element_choice_tpl", true );
+        }
         $i++;
     }
     
@@ -424,12 +449,39 @@ if ( count( $errorMessages ) > 0 && !isSet( $NewElement ) && !isSet( $DeleteSele
 }
 
 
+// parse the jump choices.
+
+if ( isSet( $ElementChoiceID ) )
+{
+    foreach( $ElementChoiceID as $elementID )
+    {
+//        print( "$elementID - " );
+        $element = new eZFormElement( $elementID );
+        if ( $element )
+        {
+            $elementType =& $element->elementType();
+//            print( "ElementType: ".$elementType->name() );
+            
+            $values =& $element->fixedValues();
+            
+            if( count( $values ) > 0 )
+            {
+                foreach( $values as $value )
+                {
+//                    print( ":".$value->value() .":  -> " );
+                }
+            }
+        }
+    }
+}
+
 $elementTemplate->setAllStrings();
 $elementListBody = $elementTemplate->parse( $target, "elementlist_tpl" );
 
 // print( $elementListBody );
 
-$t->set_var( "page_name", $page->name() );
+
+$t->set_var( "page_name", $pageName );
 $t->set_var( "action_value", "pageedit" );
 $t->set_var( "page_id", $page->id() );
 $t->set_var( "form_id", $FormID  );

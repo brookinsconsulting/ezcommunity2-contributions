@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: fixedvalues.php,v 1.3 2001/12/13 09:48:17 jhe Exp $
+// $Id: fixedvalues.php,v 1.4 2001/12/18 09:34:45 br Exp $
 //
 // Created on: <12-Jun-2001 13:07:24 pkej>
 //
@@ -74,7 +74,7 @@ if ( isset( $DeleteSelected ) )
 
 if ( isset( $OK ) )
 {
-    eZHTTPTool::header( "Location: /form/form/edit/$FormID" );
+    eZHTTPTool::header( "Location: /form/form/pageedit/$FormID/$PageID" );
     exit();
 }
 
@@ -98,6 +98,7 @@ $t->set_var( "element_name", $element->name() );
 $t->set_var( "element_id", $element->id() );
 
 $t->set_var( "form_id", $FormID );
+$t->set_var( "page_id", $PageID );
 
 $values =& $element->fixedValues();
 
