@@ -14,6 +14,11 @@ $ModulePrint = "product/print";
 
 switch ( $ListType )
 {
+    case "search" :
+    {
+        include( "eztrade/user/productsearch.php" );
+    }
+    break;
     case "product":
     {
         $Action = $url_array[3];

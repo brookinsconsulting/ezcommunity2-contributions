@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezquote.php,v 1.4 2001/02/03 18:53:57 jb Exp $
+// $Id: ezquote.php,v 1.5 2001/02/03 22:10:42 jb Exp $
 //
 // Definition of eZQuote class
 //
@@ -38,6 +38,9 @@ include_once( "classes/ezquery.php" );
 define( "QUOTE_TYPE", 1 );
 define( "RFQ_TYPE", 2 );
 define( "OFFER_TYPE", 3 );
+
+define( "QUOTE_ALL_TYPE", 0 );
+define( "QUOTE_PARTIAL_TYPE", 1 );
 
 class eZQuote
 {
@@ -224,6 +227,23 @@ class eZQuote
         $this->QuoteState = $value;
     }
 
+    function user( $id = false, $as_object = true )
+    {
+        if ( !$id )
+            $id = $this->ID;
+
+        $db =& eZDB::globalDatabase();
+
+        $db->array_query( $qry_array, "SELECT UserID FROM eZExchange_UserProductQuoteDict
+                                       WHERE QuoteID='$id'", 0, 1 );
+        if ( count( $qry_array ) == 0 )
+            return false;
+        if ( $as_object )
+            return new eZUser( $qry_array[0]["UserID"] );
+        else
+            return $qry_array[0]["UserID"];
+    }
+
     function getUserQuote( $productid, $as_object = true )
     {
         return eZQuote::getQuote( $productid, "quote", $as_object );
@@ -282,22 +302,22 @@ class eZQuote
         }
     }
 
-    function getAllQuotes( $productid, $as_object = true, $limit = false )
+    function getAllQuotes( $productid, $as_object = true, $price = false )
     {
-        return eZQuote::getQuotes( $productid, "quote", $as_object, $limit );
+        return eZQuote::getQuotes( $productid, "quote", $as_object, $price );
     }
 
-    function getAllOffers( $productid, $as_object = true, $limit = false )
+    function getAllOffers( $productid, $as_object = true, $price = false )
     {
-        return eZQuote::getQuotes( $productid, "offer", $as_object, $limit );
+        return eZQuote::getQuotes( $productid, "offer", $as_object, $price );
     }
 
-    function getAllRFQs( $productid, $as_object = true, $limit = false, $limit = false )
+    function getAllRFQs( $productid, $as_object = true, $limit = false, $price = false )
     {
         return eZQuote::getQuotes( $productid, "rfq", $as_object );
     }
 
-    function getQuotes( $productid, $type, $as_object = true, $limit = false )
+    function getQuotes( $productid, $type, $as_object = true, $price = false )
     {
         $db =& eZDB::globalDatabase();
 
@@ -325,16 +345,16 @@ class eZQuote
             }
         }
 
-        if ( $limit and is_numeric( $limit ) )
-            $limit_text = "LIMIT $limit";
-        else
-            $limit_text = "";
+        if ( is_numeric( $price ) )
+        {
+            $price_text = "AND Q.Price='$price'";
+        }
 
         $db->array_query( $qry_array, "SELECT Q.ID FROM eZExchange_UserProductQuoteDict AS UPQD,
                                                         eZExchange_Quote AS Q
                                        WHERE UPQD.ProductID='$productid' AND Q.ExpireDate >= CURDATE()
-                                         AND UPQD.QuoteID=Q.ID AND Q.Price $cond
-                                       $order $limit_text" );
+                                         AND UPQD.QuoteID=Q.ID AND Q.Price $cond $price_text
+                                       $order" );
         $ret_array = array();
         if ( $as_object )
         {
@@ -394,7 +414,7 @@ class eZQuote
                                                   eZExchange_Quote AS Q
                                        WHERE UPQD.ProductID='$productid' AND Q.ExpireDate >= CURDATE()
                                          AND UPQD.QuoteID=Q.ID AND Q.Price $cond
-                                       GROUP BY Q.Price $order LIMIT 1" );
+                                       GROUP BY Q.Price $order LIMIT 1", 0, 1 );
         if ( count( $qry ) == 0 )
             return false;
         if ( $as_object )

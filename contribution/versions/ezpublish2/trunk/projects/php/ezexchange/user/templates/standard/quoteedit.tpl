@@ -174,9 +174,6 @@
 
 </table>
 
-<input type="hidden" name="ProductID" value="{product_id}">
-<input type="hidden" name="CategoryID" value="{category_id}">
-
 <hr noshade="noshade" size="4" />
 <input class="okbutton" type="submit" name="OK" value="{intl-ok}">
 <input type="submit" name="Cancel" value="{intl-cancel}">

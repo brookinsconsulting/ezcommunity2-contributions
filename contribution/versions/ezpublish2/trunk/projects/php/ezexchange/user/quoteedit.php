@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: quoteedit.php,v 1.4 2001/02/03 18:30:27 jb Exp $
+// $Id: quoteedit.php,v 1.5 2001/02/03 22:10:42 jb Exp $
 //
 // Jan Borsodi <jb@ez.no>
 // Created on: <30-Jan-2001 14:54:24 amos>
@@ -27,9 +27,134 @@ include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezdate.php" );
+include_once( "classes/ezmail.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "ezexchange/classes/ezquote.php" );
 
+function sendMails( &$ini, &$quote, &$offer, &$product_name, &$customer, &$supplier, &$Language )
+{
+    $admin = $ini->read_var( "eZExchangeMain", "SiteAdmin" );
+    $admin_mail = $ini->read_var( "eZExchangeMain", "SiteAdminMail" );
+
+    $mail_c_t = new eZTemplate( "ezexchange/user/" . $ini->read_var( "eZExchangeMain", "TemplateDir" ),
+                                "ezexchange/user/intl", $Language, "mail" );
+    $mail_c_t->setAllStrings();
+
+    $mail_c_t->set_file( "customer_mail", "customermail.tpl" );
+    $mail_c_t->set_block( "customer_mail", "subject_tpl", "subject" );
+    $mail_c_t->set_block( "customer_mail", "body_tpl", "body" );
+
+    $mail_c_t->set_var( "product_name", $product_name );
+    $mail_c_t->set_var( "quantity", $quote->quantity() );
+    $mail_c_t->set_var( "price", $quote->price() );
+    $mail_c_t->set_var( "type", $quote->type() );
+
+    $customer_mail = new eZMail();
+    $customer_mail->setFromName( $admin );
+    $customer_mail->setFrom( $admin_mail );
+
+    $mail_c_t->parse( "subject", "subject_tpl" );
+    $mail_c_t->parse( "body", "body_tpl" );
+
+    $customer_mail->setSubject( $mail_c_t->get_var( "subject" ) );
+    $customer_mail->setBody( $mail_c_t->get_var( "body" ) );
+
+    $customer_mail->setTo( $customer->email() );
+    $customer_mail->send();
+
+    $mail_s_t = new eZTemplate( "ezexchange/user/" . $ini->read_var( "eZExchangeMain", "TemplateDir" ),
+                                "ezexchange/user/intl", $Language, "mail" );
+    $mail_s_t->setAllStrings();
+
+    $mail_s_t->set_file( "supplier_mail", "suppliermail.tpl" );
+    $mail_s_t->set_block( "supplier_mail", "subject_tpl", "subject" );
+    $mail_s_t->set_block( "supplier_mail", "body_tpl", "body" );
+
+    $mail_s_t->set_var( "product_name", $product_name );
+    $mail_s_t->set_var( "quantity", $offer->quantity() );
+    $mail_s_t->set_var( "price", $offer->price() );
+    $mail_s_t->set_var( "type", $offer->type() );
+
+    $supplier_mail = new eZMail();
+    $supplier_mail->setFromName( $admin );
+    $supplier_mail->setFrom( $admin_mail );
+
+    $mail_s_t->parse( "subject", "subject_tpl" );
+    $mail_s_t->parse( "body", "body_tpl" );
+
+    $supplier_mail->setSubject( $mail_s_t->get_var( "subject" ) );
+    $supplier_mail->setBody( $mail_s_t->get_var( "body" ) );
+
+    $supplier_mail->setTo( $supplier->email() );
+    $supplier_mail->send();
+
+    $mail_a_t = new eZTemplate( "ezexchange/user/" . $ini->read_var( "eZExchangeMain", "TemplateDir" ),
+                                "ezexchange/user/intl", $Language, "mail" );
+    $mail_a_t->setAllStrings();
+
+    $mail_a_t->set_file( "siteadmin_mail", "siteadminmail.tpl" );
+    $mail_a_t->set_block( "siteadmin_mail", "subject_tpl", "subject" );
+    $mail_a_t->set_block( "siteadmin_mail", "body_tpl", "body" );
+
+    $mail_a_t->set_var( "product_name", $product_name );
+    $mail_a_t->set_var( "quote_quantity", $quote->quantity() );
+    $mail_a_t->set_var( "quote_price", $quote->price() );
+    $mail_a_t->set_var( "quote_type", $quote->type() );
+    $mail_a_t->set_var( "offer_quantity", $offer->quantity() );
+    $mail_a_t->set_var( "offer_price", $offer->price() );
+    $mail_a_t->set_var( "offer_type", $offer->type() );
+
+    $mail_a_t->set_var( "customer_name", $customer->name() );
+    $mail_a_t->set_var( "customer_id", $customer->id() );
+
+    $mail_a_t->set_var( "supplier_name", $supplier->name() );
+    $mail_a_t->set_var( "supplier_id", $supplier->id() );
+
+    $siteadmin_mail = new eZMail();
+    $siteadmin_mail->setFromName( $admin );
+    $siteadmin_mail->setFrom( $admin_mail );
+
+    $mail_a_t->parse( "subject", "subject_tpl" );
+    $mail_a_t->parse( "body", "body_tpl" );
+
+    $siteadmin_mail->setSubject( $mail_a_t->get_var( "subject" ) );
+    $siteadmin_mail->setBody( $mail_a_t->get_var( "body" ) );
+
+    $siteadmin_mail->setTo( $admin_mail );
+    $siteadmin_mail->send();
+}
+
+function showNotice( &$ini, &$module, &$Language, &$quote, &$product_name, &$ProductID, &$CategoryID )
+{
+    $t = new eZTemplate( "$module/user/" . $ini->read_var( "eZExchangeMain", "TemplateDir" ),
+                         "$module/user/intl/", $Language, "productmatch.php" );
+
+    $t->set_file( "product_match_tpl", "productmatch.tpl" );
+
+    $t->set_block( "product_match_tpl", "match_offer_tpl", "match_offer" );
+    $t->set_block( "product_match_tpl", "match_quote_tpl", "match_quote" );
+
+    $t->set_var( "match_offer", "" );
+    $t->set_var( "match_quote", "" );
+
+    if ( $quote->quoteState() == "offer" )
+        $t->parse( "match_offer", "match_offer_tpl" );
+    else
+        $t->parse( "match_quote", "match_quote_tpl" );
+
+    $t->set_var( "product_name", $product_name );
+    $t->set_var( "quantity", $quote->quantity() );
+    $t->set_var( "price", $quote->price() );
+    $t->set_var( "type", $quote->type() );
+    $t->set_var( "product_id", $ProductID );
+    $t->set_var( "category_id", $CategoryID );
+
+    $t->setAllStrings();
+
+    $t->pparse( "output", "product_match_tpl" );
+}
+
+$ini =& $GlobalSiteIni;
 
 if( isset( $Cancel ) )
 {
@@ -39,6 +164,9 @@ if( isset( $Cancel ) )
 
 if ( $Action == "quote" and isset( $Price ) and ( strtolower( $Price ) == "rfq" || empty( $Price ) ) )
     $Action = "rfq";
+
+$Language = $ini->read_var( "eZExchangeMain", "Language" );
+$module = "ezexchange";
 
 if ( is_numeric( $ProductID ) )
 {
@@ -55,6 +183,12 @@ if ( is_numeric( $ProductID ) )
         }
         case "request":
         {
+            $quote = eZQuote::getUserOffer( $ProductID, true );
+            if ( get_class( $quote ) == "ezquote" )
+            {
+                header( "Location: /exchange/product/view/$ProductID/$CategoryID" );
+                exit();
+            }
             $quote = new eZQuote( $QuoteID );
             break;
         }
@@ -97,6 +231,7 @@ if ( isset( $DaysLeft ) )
 
 $error = false;
 $error_array = array();
+$match = false;
 
 if ( isset( $OK ) )
 {
@@ -110,7 +245,6 @@ if ( isset( $OK ) )
     }
     if ( !is_numeric( $DaysLeft ) || $DaysLeft < 0 )
     {
-        print( $DaysLeft . "<br />" );
         $error_array[] = "error_expire_item";
         $error = true;
     }
@@ -121,7 +255,7 @@ if ( isset( $OK ) )
     }
     if ( $Action == "offer" )
     {
-        if ( is_numeric( $Price ) and $Price > $old_price )
+        if ( is_numeric( $Price ) and is_numeric( $old_price ) and $Price > $old_price )
         {
             $error_array[] = "error_low_price_item";
             $error = true;
@@ -129,7 +263,7 @@ if ( isset( $OK ) )
     }
     else
     {
-        if ( is_numeric( $Price ) and $Price < $old_price )
+        if ( is_numeric( $Price ) and is_numeric( $old_price ) and $Price < $old_price )
         {
             $error_array[] = "error_low_price_item";
             $error = true;
@@ -181,7 +315,7 @@ if ( isset( $OK ) )
 
     if ( !$error )
     {
-        if ( !$quote )
+        if ( !$quote || $Action == "request" )
         {
             $quote = new eZQuote();
         }
@@ -197,174 +331,303 @@ if ( isset( $OK ) )
         if( $ret == "insert" )
             $quote->addToUser( $ProductID );
 
-        header( "Location: /exchange/product/view/$ProductID/$CategoryID" );
-        exit();
+        switch( $Action )
+        {
+            case "offer":
+            {
+                $quotes = eZQuote::getAllQuotes( $ProductID, true, $Price );
+                $match = false;
+                foreach( $quotes as $quote_match )
+                {
+                    if ( $quote_match->type() == QUOTE_ALL_TYPE && $quote_type == QUOTE_ALL_TYPE )
+                    {
+                        if ( $quote_match->quantity() == $quantity )
+                        {
+                            $customer = $quote_match->user( false, true );
+                            $supplier = $quote->user( false, true );
+                            $match = true;
+
+                            sendMails( $ini, $quote_match, $quote, $product_name,
+                                       $customer, $supplier, $Language );
+
+                            showNotice( $ini, $module, $Language, $quote,
+                                        $product_name, $ProductID, $CategoryID );
+
+                            $quote_match->delete();
+                            $quote->delete();
+
+                            break;
+                        }
+                    }
+                    else if ( $quote_match->type() == QUOTE_ALL_TYPE && $quote_type == QUOTE_PARTIAL_TYPE )
+                    {
+                        if ( $quote_match->quantity() <= $quantity )
+                        {
+                            $customer = $quote_match->user( false, true );
+                            $supplier = $quote->user( false, true );
+                            $match = true;
+
+                            sendMails( $ini, $quote_match, $quote, $product_name,
+                                       $customer, $supplier, $Language );
+
+                            showNotice( $ini, $module, $Language, $quote,
+                                        $product_name, $ProductID, $CategoryID );
+
+                            if ( $quote_match->quantity() == $quantity )
+                            {
+                                $quote->delete();
+                            }
+                            else
+                            {
+                                $quote->setQuantity( $quantity - $quote_match->quantity() );
+                                $quote->store();
+                            }
+                            $quote_match->delete();
+
+                            break;
+                        }
+                    }
+                    else if ( $quote_match->type() == QUOTE_PARTIAL_TYPE && $quote_type == QUOTE_ALL_TYPE )
+                    {
+                        if ( $quote_match->quantity() >= $quantity )
+                        {
+                            $customer = $quote_match->user( false, true );
+                            $supplier = $quote->user( false, true );
+                            $match = true;
+
+                            sendMails( $ini, $quote_match, $quote, $product_name,
+                                       $customer, $supplier, $Language );
+
+                            showNotice( $ini, $module, $Language, $quote,
+                                        $product_name, $ProductID, $CategoryID );
+
+                            if ( $quote_match->quantity() == $quantity )
+                            {
+                                $quote_match->delete();
+                            }
+                            else
+                            {
+                                $quote_match->setQuantity( $quote_match->quantity() - $quantity );
+                                $quote_match->store();
+                            }
+                            $quote->delete();
+
+                            break;
+                        }
+                    }
+                    else if ( $quote_match->type() == QUOTE_PARTIAL_TYPE && $quote_type == QUOTE_PARTIAL_TYPE )
+                    {
+                        $min_quantity = min( $quote_match->quantity(), $quote->quantity() );
+                        $customer = $quote_match->user( false, true );
+                        $supplier = $quote->user( false, true );
+                        $match = true;
+
+                        sendMails( $ini, $quote_match, $quote, $product_name,
+                        $customer, $supplier, $Language );
+
+                        showNotice( $ini, $module, $Language, $quote,
+                        $product_name, $ProductID, $CategoryID );
+
+                        if ( $quote_match->quantity() == $min_quantity )
+                        {
+                            $quote_match->delete();
+                        }
+                        else
+                        {
+                            $quote_match->setQuantity( $quote_match->quantity() - $min_quantity );
+                            $quote_match->store();
+                        }
+                        if ( $quote->quantity() == $min_quantity )
+                        {
+                            $quote->delete();
+                        }
+                        else
+                        {
+                            $quote->setQuantity( $quote->quantity() - $min_quantity );
+                            $quote->store();
+                        }
+
+                        break;
+                    }
+                }
+                break;
+            }
+            case "quote":
+            {
+                $offers = eZQuote::getAllOffers( $ProductID, true, $Price );
+                break;
+            }
+        }
+
+        if ( !$match )
+        {
+            header( "Location: /exchange/product/view/$ProductID/$CategoryID" );
+            exit();
+        }
     }
 }
 
-$ini =& $GlobalSiteIni;
-
-$Language = $ini->read_var( "eZExchangeMain", "Language" );
 $locale = new eZLocale( $Language );
 
-$module = "ezexchange";
-
-switch( $Action )
+if ( !$match )
 {
-    case "offer":
+    switch( $Action )
     {
-        $langfile = "offeredit.php";
-        break;
+        case "offer":
+        {
+            $langfile = "offeredit.php";
+            break;
+        }
+        case "rfq":
+        {
+            $langfile = "rfqedit.php";
+            break;
+        }
+        case "request":
+        {
+            $langfile = "requestedit.php";
+            break;
+        }
+        default:
+        case "quote":
+        {
+            $langfile = "quoteedit.php";
+        }
     }
-    case "rfq":
+
+    $t = new eZTemplate( "$module/user/" . $ini->read_var( "eZExchangeMain", "TemplateDir" ),
+                         "$module/user/intl/", $Language, $langfile );
+
+    $t->set_file( "quote_edit_tpl", "quoteedit.tpl" );
+
+    $t->set_block( "quote_edit_tpl", "quote_header_price_tpl", "quote_header_price" );
+    $t->set_block( "quote_edit_tpl", "quote_rfq_price_tpl", "quote_rfq_price" );
+
+    $t->set_block( "quote_edit_tpl", "edit_quote_tpl", "edit_quote" );
+    $t->set_block( "edit_quote_tpl", "quote_all_type_tpl", "quote_all_type" );
+    $t->set_block( "edit_quote_tpl", "quote_any_type_tpl", "quote_any_type" );
+    $t->set_block( "edit_quote_tpl", "quote_2_all_type_tpl", "quote_2_all_type" );
+    $t->set_block( "edit_quote_tpl", "quote_2_any_type_tpl", "quote_2_any_type" );
+    $t->set_block( "edit_quote_tpl", "quote_edit_quantity_tpl", "quote_edit_quantity" );
+    $t->set_block( "edit_quote_tpl", "quote_show_quantity_tpl", "quote_show_quantity" );
+    $t->set_block( "edit_quote_tpl", "quote_edit_price_tpl", "quote_edit_price" );
+
+    $t->set_block( "quote_edit_tpl", "new_quote_tpl", "new_quote" );
+    $t->set_block( "new_quote_tpl", "quote_new_price_tpl", "quote_new_price" );
+
+    $t->set_block( "quote_edit_tpl", "errors_tpl", "errors_item" );
+    $t->set_block( "errors_tpl", "error_quantity_item_tpl", "error_quantity_item" );
+    $t->set_block( "errors_tpl", "error_price_item_tpl", "error_price_item" );
+    $t->set_block( "errors_tpl", "error_expire_item_tpl", "error_expire_item" );
+    $t->set_block( "errors_tpl", "error_low_price_item_tpl", "error_low_price_item" );
+    $t->set_block( "errors_tpl", "error_low_expire_item_tpl", "error_low_expire_item" );
+    $t->set_block( "errors_tpl", "error_low_quantity_item_tpl", "error_low_quantity_item" );
+    $t->set_block( "errors_tpl", "error_high_price_item_tpl", "error_high_price_item" );
+
+    $t->set_var( "new_quote", "" );
+    $t->set_var( "edit_quote", "" );
+    $t->set_var( "quote_all_type", "" );
+    $t->set_var( "quote_any_type", "" );
+    $t->set_var( "quote_2_all_type", "" );
+    $t->set_var( "quote_2_any_type", "" );
+
+    $t->set_var( "errors_item", "" );
+    $t->set_var( "error_quantity_item", "" );
+    $t->set_var( "error_price_item", "" );
+    $t->set_var( "error_expire_item", "" );
+    $t->set_var( "error_low_price_item", "" );
+    $t->set_var( "error_low_expire_item", "" );
+    $t->set_var( "error_low_quantity_item", "" );
+    $t->set_var( "error_high_price_item", "" );
+
+    $t->set_var( "all_selected", "" );
+    $t->set_var( "any_selected", "" );
+
+    $t->set_var( "product_type", $Action );
+    $t->set_var( "product_name", $product_name );
+    $t->set_var( "product_id", $product_id );
+    $t->set_var( "category_id", $CategoryID );
+    $t->set_var( "quote_id", $QuoteID );
+    if ( ( isset( $quote_type ) and is_numeric( $quote_type ) ) || ( !isset( $quote_type ) ) )
+        $quote_type = $Action;
+    $t->set_var( "quote_type", $quote_type );
+
+    $t->set_var( "cur_quantity", $quantity );
+    $t->set_var( "cur_price", $price );
+    $t->set_var( "cur_days", $expire );
+
+    $t->set_var( "high_price", $high_price );
+
+    foreach( $error_array as $error )
     {
-        $langfile = "rfqedit.php";
-        break;
+        $t->parse( $error, $error . "_tpl" );
     }
-    case "request":
+    if ( $error )
+        $t->parse( "errors_item", "errors_tpl" );
+
+    $t->set_var( "quote_show_quantity", "" );
+    $t->set_var( "quote_edit_quantity", "" );
+    if ( $Action == "request" )
     {
-        $langfile = "requestedit.php";
-        break;
-    }
-    default:
-    case "quote":
-    {
-        $langfile = "quoteedit.php";
-    }
-}
-
-$t = new eZTemplate( "$module/user/" . $ini->read_var( "eZExchangeMain", "TemplateDir" ),
-                     "$module/user/intl/", $Language, $langfile );
-
-$t->set_file( "quote_edit_tpl", "quoteedit.tpl" );
-
-$t->set_block( "quote_edit_tpl", "quote_header_price_tpl", "quote_header_price" );
-$t->set_block( "quote_edit_tpl", "quote_rfq_price_tpl", "quote_rfq_price" );
-
-$t->set_block( "quote_edit_tpl", "edit_quote_tpl", "edit_quote" );
-$t->set_block( "edit_quote_tpl", "quote_all_type_tpl", "quote_all_type" );
-$t->set_block( "edit_quote_tpl", "quote_any_type_tpl", "quote_any_type" );
-$t->set_block( "edit_quote_tpl", "quote_2_all_type_tpl", "quote_2_all_type" );
-$t->set_block( "edit_quote_tpl", "quote_2_any_type_tpl", "quote_2_any_type" );
-$t->set_block( "edit_quote_tpl", "quote_edit_quantity_tpl", "quote_edit_quantity" );
-$t->set_block( "edit_quote_tpl", "quote_show_quantity_tpl", "quote_show_quantity" );
-$t->set_block( "edit_quote_tpl", "quote_edit_price_tpl", "quote_edit_price" );
-
-$t->set_block( "quote_edit_tpl", "new_quote_tpl", "new_quote" );
-$t->set_block( "new_quote_tpl", "quote_new_price_tpl", "quote_new_price" );
-
-$t->set_block( "quote_edit_tpl", "errors_tpl", "errors_item" );
-$t->set_block( "errors_tpl", "error_quantity_item_tpl", "error_quantity_item" );
-$t->set_block( "errors_tpl", "error_price_item_tpl", "error_price_item" );
-$t->set_block( "errors_tpl", "error_expire_item_tpl", "error_expire_item" );
-$t->set_block( "errors_tpl", "error_low_price_item_tpl", "error_low_price_item" );
-$t->set_block( "errors_tpl", "error_low_expire_item_tpl", "error_low_expire_item" );
-$t->set_block( "errors_tpl", "error_low_quantity_item_tpl", "error_low_quantity_item" );
-$t->set_block( "errors_tpl", "error_high_price_item_tpl", "error_high_price_item" );
-
-$t->set_var( "new_quote", "" );
-$t->set_var( "edit_quote", "" );
-$t->set_var( "quote_all_type", "" );
-$t->set_var( "quote_any_type", "" );
-$t->set_var( "quote_2_all_type", "" );
-$t->set_var( "quote_2_any_type", "" );
-
-$t->set_var( "errors_item", "" );
-$t->set_var( "error_quantity_item", "" );
-$t->set_var( "error_price_item", "" );
-$t->set_var( "error_expire_item", "" );
-$t->set_var( "error_low_price_item", "" );
-$t->set_var( "error_low_expire_item", "" );
-$t->set_var( "error_low_quantity_item", "" );
-$t->set_var( "error_high_price_item", "" );
-
-$t->set_var( "all_selected", "" );
-$t->set_var( "any_selected", "" );
-
-$t->set_var( "product_type", $Action );
-$t->set_var( "product_name", $product_name );
-$t->set_var( "product_id", $product_id );
-$t->set_var( "category_id", $CategoryID );
-$t->set_var( "quote_id", $QuoteID );
-if ( ( isset( $quote_type ) and is_numeric( $quote_type ) ) || ( !isset( $quote_type ) ) )
-    $quote_type = $Action;
-$t->set_var( "quote_type", $quote_type );
-
-$t->set_var( "cur_quantity", $quantity );
-$t->set_var( "cur_price", $price );
-$t->set_var( "cur_days", $expire );
-
-$t->set_var( "high_price", $high_price );
-
-foreach( $error_array as $error )
-{
-    $t->parse( $error, $error . "_tpl" );
-}
-if ( $error )
-    $t->parse( "errors_item", "errors_tpl" );
-
-$t->set_var( "quote_show_quantity", "" );
-$t->set_var( "quote_edit_quantity", "" );
-if ( $Action == "request" )
-{
-    $t->parse( "quote_show_quantity", "quote_show_quantity_tpl" );
-}
-else
-{
-    $t->parse( "quote_edit_quantity", "quote_edit_quantity_tpl" );
-}
-
-if ( $Action != "rfq" )
-{
-    $t->parse( "quote_header_price", "quote_header_price_tpl" );
-    $t->parse( "quote_edit_price", "quote_edit_price_tpl" );
-    $t->parse( "quote_new_price", "quote_new_price_tpl" );
-    $t->set_var( "quote_rfq_price", "" );
-}
-else
-{
-    $t->set_var( "quote_header_price", "" );
-    $t->set_var( "quote_edit_price", "" );
-    $t->set_var( "quote_new_price", "" );
-    $t->parse( "quote_rfq_price", "quote_rfq_price_tpl" );
-}
-
-
-if ( get_class( $quote ) == "ezquote" )
-{
-    $t->set_var( "today", $locale->format( $today ) );
-    $t->set_var( "last_days", $quote->expireDays() );
-    $t->set_var( "last_expire_date", $locale->format( $quote->expireDate() ) );
-    $t->set_var( "last_quantity", $quote->quantity() );
-    $t->set_var( "last_price", $quote->price() );
-    if ( $quote_type == 0 )
-    {
-        $t->parse( "quote_all_type", "quote_all_type_tpl" );
-        $t->parse( "quote_2_all_type", "quote_2_all_type_tpl" );
+        $t->parse( "quote_show_quantity", "quote_show_quantity_tpl" );
     }
     else
     {
-        $t->parse( "quote_any_type", "quote_any_type_tpl" );
-        $t->parse( "quote_2_any_type", "quote_2_any_type_tpl" );
+        $t->parse( "quote_edit_quantity", "quote_edit_quantity_tpl" );
     }
 
-    $t->parse( "edit_quote", "edit_quote_tpl" );
-}
-else
-{
-    $t->set_var( "today", $locale->format( $today ) );
-    if ( $quote_type == 0 )
-        $t->set_var( "all_selected", "selected" );
+    if ( $Action != "rfq" )
+    {
+        $t->parse( "quote_header_price", "quote_header_price_tpl" );
+        $t->parse( "quote_edit_price", "quote_edit_price_tpl" );
+        $t->parse( "quote_new_price", "quote_new_price_tpl" );
+        $t->set_var( "quote_rfq_price", "" );
+    }
     else
-        $t->set_var( "any_selected", "selected" );
+    {
+        $t->set_var( "quote_header_price", "" );
+        $t->set_var( "quote_edit_price", "" );
+        $t->set_var( "quote_new_price", "" );
+        $t->parse( "quote_rfq_price", "quote_rfq_price_tpl" );
+    }
 
-    $t->parse( "new_quote", "new_quote_tpl" );
+
+    if ( get_class( $quote ) == "ezquote" )
+    {
+        $t->set_var( "today", $locale->format( $today ) );
+        $t->set_var( "last_days", $quote->expireDays() );
+        $t->set_var( "last_expire_date", $locale->format( $quote->expireDate() ) );
+        $t->set_var( "last_quantity", $quote->quantity() );
+        $t->set_var( "last_price", $quote->price() );
+        if ( $quote_type == 0 )
+        {
+            $t->parse( "quote_all_type", "quote_all_type_tpl" );
+            $t->parse( "quote_2_all_type", "quote_2_all_type_tpl" );
+        }
+        else
+        {
+            $t->parse( "quote_any_type", "quote_any_type_tpl" );
+            $t->parse( "quote_2_any_type", "quote_2_any_type_tpl" );
+        }
+
+        $t->parse( "edit_quote", "edit_quote_tpl" );
+    }
+    else
+    {
+        $t->set_var( "today", $locale->format( $today ) );
+        if ( $quote_type == 0 )
+            $t->set_var( "all_selected", "selected" );
+        else
+            $t->set_var( "any_selected", "selected" );
+
+        $t->parse( "new_quote", "new_quote_tpl" );
+    }
+
+
+    $t->setAllStrings();
+
+    $t->pparse( "output", "quote_edit_tpl" );
+
 }
-
-
-$t->setAllStrings();
-
-$t->pparse( "output", "quote_edit_tpl" );
-
 
 ?>
