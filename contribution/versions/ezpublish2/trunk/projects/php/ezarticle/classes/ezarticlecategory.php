@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.49 2001/03/17 12:39:22 bf Exp $
+// $Id: ezarticlecategory.php,v 1.50 2001/03/17 16:02:34 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -720,8 +720,7 @@ class eZArticleCategory
        $query = "SELECT Article.ID as ArticleID
                   FROM eZArticle_Article AS Article,
                        eZArticle_ArticleCategoryLink as Link,
-                       eZArticle_ArticlePermission AS Permission,
-                       eZArticle_Category AS Category
+                       eZArticle_ArticlePermission AS Permission
                   WHERE (
                         ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' )
                         )
@@ -729,7 +728,6 @@ class eZArticleCategory
                         AND Link.CategoryID='$this->ID'
                         AND Permission.ObjectID=Article.ID
                         AND Link.ArticleID=Article.ID
-                        AND Category.ID=Link.CategoryID
                  ORDER BY $OrderBy
                  LIMIT $offset,$limit";
 
@@ -833,16 +831,14 @@ class eZArticleCategory
        $query = "SELECT count( Article.ID ) AS Count 
                   FROM eZArticle_Article AS Article,
                        eZArticle_ArticleCategoryLink as Link,
-                       eZArticle_ArticlePermission AS Permission,
-                       eZArticle_Category AS Category
+                       eZArticle_ArticlePermission AS Permission
                   WHERE (
                         ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' )
                         )
                         $publishedCode
                         AND Link.CategoryID='$this->ID'
                         AND Permission.ObjectID=Article.ID
-                        AND Link.ArticleID=Article.ID
-                        AND Category.ID=Link.CategoryID";
+                        AND Link.ArticleID=Article.ID";
 
        /* SQL before optimizing
        $query = "SELECT count( Article.ID ) as Count

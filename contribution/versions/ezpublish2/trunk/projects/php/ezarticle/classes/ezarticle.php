@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.55 2001/03/08 13:12:36 fh Exp $
+// $Id: ezarticle.php,v 1.56 2001/03/17 16:02:34 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -913,12 +913,12 @@ class eZArticle
 
        $this->dbInit();
 
-       $OrderBy = "A.Published DESC";
+       $OrderBy = "Article.Published DESC";
        switch( $sortMode )
        {
            case "alpha" :
            {
-               $OrderBy = "A.Name DESC";
+               $OrderBy = "Article.Name DESC";
            }
            break;
        }
@@ -939,23 +939,40 @@ class eZArticle
             foreach ( $groups as $group )
             {
                 if ( $i == 0 )
-                    $groupSQL .= "P.GroupID=$group OR";
+                    $groupSQL .= "Permission.GroupID=$group OR";
                 else
-                    $groupSQL .= " P.GroupID=$group OR";
+                    $groupSQL .= " Permission.GroupID=$group OR";
                
                 $i++;
             }
             $currentUserID = $user->id();
-            $currentUserSQL = "A.AuthorID=$currentUserID OR";
+            $currentUserSQL = "Article.AuthorID=$currentUserID OR";
         }
-        $loggedInSQL = "( $currentUserSQL ( ( $groupSQL P.GroupID='-1' ) AND P.ReadPermission='1') ) AND";
+        $loggedInSQL = "( $currentUserSQL ( ( $groupSQL Permission.GroupID='-1' ) AND Permission.ReadPermission='1') ) AND";
 
        if ( !$fetchNonPublished )
        {
            $fetch_text = "AND A.IsPublished = 'true'";
        }
 
-       $this->Database->array_query( $article_array, "
+       $query = "SELECT Article.ID as ArticleID
+                  FROM eZArticle_Article AS Article,
+                       eZArticle_ArticleCategoryLink as Link,
+                       eZArticle_ArticlePermission AS Permission,
+                       eZArticle_Category AS Category
+                  WHERE (
+                        ( $loggedInSQL ($groupSQL Permission.GroupID='-1') AND Permission.ReadPermission='1' )
+                        )
+                        $publishedCode
+                        AND Permission.ObjectID=Article.ID
+                        AND Link.ArticleID=Article.ID
+                        AND Category.ID=Link.CategoryID
+                 ORDER BY $OrderBy
+                 LIMIT $offset,$limit";
+       
+       $this->Database->array_query( $article_array, $query  );
+       /* before optimisation
+         "
                     SELECT A.ID AS ArticleID, A.Name, eZArticle_Category.ID, eZArticle_Category.Name
                     FROM eZArticle_Article AS A LEFT JOIN eZArticle_ArticlePermission AS P ON A.ID=P.ObjectID,
                     eZArticle_Category, eZArticle_ArticleCategoryLink 
@@ -969,6 +986,7 @@ class eZArticle
                     eZArticle_Category.ExcludeFromSearch = 'false'
                     GROUP BY A.ID ORDER BY $OrderBy
                     LIMIT $offset,$limit" );
+       */
            
 
        for ( $i=0; $i < count($article_array); $i++ )
