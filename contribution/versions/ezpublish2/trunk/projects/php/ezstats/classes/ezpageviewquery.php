@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezpageviewquery.php,v 1.13 2001/02/12 16:06:22 jb Exp $
+// $Id: ezpageviewquery.php,v 1.14 2001/03/07 12:16:06 fh Exp $
 //
 // Definition of eZPageViewQuery class
 //
@@ -495,9 +495,9 @@ class eZPageViewQuery
             $TotalPages += $visitor_array[0]["Count"];
             $month_array[] = array( "Count" => $visitor_array[0]["Count"] );
         }
-
+        $now = getdate();
         $return_array = array( "TotalPages" => $TotalPages,
-                               "PagesPrMonth" => round( $TotalPages/12 ),
+                               "PagesPrMonth" => round( $TotalPages/$now["mon"] ),
                                "Months" => $month_array );
         
         return $return_array;
@@ -538,9 +538,9 @@ class eZPageViewQuery
             $TotalPages += $visitor_array[0]["Count"];
             $day_array[] = array( "Count" => $visitor_array[0]["Count"] );
         }
-
+        $now = getdate();
         $return_array = array( "TotalPages" => $TotalPages,
-                               "PagesPrDay" => round( $TotalPages/$date->daysInMonth() ),
+                               "PagesPrDay" => round( $TotalPages/$now["mday"] ),
                                "Days" => $day_array );
         
         return $return_array;
@@ -577,9 +577,9 @@ class eZPageViewQuery
             $TotalPages += $visitor_array[0]["Count"];
             $hour_array[] = array( "Count" => $visitor_array[0]["Count"] );
         }
-
+        $now = getdate();
         $return_array = array( "TotalPages" => $TotalPages,
-                               "PagesPrHour" => round( $TotalPages/24 ),
+                               "PagesPrHour" => round( $TotalPages/$now["hours"] ),
                                "Hours" => $hour_array );
 
         return $return_array;
