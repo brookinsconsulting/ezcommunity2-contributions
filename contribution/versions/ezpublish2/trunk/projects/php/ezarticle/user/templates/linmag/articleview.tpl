@@ -25,7 +25,7 @@
 
 <!-- END path_item_tpl -->
 
-<br /><br />
+<br />
 <!-- BEGIN article_header_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -52,17 +52,11 @@
 </p>
 
 <!-- BEGIN image_list_tpl -->
-<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+
 <!-- BEGIN image_tpl -->
-<tr>
-	<td width="1%" class="{td_class}">
-	<img src="{www_dir}{image_url}" width="{image_width}" height="{image_height}" border="2" />
-	{image_caption}
-	</td>
-</tr>
+
 <!-- END image_tpl -->
 
-</table>
 <!-- END image_list_tpl -->
 
 <!-- BEGIN attribute_list_tpl -->

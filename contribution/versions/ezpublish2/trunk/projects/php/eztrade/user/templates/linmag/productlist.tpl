@@ -5,7 +5,7 @@
 	</td>
      <td align="right">
 	 <form action="{www_dir}{index}/{module}/search/" method="post">
-	       <input type="text" name="Query">
+	       <input class="searchbox" type="text" size="12" name="Query">
 	       <input class="stdbutton" type="submit" name="search" value="{intl-search_button}">
          </form>
      </td>
