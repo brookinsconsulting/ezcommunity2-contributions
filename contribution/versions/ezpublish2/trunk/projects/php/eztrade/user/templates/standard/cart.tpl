@@ -60,7 +60,7 @@
     <td class="{td_class}" align="right"><nobr>{product_total_inc_tax}</nobr></td>
 	<!-- END cart_inc_tax_item_tpl -->
     
-    <td class="{td_class}">&nbsp;<!-- <input type="checkbox" name="CartSelect[]" value="{cart_item_id}" /> --></td>
+    <td class="{td_class}"><input type="checkbox" name="CartSelectArray[]" value="{cart_item_id}" /></td>
 </tr>
 
 <!-- BEGIN cart_item_basis_tpl -->
@@ -164,9 +164,12 @@
 </tr>
 
 </table>
-<!-- END full_cart_tpl -->
 
 <!-- BEGIN tax_specification_tpl -->
+<br />
+<br />
+<br />
+<br />
 <hr noshade="noshade" size="4" />
 
 <table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
@@ -177,6 +180,7 @@
 </tr>
 
 <!-- BEGIN tax_item_tpl -->
+
 <tr>
 <td align="right">{sub_tax_basis}</td>
 <td align="right">{sub_tax_percentage} %</td>
@@ -191,6 +195,8 @@
 
 </table>
 <!-- END tax_specification_tpl -->
+<!-- END full_cart_tpl -->
+
 
 <!-- BEGIN cart_checkout_tpl -->
 <hr noshade="noshade" size="4" />
@@ -199,6 +205,10 @@
 <tr>
 	<td>
 	<input class="stdbutton" type="submit" name="ShopMore" value="{intl-shopmore}" />
+	</td>
+	<td>&nbsp;</td>
+	<td>
+	<input class="stdbutton" type="submit" name="DeleteSelected" value="{intl-delete_selected}" />
 	</td>
 	<td>&nbsp;</td>
 	<td align="right">
