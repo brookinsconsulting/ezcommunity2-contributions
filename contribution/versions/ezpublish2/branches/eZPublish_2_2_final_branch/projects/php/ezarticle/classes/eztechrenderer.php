@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztechrenderer.php,v 1.76.2.2 2002/02/06 08:04:48 bf Exp $
+// $Id: eztechrenderer.php,v 1.76.2.3 2002/02/21 10:43:48 br Exp $
 //
 // Definition of eZTechRenderer class
 //
@@ -266,32 +266,32 @@ class eZTechRenderer
             $pageArray = array();
             // loop on the pages
             if ( count( $body ) > 0 )
-            foreach ( $body as $page )                
+            foreach ( $body as $page )
             {
-                $pageContent = "";
-                $this->PrevTag = "";
-                // loop on the contents of the pages
-                if ( count( $page->children ) > 0 )
-                foreach ( $page->children as $paragraph )
+                if ( $page->name == "page" )
                 {
-                    $pageContent = $this->renderPlain( $pageContent, $paragraph );
-
-                    $pageContent = $this->renderCode( $pageContent, $paragraph );
-
-                    $pageContent = $this->renderStandards( $pageContent, $paragraph );
-
-                    $pageContent = $this->renderLink( $pageContent, $paragraph );
-
-                    $pageContent = $this->renderModule( $pageContent, $paragraph );
-
-                    $pageContent = $this->renderImage( $pageContent, $paragraph, $articleImages );
-
-                    $this->PrevTag = $paragraph->name;
+                    $pageContent = "";
+                    $this->PrevTag = "";
+                    // loop on the contents of the pages
+                    if ( count( $page->children ) > 0 )
+                        foreach ( $page->children as $paragraph )
+                        {
+                            $pageContent = $this->renderPlain( $pageContent, $paragraph );
+                            
+                            $pageContent = $this->renderCode( $pageContent, $paragraph );
+                            
+                            $pageContent = $this->renderStandards( $pageContent, $paragraph );
+                            
+                            $pageContent = $this->renderLink( $pageContent, $paragraph );
+                            
+                            $pageContent = $this->renderModule( $pageContent, $paragraph );
+                            
+                            $pageContent = $this->renderImage( $pageContent, $paragraph, $articleImages );
+                            
+                            $this->PrevTag = $paragraph->name;
+                        }
+                    $pageArray[] = $pageContent;
                 }
-
-                
-                $pageArray[] = $pageContent;
-                
             }
 
 
