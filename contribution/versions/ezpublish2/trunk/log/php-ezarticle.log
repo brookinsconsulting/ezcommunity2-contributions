@@ -2019,3 +2019,24 @@ Maintainer(s) : bf@ez.no
     * user/templates/standard/articlestatic.tpl:
     Fixed content encapsulation with a table instead of <p>.
 
+
+Module : ezarticle
+Repository path : /home/cvsroot/projects/php/ezarticle
+Maintainer(s) : bf@ez.no
+2001-11-09  Bjoern Reiten  <br@ez.no>
+
+    * user/templates/linmag/articlelist.tpl
+      user/templates/linmag/frontpage.tpl:
+    fixed break after headlines and support for 1 columns product.
+
+2001-11-09  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/article.php:
+    Fixed problem when setting categories, category placements are now retained.
+
+    * xmlrpc/article.php
+      xmlrpc/category.php
+      xmlrpc/categorylist.php
+      xmlrpc/datasupplier.php
+      xmlrpc/xmlrpcserver.php: HEAD import.
+

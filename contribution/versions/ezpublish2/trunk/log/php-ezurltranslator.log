@@ -119,3 +119,15 @@ Maintainer(s) : vl@ez.no
 
     * admin/intl/no_NO/menubox.php.ini: fixed no_NO translation
 
+
+Module : ezurltranslator
+Repository path : /home/cvsroot/projects/php/ezurltranslator
+Maintainer(s) : vl@ez.no
+2001-11-09  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * classes/ezurltranslator.php:
+    if a urlkeyword is added in site.ini but not in admin, the url will be treated as a normal ez publish url
+
+    * classes/ezurltranslator.php:
+    if a urlkeyword is defined in site.ini but not in admin, the url will be treated as a normal ez publish url
+

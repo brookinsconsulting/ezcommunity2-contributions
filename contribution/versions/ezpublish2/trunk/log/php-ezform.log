@@ -341,3 +341,11 @@ Maintainer(s) : pkej@ez.no
 
     * admin/intl/no_NO/form.php.ini: Added translation.
 
+
+Module : ezform
+Repository path : /home/cvsroot/projects/php/ezform
+Maintainer(s) : pkej@ez.no
+2001-11-09  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/intl/no_NO/fixedvalues.php.ini: fixed several bugs in no_NO files
+

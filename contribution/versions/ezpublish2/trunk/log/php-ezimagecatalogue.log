@@ -664,3 +664,13 @@ Maintainer(s) : br@ez.no
     * admin/intl/no_NO/imageedit.php.ini
       admin/intl/no_NO/categoryedit.php.ini: Added translation.
 
+
+Module : ezimagecatalogue
+Repository path : /home/cvsroot/projects/php/ezimagecatalogue
+Maintainer(s) : br@ez.no
+2001-11-09  Jan Borsodi  <jb@ez.no>
+
+    * xmlrpc/category.php
+      xmlrpc/categorylist.php
+      xmlrpc/datasupplier.php: HEAD import.
+

@@ -205,3 +205,13 @@ Maintainer(s) : br@ez.no
     * admin/intl/de_DE/adedit.php.ini
       admin/intl/de_DE/categoryedit.php.ini: de_DE update for 2.2.1
 
+
+Module : ezad
+Repository path : /home/cvsroot/projects/php/ezad
+Maintainer(s) : br@ez.no
+2001-11-09  Bjoern Reiten  <br@ez.no>
+
+    * user/templates/linmag/adlist.tpl: added template.
+
+    * user/templates/linmag/adlist.tpl: removed adlist.
+

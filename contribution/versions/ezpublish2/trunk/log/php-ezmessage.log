@@ -99,3 +99,12 @@ Maintainer(s) : bf@ez.no
       admin/intl/de_DE/messagelist.php.ini
       admin/intl/de_DE/messageview.php.ini: de_DE update for 2.2.1
 
+
+Module : ezmessage
+Repository path : /home/cvsroot/projects/php/ezmessage
+Maintainer(s) : bf@ez.no
+2001-11-09  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/intl/no_NO/messagelist.php.ini
+      admin/intl/no_NO/messageview.php.ini: fixed several bugs in no_NO files
+

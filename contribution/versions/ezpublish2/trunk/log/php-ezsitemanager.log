@@ -432,3 +432,11 @@ Maintainer(s) : vl@ez.no
       admin/intl/no_NO/templateedit.php.ini
       admin/intl/no_NO/templatelist.php.ini: fixed no_NO translation
 
+
+Module : ezsitemanager
+Repository path : /home/cvsroot/projects/php/ezsitemanager
+Maintainer(s) : vl@ez.no
+2001-11-09  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/intl/no_NO/menubox.php.ini: fixed several bugs in no_NO files
+

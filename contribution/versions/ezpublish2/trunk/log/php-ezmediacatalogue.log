@@ -248,3 +248,14 @@ Maintainer(s) : ce@ez.no
 
     * admin/templates/standard/medialist.tpl: Fixed a template  error
 
+
+Module : ezmediacatalogue
+Repository path : /home/cvsroot/projects/php/ezmediacatalogue
+Maintainer(s) : ce@ez.no
+2001-11-09  Jo Henrik Endrerud  <jhe@ez.no>
+
+    * admin/intl/no_NO/browse.php.ini
+      admin/intl/no_NO/medialist.php.ini
+      admin/intl/no_NO/menubox.php.ini
+      admin/intl/no_NO/typeedit.php.ini: fixed several bugs in no_NO files
+
