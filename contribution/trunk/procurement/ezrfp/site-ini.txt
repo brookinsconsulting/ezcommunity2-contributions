@@ -1,0 +1,59 @@
+        **** Explanation of site.ini variables ****
+
+The name of the group in site.ini for eZRfp is eZRfpMain.
+It contains these variables:
+
+AdminTemplateDir:      Relative path to template files in admin
+TemplateDir:           Relative path to template files in user
+ImageDir:              Absolute path to images
+ThumbnailImageWidth:   Width of thumbnail image
+ThumbnailImageHeight:  Height of thumbnail image
+SmallImageWidth:       Width of small image in rfp
+SmallImageHeight:      Height of small image in rfp
+MediumImageWidth:      Width of medium image in rfp
+MediumImageHeight:     Height of medium image in rfp
+LargeImageWidth:       Width of large image in rfp
+LargeImageHeight:      Height of large image in rfp
+Language:              The language used in eZRfp
+Generator:             The renderer used in eZRfp
+PageCaching:           Enables page caching
+CapitalizeHeadlines:   Upper case headlines
+UserComments:          Allow user comments to rfps
+DefaultLinkText:       Link to an rfp, e.g. "Read more"
+AdminListLimit:        Max length of rfp list in admin
+UserListLimit:         Max length of rfp list in user
+PublishNoticeReceiver: Who to notify about rfps
+PublishNoticeSender:   Which address to send notify mails from
+PublishNoticePadding:  A number of spaces to add in front of each line when sending e-mail messages containing text from the rfp.
+AuthorLimit:           Max length of author list
+AuthorRfpLimit:    Max length of author's rfps list
+UserSubmitRfps:    Enable/disble allowing rfp publishing in user
+MixUnpublished:        Enable will show both published and unpublished rfps in "Rfp Archive"
+
+Example group:
+[eZRfpMain]
+AdminTemplateDir=templates/standard/
+TemplateDir=templates/standard/
+ImageDir=/images/standard/
+ThumbnailImageWidth=150
+ThumbnailImageHeight=150
+SmallImageWidth=100
+SmallImageHeight=100
+MediumImageWidth=200
+MediumImageHeight=200
+LargeImageWidth=300
+LargeImageHeight=300
+Language=en_GB
+Generator=tech
+PageCaching=enabled
+CapitalizeHeadlines=disabled
+UserComments=enabled
+DefaultLinkText=Read more
+AdminListLimit=10
+UserListLimit=10
+PublishNoticeReceiver=bf@ez.no
+PublishNoticeSender=bf@ez.no
+AuthorLimit=10
+AuthorRfpLimit=10
+UserSubmitRfps=enabled
+BulkMailNotifyGroup=news

@@ -1,0 +1,12 @@
+[strings]
+head_line=Rfps
+name=Rfp
+author=Author
+published=Published
+category=Category
+next=Next
+previous=Previous
+author_info=Author information
+author_name=Author name
+rfp_info=Click on the title of an rfp to view the corresponding rfp or click the category to list related rfps. Sorting is controlled by clicking the various list headers.
+

@@ -1,0 +1,620 @@
+<?php
+// 
+// $Id: productreport.php,v 1.7 2001/07/20 11:28:54 jakobn Exp $
+//
+// Created on: <11-Jan-2001 14:47:56 bf>
+//
+// This source file is part of eZ publish, publishing software.
+//
+// Copyright (C) 1999-2001 eZ Systems.  All rights reserved.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
+//
+
+
+//#####################################################
+function view_array($arr, $td=0)
+{
+   if ($td) {
+       echo '<td>';
+   }
+   echo '<table style="border: 1px dashed black;">';
+   foreach ($arr as $key => $elem) {
+       echo '<tr>';
+       echo '<td>'.$key.'&nbsp;</td>';
+       if (is_array($elem)) {
+           view_array($elem, 1);
+       }
+       else {
+           echo '<td>'.htmlspecialchars($elem).'&nbsp;</td>';
+        }
+       echo '</tr>';
+   }
+   echo '</table>';
+   if ($td) {
+       echo '</td>';
+  }
+}
+
+//#####################################################
+
+include_once( "classes/INIFile.php" );
+$ini =& INIFile::globalINI();
+$Language = $ini->read_var( "eZStatsMain", "Language" );
+
+include_once( "classes/eztemplate.php" );
+include_once( "classes/ezdate.php" );
+
+include_once( "ezstats/classes/ezpageview.php" );
+include_once( "ezstats/classes/ezpageviewquery.php" );
+
+
+include_once( "ezrfp/classes/ezrfp.php" );
+include_once( "ezuser/classes/ezuser.php" );
+
+//include_once( "eztrade/classes/ezproduct.php" );
+//include_once( "eztrade/classes/ezorder.php" );
+
+$t = new eZTemplate( "ezstats/admin/" . $ini->read_var( "eZStatsMain", "AdminTemplateDir" ),
+                     "ezstats/admin/intl", $Language, "rfpreport.php" );
+
+$t->setAllStrings();
+
+$t->set_file( array(
+    "rfp_report_tpl" => "rfpreport.tpl"
+    ) );
+
+$t->set_block( "rfp_report_tpl", "viewed_by_user_tpl", "viewed_by_user" );
+$t->set_block( "rfp_report_tpl", "most_viewed_rfp_tpl", "most_viewed_rfp" );
+
+$t->set_block( "rfp_report_tpl", "most_added_to_cart_rfps_tpl", "most_added_to_cart_rfps" );
+$t->set_block( "rfp_report_tpl", "most_added_to_wishlist_rfps_tpl", "most_added_to_wishlist_rfps" );
+$t->set_block( "rfp_report_tpl", "most_bought_rfps_tpl", "most_bought_rfps" );
+
+$t->set_block( "rfp_report_tpl", "month_tpl", "month" );
+$t->set_block( "month_tpl", "month_previous_tpl", "month_previous" );
+$t->set_block( "month_tpl", "month_previous_inactive_tpl", "month_previous_inactive" );
+$t->set_block( "month_tpl", "month_next_tpl", "month_next" );
+$t->set_block( "month_tpl", "month_next_inactive_tpl", "month_next_inactive" );
+
+if ( !is_numeric( $Year ) || !is_numeric( $Month ) )
+{
+    $cur_date = new eZDate();
+    $Year = $cur_date->year();
+    $Month = $cur_date->month();
+}
+
+$query = new eZPageViewQuery();
+
+$tmpRfp = new eZRfp();
+$tmpRfpFile = new eZFile();
+
+// most viewed rfps
+$rfpReport =& $query->topRfpRequests( );
+
+//###############################
+//viewArray($rfpReport);
+// this function converts a URI into an array with the module name and the URI id into 'module' and 'id' respectively
+//###############################
+
+function getRfpStatInfo($uri) {
+  $uri_arr = explode("/", $uri);
+  $info = array();
+  $info['module'] = $uri_arr[1];
+  $info['id'] = $uri_arr[3];
+  return $info;
+}
+
+//###############################
+
+$rfpArray = array();
+$fullArray = array(); // this is the array in which we will keep the final build
+$z = 0; // $z is used to make sure we get consecutive numbers through $fullArray
+
+for ($i=0;$i<sizeof($rfpReport);$i++) {
+  $rfpFound = false;
+  $UserIDFound = false;
+  $rep = $rfpReport[$i]; // put $rfpReport[$i] into $rep for ez coding and readibility
+  if (empty($fullArray)) { // if we have not begun to fill $fullArray, don't bother running the nested loop
+    $info = getRfpStatInfo($rep['URI']);
+    $fullArray[$z]['uri'] = $rep['URI']; //store uri
+    $fullArray[$z]['id'] = $info['id']; // store id
+    $fullArray[$z]['module'] = $info['module']; // store module
+    $fullArray[$z]['stats'] = array();
+    $fullArray[$z]['stats'][0]['UserID'] = $rep['UserID'];
+    $fullArray[$z]['stats'][0]['count'] = 1;
+    $fullArray[$z]['maxcount']++;
+    $z++; //get ready for the next entry iee
+  } else { // we run the loop checking to see if the URI has been catalouged
+    for ($j=0;$j<sizeof($fullArray);$j++) {
+      if ($rep['URI'] == $fullArray[$j]['uri']) {
+        $rfpFound = true; // now we check to see if the user id is found
+        for ($d=0;$d<sizeof($fullArray[$j]['stats']);$d++) { 
+          // now we check to see if the user id is found. $d will be for checking stats entries
+          if ($fullArray[$j]['stats'][$d]['UserID'] == $rep['UserID']) { //if the id has already been listed...
+            $fullArray[$j]['stats'][$d]['count']++; // add one to the count
+            $fullArray[$j]['maxcount']++;
+            $UserIDFound = true; // toggle the user id found;
+          }
+            
+        }
+        if (!$UserIDFound) {// then we will add a new listing to the stats array and start a new UserId and count
+          $e = count($fullArray[$j]['stats']); // sets $e as the next stats array listing;
+          $fullArray[$j]['stats'][$e] = array();
+          $fullArray[$j]['stats'][$e]['UserID'] = $rep['UserID'];
+          $fullArray[$j]['stats'][$e]['count'] = 1;
+          $fullArray[$j]['maxcount']++;
+        }
+      }
+     }
+     if (!$rfpFound) {// then we will add a new uri listing
+      $info = getRfpStatInfo($rep['URI']);
+      $fullArray[$z]['uri'] = $rep['URI']; //store uri
+      $fullArray[$z]['id'] = $info['id']; // store id
+      $fullArray[$z]['module'] = $info['module']; // store module
+      $fullArray[$z]['stats'] = array();
+      $fullArray[$z]['stats'][0]['UserID'] = $rep['UserID'];
+      $fullArray[$z]['stats'][0]['count'] = 1;
+      $fullArray[$z]['maxcount'] = 1;
+      $z++;
+      $rfpFound = false;
+    }
+   }
+  }
+  
+//##############################
+//  view_array($fullArray);
+// exit();
+//##############################
+
+
+//$rfpArray = array();
+//$fullArray = array(); // this is the array in which we will keep the final build
+$z = 0; // $z is used to make sure we get consecutive numbers through $fullArray
+
+
+for ($i=0;$i<sizeof($fullArray);$i++) {
+
+
+//  $rfpFound = false;
+//  $UserIDFound = false;
+
+/*
+  $rep = $rfpReport[$i]; // put $rfpReport[$i] into $rep for ez coding and readibility
+
+  if (empty($fullArray)) { // if we have not begun to fill $fullArray, don't bother running the nested loop
+    $info = getRfpStatInfo($rep['URI']);
+    $fullArray[$z]['uri'] = $rep['URI']; //store uri
+    $fullArray[$z]['id'] = $info['id']; // store id
+    $fullArray[$z]['module'] = $info['module']; // store module
+    $fullArray[$z]['stats'] = array();
+    $fullArray[$z]['stats'][0]['UserID'] = $rep['UserID'];
+    $fullArray[$z]['stats'][0]['count'] = 1;
+    $fullArray[$z]['maxcount']++;
+    $z++; //get ready for the next entry iee
+  } else { // we run the loop checking to see if the URI has been catalouged
+    for ($j=0;$j<sizeof($fullArray);$j++) {
+      if ($rep['URI'] == $fullArray[$j]['uri']) {
+        $rfpFound = true; // now we check to see if the user id is found
+        for ($d=0;$d<sizeof($fullArray[$j]['stats']);$d++) {
+          // now we check to see if the user id is found. $d will be for checking stats entries
+          if ($fullArray[$j]['stats'][$d]['UserID'] == $rep['UserID']) { //if the id has already been listed...
+            $fullArray[$j]['stats'][$d]['count']++; // add one to the count
+            $fullArray[$j]['maxcount']++;
+            $UserIDFound = true; // toggle the user id found;
+          }
+
+        }
+        if (!$UserIDFound) {// then we will add a new listing to the stats array and start \
+a new UserId and count
+          $e = count($fullArray[$j]['stats']); // sets $e as the next stats array listing;
+          $fullArray[$j]['stats'][$e] = array();
+          $fullArray[$j]['stats'][$e]['UserID'] = $rep['UserID'];
+          $fullArray[$j]['stats'][$e]['count'] = 1;
+          $fullArray[$j]['maxcount']++;
+        }
+      }
+     }
+     if (!$rfpFound) {// then we will add a new uri listing
+      $info = getRfpStatInfo($rep['URI']);
+      $fullArray[$z]['uri'] = $rep['URI']; //store uri
+      $fullArray[$z]['id'] = $info['id']; // store id
+      $fullArray[$z]['module'] = $info['module']; // store module
+      $fullArray[$z]['stats'] = array();
+      $fullArray[$z]['stats'][0]['UserID'] = $rep['UserID'];
+      $fullArray[$z]['stats'][0]['count'] = 1;
+      $fullArray[$z]['maxcount'] = 1;
+      $z++;
+      $rfpFound = false;
+    }
+   }
+
+*/
+
+	print("john murdoc nothing more than perverted killer, $i<br />");
+
+	$statName = 'your suffering will be legendary, even for hell';
+	$statMaxCount = 0;
+	$statUserCount = 0;
+	$statUri = 0;
+	$statUser = 0;
+	$statUserID = 0;
+	$statUserName = 0;
+
+	$t->set_var( "rfp_name", $statsName );
+        $t->set_var( "rfp_uri", $statUri );
+
+	
+        $t->set_var( "bg_color", $i % 2 == 0 ? "bglight" : "bgdark" );
+
+        $t->set_var( "view_count", ''. $statMaxCount );
+
+	$t->set_var( "item_view_count", 'item->> '. $statMaxCount );
+
+		$t->set_var( "user_view_count", ''. $statUserCount );
+
+        	$t->set_var( "rfp_download_user_name", $statUserName."___[0000000000000000000000000000000000000000000]");
+
+        	$t->set_var( "rfp_downloaded_user_id", $statUserID );
+
+        $t->parse( "viewed_by_user", "viewed_by_user_tpl", true );
+
+  }
+
+//##############################
+
+$next_month = new eZDate( $Year, $Month, 1, 0, 1, 0 );
+$prev_month = new eZDate( $Year, $Month, 1, 0, -1, 0 );
+
+$t->set_var( "next_month", $next_month->month() );
+$t->set_var( "previous_month", $prev_month->month() );
+$t->set_var( "next_year", $next_month->year() );
+$t->set_var( "previous_year", $prev_month->year() );
+
+$t->set_var( "month_next_inactive", "" );
+$t->set_var( "month_next", "" );
+$t->set_var( "month_previous", "" );
+$t->set_var( "month_previous_inactive", "" );
+
+$cur_date = new eZDate();
+
+if ( $cur_date->isGreater( $next_month ) )
+    $t->parse( "month_next_inactive", "month_next_inactive_tpl" );
+else
+    $t->parse( "month_next", "month_next_tpl" );
+
+$t->parse( "month_previous", "month_previous_tpl" );
+
+$t->parse( "month", "month_tpl" );
+
+$t->set_var( "this_month", $Month );
+$t->set_var( "this_year", $Year );
+
+
+$t->pparse( "output", "rfp_report_tpl" );
+ 
+
+//##############################
+
+/*
+
+if ( !empty( $rfpArray ) )
+{
+    $i = 0;
+	$i = 1;
+    $id = 0;
+    $loopID = 0;
+    $bgcolor = 0;
+    $item_count = 0;
+    $user_count = 0;
+    $loopUserID=0;
+
+    foreach ( $rfpReport as $rfpItem )
+    {
+	if ( $loopID != $rfpItem["ID"] ) {
+		$loopID = $rfpItem["ID"];
+
+	print($rfpItem["URLID"]);
+
+        $rfp_url_array = explode( "/", $rfpItem["URI"] );
+	$rfp_url_id = $rfp_url_array[3];
+        $module_action = $rfp_url_array[2];
+        $module_name = $rfp_url_array[1];
+	$theRfpID =  $rfpItem->id;
+
+ tells me about the type of URL
+
+	print("<span>".$module_name ."______|". $theRfpID ."|</span>");
+
+	        $rfpArray[$idx]["URLID"] = $rfp_url_array[3];
+
+	print($rfpItem["URI"] ."<br />");
+
+ bad loop logic in if, missing uniq user / url corrication counting
+ so if you count loopUserID == $rfpItem["UserID"] && loopURI == $rfpItem["UserID"]
+ Remove Count from returned array . . . 
+
+if ( $loopID == $rfpItem["ID"] ) {
+
+$blank=0;
+
+} elseif ( $loopID != $rfpItem["ID"] ) {
+
+$loopID = $rfpItem["ID"];
+print("$i::".$rfp_url_id ."<br />");
+
+		if ($module_name == "rfp"){
+			 $tmpRfp->get( $rfpItem["ID"]);
+			  $tmpRfp->get( $rfp_url_id );
+				 $rfpItemIDE = $rfp_url_id;
+ 				 $rfpItemIDE = $tmpRfp->get( $rfpItemIDE );
+		                 $rfpItemIDE = $tmpRfp->name();
+
+			   $rfpItemIDE = $rfpItem["ID"]; 		
+			 $rfpItem->id();
+					print("foolish: $rfpItemIDE ");
+
+				$tmpRfp->get( $rfpItemIDE );
+			
+
+
+
+$t->set_var( "rfp_name", $rfpItemIDE ."--------------------------------");
+
+		}else {
+			include_once( "ezfilemanager/classes/ezvirtualfile.php" );
+			$tmpRfp = new eZVirtualFile( $rfp_url_id );
+			$fileName = $file->name();
+			 $tmpRfpFile->get( $rfp_url_id );
+			       
+ $t->set_var( "rfp_name", $tmpRfp->name() );
+
+		}
+		 tmpRfp->name() /ie?
+	        $t->set_var( "bg_color", $i % 2 == 0 ? "bglight" : "bgdark" );
+
+
+	                $t->set_var( "view_count", '.....'.$rfpItem["Count"] );
+	
+		$item_count = $rfpItem["Count"];
+		 $item_count = 0;
+	        $t->set_var( "view_count", 't_count-> '. $item_count );
+		$item_count = '';
+                $t->set_var( "view_count", ''. $item_count );
+
+
+
+              $item_count = $rfpItem["Count"];
+              $item_count = 0;
+
+		if ( $item_count ) {
+		$x=0;
+		}
+
+		if( $item_count == 0 ) {
+        		$item_count = $item_count + 1;
+		}else {
+			$item_count = $item_count + 1;
+		}
+
+                
+$t->set_var( "item_view_count", 'item->> '. $item_count );
+
+                  $t->set_var( "item_view_count", ''. $item_count );
+
+		print($i);
+		print('->>>>>>>>> '.$rfpItem["Count"].'<br>');
+	
+	viewArray($rfpItem);
+
+########
+ inserted into existing loop
+
+################################
+
+viewArray($rfpArray);
+
+if ( !empty( $rfpArray ) )
+{
+    $i = 0;
+    foreach ( $rfpArray as $rfpItem )
+   {
+
+	                $rfpUserID = $rfp["UserID"];
+	  $rfpUserID = $rfpItem["UserID"];
+
+	 print($rfpItem["UserID"]);
+
+	               $rfpUser = new eZUser;
+
+              $rfpUser = $rfpUser->get( $rfpUserID );
+
+		$rfpUserID = $rfpItem["UserID"];
+
+		if ($rfpUserID != 0){
+			$rfpUser = new eZUser($rfpUserID);
+		} else {
+			 how do i get a user to say "Anonymouse Coward")
+			 do i need to create a user id, or what 
+			 exsting ez group user / s can i use?
+			$rfpUser = new eZUser(10);
+		}
+		
+		
+		                $rfpUserName = $rfpUserID;
+		
+		viewArray($rfpUser);
+		
+		$rfpUserName = $rfpUser->name();
+
+		                $rfpUserName =  $rfpUser->name();  
+		                $rfpUserID = $rfpUser->id();
+
+                 rhinkinf
+                $rfpQuery = new eZPageViewQuery();
+
+                 most viewed rfps
+		              $rfpReport =& $rfpQuery->topRfpDownloads(5,50);
+		                $rfpReport =& $rfpQuery->topRfpDownloads(5,50);
+
+		                $rfpsViewed = $rfpReport;
+
+ rfp & user view count additions
+######################################
+        $acount = $rfpArray[$idx]["Count"];
+        $rfpArray[$idx]["Count"] = $acount + $rfp["Count"];
+        $rfpArray[$idx]["Count"] = $rfp["Count"];
+######################################
+
+	$user_count = 0;
+	$user_count = $user_count + 1;
+        $t->set_var( "user_view_count", 'user_c->> '. $user_count );
+
+$t->set_var( "user_view_count", ''. $user_count );
+
+ print("\n<br /> helpEM|". $rfpItem["UserID"] ." HELPEM <br/>");
+
+if ($rfpItem["UserID"] == "0"){
+	$rfpItemUserIDD = "10";
+}else{
+	$rfpItemUserIDD = $rfpItem["UserID"];
+}
+
+
+
+$t->set_var( "bg_color", $i % 2 == 0 ? "bglight" : "bgdark" );
+
+
+
+if ( $loopUserID == $rfpItem["UserID"] ) {
+
+       $t->set_var( "viewed_by_user", "" );
+
+} elseif ( $loopUserID != $rfpItem["UserID"] ) {
+
+
+
+
+        $t->set_var( "rfp_download_user_name", $rfpUserName."_____________||||||||||||||||||||||||||||||||");
+
+        $t->set_var( "rfp_downloaded_user_id", $rfpItemUserIDD );
+
+        $t->set_var( "rfp_uri", $rfpItem["URI"] );
+
+        $blank=0;
+
+        $t->parse( "viewed_by_user", "viewed_by_user_tpl", true );
+
+
+
+
+
+}
+
+ which order
+        $t->parse( "viewed_by_user", "viewed_by_user_tpl", true );
+        $t->parse( "most_viewed_rfp", "most_viewed_rfp_tpl", true );
+        $t->parse( "viewed_by_user", "viewed_by_user_tpl", true );
+
+	 $loopUserID = $rfpItem["UserID"];
+	++$i;
+
+ }
+}
+else
+{
+    $t->set_var( "viewed_by_user", "" );
+}
+
+
+#####################################
+
+			
+			
+
+
+
+		++$i;
+}
+
+		} else {
+		 $loopID = $rfpItem["ID"];
+		  $t->set_var( "most_viewed_rfp", '' );
+		}
+
+
+
+
+
+    }
+}
+else
+{
+
+
+    $t->set_var( "most_viewed_rfp", "" );
+
+
+
+
+}
+
+####################################
+
+
+if ( !is_numeric( $Year ) || !is_numeric( $Month ) )
+{
+    $cur_date = new eZDate();
+    $Year = $cur_date->year();
+    $Month = $cur_date->month();
+}
+
+$query = new eZPageViewQuery();
+$tmprfp = new eZrfp();
+
+ most viewed rfps
+$rfpReport =& $query->topRfpRequests( );
+
+
+$rfpUserViewArray = array();
+foreach ( $rfpReport as $rfp )
+{
+if ( preg_match( "#^/rfp/rfpview/(.*?)/#", $rfp["URI"], $regTwoArray ) or preg_match( "#^/rfp/view/(.*?)/#", $rfp["URI"], $regTwoArray ) )    
+  {
+        $idx = $regTwoArray[1];
+
+        $count = $rfpUserViewArray[$idx]["Count"];
+
+        $rfpUserViewArray[$idx]["Count"] = $count + $rfp["Count"];
+        $rfpUserViewArray[$idx]["ID"] = $regTwoArray[1];
+        $rfpUserViewArray[$idx]["UserID"] = $regTwoArray[2];
+	 $rfpUserViewArray[$idx]["UserID"] = $rfp["UserID"];
+         $rfpUserViewArray[$idx]["URI"] = $rfp["URI"];
+
+    }
+print("b:<hr/>");
+
+
+}
+
+
+
+//############################################
+    
+
+*/
+
+
+?>

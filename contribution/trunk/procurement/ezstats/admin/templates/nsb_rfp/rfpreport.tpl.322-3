@@ -1,0 +1,66 @@
+<h1>{intl-rfp_report}</h1>
+
+<!-- BEGIN empty_rfp_header_tpl -->
+<br />
+<br />
+
+<br />
+<br />
+<br />
+
+<table class="list" width="75%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+        <th>
+        {intl-rfp_empty_record_set}
+	</th>     
+</tr>
+</table>
+<!-- END empty_rfp_header_tpl -->
+
+<!-- BEGIN most_viewed_rfp_header_tpl -->
+<span>	{intl-rfp_name}: </span>
+
+<span align="right">
+	<b>{intl-view_count}:</b>
+</span>
+<!-- END most_viewed_rfp_header_tpl -->
+
+<!-- BEGIN most_viewed_rfp_tpl -->
+
+<table class="list" width="60%" cellspacing="0" cellpadding="0" border="0">
+<tr class="{bg_color}">
+	<td>
+	<a class="subdiv" style="font-size: 14px; font-weight:normal; text-decoration: none;" href="http://ladivaloca.org/index.php{rfp_uri}">{rfp_name}</a>
+	<br />
+	<span>
+        <a class="subdiv" style="font-size: 13px; font-weight:normal; color: #7c7a6e; text-decoration: none;" href="http://ladivaloca.org/index.php{rfp_uri}">{rfp_uri}
+	</span>
+	</td>
+ 	<td align="right">
+         <span style="font-decoration: underline;">
+	 <b>{item_view_count}</b></span>
+	</td>
+</tr>
+
+<!-- BEGIN viewed_by_user_tpl -->
+<tr class="{user_bg_color}">
+        <td>
+	   <a class="subdiv" href="http://ladivaloca.org/index.php/rfp/author/view/{rfp_downloaded_user_id}">{rfp_download_user_name}</a>
+
+        </td>
+        <td align="right">
+ 	  {user_view_count}
+        </td>
+</tr>
+<!-- END viewed_by_user_tpl -->
+<tr>
+        <td>
+		&nbsp;
+        </td>
+        <td align="right">
+        	&nbsp;
+        </td>
+</tr>
+<!-- END most_viewed_rfp_tpl -->
+</table>
+

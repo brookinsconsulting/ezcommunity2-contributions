@@ -1,0 +1,6 @@
+<span>
+	<p>{intl-userlogin} <br />
+	{first_name} {last_name}</p>
+	<p class="navButts"><a href="{www_dir}{index}{user_edit_url}/{user_id}/">Preferences</a></p>
+	<p class="navButts"><a href="{www_dir}{index}{user_auth_url}">{logout}</a></p><br />
+</span>	

@@ -1,0 +1,135 @@
+<span>
+	<span>
+	<!-- BEGIN rfp_path_header_tpl -->
+		<!--
+		<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="">
+		-->
+		<!--
+		<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="">
+		-->
+		<span class="subdiv">/</span>
+		<a class="subdiv" href="{www_dir}{index}/rfp/archive/0/">{intl-top_level}</a>
+	<!-- END rfp_path_header_tpl -->
+	
+<!--
+		<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="">
+-->
+		<span class="subdiv">/</span>
+	<a class="subdiv" href="{www_dir}{index}/rfp/archive/10/">{intl-north_slope_burough_category}</a>
+	
+	<!-- BEGIN path_item_tpl -->
+<!--
+		<img src="{www_dir}/images/path-slash.gif" height="10" width="16" border="0" alt="">
+-->
+		<span class="subdiv">/</span>
+	<a class="subdiv" href="{www_dir}{index}/rfp/archive/{category_id}/">{category_name}</a>
+	<!-- END path_item_tpl -->
+	</span>
+
+	<span>
+	<!-- BEGIN rfp_header_tpl -->
+	<div> 
+		<br />
+		<h1>{rfp_name}</h1>
+<!-- <span class="byline"> &nbsp; </span> -->
+
+	        <!-- BEGIN rfp_author_list_tpl -->
+                <span class="subdiv">{intl-rfp_author}: </span><br />		
+		
+		<!-- BEGIN rfp_author_tpl -->
+		<div style="text-indent: 30pt;">
+		<a class="subdiv" href="{www_dir}{index}/rfp/author/view/{author_id}">{author_text}</a></div>
+		<!-- END rfp_author_tpl -->
+
+                <!-- END rfp_author_list_tpl -->
+		<br />
+		<span class="subdiv">{intl-rfp_date}: {rfp_created}</span><br />
+		<span class="subdiv">{intl-rfp_updated_date}: {rfp_modified}</span><br />
+		<span class="subdiv">{intl-rfp_responce_due_date}: {rfp_responce_due_date}</span><br />
+		<!-- BEGIN rfp_estimate_tpl -->
+		<span class="subdiv">{intl-rfp_project_estimate}: {intl-rfp_project_estimate_cash_sign} {rfp_project_estimate}</span>
+		<!-- END rfp_estimate_tpl -->
+	</div>
+	<!-- END rfp_header_tpl -->
+	<div class="subdiv">{rfp_body}</div>
+	<div>
+		<span>
+		<!-- BEGIN attached_file_list_tpl -->
+		<span>
+		<h1>{intl-attached_files}</h1>
+		<table class="list" width="100%" cellspacing="0" cellpadding="2" border="0">
+		<!-- BEGIN attached_file_tpl -->
+		<tr>
+		     <td width="81%" class="{td_class}">
+			<span style="font-size: 12px">
+		     <a href="{www_dir}{index}/filemanager/download/{file_id}/{original_file_name}">{file_name}</a>
+		     </span></td>
+		     <td width="19%" class="{td_class}" align="right">
+			<!--
+ 			     <div class="p"><a href="{www_dir}{index}/filemanager/download/{file_id}/{original_file_name}">( {original_file_name} {file_size}&nbsp;{file_unit} )</a></div>
+			-->
+ 
+			<div class="p"><span style="font-size: 10px"><a href="{www_dir}{index}/filemanager/download/{file_id}/{original_file_name}"> {file_size}&nbsp;{file_unit} </a></span></div>
+		     </td>
+		</tr>
+		<tr>
+		     <td colspan="2" class="{td_class}" valign="top">
+			<span style="font-size: 11px">{file_description}</span>
+		     </td>
+		</tr>
+		<!-- END attached_file_tpl -->
+		</table>
+		</span>
+		<!-- END attached_file_list_tpl -->
+
+		<!-- BEGIN image_list_tpl -->
+		<span>
+		<table class="list" width="100%" cellspacing="0" cellpadding="4" border="0">
+		<!-- BEGIN image_tpl -->
+		<tr>
+			<td width="1%" class="{td_class}" valign="top">
+			<img src="{www_dir}{image_url}" width="{image_width}" height="{image_height}" border="0" alt="{image_caption}" align="left" />
+			<span class="p">{image_caption}</span>
+			</td>
+		</tr>
+		<!-- END image_tpl -->
+		</table>
+		</span>
+		<!-- END image_list_tpl -->
+
+
+		<!-- BEGIN attribute_list_tpl -->
+		<span>
+		<!-- BEGIN type_item_tpl -->
+		<h2>{type_name}</h2>
+		<!-- BEGIN attribute_item_tpl -->
+		<p class="boxtext">{attribute_name}:</p>
+		<span class="p">{attribute_value}</span><br />
+		<!-- END attribute_item_tpl -->
+		<!-- END type_item_tpl -->
+		</span>
+		<!-- END attribute_list_tpl -->
+
+		<span>
+		<!-- BEGIN prev_page_link_tpl -->
+		<a class="path" href="{www_dir}{index}/rfp/rfpview/{rfp_id}/{prev_page_number}/{category_id}/">&lt;&lt; {intl-prev_page}</a>
+		<!-- END prev_page_link_tpl -->
+
+		<!-- BEGIN page_link_tpl -->
+		| <a class="path" href="{www_dir}{index}/rfp/rfpview/{rfp_id}/{page_number}/{category_id}/">{page_number}</a>	
+		<!-- END page_link_tpl -->
+
+		&nbsp;
+
+		<!-- BEGIN current_page_link_tpl -->
+		| <span class="p"> &lt;&nbsp;{page_number}&nbsp;&gt; </span>
+		<!-- END current_page_link_tpl -->
+
+		<!-- BEGIN next_page_link_tpl -->
+		| <a class="path" href="{www_dir}{index}/rfp/rfpview/{rfp_id}/{next_page_number}/{category_id}/">{intl-next_page} &gt;&gt;</a>
+		<!-- END next_page_link_tpl -->
+		</span>
+	</span>
+</div>
+
+</span>

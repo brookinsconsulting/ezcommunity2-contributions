@@ -1,0 +1,44 @@
+php_flag magic_quotes_gpc off
+
+<IfModule mod_rewrite.c>
+      RewriteEngine On
+
+      RewriteRule ^/stats/store/(.*).gif$ /home/ladiva/public_html/ezstats/user/storestats.php [L]
+      RewriteRule ^/filemanager/filedownload/([^/]+)/(.*)$ /home/ladiva/public_html/ezfilemanager/files/$1 [T="application/oct-stream",L]
+
+
+# site:   ladivaloca.org/rfp/view/3/1/20/
+    RewriteCond %{HTTP_HOST} ^ladivaloca\.org$
+    RewriteRule !\.(ico|gif|css|jpg|png|jar)$ /home/ladiva/public_html/index.php
+
+# site:   www.ladivaloca.org/rfp/view/3/1/20/
+    RewriteCond %{HTTP_HOST} ^www\.ladivaloca\.org$
+    RewriteRule !\.(ico|gif|css|jpg|png|jar) /home/ladiva/public_html/index.php
+
+# admin:  admin.ladivaloca.org/
+    RewriteCond %{HTTP_HOST} ^admin\.ladivaloca\.org$
+    RewriteRule !\.(ico|gif|css|jpg|png|jar) /home/adminll/public_html/index_admin.php
+
+</IfModule>
+
+#   <Limit GET>
+#   order deny,allow
+#   require valid-user
+#   </Limit>
+
+# Apache 2.0 Virtual Host Replacement Authentication line . . . way cracked out hack
+ <Files "index_admin.php">
+   AuthUserFile /home/ladiva/public_html/admin/admin.acl
+   AuthName "North Slope Borough Administration"
+   AuthType Basic
+   Require valid-user
+</Files>
+
+#ErrorDocument 401 http://ladivaloca.org/
+
+ErrorDocument 402 http://ladivaloca.org/
+ErrorDocument 403 http://ladivaloca.org/
+ErrorDocument 404 http://ladivaloca.org/
+ErrorDocument 408 http://ladivaloca.org/
+ErrorDocument 500 http://ladivaloca.org/
+
