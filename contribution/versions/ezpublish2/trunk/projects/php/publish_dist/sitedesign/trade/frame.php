@@ -115,7 +115,7 @@ else
 	?>
 
     <?
-	include( "eztrade/user/smallcart.php" );    
+//	include( "eztrade/user/smallcart.php" );    
 	?>
     
 	<hr noshade="noshade" size="4" />

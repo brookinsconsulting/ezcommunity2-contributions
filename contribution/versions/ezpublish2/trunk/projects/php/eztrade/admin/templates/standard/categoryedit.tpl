@@ -68,6 +68,13 @@
 </tr>
 </table>
 
+	<p class="boxtext">{intl-section_select}:</p>
+	<select name="SectionID">
+	<!-- BEGIN section_item_tpl -->
+	<option value="{section_id}" {section_is_selected}>{section_name}</option>
+	<!-- END section_item_tpl -->
+	</select>
+
 
 <p class="boxtext">{intl-th_type_current_image}:</p>
 

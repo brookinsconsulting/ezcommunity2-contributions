@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: voucherinformation.php,v 1.5 2001/09/05 08:16:01 ce Exp $
+// $Id: voucherinformation.php,v 1.6 2001/09/19 12:58:01 ce Exp $
 //
 // Created on: <06-Aug-2001 13:02:18 ce>
 //
@@ -37,8 +37,7 @@ include_once( "ezuser/classes/ezuser.php" );
 include_once( "ezuser/classes/ezuser.php" );
 
 include_once( "eztrade/classes/ezproduct.php" );
-include_once( "eztrade/classes/ezvouchersmail.php" );
-include_once( "eztrade/classes/ezvoucheremail.php" );
+include_once( "eztrade/classes/ezvoucherinformation.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "ezsession/classes/ezsession.php" );
 
@@ -51,8 +50,6 @@ $t->set_file( "voucher_tpl", "voucherinformation.tpl" );
 
 $t->set_block( "voucher_tpl", "email_tpl", "email" );
 $t->set_block( "voucher_tpl", "smail_tpl", "smail" );
-$t->set_block( "voucher_tpl", "next_tpl", "next" );
-$t->set_block( "voucher_tpl", "ok_tpl", "ok" );
 
 $t->set_var( "email_var", "" );
 $t->set_var( "smail_var", "" );
@@ -68,35 +65,21 @@ $t->set_var( "country_name", "" );
 
 $user =& eZUser::currentUser();
 
-$voucherIDArray = $session->arrayValue( "VoucherID" );
-$voucherMail = $session->arrayValue( "VoucherMail" );
+$product = new eZProduct( $ProductID );
 
-$preOrderID = $session->variable( "PreOrderID" );
-
-if ( ( isSet ( $Next ) || isSet ( $OK ) ) && ( is_numeric( $preOrderID ) ) )
+if ( $product && isSet( $OK ) )
 {
-    $product = new eZProduct( $ProductID );
-
-    $voucher = new eZVoucher();
-
-    $voucher->setPrice( $product->price() );
-    $voucher->setAvailable( false );
-    $voucher->setUser( $user );
-    
-    if ( $MailType == 1 )
+    $voucherInfo = new eZVoucherInformation();
+            
+    if ( $MailMethod == 1 )
     {
-        $voucher->setMailMethod( 1 );
-        $voucherInfo = new eZVoucherEMail();
         $online = new eZOnline();
         $online->setUrl( $Email );
         $online->store();
         $voucherInfo->setEmail( $online );
-        
     }
-    else if ( $MailType == 2 )
+    else if ( $MailMethod == 2 )
     {
-        $voucher->setMailMethod( 2 );
-        $voucherInfo = new eZVoucherSMail();
         $address = new eZAddress();
         $address->setName( $Name );
         $address->setStreet1( $Street1 );
@@ -104,76 +87,44 @@ if ( ( isSet ( $Next ) || isSet ( $OK ) ) && ( is_numeric( $preOrderID ) ) )
         $address->setZip( $Zip );
         $address->setPlace( $Place );
         $address->store();
-
         $voucherInfo->setAddress( $address );
     }
-    $voucher->store();
-    $voucherInfo->setPreOrder( $preOrderID );
-    $voucherInfo->setDescription( $Description );
-    $voucherInfo->setVoucher( $voucher );
-
-    $session->setArray( "AddedVouchers", array( $voucher->id() ), true );
     
+    $voucherInfo->setDescription( $Description );
+    $voucherInfo->setPrice( $PriceRange );
+
     $voucherInfo->store();
 
-    if ( isSet ( $OK ) )
+    $voucherInformationID = $voucherInfo->id();
+
+    $session->setVariable( "MailMethod", $MailMethod );
+    $session->setVariable( "VoucherInformationID", $voucherInformationID );
+
+    if ( isSet ( $OK ) && $voucherInformationID )
     {
-        eZHTTPTool::header( "Location: /trade/payment/" );
+        eZHTTPTool::header( "Location: /trade/cart/add/$ProductID/" );
         exit();
     }
 }
-else
-$session->setArray( "AddedVouchers", array() );
-
-$voucherID = $voucherIDArray[$Key];
-$mailID = $voucherMail[$Key];
-
-if ( is_numeric( $voucherID ) )
+else if ( $product )
 {
-    $locale = new eZLocale( $Language );
-    $product = new eZProduct( $voucherID );
-    $t->set_var( "product_name", $product->name() );
-
-    if ( $PricesIncludeVAT == "enabled" )
-    {
-        $totalVAT = $product->addVAT( $price );
-        $price = $product->price() + $totalVAT;
-    }
-    else
-        $price = $product->price();
-
-    $priceobj = new eZCurrency( $price );
-    
-    $t->set_var( "product_price", $locale->format( $priceobj ) );
-
-    if ( $mailID == 1 )
+    if ( $MailMethod == 1 )
     {
         $t->set_var( "smail", "" );
-        $t->set_var( "mail_type", "1" );
         $t->parse( "email", "email_tpl" );
     }
-    else if ( $mailID == 2 )
+    else if ( $MailMethod == 2 )
     {
-        $t->set_var( "mail_type", "2" );
         $t->set_var( "email", "" );
         $t->parse( "smail", "smail_tpl" );
     }
+
+    $t->set_var( "mail_method", $MailMethod );
+    $t->set_var( "product_name", $product->name() );
+    $t->set_var( "product_id", $product->id() );
+    $t->set_var( "product_price", $PriceRange );
 }
 
-if ( is_numeric( $voucherIDArray[$Key+1] ) )
-{
-    $t->set_var( "url_arg", $Key+1 );
-    $t->set_var( "ok", "" );
-    $t->parse( "next", "next_tpl" );
-}
-else
-{
-    $t->set_var( "url_arg", "" );
-    $t->set_var( "next", "" );
-    $t->parse( "ok", "ok_tpl" );
-}
-
-$t->set_var( "product_id", $voucherID );
 
 $t->pparse( "output", "voucher_tpl" );
 

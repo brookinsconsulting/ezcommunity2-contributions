@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productview.php,v 1.64 2001/09/17 11:48:00 pkej Exp $
+// $Id: productview.php,v 1.65 2001/09/19 12:58:01 ce Exp $
 //
 // Created on: <24-Sep-2000 12:20:32 bf>
 //
@@ -219,13 +219,21 @@ else
 $t->set_var( "intro_text", $product->brief() );
 $t->set_var( "description_text", $product->description() );
 
+if ( $product->productType() == 2 )
+{
+    $t->set_var( "action_url", "voucherinformation" );
+}
+else
+{
+    $t->set_var( "action_url", "cart/add" );
+}
+
 $images = $product->images();
 
 $i = 0;
 $t->set_var( "image", "" );
 $t->set_var( "image_list", "" );
 $image_count = 0;
-
 
 foreach ( $images as $imageArray )
 {
@@ -523,6 +531,7 @@ if ( $ShowQuantity and $product->hasPrice() )
 
 $t->set_var( "price", "" );
 $t->set_var( "add_to_cart", "" );
+
 
 if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
      $ShowPrice and $product->showPrice() == true and $product->hasPrice()  )

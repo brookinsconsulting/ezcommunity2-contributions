@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezproductcategory.php,v 1.47 2001/09/05 12:21:54 ce Exp $
+// $Id: ezproductcategory.php,v 1.48 2001/09/19 12:58:01 ce Exp $
 //
 // Definition of eZProductCategory class
 //
@@ -120,7 +120,7 @@ class eZProductCategory
             $nextID = $db->nextID( "eZTrade_Category", "ID" );
 
             $res = $db->query( "INSERT INTO eZTrade_Category
-                                ( ID, Name, Description, SortMode, RemoteID, ImageID, Parent )
+                                ( ID, Name, Description, SortMode, RemoteID, ImageID, SectionID, Parent )
                                 VALUES
                                 ( '$nextID',
                                   '$name',
@@ -128,6 +128,7 @@ class eZProductCategory
                                   '$this->SortMode',
                                   '$remoteID',
                                   '$this->ImageID',
+                                  '$this->SectionID',
                                   '$this->Parent' )
                                 " );
 
@@ -142,6 +143,7 @@ class eZProductCategory
                                  SortMode='$this->SortMode',
                                  RemoteID='$this->RemoteID',
                                  ImageID='$this->ImageID',
+                                 SectionID='$this->SectionID',
                                  Parent='$this->Parent' WHERE ID='$this->ID'" );
         }
 
@@ -219,6 +221,7 @@ class eZProductCategory
                 $this->SortMode =& $category_array[0][$db->fieldName( "SortMode" )];
                 $this->RemoteID =& $category_array[0][$db->fieldName( "RemoteID" )];
                 $this->ImageID =& $category_array[0][$db->fieldName( "ImageID" )];
+                $this->SectionID =& $category_array[0][$db->fieldName( "SectionID" )];
                 $ret = true;
             }
         }
@@ -362,6 +365,14 @@ class eZProductCategory
     }
 
     /*!
+      Returns the remote ID of the category.
+    */
+    function sectionID()
+    {
+        return $this->SectionID;
+    }
+
+    /*!
       Returns the group description.
     */
     function &description()
@@ -443,6 +454,14 @@ class eZProductCategory
     function setRemoteID( &$value )
     {
         $this->RemoteID = $value;
+    }
+
+    /*!
+      Sets the remote ID of the category.
+    */
+    function setSectionID( &$value )
+    {
+        $this->SectionID = $value;
     }
 
     /*!
@@ -924,6 +943,7 @@ class eZProductCategory
     var $SortMode;
     var $RemoteID;
     var $ImageID;
+    var $SectionID;
 }
 
 ?>

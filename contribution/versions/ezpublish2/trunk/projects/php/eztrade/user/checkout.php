@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: checkout.php,v 1.91 2001/09/18 06:05:58 br Exp $
+// $Id: checkout.php,v 1.92 2001/09/19 12:58:01 ce Exp $
 //
 // Created on: <28-Sep-2000 15:52:08 bf>
 //
@@ -187,29 +187,8 @@ if ( isSet( $SendOrder ) )
     
     $session->setVariable( "ShippingTypeID", eZHTTPTool::getVar( "ShippingTypeID", true ) );
 
-    if ( count( $VoucherIDArray ) > 0 )
-    {
-        $i=0;
-        $voucherInfo = array();
-
-        foreach ( $VoucherIDArray as $voucher )
-        {
-            $voucherMail[] = eZHTTPTool::getVar( "MailType-" . $voucher );
-            $voucherID[] = $voucher;
-            $i++;
-        }
-
-        $session->setArray( "VoucherMail", $voucherMail );
-        $session->setArray( "VoucherID", $voucherID );
-        $session->setVariable( "VoucherInfo", $voucherSession );
-        eZHTTPTool::header( "Location: /trade/voucherinformation/0" );
-        exit();
-    }
-    else
-    {
-        eZHTTPTool::header( "Location: /trade/payment/" );
-        exit();
-    }
+    eZHTTPTool::header( "Location: /trade/payment/" );
+    exit();
 }
 
 // show the shipping types

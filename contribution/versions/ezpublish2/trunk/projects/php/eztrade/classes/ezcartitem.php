@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezcartitem.php,v 1.24 2001/09/17 13:23:00 ce Exp $
+// $Id: ezcartitem.php,v 1.25 2001/09/19 12:58:01 ce Exp $
 //
 // Definition of eZCartItem class
 //
@@ -49,6 +49,7 @@ include_once( "eztrade/classes/ezcartoptionvalue.php" );
 include_once( "eztrade/classes/ezwishlistitem.php" );
 include_once( "eztrade/classes/ezproduct.php" );
 include_once( "eztrade/classes/ezpricegroup.php" );
+include_once( "eztrade/classes/ezvoucherinformation.php" );
 
 class eZCartItem
 {
@@ -85,15 +86,14 @@ class eZCartItem
             $nextID = $db->nextID( "eZTrade_CartItem", "ID" );            
             
             $res = $db->query( "INSERT INTO eZTrade_CartItem
-                      ( ID, ProductID, CartID, Count, WishListItemID, MailMethod, PriceRange )
+                      ( ID, ProductID, CartID, Count, WishListItemID, VoucherInformationID )
                       VALUES
                       ( '$nextID',
                         '$this->ProductID',
                         '$this->CartID',
                         '$this->Count',
                         '$this->WishListItemID',
-                        '$this->MailMethod',
-                        '$this->PriceRange' )
+                        '$this->VoucherInformationID' )
                       " );
 
             $db->unlock();
@@ -107,8 +107,7 @@ class eZCartItem
 		                         CartID='$this->CartID',
 		                         Count='$this->Count',
 		                         WishListItemID='$this->WishListItemID',
-                                 MailMethod='$this->MailMethod',
-                                 PriceRange='$this->PriceRange'
+                                 VoucherInformationID='$this->VoucherInformationID'
                                  WHERE ID='$this->ID'
                                  " );
         }
@@ -143,8 +142,7 @@ class eZCartItem
                 $this->CartID = $cart_array[0][$db->fieldName( "CartID" )];
                 $this->Count = $cart_array[0][$db->fieldName( "Count" )];
                 $this->WishListItemID = $cart_array[0][$db->fieldName( "WishListItemID" )];
-                $this->PriceRange = $cart_array[0][$db->fieldName( "PriceRange" )];
-                $this->MailMethod = $cart_array[0][$db->fieldName( "MailMethod" )];
+                $this->VoucherInformationID = $cart_array[0][$db->fieldName( "VoucherInformationID" )];
                 $ret = true;
             }
         }
@@ -222,16 +220,6 @@ class eZCartItem
     }
 
     /*!
-      Returns the mailmethod.
-      1 = email
-      2 = smail
-    */
-    function mailMethod( )
-    {
-        return $this->MailMethod;
-    }
-
-    /*!
       Returns the correct localized price of the product.
     */
     function localePrice( $calcCount=true, $withOptions=true, $calcVAT )
@@ -254,52 +242,48 @@ class eZCartItem
     */
     function correctPrice( $calcCount=true, $withOptions=true, $calcVAT )
     {
-        if ( !$this->PriceRange )
+        $optionValues =& $this->optionValues();
+        $product =& $this->product();
+            
+        $optionPrice = 0.0;
+        if ( $withOptions )
         {
-            $optionValues =& $this->optionValues();
-            $product =& $this->product();
-            
-            $optionPrice = 0.0;
-            if ( $withOptions )
+            foreach ( $optionValues as $optionValue )
             {
-                foreach ( $optionValues as $optionValue )
-                {
-                    $option =& $optionValue->option();
-                    $value =& $optionValue->optionValue();            
+                $option =& $optionValue->option();
+                $value =& $optionValue->optionValue();            
                     
-                    $price = $value->correctPrice( $calcVAT, $product );
+                $price = $value->correctPrice( $calcVAT, $product );
                         
-                    if ( $calcCount == true )
-                        $price = $price * $optionValue->count();
+                if ( $calcCount == true )
+                    $price = $price * $optionValue->count();
                     
-                    $optionPrice+=$price;
-                }
+                $optionPrice+=$price;
             }
+        }
             
-            if ( $calcCount == true )
-            {
-                $price = ( $product->correctPrice( $calcVAT ) * $this->count() ) + $optionPrice;
-            }
-            else
-            {
-                $price = ( $product->correctPrice( $calcVAT ) + $optionPrice );
-            }
+        if ( $calcCount == true )
+        {
+            $price = ( $product->correctPrice( $calcVAT ) * $this->count() ) + $optionPrice;
         }
         else
         {
+            $price = ( $product->correctPrice( $calcVAT ) + $optionPrice );
+        }
+
+        $voucherInfo =& $this->voucherInformation();
+
+        if ( $voucherInfo )
+        {
             if ( $calcCount == true )
             {
-                if ( $this->count() )
-                    $price = $this->PriceRange * $this->count();
-                else
-                    $price = $this->PriceRange;
+                $price = ( $voucherInfo->correctPrice( $calcVAT, $product ) * $this->count() ) + $optionPrice;
             }
             else
             {
-                $price = $this->PriceRange;
+                $price = ( $voucherInfo->correctPrice( $calcVAT, $product ) + $optionPrice );
             }
         }
-
 
         return $price;        
     }
@@ -311,72 +295,53 @@ class eZCartItem
     */
     function price( $calcCount=true, $withOptions=true )
     {
-        if ( !$this->PriceRange )
+        $optionValues =& $this->optionValues();
+        $product =& $this->product();
+            
+        $optionPrice = 0.0;
+        if ( $withOptions )
         {
-            $optionValues =& $this->optionValues();
-            $product =& $this->product();
-            
-            $optionPrice = 0.0;
-            if ( $withOptions )
+            foreach ( $optionValues as $optionValue )
             {
-                foreach ( $optionValues as $optionValue )
+                $option =& $optionValue->option();
+                $value =& $optionValue->optionValue();            
+                    
+                // the pricegroup is set in the datasupplier
+                    
+                $PriceGroup = $GLOBALS["PriceGroup"];
+                    
+                // get the value price if exists
+                $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup,
+                $option->id(), $value->id() );
+                    
+                $found_price = false;
+                    
+                if ( $price )
                 {
-                    $option =& $optionValue->option();
-                    $value =& $optionValue->optionValue();            
-                    
-                    // the pricegroup is set in the datasupplier
-                    
-                    $PriceGroup = $GLOBALS["PriceGroup"];
-                    
-                    // get the value price if exists
-                    $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup,
-                    $option->id(), $value->id() );
-                    
-                    $found_price = false;
-                    
-                    if ( $price )
-                    {
-                        $found_price = true;
-                    }
-                    
-                    // if not fetch the standard price
-                    if ( !$found_price )
-                    {
-                        if ( $calcCount == true )
-                            $price = $value->price() * $optionValue->count();
-                        else
-                            $price = $value->price();
-                    }
-                    
-                    $optionPrice += $price;
+                    $found_price = true;
                 }
+                    
+                // if not fetch the standard price
+                if ( !$found_price )
+                {
+                    if ( $calcCount == true )
+                        $price = $value->price() * $optionValue->count();
+                    else
+                        $price = $value->price();
+                }
+                    
+                $optionPrice += $price;
             }
+        }
             
-            if ( $calcCount == true )
-            {
-                $price = ( $product->price() * $this->count() ) + $optionPrice;
-            }
-            else
-            {
-                $price = ( $product->price() + $optionPrice );
-            }
+        if ( $calcCount == true )
+        {
+            $price = ( $product->price() * $this->count() ) + $optionPrice;
         }
         else
         {
-            if ( $calcCount == true )
-            {
-                if ( $this->count() )
-                    $price = $this->PriceRange * $this->count();
-                else
-                    $price = $this->PriceRange;
-            }
-            else
-            {
-                $price = $this->PriceRange;
-            }
+            $price = ( $product->price() + $optionPrice );
         }
-
-
         return $price;        
     }
 
@@ -419,13 +384,28 @@ class eZCartItem
     }
 
     /*!
-      Sets the price range.
-      1 = email
-      2 = smail
+      Sets the mail.
     */
-    function setPriceRange( $value )
+    function setMail( $value )
     {
-       $this->PriceRange = $value;
+       $this->MailID = $value;
+    }
+
+    /*!
+      Returns the mail.
+    */
+    function mail( $asObject=true )
+    {
+        if ( $asObject )
+        {
+            if ( $this->MailMethod == 1 )
+                $ret = new eZOnline( $this->MailID );
+            else if ( $this->MailID == 2 )
+                $ret = new eZAddress( $this->MailID );
+        }
+        else
+            $ret = $this->MailID;
+        return $ret;
     }
 
     /*!
@@ -437,6 +417,17 @@ class eZCartItem
        {
            $this->WishListItemID = $wishlist->id();
        }
+    }
+
+    /*!
+      Sets the wishlist item.
+    */
+    function setVoucherInformation( $value )
+    {
+       if ( get_class( $value ) == "ezvoucherinformation" )
+           $this->InformationID = $value->id();
+       else if ( is_numeric ( $value ) )
+           $this->InformationID = $value;
     }
 
     /*!
@@ -454,6 +445,20 @@ class eZCartItem
        return $ret;
     }
     
+    /*!
+      Returns the voucher information.
+    */
+    function &voucherInformation()
+    {
+       $ret = false;
+       
+       if ( ( $this->VoucherInformationID != 0 ) && is_numeric( $this->VoucherInformationID ) )
+       {
+           $ret = new eZVoucherInformation( $this->VoucherInformationID );
+       }
+
+       return $ret;
+    }
     
     /*!
       Returns all the option values as an array of eZCartOptionValue objects.
@@ -481,8 +486,7 @@ class eZCartItem
     var $ProductID;
     var $CartID;
     var $Count;
-    var $MailMethod=0;
-    var $PriceRange=false;
+    var $VoucherInformationID;
     
     /// ID to a wishlist item. Indicates which wishlistitem the cart item comes from. 0 if added from product.
     var $WishListItemID;

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productedit.php,v 1.62 2001/09/10 14:40:19 pkej Exp $
+// $Id: productedit.php,v 1.63 2001/09/19 12:58:00 ce Exp $
 //
 // Created on: <19-Sep-2000 10:56:05 bf>
 //
@@ -142,7 +142,7 @@ if ( $Action == "Insert" )
         $product->setShowPrice( false );
     }
 
-    if ( $MarkAsVoucher == "on" )
+    if ( $UseVoucher == true )
     {
         $product->setProductType( 2 );
     }
@@ -382,7 +382,7 @@ if ( $Action == "Update" )
         $product->setShowPrice( false );
     }
 
-    if ( $MarkAsVoucher == "on" )
+    if ( $UseVoucher == true )
     {
         $product->setProductType( 2 );
     }
@@ -423,7 +423,7 @@ if ( $Action == "Update" )
 
     if ( $product->productType() == 2 )
     {
-        $range = $product->priceRange();
+        $range =& $product->priceRange();
         $range->setMin( $MinPrice );
         $range->setMax( $MaxPrice );
         $range->store();
@@ -758,6 +758,11 @@ if ( $Action == "Edit" )
         $PriceGroupID[] = $price["PriceID"];
     }
 
+    if ( $UseVoucher )
+    {
+        $priceRange =& $product->priceRange();
+    }
+
     $writeGroupsID = eZObjectPermission::getGroups( $ProductID, "trade_product", 'w' , false );
     $readGroupsID = eZObjectPermission::getGroups( $ProductID, "trade_product", 'r', false );
 
@@ -767,11 +772,16 @@ if ( $Action == "Edit" )
 
 if ( $UseVoucher )
 {
+    $t->set_var( "price_max", $priceRange->max() );
+    $t->set_var( "price_min", $priceRange->min() );
+
+    $t->set_var( "url_action", "voucher" );
     $t->set_var( "normal_price", "" );
     $t->parse( "price_range", "price_range_tpl" );
 }
 else
 {
+    $t->set_var( "url_action", "productedit" );
     $t->set_var( "price_range", "" );
     $t->parse( "normal_price", "normal_price_tpl" );
 }

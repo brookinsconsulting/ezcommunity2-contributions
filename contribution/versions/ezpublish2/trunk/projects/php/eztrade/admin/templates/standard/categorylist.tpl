@@ -130,7 +130,7 @@
 	</td>
 	<!-- END absolute_placement_item_tpl -->
 	<td width="1%" class="{td_class}">
-	<a href="{www_dir}{index}/trade/productedit/edit/{product_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezti{product_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezti{product_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
+	<a href="{www_dir}{index}/trade/{url_action}/edit/{product_id}/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('ezti{product_id}-red','','/admin/images/{site_style}/redigerminimrk.gif',1)"><img name="ezti{product_id}-red" border="0" src="{www_dir}/admin/images/{site_style}/redigermini.gif" width="16" height="16" align="top" border="0" alt="Edit" /></a>
 	</td>
 	<td class="{td_class}" width="1%" align="center">
 	<input type="checkbox" name="ProductArrayID[]" value="{product_id}">

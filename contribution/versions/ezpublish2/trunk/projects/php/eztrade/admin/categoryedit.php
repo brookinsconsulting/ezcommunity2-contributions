@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categoryedit.php,v 1.21 2001/09/03 15:53:29 ce Exp $
+// $Id: categoryedit.php,v 1.22 2001/09/19 12:58:00 ce Exp $
 //
 // Created on: <18-Sep-2000 14:46:19 bf>
 //
@@ -36,7 +36,7 @@ if ( isset ( $DeleteCategories ) )
 {
     $Action = "DeleteCategories";
 }
-
+include_once( "ezsitemanager/classes/ezsection.php" );
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 
@@ -65,7 +65,7 @@ if ( $Action == "Insert" )
     $category->setName( $Name );
     $category->setParent( $parentCategory );
     $category->setDescription( $Description );
-
+    $category->setSectionID( $SectionID );
     $category->setSortMode( $SortMode );
 
     $file = new eZImageFile();
@@ -160,7 +160,7 @@ if ( $Action == "Update" )
     $category->setName( $Name );
     $category->setParent( $parentCategory );
     $category->setDescription( $Description );
-
+    $category->setSectionID( $SectionID );
     $category->setSortMode( $SortMode );
 
     $file = new eZImageFile();
@@ -334,6 +334,8 @@ $t->set_block( "category_edit_tpl", "image_item_tpl", "image_item" );
 
 $t->set_block( "category_edit_tpl", "read_group_item_tpl", "read_group_item" );
 $t->set_block( "category_edit_tpl", "write_group_item_tpl", "write_group_item" );
+$t->set_block( "category_edit_tpl", "section_item_tpl", "section_item" );
+
 
 $headline = new INIFIle( "eztrade/admin/intl/" . $Language . "/categoryedit.php.ini", false );
 $t->set_var( "head_line", $headline->read_var( "strings", "head_line_insert" ) );
@@ -393,6 +395,8 @@ if ( $Action == "Edit" )
         }
         break;
     }
+
+    $sectionID = $category->sectionID();
 
     $image =& $category->image( true );
     if ( get_class( $image ) == "ezimage" && $image->id() != 0 )
@@ -460,6 +464,27 @@ foreach ( $categoryArray as $catItem )
         $t->parse( "value", "value_tpl", true );
     }
 }
+
+$sectionList =& eZSection::getAll();
+
+if ( count( $sectionList ) > 0 )
+{
+    foreach ( $sectionList as $section )
+    {
+        $t->set_var( "section_id", $section->id() );
+        $t->set_var( "section_name", $section->name() );
+        
+        if ( $sectionID == $section->id() )
+            $t->set_var( "section_is_selected", "selected" );
+        else
+            $t->set_var( "section_is_selected", "" );
+        
+        $t->parse( "section_item", "section_item_tpl", true );
+    }
+}
+else
+    $t->set_var( "section_item", "" );
+
 
 // group selector
 $group = new eZUserGroup();

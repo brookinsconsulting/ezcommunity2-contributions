@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: cart.php,v 1.64 2001/09/17 09:18:55 ce Exp $
+// $Id: cart.php,v 1.65 2001/09/19 12:58:01 ce Exp $
 //
 // Created on: <27-Sep-2000 11:57:49 bf>
 //
@@ -294,8 +294,19 @@ if ( $Action == "AddToBasket" )
 
                 $cartItem->setProduct( $product );
                 $cartItem->setCart( $cart );
-                $cartItem->setPriceRange( $PriceRange );
 
+                $mailMethod = $session->variable( "MailMethod" );
+                $voucherInformationID = $session->variable( "VoucherInformationID" );
+
+                $cartItem->setMail( $voucherInformationID );
+                
+                if ( $mailMethod == 0 )
+                    $cartItem->setMailMethod( 0 );
+                else if ( $MailMethod == 1 )
+                    $cartItem->setMailMethod( 1 );
+                else if ( $MailMethod == 2 )
+                    $cartItem->setMailMethod( 2 );
+                
                 $cartItem->store();
                 if ( count( $OptionValueArray ) > 0 )
                 {

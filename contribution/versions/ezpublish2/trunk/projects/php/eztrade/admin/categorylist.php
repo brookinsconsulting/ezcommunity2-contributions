@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: categorylist.php,v 1.30 2001/09/10 14:40:19 pkej Exp $
+// $Id: categorylist.php,v 1.31 2001/09/19 12:58:00 ce Exp $
 //
 // Created on: <13-Sep-2000 14:56:11 bf>
 //
@@ -273,10 +273,12 @@ foreach ( $productList as $product )
     // If product type == 1, render the product object as a voucher
     if ( $product->productType() == 1 )
     {
+        $t->set_var( "url_action", "productedit" );
         $t->parse( "product_icon", "product_icon_tpl" );
     }
     if ( $product->productType() == 2 )
     {
+        $t->set_var( "url_action", "voucher" );
         $t->parse( "voucher_icon", "voucher_icon_tpl" );
     }
 

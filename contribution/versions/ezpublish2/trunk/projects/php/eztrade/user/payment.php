@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: payment.php,v 1.72 2001/09/17 11:24:47 pkej Exp $
+// $Id: payment.php,v 1.73 2001/09/19 12:58:01 ce Exp $
 //
 // Created on: <02-Feb-2001 16:31:53 bf>
 //
@@ -878,6 +878,21 @@ if ( $PaymentSuccess == "true" )
         {
             deleteCache( $product, false, false, false );
         }
+
+        // Create vouchers
+        $voucherInfo =& $item->voucherInformation();
+        if ( $item->voucherInformation() )
+        {
+            $voucher = new eZVoucher( );
+            $voucher->generateKey();
+            $voucher->setAvailable( true );
+            $voucher->setUser( $user );
+            $voucher->setPrice( $voucherInfo->price() );
+            $voucher->store();
+            $voucherInfo->setVoucher( $voucher );
+            $voucherInfo->store();
+            $voucherInfo->sendMail();
+        }
     }
     
     //
@@ -893,24 +908,6 @@ if ( $PaymentSuccess == "true" )
     $preOrder = new eZPreOrder( $PreOrderID );
     $preOrder->setOrderID( $OrderID );
     $preOrder->store();
-
-    $vouchers = $session->arrayValue( "AddedVouchers" );
-
-    if ( is_array ( $vouchers ) )
-    {
-        foreach( $vouchers as $voucherID )
-        {
-            $voucher = new eZVoucher( $voucherID);
-            $voucher->generateKey();
-            $voucher->setAvailable( true );
-            $voucher->store();
-            $voucher->sendMail();
-        }
-        $session->setVariable( "AddedVouchers", "" );
-        $session->setVariable( "VoucherInfo", "" );
-        $session->setVariable( "VoucherID", "" );
-        $session->setVariable( "VoucherMail", "" );
-    }
 
     $payedWith = $session->arrayValue( "PayedWith" );
 
@@ -946,6 +943,8 @@ if ( $PaymentSuccess == "true" )
 
     $session->setVariable( "SSLMode", "" );
 
+
+    exit();
     eZHTTPTool::header( "Location: http://$HTTP_HOST/trade/ordersendt/$OrderID/" );
     exit();
 }

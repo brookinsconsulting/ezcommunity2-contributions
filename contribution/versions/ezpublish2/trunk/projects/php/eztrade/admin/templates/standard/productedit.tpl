@@ -1,4 +1,4 @@
-<form method="post" action="{www_dir}{index}/trade/productedit/{action_value}/">
+<form method="post" action="{www_dir}{index}/trade/{url_action}/{action_value}/">
 
 <h1>{intl-head_line}</h1>
 

@@ -150,7 +150,7 @@
 </table>
 <!-- END attribute_list_tpl -->
 
-<form action="{www_dir}{index}/{module}/cart/add/{product_id}/" method="post">
+<form action="{www_dir}{index}/{module}/{action_url}/{product_id}/" method="post">
 
 <!-- BEGIN option_tpl -->
 
@@ -252,10 +252,8 @@
 	<!-- BEGIN price_range_max_limited_tpl -->
 	{intl-max}: {price_max}
 	<!-- END price_range_max_limited_tpl -->
+
 	</td>
-</tr>
-<tr>
-       <td>&nbsp;</td>
 </tr>
 <tr>
 	<td>
@@ -268,6 +266,20 @@
 	<a href="{www_dir}{index}{external_link_url}" target="_blank">{external_link_url}</a>
 	<!-- END external_link_tpl -->
 	</td>
+
+</tr>
+<tr>
+       <td>&nbsp;</td>
+</tr>
+
+<tr>
+	<!-- BEGIN mail_method_tpl -->
+	<td>
+	<p class="boxtext">{intl-mail_method}:</p>
+	{intl-email}: <input type="radio" value="1" name="MailMethod" />&nbsp;
+	{intl-smail}: <input type="radio" value="2" name="MailMethod" />
+	</td>
+	<!-- BEGIN mail_method -->
 </tr>
 </table>
 <br />
@@ -298,3 +310,4 @@
 <!-- END print_page_link_tpl -->
 
 </form>
+
