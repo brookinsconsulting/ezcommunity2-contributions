@@ -80,6 +80,14 @@
 </table>
 <!-- END attached_file_list_tpl -->
 
+<!-- BEGIN image_list_tpl -->
+
+<!-- BEGIN image_tpl -->
+
+<!-- END image_tpl -->
+
+<!-- END image_list_tpl -->
+
 <br clear="all" />
 
 <div align="center">
