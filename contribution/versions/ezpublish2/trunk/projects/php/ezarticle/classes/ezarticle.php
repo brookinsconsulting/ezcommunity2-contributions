@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticle.php,v 1.106 2001/07/03 12:41:58 bf Exp $
+// $Id: ezarticle.php,v 1.107 2001/07/03 13:13:11 bf Exp $
 //
 // Definition of eZArticle class
 //
@@ -1887,7 +1887,7 @@ class eZArticle
         
 
         $query = "SELECT A.ID, A.Name, Author.Name as AuthorName, A.Published, C.ID as CategoryID, C.Name as CategoryName
-                     FROM eZArticle_Article AS A, eZArticle_Category as C, eZArticle_ArticleCategoryLink as ACL, eZArticle_ArticlePermission AS P, eZUser_Author as Author
+                     FROM eZArticle_Article AS A, eZArticle_Category as C, eZArticle_ArticleCategoryDefinition as ACL, eZArticle_ArticlePermission AS P, eZUser_Author as Author
                      WHERE A.ID=ACL.ArticleID AND C.ID=ACL.CategoryID AND A.ContentsWriterID=Author.ID AND
                      IsPublished='1' AND ContentsWriterID='$authorid' AND $loggedInSQL
                      A.ID=P.ObjectID  $sort_text ";
