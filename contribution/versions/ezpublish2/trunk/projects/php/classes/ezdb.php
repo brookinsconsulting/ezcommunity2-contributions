@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezdb.php,v 1.36 2001/03/01 14:06:24 jb Exp $
+// $Id: ezdb.php,v 1.37 2001/04/27 08:43:26 jb Exp $
 //
 // Definition of eZDB class
 //
@@ -103,11 +103,16 @@ class eZDB
       Executes a SELECT query that returns multiple rows and puts the results into the passed
       array as an indexed associative array.  The array is cleared first.  The results start with
       the array start at 0, and the number of results can be found with the count() function.
+      The minimum and maximum expected rows can be set by supplying $min and $max,
+      default is to allow zero or more rows.
+      If a string is supplied to $column it is used for extracting a specific column from the
+      query into the resulting array, this is useful when you just want one column from
+      the query and don't want to iterate over it afterwards to extract the column.
     */
-    function array_query( &$array, $sql, $min = 0, $max = -1 )
+    function array_query( &$array, $sql, $min = 0, $max = -1, $column = false )
     {
         $array = array();
-        return $this->array_query_append( $array, $sql, $min, $max );
+        return $this->array_query_append( $array, $sql, $min, $max, $column );
     }
 
     /*!
@@ -125,7 +130,7 @@ class eZDB
       Differs from the above function only by not creating av empty array,
       but simply appends to the array passed as an argument.
      */    
-    function array_query_append( &$array, $sql, $min = 0, $max = -1 )
+    function array_query_append( &$array, $sql, $min = 0, $max = -1, $column = false )
     {
         $result =& $this->query( $sql );
 
@@ -141,8 +146,21 @@ class eZDB
         
         if ( mysql_num_rows( $result ) > 0 )
         { 
-            for($i = 0; $i < mysql_num_rows($result); $i++)
-                $array[$i + $offset] =& mysql_fetch_array($result);
+            if ( !is_string( $column ) )
+            {
+                for($i = 0; $i < mysql_num_rows($result); $i++)
+                {
+                    $array[$i + $offset] =& mysql_fetch_array($result);
+                }
+            }
+            else
+            {
+                for($i = 0; $i < mysql_num_rows($result); $i++)
+                {
+                    $tmp_row =& mysql_fetch_array($result);
+                    $array[$i + $offset] =& $tmp_row[$column];
+                }
+            }
         }
 
         if ( count( $array ) < $min )
