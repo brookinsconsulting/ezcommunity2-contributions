@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: designedit.php,v 1.4 2000/11/22 12:03:13 ce-cvs Exp $
+// $Id: designedit.php,v 1.5 2000/11/22 12:17:49 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -174,10 +174,8 @@ if ( $Action == "edit" )
     if ( $image_id != "" )
     {
         $logoImage = new eZImage( $image_id );
-
-        
-        
-        $t->set_var( "image_src", "/" . $logoImage->filePath() );
+       
+        $t->set_var( "image_src", $logoImage->filePath() );
         $t->set_var( "image_id", $logoImage->id() );
         
         $t->set_var( "image_insert", "" );
