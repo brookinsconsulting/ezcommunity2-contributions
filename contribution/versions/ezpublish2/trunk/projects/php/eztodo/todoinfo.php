@@ -1,6 +1,6 @@
 <?php
 
-// $Id: todoinfo.php,v 1.1 2000/09/14 12:58:38 ce-cvs Exp $
+// $Id: todoinfo.php,v 1.2 2000/09/14 13:05:00 ce-cvs Exp $
 //
 // Definition of todo list.
 //
@@ -24,6 +24,7 @@ include_once( "classes/ezsession.php" );
 include_once( "classes/ezuser.php" );
 include_once( "classes/ezusergroup.php" );
 include_once( "common/ezphputils.php" );
+include_once( "classes/ezlocale.php" );
 
 include_once( "eztodo/classes/eztodo.php" );
 include_once( "eztodo/classes/ezcategory.php" );
@@ -46,8 +47,9 @@ $todo->get( $TodoID );
 
 $Title = $todo->title();
 $Text = $todo->text();
-$Due = $todo->due();
-$Date = $todo->date();
+$locale = new eZLocale( $Language );
+$Due =  $locale->format( $todo->due() );
+$Date = $locale->format( $todo->date() );
 
 if ( $todo->status() == "N" )
 {
