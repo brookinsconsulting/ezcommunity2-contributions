@@ -1,4 +1,4 @@
-<form method="post" action="/poll/vote/{poll_id}/">
+<form method="post" action="/poll/userlogin/vote/{poll_id}/">
 <h1>{head_line}</h1>
 
 <hr noshade="noshade" size="4">

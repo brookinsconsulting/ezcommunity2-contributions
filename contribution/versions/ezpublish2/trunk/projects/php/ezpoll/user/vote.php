@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: vote.php,v 1.3 2000/10/26 12:44:59 ce-cvs Exp $
+// $Id: vote.php,v 1.4 2000/10/30 08:32:17 ce-cvs Exp $
 //
 // Christoffer A. Elo <ce@ez.no>
 // Created on: <20-Sep-2000 13:32:11 ce>
@@ -66,7 +66,10 @@ else
         setcookie( "eZPoll", "Voted" );
         $Voted = false;
     }
+    if ( !$HTTP_COOKIE_VARS["eZPoll"] )
+        $Voted = true;
 }
+
 
 if ( $user )
 {

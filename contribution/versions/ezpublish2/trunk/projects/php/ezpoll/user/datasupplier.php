@@ -11,6 +11,8 @@ switch ( $url_array[2] )
     case "vote" :
     {
         $PollID = $url_array[3];
+        if ( isSet( $url_array[4] ) )
+             $ChoiceID = $url_array[4];
         include( "ezpoll/user/vote.php" );
     }
     break;

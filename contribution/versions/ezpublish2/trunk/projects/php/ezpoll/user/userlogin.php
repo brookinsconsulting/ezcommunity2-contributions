@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: userlogin.php,v 1.1 2000/10/28 12:08:17 ce-cvs Exp $
+// $Id: userlogin.php,v 1.2 2000/10/30 08:32:17 ce-cvs Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <14-Oct-2000 15:41:17 bf>
@@ -26,30 +26,41 @@
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 
+include_once( "ezpoll/classes/ezpoll.php" );
+
 $ini = new INIFIle( "site.ini" );
 
 $Language = $ini->read_var( "eZPollMain", "Language" );
 
 include_once( "ezuser/classes/ezuser.php" );
 
-if ( eZUser::currentUser() )
+$poll = new eZPoll( $PollID );
+if ( !$poll->anonymous() )
 {
-    Header( "Location: /poll/vote/$VoteID/" );
+
+    if ( eZUser::currentUser() )
+    {
+        Header( "Location: /poll/vote/$PollID/$ChoiceID/" );
+    }
+    else
+    {
+        $t = new eZTemplate( "ezpoll/user/" . $ini->read_var( "eZPollMain", "TemplateDir" ),
+                             "ezpoll/user/intl/", $Language, "userlogin.php" );
+        
+        $t->setAllStrings();
+        
+        $t->set_file( array(        
+            "user_login_tpl" => "userlogin.tpl"
+            ) );
+        
+        $t->set_var( "redirect_url", "/poll/vote/$PollID/$ChoiceID/" );
+        
+        $t->pparse( "output", "user_login_tpl" );
+    }
 }
 else
 {
-    $t = new eZTemplate( "ezpoll/user/" . $ini->read_var( "eZPollMain", "TemplateDir" ),
-                         "ezpoll/user/intl/", $Language, "userlogin.php" );
-
-    $t->setAllStrings();
-
-    $t->set_file( array(        
-        "user_login_tpl" => "userlogin.tpl"
-        ) );
-
-    $t->set_var( "redirect_url", "/poll/vote/$VoteID/" );
-    
-    $t->pparse( "output", "user_login_tpl" );
+    Header( "Location: /poll/vote/$PollID/$ChoiceID/" );
 }
 
 ?>
