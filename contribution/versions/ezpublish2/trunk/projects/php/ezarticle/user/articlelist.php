@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.62 2001/08/30 11:39:35 bf Exp $
+// $Id: articlelist.php,v 1.63 2001/09/04 13:26:30 th Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -98,6 +98,8 @@ $t->set_block( "category_item_tpl", "no_image_tpl", "no_image" );
 // product
 $t->set_block( "article_list_page_tpl", "article_list_tpl", "article_list" );
 $t->set_block( "article_list_tpl", "article_item_tpl", "article_item" );
+
+$t->set_block( "article_item_tpl", "article_date_tpl", "article_date" );
 
 $t->set_block( "article_item_tpl", "article_image_tpl", "article_image" );
 $t->set_block( "article_item_tpl", "read_more_tpl", "read_more" );
@@ -344,8 +346,19 @@ foreach ( $articleList as $article )
     }
 
     $published = $article->published();
+	
+    $authorText = $article->authorText();
 
-    $t->set_var( "article_published", $locale->format( $published ) );
+	if( $authorText == "" || $authorText[0] == "-" )
+	{
+        $t->set_var( "article_date", "" );    
+	}
+	else
+    {
+		$t->set_var( "article_published", $locale->format( $published ) );
+        $t->parse( "article_date", "article_date_tpl" );
+	}
+	
     
 
     $renderer = new eZArticleRenderer( $article );

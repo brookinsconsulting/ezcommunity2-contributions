@@ -1,7 +1,7 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="bottom">
-	<h1>{intl-head_line}</h1>
+	<h1>GRUK</h1>
 	</td>
 	<td align="right">
 	<form action="{www_dir}{index}/article/search/" method="post">
@@ -14,12 +14,6 @@
 
 <hr noshade="noshade" size="4" />
 
-<img src="{www_dir}/images/path-arrow.gif" height="10" width="12" border="0" alt="">
-<a class="path" href="{www_dir}{index}/article/archive/0/">{intl-top_level}</a>
-
-
-<hr noshade="noshade" size="4" />
-
 <!-- BEGIN element_list_tpl -->
 <!-- END element_list_tpl -->
 
@@ -28,7 +22,6 @@
 <tr>
 	<td valign="top" width="100%">
 	<div class="listheadline"><a class="listheadline" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_name}</a></div>
-	<div class="small">( {article_published} )</div>
 
 	<!-- BEGIN one_column_article_image_tpl -->
 	    <table width="1%" align="right">
@@ -66,7 +59,6 @@
 	<td valign="top" width="48%">
 	<!-- BEGIN left_article_tpl -->
 	<div class="listheadline"><a class="listheadline" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_name}</a></div>
-	<div class="small">( {article_published} )</div>
 
 	<!-- BEGIN left_article_image_tpl -->
 	    <table width="1%" align="left">
@@ -101,7 +93,6 @@
 	<td valign="top" width="48%">
 	<!-- BEGIN right_article_tpl -->
 	<div class="listheadline"><a class="listheadline" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_name}</a></div>
-	<div class="small">( {article_published} )</div>
 
 	<!-- BEGIN right_article_image_tpl -->
 	    <table width="1%" align="right">
@@ -139,7 +130,7 @@
 	<a class="path" href="{www_dir}{index}/article/articleview/{article_id}/1/{category_id}/">{article_name}</a></div>
 	</td>
 	<td align="right" width="30%">
-	<div class="small">( {article_published} )</div>
+	&nbsp;
 	</td>
 </tr>
 </table>

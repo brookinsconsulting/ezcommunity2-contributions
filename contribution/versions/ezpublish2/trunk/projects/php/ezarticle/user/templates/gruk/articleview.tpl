@@ -30,18 +30,18 @@
 
 <hr noshade="noshade" size="4" />
 <br />
+<!-- BEGIN article_header_tpl -->
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-<!-- BEGIN article_header_tpl -->
 	<td>
 	<p class="byline"><a class="byline" href="{www_dir}{index}/article/author/view/{author_id}">{author_text}</a></p>
 	</td>
-<!-- END article_header_tpl -->
 	<td align="right">
 	<p class="byline">( {article_created} )</p>
 	</td>
 </tr>
 </table>
+<!-- END article_header_tpl -->
 
 <!-- BEGIN article_intro_tpl -->
 <p>
