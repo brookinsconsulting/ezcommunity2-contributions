@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: productlist.php,v 1.28 2001/08/28 15:56:21 ce Exp $
+// $Id: productlist.php,v 1.29 2001/09/15 12:40:01 pkej Exp $
 //
 // Created on: <23-Sep-2000 14:46:20 bf>
 //
@@ -22,7 +22,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
 //
-
 include_once( "classes/INIFile.php" );
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
@@ -176,34 +175,8 @@ foreach ( $productList as $product )
     if ( ( !$RequireUserLogin or get_class( $user ) == "ezuser"  ) and
          $ShowPrice and $product->showPrice() == true and $product->hasPrice() )
     {
-        $found_price = false;
-        if ( $ShowPriceGroups and $PriceGroup > 0 )
-        {
-            $price = eZPriceGroup::correctPrice( $product->id(), $PriceGroup );
-            $priceIncVAT = $price + $product->addVAT( $price );
-            if ( $price )
-            {
-                $found_price = true;
-                $price = new eZCurrency( $price );
-                $priceIncVAT = new eZCurrency( $priceIncVAT );
-            }
-        }
-        if ( !$found_price )
-        {
-            $price = new eZCurrency( $product->price() );
-            
-            $priceIncVAT = $product->price() + $product->addVAT( $product->price() );
-            $priceIncVAT = new eZCurrency( $priceIncVAT );
-        }
 
-        if ( $PricesIncludeVAT == "enabled" )
-        {
-            $t->set_var( "product_price", $locale->format( $priceIncVAT ) );
-        }
-        else
-        {
-            $t->set_var( "product_price", $locale->format( $price ) );
-        }
+        $t->set_var( "product_price", $product->localePrice( $PricesIncludeVAT ) );
 
 
         $t->parse( "price", "price_tpl" );
