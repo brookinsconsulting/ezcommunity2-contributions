@@ -4,7 +4,7 @@
 	<h1>{intl-productlist}</h1>
 	</td>
      <td align="right">
-	 <form action="/trade/search/" method="post">
+	 <form action="/{module}/search/" method="post">
 	       <input type="text" name="Query">
 	       <input type="submit" name="search" value="{intl-search_button}">
          </form>
@@ -15,11 +15,11 @@
 <hr noshade="noshade" size="4"/>
 
 <img src="/eztrade/images/path-arrow.gif" height="10" width="15" border="0">
-<a class="path" href="/trade/productlist/0/">{intl-top}</a>
+<a class="path" href="/{module}/{module_list}/0/">{intl-top}</a>
 
 <!-- BEGIN path_tpl -->
 <img src="/eztrade/images/path-slash.gif" height="10" width="20" border="0">
-<a class="path" href="/trade/productlist/{category_id}/">{category_name}</a>
+<a class="path" href="/{module}/{module_list}/{category_id}/">{category_name}</a>
 <!-- END path_tpl -->
 
 <hr noshade="noshade" size="4" />
@@ -34,7 +34,7 @@
 <!-- BEGIN category_tpl -->
 <tr>
 	<td class="{td_class}">
-	<a href="/trade/productlist/{category_id}/">{category_name}</a>&nbsp;
+	<a href="/{module}/{module_list}/{category_id}/">{category_name}</a>&nbsp;
 	</td>
 	<td class="{td_class}">
 	{category_description}&nbsp;
@@ -57,13 +57,13 @@
 <tr>
 	<td>
 
-	<a href="/trade/productview/{product_id}/{category_id}/"><h2>{product_name}</h2></a>
+	<a href="/{module}/{module_view}/{product_id}/{category_id}/"><h2>{product_name}</h2></a>
 
 <!-- BEGIN product_image_tpl -->
     <table align="right">
     <tr>
         <td>
-	<a href="/trade/productview/{product_id}/{category_id}/">
+	<a href="/{module}/{module_view}/{product_id}/{category_id}/">
         <img src="{thumbnail_image_uri}" border="0" width="{thumbnail_image_width}" height="{thumbnail_image_height}" />
 	</a>
         </td>
