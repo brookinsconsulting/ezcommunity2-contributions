@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: imagelist.php,v 1.42.2.1 2002/02/06 08:13:57 jhe Exp $
+// $Id: imagelist.php,v 1.42.2.2 2002/02/20 10:42:51 bf Exp $
 //
 // Created on: <10-Dec-2000 16:16:20 bf>
 //
@@ -345,7 +345,7 @@ foreach ( $imageList as $image )
     
 
     // Check if user have write permission
-    if ( ( $user ) &&
+    if ( ( $user ) && eZObjectPermission::hasPermission( $CategoryID, "imagecatalogue_category", "w", $user ) &&
          ( eZObjectPermission::hasPermission( $image->id(), "imagecatalogue_image", "w", $user ) ) ||
          ( eZImage::isOwner( $user, $image->id() ) ) )
     {
