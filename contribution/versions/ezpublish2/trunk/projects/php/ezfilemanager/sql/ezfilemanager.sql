@@ -4,10 +4,10 @@
 DROP TABLE IF EXISTS eZFileManager_File;
 CREATE TABLE eZFileManager_File (
   ID int(11) DEFAULT '0' NOT NULL auto_increment,
-  Name char(200),
-  Description char(200),
-  FileName char(200),
-  OriginalFileName char(200),
+  Name varchar(200),
+  Description varchar(200),
+  FileName varchar(200),
+  OriginalFileName varchar(200),
   ReadPermission int(11) DEFAULT '1',
   WritePermission int(11) DEFAULT '1',
   UserID int(11),
