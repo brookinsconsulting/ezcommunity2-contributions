@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezlinkgroup.php,v 1.27 2000/10/17 10:27:29 bf-cvs Exp $
+// $Id: ezlinkgroup.php,v 1.28 2000/10/18 12:32:43 ce-cvs Exp $
 //
 // Definition of eZLinkGroup class
 //
@@ -127,10 +127,16 @@ class eZLinkGroup
     function getByParent( $id )
     {
         $this->dbInit();
-        $parent_array = 0;
+        $parent_array = array();
+        $return_array = array();
 
-        array_query( $parent_array, "SELECT * FROM eZLink_LinkGroup WHERE Parent='$id' ORDER BY Title" );
+        $this->Database->array_query( $parent_array, "SELECT ID FROM eZLink_LinkGroup WHERE Parent='$id' ORDER BY Title" );
 
+        for( $i=0; $i<count( $parent_array ); $i++ )
+        {
+            $return_array[$i] = new eZLinkGroup( $parent_array[$i][ "ID" ], 0 );
+        }
+        
         return $parent_array;
     }
 

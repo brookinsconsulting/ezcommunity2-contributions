@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: menubox.php,v 1.1 2000/10/18 11:56:07 ce-cvs Exp $
+// $Id: menubox.php,v 1.2 2000/10/18 12:32:43 ce-cvs Exp $
 //
 // 
 //
@@ -12,7 +12,6 @@
 // IMPORTANT NOTE: You may NOT copy this file or any part of it into
 // your own programs or libraries.
 //
-
 include_once( "classes/INIFile.php" );
 
 $ini = new INIFile( "site.ini" );

@@ -22,7 +22,6 @@ switch ( $url_array[2] )
 
     case "group" :
     {
-
         if ( $PageCaching == "enabled" )
         {
             print( "cached version<br>" );
@@ -48,7 +47,7 @@ switch ( $url_array[2] )
             print( "uncached version" );
             
             $LGID = $url_array[3];
-            include( "ezlink/linklist.php" );
+            include( "ezlink/user/linklist.php" );
         }
         
     }
