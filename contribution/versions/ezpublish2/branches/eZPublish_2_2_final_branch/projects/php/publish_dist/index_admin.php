@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index_admin.php,v 1.19.2.3 2001/12/07 16:48:45 bf Exp $
+// $Id: index_admin.php,v 1.19.2.4 2002/01/04 12:06:34 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -29,51 +29,38 @@ header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
 
 // Tell PHP where it can find our files.
-if ( file_exists( "sitedir.ini" ) )
+if ( ereg( "(.*/)([^\/]+\.php)$", $SCRIPT_FILENAME, $regs ) )
 {
-    include_once( "sitedir.ini" );
+    $siteDir = $regs[1];
+    $index = "/" . $regs[2];
 }
 
-if ( !isset( $siteDir ) )
-	$siteDir = "";
-
-// Preparing variables for nVH setup
-if ( isset( $siteDir ) and $siteDir != "" )
-{
-    $includePath = ini_get( "include_path" );
-
-    if ( trim( $includePath ) != "" )
-        $includePath .= ":" . $siteDir;
-
-    ini_set( "include_path", $includePath );
- 
-    // For non-virtualhost, non-rewrite setup
-    if ( ereg( "(.*/)([^\/]+\.php)$", $SCRIPT_NAME, $regs ) )
-    {
-        $wwwDir = $regs[1];
-        $index = $regs[2];
-         if ( $wwwDir == "/" )
-        {
-            $wwwDir = "";
-            $index = "/" . $index;
-        }
-   }
- 
-    // Remove url parameters
-    if ( ereg( "^$wwwDir$index(.+)", $REQUEST_URI, $req ) )
-    {
-        $REQUEST_URI = $req[1];
-    }
-    else
-    {
-        $REQUEST_URI = "/";
-    }
-}
+if ( substr( php_uname(), 0, 7) == "Windows" )
+    $separator = ";";
 else
-{
-    $wwwDir = "";
+    $separator = ":";
+
+$includePath = ini_get( "include_path" );
+
+if ( trim( $includePath ) != "" )
+    $includePath .= $separator . $siteDir;
+else
+    $includePath = $siteDir;
+
+ini_set( "include_path", $includePath );
+
+if ( ereg( "(.*)/([^\/]+\.php)$", $SCRIPT_NAME, $regs ) )
+    $wwwDir = $regs[1];
+
+// Trick: Rewrite setup *does* redirect (for admins!), so we don't want an $index
+if ( isset( $REDIRECT_URL ) )
     $index = "";
-	$siteDir = "";
+else 
+{
+    if ( ereg( "^$wwwDir$index(.+)", $REQUEST_URI, $req ) )
+        $REQUEST_URI = $req[1];
+    else
+        $REQUEST_URI = "/";
 }
 
 // Remove url parameters

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index.php,v 1.119.2.11 2001/12/04 17:46:51 kaid Exp $
+// $Id: index.php,v 1.119.2.12 2002/01/04 12:06:34 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -28,56 +28,38 @@ header( "Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" );
 header( "Cache-Control: no-cache, must-revalidate" ); 
 header( "Pragma: no-cache" );
 
-
 // Tell PHP where it can find our files.
-if ( file_exists( "sitedir.ini" ) )
+if ( ereg( "(.*/)([^\/]+\.php)$", $SCRIPT_FILENAME, $regs ) )
 {
-    include_once( "sitedir.ini" );
+    $siteDir = $regs[1];
+    $index = "/" . $regs[2];
 }
 
-if ( !isset( $siteDir ) )
-	$siteDir = "";
-
-// Preparing variables for nVH setup
-if ( $siteDir != "" )
-{
-    $includePath = ini_get( "include_path" );
-
-    if ( trim( $includePath ) != "" )
-        $includePath .= ":" . $siteDir;
-    
-    ini_set( "include_path", $includePath );
- 
-    // For non-virtualhost, non-rewrite setup
-    if ( ereg( "(.*/)([^\/]+\.php)$", $SCRIPT_NAME, $regs ) )
-    {
-        $wwwDir = $regs[1];
-        $index = $regs[2];
-
-        if ( $wwwDir == "/" )
-        {
-            $wwwDir = "";
-            $index = "/" . $index;
-        }
-    }
- 
-    // Remove url parameters
-    if ( ereg( "^$wwwDir$index(.+)", $REQUEST_URI, $req ) )
-    {
-        $REQUEST_URI = $req[1];
-    }
-    else
-    {
-        $REQUEST_URI = "/";
-    }
-}
+if ( substr( php_uname(), 0, 7) == "Windows" )
+    $separator = ";";
 else
-{
-    $wwwDir = "";
-    $index = "";
-	$siteDir = "";
-}
+    $separator = ":";
 
+$includePath = ini_get( "include_path" );
+if ( trim( $includePath ) != "" )
+    $includePath .= $separator . $siteDir;
+else
+    $includePath = $siteDir;
+ini_set( "include_path", $includePath );
+
+if ( ereg( "(.*)/([^\/]+\.php)$", $SCRIPT_NAME, $regs ) )
+    $wwwDir = $regs[1];
+
+// Trick: Rewrite setup doesn't have index.php in $PHP_SELF, so we don't want an $index
+if ( ! ereg( ".*index\.php.*", $PHP_SELF ) ) 
+    $index = "";
+else 
+{
+    if ( ereg( "^$wwwDir$index(.+)", $REQUEST_URI, $req ) )
+        $REQUEST_URI = $req[1];
+    else
+        $REQUEST_URI = "/";
+}
 
 // Remove url parameters
 ereg( "([^?]+)", $REQUEST_URI, $regs );
@@ -405,5 +387,4 @@ $db =& eZDB::globalDatabase();
 $db->close();
 
 ob_end_flush();
-
 ?>

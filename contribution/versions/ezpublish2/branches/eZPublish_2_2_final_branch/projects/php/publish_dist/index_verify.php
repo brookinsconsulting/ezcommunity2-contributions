@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: index_verify.php,v 1.5 2001/08/27 11:50:54 ce Exp $
+// $Id: index_verify.php,v 1.5.2.1 2002/01/04 12:06:34 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -24,18 +24,21 @@
 //
 
 // Tell PHP where it can find our files.
-if ( file_exists( "sitedir.ini" ) )
-{
-    include_once( "sitedir.ini" );
-}
+if ( ereg( "(.*/)([^\/]+\.php)$", $SCRIPT_FILENAME, $regs ) )
+    $siteDir = $regs[1];
 
-if ( isset( $siteDir ) and $siteDir != "" )
-{
-    $includePath = ini_get( "include_path" );
-    $includePath .= ":" . $siteDir;
-    ini_set( "include_path", $includePath );
-}
-	
+if ( substr( php_uname(), 0, 7) == "Windows" )
+    $separator = ";";
+else
+    $separator = ":";
+
+$includePath = ini_get( "include_path" );
+if ( trim( $includePath ) != "" )
+    $includePath .= $separator . $siteDir;
+else
+    $includePath = $siteDir;
+ini_set( "include_path", $includePath );
+
 ob_end_clean();
 // script to check if the site is alive
 // this script will return 42 if the server is alive

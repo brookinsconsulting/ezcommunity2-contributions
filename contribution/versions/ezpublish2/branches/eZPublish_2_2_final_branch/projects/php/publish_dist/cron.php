@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: cron.php,v 1.14.2.3 2001/11/02 08:13:29 br Exp $
+// $Id: cron.php,v 1.14.2.4 2002/01/04 12:06:34 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -24,24 +24,25 @@
 //
 
 // Tell PHP where it can find our files.
-if ( file_exists( "sitedir.ini" ) )
-{
-	include_once( "sitedir.ini" );
+if ( ereg( "(.*/)([^\/]+\.php)$", $SCRIPT_FILENAME, $regs ) )
+    $siteDir = $regs[1];
 
-	if ( isset( $siteDir ) and !empty( $siteDir ) )
-	{
-		$includePath = ini_get( "include_path" );
-		$includePath .= ":" . $siteDir;
-		ini_set( "include_path", $includePath );
-	}
-}
+if ( substr( php_uname(), 0, 7) == "Windows" )
+    $separator = ";";
+else
+    $separator = ":";
+
+$includePath = ini_get( "include_path" );
+if ( trim( $includePath ) != "" )
+    $includePath .= $separator . $siteDir;
+else
+    $includePath = $siteDir;
+ini_set( "include_path", $includePath );
 
 // site information
 include_once( "classes/INIFile.php" );
 $ini = new INIFile( "site.ini" );
 $GlobalSiteIni =& $ini;
-
-
 
 // index articles
 // uncomment to index all articles in publish

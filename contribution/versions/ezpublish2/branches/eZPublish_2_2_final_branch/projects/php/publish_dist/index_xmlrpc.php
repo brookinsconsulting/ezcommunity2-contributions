@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: index_xmlrpc.php,v 1.27.2.2 2001/11/15 19:05:24 bf Exp $
+// $Id: index_xmlrpc.php,v 1.27.2.3 2002/01/04 12:06:34 kaid Exp $
 //
 // Created on: <09-Nov-2000 14:52:40 ce>
 //
@@ -25,39 +25,36 @@
 
 
 // Tell PHP where it can find our files.
-if ( file_exists( "sitedir.ini" ) )
+if ( ereg( "(.*/)([^\/]+\.php)$", $SCRIPT_FILENAME, $regs ) )
 {
-    include_once( "sitedir.ini" );
+    $siteDir = $regs[1];
+    $index = "/" . $regs[2];
 }
 
-// Preparing variables for nVH setup
-if ( isset( $siteDir ) and $siteDir != "" )
-{
-    $includePath = ini_get( "include_path" );
-    $includePath .= ":" . $siteDir;
-    ini_set( "include_path", $includePath );
-
-    // For non-virtualhost, non-rewrite setup
-    if ( ereg( "(.*/)([^\/]+\.php)$", $SCRIPT_NAME, $regs ) )
-    {
-        $wwwDir = $regs[1];
-        $index = $regs[2];
-    }
-
-    // Remove url parameters
-    if ( ereg( "^$wwwDir$index(.+)", $REQUEST_URI, $req ) )
-    {
-        $REQUEST_URI = $req[1];
-    }
-    else
-    {
-        $REQUEST_URI = "/";
-    }
-}
+if ( substr( php_uname(), 0, 7) == "Windows" )
+    $separator = ";";
 else
-{
-    $wwwDir = "";
+    $separator = ":";
+
+$includePath = ini_get( "include_path" );
+if ( trim( $includePath ) != "" )
+    $includePath .= $separator . $siteDir;
+else
+    $includePath = $siteDir;
+ini_set( "include_path", $includePath );
+
+if ( ereg( "(.*)/([^\/]+\.php)$", $SCRIPT_NAME, $regs ) )
+    $wwwDir = $regs[1];
+
+// Trick: Rewrite setup doesn't have index.php in $PHP_SELF, so we don't want an $index
+if ( ! ereg( ".*index\.php.*", $PHP_SELF ) ) 
     $index = "";
+else 
+{
+    if ( ereg( "^$wwwDir$index(.+)", $REQUEST_URI, $req ) )
+        $REQUEST_URI = $req[1];
+    else
+        $REQUEST_URI = "/";
 }
 
 // Remove url parameters
@@ -100,6 +97,7 @@ $GlobalSiteIni =& $ini;
 // Set the global nVH variables.
 $GlobalSiteIni->Index = $index;
 $GlobalSiteIni->WWWDir = $wwwDir;
+$GlobalSiteIni->SiteDir = $siteDir;
 unset($index);
 unset($wwwDir);
 
