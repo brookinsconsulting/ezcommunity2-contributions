@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: dayview.php,v 1.19 2001/01/22 14:42:59 jb Exp $
+// $Id: dayview.php,v 1.20 2001/01/23 10:21:19 gl Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <08-Jan-2001 12:48:35 bf>
@@ -51,7 +51,6 @@ $t->set_block( "time_table_tpl", "appointment_tpl", "appointment" );
 $t->set_block( "appointment_tpl", "delete_check_tpl", "delete_check" );
 
 
-
 $user = eZUser::currentUser();
 
 $session =& eZSession::globalSession();
@@ -98,7 +97,6 @@ $t->set_var( "day_number", $Day );
 $t->set_var( "long_date", $Locale->format( $date, false ) );
 
 
-
 $today = new eZDate();
 $tmpDate = new eZDate( $date->year(), $date->month(), $date->day() );
 $tmpAppointment = new eZAppointment();
@@ -111,21 +109,15 @@ $interval =& $tmpAppointment->dayInterval();
 $stopTime =& $tmpAppointment->dayStopTime();
 
 
-
 // places appointments into columns, creates extra columns as necessary
 $numRows = 0;
 $numCols = 1;
-$tableCellsId = array();
-$tableCellsRowSpan = array();
-$colTaken = array();
-$emptyRows = array();
-$appointmentDone = array();
+$tableCellsId = array();       // appointmend id for a cell
+$tableCellsRowSpan = array();  // rowspan for a cell
+$colTaken = array();           // number of non free rows in the current column, after the last appointment. 0 means col free.
+$emptyRows = array();          // number of empty rows in the current column, after the last appointment
+$appointmentDone = array();    // true when the appointment has been inserted into the table
 $tmpStartTime = new eZTime( $startTime->hour(), $startTime->minute(), $startTime->second() );
-
-foreach ( $appointments as $appointment )
-{
-    $appointmentDone[$appointment->id()] = false;
-}
 
 while ( $tmpStartTime->isGreater( $stopTime ) == true )
 {
@@ -133,39 +125,35 @@ while ( $tmpStartTime->isGreater( $stopTime ) == true )
     $tableCellsId[$numRows-1] = array();
     $tableCellsRowSpan[$numRows-1] = array();
 
-    //print( $tmpStartTime->hour() . ":" . $tmpStartTime->minute() . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" );
-
+    // marks cells as taken, -1
     for ( $col=0; $col<$numCols; $col++ )
     {
         if ( $colTaken[$col] > 0 )
         {
-            //print( "colTaken" . $col .": " . $colTaken[$col] . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" );
             $tableCellsId[$numRows-1][$col] = -1;
         }
     }
 
     foreach ( $appointments as $appointment )
     {
-        //print( $appointment->id() . " " );
-
+        // if this appointment should be inserted into the table now
         if ( $appointmentDone[$appointment->id()] == false &&
              intersects( $appointment, $tmpStartTime, $tmpStartTime->add( $interval ) ) == true )
         {
-            //print( "intersects " );
-
             $foundFreeColumn = false;
             $col = 0;
             while ( $foundFreeColumn == false  )
             {
+                // the column is free, insert appointment here
                 if ( $tableCellsId[$numRows-1][$col] == 0 )
                 {
-                    //print( "colFree: " . $col . " " );
                     $tableCellsId[$numRows-1][$col] = $appointment->id();
                     $tableCellsRowSpan[$numRows-1][$col] = appointmentRowSpan( $appointment, $tmpStartTime, $interval );
                     $colTaken[$col] = $tableCellsRowSpan[$numRows-1][$col];
                     $appointmentDone[$appointment->id()] = true;
                     $foundFreeColumn = true;
 
+                    // if we created a new column, mark leading empty spaces
                     if ( $col >= $numCols )
                         $emptyRows[$col] = $numRows - 1;
 
@@ -177,18 +165,15 @@ while ( $tmpStartTime->isGreater( $stopTime ) == true )
                     }
                 }
 
+                // the column was not free, try the next one
                 $col++;
                 if ( $col > $numCols )
-                {
                     $numCols++;
-                }
             }
         }
-//        print( "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" );
     }
 
-//    print( "<br />" );
-
+    // decrease/increase counts as we move down
     for ( $col=0; $col<$numCols; $col++ )
     {
         if ( $colTaken[$col] > 0 )
@@ -205,21 +190,15 @@ while ( $tmpStartTime->isGreater( $stopTime ) == true )
     $tmpStartTime = $tmpStartTime->add( $interval );
 }
 
-//print( "<br />" );
-//print( $numCols );
-//print( "<br />" );
-
-// mark remaining empty spaces as 'empty'
+// mark remaining empty spaces as empty, -2
 for ( $col=0; $col<$numCols; $col++ )
 {
     if ( $emptyRows[$col] > 0 )
     {
         $tableCellsId[ $numRows - $emptyRows[$col] ][$col] = -2;
         $tableCellsRowSpan[ $numRows - $emptyRows[$col] ][$col] = $emptyRows[$col];
-//        print( "final empty - col: " . $col . " emptyRows: " . $emptyRows[$col] . "<br />" );
     }
 }
-
 
 
 // debug contents table
@@ -237,9 +216,7 @@ for ( $col=0; $col<$numCols; $col++ )
 //  print( "</table>" );
 
 
-
-
-// print out the time table
+// prints out the time table
 $emptyDone = false;
 $now = new eZTime();
 $nowSet = false;
@@ -257,6 +234,7 @@ while ( $startTime->isGreater( $stopTime ) == true )
     {
         $appointmentId = $tableCellsId[$row][$col];
 
+        // an appointment
         if ( $appointmentId > 0 )
         {
             $appointment = new eZAppointment( $appointmentId );
@@ -272,6 +250,7 @@ while ( $startTime->isGreater( $stopTime ) == true )
             $t->parse( "appointment", "appointment_tpl", true );
         }
 
+        // an empty space
         else if ( $appointmentId == -2 )
         {
             $t->set_var( "td_class", "bglight" );
@@ -286,6 +265,7 @@ while ( $startTime->isGreater( $stopTime ) == true )
         }
     }
 
+    // mark current time with bgcurrent, if applicable
     $t->set_var( "td_class", "" );
     if ( $date->equals( $today ) && $nowSet == false &&
          $startTime->isGreater( $now, true ) && $now->isGreater( $startTime->add( $interval ) ) )
@@ -299,12 +279,6 @@ while ( $startTime->isGreater( $stopTime ) == true )
 
     $t->parse( "time_table", "time_table_tpl", true );
 }
-
-
-
-
-
-
 
 
 // returns the number of rows an appointment covers.
@@ -335,21 +309,18 @@ function intersects( &$app, &$startTime, &$stopTime )
     if ( $startTime->isGreater( $appStartTime, true ) == true &&
          $appStartTime->isGreater( $stopTime ) == true )
     {
-//        print( "intersects [1] " . $app->id() . "<br / >" );
         $ret = true;
     }
     // appstop is between start and stop
     else if ( $startTime->isGreater( $appStopTime ) == true &&
               $appStopTime->isGreater( $stopTime, true ) == true )
     {
-//        print( "intersects [2] " . $app->id() . "<br / >" );
         $ret = true;
     }
     // appstart is before start, and appstop is after stop
     else if ( $appStartTime->isGreater( $startTime ) == true &&
               $stopTime->isGreater( $appStopTime ) == true )
     {
-//        print( "intersects [3] " . $app->id() . "<br / >" );
         $ret = true;
     }
 
