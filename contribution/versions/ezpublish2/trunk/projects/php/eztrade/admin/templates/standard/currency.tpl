@@ -30,8 +30,8 @@
 	  <input type="text" size="6" name="CurrencySign[]" value="{currency_sign}" />
 	</td>
 	<td class="{td_class}">
-	  {intl-yes}: <input type="radio" name="CurrencyPrefix_{currency_id}[]" {currency_prefixed} value="1" />&nbsp;
-	  {intl-no}: <input type="radio" name="CurrencyPrefix_{currency_id}[]" {currency_not_prefixed} value="0" />
+	  {intl-prefix}: <input type="radio" name="CurrencyPrefix_{currency_id}[]" {currency_prefixed} value="1" />&nbsp;
+	  {intl-postfix}: <input type="radio" name="CurrencyPrefix_{currency_id}[]" {currency_not_prefixed} value="0" />
 	</td>
 	<td class="{td_class}">
 	  <input type="text" size="6" name="CurrencyValue[]" value="{currency_value}" />
