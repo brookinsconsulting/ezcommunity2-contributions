@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eztexttool.php,v 1.2 2000/10/16 09:17:59 bf-cvs Exp $
+// $Id: eztexttool.php,v 1.3 2000/10/18 10:40:40 bf-cvs Exp $
 //
 // Definition of eZTextTool class
 //
@@ -57,6 +57,14 @@ class eZTextTool
             return ereg_replace( "\n", "<br>\n", $string );
     }    
 
+    /*!
+      \static
+      This function will add a > at the beginning of each line.
+    */
+    function &addPre( $string, $char=">" )
+    {
+        return ereg_replace( "^", "$char\n", $string );
+    }
 }
 
 ?>
