@@ -70,10 +70,6 @@ if ( $user )
     if ( $ini->read_var( "site", "eZUser" ) == "enabled" )
         include( "ezuser/admin/menubox.php" );
 
-//      include( "ezuser/admin/userbox.php" );
-
-    // break the column an draw a horizontal line
-    include( "separator.php" );
     
     // parse the URI
     $page = "";
@@ -88,18 +84,58 @@ if ( $user )
     // send the URI to the right decoder
     $page = "ez" . $url_array[1] . "/admin/datasupplier.php";
 
-//      // handle users
-//      if ( $url_array[1] == "user" )
-//      {
-//          if ( $url_array[2] == "logout" )
-//          {
-//              $page = "logout.php";
-//          }
-//          else
-//          {
-//              $page = "userlist.php";
-//          }
-//      }
+
+    // set the module logo
+    switch ( $url_array[1] )
+    {
+        case "article" :
+        {
+            $ModuleLogo = "menu-news.gif";
+        }
+        break;
+
+        case "link" :
+        {
+            $ModuleLogo = "menu-link.gif";
+        }
+        break;
+
+        case "trade" :
+        {
+            $ModuleLogo = "menu-trade.gif";
+        }
+        break;
+
+        case "poll" :
+        {
+            $ModuleLogo = "menu-poll.gif";
+        }
+        break;
+
+        case "user" :
+        {
+            $ModuleLogo = "menu-user.gif";
+        }
+        break;
+        
+        case "forum" :
+        {
+            $ModuleLogo = "menu-forum.gif";
+        }
+        break;
+
+        default :
+        {
+            $ModuleLogo = "menu-news.gif";
+        }
+
+    }
+
+    
+    // break the column an draw a horizontal line
+    include( "separator.php" );
+    
+
 
     if ( file_exists( $page ) )
     {
