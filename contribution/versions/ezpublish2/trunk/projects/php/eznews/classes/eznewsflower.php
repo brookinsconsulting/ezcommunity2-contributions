@@ -1,7 +1,9 @@
 <?
 
-class eZNewsArticleProduct extends eZNewsArticle
+include_once( "eznews/classes/eznewsarticle.php" );
+
+class eZNewsFlower extends eZNewsArticle
 {
-}
+};
 
 ?>

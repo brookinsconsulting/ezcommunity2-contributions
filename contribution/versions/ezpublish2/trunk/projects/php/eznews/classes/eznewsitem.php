@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsitem.php,v 1.4 2000/09/15 14:03:46 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.5 2000/09/28 08:27:14 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -16,78 +16,69 @@
 //!! eZNews
 //! eZNewsItem handles eZNews items.
 /*!
-    An eZNewsItem object can be of many types. It is stored in a hiearchy.
+    An eZNewsItem object is a base class for all items which can be stored
+    in the eZNews hiearchy. It is not an abstract class, you can create
+    objects of this type and store them in the db without any problems.
+    
+    All parts of an eZNews hiearchy is an eZNewsItem, even the categories
+    which are used for creating the hiearchy. This enables us to treat any
+    object in the database uniformly, thus very few special cases are needed.
+    
+    This class will therefore provide most functions needed for storing an
+    object, logging it's use, etc. All classes which inherit from this class
+    will only need to add set/get functions for it's extra data, a constructor,
+    store and get.
+    
+    In subclasses you must call the base constructor from the sub-class, etc.
+    See eZNewsArticle and eZNewsCategory for examples of this usage.
 
-    Examples:
-  
+    TODO:
+    <ul>
+        <li>Clean up code.
+        <li>Change getSubItemCounts to work more properly.
+        <li>Move more code into sub-functions.
+        <li>Integrate more dynamic info into the system.
+        <li>Add more checking.
+        <li>Add more configuration.
+        <li>Clean up error handling.
+        <li>Better documentation.
+        <li>New examples.
+    </ul>
     \code
-    // Example 1: Creating an object:
+    \endcode
 
-    $item=new eZNewsItem();
-    $item->setName("New item");
-    $item->setItemTypeID('1');
-    
-    // Example 2: Storing an object:
-    
-    $returnMessage = $item->store();
-    
-    if ( empty( $returnMessage ) )
-    {
-        echo "The object was stored. The object contains this data: <P>";
-        echo $item->objectHeader();
-        echo $item->objectInfo();
-        echo $item->objectFooter();
-    }
-    else
-    {
-        echo "<br>The object wasn't stored, the reason(s) given was/were: <p>";
-        foreach ( $item->InvariantError as $something )
-        {
-            echo $something . "<br>";       
-        }
-    }
-    
-    // Example 3: Listing all objects of this type:
-    
-    // Show all items
-
-    $items = $item->getAll("name", "forward");
-
-    echo "<h1>Here are all items in the db.</h1>";
-    echo $item->objectHeader();
-
-    foreach( $items as $something )
-    {
-        print( $something->objectInfo() );
-    }
-    echo $item->objectFooter();
-  \endcode
-
-  \sa 
-*/
+    \sa eZNewsArticle, eZNewsCategory
+ */
 
 include_once( "classes/ezdb.php" );
 include_once( "classes/ezsession.php" );       
 include_once( "eznews/classes/eznewschangetype.php" );       
-include_once( "eznews/classes/eznewsitemtype.php" );       
 
 class eZNewsItem
 {
     /*!
       Constructs a new eZNewsItem object.
 
-      If $id is set the object's values are fetched from the
+      If $inID is set the object's values are fetched from the
       database.
     */
-    function eZNewsItem( $id=-1, $fetch=true )
+    function eZNewsItem( $inID = -1, $fetch = true )
     {
-        $this->IsConnected = false;
-
-        if ( $id != -1 )
+    
+        if( $GLOBAL["NEWSDEBUG"] == true )
         {
-            $this->ID = $id;
+            echo "eZNewsItem( $inID, $fetch ) <br>\n";
+        }
+        
+        $this->dbInit();
 
-            if ( $fetch == true )
+        $this->IsConnected = false;
+        
+        if( $id != -1 )
+        {
+            $this->ID = $inID;
+
+            if( $fetch == true )
             {
                 $this->get( $this->ID );
             }
@@ -99,58 +90,267 @@ class eZNewsItem
         else
         {
             $this->State_ = "New";
+            $this->CreatedAt = time();
         }
     }
 
+    function storeImages()
+    {
+        $this->dbInit();
 
+        $query =
+        "
+            INSERT INTO
+                eZNews_ItemImage
+            SET
+                ItemID   = '%s',
+                ImageID  = '%s'
+        ";
+
+        foreach( $this->ImageID as $ImageID )
+        {
+            $query = sprintf
+            (
+                $query,
+                $this->ID,
+                $ImageID
+            );
+
+            $this->Database->query( $query );
+        }
+    }
+    
+    function storeImage( $ImageID,  $thumbnail )
+    {
+        $this->dbInit();
+
+        $query =
+        "
+            INSERT INTO
+                eZNews_ItemImage
+            SET
+                ItemID   = '%s',
+                ImageID  = '%s'
+        ";
+        
+        $query = sprintf
+        (
+            $query,
+            $this->ID,
+            $ImageID
+        );
+
+        $this->Database->query( $query );
+    }
+    
+    function storeFile( $FileID )
+    {
+        $this->dbInit();
+
+        $query =
+        "
+            INSERT INTO
+                eZNews_ItemImage
+            SET
+                ItemID   = '%s',
+                FileID  = '%s'
+        ";
+        
+        $query = sprintf
+        (
+            $query,
+            $this->ID,
+            $FileID
+        );
+
+        $this->Database->query( $query );
+    }
+    
+    function storeParent( $ParentID, $canonical = 'N' )
+    {
+        $this->dbInit();
+
+        $query =
+        "
+            INSERT INTO
+                eZNews_Hiearchy
+            SET
+                ItemID   = '%s',
+                ParentID  = '%s',
+                isCanonical = '%s'
+        ";
+        
+        $query = sprintf
+        (
+            $query,
+            $this->ID,
+            $ParentID,
+            $canonical
+        );
+
+        $this->Database->query( $query );
+    }
+    
+    function storeFiles()
+    {
+    }
+    
+    function storeThis()
+    {
+        $this->dbInit();
+
+        $query =
+        "
+            INSERT INTO
+                eZNews_Item
+            SET
+                ItemTypeID = '%s',
+                Name       = '%s',
+                Status     = '%s',
+                CreatedBy  = '%s',
+                CreatedAt  = '%s',
+                CreationIP = '%s'
+        ";
+
+        $query = sprintf
+        (
+            $query,
+            $this->ItemTypeID,
+            $this->Name,
+            $this->Status,
+            $this->CreatedBy,
+            $this->CreatedAt,
+            $this->CreationIP
+        );
+
+        $this->Database->query( $query );
+
+        $this->ID = mysql_insert_id();
+        $this->get( $this->ID );
+        $this->storeFiles();
+        $this->storeImages();
+        #$this->createLogEntry();
+    }
 
     /*!
-      Stores a eZNewsItem object to the database.
+      Stores a eZNewsItem object into the database.
 
-      Returns the ID to the stored News item.
+      Returns the ID of the stored News item.
+      
+      $update can be any of the command names of the items in the
+      eZNews_ChangeType;
     */
-    function store( $update='create' )
+    
+    function store( $update = 'create' )
     {
-        unset($errorMessage);
-        
-        if( $this->checkInvariant() == true && isset( $this->InsertItemType["$update"] ) )
+        if( $GLOBAL["NEWSDEBUG"] == true )
         {
-            $reason=$this->InsertItemType["$update"];
-            if ( $this->OverrideCreator == false )
+            echo "eZNewsItem->store( \$update = $update ) <br>\n";
+        }
+        unset( $errorMessage );
+        $errorMessage = array();
+        $changeType = array();
+        
+        $query =
+        "
+            SELECT
+                *
+            FROM
+                eZNews_ChangeType
+            WHERE
+                CommandName = '%s'
+        ";
+        
+        $query = sprintf( $query, $update );
+        $this->Database->array_query( $changeType, $query );
+        $count=count( $changeType );
+
+        if( $count != 1 )
+        {
+            die( "Very bad error, we should have found something named $update in eZNews_ChangeType.CommandName" );
+        }
+       
+        
+        if( $this->checkInvariant() == true )
+        {
+            $reason = strtolower( $changeType[ "Name" ] );
+            
+            if( $this->OverrideCreator == false )
             {
-                $GLOBALS["AuthenticatedSession"];
+                $GLOBALS[ "AuthenticatedSession" ];
+
                 $this->CreatedBy = 0;
-                $returnValue=true;
+                $errorMessage[] = "We didn't find an authenticated session. Value stored is default.";
 
                 $session = new eZSession();
 
                 if( $session->get( $AuthenticatedSession ) == 0 )
                 { 
                     $this->CreatedBy = $session->userID();
+                    echo $this->CreatedBy;
                 }
             }
+            else
+            {
+                $this->CreatedBy = "0";
+            }
+            
+            if( empty( $this->CreatedAt ) )
+            {
+                include_once( "classes/ezdatetime.php" );
+                $time = gmdate( "YmdHis", time());
+                $this->CreatedAt = $time;
+            }
 
-            $this->dbInit();
+            $this->CreationIP = $GLOBALS[ "REMOTE_ADDR" ] . "/" .$GLOBALS[ "REMOTE_PORT" ];
 
-            $query=sprintf($this->SQL["insert_item"], $this->Name, $this->CreatedBy);
-
-            $this->Database->query( $query );
-            $this->ID = mysql_insert_id();
-            $this->get($this->ID);
+            $this->storeThis();
 
             if($this->Log == true)
             {
-                $query=sprintf($this->SQL["get_change_type"], $reason);
+                $query =
+                "
+                    SELECT
+                        *
+                    FROM
+                        eZNews_ChangeType
+                    WHERE
+                        Name = '%s'
+                ";
+
+                $query = sprintf( $query, $reason );
                 $result = $this->Database->query( $query );
                 $row = mysql_fetch_row( $result );
                 $this->ChangeTypeID = $row[0];
 
-                $query = sprintf($this->SQL["create_change_ticket"], $this->ChangeTypeID, $reason, $this->CreatedBy);
+                $query =
+                "
+                    INSERT INTO
+                        eZNews_ChangeTicket
+                    SET
+                        ChangeTypeID = '%s',
+                        ChangeText   = 'Class eZNewsItem %s this item',
+                        ChangedBy    = '%s',
+                        ChangeIP     = '%s'
+                ";
+
+
+                $query = sprintf( $query, $this->ChangeTypeID, $reason, $this->CreatedBy, $this->CreationIP );
 
                 $this->Database->query( $query );
                 $this->ChangeTicketID = mysql_insert_id();
 
-                $query = sprintf($this->SQL["create_log_entry"], $this->ID, $this->ChangeTicketID );
+                $query = 
+                "
+                    INSERT INTO
+                        eZNews_ItemLog
+                    SET
+                        ItemID         = '%s',
+                        ChangeTicketID = '%s'
+                ";
+
+
+                $query = sprintf($query, $this->ID, $this->ChangeTicketID );
                 $this->Database->query( $query );
             }
         }
@@ -164,96 +364,257 @@ class eZNewsItem
 
 
 
-    function getChangeLog( )
+    function getImages()
     {
         $this->dbInit();
-        
-        $return_array = array();
 
-        $query="
-        SELECT Ticket.ID FROM eZNews_ChangeTicket AS Ticket, eZNews_ItemLog AS Log
-        WHERE
-            Log.ItemID LIKE $this->ID
-        ORDER BY Ticket.ChangedAt
+        $query =
+        "
+            SELECT
+                *
+            FROM
+                eZNews_ItemImage
+            WHERE
+                ItemID   = '%s'
         ";
 
-        $this->Database->array_query( $category_array, $query );
+        $query = sprintf
+        (
+            $query,
+            $this->ID
+        );
+
+        $this->Database->array_query( $imageArray, $query );
+        $rowsFound = count( $imageArray );
         
-        for ( $i=0; $i<count($category_array); $i++ )
+        foreach( $imageArray as $Image )
         {
-            $return_array[$i] = new eZNewsChangeType( $category_array[$i]["ID"], 0 );
+            $this->ImageID[] = $Image["ImageID"];
         }
-        
-        return $return_array;
     }
-
-
-
-    function getChangeTypes( )
-    {
-        $this->dbInit();
-        
-        $return_array = array();
-        
-        $query="
-        SELECT ID FROM eZNews_ChangeType
-        ORDER BY Name
-        ";
-
-        $this->Database->array_query( $category_array, $query );
-        
-        for ( $i=0; $i<count($category_array); $i++ )
-        {
-            $return_array[$i] = new eZNewsChangeType( $category_array[$i]["ID"], 0 );
-        }
-        
-        return $return_array;
-    }
-
-
-
+    
     /*!
       Fetches the object information from the database.
     */
-    function get( $id=-1 )
+    function get( $inId = -1 )
     {
-        $returnValue=false;
-        $this->dbInit();
-        if ( $id != "" )
+        if( $GLOBAL["NEWSDEBUG"] == true )
         {
-            $query = "
-                SELECT * FROM eZNews_Item
-                WHERE ID='$id'
+            echo "eZNewsItem::get( inID = $inID )<br>";
+        }
+        $returnValue = false;
+        
+        $itemArray = array();
+        
+        $this->dbInit();
+        
+        if( $inId != -1 )
+        {
+            $query = 
+            "
+                SELECT
+                    *
+                FROM
+                    eZNews_Item
+                WHERE
+                    ID='%s'
             ";
+
+            $query = sprintf( $query, $inId );
             
-            $this->Database->array_query( $newsitem_array, $query );
-            $rowsFound = count( $newsitem_array );
+            $this->Database->array_query( $itemArray, $query );
+            $rowsFound = count( $itemArray );
+            
             switch ( $rowsFound )
             {
-                case (0):
+                case ( 0 ):
                     $this->State_ = "Don't Exist";
                     break;
-                case (1):
-                    $this->ID = $newsitem_array[0][ "ID" ];
-                    $this->Name = $newsitem_array[0][ "Name" ];
-                    $this->ItemTypeID = $newsitem_array[0][ "ItemTypeID" ];
-                    $this->IsVisible = $newsitem_array[0][ "isVisible" ];
-                    $this->CreatedBy = $newsitem_array[0][ "CreatedBy" ];
-                    $this->CreatedAt = $newsitem_array[0][ "CreatedAt" ];
-                    $this->State_ = "Coherent";
-                    $returnValue="true";
+                case ( 1 ):
+                    $this->ID         = $itemArray[0][ "ID" ];
+                    $this->Name       = $itemArray[0][ "Name" ];
+                    $this->ItemTypeID = $itemArray[0][ "ItemTypeID" ];
+                    $this->Status     = $itemArray[0][ "Status" ];
+                    $this->CreatedBy  = $itemArray[0][ "CreatedBy" ];
+                    $this->CreatedAt  = $itemArray[0][ "CreatedAt" ];
+                    $this->CreationIP = $itemArray[0][ "CreationIP" ];
+                    $this->Views      = $itemArray[0][ "Views" ];
+                    $this->Status     = $itemArray[0][ "Status" ];
+                    $this->State_     = "Coherent";
+                    $returnValue      = "true";
                     break;
                 default:
                     die( "Error: News item's with the same ID was found in the database. This shouldent happen." );
                     break;
             }
+            
+            $this->getImages();
                  
         }
         else
         {
             $this->State_ = "Dirty";
         }
+        
         return $returnValue;
+    }
+    
+    function getClass()
+    {
+        $this->dbInit();
+        
+        $query =
+        "
+            SELECT
+                Type.eZClass
+            FROM
+                eZNews_Item AS Item,
+                eZNews_ItemType AS Type
+            WHERE
+                Item.ItemTypeID = Type.ID
+            AND
+                Item.ID = '%s'
+        ";
+        
+        $query = sprintf( $query, $this->ID );
+        $this->Database->array_query( $itemTypeArray, $query );
+        $rowsFound = count( $itemTypeArray );
+        return $itemTypeArray[0]["eZClass"];
+    }
+    
+    function polymorphSelf( $newClass )
+    {   
+        $returnValue = false;
+        
+        $path = "eznews/classes/" . strtolower( $newClass ) . ".php";        
+        
+        include_once( "eznews/classes/eznewsitemtype.php" );
+        $itemType = new eZNewsItemType( $this->itemTypeID() );
+
+        if( $newClass == $itemType->eZClass() )
+        {        
+            include_once( $path );
+            $this = new $newClass( $this->ID, true );
+            $returnValue = true;
+        }
+        
+        return $returnValue;
+    }
+    
+    function getByName( $name )
+    {
+        if( $GLOBAL["NEWSDEBUG"] == true )
+        {
+            echo "eZNewsItem->getByName( \$name = $name ) <br>\n";
+        }
+        $this->dbInit();
+
+        $query = 
+        "
+            SELECT
+                *
+            FROM
+                eZNews_Item
+            WHERE
+                Name='%s'
+        ";
+        
+        $query = sprintf( $query, $name );
+
+        $this->Database->array_query( $itemArray, $query );
+        $rowsFound = count( $itemArray );
+
+        return $this->get( $itemArray[0][ "ID" ] );
+    }
+    
+    function getChangeLog()
+    {
+        if( $GLOBAL["NEWSDEBUG"] == true )
+        {
+            echo "eZNewsItem->getChangeLog( ) <br>\n";
+        }
+        
+        $this->dbInit();
+        
+        $returnArray = array();
+        
+        $query = 
+        "
+            SELECT
+                Ticket.ID
+            FROM
+                eZNews_ChangeTicket AS Ticket,
+                eZNews_ItemLog AS Log
+            WHERE
+                Log.ItemID LIKE %s
+            ORDER BY
+                Ticket.ChangedAt
+        ";
+
+        $query = sprintf( $query, $this->ID);
+        
+        $this->Database->array_query( $categoryArray, $query );
+        
+        for( $i = 0; $i < count( $categoryArray ); $i++ )
+        {
+            $returnArray[$i] = new eZNewsChangeType( $categoryArray[$i]["ID"], 0 );
+        }
+        
+        return $returnArray;
+    }
+
+
+
+    function getChangeTypes( )
+    {
+        if( $GLOBAL["NEWSDEBUG"] == true )
+        {
+            echo "eZNewsItem->getChangeTypes( ) <br>\n";
+        }
+        
+        $this->dbInit();
+        
+        $returnArray = array();
+        
+        $query =
+        "
+            SELECT
+                *
+            FROM
+                eZNews_ChangeType
+            ORDER BY
+                Name
+        ";
+
+        $this->Database->array_query( $changeTypeArray, $query );
+        
+        for( $i = 0; $i<count($changeTypeArray); $i++ )
+        {
+            $returnArray[$i] = new eZNewsChangeType( $changeTypeArray[$i][ "ID" ], 0 );
+        }
+        
+        return $returnArray;
+    }
+
+
+
+    /*!
+        Utility function, creates an order by clause.
+     */
+    function createOrderBy( $inOrderBy, $direction )
+    {
+        if( $GLOBAL["NEWSDEBUG"] == true )
+        {
+            echo "eZNewsItem->createOrderBy( \$inOrderBy = $inOrderBy, \$direction = $direction ) <br>\n";
+        }
+        unset( $returnString );
+        
+        if( !empty( $inOrderBy ) )
+        {
+            $returnString = "ORDER BY " . $this->OrderBy[ $inOrderBy ] . " " . $this->OrderBy[ $direction ];
+        }
+        
+        return $returnString;
     }
 
 
@@ -263,7 +624,7 @@ class eZNewsItem
 
       The categories are returned as an array of eZNewsItem objects.
       
-      $OrderBy can be:
+      $inOrderBy may be:
       <ul>
       <li>name
       <li>visibility
@@ -271,29 +632,47 @@ class eZNewsItem
       <li>creatorID
       <li>date
       </ul>
-      $direction can be:
+      
+      $direction may be:
       <ul>
       <li>forward
       <li>reverse
       </ul>
     */
-    function getAll( $orderBy = "name", $direction="forward" )
+    function getAll( $inOrderBy = "name", $direction="forward" )
     {
+        if( $GLOBAL["NEWSDEBUG"] == true )
+        {
+            echo "eZNewsItem->createOrderBy( \$inOrderBy = $inOrderBy, \$direction = $direction ) <br>\n";
+        }
         $this->dbInit();
         
-        $return_array = array();
-        $newsitem_array = array();
+        $returnArray = array();
+        $itemArray = array();
         
-        $query=sprintf( "SELECT ID FROM eZNews_Item %s %s", $this->OrderBy["$orderBy"], $this->OrderBy["$direction"]);
+        $orderBy = $this->createOrderBy( $inOrderBy, $direction );
         
-        $this->Database->array_query( $newsitem_array, $query );
+        $query = 
+        "
+            SELECT
+                *
+            FROM
+                eZNews_Item
+            WHERE
+                ID='%s'
+            %s
+        ";
+
+        $query = sprintf( $query, $orderBy );
         
-        for ( $i=0; $i<count($newsitem_array); $i++ )
+        $this->Database->array_query( $itemArray, $query );
+        
+        for( $i = 0; $i < count( $itemArray ); $i++ )
         {
-            $return_array[$i] = new eZNewsItem( $newsitem_array[$i]["ID"], true );
+            $returnArray[$i] = new eZNewsItem( $itemArray[$i][ "ID" ], true );
         }
         
-        return $return_array;
+        return $returnArray;
     }
 
 
@@ -311,33 +690,57 @@ class eZNewsItem
       <li>creatorID
       <li>date
       </ul>
+      
       $direction can be:
       <ul>
       <li>forward
       <li>reverse
       </ul>
+      
+      $status is any value as found in the eZNews_ChangeType table.
     */
-    function getAllVisible( $OrderBy = "name", $direction="forward" )
+    function getAllByStatus( $inOrderBy = "name", $direction = "forward", $status = "Published" )
     {
+        if( $GLOBAL["NEWSDEBUG"] == true )
+        {
+            echo "eZNewsItem->createOrderBy( \$inOrderBy = $inOrderBy, \$direction = $direction, \$status = $status ) <br>\n";
+        }
         $this->dbInit();
         
-        $return_array = array();
-        $newsitem_array = array();
+        $returnArray = array();
+        $itemArray = array();
         
-        $query="
-            SELECT ID FROM eZNews_Item
-            WHERE isVisible = 'Y'
-            ORDER BY Name
+        $orderBy = $this->createOrderBy( $inOrderBy, $direction );
+        
+        $query =
+        "
+            SELECT
+                Item.ID AS ID, 
+                Item.Name AS Name,
+                Item.CreatedAt AS CreatedAt,
+                Item.CreatedBy AS CreatedBy,
+                Item.CreationIP AS CreationIP,
+                Item.Status AS Status
+            FROM
+                eZNews_Item AS Item,
+                eZNews_ChangeType AS CT
+            WHERE
+                Item.Status = CT.ID
+            AND
+                CT.Name = '%s'
+            %s
         ";
         
-        $this->Database->array_query( $newsitem_array, $query );
+        $query = sprintf( $query, $orderBy );
         
-        for ( $i=0; $i<count($newsitem_array); $i++ )
+        $this->Database->array_query( $itemArray, $query, $status );
+        
+        for( $i = 0; $i < count( $itemArray ); $i++ )
         {
-            $return_array[$i] = new eZNewsItem( $newsitem_array[$i]["ID"], 0 );
+            $returnArray[$i] = new eZNewsItem( $itemArray[$i][ "ID" ], 0 );
         }
         
-        return $return_array;
+        return $returnArray;
     }
 
 
@@ -355,33 +758,55 @@ class eZNewsItem
       <li>creatorID
       <li>date
       </ul>
+      
       $direction can be:
       <ul>
       <li>forward
       <li>reverse
       </ul>
     */
-    function getAllNonVisible( $OrderBy = "name", $direction="forward" )
+    function getAllExceptByStatus( $inOrderBy = "name", $direction = "forward", $status = "Published" )
     {
+        if( $GLOBAL["NEWSDEBUG"] == true )
+        {
+            echo "eZNewsItem->getAllExceptByStatus( \$inOrderBy = $inOrderBy, \$direction = $direction, \$status = $status ) <br>\n";
+        }
         $this->dbInit();
         
-        $return_array = array();
-        $newsitem_array = array();
+        $returnArray = array();
+        $itemArray = array();
         
-        $query="
-            SELECT ID FROM eZNews_Item
-            WHERE isVisible = 'N'
-            ORDER BY Name
+        $orderBy = $this->createOrderBy( $inOrderBy, $direction );
+        
+        $query =
+        "
+            SELECT
+                Item.ID AS ID, 
+                Item.Name AS Name,
+                Item.CreatedAt AS CreatedAt,
+                Item.CreatedBy AS CreatedBy,
+                Item.CreationIP AS CreationIP,
+                Item.Status AS Status
+            FROM
+                eZNews_Item AS Item,
+                eZNews_ChangeType AS CT
+            WHERE
+                Item.Status = CT.ID
+            AND
+                CT.Name != '%s'
+            %s
         ";
         
-        $this->Database->array_query( $newsitem_array, $query );
+        $query = sprintf( $query, $orderBy, $staus );
         
-        for ( $i=0; $i<count($newsitem_array); $i++ )
+        $this->Database->array_query( $itemArray, $query );
+        
+        for( $i = 0; $i < count( $itemArray ); $i++ )
         {
-            $return_array[$i] = new eZNewsItem( $newsitem_array[$i]["ID"], 0 );
+            $returnArray[$i] = new eZNewsItem( $itemArray[$i][ "ID" ], 0 );
         }
         
-        return $return_array;
+        return $returnArray;
     }
 
 
@@ -399,33 +824,180 @@ class eZNewsItem
       <li>creatorID
       <li>date
       </ul>
+      
       $direction can be:
       <ul>
       <li>forward
       <li>reverse
       </ul>
     */
-    function getAllParents( $OrderBy = "name", $direction="forward" )
+    function getAllParents( $inOrderBy = "name", $direction = "forward" )
     {
+        if( $GLOBAL["NEWSDEBUG"] == true )
+        {
+            echo "eZNewsItem->getAllParents( \$inOrderBy = $inOrderBy, \$direction = $direction ) <br>\n";
+        }
         $this->dbInit();
         
-        $return_array = array();
-        $newsitem_array = array();
+        $returnArray = array();
+        $itemArray = array();
         
-        $query="
-            SELECT ParentID FROM eZNews_Hiearchy
-            WHERE ItemID = '$this->ID'
-            ORDER BY Name
+        $query =
+        "
+            SELECT
+                Hier.ParentID AS ID,
+                Item.Name AS Name,
+                Item.CreatedAt AS CreatedAt,
+                Item.CreatedBy AS CreatedBy,
+                Item.CreationIP AS CreationIP,
+                Item.Status AS Status
+            FROM
+                eZNews_Hiearchy AS Hier,
+                eZNews_Item AS Item
+            WHERE
+                Hier.ItemID = '%s'
+            AND
+                Item.ID = Hier.ParentID
+            %s
         ";
         
-        $this->Database->array_query( $newsitem_array, $query );
+        $orderBy = $this->createOrderBy( $inOrderBy, $direction );
         
-        for ( $i=0; $i<count($newsitem_array); $i++ )
+        $query = sprintf( $query, $this->ID, $orderBy );
+        
+        $this->Database->array_query( $itemArray, $query );
+        
+        for( $i = 0; $i < count( $itemArray ); $i++ )
         {
-            $return_array[$i] = new eZNewsItem( $newsitem_array[$i]["ID"], 0 );
+            $returnArray[$i] = new eZNewsItem( $itemArray[$i][ "ID" ], 0 );
         }
         
-        return $return_array;
+        return $returnArray;
+    }
+    
+    function getAllChildren( $inOrderBy = "name", $direction = "forward" )
+    {
+        if( $GLOBAL["NEWSDEBUG"] == true )
+        {
+            echo "eZNewsItem->getAllChildren( \$inOrderBy = $inOrderBy, \$direction = $direction ) <br>\n";
+        }
+        $this->dbInit();
+        
+        $returnArray = array();
+        $itemArray = array();
+        
+        $query =
+        "
+            SELECT
+                Hier.ItemID AS ID,
+                Item.Name AS Name,
+                Item.CreatedAt AS CreatedAt,
+                Item.CreatedBy AS CreatedBy,
+                Item.CreationIP AS CreationIP,
+                Item.Status AS Status
+            FROM
+                eZNews_Hiearchy AS Hier,
+                eZNews_Item AS Item
+            WHERE
+                Hier.ParentID = '%s'
+            AND
+                Item.ID = Hier.ItemID
+            %s
+        ";
+
+        $orderBy = $this->createOrderBy( $inOrderBy, $direction );
+        
+        $query = sprintf( $query, $this->ID, $orderBy );
+        
+        $this->Database->array_query( $itemArray, $query );
+        
+        for( $i = 0; $i < count( $itemArray ); $i++ )
+        {
+            $returnArray[$i] = new eZNewsItem( $itemArray[$i][ "ID" ], 0 );
+        }
+        
+        return $returnArray;
+    }
+
+
+
+
+    function getSubItemCounts( $inOrderBy = "name", $direction = "forward", $fetch = true )
+    {
+        if( $GLOBAL["NEWSDEBUG"] == true )
+        {
+            echo "eZNewsItem->getSubItemCounts( \$inOrderBy = $inOrderBy, \$direction = $direction ) <br>\n";
+        }
+        $this->dbInit();
+        
+        $returnArray = array();
+        $itemArray = array();
+        
+        $query =
+        "
+            SELECT
+                *
+            FROM 
+                eZNews_ItemType
+            WHERE
+                eZClass LIKE 'eZNews%%'
+            %s
+        ";
+        
+        $orderBy = $this->createOrderBy( $inOrderBy, $direction );
+        
+        $query = sprintf( $query, $orderBy );
+        $this->Database->array_query( $itemArray, $query );
+
+        for( $i = 0; $i < count( $itemArray ); $i++ )
+        {
+            if( $itemArray[$i][ "Name" ] != "Undefined" )
+            {
+                $returnArray[] = array( "TypeName" => $itemArray[$i][ "Name" ] );
+            }
+        }
+        
+        $query =
+        "
+            SELECT
+                Item.ID AS ID,
+                Item.Name AS Name,
+                Item.CreatedAt AS CreatedAt,
+                Item.CreatedBy AS CreatedBy,
+                Item.CreationIP AS CreationIP,
+                Item.Status AS Status,
+                Type.Name AS Type
+            FROM
+                eZNews_Hiearchy AS Hier,
+                eZNews_Item AS Item,
+                eZNews_ItemType AS Type
+            WHERE
+                Type.ID = Item.ItemTypeID
+            AND
+                Hier.ParentID = '%s'
+            AND
+                Type.eZClass LIKE 'eZNews%%'
+            AND
+                Item.ID = Hier.ItemID
+            %s
+        ";
+        
+        $query = sprintf( $query, $this->ID, $orderBy );
+        
+        $this->Database->array_query( $itemArray, $query );
+        
+        for( $i = 0; $i < count( $itemArray ); $i++ )
+        {
+            $j = 0;
+            while( $itemArray[$i][ "Type" ] != $returnArray[$j][ "TypeName" ] )
+            {
+                $j++;
+            }
+            
+            $returnArray[$j][ "Item" . $i ] = new eZNewsItem( $itemArray[$i][ "ID" ], $fetch );
+        }
+        
+        return $returnArray;
     }
 
 
@@ -443,34 +1015,58 @@ class eZNewsItem
       <li>creatorID
       <li>date
       </ul>
+      
       $direction can be:
       <ul>
       <li>forward
       <li>reverse
       </ul>
     */
-    function getCanonicalParents( $OrderBy = "name", $direction="forward" )
+    function getCanonicalParent( $inOrderBy = "name", $direction = "forward", $fetch = true )
     {
+        if( $GLOBAL["NEWSDEBUG"] == true )
+        {
+            echo "eZNewsItem->getCanonicalParent( \$inOrderBy = $inOrderBy, \$direction = $direction ) <br>\n";
+        }
         $this->dbInit();
         
-        $return_array = array();
-        $newsitem_array = array();
+        $i = 0;
+        $count = 1;
+        $id = $this->ID;
         
-        $query="
-            SELECT ParentID FROM eZNews_Hiearchy
-            WHERE ItemID = '$this->ID'
-            AND isCanonical = 'Y'
-            ORDER BY Name
-        ";
-        
-        $this->Database->array_query( $newsitem_array, $query );
-        
-        for ( $i=0; $i<count($newsitem_array); $i++ )
+        while( $count == 1 )
         {
-            $return_array[$i] = new eZNewsItem( $newsitem_array[$i]["ID"], 0 );
+            $query =
+            "
+                SELECT
+                    Hier.ParentID AS ID,
+                    Item.Name AS Name
+                FROM
+                    eZNews_Hiearchy AS Hier,
+                    eZNews_Item AS Item
+                WHERE
+                    Item.ID = Hier.ParentID
+                AND
+                    Hier.ItemID = '%s'
+                AND
+                    Hier.isCanonical = 'Y'
+                %s
+            ";
+            
+            $orderBy = $this->createOrderBy( $inOrderBy, $direction );
+            
+            $query = sprintf( $query, $id, $orderBy );
+            $this->Database->array_query( $itemArray, $query );
+            $count=count( $itemArray );
+            
+            if( $count == 1 )
+            {            
+                $returnArray[$i] = new eZNewsItem( $itemArray[0][ "ID" ], $fetch );
+                $id = $itemArray[0][ "ID" ];
+            }
+            $i++;
         }
-        
-        return $return_array;
+        return $returnArray;
     }
 
 
@@ -480,8 +1076,13 @@ class eZNewsItem
     */
     function id()
     {
+        if( $GLOBAL["NEWSDEBUG"] == true )
+        {
+            echo "eZNewsItem->id(  ) <br>\n";
+        }
         $returnValue = 0;
-        if ( $this->State_ != "New" )
+        
+        if( $this->State_ != "New" )
         {
             $returnValue=$this->ID;
         }
@@ -496,7 +1097,7 @@ class eZNewsItem
     */
     function name()
     {
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
         {
             $this->get( $this->ID );
         }
@@ -505,16 +1106,166 @@ class eZNewsItem
     }
 
     /*!
+      Sets the name of the news item.
+    */
+    function setName( $value )
+    {
+        if( $this->State_ == "Dirty" )
+        {
+            $this->get( $this->ID );
+        }
+        
+        $this->Name = $value;
+        
+        if( $this->State_ != "New" )
+        {
+            $this->State_ == "Altered";
+        }
+    }
+
+
+    /*!
+      Sets the user id of creator.
+    */
+    function setCreatedBy( $value )
+    {
+        $returnValue = false;
+        
+        if( $this->State_ == "Dirty" )
+        {
+            $this->get( $this->ID );
+        }
+        
+        if( $this->OverrideCreator == true )
+        {
+            $this->CreatedBy = $value;
+            $returnValue = true;
+        
+            if( $this->State_ != "New" )
+            {
+                $this->State_ == "Altered";
+            }
+        }
+        
+        return $returnValue;
+    }
+
+
+
+    /*!
       Returns the name of the creator
     */
     function createdBy()
     {
-        if ( $this->State_ == "Dirty" )
+        if( $this->State_ == "Dirty" )
         {
             $this->get( $this->ID );
         }
         
         return $this->CreatedBy;
+    }
+    /*!
+      Returns the item type id of this item
+    */
+    function itemTypeID()
+    {
+        if( $this->State_ == "Dirty" )
+        {
+            $this->get( $this->ID );
+        }
+        
+        return $this->ItemTypeID;
+    }
+    
+    /*!
+      Sets the type of the news item.
+    */
+    function setItemTypeID( $value )
+    {
+        if( $this->State_ == "Dirty" )
+        {
+            $this->get( $this->ID );
+        }
+        
+        $this->ItemTypeID = $value;
+        
+        if( $this->State_ != "New" )
+        {
+            $this->State_ == "Altered";
+        }
+    }
+
+    /*!
+      Returns the image ids associated with this item.
+    */
+    function imageID()
+    {
+        if( $this->State_ == "Dirty" )
+        {
+            $this->get( $this->ID );
+        }
+        
+        return $this->ImageID;
+    }
+    
+    /*!
+      Sets an image id.
+    */
+    function setImageID( $value )
+    {
+        $returnValue = false;
+        
+        if( $this->State_ == "Dirty" )
+        {
+            $this->get( $this->ID );
+        }
+        
+        $this->ImageID[] = $value;
+        echo "storing image id " . $value . "<br>";
+        $returnValue = true;
+
+        if( $this->State_ != "New" )
+        {
+            $this->State_ == "Altered";
+        }
+        
+        return $returnValue;
+    }
+ 
+    /*!
+      Returns the status of  this item.
+    */
+    function status()
+    {
+        if( $this->State_ == "Dirty" )
+        {
+            $this->get( $this->ID );
+        }
+        
+        return $this->Status;
+    }
+    
+    /*!
+      Sets the status of this item.
+    */
+    function setStatus( $value )
+    {
+        $returnValue = false;
+        
+        if( $this->State_ == "Dirty" )
+        {
+            $this->get( $this->ID );
+        }
+        
+        $this->Status= $value;
+        $returnValue = true;
+
+        if( $this->State_ != "New" )
+        {
+            $this->State_ == "Altered";
+        }
+        
+        return $returnValue;
     }
 
     /*!
@@ -524,6 +1275,8 @@ class eZNewsItem
     {
         $this->OverrideCreator = true;
     }
+
+
 
     /*!
         Disable creator override.
@@ -549,68 +1302,6 @@ class eZNewsItem
         $this->Log = false;
     }
 
-    /*!
-      Sets the name of the news item.
-    */
-    function setName( $value )
-    {
-        if ( $this->State_ == "Dirty" )
-        {
-            $this->get( $this->ID );
-        }
-        
-        $this->Name = $value;
-        
-        if ( $this->State_ != "New" )
-        {
-            $this->State_ == "Altered";
-        }
-    }
-
-
-    /*!
-      Sets the type of the news item.
-    */
-    function setItemTypeID( $value )
-    {
-        if ( $this->State_ == "Dirty" )
-        {
-            $this->get( $this->ID );
-        }
-        
-        $this->ItemTypeID = $value;
-        
-        if ( $this->State_ != "New" )
-        {
-            $this->State_ == "Altered";
-        }
-    }
-
-    /*!
-      Sets the user id of creator.
-    */
-    function setCreatedBy( $value )
-    {
-        $returnValue = false;
-        
-        if ( $this->State_ == "Dirty" )
-        {
-            $this->get( $this->ID );
-        }
-        
-        if ( $this->OverrideCreator == true )
-        {
-            $this->CreatedBy = $value;
-            $returnValue = true;
-        
-            if ( $this->State_ != "New" )
-            {
-                $this->State_ == "Altered";
-            }
-        }
-        
-        return $returnValue;
-    }
 
     function checkInvariant()
     {
@@ -636,7 +1327,6 @@ class eZNewsItem
         {
             $returnValue = true;
         }
-        
         return $returnValue;        
     }
 
@@ -645,13 +1335,14 @@ class eZNewsItem
         $output;
         if( $this->checkInvariant() == true )
         {
-            $output = sprintf("<TR><TD WIDTH=5%%>%s</TD><TD>%s</TD><TD WIDTH=5%%>%s</TD><TD WIDTH=5%%>%s</TD><TD WIDTH=10%%>%s</TD><TD WIDTH=3%%>%s</TD></TR>",
+            $output = sprintf("<TR><TD WIDTH=5%%>%s</TD><TD>%s</TD><TD WIDTH=5%%>%s</TD><TD WIDTH=5%%>%s</TD><TD WIDTH=10%%>%s</TD><TD WIDTH=10%%>%s</TD><TD WIDTH=3%%>%s</TD></TR>",
                     $this->ID,
                     $this->Name,
                     $this->ItemTypeID,
                     $this->CreatedBy,
                     $this->CreatedAt,
-                    $this->IsVisible
+                    $this->CreationIP,
+                    $this->Status
                    );
             if( $this->Log == true )
             {
@@ -671,13 +1362,14 @@ class eZNewsItem
     
     function objectHeader()
     {
-        return sprintf("<TABLE WIDTH=100%%><TR><TD WIDTH=5%%>%s</TD><TD>%s</TD><TD WIDTH=5%%>%s</TD><TD WIDTH=5%%>%s</TD><TD WIDTH=10%%>%s</TD><TD WIDTH=3%%>%s</TD></TR></TABLE><hr><TABLE WIDTH=100%%>",
+        return sprintf("<TABLE WIDTH=100%%><TR><TD WIDTH=5%%>%s</TD><TD>%s</TD><TD WIDTH=5%%>%s</TD><TD WIDTH=5%%>%s</TD><TD WIDTH=10%%>%s</TD><TD WIDTH=10%%>%s</TD><TD WIDTH=3%%>%s</TD></TR></TABLE><hr><TABLE WIDTH=100%%>",
                 "ID",
                 "Name",
                 "TypeID",
                 "CreatedBy",
                 "CreatedAt",
-                "vis"
+                "CreationIP", 
+                "Vis"
                );
     }
     function objectFooter()
@@ -691,53 +1383,57 @@ class eZNewsItem
     */
     function dbInit()
     {
-        if ( $this->IsConnected == false )
+        if( $this->IsConnected == false )
         {
             $this->Database = new eZDB( "site.ini", "eZNewsMain" );
             $this->IsConnected = true;
         }
     }
     
+    function state()
+    {
+        return $this->State_;
+    }
+    
+    function editVariables( $template )
+    {
+        if( $this->State_ == "Coherent" )
+        {
+            eZNewsItem::editVariables( $template );
+            
+            $template->set_var( "eZNewsItem_ID", $this->ID );
+            $template->set_var( "eZNewsItem_ItemTypeID", $this->ItemTypeID );
+            $template->set_var( "eZNewsItem_Status", $this->Status );
+            $template->set_var( "eZNewsItem_CreatedBy", $this->CreatedBy );
+            $template->set_var( "eZNewsItem_CreatedAt", $this->CreatedAt );
+            $template->set_var( "eZNewsItem_CreationIP", $this->CreationIP );
+            $template->set_var( "eZNewsItem_Name", htmlspecialchars( $this->Name ) );
+        }
+    }
+    
     var $ID;
-    var $ItemTypeID;
+    var $ItemTypeID = 0;
     var $Name;
-    var $IsVisible = "N";
+    var $Status = 3;
     var $CreatedBy;
     var $CreatedAt;
+    var $CreationIP;
+    var $Logs = array();
+    var $ImageID = array();
+    var $FileID = array();
     
     /// Error variables
     
     var $InvariantError = array();
     
-    /// SQL Queries and such.
-    
-    var $SQL = array(
-        "insert_item" => "INSERT INTO eZNews_Item SET ItemTypeID='0', Name='%s', isVisible='N', CreatedBy='%s'",
-        "get_change_type" => "SELECT ID FROM eZNews_ChangeType WHERE Name='%s'",
-        "create_change_ticket" => "INSERT INTO eZNews_ChangeTicket SET ChangeTypeID='%s', ChangeText='Class eZNewsItem %s this item', ChangedBy='%s'",
-        "create_log_entry" => "INSERT INTO eZNews_ItemLog SET ItemID='%s', ChangeTicketID='%s'"
-        );
-
-    var $InsertItemType = array(
-        "other" => "other",
-        "create" => "created",
-        "update" => "updated",
-        "draft" => "drafted",
-        "refuse" => "refused",
-        "publish" => "published",
-        "translate" => "translated",
-        "retract" => "retracted",
-        "delete" => "deleted"        
-        );
-
     var $OrderBy = array(
         "none" => "",
-        "name" => "ORDER BY Name",
-        "id" => "ORDER BY ID",
-        "visibility" => "ORDER BY isVisible",
-        "type" => "ORDER BY ItemTypeID",
-        "authorID" => "ORDER BY CreatedBy",
-        "date" => "ORDER BY CreatedAt",
+        "name" => "Name",
+        "id" => "ID",
+        "visibility" => "Status",
+        "type" => "ItemTypeID",
+        "authorID" => "CreatedBy",
+        "date" => "CreatedAt",
         "forward" => "ASC",
         "reverse" => "DESC",
         );
@@ -746,7 +1442,7 @@ class eZNewsItem
     
     /// Turn on/off logging of changes to articles. Default is on.
     var $Log = true;
-    var $OverrideCreator = false;
+    var $OverrideCreator = true;
 
     ///  Variable for keeping the database connection.
     var $Database;

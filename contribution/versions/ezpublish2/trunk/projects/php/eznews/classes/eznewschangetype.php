@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewschangetype.php,v 1.2 2000/09/14 10:36:51 pkej-cvs Exp $
+// $Id: eznewschangetype.php,v 1.3 2000/09/28 08:27:14 pkej-cvs Exp $
 //
 // Definition of eZNewsChangeType class
 //
@@ -42,6 +42,8 @@ class eZNewsChangeType
     */
     function eZNewsChangeType( $id=-1, $fetch=true )
     {
+        $this->dbInit();
+        
         $IsConnected = false;
         if ( $id != -1 )
         {
@@ -72,7 +74,7 @@ class eZNewsChangeType
         $this->dbInit();
 
         $this->Database->query( "INSERT INTO eZNews_ChangeType SET
-                                 Name='$this->Name');
+                                 Name='$this->Name'");
         $this->ID = mysql_insert_id();
 
         return $this->ID;

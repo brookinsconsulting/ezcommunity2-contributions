@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: eznewsadmin.php,v 1.2 2000/09/25 17:24:21 pkej-cvs Exp $
+// $Id: eznewsadmin.php,v 1.3 2000/09/28 08:27:14 pkej-cvs Exp $
 //
 // Definition of eZNewsAdmin class
 //
@@ -81,7 +81,7 @@ class eZNewsAdmin
 
             $classpartial = strtolower( $url_array[2] );            
             $it = new eZNewsItemType();
-            
+
             if( $it->exists( $classpartial ) == true )
             {
                 $className = $it->eZClass() . "Editor";
@@ -90,6 +90,10 @@ class eZNewsAdmin
                
                 include_once( $includePath );
                 $ourObject = new $className( $url_array );
+            }
+            else
+            {
+                die( "no such type of object balh" );
             }
         }
     }
