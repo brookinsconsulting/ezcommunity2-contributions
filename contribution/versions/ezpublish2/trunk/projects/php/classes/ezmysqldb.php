@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezmysqldb.php,v 1.8 2001/07/12 12:19:28 ce Exp $
+// $Id: ezmysqldb.php,v 1.9 2001/07/18 08:37:45 bf Exp $
 //
 // Definition of eZMySQLDB class
 //
@@ -35,11 +35,26 @@ class eZMySQLDB
 {
     function eZMySQLDB( $server, $db, $user, $password  )
     {
-        mysql_pconnect( $server, $user, $password )
-            or print( "MySQL Error: could not connect to the server." );
+        $ret = @mysql_pconnect( $server, $user, $password );
 
-        mysql_select_db( $db )
-            or print( "MySQL Error: could not select database: $db." );
+        if ( $ret == false )
+        {
+            if ( $GLOBALS["DEBUG"] == true )
+            {
+                print( "<b>MySQL Error</b>: " . mysql_errno() . ": ".mysql_error()."<br>" );
+            }
+        }
+
+        
+        $ret = @mysql_select_db( $db );
+             
+        if ( !$ret )
+        {
+            if ( $GLOBALS["DEBUG"] == true )
+            {
+                print( "<b>MySQL Error</b>: " . mysql_errno() . ": ".mysql_error()."<br>" );
+            }
+        }
     }
     
     /*!
@@ -62,7 +77,10 @@ class eZMySQLDB
 
         if ( $print )
         {
-            print( $sql . "<br>");
+            if ( $GLOBALS["DEBUG"] == true )
+            {
+                print( $sql . "<br>");
+            }
         }
 
         if ( $result )
@@ -74,9 +92,9 @@ class eZMySQLDB
             $this->unlock();
             
             $this->Error = "<code>" . htmlentities( $sql ) . "</code><br>\n<b>" . htmlentities(mysql_error()) . "</b>\n" ;
-            if ( $GLOBALS["DEBUG"] )
+            if ( $GLOBALS["DEBUG"] == true )
             {
-                print( $this->Error );
+                print( "<b>MySQL Query Error</b>: " . htmlentities( $sql ) . " error message:" . mysql_errno() . ": ".mysql_error() ."<br>" );
             }
             return false;
         }
@@ -144,7 +162,7 @@ class eZMySQLDB
 
         if ( $result == false )
         {
-            print( $this->Error );
+//            print( $this->Error );
             eZLog::writeWarning( $this->Error );
             return false;
         }
