@@ -47,6 +47,7 @@ ezsite          projects/php/ezsite
 ezbug           projects/php/ezbug
 eztodo          projects/php/eztodo
 ezclassified    projects/php/ezclassified
+ezcalendar	projects/php/ezcalendar
  
 # Distribution
 publish_dist    projects/php/publish_dist &ezsession &ezuser &ezarticle &classes &ezimagecatalogue &ezpoll &ezcontact &ezforum &ezlink &admin
