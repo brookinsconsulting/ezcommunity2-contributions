@@ -10,7 +10,7 @@ CREATE TABLE eZSession_SessionVariable(
   ID int NOT NULL,
   SessionID int not NULL,
   Name varchar(25) not NULL,
-  Value varchar(50) not NULL,
+  Value text not NULL,
   GroupName varchar(50) default NULL,
   PRIMARY KEY (ID)
 );

@@ -32,7 +32,7 @@ CREATE TABLE eZSession_SessionVariable (
   ID int(11) NOT NULL,
   SessionID int(11),
   Name char(25),
-  Value char(50),
+  Value Text,
   GroupName char(50) default NULL,
   PRIMARY KEY (ID)
 );
