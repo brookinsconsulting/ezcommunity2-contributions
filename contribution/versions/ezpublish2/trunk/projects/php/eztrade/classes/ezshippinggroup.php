@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezshippinggroup.php,v 1.2 2001/02/23 14:43:50 bf Exp $
+// $Id: ezshippinggroup.php,v 1.3 2001/03/08 18:43:48 jb Exp $
 //
 // Definition of eZShippingGroup class
 //
@@ -176,7 +176,7 @@ class eZShippingGroup
             }
             else
             {
-                $db->query( "INSERT INTO eZTrade_ShippingValue  SET StartValue='$value',
+                $db->query( "INSERT INTO eZTrade_ShippingValue  SET StartValue='$startValue',
                 AddValue='$addValue',
                  ShippingTypeID='$typeID', ShippingGroupID='$this->ID'" );
             }

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: productview.php,v 1.32 2001/03/08 16:10:58 bf Exp $
+// $Id: productview.php,v 1.33 2001/03/08 18:43:48 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <24-Sep-2000 12:20:32 bf>
@@ -203,6 +203,7 @@ foreach ( $images as $image )
     
         $t->set_var( "image_name", $image->name() );
 
+        $t->set_var( "image_title", $image->name() );
         $t->set_var( "image_caption", eZTextTool::nl2br( $image->caption() ) );
         $t->set_var( "image_id", $image->id() );
         $t->set_var( "product_id", $ProductID );

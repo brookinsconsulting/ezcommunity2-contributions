@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: wishlist.php,v 1.12 2001/03/01 14:06:26 jb Exp $
+// $Id: wishlist.php,v 1.13 2001/03/08 18:43:48 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <21-Oct-2000 18:09:45 bf>
@@ -348,7 +348,9 @@ foreach ( $items as $item )
         $value =& $optionValue->optionValue();
 
         $t->set_var( "option_name", $option->name() );
-        $t->set_var( "option_value", $value->name() );
+        /* ** FIX THIS ** */
+        $t->set_var( "option_value", "" );
+//          $t->set_var( "option_value", $value->name() );
 
         $t->parse( "wishlist_item_option", "wishlist_item_option_tpl", true );
     }
@@ -358,7 +360,8 @@ foreach ( $items as $item )
     $i++;
 }
 
-$shippingCost = $ini->read_var( "eZTradeMain", "ShippingCost" );
+//  $shippingCost = $ini->read_var( "eZTradeMain", "ShippingCost" );
+$shippingCost = 0;
 
 $currency->setValue( $shippingCost );
 $t->set_var( "shipping_cost", $locale->format( $currency ) );

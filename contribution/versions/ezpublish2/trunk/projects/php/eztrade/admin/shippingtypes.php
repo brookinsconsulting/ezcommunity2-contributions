@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: shippingtypes.php,v 1.4 2001/03/01 14:06:26 jb Exp $
+// $Id: shippingtypes.php,v 1.5 2001/03/08 18:43:48 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <22-Feb-2001 11:38:37 bf>
@@ -43,37 +43,42 @@ if ( $Action == "Store" )
         $type = new eZShippingType( $DefaultTypeID );
         $type->setAsDefault();        
     }
-        
-    $i = 0;
-    foreach ( $TypeID as $id )
-    {
-        $shippingType = new eZShippingType( $id );
-        $shippingType->setName( $TypeName[$i]  );
-        $shippingType->store();
 
-        $i++;
+    if ( is_array( $TypeID ) )
+    {
+        $i = 0;
+        foreach ( $TypeID as $id )
+        {
+            $shippingType = new eZShippingType( $id );
+            $shippingType->setName( $TypeName[$i]  );
+            $shippingType->store();
+            $i++;
+        }
     }
 
-    $i =0;
-    foreach ( $GroupID as $id )
+    if ( is_array( $GroupID ) )
     {
-        $shippingGroup = new eZShippingGroup( $id );
-        $shippingGroup->setName( $GroupName[$i]  );
-        $shippingGroup->store();
-        
-        $i++;
+        $i = 0;
+        foreach ( $GroupID as $id )
+        {
+            $shippingGroup = new eZShippingGroup( $id );
+            $shippingGroup->setName( $GroupName[$i]  );
+            $shippingGroup->store();
+            $i++;
+        }
     }
 
-    $i=0;
-    foreach ( $ValueGroupID as $groupID )
+    if ( is_array( $ValueGroupID ) )
     {
-        $shippingType = new eZShippingType( $ValueTypeID[$i] );
-        $shippingGroup = new eZShippingGroup( $groupID );
-
-        $shippingGroup->setStartAddValue( $shippingType, $StartValue[$i], $AddValue[$i] );
-        $i++;
+        $i = 0;
+        foreach ( $ValueGroupID as $groupID )
+        {
+            $shippingType = new eZShippingType( $ValueTypeID[$i] );
+            $shippingGroup = new eZShippingGroup( $groupID );
+            $shippingGroup->setStartAddValue( $shippingType, $StartValue[$i], $AddValue[$i] );
+            $i++;
+        }
     }
-    
 }
 
 if ( $Action == "AddType" )
@@ -129,6 +134,9 @@ $shippingType = new eZShippingType();
 $types =& $shippingType->getAll();
 
 
+$t->set_var( "type_item", "" );
+$t->set_var( "header_item", "" );
+
 // set the header
 foreach ( $types as $type )
 {
@@ -142,6 +150,8 @@ foreach ( $types as $type )
     $t->parse( "type_item", "type_item_tpl", true );
     $t->parse( "header_item", "header_item_tpl", true );
 }
+
+$t->set_var( "group_item", "" );
 
 $i=0;
 foreach ( $groups as $group )

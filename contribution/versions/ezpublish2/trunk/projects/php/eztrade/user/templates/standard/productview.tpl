@@ -52,16 +52,23 @@
 <br clear="all" />
 
 <!-- BEGIN image_list_tpl -->
-<table width="100%" cellspacing="0" cellpadding="7">
-<tr>
+<table width="100%" cellspacing="0" cellpadding="7" border="0">
 <!-- BEGIN image_tpl -->
-<td class="bglight">
+<tr>
+<td class="bglight" width="1%">
+
+	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/{module}/{module_view}/{product_id}/">
+	<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}"/></a>
+</td>
+
+<td valign="top">
 
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top">
-	<a href="/imagecatalogue/imageview/{image_id}/?RefererURL=/{module}/{module_view}/{product_id}/">
-	<img src="{image_url}" border="0" alt="{image_caption}" width="{image_width}" height="{image_height}"/></a>
+	<p class="boxtext">
+	{image_title}:
+	</p>
 	</td>
 </tr>
 <tr>
@@ -72,13 +79,13 @@
 	</td>
 </tr>
 </table>
-&nbsp;
 
 </td>
 
+</tr>
+
 <!-- END image_tpl -->
 
-</tr>
 </table>
 <br />
 <!-- END image_list_tpl -->
