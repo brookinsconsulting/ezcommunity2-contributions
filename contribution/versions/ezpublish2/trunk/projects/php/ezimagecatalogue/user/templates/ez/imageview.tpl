@@ -15,7 +15,7 @@
 	</td>
 </tr>
 <tr>
-        <td class="pictext">{image_description}tstgsggdgs daf fuafwfb sfbwbf bfawf bafibwfiwu fbawfui</td>
+        <td class="pictext">{image_description}</td>
 </tr>
 </table>
 

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: imageview.php,v 1.8 2001/01/26 09:25:01 ce Exp $
+// $Id: imageview.php,v 1.9 2001/02/09 16:18:09 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <26-Oct-2000 19:40:18 bf>
@@ -29,7 +29,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "ezimagecatalogue/classes/ezimage.php" );
 include_once( "ezimagecatalogue/classes/ezimagevariation.php" );
 
-$ini = new INIFIle( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZImageCatalogueMain", "Language" );
 
