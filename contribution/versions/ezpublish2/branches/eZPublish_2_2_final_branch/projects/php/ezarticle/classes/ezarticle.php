@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: ezarticle.php,v 1.183.2.24 2003/04/09 13:09:07 jhe Exp $
+// $Id: ezarticle.php,v 1.183.2.25 2003/07/22 11:14:49 br Exp $
 //
 // Definition of eZArticle class
 //
@@ -3032,6 +3032,11 @@ eZUser_Author as Author
     {
         $ini =& INIFile::globalINI();
         $Language = $ini->read_var( "eZArticleMain", "Language" );
+        $adminSiteURL = $ini->read_var( "site", "AdminSiteURL" );
+        $index = $ini->Index;
+        $wwwDir = $ini->WWWDir;
+        global $HTTP_HOST;
+
         $definition = $this->categoryDefinition();
 
         $editorGroup = $definition->editorGroup();
@@ -3041,6 +3046,7 @@ eZUser_Author as Author
                                         "ezarticle/admin/intl", $Language, "pendingmail.php" );
 
         $mailTemplate->set_file( "pending_mail_tpl", "pendingmail.tpl" );
+        $mailTemplate->setAllStrings();
 
 
         $mail = new eZMail();
@@ -3050,6 +3056,8 @@ eZUser_Author as Author
         $name = $author->name();
 
         $mailTemplate->set_var( "author", $name . " " . $authorEmail );
+        $mailTemplate->set_var( "url", "http://" . $HTTP_HOST . $wwwDir . $index .
+                                "/article/articlepreview/" . $this->ID .  "/" );
         $mailBody = $mailTemplate->parse( "dummy", "pending_mail_tpl" );
         $mail->setBody( $mailBody );
 
