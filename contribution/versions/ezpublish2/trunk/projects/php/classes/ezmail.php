@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezmail.php,v 1.14 2001/02/09 15:13:05 jb Exp $
+// $Id: ezmail.php,v 1.15 2001/03/01 16:39:18 jb Exp $
 //
 // Definition of eZCompany class
 //
@@ -36,6 +36,7 @@ $mail = new eZMail();
 
 // set the sender and receiver
 $mail->setFrom( "bf@ez.no" );
+$mail->setFromName( "B. Farstad" );
 $mail->setTo( "ce@ez.no" );
 
 // set the subject and body
