@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezuser.php,v 1.100.2.3 2002/02/08 09:36:26 bf Exp $
+// $Id: ezuser.php,v 1.100.2.4 2002/02/08 10:56:43 bf Exp $
 //
 // Definition of eZUser class
 //
@@ -865,9 +865,9 @@ class eZUser
     function groupString()
     {
         $groupStr = "";
-        if ( $this->GroupString != false )
+        if ( $this->GroupString == false )
         {
-            $groupIDArray =& $user->groups( false );
+            $groupIDArray =& $this->groups( false );
             sort( $groupIDArray );
             $first = true;
             foreach ( $groupIDArray as $groupID )
