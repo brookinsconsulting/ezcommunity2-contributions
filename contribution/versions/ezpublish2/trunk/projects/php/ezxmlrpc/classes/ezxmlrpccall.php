@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpccall.php,v 1.1 2001/01/25 09:23:53 bf Exp $
+// $Id: ezxmlrpccall.php,v 1.2 2001/01/25 14:03:39 bf Exp $
 //
 // Definition of eZXMLRPCCall class
 //
@@ -166,7 +166,7 @@ class eZXMLRPCCall
     {
         // create a new decoder object
         $decoder = new eZXMLRPCDataTypeDecoder( );
-         
+
         $domTree =& qdom_tree( $rawResponse );
 
         foreach ( $domTree->children as $call )

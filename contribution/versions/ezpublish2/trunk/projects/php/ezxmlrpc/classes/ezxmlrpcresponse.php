@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcresponse.php,v 1.2 2001/01/25 10:47:43 bf Exp $
+// $Id: ezxmlrpcresponse.php,v 1.3 2001/01/25 14:03:39 bf Exp $
 //
 // Definition of eZXMLRPCResponse class
 //
@@ -64,7 +64,7 @@ class eZXMLRPCResponse
         // create a new decoder object
         $decoder = new eZXMLRPCDataTypeDecoder( );
         
-        print( nl2br( htmlspecialchars( $stream ) ) );
+//          print( nl2br( htmlspecialchars( $stream ) ) );
 
         $stream = $this->stripHTTPHeader( $stream );
 

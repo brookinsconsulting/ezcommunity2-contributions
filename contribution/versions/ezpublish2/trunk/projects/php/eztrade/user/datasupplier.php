@@ -173,10 +173,19 @@ switch ( $url_array[2] )
         break;
 
     case "search" :
-
+    {
         include( "eztrade/user/productsearch.php" );
-        break;
-
+    }
+    break;
+        
+    // XML rpc interface
+    case "xmlrpc" :
+    {
+        include( "eztrade/xmlrpc/xmlrpcserver.php" );
+    }
+    break;
+        
+        
     default :
         print( "<h1>Sorry, Your Product page could not be found. </h1>" );
         break;

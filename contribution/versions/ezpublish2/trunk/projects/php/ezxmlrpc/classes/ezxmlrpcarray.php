@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcarray.php,v 1.1 2001/01/25 09:23:53 bf Exp $
+// $Id: ezxmlrpcarray.php,v 1.2 2001/01/25 14:03:39 bf Exp $
 //
 // Definition of eZXMLRPCArray class
 //
@@ -77,6 +77,7 @@ class eZXMLRPCArray
         $ret .= "<value><array><data>";
         foreach ( $array as $element )
         {
+
             if ( gettype( $element ) == "array" )
             {
                 $ret .= $this->serializeArray( $element );

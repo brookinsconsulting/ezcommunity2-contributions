@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezxmlrpcserver.php,v 1.1 2001/01/25 09:23:53 bf Exp $
+// $Id: ezxmlrpcserver.php,v 1.2 2001/01/25 14:03:39 bf Exp $
 //
 // Definition of eZXMLRPCServer class
 //
@@ -130,22 +130,28 @@ class eZXMLRPCServer
                 }
             }
         }
-        
-        // do the server response
-        $response = new eZXMLRPCResponse( );
 
-        if ( $fuctionWasFound == false )
+        if ( get_class( $result ) == "ezxmlrpcresponse" )
         {
-            $response->setError( 1, "Requested function not found." );
+            $response =& $result;
         }
-
-        if ( $equalParameterCount == false )
+        else
         {
-            $response->setError( 2, "Wrong parameter count for requested function." );
-        }
-        
-        $response->setResult( $result );
-        
+            // do the server response
+            $response = new eZXMLRPCResponse( );
+            
+            if ( $fuctionWasFound == false )
+            {
+                $response->setError( 1, "Requested function not found." );
+            }
+            
+            if ( $equalParameterCount == false )
+            {
+                $response->setError( 2, "Wrong parameter count for requested function." );
+            }
+            
+            $response->setResult( $result );
+        }            
 
         $payload =& $response->payload();
         

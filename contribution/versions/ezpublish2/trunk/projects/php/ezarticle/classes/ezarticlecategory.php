@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: ezarticlecategory.php,v 1.21 2001/01/24 15:39:47 ce Exp $
+// $Id: ezarticlecategory.php,v 1.22 2001/01/25 14:03:39 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -497,12 +497,18 @@ class eZArticleCategory
             $this->dbInit();
 
             $articleID = $value->id();
+
+            $this->Database->query_single( $qry, "SELECT ID, Placement FROM eZArticle_ArticleCategoryLink
+                                    ORDER BY Placement DESC LIMIT 1" );
+
+            $place = $qry["Placement"] + 1; 
             
             $query = "INSERT INTO
                            eZArticle_ArticleCategoryLink
                       SET
                            CategoryID='$this->ID',
-                           ArticleID='$articleID'";
+                           ArticleID='$articleID',
+                           Placement='$place'";
 
             $this->Database->query( $query );
        }       
