@@ -7,6 +7,7 @@ CREATE TABLE eZImageCatalogue_Category (
   UserID int default NULL,
   WritePermission int default '1',
   ReadPermission int default '1',
+  SectionID int default '1',
   PRIMARY KEY (ID)
 );
 
