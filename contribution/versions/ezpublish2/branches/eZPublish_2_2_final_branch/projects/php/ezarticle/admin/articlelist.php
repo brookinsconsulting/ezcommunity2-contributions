@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: articlelist.php,v 1.50 2001/09/14 12:29:10 ce Exp $
+// $Id: articlelist.php,v 1.50.2.1 2001/11/01 13:08:38 bf Exp $
 //
 // Created on: <18-Oct-2000 14:41:37 bf>
 //
@@ -60,8 +60,7 @@ if ( isset( $StoreSelection ) )
         default  :
         {
             $session->setVariable( "MixUnpublished", "All" ); 
-        }
-        
+        }        
     }
 }
 
@@ -85,11 +84,18 @@ if ( isset( $CopyCategories ) )
 
             $newCategory = new eZArticleCategory( );
             $newCategory->setName( "Copy of " . $tmpCategory->name() );            
-            $newCategory->setDescription( $tmpCategory->description() );            
-            $newCategory->setParent( $tmpCategory->parent() );            
+            $newCategory->setDescription( $tmpCategory->description() );
+            $newCategory->setParent( $tmpCategory->parent( false ) );
             $newCategory->setOwner( eZUser::currentUser() );
 
             $newCategory->store();
+
+            // write access
+            eZObjectPermission::setPermission( -1, $newCategory->id(), "article_category", 'w' );
+
+            // read access 
+            eZObjectPermission::setPermission( -1, $newCategory->id(), "article_category", 'r' );
+            
 
             $tmpCategory->copyTree( $tCategoryID, $newCategory );
         }

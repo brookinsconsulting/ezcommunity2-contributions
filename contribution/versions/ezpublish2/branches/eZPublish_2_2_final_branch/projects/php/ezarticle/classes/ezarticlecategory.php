@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: ezarticlecategory.php,v 1.103.2.2 2001/10/29 19:06:10 fh Exp $
+// $Id: ezarticlecategory.php,v 1.103.2.3 2001/11/01 13:08:38 bf Exp $
 //
 // Definition of eZArticleCategory class
 //
@@ -572,6 +572,13 @@ class eZArticleCategory
             $newCategory->setParent( $parentCategory );
             $newCategory->setOwner( eZUser::currentUser() );
             $newCategory->store();
+
+            // write access
+            eZObjectPermission::setPermission( -1, $newCategory->id(), "article_category", 'w' );
+
+            // read access 
+            eZObjectPermission::setPermission( -1, $newCategory->id(), "article_category", 'r' );
+
             
             if ( $category != 0 )
             {
