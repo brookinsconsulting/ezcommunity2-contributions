@@ -1,5 +1,2 @@
-<a href="#" onClick="verify( 'Slette firma?', 'index.php4?prePage={document_root}
-companyedit.php4&Action=delete&CID={company_id}'); return false;" 
-onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('{company_id}','','{document_root}
-images/slettminimrk.gif',1)"><img name="{company_i}" border="0" src="{document_root}
-images/slettmini.gif" width="16" height="16"></a>
+<a href="#" onClick="verify( 'Slette kontakt person?', 'index.php4?prePage={document_root}personedit.php4&Action=delete&PID={person_id}'); 
+return false;" onMouseOut="MM_swapImgRestore(); MM_swapImage('{first_name}{last_name}-se','','{document_root}images/personmini.gif',1)" onMouseOver="MM_swapImage('{first_name}{last_name}-se','','{document_root}images/personminimrk.gif',1); MM_swapImage('{first_name}{last_name}-slett','','{document_root}images/slettminimrk.gif',1)"><img name="{first_name}{last_name}-slett" border="0" src="{document_root}images/slettmini.gif" width="16" height="16" align="top">
