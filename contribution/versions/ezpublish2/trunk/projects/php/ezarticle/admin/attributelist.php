@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: attributelist.php,v 1.1 2001/06/06 11:30:08 pkej Exp $
+// $Id: attributelist.php,v 1.2 2001/06/06 12:24:00 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <05-Jun-2001 13:07:24 pkej>
@@ -30,6 +30,7 @@ include_once( "classes/ezhttptool.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticleattribute.php" );
 include_once( "ezarticle/classes/ezarticletype.php" );
+include_once( "ezarticle/classes/ezarticletool.php" );
 
 if( isset( $NewType ) )
 {
@@ -38,6 +39,8 @@ if( isset( $NewType ) )
 }
 
 $article = new eZArticle( $ArticleID );
+$category = $article->categoryDefinition( );
+$CategoryID = $category->id();
 
 if( isset( $DeleteSelected ) )
 {
@@ -48,6 +51,7 @@ if( isset( $DeleteSelected ) )
         $type = new eZArticleType( $TypeArrayID[$i] );
         $article->deleteAttributesByType( $type );
     }
+    eZArticleTool::deleteCache( $ArticleID, $CategoryID, $CategoryArray );
 }
 
 $ini =& INIFile::globalINI();

@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: attributeedit.php,v 1.2 2001/06/06 12:12:24 pkej Exp $
+// $Id: attributeedit.php,v 1.3 2001/06/06 12:24:00 pkej Exp $
 //
 // Paul K Egell-Johnsen <pkej@ez.no>
 // Created on: <05-Jun-2001 13:07:24 pkej>
@@ -30,6 +30,7 @@ include_once( "classes/ezhttptool.php" );
 include_once( "ezarticle/classes/ezarticle.php" );
 include_once( "ezarticle/classes/ezarticleattribute.php" );
 include_once( "ezarticle/classes/ezarticletype.php" );
+include_once( "ezarticle/classes/ezarticletool.php" );
 
 if( isset( $Cancel ) )
 {
@@ -38,6 +39,8 @@ if( isset( $Cancel ) )
 }
 
 $article = new eZArticle( $ArticleID );
+$category = $article->categoryDefinition( );
+$CategoryID = $category->id();
 $thisType = new eZArticleType( $TypeID );
 
 if( isset( $OK ) )
@@ -49,6 +52,7 @@ if( isset( $OK ) )
         $attribute = new eZArticleAttribute( $AttributeID[$i] );
         $attribute->setValue( $article, htmlspecialchars( $AttributeValue[$i] ) );
     }
+    eZArticleTool::deleteCache( $ArticleID, $CategoryID, $CategoryArray );
     eZHTTPTool::header( "Location: /article/articleedit/attributelist/$ArticleID" );
     exit();
 }
@@ -140,14 +144,6 @@ else
 {
     $t->parse( "no_types_item", "no_types_item_tpl" );
     $t->set_var( "type_list", "" );
-}
-
-if( $Action == "new" )
-{
-}
-
-if( $Action == "edit" )
-{
 }
 
 $t->set_var( "this_type_id", $thisType->id() );
