@@ -8,7 +8,7 @@
 
 <!-- BEGIN product_tpl -->
 {begin_tr}
-	<td class="menutext">
+	<td class="menutext" valign="top">
 
 	<a class="menutext" href="/trade/productview/{product_id}/{category_id}/"><b>{product_name}</b></a>
 

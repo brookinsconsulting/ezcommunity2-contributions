@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: hotdealslist.php,v 1.9 2001/02/08 15:57:18 jb Exp $
+// $Id: hotdealslist.php,v 1.10 2001/02/08 16:51:59 bf Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <12-Nov-2000 19:34:40 bf>
@@ -28,7 +28,7 @@ include_once( "classes/eztemplate.php" );
 include_once( "classes/ezlocale.php" );
 include_once( "classes/ezcurrency.php" );
 
-$ini = new INIFile( "site.ini" );
+$ini =& $GLOBALS["GlobalSiteIni"];
 
 $Language = $ini->read_var( "eZTradeMain", "Language" );
 $hotDealColumns  = $ini->read_var( "eZTradeMain", "HotDealColumns" );
@@ -100,11 +100,11 @@ foreach ( $productList as $product )
     $t->set_var( "product_intro_text", $product->brief() );
 
     $image = $product->thumbnailImage();
-
+    
     if  ( $image )
     {
-        $thumbnail =& $image->requestImageVariation( 100, 100 );
-
+        $thumbnail =& $image->requestImageVariation( 110, 110 );
+        
         if ( !isset( $HotDealsPage ) )
         {
             $t->set_var( "product_image_path", "/" . $thumbnail->imagePath() );
