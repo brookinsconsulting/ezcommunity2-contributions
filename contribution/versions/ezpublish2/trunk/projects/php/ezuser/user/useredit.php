@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: useredit.php,v 1.2 2000/10/25 15:20:43 ce-cvs Exp $
+// $Id: useredit.php,v 1.3 2000/10/26 09:56:08 ce-cvs Exp $
 //
 // 
 //
@@ -40,7 +40,7 @@ if ( $Action == "Insert" )
 
         if ( !$user->exists( $Login ) )
         {
-            if ( ( $Password == $VerifyPassword ) && ( strlen( $VerifyPassword ) > 2 ) )
+            if ( ( $Password == $VerifyPassword ) && ( strlen( $VerifyPassword ) > 3 ) )
             {
                 if ( eZMail::validate( $Email ) )
                 {
@@ -106,9 +106,10 @@ if ( $Action == "Update" )
         $user->setLastName( $LastName );
         if ( $Password )
         {
-            if ( ( $Password == $VerifyPassword ) && ( strlen( $VerifyPassword ) > 2 ) )
+            if ( ( $Password == $VerifyPassword ) && ( strlen( $VerifyPassword ) > 3 ) )
             {
-                $user->setPassword( $Password );
+                if ( !$Password == "dummy" )
+                    $user->setPassword( $Password );
             }
             else
             {
@@ -154,6 +155,8 @@ if ( $Action == "Edit" )
     $Email = $user->email();
     $FirstName = $user->firstName();
     $LastName = $user->lastName();
+    $Password = "dummy";
+    $VerifyPassword = "dummy";
     $t->set_var( "read_only", "readonly=readonly" );
     $actionValue = "update";
     $headline = new INIFIle( "ezuser/intl/" . $Language . "/useredit.php.ini", false );
