@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsflowerarticleviewer.php,v 1.3 2000/10/16 09:25:57 pkej-cvs Exp $
+// $Id: eznewsflowerarticleviewer.php,v 1.4 2000/10/16 11:49:44 pkej-cvs Exp $
 //
 // Definition of eZNewsFlowerArticleViewer class
 //
@@ -24,6 +24,7 @@
 include_once( "eznews/user/eznewsviewer.php" );
 include_once( "eznews/classes/eznewscategory.php" );
 include_once( "eznews/classes/eznewsarticle.php" );
+include_once( "classes/eztexttool.php" );
 
 #echo "eZNewsFlowerArticleViewer<br />\n";
 class eZNewsFlowerArticleViewer extends eZNewsViewer
@@ -55,6 +56,7 @@ class eZNewsFlowerArticleViewer extends eZNewsViewer
         $this->Item = new eZNewsArticle( $this->Item->id() );
         
         $this->doThis();
+
         $this->IniObject->setAllStrings();
         $this->IniObject->parse( "article_item", "article_item_template" );
         $this->IniObject->parse( "article_here", "article_here_template" );
@@ -125,7 +127,7 @@ class eZNewsFlowerArticleViewer extends eZNewsViewer
 
         global $form_preview;
         #echo "\$form_preview = $form_preview<br />\n";
-
+        #echo "\$this->Item->id() = " . $this->Item->id() . "<br />\n";
         $this->Item = new eZNewsArticle( $this->Item->id() );
         
         $this->IniObject->readAdminTemplate( "eznewsflower/article", "view.php" );
@@ -222,7 +224,7 @@ class eZNewsFlowerArticleViewer extends eZNewsViewer
      */
     function renderPage( &$outPage )
     {
-        #echo "eZNewsFlowerArticleViewer::renderPage( \$outPage = $outPage )<br />\n";
+        echo "eZNewsFlowerArticleViewer::renderPage( \$outPage = $outPage )<br />\n";
         $value = false;
         $continue = false;
 
@@ -238,6 +240,7 @@ class eZNewsFlowerArticleViewer extends eZNewsViewer
         #echo "\$form_publish = $form_publish <br />\n";
 
         #echo "\$this->Item->id() = " . $this->Item->id() . " <br />\n";
+        #echo "\$this->Item->getIsFrontImage() = " . $this->Item->getFrontImage() . " <br />\n";
         
         if( $form_publish )
         {
@@ -257,7 +260,7 @@ class eZNewsFlowerArticleViewer extends eZNewsViewer
             $value = $this->deletePage( $outPage );
         }
         
-        if( $form_delete )
+        if( !empty( $form_delete ) )
         {
             $parentID = $this->Item->getIsCanonical();
             
@@ -272,7 +275,7 @@ class eZNewsFlowerArticleViewer extends eZNewsViewer
             $value = $adminObject->doItem( $parentID );
         }
 
-        if( $form_abort )
+        if( $form_abort && !$this->URLObject->getQueries( $queries, "delete\+this" ) )
         {
             $item = $this->Item->getIsCanonical();
             $this->Item->delete();
@@ -302,6 +305,7 @@ class eZNewsFlowerArticleViewer extends eZNewsViewer
      */
     function renderHead( &$outHead )
     {
+        #echo "eZNewsFlowerArticleViewer::renderHead( \$outPage = $outPage )<br />\n";
         $value = false;
         
         if( $isCached == true )
@@ -326,29 +330,20 @@ class eZNewsFlowerArticleViewer extends eZNewsViewer
      */
     function doThis( $inEdit = false )
     {
+        #echo "eZNewsFlowerArticleViewer::doThis( \$inEdit = $inEdit )<br />\n";
         $value = true;
+        
+        global $form_preview;
         
         $oldStory = $this->Item->story();
         $frontImage = $this->Item->getFrontImage();
 
-        if( $inEdit == true )
-        {
-            ereg( "<price>(.+)</price>" , $oldStory, $regs );
-            $price = $regs[1];
-            ereg( "<name>(.+)</name>" , $oldStory, $regs );
-            $name = $regs[1];
-            ereg( "<description>(.+)</description>" , $oldStory, $regs );
-            $story = $regs[1];
-        }
-        else
-        {
-            ereg( "<price>(.+)</price>" , $oldStory, $regs );
-            $price = nl2br( htmlspecialchars( $regs[1] ) );
-            ereg( "<name>(.+)</name>" , $oldStory, $regs );
-            $name = nl2br( htmlspecialchars( $regs[1] ) );
-            ereg( "<description>(.+)</description>" , $oldStory, $regs );
-            $story = nl2br( htmlspecialchars( $regs[1] ) );
-        }
+        ereg( "<price>(.+)</price>" , $oldStory, $regs );
+        $price = $regs[1];
+        ereg( "<name>(.+)</name>" , $oldStory, $regs );
+        $name = $regs[1];
+        ereg( "<description>(.+)</description>" , $oldStory, $regs );
+        $story = $regs[1];
         
         if( $frontImage )
         {
@@ -357,7 +352,7 @@ class eZNewsFlowerArticleViewer extends eZNewsViewer
             $image = $mainImage->requestImageVariation( 250, 250 );
 
             $this->IniObject->set_var( "this_image_id", $mainImage->id() );
-            $this->IniObject->set_var( "this_image_name", htmlspecialchars( $mainImage->name() ) );
+            $this->IniObject->set_var( "this_image_name", htmlspecialchars( $mainImage->caption() ) );
             $this->IniObject->set_var( "this_image", "/" . $image->imagePath() );
             $this->IniObject->set_var( "this_image_width", $image->width() );
             $this->IniObject->set_var( "this_image_height", $image->height() );
@@ -378,10 +373,18 @@ class eZNewsFlowerArticleViewer extends eZNewsViewer
             $this->IniObject->set_var( "article_image", "" );
         }
 
-        $this->IniObject->set_var( "this_price", $price );
-        $this->IniObject->set_var( "this_name", $name );
-        $this->IniObject->set_var( "this_description", $story );
-
+        if( $inEdit == true )
+        {
+            $this->IniObject->set_var( "this_price", htmlspecialchars ( $price ) );
+            $this->IniObject->set_var( "this_name", htmlspecialchars ( $name ) );
+            $this->IniObject->set_var( "this_description", htmlspecialchars ( $story ) );
+        }
+        else
+        {
+            $this->IniObject->set_var( "this_price", eZTextTool::nl2br( htmlspecialchars ( $price ) ) );
+            $this->IniObject->set_var( "this_name", eZTextTool::nl2br( htmlspecialchars ( $name ) ) );
+            $this->IniObject->set_var( "this_description", eZTextTool::nl2br( htmlspecialchars ( $story ) ) );
+        }
         $this->IniObject->set_var( "this_id", $this->Item->id() );
         $this->IniObject->set_var( "this_name", $this->Item->name() );
         $this->IniObject->set_var( "this_createdat", $this->Item->createdAtLocal( $this->IniObject->Language ) );

@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsflowercategoryviewer.php,v 1.4 2000/10/16 09:45:46 pkej-cvs Exp $
+// $Id: eznewsflowercategoryviewer.php,v 1.5 2000/10/16 11:49:44 pkej-cvs Exp $
 //
 // Definition of eZNewsFlowerCategoryCreator class
 //
@@ -28,6 +28,7 @@
 include_once( "eznews/user/eznewsviewer.php" );
 include_once( "eznews/classes/eznewsflowercategory.php" );
 include_once( "eznews/classes/eznewsflowerarticle.php" );
+include_once( "classes/eztexttool.php" );
 
 #echo "eZNewsFlowerCategoryViewer<br />\n";
 class eZNewsFlowerCategoryViewer extends eZNewsViewer
@@ -295,8 +296,8 @@ class eZNewsFlowerCategoryViewer extends eZNewsViewer
                     $this->IniObject->set_var( "article_image", "" );
                 }
 
-                $this->IniObject->set_var( "this_price", eZTextTool::nl2br( htmlspecialchars ( $price ) ) );
-                $this->IniObject->set_var( "this_description", eZTextTool::nl2br( $story ) ) );
+                $this->IniObject->set_var( "this_price", eZTextTool::nl2br( htmlspecialchars( $price ) ) );
+                $this->IniObject->set_var( "this_description", eZTextTool::nl2br( htmlspecialchars( $story ) ) );
                 $this->IniObject->set_var( "this_id", $child->id() );
                 $this->IniObject->set_var( "this_name", $child->name() );
 

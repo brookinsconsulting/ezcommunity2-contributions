@@ -1,6 +1,6 @@
 <?php
 // 
-// $Id: eznewsitem.php,v 1.47 2000/10/16 09:25:57 pkej-cvs Exp $
+// $Id: eznewsitem.php,v 1.48 2000/10/16 11:49:44 pkej-cvs Exp $
 //
 // Definition of eZNewsItem class
 //
@@ -374,7 +374,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function setImage( $ImageID,  $isFrontImage = false )
     {
-       #echo "eZNewsItem::createLogItem( \$ImageID = $ImageID \$isFrontImage = $isFrontImage )<br />\n";
+        #echo "eZNewsItem::setImage( \$ImageID = $ImageID \$isFrontImage = $isFrontImage )<br />\n";
         $value = false;
         
         if( !$this->isDirty() )
@@ -695,6 +695,7 @@ class eZNewsItem extends eZNewsUtility
      */
     function storeImages()
     {
+        #echo "eZNewsItem::storeImages()<br />\n";
         $this->dbInit();
 
         $nonFrontImageQuery =
@@ -719,6 +720,8 @@ class eZNewsItem extends eZNewsUtility
 
         foreach( $this->ImageID as $ImageID )
         {
+            #echo "store \$ImageID = $ImageID<br />\n";
+            #echo "store \$this->isFrontImage " . $this->isFrontImage ."<br />\n";
             if( $this->isFrontImage == $ImageID )
             {
                 $query = sprintf
@@ -757,6 +760,8 @@ class eZNewsItem extends eZNewsUtility
      */
     function updateImages()
     {
+        #echo "eZNewsItem::updateImages()<br />\n";
+        #echo "\$this->isFrontImage " . $this->isFrontImage ."<br />\n";
         $query =
         "
             DELETE FROM
@@ -1850,11 +1855,11 @@ class eZNewsItem extends eZNewsUtility
 
         $query = sprintf( $query, $inStatusObject->id(), $inTypeObject->id(), $orderBy, $limits );
 
-echo $query;        
+#echo $query;        
         $this->Database->array_query( $itemArray, $query );
         
         $count = count( $itemArray );
-        echo $count;
+        #echo $count;
         for( $i = 0; $i < $count; $i++ )
         {   
             $returnArray[$i] = new eZNewsItem( $itemArray[$i][ "ID" ], 0 );
@@ -1904,7 +1909,7 @@ echo $query;
      */
     function getImages( &$returnArray, &$maxCount, $inOrderBy = "ID", $direction = "asc" , $startAt = 0, $noOfResults = ""  )
     {
-       #echo "eZNewsItem::getImages( \&\$returnArray, \$inOrderBy = \"$inOrderBy\", \$direction = \"$direction\" , \$startAt = \"$startAt\", \$noOfResults = \"$noOfResults\" ) <br />\n";
+        #echo "eZNewsItem::getImages( \&\$returnArray, \$inOrderBy = \"$inOrderBy\", \$direction = \"$direction\" , \$startAt = \"$startAt\", \$noOfResults = \"$noOfResults\" ) <br />\n";
         $this->dbInit();
         $value = false;
 
@@ -1953,8 +1958,8 @@ echo $query;
         for( $i = 0; $i < $count; $i++ )
         {
             $returnArray[$i] = new eZImage( $imagesArray[$i][ "ImageID" ], 0 );
-            $this->ImageID[] = $returnArray[$i];
-
+            $this->ImageID[] = $returnArray[$i]->id();
+#echo "\$returnArray[$i] = " . $returnArray[$i]->id() . "<br />\n";
             if( $imagesArray[$i][ "isFrontImage" ] == 'Y' )
             {
                 $this->isFrontImage = $imagesArray[$i][ "ImageID" ];
@@ -2358,6 +2363,7 @@ echo $query;
         #echo "eZNewsItem::setStatus( \$inItemTypeID = $inItemTypeID )<br />\n";
         $value = false;
         #echo "\$this->ID " . $this->ID ."<br />\n";
+        #echo "\$this->isFrontImage " . $this->isFrontImage ."<br />\n";
 
         $this->dirtyUpdate();
 
