@@ -1,6 +1,6 @@
 <?
 // 
-// $Id: yearreport.php,v 1.1 2001/02/12 16:14:22 jb Exp $
+// $Id: yearreport.php,v 1.2 2001/02/28 16:52:42 jb Exp $
 //
 // Bård Farstad <bf@ez.no>
 // Created on: <07-Jan-2001 14:47:04 bf>
@@ -28,6 +28,9 @@ $ini =& $GlobalSiteIni;
 
 $Language = $ini->read_var( "eZStatsMain", "Language" );
 
+include_once( "classes/ezlocale.php" );
+$locale = new eZLocale( $Language );
+
 include_once( "classes/eztemplate.php" );
 include_once( "classes/ezdate.php" );
 
@@ -47,19 +50,6 @@ $t->set_block( "result_list_tpl", "month_tpl", "month" );
 $t->set_block( "month_tpl", "month_link_tpl", "month_link" );
 $t->set_block( "month_tpl", "month_link_end_tpl", "month_link_end" );
 
-$t->set_block( "month_tpl", "month_january_tpl", "month_january" );
-$t->set_block( "month_tpl", "month_february_tpl", "month_february" );
-$t->set_block( "month_tpl", "month_march_tpl", "month_march" );
-$t->set_block( "month_tpl", "month_april_tpl", "month_april" );
-$t->set_block( "month_tpl", "month_may_tpl", "month_may" );
-$t->set_block( "month_tpl", "month_june_tpl", "month_june" );
-$t->set_block( "month_tpl", "month_july_tpl", "month_july" );
-$t->set_block( "month_tpl", "month_august_tpl", "month_august" );
-$t->set_block( "month_tpl", "month_september_tpl", "month_september" );
-$t->set_block( "month_tpl", "month_october_tpl", "month_october" );
-$t->set_block( "month_tpl", "month_november_tpl", "month_november" );
-$t->set_block( "month_tpl", "month_december_tpl", "month_december" );
-
 $t->set_block( "month_tpl", "percent_marker_tpl", "percent_marker" );
 $t->set_block( "month_tpl", "no_percent_marker_tpl", "no_percent_marker" );
 
@@ -78,18 +68,18 @@ if ( !is_numeric( $Year ) )
 
 $yearReport =& eZPageViewQuery::yearStats( $Year );
 
-$months = array( 1 => "month_january",
-                 2 => "month_february",
-                 3 => "month_march",
-                 4 => "month_april",
-                 5 => "month_may",
-                 6 => "month_june",
-                 7 => "month_july",
-                 8 => "month_august",
-                 9 => "month_september",
-                 10 => "month_october",
-                 11 => "month_november",
-                 12 => "month_december" );
+$months = array( 1 => "jan",
+                 2 => "feb",
+                 3 => "mar",
+                 4 => "apr",
+                 5 => "may",
+                 6 => "jun",
+                 7 => "jul",
+                 8 => "aug",
+                 9 => "sep",
+                 10 => "oct",
+                 11 => "nov",
+                 12 => "dec" );
 
 if ( count( $yearReport ) > 0 )
 {
@@ -151,12 +141,7 @@ if ( count( $yearReport ) > 0 )
         $t->set_var( "month_link", "" );
         $t->set_var( "month_link_end", "" );
 
-        foreach( $months as $cur_month )
-        {
-            $t->set_var( $cur_month, "" );
-        }
-
-        $t->parse( $months[$i], $months[$i] . "_tpl" );
+        $t->set_var( "month_named", $locale->monthName( $months[$i], false ) );
 
         $t->set_var( "this_month", $i );
 
