@@ -1,6 +1,6 @@
 <?php
 //
-// $Id: forgot.php,v 1.20.2.3 2002/05/16 08:14:55 ce Exp $
+// $Id: forgot.php,v 1.20.2.4 2002/05/17 10:50:39 fh Exp $
 //
 // Created on: <20-Sep-2000 13:32:11 ce>
 //
@@ -76,9 +76,6 @@ if ( $user )
 
     $mailpassword->setBody( $body );
     $mailpassword->send();
-
-            print_r( $mailpassword );
-        exit();
 
 
     eZHTTPTool::header( "Location: /user/successfull/" );
